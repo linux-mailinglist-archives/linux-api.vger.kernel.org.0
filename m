@@ -2,30 +2,25 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 828D134AF2A
-	for <lists+linux-api@lfdr.de>; Fri, 26 Mar 2021 20:16:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F3B234B238
+	for <lists+linux-api@lfdr.de>; Fri, 26 Mar 2021 23:35:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230197AbhCZTQI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 26 Mar 2021 15:16:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57276 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230188AbhCZTP4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 26 Mar 2021 15:15:56 -0400
-Received: from fieldses.org (fieldses.org [IPv6:2600:3c00:e000:2f7::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7190C0613AA;
-        Fri, 26 Mar 2021 12:15:55 -0700 (PDT)
-Received: by fieldses.org (Postfix, from userid 2815)
-        id 1EEF229EB; Fri, 26 Mar 2021 15:15:54 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 fieldses.org 1EEF229EB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fieldses.org;
-        s=default; t=1616786154;
-        bh=6BHDn513XHsmgj36szMHNORK4Y9BRjndGUytTtfEmRY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=z3EuSgkHnh2Wq4aFs3kivdF0qaOGz5LYseH0nFH9hMml4IYnp027IjnBF5mNI0G+o
-         zDHJSILes7nlCbFotBKgMDxkC19nyNtRcAyy2gjNeyUwj1dGraVFV7JNB9v2PqKpoY
-         6Jgkvqocv98bO25STMTcfQ2zTtsp1NvpYJ5iXiSw=
-Date:   Fri, 26 Mar 2021 15:15:54 -0400
-From:   "J. Bruce Fields" <bfields@fieldses.org>
+        id S230026AbhCZWfI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 26 Mar 2021 18:35:08 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:51528 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S230512AbhCZWel (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 26 Mar 2021 18:34:41 -0400
+Received: from cwcc.thunk.org (pool-72-74-133-215.bstnma.fios.verizon.net [72.74.133.215])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 12QMYJsS010426
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 26 Mar 2021 18:34:20 -0400
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+        id C21F315C39CD; Fri, 26 Mar 2021 18:34:19 -0400 (EDT)
+Date:   Fri, 26 Mar 2021 18:34:19 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
 To:     Amir Goldstein <amir73il@gmail.com>
 Cc:     Dave Chinner <david@fromorbit.com>,
         "Darrick J . Wong" <darrick.wong@oracle.com>,
@@ -33,44 +28,59 @@ Cc:     Dave Chinner <david@fromorbit.com>,
         Christian Brauner <christian.brauner@ubuntu.com>,
         linux-xfs <linux-xfs@vger.kernel.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
+        Linux API <linux-api@vger.kernel.org>,
+        "J. Bruce Fields" <bfields@fieldses.org>
 Subject: Re: [PATCH] xfs: use a unique and persistent value for f_fsid
-Message-ID: <20210326191554.GB13139@fieldses.org>
+Message-ID: <YF5ha6TZlVocDpSY@mit.edu>
 References: <20210322171118.446536-1-amir73il@gmail.com>
  <20210322230352.GW63242@dread.disaster.area>
  <CAOQ4uxjFMPNgR-aCqZt3FD90XtBVFZncdgNc4RdOCbsxukkyYQ@mail.gmail.com>
+ <20210323072607.GF63242@dread.disaster.area>
+ <CAOQ4uxgAddAfGkA7LMTPoBmrwVXbvHfnN8SWsW_WXm=LPVmc7Q@mail.gmail.com>
+ <20210324005421.GK63242@dread.disaster.area>
+ <CAOQ4uxhhMVQ4XE8DMU1EjaXBo-go3_pFX3CCWn=7GuUXcMW=PA@mail.gmail.com>
+ <20210325225305.GM63242@dread.disaster.area>
+ <CAOQ4uxgAxUORpUJezg+oWKXEafn0o33+bP5EN+VKnoQA_KurOg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAOQ4uxjFMPNgR-aCqZt3FD90XtBVFZncdgNc4RdOCbsxukkyYQ@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <CAOQ4uxgAxUORpUJezg+oWKXEafn0o33+bP5EN+VKnoQA_KurOg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 23, 2021 at 06:50:44AM +0200, Amir Goldstein wrote:
-> On Tue, Mar 23, 2021 at 1:03 AM Dave Chinner <david@fromorbit.com> wrote:
-> > should be using something common across all filesystems from the
-> > linux superblock, not deep dark internal filesystem magic. The
-> > export interfaces that generate VFS (and NFS) filehandles already
-> > have a persistent fsid associated with them, which may in fact be
-> > the filesystem UUID in it's entirety.
-> >
-> 
-> Yes, nfsd is using dark internal and AFAIK undocumnetd magic to
-> pick that identifier (Bruce, am I wrong?).
+I've been reading through this whole thread, and it appears to me that
+the only real, long-term solution is to rely on file system UUID's
+(for those file systems that support real 128-bit UUID's), and
+optionally, for those file systems which support it, a new, "snapshot"
+or "fs-instance" UUID.
 
-Sorry, I kept putting off catching up with this thread and only now
-noticed the question.
+The FS UUID is pretty simple; we just need an ioctl (or similar
+interface) which returns the UUID for a particular file system.
 
-It's actually done mostly in userspace (rpc.mountd), so "dark internal"
-might not be fair, but it is rather complicated.  There are several
-options (UUID, device number, number provided by the user with fsid=
-option), and I don't recall the logic behind which we use when.
+The Snapshot UUID is the one which is bit trickier.  If the underlying
+block device can supply something unique --- for example, the WWN or
+WWID which is defined by FC, ATA, SATA, SCSI, NVMe, etc. then that
+plus a partition identifier could be hashed to form a Snapshot UUID.
+LVM volumes have a LV UUID that could be used for a similar purpose.
 
-I don't *think* we have good comprehensive documentation of it anywhere.
-I wish we did.  It'd take a little time to put together.  Starting
-points would be linux/fs/nfsd/nfsfh.c and
-nfs-utils/support/export/cache.c.
+If you have a block device which doesn't relibly provide a WWN or
+WWID, or we could could imagine that a file system has a field in the
+superblock, and a file system specific program could get used to set
+that field to a random UUID, and that becomes part of the snapshot
+process.  This may be problematic for remote/network file systems
+which don't have such a concept, but life's a bitch....
 
---b.
+With that, then userspace can fetch the st_dev, st_ino, the FS UUID,
+and the Snapshot UUID, and use some combination of those fields (as
+available) to try determine whether two objects are unique or not.
+
+Is this perfect?  Heck, no.  But ultimately, this is a hard problem,
+and trying to wave our hands and create something that works given one
+set of assumptions --- and completely breaks in a diferent operating
+environment --- is going lead to angry users blaming the fs
+developers.  It's a messy problem, and I think all we can do is expose
+the entire mess to userspace, and make it be a userspace problem.
+That way, the angry users can blame the userspace developers instead.  :-)
+
+     	      	    	      	    - Ted
