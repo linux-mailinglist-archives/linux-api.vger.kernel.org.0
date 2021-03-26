@@ -2,104 +2,153 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74C4334A085
-	for <lists+linux-api@lfdr.de>; Fri, 26 Mar 2021 05:31:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 75A6234A0B7
+	for <lists+linux-api@lfdr.de>; Fri, 26 Mar 2021 05:58:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229671AbhCZEb0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 26 Mar 2021 00:31:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35288 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231142AbhCZEa5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 26 Mar 2021 00:30:57 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D670CC0613E0
-        for <linux-api@vger.kernel.org>; Thu, 25 Mar 2021 21:30:55 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id l1so3777828pgb.5
-        for <linux-api@vger.kernel.org>; Thu, 25 Mar 2021 21:30:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=35XopTC+7WOzIQnHzWXImRYQHw0CHWkdoXHcf/+9Onk=;
-        b=FuXqSLOY5UJibY4x5cy44xNCqVYXhs/QB8SAK6Ph5plXJluUdlmzkl2vYUhpV/m3iz
-         fBwsgAxyhUwk4l2OzfotcXS7ilTz5vz/4D0pRkceuJfu6MDHX6kEBtNhBX+0z1Q+x9Rq
-         gJAq/6u1b6zvaFaFWLn9VBJN47ayz/H6CG+SQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=35XopTC+7WOzIQnHzWXImRYQHw0CHWkdoXHcf/+9Onk=;
-        b=WZ1IWIhlXu3uVYc5HLG2+Fev6xmOkivGCefCXvNVbFD7VeRS6JYUwpg6IBmMQotMXh
-         bWkQ4NWvzQTVnuQ2zm2pAu5SOIJED1MaDg1KbojR7ew23EOloubLuBF/VKgHPeRBg1PS
-         xZyCZoG/isCDs7iVGjjpa5Vivrd6aR7jVR9KxSD0P/wj3jq8uxRSPDRrY8ZDiRKPXksm
-         oaWXRrEY3IqNhOdwC44jkOKhkCtUsf4Tn0M44ycyX+EvqjcQc89ZViuS/TKMNLtZcmD2
-         jOPxBFxx3gA9//dG4KrLtyFGWTVnr1sruVDX7+8GeNSFGbu6J67RskbikeNMaGmNOzI+
-         afRA==
-X-Gm-Message-State: AOAM530snFPQwhl5yPnxtSfivmbk40O2fGwEIPLOu5gmYTenhN8T/81O
-        lcsYzSvtKUBuCJ7SXS1OQ0a2PA==
-X-Google-Smtp-Source: ABdhPJxJ4Uh8qq7VGivmsaxoe1yrWQkMSLzdjT7KyXHUDkthLjeUOIqUGrr9oa/zfMmenb3JnsesWA==
-X-Received: by 2002:a62:7f86:0:b029:20a:a195:bb36 with SMTP id a128-20020a627f860000b029020aa195bb36mr11204021pfd.4.1616733055463;
-        Thu, 25 Mar 2021 21:30:55 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id d1sm7098940pjc.24.2021.03.25.21.30.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Mar 2021 21:30:54 -0700 (PDT)
-Date:   Thu, 25 Mar 2021 21:30:53 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc:     James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        David Howells <dhowells@redhat.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org,
-        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@linux.microsoft.com>
-Subject: Re: [PATCH v31 10/12] selftests/landlock: Add user space tests
-Message-ID: <202103252130.54C78E4@keescook>
-References: <20210324191520.125779-1-mic@digikod.net>
- <20210324191520.125779-11-mic@digikod.net>
+        id S229580AbhCZE5e (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 26 Mar 2021 00:57:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56098 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229478AbhCZE5V (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 26 Mar 2021 00:57:21 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A45FB619FE
+        for <linux-api@vger.kernel.org>; Fri, 26 Mar 2021 04:57:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1616734636;
+        bh=Jo0P5Muvb8+8gfjPQRi5hsZaxh6GN7AU308texcxIAA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=OHC/N+uPaiSowBCFATLwxNHVS5en6WHq91gFUC1xp2euNhcnS2KJWGU8B+7baedZ5
+         ectt7RT316SwQUaQAF6QO3rtDRU/WQvX3TXFGhCW/VAmMUenh0VB1xaF7mjqRhqcBU
+         kZ4K2evhRt/9AiiL3wZrMjUJBMbM3U3iMtMejfkFhsZ5qS4KE2yon++njUaAqQ21Uh
+         o8FRISmowL/BoXJIIX6TDsyIfiTkb6y65sbw4BjRDpCJvqC6zaPdsqDiUHTaIVTQNN
+         bVPdkSkrTXJ2fpiiyAhgpqQqJhPm8n30S49dkn5NmfGRMVjL0J2QZXTQlUK+49YW1I
+         HctumSAPod15g==
+Received: by mail-ej1-f44.google.com with SMTP id ce10so6499361ejb.6
+        for <linux-api@vger.kernel.org>; Thu, 25 Mar 2021 21:57:16 -0700 (PDT)
+X-Gm-Message-State: AOAM531ST9fWntbv+a5MmSr269ivTo818o0HsT3TuPSQZygHzPhGr4vK
+        6Uhj8HZl2kYdvoNm0axqcSExVeGrHZuZ5YfqhF1FeQ==
+X-Google-Smtp-Source: ABdhPJzQUC5kz4KsMNdtYz20rohKj/gTGnfe27XhqBn77MDhO+QCO6+ZjKJL54krol5eOLqpgHby8Vz1sy8kLqXHsAs=
+X-Received: by 2002:a17:907:2809:: with SMTP id eb9mr12915334ejc.204.1616734624746;
+ Thu, 25 Mar 2021 21:57:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210324191520.125779-11-mic@digikod.net>
+References: <20210316065215.23768-1-chang.seok.bae@intel.com>
+ <20210316065215.23768-6-chang.seok.bae@intel.com> <CALCETrU_n+dP4GaUJRQoKcDSwaWL9Vc99Yy+N=QGVZ_tx_j3Zg@mail.gmail.com>
+ <20210325185435.GB32296@zn.tnic>
+In-Reply-To: <20210325185435.GB32296@zn.tnic>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Thu, 25 Mar 2021 21:56:53 -0700
+X-Gmail-Original-Message-ID: <CALCETrXQZuvJQrHDMst6PPgtJxaS_sPk2JhwMiMDNPunq45YFg@mail.gmail.com>
+Message-ID: <CALCETrXQZuvJQrHDMst6PPgtJxaS_sPk2JhwMiMDNPunq45YFg@mail.gmail.com>
+Subject: Re: [PATCH v7 5/6] x86/signal: Detect and prevent an alternate signal
+ stack overflow
+To:     Borislav Petkov <bp@suse.de>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        "Chang S. Bae" <chang.seok.bae@intel.com>,
+        Andrew Cooper <andrew.cooper3@citrix.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>, X86 ML <x86@kernel.org>,
+        Len Brown <len.brown@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        "H. J. Lu" <hjl.tools@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        "Carlos O'Donell" <carlos@redhat.com>,
+        Tony Luck <tony.luck@intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        libc-alpha <libc-alpha@sourceware.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Mar 24, 2021 at 08:15:18PM +0100, Mickaël Salaün wrote:
-> From: Mickaël Salaün <mic@linux.microsoft.com>
-> 
-> Test all Landlock system calls, ptrace hooks semantic and filesystem
-> access-control with multiple layouts.
-> 
-> Test coverage for security/landlock/ is 93.6% of lines.  The code not
-> covered only deals with internal kernel errors (e.g. memory allocation)
-> and race conditions.
-> 
-> Cc: James Morris <jmorris@namei.org>
-> Cc: Jann Horn <jannh@google.com>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Serge E. Hallyn <serge@hallyn.com>
-> Cc: Shuah Khan <shuah@kernel.org>
-> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
+On Thu, Mar 25, 2021 at 11:54 AM Borislav Petkov <bp@suse.de> wrote:
+>
+> On Thu, Mar 25, 2021 at 11:13:12AM -0700, Andy Lutomirski wrote:
+> > diff --git a/arch/x86/kernel/signal.c b/arch/x86/kernel/signal.c
+> > index ea794a083c44..53781324a2d3 100644
+> > --- a/arch/x86/kernel/signal.c
+> > +++ b/arch/x86/kernel/signal.c
+> > @@ -237,7 +237,8 @@ get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
+> >       unsigned long math_size = 0;
+> >       unsigned long sp = regs->sp;
+> >       unsigned long buf_fx = 0;
+> > -     int onsigstack = on_sig_stack(sp);
+> > +     bool already_onsigstack = on_sig_stack(sp);
+> > +     bool entering_altstack = false;
+> >       int ret;
+> >
+> >       /* redzone */
+> > @@ -246,15 +247,25 @@ get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
+> >
+> >       /* This is the X/Open sanctioned signal stack switching.  */
+> >       if (ka->sa.sa_flags & SA_ONSTACK) {
+> > -             if (sas_ss_flags(sp) == 0)
+> > +             /*
+> > +              * This checks already_onsigstack via sas_ss_flags().
+> > +              * Sensible programs use SS_AUTODISARM, which disables
+> > +              * that check, and programs that don't use
+> > +              * SS_AUTODISARM get compatible but potentially
+> > +              * bizarre behavior.
+> > +              */
+> > +             if (sas_ss_flags(sp) == 0) {
+> >                       sp = current->sas_ss_sp + current->sas_ss_size;
+> > +                     entering_altstack = true;
+> > +             }
+> >       } else if (IS_ENABLED(CONFIG_X86_32) &&
+> > -                !onsigstack &&
+> > +                !already_onsigstack &&
+> >                  regs->ss != __USER_DS &&
+> >                  !(ka->sa.sa_flags & SA_RESTORER) &&
+> >                  ka->sa.sa_restorer) {
+> >               /* This is the legacy signal stack switching. */
+> >               sp = (unsigned long) ka->sa.sa_restorer;
+> > +             entering_altstack = true;
+> >       }
+>
+> What a mess this whole signal handling is. I need a course in signal
+> handling to understand what's going on here...
+>
+> >
+> >       sp = fpu__alloc_mathframe(sp, IS_ENABLED(CONFIG_X86_32),
+> > @@ -267,8 +278,16 @@ get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
+> >        * If we are on the alternate signal stack and would overflow it, don't.
+> >        * Return an always-bogus address instead so we will die with SIGSEGV.
+> >        */
+> > -     if (onsigstack && !likely(on_sig_stack(sp)))
+> > +     if (unlikely(entering_altstack &&
+> > +                  (sp <= current->sas_ss_sp ||
+> > +                   sp - current->sas_ss_sp > current->sas_ss_size))) {
+>
+> You could've simply done
+>
+>         if (unlikely(entering_altstack && !on_sig_stack(sp)))
+>
+> here.
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+Nope.  on_sig_stack() is a horrible kludge and won't work here.  We
+could have something like __on_sig_stack() or sp_is_on_sig_stack() or
+something, though.
 
--- 
-Kees Cook
+>
+>
+> > +             if (show_unhandled_signals && printk_ratelimit()) {
+> > +                     pr_info("%s[%d] overflowed sigaltstack",
+> > +                             tsk->comm, task_pid_nr(tsk));
+> > +             }
+>
+> Why do you even wanna issue that? It looks like callers will propagate
+> an error value up and people don't look at dmesg all the time.
+
+I figure that the people whose programs spontaneously crash should get
+a hint why if they look at dmesg.  Maybe the message should say
+"overflowed sigaltstack -- try noavx512"?
+
+We really ought to have a SIGSIGFAIL signal that's sent, double-fault
+style, when we fail to send a signal.
