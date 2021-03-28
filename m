@@ -2,108 +2,223 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 135CC34BF1C
-	for <lists+linux-api@lfdr.de>; Sun, 28 Mar 2021 22:55:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0244234BF78
+	for <lists+linux-api@lfdr.de>; Sun, 28 Mar 2021 23:50:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231520AbhC1Uyn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 28 Mar 2021 16:54:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42568 "EHLO
+        id S229950AbhC1VuX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 28 Mar 2021 17:50:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231534AbhC1UyM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 28 Mar 2021 16:54:12 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F615C0613B1
-        for <linux-api@vger.kernel.org>; Sun, 28 Mar 2021 13:54:11 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id o16so10875880wrn.0
-        for <linux-api@vger.kernel.org>; Sun, 28 Mar 2021 13:54:10 -0700 (PDT)
+        with ESMTP id S229655AbhC1Vtx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 28 Mar 2021 17:49:53 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 216D4C061756;
+        Sun, 28 Mar 2021 14:49:53 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id x7-20020a17090a2b07b02900c0ea793940so6760287pjc.2;
+        Sun, 28 Mar 2021 14:49:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=uUUE0tRysCl/AZmYpBE7nB+xaBTY+Blnl2TRorK4CnE=;
-        b=K/gEePEDOzCnjIelkn1fH5ent6cwQvRSdL9xWz2JB4u9smCm8AgkmljP8Nt2AIQMzz
-         UTJyQzBCSOQN5aWJaaM55iUE1zdr8cxuD05IjrYdn5sC01T7yZ2MnLTpPFDavu46vBHr
-         qG3yqCsa9ldF/lZYyhqvj3xipK/Db4AgEx6rUJW0wFqrYYnC1j+BqSXBNJk/g3OC3lwl
-         5aP1RiKSBqiwaWCDkDBsQqiQhSXyvHV6z79L+xGyRmjxmxQbJKxQfUioGMg5i4n27Hca
-         BI6kKvsxDdSEgzQCuBnekyoiLeOfv6dD58KiiyQGvHgWdsLe2xN6wlpRk1RKWuRXzGt6
-         ol5Q==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=/zvfTvdxk0vbwiBYUAI5cCrEALj8Ff0dONrOmIH+zLA=;
+        b=HLhc8rnAnNPkEhC+I9pOWaUrTUqpGRb/B57xQk/Yj9EoCWlUn8j51wySzBrPi58cTj
+         s9i6JZZdRHDB5SMOMe/xQLnuoGWZAxLrZb3ecKC1o1ZgjJFHMblehze4vDOxTXnJcs5u
+         U1vQcoHOsUClqcGqGHU6JKDpp6Kdt+MIzKp6ynfPuoAUgsTtksTQw83l5TQDSIlVR8kl
+         GfEhdw/0QNr6kuTSCvNVocjeVWIDOQWIS82JOS8rwje5jbXoxq+DLkoMfqgOA/pZPvk6
+         4cpCJ46n57++EiqJyr2ZDfMIRzNYt9mKE8VSskhB5vpI8wOhOUy9udZGInaZvY2tpVSE
+         V/4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=uUUE0tRysCl/AZmYpBE7nB+xaBTY+Blnl2TRorK4CnE=;
-        b=LTRMlhSfe465hhVfT0Eu75TNQcIi2sEqP7zMt0h19ye5zlRcVYaktvbThbO2/mqn5i
-         Tk7K+oZVWWt/eykZxbj0GOK4kX/suBtHLGLOzWJcUtOOd1xiLej5L3fCWhmigt2AqgNf
-         qflCwFlwn9mO1u0X5vx3TA1Nn01/rfkCIcX7ibnfM22vIUEvmLtH2d02cDs/DxkEFTjR
-         9t5ARATpMt1L3beEt7mRSq5a0CEJUsbEaG/7JoSrpugLJyHqjmi7ofOw3C6MjDRt6oc/
-         WBQXDRgkUC45QG9z0M1YnbgblEzse4z9jjaej2vZpFGZR1eqKFg2Q0x6N86UAtR8R0sj
-         MpEw==
-X-Gm-Message-State: AOAM533sa4luxsgfrH6DiiZmm493ecHELSSTsJZwRdKQWe53zfwH80xh
-        XPJE9r/tGOLKzBhyT83Uq6ED1aiQRvhY4g==
-X-Google-Smtp-Source: ABdhPJw/+473E5al27E6cQcqeHyl/jgUQtowDCwkSE4Ne4syo7zVokG2CEjHrtXgV/DHDlUKpZ/eKA==
-X-Received: by 2002:adf:d4ca:: with SMTP id w10mr26144466wrk.146.1616964849655;
-        Sun, 28 Mar 2021 13:54:09 -0700 (PDT)
-Received: from ?IPv6:2a01:e34:ed2f:f020:1945:696f:a453:cac9? ([2a01:e34:ed2f:f020:1945:696f:a453:cac9])
-        by smtp.googlemail.com with ESMTPSA id p14sm21920580wmc.30.2021.03.28.13.54.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 28 Mar 2021 13:54:09 -0700 (PDT)
-Subject: Re: [PATCH] thermal/drivers/netlink: Add the temperature when
- crossing a trip point
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     rkumbako@quicinc.com, Zhang Rui <rui.zhang@intel.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        "open list:THERMAL" <linux-pm@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:ABI/API" <linux-api@vger.kernel.org>
-References: <20210325193633.19592-1-daniel.lezcano@linaro.org>
- <CAJZ5v0g58LMVwRWdJaTWVOx09gt6KRGTa974k3cvHYQyxk0EYg@mail.gmail.com>
- <444a7fc72e6525575b929760fcad186630577afc.camel@linux.intel.com>
- <ae16d810-e5ec-ad63-7b29-fd1ddab68907@linaro.org>
- <a2665d9f450b5e6dc0cc5017e2b83a5c49840d3f.camel@linux.intel.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <2fa60fba-e904-62c1-9b9c-9e05a877c050@linaro.org>
-Date:   Sun, 28 Mar 2021 22:54:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=/zvfTvdxk0vbwiBYUAI5cCrEALj8Ff0dONrOmIH+zLA=;
+        b=INCR1pq6oxNS/rqEPi1TKqFDa2O3O+v+pbCPPO3UdUXS3TA5vZQMQi6X3FXRetI2UV
+         VjG8aQq2CCjZ5N1GsS3E595H8uL5e2e7KyTDkE3nHxsKPEAOPiZjASi1DjwK6c8sKLGo
+         6LCF6GabSTCjGOx9Pi3TZFgwvOPbjbp90o3YiIII90n7faUTtGQlz6XrzITslbCgkKIz
+         7UwQC5pjfDf8spvEgVM8ruMioLNjnrht7j7D55trhydsEY00CYJMY4tnOExgkXLX54nS
+         LG6/UlQybWj45p37qX1gw+9IRNgBC8rZTBOiAkFLJH6xqbvQVs+W5gUg/hrj4QtKxIfY
+         6xqw==
+X-Gm-Message-State: AOAM533QR+rBzERu/SRGevrB4zKgCtmZQlOJvFpFT+E9flcH0uQUYOiz
+        DpujHqBvtpI078qIidBK++c=
+X-Google-Smtp-Source: ABdhPJxK9s39yP05OYtTDS4bPnOImGthNz79kJm6kLScqC6/bcisYGD7jvNtpXxN/z+0l3vEBnljTQ==
+X-Received: by 2002:a17:90a:f3d7:: with SMTP id ha23mr22840428pjb.130.1616968192329;
+        Sun, 28 Mar 2021 14:49:52 -0700 (PDT)
+Received: from gmail.com ([2601:600:8500:5f14:d627:c51e:516e:a105])
+        by smtp.gmail.com with ESMTPSA id i4sm15819093pfo.14.2021.03.28.14.49.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Mar 2021 14:49:51 -0700 (PDT)
+Date:   Sun, 28 Mar 2021 14:47:30 -0700
+From:   Andrei Vagin <avagin@gmail.com>
+To:     Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+Cc:     linux-fsdevel@vger.kernel.org, David Howells <dhowells@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Mattias Nissler <mnissler@chromium.org>,
+        Ross Zwisler <zwisler@google.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-api@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] move_mount: allow to add a mount into an existing group
+Message-ID: <YGD5cqCb9IM907NL@gmail.com>
+References: <20210325121444.87140-1-ptikhomirov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <a2665d9f450b5e6dc0cc5017e2b83a5c49840d3f.camel@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=koi8-r
+Content-Disposition: inline
+In-Reply-To: <20210325121444.87140-1-ptikhomirov@virtuozzo.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 28/03/2021 21:31, Srinivas Pandruvada wrote:
-> Hi Daniel,
-
-[ ... ]
-
->> I don't see where is the problem. The protocol is still compatible
->> with
->> the previous version, so that does not break the existing AFAICT.
->> That
->> is done on purpose.
+On Thu, Mar 25, 2021 at 03:14:44PM +0300, Pavel Tikhomirov wrote:
+> Previously a sharing group (shared and master ids pair) can be only
+> inherited when mount is created via bindmount. This patch adds an
+> ability to add an existing private mount into an existing sharing group.
 > 
-> The size of netlink message is changed. This is not a good argument to
-> just adding members at the end. The point I am trying that netlink now
-> is an ABI, which should go through same process as we are
-> adding/changing a sysfs attributes.
+> With this functionality one can first create the desired mount tree from
+> only private mounts (without the need to care about undesired mount
+> propagation or mount creation order implied by sharing group
+> dependencies), and next then setup any desired mount sharing between
+> those mounts in tree as needed.
+> 
+> This allows CRIU to restore any set of mount namespaces, mount trees and
+> sharing group trees for a container.
+> 
+> We have many issues with restoring mounts in CRIU related to sharing
+> groups and propagation:
+> - reverse sharing groups vs mount tree order requires complex mounts
+>   reordering which mostly implies also using some temporary mounts
+> (please see https://lkml.org/lkml/2021/3/23/569 for more info)
+> 
+> - mount() syscall creates tons of mounts due to propagation
+> - mount re-parenting due to propagation
+> - "Mount Trap" due to propagation
+> - "Non Uniform" propagation, meaning that with different tricks with
+>   mount order and temporary children-"lock" mounts one can create mount
+>   trees which can't be restored without those tricks
+> (see https://www.linuxplumbersconf.org/event/7/contributions/640/)
+> 
+> With this new functionality we can resolve all the problems with
+> propagation at once.
+> 
+
+Thanks for picking this up. Overall it looks good for me. Here is one
+comment inline.
+
+> Cc: Eric W. Biederman <ebiederm@xmission.com>
+> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> Cc: Andrei Vagin <avagin@gmail.com>
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: linux-api@vger.kernel.org
+> Cc: lkml <linux-kernel@vger.kernel.org>
+> Signed-off-by: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+> 
+> ---
+> This is a rework of "mnt: allow to add a mount into an existing group"
+> patch from Andrei. https://lkml.org/lkml/2017/4/28/20
+> 
+> New do_set_group is similar to do_move_mount, but with many restrictions
+> of do_move_mount removed and that's why:
+> 
+> 1) Allow "cross-namespace" sharing group set. If we allow operation only
+> with mounts from current+anon mount namespace one would still be able to
+> setns(from_mntns) + open_tree(from, OPEN_TREE_CLONE) + setns(to_mntns) +
+> move_mount(anon, to, MOVE_MOUNT_SET_GROUP) to set sharing group to mount
+> in different mount namespace with source mount. But with this approach
+> we would need to create anon mount namespace and mount copy each time,
+> which is just a waste of resources. So instead lets just check if we are
+> allowed to modify both mount namespaces (which looks equivalent to what
+> setns-es and open_tree check).
+> 
+> 2) Allow operating on non-root dentry of the mount. As if we prohibit it
+> this would require extra care from CRIU side in places where we wan't to
+> copy sharing group from mount on host (for external mounts) and user
+> gives us path to non-root dentry. I don't see any problem with
+> referencing mount with any dentry for sharing group setting. Also there
+> is no problem with referencing one by file and one by directory.
+> 
+> 3) Also checks wich only apply to actually moving mount which we have in
+> do_move_mount and open_tree are skipped. We don't need to check
+> MNT_LOCKED, unbindable, nsfs loops and ancestor relation as we don't
+> move mounts.
+> 
+> Security note: there would be no (new) loops in sharing groups tree,
+> because this new move_mount(MOVE_MOUNT_SET_GROUP) operation only adds
+> one _private_ mount to one group (without moving between groups), the
+> sharing groups tree itself stays unchanged after it.
+> 
+> In Virtuozzo we have "mount-v2" implementation, based with the original
+> kernel patch from Andrei, tested for almost a year and it actually
+> decreased number of bugs with mounts a lot. One can take a look on the
+> implementation of sharing group restore in CRIU in "mount-v2" here:
+> 
+> https://src.openvz.org/projects/OVZ/repos/criu/browse/criu/mount-v2.c#898
+> 
+> This works almost the same with current version of patch if we replace
+> mount(MS_SET_GROUP) to move_mount(MOVE_MOUNT_SET_GROUP), please see
+> super-draft port for mainstream criu, this at least passes
+> non-user-namespaced mount tests (zdtm.py --mounts-v2 -f ns).
+> 
+> https://github.com/Snorch/criu/commits/mount-v2-poc
+> 
+> ---
+>  fs/namespace.c             | 57 +++++++++++++++++++++++++++++++++++++-
+>  include/uapi/linux/mount.h |  3 +-
+>  2 files changed, 58 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/namespace.c b/fs/namespace.c
+> index 9d33909d0f9e..ab439d8510dd 100644
+> --- a/fs/namespace.c
+> +++ b/fs/namespace.c
+> @@ -2660,6 +2660,58 @@ static bool check_for_nsfs_mounts(struct mount *subtree)
+>  	return ret;
+>  }
 >  
+> +static int do_set_group(struct path *from_path, struct path *to_path)
+> +{
+> +	struct mount *from, *to;
+> +	int err;
+> +
+> +	from = real_mount(from_path->mnt);
+> +	to = real_mount(to_path->mnt);
+> +
+> +	namespace_lock();
+> +
+> +	err = -EINVAL;
+> +	/* To and From must be mounted */
+> +	if (!is_mounted(&from->mnt))
+> +		goto out;
+> +	if (!is_mounted(&to->mnt))
+> +		goto out;
+> +
+> +	err = -EPERM;
+> +	/* We should be allowed to modify mount namespaces of both mounts */
+> +	if (!ns_capable(from->mnt_ns->user_ns, CAP_SYS_ADMIN))
+> +		goto out;
+> +	if (!ns_capable(to->mnt_ns->user_ns, CAP_SYS_ADMIN))
+> +		goto out;
+> +
+> +	err = -EINVAL;
+> +	/* Setting sharing groups is only allowed across same superblock */
+> +	if (from->mnt.mnt_sb != to->mnt.mnt_sb)
+> +		goto out;
 
-Ok I understand your point. I will provide a description in
-Documentation/ABI/testing, something I should have done before and take
-the opportunity to provide a bigger update of the thermal netlink
-messages with more commands.
+I think we need to check that mnt_root of "to" is in the sub-tree of
+mnt_root of "from". Otherwise, there can be a case when a user will get
+access to some extra mounts
 
-Thanks
-  -- Daniel
+For example, let's imagine that we have three mounts:
+A: root: /test/subtest shared: 1
+B: root: /test
+C: root: / shared: 1
 
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+A and B is in the same mount namespaces and a test user can access them.
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+C is in another namespace and the user can't access it.
+
+Now, we add B to the shared group of A and then another user mounts a
+forth mount to /C/test/subtest2. If we allow to add B to the shared
+group of A, our test user will get access to the new mount via
+B/test/subtest2.
+
+Thanks,
+Andrei
+
