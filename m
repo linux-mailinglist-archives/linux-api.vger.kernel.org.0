@@ -2,131 +2,293 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 780F134BCBA
-	for <lists+linux-api@lfdr.de>; Sun, 28 Mar 2021 16:59:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AAFB534BD1A
+	for <lists+linux-api@lfdr.de>; Sun, 28 Mar 2021 17:57:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231191AbhC1O6Z (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 28 Mar 2021 10:58:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51238 "EHLO
+        id S230435AbhC1P4n (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 28 Mar 2021 11:56:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229950AbhC1O6V (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 28 Mar 2021 10:58:21 -0400
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1C10C061756;
-        Sun, 28 Mar 2021 07:58:21 -0700 (PDT)
-Received: by mail-io1-xd33.google.com with SMTP id k25so10219034iob.6;
-        Sun, 28 Mar 2021 07:58:21 -0700 (PDT)
+        with ESMTP id S230451AbhC1P4a (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 28 Mar 2021 11:56:30 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 093F0C061756;
+        Sun, 28 Mar 2021 08:56:30 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id x16so10384769wrn.4;
+        Sun, 28 Mar 2021 08:56:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/eYAix15FgjxUSXJCP4qXmQFhnSMzpr5Egrrumal1u8=;
-        b=Y8KM+cjVd84KZATQrDTkyTJPx6mLM7c3K9+phsFU3TaozxwS8gMI0MRM1M9zCCXwtx
-         rki+3X4L9qt6W3KqzDj24fmaqR9TBp9LUomKTLKLOR151OchjgKEVNuuQf39EFMYW9mT
-         A3cijqfrOF5lz0uAPxkDrJVu+KeBne9AZ0cwa/6bDQ1KlrsvL6o48VQ61zz2N8uutD9P
-         Ycydsa/Yr2IAqcVGEZlS94wq4kf9FY0dLHFuixjI0UTq8FNgdZdPn8/J+37eRARLoZ2Y
-         89xuaFAgBsJbjlKpZ6vcpC9QO65/3zOZJjequ7ksxdp5qZ/JEWHmjtIizMi6jz7pk3tF
-         pnLQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wzaJrj6qm4ly2Blj6LwN/Q19V8tdViJ7JjkrFUtAAFk=;
+        b=KFogYeqW56DETH5mHA+fWMQSgLtx0DV6pqTZpm3Q9txnv5IqxQU6zOiyePRYownqxC
+         0Tq8IbiNT1u87iG6cO3vL4LAejZ69AsZCKFajopCnMKpJ1eA5m8Jii9EJzznGgo936RG
+         XKkIFpojk+qUrEpDlei+9ga8zXiX/4uo9wbln+XDQT0euXwYNXyN5XCuH/dFMU8X9cGL
+         tNrmh+S3eSBafGoc9X6SNMqf568p7D4PkHNsZaXI9L/0HHYDkMUQgjgnJW7uZsw4t4iw
+         gi6NhFbUi9Qk8mzbwZiXGGYe3g4KPCGNktoLbDO3dzn1IobTuROZgwfuzsEA2vK0LGrM
+         c5PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/eYAix15FgjxUSXJCP4qXmQFhnSMzpr5Egrrumal1u8=;
-        b=rXgUgmtW8KjMDMMhEljoXsM1LAwRscJ99k3g9eAAZmwafZRGoYklqSvopQ6gO1Ur5n
-         p6PHpAyQKCBQYVF141Ktt/WkTYMpurxQpXfD0+WbDoYcL/e8ym6yoTKOGSjcZGjUiiAO
-         Eg6YxWmAXWK45y0EBNgQLW92hSUAPMrGcyryIaGauKalvn/U4Dbmu9YcD7Y/nExf3IZ4
-         agCFQtE054WEGN3qkdPN8n1IVlbEycbHikbCvx9iVxAxRUL9sLSAd0rp2kLja9vtKbam
-         SUXhu1yX4PPYBU80XHFrpmWBY+JQi8FmWlzEkDWeExFO2SBO4gT65lk3udHJ/62scAke
-         T7KA==
-X-Gm-Message-State: AOAM533m1sqAzeceGs253IFi6MmjeNcw79FV6F1itC0RCqk3ewCzUNXf
-        lhkb20nQPbBynoFV+tSxcH3dX5w9z09Rd6yEUqIodYz0cyI=
-X-Google-Smtp-Source: ABdhPJzownYsFpeh9ldQnfS9yNG5OF2XNqqVF0IX+rwqYANkfuq3ROPpQspx2ebPBviNUCVfOgWIcCZRoPiWo95Uzvo=
-X-Received: by 2002:a02:ccb2:: with SMTP id t18mr19953035jap.123.1616943500906;
- Sun, 28 Mar 2021 07:58:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAOQ4uxiRHwmxTKsLteH_sBW_dSPshVE8SohJYEmpszxaAwjEyg@mail.gmail.com>
- <20210319134043.c2wcpn4lbefrkhkg@wittgenstein> <CAOQ4uxhLYdWOUmpWP+c_JzVeGDbkJ5eUM+1-hhq7zFq23g5J1g@mail.gmail.com>
- <CAOQ4uxhetKeEZX=_iAcREjibaR0ZcOdeZyR8mFEoHM+WRsuVtg@mail.gmail.com>
- <CAOQ4uxhfx012GtvXMfiaHSk1M7+gTqkz3LsT0i_cHLnZLMk8nw@mail.gmail.com>
- <CAOQ4uxhFU=H8db35JMhfR+A5qDkmohQ01AWH995xeBAKuuPhzA@mail.gmail.com>
- <20210324143230.y36hga35xvpdb3ct@wittgenstein> <CAOQ4uxiPYbEk1N_7nxXMP7kz+KMnyH+0GqpJS36FR+-v9sHrcg@mail.gmail.com>
- <20210324162838.spy7qotef3kxm3l4@wittgenstein> <CAOQ4uxjcCEtuqyawNo7kCkb3213=vrstMupZt-KnGyanqKv=9Q@mail.gmail.com>
- <20210325111203.5o6ovkqgigxc3ihk@wittgenstein> <CAOQ4uxhdJWWRZSa0FfEiryQoBJYcGSADGoE7UZF8W=5-tcX9xg@mail.gmail.com>
-In-Reply-To: <CAOQ4uxhdJWWRZSa0FfEiryQoBJYcGSADGoE7UZF8W=5-tcX9xg@mail.gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wzaJrj6qm4ly2Blj6LwN/Q19V8tdViJ7JjkrFUtAAFk=;
+        b=TBONg8lYr7Stedurx+DNw9mjRlcNEWXENpL8dK9IKArMcxr7p6EFVT3HrJuwu4cSjV
+         NTpApbEmjRpP1fi8mh9pDV1fLYwjOg6Ubkoe2BPE9wUSGUHUlzimiAKDZnESg7rw06rK
+         oLEl6UnV+hLI9TqkwV/GcWQxJnkcxncTcOA2x7xWTSAUQrgd1lV1/tmBpDNZiin1UvL7
+         ELHe3IwhGHYiA0Y6AjhDfQaTHEaxLBBDbtG/P4YNBJkinYu7QqTi3uY24OIOGHDDX9tO
+         8RZPzUWZYiastUvTEL3zW8EURJtSj7ZsQBS34nK676cLldMOawFoddIBiXVVOMUoZw6m
+         GwLA==
+X-Gm-Message-State: AOAM532SjtcaLZkHSsTbanx9ppSg+urkHYUktE8F5L565ol/rYUhJwo2
+        JGU4FyjM5Kz28dOmzi+YcogabA/+17A=
+X-Google-Smtp-Source: ABdhPJzpUtNm25ny+sTqtt2G6ptkzX8TkfBOdl9JyDa9IdEo5ik23hdB8K5zCHvVVg+nF+F7lLDJZw==
+X-Received: by 2002:adf:f587:: with SMTP id f7mr24490257wro.147.1616946987517;
+        Sun, 28 Mar 2021 08:56:27 -0700 (PDT)
+Received: from localhost.localdomain ([141.226.241.101])
+        by smtp.gmail.com with ESMTPSA id k4sm31683289wrd.9.2021.03.28.08.56.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Mar 2021 08:56:26 -0700 (PDT)
 From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Sun, 28 Mar 2021 17:58:09 +0300
-Message-ID: <CAOQ4uxje-zV2nWGa9juWUBzW29dgZBTnJR=jWGxjAJ4haiYTog@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] unprivileged fanotify listener
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Jan Kara <jack@suse.cz>,
-        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     Jan Kara <jack@suse.cz>
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: [RFC][PATCH] fanotify: allow setting FAN_CREATE in mount mark mask
+Date:   Sun, 28 Mar 2021 18:56:24 +0300
+Message-Id: <20210328155624.930558-1-amir73il@gmail.com>
+X-Mailer: git-send-email 2.30.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-> > The limitations of FAN_MARK_MOUNT as I now understand them are indeed
-> > unpleasant. If we could get FAN_MARK_MOUNT with the same event support
-> > as FAN_MARK_INODE that would be great.
-> > I think the delegation model that makes sense to me is to allow
-> > FAN_MARK_MOUNT when the caller is ns_capable(mnt->mnt_userns) and of
-> > course ns_capable() in the userns they called fanotify_init() in. That
-> > feels ok and supportable.
->
-> I present to you a demo [1][2] of FAN_MARK_MOUNT on idmapped mount that:
->
-> 1. Can subscribe and receive FAN_LINK (new) events
-> 2. Is capable of open_by_handle() if fid is under mount root
->
-> FAN_LINK (temp name) is an event that I wanted to add anyway [3] and
-> AFAIK it's the only event that you really need in order to detect when a dir
-> was created for the use case of injecting a bind mount into a container.
+Add a high level hook fsnotify_path_create() which is called from
+syscall context where mount context is available, so that FAN_CREATE
+event can be added to a mount mark mask.
 
-Scratch that part about the new event.
-I found a way to make FAN_CREATE available for FAN_MARK_MOUNT.
-Will post an RFC patch.
-Same demo instructions. Different branches [1][2]:
+This high level hook is called in addition to fsnotify_create(),
+fsnotify_mkdir() and fsnotify_link() hooks in vfs helpers where the mount
+context is not available.
 
->
-> The kernel branch [1] intentionally excludes the controversial patch that
-> added support for userns filtered sb marks.
->
-> Therefore, trying to run the demo script as is on an idmapped mount
-> inside userns will auto-detect UID 0, try to setup an sb mark and fail.
->
-> Instead, the demo script should be run as follows to combine a
-> mount mark and recursive inode marks:
->
-> ./test_demo.sh <idmapped-mount-path> 1
->
-> For example:
+In the context where fsnotify_path_create() will be called, a dentry flag
+flag is set on the new dentry the suppress the FS_CREATE event in the vfs
+level hooks.
 
-~# ./test_demo.sh /vdf 1
-+ WD=/vdf
-+ ID=1
-...
-+ inotifywatch --fanotify --recursive -w --timeout -2 /vdf
-Establishing watches...
-...
-+ mkdir -p a/dir0 a/dir1 a/dir2/A/B/C/
-+ touch a/dir2/A/B/C/file2
-...
-[fid=94847cf7.d74a50ab.30000c2;name='dir2'] /mnt/a/dir2
-Adding recursive watches on directory '/mnt/a/dir2/'...
-[fid=94847cf7.d74a50ab.87;name='A'] /mnt/a/dir2/A
-Adding recursive watches on directory '/mnt/a/dir2/A/'...
-[fid=94847cf7.d74a50ab.1000087;name='B'] /mnt/a/dir2/A/B
-Adding recursive watches on directory '/mnt/a/dir2/A/B/'...
-[fid=94847cf7.d74a50ab.20073e5;name='C'] /mnt/a/dir2/A/B/C
-Adding recursive watches on directory '/mnt/a/dir2/A/B/C/'...
-[fid=94847cf7.d74a50ab.30000c9;name='file2'] /mnt/a/dir2/A/B/C/file2
+This functionality was requested by Christian Brauner to replace
+recursive inotify watches for detecting when some path was created under
+an idmapped mount without having to monitor FAN_CREATE events in the
+entire filesystem.
 
-Hope that helps.
+In combination with more changes to allow unprivileged fanotify listener
+to watch an idmapped mount, this functionality would be usable also by
+nested container managers.
+
+Link: https://lore.kernel.org/linux-fsdevel/20210318143140.jxycfn3fpqntq34z@wittgenstein/
+Cc: Christian Brauner <christian.brauner@ubuntu.com>
+Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+---
+
+Jan,
+
+After trying several different approaches, I finally realized that
+making FAN_CREATE available for mount marks is not that hard and it could
+be very useful IMO.
+
+Adding support for other "inode events" with mount mark, such as
+FAN_ATTRIB, FAN_DELETE, FAN_MOVE may also be possible, but adding support
+for FAN_CREATE was really easy due to the fact that all call sites are
+already surrounded by filename_creat()/done_path_create() calls.
+
+Also, there is an inherent a-symetry between FAN_CREATE and other
+events. All the rest of the events may be set when watching a postive
+path, for example, to know when a path of a bind mount that was
+"injected" to a container was moved or deleted, it is possible to start
+watching that directory before injecting the bind mount.
+
+It is not possible to do the same with a "negative" path to know when
+a positive dentry was instantiated at that path.
+
+This patch provides functionality that is independant of other changes,
+but I also tested it along with other changes that demonstrate how it
+would be utilized in userns setups [1][2].
+
+As can be seen in dcache.h patch, this patch comes on top a revert patch
+to reclaim an unused dentry flag. If you accept this proposal, I will
+post the full series.
 
 Thanks,
 Amir.
 
 [1] https://github.com/amir73il/linux/commits/fanotify_userns
 [2] https://github.com/amir73il/inotify-tools/commits/fanotify_userns
+
+ fs/namei.c               | 21 ++++++++++++++++++++-
+ include/linux/dcache.h   |  2 +-
+ include/linux/fanotify.h |  8 ++++----
+ include/linux/fsnotify.h | 36 ++++++++++++++++++++++++++++++++++++
+ 4 files changed, 61 insertions(+), 6 deletions(-)
+
+diff --git a/fs/namei.c b/fs/namei.c
+index 216f16e74351..cf979e956938 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -3288,7 +3288,7 @@ static const char *open_last_lookups(struct nameidata *nd,
+ 		inode_lock_shared(dir->d_inode);
+ 	dentry = lookup_open(nd, file, op, got_write);
+ 	if (!IS_ERR(dentry) && (file->f_mode & FMODE_CREATED))
+-		fsnotify_create(dir->d_inode, dentry);
++		fsnotify_path_create(&nd->path, dentry);
+ 	if (open_flag & O_CREAT)
+ 		inode_unlock(dir->d_inode);
+ 	else
+@@ -3560,6 +3560,20 @@ struct file *do_file_open_root(struct dentry *dentry, struct vfsmount *mnt,
+ 	return file;
+ }
+ 
++static void d_set_path_create(struct dentry *dentry)
++{
++	spin_lock(&dentry->d_lock);
++	dentry->d_flags |= DCACHE_PATH_CREATE;
++	spin_unlock(&dentry->d_lock);
++}
++
++static void d_clear_path_create(struct dentry *dentry)
++{
++	spin_lock(&dentry->d_lock);
++	dentry->d_flags &= ~DCACHE_PATH_CREATE;
++	spin_unlock(&dentry->d_lock);
++}
++
+ static struct dentry *filename_create(int dfd, struct filename *name,
+ 				struct path *path, unsigned int lookup_flags)
+ {
+@@ -3617,6 +3631,8 @@ static struct dentry *filename_create(int dfd, struct filename *name,
+ 		goto fail;
+ 	}
+ 	putname(name);
++	/* Start "path create" context that ends in done_path_create() */
++	d_set_path_create(dentry);
+ 	return dentry;
+ fail:
+ 	dput(dentry);
+@@ -3641,6 +3657,9 @@ EXPORT_SYMBOL(kern_path_create);
+ 
+ void done_path_create(struct path *path, struct dentry *dentry)
+ {
++	if (d_inode(dentry))
++		fsnotify_path_create(path, dentry);
++	d_clear_path_create(dentry);
+ 	dput(dentry);
+ 	inode_unlock(path->dentry->d_inode);
+ 	mnt_drop_write(path->mnt);
+diff --git a/include/linux/dcache.h b/include/linux/dcache.h
+index 4225caa8cf02..d153793d5b95 100644
+--- a/include/linux/dcache.h
++++ b/include/linux/dcache.h
+@@ -213,7 +213,7 @@ struct dentry_operations {
+ #define DCACHE_SYMLINK_TYPE		0x00600000 /* Symlink (or fallthru to such) */
+ 
+ #define DCACHE_MAY_FREE			0x00800000
+-/* Was #define DCACHE_FALLTHRU			0x01000000 */
++#define DCACHE_PATH_CREATE		0x01000000 /* "path_create" context */
+ #define DCACHE_NOKEY_NAME		0x02000000 /* Encrypted name encoded without key */
+ #define DCACHE_OP_REAL			0x04000000
+ 
+diff --git a/include/linux/fanotify.h b/include/linux/fanotify.h
+index bad41bcb25df..f0c5a4a82b6e 100644
+--- a/include/linux/fanotify.h
++++ b/include/linux/fanotify.h
+@@ -65,10 +65,10 @@ extern struct ctl_table fanotify_table[]; /* for sysctl */
+ 
+ /*
+  * Events that can be reported with data type FSNOTIFY_EVENT_PATH.
+- * Note that FAN_MODIFY can also be reported with data type
++ * Note that FAN_MODIFY and FAN_CREATE can also be reported with data type
+  * FSNOTIFY_EVENT_INODE.
+  */
+-#define FANOTIFY_PATH_EVENTS	(FAN_ACCESS | FAN_MODIFY | \
++#define FANOTIFY_PATH_EVENTS	(FAN_ACCESS | FAN_MODIFY | FAN_CREATE | \
+ 				 FAN_CLOSE | FAN_OPEN | FAN_OPEN_EXEC)
+ 
+ /*
+@@ -78,8 +78,8 @@ extern struct ctl_table fanotify_table[]; /* for sysctl */
+ #define FANOTIFY_DIRENT_EVENTS	(FAN_MOVE | FAN_CREATE | FAN_DELETE)
+ 
+ /* Events that can only be reported with data type FSNOTIFY_EVENT_INODE */
+-#define FANOTIFY_INODE_EVENTS	(FANOTIFY_DIRENT_EVENTS | \
+-				 FAN_ATTRIB | FAN_MOVE_SELF | FAN_DELETE_SELF)
++#define FANOTIFY_INODE_EVENTS	(FAN_MOVE | FAN_DELETE | FAN_ATTRIB | \
++				 FAN_MOVE_SELF | FAN_DELETE_SELF)
+ 
+ /* Events that user can request to be notified on */
+ #define FANOTIFY_EVENTS		(FANOTIFY_PATH_EVENTS | \
+diff --git a/include/linux/fsnotify.h b/include/linux/fsnotify.h
+index f8acddcf54fb..9a3d9f7beeb2 100644
+--- a/include/linux/fsnotify.h
++++ b/include/linux/fsnotify.h
+@@ -179,6 +179,30 @@ static inline void fsnotify_inoderemove(struct inode *inode)
+ 	__fsnotify_inode_delete(inode);
+ }
+ 
++/*
++ * fsnotify_path_create - an inode was linked to namespace
++ *
++ * This higher level hook is called in addition to fsnotify_create(),
++ * fsnotify_mkdir() and fsnotify_link() vfs hooks when the mount context is
++ * available, so that FS_CREATE event can be added to a mount mark mask.
++ *
++ * In that case the, DCACHE_PATH_CREATE flag is set to suppress the FS_CREATE
++ * event in the lower level vfs hooks.
++ */
++static inline void fsnotify_path_create(struct path *path,
++					struct dentry *child)
++{
++	struct inode *dir = path->dentry->d_inode;
++	__u32 mask = FS_CREATE;
++
++	WARN_ON_ONCE(!inode_is_locked(dir));
++
++	if (S_ISDIR(d_inode(child)->i_mode))
++		mask |= FS_ISDIR;
++
++	fsnotify(mask, path, FSNOTIFY_EVENT_PATH, dir, &child->d_name, NULL, 0);
++}
++
+ /*
+  * fsnotify_create - 'name' was linked in
+  */
+@@ -186,6 +210,10 @@ static inline void fsnotify_create(struct inode *inode, struct dentry *dentry)
+ {
+ 	audit_inode_child(inode, dentry, AUDIT_TYPE_CHILD_CREATE);
+ 
++	/* fsnotify_path_create() will be called */
++	if (dentry->d_flags & DCACHE_PATH_CREATE)
++		return;
++
+ 	fsnotify_dirent(inode, dentry, FS_CREATE);
+ }
+ 
+@@ -200,6 +228,10 @@ static inline void fsnotify_link(struct inode *dir, struct inode *inode,
+ 	fsnotify_link_count(inode);
+ 	audit_inode_child(dir, new_dentry, AUDIT_TYPE_CHILD_CREATE);
+ 
++	/* fsnotify_path_create() will be called */
++	if (new_dentry->d_flags & DCACHE_PATH_CREATE)
++		return;
++
+ 	fsnotify_name(dir, FS_CREATE, inode, &new_dentry->d_name, 0);
+ }
+ 
+@@ -223,6 +255,10 @@ static inline void fsnotify_mkdir(struct inode *inode, struct dentry *dentry)
+ {
+ 	audit_inode_child(inode, dentry, AUDIT_TYPE_CHILD_CREATE);
+ 
++	/* fsnotify_path_create() will be called */
++	if (dentry->d_flags & DCACHE_PATH_CREATE)
++		return;
++
+ 	fsnotify_dirent(inode, dentry, FS_CREATE | FS_ISDIR);
+ }
+ 
+-- 
+2.30.0
+
