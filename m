@@ -2,108 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A22934DBF6
-	for <lists+linux-api@lfdr.de>; Tue, 30 Mar 2021 00:39:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF4E434DCAC
+	for <lists+linux-api@lfdr.de>; Tue, 30 Mar 2021 01:56:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231322AbhC2Wic convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Mon, 29 Mar 2021 18:38:32 -0400
-Received: from mail-ed1-f51.google.com ([209.85.208.51]:39826 "EHLO
-        mail-ed1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231213AbhC2WiZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Mar 2021 18:38:25 -0400
-Received: by mail-ed1-f51.google.com with SMTP id bf3so15953079edb.6;
-        Mon, 29 Mar 2021 15:38:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=H/vOEpWo/fUM47hOEde/opJk1H2zdUydMbYSM1IgaM0=;
-        b=M6Dr8L4C6ex7PjTm4CWhvefKp16ZN3AdnKszxRRBklUWrz8bsWKpiz8VBioi/le6Gl
-         IyQqGpauPnJF9eT5V4T/av+gm4gCxR0xPsSsZcAYaNRbpfXea6X9QXNnRzGQXY8yZ66A
-         PrOOjIVzAu9U0LNSuPn2khLGxPmrV1Hfd7SCJD9lxgtE9oYyPZi7BN7CN4qpWtV+etbB
-         OcqtAW2a1IEDkBfWAZFnD3NRKOpVpu8JBOeJGU7+EPUWp3svmUuPSqG5PG+R/Ssr0Z8S
-         hAz8wjJrGE4OIWTG8dxvHN9d7/hXkOQg4dnvfSgavCJ0gIsmX69XAPsVharXhwDyO6VA
-         TNDQ==
-X-Gm-Message-State: AOAM5322PVaR353rvFbhbL7lPfIBuk+FooQNz+9g81grJcXIp9KhzJ7W
-        YDJrdcML7S0fmHzipc7NhLKaEgx4+E7HlyE29qY=
-X-Google-Smtp-Source: ABdhPJzzQA34H03pyldj1iynnSyadZmeba9NOdtM0YjOuxa42OL5jWafWTOJ6lF9dyrTXGAqjyYqLQpfMtwcyL4eZSs=
-X-Received: by 2002:aa7:d917:: with SMTP id a23mr30782097edr.122.1617057504671;
- Mon, 29 Mar 2021 15:38:24 -0700 (PDT)
+        id S229441AbhC2XzR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Mar 2021 19:55:17 -0400
+Received: from vmicros1.altlinux.org ([194.107.17.57]:42900 "EHLO
+        vmicros1.altlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230307AbhC2Xyy (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Mar 2021 19:54:54 -0400
+Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
+        by vmicros1.altlinux.org (Postfix) with ESMTP id 4057772C8C5;
+        Tue, 30 Mar 2021 02:54:52 +0300 (MSK)
+Received: by mua.local.altlinux.org (Postfix, from userid 508)
+        id 262387CC8A3; Tue, 30 Mar 2021 02:54:52 +0300 (MSK)
+Date:   Tue, 30 Mar 2021 02:54:52 +0300
+From:   "Dmitry V. Levin" <ldv@altlinux.org>
+To:     Chris Packham <judge.packham@gmail.com>
+Cc:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        musl@lists.openwall.com, carlos@redhat.com, davem@davemloft.net
+Subject: Re: Linux include/uapi/linux/libc-compat.h and Musl
+ include/netinet/in.h incompatibility for __UAPI_DEF_IN6_ADDR_ALT
+Message-ID: <20210329235451.GA20210@altlinux.org>
+References: <CAFOYHZCoqSW3BDywr+u-pHTdupGQjqatD8hR_P1zCdjBWjy8aQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <CAJvTdK=QbPRtZ9zPgu8c9tqxOtaG3apo7u4BBTXP0--qVWA5ig@mail.gmail.com>
- <5F98327E-8EC4-455E-B9E1-74D2F13578C5@amacapital.net>
-In-Reply-To: <5F98327E-8EC4-455E-B9E1-74D2F13578C5@amacapital.net>
-From:   Len Brown <lenb@kernel.org>
-Date:   Mon, 29 Mar 2021 18:38:13 -0400
-Message-ID: <CAJvTdKkP=A4+gOoa+pDwinBf=dBKpe9=_ZFcpx_cFWjqG3p-XQ@mail.gmail.com>
-Subject: Re: Candidate Linux ABI for Intel AMX and hypothetical new related features
-To:     Andy Lutomirski <luto@amacapital.net>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>, X86 ML <x86@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        libc-alpha <libc-alpha@sourceware.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        Rich Felker <dalias@libc.org>, Kyle Huey <me@kylehuey.com>,
-        Keno Fischer <keno@juliacomputing.com>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFOYHZCoqSW3BDywr+u-pHTdupGQjqatD8hR_P1zCdjBWjy8aQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Mar 29, 2021 at 2:16 PM Andy Lutomirski <luto@amacapital.net> wrote:
->
->
-> > On Mar 29, 2021, at 8:47 AM, Len Brown <lenb@kernel.org> wrote:
-> >
-> > ﻿On Sat, Mar 27, 2021 at 5:58 AM Greg KH <gregkh@linuxfoundation.org> wrote:
-> >>> On Fri, Mar 26, 2021 at 11:39:18PM -0400, Len Brown wrote:
-> >>> Hi Andy,
-> >>> Say a mainline links with a math library that uses AMX without the
-> >>> knowledge of the mainline.
-> >
-> > sorry for the confusion.
-> >
-> > mainline = main().
-> >
-> > ie. the part of the program written by you, and not the library you linked with.
-> >
-> > In particular, the library may use instructions that main() doesn't know exist.
->
-> If we pretend for a bit that AMX were a separate device instead of a part of the CPU, this would be a no brainer: something would be responsible for opening a device node or otherwise requesting access to the device.
->
-> Real AMX isn’t so different. Programs acquire access either by syscall or by a fault, they use it, and (hopefully) they release it again using TILERELEASE. The only thing special about it is that, supposedly, acquiring and releasing access (at least after the first time) is quite fast.  But holding access is *not* free — despite all your assertions to the contrary, the kernel *will* correctly context switch it to avoid blowing up power consumption, and this will have overhead.
->
-> We’ve seen the pattern of programs thinking that, just because something is a CPU insn, it’s free and no thought is needed before using it. This happened with AVX and AVX512, and it will happen again with AMX. We *still* have a significant performance regression in the kernel due to screwing up the AVX state machine, and the only way I know about any of the details is that I wrote silly test programs to try to reverse engineer the nonsensical behavior of the CPUs.
->
-> I might believe that Intel has figured out how to make a well behaved XSTATE feature after Intel demonstrates at least once that it’s possible.  That means full documentation of all the weird issues, no new special cases, and the feature actually making sense in the context of XSTATE.  This has not happened.  Let’s list all of them:
->
-> - SSE.  Look for all the MXCSR special cases in the pseudocode and tell me with a straight face that this one works sensibly.
->
-> - AVX.  Also has special cases in the pseudocode. And has transition issues that are still problems and still not fully documented. L
->
-> - AVX2.  Horrible undocumented performance issues.  Otherwise maybe okay?
->
-> - MPX: maybe the best example, but the compat mode part got flubbed and it’s MPX.
->
-> - PKRU: Should never have been in XSTATE. (Also, having WRPKRU in the ISA was a major mistake, now unfixable, that seriously limits the usefulness of the whole feature.  I suppose Intel could release PKRU2 with a better ISA and deprecate the original PKRU, but I’m not holding my breath.)
->
-> - AVX512: Yet more uarch-dependent horrible performance issues, and Intel has still not responded about documentation.  The web is full of people speculating differently about when, exactly, using AVX512 breaks performance. This is NAKked in kernel until docs arrive. Also, it broke old user programs.  If we had noticed a few years ago, AVX512 enablement would have been reverted.
->
-> - AMX: This mess.
->
-> The current system of automatic user enablement does not work. We need something better.
+Hi,
 
-Hi Andy,
+On Tue, Mar 30, 2021 at 12:30:52PM +1300, Chris Packham wrote:
+> Hi,
+> 
+> I've come over from https://github.com/strace/strace/issues/177
+> there's a bit of context there.
+> 
+> Crosstool-ng has hit a problem when building a recent enough version
+> of strace in a configuration that uses musl libc.
+> 
+> The error is
+> 
+> [ALL  ]    In file included from
+> /home/x-tool/.build/arm-unknown-linux-musleabi/src/strace/bundled/linux/include/uapi/linux/in6.h:26,
+> [ALL  ]                     from
+> /home/x-tool/.build/arm-unknown-linux-musleabi/src/strace/bundled/linux/include/uapi/linux/if_bridge.h:19,
+> [ALL  ]                     from
+> /home/x-tool/.build/arm-unknown-linux-musleabi/src/strace/src/rtnl_mdb.c:16:
+> [ERROR]    /home/x-tool/.build/arm-unknown-linux-musleabi/src/strace/bundled/linux/include/uapi/linux/libc-compat.h:109:
+> error: "__UAPI_DEF_IN6_ADDR_ALT" redefined [-Werror]
+> [ALL  ]      109 | #define __UAPI_DEF_IN6_ADDR_ALT  1
+> [ALL  ]          |
+> [ALL  ]    In file included from
+> /home/x-tool/.build/arm-unknown-linux-musleabi/src/strace/src/rtnl_mdb.c:15:
+> [ALL  ]    /home/x-tool/x-tools/arm-unknown-linux-musleabi/arm-unknown-linux-musleabi/sysroot/usr/include/netinet/in.h:401:
+> note: this is the location of the previous definition
+> [ALL  ]      401 | #define __UAPI_DEF_IN6_ADDR_ALT 0
+> [ALL  ]          |
+> [ALL  ]    cc1: all warnings being treated as errors
+> [ERROR]    make[4]: *** [Makefile:6660: libstrace_a-rtnl_mdb.o] Error 1
+> [ALL  ]    make[4]: Leaving directory
+> '/home/x-tool/.build/arm-unknown-linux-musleabi/build/build-strace/src'
+> [ERROR]    make[3]: *** [Makefile:2404: all] Error 2
+> [ALL  ]    rm ioctlsort0.o ioctls_all0.h ioctlsort0
+> [ALL  ]    make[3]: Leaving directory
+> '/home/x-tool/.build/arm-unknown-linux-musleabi/build/build-strace/src'
+> [ERROR]    make[2]: *** [Makefile:601: all-recursive] Error 1
+> [ALL  ]    make[2]: Leaving directory
+> '/home/x-tool/.build/arm-unknown-linux-musleabi/build/build-strace'
+> [ERROR]    make[1]: *** [Makefile:506: all] Error 2
+> [ALL  ]    make[1]: Leaving directory
+> '/home/x-tool/.build/arm-unknown-linux-musleabi/build/build-strace'
+> 
+> It appears that the bundled uapi headers definition of
+> __UAPI_DEF_IN6_ADDR_ALT conflicts with the musl libc definition. It
+> looks like libc-compat.h tries to co-exists with GNU libc but this
+> isn't working for musl.
 
-Can you provide a concise definition of the exact problemI(s) this thread
-is attempting to address?
+This essentially means that such basic things as
+#include <netinet/in.h>
+#include <linux/in6.h>
+are broken in your setup.
 
-Thank ahead-of-time for excluding "blow up power consumption",
-since that paranoia is not grounded in fact.
 
-thanks,
--Len
+-- 
+ldv
