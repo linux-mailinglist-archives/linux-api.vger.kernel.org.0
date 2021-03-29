@@ -2,182 +2,124 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C77C234CDB4
-	for <lists+linux-api@lfdr.de>; Mon, 29 Mar 2021 12:11:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 294E134D351
+	for <lists+linux-api@lfdr.de>; Mon, 29 Mar 2021 17:08:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232663AbhC2KLI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Mar 2021 06:11:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44768 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232547AbhC2KKo (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Mar 2021 06:10:44 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 986C8C061756
-        for <linux-api@vger.kernel.org>; Mon, 29 Mar 2021 03:10:43 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id o10so17550858lfb.9
-        for <linux-api@vger.kernel.org>; Mon, 29 Mar 2021 03:10:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=TrrPoo3NF06Hriy1kiCCzSGcqBJEQPrLMgSJHsg60T0=;
-        b=MEEB4gQC+frgKiF9qxjZWukNl+J2hRwRFu7J1PqfnMfeey07tHMtQDPvdpfUrJMj+v
-         ygJO68J8dLSogekKUyuyEXo8RQTJ807gbbBdBq6oagwJBdc2IRBWavSbj7y0TeaYGk7E
-         1GMkHLPx64SGknP3wTP3iIwhW/hsV3/W7y4ZI2wuMVuSBy4bV9ff4rSSppPkrnAbmDgR
-         DUn7cyCOUbkSRIfa4trfe9SwiqvhtJKOiqg6ST1RQmHRJJnJUUL32FPYbRR2YeR7KN3I
-         R5SyHZOtuaxGBK7ZXgmwHbpEg33N9z5EquYbNO9sYVg5nO/6x0zL17e5dB0XQojSvKub
-         IXGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=TrrPoo3NF06Hriy1kiCCzSGcqBJEQPrLMgSJHsg60T0=;
-        b=IUGhCqhrk/4N6+/IB2CsfC82ZTQd9CJ9NqZQBZaem/UKoWoXKNbkFw2UWu8K1ePLiL
-         xvU4PttxiYOqG1n26Td2RyC5q7VJLz0O/mjZ18jUWrUEPPBd58iCIbAwc4XNWjX60JDM
-         /GoOORzrN8TugklsHwIcLvv68zmBYHyBbenItbGVa8XusILPJEeCoijGhfFCPWTiAH2s
-         GMd/LVaHFdhbmb1LBAX8caZLi2z0p3IOZixFUtyvvGCPL3Yf/W/frkporXMQ4a7SQmCU
-         mkCwpf7K2yhOAck3kRDArtqtTNN2oM/tFVnH0czwevMNgrG7r1YenWwM4tcJW4vk3sbs
-         DwJA==
-X-Gm-Message-State: AOAM531cneRTMl+kKC5XDuTlLZfR0V8ee4ESjrL1ho11uKwkL7pLurRW
-        uMNL5VeLQKZcl3Des8uYXkQNoQ==
-X-Google-Smtp-Source: ABdhPJzFN60J7EkuzOGOBl18JQs7UDI+EF00tDUs2xAE6AjR6wmyHSPcLg0T1AveZfh8xHdfaQ/2vg==
-X-Received: by 2002:a05:6512:3089:: with SMTP id z9mr16097622lfd.496.1617012642015;
-        Mon, 29 Mar 2021 03:10:42 -0700 (PDT)
-Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id r66sm1776883lff.93.2021.03.29.03.10.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Mar 2021 03:10:41 -0700 (PDT)
-Received: by box.localdomain (Postfix, from userid 1000)
-        id DB6C5101FC8; Mon, 29 Mar 2021 13:10:40 +0300 (+03)
-Date:   Mon, 29 Mar 2021 13:10:40 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
+        id S229955AbhC2PH2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Mar 2021 11:07:28 -0400
+Received: from mga18.intel.com ([134.134.136.126]:59333 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230475AbhC2PHD (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 29 Mar 2021 11:07:03 -0400
+IronPort-SDR: Xop5fxtpcYw1CHFC+F4Z6ZmV7P0oAsnQtC7/ik6KPom92AiqryS2DZoGPh1eMFcAQEQEECbpvD
+ Q6uXo0IcgsPA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9938"; a="179108189"
+X-IronPort-AV: E=Sophos;i="5.81,288,1610438400"; 
+   d="scan'208";a="179108189"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2021 08:07:01 -0700
+IronPort-SDR: Is5J99+pHpoobgtCh6qg1/4mlY2+6LvOhQZLrfY/wIHtoDJ+fMFl/wYTjZVQFMSCcdpjlswiKk
+ rKcbi86vCnGw==
+X-IronPort-AV: E=Sophos;i="5.81,288,1610438400"; 
+   d="scan'208";a="411125582"
+Received: from jmwolcot-mobl.amr.corp.intel.com (HELO [10.209.158.84]) ([10.209.158.84])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2021 08:07:00 -0700
+Subject: Re: Candidate Linux ABI for Intel AMX and hypothetical new related
+ features
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Andy Lutomirski <luto@kernel.org>
+Cc:     "Bae, Chang Seok" <chang.seok.bae@intel.com>,
+        X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        libc-alpha <libc-alpha@sourceware.org>,
         Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v23 18/28] mm/mmap: Add shadow stack pages to memory
- accounting
-Message-ID: <20210329101040.sra6aqvgjbmy72bj@box>
-References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
- <20210316151054.5405-19-yu-cheng.yu@intel.com>
- <20210322105729.24rt4nwc3blipxsr@box>
- <4b926140-66ac-f538-df94-8213b8a2ab86@intel.com>
+        Rich Felker <dalias@libc.org>, Kyle Huey <me@kylehuey.com>,
+        Keno Fischer <keno@juliacomputing.com>,
+        Linux API <linux-api@vger.kernel.org>
+References: <CALCETrW2QHa2TLvnUuVxAAheqcbSZ-5_WRXtDSAGcbG8N+gtdQ@mail.gmail.com>
+ <CALCETrUBC34NSHj3eLScYtHJk_7ZHOVJZVPkdLUXemPEiyA_uA@mail.gmail.com>
+ <87o8f4cd50.ffs@nanos.tec.linutronix.de>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <a535e22d-b87d-6b26-bb92-086cea52504c@intel.com>
+Date:   Mon, 29 Mar 2021 08:06:59 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4b926140-66ac-f538-df94-8213b8a2ab86@intel.com>
+In-Reply-To: <87o8f4cd50.ffs@nanos.tec.linutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Mar 26, 2021 at 08:46:30AM -0700, Yu, Yu-cheng wrote:
-> On 3/22/2021 3:57 AM, Kirill A. Shutemov wrote:
-> > On Tue, Mar 16, 2021 at 08:10:44AM -0700, Yu-cheng Yu wrote:
-> > > Account shadow stack pages to stack memory.
-> > > 
-> > > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > > Reviewed-by: Kees Cook <keescook@chromium.org>
-> > > ---
-> > >   arch/x86/mm/pgtable.c   |  7 +++++++
-> > >   include/linux/pgtable.h | 11 +++++++++++
-> > >   mm/mmap.c               |  5 +++++
-> > >   3 files changed, 23 insertions(+)
-> > > 
-> > > diff --git a/arch/x86/mm/pgtable.c b/arch/x86/mm/pgtable.c
-> > > index 0f4fbf51a9fc..948d28c29964 100644
-> > > --- a/arch/x86/mm/pgtable.c
-> > > +++ b/arch/x86/mm/pgtable.c
-> > > @@ -895,3 +895,10 @@ int pmd_free_pte_page(pmd_t *pmd, unsigned long addr)
-> > >   #endif /* CONFIG_X86_64 */
-> > >   #endif	/* CONFIG_HAVE_ARCH_HUGE_VMAP */
-> > > +
-> > > +#ifdef CONFIG_ARCH_HAS_SHADOW_STACK
-> > > +bool arch_shadow_stack_mapping(vm_flags_t vm_flags)
-> > > +{
-> > > +	return (vm_flags & VM_SHSTK);
-> > > +}
-> > > +#endif
-> > > diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-> > > index cbd98484c4f1..487c08df4365 100644
-> > > --- a/include/linux/pgtable.h
-> > > +++ b/include/linux/pgtable.h
-> > > @@ -1470,6 +1470,17 @@ static inline pmd_t arch_maybe_pmd_mkwrite(pmd_t pmd, struct vm_area_struct *vma
-> > >   #endif /* CONFIG_ARCH_MAYBE_MKWRITE */
-> > >   #endif /* CONFIG_MMU */
-> > > +#ifdef CONFIG_MMU
-> > > +#ifdef CONFIG_ARCH_HAS_SHADOW_STACK
-> > > +bool arch_shadow_stack_mapping(vm_flags_t vm_flags);
-> > > +#else
-> > > +static inline bool arch_shadow_stack_mapping(vm_flags_t vm_flags)
-> > > +{
-> > > +	return false;
-> > > +}
-> > > +#endif /* CONFIG_ARCH_HAS_SHADOW_STACK */
-> > > +#endif /* CONFIG_MMU */
-> > > +
-> > >   /*
-> > >    * Architecture PAGE_KERNEL_* fallbacks
-> > >    *
-> > > diff --git a/mm/mmap.c b/mm/mmap.c
-> > > index 3f287599a7a3..2ac67882ace2 100644
-> > > --- a/mm/mmap.c
-> > > +++ b/mm/mmap.c
-> > > @@ -1718,6 +1718,9 @@ static inline int accountable_mapping(struct file *file, vm_flags_t vm_flags)
-> > >   	if (file && is_file_hugepages(file))
-> > >   		return 0;
-> > > +	if (arch_shadow_stack_mapping(vm_flags))
-> > > +		return 1;
-> > > +
-> > 
-> > What's wrong with testing (vm_flags & VM_SHSTK) here? VM_SHSTK is 0 on
-> > non-x86.
-> > 
-> > >   	return (vm_flags & (VM_NORESERVE | VM_SHARED | VM_WRITE)) == VM_WRITE;
-> > >   }
-> > > @@ -3387,6 +3390,8 @@ void vm_stat_account(struct mm_struct *mm, vm_flags_t flags, long npages)
-> > >   		mm->stack_vm += npages;
-> > >   	else if (is_data_mapping(flags))
-> > >   		mm->data_vm += npages;
-> > > +	else if (arch_shadow_stack_mapping(flags))
-> > > +		mm->stack_vm += npages;
-> > 
-> > Ditto.
-> > 
-> 
-> The thought was, here all testings are done with helpers, e.g.
-> is_data_mapping(), so creating a helper for shadow stack is more inline with
-> the existing code.  Or, maybe we can call it is_shadow_stack_mapping()?
-> And, since we have a helper, use it in accountable_mapping() as well.  Or do
-> you have other suggestions?
+On 3/27/21 5:53 PM, Thomas Gleixner wrote:
+> Making it solely depend on XCR0 and fault if not requested upfront is
+> bringing you into the situation that you broke 'legacy code' which
+> relied on the CPUID bit and that worked until now which gets you
+> in the no-regression trap.
 
-is_shadow_stack_mapping() sounds reasonable.
+Trying to find the right place to jump into this thread... :)
 
-My point is that we already have ifdef around #define VM_SHSTK. No need in
-duplicating it for helper.
+I don't know what apps do in practice.  But, the enumeration of the
+features in the SDM describes three steps:
+1. Check for XGETBV support
+2. Use XGETBV[0] to check that the OS is aware of the feature and is
+   context-switching it
+3. Detect the feature itself
 
--- 
- Kirill A. Shutemov
+So, apps *are* supposed to be checking XCR0 via XGETBV.  If they don't,
+they run the risk of a feature being supported by the CPU and the
+registers "working" but not being context-switched.
+
+Zeroing out bits in XCR0 will have the effect of telling the app that
+the OS isn't context-switching the state.  I think this means that apps
+will see the same thing in both situations:
+1. If they run an old (say pre-AVX-512) kernel on new AVX-512-enabled
+   hardware, or
+2. They run a new kernel with this fancy proposed XCR0-switching
+   mechanism
+
+I _think_ that gets us off the hook for an ABI break, at least for AVX-512.
