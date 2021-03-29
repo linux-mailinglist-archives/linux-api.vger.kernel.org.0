@@ -2,72 +2,82 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEC9E34D542
-	for <lists+linux-api@lfdr.de>; Mon, 29 Mar 2021 18:40:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AB5134D568
+	for <lists+linux-api@lfdr.de>; Mon, 29 Mar 2021 18:49:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230434AbhC2Qjd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Mar 2021 12:39:33 -0400
-Received: from mail-ej1-f45.google.com ([209.85.218.45]:37675 "EHLO
-        mail-ej1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230329AbhC2QjL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Mar 2021 12:39:11 -0400
-Received: by mail-ej1-f45.google.com with SMTP id w3so20495664ejc.4;
-        Mon, 29 Mar 2021 09:39:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HQBzHMmoWkQcaprrOUSdhejJEll5+CAI/Ph1n47/PJw=;
-        b=aXJ6nCTAcMIUUMfsjlCRMqOemgfASMfudMfr7pYVFUEMyEBV/+LeHqigFZfZdvxrx/
-         G/e5DSOIO7PvgAktIN6k+obCdE50ru9Q2qDUT2hnC6o0XSRN2/3HlkwKnCR8/skY3kbv
-         8UOEasyunFwOpPsONnLoan9/oM47R3DSnSO/R+FPUaRslhn2xpqkBoJFwY93s64l1Q67
-         n9M1DFjKdyOnrL5mE8fsK5k3pi+PRLFfK8AtvIRV3IuXVuplBlPqddrO1ps0O/IZseu5
-         QLY8IumlWe9lORgVZ/y0FMRV/VwKSMf+zVCMoZRrLPcbmQceubJOR/Szw+OE8NskVQKY
-         nFUg==
-X-Gm-Message-State: AOAM530e/ZF0fOAQGIM3T7hmJ/KD2eivh9PxhmpvvFxbBRsdK2/TF/D9
-        tvTwGXzL/CwboXRDFuROkjdbUAkNuMUhvUyMVkZ19Jvr
-X-Google-Smtp-Source: ABdhPJxjNrDcuW6fqcnTahZ6x0HV9VofKao6CrqWau5z1tsA6fl+HcOu2Ky9NWP5J3t8vPib8G1j0TqQqFN0HBYRtBM=
-X-Received: by 2002:a17:906:b4c:: with SMTP id v12mr29508059ejg.330.1617035950748;
- Mon, 29 Mar 2021 09:39:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <CALCETrW2QHa2TLvnUuVxAAheqcbSZ-5_WRXtDSAGcbG8N+gtdQ@mail.gmail.com>
- <CALCETrUBC34NSHj3eLScYtHJk_7ZHOVJZVPkdLUXemPEiyA_uA@mail.gmail.com>
- <CAJvTdKm8aQPwQMXFQWgVb5dfJ88ds3d0=uHOyWeueUqfya9Nsw@mail.gmail.com>
- <YF8B3M9qihZzCf3n@kroah.com> <CAJvTdK=QbPRtZ9zPgu8c9tqxOtaG3apo7u4BBTXP0--qVWA5ig@mail.gmail.com>
-In-Reply-To: <CAJvTdK=QbPRtZ9zPgu8c9tqxOtaG3apo7u4BBTXP0--qVWA5ig@mail.gmail.com>
-From:   Len Brown <lenb@kernel.org>
-Date:   Mon, 29 Mar 2021 12:38:59 -0400
-Message-ID: <CAJvTdKkKhCFpaWm1hb8r3GHx10KBRQvpJNTtYPSAc6m28A7sQA@mail.gmail.com>
+        id S231281AbhC2Qsa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Mar 2021 12:48:30 -0400
+Received: from albireo.enyo.de ([37.24.231.21]:45770 "EHLO albireo.enyo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229630AbhC2QsR (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 29 Mar 2021 12:48:17 -0400
+Received: from [172.17.203.2] (port=58345 helo=deneb.enyo.de)
+        by albireo.enyo.de ([172.17.140.2]) with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1lQv3d-0006Ik-Dr; Mon, 29 Mar 2021 16:48:05 +0000
+Received: from fw by deneb.enyo.de with local (Exim 4.92)
+        (envelope-from <fw@deneb.enyo.de>)
+        id 1lQv3d-000688-9F; Mon, 29 Mar 2021 18:48:05 +0200
+From:   Florian Weimer <fw@deneb.enyo.de>
+To:     Len Brown via Libc-alpha <libc-alpha@sourceware.org>
+Cc:     Greg KH <gregkh@linuxfoundation.org>, Len Brown <lenb@kernel.org>,
+        Rich Felker <dalias@libc.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        "Bae\, Chang Seok" <chang.seok.bae@intel.com>,
+        X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Kyle Huey <me@kylehuey.com>, Andy Lutomirski <luto@kernel.org>,
+        Keno Fischer <keno@juliacomputing.com>
 Subject: Re: Candidate Linux ABI for Intel AMX and hypothetical new related features
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>, X86 ML <x86@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        libc-alpha <libc-alpha@sourceware.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        Rich Felker <dalias@libc.org>, Kyle Huey <me@kylehuey.com>,
-        Keno Fischer <keno@juliacomputing.com>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+References: <CALCETrW2QHa2TLvnUuVxAAheqcbSZ-5_WRXtDSAGcbG8N+gtdQ@mail.gmail.com>
+        <CALCETrUBC34NSHj3eLScYtHJk_7ZHOVJZVPkdLUXemPEiyA_uA@mail.gmail.com>
+        <CAJvTdKm8aQPwQMXFQWgVb5dfJ88ds3d0=uHOyWeueUqfya9Nsw@mail.gmail.com>
+        <YF8B3M9qihZzCf3n@kroah.com>
+        <CAJvTdK=QbPRtZ9zPgu8c9tqxOtaG3apo7u4BBTXP0--qVWA5ig@mail.gmail.com>
+        <CAJvTdKkKhCFpaWm1hb8r3GHx10KBRQvpJNTtYPSAc6m28A7sQA@mail.gmail.com>
+Date:   Mon, 29 Mar 2021 18:48:05 +0200
+In-Reply-To: <CAJvTdKkKhCFpaWm1hb8r3GHx10KBRQvpJNTtYPSAc6m28A7sQA@mail.gmail.com>
+        (Len Brown via Libc-alpha's message of "Mon, 29 Mar 2021 12:38:59
+        -0400")
+Message-ID: <87eefxucsa.fsf@mid.deneb.enyo.de>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-> In particular, the library may use instructions that main() doesn't know exist.
+* Len Brown via Libc-alpha:
 
-And so I'll ask my question another way.
+>> In particular, the library may use instructions that main() doesn't know exist.
+>
+> And so I'll ask my question another way.
+>
+> How is it okay to change the value of XCR0 during the run time of a
+> program?
+>
+> I submit that it is not, and that is a deal-killer for a
+> request/release API.
+>
+> eg.  main() doesn't know that the math library wants to use AMX, and
+> neither does the threading library.  So main() doesn't know to call
+> the API before either library is invoked.  The threading library
+> starts up and creates user-space threads based on the initial value
+> from XCR0.  Then the math library calls the API, which adds bits to
+> XCRO, and then the user-space context switch in the threading
+> library corrupts data because the new XCR0 size doesn't match the
+> initial size.
 
-How is it okay to change the value of XCR0 during the run time of a program?
+I agree that this doesn't quite work.  (Today, it's not the thread
+library, but the glibc dynamic loader trampoline.)
 
-I submit that it is not, and that is a deal-killer for a request/release API.
+I disagree that CPU feature enablement has been a failure.  I think we
+are pretty good at enabling new CPU features on older operating
+systems, not just bleeding edge mainline kernels.  Part of that is
+that anything but the kernel stays out of the way, and most features
+are available directly via inline assembly (you can even use .byte
+hacks if you want).  There is no need to switch to new userspace
+libraries, compile out-of-tree kernel drivers that have specific
+firmware requirements, and so on.
 
-eg.  main() doesn't know that the math library wants to use AMX,
-and neither does the threading library.  So main() doesn't know to
-call the API before either library is invoked.  The threading library starts up
-and creates user-space threads based on the initial value from XCR0.
-Then the math library calls the API, which adds bits to XCRO,
-and then the user-space context switch in the threading library corrupts data
-because the new XCR0 size doesn't match the initial size.
-
--Len
+If the operations that need a huge context can be made idempotent,
+with periodic checkpoints, it might be possible to avoid saving the
+context completely by some rseq-like construct.
