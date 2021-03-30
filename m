@@ -2,145 +2,163 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74CD534EDB4
-	for <lists+linux-api@lfdr.de>; Tue, 30 Mar 2021 18:25:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28DB334EDDF
+	for <lists+linux-api@lfdr.de>; Tue, 30 Mar 2021 18:32:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232357AbhC3QYg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 30 Mar 2021 12:24:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42350 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231998AbhC3QYO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 30 Mar 2021 12:24:14 -0400
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20197C061574;
-        Tue, 30 Mar 2021 09:24:14 -0700 (PDT)
-Received: by mail-io1-xd32.google.com with SMTP id j26so17005958iog.13;
-        Tue, 30 Mar 2021 09:24:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+Knh+HBabEcIpHLKAfb96iLF6cZ5htGgMZTF/1gEtTQ=;
-        b=i7hnewJB51iYwjlZxbtWs9X/oVTTOUcx/J69a0fezpI67zWcYM4w8pZ/92IsmNYWGh
-         L5GuRsoQai6VofmmL4qhAsMj/XiOTlwQNTbf67zi2LPcqD3NEQXhQpCYv6TjKjfjiw+M
-         Fv5g0ESPFXk6+YgLHN3xDpkfbrY7oJfTJJLDA99oXNWwKf9hPJtalEjlob4iptWqhpCX
-         tG1fuV+8HnmgKNl7PfUO7RudywRa7JSu5yrsCsuuWT050bY6uem1n3dIyJi60bZLMjMj
-         MXPceoZJ8OslCteyNXA+hhxbg++tu/QNLeMKPqAiPhXwmqF8DkqdYf5F3bPpDtspTrz1
-         UTKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+Knh+HBabEcIpHLKAfb96iLF6cZ5htGgMZTF/1gEtTQ=;
-        b=pxiD5MDQcZ/quettOhQh3sPjhm++6sKgR6kv/+ygsh4y6aKDlKeGTHeOP67LwUECB2
-         Wf02BhAA4q4zvZkn3ejRlo7IUnwtQrzTgphfgjB+2gBpdwPpHKHctN3XMjG1BZ8DNmRg
-         0XffJ8AkJGe4P8j7+ldYO2NRnNEihYqgY20NsDUeEW7ilzF9gUNEWP2feqhaSRzG+Xoj
-         37UclFiS5BoNzNoRm4d8NhMYyjOXlDCvy6ekX30nW6KO1Vel0dII4LNIfxT9R4w+Tz8U
-         bddubCQSNbNChMFdI6pk9Jm4YmlD3NCGTla9/RQpkqzCqU9dwE7k+7r/lG1y66d64AEq
-         1Njw==
-X-Gm-Message-State: AOAM533xyd4i2tX84TipKI/lPu10WBqw51xBwM9+FdyZngdZik5h1ANP
-        JhhUyugSLAgS0sN1sLK2QrLlEh3VNEQWUQ7xYIs=
-X-Google-Smtp-Source: ABdhPJyzxxsv0BNcHrD/89YAfLRiQ3paJnj7ow/E3+GkwmFxaKcWEZVzl9KgZLH924GBq8722y4QiMdPWb8+w7Hx3vI=
-X-Received: by 2002:a05:6638:1388:: with SMTP id w8mr23837889jad.30.1617121453564;
- Tue, 30 Mar 2021 09:24:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210328155624.930558-1-amir73il@gmail.com> <20210330073101.5pqvw72fxvyp5kvf@wittgenstein>
- <CAOQ4uxjQFGdT0xH17pm-nSKE_0--z_AapRW70MNrLJLcCB6MAg@mail.gmail.com>
-In-Reply-To: <CAOQ4uxjQFGdT0xH17pm-nSKE_0--z_AapRW70MNrLJLcCB6MAg@mail.gmail.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Tue, 30 Mar 2021 19:24:02 +0300
-Message-ID: <CAOQ4uxiizVxVJgtytYk_o7GvG2O2qwyKHgScq8KLhq218CNdnw@mail.gmail.com>
-Subject: Re: [RFC][PATCH] fanotify: allow setting FAN_CREATE in mount mark mask
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Jan Kara <jack@suse.cz>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        id S231532AbhC3Qbg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 30 Mar 2021 12:31:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53418 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231797AbhC3QbQ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 30 Mar 2021 12:31:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617121876;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ohkgyyxTZN8asq9XvjHpqzqG5vkxDUnIvcSn+C26Z30=;
+        b=aBbAg8Ymq9gXSzGLDZQgso/WXc2ly0xoTAvCSet/8F8RhHEXIMQjdg3zReseKpH/U/4T3h
+        ndVAAsf/0zrA55PFxnDJsZMh8li5O2KnBWOGks/0orre8uMcGyN/EFOo96giYnBpdVPxeU
+        gjvTbiRyDp3qr0bEDjoCg8OlAYcAbuk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-458-0uvCyz42NpC1Gxo_46jo1w-1; Tue, 30 Mar 2021 12:31:12 -0400
+X-MC-Unique: 0uvCyz42NpC1Gxo_46jo1w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 026CD18C89CF;
+        Tue, 30 Mar 2021 16:31:09 +0000 (UTC)
+Received: from [10.36.114.210] (ovpn-114-210.ams2.redhat.com [10.36.114.210])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A87E610016DB;
+        Tue, 30 Mar 2021 16:30:49 +0000 (UTC)
+Subject: Re: [PATCH v1 2/5] mm/madvise: introduce MADV_POPULATE_(READ|WRITE)
+ to prefault/prealloc memory
+To:     Jann Horn <jannh@google.com>
+Cc:     kernel list <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>, Michal Hocko <mhocko@suse.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Matthew Wilcox <willy@infradead.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Hugh Dickins <hughd@google.com>,
+        Rik van Riel <riel@surriel.com>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>, Chris Zankel <chris@zankel.net>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Peter Xu <peterx@redhat.com>,
+        Rolf Eike Beer <eike-kernel@sf-tec.de>,
+        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        linux-arch <linux-arch@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+References: <20210317110644.25343-1-david@redhat.com>
+ <20210317110644.25343-3-david@redhat.com>
+ <CAG48ez0BQ3Vd3nDLEvyiSU0XALgUQ=c-fAwcFVScUkgo_9qVuQ@mail.gmail.com>
+ <2bab28c7-08c0-7ff0-c70e-9bf94da05ce1@redhat.com>
+ <CAG48ez20rLRNPZj6hLHQ_PLT8H60kTac-uXRiLByD70Q7+qsdQ@mail.gmail.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <26227fc6-3e7b-4e69-f69d-4dc2a67ecfe8@redhat.com>
+Date:   Tue, 30 Mar 2021 18:30:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
+MIME-Version: 1.0
+In-Reply-To: <CAG48ez20rLRNPZj6hLHQ_PLT8H60kTac-uXRiLByD70Q7+qsdQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 30, 2021 at 12:31 PM Amir Goldstein <amir73il@gmail.com> wrote:
->
-> On Tue, Mar 30, 2021 at 10:31 AM Christian Brauner
-> <christian.brauner@ubuntu.com> wrote:
-> >
-> > On Sun, Mar 28, 2021 at 06:56:24PM +0300, Amir Goldstein wrote:
-> > > Add a high level hook fsnotify_path_create() which is called from
-> > > syscall context where mount context is available, so that FAN_CREATE
-> > > event can be added to a mount mark mask.
-> > >
-> > > This high level hook is called in addition to fsnotify_create(),
-> > > fsnotify_mkdir() and fsnotify_link() hooks in vfs helpers where the mount
-> > > context is not available.
-> > >
-> > > In the context where fsnotify_path_create() will be called, a dentry flag
-> > > flag is set on the new dentry the suppress the FS_CREATE event in the vfs
-> > > level hooks.
-> > >
-> > > This functionality was requested by Christian Brauner to replace
-> > > recursive inotify watches for detecting when some path was created under
-> > > an idmapped mount without having to monitor FAN_CREATE events in the
-> > > entire filesystem.
-> > >
-> > > In combination with more changes to allow unprivileged fanotify listener
-> > > to watch an idmapped mount, this functionality would be usable also by
-> > > nested container managers.
-> > >
-> > > Link: https://lore.kernel.org/linux-fsdevel/20210318143140.jxycfn3fpqntq34z@wittgenstein/
-> > > Cc: Christian Brauner <christian.brauner@ubuntu.com>
-> > > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> > > ---
-> >
-> > Was about to look at this. Does this require preliminary patches since
-> > it doesn't apply to current master. If so, can you just give me a link
-> > to a branch so I can pull from that? :)
-> >
->
-> The patch is less useful on its own.
-> Better take the entire work for the demo which includes this patch:
->
-> [1] https://github.com/amir73il/linux/commits/fanotify_userns
-> [2] https://github.com/amir73il/inotify-tools/commits/fanotify_userns
->
+On 30.03.21 18:21, Jann Horn wrote:
+> On Tue, Mar 30, 2021 at 5:01 PM David Hildenbrand <david@redhat.com> wrote:
+>>>> +long faultin_vma_page_range(struct vm_area_struct *vma, unsigned long start,
+>>>> +                           unsigned long end, bool write, int *locked)
+>>>> +{
+>>>> +       struct mm_struct *mm = vma->vm_mm;
+>>>> +       unsigned long nr_pages = (end - start) / PAGE_SIZE;
+>>>> +       int gup_flags;
+>>>> +
+>>>> +       VM_BUG_ON(!PAGE_ALIGNED(start));
+>>>> +       VM_BUG_ON(!PAGE_ALIGNED(end));
+>>>> +       VM_BUG_ON_VMA(start < vma->vm_start, vma);
+>>>> +       VM_BUG_ON_VMA(end > vma->vm_end, vma);
+>>>> +       mmap_assert_locked(mm);
+>>>> +
+>>>> +       /*
+>>>> +        * FOLL_HWPOISON: Return -EHWPOISON instead of -EFAULT when we hit
+>>>> +        *                a poisoned page.
+>>>> +        * FOLL_POPULATE: Always populate memory with VM_LOCKONFAULT.
+>>>> +        * !FOLL_FORCE: Require proper access permissions.
+>>>> +        */
+>>>> +       gup_flags = FOLL_TOUCH | FOLL_POPULATE | FOLL_MLOCK | FOLL_HWPOISON;
+>>>> +       if (write)
+>>>> +               gup_flags |= FOLL_WRITE;
+>>>> +
+>>>> +       /*
+>>>> +        * See check_vma_flags(): Will return -EFAULT on incompatible mappings
+>>>> +        * or with insufficient permissions.
+>>>> +        */
+>>>> +       return __get_user_pages(mm, start, nr_pages, gup_flags,
+>>>> +                               NULL, NULL, locked);
+>>>
+>>> You mentioned in the commit message that you don't want to actually
+>>> dirty all the file pages and force writeback; but doesn't
+>>> POPULATE_WRITE still do exactly that? In follow_page_pte(), if
+>>> FOLL_TOUCH and FOLL_WRITE are set, we mark the page as dirty:
+>>
+>> Well, I mention that POPULATE_READ explicitly doesn't do that. I
+>> primarily set it because populate_vma_page_range() also sets it.
+>>
+>> Is it safe to *not* set it? IOW, fault something writable into a page
+>> table (where the CPU could dirty it without additional page faults)
+>> without marking it accessed? For me, this made logically sense. Thus I
+>> also understood why populate_vma_page_range() set it.
+> 
+> FOLL_TOUCH doesn't have anything to do with installing the PTE - it
+> essentially means "the caller of get_user_pages wants to read/write
+> the contents of the returned page, so please do the same things you
+> would do if userspace was accessing the page". So in particular, if
+> you look up a page via get_user_pages() with FOLL_WRITE|FOLL_TOUCH,
+> that tells the MM subsystem "I will be writing into this page directly
+> from the kernel, bypassing the userspace page tables, so please mark
+> it as dirty now so that it will be properly written back later". Part
+> of that is that it marks the page as recently used, which has an
+> effect on LRU pageout behavior, I think - as far as I understand, that
+> is why populate_vma_page_range() uses FOLL_TOUCH.
+> 
+> If you look at __get_user_pages(), you can see that it is split up
+> into two major parts: faultin_page() for creating PTEs, and
+> follow_page_mask() for grabbing pages from PTEs. faultin_page()
+> ignores FOLL_TOUCH completely; only follow_page_mask() uses it.
+> 
+> In a way I guess maybe you do want the "mark as recently accessed"
+> part that FOLL_TOUCH would give you without FOLL_WRITE? But I think
+> you very much don't want the dirtying that FOLL_TOUCH|FOLL_WRITE leads
+> to. Maybe the ideal approach would be to add a new FOLL flag to say "I
+> only want to mark as recently used, I don't want to dirty". Or maybe
+> it's enough to just leave out the FOLL_TOUCH entirely, I don't know.
 
-Christian,
+Any thoughts why populate_vma_page_range() does it?
 
-Apologies for the fast moving target.
-I just force force the kernel+demo branches to include support for
-the two extra events (delete and move) on mount mark.
-
-3dd3d7f02717...6cfe8f7a9148 fanotify_userns -> fanotify_userns (forced update)
-
-The same demo I described before with a mix of:
-- CREATE event on MOUNT mark
-- Rest of events on recursive inode marks
-Still work when running demo script with --fanotify --recursive
-on idmapped mount
-
-But now the demo also works with --global on idmapped mount
-by setting up only a mount mark to watch most events
-excluding the unsupported events (see below).
-
+-- 
 Thanks,
-Amir.
 
-# ./test_demo.sh /mnt 0
-+ WD=/mnt
-+ ID=0
-...
-+ inotifywatch --global -w --timeout -2 /mnt
-Establishing filesystem global watch...
-...
-total  modify  close_write  move_self  create  delete  filename
-3      0       1            0          1       1       /mnt/a/1 (deleted)
-2      0       1            0          1       0       /mnt/a/0 (deleted)
-2      0       1            0          1       0       /mnt/a/2
-2      0       1            0          1       0       /mnt/a/3
-2      0       0            0          1       1       /mnt/a/dir1 (deleted)
-2      0       1            0          1       0       /mnt/a/dir2/A/B/C/file2
-1      0       0            0          1       0       /mnt/a/dir0 (deleted)
-1      0       0            0          1       0       /mnt/a/dir2
-1      0       0            0          1       0       /mnt/a/dir2/A
-1      0       0            0          1       0       /mnt/a/dir2/A/B
-1      0       0            0          1       0       /mnt/a/dir2/A/B/C
+David / dhildenb
+
