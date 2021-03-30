@@ -2,42 +2,29 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 185BF34F25B
-	for <lists+linux-api@lfdr.de>; Tue, 30 Mar 2021 22:43:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03DA534F3E7
+	for <lists+linux-api@lfdr.de>; Wed, 31 Mar 2021 00:02:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232298AbhC3Ums convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Tue, 30 Mar 2021 16:42:48 -0400
-Received: from mail-ej1-f50.google.com ([209.85.218.50]:44596 "EHLO
-        mail-ej1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230125AbhC3Umg (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 30 Mar 2021 16:42:36 -0400
-Received: by mail-ej1-f50.google.com with SMTP id e14so26738962ejz.11;
-        Tue, 30 Mar 2021 13:42:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=6y0w4epdy1zgw6lkitkraNKrAbYioLiFpd2DfbWTyl8=;
-        b=Inb7zticwx0eIkksP/PyxErSyQ+GvY8gPMbfEefPME5MCgrUj/Zos8ahk71jMy/3FQ
-         NoKAumj/zxrS/7RWcZg+UMcqZkNmmngXkzGzoradW4f0fX8hlUReS7T+fVaZ9K4ZsDV7
-         wCyKWzek4v5bADCoFma5qKpcnOnas35ifmZPW+eagJjZOPnP158nRJA2so3QAmmg5IPg
-         0PChIQ2bnWVmTtRDExtaOC5KXzcPqA9gUDK0qBLrlSefo+QqZJdgS0rX1f6B7t70RsWX
-         dxhQWZEHCHIdfvGg2vl+3qjr5LU9VODlOy/OfJUB7dBR6n5XApFUEJQ+FpS0KhKM1WoQ
-         FE5A==
-X-Gm-Message-State: AOAM532KRgr4pJS4Z9zqnrixeNIRkFIY8ErRiBoBRkYKSrrlqgPVjfml
-        BHgyh5U81rRPdtEYQAkeBO37qadQLgX9S5gNFTQ=
-X-Google-Smtp-Source: ABdhPJyrA2haUymQO29Ez3sUhVUwRRFyYvafzbD5Smm8CpiSI7WxlTg1TiYD2c/PTh+vB6yqvyj441BjJtKgKmzV2eU=
-X-Received: by 2002:a17:907:ea3:: with SMTP id ho35mr35338549ejc.219.1617136955046;
- Tue, 30 Mar 2021 13:42:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <d10affcb-d315-cebc-4162-084f0a1e4d43@intel.com> <F2653B18-239A-42BB-84EE-04F18B712279@amacapital.net>
-In-Reply-To: <F2653B18-239A-42BB-84EE-04F18B712279@amacapital.net>
-From:   Len Brown <lenb@kernel.org>
-Date:   Tue, 30 Mar 2021 16:42:23 -0400
-Message-ID: <CAJvTdKnwexRpHrLFQv+2ykK9WEqtXMwehjfa_D7T+O_8DO_CGA@mail.gmail.com>
-Subject: Re: Candidate Linux ABI for Intel AMX and hypothetical new related features
-To:     Andy Lutomirski <luto@amacapital.net>
-Cc:     Dave Hansen <dave.hansen@intel.com>,
+        id S232879AbhC3WCF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 30 Mar 2021 18:02:05 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.85.151]:55352 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232909AbhC3WBg (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 30 Mar 2021 18:01:36 -0400
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-56-VPkzaPYQPbW1z4A_hL62xg-1; Tue, 30 Mar 2021 23:01:29 +0100
+X-MC-Unique: VPkzaPYQPbW1z4A_hL62xg-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.2; Tue, 30 Mar 2021 23:01:28 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.012; Tue, 30 Mar 2021 23:01:28 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Len Brown' <lenb@kernel.org>,
+        Andy Lutomirski <luto@amacapital.net>
+CC:     Dave Hansen <dave.hansen@intel.com>,
         Andy Lutomirski <luto@kernel.org>,
         Greg KH <gregkh@linuxfoundation.org>,
         "Bae, Chang Seok" <chang.seok.bae@intel.com>,
@@ -47,76 +34,117 @@ Cc:     Dave Hansen <dave.hansen@intel.com>,
         Rich Felker <dalias@libc.org>, Kyle Huey <me@kylehuey.com>,
         Keno Fischer <keno@juliacomputing.com>,
         Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Subject: RE: Candidate Linux ABI for Intel AMX and hypothetical new related
+ features
+Thread-Topic: Candidate Linux ABI for Intel AMX and hypothetical new related
+ features
+Thread-Index: AQHXJaVUlzUXmfEGake4TC38qhSBR6qdEWYA
+Date:   Tue, 30 Mar 2021 22:01:28 +0000
+Message-ID: <4aa49572cc5f4797922352d1760f3ef4@AcuMS.aculab.com>
+References: <d10affcb-d315-cebc-4162-084f0a1e4d43@intel.com>
+ <F2653B18-239A-42BB-84EE-04F18B712279@amacapital.net>
+ <CAJvTdKnwexRpHrLFQv+2ykK9WEqtXMwehjfa_D7T+O_8DO_CGA@mail.gmail.com>
+In-Reply-To: <CAJvTdKnwexRpHrLFQv+2ykK9WEqtXMwehjfa_D7T+O_8DO_CGA@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 30, 2021 at 4:20 PM Andy Lutomirski <luto@amacapital.net> wrote:
->
->
-> > On Mar 30, 2021, at 12:12 PM, Dave Hansen <dave.hansen@intel.com> wrote:
-> >
-> > ﻿On 3/30/21 10:56 AM, Len Brown wrote:
-> >> On Tue, Mar 30, 2021 at 1:06 PM Andy Lutomirski <luto@amacapital.net> wrote:
-> >>>> On Mar 30, 2021, at 10:01 AM, Len Brown <lenb@kernel.org> wrote:
-> >>>> Is it required (by the "ABI") that a user program has everything
-> >>>> on the stack for user-space XSAVE/XRESTOR to get back
-> >>>> to the state of the program just before receiving the signal?
-> >>> The current Linux signal frame format has XSTATE in uncompacted format,
-> >>> so everything has to be there.
-> >>> Maybe we could have an opt in new signal frame format, but the details would need to be worked out.
-> >>>
-> >>> It is certainly the case that a signal should be able to be delivered, run “async-signal-safe” code,
-> >>> and return, without corrupting register contents.
-> >> And so an an acknowledgement:
-> >>
-> >> We can't change the legacy signal stack format without breaking
-> >> existing programs.  The legacy is uncompressed XSTATE.  It is a
-> >> complete set of architectural state -- everything necessary to
-> >> XRESTOR.  Further, the sigreturn flow allows the signal handler to
-> >> *change* any of that state, so that it becomes active upon return from
-> >> signal.
-> >
-> > One nit with this: XRSTOR itself can work with the compacted format or
-> > uncompacted format.  Unlike the XSAVE/XSAVEC side where compaction is
-> > explicit from the instruction itself, XRSTOR changes its behavior by
-> > reading XCOMP_BV.  There's no XRSTORC.
-> >
-> > The issue with using the compacted format is when legacy software in the
-> > signal handler needs to go access the state.  *That* is what can't
-> > handle a change in the XSAVE buffer format (either optimized/XSAVEOPT,
-> > or compacted/XSAVEC).
->
-> The compacted format isn’t compact enough anyway. If we want to keep AMX and AVX512 enabled in XCR0 then we need to further muck with the format to omit the not-in-use features. I *think* we can pull this off in a way that still does the right thing wrt XRSTOR.
+RnJvbTogTGVuIEJyb3duDQo+IFNlbnQ6IDMwIE1hcmNoIDIwMjEgMjE6NDINCj4gDQo+IE9uIFR1
+ZSwgTWFyIDMwLCAyMDIxIGF0IDQ6MjAgUE0gQW5keSBMdXRvbWlyc2tpIDxsdXRvQGFtYWNhcGl0
+YWwubmV0PiB3cm90ZToNCj4gPg0KPiA+DQo+ID4gPiBPbiBNYXIgMzAsIDIwMjEsIGF0IDEyOjEy
+IFBNLCBEYXZlIEhhbnNlbiA8ZGF2ZS5oYW5zZW5AaW50ZWwuY29tPiB3cm90ZToNCj4gPiA+DQo+
+ID4gPiDvu79PbiAzLzMwLzIxIDEwOjU2IEFNLCBMZW4gQnJvd24gd3JvdGU6DQo+ID4gPj4gT24g
+VHVlLCBNYXIgMzAsIDIwMjEgYXQgMTowNiBQTSBBbmR5IEx1dG9taXJza2kgPGx1dG9AYW1hY2Fw
+aXRhbC5uZXQ+IHdyb3RlOg0KPiA+ID4+Pj4gT24gTWFyIDMwLCAyMDIxLCBhdCAxMDowMSBBTSwg
+TGVuIEJyb3duIDxsZW5iQGtlcm5lbC5vcmc+IHdyb3RlOg0KPiA+ID4+Pj4gSXMgaXQgcmVxdWly
+ZWQgKGJ5IHRoZSAiQUJJIikgdGhhdCBhIHVzZXIgcHJvZ3JhbSBoYXMgZXZlcnl0aGluZw0KPiA+
+ID4+Pj4gb24gdGhlIHN0YWNrIGZvciB1c2VyLXNwYWNlIFhTQVZFL1hSRVNUT1IgdG8gZ2V0IGJh
+Y2sNCj4gPiA+Pj4+IHRvIHRoZSBzdGF0ZSBvZiB0aGUgcHJvZ3JhbSBqdXN0IGJlZm9yZSByZWNl
+aXZpbmcgdGhlIHNpZ25hbD8NCj4gPiA+Pj4gVGhlIGN1cnJlbnQgTGludXggc2lnbmFsIGZyYW1l
+IGZvcm1hdCBoYXMgWFNUQVRFIGluIHVuY29tcGFjdGVkIGZvcm1hdCwNCj4gPiA+Pj4gc28gZXZl
+cnl0aGluZyBoYXMgdG8gYmUgdGhlcmUuDQo+ID4gPj4+IE1heWJlIHdlIGNvdWxkIGhhdmUgYW4g
+b3B0IGluIG5ldyBzaWduYWwgZnJhbWUgZm9ybWF0LCBidXQgdGhlIGRldGFpbHMgd291bGQgbmVl
+ZCB0byBiZSB3b3JrZWQNCj4gb3V0Lg0KPiA+ID4+Pg0KPiA+ID4+PiBJdCBpcyBjZXJ0YWlubHkg
+dGhlIGNhc2UgdGhhdCBhIHNpZ25hbCBzaG91bGQgYmUgYWJsZSB0byBiZSBkZWxpdmVyZWQsIHJ1
+biDigJxhc3luYy1zaWduYWwtc2FmZeKAnQ0KPiBjb2RlLA0KPiA+ID4+PiBhbmQgcmV0dXJuLCB3
+aXRob3V0IGNvcnJ1cHRpbmcgcmVnaXN0ZXIgY29udGVudHMuDQo+ID4gPj4gQW5kIHNvIGFuIGFu
+IGFja25vd2xlZGdlbWVudDoNCj4gPiA+Pg0KPiA+ID4+IFdlIGNhbid0IGNoYW5nZSB0aGUgbGVn
+YWN5IHNpZ25hbCBzdGFjayBmb3JtYXQgd2l0aG91dCBicmVha2luZw0KPiA+ID4+IGV4aXN0aW5n
+IHByb2dyYW1zLiAgVGhlIGxlZ2FjeSBpcyB1bmNvbXByZXNzZWQgWFNUQVRFLiAgSXQgaXMgYQ0K
+PiA+ID4+IGNvbXBsZXRlIHNldCBvZiBhcmNoaXRlY3R1cmFsIHN0YXRlIC0tIGV2ZXJ5dGhpbmcg
+bmVjZXNzYXJ5IHRvDQo+ID4gPj4gWFJFU1RPUi4gIEZ1cnRoZXIsIHRoZSBzaWdyZXR1cm4gZmxv
+dyBhbGxvd3MgdGhlIHNpZ25hbCBoYW5kbGVyIHRvDQo+ID4gPj4gKmNoYW5nZSogYW55IG9mIHRo
+YXQgc3RhdGUsIHNvIHRoYXQgaXQgYmVjb21lcyBhY3RpdmUgdXBvbiByZXR1cm4gZnJvbQ0KPiA+
+ID4+IHNpZ25hbC4NCj4gPiA+DQo+ID4gPiBPbmUgbml0IHdpdGggdGhpczogWFJTVE9SIGl0c2Vs
+ZiBjYW4gd29yayB3aXRoIHRoZSBjb21wYWN0ZWQgZm9ybWF0IG9yDQo+ID4gPiB1bmNvbXBhY3Rl
+ZCBmb3JtYXQuICBVbmxpa2UgdGhlIFhTQVZFL1hTQVZFQyBzaWRlIHdoZXJlIGNvbXBhY3Rpb24g
+aXMNCj4gPiA+IGV4cGxpY2l0IGZyb20gdGhlIGluc3RydWN0aW9uIGl0c2VsZiwgWFJTVE9SIGNo
+YW5nZXMgaXRzIGJlaGF2aW9yIGJ5DQo+ID4gPiByZWFkaW5nIFhDT01QX0JWLiAgVGhlcmUncyBu
+byBYUlNUT1JDLg0KPiA+ID4NCj4gPiA+IFRoZSBpc3N1ZSB3aXRoIHVzaW5nIHRoZSBjb21wYWN0
+ZWQgZm9ybWF0IGlzIHdoZW4gbGVnYWN5IHNvZnR3YXJlIGluIHRoZQ0KPiA+ID4gc2lnbmFsIGhh
+bmRsZXIgbmVlZHMgdG8gZ28gYWNjZXNzIHRoZSBzdGF0ZS4gICpUaGF0KiBpcyB3aGF0IGNhbid0
+DQo+ID4gPiBoYW5kbGUgYSBjaGFuZ2UgaW4gdGhlIFhTQVZFIGJ1ZmZlciBmb3JtYXQgKGVpdGhl
+ciBvcHRpbWl6ZWQvWFNBVkVPUFQsDQo+ID4gPiBvciBjb21wYWN0ZWQvWFNBVkVDKS4NCj4gPg0K
+PiA+IFRoZSBjb21wYWN0ZWQgZm9ybWF0IGlzbuKAmXQgY29tcGFjdCBlbm91Z2ggYW55d2F5LiBJ
+ZiB3ZSB3YW50IHRvIGtlZXAgQU1YIGFuZCBBVlg1MTIgZW5hYmxlZCBpbiBYQ1IwDQo+IHRoZW4g
+d2UgbmVlZCB0byBmdXJ0aGVyIG11Y2sgd2l0aCB0aGUgZm9ybWF0IHRvIG9taXQgdGhlIG5vdC1p
+bi11c2UgZmVhdHVyZXMuIEkgKnRoaW5rKiB3ZSBjYW4gcHVsbA0KPiB0aGlzIG9mZiBpbiBhIHdh
+eSB0aGF0IHN0aWxsIGRvZXMgdGhlIHJpZ2h0IHRoaW5nIHdydCBYUlNUT1IuDQo+IA0KPiBBZ3Jl
+ZWQuICBDb21wYWN0ZWQgZm9ybWF0IGRvZXNuJ3Qgc2F2ZSBhbnkgc3BhY2Ugd2hlbiBJTklUPTAs
+IHNvIGl0IGlzDQo+IG9ubHkgYSBoYWxmLXN0ZXAgZm9yd2FyZC4NCj4gDQo+ID4gSWYgd2UgZ28g
+dGhpcyByb3V0ZSwgSSB0aGluayB3ZSB3YW50IGEgd2F5IGZvciBzaWdyZXR1cm4gdG8gdW5kZXJz
+dGFuZCBhIHBvaW50ZXIgdG8gdGhlIHN0YXRlDQo+IGluc3RlYWQgb2YgaW5saW5lIHN0YXRlIHRv
+IGFsbG93IHByb2dyYW1zIHRvIGNoYW5nZSB0aGUgc3RhdGUuICBPciBtYXliZSBqdXN0IHRvIGhh
+dmUgYSB3YXkgdG8gYXNrDQo+IHNpZ3JldHVybiB0byBza2lwIHRoZSByZXN0b3JlIGVudGlyZWx5
+Lg0KPiANCj4gVGhlIGxlZ2FjeSBhcHByb2FjaCBwdXRzIGFsbCBhcmNoaXRlY3R1cmFsIHN0YXRl
+IG9uIHRoZSBzaWduYWwgc3RhY2sNCj4gaW4gWFNUQVRFIGZvcm1hdC4NCj4gDQo+IElmIHdlIG1h
+a2UgdGhlIHNpZ25hbCBzdGFjayBzbWFsbGVyIHdpdGggYSBuZXcgZmFzdC1zaWduYWwgc2NoZW1l
+LCB3ZQ0KPiBuZWVkIHRvIGZpbmQgYW5vdGhlciBwbGFjZSBmb3IgdGhhdCBzdGF0ZSB0byBsaXZl
+Lg0KPiANCj4gSXQgY2FuJ3QgbGl2ZSBpbiB0aGUgdGFzayBjb250ZXh0IHN3aXRjaCBidWZmZXIu
+ICBJZiB3ZSBwdXQgaXQgdGhlcmUNCj4gYW5kIHRoZW4gdGFrZSBhbiBpbnRlcnJ1cHQgd2hpbGUg
+cnVubmluZyB0aGUgc2lnbmFsIGhhbmRsZXIsIHRoZW4gd2UnZA0KPiBvdmVyd3JpdGUgdGhlIHNp
+Z25hbGVkIHRocmVhZCdzIHN0YXRlIHdpdGggdGhlIHNpZ25hbCBoYW5kbGVyJ3Mgc3RhdGUuDQo+
+IA0KPiBDYW4gd2UgbGVhdmUgaXQgaW4gbGl2ZSByZWdpc3RlcnM/ICBUaGF0IHdvdWxkIGJlIHRo
+ZSBzcGVlZC1vZi1saWdodA0KPiBzaWduYWwgaGFuZGxlciBhcHByb2FjaC4gIEJ1dCB3ZSdkIG5l
+ZWQgdG8gdGVhY2ggdGhlIHNpZ25hbCBoYW5kbGVyIHRvDQo+IG5vdCBjbG9iYmVyIGl0LiAgUGVy
+aGFwcyB0aGF0IGNvdWxkIGJlIHBhcnQgb2YgdGhlIGNvbnRyYWN0IHRoYXQgYQ0KPiBmYXN0IHNp
+Z25hbCBoYW5kbGVyIHNpZ25zPyAgSU5JVD0wIEFNWCBzdGF0ZSBjb3VsZCBzaW1wbHkgc2l0DQo+
+IHBhdGllbnRseSBpbiB0aGUgQU1YIHJlZ2lzdGVycyBmb3IgdGhlIGR1cmF0aW9uIG9mIHRoZSBz
+aWduYWwgaGFuZGxlci4NCj4gWW91IGNhbid0IGdldCBhbnkgZmFzdGVyIHRoYW4gZG9pbmcgbm90
+aGluZyA6LSkNCj4gDQo+IE9mIGNvdXJzZSBwYXJ0IG9mIHRoZSBjb250cmFjdCBmb3IgdGhlIGZh
+c3Qgc2lnbmFsIGhhbmRsZXIgaXMgdGhhdCBpdA0KPiBrbm93cyB0aGF0IGl0IGNhbid0IHBvc3Np
+Ymx5IHVzZSBYUkVTVE9SIG9mIHRoZSBzdHVmZiBvbiB0aGUgc3RhY2sgdG8NCj4gbmVjZXNzYXJp
+bHkgZ2V0IGJhY2sgdG8gdGhlIHN0YXRlIG9mIHRoZSBzaWduYWxlZCB0aHJlYWQgKGFzc3VtaW5n
+IHdlDQo+IGV2ZW4gdXNlZCBYU1RBVEUgZm9ybWF0IG9uIHRoZSBmYXN0IHNpZ25hbCBoYW5kbGVy
+IHN0YWNrLCBpdCB3b3VsZA0KPiBmb3JnZXQgdGhlIGNvbnRlbnRzIG9mIHRoZSBBTVggcmVnaXN0
+ZXJzLCBpbiB0aGlzIGV4YW1wbGUpDQoNCmdjYyB3aWxsIGp1c3QgdXNlIHRoZSBBVlggcmVnaXN0
+ZXJzIGZvciAnbm9ybWFsJyBjb2RlIHdpdGhpbg0KdGhlIHNpZ25hbCBoYW5kbGVyLg0KU28gaXQg
+aGFzIHRvIGhhdmUgaXRzIG93biBjb3B5IG9mIGFsbCB0aGUgcmVnaXN0ZXJzLg0KKFdlbGwsIG1h
+eWJlIHlvdSBjb3VsZCBtYWtlIHRoZSBUTVggaW5zdHJ1Y3Rpb25zIGZhdWx0LA0KYnV0IHRoYXQg
+d291bGQgbmVlZCBhIG5lc3RlZCBzaWduYWwgZGVsaXZlcmVkLikNCg0KVGhlcmUgaXMgYWxzbyB0
+aGUgcmVnaXN0ZXIgc2F2ZSBidWZmZXIgdGhhdCB5b3UgbmVlZCBpbiBvcmRlcg0KdG8gbG9uZy1q
+dW1wIG91dCBvZiBhIHNpZ25hbCBoYW5kbGVyLg0KVW5mb3J0dW5hdGVseSB0aGF0IGlzIHJlcXVp
+cmVkIHRvIHdvcmsuDQpJJ20gcHJldHR5IHN1cmUgdGhlIG9yaWdpbmFsIHNldGptcC9sb25nam1w
+IGp1c3Qgc2F2ZWQgdGhlIHN0YWNrDQpwb2ludGVyIC0gYnV0IHRoYXQgcmVhbGx5IGRvZXNuJ3Qg
+d29yayBhbnkgbW9yZS4NCg0KT1RPSCBtb3N0IHNpZ25hbCBoYW5kbGVycyBkb24ndCBjYXJlIC0g
+YnV0IHRoZXJlIGlzbid0IGEgZmxhZw0KdG8gc2lnc2V0KCkgKGV0Yykgc28gYXNrIGZvciBhIHNw
+ZWNpZmljIHJlZ2lzdGVyIGxheW91dC4NCg0KSSBkaWQgaGF2ZSAnZnVuJyBjaGFuZ2luZyB0aGUg
+eDg2IHNlZ21lbnQgcmVnaXN0ZXJzIHNvIHRoYXQNCnRoZSAncmV0dXJuIHRvIHVzZXInIGZhdWx0
+ZWQgaW4ga2VybmVsIGR1cmluZyB0aGUgbGFzdCBiaXQNCm9mIHRoZSAncmV0dXJuIHRvIHVzZXIn
+IHBhdGggLSBhbmQgdGhlbiBmaXhpbmcgdGhlIGZhbGxvdXQuDQoNCglEYXZpZA0KDQotDQpSZWdp
+c3RlcmVkIEFkZHJlc3MgTGFrZXNpZGUsIEJyYW1sZXkgUm9hZCwgTW91bnQgRmFybSwgTWlsdG9u
+IEtleW5lcywgTUsxIDFQVCwgVUsNClJlZ2lzdHJhdGlvbiBObzogMTM5NzM4NiAoV2FsZXMpDQo=
 
-Agreed.  Compacted format doesn't save any space when INIT=0, so it is
-only a half-step forward.
-
-> If we go this route, I think we want a way for sigreturn to understand a pointer to the state instead of inline state to allow programs to change the state.  Or maybe just to have a way to ask sigreturn to skip the restore entirely.
-
-The legacy approach puts all architectural state on the signal stack
-in XSTATE format.
-
-If we make the signal stack smaller with a new fast-signal scheme, we
-need to find another place for that state to live.
-
-It can't live in the task context switch buffer.  If we put it there
-and then take an interrupt while running the signal handler, then we'd
-overwrite the signaled thread's state with the signal handler's state.
-
-Can we leave it in live registers?  That would be the speed-of-light
-signal handler approach.  But we'd need to teach the signal handler to
-not clobber it.  Perhaps that could be part of the contract that a
-fast signal handler signs?  INIT=0 AMX state could simply sit
-patiently in the AMX registers for the duration of the signal handler.
-You can't get any faster than doing nothing :-)
-
-Of course part of the contract for the fast signal handler is that it
-knows that it can't possibly use XRESTOR of the stuff on the stack to
-necessarily get back to the state of the signaled thread (assuming we
-even used XSTATE format on the fast signal handler stack, it would
-forget the contents of the AMX registers, in this example)
-
-Len Brown, Intel Open Source Technology Center
