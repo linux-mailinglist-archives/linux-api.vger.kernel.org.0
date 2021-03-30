@@ -2,143 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 811AD34E3BD
-	for <lists+linux-api@lfdr.de>; Tue, 30 Mar 2021 10:59:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7BD834E473
+	for <lists+linux-api@lfdr.de>; Tue, 30 Mar 2021 11:32:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231708AbhC3I7I (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 30 Mar 2021 04:59:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36406 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231695AbhC3I7E (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 30 Mar 2021 04:59:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617094743;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Z7IpkPKNO0+WZGDPW7WcTQq39mnF+XSoroeOgb4x870=;
-        b=LEC6oJpU1QyY7IbTsWXo1DCZLAYbpWG34NwKKDaCKTLx3vANscyjxkQaESHypMDH/0jr1I
-        z7RSFK2rTaEAlxkk3shKRESWfnvnlb+jkVsRp5wjkIu93ruXyAxNn96I8cD6xZiKzCNKDg
-        9+uzSlvAhVVNtYvwGRiTKcWGIUrIBtQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-581-05lw0s0-PG6axPupkq6nyA-1; Tue, 30 Mar 2021 04:59:01 -0400
-X-MC-Unique: 05lw0s0-PG6axPupkq6nyA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0AC8180FCAA;
-        Tue, 30 Mar 2021 08:58:57 +0000 (UTC)
-Received: from [10.36.114.210] (ovpn-114-210.ams2.redhat.com [10.36.114.210])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 6F27E1001B2C;
-        Tue, 30 Mar 2021 08:58:44 +0000 (UTC)
-Subject: Re: [PATCH v1 0/5] mm/madvise: introduce MADV_POPULATE_(READ|WRITE)
- to prefault/prealloc memory
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-mm@kvack.org, Andrea Arcangeli <aarcange@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, Chris Zankel <chris@zankel.net>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Helge Deller <deller@gmx.de>, Hugh Dickins <hughd@google.com>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Jann Horn <jannh@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Matt Turner <mattst88@gmail.com>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        Peter Xu <peterx@redhat.com>, Ram Pai <linuxram@us.ibm.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Rik van Riel <riel@surriel.com>,
-        Rolf Eike Beer <eike-kernel@sf-tec.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Vlastimil Babka <vbabka@suse.cz>
-References: <20210317110644.25343-1-david@redhat.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <af5555cf-d112-44fd-e030-bfe8f89c8ddc@redhat.com>
-Date:   Tue, 30 Mar 2021 10:58:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        id S231721AbhC3Jb7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 30 Mar 2021 05:31:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37224 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231549AbhC3Jbg (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 30 Mar 2021 05:31:36 -0400
+Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49463C061762;
+        Tue, 30 Mar 2021 02:31:36 -0700 (PDT)
+Received: by mail-il1-x130.google.com with SMTP id t6so13590303ilp.11;
+        Tue, 30 Mar 2021 02:31:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=sbjEdqRPNo0MVHsycUNVNJoZjnvNpFyms6hSu5MsUns=;
+        b=cM3Qv0Ddh1QRwTvHvZKklAz9iiQNdUlbfpiHUNJKBjmDBQpgx6fsD+lQ4BZLY65jiA
+         A1ZEmxcIoAaFo5/3bFIzizHCM2vxgHIGfXRjA/vqAdTvXI6wrULzDh66fiUL/lafEo5i
+         ue1x1P7gMan4NiDFlclDnPj8+2VRrQG/YK8FLQ+1Y2494fhg0IKYOhtVjCED6q0dJG20
+         L7+uXY7CUxw/zzeCcO4xrRwzuGVyBPQxfTXopPrvPP9o+b3DMG8UWoucVe6hZLxi+aq8
+         Uw0ks8euguG4IzHTEswu68A6QOx3tRKe9kobZL+P3O8qSUP9+pNSgQ5Y18ZF9m+iMiti
+         ayaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sbjEdqRPNo0MVHsycUNVNJoZjnvNpFyms6hSu5MsUns=;
+        b=Xq+YiN2qbK5slRZXOjSCkfCRqZACHAHDWMB3oEwN1PsJ+z9deplOmAlh6uS5gTELgP
+         RgqIVdEpoWwvCPpXHK52IlI+N//BSVymd3fUWeuq33pVe3y4/oceUMCcwY/N7Q2vfNII
+         Jiowab9Hq53E4V0ewUflgA3YZqx4wPBEERxPLSQdmAHVvDkJ6aPTszFjRWJ/QAJ15ei6
+         8DI5fnqH8y07r1S1/8jF9T31ZerHHlCXTeE8GaMzxu39DlpBP0rB8WaAp9GX8ZL2ovnf
+         NjErSzau5ba50hFsvt8ut5y+ezGJwqGofOEO8J7HmoAsTOy6woto3WOATVu6N+5Tqzh6
+         uU0Q==
+X-Gm-Message-State: AOAM532lj3IdQWQ+Dund4KXg0eBO10m2v5gi4TZX6V3NqC2EZkU2dwXj
+        xKFyrnvMGpENPXugSZLRj75aw1gIB+Cml9fMJRs=
+X-Google-Smtp-Source: ABdhPJz9gynqfRsoqDqAeT5ZLmhN2SShSMooaCaMSw72uujAJxaimwgw1mgPVp5+fzx7uCiQI26HlolnXCgwwbbMjpg=
+X-Received: by 2002:a92:b74e:: with SMTP id c14mr18639827ilm.275.1617096695708;
+ Tue, 30 Mar 2021 02:31:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210317110644.25343-1-david@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+References: <20210328155624.930558-1-amir73il@gmail.com> <20210330073101.5pqvw72fxvyp5kvf@wittgenstein>
+In-Reply-To: <20210330073101.5pqvw72fxvyp5kvf@wittgenstein>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Tue, 30 Mar 2021 12:31:24 +0300
+Message-ID: <CAOQ4uxjQFGdT0xH17pm-nSKE_0--z_AapRW70MNrLJLcCB6MAg@mail.gmail.com>
+Subject: Re: [RFC][PATCH] fanotify: allow setting FAN_CREATE in mount mark mask
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Jan Kara <jack@suse.cz>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 17.03.21 12:06, David Hildenbrand wrote:
-> Excessive details on MADV_POPULATE_(READ|WRITE) can be found in patch #2.
-> 
-> Now accompanied by minor adjustments and selftests/vm tests.
-> 
-> RFCv2 -> v1
-> - "mm: fix variable name in declaration of populate_vma_page_range()"
-> -- Added
-> - "mm/madvise: introduce MADV_POPULATE_(READ|WRITE) to prefault ..."
-> -- Fix detection of memory holes when we have to re-lookup the VMA
-> -- Return -EHWPOISON to user space when we hit HW poisoned pages
-> -- Make variable names in definition and declaration consistent
-> - "MAINTAINERS: add tools/testing/selftests/vm/ to MEMORY MANAGEMENT"
-> -- Added
-> - "selftests/vm: add protection_keys_32 / protection_keys_64 to gitignore"
-> -- Added
-> - "selftests/vm: add test for MADV_POPULATE_(READ|WRITE)"
-> -- Added
-> 
-> RFC -> RFCv2:
-> - Fix re-locking (-> set "locked = 1;")
-> - Don't mimic MAP_POPULATE semantics:
-> --> Explicit READ/WRITE request instead of selecting it automatically,
->      which makes it more generic and better suited for some use cases (e.g., we
->      usually want to prefault shmem writable)
-> --> Require proper access permissions
-> - Introduce and use faultin_vma_page_range()
-> --> Properly handle HWPOISON pages (FOLL_HWPOISON)
-> --> Require proper access permissions (!FOLL_FORCE)
-> - Let faultin_vma_page_range() check for compatible mappings/permissions
-> - Extend patch description and add some performance numbers
-> 
-> David Hildenbrand (5):
->    mm: make variable names for populate_vma_page_range() consistent
->    mm/madvise: introduce MADV_POPULATE_(READ|WRITE) to prefault/prealloc
->      memory
->    MAINTAINERS: add tools/testing/selftests/vm/ to MEMORY MANAGEMENT
->    selftests/vm: add protection_keys_32 / protection_keys_64 to gitignore
->    selftests/vm: add test for MADV_POPULATE_(READ|WRITE)
-> 
->   MAINTAINERS                                |   1 +
->   arch/alpha/include/uapi/asm/mman.h         |   3 +
->   arch/mips/include/uapi/asm/mman.h          |   3 +
->   arch/parisc/include/uapi/asm/mman.h        |   3 +
->   arch/xtensa/include/uapi/asm/mman.h        |   3 +
->   include/uapi/asm-generic/mman-common.h     |   3 +
->   mm/gup.c                                   |  54 ++++
->   mm/internal.h                              |   5 +-
->   mm/madvise.c                               |  69 +++++
->   tools/testing/selftests/vm/.gitignore      |   3 +
->   tools/testing/selftests/vm/Makefile        |   1 +
->   tools/testing/selftests/vm/madv_populate.c | 342 +++++++++++++++++++++
->   tools/testing/selftests/vm/run_vmtests.sh  |  16 +
->   13 files changed, 505 insertions(+), 1 deletion(-)
->   create mode 100644 tools/testing/selftests/vm/madv_populate.c
-> 
+On Tue, Mar 30, 2021 at 10:31 AM Christian Brauner
+<christian.brauner@ubuntu.com> wrote:
+>
+> On Sun, Mar 28, 2021 at 06:56:24PM +0300, Amir Goldstein wrote:
+> > Add a high level hook fsnotify_path_create() which is called from
+> > syscall context where mount context is available, so that FAN_CREATE
+> > event can be added to a mount mark mask.
+> >
+> > This high level hook is called in addition to fsnotify_create(),
+> > fsnotify_mkdir() and fsnotify_link() hooks in vfs helpers where the mount
+> > context is not available.
+> >
+> > In the context where fsnotify_path_create() will be called, a dentry flag
+> > flag is set on the new dentry the suppress the FS_CREATE event in the vfs
+> > level hooks.
+> >
+> > This functionality was requested by Christian Brauner to replace
+> > recursive inotify watches for detecting when some path was created under
+> > an idmapped mount without having to monitor FAN_CREATE events in the
+> > entire filesystem.
+> >
+> > In combination with more changes to allow unprivileged fanotify listener
+> > to watch an idmapped mount, this functionality would be usable also by
+> > nested container managers.
+> >
+> > Link: https://lore.kernel.org/linux-fsdevel/20210318143140.jxycfn3fpqntq34z@wittgenstein/
+> > Cc: Christian Brauner <christian.brauner@ubuntu.com>
+> > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> > ---
+>
+> Was about to look at this. Does this require preliminary patches since
+> it doesn't apply to current master. If so, can you just give me a link
+> to a branch so I can pull from that? :)
+>
 
-Gentle ping.
+The patch is less useful on its own.
+Better take the entire work for the demo which includes this patch:
 
--- 
+[1] https://github.com/amir73il/linux/commits/fanotify_userns
+[2] https://github.com/amir73il/inotify-tools/commits/fanotify_userns
+
 Thanks,
-
-David / dhildenb
-
+Amir.
