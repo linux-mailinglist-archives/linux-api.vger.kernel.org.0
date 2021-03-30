@@ -2,155 +2,145 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E23934EDA5
-	for <lists+linux-api@lfdr.de>; Tue, 30 Mar 2021 18:22:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74CD534EDB4
+	for <lists+linux-api@lfdr.de>; Tue, 30 Mar 2021 18:25:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231803AbhC3QVx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 30 Mar 2021 12:21:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41790 "EHLO
+        id S232357AbhC3QYg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 30 Mar 2021 12:24:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232011AbhC3QVh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 30 Mar 2021 12:21:37 -0400
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D89AC0613D8
-        for <linux-api@vger.kernel.org>; Tue, 30 Mar 2021 09:21:36 -0700 (PDT)
-Received: by mail-lj1-x22f.google.com with SMTP id u4so20571383ljo.6
-        for <linux-api@vger.kernel.org>; Tue, 30 Mar 2021 09:21:36 -0700 (PDT)
+        with ESMTP id S231998AbhC3QYO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 30 Mar 2021 12:24:14 -0400
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20197C061574;
+        Tue, 30 Mar 2021 09:24:14 -0700 (PDT)
+Received: by mail-io1-xd32.google.com with SMTP id j26so17005958iog.13;
+        Tue, 30 Mar 2021 09:24:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=sD2dqYMXeFiKEoj9JxONMxx5R6jrqHrbtb78j2OsOAQ=;
-        b=D6p0Ji51dTK2Fo2jj9xMuHdWUaEfxd4F1U8503my1cLLcqzj0D0vbF5w9hn/15Crhr
-         UmdIwRQVMUjiRvvNqx9RHFWmPhg1iEW03S+gZ6gywq9iSbfkazDORknc4uio5sP8W3CQ
-         /wrxxyxxgMiScIB9laarimIxOfSxqSn4+0ywMPUedsGbJYSEuAKzMClTPh5BR2WKnwZM
-         NYCd6jHR3BdoqJPeho5998vytNjWra4Y/3c6QPg4QkhM4dtRwTmFlVEAxODZiQ0sOJ1o
-         h0+UDg5osUL41P8VIjToy6X0npHKMjfQmKa2QZiEnwH4V7LPlPrykLT/mAEV9gz7cBHC
-         IRsg==
+        bh=+Knh+HBabEcIpHLKAfb96iLF6cZ5htGgMZTF/1gEtTQ=;
+        b=i7hnewJB51iYwjlZxbtWs9X/oVTTOUcx/J69a0fezpI67zWcYM4w8pZ/92IsmNYWGh
+         L5GuRsoQai6VofmmL4qhAsMj/XiOTlwQNTbf67zi2LPcqD3NEQXhQpCYv6TjKjfjiw+M
+         Fv5g0ESPFXk6+YgLHN3xDpkfbrY7oJfTJJLDA99oXNWwKf9hPJtalEjlob4iptWqhpCX
+         tG1fuV+8HnmgKNl7PfUO7RudywRa7JSu5yrsCsuuWT050bY6uem1n3dIyJi60bZLMjMj
+         MXPceoZJ8OslCteyNXA+hhxbg++tu/QNLeMKPqAiPhXwmqF8DkqdYf5F3bPpDtspTrz1
+         UTKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=sD2dqYMXeFiKEoj9JxONMxx5R6jrqHrbtb78j2OsOAQ=;
-        b=giAHmwsg0MTmvi8Cg/BmdiKMud2JT+yU9SR0/HY4QCngvciuv3Ou71g0btt2Y8AyrO
-         gqvawHn5AtwSC+G+5regG+0wwUq18x1EdpCfdvCKBqyjYvy3BWl8uoa5hHBIuvd+rKH4
-         FvweMRFOq1ZHq9jNskQ2rgGU5/OH62G5Jy+n/SsjzykF1v8LalUEV6QpEdL5ktyZz+Q8
-         Yb7rXiDaAohrPs5ez0T1OKNQ3oBfqxmB1HB1f1tk723ouhZ5xZP9NP80l0C3nQVjoFwy
-         EErzRIO7Q0SBhum0brFdkCd3tBbBaUFcspvG95ryoojML9EMtAvvbA/0dsErNX0rbo74
-         j+Dg==
-X-Gm-Message-State: AOAM533Y1TzWK8649Issq1UPWwWp7FSVkGSEEQe2OpBBtA+iM+x+9a3z
-        ECUSXskQK+qbDaQ6U86ySX6TC/1COlDX3p7rUa6JOg==
-X-Google-Smtp-Source: ABdhPJzpocE1IkELvDijbdY/Z3ooshHcOlM7jaZGC02K2KN7kINlC+Y5w9/d1Drl2UKjoC1usvoUqA4nO6OKv5TerQg=
-X-Received: by 2002:a2e:7d04:: with SMTP id y4mr2339858ljc.94.1617121294587;
- Tue, 30 Mar 2021 09:21:34 -0700 (PDT)
+        bh=+Knh+HBabEcIpHLKAfb96iLF6cZ5htGgMZTF/1gEtTQ=;
+        b=pxiD5MDQcZ/quettOhQh3sPjhm++6sKgR6kv/+ygsh4y6aKDlKeGTHeOP67LwUECB2
+         Wf02BhAA4q4zvZkn3ejRlo7IUnwtQrzTgphfgjB+2gBpdwPpHKHctN3XMjG1BZ8DNmRg
+         0XffJ8AkJGe4P8j7+ldYO2NRnNEihYqgY20NsDUeEW7ilzF9gUNEWP2feqhaSRzG+Xoj
+         37UclFiS5BoNzNoRm4d8NhMYyjOXlDCvy6ekX30nW6KO1Vel0dII4LNIfxT9R4w+Tz8U
+         bddubCQSNbNChMFdI6pk9Jm4YmlD3NCGTla9/RQpkqzCqU9dwE7k+7r/lG1y66d64AEq
+         1Njw==
+X-Gm-Message-State: AOAM533xyd4i2tX84TipKI/lPu10WBqw51xBwM9+FdyZngdZik5h1ANP
+        JhhUyugSLAgS0sN1sLK2QrLlEh3VNEQWUQ7xYIs=
+X-Google-Smtp-Source: ABdhPJyzxxsv0BNcHrD/89YAfLRiQ3paJnj7ow/E3+GkwmFxaKcWEZVzl9KgZLH924GBq8722y4QiMdPWb8+w7Hx3vI=
+X-Received: by 2002:a05:6638:1388:: with SMTP id w8mr23837889jad.30.1617121453564;
+ Tue, 30 Mar 2021 09:24:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210317110644.25343-1-david@redhat.com> <20210317110644.25343-3-david@redhat.com>
- <CAG48ez0BQ3Vd3nDLEvyiSU0XALgUQ=c-fAwcFVScUkgo_9qVuQ@mail.gmail.com> <2bab28c7-08c0-7ff0-c70e-9bf94da05ce1@redhat.com>
-In-Reply-To: <2bab28c7-08c0-7ff0-c70e-9bf94da05ce1@redhat.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Tue, 30 Mar 2021 18:21:07 +0200
-Message-ID: <CAG48ez20rLRNPZj6hLHQ_PLT8H60kTac-uXRiLByD70Q7+qsdQ@mail.gmail.com>
-Subject: Re: [PATCH v1 2/5] mm/madvise: introduce MADV_POPULATE_(READ|WRITE)
- to prefault/prealloc memory
-To:     David Hildenbrand <david@redhat.com>
-Cc:     kernel list <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, Michal Hocko <mhocko@suse.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Matthew Wilcox <willy@infradead.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Hugh Dickins <hughd@google.com>,
-        Rik van Riel <riel@surriel.com>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>, Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Peter Xu <peterx@redhat.com>,
-        Rolf Eike Beer <eike-kernel@sf-tec.de>,
-        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        linux-arch <linux-arch@vger.kernel.org>,
+References: <20210328155624.930558-1-amir73il@gmail.com> <20210330073101.5pqvw72fxvyp5kvf@wittgenstein>
+ <CAOQ4uxjQFGdT0xH17pm-nSKE_0--z_AapRW70MNrLJLcCB6MAg@mail.gmail.com>
+In-Reply-To: <CAOQ4uxjQFGdT0xH17pm-nSKE_0--z_AapRW70MNrLJLcCB6MAg@mail.gmail.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Tue, 30 Mar 2021 19:24:02 +0300
+Message-ID: <CAOQ4uxiizVxVJgtytYk_o7GvG2O2qwyKHgScq8KLhq218CNdnw@mail.gmail.com>
+Subject: Re: [RFC][PATCH] fanotify: allow setting FAN_CREATE in mount mark mask
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Jan Kara <jack@suse.cz>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Mar 30, 2021 at 5:01 PM David Hildenbrand <david@redhat.com> wrote:
-> >> +long faultin_vma_page_range(struct vm_area_struct *vma, unsigned long start,
-> >> +                           unsigned long end, bool write, int *locked)
-> >> +{
-> >> +       struct mm_struct *mm = vma->vm_mm;
-> >> +       unsigned long nr_pages = (end - start) / PAGE_SIZE;
-> >> +       int gup_flags;
-> >> +
-> >> +       VM_BUG_ON(!PAGE_ALIGNED(start));
-> >> +       VM_BUG_ON(!PAGE_ALIGNED(end));
-> >> +       VM_BUG_ON_VMA(start < vma->vm_start, vma);
-> >> +       VM_BUG_ON_VMA(end > vma->vm_end, vma);
-> >> +       mmap_assert_locked(mm);
-> >> +
-> >> +       /*
-> >> +        * FOLL_HWPOISON: Return -EHWPOISON instead of -EFAULT when we hit
-> >> +        *                a poisoned page.
-> >> +        * FOLL_POPULATE: Always populate memory with VM_LOCKONFAULT.
-> >> +        * !FOLL_FORCE: Require proper access permissions.
-> >> +        */
-> >> +       gup_flags = FOLL_TOUCH | FOLL_POPULATE | FOLL_MLOCK | FOLL_HWPOISON;
-> >> +       if (write)
-> >> +               gup_flags |= FOLL_WRITE;
-> >> +
-> >> +       /*
-> >> +        * See check_vma_flags(): Will return -EFAULT on incompatible mappings
-> >> +        * or with insufficient permissions.
-> >> +        */
-> >> +       return __get_user_pages(mm, start, nr_pages, gup_flags,
-> >> +                               NULL, NULL, locked);
+On Tue, Mar 30, 2021 at 12:31 PM Amir Goldstein <amir73il@gmail.com> wrote:
+>
+> On Tue, Mar 30, 2021 at 10:31 AM Christian Brauner
+> <christian.brauner@ubuntu.com> wrote:
 > >
-> > You mentioned in the commit message that you don't want to actually
-> > dirty all the file pages and force writeback; but doesn't
-> > POPULATE_WRITE still do exactly that? In follow_page_pte(), if
-> > FOLL_TOUCH and FOLL_WRITE are set, we mark the page as dirty:
+> > On Sun, Mar 28, 2021 at 06:56:24PM +0300, Amir Goldstein wrote:
+> > > Add a high level hook fsnotify_path_create() which is called from
+> > > syscall context where mount context is available, so that FAN_CREATE
+> > > event can be added to a mount mark mask.
+> > >
+> > > This high level hook is called in addition to fsnotify_create(),
+> > > fsnotify_mkdir() and fsnotify_link() hooks in vfs helpers where the mount
+> > > context is not available.
+> > >
+> > > In the context where fsnotify_path_create() will be called, a dentry flag
+> > > flag is set on the new dentry the suppress the FS_CREATE event in the vfs
+> > > level hooks.
+> > >
+> > > This functionality was requested by Christian Brauner to replace
+> > > recursive inotify watches for detecting when some path was created under
+> > > an idmapped mount without having to monitor FAN_CREATE events in the
+> > > entire filesystem.
+> > >
+> > > In combination with more changes to allow unprivileged fanotify listener
+> > > to watch an idmapped mount, this functionality would be usable also by
+> > > nested container managers.
+> > >
+> > > Link: https://lore.kernel.org/linux-fsdevel/20210318143140.jxycfn3fpqntq34z@wittgenstein/
+> > > Cc: Christian Brauner <christian.brauner@ubuntu.com>
+> > > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> > > ---
+> >
+> > Was about to look at this. Does this require preliminary patches since
+> > it doesn't apply to current master. If so, can you just give me a link
+> > to a branch so I can pull from that? :)
+> >
 >
-> Well, I mention that POPULATE_READ explicitly doesn't do that. I
-> primarily set it because populate_vma_page_range() also sets it.
+> The patch is less useful on its own.
+> Better take the entire work for the demo which includes this patch:
 >
-> Is it safe to *not* set it? IOW, fault something writable into a page
-> table (where the CPU could dirty it without additional page faults)
-> without marking it accessed? For me, this made logically sense. Thus I
-> also understood why populate_vma_page_range() set it.
+> [1] https://github.com/amir73il/linux/commits/fanotify_userns
+> [2] https://github.com/amir73il/inotify-tools/commits/fanotify_userns
+>
 
-FOLL_TOUCH doesn't have anything to do with installing the PTE - it
-essentially means "the caller of get_user_pages wants to read/write
-the contents of the returned page, so please do the same things you
-would do if userspace was accessing the page". So in particular, if
-you look up a page via get_user_pages() with FOLL_WRITE|FOLL_TOUCH,
-that tells the MM subsystem "I will be writing into this page directly
-from the kernel, bypassing the userspace page tables, so please mark
-it as dirty now so that it will be properly written back later". Part
-of that is that it marks the page as recently used, which has an
-effect on LRU pageout behavior, I think - as far as I understand, that
-is why populate_vma_page_range() uses FOLL_TOUCH.
+Christian,
 
-If you look at __get_user_pages(), you can see that it is split up
-into two major parts: faultin_page() for creating PTEs, and
-follow_page_mask() for grabbing pages from PTEs. faultin_page()
-ignores FOLL_TOUCH completely; only follow_page_mask() uses it.
+Apologies for the fast moving target.
+I just force force the kernel+demo branches to include support for
+the two extra events (delete and move) on mount mark.
 
-In a way I guess maybe you do want the "mark as recently accessed"
-part that FOLL_TOUCH would give you without FOLL_WRITE? But I think
-you very much don't want the dirtying that FOLL_TOUCH|FOLL_WRITE leads
-to. Maybe the ideal approach would be to add a new FOLL flag to say "I
-only want to mark as recently used, I don't want to dirty". Or maybe
-it's enough to just leave out the FOLL_TOUCH entirely, I don't know.
+3dd3d7f02717...6cfe8f7a9148 fanotify_userns -> fanotify_userns (forced update)
+
+The same demo I described before with a mix of:
+- CREATE event on MOUNT mark
+- Rest of events on recursive inode marks
+Still work when running demo script with --fanotify --recursive
+on idmapped mount
+
+But now the demo also works with --global on idmapped mount
+by setting up only a mount mark to watch most events
+excluding the unsupported events (see below).
+
+Thanks,
+Amir.
+
+# ./test_demo.sh /mnt 0
++ WD=/mnt
++ ID=0
+...
++ inotifywatch --global -w --timeout -2 /mnt
+Establishing filesystem global watch...
+...
+total  modify  close_write  move_self  create  delete  filename
+3      0       1            0          1       1       /mnt/a/1 (deleted)
+2      0       1            0          1       0       /mnt/a/0 (deleted)
+2      0       1            0          1       0       /mnt/a/2
+2      0       1            0          1       0       /mnt/a/3
+2      0       0            0          1       1       /mnt/a/dir1 (deleted)
+2      0       1            0          1       0       /mnt/a/dir2/A/B/C/file2
+1      0       0            0          1       0       /mnt/a/dir0 (deleted)
+1      0       0            0          1       0       /mnt/a/dir2
+1      0       0            0          1       0       /mnt/a/dir2/A
+1      0       0            0          1       0       /mnt/a/dir2/A/B
+1      0       0            0          1       0       /mnt/a/dir2/A/B/C
