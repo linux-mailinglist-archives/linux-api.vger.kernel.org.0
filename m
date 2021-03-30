@@ -2,384 +2,190 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 095CC34E951
-	for <lists+linux-api@lfdr.de>; Tue, 30 Mar 2021 15:38:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F259034E9A5
+	for <lists+linux-api@lfdr.de>; Tue, 30 Mar 2021 15:55:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232212AbhC3Nhr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 30 Mar 2021 09:37:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34204 "EHLO
+        id S232010AbhC3Nyb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 30 Mar 2021 09:54:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232285AbhC3Nhj (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 30 Mar 2021 09:37:39 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79798C061764
-        for <linux-api@vger.kernel.org>; Tue, 30 Mar 2021 06:37:38 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id d12so2758049lfv.11
-        for <linux-api@vger.kernel.org>; Tue, 30 Mar 2021 06:37:38 -0700 (PDT)
+        with ESMTP id S230369AbhC3NyO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 30 Mar 2021 09:54:14 -0400
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B812C061574;
+        Tue, 30 Mar 2021 06:54:14 -0700 (PDT)
+Received: by mail-io1-xd36.google.com with SMTP id v26so16493942iox.11;
+        Tue, 30 Mar 2021 06:54:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=yA1Cq5V8NrTg1cAYG6FJJd7lrtiA/N0nU3o0CVInh+U=;
-        b=TxCkx8j3Nr4BwrOpzi4MXUh4zts8lelTxoPqXUfCOEFR1StnwpzUUCw2pAl+BU3bTe
-         n2dj/eLG1MotIB7JaWHUSHEN+GcbSXHfYmilCaneM4qni4m3zHRE7BkhANB+66raUekA
-         drs6yWVT0N5s8WNkPhOq3QmyW0Q09+Pj1wnTI7nHXSSvV1E1bPA9+wHesFugheoL2scN
-         Nqq2vZ0b/bf4vHY8LewGxbPbyd/3lr5xwNw62bnovD3SwbXKalIdtTB3WrAbV/wNfJHT
-         0yzc/X6wl9JCdTLILhtErgymh+FIMsizE/rGnH/RFeEy/NAKqWHni4mFaW+dDZqUrDq/
-         /MaQ==
+        bh=eRKAgRXuGQrtNoTXHmvfGZA8o3MRnH58cBnWJ68/uhw=;
+        b=ZoSVsUxJLy2nzh7TGegCTN2v3pTIsMDFpzS2MKbbyHWn2Y9+XdGppU9t6vRb1rtkmU
+         RwV0BBA+skkAmhtG7l3KV0Xr11fjXDs0DzAvd56wPTt9wfUR42rAsigy7dHl3zGZL+JL
+         n/sc1BshGUyOHGmD9i/ydhr7kSxYGbbYDwLHT1aoFwhEShSrU7HQXDZ3U9dF4jpX7ud8
+         i4VmbSPlsIX3Z9wwxgjbHh+I7wYB4fzbwDesA8G77AIrkbwuU94CBDy8Wiq+IkKo2E2M
+         /zxEuNqCLrg4fYBIe0eC//V5VHfQm6yIAB/aaNd0v4s+LDo4HFX4nKe7TzeurX2xT+U6
+         Lp+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=yA1Cq5V8NrTg1cAYG6FJJd7lrtiA/N0nU3o0CVInh+U=;
-        b=KF3eApQ8pywYS9ny1c16wqDBbzVFbyNsLYdET9VbBMAc4asUYlXTU4h4iFXcRr62A2
-         bbL4dG2ByoCrYLG0UijMBPEAk8ApmWZHO7nx0oWTbIjlecVDAJbJyydTj0uGqiemM+ma
-         jW86BmfWBZUPxDoh8l3cMntQKTq1FMFysY6xIR8FGKk/wDW3F5vKd6noH8ol1Gjz0qpx
-         px8qsFGlPTj9byXD4lbvgKeULfrCDNm6Dp0B4rssHYagonVfvac1w3v9Uu7kStq3mqRc
-         FDCdaUcVIifB+Scpo2zOYBb3BP9U22HAqou43x/XvUeXV1TV7zJAtWu0Tv1DbD9Blup7
-         BEeg==
-X-Gm-Message-State: AOAM532S59w7hZW/7uv1K9FPS9QLjBh5t6H8mKZvNeKaXEadc7qinr1E
-        dRr76EFgzlshaLMuxLKHj+3oh31q30b9iYVj/3xeWQ==
-X-Google-Smtp-Source: ABdhPJwnmtaIPtEIR601t3q/imvyBMCVX/w236t9g26RzZm1rBspOkW4Ew+qL0jji2S4o6Ta0UfQOjEl76fN737h1K8=
-X-Received: by 2002:a19:946:: with SMTP id 67mr21200257lfj.74.1617111456587;
- Tue, 30 Mar 2021 06:37:36 -0700 (PDT)
+        bh=eRKAgRXuGQrtNoTXHmvfGZA8o3MRnH58cBnWJ68/uhw=;
+        b=iRRUeMVVlPyutkBoSzjyZA3cDzP9z/Fpi7lfGkNKTn33qYvDcCNiJ+sqsW6BGNdaoY
+         OKVxzQzgyGA2ehpIHxuldQywRlnkKHbgjRGtBkvkVAUAOO51GBDdDRm5vNGHtizpcSpT
+         LyH6G7q/3+PnWiPI2Ner3XJQIi7oI+xRi34fP2HiziNqXPLWSLgZd2utdMjiH3Lgqusz
+         QwCDQWPb9ot+DXU+PfC4sZCH2L0YYqXQqpnjQj2cdBWfV3jigM85BTe+mhcPIlsNP8UD
+         yDw+AjWPSqoM8vISBQVC2e66fDaStGF7LAaP586P6Wqf+ePOhufxlUFV6jysBurzmaM1
+         0sJA==
+X-Gm-Message-State: AOAM530fPniGBqDP5rUIqSxZ7Z2aRDKpz+xbblrlR9y/+ojsVsu/MEdx
+        lN28EQd/VLHoYhzhMP0CiNRg57FAhd1UkW9vUTFVlJfHSzs=
+X-Google-Smtp-Source: ABdhPJxjWdKm8QHnq0tIyX+PCkYPsQXnm4mnTjLZGT+yTbtePbhWIsz2t7OxdKGUg3G9mDO7y/7iBs7qCs40dB60kjQ=
+X-Received: by 2002:a05:6638:1388:: with SMTP id w8mr23178139jad.30.1617112453495;
+ Tue, 30 Mar 2021 06:54:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210317110644.25343-1-david@redhat.com> <20210317110644.25343-3-david@redhat.com>
-In-Reply-To: <20210317110644.25343-3-david@redhat.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Tue, 30 Mar 2021 15:37:07 +0200
-Message-ID: <CAG48ez0BQ3Vd3nDLEvyiSU0XALgUQ=c-fAwcFVScUkgo_9qVuQ@mail.gmail.com>
-Subject: Re: [PATCH v1 2/5] mm/madvise: introduce MADV_POPULATE_(READ|WRITE)
- to prefault/prealloc memory
-To:     David Hildenbrand <david@redhat.com>
-Cc:     kernel list <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, Michal Hocko <mhocko@suse.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Matthew Wilcox <willy@infradead.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Hugh Dickins <hughd@google.com>,
-        Rik van Riel <riel@surriel.com>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>, Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Peter Xu <peterx@redhat.com>,
-        Rolf Eike Beer <eike-kernel@sf-tec.de>,
-        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
+References: <20210328155624.930558-1-amir73il@gmail.com> <20210330121204.b7uto3tesqf6m7hb@wittgenstein>
+ <CAOQ4uxjVdjLPbkkZd+_1csecDFuHxms3CcSLuAtRbKuozHUqWA@mail.gmail.com> <20210330125336.vj2hkgwhyrh5okee@wittgenstein>
+In-Reply-To: <20210330125336.vj2hkgwhyrh5okee@wittgenstein>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Tue, 30 Mar 2021 16:54:02 +0300
+Message-ID: <CAOQ4uxjPhrY55kJLUr-=2+S4HOqF0qKAAX27h2T1H1uOnxM9pQ@mail.gmail.com>
+Subject: Re: [RFC][PATCH] fanotify: allow setting FAN_CREATE in mount mark mask
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Jan Kara <jack@suse.cz>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Miklos Szeredi <miklos@szeredi.hu>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Mar 17, 2021 at 12:07 PM David Hildenbrand <david@redhat.com> wrote:
-> I. Background: Sparse Memory Mappings
+On Tue, Mar 30, 2021 at 3:53 PM Christian Brauner
+<christian.brauner@ubuntu.com> wrote:
 >
-> When we manage sparse memory mappings dynamically in user space - also
-> sometimes involving MAP_NORESERVE - we want to dynamically populate/
-> discard memory inside such a sparse memory region. Example users are
-> hypervisors (especially implementing memory ballooning or similar
-> technologies like virtio-mem) and memory allocators. In addition, we want
-> to fail in a nice way (instead of generating SIGBUS) if populating does not
-> succeed because we are out of backend memory (which can happen easily with
-> file-based mappings, especially tmpfs and hugetlbfs).
+> On Tue, Mar 30, 2021 at 03:33:23PM +0300, Amir Goldstein wrote:
+> > On Tue, Mar 30, 2021 at 3:12 PM Christian Brauner
+> > <christian.brauner@ubuntu.com> wrote:
+> > >
+> > > On Sun, Mar 28, 2021 at 06:56:24PM +0300, Amir Goldstein wrote:
+> > > > Add a high level hook fsnotify_path_create() which is called from
+> > > > syscall context where mount context is available, so that FAN_CREATE
+> > > > event can be added to a mount mark mask.
+> > > >
+> > > > This high level hook is called in addition to fsnotify_create(),
+> > > > fsnotify_mkdir() and fsnotify_link() hooks in vfs helpers where the mount
+> > > > context is not available.
+> > > >
+> > > > In the context where fsnotify_path_create() will be called, a dentry flag
+> > > > flag is set on the new dentry the suppress the FS_CREATE event in the vfs
+> > > > level hooks.
+> > >
+> > > Ok, just to make sure this scheme would also work for overlay-style
+> > > filesystems like ecryptfs where you possible generate two notify events:
+> > > - in the ecryptfs layer
+> > > - in the lower fs layer
+> > > at least when you set a regular inode watch.
+> > >
+> > > If you set a mount watch you ideally would generate two events in both
+> > > layers too, right? But afaict that wouldn't work.
+> > >
+> > > Say, someone creates a new link in ecryptfs the DENTRY_PATH_CREATE
+> > > flag will be set on the new ecryptfs dentry and so no notify event will
+> > > be generated for the ecryptfs layer again. Then ecryptfs calls
+> > > vfs_link() to create a new dentry in the lower layer. The new dentry in
+> > > the lower layer won't have DCACHE_PATH_CREATE set. Ok, that makes sense.
+> > >
+> > > But since vfs_link() doesn't have access to the mnt context itself you
+> > > can't generate a notify event for the mount associated with the lower
+> > > fs. This would cause people who a FAN_MARK_MOUNT watch on that lower fs
+> > > mount to not get notified about creation events going through the
+> > > ecryptfs layer. Is that right?  Seems like this could be a problem.
+> > >
+> >
+> > Not sure I follow what the problem might be.
+> >
+> > FAN_MARK_MOUNT subscribes to get only events that were
+> > generated via that vfsmount - that has been that way forever.
+> >
+> > A listener may subscribe to (say) FAN_CREATE on a certain
+> > mount AND also also on a specific parent directory.
+> >
+> > If the listener is watching the entire ecryptfs mount and the
+> > specific lower directory where said vfs_link() happens, both
+> > events will be reported. One from fsnotify_create_path() and
+> > the lower from fsnotify_create().
+> >
+> > If one listener is watching the ecryptfs mount and another
+> > listener is watching the specific ecryptfs directory, both
+> > listeners will get a single event each. They will both get
+> > the event that is emitted from fsnotify_path_create().
+> >
+> > Besides I am not sure about ecryptfs, but overlayfs uses
+> > private mount clone for accessing lower layer, so by definition
 >
-> While MADV_DONTNEED, MADV_REMOVE and FALLOC_FL_PUNCH_HOLE allow for
-> reliably discarding memory, there is no generic approach to populate
-> page tables and preallocate memory.
+> I know. That's why I was using ecryptfs as an example which doesn't do
+> that (And I think it should be switched tbh.). It simply uses
+> kern_path() and then stashes that path.
 >
-> Although mmap() supports MAP_POPULATE, it is not applicable to the concept
-> of sparse memory mappings, where we want to do populate/discard
-> dynamically and avoid expensive/problematic remappings. In addition,
-> we never actually report errors during the final populate phase - it is
-> best-effort only.
+> My example probably would be something like:
 >
-> fallocate() can be used to preallocate file-based memory and fail in a safe
-> way. However, it cannot really be used for any private mappings on
-> anonymous files via memfd due to COW semantics. In addition, fallocate()
-> does not actually populate page tables, so we still always get
-> pagefaults on first access - which is sometimes undesired (i.e., real-time
-> workloads) and requires real prefaulting of page tables, not just a
-> preallocation of backend storage. There might be interesting use cases
-> for sparse memory regions along with mlockall(MCL_ONFAULT) which
-> fallocate() cannot satisfy as it does not prefault page tables.
+> mount -t ext4 /dev/sdb /A
 >
-> II. On preallcoation/prefaulting from user space
+> 1. FAN_MARK_MOUNT(/A)
 >
-> Because we don't have a proper interface, what applications
-> (like QEMU and databases) end up doing is touching (i.e., reading+writing
-> one byte to not overwrite existing data) all individual pages.
+> mount --bind /A /B
 >
-> However, that approach
-> 1) Can result in wear on storage backing, because we end up writing
->    and thereby dirtying each page --- i.e., disks or pmem.
-> 2) Can result in mmap_sem contention when prefaulting via multiple
->    threads.
-> 3) Requires expensive signal handling, especially to catch SIGBUS in case
->    of hugetlbfs/shmem/file-backed memory. For example, this is
->    problematic in hypervisors like QEMU where SIGBUS handlers might already
->    be used by other subsystems concurrently to e.g, handle hardware errors.
->    "Simply" doing preallocation concurrently from other thread is not that
->    easy.
+> 2. FAN_MARK_MOUNT(/B)
 >
-> III. On MADV_WILLNEED
+> mount -t ecryptfs /B /C
 >
-> Extending MADV_WILLNEED is not an option because
-> 1. It would change the semantics: "Expect access in the near future." and
->    "might be a good idea to read some pages" vs. "Definitely populate/
->    preallocate all memory and definitely fail on errors.".
-> 2. Existing users (like virtio-balloon in QEMU when deflating the balloon)
->    don't want populate/prealloc semantics. They treat this rather as a hint
->    to give a little performance boost without too much overhead - and don't
->    expect that a lot of memory might get consumed or a lot of time
->    might be spent.
+> 3. FAN_MARK_MOUNT(/C)
 >
-> IV. MADV_POPULATE_READ and MADV_POPULATE_WRITE
+> let's say I now do
 >
-> Let's introduce MADV_POPULATE_READ and MADV_POPULATE_WRITE with the
-> following semantics:
-> 1. MADV_POPULATE_READ can be used to preallocate backend memory and
->    prefault page tables just like manually reading each individual page.
->    This will not break any COW mappings -- e.g., it will populate the
->    shared zeropage when applicable.
-
-Please clarify what is meant by "backend memory". As far as I can tell
-from looking at the code, MADV_POPULATE_READ on file mappings will
-allocate zeroed memory in the page cache, and map it as readonly pages
-into userspace, but any attempt to actually write to that memory will
-trigger the filesystem's ->page_mkwrite handler; and e.g. ext4 will
-only try to allocate disk blocks at that point, which may fail. So as
-far as I can tell, for files on filesystems like ext4, the current
-implementation of MADV_POPULATE_READ does not replace fallocate(). Am
-I missing something?
-
-If the desired semantics are that disk blocks should be preallocated,
-I think you may have to look up the ->vm_file and then internally call
-vfs_fallocate() to address this, kinda like in madvise_remove()?
-
-> 2. If MADV_POPULATE_READ succeeds, all page tables have been populated
->    (prefaulted) readable once.
-> 3. MADV_POPULATE_WRITE can be used to preallocate backend memory and
->    prefault page tables just like manually writing (or
->    reading+writing) each individual page. This will break any COW
->    mappings -- e.g., the shared zeropage is never populated.
-> 4. If MADV_POPULATE_WRITE succeeds, all page tables have been populated
->    (prefaulted) writable once.
-> 5. MADV_POPULATE_READ and MADV_POPULATE_WRITE cannot be applied to special
->    mappings marked with VM_PFNMAP and VM_IO. Also, proper access
->    permissions (e.g., PROT_READ, PROT_WRITE) are required. If any such
->    mapping is encountered, madvise() fails with -EINVAL.
-> 6. If MADV_POPULATE_READ or MADV_POPULATE_WRITE fails, some page tables
->    might have been populated. In that case, madvise() fails with
->    -ENOMEM.
-
-AFAICS that's not true (or misphrased). If MADV_POPULATE_*
-successfully populates a bunch of pages, then fails because of an
-error (e.g. EHWPOISON), it will return EHWPOISON, not ENOMEM, right?
-
-> 7. MADV_POPULATE_READ and MADV_POPULATE_WRITE will return -EHWPOISON
->    when encountering a HW poisoned page in the range.
-> 8. Similar to MAP_POPULATE, MADV_POPULATE_READ and MADV_POPULATE_WRITE
->    cannot protect from the OOM (Out Of Memory) handler killing the
->    process.
+> touch /C/bla
 >
-> While the use case for MADV_POPULATE_WRITE is fairly obvious (i.e.,
-> preallocate memory and prefault page tables for VMs), there are valid use
-> cases for MADV_POPULATE_READ:
-> 1. Efficiently populate page tables with zero pages (i.e., shared
->    zeropage). This is necessary when using userfaultfd() WP (Write-Protect
->    to properly catch all modifications within a mapping: for
->    write-protection to be effective for a virtual address, there has to be
->    a page already mapped -- even if it's the shared zeropage.
-
-This sounds like a hack to work around issues that would be better
-addressed by improving userfaultfd?
-
-> 2. Pre-read a whole mapping from backend storage without marking it
->    dirty, such that eviction won't have to write it back. If no backend
->    memory has been allocated yet, allocate the backend memory. Helpful
->    when preallocating/prefaulting a file stored on disk without having
->    to writeback each and every page on eviction.
-
-This sounds reasonable to me.
-
-> Although sparse memory mappings are the primary use case, this will
-> also be useful for ordinary preallocations where MAP_POPULATE is not
-> desired especially in QEMU, where users can trigger preallocation of
-> guest RAM after the mapping was created.
+> I may be way off here but intuitively it seems both 1. and 2. should get
+> a creation event but not 3., right?
 >
-> Looking at the history, MADV_POPULATE was already proposed in 2013 [1],
-> however, the main motivation back than was performance improvements
-> (which should also still be the case, but it is a secondary concern).
+
+Why not 3?
+You explicitly set a mark on /C requesting to be notified when
+objects are created via /C.
+
+> But with your proposal would both 1. and 2. still get a creation event?
 >
-> V. Single-threaded performance comparison
+
+They would not get an event, because fsnotify() looks for CREATE event
+subscribers on inode->i_fsnotify_marks and inode->i_sb_s_fsnotify_marks
+and does not find any.
+
+The vfs_create() -> fsnotify_create() hook passes data_type inode to
+fsnotify() so there is no fsnotify_data_path() to extract mnt event
+subscribers from.
+
+The same fate would be to files created by overlayfs, nfsd and cachefiles.
+
+Only the create event on /C/bla from the syscall context would
+call fsnoity_path_create() and result with path data in fsnotify(), so
+the mnt event subscriber would be found.
+
+> > users cannot watch the underlying overlayfs operations using
+> > a mount mark. Also, overlayfs suppresses fsnotify events on
+> > underlying files intentionally with FMODE_NONOTIFY.
 >
-> There is a performance benefit when using POPULATE_READ / POPULATE_WRITE
-> already when only using a single thread to do prefaulting/preallocation. As
-> we have less pagefaults for huge pages, the performance benefit is
-> negligible with small mappings.
-[...]
-> diff --git a/mm/gup.c b/mm/gup.c
-[...]
-> +long faultin_vma_page_range(struct vm_area_struct *vma, unsigned long start,
-> +                           unsigned long end, bool write, int *locked)
-> +{
-> +       struct mm_struct *mm = vma->vm_mm;
-> +       unsigned long nr_pages = (end - start) / PAGE_SIZE;
-> +       int gup_flags;
-> +
-> +       VM_BUG_ON(!PAGE_ALIGNED(start));
-> +       VM_BUG_ON(!PAGE_ALIGNED(end));
-> +       VM_BUG_ON_VMA(start < vma->vm_start, vma);
-> +       VM_BUG_ON_VMA(end > vma->vm_end, vma);
-> +       mmap_assert_locked(mm);
-> +
-> +       /*
-> +        * FOLL_HWPOISON: Return -EHWPOISON instead of -EFAULT when we hit
-> +        *                a poisoned page.
-> +        * FOLL_POPULATE: Always populate memory with VM_LOCKONFAULT.
-> +        * !FOLL_FORCE: Require proper access permissions.
-> +        */
-> +       gup_flags = FOLL_TOUCH | FOLL_POPULATE | FOLL_MLOCK | FOLL_HWPOISON;
-> +       if (write)
-> +               gup_flags |= FOLL_WRITE;
-> +
-> +       /*
-> +        * See check_vma_flags(): Will return -EFAULT on incompatible mappings
-> +        * or with insufficient permissions.
-> +        */
-> +       return __get_user_pages(mm, start, nr_pages, gup_flags,
-> +                               NULL, NULL, locked);
-
-You mentioned in the commit message that you don't want to actually
-dirty all the file pages and force writeback; but doesn't
-POPULATE_WRITE still do exactly that? In follow_page_pte(), if
-FOLL_TOUCH and FOLL_WRITE are set, we mark the page as dirty:
-
-if (flags & FOLL_TOUCH) {
-        if ((flags & FOLL_WRITE) &&
-           !pte_dirty(pte) && !PageDirty(page))
-                set_page_dirty(page);
-        /*
-         * pte_mkyoung() would be more correct here, but atomic care
-         * is needed to avoid losing the dirty bit: it is easier to use
-         * mark_page_accessed().
-         */
-        mark_page_accessed(page);
-}
-
-
-> +}
-> +
->  /*
->   * __mm_populate - populate and/or mlock pages within a range of address space.
->   *
-> diff --git a/mm/internal.h b/mm/internal.h
-> index 3f22c4ceb7b5..ee398696380f 100644
-> --- a/mm/internal.h
-> +++ b/mm/internal.h
-> @@ -335,6 +335,9 @@ void __vma_unlink_list(struct mm_struct *mm, struct vm_area_struct *vma);
->  #ifdef CONFIG_MMU
->  extern long populate_vma_page_range(struct vm_area_struct *vma,
->                 unsigned long start, unsigned long end, int *locked);
-> +extern long faultin_vma_page_range(struct vm_area_struct *vma,
-> +                                  unsigned long start, unsigned long end,
-> +                                  bool write, int *locked);
->  extern void munlock_vma_pages_range(struct vm_area_struct *vma,
->                         unsigned long start, unsigned long end);
->  static inline void munlock_vma_pages_all(struct vm_area_struct *vma)
-> diff --git a/mm/madvise.c b/mm/madvise.c
-> index 01fef79ac761..857460873f7a 100644
-> --- a/mm/madvise.c
-> +++ b/mm/madvise.c
-> @@ -53,6 +53,8 @@ static int madvise_need_mmap_write(int behavior)
->         case MADV_COLD:
->         case MADV_PAGEOUT:
->         case MADV_FREE:
-> +       case MADV_POPULATE_READ:
-> +       case MADV_POPULATE_WRITE:
->                 return 0;
->         default:
->                 /* be safe, default to 1. list exceptions explicitly */
-> @@ -822,6 +824,64 @@ static long madvise_dontneed_free(struct vm_area_struct *vma,
->                 return -EINVAL;
->  }
+> Probably ecryptfs should too?
 >
-> +static long madvise_populate(struct vm_area_struct *vma,
-> +                            struct vm_area_struct **prev,
-> +                            unsigned long start, unsigned long end,
-> +                            int behavior)
-> +{
-> +       const bool write = behavior == MADV_POPULATE_WRITE;
-> +       struct mm_struct *mm = vma->vm_mm;
-> +       unsigned long tmp_end;
-> +       int locked = 1;
-> +       long pages;
-> +
-> +       *prev = vma;
-> +
-> +       while (start < end) {
-> +               /*
-> +                * We might have temporarily dropped the lock. For example,
-> +                * our VMA might have been split.
-> +                */
-> +               if (!vma || start >= vma->vm_end) {
-> +                       vma = find_vma(mm, start);
-> +                       if (!vma || start < vma->vm_start)
-> +                               return -ENOMEM;
-> +               }
-> +
-> +               tmp_end = min_t(unsigned long, end, vma->vm_end);
-> +               /* Populate (prefault) page tables readable/writable. */
-> +               pages = faultin_vma_page_range(vma, start, tmp_end, write,
-> +                                              &locked);
-> +               if (!locked) {
-> +                       mmap_read_lock(mm);
-> +                       locked = 1;
-> +                       *prev = NULL;
-> +                       vma = NULL;
-> +               }
-> +               if (pages < 0) {
-> +                       switch (pages) {
-> +                       case -EINTR:
-> +                               return -EINTR;
-> +                       case -EFAULT: /* Incompatible mappings / permissions. */
-> +                               return -EINVAL;
-> +                       case -EHWPOISON:
-> +                               return -EHWPOISON;
-> +                       case -EBUSY:
 
-What is -EBUSY doing here? __get_user_pages() fixes up -EBUSY from
-faultin_page() to 0, right?
+<shrug> :)
 
-> +                       case -EAGAIN:
+FMODE_NONOTIFY is there not because there was a requirement
+not to send events, but because the path of the internal file is
+"fake", so it has a weird looking path. After all there are many
+other events that would be sent (not on open files).
 
-Where can -EAGAIN come from?
+At least I think that's the reason...
 
-> +                               continue;
-> +                       default:
-> +                               pr_warn_once("%s: unhandled return value: %ld\n",
-> +                                            __func__, pages);
-> +                               fallthrough;
-> +                       case -ENOMEM:
-> +                               return -ENOMEM;
-> +                       }
-> +               }
-> +               start += pages * PAGE_SIZE;
-> +       }
-> +       return 0;
-> +}
+Thanks,
+Amir.
