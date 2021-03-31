@@ -2,148 +2,139 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9654A3501E0
-	for <lists+linux-api@lfdr.de>; Wed, 31 Mar 2021 16:08:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E1A3350214
+	for <lists+linux-api@lfdr.de>; Wed, 31 Mar 2021 16:24:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235890AbhCaOH3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 31 Mar 2021 10:07:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40896 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235243AbhCaOHA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 31 Mar 2021 10:07:00 -0400
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0492C061574;
-        Wed, 31 Mar 2021 07:06:59 -0700 (PDT)
-Received: by mail-io1-xd33.google.com with SMTP id e186so2699053iof.7;
-        Wed, 31 Mar 2021 07:06:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=s3E9Z8eKJ8Vq9NuKJrOX7KbEBV7YVGmqZNK1yfgNnDQ=;
-        b=K0joCmQURSlzwnSuZ7WZ4LYmbYs58zuzxchKTjWYQINq8iUkY99sWq5wVOp3nBzxgJ
-         /2xLGyjGVz6LosBwrssf9pOV+gPJc0jTJF2JyaCYbH2Xg9f9g5u2IvqpZuw4Ul4f4let
-         HRMnOZBSrI3O0yp3UDDRmU4oIN3uT3ZeWBOsKgkQJPUKe1Ttjn3IeGxp9qVGM7oVYTRE
-         fc7krXOdPdLAb9sDWGa+3h+bR6uIXY6qE42a5NnMLevIXQJmvZdLYrDKayaU21wDBvQS
-         C0GEVFd4vIxpNvO8mnI69LqdzedvtvIBAEGw4tnulLjrn8wWMWfRif2rhSANHNMcTa4G
-         kAjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=s3E9Z8eKJ8Vq9NuKJrOX7KbEBV7YVGmqZNK1yfgNnDQ=;
-        b=bj+ix/9+QKzcBBTqyzPtQlcq1NDUrSk5i6hT/kMXiGhy3gt3a/rcGG1bNjmlgc8AbN
-         ug7kIZBdfgCBtZv+JcDXesD8YxJwI9KKVYK8DWhgeAkjK7AaHrIW+0Qe89HC0ncsZ6oZ
-         djjwUGHJ48GI8BN7jmzbTmaJ7dYQy2jIZ7YRwGxRmhgn+qlBXUOlOKDApKwgOqlJLP/6
-         l/HgAqIg66e+EdLGJ/P3Ohi4Qf9rTUylo+tyNNzgwGbbtrW3ELFYW7+CRhx5hHYmVv/O
-         uywQX+9GURYDY3ffIPjQlUkXp3V9kina2warHGDxKK/g3VzjJcqx0A1nbSYCn5zQ4mpD
-         /FLA==
-X-Gm-Message-State: AOAM530BXUBRos8SjOOQlrzr59pJ0oAwDLzoTidI9eeRTcxGmpJsIyUC
-        IOATqCxC6q7EyzQ2qjkBnl4cCg6z6Ve5rL1xrO8=
-X-Google-Smtp-Source: ABdhPJxeJuuHGA/1fyNd762cgDnteA9qBX1t2x8MxUn2jQN2imxu/E7iX2u91cSUDihIDA3nSKsqJYbKDIPOZD+wfuk=
-X-Received: by 2002:a05:6638:218b:: with SMTP id s11mr3132366jaj.81.1617199619426;
- Wed, 31 Mar 2021 07:06:59 -0700 (PDT)
+        id S235842AbhCaOYT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 31 Mar 2021 10:24:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36172 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235452AbhCaOX7 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 31 Mar 2021 10:23:59 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 725C060FED;
+        Wed, 31 Mar 2021 14:23:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617200639;
+        bh=MKND8RUjXo0TsNaafQ2pFvm3xr35TmSoHeHO5Oj9xjQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=TAXb6eUsGCa4pdiVCqqKZnGfljZXt9haax8xWlFgCI3e0unvgRQx8xBTVeRrFGV/q
+         ifZGF5satsq3w54m9YLloJlD4yd2NX9uvO/KNJ8oESnJDgML/1NhMS+UOSZqrNVaVB
+         LOeHARVji+rKirnnqECw1FuhzLstxw2Vju9F73YHNEp4DrZmDImtmvzWpwBG3HHmkU
+         gyTLq73p2b/dG60fDAuaUlJ92XmMV6XhiJLMiNEc5a1fHlv3Qz8pkdKafJ7VR5xJgS
+         Ch6PZXwz4Jdc6b/Yk37ku10IPVem2+6nVLkRC8BEnQFfEbcLU9I3SOjITDFAaL1C8C
+         nZikeyOe+Fp1w==
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        Yury Norov <yury.norov@gmail.com>, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org
+Subject: [PATCH] memfd_secret: use unsigned int rather than long as syscall flags type
+Date:   Wed, 31 Mar 2021 17:23:45 +0300
+Message-Id: <20210331142345.27532-1-rppt@kernel.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <20210328155624.930558-1-amir73il@gmail.com> <20210330121204.b7uto3tesqf6m7hb@wittgenstein>
- <CAOQ4uxjVdjLPbkkZd+_1csecDFuHxms3CcSLuAtRbKuozHUqWA@mail.gmail.com>
- <20210330125336.vj2hkgwhyrh5okee@wittgenstein> <CAOQ4uxjPhrY55kJLUr-=2+S4HOqF0qKAAX27h2T1H1uOnxM9pQ@mail.gmail.com>
- <20210330141703.lkttbuflr5z5ia7f@wittgenstein> <CAOQ4uxirMBzcaLeLoBWCMPPr7367qeKjnW3f88bh1VMr_3jv_A@mail.gmail.com>
- <20210331094604.xxbjl3krhqtwcaup@wittgenstein> <CAOQ4uxirud-+ot0kZ=8qaicvjEM5w1scAeoLP_-HzQx+LwihHw@mail.gmail.com>
- <20210331125412.GI30749@quack2.suse.cz>
-In-Reply-To: <20210331125412.GI30749@quack2.suse.cz>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Wed, 31 Mar 2021 17:06:47 +0300
-Message-ID: <CAOQ4uxjOyuvpJ7Tv3cGmv+ek7+z9BJBF4sK_-OLxwePUrHERUg@mail.gmail.com>
-Subject: Re: [RFC][PATCH] fanotify: allow setting FAN_CREATE in mount mark mask
-To:     Jan Kara <jack@suse.cz>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        "J. Bruce Fields" <bfields@fieldses.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-> > As long as "exp_export: export of idmapped mounts not yet supported.\n"
-> > I don't think it matters much.
-> > It feels like adding idmapped mounts to nfsd is on your roadmap.
-> > When you get to that we can discuss adding fsnotify path hooks to nfsd
-> > if Jan agrees to the fsnotify path hooks concept.
->
-> I was looking at the patch and thinking about it for a few days already. I
-> think that generating fsnotify event later (higher up the stack where we
-> have mount information) is fine and a neat idea. I just dislike the hackery
-> with dentry flags.
+From: Mike Rapoport <rppt@linux.ibm.com>
 
-Me as well. I used this hack for fast POC.
+Yuri Norov says:
 
-If we stick with the dual hooks approach, we will have to either pass a new
-argument to vfs helpers or use another trick:
+  If parameter size is the same for native and compat ABIs, we may
+  wire a syscall made by compat client to native handler. This is
+  true for unsigned int, but not true for unsigned long or pointer.
 
-Convert all the many calls sites that were converted by Christian to:
-   vfs_XXX(&init_user_ns, ...
-because they do not have mount context, to:
-   vfs_XXX(NULL, ...
+  That's why I suggest using unsigned int and so avoid creating compat
+  entry point.
 
-Inside the vfs helpers, use init_user_ns when mnt_userns is NULL,
-but pass the original mnt_userns argument to fsnotify_ns_XXX hooks.
-A non-NULL mnt_userns arg means "path_notify" context.
-I have already POC code for passing mnt_userns to fsnotify hooks [1].
+Use unsigned int as the type of the flags parameter in memfd_secret()
+system call.
 
-I did not check if this assumption always works, but there seems to
-be a large overlap between idmapped aware callers and use cases
-that will require sending events to a mount mark.
+Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+---
 
-> Also I'm somewhat uneasy that it is random (from
-> userspace POV) when path event is generated and when not (at least that's
-> my impression from the patch - maybe I'm wrong). How difficult would it be
-> to get rid of it? I mean what if we just moved say fsnotify_create() call
-> wholly up the stack? It would mean more explicit calls to fsnotify_create()
-> from filesystems - as far as I'm looking nfsd, overlayfs, cachefiles,
-> ecryptfs. But that would seem to be manageable.  Also, to maintain sanity,
+@Andrew,
+The patch is vs v5.12-rc5-mmots-2021-03-30-23, I'd appreciate if it would
+be added as a fixup to the memfd_secret series.
 
-1. I don't think we can do that for all the fsnotify_create() hooks, such as
-    debugfs for example
-2. It is useless to pass the mount from overlayfs to fsnotify, its a private
-    mount that users cannot set a mark on anyway and Christian has
-    promised to propose the same change for cachefiles and ecryptfs,
-    so I think it's not worth the churn in those call sites
-3. I am uneasy with removing the fsnotify hooks from vfs helpers and
-    trusting that new callers of vfs_create() will remember to add the high
-    level hooks, so I prefer the existing behavior remains for such callers
+ include/linux/syscalls.h                  | 2 +-
+ mm/secretmem.c                            | 2 +-
+ tools/testing/selftests/vm/memfd_secret.c | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-> we would probably have to lift generation of all directory events like
-> that. That would be already notable churn but maybe doable... I know you've
-> been looking at similar things in the past so if you are aware why this
-> won't fly, please tell me.
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index 49c93c906893..1a1b5d724497 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -1050,7 +1050,7 @@ asmlinkage long sys_landlock_create_ruleset(const struct landlock_ruleset_attr _
+ asmlinkage long sys_landlock_add_rule(int ruleset_fd, enum landlock_rule_type rule_type,
+ 		const void __user *rule_attr, __u32 flags);
+ asmlinkage long sys_landlock_restrict_self(int ruleset_fd, __u32 flags);
+-asmlinkage long sys_memfd_secret(unsigned long flags);
++asmlinkage long sys_memfd_secret(unsigned int flags);
+ 
+ /*
+  * Architecture-specific system calls
+diff --git a/mm/secretmem.c b/mm/secretmem.c
+index f2ae3f32a193..3b1ba3991964 100644
+--- a/mm/secretmem.c
++++ b/mm/secretmem.c
+@@ -199,7 +199,7 @@ static struct file *secretmem_file_create(unsigned long flags)
+ 	return file;
+ }
+ 
+-SYSCALL_DEFINE1(memfd_secret, unsigned long, flags)
++SYSCALL_DEFINE1(memfd_secret, unsigned int, flags)
+ {
+ 	struct file *file;
+ 	int fd, err;
+diff --git a/tools/testing/selftests/vm/memfd_secret.c b/tools/testing/selftests/vm/memfd_secret.c
+index c878c2b841fc..2462f52e9c96 100644
+--- a/tools/testing/selftests/vm/memfd_secret.c
++++ b/tools/testing/selftests/vm/memfd_secret.c
+@@ -38,7 +38,7 @@ static unsigned long page_size;
+ static unsigned long mlock_limit_cur;
+ static unsigned long mlock_limit_max;
+ 
+-static int memfd_secret(unsigned long flags)
++static int memfd_secret(unsigned int flags)
+ {
+ 	return syscall(__NR_memfd_secret, flags);
+ }
+-- 
+2.28.0
 
-I agree with that and since I posted this RFC patch, I have already added
-support for FAN_DELETE and FAN_MOVE_SELF [2].
-This was easy - not much churn at all.
-
-FAN_MOVED_FROM I dropped because of the old name snapshot.
-FAN_MOVED_TO I dropped because it needs the cookie to be in sync with
-that of the FAN_MOVED_FROM event.
-
-Besides, this event pair is "inotify legacy" as far as I am concerned.
-FAN_MOVE_SELF can provide most of the needed functionality.
-The rest of the functionality should be provided by a new event pair
-IMO, FAN_LINK/FAN_UNLINK, as described in this proposal [3].
-
-Which leaves us with two events: FAN_DELETE_SELF and FAN_ATTRIB.
-FAN_DELETE_SELF is not appropriate for a mount mark IMO.
-FAN_ATTRIB would be useful on mount mark IMO.
-It would incur a bit more churn to add it, but I think it's certainly doable.
-
-Just need to decide if we stay with the "dual hooks" approach and if so
-on the technique to pass the "notify_path" state into vfs helpers and
-existing fsnotify hooks.
-
-Thanks,
-Amir.
-
-[1] https://github.com/amir73il/linux/commits/fanotify_in_userns
-[2] https://github.com/amir73il/linux/commits/fsnotify_path_hooks
-[3] https://lore.kernel.org/linux-fsdevel/CAOQ4uxhEsbfA5+sW4XPnUKgCkXtwoDA-BR3iRO34Nx5c4y7Nug@mail.gmail.com/
