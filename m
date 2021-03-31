@@ -2,28 +2,33 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E7AC8350007
-	for <lists+linux-api@lfdr.de>; Wed, 31 Mar 2021 14:18:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F5353500B7
+	for <lists+linux-api@lfdr.de>; Wed, 31 Mar 2021 14:55:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235286AbhCaMR7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 31 Mar 2021 08:17:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35938 "EHLO mail.kernel.org"
+        id S235667AbhCaMyn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 31 Mar 2021 08:54:43 -0400
+Received: from mx2.suse.de ([195.135.220.15]:56050 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235014AbhCaMRZ (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 31 Mar 2021 08:17:25 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9A4386198A;
-        Wed, 31 Mar 2021 12:17:22 +0000 (UTC)
-Date:   Wed, 31 Mar 2021 14:17:19 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
+        id S235414AbhCaMyP (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 31 Mar 2021 08:54:15 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id CF4E8B1F3;
+        Wed, 31 Mar 2021 12:54:12 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 3FC2C1E4415; Wed, 31 Mar 2021 14:54:12 +0200 (CEST)
+Date:   Wed, 31 Mar 2021 14:54:12 +0200
+From:   Jan Kara <jack@suse.cz>
 To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Jan Kara <jack@suse.cz>,
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
+        Jan Kara <jack@suse.cz>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
         Miklos Szeredi <miklos@szeredi.hu>,
         "J. Bruce Fields" <bfields@fieldses.org>
 Subject: Re: [RFC][PATCH] fanotify: allow setting FAN_CREATE in mount mark
  mask
-Message-ID: <20210331121719.adj2zk7yhjn3jfri@wittgenstein>
+Message-ID: <20210331125412.GI30749@quack2.suse.cz>
 References: <20210328155624.930558-1-amir73il@gmail.com>
  <20210330121204.b7uto3tesqf6m7hb@wittgenstein>
  <CAOQ4uxjVdjLPbkkZd+_1csecDFuHxms3CcSLuAtRbKuozHUqWA@mail.gmail.com>
@@ -34,14 +39,15 @@ References: <20210328155624.930558-1-amir73il@gmail.com>
  <20210331094604.xxbjl3krhqtwcaup@wittgenstein>
  <CAOQ4uxirud-+ot0kZ=8qaicvjEM5w1scAeoLP_-HzQx+LwihHw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <CAOQ4uxirud-+ot0kZ=8qaicvjEM5w1scAeoLP_-HzQx+LwihHw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Mar 31, 2021 at 02:29:04PM +0300, Amir Goldstein wrote:
+On Wed 31-03-21 14:29:04, Amir Goldstein wrote:
 > On Wed, Mar 31, 2021 at 12:46 PM Christian Brauner
 > <christian.brauner@ubuntu.com> wrote:
 > >
@@ -94,9 +100,6 @@ On Wed, Mar 31, 2021 at 02:29:04PM +0300, Amir Goldstein wrote:
 > > > 1. Change internal callers of vfs_ helpers to use a private mount,
 > > >     as you yourself suggested for ecryptfs and cachefiles
 > >
-
-[1]:
-
 > > I feel like this is he correct thing to do independently of the fanotify
 > > considerations. I think I'll send an RFC for this today or later this
 > > week.
@@ -113,147 +116,23 @@ On Wed, Mar 31, 2021 at 02:29:04PM +0300, Amir Goldstein wrote:
 > It feels like adding idmapped mounts to nfsd is on your roadmap.
 > When you get to that we can discuss adding fsnotify path hooks to nfsd
 > if Jan agrees to the fsnotify path hooks concept.
-> 
-> > >
-> > > > >
-> > > > > They would not get an event, because fsnotify() looks for CREATE event
-> > > > > subscribers on inode->i_fsnotify_marks and inode->i_sb_s_fsnotify_marks
-> > > > > and does not find any.
-> > > >
-> > > > Well yes, but my example has FAN_MARK_MOUNT(/B) set. So fanotify
-> > > > _should_ look at
-> > > >             (!mnt || !mnt->mnt_fsnotify_marks) &&
-> > > > and see that there are subscribers and should notify the subscribers in
-> > > > /B even if the file is created through /C.
-> > > >
-> > > > My point is with your solution this can't be handled and I want to make
-> > > > sure that this is ok. Because right now you'd not be notified about a
-> > > > new file having been created in /B even though mnt->mnt_fsnotify_marks
-> > > > is set and the creation went through /B via /C.
-> > > >
-> > >
-> > > If you are referring to the ecryptfs use case specifically, then I think it is
-> > > ok. After all, whether ecryptfs uses a private mount clone or not is not
-> > > something the user can know.
-> > >
-> > > > _Unless_ we switch to an argument like overlayfs and say "This is a
-> > > > private mount which is opaque and so we don't need to generate events.".
-> > > > Overlayfs handles this cleanly due to clone_private_mount() which will
-> > > > shed all mnt->mnt_fsnotify_marks and ecryptfs should too if that is the
-> > > > argument we follow, no?
-> > > >
-> > >
-> > > There is simply no way that the user can infer from the documentation
-> > > of FAN_MARK_MOUNT that the event on /B is expected when /B is
-> > > underlying layer of ecryptfs or overlayfs.
-> > > It requires deep internal knowledge of the stacked fs implementation.
-> > > In best case, the user can infer that she MAY get an event on /B.
-> > > Some users MAY also expect to get an event on /A because they do not
-> > > understand the concept of bind mounts...
-> > > Clone a mount ns and you will get more lost users...
-> >
-> > I disagree to some extent. For example, a user might remount /B
-> > read-only at which point /C is effectively read-only too which makes it
-> > plain obvious to the user that /C piggy-backs on /B.
-> 
-> Yes, but that is a bug. /C should not become read-only. It should use
 
-I agree. That's why I said they should use one. :)
-I just pointed out how it is today for two filesystems.
+I was looking at the patch and thinking about it for a few days already. I
+think that generating fsnotify event later (higher up the stack where we
+have mount information) is fine and a neat idea. I just dislike the hackery
+with dentry flags. Also I'm somewhat uneasy that it is random (from
+userspace POV) when path event is generated and when not (at least that's
+my impression from the patch - maybe I'm wrong). How difficult would it be
+to get rid of it? I mean what if we just moved say fsnotify_create() call
+wholly up the stack? It would mean more explicit calls to fsnotify_create()
+from filesystems - as far as I'm looking nfsd, overlayfs, cachefiles,
+ecryptfs. But that would seem to be manageable.  Also, to maintain sanity,
+we would probably have to lift generation of all directory events like
+that. That would be already notable churn but maybe doable... I know you've
+been looking at similar things in the past so if you are aware why this
+won't fly, please tell me.
 
-> a private clone of /B, so I don't see where this is going.
-
-It's going to [1] above. :)
-
-> 
-> > But leaving that aside my questioning is more concerned with whether the
-> > implementation we're aiming for is consistent and intuitive and that
-> > stacking example came to my mind pretty quickly.
-> >
-> 
-> This implementation is a compromise for not having clear user mount
-> context in all places that call for an event.
-> For every person you find that thinks it is intuitive to get an event on /B
-> for touch C/bla, you will find another person that thinks it is not intuitive
-
-And I think here we disagree. The technical implementation currently
-requires this since the two mounts are both clearly marked and the first
-mount creates objects by going through the other mount and they don't
-have a private mount. All I was saying is that the current patchset
-can't handle this case and asked whether we are ok with that and if not
-what we do to fix it.
-My proposal two or three mails ago and then picked up by you is: make
-them both use a private clone mount which is - as I said in earlier
-mails - the correct solution anyway and falls in line with overlayfs
-too.
-
-> to get an event. I think we are way beyond the stage with mount
-> namespaces where intuition alone suffice.
-> 
-> w.r.t consistent, you gave a few examples and I suggested how IMO
-> they should be fixed to behave consistently.
-> If you have other examples of alleged inconsistencies, please list them.
-
-It feels like I somehow upset you with this. Again, I agree with the
-push of the patchset in general and I'm grateful you're doing that work
-and we agree on the fix for the two filesystems. As I said, I'll try to
-get an RFC fix out for both.
-
-> 
-> > >
-> > > > >
-> > > > > The vfs_create() -> fsnotify_create() hook passes data_type inode to
-> > > > > fsnotify() so there is no fsnotify_data_path() to extract mnt event
-> > > > > subscribers from.
-> > > >
-> > > > Right, that was my point. You don't have the mnt context for the
-> > > > underlying fs at a time when e.g. call vfs_link() which ultimately calls
-> > > > fsnotify_create/link() which I'm saying might be a problem.
-> > > >
-> > >
-> > > It's a problem. If it wasn't a problem I wouldn't need to work around it ;-)
-> > >
-> > > It would be a problem if people think that the FAN_MOUNT_MARK
-> > > is a subtree mark, which it certainly is not. And I have no doubt that
-> >
-> > I don't think subtree marks figure into the example above. But we
-> > digress.
-> >
-> > > as Jan said, people really do want a subtree mark.
-> > >
-> > > My question to you with this RFC is: Does the ability to subscribe to
-> > > CREATE/DELETE/MOVE events on a mount help any of your use
-> > > cases? With or without the property that mount marks are allowed
-> >
-> > Since I explicitly pointed on in a prior mail that it would be great to
-> > have the same events as for a regular fanotify watch I think I already
-> > answered that question. :)
-> >
-> > > inside userns for idmapped mounts.
-> >
-> > But if it helps then I'll do it once: yes, both would indeed be very
-> > useful.
-> >
-> 
-> OK. I understand that the "promise" of those abilities is very useful.
-> Please also confirm once you tested the demo code that the new
-> events on an idmapped mount will "actually" be useful to container
-> managers. If you can work my demo code into a demo branch for
-> the bind mount injection or something that would be best.
-> 
-> The reason I am asking this is because while I was working on
-> enabling sb/mount marks inside userns I found several other issues
-> (e.g. open_by_handle_at()) without fixing them the demo would have
-> been much less impressive and much less useful in practice.
-> 
-> So I would like to know that we really have all the pieces needed for
-> a useful solution, before proposing the fanotify patches.
-
-Sure, if you think that you have your branch in the shape that you want
-to. So far it has been evolving quite rapidly as you said yourself. :)
-I can probably test this soon early next week seems most likely since I
-need to find a timeslot to actually do the work you're asking. Hope that
-works.
-
-Thanks!
-Christian
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
