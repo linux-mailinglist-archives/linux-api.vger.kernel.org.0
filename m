@@ -2,116 +2,79 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 435863509CB
-	for <lists+linux-api@lfdr.de>; Wed, 31 Mar 2021 23:53:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3111F3509F8
+	for <lists+linux-api@lfdr.de>; Thu,  1 Apr 2021 00:12:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229662AbhCaVww (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 31 Mar 2021 17:52:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57260 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231579AbhCaVwU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 31 Mar 2021 17:52:20 -0400
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43109C061574;
-        Wed, 31 Mar 2021 14:52:20 -0700 (PDT)
-Received: by mail-qk1-x735.google.com with SMTP id o5so389615qkb.0;
-        Wed, 31 Mar 2021 14:52:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=iVgFfy9Gk4TopgDWAZb3OEMFsekIXo3QttoRKgThI1I=;
-        b=LlC/3vOcZu0Rh5837wBCMc/jMQBLoS5tu19QTNj1eof7IhHTCSrowwreYpcEeTbT5X
-         NlWLfUqhbD9HhkHO9DsT4Tyx2dRlg91X71xYeCMm7fKtrUmafIBq7/LrPrNoupfhFp3m
-         GewFfvppFWbs9VRkNf6T/omLtxmxV/Um2gbRVOo+AHZwOoh9mGFiVd9+oTJRsbPr+urV
-         9+SzjFJBATN+dQCPHnqvB4BC59ngCo/QcWw7P40soldfgVxjJkBfgZEWDD018mop0vXZ
-         RHFwc/5vTY5r72yfm8jOOOnGx6oz9cJw+eVDnJnP827bZO8OihlinIME1rTQWHzKsxKK
-         ckUg==
+        id S230380AbhCaWMD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 31 Mar 2021 18:12:03 -0400
+Received: from mail-ed1-f43.google.com ([209.85.208.43]:45944 "EHLO
+        mail-ed1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229497AbhCaWLn (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 31 Mar 2021 18:11:43 -0400
+Received: by mail-ed1-f43.google.com with SMTP id bx7so24039986edb.12;
+        Wed, 31 Mar 2021 15:11:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=iVgFfy9Gk4TopgDWAZb3OEMFsekIXo3QttoRKgThI1I=;
-        b=agDMhbaDAHhjurNo28A9Y1aV0ZC/Zyt/xhO3l+yk31Vamck4ce7KHRm/vpbK+iLv7d
-         Wy6a9M6RF+Uhduu77L93Ar3mhuT2m+2/OdcydyCeDcIsBllYc8CVFLlxQJ74lNd0Qt/W
-         ZZ4PRKhthAZ4aCENq1pGyu/517QKZvod6UwcUnCWfDwHUaAIE6jOz52ffkQ+wN0yrt5Q
-         p6dJPbYNBGC5aoHTk3zyKj9y9AIzI+z3m2jwlnIiWC7PHCJqVIKiyH1tnDmp3vzxzGfv
-         xQIBg/aGjzEwZYTBKih505nmNuF7iTi45Io5/Y67q2ZdVAEP2dS0f9Bp9gu6aLkR98Ld
-         lWfQ==
-X-Gm-Message-State: AOAM533G4wIwFMIZpqZKQPjpNwq5k6JnUGs59f8qpN6bU0TE+I+fvTdK
-        ZD3YHFrVtp7CHOPDD0Q6OzU=
-X-Google-Smtp-Source: ABdhPJwK1AgyeLn7/B6+lfbSP03Q/ohuFDGUVnzdZCNHOlmGfkjpcbj+5GbXHWQQi4iDLVthXpiBHg==
-X-Received: by 2002:a37:78b:: with SMTP id 133mr5361746qkh.109.1617227539232;
-        Wed, 31 Mar 2021 14:52:19 -0700 (PDT)
-Received: from localhost ([207.98.216.60])
-        by smtp.gmail.com with ESMTPSA id d84sm2453310qke.53.2021.03.31.14.52.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Mar 2021 14:52:18 -0700 (PDT)
-Date:   Wed, 31 Mar 2021 14:52:18 -0700
-From:   Yury Norov <yury.norov@gmail.com>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org
-Subject: Re: [PATCH] memfd_secret: use unsigned int rather than long as
- syscall flags type
-Message-ID: <20210331215218.GA3437@yury-ThinkPad>
-References: <20210331142345.27532-1-rppt@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Y2axwWxTL8XPpHwUo4AVE1zruv6RF5CEAUfc387i7Es=;
+        b=MUI0Rz04kwGUZSu+DD2JrZWSaRabmNc/h+GGyp1XexmOj+wEsIcAdM8A67S+1imDCS
+         kiVK1AOWbMbd8SuUWhYz1SxwIqVKlQ/7ckQcYZhOMjIHuDX9bAjW+wxidKwnWAxLuJSB
+         NkBXnRflmSUurzuUbBj2KicF/RqRU/pTZbpiRwlVGMa3w3lLozyMjAZqlKmicxrlQkde
+         Pa4n8hU8XwbmDsspTSyLgTtg9xoDCF5jHjUGVWRydXprvtf78azBam8KHlPj9bdXfTB8
+         FKw1MI+VRr8mm1snJpYua2PtYd2R+SVdy/XCLCAnRD64425mZNlcvKmPJH/3rfHpdtWI
+         S97Q==
+X-Gm-Message-State: AOAM532OOaE/8sWvLyBAXmoDcxDfvNo7lwWCP4yBRrxE71GU33epAl6y
+        KzhsPMUOySEH8WxWbIQdPD8wTYZ42D2afpFRnug=
+X-Google-Smtp-Source: ABdhPJxF0AoPasiOPUQ+0kRTOZRzhmrm9mBUogAT7SW0kIY9/mhNKnb1B9vGVs2u4pcp4dvBgMyrOrOTNlzbCilvdZs=
+X-Received: by 2002:aa7:d917:: with SMTP id a23mr6430206edr.122.1617228702378;
+ Wed, 31 Mar 2021 15:11:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210331142345.27532-1-rppt@kernel.org>
+References: <CAJvTdK=evAofQRcmt_iwtYx2f_wTGUDpXzvjuiVwgZZ6BZV_Qg@mail.gmail.com>
+ <E8BCA270-4F23-4E1B-BAD6-917DBE36F5F6@amacapital.net> <CAOp6jLb6OwfaBcYsdRZ-A5FLpY+y7WNoBqwc+2oCP7-3Sy-ZHg@mail.gmail.com>
+In-Reply-To: <CAOp6jLb6OwfaBcYsdRZ-A5FLpY+y7WNoBqwc+2oCP7-3Sy-ZHg@mail.gmail.com>
+From:   Len Brown <lenb@kernel.org>
+Date:   Wed, 31 Mar 2021 18:11:31 -0400
+Message-ID: <CAJvTdKkYPK2iqUPGMQZ63Qdgfy_JR5fpjQevcwJZ0Y+PHM80Cw@mail.gmail.com>
+Subject: Re: Candidate Linux ABI for Intel AMX and hypothetical new related features
+To:     robert@ocallahan.org
+Cc:     Andy Lutomirski <luto@amacapital.net>,
+        David Laight <David.Laight@aculab.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
+        X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        libc-alpha <libc-alpha@sourceware.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Rich Felker <dalias@libc.org>, Kyle Huey <me@kylehuey.com>,
+        Keno Fischer <keno@juliacomputing.com>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Mar 31, 2021 at 05:23:45PM +0300, Mike Rapoport wrote:
-> From: Mike Rapoport <rppt@linux.ibm.com>
-> 
-> Yuri Norov says:
-> 
->   If parameter size is the same for native and compat ABIs, we may
->   wire a syscall made by compat client to native handler. This is
->   true for unsigned int, but not true for unsigned long or pointer.
-> 
->   That's why I suggest using unsigned int and so avoid creating compat
->   entry point.
-> 
-> Use unsigned int as the type of the flags parameter in memfd_secret()
-> system call.
-> 
-> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+On Wed, Mar 31, 2021 at 5:42 PM Robert O'Callahan <robert@ocallahan.org> wrote:
+>
+> For the record, the benefits of dynamic XCR0 for rr recording
+> portability still apply. I guess it'd be useful for CRIU too. We would
+> also benefit from anything that incentivizes increased support for
+> CPUID faulting.
 
-Acked-by: Yury Norov <yury.norov@gmail.com>
+As previously mentioned, today we don't have an architectural way to
+trap a user into the kernel on CPUID,
+even though we can do this for a VMM.
+
+But spoofing CPUID isn't a solution to all problems.
+The feature really needs to be OFF to prevent users from using it,
+even if the supported mechanisms of discovering that feature say "NOT PRESENT".
+
+Today there are plenty of users who will opportunistically try everything
+in the cloud and choose the machine that allows them to do something
+that other machines will not -- even if it is not officially supported.
+
+If something is not enumerated, it really needs to also be turned off.
+
+cheers,
+--Len Brown, Intel Open Source Technology Center
