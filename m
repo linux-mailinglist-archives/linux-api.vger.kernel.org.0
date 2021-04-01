@@ -2,111 +2,151 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E8DDC350D56
-	for <lists+linux-api@lfdr.de>; Thu,  1 Apr 2021 05:57:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 774C1350F57
+	for <lists+linux-api@lfdr.de>; Thu,  1 Apr 2021 08:52:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232491AbhDAD4d (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 31 Mar 2021 23:56:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50718 "EHLO
+        id S233283AbhDAGvj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 1 Apr 2021 02:51:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229497AbhDAD4d (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 31 Mar 2021 23:56:33 -0400
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C284C0613E6;
-        Wed, 31 Mar 2021 20:56:32 -0700 (PDT)
-Received: by mail-io1-xd2c.google.com with SMTP id z3so804215ioc.8;
-        Wed, 31 Mar 2021 20:56:32 -0700 (PDT)
+        with ESMTP id S229459AbhDAGv2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 1 Apr 2021 02:51:28 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED755C0613E6
+        for <linux-api@vger.kernel.org>; Wed, 31 Mar 2021 23:51:27 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id h8so529507plt.7
+        for <linux-api@vger.kernel.org>; Wed, 31 Mar 2021 23:51:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=F7EDSHuA0GwUlPINZP06/yN+akmMXN7gu9sOlY1lvF0=;
-        b=NKcYDCerRdzw/l9o7/rNJp/4d2WriAR/6BnH5GEgw6YbTepXeh0lOIdkPIEdfg7Itv
-         nU1+FGa5OYdX5tlSpfybhELXxZJSidEtxSHRF6Ax20o6COw96chkiJ+Tb97fqxY6P486
-         YmGG+q+nWY0Jkb9zPGkoq7M6iBBFjifCBDBUhCTIVJxxgFCpjC8tm7XBjE3BbMQVoMuO
-         HmoYL+qkJp5/8yWRLs3VtXkCl540aT1daVpUX3gclmNbuBBGf6cXSnbf9rcixtw/5bWs
-         I7VnwtnrJdi/4YI4kzhbEge5EB0A+iXaIA1+jRcaDfsUzEOCBjJZmHj+5/jNU0UT4YZy
-         K1Tg==
+        d=osandov-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Q+eBXF4UpkxH1troRhu2jm8vxXsGdka+ag1Br0jPZ30=;
+        b=YUD8aiySztkmmHvnvo4DGQ3AGaz6HDxe533EzJg8zG0ft0tStlCRsU9kCc+KZAeOoq
+         m5BFVHlo/+2PuARox8aePR6lLZe3My74BvjhbPIodJkasltyDnM1TlwWsZYFn0aOyHKU
+         dfGYastzuOW/2stRMFA0ZciZ8IwLpF29JkoUVUOa+fEDzgTb51MeW07qYUrtVI2+x3Sj
+         FM18E+o0CbI3HzeEfSA0vVVxDEG95+/70lil0jD/t5vw7yd0tD6kTZgjLeEixYEGADvE
+         OsyzfhC0F/soYGhpIvTkN5RhvF7z2IvgXjGaWSCyXZzI2+I2T2DFDiwT7cMZlvSN6Ohu
+         SDoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=F7EDSHuA0GwUlPINZP06/yN+akmMXN7gu9sOlY1lvF0=;
-        b=GyjNCJFEJ1GqiZ1UWzXOVyg2wBNzcIor2+blLUEq9x9o4MBu/1bSdtXwU+Fs2Dd9/N
-         mcFNu14EHJVhAkuPlJJMsfemijXQzTY2yi4rV7+Fm8gNC4W/9pnTdJcgvBdKZ+nRXRDv
-         VnkQ5ttUALjcokaCDsFfgYA6OtZXBu5W0ldvbQfWgnhoHPYuGO0KQDCG+ib1P8hhixk+
-         P2Zlfb5jFpIH0C5ZXt6FhMxuYZ72cA6dhyGd9a9hnk2aVXnvNCZqVC4aPn41cgBpRh2V
-         Fx+AZj4lgN7eRlz4UuFco7p/WYBfUvenR6RbUi5wPTqO/jqeTAftRnPsKKt+2EyKPEMV
-         TiZA==
-X-Gm-Message-State: AOAM530M68ET4eB5cg8AbDaIG9yDQx6M8qydWK1AbzCW4BmlCleoKn73
-        X1fyzpqLKff7PtPW0m0smk/lb+K9z0pIB4Bp7ndD5ctTKPU=
-X-Google-Smtp-Source: ABdhPJyqw/7+HmJsaDNB4hU6krH7Mf8COLTt04ZC2Vzk2RMcezRikgLA6WsYa3G5LwbJDBx5alcoPPUPCjUx/c0PouQ=
-X-Received: by 2002:a02:a796:: with SMTP id e22mr5938245jaj.93.1617249391764;
- Wed, 31 Mar 2021 20:56:31 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Q+eBXF4UpkxH1troRhu2jm8vxXsGdka+ag1Br0jPZ30=;
+        b=qDMH6FuyUQx6UjrxyvnkYGscYkJ19+LX7ir+sSn5S0xOOPkbNKt5YQ+BOJ6p9QnM1I
+         032eUIrxUszrit+8j4axLIpFWrFSC/ZSPJXnHaGZDchp09RzWpsIWZFlr6pKU9FQ18dS
+         KLRRBfaI+ax6/RVvbfgowz7293ru3tDNKv+M4Zc9blz8hfYUNajFMTc3HYGgkqHpQwVF
+         BPu5r92ycTwcPXoywtOaGqvaduLF1H36j/83b+dyP9bOi2ML8Po0O5s/YoxnQx5TUB3I
+         1x7JaU1xUrBuze5tiiM91jodp9QJdcnmgpQnKDqmaPOAsPaUQdZoEW4LsuuqsO79LTvU
+         Eh3Q==
+X-Gm-Message-State: AOAM531aaK8qXckQkwF/Aez0aRH6bR1to50slq+zKnUE0YsyNos9hmOy
+        cYncfWkNHtiqNaGUU8FEjb0kcw==
+X-Google-Smtp-Source: ABdhPJx0q+5a6ISbEcH6bs0ZPTCRqx81j3htCq0THXemy4Hk6tnDlPF/UUcfkomaH26E3FTvjePd2Q==
+X-Received: by 2002:a17:90a:a103:: with SMTP id s3mr7537031pjp.158.1617259887450;
+        Wed, 31 Mar 2021 23:51:27 -0700 (PDT)
+Received: from relinquished.tfbnw.net ([2620:10d:c090:400::5:3734])
+        by smtp.gmail.com with ESMTPSA id kk6sm4158345pjb.51.2021.03.31.23.51.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Mar 2021 23:51:26 -0700 (PDT)
+From:   Omar Sandoval <osandov@osandov.com>
+To:     linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Dave Chinner <david@fromorbit.com>,
+        Jann Horn <jannh@google.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Aleksa Sarai <cyphar@cyphar.com>, linux-api@vger.kernel.org,
+        kernel-team@fb.com
+Subject: [PATCH v9 0/9] fs: interface for directly reading/writing compressed data
+Date:   Wed, 31 Mar 2021 23:51:05 -0700
+Message-Id: <cover.1617258892.git.osandov@fb.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <161723932606.3149451.12366114306150243052.stgit@magnolia>
-In-Reply-To: <161723932606.3149451.12366114306150243052.stgit@magnolia>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Thu, 1 Apr 2021 06:56:20 +0300
-Message-ID: <CAOQ4uxhPzTK=DvUxTGV0KXnqWNsumjm1UbSiFgXbdogbzyd29w@mail.gmail.com>
-Subject: Re: [PATCHSET RFC v3 00/18] xfs: atomic file updates
-To:     "Darrick J. Wong" <djwong@kernel.org>
-Cc:     linux-xfs <linux-xfs@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Apr 1, 2021 at 4:14 AM Darrick J. Wong <djwong@kernel.org> wrote:
->
-> Hi all,
->
-> This series creates a new FIEXCHANGE_RANGE system call to exchange
-> ranges of bytes between two files atomically.  This new functionality
-> enables data storage programs to stage and commit file updates such that
-> reader programs will see either the old contents or the new contents in
-> their entirety, with no chance of torn writes.  A successful call
-> completion guarantees that the new contents will be seen even if the
-> system fails.
->
-> User programs will be able to update files atomically by opening an
-> O_TMPFILE, reflinking the source file to it, making whatever updates
-> they want to make, and exchange the relevant ranges of the temp file
-> with the original file.  If the updates are aligned with the file block
-> size, a new (since v2) flag provides for exchanging only the written
-> areas.  Callers can arrange for the update to be rejected if the
-> original file has been changed.
->
-> The intent behind this new userspace functionality is to enable atomic
-> rewrites of arbitrary parts of individual files.  For years, application
-> programmers wanting to ensure the atomicity of a file update had to
-> write the changes to a new file in the same directory, fsync the new
-> file, rename the new file on top of the old filename, and then fsync the
-> directory.  People get it wrong all the time, and $fs hacks abound.
-> Here is the proposed manual page:
->
+From: Omar Sandoval <osandov@fb.com>
 
-I like the idea of modernizing FIEXCHANGE_RANGE very much and
-I think that the improved implementation and new(?) flags will be very
-useful just the way you designed them, but maybe something to consider...
+This series adds an API for reading compressed data on a filesystem
+without decompressing it as well as support for writing compressed data
+directly to the filesystem. I have test cases (including fsstress
+support) and example programs which I'll send up once the dust settles
+[1].
 
-Taking a step back and ignoring the existing xfs ioctl, all the use cases
-that you listed actually want MOVE_RANGE not exchange range.
-No listed use case does anything with the old data except dump it in the
-trash bin. Right?
+The main use-case is Btrfs send/receive: currently, when sending data
+from one compressed filesystem to another, the sending side decompresses
+the data and the receiving side recompresses it before writing it out.
+This is wasteful and can be avoided if we can just send and write
+compressed extents. The patches implementing the send/receive support
+were sent with the last submission of this series [2].
 
-I do realize that implementing atomic extent exchange was easier back
-when that ioctl was implemented for xfs and ext4 and I realize that
-deferring inode unlink was much simpler to implement than deferred
-extent freeing, but seeing how punch hole and dedupe range already
-need to deal with freeing target inode extents, it is not obvious to me that
-atomic freeing the target inode extents instead of exchange is a bad idea
-(given the appropriate opt-in flags).
+Patches 1-3 add the VFS support, UAPI, and documentation. Patches 4-7
+are Btrfs prep patches. Patch 8 adds Btrfs encoded read support and
+patch 9 adds Btrfs encoded write support.
 
-Is there a good reason for keeping the "freeing old blocks with unlink"
-strategy the only option?
+These patches are based on Dave Sterba's Btrfs misc-next branch [3],
+which is in turn currently based on v5.12-rc5.
 
-Thanks,
-Amir.
+Changes since v8 [4]:
+
+- Simplified copy_struct_from_iter() to only handle one segment rather
+  than iterating.
+- Added UAPI documentation as rst adapted from the man page I previously
+  sent.
+- Fixed definition of O_ALLOW_ENCODED for parisc.
+- Dropped "btrfs: fix check_data_csum() error message for direct I/O",
+  which has been merged into kdave/misc-next.
+
+Omar Sandoval (9):
+  iov_iter: add copy_struct_from_iter()
+  fs: add O_ALLOW_ENCODED open flag
+  fs: add RWF_ENCODED for reading/writing compressed data
+  btrfs: don't advance offset for compressed bios in
+    btrfs_csum_one_bio()
+  btrfs: add ram_bytes and offset to btrfs_ordered_extent
+  btrfs: support different disk extent size for delalloc
+  btrfs: optionally extend i_size in cow_file_range_inline()
+  btrfs: implement RWF_ENCODED reads
+  btrfs: implement RWF_ENCODED writes
+
+1: https://github.com/osandov/xfstests/tree/rwf-encoded
+2: https://lore.kernel.org/linux-btrfs/cover.1615922753.git.osandov@fb.com/
+3: https://github.com/kdave/btrfs-devel/tree/misc-next
+4: https://lore.kernel.org/linux-btrfs/cover.1615922644.git.osandov@fb.com/
+
+ Documentation/filesystems/encoded_io.rst | 240 ++++++
+ Documentation/filesystems/index.rst      |   1 +
+ arch/alpha/include/uapi/asm/fcntl.h      |   1 +
+ arch/parisc/include/uapi/asm/fcntl.h     |   1 +
+ arch/sparc/include/uapi/asm/fcntl.h      |   1 +
+ fs/btrfs/compression.c                   |  12 +-
+ fs/btrfs/compression.h                   |   6 +-
+ fs/btrfs/ctree.h                         |   9 +-
+ fs/btrfs/delalloc-space.c                |  18 +-
+ fs/btrfs/file-item.c                     |  35 +-
+ fs/btrfs/file.c                          |  46 +-
+ fs/btrfs/inode.c                         | 929 +++++++++++++++++++++--
+ fs/btrfs/ordered-data.c                  | 124 +--
+ fs/btrfs/ordered-data.h                  |  25 +-
+ fs/btrfs/relocation.c                    |   4 +-
+ fs/fcntl.c                               |  10 +-
+ fs/namei.c                               |   4 +
+ fs/read_write.c                          | 168 +++-
+ include/linux/encoded_io.h               |  17 +
+ include/linux/fcntl.h                    |   2 +-
+ include/linux/fs.h                       |  13 +
+ include/linux/uio.h                      |   1 +
+ include/uapi/asm-generic/fcntl.h         |   4 +
+ include/uapi/linux/encoded_io.h          |  30 +
+ include/uapi/linux/fs.h                  |   5 +-
+ lib/iov_iter.c                           |  91 +++
+ 26 files changed, 1563 insertions(+), 234 deletions(-)
+ create mode 100644 Documentation/filesystems/encoded_io.rst
+ create mode 100644 include/linux/encoded_io.h
+ create mode 100644 include/uapi/linux/encoded_io.h
+
+-- 
+2.31.1
+
