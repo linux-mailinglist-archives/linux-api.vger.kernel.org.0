@@ -2,151 +2,98 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89358350C75
-	for <lists+linux-api@lfdr.de>; Thu,  1 Apr 2021 04:16:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A992350D26
+	for <lists+linux-api@lfdr.de>; Thu,  1 Apr 2021 05:33:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233017AbhDACP3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 31 Mar 2021 22:15:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57274 "EHLO
+        id S233542AbhDADcV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 31 Mar 2021 23:32:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232994AbhDACPV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 31 Mar 2021 22:15:21 -0400
-Received: from zeniv-ca.linux.org.uk (zeniv-ca.linux.org.uk [IPv6:2607:5300:60:148a::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AD14C061574;
-        Wed, 31 Mar 2021 19:15:19 -0700 (PDT)
-Received: from viro by zeniv-ca.linux.org.uk with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1lRmr7-001X2U-Bm; Thu, 01 Apr 2021 02:14:45 +0000
-Date:   Thu, 1 Apr 2021 02:14:45 +0000
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc:     Jann Horn <jannh@google.com>, Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        David Howells <dhowells@redhat.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org,
-        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@linux.microsoft.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>
-Subject: Re: [PATCH v31 07/12] landlock: Support filesystem access-control
-Message-ID: <YGUslUPwp85Zrp4t@zeniv-ca.linux.org.uk>
-References: <20210324191520.125779-1-mic@digikod.net>
- <20210324191520.125779-8-mic@digikod.net>
- <d2764451-8970-6cbd-e2bf-254a42244ffc@digikod.net>
+        with ESMTP id S233015AbhDADcP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 31 Mar 2021 23:32:15 -0400
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B1F8C0613E6;
+        Wed, 31 Mar 2021 20:32:15 -0700 (PDT)
+Received: by mail-io1-xd29.google.com with SMTP id n198so841326iod.0;
+        Wed, 31 Mar 2021 20:32:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=p6SGEiBrOYUBlIz6omEKVX2rtKN0BjeDSFjoke/LKSk=;
+        b=mWpJsxSBKTvETLyixX+prhZ1ogZ4ZdKRnxErem470keY5Bc9ls4m5VFAbFH6CbzbYb
+         vT86xigJgNxEk4FQi+O41DWBkWGE+6u5sKIxaf148ICimxw311I0EEvu1+73NI21QZbk
+         KzCnm+oYZML89lDA/5NKfUKZxV9ssTl2mpTeD7vfIIo0dgHgpeas6nOvZEgTzHz9F43v
+         X6/Pmw4J4a6mvGOK9CE3dgS27MCbkDI5WgDxloZ9KSGF5QRCS+oLB9GNRMqoWe+PnnBJ
+         hYcFe8qAyhmLqaI1k9FsKEPAClVKGPpYlYjPwWe5LTd4SKKYPJJCWCYZDcNQNgD31eVI
+         HjHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=p6SGEiBrOYUBlIz6omEKVX2rtKN0BjeDSFjoke/LKSk=;
+        b=Uv+P3aOfq5p73X7BeNyGY897FnkwOhzfhS/lH0gqPwHmKm1fYmmMmpXNxQ3rhmEdwd
+         zvx7oVodxZidCZxc+dU0zz+zHF3f+HvpEaPzj/kdSttnmZPWgizXfYmTq+dowXcN8ZIb
+         kXNKIoPyPc75OlkpC8pHbTxxONMEPW2QzZbIz/qjeLjAIYubdqxikl1sLLGjMtnQD5Ps
+         VWCKlx3yczdsGUZ8FQB/B0kEo90QuX9EcOFPVUA68Rk1/MWEaUin18Q0hkAHqflHdW2c
+         nRlZcDsgwYxfdMRwNz6TVXw7qkVmgsxkgr1weipMHfrOjYGHtk7Q0oZkupE8HZ8Myrf2
+         UB8w==
+X-Gm-Message-State: AOAM532fhkXi3BsoJdAE9zMhhBYJjwHQMvuuZPOjDx89BzZY+uYa3Ygr
+        1C1EZBYI5jLgt943/2udBWTjBJCUXz+zwIutL+E=
+X-Google-Smtp-Source: ABdhPJwMpCW3LPDAoXrTCpoBVutBRbhsxusNji2D2oQpuitB+e0xB7lTIVhQjd8cGtnsSd+TVxI5ILBwBu5N/Ucsqek=
+X-Received: by 2002:a5e:8d01:: with SMTP id m1mr4744700ioj.72.1617247934579;
+ Wed, 31 Mar 2021 20:32:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d2764451-8970-6cbd-e2bf-254a42244ffc@digikod.net>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+References: <161723932606.3149451.12366114306150243052.stgit@magnolia> <161723933214.3149451.12102627412985512284.stgit@magnolia>
+In-Reply-To: <161723933214.3149451.12102627412985512284.stgit@magnolia>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Thu, 1 Apr 2021 06:32:02 +0300
+Message-ID: <CAOQ4uxgJVUXxJmzSfHRFTFfqrV+oGt8QV-E+_wq46DmS0QGZ_w@mail.gmail.com>
+Subject: Re: [PATCH 01/18] vfs: introduce new file range exchange ioctl
+To:     "Darrick J. Wong" <djwong@kernel.org>
+Cc:     linux-xfs <linux-xfs@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Mar 31, 2021 at 07:33:50PM +0200, Mickaël Salaün wrote:
+On Thu, Apr 1, 2021 at 4:13 AM Darrick J. Wong <djwong@kernel.org> wrote:
+>
+> From: Darrick J. Wong <djwong@kernel.org>
+>
+> Introduce a new ioctl to handle swapping ranges of bytes between files.
+>
+> Signed-off-by: Darrick J. Wong <djwong@kernel.org>
+> ---
+>  Documentation/filesystems/vfs.rst |   16 ++
+>  fs/ioctl.c                        |   42 +++++
+>  fs/remap_range.c                  |  283 +++++++++++++++++++++++++++++++++++++
+>  fs/xfs/libxfs/xfs_fs.h            |    1
+>  include/linux/fs.h                |   14 ++
+>  include/uapi/linux/fiexchange.h   |  101 +++++++++++++
+>  6 files changed, 456 insertions(+), 1 deletion(-)
+>  create mode 100644 include/uapi/linux/fiexchange.h
+>
+>
+> diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
+> index 2049bbf5e388..9f16b260bc7e 100644
+> --- a/Documentation/filesystems/vfs.rst
+> +++ b/Documentation/filesystems/vfs.rst
+> @@ -1006,6 +1006,8 @@ This describes how the VFS can manipulate an open file.  As of kernel
+>                 loff_t (*remap_file_range)(struct file *file_in, loff_t pos_in,
+>                                            struct file *file_out, loff_t pos_out,
+>                                            loff_t len, unsigned int remap_flags);
+> +                int (*xchg_file_range)(struct file *file1, struct file *file2,
+> +                                       struct file_xchg_range *fxr);
 
-> > +static inline u64 unmask_layers(
-> > +		const struct landlock_ruleset *const domain,
-> > +		const struct path *const path, const u32 access_request,
-> > +		u64 layer_mask)
-> > +{
-> > +	const struct landlock_rule *rule;
-> > +	const struct inode *inode;
-> > +	size_t i;
-> > +
-> > +	if (d_is_negative(path->dentry))
-> > +		/* Continues to walk while there is no mapped inode. */
-				     ^^^^^
-Odd comment, that...
+An obvious question: why is the xchgn_file_range op not using the
+unified remap_file_range() method with REMAP_XCHG_ flags?
+Surely replacing the remap_flags arg with struct file_remap_range.
 
-> > +static int check_access_path(const struct landlock_ruleset *const domain,
-> > +		const struct path *const path, u32 access_request)
-> > +{
+I went to look for reasons and I didn't find them.
+Can you share your reasons for that?
 
-> > +	walker_path = *path;
-> > +	path_get(&walker_path);
-
-> > +	while (true) {
-> > +		struct dentry *parent_dentry;
-> > +
-> > +		layer_mask = unmask_layers(domain, &walker_path,
-> > +				access_request, layer_mask);
-> > +		if (layer_mask == 0) {
-> > +			/* Stops when a rule from each layer grants access. */
-> > +			allowed = true;
-> > +			break;
-> > +		}
-> > +
-> > +jump_up:
-> > +		if (walker_path.dentry == walker_path.mnt->mnt_root) {
-> > +			if (follow_up(&walker_path)) {
-> > +				/* Ignores hidden mount points. */
-> > +				goto jump_up;
-> > +			} else {
-> > +				/*
-> > +				 * Stops at the real root.  Denies access
-> > +				 * because not all layers have granted access.
-> > +				 */
-> > +				allowed = false;
-> > +				break;
-> > +			}
-> > +		}
-> > +		if (unlikely(IS_ROOT(walker_path.dentry))) {
-> > +			/*
-> > +			 * Stops at disconnected root directories.  Only allows
-> > +			 * access to internal filesystems (e.g. nsfs, which is
-> > +			 * reachable through /proc/<pid>/ns/<namespace>).
-> > +			 */
-> > +			allowed = !!(walker_path.mnt->mnt_flags & MNT_INTERNAL);
-> > +			break;
-> > +		}
-> > +		parent_dentry = dget_parent(walker_path.dentry);
-> > +		dput(walker_path.dentry);
-> > +		walker_path.dentry = parent_dentry;
-> > +	}
-> > +	path_put(&walker_path);
-> > +	return allowed ? 0 : -EACCES;
-
-That's a whole lot of grabbing/dropping references...  I realize that it's
-an utterly tactless question, but... how costly it is?  IOW, do you have
-profiling data?
-
-> > +/*
-> > + * pivot_root(2), like mount(2), changes the current mount namespace.  It must
-> > + * then be forbidden for a landlocked process.
-
-... and cross-directory rename(2) can change the tree topology.  Do you ban that
-as well?
-
-[snip]
-
-> > +static int hook_path_rename(const struct path *const old_dir,
-> > +		struct dentry *const old_dentry,
-> > +		const struct path *const new_dir,
-> > +		struct dentry *const new_dentry)
-> > +{
-> > +	const struct landlock_ruleset *const dom =
-> > +		landlock_get_current_domain();
-> > +
-> > +	if (!dom)
-> > +		return 0;
-> > +	/* The mount points are the same for old and new paths, cf. EXDEV. */
-> > +	if (old_dir->dentry != new_dir->dentry)
-> > +		/* For now, forbids reparenting. */
-> > +		return -EACCES;
-
-You do, apparently, and not in a way that would have the userland fall
-back to copy+unlink.  Lovely...  Does e.g. git survive such restriction?
-Same question for your average package build...
+Thanks,
+Amir.
