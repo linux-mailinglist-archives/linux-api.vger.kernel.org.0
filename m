@@ -2,90 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 551DB351851
-	for <lists+linux-api@lfdr.de>; Thu,  1 Apr 2021 19:48:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5823835199D
+	for <lists+linux-api@lfdr.de>; Thu,  1 Apr 2021 20:03:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234461AbhDARpk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 1 Apr 2021 13:45:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57266 "EHLO
+        id S234316AbhDARzq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 1 Apr 2021 13:55:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234636AbhDARig (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 1 Apr 2021 13:38:36 -0400
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E2D0C02FE9D
-        for <linux-api@vger.kernel.org>; Thu,  1 Apr 2021 09:05:44 -0700 (PDT)
-Received: by mail-lj1-x22a.google.com with SMTP id u10so2821781lju.7
-        for <linux-api@vger.kernel.org>; Thu, 01 Apr 2021 09:05:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iP5XcIUiB65F0LLqCoqPxiX0Svs4vaWqQzfjqgIZ9Cs=;
-        b=FPeG12D75gTLYSxzhBVuCFWZ7afdxQScJL/saT72QoEEkvkmu4OPQw4w4cozkk1n20
-         XGxo2yvy2/NQ44qtUM+WNWfgCPAl37mw1L1LrAe/r3PRY8uK8TbAN3gNKWlLrgAsry3t
-         3RGscXoiWR2M5XVNZ7QurRIJZkl+KHhoU2ZaE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iP5XcIUiB65F0LLqCoqPxiX0Svs4vaWqQzfjqgIZ9Cs=;
-        b=XxPPZtW1NNosYeprTaM4J/TfbKtLe4HM/1ZeosgdjviKtpzEwuXp8SQCV3bgX20SNr
-         TzGKouvwbSXD6ZC8ZvJcK67ptzGftTE2HZCoThlmS60z86YnKXQG7tA4nvolEe9X6s/M
-         RtsXatJd0lysuDtRgEPmJ2XDQqB6gqAnWcOod7jifp6OLjTgdetGleN+sv99FaUtPTUh
-         QMSQWuhno/o27t8N1c9V3EL6/FV5J/8wx/1/SJaPoTyfKnAM/oGy0jASQY61HZS0TfAe
-         4aMBgIZUytTHnrfSpVNLFbXP6MQqMfWLeEYphDFlsBcv+VDIZn8oAVRI/WjobG3AMRaT
-         8gJQ==
-X-Gm-Message-State: AOAM533J9BLD67uyv3qTTGqIHMP7GWwp5uMnx4dMGrINegOsRL1xS6rQ
-        /sNPsg6qJSQ1X6cL2K1ae3qrcIP4dykPdZEK
-X-Google-Smtp-Source: ABdhPJzEFIjXJGFWRb4KleFlgCVSh3FuFlK6ASJtiLV82NsvEg6ZNYcMutpVi8EGZwaX/ZH0PxFkEQ==
-X-Received: by 2002:a05:651c:1214:: with SMTP id i20mr5753991lja.423.1617293141402;
-        Thu, 01 Apr 2021 09:05:41 -0700 (PDT)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
-        by smtp.gmail.com with ESMTPSA id p11sm582695lfr.235.2021.04.01.09.05.39
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Apr 2021 09:05:40 -0700 (PDT)
-Received: by mail-lj1-f169.google.com with SMTP id o16so2831121ljp.3
-        for <linux-api@vger.kernel.org>; Thu, 01 Apr 2021 09:05:39 -0700 (PDT)
-X-Received: by 2002:a05:651c:3c1:: with SMTP id f1mr5836522ljp.507.1617293139746;
- Thu, 01 Apr 2021 09:05:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1617258892.git.osandov@fb.com> <0e7270919b461c4249557b12c7dfce0ad35af300.1617258892.git.osandov@fb.com>
-In-Reply-To: <0e7270919b461c4249557b12c7dfce0ad35af300.1617258892.git.osandov@fb.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu, 1 Apr 2021 09:05:22 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgpn=GYW=2ZNizdVdM0qGGk_iM_Ho=0eawhNaKHifSdpg@mail.gmail.com>
-Message-ID: <CAHk-=wgpn=GYW=2ZNizdVdM0qGGk_iM_Ho=0eawhNaKHifSdpg@mail.gmail.com>
-Subject: Re: [PATCH v9 1/9] iov_iter: add copy_struct_from_iter()
-To:     Omar Sandoval <osandov@osandov.com>
-Cc:     linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-btrfs <linux-btrfs@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
+        with ESMTP id S236375AbhDARsZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 1 Apr 2021 13:48:25 -0400
+Received: from hr2.samba.org (hr2.samba.org [IPv6:2a01:4f8:192:486::2:0])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4399FC00F7C9;
+        Thu,  1 Apr 2021 08:05:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
+         s=42; h=Date:Message-ID:From:Cc:To;
+        bh=9An728KlZVjFf0+wENS6eedafMqAahJG4Eij/X4oC/A=; b=qsotVAOsAg8OcFq9zC5lgMb9GG
+        MurbuwzIaErbn6IKjPavhYlcQzwF3VkGyyEeE5qZ7Z5Rh1nT2gqMB3fe6VIe4jGiTxGk2Hb2jrMxY
+        TPd0KHj+62YMLei1/cpln9i8/osy4zGPYFVH5/ZXKBmuvpJXGE18p3jHCV0ouuRcdEX91zs8mZMLB
+        B5Yjzj6ZgxySQMFUEW1q9361RLEtX5Nxsw8GzqhM0Yu8F6R8HtME2Wl9w4xYxFytlYeEqE+tmsBsi
+        JQsEirprZ0bVIRYgnWSX/fE/+Rpc6MmMW+uCodPy0fLyD4qEwkFhUcTB+fKeBoOcULcE0yp/Ohy5m
+        Dj4jlWmc6rk4anGQsw/kDht1WQwF0Qpe5T1G8r4ts4yK9ROwpfmo7x015b4OYbuuhT9hXxm+J5LDU
+        ARXpwmeARIXcuUP8/ktzb9754M3xWrfplDaBqnd1EWZ6qHjpbB81AOSKiAAuW6IAbvxQw9/Pd1JIU
+        teYLJXz18h/IPJJHsgm+UNcO;
+Received: from [127.0.0.2] (localhost [127.0.0.1])
+        by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_RSA_CHACHA20_POLY1305:256)
+        (Exim)
+        id 1lRysz-0007XZ-En; Thu, 01 Apr 2021 15:05:29 +0000
+To:     Alexey Dobriyan <adobriyan@gmail.com>,
         Christoph Hellwig <hch@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
-        Jann Horn <jannh@google.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Kernel Team <kernel-team@fb.com>
-Content-Type: text/plain; charset="UTF-8"
+        Jens Axboe <axboe@kernel.dk>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>, fw@deneb.enyo.de,
+        io-uring <io-uring@vger.kernel.org>
+References: <YFYjOB1jpbqyNPAp@localhost.localdomain>
+ <CALCETrUPAvUOr8V5db0gu5RKVftKFwbBEkh6Aob57v+D-xdEig@mail.gmail.com>
+ <20210322075310.GA1946905@infradead.org>
+ <YGTMTJ7h5aspTQ5M@localhost.localdomain>
+From:   Stefan Metzmacher <metze@samba.org>
+Subject: Re: [PATCH] Document that PF_KTHREAD _is_ ABI
+Message-ID: <5992461c-1aad-3ba4-47d6-4dad10b6903a@samba.org>
+Date:   Thu, 1 Apr 2021 17:05:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+MIME-Version: 1.0
+In-Reply-To: <YGTMTJ7h5aspTQ5M@localhost.localdomain>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Mar 31, 2021 at 11:51 PM Omar Sandoval <osandov@osandov.com> wrote:
->
-> + *
-> + * The recommended usage is something like the following:
-> + *
-> + *     if (usize > PAGE_SIZE)
-> + *       return -E2BIG;
 
-Maybe this should be more than a recommendation, and just be inside
-copy_struct_from_iter(), because otherwise the "check_zeroed_user()"
-call might be quite the timesink for somebody who does something
-stupid.
+Am 31.03.21 um 21:23 schrieb Alexey Dobriyan:
+> On Mon, Mar 22, 2021 at 07:53:10AM +0000, Christoph Hellwig wrote:
+>> On Sat, Mar 20, 2021 at 10:23:12AM -0700, Andy Lutomirski wrote:
+>>>> https://github.com/systemd/systemd/blob/main/src/basic/process-util.c#L354
+>>>> src/basic/process-util.c:is_kernel_thread()
+>>>
+>>> Eww.
+>>>
+>>> Could we fix it differently and more permanently by modifying the proc
+>>> code to display the values systemd expects?
+>>
+>> Yes, do_task_stat needs a mapping from kernel flags to UABI flags.  And
+>> we should already discard everything we think we can from the UABI
+>> now, and only add the ones back that are required to not break
+>> userspace.
+> 
+> Sure we do. Who is going to find all the flags? I found PF_KTHREAD. :^)
+> 
+> More seriously,
+> 
+> /proc/$pid/stat was expanded to include tsk->flags in 0.99.1 (!!!)
+> 
+> Developers kept adding and shuffling flags probably not even realising
+> what's going on. The last incident happened at 5.10 when PF_IO_WORKER
+> was exchanged with PF_VCPU for smaller codegen.
 
-But otherwise this new version (still) looks fine to me.
+With the create_io_thread(), the impact of PF_IO_WORKER becomes more broadly
+visible and userspace might start to look at it in order to find the difference
+between userspace and kernel io threads. (I also think it should actually be renamed to
+PF_IO_THREAD...)
 
-            Linus
+Jens, what do you think about that?
+
+metze
