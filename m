@@ -2,53 +2,58 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5823835199D
-	for <lists+linux-api@lfdr.de>; Thu,  1 Apr 2021 20:03:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 501D035199B
+	for <lists+linux-api@lfdr.de>; Thu,  1 Apr 2021 20:03:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234316AbhDARzq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 1 Apr 2021 13:55:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59754 "EHLO
+        id S234647AbhDARzo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 1 Apr 2021 13:55:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236375AbhDARsZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 1 Apr 2021 13:48:25 -0400
-Received: from hr2.samba.org (hr2.samba.org [IPv6:2a01:4f8:192:486::2:0])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4399FC00F7C9;
-        Thu,  1 Apr 2021 08:05:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
-         s=42; h=Date:Message-ID:From:Cc:To;
-        bh=9An728KlZVjFf0+wENS6eedafMqAahJG4Eij/X4oC/A=; b=qsotVAOsAg8OcFq9zC5lgMb9GG
-        MurbuwzIaErbn6IKjPavhYlcQzwF3VkGyyEeE5qZ7Z5Rh1nT2gqMB3fe6VIe4jGiTxGk2Hb2jrMxY
-        TPd0KHj+62YMLei1/cpln9i8/osy4zGPYFVH5/ZXKBmuvpJXGE18p3jHCV0ouuRcdEX91zs8mZMLB
-        B5Yjzj6ZgxySQMFUEW1q9361RLEtX5Nxsw8GzqhM0Yu8F6R8HtME2Wl9w4xYxFytlYeEqE+tmsBsi
-        JQsEirprZ0bVIRYgnWSX/fE/+Rpc6MmMW+uCodPy0fLyD4qEwkFhUcTB+fKeBoOcULcE0yp/Ohy5m
-        Dj4jlWmc6rk4anGQsw/kDht1WQwF0Qpe5T1G8r4ts4yK9ROwpfmo7x015b4OYbuuhT9hXxm+J5LDU
-        ARXpwmeARIXcuUP8/ktzb9754M3xWrfplDaBqnd1EWZ6qHjpbB81AOSKiAAuW6IAbvxQw9/Pd1JIU
-        teYLJXz18h/IPJJHsgm+UNcO;
-Received: from [127.0.0.2] (localhost [127.0.0.1])
-        by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_RSA_CHACHA20_POLY1305:256)
-        (Exim)
-        id 1lRysz-0007XZ-En; Thu, 01 Apr 2021 15:05:29 +0000
-To:     Alexey Dobriyan <adobriyan@gmail.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Jens Axboe <axboe@kernel.dk>
-Cc:     Andy Lutomirski <luto@kernel.org>,
+        with ESMTP id S236513AbhDARpV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 1 Apr 2021 13:45:21 -0400
+Received: from smtp-190d.mail.infomaniak.ch (smtp-190d.mail.infomaniak.ch [IPv6:2001:1600:3:17::190d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D91EDC03117E
+        for <linux-api@vger.kernel.org>; Thu,  1 Apr 2021 10:11:06 -0700 (PDT)
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4FB8pb136rzMqMD8;
+        Thu,  1 Apr 2021 19:11:03 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4FB8pQ6Nzrzlh8TN;
+        Thu,  1 Apr 2021 19:10:54 +0200 (CEST)
+Subject: Re: [PATCH v31 07/12] landlock: Support filesystem access-control
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Jann Horn <jannh@google.com>, Kees Cook <keescook@chromium.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>, fw@deneb.enyo.de,
-        io-uring <io-uring@vger.kernel.org>
-References: <YFYjOB1jpbqyNPAp@localhost.localdomain>
- <CALCETrUPAvUOr8V5db0gu5RKVftKFwbBEkh6Aob57v+D-xdEig@mail.gmail.com>
- <20210322075310.GA1946905@infradead.org>
- <YGTMTJ7h5aspTQ5M@localhost.localdomain>
-From:   Stefan Metzmacher <metze@samba.org>
-Subject: Re: [PATCH] Document that PF_KTHREAD _is_ ABI
-Message-ID: <5992461c-1aad-3ba4-47d6-4dad10b6903a@samba.org>
-Date:   Thu, 1 Apr 2021 17:05:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        David Howells <dhowells@redhat.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>
+References: <20210324191520.125779-1-mic@digikod.net>
+ <20210324191520.125779-8-mic@digikod.net>
+ <d2764451-8970-6cbd-e2bf-254a42244ffc@digikod.net>
+ <YGUslUPwp85Zrp4t@zeniv-ca.linux.org.uk>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <84e1cd29-0f09-1ed4-c680-65ca8c6988a3@digikod.net>
+Date:   Thu, 1 Apr 2021 19:12:05 +0200
+User-Agent: 
 MIME-Version: 1.0
-In-Reply-To: <YGTMTJ7h5aspTQ5M@localhost.localdomain>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <YGUslUPwp85Zrp4t@zeniv-ca.linux.org.uk>
+Content-Type: text/plain; charset=iso-8859-15
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -56,37 +61,130 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 
-Am 31.03.21 um 21:23 schrieb Alexey Dobriyan:
-> On Mon, Mar 22, 2021 at 07:53:10AM +0000, Christoph Hellwig wrote:
->> On Sat, Mar 20, 2021 at 10:23:12AM -0700, Andy Lutomirski wrote:
->>>> https://github.com/systemd/systemd/blob/main/src/basic/process-util.c#L354
->>>> src/basic/process-util.c:is_kernel_thread()
->>>
->>> Eww.
->>>
->>> Could we fix it differently and more permanently by modifying the proc
->>> code to display the values systemd expects?
->>
->> Yes, do_task_stat needs a mapping from kernel flags to UABI flags.  And
->> we should already discard everything we think we can from the UABI
->> now, and only add the ones back that are required to not break
->> userspace.
+On 01/04/2021 04:14, Al Viro wrote:
+> On Wed, Mar 31, 2021 at 07:33:50PM +0200, Mickaël Salaün wrote:
 > 
-> Sure we do. Who is going to find all the flags? I found PF_KTHREAD. :^)
-> 
-> More seriously,
-> 
-> /proc/$pid/stat was expanded to include tsk->flags in 0.99.1 (!!!)
-> 
-> Developers kept adding and shuffling flags probably not even realising
-> what's going on. The last incident happened at 5.10 when PF_IO_WORKER
-> was exchanged with PF_VCPU for smaller codegen.
+>>> +static inline u64 unmask_layers(
+>>> +		const struct landlock_ruleset *const domain,
+>>> +		const struct path *const path, const u32 access_request,
+>>> +		u64 layer_mask)
+>>> +{
+>>> +	const struct landlock_rule *rule;
+>>> +	const struct inode *inode;
+>>> +	size_t i;
+>>> +
+>>> +	if (d_is_negative(path->dentry))
+>>> +		/* Continues to walk while there is no mapped inode. */
+> 				     ^^^^^
+> Odd comment, that...
 
-With the create_io_thread(), the impact of PF_IO_WORKER becomes more broadly
-visible and userspace might start to look at it in order to find the difference
-between userspace and kernel io threads. (I also think it should actually be renamed to
-PF_IO_THREAD...)
+I'll replace that with something more appropriate, e.g. "Ignore
+nonexistent leafs".
 
-Jens, what do you think about that?
+> 
+>>> +static int check_access_path(const struct landlock_ruleset *const domain,
+>>> +		const struct path *const path, u32 access_request)
+>>> +{
+> 
+>>> +	walker_path = *path;
+>>> +	path_get(&walker_path);
+> 
+>>> +	while (true) {
+>>> +		struct dentry *parent_dentry;
+>>> +
+>>> +		layer_mask = unmask_layers(domain, &walker_path,
+>>> +				access_request, layer_mask);
+>>> +		if (layer_mask == 0) {
+>>> +			/* Stops when a rule from each layer grants access. */
+>>> +			allowed = true;
+>>> +			break;
+>>> +		}
+>>> +
+>>> +jump_up:
+>>> +		if (walker_path.dentry == walker_path.mnt->mnt_root) {
+>>> +			if (follow_up(&walker_path)) {
+>>> +				/* Ignores hidden mount points. */
+>>> +				goto jump_up;
+>>> +			} else {
+>>> +				/*
+>>> +				 * Stops at the real root.  Denies access
+>>> +				 * because not all layers have granted access.
+>>> +				 */
+>>> +				allowed = false;
+>>> +				break;
+>>> +			}
+>>> +		}
+>>> +		if (unlikely(IS_ROOT(walker_path.dentry))) {
+>>> +			/*
+>>> +			 * Stops at disconnected root directories.  Only allows
+>>> +			 * access to internal filesystems (e.g. nsfs, which is
+>>> +			 * reachable through /proc/<pid>/ns/<namespace>).
+>>> +			 */
+>>> +			allowed = !!(walker_path.mnt->mnt_flags & MNT_INTERNAL);
+>>> +			break;
+>>> +		}
+>>> +		parent_dentry = dget_parent(walker_path.dentry);
+>>> +		dput(walker_path.dentry);
+>>> +		walker_path.dentry = parent_dentry;
+>>> +	}
+>>> +	path_put(&walker_path);
+>>> +	return allowed ? 0 : -EACCES;
+> 
+> That's a whole lot of grabbing/dropping references...  I realize that it's
+> an utterly tactless question, but... how costly it is?  IOW, do you have
+> profiling data?
 
-metze
+It looks like a legitimate question.
+
+First, Landlock may not be appropriate for every workloads. The
+check_access_path()'s complexity is now linear, which is a consequence
+of the "unprivileged" target (i.e. multiple layers of file hierarchies).
+Adding caching should help a lot to improve performance (i.e. limit the
+path walking), but it will come with future improvements.
+
+I profiled a "find" loop on the linux-5.12-rc3 source tree in a tmpfs
+(and with cached entries): openat(2) calls spend ~30% of their time in
+check_access_path() with a base directory of one parent (/linux) and
+~45% with a base directory of ten parents (/1/2/3/4/5/6/7/8/9/linux).
+Overall, the performance impact is between 3.0% (with a minimum depth of
+1) and 5.4% (with a minimum depth of 10) of the full execution time of
+these worse case scenarios, which are ~4800 openat(2) calls. This is not
+a surprise and doesn't seem so bad without optimization.
+
+
+> 
+>>> +/*
+>>> + * pivot_root(2), like mount(2), changes the current mount namespace.  It must
+>>> + * then be forbidden for a landlocked process.
+> 
+> ... and cross-directory rename(2) can change the tree topology.  Do you ban that
+> as well?
+> 
+> [snip]
+> 
+>>> +static int hook_path_rename(const struct path *const old_dir,
+>>> +		struct dentry *const old_dentry,
+>>> +		const struct path *const new_dir,
+>>> +		struct dentry *const new_dentry)
+>>> +{
+>>> +	const struct landlock_ruleset *const dom =
+>>> +		landlock_get_current_domain();
+>>> +
+>>> +	if (!dom)
+>>> +		return 0;
+>>> +	/* The mount points are the same for old and new paths, cf. EXDEV. */
+>>> +	if (old_dir->dentry != new_dir->dentry)
+>>> +		/* For now, forbids reparenting. */
+>>> +		return -EACCES;
+> 
+> You do, apparently, and not in a way that would have the userland fall
+> back to copy+unlink.  Lovely...  Does e.g. git survive such restriction?
+> Same question for your average package build...
+
+As explained in the documentation, there is some limitations that make
+this first step not appropriate for all use cases. I'll use EXDEV to
+gracefully forbid reparenting, which gives a chance to userspace to deal
+with that. It may not be enough for package management though. I plan to
+address such limitation with future evolutions.
+
+Thanks for these suggestions.
