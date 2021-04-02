@@ -2,123 +2,107 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A20AA3527AC
-	for <lists+linux-api@lfdr.de>; Fri,  2 Apr 2021 10:59:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD23B352EBE
+	for <lists+linux-api@lfdr.de>; Fri,  2 Apr 2021 19:51:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231160AbhDBI71 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 2 Apr 2021 04:59:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59098 "EHLO
+        id S234207AbhDBRu4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 2 Apr 2021 13:50:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229742AbhDBI7U (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Apr 2021 04:59:20 -0400
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77F23C0613E6;
-        Fri,  2 Apr 2021 01:59:18 -0700 (PDT)
-Received: by mail-lj1-x22e.google.com with SMTP id s17so4978043ljc.5;
-        Fri, 02 Apr 2021 01:59:18 -0700 (PDT)
+        with ESMTP id S234996AbhDBRuz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Apr 2021 13:50:55 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C56E6C061788
+        for <linux-api@vger.kernel.org>; Fri,  2 Apr 2021 10:50:52 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id h20so2821849plr.4
+        for <linux-api@vger.kernel.org>; Fri, 02 Apr 2021 10:50:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HywOIhb5prU0SvgCATKvH+ZBrrrzKF5XQkM0MZqr0LA=;
-        b=K58phw+IpQ//OZE32Gwyp+hDyT7tu3gNVxEMtandIn2kAiffLXdmEdS04bVlL12zRL
-         3Ll05xL2x9/Gk+5wivRKbqrgR3LpQX0vyVTpJ69ZwbzSUeBmc2PKqPI6MKznUgBhI/Z5
-         6ei4DP+DUVX4r6T4Cb+PdXQWv0olcT9mOewLrjdl4pA2deoUzXoSDrNBwAImjMo8/q/v
-         RlMq/+aPVcFbNJQjRQ7XrCzv6wcTnjmm2dpsciA1HKIKMp+qf36tyl4KBeDJIK1iwFCc
-         CBIe9O1zsPBiX7cYdtK+nVIP3tr2MzJS7DIaCW1+LORojLEFSCg9UKN1WXHWls0FqOkm
-         Ks2g==
+        d=osandov-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=eYX1VCobuv7ZghRLFjUBUx/jA51U229FVIFeLRu/n6g=;
+        b=uZcOrbj95WMDw9eW5IvdUkXZmw+FX3tdBKmnN727c4w+7bNNhnsgltsJ2Fcp/q1DLv
+         4LVESOmKbbodSySgHqpal85/8UmxTXG0bLxLQQvNQC59F9FMoYHA9Seobp6cGIG9vbBt
+         X92sEDAQLohDGs/j9lfttU1oU7asvzWdGgpa12bBZCK3PuvD6jUy0FadbEcGQG//OKg2
+         iSMTaN/qrMGwmUi8DxUQYUhdRP0KTlooSBD6ANyVJGiP0qdLs4EdRjgOC5IwNun0InJN
+         rOEf8sFRUKMQa2rgjsDlQskvoSy/yd8SR4gu98w/FIsOLzrBeerzBcUL1oFEGXt+SRvB
+         mjDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HywOIhb5prU0SvgCATKvH+ZBrrrzKF5XQkM0MZqr0LA=;
-        b=KxIZG03I8U4sHiC8JIgaKrKcgsbOD6HkB7EjRJjXP4gviYymLGiWgnQyg4O+nSq7on
-         WDtxImH4qPsjp8PyOCarK4P1hhu/qv6JmfBlggVgwDW6LPEnrq6Ez1gnmC5sa6LkYrM3
-         QVG5SIcUhGLScfBTMKSCbT2b89iLC/5DakPdiGWAkAGMlaSFLxWKUP8pGbr5rhZoOqgK
-         F3fgQCSSg6OE1W7oirS2f5RpNmIC1Jo0Y8hSD5Y5XgfzZHrxH1fQGqkw0AZuSihjJSDs
-         7GLn2QOgvHfKQuELU5JP0WZJ7TotlX5Un6W3EV6POPygCmvAe1fy9MLgtxyl28lyi4JR
-         qiYg==
-X-Gm-Message-State: AOAM5318wHIn5zPT8IeCN66qB0ofMqbzhjvwSIWYihUEI9H7qJJuewBR
-        OoP2qO9rdO76M2oMiVbVvaStmXZw6W1QmbkgX9W1yWKQrjY=
-X-Google-Smtp-Source: ABdhPJw8cpfvx6+g3xC+Ja1aMlvho4dmtsu+dGUtAgfwKzdxVgHhaVnDtPlWS7DxXgJ74G2bNz/qvwTyG1+eZ5ifgLo=
-X-Received: by 2002:a05:651c:384:: with SMTP id e4mr7528065ljp.500.1617353956993;
- Fri, 02 Apr 2021 01:59:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <alpine.DEB.2.21.2103302221590.18977@angie.orcam.me.uk>
- <mhng-08e5e4fb-8a42-4f7b-8ceb-ff549784100e@palmerdabbelt-glaptop> <CACT4Y+Z0PaAuUFrOBenztWkw8OV=J-qaeD1FASPM4ufcLg5a5A@mail.gmail.com>
-In-Reply-To: <CACT4Y+Z0PaAuUFrOBenztWkw8OV=J-qaeD1FASPM4ufcLg5a5A@mail.gmail.com>
-From:   David Abdurachmanov <david.abdurachmanov@gmail.com>
-Date:   Fri, 2 Apr 2021 11:58:40 +0300
-Message-ID: <CAEn-LTqTXCEC=bXTvGyo8SNL0JMWRKtiSwQB7R=Pc4uhxZUruA@mail.gmail.com>
-Subject: Re: [PATCH] riscv: Bump COMMAND_LINE_SIZE value to 1024
-To:     Dmitry Vyukov <dvyukov@google.com>
-Cc:     Palmer Dabbelt <palmer@dabbelt.com>, macro@orcam.me.uk,
-        Alex Ghiti <alex@ghiti.fr>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=eYX1VCobuv7ZghRLFjUBUx/jA51U229FVIFeLRu/n6g=;
+        b=koxiXCgv7o1s2wGq4Cpj11s2YtByV1SHQobgsItddb6ShX+ppV4qwl8MnjuczbBLx1
+         FLtWmbrm7zPUorWfvu1rsWQQfMF3IEmlcjGPQBN6R5rjrTxeh1wpOrZUIcvEHEiNx8mM
+         KkR62KTfjDLAVufQ+TRYHFZnwWHu12v80r8y5OSIwlggAr0dkf5IvZp4p12Gt8V/Tjl8
+         RQxSwVJD8WmrfahWIeRPSi3G6dskHTT86AW8qhr4jAXA1XqQphVQ36RWJDBCitdBXwY9
+         hgDrPh9tO47X1dAPIxTn4OYmu4dbpydaOO2Hki+RBxBrQfKHycK/8CQ4YlTYSaXwElAp
+         4jdw==
+X-Gm-Message-State: AOAM533HMKt6PBuxqnyx27f40pt/c+lknDXlzNVgE/S40j4VySaOWEp2
+        bihONOxJuCM/gR46w1VlldHP4Q==
+X-Google-Smtp-Source: ABdhPJwc7UEZ8VNo4bnQIhOq7dyMaBrLDsA+tXAOfWXSiLl0wOd2t0uGD3skjne7xiJ4u5fOgwcx0A==
+X-Received: by 2002:a17:902:9345:b029:e7:4853:ff5f with SMTP id g5-20020a1709029345b02900e74853ff5fmr13857339plp.74.1617385852230;
+        Fri, 02 Apr 2021 10:50:52 -0700 (PDT)
+Received: from relinquished.localdomain ([2601:602:8b80:8e0::16fc])
+        by smtp.gmail.com with ESMTPSA id a15sm8751227pju.34.2021.04.02.10.50.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Apr 2021 10:50:51 -0700 (PDT)
+Date:   Fri, 2 Apr 2021 10:50:50 -0700
+From:   Omar Sandoval <osandov@osandov.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-btrfs <linux-btrfs@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dave Chinner <david@fromorbit.com>,
+        Jann Horn <jannh@google.com>,
+        Amir Goldstein <amir73il@gmail.com>,
         Linux API <linux-api@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Kernel Team <kernel-team@fb.com>
+Subject: Re: [PATCH v9 1/9] iov_iter: add copy_struct_from_iter()
+Message-ID: <YGdZeh4K3BxQPcGx@relinquished.localdomain>
+References: <cover.1617258892.git.osandov@fb.com>
+ <0e7270919b461c4249557b12c7dfce0ad35af300.1617258892.git.osandov@fb.com>
+ <CAHk-=wgpn=GYW=2ZNizdVdM0qGGk_iM_Ho=0eawhNaKHifSdpg@mail.gmail.com>
+ <YGbIwOv0yq0z8i8K@relinquished.localdomain>
+ <20210402080423.t26zd34p2oxbzvuj@wittgenstein>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210402080423.t26zd34p2oxbzvuj@wittgenstein>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Apr 2, 2021 at 11:43 AM Dmitry Vyukov <dvyukov@google.com> wrote:
->
-> On Fri, Apr 2, 2021 at 6:37 AM Palmer Dabbelt <palmer@dabbelt.com> wrote:
-> >
-> > On Tue, 30 Mar 2021 13:31:45 PDT (-0700), macro@orcam.me.uk wrote:
-> > > On Mon, 29 Mar 2021, Palmer Dabbelt wrote:
-> > >
-> > >> > --- /dev/null
-> > >> > +++ b/arch/riscv/include/uapi/asm/setup.h
-> > >> > @@ -0,0 +1,8 @@
-> > >> > +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
-> > >> > +
-> > >> > +#ifndef _UAPI_ASM_RISCV_SETUP_H
-> > >> > +#define _UAPI_ASM_RISCV_SETUP_H
-> > >> > +
-> > >> > +#define COMMAND_LINE_SIZE 1024
-> > >> > +
-> > >> > +#endif /* _UAPI_ASM_RISCV_SETUP_H */
-> > >>
-> > >> I put this on fixes, but it seemes like this should really be a Kconfig
-> > >> enttry.  Either way, ours was quite a bit smaller than most architectures and
-> > >> it's great that syzbot has started to find bugs, so I'd rather get this in
-> > >> sooner.
-> > >
-> > >  This macro is exported as a part of the user API so it must not depend on
-> > > Kconfig.  Also changing it (rather than say adding COMMAND_LINE_SIZE_V2 or
-> > > switching to an entirely new data object that has its dimension set in a
-> > > different way) requires careful evaluation as external binaries have and
-> > > will have the value it expands to compiled in, so it's a part of the ABI
-> > > too.
-> >
-> > Thanks, I didn't realize this was part of the user BI.  In that case we
-> > really can't chage it, so we'll have to sort out some other way do fix
-> > whatever is going on.
-> >
-> > I've dropped this from fixes.
->
-> Does increasing COMMAND_LINE_SIZE break user-space binaries? I would
-> expect it to work the same way as adding new enum values, or adding
-> fields at the end of versioned structs, etc.
-> I would assume the old bootloaders/etc will only support up to the
-> old, smaller max command line size, while the kernel will support
-> larger command line size, which is fine.
-> However, if something copies /proc/cmdline into a fixed-size buffer
-> and expects that to work, that will break... that's quite unfortunate
-> user-space code... is it what we afraid of?
->
-> Alternatively, could expose the same COMMAND_LINE_SIZE, but internally
-> support a larger command line?
+On Fri, Apr 02, 2021 at 10:04:23AM +0200, Christian Brauner wrote:
+> On Fri, Apr 02, 2021 at 12:33:20AM -0700, Omar Sandoval wrote:
+> > On Thu, Apr 01, 2021 at 09:05:22AM -0700, Linus Torvalds wrote:
+> > > On Wed, Mar 31, 2021 at 11:51 PM Omar Sandoval <osandov@osandov.com> wrote:
+> > > >
+> > > > + *
+> > > > + * The recommended usage is something like the following:
+> > > > + *
+> > > > + *     if (usize > PAGE_SIZE)
+> > > > + *       return -E2BIG;
+> > > 
+> > > Maybe this should be more than a recommendation, and just be inside
+> > > copy_struct_from_iter(), because otherwise the "check_zeroed_user()"
+> > > call might be quite the timesink for somebody who does something
+> > > stupid.
+> > 
+> > I did actually almost send this out with the check in
+> > copy_struct_from_iter(), but decided not to for consistency with
+> > copy_struct_from_user().
+> > 
+> > openat2() seems to be the only user of copy_struct_from_user() that
+> > doesn't limit to PAGE_SIZE, which is odd given that Aleksa wrote both
+> 
+> Al said there's nothing wrong with copying large chunks of memory so we
+> shouldn't limit the helper but instead limit the callers which have
+> expectations about their size limit:
+> https://lore.kernel.org/lkml/20190905182801.GR1131@ZenIV.linux.org.uk/
 
-Looking at kernel commit history I see PowerPC switched from 512 to
-2048, and I don't see complaints about the ABI on the mailing list.
-
-If COMMAND_LINE_SIZE is used by user space applications and we
-increase it there shouldn't be problems. I would expect things to
-work, but just get truncated boot args? That is the application will
-continue only to look at the initial 512 chars.
-
-https://linuxppc-dev.ozlabs.narkive.com/m4cj8nBa/patch-1-1-powerpc-increase-command-line-size-to-2048-from-512
+Thanks for the context. So I guess it makes sense to keep the check
+"recommended" for both functions.
