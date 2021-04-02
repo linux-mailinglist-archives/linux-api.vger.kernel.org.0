@@ -2,127 +2,121 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 189043522A0
-	for <lists+linux-api@lfdr.de>; Fri,  2 Apr 2021 00:15:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3156B35246F
+	for <lists+linux-api@lfdr.de>; Fri,  2 Apr 2021 02:22:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236172AbhDAWOj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 1 Apr 2021 18:14:39 -0400
-Received: from mga07.intel.com ([134.134.136.100]:20469 "EHLO mga07.intel.com"
+        id S236370AbhDBAWH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 1 Apr 2021 20:22:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32942 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233710AbhDAWOc (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 1 Apr 2021 18:14:32 -0400
-IronPort-SDR: teoagGWmpeE3VXSLZSJ8A934q3GI2p+WFaIw0jvX45FbQ6A/HXvtEwge7uxjmeMxuiR66ucpRP
- i7+SrwHjaPlA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9941"; a="256322613"
-X-IronPort-AV: E=Sophos;i="5.81,296,1610438400"; 
-   d="scan'208";a="256322613"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2021 15:14:29 -0700
-IronPort-SDR: 4UZdjzxA+n9288G5UQT4CLuxI057gYd9lwhM+eVMUBVgkVYelhKG0aXgVHfl+NVtS1TJyk6T+C
- Nn7+Hf1MLtKg==
-X-IronPort-AV: E=Sophos;i="5.81,296,1610438400"; 
-   d="scan'208";a="394700370"
-Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2021 15:14:26 -0700
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>
-Subject: [PATCH v24 9/9] x86/vdso: Add ENDBR to __vdso_sgx_enter_enclave
-Date:   Thu,  1 Apr 2021 15:14:03 -0700
-Message-Id: <20210401221403.32253-10-yu-cheng.yu@intel.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20210401221403.32253-1-yu-cheng.yu@intel.com>
-References: <20210401221403.32253-1-yu-cheng.yu@intel.com>
+        id S236376AbhDBAWG (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 1 Apr 2021 20:22:06 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7E31061132;
+        Fri,  2 Apr 2021 00:22:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617322926;
+        bh=cDkw8X6MzrvLYfxgSuMfhlLFUoD4Mr5br6gQaN2xqVw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ozNjoOgc8jWAN/Fx70HDVKOfRgMtCif2nlFtzZuZz6BwBUnY3KkoaeU0mWqsZweMB
+         0K2V8of+kK/BFzpYG5+0ymM2ZMO2bV5EwsGIwyybD8gfj2x7l9dK0G6d6c42rosrW3
+         10vrUPkRWffz3UpX6ZJTMaDydc7wEsVFy5soDV0CvV3CTycnoPy6FIQgvUNJZylOrc
+         Yy9RskkfbLuUNF1/BRceU4LkrTSx4LYX1qDr2DcfUHgI/r4pMHgezXzZQVp9hsxlqx
+         3e36imwBL7X/sJcvQ4F2uKlDlYTwRtjrjX5qnbEGHl2HoSUZVm+XIFNgnEIKYtSSwV
+         ermLvt8uflP6w==
+Date:   Thu, 1 Apr 2021 17:22:06 -0700
+From:   "Darrick J. Wong" <djwong@kernel.org>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     linux-xfs <linux-xfs@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCHSET RFC v3 00/18] xfs: atomic file updates
+Message-ID: <20210402002206.GF4090233@magnolia>
+References: <161723932606.3149451.12366114306150243052.stgit@magnolia>
+ <CAOQ4uxhPzTK=DvUxTGV0KXnqWNsumjm1UbSiFgXbdogbzyd29w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOQ4uxhPzTK=DvUxTGV0KXnqWNsumjm1UbSiFgXbdogbzyd29w@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-ENDBR is a special new instruction for the Indirect Branch Tracking (IBT)
-component of CET.  IBT prevents attacks by ensuring that (most) indirect
-branches and function calls may only land at ENDBR instructions.  Branches
-that don't follow the rules will result in control flow (#CF) exceptions.
+On Thu, Apr 01, 2021 at 06:56:20AM +0300, Amir Goldstein wrote:
+> On Thu, Apr 1, 2021 at 4:14 AM Darrick J. Wong <djwong@kernel.org> wrote:
+> >
+> > Hi all,
+> >
+> > This series creates a new FIEXCHANGE_RANGE system call to exchange
+> > ranges of bytes between two files atomically.  This new functionality
+> > enables data storage programs to stage and commit file updates such that
+> > reader programs will see either the old contents or the new contents in
+> > their entirety, with no chance of torn writes.  A successful call
+> > completion guarantees that the new contents will be seen even if the
+> > system fails.
+> >
+> > User programs will be able to update files atomically by opening an
+> > O_TMPFILE, reflinking the source file to it, making whatever updates
+> > they want to make, and exchange the relevant ranges of the temp file
+> > with the original file.  If the updates are aligned with the file block
+> > size, a new (since v2) flag provides for exchanging only the written
+> > areas.  Callers can arrange for the update to be rejected if the
+> > original file has been changed.
+> >
+> > The intent behind this new userspace functionality is to enable atomic
+> > rewrites of arbitrary parts of individual files.  For years, application
+> > programmers wanting to ensure the atomicity of a file update had to
+> > write the changes to a new file in the same directory, fsync the new
+> > file, rename the new file on top of the old filename, and then fsync the
+> > directory.  People get it wrong all the time, and $fs hacks abound.
+> > Here is the proposed manual page:
+> >
+> 
+> I like the idea of modernizing FIEXCHANGE_RANGE very much and
+> I think that the improved implementation and new(?) flags will be very
+> useful just the way you designed them, but maybe something to consider...
+> 
+> Taking a step back and ignoring the existing xfs ioctl, all the use cases
+> that you listed actually want MOVE_RANGE not exchange range.
+> No listed use case does anything with the old data except dump it in the
+> trash bin. Right?
 
-ENDBR is a noop when IBT is unsupported or disabled.  Most ENDBR
-instructions are inserted automatically by the compiler, but branch
-targets written in assembly must have ENDBR added manually.
+The three listed in the manpage don't do anything with the blocks.
 
-Add ENDBR to __vdso_sgx_enter_enclave() branch targets.
+However, there is usecase #4: online filesystem repair, where we want to
+be able to construct a new metadata file/directory/xattr tree, exchange
+the new contents with the old, and still have the old contents attached
+to the file so that we can (very carefully) tear down the internal
+buffer caches and other.  For /that/ use case, we require truncation to
+be a separate step.
 
-Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc: Andy Lutomirski <luto@kernel.org>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
----
- arch/x86/entry/vdso/vsgx.S | 4 ++++
- 1 file changed, 4 insertions(+)
+> I do realize that implementing atomic extent exchange was easier back
+> when that ioctl was implemented for xfs and ext4 and I realize that
+> deferring inode unlink was much simpler to implement than deferred
+> extent freeing, but seeing how punch hole and dedupe range already
+> need to deal with freeing target inode extents, it is not obvious to me that
+> atomic freeing the target inode extents instead of exchange is a bad idea
+> (given the appropriate opt-in flags).
+> 
+> Is there a good reason for keeping the "freeing old blocks with unlink"
+> strategy the only option?
 
-diff --git a/arch/x86/entry/vdso/vsgx.S b/arch/x86/entry/vdso/vsgx.S
-index 86a0e94f68df..c63eafa54abd 100644
---- a/arch/x86/entry/vdso/vsgx.S
-+++ b/arch/x86/entry/vdso/vsgx.S
-@@ -4,6 +4,7 @@
- #include <asm/export.h>
- #include <asm/errno.h>
- #include <asm/enclu.h>
-+#include <asm/vdso.h>
- 
- #include "extable.h"
- 
-@@ -27,6 +28,7 @@
- SYM_FUNC_START(__vdso_sgx_enter_enclave)
- 	/* Prolog */
- 	.cfi_startproc
-+	ENDBR
- 	push	%rbp
- 	.cfi_adjust_cfa_offset	8
- 	.cfi_rel_offset		%rbp, 0
-@@ -62,6 +64,7 @@ SYM_FUNC_START(__vdso_sgx_enter_enclave)
- .Lasync_exit_pointer:
- .Lenclu_eenter_eresume:
- 	enclu
-+	ENDBR
- 
- 	/* EEXIT jumps here unless the enclave is doing something fancy. */
- 	mov	SGX_ENCLAVE_OFFSET_OF_RUN(%rbp), %rbx
-@@ -91,6 +94,7 @@ SYM_FUNC_START(__vdso_sgx_enter_enclave)
- 	jmp	.Lout
- 
- .Lhandle_exception:
-+	ENDBR
- 	mov	SGX_ENCLAVE_OFFSET_OF_RUN(%rbp), %rbx
- 
- 	/* Set the exception info. */
--- 
-2.21.0
+Making userspace take the extra step of deciding what to do with the
+tempfile (and when!) after the operation reduces the amount of work that
+has to be done in the hot path, since we know that the only work we need
+to do is switch the mappings (and the reverse mappings).
 
+If this became a move operation where we drop the file2 blocks, it would
+be necessary to traverse the refcount btree to see if the blocks are
+shared, update the refcount btree, and possibly update the free space
+btrees as well.  The current design permits us to skip all that, which
+is all the more useful if the operation is synchronous.
+
+Consider also that inactivation of inodes will soon become a background
+operation in XFS, which means that userspace soon won't even have to
+wait for that part.
+
+--D
+
+> 
+> Thanks,
+> Amir.
