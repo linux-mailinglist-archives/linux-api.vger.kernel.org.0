@@ -2,99 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4ECFD352481
-	for <lists+linux-api@lfdr.de>; Fri,  2 Apr 2021 02:37:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34C49352648
+	for <lists+linux-api@lfdr.de>; Fri,  2 Apr 2021 06:37:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233830AbhDBAhS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 1 Apr 2021 20:37:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36900 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231160AbhDBAhR (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 1 Apr 2021 20:37:17 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 08A1E601FC;
-        Fri,  2 Apr 2021 00:37:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617323837;
-        bh=q9eOqOQf0zhwWcnb9R2/ehtWuFGHW/rqCoxgT1BwKQQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VrSU56eSZv9U69n/HlJqIJo01RTiJ9R1cas0jsW8Z+8b4Pc5hhVFuN0F/orjs9n4d
-         ziRcUUWUXlGIq0jc1Jm/3p+UW195Gzk8RLVfZsEa94PDzRT88fe1UKwSdczGc03kaD
-         R67GEY2ojlG72A6jS0WKx9UcP3do8lCe+stFkztuRsFNyYFOt4KGJScPY0af9UOo4Q
-         vRVTqMiJniFzT7VWxajQ8uvFddqzosuE+3SZmHlPe0TAKcYQtAjgr5O7v4k22FFaVV
-         V7o/Iv40tNRmPrqzWSkwmuUJiB+SxD8nqY61e5OQvCQfoks7JyZkO0F01tASVkPNX/
-         VlQitrh8/74Bg==
-Date:   Thu, 1 Apr 2021 17:37:16 -0700
-From:   "Darrick J. Wong" <djwong@kernel.org>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     linux-xfs <linux-xfs@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH 01/18] vfs: introduce new file range exchange ioctl
-Message-ID: <20210402003716.GG4090233@magnolia>
-References: <161723932606.3149451.12366114306150243052.stgit@magnolia>
- <161723933214.3149451.12102627412985512284.stgit@magnolia>
- <CAOQ4uxgJVUXxJmzSfHRFTFfqrV+oGt8QV-E+_wq46DmS0QGZ_w@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOQ4uxgJVUXxJmzSfHRFTFfqrV+oGt8QV-E+_wq46DmS0QGZ_w@mail.gmail.com>
+        id S229691AbhDBEhQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 2 Apr 2021 00:37:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59454 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229684AbhDBEhQ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Apr 2021 00:37:16 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46E3DC0613E6
+        for <linux-api@vger.kernel.org>; Thu,  1 Apr 2021 21:37:16 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id ot17-20020a17090b3b51b0290109c9ac3c34so4093954pjb.4
+        for <linux-api@vger.kernel.org>; Thu, 01 Apr 2021 21:37:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vM45/P2fkskhNC9Pi4JhTYL40XcOm7rleD9sfr3mD98=;
+        b=umn0kYFQss3RUcN+MI88Z4iWl2uuiLGyUdqhMxwoNWlHDuYbbgCkT0FQDFeXOnfirK
+         k89l1KDyA+VPXoR7p9/EOEjauKHHw+WG4vph7n0k6lcqdXz2H7WvrM9xtun2WzhOz8lt
+         xfXZV23UPtftCh7KwJyIE+tvV6jAh+QZx7FccS3yaJLM6mgr1uUBVbk6cRrkMQbZeipj
+         jmYMKiPj8ZGtJRzXmrf16BCfkwTDnxP9hTJQ3T89WSMTwoRiWcjOT3/zgLUpcOlFadTg
+         hjZp2BxFP+OlBMgT4ZpdFrW3O57a2RLE61n6XsLmjTMtgaFbRB+j8cc36YpuwK2t4crw
+         /F5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+         :mime-version:content-transfer-encoding;
+        bh=vM45/P2fkskhNC9Pi4JhTYL40XcOm7rleD9sfr3mD98=;
+        b=Bo6+wKwjysbd5f1CWAoxvzPgCeAwoEWZseUkPRxF4nMe2+sF63SzpNoF35yJoYBxJa
+         U8CmlbCQvotA79jXIDGfnkZyHB8VFmeagf1I8Ox8ptiUBAQSOpFIn3MPVqYbKwzUPQb9
+         qpl8B4MJliB2LuXVyzl2QDa4cW9iHvd01SzmpT/8ZDaj9MJqkXe/IayHlbuTbghEY6Rj
+         cUCGZmL50K5wKeZhrTcrDkEledIv41cUTPg7x6mJfJddPjIhag6mB/1KLv2t/qq6IsEX
+         4O5Pf5SfpHKh63gEPGTFC+T6x2KzPKUnup9eyEVXKxbL58M+lQj3bea0ImYEB8kcXP21
+         wkgA==
+X-Gm-Message-State: AOAM533zxbV+cYCCIB3+DEXSNpSn1sgmOC/kHxCpBIydvceVyvf8SF1r
+        g15TTf/rkr06XQe073TftW+mO3qKtUAyzQ==
+X-Google-Smtp-Source: ABdhPJwJpz+wXqtGbLkWvIyoQhjW1a/r+eVcAWwWeT4eygWs+CgHs2CwdQnJik04EKWP9chLze/CJg==
+X-Received: by 2002:a17:90a:df91:: with SMTP id p17mr12153985pjv.23.1617338235768;
+        Thu, 01 Apr 2021 21:37:15 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
+        by smtp.gmail.com with ESMTPSA id y5sm6696592pfl.191.2021.04.01.21.37.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Apr 2021 21:37:15 -0700 (PDT)
+Date:   Thu, 01 Apr 2021 21:37:15 -0700 (PDT)
+X-Google-Original-Date: Thu, 01 Apr 2021 21:37:09 PDT (-0700)
+Subject:     Re: [PATCH] riscv: Bump COMMAND_LINE_SIZE value to 1024
+In-Reply-To: <alpine.DEB.2.21.2103302221590.18977@angie.orcam.me.uk>
+CC:     alex@ghiti.fr, Paul Walmsley <paul.walmsley@sifive.com>,
+        dvyukov@google.com, linux-api@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     macro@orcam.me.uk
+Message-ID: <mhng-08e5e4fb-8a42-4f7b-8ceb-ff549784100e@palmerdabbelt-glaptop>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Apr 01, 2021 at 06:32:02AM +0300, Amir Goldstein wrote:
-> On Thu, Apr 1, 2021 at 4:13 AM Darrick J. Wong <djwong@kernel.org> wrote:
-> >
-> > From: Darrick J. Wong <djwong@kernel.org>
-> >
-> > Introduce a new ioctl to handle swapping ranges of bytes between files.
-> >
-> > Signed-off-by: Darrick J. Wong <djwong@kernel.org>
-> > ---
-> >  Documentation/filesystems/vfs.rst |   16 ++
-> >  fs/ioctl.c                        |   42 +++++
-> >  fs/remap_range.c                  |  283 +++++++++++++++++++++++++++++++++++++
-> >  fs/xfs/libxfs/xfs_fs.h            |    1
-> >  include/linux/fs.h                |   14 ++
-> >  include/uapi/linux/fiexchange.h   |  101 +++++++++++++
-> >  6 files changed, 456 insertions(+), 1 deletion(-)
-> >  create mode 100644 include/uapi/linux/fiexchange.h
-> >
-> >
-> > diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
-> > index 2049bbf5e388..9f16b260bc7e 100644
-> > --- a/Documentation/filesystems/vfs.rst
-> > +++ b/Documentation/filesystems/vfs.rst
-> > @@ -1006,6 +1006,8 @@ This describes how the VFS can manipulate an open file.  As of kernel
-> >                 loff_t (*remap_file_range)(struct file *file_in, loff_t pos_in,
-> >                                            struct file *file_out, loff_t pos_out,
-> >                                            loff_t len, unsigned int remap_flags);
-> > +                int (*xchg_file_range)(struct file *file1, struct file *file2,
-> > +                                       struct file_xchg_range *fxr);
-> 
-> An obvious question: why is the xchgn_file_range op not using the
-> unified remap_file_range() method with REMAP_XCHG_ flags?
-> Surely replacing the remap_flags arg with struct file_remap_range.
-> 
-> I went to look for reasons and I didn't find them.
-> Can you share your reasons for that?
+On Tue, 30 Mar 2021 13:31:45 PDT (-0700), macro@orcam.me.uk wrote:
+> On Mon, 29 Mar 2021, Palmer Dabbelt wrote:
+>
+>> > --- /dev/null
+>> > +++ b/arch/riscv/include/uapi/asm/setup.h
+>> > @@ -0,0 +1,8 @@
+>> > +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
+>> > +
+>> > +#ifndef _UAPI_ASM_RISCV_SETUP_H
+>> > +#define _UAPI_ASM_RISCV_SETUP_H
+>> > +
+>> > +#define COMMAND_LINE_SIZE	1024
+>> > +
+>> > +#endif /* _UAPI_ASM_RISCV_SETUP_H */
+>>
+>> I put this on fixes, but it seemes like this should really be a Kconfig
+>> enttry.  Either way, ours was quite a bit smaller than most architectures and
+>> it's great that syzbot has started to find bugs, so I'd rather get this in
+>> sooner.
+>
+>  This macro is exported as a part of the user API so it must not depend on
+> Kconfig.  Also changing it (rather than say adding COMMAND_LINE_SIZE_V2 or
+> switching to an entirely new data object that has its dimension set in a
+> different way) requires careful evaluation as external binaries have and
+> will have the value it expands to compiled in, so it's a part of the ABI
+> too.
 
-Code simplicity.  The file2 freshness parameters don't apply to clone or
-dedupe, and the current set of remap flags don't apply to exchange.  I'd
-have to hunt down all the ->remap_range implementations and modify them
-to error out on REMAP_FILE_EXCHANGE.  Multiplexing flags in this manner
-would also require additional remap_flags interpretation code to
-safeguard against callers who mix up which flags go with what piece of
-functionality.
+Thanks, I didn't realize this was part of the user BI.  In that case we 
+really can't chage it, so we'll have to sort out some other way do fix 
+whatever is going on.
 
-IOWS: it's not hard to do, but not something I want to do for an RFC
-because the goal here is to gauge interest in having a userspace
-interface at all.  Until I get to that point, tangling up the code
-diverts my time towards rebasing and dealing with merge conflicts, at
-the cost of time I can spend concentrating on making the algorithms
-right.
-
---D
-
-> Thanks,
-> Amir.
+I've dropped this from fixes.
