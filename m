@@ -2,133 +2,180 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AC833538B3
-	for <lists+linux-api@lfdr.de>; Sun,  4 Apr 2021 17:54:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC5843545E0
+	for <lists+linux-api@lfdr.de>; Mon,  5 Apr 2021 19:16:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229861AbhDDPyp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 4 Apr 2021 11:54:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47396 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230039AbhDDPyo (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sun, 4 Apr 2021 11:54:44 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8BDF561368;
-        Sun,  4 Apr 2021 15:54:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617551680;
-        bh=Y+EXlFwOcupRcJHejpzX9O0l3XK9lB+QcIyNrCwXUZg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XwqnVFHquFYuCIg7xJmXG5NoG4GTtS3nhGBRNZQq9WvMNiHQ4ULTf9bkymZx+Kd7j
-         ENn7ChaWWxdC2UvBl8qajs2NkEln3JuqbCR4LFbfRYrIPpCs4XEaLfe+SbDODSBexz
-         930qW/iWzfaIkJtlUDqBln4fecgjZVgKidnqkdABU/GD7yNkwNzBnZV/esL3K7D8SB
-         8BHevk1he7oHwcuvEk9l/Kk2ZzhFILOcCHWEIi2H9b1eHY9vZctMXPP/oaPNjb3+JR
-         VP7dlUhnhpLGrXXiXslFWQGV1lj62lK1ajJjDSttB64ZjSQ/1h96ngUCM4oPiKSV37
-         L4c7QJ5hxJaQw==
-Date:   Sun, 4 Apr 2021 18:54:37 +0300
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S237177AbhDERQo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 5 Apr 2021 13:16:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48946 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231748AbhDERQo (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 5 Apr 2021 13:16:44 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBC98C061756
+        for <linux-api@vger.kernel.org>; Mon,  5 Apr 2021 10:16:37 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id il9-20020a17090b1649b0290114bcb0d6c2so8184671pjb.0
+        for <linux-api@vger.kernel.org>; Mon, 05 Apr 2021 10:16:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ai3CdCbkrXPSlQhahzdlfMoVkl12Ktt9EKKlkNpbqIk=;
+        b=T5OZIJi1a+S0UmB8ju9dRtp9RWLpyoSfUudALSFJBsooFu63xRQSZft0M3qzy93k0r
+         z7x2JAHldp19Jlo5384VoYUVNQ2yeLvjJ5z5R7QVmttinVeV9VjzoAdj8fejaeiR8lyF
+         62143nJ12x8hml5vfS8LwEeOZj9TXLo/W5cC4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ai3CdCbkrXPSlQhahzdlfMoVkl12Ktt9EKKlkNpbqIk=;
+        b=C4HQwf1t3l7K3wKo011dahW5S17mabyiMjsNq23tjAAFYeBvnsKksaQjc88NJWZ2BZ
+         ssowf9aXhcEg+53ULZuPXu1p4Hdp0scwu3oGuOhrMNkLpLFrkLTvuYYX2/suHwhDb2Yv
+         sj8/XVUTIx/TgULJWSFC8Ifg6PHhta3Eo3Gy12tYFVUNJLnU7gBNHzJxRiBZb8D4gu/R
+         53hz4DV3A0HEu16hQ2KAGibmyRuHXNknSMB2fG9sBmSYePmxF61VlxxirBNWyBp30VS/
+         9jo0vVEG36HJ0MwB5vq4+qCwVdL3yKfVCcxZd2uM2xtXsq874Zx4kLScwoNsu6gwfFsg
+         QJWw==
+X-Gm-Message-State: AOAM530IGkW3qAm/TbfgXO/JSM/rCN3GbHT++cUpJDjEITbxCmMuUADC
+        czWNhZ7ddj6PVjf15acHMFrLew==
+X-Google-Smtp-Source: ABdhPJz2wXjLIg6rNu7hKfJ8t7qCHdoSv+LbFw67gBgLuT/syvhnAuVwrV+h3lzUsevbyEgwDBzhiQ==
+X-Received: by 2002:a17:902:6546:b029:e9:1e31:3351 with SMTP id d6-20020a1709026546b02900e91e313351mr3882734pln.26.1617642997543;
+        Mon, 05 Apr 2021 10:16:37 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id t18sm16339996pfh.57.2021.04.05.10.16.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Apr 2021 10:16:36 -0700 (PDT)
+Date:   Mon, 5 Apr 2021 10:16:35 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oleksiy Avramchenko <oleksiy.avramchenko@sonymobile.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Minchan Kim <minchan@kernel.org>,
+        huang ying <huang.ying.caritas@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Brian Cain <bcain@codeaurora.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Jonas Bonn <jonas@southpole.se>,
+        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+        Stafford Horne <shorne@gmail.com>,
+        Rich Felker <dalias@libc.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Chris Zankel <chris@zankel.net>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Rob Herring <robh@kernel.org>,
+        "Pavel Machek (CIP)" <pavel@denx.de>,
+        Theodore Dubois <tblodt@icloud.com>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Pavel Machek <pavel@ucw.cz>, Sam Ravnborg <sam@ravnborg.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
         Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v24 9/9] x86/vdso: Add ENDBR to __vdso_sgx_enter_enclave
-Message-ID: <YGnhPc8USFh/AnqJ@kernel.org>
-References: <20210401221403.32253-1-yu-cheng.yu@intel.com>
- <20210401221403.32253-10-yu-cheng.yu@intel.com>
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Xiaoming Ni <nixiaoming@huawei.com>,
+        Robert Richter <rric@kernel.org>,
+        William Cohen <wcohen@redhat.com>,
+        Corentin Labbe <clabbe@baylibre.com>,
+        Kairui Song <kasong@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        uclinux-h8-devel@lists.sourceforge.jp,
+        linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        openrisc@lists.librecores.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        linux-fsdevel@vger.kernel.org,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH RFC 1/3] drivers/char: remove /dev/kmem for good
+Message-ID: <202104051013.F432CAC4@keescook>
+References: <20210319143452.25948-1-david@redhat.com>
+ <20210319143452.25948-2-david@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210401221403.32253-10-yu-cheng.yu@intel.com>
+In-Reply-To: <20210319143452.25948-2-david@redhat.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Apr 01, 2021 at 03:14:03PM -0700, Yu-cheng Yu wrote:
-> ENDBR is a special new instruction for the Indirect Branch Tracking (IBT)
-> component of CET.  IBT prevents attacks by ensuring that (most) indirect
-> branches and function calls may only land at ENDBR instructions.  Branches
-> that don't follow the rules will result in control flow (#CF) exceptions.
+On Fri, Mar 19, 2021 at 03:34:50PM +0100, David Hildenbrand wrote:
+> Exploring /dev/kmem and /dev/mem in the context of memory hot(un)plug and
+> memory ballooning, I started questioning the existance of /dev/kmem.
 > 
-> ENDBR is a noop when IBT is unsupported or disabled.  Most ENDBR
-> instructions are inserted automatically by the compiler, but branch
-> targets written in assembly must have ENDBR added manually.
+> Comparing it with the /proc/kcore implementation, it does not seem to be
+> able to deal with things like
+> a) Pages unmapped from the direct mapping (e.g., to be used by secretmem)
+>   -> kern_addr_valid(). virt_addr_valid() is not sufficient.
+> b) Special cases like gart aperture memory that is not to be touched
+>   -> mem_pfn_is_ram()
+> Unless I am missing something, it's at least broken in some cases and might
+> fault/crash the machine.
 > 
-> Add ENDBR to __vdso_sgx_enter_enclave() branch targets.
+> Looks like its existance has been questioned before in 2005 and 2010
+> [1], after ~11 additional years, it might make sense to revive the
+> discussion.
 > 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Cc: Andy Lutomirski <luto@kernel.org>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: Jarkko Sakkinen <jarkko@kernel.org>
-> Cc: Peter Zijlstra <peterz@infradead.org>
+> CONFIG_DEVKMEM is only enabled in a single defconfig (on purpose or by
+> mistake?). All distributions I looked at disable it.
+> 
+> 1) /dev/kmem was popular for rootkits [2] before it got disabled
+>    basically everywhere. Ubuntu documents [3] "There is no modern user of
+>    /dev/kmem any more beyond attackers using it to load kernel rootkits.".
+>    RHEL documents in a BZ [5] "it served no practical purpose other than to
+>    serve as a potential security problem or to enable binary module drivers
+>    to access structures/functions they shouldn't be touching"
+> 
+> 2) /proc/kcore is a decent interface to have a controlled way to read
+>    kernel memory for debugging puposes. (will need some extensions to
+>    deal with memory offlining/unplug, memory ballooning, and poisoned
+>    pages, though)
+> 
+> 3) It might be useful for corner case debugging [1]. KDB/KGDB might be a
+>    better fit, especially, to write random memory; harder to shoot
+>    yourself into the foot.
+> 
+> 4) "Kernel Memory Editor" hasn't seen any updates since 2000 and seems
+>    to be incompatible with 64bit [1]. For educational purposes,
+>    /proc/kcore might be used to monitor value updates -- or older
+>    kernels can be used.
+> 
+> 5) It's broken on arm64, and therefore, completely disabled there.
+> 
+> Looks like it's essentially unused and has been replaced by better
+> suited interfaces for individual tasks (/proc/kcore, KDB/KGDB). Let's
+> just remove it.
+> 
+> [1] https://lwn.net/Articles/147901/
+> [2] https://www.linuxjournal.com/article/10505
+> [3] https://wiki.ubuntu.com/Security/Features#A.2Fdev.2Fkmem_disabled
+> [4] https://sourceforge.net/projects/kme/
+> [5] https://bugzilla.redhat.com/show_bug.cgi?id=154796
+> 
+> [...]
+> Cc: Linux API <linux-api@vger.kernel.org>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-Acked-by: Jarkko Sakkinen <jarkko@kernel.org>
+Yes please! As James Troup pointed out already, this was turned off in
+Ubuntu in 2008. I don't remember a single complaint from anyone who
+wasn't a rootkit author. ;)
 
-> ---
->  arch/x86/entry/vdso/vsgx.S | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/arch/x86/entry/vdso/vsgx.S b/arch/x86/entry/vdso/vsgx.S
-> index 86a0e94f68df..c63eafa54abd 100644
-> --- a/arch/x86/entry/vdso/vsgx.S
-> +++ b/arch/x86/entry/vdso/vsgx.S
-> @@ -4,6 +4,7 @@
->  #include <asm/export.h>
->  #include <asm/errno.h>
->  #include <asm/enclu.h>
-> +#include <asm/vdso.h>
->  
->  #include "extable.h"
->  
-> @@ -27,6 +28,7 @@
->  SYM_FUNC_START(__vdso_sgx_enter_enclave)
->  	/* Prolog */
->  	.cfi_startproc
-> +	ENDBR
->  	push	%rbp
->  	.cfi_adjust_cfa_offset	8
->  	.cfi_rel_offset		%rbp, 0
-> @@ -62,6 +64,7 @@ SYM_FUNC_START(__vdso_sgx_enter_enclave)
->  .Lasync_exit_pointer:
->  .Lenclu_eenter_eresume:
->  	enclu
-> +	ENDBR
->  
->  	/* EEXIT jumps here unless the enclave is doing something fancy. */
->  	mov	SGX_ENCLAVE_OFFSET_OF_RUN(%rbp), %rbx
-> @@ -91,6 +94,7 @@ SYM_FUNC_START(__vdso_sgx_enter_enclave)
->  	jmp	.Lout
->  
->  .Lhandle_exception:
-> +	ENDBR
->  	mov	SGX_ENCLAVE_OFFSET_OF_RUN(%rbp), %rbx
->  
->  	/* Set the exception info. */
-> -- 
-> 2.21.0
-> 
-> 
+Acked-by: Kees Cook <keescook@chromium.org>
 
-/Jarkko
+-- 
+Kees Cook
