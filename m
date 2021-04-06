@@ -2,114 +2,109 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3E91354EBD
-	for <lists+linux-api@lfdr.de>; Tue,  6 Apr 2021 10:36:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2289E355A31
+	for <lists+linux-api@lfdr.de>; Tue,  6 Apr 2021 19:22:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235353AbhDFIgQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 6 Apr 2021 04:36:16 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33036 "EHLO mx2.suse.de"
+        id S244553AbhDFRWR convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Tue, 6 Apr 2021 13:22:17 -0400
+Received: from mga11.intel.com ([192.55.52.93]:29859 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234953AbhDFIgP (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 6 Apr 2021 04:36:15 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 45AC4B0C6;
-        Tue,  6 Apr 2021 08:35:57 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id F21341F2B70; Tue,  6 Apr 2021 10:35:56 +0200 (CEST)
-Date:   Tue, 6 Apr 2021 10:35:56 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Jan Kara <jack@suse.cz>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        "J. Bruce Fields" <bfields@fieldses.org>
-Subject: Re: fsnotify path hooks
-Message-ID: <20210406083556.GA19407@quack2.suse.cz>
-References: <CAOQ4uxjPhrY55kJLUr-=2+S4HOqF0qKAAX27h2T1H1uOnxM9pQ@mail.gmail.com>
- <20210330141703.lkttbuflr5z5ia7f@wittgenstein>
- <CAOQ4uxirMBzcaLeLoBWCMPPr7367qeKjnW3f88bh1VMr_3jv_A@mail.gmail.com>
- <20210331094604.xxbjl3krhqtwcaup@wittgenstein>
- <CAOQ4uxirud-+ot0kZ=8qaicvjEM5w1scAeoLP_-HzQx+LwihHw@mail.gmail.com>
- <20210331125412.GI30749@quack2.suse.cz>
- <CAOQ4uxjOyuvpJ7Tv3cGmv+ek7+z9BJBF4sK_-OLxwePUrHERUg@mail.gmail.com>
- <CAOQ4uxhWE9JGOZ_jN9_RT5EkACdNWXOryRsm6Wg_zkaDNDSjsA@mail.gmail.com>
- <20210401102947.GA29690@quack2.suse.cz>
- <CAOQ4uxjHFkRVTY5iyTSpb0R5R6j-j=8+Htpu2hgMAz9MTci-HQ@mail.gmail.com>
+        id S233676AbhDFRWR (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 6 Apr 2021 13:22:17 -0400
+IronPort-SDR: b9JvhyY60nU91zlsaL51Oh7f2wxZjb/aLvG9zZ/oikt8wbrv+B6YpOqOze610i9+X9W7BZUw1E
+ vv9kg7hFz8qQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9946"; a="189911506"
+X-IronPort-AV: E=Sophos;i="5.82,201,1613462400"; 
+   d="scan'208";a="189911506"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2021 10:22:09 -0700
+IronPort-SDR: 60qCf+vkBQ0uu7Ll0cvSt+RQvqIwZ7ph+BZE/9nswI81XdmB0Bj74dtbXyU7M/RHWfEopZAPWg
+ fJG61m5Alggw==
+X-IronPort-AV: E=Sophos;i="5.82,201,1613462400"; 
+   d="scan'208";a="448685775"
+Received: from jbrandeb-mobl4.amr.corp.intel.com (HELO localhost) ([10.212.227.101])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2021 10:22:08 -0700
+Date:   Tue, 6 Apr 2021 10:22:07 -0700
+From:   Jesse Brandeburg <jesse.brandeburg@intel.com>
+To:     Nitesh Narayan Lal <nitesh@redhat.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        frederic@kernel.org, juri.lelli@redhat.com, abelits@marvell.com,
+        bhelgaas@google.com, linux-pci@vger.kernel.org,
+        rostedt@goodmis.org, mingo@kernel.org, peterz@infradead.org,
+        davem@davemloft.net, akpm@linux-foundation.org,
+        sfr@canb.auug.org.au, stephen@networkplumber.org,
+        rppt@linux.vnet.ibm.com, jinyuqi@huawei.com,
+        zhangshaokun@hisilicon.com
+Subject: Re: [Patch v4 1/3] lib: Restrict cpumask_local_spread to
+ houskeeping CPUs
+Message-ID: <20210406102207.0000485c@intel.com>
+In-Reply-To: <07c04bc7-27f0-9c07-9f9e-2d1a450714ef@redhat.com>
+References: <20200625223443.2684-1-nitesh@redhat.com>
+        <20200625223443.2684-2-nitesh@redhat.com>
+        <3e9ce666-c9cd-391b-52b6-3471fe2be2e6@arm.com>
+        <20210127121939.GA54725@fuller.cnet>
+        <87r1m5can2.fsf@nanos.tec.linutronix.de>
+        <20210128165903.GB38339@fuller.cnet>
+        <87h7n0de5a.fsf@nanos.tec.linutronix.de>
+        <20210204181546.GA30113@fuller.cnet>
+        <cfa138e9-38e3-e566-8903-1d64024c917b@redhat.com>
+        <20210204190647.GA32868@fuller.cnet>
+        <d8884413-84b4-b204-85c5-810342807d21@redhat.com>
+        <87y2g26tnt.fsf@nanos.tec.linutronix.de>
+        <d0aed683-87ae-91a2-d093-de3f5d8a8251@redhat.com>
+        <7780ae60-efbd-2902-caaa-0249a1f277d9@redhat.com>
+        <07c04bc7-27f0-9c07-9f9e-2d1a450714ef@redhat.com>
+X-Mailer: Claws Mail 3.12.0 (GTK+ 2.24.28; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOQ4uxjHFkRVTY5iyTSpb0R5R6j-j=8+Htpu2hgMAz9MTci-HQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu 01-04-21 17:18:05, Amir Goldstein wrote:
-> > > > > Also I'm somewhat uneasy that it is random (from
-> > > > > userspace POV) when path event is generated and when not (at least that's
-> > > > > my impression from the patch - maybe I'm wrong). How difficult would it be
-> > > > > to get rid of it? I mean what if we just moved say fsnotify_create() call
-> > > > > wholly up the stack? It would mean more explicit calls to fsnotify_create()
-> > > > > from filesystems - as far as I'm looking nfsd, overlayfs, cachefiles,
-> > > > > ecryptfs. But that would seem to be manageable.  Also, to maintain sanity,
-> > > >
-> > > > 1. I don't think we can do that for all the fsnotify_create() hooks, such as
-> > > >     debugfs for example
-> > > > 2. It is useless to pass the mount from overlayfs to fsnotify, its a private
-> > > >     mount that users cannot set a mark on anyway and Christian has
-> > > >     promised to propose the same change for cachefiles and ecryptfs,
-> > > >     so I think it's not worth the churn in those call sites
-> > > > 3. I am uneasy with removing the fsnotify hooks from vfs helpers and
-> > > >     trusting that new callers of vfs_create() will remember to add the high
-> > > >     level hooks, so I prefer the existing behavior remains for such callers
-> > > >
-> > >
-> > > So I read your proposal the wrong way.
-> > > You meant move fsnotify_create() up *without* passing mount context
-> > > from overlayfs and friends.
+Continuing a thread from a bit ago...
+
+Nitesh Narayan Lal wrote:
+
+> > After a little more digging, I found out why cpumask_local_spread change
+> > affects the general/initial smp_affinity for certain device IRQs.
 > >
-> > Well, I was thinking that we could find appropriate mount context for
-> > overlayfs or ecryptfs (which just shows how little I know about these
-> > filesystems ;) I didn't think of e.g. debugfs. Anyway, if we can make
-> > mountpoint marks work for directory events at least for most filesystems, I
-> > think that is OK as well. However it would be then needed to detect whether
-> > a given filesystem actually supports mount marks for dir events and if not,
-> > report error from fanotify_mark() instead of silently not generating
-> > events.
+> > After the introduction of the commit:
+> >
+> >     e2e64a932 genirq: Set initial affinity in irq_set_affinity_hint()
 > >
 > 
-> It's not about "filesystems that support mount marks".
-> mount marks will work perfectly well on overlayfs.
+> Continuing the conversation about the above commit and adding Jesse.
+> I was trying to understand the problem that the commit message explains
+> "The default behavior of the kernel is somewhat undesirable as all
+> requested interrupts end up on CPU0 after registration.", I have also been
+> trying to reproduce this behavior without the patch but I failed in doing
+> so, maybe because I am missing something here.
 > 
-> The thing is if you place a mount mark on the underlying store of
-> overlayfs (say xfs) and then files are created/deleted by the
-> overlayfs driver (in xfs) you wont get any events, because
-> overlayfs uses a private mount clone to perform underlying operations.
+> @Jesse Can you please explain? FWIU IRQ affinity should be decided based on
+> the default affinity mask.
 
-OK, understood.
+The original issue as seen, was that if you rmmod/insmod a driver
+*without* irqbalance running, the default irq mask is -1, which means
+any CPU. The older kernels (this issue was patched in 2014) used to use
+that affinity mask, but the value programmed into all the interrupt
+registers "actual affinity" would end up delivering all interrupts to
+CPU0, and if the machine was under traffic load incoming when the
+driver loaded, CPU0 would start to poll among all the different netdev
+queues, all on CPU0.
 
-> So while we CAN get the overlayfs underlying layer mount context
-> it is irrelevant because no user can setup a mount mark on that
-> private mount, so no need to bother calling the path hooks.
-> 
-> This is not the case with nfsd IMO.
-> With nfsd, when "exporting" a path to clients, nfsd is really exporting
-> a specific mount (and keeping that mount busy too).
-> It can even export whole mount topologies.
-> 
-> But then again, getting the mount context in every nfsd operation
-> is easy, there is an export context to client requests and the export
-> context has the exported path.
-> 
-> Therefore, nfsd is my only user using the vfs helpers that is expected
-> to call the fsnotify path hooks (other than syscalls).
+The above then leads to the condition that the device is stuck polling
+even if the affinity gets updated from user space, and the polling will
+continue until traffic stops.
 
-I agree.
+> The problem with the commit is that when we overwrite the affinity mask
+> based on the hinting mask we completely ignore the default SMP affinity
+> mask. If we do want to overwrite the affinity based on the hint mask we
+> should atleast consider the default SMP affinity.
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Maybe the right thing is to fix which CPUs are passed in as the valid
+mask, or make sure the kernel cross checks that what the driver asks
+for is a "valid CPU"?
