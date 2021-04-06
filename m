@@ -2,82 +2,171 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DB76355C47
-	for <lists+linux-api@lfdr.de>; Tue,  6 Apr 2021 21:38:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2564D355EF6
+	for <lists+linux-api@lfdr.de>; Wed,  7 Apr 2021 00:50:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244909AbhDFTia (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 6 Apr 2021 15:38:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43931 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S244901AbhDFTiX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 6 Apr 2021 15:38:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617737894;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=mJhQUKqEV20liVnsgwrQmVyuB9gKm/Ks+xvFCx56LWo=;
-        b=ZCCvz3kUDqJP02QfTBXG8HK53IHFiUITxH67wQWINcxkAPWlEXk1iMHMgRsvUImPyjPVA1
-        fLxgq/QNX8BZDNaOUo4qvcbVeNjvBzX9ht++J1gam47sm3ax3IkkQJe7R5SExmKzs6Xplt
-        TIwfWK+jlN5P/I0jNqCMR9/GismEXYk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-597-y4Zh0538PROB9k8ijir18w-1; Tue, 06 Apr 2021 15:38:10 -0400
-X-MC-Unique: y4Zh0538PROB9k8ijir18w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 466FC108BD06;
-        Tue,  6 Apr 2021 19:38:08 +0000 (UTC)
-Received: from omen (ovpn-112-85.phx2.redhat.com [10.3.112.85])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 5FD7A19D61;
-        Tue,  6 Apr 2021 19:38:06 +0000 (UTC)
-Date:   Tue, 6 Apr 2021 13:38:05 -0600
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, Paul Mackerras <paulus@samba.org>,
-        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        kvm@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH 1/2] vfio/pci: remove vfio_pci_nvlink2
-Message-ID: <20210406133805.715120bd@omen>
-In-Reply-To: <20210326061311.1497642-2-hch@lst.de>
-References: <20210326061311.1497642-1-hch@lst.de>
-        <20210326061311.1497642-2-hch@lst.de>
+        id S1344147AbhDFWtx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 6 Apr 2021 18:49:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56900 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1344128AbhDFWtw (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 6 Apr 2021 18:49:52 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A2D3A613E1
+        for <linux-api@vger.kernel.org>; Tue,  6 Apr 2021 22:49:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617749383;
+        bh=a1o900AcqYwmW0fqkduPTeR3emc4C6Rs1gEIEqdiYaE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=KEGDvjznudoHSkkT4y8V8E5/qd3x4roetFh+RpuJqloQCxb5ul1FSIFFwdyhhkCVE
+         CW+F27jDoneZukSbicGCRN0vGYvja89yI0gmXYVVfuw1C0Nr1UXKNB5y8Vl78J6HXr
+         YVwxAmbmm/iDQRLgUSYRZ6JfQoPE8yzmWh+bF1mVeJMCO2LkQKYupqhwy/3q3oHsWh
+         2Q2DIi5sxyP4cK22nuF0G4d/q3HAxigzoqqsaHEGuTYL5a9sYWneu4cyHAHjroNHJB
+         7Uie18iRLZqlQprOAHclOsKzv3IxX7iNngvfGKiu/X/4R8II/8UNOZd1jg+V8wzCer
+         Mv1NB0hkTDMYQ==
+Received: by mail-ed1-f47.google.com with SMTP id m3so8635489edv.5
+        for <linux-api@vger.kernel.org>; Tue, 06 Apr 2021 15:49:43 -0700 (PDT)
+X-Gm-Message-State: AOAM532/MLaDOqEsdEBb90R0OyWtD6Q5LkjYPMYTxQ+IqGcz8LWUnRxL
+        k2qKJE/XrrtJCzZP6/7V3JFb+lR6Y0MuBMGGF+ODVA==
+X-Google-Smtp-Source: ABdhPJwKOmYqoxCioac2TWNaDNZOT88xkRzZYjrRVTEBe+20+kIF/hfmpbTf57P7Ofjo4GQDMBsu3KVolwUAhM7TefM=
+X-Received: by 2002:a50:fa92:: with SMTP id w18mr790243edr.172.1617749382023;
+ Tue, 06 Apr 2021 15:49:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+References: <20210401221104.31584-1-yu-cheng.yu@intel.com> <20210401221104.31584-25-yu-cheng.yu@intel.com>
+In-Reply-To: <20210401221104.31584-25-yu-cheng.yu@intel.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Tue, 6 Apr 2021 15:49:30 -0700
+X-Gmail-Original-Message-ID: <CALCETrWf4=1KPYvwpO6KJETZHMHUA6z7rH7nx=SU9gsJSOTXPg@mail.gmail.com>
+Message-ID: <CALCETrWf4=1KPYvwpO6KJETZHMHUA6z7rH7nx=SU9gsJSOTXPg@mail.gmail.com>
+Subject: Re: [PATCH v24 24/30] x86/cet/shstk: Introduce shadow stack token
+ setup/verify routines
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, 26 Mar 2021 07:13:10 +0100
-Christoph Hellwig <hch@lst.de> wrote:
-
-> This driver never had any open userspace (which for VFIO would include
-> VM kernel drivers) that use it, and thus should never have been added
-> by our normal userspace ABI rules.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+On Thu, Apr 1, 2021 at 3:12 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>
+> A shadow stack restore token marks a restore point of the shadow stack, and
+> the address in a token must point directly above the token, which is within
+> the same shadow stack.  This is distinctively different from other pointers
+> on the shadow stack, since those pointers point to executable code area.
+>
+> The restore token can be used as an extra protection for signal handling.
+> To deliver a signal, create a shadow stack restore token and put the token
+> and the signal restorer address on the shadow stack.  In sigreturn, verify
+> the token and restore from it the shadow stack pointer.
+>
+> Introduce token setup and verify routines.  Also introduce WRUSS, which is
+> a kernel-mode instruction but writes directly to user shadow stack.  It is
+> used to construct user signal stack as described above.
+>
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Cc: Kees Cook <keescook@chromium.org>
 > ---
->  drivers/vfio/pci/Kconfig            |   6 -
->  drivers/vfio/pci/Makefile           |   1 -
->  drivers/vfio/pci/vfio_pci.c         |  18 -
->  drivers/vfio/pci/vfio_pci_nvlink2.c | 490 ----------------------------
->  drivers/vfio/pci/vfio_pci_private.h |  14 -
->  include/uapi/linux/vfio.h           |  38 +--
->  6 files changed, 4 insertions(+), 563 deletions(-)
->  delete mode 100644 drivers/vfio/pci/vfio_pci_nvlink2.c
+>  arch/x86/include/asm/cet.h           |   9 ++
+>  arch/x86/include/asm/special_insns.h |  32 +++++++
+>  arch/x86/kernel/shstk.c              | 126 +++++++++++++++++++++++++++
+>  3 files changed, 167 insertions(+)
+>
+> diff --git a/arch/x86/include/asm/cet.h b/arch/x86/include/asm/cet.h
+> index 8b83ded577cc..ef6155213b7e 100644
+> --- a/arch/x86/include/asm/cet.h
+> +++ b/arch/x86/include/asm/cet.h
+> @@ -20,6 +20,10 @@ int shstk_setup_thread(struct task_struct *p, unsigned long clone_flags,
+>                        unsigned long stack_size);
+>  void shstk_free(struct task_struct *p);
+>  void shstk_disable(void);
+> +int shstk_setup_rstor_token(bool ia32, unsigned long rstor,
+> +                           unsigned long *token_addr, unsigned long *new_ssp);
+> +int shstk_check_rstor_token(bool ia32, unsigned long token_addr,
+> +                           unsigned long *new_ssp);
+>  #else
+>  static inline int shstk_setup(void) { return 0; }
+>  static inline int shstk_setup_thread(struct task_struct *p,
+> @@ -27,6 +31,11 @@ static inline int shstk_setup_thread(struct task_struct *p,
+>                                      unsigned long stack_size) { return 0; }
+>  static inline void shstk_free(struct task_struct *p) {}
+>  static inline void shstk_disable(void) {}
+> +static inline int shstk_setup_rstor_token(bool ia32, unsigned long rstor,
+> +                                         unsigned long *token_addr,
+> +                                         unsigned long *new_ssp) { return 0; }
+> +static inline int shstk_check_rstor_token(bool ia32, unsigned long token_addr,
+> +                                         unsigned long *new_ssp) { return 0; }
+>  #endif
+>
+>  #endif /* __ASSEMBLY__ */
+> diff --git a/arch/x86/include/asm/special_insns.h b/arch/x86/include/asm/special_insns.h
+> index 1d3cbaef4bb7..c41c371f6c7d 100644
+> --- a/arch/x86/include/asm/special_insns.h
+> +++ b/arch/x86/include/asm/special_insns.h
+> @@ -234,6 +234,38 @@ static inline void clwb(volatile void *__p)
+>                 : [pax] "a" (p));
+>  }
+>
+> +#ifdef CONFIG_X86_SHADOW_STACK
+> +#if defined(CONFIG_IA32_EMULATION) || defined(CONFIG_X86_X32)
+> +static inline int write_user_shstk_32(unsigned long addr, unsigned int val)
 
-Hearing no objections, applied to vfio next branch for v5.13.  Thanks,
+u32 __user *addr?
 
-Alex
+> +{
+> +       asm_volatile_goto("1: wrussd %1, (%0)\n"
+> +                         _ASM_EXTABLE(1b, %l[fail])
+> +                         :: "r" (addr), "r" (val)
+> +                         :: fail);
+> +       return 0;
+> +fail:
+> +       return -EPERM;
 
+-EFAULT?
+
+> +}
+> +#else
+> +static inline int write_user_shstk_32(unsigned long addr, unsigned int val)
+> +{
+> +       WARN_ONCE(1, "%s used but not supported.\n", __func__);
+> +       return -EFAULT;
+> +}
+> +#endif
+> +
+> +static inline int write_user_shstk_64(unsigned long addr, unsigned long val)
+
+u64 __user *addr, perhaps?
+
+> +{
+> +       asm_volatile_goto("1: wrussq %1, (%0)\n"
+> +                         _ASM_EXTABLE(1b, %l[fail])
+> +                         :: "r" (addr), "r" (val)
+
+Can you use the modern [addr] "r" (addr) syntax?
