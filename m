@@ -2,212 +2,224 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D4453569B7
-	for <lists+linux-api@lfdr.de>; Wed,  7 Apr 2021 12:31:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C958357001
+	for <lists+linux-api@lfdr.de>; Wed,  7 Apr 2021 17:18:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234193AbhDGKbu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 7 Apr 2021 06:31:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26750 "EHLO
+        id S242089AbhDGPSe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 7 Apr 2021 11:18:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48928 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236558AbhDGKbt (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 7 Apr 2021 06:31:49 -0400
+        by vger.kernel.org with ESMTP id S232001AbhDGPSe (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 7 Apr 2021 11:18:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617791499;
+        s=mimecast20190719; t=1617808704;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=nJSxvPf+2fQxpcou71SA/t4hQw4etrSkU0eumEfbqCc=;
-        b=OWh1PJaFA7Wu8da04SBF2WuWsiep0QyvMzG+IFAYt8oRmtkbOX3V3EyJ8l/d6eW1/0E9sw
-        tl9JmtGggd2C+nWrINFaPdNrU8WF33WEiXe+KNZ724vGt/Ysvwyiz9DMS4b/f4+33Ik/ty
-        UdAtqWZIr5tKF+vpDvcYc2YPZcHe0B8=
+        bh=94hkI7NPCyAYeAQmz1SUXoCi4HddgW5OI5csEcga2wY=;
+        b=BPjKzVKO4TZdT+rJa7hGnkBhjhcPWuSkKDqfq/ulraUlDfv1YhR4PheHBsfgXPrjK3DF1u
+        /JDP4nsXj+93WXO/mxRhx/93kF/6vfbjFReNw0M8NkiVDid1dKuCU2ff/yXfLkB7kPR2yo
+        z0dr53y01sSGZVTJubBa2U1cPH6nEtU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-521-SMXER1lrNQy7RmmVKzJMWQ-1; Wed, 07 Apr 2021 06:31:35 -0400
-X-MC-Unique: SMXER1lrNQy7RmmVKzJMWQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-50-jHkyYJ17PzSdetgpARriSg-1; Wed, 07 Apr 2021 11:18:21 -0400
+X-MC-Unique: jHkyYJ17PzSdetgpARriSg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D4221006C82;
-        Wed,  7 Apr 2021 10:31:30 +0000 (UTC)
-Received: from [10.36.114.68] (ovpn-114-68.ams2.redhat.com [10.36.114.68])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 624C871284;
-        Wed,  7 Apr 2021 10:31:13 +0000 (UTC)
-From:   David Hildenbrand <david@redhat.com>
-To:     Jann Horn <jannh@google.com>
-Cc:     kernel list <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, Michal Hocko <mhocko@suse.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Matthew Wilcox <willy@infradead.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Hugh Dickins <hughd@google.com>,
-        Rik van Riel <riel@surriel.com>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>, Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Peter Xu <peterx@redhat.com>,
-        Rolf Eike Beer <eike-kernel@sf-tec.de>,
-        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-References: <20210317110644.25343-1-david@redhat.com>
- <20210317110644.25343-3-david@redhat.com>
- <CAG48ez0BQ3Vd3nDLEvyiSU0XALgUQ=c-fAwcFVScUkgo_9qVuQ@mail.gmail.com>
- <2bab28c7-08c0-7ff0-c70e-9bf94da05ce1@redhat.com>
- <CAG48ez20rLRNPZj6hLHQ_PLT8H60kTac-uXRiLByD70Q7+qsdQ@mail.gmail.com>
- <26227fc6-3e7b-4e69-f69d-4dc2a67ecfe8@redhat.com>
- <54165ffe-dbf7-377a-a710-d15be4701f20@redhat.com>
-Organization: Red Hat GmbH
-Subject: Re: [PATCH v1 2/5] mm/madvise: introduce MADV_POPULATE_(READ|WRITE)
- to prefault/prealloc memory
-Message-ID: <5f49b60c-957d-8cb4-de7a-7c855dc72942@redhat.com>
-Date:   Wed, 7 Apr 2021 12:31:11 +0200
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 696AA10054F6;
+        Wed,  7 Apr 2021 15:18:17 +0000 (UTC)
+Received: from [10.10.116.88] (ovpn-116-88.rdu2.redhat.com [10.10.116.88])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 18CE75D6CF;
+        Wed,  7 Apr 2021 15:18:10 +0000 (UTC)
+Subject: Re: [Patch v4 1/3] lib: Restrict cpumask_local_spread to houskeeping
+ CPUs
+To:     Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "frederic@kernel.org" <frederic@kernel.org>
+Cc:     Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, juri.lelli@redhat.com,
+        abelits@marvell.com, bhelgaas@google.com,
+        linux-pci@vger.kernel.org, rostedt@goodmis.org, mingo@kernel.org,
+        peterz@infradead.org, davem@davemloft.net,
+        akpm@linux-foundation.org, sfr@canb.auug.org.au,
+        stephen@networkplumber.org, rppt@linux.vnet.ibm.com,
+        jinyuqi@huawei.com, zhangshaokun@hisilicon.com
+References: <20200625223443.2684-1-nitesh@redhat.com>
+ <20200625223443.2684-2-nitesh@redhat.com>
+ <3e9ce666-c9cd-391b-52b6-3471fe2be2e6@arm.com>
+ <20210127121939.GA54725@fuller.cnet> <87r1m5can2.fsf@nanos.tec.linutronix.de>
+ <20210128165903.GB38339@fuller.cnet> <87h7n0de5a.fsf@nanos.tec.linutronix.de>
+ <20210204181546.GA30113@fuller.cnet>
+ <cfa138e9-38e3-e566-8903-1d64024c917b@redhat.com>
+ <20210204190647.GA32868@fuller.cnet>
+ <d8884413-84b4-b204-85c5-810342807d21@redhat.com>
+ <87y2g26tnt.fsf@nanos.tec.linutronix.de>
+ <d0aed683-87ae-91a2-d093-de3f5d8a8251@redhat.com>
+ <7780ae60-efbd-2902-caaa-0249a1f277d9@redhat.com>
+ <07c04bc7-27f0-9c07-9f9e-2d1a450714ef@redhat.com>
+ <20210406102207.0000485c@intel.com>
+From:   Nitesh Narayan Lal <nitesh@redhat.com>
+Organization: Red Hat Inc,
+Message-ID: <1a044a14-0884-eedb-5d30-28b4bec24b23@redhat.com>
+Date:   Wed, 7 Apr 2021 11:18:09 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <54165ffe-dbf7-377a-a710-d15be4701f20@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+In-Reply-To: <20210406102207.0000485c@intel.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 30.03.21 18:31, David Hildenbrand wrote:
-> On 30.03.21 18:30, David Hildenbrand wrote:
->> On 30.03.21 18:21, Jann Horn wrote:
->>> On Tue, Mar 30, 2021 at 5:01 PM David Hildenbrand <david@redhat.com> wrote:
->>>>>> +long faultin_vma_page_range(struct vm_area_struct *vma, unsigned long start,
->>>>>> +                           unsigned long end, bool write, int *locked)
->>>>>> +{
->>>>>> +       struct mm_struct *mm = vma->vm_mm;
->>>>>> +       unsigned long nr_pages = (end - start) / PAGE_SIZE;
->>>>>> +       int gup_flags;
->>>>>> +
->>>>>> +       VM_BUG_ON(!PAGE_ALIGNED(start));
->>>>>> +       VM_BUG_ON(!PAGE_ALIGNED(end));
->>>>>> +       VM_BUG_ON_VMA(start < vma->vm_start, vma);
->>>>>> +       VM_BUG_ON_VMA(end > vma->vm_end, vma);
->>>>>> +       mmap_assert_locked(mm);
->>>>>> +
->>>>>> +       /*
->>>>>> +        * FOLL_HWPOISON: Return -EHWPOISON instead of -EFAULT when we hit
->>>>>> +        *                a poisoned page.
->>>>>> +        * FOLL_POPULATE: Always populate memory with VM_LOCKONFAULT.
->>>>>> +        * !FOLL_FORCE: Require proper access permissions.
->>>>>> +        */
->>>>>> +       gup_flags = FOLL_TOUCH | FOLL_POPULATE | FOLL_MLOCK | FOLL_HWPOISON;
->>>>>> +       if (write)
->>>>>> +               gup_flags |= FOLL_WRITE;
->>>>>> +
->>>>>> +       /*
->>>>>> +        * See check_vma_flags(): Will return -EFAULT on incompatible mappings
->>>>>> +        * or with insufficient permissions.
->>>>>> +        */
->>>>>> +       return __get_user_pages(mm, start, nr_pages, gup_flags,
->>>>>> +                               NULL, NULL, locked);
->>>>>
->>>>> You mentioned in the commit message that you don't want to actually
->>>>> dirty all the file pages and force writeback; but doesn't
->>>>> POPULATE_WRITE still do exactly that? In follow_page_pte(), if
->>>>> FOLL_TOUCH and FOLL_WRITE are set, we mark the page as dirty:
->>>>
->>>> Well, I mention that POPULATE_READ explicitly doesn't do that. I
->>>> primarily set it because populate_vma_page_range() also sets it.
->>>>
->>>> Is it safe to *not* set it? IOW, fault something writable into a page
->>>> table (where the CPU could dirty it without additional page faults)
->>>> without marking it accessed? For me, this made logically sense. Thus I
->>>> also understood why populate_vma_page_range() set it.
+
+On 4/6/21 1:22 PM, Jesse Brandeburg wrote:
+> Continuing a thread from a bit ago...
+>
+> Nitesh Narayan Lal wrote:
+>
+>>> After a little more digging, I found out why cpumask_local_spread change
+>>> affects the general/initial smp_affinity for certain device IRQs.
 >>>
->>> FOLL_TOUCH doesn't have anything to do with installing the PTE - it
->>> essentially means "the caller of get_user_pages wants to read/write
->>> the contents of the returned page, so please do the same things you
->>> would do if userspace was accessing the page". So in particular, if
->>> you look up a page via get_user_pages() with FOLL_WRITE|FOLL_TOUCH,
->>> that tells the MM subsystem "I will be writing into this page directly
->>> from the kernel, bypassing the userspace page tables, so please mark
->>> it as dirty now so that it will be properly written back later". Part
->>> of that is that it marks the page as recently used, which has an
->>> effect on LRU pageout behavior, I think - as far as I understand, that
->>> is why populate_vma_page_range() uses FOLL_TOUCH.
+>>> After the introduction of the commit:
 >>>
->>> If you look at __get_user_pages(), you can see that it is split up
->>> into two major parts: faultin_page() for creating PTEs, and
->>> follow_page_mask() for grabbing pages from PTEs. faultin_page()
->>> ignores FOLL_TOUCH completely; only follow_page_mask() uses it.
+>>>     e2e64a932 genirq: Set initial affinity in irq_set_affinity_hint()
 >>>
->>> In a way I guess maybe you do want the "mark as recently accessed"
->>> part that FOLL_TOUCH would give you without FOLL_WRITE? But I think
->>> you very much don't want the dirtying that FOLL_TOUCH|FOLL_WRITE leads
->>> to. Maybe the ideal approach would be to add a new FOLL flag to say "I
->>> only want to mark as recently used, I don't want to dirty". Or maybe
->>> it's enough to just leave out the FOLL_TOUCH entirely, I don't know.
+>> Continuing the conversation about the above commit and adding Jesse.
+>> I was trying to understand the problem that the commit message explains
+>> "The default behavior of the kernel is somewhat undesirable as all
+>> requested interrupts end up on CPU0 after registration.", I have also been
+>> trying to reproduce this behavior without the patch but I failed in doing
+>> so, maybe because I am missing something here.
 >>
->> Any thoughts why populate_vma_page_range() does it?
-> 
-> Sorry, I missed the explanation above - thanks!
+>> @Jesse Can you please explain? FWIU IRQ affinity should be decided based on
+>> the default affinity mask.
 
-Looking into the details, adjusting the FOLL_TOUCH logic won't make too 
-much of a difference for MADV_POPULATE_WRITE I guess. AFAIKs, the 
-biggest impact of FOLL_TOUCH is actually with FOLL_FORCE - which we are 
-not using, but populate_vma_page_range() is.
+Thanks, Jesse for responding.
+
+> The original issue as seen, was that if you rmmod/insmod a driver
+> *without* irqbalance running, the default irq mask is -1, which means
+> any CPU. The older kernels (this issue was patched in 2014) used to use
+> that affinity mask, but the value programmed into all the interrupt
+> registers "actual affinity" would end up delivering all interrupts to
+> CPU0,
+
+So does that mean the affinity mask for the IRQs was different wrt where
+the IRQs were actually delivered?
+Or, the affinity mask itself for the IRQs after rmmod, insmod was changed
+to 0 instead of -1?
+
+I did a quick test on top of 5.12.0-rc6 by comparing the i40e IRQ affinity
+mask before removing the kernel module and after doing rmmod+insmod
+and didn't find any difference.
+
+>  and if the machine was under traffic load incoming when the
+> driver loaded, CPU0 would start to poll among all the different netdev
+> queues, all on CPU0.
+>
+> The above then leads to the condition that the device is stuck polling
+> even if the affinity gets updated from user space, and the polling will
+> continue until traffic stops.
+>
+>> The problem with the commit is that when we overwrite the affinity mask
+>> based on the hinting mask we completely ignore the default SMP affinity
+>> mask. If we do want to overwrite the affinity based on the hint mask we
+>> should atleast consider the default SMP affinity.
+
+For the issue where the IRQs don't follow the default_smp_affinity mask
+because of this patch, the following are the steps by which it can be easily
+reproduced with the latest linux kernel:
+
+# Kernel
+5.12.0-rc6+
+
+# Other pramaeters in the cmdline
+isolcpus=2-39,44-79 nohz=on nohz_full=2-39,44-79
+rcu_nocbs=2-39,44-79
+
+# cat /proc/irq/default_smp_affinity
+0000,00000f00,00000003 [Corresponds to HK CPUs - 0, 1, 40, 41, 42 and 43]
+
+# Create VFs and check IRQ affinity mask
+
+/proc/irq/1423/iavf-ens1f1v3-TxRx-3
+3
+/proc/irq/1424/iavf-0000:3b:0b.0:mbx
+0
+40
+42
+/proc/irq/1425/iavf-ens1f1v8-TxRx-0
+0
+/proc/irq/1426/iavf-ens1f1v8-TxRx-1
+1
+/proc/irq/1427/iavf-ens1f1v8-TxRx-2
+2
+/proc/irq/1428/iavf-ens1f1v8-TxRx-3
+3
+...
+/proc/irq/1475/iavf-ens1f1v15-TxRx-0
+0
+/proc/irq/1476/iavf-ens1f1v15-TxRx-1
+1
+/proc/irq/1477/iavf-ens1f1v15-TxRx-2
+2
+/proc/irq/1478/iavf-ens1f1v15-TxRx-3
+3
+/proc/irq/1479/iavf-0000:3b:0a.0:mbx
+0
+40
+42
+...
+/proc/irq/240/iavf-ens1f1v3-TxRx-0
+0
+/proc/irq/248/iavf-ens1f1v3-TxRx-1
+1
+/proc/irq/249/iavf-ens1f1v3-TxRx-2
+2
 
 
-If a page was not faulted in yet, 
-faultin_page(FOLL_WRITE)->handle_mm_fault(FAULT_FLAG_WRITE) will already 
-mark the PTE/PMD/... dirty and accessed. One example is 
-handle_pte_fault(). We will mark the page accessed again via FOLL_TOUCH, 
-which doesn't seem to be strictly required.
+Trace dump:
+----------
+..
+11551082:  NetworkManager-1734  [040]  8167.465719: vector_activate:    
+            irq=1478 is_managed=0 can_reserve=1 reserve=0
+11551090:  NetworkManager-1734  [040]  8167.465720: vector_alloc:
+            irq=1478 vector=65 reserved=1 ret=0
+11551093:  NetworkManager-1734  [040]  8167.465721: vector_update:      
+            irq=1478 vector=65 cpu=42 prev_vector=0 prev_cpu=0
+11551097:  NetworkManager-1734  [040]  8167.465721: vector_config:      
+            irq=1478 vector=65 cpu=42 apicdest=0x00000200
+11551357:  NetworkManager-1734  [040]  8167.465768: vector_alloc:        
+            irq=1478 vector=46 reserved=0 ret=0
 
+11551360:  NetworkManager-1734  [040]  8167.465769: vector_update:      
+            irq=1478 vector=46 cpu=3 prev_vector=65 prev_cpu=42
 
-If the page was already faulted in, we have three cases:
+11551364:  NetworkManager-1734  [040]  8167.465770: vector_config:      
+            irq=1478 vector=46 cpu=3 apicdest=0x00040100
+..
 
-1. Page faulted in writable. The page should already be dirty (otherwise 
-we would be in trouble I guess). We will mark it accessed.
+As we can see in the above trace the initial affinity for the IRQ 1478 was
+correctly set as per the default_smp_affinity mask which includes CPU 42,
+however, later on, it is updated with CPU3 which is returned from
+cpumask_local_spread().
 
-2. Page faulted in readable. handle_mm_fault() will fault it in writable 
-and set the page dirty.
+> Maybe the right thing is to fix which CPUs are passed in as the valid
+> mask, or make sure the kernel cross checks that what the driver asks
+> for is a "valid CPU"?
+>
 
-3. Page faulted in readable and we have FOLL_FORCE. We mark the page 
-dirty and accessed.
-
-
-So doing a MADV_POPULATE_WRITE, whereby we prefault page tables 
-writable, doesn't seem to fly without marking the pages dirty. That's 
-one reason why I included MADV_POPULATE_READ.
-
-We could
-
-a) Drop FOLL_TOUCH. We are not marking the page accessed, which would 
-mean it gets evicted rather earlier than later.
-
-b) Introduce FOLL_ACCESSED which won't do the dirtying. But then, the 
-pages are already dirty as explained above, so there isn't a real 
-observable change.
-
-c) Keep it as is: Mark the page accessed and dirty. As it's already 
-dirty, that does not seem to be a real issue.
-
-Am I missing something obvious? Thanks!
+Sure, if we can still reproduce the problem that your patch was fixing then
+maybe we can consider adding a new API like cpumask_local_spread_irq in
+which we should consider deafult_smp_affinity mask as well before returning
+the CPU.
 
 -- 
-Thanks,
-
-David / dhildenb
+Thanks
+Nitesh
 
