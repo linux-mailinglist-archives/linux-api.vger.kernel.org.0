@@ -2,106 +2,227 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1443358B00
-	for <lists+linux-api@lfdr.de>; Thu,  8 Apr 2021 19:10:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35F2A358CEE
+	for <lists+linux-api@lfdr.de>; Thu,  8 Apr 2021 20:49:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231954AbhDHRLD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 8 Apr 2021 13:11:03 -0400
-Received: from elasmtp-mealy.atl.sa.earthlink.net ([209.86.89.69]:35644 "EHLO
-        elasmtp-mealy.atl.sa.earthlink.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232208AbhDHRLD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 8 Apr 2021 13:11:03 -0400
-X-Greylist: delayed 1320 seconds by postgrey-1.27 at vger.kernel.org; Thu, 08 Apr 2021 13:11:02 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mindspring.com;
-        s=dk12062016; t=1617901852; bh=bQFvbVAy17UPJCo8TddDZiuDi1m5tCJ51+HC
-        FzSEF34=; h=Received:From:To:Cc:References:In-Reply-To:Subject:Date:
-         Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:
-         X-Mailer:Thread-Index:Content-Language:X-ELNK-Trace:
-         X-Originating-IP; b=VHKqNs/sMazeF7v88xW6O6LlbHLp8oPS6Rw6/7z2bu9jss
-        qCCmyhPg1sZz7n0I5hvVFChjLvIUUmqwhofe2DtvnM22ZeOUzS6+Y53k+d75P5qhALC
-        CkiSLCt2P/1crvIVUIKXLXi1bOVlvC2XJiCcrjl10Ka3KF/wrtFQNwjmU/ECzmUPqtY
-        OH7Rf35VAwl0wttwC9YfeY8kEwXtjpvRnC3iWWUY3Uhz7BTBsG2sXsAG7Q3CgR1dSQh
-        xB2EaifVlzuIPAnIxWL0+OYQsCMBWRM5g0WRe31kkDXLvsMRRbtsA4Ng7BJVoqotpzN
-        p3tT4h6SwuQcuvXylO2MExUADPNw==
-DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws;
-  s=dk12062016; d=mindspring.com;
-  b=jWNW66mnSYcgabzYKwMaEh5/8CP0us7VsFAOWOHFH41OfEzbPD284h6WiVd+kWeZsIBBgCeAOn7yoZAXmx3lYazyvsAoUvAO3EWJqY0GPirf4sMJ1OcdJ8mJ2m5NnCHHgQvyjiG0h3Tmswdd2x8Qfsf0NDze9BrtVMW1h569uqH4Q68JG6Ci9XwvrPHJRmB2CM8egEJr+OFRh3/EHflMg64XzVkObsC5R9Xo9h1FfB+PcEzvZZg1bcQfkt6w6BVZ3o58PSyqmO/FqCpGFKkKDWzBdx4Zp56g17aVk6WUBLby6Y5I2io4gDOIgd24FzX3zu6FT75Su5ymAvHMxyr0LA==;
-  h=Received:From:To:Cc:References:In-Reply-To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:X-Mailer:Thread-Index:Content-Language:X-ELNK-Trace:X-Originating-IP;
-Received: from [76.105.143.216] (helo=FRANKSTHINKPAD)
-        by elasmtp-mealy.atl.sa.earthlink.net with esmtpa (Exim 4)
-        (envelope-from <ffilzlnx@mindspring.com>)
-        id 1lUXpk-000CpV-OP; Thu, 08 Apr 2021 12:48:44 -0400
-From:   "Frank Filz" <ffilzlnx@mindspring.com>
-To:     "'J. Bruce Fields'" <bfields@fieldses.org>,
-        "'Amir Goldstein'" <amir73il@gmail.com>
-Cc:     "'Christian Brauner'" <christian.brauner@ubuntu.com>,
-        "'Jan Kara'" <jack@suse.cz>,
-        "'linux-fsdevel'" <linux-fsdevel@vger.kernel.org>,
-        "'Linux API'" <linux-api@vger.kernel.org>,
-        "'Miklos Szeredi'" <miklos@szeredi.hu>
-References: <20210328155624.930558-1-amir73il@gmail.com> <20210330073101.5pqvw72fxvyp5kvf@wittgenstein> <CAOQ4uxjQFGdT0xH17pm-nSKE_0--z_AapRW70MNrLJLcCB6MAg@mail.gmail.com> <CAOQ4uxiizVxVJgtytYk_o7GvG2O2qwyKHgScq8KLhq218CNdnw@mail.gmail.com> <20210331100854.sdgtzma6ifj7w5yn@wittgenstein> <CAOQ4uxjHsqZqLT-DOPS0Q0FiHZ2Ge=d3tP+3-qd+O2optq9rZg@mail.gmail.com> <20210408125530.gnv5hqcmgewklypn@wittgenstein> <20210408141504.GB25439@fieldses.org> <CAOQ4uxjkr_3d3KUkjMCtdpg===ZOPOwv41bUBkTppLmqRErHZQ@mail.gmail.com> <20210408160844.GD25439@fieldses.org>
-In-Reply-To: <20210408160844.GD25439@fieldses.org>
-Subject: RE: open_by_handle_at() in userns
-Date:   Thu, 8 Apr 2021 09:48:42 -0700
-Message-ID: <129801d72c97$09f82460$1de86d20$@mindspring.com>
+        id S231676AbhDHStz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 8 Apr 2021 14:49:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22387 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232930AbhDHStz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 8 Apr 2021 14:49:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617907783;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=9DnI6U1S+o39D28LsHu5djv7mtfJjdAM5tnhpqhEqeY=;
+        b=FCX/Mp5gjwF7zL7GQyzGx4jJD+ASVXJPNL0TF4uGZDiW9XWVnz0wUzu2SF2ojcVZXsrIZv
+        QVCsdYuNBbP5Io105G4ySilc78gRAGtI6dk3mcbkXAn+H5lpu7ZUrBCd3fYCfEWDmEYcLI
+        5kx18cg7UNSVVfE8W7fppYaudLt1dIQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-576-JEAljJzqPj6fDRFe46hlyA-1; Thu, 08 Apr 2021 14:49:39 -0400
+X-MC-Unique: JEAljJzqPj6fDRFe46hlyA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27101800D53;
+        Thu,  8 Apr 2021 18:49:37 +0000 (UTC)
+Received: from [10.10.116.109] (ovpn-116-109.rdu2.redhat.com [10.10.116.109])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B8B860636;
+        Thu,  8 Apr 2021 18:49:23 +0000 (UTC)
+Subject: Re: [Patch v4 1/3] lib: Restrict cpumask_local_spread to houskeeping
+ CPUs
+From:   Nitesh Narayan Lal <nitesh@redhat.com>
+To:     Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "frederic@kernel.org" <frederic@kernel.org>
+Cc:     Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, juri.lelli@redhat.com,
+        abelits@marvell.com, bhelgaas@google.com,
+        linux-pci@vger.kernel.org, rostedt@goodmis.org, mingo@kernel.org,
+        peterz@infradead.org, davem@davemloft.net,
+        akpm@linux-foundation.org, sfr@canb.auug.org.au,
+        stephen@networkplumber.org, rppt@linux.vnet.ibm.com,
+        jinyuqi@huawei.com, zhangshaokun@hisilicon.com,
+        Network Development <netdev@vger.kernel.org>,
+        "sassmann@redhat.com" <sassmann@redhat.com>,
+        "Yang, Lihong" <lihong.yang@intel.com>
+References: <20200625223443.2684-1-nitesh@redhat.com>
+ <20200625223443.2684-2-nitesh@redhat.com>
+ <3e9ce666-c9cd-391b-52b6-3471fe2be2e6@arm.com>
+ <20210127121939.GA54725@fuller.cnet> <87r1m5can2.fsf@nanos.tec.linutronix.de>
+ <20210128165903.GB38339@fuller.cnet> <87h7n0de5a.fsf@nanos.tec.linutronix.de>
+ <20210204181546.GA30113@fuller.cnet>
+ <cfa138e9-38e3-e566-8903-1d64024c917b@redhat.com>
+ <20210204190647.GA32868@fuller.cnet>
+ <d8884413-84b4-b204-85c5-810342807d21@redhat.com>
+ <87y2g26tnt.fsf@nanos.tec.linutronix.de>
+ <d0aed683-87ae-91a2-d093-de3f5d8a8251@redhat.com>
+ <7780ae60-efbd-2902-caaa-0249a1f277d9@redhat.com>
+ <07c04bc7-27f0-9c07-9f9e-2d1a450714ef@redhat.com>
+ <20210406102207.0000485c@intel.com>
+ <1a044a14-0884-eedb-5d30-28b4bec24b23@redhat.com>
+Organization: Red Hat Inc,
+Message-ID: <b21853ab-e3b4-889a-07bd-742db8aa2e4b@redhat.com>
+Date:   Thu, 8 Apr 2021 14:49:22 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 15.0
-Thread-Index: AQHjiGW2X8wBJuoRKwYv8KHaUIoTfgHS+L1pAUFSJSIC9MC69wJifODqAY6fAV0BA8nN3wIhX2GkAmC2qi4CM0d6q6oEgc7A
-Content-Language: en-us
-X-ELNK-Trace: 136157f01908a8929c7f779228e2f6aeda0071232e20db4d686da7ba0b6815a578d96f8f8a770c38350badd9bab72f9c350badd9bab72f9c350badd9bab72f9c
-X-Originating-IP: 76.105.143.216
+In-Reply-To: <1a044a14-0884-eedb-5d30-28b4bec24b23@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-> On Thu, Apr 08, 2021 at 06:54:52PM +0300, Amir Goldstein wrote:
-> > They are understood to me :) but I didn't want to get into it, because
-> > it is complicated to explain and I wasn't sure if anyone cared...
-> >
-> > I started working on open_by_handle_at() in userns for fanotify and
-> > fanotify mostly reports directory fhandle, so no issues with
-cross-directory
-> renames.
-> > In any case, fanotify never reports "connectable" non-dir file handles.
-> >
-> > Because my proposed change ALSO makes it possible to start talking
-> > about userspace nfs server inside userns (in case anyone cares), I
-> > wanted to lay out the path towards a userspace "subtree_check" like
-solution.
-> 
-> We have to support subdirectory exports and subtree checking because we
-> already have, but, FWIW, if I were writing a new NFS server from scratch,
-I don't
-> think I would.  It's poorly understood, and the effort would be better
-spent on
-> more flexible storage management.
 
-Yea, nfs-ganesha does not attempt to support subtree checking. It will allow
-subtree exports, but it makes no assurance that they are secure. One option
-though that turns out to work well for them is btrfs subvols since each
-subvol has its own st_dev device ID, it's really as if it's a separate
-filesystem (and nfs-ganesha treats it as such).
+On 4/7/21 11:18 AM, Nitesh Narayan Lal wrote:
+> On 4/6/21 1:22 PM, Jesse Brandeburg wrote:
+>> Continuing a thread from a bit ago...
+>>
+>> Nitesh Narayan Lal wrote:
+>>
+>>>> After a little more digging, I found out why cpumask_local_spread change
+>>>> affects the general/initial smp_affinity for certain device IRQs.
+>>>>
+>>>> After the introduction of the commit:
+>>>>
+>>>>     e2e64a932 genirq: Set initial affinity in irq_set_affinity_hint()
+>>>>
+>>> Continuing the conversation about the above commit and adding Jesse.
+>>> I was trying to understand the problem that the commit message explains
+>>> "The default behavior of the kernel is somewhat undesirable as all
+>>> requested interrupts end up on CPU0 after registration.", I have also been
+>>> trying to reproduce this behavior without the patch but I failed in doing
+>>> so, maybe because I am missing something here.
+>>>
+>>> @Jesse Can you please explain? FWIU IRQ affinity should be decided based on
+>>> the default affinity mask.
+> Thanks, Jesse for responding.
+>
+>> The original issue as seen, was that if you rmmod/insmod a driver
+>> *without* irqbalance running, the default irq mask is -1, which means
+>> any CPU. The older kernels (this issue was patched in 2014) used to use
+>> that affinity mask, but the value programmed into all the interrupt
+>> registers "actual affinity" would end up delivering all interrupts to
+>> CPU0,
+> So does that mean the affinity mask for the IRQs was different wrt where
+> the IRQs were actually delivered?
+> Or, the affinity mask itself for the IRQs after rmmod, insmod was changed
+> to 0 instead of -1?
+>
+> I did a quick test on top of 5.12.0-rc6 by comparing the i40e IRQ affinity
+> mask before removing the kernel module and after doing rmmod+insmod
+> and didn't find any difference.
+>
+>>  and if the machine was under traffic load incoming when the
+>> driver loaded, CPU0 would start to poll among all the different netdev
+>> queues, all on CPU0.
+>>
+>> The above then leads to the condition that the device is stuck polling
+>> even if the affinity gets updated from user space, and the polling will
+>> continue until traffic stops.
+>>
+>>> The problem with the commit is that when we overwrite the affinity mask
+>>> based on the hinting mask we completely ignore the default SMP affinity
+>>> mask. If we do want to overwrite the affinity based on the hint mask we
+>>> should atleast consider the default SMP affinity.
+> For the issue where the IRQs don't follow the default_smp_affinity mask
+> because of this patch, the following are the steps by which it can be easily
+> reproduced with the latest linux kernel:
+>
+> # Kernel
+> 5.12.0-rc6+
+>
+> # Other pramaeters in the cmdline
+> isolcpus=2-39,44-79 nohz=on nohz_full=2-39,44-79
+> rcu_nocbs=2-39,44-79
+>
+> # cat /proc/irq/default_smp_affinity
+> 0000,00000f00,00000003 [Corresponds to HK CPUs - 0, 1, 40, 41, 42 and 43]
+>
+> # Create VFs and check IRQ affinity mask
+>
+> /proc/irq/1423/iavf-ens1f1v3-TxRx-3
+> 3
+> /proc/irq/1424/iavf-0000:3b:0b.0:mbx
+> 0
+> 40
+> 42
+> /proc/irq/1425/iavf-ens1f1v8-TxRx-0
+> 0
+> /proc/irq/1426/iavf-ens1f1v8-TxRx-1
+> 1
+> /proc/irq/1427/iavf-ens1f1v8-TxRx-2
+> 2
+> /proc/irq/1428/iavf-ens1f1v8-TxRx-3
+> 3
+> ...
+> /proc/irq/1475/iavf-ens1f1v15-TxRx-0
+> 0
+> /proc/irq/1476/iavf-ens1f1v15-TxRx-1
+> 1
+> /proc/irq/1477/iavf-ens1f1v15-TxRx-2
+> 2
+> /proc/irq/1478/iavf-ens1f1v15-TxRx-3
+> 3
+> /proc/irq/1479/iavf-0000:3b:0a.0:mbx
+> 0
+> 40
+> 42
+> ...
+> /proc/irq/240/iavf-ens1f1v3-TxRx-0
+> 0
+> /proc/irq/248/iavf-ens1f1v3-TxRx-1
+> 1
+> /proc/irq/249/iavf-ens1f1v3-TxRx-2
+> 2
+>
+>
+> Trace dump:
+> ----------
+> ..
+> 11551082:  NetworkManager-1734  [040]  8167.465719: vector_activate:    
+>             irq=1478 is_managed=0 can_reserve=1 reserve=0
+> 11551090:  NetworkManager-1734  [040]  8167.465720: vector_alloc:
+>             irq=1478 vector=65 reserved=1 ret=0
+> 11551093:  NetworkManager-1734  [040]  8167.465721: vector_update:      
+>             irq=1478 vector=65 cpu=42 prev_vector=0 prev_cpu=0
+> 11551097:  NetworkManager-1734  [040]  8167.465721: vector_config:      
+>             irq=1478 vector=65 cpu=42 apicdest=0x00000200
+> 11551357:  NetworkManager-1734  [040]  8167.465768: vector_alloc:        
+>             irq=1478 vector=46 reserved=0 ret=0
+>
+> 11551360:  NetworkManager-1734  [040]  8167.465769: vector_update:      
+>             irq=1478 vector=46 cpu=3 prev_vector=65 prev_cpu=42
+>
+> 11551364:  NetworkManager-1734  [040]  8167.465770: vector_config:      
+>             irq=1478 vector=46 cpu=3 apicdest=0x00040100
+> ..
+>
+> As we can see in the above trace the initial affinity for the IRQ 1478 was
+> correctly set as per the default_smp_affinity mask which includes CPU 42,
+> however, later on, it is updated with CPU3 which is returned from
+> cpumask_local_spread().
+>
+>> Maybe the right thing is to fix which CPUs are passed in as the valid
+>> mask, or make sure the kernel cross checks that what the driver asks
+>> for is a "valid CPU"?
+>>
+> Sure, if we can still reproduce the problem that your patch was fixing then
+> maybe we can consider adding a new API like cpumask_local_spread_irq in
+> which we should consider deafult_smp_affinity mask as well before returning
+> the CPU.
+>
 
-I'm curious about the userns solution. I'm not familiar with it, but we have
-issues with running nfs-ganesha inside containers due to the privileges it
-requires to properly run.
+Didn't realize that netdev ml was not included, so adding that.
 
-> > Another thing I am contemplating is, if and when idmapped mount
-> > support is added to overlayfs, we can store an additional
-> > "connectable" file handle in the overlayfs index (whose key is the
-> > non-connectable fhandle) and fix ovl_acceptable() similar to
-> > nfsd_acceptable() and then we will be able to mount an overlayfs inside
-userns
-> with nfs_export support.
-> >
-> > I've included a two liner patch on the fhandle_userns branch to allow
-> > overlayfs inside userns with nfs_export support in the case that
-> > underlying filesystem was mounted inside userns, but that is not such
-> > an interesting use case IMO.
-> >
-> > Thanks,
-> > Amir.
+-- 
+Nitesh
 
