@@ -2,94 +2,133 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B29535A33D
-	for <lists+linux-api@lfdr.de>; Fri,  9 Apr 2021 18:26:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31D8435A3FC
+	for <lists+linux-api@lfdr.de>; Fri,  9 Apr 2021 18:50:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233837AbhDIQ1I (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 9 Apr 2021 12:27:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54232 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233824AbhDIQ1H (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 9 Apr 2021 12:27:07 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31B88C061760;
-        Fri,  9 Apr 2021 09:26:53 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id y124-20020a1c32820000b029010c93864955so5045461wmy.5;
-        Fri, 09 Apr 2021 09:26:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20161025;
-        h=from:to:cc:references:subject:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=Phuwohh2HbCcjFvp4UIIQp3Pa48Fgzncr9mTT74dDuc=;
-        b=OrDC9KNIV2KoycO1UJbjgt3dS7Zq2KuRnckwcv/US0NFH4y5p75lCVm23WaG0rVojv
-         HeCavVxA+Ac3nwNniNDRjJlmFDlnmdgTPgutRu8juSbyZercO77k+ZH4K/xP8mSbGVW1
-         G++R4TWtflixrhcsAfXommXjVB6yQiFu5TxHopFnit0aQNYVGcJrLop+n3PsSErczidr
-         y/BmGlelv/wJ2dwQIZ2BoB9crvw7/JOCylrmSKctjliDydy1Zqwnxq9epeI68cv8qBo7
-         aVl4QC/KAnohy1n6qqYkh6J0d4Hco/WOB13ML9dE/SxBO3Wsvj7W0s+HSYU6g8xU0NgX
-         fkxQ==
+        id S234179AbhDIQuo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 9 Apr 2021 12:50:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32887 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233657AbhDIQun (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 9 Apr 2021 12:50:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617987030;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=9iFNTLYUdPzXiA/Mpb6WQlIpHAgPoHtKG/OVLOk4/v0=;
+        b=X6BEeKDDMGLSqsLd/bxNHhRikKPDdwAFSvaXa4fAcVaZKsC+GRntdmkvHwLafnjxtzz4L9
+        ESVsDUVoGHxDkJL2mzFArnfCEYPOZYDk/OcQEzcFBFLaaZV++2RBpF4mp5t0eiWQPQiut5
+        SiMTKWdVJ5iHX/UYLgaYr0pa4aFjr1s=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-195-f0k3AVLLPI2sm55oB0koRw-1; Fri, 09 Apr 2021 12:50:27 -0400
+X-MC-Unique: f0k3AVLLPI2sm55oB0koRw-1
+Received: by mail-qv1-f70.google.com with SMTP id r14so1353383qvr.14
+        for <linux-api@vger.kernel.org>; Fri, 09 Apr 2021 09:50:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:references:subject:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=Phuwohh2HbCcjFvp4UIIQp3Pa48Fgzncr9mTT74dDuc=;
-        b=fL1l5XONfIzbAb70Vh+472VsFdLwObfk0tfGwWG4JXtZzxVqrc1JORfM/zGCe375JT
-         i/5YdfiW/S/niWnd8EPH/BY7BeateYeHwWjspqebt60JMiFEoyiFbpbT5jFWOJTN+T4m
-         KxItQo/DZ51NgupBlb9UZOYLw5feItjEKR6xgdVso3+PRZMA0QWLjst9jBZxhulTqP3V
-         9Z1YyixImJtO8z6h30iJQgAxIQjZX246e8mRthzjccjt+Ct/+LUgbwO+xP70Q+O40Fnb
-         ulZFTluPU6uz6c1BFnOMb+sClueWpOoo3qQ4j8QqJZdf7ouNmn6AbBudNTQpHc0s+LGD
-         yr7Q==
-X-Gm-Message-State: AOAM532CuHT204bIpRl8FESUb09gdCo6s1h7AX9k4XCo5MBrMb20DRVk
-        6tYS8p8soOjRvSqGjQQaLu0=
-X-Google-Smtp-Source: ABdhPJwEELsjjLV+hBsfJiej4imi1ND7VZLuZxQpk+R/tkx/cwIMM3GphnH/4bn5zw34pvgfQlwTVg==
-X-Received: by 2002:a1c:9853:: with SMTP id a80mr14414819wme.44.1617985611974;
-        Fri, 09 Apr 2021 09:26:51 -0700 (PDT)
-Received: from ?IPv6:2001:a61:3552:9e01:f394:4bd9:fa87:7527? ([2001:a61:3552:9e01:f394:4bd9:fa87:7527])
-        by smtp.gmail.com with ESMTPSA id a7sm5648045wrn.50.2021.04.09.09.26.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Apr 2021 09:26:51 -0700 (PDT)
-From:   bauen1 <j2468h@googlemail.com>
-X-Google-Original-From: bauen1 <j2468h@gmail.com>
-To:     mic@digikod.net
-Cc:     akpm@linux-foundation.org, arnd@arndb.de, casey@schaufler-ca.com,
-        christian.brauner@ubuntu.com, christian@python.org, corbet@lwn.net,
-        cyphar@cyphar.com, deven.desai@linux.microsoft.com,
-        dvyukov@google.com, ebiggers@kernel.org, ericchiang@google.com,
-        fweimer@redhat.com, geert@linux-m68k.org, jack@suse.cz,
-        jannh@google.com, jmorris@namei.org, keescook@chromium.org,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org, luto@kernel.org,
-        madvenka@linux.microsoft.com, mjg59@google.com,
-        mszeredi@redhat.com, mtk.manpages@gmail.com,
-        nramas@linux.microsoft.com, philippe.trebuchet@ssi.gouv.fr,
-        scottsh@microsoft.com, sean.j.christopherson@intel.com,
-        sgrubb@redhat.com, shuah@kernel.org, steve.dower@python.org,
-        thibaut.sautereau@clip-os.org, vincent.strubel@ssi.gouv.fr,
-        viro@zeniv.linux.org.uk, willy@infradead.org, zohar@linux.ibm.com
-References: <20201203173118.379271-1-mic@digikod.net>
-Subject: Re: [PATCH v12 0/3] Add trusted_for(2) (was O_MAYEXEC)
-Message-ID: <d3b0da18-d0f6-3f72-d3ab-6cf19acae6eb@gmail.com>
-Date:   Fri, 9 Apr 2021 18:26:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=9iFNTLYUdPzXiA/Mpb6WQlIpHAgPoHtKG/OVLOk4/v0=;
+        b=CN+/6maco7TGzf+CzyCYH4yqU5q6hXyrhv6rAO/C+CRT/1+kbBauo15Vi5vsz6HRuR
+         mZwRZcHDZr3I0R/yYv/wJ+jxFgdnoFcw3m7XPasteUxly3tTrzW7GhTjnZGky8W7ge34
+         Gxk9nrDtKOhxCXCdxVakZQamYIRrfApWSa/q57pbaWVQn6YNbv5pImuLIVRpmQGzb8Lo
+         T1DhL7DTOPGRx6y3Au7lKyGuN1kekVm7ZjClDo7IcZxVmDKwNm0NqTdOdyMgDVJuMmGU
+         X+bSL5vAyTlLFr7Boi4+xNIP0NzOzUf0Dv2AHNfF45UfQCu85OelgTIHN6XIEEeQ/Z13
+         fJOQ==
+X-Gm-Message-State: AOAM531YZU0XKf10T4eqlDFwjVjQi8YmPBP7Mb05h+xrFDzRbnUcvUIe
+        gyHW5zrcUs6nCIuoDwFJxAlM5wU33prGlwZNKGJj31o6EKIOQbJbTrNi0i084R36OqOJrA1IthL
+        MsJlFLD1dr0rjc1IHIFlP
+X-Received: by 2002:ac8:698c:: with SMTP id o12mr13565672qtq.340.1617987027106;
+        Fri, 09 Apr 2021 09:50:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx9ET8gRIuaxSbZx1jIxLrgNMwEbCyKnI0+eLELufmMdInX+m4v62Vmy9dTudxtDhDqBn9G0g==
+X-Received: by 2002:ac8:698c:: with SMTP id o12mr13565637qtq.340.1617987026785;
+        Fri, 09 Apr 2021 09:50:26 -0700 (PDT)
+Received: from xz-x1 (bras-base-toroon474qw-grc-82-174-91-135-175.dsl.bell.ca. [174.91.135.175])
+        by smtp.gmail.com with ESMTPSA id l4sm984629qkd.105.2021.04.09.09.50.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Apr 2021 09:50:26 -0700 (PDT)
+Date:   Fri, 9 Apr 2021 12:50:24 -0400
+From:   Peter Xu <peterx@redhat.com>
+To:     Axel Rasmussen <axelrasmussen@google.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Daniel Colascione <dancol@google.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jerome Glisse <jglisse@redhat.com>,
+        Joe Perches <joe@perches.com>,
+        Lokesh Gidra <lokeshgidra@google.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Shaohua Li <shli@fb.com>, Shuah Khan <shuah@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Wang Qing <wangqing@vivo.com>, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+        Brian Geffon <bgeffon@google.com>,
+        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+        Mina Almasry <almasrymina@google.com>,
+        Oliver Upton <oupton@google.com>
+Subject: Re: [PATCH 3/9] userfaultfd/shmem: support minor fault registration
+ for shmem
+Message-ID: <20210409165024.GF792100@xz-x1>
+References: <20210408234327.624367-1-axelrasmussen@google.com>
+ <20210408234327.624367-4-axelrasmussen@google.com>
 MIME-Version: 1.0
-In-Reply-To: <20201203173118.379271-1-mic@digikod.net>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20210408234327.624367-4-axelrasmussen@google.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello,
+On Thu, Apr 08, 2021 at 04:43:21PM -0700, Axel Rasmussen wrote:
 
-As a user of SELinux I'm quite interested in the trusted_for / O_MAYEXEC changes in the kernel and userspace.
-However the last activity on this patch seems to be this email from 2020-12-03 with no replies, so what is the status of this patchset or is there something that I'm missing ?
+[...]
 
-https://patchwork.kernel.org/project/linux-security-module/list/?series=395617
+> @@ -1820,16 +1821,27 @@ static int shmem_getpage_gfp(struct inode *inode, pgoff_t index,
+>  
+>  	page = pagecache_get_page(mapping, index,
+>  					FGP_ENTRY | FGP_HEAD | FGP_LOCK, 0);
+> -	if (xa_is_value(page)) {
+> +	swapped = xa_is_value(page);
+> +	if (swapped) {
+>  		error = shmem_swapin_page(inode, index, &page,
+>  					  sgp, gfp, vma, fault_type);
+>  		if (error == -EEXIST)
+>  			goto repeat;
+> -
+>  		*pagep = page;
+> -		return error;
+> +		if (error)
+> +			return error;
+>  	}
+>  
+> +	if (page && vma && userfaultfd_minor(vma)) {
+> +		unlock_page(page);
+> +		put_page(page);
+> +		*fault_type = handle_userfault(vmf, VM_UFFD_MINOR);
+> +		return 0;
+> +	}
 
-https://lore.kernel.org/linux-security-module/20201203173118.379271-1-mic@digikod.net/
+If we need to consider swapping for UFFDIO_CONTINUE later (as Hugh pointed out
+previously, which looks the right thing to do), it's indeed a bit awkward to
+swapin here.  Maybe move this chunk to right after pagecache_get_page()
+returns?  Then no need to touch the rest.
 
+> +
+> +	if (swapped)
+> +		return 0;
+> +
+>  	if (page)
+>  		hindex = page->index;
+>  	if (page && sgp == SGP_WRITE)
+> -- 
+> 2.31.1.295.g9ea45b61b8-goog
+> 
+
+-- 
+Peter Xu
 
