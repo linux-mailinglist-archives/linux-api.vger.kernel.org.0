@@ -2,45 +2,47 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD07C35A821
-	for <lists+linux-api@lfdr.de>; Fri,  9 Apr 2021 22:53:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8218D35A82F
+	for <lists+linux-api@lfdr.de>; Fri,  9 Apr 2021 22:55:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234255AbhDIUxS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 9 Apr 2021 16:53:18 -0400
-Received: from mail-ed1-f48.google.com ([209.85.208.48]:39606 "EHLO
-        mail-ed1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbhDIUxQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 9 Apr 2021 16:53:16 -0400
-Received: by mail-ed1-f48.google.com with SMTP id g17so7302148edm.6;
-        Fri, 09 Apr 2021 13:53:02 -0700 (PDT)
+        id S234325AbhDIUz4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 9 Apr 2021 16:55:56 -0400
+Received: from mail-ej1-f41.google.com ([209.85.218.41]:38876 "EHLO
+        mail-ej1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234278AbhDIUz4 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 9 Apr 2021 16:55:56 -0400
+Received: by mail-ej1-f41.google.com with SMTP id r12so10710722ejr.5;
+        Fri, 09 Apr 2021 13:55:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=tVVvekJcw/qutLmuIXgXFcn3GNTWVwIRza5epNRIOXU=;
-        b=tUfFfbTCoebpjaB8Nyr0/sbK8r97YK722W2KFEeB1gMTTfbk3QQSjup+64nHylY7UI
-         MPrKxXoCcs+cRcWlOQZx3/SrTVlf5UnDwBl1PECu4ujLp8+Sg+Ilxx/r2lGJan3YiOEP
-         19CGuVZsnzqgk9MMpbqhL8Z08ZIfIpnLSqOHGcYkZ5m+a99rDuvmxGQcMUQnpo/5HD78
-         /NQoT8ygsL4SRpNEsZpU825qJjfTE6MFWqC48INgIkazZjKn28iCJzGRjy2cPdmdS68v
-         j5uNEF6wlxYEt4qztvOfMqnNkwBjCSz3mZHw44ol6vcbioIV++r9id7/e5wpOJefh7eJ
-         JkxQ==
-X-Gm-Message-State: AOAM5316pANPYRfK1rCFc4ZentgN3OJksO2+33Q2isSn+XSrdY1fQERo
-        BxW552TaQBV5EIu192ocsugs8KHz3FEzEg4O5fU=
-X-Google-Smtp-Source: ABdhPJyQszy6COXyLAFUPtL7QC/F1gSDc3ZM8xKLorbpSgnCQ1S+fABV2MJ/wgD7HF1DySoQrJ65mDvaWiQ4n0p71/4=
-X-Received: by 2002:a05:6402:35c9:: with SMTP id z9mr19229111edc.94.1618001582078;
- Fri, 09 Apr 2021 13:53:02 -0700 (PDT)
+        bh=6269CFEcO294v7exi47GLnYJ4w/SXpoLX7EH0IrfMXg=;
+        b=UbrfMgP8uF59OblaqqhqB7XmhIo5yfVh9fr1UBXE+4jDPUIfi7SnMrsEPhaXld87Ds
+         KihSi+fuzN5JVdwQNaP372w5aEjFdHPSdzJeFbWuNbhZKmJkMJ2jfQpUb9TH7SOrpQgG
+         gntMmyBu8RfXqrMru0HNCMlRkygoOka8QK9B2mUtAm2PMArtoM5cxxMxcF60nHZlbRR4
+         NlkHmCkZ7vQpSgaQmb9d1R+9tdOP/WI/Hb8eZUK3uHP+Yvr6IoFaVMnCfQqTKRqpsuAu
+         hQTlEhciIBwBHuyyTE8p5N6ZzilHHVjgtXdtXN2EgrCjYWLmyuyoel2S3kHIAf7v43uF
+         kSsQ==
+X-Gm-Message-State: AOAM530eerdaWTOWp0DQ7w6L+4/QXtq6Y1qK4Syds3wq7Vh7n37orkHX
+        Sa47WY+ctjI8hffm6lpDE463JsPW0SJaBYik1KY=
+X-Google-Smtp-Source: ABdhPJwXzE1P09vuf4uHOZgcOVQmGC/sR9VCWa3xvIkBzLtB6ZptwLRWU6jAe3sPnSByf6nG5X9sVE7VQUX0uxjWpeY=
+X-Received: by 2002:a17:906:dfcc:: with SMTP id jt12mr17795157ejc.31.1618001741712;
+ Fri, 09 Apr 2021 13:55:41 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAJvTdK=evAofQRcmt_iwtYx2f_wTGUDpXzvjuiVwgZZ6BZV_Qg@mail.gmail.com>
  <E8BCA270-4F23-4E1B-BAD6-917DBE36F5F6@amacapital.net> <CAJvTdK=Lqbzy6bs8qiE8MZ5LSzyZJ-FMUTcNPD4MxYJGEMBW3g@mail.gmail.com>
- <CALCETrW_5QDSo2sfEjBZSJ=Q3EsXTc03Unztn0Rq1caxqwtWpw@mail.gmail.com>
-In-Reply-To: <CALCETrW_5QDSo2sfEjBZSJ=Q3EsXTc03Unztn0Rq1caxqwtWpw@mail.gmail.com>
+ <20210331225226.GC11673@zn.tnic>
+In-Reply-To: <20210331225226.GC11673@zn.tnic>
 From:   Len Brown <lenb@kernel.org>
-Date:   Fri, 9 Apr 2021 16:52:50 -0400
-Message-ID: <CAJvTdKkDUywOUxb8Toth-7d4U4_S_9_EYHO38XqAPKc2_MXtdA@mail.gmail.com>
+Date:   Fri, 9 Apr 2021 16:55:30 -0400
+Message-ID: <CAJvTdKm_sa869Xn-GVFPnka_B+-otf1FwoMtA-8PAYOaN99BnA@mail.gmail.com>
 Subject: Re: Candidate Linux ABI for Intel AMX and hypothetical new related features
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     David Laight <David.Laight@aculab.com>,
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Andy Lutomirski <luto@amacapital.net>,
+        David Laight <David.Laight@aculab.com>,
         Dave Hansen <dave.hansen@intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
         Greg KH <gregkh@linuxfoundation.org>,
         "Bae, Chang Seok" <chang.seok.bae@intel.com>,
         X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
@@ -54,53 +56,25 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Mar 31, 2021 at 6:45 PM Andy Lutomirski <luto@kernel.org> wrote:
+On Wed, Mar 31, 2021 at 6:54 PM Borislav Petkov <bp@alien8.de> wrote:
 >
-> On Wed, Mar 31, 2021 at 3:28 PM Len Brown <lenb@kernel.org> wrote:
+> On Wed, Mar 31, 2021 at 06:28:27PM -0400, Len Brown wrote:
+> > dynamic XCR0 breaks the installed base, I thought we had established
+> > that.
 >
-> > We added compiler annotation for user-level interrupt handlers.
-> > I'm not aware of it failing, or otherwise being confused.
+> We should do a clear cut and have legacy stuff which has its legacy
+> expectations on the XSTATE layout and not touch those at all.
 >
-> I followed your link and found nothing. Can you elaborate?  In the
-> kernel, we have noinstr, and gcc gives approximately no help toward
-> catching problems.
-
-A search for the word "interrupt" on this page
-https://gcc.gnu.org/onlinedocs/gcc/x86-Function-Attributes.html#x86-Function-Attributes
-comes to the description of this attribute:
-
-__attribute__ ((interrupt))
-
-> > dynamic XCR0 breaks the installed base, I thought we had established that.
+> And then all new apps which will use these new APIs can go and request
+> whatever fancy new state constellations we support. Including how they
+> want their signals handled, etc.
 >
-> I don't think this is at all established.  If some code thinks it
-> knows the uncompacted XSTATE size and XCR0 changes, it crashes.  This
-> is not necessarily a showstopper.
-
-My working assumption is that crashing applications actually *is* a showstopper.
-Please clarify.
-
-> > We've also established that when running in a VMM, every update to
-> > XCR0 causes a VMEXIT.
+> Fat states like avx512, amx etc will be off by default and apps
+> explicitly requesting those, can get them.
 >
-> This is true, it sucks, and Intel could fix it going forward.
+> That's it.
 
-What hardware fix do you suggest?
-If a guest is permitted to set XCR0 bits without notifying the VMM,
-what happens when it sets bits that the VMM doesn't know about?
-
-> > I thought the goal was to allow new programs to have fast signal handlers.
-> > By default, those fast signal handlers would have a stable state
-> > image, and would
-> > not inherit large architectural state on their stacks, and could thus
-> > have minimal overhead on all hardware.
->
-> That is *a* goal, but not necessarily the only goal.
-
-I fully support coming up with a scheme for fast future-proof signal handlers,
-and I'm willing to back that up by putting work into it.
-
-I don't see any other goals articulated in this thread.
+100% agreement from me!  (does anybody disagree?)
 
 thanks,
 Len Brown, Intel Open Source Technology Center
