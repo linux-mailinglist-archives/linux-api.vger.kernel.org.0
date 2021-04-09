@@ -2,148 +2,117 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4596735A457
-	for <lists+linux-api@lfdr.de>; Fri,  9 Apr 2021 19:04:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AC8D35A46D
+	for <lists+linux-api@lfdr.de>; Fri,  9 Apr 2021 19:14:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233883AbhDIREo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 9 Apr 2021 13:04:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34348 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234071AbhDIREn (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 9 Apr 2021 13:04:43 -0400
-Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69245C061762
-        for <linux-api@vger.kernel.org>; Fri,  9 Apr 2021 10:04:30 -0700 (PDT)
-Received: by mail-il1-x12c.google.com with SMTP id x3so4669407ilg.5
-        for <linux-api@vger.kernel.org>; Fri, 09 Apr 2021 10:04:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tZExfZaItW8I8mhIQZwJxd1DH8tD4RWPfY6sL+HgdVY=;
-        b=LpGpVWkFN6IMUF2DmNCDOz5Lr43s5Mdk0xGtSotDyp7K7I9pO3VTOb+DwJ1rvNd8Ac
-         TS2DvgkHDVuxh4QXFbqqNv0rTiX4bcksCQgLMTKtgAW5hkDSFdjL0gBon4114r48HTIH
-         WRb8Co81Ctlicn7/2099Bw28/SUhSV6Fs01MVitACqs+0mqOyWnw5OYof/3cC92vfIGa
-         MlT0GGIbZO6AM0+48idHFJrFlGY6XRXUf/wLp9FmxyeNJsSopQVn7MBWGJXlw9H/5edT
-         mZMgszZ4Kg6DT+D/MIs1Kk9xu4H+GdFu2CZGz84dFURvWISly+gxFjErlhkBxMaGgFgs
-         mMsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tZExfZaItW8I8mhIQZwJxd1DH8tD4RWPfY6sL+HgdVY=;
-        b=RnsCD/qxZ9NF2tn8tRVSedWCAds5uJuoLYYPDg9r49HTw9pgEvLBFUvk/abhgDCCay
-         DXIpd0JpidtbcLzs5000j1KzA6475vfUUlyi6VzqJoyTUzIHHyxNv3xPMnLJr1D76DkA
-         tZpcXqsD6eUnIPM6M3Zs3OychaOe6AAY77GaTho2F6E4Fu7Gq0B1hUWGYQz3DrISvcUo
-         tceH56AqWeLH3OPVKtuKUNeX6csBeZpPJTG3x1r8/cgOsH3MqbppRZyi4pqAPTG8v7/U
-         6ls/uqSh12J1qYnIX74Qr2vgb6rVt7CScZ1W0HSX2MlK0oB8DdPit+lykpHSE/nRsSTb
-         /9DQ==
-X-Gm-Message-State: AOAM532fXy5NIZJTNZGzxA4jkjxh3mPEZqXPa+vB42QOY7OCz+cdJ8sK
-        Y66DeyLTqyV/pA3JUvB3w1EsalCe0apRZ5ij3gLW9g==
-X-Google-Smtp-Source: ABdhPJzM/e3TJU7ySB/2UMdS6n5bzAsPhMQxYMxjQpi360O8iBGeG86NQBa10fgltinhiL8KYpVlSnqeYcYvkENPNrw=
-X-Received: by 2002:a05:6e02:4cd:: with SMTP id f13mr12318125ils.258.1617987869608;
- Fri, 09 Apr 2021 10:04:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210408234327.624367-1-axelrasmussen@google.com> <20210408220440.aab59f2f06beb840c22377b3@linux-foundation.org>
-In-Reply-To: <20210408220440.aab59f2f06beb840c22377b3@linux-foundation.org>
-From:   Axel Rasmussen <axelrasmussen@google.com>
-Date:   Fri, 9 Apr 2021 10:03:53 -0700
-Message-ID: <CAJHvVcj84fcuh0vXtHdEPoV+DrFDSXjUg1fO+oLFCOaxWBH13w@mail.gmail.com>
-Subject: Re: [PATCH 0/9] userfaultfd: add minor fault handling for shmem
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Daniel Colascione <dancol@google.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jerome Glisse <jglisse@redhat.com>,
-        Joe Perches <joe@perches.com>,
-        Lokesh Gidra <lokeshgidra@google.com>,
+        id S234150AbhDIROY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 9 Apr 2021 13:14:24 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:39760 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234049AbhDIROX (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 9 Apr 2021 13:14:23 -0400
+Received: from zn.tnic (p200300ec2f0be10039b183a609a7c35d.dip0.t-ipconnect.de [IPv6:2003:ec:2f0b:e100:39b1:83a6:9a7:c35d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E7A7A1EC04DA;
+        Fri,  9 Apr 2021 19:14:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1617988449;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=9AYjgxlvYEzX7lP0NtvpK9WeNVbzcrOcj1GyMO32N+8=;
+        b=BkI1zZKAIOXGXVXDZmOJ5kTvnpvdEQxEu9hHsbEfqBXbmcLX9AbdpfXRpPq2jAtv2avPna
+        4L6A5qHTBqjwjIjHBREH2SQLJlAymZ23QG8Bn8+d324iG+C1FfGRkuLghB9fBaKVoM4V49
+        z7Nkq6Q70HYhsY4Wx435Y8ZpYd0sTuA=
+Date:   Fri, 9 Apr 2021 19:14:08 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
         Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Peter Xu <peterx@redhat.com>, Shaohua Li <shli@fb.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Wang Qing <wangqing@vivo.com>, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org, Linux MM <linux-mm@kvack.org>,
-        Brian Geffon <bgeffon@google.com>,
-        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
-        Mina Almasry <almasrymina@google.com>,
-        Oliver Upton <oupton@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v24 04/30] x86/cpufeatures: Introduce X86_FEATURE_CET and
+ setup functions
+Message-ID: <20210409171408.GG15567@zn.tnic>
+References: <20210401221104.31584-1-yu-cheng.yu@intel.com>
+ <20210401221104.31584-5-yu-cheng.yu@intel.com>
+ <20210409101214.GC15567@zn.tnic>
+ <c7cb0ed6-2725-ba0d-093e-393eab9918b2@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <c7cb0ed6-2725-ba0d-093e-393eab9918b2@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Apr 8, 2021 at 10:04 PM Andrew Morton <akpm@linux-foundation.org> wrote:
->
-> On Thu,  8 Apr 2021 16:43:18 -0700 Axel Rasmussen <axelrasmussen@google.com> wrote:
->
-> > The idea is that it will apply cleanly to akpm's tree, *replacing* the following
-> > patches (i.e., drop these first, and then apply this series):
-> >
-> > userfaultfd-support-minor-fault-handling-for-shmem.patch
-> > userfaultfd-support-minor-fault-handling-for-shmem-fix.patch
-> > userfaultfd-support-minor-fault-handling-for-shmem-fix-2.patch
-> > userfaultfd-support-minor-fault-handling-for-shmem-fix-3.patch
-> > userfaultfd-support-minor-fault-handling-for-shmem-fix-4.patch
-> > userfaultfd-selftests-use-memfd_create-for-shmem-test-type.patch
-> > userfaultfd-selftests-create-alias-mappings-in-the-shmem-test.patch
-> > userfaultfd-selftests-reinitialize-test-context-in-each-test.patch
-> > userfaultfd-selftests-exercise-minor-fault-handling-shmem-support.patch
->
-> Well.  the problem is,
->
-> > +     if (area_alias == MAP_FAILED)
-> > +             err("mmap of memfd alias failed");
->
-> `err' doesn't exist until eleventy patches later, in Peter's
-> "userfaultfd/selftests: unify error handling".  I got tired of (and
-> lost confidence in) replacing "err(...)" with "fprintf(stderr, ...);
-> exit(1)" everywhere then fixing up the fallout when Peter's patch came
-> along.  Shudder.
+On Fri, Apr 09, 2021 at 08:52:52AM -0700, Yu, Yu-cheng wrote:
+> Recall we had complicated code for the XSAVES features detection in
+> xstate.c.  Dave Hansen proposed the solution and then the whole thing
+> becomes simple.  Because of this flag, even when only the shadow stack is
+> available, the code handles it nicely.
 
-Oof - sorry about that!
+Is that what you mean?
 
->
-> Sorry, all this material pretty clearly isn't going to make 5.12
-> (potentially nine days hence), so I shall drop all the userfaultfd
-> patches.  Let's take a fresh run at all of this after -rc1.
+@@ -53,6 +55,8 @@ static short xsave_cpuid_features[] __initdata = {
+ 	X86_FEATURE_INTEL_PT,
+ 	X86_FEATURE_PKU,
+ 	X86_FEATURE_ENQCMD,
++	X86_FEATURE_CET, /* XFEATURE_CET_USER */
++	X86_FEATURE_CET, /* XFEATURE_CET_KERNEL */
 
-That's okay, my understanding was already that it certainly wouldn't
-be in the 5.12 release, but that we might be ready in time for 5.13.
+or what is the piece which becomes simpler?
 
->
->
-> I have tentatively retained the first series:
->
-> userfaultfd-add-minor-fault-registration-mode.patch
-> userfaultfd-add-minor-fault-registration-mode-fix.patch
-> userfaultfd-disable-huge-pmd-sharing-for-minor-registered-vmas.patch
-> userfaultfd-hugetlbfs-only-compile-uffd-helpers-if-config-enabled.patch
-> userfaultfd-add-uffdio_continue-ioctl.patch
-> userfaultfd-update-documentation-to-describe-minor-fault-handling.patch
-> userfaultfd-selftests-add-test-exercising-minor-fault-handling.patch
->
-> but I don't believe they have had much testing standalone, without the
-> other userfaultfd patches present.  So I don't think it's smart to
-> upstream these in this cycle.  Or I could drop them so you and Peter
-> can have a clean shot at redoing the whole thing.  Please let me know.
+> Would this equal to only CONFIG_X86_CET (one Kconfig option)?  In fact, when
+> you proposed only CONFIG_X86_CET, things became much simpler.
 
-From my perspective, both Peter's error handling and the hugetlbfs
-minor faulting patches are ready to go. (Peter's most importantly; we
-should establish that as a base, and put all the burden on resolving
-conflicts with it on us instead of you :).)
+When you use CONFIG_X86_SHADOW_STACK instead, it should remain same
+simple no?
 
-My memory was that Peter's patch was applied before my shmem series,
-but it seems I was mistaken. So, maybe the best thing to do is to have
-Peter send a version of it based on your tree, without the shmem
-series? And then I'll resolve any conflicts in my tree?
+> Practically, IBT is not much in terms of code size.  Since we have already
+> separated the two, why don't we leave it as-is.  When people start using it
+> more, there will be more feedback, and we can decide if one Kconfig is
+> better?
 
-It's true that we haven't tested the hugetlbfs minor faults patch
-extensively *with the shmem one also applied*, but it has had more
-thorough review than the shmem one at this point (e.g. by Mike
-Kravetz), and they're rather separate code paths (I'd be surprised if
-one breaks the other).
+Because when we add stuff to the kernel, we add the simplest and
+cleanest version possible and later, when we determine that additional
+functionality is needed, *then* we add it. Not the other way around.
 
->
+Our Kconfig symbol space is already an abomination so we can't just add
+some more and decide later.
+
+What happens in such situations usually is stuff gets added, it bitrots
+and some poor soul - very likely a maintainer who has to mop up after
+everybody - comes and cleans it up. I'd like to save myself that
+cleaning up.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
