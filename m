@@ -2,106 +2,105 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C89E35A810
-	for <lists+linux-api@lfdr.de>; Fri,  9 Apr 2021 22:43:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD07C35A821
+	for <lists+linux-api@lfdr.de>; Fri,  9 Apr 2021 22:53:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234242AbhDIUnY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 9 Apr 2021 16:43:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54348 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbhDIUnW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 9 Apr 2021 16:43:22 -0400
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B2C5C061762;
-        Fri,  9 Apr 2021 13:43:08 -0700 (PDT)
-Received: by mail-qt1-x82f.google.com with SMTP id y12so5230480qtx.11;
-        Fri, 09 Apr 2021 13:43:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5egM9nTAiSvtggnO3tpew7WNqYrN+YEXT3SXh6GmWSQ=;
-        b=QSlyGb/A95EP5OjqcyCBgyMj627hQfbwtpMM43gY6hAO0WVM7OD6Dz8FHHxaSyGSPn
-         4B4yU3R9/JSyZJbLXMO3CHmNvbwkrxVKbYWQYFoQUb4lVOW6rKgnZYqc6Z4RMHsm6byy
-         5ge7QOZ+Pl40Eb9dGhUU+Aap/BKAjppLON6gPgJ6N0eph5/lMCtn+xDLMawj9lQ6n/h4
-         TB4qXUYR2iv64+A9qh7bLDdGK37Vs3owEIbXEQDa4FHvajNdXGl56F+ww1N8TRXosYaf
-         Jqdxk73JKMhI0Mg3xRMXmKcKIVTOvWSH+UJ6xcxccszI/bgZtnJxCUHllm7qbuhgr/Kc
-         OUPQ==
+        id S234255AbhDIUxS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 9 Apr 2021 16:53:18 -0400
+Received: from mail-ed1-f48.google.com ([209.85.208.48]:39606 "EHLO
+        mail-ed1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229523AbhDIUxQ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 9 Apr 2021 16:53:16 -0400
+Received: by mail-ed1-f48.google.com with SMTP id g17so7302148edm.6;
+        Fri, 09 Apr 2021 13:53:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5egM9nTAiSvtggnO3tpew7WNqYrN+YEXT3SXh6GmWSQ=;
-        b=m0Ur8Bo4F3ALR7QPK8Tty278Fsf1N5hlN1kSGRLkHlQ2RzIPjdh9Ksq+McIXo5Ozqc
-         xsy6VAa4MklEcA8FXbDgpmyaOqz6ERlasXu/8qITs1EUOdyO+Vg7hQ7WvYvp9LtLc5bA
-         EiCWd4gNTZJTOJ/yRxdpxeBVcxzHYW+2tTURRt2e3+wAtrRjMtqTGp63sgJIMrxIRlw3
-         ArDUw5i02ppAMZAYn+wgXVBbuVBe5dUCvb8XVV2sxapr3ymbxrjpZmao/uO4b1DQpeDq
-         eRKkBCZ9niQF3WRWD/DFN67C7S2a0hFcPkU8/FwF1dh3ejfuoZxgNf60ZM9/Ewk8AyiR
-         6nPQ==
-X-Gm-Message-State: AOAM533KCDd/UVye2rpuUvf8k7dI3XeiK0VqOvGbkVF51AP0wH7GT0CA
-        mHvllRD9tMAXTPgENxMMnovr/3V3oMU=
-X-Google-Smtp-Source: ABdhPJwa5EzdjbIaeJLeKTBSfSfYFmdyDre14QyeTvuHCxILOITvSijBpVGmAdgCeYJyWhICrtVLAQ==
-X-Received: by 2002:ac8:5a0d:: with SMTP id n13mr14500706qta.211.1618000987067;
-        Fri, 09 Apr 2021 13:43:07 -0700 (PDT)
-Received: from localhost ([2601:4c0:104:643a:1d89:8a12:ef21:87e0])
-        by smtp.gmail.com with ESMTPSA id 1sm2859528qtu.96.2021.04.09.13.43.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 13:43:06 -0700 (PDT)
-From:   Yury Norov <yury.norov@gmail.com>
-To:     linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Yury Norov <yury.norov@gmail.com>,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, David Sterba <dsterba@suse.com>,
-        Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>
-Subject: [PATCH] Documentation: syscalls: add a note about  ABI-agnostic types
-Date:   Fri,  9 Apr 2021 13:43:04 -0700
-Message-Id: <20210409204304.1273139-1-yury.norov@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tVVvekJcw/qutLmuIXgXFcn3GNTWVwIRza5epNRIOXU=;
+        b=tUfFfbTCoebpjaB8Nyr0/sbK8r97YK722W2KFEeB1gMTTfbk3QQSjup+64nHylY7UI
+         MPrKxXoCcs+cRcWlOQZx3/SrTVlf5UnDwBl1PECu4ujLp8+Sg+Ilxx/r2lGJan3YiOEP
+         19CGuVZsnzqgk9MMpbqhL8Z08ZIfIpnLSqOHGcYkZ5m+a99rDuvmxGQcMUQnpo/5HD78
+         /NQoT8ygsL4SRpNEsZpU825qJjfTE6MFWqC48INgIkazZjKn28iCJzGRjy2cPdmdS68v
+         j5uNEF6wlxYEt4qztvOfMqnNkwBjCSz3mZHw44ol6vcbioIV++r9id7/e5wpOJefh7eJ
+         JkxQ==
+X-Gm-Message-State: AOAM5316pANPYRfK1rCFc4ZentgN3OJksO2+33Q2isSn+XSrdY1fQERo
+        BxW552TaQBV5EIu192ocsugs8KHz3FEzEg4O5fU=
+X-Google-Smtp-Source: ABdhPJyQszy6COXyLAFUPtL7QC/F1gSDc3ZM8xKLorbpSgnCQ1S+fABV2MJ/wgD7HF1DySoQrJ65mDvaWiQ4n0p71/4=
+X-Received: by 2002:a05:6402:35c9:: with SMTP id z9mr19229111edc.94.1618001582078;
+ Fri, 09 Apr 2021 13:53:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAJvTdK=evAofQRcmt_iwtYx2f_wTGUDpXzvjuiVwgZZ6BZV_Qg@mail.gmail.com>
+ <E8BCA270-4F23-4E1B-BAD6-917DBE36F5F6@amacapital.net> <CAJvTdK=Lqbzy6bs8qiE8MZ5LSzyZJ-FMUTcNPD4MxYJGEMBW3g@mail.gmail.com>
+ <CALCETrW_5QDSo2sfEjBZSJ=Q3EsXTc03Unztn0Rq1caxqwtWpw@mail.gmail.com>
+In-Reply-To: <CALCETrW_5QDSo2sfEjBZSJ=Q3EsXTc03Unztn0Rq1caxqwtWpw@mail.gmail.com>
+From:   Len Brown <lenb@kernel.org>
+Date:   Fri, 9 Apr 2021 16:52:50 -0400
+Message-ID: <CAJvTdKkDUywOUxb8Toth-7d4U4_S_9_EYHO38XqAPKc2_MXtdA@mail.gmail.com>
+Subject: Re: Candidate Linux ABI for Intel AMX and hypothetical new related features
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     David Laight <David.Laight@aculab.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
+        X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        libc-alpha <libc-alpha@sourceware.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Rich Felker <dalias@libc.org>, Kyle Huey <me@kylehuey.com>,
+        Keno Fischer <keno@juliacomputing.com>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Recently added memfd_secret() syscall had a flags parameter passed
-as unsigned long, which requires creation of compat entry for it.
-It was possible to change the type of flags to unsigned int and so
-avoid bothering with compat layer.
+On Wed, Mar 31, 2021 at 6:45 PM Andy Lutomirski <luto@kernel.org> wrote:
+>
+> On Wed, Mar 31, 2021 at 3:28 PM Len Brown <lenb@kernel.org> wrote:
+>
+> > We added compiler annotation for user-level interrupt handlers.
+> > I'm not aware of it failing, or otherwise being confused.
+>
+> I followed your link and found nothing. Can you elaborate?  In the
+> kernel, we have noinstr, and gcc gives approximately no help toward
+> catching problems.
 
-https://www.spinics.net/lists/linux-mm/msg251550.html
+A search for the word "interrupt" on this page
+https://gcc.gnu.org/onlinedocs/gcc/x86-Function-Attributes.html#x86-Function-Attributes
+comes to the description of this attribute:
 
-Documentation/process/adding-syscalls.rst doesn't point clearly about
-preference of ABI-agnostic types. This patch adds such notification.
+__attribute__ ((interrupt))
 
-Signed-off-by: Yury Norov <yury.norov@gmail.com>
----
- Documentation/process/adding-syscalls.rst | 7 +++++++
- 1 file changed, 7 insertions(+)
+> > dynamic XCR0 breaks the installed base, I thought we had established that.
+>
+> I don't think this is at all established.  If some code thinks it
+> knows the uncompacted XSTATE size and XCR0 changes, it crashes.  This
+> is not necessarily a showstopper.
 
-diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
-index 9af35f4ec728..46add16edf14 100644
---- a/Documentation/process/adding-syscalls.rst
-+++ b/Documentation/process/adding-syscalls.rst
-@@ -172,6 +172,13 @@ arguments (i.e. parameter 1, 3, 5), to allow use of contiguous pairs of 32-bit
- registers.  (This concern does not apply if the arguments are part of a
- structure that's passed in by pointer.)
- 
-+Whenever possible, try to use ABI-agnostic types for passing parameters to
-+a syscall in order to avoid creating compat entry for it. Linux supports two
-+ABI models - ILP32 and LP64. The types like ``void *``, ``long``, ``size_t``,
-+``off_t`` have different size in those ABIs; types like ``char`` and  ``int``
-+have the same size and don't require a compat layer support. For flags, it's
-+always better to use ``unsigned int``.
-+
- 
- Proposing the API
- -----------------
--- 
-2.25.1
+My working assumption is that crashing applications actually *is* a showstopper.
+Please clarify.
 
+> > We've also established that when running in a VMM, every update to
+> > XCR0 causes a VMEXIT.
+>
+> This is true, it sucks, and Intel could fix it going forward.
+
+What hardware fix do you suggest?
+If a guest is permitted to set XCR0 bits without notifying the VMM,
+what happens when it sets bits that the VMM doesn't know about?
+
+> > I thought the goal was to allow new programs to have fast signal handlers.
+> > By default, those fast signal handlers would have a stable state
+> > image, and would
+> > not inherit large architectural state on their stacks, and could thus
+> > have minimal overhead on all hardware.
+>
+> That is *a* goal, but not necessarily the only goal.
+
+I fully support coming up with a scheme for fast future-proof signal handlers,
+and I'm willing to back that up by putting work into it.
+
+I don't see any other goals articulated in this thread.
+
+thanks,
+Len Brown, Intel Open Source Technology Center
