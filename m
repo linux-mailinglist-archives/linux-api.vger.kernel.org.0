@@ -2,31 +2,55 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F198359BAF
-	for <lists+linux-api@lfdr.de>; Fri,  9 Apr 2021 12:15:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7512135A1AC
+	for <lists+linux-api@lfdr.de>; Fri,  9 Apr 2021 17:07:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233801AbhDIKPl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 9 Apr 2021 06:15:41 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:54986 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233851AbhDIKMb (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 9 Apr 2021 06:12:31 -0400
-Received: from zn.tnic (p200300ec2f0be10048f842a34b65c796.dip0.t-ipconnect.de [IPv6:2003:ec:2f0b:e100:48f8:42a3:4b65:c796])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5143E1EC0345;
-        Fri,  9 Apr 2021 12:12:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1617963136;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=koEbuNDmdhGDu2ay8IpM2qYEJm21DVX8eeBWkuWqc2I=;
-        b=JOjOjGo6n8ctViJXkPL+UQEHtj5zYd8rpZrcP+sZezMa1SBathd+X2ZANVtH3ls4n/eoYb
-        VZP38BQpV+Qv7OU47u+1xlbjMsBo1L/PI+lytUBsoMo3U9GugzTZG2nnh/UGDRP3E+/YyZ
-        9N1soZxem3P3MhhtTg9MdzUnZ0kOe98=
-Date:   Fri, 9 Apr 2021 12:12:14 +0200
-From:   Borislav Petkov <bp@alien8.de>
+        id S234018AbhDIPH4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 9 Apr 2021 11:07:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36838 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234037AbhDIPH4 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 9 Apr 2021 11:07:56 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9429EC061760
+        for <linux-api@vger.kernel.org>; Fri,  9 Apr 2021 08:07:42 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id s17so6842225ljc.5
+        for <linux-api@vger.kernel.org>; Fri, 09 Apr 2021 08:07:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=5R0fVCeHI02UlQLdapgLA7qXq0+kRyGBepCME8oAmkA=;
+        b=rc6Z9d4IrUjZ4kexJ6ehZlP6IFxFELakXS9VnTdU1bv6iIntHvfsZUNsj7QkKlZwJB
+         h9HN8ZYHKiwQdHk3IU5LT+e60cRaQ2qaK//ec5Gn4aibdvxcnL0AH5jbgC2IvJveUkTn
+         0lJRkO8x3efs1EOYUtjTM/1tHAjaBbrprV6udKvD7ELb1TfCEQREsVVFAUa/N9+ZLYr6
+         j2f04sXurWjLi5UsN8I71AgGLO1s8vXq2zEEcpXm6cuBK5tbL0hYS/8RAJZ01WTj8j7j
+         87iblWwGwyWhmUfqgClFYrJyqKIWBySgwZIbx8QSCstd+Bl0Knj+sUtgVQv9E6G0+ull
+         2tCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=5R0fVCeHI02UlQLdapgLA7qXq0+kRyGBepCME8oAmkA=;
+        b=EI+yVVVzmXFk++nsmtUtVwb3hJ8lHA3jq14Qcvnqa6YYEhcWiLiAPoLn0In1/gd83P
+         uHCXtWVNRzwkfuVIa3YS8WNl7o0nrT0g65mQq8UJocHn296s6i/C/kjjGq581Ju0/q2f
+         HaeuYMqXU9/wlvAtaWY4nE2QhSQpVgvQ8L3khwOQqpEeckPUZJx8kvI8ZXRoldNmnpjx
+         FLtJrrSxriIMikTSGoMwMonuERQ00daANZsZMzz+0buErZfJQTGN5V30ro9xWKfW4ZCk
+         pZm3VbnU7F0fS+xqFYc6nBDwis8kBrxHr8aUXNfqtYIda/V9NpMuaHBxoUGPWdFrCzVQ
+         JaYw==
+X-Gm-Message-State: AOAM531rGi1WyhU997ZiMch/GUpMah/BKURxVtneKzFIHP5THMrL4Sjt
+        NSgsogX7xl5Hpp+vqZyxtQt5Dw==
+X-Google-Smtp-Source: ABdhPJy7ldNuQTjwQekvob6ldP9BqT3S8xV53RsxLS7SF7QEPJ/vfYmt9l2XEIpgFi1qf8DmGODT/w==
+X-Received: by 2002:a05:651c:2129:: with SMTP id a41mr9940174ljq.193.1617980861126;
+        Fri, 09 Apr 2021 08:07:41 -0700 (PDT)
+Received: from box.localdomain ([86.57.175.117])
+        by smtp.gmail.com with ESMTPSA id i4sm290997lfv.161.2021.04.09.08.07.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Apr 2021 08:07:40 -0700 (PDT)
+Received: by box.localdomain (Postfix, from userid 1000)
+        id C7AEF102498; Fri,  9 Apr 2021 18:07:39 +0300 (+03)
+Date:   Fri, 9 Apr 2021 18:07:39 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -36,6 +60,7 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Arnd Bergmann <arnd@arndb.de>,
         Andy Lutomirski <luto@kernel.org>,
         Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
         Cyrill Gorcunov <gorcunov@gmail.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Eugene Syromiatnikov <esyr@redhat.com>,
@@ -53,83 +78,45 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v24 04/30] x86/cpufeatures: Introduce X86_FEATURE_CET and
- setup functions
-Message-ID: <20210409101214.GC15567@zn.tnic>
+        Haitao Huang <haitao.huang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v24 12/30] x86/mm: Update ptep_set_wrprotect() and
+ pmdp_set_wrprotect() for transition from _PAGE_DIRTY to _PAGE_COW
+Message-ID: <20210409150739.y2ahsuoog6mivckq@box.shutemov.name>
 References: <20210401221104.31584-1-yu-cheng.yu@intel.com>
- <20210401221104.31584-5-yu-cheng.yu@intel.com>
+ <20210401221104.31584-13-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210401221104.31584-5-yu-cheng.yu@intel.com>
+In-Reply-To: <20210401221104.31584-13-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Apr 01, 2021 at 03:10:38PM -0700, Yu-cheng Yu wrote:
-> Introduce a software-defined X86_FEATURE_CET, which indicates either Shadow
-> Stack or Indirect Branch Tracking (or both) is present.  Also introduce
-> related cpu init/setup functions.
+On Thu, Apr 01, 2021 at 03:10:46PM -0700, Yu-cheng Yu wrote:
+> When Shadow Stack is introduced, [R/O + _PAGE_DIRTY] PTE is reserved for
+> shadow stack.  Copy-on-write PTEs have [R/O + _PAGE_COW].
+> 
+> When a PTE goes from [R/W + _PAGE_DIRTY] to [R/O + _PAGE_COW], it could
+> become a transient shadow stack PTE in two cases:
+> 
+> The first case is that some processors can start a write but end up seeing
+> a read-only PTE by the time they get to the Dirty bit, creating a transient
+> shadow stack PTE.  However, this will not occur on processors supporting
+> Shadow Stack, and a TLB flush is not necessary.
+> 
+> The second case is that when _PAGE_DIRTY is replaced with _PAGE_COW non-
+> atomically, a transient shadow stack PTE can be created as a result.
+> Thus, prevent that with cmpxchg.
+> 
+> Dave Hansen, Jann Horn, Andy Lutomirski, and Peter Zijlstra provided many
+> insights to the issue.  Jann Horn provided the cmpxchg solution.
 > 
 > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Cc: Kees Cook <keescook@chromium.org>
-> ---
-> v24:
-> - Update #ifdef placement to reflect Kconfig changes of splitting shadow stack and ibt.
-> 
->  arch/x86/include/asm/cpufeatures.h          |  2 +-
->  arch/x86/include/asm/disabled-features.h    |  9 ++++++++-
->  arch/x86/include/uapi/asm/processor-flags.h |  2 ++
->  arch/x86/kernel/cpu/common.c                | 14 ++++++++++++++
->  arch/x86/kernel/cpu/intel.c                 |  3 +++
->  5 files changed, 28 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-> index bf861fc89fef..d771e62677de 100644
-> --- a/arch/x86/include/asm/cpufeatures.h
-> +++ b/arch/x86/include/asm/cpufeatures.h
-> @@ -108,7 +108,7 @@
->  #define X86_FEATURE_EXTD_APICID		( 3*32+26) /* Extended APICID (8 bits) */
->  #define X86_FEATURE_AMD_DCM		( 3*32+27) /* AMD multi-node processor */
->  #define X86_FEATURE_APERFMPERF		( 3*32+28) /* P-State hardware coordination feedback capability (APERF/MPERF MSRs) */
-> -/* free					( 3*32+29) */
-> +#define X86_FEATURE_CET			( 3*32+29) /* Control-flow enforcement */
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
 
-Right, I know we talked about having this synthetic flag but now that we
-are moving to CONFIG_X86_SHADOW_STACK and separate SHSTK and IBT feature
-bits, that synthetic flag is not needed anymore.
-
-For the cases where you wanna test whether any of the two are present,
-we're probably better off adding a x86_cet_enabled() helper which tests
-SHSTK and IBT bits.
-
-I haven't gone through the whole thing yet but depending on the context
-and the fact that AMD doesn't support IBT, that helper might need some
-tweaking too. I'll see.
-
->  #define X86_FEATURE_NONSTOP_TSC_S3	( 3*32+30) /* TSC doesn't stop in S3 state */
->  #define X86_FEATURE_TSC_KNOWN_FREQ	( 3*32+31) /* TSC has known frequency */
->  
-> diff --git a/arch/x86/include/asm/disabled-features.h b/arch/x86/include/asm/disabled-features.h
-> index e5c6ed9373e8..018cd7acd3e9 100644
-> --- a/arch/x86/include/asm/disabled-features.h
-> +++ b/arch/x86/include/asm/disabled-features.h
-> @@ -74,13 +74,20 @@
->  #define DISABLE_SHSTK	(1 << (X86_FEATURE_SHSTK & 31))
->  #endif
->  
-> +#ifdef CONFIG_X86_CET
-
-And you don't need that config item either - AFAICT, you can use
-CONFIG_X86_SHADOW_STACK everywhere.
-
-Which would simplify that config space.
-
-Thx.
+Reviewed-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+ Kirill A. Shutemov
