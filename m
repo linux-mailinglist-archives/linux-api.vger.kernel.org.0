@@ -2,117 +2,76 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AC8D35A46D
-	for <lists+linux-api@lfdr.de>; Fri,  9 Apr 2021 19:14:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1105835A471
+	for <lists+linux-api@lfdr.de>; Fri,  9 Apr 2021 19:14:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234150AbhDIROY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 9 Apr 2021 13:14:24 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:39760 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234049AbhDIROX (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 9 Apr 2021 13:14:23 -0400
-Received: from zn.tnic (p200300ec2f0be10039b183a609a7c35d.dip0.t-ipconnect.de [IPv6:2003:ec:2f0b:e100:39b1:83a6:9a7:c35d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E7A7A1EC04DA;
-        Fri,  9 Apr 2021 19:14:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1617988449;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=9AYjgxlvYEzX7lP0NtvpK9WeNVbzcrOcj1GyMO32N+8=;
-        b=BkI1zZKAIOXGXVXDZmOJ5kTvnpvdEQxEu9hHsbEfqBXbmcLX9AbdpfXRpPq2jAtv2avPna
-        4L6A5qHTBqjwjIjHBREH2SQLJlAymZ23QG8Bn8+d324iG+C1FfGRkuLghB9fBaKVoM4V49
-        z7Nkq6Q70HYhsY4Wx435Y8ZpYd0sTuA=
-Date:   Fri, 9 Apr 2021 19:14:08 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v24 04/30] x86/cpufeatures: Introduce X86_FEATURE_CET and
- setup functions
-Message-ID: <20210409171408.GG15567@zn.tnic>
-References: <20210401221104.31584-1-yu-cheng.yu@intel.com>
- <20210401221104.31584-5-yu-cheng.yu@intel.com>
- <20210409101214.GC15567@zn.tnic>
- <c7cb0ed6-2725-ba0d-093e-393eab9918b2@intel.com>
+        id S234205AbhDIRO0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 9 Apr 2021 13:14:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36420 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234196AbhDIROZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 9 Apr 2021 13:14:25 -0400
+Received: from smtp-bc0f.mail.infomaniak.ch (smtp-bc0f.mail.infomaniak.ch [IPv6:2001:1600:3:17::bc0f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5346BC061760
+        for <linux-api@vger.kernel.org>; Fri,  9 Apr 2021 10:14:12 -0700 (PDT)
+Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4FH4VT1gsRzMqjJ5;
+        Fri,  9 Apr 2021 19:14:09 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4FH4VN3Z5Yzlh8T2;
+        Fri,  9 Apr 2021 19:14:04 +0200 (CEST)
+Subject: Re: [PATCH v12 0/3] Add trusted_for(2) (was O_MAYEXEC)
+To:     bauen1 <j2468h@googlemail.com>
+Cc:     akpm@linux-foundation.org, arnd@arndb.de, casey@schaufler-ca.com,
+        christian.brauner@ubuntu.com, christian@python.org, corbet@lwn.net,
+        cyphar@cyphar.com, deven.desai@linux.microsoft.com,
+        dvyukov@google.com, ebiggers@kernel.org, ericchiang@google.com,
+        fweimer@redhat.com, geert@linux-m68k.org, jack@suse.cz,
+        jannh@google.com, jmorris@namei.org, keescook@chromium.org,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, luto@kernel.org,
+        madvenka@linux.microsoft.com, mjg59@google.com,
+        mszeredi@redhat.com, mtk.manpages@gmail.com,
+        nramas@linux.microsoft.com, philippe.trebuchet@ssi.gouv.fr,
+        scottsh@microsoft.com, sean.j.christopherson@intel.com,
+        sgrubb@redhat.com, shuah@kernel.org, steve.dower@python.org,
+        thibaut.sautereau@clip-os.org, vincent.strubel@ssi.gouv.fr,
+        viro@zeniv.linux.org.uk, willy@infradead.org, zohar@linux.ibm.com
+References: <20201203173118.379271-1-mic@digikod.net>
+ <d3b0da18-d0f6-3f72-d3ab-6cf19acae6eb@gmail.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <2a4cf50c-7e79-75d1-7907-8218e669f7fa@digikod.net>
+Date:   Fri, 9 Apr 2021 19:15:42 +0200
+User-Agent: 
 MIME-Version: 1.0
+In-Reply-To: <d3b0da18-d0f6-3f72-d3ab-6cf19acae6eb@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <c7cb0ed6-2725-ba0d-093e-393eab9918b2@intel.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Apr 09, 2021 at 08:52:52AM -0700, Yu, Yu-cheng wrote:
-> Recall we had complicated code for the XSAVES features detection in
-> xstate.c.  Dave Hansen proposed the solution and then the whole thing
-> becomes simple.  Because of this flag, even when only the shadow stack is
-> available, the code handles it nicely.
+Hi,
 
-Is that what you mean?
+There was no new reviews, probably because the FS maintainers were busy,
+and I was focused on Landlock (which is now in -next), but I plan to
+send a new patch series for trusted_for(2) soon.
 
-@@ -53,6 +55,8 @@ static short xsave_cpuid_features[] __initdata = {
- 	X86_FEATURE_INTEL_PT,
- 	X86_FEATURE_PKU,
- 	X86_FEATURE_ENQCMD,
-+	X86_FEATURE_CET, /* XFEATURE_CET_USER */
-+	X86_FEATURE_CET, /* XFEATURE_CET_KERNEL */
+Thanks for letting know your interest,
+ Mickaël
 
-or what is the piece which becomes simpler?
 
-> Would this equal to only CONFIG_X86_CET (one Kconfig option)?  In fact, when
-> you proposed only CONFIG_X86_CET, things became much simpler.
-
-When you use CONFIG_X86_SHADOW_STACK instead, it should remain same
-simple no?
-
-> Practically, IBT is not much in terms of code size.  Since we have already
-> separated the two, why don't we leave it as-is.  When people start using it
-> more, there will be more feedback, and we can decide if one Kconfig is
-> better?
-
-Because when we add stuff to the kernel, we add the simplest and
-cleanest version possible and later, when we determine that additional
-functionality is needed, *then* we add it. Not the other way around.
-
-Our Kconfig symbol space is already an abomination so we can't just add
-some more and decide later.
-
-What happens in such situations usually is stuff gets added, it bitrots
-and some poor soul - very likely a maintainer who has to mop up after
-everybody - comes and cleans it up. I'd like to save myself that
-cleaning up.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+On 09/04/2021 18:26, bauen1 wrote:
+> Hello,
+> 
+> As a user of SELinux I'm quite interested in the trusted_for / O_MAYEXEC changes in the kernel and userspace.
+> However the last activity on this patch seems to be this email from 2020-12-03 with no replies, so what is the status of this patchset or is there something that I'm missing ?
+> 
+> https://patchwork.kernel.org/project/linux-security-module/list/?series=395617
+> 
+> https://lore.kernel.org/linux-security-module/20201203173118.379271-1-mic@digikod.net/
+> 
+> 
