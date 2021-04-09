@@ -2,170 +2,133 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 09A1535A841
-	for <lists+linux-api@lfdr.de>; Fri,  9 Apr 2021 23:18:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC13335A873
+	for <lists+linux-api@lfdr.de>; Fri,  9 Apr 2021 23:44:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234453AbhDIVSr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 9 Apr 2021 17:18:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47839 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234379AbhDIVSp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 9 Apr 2021 17:18:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1618003109;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=6LfDPLi5E0po8MV65N/nBXOnSa/U1n1bpGd2B6Y5zrs=;
-        b=QRDlyCbpBnhX+0MZGD/W3rdH4QOe/lZRNLXLSwnlfKICuVDV4Moic57PWEJ6h4jJrOXtbt
-        g9hoG7Sdb5H1DdmdsDA8F1Uh5E+RWZkIppb/vomomNgwgjXqTvyKzzu8zPVkZHmtPZvRBT
-        zgwzBFhF5B+qSfMi+P4xC1BiUC1QDtA=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-599-HwLzQVliOVOdRcALn7Irgw-1; Fri, 09 Apr 2021 17:18:28 -0400
-X-MC-Unique: HwLzQVliOVOdRcALn7Irgw-1
-Received: by mail-qv1-f70.google.com with SMTP id ek16so4007926qvb.3
-        for <linux-api@vger.kernel.org>; Fri, 09 Apr 2021 14:18:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=6LfDPLi5E0po8MV65N/nBXOnSa/U1n1bpGd2B6Y5zrs=;
-        b=E8Sh2opv74co4Pwo5rK3IrBWTGWrARjutXdY3uaVaKQpUMZMPo4YcI7k+094hP3Z8t
-         IHyZNN4eLEjj+iUyhEFL6Yz61T/dxupYDakF3lRmM4rxnYQ06PC7ecmBvpvt6ui8BfN1
-         SiZyf//3nd5giCZbUVkl+GV9vGZKF3MmOJsSgAbQ4qRTnZrszb4RieVp6r2WYHHV/aCZ
-         rO1cQn5iXhdhHqglPA1fehCAsQ1ojGPMysarxXyAP9wlGAGhrjsd1crhYaSJzkIqQ+cd
-         INiL15RUzPy6dmFKcYHhzgcbyChWjmiGf6skhhUvZ/LLvk0SDFgujiqaXEszt8xbxgWL
-         aXvw==
-X-Gm-Message-State: AOAM530WM0abgtw2QC4JLqEIbmV06cIUS1wqK7LkaEqeVM6BHW1jF6u+
-        fbFd5JohBjfmFEIFC2k50OG5KbymY51ZE5AP8MkIXPEgY8ZsozjxG/P4WAIE/ZusZaWlzVNYemP
-        hzgjelxzdkSAavGNwjOsz
-X-Received: by 2002:a05:620a:1369:: with SMTP id d9mr16206716qkl.378.1618003107917;
-        Fri, 09 Apr 2021 14:18:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxWcW26HNQ/4u/a9UUVswHcCgm4mQgj1l0Ik4tAPemu5I9vnvbu6buq/FCs5OPNi83I6zujbQ==
-X-Received: by 2002:a05:620a:1369:: with SMTP id d9mr16206687qkl.378.1618003107587;
-        Fri, 09 Apr 2021 14:18:27 -0700 (PDT)
-Received: from xz-x1 (bras-base-toroon474qw-grc-82-174-91-135-175.dsl.bell.ca. [174.91.135.175])
-        by smtp.gmail.com with ESMTPSA id d68sm2628359qkf.93.2021.04.09.14.18.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 14:18:26 -0700 (PDT)
-Date:   Fri, 9 Apr 2021 17:18:24 -0400
-From:   Peter Xu <peterx@redhat.com>
-To:     Axel Rasmussen <axelrasmussen@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Daniel Colascione <dancol@google.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jerome Glisse <jglisse@redhat.com>,
-        Joe Perches <joe@perches.com>,
-        Lokesh Gidra <lokeshgidra@google.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Shaohua Li <shli@fb.com>, Shuah Khan <shuah@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Wang Qing <wangqing@vivo.com>, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org, Linux MM <linux-mm@kvack.org>,
-        Brian Geffon <bgeffon@google.com>,
-        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
-        Mina Almasry <almasrymina@google.com>,
-        Oliver Upton <oupton@google.com>
-Subject: Re: [PATCH 0/9] userfaultfd: add minor fault handling for shmem
-Message-ID: <20210409211824.GH792100@xz-x1>
-References: <20210408234327.624367-1-axelrasmussen@google.com>
- <20210408220440.aab59f2f06beb840c22377b3@linux-foundation.org>
- <CAJHvVcj84fcuh0vXtHdEPoV+DrFDSXjUg1fO+oLFCOaxWBH13w@mail.gmail.com>
+        id S234079AbhDIVor (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 9 Apr 2021 17:44:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40522 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234719AbhDIVor (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 9 Apr 2021 17:44:47 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 81AEE61006
+        for <linux-api@vger.kernel.org>; Fri,  9 Apr 2021 21:44:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1618004673;
+        bh=a/kaeUNYcF7//ieh1oEiBXj+7BcjAHHvsNrMfouzdE8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=gGDF6qDj9ZJHa9yBOkUCJ6974hheYKKbt3iUUFcq1AsOyPzmTc8H5nyB4HCaPaMJ/
+         yvWJzb3WbVEkME0X8tB9hRl3MJVfIBpkWCIGSroVxgYz9ZoSWzhqIEPEseRsDEN2xw
+         jsbuM4TPGz+LuDUHwA0HdWQhjDbohdpRZ2wwLE3ZbxI7JbojOlYou9X9ILxxpCl8vk
+         jF6yFFUlC5dSr70E+pwM5acAFAgRh9xcLB9g9OJVRov1LnTPKX07zJQhZf23AEFa8v
+         xtAKx76fjAXvuI2ADjd6xuCjArcHdmxgEe31Do4CURbKitgHDSG3+UhtXk6NBYbDte
+         g3/6kO9ROgZZQ==
+Received: by mail-ed1-f45.google.com with SMTP id ba6so8173507edb.1
+        for <linux-api@vger.kernel.org>; Fri, 09 Apr 2021 14:44:33 -0700 (PDT)
+X-Gm-Message-State: AOAM533/Cgn2ya1rJq6M1InbysfYYqMZ+7GsfTKyOm1/Cm/FanTAlhlc
+        p/784d0ewPl9zF1Kd/lCQFjV0vExVm1BSMR2tqf+ig==
+X-Google-Smtp-Source: ABdhPJz6NU2aDEU9x5zPavuQ8sQx+9aDxNPWx+FWEIMpOS/YBBpEmDZIIGjBEjb7+oPf7OwX9apqM1I0ObUbiBvRBS8=
+X-Received: by 2002:aa7:c144:: with SMTP id r4mr4310485edp.222.1618004672078;
+ Fri, 09 Apr 2021 14:44:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAJHvVcj84fcuh0vXtHdEPoV+DrFDSXjUg1fO+oLFCOaxWBH13w@mail.gmail.com>
+References: <CAJvTdK=evAofQRcmt_iwtYx2f_wTGUDpXzvjuiVwgZZ6BZV_Qg@mail.gmail.com>
+ <E8BCA270-4F23-4E1B-BAD6-917DBE36F5F6@amacapital.net> <CAJvTdK=Lqbzy6bs8qiE8MZ5LSzyZJ-FMUTcNPD4MxYJGEMBW3g@mail.gmail.com>
+ <CALCETrW_5QDSo2sfEjBZSJ=Q3EsXTc03Unztn0Rq1caxqwtWpw@mail.gmail.com> <CAJvTdKkDUywOUxb8Toth-7d4U4_S_9_EYHO38XqAPKc2_MXtdA@mail.gmail.com>
+In-Reply-To: <CAJvTdKkDUywOUxb8Toth-7d4U4_S_9_EYHO38XqAPKc2_MXtdA@mail.gmail.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Fri, 9 Apr 2021 14:44:20 -0700
+X-Gmail-Original-Message-ID: <CALCETrXA-JzBWKdzBZJA8P+pPNKEkxNRPqLganWMpvm6KEUmCw@mail.gmail.com>
+Message-ID: <CALCETrXA-JzBWKdzBZJA8P+pPNKEkxNRPqLganWMpvm6KEUmCw@mail.gmail.com>
+Subject: Re: Candidate Linux ABI for Intel AMX and hypothetical new related features
+To:     Len Brown <lenb@kernel.org>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        David Laight <David.Laight@aculab.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
+        X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        libc-alpha <libc-alpha@sourceware.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Rich Felker <dalias@libc.org>, Kyle Huey <me@kylehuey.com>,
+        Keno Fischer <keno@juliacomputing.com>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Apr 09, 2021 at 10:03:53AM -0700, Axel Rasmussen wrote:
-> On Thu, Apr 8, 2021 at 10:04 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+On Fri, Apr 9, 2021 at 1:53 PM Len Brown <lenb@kernel.org> wrote:
+>
+> On Wed, Mar 31, 2021 at 6:45 PM Andy Lutomirski <luto@kernel.org> wrote:
 > >
-> > On Thu,  8 Apr 2021 16:43:18 -0700 Axel Rasmussen <axelrasmussen@google.com> wrote:
+> > On Wed, Mar 31, 2021 at 3:28 PM Len Brown <lenb@kernel.org> wrote:
 > >
-> > > The idea is that it will apply cleanly to akpm's tree, *replacing* the following
-> > > patches (i.e., drop these first, and then apply this series):
-> > >
-> > > userfaultfd-support-minor-fault-handling-for-shmem.patch
-> > > userfaultfd-support-minor-fault-handling-for-shmem-fix.patch
-> > > userfaultfd-support-minor-fault-handling-for-shmem-fix-2.patch
-> > > userfaultfd-support-minor-fault-handling-for-shmem-fix-3.patch
-> > > userfaultfd-support-minor-fault-handling-for-shmem-fix-4.patch
-> > > userfaultfd-selftests-use-memfd_create-for-shmem-test-type.patch
-> > > userfaultfd-selftests-create-alias-mappings-in-the-shmem-test.patch
-> > > userfaultfd-selftests-reinitialize-test-context-in-each-test.patch
-> > > userfaultfd-selftests-exercise-minor-fault-handling-shmem-support.patch
+> > > We added compiler annotation for user-level interrupt handlers.
+> > > I'm not aware of it failing, or otherwise being confused.
 > >
-> > Well.  the problem is,
-> >
-> > > +     if (area_alias == MAP_FAILED)
-> > > +             err("mmap of memfd alias failed");
-> >
-> > `err' doesn't exist until eleventy patches later, in Peter's
-> > "userfaultfd/selftests: unify error handling".  I got tired of (and
-> > lost confidence in) replacing "err(...)" with "fprintf(stderr, ...);
-> > exit(1)" everywhere then fixing up the fallout when Peter's patch came
-> > along.  Shudder.
-> 
-> Oof - sorry about that!
-> 
-> >
-> > Sorry, all this material pretty clearly isn't going to make 5.12
-> > (potentially nine days hence), so I shall drop all the userfaultfd
-> > patches.  Let's take a fresh run at all of this after -rc1.
-> 
-> That's okay, my understanding was already that it certainly wouldn't
-> be in the 5.12 release, but that we might be ready in time for 5.13.
-> 
-> >
-> >
-> > I have tentatively retained the first series:
-> >
-> > userfaultfd-add-minor-fault-registration-mode.patch
-> > userfaultfd-add-minor-fault-registration-mode-fix.patch
-> > userfaultfd-disable-huge-pmd-sharing-for-minor-registered-vmas.patch
-> > userfaultfd-hugetlbfs-only-compile-uffd-helpers-if-config-enabled.patch
-> > userfaultfd-add-uffdio_continue-ioctl.patch
-> > userfaultfd-update-documentation-to-describe-minor-fault-handling.patch
-> > userfaultfd-selftests-add-test-exercising-minor-fault-handling.patch
-> >
-> > but I don't believe they have had much testing standalone, without the
-> > other userfaultfd patches present.  So I don't think it's smart to
-> > upstream these in this cycle.  Or I could drop them so you and Peter
-> > can have a clean shot at redoing the whole thing.  Please let me know.
-> 
-> From my perspective, both Peter's error handling and the hugetlbfs
-> minor faulting patches are ready to go. (Peter's most importantly; we
-> should establish that as a base, and put all the burden on resolving
-> conflicts with it on us instead of you :).)
-> 
-> My memory was that Peter's patch was applied before my shmem series,
-> but it seems I was mistaken. So, maybe the best thing to do is to have
-> Peter send a version of it based on your tree, without the shmem
-> series? And then I'll resolve any conflicts in my tree?
-> 
-> It's true that we haven't tested the hugetlbfs minor faults patch
-> extensively *with the shmem one also applied*, but it has had more
-> thorough review than the shmem one at this point (e.g. by Mike
-> Kravetz), and they're rather separate code paths (I'd be surprised if
-> one breaks the other).
+> > I followed your link and found nothing. Can you elaborate?  In the
+> > kernel, we have noinstr, and gcc gives approximately no help toward
+> > catching problems.
+>
+> A search for the word "interrupt" on this page
+> https://gcc.gnu.org/onlinedocs/gcc/x86-Function-Attributes.html#x86-Function-Attributes
+> comes to the description of this attribute:
+>
+> __attribute__ ((interrupt))
+>
 
-Yes I think the hugetlb part should have got more review done.  IMHO it's a
-matter of whether Mike would still like to do a more thorough review, or seems
-okay to keep them.
+I read that and I see no mention of anything saying "this will
+generate code that does not touch extended state".  Instead I see,
+paraphrasing, "this will generate code with an ABI that is completely
+inappropriate for use in a user space signal handler".  Am I missing
+something?
 
-I can repost the selftest series later if needed, as long as I figured which is
-the suitable base commit.  Those selftest patches are definitely not urgent for
-this release, so we can wait for the next release.
+> > > dynamic XCR0 breaks the installed base, I thought we had established that.
+> >
+> > I don't think this is at all established.  If some code thinks it
+> > knows the uncompacted XSTATE size and XCR0 changes, it crashes.  This
+> > is not necessarily a showstopper.
+>
+> My working assumption is that crashing applications actually *is* a showstopper.
+> Please clarify.
 
-Thanks,
+I think you're presuming that some program actually does this.  If no
+program does this, it's not an ABI break.
 
--- 
-Peter Xu
+More relevantly, this can only happen in a process that uses XSAVE and
+thinks it knows the size that *also* does the prctl to change XCR0.
+By construction, existing programs can't break unless they load new
+dynamic libraries that break them.
 
+>
+> > > We've also established that when running in a VMM, every update to
+> > > XCR0 causes a VMEXIT.
+> >
+> > This is true, it sucks, and Intel could fix it going forward.
+>
+> What hardware fix do you suggest?
+> If a guest is permitted to set XCR0 bits without notifying the VMM,
+> what happens when it sets bits that the VMM doesn't know about?
+
+The VM could have a mask of allowed XCR0 bits that don't exist.
+
+TDX solved this problem *somehow* -- XSETBV doesn't (visibly?) exit on
+TDX.  Surely plain VMX could fix it too.
+
+>
+> > > I thought the goal was to allow new programs to have fast signal handlers.
+> > > By default, those fast signal handlers would have a stable state
+> > > image, and would
+> > > not inherit large architectural state on their stacks, and could thus
+> > > have minimal overhead on all hardware.
+> >
+> > That is *a* goal, but not necessarily the only goal.
+>
+> I fully support coming up with a scheme for fast future-proof signal handlers,
+> and I'm willing to back that up by putting work into it.
+>
+> I don't see any other goals articulated in this thread.
+
+Before we get too carried away with *fast* signal handlers, something
+that works with existing programs is also a pretty strong goal.  RIght
+now AVX-512 breaks existing programs, even if they don't use AVX-512.
