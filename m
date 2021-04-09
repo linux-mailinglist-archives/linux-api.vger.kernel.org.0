@@ -2,101 +2,134 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E417359444
-	for <lists+linux-api@lfdr.de>; Fri,  9 Apr 2021 07:05:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F198359BAF
+	for <lists+linux-api@lfdr.de>; Fri,  9 Apr 2021 12:15:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229840AbhDIFFA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 9 Apr 2021 01:05:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50134 "EHLO mail.kernel.org"
+        id S233801AbhDIKPl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 9 Apr 2021 06:15:41 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:54986 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229498AbhDIFFA (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 9 Apr 2021 01:05:00 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 325B061165;
-        Fri,  9 Apr 2021 05:04:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1617944688;
-        bh=iBZJg2qunvF7v3TtboIlcuUe7mCGQTTjlXG5RowbNuM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=adLu+IYoQ7vk7/cFv+oy0OjM4dI0Fkt/4xsMjVGSoZD7vRwf/RColxjqeB9UXBB72
-         ubv+mWWeZjLsFl6JK0afRRIgsWPHCt9pvMARzw2h4oP/wuMRaOZF+8YhKYaMMmOBA4
-         evHoB2QvhdlSOcTjDfAu/EBIDzBiX1XH1PwY3oJM=
-Date:   Thu, 8 Apr 2021 22:04:40 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Axel Rasmussen <axelrasmussen@google.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Daniel Colascione <dancol@google.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jerome Glisse <jglisse@redhat.com>,
-        Joe Perches <joe@perches.com>,
-        Lokesh Gidra <lokeshgidra@google.com>,
+        id S233851AbhDIKMb (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 9 Apr 2021 06:12:31 -0400
+Received: from zn.tnic (p200300ec2f0be10048f842a34b65c796.dip0.t-ipconnect.de [IPv6:2003:ec:2f0b:e100:48f8:42a3:4b65:c796])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5143E1EC0345;
+        Fri,  9 Apr 2021 12:12:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1617963136;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=koEbuNDmdhGDu2ay8IpM2qYEJm21DVX8eeBWkuWqc2I=;
+        b=JOjOjGo6n8ctViJXkPL+UQEHtj5zYd8rpZrcP+sZezMa1SBathd+X2ZANVtH3ls4n/eoYb
+        VZP38BQpV+Qv7OU47u+1xlbjMsBo1L/PI+lytUBsoMo3U9GugzTZG2nnh/UGDRP3E+/YyZ
+        9N1soZxem3P3MhhtTg9MdzUnZ0kOe98=
+Date:   Fri, 9 Apr 2021 12:12:14 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
         Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Peter Xu <peterx@redhat.com>, Shaohua Li <shli@fb.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Wang Qing <wangqing@vivo.com>, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-        Brian Geffon <bgeffon@google.com>,
-        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
-        Mina Almasry <almasrymina@google.com>,
-        Oliver Upton <oupton@google.com>
-Subject: Re: [PATCH 0/9] userfaultfd: add minor fault handling for shmem
-Message-Id: <20210408220440.aab59f2f06beb840c22377b3@linux-foundation.org>
-In-Reply-To: <20210408234327.624367-1-axelrasmussen@google.com>
-References: <20210408234327.624367-1-axelrasmussen@google.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v24 04/30] x86/cpufeatures: Introduce X86_FEATURE_CET and
+ setup functions
+Message-ID: <20210409101214.GC15567@zn.tnic>
+References: <20210401221104.31584-1-yu-cheng.yu@intel.com>
+ <20210401221104.31584-5-yu-cheng.yu@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210401221104.31584-5-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu,  8 Apr 2021 16:43:18 -0700 Axel Rasmussen <axelrasmussen@google.com> wrote:
-
-> The idea is that it will apply cleanly to akpm's tree, *replacing* the following
-> patches (i.e., drop these first, and then apply this series):
+On Thu, Apr 01, 2021 at 03:10:38PM -0700, Yu-cheng Yu wrote:
+> Introduce a software-defined X86_FEATURE_CET, which indicates either Shadow
+> Stack or Indirect Branch Tracking (or both) is present.  Also introduce
+> related cpu init/setup functions.
 > 
-> userfaultfd-support-minor-fault-handling-for-shmem.patch
-> userfaultfd-support-minor-fault-handling-for-shmem-fix.patch
-> userfaultfd-support-minor-fault-handling-for-shmem-fix-2.patch
-> userfaultfd-support-minor-fault-handling-for-shmem-fix-3.patch
-> userfaultfd-support-minor-fault-handling-for-shmem-fix-4.patch
-> userfaultfd-selftests-use-memfd_create-for-shmem-test-type.patch
-> userfaultfd-selftests-create-alias-mappings-in-the-shmem-test.patch
-> userfaultfd-selftests-reinitialize-test-context-in-each-test.patch
-> userfaultfd-selftests-exercise-minor-fault-handling-shmem-support.patch
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Cc: Kees Cook <keescook@chromium.org>
+> ---
+> v24:
+> - Update #ifdef placement to reflect Kconfig changes of splitting shadow stack and ibt.
+> 
+>  arch/x86/include/asm/cpufeatures.h          |  2 +-
+>  arch/x86/include/asm/disabled-features.h    |  9 ++++++++-
+>  arch/x86/include/uapi/asm/processor-flags.h |  2 ++
+>  arch/x86/kernel/cpu/common.c                | 14 ++++++++++++++
+>  arch/x86/kernel/cpu/intel.c                 |  3 +++
+>  5 files changed, 28 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+> index bf861fc89fef..d771e62677de 100644
+> --- a/arch/x86/include/asm/cpufeatures.h
+> +++ b/arch/x86/include/asm/cpufeatures.h
+> @@ -108,7 +108,7 @@
+>  #define X86_FEATURE_EXTD_APICID		( 3*32+26) /* Extended APICID (8 bits) */
+>  #define X86_FEATURE_AMD_DCM		( 3*32+27) /* AMD multi-node processor */
+>  #define X86_FEATURE_APERFMPERF		( 3*32+28) /* P-State hardware coordination feedback capability (APERF/MPERF MSRs) */
+> -/* free					( 3*32+29) */
+> +#define X86_FEATURE_CET			( 3*32+29) /* Control-flow enforcement */
 
-Well.  the problem is,
+Right, I know we talked about having this synthetic flag but now that we
+are moving to CONFIG_X86_SHADOW_STACK and separate SHSTK and IBT feature
+bits, that synthetic flag is not needed anymore.
 
-> +	if (area_alias == MAP_FAILED)
-> +		err("mmap of memfd alias failed");
+For the cases where you wanna test whether any of the two are present,
+we're probably better off adding a x86_cet_enabled() helper which tests
+SHSTK and IBT bits.
 
-`err' doesn't exist until eleventy patches later, in Peter's
-"userfaultfd/selftests: unify error handling".  I got tired of (and
-lost confidence in) replacing "err(...)" with "fprintf(stderr, ...);
-exit(1)" everywhere then fixing up the fallout when Peter's patch came
-along.  Shudder.
+I haven't gone through the whole thing yet but depending on the context
+and the fact that AMD doesn't support IBT, that helper might need some
+tweaking too. I'll see.
 
-Sorry, all this material pretty clearly isn't going to make 5.12
-(potentially nine days hence), so I shall drop all the userfaultfd
-patches.  Let's take a fresh run at all of this after -rc1.
+>  #define X86_FEATURE_NONSTOP_TSC_S3	( 3*32+30) /* TSC doesn't stop in S3 state */
+>  #define X86_FEATURE_TSC_KNOWN_FREQ	( 3*32+31) /* TSC has known frequency */
+>  
+> diff --git a/arch/x86/include/asm/disabled-features.h b/arch/x86/include/asm/disabled-features.h
+> index e5c6ed9373e8..018cd7acd3e9 100644
+> --- a/arch/x86/include/asm/disabled-features.h
+> +++ b/arch/x86/include/asm/disabled-features.h
+> @@ -74,13 +74,20 @@
+>  #define DISABLE_SHSTK	(1 << (X86_FEATURE_SHSTK & 31))
+>  #endif
+>  
+> +#ifdef CONFIG_X86_CET
 
+And you don't need that config item either - AFAICT, you can use
+CONFIG_X86_SHADOW_STACK everywhere.
 
-I have tentatively retained the first series:
+Which would simplify that config space.
 
-userfaultfd-add-minor-fault-registration-mode.patch
-userfaultfd-add-minor-fault-registration-mode-fix.patch
-userfaultfd-disable-huge-pmd-sharing-for-minor-registered-vmas.patch
-userfaultfd-hugetlbfs-only-compile-uffd-helpers-if-config-enabled.patch
-userfaultfd-add-uffdio_continue-ioctl.patch
-userfaultfd-update-documentation-to-describe-minor-fault-handling.patch
-userfaultfd-selftests-add-test-exercising-minor-fault-handling.patch
+Thx.
 
-but I don't believe they have had much testing standalone, without the
-other userfaultfd patches present.  So I don't think it's smart to
-upstream these in this cycle.  Or I could drop them so you and Peter
-can have a clean shot at redoing the whole thing.  Please let me know.
+-- 
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
