@@ -2,101 +2,84 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BD1B35B39B
-	for <lists+linux-api@lfdr.de>; Sun, 11 Apr 2021 13:44:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A17C35B421
+	for <lists+linux-api@lfdr.de>; Sun, 11 Apr 2021 14:29:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235431AbhDKLoQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 11 Apr 2021 07:44:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37910 "EHLO mail.kernel.org"
+        id S235456AbhDKM3q (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 11 Apr 2021 08:29:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51320 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235095AbhDKLoP (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sun, 11 Apr 2021 07:44:15 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D0DDF610CB;
-        Sun, 11 Apr 2021 11:43:58 +0000 (UTC)
+        id S229804AbhDKM3q (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Sun, 11 Apr 2021 08:29:46 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7D69A610C8;
+        Sun, 11 Apr 2021 12:29:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1618141439;
-        bh=Anoqp+LMUcK4opU7q36clB465ysnewarF+yeFwlA3v4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=igXR7D/i/rXNGzWr5TNUYPKz40hmYVCts8pxa2a7kf5/ClY6KdnP+183BPKgyu74M
-         sVFr3HuLISQ9wO67jVJTEZRpoNCOU1Ay1d9QYdkxe9h93T1UhI5jYJEcXMaF50QM9v
-         a2d1b0x0yPOfxwBbtsKP591lCNBMGcfz8k9JtOd2+gfgEd6QFlY/HUswzx4E0i+3Go
-         SIQ1u9dn9nyao2BoFriSpH6QOnw3vjfABPQoLWghbOSp178wdZKb8gVU3lc0G45k0z
-         qd9eklcUljWg7U7B0/q0v9BiZ3/bI4eXrAq2KMv+3TU9tJlTRbkwtulZ/rJbQDtIs+
-         pGRus4iYXwSAA==
-Date:   Sun, 11 Apr 2021 14:43:55 +0300
+        s=k20201202; t=1618144170;
+        bh=vvod46FFvsLIObM4UJY8ibXDvqx4jxtkFns9xCfqbas=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Bmc5bC1feeq1T4WUz/K/WEhcyFVdMiwPpDCJ1hDnvDeUZn4Iribm/UVM7Oslvz7oS
+         pptsB67joWQdYVQSzrvCiNBRS9ngrRisXaMNUb5BFlxFGgqgif8AjrisKMeAZ+Tnfy
+         zNbSrU9NXzkoG/biQmweVK5ujnyzFKrXcmZSwMbyHNjnYENy2bkkMS5l173c4zFM9N
+         SXyEsxN7E0vC+Fv3mb9zh8F8OarhImcv5IZDw7ajQVxrR3qYz3JdFcCFajYLJ5PzjR
+         n20t63cc5YIXaoDTizCeqd7fE7ZU8BBEZioTFWnr0NT5JK995tiWj5e9Ncl5tfTabv
+         BfbgVsDcrDfIg==
 From:   Leon Romanovsky <leon@kernel.org>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Doug Ledford <dledford@redhat.com>, Mark Bloch <mbloch@nvidia.com>,
-        linux-api@vger.kernel.org, linux-rdma@vger.kernel.org,
-        Maor Gottlieb <maorg@nvidia.com>
-Subject: Re: [PATCH rdma-next v2] RDMA/mlx5: Expose private query port
-Message-ID: <YHLg+1vkClbhGMod@unreal>
-References: <20210401085004.577338-1-leon@kernel.org>
- <20210408185412.GA678376@nvidia.com>
+To:     Doug Ledford <dledford@redhat.com>,
+        Jason Gunthorpe <jgg@nvidia.com>
+Cc:     Leon Romanovsky <leonro@nvidia.com>, linux-api@vger.kernel.org,
+        linux-rdma@vger.kernel.org, Maor Gottlieb <maorg@nvidia.com>,
+        netdev@vger.kernel.org, Saeed Mahameed <saeedm@nvidia.com>,
+        Yishai Hadas <yishaih@mellanox.com>
+Subject: [PATCH rdma-next v1 0/7] Add MEMIC operations support
+Date:   Sun, 11 Apr 2021 15:29:17 +0300
+Message-Id: <20210411122924.60230-1-leon@kernel.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210408185412.GA678376@nvidia.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Apr 08, 2021 at 03:54:12PM -0300, Jason Gunthorpe wrote:
-> On Thu, Apr 01, 2021 at 11:50:04AM +0300, Leon Romanovsky wrote:
-> > From: Mark Bloch <mbloch@nvidia.com>
-> > 
-> > Expose a non standard query port via IOCTL that will be used to expose
-> > port attributes that are specific to mlx5 devices.
-> > 
-> > The new interface receives a port number to query and returns a
-> > structure that contains the available attributes for that port.
-> > This will be used to fill the gap between pure DEVX use cases
-> > and use cases where a kernel needs to inform userspace about
-> > various kernel driver configurations that userspace must use
-> > in order to work correctly.
-> > 
-> > Flags is used to indicate which fields are valid on return.
-> > 
-> > MLX5_IB_UAPI_QUERY_PORT_VPORT:
-> > 	The vport number of the queered port.
-> > 
-> > MLX5_IB_UAPI_QUERY_PORT_VPORT_VHCA_ID:
-> > 	The VHCA ID of the vport of the queered port.
-> > 
-> > MLX5_IB_UAPI_QUERY_PORT_VPORT_STEERING_ICM_RX:
-> > 	The vport's RX ICM address used for sw steering.
-> > 
-> > MLX5_IB_UAPI_QUERY_PORT_VPORT_STEERING_ICM_TX:
-> > 	The vport's TX ICM address used for sw steering.
-> > 
-> > MLX5_IB_UAPI_QUERY_PORT_VPORT_REG_C0:
-> > 	The metadata used to tag egress packets of the vport.
-> > 
-> > MLX5_IB_UAPI_QUERY_PORT_ESW_OWNER_VHCA_ID:
-> > 	The E-Switch owner vhca id of the vport.
-> > 
-> > Reviewed-by: Maor Gottlieb <maorg@nvidia.com>
-> > Signed-off-by: Mark Bloch <mbloch@nvidia.com>
-> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > ---
-> > Changelog:
-> > v2:
-> >  * Changed __u64 to be __aligned_u64 in the uapi header
-> > v1: https://lore.kernel.org/linux-api/20210322093932.398466-1-leon@kernel.org
-> >  * Missed sw_owner check for CX-6 device, fixed it.
-> > v0: https://lore.kernel.org/linux-api/20210318135221.681014-1-leon@kernel.org
-> > ---
-> >  drivers/infiniband/hw/mlx5/std_types.c    | 177 ++++++++++++++++++++++
-> >  include/uapi/rdma/mlx5_user_ioctl_cmds.h  |   9 ++
-> >  include/uapi/rdma/mlx5_user_ioctl_verbs.h |  25 +++
-> >  3 files changed, 211 insertions(+)
-> 
-> Where is the rdma-core part of this? Did I miss it someplace?
+From: Leon Romanovsky <leonro@nvidia.com>
 
-Ne, the rdma-core series wasn't sent because of requestedchanges
-in the PR https://github.com/linux-rdma/rdma-core/pull/958.
+Changelog:
+v1: 
+ * Changed logic of patch #6 per-Jason's request. 
+v0: https://lore.kernel.org/linux-rdma/20210318111548.674749-1-leon@kernel.org
+
+---------------------------------------------------------------------------
+
+Hi,
+
+This series from Maor extends MEMIC to support atomic operations from
+the host in addition to already supported regular read/write.
 
 Thanks
 
-> 
-> Jason
+Maor Gottlieb (7):
+  net/mlx5: Add MEMIC operations related bits
+  RDMA/uverbs: Make UVERBS_OBJECT_METHODS to consider line number
+  RDMA/mlx5: Move all DM logic to separate file
+  RDMA/mlx5: Re-organize the DM code
+  RDMA/mlx5: Add support to MODIFY_MEMIC command
+  RDMA/mlx5: Add support in MEMIC operations
+  RDMA/mlx5: Expose UAPI to query DM
+
+ drivers/infiniband/hw/mlx5/Makefile      |   1 +
+ drivers/infiniband/hw/mlx5/cmd.c         | 101 ----
+ drivers/infiniband/hw/mlx5/cmd.h         |   3 -
+ drivers/infiniband/hw/mlx5/dm.c          | 584 +++++++++++++++++++++++
+ drivers/infiniband/hw/mlx5/dm.h          |  68 +++
+ drivers/infiniband/hw/mlx5/main.c        | 243 +---------
+ drivers/infiniband/hw/mlx5/mlx5_ib.h     |  25 +-
+ drivers/infiniband/hw/mlx5/mr.c          |   1 +
+ include/linux/mlx5/mlx5_ifc.h            |  42 +-
+ include/rdma/uverbs_named_ioctl.h        |   2 +-
+ include/uapi/rdma/mlx5_user_ioctl_cmds.h |  19 +
+ 11 files changed, 720 insertions(+), 369 deletions(-)
+ create mode 100644 drivers/infiniband/hw/mlx5/dm.c
+ create mode 100644 drivers/infiniband/hw/mlx5/dm.h
+
+-- 
+2.30.2
+
