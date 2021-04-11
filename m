@@ -2,157 +2,260 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 63E3735B43F
-	for <lists+linux-api@lfdr.de>; Sun, 11 Apr 2021 14:33:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93B9435B6AE
+	for <lists+linux-api@lfdr.de>; Sun, 11 Apr 2021 21:07:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235113AbhDKMds (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 11 Apr 2021 08:33:48 -0400
-Received: from mail-dm6nam12on2083.outbound.protection.outlook.com ([40.107.243.83]:47744
-        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229804AbhDKMds (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sun, 11 Apr 2021 08:33:48 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UNhgn3t9Cwk469w2cnFfzOxArpLEzqsmwBnydZPUOra/+NKDqZegqoA4JaiZg2YVAzKPfcUxG//8hMPBe/ysiC/WfB0ifJwWGB+UCcEr7h8kpqwjMfWCLAE2V9WF0OvH0lDeymJzEXQvrC0oYR2A9fKeEAVtUt3nbN1xqCn0mCiBWt1PZXFvhuYmKGHearqHT4PPdrHCYN/D2BTN+dkRGlvU/KvZFurgNRvawd87L5bsyPdJWvZr8ajvCfDJd0ikWuruyT/YVUX0AP2pdusMIhb/n0NMWNkzNRiA2wKuFRKvRQPeNZbJItlOSQ4X22TCcYbad/3Yan46VrBBiyYZdg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4W1YL/QEh88dJJNY3S6TZ67icl9fbk6s1HGuf7VF3gM=;
- b=aB1aps5VvC3ky563JfwD/EfLc1UWDxIMVJFrvz2TK9gJGCgz91ZqJTyeOlkbIfcaxfSUkm6AYh2CMB2BFH3GUeApXuxlS/NF/wu8IbolwgJj5psjXvKVCLCcMcAf1kOfqn3iTT2cMfAK/04LM0+LBuk5XuDG8avzGic0B8eo3J7Oc50mAQcijZJJyMUzNVAkPz6VGaWrxaRhAZPIQaVjPYVVKUEKZlJFtbeGJKnU5JrXmmBcy8EBoxH6JMM1jGfEARIl4RAsmhqXTsLJbMJb3QI7F9iSQDx/Cln6JxSTktF9DiBu2JyUeWNci8JX4XpvoWVxFprUCs43PJfpQ85JAA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4W1YL/QEh88dJJNY3S6TZ67icl9fbk6s1HGuf7VF3gM=;
- b=FdSJKrJv12K4PFX7nLSoVL2K8nvSHfL4YJX2pBPvSUPeBIw5ZqtZxq6mMpJ09R21GzdLCwAWCV5aGMisbBWLUIR39GD/aKyGdRvYb/ByaPm6uKtfXMQrLOeOEU2wRXbr+v1xUpOIsvAj+DgWBNO8VZ3WfArKdt1DU1LmW2o24/pubFAwAppI+6eyrkybEov1pBfdusumwjb0WLpbumlb0XXeLeYQxkAbFSRijcxuNEAQo31yTUVBOvBI3OE6sXlMW4pyglF4WcOIhXFCNEC2DJ8QR5E/mq4q37ydbiM+4pAvNvZKaE8X/BsdJbo58rYLdCrqKhWcq6d/Ttyv+Tlimw==
-Received: from BN9PR03CA0660.namprd03.prod.outlook.com (2603:10b6:408:13b::35)
- by BN8PR12MB3202.namprd12.prod.outlook.com (2603:10b6:408:9c::29) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.22; Sun, 11 Apr
- 2021 12:33:30 +0000
-Received: from BN8NAM11FT039.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:13b:cafe::84) by BN9PR03CA0660.outlook.office365.com
- (2603:10b6:408:13b::35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.17 via Frontend
- Transport; Sun, 11 Apr 2021 12:33:30 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- BN8NAM11FT039.mail.protection.outlook.com (10.13.177.169) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4020.17 via Frontend Transport; Sun, 11 Apr 2021 12:33:30 +0000
-Received: from [172.27.12.228] (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Sun, 11 Apr
- 2021 12:33:27 +0000
-Subject: Re: [PATCH rdma-next v2] RDMA/mlx5: Expose private query port
-To:     Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>
-CC:     Doug Ledford <dledford@redhat.com>, Mark Bloch <mbloch@nvidia.com>,
-        <linux-api@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        Maor Gottlieb <maorg@nvidia.com>
-References: <20210401085004.577338-1-leon@kernel.org>
- <20210408185412.GA678376@nvidia.com> <YHLg+1vkClbhGMod@unreal>
-From:   Yishai Hadas <yishaih@nvidia.com>
-Message-ID: <7127b73e-b5f5-15be-b87c-11bbbd149c0b@nvidia.com>
-Date:   Sun, 11 Apr 2021 15:33:24 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S235430AbhDKTH7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 11 Apr 2021 15:07:59 -0400
+Received: from mail-ej1-f47.google.com ([209.85.218.47]:46851 "EHLO
+        mail-ej1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235420AbhDKTH6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 11 Apr 2021 15:07:58 -0400
+Received: by mail-ej1-f47.google.com with SMTP id u21so16634910ejo.13;
+        Sun, 11 Apr 2021 12:07:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6TW+53pU0SSNZyt861ObPAXcQvuwTrue+FqiP7XKvTw=;
+        b=k7Nthq7lhgCg3svMmtCoiZM4/Sc9LJTua9eFHUfyIBj+s1K7JkZuaj8VV4/kOVVkIE
+         C52yrJVhMqBmrxAPALnjRingGr5GtZKUjKfh+f8282VwPmwRHPBpPgxYw90Tt/z25u2H
+         7wx4XSRpBkR4RzXHFkMS1bVtibMRP3HY/ShXC7FTKK+W5DJrKPsyWc2dnlgq/0OsH25L
+         naE54wle5Avci6nuXjui19SpTgZ4Xuf/TAtrVyrXE/Gbtzp1HKkdsSrJGoN/sSGFKgeq
+         DDEdngmX26cOVJwR80xpU+Y+XU+NFnK2xfoeG2QWQBto90tsXQeWFKGxnaj64ilEcNNO
+         LKxw==
+X-Gm-Message-State: AOAM530VH1tu8vTyPzafq/hjZxRK1xtr5EEcL9svOIQMLLho6DrKzo8H
+        PGgjV9aveab2mOgql7CqMmTm0AzOBxZ95g9x5nk=
+X-Google-Smtp-Source: ABdhPJzbxMwGRczCtMgGVtPjUOng/+WWIt5HsThydCPcsCnIbnkQNDSnhJiwIOiQ6RmM4ylYXSi2sjv3dDZMnORXQeE=
+X-Received: by 2002:a17:906:6dd9:: with SMTP id j25mr23984185ejt.507.1618168060968;
+ Sun, 11 Apr 2021 12:07:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YHLg+1vkClbhGMod@unreal>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9383a33b-4083-42db-3689-08d8fce603aa
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3202:
-X-Microsoft-Antispam-PRVS: <BN8PR12MB32028B4CC98CAC8475EA805CC3719@BN8PR12MB3202.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oGF2ZiiVYONEy/iikzjFpNqPD9w5aRV9m3WWTALucyBodvV0YFDeGIEfLnpEz/q1Rj3EYqXSkYsZMX/5UkB1lQpFIiHU8dM8MqBimgaH3cse1zcJmlSMtKgaa6erKa+E1rI9cBiyqKyOOaWQzzmcmBhRMWZSNwxT760wNlmzLIG3FjiaA6b6BtscSIQRNa1I8LfYO0EqAIvASgYXn2jGBj6Ty7HFggWio3m1g4/74HBDBOjAm5QH8LJGpNj3Ojp/e0bWlRT6RvPUHJskJl3kkaeBmIH8+OMYgq5OBpVGcLXsO6OqzSREe+36poROP1GFO9avr4Vfb/SI9UVUvO5pDeb564whk2pnPI5i9HKpbm+a2JYxobc7BTs2hN0AjnlHceP3TIPO1+Ju7IUQzkh1eMvOm2jIn6itpykMXIzcwjnTSSavb9PZCTHPs8J7nGU4Q6MZZ04Qkvqe3ACmiv3oUdrBBfVuZmnEA7kwNjWoZ5DLLXIsvYQ2cHTICJRt3MFyERViH10n8S+wG7N2u6feoev9lyVehKPMH0G3MqYfLbAf+9IlJVDJKAUvx98wivHfX/SnXNBBRaAAfC1I68O+tEYsVpgkQpNnUyvARU3TUFAP393pFFwHvftliDjKy5EPzhCt1dDVVj5R6Sx4ErOZ8GPuSs3KYT2xb/tv6PPmEwzlsCuwa92d/YCQMzGR3O8ZPaDYHW/GFTzJeEPniESS918+cE6yYcms0A/zO5JBkES+pCrO31MdVMTdVCcJKtVZ64tKAo38rj6zeqMMXpJ62Q==
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(346002)(376002)(39860400002)(396003)(136003)(36840700001)(46966006)(316002)(31696002)(2906002)(36906005)(16576012)(54906003)(110136005)(36756003)(70586007)(31686004)(70206006)(4326008)(26005)(5660300002)(82740400003)(107886003)(8676002)(2616005)(336012)(53546011)(426003)(16526019)(186003)(478600001)(36860700001)(8936002)(966005)(86362001)(6666004)(82310400003)(7636003)(83380400001)(6636002)(356005)(47076005)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2021 12:33:30.5310
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9383a33b-4083-42db-3689-08d8fce603aa
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT039.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3202
+References: <CAJvTdK=evAofQRcmt_iwtYx2f_wTGUDpXzvjuiVwgZZ6BZV_Qg@mail.gmail.com>
+ <E8BCA270-4F23-4E1B-BAD6-917DBE36F5F6@amacapital.net> <CAJvTdK=Lqbzy6bs8qiE8MZ5LSzyZJ-FMUTcNPD4MxYJGEMBW3g@mail.gmail.com>
+ <CALCETrW_5QDSo2sfEjBZSJ=Q3EsXTc03Unztn0Rq1caxqwtWpw@mail.gmail.com>
+ <CAJvTdKkDUywOUxb8Toth-7d4U4_S_9_EYHO38XqAPKc2_MXtdA@mail.gmail.com> <CALCETrXA-JzBWKdzBZJA8P+pPNKEkxNRPqLganWMpvm6KEUmCw@mail.gmail.com>
+In-Reply-To: <CALCETrXA-JzBWKdzBZJA8P+pPNKEkxNRPqLganWMpvm6KEUmCw@mail.gmail.com>
+From:   Len Brown <lenb@kernel.org>
+Date:   Sun, 11 Apr 2021 15:07:29 -0400
+Message-ID: <CAJvTdK=RFei+b0W89ZTtqoiiR_M0wAJz_EuBTijgEHpacfZS7Q@mail.gmail.com>
+Subject: Re: Candidate Linux ABI for Intel AMX and hypothetical new related features
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     David Laight <David.Laight@aculab.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
+        X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        libc-alpha <libc-alpha@sourceware.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Rich Felker <dalias@libc.org>, Kyle Huey <me@kylehuey.com>,
+        Keno Fischer <keno@juliacomputing.com>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 4/11/2021 2:43 PM, Leon Romanovsky wrote:
-> On Thu, Apr 08, 2021 at 03:54:12PM -0300, Jason Gunthorpe wrote:
->> On Thu, Apr 01, 2021 at 11:50:04AM +0300, Leon Romanovsky wrote:
->>> From: Mark Bloch <mbloch@nvidia.com>
->>>
->>> Expose a non standard query port via IOCTL that will be used to expose
->>> port attributes that are specific to mlx5 devices.
->>>
->>> The new interface receives a port number to query and returns a
->>> structure that contains the available attributes for that port.
->>> This will be used to fill the gap between pure DEVX use cases
->>> and use cases where a kernel needs to inform userspace about
->>> various kernel driver configurations that userspace must use
->>> in order to work correctly.
->>>
->>> Flags is used to indicate which fields are valid on return.
->>>
->>> MLX5_IB_UAPI_QUERY_PORT_VPORT:
->>> 	The vport number of the queered port.
->>>
->>> MLX5_IB_UAPI_QUERY_PORT_VPORT_VHCA_ID:
->>> 	The VHCA ID of the vport of the queered port.
->>>
->>> MLX5_IB_UAPI_QUERY_PORT_VPORT_STEERING_ICM_RX:
->>> 	The vport's RX ICM address used for sw steering.
->>>
->>> MLX5_IB_UAPI_QUERY_PORT_VPORT_STEERING_ICM_TX:
->>> 	The vport's TX ICM address used for sw steering.
->>>
->>> MLX5_IB_UAPI_QUERY_PORT_VPORT_REG_C0:
->>> 	The metadata used to tag egress packets of the vport.
->>>
->>> MLX5_IB_UAPI_QUERY_PORT_ESW_OWNER_VHCA_ID:
->>> 	The E-Switch owner vhca id of the vport.
->>>
->>> Reviewed-by: Maor Gottlieb <maorg@nvidia.com>
->>> Signed-off-by: Mark Bloch <mbloch@nvidia.com>
->>> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
->>> ---
->>> Changelog:
->>> v2:
->>>   * Changed __u64 to be __aligned_u64 in the uapi header
->>> v1: https://lore.kernel.org/linux-api/20210322093932.398466-1-leon@kernel.org
->>>   * Missed sw_owner check for CX-6 device, fixed it.
->>> v0: https://lore.kernel.org/linux-api/20210318135221.681014-1-leon@kernel.org
->>> ---
->>>   drivers/infiniband/hw/mlx5/std_types.c    | 177 ++++++++++++++++++++++
->>>   include/uapi/rdma/mlx5_user_ioctl_cmds.h  |   9 ++
->>>   include/uapi/rdma/mlx5_user_ioctl_verbs.h |  25 +++
->>>   3 files changed, 211 insertions(+)
->> Where is the rdma-core part of this? Did I miss it someplace?
-> Ne, the rdma-core series wasn't sent because of requestedchanges
-> in the PR https://github.com/linux-rdma/rdma-core/pull/958.
+On Fri, Apr 9, 2021 at 5:44 PM Andy Lutomirski <luto@kernel.org> wrote:
 >
+> On Fri, Apr 9, 2021 at 1:53 PM Len Brown <lenb@kernel.org> wrote:
+> >
+> > On Wed, Mar 31, 2021 at 6:45 PM Andy Lutomirski <luto@kernel.org> wrote:
+> > >
+> > > On Wed, Mar 31, 2021 at 3:28 PM Len Brown <lenb@kernel.org> wrote:
+> > >
+> > > > We added compiler annotation for user-level interrupt handlers.
+> > > > I'm not aware of it failing, or otherwise being confused.
+> > >
+> > > I followed your link and found nothing. Can you elaborate?  In the
+> > > kernel, we have noinstr, and gcc gives approximately no help toward
+> > > catching problems.
+> >
+> > A search for the word "interrupt" on this page
+> > https://gcc.gnu.org/onlinedocs/gcc/x86-Function-Attributes.html#x86-Function-Attributes
+> > comes to the description of this attribute:
+> >
+> > __attribute__ ((interrupt))
+> >
+>
+> I read that and I see no mention of anything saying "this will
+> generate code that does not touch extended state".  Instead I see,
+> paraphrasing, "this will generate code with an ABI that is completely
+> inappropriate for use in a user space signal handler".  Am I missing
+> something?
 
-The matching PR is now available here [1].
+Again...
 
-[1] https://github.com/linux-rdma/rdma-core/pull/977
+An analogous annotation could be created for fast signals.
+gcc can be told exactly what registers and instructions it can use for
+that routine.
 
-Yishai
+If somebody can suggest a way to make fast signal handers faster
+than saving only the state that they-themselves actually use, I'm all ears.
 
+> > > > dynamic XCR0 breaks the installed base, I thought we had established that.
+> > >
+> > > I don't think this is at all established.  If some code thinks it
+> > > knows the uncompacted XSTATE size and XCR0 changes, it crashes.  This
+> > > is not necessarily a showstopper.
+> >
+> > My working assumption is that crashing applications actually *is* a showstopper.
+> > Please clarify.
+>
+> I think you're presuming that some program actually does this.  If no
+> program does this, it's not an ABI break.
+
+So you agree that for a program that uses xgetbv to read XCR0 and compute
+XSTATE size for user-space use of XSAVE can break if XCR0 changes
+during its lifetime.
+But you don't believe such software exists?
+
+> More relevantly, this can only happen in a process that uses XSAVE and
+> thinks it knows the size that *also* does the prctl to change XCR0.
+> By construction, existing programs can't break unless they load new
+> dynamic libraries that break them.
+
+Let's say that a program does math.
+It calls a library to do that math.
+It doesn't know or care what instructions the library uses to do math.
+eg. the library uses SSE on an Atom, and uses AVX512 on a Xeon.
+
+Who calls the new prctl, the program, or the library?
+
+If it is the program, how does it know that the library wants to use
+what instructions?
+
+If it is the library, then you have just changed XCR0 at run-time and
+you expose breakage of the thread library that has computed XSAVE size.
+
+> > > > We've also established that when running in a VMM, every update to
+> > > > XCR0 causes a VMEXIT.
+> > >
+> > > This is true, it sucks, and Intel could fix it going forward.
+> >
+> > What hardware fix do you suggest?
+> > If a guest is permitted to set XCR0 bits without notifying the VMM,
+> > what happens when it sets bits that the VMM doesn't know about?
+>
+> The VM could have a mask of allowed XCR0 bits that don't exist.
+>
+> TDX solved this problem *somehow* -- XSETBV doesn't (visibly?) exit on
+> TDX.  Surely plain VMX could fix it too.
+
+There are two cases.
+
+1. Hardware that exists today and in the foreseeable future.
+
+VM modification of XCR0 results in VMEXIT to VMM.
+The VMM sees bits set by the guest, and so it can accept what
+it supports, or send the VM a fault for non-support.
+
+Here it is not possible for the VMM to change XCR0 without the VMM knowing.
+
+2. Future Hardware that allows guests to write XCR0 w/o VMEXIT.
+
+Not sure I follow your proposal.
+
+Yes, the VM effectively has a mask of what is supported,
+because it can issue CPUID.
+
+The VMM virtualizes CPUID, and needs to know it must not
+expose to the VM any state features it doesn't support.
+Also, the VMM needs to audit XCR0 before it uses XSAVE,
+else the guest could attack or crash the VMM through
+buffer overrun.  Is this what you suggest?
+
+If yes, what do you suggest in the years between now and when
+that future hardware and VMM exist?
+
+> > > > I thought the goal was to allow new programs to have fast signal handlers.
+> > > > By default, those fast signal handlers would have a stable state
+> > > > image, and would
+> > > > not inherit large architectural state on their stacks, and could thus
+> > > > have minimal overhead on all hardware.
+> > >
+> > > That is *a* goal, but not necessarily the only goal.
+> >
+> > I fully support coming up with a scheme for fast future-proof signal handlers,
+> > and I'm willing to back that up by putting work into it.
+> >
+> > I don't see any other goals articulated in this thread.
+>
+> Before we get too carried away with *fast* signal handlers, something
+> that works with existing programs is also a pretty strong goal.  RIght
+> now AVX-512 breaks existing programs, even if they don't use AVX-512.
+
+Re: "AVX-512 breaks existing programs, even if they don't use AVX-512"
+
+Perhaps it would be useful to review how that breakage can happen,
+recognize when it is a problem,  when it is not a problem, and what we
+are doing to address it today.
+
+The "ABI" here, is the signal.h definition of the MIN and SIG
+stacksize to 2KB and 8KB
+(on all architectures).  These hard coded constants may be used by
+programs that choose
+to manually allocate and register alternative signal stacks.
+
+The signal delivery ABI we use today, where all x86 architecture state
+is XSAVED onto
+the signal stack will exceed 2KB when running on hardware that supports AVX-512.
+
+This issue is real.  There do exist programs that use alternative stacks,
+and of those, there do exist programs that use these constants, and if they
+do take a signal on that size stack on that hardware, they do fail.
+
+As evidenced that AVX-512 shipped several years ago, and the world didn't stop,
+however, there are not a lot of programs with this exposure.
+That said, adding 8KB to the architecture state on systems that support AMX/TMUL
+makes this existing issue significantly more acute.
+
+Glibc 2.34, to be released in July, re-defines these constants into
+run-time values.
+It uses CPUID to compute values that work, and so a program that uses this ABI
+and is compiled with glibc 2.34 or later will not fail.
+
+Further, Chang's kernel patch series does two important things.
+First, it inspects the destination stack and computes the stack frame size
+and it refuses to write onto a stack that will overflow.  We should have always
+been making that check.
+
+Second, it exports the kernel's notion of how big the signal stack needs to be
+via the altvec, and glibc 2.34 picks this up and uses it in preference over
+its own CPUID calculation, above.
+
+So in a perfect world, you have AMX hardware, and the OS that supports your
+AMX hardware has a kernel and glibc that support it.  Everything that comes
+with that OS, or is built on that OS, uses that new library.
+This mechanism similarly addresses the AVX-512 stack issue.
+
+Granted, if you have an application that is statically linked and run
+on new hardware
+and new OS, it can still fail.
+
+Granted, you have an application that creates small signal stacks
+without using the ABI,
+even a re-compile with the new library will not help it.
+
+Granted, signal stacks -- whether they be normal or these alternative
+signal stacks,
+are bigger on hardware that has more hardware architecgture state.
+
+But applications that use the ABI do not need to be modified.
+
+I believe that this plan is sane.
+
+I acknowledge that it doesn't address the desire for minimum size fast
+signal handlers
+that are minimal and fast on all hardware. I think we can address that
+with a NEW ABI,
+but not the old one.
+
+thanks,
+Len Brown, Intel Open Source Technology Center
+
+
+
+
+
+-- 
+Len Brown, Intel Open Source Technology Center
