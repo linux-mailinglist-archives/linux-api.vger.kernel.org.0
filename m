@@ -2,148 +2,98 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8328C35C5FF
-	for <lists+linux-api@lfdr.de>; Mon, 12 Apr 2021 14:16:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8826D35C60F
+	for <lists+linux-api@lfdr.de>; Mon, 12 Apr 2021 14:19:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238720AbhDLMQS convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Mon, 12 Apr 2021 08:16:18 -0400
-Received: from mgw-02.mpynet.fi ([82.197.21.91]:59198 "EHLO mgw-02.mpynet.fi"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237283AbhDLMQS (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 12 Apr 2021 08:16:18 -0400
-X-Greylist: delayed 598 seconds by postgrey-1.27 at vger.kernel.org; Mon, 12 Apr 2021 08:16:16 EDT
-Received: from pps.filterd (mgw-02.mpynet.fi [127.0.0.1])
-        by mgw-02.mpynet.fi (8.16.0.43/8.16.0.43) with SMTP id 13CBuj4R036297;
-        Mon, 12 Apr 2021 15:05:00 +0300
-Received: from ex13.tuxera.com (ex13.tuxera.com [178.16.184.72])
-        by mgw-02.mpynet.fi with ESMTP id 37vmqsr2ph-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Mon, 12 Apr 2021 15:05:00 +0300
-Received: from tuxera-exch.ad.tuxera.com (10.20.48.11) by
- tuxera-exch.ad.tuxera.com (10.20.48.11) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 12 Apr 2021 15:04:59 +0300
-Received: from tuxera-exch.ad.tuxera.com ([fe80::552a:f9f0:68c3:d789]) by
- tuxera-exch.ad.tuxera.com ([fe80::552a:f9f0:68c3:d789%12]) with mapi id
- 15.00.1497.012; Mon, 12 Apr 2021 15:04:59 +0300
-From:   Anton Altaparmakov <anton@tuxera.com>
-To:     "christian.brauner@ubuntu.com" <christian.brauner@ubuntu.com>
-CC:     "James.Bottomley@hansenpartnership.com" 
-        <James.Bottomley@hansenpartnership.com>,
-        "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
-        "alban@kinvolk.io" <alban@kinvolk.io>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "casey@schaufler-ca.com" <casey@schaufler-ca.com>,
-        "containers@lists.linux-foundation.org" 
-        <containers@lists.linux-foundation.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "cyphar@cyphar.com" <cyphar@cyphar.com>,
-        "dhowells@redhat.com" <dhowells@redhat.com>,
-        "dmitry.kasatkin@gmail.com" <dmitry.kasatkin@gmail.com>,
-        "ebiederm@xmission.com" <ebiederm@xmission.com>,
-        "geofft@ldpreload.com" <geofft@ldpreload.com>,
-        "hch@lst.de" <hch@lst.de>,
-        "hirofumi@mail.parknet.co.jp" <hirofumi@mail.parknet.co.jp>,
-        "john.johansen@canonical.com" <john.johansen@canonical.com>,
-        "josh@joshtriplett.org" <josh@joshtriplett.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "lennart@poettering.net" <lennart@poettering.net>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "mpatel@redhat.com" <mpatel@redhat.com>,
-        "paul@paul-moore.com" <paul@paul-moore.com>,
-        "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
-        "seth.forshee@canonical.com" <seth.forshee@canonical.com>,
-        "smbarber@chromium.org" <smbarber@chromium.org>,
-        "stephen.smalley.work@gmail.com" <stephen.smalley.work@gmail.com>,
-        "tkjos@google.com" <tkjos@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        "tycho@tycho.ws" <tycho@tycho.ws>, "tytso@mit.edu" <tytso@mit.edu>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "zohar@linux.ibm.com" <zohar@linux.ibm.com>
-Subject: Re: [PATCH v6 24/40] fs: make helpers idmap mount aware
-Thread-Topic: [PATCH v6 24/40] fs: make helpers idmap mount aware
-Thread-Index: AQHXL5QPJZ+OaKJz8USD3Dodtq0P1w==
-Date:   Mon, 12 Apr 2021 12:04:59 +0000
-Message-ID: <E901E25F-41FA-444D-B3C7-A7A786DDD5D5@tuxera.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [109.145.212.130]
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <BA514E4FAABFD8498C8B1419EB26396B@ex13.tuxera.com>
-Content-Transfer-Encoding: 8BIT
+        id S237080AbhDLMUJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 12 Apr 2021 08:20:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54434 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238443AbhDLMUI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 12 Apr 2021 08:20:08 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B293C061574;
+        Mon, 12 Apr 2021 05:19:50 -0700 (PDT)
+Received: from zn.tnic (p200300ec2f052100338fe73c52330fca.dip0.t-ipconnect.de [IPv6:2003:ec:2f05:2100:338f:e73c:5233:fca])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0B6F21EC036C;
+        Mon, 12 Apr 2021 14:19:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1618229989;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=kD7vbGhEK0qnsfsKWL7qZgyEpxDWyfq7hGq9uI0D3VU=;
+        b=LCsmTk8jVRXuAL6SekTZ2EL8U88N5RFH2nN88t/2o6trKZZQV6z0gvUOXcuvFc8lC79kO3
+        glnan1rZJ3fsG3HGVcgp9wNlUkDeqljeMENQn5hEelXJyV8F+Q3nE2MG8ucxfLownR9nwz
+        jvCSbSM6J5G3OEk7eFe9hFmfyx1d8V8=
+Date:   Mon, 12 Apr 2021 14:19:47 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Len Brown <lenb@kernel.org>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        David Laight <David.Laight@aculab.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
+        X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        libc-alpha <libc-alpha@sourceware.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Rich Felker <dalias@libc.org>, Kyle Huey <me@kylehuey.com>,
+        Keno Fischer <keno@juliacomputing.com>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: Candidate Linux ABI for Intel AMX and hypothetical new related
+ features
+Message-ID: <20210412121947.GC24283@zn.tnic>
+References: <CAJvTdK=evAofQRcmt_iwtYx2f_wTGUDpXzvjuiVwgZZ6BZV_Qg@mail.gmail.com>
+ <E8BCA270-4F23-4E1B-BAD6-917DBE36F5F6@amacapital.net>
+ <CAJvTdK=Lqbzy6bs8qiE8MZ5LSzyZJ-FMUTcNPD4MxYJGEMBW3g@mail.gmail.com>
+ <CALCETrW_5QDSo2sfEjBZSJ=Q3EsXTc03Unztn0Rq1caxqwtWpw@mail.gmail.com>
+ <CAJvTdKkDUywOUxb8Toth-7d4U4_S_9_EYHO38XqAPKc2_MXtdA@mail.gmail.com>
+ <CALCETrXA-JzBWKdzBZJA8P+pPNKEkxNRPqLganWMpvm6KEUmCw@mail.gmail.com>
+ <CAJvTdK=RFei+b0W89ZTtqoiiR_M0wAJz_EuBTijgEHpacfZS7Q@mail.gmail.com>
 MIME-Version: 1.0
-X-Proofpoint-GUID: Vd5127wVnEcv9vrUnKYvowNFSa7J_xlE
-X-Proofpoint-ORIG-GUID: Vd5127wVnEcv9vrUnKYvowNFSa7J_xlE
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
- definitions=2021-04-12_09:2021-04-12,2021-04-12 signatures=0
-X-Proofpoint-Spam-Details: rule=mpy_notspam policy=mpy score=0 adultscore=0 suspectscore=0
- mlxlogscore=999 mlxscore=0 malwarescore=0 spamscore=0 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104120082
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAJvTdK=RFei+b0W89ZTtqoiiR_M0wAJz_EuBTijgEHpacfZS7Q@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi,
+On Sun, Apr 11, 2021 at 03:07:29PM -0400, Len Brown wrote:
+> If it is the program, how does it know that the library wants to use
+> what instructions?
+> 
+> If it is the library, then you have just changed XCR0 at run-time and
+> you expose breakage of the thread library that has computed XSAVE size.
 
-I noticed this patch got merged into mainline and looking through the HFS+ changes, I noticed something that struck me as odd.  I am not familiar with this patch set so perhaps it is the intention but I wanted to ask you because it just seems strange thing to do.
+So, when old programs which cannot possibly know about the arch_prctl()
+extension we're proposing here, link against that library, then that
+library should not be allowed to go use "fat" states.
 
-So you are adding a new argument of "struct user_namespace *mnt_userns" to lots of functions but then inside the functions when they call another function you often make that use "&init_user_ns" instead of the passed in "mnt_userns" which kind of defeats the point of having the new "mnt_userns" argument altogether, doesn't it?
+Unless the library can "tell" the process which links to it, that it
+has dynamically enlarged the save state. If it can and the process can
+handle that, then all is fine, save state gets enlarged dynamically and
+it all continues merrily.
 
-Example after this chunk:
+Also, in order for the library to use fat states, it needs to ask the
+kernel for such support - not CPUID - because the kernel is doing the
+state handling for everybody and doing all the CR4.OSXSAVE setup etc.
 
-diff --git a/fs/hfsplus/inode.c b/fs/hfsplus/inode.c
-index 642e067d8fe8..7a937de9b2ad 100644
---- a/fs/hfsplus/inode.c
-+++ b/fs/hfsplus/inode.c
-@@ -241,7 +241,8 @@ static int hfsplus_file_release(struct inode *inode, struct file *file)
-        return 0;
- }
+Which also means that the kernel can help here by telling the library:
 
--static int hfsplus_setattr(struct dentry *dentry, struct iattr *attr)
-+static int hfsplus_setattr(struct user_namespace *mnt_userns,
-+                    struct dentry *dentry, struct iattr *attr)
- {
-        struct inode *inode = d_inode(dentry);
-        int error;
+- No, you cannot use fat states with this process because it hasn't
+called arch_prctl() so it cannot handle them properly.
 
-The code now looks like this:
+- Yes, this process allowes me to handle fat states for it so you can
+use those states and thus those instructions when doing operations for
+it.
 
-static int hfsplus_setattr(struct user_namespace *mnt_userns,
-                           struct dentry *dentry, struct iattr *attr)
-{
-        struct inode *inode = d_inode(dentry);
-        int error;
+So the kernel becomes the arbiter in all this - as it should be - and
+then all should work fine.
 
-        error = setattr_prepare(&init_user_ns, dentry, attr);
-        if (error)
-                return error;
-[...]
-        setattr_copy(&init_user_ns, inode, attr);
-        mark_inode_dirty(inode);
-
-        return 0;
-}
-
-Shouldn't that be using mnt_userns instead of &init_user_ns both for the setattr_prepare() and setattr_copy() calls?
-
-Please note this is just one example - it seems the kernel is now littered with such examples in current mainline and I don't mean just HFS+ - this is now all over the place...
-
-Best regards,
-
-	Anton
 -- 
-Anton Altaparmakov <anton at tuxera.com> (replace at with @)
-Lead in File System Development, Tuxera Inc., http://www.tuxera.com/
-Linux NTFS maintainer
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
