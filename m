@@ -2,81 +2,85 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A8D9F35BB86
-	for <lists+linux-api@lfdr.de>; Mon, 12 Apr 2021 09:59:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B62E735C2AB
+	for <lists+linux-api@lfdr.de>; Mon, 12 Apr 2021 12:03:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236974AbhDLIAL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 12 Apr 2021 04:00:11 -0400
-Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:48710 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236808AbhDLIAL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 12 Apr 2021 04:00:11 -0400
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-177-w4-rwq0vMZOVpPL_bKeeTg-1; Mon, 12 Apr 2021 08:59:50 +0100
-X-MC-Unique: w4-rwq0vMZOVpPL_bKeeTg-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.2; Mon, 12 Apr 2021 08:59:49 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.012; Mon, 12 Apr 2021 08:59:49 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Len Brown' <lenb@kernel.org>, Andy Lutomirski <luto@kernel.org>
-CC:     Dave Hansen <dave.hansen@intel.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
-        X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        libc-alpha <libc-alpha@sourceware.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        Rich Felker <dalias@libc.org>, Kyle Huey <me@kylehuey.com>,
-        Keno Fischer <keno@juliacomputing.com>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: RE: Candidate Linux ABI for Intel AMX and hypothetical new related
- features
-Thread-Topic: Candidate Linux ABI for Intel AMX and hypothetical new related
- features
-Thread-Index: AQHXLwXzDTWBaounok6N1DMugTlKTaqwgXFQ
-Date:   Mon, 12 Apr 2021 07:59:49 +0000
-Message-ID: <7f38dca513424e8ca1d99074ad6c4621@AcuMS.aculab.com>
-References: <CAJvTdK=evAofQRcmt_iwtYx2f_wTGUDpXzvjuiVwgZZ6BZV_Qg@mail.gmail.com>
- <E8BCA270-4F23-4E1B-BAD6-917DBE36F5F6@amacapital.net>
- <CAJvTdK=Lqbzy6bs8qiE8MZ5LSzyZJ-FMUTcNPD4MxYJGEMBW3g@mail.gmail.com>
- <CALCETrW_5QDSo2sfEjBZSJ=Q3EsXTc03Unztn0Rq1caxqwtWpw@mail.gmail.com>
- <CAJvTdKkDUywOUxb8Toth-7d4U4_S_9_EYHO38XqAPKc2_MXtdA@mail.gmail.com>
- <CALCETrXA-JzBWKdzBZJA8P+pPNKEkxNRPqLganWMpvm6KEUmCw@mail.gmail.com>
- <CAJvTdK=RFei+b0W89ZTtqoiiR_M0wAJz_EuBTijgEHpacfZS7Q@mail.gmail.com>
-In-Reply-To: <CAJvTdK=RFei+b0W89ZTtqoiiR_M0wAJz_EuBTijgEHpacfZS7Q@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        id S241155AbhDLJrE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 12 Apr 2021 05:47:04 -0400
+Received: from ozlabs.org ([203.11.71.1]:35405 "EHLO ozlabs.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S243343AbhDLJmC (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 12 Apr 2021 05:42:02 -0400
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 4FJkK23pJvz9sCD;
+        Mon, 12 Apr 2021 19:41:42 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
+        s=201909; t=1618220503;
+        bh=qKUReVSabx2CuMNjbJlsyrB/4dzn/agdSM7iEVUdJFE=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=EI0crJes1a/+RqdpvZLEAvaeJSuKP8N8cwfdww93gWYxTDEwk/z7w5zNQZG5BAEZd
+         ev3Jn5y9op0/i9JCxYb9TguxAMm8bB/voRAgJLL4Ijy05V7KcdYLFTXDKOke8vJbCS
+         RjzGshVhLlUYRHa2SNMBvGbr1dFb2MSejY1iYDIauJls7QOB5ypl7lVgKongVwTmuD
+         7h+MR2KVudCiNQSNYaaKPV9eqVoxbvnpndlLZmB3u5KZfN+rX/LVphobTYVG53Z3+L
+         d6f1izCOSt7lDm1hwVd+/bwDl0PSXgw/yDq+w0FxS9jnvnqXM2ThTwAITB7vaKbRMa
+         6M/gf3g51FSHQ==
+From:   Michael Ellerman <mpe@ellerman.id.au>
+To:     Alex Williamson <alex.williamson@redhat.com>,
+        Christoph Hellwig <hch@lst.de>
+Cc:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org, Paul Mackerras <paulus@samba.org>,
+        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        kvm@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH 1/2] vfio/pci: remove vfio_pci_nvlink2
+In-Reply-To: <20210406133805.715120bd@omen>
+References: <20210326061311.1497642-1-hch@lst.de>
+ <20210326061311.1497642-2-hch@lst.de> <20210406133805.715120bd@omen>
+Date:   Mon, 12 Apr 2021 19:41:41 +1000
+Message-ID: <87y2dndelm.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-RnJvbTogTGVuIEJyb3duDQo+IFNlbnQ6IDExIEFwcmlsIDIwMjEgMjA6MDcNCi4uLg0KPiBHcmFu
-dGVkLCBpZiB5b3UgaGF2ZSBhbiBhcHBsaWNhdGlvbiB0aGF0IGlzIHN0YXRpY2FsbHkgbGlua2Vk
-IGFuZCBydW4NCj4gb24gbmV3IGhhcmR3YXJlDQo+IGFuZCBuZXcgT1MsIGl0IGNhbiBzdGlsbCBm
-YWlsLg0KDQpUaGF0IGFsc28gaW5jbHVkZXMgYW55dGhpbmcgY29tcGlsZWQgYW5kIHJlbGVhc2Vk
-IGFzIGEgcHJvZ3JhbQ0KYmluYXJ5IHRoYXQgbXVzdCBydW4gb24gb2xkZXIgTGludXggaW5zdGFs
-bGF0aW9ucy4NCg0KU3VjaCBwcm9ncmFtcyBoYXZlIHRvIGJlIGNvbXBpbGVkIHdpdGggb2xkIGNv
-cGllcyBvZiB0aGUgc3lzdGVtDQpoZWFkZXJzIChhbmQgcHJvYmFibHkgd2l0aCBhbiBvZiBnY2Mp
-Lg0KDQpXaGlsZSBzdWNoIHByb2dyYW1zIHRoZW1zZWx2ZXMgd29uJ3QgdXNlIEFWWCB3aXRob3V0
-IGNoZWNraW5nDQpmb3IgT1Mgc3VwcG9ydCwgdGhlIGdsaWJjIGNvZGUgb24gdGhlIGluc3RhbGxl
-ZCBzeXN0ZW0gbWlnaHQuDQoNClN1Y2ggcHJvZ3JhbXMgY2FuIGJlIG1vZGlmaWVkIHRvIHJ1bi10
-aW1lIGRldGVjdCB0aGUgcmVxdWlyZWQNCnNpZ25hbCBzdGFjayBzaXplIC0gYnV0IGNhbm5vdCBy
-ZWx5IG9uIGdsaWJjIHRvIGNvbnZlcnQNClNJR1NUS1NaIGludG8gYSBmdW5jdGlvbiBjYWxsLg0K
-DQoJRGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQs
-IE1vdW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86
-IDEzOTczODYgKFdhbGVzKQ0K
+Alex Williamson <alex.williamson@redhat.com> writes:
+> On Fri, 26 Mar 2021 07:13:10 +0100
+> Christoph Hellwig <hch@lst.de> wrote:
+>
+>> This driver never had any open userspace (which for VFIO would include
+>> VM kernel drivers) that use it, and thus should never have been added
+>> by our normal userspace ABI rules.
+>> 
+>> Signed-off-by: Christoph Hellwig <hch@lst.de>
+>> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> ---
+>>  drivers/vfio/pci/Kconfig            |   6 -
+>>  drivers/vfio/pci/Makefile           |   1 -
+>>  drivers/vfio/pci/vfio_pci.c         |  18 -
+>>  drivers/vfio/pci/vfio_pci_nvlink2.c | 490 ----------------------------
+>>  drivers/vfio/pci/vfio_pci_private.h |  14 -
+>>  include/uapi/linux/vfio.h           |  38 +--
+>>  6 files changed, 4 insertions(+), 563 deletions(-)
+>>  delete mode 100644 drivers/vfio/pci/vfio_pci_nvlink2.c
+>
+> Hearing no objections, applied to vfio next branch for v5.13.  Thanks,
 
+Looks like you only took patch 1?
+
+I can't take patch 2 on its own, that would break the build.
+
+Do you want to take both patches? There's currently no conflicts against
+my tree. It's possible one could appear before the v5.13 merge window,
+though it would probably just be something minor.
+
+Or I could apply both patches to my tree, which means patch 1 would
+appear as two commits in the git history, but that's not a big deal.
+
+cheers
