@@ -2,124 +2,145 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C36A35CBC0
-	for <lists+linux-api@lfdr.de>; Mon, 12 Apr 2021 18:27:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EDFD35CF46
+	for <lists+linux-api@lfdr.de>; Mon, 12 Apr 2021 19:14:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243762AbhDLQZQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 12 Apr 2021 12:25:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51992 "EHLO
+        id S239606AbhDLROk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 12 Apr 2021 13:14:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243868AbhDLQYe (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 12 Apr 2021 12:24:34 -0400
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CD88C06134A
-        for <linux-api@vger.kernel.org>; Mon, 12 Apr 2021 09:24:09 -0700 (PDT)
-Received: by mail-lj1-x234.google.com with SMTP id a36so5231989ljq.8
-        for <linux-api@vger.kernel.org>; Mon, 12 Apr 2021 09:24:09 -0700 (PDT)
+        with ESMTP id S238808AbhDLROk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 12 Apr 2021 13:14:40 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39F1CC061574
+        for <linux-api@vger.kernel.org>; Mon, 12 Apr 2021 10:14:22 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id m11so9602573pfc.11
+        for <linux-api@vger.kernel.org>; Mon, 12 Apr 2021 10:14:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ueR+bzUQyBJ6Gmj9fHXIfDenKkhbJd11CuntNjq4ue8=;
-        b=Al2PuI8Jtpzy/NwLxwtBoFYmkJnS/LiklYzPs1W31opZKivVBizLwtQrhvdcCOzNgl
-         iFR4SpalKqJenVbjbDxeUakPBfXOWawua9ad3aoLoJ6u71vmqNsjc2z07HewEM5RCZnE
-         537Yq4lD1OJ7BIDIr0AJhjMl3v314MH/ZEs9g=
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ydRFGqWZoOMmHPzi9Kd+th3dU1QxHl+sPyXpHEV+QeQ=;
+        b=XdlRqLMkQiuCk8Zhx3LA0oOzNjfory7c6gLmqIYqzl3kw9F6HnKvDKb10zKA+/ujRc
+         9x0mh3NdAgfwygmggaWv9z6KLNX1SuRYGrrQvMiqKWdKHDFCr+bbjX872R0Nlwc7nBp9
+         BOFVKMHsaSPuOx/VFNSBeAXVly/IHcUKtOiBpVYTnlLg8yR2b0IwmyRE79tsgc1DZoAU
+         loVe4wf1X01/3yM0bZqxkk8JuXRd4+PaSdSlinJevZPMTw4C1CybQXANPNtkfVtbjETq
+         ODwPw2WHT8UQP0zDXxc5Z8uz8XJuNpFy/ekYXBfOb5N/N3ou5jq2WAOwbes19dTkDxF4
+         nP0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ueR+bzUQyBJ6Gmj9fHXIfDenKkhbJd11CuntNjq4ue8=;
-        b=JieWyAo/EDRaQK804RlBln57EFpnM1G3ZulNs8vgsfJ/tRHtLB5ZKoKNSklbynxkLJ
-         xM5Wv/0lqCKYe8FePjlmbGmUOMrFggERwunlo2l393tePnRRCj4c1s4ydttOI7Aepy0N
-         AilLOS5OnXLGGYJDFZXI4oujTUEjp2Kx9f4taPyUnPNqz+xh183ajbnBGgnL4BlCXJ1q
-         KxLk8mavFNbHhRaHj0FUcSWWOtCLGSfA/G6ZAyqqCR7g/rByi6CzZMlcpZPsB85mYDCl
-         q2DaWDr4PGuJmBs9JNMKTjeLNgT5SOoqD0oRNY8AjQEOgBiH+Af/Um/54Ys3rnJftVlX
-         dlrg==
-X-Gm-Message-State: AOAM5301P0y2ArWZNsCKjIZkshGnarK9cpSitNd2EmZcvpDbdOwM7uE0
-        AH9Ryq9l9TqS8wbYxm+Tla+M3E7euShdbzgT
-X-Google-Smtp-Source: ABdhPJyrAIYt0Z14MzQeIiGUaamgOyPtAeugSARP00qdbCest2yBsYMxY7BRGInoVEDKqBUvi60PFg==
-X-Received: by 2002:a2e:5d6:: with SMTP id 205mr7778577ljf.91.1618244648036;
-        Mon, 12 Apr 2021 09:24:08 -0700 (PDT)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com. [209.85.208.170])
-        by smtp.gmail.com with ESMTPSA id s2sm3037880ljj.36.2021.04.12.09.24.05
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Apr 2021 09:24:06 -0700 (PDT)
-Received: by mail-lj1-f170.google.com with SMTP id a36so5231814ljq.8
-        for <linux-api@vger.kernel.org>; Mon, 12 Apr 2021 09:24:05 -0700 (PDT)
-X-Received: by 2002:a05:6512:31c7:: with SMTP id j7mr10731751lfe.41.1618244634563;
- Mon, 12 Apr 2021 09:23:54 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ydRFGqWZoOMmHPzi9Kd+th3dU1QxHl+sPyXpHEV+QeQ=;
+        b=s2aPEC1PsTANsaiNxf2fe51gazsswZQ48u7yATcewjMJwkr6JTK3rjFpmc6cLUm5GU
+         tnf5tqe4mVogzPIssRYt3dtDt3OgzNBCImykJaD7F4x9mvPT/brr4A/b7oyxxUpME7yp
+         BX+6r3v9sPxkKiKmGRsZpF1G96/K8nd8eoT7SJwb2DjCAINQDE5yoRzlrowRtcjLjAFB
+         1HhWmcHOf6Pyq5RAZtakaJE1NUlzCr1nHHMX34w3dgV+7l4goyIzuTkO0xSbGgqzgLZo
+         Xc8aFjuyTj8PhbBykJmIjAS9COeyagze4wQitlB+lscMeAyQicGP9AGXBKqD2tZOn5P7
+         azRA==
+X-Gm-Message-State: AOAM530RhIe12v3hubmkOCzh34EIe0Hv/IRb0AzTF2ZTX1sKOyH3vmb6
+        bptsn99uQf1iFbBP1Pa3IAxkWw==
+X-Google-Smtp-Source: ABdhPJxtukySt/qUYDnP4g7urzG6Ivq4gpQx5CpMO1HXJYv5VO3SKUXUu0NMz2g1a5qQTTZv6iEICA==
+X-Received: by 2002:aa7:8d8a:0:b029:1f8:aa27:7203 with SMTP id i10-20020aa78d8a0000b02901f8aa277203mr25599322pfr.64.1618247661565;
+        Mon, 12 Apr 2021 10:14:21 -0700 (PDT)
+Received: from google.com (240.111.247.35.bc.googleusercontent.com. [35.247.111.240])
+        by smtp.gmail.com with ESMTPSA id t19sm10604062pfg.38.2021.04.12.10.14.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Apr 2021 10:14:21 -0700 (PDT)
+Date:   Mon, 12 Apr 2021 17:14:17 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Len Brown <lenb@kernel.org>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        David Laight <David.Laight@aculab.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
+        X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        libc-alpha <libc-alpha@sourceware.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Rich Felker <dalias@libc.org>, Kyle Huey <me@kylehuey.com>,
+        Keno Fischer <keno@juliacomputing.com>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: Candidate Linux ABI for Intel AMX and hypothetical new related
+ features
+Message-ID: <YHR/6fnpe/sAASPs@google.com>
+References: <CAJvTdK=evAofQRcmt_iwtYx2f_wTGUDpXzvjuiVwgZZ6BZV_Qg@mail.gmail.com>
+ <E8BCA270-4F23-4E1B-BAD6-917DBE36F5F6@amacapital.net>
+ <CAJvTdK=Lqbzy6bs8qiE8MZ5LSzyZJ-FMUTcNPD4MxYJGEMBW3g@mail.gmail.com>
+ <CALCETrW_5QDSo2sfEjBZSJ=Q3EsXTc03Unztn0Rq1caxqwtWpw@mail.gmail.com>
+ <CAJvTdKkDUywOUxb8Toth-7d4U4_S_9_EYHO38XqAPKc2_MXtdA@mail.gmail.com>
+ <CALCETrXA-JzBWKdzBZJA8P+pPNKEkxNRPqLganWMpvm6KEUmCw@mail.gmail.com>
+ <CAJvTdK=RFei+b0W89ZTtqoiiR_M0wAJz_EuBTijgEHpacfZS7Q@mail.gmail.com>
 MIME-Version: 1.0
-References: <E901E25F-41FA-444D-B3C7-A7A786DDD5D5@tuxera.com>
-In-Reply-To: <E901E25F-41FA-444D-B3C7-A7A786DDD5D5@tuxera.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Mon, 12 Apr 2021 09:23:38 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiXqbSgqzv53C98sbaHVqpc+c8NZTpXC7bBMQT3OznE4g@mail.gmail.com>
-Message-ID: <CAHk-=wiXqbSgqzv53C98sbaHVqpc+c8NZTpXC7bBMQT3OznE4g@mail.gmail.com>
-Subject: Re: [PATCH v6 24/40] fs: make helpers idmap mount aware
-To:     Anton Altaparmakov <anton@tuxera.com>
-Cc:     "christian.brauner@ubuntu.com" <christian.brauner@ubuntu.com>,
-        "James.Bottomley@hansenpartnership.com" 
-        <James.Bottomley@hansenpartnership.com>,
-        "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
-        "alban@kinvolk.io" <alban@kinvolk.io>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "casey@schaufler-ca.com" <casey@schaufler-ca.com>,
-        "containers@lists.linux-foundation.org" 
-        <containers@lists.linux-foundation.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "cyphar@cyphar.com" <cyphar@cyphar.com>,
-        "dhowells@redhat.com" <dhowells@redhat.com>,
-        "dmitry.kasatkin@gmail.com" <dmitry.kasatkin@gmail.com>,
-        "ebiederm@xmission.com" <ebiederm@xmission.com>,
-        "geofft@ldpreload.com" <geofft@ldpreload.com>,
-        "hch@lst.de" <hch@lst.de>,
-        "hirofumi@mail.parknet.co.jp" <hirofumi@mail.parknet.co.jp>,
-        "john.johansen@canonical.com" <john.johansen@canonical.com>,
-        "josh@joshtriplett.org" <josh@joshtriplett.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "lennart@poettering.net" <lennart@poettering.net>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "mpatel@redhat.com" <mpatel@redhat.com>,
-        "paul@paul-moore.com" <paul@paul-moore.com>,
-        "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
-        "seth.forshee@canonical.com" <seth.forshee@canonical.com>,
-        "smbarber@chromium.org" <smbarber@chromium.org>,
-        "stephen.smalley.work@gmail.com" <stephen.smalley.work@gmail.com>,
-        "tkjos@google.com" <tkjos@google.com>,
-        "tycho@tycho.ws" <tycho@tycho.ws>, "tytso@mit.edu" <tytso@mit.edu>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "zohar@linux.ibm.com" <zohar@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJvTdK=RFei+b0W89ZTtqoiiR_M0wAJz_EuBTijgEHpacfZS7Q@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Apr 12, 2021 at 5:05 AM Anton Altaparmakov <anton@tuxera.com> wrote:
->
-> Shouldn't that be using mnt_userns instead of &init_user_ns both for the setattr_prepare() and setattr_copy() calls?
+On Sun, Apr 11, 2021, Len Brown wrote:
+> On Fri, Apr 9, 2021 at 5:44 PM Andy Lutomirski <luto@kernel.org> wrote:
+> >
+> > On Fri, Apr 9, 2021 at 1:53 PM Len Brown <lenb@kernel.org> wrote:
+> > >
+> > > On Wed, Mar 31, 2021 at 6:45 PM Andy Lutomirski <luto@kernel.org> wrote:
+> > > >
+> > > > On Wed, Mar 31, 2021 at 3:28 PM Len Brown <lenb@kernel.org> wrote:
+> > > > > We've also established that when running in a VMM, every update to
+> > > > > XCR0 causes a VMEXIT.
+> > > >
+> > > > This is true, it sucks, and Intel could fix it going forward.
+> > >
+> > > What hardware fix do you suggest?
+> > > If a guest is permitted to set XCR0 bits without notifying the VMM,
+> > > what happens when it sets bits that the VMM doesn't know about?
+> >
+> > The VM could have a mask of allowed XCR0 bits that don't exist.
+> >
+> > TDX solved this problem *somehow* -- XSETBV doesn't (visibly?) exit on
+> > TDX.  Surely plain VMX could fix it too.
+> 
+> There are two cases.
+> 
+> 1. Hardware that exists today and in the foreseeable future.
+> 
+> VM modification of XCR0 results in VMEXIT to VMM.
+> The VMM sees bits set by the guest, and so it can accept what
+> it supports, or send the VM a fault for non-support.
+> 
+> Here it is not possible for the VMM to change XCR0 without the VMM knowing.
+> 
+> 2. Future Hardware that allows guests to write XCR0 w/o VMEXIT.
+> 
+> Not sure I follow your proposal.
+> 
+> Yes, the VM effectively has a mask of what is supported,
+> because it can issue CPUID.
+> 
+> The VMM virtualizes CPUID, and needs to know it must not
+> expose to the VM any state features it doesn't support.
+> Also, the VMM needs to audit XCR0 before it uses XSAVE,
+> else the guest could attack or crash the VMM through
+> buffer overrun.
 
-It doesn't matter for a filesystem that hasn't marked itself as
-supporting idmaps.
+The VMM already needs to context switch XCR0 and XSS, so this is a non-issue.
 
-If the filesystem doesn't set FS_ALLOW_IDMAP, then mnt_userns is
-always going to be &init_user_ns.
+> Is this what you suggest?
 
-That said, I don't think you are wrong - it would probably be a good
-idea to pass down the 'mnt_userns' argument just to avoid confusion.
-But if you look at the history, you'll see that adding the mount
-namespace argument to the helper functions (like setattr_copy())
-happened before the actual "switch the filesystem setattr() function
-over to get the namespace argument".
+Yar.  In TDX, XSETBV exits, but only to the TDX module.  I.e. TDX solves the
+problem in software by letting the VMM tell the TDX module what features the
+guest can set in XCR0/XSS via the XFAM (Extended Features Allowed Mask).
 
-So the current situation is partly an artifact of how the incremental
-filesystem changes were done.
+But, that software "fix" can also be pushed into ucode, e.g. add an XFAM VMCS
+field, the guest can set any XCR0 bits that are '1' in VMCS.XFAM without exiting.
 
-           Linus
+Note, SGX has similar functionality in the form of XFRM (XSAVE-Feature Request
+Mask).  The enclave author can specify what features will be enabled in XCR0
+when the enclave is running.  Not that relevant, other than to reinforce that
+this is a solvable problem.
+
+> If yes, what do you suggest in the years between now and when
+> that future hardware and VMM exist?
+
+Burn some patch space? :-)
