@@ -2,171 +2,175 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E312035D9C1
-	for <lists+linux-api@lfdr.de>; Tue, 13 Apr 2021 10:13:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1FDD35DA04
+	for <lists+linux-api@lfdr.de>; Tue, 13 Apr 2021 10:26:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241770AbhDMINm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 13 Apr 2021 04:13:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39128 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S239527AbhDMINj (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Apr 2021 04:13:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1618301599;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=KLyUzT5M5en0X4VIingKMBNaeYaSW+6rovobSSA9k74=;
-        b=Z+eQwLmJH1wz9V3zvCulWMMFSTbzWCgT/QlvLMuqKMaThP5yU6AcT4WFZIyUAj42xF7ZEO
-        DmjGXxxo1+N++bDORuiYc+1Frw6cKKsPTuUs2xiWveSvyqwtwrNz33WaqFf3nWgsLQ9wEx
-        U/wAxph/ydqUBgaL+dc4ARruG555fUs=
-Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
- [209.85.219.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-430-FeGiPgV9Mcu85f2RmonBow-1; Tue, 13 Apr 2021 04:13:18 -0400
-X-MC-Unique: FeGiPgV9Mcu85f2RmonBow-1
-Received: by mail-yb1-f199.google.com with SMTP id e185so6395599ybf.4
-        for <linux-api@vger.kernel.org>; Tue, 13 Apr 2021 01:13:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KLyUzT5M5en0X4VIingKMBNaeYaSW+6rovobSSA9k74=;
-        b=UthixQVjoELvAJfCjwO0eGQTgRmwlcoSx9jqjSLhT+byXDWDn/Rspe1O1P8Rcvkatb
-         hd10asaPtJowMHb2QGew6Bqhhgc0qsrx9Tsotbs/6lca8aRufPPb7ruG2kkC5/z7mEix
-         MYSC7iPwUJtxPDxZsXEXTLZlhlY3MhqKNze2XF+8tGpL/Rbu9S8hl4rs1w27QDLP9Pez
-         ROVWYha0JsyefrZeZaCZMqhPjOWy8b6FEqvyuNmj7pE/D8CCmA0Y4jOQclr9onI4jqqL
-         lMsH14Pa8QnDPA3w0Zsu/sXWfDKWR+PtXBsY+X++aXMV5eInWICBkC1wnDYRA6vIJs0q
-         2+zQ==
-X-Gm-Message-State: AOAM53125vGGxRblgTv/TUijbunk/ez0Yc0IO/zVo+5/RUsaJDCAseO7
-        xNxrBcE6W7lm7tz5mcArs79OctZYjeTdYMN7CmKaNTl/02zzpv0ZLqSJzB7HKbzzr//Nuv5bCCa
-        crjoZiOPZS1sbr112uQ7YRYvcGDWLLRmvlD5+
-X-Received: by 2002:a25:ce09:: with SMTP id x9mr7099187ybe.81.1618301597500;
-        Tue, 13 Apr 2021 01:13:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyZMvsTkqUxAY9JNxCpjjk3fc9GGC9EFicegDOlF/Jpnn3EnjqB4N6bPUo4PnYHL4tsk1GsNBMxRJOZZ531USk=
-X-Received: by 2002:a25:ce09:: with SMTP id x9mr7099155ybe.81.1618301597217;
- Tue, 13 Apr 2021 01:13:17 -0700 (PDT)
+        id S242903AbhDMI1M (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 13 Apr 2021 04:27:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50806 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229794AbhDMI1L (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 13 Apr 2021 04:27:11 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7981161242;
+        Tue, 13 Apr 2021 08:26:43 +0000 (UTC)
+Date:   Tue, 13 Apr 2021 10:26:40 +0200
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Anton Altaparmakov <anton@tuxera.com>,
+        "James.Bottomley@hansenpartnership.com" 
+        <James.Bottomley@hansenpartnership.com>,
+        "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
+        "alban@kinvolk.io" <alban@kinvolk.io>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "casey@schaufler-ca.com" <casey@schaufler-ca.com>,
+        "containers@lists.linux-foundation.org" 
+        <containers@lists.linux-foundation.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "cyphar@cyphar.com" <cyphar@cyphar.com>,
+        "dhowells@redhat.com" <dhowells@redhat.com>,
+        "dmitry.kasatkin@gmail.com" <dmitry.kasatkin@gmail.com>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "geofft@ldpreload.com" <geofft@ldpreload.com>,
+        "hch@lst.de" <hch@lst.de>,
+        "hirofumi@mail.parknet.co.jp" <hirofumi@mail.parknet.co.jp>,
+        "john.johansen@canonical.com" <john.johansen@canonical.com>,
+        "josh@joshtriplett.org" <josh@joshtriplett.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "lennart@poettering.net" <lennart@poettering.net>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "mpatel@redhat.com" <mpatel@redhat.com>,
+        "paul@paul-moore.com" <paul@paul-moore.com>,
+        "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
+        "seth.forshee@canonical.com" <seth.forshee@canonical.com>,
+        "smbarber@chromium.org" <smbarber@chromium.org>,
+        "stephen.smalley.work@gmail.com" <stephen.smalley.work@gmail.com>,
+        "tkjos@google.com" <tkjos@google.com>,
+        "tycho@tycho.ws" <tycho@tycho.ws>, "tytso@mit.edu" <tytso@mit.edu>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "zohar@linux.ibm.com" <zohar@linux.ibm.com>
+Subject: Re: [PATCH v6 24/40] fs: make helpers idmap mount aware
+Message-ID: <20210413082640.krcmqac6y2esuz24@wittgenstein>
+References: <E901E25F-41FA-444D-B3C7-A7A786DDD5D5@tuxera.com>
+ <CAHk-=wiXqbSgqzv53C98sbaHVqpc+c8NZTpXC7bBMQT3OznE4g@mail.gmail.com>
 MIME-Version: 1.0
-References: <20191012005747.210722465@goodmis.org> <20191012005921.580293464@goodmis.org>
-In-Reply-To: <20191012005921.580293464@goodmis.org>
-From:   Ondrej Mosnacek <omosnace@redhat.com>
-Date:   Tue, 13 Apr 2021 10:13:04 +0200
-Message-ID: <CAFqZXNs4eRC6kjFRe6CdwA-sng-w6bcJZf5io+hoLKwM98TVSA@mail.gmail.com>
-Subject: Re: [PATCH 7/7 v2] tracing: Do not create tracefs files if tracefs
- lockdown is in effect
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Linux kernel mailing list <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Matthew Garrett <matthewgarrett@google.com>,
-        James Morris James Morris <jmorris@namei.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Ben Hutchings <ben@decadent.org.uk>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        SElinux list <selinux@vger.kernel.org>,
-        Herton Krzesinski <hkrzesin@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wiXqbSgqzv53C98sbaHVqpc+c8NZTpXC7bBMQT3OznE4g@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Oct 12, 2019 at 2:59 AM Steven Rostedt <rostedt@goodmis.org> wrote:
-> From: "Steven Rostedt (VMware)" <rostedt@goodmis.org>
->
-> If on boot up, lockdown is activated for tracefs, don't even bother creating
-> the files. This can also prevent instances from being created if lockdown is
-> in effect.
->
-> Link: http://lkml.kernel.org/r/CAHk-=whC6Ji=fWnjh2+eS4b15TnbsS4VPVtvBOwCy1jjEG_JHQ@mail.gmail.com
->
-> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Signed-off-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
-> ---
->  fs/tracefs/inode.c | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/fs/tracefs/inode.c b/fs/tracefs/inode.c
-> index eeeae0475da9..0caa151cae4e 100644
-> --- a/fs/tracefs/inode.c
-> +++ b/fs/tracefs/inode.c
-> @@ -16,6 +16,7 @@
->  #include <linux/namei.h>
->  #include <linux/tracefs.h>
->  #include <linux/fsnotify.h>
-> +#include <linux/security.h>
->  #include <linux/seq_file.h>
->  #include <linux/parser.h>
->  #include <linux/magic.h>
-> @@ -390,6 +391,9 @@ struct dentry *tracefs_create_file(const char *name, umode_t mode,
->         struct dentry *dentry;
->         struct inode *inode;
->
-> +       if (security_locked_down(LOCKDOWN_TRACEFS))
-> +               return NULL;
-> +
->         if (!(mode & S_IFMT))
->                 mode |= S_IFREG;
->         BUG_ON(!S_ISREG(mode));
-> --
-> 2.23.0
+On Mon, Apr 12, 2021 at 09:23:38AM -0700, Linus Torvalds wrote:
+> On Mon, Apr 12, 2021 at 5:05 AM Anton Altaparmakov <anton@tuxera.com> wrote:
+> >
+> > Shouldn't that be using mnt_userns instead of &init_user_ns both for the setattr_prepare() and setattr_copy() calls?
+> 
+> It doesn't matter for a filesystem that hasn't marked itself as
+> supporting idmaps.
+> 
+> If the filesystem doesn't set FS_ALLOW_IDMAP, then mnt_userns is
+> always going to be &init_user_ns.
+> 
+> That said, I don't think you are wrong - it would probably be a good
+> idea to pass down the 'mnt_userns' argument just to avoid confusion.
+> But if you look at the history, you'll see that adding the mount
+> namespace argument to the helper functions (like setattr_copy())
+> happened before the actual "switch the filesystem setattr() function
+> over to get the namespace argument".
+> 
+> So the current situation is partly an artifact of how the incremental
+> filesystem changes were done.
 
-Hi all,
+I'm not so sure the complaint in the original mail is obviously valid.
+Passing down mnt_userns through all filesystem codepaths at once
+would've caused way more churn. There are filesystems that e.g. do stuff
+like this:
 
-sorry for coming back to an old thread, but it turns out that this
-patch doesn't play well with SELinux's implementation of the
-security_locked_down() hook, which was added a few months later (so
-not your fault :) in commit 59438b46471a ("security,lockdown,selinux:
-implement SELinux lockdown").
+<fstype>_create()
+-> __<fstype>_internal_create()
+<fstype>_mknod()
+-> __<fstype>_internal_create()
+<fstype>_rmdir()
+-> __<fstype>_internal_create()
 
-What SELinux does is it checks if the current task's creds are allowed
-the lockdown::integrity or lockdown::confidentiality permission in the
-policy whenever security_locked_down() is called. The idea is to be
-able to control at SELinux domain level which tasks can do these
-sensitive operations (when the kernel is not actually locked down by
-the Lockdown LSM).
+where __<fstype>_internal_create() was additionally called in a few
+other places.
+So instead of only changing <fstype>_<i_op> we would've now also have to
+change __<fstype>_internal_create() which would've caused the fs
+specific change to be more invasive than it needed to be. The way we
+did it allowed us to keep the change legible.
 
-With this patch + the SELinux lockdown mechanism in use, when a
-userspace task loads a module that creates some tracefs nodes in its
-initcall SELinux will check if the task has the
-lockdown::confidentiality permission and if not, will report denials
-in audit log and prevent the tracefs entries from being created. But
-that is not a very logical behavior, since the task loading the module
-is itself not (explicitly) doing anything that would breach
-confidentiality. It just indirectly causes some tracefs nodes to be
-created, but doesn't actually use them at that point.
+And that's just a simple example.
+There are fses that have more convoluted callpaths:
+- an internal helper used additionally as a callback in a custom ops
+  struct
+- or most i_ops boiling down to a single internal function
+So the choice was also deliberate.
 
-Since it seems the other patches also added security_locked_down()
-calls to the tracefs nodes' open functions, I guess reverting this
-patch could be an acceptable way to fix this problem (please correct
-me if there is something that this call catches, which the other ones
-don't). However, even then I can understand that you (or someone else)
-might want to keep this as an optimization, in which case we could
-instead do this:
-1. Add a new hook security_locked_down_permanently() (the name is open
-for discussion), which would be intended for situations when we want
-to avoid doing some pointless work when the kernel is in a "hard"
-lockdown that can't be taken back (except perhaps in some rescue
-scenario...).
-2. This hook would be backed by the same implementation as
-security_locked_down() in the Lockdown LSM and left unimplemented by
-SELinux.
-3. tracefs_create_file() would call this hook instead of security_locked_down().
+We've also tried to be consistent when we actually pass down mnt_userns
+further within the filesystem and when we simply use init_user_ns in
+general. Just looking at setattr_copy() which was in the example:
 
-This way it would work as before relative to the standard lockdown via
-the Lockdown LSM and would be simply ignored by SELinux. I went over
-all the security_locked_down() call in the kernel and I think this
-alternative hook could also fit better in arch/powerpc/xmon/xmon.c,
-where it seems to be called from interrupt context (so task creds are
-irrelevant, anyway...) and mainly causes some values to be redacted.
-(I also found a couple minor issues with how the hook is used in other
-places, for which I plan to send patches later.)
+                   attr.c:void setattr_copy(struct user_namespace *mnt_userns, struct inode *inode,
+                   attr.c:EXPORT_SYMBOL(setattr_copy);
+                   btrfs/inode.c:          setattr_copy(&init_user_ns, inode, attr);
+                   cifs/inode.c:   setattr_copy(&init_user_ns, inode, attrs);
+                   cifs/inode.c:   setattr_copy(&init_user_ns, inode, attrs);
+                   exfat/file.c:   setattr_copy(&init_user_ns, inode, attr);
+                   ext2/inode.c:   setattr_copy(&init_user_ns, inode, iattr);
+**FS_ALLOW_IDMAP** ext4/inode.c:           setattr_copy(mnt_userns, inode, attr);
+                   f2fs/file.c:static void __setattr_copy(struct user_namespace *mnt_userns,
+                   f2fs/file.c:#define __setattr_copy setattr_copy
+                   f2fs/file.c:    __setattr_copy(&init_user_ns, inode, attr);
+                   fat/file.c:      * setattr_copy can't truncate these appropriately, so we'll
+**FS_ALLOW_IDMAP** fat/file.c:     setattr_copy(mnt_userns, inode, attr);
+                   gfs2/inode.c:   setattr_copy(&init_user_ns, inode, attr);
+                   hfs/inode.c:    setattr_copy(&init_user_ns, inode, attr);
+                   hfsplus/inode.c:        setattr_copy(&init_user_ns, inode, attr);
+                   hostfs/hostfs_kern.c:   setattr_copy(&init_user_ns, inode, attr);
+                   hpfs/inode.c:   setattr_copy(&init_user_ns, inode, attr);
+                   hugetlbfs/inode.c:      setattr_copy(&init_user_ns, inode, attr);
+                   jfs/file.c:     setattr_copy(&init_user_ns, inode, iattr);
+                   kernfs/inode.c: setattr_copy(&init_user_ns, inode, iattr);
+**helper library** libfs.c:        setattr_copy(mnt_userns, inode, iattr);
+                   minix/file.c:   setattr_copy(&init_user_ns, inode, attr);
+                   nilfs2/inode.c: setattr_copy(&init_user_ns, inode, iattr);
+                   ocfs2/dlmfs/dlmfs.c:    setattr_copy(&init_user_ns, inode, attr);
+                   ocfs2/file.c:   setattr_copy(&init_user_ns, inode, attr);
+                   omfs/file.c:    setattr_copy(&init_user_ns, inode, attr);
+                   orangefs/inode.c:       setattr_copy(&init_user_ns, inode, iattr);
+                   proc/base.c:    setattr_copy(&init_user_ns, inode, attr);
+                   proc/generic.c: setattr_copy(&init_user_ns, inode, iattr);
+                   proc/proc_sysctl.c:     setattr_copy(&init_user_ns, inode, attr);
+                   ramfs/file-nommu.c:     setattr_copy(&init_user_ns, inode, ia);
+                   reiserfs/inode.c:               setattr_copy(&init_user_ns, inode, attr);
+                   sysv/file.c:    setattr_copy(&init_user_ns, inode, attr);
+                   udf/file.c:     setattr_copy(&init_user_ns, inode, attr);
+                   ufs/inode.c:    setattr_copy(&init_user_ns, inode, attr);
+                   zonefs/super.c: setattr_copy(&init_user_ns, inode, iattr);
 
-Thoughts?
+so we pass mnt_userns further down for all fses that have FS_ALLOW_IDMAP
+set or where it's located in a helper library like libfs whose helpers
+might be called by an idmapped mount aware fs.
 
---
-Ondrej Mosnacek
-Software Engineer, Linux Security - SELinux kernel
-Red Hat, Inc.
+When an fs is made aware of idmapped mounts the mnt_userns will
+naturally be passed down further at which point the relevant fs
+developer can decide how to restructure their own internal helpers
+instead of vfs developers deciding these internals for them.
 
+The xfs port is a good example where the xfs developers had - rightly so
+- opinions on how they wanted the calling conventions for their internal
+helpers to look like and how they wanted to pass around mnt_userns. I
+don't feel in a position to mandate this from a vfs developers
+perspective. I will happily provide input and express my opinion but the
+authority of the vfs-calling-convention police mostly ends at the i_op
+level.
+
+Christian
