@@ -2,175 +2,94 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F1FDD35DA04
-	for <lists+linux-api@lfdr.de>; Tue, 13 Apr 2021 10:26:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B966D35DCE7
+	for <lists+linux-api@lfdr.de>; Tue, 13 Apr 2021 12:55:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242903AbhDMI1M (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 13 Apr 2021 04:27:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50806 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229794AbhDMI1L (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 13 Apr 2021 04:27:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7981161242;
-        Tue, 13 Apr 2021 08:26:43 +0000 (UTC)
-Date:   Tue, 13 Apr 2021 10:26:40 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Anton Altaparmakov <anton@tuxera.com>,
-        "James.Bottomley@hansenpartnership.com" 
-        <James.Bottomley@hansenpartnership.com>,
-        "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
-        "alban@kinvolk.io" <alban@kinvolk.io>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "casey@schaufler-ca.com" <casey@schaufler-ca.com>,
-        "containers@lists.linux-foundation.org" 
-        <containers@lists.linux-foundation.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "cyphar@cyphar.com" <cyphar@cyphar.com>,
-        "dhowells@redhat.com" <dhowells@redhat.com>,
-        "dmitry.kasatkin@gmail.com" <dmitry.kasatkin@gmail.com>,
-        "ebiederm@xmission.com" <ebiederm@xmission.com>,
-        "geofft@ldpreload.com" <geofft@ldpreload.com>,
-        "hch@lst.de" <hch@lst.de>,
-        "hirofumi@mail.parknet.co.jp" <hirofumi@mail.parknet.co.jp>,
-        "john.johansen@canonical.com" <john.johansen@canonical.com>,
-        "josh@joshtriplett.org" <josh@joshtriplett.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "lennart@poettering.net" <lennart@poettering.net>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "mpatel@redhat.com" <mpatel@redhat.com>,
-        "paul@paul-moore.com" <paul@paul-moore.com>,
-        "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
-        "seth.forshee@canonical.com" <seth.forshee@canonical.com>,
-        "smbarber@chromium.org" <smbarber@chromium.org>,
-        "stephen.smalley.work@gmail.com" <stephen.smalley.work@gmail.com>,
-        "tkjos@google.com" <tkjos@google.com>,
-        "tycho@tycho.ws" <tycho@tycho.ws>, "tytso@mit.edu" <tytso@mit.edu>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "zohar@linux.ibm.com" <zohar@linux.ibm.com>
-Subject: Re: [PATCH v6 24/40] fs: make helpers idmap mount aware
-Message-ID: <20210413082640.krcmqac6y2esuz24@wittgenstein>
-References: <E901E25F-41FA-444D-B3C7-A7A786DDD5D5@tuxera.com>
- <CAHk-=wiXqbSgqzv53C98sbaHVqpc+c8NZTpXC7bBMQT3OznE4g@mail.gmail.com>
+        id S230476AbhDMKz7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 13 Apr 2021 06:55:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40068 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230303AbhDMKzu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Apr 2021 06:55:50 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4669C06175F
+        for <linux-api@vger.kernel.org>; Tue, 13 Apr 2021 03:55:30 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id m3so18853910edv.5
+        for <linux-api@vger.kernel.org>; Tue, 13 Apr 2021 03:55:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=lightnvm-io.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=va658DcvB9VpnT6zlnFssN11/Tnxxz2cyGv/gA71ftU=;
+        b=PiMHislXz8pJmhPvsAadDi9Af9yqHMe9WvfMofA7+gE1OX1pmd8JjyMOKWHD0Joxrg
+         PjvCVV/3Wuhu3p/0wtwZwnNwMrvQL/m/4y3yC1sc6huJOjz9IyScytwhU3oNAZ3pxDqZ
+         7aNdc6stSrFBgIgGQLraCV9y0fQM6laXBDRCSdDDXABOL4oB9MPJjtLrZgTAhQijRM6J
+         elvfq0oYphGCsW9of6JatFhrbdfPLyiNrShfY52tNXE8nizFdivXNOUKskKPJooolXRS
+         PiT174veyORmFaD5QrpQyoZaoF/A5aq2PHj0liQvQMh64XIyp8Qrt9bLrYkp2/XvffHy
+         GGHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=va658DcvB9VpnT6zlnFssN11/Tnxxz2cyGv/gA71ftU=;
+        b=Yae4QRuF07x8ZQOYPt+r6XdDMh76mxgLw/CDO1WtHxsZj5X1Cq85awxG8sfRHzFoDc
+         PwN0HR3RO4/PCeiuyjT6DFuFL6KA6DNkWf3OlOS8XmRV/AvfrSlwYUogdO6bs2ULyyyw
+         rnHHEX4bdfefntpqOQI/quZLvR9iPvYk/y/LHhQw03hSvTJQwFs33TRYA6sdmC55e60z
+         9lVwShYfkEUAJwb5dhZbzGQhPYtZZFLcX+TFHTFBbIIrwnnkPtuYPX3r3LSy3rmv9peq
+         2vACANLmbZq7PfzfA4R5uhusMVsizFPPH/Vxdo+OlimiqNl+7roWVvL6lPMrI0UBad6y
+         lJ2A==
+X-Gm-Message-State: AOAM533TJa1LGMCTGqYNK1SMUbRuQSAgprk1NLVXbWls2t+jRxswmq8S
+        450m16S9rKRy5BK5XS7gqbajew==
+X-Google-Smtp-Source: ABdhPJxWfmjVMmbjEfL5HaZ4mDwT3aOXbcswowPXw2Y8I4NhukX8Jh/zNINPeg2SYyvtfVwfjBNGfA==
+X-Received: by 2002:a50:fb8c:: with SMTP id e12mr35068851edq.295.1618311329613;
+        Tue, 13 Apr 2021 03:55:29 -0700 (PDT)
+Received: from [10.0.0.62] (xb932c246.cust.hiper.dk. [185.50.194.70])
+        by smtp.gmail.com with ESMTPSA id t1sm9087230eds.53.2021.04.13.03.55.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Apr 2021 03:55:29 -0700 (PDT)
+Subject: Re: [PATCH] lightnvm: remove duplicate include in lightnvm.h
+To:     menglong8.dong@gmail.com
+Cc:     linux-block@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Zhang Yunkai <zhang.yunkai@zte.com.cn>
+References: <20210313112241.366786-1-zhang.yunkai@zte.com.cn>
+From:   =?UTF-8?Q?Matias_Bj=c3=b8rling?= <mb@lightnvm.io>
+Message-ID: <e2bd4734-959c-4505-7e1c-ccc04185e4d3@lightnvm.io>
+Date:   Tue, 13 Apr 2021 12:55:28 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wiXqbSgqzv53C98sbaHVqpc+c8NZTpXC7bBMQT3OznE4g@mail.gmail.com>
+In-Reply-To: <20210313112241.366786-1-zhang.yunkai@zte.com.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Apr 12, 2021 at 09:23:38AM -0700, Linus Torvalds wrote:
-> On Mon, Apr 12, 2021 at 5:05 AM Anton Altaparmakov <anton@tuxera.com> wrote:
-> >
-> > Shouldn't that be using mnt_userns instead of &init_user_ns both for the setattr_prepare() and setattr_copy() calls?
-> 
-> It doesn't matter for a filesystem that hasn't marked itself as
-> supporting idmaps.
-> 
-> If the filesystem doesn't set FS_ALLOW_IDMAP, then mnt_userns is
-> always going to be &init_user_ns.
-> 
-> That said, I don't think you are wrong - it would probably be a good
-> idea to pass down the 'mnt_userns' argument just to avoid confusion.
-> But if you look at the history, you'll see that adding the mount
-> namespace argument to the helper functions (like setattr_copy())
-> happened before the actual "switch the filesystem setattr() function
-> over to get the namespace argument".
-> 
-> So the current situation is partly an artifact of how the incremental
-> filesystem changes were done.
-
-I'm not so sure the complaint in the original mail is obviously valid.
-Passing down mnt_userns through all filesystem codepaths at once
-would've caused way more churn. There are filesystems that e.g. do stuff
-like this:
-
-<fstype>_create()
--> __<fstype>_internal_create()
-<fstype>_mknod()
--> __<fstype>_internal_create()
-<fstype>_rmdir()
--> __<fstype>_internal_create()
-
-where __<fstype>_internal_create() was additionally called in a few
-other places.
-So instead of only changing <fstype>_<i_op> we would've now also have to
-change __<fstype>_internal_create() which would've caused the fs
-specific change to be more invasive than it needed to be. The way we
-did it allowed us to keep the change legible.
-
-And that's just a simple example.
-There are fses that have more convoluted callpaths:
-- an internal helper used additionally as a callback in a custom ops
-  struct
-- or most i_ops boiling down to a single internal function
-So the choice was also deliberate.
-
-We've also tried to be consistent when we actually pass down mnt_userns
-further within the filesystem and when we simply use init_user_ns in
-general. Just looking at setattr_copy() which was in the example:
-
-                   attr.c:void setattr_copy(struct user_namespace *mnt_userns, struct inode *inode,
-                   attr.c:EXPORT_SYMBOL(setattr_copy);
-                   btrfs/inode.c:          setattr_copy(&init_user_ns, inode, attr);
-                   cifs/inode.c:   setattr_copy(&init_user_ns, inode, attrs);
-                   cifs/inode.c:   setattr_copy(&init_user_ns, inode, attrs);
-                   exfat/file.c:   setattr_copy(&init_user_ns, inode, attr);
-                   ext2/inode.c:   setattr_copy(&init_user_ns, inode, iattr);
-**FS_ALLOW_IDMAP** ext4/inode.c:           setattr_copy(mnt_userns, inode, attr);
-                   f2fs/file.c:static void __setattr_copy(struct user_namespace *mnt_userns,
-                   f2fs/file.c:#define __setattr_copy setattr_copy
-                   f2fs/file.c:    __setattr_copy(&init_user_ns, inode, attr);
-                   fat/file.c:      * setattr_copy can't truncate these appropriately, so we'll
-**FS_ALLOW_IDMAP** fat/file.c:     setattr_copy(mnt_userns, inode, attr);
-                   gfs2/inode.c:   setattr_copy(&init_user_ns, inode, attr);
-                   hfs/inode.c:    setattr_copy(&init_user_ns, inode, attr);
-                   hfsplus/inode.c:        setattr_copy(&init_user_ns, inode, attr);
-                   hostfs/hostfs_kern.c:   setattr_copy(&init_user_ns, inode, attr);
-                   hpfs/inode.c:   setattr_copy(&init_user_ns, inode, attr);
-                   hugetlbfs/inode.c:      setattr_copy(&init_user_ns, inode, attr);
-                   jfs/file.c:     setattr_copy(&init_user_ns, inode, iattr);
-                   kernfs/inode.c: setattr_copy(&init_user_ns, inode, iattr);
-**helper library** libfs.c:        setattr_copy(mnt_userns, inode, iattr);
-                   minix/file.c:   setattr_copy(&init_user_ns, inode, attr);
-                   nilfs2/inode.c: setattr_copy(&init_user_ns, inode, iattr);
-                   ocfs2/dlmfs/dlmfs.c:    setattr_copy(&init_user_ns, inode, attr);
-                   ocfs2/file.c:   setattr_copy(&init_user_ns, inode, attr);
-                   omfs/file.c:    setattr_copy(&init_user_ns, inode, attr);
-                   orangefs/inode.c:       setattr_copy(&init_user_ns, inode, iattr);
-                   proc/base.c:    setattr_copy(&init_user_ns, inode, attr);
-                   proc/generic.c: setattr_copy(&init_user_ns, inode, iattr);
-                   proc/proc_sysctl.c:     setattr_copy(&init_user_ns, inode, attr);
-                   ramfs/file-nommu.c:     setattr_copy(&init_user_ns, inode, ia);
-                   reiserfs/inode.c:               setattr_copy(&init_user_ns, inode, attr);
-                   sysv/file.c:    setattr_copy(&init_user_ns, inode, attr);
-                   udf/file.c:     setattr_copy(&init_user_ns, inode, attr);
-                   ufs/inode.c:    setattr_copy(&init_user_ns, inode, attr);
-                   zonefs/super.c: setattr_copy(&init_user_ns, inode, iattr);
-
-so we pass mnt_userns further down for all fses that have FS_ALLOW_IDMAP
-set or where it's located in a helper library like libfs whose helpers
-might be called by an idmapped mount aware fs.
-
-When an fs is made aware of idmapped mounts the mnt_userns will
-naturally be passed down further at which point the relevant fs
-developer can decide how to restructure their own internal helpers
-instead of vfs developers deciding these internals for them.
-
-The xfs port is a good example where the xfs developers had - rightly so
-- opinions on how they wanted the calling conventions for their internal
-helpers to look like and how they wanted to pass around mnt_userns. I
-don't feel in a position to mandate this from a vfs developers
-perspective. I will happily provide input and express my opinion but the
-authority of the vfs-calling-convention police mostly ends at the i_op
-level.
-
-Christian
+On 13/03/2021 12.22, menglong8.dong@gmail.com wrote:
+> From: Zhang Yunkai <zhang.yunkai@zte.com.cn>
+>
+> 'linux/ioctl.h' included in 'lightnvm.h' is duplicated.
+> It is also included in the 33th line.
+>
+> Signed-off-by: Zhang Yunkai <zhang.yunkai@zte.com.cn>
+> ---
+>   include/uapi/linux/lightnvm.h | 1 -
+>   1 file changed, 1 deletion(-)
+>
+> diff --git a/include/uapi/linux/lightnvm.h b/include/uapi/linux/lightnvm.h
+> index ead2e72e5c88..2745afd9b8fa 100644
+> --- a/include/uapi/linux/lightnvm.h
+> +++ b/include/uapi/linux/lightnvm.h
+> @@ -22,7 +22,6 @@
+>   
+>   #ifdef __KERNEL__
+>   #include <linux/const.h>
+> -#include <linux/ioctl.h>
+>   #else /* __KERNEL__ */
+>   #include <stdio.h>
+>   #include <sys/ioctl.h>
+Thanks, Yunkai. I've pulled it. Note that I've merged your two patches 
+into one.
