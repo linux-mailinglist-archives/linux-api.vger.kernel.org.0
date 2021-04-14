@@ -2,104 +2,88 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3078E35F14F
-	for <lists+linux-api@lfdr.de>; Wed, 14 Apr 2021 12:13:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B23DC35F179
+	for <lists+linux-api@lfdr.de>; Wed, 14 Apr 2021 12:27:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232766AbhDNKNL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 14 Apr 2021 06:13:11 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:47620 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232631AbhDNKNK (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 14 Apr 2021 06:13:10 -0400
-Received: from zn.tnic (p200300ec2f0e8f0047b5d8db40ec11d2.dip0.t-ipconnect.de [IPv6:2003:ec:2f0e:8f00:47b5:d8db:40ec:11d2])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A0D021EC0528;
-        Wed, 14 Apr 2021 12:12:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1618395168;
+        id S232770AbhDNK1t (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 14 Apr 2021 06:27:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56101 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232276AbhDNK1s (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 14 Apr 2021 06:27:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1618396047;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=v5HUY65OS78ET9NFUwXyXqIOqxRqJhTJ7DiNehOvsA4=;
-        b=RLeFPTKrvHtvaFERYcN8XC52g3wEm7k4DwS6AYJnuoN3Fa0h+ssGq1e/w04BP0lfeeejkt
-        MkUVJAyxPy6m7LbMD1Kukk60nerb9KyLenIMkWrfVmJB5B8J3uZmWyrICZDCZzYf6LXPEO
-        3QHxyMi4wTomiOkxRs9v3XriVFHWRB0=
-Date:   Wed, 14 Apr 2021 12:12:50 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Bae, Chang Seok" <chang.seok.bae@intel.com>,
-        Florian Weimer <fweimer@redhat.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        "Cooper, Andrew" <andrew.cooper3@citrix.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        "Gross, Jurgen" <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>, X86 ML <x86@kernel.org>,
-        "Brown, Len" <len.brown@intel.com>,
-        "Hansen, Dave" <dave.hansen@intel.com>,
-        "H. J. Lu" <hjl.tools@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Carlos O'Donell <carlos@redhat.com>,
-        "Luck, Tony" <tony.luck@intel.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        libc-alpha <libc-alpha@sourceware.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v7 5/6] x86/signal: Detect and prevent an alternate
- signal stack overflow
-Message-ID: <20210414101250.GD10709@zn.tnic>
-References: <20210316065215.23768-1-chang.seok.bae@intel.com>
- <20210316065215.23768-6-chang.seok.bae@intel.com>
- <CALCETrU_n+dP4GaUJRQoKcDSwaWL9Vc99Yy+N=QGVZ_tx_j3Zg@mail.gmail.com>
- <20210325185435.GB32296@zn.tnic>
- <CALCETrXQZuvJQrHDMst6PPgtJxaS_sPk2JhwMiMDNPunq45YFg@mail.gmail.com>
- <20210326103041.GB25229@zn.tnic>
- <DB68C825-25F9-48F9-AFAD-4F6C7DCA11F8@intel.com>
+         in-reply-to:in-reply-to:references:references;
+        bh=vMLyJy+yuIUeQ69Nie1nVj2ps7AR8ETn5DL2B4VvFQI=;
+        b=JE8ws063FQoAIwfFCDHiF/5SIqJ3/seymoUwLVt6tG8bCgvywBs+lpMpOMSw5rUkaTAR48
+        +fgCULGhpQ2aRwrJZsUmMhKLrCYOCrGxvBcn70v1puUM5AfHy86XguuiGi7syzviuB+yd3
+        f9qdlaoajc2vXhH+V9iYVLmaF4Q2Wj4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-465-qkYKl8RuMciGaPIHYwMLdg-1; Wed, 14 Apr 2021 06:27:23 -0400
+X-MC-Unique: qkYKl8RuMciGaPIHYwMLdg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EEBE8030C4;
+        Wed, 14 Apr 2021 10:27:20 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (ovpn-112-148.ams2.redhat.com [10.36.112.148])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A5D41A86B;
+        Wed, 14 Apr 2021 10:27:14 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Andrei Vagin <avagin@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-um@lists.infradead.org, criu@openvz.org, avagin@google.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        Ingo Molnar <mingo@redhat.com>, Jeff Dike <jdike@addtoit.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH 0/4 POC] Allow executing code and syscalls in another
+ address space
+References: <20210414055217.543246-1-avagin@gmail.com>
+Date:   Wed, 14 Apr 2021 12:27:28 +0200
+In-Reply-To: <20210414055217.543246-1-avagin@gmail.com> (Andrei Vagin's
+        message of "Tue, 13 Apr 2021 22:52:13 -0700")
+Message-ID: <87blahb1pr.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <DB68C825-25F9-48F9-AFAD-4F6C7DCA11F8@intel.com>
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Apr 12, 2021 at 10:30:23PM +0000, Bae, Chang Seok wrote:
-> On Mar 26, 2021, at 03:30, Borislav Petkov <bp@alien8.de> wrote:
-> > On Thu, Mar 25, 2021 at 09:56:53PM -0700, Andy Lutomirski wrote:
-> >> We really ought to have a SIGSIGFAIL signal that's sent, double-fault
-> >> style, when we fail to send a signal.
-> > 
-> > Yeap, we should be able to tell userspace that we couldn't send a
-> > signal, hohumm.
-> 
-> Hi Boris,
-> 
-> Let me clarify some details as preparing to include this in a revision.
-> 
-> So, IIUC, a number needs to be assigned for this new SIGFAIL. At a glance, not
-> sure which one to pick there in signal.h -- 1-31 fully occupied and the rest
-> for 33 different real-time signals.
-> 
-> Also, perhaps, force_sig(SIGFAIL) here, instead of return -1 -- to die with
-> SIGSEGV.
+* Andrei Vagin:
 
-I think this needs to be decided together with userspace people so that
-they can act accordingly and whether it even makes sense to them.
+> We already have process_vm_readv and process_vm_writev to read and write
+> to a process memory faster than we can do this with ptrace. And now it
+> is time for process_vm_exec that allows executing code in an address
+> space of another process. We can do this with ptrace but it is much
+> slower.
+>
+> = Use-cases =
 
-Florian, any suggestions?
+We also have some vaguely related within the same address space: running
+code on another thread, without modifying its stack, while it has signal
+handlers blocked, and without causing system calls to fail with EINTR.
+This can be used to implement certain kinds of memory barriers.  It is
+also necessary to implement set*id with POSIX semantics in userspace.
+(Linux only changes the current thread credentials, POSIX requires
+process-wide changes.)  We currently use a signal for set*id, but it has
+issues (it can be blocked, the signal could come from somewhere, etc.).
+We can't use signals for barriers because of the EINTR issue, and
+because the signal context is stored on the stack.
 
-Subthread starts here:
+Thanks,
+Florian
 
-https://lkml.kernel.org/r/CALCETrXQZuvJQrHDMst6PPgtJxaS_sPk2JhwMiMDNPunq45YFg@mail.gmail.com
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
