@@ -2,121 +2,122 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C0DC35F376
-	for <lists+linux-api@lfdr.de>; Wed, 14 Apr 2021 14:23:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1677B35F4F5
+	for <lists+linux-api@lfdr.de>; Wed, 14 Apr 2021 15:38:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350764AbhDNMVN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 14 Apr 2021 08:21:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24629 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233040AbhDNMVM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 14 Apr 2021 08:21:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1618402850;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=NO4FGUOTnvyNv6ZEsf7CqScF3ifaTTajd0Qf2emlRl0=;
-        b=YpS1w1cuS3xQcpeGuRymmMxzhteusWRnHMQGAS8iquKnbbXZ3mpk7McTt+ojglvvSVusfz
-        eqLzd9ip+oUcSHiFaTD3/iE98RBgPqnSWBCWFF1XNSMPgyTctMqnHA05N/4OcFL5mzZqbm
-        8ZxxW6ybr1XpNXFFceGsu0tj9EY8tJw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-424-MbvmUyxeMQSe91Bt0GGgJQ-1; Wed, 14 Apr 2021 08:20:46 -0400
-X-MC-Unique: MbvmUyxeMQSe91Bt0GGgJQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03C101006C81;
-        Wed, 14 Apr 2021 12:20:44 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (ovpn-112-148.ams2.redhat.com [10.36.112.148])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 571D210016FE;
-        Wed, 14 Apr 2021 12:20:34 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Jann Horn <jannh@google.com>
-Cc:     Andrei Vagin <avagin@gmail.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-um@lists.infradead.org, criu@openvz.org,
-        Andrei Vagin <avagin@google.com>,
+        id S233092AbhDNNjQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 14 Apr 2021 09:39:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50718 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1351415AbhDNNjP (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 14 Apr 2021 09:39:15 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 80488611AD;
+        Wed, 14 Apr 2021 13:38:50 +0000 (UTC)
+Date:   Wed, 14 Apr 2021 15:38:47 +0200
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Yury Norov <yury.norov@gmail.com>, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@collabora.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        Ingo Molnar <mingo@redhat.com>, Jeff Dike <jdike@addtoit.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH 0/4 POC] Allow executing code and syscalls in another
- address space
-References: <20210414055217.543246-1-avagin@gmail.com>
-        <87blahb1pr.fsf@oldenburg.str.redhat.com>
-        <CAG48ez2z0a4x2GfHv9L0HmO1-uzsKtfOF40erPb8ADR-m+itbg@mail.gmail.com>
-Date:   Wed, 14 Apr 2021 14:20:48 +0200
-In-Reply-To: <CAG48ez2z0a4x2GfHv9L0HmO1-uzsKtfOF40erPb8ADR-m+itbg@mail.gmail.com>
-        (Jann Horn's message of "Wed, 14 Apr 2021 13:24:30 +0200")
-Message-ID: <874kg99hwf.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+        Arnd Bergmann <arnd@arndb.de>, David Sterba <dsterba@suse.com>,
+        Joe Perches <joe@perches.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Aleksa Sarai <cyphar@cyphar.com>
+Subject: Re: [PATCH] Documentation: syscalls: add a note about  ABI-agnostic
+ types
+Message-ID: <20210414133847.2gwws46ktuqxkghu@wittgenstein>
+References: <20210409204304.1273139-1-yury.norov@gmail.com>
+ <20210414044020.GA44464@yury-ThinkPad>
+ <20210414081422.5a9d0c4b@coco.lan>
+ <20210414084605.pdlnjkwa3h47jxno@wittgenstein>
+ <YHa52ddAzcRGOB/m@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Disposition: inline
+In-Reply-To: <YHa52ddAzcRGOB/m@kernel.org>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Jann Horn:
+On Wed, Apr 14, 2021 at 12:46:01PM +0300, Mike Rapoport wrote:
+> On Wed, Apr 14, 2021 at 10:46:05AM +0200, Christian Brauner wrote:
+> > On Wed, Apr 14, 2021 at 08:14:22AM +0200, Mauro Carvalho Chehab wrote:
+> > > Em Tue, 13 Apr 2021 21:40:20 -0700
+> > > Yury Norov <yury.norov@gmail.com> escreveu:
+> > > 
+> > > > Ping?
+> > > > 
+> > > > On Fri, Apr 09, 2021 at 01:43:04PM -0700, Yury Norov wrote:
+> > > > > Recently added memfd_secret() syscall had a flags parameter passed
+> > > > > as unsigned long, which requires creation of compat entry for it.
+> > > > > It was possible to change the type of flags to unsigned int and so
+> > > > > avoid bothering with compat layer.
+> > > > > 
+> > > > > https://www.spinics.net/lists/linux-mm/msg251550.html
+> > > > > 
+> > > > > Documentation/process/adding-syscalls.rst doesn't point clearly about
+> > > > > preference of ABI-agnostic types. This patch adds such notification.
+> > > > > 
+> > > > > Signed-off-by: Yury Norov <yury.norov@gmail.com>
+> > > > > ---
+> > > > >  Documentation/process/adding-syscalls.rst | 7 +++++++
+> > > > >  1 file changed, 7 insertions(+)
+> > > > > 
+> > > > > diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
+> > > > > index 9af35f4ec728..46add16edf14 100644
+> > > > > --- a/Documentation/process/adding-syscalls.rst
+> > > > > +++ b/Documentation/process/adding-syscalls.rst
+> > > > > @@ -172,6 +172,13 @@ arguments (i.e. parameter 1, 3, 5), to allow use of contiguous pairs of 32-bit
+> > > > >  registers.  (This concern does not apply if the arguments are part of a
+> > > > >  structure that's passed in by pointer.)
+> > > > >  
+> > > > > +Whenever possible, try to use ABI-agnostic types for passing parameters to
+> > > > > +a syscall in order to avoid creating compat entry for it. Linux supports two
+> > > > > +ABI models - ILP32 and LP64. 
+> > > 
+> > > > > + The types like ``void *``, ``long``, ``size_t``,
+> > > > > +``off_t`` have different size in those ABIs;
+> > > 
+> > > In the case of pointers, the best is to use __u64. The pointer can then
+> > > be read on Kernelspace with something like this:
+> > > 
+> > > 	static inline void __user *media_get_uptr(__u64 arg)
+> > > 	{
+> > > 		return (void __user *)(uintptr_t)arg;
+> > > 	}
+> > > 
+> > > 
+> > > > > types like ``char`` and  ``int``
+> > > > > +have the same size and don't require a compat layer support. For flags, it's
+> > > > > +always better to use ``unsigned int``.
+> > > > > +
+> > > 
+> > > I don't think this is true for all compilers on userspace, as the C
+> > > standard doesn't define how many bits an int/unsigned int has. 
+> > > So, even if this is today's reality, things may change in the future.
+> > > 
+> > > For instance, I remember we had to replace "int" and "enum" by "__u32" 
+> > > and "long" by "__u64" at the media uAPI in the past, when we start
+> > > seeing x86_64 Kernels with 32-bits userspace and when cameras started 
+> > > being supported on arm32.
+> > > 
+> > > We did have some real bugs with "enum", as, on that time, some
+> > > compilers (gcc, I guess) were optimizing them to have less than
+> > > 32 bits on certain architectures, when it fits.
+> > 
+> > Fwiw, Aleksa and I have written extended syscall documentation
+> > documenting the agreement that we came to in a dedicated session with a
+> > wide range of kernel folks during Linux Plumbers last year. We simply
+> > never had time to actually send this series but fwiw here it is. It also
+> > mentions the use of correct types. If people feel it's worth it I can
+> > send as a proper series:
+> 
+> Yes, please.
 
-> On Wed, Apr 14, 2021 at 12:27 PM Florian Weimer <fweimer@redhat.com> wrot=
-e:
->>
->> * Andrei Vagin:
->>
->> > We already have process_vm_readv and process_vm_writev to read and wri=
-te
->> > to a process memory faster than we can do this with ptrace. And now it
->> > is time for process_vm_exec that allows executing code in an address
->> > space of another process. We can do this with ptrace but it is much
->> > slower.
->> >
->> > =3D Use-cases =3D
->>
->> We also have some vaguely related within the same address space: running
->> code on another thread, without modifying its stack, while it has signal
->> handlers blocked, and without causing system calls to fail with EINTR.
->> This can be used to implement certain kinds of memory barriers.
->
-> That's what the membarrier() syscall is for, right? Unless you don't
-> want to register all threads for expedited membarrier use?
+Ok, I'll try to fix the commit messages and send it out.
 
-membarrier is not sufficiently powerful for revoking biased locks, for
-example.
-
-For the EINTR issue, <https://github.com/golang/go/issues/38836> is an
-example.  I believe CIFS has since seen a few fixes (after someone
-reported that tar on CIFS wouldn't work because the SIGCHLD causing
-utimensat to fail=E2=80=94and there isn't even a signal handler for SIGCHLD=
-!),
-but the time it took to get to this point doesn't give me confidence
-that it is safe to send signals to a thread that is running unknown
-code.
-
-But as you explained regarding the set*id broadcast, it seems that if we
-had this run-on-another-thread functionality, we would likely encounter
-issues similar to those with SA_RESTART.  We don't see the issue with
-set*id today because it's a rare operation, and multi-threaded file
-servers that need to change credentials frequently opt out of the set*id
-broadcast anyway.  (What I have in mind is a future world where any
-printf call, any malloc call, can trigger such a broadcast.)
-
-The cross-VM CRIU scenario would probably somewhere in between (not
-quite the printf/malloc level, but more frequent than set*id).
-
-Thanks,
-Florian
-
+Christian
