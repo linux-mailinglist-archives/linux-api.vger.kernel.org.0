@@ -2,51 +2,51 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 164F435EC9A
+	by mail.lfdr.de (Postfix) with ESMTP id AECD335EC9C
 	for <lists+linux-api@lfdr.de>; Wed, 14 Apr 2021 07:55:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348142AbhDNFzU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 14 Apr 2021 01:55:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33742 "EHLO
+        id S1348166AbhDNFzX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 14 Apr 2021 01:55:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233304AbhDNFzS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 14 Apr 2021 01:55:18 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 188E7C061574;
-        Tue, 13 Apr 2021 22:54:58 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id m18so7276055plc.13;
-        Tue, 13 Apr 2021 22:54:58 -0700 (PDT)
+        with ESMTP id S1348118AbhDNFzU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 14 Apr 2021 01:55:20 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50FA0C061574;
+        Tue, 13 Apr 2021 22:54:59 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id r13so5904133pjf.2;
+        Tue, 13 Apr 2021 22:54:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ibaxQvwScvMe/CiZZSjPkJNeX1y3W7Bhso/qXj/qB90=;
-        b=MOrwxOXe/0XoAmyAK6btSrreOHIl0SqV6QiXimCFtiNOhXMa9pu/dWEi0/N5qpNcoP
-         5pG9pkE1FP4DsvLEPLSPrHlXvOpD9Y/AnKd5H/u1ZXQjjndeQn1HjBbYSYaqsTDIFlMN
-         FmRVHfKluzlJQP4ROSbj+Hjf/wbID+Gds4H7T9quLcLI6a+1rgUMkNYecC8h1LYpsbY4
-         WCnl4kvPIaR7a0TeWgQaXk+zd/vI0gIe/r4obsIffPyg3A4it97BeVjjyC/v2PYt2TuW
-         0ryTonYQ5huEAnH2yFm2XgrnEgtmHCTsGKUVOAqsIzFfeapIVVzg3tJvmzm8f3OILru7
-         jFRQ==
+        bh=hWOlpkJ/oHMUuNQKOxSP4pRWWWHkfXlkyYq4pN3Iwfw=;
+        b=eV9RwBML/PRjQqR1n0+BtU2LXzm8XB260ShL3aBj0rGb8mqAQ5HIrd1T5Rve58YvuW
+         SIIk7vv5DBRW7O7dC/lHRCqzmKJPF9nZlOZw2lDv1A+e5O9lqJqlSGDWLUlYnmtedR67
+         /nvjL5Jo9R1FJzo0680XBKIv32ItVzfRn1n/3VZv11ol8BKja0a+2lCwbwZFL3t03fPl
+         Oo/O/FOy/tZx1FGVeIJdUwRd1irbjVB33ZYuovrXpMiUe/w3Dh7UApkgBqMcZOBrl6V5
+         zzFDA4lLxPlGXVpVL8RwNIiPyjJ5TPzdhL36M3Szrhyq1nKqIrCGQV4o610yc+VWJPG7
+         uQqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ibaxQvwScvMe/CiZZSjPkJNeX1y3W7Bhso/qXj/qB90=;
-        b=XT/4ELH6xEfYkPrtoOMr/3fjcRYtkpmce1m7eo2rwVF4BwFB4qlEoIJ7EGIXi9tab0
-         zVetkBdmzExb78NgjGh4U4jTPLvG9J5LEnMwpW1LNadruurW9c769K2nhCrDrzWp25h7
-         ZHilFjOpeZgYVFR4h+8DEtKqJUNmY7Vn1EHfq/nt+5swTil5z6EOlWw0bMtQMWnL3v91
-         NHtQBU4EmoD2IT3ywTfCID4ecJobo1KiYBAO/Ti6RHdCtGAujr3GzpEfA5SieyPqVRE2
-         ilp9KuRF/c/rnM69rCrjaAisVxH1pvVhMIl4/yQaQ69zLnaw6Lj9iEb7H6ab8XRelDIW
-         4n2g==
-X-Gm-Message-State: AOAM532G6rI6qyjY9+dsd+5yu6IgErngBL5jt589t2+S8s6SFNNp6gcT
-        +hPAB3RQZsqrTUIPTOzviB249M5MSngWULge
-X-Google-Smtp-Source: ABdhPJxpXr+9kvOWkJm3FpqJONqVZKXY00M04fJn78qBiUwY40YERVsxpyNFxFdsykpDnZPQ1/IJSA==
-X-Received: by 2002:a17:90b:368b:: with SMTP id mj11mr1682948pjb.217.1618379697341;
-        Tue, 13 Apr 2021 22:54:57 -0700 (PDT)
+        bh=hWOlpkJ/oHMUuNQKOxSP4pRWWWHkfXlkyYq4pN3Iwfw=;
+        b=NSBNIHq8a6hkvRT4sihJa5BhXWq3NQLcaA0feoVQsW7SQUq4EwhCSRGbbubM1+9dUF
+         ec1rfOujy+g2HYVWYVLGiFRx8yAhnaEnuqKAzH/t+IbAieJgCz48slGbctILQwXtq0DV
+         iRp3Z9yePAHHmGs2yTMYhNy+MAizhrvnAfOLhynZrGUrBAIHsUIijJw6050Sgn8GhtHX
+         bL0W1wmIKnz629aF6RSWf/ujeWdTw6zRZV1XTj4i3TfKumir1PbGPP4Tz1+0b/elwFXC
+         fuScB4OdgnAdmKvfIxA2iMsM3U7pvyLWnzpQKNL6z8SK6WuBrIt79lK+q5GzNkhQ/Hf8
+         q5Uw==
+X-Gm-Message-State: AOAM5304kUtOwxl+n1X9hXrBI3ADeUwzDaqOp2hgXQlGZY7m31Fj7gf2
+        ZVCMblJo/jdVuZc68X4TS2hApQZNts+iu37O
+X-Google-Smtp-Source: ABdhPJzV15VnjGOX2aOSqvqNDWAQYNppbYIYDZvNVmrU+8k4IenEy48TwtU99UFfyZpoTNlc3vVtBQ==
+X-Received: by 2002:a17:90b:78d:: with SMTP id l13mr1765003pjz.182.1618379698413;
+        Tue, 13 Apr 2021 22:54:58 -0700 (PDT)
 Received: from laptop.hsd1.wa.comcast.net ([2601:600:8500:5f14:d627:c51e:516e:a105])
-        by smtp.gmail.com with ESMTPSA id u17sm13728969pfm.113.2021.04.13.22.54.56
+        by smtp.gmail.com with ESMTPSA id u17sm13728969pfm.113.2021.04.13.22.54.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 22:54:56 -0700 (PDT)
+        Tue, 13 Apr 2021 22:54:58 -0700 (PDT)
 From:   Andrei Vagin <avagin@gmail.com>
 To:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
 Cc:     linux-um@lists.infradead.org, criu@openvz.org, avagin@google.com,
@@ -63,9 +63,9 @@ Cc:     linux-um@lists.infradead.org, criu@openvz.org, avagin@google.com,
         Peter Zijlstra <peterz@infradead.org>,
         Richard Weinberger <richard@nod.at>,
         Thomas Gleixner <tglx@linutronix.de>
-Subject: [PATCH 3/4] arch/x86: allow to execute syscalls via process_vm_exec
-Date:   Tue, 13 Apr 2021 22:52:16 -0700
-Message-Id: <20210414055217.543246-4-avagin@gmail.com>
+Subject: [PATCH 4/4] selftests: add tests for process_vm_exec
+Date:   Tue, 13 Apr 2021 22:52:17 -0700
+Message-Id: <20210414055217.543246-5-avagin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210414055217.543246-1-avagin@gmail.com>
 References: <20210414055217.543246-1-avagin@gmail.com>
@@ -75,161 +75,523 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-process_vm_exec allows to execute code in an address space of another
-process. It changes the current address space to the target address
-space and resume the current process with registers from sigcontex that
-is passed in the arguments.
-
-This changes adds the PROCESS_VM_EXEC_SYSCALL flag and if it is set
-process_vm_exec will execute a system call with arguments from sigcontext.
-
-process_vm_exec retuns 0 if the system call has been executed and an error
-code in other cases.
-
-A return code of the system call can be found in a proper register in
-sigcontext.
+Output:
+ $ make run_tests
+ TAP version 13
+ 1..4
+ # selftests: process_vm_exec: process_vm_exec
+ # 1..1
+ # ok 1 275 ns/syscall
+ # # Totals: pass:1 fail:0 xfail:0 xpass:0 skip:0 error:0
+ ok 1 selftests: process_vm_exec: process_vm_exec
+ # selftests: process_vm_exec: process_vm_exec_fault
+ # 1..1
+ # ok 1 789 ns/signal
+ # # Totals: pass:1 fail:0 xfail:0 xpass:0 skip:0 error:0
+ ok 2 selftests: process_vm_exec: process_vm_exec_fault
+ # selftests: process_vm_exec: ptrace_vm_exec
+ # 1..1
+ # ok 1 1378 ns/syscall# Totals: pass:1 fail:0 xfail:0 xpass:0 skip:0 error:0
+ ok 3 selftests: process_vm_exec: ptrace_vm_exec
+ # selftests: process_vm_exec: process_vm_exec_syscall
+ # 1..1
+ # ok 1 write works as expectd
+ # # Totals: pass:1 fail:0 xfail:0 xpass:0 skip:0 error:0
+ ok 4 selftests: process_vm_exec: process_vm_exec_syscall
 
 Signed-off-by: Andrei Vagin <avagin@gmail.com>
 ---
- arch/x86/entry/common.c              |  5 ++++-
- arch/x86/kernel/process_vm_exec.c    | 29 +++++++++++++++++++++++++++-
- include/linux/entry-common.h         |  2 ++
- include/linux/process_vm_exec.h      |  2 ++
- include/uapi/linux/process_vm_exec.h |  8 ++++++++
- kernel/entry/common.c                |  2 +-
- 6 files changed, 45 insertions(+), 3 deletions(-)
- create mode 100644 include/uapi/linux/process_vm_exec.h
+ .../selftests/process_vm_exec/Makefile        |   7 ++
+ tools/testing/selftests/process_vm_exec/log.h |  26 ++++
+ .../process_vm_exec/process_vm_exec.c         | 105 +++++++++++++++++
+ .../process_vm_exec/process_vm_exec_fault.c   | 111 ++++++++++++++++++
+ .../process_vm_exec/process_vm_exec_syscall.c |  81 +++++++++++++
+ .../process_vm_exec/ptrace_vm_exec.c          | 111 ++++++++++++++++++
+ 6 files changed, 441 insertions(+)
+ create mode 100644 tools/testing/selftests/process_vm_exec/Makefile
+ create mode 100644 tools/testing/selftests/process_vm_exec/log.h
+ create mode 100644 tools/testing/selftests/process_vm_exec/process_vm_exec.c
+ create mode 100644 tools/testing/selftests/process_vm_exec/process_vm_exec_fault.c
+ create mode 100644 tools/testing/selftests/process_vm_exec/process_vm_exec_syscall.c
+ create mode 100644 tools/testing/selftests/process_vm_exec/ptrace_vm_exec.c
 
-diff --git a/arch/x86/entry/common.c b/arch/x86/entry/common.c
-index 42eac459b25b..8de02ca19aca 100644
---- a/arch/x86/entry/common.c
-+++ b/arch/x86/entry/common.c
-@@ -40,7 +40,10 @@
- __visible noinstr void do_syscall_64(unsigned long nr, struct pt_regs *regs)
- {
- #ifdef CONFIG_PROCESS_VM_EXEC
--	if (current->exec_mm && current->exec_mm->ctx) {
-+	struct exec_mm *exec_mm = current->exec_mm;
-+
-+	if (exec_mm && exec_mm->ctx &&
-+	    !(exec_mm->flags & PROCESS_VM_EXEC_SYSCALL)) {
- 		kernel_siginfo_t info = {
- 			.si_signo = SIGSYS,
- 			.si_call_addr = (void __user *)KSTK_EIP(current),
-diff --git a/arch/x86/kernel/process_vm_exec.c b/arch/x86/kernel/process_vm_exec.c
-index 28b32330f744..9124b23f1e9b 100644
---- a/arch/x86/kernel/process_vm_exec.c
-+++ b/arch/x86/kernel/process_vm_exec.c
-@@ -11,6 +11,7 @@
- #include <linux/sched/mm.h>
- #include <linux/syscalls.h>
- #include <linux/vmacache.h>
-+#include <linux/entry-common.h>
- #include <linux/process_vm_exec.h>
- 
- static void swap_mm(struct mm_struct *prev_mm, struct mm_struct *target_mm)
-@@ -73,7 +74,7 @@ SYSCALL_DEFINE6(process_vm_exec, pid_t, pid, struct sigcontext __user *, uctx,
- 
- 	sigset_t mask;
- 
--	if (flags)
-+	if (flags & ~PROCESS_VM_EXEC_SYSCALL)
- 		return -EINVAL;
- 
- 	if (sizemask != sizeof(sigset_t))
-@@ -97,6 +98,9 @@ SYSCALL_DEFINE6(process_vm_exec, pid_t, pid, struct sigcontext __user *, uctx,
- 	}
- 
- 	current_pt_regs()->ax = 0;
-+	if (flags & PROCESS_VM_EXEC_SYSCALL)
-+		syscall_exit_to_user_mode_prepare(current_pt_regs());
-+
- 	ret = swap_vm_exec_context(uctx);
- 	if (ret < 0)
- 		goto err_mm_put;
-@@ -117,6 +121,29 @@ SYSCALL_DEFINE6(process_vm_exec, pid_t, pid, struct sigcontext __user *, uctx,
- 	mmgrab(prev_mm);
- 	swap_mm(prev_mm, mm);
- 
-+	if (flags & PROCESS_VM_EXEC_SYSCALL) {
-+		struct pt_regs *regs = current_pt_regs();
-+		kernel_siginfo_t info;
-+		int sysno;
-+
-+		regs->orig_ax = regs->ax;
-+		regs->ax = -ENOSYS;
-+		sysno = syscall_get_nr(current, regs);
-+
-+		do_syscall_64(sysno, regs);
-+
-+		restore_vm_exec_context(regs);
-+		info.si_signo = SIGSYS;
-+		info.si_call_addr = (void __user *)KSTK_EIP(current);
-+		info.si_arch = syscall_get_arch(current);
-+		info.si_syscall = sysno;
-+		ret = copy_siginfo_to_user(current->exec_mm->siginfo, &info);
-+		current_pt_regs()->orig_ax = __NR_process_vm_exec;
-+		current_pt_regs()->ax = -ENOSYS;
-+		syscall_enter_from_user_mode_work(current_pt_regs(), current_pt_regs()->orig_ax);
-+		return ret;
-+	}
-+
- 	ret = current_pt_regs()->ax;
- 
- 	return ret;
-diff --git a/include/linux/entry-common.h b/include/linux/entry-common.h
-index 474f29638d2c..d0ebbe9ca9e4 100644
---- a/include/linux/entry-common.h
-+++ b/include/linux/entry-common.h
-@@ -285,6 +285,8 @@ static inline void arch_syscall_exit_tracehook(struct pt_regs *regs, bool step)
- }
- #endif
- 
-+void syscall_exit_to_user_mode_prepare(struct pt_regs *regs);
-+
- /**
-  * syscall_exit_to_user_mode - Handle work before returning to user mode
-  * @regs:	Pointer to currents pt_regs
-diff --git a/include/linux/process_vm_exec.h b/include/linux/process_vm_exec.h
-index a02535fbd5c8..2e04b4875a92 100644
---- a/include/linux/process_vm_exec.h
-+++ b/include/linux/process_vm_exec.h
-@@ -2,6 +2,8 @@
- #ifndef _LINUX_PROCESS_VM_EXEC_H
- #define _LINUX_PROCESS_VM_EXEC_H
- 
-+#include <uapi/linux/process_vm_exec.h>
-+
- struct exec_mm {
- 	struct sigcontext *ctx;
- 	struct mm_struct *mm;
-diff --git a/include/uapi/linux/process_vm_exec.h b/include/uapi/linux/process_vm_exec.h
+diff --git a/tools/testing/selftests/process_vm_exec/Makefile b/tools/testing/selftests/process_vm_exec/Makefile
 new file mode 100644
-index 000000000000..35465b5d3ebf
+index 000000000000..bdf7fcf0fdd3
 --- /dev/null
-+++ b/include/uapi/linux/process_vm_exec.h
-@@ -0,0 +1,8 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++++ b/tools/testing/selftests/process_vm_exec/Makefile
+@@ -0,0 +1,7 @@
++# SPDX-License-Identifier: GPL-2.0
 +
-+#ifndef _UAPI_LINUX_PROCESS_VM_EXEC_H
-+#define _UAPI_LINUX_PROCESS_VM_EXEC_H
++UNAME_M := $(shell uname -m)
++TEST_GEN_PROGS_x86_64 := process_vm_exec process_vm_exec_fault ptrace_vm_exec process_vm_exec_syscall
++TEST_GEN_PROGS += $(TEST_GEN_PROGS_$(UNAME_M))
 +
-+#define PROCESS_VM_EXEC_SYSCALL 0x1UL
++include ../lib.mk
+diff --git a/tools/testing/selftests/process_vm_exec/log.h b/tools/testing/selftests/process_vm_exec/log.h
+new file mode 100644
+index 000000000000..ef268c2cf2b8
+--- /dev/null
++++ b/tools/testing/selftests/process_vm_exec/log.h
+@@ -0,0 +1,26 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++#ifndef __SELFTEST_PROCESS_VM_EXEC_LOG_H__
++#define __SELFTEST_PROCESS_VM_EXEC_LOG_H__
++
++#define pr_msg(fmt, lvl, ...)						\
++	ksft_print_msg("[%s] (%s:%d)\t" fmt "\n",			\
++			lvl, __FILE__, __LINE__, ##__VA_ARGS__)
++
++#define pr_p(func, fmt, ...)	func(fmt ": %m", ##__VA_ARGS__)
++
++#define pr_err(fmt, ...)						\
++	({								\
++		ksft_test_result_error(fmt "\n", ##__VA_ARGS__);		\
++		-1;							\
++	})
++
++#define pr_fail(fmt, ...)					\
++	({							\
++		ksft_test_result_fail(fmt "\n", ##__VA_ARGS__);	\
++		-1;						\
++	})
++
++#define pr_perror(fmt, ...)	pr_p(pr_err, fmt, ##__VA_ARGS__)
 +
 +#endif
-diff --git a/kernel/entry/common.c b/kernel/entry/common.c
-index e9e2df3f3f9e..c325a2e5ecf4 100644
---- a/kernel/entry/common.c
-+++ b/kernel/entry/common.c
-@@ -235,7 +235,7 @@ static void syscall_exit_work(struct pt_regs *regs, unsigned long ti_work)
-  * Syscall specific exit to user mode preparation. Runs with interrupts
-  * enabled.
-  */
--static void syscall_exit_to_user_mode_prepare(struct pt_regs *regs)
-+void syscall_exit_to_user_mode_prepare(struct pt_regs *regs)
- {
- 	u32 cached_flags = READ_ONCE(current_thread_info()->flags);
- 	unsigned long nr = syscall_get_nr(current, regs);
+diff --git a/tools/testing/selftests/process_vm_exec/process_vm_exec.c b/tools/testing/selftests/process_vm_exec/process_vm_exec.c
+new file mode 100644
+index 000000000000..aa4009c43e01
+--- /dev/null
++++ b/tools/testing/selftests/process_vm_exec/process_vm_exec.c
+@@ -0,0 +1,105 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#define _GNU_SOURCE
++#include <sys/types.h>
++#include <sys/wait.h>
++#include <signal.h>
++#include <stdlib.h>
++#include <unistd.h>
++#include <stdio.h>
++#include <sys/user.h>
++#include <sys/uio.h>
++#include <sys/prctl.h>
++#include "asm/unistd.h"
++#include <time.h>
++#include <sys/mman.h>
++
++#include "../kselftest.h"
++#include "log.h"
++
++#ifndef __NR_process_vm_exec
++#define __NR_process_vm_exec 441
++#endif
++
++#define TEST_SYSCALL 123
++#define TEST_SYSCALL_RET 456
++#define TEST_MARKER 789
++#define TEST_TIMEOUT 5
++#define TEST_STACK_SIZE 65536
++
++static inline long __syscall1(long n, long a1)
++{
++	unsigned long ret;
++
++	__asm__ __volatile__ ("syscall" : "=a"(ret) : "a"(n), "D"(a1) : "rcx", "r11", "memory");
++
++	return ret;
++}
++
++int marker;
++
++static void guest(void)
++{
++	while (1)
++		if (__syscall1(TEST_SYSCALL, marker) != TEST_SYSCALL_RET)
++			abort();
++}
++
++int main(int argc, char **argv)
++{
++	struct sigcontext ctx = {};
++	struct timespec start, cur;
++	int status, ret;
++	pid_t pid;
++	long sysnr;
++	void *stack;
++
++	ksft_set_plan(1);
++
++	stack = mmap(NULL, TEST_STACK_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, 0, 0);
++	if (stack == MAP_FAILED)
++		return pr_perror("mmap");
++
++	pid  = fork();
++	if (pid == 0) {
++		prctl(PR_SET_PDEATHSIG, SIGKILL, 0, 0, 0);
++		marker = TEST_MARKER;
++		kill(getpid(), SIGSTOP);
++		abort();
++		return 0;
++	}
++
++	ctx.rip = (long)guest;
++	ctx.rsp = (long)stack + TEST_STACK_SIZE;
++	ctx.cs = 0x33;
++
++	sysnr = 0;
++	clock_gettime(CLOCK_MONOTONIC, &start);
++	while (1) {
++		unsigned long long sigmask = 0xffffffff;
++		siginfo_t siginfo;
++
++		clock_gettime(CLOCK_MONOTONIC, &cur);
++		if (start.tv_sec + TEST_TIMEOUT < cur.tv_sec ||
++		    (start.tv_sec + TEST_TIMEOUT == cur.tv_sec &&
++		     start.tv_nsec < cur.tv_nsec))
++			break;
++
++		ret = syscall(__NR_process_vm_exec, pid, &ctx, 0, &siginfo, &sigmask, 8);
++#ifdef __DEBUG
++		ksft_print_msg("ret %d signo %d sysno %d ip %lx\n",
++			ret, siginfo.si_signo, siginfo.si_syscall, ctx.rip);
++#endif
++		if (ret != 0)
++			pr_fail("unexpected return code: ret %d errno %d", ret, errno);
++		if (siginfo.si_signo != SIGSYS)
++			pr_fail("unexpected signal: %d", siginfo.si_signo);
++		if (siginfo.si_syscall != TEST_SYSCALL)
++			pr_fail("unexpected syscall: %d", siginfo.si_syscall);
++		ctx.rax = TEST_SYSCALL_RET;
++		sysnr++;
++	}
++	ksft_test_result_pass("%ld ns/syscall\n", 1000000000 / sysnr);
++	ksft_exit_pass();
++	return 0;
++}
+diff --git a/tools/testing/selftests/process_vm_exec/process_vm_exec_fault.c b/tools/testing/selftests/process_vm_exec/process_vm_exec_fault.c
+new file mode 100644
+index 000000000000..b2c49095f386
+--- /dev/null
++++ b/tools/testing/selftests/process_vm_exec/process_vm_exec_fault.c
+@@ -0,0 +1,111 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#define _GNU_SOURCE
++#include <stdio.h>
++#include <stdlib.h>
++#include <signal.h>
++#include <time.h>
++#include <unistd.h>
++#include <sys/types.h>
++#include <sys/mman.h>
++#include <sys/prctl.h>
++#include <sys/wait.h>
++#include <sys/user.h>
++#include <sys/uio.h>
++#include <asm/unistd.h>
++
++#include "../kselftest.h"
++#include "log.h"
++
++#ifndef __NR_process_vm_exec
++#define __NR_process_vm_exec 441
++#endif
++
++#define TEST_TIMEOUT 5
++#define TEST_STACK_SIZE 65536
++
++#define TEST_VAL 0xaabbccddee
++
++unsigned long test_val;
++
++static inline void fault(unsigned long addr)
++{
++	unsigned long val = 0;
++
++	__asm__ __volatile__ (
++	"movq %%rcx, (%%rax)\n"
++	:
++	: "a"(addr), "c"(val)
++	:);
++}
++
++
++int marker;
++
++static void guest(void)
++{
++	unsigned long addr = 0;
++
++	while (1) {
++		addr = (addr + 1) % 8;
++		fault(addr);
++		if (test_val != TEST_VAL)
++			_exit(1);
++	}
++}
++
++int main(char argc, char **argv)
++{
++	siginfo_t siginfo;
++	unsigned long long sigmask = 0xffffffff;
++	struct sigcontext ctx = {};
++	struct timespec start, cur;
++	unsigned long addr;
++	int status, ret;
++	char *stack;
++	pid_t pid;
++	long faults;
++
++	ksft_set_plan(1);
++
++	stack = mmap(NULL, TEST_STACK_SIZE, PROT_READ | PROT_WRITE,
++		     MAP_SHARED | MAP_ANONYMOUS, 0, 0);
++	if (stack == MAP_FAILED)
++		return pr_perror("mmap");
++
++	pid  = fork();
++	if (pid == 0) {
++		prctl(PR_SET_PDEATHSIG, SIGKILL, 0, 0, 0);
++		marker = 789;
++		kill(getpid(), SIGSTOP);
++		abort();
++		return 0;
++	}
++
++	ctx.rip = (long)guest;
++	ctx.rsp = (long)stack + TEST_STACK_SIZE;
++	ctx.cs = 0x33;
++
++	faults = 0;
++	addr = 0;
++	clock_gettime(CLOCK_MONOTONIC, &start);
++	while (1) {
++		addr = (addr + 1) % 8;
++
++		clock_gettime(CLOCK_MONOTONIC, &cur);
++		if (start.tv_sec + TEST_TIMEOUT < cur.tv_sec ||
++		    (start.tv_sec + TEST_TIMEOUT == cur.tv_sec &&
++		     start.tv_nsec < cur.tv_nsec))
++			break;
++
++		ret = syscall(__NR_process_vm_exec, pid, &ctx, 0, &siginfo, &sigmask, 8);
++		if (addr % 8 != ctx.rax)
++			return pr_fail("unexpected address: %lx", addr);
++		ctx.rax = (long)&test_val;
++		ctx.rcx = TEST_VAL;
++		faults++;
++	}
++	ksft_test_result_pass("%ld ns/signal\n", 1000000000 / faults);
++	ksft_exit_pass();
++	return 0;
++}
+diff --git a/tools/testing/selftests/process_vm_exec/process_vm_exec_syscall.c b/tools/testing/selftests/process_vm_exec/process_vm_exec_syscall.c
+new file mode 100644
+index 000000000000..c0a7f6ee5b1a
+--- /dev/null
++++ b/tools/testing/selftests/process_vm_exec/process_vm_exec_syscall.c
+@@ -0,0 +1,81 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#define _GNU_SOURCE
++#include <signal.h>
++#include <stdlib.h>
++#include <stdio.h>
++#include <time.h>
++#include <unistd.h>
++#include <sys/types.h>
++#include <sys/wait.h>
++#include <sys/prctl.h>
++#include <sys/user.h>
++#include <sys/uio.h>
++#include <asm/unistd.h>
++
++#include "../kselftest.h"
++#include "log.h"
++
++#ifndef __NR_process_vm_exec
++#define __NR_process_vm_exec 441
++#endif
++
++#ifndef PROCESS_VM_EXEC_SYSCALL
++#define PROCESS_VM_EXEC_SYSCALL 0x1
++#endif
++
++#define TEST_VAL 0x1e511e51
++
++int test_val = TEST_VAL;
++
++int main(int argc, char **argv)
++{
++	struct sigcontext ctx = {};
++	unsigned long long sigmask;
++	int ret, p[2], val;
++	siginfo_t siginfo;
++	pid_t pid;
++
++	ksft_set_plan(1);
++
++	pid  = fork();
++	if (pid < 0)
++		return pr_perror("fork");
++	if (pid == 0) {
++		prctl(PR_SET_PDEATHSIG, SIGKILL, 0, 0, 0);
++		kill(getpid(), SIGSTOP);
++		return 0;
++	}
++
++	test_val = 0;
++	if (pipe(p))
++		return pr_perror("pipe");
++
++	ctx.rax = __NR_write;
++	ctx.rdi = p[1];
++	ctx.rsi = (unsigned long) &test_val;
++	ctx.rdx = sizeof(test_val);
++	ctx.r10 = 0;
++	ctx.r8 = 0;
++	ctx.r9 = 0;
++	sigmask = 0xffffffff;
++	ret = syscall(__NR_process_vm_exec, pid, &ctx, PROCESS_VM_EXEC_SYSCALL,
++		      &siginfo, &sigmask, 8);
++	if (ret != 0)
++		return pr_perror("process_vm_exec");
++	if (siginfo.si_signo != SIGSYS)
++		return pr_fail("unexpected signal: %d", siginfo.si_signo);
++	if (ctx.rax != sizeof(test_val))
++		pr_fail("unexpected rax: %lx", ctx.rax);
++	if (kill(pid, SIGKILL))
++		return pr_perror("kill");
++	if (wait(NULL) != pid)
++		return pr_perror("kill");
++	if (read(p[0], &val, sizeof(val)) != sizeof(val))
++		pr_perror("read");
++	if (val != TEST_VAL)
++		pr_fail("unexpected data: %x", val);
++	ksft_test_result_pass("process_vm_exec(..., PROCESS_VM_EXEC_SYSCALL, ...) \n");
++	ksft_exit_pass();
++	return 0;
++}
+diff --git a/tools/testing/selftests/process_vm_exec/ptrace_vm_exec.c b/tools/testing/selftests/process_vm_exec/ptrace_vm_exec.c
+new file mode 100644
+index 000000000000..aac14c2e8f11
+--- /dev/null
++++ b/tools/testing/selftests/process_vm_exec/ptrace_vm_exec.c
+@@ -0,0 +1,111 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <sys/types.h>
++#include <sys/wait.h>
++#include <signal.h>
++#include <sys/ptrace.h>
++#include <stdlib.h>
++#include <unistd.h>
++#include <linux/unistd.h>
++#include <stdio.h>
++#include <sys/user.h>
++#include <sys/uio.h>
++#include <time.h>
++
++#include "../kselftest.h"
++#include "log.h"
++
++static inline long __syscall1(long n, long a1)
++{
++	unsigned long ret;
++
++	__asm__ __volatile__ ("syscall"
++		: "=a"(ret)
++		: "a"(n), "D"(a1)
++		: "rcx", "r11", "memory");
++	return ret;
++}
++
++#define TEST_SYSCALL 444
++#define TEST_SYSCALL_RET 555
++#define TEST_MARKER 789
++#define TEST_TIMEOUT 5
++
++static int marker;
++
++static void guest(void)
++{
++	while (1) {
++		int ret;
++
++		ret = __syscall1(TEST_SYSCALL, marker);
++		if (ret != TEST_SYSCALL_RET)
++			abort();
++	}
++}
++
++int main(int argc, char **argv)
++{
++	struct user_regs_struct regs = {};
++	struct timespec start, cur;
++	int status;
++	long sysnr;
++	pid_t pid;
++
++	ksft_set_plan(1);
++
++	pid  = fork();
++	if (pid == 0) {
++		marker = TEST_MARKER;
++		kill(getpid(), SIGSTOP);
++		/* unreachable */
++		abort();
++		return 0;
++	}
++
++	if (waitpid(pid, &status, WUNTRACED) != pid)
++		return pr_perror("waidpid");
++	if (ptrace(PTRACE_ATTACH, pid, 0, 0))
++		return pr_perror("PTRACE_ATTACH");
++	if (wait(&status) != pid)
++		return pr_perror("waidpid");
++	if (ptrace(PTRACE_CONT, pid, 0, 0))
++		return pr_perror("PTRACE_CONT");
++	if (waitpid(pid, &status, 0) != pid)
++		return pr_perror("waidpid");
++
++	if (ptrace(PTRACE_SETOPTIONS, pid, 0, PTRACE_O_EXITKILL))
++		return pr_perror("PTRACE_SETOPTIONS");
++	if (ptrace(PTRACE_GETREGS, pid, NULL, &regs))
++		return pr_perror("PTRACE_SETREGS");
++	regs.rip = (long)guest;
++
++	clock_gettime(CLOCK_MONOTONIC, &start);
++	for (sysnr = 0; ; sysnr++) {
++		int status;
++
++		clock_gettime(CLOCK_MONOTONIC, &cur);
++		if (start.tv_sec + TEST_TIMEOUT < cur.tv_sec ||
++		    (start.tv_sec + TEST_TIMEOUT == cur.tv_sec &&
++		     start.tv_nsec < cur.tv_nsec))
++			break;
++		if (ptrace(PTRACE_SETREGS, pid, NULL, &regs))
++			return pr_perror("PTRACE_SETREGS");
++		if (ptrace(PTRACE_SYSEMU, pid, 0, 0))
++			return pr_perror("PTRACE_SYSEMU");
++		if (waitpid(pid, &status, 0) != pid)
++			return pr_perror("waitpid");
++		if (!WIFSTOPPED(status) || WSTOPSIG(status) != SIGTRAP)
++			return pr_err("unexpected status: %d", status);
++		if (ptrace(PTRACE_GETREGS, pid, NULL, &regs))
++			return pr_perror("PTRACE_GETREGS: %d", regs.rdi);
++		if (regs.rdi != TEST_MARKER)
++			return pr_err("unexpected marker: %d", regs.rdi);
++		if (regs.orig_rax != TEST_SYSCALL)
++			return pr_err("unexpected syscall: %d", regs.orig_rax);
++		regs.rax = TEST_SYSCALL_RET;
++	}
++	ksft_test_result_pass("%ld ns/syscall\n", 1000000000 / sysnr);
++	ksft_exit_pass();
++	return 0;
++}
 -- 
 2.29.2
 
