@@ -2,146 +2,121 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C510835F322
-	for <lists+linux-api@lfdr.de>; Wed, 14 Apr 2021 14:06:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C0DC35F376
+	for <lists+linux-api@lfdr.de>; Wed, 14 Apr 2021 14:23:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347372AbhDNMGg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 14 Apr 2021 08:06:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59096 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233651AbhDNMGf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 14 Apr 2021 08:06:35 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAB40C061574;
-        Wed, 14 Apr 2021 05:06:13 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f0e8f000d8b3334e5756a5b.dip0.t-ipconnect.de [IPv6:2003:ec:2f0e:8f00:d8b:3334:e575:6a5b])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0ACE51EC0258;
-        Wed, 14 Apr 2021 14:06:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1618401971;
+        id S1350764AbhDNMVN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 14 Apr 2021 08:21:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24629 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233040AbhDNMVM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 14 Apr 2021 08:21:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1618402850;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=0bOwwcL9Kvry/JIj9MWAQh0BzulfnML/XsdeCNjF41M=;
-        b=EsuYHJF3Mmmb93XzYTaMkibkCmffFwBslbVFH03vanOMA4FczPFO8Se8D0necJ6pPRe4eC
-        vlU/Opqz1DYiJYhxQRuxEwS6CSX+TH9OaavRMct5Wi5VSGSGX30KGZnJI+9F2RmPi4TjgY
-        WkJ4fvykBHrcHCYEHYJPvusUTO96L9k=
-Date:   Wed, 14 Apr 2021 14:06:08 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     "Bae, Chang Seok" <chang.seok.bae@intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        "Cooper, Andrew" <andrew.cooper3@citrix.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        "Gross, Jurgen" <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>, X86 ML <x86@kernel.org>,
-        "Brown, Len" <len.brown@intel.com>,
-        "Hansen, Dave" <dave.hansen@intel.com>,
-        "H. J. Lu" <hjl.tools@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Carlos O'Donell <carlos@redhat.com>,
-        "Luck, Tony" <tony.luck@intel.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        libc-alpha <libc-alpha@sourceware.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
+        bh=NO4FGUOTnvyNv6ZEsf7CqScF3ifaTTajd0Qf2emlRl0=;
+        b=YpS1w1cuS3xQcpeGuRymmMxzhteusWRnHMQGAS8iquKnbbXZ3mpk7McTt+ojglvvSVusfz
+        eqLzd9ip+oUcSHiFaTD3/iE98RBgPqnSWBCWFF1XNSMPgyTctMqnHA05N/4OcFL5mzZqbm
+        8ZxxW6ybr1XpNXFFceGsu0tj9EY8tJw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-424-MbvmUyxeMQSe91Bt0GGgJQ-1; Wed, 14 Apr 2021 08:20:46 -0400
+X-MC-Unique: MbvmUyxeMQSe91Bt0GGgJQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03C101006C81;
+        Wed, 14 Apr 2021 12:20:44 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (ovpn-112-148.ams2.redhat.com [10.36.112.148])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 571D210016FE;
+        Wed, 14 Apr 2021 12:20:34 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Jann Horn <jannh@google.com>
+Cc:     Andrei Vagin <avagin@gmail.com>,
+        kernel list <linux-kernel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v7 5/6] x86/signal: Detect and prevent an alternate
- signal stack overflow
-Message-ID: <20210414120608.GE10709@zn.tnic>
-References: <20210316065215.23768-1-chang.seok.bae@intel.com>
- <20210316065215.23768-6-chang.seok.bae@intel.com>
- <CALCETrU_n+dP4GaUJRQoKcDSwaWL9Vc99Yy+N=QGVZ_tx_j3Zg@mail.gmail.com>
- <20210325185435.GB32296@zn.tnic>
- <CALCETrXQZuvJQrHDMst6PPgtJxaS_sPk2JhwMiMDNPunq45YFg@mail.gmail.com>
- <20210326103041.GB25229@zn.tnic>
- <DB68C825-25F9-48F9-AFAD-4F6C7DCA11F8@intel.com>
- <20210414101250.GD10709@zn.tnic>
- <87o8eh9k7w.fsf@oldenburg.str.redhat.com>
+        linux-um@lists.infradead.org, criu@openvz.org,
+        Andrei Vagin <avagin@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        Ingo Molnar <mingo@redhat.com>, Jeff Dike <jdike@addtoit.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH 0/4 POC] Allow executing code and syscalls in another
+ address space
+References: <20210414055217.543246-1-avagin@gmail.com>
+        <87blahb1pr.fsf@oldenburg.str.redhat.com>
+        <CAG48ez2z0a4x2GfHv9L0HmO1-uzsKtfOF40erPb8ADR-m+itbg@mail.gmail.com>
+Date:   Wed, 14 Apr 2021 14:20:48 +0200
+In-Reply-To: <CAG48ez2z0a4x2GfHv9L0HmO1-uzsKtfOF40erPb8ADR-m+itbg@mail.gmail.com>
+        (Jann Horn's message of "Wed, 14 Apr 2021 13:24:30 +0200")
+Message-ID: <874kg99hwf.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87o8eh9k7w.fsf@oldenburg.str.redhat.com>
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Apr 14, 2021 at 01:30:43PM +0200, Florian Weimer wrote:
-> Is this discussion about better behavior (at least diagnostics) for
-> existing applications, without any code changes?  Or an alternative
-> programming model?
+* Jann Horn:
 
-Former.
+> On Wed, Apr 14, 2021 at 12:27 PM Florian Weimer <fweimer@redhat.com> wrot=
+e:
+>>
+>> * Andrei Vagin:
+>>
+>> > We already have process_vm_readv and process_vm_writev to read and wri=
+te
+>> > to a process memory faster than we can do this with ptrace. And now it
+>> > is time for process_vm_exec that allows executing code in an address
+>> > space of another process. We can do this with ptrace but it is much
+>> > slower.
+>> >
+>> > =3D Use-cases =3D
+>>
+>> We also have some vaguely related within the same address space: running
+>> code on another thread, without modifying its stack, while it has signal
+>> handlers blocked, and without causing system calls to fail with EINTR.
+>> This can be used to implement certain kinds of memory barriers.
+>
+> That's what the membarrier() syscall is for, right? Unless you don't
+> want to register all threads for expedited membarrier use?
 
-> Does noavx512 acutally reduce the XSAVE size to AVX2 levels?
+membarrier is not sufficiently powerful for revoking biased locks, for
+example.
 
-Yeah.
+For the EINTR issue, <https://github.com/golang/go/issues/38836> is an
+example.  I believe CIFS has since seen a few fixes (after someone
+reported that tar on CIFS wouldn't work because the SIGCHLD causing
+utimensat to fail=E2=80=94and there isn't even a signal handler for SIGCHLD=
+!),
+but the time it took to get to this point doesn't give me confidence
+that it is safe to send signals to a thread that is running unknown
+code.
 
-> Or would you need noxsave?
+But as you explained regarding the set*id broadcast, it seems that if we
+had this run-on-another-thread functionality, we would likely encounter
+issues similar to those with SA_RESTART.  We don't see the issue with
+set*id today because it's a rare operation, and multi-threaded file
+servers that need to change credentials frequently opt out of the set*id
+broadcast anyway.  (What I have in mind is a future world where any
+printf call, any malloc call, can trigger such a broadcast.)
 
-I don't think so.
+The cross-VM CRIU scenario would probably somewhere in between (not
+quite the printf/malloc level, but more frequent than set*id).
 
-> One possibility is that the sigaltstack size check prevents application
-> from running which work just fine today because all they do is install a
-> stack overflow handler, and stack overflow does not actually happen.
+Thanks,
+Florian
 
-So sigaltstack(2) says in the NOTES:
-
-       Functions  called  from  a signal handler executing on an alternate signal stack
-       will also use the alternate signal stack.  (This also applies  to  any  handlers
-       invoked for other signals while the process is executing on the alternate signal
-       stack.)  Unlike the standard stack, the system does not automatically extend the
-       alternate  signal  stack.   Exceeding the allocated size of the alternate signal
-       stack will lead to unpredictable results.
-
-> So if sigaltstack fails and the application checks the result of the
-> system call, it probably won't run at all. Shifting the diagnostic to
-> the pointer where the signal would have to be delivered is perhaps the
-> only thing that can be done.
-
-So using the example from the same manpage:
-
-       The most common usage of an alternate signal stack is to handle the SIGSEGV sig‐
-       nal that is generated if the space available for the normal process stack is ex‐
-       hausted: in this case, a signal handler for SIGSEGV cannot  be  invoked  on  the
-       process stack; if we wish to handle it, we must use an alternate signal stack.
-
-and considering these "unpredictable results" would it make sense or
-even be at all possible to return SIGFAIL from that SIGSEGV signal
-handler which should run on the sigaltstack but that sigaltstack
-overflows?
-
-I think we wanna be able to tell the process through that previously
-registered SIGSEGV handler which is supposed to run on the sigaltstack,
-that that stack got overflowed.
-
-Or is this use case obsolete and this is not what people do at all?
-
-> As for SIGFAIL in particular, I don't think there are any leftover
-> signal numbers.  It would need a prctl to assign the signal number, and
-> I'm not sure if there is a useful programming model because signals do
-> not really compose well even today.  SIGFAIL adds another point where
-> libraries need to collaborate, and we do not have a mechanism for that.
-> (This is about what Rich Felker termed “library-safe code”, proper
-> maintenance of process-wide resources such as the current directory.)
-
-Oh fun.
-
-I guess if Linux goes and does something, people would adopt it and
-it'll become standard. :-P
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
