@@ -2,144 +2,146 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F94C35ED67
-	for <lists+linux-api@lfdr.de>; Wed, 14 Apr 2021 08:46:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F2F235EDA9
+	for <lists+linux-api@lfdr.de>; Wed, 14 Apr 2021 08:58:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349280AbhDNGoZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 14 Apr 2021 02:44:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44384 "EHLO
+        id S1349322AbhDNGra (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 14 Apr 2021 02:47:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346389AbhDNGoT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 14 Apr 2021 02:44:19 -0400
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9487AC06138C
-        for <linux-api@vger.kernel.org>; Tue, 13 Apr 2021 23:43:58 -0700 (PDT)
-Received: by mail-qk1-x72b.google.com with SMTP id f19so2768237qka.8
-        for <linux-api@vger.kernel.org>; Tue, 13 Apr 2021 23:43:58 -0700 (PDT)
+        with ESMTP id S232285AbhDNGra (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 14 Apr 2021 02:47:30 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFBE6C061574
+        for <linux-api@vger.kernel.org>; Tue, 13 Apr 2021 23:47:08 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id x19so935930lfa.2
+        for <linux-api@vger.kernel.org>; Tue, 13 Apr 2021 23:47:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:from:to:cc:subject:in-reply-to:message-id:references
-         :user-agent:mime-version;
-        bh=xAItGVctj4Ym5XgJXrEHjFWuIEiXbFDkgH2LTVJTlqw=;
-        b=boogogHOP6aMxYaO4TKu7w6/UT0zb6tK49kFGEqd/tGljpv/chIVdkvDoZiKgvcWl3
-         uD72xEs3pGMozk801LATYIGOzSooQdo333X4M4rD3PNeWeoZ9/oX6LUPDbjvhVvQyG6/
-         nTt5wmIPnMoq8lxe0TYVtm4DE/rQlDzKDa0fCpcwtw5WUsLaifXWcqsMidIkzaY8/9og
-         +s8FqQNRmO6BXRBVpR03kz2epvzqQrKFmi5Hh/Dr9nzx9eIzWvOC83DKTQkse5T5QfKN
-         OwqGrAsqVhMbFN/3vaxP0hsIwcf4UGB3beOYirKF+LBu4y8XLIbOcMpkmguDaeVt3yZa
-         ZVXQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=o7YUQsFXpVVzDPEGdF/U6Rn3Tg4j4C3osu9eHf3orK8=;
+        b=XFdPNvxHWkKqyNvtRYRixrne43Ud5Nv45e7x2J2k1gwoawHyEst2zAorc/4jV6vHD1
+         oyXh7R900sVsURqzY9z5CF9GdkWfPWZBTZqjaLkdE+ZOtopofHjjAdYzCXioCmykjnvF
+         +1pYiMxqkkSP8v9lYZAzGbskYFWnEcuw7NyeylG0jbp/LC0agt2r/lo+yHJ8bwLCYupV
+         eb/9FJUNPS1ay4ujpaR1YQfm4qOxruB9WA0oGJjROfcSRJex5azES4JtqykbhYmKt8rW
+         QA2UEneBNegtkiA4ckUfJ6uBsw1Q555Bx3vZ97CDQps9ybNI3bz1X40h03mZHwgE56hC
+         npqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
-         :references:user-agent:mime-version;
-        bh=xAItGVctj4Ym5XgJXrEHjFWuIEiXbFDkgH2LTVJTlqw=;
-        b=Q5ivelvFWImW3Zp4dald9zNRZIMPalA1YDp0MmJshI6qJCcT+mH3aOJPOTm0Fk7Mmb
-         8hobovliQXMiegyAeiURhXfNBc1FqBHRE2LcLMns6LH0haXsG6sVaiXpqO+WM6AfnIUj
-         Uuv0pMeePEyJpS9N11TruNZWQ199yAj7dmMOw0HaI89vBDDzC8rafn7PJKi2v1yl+eXe
-         6zhrqB7msmqwKZ3u212/dDq7y+7ztXvY3ZqWwkGX7yLIuR2xtsdfl1Bk44EbbtJ/LGek
-         HwOsXQOEWVLMSOr5GuwZu3R7kBc/rRKtBx4GOKoKrsF0UTBgbUUElPxEmROWQs2Bzuc9
-         bUlA==
-X-Gm-Message-State: AOAM532k+hSEgFBIbh+ulUbOT+FWmgIND/rlIH0wYIJBZd1ojUCrhnrV
-        ZHMOKRgB/akg59kjABll01afdA==
-X-Google-Smtp-Source: ABdhPJyCbITTz5lmswPHeW0wVM8gnjbv6Zo4xmnNDnf/pa88GLZJNPjvZPoeIsTQcCXPoW3nk85tvw==
-X-Received: by 2002:ae9:e113:: with SMTP id g19mr34615511qkm.480.1618382637457;
-        Tue, 13 Apr 2021 23:43:57 -0700 (PDT)
-Received: from eggly.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id x22sm5174625qtq.93.2021.04.13.23.43.55
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Tue, 13 Apr 2021 23:43:57 -0700 (PDT)
-Date:   Tue, 13 Apr 2021 23:43:41 -0700 (PDT)
-From:   Hugh Dickins <hughd@google.com>
-X-X-Sender: hugh@eggly.anvils
-To:     Axel Rasmussen <axelrasmussen@google.com>
-cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Hugh Dickins <hughd@google.com>,
-        Jerome Glisse <jglisse@redhat.com>,
-        Joe Perches <joe@perches.com>,
-        Lokesh Gidra <lokeshgidra@google.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Peter Xu <peterx@redhat.com>, Shaohua Li <shli@fb.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Wang Qing <wangqing@vivo.com>, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-        Brian Geffon <bgeffon@google.com>,
-        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
-        Mina Almasry <almasrymina@google.com>,
-        Oliver Upton <oupton@google.com>
-Subject: Re: [PATCH v2 1/9] userfaultfd/hugetlbfs: avoid including userfaultfd_k.h
- in hugetlb.h
-In-Reply-To: <20210413051721.2896915-2-axelrasmussen@google.com>
-Message-ID: <alpine.LSU.2.11.2104132336001.9086@eggly.anvils>
-References: <20210413051721.2896915-1-axelrasmussen@google.com> <20210413051721.2896915-2-axelrasmussen@google.com>
-User-Agent: Alpine 2.11 (LSU 23 2013-08-11)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=o7YUQsFXpVVzDPEGdF/U6Rn3Tg4j4C3osu9eHf3orK8=;
+        b=RKSbpJHP4A/mVURjMs42xk9CwoYIedBLaM2fuywzOEojZhz8pA+kOiyJpSxVfPbxwG
+         9/NDzGzfi+g+wy5AK7Rzx/m/H4L/nme9tol6h6u6UM0iMkqapIq0yU15IyGNxD20Gk8V
+         hR6Nnmz8Wx0YiylMV3Bg89ujt6ig69SjEyJ9jTCJjcpCxOB8z5HRBP3Y7Jwtnv6QT9ZZ
+         lVswwrLh/R0/tFk5qsHMFjfoIefDLzGeifHy0wvAtyXv0xujtT6DardgRmByVXHlUVX2
+         w/s3wynIteyJR+nh1tdnrHW+MbrV3LL0eGiGXpHsCMFxT5gD0KZBVOfZ0R7NeuczPW2C
+         gldQ==
+X-Gm-Message-State: AOAM531LRq9kvXkoMruHidQrZ8Cpcl3umKjSOMLw0B3YGejITsMarREb
+        fUOaZBS2XpvAuGsrD206CTiPQd1Ira6z88N7TMnHuA==
+X-Google-Smtp-Source: ABdhPJzLne3z/hFVoU9gPpwPkGPHfCAenskPK5svCrkqJUaNsYIIt5zqjrr8wnjLp78YEG8UCr7QefSS/zpN7U3t21g=
+X-Received: by 2002:a19:6a16:: with SMTP id u22mr24510963lfu.356.1618382827311;
+ Tue, 13 Apr 2021 23:47:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+References: <20210414055217.543246-1-avagin@gmail.com>
+In-Reply-To: <20210414055217.543246-1-avagin@gmail.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Wed, 14 Apr 2021 08:46:40 +0200
+Message-ID: <CAG48ez0jfsS=gKN0Vo_VS2EvvMBvEr+QNz0vDKPeSAzsrsRwPQ@mail.gmail.com>
+Subject: Re: [PATCH 0/4 POC] Allow executing code and syscalls in another
+ address space
+To:     Andrei Vagin <avagin@gmail.com>
+Cc:     kernel list <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-um@lists.infradead.org, criu@openvz.org, avagin@google.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        Ingo Molnar <mingo@redhat.com>, Jeff Dike <jdike@addtoit.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        Thomas Gleixner <tglx@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, 12 Apr 2021, Axel Rasmussen wrote:
+On Wed, Apr 14, 2021 at 7:59 AM Andrei Vagin <avagin@gmail.com> wrote:
+> We already have process_vm_readv and process_vm_writev to read and write
+> to a process memory faster than we can do this with ptrace. And now it
+> is time for process_vm_exec that allows executing code in an address
+> space of another process. We can do this with ptrace but it is much
+> slower.
+>
+> =3D Use-cases =3D
 
-> Minimizing header file inclusion is desirable. In this case, we can do
-> so just by forward declaring the enumeration our signature relies upon.
-> 
-> Reviewed-by: Peter Xu <peterx@redhat.com>
-> Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
-> ---
->  include/linux/hugetlb.h | 4 +++-
->  mm/hugetlb.c            | 1 +
->  2 files changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-> index 09f1fd12a6fa..3f47650ab79b 100644
-> --- a/include/linux/hugetlb.h
-> +++ b/include/linux/hugetlb.h
-> @@ -11,7 +11,6 @@
->  #include <linux/kref.h>
->  #include <linux/pgtable.h>
->  #include <linux/gfp.h>
-> -#include <linux/userfaultfd_k.h>
->  
->  struct ctl_table;
->  struct user_struct;
-> @@ -135,6 +134,8 @@ void hugetlb_show_meminfo(void);
->  unsigned long hugetlb_total_pages(void);
->  vm_fault_t hugetlb_fault(struct mm_struct *mm, struct vm_area_struct *vma,
->  			unsigned long address, unsigned int flags);
-> +
-> +enum mcopy_atomic_mode;
+It seems to me like your proposed API doesn't really fit either one of
+those usecases well...
 
-Wrongly placed: the CONFIG_USERFAULTFD=y CONFIG_HUGETLB_PAGE=n build
-fails. Better place it up above with struct ctl_table etc.
+> Here are two known use-cases. The first one is =E2=80=9Capplication kerne=
+l=E2=80=9D
+> sandboxes like User-mode Linux and gVisor. In this case, we have a
+> process that runs the sandbox kernel and a set of stub processes that
+> are used to manage guest address spaces. Guest code is executed in the
+> context of stub processes but all system calls are intercepted and
+> handled in the sandbox kernel. Right now, these sort of sandboxes use
+> PTRACE_SYSEMU to trap system calls, but the process_vm_exec can
+> significantly speed them up.
 
->  #ifdef CONFIG_USERFAULTFD
->  int hugetlb_mcopy_atomic_pte(struct mm_struct *dst_mm, pte_t *dst_pte,
->  				struct vm_area_struct *dst_vma,
-> @@ -143,6 +144,7 @@ int hugetlb_mcopy_atomic_pte(struct mm_struct *dst_mm, pte_t *dst_pte,
->  				enum mcopy_atomic_mode mode,
->  				struct page **pagep);
->  #endif /* CONFIG_USERFAULTFD */
-> +
->  bool hugetlb_reserve_pages(struct inode *inode, long from, long to,
->  						struct vm_area_struct *vma,
->  						vm_flags_t vm_flags);
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index 54d81d5947ed..b1652e747318 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -40,6 +40,7 @@
->  #include <linux/hugetlb_cgroup.h>
->  #include <linux/node.h>
->  #include <linux/page_owner.h>
-> +#include <linux/userfaultfd_k.h>
->  #include "internal.h"
->  
->  int hugetlb_max_hstate __read_mostly;
-> -- 
-> 2.31.1.295.g9ea45b61b8-goog
-> 
-> 
+In this case, since you really only want an mm_struct to run code
+under, it seems weird to create a whole task with its own PID and so
+on. It seems to me like something similar to the /dev/kvm API would be
+more appropriate here? Implementation options that I see for that
+would be:
+
+1. mm_struct-based:
+      a set of syscalls to create a new mm_struct,
+      change memory mappings under that mm_struct, and switch to it
+2. pagetable-mirroring-based:
+      like /dev/kvm, an API to create a new pagetable, mirror parts of
+      the mm_struct's pagetables over into it with modified permissions
+      (like KVM_SET_USER_MEMORY_REGION),
+      and run code under that context.
+      page fault handling would first handle the fault against mm->pgd
+      as normal, then mirror the PTE over into the secondary pagetables.
+      invalidation could be handled with MMU notifiers.
+
+> Another use-case is CRIU (Checkpoint/Restore in User-space). Several
+> process properties can be received only from the process itself. Right
+> now, we use a parasite code that is injected into the process. We do
+> this with ptrace but it is slow, unsafe, and tricky.
+
+But this API will only let you run code under the *mm* of the target
+process, not fully in the context of a target *task*, right? So you
+still won't be able to use this for accessing anything other than
+memory? That doesn't seem very generically useful to me.
+
+Also, I don't doubt that anything involving ptrace is kinda tricky,
+but it would be nice to have some more detail on what exactly makes
+this slow, unsafe and tricky. Are there API additions for ptrace that
+would make this work better? I imagine you're thinking of things like
+an API for injecting a syscall into the target process without having
+to first somehow find an existing SYSCALL instruction in the target
+process?
+
+> process_vm_exec can
+> simplify the process of injecting a parasite code and it will allow
+> pre-dump memory without stopping processes. The pre-dump here is when we
+> enable a memory tracker and dump the memory while a process is continue
+> running. On each interaction we dump memory that has been changed from
+> the previous iteration. In the final step, we will stop processes and
+> dump their full state. Right now the most effective way to dump process
+> memory is to create a set of pipes and splice memory into these pipes
+> from the parasite code. With process_vm_exec, we will be able to call
+> vmsplice directly. It means that we will not need to stop a process to
+> inject the parasite code.
+
+Alternatively you could add splice support to /proc/$pid/mem or add a
+syscall similar to process_vm_readv() that splices into a pipe, right?
