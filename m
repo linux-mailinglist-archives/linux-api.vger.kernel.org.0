@@ -2,167 +2,153 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 49AAD35F8A4
-	for <lists+linux-api@lfdr.de>; Wed, 14 Apr 2021 18:08:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C1DB35F8C6
+	for <lists+linux-api@lfdr.de>; Wed, 14 Apr 2021 18:24:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352573AbhDNQG6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 14 Apr 2021 12:06:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55808 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346877AbhDNQG5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 14 Apr 2021 12:06:57 -0400
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3750C061574;
-        Wed, 14 Apr 2021 09:06:35 -0700 (PDT)
-Received: by mail-qt1-x82d.google.com with SMTP id i6so6205837qti.10;
-        Wed, 14 Apr 2021 09:06:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=/bkJOUEIhQpaarHf9evA1zVpo47yxddsd+vPYgjh8gQ=;
-        b=Re9GDJgTKoI18hI072yRMhVtwekN2NXDhFVkYTu2pBUQzR3HVCVRy9GgUDyVQCfKlV
-         K/vk1uZ/1ARlT9hP8Ez7OeVG8guK+m5A5uEvYS2TEEVapMZEdPj7oGwAVXHOCYLUahiS
-         StKzIgqOL9152HKJYXHdvIKj5IDMGaxXbEbwPrQwiHT5QXNA9dC6ZMS3P1etmf/jYCE9
-         Gdiyv1RGeUoG7ZZW07r50rSyhBI0juVuBfB3yAF+DkHnz4Kn23siCv8gZ3XMHv6yoJJN
-         UBJjMu5nuRcv+ykZDlk/jluNyL/irO79Hy01l/38KWVXxLbRP9jvxuHcjGn5PMHMM9FQ
-         3g6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=/bkJOUEIhQpaarHf9evA1zVpo47yxddsd+vPYgjh8gQ=;
-        b=E9xK86VP+oIHkCGiIzxfqELvQh+zixlsZP201s/9MME69xIxXLsnAVNuuT/i6lXxxH
-         bIHS6dD9Fv8k+OJXZXhrqZzL8wOa1jj6mrJN4HCUlusVmGtWnhTSc0nltapKhbXOg6E1
-         xAlUAvMLUt8LBQL23zoeR3l4knuyOK7u1X+JsWT5HRnxENLu67n+k0RhJzy3SuElG1w7
-         x90M2nebLHGjSdaPisUJawyRTReVLFF0hEJNnRiuqPpHP17MQ++PeDq5qri/LktIIcV0
-         93JKJ/xAfFtIc8+2FeKzx7FDpA5b3b0y6HAssBGLnkVJ6NWqZTh548pmYrxmnGpfcgbX
-         GYag==
-X-Gm-Message-State: AOAM531ei5S6uPUdMfsA7Rmm6l9WKMYE8A9HAAldbeHtsKO/Sf7CRi+g
-        wfd9tcoNQLYnas+GGd0E6hkKSOdRN9I=
-X-Google-Smtp-Source: ABdhPJxMn73FiGp2dKadUY6T5xb9A1JuWbR/CayZ2UJMBRaXuEfiza2/+6issl1cDKJJ83CLDF7zTA==
-X-Received: by 2002:a05:622a:446:: with SMTP id o6mr35757819qtx.257.1618416395016;
-        Wed, 14 Apr 2021 09:06:35 -0700 (PDT)
-Received: from localhost ([207.98.216.60])
-        by smtp.gmail.com with ESMTPSA id j6sm12648789qkl.84.2021.04.14.09.06.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 09:06:34 -0700 (PDT)
-Date:   Wed, 14 Apr 2021 09:06:30 -0700
-From:   Yury Norov <yury.norov@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@collabora.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, David Sterba <dsterba@suse.com>,
-        Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH] Documentation: syscalls: add a note about  ABI-agnostic
- types
-Message-ID: <20210414160630.GA61176@yury-ThinkPad>
-References: <20210409204304.1273139-1-yury.norov@gmail.com>
- <20210414044020.GA44464@yury-ThinkPad>
- <20210414081422.5a9d0c4b@coco.lan>
+        id S1351401AbhDNQMs convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Wed, 14 Apr 2021 12:12:48 -0400
+Received: from mga18.intel.com ([134.134.136.126]:61296 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233932AbhDNQMo (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 14 Apr 2021 12:12:44 -0400
+IronPort-SDR: ULjpjgWAVva8sQp+KMXUy3W2BWguWzkSPvHq8dp5+V+tMulYAMey0Nr438Qg4d09DCGX/s3IQF
+ Jm4EaFVi84cg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9954"; a="182178246"
+X-IronPort-AV: E=Sophos;i="5.82,222,1613462400"; 
+   d="scan'208";a="182178246"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2021 09:11:03 -0700
+IronPort-SDR: DE6B4YjCMUkQy2gZIwMLAjYT0pE96JDNgn3iwVrYeXbtL8GTIAgKFTBCvsh2Xdc//hnObTfNwJ
+ GR3Z3MHOxxPg==
+X-IronPort-AV: E=Sophos;i="5.82,222,1613462400"; 
+   d="scan'208";a="418378619"
+Received: from glenande-mobl1.amr.corp.intel.com (HELO localhost) ([10.209.19.126])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2021 09:11:02 -0700
+Date:   Wed, 14 Apr 2021 09:11:00 -0700
+From:   Jesse Brandeburg <jesse.brandeburg@intel.com>
+To:     Nitesh Narayan Lal <nitesh@redhat.com>
+Cc:     Marcelo Tosatti <mtosatti@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "frederic@kernel.org" <frederic@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
+        "abelits@marvell.com" <abelits@marvell.com>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "mingo@kernel.org" <mingo@kernel.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
+        "stephen@networkplumber.org" <stephen@networkplumber.org>,
+        "rppt@linux.vnet.ibm.com" <rppt@linux.vnet.ibm.com>,
+        "jinyuqi@huawei.com" <jinyuqi@huawei.com>,
+        "zhangshaokun@hisilicon.com" <zhangshaokun@hisilicon.com>,
+        netdev@vger.kernel.org, chris.friesen@windriver.com
+Subject: Re: [Patch v4 1/3] lib: Restrict cpumask_local_spread to
+ houskeeping CPUs
+Message-ID: <20210414091100.000033cf@intel.com>
+In-Reply-To: <1a044a14-0884-eedb-5d30-28b4bec24b23@redhat.com>
+References: <20200625223443.2684-1-nitesh@redhat.com>
+        <20200625223443.2684-2-nitesh@redhat.com>
+        <3e9ce666-c9cd-391b-52b6-3471fe2be2e6@arm.com>
+        <20210127121939.GA54725@fuller.cnet>
+        <87r1m5can2.fsf@nanos.tec.linutronix.de>
+        <20210128165903.GB38339@fuller.cnet>
+        <87h7n0de5a.fsf@nanos.tec.linutronix.de>
+        <20210204181546.GA30113@fuller.cnet>
+        <cfa138e9-38e3-e566-8903-1d64024c917b@redhat.com>
+        <20210204190647.GA32868@fuller.cnet>
+        <d8884413-84b4-b204-85c5-810342807d21@redhat.com>
+        <87y2g26tnt.fsf@nanos.tec.linutronix.de>
+        <d0aed683-87ae-91a2-d093-de3f5d8a8251@redhat.com>
+        <7780ae60-efbd-2902-caaa-0249a1f277d9@redhat.com>
+        <07c04bc7-27f0-9c07-9f9e-2d1a450714ef@redhat.com>
+        <20210406102207.0000485c@intel.com>
+        <1a044a14-0884-eedb-5d30-28b4bec24b23@redhat.com>
+X-Mailer: Claws Mail 3.12.0 (GTK+ 2.24.28; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210414081422.5a9d0c4b@coco.lan>
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Apr 14, 2021 at 08:14:22AM +0200, Mauro Carvalho Chehab wrote:
-> Em Tue, 13 Apr 2021 21:40:20 -0700
-> Yury Norov <yury.norov@gmail.com> escreveu:
+Nitesh Narayan Lal wrote:
+
+> > The original issue as seen, was that if you rmmod/insmod a driver
+> > *without* irqbalance running, the default irq mask is -1, which means
+> > any CPU. The older kernels (this issue was patched in 2014) used to use
+> > that affinity mask, but the value programmed into all the interrupt
+> > registers "actual affinity" would end up delivering all interrupts to
+> > CPU0,
 > 
-> > Ping?
-> > 
-> > On Fri, Apr 09, 2021 at 01:43:04PM -0700, Yury Norov wrote:
-> > > Recently added memfd_secret() syscall had a flags parameter passed
-> > > as unsigned long, which requires creation of compat entry for it.
-> > > It was possible to change the type of flags to unsigned int and so
-> > > avoid bothering with compat layer.
-> > > 
-> > > https://www.spinics.net/lists/linux-mm/msg251550.html
-> > > 
-> > > Documentation/process/adding-syscalls.rst doesn't point clearly about
-> > > preference of ABI-agnostic types. This patch adds such notification.
-> > > 
-> > > Signed-off-by: Yury Norov <yury.norov@gmail.com>
-> > > ---
-> > >  Documentation/process/adding-syscalls.rst | 7 +++++++
-> > >  1 file changed, 7 insertions(+)
-> > > 
-> > > diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
-> > > index 9af35f4ec728..46add16edf14 100644
-> > > --- a/Documentation/process/adding-syscalls.rst
-> > > +++ b/Documentation/process/adding-syscalls.rst
-> > > @@ -172,6 +172,13 @@ arguments (i.e. parameter 1, 3, 5), to allow use of contiguous pairs of 32-bit
-> > >  registers.  (This concern does not apply if the arguments are part of a
-> > >  structure that's passed in by pointer.)
-> > >  
-> > > +Whenever possible, try to use ABI-agnostic types for passing parameters to
-> > > +a syscall in order to avoid creating compat entry for it. Linux supports two
-> > > +ABI models - ILP32 and LP64. 
-> 
-> > > + The types like ``void *``, ``long``, ``size_t``,
-> > > +``off_t`` have different size in those ABIs;
-> 
-> In the case of pointers, the best is to use __u64. The pointer can then
-> be read on Kernelspace with something like this:
-> 
-> 	static inline void __user *media_get_uptr(__u64 arg)
-> 	{
-> 		return (void __user *)(uintptr_t)arg;
-> 	}
+> So does that mean the affinity mask for the IRQs was different wrt where
+> the IRQs were actually delivered?
+> Or, the affinity mask itself for the IRQs after rmmod, insmod was changed
+> to 0 instead of -1?
+
+The smp_affinity was 0xfff, and the kernel chooses which interrupt to
+place the interrupt on, among any of the bits set.
+
  
-For 32-bit userspace reserving 64-bit type for pointers looks
-excessive, isn't? And anyways, how could this help to prevent
-malicious/broken compat userspace from passing pointers with
-dirty top 32 bits?
+> I did a quick test on top of 5.12.0-rc6 by comparing the i40e IRQ affinity
+> mask before removing the kernel module and after doing rmmod+insmod
+> and didn't find any difference.
 
-From what I can see, in case of compat ABI, the 'void *' args
-are cast to compat_uptr_t in the compat layer, and then passed
-to native handlers. Bypassing compat layer in the example above
-would break consistency for a syscall.
- 
-> > > types like ``char`` and  ``int``
-> > > +have the same size and don't require a compat layer support. For flags, it's
-> > > +always better to use ``unsigned int``.
-> > > +
+with the patch in question removed? Sorry, I'm confused what you tried.
+
 > 
-> I don't think this is true for all compilers on userspace, as the C
-> standard doesn't define how many bits an int/unsigned int has. 
-> So, even if this is today's reality, things may change in the future.
-
-Agree, it's not a standard in C, but this is pretty much a standard in
-Linux. Introducing a new ABI nor ILP32, neither LP64 would require huge
-amount of work, especially on a maintenance level, and I bet it will be
-blocked by Arnd. :) In practice it's correct to recommend using unsigned
-int for flags now, and if in future someone will introduce new ABI, it
-will be his responsibility to explain us how to design syscalls in a
-compatible and unified way.
-
-> For instance, I remember we had to replace "int" and "enum" by "__u32" 
-> and "long" by "__u64" at the media uAPI in the past, when we start
-> seeing x86_64 Kernels with 32-bits userspace and when cameras started 
-> being supported on arm32.
+> >  and if the machine was under traffic load incoming when the
+> > driver loaded, CPU0 would start to poll among all the different netdev
+> > queues, all on CPU0.
+> >
+> > The above then leads to the condition that the device is stuck polling
+> > even if the affinity gets updated from user space, and the polling will
+> > continue until traffic stops.
+> >
+> >> The problem with the commit is that when we overwrite the affinity mask
+> >> based on the hinting mask we completely ignore the default SMP affinity
+> >> mask. If we do want to overwrite the affinity based on the hint mask we
+> >> should atleast consider the default SMP affinity.
 > 
-> We did have some real bugs with "enum", as, on that time, some
-> compilers (gcc, I guess) were optimizing them to have less than
-> 32 bits on certain architectures, when it fits.
+> For the issue where the IRQs don't follow the default_smp_affinity mask
+> because of this patch, the following are the steps by which it can be easily
+> reproduced with the latest linux kernel:
+> 
+> # Kernel
+> 5.12.0-rc6+
 
-I think this example agrees with what I said - if userspace has
-nonstandard ABI, it has to use kernel types to communicate with
-kernel, which are exposed as __u32-style typedefs. For me, it's
-a compatibility layer implemented in userspace.
+<snip>
 
-This patch is about good practices for standard 32, 64 and compat 
-ABIs supported by kernel.
+> As we can see in the above trace the initial affinity for the IRQ 1478 was
+> correctly set as per the default_smp_affinity mask which includes CPU 42,
+> however, later on, it is updated with CPU3 which is returned from
+> cpumask_local_spread().
+> 
+> > Maybe the right thing is to fix which CPUs are passed in as the valid
+> > mask, or make sure the kernel cross checks that what the driver asks
+> > for is a "valid CPU"?
+> >
+> 
+> Sure, if we can still reproduce the problem that your patch was fixing then
+> maybe we can consider adding a new API like cpumask_local_spread_irq in
+> which we should consider deafult_smp_affinity mask as well before returning
+> the CPU.
 
-(Or if I missed you point, can you please explain in more details?)
+I'm sure I don't have a reproducer of the original problem any more, it
+is lost somewhere 8 years ago. I'd like to be able to repro the original
+issue, but I can't.
 
-Thanks,
-Yury
+Your description of the problem makes it obvious there is an issue. It
+appears as if cpumask_local_spread() is the wrong function to use here.
+If you have any suggestions please let me know.
+
+We had one other report of this problem as well (I'm not sure if it's
+the same as your report)
+https://lkml.org/lkml/2021/3/28/206
+https://lists.osuosl.org/pipermail/intel-wired-lan/Week-of-Mon-20210125/023120.html
+
