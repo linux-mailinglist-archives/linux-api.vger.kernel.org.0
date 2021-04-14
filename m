@@ -2,66 +2,104 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83A9C35F146
-	for <lists+linux-api@lfdr.de>; Wed, 14 Apr 2021 12:10:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3078E35F14F
+	for <lists+linux-api@lfdr.de>; Wed, 14 Apr 2021 12:13:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229661AbhDNKLI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 14 Apr 2021 06:11:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51126 "EHLO mail.kernel.org"
+        id S232766AbhDNKNL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 14 Apr 2021 06:13:11 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:47620 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233996AbhDNKKr (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 14 Apr 2021 06:10:47 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 55620613B1;
-        Wed, 14 Apr 2021 10:10:24 +0000 (UTC)
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Kostya Serebryany <kcc@google.com>,
-        Florian Weimer <fw@deneb.enyo.de>,
-        Peter Collingbourne <pcc@google.com>,
-        Evgenii Stepanov <eugenis@google.com>,
+        id S232631AbhDNKNK (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 14 Apr 2021 06:13:10 -0400
+Received: from zn.tnic (p200300ec2f0e8f0047b5d8db40ec11d2.dip0.t-ipconnect.de [IPv6:2003:ec:2f0e:8f00:47b5:d8db:40ec:11d2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A0D021EC0528;
+        Wed, 14 Apr 2021 12:12:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1618395168;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=v5HUY65OS78ET9NFUwXyXqIOqxRqJhTJ7DiNehOvsA4=;
+        b=RLeFPTKrvHtvaFERYcN8XC52g3wEm7k4DwS6AYJnuoN3Fa0h+ssGq1e/w04BP0lfeeejkt
+        MkUVJAyxPy6m7LbMD1Kukk60nerb9KyLenIMkWrfVmJB5B8J3uZmWyrICZDCZzYf6LXPEO
+        3QHxyMi4wTomiOkxRs9v3XriVFHWRB0=
+Date:   Wed, 14 Apr 2021 12:12:50 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Bae, Chang Seok" <chang.seok.bae@intel.com>,
+        Florian Weimer <fweimer@redhat.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        "Cooper, Andrew" <andrew.cooper3@citrix.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        "Gross, Jurgen" <jgross@suse.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>, X86 ML <x86@kernel.org>,
+        "Brown, Len" <len.brown@intel.com>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "H. J. Lu" <hjl.tools@gmail.com>,
         Dave Martin <Dave.Martin@arm.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>
-Cc:     Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        libc-alpha@sourceware.org, Kevin Brodsky <kevin.brodsky@arm.com>,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH v8 1/3] arm64: mte: make the per-task SCTLR_EL1 field usable elsewhere
-Date:   Wed, 14 Apr 2021 11:10:19 +0100
-Message-Id: <161839488327.21932.16461913261970131291.b4-ty@arm.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <13d725cb8e741950fb9d6e64b2cd9bd54ff7c3f9.1616123271.git.pcc@google.com>
-References: <13d725cb8e741950fb9d6e64b2cd9bd54ff7c3f9.1616123271.git.pcc@google.com>
+        Jann Horn <jannh@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Carlos O'Donell <carlos@redhat.com>,
+        "Luck, Tony" <tony.luck@intel.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        libc-alpha <libc-alpha@sourceware.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v7 5/6] x86/signal: Detect and prevent an alternate
+ signal stack overflow
+Message-ID: <20210414101250.GD10709@zn.tnic>
+References: <20210316065215.23768-1-chang.seok.bae@intel.com>
+ <20210316065215.23768-6-chang.seok.bae@intel.com>
+ <CALCETrU_n+dP4GaUJRQoKcDSwaWL9Vc99Yy+N=QGVZ_tx_j3Zg@mail.gmail.com>
+ <20210325185435.GB32296@zn.tnic>
+ <CALCETrXQZuvJQrHDMst6PPgtJxaS_sPk2JhwMiMDNPunq45YFg@mail.gmail.com>
+ <20210326103041.GB25229@zn.tnic>
+ <DB68C825-25F9-48F9-AFAD-4F6C7DCA11F8@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <DB68C825-25F9-48F9-AFAD-4F6C7DCA11F8@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, 18 Mar 2021 20:10:52 -0700, Peter Collingbourne wrote:
-> In an upcoming change we are going to introduce per-task SCTLR_EL1
-> bits for PAC. Move the existing per-task SCTLR_EL1 field out of the
-> MTE-specific code so that we will be able to use it from both the
-> PAC and MTE code paths and make the task switching code more efficient.
+On Mon, Apr 12, 2021 at 10:30:23PM +0000, Bae, Chang Seok wrote:
+> On Mar 26, 2021, at 03:30, Borislav Petkov <bp@alien8.de> wrote:
+> > On Thu, Mar 25, 2021 at 09:56:53PM -0700, Andy Lutomirski wrote:
+> >> We really ought to have a SIGSIGFAIL signal that's sent, double-fault
+> >> style, when we fail to send a signal.
+> > 
+> > Yeap, we should be able to tell userspace that we couldn't send a
+> > signal, hohumm.
+> 
+> Hi Boris,
+> 
+> Let me clarify some details as preparing to include this in a revision.
+> 
+> So, IIUC, a number needs to be assigned for this new SIGFAIL. At a glance, not
+> sure which one to pick there in signal.h -- 1-31 fully occupied and the rest
+> for 33 different real-time signals.
+> 
+> Also, perhaps, force_sig(SIGFAIL) here, instead of return -1 -- to die with
+> SIGSEGV.
 
-Applied to arm64 (for-next/pac-set-get-enabled-keys).
+I think this needs to be decided together with userspace people so that
+they can act accordingly and whether it even makes sense to them.
 
-Peter, can you please have a look and give it a try as part of the arm64
-for-next/core branch? I rebased your patches on top of the
-for-next/mte-async-kernel-mode branch as this was adding more code to
-mte_thread_switch(), so I kept the function for now.
+Florian, any suggestions?
 
-Thanks.
+Subthread starts here:
 
-[1/3] arm64: mte: make the per-task SCTLR_EL1 field usable elsewhere
-      https://git.kernel.org/arm64/c/2f79d2fc391e
-[2/3] arm64: Introduce prctl(PR_PAC_{SET,GET}_ENABLED_KEYS)
-      https://git.kernel.org/arm64/c/201698626fbc
-[3/3] arm64: pac: Optimize kernel entry/exit key installation code paths
-      https://git.kernel.org/arm64/c/b90e483938ce
+https://lkml.kernel.org/r/CALCETrXQZuvJQrHDMst6PPgtJxaS_sPk2JhwMiMDNPunq45YFg@mail.gmail.com
+
+Thx.
 
 -- 
-Catalin
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
