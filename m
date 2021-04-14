@@ -2,153 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C1DB35F8C6
-	for <lists+linux-api@lfdr.de>; Wed, 14 Apr 2021 18:24:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCB5D35F97D
+	for <lists+linux-api@lfdr.de>; Wed, 14 Apr 2021 19:10:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351401AbhDNQMs convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Wed, 14 Apr 2021 12:12:48 -0400
-Received: from mga18.intel.com ([134.134.136.126]:61296 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233932AbhDNQMo (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 14 Apr 2021 12:12:44 -0400
-IronPort-SDR: ULjpjgWAVva8sQp+KMXUy3W2BWguWzkSPvHq8dp5+V+tMulYAMey0Nr438Qg4d09DCGX/s3IQF
- Jm4EaFVi84cg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9954"; a="182178246"
-X-IronPort-AV: E=Sophos;i="5.82,222,1613462400"; 
-   d="scan'208";a="182178246"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2021 09:11:03 -0700
-IronPort-SDR: DE6B4YjCMUkQy2gZIwMLAjYT0pE96JDNgn3iwVrYeXbtL8GTIAgKFTBCvsh2Xdc//hnObTfNwJ
- GR3Z3MHOxxPg==
-X-IronPort-AV: E=Sophos;i="5.82,222,1613462400"; 
-   d="scan'208";a="418378619"
-Received: from glenande-mobl1.amr.corp.intel.com (HELO localhost) ([10.209.19.126])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2021 09:11:02 -0700
-Date:   Wed, 14 Apr 2021 09:11:00 -0700
-From:   Jesse Brandeburg <jesse.brandeburg@intel.com>
-To:     Nitesh Narayan Lal <nitesh@redhat.com>
-Cc:     Marcelo Tosatti <mtosatti@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "frederic@kernel.org" <frederic@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
-        "abelits@marvell.com" <abelits@marvell.com>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "mingo@kernel.org" <mingo@kernel.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
-        "stephen@networkplumber.org" <stephen@networkplumber.org>,
-        "rppt@linux.vnet.ibm.com" <rppt@linux.vnet.ibm.com>,
-        "jinyuqi@huawei.com" <jinyuqi@huawei.com>,
-        "zhangshaokun@hisilicon.com" <zhangshaokun@hisilicon.com>,
-        netdev@vger.kernel.org, chris.friesen@windriver.com
-Subject: Re: [Patch v4 1/3] lib: Restrict cpumask_local_spread to
- houskeeping CPUs
-Message-ID: <20210414091100.000033cf@intel.com>
-In-Reply-To: <1a044a14-0884-eedb-5d30-28b4bec24b23@redhat.com>
-References: <20200625223443.2684-1-nitesh@redhat.com>
-        <20200625223443.2684-2-nitesh@redhat.com>
-        <3e9ce666-c9cd-391b-52b6-3471fe2be2e6@arm.com>
-        <20210127121939.GA54725@fuller.cnet>
-        <87r1m5can2.fsf@nanos.tec.linutronix.de>
-        <20210128165903.GB38339@fuller.cnet>
-        <87h7n0de5a.fsf@nanos.tec.linutronix.de>
-        <20210204181546.GA30113@fuller.cnet>
-        <cfa138e9-38e3-e566-8903-1d64024c917b@redhat.com>
-        <20210204190647.GA32868@fuller.cnet>
-        <d8884413-84b4-b204-85c5-810342807d21@redhat.com>
-        <87y2g26tnt.fsf@nanos.tec.linutronix.de>
-        <d0aed683-87ae-91a2-d093-de3f5d8a8251@redhat.com>
-        <7780ae60-efbd-2902-caaa-0249a1f277d9@redhat.com>
-        <07c04bc7-27f0-9c07-9f9e-2d1a450714ef@redhat.com>
-        <20210406102207.0000485c@intel.com>
-        <1a044a14-0884-eedb-5d30-28b4bec24b23@redhat.com>
-X-Mailer: Claws Mail 3.12.0 (GTK+ 2.24.28; i686-w64-mingw32)
+        id S233935AbhDNRJu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 14 Apr 2021 13:09:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49151 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232604AbhDNRJu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 14 Apr 2021 13:09:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1618420168;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=927x1OxFGjZhXg2hFqKXGTiskEIk6MxUpR4SI4f8vSc=;
+        b=W5f7+DuyfPixkrpUJJqMOqEKUQ20dt1N1sVQQlXkgZOD9i2/OXkJLHIrMl5iSZ+8maTHzN
+        rLUSucmvKu/2u6DLBs40UG+JGegu/ZBysmeVCnOOYW3bzhOsUz1fvIMb74NqNwmV8KyFDj
+        MSUEtgEwt4EikhvjTladlWY5GHGLTJ8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-324-DLv3OehOMWuiZSgOgEctCg-1; Wed, 14 Apr 2021 13:09:24 -0400
+X-MC-Unique: DLv3OehOMWuiZSgOgEctCg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9479C6D241;
+        Wed, 14 Apr 2021 17:09:21 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.40.192.65])
+        by smtp.corp.redhat.com (Postfix) with SMTP id A382E5D6A8;
+        Wed, 14 Apr 2021 17:09:16 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Wed, 14 Apr 2021 19:09:21 +0200 (CEST)
+Date:   Wed, 14 Apr 2021 19:09:15 +0200
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Andrei Vagin <avagin@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-um@lists.infradead.org, criu@openvz.org, avagin@google.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        Ingo Molnar <mingo@redhat.com>, Jeff Dike <jdike@addtoit.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH 2/4] arch/x86: implement the process_vm_exec syscall
+Message-ID: <20210414170915.GB22294@redhat.com>
+References: <20210414055217.543246-1-avagin@gmail.com>
+ <20210414055217.543246-3-avagin@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210414055217.543246-3-avagin@gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Nitesh Narayan Lal wrote:
+On 04/13, Andrei Vagin wrote:
+>
+> +static void swap_mm(struct mm_struct *prev_mm, struct mm_struct *target_mm)
+> +{
+> +	struct task_struct *tsk = current;
+> +	struct mm_struct *active_mm;
+> +
+> +	task_lock(tsk);
+> +	/* Hold off tlb flush IPIs while switching mm's */
+> +	local_irq_disable();
+> +
+> +	sync_mm_rss(prev_mm);
+> +
+> +	vmacache_flush(tsk);
+> +
+> +	active_mm = tsk->active_mm;
+> +	if (active_mm != target_mm) {
+> +		mmgrab(target_mm);
+> +		tsk->active_mm = target_mm;
+> +	}
+> +	tsk->mm = target_mm;
+> +	switch_mm_irqs_off(active_mm, target_mm, tsk);
+> +	local_irq_enable();
+> +	task_unlock(tsk);
+> +#ifdef finish_arch_post_lock_switch
+> +	finish_arch_post_lock_switch();
+> +#endif
+> +
+> +	if (active_mm != target_mm)
+> +		mmdrop(active_mm);
+> +}
 
-> > The original issue as seen, was that if you rmmod/insmod a driver
-> > *without* irqbalance running, the default irq mask is -1, which means
-> > any CPU. The older kernels (this issue was patched in 2014) used to use
-> > that affinity mask, but the value programmed into all the interrupt
-> > registers "actual affinity" would end up delivering all interrupts to
-> > CPU0,
-> 
-> So does that mean the affinity mask for the IRQs was different wrt where
-> the IRQs were actually delivered?
-> Or, the affinity mask itself for the IRQs after rmmod, insmod was changed
-> to 0 instead of -1?
+I think this should be unified with kthread_use_mm() somehow...
 
-The smp_affinity was 0xfff, and the kernel chooses which interrupt to
-place the interrupt on, among any of the bits set.
+And does it really need the "prev_mm" argument? It must be tsk->mm, no?
 
- 
-> I did a quick test on top of 5.12.0-rc6 by comparing the i40e IRQ affinity
-> mask before removing the kernel module and after doing rmmod+insmod
-> and didn't find any difference.
-
-with the patch in question removed? Sorry, I'm confused what you tried.
-
-> 
-> >  and if the machine was under traffic load incoming when the
-> > driver loaded, CPU0 would start to poll among all the different netdev
-> > queues, all on CPU0.
-> >
-> > The above then leads to the condition that the device is stuck polling
-> > even if the affinity gets updated from user space, and the polling will
-> > continue until traffic stops.
-> >
-> >> The problem with the commit is that when we overwrite the affinity mask
-> >> based on the hinting mask we completely ignore the default SMP affinity
-> >> mask. If we do want to overwrite the affinity based on the hint mask we
-> >> should atleast consider the default SMP affinity.
-> 
-> For the issue where the IRQs don't follow the default_smp_affinity mask
-> because of this patch, the following are the steps by which it can be easily
-> reproduced with the latest linux kernel:
-> 
-> # Kernel
-> 5.12.0-rc6+
-
-<snip>
-
-> As we can see in the above trace the initial affinity for the IRQ 1478 was
-> correctly set as per the default_smp_affinity mask which includes CPU 42,
-> however, later on, it is updated with CPU3 which is returned from
-> cpumask_local_spread().
-> 
-> > Maybe the right thing is to fix which CPUs are passed in as the valid
-> > mask, or make sure the kernel cross checks that what the driver asks
-> > for is a "valid CPU"?
-> >
-> 
-> Sure, if we can still reproduce the problem that your patch was fixing then
-> maybe we can consider adding a new API like cpumask_local_spread_irq in
-> which we should consider deafult_smp_affinity mask as well before returning
-> the CPU.
-
-I'm sure I don't have a reproducer of the original problem any more, it
-is lost somewhere 8 years ago. I'd like to be able to repro the original
-issue, but I can't.
-
-Your description of the problem makes it obvious there is an issue. It
-appears as if cpumask_local_spread() is the wrong function to use here.
-If you have any suggestions please let me know.
-
-We had one other report of this problem as well (I'm not sure if it's
-the same as your report)
-https://lkml.org/lkml/2021/3/28/206
-https://lists.osuosl.org/pipermail/intel-wired-lan/Week-of-Mon-20210125/023120.html
+Oleg.
 
