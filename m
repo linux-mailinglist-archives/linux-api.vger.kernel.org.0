@@ -2,115 +2,144 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F86835ED0C
-	for <lists+linux-api@lfdr.de>; Wed, 14 Apr 2021 08:14:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F94C35ED67
+	for <lists+linux-api@lfdr.de>; Wed, 14 Apr 2021 08:46:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349128AbhDNGO5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 14 Apr 2021 02:14:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36270 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1349130AbhDNGOv (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 14 Apr 2021 02:14:51 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 87A0B60FD8;
-        Wed, 14 Apr 2021 06:14:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1618380870;
-        bh=QUwhG1aEuYUYzpTX5r+cTxe2OtqIgKW7ZzBKXbUv0qE=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=thusl7s/bxHLGdsAmgh+pH+X9REzuDPhBdzVl1RfGWSvGH0esOhhO4XNPANmqOQLX
-         xamcSotJXglVS6YhmGa8nLoVDcdUwC9bE7FdYX4hue7yEiFXhVHGvqenqDq4roJ6Sc
-         A/YaT/EFd2fN8q12udBhBJFgvTs2S7aVxIb5BWB7OGt4h3U1q/VY9pjyQP+55c0wM0
-         cb76MI26cMoEf8s1YmbLXaz2CzB5NnsRRPIUJdvCYB/GoxzXCFkwc2Sz28M9a/PWXq
-         EBIy9On512F83Z+NtuJzgkiz0e+LXrm9oQqDMTxYRYQNG3ppWwoONaNrqKxXlfs+ph
-         bmu4zyqOrQALQ==
-Date:   Wed, 14 Apr 2021 08:14:22 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Yury Norov <yury.norov@gmail.com>
-Cc:     linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@collabora.com>,
+        id S1349280AbhDNGoZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 14 Apr 2021 02:44:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44384 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346389AbhDNGoT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 14 Apr 2021 02:44:19 -0400
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9487AC06138C
+        for <linux-api@vger.kernel.org>; Tue, 13 Apr 2021 23:43:58 -0700 (PDT)
+Received: by mail-qk1-x72b.google.com with SMTP id f19so2768237qka.8
+        for <linux-api@vger.kernel.org>; Tue, 13 Apr 2021 23:43:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:in-reply-to:message-id:references
+         :user-agent:mime-version;
+        bh=xAItGVctj4Ym5XgJXrEHjFWuIEiXbFDkgH2LTVJTlqw=;
+        b=boogogHOP6aMxYaO4TKu7w6/UT0zb6tK49kFGEqd/tGljpv/chIVdkvDoZiKgvcWl3
+         uD72xEs3pGMozk801LATYIGOzSooQdo333X4M4rD3PNeWeoZ9/oX6LUPDbjvhVvQyG6/
+         nTt5wmIPnMoq8lxe0TYVtm4DE/rQlDzKDa0fCpcwtw5WUsLaifXWcqsMidIkzaY8/9og
+         +s8FqQNRmO6BXRBVpR03kz2epvzqQrKFmi5Hh/Dr9nzx9eIzWvOC83DKTQkse5T5QfKN
+         OwqGrAsqVhMbFN/3vaxP0hsIwcf4UGB3beOYirKF+LBu4y8XLIbOcMpkmguDaeVt3yZa
+         ZVXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+         :references:user-agent:mime-version;
+        bh=xAItGVctj4Ym5XgJXrEHjFWuIEiXbFDkgH2LTVJTlqw=;
+        b=Q5ivelvFWImW3Zp4dald9zNRZIMPalA1YDp0MmJshI6qJCcT+mH3aOJPOTm0Fk7Mmb
+         8hobovliQXMiegyAeiURhXfNBc1FqBHRE2LcLMns6LH0haXsG6sVaiXpqO+WM6AfnIUj
+         Uuv0pMeePEyJpS9N11TruNZWQ199yAj7dmMOw0HaI89vBDDzC8rafn7PJKi2v1yl+eXe
+         6zhrqB7msmqwKZ3u212/dDq7y+7ztXvY3ZqWwkGX7yLIuR2xtsdfl1Bk44EbbtJ/LGek
+         HwOsXQOEWVLMSOr5GuwZu3R7kBc/rRKtBx4GOKoKrsF0UTBgbUUElPxEmROWQs2Bzuc9
+         bUlA==
+X-Gm-Message-State: AOAM532k+hSEgFBIbh+ulUbOT+FWmgIND/rlIH0wYIJBZd1ojUCrhnrV
+        ZHMOKRgB/akg59kjABll01afdA==
+X-Google-Smtp-Source: ABdhPJyCbITTz5lmswPHeW0wVM8gnjbv6Zo4xmnNDnf/pa88GLZJNPjvZPoeIsTQcCXPoW3nk85tvw==
+X-Received: by 2002:ae9:e113:: with SMTP id g19mr34615511qkm.480.1618382637457;
+        Tue, 13 Apr 2021 23:43:57 -0700 (PDT)
+Received: from eggly.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id x22sm5174625qtq.93.2021.04.13.23.43.55
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Tue, 13 Apr 2021 23:43:57 -0700 (PDT)
+Date:   Tue, 13 Apr 2021 23:43:41 -0700 (PDT)
+From:   Hugh Dickins <hughd@google.com>
+X-X-Sender: hugh@eggly.anvils
+To:     Axel Rasmussen <axelrasmussen@google.com>
+cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrea Arcangeli <aarcange@redhat.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, David Sterba <dsterba@suse.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jerome Glisse <jglisse@redhat.com>,
         Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH] Documentation: syscalls: add a note about  ABI-agnostic
- types
-Message-ID: <20210414081422.5a9d0c4b@coco.lan>
-In-Reply-To: <20210414044020.GA44464@yury-ThinkPad>
-References: <20210409204304.1273139-1-yury.norov@gmail.com>
-        <20210414044020.GA44464@yury-ThinkPad>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        Lokesh Gidra <lokeshgidra@google.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Peter Xu <peterx@redhat.com>, Shaohua Li <shli@fb.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Wang Qing <wangqing@vivo.com>, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+        Brian Geffon <bgeffon@google.com>,
+        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+        Mina Almasry <almasrymina@google.com>,
+        Oliver Upton <oupton@google.com>
+Subject: Re: [PATCH v2 1/9] userfaultfd/hugetlbfs: avoid including userfaultfd_k.h
+ in hugetlb.h
+In-Reply-To: <20210413051721.2896915-2-axelrasmussen@google.com>
+Message-ID: <alpine.LSU.2.11.2104132336001.9086@eggly.anvils>
+References: <20210413051721.2896915-1-axelrasmussen@google.com> <20210413051721.2896915-2-axelrasmussen@google.com>
+User-Agent: Alpine 2.11 (LSU 23 2013-08-11)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Em Tue, 13 Apr 2021 21:40:20 -0700
-Yury Norov <yury.norov@gmail.com> escreveu:
+On Mon, 12 Apr 2021, Axel Rasmussen wrote:
 
-> Ping?
+> Minimizing header file inclusion is desirable. In this case, we can do
+> so just by forward declaring the enumeration our signature relies upon.
 > 
-> On Fri, Apr 09, 2021 at 01:43:04PM -0700, Yury Norov wrote:
-> > Recently added memfd_secret() syscall had a flags parameter passed
-> > as unsigned long, which requires creation of compat entry for it.
-> > It was possible to change the type of flags to unsigned int and so
-> > avoid bothering with compat layer.
-> > 
-> > https://www.spinics.net/lists/linux-mm/msg251550.html
-> > 
-> > Documentation/process/adding-syscalls.rst doesn't point clearly about
-> > preference of ABI-agnostic types. This patch adds such notification.
-> > 
-> > Signed-off-by: Yury Norov <yury.norov@gmail.com>
-> > ---
-> >  Documentation/process/adding-syscalls.rst | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> > 
-> > diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
-> > index 9af35f4ec728..46add16edf14 100644
-> > --- a/Documentation/process/adding-syscalls.rst
-> > +++ b/Documentation/process/adding-syscalls.rst
-> > @@ -172,6 +172,13 @@ arguments (i.e. parameter 1, 3, 5), to allow use of contiguous pairs of 32-bit
-> >  registers.  (This concern does not apply if the arguments are part of a
-> >  structure that's passed in by pointer.)
-> >  
-> > +Whenever possible, try to use ABI-agnostic types for passing parameters to
-> > +a syscall in order to avoid creating compat entry for it. Linux supports two
-> > +ABI models - ILP32 and LP64. 
+> Reviewed-by: Peter Xu <peterx@redhat.com>
+> Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
+> ---
+>  include/linux/hugetlb.h | 4 +++-
+>  mm/hugetlb.c            | 1 +
+>  2 files changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+> index 09f1fd12a6fa..3f47650ab79b 100644
+> --- a/include/linux/hugetlb.h
+> +++ b/include/linux/hugetlb.h
+> @@ -11,7 +11,6 @@
+>  #include <linux/kref.h>
+>  #include <linux/pgtable.h>
+>  #include <linux/gfp.h>
+> -#include <linux/userfaultfd_k.h>
+>  
+>  struct ctl_table;
+>  struct user_struct;
+> @@ -135,6 +134,8 @@ void hugetlb_show_meminfo(void);
+>  unsigned long hugetlb_total_pages(void);
+>  vm_fault_t hugetlb_fault(struct mm_struct *mm, struct vm_area_struct *vma,
+>  			unsigned long address, unsigned int flags);
+> +
+> +enum mcopy_atomic_mode;
 
-> > + The types like ``void *``, ``long``, ``size_t``,
-> > +``off_t`` have different size in those ABIs;
+Wrongly placed: the CONFIG_USERFAULTFD=y CONFIG_HUGETLB_PAGE=n build
+fails. Better place it up above with struct ctl_table etc.
 
-In the case of pointers, the best is to use __u64. The pointer can then
-be read on Kernelspace with something like this:
-
-	static inline void __user *media_get_uptr(__u64 arg)
-	{
-		return (void __user *)(uintptr_t)arg;
-	}
-
-
-> > types like ``char`` and  ``int``
-> > +have the same size and don't require a compat layer support. For flags, it's
-> > +always better to use ``unsigned int``.
-> > +
-
-I don't think this is true for all compilers on userspace, as the C
-standard doesn't define how many bits an int/unsigned int has. 
-So, even if this is today's reality, things may change in the future.
-
-For instance, I remember we had to replace "int" and "enum" by "__u32" 
-and "long" by "__u64" at the media uAPI in the past, when we start
-seeing x86_64 Kernels with 32-bits userspace and when cameras started 
-being supported on arm32.
-
-We did have some real bugs with "enum", as, on that time, some
-compilers (gcc, I guess) were optimizing them to have less than
-32 bits on certain architectures, when it fits.
-
-Thanks,
-Mauro
+>  #ifdef CONFIG_USERFAULTFD
+>  int hugetlb_mcopy_atomic_pte(struct mm_struct *dst_mm, pte_t *dst_pte,
+>  				struct vm_area_struct *dst_vma,
+> @@ -143,6 +144,7 @@ int hugetlb_mcopy_atomic_pte(struct mm_struct *dst_mm, pte_t *dst_pte,
+>  				enum mcopy_atomic_mode mode,
+>  				struct page **pagep);
+>  #endif /* CONFIG_USERFAULTFD */
+> +
+>  bool hugetlb_reserve_pages(struct inode *inode, long from, long to,
+>  						struct vm_area_struct *vma,
+>  						vm_flags_t vm_flags);
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index 54d81d5947ed..b1652e747318 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -40,6 +40,7 @@
+>  #include <linux/hugetlb_cgroup.h>
+>  #include <linux/node.h>
+>  #include <linux/page_owner.h>
+> +#include <linux/userfaultfd_k.h>
+>  #include "internal.h"
+>  
+>  int hugetlb_max_hstate __read_mostly;
+> -- 
+> 2.31.1.295.g9ea45b61b8-goog
+> 
+> 
