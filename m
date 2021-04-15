@@ -2,51 +2,56 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CAE8361252
-	for <lists+linux-api@lfdr.de>; Thu, 15 Apr 2021 20:47:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AADF361254
+	for <lists+linux-api@lfdr.de>; Thu, 15 Apr 2021 20:47:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234662AbhDOSsC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 15 Apr 2021 14:48:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38832 "EHLO
+        id S234678AbhDOSsD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 15 Apr 2021 14:48:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234642AbhDOSsB (ORCPT
+        with ESMTP id S234625AbhDOSsB (ORCPT
         <rfc822;linux-api@vger.kernel.org>); Thu, 15 Apr 2021 14:48:01 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD47CC061756
-        for <linux-api@vger.kernel.org>; Thu, 15 Apr 2021 11:47:36 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id p75so3452021ybc.8
-        for <linux-api@vger.kernel.org>; Thu, 15 Apr 2021 11:47:36 -0700 (PDT)
+Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com [IPv6:2607:f8b0:4864:20::849])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B0F3C06175F
+        for <linux-api@vger.kernel.org>; Thu, 15 Apr 2021 11:47:38 -0700 (PDT)
+Received: by mail-qt1-x849.google.com with SMTP id o21-20020a05622a0095b02901b1324f9fceso4638758qtw.8
+        for <linux-api@vger.kernel.org>; Thu, 15 Apr 2021 11:47:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=HOv3LI0amuLnu16Azoij1WiD0ahUGLpZta25xI8mbb4=;
-        b=K+sh8JarhAxis1EkzesQd7EqJyIE6gNyonS8n+ov71E2StwoJ8B2pEj16zjFHpwi1E
-         6ZAXgOWIG7qs+YTeFn5TiDMqbmrPXVBrmzi2XdQAiFUbT8uHoz5txjNNWW8uyU3J8lus
-         On8DVQ2eOOh4iDqFWQAbUMCGlvMVGNByIOkjFT7OrsMo31nByw19h2IPOnHfowP614H0
-         56XU7arD5SCK6pNUkw+NXtNCVLWfltQxlouDjl4qsSmZLXSNNbfUSW5CVOq7Cr6YVHh9
-         XyMXJcn6JsBiQzG3cSNimz3DHSZ0uRHsh+jAsxeSvzJSp8ycAdNi5eVAogPRcnD46KBD
-         sdqQ==
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=BHYviFd/YPB5fVcgCUB7J8bATrNglnMGKIuCG5hxWmE=;
+        b=nbZDAI2t1tEIDKCN/R/T2PG8dcUxRyJ5P2spKm+max9ERxY1ssfwywTbzRFe8loB+i
+         lY2qDWkUELrFSOo8dzG3izekfJjHzMeICxuIBktECtcWRxF247KYabg8JgIvIaACDuBY
+         IIzAwbxpc2vL85XLU2PWPys32uA3iJIc96CEOth4ouBL/d80aHAmad8eslMs4pkf4HRt
+         y2VVAiTFxniPoFvHOdZ3izblDIRTZmCWMx6SXHGH66fvRs4R5zauAma9IzFKna2E7Nnu
+         s41q6dO+C7dRMsZFcdddS9qpG8kXJJ3Y5+9UsZYX04m/rhxUIE4j884TycYq3faLnEl4
+         fmPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=HOv3LI0amuLnu16Azoij1WiD0ahUGLpZta25xI8mbb4=;
-        b=fuOxV+Gw0lQXXLLZLnWVrLe+VaarQjSL+ROMLRhwDg8m5gwvEfXmyunfbLAATTrGm8
-         FSXRDffrKzhMvvgpsN/U3PMl7gUM8s+wXelAD9OpKY7uf8fRMiGzstnDI49qtzjErn4D
-         /Kw+fGLjCq3miMk81ckd68nM5bR/6tfVVu+zc2NFciivqpDb4tDp5XtIAkDqNnoLgfYh
-         lz6rrKJjWxHgtGYAOux32NyWQdFPnWryD3dol9p/ta92hg0LDbM62Yhgon2pPwKmQgyt
-         xcQqRJLts9Ek3ICln9JCgZi1IoEUuKFiXciZX1xdnHqmKOv4zBhbV2PsPKGlvoSmeVlF
-         9Nzw==
-X-Gm-Message-State: AOAM533VKjsHj0fgmHtewAaI1FriC77H1sd8TQHd3zUvX1D8PBVTfKtt
-        D/+krOl4VHnztKiDMSeABiV0bKrI9cVwbSbMEjji
-X-Google-Smtp-Source: ABdhPJzoNSXv2urXx3peba3eorPfVQfJb4ZTqrlOnBXFac83aVKjuHsYFDHRRJKeqOVJqqs2DLnDqHPXoPg6+QsjU4Ji
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=BHYviFd/YPB5fVcgCUB7J8bATrNglnMGKIuCG5hxWmE=;
+        b=HMc5QoSU62wVTWdCqFYadffFgOAgr4p2VIFM+4Lj/yAWBLbeYmcEo9G82Q2/vp0Yne
+         O+LK95zh0jP1kuwX3jLq3crOxPKE+MhbkxjCBpjU5eRkJGgW3zxhCWtIlICC1r0XTZgm
+         +zOz5RhQInvs9D7UBnle0rUt228+BphkRwBCWO50lRfIDd+RGvNIOLWv2P7top4HjCtY
+         OMm0VTSkCWBOfV4HoaNnVV9szMaQIzJAd0D5fylqkz0+Sli0aL3GkR7sB9/evklEwPgn
+         0vk3x4HfM9sZ1r9dxaoMP1MLaVnAVEbaiuSHzleEb1dRLGnHEvxK4cjeoXE7bMCcemi1
+         qZVA==
+X-Gm-Message-State: AOAM533AX0BY8u3fp/kSOZk9p2DPDX6kAV6TisMPupylE9KA9IAsk+vx
+        F4Tb9bG9j56nfT6KIT+UQHSi3PESujn291gkN81X
+X-Google-Smtp-Source: ABdhPJwhZ329hEZwzrn6JRkkNZum7Dd+mwZqJ2rsIfyQZ2kiGU/gbr5Dsvp4wsh28v/muOZE9K5zt/PgEl2S+s4DtBv6
 X-Received: from ajr0.svl.corp.google.com ([2620:15c:2cd:203:21b1:6e5c:b371:7e3])
- (user=axelrasmussen job=sendgmr) by 2002:a25:cc05:: with SMTP id
- l5mr6554359ybf.520.1618512455879; Thu, 15 Apr 2021 11:47:35 -0700 (PDT)
-Date:   Thu, 15 Apr 2021 11:47:22 -0700
-Message-Id: <20210415184732.3410521-1-axelrasmussen@google.com>
+ (user=axelrasmussen job=sendgmr) by 2002:a0c:fc12:: with SMTP id
+ z18mr4779788qvo.38.1618512457568; Thu, 15 Apr 2021 11:47:37 -0700 (PDT)
+Date:   Thu, 15 Apr 2021 11:47:23 -0700
+In-Reply-To: <20210415184732.3410521-1-axelrasmussen@google.com>
+Message-Id: <20210415184732.3410521-2-axelrasmussen@google.com>
 Mime-Version: 1.0
+References: <20210415184732.3410521-1-axelrasmussen@google.com>
 X-Mailer: git-send-email 2.31.1.368.gbe11c130af-goog
-Subject: [PATCH v3 00/10] userfaultfd: add minor fault handling for shmem
+Subject: [PATCH v3 01/10] userfaultfd/hugetlbfs: avoid including
+ userfaultfd_k.h in hugetlb.h
 From:   Axel Rasmussen <axelrasmussen@google.com>
 To:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Andrea Arcangeli <aarcange@redhat.com>,
@@ -73,116 +78,61 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Base
-====
+Minimizing header file inclusion is desirable. In this case, we can do
+so just by forward declaring the enumeration our signature relies upon.
 
-This series is based on (and therefore should apply cleanly to) the tag
-"v5.12-rc7-mmots-2021-04-11-20-49", additionally with Peter's selftest cleanup
-series applied first:
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
+---
+ include/linux/hugetlb.h | 4 +++-
+ mm/hugetlb.c            | 1 +
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-https://lore.kernel.org/patchwork/cover/1412450/
-
-Changelog
-=========
-
-v2->v3:
-- Picked up {Reviewed,Acked}-by's.
-- Reorder commits: introduce CONTINUE before MINOR registration. [Hugh, Peter]
-- Don't try to {unlock,put}_page an xarray value in shmem_getpage_gfp. [Hugh]
-- Move enum mcopy_atomic_mode forward declare out of CONFIG_HUGETLB_PAGE. [Hugh]
-- Keep mistakenly removed UFFD_USER_MODE_ONLY in selftest. [Peter]
-- Cleanup context management in self test (make clear implicit, remove unneeded
-  return values now that we have err()). [Peter]
-- Correct dst_pte argument to dst_pmd in shmem_mcopy_atomic_pte macro. [Hugh]
-- Mention the new shmem support feature in documentation. [Hugh]
-
-v1->v2:
-- Pick up Reviewed-by's.
-- Don't swapin page when a minor fault occurs. Notice that it needs to be
-  swapped in, and just immediately fire the minor fault. Let a future CONTINUE
-  deal with swapping in the page. [Peter]
-- Clarify comment about i_size checks in mm/userfaultfd.c. [Peter]
-- Only forward declare once (out of #ifdef) in hugetlb.h. [Peter]
-
-Changes since [2]:
-- Squash the fixes ([2]) in with the original series ([1]). This makes reviewing
-  easier, as we no longer have to sift through deltas undoing what we had done
-  before. [Hugh, Peter]
-- Modify shmem_mcopy_atomic_pte() to use the new mcopy_atomic_install_ptes()
-  helper, reducing code duplication. [Hugh]
-- Properly trigger handle_userfault() in the shmem_swapin_page() case. [Hugh]
-- Use shmem_getpage() instead of find_lock_page() to lookup the existing page in
-  for continue. This properly deals with swapped-out pages. [Hugh]
-- Unconditionally pte_mkdirty() for anon memory (as before). [Peter]
-- Don't include userfaultfd_k.h in either hugetlb.h or shmem_fs.h. [Hugh]
-- Add comment for UFFD_FEATURE_MINOR_SHMEM (to match _HUGETLBFS). [Hugh]
-- Fix some small cleanup issues (parens, reworded conditionals, reduced plumbing
-  of some parameters, simplify labels/gotos, ...). [Hugh, Peter]
-
-Overview
-========
-
-See the series which added minor faults for hugetlbfs [3] for a detailed
-overview of minor fault handling in general. This series adds the same support
-for shmem-backed areas.
-
-This series is structured as follows:
-
-- Commits 1 and 2 are cleanups.
-- Commits 3 and 4 implement the new feature (minor fault handling for shmem).
-- Commits 5, 6, 7, 8 update the userfaultfd selftest to exercise the feature.
-- Commit 9 is one final cleanup, modifying an existing code path to re-use a new
-  helper we've introduced. We rely on the selftest to show that this change
-  doesn't break anything.
-
-Use Case
-========
-
-In some cases it is useful to have VM memory backed by tmpfs instead of
-hugetlbfs. So, this feature will be used to support the same VM live migration
-use case described in my original series.
-
-Additionally, Android folks (Lokesh Gidra <lokeshgidra@google.com>) hope to
-optimize the Android Runtime garbage collector using this feature:
-
-"The plan is to use userfaultfd for concurrently compacting the heap. With
-this feature, the heap can be shared-mapped at another location where the
-GC-thread(s) could continue the compaction operation without the need to
-invoke userfault ioctl(UFFDIO_COPY) each time. OTOH, if and when Java threads
-get faults on the heap, UFFDIO_CONTINUE can be used to resume execution.
-Furthermore, this feature enables updating references in the 'non-moving'
-portion of the heap efficiently. Without this feature, uneccessary page
-copying (ioctl(UFFDIO_COPY)) would be required."
-
-[1] https://lore.kernel.org/patchwork/cover/1388144/
-[2] https://lore.kernel.org/patchwork/patch/1408161/
-[3] https://lore.kernel.org/linux-fsdevel/20210301222728.176417-1-axelrasmussen@google.com/T/#t
-
-Axel Rasmussen (10):
-  userfaultfd/hugetlbfs: avoid including userfaultfd_k.h in hugetlb.h
-  userfaultfd/shmem: combine shmem_{mcopy_atomic,mfill_zeropage}_pte
-  userfaultfd/shmem: support UFFDIO_CONTINUE for shmem
-  userfaultfd/shmem: support minor fault registration for shmem
-  userfaultfd/selftests: use memfd_create for shmem test type
-  userfaultfd/selftests: create alias mappings in the shmem test
-  userfaultfd/selftests: reinitialize test context in each test
-  userfaultfd/selftests: exercise minor fault handling shmem support
-  userfaultfd/shmem: modify shmem_mcopy_atomic_pte to use install_ptes
-  userfaultfd: update documentation to mention shmem minor faults
-
- Documentation/admin-guide/mm/userfaultfd.rst |   3 +-
- fs/userfaultfd.c                             |   6 +-
- include/linux/hugetlb.h                      |   4 +-
- include/linux/shmem_fs.h                     |  17 +-
- include/linux/userfaultfd_k.h                |   5 +
- include/uapi/linux/userfaultfd.h             |   7 +-
- mm/hugetlb.c                                 |   1 +
- mm/memory.c                                  |   8 +-
- mm/shmem.c                                   | 114 +++-----
- mm/userfaultfd.c                             | 183 +++++++++----
- tools/testing/selftests/vm/userfaultfd.c     | 274 ++++++++++++-------
- 11 files changed, 371 insertions(+), 251 deletions(-)
-
---
+diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+index 09f1fd12a6fa..ca8868cdac16 100644
+--- a/include/linux/hugetlb.h
++++ b/include/linux/hugetlb.h
+@@ -11,11 +11,11 @@
+ #include <linux/kref.h>
+ #include <linux/pgtable.h>
+ #include <linux/gfp.h>
+-#include <linux/userfaultfd_k.h>
+ 
+ struct ctl_table;
+ struct user_struct;
+ struct mmu_gather;
++enum mcopy_atomic_mode;
+ 
+ #ifndef is_hugepd
+ typedef struct { unsigned long pd; } hugepd_t;
+@@ -135,6 +135,7 @@ void hugetlb_show_meminfo(void);
+ unsigned long hugetlb_total_pages(void);
+ vm_fault_t hugetlb_fault(struct mm_struct *mm, struct vm_area_struct *vma,
+ 			unsigned long address, unsigned int flags);
++
+ #ifdef CONFIG_USERFAULTFD
+ int hugetlb_mcopy_atomic_pte(struct mm_struct *dst_mm, pte_t *dst_pte,
+ 				struct vm_area_struct *dst_vma,
+@@ -143,6 +144,7 @@ int hugetlb_mcopy_atomic_pte(struct mm_struct *dst_mm, pte_t *dst_pte,
+ 				enum mcopy_atomic_mode mode,
+ 				struct page **pagep);
+ #endif /* CONFIG_USERFAULTFD */
++
+ bool hugetlb_reserve_pages(struct inode *inode, long from, long to,
+ 						struct vm_area_struct *vma,
+ 						vm_flags_t vm_flags);
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 54d81d5947ed..b1652e747318 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -40,6 +40,7 @@
+ #include <linux/hugetlb_cgroup.h>
+ #include <linux/node.h>
+ #include <linux/page_owner.h>
++#include <linux/userfaultfd_k.h>
+ #include "internal.h"
+ 
+ int hugetlb_max_hstate __read_mostly;
+-- 
 2.31.1.368.gbe11c130af-goog
 
