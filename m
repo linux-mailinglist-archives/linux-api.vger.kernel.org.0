@@ -2,116 +2,160 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B69A3612C4
-	for <lists+linux-api@lfdr.de>; Thu, 15 Apr 2021 21:13:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 346623612ED
+	for <lists+linux-api@lfdr.de>; Thu, 15 Apr 2021 21:34:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234748AbhDOTNu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 15 Apr 2021 15:13:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44528 "EHLO
+        id S234764AbhDOTfU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 15 Apr 2021 15:35:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234226AbhDOTNs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 15 Apr 2021 15:13:48 -0400
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A501C061574
-        for <linux-api@vger.kernel.org>; Thu, 15 Apr 2021 12:13:22 -0700 (PDT)
-Received: by mail-pf1-x429.google.com with SMTP id o123so16717294pfb.4
-        for <linux-api@vger.kernel.org>; Thu, 15 Apr 2021 12:13:22 -0700 (PDT)
+        with ESMTP id S234226AbhDOTfU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 15 Apr 2021 15:35:20 -0400
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AED3AC061574;
+        Thu, 15 Apr 2021 12:34:56 -0700 (PDT)
+Received: by mail-qk1-x72a.google.com with SMTP id b139so21060343qkc.10;
+        Thu, 15 Apr 2021 12:34:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:in-reply-to:message-id:references
-         :user-agent:mime-version;
-        bh=h1zXu+VNyu5if1x16SnLeJ0I2nD7YTVAGnMrH1iiu4g=;
-        b=Da8kk3Ru2Bm69dVW+U31nSmRoSoP3ddZHFLVGC1YDJXzA6ofjuJO8HL4M61ZWURGcP
-         u9xT4agoQ5aGKF4WWFnXpdd660X0aIuTjHTv4aSddK5+koyVrquhJ1mAWr9QQIS2N8Of
-         mTqj3FyDcojHi3K5uCi3U2LDyX62sfJktuYAAPIBC+sIm9c3Po5WP9/3HuWWzi1MZs6V
-         YCFUStIs8khueo/Wr5EfYoxbJ88JA7sXZhmjS/v5McEbx+x47bMIxxtitFDFGbji7kaZ
-         1GvTtgZsN+Y/KJduLJybLpdTdGu+MfKsAvJH0ED/zdWgaQdB+jDEfgf+hOSGR5JJEU5S
-         StwA==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=pZxAIyZXleavtTSyb1uiHKSzHsR5oXHMZ39I12RMRk0=;
+        b=onBlYDAhC06cDL6NCqDCllzRfZfQejyllRxcI7+HHvAr08OAllVvSXes8ugbiCzeco
+         nLvmgt7W4woTCXaY4fSuBqwLQwwnKJrZQKf8RswhvFmMbaDuJpK8VWmmSINeHftlpEds
+         /VfoqjEA0mH3/7vg6iqTRVfKQITDVkJUhjT0vISb0/FOsrc0hUpoiNhEUGh/yTVNw7ps
+         jzksFxtGSxBqixWHPUDh5voLqxYbyNMvcSqj1HkobOfuzg9xR0DhHDxlcWo1Lul0MBMa
+         zLUPIQGKw8lpzD+T+5cjhR5QpPUmhuwgdxELHRm5rkSO5NrPEbkB/8D69EwdfyIFJBhV
+         vklg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
-         :references:user-agent:mime-version;
-        bh=h1zXu+VNyu5if1x16SnLeJ0I2nD7YTVAGnMrH1iiu4g=;
-        b=dyQcvitqKiNtmkxooS7k5Tyoky3Gj5RxjBzKCeOneqESoF+DNdQfRH79TOx8dz7pHg
-         qmP73yaRXpmKNUXwxESwiD4FUDIFWnXzo4avW5vbbt6lmDprp6TT5XndQP2PHyflBF6R
-         bS74BVWlak7PiqumpdFz5BwHGlaR4xGB8YE8nvmXUuzwuJhrZE+QeJzzpHly7j1IVSk+
-         Df3NQwWujPAZsM8zTBDxa6FEHlHAEiz7NCAmaRmPb+Po0bR7k56qEHBNosd7vHWDG6cu
-         ZsA2r6CxlM4s0GNTE0uz39b+xxr29M2LF7KILziHRqRd3/0RdjHI/BIbd/Ag8EWrSpii
-         k6Aw==
-X-Gm-Message-State: AOAM531pjBNoUPUOeEYoQmV445KW6oseNRNXExF2/rIF8dC1X3uWO39y
-        J6E1Gj6yzuc334VqgblnXH9P4g==
-X-Google-Smtp-Source: ABdhPJznpqpLKwAuprmZh3WbW3wgm0rw1K6uqqbCyeA2MuO/YVkgITmGAXD7h9S1rpEBtQa9h8IViQ==
-X-Received: by 2002:a63:ff0a:: with SMTP id k10mr4884479pgi.303.1618514001644;
-        Thu, 15 Apr 2021 12:13:21 -0700 (PDT)
-Received: from eggly.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id j3sm2590490pfc.49.2021.04.15.12.13.20
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Thu, 15 Apr 2021 12:13:21 -0700 (PDT)
-Date:   Thu, 15 Apr 2021 12:12:48 -0700 (PDT)
-From:   Hugh Dickins <hughd@google.com>
-X-X-Sender: hugh@eggly.anvils
-To:     Axel Rasmussen <axelrasmussen@google.com>
-cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrea Arcangeli <aarcange@redhat.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=pZxAIyZXleavtTSyb1uiHKSzHsR5oXHMZ39I12RMRk0=;
+        b=rizEXgCZ6litIaghNZEMOa2//tGaCmknumeIKCPdA5eGU41D6ysoub+CRoRM2QzHFw
+         Hbew4g3xJFNNwVg+UZDkFmcM2+62Z/iv0xnVmU28Fb3QHWwuCe/lPcHL+YmzObRJ6CCr
+         Hwcikp7RtuXO9mqni6kaQ1Qa2RBjtn/9hDUSmc8gxKMA3BkGkzMhsQl5SBAYhGE1KUmy
+         uuWq5/cLEDg/hjKT6N93JEFwamx1In0gaKDXdBVCOLCA8XszyNq6EaQ/aRgA4/BRA7aI
+         rwgoBSkI5+3nWuC4YL8PqjBsncq6FePxejUPZvxpkRelp6gan4/skEY60nL7Z1O7tYwZ
+         ZOoA==
+X-Gm-Message-State: AOAM530xogskmL88mNEpPRR8fHlfBvu50TypfYSfVWGCfhKTAyilABGv
+        NmVWS2K1O7Mq9IlxhYQyTGU=
+X-Google-Smtp-Source: ABdhPJzrbYgx8Sdj4iNjPv4xqlMIKmcPlwduxKQ6imfnVGG9ycn0yf5KbiTZVaZ2x9OXPObGAt2ZMw==
+X-Received: by 2002:a37:bc43:: with SMTP id m64mr5206130qkf.186.1618515295735;
+        Thu, 15 Apr 2021 12:34:55 -0700 (PDT)
+Received: from localhost ([2601:4c0:10a:6422:d95c:67f2:e1ae:b4c2])
+        by smtp.gmail.com with ESMTPSA id 132sm2651816qkn.52.2021.04.15.12.34.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Apr 2021 12:34:55 -0700 (PDT)
+Date:   Thu, 15 Apr 2021 12:34:53 -0700
+From:   Yury Norov <yury.norov@gmail.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Mike Rapoport <rppt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@collabora.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Hugh Dickins <hughd@google.com>,
-        Jerome Glisse <jglisse@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>, David Sterba <dsterba@suse.com>,
         Joe Perches <joe@perches.com>,
-        Lokesh Gidra <lokeshgidra@google.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Peter Xu <peterx@redhat.com>, Shaohua Li <shli@fb.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Wang Qing <wangqing@vivo.com>, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-        Brian Geffon <bgeffon@google.com>,
-        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
-        Mina Almasry <almasrymina@google.com>,
-        Oliver Upton <oupton@google.com>
-Subject: Re: [PATCH v3 00/10] userfaultfd: add minor fault handling for
- shmem
-In-Reply-To: <20210415184732.3410521-1-axelrasmussen@google.com>
-Message-ID: <alpine.LSU.2.11.2104151203320.15150@eggly.anvils>
-References: <20210415184732.3410521-1-axelrasmussen@google.com>
-User-Agent: Alpine 2.11 (LSU 23 2013-08-11)
+        Jonathan Corbet <corbet@lwn.net>,
+        Aleksa Sarai <cyphar@cyphar.com>
+Subject: Re: [PATCH] Documentation: syscalls: add a note about  ABI-agnostic
+ types
+Message-ID: <20210415193453.GA140029@yury-ThinkPad>
+References: <20210409204304.1273139-1-yury.norov@gmail.com>
+ <20210414044020.GA44464@yury-ThinkPad>
+ <20210414081422.5a9d0c4b@coco.lan>
+ <20210414084605.pdlnjkwa3h47jxno@wittgenstein>
+ <YHa52ddAzcRGOB/m@kernel.org>
+ <20210414133847.2gwws46ktuqxkghu@wittgenstein>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210414133847.2gwws46ktuqxkghu@wittgenstein>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, 15 Apr 2021, Axel Rasmussen wrote:
-
-> Base
-> ====
+On Wed, Apr 14, 2021 at 03:38:47PM +0200, Christian Brauner wrote:
+> On Wed, Apr 14, 2021 at 12:46:01PM +0300, Mike Rapoport wrote:
+> > On Wed, Apr 14, 2021 at 10:46:05AM +0200, Christian Brauner wrote:
+> > > On Wed, Apr 14, 2021 at 08:14:22AM +0200, Mauro Carvalho Chehab wrote:
+> > > > Em Tue, 13 Apr 2021 21:40:20 -0700
+> > > > Yury Norov <yury.norov@gmail.com> escreveu:
+> > > > 
+> > > > > Ping?
+> > > > > 
+> > > > > On Fri, Apr 09, 2021 at 01:43:04PM -0700, Yury Norov wrote:
+> > > > > > Recently added memfd_secret() syscall had a flags parameter passed
+> > > > > > as unsigned long, which requires creation of compat entry for it.
+> > > > > > It was possible to change the type of flags to unsigned int and so
+> > > > > > avoid bothering with compat layer.
+> > > > > > 
+> > > > > > https://www.spinics.net/lists/linux-mm/msg251550.html
+> > > > > > 
+> > > > > > Documentation/process/adding-syscalls.rst doesn't point clearly about
+> > > > > > preference of ABI-agnostic types. This patch adds such notification.
+> > > > > > 
+> > > > > > Signed-off-by: Yury Norov <yury.norov@gmail.com>
+> > > > > > ---
+> > > > > >  Documentation/process/adding-syscalls.rst | 7 +++++++
+> > > > > >  1 file changed, 7 insertions(+)
+> > > > > > 
+> > > > > > diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
+> > > > > > index 9af35f4ec728..46add16edf14 100644
+> > > > > > --- a/Documentation/process/adding-syscalls.rst
+> > > > > > +++ b/Documentation/process/adding-syscalls.rst
+> > > > > > @@ -172,6 +172,13 @@ arguments (i.e. parameter 1, 3, 5), to allow use of contiguous pairs of 32-bit
+> > > > > >  registers.  (This concern does not apply if the arguments are part of a
+> > > > > >  structure that's passed in by pointer.)
+> > > > > >  
+> > > > > > +Whenever possible, try to use ABI-agnostic types for passing parameters to
+> > > > > > +a syscall in order to avoid creating compat entry for it. Linux supports two
+> > > > > > +ABI models - ILP32 and LP64. 
+> > > > 
+> > > > > > + The types like ``void *``, ``long``, ``size_t``,
+> > > > > > +``off_t`` have different size in those ABIs;
+> > > > 
+> > > > In the case of pointers, the best is to use __u64. The pointer can then
+> > > > be read on Kernelspace with something like this:
+> > > > 
+> > > > 	static inline void __user *media_get_uptr(__u64 arg)
+> > > > 	{
+> > > > 		return (void __user *)(uintptr_t)arg;
+> > > > 	}
+> > > > 
+> > > > 
+> > > > > > types like ``char`` and  ``int``
+> > > > > > +have the same size and don't require a compat layer support. For flags, it's
+> > > > > > +always better to use ``unsigned int``.
+> > > > > > +
+> > > > 
+> > > > I don't think this is true for all compilers on userspace, as the C
+> > > > standard doesn't define how many bits an int/unsigned int has. 
+> > > > So, even if this is today's reality, things may change in the future.
+> > > > 
+> > > > For instance, I remember we had to replace "int" and "enum" by "__u32" 
+> > > > and "long" by "__u64" at the media uAPI in the past, when we start
+> > > > seeing x86_64 Kernels with 32-bits userspace and when cameras started 
+> > > > being supported on arm32.
+> > > > 
+> > > > We did have some real bugs with "enum", as, on that time, some
+> > > > compilers (gcc, I guess) were optimizing them to have less than
+> > > > 32 bits on certain architectures, when it fits.
+> > > 
+> > > Fwiw, Aleksa and I have written extended syscall documentation
+> > > documenting the agreement that we came to in a dedicated session with a
+> > > wide range of kernel folks during Linux Plumbers last year. We simply
+> > > never had time to actually send this series but fwiw here it is. It also
+> > > mentions the use of correct types. If people feel it's worth it I can
+> > > send as a proper series:
+> > 
+> > Yes, please.
 > 
-> This series is based on (and therefore should apply cleanly to) the tag
-> "v5.12-rc7-mmots-2021-04-11-20-49", additionally with Peter's selftest cleanup
-> series applied first:
+> Ok, I'll try to fix the commit messages and send it out.
 > 
-> https://lore.kernel.org/patchwork/cover/1412450/
-> 
-> Changelog
-> =========
-> 
-> v2->v3:
-> - Picked up {Reviewed,Acked}-by's.
-> - Reorder commits: introduce CONTINUE before MINOR registration. [Hugh, Peter]
-> - Don't try to {unlock,put}_page an xarray value in shmem_getpage_gfp. [Hugh]
-> - Move enum mcopy_atomic_mode forward declare out of CONFIG_HUGETLB_PAGE. [Hugh]
-> - Keep mistakenly removed UFFD_USER_MODE_ONLY in selftest. [Peter]
-> - Cleanup context management in self test (make clear implicit, remove unneeded
->   return values now that we have err()). [Peter]
-> - Correct dst_pte argument to dst_pmd in shmem_mcopy_atomic_pte macro. [Hugh]
-> - Mention the new shmem support feature in documentation. [Hugh]
+> Christian
 
-I shall ignore this v3 completely: "git send-email" is a wonderful
-tool for mailing out patchsets in quick succession, but I have not
-yet mastered "git send-review" to do the thinking for me as quickly.
-
-Still deliberating on 4/9 and 9/9 of v2: they're very close,
-but raise userfaultfd questions I still have to answer myself.
-
-Hugh
+Could you pelease keep me in CC in your submission?
