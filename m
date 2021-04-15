@@ -2,217 +2,254 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A4AC35FD98
-	for <lists+linux-api@lfdr.de>; Thu, 15 Apr 2021 00:12:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82B2F360718
+	for <lists+linux-api@lfdr.de>; Thu, 15 Apr 2021 12:27:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231308AbhDNWNM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 14 Apr 2021 18:13:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51038 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231190AbhDNWNL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 14 Apr 2021 18:13:11 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1F71C061574;
-        Wed, 14 Apr 2021 15:12:49 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id a85so14247002pfa.0;
-        Wed, 14 Apr 2021 15:12:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=EK884MpOCBxdWk5mXA0bTv5YDCU2uHVx/oqS0Cf9P8E=;
-        b=DWMXi7COl7xpo//yBLsqLpvw0K7BJ8rK2lEwFmiJavCqo0Q5eZY+Aun3FbBXr36k4a
-         wx5ZVscDHGFaTJbqbYoC2bJVwhmvIaVZJx7MGLBqwlHeysC4+OZQFV6chn7dETBrgevM
-         XEUgU+fsWu2idieJbhT9wYhwT2k7B8ww9lmNtvP6xJ3CWN/0K/11yc3pV7Smc4mNDhX/
-         qsceulJT1j6Z0v1jvdMctDUGALow6Tgply7al77wSaBzK7wR/Z0ZMKMozbY9DHJbHgZk
-         FZQ70ONIdBwCgGBub/1GhxT8nQQTdSr4pMv9s+rCSMgpLKB1mXXcuGtBPzJ0nY2j7MVV
-         zrPg==
+        id S232196AbhDOK1X (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 15 Apr 2021 06:27:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54107 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232109AbhDOK1V (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 15 Apr 2021 06:27:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1618482418;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=8cpKb0ASp+K7zcTMzICSE9fwIk8Icc72x4Rwh+Gm6ZU=;
+        b=Uk9k7vgKRYy/wUVbHTHus80kG5QoiX0tCYucSSb3VUMHFKdnODyv8tn+FpnHTkl7SKTJuC
+        WPdExKHl7tvf6ismBOd91G1PMms0ibRLAHmzJNJn2CKmtAw2KVpPGDS9LZsLl0hNY7LKG1
+        T1dbp+GcP+vi3Qvq3FhQ9kWMFZpENjg=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-241-PAhhh31wOeacQ1hXxCtRcA-1; Thu, 15 Apr 2021 06:26:56 -0400
+X-MC-Unique: PAhhh31wOeacQ1hXxCtRcA-1
+Received: by mail-wr1-f72.google.com with SMTP id s9-20020a5d51090000b02901028ea30da6so2525618wrt.7
+        for <linux-api@vger.kernel.org>; Thu, 15 Apr 2021 03:26:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=EK884MpOCBxdWk5mXA0bTv5YDCU2uHVx/oqS0Cf9P8E=;
-        b=ocANfmzc6oCsSAUk3Qt+Fs/SMgRYJ7HjOGUpm40dy6edUa5b/xf6tysSlMLOqwW/n8
-         D3D19B6YJ5Ps+EctHvR4LiHhyN2/W2BK2+thvtsHy1HJ6CIPmrcrNs0lFQNJoXtl9gyR
-         WU9VFLakldE4m/HJbwAvU8eMQ6b6ZwCvwBHW+7grXe8jrj5rrd2GwHrrSs/teA2j0KtP
-         sfE20ZDbJGsr0LdMj3nrOkYqfb9s3QCqVNRAAiwYmojwA3VqNVNNYqNfMiRoEpour6vD
-         I8/viGqUQS4q5OULbXbCT64dMlBFBX7vKq9eu+0yJJXU1tXe+sN2OiBE4/9dGxsKW759
-         GsgQ==
-X-Gm-Message-State: AOAM532jmUsGlyfZo9nREdm7cpVIdOgUfYJXEgMVnDpiEOFOR7zjH4I/
-        fXxS5be18gx7vcc3xnI9PmU=
-X-Google-Smtp-Source: ABdhPJxYihVqjxbTGniiZF0nmmXc3U5+mhPVSc6vvXqf9jKLNvxLc9QTmVoGku1gUPxZP+sHhIA+Dw==
-X-Received: by 2002:aa7:91d1:0:b029:1fe:2a02:73b9 with SMTP id z17-20020aa791d10000b02901fe2a0273b9mr247958pfa.2.1618438369166;
-        Wed, 14 Apr 2021 15:12:49 -0700 (PDT)
-Received: from gmail.com ([2601:600:8500:5f14:d627:c51e:516e:a105])
-        by smtp.gmail.com with ESMTPSA id mz20sm305131pjb.55.2021.04.14.15.12.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 15:12:48 -0700 (PDT)
-Date:   Wed, 14 Apr 2021 15:10:12 -0700
-From:   Andrei Vagin <avagin@gmail.com>
+        h=x-gm-message-state:from:to:cc:references:organization:subject
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=8cpKb0ASp+K7zcTMzICSE9fwIk8Icc72x4Rwh+Gm6ZU=;
+        b=BLMTXPcTxXzbU14bVHvw29YCLxlCeyy9ICwxeGXdIuR281GiQ7HM+7CbyqNTGtj905
+         Lco1qmmFUkvEzbvUD+9PgFYBw8sZALIU3k2rtq+heSidVc+k/KdFkfkNm/Il4Bj+q9iw
+         4ZqKQ2/bVDScqoI6QlcahmQMrMtsazgfjie28wgzkaye9kMa4bOEfr4Pz5JeT3nFHlD3
+         96TAquhfYF1q0MAycngILi2Ef+uk+ffJ/JsIuqCIOE223+n+OQtLIiw9P890U4oEKKUR
+         sr3+7Bz4KRZBVsCQMhsnhj6JcSWkQBqktwngudLF4zGzzuZPVCKnf6mdMbAx/aZxHyL1
+         3FqQ==
+X-Gm-Message-State: AOAM533oJBwOopkxNZjboOYmtNGNr+TYnj7eTjNRd8O/3i842OWEmJ74
+        3Ay+a68aVBCR6frlxNEYqyZDO5cvFYv5V6FS6RGb/fvZPCFXqZ4o8EQyXRMl+K5hfekz7n5vtm1
+        pRwDQxtjTPHK1TkDzRXjOkpgJtMdChQ9HGB1DAhD/EBY5exIv9xbRVzFi2MDozfgRkLYC
+X-Received: by 2002:adf:f186:: with SMTP id h6mr2569781wro.89.1618482415135;
+        Thu, 15 Apr 2021 03:26:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwv7Q012I0Vz8MHqIPLa4Xkx+hS8m+nH/TPxEyn3JS7V7NiE9yOuvehr7qVZbxLbS4BFGfVVQ==
+X-Received: by 2002:adf:f186:: with SMTP id h6mr2569712wro.89.1618482414741;
+        Thu, 15 Apr 2021 03:26:54 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c6392.dip0.t-ipconnect.de. [91.12.99.146])
+        by smtp.gmail.com with ESMTPSA id z17sm2386902wro.1.2021.04.15.03.26.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Apr 2021 03:26:54 -0700 (PDT)
+From:   David Hildenbrand <david@redhat.com>
 To:     Jann Horn <jannh@google.com>
 Cc:     kernel list <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-um@lists.infradead.org, criu@openvz.org, avagin@google.com,
+        Linux-MM <linux-mm@kvack.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        Ingo Molnar <mingo@redhat.com>, Jeff Dike <jdike@addtoit.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH 0/4 POC] Allow executing code and syscalls in another
- address space
-Message-ID: <YHdoRAJb9VlZ5lSu@gmail.com>
-References: <20210414055217.543246-1-avagin@gmail.com>
- <CAG48ez0jfsS=gKN0Vo_VS2EvvMBvEr+QNz0vDKPeSAzsrsRwPQ@mail.gmail.com>
+        Arnd Bergmann <arnd@arndb.de>, Michal Hocko <mhocko@suse.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Matthew Wilcox <willy@infradead.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Hugh Dickins <hughd@google.com>,
+        Rik van Riel <riel@surriel.com>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>, Chris Zankel <chris@zankel.net>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Peter Xu <peterx@redhat.com>,
+        Rolf Eike Beer <eike-kernel@sf-tec.de>,
+        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+References: <20210317110644.25343-1-david@redhat.com>
+ <20210317110644.25343-3-david@redhat.com>
+ <CAG48ez0BQ3Vd3nDLEvyiSU0XALgUQ=c-fAwcFVScUkgo_9qVuQ@mail.gmail.com>
+ <2bab28c7-08c0-7ff0-c70e-9bf94da05ce1@redhat.com>
+ <CAG48ez20rLRNPZj6hLHQ_PLT8H60kTac-uXRiLByD70Q7+qsdQ@mail.gmail.com>
+ <26227fc6-3e7b-4e69-f69d-4dc2a67ecfe8@redhat.com>
+ <54165ffe-dbf7-377a-a710-d15be4701f20@redhat.com>
+ <5f49b60c-957d-8cb4-de7a-7c855dc72942@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v1 2/5] mm/madvise: introduce MADV_POPULATE_(READ|WRITE)
+ to prefault/prealloc memory
+Message-ID: <273f9c4b-2a1a-23e7-53b9-0da5441895b3@redhat.com>
+Date:   Thu, 15 Apr 2021 12:26:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <5f49b60c-957d-8cb4-de7a-7c855dc72942@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAG48ez0jfsS=gKN0Vo_VS2EvvMBvEr+QNz0vDKPeSAzsrsRwPQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Apr 14, 2021 at 08:46:40AM +0200, Jann Horn wrote:
-> On Wed, Apr 14, 2021 at 7:59 AM Andrei Vagin <avagin@gmail.com> wrote:
-> > We already have process_vm_readv and process_vm_writev to read and write
-> > to a process memory faster than we can do this with ptrace. And now it
-> > is time for process_vm_exec that allows executing code in an address
-> > space of another process. We can do this with ptrace but it is much
-> > slower.
-> >
-> > = Use-cases =
+On 07.04.21 12:31, David Hildenbrand wrote:
+> On 30.03.21 18:31, David Hildenbrand wrote:
+>> On 30.03.21 18:30, David Hildenbrand wrote:
+>>> On 30.03.21 18:21, Jann Horn wrote:
+>>>> On Tue, Mar 30, 2021 at 5:01 PM David Hildenbrand <david@redhat.com> wrote:
+>>>>>>> +long faultin_vma_page_range(struct vm_area_struct *vma, unsigned long start,
+>>>>>>> +                           unsigned long end, bool write, int *locked)
+>>>>>>> +{
+>>>>>>> +       struct mm_struct *mm = vma->vm_mm;
+>>>>>>> +       unsigned long nr_pages = (end - start) / PAGE_SIZE;
+>>>>>>> +       int gup_flags;
+>>>>>>> +
+>>>>>>> +       VM_BUG_ON(!PAGE_ALIGNED(start));
+>>>>>>> +       VM_BUG_ON(!PAGE_ALIGNED(end));
+>>>>>>> +       VM_BUG_ON_VMA(start < vma->vm_start, vma);
+>>>>>>> +       VM_BUG_ON_VMA(end > vma->vm_end, vma);
+>>>>>>> +       mmap_assert_locked(mm);
+>>>>>>> +
+>>>>>>> +       /*
+>>>>>>> +        * FOLL_HWPOISON: Return -EHWPOISON instead of -EFAULT when we hit
+>>>>>>> +        *                a poisoned page.
+>>>>>>> +        * FOLL_POPULATE: Always populate memory with VM_LOCKONFAULT.
+>>>>>>> +        * !FOLL_FORCE: Require proper access permissions.
+>>>>>>> +        */
+>>>>>>> +       gup_flags = FOLL_TOUCH | FOLL_POPULATE | FOLL_MLOCK | FOLL_HWPOISON;
+>>>>>>> +       if (write)
+>>>>>>> +               gup_flags |= FOLL_WRITE;
+>>>>>>> +
+>>>>>>> +       /*
+>>>>>>> +        * See check_vma_flags(): Will return -EFAULT on incompatible mappings
+>>>>>>> +        * or with insufficient permissions.
+>>>>>>> +        */
+>>>>>>> +       return __get_user_pages(mm, start, nr_pages, gup_flags,
+>>>>>>> +                               NULL, NULL, locked);
+>>>>>>
+>>>>>> You mentioned in the commit message that you don't want to actually
+>>>>>> dirty all the file pages and force writeback; but doesn't
+>>>>>> POPULATE_WRITE still do exactly that? In follow_page_pte(), if
+>>>>>> FOLL_TOUCH and FOLL_WRITE are set, we mark the page as dirty:
+>>>>>
+>>>>> Well, I mention that POPULATE_READ explicitly doesn't do that. I
+>>>>> primarily set it because populate_vma_page_range() also sets it.
+>>>>>
+>>>>> Is it safe to *not* set it? IOW, fault something writable into a page
+>>>>> table (where the CPU could dirty it without additional page faults)
+>>>>> without marking it accessed? For me, this made logically sense. Thus I
+>>>>> also understood why populate_vma_page_range() set it.
+>>>>
+>>>> FOLL_TOUCH doesn't have anything to do with installing the PTE - it
+>>>> essentially means "the caller of get_user_pages wants to read/write
+>>>> the contents of the returned page, so please do the same things you
+>>>> would do if userspace was accessing the page". So in particular, if
+>>>> you look up a page via get_user_pages() with FOLL_WRITE|FOLL_TOUCH,
+>>>> that tells the MM subsystem "I will be writing into this page directly
+>>>> from the kernel, bypassing the userspace page tables, so please mark
+>>>> it as dirty now so that it will be properly written back later". Part
+>>>> of that is that it marks the page as recently used, which has an
+>>>> effect on LRU pageout behavior, I think - as far as I understand, that
+>>>> is why populate_vma_page_range() uses FOLL_TOUCH.
+>>>>
+>>>> If you look at __get_user_pages(), you can see that it is split up
+>>>> into two major parts: faultin_page() for creating PTEs, and
+>>>> follow_page_mask() for grabbing pages from PTEs. faultin_page()
+>>>> ignores FOLL_TOUCH completely; only follow_page_mask() uses it.
+>>>>
+>>>> In a way I guess maybe you do want the "mark as recently accessed"
+>>>> part that FOLL_TOUCH would give you without FOLL_WRITE? But I think
+>>>> you very much don't want the dirtying that FOLL_TOUCH|FOLL_WRITE leads
+>>>> to. Maybe the ideal approach would be to add a new FOLL flag to say "I
+>>>> only want to mark as recently used, I don't want to dirty". Or maybe
+>>>> it's enough to just leave out the FOLL_TOUCH entirely, I don't know.
+>>>
+>>> Any thoughts why populate_vma_page_range() does it?
+>>
+>> Sorry, I missed the explanation above - thanks!
 > 
-> It seems to me like your proposed API doesn't really fit either one of
-> those usecases well...
-
-We definitely can invent more specific interfaces for each of these
-problems. Sure, they will handle their use-cases a bit better than this
-generic one. But do we want to have two very specific interfaces with
-separate kernel implementations? My previous experiences showed that the
-kernel community doesn't like interfaces that are specific for only one
-narrow use-case.
-
-So when I was working on process_vm_exec, I was thinking how to make
-one interfaces that will be good enough for all these use-cases.
-
+> Looking into the details, adjusting the FOLL_TOUCH logic won't make too
+> much of a difference for MADV_POPULATE_WRITE I guess. AFAIKs, the
+> biggest impact of FOLL_TOUCH is actually with FOLL_FORCE - which we are
+> not using, but populate_vma_page_range() is.
 > 
-> > Here are two known use-cases. The first one is “application kernel”
-> > sandboxes like User-mode Linux and gVisor. In this case, we have a
-> > process that runs the sandbox kernel and a set of stub processes that
-> > are used to manage guest address spaces. Guest code is executed in the
-> > context of stub processes but all system calls are intercepted and
-> > handled in the sandbox kernel. Right now, these sort of sandboxes use
-> > PTRACE_SYSEMU to trap system calls, but the process_vm_exec can
-> > significantly speed them up.
 > 
-> In this case, since you really only want an mm_struct to run code
-> under, it seems weird to create a whole task with its own PID and so
-> on. It seems to me like something similar to the /dev/kvm API would be
-> more appropriate here? Implementation options that I see for that
-> would be:
+> If a page was not faulted in yet,
+> faultin_page(FOLL_WRITE)->handle_mm_fault(FAULT_FLAG_WRITE) will already
+> mark the PTE/PMD/... dirty and accessed. One example is
+> handle_pte_fault(). We will mark the page accessed again via FOLL_TOUCH,
+> which doesn't seem to be strictly required.
 > 
-> 1. mm_struct-based:
->       a set of syscalls to create a new mm_struct,
->       change memory mappings under that mm_struct, and switch to it
-> 2. pagetable-mirroring-based:
->       like /dev/kvm, an API to create a new pagetable, mirror parts of
->       the mm_struct's pagetables over into it with modified permissions
->       (like KVM_SET_USER_MEMORY_REGION),
->       and run code under that context.
->       page fault handling would first handle the fault against mm->pgd
->       as normal, then mirror the PTE over into the secondary pagetables.
->       invalidation could be handled with MMU notifiers.
-
-We are ready to discuss this sort of interfaces if the community will
-agree to accept it. Are there any other users except sandboxes that will
-need something like this? Will the sandbox use-case enough to justify
-the addition of this interface?
-
 > 
-> > Another use-case is CRIU (Checkpoint/Restore in User-space). Several
-> > process properties can be received only from the process itself. Right
-> > now, we use a parasite code that is injected into the process. We do
-> > this with ptrace but it is slow, unsafe, and tricky.
+> If the page was already faulted in, we have three cases:
 > 
-> But this API will only let you run code under the *mm* of the target
-> process, not fully in the context of a target *task*, right? So you
-> still won't be able to use this for accessing anything other than
-> memory? That doesn't seem very generically useful to me.
-
-You are right, this will not rid us of the need to run a parasite code.
-I wrote that it will make a process of injecting a parasite code a bit
-simpler.
-
+> 1. Page faulted in writable. The page should already be dirty (otherwise
+> we would be in trouble I guess). We will mark it accessed.
 > 
-> Also, I don't doubt that anything involving ptrace is kinda tricky,
-> but it would be nice to have some more detail on what exactly makes
-> this slow, unsafe and tricky. Are there API additions for ptrace that
-> would make this work better? I imagine you're thinking of things like
-> an API for injecting a syscall into the target process without having
-> to first somehow find an existing SYSCALL instruction in the target
-> process?
-
-
-You describe the first problem right. We need to find or inject a
-syscall instruction to a target process.
-Right now, we need to do these steps to execute a system call:
-
-* inject the syscall instruction (PTRACE_PEEKDATA/PTRACE_POKEDATA).
-* get origin registers
-* set new registers
-* get a signal mask.
-* block signals
-* resume the process
-* stop it on the next syscall-exit
-* get registers
-* set origin registers
-* restore a signal mask.
-
-One of the CRIU principals is to avoid changing a process state, so if
-criu is interrupted, processes must be resumed and continue running. The
-procedure of injecting a system call creates a window when a process is
-in an inconsistent state, and a disappearing CRIU at such moments will
-be fatal for the process. We don't think that we can eliminate such
-windows, but we want to make them smaller.
-
-In CRIU, we have a self-healed parasite. The idea is to inject a
-parasite code with a signal frame that contains the origin process
-state. The parasite runs in an "RPC daemon mode" and gets commands from
-criu via a unix socket. If it detects that criu disappeared, it calls
-rt_sigreturn and resumes the origin process.
-
-As for the performance of the ptrace, there are a few reasons why it is
-slow. First, it is a number of steps what we need to do. Second, it is
-two synchronious context switches. Even if we will solve the first
-problem with a new ptrace command, it will be not enough to stop using a
-parasite in CRIU.
-
+> 2. Page faulted in readable. handle_mm_fault() will fault it in writable
+> and set the page dirty.
 > 
-> > process_vm_exec can
-> > simplify the process of injecting a parasite code and it will allow
-> > pre-dump memory without stopping processes. The pre-dump here is when we
-> > enable a memory tracker and dump the memory while a process is continue
-> > running. On each interaction we dump memory that has been changed from
-> > the previous iteration. In the final step, we will stop processes and
-> > dump their full state. Right now the most effective way to dump process
-> > memory is to create a set of pipes and splice memory into these pipes
-> > from the parasite code. With process_vm_exec, we will be able to call
-> > vmsplice directly. It means that we will not need to stop a process to
-> > inject the parasite code.
+> 3. Page faulted in readable and we have FOLL_FORCE. We mark the page
+> dirty and accessed.
 > 
-> Alternatively you could add splice support to /proc/$pid/mem or add a
-> syscall similar to process_vm_readv() that splices into a pipe, right?
+> 
+> So doing a MADV_POPULATE_WRITE, whereby we prefault page tables
+> writable, doesn't seem to fly without marking the pages dirty. That's
+> one reason why I included MADV_POPULATE_READ.
+> 
+> We could
+> 
+> a) Drop FOLL_TOUCH. We are not marking the page accessed, which would
+> mean it gets evicted rather earlier than later.
+> 
+> b) Introduce FOLL_ACCESSED which won't do the dirtying. But then, the
+> pages are already dirty as explained above, so there isn't a real
+> observable change.
+> 
+> c) Keep it as is: Mark the page accessed and dirty. As it's already
+> dirty, that does not seem to be a real issue.
+> 
+> Am I missing something obvious? Thanks!
+> 
 
-We send patches to introcude process_vm_splice:
-https://lore.kernel.org/patchwork/cover/871116/
+I did some more digging. I think there are cases for shared mappings 
+where we can have pte_write() but not pte_dirty().
 
-but they were not merged and the main reason was a lack of enough users
-to justify its addition.
+One example seems to be mm/memory.c:copy_present_pte() , used during fork.
+
+IIUC, this means that the child process can write to these pages, but 
+won't mark the PTEs dirty -- as there won't be a write fault. I'd assume 
+we'd need pte_mkclean(pte_wrprotect(pte)), but I'm fairly new to that code.
+
+(Similarly, we do an pte_mkold() without revoking any protection, 
+meaning we won't catch read accesses.)
+
+
+Maybe the logic here is that if the PTE was writable in some parent, it 
+was also dirty in some parent (at least in the one originally mapping it 
+writable). When evicting/writeback'ing file pages, we'll have go over 
+the rmap and zap all entries of any page tables either way; it's 
+sufficient if one PTE entry is dirty. I can spot that even 
+zap_pte_range() will sync the dirty flag back to the page.
+
+Am I right or is there some other magic going on? :)
+
+-- 
+Thanks,
+
+David / dhildenb
+
