@@ -2,254 +2,170 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82B2F360718
-	for <lists+linux-api@lfdr.de>; Thu, 15 Apr 2021 12:27:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B263E3611A8
+	for <lists+linux-api@lfdr.de>; Thu, 15 Apr 2021 20:03:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232196AbhDOK1X (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 15 Apr 2021 06:27:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54107 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232109AbhDOK1V (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 15 Apr 2021 06:27:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1618482418;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=8cpKb0ASp+K7zcTMzICSE9fwIk8Icc72x4Rwh+Gm6ZU=;
-        b=Uk9k7vgKRYy/wUVbHTHus80kG5QoiX0tCYucSSb3VUMHFKdnODyv8tn+FpnHTkl7SKTJuC
-        WPdExKHl7tvf6ismBOd91G1PMms0ibRLAHmzJNJn2CKmtAw2KVpPGDS9LZsLl0hNY7LKG1
-        T1dbp+GcP+vi3Qvq3FhQ9kWMFZpENjg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-241-PAhhh31wOeacQ1hXxCtRcA-1; Thu, 15 Apr 2021 06:26:56 -0400
-X-MC-Unique: PAhhh31wOeacQ1hXxCtRcA-1
-Received: by mail-wr1-f72.google.com with SMTP id s9-20020a5d51090000b02901028ea30da6so2525618wrt.7
-        for <linux-api@vger.kernel.org>; Thu, 15 Apr 2021 03:26:56 -0700 (PDT)
+        id S234463AbhDOSEQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 15 Apr 2021 14:04:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57540 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233134AbhDOSEP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 15 Apr 2021 14:04:15 -0400
+Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FB45C06175F
+        for <linux-api@vger.kernel.org>; Thu, 15 Apr 2021 11:03:52 -0700 (PDT)
+Received: by mail-il1-x130.google.com with SMTP id 6so20910289ilt.9
+        for <linux-api@vger.kernel.org>; Thu, 15 Apr 2021 11:03:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jMi3JQh4ceVfV/j7Lf7DWzkm4A/CG7sUwuBKTI9Y7vs=;
+        b=LOWfqGRgHZ2GaLk4r0jnjtm6hmUQDMtLwyD23G/zSp+dciXK8p9hxW5dpWlieJWVov
+         9fZxBC9Gq0vChe5/SI2Xz2rZtf5evjuecN76OfNiPb1n7JvJtsnyuPbcU7lyolclN6h9
+         xm/USSXnuwH42Jp23W8TX1U8yNA3aiVNF0zBR+WhMg086kxGgjnkrWSXlZ2K1t+dKvX5
+         mz6u4JCxYhvmR84+sH+l+BSsbQc2DhNnetCk62Xcxyf/eFiJ8bkw8HN++VM57h/YDUKu
+         p8uMAQs2++W6WuNhOtTfjydZwv7nX0X3/sjt3phwy8sk76atjR1aN3znqw1PgpCPveT8
+         oH7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:references:organization:subject
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=8cpKb0ASp+K7zcTMzICSE9fwIk8Icc72x4Rwh+Gm6ZU=;
-        b=BLMTXPcTxXzbU14bVHvw29YCLxlCeyy9ICwxeGXdIuR281GiQ7HM+7CbyqNTGtj905
-         Lco1qmmFUkvEzbvUD+9PgFYBw8sZALIU3k2rtq+heSidVc+k/KdFkfkNm/Il4Bj+q9iw
-         4ZqKQ2/bVDScqoI6QlcahmQMrMtsazgfjie28wgzkaye9kMa4bOEfr4Pz5JeT3nFHlD3
-         96TAquhfYF1q0MAycngILi2Ef+uk+ffJ/JsIuqCIOE223+n+OQtLIiw9P890U4oEKKUR
-         sr3+7Bz4KRZBVsCQMhsnhj6JcSWkQBqktwngudLF4zGzzuZPVCKnf6mdMbAx/aZxHyL1
-         3FqQ==
-X-Gm-Message-State: AOAM533oJBwOopkxNZjboOYmtNGNr+TYnj7eTjNRd8O/3i842OWEmJ74
-        3Ay+a68aVBCR6frlxNEYqyZDO5cvFYv5V6FS6RGb/fvZPCFXqZ4o8EQyXRMl+K5hfekz7n5vtm1
-        pRwDQxtjTPHK1TkDzRXjOkpgJtMdChQ9HGB1DAhD/EBY5exIv9xbRVzFi2MDozfgRkLYC
-X-Received: by 2002:adf:f186:: with SMTP id h6mr2569781wro.89.1618482415135;
-        Thu, 15 Apr 2021 03:26:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwv7Q012I0Vz8MHqIPLa4Xkx+hS8m+nH/TPxEyn3JS7V7NiE9yOuvehr7qVZbxLbS4BFGfVVQ==
-X-Received: by 2002:adf:f186:: with SMTP id h6mr2569712wro.89.1618482414741;
-        Thu, 15 Apr 2021 03:26:54 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c6392.dip0.t-ipconnect.de. [91.12.99.146])
-        by smtp.gmail.com with ESMTPSA id z17sm2386902wro.1.2021.04.15.03.26.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Apr 2021 03:26:54 -0700 (PDT)
-From:   David Hildenbrand <david@redhat.com>
-To:     Jann Horn <jannh@google.com>
-Cc:     kernel list <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, Michal Hocko <mhocko@suse.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Matthew Wilcox <willy@infradead.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Hugh Dickins <hughd@google.com>,
-        Rik van Riel <riel@surriel.com>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>, Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Peter Xu <peterx@redhat.com>,
-        Rolf Eike Beer <eike-kernel@sf-tec.de>,
-        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-References: <20210317110644.25343-1-david@redhat.com>
- <20210317110644.25343-3-david@redhat.com>
- <CAG48ez0BQ3Vd3nDLEvyiSU0XALgUQ=c-fAwcFVScUkgo_9qVuQ@mail.gmail.com>
- <2bab28c7-08c0-7ff0-c70e-9bf94da05ce1@redhat.com>
- <CAG48ez20rLRNPZj6hLHQ_PLT8H60kTac-uXRiLByD70Q7+qsdQ@mail.gmail.com>
- <26227fc6-3e7b-4e69-f69d-4dc2a67ecfe8@redhat.com>
- <54165ffe-dbf7-377a-a710-d15be4701f20@redhat.com>
- <5f49b60c-957d-8cb4-de7a-7c855dc72942@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v1 2/5] mm/madvise: introduce MADV_POPULATE_(READ|WRITE)
- to prefault/prealloc memory
-Message-ID: <273f9c4b-2a1a-23e7-53b9-0da5441895b3@redhat.com>
-Date:   Thu, 15 Apr 2021 12:26:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jMi3JQh4ceVfV/j7Lf7DWzkm4A/CG7sUwuBKTI9Y7vs=;
+        b=kUwZVPBXwmB4jBhU3CmVUdhuqWa9YxolNvbTsovhtt4+0E6DoXgsJaAm//WqW/9gqO
+         jxhznrf7K1sy7sgQWtbM3QrV37BlTCXbxxMReuhqLtVHGGLKivl0D38bLrabrZ7sJfWA
+         xzgm6cAru+FxTXqb+tn7ZLwAGhjc8vO2svqq9vmoUF7iNF+HS4jTDvkjtMkKwtm0Vbg/
+         t540OD4kYiWgAYkbEfyxsZlhSz7VQ3t8H5IjF0vPkhwSgCbldJIY9M26eEVPrdtYHuJM
+         yLiQj05ObEdwoYzKMQqImzw+tJZr3bCtoz8Czpn6UzvjQofTiHcHaJHgPuE4LAKM0fqR
+         lMQg==
+X-Gm-Message-State: AOAM533kXfYcc3PlQHz2I4FYgr6Wej9nBs6m94JhJBlgatVEFZvzVy/+
+        DW7huIHYQJweuycXSrUVV8+yum8fEuEuzoUn1/xdig==
+X-Google-Smtp-Source: ABdhPJzLg34mG/2F8echbVGsALC+cjlSLd1cDv+gDbhlWGfCHOBwcNyvJAecuz7DsvJdtaeQICx6VrotmYdZLAXz92k=
+X-Received: by 2002:a05:6e02:1d06:: with SMTP id i6mr1346852ila.165.1618509831881;
+ Thu, 15 Apr 2021 11:03:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <5f49b60c-957d-8cb4-de7a-7c855dc72942@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210413051721.2896915-1-axelrasmussen@google.com>
+ <20210413051721.2896915-8-axelrasmussen@google.com> <20210413201535.GD4440@xz-x1>
+In-Reply-To: <20210413201535.GD4440@xz-x1>
+From:   Axel Rasmussen <axelrasmussen@google.com>
+Date:   Thu, 15 Apr 2021 11:03:14 -0700
+Message-ID: <CAJHvVcix2CO_+qQ7+gWMLYL9H5zyDNz_06UnThd84etMNr-SWQ@mail.gmail.com>
+Subject: Re: [PATCH v2 7/9] userfaultfd/selftests: reinitialize test context
+ in each test
+To:     Peter Xu <peterx@redhat.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hugh Dickins <hughd@google.com>,
+        Jerome Glisse <jglisse@redhat.com>,
+        Joe Perches <joe@perches.com>,
+        Lokesh Gidra <lokeshgidra@google.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Shaohua Li <shli@fb.com>, Shuah Khan <shuah@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Wang Qing <wangqing@vivo.com>, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org, Linux MM <linux-mm@kvack.org>,
+        Brian Geffon <bgeffon@google.com>,
+        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+        Mina Almasry <almasrymina@google.com>,
+        Oliver Upton <oupton@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 07.04.21 12:31, David Hildenbrand wrote:
-> On 30.03.21 18:31, David Hildenbrand wrote:
->> On 30.03.21 18:30, David Hildenbrand wrote:
->>> On 30.03.21 18:21, Jann Horn wrote:
->>>> On Tue, Mar 30, 2021 at 5:01 PM David Hildenbrand <david@redhat.com> wrote:
->>>>>>> +long faultin_vma_page_range(struct vm_area_struct *vma, unsigned long start,
->>>>>>> +                           unsigned long end, bool write, int *locked)
->>>>>>> +{
->>>>>>> +       struct mm_struct *mm = vma->vm_mm;
->>>>>>> +       unsigned long nr_pages = (end - start) / PAGE_SIZE;
->>>>>>> +       int gup_flags;
->>>>>>> +
->>>>>>> +       VM_BUG_ON(!PAGE_ALIGNED(start));
->>>>>>> +       VM_BUG_ON(!PAGE_ALIGNED(end));
->>>>>>> +       VM_BUG_ON_VMA(start < vma->vm_start, vma);
->>>>>>> +       VM_BUG_ON_VMA(end > vma->vm_end, vma);
->>>>>>> +       mmap_assert_locked(mm);
->>>>>>> +
->>>>>>> +       /*
->>>>>>> +        * FOLL_HWPOISON: Return -EHWPOISON instead of -EFAULT when we hit
->>>>>>> +        *                a poisoned page.
->>>>>>> +        * FOLL_POPULATE: Always populate memory with VM_LOCKONFAULT.
->>>>>>> +        * !FOLL_FORCE: Require proper access permissions.
->>>>>>> +        */
->>>>>>> +       gup_flags = FOLL_TOUCH | FOLL_POPULATE | FOLL_MLOCK | FOLL_HWPOISON;
->>>>>>> +       if (write)
->>>>>>> +               gup_flags |= FOLL_WRITE;
->>>>>>> +
->>>>>>> +       /*
->>>>>>> +        * See check_vma_flags(): Will return -EFAULT on incompatible mappings
->>>>>>> +        * or with insufficient permissions.
->>>>>>> +        */
->>>>>>> +       return __get_user_pages(mm, start, nr_pages, gup_flags,
->>>>>>> +                               NULL, NULL, locked);
->>>>>>
->>>>>> You mentioned in the commit message that you don't want to actually
->>>>>> dirty all the file pages and force writeback; but doesn't
->>>>>> POPULATE_WRITE still do exactly that? In follow_page_pte(), if
->>>>>> FOLL_TOUCH and FOLL_WRITE are set, we mark the page as dirty:
->>>>>
->>>>> Well, I mention that POPULATE_READ explicitly doesn't do that. I
->>>>> primarily set it because populate_vma_page_range() also sets it.
->>>>>
->>>>> Is it safe to *not* set it? IOW, fault something writable into a page
->>>>> table (where the CPU could dirty it without additional page faults)
->>>>> without marking it accessed? For me, this made logically sense. Thus I
->>>>> also understood why populate_vma_page_range() set it.
->>>>
->>>> FOLL_TOUCH doesn't have anything to do with installing the PTE - it
->>>> essentially means "the caller of get_user_pages wants to read/write
->>>> the contents of the returned page, so please do the same things you
->>>> would do if userspace was accessing the page". So in particular, if
->>>> you look up a page via get_user_pages() with FOLL_WRITE|FOLL_TOUCH,
->>>> that tells the MM subsystem "I will be writing into this page directly
->>>> from the kernel, bypassing the userspace page tables, so please mark
->>>> it as dirty now so that it will be properly written back later". Part
->>>> of that is that it marks the page as recently used, which has an
->>>> effect on LRU pageout behavior, I think - as far as I understand, that
->>>> is why populate_vma_page_range() uses FOLL_TOUCH.
->>>>
->>>> If you look at __get_user_pages(), you can see that it is split up
->>>> into two major parts: faultin_page() for creating PTEs, and
->>>> follow_page_mask() for grabbing pages from PTEs. faultin_page()
->>>> ignores FOLL_TOUCH completely; only follow_page_mask() uses it.
->>>>
->>>> In a way I guess maybe you do want the "mark as recently accessed"
->>>> part that FOLL_TOUCH would give you without FOLL_WRITE? But I think
->>>> you very much don't want the dirtying that FOLL_TOUCH|FOLL_WRITE leads
->>>> to. Maybe the ideal approach would be to add a new FOLL flag to say "I
->>>> only want to mark as recently used, I don't want to dirty". Or maybe
->>>> it's enough to just leave out the FOLL_TOUCH entirely, I don't know.
->>>
->>> Any thoughts why populate_vma_page_range() does it?
->>
->> Sorry, I missed the explanation above - thanks!
-> 
-> Looking into the details, adjusting the FOLL_TOUCH logic won't make too
-> much of a difference for MADV_POPULATE_WRITE I guess. AFAIKs, the
-> biggest impact of FOLL_TOUCH is actually with FOLL_FORCE - which we are
-> not using, but populate_vma_page_range() is.
-> 
-> 
-> If a page was not faulted in yet,
-> faultin_page(FOLL_WRITE)->handle_mm_fault(FAULT_FLAG_WRITE) will already
-> mark the PTE/PMD/... dirty and accessed. One example is
-> handle_pte_fault(). We will mark the page accessed again via FOLL_TOUCH,
-> which doesn't seem to be strictly required.
-> 
-> 
-> If the page was already faulted in, we have three cases:
-> 
-> 1. Page faulted in writable. The page should already be dirty (otherwise
-> we would be in trouble I guess). We will mark it accessed.
-> 
-> 2. Page faulted in readable. handle_mm_fault() will fault it in writable
-> and set the page dirty.
-> 
-> 3. Page faulted in readable and we have FOLL_FORCE. We mark the page
-> dirty and accessed.
-> 
-> 
-> So doing a MADV_POPULATE_WRITE, whereby we prefault page tables
-> writable, doesn't seem to fly without marking the pages dirty. That's
-> one reason why I included MADV_POPULATE_READ.
-> 
-> We could
-> 
-> a) Drop FOLL_TOUCH. We are not marking the page accessed, which would
-> mean it gets evicted rather earlier than later.
-> 
-> b) Introduce FOLL_ACCESSED which won't do the dirtying. But then, the
-> pages are already dirty as explained above, so there isn't a real
-> observable change.
-> 
-> c) Keep it as is: Mark the page accessed and dirty. As it's already
-> dirty, that does not seem to be a real issue.
-> 
-> Am I missing something obvious? Thanks!
-> 
+On Tue, Apr 13, 2021 at 1:15 PM Peter Xu <peterx@redhat.com> wrote:
+>
+> On Mon, Apr 12, 2021 at 10:17:19PM -0700, Axel Rasmussen wrote:
+> > Currently, the context (fds, mmap-ed areas, etc.) are global. Each test
+> > mutates this state in some way, in some cases really "clobbering it"
+> > (e.g., the events test mremap-ing area_dst over the top of area_src, or
+> > the minor faults tests overwriting the count_verify values in the test
+> > areas). We run the tests in a particular order, each test is careful to
+> > make the right assumptions about its starting state, etc.
+> >
+> > But, this is fragile. It's better for a test's success or failure to not
+> > depend on what some other prior test case did to the global state.
+> >
+> > To that end, clear and reinitialize the test context at the start of
+> > each test case, so whatever prior test cases did doesn't affect future
+> > tests.
+> >
+> > This is particularly relevant to this series because the events test's
+> > mremap of area_dst screws up assumptions the minor fault test was
+> > relying on. This wasn't a problem for hugetlb, as we don't mremap in
+> > that case.
+> >
+> > Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
+> > ---
+> >  tools/testing/selftests/vm/userfaultfd.c | 221 +++++++++++++----------
+> >  1 file changed, 127 insertions(+), 94 deletions(-)
+> >
+> > diff --git a/tools/testing/selftests/vm/userfaultfd.c b/tools/testing/selftests/vm/userfaultfd.c
+> > index 1f65c4ab7994..0ff01f437a39 100644
+> > --- a/tools/testing/selftests/vm/userfaultfd.c
+> > +++ b/tools/testing/selftests/vm/userfaultfd.c
+> > @@ -89,7 +89,8 @@ static int shm_fd;
+> >  static int huge_fd;
+> >  static char *huge_fd_off0;
+> >  static unsigned long long *count_verify;
+> > -static int uffd, uffd_flags, finished, *pipefd;
+> > +static int uffd = -1;
+> > +static int uffd_flags, finished, *pipefd;
+> >  static char *area_src, *area_src_alias, *area_dst, *area_dst_alias;
+> >  static char *zeropage;
+> >  pthread_attr_t attr;
+> > @@ -342,6 +343,121 @@ static struct uffd_test_ops hugetlb_uffd_test_ops = {
+> >
+> >  static struct uffd_test_ops *uffd_test_ops;
+> >
+> > +static int userfaultfd_open(uint64_t *features)
+> > +{
+> > +     struct uffdio_api uffdio_api;
+> > +
+> > +     uffd = syscall(__NR_userfaultfd, O_CLOEXEC | O_NONBLOCK);
+>
+> Keep UFFD_USER_MODE_ONLY?
+>
+> [...]
+>
+> > @@ -961,10 +1045,9 @@ static int userfaultfd_zeropage_test(void)
+> >       printf("testing UFFDIO_ZEROPAGE: ");
+> >       fflush(stdout);
+> >
+> > -     uffd_test_ops->release_pages(area_dst);
+> > -
+> > -     if (userfaultfd_open(0))
+> > +     if (uffd_test_ctx_clear() || uffd_test_ctx_init(0))
+> >               return 1;
+>
+> Would it look even nicer to init() at the entry of each test, and clear() after
+> finish one test?
 
-I did some more digging. I think there are cases for shared mappings 
-where we can have pte_write() but not pte_dirty().
+I slightly prefer clearing at the beginning, as it means we don't need
+to depend on the previous test being correct for this test to
+function. And, we don't need more complex error handling in the test
+cases to make sure we don't mess things up for the next test.
 
-One example seems to be mm/memory.c:copy_present_pte() , used during fork.
+But, two things we can do to clean this up as-is:
 
-IIUC, this means that the child process can write to these pages, but 
-won't mark the PTEs dirty -- as there won't be a write fault. I'd assume 
-we'd need pte_mkclean(pte_wrprotect(pte)), but I'm fairly new to that code.
+The initialization function can just call clear itself, so tests don't
+need to worry about it.
 
-(Similarly, we do an pte_mkold() without revoking any protection, 
-meaning we won't catch read accesses.)
+And, with err(), we don't need these functions to return an int any more.
 
+I'll send a version like that, we can see how it looks.
 
-Maybe the logic here is that if the PTE was writable in some parent, it 
-was also dirty in some parent (at least in the one originally mapping it 
-writable). When evicting/writeback'ing file pages, we'll have go over 
-the rmap and zap all entries of any page tables either way; it's 
-sufficient if one PTE entry is dirty. I can spot that even 
-zap_pte_range() will sync the dirty flag back to the page.
-
-Am I right or is there some other magic going on? :)
-
--- 
-Thanks,
-
-David / dhildenb
-
+>
+> > +
+> >       uffdio_register.range.start = (unsigned long) area_dst;
+> >       uffdio_register.range.len = nr_pages * page_size;
+> >       uffdio_register.mode = UFFDIO_REGISTER_MODE_MISSING;
+>
+> The rest looks good to me.  Thanks,
+>
+> --
+> Peter Xu
+>
