@@ -2,200 +2,225 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 776D93614A0
-	for <lists+linux-api@lfdr.de>; Fri, 16 Apr 2021 00:11:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31C693614A9
+	for <lists+linux-api@lfdr.de>; Fri, 16 Apr 2021 00:15:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236592AbhDOWMC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 15 Apr 2021 18:12:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47935 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234816AbhDOWMC (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 15 Apr 2021 18:12:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1618524698;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=XzNn74iOjMf0orBEew0wdrHRxZf1IxR+s28/MMfBybI=;
-        b=cYVmrpWzip2a2BRfwNbxTOzxjP73gA5u8p21w3l+3oDmbPo74+sY5JsFS4JYk/0hAaMcXo
-        H9PYKpnPJRnuvuF9dTQDCj1+ajYZgbn5rtC6WC915VFtOzJMIuz8ar0cpq2JR2YrQqBiAD
-        YWHrOUUBq005LeiEZkIThM0Wyffnn88=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-MnH5KCAWPgKmKbNvVij1tg-1; Thu, 15 Apr 2021 18:11:35 -0400
-X-MC-Unique: MnH5KCAWPgKmKbNvVij1tg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDCE1A40C1;
-        Thu, 15 Apr 2021 22:11:30 +0000 (UTC)
-Received: from [10.10.117.73] (ovpn-117-73.rdu2.redhat.com [10.10.117.73])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 47FCC5C290;
-        Thu, 15 Apr 2021 22:11:21 +0000 (UTC)
-Subject: Re: [Patch v4 1/3] lib: Restrict cpumask_local_spread to houskeeping
- CPUs
-To:     Jesse Brandeburg <jesse.brandeburg@intel.com>
-Cc:     Marcelo Tosatti <mtosatti@redhat.com>,
+        id S234764AbhDOWP5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 15 Apr 2021 18:15:57 -0400
+Received: from mga14.intel.com ([192.55.52.115]:22365 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235086AbhDOWP4 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 15 Apr 2021 18:15:56 -0400
+IronPort-SDR: JELECdd0dOmfPWb2j/CNSvlxTaIcp2KG8iclu4R6OniUqS4OTGRSqFsAHtuj40yOM9I38sleTl
+ sDpgemVxO1+A==
+X-IronPort-AV: E=McAfee;i="6200,9189,9955"; a="194513314"
+X-IronPort-AV: E=Sophos;i="5.82,225,1613462400"; 
+   d="scan'208";a="194513314"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2021 15:15:33 -0700
+IronPort-SDR: z23KPKPERcNC+yqUJvMYuFwzn/9eHC9Dk3KllVv2jej2nSsk8IZGYsjqjd/ltt1Yh3ec5+6CbV
+ w6H80P+sxNKA==
+X-IronPort-AV: E=Sophos;i="5.82,225,1613462400"; 
+   d="scan'208";a="451270856"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2021 15:15:32 -0700
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        "frederic@kernel.org" <frederic@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
-        "abelits@marvell.com" <abelits@marvell.com>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "mingo@kernel.org" <mingo@kernel.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
-        "stephen@networkplumber.org" <stephen@networkplumber.org>,
-        "rppt@linux.vnet.ibm.com" <rppt@linux.vnet.ibm.com>,
-        "jinyuqi@huawei.com" <jinyuqi@huawei.com>,
-        "zhangshaokun@hisilicon.com" <zhangshaokun@hisilicon.com>,
-        netdev@vger.kernel.org, chris.friesen@windriver.com
-References: <20200625223443.2684-1-nitesh@redhat.com>
- <20200625223443.2684-2-nitesh@redhat.com>
- <3e9ce666-c9cd-391b-52b6-3471fe2be2e6@arm.com>
- <20210127121939.GA54725@fuller.cnet> <87r1m5can2.fsf@nanos.tec.linutronix.de>
- <20210128165903.GB38339@fuller.cnet> <87h7n0de5a.fsf@nanos.tec.linutronix.de>
- <20210204181546.GA30113@fuller.cnet>
- <cfa138e9-38e3-e566-8903-1d64024c917b@redhat.com>
- <20210204190647.GA32868@fuller.cnet>
- <d8884413-84b4-b204-85c5-810342807d21@redhat.com>
- <87y2g26tnt.fsf@nanos.tec.linutronix.de>
- <d0aed683-87ae-91a2-d093-de3f5d8a8251@redhat.com>
- <7780ae60-efbd-2902-caaa-0249a1f277d9@redhat.com>
- <07c04bc7-27f0-9c07-9f9e-2d1a450714ef@redhat.com>
- <20210406102207.0000485c@intel.com>
- <1a044a14-0884-eedb-5d30-28b4bec24b23@redhat.com>
- <20210414091100.000033cf@intel.com>
-From:   Nitesh Narayan Lal <nitesh@redhat.com>
-Organization: Red Hat Inc,
-Message-ID: <54ecc470-b205-ea86-1fc3-849c5b144b3b@redhat.com>
-Date:   Thu, 15 Apr 2021 18:11:20 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v25 00/30] Control-flow Enforcement: Shadow Stack
+Date:   Thu, 15 Apr 2021 15:13:49 -0700
+Message-Id: <20210415221419.31835-1-yu-cheng.yu@intel.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20210414091100.000033cf@intel.com>
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Control-flow Enforcement (CET) is a new Intel processor feature that blocks
+return/jump-oriented programming attacks.  Details are in "Intel 64 and
+IA-32 Architectures Software Developer's Manual" [1].
 
-On 4/14/21 12:11 PM, Jesse Brandeburg wrote:
-> Nitesh Narayan Lal wrote:
->
->>> The original issue as seen, was that if you rmmod/insmod a driver
->>> *without* irqbalance running, the default irq mask is -1, which means
->>> any CPU. The older kernels (this issue was patched in 2014) used to use
->>> that affinity mask, but the value programmed into all the interrupt
->>> registers "actual affinity" would end up delivering all interrupts to
->>> CPU0,
->> So does that mean the affinity mask for the IRQs was different wrt where
->> the IRQs were actually delivered?
->> Or, the affinity mask itself for the IRQs after rmmod, insmod was changed
->> to 0 instead of -1?
-> The smp_affinity was 0xfff, and the kernel chooses which interrupt to
-> place the interrupt on, among any of the bits set.
+CET can protect applications and the kernel.  This series enables only
+application-level protection, and has three parts:
 
+  - Shadow stack [2],
+  - Indirect branch tracking [3], and
+  - Selftests [4].
 
-I think what you are referring to here is the effective affinity mask.
-From one of Thomas's commit message that you pointed me to:
+I have run tests on these patches for quite some time, and they have been
+very stable.  Linux distributions with CET are available now, and Intel
+processors with CET are already on the market.  It would be nice if CET
+support can be accepted into the kernel.  I will be working to address any
+issues should they come up.
 
-"The affinity mask is either the system-wide default or set by userspace,
-but the architecture can or even must reduce the mask to the effective set,
-which means that checking the affinity mask itself does not really tell
-about the actual target CPUs."
+Changes in v25:
+- Remove Kconfig X86_CET and software-defined feature flag X86_FEATURE_CET.
+  Use X86_SHADOW_STACK and X86_FEATURE_SHSTK directly.  Update related
+  areas accordingly.
+- Patch #16: Make same changes to do_huge_pmd_numa_page() as to
+  do_numa_page().
+- Patch #25: Update signal handling, use restorer address already
+  retrieved, update MSR restoring code.
+- Smaller changes are called out in each patch.
+- Rebase to Linus tree v5.12-rc7.
 
-I was looking into the code changes around IRQ and there has been major
-rework from Thomas in 2017. I recently tried testing the kernel just before
-those patches got merged.
+[1] Intel 64 and IA-32 Architectures Software Developer's Manual:
 
-Specifically on top of
-05161b9cbe5:     x86/irq: Get rid of the 'first_system_vector' indirection
-                 bogosity
+    https://software.intel.com/en-us/download/intel-64-and-ia-32-
+    architectures-sdm-combined-volumes-1-2a-2b-2c-2d-3a-3b-3c-3d-and-4
 
-On the box where I tested this, I was able to see the effective affinity
-being set to 0 (not SMP affinity) for several network device IRQs.
+[2] Shadow Stack patches v24:
 
-and I think the reason for it is the usage of "cpumask_first_and(mask,
-cpu_online_mask)" in __assign_irq_vector().
+    https://lore.kernel.org/r/20210401221104.31584-1-yu-cheng.yu@intel.com/
 
-But with the latest kernel, this has been replaced and that's why I didn't
-see the effective affinity being set to only 0 for all of the device IRQs.
+[3] Indirect Branch Tracking patches v24
 
-Having said that I am still not sure if I was able to mimic what you have
-seen in the past. But it looked similar to what you were explaining.
-What do you think?
+    https://lore.kernel.org/r/20210401221403.32253-1-yu-cheng.yu@intel.com/
 
+[4] I am holding off the selftests changes and working to get Reviewed-by's.
+    The earlier version of the selftests patches:
 
+    https://lkml.kernel.org/r/20200521211720.20236-1-yu-cheng.yu@intel.com/
 
->
->  
->> I did a quick test on top of 5.12.0-rc6 by comparing the i40e IRQ affinity
->> mask before removing the kernel module and after doing rmmod+insmod
->> and didn't find any difference.
-> with the patch in question removed? Sorry, I'm confused what you tried.
+[5] The kernel ptrace patch is tested with an Intel-internal updated GDB.
+    I am holding off the kernel ptrace patch to re-test it with my earlier
+    patch for fixing regset holes.
 
-Yeah, but I was only referring to the SMP affinity mask. Please see more
-up-to-date testing results above.
+Yu-cheng Yu (30):
+  Documentation/x86: Add CET description
+  x86/cet/shstk: Add Kconfig option for Shadow Stack
+  x86/cpufeatures: Add CET CPU feature flags for Control-flow
+    Enforcement Technology (CET)
+  x86/cpufeatures: Introduce CPU setup and option parsing for CET
+  x86/fpu/xstate: Introduce CET MSR and XSAVES supervisor states
+  x86/cet: Add control-protection fault handler
+  x86/mm: Remove _PAGE_DIRTY from kernel RO pages
+  x86/mm: Move pmd_write(), pud_write() up in the file
+  x86/mm: Introduce _PAGE_COW
+  drm/i915/gvt: Change _PAGE_DIRTY to _PAGE_DIRTY_BITS
+  x86/mm: Update pte_modify for _PAGE_COW
+  x86/mm: Update ptep_set_wrprotect() and pmdp_set_wrprotect() for
+    transition from _PAGE_DIRTY to _PAGE_COW
+  mm: Introduce VM_SHADOW_STACK for shadow stack memory
+  x86/mm: Shadow Stack page fault error checking
+  x86/mm: Update maybe_mkwrite() for shadow stack
+  mm: Fixup places that call pte_mkwrite() directly
+  mm: Add guard pages around a shadow stack.
+  mm/mmap: Add shadow stack pages to memory accounting
+  mm: Update can_follow_write_pte() for shadow stack
+  mm/mprotect: Exclude shadow stack from preserve_write
+  mm: Re-introduce vm_flags to do_mmap()
+  x86/cet/shstk: Add user-mode shadow stack support
+  x86/cet/shstk: Handle thread shadow stack
+  x86/cet/shstk: Introduce shadow stack token setup/verify routines
+  x86/cet/shstk: Handle signals for shadow stack
+  ELF: Introduce arch_setup_elf_property()
+  x86/cet/shstk: Add arch_prctl functions for shadow stack
+  mm: Move arch_calc_vm_prot_bits() to arch/x86/include/asm/mman.h
+  mm: Update arch_validate_flags() to include vma anonymous
+  mm: Introduce PROT_SHSTK for shadow stack
 
->>>  and if the machine was under traffic load incoming when the
->>> driver loaded, CPU0 would start to poll among all the different netdev
->>> queues, all on CPU0.
->>>
->>> The above then leads to the condition that the device is stuck polling
->>> even if the affinity gets updated from user space, and the polling will
->>> continue until traffic stops.
->>>
-
-[...]
-
->> As we can see in the above trace the initial affinity for the IRQ 1478 was
->> correctly set as per the default_smp_affinity mask which includes CPU 42,
->> however, later on, it is updated with CPU3 which is returned from
->> cpumask_local_spread().
->>
->>> Maybe the right thing is to fix which CPUs are passed in as the valid
->>> mask, or make sure the kernel cross checks that what the driver asks
->>> for is a "valid CPU"?
->>>
->> Sure, if we can still reproduce the problem that your patch was fixing then
->> maybe we can consider adding a new API like cpumask_local_spread_irq in
->> which we should consider deafult_smp_affinity mask as well before returning
->> the CPU.
-> I'm sure I don't have a reproducer of the original problem any more, it
-> is lost somewhere 8 years ago. I'd like to be able to repro the original
-> issue, but I can't.
->
-> Your description of the problem makes it obvious there is an issue. It
-> appears as if cpumask_local_spread() is the wrong function to use here.
-> If you have any suggestions please let me know.
->
-> We had one other report of this problem as well (I'm not sure if it's
-> the same as your report)
-> https://lkml.org/lkml/2021/3/28/206
-> https://lists.osuosl.org/pipermail/intel-wired-lan/Week-of-Mon-20210125/023120.html
-
-
-How about we introduce a new API just for IRQ spreading,
-cpumask_local_spread_irq() and then utilize the default_smp_affinity mask
-in that before returning the CPU?
-
-Although, I think the right way to deal with this would be to fix this from
-the source that is where the CPU mask is assigned to an IRQ for the very
-first time.
-
+ .../admin-guide/kernel-parameters.txt         |   6 +
+ Documentation/filesystems/proc.rst            |   1 +
+ Documentation/x86/index.rst                   |   1 +
+ Documentation/x86/intel_cet.rst               | 136 ++++++++
+ arch/arm64/include/asm/elf.h                  |   5 +
+ arch/arm64/include/asm/mman.h                 |   4 +-
+ arch/sparc/include/asm/mman.h                 |   4 +-
+ arch/x86/Kconfig                              |  24 ++
+ arch/x86/Kconfig.assembler                    |   5 +
+ arch/x86/ia32/ia32_signal.c                   |  24 +-
+ arch/x86/include/asm/cet.h                    |  52 +++
+ arch/x86/include/asm/cpufeatures.h            |   2 +
+ arch/x86/include/asm/disabled-features.h      |   8 +-
+ arch/x86/include/asm/elf.h                    |  13 +
+ arch/x86/include/asm/fpu/internal.h           |   2 +
+ arch/x86/include/asm/fpu/types.h              |  23 +-
+ arch/x86/include/asm/fpu/xstate.h             |   6 +-
+ arch/x86/include/asm/idtentry.h               |   4 +
+ arch/x86/include/asm/mman.h                   |  87 +++++
+ arch/x86/include/asm/mmu_context.h            |   3 +
+ arch/x86/include/asm/msr-index.h              |  19 ++
+ arch/x86/include/asm/page_types.h             |   7 +
+ arch/x86/include/asm/pgtable.h                | 299 +++++++++++++++--
+ arch/x86/include/asm/pgtable_types.h          |  48 ++-
+ arch/x86/include/asm/processor.h              |   5 +
+ arch/x86/include/asm/special_insns.h          |  32 ++
+ arch/x86/include/asm/trap_pf.h                |   2 +
+ arch/x86/include/uapi/asm/mman.h              |  28 +-
+ arch/x86/include/uapi/asm/prctl.h             |   4 +
+ arch/x86/include/uapi/asm/processor-flags.h   |   2 +
+ arch/x86/include/uapi/asm/sigcontext.h        |   9 +
+ arch/x86/kernel/Makefile                      |   2 +
+ arch/x86/kernel/cet_prctl.c                   |  60 ++++
+ arch/x86/kernel/cpu/common.c                  |  14 +
+ arch/x86/kernel/cpu/cpuid-deps.c              |   2 +
+ arch/x86/kernel/fpu/signal.c                  | 137 +++++++-
+ arch/x86/kernel/fpu/xstate.c                  |  10 +-
+ arch/x86/kernel/idt.c                         |   4 +
+ arch/x86/kernel/process.c                     |  21 +-
+ arch/x86/kernel/process_64.c                  |  32 ++
+ arch/x86/kernel/shstk.c                       | 304 ++++++++++++++++++
+ arch/x86/kernel/signal.c                      |   9 +
+ arch/x86/kernel/signal_compat.c               |   2 +-
+ arch/x86/kernel/traps.c                       |  63 ++++
+ arch/x86/mm/fault.c                           |  19 ++
+ arch/x86/mm/mmap.c                            |  47 +++
+ arch/x86/mm/pat/set_memory.c                  |   2 +-
+ arch/x86/mm/pgtable.c                         |  25 ++
+ drivers/gpu/drm/i915/gvt/gtt.c                |   2 +-
+ fs/aio.c                                      |   2 +-
+ fs/binfmt_elf.c                               |   4 +
+ fs/proc/task_mmu.c                            |   3 +
+ include/linux/elf.h                           |   6 +
+ include/linux/mm.h                            |  18 +-
+ include/linux/mman.h                          |   2 +-
+ include/linux/pgtable.h                       |   9 +
+ include/uapi/asm-generic/siginfo.h            |   3 +-
+ include/uapi/linux/elf.h                      |   9 +
+ ipc/shm.c                                     |   2 +-
+ mm/gup.c                                      |  16 +-
+ mm/huge_memory.c                              |  27 +-
+ mm/memory.c                                   |   5 +-
+ mm/migrate.c                                  |   3 +-
+ mm/mmap.c                                     |  17 +-
+ mm/mprotect.c                                 |  11 +-
+ mm/nommu.c                                    |   4 +-
+ mm/util.c                                     |   2 +-
+ 67 files changed, 1644 insertions(+), 119 deletions(-)
+ create mode 100644 Documentation/x86/intel_cet.rst
+ create mode 100644 arch/x86/include/asm/cet.h
+ create mode 100644 arch/x86/include/asm/mman.h
+ create mode 100644 arch/x86/kernel/cet_prctl.c
+ create mode 100644 arch/x86/kernel/shstk.c
 
 -- 
-Thanks
-Nitesh
+2.21.0
 
