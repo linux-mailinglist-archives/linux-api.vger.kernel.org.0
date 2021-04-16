@@ -2,120 +2,104 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B84C361B6A
-	for <lists+linux-api@lfdr.de>; Fri, 16 Apr 2021 10:34:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4877C36258E
+	for <lists+linux-api@lfdr.de>; Fri, 16 Apr 2021 18:20:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240218AbhDPIIz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 16 Apr 2021 04:08:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43242 "EHLO
+        id S232796AbhDPQVF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 16 Apr 2021 12:21:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238954AbhDPIIy (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 16 Apr 2021 04:08:54 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B31C2C061756
-        for <linux-api@vger.kernel.org>; Fri, 16 Apr 2021 01:08:29 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id 20so9600013pll.7
-        for <linux-api@vger.kernel.org>; Fri, 16 Apr 2021 01:08:29 -0700 (PDT)
+        with ESMTP id S229706AbhDPQUv (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 16 Apr 2021 12:20:51 -0400
+Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC4C4C061574
+        for <linux-api@vger.kernel.org>; Fri, 16 Apr 2021 09:20:24 -0700 (PDT)
+Received: by mail-il1-x133.google.com with SMTP id y10so1686472ilv.0
+        for <linux-api@vger.kernel.org>; Fri, 16 Apr 2021 09:20:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ZHtko9A1w5ItkCMsikB/Jidz4iY+US+hA5ckCUbtBv8=;
-        b=QkopcUpaVEsr5CNBtp5KEs31/JVwi0iu5gnJZzDKW+Yhw85I6JvukaMqSqDpR/nOUq
-         M9U0fzCpRlXv418ZWv9ndg9wN7JrgQMonB5aCoR2KIeqNi8dl9F+LjjdM1B1BY6y2/7A
-         R/8BEz4B2ZnCUETdZ5IoVuN3n7BZWy8R4qzi2nWP4Ti5B7nS9F1v0p83OhppjyWKFEPF
-         E5TVyNQqHUWo27tqDF6HzZ8+rwgMA/D4oMSEIRs4M5Tg7scV7VmHLUTeCaenZho8ko9Z
-         cRId+yQfm1HeuovyZF85nu+RUEjDVK/KMefF5Yb2GPcTlITe17vJKnoUFBrm4Dv9f/kN
-         rs8Q==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bhuo2ce7pEsFd+kWMkBzZgqO2R7b3NnKTCwVUUXvoQw=;
+        b=GtTfUk0gMN3laeFMw9A0MclH1hnTnlOPku7sIH5pQH0GsiLF3h0Qpvf+rdsAdYvp8U
+         r4yakBREBILVxvsFr1aWzRGZJdIQNGwssOYXq7pcdxYvIuekz4HP9oIlQULAdrCeRIRB
+         N6LKPZ7ZixCmCtSYYoLYHrMuQW9q49K734t1yJ8j1nIhQjMqJ/u2WMFH9/gDeggjbDwq
+         9W6p/k7FI6yOIsMChARxhmW/4HkE1w8a3o3tuM7dMInoC3+go2e32yJf4uSmegNBJlG3
+         qfgbhB7Q5YfTz6/DX1W4UXmK72OHNQ59kLhQAwd3DDQkA92qvwEtX9wjALKs+BXP75Dn
+         4p+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ZHtko9A1w5ItkCMsikB/Jidz4iY+US+hA5ckCUbtBv8=;
-        b=FZPrbjrU3baqCkW5vA5uumU3rQm9btU/6QP+baQ2QkzjKedkUOHQT6YMVIKRvNSKTq
-         IfeIEOuu9h6ijOVvL54JVjwnr1Vf4XwbT9Sc6UXRWyxzemuI4vu+iJZVtyhiP+2wRqq7
-         aUQoJOswDUJuR3XUn3zeAqgJmpcxSsUQxlwsY4y/HviQUS+fMkxwQLB7U/l08YaI/wzK
-         y4wj1N6elFYv1KC2kTpy9isFgKT07P2V/nZ4p4uB1wEX/+M+eQPKq5g9VHTlMvparIeK
-         nI3hN/6qXFATiUKvrogu09bFbjJPXu3BbAbUddXLqXsHpolCotvxmjcEumZl5xN0/+wV
-         rajw==
-X-Gm-Message-State: AOAM533EErEOLXMsHX3KYXJ6BQY6/yhClIEG63Vz9t5sU6iLc2fX8TC3
-        /3DbHyRwBy5ngqGEoBZ4AspDjQ==
-X-Google-Smtp-Source: ABdhPJxShQR6wk5ovKanYVIfqAE4NjoGjxsd910y0/ndnhpJLWURNrUgDWjoHbe762JlfmjFRzyM4w==
-X-Received: by 2002:a17:90a:4a8e:: with SMTP id f14mr8639578pjh.20.1618560509122;
-        Fri, 16 Apr 2021 01:08:29 -0700 (PDT)
-Received: from google.com ([2401:fa00:9:211:c78c:fbb:2641:bc93])
-        by smtp.gmail.com with ESMTPSA id q3sm4321423pgb.80.2021.04.16.01.08.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Apr 2021 01:08:28 -0700 (PDT)
-Date:   Fri, 16 Apr 2021 18:08:16 +1000
-From:   Matthew Bobrowski <repnop@google.com>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Jan Kara <jack@suse.cz>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH 2/2] fanotify: Add pidfd support to the fanotify API
-Message-ID: <YHlF8El4lcsHNYtR@google.com>
-References: <cover.1618527437.git.repnop@google.com>
- <e6cd967f45381d20d67c9d5a3e49e3cb9808f65b.1618527437.git.repnop@google.com>
- <CAOQ4uxhWicqpKQxvuN5=WiULwNRozFvxQKgTDMOL-UxKpnk-WQ@mail.gmail.com>
- <YHk3Uko0feh3ud/X@google.com>
- <CAOQ4uxjQi4dV0XoU2WDKG+3R81Xam6giee9hhkvXb13tQB+Tdg@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bhuo2ce7pEsFd+kWMkBzZgqO2R7b3NnKTCwVUUXvoQw=;
+        b=dXsY06xdLv/u5g2jqy6dnEGVOPiI4CjC9Gcl6fzgFXDLgwQiPwZpzG/kWcOLU1G6yu
+         N+66Q58LgNVbXpCWqjBrzWSIwtp5oEFQX2Y3LM49/+q/rIqomsKAfksT5JhRtzFE5HpX
+         ZwaJAnAXh8wGjMjPHJxLWAL4gWnTTdbwkOTo3Z8L5KSSH/gIE2L5/Hft6FJGbrvzYmC3
+         C3LaaPMVmbKoa0b1HLtlRDZgcziX4Vvm5Z6uPg1e/n9J50IwB+qMnqNPQuFRCb/pFY24
+         BpFssc+1f6Q6zHUQHS4VCrDsGxEVnCyKXOot+mSJpnqzxbki2aunyiEZoRFF1WK/pxad
+         3RKg==
+X-Gm-Message-State: AOAM5313BKxwjN21JVkVO/P9BxrDVz4zgjEryz6Or5JjrZIs7JvSHbwZ
+        wjC66ylF/E/KMNzvdOskXZK/6JnRmmBuDA1JubPAOg==
+X-Google-Smtp-Source: ABdhPJzxxsYx/Qhtk7Zi7pGWCVoX+DqX+oHS2t2EvbUwqFo+JT5kC3hbQfUwYL+RX5V8qG/x4hUlqc2+rOIkEL9s0UE=
+X-Received: by 2002:a05:6e02:1145:: with SMTP id o5mr7295502ill.61.1618590024064;
+ Fri, 16 Apr 2021 09:20:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOQ4uxjQi4dV0XoU2WDKG+3R81Xam6giee9hhkvXb13tQB+Tdg@mail.gmail.com>
+References: <13d725cb8e741950fb9d6e64b2cd9bd54ff7c3f9.1616123271.git.pcc@google.com>
+ <161839488327.21932.16461913261970131291.b4-ty@arm.com>
+In-Reply-To: <161839488327.21932.16461913261970131291.b4-ty@arm.com>
+From:   Peter Collingbourne <pcc@google.com>
+Date:   Fri, 16 Apr 2021 09:20:12 -0700
+Message-ID: <CAMn1gO7-DnGdhP6gO61ZR6o-jq5ymMOYuCdEeLu+xH7kFrvaTw@mail.gmail.com>
+Subject: Re: [PATCH v8 1/3] arm64: mte: make the per-task SCTLR_EL1 field
+ usable elsewhere
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Kostya Serebryany <kcc@google.com>,
+        Florian Weimer <fw@deneb.enyo.de>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        libc-alpha@sourceware.org, Kevin Brodsky <kevin.brodsky@arm.com>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Apr 16, 2021 at 10:53:48AM +0300, Amir Goldstein wrote:
-> On Fri, Apr 16, 2021 at 10:06 AM Matthew Bobrowski <repnop@google.com> wrote:
-> > > > +               pidfd = pidfd_create(event->pid, 0);
-> > > > +               if (unlikely(pidfd < 0))
-> > > > +                       metadata.pid = FAN_NOPIDFD;
-> > > > +               else
-> > > > +                       metadata.pid = pidfd;
-> > > > +       } else {
-> > > > +               metadata.pid = pid_vnr(event->pid);
-> > > > +       }
-> > >
-> > > You should rebase your work on:
-> > > git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git fsnotify
-> > > and resolve conflicts with "unprivileged listener" code.
-> >
-> > ACK.
-> >
-> > > Need to make sure that pidfd is not reported to an unprivileged
-> > > listener even if group was initialized by a privileged process.
-> > > This is a conscious conservative choice that we made for reporting
-> > > pid info to unprivileged listener that can be revisited in the future.
-> >
-> > OK, I see. In that case, I guess I can add the FAN_REPORT_PIDFD check
-> > above the current conditional [0]:
-> >
-> > ...
-> > if (!capable(CAP_SYS_ADMIN) && task_tgid(current) != event->pid)
-> >         metadata.pid = 0;
-> > ...
-> >
-> > That way, AFAIK even if it is an unprivileged listener the pid info
-> > will be overwritten as intended.
-> >
-> 
-> Situation is a bit more subtle than that.
-> If you override event->pid with zero and zero is interpreted as pidfd
-> that would not be consistent with uapi documentation.
+On Wed, Apr 14, 2021 at 3:10 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
+>
+> On Thu, 18 Mar 2021 20:10:52 -0700, Peter Collingbourne wrote:
+> > In an upcoming change we are going to introduce per-task SCTLR_EL1
+> > bits for PAC. Move the existing per-task SCTLR_EL1 field out of the
+> > MTE-specific code so that we will be able to use it from both the
+> > PAC and MTE code paths and make the task switching code more efficient.
+>
+> Applied to arm64 (for-next/pac-set-get-enabled-keys).
+>
+> Peter, can you please have a look and give it a try as part of the arm64
+> for-next/core branch? I rebased your patches on top of the
+> for-next/mte-async-kernel-mode branch as this was adding more code to
+> mte_thread_switch(), so I kept the function for now.
+>
+> Thanks.
+>
+> [1/3] arm64: mte: make the per-task SCTLR_EL1 field usable elsewhere
+>       https://git.kernel.org/arm64/c/2f79d2fc391e
+> [2/3] arm64: Introduce prctl(PR_PAC_{SET,GET}_ENABLED_KEYS)
+>       https://git.kernel.org/arm64/c/201698626fbc
+> [3/3] arm64: pac: Optimize kernel entry/exit key installation code paths
+>       https://git.kernel.org/arm64/c/b90e483938ce
 
-Ah, yes, of course! I had totally overlooked this. Also, speaking of
-UAPI documentation, I'll have it prepared along with the LTP tests
-once I get the ACK for this particular concept from Jan and Christian.
+Hi Catalin,
 
-> You need to make sure that event->pid is FAN_NOPIDFD in case
-> (!capable(CAP_SYS_ADMIN) &&
->  FAN_GROUP_FLAG(group, FAN_REPORT_PIDFD))
-> Hopefully, you can do that while keeping the special cases to minimum...
+I tested the rebased patch series on an Apple M1 under a hypervisor
+with my Android forward-edge PAC prototype and it seems to work.
 
-I don't foresee any issues with doing this at all.
+I think it should be possible to get rid of at least one of the ISBs
+that are now on the task switch path, but let's leave that to a later
+patch. The patch series looks good otherwise.
 
-/M
+Peter
