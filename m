@@ -2,119 +2,114 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B74B364722
-	for <lists+linux-api@lfdr.de>; Mon, 19 Apr 2021 17:29:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2600B3649C3
+	for <lists+linux-api@lfdr.de>; Mon, 19 Apr 2021 20:24:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241145AbhDSP32 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 19 Apr 2021 11:29:28 -0400
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:45120 "EHLO
-        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S233733AbhDSP31 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 19 Apr 2021 11:29:27 -0400
-Received: from cwcc.thunk.org (pool-72-74-133-215.bstnma.fios.verizon.net [72.74.133.215])
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 13JFSplv032708
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 19 Apr 2021 11:28:51 -0400
-Received: by cwcc.thunk.org (Postfix, from userid 15806)
-        id 3695315C3B0D; Mon, 19 Apr 2021 11:28:51 -0400 (EDT)
-Date:   Mon, 19 Apr 2021 11:28:51 -0400
-From:   "Theodore Ts'o" <tytso@mit.edu>
-To:     ksummit@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, netdev@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Maintainers / Kernel Summit 2021 planning kick-off
-Message-ID: <YH2hs6EsPTpDAqXc@mit.edu>
+        id S230488AbhDSSZV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 19 Apr 2021 14:25:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48482 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233908AbhDSSZU (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 19 Apr 2021 14:25:20 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5E6B9611EE;
+        Mon, 19 Apr 2021 18:24:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1618856690;
+        bh=YxOWGUrr9Arsoda9fsVSCB7Wv4rVHn47U+RWA4JnEik=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Eqgm4LWDn1T4KMIdCqYE+gjNg+SANj+00vJAZ20BOHkbCOUFadrvAoCiSfOO0vRry
+         cRCtQoRNQsNXz5MFoOsMVaaP5Gd9/+08n7XDGr80HYzIgK9xevo+a/Sm9FXoJXZjTk
+         HaSQiBdLsidEyOo5u5kxW/yk+MUsmi2kU2J8JYlAQ+COKbIhejTh20dmKGVs5wB+PQ
+         r8kxDIacMWEYzyfTRPMIDb6vu58wBn7mPmvUnoXAazvSjaTq6lhypXTWnItI4BvjoA
+         TnqdMG0PIIF9yA1redNzhKMCU4jKQXwnIlYMZ9uunZfCkBYwZUzqLYKrPmPwfNOjpf
+         8Nh3U2mR23q7w==
+Date:   Mon, 19 Apr 2021 21:24:30 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        Yury Norov <yury.norov@gmail.com>, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org, kernel test robot <oliver.sang@intel.com>
+Subject: Re: [PATCH] secretmem: optimize page_is_secretmem()
+Message-ID: <YH3K3sBFbNFOxTV+@kernel.org>
+References: <20210419084218.7466-1-rppt@kernel.org>
+ <20210419112302.GX2531743@casper.infradead.org>
+ <YH1v4XVzfXC1dYND@kernel.org>
+ <20210419122156.GZ2531743@casper.infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20210419122156.GZ2531743@casper.infradead.org>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[ Feel free to forward this to other Linux kernel mailing lists as
-  appropriate -- Ted ]
+On Mon, Apr 19, 2021 at 01:21:56PM +0100, Matthew Wilcox wrote:
+> On Mon, Apr 19, 2021 at 02:56:17PM +0300, Mike Rapoport wrote:
+> 
+> > > With that fixed, you'll have a head page that you can use for testing,
+> > > which means you don't need to test PageCompound() (because you know the
+> > > page isn't PageTail), you can just test PageHead().
+> > 
+> > I can't say I follow you here. page_is_secretmem() is intended to be a
+> > generic test, so I don't see how it will get PageHead() if it is called
+> > from other places.
+> 
+> static inline bool head_is_secretmem(struct page *head)
+> {
+> 	if (PageHead(head))
+> 		return false;
+> 	...
+> }
+> 
+> static inline bool page_is_secretmem(struct page *page)
+> {
+> 	if (PageTail(page))
+> 		return false;
+> 	return head_is_secretmem(page);
+> }
+> 
+> (yes, calling it head is a misnomer, because it's not necessarily a head,
+> it might be a base page, but until we have a name for pages which might
+> be a head page or a base page, it'll have to do ...)
 
-This year, the Maintainers and Kernel Summit is currently planned to
-be held in Dublin, Ireland, September 27 -- 29th.  Of course, this is
-subject to change depending on how much progress the world makes
-towards vaccinating the population against the COVID-19 virus, and
-whether employers are approving conference travel.  At this point,
-there's a fairly good chance that we will need to move to a virtual
-conference format, either for one or both of the summits.
+To me this looks less clean and readable and in the end we have an extra
+check for PG_Head if that won't get optimized away.
 
-As in previous years, the Maintainers Summit is invite-only, where the
-primary focus will be process issues around Linux Kernel Development.
-It will be limited to 30 invitees and a handful of sponsored
-attendees.
+Does not seem to me there would be a measurable difference, but if this is
+important for future conversion to folio I don't mind using
+{head,page}_is_secretmem.
 
-The Kernel Summit is organized as a track which is run in parallel
-with the other tracks at the Linux Plumbers Conference (LPC), and is
-open to all registered attendees of LPC.
-
-Linus has generated a core list of people to be invited to the
-Maintainers Summit, and the program committee will be using that list
-a starting point of people to be considered.  People who suggest
-topics that should be discussed at the Maintainers Summit will also be
-added to the list for consideration.  To make topic suggestions for
-the Maintainers Summit, please send e-mail to the
-ksummit@lists.linux.dev with a subject prefix of [MAINTAINERS SUMMIT].
-
-(Note: The older ksummit-discuss@lists.linuxfoundation.org list has
-been migrated to lists.linux.dev, with the subscriber list and
-archives preserved.)
-
-The other job of the program committee will be to organize the program
-for the Kernel Summit.  The goal of the Kernel Summit track will be to
-provide a forum to discuss specific technical issues that would be
-easier to resolve in person than over e-mail.  The program committee
-will also consider "information sharing" topics if they are clearly of
-interest to the wider development community (i.e., advanced training
-in topics that would be useful to kernel developers).
-
-To suggest a topic for the Kernel Summit, please do two things.
-First, please tag your e-mail with [TECH TOPIC].  As before, please
-use a separate e-mail for each topic, and send the topic suggestions
-to the ksummit-discuss list.
-
-Secondly, please create a topic at the Linux Plumbers Conference
-proposal submission site and target it to the Kernel Summit track.
-For your convenience you can use:
-
-	https://bit.ly/lpc21-summit
-
-Please do both steps.  I'll try to notice if someone forgets one or
-the other, but your chances of making sure your proposal gets the
-necessary attention and consideration are maximized by submitting both
-to the mailing list and the web site.
-
-People who submit topic suggestions before June 12th and which are
-accepted, will be given free admission to the Linux Plumbers
-Conference.
-
-We will be reserving roughly half of the Kernel Summit slots for
-last-minute discussions that will be scheduled during the week of
-Plumbers, in an "unconference style".  This allows last-minute ideas
-that come up to be given given slots for discussion.
-
-If you were not subscribed on to the kernel@lists.linux-dev mailing
-list from last year (or if you had removed yourself from the
-ksummit-discuss@lists.linux-foundation.org mailing list after the
-previous year's kernel and maintainers' summit summit), you can
-subscribe sending an e-mail to:
-
-	ksummit+subscribe@lists.linux.dev
-
-The mailing list archive is available at:
-
-	https://lore.kernel.org/ksummit
-
-The program committee this year is composed of the following people:
-
-Jens Axboe
-Arnd Bergmann
-Jon Corbet
-Greg Kroah-Hartman
-Ted Ts'o
+-- 
+Sincerely yours,
+Mike.
