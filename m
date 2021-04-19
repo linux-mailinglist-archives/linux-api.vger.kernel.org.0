@@ -2,101 +2,99 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E5275363F79
-	for <lists+linux-api@lfdr.de>; Mon, 19 Apr 2021 12:22:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C83F4364083
+	for <lists+linux-api@lfdr.de>; Mon, 19 Apr 2021 13:27:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238552AbhDSKXG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 19 Apr 2021 06:23:06 -0400
-Received: from mx2.suse.de ([195.135.220.15]:60582 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238537AbhDSKW7 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 19 Apr 2021 06:22:59 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 3D2B7B2E6;
-        Mon, 19 Apr 2021 10:21:39 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 0B61F1F2C6A; Mon, 19 Apr 2021 12:21:39 +0200 (CEST)
-Date:   Mon, 19 Apr 2021 12:21:39 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     Matthew Bobrowski <repnop@google.com>
-Cc:     jack@suse.cz, amir73il@gmail.com, christian.brauner@ubuntu.com,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 2/2] fanotify: Add pidfd support to the fanotify API
-Message-ID: <20210419102139.GD8706@quack2.suse.cz>
-References: <cover.1618527437.git.repnop@google.com>
- <e6cd967f45381d20d67c9d5a3e49e3cb9808f65b.1618527437.git.repnop@google.com>
+        id S235536AbhDSL1p (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 19 Apr 2021 07:27:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33480 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232530AbhDSL1o (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 19 Apr 2021 07:27:44 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A08BDC06174A;
+        Mon, 19 Apr 2021 04:27:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=8kRAoc0QBubKYge5PVOcpXOSqRAXAMW8YeZW9/WtJU8=; b=Q4iGwzjsJleF1GjQOjyti4BwEQ
+        kMflgbMlKiSgpC29OgqfVgGrZttP1HwPBGt8N93ehv3ya+xnOskH/kBy+D0N5vT5yUe/+g1v9z/Ma
+        Cp4tIDAseOedgjInQg5yHqOEvZbooQDFHeYs8Sryde6A4fQ5slcDMthytLKrH2OJz/4qJDzam9eBn
+        p6bjarnH+CdB1hRK/wAvjCp96Ow2EiDF9/3ydKwZwqane+/kvenBjEPU7O5eAiYLGTdXKzhzt0PGo
+        DvZtg4i6iUXZmGxEIMN7nGJNjQ60ITQJypATNUfusbk15xxeHMt+n9rKsreyAJad/2eA7Z5Mlaiyn
+        rBuUX32A==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1lYRza-00Dec0-Ty; Mon, 19 Apr 2021 11:23:12 +0000
+Date:   Mon, 19 Apr 2021 12:23:02 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        Yury Norov <yury.norov@gmail.com>, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org, kernel test robot <oliver.sang@intel.com>
+Subject: Re: [PATCH] secretmem: optimize page_is_secretmem()
+Message-ID: <20210419112302.GX2531743@casper.infradead.org>
+References: <20210419084218.7466-1-rppt@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e6cd967f45381d20d67c9d5a3e49e3cb9808f65b.1618527437.git.repnop@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210419084218.7466-1-rppt@kernel.org>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri 16-04-21 09:22:25, Matthew Bobrowski wrote:
-> Introduce a new flag FAN_REPORT_PIDFD for fanotify_init(2) which
-> allows userspace applications to control whether a pidfd is to be
-> returned instead of a pid for `struct fanotify_event_metadata.pid`.
-> 
-> FAN_REPORT_PIDFD is mutually exclusive with FAN_REPORT_TID as the
-> pidfd API is currently restricted to only support pidfd generation for
-> thread-group leaders. Attempting to set them both when calling
-> fanotify_init(2) will result in -EINVAL being returned to the
-> caller. As the pidfd API evolves and support is added for tids, this
-> is something that could be relaxed in the future.
-> 
-> If pidfd creation fails, the pid in struct fanotify_event_metadata is
-> set to FAN_NOPIDFD(-1). Falling back and providing a pid instead of a
-> pidfd on pidfd creation failures was considered, although this could
-> possibly lead to confusion and unpredictability within userspace
-> applications as distinguishing between whether an actual pidfd or pid
-> was returned could be difficult, so it's best to be explicit.
-> 
-> Signed-off-by: Matthew Bobrowski <repnop@google.com>
+On Mon, Apr 19, 2021 at 11:42:18AM +0300, Mike Rapoport wrote:
+> The perf profile of the test indicated that the regression is caused by
+> page_is_secretmem() called from gup_pte_range() (inlined by gup_pgd_range):
 
-Overall this looks OK to me. Just one style nit & one question below in
-addition to what Amir wrote.
+Uhh ... you're calling it in the wrong place!
 
-> ---
->  fs/notify/fanotify/fanotify_user.c | 33 +++++++++++++++++++++++++++---
->  include/linux/fanotify.h           |  2 +-
->  include/uapi/linux/fanotify.h      |  2 ++
->  3 files changed, 33 insertions(+), 4 deletions(-)
-> 
-> diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
-> index 9e0c1afac8bd..fd8ae88796a8 100644
-> --- a/fs/notify/fanotify/fanotify_user.c
-> +++ b/fs/notify/fanotify/fanotify_user.c
-> @@ -329,7 +329,7 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
->  	struct fanotify_info *info = fanotify_event_info(event);
->  	unsigned int fid_mode = FAN_GROUP_FLAG(group, FANOTIFY_FID_BITS);
->  	struct file *f = NULL;
-> -	int ret, fd = FAN_NOFD;
-> +	int ret, pidfd, fd = FAN_NOFD;
->  	int info_type = 0;
->  
->  	pr_debug("%s: group=%p event=%p\n", __func__, group, event);
-> @@ -340,7 +340,25 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
->  	metadata.vers = FANOTIFY_METADATA_VERSION;
->  	metadata.reserved = 0;
->  	metadata.mask = event->mask & FANOTIFY_OUTGOING_EVENTS;
-> -	metadata.pid = pid_vnr(event->pid);
-> +
-> +	if (FAN_GROUP_FLAG(group, FAN_REPORT_PIDFD) &&
-> +		pid_has_task(event->pid, PIDTYPE_TGID)) {
+                VM_BUG_ON(!pfn_valid(pte_pfn(pte)));
+                page = pte_page(pte);
 
-Please align the rest of the condition to the opening brace. I.e., like:
+                if (page_is_secretmem(page))
+                        goto pte_unmap;
 
-	if (FAN_GROUP_FLAG(group, FAN_REPORT_PIDFD) &&
-	    pid_has_task(event->pid, PIDTYPE_TGID)) {
+                head = try_grab_compound_head(page, 1, flags);
+                if (!head)
+                        goto pte_unmap;
 
-BTW, why is the pid_has_task() check here? And why is it OK to fall back to
-returning pid if pid_has_task() is false?
+So you're calling page_is_secretmem() on a struct page without having
+a refcount on it.  That is definitely not allowed.  secretmem seems to
+be full of these kinds of races; I know this isn't the first one I've
+seen in it.  I don't think this patchset is ready for this merge window.
 
-								Honza
-
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+With that fixed, you'll have a head page that you can use for testing,
+which means you don't need to test PageCompound() (because you know the
+page isn't PageTail), you can just test PageHead().
