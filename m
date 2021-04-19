@@ -2,146 +2,141 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FE2E36454E
-	for <lists+linux-api@lfdr.de>; Mon, 19 Apr 2021 15:53:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BFB6A364556
+	for <lists+linux-api@lfdr.de>; Mon, 19 Apr 2021 15:55:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232530AbhDSNyP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 19 Apr 2021 09:54:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38170 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229635AbhDSNyP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 19 Apr 2021 09:54:15 -0400
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54D20C06174A;
-        Mon, 19 Apr 2021 06:53:44 -0700 (PDT)
-Received: by mail-io1-xd32.google.com with SMTP id e186so34933665iof.7;
-        Mon, 19 Apr 2021 06:53:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OPv6D6qV3tPMcXiH4gaypxFmGbYasaTtXFMZiPqVoz0=;
-        b=hGYbCPF3mcgLHYPsq/L8z2yBpwrgufg6YB5/W7gkdBc0HRUDVIqwcW0IqxgnS4n6za
-         LAp2Ak2Z0sDL2g83auIyVE9Wef83VYnR1QY0DNFZ9GCo3Trhy5CzCPXNjYMNt5LO7EQ+
-         ITxJLskPv0PZtb/eM/+x2S4PlgUK7y1u/D6+kk9NvXURlvMQmQmLb3V8fPjy6PjSrahk
-         H8q2EM5Nva2kF6gmsawzxvQVyIupSWluwdLg1BUBdU5+erQ/IeTf+ZRPOjhxxkA3VSAu
-         nJaxG/GFD228oKkp9Tn6omUeeDmIPX/tddn5xDgNpHL2abCQrup8i9ECpzsmW7gNq2yp
-         6KNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OPv6D6qV3tPMcXiH4gaypxFmGbYasaTtXFMZiPqVoz0=;
-        b=i1H/pNLAfHo+F2nvfzz+YXITYToKNpae6NhcrvEIVdosXLaGwinjeUv35W0Y2yKIcp
-         U3W0uuysZydWa5KF1xcrTHCJzsg/T9A6VImDMJWuistHCalvYZTvagdExmWclb8rISQc
-         tQpUngEhtBxyy5m2J/fUzK+68XeeCZv6oniwPZ+Y0ec1UHhtqeH1Uy3GoxomfzM00HkB
-         j/nFDZs1Ex7aNPjXT361gTrnMSC/vPpzSgukQKXKfGCNeMA3QkOnyXELqP/KthKJE++U
-         Qam9rlD3xgPE9df/8m7OATqcm6c7mvolPyMw5yBWNfn19FsUFcZF0BUMbJ8FCu085Muh
-         xQgw==
-X-Gm-Message-State: AOAM531oV6qPMw7GTkbbVIaiLeQuJ+Yu58wmOvxthuO99SSyt9MRVxpA
-        nbcGs9dJgAQDLl9WzrFL0o3OzXzrZYvyfjHIftF6c44wyfQ=
-X-Google-Smtp-Source: ABdhPJwF8Y7H/Jxkbi0MQA3m2KH+O7fTjxhxOQpdyD1v1HhmDipRiloZ30/OwPcjn02QgBb2TBq5Vvb9eDremcm3KRI=
-X-Received: by 2002:a6b:f115:: with SMTP id e21mr2617155iog.5.1618840423784;
- Mon, 19 Apr 2021 06:53:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1618527437.git.repnop@google.com> <e6cd967f45381d20d67c9d5a3e49e3cb9808f65b.1618527437.git.repnop@google.com>
- <20210419132020.ydyb2ly6e3clhe2j@wittgenstein>
-In-Reply-To: <20210419132020.ydyb2ly6e3clhe2j@wittgenstein>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Mon, 19 Apr 2021 16:53:32 +0300
-Message-ID: <CAOQ4uxhCob7uTK_jqvyfyMZrWFZZOvs=NLhkdLFUcLrofR_ZBw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] fanotify: Add pidfd support to the fanotify API
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Matthew Bobrowski <repnop@google.com>, Jan Kara <jack@suse.cz>,
+        id S238427AbhDSNze (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 19 Apr 2021 09:55:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29664 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235854AbhDSNze (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 19 Apr 2021 09:55:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1618840504;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=sH/va859G7+kPRIk42Cl7YV9RauhBxFyo2eED4b+bpA=;
+        b=htLGTrB758fNAXh4b7rPyPGldsFba3K+n1S6oEdkcnsor3PionW2EAsAcwJ2sttreKmC/+
+        yJFDY1iGDocYZFPV1Vqn8qcNkPY+8aq0Oq8vbLMCUO899nCM39I8s7LVcAkLyGUoWJChbk
+        lQ47lhKzmS+/5EkykXzGbHCGlQqqnxo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-523-em2bedRCMIOvFc4uC3t2lA-1; Mon, 19 Apr 2021 09:55:01 -0400
+X-MC-Unique: em2bedRCMIOvFc4uC3t2lA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45A27107B02A;
+        Mon, 19 Apr 2021 13:54:56 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-115-67.ams2.redhat.com [10.36.115.67])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 27A3E10016FD;
+        Mon, 19 Apr 2021 13:54:43 +0000 (UTC)
+From:   David Hildenbrand <david@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-mm@kvack.org, David Hildenbrand <david@redhat.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>, Chris Zankel <chris@zankel.net>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Helge Deller <deller@gmx.de>, Hugh Dickins <hughd@google.com>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Jann Horn <jannh@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
         Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Matt Turner <mattst88@gmail.com>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        Peter Xu <peterx@redhat.com>, Ram Pai <linuxram@us.ibm.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Rik van Riel <riel@surriel.com>,
+        Rolf Eike Beer <eike-kernel@sf-tec.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Vlastimil Babka <vbabka@suse.cz>
+Subject: [PATCH v2 0/5] mm/madvise: introduce MADV_POPULATE_(READ|WRITE) to prefault page tables
+Date:   Mon, 19 Apr 2021 15:54:38 +0200
+Message-Id: <20210419135443.12822-1-david@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Apr 19, 2021 at 4:20 PM Christian Brauner
-<christian.brauner@ubuntu.com> wrote:
->
-> On Fri, Apr 16, 2021 at 09:22:25AM +1000, Matthew Bobrowski wrote:
-> > Introduce a new flag FAN_REPORT_PIDFD for fanotify_init(2) which
-> > allows userspace applications to control whether a pidfd is to be
-> > returned instead of a pid for `struct fanotify_event_metadata.pid`.
-> >
-> > FAN_REPORT_PIDFD is mutually exclusive with FAN_REPORT_TID as the
-> > pidfd API is currently restricted to only support pidfd generation for
-> > thread-group leaders. Attempting to set them both when calling
-> > fanotify_init(2) will result in -EINVAL being returned to the
-> > caller. As the pidfd API evolves and support is added for tids, this
-> > is something that could be relaxed in the future.
-> >
-> > If pidfd creation fails, the pid in struct fanotify_event_metadata is
-> > set to FAN_NOPIDFD(-1). Falling back and providing a pid instead of a
-> > pidfd on pidfd creation failures was considered, although this could
-> > possibly lead to confusion and unpredictability within userspace
-> > applications as distinguishing between whether an actual pidfd or pid
-> > was returned could be difficult, so it's best to be explicit.
-> >
-> > Signed-off-by: Matthew Bobrowski <repnop@google.com>
-> > ---
-> >  fs/notify/fanotify/fanotify_user.c | 33 +++++++++++++++++++++++++++---
-> >  include/linux/fanotify.h           |  2 +-
-> >  include/uapi/linux/fanotify.h      |  2 ++
-> >  3 files changed, 33 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
-> > index 9e0c1afac8bd..fd8ae88796a8 100644
-> > --- a/fs/notify/fanotify/fanotify_user.c
-> > +++ b/fs/notify/fanotify/fanotify_user.c
-> > @@ -329,7 +329,7 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
-> >       struct fanotify_info *info = fanotify_event_info(event);
-> >       unsigned int fid_mode = FAN_GROUP_FLAG(group, FANOTIFY_FID_BITS);
-> >       struct file *f = NULL;
-> > -     int ret, fd = FAN_NOFD;
-> > +     int ret, pidfd, fd = FAN_NOFD;
-> >       int info_type = 0;
-> >
-> >       pr_debug("%s: group=%p event=%p\n", __func__, group, event);
-> > @@ -340,7 +340,25 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
-> >       metadata.vers = FANOTIFY_METADATA_VERSION;
-> >       metadata.reserved = 0;
-> >       metadata.mask = event->mask & FANOTIFY_OUTGOING_EVENTS;
-> > -     metadata.pid = pid_vnr(event->pid);
-> > +
-> > +     if (FAN_GROUP_FLAG(group, FAN_REPORT_PIDFD) &&
-> > +             pid_has_task(event->pid, PIDTYPE_TGID)) {
-> > +             /*
-> > +              * Given FAN_REPORT_PIDFD is to be mutually exclusive with
-> > +              * FAN_REPORT_TID, panic here if the mutual exclusion is ever
-> > +              * blindly lifted without pidfds for threads actually being
-> > +              * supported.
-> > +              */
-> > +             WARN_ON(FAN_GROUP_FLAG(group, FAN_REPORT_TID));
-> > +
-> > +             pidfd = pidfd_create(event->pid, 0);
-> > +             if (unlikely(pidfd < 0))
-> > +                     metadata.pid = FAN_NOPIDFD;
-> > +             else
-> > +                     metadata.pid = pidfd;
->
-> I'm not a fan of overloading fields (Yes, we did this for the _legacy_
-> clone() syscall for CLONE_PIDFD/CLONE_PARENT_SETTID but in general it's
-> never a good idea if there are other options, imho.).
-> Could/should we consider the possibility of adding a new pidfd field to
-> struct fanotify_event_metadata?
+Excessive details on MADV_POPULATE_(READ|WRITE) can be found in patch #2.
 
-struct fanotify_event_metadata is fully booked.
-We could use a variable length record, but IMO that's an overkill for pidfd.
+v1 -> v2:
+- "mm/madvise: introduce MADV_POPULATE_(READ|WRITE) to prefault page
+   tables"
+-- Renamed patch/series to match what's happening -- prefault page tables
+-- Clarified MADV_POPULATE_READ semantics on file holes and that we might
+   want fallocate().
+-- Updated/clarified description
+-- Dropped -EINVAL and -EBUSY checks
+-- Added a comment regarding FOLL_TOUCH and why we don't care that
+   pages will get set dirty when triggering write-faults for now.
+-- Reran and extended performance measurements by more fallocate()
+   combinations
 
-If you are concerned about users wrongly interpreting pidfd as pid and
-getting the the wrong process we could use invalid negative values for
-pidfd, e.g. metadata.pid = ~pidfd.
-This has the quality that 0 can mean both FAN_NOPIDFD and no pid.
-UAPI to this would be abstracted with
-#define FAN_EVENT_PIDFD(event) (~((event)->pid))
+RFCv2 -> v1
+- "mm: fix variable name in declaration of populate_vma_page_range()"
+-- Added
+- "mm/madvise: introduce MADV_POPULATE_(READ|WRITE) to prefault ..."
+-- Fix detection of memory holes when we have to re-lookup the VMA
+-- Return -EHWPOISON to user space when we hit HW poisoned pages
+-- Make variable names in definition and declaration consistent
+- "MAINTAINERS: add tools/testing/selftests/vm/ to MEMORY MANAGEMENT"
+-- Added
+- "selftests/vm: add protection_keys_32 / protection_keys_64 to gitignore"
+-- Added
+- "selftests/vm: add test for MADV_POPULATE_(READ|WRITE)"
+-- Added
 
-I am not convinced that this helps more than it hurts users, but abstracting
-the accessor to pidfd could be a good idea anyway.
+RFC -> RFCv2:
+- Fix re-locking (-> set "locked = 1;")
+- Don't mimic MAP_POPULATE semantics:
+--> Explicit READ/WRITE request instead of selecting it automatically,
+    which makes it more generic and better suited for some use cases (e.g., we
+    usually want to prefault shmem writable)
+--> Require proper access permissions
+- Introduce and use faultin_vma_page_range()
+--> Properly handle HWPOISON pages (FOLL_HWPOISON)
+--> Require proper access permissions (!FOLL_FORCE)
+- Let faultin_vma_page_range() check for compatible mappings/permissions
+- Extend patch description and add some performance numbers
 
-Thanks,
-Amir.
+
+David Hildenbrand (5):
+  mm: make variable names for populate_vma_page_range() consistent
+  mm/madvise: introduce MADV_POPULATE_(READ|WRITE) to prefault page
+    tables
+  MAINTAINERS: add tools/testing/selftests/vm/ to MEMORY MANAGEMENT
+  selftests/vm: add protection_keys_32 / protection_keys_64 to gitignore
+  selftests/vm: add test for MADV_POPULATE_(READ|WRITE)
+
+ MAINTAINERS                                |   1 +
+ arch/alpha/include/uapi/asm/mman.h         |   3 +
+ arch/mips/include/uapi/asm/mman.h          |   3 +
+ arch/parisc/include/uapi/asm/mman.h        |   3 +
+ arch/xtensa/include/uapi/asm/mman.h        |   3 +
+ include/uapi/asm-generic/mman-common.h     |   3 +
+ mm/gup.c                                   |  58 ++++
+ mm/internal.h                              |   5 +-
+ mm/madvise.c                               |  66 ++++
+ tools/testing/selftests/vm/.gitignore      |   3 +
+ tools/testing/selftests/vm/Makefile        |   1 +
+ tools/testing/selftests/vm/madv_populate.c | 342 +++++++++++++++++++++
+ tools/testing/selftests/vm/run_vmtests.sh  |  16 +
+ 13 files changed, 506 insertions(+), 1 deletion(-)
+ create mode 100644 tools/testing/selftests/vm/madv_populate.c
+
+-- 
+2.30.2
+
