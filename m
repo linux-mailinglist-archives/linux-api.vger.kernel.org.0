@@ -2,146 +2,119 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F38743646A4
-	for <lists+linux-api@lfdr.de>; Mon, 19 Apr 2021 17:02:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B74B364722
+	for <lists+linux-api@lfdr.de>; Mon, 19 Apr 2021 17:29:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240662AbhDSPDJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 19 Apr 2021 11:03:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43422 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239093AbhDSPDI (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 19 Apr 2021 11:03:08 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 60F6E60FE6;
-        Mon, 19 Apr 2021 15:02:36 +0000 (UTC)
-Date:   Mon, 19 Apr 2021 17:02:33 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Jan Kara <jack@suse.cz>
-Cc:     Matthew Bobrowski <repnop@google.com>, amir73il@gmail.com,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 2/2] fanotify: Add pidfd support to the fanotify API
-Message-ID: <20210419150233.rgozm4cdbasskatk@wittgenstein>
-References: <cover.1618527437.git.repnop@google.com>
- <e6cd967f45381d20d67c9d5a3e49e3cb9808f65b.1618527437.git.repnop@google.com>
- <20210419132020.ydyb2ly6e3clhe2j@wittgenstein>
- <20210419135550.GH8706@quack2.suse.cz>
+        id S241145AbhDSP32 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 19 Apr 2021 11:29:28 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:45120 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S233733AbhDSP31 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 19 Apr 2021 11:29:27 -0400
+Received: from cwcc.thunk.org (pool-72-74-133-215.bstnma.fios.verizon.net [72.74.133.215])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 13JFSplv032708
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 19 Apr 2021 11:28:51 -0400
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+        id 3695315C3B0D; Mon, 19 Apr 2021 11:28:51 -0400 (EDT)
+Date:   Mon, 19 Apr 2021 11:28:51 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     ksummit@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, netdev@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Maintainers / Kernel Summit 2021 planning kick-off
+Message-ID: <YH2hs6EsPTpDAqXc@mit.edu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210419135550.GH8706@quack2.suse.cz>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Apr 19, 2021 at 03:55:50PM +0200, Jan Kara wrote:
-> On Mon 19-04-21 15:20:20, Christian Brauner wrote:
-> > On Fri, Apr 16, 2021 at 09:22:25AM +1000, Matthew Bobrowski wrote:
-> > > Introduce a new flag FAN_REPORT_PIDFD for fanotify_init(2) which
-> > > allows userspace applications to control whether a pidfd is to be
-> > > returned instead of a pid for `struct fanotify_event_metadata.pid`.
-> > > 
-> > > FAN_REPORT_PIDFD is mutually exclusive with FAN_REPORT_TID as the
-> > > pidfd API is currently restricted to only support pidfd generation for
-> > > thread-group leaders. Attempting to set them both when calling
-> > > fanotify_init(2) will result in -EINVAL being returned to the
-> > > caller. As the pidfd API evolves and support is added for tids, this
-> > > is something that could be relaxed in the future.
-> > > 
-> > > If pidfd creation fails, the pid in struct fanotify_event_metadata is
-> > > set to FAN_NOPIDFD(-1). Falling back and providing a pid instead of a
-> > > pidfd on pidfd creation failures was considered, although this could
-> > > possibly lead to confusion and unpredictability within userspace
-> > > applications as distinguishing between whether an actual pidfd or pid
-> > > was returned could be difficult, so it's best to be explicit.
-> > > 
-> > > Signed-off-by: Matthew Bobrowski <repnop@google.com>
-> > > ---
-> > >  fs/notify/fanotify/fanotify_user.c | 33 +++++++++++++++++++++++++++---
-> > >  include/linux/fanotify.h           |  2 +-
-> > >  include/uapi/linux/fanotify.h      |  2 ++
-> > >  3 files changed, 33 insertions(+), 4 deletions(-)
-> > > 
-> > > diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
-> > > index 9e0c1afac8bd..fd8ae88796a8 100644
-> > > --- a/fs/notify/fanotify/fanotify_user.c
-> > > +++ b/fs/notify/fanotify/fanotify_user.c
-> > > @@ -329,7 +329,7 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
-> > >  	struct fanotify_info *info = fanotify_event_info(event);
-> > >  	unsigned int fid_mode = FAN_GROUP_FLAG(group, FANOTIFY_FID_BITS);
-> > >  	struct file *f = NULL;
-> > > -	int ret, fd = FAN_NOFD;
-> > > +	int ret, pidfd, fd = FAN_NOFD;
-> > >  	int info_type = 0;
-> > >  
-> > >  	pr_debug("%s: group=%p event=%p\n", __func__, group, event);
-> > > @@ -340,7 +340,25 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
-> > >  	metadata.vers = FANOTIFY_METADATA_VERSION;
-> > >  	metadata.reserved = 0;
-> > >  	metadata.mask = event->mask & FANOTIFY_OUTGOING_EVENTS;
-> > > -	metadata.pid = pid_vnr(event->pid);
-> > > +
-> > > +	if (FAN_GROUP_FLAG(group, FAN_REPORT_PIDFD) &&
-> > > +		pid_has_task(event->pid, PIDTYPE_TGID)) {
-> > > +		/*
-> > > +		 * Given FAN_REPORT_PIDFD is to be mutually exclusive with
-> > > +		 * FAN_REPORT_TID, panic here if the mutual exclusion is ever
-> > > +		 * blindly lifted without pidfds for threads actually being
-> > > +		 * supported.
-> > > +		 */
-> > > +		WARN_ON(FAN_GROUP_FLAG(group, FAN_REPORT_TID));
-> > > +
-> > > +		pidfd = pidfd_create(event->pid, 0);
-> > > +		if (unlikely(pidfd < 0))
-> > > +			metadata.pid = FAN_NOPIDFD;
-> > > +		else
-> > > +			metadata.pid = pidfd;
-> > 
-> > I'm not a fan of overloading fields (Yes, we did this for the _legacy_
-> > clone() syscall for CLONE_PIDFD/CLONE_PARENT_SETTID but in general it's
-> > never a good idea if there are other options, imho.).
-> > Could/should we consider the possibility of adding a new pidfd field to
-> > struct fanotify_event_metadata?
-> 
-> I'm not a huge fan of overloading fields either but in this particular case
-> I'm fine with that because:
-> 
-> a) storage size & type matches
-> b) it describes exactly the same information, just in a different way
-> 
-> It is not possible to store the pidfd elsewhere in fanotify_event_metadata.
-> But it is certainly possible to use extended event info to return pidfd
-> instead - similarly to how we return e.g. handle + fsid for some
-> notification groups. It just means somewhat longer events and more
-> complicated parsing of structured events in userspace. But as I write
-> above, in this case I don't think it is worth it - only if we think that
-> returning both pid and pidfd could ever be useful.
+[ Feel free to forward this to other Linux kernel mailing lists as
+  appropriate -- Ted ]
 
-Yeah, I don't hink users need to do that. After all they can parse the
-PID out of the /proc/self/fdinfo/<pidfd> file.
+This year, the Maintainers and Kernel Summit is currently planned to
+be held in Dublin, Ireland, September 27 -- 29th.  Of course, this is
+subject to change depending on how much progress the world makes
+towards vaccinating the population against the COVID-19 virus, and
+whether employers are approving conference travel.  At this point,
+there's a fairly good chance that we will need to move to a virtual
+conference format, either for one or both of the summits.
 
-A general question about struct fanotify_event_metadata and its
-extensibility model:
-looking through the code it seems that this struct is read via
-fanotify_rad(). So the user is expected to supply a buffer with at least
+As in previous years, the Maintainers Summit is invite-only, where the
+primary focus will be process issues around Linux Kernel Development.
+It will be limited to 30 invitees and a handful of sponsored
+attendees.
 
-#define FAN_EVENT_METADATA_LEN (sizeof(struct fanotify_event_metadata))
+The Kernel Summit is organized as a track which is run in parallel
+with the other tracks at the Linux Plumbers Conference (LPC), and is
+open to all registered attendees of LPC.
 
-bytes. In addition you can return the info to the user about how many
-bytes the kernel has written from fanotify_read().
+Linus has generated a core list of people to be invited to the
+Maintainers Summit, and the program committee will be using that list
+a starting point of people to be considered.  People who suggest
+topics that should be discussed at the Maintainers Summit will also be
+added to the list for consideration.  To make topic suggestions for
+the Maintainers Summit, please send e-mail to the
+ksummit@lists.linux.dev with a subject prefix of [MAINTAINERS SUMMIT].
 
-So afaict extending fanotify_event_metadata should be _fairly_
-straightforward, right? It would essentially the complement to
-copy_struct_from_user() which Aleksa and I added (1 or 2 years ago)
-which deals with user->kernel and you're dealing with kernel->user:
-- If the user supplied a buffer smaller than the minimum known struct
-  size -> reject.
-- If the user supplied a buffer < smaller than what the current kernel
-  supports -> copy only what userspace knows about, and return the size
-  userspace knows about.
-- If the user supplied a buffer that is larger than what the current
-  kernel knows about -> copy only what the kernel knows about, zero the
-  rest, and return the kernel size.
+(Note: The older ksummit-discuss@lists.linuxfoundation.org list has
+been migrated to lists.linux.dev, with the subscriber list and
+archives preserved.)
 
-Extension should then be fairly straightforward (64bit aligned
-increments)?
+The other job of the program committee will be to organize the program
+for the Kernel Summit.  The goal of the Kernel Summit track will be to
+provide a forum to discuss specific technical issues that would be
+easier to resolve in person than over e-mail.  The program committee
+will also consider "information sharing" topics if they are clearly of
+interest to the wider development community (i.e., advanced training
+in topics that would be useful to kernel developers).
 
-Christian
+To suggest a topic for the Kernel Summit, please do two things.
+First, please tag your e-mail with [TECH TOPIC].  As before, please
+use a separate e-mail for each topic, and send the topic suggestions
+to the ksummit-discuss list.
+
+Secondly, please create a topic at the Linux Plumbers Conference
+proposal submission site and target it to the Kernel Summit track.
+For your convenience you can use:
+
+	https://bit.ly/lpc21-summit
+
+Please do both steps.  I'll try to notice if someone forgets one or
+the other, but your chances of making sure your proposal gets the
+necessary attention and consideration are maximized by submitting both
+to the mailing list and the web site.
+
+People who submit topic suggestions before June 12th and which are
+accepted, will be given free admission to the Linux Plumbers
+Conference.
+
+We will be reserving roughly half of the Kernel Summit slots for
+last-minute discussions that will be scheduled during the week of
+Plumbers, in an "unconference style".  This allows last-minute ideas
+that come up to be given given slots for discussion.
+
+If you were not subscribed on to the kernel@lists.linux-dev mailing
+list from last year (or if you had removed yourself from the
+ksummit-discuss@lists.linux-foundation.org mailing list after the
+previous year's kernel and maintainers' summit summit), you can
+subscribe sending an e-mail to:
+
+	ksummit+subscribe@lists.linux.dev
+
+The mailing list archive is available at:
+
+	https://lore.kernel.org/ksummit
+
+The program committee this year is composed of the following people:
+
+Jens Axboe
+Arnd Bergmann
+Jon Corbet
+Greg Kroah-Hartman
+Ted Ts'o
