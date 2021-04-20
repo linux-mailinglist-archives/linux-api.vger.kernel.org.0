@@ -2,267 +2,592 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88942365ED9
-	for <lists+linux-api@lfdr.de>; Tue, 20 Apr 2021 19:56:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7C58365F02
+	for <lists+linux-api@lfdr.de>; Tue, 20 Apr 2021 20:05:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233288AbhDTR5Q (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 20 Apr 2021 13:57:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47675 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232473AbhDTR5Q (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 20 Apr 2021 13:57:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1618941404;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=afa6Hv1Y+nEnC6nqP5aByitRJ6Vc/us+E9c6JL1buB0=;
-        b=TKk2uajvot64tt5f9ijWEyxFnBnBeWEv6cMGDzmJAgAqUShxlBqO+EmDg+lXUD/MM7LuNr
-        ypl2qsoH91NSCjHyKgERTJ9F5vuD8+RAmlkukOT6GVS7qXe4lJH1gMdS5OltTprgnsLwI+
-        H40NTiKW/9uS0D6z7l0VPG0A5dl2w+8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-wWBJTFitOxWFtL4G6Wub8g-1; Tue, 20 Apr 2021 13:56:41 -0400
-X-MC-Unique: wWBJTFitOxWFtL4G6Wub8g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7505184BA40;
-        Tue, 20 Apr 2021 17:56:39 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-114-170.ams2.redhat.com [10.36.114.170])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 82A145D6AB;
-        Tue, 20 Apr 2021 17:56:32 +0000 (UTC)
-From:   David Hildenbrand <david@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     David Hildenbrand <david@redhat.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-alpha@vger.kernel.org
-Subject: [PATCH v1] binfmt: remove support for em86 (alpha only)
-Date:   Tue, 20 Apr 2021 19:56:31 +0200
-Message-Id: <20210420175631.46923-1-david@redhat.com>
+        id S233518AbhDTSGW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 20 Apr 2021 14:06:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43228 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233509AbhDTSGS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 20 Apr 2021 14:06:18 -0400
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 051F4C06138A
+        for <linux-api@vger.kernel.org>; Tue, 20 Apr 2021 11:05:44 -0700 (PDT)
+Received: by mail-io1-xd2b.google.com with SMTP id p8so18035231iol.11
+        for <linux-api@vger.kernel.org>; Tue, 20 Apr 2021 11:05:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dwgIqEJq6lgxu9Yg00vKoDxOePFbqZRgmL5o+9iMnxs=;
+        b=ZlhctxCpzlBcjJgCBLPhC3TNqchC3wMI8aLzZ2dkYc11D9HQgJU9d0iznHpevpzl2Q
+         A/KrX6g1gIjgcT4w5t21t69r2ZBnEQsophXJDZ2US2RXDqm82bebkqSzOj0BK2Ly3UcE
+         hiZpLVFXrBDZ6NZyHUNdfRtaLAT3eCQ/lIqfCIBajjfKPWq7U0rKFAWB+YKN6f5jxYPq
+         GJJHpusoK1kZlvCtduvpiQbE47sGiDZcuJLQ3TXwOnFTUzQCO5jPY5VwI8H3ocy7AHt6
+         7hoX69Zlzrf0IKrBZogZJggzSRKr53SmesO0oXBW4UZhzYw19VDIlPbREfz9anVQ0NMk
+         6auA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dwgIqEJq6lgxu9Yg00vKoDxOePFbqZRgmL5o+9iMnxs=;
+        b=tUznBSdvO8tWHi0gpvK04/0rVhwgPrXplAWDZthIdOPDs67yHoOgP1nu+AC95Styhu
+         jyMJ1S9W/9JqW2itcc3d6WeXamSQhvk25z/ot/yhsUS4dq6DPKX9sdWWS6Q33I2nYPtp
+         q8gGVybMAO04tW3LQfPVvYfQNt+XZlZqVIcibweq2th7wM6FY4d+0VZM5/W+rxoWz1BE
+         pNdKMTflUn9FN9G+j5JCoreTAoeXqc+WpK9emK10chJ1HH+ZVN10q6Atb8dvq0aKY+5A
+         lTfNuS0daRPqNi58H44UKqR+ZfDNA0Te4XHYMI13QBv5Ijmul/Z7FipRosYyI6aJvHoH
+         qHAg==
+X-Gm-Message-State: AOAM531PNKjDB1h7eBbOZuv6ZVbtSd4umOL5aMg/a8bxqgnx576/dEQK
+        fAU3yJ8J4AIkCf4lfPxQOOvCdjpRSCmFTUnjSwmG0g==
+X-Google-Smtp-Source: ABdhPJyaVYqdykbl2vnzIR5Eya/nZVG64SJ/UGB9fzBRC68qzGlAadEW3Hm+yI+KXHFL7T9qdNnr/TkGnbWfxCYpvEs=
+X-Received: by 2002:a05:6638:a2c:: with SMTP id 12mr18578137jao.99.1618941943919;
+ Tue, 20 Apr 2021 11:05:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+References: <20210413051721.2896915-1-axelrasmussen@google.com>
+ <20210413051721.2896915-5-axelrasmussen@google.com> <alpine.LSU.2.11.2104161643590.25373@eggly.anvils>
+In-Reply-To: <alpine.LSU.2.11.2104161643590.25373@eggly.anvils>
+From:   Axel Rasmussen <axelrasmussen@google.com>
+Date:   Tue, 20 Apr 2021 11:05:06 -0700
+Message-ID: <CAJHvVcgJ-AJp_PWm7xwj4avLnP6G=uYbscmv3oB+=Mw9EpzhrA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/9] userfaultfd/shmem: support UFFDIO_CONTINUE for shmem
+To:     Hugh Dickins <hughd@google.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jerome Glisse <jglisse@redhat.com>,
+        Joe Perches <joe@perches.com>,
+        Lokesh Gidra <lokeshgidra@google.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Peter Xu <peterx@redhat.com>, Shaohua Li <shli@fb.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Wang Qing <wangqing@vivo.com>, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org, Linux MM <linux-mm@kvack.org>,
+        Brian Geffon <bgeffon@google.com>,
+        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+        Mina Almasry <almasrymina@google.com>,
+        Oliver Upton <oupton@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-We have a fairly specific alpha binary loader in Linux: running x86
-(i386, i486) binaries via the em86 [1] emulator. As noted in the Kconfig
-option, the same behavior can be achieved via binfmt_misc, for example,
-more nowadays used for running qemu-user.
+On Fri, Apr 16, 2021 at 4:47 PM Hugh Dickins <hughd@google.com> wrote:
+>
+> On Mon, 12 Apr 2021, Axel Rasmussen wrote:
+>
+> > With this change, userspace can resolve a minor fault within a
+> > shmem-backed area with a UFFDIO_CONTINUE ioctl. The semantics for this
+> > match those for hugetlbfs - we look up the existing page in the page
+> > cache, and install PTEs for it.
+>
+> s/PTEs/a PTE/
+>
+> >
+> > This commit introduces a new helper: mcopy_atomic_install_ptes.
+>
+> The plural is misleading: it only installs a single pte, so I'm going
+> to ask you to change it throughout to mcopy_atomic_install_pte()
+> (I'm not thrilled with the "mcopy" nor the "atomic", but there you are
+> being consistent with userfaultfd's peculiar naming, so let them be).
+>
+> >
+> > Why handle UFFDIO_CONTINUE for shmem in mm/userfaultfd.c, instead of in
+> > shmem.c? The existing userfault implementation only relies on shmem.c
+> > for VM_SHARED VMAs. However, minor fault handling / CONTINUE work just
+> > fine for !VM_SHARED VMAs as well. We'd prefer to handle CONTINUE for
+> > shmem in one place, regardless of shared/private (to reduce code
+> > duplication).
+> >
+> > Why add a new mcopy_atomic_install_ptes helper? A problem we have with
+> > continue is that shmem_mcopy_atomic_pte() and mcopy_atomic_pte() are
+> > *close* to what we want, but not exactly. We do want to setup the PTEs
+> > in a CONTINUE operation, but we don't want to e.g. allocate a new page,
+> > charge it (e.g. to the shmem inode), manipulate various flags, etc. Also
+> > we have the problem stated above: shmem_mcopy_atomic_pte() and
+> > mcopy_atomic_pte() both handle one-half of the problem (shared /
+> > private) continue cares about. So, introduce mcontinue_atomic_pte(), to
+> > handle all of the shmem continue cases. Introduce the helper so it
+> > doesn't duplicate code with mcopy_atomic_pte().
+> >
+> > In a future commit, shmem_mcopy_atomic_pte() will also be modified to
+> > use this new helper. However, since this is a bigger refactor, it seems
+> > most clear to do it as a separate change.
+>
+> (Actually that turns out to be a nice deletion of lines,
+> but you're absolutely right to do it as a separate patch.)
+>
+> >
+> > Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
+> > ---
+> >  mm/userfaultfd.c | 176 +++++++++++++++++++++++++++++++++++------------
+> >  1 file changed, 131 insertions(+), 45 deletions(-)
+> >
+> > diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
+> > index 23fa2583bbd1..8df0438f5d6a 100644
+> > --- a/mm/userfaultfd.c
+> > +++ b/mm/userfaultfd.c
+> > @@ -48,6 +48,87 @@ struct vm_area_struct *find_dst_vma(struct mm_struct *dst_mm,
+> >       return dst_vma;
+> >  }
+> >
+> > +/*
+> > + * Install PTEs, to map dst_addr (within dst_vma) to page.
+> > + *
+> > + * This function handles MCOPY_ATOMIC_CONTINUE (which is always file-backed),
+> > + * whether or not dst_vma is VM_SHARED. It also handles the more general
+> > + * MCOPY_ATOMIC_NORMAL case, when dst_vma is *not* VM_SHARED (it may be file
+> > + * backed, or not).
+> > + *
+> > + * Note that MCOPY_ATOMIC_NORMAL for a VM_SHARED dst_vma is handled by
+> > + * shmem_mcopy_atomic_pte instead.
+>
+> Right, I'm thinking in terms of five cases below (I'm not for a moment
+> saying that you need to list these out in the comment, just saying that
+> I could not get my head around the issues in this function without
+> listing them out for myself):
+>
+> 1. anon private mcopy (using anon page newly allocated)
+> 2. shmem private mcopy (using anon page newly allocated)
+> 3. shmem private mcontinue (using page in cache from shmem_getpage)
+> 4. shmem shared mcontinue (using page in cache from shmem_getpage)
+> 5. shmem shared mcopy (using page in cache newly allocated)
+>
+> Of which each has a VM_WRITE and a !VM_WRITE case; and the third and
+> fourth cases are new in this patch (it really would have been better
+> to introduce mcopy_atomic_install_pte() in a separate earlier patch,
+> but don't change that now we've got this far); and the fifth case does
+> *not* use mcopy_atomic_install_pte() in this patch, but will in future.
+>
+> And while making these notes, let's hightlight again what is commented
+> elsewhere, the odd nature of the second case: where userfaultfd short
+> circuits to an anonymous CoW page without instantiating the shmem page.
+> (Please double-check me on that: quite a lot of my comments below are
+> about this case 2, so if I've got it wrong, then I've got a lot wrong.)
 
-An example on how to get binfmt_misc running with em86 can be found in
-Documentation/admin-guide/binfmt-misc.rst
+My understanding of case (2) is the same. In mfill_atomic_pte(), we
+call into mcopy_atomic_pte if !VM_SHARED, regardless of whether it's
+anon or shmem we're dealing with. That function allocates an anon
+page, and then mcopy_atomic_install_pte() will *not* mark it writable,
+so we get CoW semantics.
 
-The defconfig does not have CONFIG_BINFMT_EM86=y set. And doing a
-	make defconfig && make olddefconfig
-results in
-	# CONFIG_BINFMT_EM86 is not set
+>
+> > + */
+> > +static int mcopy_atomic_install_ptes(struct mm_struct *dst_mm, pmd_t *dst_pmd,
+>
+> mcopy_atomic_install_pte() throughout please.
+>
+> > +                                  struct vm_area_struct *dst_vma,
+> > +                                  unsigned long dst_addr, struct page *page,
+> > +                                  bool newly_allocated, bool wp_copy)
+> > +{
+> > +     int ret;
+> > +     pte_t _dst_pte, *dst_pte;
+> > +     int writable;
+>
+> Sorry, it's silly of me, but I keep getting irritated by "int writable"
+> in company with the various bools; and the way vm_shared is initialized
+> below, but writable initialized later.  Please humour me by making it
+>         bool writable = dst_vma->vm_flags & VM_WRITE;
+>
+> > +     bool vm_shared = dst_vma->vm_flags & VM_SHARED;
+>
+> And I've found that we also need
+>         bool page_in_cache = page->mapping;
+> because an anonymous page does not at this point have page->mapping
+> set, and does not yet satisfy PageAnon(page).  Or other naming if you
+> think of better; or its inverse with page_is_anon or whatever.
+>
+> > +     spinlock_t *ptl;
+> > +     struct inode *inode;
+> > +     pgoff_t offset, max_off;
+> > +
+> > +     _dst_pte = mk_pte(page, dst_vma->vm_page_prot);
+> > +     writable = dst_vma->vm_flags & VM_WRITE;
+> > +     /* For private, non-anon we need CoW (don't write to page cache!) */
+> > +     if (!vma_is_anonymous(dst_vma) && !vm_shared)
+> > +             writable = 0;
+>
+> That appears to differ slightly from what was done before this patch:
+> it is now making a case 2 VM_WRITE pte unwritable, incurring an
+> unnecessary write fault later on.  I think it would be better
+> (for all fives cases) to say:
+>
+>         if (page_in_cache && !vm_shared)
+>                 writable = false;
+>
 
-... as we don't seem to have any supported Linux distirbution for alpha
-anymore, there isn't really any "default" user of that feature anymore.
+Agreed, this is more clear.
 
-Searching for "CONFIG_BINFMT_EM86=y" reveals mostly discussions from
-around 20 years ago, like [2] describing how to get netscape via em86
-running via em86, or [3] discussing that running wine or installing
-Win 3.11 through em86 would be a nice feature.
+The case 2 difference is subtle, thanks for spotting it! I had assumed
+pages backing shmem VMAs would *always* be in the page cache, but due
+to the trick where we use an anon page in that particular case, this
+isn't true.
 
-The latest binaries available for em86 are from 2000, version 2.2.1 [4] --
-which translates to "unsupported"; further, em86 doesn't even work with
-glibc-2.x but only with glibc-2.0 [4, 5]. These are clear signs that
-there might not be too many em86 users out there, especially users
-relying on modern Linux kernels.
+> > +
+> > +     if (writable || vma_is_anonymous(dst_vma))
+> > +             _dst_pte = pte_mkdirty(_dst_pte);
+>
+> And, unlike before, that is not marking the case 2 unwritable pte dirty.
+> Which works okay, because add_to_swap()'s unconditional set_page_dirty()
+> will make sure this page is written to swap before it is freed.  But I'd
+> rather not rely on that here: it's a detail which might get changed one
+> day, and whoever changes it may not think to update mm/userfaultfd.c.
+>
+> Sticking with Andrea's caution about marking a shared unwritable dirty,
+> but happy as before to mark a private unwritable dirty:
+>
+>         if (writable || !page_in_cache)
+>                 _dst_pte = pte_mkdirty(_dst_pte);
+>
+> This does *not* mark the new cases 3 and 4 dirty when unwritable,
+> but there's no chance of data loss in their case, because the kernel
+> has not modified the page's data: the page from shmem_getpage()
+> is already marked correctly (usually PageDirty, but there's a
+> mapped-hole case where it might not be, and that is still correct).
+>
+> (Why do we mark these pages dirty when writable? To skip a hardware
+> fault when and if the page is written later; but I'm not sure whether
+> that's necessarily a good idea - we don't know here whether it was a
+> write fault which triggered all this. I also don't know what difference
+> wp_copy, which skips the mkwrite, makes to this calculus; but follow
+> the example of before.)
 
-Even though the code footprint is relatively small, let's just get rid
-of this blast from the past that's effectively unused.
+Agreed - it's kind of the same thing as above, I had been assuming
+that "!vma_is_anonymous(dst_vma)" was equivalent to our new
+"page_in_cache", but case (2) violates that assumption. This is more
+clear, and given case (2), more correct.
 
-[1] http://ftp.dreamtime.org/pub/linux/Linux-Alpha/em86/v0.4/docs/em86.html
-[2] https://static.lwn.net/1998/1119/a/alpha-netscape.html
-[3] https://groups.google.com/g/linux.debian.alpha/c/AkGuQHeCe0Y
-[4] http://zeniv.linux.org.uk/pub/linux/alpha/em86/v2.2-1/relnotes.2.2.1.html
-[5] https://forum.teamspeak.com/archive/index.php/t-1477.html
+Thanks for the thorough explanation and background!
 
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-Cc: Matt Turner <mattst88@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-fsdevel@vger.kernel.org
-Cc: linux-api@vger.kernel.org
-Cc: linux-alpha@vger.kernel.org
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- fs/Kconfig.binfmt |  15 -------
- fs/Makefile       |   1 -
- fs/binfmt_em86.c  | 110 ----------------------------------------------
- 3 files changed, 126 deletions(-)
- delete mode 100644 fs/binfmt_em86.c
+>
+> > +     if (writable) {
+> > +             if (wp_copy)
+> > +                     _dst_pte = pte_mkuffd_wp(_dst_pte);
+> > +             else
+> > +                     _dst_pte = pte_mkwrite(_dst_pte);
+> > +     }
+>
+> Fine.
+>
+>           else if (vm_shared) {
+> > +             /*
+> > +              * Since we didn't pte_mkdirty(), mark the page dirty or it
+> > +              * could be freed from under us. We could do this
+> > +              * unconditionally, but doing it only if !writable is faster.
+> > +              */
+> > +             set_page_dirty(page);
+> > +     }
+>
+> But delete this block, as we all wanted. As I've argued above,
+> the new cases 3 and 4 using shmem_getpage() do not need an extra
+> set_page_dirty() here, and we can address case 5 when it's added.
 
-diff --git a/fs/Kconfig.binfmt b/fs/Kconfig.binfmt
-index c6f1c8c1934e..8720e0a30005 100644
---- a/fs/Kconfig.binfmt
-+++ b/fs/Kconfig.binfmt
-@@ -165,21 +165,6 @@ config OSF4_COMPAT
- 	  with v4 shared libraries freely available from Compaq. If you're
- 	  going to use shared libraries from Tru64 version 5.0 or later, say N.
- 
--config BINFMT_EM86
--	tristate "Kernel support for Linux/Intel ELF binaries"
--	depends on ALPHA
--	help
--	  Say Y here if you want to be able to execute Linux/Intel ELF
--	  binaries just like native Alpha binaries on your Alpha machine. For
--	  this to work, you need to have the emulator /usr/bin/em86 in place.
--
--	  You can get the same functionality by saying N here and saying Y to
--	  "Kernel support for MISC binaries".
--
--	  You may answer M to compile the emulation support as a module and
--	  later load the module when you want to use a Linux/Intel binary. The
--	  module will be called binfmt_em86. If unsure, say Y.
--
- config BINFMT_MISC
- 	tristate "Kernel support for MISC binaries"
- 	help
-diff --git a/fs/Makefile b/fs/Makefile
-index 3215fe205256..c92e403c53f8 100644
---- a/fs/Makefile
-+++ b/fs/Makefile
-@@ -39,7 +39,6 @@ obj-$(CONFIG_FS_ENCRYPTION)	+= crypto/
- obj-$(CONFIG_FS_VERITY)		+= verity/
- obj-$(CONFIG_FILE_LOCKING)      += locks.o
- obj-$(CONFIG_BINFMT_AOUT)	+= binfmt_aout.o
--obj-$(CONFIG_BINFMT_EM86)	+= binfmt_em86.o
- obj-$(CONFIG_BINFMT_MISC)	+= binfmt_misc.o
- obj-$(CONFIG_BINFMT_SCRIPT)	+= binfmt_script.o
- obj-$(CONFIG_BINFMT_ELF)	+= binfmt_elf.o
-diff --git a/fs/binfmt_em86.c b/fs/binfmt_em86.c
-deleted file mode 100644
-index 06b9b9fddf70..000000000000
---- a/fs/binfmt_em86.c
-+++ /dev/null
-@@ -1,110 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- *  linux/fs/binfmt_em86.c
-- *
-- *  Based on linux/fs/binfmt_script.c
-- *  Copyright (C) 1996  Martin von Löwis
-- *  original #!-checking implemented by tytso.
-- *
-- *  em86 changes Copyright (C) 1997  Jim Paradis
-- */
--
--#include <linux/module.h>
--#include <linux/string.h>
--#include <linux/stat.h>
--#include <linux/binfmts.h>
--#include <linux/elf.h>
--#include <linux/init.h>
--#include <linux/fs.h>
--#include <linux/file.h>
--#include <linux/errno.h>
--
--
--#define EM86_INTERP	"/usr/bin/em86"
--#define EM86_I_NAME	"em86"
--
--static int load_em86(struct linux_binprm *bprm)
--{
--	const char *i_name, *i_arg;
--	char *interp;
--	struct file * file;
--	int retval;
--	struct elfhdr	elf_ex;
--
--	/* Make sure this is a Linux/Intel ELF executable... */
--	elf_ex = *((struct elfhdr *)bprm->buf);
--
--	if (memcmp(elf_ex.e_ident, ELFMAG, SELFMAG) != 0)
--		return  -ENOEXEC;
--
--	/* First of all, some simple consistency checks */
--	if ((elf_ex.e_type != ET_EXEC && elf_ex.e_type != ET_DYN) ||
--		(!((elf_ex.e_machine == EM_386) || (elf_ex.e_machine == EM_486))) ||
--		!bprm->file->f_op->mmap) {
--			return -ENOEXEC;
--	}
--
--	/* Need to be able to load the file after exec */
--	if (bprm->interp_flags & BINPRM_FLAGS_PATH_INACCESSIBLE)
--		return -ENOENT;
--
--	/* Unlike in the script case, we don't have to do any hairy
--	 * parsing to find our interpreter... it's hardcoded!
--	 */
--	interp = EM86_INTERP;
--	i_name = EM86_I_NAME;
--	i_arg = NULL;		/* We reserve the right to add an arg later */
--
--	/*
--	 * Splice in (1) the interpreter's name for argv[0]
--	 *           (2) (optional) argument to interpreter
--	 *           (3) filename of emulated file (replace argv[0])
--	 *
--	 * This is done in reverse order, because of how the
--	 * user environment and arguments are stored.
--	 */
--	remove_arg_zero(bprm);
--	retval = copy_string_kernel(bprm->filename, bprm);
--	if (retval < 0) return retval; 
--	bprm->argc++;
--	if (i_arg) {
--		retval = copy_string_kernel(i_arg, bprm);
--		if (retval < 0) return retval; 
--		bprm->argc++;
--	}
--	retval = copy_string_kernel(i_name, bprm);
--	if (retval < 0)	return retval;
--	bprm->argc++;
--
--	/*
--	 * OK, now restart the process with the interpreter's inode.
--	 * Note that we use open_exec() as the name is now in kernel
--	 * space, and we don't need to copy it.
--	 */
--	file = open_exec(interp);
--	if (IS_ERR(file))
--		return PTR_ERR(file);
--
--	bprm->interpreter = file;
--	return 0;
--}
--
--static struct linux_binfmt em86_format = {
--	.module		= THIS_MODULE,
--	.load_binary	= load_em86,
--};
--
--static int __init init_em86_binfmt(void)
--{
--	register_binfmt(&em86_format);
--	return 0;
--}
--
--static void __exit exit_em86_binfmt(void)
--{
--	unregister_binfmt(&em86_format);
--}
--
--core_initcall(init_em86_binfmt);
--module_exit(exit_em86_binfmt);
--MODULE_LICENSE("GPL");
--- 
-2.30.2
+At this point working on revising the patches, I'm not sure why we
+won't need this for case (5), but I at least agree that it's certainly
+not needed yet, and we can add it back (or something else) when we get
+to case (5) in that later patch.
 
+>
+> > +
+> > +     dst_pte = pte_offset_map_lock(dst_mm, dst_pmd, dst_addr, &ptl);
+> > +
+> > +     if (vma_is_shmem(dst_vma)) {
+> > +             /* serialize against truncate with the page table lock */
+> > +             inode = dst_vma->vm_file->f_inode;
+> > +             offset = linear_page_index(dst_vma, dst_addr);
+> > +             max_off = DIV_ROUND_UP(i_size_read(inode), PAGE_SIZE);
+> > +             ret = -EFAULT;
+> > +             if (unlikely(offset >= max_off))
+> > +                     goto out_unlock;
+> > +     }
+> > +
+> > +     ret = -EEXIST;
+> > +     if (!pte_none(*dst_pte))
+> > +             goto out_unlock;
+> > +
+> > +     inc_mm_counter(dst_mm, mm_counter(page));
+>
+> Hard to spot, but that's wrong: because mm_counter() depends on PageAnon
+> to decide which count to adjust, and that does not get set until the
+> page_add_new_anon_rmap(). I'd expect your tests to have left "Bad rss"
+> warnings in the kernel log? This would be why. Just move the line down
+> until after page_add_new_anon_rmap() - with a comment line to say why!
+>
+> > +     if (vma_is_shmem(dst_vma))
+>
+> No, that gets case 2 wrong: use "if (page_in_cache)" instead.
+>
+> > +             page_add_file_rmap(page, false);
+> > +     else
+> > +             page_add_new_anon_rmap(page, dst_vma, dst_addr, false);
+> > +
+> > +     if (newly_allocated)
+> > +             lru_cache_add_inactive_or_unevictable(page, dst_vma);
+> > +
+> > +     set_pte_at(dst_mm, dst_addr, dst_pte, _dst_pte);
+> > +
+> > +     /* No need to invalidate - it was non-present before */
+> > +     update_mmu_cache(dst_vma, dst_addr, dst_pte);
+> > +     ret = 0;
+> > +out_unlock:
+> > +     pte_unmap_unlock(dst_pte, ptl);
+> > +     return ret;
+> > +}
+> > +
+> >  static int mcopy_atomic_pte(struct mm_struct *dst_mm,
+> >                           pmd_t *dst_pmd,
+> >                           struct vm_area_struct *dst_vma,
+> > @@ -56,13 +137,9 @@ static int mcopy_atomic_pte(struct mm_struct *dst_mm,
+> >                           struct page **pagep,
+> >                           bool wp_copy)
+> >  {
+> > -     pte_t _dst_pte, *dst_pte;
+> > -     spinlock_t *ptl;
+> >       void *page_kaddr;
+> >       int ret;
+> >       struct page *page;
+> > -     pgoff_t offset, max_off;
+> > -     struct inode *inode;
+> >
+> >       if (!*pagep) {
+> >               ret = -ENOMEM;
+> > @@ -99,43 +176,12 @@ static int mcopy_atomic_pte(struct mm_struct *dst_mm,
+> >       if (mem_cgroup_charge(page, dst_mm, GFP_KERNEL))
+> >               goto out_release;
+> >
+> > -     _dst_pte = pte_mkdirty(mk_pte(page, dst_vma->vm_page_prot));
+> > -     if (dst_vma->vm_flags & VM_WRITE) {
+> > -             if (wp_copy)
+> > -                     _dst_pte = pte_mkuffd_wp(_dst_pte);
+> > -             else
+> > -                     _dst_pte = pte_mkwrite(_dst_pte);
+> > -     }
+> > -
+> > -     dst_pte = pte_offset_map_lock(dst_mm, dst_pmd, dst_addr, &ptl);
+> > -     if (dst_vma->vm_file) {
+> > -             /* the shmem MAP_PRIVATE case requires checking the i_size */
+> > -             inode = dst_vma->vm_file->f_inode;
+> > -             offset = linear_page_index(dst_vma, dst_addr);
+> > -             max_off = DIV_ROUND_UP(i_size_read(inode), PAGE_SIZE);
+> > -             ret = -EFAULT;
+> > -             if (unlikely(offset >= max_off))
+> > -                     goto out_release_uncharge_unlock;
+> > -     }
+> > -     ret = -EEXIST;
+> > -     if (!pte_none(*dst_pte))
+> > -             goto out_release_uncharge_unlock;
+> > -
+> > -     inc_mm_counter(dst_mm, MM_ANONPAGES);
+> > -     page_add_new_anon_rmap(page, dst_vma, dst_addr, false);
+> > -     lru_cache_add_inactive_or_unevictable(page, dst_vma);
+> > -
+> > -     set_pte_at(dst_mm, dst_addr, dst_pte, _dst_pte);
+> > -
+> > -     /* No need to invalidate - it was non-present before */
+> > -     update_mmu_cache(dst_vma, dst_addr, dst_pte);
+> > -
+> > -     pte_unmap_unlock(dst_pte, ptl);
+> > -     ret = 0;
+> > +     ret = mcopy_atomic_install_ptes(dst_mm, dst_pmd, dst_vma, dst_addr,
+> > +                                     page, true, wp_copy);
+> > +     if (ret)
+> > +             goto out_release;
+> >  out:
+> >       return ret;
+> > -out_release_uncharge_unlock:
+> > -     pte_unmap_unlock(dst_pte, ptl);
+> >  out_release:
+> >       put_page(page);
+> >       goto out;
+> > @@ -176,6 +222,41 @@ static int mfill_zeropage_pte(struct mm_struct *dst_mm,
+> >       return ret;
+> >  }
+> >
+> > +/* Handles UFFDIO_CONTINUE for all shmem VMAs (shared or private). */
+> > +static int mcontinue_atomic_pte(struct mm_struct *dst_mm,
+> > +                             pmd_t *dst_pmd,
+> > +                             struct vm_area_struct *dst_vma,
+> > +                             unsigned long dst_addr,
+> > +                             bool wp_copy)
+> > +{
+> > +     struct inode *inode = file_inode(dst_vma->vm_file);
+> > +     pgoff_t pgoff = linear_page_index(dst_vma, dst_addr);
+> > +     struct page *page;
+> > +     int ret;
+> > +
+> > +     ret = shmem_getpage(inode, pgoff, &page, SGP_READ);
+> > +     if (ret)
+> > +             goto out;
+> > +     if (!page) {
+> > +             ret = -EFAULT;
+> > +             goto out;
+> > +     }
+>
+> Right, I'll go along with that. I did say to use SGP_CACHE, and I'm not
+> sure why you did not, but perhaps were put off it by my remarks about a
+> racing hole punch. Using SGP_READ here, you will not allocate an
+> unnecessary page in that (exceptional) case, good; but you are left with
+> inconsistent behaviour on fallocated (!PageUptodate: the page has been
+> allocated, but not yet cleared or overwritten with user data) pages.
+
+You're exactly right, I was worried about allocating an unwanted page
+in that case, and SGP_READ seemed to avoid it. At the time, I hadn't
+spotted the fallocated page difference, though.
+
+>
+> No bad data is leaked, but the inconsistency is that handle_userfault()
+> believes there's a page at this offset, but mcontinue_atomic_pte() says
+> there is not (and might they retry forever disagreeing?). It's a somewhat
+> grey area: I'd say your mcontinue_atomic_pte() is the correct one (it is
+> a hole, but one that we happen to have reserved future space for); but
+> that we don't really want to complicate the other end for it (if we skip
+> going the VM_UFFD_MINOR way, it's more of a problem for VM_UFFD_MISSING).
+>
+> I think stick with SGP_READ as you have: just be aware at the userspace
+> end that this case might occur (and you only have to fault the page into
+> the other mapping to resolve it), if anyone is using fallocate().
+
+Right, I think that situation is okay.
+
+I don't think we'll retry forever. handle_userfault() will have just
+put the faulting thread(s) to sleep, so they won't call back into
+handle_userfault() until the kernel wakes them up (in response to one
+of these mcopy ioctls).
+
+If the userspace fault handler runs into this case, at the end of the
+day it will get an error to its ioctl() against the UFFD. We don't
+wake up the faulting threads in the error path, so they're still
+stuck.
+
+My thinking is, at that point the fault handler could do something to
+"force" PageUptodate (e.g., I'd expect any read or write to the
+non-UFFD-registered VMA which points to this same underlying page to
+accomplish this). And then, retrying the ioctl ought to succeed. Since
+this is a relatively narrow case, this doesn't feel overly burdensome.
+
+My worry about using SGP_CACHE instead is, there's the edge case where
+we might allocate a new page and just carry on. I don't see an obvious
+way for the *caller* of shmem_getpage_gfp() to know whether or not
+this case happened (generally we'd want to just discard the page). I
+suspect this is "likely" not what userspace wants to happen in this
+case, and it would happen sort of silently - no error returned, or
+chance to recover.
+
+It also seems more likely to happen than the fallocated page case. If
+the userspace fault handler is a bit buggy and tries to CONTINUE an
+area with no existing page, we'll just install a newly allocated zero
+page and return success -- userspace in this case would prefer we
+return an error.
+
+Anyway, it seems to me we're on the same page ( ;) ) - just wanted to
+provide some background. :)
+
+
+>
+> All the rest of 4/9 looked fine to me, though I have worried about a
+> couple more things.
+>
+> One: whereas I tend to think of one call to handle_userfault() ending
+> up in one call to mcopy_atomic_install_pte() to resolve it, I see that
+> actually __mcopy_atomic() can be a loop over many pages, and I have
+> not thought through all the possibilities that might allow, and now
+> with the interspersal of MINOR and MISSING.
+>
+> Two: mcopy_atomic_install_pte() can only install a pte, and it looks
+> as if it handles tails of a compound page correctly (as might come
+> from a MINOR userfault on a pre-existing shmem THP); but there is no
+> mapping of huge page by pmd, and khugepaged's userfaultfd_armed()
+> checks will (rightly) keep it from interfering. I guess later on,
+> after all the userfaultfd-ing is done, khugepaged can come around
+> and collapse to huge pages, if the file was on a huge mount: okay.
+>
+> Hugh
+>
+> > +
+> > +     ret = mcopy_atomic_install_ptes(dst_mm, dst_pmd, dst_vma, dst_addr,
+> > +                                     page, false, wp_copy);
+> > +     if (ret)
+> > +             goto out_release;
+> > +
+> > +     unlock_page(page);
+> > +     ret = 0;
+> > +out:
+> > +     return ret;
+> > +out_release:
+> > +     unlock_page(page);
+> > +     put_page(page);
+> > +     goto out;
+> > +}
+> > +
+> >  static pmd_t *mm_alloc_pmd(struct mm_struct *mm, unsigned long address)
+> >  {
+> >       pgd_t *pgd;
+> > @@ -415,11 +496,16 @@ static __always_inline ssize_t mfill_atomic_pte(struct mm_struct *dst_mm,
+> >                                               unsigned long dst_addr,
+> >                                               unsigned long src_addr,
+> >                                               struct page **page,
+> > -                                             bool zeropage,
+> > +                                             enum mcopy_atomic_mode mode,
+> >                                               bool wp_copy)
+> >  {
+> >       ssize_t err;
+> >
+> > +     if (mode == MCOPY_ATOMIC_CONTINUE) {
+> > +             return mcontinue_atomic_pte(dst_mm, dst_pmd, dst_vma, dst_addr,
+> > +                                         wp_copy);
+> > +     }
+> > +
+> >       /*
+> >        * The normal page fault path for a shmem will invoke the
+> >        * fault, fill the hole in the file and COW it right away. The
+> > @@ -431,7 +517,7 @@ static __always_inline ssize_t mfill_atomic_pte(struct mm_struct *dst_mm,
+> >        * and not in the radix tree.
+> >        */
+> >       if (!(dst_vma->vm_flags & VM_SHARED)) {
+> > -             if (!zeropage)
+> > +             if (mode == MCOPY_ATOMIC_NORMAL)
+> >                       err = mcopy_atomic_pte(dst_mm, dst_pmd, dst_vma,
+> >                                              dst_addr, src_addr, page,
+> >                                              wp_copy);
+> > @@ -441,7 +527,8 @@ static __always_inline ssize_t mfill_atomic_pte(struct mm_struct *dst_mm,
+> >       } else {
+> >               VM_WARN_ON_ONCE(wp_copy);
+> >               err = shmem_mcopy_atomic_pte(dst_mm, dst_pmd, dst_vma,
+> > -                                          dst_addr, src_addr, zeropage,
+> > +                                          dst_addr, src_addr,
+> > +                                          mode != MCOPY_ATOMIC_NORMAL,
+> >                                            page);
+> >       }
+> >
+> > @@ -463,7 +550,6 @@ static __always_inline ssize_t __mcopy_atomic(struct mm_struct *dst_mm,
+> >       long copied;
+> >       struct page *page;
+> >       bool wp_copy;
+> > -     bool zeropage = (mcopy_mode == MCOPY_ATOMIC_ZEROPAGE);
+> >
+> >       /*
+> >        * Sanitize the command parameters:
+> > @@ -526,7 +612,7 @@ static __always_inline ssize_t __mcopy_atomic(struct mm_struct *dst_mm,
+> >
+> >       if (!vma_is_anonymous(dst_vma) && !vma_is_shmem(dst_vma))
+> >               goto out_unlock;
+> > -     if (mcopy_mode == MCOPY_ATOMIC_CONTINUE)
+> > +     if (!vma_is_shmem(dst_vma) && mcopy_mode == MCOPY_ATOMIC_CONTINUE)
+> >               goto out_unlock;
+> >
+> >       /*
+> > @@ -574,7 +660,7 @@ static __always_inline ssize_t __mcopy_atomic(struct mm_struct *dst_mm,
+> >               BUG_ON(pmd_trans_huge(*dst_pmd));
+> >
+> >               err = mfill_atomic_pte(dst_mm, dst_pmd, dst_vma, dst_addr,
+> > -                                    src_addr, &page, zeropage, wp_copy);
+> > +                                    src_addr, &page, mcopy_mode, wp_copy);
+> >               cond_resched();
+> >
+> >               if (unlikely(err == -ENOENT)) {
+> > --
+> > 2.31.1.295.g9ea45b61b8-goog
