@@ -2,215 +2,119 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CDF03678FB
-	for <lists+linux-api@lfdr.de>; Thu, 22 Apr 2021 06:54:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF7B6367CC8
+	for <lists+linux-api@lfdr.de>; Thu, 22 Apr 2021 10:46:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233561AbhDVEy5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 22 Apr 2021 00:54:57 -0400
-Received: from mga18.intel.com ([134.134.136.126]:45534 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232002AbhDVEyz (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 22 Apr 2021 00:54:55 -0400
-IronPort-SDR: 9mgYFXgs1R6rxY3+P8G2NvGbbT8zd7M1hpAyWpmFk1rcQxP40klWUB4vvlHIJpUCkyF2hBJlNs
- 6o6AK+lsLoJA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9961"; a="183311519"
-X-IronPort-AV: E=Sophos;i="5.82,241,1613462400"; 
-   d="scan'208";a="183311519"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2021 21:54:17 -0700
-IronPort-SDR: iuWv1RGultJPAEimWc6O+2MUpUlz62hArWyYV7mZnBXIwqPA0IvaDo5E4DgkG5XCKdzMOaZcDf
- Wi/6SkKmpyww==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,241,1613462400"; 
-   d="scan'208";a="524515422"
-Received: from chang-linux-3.sc.intel.com ([172.25.66.175])
-  by fmsmga001.fm.intel.com with ESMTP; 21 Apr 2021 21:54:16 -0700
-From:   "Chang S. Bae" <chang.seok.bae@intel.com>
-To:     bp@suse.de, tglx@linutronix.de, mingo@kernel.org, luto@kernel.org,
-        x86@kernel.org
-Cc:     len.brown@intel.com, dave.hansen@intel.com, hjl.tools@gmail.com,
-        Dave.Martin@arm.com, jannh@google.com, mpe@ellerman.id.au,
-        carlos@redhat.com, tony.luck@intel.com, ravi.v.shankar@intel.com,
-        libc-alpha@sourceware.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        chang.seok.bae@intel.com, linux-kselftest@vger.kernel.org
-Subject: [PATCH v8 6/6] selftest/x86/signal: Include test cases for validating sigaltstack
-Date:   Wed, 21 Apr 2021 21:48:56 -0700
-Message-Id: <20210422044856.27250-7-chang.seok.bae@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210422044856.27250-1-chang.seok.bae@intel.com>
+        id S230270AbhDVIq7 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Thu, 22 Apr 2021 04:46:59 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.85.151]:55101 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235482AbhDVIq5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Apr 2021 04:46:57 -0400
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-80-mYnYClkmMvq7hiPeIZodaQ-1; Thu, 22 Apr 2021 09:46:19 +0100
+X-MC-Unique: mYnYClkmMvq7hiPeIZodaQ-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.2; Thu, 22 Apr 2021 09:46:14 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.015; Thu, 22 Apr 2021 09:46:14 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     "'Chang S. Bae'" <chang.seok.bae@intel.com>,
+        "bp@suse.de" <bp@suse.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@kernel.org" <mingo@kernel.org>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>
+CC:     "len.brown@intel.com" <len.brown@intel.com>,
+        "dave.hansen@intel.com" <dave.hansen@intel.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
+        "carlos@redhat.com" <carlos@redhat.com>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "ravi.v.shankar@intel.com" <ravi.v.shankar@intel.com>,
+        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v8 5/6] x86/signal: Detect and prevent an alternate signal
+ stack overflow
+Thread-Topic: [PATCH v8 5/6] x86/signal: Detect and prevent an alternate
+ signal stack overflow
+Thread-Index: AQHXNzOfB++Ln2WD/U+jOvjJUzWT2qrAORRg
+Date:   Thu, 22 Apr 2021 08:46:14 +0000
+Message-ID: <854d6aefdf604b559e37e82669b5e67f@AcuMS.aculab.com>
 References: <20210422044856.27250-1-chang.seok.bae@intel.com>
+ <20210422044856.27250-6-chang.seok.bae@intel.com>
+In-Reply-To: <20210422044856.27250-6-chang.seok.bae@intel.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The test measures the kernel's signal delivery with different (enough vs.
-insufficient) stack sizes.
+From: Chang S. Bae
+> Sent: 22 April 2021 05:49
+> 
+> The kernel pushes context on to the userspace stack to prepare for the
+> user's signal handler. When the user has supplied an alternate signal
+> stack, via sigaltstack(2), it is easy for the kernel to verify that the
+> stack size is sufficient for the current hardware context.
+> 
+> Check if writing the hardware context to the alternate stack will exceed
+> it's size. If yes, then instead of corrupting user-data and proceeding with
+> the original signal handler, an immediate SIGSEGV signal is delivered.
 
-Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
-Reviewed-by: Len Brown <len.brown@intel.com>
-Cc: x86@kernel.org
-Cc: linux-kselftest@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
-Changes from v3:
-* Revised test messages again (Borislav Petkov)
+What happens if SIGSEGV is caught?
 
-Changes from v2:
-* Revised test messages (Borislav Petkov)
----
- tools/testing/selftests/x86/Makefile      |   2 +-
- tools/testing/selftests/x86/sigaltstack.c | 128 ++++++++++++++++++++++
- 2 files changed, 129 insertions(+), 1 deletion(-)
- create mode 100644 tools/testing/selftests/x86/sigaltstack.c
+> Refactor the stack pointer check code from on_sig_stack() and use the new
+> helper.
+> 
+> While the kernel allows new source code to discover and use a sufficient
+> alternate signal stack size, this check is still necessary to protect
+> binaries with insufficient alternate signal stack size from data
+> corruption.
+...
+> diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
+> index 3f6a0fcaa10c..ae60f838ebb9 100644
+> --- a/include/linux/sched/signal.h
+> +++ b/include/linux/sched/signal.h
+> @@ -537,6 +537,17 @@ static inline int kill_cad_pid(int sig, int priv)
+>  #define SEND_SIG_NOINFO ((struct kernel_siginfo *) 0)
+>  #define SEND_SIG_PRIV	((struct kernel_siginfo *) 1)
+> 
+> +static inline int __on_sig_stack(unsigned long sp)
+> +{
+> +#ifdef CONFIG_STACK_GROWSUP
+> +	return sp >= current->sas_ss_sp &&
+> +		sp - current->sas_ss_sp < current->sas_ss_size;
+> +#else
+> +	return sp > current->sas_ss_sp &&
+> +		sp - current->sas_ss_sp <= current->sas_ss_size;
+> +#endif
+> +}
+> +
 
-diff --git a/tools/testing/selftests/x86/Makefile b/tools/testing/selftests/x86/Makefile
-index 333980375bc7..65bba2ae86ee 100644
---- a/tools/testing/selftests/x86/Makefile
-+++ b/tools/testing/selftests/x86/Makefile
-@@ -13,7 +13,7 @@ CAN_BUILD_WITH_NOPIE := $(shell ./check_cc.sh $(CC) trivial_program.c -no-pie)
- TARGETS_C_BOTHBITS := single_step_syscall sysret_ss_attrs syscall_nt test_mremap_vdso \
- 			check_initial_reg_state sigreturn iopl ioperm \
- 			test_vsyscall mov_ss_trap \
--			syscall_arg_fault fsgsbase_restore
-+			syscall_arg_fault fsgsbase_restore sigaltstack
- TARGETS_C_32BIT_ONLY := entry_from_vm86 test_syscall_vdso unwind_vdso \
- 			test_FCMOV test_FCOMI test_FISTTP \
- 			vdso_restorer
-diff --git a/tools/testing/selftests/x86/sigaltstack.c b/tools/testing/selftests/x86/sigaltstack.c
-new file mode 100644
-index 000000000000..f689af75e979
---- /dev/null
-+++ b/tools/testing/selftests/x86/sigaltstack.c
-@@ -0,0 +1,128 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#define _GNU_SOURCE
-+#include <signal.h>
-+#include <stdio.h>
-+#include <stdbool.h>
-+#include <string.h>
-+#include <err.h>
-+#include <errno.h>
-+#include <limits.h>
-+#include <sys/mman.h>
-+#include <sys/auxv.h>
-+#include <sys/prctl.h>
-+#include <sys/resource.h>
-+#include <setjmp.h>
-+
-+/* sigaltstack()-enforced minimum stack */
-+#define ENFORCED_MINSIGSTKSZ	2048
-+
-+#ifndef AT_MINSIGSTKSZ
-+#  define AT_MINSIGSTKSZ	51
-+#endif
-+
-+static int nerrs;
-+
-+static bool sigalrm_expected;
-+
-+static unsigned long at_minstack_size;
-+
-+static void sethandler(int sig, void (*handler)(int, siginfo_t *, void *),
-+		       int flags)
-+{
-+	struct sigaction sa;
-+
-+	memset(&sa, 0, sizeof(sa));
-+	sa.sa_sigaction = handler;
-+	sa.sa_flags = SA_SIGINFO | flags;
-+	sigemptyset(&sa.sa_mask);
-+	if (sigaction(sig, &sa, 0))
-+		err(1, "sigaction");
-+}
-+
-+static void clearhandler(int sig)
-+{
-+	struct sigaction sa;
-+
-+	memset(&sa, 0, sizeof(sa));
-+	sa.sa_handler = SIG_DFL;
-+	sigemptyset(&sa.sa_mask);
-+	if (sigaction(sig, &sa, 0))
-+		err(1, "sigaction");
-+}
-+
-+static int setup_altstack(void *start, unsigned long size)
-+{
-+	stack_t ss;
-+
-+	memset(&ss, 0, sizeof(ss));
-+	ss.ss_size = size;
-+	ss.ss_sp = start;
-+
-+	return sigaltstack(&ss, NULL);
-+}
-+
-+static jmp_buf jmpbuf;
-+
-+static void sigsegv(int sig, siginfo_t *info, void *ctx_void)
-+{
-+	if (sigalrm_expected) {
-+		printf("[FAIL]\tWrong signal delivered: SIGSEGV (expected SIGALRM).");
-+		nerrs++;
-+	} else {
-+		printf("[OK]\tSIGSEGV signal delivered.\n");
-+	}
-+
-+	siglongjmp(jmpbuf, 1);
-+}
-+
-+static void sigalrm(int sig, siginfo_t *info, void *ctx_void)
-+{
-+	if (!sigalrm_expected) {
-+		printf("[FAIL]\tWrong signal delivered: SIGALRM (expected SIGSEGV).");
-+		nerrs++;
-+	} else {
-+		printf("[OK]\tSIGALRM signal delivered.\n");
-+	}
-+}
-+
-+static void test_sigaltstack(void *altstack, unsigned long size)
-+{
-+	if (setup_altstack(altstack, size))
-+		err(1, "sigaltstack()");
-+
-+	sigalrm_expected = (size > at_minstack_size) ? true : false;
-+
-+	sethandler(SIGSEGV, sigsegv, 0);
-+	sethandler(SIGALRM, sigalrm, SA_ONSTACK);
-+
-+	if (!sigsetjmp(jmpbuf, 1)) {
-+		printf("[RUN]\tTest an alternate signal stack of %ssufficient size.\n",
-+		       sigalrm_expected ? "" : "in");
-+		printf("\tRaise SIGALRM. %s is expected to be delivered.\n",
-+		       sigalrm_expected ? "It" : "SIGSEGV");
-+		raise(SIGALRM);
-+	}
-+
-+	clearhandler(SIGALRM);
-+	clearhandler(SIGSEGV);
-+}
-+
-+int main(void)
-+{
-+	void *altstack;
-+
-+	at_minstack_size = getauxval(AT_MINSIGSTKSZ);
-+
-+	altstack = mmap(NULL, at_minstack_size + SIGSTKSZ, PROT_READ | PROT_WRITE,
-+			MAP_PRIVATE | MAP_ANONYMOUS | MAP_STACK, -1, 0);
-+	if (altstack == MAP_FAILED)
-+		err(1, "mmap()");
-+
-+	if ((ENFORCED_MINSIGSTKSZ + 1) < at_minstack_size)
-+		test_sigaltstack(altstack, ENFORCED_MINSIGSTKSZ + 1);
-+
-+	test_sigaltstack(altstack, at_minstack_size + SIGSTKSZ);
-+
-+	return nerrs == 0 ? 0 : 1;
-+}
--- 
-2.17.1
+Those don't look different enough.
+
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
