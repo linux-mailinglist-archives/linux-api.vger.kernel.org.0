@@ -2,175 +2,281 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 63B1F3681E7
-	for <lists+linux-api@lfdr.de>; Thu, 22 Apr 2021 15:52:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACEC93683A8
+	for <lists+linux-api@lfdr.de>; Thu, 22 Apr 2021 17:42:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236472AbhDVNxE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 22 Apr 2021 09:53:04 -0400
-Received: from mail-bn8nam11on2062.outbound.protection.outlook.com ([40.107.236.62]:37313
-        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S236414AbhDVNxD (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 22 Apr 2021 09:53:03 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NWQudN9NB3FcP7uCtOQ4/Kuro7T0AllO96QpW7lVkWxyaOzHNgt8q/KLxVedle5lGOCd5DH0AujBQZL8j7D2cC39cEtIitb8kC/t+r1GDHVWBueu3nbD1b9AgwgfevOy5JW7sX66+kFUDow6gsMEf7N9bglDQ+u58d5no7l7hR8liR+mxxSxO6vj6Y2tkZH2Yb1T0AvvKPTt+hvL2SpCWjAHInZfYwKKnEfTQb+rxACpT1IxossQGji5PLgSLfQTXU0YGhiI5gwFz+snmZH24JEiN2P8lEncAkaAsyLbVTO/ptHg2ADbUNQr28VngwnegfCWYL7E0W6r9x6ez+/Spg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d/T9DpKdTjd9YTNZtoxKZZjXCzJb4K425xTc2wL0hNg=;
- b=K5nZQnmasTJrAyLc1KU51zcfyAQ938joRFR8xslsxCsnvhFUBOzWXG/iRGStJRNNR4pEROAZBKQZic43+Wl3kPiEj+dqpmbksRU6cdzyqKH+k8A8bntW8GyZbSXarkwjifJDbK/wm9XY6FDAEPtcMACD7NnLoNDKk5VyNct0Zpdg7MjH0gMkOruSknTnuDJiInwFBNK0PmI2Z2LLwuRk3m1hblyH5NBiA8glRNkhbgPVKv17/YL0bKj1b7in5P9htYndzdPSvZ2Q2f77FnN3f/T7KenMp/1cP6B+wTVjHIGCfKoQNd28B+6Xb6/aZL3t1mi10ooRhZizYKE4RrJKZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d/T9DpKdTjd9YTNZtoxKZZjXCzJb4K425xTc2wL0hNg=;
- b=Ccm9D0JH4VzHG8p+FKCBC0x/jhJZY3XCqsCb8vwTL3jU6knK9Fw80hZomGzCLjxlA2YpP+1/xxzTM6ack6ENpUiL+Gy2AuEEW8ew7aLUYG7/oh9NIvaDjTUBV8MJ33JeLO2isd6Kn6ffRxpbBqiKLMTM3RshjpIDQLUJQFFAMpuBfW0qo0WQKU6oOhbc7Qw75LjuWwOxUxoqAqM49rwi9MtlCu6MS3NLTRfJorqzlFY/ha4IVm6ZY8sW5wZWp4PhzFi748XNZP6FV/pQWOQhBj5NjADkYKF2Y56k1kgcCdWoFcrwy5XK8ncqyuzhQBqOLLFeRgu6ZxAti0ky+YvOXg==
-Authentication-Results: ellerman.id.au; dkim=none (message not signed)
- header.d=none;ellerman.id.au; dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM6PR12MB4299.namprd12.prod.outlook.com (2603:10b6:5:223::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16; Thu, 22 Apr
- 2021 13:52:26 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.4065.023; Thu, 22 Apr 2021
- 13:52:26 +0000
-Date:   Thu, 22 Apr 2021 10:52:25 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Michael Ellerman <mpe@ellerman.id.au>
-Cc:     Alex Williamson <alex.williamson@redhat.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, Paul Mackerras <paulus@samba.org>,
-        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        kvm@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH 1/2] vfio/pci: remove vfio_pci_nvlink2
-Message-ID: <20210422135225.GY1370958@nvidia.com>
-References: <20210326061311.1497642-1-hch@lst.de>
- <20210326061311.1497642-2-hch@lst.de>
- <20210406133805.715120bd@omen>
- <87y2dndelm.fsf@mpe.ellerman.id.au>
- <20210412082304.5e7c0a80@omen>
- <87h7jybf9w.fsf@mpe.ellerman.id.au>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87h7jybf9w.fsf@mpe.ellerman.id.au>
-X-Originating-IP: [47.55.113.94]
-X-ClientProxiedBy: BL1PR13CA0284.namprd13.prod.outlook.com
- (2603:10b6:208:2bc::19) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
+        id S238176AbhDVPma (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 22 Apr 2021 11:42:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52572 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236617AbhDVPmN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Apr 2021 11:42:13 -0400
+Received: from smtp-1909.mail.infomaniak.ch (smtp-1909.mail.infomaniak.ch [IPv6:2001:1600:3:17::1909])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21C91C06138C;
+        Thu, 22 Apr 2021 08:41:35 -0700 (PDT)
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4FR1qb4dRyzMptYp;
+        Thu, 22 Apr 2021 17:41:31 +0200 (CEST)
+Received: from localhost (unknown [23.97.221.149])
+        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4FR1qV5kmGzlmrs5;
+        Thu, 22 Apr 2021 17:41:26 +0200 (CEST)
+From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+To:     James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>
+Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        David Howells <dhowells@redhat.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org
+Subject: [PATCH v34 00/13] Landlock LSM
+Date:   Thu, 22 Apr 2021 17:41:10 +0200
+Message-Id: <20210422154123.13086-1-mic@digikod.net>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (47.55.113.94) by BL1PR13CA0284.namprd13.prod.outlook.com (2603:10b6:208:2bc::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.17 via Frontend Transport; Thu, 22 Apr 2021 13:52:26 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lZZkn-00A2Ni-1h; Thu, 22 Apr 2021 10:52:25 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fcfa0a31-7711-4f94-308f-08d90595dcc9
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4299:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB42991DC94BFA7ED2F298BB5CC2469@DM6PR12MB4299.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: g2jowWGXJ21/UrrtNxlj6HDbGJkbu3ECiU7iTOsPAKj6gQhPRpdh46jfuEp2EEJaiJZ8Ob58QVCrX4vaDoJC1qgqWbXqn19aAHUSSsHDkbth7AOYUZ2WQb8Q+voo6xbEALYHbxXU/NNNLG7+JBTF6U6iLZGZx+glfh/8/4c0kBg2yJAj9h656qmvZp7WlxmtPKcyFOmIbE/zjQXy6XKud3jY6nTRWUzl/BEkgSm/+Viy/S1fuYmxYbcnEU9dh0W5bv6ZZbgRyar+zvrTQWjfPjJzglaY2rQfa116y6quWCdMg2xRn5+THbN3mOjCjjxH7sg/XTVBiI4q+NWcqdU6dNi/CDxfffC0FHaBK91XA4eA7o48KNwvDddAZ/IMz3RF4TfUWNGK+nw+EJuPqSXnxIirD1tKAY+uO7Z7Dz6zWZZteFTdVRnuiHLtt/mYMornBXicWVThdV2GBix+RJ8mlHctH2qLbgTYezPO4hTq41+oZKhRFPRyXYC0IACsZxK/w+gvd0QWK4n5f7JO9/bB7CMKOSSJneLUJjwKTc1aYJeDWE7XI1yLs0YjnbjAK4vlLL/YCN8xFiP5RqgrxFdn7n6WZznH0LETrVp90CSeqD3DpX+t3VLkkNC3dfyMpkBGsgTZuGiu036GHnx0LJqYL/n/hGjQUrwDvv3365L9/C5Ck/ElP0KfnyJhKy0RtmYD
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3834.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(39860400002)(136003)(346002)(366004)(396003)(66946007)(66556008)(966005)(1076003)(38100700002)(54906003)(66476007)(83380400001)(426003)(186003)(8936002)(7416002)(8676002)(4326008)(2616005)(33656002)(316002)(26005)(5660300002)(6916009)(86362001)(478600001)(36756003)(9746002)(9786002)(2906002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?MEfPBHhKO20gGRbwpNT4z2loyQrefFn/XDtC20qMlPlgvKTI8aV8sY20jWoR?=
- =?us-ascii?Q?FTOIV9T6orA8uNfGrIg4jpsKg2QHodK2Ps/hKVb1QhOpjXrpFM+nRSZmlD3k?=
- =?us-ascii?Q?H6zOBGSoOnlQDFPNow37ogOHoYDg/KU/bsrU3AHpSHe69Ny6+nj9a8f5Pe++?=
- =?us-ascii?Q?dry3ndSJiuBdAUHFMzuYkpnlNktooUBkfics3z64Px+WX8EZak/3L9JJOmcQ?=
- =?us-ascii?Q?pIRojGf8Ycm1y4Jky4Kf6TqpZ+mkMQiZBgJUKqUh5thzOszDCf/1qZbYsLMA?=
- =?us-ascii?Q?PQRjDJmWO2WlBqC/cMP/E1KVDQvo2rWPhC0CCLvebkO3vNm4Pw3rOh75p2gP?=
- =?us-ascii?Q?yG+TGrccx0Ebxn8N+yjkbuZzFC9BDYXR3NSPmp6C39JThmqisYvN6HvvGdbe?=
- =?us-ascii?Q?BptIwuwrYlRCDnW1FgaO2Z9GDfKb/nRxd6SFaYuwle0k4Xh8BYpV5VGWK8UT?=
- =?us-ascii?Q?lCNUZqFOlhBFbezm/MFa1LOx0y4kjACNq3MZig87He9cq9sIeilOxhw8etKT?=
- =?us-ascii?Q?ekWq1qWKFLb3s5SzzKJ2v3oiAculKA4l5/Z+kD+bNdRG6advNcsZS2NyM+AF?=
- =?us-ascii?Q?hMfb0INEAOexQmf2M6Z0R/1WWF2UQTH1vT19fhiLnTUnwbd00QgzK67qHGog?=
- =?us-ascii?Q?p+qNMXt2x1K+Vap+GosBtRF5WlHI6sJdmvqLCs+w+ShprvUVs6hVkoz69yJV?=
- =?us-ascii?Q?hOpAsC+GGICShG7ay/DjpTzgtvROSwQ/efYNhp5phzWuCRXug3B4l+hmwZ/h?=
- =?us-ascii?Q?jxvZ9qYC1vZ/Kuv5HHKECTExrVauK7GofimM9XL1E6vsRHbFqeBHRoZhghLz?=
- =?us-ascii?Q?hOGK8ASYWWq9AgipLv9TY51tEWGiR4bqdxyyrKnL1vY8eum9+b7T7lqmyZpJ?=
- =?us-ascii?Q?eScEqTndqmdpgwJVEu58NRXq4Y1uQMR/+hMdPhkvvOcM+kf09EgecY1jBO7j?=
- =?us-ascii?Q?ytmd2K74NlVyiu/E2oqbTdr5xmWMzl2GTju4aoCt2QLbkT+gCo4QOjzQENXy?=
- =?us-ascii?Q?VjfuJn1dm/v6p6VcX6fDdPfl56LYVpCvbCKnWt7XlC3KMl7T4kDTDULYihsz?=
- =?us-ascii?Q?/NQeNCsUFeNBmLsulk1qNJflTroD4644hZezgHovXdiWBqM03dB3NGhyMR0o?=
- =?us-ascii?Q?jxca5J1ntnmFkf3s2Kt6EeHhv0IBmju7HBcRmsMjZNneI1Iag1RbnaKbqjQH?=
- =?us-ascii?Q?xXwnQ/o9ZWudYwl3KeuTTKT/6vJ6Dc6FfAdLbhIvAhglnz7EgEo5eZWr8rj1?=
- =?us-ascii?Q?UkJvOLadlgX6rfBJwRLvKbZ2YBchd1FK7Zmqgc760Y7hDgwhbETt8lmdkHKc?=
- =?us-ascii?Q?z49AaSLJtGqZGaRTHIuLGrwv?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fcfa0a31-7711-4f94-308f-08d90595dcc9
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2021 13:52:26.3573
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9WPo9pPtxxsN0N6G/XVu7RO07E3auqp9hxic3aAA8sZPXzdLCcMUysnLaM8lOhgo
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4299
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Apr 22, 2021 at 11:49:31PM +1000, Michael Ellerman wrote:
-> Alex Williamson <alex.williamson@redhat.com> writes:
-> > On Mon, 12 Apr 2021 19:41:41 +1000
-> > Michael Ellerman <mpe@ellerman.id.au> wrote:
-> >
-> >> Alex Williamson <alex.williamson@redhat.com> writes:
-> >> > On Fri, 26 Mar 2021 07:13:10 +0100
-> >> > Christoph Hellwig <hch@lst.de> wrote:
-> >> >  
-> >> >> This driver never had any open userspace (which for VFIO would include
-> >> >> VM kernel drivers) that use it, and thus should never have been added
-> >> >> by our normal userspace ABI rules.
-> >> >> 
-> >> >> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> >> >> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> >> >>  drivers/vfio/pci/Kconfig            |   6 -
-> >> >>  drivers/vfio/pci/Makefile           |   1 -
-> >> >>  drivers/vfio/pci/vfio_pci.c         |  18 -
-> >> >>  drivers/vfio/pci/vfio_pci_nvlink2.c | 490 ----------------------------
-> >> >>  drivers/vfio/pci/vfio_pci_private.h |  14 -
-> >> >>  include/uapi/linux/vfio.h           |  38 +--
-> >> >>  6 files changed, 4 insertions(+), 563 deletions(-)
-> >> >>  delete mode 100644 drivers/vfio/pci/vfio_pci_nvlink2.c  
-> >> >
-> >> > Hearing no objections, applied to vfio next branch for v5.13.  Thanks,  
-> >> 
-> >> Looks like you only took patch 1?
-> >> 
-> >> I can't take patch 2 on its own, that would break the build.
-> >> 
-> >> Do you want to take both patches? There's currently no conflicts against
-> >> my tree. It's possible one could appear before the v5.13 merge window,
-> >> though it would probably just be something minor.
-> >> 
-> >> Or I could apply both patches to my tree, which means patch 1 would
-> >> appear as two commits in the git history, but that's not a big deal.
-> >
-> > I've already got a conflict in my next branch with patch 1, so it's
-> > best to go through my tree.  Seems like a shared branch would be
-> > easiest to allow you to merge and manage potential conflicts against
-> > patch 2, I've pushed a branch here:
-> >
-> > https://github.com/awilliam/linux-vfio.git v5.13/vfio/nvlink
-> 
-> Thanks.
-> 
-> My next is based on rc2, so I won't pull that in directly, because I
-> don't want to pull all of rc6 in with it.
+Hi,
 
-Linus is fine if you merge in rc's for development reasons. He doesn't
-like it when people just merge rc's without a purpose.
+This updated patch series adds a new patch on top of the previous ones.
+It brings a new flag to landlock_create_ruleset(2) that enables
+efficient and simple backward compatibility checks for future evolutions
+of Landlock (e.g. new access-control rights).  Indeed, it is important
+to help user space to follow a best-effort security.  This new flag is
+not strictly useful for applications using the current Landlock features
+but it will be useful when applications developed for newer kernels will
+be run on older kernels (e.g. the current one).
 
-Merge rc7 to your tree then pull the nvlink topic is acceptable.
+Here is an example of a (work in progress) library using this
+information to provide a nice backward compatible API:
+https://github.com/landlock-lsm/rust-landlock
 
-Or just do nothing because Alex will send it through his tree - this
-extra co-ordination is really only necessary if there are conflicts.
+The SLOC count is 1331 for security/landlock/ and 2626 for
+tools/testing/selftest/landlock/ .
+Test coverage for security/landlock/ is 93.6% of lines:
+https://landlock.io/linux-lcov/landlock-v34/security/landlock/index.html
+The code not covered only deals with internal kernel errors (e.g. memory
+allocation), race conditions and safety checks that should not be
+triggered.  This series is being fuzzed by syzkaller (covering internal
+kernel errors) that now supports Landlock:
+https://github.com/google/syzkaller/pull/2380
+syzkaller coverage reached 72% (ci-upstream-linux-next-kasan-gce-root):
+https://syzkaller.appspot.com/upstream
 
-Jason
+The HTML documentation is available here:
+https://landlock.io/linux-doc/landlock-v34/userspace-api/landlock.html
+
+This series can be applied on top of v5.12-rc3 .  This can be tested with
+CONFIG_SECURITY_LANDLOCK, CONFIG_SAMPLE_LANDLOCK and by prepending
+"landlock," to CONFIG_LSM.  This patch series can be found in a Git
+repository here:
+https://github.com/landlock-lsm/linux/commits/landlock-v34
+This patch series seems ready for upstream and I would really appreciate
+final reviews.
+
+Landlock LSM
+============
+
+The goal of Landlock is to enable to restrict ambient rights (e.g.
+global filesystem access) for a set of processes.  Because Landlock is a
+stackable LSM [1], it makes possible to create safe security sandboxes
+as new security layers in addition to the existing system-wide
+access-controls. This kind of sandbox is expected to help mitigate the
+security impact of bugs or unexpected/malicious behaviors in user-space
+applications. Landlock empowers any process, including unprivileged
+ones, to securely restrict themselves.
+
+Landlock is inspired by seccomp-bpf but instead of filtering syscalls
+and their raw arguments, a Landlock rule can restrict the use of kernel
+objects like file hierarchies, according to the kernel semantic.
+Landlock also takes inspiration from other OS sandbox mechanisms: XNU
+Sandbox, FreeBSD Capsicum or OpenBSD Pledge/Unveil.
+
+In this current form, Landlock misses some access-control features.
+This enables to minimize this patch series and ease review.  This series
+still addresses multiple use cases, especially with the combined use of
+seccomp-bpf: applications with built-in sandboxing, init systems,
+security sandbox tools and security-oriented APIs [2].
+
+[1] https://lore.kernel.org/lkml/50db058a-7dde-441b-a7f9-f6837fe8b69f@schaufler-ca.com/
+[2] https://lore.kernel.org/lkml/f646e1c7-33cf-333f-070c-0a40ad0468cd@digikod.net/
+
+Previous versions:
+v33: https://lore.kernel.org/lkml/20210407160726.542794-1-mic@digikod.net/
+v32: https://lore.kernel.org/lkml/20210401205208.2756565-1-mic@digikod.net/
+v31: https://lore.kernel.org/lkml/20210324191520.125779-1-mic@digikod.net/
+v30: https://lore.kernel.org/lkml/20210316204252.427806-1-mic@digikod.net/
+v29: https://lore.kernel.org/lkml/20210225190614.2181147-1-mic@digikod.net/
+v28: https://lore.kernel.org/lkml/20210202162710.657398-1-mic@digikod.net/
+v27: https://lore.kernel.org/lkml/20210121205119.793296-1-mic@digikod.net/
+v26: https://lore.kernel.org/lkml/20201209192839.1396820-1-mic@digikod.net/
+v25: https://lore.kernel.org/lkml/20201201192322.213239-1-mic@digikod.net/
+v24: https://lore.kernel.org/lkml/20201112205141.775752-1-mic@digikod.net/
+v23: https://lore.kernel.org/lkml/20201103182109.1014179-1-mic@digikod.net/
+v22: https://lore.kernel.org/lkml/20201027200358.557003-1-mic@digikod.net/
+v21: https://lore.kernel.org/lkml/20201008153103.1155388-1-mic@digikod.net/
+v20: https://lore.kernel.org/lkml/20200802215903.91936-1-mic@digikod.net/
+v19: https://lore.kernel.org/lkml/20200707180955.53024-1-mic@digikod.net/
+v18: https://lore.kernel.org/lkml/20200526205322.23465-1-mic@digikod.net/
+v17: https://lore.kernel.org/lkml/20200511192156.1618284-1-mic@digikod.net/
+v16: https://lore.kernel.org/lkml/20200416103955.145757-1-mic@digikod.net/
+v15: https://lore.kernel.org/lkml/20200326202731.693608-1-mic@digikod.net/
+v14: https://lore.kernel.org/lkml/20200224160215.4136-1-mic@digikod.net/
+v13: https://lore.kernel.org/lkml/20191104172146.30797-1-mic@digikod.net/
+v12: https://lore.kernel.org/lkml/20191031164445.29426-1-mic@digikod.net/
+v11: https://lore.kernel.org/lkml/20191029171505.6650-1-mic@digikod.net/
+v10: https://lore.kernel.org/lkml/20190721213116.23476-1-mic@digikod.net/
+v9: https://lore.kernel.org/lkml/20190625215239.11136-1-mic@digikod.net/
+v8: https://lore.kernel.org/lkml/20180227004121.3633-1-mic@digikod.net/
+v7: https://lore.kernel.org/lkml/20170821000933.13024-1-mic@digikod.net/
+v6: https://lore.kernel.org/lkml/20170328234650.19695-1-mic@digikod.net/
+v5: https://lore.kernel.org/lkml/20170222012632.4196-1-mic@digikod.net/
+v4: https://lore.kernel.org/lkml/20161026065654.19166-1-mic@digikod.net/
+v3: https://lore.kernel.org/lkml/20160914072415.26021-1-mic@digikod.net/
+v2: https://lore.kernel.org/lkml/1472121165-29071-1-git-send-email-mic@digikod.net/
+v1: https://lore.kernel.org/kernel-hardening/1458784008-16277-1-git-send-email-mic@digikod.net/
+
+Casey Schaufler (1):
+  LSM: Infrastructure management of the superblock
+
+Mickaël Salaün (12):
+  landlock: Add object management
+  landlock: Add ruleset and domain management
+  landlock: Set up the security framework and manage credentials
+  landlock: Add ptrace restrictions
+  fs,security: Add sb_delete hook
+  landlock: Support filesystem access-control
+  landlock: Add syscall implementations
+  arch: Wire up Landlock syscalls
+  selftests/landlock: Add user space tests
+  samples/landlock: Add a sandbox manager example
+  landlock: Add user and kernel documentation
+  landlock: Enable user space to infer supported features
+
+ Documentation/security/index.rst              |    1 +
+ Documentation/security/landlock.rst           |   85 +
+ Documentation/userspace-api/index.rst         |    1 +
+ Documentation/userspace-api/landlock.rst      |  311 ++
+ MAINTAINERS                                   |   15 +
+ arch/Kconfig                                  |    7 +
+ arch/alpha/kernel/syscalls/syscall.tbl        |    3 +
+ arch/arm/tools/syscall.tbl                    |    3 +
+ arch/arm64/include/asm/unistd.h               |    2 +-
+ arch/arm64/include/asm/unistd32.h             |    6 +
+ arch/ia64/kernel/syscalls/syscall.tbl         |    3 +
+ arch/m68k/kernel/syscalls/syscall.tbl         |    3 +
+ arch/microblaze/kernel/syscalls/syscall.tbl   |    3 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl     |    3 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl     |    3 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl     |    3 +
+ arch/parisc/kernel/syscalls/syscall.tbl       |    3 +
+ arch/powerpc/kernel/syscalls/syscall.tbl      |    3 +
+ arch/s390/kernel/syscalls/syscall.tbl         |    3 +
+ arch/sh/kernel/syscalls/syscall.tbl           |    3 +
+ arch/sparc/kernel/syscalls/syscall.tbl        |    3 +
+ arch/um/Kconfig                               |    1 +
+ arch/x86/entry/syscalls/syscall_32.tbl        |    3 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |    3 +
+ arch/xtensa/kernel/syscalls/syscall.tbl       |    3 +
+ fs/super.c                                    |    1 +
+ include/linux/lsm_hook_defs.h                 |    1 +
+ include/linux/lsm_hooks.h                     |    4 +
+ include/linux/security.h                      |    4 +
+ include/linux/syscalls.h                      |    7 +
+ include/uapi/asm-generic/unistd.h             |    8 +-
+ include/uapi/linux/landlock.h                 |  137 +
+ kernel/sys_ni.c                               |    5 +
+ samples/Kconfig                               |    7 +
+ samples/Makefile                              |    1 +
+ samples/landlock/.gitignore                   |    1 +
+ samples/landlock/Makefile                     |   13 +
+ samples/landlock/sandboxer.c                  |  238 ++
+ security/Kconfig                              |   11 +-
+ security/Makefile                             |    2 +
+ security/landlock/Kconfig                     |   21 +
+ security/landlock/Makefile                    |    4 +
+ security/landlock/common.h                    |   20 +
+ security/landlock/cred.c                      |   46 +
+ security/landlock/cred.h                      |   58 +
+ security/landlock/fs.c                        |  692 ++++
+ security/landlock/fs.h                        |   70 +
+ security/landlock/limits.h                    |   21 +
+ security/landlock/object.c                    |   67 +
+ security/landlock/object.h                    |   91 +
+ security/landlock/ptrace.c                    |  120 +
+ security/landlock/ptrace.h                    |   14 +
+ security/landlock/ruleset.c                   |  473 +++
+ security/landlock/ruleset.h                   |  165 +
+ security/landlock/setup.c                     |   40 +
+ security/landlock/setup.h                     |   18 +
+ security/landlock/syscalls.c                  |  451 +++
+ security/security.c                           |   51 +-
+ security/selinux/hooks.c                      |   58 +-
+ security/selinux/include/objsec.h             |    6 +
+ security/selinux/ss/services.c                |    3 +-
+ security/smack/smack.h                        |    6 +
+ security/smack/smack_lsm.c                    |   35 +-
+ tools/testing/selftests/Makefile              |    1 +
+ tools/testing/selftests/landlock/.gitignore   |    2 +
+ tools/testing/selftests/landlock/Makefile     |   24 +
+ tools/testing/selftests/landlock/base_test.c  |  266 ++
+ tools/testing/selftests/landlock/common.h     |  183 ++
+ tools/testing/selftests/landlock/config       |    7 +
+ tools/testing/selftests/landlock/fs_test.c    | 2791 +++++++++++++++++
+ .../testing/selftests/landlock/ptrace_test.c  |  337 ++
+ tools/testing/selftests/landlock/true.c       |    5 +
+ 72 files changed, 6986 insertions(+), 77 deletions(-)
+ create mode 100644 Documentation/security/landlock.rst
+ create mode 100644 Documentation/userspace-api/landlock.rst
+ create mode 100644 include/uapi/linux/landlock.h
+ create mode 100644 samples/landlock/.gitignore
+ create mode 100644 samples/landlock/Makefile
+ create mode 100644 samples/landlock/sandboxer.c
+ create mode 100644 security/landlock/Kconfig
+ create mode 100644 security/landlock/Makefile
+ create mode 100644 security/landlock/common.h
+ create mode 100644 security/landlock/cred.c
+ create mode 100644 security/landlock/cred.h
+ create mode 100644 security/landlock/fs.c
+ create mode 100644 security/landlock/fs.h
+ create mode 100644 security/landlock/limits.h
+ create mode 100644 security/landlock/object.c
+ create mode 100644 security/landlock/object.h
+ create mode 100644 security/landlock/ptrace.c
+ create mode 100644 security/landlock/ptrace.h
+ create mode 100644 security/landlock/ruleset.c
+ create mode 100644 security/landlock/ruleset.h
+ create mode 100644 security/landlock/setup.c
+ create mode 100644 security/landlock/setup.h
+ create mode 100644 security/landlock/syscalls.c
+ create mode 100644 tools/testing/selftests/landlock/.gitignore
+ create mode 100644 tools/testing/selftests/landlock/Makefile
+ create mode 100644 tools/testing/selftests/landlock/base_test.c
+ create mode 100644 tools/testing/selftests/landlock/common.h
+ create mode 100644 tools/testing/selftests/landlock/config
+ create mode 100644 tools/testing/selftests/landlock/fs_test.c
+ create mode 100644 tools/testing/selftests/landlock/ptrace_test.c
+ create mode 100644 tools/testing/selftests/landlock/true.c
+
+
+base-commit: 1e28eed17697bcf343c6743f0028cc3b5dd88bf0
+-- 
+2.31.1
+
