@@ -2,119 +2,105 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF7B6367CC8
-	for <lists+linux-api@lfdr.de>; Thu, 22 Apr 2021 10:46:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F20E3681CD
+	for <lists+linux-api@lfdr.de>; Thu, 22 Apr 2021 15:49:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230270AbhDVIq7 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Thu, 22 Apr 2021 04:46:59 -0400
-Received: from eu-smtp-delivery-151.mimecast.com ([185.58.85.151]:55101 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235482AbhDVIq5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Apr 2021 04:46:57 -0400
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-80-mYnYClkmMvq7hiPeIZodaQ-1; Thu, 22 Apr 2021 09:46:19 +0100
-X-MC-Unique: mYnYClkmMvq7hiPeIZodaQ-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.2; Thu, 22 Apr 2021 09:46:14 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.015; Thu, 22 Apr 2021 09:46:14 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     "'Chang S. Bae'" <chang.seok.bae@intel.com>,
-        "bp@suse.de" <bp@suse.de>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@kernel.org" <mingo@kernel.org>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>
-CC:     "len.brown@intel.com" <len.brown@intel.com>,
-        "dave.hansen@intel.com" <dave.hansen@intel.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
-        "carlos@redhat.com" <carlos@redhat.com>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
-        "ravi.v.shankar@intel.com" <ravi.v.shankar@intel.com>,
-        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v8 5/6] x86/signal: Detect and prevent an alternate signal
- stack overflow
-Thread-Topic: [PATCH v8 5/6] x86/signal: Detect and prevent an alternate
- signal stack overflow
-Thread-Index: AQHXNzOfB++Ln2WD/U+jOvjJUzWT2qrAORRg
-Date:   Thu, 22 Apr 2021 08:46:14 +0000
-Message-ID: <854d6aefdf604b559e37e82669b5e67f@AcuMS.aculab.com>
-References: <20210422044856.27250-1-chang.seok.bae@intel.com>
- <20210422044856.27250-6-chang.seok.bae@intel.com>
-In-Reply-To: <20210422044856.27250-6-chang.seok.bae@intel.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        id S236236AbhDVNuQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 22 Apr 2021 09:50:16 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:59667 "EHLO ozlabs.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230005AbhDVNuQ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 22 Apr 2021 09:50:16 -0400
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 4FQzLS4gwsz9sW5;
+        Thu, 22 Apr 2021 23:49:36 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
+        s=201909; t=1619099380;
+        bh=PhzqVOhEd/h/0Fbbb3BAwftaycIPw8RDL50QyqE12IM=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=opAHDFQP4CkPQG2bXglbuqBieFuhtxeywVbuoUy6F6KRrIYll/aQ4VCFGZ+1SK9ww
+         qkC27cYMIYRHgi8TycPRBwvXaDwBGTnXMQvEVQhwKjswSnF0TiXP9XoXJJH8uAMdxR
+         lMSsBJYzwnLenDSlSt5RcjvvzILAWNdsjd3NeCn1uh6z9wZ4h29Ve3grGN/tFByXrh
+         laZUoPJjgJvzIviuLVCQoLLfZr/DN4nqji6OiiVCjJx3TKVyz53aJyIcQrAkkTTzmJ
+         lKYWFa+XMX4Vq2TMF7e9f3rRkMEJ3MQkjQhp4H2W940Tex0j4MPNi8CrUl2AaEhvuK
+         7NueaXiSceWgg==
+From:   Michael Ellerman <mpe@ellerman.id.au>
+To:     Alex Williamson <alex.williamson@redhat.com>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org, Paul Mackerras <paulus@samba.org>,
+        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        kvm@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH 1/2] vfio/pci: remove vfio_pci_nvlink2
+In-Reply-To: <20210412082304.5e7c0a80@omen>
+References: <20210326061311.1497642-1-hch@lst.de>
+ <20210326061311.1497642-2-hch@lst.de> <20210406133805.715120bd@omen>
+ <87y2dndelm.fsf@mpe.ellerman.id.au> <20210412082304.5e7c0a80@omen>
+Date:   Thu, 22 Apr 2021 23:49:31 +1000
+Message-ID: <87h7jybf9w.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Chang S. Bae
-> Sent: 22 April 2021 05:49
-> 
-> The kernel pushes context on to the userspace stack to prepare for the
-> user's signal handler. When the user has supplied an alternate signal
-> stack, via sigaltstack(2), it is easy for the kernel to verify that the
-> stack size is sufficient for the current hardware context.
-> 
-> Check if writing the hardware context to the alternate stack will exceed
-> it's size. If yes, then instead of corrupting user-data and proceeding with
-> the original signal handler, an immediate SIGSEGV signal is delivered.
+Alex Williamson <alex.williamson@redhat.com> writes:
+> On Mon, 12 Apr 2021 19:41:41 +1000
+> Michael Ellerman <mpe@ellerman.id.au> wrote:
+>
+>> Alex Williamson <alex.williamson@redhat.com> writes:
+>> > On Fri, 26 Mar 2021 07:13:10 +0100
+>> > Christoph Hellwig <hch@lst.de> wrote:
+>> >  
+>> >> This driver never had any open userspace (which for VFIO would include
+>> >> VM kernel drivers) that use it, and thus should never have been added
+>> >> by our normal userspace ABI rules.
+>> >> 
+>> >> Signed-off-by: Christoph Hellwig <hch@lst.de>
+>> >> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> >> ---
+>> >>  drivers/vfio/pci/Kconfig            |   6 -
+>> >>  drivers/vfio/pci/Makefile           |   1 -
+>> >>  drivers/vfio/pci/vfio_pci.c         |  18 -
+>> >>  drivers/vfio/pci/vfio_pci_nvlink2.c | 490 ----------------------------
+>> >>  drivers/vfio/pci/vfio_pci_private.h |  14 -
+>> >>  include/uapi/linux/vfio.h           |  38 +--
+>> >>  6 files changed, 4 insertions(+), 563 deletions(-)
+>> >>  delete mode 100644 drivers/vfio/pci/vfio_pci_nvlink2.c  
+>> >
+>> > Hearing no objections, applied to vfio next branch for v5.13.  Thanks,  
+>> 
+>> Looks like you only took patch 1?
+>> 
+>> I can't take patch 2 on its own, that would break the build.
+>> 
+>> Do you want to take both patches? There's currently no conflicts against
+>> my tree. It's possible one could appear before the v5.13 merge window,
+>> though it would probably just be something minor.
+>> 
+>> Or I could apply both patches to my tree, which means patch 1 would
+>> appear as two commits in the git history, but that's not a big deal.
+>
+> I've already got a conflict in my next branch with patch 1, so it's
+> best to go through my tree.  Seems like a shared branch would be
+> easiest to allow you to merge and manage potential conflicts against
+> patch 2, I've pushed a branch here:
+>
+> https://github.com/awilliam/linux-vfio.git v5.13/vfio/nvlink
 
-What happens if SIGSEGV is caught?
+Thanks.
 
-> Refactor the stack pointer check code from on_sig_stack() and use the new
-> helper.
-> 
-> While the kernel allows new source code to discover and use a sufficient
-> alternate signal stack size, this check is still necessary to protect
-> binaries with insufficient alternate signal stack size from data
-> corruption.
-...
-> diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
-> index 3f6a0fcaa10c..ae60f838ebb9 100644
-> --- a/include/linux/sched/signal.h
-> +++ b/include/linux/sched/signal.h
-> @@ -537,6 +537,17 @@ static inline int kill_cad_pid(int sig, int priv)
->  #define SEND_SIG_NOINFO ((struct kernel_siginfo *) 0)
->  #define SEND_SIG_PRIV	((struct kernel_siginfo *) 1)
-> 
-> +static inline int __on_sig_stack(unsigned long sp)
-> +{
-> +#ifdef CONFIG_STACK_GROWSUP
-> +	return sp >= current->sas_ss_sp &&
-> +		sp - current->sas_ss_sp < current->sas_ss_size;
-> +#else
-> +	return sp > current->sas_ss_sp &&
-> +		sp - current->sas_ss_sp <= current->sas_ss_size;
-> +#endif
-> +}
-> +
+My next is based on rc2, so I won't pull that in directly, because I
+don't want to pull all of rc6 in with it.
 
-Those don't look different enough.
+I'll put it in a topic branch and merge it into my next after my first
+pull has gone to Linus.
 
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
-
+cheers
