@@ -2,140 +2,72 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E58183692ED
-	for <lists+linux-api@lfdr.de>; Fri, 23 Apr 2021 15:19:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 739DE36960F
+	for <lists+linux-api@lfdr.de>; Fri, 23 Apr 2021 17:22:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242743AbhDWNT5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 23 Apr 2021 09:19:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45922 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S242650AbhDWNT5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 23 Apr 2021 09:19:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1619183960;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=2oFmuFF9Ujspg66yFLYIBAD7UKWnT0Uxm+etSkS7sV8=;
-        b=eXYfnnx3jyjf3c/dk8qinFBdXeydYsh1xFayfc1f3T4g71uq3Cy2HjqIh77zOvBUn3GTIN
-        yvpNMrKNIgjTBHc0NhGWZw7k32eIldEf+VQU9oIC9nIL38jD7tDrjK6oemyUKnYhVDyTek
-        O6o54ZYdgV/2HRGfbLLRNhalFH/murU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-567-UI0mO126PTWCLOOXR4Fbng-1; Fri, 23 Apr 2021 09:19:16 -0400
-X-MC-Unique: UI0mO126PTWCLOOXR4Fbng-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1764F8026AD;
-        Fri, 23 Apr 2021 13:19:09 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-112-41.ams2.redhat.com [10.36.112.41])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 704E960BE5;
-        Fri, 23 Apr 2021 13:18:47 +0000 (UTC)
-From:   David Hildenbrand <david@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     David Hildenbrand <david@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Kees Cook <keescook@chromium.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Greg Ungerer <gerg@linux-m68k.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Chinwen Chang <chinwen.chang@mediatek.com>,
-        Michel Lespinasse <walken@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Huang Ying <ying.huang@intel.com>,
-        Jann Horn <jannh@google.com>, Feng Tang <feng.tang@intel.com>,
-        Kevin Brodsky <Kevin.Brodsky@arm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Shawn Anastasio <shawn@anastas.io>,
-        Steven Price <steven.price@arm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        Peter Xu <peterx@redhat.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Marco Elver <elver@google.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        Nicolas Viennot <Nicolas.Viennot@twosigma.com>,
-        Thomas Cedeno <thomascedeno@google.com>,
-        Collin Fijalkovich <cfijalkovich@google.com>,
-        Michal Hocko <mhocko@suse.com>, linux-api@vger.kernel.org,
-        x86@kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH RFC 7/7] fs: update documentation of get_write_access() and friends
-Date:   Fri, 23 Apr 2021 15:16:40 +0200
-Message-Id: <20210423131640.20080-8-david@redhat.com>
-In-Reply-To: <20210423131640.20080-1-david@redhat.com>
-References: <20210423131640.20080-1-david@redhat.com>
+        id S231437AbhDWPXD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 23 Apr 2021 11:23:03 -0400
+Received: from smtp-42a8.mail.infomaniak.ch ([84.16.66.168]:52163 "EHLO
+        smtp-42a8.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230470AbhDWPXD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 23 Apr 2021 11:23:03 -0400
+Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4FRdM55TyDzMrV2C;
+        Fri, 23 Apr 2021 17:22:25 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4FRdM160b0zlh8TR;
+        Fri, 23 Apr 2021 17:22:21 +0200 (CEST)
+Subject: Re: [PATCH v34 00/13] Landlock LSM
+To:     James Morris <jmorris@namei.org>
+Cc:     Jann Horn <jannh@google.com>, Kees Cook <keescook@chromium.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        David Howells <dhowells@redhat.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org
+References: <20210422154123.13086-1-mic@digikod.net>
+ <9c775578-627c-e682-873a-ec7b763a7fcd@namei.org>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <ac26af3b-067b-de01-8c99-687c5de432e5@digikod.net>
+Date:   Fri, 23 Apr 2021 17:22:11 +0200
+User-Agent: 
 MIME-Version: 1.0
+In-Reply-To: <9c775578-627c-e682-873a-ec7b763a7fcd@namei.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-As VM_DENYWRITE does no longer exists, let's spring-clean the
-documentation of get_write_access() and friends.
 
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- include/linux/fs.h | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
+On 22/04/2021 21:31, James Morris wrote:
+> On Thu, 22 Apr 2021, Mickaël Salaün wrote:
+> 
+>> Hi,
+>>
+>> This updated patch series adds a new patch on top of the previous ones.
+>> It brings a new flag to landlock_create_ruleset(2) that enables
+>> efficient and simple backward compatibility checks for future evolutions
+>> of Landlock (e.g. new access-control rights).
+> 
+> Applied to git://git.kernel.org/pub/scm/linux/kernel/git/jmorris/linux-security.git 
+> landlock_lsm_v34
+> 
+> and it replaces the v33 branch in next-testing.
 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index ec8f3ddf4a6a..b0a410a14170 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -2906,15 +2906,20 @@ static inline void file_end_write(struct file *file)
- }
- 
- /*
-+ * This is used for regular files where some users -- especially the
-+ * currently executed binary in a process, previously handled via
-+ * VM_DENYWRITE -- cannot handle concurrent write (and maybe mmap
-+ * read-write shared) accesses.
-+ *
-  * get_write_access() gets write permission for a file.
-  * put_write_access() releases this write permission.
-- * This is used for regular files.
-- * We cannot support write (and maybe mmap read-write shared) accesses and
-- * MAP_DENYWRITE mmappings simultaneously. The i_writecount field of an inode
-- * can have the following values:
-- * 0: no writers, no VM_DENYWRITE mappings
-- * < 0: (-i_writecount) vm_area_structs with VM_DENYWRITE set exist
-- * > 0: (i_writecount) users are writing to the file.
-+ * deny_write_access() denies write access to a file.
-+ * allow_write_access() re-enables write access to a file.
-+ *
-+ * The i_writecount field of an inode can have the following values:
-+ * 0: no write access, no denied write access
-+ * < 0: (-i_writecount) users that denied write access to the file.
-+ * > 0: (i_writecount) users that have write access to the file.
-  *
-  * Normally we operate on that counter with atomic_{inc,dec} and it's safe
-  * except for the cases where we don't hold i_writecount yet. Then we need to
--- 
-2.30.2
-
+Thanks! It is now in next:
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/log/?h=next-20210423
