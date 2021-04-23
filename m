@@ -2,54 +2,54 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 41A5036901F
-	for <lists+linux-api@lfdr.de>; Fri, 23 Apr 2021 12:13:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EED0E369036
+	for <lists+linux-api@lfdr.de>; Fri, 23 Apr 2021 12:19:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241997AbhDWKOc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 23 Apr 2021 06:14:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42324 "EHLO
+        id S242050AbhDWKUD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 23 Apr 2021 06:20:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231142AbhDWKOb (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 23 Apr 2021 06:14:31 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C994DC061574
-        for <linux-api@vger.kernel.org>; Fri, 23 Apr 2021 03:13:54 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id j18so76763042lfg.5
-        for <linux-api@vger.kernel.org>; Fri, 23 Apr 2021 03:13:54 -0700 (PDT)
+        with ESMTP id S229961AbhDWKUD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 23 Apr 2021 06:20:03 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1800C06138B
+        for <linux-api@vger.kernel.org>; Fri, 23 Apr 2021 03:19:25 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id j18so76785537lfg.5
+        for <linux-api@vger.kernel.org>; Fri, 23 Apr 2021 03:19:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=shutemov-name.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=Gnaf3r9UNdG1FggI1YyKvtZjPl2wCw9hbk0IVarKdeY=;
-        b=rohJ3ApdIp8eIDty7ZTykL0M+0n3Epndq2W6IeNG7zaahDj/PopRDPrmIvMNC5+N5q
-         AbvRN7ueJnP4X2turnnaqbrP6Os4PRpq5vuSizTQDpO5+U7hQ8upLvlWgZ5Q9TBz2oRD
-         SzqgQhOBxMZv76R3gF7og4Q9hoI1fQZgXTPB8BfTIymSc8oUc62hJd9YYqip9qBV6xl0
-         1OeDqztS0gOfQxsE12iqR4DLWIe98uxJIdb5LaueIcey95FCDvFFxL5sGmlQ1gJtuMg2
-         JBH+yeQy2LyQLAkvjJnkBhNAy6ciRblNJIOHfcp2z8Ush5vGQicLNhE9yuknfI5K7Qg/
-         Dy1A==
+        bh=DfoarHN8kwAUXeJoV8igp0IS84dt9ibxv9mR8xJU6Xk=;
+        b=N4gxmLjoyMwwBm8WYEh44Z64BgAVbj41cZbOESofj5OkvI9ZZNkBsWbN2EDbevRvIy
+         SBclkE6NrLyeXaXxoCG7xRpEGTV3F80TvvhzcXx5GYtgOE3GRgNbTSOJQQJMQrGPLFQ3
+         7z+kyYkp8wabzPudml5JER5PLLJ9mZgoWXVDHULOcuxarasrGsceUwAPveDoNeShbunk
+         WJO2YCDV3yZsQW0JoI9rNLcNuj877vaZ1qYvbVFsjhJDVB3AaNSzJn5zQYlZEQtxI6u0
+         uiMmSH80CAutXLRmfstPIss9Ukeru9YM3KuREfO3YgCNPokRpPmsUamLXSPupKY38QlE
+         e2FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=Gnaf3r9UNdG1FggI1YyKvtZjPl2wCw9hbk0IVarKdeY=;
-        b=jkvSqhSxsggIsI+LNGcX4Y6Kn90+PNEvdTXimhzGLlERReIl+Au9p00gmu0TKtNSn0
-         QVSQU2AJ9LX1DlwZpoYjSiTRyZ01LtEccbczjmxTSsrPLvZD7yfcbRGKnxgXFI49ALfI
-         VawX/qTCqJ9wk3U6sqbRn5Vw5HldvC1j0FACnwl5ChgR9WjWL5OGF2WO7gTsJg8Wlg2R
-         2HEZkWVRxpb08PjkR3/TDxnKdwNVgC7My9dC23yuIpRJkLbAgufDLd9utXrNsUG8j/Gj
-         q08NjZyBiskPcOdlWwB2tdlJzPk+fHy7uDY/uqaqzbFJOZt8Fct3b9dN2UG3x7W6cY6K
-         VcZw==
-X-Gm-Message-State: AOAM530ZxmbBXrPsyNhrLJIVBT7/yuXsuRnt1OiEby65TCZWeh1yM5KA
-        +OWxstDF7CUGoMo6lK/XzTjtqw==
-X-Google-Smtp-Source: ABdhPJz9uy18OLUxIti5N9jQtwFUmXPO5gGtMxzSl2Fy0S1+VLIN2ACGrMCf6lbceikj1AyzpdDXhA==
-X-Received: by 2002:a05:6512:308a:: with SMTP id z10mr2280947lfd.15.1619172831869;
-        Fri, 23 Apr 2021 03:13:51 -0700 (PDT)
+        bh=DfoarHN8kwAUXeJoV8igp0IS84dt9ibxv9mR8xJU6Xk=;
+        b=PjvV7w6G482/Hgx2hHYO+zEfna5cVO/mml4qDQ5yYu6bwq17C55mUXlXfYa7ornp1E
+         ldIZhd7x9gqJwfi4nKLknLQATj4m0k5NXzMVgKqpSiGBWXEJ10XhFwYkzAN/pwBQuHS2
+         gok8sTNS3mpDScz9S79MxxVEi2nLaCaedZjP3/Yx7g13R6Weq2mbhjSST2T24CKSUIJy
+         unk/rkewzl+79U+AZjA6h5SOeNwpsinADUq+6GZCwP3QF/9SlbCCETaYf8y42IhGnGxr
+         QgM9ja5NEkWazzpgd0CtdkiPCbUMHYfWZvoSdt+2opbBC8V58HjcQDWtCv+pRi5qeKoQ
+         WTXw==
+X-Gm-Message-State: AOAM532bUiC9eVO9ZQLY6/2ConG2+HZOtasYuTht0iHpmJLVPGuiR+qh
+        c71CNdHWWjvastVumxczGXdHqg==
+X-Google-Smtp-Source: ABdhPJy+j0A4mCMCy6alk/6PYASiRWqO6EYd0pBeEvxN9kQ+2U6i0rK8HvK+JgE0lqpTegscpzOeVA==
+X-Received: by 2002:a19:f615:: with SMTP id x21mr2374637lfe.540.1619173164189;
+        Fri, 23 Apr 2021 03:19:24 -0700 (PDT)
 Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id h66sm505910lfd.248.2021.04.23.03.13.51
+        by smtp.gmail.com with ESMTPSA id c15sm509104lfk.153.2021.04.23.03.19.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Apr 2021 03:13:51 -0700 (PDT)
+        Fri, 23 Apr 2021 03:19:23 -0700 (PDT)
 Received: by box.localdomain (Postfix, from userid 1000)
-        id D32BC10257F; Fri, 23 Apr 2021 13:13:52 +0300 (+03)
-Date:   Fri, 23 Apr 2021 13:13:52 +0300
+        id 3260D10257F; Fri, 23 Apr 2021 13:19:25 +0300 (+03)
+Date:   Fri, 23 Apr 2021 13:19:25 +0300
 From:   "Kirill A. Shutemov" <kirill@shutemov.name>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -80,44 +80,122 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Pengfei Xu <pengfei.xu@intel.com>,
         Haitao Huang <haitao.huang@intel.com>,
         "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v25 16/30] mm: Fixup places that call pte_mkwrite()
- directly
-Message-ID: <20210423101352.zwvltq734peuec4g@box.shutemov.name>
+Subject: Re: [PATCH v25 18/30] mm/mmap: Add shadow stack pages to memory
+ accounting
+Message-ID: <20210423101925.u5srn6vpyxxgvpso@box.shutemov.name>
 References: <20210415221419.31835-1-yu-cheng.yu@intel.com>
- <20210415221419.31835-17-yu-cheng.yu@intel.com>
+ <20210415221419.31835-19-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210415221419.31835-17-yu-cheng.yu@intel.com>
+In-Reply-To: <20210415221419.31835-19-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Apr 15, 2021 at 03:14:05PM -0700, Yu-cheng Yu wrote:
-> When serving a page fault, maybe_mkwrite() makes a PTE writable if it is in
-> a writable vma.  A shadow stack vma is writable, but its PTEs need
-> _PAGE_DIRTY to be set to become writable.  For this reason, maybe_mkwrite()
-> has been updated.
-> 
-> There are a few places that call pte_mkwrite() directly, but have the
-> same result as from maybe_mkwrite().  These sites need to be updated for
-> shadow stack as well.  Thus, change them to maybe_mkwrite():
-> 
-> - do_anonymous_page() and migrate_vma_insert_page() check VM_WRITE directly
->   and call pte_mkwrite(), which is the same as maybe_mkwrite().  Change
->   them to maybe_mkwrite().
-> 
-> - In do_numa_page(), if the numa entry was writable, then pte_mkwrite()
->   is called directly.  Fix it by doing maybe_mkwrite().  Make the same
->   changes to do_huge_pmd_numa_page().
-> 
-> - In change_pte_range(), pte_mkwrite() is called directly.  Replace it with
->   maybe_mkwrite().
+On Thu, Apr 15, 2021 at 03:14:07PM -0700, Yu-cheng Yu wrote:
+> Account shadow stack pages to stack memory.
 > 
 > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 > Cc: Kees Cook <keescook@chromium.org>
+> Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> ---
+> v25:
+> - Remove #ifdef CONFIG_ARCH_HAS_SHADOW_STACK for is_shadow_stack_mapping().
+> v24:
+> - Change arch_shadow_stack_mapping() to is_shadow_stack_mapping().
+> - Change VM_SHSTK to VM_SHADOW_STACK.
+> 
+>  arch/x86/include/asm/pgtable.h | 3 +++
+>  arch/x86/mm/pgtable.c          | 5 +++++
+>  include/linux/pgtable.h        | 9 +++++++++
+>  mm/mmap.c                      | 5 +++++
+>  4 files changed, 22 insertions(+)
+> 
+> diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
+> index da5dea417663..7f324edaedfa 100644
+> --- a/arch/x86/include/asm/pgtable.h
+> +++ b/arch/x86/include/asm/pgtable.h
+> @@ -1692,6 +1692,9 @@ static inline bool arch_faults_on_old_pte(void)
+>  #define maybe_mkwrite maybe_mkwrite
+>  extern pte_t maybe_mkwrite(pte_t pte, struct vm_area_struct *vma);
+>  
+> +#define is_shadow_stack_mapping is_shadow_stack_mapping
+> +extern bool is_shadow_stack_mapping(vm_flags_t vm_flags);
+> +
+>  #endif	/* __ASSEMBLY__ */
+>  
+>  #endif /* _ASM_X86_PGTABLE_H */
+> diff --git a/arch/x86/mm/pgtable.c b/arch/x86/mm/pgtable.c
+> index e778dbbef3d8..69c0ef583c55 100644
+> --- a/arch/x86/mm/pgtable.c
+> +++ b/arch/x86/mm/pgtable.c
+> @@ -897,3 +897,8 @@ int pmd_free_pte_page(pmd_t *pmd, unsigned long addr)
+>  
+>  #endif /* CONFIG_X86_64 */
+>  #endif	/* CONFIG_HAVE_ARCH_HUGE_VMAP */
+> +
+> +bool is_shadow_stack_mapping(vm_flags_t vm_flags)
+> +{
+> +	return (vm_flags & VM_SHADOW_STACK);
+
+Nit: parentheses are redundant.
+
+> +}
+> diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+> index 5e772392a379..45b601fa1a1c 100644
+> --- a/include/linux/pgtable.h
+> +++ b/include/linux/pgtable.h
+> @@ -1446,6 +1446,15 @@ static inline bool arch_has_pfn_modify_check(void)
+>  }
+>  #endif /* !_HAVE_ARCH_PFN_MODIFY_ALLOWED */
+>  
+> +#ifdef CONFIG_MMU
+> +#ifndef is_shadow_stack_mapping
+> +static inline bool is_shadow_stack_mapping(vm_flags_t vm_flags)
+> +{
+> +	return false;
+> +}
+> +#endif
+> +#endif /* CONFIG_MMU */
+
+What the purpose #ifdef CONFIG_MMU? Looks redundant.
+
+Otherwise: 
 
 Reviewed-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+
+> +
+>  /*
+>   * Architecture PAGE_KERNEL_* fallbacks
+>   *
+> diff --git a/mm/mmap.c b/mm/mmap.c
+> index 3f287599a7a3..d77fb39b6ab5 100644
+> --- a/mm/mmap.c
+> +++ b/mm/mmap.c
+> @@ -1718,6 +1718,9 @@ static inline int accountable_mapping(struct file *file, vm_flags_t vm_flags)
+>  	if (file && is_file_hugepages(file))
+>  		return 0;
+>  
+> +	if (is_shadow_stack_mapping(vm_flags))
+> +		return 1;
+> +
+>  	return (vm_flags & (VM_NORESERVE | VM_SHARED | VM_WRITE)) == VM_WRITE;
+>  }
+>  
+> @@ -3387,6 +3390,8 @@ void vm_stat_account(struct mm_struct *mm, vm_flags_t flags, long npages)
+>  		mm->stack_vm += npages;
+>  	else if (is_data_mapping(flags))
+>  		mm->data_vm += npages;
+> +	else if (is_shadow_stack_mapping(flags))
+> +		mm->stack_vm += npages;
+>  }
+>  
+>  static vm_fault_t special_mapping_fault(struct vm_fault *vmf);
+> -- 
+> 2.21.0
+> 
+> 
 
 -- 
  Kirill A. Shutemov
