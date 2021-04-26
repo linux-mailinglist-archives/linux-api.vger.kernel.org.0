@@ -2,51 +2,51 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5398236B9AA
-	for <lists+linux-api@lfdr.de>; Mon, 26 Apr 2021 21:06:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A21336B9AC
+	for <lists+linux-api@lfdr.de>; Mon, 26 Apr 2021 21:06:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239989AbhDZTHG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 26 Apr 2021 15:07:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52784 "EHLO
+        id S239949AbhDZTHH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 26 Apr 2021 15:07:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239949AbhDZTHF (ORCPT
+        with ESMTP id S232868AbhDZTHF (ORCPT
         <rfc822;linux-api@vger.kernel.org>); Mon, 26 Apr 2021 15:07:05 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F1B7C061574
-        for <linux-api@vger.kernel.org>; Mon, 26 Apr 2021 12:06:21 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id gc22-20020a17090b3116b02901558435aec1so2136440pjb.4
-        for <linux-api@vger.kernel.org>; Mon, 26 Apr 2021 12:06:21 -0700 (PDT)
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66E7BC061761
+        for <linux-api@vger.kernel.org>; Mon, 26 Apr 2021 12:06:23 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id f11-20020a17090a638bb02901524d3a3d48so5752263pjj.3
+        for <linux-api@vger.kernel.org>; Mon, 26 Apr 2021 12:06:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=osandov-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=OU5tybw4mESEMIXeoznpaz+xCHTTr+47vinGE0EXY4M=;
-        b=Ajf2fir0E6Atcw05WsKjIq++A8IECg/TEJJLqY5CZGB/p8G56nbK7EHACvIuSHHlje
-         IFbaYVfNd4NZQRmz5+xlPyH4Q/srfMpEuKx6JLSZN6620iK/xfCKN3NzCORMZc54OX8C
-         YE09HV8G7nLuVzy0W+RccL91vYqQyOUH4I9Wntgwo3gVrTwf+IGVxb7sDPbdcTrcEDSU
-         kvNcgxLy20Bf7N4NDKokOwEJDRpeFnfczZrei/dT0V9QU7vDTektqTRWpBGow+R8N30t
-         jaCfK/o1Qv1NIu+RtcB5uPN8GIBocgS97RTak3WPnyx/Q5R6HXk/OSS7+pCg7eZxiZEd
-         EYiQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=fi2Oan0mGiDav2mDFzFT9HRE0EOQ+3jECdDIraTSexk=;
+        b=uC3RXx1+ULzUlJksMMsRaW3Wv9lDIos3Ujx5LL+yzugvIY3cnHD2/mj4jU2bTyypzU
+         Q87GZoHSnq7rDCqKsOlcHmjeski5Pz1EVUA/cokW229+UQpjGfXD/VtWroMpZtdLtgb6
+         Y1ikzUINnDz4JutrjL0Eg1RWtEytWFmtUViF8smxyj51AWa1YBIKkUansLM9gU9fCeoI
+         6E802BcpAQ1LQMlI2Ed8COmquYz0ZzSb8mUADqRptqDEqhfzwONnDXqeGD/UUl4XB6rR
+         jrtPnkue20jVhh7ZcqFP09jMc9p5kMXZuXI7cWHRHwOU+n3qhjzUr3uWZ/Bp1z1sTeQm
+         1zpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=OU5tybw4mESEMIXeoznpaz+xCHTTr+47vinGE0EXY4M=;
-        b=jl6XKP8VB+EZB9IAHrZkZAoyhOW46aAkoMVzepXtRkIoX4TsuCibYV6y7jqxTuVqdz
-         suw3aJoJ9baCqBbCiAPPR0DAU3Hr1k3eeoKZmWpXogKbTaZ7z1Tu8SIJSSjI6odDITCH
-         HdjOmI58L+te0yzrEFRVjy5CV6So9NQiNm/J+8NIHGNhxnCq4H9ZcFmLdmH4i1nBLwW8
-         tQfO1tw4EcpXe8ARyDb5sv86MHKQkxTC7e965yoCyYbNM3KfJgTuNk3+CtyNMEAlxHal
-         H4148BhbGamXSLYiuot3+K+L4PyhKZNkU8F0O543Im3LX0UF0Jjgt6dRX9IP53QB5vYK
-         Lsjw==
-X-Gm-Message-State: AOAM5320vMq6e8eLQcFVDV+1s0xb3gwdzDIg2sV5VOgQXgZTaOji7Qk0
-        I2hqZAqHL4g21qNgMtSzj+u8wnn9rOyCwQ==
-X-Google-Smtp-Source: ABdhPJzTuIQ9Xvd6pY2cEtm8mjBa+SVjlyfLTdikPyrQ7jjAYzg4iiNsdObHk0rdVLG1c//4wDuVVA==
-X-Received: by 2002:a17:902:b10d:b029:ec:b5c2:5724 with SMTP id q13-20020a170902b10db02900ecb5c25724mr20011000plr.2.1619463980887;
-        Mon, 26 Apr 2021 12:06:20 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=fi2Oan0mGiDav2mDFzFT9HRE0EOQ+3jECdDIraTSexk=;
+        b=sf2r0ZsdzCh7dyMOhjVMJzEeJDNEMGnigJkWlQ9tyRdzvAmJHYlgWMDFOu3rXNAi/P
+         2o85xkSNW4Rt99dSc5n9M8J6HYYSySUBBQPFsGE12ztRa44Fyz+dt18d1jPYZP5YSVjb
+         LWjGmB7BiydjkaiiPlv5Q4LnR63uJgBbPbM4CpgEdAR7i/8bS3Oc69q6QcyTnmXhF+PB
+         36/SSztYzJZhC/ssHljAHHO5N6bi4VqZSdLiHlbJQPJwFdfou+emQAv6P47V+A6kQi6+
+         SzmHVvsANwYCZoAEOZ9W4VgpKsTjaRqvHXuchEeI3jtPirKQLilBEVL8JPN1uNqw2fYf
+         EKtg==
+X-Gm-Message-State: AOAM532TwOnpjMlW/qTNaq+lzqp0xY6hseF+dhcaJkuC6f5ohCQkwm5a
+        UHtnK1cXy4/eomWvebGUbEMg+eD/SnR19g==
+X-Google-Smtp-Source: ABdhPJzKaz4uU402z3M92e7RfNQ7YneiXXMO/ytLC7rYJbx6cs6J1jTnaCwBT9nPI93IpBvZ5SDleQ==
+X-Received: by 2002:a17:902:36b:b029:ed:4645:2ed1 with SMTP id 98-20020a170902036bb02900ed46452ed1mr2911353pld.16.1619463982907;
+        Mon, 26 Apr 2021 12:06:22 -0700 (PDT)
 Received: from relinquished.tfbnw.net ([2620:10d:c090:400::5:f06a])
-        by smtp.gmail.com with ESMTPSA id lx11sm331745pjb.27.2021.04.26.12.06.18
+        by smtp.gmail.com with ESMTPSA id lx11sm331745pjb.27.2021.04.26.12.06.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Apr 2021 12:06:20 -0700 (PDT)
+        Mon, 26 Apr 2021 12:06:22 -0700 (PDT)
 From:   Omar Sandoval <osandov@osandov.com>
 To:     linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
         Al Viro <viro@zeniv.linux.org.uk>,
@@ -57,10 +57,12 @@ Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Amir Goldstein <amir73il@gmail.com>,
         Aleksa Sarai <cyphar@cyphar.com>, linux-api@vger.kernel.org,
         kernel-team@fb.com
-Subject: [PATCH RESEND v9 0/9] fs: interface for directly reading/writing compressed data
-Date:   Mon, 26 Apr 2021 12:06:03 -0700
-Message-Id: <cover.1619463858.git.osandov@fb.com>
+Subject: [PATCH RESEND v9 1/9] iov_iter: add copy_struct_from_iter()
+Date:   Mon, 26 Apr 2021 12:06:04 -0700
+Message-Id: <bc106964f468a20e4d1c7d8b5f4ac0879c01630e.1619463858.git.osandov@fb.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1619463858.git.osandov@fb.com>
+References: <cover.1619463858.git.osandov@fb.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -69,89 +71,130 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 From: Omar Sandoval <osandov@fb.com>
 
-This series adds an API for reading compressed data on a filesystem
-without decompressing it as well as support for writing compressed data
-directly to the filesystem. I have test cases (including fsstress
-support) and example programs which I'll send up once the dust settles
-[1].
+This is essentially copy_struct_from_user() but for an iov_iter.
 
-The main use-case is Btrfs send/receive: currently, when sending data
-from one compressed filesystem to another, the sending side decompresses
-the data and the receiving side recompresses it before writing it out.
-This is wasteful and can be avoided if we can just send and write
-compressed extents. The patches implementing the send/receive support
-were sent with the last submission of this series [2].
+Suggested-by: Aleksa Sarai <cyphar@cyphar.com>
+Reviewed-by: Josef Bacik <josef@toxicpanda.com>
+Signed-off-by: Omar Sandoval <osandov@fb.com>
+---
+ include/linux/uio.h |  1 +
+ lib/iov_iter.c      | 91 +++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 92 insertions(+)
 
-Patches 1-3 add the VFS support, UAPI, and documentation. Patches 4-7
-are Btrfs prep patches. Patch 8 adds Btrfs encoded read support and
-patch 9 adds Btrfs encoded write support.
-
-These patches are based on Dave Sterba's Btrfs misc-next branch [3],
-which is in turn currently based on v5.12-rc8.
-
-This is a resend of v9 [4], rebased on the latest kdave/misc-next
-branch.
-
-Omar Sandoval (9):
-  iov_iter: add copy_struct_from_iter()
-  fs: add O_ALLOW_ENCODED open flag
-  fs: add RWF_ENCODED for reading/writing compressed data
-  btrfs: don't advance offset for compressed bios in
-    btrfs_csum_one_bio()
-  btrfs: add ram_bytes and offset to btrfs_ordered_extent
-  btrfs: support different disk extent size for delalloc
-  btrfs: optionally extend i_size in cow_file_range_inline()
-  btrfs: implement RWF_ENCODED reads
-  btrfs: implement RWF_ENCODED writes
-
-1: https://github.com/osandov/xfstests/tree/rwf-encoded
-2: https://lore.kernel.org/linux-btrfs/cover.1615922753.git.osandov@fb.com/
-3: https://github.com/kdave/btrfs-devel/tree/misc-next
-4: https://lore.kernel.org/linux-btrfs/cover.1617258892.git.osandov@fb.com/
-
-Omar Sandoval (9):
-  iov_iter: add copy_struct_from_iter()
-  fs: add O_ALLOW_ENCODED open flag
-  fs: add RWF_ENCODED for reading/writing compressed data
-  btrfs: don't advance offset for compressed bios in
-    btrfs_csum_one_bio()
-  btrfs: add ram_bytes and offset to btrfs_ordered_extent
-  btrfs: support different disk extent size for delalloc
-  btrfs: optionally extend i_size in cow_file_range_inline()
-  btrfs: implement RWF_ENCODED reads
-  btrfs: implement RWF_ENCODED writes
-
- Documentation/filesystems/encoded_io.rst | 240 ++++++
- Documentation/filesystems/index.rst      |   1 +
- arch/alpha/include/uapi/asm/fcntl.h      |   1 +
- arch/parisc/include/uapi/asm/fcntl.h     |   1 +
- arch/sparc/include/uapi/asm/fcntl.h      |   1 +
- fs/btrfs/compression.c                   |  12 +-
- fs/btrfs/compression.h                   |   6 +-
- fs/btrfs/ctree.h                         |   9 +-
- fs/btrfs/delalloc-space.c                |  18 +-
- fs/btrfs/file-item.c                     |  35 +-
- fs/btrfs/file.c                          |  46 +-
- fs/btrfs/inode.c                         | 929 +++++++++++++++++++++--
- fs/btrfs/ordered-data.c                  | 124 +--
- fs/btrfs/ordered-data.h                  |  25 +-
- fs/btrfs/relocation.c                    |   4 +-
- fs/fcntl.c                               |  10 +-
- fs/namei.c                               |   4 +
- fs/read_write.c                          | 168 +++-
- include/linux/encoded_io.h               |  17 +
- include/linux/fcntl.h                    |   2 +-
- include/linux/fs.h                       |  13 +
- include/linux/uio.h                      |   1 +
- include/uapi/asm-generic/fcntl.h         |   4 +
- include/uapi/linux/encoded_io.h          |  30 +
- include/uapi/linux/fs.h                  |   5 +-
- lib/iov_iter.c                           |  91 +++
- 26 files changed, 1563 insertions(+), 234 deletions(-)
- create mode 100644 Documentation/filesystems/encoded_io.rst
- create mode 100644 include/linux/encoded_io.h
- create mode 100644 include/uapi/linux/encoded_io.h
-
+diff --git a/include/linux/uio.h b/include/linux/uio.h
+index 27ff8eb786dc..cc94223d16d9 100644
+--- a/include/linux/uio.h
++++ b/include/linux/uio.h
+@@ -121,6 +121,7 @@ size_t copy_page_to_iter(struct page *page, size_t offset, size_t bytes,
+ 			 struct iov_iter *i);
+ size_t copy_page_from_iter(struct page *page, size_t offset, size_t bytes,
+ 			 struct iov_iter *i);
++int copy_struct_from_iter(void *dst, size_t ksize, struct iov_iter *i);
+ 
+ size_t _copy_to_iter(const void *addr, size_t bytes, struct iov_iter *i);
+ size_t _copy_from_iter(void *addr, size_t bytes, struct iov_iter *i);
+diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+index f66c62aa7154..9642f651e27a 100644
+--- a/lib/iov_iter.c
++++ b/lib/iov_iter.c
+@@ -934,6 +934,97 @@ size_t copy_page_from_iter(struct page *page, size_t offset, size_t bytes,
+ }
+ EXPORT_SYMBOL(copy_page_from_iter);
+ 
++/**
++ * copy_struct_from_iter - copy a struct from an iov_iter
++ * @dst: Destination buffer.
++ * @ksize: Size of @dst struct.
++ * @i: Source iterator.
++ *
++ * Copies a struct from an iov_iter in a way that guarantees
++ * backwards-compatibility for struct arguments in an iovec (as long as the
++ * rules for copy_struct_from_user() are followed).
++ *
++ * The source struct is assumed to be stored in the current segment of the
++ * iov_iter, and its size is the size of the current segment. The iov_iter must
++ * be positioned at the beginning of the current segment.
++ *
++ * The recommended usage is something like the following:
++ *
++ *   int do_foo(struct iov_iter *i)
++ *   {
++ *     size_t usize = iov_iter_single_seg_count(i);
++ *     struct foo karg;
++ *     int err;
++ *
++ *     if (usize > PAGE_SIZE)
++ *       return -E2BIG;
++ *     if (usize < FOO_SIZE_VER0)
++ *       return -EINVAL;
++ *     err = copy_struct_from_iter(&karg, sizeof(karg), i);
++ *     if (err)
++ *       return err;
++ *
++ *     // ...
++ *   }
++ *
++ * Returns 0 on success or one of the following errors:
++ *  * -E2BIG:  (size of current segment > @ksize) and there are non-zero
++ *             trailing bytes in the current segment.
++ *  * -EFAULT: access to userspace failed.
++ *  * -EINVAL: the iterator is not at the beginning of the current segment.
++ *
++ * On success, the iterator is advanced to the next segment. On error, the
++ * iterator is not advanced.
++ */
++int copy_struct_from_iter(void *dst, size_t ksize, struct iov_iter *i)
++{
++	size_t usize;
++	int ret;
++
++	if (i->iov_offset != 0)
++		return -EINVAL;
++	if (iter_is_iovec(i)) {
++		usize = i->iov->iov_len;
++		might_fault();
++		if (copyin(dst, i->iov->iov_base, min(ksize, usize)))
++			return -EFAULT;
++		if (usize > ksize) {
++			ret = check_zeroed_user(i->iov->iov_base + ksize,
++						usize - ksize);
++			if (ret < 0)
++				return ret;
++			else if (ret == 0)
++				return -E2BIG;
++		}
++	} else if (iov_iter_is_kvec(i)) {
++		usize = i->kvec->iov_len;
++		memcpy(dst, i->kvec->iov_base, min(ksize, usize));
++		if (usize > ksize &&
++		    memchr_inv(i->kvec->iov_base + ksize, 0, usize - ksize))
++			return -E2BIG;
++	} else if (iov_iter_is_bvec(i)) {
++		char *p;
++
++		usize = i->bvec->bv_len;
++		p = kmap_local_page(i->bvec->bv_page);
++		memcpy(dst, p + i->bvec->bv_offset, min(ksize, usize));
++		if (usize > ksize &&
++		    memchr_inv(p + i->bvec->bv_offset + ksize, 0,
++			       usize - ksize)) {
++			kunmap_local(p);
++			return -E2BIG;
++		}
++		kunmap_local(p);
++	} else {
++		return -EFAULT;
++	}
++	if (usize < ksize)
++		memset(dst + usize, 0, ksize - usize);
++	iov_iter_advance(i, usize);
++	return 0;
++}
++EXPORT_SYMBOL_GPL(copy_struct_from_iter);
++
+ static size_t pipe_zero(size_t bytes, struct iov_iter *i)
+ {
+ 	struct pipe_inode_info *pipe = i->pipe;
 -- 
 2.31.1
 
