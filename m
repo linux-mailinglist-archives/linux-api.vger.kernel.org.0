@@ -2,92 +2,95 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EC5B36B21B
-	for <lists+linux-api@lfdr.de>; Mon, 26 Apr 2021 13:11:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D49D36B21F
+	for <lists+linux-api@lfdr.de>; Mon, 26 Apr 2021 13:11:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233189AbhDZLMM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 26 Apr 2021 07:12:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46112 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233112AbhDZLMH (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 26 Apr 2021 07:12:07 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1DFCF61075;
-        Mon, 26 Apr 2021 11:11:17 +0000 (UTC)
-Date:   Mon, 26 Apr 2021 12:11:15 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v25 29/30] mm: Update arch_validate_flags() to include
- vma anonymous
-Message-ID: <20210426111114.GF4985@arm.com>
-References: <20210415221419.31835-1-yu-cheng.yu@intel.com>
- <20210415221419.31835-30-yu-cheng.yu@intel.com>
- <20210426064056.bqbeekpsogd32yvm@box.shutemov.name>
+        id S233199AbhDZLMY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 26 Apr 2021 07:12:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59226 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233170AbhDZLMX (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 26 Apr 2021 07:12:23 -0400
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72B91C061574;
+        Mon, 26 Apr 2021 04:11:42 -0700 (PDT)
+Received: by mail-io1-xd36.google.com with SMTP id a11so3163197ioo.0;
+        Mon, 26 Apr 2021 04:11:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VZ8PC4Mr9yYwubc3N66DSmRD6uN3k59USQz1/JxLvJQ=;
+        b=m34u1+3JOHz135RUMFft6PKY6swpc//9UzoVUnb513jDmNawXNWQF0KaoZSb4eMZZp
+         fQwPbkag1KKupKuPfwfUYKNUK0EuzTfJc/jXOypg/q7draPJqFw0ekjoOmLVaQEqY+JB
+         GZOiypF41j84YWimXBwEj6OzVxNVt+wbJenikrYBm+9/DMefqCOY6QE4ND2Ujy6yp3Fh
+         YUWe7oL6BtryW18JmjAhjy6acDreReMqcmFGVG6V6a+Ku5NnsuzP8eZ/Z8uTCzmPVrfU
+         9/tpURI5yCikXO6aCvyx6jG8XTb8CRJ4hquLuoB6sGEWU/55W9x4SPPQdzQgTm7Hb1S3
+         DapA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VZ8PC4Mr9yYwubc3N66DSmRD6uN3k59USQz1/JxLvJQ=;
+        b=JBXsJRCU2kXNtAJYpBJ+6uHVyhjfVqEO7eYVZu9h5sLwPY4KuzAWc97ZoSGzTm5DEz
+         tqRMRxSkerCf3VgdbEdzRpGsOOirFazJ3WL8rnceWHok8HYZksII5EB7zMn3E4Te5zqf
+         BMPL5MdEbrwQ1j0xOuHYLhfQRaf6pnAh3k8iadK3Z0njTbEnnzHhBtK+yWmD8dOoW7Py
+         cV6DMj2IVNenT/SWuxV/lvwK56pb/FR+9RdXE+cfqyZNXoyUhewlpkklbSh7bV4nRL+l
+         7mRHB+7rgzEqqLpw5BmESYdW3F499LhkS8LdaGQQgxRxtlwliOxAv5qzLCyn7kWZDXye
+         u3Kw==
+X-Gm-Message-State: AOAM533GZzrf509MMrl+SI2+hiaazvXmh2SjUcFJUGFV4KdCBSRt3SjB
+        8naFVQPmV6sAn201RwxBW7EeYud8tKjSBqVRT4vyX3mcpBY=
+X-Google-Smtp-Source: ABdhPJwhhPccCc/bondZD05boWE68T4viBmeLegREpNZh7G/jsMkj0F1uxFzj4/5ypUq5EP2xFjO066/xYAc98XD+e4=
+X-Received: by 2002:a6b:f00f:: with SMTP id w15mr13567372ioc.72.1619435501875;
+ Mon, 26 Apr 2021 04:11:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210426064056.bqbeekpsogd32yvm@box.shutemov.name>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <e6cd967f45381d20d67c9d5a3e49e3cb9808f65b.1618527437.git.repnop@google.com>
+ <20210419132020.ydyb2ly6e3clhe2j@wittgenstein> <20210419135550.GH8706@quack2.suse.cz>
+ <20210419150233.rgozm4cdbasskatk@wittgenstein> <YH4+Swki++PHIwpY@google.com>
+ <20210421080449.GK8706@quack2.suse.cz> <YIIBheuHHCJeY6wJ@google.com>
+ <CAOQ4uxhUcefbu+5pLKfx7b-kOPP2OB+_RRPMPDX1vLk36xkZnQ@mail.gmail.com>
+ <YIJ/JHdaPv2oD+Jd@google.com> <CAOQ4uxhyGKSM3LFKRtgNe+HmkUJRCFwafXdgC_8ysg7Bs43rWg@mail.gmail.com>
+ <YIaVbWu8up3RY7gf@google.com>
+In-Reply-To: <YIaVbWu8up3RY7gf@google.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Mon, 26 Apr 2021 14:11:30 +0300
+Message-ID: <CAOQ4uxhp3khQ9Ln2g9s5WLEsb-Cv2vdsZTuYUgQx-DW6GR1RmQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] fanotify: Add pidfd support to the fanotify API
+To:     Matthew Bobrowski <repnop@google.com>
+Cc:     Jan Kara <jack@suse.cz>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Apr 26, 2021 at 09:40:56AM +0300, Kirill A. Shutemov wrote:
-> On Thu, Apr 15, 2021 at 03:14:18PM -0700, Yu-cheng Yu wrote:
-> > When newer VM flags are being created, such as VM_MTE, it becomes necessary
-> > for mmap/mprotect to verify if certain flags are being applied to an
-> > anonymous VMA.
-> > 
-> > To solve this, one approach is adding a VM flag to track that MAP_ANONYMOUS
-> > is specified [1], and then using the flag in arch_validate_flags().
-> > 
-> > Another approach is passing vma_is_anonymous() to arch_validate_flags().
-> > To prepare the introduction of PROT_SHSTK, which creates a shadow stack
-> > mapping and can only be applied to an anonymous VMA, update arch_validate_
-> > flags() to include anonymous VMA information.
-> 
-> I would rather pass down whole vma. Who knows what else
-> arch_validate_flags() would need to know about the VMA tomorrow:
-> 
-> 	arch_validate_flags(vma, newflags);
-> 
-> should do the trick.
+> Amir, I was just thinking about this a little over the weekend and I
+> don't think we discussed how to handle the FAN_REPORT_PIDFD |
+> FAN_REPORT_FID and friends case? My immediate thought is to make
+> FAN_REPORT_PIDFD mutually exclusive with FAN_REPORT_FID and friends,
+> but then again receiving a pidfd along with FID events may be also
+> useful for some? What are your thoughts on this? If we don't go ahead
+> with mutual exclusion, then this multiple event types alongside struct
+> fanotify_event_metadata starts getting a little clunky, don't you
+> think?
+>
 
-A reason why we added a separate VM_MTE_ALLOWED flag was that we wanted
-MTE on other RAM-based based mappings, not just anonymous pages. See
-51b0bff2f703 ("mm: Allow arm64 mmap(PROT_MTE) on RAM-based files").
+The current format of an fanotify event already supports multiple info records:
 
-Anyway, the above change doesn't get in the way.
+[fanotify_event_metadata]
+[[fanotify_event_info_header][event record #1]]
+[[fanotify_event_info_header][event record #2]]...
 
--- 
-Catalin
+(meta)->event_len is the total event length including all info records.
+
+For example, FAN_REPORT_FID | FAN_REPORT_DFID_MAME produces
+(for some events) two info records, one FAN_EVENT_INFO_TYPE_FID
+record and one FAN_EVENT_INFO_TYPE_DFID_NAME record.
+
+So I see no problem with combination of FAN_REPORT_FID
+and FAN_REPORT_PIDFD.
+
+Thanks,
+Amir.
