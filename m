@@ -2,141 +2,197 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FFB036AA6F
-	for <lists+linux-api@lfdr.de>; Mon, 26 Apr 2021 03:41:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B66336AC3F
+	for <lists+linux-api@lfdr.de>; Mon, 26 Apr 2021 08:31:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231550AbhDZBm0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 25 Apr 2021 21:42:26 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:17055 "EHLO
-        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231403AbhDZBm0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 25 Apr 2021 21:42:26 -0400
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
-        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FT6xw6kFtz17RvH;
-        Mon, 26 Apr 2021 09:39:16 +0800 (CST)
-Received: from [10.174.184.135] (10.174.184.135) by
- DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
- 14.3.498.0; Mon, 26 Apr 2021 09:41:34 +0800
-Subject: Re: [RFC PATCH v3 0/8] Add IOPF support for VFIO passthrough
-To:     Alex Williamson <alex.williamson@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Eric Auger <eric.auger@redhat.com>, <kvm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <iommu@lists.linux-foundation.org>, <linux-api@vger.kernel.org>
-CC:     Kevin Tian <kevin.tian@intel.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>, <yi.l.liu@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Barry Song <song.bao.hua@hisilicon.com>,
-        <wanghaibin.wang@huawei.com>, <yuzenghui@huawei.com>
-References: <20210409034420.1799-1-lushenming@huawei.com>
-From:   Shenming Lu <lushenming@huawei.com>
-Message-ID: <cb9584fd-c7f5-8cac-8c63-219ded2ef9db@huawei.com>
-Date:   Mon, 26 Apr 2021 09:41:23 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.2.2
+        id S231939AbhDZGcP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 26 Apr 2021 02:32:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53054 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231907AbhDZGcO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 26 Apr 2021 02:32:14 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C363C06175F
+        for <linux-api@vger.kernel.org>; Sun, 25 Apr 2021 23:31:33 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id 4so26687708lfp.11
+        for <linux-api@vger.kernel.org>; Sun, 25 Apr 2021 23:31:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Kc8jqGhH/i/p+4zlWWcYzH0ChU/St4I0f5Kj38coM28=;
+        b=ea1DMqRjyF1ClzXaKHMM0Z9eX6h5DFcL3hRzk2eCDRy/Ifo94Vugt7WwKUVt/pgzB6
+         Ts2xfzV3ITD4iy+zLFdec/huDftVxl3DH/3ceQHbAuweThMwKQs6kPkCG8huUR7R2sMP
+         HFyNCBke+lD8sNWbn2FOY2iO590B51S0xxShGn77Od+PgvC9j6ABRgsFYWSqQlyKua5y
+         SfTnh16O9CZZZjpXQCTHqkHLrOfIm1dFaBG0ho7el8283nr+VITUQnmTviMiHTQ6zjR9
+         R58quTJq2r6It/sq8BwbD0qcH7Oq++rc+ML6P87vxKIYvXieXTOcsOmZkuyOyEHeqEqn
+         XpDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Kc8jqGhH/i/p+4zlWWcYzH0ChU/St4I0f5Kj38coM28=;
+        b=PeSLGhPYtsCT4mOr1KGtPYxnH4CeachhyLDCsPYvU0Udz14Ms35uJjtxqUIDViQjvK
+         kxb1Ztw0KNMWN564U1Kqo+mTOWnCoUbz8Vv6LQNoFT2Ln0QFIXysg1yXztLvcxFCzUbr
+         ha2nPe2MnEPhtHHL00HRDTIK03gTVJQdTjnzM+Li0EWOQhPCQw/WFIi+79bv1cI/vyEl
+         L4WBXhz6UhqhMOPSmJ+mmscVIj4Eo4ZJeWmINFY+pTJJ0qn62z41DQYgl1yA79x3tqHR
+         TL0xFzGjuHNdCQzE2Fzk2eko1+grbmtrx0QMXt91GWlAvGgp/mLN6Kx6AdUiojgs7bZZ
+         ZHgw==
+X-Gm-Message-State: AOAM532XY386ADiCnW9LBL/kCnq1Y+4dYIMshGI0dDyWkKL6z4dLSxfC
+        FtvJFPQsp+0rHiOEGBjoFtI31Q==
+X-Google-Smtp-Source: ABdhPJwuKmHWKe78Ra3S1nRhqGYoyQaGIDPMrykQP/oSt9wVx1sOW2E55k0v8y5JqHL0ArYKyqfy9A==
+X-Received: by 2002:ac2:5e6b:: with SMTP id a11mr11636367lfr.513.1619418691736;
+        Sun, 25 Apr 2021 23:31:31 -0700 (PDT)
+Received: from box.localdomain ([86.57.175.117])
+        by smtp.gmail.com with ESMTPSA id x19sm1409635ljh.50.2021.04.25.23.31.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Apr 2021 23:31:31 -0700 (PDT)
+Received: by box.localdomain (Postfix, from userid 1000)
+        id A84621026AB; Mon, 26 Apr 2021 09:31:34 +0300 (+03)
+Date:   Mon, 26 Apr 2021 09:31:34 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v25 28/30] mm: Move arch_calc_vm_prot_bits() to
+ arch/x86/include/asm/mman.h
+Message-ID: <20210426063134.jvanqz7b3nfpwayg@box.shutemov.name>
+References: <20210415221419.31835-1-yu-cheng.yu@intel.com>
+ <20210415221419.31835-29-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210409034420.1799-1-lushenming@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.184.135]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210415221419.31835-29-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2021/4/9 11:44, Shenming Lu wrote:
-> Hi,
+On Thu, Apr 15, 2021 at 03:14:17PM -0700, Yu-cheng Yu wrote:
+> To prepare the introduction of PROT_SHSTK and be consistent with other
+> architectures, move arch_vm_get_page_prot() and arch_calc_vm_prot_bits() to
+> arch/x86/include/asm/mman.h.
 > 
-> Requesting for your comments and suggestions. :-)
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> ---
+>  arch/x86/include/asm/mman.h      | 30 ++++++++++++++++++++++++++++++
+>  arch/x86/include/uapi/asm/mman.h | 27 +++------------------------
+>  2 files changed, 33 insertions(+), 24 deletions(-)
+>  create mode 100644 arch/x86/include/asm/mman.h
+> 
+> diff --git a/arch/x86/include/asm/mman.h b/arch/x86/include/asm/mman.h
+> new file mode 100644
+> index 000000000000..629f6c81263a
+> --- /dev/null
+> +++ b/arch/x86/include/asm/mman.h
+> @@ -0,0 +1,30 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef _ASM_X86_MMAN_H
+> +#define _ASM_X86_MMAN_H
+> +
+> +#include <linux/mm.h>
+> +#include <uapi/asm/mman.h>
+> +
+> +#ifdef CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS
+> +/*
+> + * Take the 4 protection key bits out of the vma->vm_flags
+> + * value and turn them in to the bits that we can put in
+> + * to a pte.
+> + *
+> + * Only override these if Protection Keys are available
+> + * (which is only on 64-bit).
+> + */
+> +#define arch_vm_get_page_prot(vm_flags)	__pgprot(	\
+> +		((vm_flags) & VM_PKEY_BIT0 ? _PAGE_PKEY_BIT0 : 0) |	\
+> +		((vm_flags) & VM_PKEY_BIT1 ? _PAGE_PKEY_BIT1 : 0) |	\
+> +		((vm_flags) & VM_PKEY_BIT2 ? _PAGE_PKEY_BIT2 : 0) |	\
+> +		((vm_flags) & VM_PKEY_BIT3 ? _PAGE_PKEY_BIT3 : 0))
+> +
+> +#define arch_calc_vm_prot_bits(prot, key) (		\
+> +		((key) & 0x1 ? VM_PKEY_BIT0 : 0) |      \
+> +		((key) & 0x2 ? VM_PKEY_BIT1 : 0) |      \
+> +		((key) & 0x4 ? VM_PKEY_BIT2 : 0) |      \
+> +		((key) & 0x8 ? VM_PKEY_BIT3 : 0))
+> +#endif
+> +
+> +#endif /* _ASM_X86_MMAN_H */
+> diff --git a/arch/x86/include/uapi/asm/mman.h b/arch/x86/include/uapi/asm/mman.h
+> index d4a8d0424bfb..3ce1923e6ed9 100644
+> --- a/arch/x86/include/uapi/asm/mman.h
+> +++ b/arch/x86/include/uapi/asm/mman.h
+> @@ -1,31 +1,10 @@
+>  /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> -#ifndef _ASM_X86_MMAN_H
+> -#define _ASM_X86_MMAN_H
+> +#ifndef _UAPI_ASM_X86_MMAN_H
+> +#define _UAPI_ASM_X86_MMAN_H
+>  
+>  #define MAP_32BIT	0x40		/* only give out 32bit addresses */
+>  
+> -#ifdef CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS
+> -/*
+> - * Take the 4 protection key bits out of the vma->vm_flags
+> - * value and turn them in to the bits that we can put in
+> - * to a pte.
+> - *
+> - * Only override these if Protection Keys are available
+> - * (which is only on 64-bit).
+> - */
+> -#define arch_vm_get_page_prot(vm_flags)	__pgprot(	\
+> -		((vm_flags) & VM_PKEY_BIT0 ? _PAGE_PKEY_BIT0 : 0) |	\
+> -		((vm_flags) & VM_PKEY_BIT1 ? _PAGE_PKEY_BIT1 : 0) |	\
+> -		((vm_flags) & VM_PKEY_BIT2 ? _PAGE_PKEY_BIT2 : 0) |	\
+> -		((vm_flags) & VM_PKEY_BIT3 ? _PAGE_PKEY_BIT3 : 0))
+> -
+> -#define arch_calc_vm_prot_bits(prot, key) (		\
+> -		((key) & 0x1 ? VM_PKEY_BIT0 : 0) |      \
+> -		((key) & 0x2 ? VM_PKEY_BIT1 : 0) |      \
+> -		((key) & 0x4 ? VM_PKEY_BIT2 : 0) |      \
+> -		((key) & 0x8 ? VM_PKEY_BIT3 : 0))
+> -#endif
+>  
 
-Kind ping...
+Looks like you leave two empty lines here.
 
-> 
-> The static pinning and mapping problem in VFIO and possible solutions
-> have been discussed a lot [1, 2]. One of the solutions is to add I/O
-> Page Fault support for VFIO devices. Different from those relatively
-> complicated software approaches such as presenting a vIOMMU that provides
-> the DMA buffer information (might include para-virtualized optimizations),
-> IOPF mainly depends on the hardware faulting capability, such as the PCIe
-> PRI extension or Arm SMMU stall model. What's more, the IOPF support in
-> the IOMMU driver has already been implemented in SVA [3]. So we add IOPF
-> support for VFIO passthrough based on the IOPF part of SVA in this series.
-> 
-> We have measured its performance with UADK [4] (passthrough an accelerator
-> to a VM(1U16G)) on Hisilicon Kunpeng920 board (and compared with host SVA):
-> 
-> Run hisi_sec_test...
->  - with varying sending times and message lengths
->  - with/without IOPF enabled (speed slowdown)
-> 
-> when msg_len = 1MB (and PREMAP_LEN (in Patch 4) = 1):
->             slowdown (num of faults)
->  times      VFIO IOPF      host SVA
->  1          63.4% (518)    82.8% (512)
->  100        22.9% (1058)   47.9% (1024)
->  1000       2.6% (1071)    8.5% (1024)
-> 
-> when msg_len = 10MB (and PREMAP_LEN = 512):
->             slowdown (num of faults)
->  times      VFIO IOPF
->  1          32.6% (13)
->  100        3.5% (26)
->  1000       1.6% (26)
-> 
-> History:
-> 
-> v2 -> v3
->  - Nit fixes.
->  - No reason to disable reporting the unrecoverable faults. (baolu)
->  - Maintain a global IOPF enabled group list.
->  - Split the pre-mapping optimization to be a separate patch.
->  - Add selective faulting support (use vfio_pin_pages to indicate the
->    non-faultable scope and add a new struct vfio_range to record it,
->    untested). (Kevin)
-> 
-> v1 -> v2
->  - Numerous improvements following the suggestions. Thanks a lot to all
->    of you.
-> 
-> Note that PRI is not supported at the moment since there is no hardware.
-> 
-> Links:
-> [1] Lesokhin I, et al. Page Fault Support for Network Controllers. In ASPLOS,
->     2016.
-> [2] Tian K, et al. coIOMMU: A Virtual IOMMU with Cooperative DMA Buffer Tracking
->     for Efficient Memory Management in Direct I/O. In USENIX ATC, 2020.
-> [3] https://patchwork.kernel.org/project/linux-arm-kernel/cover/20210401154718.307519-1-jean-philippe@linaro.org/
-> [4] https://github.com/Linaro/uadk
-> 
-> Thanks,
-> Shenming
+Otherwise:
+
+Reviewed-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+
+>  #include <asm-generic/mman.h>
+>  
+> -#endif /* _ASM_X86_MMAN_H */
+> +#endif /* _UAPI_ASM_X86_MMAN_H */
+> -- 
+> 2.21.0
 > 
 > 
-> Shenming Lu (8):
->   iommu: Evolve the device fault reporting framework
->   vfio/type1: Add a page fault handler
->   vfio/type1: Add an MMU notifier to avoid pinning
->   vfio/type1: Pre-map more pages than requested in the IOPF handling
->   vfio/type1: VFIO_IOMMU_ENABLE_IOPF
->   vfio/type1: No need to statically pin and map if IOPF enabled
->   vfio/type1: Add selective DMA faulting support
->   vfio: Add nested IOPF support
-> 
->  .../iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c   |    3 +-
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   |   18 +-
->  drivers/iommu/iommu.c                         |   56 +-
->  drivers/vfio/vfio.c                           |   85 +-
->  drivers/vfio/vfio_iommu_type1.c               | 1000 ++++++++++++++++-
->  include/linux/iommu.h                         |   19 +-
->  include/linux/vfio.h                          |   13 +
->  include/uapi/linux/iommu.h                    |    4 +
->  include/uapi/linux/vfio.h                     |    6 +
->  9 files changed, 1181 insertions(+), 23 deletions(-)
-> 
+
+-- 
+ Kirill A. Shutemov
