@@ -2,244 +2,179 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FE4A36AC69
-	for <lists+linux-api@lfdr.de>; Mon, 26 Apr 2021 08:52:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 669DB36B1A0
+	for <lists+linux-api@lfdr.de>; Mon, 26 Apr 2021 12:27:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232007AbhDZGx0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 26 Apr 2021 02:53:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57626 "EHLO
+        id S232483AbhDZK1y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 26 Apr 2021 06:27:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231989AbhDZGxZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 26 Apr 2021 02:53:25 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A16DFC061760
-        for <linux-api@vger.kernel.org>; Sun, 25 Apr 2021 23:52:42 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id x19so56270061lfa.2
-        for <linux-api@vger.kernel.org>; Sun, 25 Apr 2021 23:52:42 -0700 (PDT)
+        with ESMTP id S232253AbhDZK1x (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 26 Apr 2021 06:27:53 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89494C061756
+        for <linux-api@vger.kernel.org>; Mon, 26 Apr 2021 03:27:12 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id p12so39762066pgj.10
+        for <linux-api@vger.kernel.org>; Mon, 26 Apr 2021 03:27:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
+        d=google.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=vSMB9b06mxY/vpzupY2c4eRnFMLlF0PHvUHRcvumkgg=;
-        b=UTW/TxvcFWW0wd0jUtmc5bZHz+RBqjHyTKfhjGUfNJ0gMZGF5u/r39dSd0sCnXiM0F
-         mWUx3Bo5Wox/miXa7Y+8FPKV4FlUkLgJbx7sC8A35/ULd2MMQ5HC7zZbqQCHjBRxLW/U
-         JKAB2yloQb7jDw3yMLK9Vm6Q2Ol+VqIDTXSzzp5gJx5/JCDaRhZsv3V8po/CE0o0gRoA
-         3rMRrMkGVPKPzAT3EgSKbTOlxehU6MaG86dYf8aNvHscerYlCcRKrzhmQoYZjtypHyrH
-         DMSnK6hBwONDGCMzBS7cjZL5iZnrmcT7mLNALBKyM6BaaQi14YNuJxL+v0KOMSlUMNTd
-         zr8w==
+        bh=fCq7GuwqxWrfP0zG2BPEk4vgQibkYkXRTf/6CONjF7w=;
+        b=DTjN/6J2o556h9+s0z3fLOtkfNzVv9SCgICxXgIPLFX8+AoKgPqACuTq4k1VsONxd3
+         v0O4S1e5BGAGciKXqm+56etmpe5wqBOwGoDadVNYWw0tDJS3uhlsvL0zIl9dxJecAlcl
+         KQx6qZVNw6m1pfJ3XTCiNogW9HWyGDykDW4diOPL5Gf6rikNjmBJoe04ADwnLyEghU+b
+         aoidb7YDzGVE9CVYolLZ5Ky4Keeq5HA8RmUbzL0+Q7+7Z3gjog6SuRbOV9rK8oJQQZO7
+         Op6lzhbYUH5PIT97XQHxWRUHhf3Kb7DAcHL7xqDwlaHBAINiEDWiUXqqgq8PKuspd9XV
+         XCig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=vSMB9b06mxY/vpzupY2c4eRnFMLlF0PHvUHRcvumkgg=;
-        b=ENt9UHJ0SCIkG5zFHPp5dk2PO/TDz5okItpv2YtcZPvBRPcBbo64ljbC8oDQuaiTMi
-         htmTyXqRp1P8kKoRiJGpDPyeRz7IOg/++RXoNrefuewHivj6Bh4l1s8RZikOFTqNs1mT
-         lqP86GnpKUElLoaWYG0Ke9x78TJ0ZTJs+Ozhi3vSu8FRWA+OenbTLBHGc+IbbixgpXZk
-         FbA8FRbB863ooqZ/vizXWOuJ6FtqrlEt3knOrMTtUyfrlSOjmA7jOnSt4wX3OfHXoVRK
-         ytCuV/LO0dyohgDbnvo81L5EBJ0F1SogHxxd1Zj/riBywbxZZJB55a1vdLA5TVyRiur1
-         E2cA==
-X-Gm-Message-State: AOAM532uJfEBBx37Se07vPb3zTirejru+wsf3QWQPNwG/JOD79x6dgah
-        ZMJBo8Jexrgi1UAaUtKidBSaow==
-X-Google-Smtp-Source: ABdhPJw+9dvYBRmAGSJb4PMciQ6ryoUSVfD6TH4Et3dNdEWA5/MZDD+GpUEvmSX2bX+W85Wbs42Nfg==
-X-Received: by 2002:ac2:5f1b:: with SMTP id 27mr11685539lfq.425.1619419960641;
-        Sun, 25 Apr 2021 23:52:40 -0700 (PDT)
-Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id v3sm285203lfo.257.2021.04.25.23.52.39
+        bh=fCq7GuwqxWrfP0zG2BPEk4vgQibkYkXRTf/6CONjF7w=;
+        b=JNEmcY67yGc3y/R6bn20B1HJnM1rM8WjXsM7Qp1c+1EXMCjHaRwduUuM4EpXxm10DE
+         rltV14bx/X0p4h9khHqNZDlm8dkArpbdebjh4LomZm3tSgGceeNBNul6n2tPNtnhRxrX
+         l0ZFYacBzKiYTm8jKE9y8vliztH1Y8H6AS4oxYgKZmTrIGP3UALkQpZZCqZy16uspUpT
+         y0Y94m0Dpobl1pUUKRcakytWP57cM2mTcZSHX3EwE+Zv39FhxBehqyoTlHdUxfuBu8Ax
+         bL6XSXtm26BuNpgQZH3DDc12EyGN6Nt/fHK3OK2u7VJonxW1iKrD/Rftt35b9hKwqKj1
+         wPIg==
+X-Gm-Message-State: AOAM531aCwwnduJ6/2+MV+XR/ed840j5ToV2O6qO6ZkZz7WMU1S2xCpj
+        Uzc2+EFjnhmMNAG1Frfzg0RZnQ==
+X-Google-Smtp-Source: ABdhPJyJR0whQZLY4qriE+qC8b4jR9IpHivd9Pv/u7Gb9sW4QiBEtei9pm7ucR/kZZmImf3ROb4hcg==
+X-Received: by 2002:a63:5c19:: with SMTP id q25mr16710460pgb.402.1619432831858;
+        Mon, 26 Apr 2021 03:27:11 -0700 (PDT)
+Received: from google.com ([2401:fa00:9:211:5345:1783:3859:c0bf])
+        by smtp.gmail.com with ESMTPSA id f71sm5219603pfa.91.2021.04.26.03.27.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Apr 2021 23:52:39 -0700 (PDT)
-Received: by box.localdomain (Postfix, from userid 1000)
-        id 973ED1026AB; Mon, 26 Apr 2021 09:52:43 +0300 (+03)
-Date:   Mon, 26 Apr 2021 09:52:43 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v25 30/30] mm: Introduce PROT_SHSTK for shadow stack
-Message-ID: <20210426065243.ozh6doz6q5xonrqe@box.shutemov.name>
-References: <20210415221419.31835-1-yu-cheng.yu@intel.com>
- <20210415221419.31835-31-yu-cheng.yu@intel.com>
+        Mon, 26 Apr 2021 03:27:11 -0700 (PDT)
+Date:   Mon, 26 Apr 2021 20:26:53 +1000
+From:   Matthew Bobrowski <repnop@google.com>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH 2/2] fanotify: Add pidfd support to the fanotify API
+Message-ID: <YIaVbWu8up3RY7gf@google.com>
+References: <e6cd967f45381d20d67c9d5a3e49e3cb9808f65b.1618527437.git.repnop@google.com>
+ <20210419132020.ydyb2ly6e3clhe2j@wittgenstein>
+ <20210419135550.GH8706@quack2.suse.cz>
+ <20210419150233.rgozm4cdbasskatk@wittgenstein>
+ <YH4+Swki++PHIwpY@google.com>
+ <20210421080449.GK8706@quack2.suse.cz>
+ <YIIBheuHHCJeY6wJ@google.com>
+ <CAOQ4uxhUcefbu+5pLKfx7b-kOPP2OB+_RRPMPDX1vLk36xkZnQ@mail.gmail.com>
+ <YIJ/JHdaPv2oD+Jd@google.com>
+ <CAOQ4uxhyGKSM3LFKRtgNe+HmkUJRCFwafXdgC_8ysg7Bs43rWg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210415221419.31835-31-yu-cheng.yu@intel.com>
+In-Reply-To: <CAOQ4uxhyGKSM3LFKRtgNe+HmkUJRCFwafXdgC_8ysg7Bs43rWg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Apr 15, 2021 at 03:14:19PM -0700, Yu-cheng Yu wrote:
-> There are three possible options to create a shadow stack allocation API:
-> an arch_prctl, a new syscall, or adding PROT_SHSTK to mmap()/mprotect().
-> Each has its advantages and compromises.
+On Fri, Apr 23, 2021 at 11:14:34AM +0300, Amir Goldstein wrote:
+> On Fri, Apr 23, 2021 at 11:02 AM Matthew Bobrowski <repnop@google.com> wrote:
+> >
+> > On Fri, Apr 23, 2021 at 10:39:46AM +0300, Amir Goldstein wrote:
+> > > On Fri, Apr 23, 2021 at 2:06 AM Matthew Bobrowski <repnop@google.com> wrote:
+> > > >
+> > > > On Wed, Apr 21, 2021 at 10:04:49AM +0200, Jan Kara wrote:
+> > > > > On Tue 20-04-21 12:36:59, Matthew Bobrowski wrote:
+> > > > > > On Mon, Apr 19, 2021 at 05:02:33PM +0200, Christian Brauner wrote:
+> > > > > > > A general question about struct fanotify_event_metadata and its
+> > > > > > > extensibility model:
+> > > > > > > looking through the code it seems that this struct is read via
+> > > > > > > fanotify_rad(). So the user is expected to supply a buffer with at least
+> > > > > > >
+> > > > > > > #define FAN_EVENT_METADATA_LEN (sizeof(struct fanotify_event_metadata))
+> > > > > > >
+> > > > > > > bytes. In addition you can return the info to the user about how many
+> > > > > > > bytes the kernel has written from fanotify_read().
+> > > > > > >
+> > > > > > > So afaict extending fanotify_event_metadata should be _fairly_
+> > > > > > > straightforward, right? It would essentially the complement to
+> > > > > > > copy_struct_from_user() which Aleksa and I added (1 or 2 years ago)
+> > > > > > > which deals with user->kernel and you're dealing with kernel->user:
+> > > > > > > - If the user supplied a buffer smaller than the minimum known struct
+> > > > > > >   size -> reject.
+> > > > > > > - If the user supplied a buffer < smaller than what the current kernel
+> > > > > > >   supports -> copy only what userspace knows about, and return the size
+> > > > > > >   userspace knows about.
+> > > > > > > - If the user supplied a buffer that is larger than what the current
+> > > > > > >   kernel knows about -> copy only what the kernel knows about, zero the
+> > > > > > >   rest, and return the kernel size.
+> > > > > > >
+> > > > > > > Extension should then be fairly straightforward (64bit aligned
+> > > > > > > increments)?
+> > > > > >
+> > > > > > You'd think that it's fairly straightforward, but I have a feeling
+> > > > > > that the whole fanotify_event_metadata extensibility discussion and
+> > > > > > the current limitation to do so revolves around whether it can be
+> > > > > > achieved in a way which can guarantee that no userspace applications
+> > > > > > would break. I think the answer to this is that there's no guarantee
+> > > > > > because of <<reasons>>, so the decision to extend fanotify's feature
+> > > > > > set was done via other means i.e. introduction of additional
+> > > > > > structures.
+> > > > >
+> > > > > There's no real problem extending fanotify_event_metadata. We already have
+> > > > > multiple extended version of that structure in use (see e.g. FAN_REPORT_FID
+> > > > > flag and its effect, extended versions of the structure in
+> > > > > include/uapi/linux/fanotify.h). The key for backward compatibility is to
+> > > > > create extended struct only when explicitely requested by a flag when
+> > > > > creating notification group - and that would be the case here -
+> > > > > FAN_REPORT_PIDFD or how you called it. It is just that extending the
+> > > > > structure means adding 8 bytes to each event and parsing extended structure
+> > > > > is more cumbersome than just fetching s32 from a well known location.
+> > > > >
+> > > > > On the other hand extended structure is self-describing (i.e., you can tell
+> > > > > the meaning of all the fields just from the event you receive) while
+> > > > > reusing 'pid' field means that you have to know how the notification group
+> > > > > was created (whether FAN_REPORT_PIDFD was used or not) to be able to
+> > > > > interpret the contents of the event. Actually I think the self-describing
+> > > > > feature of fanotify event stream is useful (e.g. when application manages
+> > > > > multiple fanotify groups or when fanotify group descriptors are passed
+> > > > > among processes) so now I'm more leaning towards using the extended
+> > > > > structure instead of reusing 'pid' as Christian suggests. I'm sorry for the
+> > > > > confusion.
+> > > >
+> > > > This approach makes sense to me.
+> > > >
+> > > > Jan/Amir, just to be clear, we've agreed to go ahead with the extended
+> > > > struct approach whereby specifying the FAN_REPORT_PIDFD flag will
+> > > > result in an event which includes an additional struct
+> > > > (i.e. fanotify_event_info_pid) alongside the generic existing
+> > >
+> > > struct fanotify_event_info_pidfd?
+> >
+> > Well, yeah? I mean, my line of thought was that we'd also need to
+> > include struct fanotify_event_info_header alongside the event to
+> > provide more meta-information about the additional event you'd expect
+> > to receive when FAN_REPORT_PIDFD is provided, so we'd end up with
+> > something like:
+> >
+> > struct fanotify_event_info_pidfd {
+> >        struct fanotify_event_info_header hdr;
+> >        __s32 pidfd;
+> > }
+> >
+> > Unless this of course is overbaking it and there's no need to do this?
+> >
 > 
-> An arch_prctl() is the least intrusive.  However, the existing x86
-> arch_prctl() takes only two parameters.  Multiple parameters must be
-> passed in a memory buffer.  There is a proposal to pass more parameters in
-> registers [1], but no active discussion on that.
-> 
-> A new syscall minimizes compatibility issues and offers an extensible frame
-> work to other architectures, but this will likely result in some overlap of
-> mmap()/mprotect().
-> 
-> The introduction of PROT_SHSTK to mmap()/mprotect() takes advantage of
+> We need this. I was just pointing out that you wrote fanotify_event_info_pid
+> must have been a typo.
 
-Maybe PROT_SHADOW_STACK?
+Oh, right, that sure was a typo! :)
 
-> existing APIs.  The x86-specific PROT_SHSTK is translated to
-> VM_SHADOW_STACK and a shadow stack mapping is created without reinventing
-> the wheel.  There are potential pitfalls though.  The most obvious one
-> would be using this as a bypass to shadow stack protection.  However, the
-> attacker would have to get to the syscall first.
-> 
-> [1] https://lore.kernel.org/lkml/20200828121624.108243-1-hjl.tools@gmail.com/
-> 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> ---
-> v24:
-> - Update arch_calc_vm_prot_bits(), leave PROT* checking to
->   arch_validate_prot().
-> - Update arch_validate_prot(), leave vma flags checking to
->   arch_validate_flags().
-> - Add arch_validate_flags().
-> 
->  arch/x86/include/asm/mman.h      | 59 +++++++++++++++++++++++++++++++-
->  arch/x86/include/uapi/asm/mman.h |  1 +
->  include/linux/mm.h               |  1 +
->  3 files changed, 60 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/x86/include/asm/mman.h b/arch/x86/include/asm/mman.h
-> index 629f6c81263a..1821c179f35d 100644
-> --- a/arch/x86/include/asm/mman.h
-> +++ b/arch/x86/include/asm/mman.h
-> @@ -20,11 +20,68 @@
->  		((vm_flags) & VM_PKEY_BIT2 ? _PAGE_PKEY_BIT2 : 0) |	\
->  		((vm_flags) & VM_PKEY_BIT3 ? _PAGE_PKEY_BIT3 : 0))
->  
-> -#define arch_calc_vm_prot_bits(prot, key) (		\
-> +#define pkey_vm_prot_bits(prot, key) (			\
->  		((key) & 0x1 ? VM_PKEY_BIT0 : 0) |      \
->  		((key) & 0x2 ? VM_PKEY_BIT1 : 0) |      \
->  		((key) & 0x4 ? VM_PKEY_BIT2 : 0) |      \
->  		((key) & 0x8 ? VM_PKEY_BIT3 : 0))
-> +#else
-> +#define pkey_vm_prot_bits(prot, key) (0)
->  #endif
->  
-> +static inline unsigned long arch_calc_vm_prot_bits(unsigned long prot,
-> +						   unsigned long pkey)
-> +{
-> +	unsigned long vm_prot_bits = pkey_vm_prot_bits(prot, pkey);
-> +
-> +	if (prot & PROT_SHSTK)
-> +		vm_prot_bits |= VM_SHADOW_STACK;
-> +
-> +	return vm_prot_bits;
-> +}
-> +
-> +#define arch_calc_vm_prot_bits(prot, pkey) arch_calc_vm_prot_bits(prot, pkey)
-> +
-> +#ifdef CONFIG_X86_SHADOW_STACK
-> +static inline bool arch_validate_prot(unsigned long prot, unsigned long addr)
-> +{
-> +	unsigned long valid = PROT_READ | PROT_WRITE | PROT_EXEC | PROT_SEM |
-> +			      PROT_SHSTK;
-> +
-> +	if (prot & ~valid)
-> +		return false;
-> +
-> +	if (prot & PROT_SHSTK) {
-> +		if (!current->thread.cet.shstk_size)
-> +			return false;
-> +
-> +		/*
-> +		 * A shadow stack mapping is indirectly writable by only
-> +		 * the CALL and WRUSS instructions, but not other write
-> +		 * instructions).  PROT_SHSTK and PROT_WRITE are mutually
-> +		 * exclusive.
-> +		 */
-> +		if (prot & PROT_WRITE)
-> +			return false;
-> +	}
-> +
-> +	return true;
-> +}
-> +
-> +#define arch_validate_prot arch_validate_prot
-> +
-> +static inline bool arch_validate_flags(unsigned long vm_flags, bool is_anon)
-> +{
-> +	if (vm_flags & VM_SHADOW_STACK) {
-> +		if ((vm_flags & VM_SHARED) || !is_anon)
+Amir, I was just thinking about this a little over the weekend and I
+don't think we discussed how to handle the FAN_REPORT_PIDFD |
+FAN_REPORT_FID and friends case? My immediate thought is to make
+FAN_REPORT_PIDFD mutually exclusive with FAN_REPORT_FID and friends,
+but then again receiving a pidfd along with FID events may be also
+useful for some? What are your thoughts on this? If we don't go ahead
+with mutual exclusion, then this multiple event types alongside struct
+fanotify_event_metadata starts getting a little clunky, don't you
+think?
 
-VM_SHARED check is redundant. vma_is_anonymous() should be enough.
-Anonymous shared mappings would fail vma_is_anonymous().
-
-> +			return false;
-> +	}
-> +
-> +	return true;
-> +}
-> +
-> +#define arch_validate_flags(vm_flags, is_anon) arch_validate_flags(vm_flags, is_anon)
-> +
-> +#endif /* CONFIG_X86_SHADOW_STACK */
-> +
->  #endif /* _ASM_X86_MMAN_H */
-> diff --git a/arch/x86/include/uapi/asm/mman.h b/arch/x86/include/uapi/asm/mman.h
-> index 3ce1923e6ed9..39bb7db344a6 100644
-> --- a/arch/x86/include/uapi/asm/mman.h
-> +++ b/arch/x86/include/uapi/asm/mman.h
-> @@ -4,6 +4,7 @@
->  
->  #define MAP_32BIT	0x40		/* only give out 32bit addresses */
->  
-> +#define PROT_SHSTK	0x10		/* shadow stack pages */
->  
->  #include <asm-generic/mman.h>
->  
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 1ccec5cc399b..9a7652eea207 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -342,6 +342,7 @@ extern unsigned int kobjsize(const void *objp);
->  
->  #if defined(CONFIG_X86)
->  # define VM_PAT		VM_ARCH_1	/* PAT reserves whole VMA at once (x86) */
-> +# define VM_ARCH_CLEAR	VM_SHADOW_STACK
->  #elif defined(CONFIG_PPC)
->  # define VM_SAO		VM_ARCH_1	/* Strong Access Ordering (powerpc) */
->  #elif defined(CONFIG_PARISC)
-> -- 
-> 2.21.0
-> 
-> 
-
--- 
- Kirill A. Shutemov
+/M
