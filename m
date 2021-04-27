@@ -2,56 +2,58 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC03436CAD2
-	for <lists+linux-api@lfdr.de>; Tue, 27 Apr 2021 20:03:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5818C36CC45
+	for <lists+linux-api@lfdr.de>; Tue, 27 Apr 2021 22:29:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238819AbhD0SEJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 27 Apr 2021 14:04:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59983 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S238526AbhD0SEE (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 27 Apr 2021 14:04:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1619546600;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=uxq6LnPiTdql8TXSE99+fcYiPX1sdJEySNHvDoQFyd4=;
-        b=SKhB7exCvRRzgTjbfIbZovSy+ZRh3bNfNB9xomIZaflGLM7Zx4oUBV1+hmLD72PDTSwVe+
-        cX1JHmDX7XJgxcwEzgEjP7NY3elVF6JWmrAVWdkFzz5GFX3G6C8qMn4HSXn5cg0R+I8SGE
-        YHfxGWnWtN/pFuFCMXkbst2Bf4+H/KQ=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-402-RsPhAnXONL6OXC2L6WDObQ-1; Tue, 27 Apr 2021 14:03:18 -0400
-X-MC-Unique: RsPhAnXONL6OXC2L6WDObQ-1
-Received: by mail-qk1-f197.google.com with SMTP id h15-20020a37de0f0000b029029a8ada2e18so23482369qkj.11
-        for <linux-api@vger.kernel.org>; Tue, 27 Apr 2021 11:03:18 -0700 (PDT)
+        id S236967AbhD0Uag (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 27 Apr 2021 16:30:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50032 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235401AbhD0Uag (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 27 Apr 2021 16:30:36 -0400
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 402B2C061574
+        for <linux-api@vger.kernel.org>; Tue, 27 Apr 2021 13:29:52 -0700 (PDT)
+Received: by mail-io1-xd36.google.com with SMTP id g125so6602043iof.3
+        for <linux-api@vger.kernel.org>; Tue, 27 Apr 2021 13:29:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WzJWSS3LQ6tF0DgK++1lrPiC81dYzxiPck8oPTQIuQM=;
+        b=gbNFD7FoTA7n8IPPyw2KHOylIt8tzudj0Lpkdgu7mzsab/vYDoCX8VQ2+pW2PafQbp
+         JxR1XGRxzePWZg0k/lL8HrzfJX1SnDe5TpFzpooVXmvhCVtquqkAHffLdiPX/s4G6iTl
+         9ONp86hzSzE7P1p3W+LL5QOZ/CQ3Ze/kT8jGK0OwsPFtA9fF3Z8j93LJX1jAzWtovcFo
+         wraUFwADLhrGc/ZRhKyMAE1vzcpZTFlKnS3wTfzLUX/OyuUTfXrJrtKvBZoyZWbDyJDM
+         IGj8vWkjpL1dSCRy2ZHIBkB+wFNwbbCdZZCFIG8416YkWzweIhGhpxBxMpCiUWXMipAc
+         5UdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=uxq6LnPiTdql8TXSE99+fcYiPX1sdJEySNHvDoQFyd4=;
-        b=PMGBZaMm0qPkH236WuNX3KZhbuI4Ng6z69990BWP9T/EyTHTYDOnOy9xqwvppBHsRl
-         ZdJwOVsYhcthGXyuvAdaKkGs0uqqFefI9vxrjfm2PCe9QngiSG5rh2G7i3a7IwClvU2H
-         whr1i+6MCutwvHK9Vl23Or1XodwNev5eg9GMJPOqHfJJQNVY8nBzkH5OIv6BwTPvhVya
-         hKBPE48HY0/GG+t8V25+yu+7xra64oF2zOaMr0aYwUQRZpkt0NgaNmuuQbGhcXUQvdt/
-         aOlcqQgJ+Gvh7Inhl1MEegFxjoMcckzOUwIND7Y77A1MEoDTSW8YQKUufHk6giNUmHmb
-         u58Q==
-X-Gm-Message-State: AOAM530ixlqx2S8+93bfpzGqPfDeUdS+RRJqz+L3Ahve0BXDl3wuV5gr
-        gwAGVMZYVt5I7qiHOIHmyM6N11m+t9xL9rm9i4Z11IpnLhi/dZJQiqBFzehs/A+KE8cWPheKR2V
-        +AHohNqV4EGAOiNr6dh8x
-X-Received: by 2002:a05:620a:f:: with SMTP id j15mr24057474qki.307.1619546597725;
-        Tue, 27 Apr 2021 11:03:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJztCC+XrZldYdKF/5ItbBDWFXLnijjmmS8bfVQi6TI1Vej0NaMb+NFRcFob5jVc3TcuhD2/Iw==
-X-Received: by 2002:a05:620a:f:: with SMTP id j15mr24057430qki.307.1619546597418;
-        Tue, 27 Apr 2021 11:03:17 -0700 (PDT)
-Received: from xz-x1 (bras-base-toroon474qw-grc-77-184-145-104-227.dsl.bell.ca. [184.145.104.227])
-        by smtp.gmail.com with ESMTPSA id q26sm1313209qkn.81.2021.04.27.11.03.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Apr 2021 11:03:16 -0700 (PDT)
-Date:   Tue, 27 Apr 2021 14:03:14 -0400
-From:   Peter Xu <peterx@redhat.com>
-To:     Axel Rasmussen <axelrasmussen@google.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WzJWSS3LQ6tF0DgK++1lrPiC81dYzxiPck8oPTQIuQM=;
+        b=rFzHqpXM7ytoliGfZyZ5ENNK1DyJbOFSut9IvT4A5JmhHVYW0NV0kmCo2S6+2eFb61
+         1c/Z8OcSYGpcbEe21ALzOpIt4TUNkSgL09i13+/y542uY72gcMGRl4uUqqsP3fn3iHKA
+         zXGgvpGlUWDufP6oGq9q8MqyoTVDPhLgRLH5o2m4MwBvd9ruv9Tcs1vy914Vgw62AXjT
+         9WFU1hgFitA0LQVG243gRrtW2V8LosAX1B049UBuXyQCjqSNcMbIde6MF1S26nMB+yzj
+         7GSRZ4exnJmUG5Exdo/dhM35laJbmhdH9Y0c7Xa0jTK8igOB6K7HjnDPUA70dVYagkxd
+         rhuw==
+X-Gm-Message-State: AOAM532JLPCUkzNprUNdwQnDvPTfcT09r/EbhMFc4NycONmrOcHxcsUT
+        tuKrWzbjSb2K1Vdo+dHqB4J1yVDZ+yphHZ1gH+Tr9A==
+X-Google-Smtp-Source: ABdhPJz7iNqaf7JHZFiCQ426WqlOiaRzxCMbG8Vk0qKa7/LDNoylh0febweO3CgkD2dvFe5U0B95hMpS/QZFyMb3tpE=
+X-Received: by 2002:a05:6638:3387:: with SMTP id h7mr12471126jav.96.1619555391579;
+ Tue, 27 Apr 2021 13:29:51 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210420220804.486803-1-axelrasmussen@google.com>
+ <20210420220804.486803-4-axelrasmussen@google.com> <alpine.LSU.2.11.2104261906390.2998@eggly.anvils>
+ <20210427155414.GB6820@xz-x1> <CAJHvVciNrE_F0B0nu=Mib6LhcFhL8+qgO-yiKNsJuBjOMkn5+g@mail.gmail.com>
+ <20210427180314.GD6820@xz-x1>
+In-Reply-To: <20210427180314.GD6820@xz-x1>
+From:   Axel Rasmussen <axelrasmussen@google.com>
+Date:   Tue, 27 Apr 2021 13:29:14 -0700
+Message-ID: <CAJHvVciMU=TDGxArtEQSq3n5DCLfYNWh7bVX_8dQL_dht4Q73w@mail.gmail.com>
+Subject: Re: [PATCH v4 03/10] userfaultfd/shmem: support UFFDIO_CONTINUE for shmem
+To:     Peter Xu <peterx@redhat.com>
 Cc:     Hugh Dickins <hughd@google.com>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
         Andrea Arcangeli <aarcange@redhat.com>,
@@ -70,59 +72,63 @@ Cc:     Hugh Dickins <hughd@google.com>,
         "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
         Mina Almasry <almasrymina@google.com>,
         Oliver Upton <oupton@google.com>
-Subject: Re: [PATCH v4 03/10] userfaultfd/shmem: support UFFDIO_CONTINUE for
- shmem
-Message-ID: <20210427180314.GD6820@xz-x1>
-References: <20210420220804.486803-1-axelrasmussen@google.com>
- <20210420220804.486803-4-axelrasmussen@google.com>
- <alpine.LSU.2.11.2104261906390.2998@eggly.anvils>
- <20210427155414.GB6820@xz-x1>
- <CAJHvVciNrE_F0B0nu=Mib6LhcFhL8+qgO-yiKNsJuBjOMkn5+g@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAJHvVciNrE_F0B0nu=Mib6LhcFhL8+qgO-yiKNsJuBjOMkn5+g@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Apr 27, 2021 at 09:57:16AM -0700, Axel Rasmussen wrote:
-> I'd prefer to keep them separate, as they are not tiny patches (they
-> are roughly +200/-150 each). And, they really are quite independent -
-> at least in the sense that I can reorder them via rebase with no
-> conflicts, and the code builds at each commit in either orientation. I
-> think this implies they're easier to review separately, rather than
-> squashed.
-> 
-> I don't have a strong feeling about the order. I slightly prefer
-> swapping them compared to this v4 series: first introduce minor
-> faults, then introduce CONTINUE.
-> 
-> Since Peter also has no strong opinion, and Hugh it sounds like you
-> prefer it the other way around, I'll swap them as we had in some
-> previous version of this series: first introduce minor faults, then
-> introduce CONTINUE.
+On Tue, Apr 27, 2021 at 11:03 AM Peter Xu <peterx@redhat.com> wrote:
+>
+> On Tue, Apr 27, 2021 at 09:57:16AM -0700, Axel Rasmussen wrote:
+> > I'd prefer to keep them separate, as they are not tiny patches (they
+> > are roughly +200/-150 each). And, they really are quite independent -
+> > at least in the sense that I can reorder them via rebase with no
+> > conflicts, and the code builds at each commit in either orientation. I
+> > think this implies they're easier to review separately, rather than
+> > squashed.
+> >
+> > I don't have a strong feeling about the order. I slightly prefer
+> > swapping them compared to this v4 series: first introduce minor
+> > faults, then introduce CONTINUE.
+> >
+> > Since Peter also has no strong opinion, and Hugh it sounds like you
+> > prefer it the other way around, I'll swap them as we had in some
+> > previous version of this series: first introduce minor faults, then
+> > introduce CONTINUE.
+>
+> Yes I have no strong opinion, but that's probably the least I prefer. :-)
+>
+> Because you'll declare UFFD_FEATURE_MINOR_SHMEM and enable this feature without
+> the feature being completely implemented (without UFFDIO_CONTINUE, it's not
+> complete since no one will be able to resolve that minor fault).
+>
+> Not a big deal anyway, but since we're at it... Basically I think three things
+> to do for minor shmem support:
+>
+>   (1) UFFDIO_CONTINUE (resolving path)
+>   (2) Handle fault path for shmem minor fault (faulting path)
+>   (3) Enablement of UFFD_FEATURE_MINOR_SHMEM (from which point, user can detect
+>       and enable it)
+>
+> I have no preference on how you'd like to merge these steps (right now you did
+> 1 first, then 2+3 later; or as Hugh suggested do 1+2+3 together), but I'd still
+> hope item 3 should always be the last, if possible...
 
-Yes I have no strong opinion, but that's probably the least I prefer. :-)
+In that case, I'll split the patch which adds the faulting path in
+two: add the faulting path hook and registration mode, and then in a
+separate commit advertise the feature flag as available.
 
-Because you'll declare UFFD_FEATURE_MINOR_SHMEM and enable this feature without
-the feature being completely implemented (without UFFDIO_CONTINUE, it's not
-complete since no one will be able to resolve that minor fault).
+Then I'll order them like so, which I think is the order Hugh finds
+more natural:
+1. MInor fault registration / faulting path
+2. CONTINUE ioctl to resolve the faults
+3. Advertise the feature as supported
 
-Not a big deal anyway, but since we're at it... Basically I think three things
-to do for minor shmem support:
+Sound okay?
 
-  (1) UFFDIO_CONTINUE (resolving path)
-  (2) Handle fault path for shmem minor fault (faulting path)
-  (3) Enablement of UFFD_FEATURE_MINOR_SHMEM (from which point, user can detect
-      and enable it)
-
-I have no preference on how you'd like to merge these steps (right now you did
-1 first, then 2+3 later; or as Hugh suggested do 1+2+3 together), but I'd still
-hope item 3 should always be the last, if possible...
-
-Thanks,
-
--- 
-Peter Xu
-
+>
+> Thanks,
+>
+> --
+> Peter Xu
+>
