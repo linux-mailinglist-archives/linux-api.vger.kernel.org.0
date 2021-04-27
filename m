@@ -2,121 +2,142 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E906536BEC4
-	for <lists+linux-api@lfdr.de>; Tue, 27 Apr 2021 07:14:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5B0736C8E6
+	for <lists+linux-api@lfdr.de>; Tue, 27 Apr 2021 17:54:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229501AbhD0FPA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 27 Apr 2021 01:15:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44838 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229490AbhD0FPA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 27 Apr 2021 01:15:00 -0400
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88052C061574;
-        Mon, 26 Apr 2021 22:14:17 -0700 (PDT)
-Received: by mail-io1-xd30.google.com with SMTP id z14so5918634ioc.12;
-        Mon, 26 Apr 2021 22:14:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=87Lm91kN/3Qbc2jjLMsMI7GIKlbTexNd8/+SAT00H2M=;
-        b=alq2icoG6JRXKNkjZau2ZOITg5AincB13ZN4k3TejPqBcfJvRUlW8iaYqLX2ixF6x2
-         9uTDOr/oua4Njt5nKLETIUj1xg4qt/l0l0Bvj+vXRz7m77gmuKNCydGDrEDpiPoPr2EU
-         I7h31bkDZpKYMY0JfuGZUl8je9BUQrE0zlo3dpPLFzbgWObzODFq16u5MVx8ErW5FE17
-         9FtYE5k5mnVv2bqMfrOSj+mShxO60Z9beg1mvQ6YD3JUa3ZWar96k+Kvo1GYH4DOjBst
-         z9YKNf6Sw7wo5cR018aFpf7LHYLb/jMyo+ho2eXxDK8vhLAnjaIjmbYEiXNp/MNsQshQ
-         0KGg==
+        id S236465AbhD0PzG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 27 Apr 2021 11:55:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48220 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234932AbhD0PzE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 27 Apr 2021 11:55:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1619538860;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=F2EAyRlyPf7sFuC/hgHV65Ah6f40dk7Oz+0C6LVfX60=;
+        b=Umcgh4d7jLM4rrJZP1qHMUA9yCzNESquu+rEWCx41UBNI3ptHWgWpTm4clIwu/hOGho70w
+        r+2Wb3v9LT4LwwbljS6TltAyUbjIumo0wqjnlbixrE44aqhZMfTDOdMo7Helz1Vl19Cb54
+        KM/7zx3HHS+nPR4qbXKUsNZ4FnG1EQ8=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-452-skK4X3JQOCmsMZs8qXN04g-1; Tue, 27 Apr 2021 11:54:17 -0400
+X-MC-Unique: skK4X3JQOCmsMZs8qXN04g-1
+Received: by mail-qv1-f71.google.com with SMTP id w9-20020a0cdf890000b029019aa511c767so3855556qvl.18
+        for <linux-api@vger.kernel.org>; Tue, 27 Apr 2021 08:54:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=87Lm91kN/3Qbc2jjLMsMI7GIKlbTexNd8/+SAT00H2M=;
-        b=J9W2eGwSD5oYIWPbQ2UqETh0GCACa5R76FeAE8dgQ57M3rBA2MZ07iMQqsHNoOjCu/
-         wfSl/qYqTd48bnPAmbgAg6NRmfaAJ7oKcwaKg/tKO1ykEIpQzjPzjqJfC7c2/6qmh8hD
-         z/pPbeJn0YpnPWG7dQqEpmC28FFhv673zXHL8ux+nMl8SkLnVFjOt3AOSjaGvppZ1K3p
-         Wk+9VWxdJ9tWHZPBPnOCQXA6cha51R7nKaKccMKwG1NqWURI70De0L6vCpRGI40oFX87
-         N7ZvmBg+ZmFhF1DEzDyqzfoe2plAXWEnB3ylShDmjGamRJr9p/3YliR2cRCGnKoW3IZ3
-         yEAQ==
-X-Gm-Message-State: AOAM533UnTqMYdtZeGt2bMA9+KQwNQe0lZBWUp07TG+UONQoQEbLhGP1
-        95VfX0cGngvAnMezivDW3iWBOhQ642ztPmNsuvI=
-X-Google-Smtp-Source: ABdhPJxMFt7k/ovMax4BVSg5a4SRjixVISvQhtFJuY3RKmheXQtXllKdwKPz79rgrcETa+Gk4oO/Tahb2ZDCG2jGsao=
-X-Received: by 2002:a6b:f00f:: with SMTP id w15mr17384051ioc.72.1619500457018;
- Mon, 26 Apr 2021 22:14:17 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=F2EAyRlyPf7sFuC/hgHV65Ah6f40dk7Oz+0C6LVfX60=;
+        b=mT7odtBDNtM0wgCdoK5ewz8X+PevwjKf6XjeIvIIZlvumktTt06CsxzSJ7v1icKmxK
+         ant4LwkXvB7OkEdkXThYgiVD+vdKn3QnmZ+K/200+8KFhV0M8hgzVy0oMCnZndxLG6wB
+         l3P40HROkWw2Bll1+eT9U+u/MqYBHx0gKybAlM2WKMbSQahOAREcGtWvCWqPqOg5c335
+         Q7hXD6ltq7UQYirHM+ylP0bMqFjHazEpdYK58dGCkE0fXeXpAIVBkdCaLXDoYNU/ysVy
+         Qa1a1WmDAuaKqdP+Kw8UfwXm16zlFjsDQYohG1L352BqPjxO6B4YmPj4AJE2Cb0xhtCe
+         +ekQ==
+X-Gm-Message-State: AOAM5305iGjraxtd5739v4BFCLG/KAwsou+5ySj30ubEJELCvo0vndCE
+        uin2KiexlYD/GNqCxHylZyObJT5eW0X8UkqlEsm0yYy9cI/uKtUGQ9P4+EqoMPefaSqkW8AOza/
+        sWNcerkz2usl1jCMcdJHC
+X-Received: by 2002:ac8:4455:: with SMTP id m21mr11149097qtn.192.1619538857286;
+        Tue, 27 Apr 2021 08:54:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxjPXLMKWECur9Mqt8jATos9gtIg5JYkYXdpYunNG2EodbYnflzFS1Fc8CUzF2HNgSB2Ko5hg==
+X-Received: by 2002:ac8:4455:: with SMTP id m21mr11149060qtn.192.1619538857004;
+        Tue, 27 Apr 2021 08:54:17 -0700 (PDT)
+Received: from xz-x1 (bras-base-toroon474qw-grc-77-184-145-104-227.dsl.bell.ca. [184.145.104.227])
+        by smtp.gmail.com with ESMTPSA id f24sm167754qto.45.2021.04.27.08.54.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Apr 2021 08:54:16 -0700 (PDT)
+Date:   Tue, 27 Apr 2021 11:54:14 -0400
+From:   Peter Xu <peterx@redhat.com>
+To:     Hugh Dickins <hughd@google.com>
+Cc:     Axel Rasmussen <axelrasmussen@google.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jerome Glisse <jglisse@redhat.com>,
+        Joe Perches <joe@perches.com>,
+        Lokesh Gidra <lokeshgidra@google.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Shaohua Li <shli@fb.com>, Shuah Khan <shuah@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Wang Qing <wangqing@vivo.com>, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+        Brian Geffon <bgeffon@google.com>,
+        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+        Mina Almasry <almasrymina@google.com>,
+        Oliver Upton <oupton@google.com>
+Subject: Re: [PATCH v4 03/10] userfaultfd/shmem: support UFFDIO_CONTINUE for
+ shmem
+Message-ID: <20210427155414.GB6820@xz-x1>
+References: <20210420220804.486803-1-axelrasmussen@google.com>
+ <20210420220804.486803-4-axelrasmussen@google.com>
+ <alpine.LSU.2.11.2104261906390.2998@eggly.anvils>
 MIME-Version: 1.0
-References: <20210419135550.GH8706@quack2.suse.cz> <20210419150233.rgozm4cdbasskatk@wittgenstein>
- <YH4+Swki++PHIwpY@google.com> <20210421080449.GK8706@quack2.suse.cz>
- <YIIBheuHHCJeY6wJ@google.com> <CAOQ4uxhUcefbu+5pLKfx7b-kOPP2OB+_RRPMPDX1vLk36xkZnQ@mail.gmail.com>
- <YIJ/JHdaPv2oD+Jd@google.com> <CAOQ4uxhyGKSM3LFKRtgNe+HmkUJRCFwafXdgC_8ysg7Bs43rWg@mail.gmail.com>
- <YIaVbWu8up3RY7gf@google.com> <CAOQ4uxhp3khQ9Ln2g9s5WLEsb-Cv2vdsZTuYUgQx-DW6GR1RmQ@mail.gmail.com>
- <YIeGefkB+cHMsDse@google.com>
-In-Reply-To: <YIeGefkB+cHMsDse@google.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Tue, 27 Apr 2021 08:14:05 +0300
-Message-ID: <CAOQ4uxjAqh3xVpigrJe1k01Fy5-rJRxxLGw92BwWtU4zjr=Wjg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] fanotify: Add pidfd support to the fanotify API
-To:     Matthew Bobrowski <repnop@google.com>
-Cc:     Jan Kara <jack@suse.cz>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <alpine.LSU.2.11.2104261906390.2998@eggly.anvils>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Apr 27, 2021 at 6:35 AM Matthew Bobrowski <repnop@google.com> wrote:
->
-> On Mon, Apr 26, 2021 at 02:11:30PM +0300, Amir Goldstein wrote:
-> > > Amir, I was just thinking about this a little over the weekend and I
-> > > don't think we discussed how to handle the FAN_REPORT_PIDFD |
-> > > FAN_REPORT_FID and friends case? My immediate thought is to make
-> > > FAN_REPORT_PIDFD mutually exclusive with FAN_REPORT_FID and friends,
-> > > but then again receiving a pidfd along with FID events may be also
-> > > useful for some? What are your thoughts on this? If we don't go ahead
-> > > with mutual exclusion, then this multiple event types alongside struct
-> > > fanotify_event_metadata starts getting a little clunky, don't you
-> > > think?
-> > >
-> >
-> > The current format of an fanotify event already supports multiple info records:
-> >
-> > [fanotify_event_metadata]
-> > [[fanotify_event_info_header][event record #1]]
-> > [[fanotify_event_info_header][event record #2]]...
-> >
-> > (meta)->event_len is the total event length including all info records.
-> >
-> > For example, FAN_REPORT_FID | FAN_REPORT_DFID_MAME produces
-> > (for some events) two info records, one FAN_EVENT_INFO_TYPE_FID
-> > record and one FAN_EVENT_INFO_TYPE_DFID_NAME record.
->
-> Ah, that's right! I now remember reviewing some patches associated
-> with the FID change series which mentioned the possibility of
-> receiving multiple FID info records. As the implementation currently
-> stands, AFAIK there's not possibility for fanotify to ever return more
-> than two info records, right?
->
+On Mon, Apr 26, 2021 at 07:19:58PM -0700, Hugh Dickins wrote:
+> On Tue, 20 Apr 2021, Axel Rasmussen wrote:
+> 
+> > With this change, userspace can resolve a minor fault within a
+> > shmem-backed area with a UFFDIO_CONTINUE ioctl. The semantics for this
+> > match those for hugetlbfs - we look up the existing page in the page
+> > cache, and install a PTE for it.
+> > 
+> > This commit introduces a new helper: mcopy_atomic_install_pte.
+> > 
+> > Why handle UFFDIO_CONTINUE for shmem in mm/userfaultfd.c, instead of in
+> > shmem.c? The existing userfault implementation only relies on shmem.c
+> > for VM_SHARED VMAs. However, minor fault handling / CONTINUE work just
+> > fine for !VM_SHARED VMAs as well. We'd prefer to handle CONTINUE for
+> > shmem in one place, regardless of shared/private (to reduce code
+> > duplication).
+> > 
+> > Why add a new mcopy_atomic_install_pte helper? A problem we have with
+> > continue is that shmem_mcopy_atomic_pte() and mcopy_atomic_pte() are
+> > *close* to what we want, but not exactly. We do want to setup the PTEs
+> > in a CONTINUE operation, but we don't want to e.g. allocate a new page,
+> > charge it (e.g. to the shmem inode), manipulate various flags, etc. Also
+> > we have the problem stated above: shmem_mcopy_atomic_pte() and
+> > mcopy_atomic_pte() both handle one-half of the problem (shared /
+> > private) continue cares about. So, introduce mcontinue_atomic_pte(), to
+> > handle all of the shmem continue cases. Introduce the helper so it
+> > doesn't duplicate code with mcopy_atomic_pte().
+> > 
+> > In a future commit, shmem_mcopy_atomic_pte() will also be modified to
+> > use this new helper. However, since this is a bigger refactor, it seems
+> > most clear to do it as a separate change.
+> > 
+> > Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
+> 
+> If this "03/10" had been numbered 04/10, I would have said
+> Acked-by: Hugh Dickins <hughd@google.com>
+> 
+> But I find this new ordering incomprehensible - I'm surprised that it
+> even builds this way around (if it does): this patch is so much about
+> what has been enabled in "04/10" (references to UFFDIO_CONTINUE shmem
+> VMAs etc).
+> 
+> Does Peter still think this way round is better? If he does, then we
+> shall have to compromise by asking you just to squash the two together.
 
-Right.
-Record types FAN_EVENT_INFO_TYPE_DFID_NAME and
-FAN_EVENT_INFO_TYPE_DFID are mutually exclusive.
+Hi, Hugh, Axel,
 
-> > So I see no problem with combination of FAN_REPORT_FID
-> > and FAN_REPORT_PIDFD.
->
-> OK.
->
-> Is there any preference in terms of whether the new FAN_REPORT_PIDFD
-> info records precede or come after FAN_REPORT_FID/FAN_REPORT_DFID_NAME
-> info records in FAN_REPORT_FID or FAN_REPORT_FID |
-> FAN_REPORT_DFID_NAME configurations?
->
-
-Doesn't matter.
-Your typical application would first filter by pid/pidfd and only if process
-matches the filters would it care to examine the event fid info, correct?
-So you go first :)
+I have no strong opinion. To me, UFFDIO_CONTINUE can be introduced earlier like
+this. As long as we don't enable the feature (which is done in the next patch),
+no one will be able to call it, then it looks clean.  Merging them also looks
+good to me.
 
 Thanks,
-Amir.
+
+-- 
+Peter Xu
+
