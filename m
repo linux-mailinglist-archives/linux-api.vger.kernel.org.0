@@ -2,136 +2,144 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9203536CC9B
-	for <lists+linux-api@lfdr.de>; Tue, 27 Apr 2021 22:44:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7609E36CC76
+	for <lists+linux-api@lfdr.de>; Tue, 27 Apr 2021 22:42:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239060AbhD0UpH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 27 Apr 2021 16:45:07 -0400
-Received: from mga05.intel.com ([192.55.52.43]:31780 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235416AbhD0UpA (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 27 Apr 2021 16:45:00 -0400
-IronPort-SDR: I57lO1CfP4ghGBwyHvx8pDO50yTcJG+djc0a8LhKH6nQR0apqkcqJ68NqcvuVcgz0DeUrP1dv0
- sua5sVSIikhQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9967"; a="281922452"
-X-IronPort-AV: E=Sophos;i="5.82,255,1613462400"; 
-   d="scan'208";a="281922452"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2021 13:44:08 -0700
-IronPort-SDR: +tXvO61IkH4zH7pJV2sVpNWnofhwenRDVDS/7i0ig/pVnhV9EyAHWTpko3HUu3GazYRoxKx7IE
- tHDu0dZ9obWw==
-X-IronPort-AV: E=Sophos;i="5.82,255,1613462400"; 
-   d="scan'208";a="465623436"
-Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2021 13:44:08 -0700
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
+        id S237009AbhD0Unm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 27 Apr 2021 16:43:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44851 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236058AbhD0Unk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 27 Apr 2021 16:43:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1619556176;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=/RvrYyTMEiHtCZW0MwDUjdnqhLrqE4kTWBWaQVaWhX4=;
+        b=WQGQrE8005hQuJPgNBTVb9M+k4OOVGS2YS4VFlpdoTu5s0kcX1qoN1y26UOo0qS0aIxDC1
+        BsTN9QOq0y/TGxvA0VNKwPnBq2n2bOp6Bpcn3xtWIe1LS/5PL4tc2lOMYhmyYafiY4h9mX
+        KhENcy8kamva3NQe8v9W5NiGrMSCYAQ=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-528-IkneA2j_PjeA05ZGfOOPkw-1; Tue, 27 Apr 2021 16:42:53 -0400
+X-MC-Unique: IkneA2j_PjeA05ZGfOOPkw-1
+Received: by mail-qk1-f198.google.com with SMTP id e4-20020a37b5040000b02902df9a0070efso23899128qkf.18
+        for <linux-api@vger.kernel.org>; Tue, 27 Apr 2021 13:42:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=/RvrYyTMEiHtCZW0MwDUjdnqhLrqE4kTWBWaQVaWhX4=;
+        b=tJ+50fOHJltNUyd+w5Q8qB94J7U8SQEMvf3CQui/OX7W1T9U8eUs6vAWCAe3OY7zr3
+         y4Lvp4mLpTgmvdeGNsE9K/MAMKoWUqS5e04dpl2OfbKK3yC28t6g7HtX0gn6r5nyFDIl
+         0N3dfkfDeELFvVT26ERJB2O0pvAiy7w/ovKhImgiKyDc86GOq+KnXexBRFZZXTFc80ST
+         9yLlYzWgEZln6sgmj0mCezDv9mwi+AaddCTVWdAJwzEKflUPMAFp2nQrdnDwl8kjnKtp
+         os9EVK+qCVO0csqW4GCF+iKHfLthhGfIzlvVyTxtxXzLBeltUInrVCglvaAdUpM6tyTL
+         mNGQ==
+X-Gm-Message-State: AOAM533lJSRj9WtHXbY7UlNFXkmddS5iX/CdWVmdGi4erYYDxD4Vt8zr
+        p4DfB5N1BVXm+SQ9w2qhyPs3uVQfwSbBBeLsXhSoatsnxkyC8OOUqaWX5jHo6Eh7mmDkoZlcORD
+        /zPuhLFVyQVKU/FlyhU1f
+X-Received: by 2002:a05:622a:11d1:: with SMTP id n17mr10557604qtk.360.1619556172935;
+        Tue, 27 Apr 2021 13:42:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzXdbR54zw+S/1LpL+C8ZvobC9U+08rm/wphtfr+XZ5o9lHGt3slPtEst+FHJjmjSso+DRu0w==
+X-Received: by 2002:a05:622a:11d1:: with SMTP id n17mr10557577qtk.360.1619556172652;
+        Tue, 27 Apr 2021 13:42:52 -0700 (PDT)
+Received: from xz-x1 (bras-base-toroon474qw-grc-77-184-145-104-227.dsl.bell.ca. [184.145.104.227])
+        by smtp.gmail.com with ESMTPSA id u126sm3664993qkd.80.2021.04.27.13.42.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Apr 2021 13:42:51 -0700 (PDT)
+Date:   Tue, 27 Apr 2021 16:42:50 -0400
+From:   Peter Xu <peterx@redhat.com>
+To:     Axel Rasmussen <axelrasmussen@google.com>
+Cc:     Hugh Dickins <hughd@google.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jerome Glisse <jglisse@redhat.com>,
+        Joe Perches <joe@perches.com>,
+        Lokesh Gidra <lokeshgidra@google.com>,
         Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v26 04/30] x86/cpufeatures: Introduce CPU setup and option parsing for CET
-Date:   Tue, 27 Apr 2021 13:42:49 -0700
-Message-Id: <20210427204315.24153-5-yu-cheng.yu@intel.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20210427204315.24153-1-yu-cheng.yu@intel.com>
-References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Shaohua Li <shli@fb.com>, Shuah Khan <shuah@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Wang Qing <wangqing@vivo.com>, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org, Linux MM <linux-mm@kvack.org>,
+        Brian Geffon <bgeffon@google.com>,
+        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+        Mina Almasry <almasrymina@google.com>,
+        Oliver Upton <oupton@google.com>
+Subject: Re: [PATCH v4 03/10] userfaultfd/shmem: support UFFDIO_CONTINUE for
+ shmem
+Message-ID: <20210427204250.GG6820@xz-x1>
+References: <20210420220804.486803-1-axelrasmussen@google.com>
+ <20210420220804.486803-4-axelrasmussen@google.com>
+ <alpine.LSU.2.11.2104261906390.2998@eggly.anvils>
+ <20210427155414.GB6820@xz-x1>
+ <CAJHvVciNrE_F0B0nu=Mib6LhcFhL8+qgO-yiKNsJuBjOMkn5+g@mail.gmail.com>
+ <20210427180314.GD6820@xz-x1>
+ <CAJHvVciMU=TDGxArtEQSq3n5DCLfYNWh7bVX_8dQL_dht4Q73w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAJHvVciMU=TDGxArtEQSq3n5DCLfYNWh7bVX_8dQL_dht4Q73w@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Introduce CPU setup and boot option parsing for CET features.
+On Tue, Apr 27, 2021 at 01:29:14PM -0700, Axel Rasmussen wrote:
+> On Tue, Apr 27, 2021 at 11:03 AM Peter Xu <peterx@redhat.com> wrote:
+> >
+> > On Tue, Apr 27, 2021 at 09:57:16AM -0700, Axel Rasmussen wrote:
+> > > I'd prefer to keep them separate, as they are not tiny patches (they
+> > > are roughly +200/-150 each). And, they really are quite independent -
+> > > at least in the sense that I can reorder them via rebase with no
+> > > conflicts, and the code builds at each commit in either orientation. I
+> > > think this implies they're easier to review separately, rather than
+> > > squashed.
+> > >
+> > > I don't have a strong feeling about the order. I slightly prefer
+> > > swapping them compared to this v4 series: first introduce minor
+> > > faults, then introduce CONTINUE.
+> > >
+> > > Since Peter also has no strong opinion, and Hugh it sounds like you
+> > > prefer it the other way around, I'll swap them as we had in some
+> > > previous version of this series: first introduce minor faults, then
+> > > introduce CONTINUE.
+> >
+> > Yes I have no strong opinion, but that's probably the least I prefer. :-)
+> >
+> > Because you'll declare UFFD_FEATURE_MINOR_SHMEM and enable this feature without
+> > the feature being completely implemented (without UFFDIO_CONTINUE, it's not
+> > complete since no one will be able to resolve that minor fault).
+> >
+> > Not a big deal anyway, but since we're at it... Basically I think three things
+> > to do for minor shmem support:
+> >
+> >   (1) UFFDIO_CONTINUE (resolving path)
+> >   (2) Handle fault path for shmem minor fault (faulting path)
+> >   (3) Enablement of UFFD_FEATURE_MINOR_SHMEM (from which point, user can detect
+> >       and enable it)
+> >
+> > I have no preference on how you'd like to merge these steps (right now you did
+> > 1 first, then 2+3 later; or as Hugh suggested do 1+2+3 together), but I'd still
+> > hope item 3 should always be the last, if possible...
+> 
+> In that case, I'll split the patch which adds the faulting path in
+> two: add the faulting path hook and registration mode, and then in a
+> separate commit advertise the feature flag as available.
+> 
+> Then I'll order them like so, which I think is the order Hugh finds
+> more natural:
+> 1. MInor fault registration / faulting path
+> 2. CONTINUE ioctl to resolve the faults
+> 3. Advertise the feature as supported
+> 
+> Sound okay?
 
-Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc: Kees Cook <keescook@chromium.org>
----
-v25:
-- Remove software-defined X86_FEATURE_CET.
+Good to me, thanks Axel.
 
-v24:
-- Update #ifdef placement to reflect Kconfig changes of splitting shadow stack and ibt.
-
- arch/x86/include/uapi/asm/processor-flags.h |  2 ++
- arch/x86/kernel/cpu/common.c                | 14 ++++++++++++++
- 2 files changed, 16 insertions(+)
-
-diff --git a/arch/x86/include/uapi/asm/processor-flags.h b/arch/x86/include/uapi/asm/processor-flags.h
-index bcba3c643e63..a8df907e8017 100644
---- a/arch/x86/include/uapi/asm/processor-flags.h
-+++ b/arch/x86/include/uapi/asm/processor-flags.h
-@@ -130,6 +130,8 @@
- #define X86_CR4_SMAP		_BITUL(X86_CR4_SMAP_BIT)
- #define X86_CR4_PKE_BIT		22 /* enable Protection Keys support */
- #define X86_CR4_PKE		_BITUL(X86_CR4_PKE_BIT)
-+#define X86_CR4_CET_BIT		23 /* enable Control-flow Enforcement */
-+#define X86_CR4_CET		_BITUL(X86_CR4_CET_BIT)
- 
- /*
-  * x86-64 Task Priority Register, CR8
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index ab640abe26b6..b6eeb5f2ae4d 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -510,6 +510,14 @@ static __init int setup_disable_pku(char *arg)
- __setup("nopku", setup_disable_pku);
- #endif /* CONFIG_X86_64 */
- 
-+static __always_inline void setup_cet(struct cpuinfo_x86 *c)
-+{
-+	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
-+		return;
-+
-+	cr4_set_bits(X86_CR4_CET);
-+}
-+
- /*
-  * Some CPU features depend on higher CPUID levels, which may not always
-  * be available due to CPUID level capping or broken virtualization
-@@ -1255,6 +1263,11 @@ static void __init cpu_parse_early_param(void)
- 	if (cmdline_find_option_bool(boot_command_line, "noxsaves"))
- 		setup_clear_cpu_cap(X86_FEATURE_XSAVES);
- 
-+	if (cmdline_find_option_bool(boot_command_line, "no_user_shstk"))
-+		setup_clear_cpu_cap(X86_FEATURE_SHSTK);
-+	if (cmdline_find_option_bool(boot_command_line, "no_user_ibt"))
-+		setup_clear_cpu_cap(X86_FEATURE_IBT);
-+
- 	arglen = cmdline_find_option(boot_command_line, "clearcpuid", arg, sizeof(arg));
- 	if (arglen <= 0)
- 		return;
-@@ -1594,6 +1607,7 @@ static void identify_cpu(struct cpuinfo_x86 *c)
- 
- 	x86_init_rdrand(c);
- 	setup_pku(c);
-+	setup_cet(c);
- 
- 	/*
- 	 * Clear/Set all flags overridden by options, need do it
 -- 
-2.21.0
+Peter Xu
 
