@@ -2,125 +2,124 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2035236E086
-	for <lists+linux-api@lfdr.de>; Wed, 28 Apr 2021 22:49:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B711E36E1E6
+	for <lists+linux-api@lfdr.de>; Thu, 29 Apr 2021 01:02:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230100AbhD1Utz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 28 Apr 2021 16:49:55 -0400
-Received: from mga05.intel.com ([192.55.52.43]:44235 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229549AbhD1Utz (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 28 Apr 2021 16:49:55 -0400
-IronPort-SDR: oQslHqnxWIgintvtE7RYF1lX4vyqNHwVIRBySiHaDWo/pNx7jMxmRt1Mk+KLOoYXKf9T0ImSEs
- OjHlDktm57hQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="282185508"
-X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; 
-   d="scan'208";a="282185508"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2021 13:49:10 -0700
-IronPort-SDR: vGWnJwbrgfpkN2beMuwcFAXncWISz0cuUun5JLR7YTtvYQETrR84ByQZ5LM6c2xCSLqPBh62Yf
- yPkIg66jONag==
-X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; 
-   d="scan'208";a="423708019"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.133.34]) ([10.209.133.34])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2021 13:49:09 -0700
-Subject: Re: [PATCH v26 6/9] x86/vdso: Insert endbr32/endbr64 to vDSO
-To:     Kees Cook <keescook@chromium.org>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-References: <20210427204720.25007-1-yu-cheng.yu@intel.com>
- <20210427204720.25007-7-yu-cheng.yu@intel.com>
- <202104281332.94A153C@keescook>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <88dc2e45-5fd4-9a1a-c493-3ff868a627f4@intel.com>
-Date:   Wed, 28 Apr 2021 13:49:08 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        id S231966AbhD1Wyc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 28 Apr 2021 18:54:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60906 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235751AbhD1Wy3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 28 Apr 2021 18:54:29 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CCF1C06138B
+        for <linux-api@vger.kernel.org>; Wed, 28 Apr 2021 15:53:44 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id b14-20020a17090a6e0eb0290155c7f6a356so2799264pjk.0
+        for <linux-api@vger.kernel.org>; Wed, 28 Apr 2021 15:53:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=iZ7QHc2ykOTQ3tVESh83HRmneBd7oEDH+LeHNMcXAHY=;
+        b=cMV5Vtn9qduFGokuJESHEgCSHOAYUgReeSgxCag9K7Nc4Kq2A5h4tyP+iKqa03Jmdj
+         WDkpHheGiMG1xt/XzEnpetDqoojsx/EIxeOw3p469HRqrB85mRqQf9fHIcgBDsAMipiJ
+         CzYooSJUHIbS6hsRNpOWa1e6xsLZjsfVe6KXtR2PxJst6qFBImZRO6OPO/JYZu8wkO2y
+         93cbWbmIhqsFtorUdyDdg3319fk2qzpQ9kte3rLc79jE67HgSTygjcUe6npbPP1pmyhT
+         ri0wYPI5ew2Dkk6s2UFFqzhlQH2w96d2XCvt5WNIo/AHMdIzkmBIYP+mmmQQc++KnVHX
+         6+hA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=iZ7QHc2ykOTQ3tVESh83HRmneBd7oEDH+LeHNMcXAHY=;
+        b=an8q4JWoTG4l8U+lNMr8v/jAqKhUqmUEaMi7am+L7+NX6zPgCxc2APaUE04z6G2o/d
+         6EXS5tyIC587/vIGqKYviPW4NPfYsjN6ktxU1/qhhJoMTNV1SS9caX5lG1Zo/TJ8cRYP
+         Zq7xuhU1B5qsIo9eJzt1Vyok+4o4fwpJilPEy+PeHpEZZVgpkS8o0ZjBTRUw1NM13Rst
+         c5XuMG3HqBF1KHlWKLiLNBmjx6yXroAlDaoK7ffcht9NlXpofcbhaxjhJ+wblGiFscoU
+         Q+PM4+C0whTl1iCQJ+lXjmN76+cq+v40wuD3gi3j4sycweon0J2W6J+EfSq9G5D4m3vk
+         AoKw==
+X-Gm-Message-State: AOAM5321JKAZO5ONmWUDQR8emcWf2LcIAGlBUZl6btyjiUWOornMj/2d
+        qRwEJFBlGeFw65g1aYrJG/Z4Onb+MAmuFoT1
+X-Google-Smtp-Source: ABdhPJxSw7sv6m8hQEf/6OcaSoGjSg7zqhzeIXlFaRLMxIzIbWUCMoXviVnCAdUcibOTru8NxAWmKA==
+X-Received: by 2002:a17:90a:f3d1:: with SMTP id ha17mr6500911pjb.123.1619650423529;
+        Wed, 28 Apr 2021 15:53:43 -0700 (PDT)
+Received: from google.com ([2401:fa00:9:211:3ae5:2a7f:7b15:7b41])
+        by smtp.gmail.com with ESMTPSA id 31sm654376pgw.3.2021.04.28.15.53.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Apr 2021 15:53:42 -0700 (PDT)
+Date:   Thu, 29 Apr 2021 08:53:31 +1000
+From:   Matthew Bobrowski <repnop@google.com>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH 2/2] fanotify: Add pidfd support to the fanotify API
+Message-ID: <YInna8fT/WfUkV6+@google.com>
+References: <YH4+Swki++PHIwpY@google.com>
+ <20210421080449.GK8706@quack2.suse.cz>
+ <YIIBheuHHCJeY6wJ@google.com>
+ <CAOQ4uxhUcefbu+5pLKfx7b-kOPP2OB+_RRPMPDX1vLk36xkZnQ@mail.gmail.com>
+ <YIJ/JHdaPv2oD+Jd@google.com>
+ <CAOQ4uxhyGKSM3LFKRtgNe+HmkUJRCFwafXdgC_8ysg7Bs43rWg@mail.gmail.com>
+ <YIaVbWu8up3RY7gf@google.com>
+ <CAOQ4uxhp3khQ9Ln2g9s5WLEsb-Cv2vdsZTuYUgQx-DW6GR1RmQ@mail.gmail.com>
+ <YIeGefkB+cHMsDse@google.com>
+ <CAOQ4uxjAqh3xVpigrJe1k01Fy5-rJRxxLGw92BwWtU4zjr=Wjg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <202104281332.94A153C@keescook>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOQ4uxjAqh3xVpigrJe1k01Fy5-rJRxxLGw92BwWtU4zjr=Wjg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 4/28/2021 1:33 PM, Kees Cook wrote:
-> On Tue, Apr 27, 2021 at 01:47:17PM -0700, Yu-cheng Yu wrote:
->> From: "H.J. Lu" <hjl.tools@gmail.com>
->>
->> When Indirect Branch Tracking (IBT) is enabled, vDSO functions may be
->> called indirectly, and must have ENDBR32 or ENDBR64 as the first
->> instruction.  The compiler must support -fcf-protection=branch so that it
->> can be used to compile vDSO.
-> 
-> If you respin this, you can maybe rephrase this since CONFIG_X86_IBT
-> has already tested for the compiler support.
-> 
+On Tue, Apr 27, 2021 at 08:14:05AM +0300, Amir Goldstein wrote:
+> On Tue, Apr 27, 2021 at 6:35 AM Matthew Bobrowski <repnop@google.com> wrote:
+> >
+> > On Mon, Apr 26, 2021 at 02:11:30PM +0300, Amir Goldstein wrote:
+> > > > Amir, I was just thinking about this a little over the weekend and I
+> > > > don't think we discussed how to handle the FAN_REPORT_PIDFD |
+> > > > FAN_REPORT_FID and friends case? My immediate thought is to make
+> > > > FAN_REPORT_PIDFD mutually exclusive with FAN_REPORT_FID and friends,
+> > > > but then again receiving a pidfd along with FID events may be also
+> > > > useful for some? What are your thoughts on this? If we don't go ahead
+> > > > with mutual exclusion, then this multiple event types alongside struct
+> > > > fanotify_event_metadata starts getting a little clunky, don't you
+> > > > think?
+> > > >
+> > >
+> > > The current format of an fanotify event already supports multiple info records:
+> > >
+> > > [fanotify_event_metadata]
+> > > [[fanotify_event_info_header][event record #1]]
+> > > [[fanotify_event_info_header][event record #2]]...
+> > >
+> > > (meta)->event_len is the total event length including all info records.
+> > >
+> > > For example, FAN_REPORT_FID | FAN_REPORT_DFID_MAME produces
+> > > (for some events) two info records, one FAN_EVENT_INFO_TYPE_FID
+> > > record and one FAN_EVENT_INFO_TYPE_DFID_NAME record.
+> >
+> > Ah, that's right! I now remember reviewing some patches associated
+> > with the FID change series which mentioned the possibility of
+> > receiving multiple FID info records. As the implementation currently
+> > stands, AFAIK there's not possibility for fanotify to ever return more
+> > than two info records, right?
+> >
+> > Is there any preference in terms of whether the new FAN_REPORT_PIDFD
+> > info records precede or come after FAN_REPORT_FID/FAN_REPORT_DFID_NAME
+> > info records in FAN_REPORT_FID or FAN_REPORT_FID |
+> > FAN_REPORT_DFID_NAME configurations?
+>
+> Doesn't matter.
 
-Yes, I will fix this.  Thanks for reviewing!
+OK, fair.
 
-Yu-cheng
+> Your typical application would first filter by pid/pidfd and only if process
+> matches the filters would it care to examine the event fid info, correct?
 
->>
->> Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
->> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
->> Cc: Andy Lutomirski <luto@kernel.org>
->> Cc: Kees Cook <keescook@chromium.org>
-> 
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> 
-> -Kees
-> 
->> ---
->> v24:
->> - Replace CONFIG_X86_CET with CONFIG_X86_IBT to reflect splitting of shadow
->>    stack and ibt.
->>
->>   arch/x86/entry/vdso/Makefile | 4 ++++
->>   1 file changed, 4 insertions(+)
->>
->> diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
->> index 05c4abc2fdfd..a773a5f03b63 100644
->> --- a/arch/x86/entry/vdso/Makefile
->> +++ b/arch/x86/entry/vdso/Makefile
->> @@ -93,6 +93,10 @@ endif
->>   
->>   $(vobjs): KBUILD_CFLAGS := $(filter-out $(CC_FLAGS_LTO) $(GCC_PLUGINS_CFLAGS) $(RETPOLINE_CFLAGS),$(KBUILD_CFLAGS)) $(CFL)
->>   
->> +ifdef CONFIG_X86_IBT
->> +$(vobjs) $(vobjs32): KBUILD_CFLAGS += -fcf-protection=branch
->> +endif
->> +
->>   #
->>   # vDSO code runs in userspace and -pg doesn't help with profiling anyway.
->>   #
->> -- 
->> 2.21.0
->>
-> 
+Not necessarily, but you're right, the ordering doesn't really matter
+too much.
 
+/M
