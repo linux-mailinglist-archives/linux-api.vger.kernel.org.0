@@ -2,95 +2,218 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9681536DE37
-	for <lists+linux-api@lfdr.de>; Wed, 28 Apr 2021 19:26:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA8B436DEA7
+	for <lists+linux-api@lfdr.de>; Wed, 28 Apr 2021 19:52:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241588AbhD1R1A (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 28 Apr 2021 13:27:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23206 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S239745AbhD1R07 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 28 Apr 2021 13:26:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1619630774;
+        id S243190AbhD1Rx1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 28 Apr 2021 13:53:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51276 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243187AbhD1Rx0 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 28 Apr 2021 13:53:26 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09DB2C061573;
+        Wed, 28 Apr 2021 10:52:40 -0700 (PDT)
+Received: from zn.tnic (p200300ec2f0c1700f2769e812f937597.dip0.t-ipconnect.de [IPv6:2003:ec:2f0c:1700:f276:9e81:2f93:7597])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2BB431EC0242;
+        Wed, 28 Apr 2021 19:52:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1619632359;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=V7cB2m4EIXAgvJljHcfW/KYIdaLcxCsoC95kMJhMDAQ=;
-        b=Iwi/VBr1bJVSiIAAiHHs4TG2GUCgrZMN0gSi7v+AKau5wP72tH/fH4S4OqPqRVlFP53lob
-        k7tpWo739Jbl30sR/1ZgmDDHiXC2Mn5IIxkzOzYV/wFq8YIDdacuYFhYQIlY6RH5bWZkm6
-        oT7x7l0TRASMI5Bh8wRcLPlXPrWEg44=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-zl48JFgwO0e2EFcJNSAZfg-1; Wed, 28 Apr 2021 13:26:12 -0400
-X-MC-Unique: zl48JFgwO0e2EFcJNSAZfg-1
-Received: by mail-qv1-f71.google.com with SMTP id w20-20020a0562140b34b029019c9674180fso28660406qvj.0
-        for <linux-api@vger.kernel.org>; Wed, 28 Apr 2021 10:26:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=V7cB2m4EIXAgvJljHcfW/KYIdaLcxCsoC95kMJhMDAQ=;
-        b=t2G43Hw6VqmG+SINccsVVI1+A2AEz+LysQYQnn7fDLPpew9WF5oMUMZeSvFdQRb90B
-         /NRRHfI1dvD1cgJ8r6n/UM2J9BIjQZpJ4PH4CXsy53KmZVvw3GSbt4ohkQt86TgXCuZA
-         1hpj/2lucGU+fYfb+nJL7ks5Gl5Cru4wvgLE/OJ2uymJAmibhj1Pvyv8M8dzIc7ze2FE
-         2ruCEbvglCBNVCNiQFVWXxcOLTPi04pjIv15zgFZ84rfcoFPlIfQnCMSmiuiNVJTuvlI
-         xLoHVu0b6EX2PUX5eleA1cxReVImN4ZQWbhXdTXduOPp7SQRua52kOxlktsLzEuDW218
-         4mKg==
-X-Gm-Message-State: AOAM533ikgIPkcQ5S98t6ESqUqvcv5svJn/XU5tJ9s3soDr0rJcDm4Ip
-        2J+cX9oKA8GAm/BstdV07clIk+wP32Ms97XFI2C2h4CjjzztadsYxjKdMK/uIVgtTsXLb7y1FkI
-        iQKgL9C00wFz7B6ByOacV
-X-Received: by 2002:ac8:424d:: with SMTP id r13mr20702058qtm.270.1619630771734;
-        Wed, 28 Apr 2021 10:26:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx3Ithvw9uBEYJkRPtrVgmU9QKB0KQvBzCX+GB/l0kdWjFNNddPM4OsiueyR8oPGxwkUx7/sg==
-X-Received: by 2002:ac8:424d:: with SMTP id r13mr20702038qtm.270.1619630771527;
-        Wed, 28 Apr 2021 10:26:11 -0700 (PDT)
-Received: from xz-x1 (bras-base-toroon474qw-grc-77-184-145-104-227.dsl.bell.ca. [184.145.104.227])
-        by smtp.gmail.com with ESMTPSA id 191sm280259qkk.31.2021.04.28.10.26.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Apr 2021 10:26:11 -0700 (PDT)
-Date:   Wed, 28 Apr 2021 13:26:09 -0400
-From:   Peter Xu <peterx@redhat.com>
-To:     Axel Rasmussen <axelrasmussen@google.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Hugh Dickins <hughd@google.com>,
-        Jerome Glisse <jglisse@redhat.com>,
-        Joe Perches <joe@perches.com>,
-        Lokesh Gidra <lokeshgidra@google.com>,
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=uNuSRpt+Nn8E1Ie1R3utO4unCBUpAQGFbeK/Hl3lbwA=;
+        b=f66CoGete6UVNGpfGs/Fm2JVHxdlkjHe22uMROZcu8rr0x2vEvFY/1wCWVsC5/+qsG2d20
+        OC+P3YZqbuPB/ykR8uGOFeBXsaI3T1EXVnAIl5+CHOile1nSbGtjmvFoWjfMD3TKeplfm3
+        J6jPvXnOnMA5cMOUbp3RdC1kckLGAZU=
+Date:   Wed, 28 Apr 2021 19:52:38 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
         Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Shaohua Li <shli@fb.com>, Shuah Khan <shuah@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Wang Qing <wangqing@vivo.com>, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-        Brian Geffon <bgeffon@google.com>,
-        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
-        Mina Almasry <almasrymina@google.com>,
-        Oliver Upton <oupton@google.com>
-Subject: Re: [PATCH v5 10/10] userfaultfd/selftests: exercise minor fault
- handling shmem support
-Message-ID: <20210428172609.GG6584@xz-x1>
-References: <20210427225244.4326-1-axelrasmussen@google.com>
- <20210427225244.4326-11-axelrasmussen@google.com>
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v26 22/30] x86/cet/shstk: Add user-mode shadow stack
+ support
+Message-ID: <YImg5hmBnTZTkYIp@zn.tnic>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-23-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210427225244.4326-11-axelrasmussen@google.com>
+In-Reply-To: <20210427204315.24153-23-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Apr 27, 2021 at 03:52:44PM -0700, Axel Rasmussen wrote:
-> Enable test_uffdio_minor for test_type == TEST_SHMEM, and modify the
-> test slightly to pass in / check for the right feature flags.
-> 
-> Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
+On Tue, Apr 27, 2021 at 01:43:07PM -0700, Yu-cheng Yu wrote:
+> @@ -535,6 +536,10 @@ struct thread_struct {
+>  
+>  	unsigned int		sig_on_uaccess_err:1;
+>  
+> +#ifdef CONFIG_X86_SHADOW_STACK
+> +	struct cet_status	cet;
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+A couple of versions ago I said:
+
+"	struct shstk_desc       shstk;
+
+or so"
+
+but no movement here. That thing is still called cet_status even though
+there's nothing status-related with it.
+
+So what's up?
+
+> +static unsigned long alloc_shstk(unsigned long size)
+> +{
+> +	struct mm_struct *mm = current->mm;
+> +	unsigned long addr, populate;
+> +	int flags = MAP_ANONYMOUS | MAP_PRIVATE;
+
+The tip-tree preferred ordering of variable declarations at the
+beginning of a function is reverse fir tree order::
+
+	struct long_struct_name *descriptive_name;
+	unsigned long foo, bar;
+	unsigned int tmp;
+	int ret;
+
+The above is faster to parse than the reverse ordering::
+
+	int ret;
+	unsigned int tmp;
+	unsigned long foo, bar;
+	struct long_struct_name *descriptive_name;
+
+And even more so than random ordering::
+
+	unsigned long foo, bar;
+	int ret;
+	struct long_struct_name *descriptive_name;
+	unsigned int tmp;
+
+Please fix it up everywhere.
+
+> +	mmap_write_lock(mm);
+> +	addr = do_mmap(NULL, 0, size, PROT_READ, flags, VM_SHADOW_STACK, 0,
+> +		       &populate, NULL);
+> +	mmap_write_unlock(mm);
+> +
+> +	return addr;
+> +}
+> +
+> +int shstk_setup(void)
+> +{
+> +	unsigned long addr, size;
+> +	struct cet_status *cet = &current->thread.cet;
+> +
+> +	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
+> +		return -EOPNOTSUPP;
+> +
+> +	size = round_up(min_t(unsigned long long, rlimit(RLIMIT_STACK), SZ_4G), PAGE_SIZE);
+> +	addr = alloc_shstk(size);
+> +	if (IS_ERR_VALUE(addr))
+> +		return PTR_ERR((void *)addr);
+> +
+> +	cet->shstk_base = addr;
+> +	cet->shstk_size = size;
+> +
+> +	start_update_msrs();
+> +	wrmsrl(MSR_IA32_PL3_SSP, addr + size);
+> +	wrmsrl(MSR_IA32_U_CET, CET_SHSTK_EN);
+> +	end_update_msrs();
+
+<---- newline here.
+
+> +	return 0;
+> +}
+> +
+> +void shstk_free(struct task_struct *tsk)
+> +{
+> +	struct cet_status *cet = &tsk->thread.cet;
+> +
+> +	if (!cpu_feature_enabled(X86_FEATURE_SHSTK) ||
+> +	    !cet->shstk_size ||
+> +	    !cet->shstk_base)
+> +		return;
+> +
+> +	if (!tsk->mm)
+> +		return;
+
+Where are the comments you said you wanna add:
+
+https://lkml.kernel.org/r/b05ee7eb-1b5d-f84f-c8f3-bfe9426e8a7d@intel.com
+
+?
+
+> +
+> +	while (1) {
+> +		int r;
+> +
+> +		r = vm_munmap(cet->shstk_base, cet->shstk_size);
+
+		int r = vm_munmap...
+
+> +
+> +		/*
+> +		 * vm_munmap() returns -EINTR when mmap_lock is held by
+> +		 * something else, and that lock should not be held for a
+> +		 * long time.  Retry it for the case.
+> +		 */
+> +		if (r == -EINTR) {
+> +			cond_resched();
+> +			continue;
+> +		}
+> +		break;
+> +	}
+
+vm_munmap() can return other negative error values, where are you
+handling those?
+
+> +
+> +	cet->shstk_base = 0;
+> +	cet->shstk_size = 0;
+> +}
+> +
+> +void shstk_disable(void)
+> +{
+> +	struct cet_status *cet = &current->thread.cet;
+
+Same question as before: what guarantees that current doesn't change
+from under you here?
+
+One of the worst thing to do is to ignore review comments. I'd strongly
+suggest you pay more attention and avoid that in the future.
+
+Thx.
 
 -- 
-Peter Xu
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
