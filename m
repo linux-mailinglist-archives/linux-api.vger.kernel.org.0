@@ -2,141 +2,107 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 65D2936CF79
-	for <lists+linux-api@lfdr.de>; Wed, 28 Apr 2021 01:17:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D708036CFD1
+	for <lists+linux-api@lfdr.de>; Wed, 28 Apr 2021 02:02:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239593AbhD0XRM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 27 Apr 2021 19:17:12 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:37100 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238879AbhD0XRL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 27 Apr 2021 19:17:11 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: tonyk)
-        with ESMTPSA id 5D2FF1F426C6
-From:   =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc:     kernel@collabora.com, krisman@collabora.com,
-        pgriffais@valvesoftware.com, z.figura12@gmail.com,
-        joel@joelfernandes.org, malteskarupke@fastmail.fm,
-        linux-api@vger.kernel.org, fweimer@redhat.com,
-        libc-alpha@sourceware.org, linux-kselftest@vger.kernel.org,
-        shuah@kernel.org, acme@kernel.org, corbet@lwn.net,
-        Peter Oskolkov <posk@posk.io>,
-        =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
-Subject: [PATCH v3 13/13] kernel: Enable waitpid() for futex2
-Date:   Tue, 27 Apr 2021 20:12:48 -0300
-Message-Id: <20210427231248.220501-14-andrealmeid@collabora.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210427231248.220501-1-andrealmeid@collabora.com>
-References: <20210427231248.220501-1-andrealmeid@collabora.com>
+        id S236248AbhD1AD1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 27 Apr 2021 20:03:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40814 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230368AbhD1AD1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 27 Apr 2021 20:03:27 -0400
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 780C0C061574
+        for <linux-api@vger.kernel.org>; Tue, 27 Apr 2021 17:02:43 -0700 (PDT)
+Received: by mail-ot1-x32a.google.com with SMTP id 35-20020a9d05260000b029029c82502d7bso25491903otw.2
+        for <linux-api@vger.kernel.org>; Tue, 27 Apr 2021 17:02:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:in-reply-to:message-id:references
+         :user-agent:mime-version;
+        bh=6p+JC3rKVjYrYlLA8QianvKVOFGkYhcWLY47LZagLL0=;
+        b=QG2EIYp+HC97NQun7wDIY0YwlOSn1mnmnxpu3OvXDOY3mR4wRvei0y53o8fYQr5kTV
+         8oDkBNSoqmkyXMHAwBO0cmXYQgr5+9vGeBJ/0riXwQt8lIi7PmcgOAJ52+kiL4jLit1L
+         iOGMBNecyxBH0usH0DNCUpLcwyQbR1kz6FnIaEXAYwcxtDyt9i5EDkI0LmU3ZIod5MDv
+         gA6TozSWFZVS0SXEnj1kfysquTzkeq9DfWE+8JAZIZ8kkrGTq3IYs1sSJElWSQA3MnPr
+         JLEx6WZ4dcSnczVjd1SgNKsmoUO5ngTfmw34QUGn9VvgnfOwgMEhsBUt/ioMW4IINC4j
+         Mmuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+         :references:user-agent:mime-version;
+        bh=6p+JC3rKVjYrYlLA8QianvKVOFGkYhcWLY47LZagLL0=;
+        b=kLWWI+1HJjZ7eoX5I/+FZgmIdSH8iYYO8PlrVD5A3KW/q7l8VYYeR8+9zGZJZrUXwJ
+         2fpoL6IZmB4lPsL6KpC61lN3Hv6hnN/R9v5JL9uaZe821Kk0r+QChVui9f4U5CUD7zHe
+         dg8k1Y5ZY9N0kM+n3488u3Ep4FNnZsH4SwLsZCMH2gSaguUyGPNpTOYZJMAZ+g4DVFSx
+         LEf2Mz2StcPVtG/esJdmK4fPpyjCTe7e5fvjJ4R9NUWXJ6a5Ux2JALZBHTETdhQnVUrY
+         U0mqCybVGd7U0vPxM6zEyQ27nB3oIepuoE1HvCME0yi3qzTj7cZSPX5TCJNWHbWGSvX3
+         RoxQ==
+X-Gm-Message-State: AOAM531bp7CrQuDCCqp/d6a2m/UtvTGs9mmzDblg+L3En76W2jewc5gM
+        rsPuq0Fu59014s/9V1jvaWdXlQ==
+X-Google-Smtp-Source: ABdhPJwX+Lblum7o2eVDbKoe89/QxHjJmiEd80w3XLF7Lh4KSMp8fjmUEoWUdcfv02tMyqPsSx7AAA==
+X-Received: by 2002:a05:6830:2418:: with SMTP id j24mr1782028ots.87.1619568162507;
+        Tue, 27 Apr 2021 17:02:42 -0700 (PDT)
+Received: from eggly.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id a21sm981529oop.20.2021.04.27.17.02.40
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Tue, 27 Apr 2021 17:02:42 -0700 (PDT)
+Date:   Tue, 27 Apr 2021 17:02:25 -0700 (PDT)
+From:   Hugh Dickins <hughd@google.com>
+X-X-Sender: hugh@eggly.anvils
+To:     Axel Rasmussen <axelrasmussen@google.com>
+cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hugh Dickins <hughd@google.com>,
+        Jerome Glisse <jglisse@redhat.com>,
+        Joe Perches <joe@perches.com>,
+        Lokesh Gidra <lokeshgidra@google.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Peter Xu <peterx@redhat.com>, Shaohua Li <shli@fb.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Wang Qing <wangqing@vivo.com>, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+        Brian Geffon <bgeffon@google.com>,
+        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+        Mina Almasry <almasrymina@google.com>,
+        Oliver Upton <oupton@google.com>
+Subject: Re: [PATCH v5 03/10] userfaultfd/shmem: support minor fault registration
+ for shmem
+In-Reply-To: <20210427225244.4326-4-axelrasmussen@google.com>
+Message-ID: <alpine.LSU.2.11.2104271701500.7111@eggly.anvils>
+References: <20210427225244.4326-1-axelrasmussen@google.com> <20210427225244.4326-4-axelrasmussen@google.com>
+User-Agent: Alpine 2.11 (LSU 23 2013-08-11)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-To make pthreads works as expected if they are using futex2, wake
-clear_child_tid with futex2 as well. This is make applications that uses
-waitpid() (and clone(CLONE_CHILD_SETTID)) wake while waiting for the
-child to terminate. Given that apps should not mix futex() and futex2(),
-any correct app will trigger a harmless noop wakeup on the interface
-that it isn't using.
+On Tue, 27 Apr 2021, Axel Rasmussen wrote:
 
-Signed-off-by: André Almeida <andrealmeid@collabora.com>
----
+> This patch allows shmem-backed VMAs to be registered for minor faults.
+> Minor faults are appropriately relayed to userspace in the fault path,
+> for VMAs with the relevant flag.
+> 
+> This commit doesn't hook up the UFFDIO_CONTINUE ioctl for shmem-backed
+> minor faults, though, so userspace doesn't yet have a way to resolve
+> such faults.
+> 
+> Because of this, we also don't yet advertise this as a supported
+> feature. That will be done in a separate commit when the feature is
+> fully implemented.
+> 
+> Acked-by: Peter Xu <peterx@redhat.com>
+> Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
 
-This commit is here for the intend to show what we need to do in order
-to get a full NPTL working on top of futex2. It should be merged after
-we talk to glibc folks on the details around the futex_wait() side. For
-instance, we could use this as an opportunity to use private futexes or
-8bit sized futexes, but both sides need to use the exactly same flags.
----
- include/linux/syscalls.h |  2 ++
- kernel/fork.c            |  2 ++
- kernel/futex2.c          | 30 ++++++++++++++++++------------
- 3 files changed, 22 insertions(+), 12 deletions(-)
+Acked-by: Hugh Dickins <hughd@google.com>
 
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index d5a485cf52c4..59655c9317e6 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -1315,6 +1315,8 @@ int ksys_ipc(unsigned int call, int first, unsigned long second,
- 	unsigned long third, void __user * ptr, long fifth);
- int compat_ksys_ipc(u32 call, int first, int second,
- 	u32 third, u32 ptr, u32 fifth);
-+long ksys_futex_wake(void __user *uaddr, unsigned long nr_wake,
-+		     unsigned int flags);
- 
- /*
-  * The following kernel syscall equivalents are just wrappers to fs-internal
-diff --git a/kernel/fork.c b/kernel/fork.c
-index 426cd0c51f9e..9f99273b161b 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -1316,6 +1316,8 @@ static void mm_release(struct task_struct *tsk, struct mm_struct *mm)
- 			put_user(0, tsk->clear_child_tid);
- 			do_futex(tsk->clear_child_tid, FUTEX_WAKE,
- 					1, NULL, NULL, 0, 0);
-+			ksys_futex_wake(tsk->clear_child_tid, 1,
-+					FUTEX_32 | FUTEX_SHARED_FLAG);
- 		}
- 		tsk->clear_child_tid = NULL;
- 	}
-diff --git a/kernel/futex2.c b/kernel/futex2.c
-index 321472593e6f..901edf41d558 100644
---- a/kernel/futex2.c
-+++ b/kernel/futex2.c
-@@ -937,18 +937,8 @@ static inline bool futex_match(struct futex_key key1, struct futex_key key2)
- 		key1.offset == key2.offset);
- }
- 
--/**
-- * sys_futex_wake - Wake a number of futexes waiting on an address
-- * @uaddr:   Address of futex to be woken up
-- * @nr_wake: Number of futexes waiting in uaddr to be woken up
-- * @flags:   Flags for size and shared
-- *
-- * Wake `nr_wake` threads waiting at uaddr.
-- *
-- * Returns the number of woken threads on success, error code otherwise.
-- */
--SYSCALL_DEFINE3(futex_wake, void __user *, uaddr, unsigned int, nr_wake,
--		unsigned int, flags)
-+long ksys_futex_wake(void __user *uaddr, unsigned long nr_wake,
-+		     unsigned int flags)
- {
- 	bool shared = (flags & FUTEX_SHARED_FLAG) ? true : false;
- 	unsigned int size = flags & FUTEX_SIZE_MASK;
-@@ -985,6 +975,22 @@ SYSCALL_DEFINE3(futex_wake, void __user *, uaddr, unsigned int, nr_wake,
- 	return ret;
- }
- 
-+/**
-+ * sys_futex_wake - Wake a number of futexes waiting on an address
-+ * @uaddr:   Address of futex to be woken up
-+ * @nr_wake: Number of futexes waiting in uaddr to be woken up
-+ * @flags:   Flags for size and shared
-+ *
-+ * Wake `nr_wake` threads waiting at uaddr.
-+ *
-+ * Returns the number of woken threads on success, error code otherwise.
-+ */
-+SYSCALL_DEFINE3(futex_wake, void __user *, uaddr, unsigned int, nr_wake,
-+		unsigned int, flags)
-+{
-+	return ksys_futex_wake(uaddr, nr_wake, flags);
-+}
-+
- static void futex_double_unlock(struct futex_bucket *b1, struct futex_bucket *b2)
- {
- 	spin_unlock(&b1->lock);
--- 
-2.31.1
-
+> ---
+>  fs/userfaultfd.c |  3 +--
+>  mm/memory.c      |  8 +++++---
+>  mm/shmem.c       | 12 +++++++++++-
+>  3 files changed, 17 insertions(+), 6 deletions(-)
