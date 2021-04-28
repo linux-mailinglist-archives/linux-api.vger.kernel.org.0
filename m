@@ -2,54 +2,54 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76BB036DE29
-	for <lists+linux-api@lfdr.de>; Wed, 28 Apr 2021 19:23:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9681536DE37
+	for <lists+linux-api@lfdr.de>; Wed, 28 Apr 2021 19:26:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239579AbhD1RYc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 28 Apr 2021 13:24:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25356 "EHLO
+        id S241588AbhD1R1A (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 28 Apr 2021 13:27:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23206 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231339AbhD1RYc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 28 Apr 2021 13:24:32 -0400
+        by vger.kernel.org with ESMTP id S239745AbhD1R07 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 28 Apr 2021 13:26:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1619630626;
+        s=mimecast20190719; t=1619630774;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=6QmxbNDcfkmoT4snx6gLW6zB0uLTOmzBgWbCGZ43h/M=;
-        b=ZzCrrHdOP4mJDOUxSO+4Q35NSCs/UVzEYL0+E6A4nwVXZlJ3jlcbDT7BXrCRtifO+UwYBe
-        oUzyQIbHta8wd7OyV16gwsMtsOREU/xhaIFfPvaCeQHes5mm/mb0i8gCVQ0rHTXmzV/i8l
-        I7VqYah1c3/+dw0KoR+yIYo+LJG8uTU=
+        bh=V7cB2m4EIXAgvJljHcfW/KYIdaLcxCsoC95kMJhMDAQ=;
+        b=Iwi/VBr1bJVSiIAAiHHs4TG2GUCgrZMN0gSi7v+AKau5wP72tH/fH4S4OqPqRVlFP53lob
+        k7tpWo739Jbl30sR/1ZgmDDHiXC2Mn5IIxkzOzYV/wFq8YIDdacuYFhYQIlY6RH5bWZkm6
+        oT7x7l0TRASMI5Bh8wRcLPlXPrWEg44=
 Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
  [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-454-bFqNYILFNXe3b8zyxttzEg-1; Wed, 28 Apr 2021 13:23:44 -0400
-X-MC-Unique: bFqNYILFNXe3b8zyxttzEg-1
-Received: by mail-qv1-f71.google.com with SMTP id h12-20020a0cf44c0000b02901c0e9c3e1d0so1292615qvm.4
-        for <linux-api@vger.kernel.org>; Wed, 28 Apr 2021 10:23:44 -0700 (PDT)
+ us-mta-41-zl48JFgwO0e2EFcJNSAZfg-1; Wed, 28 Apr 2021 13:26:12 -0400
+X-MC-Unique: zl48JFgwO0e2EFcJNSAZfg-1
+Received: by mail-qv1-f71.google.com with SMTP id w20-20020a0562140b34b029019c9674180fso28660406qvj.0
+        for <linux-api@vger.kernel.org>; Wed, 28 Apr 2021 10:26:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=6QmxbNDcfkmoT4snx6gLW6zB0uLTOmzBgWbCGZ43h/M=;
-        b=eXXlO0x/oiRuRmpFLVq8dd7W8IPxEZPTI/fsJ26W+sttSGc7r78y7kIw0z/RMCEpbd
-         xrhjeWZJJe4sx/PScbwefThSvJnisnUhFlpAOF5gILES9FAQGT3K4lUJU2usbFriA8i9
-         maIjogOr/XMFZ9TA/w+UxjReYg2BE4RI8NrjV+o4MBXLTMdIN4zP1qyL5kmPU63IluIF
-         2HqDSAGHGIxsrwbkxN7TKmHvS7UhK5eP7VEWwb9MDBqC3mKpLyfXFgOFqli6TEvEObfe
-         4XnrzDXlSgu9M5ArNHnDNZiVv4lG5XX803092olINYbB1ERiBC+7LFBNf/qxLUDUEqlr
-         n/mQ==
-X-Gm-Message-State: AOAM533a6PL9tle83nkA8lhtcd2Z72fDVtSDapAeYU0JGI8G06yc+k9R
-        9c7zzTsCwhbgLuPPXWl14HkkZg46CxtlCEBNn6TLavawcukCAolDiNzlWXEwvk7zmUUX0FpxZ8G
-        m+vKjRk0ZRH+qdUTk7aBr
-X-Received: by 2002:ae9:f310:: with SMTP id p16mr29914944qkg.123.1619630624369;
-        Wed, 28 Apr 2021 10:23:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJweTpfhxOs2+FE7b/y38FVRdocxBBDoCy0Saro4x4l/ivnG64cNuM5i6194baTUbY8T8h2pWw==
-X-Received: by 2002:ae9:f310:: with SMTP id p16mr29914911qkg.123.1619630624022;
-        Wed, 28 Apr 2021 10:23:44 -0700 (PDT)
+        bh=V7cB2m4EIXAgvJljHcfW/KYIdaLcxCsoC95kMJhMDAQ=;
+        b=t2G43Hw6VqmG+SINccsVVI1+A2AEz+LysQYQnn7fDLPpew9WF5oMUMZeSvFdQRb90B
+         /NRRHfI1dvD1cgJ8r6n/UM2J9BIjQZpJ4PH4CXsy53KmZVvw3GSbt4ohkQt86TgXCuZA
+         1hpj/2lucGU+fYfb+nJL7ks5Gl5Cru4wvgLE/OJ2uymJAmibhj1Pvyv8M8dzIc7ze2FE
+         2ruCEbvglCBNVCNiQFVWXxcOLTPi04pjIv15zgFZ84rfcoFPlIfQnCMSmiuiNVJTuvlI
+         xLoHVu0b6EX2PUX5eleA1cxReVImN4ZQWbhXdTXduOPp7SQRua52kOxlktsLzEuDW218
+         4mKg==
+X-Gm-Message-State: AOAM533ikgIPkcQ5S98t6ESqUqvcv5svJn/XU5tJ9s3soDr0rJcDm4Ip
+        2J+cX9oKA8GAm/BstdV07clIk+wP32Ms97XFI2C2h4CjjzztadsYxjKdMK/uIVgtTsXLb7y1FkI
+        iQKgL9C00wFz7B6ByOacV
+X-Received: by 2002:ac8:424d:: with SMTP id r13mr20702058qtm.270.1619630771734;
+        Wed, 28 Apr 2021 10:26:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx3Ithvw9uBEYJkRPtrVgmU9QKB0KQvBzCX+GB/l0kdWjFNNddPM4OsiueyR8oPGxwkUx7/sg==
+X-Received: by 2002:ac8:424d:: with SMTP id r13mr20702038qtm.270.1619630771527;
+        Wed, 28 Apr 2021 10:26:11 -0700 (PDT)
 Received: from xz-x1 (bras-base-toroon474qw-grc-77-184-145-104-227.dsl.bell.ca. [184.145.104.227])
-        by smtp.gmail.com with ESMTPSA id 198sm275365qkf.20.2021.04.28.10.23.42
+        by smtp.gmail.com with ESMTPSA id 191sm280259qkk.31.2021.04.28.10.26.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Apr 2021 10:23:43 -0700 (PDT)
-Date:   Wed, 28 Apr 2021 13:23:41 -0400
+        Wed, 28 Apr 2021 10:26:11 -0700 (PDT)
+Date:   Wed, 28 Apr 2021 13:26:09 -0400
 From:   Peter Xu <peterx@redhat.com>
 To:     Axel Rasmussen <axelrasmussen@google.com>
 Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
@@ -70,38 +70,22 @@ Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
         Mina Almasry <almasrymina@google.com>,
         Oliver Upton <oupton@google.com>
-Subject: Re: [PATCH v5 09/10] userfaultfd/selftests: reinitialize test
- context in each test
-Message-ID: <20210428172341.GF6584@xz-x1>
+Subject: Re: [PATCH v5 10/10] userfaultfd/selftests: exercise minor fault
+ handling shmem support
+Message-ID: <20210428172609.GG6584@xz-x1>
 References: <20210427225244.4326-1-axelrasmussen@google.com>
- <20210427225244.4326-10-axelrasmussen@google.com>
+ <20210427225244.4326-11-axelrasmussen@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210427225244.4326-10-axelrasmussen@google.com>
+In-Reply-To: <20210427225244.4326-11-axelrasmussen@google.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Apr 27, 2021 at 03:52:43PM -0700, Axel Rasmussen wrote:
-> Currently, the context (fds, mmap-ed areas, etc.) are global. Each test
-> mutates this state in some way, in some cases really "clobbering it"
-> (e.g., the events test mremap-ing area_dst over the top of area_src, or
-> the minor faults tests overwriting the count_verify values in the test
-> areas). We run the tests in a particular order, each test is careful to
-> make the right assumptions about its starting state, etc.
-> 
-> But, this is fragile. It's better for a test's success or failure to not
-> depend on what some other prior test case did to the global state.
-> 
-> To that end, clear and reinitialize the test context at the start of
-> each test case, so whatever prior test cases did doesn't affect future
-> tests.
-> 
-> This is particularly relevant to this series because the events test's
-> mremap of area_dst screws up assumptions the minor fault test was
-> relying on. This wasn't a problem for hugetlb, as we don't mremap in
-> that case.
+On Tue, Apr 27, 2021 at 03:52:44PM -0700, Axel Rasmussen wrote:
+> Enable test_uffdio_minor for test_type == TEST_SHMEM, and modify the
+> test slightly to pass in / check for the right feature flags.
 > 
 > Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
 
