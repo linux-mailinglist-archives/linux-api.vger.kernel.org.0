@@ -2,58 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC95A36D5CE
-	for <lists+linux-api@lfdr.de>; Wed, 28 Apr 2021 12:29:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BEDC736D9D0
+	for <lists+linux-api@lfdr.de>; Wed, 28 Apr 2021 16:49:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239450AbhD1Kan (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 28 Apr 2021 06:30:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46632 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230057AbhD1Kam (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 28 Apr 2021 06:30:42 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A9162613FF;
-        Wed, 28 Apr 2021 10:29:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619605797;
-        bh=8C+OErcF42crulhtmpO3zOoSt0k/g7nGDTskXCzZBv0=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=Da432CDk5RTSR+1+b85H4jxdY4rw0w2r+IVM2U59jpCTLGTuuTqyHcKD+gHDkWs5s
-         tlCQdDuWIM5amEuBPZEbZLEp/8zF4A8Wa6bog/pzz6xY8HWmkIQY3eda4xcWV72zQH
-         0EyDKY6foSXFcEVQPphyRgCCTiBLRlbfyUDJ5rDF5W3Hyh027BmMdsfRge//6oblO9
-         DPxgUcmWFPah1k4/aNdkLDh46k+nRSKasC4vhxisUbFof6Cu4iKEpPNHwUn32INzIy
-         sFCrJiflrUZfOAkZmrYkK8IwQm5hO2H2YfopdfozwyNX3WYNLIhxL2gxM99LWQx49C
-         8CG1MeO321bMQ==
-Date:   Wed, 28 Apr 2021 12:29:52 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Theodore Ts'o <tytso@mit.edu>
-cc:     ksummit@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, netdev@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: Maintainers / Kernel Summit 2021 planning kick-off
-In-Reply-To: <YH2hs6EsPTpDAqXc@mit.edu>
-Message-ID: <nycvar.YFH.7.76.2104281228350.18270@cbobk.fhfr.pm>
-References: <YH2hs6EsPTpDAqXc@mit.edu>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S239300AbhD1OtX convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Wed, 28 Apr 2021 10:49:23 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:56640 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238651AbhD1OtW (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 28 Apr 2021 10:49:22 -0400
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-213-Q40LSYhmNgio6b75f9Ipug-1; Wed, 28 Apr 2021 15:48:34 +0100
+X-MC-Unique: Q40LSYhmNgio6b75f9Ipug-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.2; Wed, 28 Apr 2021 15:48:32 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.015; Wed, 28 Apr 2021 15:48:32 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Yu-cheng Yu' <yu-cheng.yu@intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Ingo Molnar" <mingo@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "Eugene Syromiatnikov" <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        "Weijiang Yang" <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        "Haitao Huang" <haitao.huang@intel.com>
+Subject: RE: [PATCH v26 0/9] Control-flow Enforcement: Indirect Branch
+ Tracking
+Thread-Topic: [PATCH v26 0/9] Control-flow Enforcement: Indirect Branch
+ Tracking
+Thread-Index: AQHXO6ae1Nsozyj+DkCGokhshY0p/arKAkvw
+Date:   Wed, 28 Apr 2021 14:48:32 +0000
+Message-ID: <0e03c50ea05440209d620971b9db4f29@AcuMS.aculab.com>
+References: <20210427204720.25007-1-yu-cheng.yu@intel.com>
+In-Reply-To: <20210427204720.25007-1-yu-cheng.yu@intel.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, 19 Apr 2021, Theodore Ts'o wrote:
+From: Yu-cheng Yu
+> Sent: 27 April 2021 21:47
+> 
+> Control-flow Enforcement (CET) is a new Intel processor feature that blocks
+> return/jump-oriented programming attacks.  Details are in "Intel 64 and
+> IA-32 Architectures Software Developer's Manual" [1].
+...
 
-> This year, the Maintainers and Kernel Summit is currently planned to
-> be held in Dublin, Ireland, September 27 -- 29th.  
+Does this feature require that 'binary blobs' for out of tree drivers
+be compiled by a version of gcc that adds the ENDBRA instructions?
 
-Hi Ted,
+If enabled for userspace, what happens if an old .so is dynamically
+loaded?
+Or do all userspace programs and libraries have to have been compiled
+with the ENDBRA instructions?
 
-given the fact that OSS is being relocated from Dublin to Washington [1], 
-is Kernel Summit following that direction?
+	David
 
-[1] https://www.linuxfoundation.org/en/press-release/the-linux-foundation-announces-open-source-summit-embedded-linux-conference-2021-will-move-from-dublin-ireland-to-seattle-washington/
-
--- 
-Jiri Kosina
-SUSE Labs
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
