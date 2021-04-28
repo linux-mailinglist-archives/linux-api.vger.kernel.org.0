@@ -2,124 +2,235 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B711E36E1E6
-	for <lists+linux-api@lfdr.de>; Thu, 29 Apr 2021 01:02:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5798B36E1EC
+	for <lists+linux-api@lfdr.de>; Thu, 29 Apr 2021 01:04:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231966AbhD1Wyc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 28 Apr 2021 18:54:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60906 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235751AbhD1Wy3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 28 Apr 2021 18:54:29 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CCF1C06138B
-        for <linux-api@vger.kernel.org>; Wed, 28 Apr 2021 15:53:44 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id b14-20020a17090a6e0eb0290155c7f6a356so2799264pjk.0
-        for <linux-api@vger.kernel.org>; Wed, 28 Apr 2021 15:53:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=iZ7QHc2ykOTQ3tVESh83HRmneBd7oEDH+LeHNMcXAHY=;
-        b=cMV5Vtn9qduFGokuJESHEgCSHOAYUgReeSgxCag9K7Nc4Kq2A5h4tyP+iKqa03Jmdj
-         WDkpHheGiMG1xt/XzEnpetDqoojsx/EIxeOw3p469HRqrB85mRqQf9fHIcgBDsAMipiJ
-         CzYooSJUHIbS6hsRNpOWa1e6xsLZjsfVe6KXtR2PxJst6qFBImZRO6OPO/JYZu8wkO2y
-         93cbWbmIhqsFtorUdyDdg3319fk2qzpQ9kte3rLc79jE67HgSTygjcUe6npbPP1pmyhT
-         ri0wYPI5ew2Dkk6s2UFFqzhlQH2w96d2XCvt5WNIo/AHMdIzkmBIYP+mmmQQc++KnVHX
-         6+hA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=iZ7QHc2ykOTQ3tVESh83HRmneBd7oEDH+LeHNMcXAHY=;
-        b=an8q4JWoTG4l8U+lNMr8v/jAqKhUqmUEaMi7am+L7+NX6zPgCxc2APaUE04z6G2o/d
-         6EXS5tyIC587/vIGqKYviPW4NPfYsjN6ktxU1/qhhJoMTNV1SS9caX5lG1Zo/TJ8cRYP
-         Zq7xuhU1B5qsIo9eJzt1Vyok+4o4fwpJilPEy+PeHpEZZVgpkS8o0ZjBTRUw1NM13Rst
-         c5XuMG3HqBF1KHlWKLiLNBmjx6yXroAlDaoK7ffcht9NlXpofcbhaxjhJ+wblGiFscoU
-         Q+PM4+C0whTl1iCQJ+lXjmN76+cq+v40wuD3gi3j4sycweon0J2W6J+EfSq9G5D4m3vk
-         AoKw==
-X-Gm-Message-State: AOAM5321JKAZO5ONmWUDQR8emcWf2LcIAGlBUZl6btyjiUWOornMj/2d
-        qRwEJFBlGeFw65g1aYrJG/Z4Onb+MAmuFoT1
-X-Google-Smtp-Source: ABdhPJxSw7sv6m8hQEf/6OcaSoGjSg7zqhzeIXlFaRLMxIzIbWUCMoXviVnCAdUcibOTru8NxAWmKA==
-X-Received: by 2002:a17:90a:f3d1:: with SMTP id ha17mr6500911pjb.123.1619650423529;
-        Wed, 28 Apr 2021 15:53:43 -0700 (PDT)
-Received: from google.com ([2401:fa00:9:211:3ae5:2a7f:7b15:7b41])
-        by smtp.gmail.com with ESMTPSA id 31sm654376pgw.3.2021.04.28.15.53.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Apr 2021 15:53:42 -0700 (PDT)
-Date:   Thu, 29 Apr 2021 08:53:31 +1000
-From:   Matthew Bobrowski <repnop@google.com>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Jan Kara <jack@suse.cz>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH 2/2] fanotify: Add pidfd support to the fanotify API
-Message-ID: <YInna8fT/WfUkV6+@google.com>
-References: <YH4+Swki++PHIwpY@google.com>
- <20210421080449.GK8706@quack2.suse.cz>
- <YIIBheuHHCJeY6wJ@google.com>
- <CAOQ4uxhUcefbu+5pLKfx7b-kOPP2OB+_RRPMPDX1vLk36xkZnQ@mail.gmail.com>
- <YIJ/JHdaPv2oD+Jd@google.com>
- <CAOQ4uxhyGKSM3LFKRtgNe+HmkUJRCFwafXdgC_8ysg7Bs43rWg@mail.gmail.com>
- <YIaVbWu8up3RY7gf@google.com>
- <CAOQ4uxhp3khQ9Ln2g9s5WLEsb-Cv2vdsZTuYUgQx-DW6GR1RmQ@mail.gmail.com>
- <YIeGefkB+cHMsDse@google.com>
- <CAOQ4uxjAqh3xVpigrJe1k01Fy5-rJRxxLGw92BwWtU4zjr=Wjg@mail.gmail.com>
+        id S229718AbhD1XEx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 28 Apr 2021 19:04:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44168 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229488AbhD1XEx (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 28 Apr 2021 19:04:53 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DB1DB6145D
+        for <linux-api@vger.kernel.org>; Wed, 28 Apr 2021 23:04:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1619651047;
+        bh=0afqfeFLgdB0fTNzaLFOMLYgWe3yB1y7QqmEFNzjedY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=s8CPOaIFrcZ6bgfFP6FstGuiS/Ep8lWIPMWnb/Iw39Kg8z0S6Hu4s34I7h0HF9dsO
+         +jFJk3d8n+w7lQ3eNw+yzriu6NxFWTCNH+jtp5oeyK8l/QS+jeRDJ+d1OnU0USEegh
+         +uux6L2gxngj6rNRFS8k+uTH3ngbWIj4yS5oYVpyMQM86An6XE9OCy2mYbVY4ECwti
+         AsMh5rD4V7hbfjc3SXOiaKr7Q6bDENZ5iN1pV8hPkHPzM/l8lhf29EM91z/4YxbmpZ
+         TmBqhOZm3Up25Hcy3mCbTpIA4g3ot3UsnqAZyVor05LSO9XfRFejgMe+QRf7O7MPDh
+         OmWSmvkCLu+yA==
+Received: by mail-ej1-f41.google.com with SMTP id u17so97102583ejk.2
+        for <linux-api@vger.kernel.org>; Wed, 28 Apr 2021 16:04:07 -0700 (PDT)
+X-Gm-Message-State: AOAM532UUre5aTZ4S8OwZPR4El4Sq2Q3WzgieXPQlplQxVOuNivPDz3p
+        YaDcOwMZfLv0YP5a+FxGdchWffw2XHxZ5v+VA/6iiQ==
+X-Google-Smtp-Source: ABdhPJzcb8Hw7Su0s8Rgxkv7jYWxNcuy2WTKMRFpTCb8fN9sWcUB+ds4ywq5Mo5SLRg2DAoSXXOtfYklNGY1ADo5ZH8=
+X-Received: by 2002:a17:906:6896:: with SMTP id n22mr32665459ejr.316.1619651045990;
+ Wed, 28 Apr 2021 16:04:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOQ4uxjAqh3xVpigrJe1k01Fy5-rJRxxLGw92BwWtU4zjr=Wjg@mail.gmail.com>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com> <20210427204315.24153-26-yu-cheng.yu@intel.com>
+In-Reply-To: <20210427204315.24153-26-yu-cheng.yu@intel.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Wed, 28 Apr 2021 16:03:55 -0700
+X-Gmail-Original-Message-ID: <CALCETrVTeYfzO-XWh+VwTuKCyPyp-oOMGH=QR_msG9tPQ4xPmA@mail.gmail.com>
+Message-ID: <CALCETrVTeYfzO-XWh+VwTuKCyPyp-oOMGH=QR_msG9tPQ4xPmA@mail.gmail.com>
+Subject: extending ucontext (Re: [PATCH v26 25/30] x86/cet/shstk: Handle
+ signals for shadow stack)
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        linux-arch <linux-arch@vger.kernel.org>
+Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Apr 27, 2021 at 08:14:05AM +0300, Amir Goldstein wrote:
-> On Tue, Apr 27, 2021 at 6:35 AM Matthew Bobrowski <repnop@google.com> wrote:
-> >
-> > On Mon, Apr 26, 2021 at 02:11:30PM +0300, Amir Goldstein wrote:
-> > > > Amir, I was just thinking about this a little over the weekend and I
-> > > > don't think we discussed how to handle the FAN_REPORT_PIDFD |
-> > > > FAN_REPORT_FID and friends case? My immediate thought is to make
-> > > > FAN_REPORT_PIDFD mutually exclusive with FAN_REPORT_FID and friends,
-> > > > but then again receiving a pidfd along with FID events may be also
-> > > > useful for some? What are your thoughts on this? If we don't go ahead
-> > > > with mutual exclusion, then this multiple event types alongside struct
-> > > > fanotify_event_metadata starts getting a little clunky, don't you
-> > > > think?
-> > > >
-> > >
-> > > The current format of an fanotify event already supports multiple info records:
-> > >
-> > > [fanotify_event_metadata]
-> > > [[fanotify_event_info_header][event record #1]]
-> > > [[fanotify_event_info_header][event record #2]]...
-> > >
-> > > (meta)->event_len is the total event length including all info records.
-> > >
-> > > For example, FAN_REPORT_FID | FAN_REPORT_DFID_MAME produces
-> > > (for some events) two info records, one FAN_EVENT_INFO_TYPE_FID
-> > > record and one FAN_EVENT_INFO_TYPE_DFID_NAME record.
-> >
-> > Ah, that's right! I now remember reviewing some patches associated
-> > with the FID change series which mentioned the possibility of
-> > receiving multiple FID info records. As the implementation currently
-> > stands, AFAIK there's not possibility for fanotify to ever return more
-> > than two info records, right?
-> >
-> > Is there any preference in terms of whether the new FAN_REPORT_PIDFD
-> > info records precede or come after FAN_REPORT_FID/FAN_REPORT_DFID_NAME
-> > info records in FAN_REPORT_FID or FAN_REPORT_FID |
-> > FAN_REPORT_DFID_NAME configurations?
+On Tue, Apr 27, 2021 at 1:44 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
 >
-> Doesn't matter.
+> When shadow stack is enabled, a task's shadow stack states must be saved
+> along with the signal context and later restored in sigreturn.  However,
+> currently there is no systematic facility for extending a signal context.
+> There is some space left in the ucontext, but changing ucontext is likely
+> to create compatibility issues and there is not enough space for further
+> extensions.
+>
+> Introduce a signal context extension struct 'sc_ext', which is used to save
+> shadow stack restore token address.  The extension is located above the fpu
+> states, plus alignment.  The struct can be extended (such as the ibt's
+> wait_endbr status to be introduced later), and sc_ext.total_size field
+> keeps track of total size.
 
-OK, fair.
+I still don't like this.
 
-> Your typical application would first filter by pid/pidfd and only if process
-> matches the filters would it care to examine the event fid info, correct?
+Here's how the signal layout works, for better or for worse:
 
-Not necessarily, but you're right, the ordering doesn't really matter
-too much.
+The kernel has:
 
-/M
+struct rt_sigframe {
+    char __user *pretcode;
+    struct ucontext uc;
+    struct siginfo info;
+    /* fp state follows here */
+};
+
+This is roughly the actual signal frame.  But userspace does not have
+this struct declared, and user code does not know the sizes of the
+fields.  So it's accessed in a nonsensical way.  The signal handler
+function is passed a pointer to the whole sigframe implicitly in RSP,
+a pointer to &frame->info in RSI, anda pointer to &frame->uc in RDX.
+User code can *find* the fp state by following a pointer from
+mcontext, which is, in turn, found via uc:
+
+struct ucontext {
+    unsigned long      uc_flags;
+    struct ucontext  *uc_link;
+    stack_t          uc_stack;
+    struct sigcontext uc_mcontext;  <-- fp pointer is in here
+    sigset_t      uc_sigmask;    /* mask last for extensibility */
+};
+
+The kernel, in sigreturn, works a bit differently.  The sigreturn
+variants know the base address of the frame but don't have the benefit
+of receiving pointers to the fields.  So instead the kernel takes
+advantage of the fact that it knows the offset to uc and parses uc
+accordingly.  And the kernel follows the pointer in mcontext to find
+the fp state.  The latter bit is quite important later.  The kernel
+does not parse info at all.
+
+The fp state is its own mess.  When XSAVE happened, Intel kindly (?)
+gave us a software defined area between the "legacy" x87 region and
+the modern supposedly extensible part.  Linux sticks the following
+structure in that hole:
+
+struct _fpx_sw_bytes {
+    /*
+     * If set to FP_XSTATE_MAGIC1 then this is an xstate context.
+     * 0 if a legacy frame.
+     */
+    __u32                magic1;
+
+    /*
+     * Total size of the fpstate area:
+     *
+     *  - if magic1 == 0 then it's sizeof(struct _fpstate)
+     *  - if magic1 == FP_XSTATE_MAGIC1 then it's sizeof(struct _xstate)
+     *    plus extensions (if any)
+     */
+    __u32                extended_size;
+
+    /*
+     * Feature bit mask (including FP/SSE/extended state) that is present
+     * in the memory layout:
+     */
+    __u64                xfeatures;
+
+    /*
+     * Actual XSAVE state size, based on the xfeatures saved in the layout.
+     * 'extended_size' is greater than 'xstate_size':
+     */
+    __u32                xstate_size;
+
+    /* For future use: */
+    __u32                padding[7];
+};
+
+
+That's where we are right now upstream.  The kernel has a parser for
+the FPU state that is bugs piled upon bugs and is going to have to be
+rewritten sometime soon.  On top of all this, we have two upcoming
+features, both of which require different kinds of extensions:
+
+1. AVX-512.  (Yeah, you thought this story was over a few years ago,
+but no.  And AMX makes it worse.)  To make a long story short, we
+promised user code many years ago that a signal frame fit in 2048
+bytes with some room to spare.  With AVX-512 this is false.  With AMX
+it's so wrong it's not even funny.  The only way out of the mess
+anyone has come up with involves making the length of the FPU state
+vary depending on which features are INIT, i.e. making it more compact
+than "compact" mode is.  This has a side effect: it's no longer
+possible to modify the state in place, because enabling a feature with
+no space allocated will make the structure bigger, and the stack won't
+have room.  Fortunately, one can relocate the entire FPU state, update
+the pointer in mcontext, and the kernel will happily follow the
+pointer.  So new code on a new kernel using a super-compact state
+could expand the state by allocating new memory (on the heap? very
+awkwardly on the stack?) and changing the pointer.  For all we know,
+some code already fiddles with the pointer.  This is great, except
+that your patch sticks more data at the end of the FPU block that no
+one is expecting, and your sigreturn code follows that pointer, and
+will read off into lala land.
+
+2. CET.  CET wants us to find a few more bytes somewhere, and those
+bytes logically belong in ucontext, and here we are.
+
+This is *almost*, but not quite, easy: struct ucontext is already
+variable length!  Unfortunately, the whole variable length portion is
+used up by uc_sigmask.  So I propose that we introduce a brand new
+bona fide extension mechanism.  It works like this:
+
+First, we add a struct ucontext_extension at the end.  It looks like:
+
+struct ucontext_extension {
+  u64 length;  /* sizeof(struct ucontext_extension) */
+  u64 flags;  /* we will want this some day */
+  [CET stuff here]
+  [future stuff here]
+};
+
+And we locate it by scrounging a word somewhere in ucontext to give
+the offset from the beginning of struct ucontext to
+ucontext_extension.  We indicate the presence of this feature using a
+new uc_flags bit.  I can think of a couple of vaguely reasonable
+places:
+
+a) the reserved word in sigcontext.  This is fine for x86 but not so
+great if other architectures want to do this.
+
+b) uc_link.  Fine everywhere but powerpc.  Oops.
+
+c) use the high bits of uc_flags.  After all, once we add extensions,
+we don't need new flags, so we can steal 16 high bits of uc_flags for
+this.
+
+I think I'm in favor of (c).  We do:
+
+(uc_flags & 0xffff0000) == 0: extension not present
+
+Otherwise the extension region is at ucontext + (uc_flags >> 16).
+
+And sigreturn finds the extension the same way, because CRIU can
+already migrate a signal frame from one kernel to another, your patch
+breaks this, and having sigreturn hardcode the offset would also break
+it.
+
+What do you think?
