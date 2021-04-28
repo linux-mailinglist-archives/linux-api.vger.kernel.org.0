@@ -2,124 +2,121 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C560536DAC4
-	for <lists+linux-api@lfdr.de>; Wed, 28 Apr 2021 17:06:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 614DE36DB3C
+	for <lists+linux-api@lfdr.de>; Wed, 28 Apr 2021 17:24:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236041AbhD1PCO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 28 Apr 2021 11:02:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40620 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236071AbhD1PBu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 28 Apr 2021 11:01:50 -0400
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E605C0612AD;
-        Wed, 28 Apr 2021 07:57:15 -0700 (PDT)
-Received: by mail-oi1-x236.google.com with SMTP id d25so25800294oij.5;
-        Wed, 28 Apr 2021 07:57:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xU26eKhAat6ZuGhDgaDU4lA3EkxCkgm/s81rka2sejI=;
-        b=k5jI8e0y1SuWfZ34di/qkLtVolNK2FRYo26+wf8LY5DibGsrSHDxJYhS8RKM0i+O43
-         0/dIqE+x2A+/sK3y3/wHosMr3rOsYPkD/ZOTo6CHe+FUahRCYdho1Yt6Jkz+s9b0Nys0
-         Vv8t5Q+QJjN8/RyO+vs75phCLTS1RZ6DphJ5UUZaGOHIHfYHssGHPTu0rCZ12vnOJzkj
-         VJ5Mt9IG28Bn9w5NSRdMJXXBD8um5qj+gZHPKbC10bgfUBJCvWEIxArkOiO2RDPT32k/
-         rZJx18sosR84PdHF7v3OHSjmMTDb07Ud7Hjw4g3QpWhzbZRpWZQqYoXJpzQvy1AiOkJH
-         9oqA==
+        id S231219AbhD1PLF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 28 Apr 2021 11:11:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60722 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233723AbhD1PKy (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 28 Apr 2021 11:10:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1619622609;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=kk0GXyWrV+tplXlipzE2jcmQ3JfsCy9V2iMdjdCt+G0=;
+        b=eF+dxnYIs+ZLj9HBWAJwe0vwC2LlBWGcYDuRVttOYjqcHZrouKAjh3lq5kdcN4IdwojG3e
+        Xh4ne1eTDdd97Fqgp7P5E89TeM+uo1dRcvRCjHeCeL2l28aCReW53gS8ev7X4ilEe3rAV2
+        GotZzFwCuvf+3Y6oly+PsmYZ+qRh+C4=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-514-cPnr66n5PzOlNAvJSTat7A-1; Wed, 28 Apr 2021 11:10:07 -0400
+X-MC-Unique: cPnr66n5PzOlNAvJSTat7A-1
+Received: by mail-qt1-f199.google.com with SMTP id x5-20020ac86b450000b02901bad76b5f30so1043590qts.16
+        for <linux-api@vger.kernel.org>; Wed, 28 Apr 2021 08:10:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xU26eKhAat6ZuGhDgaDU4lA3EkxCkgm/s81rka2sejI=;
-        b=tATLSXcjOfx0zWs7c92BBmT5KedZcKziKeTsYjNBk8dcXl72kFbHjzC+Iz1ax1hlji
-         2+8/Qu7naBH118HJ+8LXmeE5lYBQd78xzAsAtfwmZ07idvUUTdBLM6RxUmVVSdv1gLNi
-         P7IDTUkUjSV53aIJkQzzxL8l5TZZy+NvrswBb7Kn/rS03FD/KOcGsbjCDe10dSveKnFv
-         lcZ/x1ciLjfLHEHY1j336MkfW/FS4iEPIOZhTtlEAmXkIukQkZ9e0OtwjIIg1Nl+Uais
-         2g6cASj/ZJLbbZhVAA6wgBVLRmW28EUs8peA9HLDVveurGeyFTJKorHBcRYNwHBXIHfC
-         KJ6g==
-X-Gm-Message-State: AOAM5307pA7RHRTmvVoZ1ysMN93i4UvTSJP4f1FnjGj/PA7/hWD35fK+
-        oaDIoP5yqRjwsFUb1YLlOn4PevocCFyaQtybAck=
-X-Google-Smtp-Source: ABdhPJwBNAOYLNSRfUtYzVTxF2AYiX9nqQGGM+fJ+rtx+rAaaxqanQIebBFJnPrd9GA9ddLcf6+KFh8vSnkc+g05TdA=
-X-Received: by 2002:a05:6808:2d0:: with SMTP id a16mr12208850oid.116.1619621835014;
- Wed, 28 Apr 2021 07:57:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210427204720.25007-1-yu-cheng.yu@intel.com> <0e03c50ea05440209d620971b9db4f29@AcuMS.aculab.com>
- <CALCETrUpZfznXzN3Ld33DMvQcHD2ACnhYf9KdP+5-xXuX_pVpA@mail.gmail.com>
-In-Reply-To: <CALCETrUpZfznXzN3Ld33DMvQcHD2ACnhYf9KdP+5-xXuX_pVpA@mail.gmail.com>
-From:   "H.J. Lu" <hjl.tools@gmail.com>
-Date:   Wed, 28 Apr 2021 07:56:38 -0700
-Message-ID: <CAMe9rOp7FauoqQ0vx+ZVPGOE9+ABspheuGLc++Chj_goE5HvWA@mail.gmail.com>
-Subject: Re: [PATCH v26 0/9] Control-flow Enforcement: Indirect Branch Tracking
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     David Laight <David.Laight@aculab.com>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=kk0GXyWrV+tplXlipzE2jcmQ3JfsCy9V2iMdjdCt+G0=;
+        b=s8Obsx+B72aq9nU5bUjnb8Q5WZFsquMofjMmLDeNpgjKU5BUnYz+u/Sf34F5j8qwAY
+         ZxCBvsXWAA3wm/j5vYKAUA/LdkiraHfIIkJmVQmsPwOSL41Ul1UZpNxpmgxnjCpIeK05
+         JS2eXrGDw+tj/2zplym6iUt9t6FfIEwbFx9/ycf3y4BUnGlNzODOIw9lbH4MO+xUpHJN
+         avdQhNIXUYPWawicEXkVhTeWFow2DzYrTvrrRyGWTaYl3Wm83vq5tB3Q3W/0Yoysj1RY
+         L4FeZFHFe3MevA13rBqPmV/Dt5Bq+2NqbW2/bnpSF2VOaaZsgRbSh/c1vpdGyIeWn8Wl
+         weaA==
+X-Gm-Message-State: AOAM531e4YopskcAog1uLfGGg9XrrIvYSEw52PXAQ/7591kl1F17AKUn
+        i8yglllfrD1GhFf7dlgw+nF7xozSHptOLyIkO9EBiq4Wb+7fIa32LpOUpWc6zQOQ+NhO9zeSQS8
+        QCJv8EoXffeBPqX01B27P
+X-Received: by 2002:a05:622a:58d:: with SMTP id c13mr5772732qtb.44.1619622606821;
+        Wed, 28 Apr 2021 08:10:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxDOIhz717CICdyQ7QFBw3/HvW1s7fJ9E22xX4/FLRWsnY9Iqpo03jJIJ0dPF8+ttjVIu4urg==
+X-Received: by 2002:a05:622a:58d:: with SMTP id c13mr5772702qtb.44.1619622606467;
+        Wed, 28 Apr 2021 08:10:06 -0700 (PDT)
+Received: from xz-x1 (bras-base-toroon474qw-grc-77-184-145-104-227.dsl.bell.ca. [184.145.104.227])
+        by smtp.gmail.com with ESMTPSA id f2sm5333165qkh.76.2021.04.28.08.10.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Apr 2021 08:10:05 -0700 (PDT)
+Date:   Wed, 28 Apr 2021 11:10:03 -0400
+From:   Peter Xu <peterx@redhat.com>
+To:     Axel Rasmussen <axelrasmussen@google.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hugh Dickins <hughd@google.com>,
+        Jerome Glisse <jglisse@redhat.com>,
+        Joe Perches <joe@perches.com>,
+        Lokesh Gidra <lokeshgidra@google.com>,
         Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Shaohua Li <shli@fb.com>, Shuah Khan <shuah@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Wang Qing <wangqing@vivo.com>, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+        Brian Geffon <bgeffon@google.com>,
+        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+        Mina Almasry <almasrymina@google.com>,
+        Oliver Upton <oupton@google.com>
+Subject: Re: [PATCH v5 04/10] userfaultfd/shmem: support UFFDIO_CONTINUE for
+ shmem
+Message-ID: <20210428151003.GB6584@xz-x1>
+References: <20210427225244.4326-1-axelrasmussen@google.com>
+ <20210427225244.4326-5-axelrasmussen@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210427225244.4326-5-axelrasmussen@google.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Apr 28, 2021 at 7:52 AM Andy Lutomirski <luto@kernel.org> wrote:
->
-> On Wed, Apr 28, 2021 at 7:48 AM David Laight <David.Laight@aculab.com> wrote:
-> >
-> > From: Yu-cheng Yu
-> > > Sent: 27 April 2021 21:47
-> > >
-> > > Control-flow Enforcement (CET) is a new Intel processor feature that blocks
-> > > return/jump-oriented programming attacks.  Details are in "Intel 64 and
-> > > IA-32 Architectures Software Developer's Manual" [1].
-> > ...
-> >
-> > Does this feature require that 'binary blobs' for out of tree drivers
-> > be compiled by a version of gcc that adds the ENDBRA instructions?
-> >
-> > If enabled for userspace, what happens if an old .so is dynamically
-> > loaded?
+On Tue, Apr 27, 2021 at 03:52:38PM -0700, Axel Rasmussen wrote:
+> With this change, userspace can resolve a minor fault within a
+> shmem-backed area with a UFFDIO_CONTINUE ioctl. The semantics for this
+> match those for hugetlbfs - we look up the existing page in the page
+> cache, and install a PTE for it.
+> 
+> This commit introduces a new helper: mcopy_atomic_install_pte.
+> 
+> Why handle UFFDIO_CONTINUE for shmem in mm/userfaultfd.c, instead of in
+> shmem.c? The existing userfault implementation only relies on shmem.c
+> for VM_SHARED VMAs. However, minor fault handling / CONTINUE work just
+> fine for !VM_SHARED VMAs as well. We'd prefer to handle CONTINUE for
+> shmem in one place, regardless of shared/private (to reduce code
+> duplication).
+> 
+> Why add a new mcopy_atomic_install_pte helper? A problem we have with
+> continue is that shmem_mcopy_atomic_pte() and mcopy_atomic_pte() are
+> *close* to what we want, but not exactly. We do want to setup the PTEs
+> in a CONTINUE operation, but we don't want to e.g. allocate a new page,
+> charge it (e.g. to the shmem inode), manipulate various flags, etc. Also
+> we have the problem stated above: shmem_mcopy_atomic_pte() and
+> mcopy_atomic_pte() both handle one-half of the problem (shared /
+> private) continue cares about. So, introduce mcontinue_atomic_pte(), to
+> handle all of the shmem continue cases. Introduce the helper so it
+> doesn't duplicate code with mcopy_atomic_pte().
+> 
+> In a future commit, shmem_mcopy_atomic_pte() will also be modified to
+> use this new helper. However, since this is a bigger refactor, it seems
+> most clear to do it as a separate change.
+> 
+> Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
 
-CET will be disabled by ld.so in this case.
-
-> > Or do all userspace programs and libraries have to have been compiled
-> > with the ENDBRA instructions?
-
-Correct.  ld and ld.so check this.
-
-> If you believe that the userspace tooling for the legacy IBT table
-> actually works, then it should just work.  Yu-cheng, etc: how well
-> tested is it?
->
-
-Legacy IBT bitmap isn't unused since it doesn't cover legacy codes
-generated by legacy JITs.
+Acked-by: Peter Xu <peterx@redhat.com>
 
 -- 
-H.J.
+Peter Xu
+
