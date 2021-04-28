@@ -2,132 +2,151 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E1E936DC47
-	for <lists+linux-api@lfdr.de>; Wed, 28 Apr 2021 17:46:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E71A36DC85
+	for <lists+linux-api@lfdr.de>; Wed, 28 Apr 2021 17:56:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240915AbhD1Prj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 28 Apr 2021 11:47:39 -0400
-Received: from mga01.intel.com ([192.55.52.88]:38165 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240489AbhD1Pr0 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 28 Apr 2021 11:47:26 -0400
-IronPort-SDR: WDFuOCh4jFL+z6EiCWvxT3jzG8EXwRjrknnqD9+MTbfihsWwLYY5v5j8OKKcD+hVHlvpYpDfjO
- pNbLEWb9+Irw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="217489590"
-X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; 
-   d="scan'208";a="217489590"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2021 08:42:50 -0700
-IronPort-SDR: /OWRlgjZ0wHSA6ggy60QZxgWW9o+HITbgQiS/XSvWmnow0pIOwN5tBgD9qTODMQKg/BS5HJIjd
- 28fqMtnt2dsg==
-X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; 
-   d="scan'208";a="430359505"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.133.34]) ([10.209.133.34])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2021 08:42:48 -0700
-Subject: Re: [PATCH v26 0/9] Control-flow Enforcement: Indirect Branch
- Tracking
-To:     Andy Lutomirski <luto@kernel.org>, "H.J. Lu" <hjl.tools@gmail.com>
-Cc:     David Laight <David.Laight@aculab.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
+        id S231874AbhD1P5a (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 28 Apr 2021 11:57:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31373 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S240322AbhD1P53 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 28 Apr 2021 11:57:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1619625404;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=NAIQJbaFQ/18mbKkoum13vKuadvSUXUDgwqjg93SH3A=;
+        b=GBlHVrPSHTaGu7Zi4fPyIqCCC2RIctCNLKUYXyAY5E2ULh2slgM1YMZuhuTIjdw8tNjCSU
+        18hV74JgAEoYPdnjsDaDUpXRIbTZBsINwaWOFGpd5Kys/ye6b0lhZ7J4C0iL9yExA+YEz6
+        h7N5wP8X6KrOLqw+8jfEmGKD7KNjXpU=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-426-K81ljJaQOPOR8Yyyn02qyQ-1; Wed, 28 Apr 2021 11:56:41 -0400
+X-MC-Unique: K81ljJaQOPOR8Yyyn02qyQ-1
+Received: by mail-qv1-f70.google.com with SMTP id d11-20020a0cdb0b0000b02901c0da4391d5so1150615qvk.12
+        for <linux-api@vger.kernel.org>; Wed, 28 Apr 2021 08:56:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=NAIQJbaFQ/18mbKkoum13vKuadvSUXUDgwqjg93SH3A=;
+        b=Gao3qUmvAiRjDlu5pAMdGPyUub8JDEnvEyyk3Rix21kFYz8zgI8sPVGRaBcpiqXlou
+         NZDM474A02UVk4RkQh+6DeVkKyeue8FjEnZJSMsX/NMRszCO7sBP8lUeb6bcY2K4fpKn
+         0wiCp4Uhd8OTp1EfPyRdmCQPB65B3arttXifomh4dEyWIXtbT4PRwg6cUJDmaSUmpLEA
+         Fk6Ly2UzxCgM8anL9UCt5T1F5gQ7dbI0S4dzofAONTapGuP2Y0QvyFkhXJfD8DvPuCzf
+         VUMg1NamkImiiWQ3qSY4r2bFoY8OYSqo4JUaBiVhzVpjliTBXfni/8txzymhQrWTYgT2
+         ICXg==
+X-Gm-Message-State: AOAM5338VkwRN3/zsdfPqXnvOViPFkulhLZmpdPv5mQPRPFDHuwxZF6q
+        jHaDFiG2ZfWB9aptB3Ez0OlZ6S8zREMA5sYFi+HtONAW0mw4KZuXI3sOrQER0Rmnh+Lig+PUUhn
+        kY7+9Liw1/+PQA4ogFZBj
+X-Received: by 2002:a05:622a:1186:: with SMTP id m6mr26871394qtk.319.1619625400930;
+        Wed, 28 Apr 2021 08:56:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy8q5uYN6y3jHP6JWTobRGbCN9ooFKd/mXamvT7dYQYBwarL/ZsSzBJJw8wuAZWoA83r9zr4A==
+X-Received: by 2002:a05:622a:1186:: with SMTP id m6mr26871356qtk.319.1619625400589;
+        Wed, 28 Apr 2021 08:56:40 -0700 (PDT)
+Received: from xz-x1 (bras-base-toroon474qw-grc-77-184-145-104-227.dsl.bell.ca. [184.145.104.227])
+        by smtp.gmail.com with ESMTPSA id e10sm83701qka.56.2021.04.28.08.56.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Apr 2021 08:56:39 -0700 (PDT)
+Date:   Wed, 28 Apr 2021 11:56:38 -0400
+From:   Peter Xu <peterx@redhat.com>
+To:     Hugh Dickins <hughd@google.com>
+Cc:     Axel Rasmussen <axelrasmussen@google.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jerome Glisse <jglisse@redhat.com>,
+        Joe Perches <joe@perches.com>,
+        Lokesh Gidra <lokeshgidra@google.com>,
         Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-References: <20210427204720.25007-1-yu-cheng.yu@intel.com>
- <0e03c50ea05440209d620971b9db4f29@AcuMS.aculab.com>
- <CALCETrUpZfznXzN3Ld33DMvQcHD2ACnhYf9KdP+5-xXuX_pVpA@mail.gmail.com>
- <CAMe9rOp7FauoqQ0vx+ZVPGOE9+ABspheuGLc++Chj_goE5HvWA@mail.gmail.com>
- <CALCETrVHUP9=2kX3aJJugcagsf26W0sLEPsDvVCZNnBmbWrOLQ@mail.gmail.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <9f7dbabe-f369-fef9-a303-53e94c5fa4ad@intel.com>
-Date:   Wed, 28 Apr 2021 08:42:48 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Shaohua Li <shli@fb.com>, Shuah Khan <shuah@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Wang Qing <wangqing@vivo.com>, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+        Brian Geffon <bgeffon@google.com>,
+        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+        Mina Almasry <almasrymina@google.com>,
+        Oliver Upton <oupton@google.com>
+Subject: Re: [PATCH v5 06/10] userfaultfd/shmem: modify
+ shmem_mcopy_atomic_pte to use install_pte()
+Message-ID: <20210428155638.GD6584@xz-x1>
+References: <20210427225244.4326-1-axelrasmussen@google.com>
+ <20210427225244.4326-7-axelrasmussen@google.com>
+ <alpine.LSU.2.11.2104271704110.7111@eggly.anvils>
 MIME-Version: 1.0
-In-Reply-To: <CALCETrVHUP9=2kX3aJJugcagsf26W0sLEPsDvVCZNnBmbWrOLQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <alpine.LSU.2.11.2104271704110.7111@eggly.anvils>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 4/28/2021 8:14 AM, Andy Lutomirski wrote:
-> On Wed, Apr 28, 2021 at 7:57 AM H.J. Lu <hjl.tools@gmail.com> wrote:
->>
->> On Wed, Apr 28, 2021 at 7:52 AM Andy Lutomirski <luto@kernel.org> wrote:
->>>
->>> On Wed, Apr 28, 2021 at 7:48 AM David Laight <David.Laight@aculab.com> wrote:
->>>>
->>>> From: Yu-cheng Yu
->>>>> Sent: 27 April 2021 21:47
->>>>>
->>>>> Control-flow Enforcement (CET) is a new Intel processor feature that blocks
->>>>> return/jump-oriented programming attacks.  Details are in "Intel 64 and
->>>>> IA-32 Architectures Software Developer's Manual" [1].
->>>> ...
->>>>
->>>> Does this feature require that 'binary blobs' for out of tree drivers
->>>> be compiled by a version of gcc that adds the ENDBRA instructions?
-
-David, do you mean kernel loadable drivers here?  Do not worry about it 
-for now, since shadow stack/ibt is not enabled for kernel-mode yet.
-
->>>>
->>>> If enabled for userspace, what happens if an old .so is dynamically
->>>> loaded?
->>
->> CET will be disabled by ld.so in this case.
+On Tue, Apr 27, 2021 at 05:58:16PM -0700, Hugh Dickins wrote:
+> On Tue, 27 Apr 2021, Axel Rasmussen wrote:
 > 
-> What if a program starts a thread and then dlopens a legacy .so?
+> > In a previous commit, we added the mcopy_atomic_install_pte() helper.
+> > This helper does the job of setting up PTEs for an existing page, to map
+> > it into a given VMA. It deals with both the anon and shmem cases, as
+> > well as the shared and private cases.
+> > 
+> > In other words, shmem_mcopy_atomic_pte() duplicates a case it already
+> > handles. So, expose it, and let shmem_mcopy_atomic_pte() use it
+> > directly, to reduce code duplication.
+> > 
+> > This requires that we refactor shmem_mcopy_atomic_pte() a bit:
+> > 
+> > Instead of doing accounting (shmem_recalc_inode() et al) part-way
+> > through the PTE setup, do it afterward. This frees up
+> > mcopy_atomic_install_pte() from having to care about this accounting,
+> > and means we don't need to e.g. shmem_uncharge() in the error path.
+> > 
+> > A side effect is this switches shmem_mcopy_atomic_pte() to use
+> > lru_cache_add_inactive_or_unevictable() instead of just lru_cache_add().
+> > This wrapper does some extra accounting in an exceptional case, if
+> > appropriate, so it's actually the more correct thing to use.
+> > 
+> > Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
 > 
->>
->>>> Or do all userspace programs and libraries have to have been compiled
->>>> with the ENDBRA instructions?
->>
->> Correct.  ld and ld.so check this.
->>
->>> If you believe that the userspace tooling for the legacy IBT table
->>> actually works, then it should just work.  Yu-cheng, etc: how well
->>> tested is it?
->>>
->>
->> Legacy IBT bitmap isn't unused since it doesn't cover legacy codes
->> generated by legacy JITs.
->>
+> Not quite. Two things.
 > 
-> How does ld.so decide whether a legacy JIT is in use?
-> 
+> One, in this version, delete_from_page_cache(page) has vanished
+> from the particular error path which needs it.
 
-Let me clarify.  IBT bitmap isn't used at all.  How dlopen() works 
-depends entirely on the tunable of glibc.cpu.x86_ibt.  There are three 
-values: on, off, permissive.  On is always on, and off is always off, 
-regardless of the .so having ibt or not.  The default is "permissive," 
-which turns off ibt upon dlopen a legacy .so.  I hope this also answers 
-Andy's question above.
+Agreed.  I also spotted that the set_page_dirty() seems to have been overlooked
+when reusing mcopy_atomic_install_pte(), which afaiu should be move into the
+helper.
 
-Yu-cheng
+> 
+> Two, and I think this predates your changes (so needs a separate
+> fix patch first, for backport to stable? a user with bad intentions
+> might be able to trigger the BUG), in pondering the new error paths
+> and that /* don't free the page */ one in particular, isn't it the
+> case that the shmem_inode_acct_block() on entry might succeed the
+> first time, but atomic copy fail so -ENOENT, then something else
+> fill up the tmpfs before the retry comes in, so that retry then
+> fail with -ENOMEM, and hit the BUG_ON(page) in __mcopy_atomic()?
+> 
+> (As I understand it, the shmem_inode_unacct_blocks() has to be
+> done before returning, because the caller may be unable to retry.)
+> 
+> What the right fix is rather depends on other uses of __mcopy_atomic():
+> if they obviously cannot hit that BUG_ON(page), you may prefer to leave
+> it in, and fix it here where shmem_inode_acct_block() fails. Or you may
+> prefer instead to delete that "else BUG_ON(page);" - looks as if that
+> would end up doing the right thing.  Peter may have a preference.
+
+To me, the BUG_ON(page) wanted to guarantee mfill_atomic_pte() should have
+consumed the page properly when possible.  Removing the BUG_ON() looks good
+already, it will just stop covering the case when e.g. ret==0.
+
+So maybe slightly better to release the page when shmem_inode_acct_block()
+fails (so as to still keep some guard on the page)?
+
+Thanks,
+
+-- 
+Peter Xu
+
