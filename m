@@ -2,96 +2,118 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 16D7C36DB45
-	for <lists+linux-api@lfdr.de>; Wed, 28 Apr 2021 17:24:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 744FC36DB6B
+	for <lists+linux-api@lfdr.de>; Wed, 28 Apr 2021 17:24:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229454AbhD1PLx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 28 Apr 2021 11:11:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39363 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229961AbhD1PLw (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 28 Apr 2021 11:11:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1619622667;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=T807XqCTr78fh+zT3Qv4di+WLGWcFE6R3h9u02iLdq0=;
-        b=OZ2Z7psUTHyhXPnamxMkJa7+0M5XQddubzY18T/sJG3h0Ze+iQAvKUbpuz3qR3pu5pASiM
-        ZxTeNO8OikSVwzo6bJuEkkewuJWyILJPFtcea4WjisMPSHUPn/CtcW5btv7gcpVZ33bE85
-        pGtM6+nntapuujEE3g0X/ghQ5xYLCIw=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-60-3LQsRBRqMWuUOVgPNUbPTw-1; Wed, 28 Apr 2021 11:11:05 -0400
-X-MC-Unique: 3LQsRBRqMWuUOVgPNUbPTw-1
-Received: by mail-qk1-f198.google.com with SMTP id m1-20020a05620a2201b02902e5493ba894so1493940qkh.17
-        for <linux-api@vger.kernel.org>; Wed, 28 Apr 2021 08:11:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=T807XqCTr78fh+zT3Qv4di+WLGWcFE6R3h9u02iLdq0=;
-        b=YDIdTONe6Yk1mKPDvjikDwwNE41tISd/3vtatqAs4A40iI5XYdER041zx6KNzjHK8G
-         m8ZQltxtFHGmf6NnS2sImp1B3kcNXDMPYdMbp8WXyIdnNyUDGK76Zz2s8Z+XCeoDmtO+
-         LOnQa+EkGg74hu5nPISxeiDafhl+2GSClRuFug/CZCWNP1hSPkETcfYCxsyhE+VAn5HJ
-         nAhn7YgtQaVGUFMmnrGksumgUrJuDUC6aVu2+wKOX8chobptEJrdZGOwSJypVyn3+crs
-         OzpZpYz0qyG0ymakaTDczR9uUJwR+znmCLbzqXfy7/upc4+Vv0fXjqoJ56P8Jjkgaw6q
-         pi0g==
-X-Gm-Message-State: AOAM5329RWGHMWtqQ887CSWcvZdOg8b4hk9Nu8lhWOW486XU3+bZU7ju
-        g0xS/dJ3I2Sgz/sBFv0/g8QEoSn/a/zE12XRNrtG7sTFOlKdP/X0icKY6FKljUZZqSKveIL9CRR
-        D/ScRJC/tN+Z1Wsbb4HZh
-X-Received: by 2002:ac8:7a6f:: with SMTP id w15mr27072607qtt.153.1619622664722;
-        Wed, 28 Apr 2021 08:11:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxmlz6i+k8GL+CodVGGb/U/hb9IU3h8zgSIAJf+VwEX/cqDhpeMEGloDjVttPcXhjj2HOgzLg==
-X-Received: by 2002:ac8:7a6f:: with SMTP id w15mr27072578qtt.153.1619622664510;
-        Wed, 28 Apr 2021 08:11:04 -0700 (PDT)
-Received: from xz-x1 (bras-base-toroon474qw-grc-77-184-145-104-227.dsl.bell.ca. [184.145.104.227])
-        by smtp.gmail.com with ESMTPSA id b17sm194720qto.88.2021.04.28.08.11.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Apr 2021 08:11:04 -0700 (PDT)
-Date:   Wed, 28 Apr 2021 11:11:01 -0400
-From:   Peter Xu <peterx@redhat.com>
-To:     Axel Rasmussen <axelrasmussen@google.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Hugh Dickins <hughd@google.com>,
-        Jerome Glisse <jglisse@redhat.com>,
-        Joe Perches <joe@perches.com>,
-        Lokesh Gidra <lokeshgidra@google.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Shaohua Li <shli@fb.com>, Shuah Khan <shuah@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Wang Qing <wangqing@vivo.com>, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-        Brian Geffon <bgeffon@google.com>,
-        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
-        Mina Almasry <almasrymina@google.com>,
-        Oliver Upton <oupton@google.com>
-Subject: Re: [PATCH v5 05/10] userfaultfd/shmem: advertise shmem minor fault
- support
-Message-ID: <20210428151101.GC6584@xz-x1>
-References: <20210427225244.4326-1-axelrasmussen@google.com>
- <20210427225244.4326-6-axelrasmussen@google.com>
+        id S239803AbhD1PPf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 28 Apr 2021 11:15:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35706 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239786AbhD1PPf (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 28 Apr 2021 11:15:35 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 593BF6143C
+        for <linux-api@vger.kernel.org>; Wed, 28 Apr 2021 15:14:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1619622890;
+        bh=4Ws0+en3jeqx+lcLETHxSaMmCbFj64akFU1VEPRBU+0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ScedMa4pTRrbMQMckrxWa/W5fytapGxMaxWDH0qlymRF2Y9VLNEfZ52a8gzMHsd52
+         2ryrys+CYOK1xWIKrSs7xIDsGaZo0qKjaTOAxk8nNreE5vd1fGw4viUeltjoLfBNIP
+         HW8ySxMLlVoJNC29I9nCwWa1D76Zyk8vD5A/UPgMvlRmNd7LsqZzo/XF4JdhrvD4EU
+         HJ/OMpNw5to/qNYpA2J3gev0yOy5iopChmSc0MSy+m0m0zctmONRp8W0ey7BsyBMYF
+         UWXAHkifj/C3aJ1/51ufonU1ECY9WqyF1vtGSrN67dWbBEI3Wcrkh86DyUZgtvil1i
+         Id7nJ/+1aZj1Q==
+Received: by mail-ed1-f45.google.com with SMTP id g14so14998665edy.6
+        for <linux-api@vger.kernel.org>; Wed, 28 Apr 2021 08:14:50 -0700 (PDT)
+X-Gm-Message-State: AOAM530A/hbNmlkrl9j2Epa3XSPwyDIc2ISKK9JCueoH1C8ujuRuGS8i
+        p6EYih5mqczFgM5Ig1l1c8q3haiogQfL51ERf5h/QQ==
+X-Google-Smtp-Source: ABdhPJxwJpY1QIeAU6fDkKWgHdGb8D1MMF6TX8d4Wams5Yc1cZADwoIMzfDbopKAgEhXVvM9guavhPLCPGkwr5btYfc=
+X-Received: by 2002:a50:fc91:: with SMTP id f17mr11825671edq.23.1619622888769;
+ Wed, 28 Apr 2021 08:14:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210427225244.4326-6-axelrasmussen@google.com>
+References: <20210427204720.25007-1-yu-cheng.yu@intel.com> <0e03c50ea05440209d620971b9db4f29@AcuMS.aculab.com>
+ <CALCETrUpZfznXzN3Ld33DMvQcHD2ACnhYf9KdP+5-xXuX_pVpA@mail.gmail.com> <CAMe9rOp7FauoqQ0vx+ZVPGOE9+ABspheuGLc++Chj_goE5HvWA@mail.gmail.com>
+In-Reply-To: <CAMe9rOp7FauoqQ0vx+ZVPGOE9+ABspheuGLc++Chj_goE5HvWA@mail.gmail.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Wed, 28 Apr 2021 08:14:37 -0700
+X-Gmail-Original-Message-ID: <CALCETrVHUP9=2kX3aJJugcagsf26W0sLEPsDvVCZNnBmbWrOLQ@mail.gmail.com>
+Message-ID: <CALCETrVHUP9=2kX3aJJugcagsf26W0sLEPsDvVCZNnBmbWrOLQ@mail.gmail.com>
+Subject: Re: [PATCH v26 0/9] Control-flow Enforcement: Indirect Branch Tracking
+To:     "H.J. Lu" <hjl.tools@gmail.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        David Laight <David.Laight@aculab.com>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Apr 27, 2021 at 03:52:39PM -0700, Axel Rasmussen wrote:
-> Now that the feature is fully implemented (the faulting path hooks exist
-> so userspace is notified, and the ioctl to resolve such faults is
-> available), advertise this as a supported feature.
-> 
-> Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
+On Wed, Apr 28, 2021 at 7:57 AM H.J. Lu <hjl.tools@gmail.com> wrote:
+>
+> On Wed, Apr 28, 2021 at 7:52 AM Andy Lutomirski <luto@kernel.org> wrote:
+> >
+> > On Wed, Apr 28, 2021 at 7:48 AM David Laight <David.Laight@aculab.com> wrote:
+> > >
+> > > From: Yu-cheng Yu
+> > > > Sent: 27 April 2021 21:47
+> > > >
+> > > > Control-flow Enforcement (CET) is a new Intel processor feature that blocks
+> > > > return/jump-oriented programming attacks.  Details are in "Intel 64 and
+> > > > IA-32 Architectures Software Developer's Manual" [1].
+> > > ...
+> > >
+> > > Does this feature require that 'binary blobs' for out of tree drivers
+> > > be compiled by a version of gcc that adds the ENDBRA instructions?
+> > >
+> > > If enabled for userspace, what happens if an old .so is dynamically
+> > > loaded?
+>
+> CET will be disabled by ld.so in this case.
 
-Acked-by: Peter Xu <peterx@redhat.com>
+What if a program starts a thread and then dlopens a legacy .so?
 
--- 
-Peter Xu
+>
+> > > Or do all userspace programs and libraries have to have been compiled
+> > > with the ENDBRA instructions?
+>
+> Correct.  ld and ld.so check this.
+>
+> > If you believe that the userspace tooling for the legacy IBT table
+> > actually works, then it should just work.  Yu-cheng, etc: how well
+> > tested is it?
+> >
+>
+> Legacy IBT bitmap isn't unused since it doesn't cover legacy codes
+> generated by legacy JITs.
+>
 
+How does ld.so decide whether a legacy JIT is in use?
