@@ -2,119 +2,137 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CD3936E940
-	for <lists+linux-api@lfdr.de>; Thu, 29 Apr 2021 12:58:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83B7836EC91
+	for <lists+linux-api@lfdr.de>; Thu, 29 Apr 2021 16:44:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240588AbhD2K7R (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 29 Apr 2021 06:59:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50190 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240529AbhD2K7N (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 29 Apr 2021 06:59:13 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35659C061346
-        for <linux-api@vger.kernel.org>; Thu, 29 Apr 2021 03:58:24 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id a4so66451019wrr.2
-        for <linux-api@vger.kernel.org>; Thu, 29 Apr 2021 03:58:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=yX68PnWt82JqqvaIeLqptsXuqqdgzkaoY2lNx9HH3fE=;
-        b=YnzwceP8U0S+indgF5DyHzwNq2c7+3xad5HCdpCKnt9ggc3qbEePi6z1EFXJw8euGh
-         NFrMIWqPIsbzGJRD38ByKvpOupj7Z1WYwU7/6mZQ4Y5izinBcVqtloOPrA69PGA0Grn+
-         nXejj9KUG8Sd2BuF0VPqQJiQ2SYDH1tS20jqgZ5nAwYv6fPNSO44jCUGxXhcGvw+3fUw
-         qysIYirnk50gA/MrIaAwR+F69aXvKVae9x28EomHs6q6xCp5pXKU6EU/ZU41saoMkoGm
-         AzLiZTUtsdoieqlqd2GGbaIWLwHo+IcwwlhmTBLKV602ZMe5aehkTnDbHJGQ1JkR+525
-         XMfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=yX68PnWt82JqqvaIeLqptsXuqqdgzkaoY2lNx9HH3fE=;
-        b=hOsgEozm381A53/WWknFZhtxeUKOsvl43Dng+EBl26e1IgqkWGhyTCVff6Os1ZDIja
-         Wf3XF3QfY3xtKwhkrMJVqfx2nEYVzkwU2GS9/ib5dIGYbzM8FIOtxaN+if9AJSlHNL6n
-         l9WYptlXeZ9L1xDDH73BER7fhxCB4BvwPKI3gULI8mLD6H+/1vdrKldcDc6k8nhdWB5i
-         1enL88Siv4xo5NI7emh5egWOxmOUIXvJQRfQWWPEH3wF0GWRr5ZEwekiqxzTv6vB7jXp
-         MyBtFGCN/I6NDFVsGUMkJIPteaUYmJbdknchcUIWBsjo2l6X1kczHuWuV0Y/tBpkaHMO
-         2NhQ==
-X-Gm-Message-State: AOAM532vkRb3r0N7k78JGZ6S9DLoYfL17t4Ppq5Or+EFroQpzkaoOriT
-        dcG6/b2vNHP7UuQeG0WCj4xxoQ==
-X-Google-Smtp-Source: ABdhPJxXJXDxOHijYlO7spKrJea1/3bsj+kN2SnW3zigQTep6fakuBiYSEjQQQxJWRqUb4UZBa/WWg==
-X-Received: by 2002:a5d:60cd:: with SMTP id x13mr21575236wrt.377.1619693902996;
-        Thu, 29 Apr 2021 03:58:22 -0700 (PDT)
-Received: from localhost.localdomain (hst-221-29.medicom.bg. [84.238.221.29])
-        by smtp.gmail.com with ESMTPSA id a9sm3372903wmj.1.2021.04.29.03.58.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Apr 2021 03:58:22 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-api@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH 3/3] venus: Add a handling of QC10C compressed format
-Date:   Thu, 29 Apr 2021 13:58:15 +0300
-Message-Id: <20210429105815.2790770-4-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210429105815.2790770-1-stanimir.varbanov@linaro.org>
-References: <20210429105815.2790770-1-stanimir.varbanov@linaro.org>
+        id S238957AbhD2OpG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 29 Apr 2021 10:45:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55608 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237406AbhD2OpD (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 29 Apr 2021 10:45:03 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CD2AB61458
+        for <linux-api@vger.kernel.org>; Thu, 29 Apr 2021 14:44:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1619707456;
+        bh=P0/WSeSHefJ1bFNBptJX0+j0jR1O8Fl8GSgrXOuL6UM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=HNOLQGobI3RtLIJxIjDYdC+Rc56LQ+LcDta43PhlMw4pvrvCAd6oDZdcDFq1aMsUn
+         NqGo2bBrs2GXUBvQcmvw5W9a7ICDkPQpjwKwxkatZBpscZAR6QMwyezNhwlratC2AC
+         HShLp2A2WH1iLV2bezvSqIfPB5ljN+DyuTwt+5cKclA6eQGRRlXCP2tBtDyWp7UHYV
+         rzi69lzzLpic6g2srl8pNk30+4yfQiRbGWXnZ8AEDxoXKNUpg5qYNs/qdQZhSoUw89
+         weSBuM6qdu5GzciV7kpS+lU5ilqo0dpvjgMoNi1w10g/OzPi6n0k79zC8kzgZbAjWm
+         4Z19sufXKr++g==
+Received: by mail-lj1-f180.google.com with SMTP id a5so39721453ljk.0
+        for <linux-api@vger.kernel.org>; Thu, 29 Apr 2021 07:44:16 -0700 (PDT)
+X-Gm-Message-State: AOAM5316hSqiNxfnxa/9tzFePkL8jMuOIwHUOvOu/70wbrDBq+aBCrHy
+        anbAilwn4gS5X6QWmkj5uI/1RfNuVUWaLqw8+ingoA==
+X-Google-Smtp-Source: ABdhPJx/nfYwEVo/0GHr3ytGoD4WhwvcC+R8fWV2IU0rcQQ4zXcZJMTsPbWIXC8AnlOwG3/0j0MKVIk3zL0pCGkD5y8=
+X-Received: by 2002:a2e:9bc7:: with SMTP id w7mr25176951ljj.170.1619707454776;
+ Thu, 29 Apr 2021 07:44:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com> <20210427204315.24153-26-yu-cheng.yu@intel.com>
+ <CALCETrVTeYfzO-XWh+VwTuKCyPyp-oOMGH=QR_msG9tPQ4xPmA@mail.gmail.com> <YIpgB5HbnNPWX4FP@grain>
+In-Reply-To: <YIpgB5HbnNPWX4FP@grain>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Thu, 29 Apr 2021 07:44:03 -0700
+X-Gmail-Original-Message-ID: <CALCETrW27rTeaymtuJYJCyNgHfuCqA90KinvzNzwBg_vCnZLTw@mail.gmail.com>
+Message-ID: <CALCETrW27rTeaymtuJYJCyNgHfuCqA90KinvzNzwBg_vCnZLTw@mail.gmail.com>
+Subject: Re: extending ucontext (Re: [PATCH v26 25/30] x86/cet/shstk: Handle
+ signals for shadow stack)
+To:     Cyrill Gorcunov <gorcunov@gmail.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This adds QC10C compressed pixel format in the Venus driver, and
-make it enumeratable from v4l2 clients.
+On Thu, Apr 29, 2021 at 12:28 AM Cyrill Gorcunov <gorcunov@gmail.com> wrote:
+>
+> On Wed, Apr 28, 2021 at 04:03:55PM -0700, Andy Lutomirski wrote:
+> > On Tue, Apr 27, 2021 at 1:44 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+> > >
+> > > When shadow stack is enabled, a task's shadow stack states must be saved
+> > > along with the signal context and later restored in sigreturn.  However,
+> > > currently there is no systematic facility for extending a signal context.
+> > > There is some space left in the ucontext, but changing ucontext is likely
+> > > to create compatibility issues and there is not enough space for further
+> > > extensions.
+> > >
+> > > Introduce a signal context extension struct 'sc_ext', which is used to save
+> > > shadow stack restore token address.  The extension is located above the fpu
+> > > states, plus alignment.  The struct can be extended (such as the ibt's
+> > > wait_endbr status to be introduced later), and sc_ext.total_size field
+> > > keeps track of total size.
+> >
+> > I still don't like this.
+> >
+> > Here's how the signal layout works, for better or for worse:
+> >
+> > The kernel has:
+> >
+> > struct rt_sigframe {
+> >     char __user *pretcode;
+> >     struct ucontext uc;
+> >     struct siginfo info;
+> >     /* fp state follows here */
+> > };
+> >
+> > This is roughly the actual signal frame.  But userspace does not have
+> > this struct declared, and user code does not know the sizes of the
+> > fields.  So it's accessed in a nonsensical way.  The signal handler
+>
+> Well, not really. While indeed this is not declared as a part of API
+> the structure is widely used for rt_sigreturn syscall (and we're using
+> it inside criu thus any change here will simply break the restore
+> procedure). Sorry out of time right now, I'll read your mail more
+> carefully once time permit.
 
-Note: The QC10C format shouldn't be possible to enumerate by the
-client if the decoded bitstream is not 10bits. This is not
-implemented in this patch yet.
+I skimmed the CRIU code.  You appear to declare struct rt_sigframe,
+and you use the offset from the start of rt_sigframe to uc.  You also
+use the offset to the /* fp state follows here */ part, but that's
+unnecessary -- you could just as easily have put the fp state at any
+other address -- the kernel will happily follow the pointer you supply
+regardless of where it points.  So the only issues I can see are if
+you write the fp state on top of something else or if you
+inadvertently fill in the proposed extension part of uc_flags.  Right
+now you seem to be ignoring uc_flags, which I presume means that you
+are filling it in as zero.  Even if the offset of the fp state in the
+kernel rt_sigframe changes, the kernel should still successfully parse
+the signal frame you generate.
 
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- drivers/media/platform/qcom/venus/helpers.c | 2 ++
- drivers/media/platform/qcom/venus/vdec.c    | 6 +++++-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+I suppose there is another potential issue: would CRIU have issues if
+the *save* runs on a kernel that uses this proposed extension
+mechanism?  Are you doing something with the saved state that would
+get confused?
 
-diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-index 3a0b07d237a5..58bf2e0654ce 100644
---- a/drivers/media/platform/qcom/venus/helpers.c
-+++ b/drivers/media/platform/qcom/venus/helpers.c
-@@ -563,6 +563,8 @@ static u32 to_hfi_raw_fmt(u32 v4l2_fmt)
- 		return HFI_COLOR_FORMAT_NV21;
- 	case V4L2_PIX_FMT_QC8C:
- 		return HFI_COLOR_FORMAT_NV12_UBWC;
-+	case V4L2_PIX_FMT_QC10C:
-+		return HFI_COLOR_FORMAT_YUV420_TP10_UBWC;
- 	default:
- 		break;
- 	}
-diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-index d4cc51fc019c..7ad8cd66b8bc 100644
---- a/drivers/media/platform/qcom/venus/vdec.c
-+++ b/drivers/media/platform/qcom/venus/vdec.c
-@@ -35,6 +35,10 @@ static const struct venus_format vdec_formats[] = {
- 		.num_planes = 1,
- 		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
- 	}, {
-+		.pixfmt = V4L2_PIX_FMT_QC10C,
-+		.num_planes = 1,
-+		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
-+	},{
- 		.pixfmt = V4L2_PIX_FMT_NV12,
- 		.num_planes = 1,
- 		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
-@@ -1508,7 +1512,7 @@ static const struct hfi_inst_ops vdec_hfi_ops = {
- static void vdec_inst_init(struct venus_inst *inst)
- {
- 	inst->hfi_codec = HFI_VIDEO_CODEC_H264;
--	inst->fmt_out = &vdec_formats[6];
-+	inst->fmt_out = &vdec_formats[8];
- 	inst->fmt_cap = &vdec_formats[0];
- 	inst->width = frame_width_min(inst);
- 	inst->height = ALIGN(frame_height_min(inst), 32);
--- 
-2.25.1
-
+--Andy
