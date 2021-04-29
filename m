@@ -2,158 +2,127 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A07136F064
-	for <lists+linux-api@lfdr.de>; Thu, 29 Apr 2021 21:25:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BB7B36F149
+	for <lists+linux-api@lfdr.de>; Thu, 29 Apr 2021 22:49:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230036AbhD2TYe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 29 Apr 2021 15:24:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46380 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239539AbhD2TL0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 29 Apr 2021 15:11:26 -0400
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1058C06138B
-        for <linux-api@vger.kernel.org>; Thu, 29 Apr 2021 12:10:39 -0700 (PDT)
-Received: by mail-qt1-x82c.google.com with SMTP id f12so49965803qtf.2
-        for <linux-api@vger.kernel.org>; Thu, 29 Apr 2021 12:10:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=ltkj3GwXMNWaqEgIRsYEcolYZKDxC8Ql9gepvrB9Q24=;
-        b=TaBriJpTEbcq6utoehleZ+bDiikQrmpNSJk00MCJpyDMZLKOyVSneUzbn7CH4f/qn3
-         FE1yimgmQ0EwoN8URvM9nU5Uvda1kkFueNohCj18W7thbi5clbQhHBwE3hQzUgPp2fJB
-         +YvpPQTKoOeAx+4wu1ZyUrXd/xHbqG6PZTZrE4k1/hg2zTSqMVaysYRKZY29qGUbpo00
-         xtHnnxqdp5jV/qFiADbiy6m9EHcrePboNKaCsSdRdB7pMQzuqaqt9xoqUyEm+YTh8LM7
-         dOAa10WdrQiqJdkNPsoDoz+umXwoXcx66oHDICInmvjRXr4/sLOWjeQOwGQVr+F9lm5f
-         QEbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=ltkj3GwXMNWaqEgIRsYEcolYZKDxC8Ql9gepvrB9Q24=;
-        b=go86Fd/LPIJtxBq/Gk73Zlvn3pdRacC8zq4Xdrwf29TVEVxe4oqm3FntIRWNTpj0rM
-         MmFqIsbab/nC2I33RJZ9JO8svS+yeQHsoaQlnxCvnR1eNNGgs6Mwi/ZJ4LjAddYR3fPo
-         1FIRtcpcX7uMv3O2EB944SB1/yI40skSVIGSbr/dogLRgMR97gL7clNL5bIKyXAoXRTe
-         3Uzdt2Jmn9MDHIL7MrGUihV0sjI+1JuIsrueD89KhxTCgvTw3oRbQ6mWKgpeSFgqaO1z
-         wr04CtBxfiON9edS/Q0NGTHFitdMp4SNjSZo0CmiDCRCflOGzhs0dTkq9k1pzLCiNT+s
-         Dlmg==
-X-Gm-Message-State: AOAM532yfPakMvbt8f+Dl6yEVUEduIpEK+s5cSTOte7xVmLmgeLR+DzA
-        q7+yBb1HXZyXMXz8kWYV2JwHbA==
-X-Google-Smtp-Source: ABdhPJwZc2TDsodYdDvwl5OmNVUqcCm1bJyFDAHw3Z1GnVU7wF1KEyZShesHOjlg0t2Qjj5w0p+z7A==
-X-Received: by 2002:ac8:7774:: with SMTP id h20mr901414qtu.79.1619723438687;
-        Thu, 29 Apr 2021 12:10:38 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id r81sm2824049qka.82.2021.04.29.12.10.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Apr 2021 12:10:37 -0700 (PDT)
-Message-ID: <d54b1bb7956e1e3bea47fde1216084c7f2eae87e.camel@ndufresne.ca>
-Subject: Re: [PATCH 1/3] v4l: Add Qualcomm custom compressed pixel formats
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-api@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Date:   Thu, 29 Apr 2021 15:10:36 -0400
-In-Reply-To: <20210429105815.2790770-2-stanimir.varbanov@linaro.org>
-References: <20210429105815.2790770-1-stanimir.varbanov@linaro.org>
-         <20210429105815.2790770-2-stanimir.varbanov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.0 (3.40.0-1.fc34) 
+        id S233659AbhD2UuI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 29 Apr 2021 16:50:08 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:54623 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231201AbhD2UuG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 29 Apr 2021 16:50:06 -0400
+Received: from mail-wm1-f41.google.com ([209.85.128.41]) by
+ mrelayeu.kundenserver.de (mreue108 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1N4yyQ-1lUlMv1UpQ-010wy8; Thu, 29 Apr 2021 22:49:17 +0200
+Received: by mail-wm1-f41.google.com with SMTP id 4-20020a05600c26c4b0290146e1feccd8so521816wmv.1;
+        Thu, 29 Apr 2021 13:49:17 -0700 (PDT)
+X-Gm-Message-State: AOAM533Lsa8YXw7vetbN82yaMhNUIX/cxsJQ3o0zJumPSHkeUDH4ZlrO
+        E2NdMfX1mGTztpCj5Y3ak1IEvnDZGYHfo9QU+VU=
+X-Google-Smtp-Source: ABdhPJwlxMNdSsRwR0fdPNqNypLLItyjoOqUJmBY9r3HaMsASmwKpwt6rd7DUEn1wPswZS5VmrYEijB1isok1r6KSGg=
+X-Received: by 2002:a7b:c4da:: with SMTP id g26mr2183043wmk.43.1619729356972;
+ Thu, 29 Apr 2021 13:49:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <YIpkvGrBFGlB5vNj@elver.google.com> <m11rat9f85.fsf@fess.ebiederm.org>
+In-Reply-To: <m11rat9f85.fsf@fess.ebiederm.org>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 29 Apr 2021 22:48:40 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com>
+Message-ID: <CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com>
+Subject: Re: siginfo_t ABI break on sparc64 from si_addr_lsb move 3y ago
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Marco Elver <elver@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Collingbourne <pcc@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Alexander Potapenko <glider@google.com>,
+        sparclinux <sparclinux@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:Y5+kRV9UPqKJX/D/7aStG7U/Py7dIw+sGe7g3Wp8tNykx536WRq
+ iv7bhZcLn7MPQIK+Gsjut2r2Itj6RnUpzjoS5iGld/vCXEhrGh/Df0y2laAfdIIVWqQjYsF
+ qJI0oQN0aJfc67ZCbPr2aLvhIAp+UGPF3D9E0vMbh/JrPrLq+vGNDfq5TQtBp+fTWKRYaCR
+ rOsFCo+6OdKTmhFtRMwow==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0gnD6TDUOGU=:VQyZMBvfQy1PO9+fgiyh4r
+ ueF8VvNBMmTBRRaDtlb+077rlOEFzdMgDjMwS8Okn2sDCgz5IB1TForHNfA5k5lhFjLK0S7sa
+ BxWimh/mdubIO40EmLhbOs2XjMv1rr4YzC2flihFITSBaO5rL9M1fldhPs0zLjfveHNV63g1D
+ BB5XqARpRCbi81hm89Yn56Qy0c3NWBA/6SZBrw0KaUjiQGPY3F3j5bozH7lhroDbXOEbW8l0W
+ +cklcRFYePQw18i4fS0Z9l5WohNFS21H3x5xVSZuaerf1tDra5KIZDBQyN0SBga36FYnO55Gp
+ RC1JrkceZDDqfYOMmRjkWp5jRdcN9CsCDOlwZyZTnzOoSW/OpgbIMYl5CurgWd0ugiETJDykW
+ x93WVKNNyY8jyryfbqgyUdBjfpQHpPFnTbvlBkn8hsZyuMnTPj+XWRDHdZ9SF7fez1BWkcHb6
+ Y3rBRdFmnueYn6OdAW+QeId4qwhnyb5NNmxUUa9H0Nw/qb65slp5VdjlBYnAqNTeX+mT6Vkpl
+ P0p7x9WVPIkywSg84RUSk0=
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Le jeudi 29 avril 2021 à 13:58 +0300, Stanimir Varbanov a écrit :
-> Here we add custom Qualcomm raw compressed pixel formats. They are
-> used in Qualcomm SoCs to optimaize the interconnect bandwidth.
+On Thu, Apr 29, 2021 at 7:23 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
 
-Wasn't reviewing, just skimming the lists, but s/optimaize/optimize/
+> > Which option do you prefer? Are there better options?
+>
+> Personally the most important thing to have is a single definition
+> shared by all architectures so that we consolidate testing.
+>
+> A little piece of me cries a little whenever I see how badly we
+> implemented the POSIX design.  As specified by POSIX the fields can be
+> place in siginfo such that 32bit and 64bit share a common definition.
+> Unfortunately we did not addpadding after si_addr on 32bit to
+> accommodate a 64bit si_addr.
+>
+> I find it unfortunate that we are adding yet another definition that
+> requires translation between 32bit and 64bit, but I am glad
+> that at least the translation is not architecture specific.  That common
+> definition is what has allowed this potential issue to be caught
+> and that makes me very happy to see.
+>
+> Let's go with Option 3.
+>
+> Confirm BUS_MCEERR_AR, BUS_MCEERR_AO, SEGV_BNDERR, SEGV_PKUERR are not
+> in use on any architecture that defines __ARCH_SI_TRAPNO, and then fixup
+> the userspace definitions of these fields.
+>
+> To the kernel I would add some BUILD_BUG_ON's to whatever the best
+> maintained architecture (sparc64?) that implements __ARCH_SI_TRAPNO just
+> to confirm we don't create future regressions by accident.
+>
+> I did a quick search and the architectures that define __ARCH_SI_TRAPNO
+> are sparc, mips, and alpha.  All have 64bit implementations.
 
-> 
-> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> ---
->  .../userspace-api/media/v4l/pixfmt-reserved.rst      | 12 ++++++++++++
->  drivers/media/v4l2-core/v4l2-ioctl.c                 |  2 ++
->  include/uapi/linux/videodev2.h                       |  2 ++
->  3 files changed, 16 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
-> index 0b879c0da713..30b9cef4cbf0 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
-> @@ -260,6 +260,18 @@ please make a proposal on the linux-media mailing list.
->  	of tiles, resulting in 32-aligned resolutions for the luminance plane
->  	and 16-aligned resolutions for the chrominance plane (with 2x2
->  	subsampling).
-> +    * .. _V4L2-PIX-FMT-QC8C:
-> +
-> +      - ``V4L2_PIX_FMT_QC8C``
-> +      - 'QC8C'
-> +      - Compressed Macro-tile 8Bit YUV420 format used by Qualcomm platforms.
-> +	The compression is lossless. It contains four planes.
+I think you (slightly) misread: mips has "#undef __ARCH_SI_TRAPNO", not
+"#define __ARCH_SI_TRAPNO". This means it's only sparc and
+alpha.
 
-Would be nice to document if the bytesperline is meaningful or not. Basically,
-what information need to be carried to other drivers ?
+I can see that the alpha instance was added to the kernel during linux-2.5,
+but never made it into the glibc or uclibc copy of the struct definition, and
+musl doesn't support alpha or sparc. Debian codesearch only turns up
+sparc (and BSD) references to si_trapno.
 
-> +    * .. _V4L2-PIX-FMT-QC10C:
-> +
-> +      - ``V4L2_PIX_FMT_QC10C``
-> +      - 'QC10C'
-> +      - Compressed Macro-tile 10Bit YUV420 format used by Qualcomm platforms.
-> +	The compression is lossless. It contains four planes.
->  
-> 
-> 
-> 
-> 
-> 
-> 
-> 
->  .. raw:: latex
->  
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 6a5d1c6d11d6..33ee12b97aa0 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1455,6 +1455,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->  		case V4L2_PIX_FMT_S5C_UYVY_JPG:	descr = "S5C73MX interleaved UYVY/JPEG"; break;
->  		case V4L2_PIX_FMT_MT21C:	descr = "Mediatek Compressed Format"; break;
->  		case V4L2_PIX_FMT_SUNXI_TILED_NV12: descr = "Sunxi Tiled NV12 Format"; break;
-> +		case V4L2_PIX_FMT_QC8C:		descr = "QCOM Compressed 8bit Format"; break;
-> +		case V4L2_PIX_FMT_QC10C:	descr = "QCOM Compressed 10bit Format"; break;
->  		default:
->  			if (fmt->description[0])
->  				return;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 311a01cc5775..c57628a16cf4 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -737,6 +737,8 @@ struct v4l2_pix_format {
->  #define V4L2_PIX_FMT_SUNXI_TILED_NV12 v4l2_fourcc('S', 'T', '1', '2') /* Sunxi Tiled NV12 Format */
->  #define V4L2_PIX_FMT_CNF4     v4l2_fourcc('C', 'N', 'F', '4') /* Intel 4-bit packed depth confidence information */
->  #define V4L2_PIX_FMT_HI240    v4l2_fourcc('H', 'I', '2', '4') /* BTTV 8-bit dithered RGB */
-> +#define V4L2_PIX_FMT_QC8C     v4l2_fourcc('Q', '0', '8', 'C') /* Qualcomm 8-bit compressed */
-> +#define V4L2_PIX_FMT_QC10C    v4l2_fourcc('Q', '1', '0', 'C') /* Qualcomm 10-bit compresed */
->  
-> 
-> 
-> 
-> 
-> 
-> 
-> 
->  /* 10bit raw bayer packed, 32 bytes for every 25 pixels, last LSB 6 bits unused */
->  #define V4L2_PIX_FMT_IPU3_SBGGR10	v4l2_fourcc('i', 'p', '3', 'b') /* IPU3 packed 10-bit BGGR bayer */
+> I did a quick search and the architectures that define __ARCH_SI_TRAPNO
+> are sparc, mips, and alpha.  All have 64bit implementations.  A further
+> quick search shows that none of those architectures have faults that
+> use BUS_MCEERR_AR, BUS_MCEERR_AO, SEGV_BNDERR, SEGV_PKUERR, nor do
+> they appear to use mm/memory-failure.c
+>
+> So it doesn't look like we have an ABI regression to fix.
 
+Even better!
 
+So if sparc is the only user of _trapno and it uses none of the later
+fields in _sigfault, I wonder if we could take even more liberty at
+trying to have a slightly saner definition. Can you think of anything that
+might break if we put _trapno inside of the union along with _perf
+and _addr_lsb?
+
+I suppose in theory sparc64 or alpha might start using the other
+fields in the future, and an application might be compiled against
+mismatched headers, but that is unlikely and is already broken
+with the current headers.
+
+       Arnd
