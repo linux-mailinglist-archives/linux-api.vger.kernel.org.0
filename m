@@ -2,105 +2,116 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C5FF36F3D4
-	for <lists+linux-api@lfdr.de>; Fri, 30 Apr 2021 03:48:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9554136F5DA
+	for <lists+linux-api@lfdr.de>; Fri, 30 Apr 2021 08:45:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229914AbhD3Bsw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 29 Apr 2021 21:48:52 -0400
-Received: from mga18.intel.com ([134.134.136.126]:1029 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229577AbhD3Bsv (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 29 Apr 2021 21:48:51 -0400
-IronPort-SDR: X+g1ejYcjJ2JXyZvSASSPzFXNyvYYPhXEXBz9x8QV5D72pr0XxNh6y+g5rabSC3g2hZk42E2uE
- ADw0yXK1IwTw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9969"; a="184646243"
-X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; 
-   d="scan'208";a="184646243"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2021 18:48:03 -0700
-IronPort-SDR: VCNCi44upo9HW3I6bWsf05cfpZFM8Nfapyq8zjSxUuparGWrXoSKUUhB0YE+Tzb9aHx5t92MMt
- U2O1V25OFqRg==
-X-IronPort-AV: E=Sophos;i="5.82,260,1613462400"; 
-   d="scan'208";a="431182560"
-Received: from jbrandeb-mobl4.amr.corp.intel.com (HELO localhost) ([10.209.109.170])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2021 18:48:03 -0700
-Date:   Thu, 29 Apr 2021 18:48:02 -0700
-From:   Jesse Brandeburg <jesse.brandeburg@intel.com>
-To:     Nitesh Lal <nilal@redhat.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        "frederic@kernel.org" <frederic@kernel.org>,
-        "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>, abelits@marvell.com,
-        Robin Murphy <robin.murphy@arm.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "mingo@kernel.org" <mingo@kernel.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
-        "stephen@networkplumber.org" <stephen@networkplumber.org>,
-        "rppt@linux.vnet.ibm.com" <rppt@linux.vnet.ibm.com>,
-        "jinyuqi@huawei.com" <jinyuqi@huawei.com>,
-        "zhangshaokun@hisilicon.com" <zhangshaokun@hisilicon.com>,
-        netdev@vger.kernel.org, chris.friesen@windriver.com
-Subject: Re: [Patch v4 1/3] lib: Restrict cpumask_local_spread to
- houskeeping CPUs
-Message-ID: <20210429184802.0000641e@intel.com>
-In-Reply-To: <CAFki+Lm0W_brLu31epqD3gAV+WNKOJfVDfX2M8ZM__aj3nv9uA@mail.gmail.com>
-References: <20200625223443.2684-1-nitesh@redhat.com>
-        <20200625223443.2684-2-nitesh@redhat.com>
-        <3e9ce666-c9cd-391b-52b6-3471fe2be2e6@arm.com>
-        <20210127121939.GA54725@fuller.cnet>
-        <87r1m5can2.fsf@nanos.tec.linutronix.de>
-        <20210128165903.GB38339@fuller.cnet>
-        <87h7n0de5a.fsf@nanos.tec.linutronix.de>
-        <20210204181546.GA30113@fuller.cnet>
-        <cfa138e9-38e3-e566-8903-1d64024c917b@redhat.com>
-        <20210204190647.GA32868@fuller.cnet>
-        <d8884413-84b4-b204-85c5-810342807d21@redhat.com>
-        <87y2g26tnt.fsf@nanos.tec.linutronix.de>
-        <d0aed683-87ae-91a2-d093-de3f5d8a8251@redhat.com>
-        <7780ae60-efbd-2902-caaa-0249a1f277d9@redhat.com>
-        <07c04bc7-27f0-9c07-9f9e-2d1a450714ef@redhat.com>
-        <20210406102207.0000485c@intel.com>
-        <1a044a14-0884-eedb-5d30-28b4bec24b23@redhat.com>
-        <20210414091100.000033cf@intel.com>
-        <54ecc470-b205-ea86-1fc3-849c5b144b3b@redhat.com>
-        <CAFki+Lm0W_brLu31epqD3gAV+WNKOJfVDfX2M8ZM__aj3nv9uA@mail.gmail.com>
-X-Mailer: Claws Mail 3.12.0 (GTK+ 2.24.28; i686-w64-mingw32)
+        id S229780AbhD3Gqk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 30 Apr 2021 02:46:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29558 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230346AbhD3Gqj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Apr 2021 02:46:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1619765151;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=PFZmzCqPtD1TeQ1IgnxgwBuBBj2UfpUYGVhQ61V9gY0=;
+        b=CO1ZtfocqTxIz6aW0nd/4+5Y9Yz4QjnUh+TbPWjWzaTK7+XtPzCLTHUB9sBspp+qoA9r31
+        Lt6KUWv0GIPRF+EwGce5q45LOf/8sOfQQMuCOthTDWKdiym4vaK0bKSvVBnfVzUvwW0kk4
+        rxpPM0brZ8OkDEGQCoXHtIAcHgkpWP4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-147-bVvfBOJoOuGwtxj_hE5rSQ-1; Fri, 30 Apr 2021 02:45:46 -0400
+X-MC-Unique: bVvfBOJoOuGwtxj_hE5rSQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B23AB802939;
+        Fri, 30 Apr 2021 06:45:42 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (ovpn-115-124.ams2.redhat.com [10.36.115.124])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A74C5D9C6;
+        Fri, 30 Apr 2021 06:45:27 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: extending ucontext (Re: [PATCH v26 25/30] x86/cet/shstk: Handle
+ signals for shadow stack)
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+        <20210427204315.24153-26-yu-cheng.yu@intel.com>
+        <CALCETrVTeYfzO-XWh+VwTuKCyPyp-oOMGH=QR_msG9tPQ4xPmA@mail.gmail.com>
+Date:   Fri, 30 Apr 2021 08:45:40 +0200
+In-Reply-To: <CALCETrVTeYfzO-XWh+VwTuKCyPyp-oOMGH=QR_msG9tPQ4xPmA@mail.gmail.com>
+        (Andy Lutomirski's message of "Wed, 28 Apr 2021 16:03:55 -0700")
+Message-ID: <87a6pgb78r.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Nitesh Lal wrote:
+* Andy Lutomirski:
 
-> @Jesse do you think the Part-1 findings explain the behavior that you have
-> observed in the past?
-> 
-> Also, let me know if there are any suggestions or experiments to try here.
+> The kernel has:
+>
+> struct rt_sigframe {
+>     char __user *pretcode;
+>     struct ucontext uc;
+>     struct siginfo info;
+>     /* fp state follows here */
+> };
+>
+> This is roughly the actual signal frame.  But userspace does not have
+> this struct declared, and user code does not know the sizes of the
+> fields.  So it's accessed in a nonsensical way.  The signal handler
+> function is passed a pointer to the whole sigframe implicitly in RSP,
+> a pointer to &frame->info in RSI, anda pointer to &frame->uc in RDX.
+> User code can *find* the fp state by following a pointer from
+> mcontext, which is, in turn, found via uc:
+>
+> struct ucontext {
+>     unsigned long      uc_flags;
+>     struct ucontext  *uc_link;
+>     stack_t          uc_stack;
+>     struct sigcontext uc_mcontext;  <-- fp pointer is in here
+>     sigset_t      uc_sigmask;    /* mask last for extensibility */
+> };
 
-Wow Nitesh, nice work! That's quite a bit of spelunking you had to do
-there!
+I must say that I haven't reviewed this in detail, but for historic
+reasons, glibc userspace has a differently-sized sigset_t.  So the
+kernel ucontext (used in signals) and user ucontext (used for
+swapcontext et al.) are already fully decoupled?
 
-Your results that show the older kernels with ranged affinity issues is
-consistent with what I remember from that time, and the original
-problem.
+Thanks,
+Florian
 
-I'm glad to see that a) Thomas fixed the kernel to even do better than
-ranged affinity masks, and that b) if you revert my patch, the new
-behavior is better and still maintains the fix from a).
-
-For me this explains the whole picture and makes me feel comfortable
-with the patch that reverts the initial affinity mask (that also
-introduces a subtle bug with the reserved CPUs that I believe you've
-noted already).
-
-Thanks for this work!
-Jesse
