@@ -2,90 +2,223 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C50AE370061
-	for <lists+linux-api@lfdr.de>; Fri, 30 Apr 2021 20:21:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DF4237008E
+	for <lists+linux-api@lfdr.de>; Fri, 30 Apr 2021 20:32:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231194AbhD3SW0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 30 Apr 2021 14:22:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42372 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229750AbhD3SWZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Apr 2021 14:22:25 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FC67C06174A;
-        Fri, 30 Apr 2021 11:21:37 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1619806893;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=As7DtcWhMuF7h0TJSZIn85h3WNKtXg9d7v6tEvOH+qs=;
-        b=Hf0zeuoMznsXlwihwhVMhTEAKd/4k0Ku0M8qkgHH8iMN7iFVDrrBrlgDLNn/uPoy1iKACk
-        iV7CRZB9Ietru5dVJrPzai9l+ANGERnoM8JgXjnkJPawpmserZobzznAl4wU8HbP20NjTi
-        gRqE9n6dM5ioAwOCZzVGZkF7OsPPc/k3SqU4YMn9gzpCgcbhffPUGSRy5PXGDSRcu5/oUG
-        wMHNT2SxUnZSEpx3ujEh29oxbC6yg30BKCWoswhigidBvafirSYlgeZ/dMOPKhz0vEmMTg
-        dznmUDpTXBgikHUhP3rSy7pyiXwMs922CziEhTbkikOCwWL8a0FjSqJ788N/7g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1619806893;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=As7DtcWhMuF7h0TJSZIn85h3WNKtXg9d7v6tEvOH+qs=;
-        b=FfdE0kUFkRqEf4ebx700jPou/iScTJY9te1G3qeOnRcZC57twD9Fxky/GZRsh+TKE1KvJx
-        INh75Tmvp3C5AmBA==
-To:     Nitesh Lal <nilal@redhat.com>
-Cc:     Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        "frederic\@kernel.org" <frederic@kernel.org>,
-        "juri.lelli\@redhat.com" <juri.lelli@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>, abelits@marvell.com,
-        Robin Murphy <robin.murphy@arm.com>,
-        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "bhelgaas\@google.com" <bhelgaas@google.com>,
-        "linux-pci\@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "rostedt\@goodmis.org" <rostedt@goodmis.org>,
-        "mingo\@kernel.org" <mingo@kernel.org>,
-        "peterz\@infradead.org" <peterz@infradead.org>,
-        "davem\@davemloft.net" <davem@davemloft.net>,
-        "akpm\@linux-foundation.org" <akpm@linux-foundation.org>,
-        "sfr\@canb.auug.org.au" <sfr@canb.auug.org.au>,
-        "stephen\@networkplumber.org" <stephen@networkplumber.org>,
-        "rppt\@linux.vnet.ibm.com" <rppt@linux.vnet.ibm.com>,
-        "jinyuqi\@huawei.com" <jinyuqi@huawei.com>,
-        "zhangshaokun\@hisilicon.com" <zhangshaokun@hisilicon.com>,
-        netdev@vger.kernel.org, chris.friesen@windriver.com
-Subject: Re: [Patch v4 1/3] lib: Restrict cpumask_local_spread to houskeeping CPUs
-In-Reply-To: <CAFki+LmmRyvOkWoNNLk5JCwtaTnabyaRUKxnS+wyAk_kj8wzyw@mail.gmail.com>
-References: <20200625223443.2684-1-nitesh@redhat.com> <3e9ce666-c9cd-391b-52b6-3471fe2be2e6@arm.com> <20210127121939.GA54725@fuller.cnet> <87r1m5can2.fsf@nanos.tec.linutronix.de> <20210128165903.GB38339@fuller.cnet> <87h7n0de5a.fsf@nanos.tec.linutronix.de> <20210204181546.GA30113@fuller.cnet> <cfa138e9-38e3-e566-8903-1d64024c917b@redhat.com> <20210204190647.GA32868@fuller.cnet> <d8884413-84b4-b204-85c5-810342807d21@redhat.com> <87y2g26tnt.fsf@nanos.tec.linutronix.de> <d0aed683-87ae-91a2-d093-de3f5d8a8251@redhat.com> <7780ae60-efbd-2902-caaa-0249a1f277d9@redhat.com> <07c04bc7-27f0-9c07-9f9e-2d1a450714ef@redhat.com> <20210406102207.0000485c@intel.com> <1a044a14-0884-eedb-5d30-28b4bec24b23@redhat.com> <20210414091100.000033cf@intel.com> <54ecc470-b205-ea86-1fc3-849c5b144b3b@redhat.com> <CAFki+Lm0W_brLu31epqD3gAV+WNKOJfVDfX2M8ZM__aj3nv9uA@mail.gmail.com> <87czucfdtf.ffs@nanos.tec.linutronix.de> <CAFki+LmmRyvOkWoNNLk5JCwtaTnabyaRUKxnS+wyAk_kj8wzyw@mail.gmail.com>
-Date:   Fri, 30 Apr 2021 20:21:33 +0200
-Message-ID: <87sg37eiqa.ffs@nanos.tec.linutronix.de>
+        id S231567AbhD3Sdi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 30 Apr 2021 14:33:38 -0400
+Received: from mga06.intel.com ([134.134.136.31]:44389 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231204AbhD3Sdh (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 30 Apr 2021 14:33:37 -0400
+IronPort-SDR: cDH+ydm3F3DplhIR4xQRkjN44Uz0eqO4qXpLj66XWX7W6MDjH6a9FzzKYJIfaD3ggGbwZXs7jH
+ u0o6Q9Z9+Hxg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9970"; a="258620576"
+X-IronPort-AV: E=Sophos;i="5.82,263,1613462400"; 
+   d="scan'208";a="258620576"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2021 11:32:48 -0700
+IronPort-SDR: BuEEwoZVskVpKur8QODMKzjWucceyRG+8FXzCydVCLpFg3qZhfZ48pTkcyex1irrACKguT+/Lo
+ QORo15MQgF7A==
+X-IronPort-AV: E=Sophos;i="5.82,263,1613462400"; 
+   d="scan'208";a="537852516"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.119.226]) ([10.212.119.226])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2021 11:32:46 -0700
+Subject: Re: extending ucontext (Re: [PATCH v26 25/30] x86/cet/shstk: Handle
+ signals for shadow stack)
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-26-yu-cheng.yu@intel.com>
+ <CALCETrVTeYfzO-XWh+VwTuKCyPyp-oOMGH=QR_msG9tPQ4xPmA@mail.gmail.com>
+ <8fd86049-930d-c9b7-379c-56c02a12cd77@intel.com>
+ <CALCETrX9z-73wpy-SCy8NE1XfQgXAN0mCmjv0jXDDomMyS7TKg@mail.gmail.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <a7c332c8-9368-40b1-e221-ec921f7db948@intel.com>
+Date:   Fri, 30 Apr 2021 11:32:45 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <CALCETrX9z-73wpy-SCy8NE1XfQgXAN0mCmjv0jXDDomMyS7TKg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Nitesh,
+On 4/30/2021 10:47 AM, Andy Lutomirski wrote:
+> On Fri, Apr 30, 2021 at 10:00 AM Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
+>>
+>> On 4/28/2021 4:03 PM, Andy Lutomirski wrote:
+>>> On Tue, Apr 27, 2021 at 1:44 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>>>>
+>>>> When shadow stack is enabled, a task's shadow stack states must be saved
+>>>> along with the signal context and later restored in sigreturn.  However,
+>>>> currently there is no systematic facility for extending a signal context.
+>>>> There is some space left in the ucontext, but changing ucontext is likely
+>>>> to create compatibility issues and there is not enough space for further
+>>>> extensions.
+>>>>
+>>>> Introduce a signal context extension struct 'sc_ext', which is used to save
+>>>> shadow stack restore token address.  The extension is located above the fpu
+>>>> states, plus alignment.  The struct can be extended (such as the ibt's
+>>>> wait_endbr status to be introduced later), and sc_ext.total_size field
+>>>> keeps track of total size.
+>>>
+>>> I still don't like this.
+>>>
+>>> Here's how the signal layout works, for better or for worse:
+>>>
+>>> The kernel has:
+>>>
+>>> struct rt_sigframe {
+>>>       char __user *pretcode;
+>>>       struct ucontext uc;
+>>>       struct siginfo info;
+>>>       /* fp state follows here */
+>>> };
+>>>
+>>> This is roughly the actual signal frame.  But userspace does not have
+>>> this struct declared, and user code does not know the sizes of the
+>>> fields.  So it's accessed in a nonsensical way.  The signal handler
+>>> function is passed a pointer to the whole sigframe implicitly in RSP,
+>>> a pointer to &frame->info in RSI, anda pointer to &frame->uc in RDX.
+>>> User code can *find* the fp state by following a pointer from
+>>> mcontext, which is, in turn, found via uc:
+>>>
+>>> struct ucontext {
+>>>       unsigned long      uc_flags;
+>>>       struct ucontext  *uc_link;
+>>>       stack_t          uc_stack;
+>>>       struct sigcontext uc_mcontext;  <-- fp pointer is in here
+>>>       sigset_t      uc_sigmask;    /* mask last for extensibility */
+>>> };
+>>>
+>>> The kernel, in sigreturn, works a bit differently.  The sigreturn
+>>> variants know the base address of the frame but don't have the benefit
+>>> of receiving pointers to the fields.  So instead the kernel takes
+>>> advantage of the fact that it knows the offset to uc and parses uc
+>>> accordingly.  And the kernel follows the pointer in mcontext to find
+>>> the fp state.  The latter bit is quite important later.  The kernel
+>>> does not parse info at all.
+>>>
+>>> The fp state is its own mess.  When XSAVE happened, Intel kindly (?)
+>>> gave us a software defined area between the "legacy" x87 region and
+>>> the modern supposedly extensible part.  Linux sticks the following
+>>> structure in that hole:
+>>>
+>>> struct _fpx_sw_bytes {
+>>>       /*
+>>>        * If set to FP_XSTATE_MAGIC1 then this is an xstate context.
+>>>        * 0 if a legacy frame.
+>>>        */
+>>>       __u32                magic1;
+>>>
+>>>       /*
+>>>        * Total size of the fpstate area:
+>>>        *
+>>>        *  - if magic1 == 0 then it's sizeof(struct _fpstate)
+>>>        *  - if magic1 == FP_XSTATE_MAGIC1 then it's sizeof(struct _xstate)
+>>>        *    plus extensions (if any)
+>>>        */
+>>>       __u32                extended_size;
+>>>
+>>>       /*
+>>>        * Feature bit mask (including FP/SSE/extended state) that is present
+>>>        * in the memory layout:
+>>>        */
+>>>       __u64                xfeatures;
+>>>
+>>>       /*
+>>>        * Actual XSAVE state size, based on the xfeatures saved in the layout.
+>>>        * 'extended_size' is greater than 'xstate_size':
+>>>        */
+>>>       __u32                xstate_size;
+>>>
+>>>       /* For future use: */
+>>>       __u32                padding[7];
+>>> };
+>>>
+>>>
+>>> That's where we are right now upstream.  The kernel has a parser for
+>>> the FPU state that is bugs piled upon bugs and is going to have to be
+>>> rewritten sometime soon.  On top of all this, we have two upcoming
+>>> features, both of which require different kinds of extensions:
+>>>
+>>> 1. AVX-512.  (Yeah, you thought this story was over a few years ago,
+>>> but no.  And AMX makes it worse.)  To make a long story short, we
+>>> promised user code many years ago that a signal frame fit in 2048
+>>> bytes with some room to spare.  With AVX-512 this is false.  With AMX
+>>> it's so wrong it's not even funny.  The only way out of the mess
+>>> anyone has come up with involves making the length of the FPU state
+>>> vary depending on which features are INIT, i.e. making it more compact
+>>> than "compact" mode is.  This has a side effect: it's no longer
+>>> possible to modify the state in place, because enabling a feature with
+>>> no space allocated will make the structure bigger, and the stack won't
+>>> have room.  Fortunately, one can relocate the entire FPU state, update
+>>> the pointer in mcontext, and the kernel will happily follow the
+>>> pointer.  So new code on a new kernel using a super-compact state
+>>> could expand the state by allocating new memory (on the heap? very
+>>> awkwardly on the stack?) and changing the pointer.  For all we know,
+>>> some code already fiddles with the pointer.  This is great, except
+>>> that your patch sticks more data at the end of the FPU block that no
+>>> one is expecting, and your sigreturn code follows that pointer, and
+>>> will read off into lala land.
+>>>
+>>
+>> Then, what about we don't do that at all.  Is it possible from now on we
+>> don't stick more data at the end, and take the relocating-fpu approach?
+>>
+>>> 2. CET.  CET wants us to find a few more bytes somewhere, and those
+>>> bytes logically belong in ucontext, and here we are.
+>>>
+>>
+>> Fortunately, we can spare CET the need of ucontext extension.  When the
+>> kernel handles sigreturn, the user-mode shadow stack pointer is right at
+>> the restore token.  There is no need to put that in ucontext.
+> 
+> That seems entirely reasonable.  This might also avoid needing to
+> teach CRIU about CET at all.
+> 
+>>
+>> However, the WAIT_ENDBR status needs to be saved/restored for signals.
+>> Since IBT is now dependent on shadow stack, we can use a spare bit of
+>> the shadow stack restore token for that.
+> 
+> That seems like unnecessary ABI coupling.  We have plenty of bits in
+> uc_flags, and we have an entire reserved word in sigcontext.  How
+> about just sticking this bit in one of those places?
 
-On Fri, Apr 30 2021 at 12:14, Nitesh Lal wrote:
-> Based on this analysis and the fact that with your re-work the interrupts
-> seems to be naturally spread across the CPUs, will it be safe to revert
-> Jesse's patch
->
-> e2e64a932 genirq: Set initial affinity in irq_set_affinity_hint()
->
-> as it overwrites the previously set IRQ affinity mask for some of the
-> devices?
-
-That's a good question. My gut feeling says yes.
-
-> IMHO if we think that this patch is still solving some issue other than
-> what Jesse has mentioned then perhaps we should reproduce that and fix it
-> directly from the request_irq code path.
-
-Makes sense.
+Yes, I will make it UC_WAIT_ENDBR.
 
 Thanks,
-
-        tglx
+Yu-cheng
