@@ -2,57 +2,58 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3BCF3706DD
-	for <lists+linux-api@lfdr.de>; Sat,  1 May 2021 12:33:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCD7B3706E2
+	for <lists+linux-api@lfdr.de>; Sat,  1 May 2021 12:34:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231278AbhEAKea (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 1 May 2021 06:34:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54776 "EHLO
+        id S231937AbhEAKe6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 1 May 2021 06:34:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231843AbhEAKea (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 1 May 2021 06:34:30 -0400
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7012C06138C
-        for <linux-api@vger.kernel.org>; Sat,  1 May 2021 03:33:39 -0700 (PDT)
-Received: by mail-ot1-x32a.google.com with SMTP id 65-20020a9d03470000b02902808b4aec6dso811801otv.6
-        for <linux-api@vger.kernel.org>; Sat, 01 May 2021 03:33:39 -0700 (PDT)
+        with ESMTP id S231886AbhEAKe4 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 1 May 2021 06:34:56 -0400
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F70AC06138D
+        for <linux-api@vger.kernel.org>; Sat,  1 May 2021 03:34:05 -0700 (PDT)
+Received: by mail-ot1-x335.google.com with SMTP id c8-20020a9d78480000b0290289e9d1b7bcso817692otm.4
+        for <linux-api@vger.kernel.org>; Sat, 01 May 2021 03:34:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=hdaqve5YvScbUJtoSM3sAOiUvwbsjnuFfVlCkD3R0H0=;
-        b=q3Ci9b94QU8r2Q3Wig3IeSiM+ThYbLMl4dvL+/l4LsWoTx7alyreZZogQkWUqGWXkF
-         hSUH0cRc5zXXvqB7FAASko94scJ8HAMZPdG8FRZfawbyG3arYtBy1glACGdOVj8DGqud
-         j1e+aVpRRG3OziwM+0XDK1iyu2RBGv01I3/mEcW9+hy/+fgGEWDWdfDqBaW4lJD0wYDL
-         uAPCYsNY+tTCZNv+AYzXROipzG+rTgfc0TriwWpW2UsDztX8FW5XjiEWnJqhPyspEGHg
-         Ri5BJPh1TeDZwlPlNUV7r92O1PH20djtccFJQBBqtY0HKwmk+uIA42UEdTPGBBzJq51D
-         DWuA==
+        bh=jCan+6xptMFqGkbIIPn1nwIIm9+SRi9i6mWKGsgGhAU=;
+        b=UWGMH/nVDvcINlx4QrLJbQfDpg7ZCA/4MH41cC10w5jRUrFQhUVXZsLqvqHeGW19qW
+         xhx0Odv3ZQ/ExTt8yWnNe7VP55kAeS3Op0WY5Csu31R7T0Wi2rQpER7XhlT5y6XTFNE3
+         BVueuV0oPH/OGvQMGG/PrivMOEMBYTzB82jBNK8dbdKF0yLWvik21rliXWNGLTIgNPlL
+         wdY0Aj5OQ55kFq6QLP0RhuBUt/a2T24B/FiC488jTTIBYlkQG1bPn53xCS/SrBB9XixT
+         V1L6RX0f0+bW9q/P55FWVhQFoZZgWW/y45rdLwfzurJe17yAFBAHrBU6vPzkZg7z7awF
+         5Z5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=hdaqve5YvScbUJtoSM3sAOiUvwbsjnuFfVlCkD3R0H0=;
-        b=ow1dpgX95wWAuq13lEPXJPYnjCkpCHVYDXFpEQekAzhZlurnHmdtaMIXhWDkmReusz
-         CgMlauYo11mIHXHTs4r/qwEPFcXco5EzTPYT/H99c4vhG1lcn4JjtnTCWdLvpuJDuBaK
-         FiQQaRsDO0kLs6hsyws3O6t25nL2jdQL3L78T8/lfW0rVR2SPjLl5T3IybpE7B1zpYO1
-         8IjRIXQgoXaSAM8LSPaCeKCA+dGjbURQ4o48McJDsinkiO4J4Co0Sbf+gxV4E3tVx27l
-         DSKgucMetJO1UKkzMpnpcAKuaQanRisnnp+mdSS3ywORAzGNE+JgQ4QPBui/nMq3dehl
-         GRkQ==
-X-Gm-Message-State: AOAM531Lnw/rX1x/3loPVfIX/FrSkrIFeAZ4zCXX4+IVIaiBYV0zRi/R
-        j40V6YYNpCwrEXO0u4qUiuVJ2WUlxXzMYZtAtzjqXw==
-X-Google-Smtp-Source: ABdhPJyW55H41iED7uLYdlb+Rgis6acnSJ21mQzhMKc1s2vSVVR0ZEv47Spe1B/kWGPPn8MrkjbHSkf/dFAeeI1qEv8=
-X-Received: by 2002:a05:6830:410e:: with SMTP id w14mr5442391ott.251.1619865218745;
- Sat, 01 May 2021 03:33:38 -0700 (PDT)
+        bh=jCan+6xptMFqGkbIIPn1nwIIm9+SRi9i6mWKGsgGhAU=;
+        b=KoHGhBQB3wZCwrK+mSdlUGi3jSAM7pLAzlgS9XcThJoplmSW1c2150uUn9EYsRpwPX
+         FSqkABRrvmmi1hBLcKxV2BL4ITk/jTs5Wn+P+sF3p8R7usL38zvQL9mU9aoIZLi1Sl0B
+         wC4Uk6D9yPDlTB6BHKBorhfiVf4zOpGTYBO6C4y9PkYP6hsShqLvphH3GCtdCyunOgat
+         5AdlzfUsg/Tcxszd0CpKii/gmzpkGHSaTMquAzL4zjVoTL77lHvmRwa/dSVjYB1qZc55
+         lI/U2B2R6gLqNhaSAK6l8AyEv8l6wYiZAzAiwYnqOKNgJeKLHHczPaaDbH8U8SuJZw2A
+         LhgA==
+X-Gm-Message-State: AOAM533NT2xhWHlC4hMtlAmYbpW6NtQaRHMX0Oy1JoouLyVux8vB1Rwe
+        GSe1stHFcWouli9iBj+MyzU7HwJjH8iJY0yiwHGWFQ==
+X-Google-Smtp-Source: ABdhPJy1MvY2a7/kycfqy83Ks3Lj9IAWBx4Z0v17e+oXLsYz+vYG3fbuw+w7d3/8DHojuQ+i2zmKcGwBxHfgSotrgpg=
+X-Received: by 2002:a9d:60c8:: with SMTP id b8mr7228167otk.17.1619865244678;
+ Sat, 01 May 2021 03:34:04 -0700 (PDT)
 MIME-Version: 1.0
 References: <YIpkvGrBFGlB5vNj@elver.google.com> <m11rat9f85.fsf@fess.ebiederm.org>
  <CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com>
  <m15z031z0a.fsf@fess.ebiederm.org> <YIxVWkT03TqcJLY3@elver.google.com>
- <m1zgxfs7zq.fsf_-_@fess.ebiederm.org> <m1o8dvs7s7.fsf_-_@fess.ebiederm.org>
-In-Reply-To: <m1o8dvs7s7.fsf_-_@fess.ebiederm.org>
+ <m1zgxfs7zq.fsf_-_@fess.ebiederm.org> <m1eeers7q7.fsf_-_@fess.ebiederm.org>
+In-Reply-To: <m1eeers7q7.fsf_-_@fess.ebiederm.org>
 From:   Marco Elver <elver@google.com>
-Date:   Sat, 1 May 2021 12:33:27 +0200
-Message-ID: <CANpmjNNhd+qAy7tPSu=08_y-BZiowKigVkOh6HnXsxhWYuFpJA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] signal: Implement SIL_FAULT_TRAPNO
+Date:   Sat, 1 May 2021 12:33:53 +0200
+Message-ID: <CANpmjNPztuttUqN3=Z4r7GPCyGu76CWNK-oYhxtByAx5OP_2rg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] signal: Use dedicated helpers to send signals with
+ si_trapno set
 To:     "Eric W. Biederman" <ebiederm@xmission.com>
 Cc:     Arnd Bergmann <arnd@arndb.de>, Florian Weimer <fweimer@redhat.com>,
         "David S. Miller" <davem@davemloft.net>,
@@ -72,161 +73,80 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, 1 May 2021 at 00:54, Eric W. Biederman <ebiederm@xmission.com> wrote:
+On Sat, 1 May 2021 at 00:55, Eric W. Biederman <ebiederm@xmission.com> wrote:
 >
-> Now that si_trapno is part of the union in _si_fault and available on
-> all architectures, add SIL_FAULT_TRAPNO and update siginfo_layout to
-> return SIL_FAULT_TRAPNO when si_trapno is actually used.
+> Now that si_trapno is no longer expected to be present for every fault
+> reported using siginfo on alpha and sparc remove the trapno parameter
+> from force_sig_fault, force_sig_fault_to_task and send_sig_fault.
 >
-> Update the code that uses siginfo_layout to deal with SIL_FAULT_TRAPNO
-> and have the same code ignore si_trapno in in all other cases.
+> Add two new helpers force_sig_fault_trapno and send_sig_fault_trapno
+> for those signals where trapno is expected to be set.
 >
 > Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
 > ---
->  fs/signalfd.c          |  7 ++-----
->  include/linux/signal.h |  1 +
->  kernel/signal.c        | 36 ++++++++++++++----------------------
->  3 files changed, 17 insertions(+), 27 deletions(-)
->
-> diff --git a/fs/signalfd.c b/fs/signalfd.c
-> index 040a1142915f..126c681a30e7 100644
-> --- a/fs/signalfd.c
-> +++ b/fs/signalfd.c
-> @@ -123,15 +123,12 @@ static int signalfd_copyinfo(struct signalfd_siginfo __user *uinfo,
->                  */
->         case SIL_FAULT:
->                 new.ssi_addr = (long) kinfo->si_addr;
-> -#ifdef __ARCH_SI_TRAPNO
-> +       case SIL_FAULT_TRAPNO:
-> +               new.ssi_addr = (long) kinfo->si_addr;
->                 new.ssi_trapno = kinfo->si_trapno;
-> -#endif
->                 break;
->         case SIL_FAULT_MCEERR:
->                 new.ssi_addr = (long) kinfo->si_addr;
-> -#ifdef __ARCH_SI_TRAPNO
-> -               new.ssi_trapno = kinfo->si_trapno;
-> -#endif
->                 new.ssi_addr_lsb = (short) kinfo->si_addr_lsb;
->                 break;
->         case SIL_PERF_EVENT:
-> diff --git a/include/linux/signal.h b/include/linux/signal.h
-> index 1e98548d7cf6..5160fd45e5ca 100644
-> --- a/include/linux/signal.h
-> +++ b/include/linux/signal.h
-> @@ -40,6 +40,7 @@ enum siginfo_layout {
->         SIL_TIMER,
->         SIL_POLL,
->         SIL_FAULT,
-> +       SIL_FAULT_TRAPNO,
->         SIL_FAULT_MCEERR,
->         SIL_FAULT_BNDERR,
->         SIL_FAULT_PKUERR,
-> diff --git a/kernel/signal.c b/kernel/signal.c
-> index c3017aa8024a..7b2d61cb7411 100644
-> --- a/kernel/signal.c
-> +++ b/kernel/signal.c
-> @@ -1194,6 +1194,7 @@ static inline bool has_si_pid_and_uid(struct kernel_siginfo *info)
->         case SIL_TIMER:
->         case SIL_POLL:
->         case SIL_FAULT:
-> +       case SIL_FAULT_TRAPNO:
->         case SIL_FAULT_MCEERR:
->         case SIL_FAULT_BNDERR:
->         case SIL_FAULT_PKUERR:
-> @@ -2527,6 +2528,7 @@ static void hide_si_addr_tag_bits(struct ksignal *ksig)
->  {
->         switch (siginfo_layout(ksig->sig, ksig->info.si_code)) {
->         case SIL_FAULT:
-> +       case SIL_FAULT_TRAPNO:
->         case SIL_FAULT_MCEERR:
->         case SIL_FAULT_BNDERR:
->         case SIL_FAULT_PKUERR:
-> @@ -3206,6 +3208,12 @@ enum siginfo_layout siginfo_layout(unsigned sig, int si_code)
->                         if ((sig == SIGBUS) &&
->                             (si_code >= BUS_MCEERR_AR) && (si_code <= BUS_MCEERR_AO))
->                                 layout = SIL_FAULT_MCEERR;
-> +                       else if (IS_ENABLED(ALPHA) &&
-> +                                ((sig == SIGFPE) ||
-> +                                 ((sig == SIGTRAP) && (si_code == TRAP_UNK))))
-> +                               layout = SIL_FAULT_TRAPNO;
-> +                       else if (IS_ENABLED(SPARC) && (sig == SIGILL) && (si_code == ILL_ILLTRP))
-> +                               layout = SIL_FAULT_TRAPNO;
+>  arch/alpha/kernel/osf_sys.c      |  2 +-
+>  arch/alpha/kernel/signal.c       |  4 +--
+>  arch/alpha/kernel/traps.c        | 24 ++++++++---------
+>  arch/alpha/mm/fault.c            |  4 +--
+>  arch/sparc/kernel/process_64.c   |  2 +-
+>  arch/sparc/kernel/sys_sparc_32.c |  2 +-
+>  arch/sparc/kernel/sys_sparc_64.c |  2 +-
+>  arch/sparc/kernel/traps_32.c     | 22 ++++++++--------
+>  arch/sparc/kernel/traps_64.c     | 44 ++++++++++++++------------------
+>  arch/sparc/kernel/unaligned_32.c |  2 +-
+>  arch/sparc/mm/fault_32.c         |  2 +-
+>  arch/sparc/mm/fault_64.c         |  2 +-
+>  include/linux/sched/signal.h     | 12 +++------
+>  kernel/signal.c                  | 41 +++++++++++++++++++++--------
+>  14 files changed, 88 insertions(+), 77 deletions(-)
 
-The breakage isn't apparent here, but in later patches. These need to
-become CONFIG_SPARC and CONFIG_ALPHA.
+This still breaks sparc64:
+
+> sparc64-linux-gnu-ld: arch/sparc/kernel/traps_64.o: in function `bad_trap':
+> (.text+0x2a4): undefined reference to `force_sig_fault_trapno'
+
+[...]
+> +#if IS_ENABLED(SPARC)
+
+This should be 'IS_ENABLED(CONFIG_SPARC)'.
+
+> +int force_sig_fault_trapno(int sig, int code, void __user *addr, int trapno)
+> +{
+> +       struct kernel_siginfo info;
+> +
+> +       clear_siginfo(&info);
+> +       info.si_signo = sig;
+> +       info.si_errno = 0;
+> +       info.si_code  = code;
+> +       info.si_addr  = addr;
+> +       info.si_trapno = trapno;
+> +       return force_sig_info(&info);
+> +}
+> +#endif
+> +
+> +#if IS_ENABLED(ALPHA)
+
+CONFIG_ALPHA
 
 
->                         else if ((sig == SIGSEGV) && (si_code == SEGV_BNDERR))
->                                 layout = SIL_FAULT_BNDERR;
->  #ifdef SEGV_PKUERR
-> @@ -3317,30 +3325,22 @@ void copy_siginfo_to_external32(struct compat_siginfo *to,
->                 break;
->         case SIL_FAULT:
->                 to->si_addr = ptr_to_compat(from->si_addr);
-> -#ifdef __ARCH_SI_TRAPNO
-> +               break;
-> +       case SIL_FAULT_TRAPNO:
-> +               to->si_addr = ptr_to_compat(from->si_addr);
->                 to->si_trapno = from->si_trapno;
-> -#endif
->                 break;
->         case SIL_FAULT_MCEERR:
->                 to->si_addr = ptr_to_compat(from->si_addr);
-> -#ifdef __ARCH_SI_TRAPNO
-> -               to->si_trapno = from->si_trapno;
-> -#endif
->                 to->si_addr_lsb = from->si_addr_lsb;
->                 break;
->         case SIL_FAULT_BNDERR:
->                 to->si_addr = ptr_to_compat(from->si_addr);
-> -#ifdef __ARCH_SI_TRAPNO
-> -               to->si_trapno = from->si_trapno;
-> -#endif
->                 to->si_lower = ptr_to_compat(from->si_lower);
->                 to->si_upper = ptr_to_compat(from->si_upper);
->                 break;
->         case SIL_FAULT_PKUERR:
->                 to->si_addr = ptr_to_compat(from->si_addr);
-> -#ifdef __ARCH_SI_TRAPNO
-> -               to->si_trapno = from->si_trapno;
-> -#endif
->                 to->si_pkey = from->si_pkey;
->                 break;
->         case SIL_PERF_EVENT:
-> @@ -3401,30 +3401,22 @@ static int post_copy_siginfo_from_user32(kernel_siginfo_t *to,
->                 break;
->         case SIL_FAULT:
->                 to->si_addr = compat_ptr(from->si_addr);
-> -#ifdef __ARCH_SI_TRAPNO
-> +               break;
-> +       case SIL_FAULT_TRAPNO:
-> +               to->si_addr = compat_ptr(from->si_addr);
->                 to->si_trapno = from->si_trapno;
-> -#endif
->                 break;
->         case SIL_FAULT_MCEERR:
->                 to->si_addr = compat_ptr(from->si_addr);
-> -#ifdef __ARCH_SI_TRAPNO
-> -               to->si_trapno = from->si_trapno;
-> -#endif
->                 to->si_addr_lsb = from->si_addr_lsb;
->                 break;
->         case SIL_FAULT_BNDERR:
->                 to->si_addr = compat_ptr(from->si_addr);
-> -#ifdef __ARCH_SI_TRAPNO
-> -               to->si_trapno = from->si_trapno;
-> -#endif
->                 to->si_lower = compat_ptr(from->si_lower);
->                 to->si_upper = compat_ptr(from->si_upper);
->                 break;
->         case SIL_FAULT_PKUERR:
->                 to->si_addr = compat_ptr(from->si_addr);
-> -#ifdef __ARCH_SI_TRAPNO
-> -               to->si_trapno = from->si_trapno;
-> -#endif
->                 to->si_pkey = from->si_pkey;
->                 break;
->         case SIL_PERF_EVENT:
+> +int send_sig_fault_trapno(int sig, int code, void __user *addr, int trapno,
+> +                         struct task_struct *t)
+> +{
+> +       struct kernel_siginfo info;
+> +
+> +       clear_siginfo(&info);
+> +       info.si_signo = sig;
+> +       info.si_errno = 0;
+> +       info.si_code  = code;
+> +       info.si_addr  = addr;
+> +       info.si_trapno = trapno;
+> +       return send_sig_info(info.si_signo, &info, t);
+> +}
+> +#endif
+> +
+>  /* For the crazy architectures that include trap information in
+>   * the errno field, instead of an actual errno value.
+>   */
 > --
 > 2.30.1
+>
