@@ -2,112 +2,159 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A09323704FD
-	for <lists+linux-api@lfdr.de>; Sat,  1 May 2021 04:21:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3455F3706D8
+	for <lists+linux-api@lfdr.de>; Sat,  1 May 2021 12:31:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231415AbhEACWf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 30 Apr 2021 22:22:35 -0400
-Received: from mga02.intel.com ([134.134.136.20]:39491 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230508AbhEACWf (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 30 Apr 2021 22:22:35 -0400
-IronPort-SDR: HH/KKVWXGV33XBRlA566Hpa1GRlCMMS+qGFtKRZDJU4GtjO2BkP8bz9Juey/u0nzKJM4Kv1QM6
- Qp+xizNgHaaA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9970"; a="184541737"
-X-IronPort-AV: E=Sophos;i="5.82,264,1613462400"; 
-   d="scan'208";a="184541737"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2021 19:21:46 -0700
-IronPort-SDR: up+4B6cGqINpHOFiCvGSgCTCBH4t2C4586MGhDuo2WWqiBBS84WvP1j909tWdrSVmYAFKIORCF
- /P8gAY3KbxZw==
-X-IronPort-AV: E=Sophos;i="5.82,264,1613462400"; 
-   d="scan'208";a="387594007"
-Received: from jbrandeb-mobl4.amr.corp.intel.com (HELO localhost) ([10.209.64.230])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2021 19:21:45 -0700
-Date:   Fri, 30 Apr 2021 19:21:45 -0700
-From:   Jesse Brandeburg <jesse.brandeburg@intel.com>
-To:     Nitesh Lal <nilal@redhat.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        "frederic@kernel.org" <frederic@kernel.org>,
-        "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>, abelits@marvell.com,
-        Robin Murphy <robin.murphy@arm.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "mingo@kernel.org" <mingo@kernel.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
-        "stephen@networkplumber.org" <stephen@networkplumber.org>,
-        "rppt@linux.vnet.ibm.com" <rppt@linux.vnet.ibm.com>,
-        "jinyuqi@huawei.com" <jinyuqi@huawei.com>,
-        "zhangshaokun@hisilicon.com" <zhangshaokun@hisilicon.com>,
-        netdev@vger.kernel.org, chris.friesen@windriver.com
-Subject: Re: [Patch v4 1/3] lib: Restrict cpumask_local_spread to
- houskeeping CPUs
-Message-ID: <20210430192145.00000e23@intel.com>
-In-Reply-To: <CAFki+L=_dd+JgAR12_eBPX0kZO2_6=1dGdgkwHE=u=K6chMeLQ@mail.gmail.com>
-References: <20200625223443.2684-1-nitesh@redhat.com>
-        <20210128165903.GB38339@fuller.cnet>
-        <87h7n0de5a.fsf@nanos.tec.linutronix.de>
-        <20210204181546.GA30113@fuller.cnet>
-        <cfa138e9-38e3-e566-8903-1d64024c917b@redhat.com>
-        <20210204190647.GA32868@fuller.cnet>
-        <d8884413-84b4-b204-85c5-810342807d21@redhat.com>
-        <87y2g26tnt.fsf@nanos.tec.linutronix.de>
-        <d0aed683-87ae-91a2-d093-de3f5d8a8251@redhat.com>
-        <7780ae60-efbd-2902-caaa-0249a1f277d9@redhat.com>
-        <07c04bc7-27f0-9c07-9f9e-2d1a450714ef@redhat.com>
-        <20210406102207.0000485c@intel.com>
-        <1a044a14-0884-eedb-5d30-28b4bec24b23@redhat.com>
-        <20210414091100.000033cf@intel.com>
-        <54ecc470-b205-ea86-1fc3-849c5b144b3b@redhat.com>
-        <CAFki+Lm0W_brLu31epqD3gAV+WNKOJfVDfX2M8ZM__aj3nv9uA@mail.gmail.com>
-        <87czucfdtf.ffs@nanos.tec.linutronix.de>
-        <CAFki+LmmRyvOkWoNNLk5JCwtaTnabyaRUKxnS+wyAk_kj8wzyw@mail.gmail.com>
-        <87sg37eiqa.ffs@nanos.tec.linutronix.de>
-        <CAFki+L=_dd+JgAR12_eBPX0kZO2_6=1dGdgkwHE=u=K6chMeLQ@mail.gmail.com>
-X-Mailer: Claws Mail 3.12.0 (GTK+ 2.24.28; i686-w64-mingw32)
+        id S231843AbhEAKcO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 1 May 2021 06:32:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54286 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231786AbhEAKcN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 1 May 2021 06:32:13 -0400
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com [IPv6:2607:f8b0:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CB6BC06138C
+        for <linux-api@vger.kernel.org>; Sat,  1 May 2021 03:31:23 -0700 (PDT)
+Received: by mail-ot1-x333.google.com with SMTP id n32-20020a9d1ea30000b02902a53d6ad4bdso819585otn.3
+        for <linux-api@vger.kernel.org>; Sat, 01 May 2021 03:31:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hTLAv7JY7b65PTCIkNiaGknpqfuRJEA8yhpseb1KzSE=;
+        b=hy8ij/KJANTxBA1iUwcAFbhxh/7nV/TgkTpM7lsxXIsguF7yyduVGajNBCDuZ6ayJi
+         6uwjFy/Iu30GsdCwJHKdrTJT58iwk5fqUB4rBOd0qL7voxCQVoAEaUdVenHNEhlCGKRH
+         YD4eBSjyusjG95+M03umPg+QYrMRDhPjFjtetKaR0AjgCs1HHIC/gMctrJMJRBDo3Ejr
+         vK4g8Nc8S6DNG4Rleg7iZaE+kQFKmUhLZNOtAz4bV7NzRJ5ngeCy/YP3t9/FRUz2xB0Y
+         AUwCg4Ud9NJTLIZpZ/JkUewLtLcZjlZDTZkc/bzM+dTOfHA7+KfMG1x4nuavM5ERuvCO
+         ps+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hTLAv7JY7b65PTCIkNiaGknpqfuRJEA8yhpseb1KzSE=;
+        b=E2EQFlz97eWLsAxPjOPYb2NFh5c54tAn35gZtqUXH7JSyHJcsYUoZLCyip3pCNZw6q
+         zWloY5gW/6gH1e94qM5zXbyjqpTPcFBqz+UWa1EAcSQ+dw51ed3u3d7pMYfP7aydJCsj
+         e/hzZkfCaDO3oI1Sn5fZyIJOLQJUI+EyFagHNKrNCWOLG59eqeE5KS8Fw7/0BsOKflSW
+         XKMsBFfbu5ZRw6RfOMWdonFDOwh0IIFoHFOA14CbIKRmdRoETiv+zCJYnY+18JAr4gys
+         jNChYrsB7mEMMSJXPDhuBWWPKLq3DXLcB6W6OBrewdE1o0RbHH49rlX6d1oWrMmloIkx
+         8dkg==
+X-Gm-Message-State: AOAM531EDhVTHKioQVTnNIi8CTdQYt5kueba/fBSLwnyL8IRXY9SuPbt
+        LRnQs9/Euxmyhgth+o9Osh8T+Ez5RHt7DhOI4XOc2Q==
+X-Google-Smtp-Source: ABdhPJzhSkL3GKPDZF15lJ0S9j3o4Grx4p016/H5oYlnjubfXOToiXRiBHKo75C0xSAsjEgjJgAEDjvFdHgEyScSBGM=
+X-Received: by 2002:a9d:1ea9:: with SMTP id n38mr7332566otn.233.1619865082626;
+ Sat, 01 May 2021 03:31:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <YIpkvGrBFGlB5vNj@elver.google.com> <m11rat9f85.fsf@fess.ebiederm.org>
+ <CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com>
+ <m15z031z0a.fsf@fess.ebiederm.org> <YIxVWkT03TqcJLY3@elver.google.com>
+ <m1zgxfs7zq.fsf_-_@fess.ebiederm.org> <m1tunns7yf.fsf_-_@fess.ebiederm.org>
+In-Reply-To: <m1tunns7yf.fsf_-_@fess.ebiederm.org>
+From:   Marco Elver <elver@google.com>
+Date:   Sat, 1 May 2021 12:31:10 +0200
+Message-ID: <CANpmjNOZj-jRfFH365znJGqDAwdXL4Z2QBuHOtdvN_uNJ8WBSA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] siginfo: Move si_trapno inside the union inside _si_fault
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Florian Weimer <fweimer@redhat.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Collingbourne <pcc@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Alexander Potapenko <glider@google.com>,
+        sparclinux <sparclinux@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Nitesh Lal wrote:
+On Sat, 1 May 2021 at 00:50, Eric W. Biederman <ebiederm@xmission.com> wrote:
+>
+> It turns out that linux uses si_trapno very sparingly, and as such it
+> can be considered extra information for a very narrow selection of
+> signals, rather than information that is present with every fault
+> reported in siginfo.
+>
+> As such move si_trapno inside the union inside of _si_fault.  This
+> results in no change in placement, and makes it eaiser to extend
+> _si_fault in the future as this reduces the number of special cases.
+> In particular with si_trapno included in the union it is no longer a
+> concern that the union must be pointer alligned on most architectures
+> because the union followes immediately after si_addr which is a
+> pointer.
+>
 
-> On Fri, Apr 30, 2021 at 2:21 PM Thomas Gleixner <tglx@linutronix.de> wrote:
-> >
-> > Nitesh,
-> >
-> > On Fri, Apr 30 2021 at 12:14, Nitesh Lal wrote:
-> > > Based on this analysis and the fact that with your re-work the interrupts
-> > > seems to be naturally spread across the CPUs, will it be safe to revert
-> > > Jesse's patch
-> > >
-> > > e2e64a932 genirq: Set initial affinity in irq_set_affinity_hint()
-> > >
-> > > as it overwrites the previously set IRQ affinity mask for some of the
-> > > devices?
-> >
-> > That's a good question. My gut feeling says yes.
-> >
-> 
-> Jesse do you want to send the revert for the patch?
-> 
-> Also, I think it was you who suggested cc'ing
-> intel-wired-lan ml as that allows intel folks, to do some initial
-> testing?
-> If so, we can do that here (IMHO).
+Maybe add "Link:
+https://lkml.kernel.org/r/CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com"
 
-Patch sent here:
-https://lore.kernel.org/lkml/20210501021832.743094-1-jesse.brandeburg@intel.com/T/#u
+> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
 
-Any testing appreciated!
+Acked-by: Marco Elver <elver@google.com>
 
-Jesse
+By no longer guarding it with __ARCH_SI_TRAPNO we run the risk that it
+will be used by something else at some point. Is that intentional?
+
+Thanks,
+-- Marco
+
+> ---
+>  include/linux/compat.h             | 4 +---
+>  include/uapi/asm-generic/siginfo.h | 6 +-----
+>  2 files changed, 2 insertions(+), 8 deletions(-)
+>
+> diff --git a/include/linux/compat.h b/include/linux/compat.h
+> index f0d2dd35d408..24462ed63af4 100644
+> --- a/include/linux/compat.h
+> +++ b/include/linux/compat.h
+> @@ -214,12 +214,10 @@ typedef struct compat_siginfo {
+>                 /* SIGILL, SIGFPE, SIGSEGV, SIGBUS, SIGTRAP, SIGEMT */
+>                 struct {
+>                         compat_uptr_t _addr;    /* faulting insn/memory ref. */
+> -#ifdef __ARCH_SI_TRAPNO
+> -                       int _trapno;    /* TRAP # which caused the signal */
+> -#endif
+>  #define __COMPAT_ADDR_BND_PKEY_PAD  (__alignof__(compat_uptr_t) < sizeof(short) ? \
+>                                      sizeof(short) : __alignof__(compat_uptr_t))
+>                         union {
+> +                               int _trapno;    /* TRAP # which caused the signal */
+>                                 /*
+>                                  * used when si_code=BUS_MCEERR_AR or
+>                                  * used when si_code=BUS_MCEERR_AO
+> diff --git a/include/uapi/asm-generic/siginfo.h b/include/uapi/asm-generic/siginfo.h
+> index 03d6f6d2c1fe..2abdf1d19aad 100644
+> --- a/include/uapi/asm-generic/siginfo.h
+> +++ b/include/uapi/asm-generic/siginfo.h
+> @@ -63,9 +63,6 @@ union __sifields {
+>         /* SIGILL, SIGFPE, SIGSEGV, SIGBUS, SIGTRAP, SIGEMT */
+>         struct {
+>                 void __user *_addr; /* faulting insn/memory ref. */
+> -#ifdef __ARCH_SI_TRAPNO
+> -               int _trapno;    /* TRAP # which caused the signal */
+> -#endif
+>  #ifdef __ia64__
+>                 int _imm;               /* immediate value for "break" */
+>                 unsigned int _flags;    /* see ia64 si_flags */
+> @@ -75,6 +72,7 @@ union __sifields {
+>  #define __ADDR_BND_PKEY_PAD  (__alignof__(void *) < sizeof(short) ? \
+>                               sizeof(short) : __alignof__(void *))
+>                 union {
+> +                       int _trapno;    /* TRAP # which caused the signal */
+>                         /*
+>                          * used when si_code=BUS_MCEERR_AR or
+>                          * used when si_code=BUS_MCEERR_AO
+> @@ -150,9 +148,7 @@ typedef struct siginfo {
+>  #define si_int         _sifields._rt._sigval.sival_int
+>  #define si_ptr         _sifields._rt._sigval.sival_ptr
+>  #define si_addr                _sifields._sigfault._addr
+> -#ifdef __ARCH_SI_TRAPNO
+>  #define si_trapno      _sifields._sigfault._trapno
+> -#endif
+>  #define si_addr_lsb    _sifields._sigfault._addr_lsb
+>  #define si_lower       _sifields._sigfault._addr_bnd._lower
+>  #define si_upper       _sifields._sigfault._addr_bnd._upper
+> --
+> 2.30.1
