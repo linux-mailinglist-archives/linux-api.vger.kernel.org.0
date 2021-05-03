@@ -2,202 +2,223 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A57E371800
-	for <lists+linux-api@lfdr.de>; Mon,  3 May 2021 17:29:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABFBC371F2C
+	for <lists+linux-api@lfdr.de>; Mon,  3 May 2021 20:07:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230384AbhECPaI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 3 May 2021 11:30:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34846 "EHLO
+        id S231684AbhECSIi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 3 May 2021 14:08:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230362AbhECPaH (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 3 May 2021 11:30:07 -0400
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7504EC06174A
-        for <linux-api@vger.kernel.org>; Mon,  3 May 2021 08:29:14 -0700 (PDT)
-Received: by mail-pf1-x432.google.com with SMTP id v191so4387958pfc.8
-        for <linux-api@vger.kernel.org>; Mon, 03 May 2021 08:29:14 -0700 (PDT)
+        with ESMTP id S231640AbhECSIh (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 3 May 2021 14:08:37 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CB1BC061763
+        for <linux-api@vger.kernel.org>; Mon,  3 May 2021 11:07:43 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id u7-20020a259b470000b02904dca50820c2so8683732ybo.11
+        for <linux-api@vger.kernel.org>; Mon, 03 May 2021 11:07:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=2V3HYq3YbH5eZIxZs7nKcsCMHCZy6Xq7DA+V46SoNmI=;
-        b=TpPnf3bolYDVSjJPRDR8FjKGu85pfRv77SBJZBQHoYEbphH6DRrCLMsD3dOCctjAnL
-         wYvu3jVE2AQewOxDy3vbfn34JxTgO54FuX0FukEmGBlfMPgi/OwJRDW8pwT8TYvQLPIa
-         SAxm3wjxi7gZbV7CyGYGyYJ7J8VFqd+lGgJA5S/dnsskEew6z4LDbJqlNSWLZW7VQcQw
-         XE8cpOE0KyYGVnmLW0WdupKeoC3QvggNovzlgSezkkAQc1nuKa8GFvy0zhhielqXmimy
-         /B82tbcges+mfMiayPFZ6b3WCcwAP4Tzfr3NKzRg7CsvpOwm8JdBdR2efMIQ8UrLRsFm
-         7CnQ==
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=clUE+9HvpWe+AhHNgycvb38TYHJ82kheqtW8YMjhSZE=;
+        b=qpqak4unLM8qQfi876apEbJkT1HiB2B5c3LraaO9JxCCJEY36Fe69ptYikR2jfVRax
+         HxmCLDxLU2AAs6HSdeQRLJ3lFyDzQZWjR+oJyn5zjkT8xJIUfvaBLj7ZF9moyyCiyj/o
+         okfDnHfteRCkIE08C3Z3GpYFij+Q4QqepcLh0ciBTk+GDlsfezzIx/7MA3bcsnynZCTM
+         fL0V+ejVcSJlN3orfkZYfyQ+WCwCMESzhS7u0FGHigUL6UYPBNOeSF6M36hUmpNWzJH1
+         iut9VG7sEjNoK0VU4zsDbdRrR34gdZd3oDQhzUg/b76IWwudZBHpP6AwbyLrWPC0B052
+         fgtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=2V3HYq3YbH5eZIxZs7nKcsCMHCZy6Xq7DA+V46SoNmI=;
-        b=PYBOGTURJ03myXHqr7t7CtAKjaDCoxBgIpuzHvKrSB4h4j2ZcJPm5yTCSkO/DiDpnl
-         tCPLOG81yz+TuiLn3jMK5JQV1alaY35ZRCGjhyhJi+FqDuOXR9w5GtdaYtAepMlQ5kr+
-         9GDjWqoGDZAnqyI7lgBY2Hh4uc9YGJ2wZ7F6Zn9555WS33jgXNYt7exF1iJV+fG0BMw8
-         Z9Om9ye6Mqo04sHNr6UXlaT1lHBe5hNBBtCwfqi4vbul69cErWalvo4J1iDou41FPb49
-         9ShjyEO4yHJJ4w5bADjapXqwcJy9uZBN5sckwL+nJMVdlTXzArrnU7a/TnPFVNkcDOoz
-         VJRg==
-X-Gm-Message-State: AOAM531bo3wQF0cCbCAFM37qsy8N2QWp0E6/zKZiAq9T3IG2jlu6XXuF
-        6BxF8746/bLgUyIJEdPWJWcqrg==
-X-Google-Smtp-Source: ABdhPJzUqbXM/URmBF8ZSKH3HSbo8rHKVMg/k9x+YM8ZCOfN/FE0pEJH6vDM7iXTKEJD89xzJexv7A==
-X-Received: by 2002:a62:1888:0:b029:262:de45:b458 with SMTP id 130-20020a6218880000b0290262de45b458mr19722073pfy.20.1620055753894;
-        Mon, 03 May 2021 08:29:13 -0700 (PDT)
-Received: from smtpclient.apple ([2601:646:c200:1ef2:1960:85f5:fe97:e8ac])
-        by smtp.gmail.com with ESMTPSA id l3sm17757773pju.44.2021.05.03.08.29.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 May 2021 08:29:13 -0700 (PDT)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Andy Lutomirski <luto@amacapital.net>
-Mime-Version: 1.0 (1.0)
-Subject: Re: extending ucontext (Re: [PATCH v26 25/30] x86/cet/shstk: Handle signals for shadow stack)
-Date:   Mon, 3 May 2021 08:29:11 -0700
-Message-Id: <2D8926E4-F1B6-433A-96EA-995A66F3F42D@amacapital.net>
-References: <782ffe96-b830-d13b-db80-5b60f41ccdbf@intel.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=clUE+9HvpWe+AhHNgycvb38TYHJ82kheqtW8YMjhSZE=;
+        b=cZu2KbpQVHbyGptdpjalxqetDDQV0pPkInAGV9dZBbDgX7N8f+KTI7gB7Vz6CG0GIm
+         U8vA60O52lgPGxjBznXwa9RpIxV7XlOgy2y5lbWx5uJfD4GVDBWKc398uJRlL6DHmBx3
+         Qa8y356OM8qR/4Bi3V9G6vuG6Q+BBsd79Mrl+67gcfwQNyWzJMogqxez1QKIiYrRrVC0
+         lusC2B913GxrZKUjpeSzJUtNAzpP5cZfJt48+k/AeVaI7u/6C5hr3tU1BrWzRVmjTR/a
+         kRxS0UMikv3uTf52QCOWwvdFz2eJ7DRdLVKPObUjpVBkriID+xCTTO05GVlm3nQEMWB+
+         q6NA==
+X-Gm-Message-State: AOAM5312v6SdN5buCISSKNAVMEfKMZqs3k2DCfJHtFOXuqh/f+m1GpB5
+        0wi1L7Nd09VfPwcKmVLdlFHhkkx0/38X8Yiu+WD6
+X-Google-Smtp-Source: ABdhPJxm5C1hVRU/A4z/PlV/wJ8lYBQLGCqux/OMYMUSGn0WfU6KBNFbyqRpXmjXWpCTfFoETUIKkBJZVdISjBj/xSM1
+X-Received: from ajr0.svl.corp.google.com ([2620:15c:2cd:203:3d79:e69a:a4f9:ef0])
+ (user=axelrasmussen job=sendgmr) by 2002:a25:80c4:: with SMTP id
+ c4mr29628092ybm.283.1620065262758; Mon, 03 May 2021 11:07:42 -0700 (PDT)
+Date:   Mon,  3 May 2021 11:07:27 -0700
+Message-Id: <20210503180737.2487560-1-axelrasmussen@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.31.1.527.g47e6f16901-goog
+Subject: [PATCH v6 00/10] userfaultfd: add minor fault handling for shmem
+From:   Axel Rasmussen <axelrasmussen@google.com>
+To:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hugh Dickins <hughd@google.com>,
+        Jerome Glisse <jglisse@redhat.com>,
+        Joe Perches <joe@perches.com>,
+        Lokesh Gidra <lokeshgidra@google.com>,
         Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-In-Reply-To: <782ffe96-b830-d13b-db80-5b60f41ccdbf@intel.com>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-X-Mailer: iPhone Mail (18E199)
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Peter Xu <peterx@redhat.com>, Shaohua Li <shli@fb.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Wang Qing <wangqing@vivo.com>
+Cc:     linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-mm@kvack.org, Axel Rasmussen <axelrasmussen@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+        Mina Almasry <almasrymina@google.com>,
+        Oliver Upton <oupton@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Base
+====
 
-> On May 3, 2021, at 8:14 AM, Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
->=20
-> =EF=BB=BFOn 5/2/2021 4:23 PM, Andy Lutomirski wrote:
->>> On Fri, Apr 30, 2021 at 10:47 AM Andy Lutomirski <luto@kernel.org> wrote=
-:
->>>=20
->>> On Fri, Apr 30, 2021 at 10:00 AM Yu, Yu-cheng <yu-cheng.yu@intel.com> wr=
-ote:
->>>>=20
->>>> On 4/28/2021 4:03 PM, Andy Lutomirski wrote:
->>>>> On Tue, Apr 27, 2021 at 1:44 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wr=
-ote:
->>>>>>=20
->>>>>> When shadow stack is enabled, a task's shadow stack states must be sa=
-ved
->>>>>> along with the signal context and later restored in sigreturn.  Howev=
-er,
->>>>>> currently there is no systematic facility for extending a signal cont=
-ext.
->>>>>> There is some space left in the ucontext, but changing ucontext is li=
-kely
->>>>>> to create compatibility issues and there is not enough space for furt=
-her
->>>>>> extensions.
->>>>>>=20
->>>>>> Introduce a signal context extension struct 'sc_ext', which is used t=
-o save
->>>>>> shadow stack restore token address.  The extension is located above t=
-he fpu
->>>>>> states, plus alignment.  The struct can be extended (such as the ibt'=
-s
->>>>>> wait_endbr status to be introduced later), and sc_ext.total_size fiel=
-d
->>>>>> keeps track of total size.
->>>>>=20
->>>>> I still don't like this.
->>>>>=20
->>>>> Here's how the signal layout works, for better or for worse:
->>>>>=20
->=20
-> [...]
->=20
->>>>>=20
->>>>> That's where we are right now upstream.  The kernel has a parser for
->>>>> the FPU state that is bugs piled upon bugs and is going to have to be
->>>>> rewritten sometime soon.  On top of all this, we have two upcoming
->>>>> features, both of which require different kinds of extensions:
->>>>>=20
->>>>> 1. AVX-512.  (Yeah, you thought this story was over a few years ago,
->>>>> but no.  And AMX makes it worse.)  To make a long story short, we
->>>>> promised user code many years ago that a signal frame fit in 2048
->>>>> bytes with some room to spare.  With AVX-512 this is false.  With AMX
->>>>> it's so wrong it's not even funny.  The only way out of the mess
->>>>> anyone has come up with involves making the length of the FPU state
->>>>> vary depending on which features are INIT, i.e. making it more compact=
+This series is based on (and therefore should apply cleanly to) the tag
+"v5.12-rc8-mmots-2021-04-21-23-08", with the following applied first:
 
->>>>> than "compact" mode is.  This has a side effect: it's no longer
->>>>> possible to modify the state in place, because enabling a feature with=
+1. Peter's selftest cleanup series:
+   https://lore.kernel.org/patchwork/cover/1412450/
 
->>>>> no space allocated will make the structure bigger, and the stack won't=
+2. My patch to fix a pre-existing BUG_ON in an edge case:
+   https://lore.kernel.org/patchwork/patch/1419758/
 
->>>>> have room.  Fortunately, one can relocate the entire FPU state, update=
+Changelog
+=========
 
->>>>> the pointer in mcontext, and the kernel will happily follow the
->>>>> pointer.  So new code on a new kernel using a super-compact state
->>>>> could expand the state by allocating new memory (on the heap? very
->>>>> awkwardly on the stack?) and changing the pointer.  For all we know,
->>>>> some code already fiddles with the pointer.  This is great, except
->>>>> that your patch sticks more data at the end of the FPU block that no
->>>>> one is expecting, and your sigreturn code follows that pointer, and
->>>>> will read off into lala land.
->>>>>=20
->>>>=20
->>>> Then, what about we don't do that at all.  Is it possible from now on w=
-e
->>>> don't stick more data at the end, and take the relocating-fpu approach?=
+v5->v6:
+- Picked up {Reviewed,Acked}-by's.
+- Rebased onto v5.12-rc8-mmots-2021-04-21-23-08.
+- Put mistakenly removed delete_from_page_cache() back in the error path in
+  shmem_mfill_atomic_pte(). [Hugh]
+- Keep shmem_mfill_atomic_pte() naming, instead of shmem_mcopy_... Likewise,
+  rename our new helper to mfill_atomic_install_pte(). [Hugh]
+- Return directly instead of "goto out" in shmem_mfill_atomic_pte(), saving a
+  couple of lines. [Peter]
 
->>>>=20
->>>>> 2. CET.  CET wants us to find a few more bytes somewhere, and those
->>>>> bytes logically belong in ucontext, and here we are.
->>>>>=20
->>>>=20
->>>> Fortunately, we can spare CET the need of ucontext extension.  When the=
+v4->v5:
+- Picked up {Reviewed,Acked}-by's.
+- Fix cleanup in error path in shmem_mcopy_atomic_pte(). [Hugh, Peter]
+- Mention switching to lru_cache_add() in the commit message of 9/10. [Hugh]
+- Split + reorder commits, so now we 1) implement the faulting path, 2)
+  implement the CONTINUE ioctl, and 3) advertise the feature. Squash the
+  documentation update into step (3). [Hugh, Peter]
+- Reorder install_pte() cleanup to come before selftest changes. [Hugh]
 
->>>> kernel handles sigreturn, the user-mode shadow stack pointer is right a=
-t
->>>> the restore token.  There is no need to put that in ucontext.
->>>=20
->>> That seems entirely reasonable.  This might also avoid needing to
->>> teach CRIU about CET at all.
->> Wait, what's the actual shadow stack token format?  And is the token
->> on the new stack or the old stack when sigaltstack is in use?  For
->> that matter, is there any support for an alternate shadow stack for
->> signals?
->=20
-> The restore token is a pointer pointing directly above itself and bit[0] i=
-ndicates 64-bit mode.
->=20
-> Because the shadow stack stores only return addresses, there is no alterna=
-te shadow stack.  However, the application can allocate and switch to a new s=
-hadow stack.
+v3->v4:
+- Fix handling of the shmem private mcopy case. Previously, I had (incorrectly)
+  assumed that !vma_is_anonymous() was equivalent to "the page will be in the
+  page cache". But, in this case we have an optimization where we allocate a new
+  *anonymous* page. So, use a new "bool page_in_cache" instead, which checks if
+  page->mapping is set. Correct several places with this new check. [Hugh]
+- Fix calling mm_counter() before page_add_..._rmap(). [Hugh]
+- When modifying shmem_mcopy_atomic_pte() to use the new install_pte() helper,
+  just use lru_cache_add_inactive_or_unevictable(), no need to branch and maybe
+  use lru_cache_add(). [Hugh]
+- De-pluralize mcopy_atomic_install_pte(s). [Hugh]
+- Make "writable" a bool, and initialize consistently. [Hugh]
 
-I think we should make the ABI support an alternate shadow stack even if we d=
-on=E2=80=99t implement it initially. After all, some day someone might want t=
-o register a handler for shadow stack overflow.
+v2->v3:
+- Picked up {Reviewed,Acked}-by's.
+- Reorder commits: introduce CONTINUE before MINOR registration. [Hugh, Peter]
+- Don't try to {unlock,put}_page an xarray value in shmem_getpage_gfp. [Hugh]
+- Move enum mcopy_atomic_mode forward declare out of CONFIG_HUGETLB_PAGE. [Hugh]
+- Keep mistakenly removed UFFD_USER_MODE_ONLY in selftest. [Peter]
+- Cleanup context management in self test (make clear implicit, remove unneeded
+  return values now that we have err()). [Peter]
+- Correct dst_pte argument to dst_pmd in shmem_mcopy_atomic_pte macro. [Hugh]
+- Mention the new shmem support feature in documentation. [Hugh]
 
->=20
-> Yu-cheng
+v1->v2:
+- Pick up Reviewed-by's.
+- Don't swapin page when a minor fault occurs. Notice that it needs to be
+  swapped in, and just immediately fire the minor fault. Let a future CONTINUE
+  deal with swapping in the page. [Peter]
+- Clarify comment about i_size checks in mm/userfaultfd.c. [Peter]
+- Only forward declare once (out of #ifdef) in hugetlb.h. [Peter]
+
+Changes since [2]:
+- Squash the fixes ([2]) in with the original series ([1]). This makes reviewing
+  easier, as we no longer have to sift through deltas undoing what we had done
+  before. [Hugh, Peter]
+- Modify shmem_mcopy_atomic_pte() to use the new mcopy_atomic_install_ptes()
+  helper, reducing code duplication. [Hugh]
+- Properly trigger handle_userfault() in the shmem_swapin_page() case. [Hugh]
+- Use shmem_getpage() instead of find_lock_page() to lookup the existing page in
+  for continue. This properly deals with swapped-out pages. [Hugh]
+- Unconditionally pte_mkdirty() for anon memory (as before). [Peter]
+- Don't include userfaultfd_k.h in either hugetlb.h or shmem_fs.h. [Hugh]
+- Add comment for UFFD_FEATURE_MINOR_SHMEM (to match _HUGETLBFS). [Hugh]
+- Fix some small cleanup issues (parens, reworded conditionals, reduced plumbing
+  of some parameters, simplify labels/gotos, ...). [Hugh, Peter]
+
+Overview
+========
+
+See the series which added minor faults for hugetlbfs [3] for a detailed
+overview of minor fault handling in general. This series adds the same support
+for shmem-backed areas.
+
+This series is structured as follows:
+
+- Commits 1 and 2 are cleanups.
+- Commits 3 and 4 implement the new feature (minor fault handling for shmem).
+- Commit 5 advertises that the feature is now available since at this point it's
+  fully implemented.
+- Commit 6 is a final cleanup, modifying an existing code path to re-use a new
+  helper we've introduced.
+- Commits 7, 8, 9, 10 update the userfaultfd selftest to exercise the feature.
+
+Use Case
+========
+
+In some cases it is useful to have VM memory backed by tmpfs instead of
+hugetlbfs. So, this feature will be used to support the same VM live migration
+use case described in my original series.
+
+Additionally, Android folks (Lokesh Gidra <lokeshgidra@google.com>) hope to
+optimize the Android Runtime garbage collector using this feature:
+
+"The plan is to use userfaultfd for concurrently compacting the heap. With
+this feature, the heap can be shared-mapped at another location where the
+GC-thread(s) could continue the compaction operation without the need to
+invoke userfault ioctl(UFFDIO_COPY) each time. OTOH, if and when Java threads
+get faults on the heap, UFFDIO_CONTINUE can be used to resume execution.
+Furthermore, this feature enables updating references in the 'non-moving'
+portion of the heap efficiently. Without this feature, uneccessary page
+copying (ioctl(UFFDIO_COPY)) would be required."
+
+[1] https://lore.kernel.org/patchwork/cover/1388144/
+[2] https://lore.kernel.org/patchwork/patch/1408161/
+[3] https://lore.kernel.org/linux-fsdevel/20210301222728.176417-1-axelrasmussen@google.com/T/#t
+
+Axel Rasmussen (10):
+  userfaultfd/hugetlbfs: avoid including userfaultfd_k.h in hugetlb.h
+  userfaultfd/shmem: combine shmem_{mcopy_atomic,mfill_zeropage}_pte
+  userfaultfd/shmem: support minor fault registration for shmem
+  userfaultfd/shmem: support UFFDIO_CONTINUE for shmem
+  userfaultfd/shmem: advertise shmem minor fault support
+  userfaultfd/shmem: modify shmem_mfill_atomic_pte to use install_pte()
+  userfaultfd/selftests: use memfd_create for shmem test type
+  userfaultfd/selftests: create alias mappings in the shmem test
+  userfaultfd/selftests: reinitialize test context in each test
+  userfaultfd/selftests: exercise minor fault handling shmem support
+
+ Documentation/admin-guide/mm/userfaultfd.rst |   3 +-
+ fs/userfaultfd.c                             |   6 +-
+ include/linux/hugetlb.h                      |   2 +-
+ include/linux/shmem_fs.h                     |  19 +-
+ include/linux/userfaultfd_k.h                |   5 +
+ include/uapi/linux/userfaultfd.h             |   7 +-
+ mm/hugetlb.c                                 |   1 +
+ mm/memory.c                                  |   8 +-
+ mm/shmem.c                                   | 120 +++-----
+ mm/userfaultfd.c                             | 175 ++++++++----
+ tools/testing/selftests/vm/userfaultfd.c     | 274 ++++++++++++-------
+ 11 files changed, 364 insertions(+), 256 deletions(-)
+
+--
+2.31.1.527.g47e6f16901-goog
+
