@@ -2,133 +2,158 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EB9EA372E19
-	for <lists+linux-api@lfdr.de>; Tue,  4 May 2021 18:30:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCBD1372E8E
+	for <lists+linux-api@lfdr.de>; Tue,  4 May 2021 19:15:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231879AbhEDQbe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 4 May 2021 12:31:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57254 "EHLO
+        id S231777AbhEDRQu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 4 May 2021 13:16:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231796AbhEDQbe (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 4 May 2021 12:31:34 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2F93C061761
-        for <linux-api@vger.kernel.org>; Tue,  4 May 2021 09:30:38 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id r9so14149460ejj.3
-        for <linux-api@vger.kernel.org>; Tue, 04 May 2021 09:30:38 -0700 (PDT)
+        with ESMTP id S231445AbhEDRQu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 4 May 2021 13:16:50 -0400
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32CEAC061574
+        for <linux-api@vger.kernel.org>; Tue,  4 May 2021 10:15:54 -0700 (PDT)
+Received: by mail-pg1-x533.google.com with SMTP id i14so7826987pgk.5
+        for <linux-api@vger.kernel.org>; Tue, 04 May 2021 10:15:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ctdlXSgA9WB8/LgWtL0CJavRE/GrXThnOTOG0Yn+j2M=;
-        b=PV7H9lwE2fkMD9FY3zZI2IQ1LJUNNJi+MErHVDmQXkw7CP2xrU/TYHlHczAfDm5lVa
-         KDiLaKQ00UK/IHHZuLCrQoUb6nNF2np0jdBgPOKnW02lTxjNCfGGcqjbWs0FnUqtA2bw
-         4MCLLKv0oasjlveEwIDLg7pD/6kl+SgNCQ9ok=
+        d=osandov-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=/Ml/yIk5DGcF758QfcPDaTZzjgkM4u2jzBi6L+5FstI=;
+        b=v8IR5fJT3x2UYJuE1ysgdWNDLq6e6jhdD1dtUfEL0W11yjq6QIDOF3VH3SQ+G/pNlp
+         DlgwWizQbfC7H8Vu/ql4/ASBdHrBvRTcmS8Cu+I5BNvNH2G6yrE5nQsPeRoTArCE5KpG
+         eMh3aSWP0NPj1D9UggorpGfavN/eBTZNofbH+MjsRo0rgeVSKrGffdSj6uDrvxquIZrj
+         R6Rv7u217ckApdqsSlCJvIQ3YqTTaXBju25SCmNAXqEIo8UHxnXjaOPmgjJlS6oWk8z+
+         mJfg1sqE/4lWty/TIslfcYRnBXapDY5beFTa62+F5ZbEE7B8x964YPWO0qT5gqBZZou3
+         iE/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=ctdlXSgA9WB8/LgWtL0CJavRE/GrXThnOTOG0Yn+j2M=;
-        b=pkxydOxhSsJ4bkEnybj3/T+t7gvtbQKaHy6bQ+MIhDet+yJnJLHPdwoW92RceVOdnN
-         s/93Xr1yWxsAaP3t6v2jBIORKvdjukDXKIovvPAGGDKkCs93qDUdMqe+AlHnH6sjniDs
-         h4zbcIfXrXtDKoIvdTV54Jv0yFfnFebTJEXiuxDD0p9XK60Y1wzugh7pbPWx3nUJXsI0
-         QIyCwNTayTpd6hEWUYgd1iY3u05czKf1P+wOpKJzTkLQVgWNYrO549YZjGf2Llyo8QeB
-         g5x17ZaVLBjfSVRBuSHV8DNeo9rmHCwEbebXjgbACW7ulHxBD/bPk2xWKjICPEyly11T
-         3aOg==
-X-Gm-Message-State: AOAM532ik3MHFmc7u3xQ22jrhzZ7mVk5d23Rfk/U0QwIxQFxeq+vD2+h
-        Ngkd0V/xEJvFPB7BvX7oaahUgw==
-X-Google-Smtp-Source: ABdhPJxnDxkwXkTAVEK/PThX9uS74sv8umtjiWwfjWMmVibtFA3GJeFZ5aOd5+yEYTEA4wsXOVzSiw==
-X-Received: by 2002:a17:906:d145:: with SMTP id br5mr22140782ejb.452.1620145837348;
-        Tue, 04 May 2021 09:30:37 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id kt21sm1615904ejb.5.2021.05.04.09.30.36
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=/Ml/yIk5DGcF758QfcPDaTZzjgkM4u2jzBi6L+5FstI=;
+        b=jyRK3nkHsCACnje5ueaxC3a+6kGHCCfXlvpJwD0RJERxGojYm0oozU7qYPiptt81tX
+         MzNfSmUF2uJ8JHjEU6ZHGQJzShAwsi89/EvSh5MlBKg/S7dTgzyHDs1iuT4k9zbpBmPA
+         j3PfpguZt1KVvT+xwOzPu77jpPKywt1WeC9x3f9sIdbyYGHOE0ihfX3BrvLglcNqDfF0
+         GRcnKTVZTuXaTYqmi1z4kbnSmc365fRu3UmRugFMMEJpOmK4N/DcEkmbxDl4nXAETxh7
+         mQ5eMKVjFSTUNJbPtOed3QuYr9+HmxwjBhnu/GEpsS0FmrsOBVgw2l0pMHcdyn2Pqam6
+         2v6g==
+X-Gm-Message-State: AOAM531Sv6nI9hwj5lXnDwHRhzV6qknymY45RoUr/FDX/iD5cTQjsoyY
+        eW3hgQ5YsnUjvJ3m0HTStvYfQQ==
+X-Google-Smtp-Source: ABdhPJx3EwiIEmpecTvlKxbVMrVcDSM00tzrNmWTBs+YV6NKqZBH1ZwJcT+tCFB6I7GyhNjYj70SbQ==
+X-Received: by 2002:a63:ff45:: with SMTP id s5mr15607964pgk.274.1620148553592;
+        Tue, 04 May 2021 10:15:53 -0700 (PDT)
+Received: from relinquished.localdomain ([2601:602:8b80:8e0::e086])
+        by smtp.gmail.com with ESMTPSA id v185sm8126135pfb.190.2021.05.04.10.15.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 May 2021 09:30:36 -0700 (PDT)
-Date:   Tue, 4 May 2021 18:30:34 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Greg Kurz <groug@kaod.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Paul Mackerras <paulus@samba.org>, linux-api@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, qemu-devel@nongnu.org,
-        qemu-ppc@nongnu.org
-Subject: Re: remove the nvlink2 pci_vfio subdriver v2
-Message-ID: <YJF2qm+voakTWq9M@phenom.ffwll.local>
-Mail-Followup-To: Jason Gunthorpe <jgg@nvidia.com>,
-        Greg Kurz <groug@kaod.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Alex Williamson <alex.williamson@redhat.com>, kvm@vger.kernel.org,
-        David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, Paul Mackerras <paulus@samba.org>,
-        linux-api@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20210326061311.1497642-1-hch@lst.de>
- <20210504142236.76994047@bahia.lan>
- <YJFFG1tSP0dUCxcX@kroah.com>
- <20210504152034.18e41ec3@bahia.lan>
- <YJFY7NjEBtCSlJHw@phenom.ffwll.local>
- <20210504155327.GA94750@nvidia.com>
+        Tue, 04 May 2021 10:15:52 -0700 (PDT)
+Date:   Tue, 4 May 2021 10:15:51 -0700
+From:   Omar Sandoval <osandov@osandov.com>
+To:     linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Dave Chinner <david@fromorbit.com>,
+        Jann Horn <jannh@google.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Aleksa Sarai <cyphar@cyphar.com>, linux-api@vger.kernel.org,
+        kernel-team@fb.com
+Subject: Re: [PATCH RESEND v9 0/9] fs: interface for directly reading/writing
+ compressed data
+Message-ID: <YJGBR5SnnQeJdIb1@relinquished.localdomain>
+References: <cover.1619463858.git.osandov@fb.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210504155327.GA94750@nvidia.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+In-Reply-To: <cover.1619463858.git.osandov@fb.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 04, 2021 at 12:53:27PM -0300, Jason Gunthorpe wrote:
-> On Tue, May 04, 2021 at 04:23:40PM +0200, Daniel Vetter wrote:
+On Mon, Apr 26, 2021 at 12:06:03PM -0700, Omar Sandoval wrote:
+> From: Omar Sandoval <osandov@fb.com>
 > 
-> > Just my 2cents from drm (where we deprecate old gunk uapi quite often):
-> > Imo it's best to keep the uapi headers as-is, but exchange the
-> > documentation with a big "this is removed, never use again" warning:
+> This series adds an API for reading compressed data on a filesystem
+> without decompressing it as well as support for writing compressed data
+> directly to the filesystem. I have test cases (including fsstress
+> support) and example programs which I'll send up once the dust settles
+> [1].
 > 
-> We in RDMA have been doing the opposite, the uapi headers are supposed
-> to reflect the current kernel. This helps make the kernel
-> understandable.
+> The main use-case is Btrfs send/receive: currently, when sending data
+> from one compressed filesystem to another, the sending side decompresses
+> the data and the receiving side recompresses it before writing it out.
+> This is wasteful and can be avoided if we can just send and write
+> compressed extents. The patches implementing the send/receive support
+> were sent with the last submission of this series [2].
 > 
-> When userspace needs backwards compat to ABI that the current kernel
-> doesn't support then userspace has distinct copies of that information
-> in some compat location. It has happened a few times over the last 15
-> years.
+> Patches 1-3 add the VFS support, UAPI, and documentation. Patches 4-7
+> are Btrfs prep patches. Patch 8 adds Btrfs encoded read support and
+> patch 9 adds Btrfs encoded write support.
 > 
-> We keep full copies of the current kernel headers in the userspace
-> source tree, when the kernel headers change in a compile incompatible
-> way we fix everything while updating to the new kernel headers.
+> These patches are based on Dave Sterba's Btrfs misc-next branch [3],
+> which is in turn currently based on v5.12-rc8.
+> 
+> This is a resend of v9 [4], rebased on the latest kdave/misc-next
+> branch.
+> 
+> Omar Sandoval (9):
+>   iov_iter: add copy_struct_from_iter()
+>   fs: add O_ALLOW_ENCODED open flag
+>   fs: add RWF_ENCODED for reading/writing compressed data
+>   btrfs: don't advance offset for compressed bios in
+>     btrfs_csum_one_bio()
+>   btrfs: add ram_bytes and offset to btrfs_ordered_extent
+>   btrfs: support different disk extent size for delalloc
+>   btrfs: optionally extend i_size in cow_file_range_inline()
+>   btrfs: implement RWF_ENCODED reads
+>   btrfs: implement RWF_ENCODED writes
+> 
+> 1: https://github.com/osandov/xfstests/tree/rwf-encoded
+> 2: https://lore.kernel.org/linux-btrfs/cover.1615922753.git.osandov@fb.com/
+> 3: https://github.com/kdave/btrfs-devel/tree/misc-next
+> 4: https://lore.kernel.org/linux-btrfs/cover.1617258892.git.osandov@fb.com/
+> 
+> Omar Sandoval (9):
+>   iov_iter: add copy_struct_from_iter()
+>   fs: add O_ALLOW_ENCODED open flag
+>   fs: add RWF_ENCODED for reading/writing compressed data
+>   btrfs: don't advance offset for compressed bios in
+>     btrfs_csum_one_bio()
+>   btrfs: add ram_bytes and offset to btrfs_ordered_extent
+>   btrfs: support different disk extent size for delalloc
+>   btrfs: optionally extend i_size in cow_file_range_inline()
+>   btrfs: implement RWF_ENCODED reads
+>   btrfs: implement RWF_ENCODED writes
+> 
+>  Documentation/filesystems/encoded_io.rst | 240 ++++++
+>  Documentation/filesystems/index.rst      |   1 +
+>  arch/alpha/include/uapi/asm/fcntl.h      |   1 +
+>  arch/parisc/include/uapi/asm/fcntl.h     |   1 +
+>  arch/sparc/include/uapi/asm/fcntl.h      |   1 +
+>  fs/btrfs/compression.c                   |  12 +-
+>  fs/btrfs/compression.h                   |   6 +-
+>  fs/btrfs/ctree.h                         |   9 +-
+>  fs/btrfs/delalloc-space.c                |  18 +-
+>  fs/btrfs/file-item.c                     |  35 +-
+>  fs/btrfs/file.c                          |  46 +-
+>  fs/btrfs/inode.c                         | 929 +++++++++++++++++++++--
+>  fs/btrfs/ordered-data.c                  | 124 +--
+>  fs/btrfs/ordered-data.h                  |  25 +-
+>  fs/btrfs/relocation.c                    |   4 +-
+>  fs/fcntl.c                               |  10 +-
+>  fs/namei.c                               |   4 +
+>  fs/read_write.c                          | 168 +++-
+>  include/linux/encoded_io.h               |  17 +
+>  include/linux/fcntl.h                    |   2 +-
+>  include/linux/fs.h                       |  13 +
+>  include/linux/uio.h                      |   1 +
+>  include/uapi/asm-generic/fcntl.h         |   4 +
+>  include/uapi/linux/encoded_io.h          |  30 +
+>  include/uapi/linux/fs.h                  |   5 +-
+>  lib/iov_iter.c                           |  91 +++
+>  26 files changed, 1563 insertions(+), 234 deletions(-)
+>  create mode 100644 Documentation/filesystems/encoded_io.rst
+>  create mode 100644 include/linux/encoded_io.h
+>  create mode 100644 include/uapi/linux/encoded_io.h
 
-Yeah we do the same since forever (it's either from libdrm package, or
-directly in the corresponding userspace header). So largely include/uapi
-is for documentation
-
-> > - it's good to know which uapi numbers (like parameter extensions or
-> >   whatever they are in this case) are defacto reserved, because there are
-> >   binaries (qemu in this) that have code acting on them out there.
-> 
-> Numbers and things get marked reserved or the like
-> 
-> > Anyway feel free to ignore since this might be different than drivers/gpu.
-> 
-> AFAIK drives/gpu has a lot wider userspace, rdma manages this OK
-> because we only have one library package that provides the user/kernel
-> interface.
-
-But since we have some many projects we've started asking all the userspace
-projects to directly take the kernel ones (after the make step to filter
-them) so that there's only one source of truth. And also to make sure they
-don't merge stuff before the kernel side is reviewed&landed. Which also
-means we can't ditch anything userspace might still need on older trees
-and stuff.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Ping.
