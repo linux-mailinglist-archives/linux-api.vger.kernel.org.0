@@ -2,126 +2,147 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84337372C06
-	for <lists+linux-api@lfdr.de>; Tue,  4 May 2021 16:29:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82530372CFA
+	for <lists+linux-api@lfdr.de>; Tue,  4 May 2021 17:33:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231611AbhEDOaU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 4 May 2021 10:30:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38031 "EHLO
+        id S230463AbhEDPe2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 4 May 2021 11:34:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35792 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230334AbhEDOaT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 4 May 2021 10:30:19 -0400
+        by vger.kernel.org with ESMTP id S230447AbhEDPe2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 4 May 2021 11:34:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1620138564;
+        s=mimecast20190719; t=1620142412;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=/C/wTNOTCb+yGfszfpaIVYIq+8oCD0tOIWtXOH684UQ=;
-        b=OyYxFR1j4KehwpRmCFywOBvwaMw7Wjd+nQjQMIkoj9XLuyv8ZWbNmAJJgLM3MiaLrIfNGE
-        kqciXjRUoEWLoKb+m9Pe2/74WvEVCg1V49XSXt/Jhx+drdOTe7EYCwKHM0pBwDmdAGsrMy
-        h8pzs4ltdFGoaXhUGRbCXmM0cv1Qkag=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-489-KOCtVktZNhmh5nh-egL86g-1; Tue, 04 May 2021 10:29:22 -0400
-X-MC-Unique: KOCtVktZNhmh5nh-egL86g-1
-Received: by mail-ej1-f69.google.com with SMTP id k9-20020a17090646c9b029039d323bd239so3169891ejs.16
-        for <linux-api@vger.kernel.org>; Tue, 04 May 2021 07:29:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/C/wTNOTCb+yGfszfpaIVYIq+8oCD0tOIWtXOH684UQ=;
-        b=jAHX9qybF3LcfNxqNtsn3wR5H98cZ9F1lDMZpCVhfDWv6C13USTjB1W3NJca1+07Rz
-         9Y71lV3X0GjZzUSuFGx0mkzPkcwM/tMgRaUbBGhSpA+RgRmeecYmda9oKiyB/8aOA2ns
-         De/i1cp4/kFSPT1A+sBGlrZdHZzSGcNtq3ck3STlXLwNylfyeSMHWKMXyYlEoWMomoEK
-         NhB3PggUzxYPzFLUsDi76YruFmgqZ2PwRpHB66snAvm7o2vIqlyAIkVX6Moy/oduJcZM
-         haMzotXKhOPjiPLdwAkqDdN6QCA0l2qj77tSul2QfbzZF9bYGvg4gwCFsGDiIx1dakv/
-         Pa/w==
-X-Gm-Message-State: AOAM531cLcZmNqDmHRm6nO2W0KnvO8+/iLG5yh7aAQH/tNBRj/yePQcS
-        gse5HQt1OfNgma1bV3RjnYkoIGsld85PCZQYNLGrliVZt8zd/MD6ek2sYDCmXu0e+6MYImvmsXS
-        Fn+4jymJPe6SQwbeMxVCIqlSo+XQevb/XRf+T
-X-Received: by 2002:a17:906:9a02:: with SMTP id ai2mr22704487ejc.279.1620138561162;
-        Tue, 04 May 2021 07:29:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyBQGqUZtw6piWjtshZQhonbqeKOMWr75L9XDey1rFpJCXv1AQK+Jw5/m9KuadTFtTp9gtXISJlA+uPKf1wTjE=
-X-Received: by 2002:a17:906:9a02:: with SMTP id ai2mr22704467ejc.279.1620138560926;
- Tue, 04 May 2021 07:29:20 -0700 (PDT)
+        bh=HLdHIElXsh+Br5DFDsP1+YjonXAJx6g75JUakM7EhX0=;
+        b=W7/bSoaEHRa2sJJsJaigph9G50tS8iwXHGXNMMpGRAvx5RyjkDyGx4crbI5ceD53cIScDv
+        liNs6G5shs9tAupqA507dUwvV3vC+8jQTPVvUm8++MfP3VMD3NpnQVYFK03osmOE+aAdcm
+        CnRvO6gCkVVktK08sAXf1dCCgXvRbWs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-586-oGqKZBKrOxqxLaLvFcQSeQ-1; Tue, 04 May 2021 11:33:28 -0400
+X-MC-Unique: oGqKZBKrOxqxLaLvFcQSeQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C45CF1922039;
+        Tue,  4 May 2021 15:33:26 +0000 (UTC)
+Received: from redhat.com (ovpn-113-225.phx2.redhat.com [10.3.113.225])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 13D425C230;
+        Tue,  4 May 2021 15:33:25 +0000 (UTC)
+Date:   Tue, 4 May 2021 09:33:24 -0600
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Greg Kurz <groug@kaod.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Jason Gunthorpe <jgg@nvidia.com>, <kvm@vger.kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        "Paul Mackerras" <paulus@samba.org>,
+        Daniel Vetter <daniel@ffwll.ch>, <linux-api@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <qemu-devel@nongnu.org>,
+        <qemu-ppc@nongnu.org>
+Subject: Re: remove the nvlink2 pci_vfio subdriver v2
+Message-ID: <20210504093324.4f0cafc7@redhat.com>
+In-Reply-To: <20210504161131.2ed74d7b@bahia.lan>
+References: <20210326061311.1497642-1-hch@lst.de>
+        <20210504142236.76994047@bahia.lan>
+        <YJFFG1tSP0dUCxcX@kroah.com>
+        <20210504152034.18e41ec3@bahia.lan>
+        <YJFMZ8KYVCDwUBPU@kroah.com>
+        <20210504161131.2ed74d7b@bahia.lan>
 MIME-Version: 1.0
-References: <20210501021832.743094-1-jesse.brandeburg@intel.com> <16d8ca67-30c6-bb4b-8946-79de8629156e@arm.com>
-In-Reply-To: <16d8ca67-30c6-bb4b-8946-79de8629156e@arm.com>
-From:   Nitesh Lal <nilal@redhat.com>
-Date:   Tue, 4 May 2021 10:29:09 -0400
-Message-ID: <CAFki+L=D8aS_jub0KHAkfsnvvJ_w8_mMYbaHeZ-GkQF1s_0WDQ@mail.gmail.com>
-Subject: Re: [PATCH tip:irq/core v1] genirq: remove auto-set of the mask when
- setting the hint
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>, linux-kernel@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, jbrandeb@kernel.org,
-        "frederic@kernel.org" <frederic@kernel.org>,
-        "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>, abelits@marvell.com,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
-        "stephen@networkplumber.org" <stephen@networkplumber.org>,
-        "rppt@linux.vnet.ibm.com" <rppt@linux.vnet.ibm.com>,
-        "jinyuqi@huawei.com" <jinyuqi@huawei.com>,
-        "zhangshaokun@hisilicon.com" <zhangshaokun@hisilicon.com>,
-        netdev@vger.kernel.org, chris.friesen@windriver.com,
-        Marc Zyngier <maz@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 4, 2021 at 8:15 AM Robin Murphy <robin.murphy@arm.com> wrote:
->
-> On 2021-05-01 03:18, Jesse Brandeburg wrote:
-> > It was pointed out by Nitesh that the original work I did in 2014
-> > to automatically set the interrupt affinity when requesting a
-> > mask is no longer necessary. The kernel has moved on and no
-> > longer has the original problem, BUT the original patch
-> > introduced a subtle bug when booting a system with reserved or
-> > excluded CPUs. Drivers calling this function with a mask value
-> > that included a CPU that was currently or in the future
-> > unavailable would generally not update the hint.
-> >
-> > I'm sure there are a million ways to solve this, but the simplest
-> > one is to just remove a little code that tries to force the
-> > affinity, as Nitesh has shown it fixes the bug and doesn't seem
-> > to introduce immediate side effects.
->
-> Unfortunately, I think there are quite a few other drivers now relying
-> on this behaviour, since they are really using irq_set_affinity_hint()
-> as a proxy for irq_set_affinity().
+On Tue, 4 May 2021 16:11:31 +0200
+Greg Kurz <groug@kaod.org> wrote:
 
-That's true.
+> On Tue, 4 May 2021 15:30:15 +0200
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+> 
+> > On Tue, May 04, 2021 at 03:20:34PM +0200, Greg Kurz wrote:  
+> > > On Tue, 4 May 2021 14:59:07 +0200
+> > > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+> > >   
+> > > > On Tue, May 04, 2021 at 02:22:36PM +0200, Greg Kurz wrote:  
+> > > > > On Fri, 26 Mar 2021 07:13:09 +0100
+> > > > > Christoph Hellwig <hch@lst.de> wrote:
+> > > > >   
+> > > > > > Hi all,
+> > > > > > 
+> > > > > > the nvlink2 vfio subdriver is a weird beast.  It supports a hardware
+> > > > > > feature without any open source component - what would normally be
+> > > > > > the normal open source userspace that we require for kernel drivers,
+> > > > > > although in this particular case user space could of course be a
+> > > > > > kernel driver in a VM.  It also happens to be a complete mess that
+> > > > > > does not properly bind to PCI IDs, is hacked into the vfio_pci driver
+> > > > > > and also pulles in over 1000 lines of code always build into powerpc
+> > > > > > kernels that have Power NV support enabled.  Because of all these
+> > > > > > issues and the lack of breaking userspace when it is removed I think
+> > > > > > the best idea is to simply kill.
+> > > > > > 
+> > > > > > Changes since v1:
+> > > > > >  - document the removed subtypes as reserved
+> > > > > >  - add the ACK from Greg
+> > > > > > 
+> > > > > > Diffstat:
+> > > > > >  arch/powerpc/platforms/powernv/npu-dma.c     |  705 ---------------------------
+> > > > > >  b/arch/powerpc/include/asm/opal.h            |    3 
+> > > > > >  b/arch/powerpc/include/asm/pci-bridge.h      |    1 
+> > > > > >  b/arch/powerpc/include/asm/pci.h             |    7 
+> > > > > >  b/arch/powerpc/platforms/powernv/Makefile    |    2 
+> > > > > >  b/arch/powerpc/platforms/powernv/opal-call.c |    2 
+> > > > > >  b/arch/powerpc/platforms/powernv/pci-ioda.c  |  185 -------
+> > > > > >  b/arch/powerpc/platforms/powernv/pci.c       |   11 
+> > > > > >  b/arch/powerpc/platforms/powernv/pci.h       |   17 
+> > > > > >  b/arch/powerpc/platforms/pseries/pci.c       |   23 
+> > > > > >  b/drivers/vfio/pci/Kconfig                   |    6 
+> > > > > >  b/drivers/vfio/pci/Makefile                  |    1 
+> > > > > >  b/drivers/vfio/pci/vfio_pci.c                |   18 
+> > > > > >  b/drivers/vfio/pci/vfio_pci_private.h        |   14 
+> > > > > >  b/include/uapi/linux/vfio.h                  |   38 -  
+> > > > > 
+> > > > > 
+> > > > > Hi Christoph,
+> > > > > 
+> > > > > FYI, these uapi changes break build of QEMU.  
+> > > > 
+> > > > What uapi changes?
+> > > >   
+> > > 
+> > > All macros and structure definitions that are being removed
+> > > from include/uapi/linux/vfio.h by patch 1.
+> > >   
+> > > > What exactly breaks?
+> > > >   
+> > > 
+> > > These macros and types are used by the current QEMU code base.
+> > > Next time the QEMU source tree updates its copy of the kernel
+> > > headers, the compilation of affected code will fail.  
+> > 
+> > So does QEMU use this api that is being removed, or does it just have
+> > some odd build artifacts of the uapi things?
+> >   
+> 
+> These are region subtypes definition and associated capabilities.
+> QEMU basically gets information on VFIO regions from the kernel
+> driver and for those regions with a nvlink2 subtype, it tries
+> to extract some more nvlink2 related info.
 
-> Partly since the latter isn't
-> exported to modules, but also I have a vague memory of it being said
-> that it's nice to update the user-visible hint to match when the
-> affinity does have to be forced to something specific.
 
-If you see the downside of it we are forcing the affinity to match the hint
-mask without considering the default SMP affinity mask.
+Urgh, let's put the uapi header back in place with a deprecation
+notice.  Userspace should never have a dependency on the existence of a
+given region, but clearly will have code to parse the data structure
+describing that region.  I'll post a patch.  Thanks,
 
-Also, we are repeating things here. First, we set certain mask for a device
-IRQ via request_irq code path which does consider the default SMP mask but
-then we are letting the driver over-write it.
-
-If we want to set the IRQ mask in a certain way then it should be done at
-the time of initial setup itself.
-
-Do you know about a workload/use case that can show the benefit of
-this behavior? As then we can try fixing it in the right way.
-
---
-Thanks
-Nitesh
+Alex
 
