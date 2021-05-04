@@ -2,130 +2,111 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3476A3729EA
-	for <lists+linux-api@lfdr.de>; Tue,  4 May 2021 14:15:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F562372A95
+	for <lists+linux-api@lfdr.de>; Tue,  4 May 2021 15:01:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230291AbhEDMQ0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 4 May 2021 08:16:26 -0400
-Received: from foss.arm.com ([217.140.110.172]:57392 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230253AbhEDMQZ (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 4 May 2021 08:16:25 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B1595ED1;
-        Tue,  4 May 2021 05:15:30 -0700 (PDT)
-Received: from [10.57.59.124] (unknown [10.57.59.124])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EE4C13F73B;
-        Tue,  4 May 2021 05:15:26 -0700 (PDT)
-Subject: Re: [PATCH tip:irq/core v1] genirq: remove auto-set of the mask when
- setting the hint
-To:     Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     Ingo Molnar <mingo@kernel.org>, linux-kernel@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, jbrandeb@kernel.org,
-        "frederic@kernel.org" <frederic@kernel.org>,
-        "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>, abelits@marvell.com,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
-        "stephen@networkplumber.org" <stephen@networkplumber.org>,
-        "rppt@linux.vnet.ibm.com" <rppt@linux.vnet.ibm.com>,
-        "jinyuqi@huawei.com" <jinyuqi@huawei.com>,
-        "zhangshaokun@hisilicon.com" <zhangshaokun@hisilicon.com>,
-        netdev@vger.kernel.org, chris.friesen@windriver.com,
-        Nitesh Lal <nilal@redhat.com>, Marc Zyngier <maz@kernel.org>
-References: <20210501021832.743094-1-jesse.brandeburg@intel.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <16d8ca67-30c6-bb4b-8946-79de8629156e@arm.com>
-Date:   Tue, 4 May 2021 13:15:22 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        id S230373AbhEDNB5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 4 May 2021 09:01:57 -0400
+Received: from 1.mo52.mail-out.ovh.net ([178.32.96.117]:38359 "EHLO
+        1.mo52.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230434AbhEDNB4 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 4 May 2021 09:01:56 -0400
+X-Greylist: delayed 2296 seconds by postgrey-1.27 at vger.kernel.org; Tue, 04 May 2021 09:01:56 EDT
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.240])
+        by mo52.mail-out.ovh.net (Postfix) with ESMTPS id CD06B275188;
+        Tue,  4 May 2021 14:22:40 +0200 (CEST)
+Received: from kaod.org (37.59.142.101) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Tue, 4 May 2021
+ 14:22:38 +0200
+Authentication-Results: garm.ovh; auth=pass (GARM-101G0043eda4e7a-de7c-4853-8406-edae349cf2a7,
+                    233BADB9E061AA125F593C9F78707CF28220F307) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date:   Tue, 4 May 2021 14:22:36 +0200
+From:   Greg Kurz <groug@kaod.org>
+To:     Christoph Hellwig <hch@lst.de>
+CC:     Michael Ellerman <mpe@ellerman.id.au>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Jason Gunthorpe <jgg@nvidia.com>, <kvm@vger.kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        "Paul Mackerras" <paulus@samba.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        <linux-api@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
+        <qemu-devel@nongnu.org>, <qemu-ppc@nongnu.org>
+Subject: Re: remove the nvlink2 pci_vfio subdriver v2
+Message-ID: <20210504142236.76994047@bahia.lan>
+In-Reply-To: <20210326061311.1497642-1-hch@lst.de>
+References: <20210326061311.1497642-1-hch@lst.de>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210501021832.743094-1-jesse.brandeburg@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 316f1bea-914e-41ab-a4e8-46202395b6d3
+X-Ovh-Tracer-Id: 4363706565853223297
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvdefiedgheefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeeftdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeetgffffffggfekgeffteekhffhueelffdvhedvgfdthfeiudetvddulefgveevteenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdhpphgtsehnohhnghhnuhdrohhrgh
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2021-05-01 03:18, Jesse Brandeburg wrote:
-> It was pointed out by Nitesh that the original work I did in 2014
-> to automatically set the interrupt affinity when requesting a
-> mask is no longer necessary. The kernel has moved on and no
-> longer has the original problem, BUT the original patch
-> introduced a subtle bug when booting a system with reserved or
-> excluded CPUs. Drivers calling this function with a mask value
-> that included a CPU that was currently or in the future
-> unavailable would generally not update the hint.
-> 
-> I'm sure there are a million ways to solve this, but the simplest
-> one is to just remove a little code that tries to force the
-> affinity, as Nitesh has shown it fixes the bug and doesn't seem
-> to introduce immediate side effects.
+On Fri, 26 Mar 2021 07:13:09 +0100
+Christoph Hellwig <hch@lst.de> wrote:
 
-Unfortunately, I think there are quite a few other drivers now relying 
-on this behaviour, since they are really using irq_set_affinity_hint() 
-as a proxy for irq_set_affinity(). Partly since the latter isn't 
-exported to modules, but also I have a vague memory of it being said 
-that it's nice to update the user-visible hint to match when the 
-affinity does have to be forced to something specific.
+> Hi all,
+> 
+> the nvlink2 vfio subdriver is a weird beast.  It supports a hardware
+> feature without any open source component - what would normally be
+> the normal open source userspace that we require for kernel drivers,
+> although in this particular case user space could of course be a
+> kernel driver in a VM.  It also happens to be a complete mess that
+> does not properly bind to PCI IDs, is hacked into the vfio_pci driver
+> and also pulles in over 1000 lines of code always build into powerpc
+> kernels that have Power NV support enabled.  Because of all these
+> issues and the lack of breaking userspace when it is removed I think
+> the best idea is to simply kill.
+> 
+> Changes since v1:
+>  - document the removed subtypes as reserved
+>  - add the ACK from Greg
+> 
+> Diffstat:
+>  arch/powerpc/platforms/powernv/npu-dma.c     |  705 ---------------------------
+>  b/arch/powerpc/include/asm/opal.h            |    3 
+>  b/arch/powerpc/include/asm/pci-bridge.h      |    1 
+>  b/arch/powerpc/include/asm/pci.h             |    7 
+>  b/arch/powerpc/platforms/powernv/Makefile    |    2 
+>  b/arch/powerpc/platforms/powernv/opal-call.c |    2 
+>  b/arch/powerpc/platforms/powernv/pci-ioda.c  |  185 -------
+>  b/arch/powerpc/platforms/powernv/pci.c       |   11 
+>  b/arch/powerpc/platforms/powernv/pci.h       |   17 
+>  b/arch/powerpc/platforms/pseries/pci.c       |   23 
+>  b/drivers/vfio/pci/Kconfig                   |    6 
+>  b/drivers/vfio/pci/Makefile                  |    1 
+>  b/drivers/vfio/pci/vfio_pci.c                |   18 
+>  b/drivers/vfio/pci/vfio_pci_private.h        |   14 
+>  b/include/uapi/linux/vfio.h                  |   38 -
 
-Robin.
 
-> While I'm here, introduce a kernel-doc for the hint function.
-> 
-> Ref: https://lore.kernel.org/lkml/CAFki+L=_dd+JgAR12_eBPX0kZO2_6=1dGdgkwHE=u=K6chMeLQ@mail.gmail.com/
-> Cc: netdev@vger.kernel.org
-> Fixes: 4fe7ffb7e17c ("genirq: Fix null pointer reference in irq_set_affinity_hint()")
-> Fixes: e2e64a932556 ("genirq: Set initial affinity in irq_set_affinity_hint()")
-> Reported-by: Nitesh Lal <nilal@redhat.com>
-> Signed-off-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
-> ---
-> 
-> !!! NOTE: Compile tested only, would appreciate feedback
-> 
-> ---
->   kernel/irq/manage.c | 13 ++++++++++---
->   1 file changed, 10 insertions(+), 3 deletions(-)
-> 
-> diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
-> index e976c4927b25..a31df64662d5 100644
-> --- a/kernel/irq/manage.c
-> +++ b/kernel/irq/manage.c
-> @@ -456,6 +456,16 @@ int __irq_set_affinity(unsigned int irq, const struct cpumask *mask, bool force)
->   	return ret;
->   }
->   
-> +/**
-> + * 	irq_set_affinity_hint - set the hint for an irq
-> + *	@irq:	Interrupt for which to set the hint
-> + *	@m:	Mask to indicate which CPUs to suggest for the interrupt, use
-> + *		NULL here to indicate to clear the value.
-> + *
-> + *	Use this function to recommend which CPU should handle the
-> + *	interrupt to any userspace that uses /proc/irq/nn/smp_affinity_hint
-> + *	in order to align interrupts. Pass NULL as the mask to clear the hint.
-> + */
->   int irq_set_affinity_hint(unsigned int irq, const struct cpumask *m)
->   {
->   	unsigned long flags;
-> @@ -465,9 +475,6 @@ int irq_set_affinity_hint(unsigned int irq, const struct cpumask *m)
->   		return -EINVAL;
->   	desc->affinity_hint = m;
->   	irq_put_desc_unlock(desc, flags);
-> -	/* set the initial affinity to prevent every interrupt being on CPU0 */
-> -	if (m)
-> -		__irq_set_affinity(irq, m, false);
->   	return 0;
->   }
->   EXPORT_SYMBOL_GPL(irq_set_affinity_hint);
-> 
-> base-commit: 765822e1569a37aab5e69736c52d4ad4a289eba6
-> 
+Hi Christoph,
+
+FYI, these uapi changes break build of QEMU.
+
+I guess QEMU people should take some action before this percolates
+to the QEMU source tree.
+
+Cc'ing relevant QEMU lists to bring the discussion there.
+
+Cheers,
+
+--
+Greg
+
+>  drivers/vfio/pci/vfio_pci_nvlink2.c          |  490 ------------------
+>  16 files changed, 12 insertions(+), 1511 deletions(-)
+
