@@ -2,130 +2,119 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B9E2373233
-	for <lists+linux-api@lfdr.de>; Wed,  5 May 2021 00:05:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88F36373399
+	for <lists+linux-api@lfdr.de>; Wed,  5 May 2021 03:32:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232992AbhEDWGK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 4 May 2021 18:06:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47490 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232988AbhEDWGJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 4 May 2021 18:06:09 -0400
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6069C061763
-        for <linux-api@vger.kernel.org>; Tue,  4 May 2021 15:05:12 -0700 (PDT)
-Received: by mail-ot1-x32f.google.com with SMTP id g7-20020a9d5f870000b02902a5831ad705so9650373oti.10
-        for <linux-api@vger.kernel.org>; Tue, 04 May 2021 15:05:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bUX+fmvBWZ7MZX/eB50i8/ErJ0LDxPwc8AG9r8drP3E=;
-        b=rbZN4R3LNUElHNoq86nZOXGZrt/77ppLVA7dfYsuZktEgdzL8Z5lVft97a2Qqc81ZT
-         HTsioWhoOv0AtxTWxd4ssatl8Xn9rELCa6fX1sOLMWLfQLeBliCQnVAJp55nq1y3iX36
-         KfkjpC9xPq/9dipNYt3q0RoPqVsMR2q13awl/8LY2rjuYvQ+0nBxsCAYaIQoWT8IjHIK
-         auE4iv8tVmNW/OJ/EhWt3PB5w6rKfdhtNzFjZGaQr8v851k+jQvNzluu6HQDNHt1H0Kx
-         TH4qWjPZQs6LZg6T3ynapkrHbZ+tcuxLKk8SSGpMgcqy4+7IKOXveZp534+A2cOv4IdF
-         xTyA==
+        id S231623AbhEEBdH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 4 May 2021 21:33:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59218 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230454AbhEEBdG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 4 May 2021 21:33:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1620178330;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=cPRVInBsTWC+0BUGJOB5FIDSOa450b+bMYREaXrrpp0=;
+        b=RPi+LzQ5BM+t1GpveXBRNbwChSu0fL3JyyOv3/nQFxjx6g71+Nqkjm/drsa6mSFR4lLCvm
+        ocqaas50O0ZTaqquk10lviSIgjOQgvYKGhHjh5ARYcNpqiwWJb0v+nPFylGqTe6g38jw6s
+        eojA8oQzjTjvrMgsTgCcS3HgeA2hbq8=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-340-YKAG9jvmP5qBEIWo9addAg-1; Tue, 04 May 2021 21:32:08 -0400
+X-MC-Unique: YKAG9jvmP5qBEIWo9addAg-1
+Received: by mail-io1-f72.google.com with SMTP id q187-20020a6b8ec40000b0290431cccd987fso166120iod.14
+        for <linux-api@vger.kernel.org>; Tue, 04 May 2021 18:32:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bUX+fmvBWZ7MZX/eB50i8/ErJ0LDxPwc8AG9r8drP3E=;
-        b=gN/r/d9gVqP1nWywrqV0GhCuXxNkuYMvDXCwiOnCnFVPnoQKyW/2wml8fufWnHSIJN
-         i0VC0HEke74k/IRqQGlIF1oBZZjHJF/SonQNtjmBfbG7Vqw8iQa9NFBsXzXd5W0i28Gx
-         MEnBVZIDoWr+7O/qo7pXm5V5802/6Z6VHtKtWlbBIhYkOkvq+OVSx9IC/mnHC8QOBUmg
-         lNfiWWNrt3X1HXZrTgcitVrqalQDX6iOxc+2i1YmqoyRdY9NL4IctKMNKva6gS424U2C
-         3GSxHM4vml6jiNYY/ru5lYtQWyh85y2Ah8ppn2gSlQa9FUx3n7t+/jvJAlR18kCo1uzm
-         kpCA==
-X-Gm-Message-State: AOAM531/AmBRkQqtxrBPMjNjHhPml18/1aGuBwwLfniyEMxLEKfHCR7a
-        6HzcRRJ6Av2o3F5a8HD2UXc0kiCRFfOxlktF0daeTg==
-X-Google-Smtp-Source: ABdhPJxnW/mCtJ4lEreTQ7KO/p9+Ge0zM6xJ1dL9j6kkun07AsqbTc7or7bVSiCMpy/URBG+MwV8nVlTOvskSlBNnv4=
-X-Received: by 2002:a9d:60c8:: with SMTP id b8mr21322801otk.17.1620165911656;
- Tue, 04 May 2021 15:05:11 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=cPRVInBsTWC+0BUGJOB5FIDSOa450b+bMYREaXrrpp0=;
+        b=LNJgIkGRLQp6uP0a1oUvQUlsaM04x2yMpEwSRbEFmGvm5W41KQbNnApvSzMibOBp5l
+         mzhJPQZuIx3KVOdVc6kCDqKnu25AbwGnHMbXO1RZQ9jCrnHhAPof+0QMfYsvI9oU2z1F
+         jEd3jtffTckUjHqRONUfXOejy9uJaX3e6opTChrs+tG1sFsFn0lJHiK6Dwa3so5EFE3j
+         S19PCd1PfL+rJpeXesSgdy/EnE5ixcvS5jBAeRukR/ZT7ZfnM42QMmvmM37r2xemln3Q
+         A6eFKSwzrQ7VqFITpaDqSxHZWi0xGljLpJSIY7zddmsy5BmniXKzCy17wuSlR+lSx1KX
+         mQng==
+X-Gm-Message-State: AOAM532X75GaMwbPDtEDSG6y/ezO50VAPFnHWuKV7cRqmIKvVuadCqQK
+        jRQNHkqE0ItSxzhJXfCVAuPZ2FJrKmTzHzpSdoPEL1gxuwbTjwNQk6b6uo2spOSjDtNB65SKVcM
+        I5R1hSYerEunKr/T79onK
+X-Received: by 2002:a92:8e03:: with SMTP id c3mr2036564ild.167.1620178327564;
+        Tue, 04 May 2021 18:32:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzNg9jcG4O9OkPZqQlTS7aeMFQ7/soHNplo9cjmrJ2Ghe+p949bqg4pbzePUCrb/19N4cHmHg==
+X-Received: by 2002:a92:8e03:: with SMTP id c3mr2036544ild.167.1620178327359;
+        Tue, 04 May 2021 18:32:07 -0700 (PDT)
+Received: from t490s (bras-base-toroon474qw-grc-72-184-145-4-219.dsl.bell.ca. [184.145.4.219])
+        by smtp.gmail.com with ESMTPSA id u9sm1842495ior.8.2021.05.04.18.32.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 May 2021 18:32:06 -0700 (PDT)
+Date:   Tue, 4 May 2021 21:32:04 -0400
+From:   Peter Xu <peterx@redhat.com>
+To:     Axel Rasmussen <axelrasmussen@google.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hugh Dickins <hughd@google.com>,
+        Jerome Glisse <jglisse@redhat.com>,
+        Joe Perches <joe@perches.com>,
+        Lokesh Gidra <lokeshgidra@google.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Shaohua Li <shli@fb.com>, Shuah Khan <shuah@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Wang Qing <wangqing@vivo.com>, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+        Brian Geffon <bgeffon@google.com>,
+        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+        Mina Almasry <almasrymina@google.com>,
+        Oliver Upton <oupton@google.com>
+Subject: Re: [PATCH v6 06/10] userfaultfd/shmem: modify
+ shmem_mfill_atomic_pte to use install_pte()
+Message-ID: <YJH1lCx9IGqHG+yq@t490s>
+References: <20210503180737.2487560-1-axelrasmussen@google.com>
+ <20210503180737.2487560-7-axelrasmussen@google.com>
 MIME-Version: 1.0
-References: <YIpkvGrBFGlB5vNj@elver.google.com> <m11rat9f85.fsf@fess.ebiederm.org>
- <CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com>
- <m15z031z0a.fsf@fess.ebiederm.org> <YIxVWkT03TqcJLY3@elver.google.com>
- <m1zgxfs7zq.fsf_-_@fess.ebiederm.org> <m1r1irpc5v.fsf@fess.ebiederm.org>
- <CANpmjNNfiSgntiOzgMc5Y41KVAV_3VexdXCMADekbQEqSP3vqQ@mail.gmail.com>
- <m1czuapjpx.fsf@fess.ebiederm.org> <CANpmjNNyifBNdpejc6ofT6+n6FtUw-Cap_z9Z9YCevd7Wf3JYQ@mail.gmail.com>
- <m14kfjh8et.fsf_-_@fess.ebiederm.org> <m1tuni8ano.fsf_-_@fess.ebiederm.org>
-In-Reply-To: <m1tuni8ano.fsf_-_@fess.ebiederm.org>
-From:   Marco Elver <elver@google.com>
-Date:   Wed, 5 May 2021 00:05:00 +0200
-Message-ID: <CANpmjNM5sYihM_9P5YHx06BooqLDhK96cMHGKaf61nCcoDJBdw@mail.gmail.com>
-Subject: Re: [PATCH v3 00/12] signal: sort out si_trapno and si_perf
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Florian Weimer <fweimer@redhat.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Collingbourne <pcc@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Alexander Potapenko <glider@google.com>,
-        sparclinux <sparclinux@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210503180737.2487560-7-axelrasmussen@google.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, 4 May 2021 at 23:13, Eric W. Biederman <ebiederm@xmission.com> wrote:
->
-> This set of changes sorts out the ABI issues with SIGTRAP TRAP_PERF, and
-> hopefully will can get merged before any userspace code starts using the
-> new ABI.
->
-> The big ideas are:
-> - Placing the asserts first to prevent unexpected ABI changes
-> - si_trapno becomming ordinary fault subfield.
-> - struct signalfd_siginfo is almost full
->
-> This set of changes starts out with Marco's static_assert changes and
-> additional one of my own that enforces the fact that the alignment of
-> siginfo_t is also part of the ABI.  Together these build time
-> checks verify there are no unexpected ABI changes in the changes
-> that follow.
->
-> The field si_trapno is changed to become an ordinary extension of the
-> _sigfault member of siginfo.
->
-> The code is refactored a bit and then si_perf_type is added along side
-> si_perf_data in the _perf subfield of _sigfault of siginfo_t.
->
-> Finally the signalfd_siginfo fields are removed as they appear to be
-> filling up the structure without userspace actually being able to use
-> them.
->
-> v2: https://lkml.kernel.org/r/m14kfjh8et.fsf_-_@fess.ebiederm.org
-> v1: https://lkml.kernel.org/r/m1zgxfs7zq.fsf_-_@fess.ebiederm.org
->
-> Eric W. Biederman (9):
->       signal: Verify the alignment and size of siginfo_t
->       siginfo: Move si_trapno inside the union inside _si_fault
->       signal: Implement SIL_FAULT_TRAPNO
->       signal: Use dedicated helpers to send signals with si_trapno set
->       signal: Remove __ARCH_SI_TRAPNO
->       signal: Rename SIL_PERF_EVENT SIL_FAULT_PERF_EVENT for consistency
->       signal: Factor force_sig_perf out of perf_sigtrap
->       signal: Deliver all of the siginfo perf data in _perf
->       signalfd: Remove SIL_FAULT_PERF_EVENT fields from signalfd_siginfo
->
-> Marco Elver (3):
->       sparc64: Add compile-time asserts for siginfo_t offsets
->       arm: Add compile-time asserts for siginfo_t offsets
->       arm64: Add compile-time asserts for siginfo_t offsets
+Axel,
 
-I can't seem to see the rest of them in my inbox. LKML also is missing
-them: https://lore.kernel.org/linux-api/m1tuni8ano.fsf_-_@fess.ebiederm.org/
+On Mon, May 03, 2021 at 11:07:33AM -0700, Axel Rasmussen wrote:
+> In a previous commit, we added the mfill_atomic_install_pte() helper.
+> This helper does the job of setting up PTEs for an existing page, to map
+> it into a given VMA. It deals with both the anon and shmem cases, as
+> well as the shared and private cases.
+> 
+> In other words, shmem_mfill_atomic_pte() duplicates a case it already
+> handles. So, expose it, and let shmem_mfill_atomic_pte() use it
+> directly, to reduce code duplication.
+> 
+> This requires that we refactor shmem_mfill_atomic_pte() a bit:
+> 
+> Instead of doing accounting (shmem_recalc_inode() et al) part-way
+> through the PTE setup, do it afterward. This frees up
+> mfill_atomic_install_pte() from having to care about this accounting,
+> and means we don't need to e.g. shmem_uncharge() in the error path.
+> 
+> A side effect is this switches shmem_mfill_atomic_pte() to use
+> lru_cache_add_inactive_or_unevictable() instead of just lru_cache_add().
+> This wrapper does some extra accounting in an exceptional case, if
+> appropriate, so it's actually the more correct thing to use.
+> 
+> Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
 
-Something must have swallowed them. Could you resend?
-I'll then test in the morning.
+(The moving of "ret = -ENOMEM" seems unnecessary, but not a big deal I think)
+
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
 Thanks,
--- Marco
+
+-- 
+Peter Xu
+
