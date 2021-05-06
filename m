@@ -2,49 +2,56 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B319374FB3
-	for <lists+linux-api@lfdr.de>; Thu,  6 May 2021 09:01:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA49D375286
+	for <lists+linux-api@lfdr.de>; Thu,  6 May 2021 12:43:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232876AbhEFHCJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 6 May 2021 03:02:09 -0400
-Received: from mail-vs1-f52.google.com ([209.85.217.52]:38498 "EHLO
-        mail-vs1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232873AbhEFHCJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 6 May 2021 03:02:09 -0400
-Received: by mail-vs1-f52.google.com with SMTP id j128so2425040vsc.5;
-        Thu, 06 May 2021 00:01:11 -0700 (PDT)
+        id S234623AbhEFKoT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 6 May 2021 06:44:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52882 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234596AbhEFKoP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 6 May 2021 06:44:15 -0400
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E986AC0613ED
+        for <linux-api@vger.kernel.org>; Thu,  6 May 2021 03:43:15 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id a10-20020a05600c068ab029014dcda1971aso2949412wmn.3
+        for <linux-api@vger.kernel.org>; Thu, 06 May 2021 03:43:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=IPAb1iGejVFT6zs+1sVzWtohMm9y7vdT/ZlQY8nTMls=;
+        b=CJmSrhq7QsEwcXPUklSribLNMHu+Ig61DIAKupe53jRXLAcL7635N7xCM+oNG0c4ZY
+         8ev/ZWDdszW/u9QNVB6h4Y3J2VRIr9GCmQi3hsajdOhjcHn20zwMb/BJf+7COTjwuurh
+         wHLw25CRUjaNL84s07vqWB/ZX75Jvh9KtcUOCC6NvcsmmXSsFwfz9BZfAi+sdNlsHjIO
+         DcQJsIsRiEZ1ql1QOuUAUGU4vMhAKJghQS9lKxJ0RegAfwgAhDlIErJ+tVRq2PlCWnpH
+         zL9OjYqAdu1QCiDlD06rEruffC6Kd2ThS4kSGTXZaX0t5GYXLiHqpRQvJpuNx+vckXH7
+         FMeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NoT+A0718WNsTbHBS5BGp5G+tj2RfytrZk7R7tgIl08=;
-        b=X248YRswNzAfo6iG1kNtPokKkdBeSO8s61uJm6eTDuG4PrFnr/zB6gAcYTzegMUI4Z
-         7Fx2czLZ55vauWk8OQ5WrPkt42CQ5BJI5FjbLf8m1xhxBX0tHRJvP9U+vBHMeNyaxAJI
-         AV7hCQsNQXyGuIGDFTSgGFIl9JE0CQF4goqEE3mPsHqbcjaI65xlc4l+3iL2yZG6HiyF
-         2AoZEQL10iJD0Q0NgwAI+s6QUMEaiSoOnHOmv4E33xUxYk6oHbbEn2yn38w+LsFYf75e
-         zxIDlf2LrgGp6pYfceDVsbje3BNhitT06tWGt/xR9GPFrsLjM9itTWpHyqR5YibvMTgH
-         JbLg==
-X-Gm-Message-State: AOAM533z2oqp/Njt2gXVBeP4JbJ/wH3mLrRaHR+z67MOlVfxdnHQAJ4j
-        7niDnJlGECU7b+fv8m91nNSTIAZSSNJxQ6fPIBfuqH4jwpA=
-X-Google-Smtp-Source: ABdhPJwtWn/D8K3Zn0jy1HK/vfeVlKteOEghQDe5DwJ1/OrY0tE/MhHEc0uYnsYlAuAKkFm96EHQ1hlHO1JAX4ayqVg=
-X-Received: by 2002:a67:f503:: with SMTP id u3mr1764571vsn.3.1620284470626;
- Thu, 06 May 2021 00:01:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <YIpkvGrBFGlB5vNj@elver.google.com> <m11rat9f85.fsf@fess.ebiederm.org>
- <CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com>
- <m15z031z0a.fsf@fess.ebiederm.org> <YIxVWkT03TqcJLY3@elver.google.com>
- <m1zgxfs7zq.fsf_-_@fess.ebiederm.org> <m1r1irpc5v.fsf@fess.ebiederm.org>
- <CANpmjNNfiSgntiOzgMc5Y41KVAV_3VexdXCMADekbQEqSP3vqQ@mail.gmail.com>
- <m1czuapjpx.fsf@fess.ebiederm.org> <CANpmjNNyifBNdpejc6ofT6+n6FtUw-Cap_z9Z9YCevd7Wf3JYQ@mail.gmail.com>
- <m14kfjh8et.fsf_-_@fess.ebiederm.org> <m1tuni8ano.fsf_-_@fess.ebiederm.org>
-In-Reply-To: <m1tuni8ano.fsf_-_@fess.ebiederm.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 6 May 2021 09:00:59 +0200
-Message-ID: <CAMuHMdUXh45iNmzrqqQc1kwD_OELHpujpst1BTMXDYTe7vKSCg@mail.gmail.com>
-Subject: Re: [PATCH v3 00/12] signal: sort out si_trapno and si_perf
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Marco Elver <elver@google.com>, Arnd Bergmann <arnd@arndb.de>,
-        Florian Weimer <fweimer@redhat.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=IPAb1iGejVFT6zs+1sVzWtohMm9y7vdT/ZlQY8nTMls=;
+        b=lCBiMolaU6YmEb4Hk8XrfqqQx5oWmJ6GOwvVoFsF8Ea6Q7b74x6tGSDrvZKlKe6drC
+         elcAd1rXa0nbaXqrNg827M+/K0werxkQhtMisInyyNioDBz2q4zne4B/IkWQNAf/2wxq
+         NvU9rS7fc28pkCFmO/OTJ7ZuV7gwifLOwjej3Y7JaPzx2QfNvn8+kAV7sTT8bQVAuJqI
+         U5DqwpKX+hQef5WNw2P5ZKCyJDrPQhY3JXYDXctNY2vue8QlRd9K6sdgjdk2wwSO30lL
+         a+S5zOptLwI3PYu2Q19ABOpmzPiWTnV3kinolv+orXcqquKVzmPJT32e7J9fegq2vT9l
+         xAKg==
+X-Gm-Message-State: AOAM533rRmPEac3qEaepVCW+nPfRbJmp13jlSeQpOZHrpqovAwpnpUZj
+        99TFzOwyDW+okKA9IjEM7Sm8/A==
+X-Google-Smtp-Source: ABdhPJypynseg74IHehTSi3Pil8TC2hAEsYDo7eDm35h6uolqeNTJhPX9pVUGFAaXhaa9H54RBVnNg==
+X-Received: by 2002:a1c:55ca:: with SMTP id j193mr14228873wmb.58.1620297793837;
+        Thu, 06 May 2021 03:43:13 -0700 (PDT)
+Received: from elver.google.com ([2a00:79e0:15:13:56c7:a45c:aa57:32c4])
+        by smtp.gmail.com with ESMTPSA id 3sm2757392wms.30.2021.05.06.03.43.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 May 2021 03:43:12 -0700 (PDT)
+Date:   Thu, 6 May 2021 12:43:07 +0200
+From:   Marco Elver <elver@google.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Florian Weimer <fweimer@redhat.com>,
         "David S. Miller" <davem@davemloft.net>,
         Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@kernel.org>,
@@ -57,94 +64,95 @@ Cc:     Marco Elver <elver@google.com>, Arnd Bergmann <arnd@arndb.de>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
         kasan-dev <kasan-dev@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v3 00/12] signal: sort out si_trapno and si_perf
+Message-ID: <YJPIO7r2uLXsW9uK@elver.google.com>
+References: <m15z031z0a.fsf@fess.ebiederm.org>
+ <YIxVWkT03TqcJLY3@elver.google.com>
+ <m1zgxfs7zq.fsf_-_@fess.ebiederm.org>
+ <m1r1irpc5v.fsf@fess.ebiederm.org>
+ <CANpmjNNfiSgntiOzgMc5Y41KVAV_3VexdXCMADekbQEqSP3vqQ@mail.gmail.com>
+ <m1czuapjpx.fsf@fess.ebiederm.org>
+ <CANpmjNNyifBNdpejc6ofT6+n6FtUw-Cap_z9Z9YCevd7Wf3JYQ@mail.gmail.com>
+ <m14kfjh8et.fsf_-_@fess.ebiederm.org>
+ <m1tuni8ano.fsf_-_@fess.ebiederm.org>
+ <CAMuHMdUXh45iNmzrqqQc1kwD_OELHpujpst1BTMXDYTe7vKSCg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUXh45iNmzrqqQc1kwD_OELHpujpst1BTMXDYTe7vKSCg@mail.gmail.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Eric,
+On Thu, May 06, 2021 at 09:00AM +0200, Geert Uytterhoeven wrote:
+[...]
+> No changes needed for other architectures?
+> All m68k configs are broken with
+> 
+> arch/m68k/kernel/signal.c:626:35: error: 'siginfo_t' {aka 'struct
+> siginfo'} has no member named 'si_perf'; did you mean 'si_errno'?
+> 
+> See e.g. http://kisskb.ellerman.id.au/kisskb/buildresult/14537820/
+> 
+> There are still a few more references left to si_perf:
+> 
+> $ git grep -n -w si_perf
+> Next/merge.log:2902:Merging userns/for-next (4cf4e48fff05 signal: sort
+> out si_trapno and si_perf)
+> arch/m68k/kernel/signal.c:626:  BUILD_BUG_ON(offsetof(siginfo_t,
+> si_perf) != 0x10);
+> include/uapi/linux/perf_event.h:467:     * siginfo_t::si_perf, e.g. to
+> permit user to identify the event.
+> tools/testing/selftests/perf_events/sigtrap_threads.c:46:/* Unique
+> value to check si_perf is correctly set from
+> perf_event_attr::sig_data. */
 
-On Tue, May 4, 2021 at 11:14 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
-> This set of changes sorts out the ABI issues with SIGTRAP TRAP_PERF, and
-> hopefully will can get merged before any userspace code starts using the
-> new ABI.
->
-> The big ideas are:
-> - Placing the asserts first to prevent unexpected ABI changes
-> - si_trapno becomming ordinary fault subfield.
-> - struct signalfd_siginfo is almost full
->
-> This set of changes starts out with Marco's static_assert changes and
-> additional one of my own that enforces the fact that the alignment of
-> siginfo_t is also part of the ABI.  Together these build time
-> checks verify there are no unexpected ABI changes in the changes
-> that follow.
->
-> The field si_trapno is changed to become an ordinary extension of the
-> _sigfault member of siginfo.
->
-> The code is refactored a bit and then si_perf_type is added along side
-> si_perf_data in the _perf subfield of _sigfault of siginfo_t.
->
-> Finally the signalfd_siginfo fields are removed as they appear to be
-> filling up the structure without userspace actually being able to use
-> them.
+I think we're missing the below in "signal: Deliver all of the siginfo
+perf data in _perf".
 
-Thanks for your series, which is now in next-20210506.
+Thanks,
+-- Marco
 
->  arch/alpha/include/uapi/asm/siginfo.h              |   2 -
->  arch/alpha/kernel/osf_sys.c                        |   2 +-
->  arch/alpha/kernel/signal.c                         |   4 +-
->  arch/alpha/kernel/traps.c                          |  24 ++---
->  arch/alpha/mm/fault.c                              |   4 +-
->  arch/arm/kernel/signal.c                           |  39 +++++++
->  arch/arm64/kernel/signal.c                         |  39 +++++++
->  arch/arm64/kernel/signal32.c                       |  39 +++++++
->  arch/mips/include/uapi/asm/siginfo.h               |   2 -
->  arch/sparc/include/uapi/asm/siginfo.h              |   3 -
->  arch/sparc/kernel/process_64.c                     |   2 +-
->  arch/sparc/kernel/signal32.c                       |  37 +++++++
->  arch/sparc/kernel/signal_64.c                      |  36 +++++++
->  arch/sparc/kernel/sys_sparc_32.c                   |   2 +-
->  arch/sparc/kernel/sys_sparc_64.c                   |   2 +-
->  arch/sparc/kernel/traps_32.c                       |  22 ++--
->  arch/sparc/kernel/traps_64.c                       |  44 ++++----
->  arch/sparc/kernel/unaligned_32.c                   |   2 +-
->  arch/sparc/mm/fault_32.c                           |   2 +-
->  arch/sparc/mm/fault_64.c                           |   2 +-
->  arch/x86/kernel/signal_compat.c                    |  15 ++-
+------ >8 ------
 
-No changes needed for other architectures?
-All m68k configs are broken with
-
-arch/m68k/kernel/signal.c:626:35: error: 'siginfo_t' {aka 'struct
-siginfo'} has no member named 'si_perf'; did you mean 'si_errno'?
-
-See e.g. http://kisskb.ellerman.id.au/kisskb/buildresult/14537820/
-
-There are still a few more references left to si_perf:
-
-$ git grep -n -w si_perf
-Next/merge.log:2902:Merging userns/for-next (4cf4e48fff05 signal: sort
-out si_trapno and si_perf)
-arch/m68k/kernel/signal.c:626:  BUILD_BUG_ON(offsetof(siginfo_t,
-si_perf) != 0x10);
-include/uapi/linux/perf_event.h:467:     * siginfo_t::si_perf, e.g. to
-permit user to identify the event.
-tools/testing/selftests/perf_events/sigtrap_threads.c:46:/* Unique
-value to check si_perf is correctly set from
-perf_event_attr::sig_data. */
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+diff --git a/arch/m68k/kernel/signal.c b/arch/m68k/kernel/signal.c
+index a4b7ee1df211..8f215e79e70e 100644
+--- a/arch/m68k/kernel/signal.c
++++ b/arch/m68k/kernel/signal.c
+@@ -623,7 +623,8 @@ static inline void siginfo_build_tests(void)
+ 	BUILD_BUG_ON(offsetof(siginfo_t, si_pkey) != 0x12);
+ 
+ 	/* _sigfault._perf */
+-	BUILD_BUG_ON(offsetof(siginfo_t, si_perf) != 0x10);
++	BUILD_BUG_ON(offsetof(siginfo_t, si_perf_data) != 0x10);
++	BUILD_BUG_ON(offsetof(siginfo_t, si_perf_type) != 0x14);
+ 
+ 	/* _sigpoll */
+ 	BUILD_BUG_ON(offsetof(siginfo_t, si_band)   != 0x0c);
+diff --git a/include/uapi/linux/perf_event.h b/include/uapi/linux/perf_event.h
+index bf8143505c49..f92880a15645 100644
+--- a/include/uapi/linux/perf_event.h
++++ b/include/uapi/linux/perf_event.h
+@@ -464,7 +464,7 @@ struct perf_event_attr {
+ 
+ 	/*
+ 	 * User provided data if sigtrap=1, passed back to user via
+-	 * siginfo_t::si_perf, e.g. to permit user to identify the event.
++	 * siginfo_t::si_perf_data, e.g. to permit user to identify the event.
+ 	 */
+ 	__u64	sig_data;
+ };
+diff --git a/tools/testing/selftests/perf_events/sigtrap_threads.c b/tools/testing/selftests/perf_events/sigtrap_threads.c
+index fde123066a8c..8e83cf91513a 100644
+--- a/tools/testing/selftests/perf_events/sigtrap_threads.c
++++ b/tools/testing/selftests/perf_events/sigtrap_threads.c
+@@ -43,7 +43,7 @@ static struct {
+ 	siginfo_t first_siginfo;	/* First observed siginfo_t. */
+ } ctx;
+ 
+-/* Unique value to check si_perf is correctly set from perf_event_attr::sig_data. */
++/* Unique value to check si_perf_data is correctly set from perf_event_attr::sig_data. */
+ #define TEST_SIG_DATA(addr) (~(unsigned long)(addr))
+ 
+ static struct perf_event_attr make_event_attr(bool enabled, volatile void *addr)
