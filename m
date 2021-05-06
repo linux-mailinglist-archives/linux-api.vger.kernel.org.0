@@ -2,285 +2,290 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17DCF375CAB
-	for <lists+linux-api@lfdr.de>; Thu,  6 May 2021 23:13:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB620375D0F
+	for <lists+linux-api@lfdr.de>; Fri,  7 May 2021 00:05:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230046AbhEFVOR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 6 May 2021 17:14:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53414 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229937AbhEFVOR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 6 May 2021 17:14:17 -0400
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D65D8C061761
-        for <linux-api@vger.kernel.org>; Thu,  6 May 2021 14:13:17 -0700 (PDT)
-Received: by mail-qt1-x82c.google.com with SMTP id n22so5163700qtk.9
-        for <linux-api@vger.kernel.org>; Thu, 06 May 2021 14:13:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:in-reply-to:message-id:references
-         :user-agent:mime-version;
-        bh=RIxjuE33E7abAYMCMrXM50GaBY0vVKTUwZ41pzyN8mw=;
-        b=vReVRGzSSRnZQlAPvJ2DacbKod0eIA0ssz5lX+asfZZg6uy3eRr+wGUPBBqAHJIQie
-         7ks2vWl/MUqITz5IsQH2dmW6V7jIG+xy/KYRnDq/QNf5XD3FjECe8zSe4KORTYSJ2ZRq
-         Llp0gaWSoZB0Z9R0UjG9PaV6HmFCU9z2N+d4e0DrOVZFEbRzhcqtkzvqqxPk2JbRpzPh
-         nFjXOgcyLy2612p+uKpG7QWQjPtu0reqF4HU+lwDhPW4sctgmt0ZDT9NBRi3t7eIuB+z
-         8wJd3IX/SreTsc0cVpAqH9PrASzE1K4IuF8Pv9krQAqA6pyfvz0iEgwHwh0x0njngTn3
-         2sBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
-         :references:user-agent:mime-version;
-        bh=RIxjuE33E7abAYMCMrXM50GaBY0vVKTUwZ41pzyN8mw=;
-        b=fRcnyvb8T+zF00FnEEC6dzZH7/ZK9bGBI1uPVNjFeA1Xkth0ecJ2HmEIJV18M+eMvk
-         5TYZ/oTJjfMxOfGKpLLhI1KwNuXQlERRh8x45cW5olSsJNtSBaOnD3ltECsqTRM7BozT
-         fIDc5Vi0u5TPydMgG+SWMo3nsMRUgmHWWTghMTLcDvmqkz9zzUemTEPbqtk/+VhVpR2z
-         vPK5t3Al5h95Ag1IIdFOzh7jMEqnCQWYDBlXYJTA63p7GE3wT/kqRP6OQgpinti+sz4F
-         pUenCQ6DKePYbpcokT3oHVsPsdjbuEIG4FfoDu6AMpKiwePHLCJY//MONuKKq9z3VDap
-         koqA==
-X-Gm-Message-State: AOAM53285xYTveKrm/SfAfnCkk+noeS6qOX9FQjgTGk2uxtJt6q2rgXV
-        0EHkHPIJGjGXEFpbifw2d6adfA==
-X-Google-Smtp-Source: ABdhPJwFMLMm7IMnquula3QCavOTg+gg74rWfhuq1EJmCOuYsiMfW5eCmRctYncEQYduQsFmbTASgA==
-X-Received: by 2002:a05:622a:3cc:: with SMTP id k12mr6387909qtx.233.1620335596632;
-        Thu, 06 May 2021 14:13:16 -0700 (PDT)
-Received: from eggly.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id t203sm3062531qke.83.2021.05.06.14.13.13
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Thu, 06 May 2021 14:13:15 -0700 (PDT)
-Date:   Thu, 6 May 2021 14:12:59 -0700 (PDT)
-From:   Hugh Dickins <hughd@google.com>
-X-X-Sender: hugh@eggly.anvils
-To:     Axel Rasmussen <axelrasmussen@google.com>
-cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Hugh Dickins <hughd@google.com>,
-        Jerome Glisse <jglisse@redhat.com>,
-        Joe Perches <joe@perches.com>,
-        Lokesh Gidra <lokeshgidra@google.com>,
+        id S230311AbhEFWGW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 6 May 2021 18:06:22 -0400
+Received: from mga14.intel.com ([192.55.52.115]:25401 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230149AbhEFWGT (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 6 May 2021 18:06:19 -0400
+IronPort-SDR: aVvx8E7eLZcNY2kpyYVI9cjFAH3s1B8suKPVmc8z36twu9Sru51jqtCPpJH8q0ulLsXDPWk8Vn
+ lo0AZI0zHw7Q==
+X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="198233911"
+X-IronPort-AV: E=Sophos;i="5.82,279,1613462400"; 
+   d="scan'208";a="198233911"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2021 15:05:18 -0700
+IronPort-SDR: E3B3lZ5t9BIU7x8JT3XoIkdfTP2uDRLb1wtuJN38MAl21fRXDH3sv+Vcf7oDpbQ+XVVkx4ab22
+ JaNUBAXX/BSw==
+X-IronPort-AV: E=Sophos;i="5.82,279,1613462400"; 
+   d="scan'208";a="434596777"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.251.158.199]) ([10.251.158.199])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2021 15:05:16 -0700
+Subject: Re: extending ucontext (Re: [PATCH v26 25/30] x86/cet/shstk: Handle
+ signals for shadow stack)
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
         Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Peter Xu <peterx@redhat.com>, Shaohua Li <shli@fb.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Wang Qing <wangqing@vivo.com>, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-        Brian Geffon <bgeffon@google.com>,
-        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
-        Mina Almasry <almasrymina@google.com>,
-        Oliver Upton <oupton@google.com>
-Subject: Re: [PATCH v6 06/10] userfaultfd/shmem: modify shmem_mfill_atomic_pte
- to use install_pte()
-In-Reply-To: <20210503180737.2487560-7-axelrasmussen@google.com>
-Message-ID: <alpine.LSU.2.11.2105061407330.699@eggly.anvils>
-References: <20210503180737.2487560-1-axelrasmussen@google.com> <20210503180737.2487560-7-axelrasmussen@google.com>
-User-Agent: Alpine 2.11 (LSU 23 2013-08-11)
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-26-yu-cheng.yu@intel.com>
+ <CALCETrVTeYfzO-XWh+VwTuKCyPyp-oOMGH=QR_msG9tPQ4xPmA@mail.gmail.com>
+ <8fd86049-930d-c9b7-379c-56c02a12cd77@intel.com>
+ <CALCETrX9z-73wpy-SCy8NE1XfQgXAN0mCmjv0jXDDomMyS7TKg@mail.gmail.com>
+ <a7c332c8-9368-40b1-e221-ec921f7db948@intel.com>
+ <5fc5dea4-0705-2aad-cf8f-7ff78a5e518a@intel.com>
+Message-ID: <bf16ab7e-bf27-68eb-efc9-c0468fb1c651@intel.com>
+Date:   Thu, 6 May 2021 15:05:15 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+In-Reply-To: <5fc5dea4-0705-2aad-cf8f-7ff78a5e518a@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, 3 May 2021, Axel Rasmussen wrote:
+On 5/4/2021 1:49 PM, Yu, Yu-cheng wrote:
+> On 4/30/2021 11:32 AM, Yu, Yu-cheng wrote:
+>> On 4/30/2021 10:47 AM, Andy Lutomirski wrote:
+>>> On Fri, Apr 30, 2021 at 10:00 AM Yu, Yu-cheng <yu-cheng.yu@intel.com> 
+>>> wrote:
+>>>>
+>>>> On 4/28/2021 4:03 PM, Andy Lutomirski wrote:
+>>>>> On Tue, Apr 27, 2021 at 1:44 PM Yu-cheng Yu <yu-cheng.yu@intel.com> 
+>>>>> wrote:
+>>>>>>
+>>>>>> When shadow stack is enabled, a task's shadow stack states must be 
+>>>>>> saved
+>>>>>> along with the signal context and later restored in sigreturn. 
+>>>>>> However,
+>>>>>> currently there is no systematic facility for extending a signal 
+>>>>>> context.
+>>>>>> There is some space left in the ucontext, but changing ucontext is 
+>>>>>> likely
+>>>>>> to create compatibility issues and there is not enough space for 
+>>>>>> further
+>>>>>> extensions.
+>>>>>>
+>>>>>> Introduce a signal context extension struct 'sc_ext', which is 
+>>>>>> used to save
+>>>>>> shadow stack restore token address.  The extension is located 
+>>>>>> above the fpu
+>>>>>> states, plus alignment.  The struct can be extended (such as the 
+>>>>>> ibt's
+>>>>>> wait_endbr status to be introduced later), and sc_ext.total_size 
+>>>>>> field
+>>>>>> keeps track of total size.
+>>>>>
+>>>>> I still don't like this.
+>>>>>
 
-> In a previous commit, we added the mfill_atomic_install_pte() helper.
-> This helper does the job of setting up PTEs for an existing page, to map
-> it into a given VMA. It deals with both the anon and shmem cases, as
-> well as the shared and private cases.
-> 
-> In other words, shmem_mfill_atomic_pte() duplicates a case it already
-> handles. So, expose it, and let shmem_mfill_atomic_pte() use it
-> directly, to reduce code duplication.
-> 
-> This requires that we refactor shmem_mfill_atomic_pte() a bit:
-> 
-> Instead of doing accounting (shmem_recalc_inode() et al) part-way
-> through the PTE setup, do it afterward. This frees up
-> mfill_atomic_install_pte() from having to care about this accounting,
-> and means we don't need to e.g. shmem_uncharge() in the error path.
-> 
-> A side effect is this switches shmem_mfill_atomic_pte() to use
-> lru_cache_add_inactive_or_unevictable() instead of just lru_cache_add().
-> This wrapper does some extra accounting in an exceptional case, if
-> appropriate, so it's actually the more correct thing to use.
-> 
-> Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
+[...]
 
-Acked-by: Hugh Dickins <hughd@google.com>
-
-And thanks for doing those late mcopy->mfill renamings,
-I think those represent Andrea's intent better.
-
-As far as I'm concerned, this series is now ripe for picking
-into mmotm (bearing in mind the dependencies you noted in 00/10):
-thank you Axel.
-
-> ---
->  include/linux/userfaultfd_k.h |  5 +++
->  mm/shmem.c                    | 58 ++++++++---------------------------
->  mm/userfaultfd.c              | 17 ++++------
->  3 files changed, 23 insertions(+), 57 deletions(-)
+>>>>>
+>>>>> That's where we are right now upstream.  The kernel has a parser for
+>>>>> the FPU state that is bugs piled upon bugs and is going to have to be
+>>>>> rewritten sometime soon.  On top of all this, we have two upcoming
+>>>>> features, both of which require different kinds of extensions:
+>>>>>
+>>>>> 1. AVX-512.  (Yeah, you thought this story was over a few years ago,
+>>>>> but no.  And AMX makes it worse.)  To make a long story short, we
+>>>>> promised user code many years ago that a signal frame fit in 2048
+>>>>> bytes with some room to spare.  With AVX-512 this is false.  With AMX
+>>>>> it's so wrong it's not even funny.  The only way out of the mess
+>>>>> anyone has come up with involves making the length of the FPU state
+>>>>> vary depending on which features are INIT, i.e. making it more compact
+>>>>> than "compact" mode is.  This has a side effect: it's no longer
+>>>>> possible to modify the state in place, because enabling a feature with
+>>>>> no space allocated will make the structure bigger, and the stack won't
+>>>>> have room.  Fortunately, one can relocate the entire FPU state, update
+>>>>> the pointer in mcontext, and the kernel will happily follow the
+>>>>> pointer.  So new code on a new kernel using a super-compact state
+>>>>> could expand the state by allocating new memory (on the heap? very
+>>>>> awkwardly on the stack?) and changing the pointer.  For all we know,
+>>>>> some code already fiddles with the pointer.  This is great, except
+>>>>> that your patch sticks more data at the end of the FPU block that no
+>>>>> one is expecting, and your sigreturn code follows that pointer, and
+>>>>> will read off into lala land.
+>>>>>
+>>>>
+>>>> Then, what about we don't do that at all.  Is it possible from now 
+>>>> on we
+>>>> don't stick more data at the end, and take the relocating-fpu approach?
+>>>>
+>>>>> 2. CET.  CET wants us to find a few more bytes somewhere, and those
+>>>>> bytes logically belong in ucontext, and here we are.
+>>>>>
+>>>>
+>>>> Fortunately, we can spare CET the need of ucontext extension.  When the
+>>>> kernel handles sigreturn, the user-mode shadow stack pointer is 
+>>>> right at
+>>>> the restore token.  There is no need to put that in ucontext.
+>>>
+>>> That seems entirely reasonable.  This might also avoid needing to
+>>> teach CRIU about CET at all.
+>>>
+>>>>
+>>>> However, the WAIT_ENDBR status needs to be saved/restored for signals.
+>>>> Since IBT is now dependent on shadow stack, we can use a spare bit of
+>>>> the shadow stack restore token for that.
+>>>
+>>> That seems like unnecessary ABI coupling.  We have plenty of bits in
+>>> uc_flags, and we have an entire reserved word in sigcontext.  How
+>>> about just sticking this bit in one of those places?
+>>
+>> Yes, I will make it UC_WAIT_ENDBR.
 > 
-> diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
-> index 794d1538b8ba..331d2ccf0bcc 100644
-> --- a/include/linux/userfaultfd_k.h
-> +++ b/include/linux/userfaultfd_k.h
-> @@ -53,6 +53,11 @@ enum mcopy_atomic_mode {
->  	MCOPY_ATOMIC_CONTINUE,
->  };
->  
-> +extern int mfill_atomic_install_pte(struct mm_struct *dst_mm, pmd_t *dst_pmd,
-> +				    struct vm_area_struct *dst_vma,
-> +				    unsigned long dst_addr, struct page *page,
-> +				    bool newly_allocated, bool wp_copy);
-> +
->  extern ssize_t mcopy_atomic(struct mm_struct *dst_mm, unsigned long dst_start,
->  			    unsigned long src_start, unsigned long len,
->  			    bool *mmap_changing, __u64 mode);
-> diff --git a/mm/shmem.c b/mm/shmem.c
-> index e361f1d81c8d..2e9f56c83489 100644
-> --- a/mm/shmem.c
-> +++ b/mm/shmem.c
-> @@ -2378,14 +2378,11 @@ int shmem_mfill_atomic_pte(struct mm_struct *dst_mm,
->  	struct address_space *mapping = inode->i_mapping;
->  	gfp_t gfp = mapping_gfp_mask(mapping);
->  	pgoff_t pgoff = linear_page_index(dst_vma, dst_addr);
-> -	spinlock_t *ptl;
->  	void *page_kaddr;
->  	struct page *page;
-> -	pte_t _dst_pte, *dst_pte;
->  	int ret;
->  	pgoff_t max_off;
->  
-> -	ret = -ENOMEM;
->  	if (!shmem_inode_acct_block(inode, 1)) {
->  		/*
->  		 * We may have got a page, returned -ENOENT triggering a retry,
-> @@ -2396,10 +2393,11 @@ int shmem_mfill_atomic_pte(struct mm_struct *dst_mm,
->  			put_page(*pagep);
->  			*pagep = NULL;
->  		}
-> -		goto out;
-> +		return -ENOMEM;
->  	}
->  
->  	if (!*pagep) {
-> +		ret = -ENOMEM;
->  		page = shmem_alloc_page(gfp, info, pgoff);
->  		if (!page)
->  			goto out_unacct_blocks;
-> @@ -2414,9 +2412,9 @@ int shmem_mfill_atomic_pte(struct mm_struct *dst_mm,
->  			/* fallback to copy_from_user outside mmap_lock */
->  			if (unlikely(ret)) {
->  				*pagep = page;
-> -				shmem_inode_unacct_blocks(inode, 1);
-> +				ret = -ENOENT;
->  				/* don't free the page */
-> -				return -ENOENT;
-> +				goto out_unacct_blocks;
->  			}
->  		} else {		/* ZEROPAGE */
->  			clear_highpage(page);
-> @@ -2442,32 +2440,10 @@ int shmem_mfill_atomic_pte(struct mm_struct *dst_mm,
->  	if (ret)
->  		goto out_release;
->  
-> -	_dst_pte = mk_pte(page, dst_vma->vm_page_prot);
-> -	if (dst_vma->vm_flags & VM_WRITE)
-> -		_dst_pte = pte_mkwrite(pte_mkdirty(_dst_pte));
-> -	else {
-> -		/*
-> -		 * We don't set the pte dirty if the vma has no
-> -		 * VM_WRITE permission, so mark the page dirty or it
-> -		 * could be freed from under us. We could do it
-> -		 * unconditionally before unlock_page(), but doing it
-> -		 * only if VM_WRITE is not set is faster.
-> -		 */
-> -		set_page_dirty(page);
-> -	}
-> -
-> -	dst_pte = pte_offset_map_lock(dst_mm, dst_pmd, dst_addr, &ptl);
-> -
-> -	ret = -EFAULT;
-> -	max_off = DIV_ROUND_UP(i_size_read(inode), PAGE_SIZE);
-> -	if (unlikely(pgoff >= max_off))
-> -		goto out_release_unlock;
-> -
-> -	ret = -EEXIST;
-> -	if (!pte_none(*dst_pte))
-> -		goto out_release_unlock;
-> -
-> -	lru_cache_add(page);
-> +	ret = mfill_atomic_install_pte(dst_mm, dst_pmd, dst_vma, dst_addr,
-> +				       page, true, false);
-> +	if (ret)
-> +		goto out_delete_from_cache;
->  
->  	spin_lock_irq(&info->lock);
->  	info->alloced++;
-> @@ -2475,27 +2451,17 @@ int shmem_mfill_atomic_pte(struct mm_struct *dst_mm,
->  	shmem_recalc_inode(inode);
->  	spin_unlock_irq(&info->lock);
->  
-> -	inc_mm_counter(dst_mm, mm_counter_file(page));
-> -	page_add_file_rmap(page, false);
-> -	set_pte_at(dst_mm, dst_addr, dst_pte, _dst_pte);
-> -
-> -	/* No need to invalidate - it was non-present before */
-> -	update_mmu_cache(dst_vma, dst_addr, dst_pte);
-> -	pte_unmap_unlock(dst_pte, ptl);
-> +	SetPageDirty(page);
->  	unlock_page(page);
-> -	ret = 0;
-> -out:
-> -	return ret;
-> -out_release_unlock:
-> -	pte_unmap_unlock(dst_pte, ptl);
-> -	ClearPageDirty(page);
-> +	return 0;
-> +out_delete_from_cache:
->  	delete_from_page_cache(page);
->  out_release:
->  	unlock_page(page);
->  	put_page(page);
->  out_unacct_blocks:
->  	shmem_inode_unacct_blocks(inode, 1);
-> -	goto out;
-> +	return ret;
->  }
->  #endif /* CONFIG_USERFAULTFD */
->  
-> diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
-> index d1ac73a0d2a9..5508f7d9e2dc 100644
-> --- a/mm/userfaultfd.c
-> +++ b/mm/userfaultfd.c
-> @@ -51,18 +51,13 @@ struct vm_area_struct *find_dst_vma(struct mm_struct *dst_mm,
->  /*
->   * Install PTEs, to map dst_addr (within dst_vma) to page.
->   *
-> - * This function handles MCOPY_ATOMIC_CONTINUE (which is always file-backed),
-> - * whether or not dst_vma is VM_SHARED. It also handles the more general
-> - * MCOPY_ATOMIC_NORMAL case, when dst_vma is *not* VM_SHARED (it may be file
-> - * backed, or not).
-> - *
-> - * Note that MCOPY_ATOMIC_NORMAL for a VM_SHARED dst_vma is handled by
-> - * shmem_mcopy_atomic_pte instead.
-> + * This function handles both MCOPY_ATOMIC_NORMAL and _CONTINUE for both shmem
-> + * and anon, and for both shared and private VMAs.
->   */
-> -static int mfill_atomic_install_pte(struct mm_struct *dst_mm, pmd_t *dst_pmd,
-> -				    struct vm_area_struct *dst_vma,
-> -				    unsigned long dst_addr, struct page *page,
-> -				    bool newly_allocated, bool wp_copy)
-> +int mfill_atomic_install_pte(struct mm_struct *dst_mm, pmd_t *dst_pmd,
-> +			     struct vm_area_struct *dst_vma,
-> +			     unsigned long dst_addr, struct page *page,
-> +			     bool newly_allocated, bool wp_copy)
->  {
->  	int ret;
->  	pte_t _dst_pte, *dst_pte;
-> -- 
-> 2.31.1.527.g47e6f16901-goog
+> Personally, I think an explicit flag is cleaner than using a reserved 
+> word somewhere.  However, there is a small issue: ia32 has no uc_flags.
 > 
+> This series can support legacy apps up to now.  But, instead of creating 
+> too many special cases, perhaps we should drop CET support of ia32?
 > 
+> Thoughts?
+> 
+
+Once we have UC_WAIT_ENDBR, IBT signal handling becomes quite simple. 
+Like the following:
+
+diff --git a/arch/x86/include/uapi/asm/ucontext.h 
+b/arch/x86/include/uapi/asm/ucontext.h
+index 5657b7a49f03..96375d609e11 100644
+--- a/arch/x86/include/uapi/asm/ucontext.h
++++ b/arch/x86/include/uapi/asm/ucontext.h
+@@ -49,6 +49,11 @@
+   */
+  #define UC_SIGCONTEXT_SS	0x2
+  #define UC_STRICT_RESTORE_SS	0x4
++
++/*
++ * UC_WAIT_ENDBR indicates the task is in wait-ENDBR status.
++ */
++#define UC_WAIT_ENDBR		0x08
+  #endif
+
+  #include <asm-generic/ucontext.h>
+diff --git a/arch/x86/kernel/ibt.c b/arch/x86/kernel/ibt.c
+index d2563dd4759f..da804314ddc4 100644
+--- a/arch/x86/kernel/ibt.c
++++ b/arch/x86/kernel/ibt.c
+@@ -66,3 +66,32 @@ void ibt_disable(void)
+  	ibt_set_clear_msr_bits(0, CET_ENDBR_EN);
+  	current->thread.cet.ibt = 0;
+  }
++
++int ibt_get_clear_wait_endbr(void)
++{
++	u64 msr_val = 0;
++
++	if (!current->thread.cet.ibt)
++		return 0;
++
++	fpregs_lock();
++
++	if (test_thread_flag(TIF_NEED_FPU_LOAD))
++		__fpregs_load_activate();
++
++	if (!rdmsrl_safe(MSR_IA32_U_CET, &msr_val))
++		wrmsrl(MSR_IA32_U_CET, msr_val & ~CET_WAIT_ENDBR);
++
++	fpregs_unlock();
++
++	return msr_val & CET_WAIT_ENDBR;
++}
++
++int ibt_set_wait_endbr(void)
++{
++	if (!current->thread.cet.ibt)
++		return 0;
++
++
++	return ibt_set_clear_msr_bits(CET_WAIT_ENDBR, 0);
++}
+diff --git a/arch/x86/kernel/signal.c b/arch/x86/kernel/signal.c
+index 66b662e57e19..5afd15419006 100644
+--- a/arch/x86/kernel/signal.c
++++ b/arch/x86/kernel/signal.c
+@@ -46,6 +46,7 @@
+  #include <asm/syscall.h>
+  #include <asm/sigframe.h>
+  #include <asm/signal.h>
++#include <asm/cet.h>
+
+  #ifdef CONFIG_X86_64
+  /*
+@@ -134,6 +135,9 @@ static int restore_sigcontext(struct pt_regs *regs,
+  	 */
+  	if (unlikely(!(uc_flags & UC_STRICT_RESTORE_SS) && 
+user_64bit_mode(regs)))
+  		force_valid_ss(regs);
++
++	if (uc_flags & UC_WAIT_ENDBR)
++		ibt_set_wait_endbr();
+  #endif
+
+  	return fpu__restore_sig((void __user *)sc.fpstate,
+@@ -433,6 +437,9 @@ static unsigned long frame_uc_flags(struct pt_regs 
+*regs)
+  	if (likely(user_64bit_mode(regs)))
+  		flags |= UC_STRICT_RESTORE_SS;
+
++	if (ibt_get_clear_wait_endbr())
++		flags |= UC_WAIT_ENDBR;
++
+  	return flags;
+  }
+
+
+However, this cannot handle ia32 with no SA_SIGINFO.  For that, can we 
+create a synthetic token on the shadow stack?
+
+- The token points to itself with reserved bit[1] set, and cannot be 
+used for RSTORSSP.
+- The token only exists for ia32 with no SA_SIGINFO *AND* when the task 
+is in wait-endbr.
+
+The signal shadow stack will look like this:
+
+--> ssp before signal
+     synthetic IBT token (for ia32 no SA_SIGINFO)
+     shadow stack restore token
+     sigreturn address
+
+The synthetic token is not valid in other situations.
+How is that?
+
+Thanks,
+Yu-cheng
