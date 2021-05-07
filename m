@@ -2,205 +2,177 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 579E3376135
-	for <lists+linux-api@lfdr.de>; Fri,  7 May 2021 09:35:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 865703764CA
+	for <lists+linux-api@lfdr.de>; Fri,  7 May 2021 14:00:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235375AbhEGHgw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 7 May 2021 03:36:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59850 "EHLO
+        id S230302AbhEGMBZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 7 May 2021 08:01:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47539 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235363AbhEGHgv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 7 May 2021 03:36:51 -0400
+        by vger.kernel.org with ESMTP id S235649AbhEGMBZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 7 May 2021 08:01:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1620372951;
+        s=mimecast20190719; t=1620388825;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=YRLhFcul/s0bAb0h6pwheuix10YVXJYp5em6Jk4RpTY=;
-        b=LKQ8IWaBht40hQ37zGhiXWlx+x+Dj6an1dgqmq+UDQ3Msuggv1C2b3TezDAWLG/j28CUxx
-        SYtxDjtmTeLa6lateTlt99a9Vpwn/iZBxnYdboXBfMzDsZa4lqARUwn76xIegra1nQR16K
-        nHeDtHsZAN4JgiRXzfUjQ3eqptexoS4=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-600-5SsIjsNUN5WUurbwjX-yUA-1; Fri, 07 May 2021 03:35:49 -0400
-X-MC-Unique: 5SsIjsNUN5WUurbwjX-yUA-1
-Received: by mail-ed1-f71.google.com with SMTP id i2-20020a0564020542b02903875c5e7a00so3993083edx.6
-        for <linux-api@vger.kernel.org>; Fri, 07 May 2021 00:35:49 -0700 (PDT)
+        bh=xE5gyBAP7XXvwmcVdD/ZatFOGgEM/dN4lyKwStNP9II=;
+        b=EJUpf/os4s2t2WJlI5O4O7Zg2KioWcpddqr7ywOnQvC8tpu800hYUUOTtglb3XYiN+//2f
+        yVwXitaxQfWaSVY94KH5CLEx018aDRjkwqvQO/m3cuB2bzRvwVT0ybH46GoEHJ2u+eniYw
+        trDran7R813w4wr6bB78qRncPSymO6M=
+Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
+ [209.85.219.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-468-b43905p7NMyyULuYsIxCVA-1; Fri, 07 May 2021 08:00:23 -0400
+X-MC-Unique: b43905p7NMyyULuYsIxCVA-1
+Received: by mail-yb1-f200.google.com with SMTP id c9-20020a2580c90000b02904f86395a96dso4024370ybm.19
+        for <linux-api@vger.kernel.org>; Fri, 07 May 2021 05:00:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:references:from:organization:subject
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=YRLhFcul/s0bAb0h6pwheuix10YVXJYp5em6Jk4RpTY=;
-        b=ZAaOXV7npGfwd/McDVQFCiFyWVEw68VVKlbm4yjl0mHVEhntq3sDJqB6n4bMo7k5E/
-         FwVKsHyjHsOisHNU4HqArQbG9wmX0YpMEksZ+q4jNpJgok5QFqDcjbUDiQ/dn1ras0FY
-         EjTlEqjyHBaObMrsgsoDbLW0fX8qdJRb2HPl/gig0ZYU/ZkrBqzlK39X2Eb8zZI/vgCL
-         y6MrGWKBW/h/wz6Jpt1y826Bk4XmsriPuW6loeKs1NVs3tiIjQOJH/phSUGyO/gnX/rR
-         FbCfaF2j3iApmfydaFqP1VppQL7F1HjIkR1y2wakXGhPJlR1A9lrdUAPBahDcbbO2Uw4
-         wHdQ==
-X-Gm-Message-State: AOAM532Kjd9GsVLTIzrWitXJql65xeF5/C2nNsNytoccm4YdocQtvxP+
-        RNg6i5lYF6x+4J15pctvO7btCxRUoDUsIU/QYqecR43JPlnAOG5Pbzyj2o2I6iiPpbYYqLpkLNT
-        JsYCKSdsKxwkRrP8I7Q2A
-X-Received: by 2002:a17:907:174a:: with SMTP id lf10mr8861595ejc.433.1620372948258;
-        Fri, 07 May 2021 00:35:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx5XI2zKUbsKazvcW2Vr5jvMDeiB+dtOEKTtfzbIqz37aYae3i7ugq6B0OmfMhiabycSZroRA==
-X-Received: by 2002:a17:907:174a:: with SMTP id lf10mr8861569ejc.433.1620372947917;
-        Fri, 07 May 2021 00:35:47 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c63c0.dip0.t-ipconnect.de. [91.12.99.192])
-        by smtp.gmail.com with ESMTPSA id l17sm2925176ejk.22.2021.05.07.00.35.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 May 2021 00:35:47 -0700 (PDT)
-To:     Nick Kossifidis <mick@ics.forth.gr>, jejb@linux.ibm.com
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org
-References: <20210303162209.8609-1-rppt@kernel.org>
- <20210505120806.abfd4ee657ccabf2f221a0eb@linux-foundation.org>
- <de27bfae0f4fdcbb0bb4ad17ec5aeffcd774c44b.camel@linux.ibm.com>
- <996dbc29-e79c-9c31-1e47-cbf20db2937d@redhat.com>
- <8eb933f921c9dfe4c9b1b304e8f8fa4fbc249d84.camel@linux.ibm.com>
- <77fe28bd940b2c1afd69d65b6d349352@mailhost.ics.forth.gr>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v18 0/9] mm: introduce memfd_secret system call to create
- "secret" memory areas
-Message-ID: <5232c8a7-8a05-9d0f-69ff-3dba2b04e784@redhat.com>
-Date:   Fri, 7 May 2021 09:35:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xE5gyBAP7XXvwmcVdD/ZatFOGgEM/dN4lyKwStNP9II=;
+        b=fsoAjmVwVLQzbjEEmmfeJe1Ozn9DJm9KM/aDmhWp7ClbVNvJM0e8OKNJugcJPBGTR7
+         LF2XmTDKzBebk5AWZlZrrnhf+zStRELXhxHAzl51TcUXJdrmZsbpEXp5RkR+h4ZQgBtu
+         25kaNjRGY6wFNoKLgygQMBeH6kQ2q5GMBljUuf5vhwSturiEAvUt5k2IztZRGjBIZJ2Y
+         4gSSaOa8SM9DxehzLUCwLc3N99D58GXVqEEHEsPzUS3g5WO2g0/1MagvXDJ9NCK8D38S
+         xzoL4v8URHeOPwoIqrao71Bd4lI6/ALH/m1PB5rA7LA2AsFRnJKeMquG8B+UYZKHsi6I
+         3bYA==
+X-Gm-Message-State: AOAM531DRz4dlwWkv2XHI2vxf6cmjcg8q4C24C7djxUSknnNhPiX51yi
+        XBa6Vizc/vHD9FOMpH1OVKGH7QYWFUYCyw6GhzByRh3rZf0nGwYO3Gfr9qv+xvQ/SrQpuHhx7zF
+        D/tolCyISPXB8S1Ued3syfeFXL6lYypY2mfYU
+X-Received: by 2002:a25:6886:: with SMTP id d128mr12852957ybc.227.1620388822834;
+        Fri, 07 May 2021 05:00:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzJzFoLmM53HRRPTS8+L1NFo6C4N4lbmA/5cKumgX6lQWkw3hZSH5NVRI0R1lv1CH4GMXBTdIxM8bWjoat1/WU=
+X-Received: by 2002:a25:6886:: with SMTP id d128mr12852927ybc.227.1620388822601;
+ Fri, 07 May 2021 05:00:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <77fe28bd940b2c1afd69d65b6d349352@mailhost.ics.forth.gr>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20191012005747.210722465@goodmis.org> <20191012005921.580293464@goodmis.org>
+ <CAFqZXNs4eRC6kjFRe6CdwA-sng-w6bcJZf5io+hoLKwM98TVSA@mail.gmail.com>
+In-Reply-To: <CAFqZXNs4eRC6kjFRe6CdwA-sng-w6bcJZf5io+hoLKwM98TVSA@mail.gmail.com>
+From:   Ondrej Mosnacek <omosnace@redhat.com>
+Date:   Fri, 7 May 2021 14:00:09 +0200
+Message-ID: <CAFqZXNuxs-h1KKjNfGuZVP4s5MiwRVCWj2E+pDA4PoqxuTrndQ@mail.gmail.com>
+Subject: Re: [PATCH 7/7 v2] tracing: Do not create tracefs files if tracefs
+ lockdown is in effect
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Linux kernel mailing list <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Matthew Garrett <matthewgarrett@google.com>,
+        James Morris James Morris <jmorris@namei.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Ben Hutchings <ben@decadent.org.uk>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        SElinux list <selinux@vger.kernel.org>,
+        Herton Krzesinski <hkrzesin@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 07.05.21 01:16, Nick Kossifidis wrote:
-> Στις 2021-05-06 20:05, James Bottomley έγραψε:
->> On Thu, 2021-05-06 at 18:45 +0200, David Hildenbrand wrote:
->>>
->>> Also, there is a way to still read that memory when root by
->>>
->>> 1. Having kdump active (which would often be the case, but maybe not
->>> to dump user pages )
->>> 2. Triggering a kernel crash (easy via proc as root)
->>> 3. Waiting for the reboot after kump() created the dump and then
->>> reading the content from disk.
->>
->> Anything that can leave physical memory intact but boot to a kernel
->> where the missing direct map entry is restored could theoretically
->> extract the secret.  However, it's not exactly going to be a stealthy
->> extraction ...
->>
->>> Or, as an attacker, load a custom kexec() kernel and read memory
->>> from the new environment. Of course, the latter two are advanced
->>> mechanisms, but they are possible when root. We might be able to
->>> mitigate, for example, by zeroing out secretmem pages before booting
->>> into the kexec kernel, if we care :)
->>
->> I think we could handle it by marking the region, yes, and a zero on
->> shutdown might be useful ... it would prevent all warm reboot type
->> attacks.
->>
-> 
-> I had similar concerns about recovering secrets with kdump, and
-> considered cleaning up keyrings before jumping to the new kernel. The
-> problem is we can't provide guarantees in that case, once the kernel has
-> crashed and we are on our way to run crashkernel, we can't be sure we
-> can reliably zero-out anything, the more code we add to that path the
+On Tue, Apr 13, 2021 at 10:13 AM Ondrej Mosnacek <omosnace@redhat.com> wrote:
+> On Sat, Oct 12, 2019 at 2:59 AM Steven Rostedt <rostedt@goodmis.org> wrote:
+> > From: "Steven Rostedt (VMware)" <rostedt@goodmis.org>
+> >
+> > If on boot up, lockdown is activated for tracefs, don't even bother creating
+> > the files. This can also prevent instances from being created if lockdown is
+> > in effect.
+> >
+> > Link: http://lkml.kernel.org/r/CAHk-=whC6Ji=fWnjh2+eS4b15TnbsS4VPVtvBOwCy1jjEG_JHQ@mail.gmail.com
+> >
+> > Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+> > Signed-off-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+> > ---
+> >  fs/tracefs/inode.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/fs/tracefs/inode.c b/fs/tracefs/inode.c
+> > index eeeae0475da9..0caa151cae4e 100644
+> > --- a/fs/tracefs/inode.c
+> > +++ b/fs/tracefs/inode.c
+> > @@ -16,6 +16,7 @@
+> >  #include <linux/namei.h>
+> >  #include <linux/tracefs.h>
+> >  #include <linux/fsnotify.h>
+> > +#include <linux/security.h>
+> >  #include <linux/seq_file.h>
+> >  #include <linux/parser.h>
+> >  #include <linux/magic.h>
+> > @@ -390,6 +391,9 @@ struct dentry *tracefs_create_file(const char *name, umode_t mode,
+> >         struct dentry *dentry;
+> >         struct inode *inode;
+> >
+> > +       if (security_locked_down(LOCKDOWN_TRACEFS))
+> > +               return NULL;
+> > +
+> >         if (!(mode & S_IFMT))
+> >                 mode |= S_IFREG;
+> >         BUG_ON(!S_ISREG(mode));
+> > --
+> > 2.23.0
+>
+> Hi all,
+>
+> sorry for coming back to an old thread, but it turns out that this
+> patch doesn't play well with SELinux's implementation of the
+> security_locked_down() hook, which was added a few months later (so
+> not your fault :) in commit 59438b46471a ("security,lockdown,selinux:
+> implement SELinux lockdown").
+>
+> What SELinux does is it checks if the current task's creds are allowed
+> the lockdown::integrity or lockdown::confidentiality permission in the
+> policy whenever security_locked_down() is called. The idea is to be
+> able to control at SELinux domain level which tasks can do these
+> sensitive operations (when the kernel is not actually locked down by
+> the Lockdown LSM).
+>
+> With this patch + the SELinux lockdown mechanism in use, when a
+> userspace task loads a module that creates some tracefs nodes in its
+> initcall SELinux will check if the task has the
+> lockdown::confidentiality permission and if not, will report denials
+> in audit log and prevent the tracefs entries from being created. But
+> that is not a very logical behavior, since the task loading the module
+> is itself not (explicitly) doing anything that would breach
+> confidentiality. It just indirectly causes some tracefs nodes to be
+> created, but doesn't actually use them at that point.
+>
+> Since it seems the other patches also added security_locked_down()
+> calls to the tracefs nodes' open functions, I guess reverting this
+> patch could be an acceptable way to fix this problem (please correct
+> me if there is something that this call catches, which the other ones
+> don't). However, even then I can understand that you (or someone else)
+> might want to keep this as an optimization, in which case we could
+> instead do this:
+> 1. Add a new hook security_locked_down_permanently() (the name is open
+> for discussion), which would be intended for situations when we want
+> to avoid doing some pointless work when the kernel is in a "hard"
+> lockdown that can't be taken back (except perhaps in some rescue
+> scenario...).
+> 2. This hook would be backed by the same implementation as
+> security_locked_down() in the Lockdown LSM and left unimplemented by
+> SELinux.
+> 3. tracefs_create_file() would call this hook instead of security_locked_down().
+>
+> This way it would work as before relative to the standard lockdown via
+> the Lockdown LSM and would be simply ignored by SELinux. I went over
+> all the security_locked_down() call in the kernel and I think this
+> alternative hook could also fit better in arch/powerpc/xmon/xmon.c,
+> where it seems to be called from interrupt context (so task creds are
+> irrelevant, anyway...) and mainly causes some values to be redacted.
+> (I also found a couple minor issues with how the hook is used in other
+> places, for which I plan to send patches later.)
+>
+> Thoughts?
 
-Well, I think it depends. Assume we do the following
-
-1) Zero out any secretmem pages when handing them back to the buddy. 
-(alternative: init_on_free=1) -- if not already done, I didn't check the 
-code.
-
-2) On kdump(), zero out all allocated secretmem. It'd be easier if we'd 
-just allocated from a fixed physical memory area; otherwise we have to 
-walk process page tables or use a PFN walker. And zeroing out secretmem 
-pages without a direct mapping is a different challenge.
-
-Now, during 2) it can happen that
-
-a) We crash in our clearing code (e.g., something is seriously messed 
-up) and fail to start the kdump kernel. That's actually good, instead of 
-leaking data we fail hard.
-
-b) We don't find all secretmem pages, for example, because process page 
-tables are messed up or something messed up our memmap (if we'd use that 
-to identify secretmem pages via a PFN walker somehow)
-
-
-But for the simple cases (e.g., malicious root tries to crash the kernel 
-via /proc/sysrq-trigger) both a) and b) wouldn't apply.
-
-Obviously, if an admin would want to mitigate right now, he would want 
-to disable kdump completely, meaning any attempt to load a crashkernel 
-would fail and cannot be enabled again for that kernel (also not via 
-cmdline an attacker could modify to reboot into a system with the option 
-for a crashkernel). Disabling kdump in the kernel when secretmem pages 
-are allocated is one approach, although sub-optimal.
-
-> more risky it gets. However during reboot/normal kexec() we should do
-> some cleanup, it makes sense and secretmem can indeed be useful in that
-> case. Regarding loading custom kexec() kernels, we mitigate this with
-> the kexec file-based API where we can verify the signature of the loaded
-> kimage (assuming the system runs a kernel provided by a trusted 3rd
-> party and we 've maintained a chain of trust since booting).
-
-For example in VMs (like QEMU), we often don't clear physical memory 
-during a reboot. So if an attacker manages to load a kernel that you can 
-trick into reading random physical memory areas, we can leak secretmem 
-data I think.
-
-And there might be ways to achieve that just using the cmdline, not 
-necessarily loading a different kernel. For example if you limit the 
-kernel footprint ("mem=256M") and disable strict_iomem_checks 
-("strict_iomem_checks=relaxed") you can just extract that memory via 
-/dev/mem if I am not wrong.
-
-So as an attacker, modify the (grub) cmdline to "mem=256M 
-strict_iomem_checks=relaxed", reboot, and read all memory via /dev/mem. 
-Or load a signed kexec kernel with that cmdline and boot into it.
-
-Interesting problem :)
+In the meantime I found some other places where the SELinux check
+should be skipped, so I went ahead and sent this patch:
+https://lore.kernel.org/lkml/20210507114048.138933-1-omosnace@redhat.com/T/
 
 -- 
-Thanks,
-
-David / dhildenb
+Ondrej Mosnacek
+Software Engineer, Linux Security - SELinux kernel
+Red Hat, Inc.
 
