@@ -2,156 +2,316 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A96A6376D8B
-	for <lists+linux-api@lfdr.de>; Sat,  8 May 2021 01:58:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 720BA376E43
+	for <lists+linux-api@lfdr.de>; Sat,  8 May 2021 03:55:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230124AbhEGX67 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 7 May 2021 19:58:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40846 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229920AbhEGX67 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 7 May 2021 19:58:59 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3435C061761
-        for <linux-api@vger.kernel.org>; Fri,  7 May 2021 16:57:58 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id gq14-20020a17090b104eb029015be008ab0fso6343099pjb.1
-        for <linux-api@vger.kernel.org>; Fri, 07 May 2021 16:57:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=2iQQvEB0+fCpb/rAB5HWawShZb8qZlIcaFuxaSL0oes=;
-        b=EqhSZy45d2y8OQQwraWGhlD9n54vClwPwSn7UuK9xZviJIBJseEIUX0aF36GebrTNP
-         3Y9esEq2VEVMdpYAd+09juu7yIqSSNYhNNt+rVs1po+n6QlJ3kc6cbxhUV5wUfFprLGx
-         TjvIY1CeOIbcMr4b7WQIEnR9bfI+n///RODlA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=2iQQvEB0+fCpb/rAB5HWawShZb8qZlIcaFuxaSL0oes=;
-        b=l4FdL1Ing6omkfRe+Q0qDt/eA4HXYOvmd7PqmMwFw1p0xfEqogJBfrsLmwEDkqn4ca
-         +PMmVFAlmXxVE4z3Ed/3Zux/+553IMto9JDawWG+TvOI4kBkAZEPxIvbiiseY3jkZSXZ
-         FDLU7o1ua6okGjkUc7ZrHI3QfGRF1SM7vFeuaSARH4OFkrjTC1N3mtF6huRT2VGAbnZP
-         H256S9WC26Yx/CvPO0KOWePLxcqMtrrntTi34kcd/HtDWeNuNmZcpDa0Dty3Cku6xajO
-         KQUkR4NLB797ZNl5MeZyILjY65rUVGvISJ793Ws3oZBSU7vrzDUNBBSF62il7ii1pX0Y
-         4SZw==
-X-Gm-Message-State: AOAM530px2HgC/AnbLxqH7kEbyJ4iDK3kTlVp+zi6pBBKgz4lRDnYMMo
-        GL8jurEVQaMjFUeR1ZWAAqO0NA==
-X-Google-Smtp-Source: ABdhPJwW5et97Z//abVIXmo2gBu5V8/Vzg230KpxBawys34RoMW6n/H4x7d7dTWApKrw1+7V8ZstIg==
-X-Received: by 2002:a17:902:ff09:b029:ed:3b29:ff43 with SMTP id f9-20020a170902ff09b02900ed3b29ff43mr12583115plj.14.1620431878548;
-        Fri, 07 May 2021 16:57:58 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id ha14sm5011198pjb.40.2021.05.07.16.57.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 May 2021 16:57:56 -0700 (PDT)
-Date:   Fri, 7 May 2021 16:57:55 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     James Bottomley <jejb@linux.ibm.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v18 0/9] mm: introduce memfd_secret system call to create
- "secret" memory areas
-Message-ID: <202105071620.E834B1FA92@keescook>
-References: <20210303162209.8609-1-rppt@kernel.org>
- <20210505120806.abfd4ee657ccabf2f221a0eb@linux-foundation.org>
- <de27bfae0f4fdcbb0bb4ad17ec5aeffcd774c44b.camel@linux.ibm.com>
- <202105060916.ECDEC21@keescook>
- <9e1953a1412fad06a9f7988a280d2d9a74ab0464.camel@linux.ibm.com>
+        id S230267AbhEHB4C (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 7 May 2021 21:56:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21683 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229812AbhEHB4C (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 7 May 2021 21:56:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1620438901;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=4xgvKloKo8xH8kQEQgRk3xvhIaRGzhsk0FfbaOWFA/Y=;
+        b=AJWrsPF5GjLiz+g9wCc/tr2pVgQhX1bkmuav5cjP31DHX6DT1gCmw0q1embqPpdYpIWcJS
+        +xpdGh+tA32Jzi9o6iaSbghCSETWbsyojKnIaS4SvyDUvRm4APrKyEN+o5Ni3Ssqi1Bct9
+        lyErq0UWgF+yIy0A7uXT42fKkJ/bV90=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-599-p96gcelHP9WF0B04-1H-sQ-1; Fri, 07 May 2021 21:54:55 -0400
+X-MC-Unique: p96gcelHP9WF0B04-1H-sQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E238801B12;
+        Sat,  8 May 2021 01:54:54 +0000 (UTC)
+Received: from madcap2.tricolour.ca (unknown [10.3.128.45])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F47F19D61;
+        Sat,  8 May 2021 01:54:45 +0000 (UTC)
+Date:   Fri, 7 May 2021 21:54:43 -0400
+From:   Richard Guy Briggs <rgb@redhat.com>
+To:     Casey Schaufler <casey@schaufler-ca.com>
+Cc:     Linux-Audit Mailing List <linux-audit@redhat.com>,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Eric Paris <eparis@parisplace.org>, sgrubb@redhat.com
+Subject: Re: [PATCH V1] audit: log xattr args not covered by syscall record
+Message-ID: <20210508015443.GA447005@madcap2.tricolour.ca>
+References: <604ceafd516b0785fea120f552d6336054d196af.1620414949.git.rgb@redhat.com>
+ <7ee601c2-4009-b354-1899-3c8f582bf6ae@schaufler-ca.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9e1953a1412fad06a9f7988a280d2d9a74ab0464.camel@linux.ibm.com>
+In-Reply-To: <7ee601c2-4009-b354-1899-3c8f582bf6ae@schaufler-ca.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, May 06, 2021 at 11:47:47AM -0700, James Bottomley wrote:
-> On Thu, 2021-05-06 at 10:33 -0700, Kees Cook wrote:
-> > On Thu, May 06, 2021 at 08:26:41AM -0700, James Bottomley wrote:
-> [...]
-> > > > I think that a very complete description of the threats which
-> > > > this feature addresses would be helpful.  
-> > > 
-> > > It's designed to protect against three different threats:
-> > > 
-> > >    1. Detection of user secret memory mismanagement
-> > 
-> > I would say "cross-process secret userspace memory exposures" (via a
-> > number of common interfaces by blocking it at the GUP level).
-> > 
-> > >    2. significant protection against privilege escalation
-> > 
-> > I don't see how this series protects against privilege escalation.
-> > (It protects against exfiltration.) Maybe you mean include this in
-> > the first bullet point (i.e. "cross-process secret userspace memory
-> > exposures, even in the face of privileged processes")?
+On 2021-05-07 14:03, Casey Schaufler wrote:
+> On 5/7/2021 12:55 PM, Richard Guy Briggs wrote:
+> > The *setxattr syscalls take 5 arguments.  The SYSCALL record only lists
+> > four arguments and only lists pointers of string values.  The xattr name
+> > string, value string and flags (5th arg) are needed by audit given the
+> > syscall's main purpose.
+> >
+> > Add the auxiliary record AUDIT_XATTR (1336) to record the details not
+> > available in the SYSCALL record including the name string, value string
+> > and flags.
+> >
+> > Notes about field names:
+> > - name is too generic, use xattr precedent from ima
+> > - val is already generic value field name
+> > - flags used by mmap, xflags new name
+> >
+> > Sample event with new record:
+> > type=PROCTITLE msg=audit(05/07/2021 12:58:42.176:189) : proctitle=filecap /tmp/ls dac_override
+> > type=PATH msg=audit(05/07/2021 12:58:42.176:189) : item=0 name=(null) inode=25 dev=00:1e mode=file,755 ouid=root ogid=root rdev=00:00 obj=unconfined_u:object_r:user_tmp_t:s0 nametype=NORMAL cap_fp=none cap_fi=none cap_fe=0 cap_fver=0 cap_frootid=0
+> > type=CWD msg=audit(05/07/2021 12:58:42.176:189) : cwd=/root
+> > type=XATTR msg=audit(05/07/2021 12:58:42.176:189) : xattr="security.capability" val=01 xflags=0x0
 > 
-> It doesn't prevent privilege escalation from happening in the first
-> place, but once the escalation has happened it protects against
-> exfiltration by the newly minted root attacker.
+> Would it be sensible to break out the namespace from the attribute?
+> 
+> 	attrspace="security" attrname="capability"
 
-So, after thinking a bit more about this, I don't think there is
-protection here against privileged execution. This feature kind of helps
-against cross-process read/write attempts, but it doesn't help with
-sufficiently privileged (i.e. ptraced) execution, since we can just ask
-the process itself to do the reading:
+Do xattrs always follow this nomenclature?  Or only the ones we care
+about?
 
-$ gdb ./memfd_secret
-...
-ready: 0x7ffff7ffb000
-Breakpoint 1, ...
-(gdb) compile code unsigned long addr = 0x7ffff7ffb000UL; printf("%016lx\n", *((unsigned long *)addr));
-55555555555555555
+> Why isn't val= quoted?
 
-And since process_vm_readv() requires PTRACE_ATTACH, there's very little
-difference in effort between process_vm_readv() and the above.
+Good question.  I guessed it should have been since it used
+audit_log_untrustedstring(), but even the raw output is unquoted unless
+it was converted by auditd to unquoted before being stored to disk due
+to nothing offensive found in it since audit_log_n_string() does add
+quotes.  (hmmm, bit of a run-on sentence there...)
 
-So, what other paths through GUP exist that aren't covered by
-PTRACE_ATTACH? And if none, then should this actually just be done by
-setting the process undumpable? (This is already what things like gnupg
-do.)
+> The attribute value can be a .jpg or worse. I could even see it being an eBPF
+> program (although That Would Be Wrong) so including it in an audit record could
+> be a bit of a problem.
 
-So, the user-space side of this doesn't seem to really help. The kernel
-side protection is interesting for kernel read/write flaws, though, in
-the sense that the process is likely not being attacked from "current",
-so a kernel-side attack would need to either walk the page tables and
-create new ones, or spawn a new userspace process to do the ptracing.
+In these cases it would almost certainly get caught by the control
+character test audit_string_contains_control() in
+audit_log_n_untrustedstring() called from audit_log_untrustedstring()
+and deliver it as hex.
 
-So, while I like the idea of this stuff, and I see how it provides
-certain coverages, I'm curious to learn more about the threat model to
-make sure it's actually providing meaningful hurdles to attacks.
+> It seems that you might want to leave it up to the LSMs to determine which xattr
+> values are audited. An SELinux system may want to see "security.selinux" values,
+> but it probably doesn't care about "security.SMACK64TRANSMUTE" values.
 
--- 
-Kees Cook
+Are you suggesting that any that don't follow this nomenclature are
+irrelevant or harmless at best and are not worth recording?
+
+This sounds like you are thinking about your LSM stacking patchset that
+issues a new record for each LSM attribute if there is more than one.
+And any system that has multiple LSMs active should be able to indicate
+all of interest.
+
+> > type=SYSCALL msg=audit(05/07/2021 12:58:42.176:189) : arch=x86_64 syscall=fsetxattr success=yes exit=0 a0=0x3 a1=0x7fc2f055905f a2=0x7ffebd58ebb0 a3=0x14 items=1 ppid=526 pid=554 auid=root uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=ttyS0 ses=1 comm=filecap exe=/usr/bin/filecap subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=cap-test
+> >
+> > Link: https://github.com/linux-audit/audit-kernel/issues/39
+> > Link: https://lore.kernel.org/r/604ceafd516b0785fea120f552d6336054d196af.1620414949.git.rgb@redhat.com
+> > Suggested-by: Steve Grubb <sgrubb@redhat.com>
+> > Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> > ---
+> >  fs/xattr.c                 |  2 ++
+> >  include/linux/audit.h      | 10 +++++++++
+> >  include/uapi/linux/audit.h |  1 +
+> >  kernel/audit.h             |  5 +++++
+> >  kernel/auditsc.c           | 45 ++++++++++++++++++++++++++++++++++++++
+> >  5 files changed, 63 insertions(+)
+> >
+> > diff --git a/fs/xattr.c b/fs/xattr.c
+> > index b3444e06cded..f2b6af1719fd 100644
+> > --- a/fs/xattr.c
+> > +++ b/fs/xattr.c
+> > @@ -570,6 +570,7 @@ setxattr(struct user_namespace *mnt_userns, struct dentry *d,
+> >  			posix_acl_fix_xattr_from_user(mnt_userns, kvalue, size);
+> >  	}
+> >  
+> > +	audit_xattr(name, value, flags);
+> >  	error = vfs_setxattr(mnt_userns, d, kname, kvalue, size, flags);
+> >  out:
+> >  	kvfree(kvalue);
+> > @@ -816,6 +817,7 @@ removexattr(struct user_namespace *mnt_userns, struct dentry *d,
+> >  	if (error < 0)
+> >  		return error;
+> >  
+> > +	audit_xattr(name, "(null)", 0);
+> >  	return vfs_removexattr(mnt_userns, d, kname);
+> >  }
+> >  
+> > diff --git a/include/linux/audit.h b/include/linux/audit.h
+> > index 82b7c1116a85..784d34888c8a 100644
+> > --- a/include/linux/audit.h
+> > +++ b/include/linux/audit.h
+> > @@ -404,6 +404,7 @@ extern void __audit_tk_injoffset(struct timespec64 offset);
+> >  extern void __audit_ntp_log(const struct audit_ntp_data *ad);
+> >  extern void __audit_log_nfcfg(const char *name, u8 af, unsigned int nentries,
+> >  			      enum audit_nfcfgop op, gfp_t gfp);
+> > +extern void __audit_xattr(const char *name, const char *value, int flags);
+> >  
+> >  static inline void audit_ipc_obj(struct kern_ipc_perm *ipcp)
+> >  {
+> > @@ -547,6 +548,12 @@ static inline void audit_log_nfcfg(const char *name, u8 af,
+> >  		__audit_log_nfcfg(name, af, nentries, op, gfp);
+> >  }
+> >  
+> > +static inline void audit_xattr(const char *name, const char *value, int flags)
+> > +{
+> > +	if (!audit_dummy_context())
+> > +		__audit_xattr(name, value, flags);
+> > +}
+> > +
+> >  extern int audit_n_rules;
+> >  extern int audit_signals;
+> >  #else /* CONFIG_AUDITSYSCALL */
+> > @@ -677,6 +684,9 @@ static inline void audit_log_nfcfg(const char *name, u8 af,
+> >  				   enum audit_nfcfgop op, gfp_t gfp)
+> >  { }
+> >  
+> > +static inline void audit_xattr(const char *name, const char *value, int flags)
+> > +{ }
+> > +
+> >  #define audit_n_rules 0
+> >  #define audit_signals 0
+> >  #endif /* CONFIG_AUDITSYSCALL */
+> > diff --git a/include/uapi/linux/audit.h b/include/uapi/linux/audit.h
+> > index cd2d8279a5e4..4477ff80a24d 100644
+> > --- a/include/uapi/linux/audit.h
+> > +++ b/include/uapi/linux/audit.h
+> > @@ -118,6 +118,7 @@
+> >  #define AUDIT_TIME_ADJNTPVAL	1333	/* NTP value adjustment */
+> >  #define AUDIT_BPF		1334	/* BPF subsystem */
+> >  #define AUDIT_EVENT_LISTENER	1335	/* Task joined multicast read socket */
+> > +#define AUDIT_XATTR		1336	/* xattr arguments */
+> >  
+> >  #define AUDIT_AVC		1400	/* SE Linux avc denial or grant */
+> >  #define AUDIT_SELINUX_ERR	1401	/* Internal SE Linux Errors */
+> > diff --git a/kernel/audit.h b/kernel/audit.h
+> > index 1522e100fd17..9544284fce57 100644
+> > --- a/kernel/audit.h
+> > +++ b/kernel/audit.h
+> > @@ -191,6 +191,11 @@ struct audit_context {
+> >  		struct {
+> >  			char			*name;
+> >  		} module;
+> > +		struct {
+> > +			char			*name;
+> > +			char			*value;
+> > +			int			flags;
+> > +		} xattr;
+> >  	};
+> >  	int fds[2];
+> >  	struct audit_proctitle proctitle;
+> > diff --git a/kernel/auditsc.c b/kernel/auditsc.c
+> > index 8bb9ac84d2fb..7f2b56136fa4 100644
+> > --- a/kernel/auditsc.c
+> > +++ b/kernel/auditsc.c
+> > @@ -884,6 +884,7 @@ static inline void audit_free_module(struct audit_context *context)
+> >  		context->module.name = NULL;
+> >  	}
+> >  }
+> > +
+> >  static inline void audit_free_names(struct audit_context *context)
+> >  {
+> >  	struct audit_names *n, *next;
+> > @@ -915,6 +916,16 @@ static inline void audit_free_aux(struct audit_context *context)
+> >  	}
+> >  }
+> >  
+> > +static inline void audit_free_xattr(struct audit_context *context)
+> > +{
+> > +	if (context->type == AUDIT_XATTR) {
+> > +		kfree(context->xattr.name);
+> > +		context->xattr.name = NULL;
+> > +		kfree(context->xattr.value);
+> > +		context->xattr.value = NULL;
+> > +	}
+> > +}
+> > +
+> >  static inline struct audit_context *audit_alloc_context(enum audit_state state)
+> >  {
+> >  	struct audit_context *context;
+> > @@ -969,6 +980,7 @@ int audit_alloc(struct task_struct *tsk)
+> >  
+> >  static inline void audit_free_context(struct audit_context *context)
+> >  {
+> > +	audit_free_xattr(context);
+> >  	audit_free_module(context);
+> >  	audit_free_names(context);
+> >  	unroll_tree_refs(context, NULL, 0);
+> > @@ -1317,6 +1329,20 @@ static void show_special(struct audit_context *context, int *call_panic)
+> >  		} else
+> >  			audit_log_format(ab, "(null)");
+> >  
+> > +		break;
+> > +	case AUDIT_XATTR:
+> > +		audit_log_format(ab, "xattr=");
+> > +		if (context->xattr.name)
+> > +			audit_log_untrustedstring(ab, context->xattr.name);
+> > +		else
+> > +			audit_log_format(ab, "(null)");
+> > +		audit_log_format(ab, " val=");
+> > +		if (context->xattr.value)
+> > +			audit_log_untrustedstring(ab, context->xattr.value);
+> > +		else
+> > +			audit_log_format(ab, "(null)");
+> > +		audit_log_format(ab, " xflags=0x%x", context->xattr.flags);
+> > +
+> >  		break;
+> >  	}
+> >  	audit_log_end(ab);
+> > @@ -1742,6 +1768,7 @@ void __audit_syscall_exit(int success, long return_code)
+> >  	context->in_syscall = 0;
+> >  	context->prio = context->state == AUDIT_RECORD_CONTEXT ? ~0ULL : 0;
+> >  
+> > +	audit_free_xattr(context);
+> >  	audit_free_module(context);
+> >  	audit_free_names(context);
+> >  	unroll_tree_refs(context, NULL, 0);
+> > @@ -2536,6 +2563,24 @@ void __audit_log_kern_module(char *name)
+> >  	context->type = AUDIT_KERN_MODULE;
+> >  }
+> >  
+> > +void __audit_xattr(const char *name, const char *value, int flags)
+> > +{
+> > +	struct audit_context *context = audit_context();
+> > +
+> > +	context->type = AUDIT_XATTR;
+> > +	context->xattr.flags = flags;
+> > +	context->xattr.name = kstrdup(name, GFP_KERNEL);
+> > +	if (!context->xattr.name)
+> > +		goto out;
+> > +	context->xattr.value = kstrdup(value, GFP_KERNEL);
+> > +	if (!context->xattr.value)
+> > +		goto out;
+> > +	return;
+> > +out:
+> > +	kfree(context->xattr.name);
+> > +	audit_log_lost("out of memory in __audit_xattr");
+> > +}
+> > +
+> >  void __audit_fanotify(unsigned int response)
+> >  {
+> >  	audit_log(audit_context(), GFP_KERNEL,
+> 
+> 
+> --
+> Linux-audit mailing list
+> Linux-audit@redhat.com
+> https://listman.redhat.com/mailman/listinfo/linux-audit
+
+- RGB
+
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
+
