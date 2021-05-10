@@ -2,205 +2,142 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21B55379A6C
-	for <lists+linux-api@lfdr.de>; Tue, 11 May 2021 00:58:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB5C9379AF5
+	for <lists+linux-api@lfdr.de>; Tue, 11 May 2021 01:52:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229585AbhEJW7N (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 10 May 2021 18:59:13 -0400
-Received: from mga02.intel.com ([134.134.136.20]:14343 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229502AbhEJW7M (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 10 May 2021 18:59:12 -0400
-IronPort-SDR: 5CCxM31DrQ8NpRCc57zhv8RqDO51fL6JXRIul4MJVkw5VTUsKQCY8WFY9rtcImWpqRy2Aq/LHQ
- EakplwnAGuvQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="186440128"
-X-IronPort-AV: E=Sophos;i="5.82,288,1613462400"; 
-   d="scan'208";a="186440128"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2021 15:58:06 -0700
-IronPort-SDR: QsXO/4wRx+z3mdOQUqRrWo77zUAK8pyl2+PvaaF/SdE5zZB8LiimPlTFQZZ4cYaXz9oRpRzdWf
- iJ15TiTGHg8g==
-X-IronPort-AV: E=Sophos;i="5.82,288,1613462400"; 
-   d="scan'208";a="434014879"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.251.144.113]) ([10.251.144.113])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2021 15:58:00 -0700
-Subject: Re: [PATCH v26 23/30] x86/cet/shstk: Handle thread shadow stack
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
- <20210427204315.24153-24-yu-cheng.yu@intel.com> <YJlADyc/9pn8Sjkn@zn.tnic>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <89598d32-4bf8-b989-ee77-5b4b55a138a9@intel.com>
-Date:   Mon, 10 May 2021 15:57:56 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        id S230023AbhEJXx6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 10 May 2021 19:53:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49596 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229875AbhEJXx6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 10 May 2021 19:53:58 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B225C06175F
+        for <linux-api@vger.kernel.org>; Mon, 10 May 2021 16:52:52 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id c22so20708014edn.7
+        for <linux-api@vger.kernel.org>; Mon, 10 May 2021 16:52:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kx6oUauIPkvTk0qHjH/BPe+EKO5jgGnmsNTNs8OpwU4=;
+        b=F21AZa/gH7HoM02tMSQcpw1ye2WThR5tWbu3jPgycC//ZTah/jhb2Eker2Pob1NzOY
+         KTZN4aFjahDWC2jBl4NcPVq6/usj59m+aZD2T+vv9BA2lD9p9Y6NohofWw+QrYEIXfje
+         UR0JAM/0yV4lBB4RFaDn59u8nopOcbHzeLys9DQIi3M8iu2z/sSOt1J2XB4IN8+xsAZj
+         s+wV40kQ5pP7ZkRs98CGnT4dJ71FPel9+QMqcfEDzf3j+gqJDOfJLpLpCX4ewrtlIBuH
+         NHkodG3ElLe4CBWni87KEyyG3ouMFQAyVgvBdAjbKSSXzLYyOIRnl8QroPNi/GHkznt5
+         ULmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kx6oUauIPkvTk0qHjH/BPe+EKO5jgGnmsNTNs8OpwU4=;
+        b=dhUJ1vxPx7aHmxMqGWDD5fe0gbOkKYNehwewmsy1CCv42s4oxWqrAF+WcjhjyuyRmG
+         V0jpK6KZbcdx4velPIDtzdvw7RIWW0PlPtQTuJ/KMcmB6/uUtOutwk6RU8GFqwWT+AIs
+         N/5G8VhhKSmntKlaafQwSJOUDv8CHl1P8rCiuUM7l+3X/MBEJpoNv/S2eYPALYnJ08Lr
+         YkLgrUO2jZz7P5oFQqGnS3Fw/bV+7U2MYOTZbgKCGo+qzCV5RcOeWGwAs2MWFswszNNT
+         8jgTLzvrO4i6wQbZH88pLdh17KClaa/EskGJOO1gK8M6y6N9IpocJG8Ro/VvoZlF2aGE
+         4pQg==
+X-Gm-Message-State: AOAM533UL8kWAgRaoTllWvrJmqXwiRV661oMiRKZyXee8/01mKZIxINw
+        l5OuhOI+QQIfMnCV3vuDKQ5MZPl/7ZK9tPpFstfZ
+X-Google-Smtp-Source: ABdhPJxWTIhe2HtbmanC5ezn2X9G/dioc2ajb3y0CBjEnZpejv+AMFdXJzAhgjSJj75EJvyNQrQazaSQR0An2wYQTCg=
+X-Received: by 2002:aa7:de9a:: with SMTP id j26mr9618343edv.269.1620690771015;
+ Mon, 10 May 2021 16:52:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YJlADyc/9pn8Sjkn@zn.tnic>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <604ceafd516b0785fea120f552d6336054d196af.1620414949.git.rgb@redhat.com>
+ <7ee601c2-4009-b354-1899-3c8f582bf6ae@schaufler-ca.com> <20210508015443.GA447005@madcap2.tricolour.ca>
+ <242f107a-3b74-c1c2-abd6-b3f369170023@schaufler-ca.com>
+In-Reply-To: <242f107a-3b74-c1c2-abd6-b3f369170023@schaufler-ca.com>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Mon, 10 May 2021 19:52:40 -0400
+Message-ID: <CAHC9VhQdV93G5N_BKsxuDCtFbm9-xvAkve02t5sGOi9Mam2Wtg@mail.gmail.com>
+Subject: Re: [PATCH V1] audit: log xattr args not covered by syscall record
+To:     Casey Schaufler <casey@schaufler-ca.com>
+Cc:     Richard Guy Briggs <rgb@redhat.com>, linux-api@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
+        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 5/10/2021 7:15 AM, Borislav Petkov wrote:
-> On Tue, Apr 27, 2021 at 01:43:08PM -0700, Yu-cheng Yu wrote:
+On Mon, May 10, 2021 at 12:30 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
+> On 5/7/2021 6:54 PM, Richard Guy Briggs wrote:
+> > On 2021-05-07 14:03, Casey Schaufler wrote:
+> >> On 5/7/2021 12:55 PM, Richard Guy Briggs wrote:
+> >>> The *setxattr syscalls take 5 arguments.  The SYSCALL record only lists
+> >>> four arguments and only lists pointers of string values.  The xattr name
+> >>> string, value string and flags (5th arg) are needed by audit given the
+> >>> syscall's main purpose.
+> >>>
+> >>> Add the auxiliary record AUDIT_XATTR (1336) to record the details not
+> >>> available in the SYSCALL record including the name string, value string
+> >>> and flags.
+> >>>
+> >>> Notes about field names:
+> >>> - name is too generic, use xattr precedent from ima
+> >>> - val is already generic value field name
+> >>> - flags used by mmap, xflags new name
+> >>>
+> >>> Sample event with new record:
+> >>> type=PROCTITLE msg=audit(05/07/2021 12:58:42.176:189) : proctitle=filecap /tmp/ls dac_override
+> >>> type=PATH msg=audit(05/07/2021 12:58:42.176:189) : item=0 name=(null) inode=25 dev=00:1e mode=file,755 ouid=root ogid=root rdev=00:00 obj=unconfined_u:object_r:user_tmp_t:s0 nametype=NORMAL cap_fp=none cap_fi=none cap_fe=0 cap_fver=0 cap_frootid=0
+> >>> type=CWD msg=audit(05/07/2021 12:58:42.176:189) : cwd=/root
+> >>> type=XATTR msg=audit(05/07/2021 12:58:42.176:189) : xattr="security.capability" val=01 xflags=0x0
+> >> Would it be sensible to break out the namespace from the attribute?
+> >>
+> >>      attrspace="security" attrname="capability"
+> > Do xattrs always follow this nomenclature?  Or only the ones we care
+> > about?
+>
+> Xattrs always have a namespace (man 7 xattr) of "user", "trusted",
+> "system" or "security". It's possible that additional namespaces will
+> be created in the future, although it seems unlikely given that only
+> "security" is widely used today.
 
-[...]
+Why should audit care about separating the name into two distinct
+fields, e.g. "attrspace" and "attrname", instead of just a single
+"xattr" field with a value that follows the "namespace.attribute"
+format that is commonly seen by userspace?
 
->> diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
->> index c815c7507830..d387df84b7f1 100644
->> --- a/arch/x86/kernel/shstk.c
->> +++ b/arch/x86/kernel/shstk.c
->> @@ -70,6 +70,55 @@ int shstk_setup(void)
->>   	return 0;
->>   }
-> 
->> +int shstk_setup_thread(struct task_struct *tsk, unsigned long clone_flags,
-> 
-> Judging by what this function does, its name wants to be
-> 
-> shstk_alloc_thread_stack()
-> 
-> or so?
-> 
->> +		       unsigned long stack_size)
->> +{
->> +	unsigned long addr, size;
->> +	struct cet_user_state *state;
->> +	struct cet_status *cet = &tsk->thread.cet;
-> 
-> The tip-tree preferred ordering of variable declarations at the
-> beginning of a function is reverse fir tree order::
-> 
-> 	struct long_struct_name *descriptive_name;
-> 	unsigned long foo, bar;
-> 	unsigned int tmp;
-> 	int ret;
-> 
-> The above is faster to parse than the reverse ordering::
-> 
-> 	int ret;
-> 	unsigned int tmp;
-> 	unsigned long foo, bar;
-> 	struct long_struct_name *descriptive_name;
-> 
-> And even more so than random ordering::
-> 
-> 	unsigned long foo, bar;
-> 	int ret;
-> 	struct long_struct_name *descriptive_name;
-> 	unsigned int tmp;
-> 
->> +
->> +	if (!cet->shstk_size)
->> +		return 0;
->> +
-> 
-> This check needs a comment.
-> 
->> +	if ((clone_flags & (CLONE_VFORK | CLONE_VM)) != CLONE_VM)
->> +		return 0;
->> +
->> +	state = get_xsave_addr(&tsk->thread.fpu.state.xsave,
->> +			       XFEATURE_CET_USER);
-> 
-> Let that line stick out.
-> 
->> +
->> +	if (!state)
->> +		return -EINVAL;
->> +
->> +	if (stack_size == 0)
-> 
-> 	if (!stack_size)
-> 
->> +		return -EINVAL;
-> 
-> and that test needs to be done first in the function.
-> 
->> +
->> +	/* Cap shadow stack size to 4 GB */
-> 
-> Why?
-> 
+> >> Why isn't val= quoted?
+> > Good question.  I guessed it should have been since it used
+> > audit_log_untrustedstring(), but even the raw output is unquoted unless
+> > it was converted by auditd to unquoted before being stored to disk due
+> > to nothing offensive found in it since audit_log_n_string() does add
+> > quotes.  (hmmm, bit of a run-on sentence there...)
+> >
+> >> The attribute value can be a .jpg or worse. I could even see it being an eBPF
+> >> program (although That Would Be Wrong) so including it in an audit record could
+> >> be a bit of a problem.
+> > In these cases it would almost certainly get caught by the control
+> > character test audit_string_contains_control() in
+> > audit_log_n_untrustedstring() called from audit_log_untrustedstring()
+> > and deliver it as hex.
+>
+> In that case I'm more concerned with the potential size than with
+> quoting. One of original use cases proposed for xattrs (back in the
+> SGI Irix days) was to attach a bitmap to be used as the icon in file
+> browsers as an xattr. Another was to attach the build instructions
+> and source used to create a binary. None of that is information you'd
+> want to see in a audit record. On the other hand, if the xattr was an
+> eBPF program used to make access control decisions, you would want at
+> least a reference to it in the audit record.
 
-This is not necessary.  I will make it just stack_size, which is passed 
-in from copy_thread().
+It would be interesting to see how this code would handle arbitrarily
+large xattr values, or at the very least large enough values to blow
+up the audit record size.
 
->> +	size = min_t(unsigned long long, rlimit(RLIMIT_STACK), SZ_4G);
->> +	size = min(size, stack_size);
->> +
->> +	/*
->> +	 * Compat-mode pthreads share a limited address space.
->> +	 * If each function call takes an average of four slots
->> +	 * stack space, allocate 1/4 of stack size for shadow stack.
->> +	 */
->> +	if (in_compat_syscall())
->> +		size /= 4;
-> 
-> <---- newline here.
-> 
->> +	size = round_up(size, PAGE_SIZE);
->> +	addr = alloc_shstk(size);
->> +
-> 
-> ^ Superfluous newline.
-> 
->> +	if (IS_ERR_VALUE(addr)) {
->> +		cet->shstk_base = 0;
->> +		cet->shstk_size = 0;
->> +		return PTR_ERR((void *)addr);
->> +	}
->> +
->> +	fpu__prepare_write(&tsk->thread.fpu);
->> +	state->user_ssp = (u64)(addr + size);
-> 
-> cet_user_state has u64, cet_status has unsigned longs. Make them all u64.
-> 
-> And since cet_status is per thread, but I had suggested struct
-> shstk_desc, I think now that that should be called
-> 
-> struct thread_shstk
-> 
-> or so to denote *exactly* what it is.
-> 
+As pointed out elsewhere in this thread, and brought up again above
+(albeit indirectly), I'm guessing we don't really care about *all*
+xattrs, just the "special" xattrs that are security relevant, in which
+case I think we need to reconsider how we collect this data.
 
-So this struct will be:
+I think it would also be very good to see what requirements may be
+driving this work.  Is it purely a "gee, this seems important" or is
+it a hard requirement in a security certification for example.
 
-struct thread_shstk {
-	u64 shstk_base;
-	u64 shstk_size;
-	u64 locked:1;
-	u64 ibt:1;
-};
-
-Ok?
-
-Thanks,
-Yu-cheng
+-- 
+paul moore
+www.paul-moore.com
