@@ -2,97 +2,205 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D607E3796C2
-	for <lists+linux-api@lfdr.de>; Mon, 10 May 2021 20:03:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21B55379A6C
+	for <lists+linux-api@lfdr.de>; Tue, 11 May 2021 00:58:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231712AbhEJSDo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 10 May 2021 14:03:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55058 "EHLO mail.kernel.org"
+        id S229585AbhEJW7N (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 10 May 2021 18:59:13 -0400
+Received: from mga02.intel.com ([134.134.136.20]:14343 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231499AbhEJSDo (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 10 May 2021 14:03:44 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 94CA1614A5;
-        Mon, 10 May 2021 18:02:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620669758;
-        bh=n42L871tHZ441F87A/b+CutETfOOFwkObERFP9A3pdA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jAVU4p1uzu94ulPZBeoZfk4s2+0oKep8O35dEH9B3XGOnfBOez0cqT9O/YPNWcq7K
-         T7jehq1COHzvQk562M5QFEuz58iBsW6GnwPXjhA/cVyTt1N3jxE15rCZgZHKILMpn/
-         j2uFJ1Qhe2ksUV0APrDOdlb2LHSBV6/yEmdkTakyE7eMIf2Gd3PEcDYmfuilpYxdEE
-         J2LthyZVJKGF4qAs0eL5J6Nek5zNOrWq6FoOABkHN+M7vDleC7VZQX3j2kIx/+Qboo
-         1/WODQxulH/sCuGBwe0ku+eYg7lCepVzxRaMSgvNWQxZ05b1ox+NqaPNhK7RwoJCp7
-         a38PA1z3yoBmQ==
-Date:   Mon, 10 May 2021 21:02:21 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     James Bottomley <jejb@linux.ibm.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Shuah Khan <shuah@kernel.org>,
+        id S229502AbhEJW7M (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 10 May 2021 18:59:12 -0400
+IronPort-SDR: 5CCxM31DrQ8NpRCc57zhv8RqDO51fL6JXRIul4MJVkw5VTUsKQCY8WFY9rtcImWpqRy2Aq/LHQ
+ EakplwnAGuvQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="186440128"
+X-IronPort-AV: E=Sophos;i="5.82,288,1613462400"; 
+   d="scan'208";a="186440128"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2021 15:58:06 -0700
+IronPort-SDR: QsXO/4wRx+z3mdOQUqRrWo77zUAK8pyl2+PvaaF/SdE5zZB8LiimPlTFQZZ4cYaXz9oRpRzdWf
+ iJ15TiTGHg8g==
+X-IronPort-AV: E=Sophos;i="5.82,288,1613462400"; 
+   d="scan'208";a="434014879"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.251.144.113]) ([10.251.144.113])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2021 15:58:00 -0700
+Subject: Re: [PATCH v26 23/30] x86/cet/shstk: Handle thread shadow stack
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v18 0/9] mm: introduce memfd_secret system call to create
- "secret" memory areas
-Message-ID: <YJl1LQvQuxxfGRnJ@kernel.org>
-References: <20210303162209.8609-1-rppt@kernel.org>
- <20210505120806.abfd4ee657ccabf2f221a0eb@linux-foundation.org>
- <de27bfae0f4fdcbb0bb4ad17ec5aeffcd774c44b.camel@linux.ibm.com>
- <202105060916.ECDEC21@keescook>
- <9e1953a1412fad06a9f7988a280d2d9a74ab0464.camel@linux.ibm.com>
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-24-yu-cheng.yu@intel.com> <YJlADyc/9pn8Sjkn@zn.tnic>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <89598d32-4bf8-b989-ee77-5b4b55a138a9@intel.com>
+Date:   Mon, 10 May 2021 15:57:56 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9e1953a1412fad06a9f7988a280d2d9a74ab0464.camel@linux.ibm.com>
+In-Reply-To: <YJlADyc/9pn8Sjkn@zn.tnic>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, May 06, 2021 at 11:47:47AM -0700, James Bottomley wrote:
-> On Thu, 2021-05-06 at 10:33 -0700, Kees Cook wrote:
-> > On Thu, May 06, 2021 at 08:26:41AM -0700, James Bottomley wrote:
-> 
-> > What's happening with O_CLOEXEC in this code? I don't see that
-> > mentioned in the cover letter either. Why is it disallowed? That
-> > seems a strange limitation for something trying to avoid leaking
-> > secrets into other processes.
-> 
-> I actually thought we forced it, so I'll let Mike address this.  I
-> think allowing it is great, so the secret memory isn't inherited by
-> children, but I can see use cases where a process would want its child
-> to inherit the secrets.
+On 5/10/2021 7:15 AM, Borislav Petkov wrote:
+> On Tue, Apr 27, 2021 at 01:43:08PM -0700, Yu-cheng Yu wrote:
 
-We do not enforce O_CLOEXEC, but if the user explicitly requested O_CLOEXEC
-it would be passed to get_unused_fd_flags().
+[...]
 
--- 
-Sincerely yours,
-Mike.
+>> diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
+>> index c815c7507830..d387df84b7f1 100644
+>> --- a/arch/x86/kernel/shstk.c
+>> +++ b/arch/x86/kernel/shstk.c
+>> @@ -70,6 +70,55 @@ int shstk_setup(void)
+>>   	return 0;
+>>   }
+> 
+>> +int shstk_setup_thread(struct task_struct *tsk, unsigned long clone_flags,
+> 
+> Judging by what this function does, its name wants to be
+> 
+> shstk_alloc_thread_stack()
+> 
+> or so?
+> 
+>> +		       unsigned long stack_size)
+>> +{
+>> +	unsigned long addr, size;
+>> +	struct cet_user_state *state;
+>> +	struct cet_status *cet = &tsk->thread.cet;
+> 
+> The tip-tree preferred ordering of variable declarations at the
+> beginning of a function is reverse fir tree order::
+> 
+> 	struct long_struct_name *descriptive_name;
+> 	unsigned long foo, bar;
+> 	unsigned int tmp;
+> 	int ret;
+> 
+> The above is faster to parse than the reverse ordering::
+> 
+> 	int ret;
+> 	unsigned int tmp;
+> 	unsigned long foo, bar;
+> 	struct long_struct_name *descriptive_name;
+> 
+> And even more so than random ordering::
+> 
+> 	unsigned long foo, bar;
+> 	int ret;
+> 	struct long_struct_name *descriptive_name;
+> 	unsigned int tmp;
+> 
+>> +
+>> +	if (!cet->shstk_size)
+>> +		return 0;
+>> +
+> 
+> This check needs a comment.
+> 
+>> +	if ((clone_flags & (CLONE_VFORK | CLONE_VM)) != CLONE_VM)
+>> +		return 0;
+>> +
+>> +	state = get_xsave_addr(&tsk->thread.fpu.state.xsave,
+>> +			       XFEATURE_CET_USER);
+> 
+> Let that line stick out.
+> 
+>> +
+>> +	if (!state)
+>> +		return -EINVAL;
+>> +
+>> +	if (stack_size == 0)
+> 
+> 	if (!stack_size)
+> 
+>> +		return -EINVAL;
+> 
+> and that test needs to be done first in the function.
+> 
+>> +
+>> +	/* Cap shadow stack size to 4 GB */
+> 
+> Why?
+> 
+
+This is not necessary.  I will make it just stack_size, which is passed 
+in from copy_thread().
+
+>> +	size = min_t(unsigned long long, rlimit(RLIMIT_STACK), SZ_4G);
+>> +	size = min(size, stack_size);
+>> +
+>> +	/*
+>> +	 * Compat-mode pthreads share a limited address space.
+>> +	 * If each function call takes an average of four slots
+>> +	 * stack space, allocate 1/4 of stack size for shadow stack.
+>> +	 */
+>> +	if (in_compat_syscall())
+>> +		size /= 4;
+> 
+> <---- newline here.
+> 
+>> +	size = round_up(size, PAGE_SIZE);
+>> +	addr = alloc_shstk(size);
+>> +
+> 
+> ^ Superfluous newline.
+> 
+>> +	if (IS_ERR_VALUE(addr)) {
+>> +		cet->shstk_base = 0;
+>> +		cet->shstk_size = 0;
+>> +		return PTR_ERR((void *)addr);
+>> +	}
+>> +
+>> +	fpu__prepare_write(&tsk->thread.fpu);
+>> +	state->user_ssp = (u64)(addr + size);
+> 
+> cet_user_state has u64, cet_status has unsigned longs. Make them all u64.
+> 
+> And since cet_status is per thread, but I had suggested struct
+> shstk_desc, I think now that that should be called
+> 
+> struct thread_shstk
+> 
+> or so to denote *exactly* what it is.
+> 
+
+So this struct will be:
+
+struct thread_shstk {
+	u64 shstk_base;
+	u64 shstk_size;
+	u64 locked:1;
+	u64 ibt:1;
+};
+
+Ok?
+
+Thanks,
+Yu-cheng
