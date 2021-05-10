@@ -2,168 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5851A379504
-	for <lists+linux-api@lfdr.de>; Mon, 10 May 2021 19:08:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D607E3796C2
+	for <lists+linux-api@lfdr.de>; Mon, 10 May 2021 20:03:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231190AbhEJRJ4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 10 May 2021 13:09:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43350 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231152AbhEJRJ4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 10 May 2021 13:09:56 -0400
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A9FAC06175F
-        for <linux-api@vger.kernel.org>; Mon, 10 May 2021 10:08:51 -0700 (PDT)
-Received: by mail-pl1-x62d.google.com with SMTP id v13so9448533ple.9
-        for <linux-api@vger.kernel.org>; Mon, 10 May 2021 10:08:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=5P3qhusnpFGwzP6r9B/unqJvsyx8ESPzIYEdQAMnutI=;
-        b=XNQaFJ8S56PFZwEeFv5iimMPmvgqC4JI9xB+cYiXBbuiBvnwR0axo1mEIFJmmlxQ/A
-         R8zBB1o61qRO1739nBHaJDFJhGUJstuV6y/OyQ3VgW3JRS7gTI/l3oanEZhL25iMtulo
-         KQGFSK+BLASDhJ5P5YlrxNqCMK3Evoh8L7B0QRnNlH9nhD8vVhI2WLCOaSvmDjV6adhQ
-         HIBtJhXQGiee7r8gv+GytnOD8JCYELLTYVa4H6twQKdECvEp5ZOixY0eg2k9csp4T923
-         X6WxaqiFrouhMyu8uua+OmBRyyUj7JrEeinZszmNqkXRYiLr3AD+1qCaOF/yT2LUZSwB
-         kYXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=5P3qhusnpFGwzP6r9B/unqJvsyx8ESPzIYEdQAMnutI=;
-        b=oSKU+mC+Z91DGeO5cqo0msBBmjoKGRwKRHkQC0d90HdrAgH70919FzyhuLRZEm17A7
-         y4dwuBii11gKNR9yqlM9B6VVc7Mn6d2rbm9w5H5FVgbnRWYUWj01ObRwOdbkhxfz0l7U
-         64Mav7FluO2S+s8zq5ys3t2qR2yvCIB0noOzP/Qg9nPGb8om+a1xjGiWjX6sOLVnsabb
-         p6eTeCz+8wapUOwHT7lCOppEi5BtNZwibYy3V80cdkl4Xb9kO8NWsr3koMbu+A3WSh/a
-         d+h5K9es5Gya/sSh0KrxH1mnYE5WkpXkNfHO1Z5gjI3REljdSm2u2j8PKuFjGQlDXtcH
-         feag==
-X-Gm-Message-State: AOAM5333WCxNuFo+U80CVsIVRfLV0g9AfwvTWf4agUgyVdKczsfkHG6I
-        29Dj9Y+hu19T5OZgefUnGNy9NWPiKn0F4g==
-X-Google-Smtp-Source: ABdhPJyqUI6xiNJq0jn+2E9x2VbJQDuG0OR/NLTiGA0ooRyJqBVH4QcuOlA0k1nYvd0ATURENmHunw==
-X-Received: by 2002:a17:902:7441:b029:ef:46ba:649 with SMTP id e1-20020a1709027441b02900ef46ba0649mr2379899plt.66.1620666530560;
-        Mon, 10 May 2021 10:08:50 -0700 (PDT)
-Received: from relinquished.localdomain ([2601:602:8b80:8e0::e086])
-        by smtp.gmail.com with ESMTPSA id u17sm11366173pfm.113.2021.05.10.10.08.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 10:08:49 -0700 (PDT)
-Date:   Mon, 10 May 2021 10:08:48 -0700
-From:   Omar Sandoval <osandov@osandov.com>
-To:     linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Dave Chinner <david@fromorbit.com>,
-        Jann Horn <jannh@google.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Aleksa Sarai <cyphar@cyphar.com>, linux-api@vger.kernel.org,
-        kernel-team@fb.com
-Subject: Re: [PATCH RESEND v9 0/9] fs: interface for directly reading/writing
- compressed data
-Message-ID: <YJlooKWNIen2VRou@relinquished.localdomain>
-References: <cover.1619463858.git.osandov@fb.com>
- <YJGBR5SnnQeJdIb1@relinquished.localdomain>
+        id S231712AbhEJSDo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 10 May 2021 14:03:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55058 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231499AbhEJSDo (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 10 May 2021 14:03:44 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 94CA1614A5;
+        Mon, 10 May 2021 18:02:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1620669758;
+        bh=n42L871tHZ441F87A/b+CutETfOOFwkObERFP9A3pdA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jAVU4p1uzu94ulPZBeoZfk4s2+0oKep8O35dEH9B3XGOnfBOez0cqT9O/YPNWcq7K
+         T7jehq1COHzvQk562M5QFEuz58iBsW6GnwPXjhA/cVyTt1N3jxE15rCZgZHKILMpn/
+         j2uFJ1Qhe2ksUV0APrDOdlb2LHSBV6/yEmdkTakyE7eMIf2Gd3PEcDYmfuilpYxdEE
+         J2LthyZVJKGF4qAs0eL5J6Nek5zNOrWq6FoOABkHN+M7vDleC7VZQX3j2kIx/+Qboo
+         1/WODQxulH/sCuGBwe0ku+eYg7lCepVzxRaMSgvNWQxZ05b1ox+NqaPNhK7RwoJCp7
+         a38PA1z3yoBmQ==
+Date:   Mon, 10 May 2021 21:02:21 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     James Bottomley <jejb@linux.ibm.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v18 0/9] mm: introduce memfd_secret system call to create
+ "secret" memory areas
+Message-ID: <YJl1LQvQuxxfGRnJ@kernel.org>
+References: <20210303162209.8609-1-rppt@kernel.org>
+ <20210505120806.abfd4ee657ccabf2f221a0eb@linux-foundation.org>
+ <de27bfae0f4fdcbb0bb4ad17ec5aeffcd774c44b.camel@linux.ibm.com>
+ <202105060916.ECDEC21@keescook>
+ <9e1953a1412fad06a9f7988a280d2d9a74ab0464.camel@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YJGBR5SnnQeJdIb1@relinquished.localdomain>
+In-Reply-To: <9e1953a1412fad06a9f7988a280d2d9a74ab0464.camel@linux.ibm.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 04, 2021 at 10:15:51AM -0700, Omar Sandoval wrote:
-> On Mon, Apr 26, 2021 at 12:06:03PM -0700, Omar Sandoval wrote:
-> > From: Omar Sandoval <osandov@fb.com>
-> > 
-> > This series adds an API for reading compressed data on a filesystem
-> > without decompressing it as well as support for writing compressed data
-> > directly to the filesystem. I have test cases (including fsstress
-> > support) and example programs which I'll send up once the dust settles
-> > [1].
-> > 
-> > The main use-case is Btrfs send/receive: currently, when sending data
-> > from one compressed filesystem to another, the sending side decompresses
-> > the data and the receiving side recompresses it before writing it out.
-> > This is wasteful and can be avoided if we can just send and write
-> > compressed extents. The patches implementing the send/receive support
-> > were sent with the last submission of this series [2].
-> > 
-> > Patches 1-3 add the VFS support, UAPI, and documentation. Patches 4-7
-> > are Btrfs prep patches. Patch 8 adds Btrfs encoded read support and
-> > patch 9 adds Btrfs encoded write support.
-> > 
-> > These patches are based on Dave Sterba's Btrfs misc-next branch [3],
-> > which is in turn currently based on v5.12-rc8.
-> > 
-> > This is a resend of v9 [4], rebased on the latest kdave/misc-next
-> > branch.
-> > 
-> > Omar Sandoval (9):
-> >   iov_iter: add copy_struct_from_iter()
-> >   fs: add O_ALLOW_ENCODED open flag
-> >   fs: add RWF_ENCODED for reading/writing compressed data
-> >   btrfs: don't advance offset for compressed bios in
-> >     btrfs_csum_one_bio()
-> >   btrfs: add ram_bytes and offset to btrfs_ordered_extent
-> >   btrfs: support different disk extent size for delalloc
-> >   btrfs: optionally extend i_size in cow_file_range_inline()
-> >   btrfs: implement RWF_ENCODED reads
-> >   btrfs: implement RWF_ENCODED writes
-> > 
-> > 1: https://github.com/osandov/xfstests/tree/rwf-encoded
-> > 2: https://lore.kernel.org/linux-btrfs/cover.1615922753.git.osandov@fb.com/
-> > 3: https://github.com/kdave/btrfs-devel/tree/misc-next
-> > 4: https://lore.kernel.org/linux-btrfs/cover.1617258892.git.osandov@fb.com/
-> > 
-> > Omar Sandoval (9):
-> >   iov_iter: add copy_struct_from_iter()
-> >   fs: add O_ALLOW_ENCODED open flag
-> >   fs: add RWF_ENCODED for reading/writing compressed data
-> >   btrfs: don't advance offset for compressed bios in
-> >     btrfs_csum_one_bio()
-> >   btrfs: add ram_bytes and offset to btrfs_ordered_extent
-> >   btrfs: support different disk extent size for delalloc
-> >   btrfs: optionally extend i_size in cow_file_range_inline()
-> >   btrfs: implement RWF_ENCODED reads
-> >   btrfs: implement RWF_ENCODED writes
-> > 
-> >  Documentation/filesystems/encoded_io.rst | 240 ++++++
-> >  Documentation/filesystems/index.rst      |   1 +
-> >  arch/alpha/include/uapi/asm/fcntl.h      |   1 +
-> >  arch/parisc/include/uapi/asm/fcntl.h     |   1 +
-> >  arch/sparc/include/uapi/asm/fcntl.h      |   1 +
-> >  fs/btrfs/compression.c                   |  12 +-
-> >  fs/btrfs/compression.h                   |   6 +-
-> >  fs/btrfs/ctree.h                         |   9 +-
-> >  fs/btrfs/delalloc-space.c                |  18 +-
-> >  fs/btrfs/file-item.c                     |  35 +-
-> >  fs/btrfs/file.c                          |  46 +-
-> >  fs/btrfs/inode.c                         | 929 +++++++++++++++++++++--
-> >  fs/btrfs/ordered-data.c                  | 124 +--
-> >  fs/btrfs/ordered-data.h                  |  25 +-
-> >  fs/btrfs/relocation.c                    |   4 +-
-> >  fs/fcntl.c                               |  10 +-
-> >  fs/namei.c                               |   4 +
-> >  fs/read_write.c                          | 168 +++-
-> >  include/linux/encoded_io.h               |  17 +
-> >  include/linux/fcntl.h                    |   2 +-
-> >  include/linux/fs.h                       |  13 +
-> >  include/linux/uio.h                      |   1 +
-> >  include/uapi/asm-generic/fcntl.h         |   4 +
-> >  include/uapi/linux/encoded_io.h          |  30 +
-> >  include/uapi/linux/fs.h                  |   5 +-
-> >  lib/iov_iter.c                           |  91 +++
-> >  26 files changed, 1563 insertions(+), 234 deletions(-)
-> >  create mode 100644 Documentation/filesystems/encoded_io.rst
-> >  create mode 100644 include/linux/encoded_io.h
-> >  create mode 100644 include/uapi/linux/encoded_io.h
+On Thu, May 06, 2021 at 11:47:47AM -0700, James Bottomley wrote:
+> On Thu, 2021-05-06 at 10:33 -0700, Kees Cook wrote:
+> > On Thu, May 06, 2021 at 08:26:41AM -0700, James Bottomley wrote:
 > 
-> Ping.
+> > What's happening with O_CLOEXEC in this code? I don't see that
+> > mentioned in the cover letter either. Why is it disallowed? That
+> > seems a strange limitation for something trying to avoid leaking
+> > secrets into other processes.
+> 
+> I actually thought we forced it, so I'll let Mike address this.  I
+> think allowing it is great, so the secret memory isn't inherited by
+> children, but I can see use cases where a process would want its child
+> to inherit the secrets.
 
-Ping. Al, I originally sent v9 over a month ago, and I've been sending
-out this series for over a year, so I'd appreciate it if you could take
-a look. It's fine if you hate it, but I'd like to know where to go from
-here.
+We do not enforce O_CLOEXEC, but if the user explicitly requested O_CLOEXEC
+it would be passed to get_unused_fd_flags().
 
-Thanks,
-Omar
+-- 
+Sincerely yours,
+Mike.
