@@ -2,69 +2,161 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 109D9379BCA
-	for <lists+linux-api@lfdr.de>; Tue, 11 May 2021 02:59:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDF36379C0D
+	for <lists+linux-api@lfdr.de>; Tue, 11 May 2021 03:29:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229807AbhEKBAU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 10 May 2021 21:00:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33888 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229628AbhEKBAT (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 10 May 2021 21:00:19 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3894661606;
-        Tue, 11 May 2021 00:59:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1620694754;
-        bh=jdOdclzw/y2dZw68vYzUkSZPl8203GmwimxVt6tXmag=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=iAjiIyLpw1ECQkl+9LO3Qp7jqwgTPs14hv5T+Yv9DdTE+g6yBMA9jodqkIeGTD5Fu
-         ow/BF9JkAg2ZKAT1VoR+WRMcxZVgzjnRfBFlrHPckFREdnqVnTLNlIuEXrbFclf3W7
-         iSCwpkQEFGfw772uTfeeVHSe7CB2Z90qLlQXF5T8=
-Date:   Mon, 10 May 2021 17:59:12 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Chris Zankel <chris@zankel.net>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Helge Deller <deller@gmx.de>, Hugh Dickins <hughd@google.com>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Jann Horn <jannh@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Matt Turner <mattst88@gmail.com>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        Peter Xu <peterx@redhat.com>, Ram Pai <linuxram@us.ibm.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Rik van Riel <riel@surriel.com>,
-        Rolf Eike Beer <eike-kernel@sf-tec.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Vlastimil Babka <vbabka@suse.cz>
-Subject: Re: [PATCH v2 0/5] mm/madvise: introduce MADV_POPULATE_(READ|WRITE)
- to prefault page tables
-Message-Id: <20210510175912.50a1c27b281982cc3d5b6c8c@linux-foundation.org>
-In-Reply-To: <79bb75e1-4ee9-5fe2-e495-577518956e1f@redhat.com>
-References: <20210419135443.12822-1-david@redhat.com>
-        <20210509212105.d741b7026ca6dca86bdb56d2@linux-foundation.org>
-        <79bb75e1-4ee9-5fe2-e495-577518956e1f@redhat.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S230310AbhEKBaS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 10 May 2021 21:30:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42796 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230176AbhEKBaS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 10 May 2021 21:30:18 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 383F9C061760
+        for <linux-api@vger.kernel.org>; Mon, 10 May 2021 18:29:12 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id zg3so27312960ejb.8
+        for <linux-api@vger.kernel.org>; Mon, 10 May 2021 18:29:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=g4ykbhAVmu+lXpVg7ewOOB3sVM/0k4gHK4Q6G0qH+bc=;
+        b=UPsaHnlkav5P0ZHYqlH+T0ewxbzji8mbzKICq6hQ9GdnRYCgG7Uo0NdIdiW8GfM0xq
+         t0Ff6/lBW8zel5SU0MbZSyT8tFGKlV3jNEhk1WcAMncse7VGsDIafgxrVL3wgXcm6XLC
+         CMR5J/jVTSQX3DOrdnJCFyE+tCvTt1Hk42ttAgwNdCHkb1LykDbjYXmVRP2LYvgNtwRD
+         VeUV7PldVfTNESp1yiVu2cAt8mH4+ODyFDDEhCqtmmQCenmCv9Qq4fJmx6lMn+rR3eWZ
+         vxeLC4m98H+5OYZvMP0gg2GLr3rhOETmvLDxsu3If9QSiTNHACYaMSiAPJ4vQscGUemR
+         MgXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=g4ykbhAVmu+lXpVg7ewOOB3sVM/0k4gHK4Q6G0qH+bc=;
+        b=l0zSmjRnVz1RJYKtDmSXY+N52Bls7/U4Gr497TOnOyUF5CzBpDTHPTVCvwnl9W7adX
+         8CtEfSLTndF+Insu1KLVYQpZ7u+B863rAvXlbCVj+crl6xPR3y1LT+kRC2Z49ggVoDph
+         JkcBWex62+i0PLgtXYBGNnXYxQVj2C3w67doNhh/yd25rU/upN2h65to5wkAwmYsn8ww
+         9XCzZFv+s4a8Tp7OMgLS7vgvL0HQirn3AdI0zKgqlIccUJT1OJ+gTTcxZsLrZLZmJro/
+         2X1vRbA3jUJ80ERxLOkGoEAShlzzUNJDCO3Be2YKs1jsJRsmo7JTYbRS320fH0lzzH4N
+         eF1w==
+X-Gm-Message-State: AOAM533awup0HYOp36XrL2eMeFnyN31/dhpnz9rUV7GVtyuTNqlfwYHt
+        S0130+1ym0lSHdNB+PWcF7KylhWDNxzgIQxMjDpI
+X-Google-Smtp-Source: ABdhPJz3C7SNoneUreqQu3pSZrumUXJNi5gdNEgQTffzpXY31zuDcPbVqpJ7GKH8ZXirUtDVMppuZqKyPoxWdYoc06Y=
+X-Received: by 2002:a17:906:2510:: with SMTP id i16mr28682731ejb.488.1620696550709;
+ Mon, 10 May 2021 18:29:10 -0700 (PDT)
+MIME-Version: 1.0
+References: <604ceafd516b0785fea120f552d6336054d196af.1620414949.git.rgb@redhat.com>
+ <7ee601c2-4009-b354-1899-3c8f582bf6ae@schaufler-ca.com> <20210508015443.GA447005@madcap2.tricolour.ca>
+ <242f107a-3b74-c1c2-abd6-b3f369170023@schaufler-ca.com> <CAHC9VhQdV93G5N_BKsxuDCtFbm9-xvAkve02t5sGOi9Mam2Wtg@mail.gmail.com>
+ <195ac224-00fa-b1be-40c8-97e823796262@schaufler-ca.com>
+In-Reply-To: <195ac224-00fa-b1be-40c8-97e823796262@schaufler-ca.com>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Mon, 10 May 2021 21:28:59 -0400
+Message-ID: <CAHC9VhTPQ-LoqUYJ4HGsFF-sAXR+mYqGga7TxRZOG7BUD-55FQ@mail.gmail.com>
+Subject: Re: [PATCH V1] audit: log xattr args not covered by syscall record
+To:     Casey Schaufler <casey@schaufler-ca.com>
+Cc:     Richard Guy Briggs <rgb@redhat.com>, linux-api@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-Audit Mailing List <linux-audit@redhat.com>,
+        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, 10 May 2021 16:52:33 +0200 David Hildenbrand <david@redhat.com> wrote:
+On Mon, May 10, 2021 at 8:37 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
+> On 5/10/2021 4:52 PM, Paul Moore wrote:
+> > On Mon, May 10, 2021 at 12:30 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
+> >> On 5/7/2021 6:54 PM, Richard Guy Briggs wrote:
+> >>> On 2021-05-07 14:03, Casey Schaufler wrote:
+> >>>> On 5/7/2021 12:55 PM, Richard Guy Briggs wrote:
+> >>>>> The *setxattr syscalls take 5 arguments.  The SYSCALL record only lists
+> >>>>> four arguments and only lists pointers of string values.  The xattr name
+> >>>>> string, value string and flags (5th arg) are needed by audit given the
+> >>>>> syscall's main purpose.
+> >>>>>
+> >>>>> Add the auxiliary record AUDIT_XATTR (1336) to record the details not
+> >>>>> available in the SYSCALL record including the name string, value string
+> >>>>> and flags.
+> >>>>>
+> >>>>> Notes about field names:
+> >>>>> - name is too generic, use xattr precedent from ima
+> >>>>> - val is already generic value field name
+> >>>>> - flags used by mmap, xflags new name
+> >>>>>
+> >>>>> Sample event with new record:
+> >>>>> type=PROCTITLE msg=audit(05/07/2021 12:58:42.176:189) : proctitle=filecap /tmp/ls dac_override
+> >>>>> type=PATH msg=audit(05/07/2021 12:58:42.176:189) : item=0 name=(null) inode=25 dev=00:1e mode=file,755 ouid=root ogid=root rdev=00:00 obj=unconfined_u:object_r:user_tmp_t:s0 nametype=NORMAL cap_fp=none cap_fi=none cap_fe=0 cap_fver=0 cap_frootid=0
+> >>>>> type=CWD msg=audit(05/07/2021 12:58:42.176:189) : cwd=/root
+> >>>>> type=XATTR msg=audit(05/07/2021 12:58:42.176:189) : xattr="security.capability" val=01 xflags=0x0
+> >>>> Would it be sensible to break out the namespace from the attribute?
+> >>>>
+> >>>>      attrspace="security" attrname="capability"
+> >>> Do xattrs always follow this nomenclature?  Or only the ones we care
+> >>> about?
+> >> Xattrs always have a namespace (man 7 xattr) of "user", "trusted",
+> >> "system" or "security". It's possible that additional namespaces will
+> >> be created in the future, although it seems unlikely given that only
+> >> "security" is widely used today.
+> > Why should audit care about separating the name into two distinct
+> > fields, e.g. "attrspace" and "attrname", instead of just a single
+> > "xattr" field with a value that follows the "namespace.attribute"
+> > format that is commonly seen by userspace?
+>
+> I asked if it would be sensible. I don't much care myself.
 
-> I can just resend the series, thoughts?
+I was *asking* a question - why would we want separate fields?  I
+guess I thought there might be some reason for asking if it was
+sensible; if not, I think I'd rather see it as a single field.
 
-Sure, that makes it easier on folks.
+> >>>> Why isn't val= quoted?
+> >>> Good question.  I guessed it should have been since it used
+> >>> audit_log_untrustedstring(), but even the raw output is unquoted unless
+> >>> it was converted by auditd to unquoted before being stored to disk due
+> >>> to nothing offensive found in it since audit_log_n_string() does add
+> >>> quotes.  (hmmm, bit of a run-on sentence there...)
+> >>>
+> >>>> The attribute value can be a .jpg or worse. I could even see it being an eBPF
+> >>>> program (although That Would Be Wrong) so including it in an audit record could
+> >>>> be a bit of a problem.
+> >>> In these cases it would almost certainly get caught by the control
+> >>> character test audit_string_contains_control() in
+> >>> audit_log_n_untrustedstring() called from audit_log_untrustedstring()
+> >>> and deliver it as hex.
+> >> In that case I'm more concerned with the potential size than with
+> >> quoting. One of original use cases proposed for xattrs (back in the
+> >> SGI Irix days) was to attach a bitmap to be used as the icon in file
+> >> browsers as an xattr. Another was to attach the build instructions
+> >> and source used to create a binary. None of that is information you'd
+> >> want to see in a audit record. On the other hand, if the xattr was an
+> >> eBPF program used to make access control decisions, you would want at
+> >> least a reference to it in the audit record.
+> > It would be interesting to see how this code would handle arbitrarily
+> > large xattr values, or at the very least large enough values to blow
+> > up the audit record size.
+> >
+> > As pointed out elsewhere in this thread, and brought up again above
+> > (albeit indirectly), I'm guessing we don't really care about *all*
+> > xattrs, just the "special" xattrs that are security relevant, in which
+> > case I think we need to reconsider how we collect this data.
+>
+> Right. And you can't know in advance which xattrs are relevant in the
+> face of "security=". We might want something like
+>
+>         bool security_auditable_attribute(struct xattr *xattr)
+>
+> which returns true if the passed xattr is one that an LSM in the stack
+> considers relevant. Much like security_ismaclabel(). I don't think that
+> we can just reuse security_ismaclabel() because there are xattrs that
+> are security relevant but are not MAC labels. SMACK64TRANSMUTE is one.
+> File capability sets are another. I also suggest passing the struct xattr
+> rather than the name because it seems reasonable that an LSM might
+> consider "user.execbyroot=never" relevant while "user.execbyroot=possible"
+> isn't.
+
+Perhaps instead of having the audit code call into the LSM to
+determine if an xattr is worth recording in the audit event, we leave
+it to the LSMs themselves to add a record to the event?
+
+-- 
+paul moore
+www.paul-moore.com
