@@ -2,151 +2,120 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7940037A5C5
-	for <lists+linux-api@lfdr.de>; Tue, 11 May 2021 13:30:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8ADF037A5D9
+	for <lists+linux-api@lfdr.de>; Tue, 11 May 2021 13:35:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231495AbhEKLbU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 11 May 2021 07:31:20 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2776 "EHLO
-        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231393AbhEKLbT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 11 May 2021 07:31:19 -0400
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
-        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FfbGx73YHzmgJV;
-        Tue, 11 May 2021 19:26:49 +0800 (CST)
-Received: from [10.174.184.135] (10.174.184.135) by
- DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 11 May 2021 19:30:02 +0800
-Subject: Re: [RFC PATCH v3 0/8] Add IOPF support for VFIO passthrough
-From:   Shenming Lu <lushenming@huawei.com>
-To:     Alex Williamson <alex.williamson@redhat.com>
-CC:     Cornelia Huck <cohuck@redhat.com>, Will Deacon <will@kernel.org>,
-        "Robin Murphy" <robin.murphy@arm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        "Jean-Philippe Brucker" <jean-philippe@linaro.org>,
-        Eric Auger <eric.auger@redhat.com>, <kvm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <iommu@lists.linux-foundation.org>, <linux-api@vger.kernel.org>,
-        Kevin Tian <kevin.tian@intel.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>, <yi.l.liu@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        "Barry Song" <song.bao.hua@hisilicon.com>,
-        <wanghaibin.wang@huawei.com>, <yuzenghui@huawei.com>
-References: <20210409034420.1799-1-lushenming@huawei.com>
- <cb9584fd-c7f5-8cac-8c63-219ded2ef9db@huawei.com>
-Message-ID: <b7fbb6a3-8777-d46a-af6c-5b3243e8b00c@huawei.com>
-Date:   Tue, 11 May 2021 19:30:01 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.2.2
+        id S231496AbhEKLgp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 11 May 2021 07:36:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37538 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231474AbhEKLgp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 11 May 2021 07:36:45 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E566BC061760
+        for <linux-api@vger.kernel.org>; Tue, 11 May 2021 04:35:38 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id x20so28153457lfu.6
+        for <linux-api@vger.kernel.org>; Tue, 11 May 2021 04:35:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Le0Ew1Hg9KvgF6la0IVI4c8P/UYPK3oIC8S0v1P/CXY=;
+        b=UV4F7xsUhFUHbA1Rt4aUC+TkWj2LsXA90mQqrzmQetnGSqhTWOhlHIdRmNkriRRdHG
+         En11f5rwNkzEopt/p81S0ZLB7JqTWk3Sg+oDmy7bKDWwpRgIuABxB4hVFpzKq5lQkyQO
+         lzWzvMvCcV+3cC+u3Af/IXNj83qwkghjYLpXRnB67s4FXmUFZz1q4RcJM5RuHFudut0n
+         QKcimK7Iulxv3/gPkMwastZrAozSuyOcanocRWiE2RJhRS2bA8TVetZRUglbLOjCv3JR
+         nGZFENVvZKIrLb88wJVbs5XExg8wbyn5/YK+ESrw0NQAmJco0W2ZGHjhx4P9IUEH3cBv
+         nLEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Le0Ew1Hg9KvgF6la0IVI4c8P/UYPK3oIC8S0v1P/CXY=;
+        b=OgjZhgjNKVU96qnI1dn15dc9KdRmisixKGNT7mY6tVuqQA5BRtms7zR5V26LClTNEI
+         W1S0/8wGediuRuHrzvAoyDVsnc8a429nLnijYxdS0H1Xx+JKgPcgQM4ygK/fcG3WVBrQ
+         K+Ve/uV1kc+GT9di99WvxpjLBFlhxTo1i+ryvihh9qqVCjr/xTW45LOd7DpkAhrs6WJs
+         Eh8AdJwns+G57hSYxTw7C/7xkZxIMwgzGD3h/48nLJfuZ2UnBQI+Panf/X3hiSKqGom/
+         T0ca9P3q+sBBSxojwJYa6BByEzILT0e6uexosuqeQ7s0pzODX/fQlgJod+y+b3uiJchf
+         46lQ==
+X-Gm-Message-State: AOAM533sTilN9GyNUgisEiI6oaSH/mZ2tkMJva/vrbXuN25ug3rQUZf8
+        Pq2zVK2PqmVyCJMM8OjiGCO1WA==
+X-Google-Smtp-Source: ABdhPJxDAf43hUbtVcN3je+p5bV1NnAEkVOyB91N3WfTapOVx8IiLDHDsJqmKf0Ko6pqzpOzMNntKA==
+X-Received: by 2002:a05:6512:374b:: with SMTP id a11mr20151995lfs.377.1620732937423;
+        Tue, 11 May 2021 04:35:37 -0700 (PDT)
+Received: from box.localdomain ([86.57.175.117])
+        by smtp.gmail.com with ESMTPSA id u27sm2578687lfm.239.2021.05.11.04.35.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 May 2021 04:35:36 -0700 (PDT)
+Received: by box.localdomain (Postfix, from userid 1000)
+        id 0E4C5102615; Tue, 11 May 2021 14:35:37 +0300 (+03)
+Date:   Tue, 11 May 2021 14:35:37 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v26 29/30] mm: Update arch_validate_flags() to test vma
+ anonymous
+Message-ID: <20210511113537.d2uqen4pyh6xx53o@box>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-30-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <cb9584fd-c7f5-8cac-8c63-219ded2ef9db@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.184.135]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210427204315.24153-30-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Alex,
-
-Hope for some suggestions or comments from you since there seems to be many unsure
-points in this series. :-)
-
-Thanks,
-Shenming
-
-
-On 2021/4/26 9:41, Shenming Lu wrote:
-> On 2021/4/9 11:44, Shenming Lu wrote:
->> Hi,
->>
->> Requesting for your comments and suggestions. :-)
+On Tue, Apr 27, 2021 at 01:43:14PM -0700, Yu-cheng Yu wrote:
+> When newer VM flags are being created, such as VM_MTE, it becomes necessary
+> for mmap/mprotect to verify if certain flags are being applied to an
+> anonymous VMA.
 > 
-> Kind ping...
+> To solve this, one approach is adding a VM flag to track that MAP_ANONYMOUS
+> is specified [1], and then using the flag in arch_validate_flags().
 > 
->>
->> The static pinning and mapping problem in VFIO and possible solutions
->> have been discussed a lot [1, 2]. One of the solutions is to add I/O
->> Page Fault support for VFIO devices. Different from those relatively
->> complicated software approaches such as presenting a vIOMMU that provides
->> the DMA buffer information (might include para-virtualized optimizations),
->> IOPF mainly depends on the hardware faulting capability, such as the PCIe
->> PRI extension or Arm SMMU stall model. What's more, the IOPF support in
->> the IOMMU driver has already been implemented in SVA [3]. So we add IOPF
->> support for VFIO passthrough based on the IOPF part of SVA in this series.
->>
->> We have measured its performance with UADK [4] (passthrough an accelerator
->> to a VM(1U16G)) on Hisilicon Kunpeng920 board (and compared with host SVA):
->>
->> Run hisi_sec_test...
->>  - with varying sending times and message lengths
->>  - with/without IOPF enabled (speed slowdown)
->>
->> when msg_len = 1MB (and PREMAP_LEN (in Patch 4) = 1):
->>             slowdown (num of faults)
->>  times      VFIO IOPF      host SVA
->>  1          63.4% (518)    82.8% (512)
->>  100        22.9% (1058)   47.9% (1024)
->>  1000       2.6% (1071)    8.5% (1024)
->>
->> when msg_len = 10MB (and PREMAP_LEN = 512):
->>             slowdown (num of faults)
->>  times      VFIO IOPF
->>  1          32.6% (13)
->>  100        3.5% (26)
->>  1000       1.6% (26)
->>
->> History:
->>
->> v2 -> v3
->>  - Nit fixes.
->>  - No reason to disable reporting the unrecoverable faults. (baolu)
->>  - Maintain a global IOPF enabled group list.
->>  - Split the pre-mapping optimization to be a separate patch.
->>  - Add selective faulting support (use vfio_pin_pages to indicate the
->>    non-faultable scope and add a new struct vfio_range to record it,
->>    untested). (Kevin)
->>
->> v1 -> v2
->>  - Numerous improvements following the suggestions. Thanks a lot to all
->>    of you.
->>
->> Note that PRI is not supported at the moment since there is no hardware.
->>
->> Links:
->> [1] Lesokhin I, et al. Page Fault Support for Network Controllers. In ASPLOS,
->>     2016.
->> [2] Tian K, et al. coIOMMU: A Virtual IOMMU with Cooperative DMA Buffer Tracking
->>     for Efficient Memory Management in Direct I/O. In USENIX ATC, 2020.
->> [3] https://patchwork.kernel.org/project/linux-arm-kernel/cover/20210401154718.307519-1-jean-philippe@linaro.org/
->> [4] https://github.com/Linaro/uadk
->>
->> Thanks,
->> Shenming
->>
->>
->> Shenming Lu (8):
->>   iommu: Evolve the device fault reporting framework
->>   vfio/type1: Add a page fault handler
->>   vfio/type1: Add an MMU notifier to avoid pinning
->>   vfio/type1: Pre-map more pages than requested in the IOPF handling
->>   vfio/type1: VFIO_IOMMU_ENABLE_IOPF
->>   vfio/type1: No need to statically pin and map if IOPF enabled
->>   vfio/type1: Add selective DMA faulting support
->>   vfio: Add nested IOPF support
->>
->>  .../iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c   |    3 +-
->>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   |   18 +-
->>  drivers/iommu/iommu.c                         |   56 +-
->>  drivers/vfio/vfio.c                           |   85 +-
->>  drivers/vfio/vfio_iommu_type1.c               | 1000 ++++++++++++++++-
->>  include/linux/iommu.h                         |   19 +-
->>  include/linux/vfio.h                          |   13 +
->>  include/uapi/linux/iommu.h                    |    4 +
->>  include/uapi/linux/vfio.h                     |    6 +
->>  9 files changed, 1181 insertions(+), 23 deletions(-)
->>
+> Another approach is passing the VMA to arch_validate_flags(), and check
+> vma_is_anonymous().
+> 
+> To prepare the introduction of PROT_SHADOW_STACK, which creates a shadow
+> stack mapping and can be applied only to an anonymous VMA, update
+> arch_validate_flags() to pass in the VMA.
+> 
+> [1] commit 9f3419315f3c ("arm64: mte: Add PROT_MTE support to mmap() and mprotect()"),
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+
+Reviewed-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+
+-- 
+ Kirill A. Shutemov
