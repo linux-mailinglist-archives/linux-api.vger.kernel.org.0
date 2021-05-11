@@ -2,139 +2,102 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C464C37AB25
-	for <lists+linux-api@lfdr.de>; Tue, 11 May 2021 17:52:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45A3937ACB6
+	for <lists+linux-api@lfdr.de>; Tue, 11 May 2021 19:09:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231825AbhEKPxz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 11 May 2021 11:53:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39612 "EHLO
+        id S231329AbhEKRKy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 11 May 2021 13:10:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231792AbhEKPxy (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 11 May 2021 11:53:54 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92F5FC06175F
-        for <linux-api@vger.kernel.org>; Tue, 11 May 2021 08:52:47 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id f24so30506690ejc.6
-        for <linux-api@vger.kernel.org>; Tue, 11 May 2021 08:52:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=DdK1IEs3eqo+hBsOtkECll5WP9PsnhV8TlKhxE3dq/I=;
-        b=z4q41CDYBsfG99gUIBz4qoWmhaIzt02/3aja4FahQ/wKfLjDrFDC6KlAYcrXiOhPPc
-         N7laQrcSrnLDR+jl4iNd9aQG0S/HLrBx+SV336S4TclJ/eFPPc+Ky07zmeM1lDVI0O0Q
-         v8ZjHcRTdQ49FYjhLeGFPEGX2RonjkA4z3Wbvrf3ORdfY9rE6RxM8sZbJpPtqIIzsM8U
-         CE+AtsAiFERUXzAR5d8GoMJyHKiD5Fd6K0NqoVCikDoi7D8ZVaj4z19giOLGIAAcCjXV
-         soe8yi1JKQQdwEkeOKgwUaavAvRbmBpNv+KjkQ0+dUmTtV4hN6yJU53ct0HcPGaZlU9Y
-         AAGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=DdK1IEs3eqo+hBsOtkECll5WP9PsnhV8TlKhxE3dq/I=;
-        b=HUf/OePHTKs0ZgpITJEPibW0MRZK073L1FaucA+9PeJBrVmVEGWpY5WUNnWuq2Lnbz
-         bf7IjzuHvB5Svpmp+ejfKolbQ+RT+D6LSCLKBRXZd3GhFWHgwE1+9waJUdYgXGWMyfU4
-         cANtFNnWdD8Mbq2vidHM8ryTm51VB1ZFlogsP0/eUgldMJdjSjsAeGqsRGOARSc4MrdX
-         NGUWrv7Dlyy3gZga+5OEZifhveRlTt23Ck2DhnX2ixixNURonjT4mjKeRTCSkt79Ilek
-         jnybZa7WH8WD9OZjqHrv3INLaYiJ39PMBcrbpFPpUi7B2Nja0LppfbMVKqYGKvhy220Q
-         epDA==
-X-Gm-Message-State: AOAM531IotiYbFoUTvAU1VdY/ug4lHeUox/sCJ41DWajfF6jOcMZFTiR
-        ZY0YV0DUuFeRS4fbAl/SERLSjxSYoeFDlk3k/hUU
-X-Google-Smtp-Source: ABdhPJwXdR3PN2nJSGasJfpB5PTCWMNGLNeCcSzPHvc0Lz9sPMStjkc5n2qXBaDNEi5247vUklIg6wzBDktOSIM58ro=
-X-Received: by 2002:a17:907:10d8:: with SMTP id rv24mr32304965ejb.542.1620748366074;
- Tue, 11 May 2021 08:52:46 -0700 (PDT)
+        with ESMTP id S230315AbhEKRKx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 11 May 2021 13:10:53 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 521CBC061574;
+        Tue, 11 May 2021 10:09:47 -0700 (PDT)
+Received: from zn.tnic (p200300ec2f0ec70020ab858661d7f414.dip0.t-ipconnect.de [IPv6:2003:ec:2f0e:c700:20ab:8586:61d7:f414])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 134C61EC02E6;
+        Tue, 11 May 2021 19:09:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1620752985;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=oXj+aT1NLTLdq4xvPpDkmK4mlSpKcyX1kXRzqY9sy/I=;
+        b=bLcn8++CHPCwI1r2+fGHgbqQmPMj0/Kw1DAyubBcNj+IKE9PD5aHN82t0EOQYgw9zkmX8U
+        VMpPrqq8dwdNUvdWd3XkPDW+VrSH9QT2L5Yp2JzKL44ITn0WeVVb2mlJjcR4IxfCdcZh0e
+        tVqiaLj/s+Svo/KGRT6NwRVyr9HxLRg=
+Date:   Tue, 11 May 2021 19:09:41 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v26 23/30] x86/cet/shstk: Handle thread shadow stack
+Message-ID: <YJq6VZ/XMAtfkrMc@zn.tnic>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-24-yu-cheng.yu@intel.com>
+ <YJlADyc/9pn8Sjkn@zn.tnic>
+ <89598d32-4bf8-b989-ee77-5b4b55a138a9@intel.com>
 MIME-Version: 1.0
-References: <604ceafd516b0785fea120f552d6336054d196af.1620414949.git.rgb@redhat.com>
- <7ee601c2-4009-b354-1899-3c8f582bf6ae@schaufler-ca.com> <20210508015443.GA447005@madcap2.tricolour.ca>
- <242f107a-3b74-c1c2-abd6-b3f369170023@schaufler-ca.com> <CAHC9VhQdV93G5N_BKsxuDCtFbm9-xvAkve02t5sGOi9Mam2Wtg@mail.gmail.com>
- <195ac224-00fa-b1be-40c8-97e823796262@schaufler-ca.com> <CAHC9VhTPQ-LoqUYJ4HGsFF-sAXR+mYqGga7TxRZOG7BUD-55FQ@mail.gmail.com>
- <cf7de129-b801-3f0c-64d6-c58d61fd4c84@schaufler-ca.com>
-In-Reply-To: <cf7de129-b801-3f0c-64d6-c58d61fd4c84@schaufler-ca.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Tue, 11 May 2021 11:52:35 -0400
-Message-ID: <CAHC9VhS0GU-aE1MkR51VxE7=9s=iDWU2j3=TfmKW1Q6C+jJyxQ@mail.gmail.com>
-Subject: Re: [PATCH V1] audit: log xattr args not covered by syscall record
-To:     Casey Schaufler <casey@schaufler-ca.com>
-Cc:     Richard Guy Briggs <rgb@redhat.com>, linux-api@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-Audit Mailing List <linux-audit@redhat.com>,
-        linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <89598d32-4bf8-b989-ee77-5b4b55a138a9@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 11, 2021 at 10:00 AM Casey Schaufler <casey@schaufler-ca.com> w=
-rote:
-> On 5/10/2021 6:28 PM, Paul Moore wrote:
-> > On Mon, May 10, 2021 at 8:37 PM Casey Schaufler <casey@schaufler-ca.com=
-> wrote:
-> >> On 5/10/2021 4:52 PM, Paul Moore wrote:
-> >>> On Mon, May 10, 2021 at 12:30 PM Casey Schaufler <casey@schaufler-ca.=
-com> wrote:
-> >>>> On 5/7/2021 6:54 PM, Richard Guy Briggs wrote:
-> >>>>> On 2021-05-07 14:03, Casey Schaufler wrote:
-> >>>>>> On 5/7/2021 12:55 PM, Richard Guy Briggs wrote:
-> >>>>>>> The *setxattr syscalls take 5 arguments.  The SYSCALL record only=
- lists
-> >>>>>>> four arguments and only lists pointers of string values.  The xat=
-tr name
-> >>>>>>> string, value string and flags (5th arg) are needed by audit give=
-n the
-> >>>>>>> syscall's main purpose.
-> >>>>>>>
-> >>>>>>> Add the auxiliary record AUDIT_XATTR (1336) to record the details=
- not
-> >>>>>>> available in the SYSCALL record including the name string, value =
-string
-> >>>>>>> and flags.
-> >>>>>>>
-> >>>>>>> Notes about field names:
-> >>>>>>> - name is too generic, use xattr precedent from ima
-> >>>>>>> - val is already generic value field name
-> >>>>>>> - flags used by mmap, xflags new name
-> >>>>>>>
-> >>>>>>> Sample event with new record:
-> >>>>>>> type=3DPROCTITLE msg=3Daudit(05/07/2021 12:58:42.176:189) : proct=
-itle=3Dfilecap /tmp/ls dac_override
-> >>>>>>> type=3DPATH msg=3Daudit(05/07/2021 12:58:42.176:189) : item=3D0 n=
-ame=3D(null) inode=3D25 dev=3D00:1e mode=3Dfile,755 ouid=3Droot ogid=3Droot=
- rdev=3D00:00 obj=3Dunconfined_u:object_r:user_tmp_t:s0 nametype=3DNORMAL c=
-ap_fp=3Dnone cap_fi=3Dnone cap_fe=3D0 cap_fver=3D0 cap_frootid=3D0
-> >>>>>>> type=3DCWD msg=3Daudit(05/07/2021 12:58:42.176:189) : cwd=3D/root
-> >>>>>>> type=3DXATTR msg=3Daudit(05/07/2021 12:58:42.176:189) : xattr=3D"=
-security.capability" val=3D01 xflags=3D0x0
-> >>>>>> Would it be sensible to break out the namespace from the attribute=
-?
-> >>>>>>
-> >>>>>>      attrspace=3D"security" attrname=3D"capability"
-> >>>>> Do xattrs always follow this nomenclature?  Or only the ones we car=
-e
-> >>>>> about?
-> >>>> Xattrs always have a namespace (man 7 xattr) of "user", "trusted",
-> >>>> "system" or "security". It's possible that additional namespaces wil=
-l
-> >>>> be created in the future, although it seems unlikely given that only
-> >>>> "security" is widely used today.
-> >>> Why should audit care about separating the name into two distinct
-> >>> fields, e.g. "attrspace" and "attrname", instead of just a single
-> >>> "xattr" field with a value that follows the "namespace.attribute"
-> >>> format that is commonly seen by userspace?
-> >> I asked if it would be sensible. I don't much care myself.
-> > I was *asking* a question - why would we want separate fields?  I
-> > guess I thought there might be some reason for asking if it was
-> > sensible; if not, I think I'd rather see it as a single field.
+On Mon, May 10, 2021 at 03:57:56PM -0700, Yu, Yu-cheng wrote:
+> So this struct will be:
 >
-> I thought that it might make searching records easier, but I'm
-> not the expert on that. One might filter on attrspace=3Dsecurity then
-> look at the attrname values. But that bikeshed can be either color.
+> struct thread_shstk {
+> 	u64 shstk_base;
+> 	u64 shstk_size;
+> 	u64 locked:1;
+> 	u64 ibt:1;
+> };
+> 
+> Ok?
 
-Yeah, understood.  My concern was that the xattr name (minus the
-namespace) by itself isn't really useful; similar argument with just
-the namespace.  If you are going to do a string match filter it really
-shouldn't matter too much either way.
+Pretty much.
 
---=20
-paul moore
-www.paul-moore.com
+You can even remove the "shstk_" from the members and when you call the
+pointer "shstk", accessing the members will read
+
+	shstk->base
+	shstk->size
+	...
+
+and all is organic and readable :)
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
