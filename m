@@ -2,95 +2,75 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 542D637B79F
-	for <lists+linux-api@lfdr.de>; Wed, 12 May 2021 10:14:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C27837BB67
+	for <lists+linux-api@lfdr.de>; Wed, 12 May 2021 13:01:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230329AbhELINn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 May 2021 04:13:43 -0400
-Received: from eu-smtp-delivery-151.mimecast.com ([185.58.85.151]:43148 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230343AbhELINm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 May 2021 04:13:42 -0400
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-24-Mu4ZH7yROfqaElxRZepFWA-1; Wed, 12 May 2021 09:12:32 +0100
-X-MC-Unique: Mu4ZH7yROfqaElxRZepFWA-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.2; Wed, 12 May 2021 09:12:30 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.015; Wed, 12 May 2021 09:12:30 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Borislav Petkov' <bp@alien8.de>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-CC:     "x86@kernel.org" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "Eugene Syromiatnikov" <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        "Weijiang Yang" <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        "Haitao Huang" <haitao.huang@intel.com>
-Subject: RE: [PATCH v26 23/30] x86/cet/shstk: Handle thread shadow stack
-Thread-Topic: [PATCH v26 23/30] x86/cet/shstk: Handle thread shadow stack
-Thread-Index: AQHXRoh6HV4c4+Eb3km5gqBECdAPb6rff7ZQ
-Date:   Wed, 12 May 2021 08:12:29 +0000
-Message-ID: <e22d3116efef4e25a45fc6b58d5622ef@AcuMS.aculab.com>
-References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
- <20210427204315.24153-24-yu-cheng.yu@intel.com> <YJlADyc/9pn8Sjkn@zn.tnic>
- <89598d32-4bf8-b989-ee77-5b4b55a138a9@intel.com> <YJq6VZ/XMAtfkrMc@zn.tnic>
-In-Reply-To: <YJq6VZ/XMAtfkrMc@zn.tnic>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        id S230202AbhELLDB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 May 2021 07:03:01 -0400
+Received: from mx2.suse.de ([195.135.220.15]:44188 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230019AbhELLC7 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 12 May 2021 07:02:59 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 7B359B15B;
+        Wed, 12 May 2021 11:01:50 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id E3C4E1E0A4C; Wed, 12 May 2021 13:01:49 +0200 (CEST)
+Date:   Wed, 12 May 2021 13:01:49 +0200
+From:   Jan Kara <jack@suse.cz>
+To:     Sascha Hauer <s.hauer@pengutronix.de>
+Cc:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, Christoph Hellwig <hch@infradead.org>,
+        kernel@pengutronix.de, Jan Kara <jack@suse.com>,
+        Richard Weinberger <richard@nod.at>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian.brauner@ubuntu.com>
+Subject: Re: [PATCH v3 0/2] quota: Add mountpath based quota support
+Message-ID: <20210512110149.GA31495@quack2.suse.cz>
+References: <20210304123541.30749-1-s.hauer@pengutronix.de>
+ <20210316112916.GA23532@quack2.suse.cz>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210316112916.GA23532@quack2.suse.cz>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-RnJvbTogQm9yaXNsYXYgUGV0a292DQo+IFNlbnQ6IDExIE1heSAyMDIxIDE4OjEwDQo+IA0KPiBP
-biBNb24sIE1heSAxMCwgMjAyMSBhdCAwMzo1Nzo1NlBNIC0wNzAwLCBZdSwgWXUtY2hlbmcgd3Jv
-dGU6DQo+ID4gU28gdGhpcyBzdHJ1Y3Qgd2lsbCBiZToNCj4gPg0KPiA+IHN0cnVjdCB0aHJlYWRf
-c2hzdGsgew0KPiA+IAl1NjQgc2hzdGtfYmFzZTsNCj4gPiAJdTY0IHNoc3RrX3NpemU7DQo+ID4g
-CXU2NCBsb2NrZWQ6MTsNCj4gPiAJdTY0IGlidDoxOw0KDQpObyBwb2ludCBpbiBiaXQgZmllbGRz
-Pw0KDQo+ID4gfTsNCj4gPg0KPiA+IE9rPw0KPiANCj4gUHJldHR5IG11Y2guDQo+IA0KPiBZb3Ug
-Y2FuIGV2ZW4gcmVtb3ZlIHRoZSAic2hzdGtfIiBmcm9tIHRoZSBtZW1iZXJzIGFuZCB3aGVuIHlv
-dSBjYWxsIHRoZQ0KPiBwb2ludGVyICJzaHN0ayIsIGFjY2Vzc2luZyB0aGUgbWVtYmVycyB3aWxs
-IHJlYWQNCj4gDQo+IAlzaHN0ay0+YmFzZQ0KPiAJc2hzdGstPnNpemUNCj4gCS4uLg0KPiANCj4g
-YW5kIGFsbCBpcyBvcmdhbmljIGFuZCByZWFkYWJsZSA6KQ0KDQpBbmQgZW50aXJlbHkgbm90IGdy
-ZXBwYWJsZS4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJh
-bWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0
-cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
+Added a few more CCs.
 
+On Tue 16-03-21 12:29:16, Jan Kara wrote:
+> On Thu 04-03-21 13:35:38, Sascha Hauer wrote:
+> > Current quotactl syscall uses a path to a block device to specify the
+> > filesystem to work on which makes it unsuitable for filesystems that
+> > do not have a block device. This series adds a new syscall quotactl_path()
+> > which replaces the path to the block device with a mountpath, but otherwise
+> > behaves like original quotactl.
+> > 
+> > This is done to add quota support to UBIFS. UBIFS quota support has been
+> > posted several times with different approaches to put the mountpath into
+> > the existing quotactl() syscall until it has been suggested to make it a
+> > new syscall instead, so here it is.
+> > 
+> > I'm not posting the full UBIFS quota series here as it remains unchanged
+> > and I'd like to get feedback to the new syscall first. For those interested
+> > the most recent series can be found here: https://lwn.net/Articles/810463/
+> 
+> Thanks. I've merged the two patches into my tree and will push them to
+> Linus for the next merge window.
+
+So there are some people at LWN whining that quotactl_path() has no dirfd
+and flags arguments for specifying the target. Somewhat late in the game
+but since there's no major release with the syscall and no userspace using
+it, I think we could still change that. What do you think? What they
+suggest does make some sense. But then, rather then supporting API for
+million-and-one ways in which I may wish to lookup a fs object, won't it be
+better to just pass 'fd' in the new syscall (it may well be just O_PATH fd
+AFAICT) and be done with that?
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
