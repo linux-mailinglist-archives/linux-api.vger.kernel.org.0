@@ -2,319 +2,95 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 386B937AE92
-	for <lists+linux-api@lfdr.de>; Tue, 11 May 2021 20:36:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 542D637B79F
+	for <lists+linux-api@lfdr.de>; Wed, 12 May 2021 10:14:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231825AbhEKShq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 11 May 2021 14:37:46 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:53906 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231439AbhEKShq (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 11 May 2021 14:37:46 -0400
-Received: from zn.tnic (p200300ec2f0ec70091f309bcd5e4258d.dip0.t-ipconnect.de [IPv6:2003:ec:2f0e:c700:91f3:9bc:d5e4:258d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E286B1EC0322;
-        Tue, 11 May 2021 20:36:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1620758198;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=c6kPcub0QkpQg0U8CE4f25GTKDhTcZ3eq43HABvPeEo=;
-        b=j0Y2Z5dhTyvHunNAIadIyNC5wt66gGlhAa+BJH2z3kau3oQovjx4aUPc8KShSTPbD+GOth
-        aPUS06xEp0ZQJfsyUmIgOuNeTh/jbqSu0reKT/zwJtY7Q5/2gpYxrY0+qxbv+zP0eGZl/H
-        ZzjRovtffHuN9syxyf5Hu+9DBS1+DlI=
-Date:   Tue, 11 May 2021 20:36:33 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Chang S. Bae" <chang.seok.bae@intel.com>,
-        Andy Lutomirski <luto@kernel.org>
-Cc:     bp@suse.de, tglx@linutronix.de, mingo@kernel.org, luto@kernel.org,
-        x86@kernel.org, len.brown@intel.com, dave.hansen@intel.com,
-        hjl.tools@gmail.com, Dave.Martin@arm.com, jannh@google.com,
-        mpe@ellerman.id.au, carlos@redhat.com, tony.luck@intel.com,
-        ravi.v.shankar@intel.com, libc-alpha@sourceware.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 5/6] x86/signal: Detect and prevent an alternate
- signal stack overflow
-Message-ID: <YJrOsbyYhMndI5jd@zn.tnic>
-References: <20210422044856.27250-1-chang.seok.bae@intel.com>
- <20210422044856.27250-6-chang.seok.bae@intel.com>
+        id S230329AbhELINn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 May 2021 04:13:43 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.85.151]:43148 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230343AbhELINm (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 May 2021 04:13:42 -0400
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-24-Mu4ZH7yROfqaElxRZepFWA-1; Wed, 12 May 2021 09:12:32 +0100
+X-MC-Unique: Mu4ZH7yROfqaElxRZepFWA-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.2; Wed, 12 May 2021 09:12:30 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.015; Wed, 12 May 2021 09:12:30 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Borislav Petkov' <bp@alien8.de>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+CC:     "x86@kernel.org" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "Eugene Syromiatnikov" <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        "Weijiang Yang" <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        "Haitao Huang" <haitao.huang@intel.com>
+Subject: RE: [PATCH v26 23/30] x86/cet/shstk: Handle thread shadow stack
+Thread-Topic: [PATCH v26 23/30] x86/cet/shstk: Handle thread shadow stack
+Thread-Index: AQHXRoh6HV4c4+Eb3km5gqBECdAPb6rff7ZQ
+Date:   Wed, 12 May 2021 08:12:29 +0000
+Message-ID: <e22d3116efef4e25a45fc6b58d5622ef@AcuMS.aculab.com>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-24-yu-cheng.yu@intel.com> <YJlADyc/9pn8Sjkn@zn.tnic>
+ <89598d32-4bf8-b989-ee77-5b4b55a138a9@intel.com> <YJq6VZ/XMAtfkrMc@zn.tnic>
+In-Reply-To: <YJq6VZ/XMAtfkrMc@zn.tnic>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210422044856.27250-6-chang.seok.bae@intel.com>
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Apr 21, 2021 at 09:48:55PM -0700, Chang S. Bae wrote:
-> The kernel pushes context on to the userspace stack to prepare for the
-> user's signal handler. When the user has supplied an alternate signal
-> stack, via sigaltstack(2), it is easy for the kernel to verify that the
-> stack size is sufficient for the current hardware context.
-> 
-> Check if writing the hardware context to the alternate stack will exceed
-> it's size. If yes, then instead of corrupting user-data and proceeding with
-> the original signal handler, an immediate SIGSEGV signal is delivered.
+RnJvbTogQm9yaXNsYXYgUGV0a292DQo+IFNlbnQ6IDExIE1heSAyMDIxIDE4OjEwDQo+IA0KPiBP
+biBNb24sIE1heSAxMCwgMjAyMSBhdCAwMzo1Nzo1NlBNIC0wNzAwLCBZdSwgWXUtY2hlbmcgd3Jv
+dGU6DQo+ID4gU28gdGhpcyBzdHJ1Y3Qgd2lsbCBiZToNCj4gPg0KPiA+IHN0cnVjdCB0aHJlYWRf
+c2hzdGsgew0KPiA+IAl1NjQgc2hzdGtfYmFzZTsNCj4gPiAJdTY0IHNoc3RrX3NpemU7DQo+ID4g
+CXU2NCBsb2NrZWQ6MTsNCj4gPiAJdTY0IGlidDoxOw0KDQpObyBwb2ludCBpbiBiaXQgZmllbGRz
+Pw0KDQo+ID4gfTsNCj4gPg0KPiA+IE9rPw0KPiANCj4gUHJldHR5IG11Y2guDQo+IA0KPiBZb3Ug
+Y2FuIGV2ZW4gcmVtb3ZlIHRoZSAic2hzdGtfIiBmcm9tIHRoZSBtZW1iZXJzIGFuZCB3aGVuIHlv
+dSBjYWxsIHRoZQ0KPiBwb2ludGVyICJzaHN0ayIsIGFjY2Vzc2luZyB0aGUgbWVtYmVycyB3aWxs
+IHJlYWQNCj4gDQo+IAlzaHN0ay0+YmFzZQ0KPiAJc2hzdGstPnNpemUNCj4gCS4uLg0KPiANCj4g
+YW5kIGFsbCBpcyBvcmdhbmljIGFuZCByZWFkYWJsZSA6KQ0KDQpBbmQgZW50aXJlbHkgbm90IGdy
+ZXBwYWJsZS4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJh
+bWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0
+cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
 
-So I did play with this more and modified
-tools/testing/selftests/sigaltstack/sas.c, see diff at the end. It uses
-MINSIGSTKSZ as the alt stack size and with it, sas.c does:
-
-# [NOTE]        the stack size is 2048, AT_MINSIGSTKSZ: 3632
-TAP version 13
-1..3
-ok 1 Initial sigaltstack state was SS_DISABLE
-# sstack: 0x7fdc2cbf1000, ss_size: 2048
-# [NOTE]        sigaltstack success
-# [NOTE]        Will mmap user stack
-# [NOTE]        Will getcontext
-# [NOTE]        Will makecontext
-# [NOTE]        Will raise SIGUSR1
-Segmentation fault (core dumped)
-
-and dmesg has:
-
-[ 2245.641230] signal: get_sigframe: nested_altstack: 0, sp: 0x7ffe50a4d9d0, ka->sa.sa_flags: 0xc000004
-[ 2245.641240] signal: get_sigframe: SA_ONSTACK, sas_ss_flags(sp): 0x0
-[ 2245.641243] signal: get_sigframe: sp: 0x7fdc2cbf1800, entering_altstack
-[ 2245.641245] signal: get_sigframe: nested_altstack: 0, entering_altstack: 1, __on_sig_stack: 0
-
-Those are just debugging stuff, ignore them.
-
-[ 2245.641249] signal: sas[8890] overflowed sigaltstack
-
-So we do detect those overflows now.
-
-I clumsily tried to register a SIGSEGV handler with
-
-        act.sa_sigaction = my_sigsegv;
-        sigaction(SIGSEGV, &act, NULL);
-
-but that doesn't fire - task gets killed. Maybe I'm doing it wrong.
-
-> @@ -272,8 +281,15 @@ get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
->  	 * If we are on the alternate signal stack and would overflow it, don't.
->  	 * Return an always-bogus address instead so we will die with SIGSEGV.
->  	 */
-> -	if (onsigstack && !likely(on_sig_stack(sp)))
-> +	if (unlikely((nested_altstack || entering_altstack) &&
-> +		     !__on_sig_stack(sp))) {
-> +
-> +		if (show_unhandled_signals && printk_ratelimit())
-> +			pr_info("%s[%d] overflowed sigaltstack",
-
-					This needs a "\n" at the end of the
-					string.
-
-> +				current->comm, task_pid_nr(current));
-> +
->  		return (void __user *)-1L;
-> +	}
->  
->  	/* save i387 and extended state */
->  	ret = copy_fpstate_to_sigframe(*fpstate, (void __user *)buf_fx, math_size);
-
----
-diff --git a/arch/x86/kernel/signal.c b/arch/x86/kernel/signal.c
-index c9c254d5791e..19eb9760e0b5 100644
---- a/arch/x86/kernel/signal.c
-+++ b/arch/x86/kernel/signal.c
-@@ -234,6 +234,12 @@ static unsigned long align_sigframe(unsigned long sp)
- 	return sp;
- }
- 
-+#define dbg(fmt, args...)					\
-+({								\
-+	if (!strcmp(current->comm, "sas"))			\
-+		 pr_err("%s: " fmt "\n", __func__, ##args);	\
-+})
-+
- static void __user *
- get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
- 	     void __user **fpstate)
-@@ -250,8 +256,14 @@ get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
- 	if (IS_ENABLED(CONFIG_X86_64))
- 		sp -= 128;
- 
-+	dbg("nested_altstack: %d, sp: 0x%lx, ka->sa.sa_flags: 0x%lx",
-+	    nested_altstack, sp, ka->sa.sa_flags);
-+
- 	/* This is the X/Open sanctioned signal stack switching.  */
- 	if (ka->sa.sa_flags & SA_ONSTACK) {
-+
-+		dbg("SA_ONSTACK, sas_ss_flags(sp): 0x%x", sas_ss_flags(sp));
-+
- 		/*
- 		 * This checks nested_altstack via sas_ss_flags(). Sensible
- 		 * programs use SS_AUTODISARM, which disables that check, and
-@@ -260,6 +272,7 @@ get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
- 		if (sas_ss_flags(sp) == 0) {
- 			sp = current->sas_ss_sp + current->sas_ss_size;
- 			entering_altstack = true;
-+			dbg("sp: 0x%lx, entering_altstack", sp);
- 		}
- 	} else if (IS_ENABLED(CONFIG_X86_32) &&
- 		   !nested_altstack &&
-@@ -277,6 +290,9 @@ get_sigframe(struct k_sigaction *ka, struct pt_regs *regs, size_t frame_size,
- 
- 	sp = align_sigframe(sp - frame_size);
- 
-+	dbg("nested_altstack: %d, entering_altstack: %d, __on_sig_stack: %d",
-+	     nested_altstack, entering_altstack, __on_sig_stack(sp));
-+
- 	/*
- 	 * If we are on the alternate signal stack and would overflow it, don't.
- 	 * Return an always-bogus address instead so we will die with SIGSEGV.
-diff --git a/tools/testing/selftests/sigaltstack/Makefile b/tools/testing/selftests/sigaltstack/Makefile
-index 3e96d5d47036..b5ac8f9f0c7e 100644
---- a/tools/testing/selftests/sigaltstack/Makefile
-+++ b/tools/testing/selftests/sigaltstack/Makefile
-@@ -1,5 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0-only
--CFLAGS = -Wall
-+CFLAGS = -Wall -g
- TEST_GEN_PROGS = sas
- 
- include ../lib.mk
-diff --git a/tools/testing/selftests/sigaltstack/sas.c b/tools/testing/selftests/sigaltstack/sas.c
-index c53b070755b6..f4c4f5418a08 100644
---- a/tools/testing/selftests/sigaltstack/sas.c
-+++ b/tools/testing/selftests/sigaltstack/sas.c
-@@ -39,6 +39,15 @@ struct stk_data {
- 	int flag;
- };
- 
-+static char *my_strcpy(char *dest, const char *src)
-+{
-+	char *tmp = dest;
-+
-+	while ((*dest++ = *src++) != '\0')
-+		/* nothing */;
-+	return tmp;
-+}
-+
- void my_usr1(int sig, siginfo_t *si, void *u)
- {
- 	char *aa;
-@@ -60,7 +69,7 @@ void my_usr1(int sig, siginfo_t *si, void *u)
- 	aa = alloca(1024);
- 	assert(aa);
- 	p = (struct stk_data *)(aa + 512);
--	strcpy(p->msg, msg);
-+	my_strcpy(p->msg, msg);
- 	p->flag = 1;
- 	ksft_print_msg("[RUN]\tsignal USR1\n");
- 	err = sigaltstack(NULL, &stk);
-@@ -101,6 +110,11 @@ void my_usr2(int sig, siginfo_t *si, void *u)
- 	}
- }
- 
-+void my_sigsegv(int sig, siginfo_t *si, void *u)
-+{
-+	ksft_print_msg("[NOTE]\tsignal SEGV\n");
-+}
-+
- static void switch_fn(void)
- {
- 	ksft_print_msg("[RUN]\tswitched to user ctx\n");
-@@ -115,18 +129,33 @@ int main(void)
- 	int err;
- 
- 	/* Make sure more than the required minimum. */
--	stack_size = getauxval(AT_MINSIGSTKSZ) + SIGSTKSZ;
--	ksft_print_msg("[NOTE]\tthe stack size is %lu\n", stack_size);
-+//	stack_size = getauxval(AT_MINSIGSTKSZ) + SIGSTKSZ;
-+	stack_size = MINSIGSTKSZ;
-+	ksft_print_msg("[NOTE]\tthe stack size is %lu, AT_MINSIGSTKSZ: %lu\n",
-+			stack_size, getauxval(AT_MINSIGSTKSZ));
- 
- 	ksft_print_header();
- 	ksft_set_plan(3);
- 
-+	/* clear signal set */
- 	sigemptyset(&act.sa_mask);
-+
-+	/* a registered stack_t will be used */
- 	act.sa_flags = SA_ONSTACK | SA_SIGINFO;
-+
-+	/* SA_SIGINFO means sa_sigaction specifies the signal handler */
- 	act.sa_sigaction = my_usr1;
-+
-+	/* change the signal action on SIGUSR1 using @act desc */
- 	sigaction(SIGUSR1, &act, NULL);
-+
-+	/* same for SIGUSR2 */
- 	act.sa_sigaction = my_usr2;
- 	sigaction(SIGUSR2, &act, NULL);
-+
-+	act.sa_sigaction = my_sigsegv;
-+	sigaction(SIGSEGV, &act, NULL);
-+
- 	sstack = mmap(NULL, stack_size, PROT_READ | PROT_WRITE,
- 		      MAP_PRIVATE | MAP_ANONYMOUS | MAP_STACK, -1, 0);
- 	if (sstack == MAP_FAILED) {
-@@ -150,6 +179,8 @@ int main(void)
- 
- 	stk.ss_sp = sstack;
- 	stk.ss_size = stack_size;
-+	ksft_print_msg("sstack: 0x%lx, ss_size: %d\n", sstack, stack_size);
-+
- 	stk.ss_flags = SS_ONSTACK | SS_AUTODISARM;
- 	err = sigaltstack(&stk, NULL);
- 	if (err) {
-@@ -169,21 +200,45 @@ int main(void)
- 					strerror(errno));
- 			return EXIT_FAILURE;
- 		}
-+	} else {
-+		ksft_print_msg("[NOTE]\tsigaltstack success\n");
- 	}
- 
-+	ksft_print_msg("[NOTE]\tWill mmap user stack\n");
-+
- 	ustack = mmap(NULL, stack_size, PROT_READ | PROT_WRITE,
- 		      MAP_PRIVATE | MAP_ANONYMOUS | MAP_STACK, -1, 0);
- 	if (ustack == MAP_FAILED) {
- 		ksft_exit_fail_msg("mmap() - %s\n", strerror(errno));
- 		return EXIT_FAILURE;
- 	}
-+
-+	ksft_print_msg("[NOTE]\tWill getcontext\n");
-+
-+	/* init @uc to the currently active context */
- 	getcontext(&uc);
-+
-+	/* do not resume to other context when current context terminates */
- 	uc.uc_link = NULL;
-+
-+	/* set up the stack to use */
- 	uc.uc_stack.ss_sp = ustack;
- 	uc.uc_stack.ss_size = stack_size;
-+
-+	ksft_print_msg("[NOTE]\tWill makecontext\n");
-+
-+	/*
-+	 * Run @switch_fn when this context is activated with setcontext or
-+	 * swapcontext.
-+	 */
- 	makecontext(&uc, switch_fn, 0);
-+
-+	ksft_print_msg("[NOTE]\tWill raise SIGUSR1\n");
-+
- 	raise(SIGUSR1);
- 
-+	ksft_print_msg("[NOTE]\tWill sigaltstack\n");
-+
- 	err = sigaltstack(NULL, &stk);
- 	if (err) {
- 		ksft_exit_fail_msg("sigaltstack() - %s\n", strerror(errno));
-
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
