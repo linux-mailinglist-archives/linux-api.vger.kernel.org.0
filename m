@@ -2,134 +2,121 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C46D7380660
-	for <lists+linux-api@lfdr.de>; Fri, 14 May 2021 11:40:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DEA99381062
+	for <lists+linux-api@lfdr.de>; Fri, 14 May 2021 21:20:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232023AbhENJmI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 14 May 2021 05:42:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53071 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231503AbhENJmI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 14 May 2021 05:42:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1620985256;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=bvT1h5Dtf95/bClBJ8t/oO4/WMLk+en4nCrG5Kuj0DQ=;
-        b=YHwHH2ihE7MF9kaK0vsik5rPLpZbkAUFbP8cqiMPKL842Jxo4sKcRWxdJaKlQxdLN0ogu5
-        AhCDbUdwKZBMnFEFSiTR47nPfi/9qV7pOUIxsDX1FeV+S8ay0s+SgT0GdlGvkPlmz0S6Ij
-        yW93BW+P5qecf0Cij/30E7Za6KCFfM8=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-124-huscNK1OMp6tbYfiGDisEg-1; Fri, 14 May 2021 05:40:55 -0400
-X-MC-Unique: huscNK1OMp6tbYfiGDisEg-1
-Received: by mail-ed1-f71.google.com with SMTP id k10-20020a50cb8a0000b0290387e0173bf7so16207352edi.8
-        for <linux-api@vger.kernel.org>; Fri, 14 May 2021 02:40:54 -0700 (PDT)
+        id S230271AbhENTVy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 14 May 2021 15:21:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33116 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229610AbhENTVx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 14 May 2021 15:21:53 -0400
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 095C5C061574
+        for <linux-api@vger.kernel.org>; Fri, 14 May 2021 12:20:41 -0700 (PDT)
+Received: by mail-lj1-x230.google.com with SMTP id c15so24557862ljr.7
+        for <linux-api@vger.kernel.org>; Fri, 14 May 2021 12:20:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WHGE/SI1tO0CAdU9DspiMRu/IcggidAjeljmucgj+1U=;
+        b=FHhNFP0HjOwmcUgJGOwZ/2fTGf6YloAj1IJt9cgCeCY5gct1ms0aePvfJ+p26Am9aT
+         BgrkbekSovaMhMO5v4pdqS8eAlzBpMJLm9klgoPAMR35d4hkcz4CXmBtjJs+Fzkwi9i+
+         rg2vQHNDh6q1olgYalhfdAxn+xT9pYxV7ONgY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:references:from:organization:subject
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=bvT1h5Dtf95/bClBJ8t/oO4/WMLk+en4nCrG5Kuj0DQ=;
-        b=BSrUi3zzO8cRjQh7fcoeW2glCiqEWESCLm2MwnrfH/+Vquo2OiAeIM9rfHrIVx0ipA
-         S4ByI+BlsMY3JxcEhlsO22u3JRxrKieJ4xL0pDEUqbGyXylQzsv9Y9KMOrPL3wKQCtwB
-         zfvuc3Vdi41e3f5R34pxgJe5H6avHq215q9S3gWo8HODfebSKr0F0oBD6sVJ6/00wnK8
-         nop6EtoppMpL6B9DTmALqu8JbrMEguGIAde7xmAEMMQhk4HKvIqBlidek+5J7cZLtEgf
-         65Pnplust2pQOIw8MY8ul+i2RsgF7xtskll8Fr2maVHEMs7MsstCr1CJmoD/xvZci2T8
-         /7jQ==
-X-Gm-Message-State: AOAM5323coEv30cFesLJH/xFEit5cT9Ob9XR8gxNrB7ppIEs4mfiKHIG
-        okOuM+Oox1PpHhSEacGmykffFBCXayJs0V8M9P9ZdTgqyWy58gnlekTjeQOe4egfuHwQ0V5czlO
-        xfOctpRCRC4qPTxacY6Lo
-X-Received: by 2002:a05:6402:2d6:: with SMTP id b22mr55674445edx.274.1620985253913;
-        Fri, 14 May 2021 02:40:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwNzAwSfBkG72zB94sJxDLgDbZ+DEQn4gYm5J85sFFQeIUDMZK27eq70zvt8ZCsSnIvH+CO+w==
-X-Received: by 2002:a05:6402:2d6:: with SMTP id b22mr55674419edx.274.1620985253764;
-        Fri, 14 May 2021 02:40:53 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c6501.dip0.t-ipconnect.de. [91.12.101.1])
-        by smtp.gmail.com with ESMTPSA id g10sm2885347ejd.109.2021.05.14.02.40.51
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WHGE/SI1tO0CAdU9DspiMRu/IcggidAjeljmucgj+1U=;
+        b=N4u27pNeK7e90eRGkvncDdKB8BV0Zw/ALrUEcPAzub4fMxu3CxM49GbkC55Hz6cnCI
+         qgxnX7f/ZjVb8h0Fv2jF1uEsIWC/rl97LbzhPNbZ/U8Znar7+TPJFlN4iGfT2cZkeeFr
+         YyyH4a8l91jXIIeNHJj5Rb/zH0f726Fez5tp3FixKD+n62O9LaSFVsbScGA4zUMLq6SF
+         64+zsiaKVmK6KA7ZBI2HOtS8AidE1fGw5HafFr8uq23iAMHXZOYA6UOG92t1u311Trcu
+         z1ZzEP9JAhXKtAiQ6TD/EE5GwBmS14kCTsao2gKvuAXJU2jjEU7GJUh79HJQ4cQPUALT
+         E2vg==
+X-Gm-Message-State: AOAM5311yq+ZygjGbFGqqa+iZ29/0QK6ozufsTn7IykWA90Ot65zc22Y
+        NhkPkW4UQ9TzfNO6XOsgaFTfl7+wHdx3SKbXW5Q=
+X-Google-Smtp-Source: ABdhPJylTqJDbDIc3fGiaCmn8TkLhPDRsYRLYdPcmy9zwPX3JzPgKGakOwiFaWgJx0wNfbJBc68o2Q==
+X-Received: by 2002:a2e:8011:: with SMTP id j17mr35800275ljg.106.1621020039199;
+        Fri, 14 May 2021 12:20:39 -0700 (PDT)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com. [209.85.167.51])
+        by smtp.gmail.com with ESMTPSA id k25sm1323013lji.61.2021.05.14.12.20.38
+        for <linux-api@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 May 2021 02:40:53 -0700 (PDT)
-To:     Mike Rapoport <rppt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Hagen Paul Pfeifer <hagen@jauu.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Kees Cook <keescook@chromium.org>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Palmer Dabbelt <palmerdabbelt@google.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        Yury Norov <yury.norov@gmail.com>, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org
-References: <20210513184734.29317-1-rppt@kernel.org>
- <20210513184734.29317-9-rppt@kernel.org>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v19 8/8] secretmem: test: add basic selftest for
- memfd_secret(2)
-Message-ID: <a573f11d-7716-46cd-1d08-6840560d6877@redhat.com>
-Date:   Fri, 14 May 2021 11:40:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Fri, 14 May 2021 12:20:39 -0700 (PDT)
+Received: by mail-lf1-f51.google.com with SMTP id h4so44579136lfv.0
+        for <linux-api@vger.kernel.org>; Fri, 14 May 2021 12:20:38 -0700 (PDT)
+X-Received: by 2002:a2e:22c4:: with SMTP id i187mr38227020lji.465.1621019658636;
+ Fri, 14 May 2021 12:14:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210513184734.29317-9-rppt@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <YIpkvGrBFGlB5vNj@elver.google.com> <m11rat9f85.fsf@fess.ebiederm.org>
+ <CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com>
+ <m15z031z0a.fsf@fess.ebiederm.org> <YIxVWkT03TqcJLY3@elver.google.com>
+ <m1zgxfs7zq.fsf_-_@fess.ebiederm.org> <m1r1irpc5v.fsf@fess.ebiederm.org>
+ <CANpmjNNfiSgntiOzgMc5Y41KVAV_3VexdXCMADekbQEqSP3vqQ@mail.gmail.com>
+ <m1czuapjpx.fsf@fess.ebiederm.org> <CANpmjNNyifBNdpejc6ofT6+n6FtUw-Cap_z9Z9YCevd7Wf3JYQ@mail.gmail.com>
+ <m14kfjh8et.fsf_-_@fess.ebiederm.org> <m1tuni8ano.fsf_-_@fess.ebiederm.org> <m1a6oxewym.fsf_-_@fess.ebiederm.org>
+In-Reply-To: <m1a6oxewym.fsf_-_@fess.ebiederm.org>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Fri, 14 May 2021 12:14:02 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wikDD+gCUECg9NZAVSV6W_FUdyZFHzK4isfrwES_+sH-w@mail.gmail.com>
+Message-ID: <CAHk-=wikDD+gCUECg9NZAVSV6W_FUdyZFHzK4isfrwES_+sH-w@mail.gmail.com>
+Subject: Re: [GIT PULL] siginfo: ABI fixes for v5.13-rc2
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Florian Weimer <fweimer@redhat.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Collingbourne <pcc@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Alexander Potapenko <glider@google.com>,
+        sparclinux <sparclinux@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Marco Elver <elver@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 13.05.21 20:47, Mike Rapoport wrote:
-> From: Mike Rapoport <rppt@linux.ibm.com>
-> 
-> The test verifies that file descriptor created with memfd_secret does not
-> allow read/write operations, that secret memory mappings respect
-> RLIMIT_MEMLOCK and that remote accesses with process_vm_read() and
-> ptrace() to the secret memory fail.
-> 
+On Thu, May 13, 2021 at 9:55 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
+>
+> Please pull the for-v5.13-rc2 branch from the git tree:
 
-[...]
+I really don't like this tree.
 
-> @@ -0,0 +1,296 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright IBM Corporation, 2020
+The immediate cause for "no" is the silly
 
-2021 ?
+ #if IS_ENABLED(CONFIG_SPARC)
 
+and
 
--- 
-Thanks,
+ #if IS_ENABLED(CONFIG_ALPHA)
 
-David / dhildenb
+code in kernel/signal.c. It has absolutely zero business being there,
+when those architectures have a perfectly fine arch/*/kernel/signal.c
+file where that code would make much more sense *WITHOUT* any odd
+preprocessor games.
 
+But there are other oddities too, like the new
+
+    send_sig_fault_trapno(SIGFPE, si_code, (void __user *) regs->pc,
+0, current);
+
+in the alpha code, which fundamentally seems bogus: using
+send_sig_fault_trapno() with a '0' for trapno seems entirely
+incorrect, since the *ONLY* point of that function is to set si_trapno
+to something non-zero.
+
+So it would seem that a plain send_sig_fault() without that 0 would be
+the right thing to do.
+
+This also mixes in a lot of other stuff than just the fixes. Which
+would have been ok during the merge window, but I'm definitely not
+happy about it now.
+
+             Linus
