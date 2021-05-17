@@ -2,138 +2,141 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2ECA386D24
-	for <lists+linux-api@lfdr.de>; Tue, 18 May 2021 00:44:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A682A386D31
+	for <lists+linux-api@lfdr.de>; Tue, 18 May 2021 00:48:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344070AbhEQWqC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 17 May 2021 18:46:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32251 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1344049AbhEQWqB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 17 May 2021 18:46:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1621291484;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=PzeDuFKqOdq6XOChkUVF1K14DQOzccWrFoItEVYjLtI=;
-        b=L61zr0Cbj4Y9P2kE99SUkfC+/y0NdNkYcIj6JnBKPhgTvNuWaZPBdMtBJAZh3lA5uHgTdJ
-        xj10Qsut4VP4/2jGDeJZQF8oyYFLDuxJc60oNviAtgy4az5YdtjHvNF1oXDfvJVRE0q70F
-        afwEpmafhNA+/gapO1loPirKNCSxNqE=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-nO0vNTHHNS6LU-xNjXANeA-1; Mon, 17 May 2021 18:44:42 -0400
-X-MC-Unique: nO0vNTHHNS6LU-xNjXANeA-1
-Received: by mail-lj1-f199.google.com with SMTP id o5-20020a05651c0505b02900e5a95dd51eso3751413ljp.10
-        for <linux-api@vger.kernel.org>; Mon, 17 May 2021 15:44:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PzeDuFKqOdq6XOChkUVF1K14DQOzccWrFoItEVYjLtI=;
-        b=h5x+G4SaVgbRBeD/RXuLaIM0Fn2TLQkOa6oF9igcvq/lTCtRfVeXL31O491972Cd5N
-         wH8KNNv1bzTsLaOaI2VwgYd2Y9NqxzeokiMTak3usr0BDdhvZmn7vQmoX8P6csRy4H93
-         KbY5g/kDegrBGhKdartbpZC6h7ienZ1sUUzNAwAwwP+p4jEEhweTESgi1jdQz2uSW4W5
-         xO5IwvRai24eWiHM1tFdgHlX86KVz7pTkb4ds7h8eBnjd218FBhHrDOOAxLeuUu+ORyI
-         0iB+rG9tEomfPx7l8a7ew03156/OX40RB1Vk19Pm+32s0kGLyeKn5nTXbydVUEscsBrO
-         rgUg==
-X-Gm-Message-State: AOAM533eyOiNtZUsRT+mxAatGw8ZifDDiEky8HSL0w6K0Ai33aywrc7x
-        KEY/tQom1wjXjzyL+gDpgEii/fd2zNnfPB/YviDyIlrAdFbxeVg+hNMkg5oE/ZzUOIE0UlJB81+
-        GPj20xqhBvWcgrJzGN3MULllEzFe0IM7b4g/L
-X-Received: by 2002:a05:6512:3da1:: with SMTP id k33mr1581765lfv.114.1621291480843;
-        Mon, 17 May 2021 15:44:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJybam1+aZWd8ZoxqggTlhbg2Te1/mPCVDQmAynvHsV1tsF6N/JdmZVJTtQ8LuKC3UoE52OmVHe8fTZ2XXqBun0=
-X-Received: by 2002:a05:6512:3da1:: with SMTP id k33mr1581740lfv.114.1621291480634;
- Mon, 17 May 2021 15:44:40 -0700 (PDT)
+        id S241756AbhEQWtt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 17 May 2021 18:49:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47898 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238582AbhEQWtt (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 17 May 2021 18:49:49 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BFB9C61209;
+        Mon, 17 May 2021 22:48:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621291712;
+        bh=ZGAHT0vKC5f3VhAAiDbYUG+YlqZze6CrfYKzvDxVfQU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tIolb+oZ3M45XjBQiE20nRQW6582nOVxwu0nb5GPNtl+Qddp4e+F5DO0/z/Eq7sbI
+         NFuwp2TXeQIwascJBNI5pzGn+sYGpFE67nVOnD/lQEJ0JxBHqoJvE5nESrVSUih9v8
+         bCo4w1dQwVf/kY+ETOwcMXxv6Pe3U5jH8UsgL/1lDj3d4xgJx+h1q0yDZVsgiFw+V2
+         jp5AP6AfsowDTLGZCW4dvwmmnwdSIUHXzDSHq1DDBJ3/HPAYZNyi2776yf347vdVf+
+         c0GFviiwLtOCKTXK1iBwbS39bxTOPZ4k3PMgZN1Bjc3vK13wVqIrajVEVo9BpO8IUZ
+         uxb1D12xK7Uyg==
+Date:   Mon, 17 May 2021 15:48:30 -0700
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Omar Sandoval <osandov@osandov.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-btrfs <linux-btrfs@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dave Chinner <david@fromorbit.com>,
+        Jann Horn <jannh@google.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Kernel Team <kernel-team@fb.com>
+Subject: Re: [PATCH RERESEND v9 0/9] fs: interface for directly
+ reading/writing compressed data
+Message-ID: <YKLyvnb19QmayJaJ@gmail.com>
+References: <cover.1621276134.git.osandov@fb.com>
+ <CAHk-=wh74eFxL0f_HSLUEsD1OQfFNH9ccYVgCXNoV1098VCV6Q@mail.gmail.com>
+ <YKLt5GyznttizBjd@relinquished.localdomain>
 MIME-Version: 1.0
-References: <20210504092340.00006c61@intel.com> <87pmxpdr32.ffs@nanos.tec.linutronix.de>
-In-Reply-To: <87pmxpdr32.ffs@nanos.tec.linutronix.de>
-From:   Nitesh Lal <nilal@redhat.com>
-Date:   Mon, 17 May 2021 18:44:29 -0400
-Message-ID: <CAFki+Lkjn2VCBcLSAfQZ2PEkx-TR0Ts_jPnK9b-5ne3PUX37TQ@mail.gmail.com>
-Subject: Re: [PATCH tip:irq/core v1] genirq: remove auto-set of the mask when
- setting the hint
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ingo Molnar <mingo@kernel.org>, linux-kernel@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, jbrandeb@kernel.org,
-        "frederic@kernel.org" <frederic@kernel.org>,
-        "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Alex Belits <abelits@marvell.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
-        "stephen@networkplumber.org" <stephen@networkplumber.org>,
-        "rppt@linux.vnet.ibm.com" <rppt@linux.vnet.ibm.com>,
-        "jinyuqi@huawei.com" <jinyuqi@huawei.com>,
-        "zhangshaokun@hisilicon.com" <zhangshaokun@hisilicon.com>,
-        netdev@vger.kernel.org, chris.friesen@windriver.com,
-        Marc Zyngier <maz@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YKLt5GyznttizBjd@relinquished.localdomain>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, May 17, 2021 at 4:48 PM Thomas Gleixner <tglx@linutronix.de> wrote:
->
-> On Tue, May 04 2021 at 09:23, Jesse Brandeburg wrote:
-> > I'd add in addition that irqbalance daemon *stopped* paying attention
-> > to hints quite a while ago, so I'm not quite sure what purpose they
-> > serve.
->
-> The hint was added so that userspace has a better understanding where it
-> should place the interrupt. So if irqbalanced ignores it anyway, then
-> what's the point of the hint? IOW, why is it still used drivers?
->
+On Mon, May 17, 2021 at 03:27:48PM -0700, Omar Sandoval wrote:
+> On Mon, May 17, 2021 at 02:32:47PM -0700, Linus Torvalds wrote:
+> > On Mon, May 17, 2021 at 11:35 AM Omar Sandoval <osandov@osandov.com> wrote:
+> > >
+> > > Patches 1-3 add the VFS support, UAPI, and documentation. Patches 4-7
+> > > are Btrfs prep patches. Patch 8 adds Btrfs encoded read support and
+> > > patch 9 adds Btrfs encoded write support.
+> > 
+> > I don't love the RWF_ENCODED flag, but if that's the way people think
+> > this should be done, as a model this looks reasonable to me.
+> > 
+> > I'm not sure what the deal with the encryption metadata is. I realize
+> > there is currently only one encryption type ("none") in this series,
+> > but it's not clear how any other encryption type would actually ever
+> > be described. It's not like you can pass in the key (well, I guess
+> > passing in the key would be fine, but passing it back out certainly
+> > would not be).  A key ID from a keyring?
+> > 
+> > So there's presumably some future plan for it, but it would be good to
+> > verify that that plan makes sense..
+> 
+> What I'm imagining for fscrypt is:
+> 
+> 1. Add ENCODED_IOV_ENCRYPTION_* types for fscrypt. Consumers at least
+>    need to be able to distinguish between encryption policy versions,
+>    DIRECT_KEY policies, and IV_INO_LBLK_{64,32} policies, and maybe
+>    other details.
+> 2. Use RWF_ENCODED only for the data itself.
+> 3. Add new fscrypt ioctls to get and set the encryption key.
+> 
+> The interesting part is (3). If I'm reading the fscrypt documentation
+> correctly, in the default mode, each file is encrypted with a per-file
+> key that is a function of the master key for the directory tree and a
+> per-file nonce.
+> 
+> Userspace manages the master key, we have a FS_IOC_GET_ENCRYPTION_NONCE
+> ioctl, and the key derivation function is documented. So, userspace
+> already has all of the pieces it needs to get the encryption key, and
+> all of the information it needs to decrypt the data it gets from
+> RWF_ENCODED if it so desires.
+> 
+> On the set/write side, the user can set the same master key and policy
+> with FS_IOC_SET_ENCRYPTION_POLICY, and we'd need something like an
+> FS_IOC_SET_ENCRYPTION_NONCE ioctl (possibly with a requirement that it
+> be set when the file is empty). I think that's it.
+> 
+> The details will vary for the other fscrypt policies, but that's the
+> gist of it. I added the fscrypt maintainers to correct me if I missed
+> something.
+> 
 
-Took a quick look at the irqbalance repo and saw the following commit:
+Well, assuming we're talking about regular files only (so file contents
+encryption, not filenames encryption), with fscrypt the information needed to
+understand a file's encrypted data is the following:
 
-dcc411e7bf    remove affinity_hint infrastructure
+1. The encryption key
 
-The commit message mentions that "PJ is redesiging how affinity hinting
-works in the kernel, the future model will just tell us to ignore an IRQ,
-and the kernel will handle placement for us.  As such we can remove the
-affinity_hint recognition entirely".
+2. The filesystem's block size
 
-This does indicate that apparently, irqbalance moved away from the usage of
-affinity_hint. However, the next question is what was this future model?
-I don't know but I can surely look into it if that helps or maybe someone
-here already knows about it?
+3. The encryption context:
 
-> Now there is another aspect to that. What happens if irqbalanced does
-> not run at all and a driver relies on the side effect of the hint
-> setting the initial affinity. Bah...
->
+    struct fscrypt_context_v2 {                                                      
+         u8 version; /* FSCRYPT_CONTEXT_V2 */                                     
+         u8 contents_encryption_mode;                                             
+         u8 filenames_encryption_mode;                                            
+         u8 flags;                                                                
+         u8 __reserved[4];                                                        
+         u8 master_key_identifier[FSCRYPT_KEY_IDENTIFIER_SIZE];                   
+         u8 nonce[FSCRYPT_FILE_NONCE_SIZE];                                       
+    };                                                                               
 
-Right, but if they only rely on this API so that the IRQs are spread across
-all the CPUs then that issue is already resolved and these other drivers
-should not regress because of changing this behavior. Isn't it?
+   (Or alternatively struct fscrypt_policy_v2 + the nonce field separately;
+    that results in the same fields as struct fscrypt_context_v2.)
 
-> While none of the drivers (except the perf muck) actually prevents
-> userspace from fiddling with the affinity (via IRQF_NOBALANCING) a
-> deeper inspection shows that they actually might rely on the current
-> behaviour if irqbalanced is disabled. Of course every driver has its own
-> convoluted way to do that and all of those functions are well
-> documented. What a mess.
->
-> If the hint still serves a purpose then we can provide a variant which
-> solely applies the hint and does not fiddle with the actual affinity,
-> but if the hint is useless anyway then we have a way better option to
-> clean that up.
->
+This is definitely more complex than the compression cases like "the data is a
+zlib stream".  So the question is, how much of this metadata (if any) should
+actually be passed around during RWF_ENCODED pread/pwrite operations, and how
+much should be out-of-band.
 
-+1
+I feel like this should be mostly out-of-band (e.g. via the existing ioctls
+FS_IOC_{GET,SET}_ENCRYPTION_POLICY), especially given that compression and
+encryption could be combined which would make describing the on-disk data even
+more difficult.
 
+But I'm not sure what you intended.
 
-
--- 
-Thanks
-Nitesh
-
+- Eric
