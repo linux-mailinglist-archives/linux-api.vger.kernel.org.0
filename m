@@ -2,118 +2,135 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 11A833839D3
-	for <lists+linux-api@lfdr.de>; Mon, 17 May 2021 18:29:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC0D5383A97
+	for <lists+linux-api@lfdr.de>; Mon, 17 May 2021 18:57:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244165AbhEQQab (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 17 May 2021 12:30:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38396 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242142AbhEQQaP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 17 May 2021 12:30:15 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6652AC08EB03
-        for <linux-api@vger.kernel.org>; Mon, 17 May 2021 08:13:07 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id lg14so9728205ejb.9
-        for <linux-api@vger.kernel.org>; Mon, 17 May 2021 08:13:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=usbkl3eSbLJY48dNZ3F0WFUOcTmkoTvft5/B7CL2sSU=;
-        b=kEuT1N5/kO7rAdEgl1j8JLVDuUgyk4mkEmZFl/+L8PvOtZmcdeETEi8LQMF8goxorE
-         FHnZ92LpD8DQrwHOQnBY0OJtFifqJVScvJBJMt7TI/clMG9wx1CsJjBQx5H0QwNpwNqz
-         MGfJd0FotdiakdxcCi9xYYnEwCAN2u0wOhxTnXByh1if0GaLk0sx0poV3LInQt1k+l8T
-         YULNsLltGxmiW6JJkLVGH4BUgIznFMaEjApb9esqcBXB3UeNl8GhX9YL3Yf/61VvVBEQ
-         3/0oV9tncPFMDubvXrNbDEVU9mMc9AvFU3gIfELO3i7hr2vxS/xIirAA+Ma1oZ+/A3ZB
-         woog==
+        id S240174AbhEQQ7A (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 17 May 2021 12:59:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57732 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238603AbhEQQ67 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 17 May 2021 12:58:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1621270662;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=PWn0ER8ktL8CjGxRv5Ynu626ORHTDXR+dt3CTUoFfXU=;
+        b=VvMX1LiTbpVHFM7EN0DZDlmpmmJV/omkhuGhec5WZxv4rDMS2Y2c1oVCvbwa34VFoJIYRf
+        pmlxiDdIZOV+P34z/eWlV+iiC3wwJdr6NOBbakwXxHG9s5vGSDySUc5pnWq5x6HIv7kO34
+        jdyOmKPUuLF3vwEKnwM9g/EM1rZHrz0=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-74-Kn-pR_ZIMgybs4Xd8LrTQQ-1; Mon, 17 May 2021 12:57:40 -0400
+X-MC-Unique: Kn-pR_ZIMgybs4Xd8LrTQQ-1
+Received: by mail-lf1-f72.google.com with SMTP id u23-20020a1979170000b02901d2e8dd801dso1171741lfc.6
+        for <linux-api@vger.kernel.org>; Mon, 17 May 2021 09:57:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=usbkl3eSbLJY48dNZ3F0WFUOcTmkoTvft5/B7CL2sSU=;
-        b=I2ZvFU/4KhJ8wiFKM61Bapi0/HCEShfND+Wh7zuu2ZMiIv5Mk5HS0syH+yA7yglj/4
-         IgSpzS5aEQJ5J+ItCUZsAjqV+4Hd7ORJaWDa+LeVut6Z0HndSoICbZOoiEvQuXcCUxoE
-         gjZP+AOUY/Uyb48YFdPlYmwuqVcgpjriN6585bdS6mnHLi8oVt2kJD1m/eP3Z7Q9cSGa
-         a2qonq2IK3Hj3QS/iqRNEbPXVsoY9YDWo37u7c85QrabqJ8nxmTx37L6l5AFbJGa6xee
-         Vl1q1qLZa7wJLW3q1IBJ9XLjHqICVwqMLXcVY9wKZd+hajArFoeVzW58P5UN1DUEfcF3
-         ysbQ==
-X-Gm-Message-State: AOAM531ilngdLrfZkXuFoixq+SvaFLvOsTwRDVSmpkzTEwEyTwOK3BKF
-        c0jrHL6Oi0H63UrHuynN3RYekMfSBMWewpAz
-X-Google-Smtp-Source: ABdhPJyz6c2G3oG+zPca9fjjDDqPHFgaRlOjr19GzNPtmUAVMbqQGJd82kvv2LT1kvF53lvygb3s8Q==
-X-Received: by 2002:a17:906:2559:: with SMTP id j25mr423050ejb.42.1621264386090;
-        Mon, 17 May 2021 08:13:06 -0700 (PDT)
-Received: from [192.168.1.14] ([195.24.90.54])
-        by smtp.googlemail.com with ESMTPSA id z4sm11175002edc.1.2021.05.17.08.13.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 May 2021 08:13:05 -0700 (PDT)
-Subject: Re: [PATCH 1/3] v4l: Add Qualcomm custom compressed pixel formats
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-api@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20210429105815.2790770-1-stanimir.varbanov@linaro.org>
- <20210429105815.2790770-2-stanimir.varbanov@linaro.org>
- <d54b1bb7956e1e3bea47fde1216084c7f2eae87e.camel@ndufresne.ca>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <892effb7-7a29-e016-c903-1a9bee6e9881@linaro.org>
-Date:   Mon, 17 May 2021 18:13:03 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PWn0ER8ktL8CjGxRv5Ynu626ORHTDXR+dt3CTUoFfXU=;
+        b=X4yektr+iHO5CbfO4o2KgoXCxfE26m94rlALDvtqvPorD9jZLrvURwTUIxcqhu1vYk
+         bs3vmXw39ETYC0s0q7wzp1nCuc1ZMHoSyr+5+pw7CgrAw4llidVqFG3tuhtMwLI8MDeZ
+         l8n5fjJQgOkQVL92+OY1gq6BTasNU/YsrTwkYEEU69I+qCpW5o/K3S9DDpyxLc8lH44d
+         kdwLvvjyr8vf5zAW/T5S8n5LNhw+N3HGNj1T917GOZnXAQfyi4uwHxV5DRdsOsqTVaPs
+         k6udbkRhYPTdsE+EdSs/txOz8X1Nx+Q7Upuz9C6ssLdAaHGeKAvHEPJ66FiPWwITR2Ax
+         iKng==
+X-Gm-Message-State: AOAM533gEdSzbRmNdsn9zMt1Ikcw6JsUoIxi6XrM4ameE30E7g1Uoyvf
+        HxToUjgCQ5+ZIruh1+Ttci4uccXuVrT3O4uhUTvoEiCQnNpI+9zMGJPp8Cwq8+AeoCLSp5z3anB
+        kiwW3iDUr86eEi/4Rl2nEsld2dVtVVs2rNEig
+X-Received: by 2002:ac2:51ce:: with SMTP id u14mr93665lfm.252.1621270658862;
+        Mon, 17 May 2021 09:57:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzyffO4JpeGGpWTWQd6pBCcoqe0gRG4gxJB9gvjMRQo0SkkR936sREfwD/ThH7qQxY0d+BxlHTLIVDrxnuu2xs=
+X-Received: by 2002:ac2:51ce:: with SMTP id u14mr93653lfm.252.1621270658676;
+ Mon, 17 May 2021 09:57:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <d54b1bb7956e1e3bea47fde1216084c7f2eae87e.camel@ndufresne.ca>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210501021832.743094-1-jesse.brandeburg@intel.com>
+ <16d8ca67-30c6-bb4b-8946-79de8629156e@arm.com> <20210504092340.00006c61@intel.com>
+In-Reply-To: <20210504092340.00006c61@intel.com>
+From:   Nitesh Lal <nilal@redhat.com>
+Date:   Mon, 17 May 2021 12:57:26 -0400
+Message-ID: <CAFki+LmR-o+Fng21ggy48FUX7RhjjpjO87dn3Ld+L4BK2pSRZg@mail.gmail.com>
+Subject: Re: [PATCH tip:irq/core v1] genirq: remove auto-set of the mask when
+ setting the hint
+To:     Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "frederic@kernel.org" <frederic@kernel.org>,
+        "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>
+Cc:     Ingo Molnar <mingo@kernel.org>, linux-kernel@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, jbrandeb@kernel.org,
+        Alex Belits <abelits@marvell.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
+        "stephen@networkplumber.org" <stephen@networkplumber.org>,
+        "rppt@linux.vnet.ibm.com" <rppt@linux.vnet.ibm.com>,
+        "jinyuqi@huawei.com" <jinyuqi@huawei.com>,
+        "zhangshaokun@hisilicon.com" <zhangshaokun@hisilicon.com>,
+        netdev@vger.kernel.org, chris.friesen@windriver.com,
+        Marc Zyngier <maz@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Tue, May 4, 2021 at 12:25 PM Jesse Brandeburg
+<jesse.brandeburg@intel.com> wrote:
+>
+> Robin Murphy wrote:
+>
+> > On 2021-05-01 03:18, Jesse Brandeburg wrote:
+> > > It was pointed out by Nitesh that the original work I did in 2014
+> > > to automatically set the interrupt affinity when requesting a
+> > > mask is no longer necessary. The kernel has moved on and no
+> > > longer has the original problem, BUT the original patch
+> > > introduced a subtle bug when booting a system with reserved or
+> > > excluded CPUs. Drivers calling this function with a mask value
+> > > that included a CPU that was currently or in the future
+> > > unavailable would generally not update the hint.
+> > >
+> > > I'm sure there are a million ways to solve this, but the simplest
+> > > one is to just remove a little code that tries to force the
+> > > affinity, as Nitesh has shown it fixes the bug and doesn't seem
+> > > to introduce immediate side effects.
+> >
+> > Unfortunately, I think there are quite a few other drivers now relying
+> > on this behaviour, since they are really using irq_set_affinity_hint()
+> > as a proxy for irq_set_affinity(). Partly since the latter isn't
+> > exported to modules, but also I have a vague memory of it being said
+> > that it's nice to update the user-visible hint to match when the
+> > affinity does have to be forced to something specific.
+> >
+> > Robin.
+>
+> Thanks for your feedback Robin, but there is definitely a bug here that
+> is being exposed by this code. The fact that people are using this
+> function means they're all exposed to this bug.
+>
+> Not sure if you saw, but this analysis from Nitesh explains what
+> happened chronologically to the kernel w.r.t this code, it's a useful
+> analysis! [1]
+>
+> I'd add in addition that irqbalance daemon *stopped* paying attention
+> to hints quite a while ago, so I'm not quite sure what purpose they
+> serve.
+>
+> [1]
+> https://lore.kernel.org/lkml/CAFki+Lm0W_brLu31epqD3gAV+WNKOJfVDfX2M8ZM__aj3nv9uA@mail.gmail.com/
+>
 
-
-On 4/29/21 10:10 PM, Nicolas Dufresne wrote:
-> Le jeudi 29 avril 2021 à 13:58 +0300, Stanimir Varbanov a écrit :
->> Here we add custom Qualcomm raw compressed pixel formats. They are
->> used in Qualcomm SoCs to optimaize the interconnect bandwidth.
-> 
-> Wasn't reviewing, just skimming the lists, but s/optimaize/optimize/
-> 
->>
->> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->> ---
->>  .../userspace-api/media/v4l/pixfmt-reserved.rst      | 12 ++++++++++++
->>  drivers/media/v4l2-core/v4l2-ioctl.c                 |  2 ++
->>  include/uapi/linux/videodev2.h                       |  2 ++
->>  3 files changed, 16 insertions(+)
->>
->> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
->> index 0b879c0da713..30b9cef4cbf0 100644
->> --- a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
->> +++ b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
->> @@ -260,6 +260,18 @@ please make a proposal on the linux-media mailing list.
->>  	of tiles, resulting in 32-aligned resolutions for the luminance plane
->>  	and 16-aligned resolutions for the chrominance plane (with 2x2
->>  	subsampling).
->> +    * .. _V4L2-PIX-FMT-QC8C:
->> +
->> +      - ``V4L2_PIX_FMT_QC8C``
->> +      - 'QC8C'
->> +      - Compressed Macro-tile 8Bit YUV420 format used by Qualcomm platforms.
->> +	The compression is lossless. It contains four planes.
-> 
-> Would be nice to document if the bytesperline is meaningful or not. Basically,
-> what information need to be carried to other drivers ?
-
-I don't think that bytesperline has some valuable information, the
-important thing is the size of the memory buffer and it should be used
-to negotiate between v4l2 and drm for example. The layout of the buffer
-can be seen at [1].
-
-[1]
-https://android.googlesource.com/kernel/msm/+/android-msm-bullhead-3.10-marshmallow-dr/include/media/msm_media_info.h
+Wanted to follow up to see if there are any more objections or even
+suggestions to take this forward?
 
 -- 
-regards,
-Stan
+Thanks
+Nitesh
+
