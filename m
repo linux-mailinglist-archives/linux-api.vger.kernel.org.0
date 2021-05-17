@@ -2,63 +2,57 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 231F3386C4A
-	for <lists+linux-api@lfdr.de>; Mon, 17 May 2021 23:33:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EA9C386CE7
+	for <lists+linux-api@lfdr.de>; Tue, 18 May 2021 00:27:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237587AbhEQVeY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 17 May 2021 17:34:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51846 "EHLO
+        id S1343699AbhEQW3I (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 17 May 2021 18:29:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232924AbhEQVeX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 17 May 2021 17:34:23 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3973C061573
-        for <linux-api@vger.kernel.org>; Mon, 17 May 2021 14:33:06 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id i9so10890314lfe.13
-        for <linux-api@vger.kernel.org>; Mon, 17 May 2021 14:33:06 -0700 (PDT)
+        with ESMTP id S245485AbhEQW3I (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 17 May 2021 18:29:08 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17CF6C061756
+        for <linux-api@vger.kernel.org>; Mon, 17 May 2021 15:27:51 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id d16so5939192pfn.12
+        for <linux-api@vger.kernel.org>; Mon, 17 May 2021 15:27:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QiJZ32oScv7m1zG+HAZWQ025LTPY+uZIZxxPrDNtO68=;
-        b=CX90tBycAt/a9ap0XhQ5a2CbhLjIYmXx/RbWktAmmGtyKUdNqMXIDLXg9tktJ93U/1
-         6e41uY2jKeGuZZYpoIZe5zo87ZhLQu9fL9tImW+3DGJmNzxHnwhQj+EXTY7UQ/5JFfG7
-         1VWuVB9RrkhYPVoJyq+rF8H0HM19LRTTPwqkk=
+        d=osandov-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Rp32pfq2apMKFD0ftnAk36tGqKQeEKqsfO9eY//kHYc=;
+        b=xns74opwRYa0qABV6xUZeE1bv2ry92IPk5pmjoweWSy+Mv14Ck6iWu2C3LxzOpI4F4
+         P8UzQnEK9lvjXYKntbotLorv7NgYMAa3KWvkbE88jCeRL5Ja/xUnttYkozCfVtKm12U9
+         9f7fMz+WCB29dtnmv59r9fcRaq52W5c41oPScFY1QL9JUlu7VRM/AxJ68k3gWCXhOhkN
+         mr5ElxOnEkwrsIX0hvtKdak0KfEpc3wZg0ZZFCGYiZh7nvIMhHDWWW6QXdWulEQGiFiK
+         L/ePwWBt4gHSlTMzhoJmx0m3Qe/PdAIWSrgB0tI62w9ak23bU4EwuvOItL3rfZTFErda
+         fOmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QiJZ32oScv7m1zG+HAZWQ025LTPY+uZIZxxPrDNtO68=;
-        b=WkC8qo7QO7NbYC3ZqCi+SpV4CD9g1H4QFgIGBo/fV+GUvvcR+W5FkvLb6U5w3TNpi3
-         xnH1kkOjtB68HtcIs1vsmjxogxT/MY3XW5OZg1O1yFRMoHKRQdPaqE65tdNY2Uoyir3+
-         x1nZdGYoarjXRlKajZsX8SM7Am0A1L9M3EjbZGKJdU1jmSDWBKT8Phes//gzGdoULnEJ
-         5huCTh51Zuunv0qNPMbbtEBUHfi9MFcTRH4DjQxrVWcYBY+b6EITEXi8aRUtK3qL2/7Y
-         SfYpSsjLDWmQWKpP4/f/psPf7mBMzYhAVuJ6BeBT2JYxn+Qpvb1df1YtAd4fGP1zbUOH
-         Io4g==
-X-Gm-Message-State: AOAM531bq1J/DtjpNPQhOp/1lkWR8QnjQjiJenDTYYlXYqGdTQYotVhz
-        j4jKb2i7EpxLoib8Otn1rassfWnswfhXCwvY
-X-Google-Smtp-Source: ABdhPJxqm3obHSy3Mg7qCylwDXuXoSw4Hi4Q8EverWUUdbLIL2tD3gqW5oILFP7CK/l3gIqwdgFDrQ==
-X-Received: by 2002:a05:6512:1310:: with SMTP id x16mr135562lfu.44.1621287184614;
-        Mon, 17 May 2021 14:33:04 -0700 (PDT)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com. [209.85.208.179])
-        by smtp.gmail.com with ESMTPSA id a4sm2101940lfs.130.2021.05.17.14.33.03
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 May 2021 14:33:03 -0700 (PDT)
-Received: by mail-lj1-f179.google.com with SMTP id o8so9072655ljp.0
-        for <linux-api@vger.kernel.org>; Mon, 17 May 2021 14:33:03 -0700 (PDT)
-X-Received: by 2002:a2e:968e:: with SMTP id q14mr1065866lji.507.1621287183341;
- Mon, 17 May 2021 14:33:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1621276134.git.osandov@fb.com>
-In-Reply-To: <cover.1621276134.git.osandov@fb.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Mon, 17 May 2021 14:32:47 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wh74eFxL0f_HSLUEsD1OQfFNH9ccYVgCXNoV1098VCV6Q@mail.gmail.com>
-Message-ID: <CAHk-=wh74eFxL0f_HSLUEsD1OQfFNH9ccYVgCXNoV1098VCV6Q@mail.gmail.com>
-Subject: Re: [PATCH RERESEND v9 0/9] fs: interface for directly
- reading/writing compressed data
-To:     Omar Sandoval <osandov@osandov.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Rp32pfq2apMKFD0ftnAk36tGqKQeEKqsfO9eY//kHYc=;
+        b=i+bfozFMrwhu4AmpwLz40Zal59OlW0ZEjE2gyDqwRghBMhGgbIx6nWOGpxJgOj7d7M
+         aG7d//KfkPVpRLrtOQB+DltVI2oNIZUpWr4tQnVGksi8W0nfGqLfB4ql7tfvXj8yRwZU
+         hjbLyJJRPAqbRctNzLjDBr0lN/zLUhshmqKLBnshsFdg/9zbWwGzYqv4hVhRk8nrzG2J
+         4MtibY7TAAU75GEewhntIlBc6fPtwEG8kttGLSJRNqRIKyeNQf7DVQiiwBr+t0MKm09q
+         bJpzCHHQksqeHnu9e4eGKA+PrXpwKqZkLpyzF+YDH1tQjWcoD/BMfdbPW8r6+Kjgza0X
+         bFFg==
+X-Gm-Message-State: AOAM531VXSxxW8/uhZREQO6kATxip6fFUXBoHJ7QxZ5W/2wekBFgvvmv
+        yZEdsaq8U5LllukcUHnYOyqeIg==
+X-Google-Smtp-Source: ABdhPJwOZsAr2depBcBQRACkwV3/LDqsgKuuVe+GhYd6PJVSRn7rMWArZoOkvFJopxNLE04qjlmIGw==
+X-Received: by 2002:a63:7158:: with SMTP id b24mr1708763pgn.310.1621290470509;
+        Mon, 17 May 2021 15:27:50 -0700 (PDT)
+Received: from relinquished.localdomain ([2620:10d:c090:400::5:19a9])
+        by smtp.gmail.com with ESMTPSA id q18sm10915649pfj.131.2021.05.17.15.27.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 May 2021 15:27:49 -0700 (PDT)
+Date:   Mon, 17 May 2021 15:27:48 -0700
+From:   Omar Sandoval <osandov@osandov.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Eric Biggers <ebiggers@kernel.org>
 Cc:     linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         linux-btrfs <linux-btrfs@vger.kernel.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
@@ -69,28 +63,67 @@ Cc:     linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Aleksa Sarai <cyphar@cyphar.com>,
         Linux API <linux-api@vger.kernel.org>,
         Kernel Team <kernel-team@fb.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH RERESEND v9 0/9] fs: interface for directly
+ reading/writing compressed data
+Message-ID: <YKLt5GyznttizBjd@relinquished.localdomain>
+References: <cover.1621276134.git.osandov@fb.com>
+ <CAHk-=wh74eFxL0f_HSLUEsD1OQfFNH9ccYVgCXNoV1098VCV6Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wh74eFxL0f_HSLUEsD1OQfFNH9ccYVgCXNoV1098VCV6Q@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, May 17, 2021 at 11:35 AM Omar Sandoval <osandov@osandov.com> wrote:
->
-> Patches 1-3 add the VFS support, UAPI, and documentation. Patches 4-7
-> are Btrfs prep patches. Patch 8 adds Btrfs encoded read support and
-> patch 9 adds Btrfs encoded write support.
+On Mon, May 17, 2021 at 02:32:47PM -0700, Linus Torvalds wrote:
+> On Mon, May 17, 2021 at 11:35 AM Omar Sandoval <osandov@osandov.com> wrote:
+> >
+> > Patches 1-3 add the VFS support, UAPI, and documentation. Patches 4-7
+> > are Btrfs prep patches. Patch 8 adds Btrfs encoded read support and
+> > patch 9 adds Btrfs encoded write support.
+> 
+> I don't love the RWF_ENCODED flag, but if that's the way people think
+> this should be done, as a model this looks reasonable to me.
+> 
+> I'm not sure what the deal with the encryption metadata is. I realize
+> there is currently only one encryption type ("none") in this series,
+> but it's not clear how any other encryption type would actually ever
+> be described. It's not like you can pass in the key (well, I guess
+> passing in the key would be fine, but passing it back out certainly
+> would not be).  A key ID from a keyring?
+> 
+> So there's presumably some future plan for it, but it would be good to
+> verify that that plan makes sense..
 
-I don't love the RWF_ENCODED flag, but if that's the way people think
-this should be done, as a model this looks reasonable to me.
+What I'm imagining for fscrypt is:
 
-I'm not sure what the deal with the encryption metadata is. I realize
-there is currently only one encryption type ("none") in this series,
-but it's not clear how any other encryption type would actually ever
-be described. It's not like you can pass in the key (well, I guess
-passing in the key would be fine, but passing it back out certainly
-would not be).  A key ID from a keyring?
+1. Add ENCODED_IOV_ENCRYPTION_* types for fscrypt. Consumers at least
+   need to be able to distinguish between encryption policy versions,
+   DIRECT_KEY policies, and IV_INO_LBLK_{64,32} policies, and maybe
+   other details.
+2. Use RWF_ENCODED only for the data itself.
+3. Add new fscrypt ioctls to get and set the encryption key.
 
-So there's presumably some future plan for it, but it would be good to
-verify that that plan makes sense..
+The interesting part is (3). If I'm reading the fscrypt documentation
+correctly, in the default mode, each file is encrypted with a per-file
+key that is a function of the master key for the directory tree and a
+per-file nonce.
 
-                            Linus
+Userspace manages the master key, we have a FS_IOC_GET_ENCRYPTION_NONCE
+ioctl, and the key derivation function is documented. So, userspace
+already has all of the pieces it needs to get the encryption key, and
+all of the information it needs to decrypt the data it gets from
+RWF_ENCODED if it so desires.
+
+On the set/write side, the user can set the same master key and policy
+with FS_IOC_SET_ENCRYPTION_POLICY, and we'd need something like an
+FS_IOC_SET_ENCRYPTION_NONCE ioctl (possibly with a requirement that it
+be set when the file is empty). I think that's it.
+
+The details will vary for the other fscrypt policies, but that's the
+gist of it. I added the fscrypt maintainers to correct me if I missed
+something.
+
+Thanks,
+Omar
