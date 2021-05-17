@@ -2,123 +2,313 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 90224382540
-	for <lists+linux-api@lfdr.de>; Mon, 17 May 2021 09:23:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9B5B38259E
+	for <lists+linux-api@lfdr.de>; Mon, 17 May 2021 09:45:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230460AbhEQHYo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 17 May 2021 03:24:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54224 "EHLO mail.kernel.org"
+        id S232895AbhEQHq7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 17 May 2021 03:46:59 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:45190 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230339AbhEQHYn (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 17 May 2021 03:24:43 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5E2C3611BF;
-        Mon, 17 May 2021 07:23:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621236207;
-        bh=amReGMStusi8xn7FAECc6Whc3fPD7LuG3b6+xADdY7M=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tdRnG7f8obysw+K28IshiY9r+18IQ1tTvDIIZzARqpPv8mn+ML38PW74E0CX/ofM1
-         lH6pTkkY5oaht2o74BmWs/L5cRTvCHKxgeuP4jlFuWVFCF97iHrjOxSm63DzM1+DLM
-         1Lt2mIb6RklOXBbNwT8EFBOEFDI0quAKtHVOhSk40zR+fT+bXp9P4dQI/i7dt6KsqW
-         i1EeofYd4+AfTy3Bm/k+ha4JFLM3skrOayJ1PRDU9e6OwKoW/gcpiHeHcQCbsChuuw
-         eqw8dBOD6kfdNYVMzKFpdKGTDDpXVdsVBQ+yiaI5bgEAr6nOfPYGv21bcodQb5kVaQ
-         lUziwbXpWVN1w==
-Date:   Mon, 17 May 2021 10:23:09 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Hagen Paul Pfeifer <hagen@jauu.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Kees Cook <keescook@chromium.org>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Palmer Dabbelt <palmerdabbelt@google.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Shuah Khan <shuah@kernel.org>,
+        id S231787AbhEQHq6 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 17 May 2021 03:46:58 -0400
+Received: from zn.tnic (p200300ec2f061b008e3a9cb332cecf90.dip0.t-ipconnect.de [IPv6:2003:ec:2f06:1b00:8e3a:9cb3:32ce:cf90])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7E15F1EC0345;
+        Mon, 17 May 2021 09:45:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1621237540;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=nLVgavtPi73oeu6JkSw1lXObVuaZk7TsBy+QjR6ZzJw=;
+        b=fIhv70a8juEjUnMLPFsHbjmxjut56VtF5eRkDZkdil25TAZpcfoNfgtKBExBhJEfpd0c8E
+        /tpmuT2K9V2iGq15P7JoEosMqldTASCHh+tbgslKxdYlGtd+sTfrc+oSx+cQ1PzDSnaWYl
+        r+g1UTYZgP4TJI1fp14oft9y2FvN5Ks=
+Date:   Mon, 17 May 2021 09:45:36 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        Yury Norov <yury.norov@gmail.com>, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org
-Subject: Re: [PATCH v19 5/8] mm: introduce memfd_secret system call to create
- "secret" memory areas
-Message-ID: <YKIZ3Zfai00A2O15@kernel.org>
-References: <20210513184734.29317-1-rppt@kernel.org>
- <20210513184734.29317-6-rppt@kernel.org>
- <ea1ddcfa-f52d-9a7d-cb7b-8502b38a90da@redhat.com>
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v26 24/30] x86/cet/shstk: Introduce shadow stack token
+ setup/verify routines
+Message-ID: <YKIfIEyW+sR+bDCk@zn.tnic>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-25-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ea1ddcfa-f52d-9a7d-cb7b-8502b38a90da@redhat.com>
+In-Reply-To: <20210427204315.24153-25-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, May 14, 2021 at 10:50:55AM +0200, David Hildenbrand wrote:
-> On 13.05.21 20:47, Mike Rapoport wrote:
-> > From: Mike Rapoport <rppt@linux.ibm.com>
-> > 
-> > Removing of the pages from the direct map may cause its fragmentation
-> > on architectures that use large pages to map the physical memory
-> > which affects the system performance. However, the original Kconfig
-> > text for CONFIG_DIRECT_GBPAGES said that gigabyte pages in the direct
-> > map "... can improve the kernel's performance a tiny bit ..." (commit
-> > 00d1c5e05736 ("x86: add gbpages switches")) and the recent report [1]
-> > showed that "... although 1G mappings are a good default choice,
-> > there is no compelling evidence that it must be the only choice".
-> > Hence, it is sufficient to have secretmem disabled by default with
-> > the ability of a system administrator to enable it at boot time.
-> 
-> Maybe add a link to the Intel performance evaluation.
- 
-" ... the recent report [1]" and the link below.
- 
-> > Pages in the secretmem regions are unevictable and unmovable to
-> > avoid accidental exposure of the sensitive data via swap or during
-> > page migration.
- 
-...
+On Tue, Apr 27, 2021 at 01:43:09PM -0700, Yu-cheng Yu wrote:
+> +static inline int write_user_shstk_32(u32 __user *addr, u32 val)
+> +{
+> +	WARN_ONCE(1, "%s used but not supported.\n", __func__);
+> +	return -EFAULT;
+> +}
+> +#endif
 
-> > A page that was a part of the secret memory area is cleared when it
-> > is freed to ensure the data is not exposed to the next user of that
-> > page.
-> 
-> You could skip that with init_on_free (and eventually also with
-> init_on_alloc) set to avoid double clearing.
+What is that supposed to catch? Any concrete (mis-)use cases?
 
-Right, but for now I'd prefer to keep this explicit in the secretmem
-implementation. We may add the check for init_on_free/init_on_alloc later
-on.
+> +
+> +static inline int write_user_shstk_64(u64 __user *addr, u64 val)
+> +{
+> +	asm_volatile_goto("1: wrussq %[val], (%[addr])\n"
+> +			  _ASM_EXTABLE(1b, %l[fail])
+> +			  :: [addr] "r" (addr), [val] "r" (val)
+> +			  :: fail);
+> +	return 0;
+> +fail:
+> +	return -EFAULT;
+> +}
+> +#endif /* CONFIG_X86_SHADOW_STACK */
+> +
+>  #define nop() asm volatile ("nop")
+>  
+>  static inline void serialize(void)
+> diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
+> index d387df84b7f1..48a0c87414ef 100644
+> --- a/arch/x86/kernel/shstk.c
+> +++ b/arch/x86/kernel/shstk.c
+> @@ -20,6 +20,7 @@
+>  #include <asm/fpu/xstate.h>
+>  #include <asm/fpu/types.h>
+>  #include <asm/cet.h>
+> +#include <asm/special_insns.h>
+>  
+>  static void start_update_msrs(void)
+>  {
+> @@ -176,3 +177,128 @@ void shstk_disable(void)
+>  
+>  	shstk_free(current);
+>  }
+> +
+> +static unsigned long _get_user_shstk_addr(void)
+
+What's the "_" prefix in the name supposed to denote?
+
+Ditto for the other functions with "_" prefix you're adding.
+
+> +{
+> +	struct fpu *fpu = &current->thread.fpu;
+> +	unsigned long ssp = 0;
+> +
+> +	fpregs_lock();
+> +
+> +	if (fpregs_state_valid(fpu, smp_processor_id())) {
+> +		rdmsrl(MSR_IA32_PL3_SSP, ssp);
+> +	} else {
+> +		struct cet_user_state *p;
+> +
+> +		p = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
+> +		if (p)
+> +			ssp = p->user_ssp;
+> +	}
+> +
+> +	fpregs_unlock();
+
+<---- newline here.
+
+> +	return ssp;
+> +}
+> +
+> +#define TOKEN_MODE_MASK	3UL
+> +#define TOKEN_MODE_64	1UL
+> +#define IS_TOKEN_64(token) (((token) & TOKEN_MODE_MASK) == TOKEN_MODE_64)
+> +#define IS_TOKEN_32(token) (((token) & TOKEN_MODE_MASK) == 0)
+
+Why do you have to look at the second, busy bit, too in order to
+determine the mode?
+
+Also, you don't need most of those defines - see below.
+
+> +/*
+> + * Create a restore token on the shadow stack.  A token is always 8-byte
+> + * and aligned to 8.
+> + */
+> +static int _create_rstor_token(bool ia32, unsigned long ssp,
+> +			       unsigned long *token_addr)
+> +{
+> +	unsigned long addr;
+> +
+> +	*token_addr = 0;
+
+What for? Callers should check this function's retval and then interpret
+the validity of token_addr and it should not unconditionally write into
+it.
+
+> +
+> +	if ((!ia32 && !IS_ALIGNED(ssp, 8)) || !IS_ALIGNED(ssp, 4))
+
+Flip this logic:
+
+	if ((ia32 && !IS_ALIGNED(ssp, 4)) || !IS_ALIGNED(ssp, 8))
+
+> +		return -EINVAL;
+> +
+> +	addr = ALIGN_DOWN(ssp, 8) - 8;
+
+Yah, so this is weird. Why does the restore token need to be at -8
+instead on the shadow stack address itself?
+
+Looking at
+
+Figure 18-2. RSTORSSP to Switch to New Shadow Stack
+Figure 18-3. SAVEPREVSSP to Save a Restore Point
+
+in the SDM, it looks like unnecessarily more complex than it should be.
+But maybe there's some magic I'm missing.
+
+> +
+> +	/* Is the token for 64-bit? */
+> +	if (!ia32)
+> +		ssp |= TOKEN_MODE_64;
+
+		    |= BIT(0);
+
+> +
+> +	if (write_user_shstk_64((u64 __user *)addr, (u64)ssp))
+> +		return -EFAULT;
+> +
+> +	*token_addr = addr;
+
+<---- newline here.
+
+> +	return 0;
+> +}
+> +
+> +/*
+> + * Create a restore token on shadow stack, and then push the user-mode
+> + * function return address.
+> + */
+> +int shstk_setup_rstor_token(bool ia32, unsigned long ret_addr,
+> +			    unsigned long *token_addr, unsigned long *new_ssp)
+> +{
+> +	struct cet_status *cet = &current->thread.cet;
+> +	unsigned long ssp = 0;
+> +	int err = 0;
+
+What are those cleared to 0 for?
+
+> +
+> +	if (cet->shstk_size) {
+
+Flip logic to save an indentation level:
+
+	if (!cet->shstk_size)
+		return err;
+
+	if (!ret_addr)
+		...
 
 
-> > [1]
-> > https://lore.kernel.org/linux-mm/213b4567-46ce-f116-9cdf-bbd0c884eb3c@linux.intel.com/
-> 
+> +		if (!ret_addr)
+> +			return -EINVAL;
+> +
+> +		ssp = _get_user_shstk_addr();
+
+Needs to test retval for 0 here and return error if so.
+
+> +		err = _create_rstor_token(ia32, ssp, token_addr);
+> +		if (err)
+> +			return err;
+> +
+> +		if (ia32) {
+> +			*new_ssp = *token_addr - sizeof(u32);
+> +			err = write_user_shstk_32((u32 __user *)*new_ssp, (u32)ret_addr);
+> +		} else {
+> +			*new_ssp = *token_addr - sizeof(u64);
+> +			err = write_user_shstk_64((u64 __user *)*new_ssp, (u64)ret_addr);
+
+In both cases, you should write *new_ssp only when write_user_shstk_*
+functions have succeeded.
+
+> +		}
+> +	}
+> +
+> +	return err;
+> +}
+> +
+> +/*
+> + * Verify token_addr point to a valid token, and then set *new_ssp
+
+			points
+
+> + * according to the token.
+> + */
+> +int shstk_check_rstor_token(bool ia32, unsigned long token_addr, unsigned long *new_ssp)
+> +{
+> +	unsigned long token;
+> +
+> +	*new_ssp = 0;
+
+Same as above.
+
+> +
+> +	if (!IS_ALIGNED(token_addr, 8))
+> +		return -EINVAL;
+> +
+> +	if (get_user(token, (unsigned long __user *)token_addr))
+> +		return -EFAULT;
+> +
+> +	/* Is 64-bit mode flag correct? */
+> +	if (!ia32 && !IS_TOKEN_64(token))
+> +		return -EINVAL;
+> +	else if (ia32 && !IS_TOKEN_32(token))
+> +		return -EINVAL;
+
+That test can be done using the XOR function - i.e., you want to return
+an error value when the two things are different.
+
+In order to make this more readable, you call ia32 "proc32" to be clear
+what that variable denotes - a 32-bit process. Then, you do
+
+	bool shstk32 = !(token & BIT(0));
+
+	if (proc32 ^ shstk32)
+		return -EINVAL;
+
+Voila.
+
+> +	token &= ~TOKEN_MODE_MASK;
+> +
+> +	/*
+> +	 * Restore address properly aligned?
+> +	 */
+> +	if ((!ia32 && !IS_ALIGNED(token, 8)) || !IS_ALIGNED(token, 4))
+
+Flip logic as above.
+
 
 -- 
-Sincerely yours,
-Mike.
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
