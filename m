@@ -2,98 +2,133 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F99E386BA7
-	for <lists+linux-api@lfdr.de>; Mon, 17 May 2021 22:48:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A985386BBB
+	for <lists+linux-api@lfdr.de>; Mon, 17 May 2021 22:53:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234712AbhEQUtx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 17 May 2021 16:49:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41818 "EHLO
+        id S244525AbhEQUyx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 17 May 2021 16:54:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229776AbhEQUtx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 17 May 2021 16:49:53 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31F46C061573;
-        Mon, 17 May 2021 13:48:36 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1621284514;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to; bh=N9j0B7b156ySsfMwDJsNRd7Lot/GWP1durNGX4F30bE=;
-        b=1ZpNYLsTCuxDd2w4It1l3dHPjwwAqXAEgSY+DEPNfEPoHcR+Tj8HSX/lM6OuPLk7dDZQVW
-        W1mANCzHmyx/moYnbSqJIsfksQzHubt7JiZM2zKDIcbWHzozO2ubMZ64DlHO+vvi6SI3/u
-        kzgUMF1r1LiMVSf6GAg4a80TbFVuMBAThFvwPAqShd0TKE41wvAv3ecwduS+Wu1jdbDg0I
-        AbAfl/Kx/MAGDQmSaMwvUS+//Ee8ZAgjroZ+SaUJfqQ5dTIfSI6X60+ohc6ZLvj7Z1TR8t
-        CqFlk/za3NV3QACI21PFNIS7CqVMAmhb4Di/XCXQ8oCYUumaEBmQw4P267xG8Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1621284514;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to; bh=N9j0B7b156ySsfMwDJsNRd7Lot/GWP1durNGX4F30bE=;
-        b=Cq5gGnOum9YEtmqRoidToVZ0cJKjg3O1ZDCn247dy6VTZmmSgwiY8J34jS0r/5mY/3Ru7v
-        WBWf4Bc9muZaDeDA==
-To:     Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Robin Murphy <robin.murphy@arm.com>
-Cc:     Ingo Molnar <mingo@kernel.org>, linux-kernel@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, jbrandeb@kernel.org,
-        "frederic\@kernel.org" <frederic@kernel.org>,
-        "juri.lelli\@redhat.com" <juri.lelli@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>, abelits@marvell.com,
-        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "bhelgaas\@google.com" <bhelgaas@google.com>,
-        "linux-pci\@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "rostedt\@goodmis.org" <rostedt@goodmis.org>,
-        "peterz\@infradead.org" <peterz@infradead.org>,
-        "davem\@davemloft.net" <davem@davemloft.net>,
-        "akpm\@linux-foundation.org" <akpm@linux-foundation.org>,
-        "sfr\@canb.auug.org.au" <sfr@canb.auug.org.au>,
-        "stephen\@networkplumber.org" <stephen@networkplumber.org>,
-        "rppt\@linux.vnet.ibm.com" <rppt@linux.vnet.ibm.com>,
-        "jinyuqi\@huawei.com" <jinyuqi@huawei.com>,
-        "zhangshaokun\@hisilicon.com" <zhangshaokun@hisilicon.com>,
-        netdev@vger.kernel.org, chris.friesen@windriver.com,
-        Nitesh Lal <nilal@redhat.com>, Marc Zyngier <maz@kernel.org>
-Subject: Re: [PATCH tip:irq/core v1] genirq: remove auto-set of the mask when setting the hint
-In-Reply-To: <20210504092340.00006c61@intel.com>
-Date:   Mon, 17 May 2021 22:48:33 +0200
-Message-ID: <87pmxpdr32.ffs@nanos.tec.linutronix.de>
+        with ESMTP id S237027AbhEQUyx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 17 May 2021 16:54:53 -0400
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6C0DC061760
+        for <linux-api@vger.kernel.org>; Mon, 17 May 2021 13:53:32 -0700 (PDT)
+Received: by mail-oi1-x232.google.com with SMTP id x15so7692080oic.13
+        for <linux-api@vger.kernel.org>; Mon, 17 May 2021 13:53:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tYiKNumB/sG3g6UoDTpwUaKhoLR3TJj2KrtveF22its=;
+        b=E4IYESmDgLDJKTJfDF4vUoPzJf3sI7MEpeT+1/mAXEdTQsZpiuuMol/4F+vLlpLrIE
+         sah8VFk6mwDiaNaEeoOzMK/Y6GiT3emWiXvBt3HP8YHmEZmkum/YGqd1Md+A1uvOpenb
+         uAHx856RtWQ1SJrIHA/Cb42hLyw1yEAs1zEkG/KI9N7mAWFbOIVyKZ5V5irdXysHT9UW
+         B0KlW/e/W866hpDt9/A9Rs93Aqhp8wNb73AI5+CVeIl5W51ZF4FsfNLPcj7xvUhSVLVP
+         mMFLmI9uzK/wK0RHafAEZbf7zEXFb9f5nQ/5UtJlXGrumhfnXfSWF4OQIGZRyq620vbs
+         6KgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tYiKNumB/sG3g6UoDTpwUaKhoLR3TJj2KrtveF22its=;
+        b=TVSlnkVGOa328wbqSO9/N72y3pqFMGvJT19AbN5GqcQyacV89/w8h66o3688YKIBIu
+         7nCTWclp0UCl3E6kNhh3kXXJts5SLFpkQvINcJsUVjAXM+yPM74S0MzK+JbjFgBgndtw
+         SadChBX8x6HzLCIQPQOG4ayLsZOFVd7gSLOYCqfx1Kd1YB6blmyP2D8j1FyT6B1ePY/o
+         vxmHA9PnJrvlCOf2898qNE+vevLHwJgLD3GgLFdR8cAKyvgmQMwKUlQ7IL7kNuSeMbVP
+         EKO4QylBEKPP/n6DIrB/NUF0kGda5rPKBjFXRWa10xhlK04ekzhkrJlQU2QtS/Ma/+kw
+         QeaQ==
+X-Gm-Message-State: AOAM533/pa7mz0vsuLZokb4vbMj1oopIx83tYAATv6JA4BUf1781FPtJ
+        6NebbiJGAe4rySrIDYmFqZc2L+6WG0b9KONAg6RYOQ==
+X-Google-Smtp-Source: ABdhPJydkSsTkVe66YjNSKFDH6L71UKujfw4XIMG1b/yqvx8GCOTa67p4xK47kkdF1AolTKy50FI6BZbal8CMHvsKAc=
+X-Received: by 2002:a05:6808:f94:: with SMTP id o20mr1223000oiw.121.1621284811977;
+ Mon, 17 May 2021 13:53:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <YIpkvGrBFGlB5vNj@elver.google.com> <m11rat9f85.fsf@fess.ebiederm.org>
+ <CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com>
+ <m15z031z0a.fsf@fess.ebiederm.org> <YIxVWkT03TqcJLY3@elver.google.com>
+ <m1zgxfs7zq.fsf_-_@fess.ebiederm.org> <m1r1irpc5v.fsf@fess.ebiederm.org>
+ <CANpmjNNfiSgntiOzgMc5Y41KVAV_3VexdXCMADekbQEqSP3vqQ@mail.gmail.com>
+ <m1czuapjpx.fsf@fess.ebiederm.org> <CANpmjNNyifBNdpejc6ofT6+n6FtUw-Cap_z9Z9YCevd7Wf3JYQ@mail.gmail.com>
+ <m14kfjh8et.fsf_-_@fess.ebiederm.org> <m1tuni8ano.fsf_-_@fess.ebiederm.org> <m1a6ot5e2h.fsf_-_@fess.ebiederm.org>
+In-Reply-To: <m1a6ot5e2h.fsf_-_@fess.ebiederm.org>
+From:   Marco Elver <elver@google.com>
+Date:   Mon, 17 May 2021 22:53:20 +0200
+Message-ID: <CANpmjNM6rzyTp_+myecf8_773HLWDyJDbxFM6rWvzfKTLkXbhQ@mail.gmail.com>
+Subject: Re: [PATCH v4 0/5] siginfo: ABI fixes for TRAP_PERF
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Florian Weimer <fweimer@redhat.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Collingbourne <pcc@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Alexander Potapenko <glider@google.com>,
+        sparclinux <sparclinux@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 04 2021 at 09:23, Jesse Brandeburg wrote:
-> I'd add in addition that irqbalance daemon *stopped* paying attention
-> to hints quite a while ago, so I'm not quite sure what purpose they
-> serve.
+On Mon, 17 May 2021 at 21:58, Eric W. Biederman <ebiederm@xmission.com> wrote:
+>
+> During the merge window an issue with si_perf and the siginfo ABI came
+> up.  The alpha and sparc siginfo structure layout had changed with the
+> addition of SIGTRAP TRAP_PERF and the new field si_perf.
+>
+> The reason only alpha and sparc were affected is that they are the
+> only architectures that use si_trapno.
+>
+> Looking deeper it was discovered that si_trapno is used for only
+> a few select signals on alpha and sparc, and that none of the
+> other _sigfault fields past si_addr are used at all.  Which means
+> technically no regression on alpha and sparc.
+>
+> While the alignment concerns might be dismissed the abuse of
+> si_errno by SIGTRAP TRAP_PERF does have the potential to cause
+> regressions in existing userspace.
+>
+> While we still have time before userspace starts using and depending on
+> the new definition siginfo for SIGTRAP TRAP_PERF this set of changes
+> cleans up siginfo_t.
+>
+> - The si_trapno field is demoted from magic alpha and sparc status and
+>   made an ordinary union member of the _sigfault member of siginfo_t.
+>   Without moving it of course.
+>
+> - si_perf is replaced with si_perf_data and si_perf_type ending the
+>   abuse of si_errno.
+>
+> - Unnecessary additions to signalfd_siginfo are removed.
+>
+> v3: https://lkml.kernel.org/r/m1tuni8ano.fsf_-_@fess.ebiederm.org
+> v2: https://lkml.kernel.org/r/m14kfjh8et.fsf_-_@fess.ebiederm.org
+> v1: https://lkml.kernel.org/r/m1zgxfs7zq.fsf_-_@fess.ebiederm.org
+>
+> This version drops the tests and fine grained handling of si_trapno
+> on alpha and sparc (replaced assuming si_trapno is valid for
+> all but the faults that defined different data).
 
-The hint was added so that userspace has a better understanding where it
-should place the interrupt. So if irqbalanced ignores it anyway, then
-what's the point of the hint? IOW, why is it still used drivers?
+And just to clarify, the rest of the series (including static-asserts)
+for the next merge-window will be sent once this series is all sorted,
+correct?
 
-Now there is another aspect to that. What happens if irqbalanced does
-not run at all and a driver relies on the side effect of the hint
-setting the initial affinity. Bah...
+> Eric W. Biederman (5):
+>       siginfo: Move si_trapno inside the union inside _si_fault
+>       signal: Implement SIL_FAULT_TRAPNO
+>       signal: Factor force_sig_perf out of perf_sigtrap
+>       signal: Deliver all of the siginfo perf data in _perf
+>       signalfd: Remove SIL_PERF_EVENT fields from signalfd_siginfo
 
-While none of the drivers (except the perf muck) actually prevents
-userspace from fiddling with the affinity (via IRQF_NOBALANCING) a
-deeper inspection shows that they actually might rely on the current
-behaviour if irqbalanced is disabled. Of course every driver has its own
-convoluted way to do that and all of those functions are well
-documented. What a mess.
-
-If the hint still serves a purpose then we can provide a variant which
-solely applies the hint and does not fiddle with the actual affinity,
-but if the hint is useless anyway then we have a way better option to
-clean that up.
-
-Most users are in networking, there are a few in crypto, a couple of
-leftovers in scsi, virtio and a handfull of oddball drivers.
-
-The perf muck wants to be cleaned up anyway as it's just crystal clear
-abuse.
+Looks good, thank you! I build-tested (defconfig -- x86_64, i386, arm,
+arm64, m68k, sparc, alpha) this series together with a local patch to
+pull in the static asserts from v3. Also re-ran perf_events kselftests
+on x86_64 (native and 32bit compat).
 
 Thanks,
-
-        tglx
+-- Marco
