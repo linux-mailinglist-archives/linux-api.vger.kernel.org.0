@@ -2,84 +2,98 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C7604386E0F
-	for <lists+linux-api@lfdr.de>; Tue, 18 May 2021 02:07:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2721E386E27
+	for <lists+linux-api@lfdr.de>; Tue, 18 May 2021 02:15:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344763AbhERAI1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 17 May 2021 20:08:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39472 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241878AbhERAI0 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 17 May 2021 20:08:26 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 567E761185;
-        Tue, 18 May 2021 00:07:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621296429;
-        bh=ScWD93vhmvE7/+az5cdwWZNoMFRvnv5xxJIi25HVOy0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Hdc9f/UOXdv+qfglkWePf0sL5MOVzNA3ZHmgmEyP7w2ctS/o/cFc0cfZQDYOgPKLd
-         wlTYkfn/VyMpUGIWomuP/vw4/Ei4opEB9rpMWlZgvAuxV0imtnNJ54QZWHFuEkQIZW
-         gs1lWxnWA+2a6CxylE0hBoL2pu8P4wwFl4DunojZOU5irUOIe/tPWMzLVSTV3dB9iQ
-         Og9KGU50jWOhITsWIJtcrEbAoeiW9bSiDvkgJrgH03HUZIT9HTcEAd+jTfGmSaM8cN
-         mKNFmHX8NwxUBXl9KGQ1RjXjEtUdTSq3Sz6THLiMf4yjCrD83VaXqX3ufERUMp1mpS
-         ZIV2FDjYZSmHw==
-Date:   Mon, 17 May 2021 17:07:07 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Omar Sandoval <osandov@osandov.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-btrfs <linux-btrfs@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
-        Jann Horn <jannh@google.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Kernel Team <kernel-team@fb.com>
-Subject: Re: [PATCH RERESEND v9 0/9] fs: interface for directly
- reading/writing compressed data
-Message-ID: <YKMFK3GtcWaRz4DA@gmail.com>
-References: <cover.1621276134.git.osandov@fb.com>
- <CAHk-=wh74eFxL0f_HSLUEsD1OQfFNH9ccYVgCXNoV1098VCV6Q@mail.gmail.com>
- <YKLt5GyznttizBjd@relinquished.localdomain>
- <YKLyvnb19QmayJaJ@gmail.com>
- <YKL7W7QO7Wis2n8a@relinquished.localdomain>
+        id S1344860AbhERAQW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 17 May 2021 20:16:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50357 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1344839AbhERAQV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 17 May 2021 20:16:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1621296904;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=m1Brqivodx+Oej8cFA0+U8CBPFw0wpmw/nPAdL9W5IQ=;
+        b=UhGXyb/32L42UYTG3CBShV9lnqPBddrYret9hdbW+HS2sOUWKtLyz0UVQuF+AsKO1TgUdG
+        WkQ+nS2Umc8kie8DL7VUKSBFArkJ1rjBJL2F/qu02tAKnVKMyfxK1Zpz3BVRuKYX3nMgrj
+        rJfwiBQIwhTwsCIrEBtM14AAwaLOUZQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-261-1urGEQsMMFWI2uB5G78gFQ-1; Mon, 17 May 2021 20:15:02 -0400
+X-MC-Unique: 1urGEQsMMFWI2uB5G78gFQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37867107ACCD;
+        Tue, 18 May 2021 00:14:58 +0000 (UTC)
+Received: from asgard.redhat.com (unknown [10.36.110.9])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 20D615D6A8;
+        Tue, 18 May 2021 00:14:23 +0000 (UTC)
+Date:   Tue, 18 May 2021 02:14:14 +0200
+From:   Eugene Syromiatnikov <esyr@redhat.com>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v26 24/30] x86/cet/shstk: Introduce shadow stack token
+ setup/verify routines
+Message-ID: <20210518001316.GR15897@asgard.redhat.com>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-25-yu-cheng.yu@intel.com>
+ <YKIfIEyW+sR+bDCk@zn.tnic>
+ <e225e357-a1d5-9596-8900-79e6b94cf924@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YKL7W7QO7Wis2n8a@relinquished.localdomain>
+In-Reply-To: <e225e357-a1d5-9596-8900-79e6b94cf924@intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, May 17, 2021 at 04:25:15PM -0700, Omar Sandoval wrote:
+On Mon, May 17, 2021 at 01:55:01PM -0700, Yu, Yu-cheng wrote:
+> On 5/17/2021 12:45 AM, Borislav Petkov wrote:
+> >On Tue, Apr 27, 2021 at 01:43:09PM -0700, Yu-cheng Yu wrote:
+> >>+static inline int write_user_shstk_32(u32 __user *addr, u32 val)
+> >>+{
+> >>+	WARN_ONCE(1, "%s used but not supported.\n", __func__);
+> >>+	return -EFAULT;
+> >>+}
+> >>+#endif
+> >
+> >What is that supposed to catch? Any concrete (mis-)use cases?
+> >
 > 
-> Okay, I think we're in agreement: RWF_ENCODED for the data and separate
-> ioctls for the encryption context. Since the fscrypt policy struct
-> includes all of the relevant information, RWF_ENCODED can probably just
-> have a single ENCODED_IOV_ENCRYPTION_FSCRYPT encryption type.
-> RWF_ENCODED can express data which is both compressed and encrypted, so
-> that should be fine as well.
-> 
-> The only other missing piece that I see (other than filesystem support)
-> is an FS_IOC_SET_ENCRYPTION_NONCE ioctl. Would such an interface be
-> reasonable?
+> If 32-bit apps are not supported, there should be no need of 32-bit shadow
+> stack write, otherwise there is a bug.
 
-In theory, it will be possible to add FS_IOC_SET_ENCRYPTION_NONCE.  The
-implementation might be tricky.  It would have to take the inode lock, verify
-that the file is empty, replace the encryption xattr, and re-derive and replace
-the file's encryption key.  Replacing the key should be safe because the file is
-empty, but it's hard to be sure -- and what about directories?  Another concern
-is that userspace could misuse this ioctl and somehow end up reusing nonces,
-which would be bad; probably this should be a CAP_SYS_ADMIN thing only.
+Speaking of which, I wonder what would happen if a 64-bit process makes
+a 32-bit system call (using int 0x80, for example), and gets a signal.
 
-A larger question is whether the goal is to support users backing up and
-restoring encrypted files without their encryption key being available -- in
-which case things would become *much* harder.  First because of the filenames
-encryption, and second because we currently don't allow opening files without
-their encryption key.
-
-- Eric
