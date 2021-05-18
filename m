@@ -2,166 +2,170 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 63EAB387692
-	for <lists+linux-api@lfdr.de>; Tue, 18 May 2021 12:32:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 423A938769E
+	for <lists+linux-api@lfdr.de>; Tue, 18 May 2021 12:35:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243627AbhERKdg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 18 May 2021 06:33:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23709 "EHLO
+        id S1348550AbhERKhB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 18 May 2021 06:37:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21496 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1348526AbhERKdf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 18 May 2021 06:33:35 -0400
+        by vger.kernel.org with ESMTP id S243928AbhERKg7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 18 May 2021 06:36:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1621333937;
+        s=mimecast20190719; t=1621334141;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=I3GoBhYUm/DKIxdTnLjldHt3dau0GNiE51gCpNBcSM0=;
-        b=eZwJ2NSd4PKIV/GqNXVaAA9B6D37QU/rOKWCYfsfils4iqUdXQoe3uG+4LGR9gbmYSLZ9o
-        SVxyd2Si86fMcQGqLi7qVRSIK2ytmldw6QwtbHXgeo5aRR5nSI0qPH0GwHFCbCb9GMPttP
-        2t2cFjMMpjG3zB34iLW3p1CWs+yKJDc=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-30-BAkFkiZdMGGhXxFkAVFmVg-1; Tue, 18 May 2021 06:32:15 -0400
-X-MC-Unique: BAkFkiZdMGGhXxFkAVFmVg-1
-Received: by mail-wr1-f69.google.com with SMTP id 22-20020adf82960000b02901115ae2f734so5389584wrc.5
-        for <linux-api@vger.kernel.org>; Tue, 18 May 2021 03:32:15 -0700 (PDT)
+        bh=4vp8lNy9snZR0aaM1NkHvO7WK4qnZ3T1+NZIbLJBP3o=;
+        b=IqXaHFo9zpj78XNPpcpDfJf4LPFKu0hP1fZbJXefD6Lnr/sM3c/nnVQOTnNm1kCoWUOQOB
+        +5Ik0wgU6Og+rTEa0X9VRjxXLQn01jeSWAfSkO/bws4qSBV2t2cd9FimKdhL3dECNr7eZC
+        SlU522kqhceEUPsWUrGp7VFVsxoVuOQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-398-bC9GI4nUPM6vB_N3QCh3Mg-1; Tue, 18 May 2021 06:35:40 -0400
+X-MC-Unique: bC9GI4nUPM6vB_N3QCh3Mg-1
+Received: by mail-wm1-f69.google.com with SMTP id u203-20020a1cddd40000b029016dbb86d796so410095wmg.0
+        for <linux-api@vger.kernel.org>; Tue, 18 May 2021 03:35:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:references:from:organization:subject
+        h=x-gm-message-state:subject:to:cc:references:from:organization
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=I3GoBhYUm/DKIxdTnLjldHt3dau0GNiE51gCpNBcSM0=;
-        b=Y+ZqqJWuQiZAmdPHZvSH70Aqe/cQtJBuI+yUr3g11y7zcUWlOlQhntIxU7oBHeJxBj
-         k6FXPB+TYKthb20XZvdeSnth/iXSvJ0zmyYiYJDb1K0AIfW3J/fLqRDfFIrtV+ryej9f
-         5erp0pnlQTHlWHp9KdFNNhEZyM4GKiUDaLiV8i5d0asj+iphk9RvyXPghmLaUpElC2K+
-         0BxxpAXFOiWvWj5UuJ2qaan+ob+95Mtat7mb/XEiocpf5VtFgeV1wKOHdHCPNoM7mk8L
-         E2lTto5V6Q2BzX9yO/lP1sJlBpxsastO1B0yT6AB9biWBYy0rfQ+uCiyd+VeMLU7tVZx
-         qZmQ==
-X-Gm-Message-State: AOAM532kq6iNpSuyqLLdXncUPq/B4uP6vr+5cllodBGa1B1qJT0rLs0y
-        /WeQ2l66ZjcgHnaHSUkNIR4UMEnkZyMJKUO7gHGwgtlc/zy9gFUAuBuf1mMRc1uzr/wUrb8DeZL
-        MWESc49KtZMuR1gbDFtQ+r4B1eMiAr+Z+NbWIV47SXxsQgkZ3MoVvreIFADelzdr5AglQ
-X-Received: by 2002:a1c:730b:: with SMTP id d11mr4111594wmb.20.1621333934615;
-        Tue, 18 May 2021 03:32:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyNi/tkWCoG0NuBlaiGe8ooTg64rxLuGj3IhddCSk72nVE1RVc10kp/QPhwhI1TNBxYXIrVfw==
-X-Received: by 2002:a1c:730b:: with SMTP id d11mr4111530wmb.20.1621333934226;
-        Tue, 18 May 2021 03:32:14 -0700 (PDT)
+        bh=4vp8lNy9snZR0aaM1NkHvO7WK4qnZ3T1+NZIbLJBP3o=;
+        b=Ij2Ab+bxxV1RBrOWrhULgW3mwE7Y4wTQrnq1/Yq0r2MHxgttD+HdO25dUNlaHtXvji
+         vzrZLqWtbyPz/KliPEG9jc7/Sd5mXufTnaO4gQv1fbb3EGxcRaUAbw6yCbasBxI+pgw0
+         eHLANgJHkVKOfXG/2tDDfKbNrf+9t3Xr3a/TtO/wGQqoNaue9pzEeN12dcPqFEiVOE4I
+         cCXpy2Ctf0w6NzRUK7Jjv2ocaitE028mXO9VcwF/9BMU6AUEiK8jUW49T74SixCGFhT9
+         kJc1k7wOBLZSegjcsCKeyhkAqqKbAXpn8L+W8J27grqxqbHDeFrSky2/tfMsWZPXI9SY
+         9LKg==
+X-Gm-Message-State: AOAM533NoI8mX7CDiFsA132P6197H5LOy+hqGea/pvCiQteo+2PERtaz
+        mdknrx24srXm3LuuKlyQTzjJ4DmHJGTyI64DFo+3uIaneo+dsiLG7wevy+Ev7RZQMiXnS+mT+dj
+        mLlUgOD2nOtNQfS9zaYY1
+X-Received: by 2002:a5d:4c91:: with SMTP id z17mr6097347wrs.349.1621334139163;
+        Tue, 18 May 2021 03:35:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwivDOaaOEtmmfekeSrzIxF+whFkS4KLINBSXbPJdxKCFo9r8ATuUwdqMoXxsMMTM3AMH6k8g==
+X-Received: by 2002:a5d:4c91:: with SMTP id z17mr6097320wrs.349.1621334138962;
+        Tue, 18 May 2021 03:35:38 -0700 (PDT)
 Received: from [192.168.3.132] (p5b0c64fd.dip0.t-ipconnect.de. [91.12.100.253])
-        by smtp.gmail.com with ESMTPSA id f26sm2241521wmj.30.2021.05.18.03.32.12
+        by smtp.gmail.com with ESMTPSA id s15sm1725827wrt.54.2021.05.18.03.35.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 May 2021 03:32:13 -0700 (PDT)
+        Tue, 18 May 2021 03:35:38 -0700 (PDT)
+Subject: Re: [PATCH v19 5/8] mm: introduce memfd_secret system call to create
+ "secret" memory areas
 To:     Michal Hocko <mhocko@suse.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+Cc:     Mike Rapoport <rppt@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Oscar Salvador <osalvador@suse.de>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Hagen Paul Pfeifer <hagen@jauu.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
         Matthew Wilcox <willy@infradead.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Minchan Kim <minchan@kernel.org>, Jann Horn <jannh@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Hugh Dickins <hughd@google.com>,
-        Rik van Riel <riel@surriel.com>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>, Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Peter Xu <peterx@redhat.com>,
-        Rolf Eike Beer <eike-kernel@sf-tec.de>,
-        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        linux-arch@vger.kernel.org, Linux API <linux-api@vger.kernel.org>
-References: <20210511081534.3507-1-david@redhat.com>
- <20210511081534.3507-3-david@redhat.com> <YKOR/8LzEaOgCvio@dhcp22.suse.cz>
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Palmer Dabbelt <palmerdabbelt@google.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        Yury Norov <yury.norov@gmail.com>, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org
+References: <20210513184734.29317-1-rppt@kernel.org>
+ <20210513184734.29317-6-rppt@kernel.org>
+ <b625c5d7-bfcc-9e95-1f79-fc8b61498049@redhat.com>
+ <YKDJ1L7XpJRQgSch@kernel.org> <YKOP5x8PPbqzcsdK@dhcp22.suse.cz>
+ <8e114f09-60e4-2343-1c42-1beaf540c150@redhat.com>
+ <YKOXbNWvUsqM4uxb@dhcp22.suse.cz>
 From:   David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-Subject: Re: [PATCH resend v2 2/5] mm/madvise: introduce
- MADV_POPULATE_(READ|WRITE) to prefault page tables
-Message-ID: <bb0e2ebb-e66d-176c-b20a-fbadd95cde98@redhat.com>
-Date:   Tue, 18 May 2021 12:32:12 +0200
+Message-ID: <00644dd8-edac-d3fd-a080-0a175fa9bf13@redhat.com>
+Date:   Tue, 18 May 2021 12:35:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <YKOR/8LzEaOgCvio@dhcp22.suse.cz>
+In-Reply-To: <YKOXbNWvUsqM4uxb@dhcp22.suse.cz>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 18.05.21 12:07, Michal Hocko wrote:
-> [sorry for a long silence on this]
-> 
-> On Tue 11-05-21 10:15:31, David Hildenbrand wrote:
-> [...]
-> 
-> Thanks for the extensive usecase description. That is certainly useful
-> background. I am sorry to bring this up again but I am still not
-> convinced that READ/WRITE variant are the best interface.
-
-Thanks for having time to look into this.
-
->   
->> While the use case for MADV_POPULATE_WRITE is fairly obvious (i.e.,
->> preallocate memory and prefault page tables for VMs), one issue is that
->> whenever we prefault pages writable, the pages have to be marked dirty,
->> because the CPU could dirty them any time. while not a real problem for
->> hugetlbfs or dax/pmem, it can be a problem for shared file mappings: each
->> page will be marked dirty and has to be written back later when evicting.
+On 18.05.21 12:31, Michal Hocko wrote:
+> On Tue 18-05-21 12:06:42, David Hildenbrand wrote:
+>> On 18.05.21 11:59, Michal Hocko wrote:
+>>> On Sun 16-05-21 10:29:24, Mike Rapoport wrote:
+>>>> On Fri, May 14, 2021 at 11:25:43AM +0200, David Hildenbrand wrote:
+>>> [...]
+>>>>>> +		if (!page)
+>>>>>> +			return VM_FAULT_OOM;
+>>>>>> +
+>>>>>> +		err = set_direct_map_invalid_noflush(page, 1);
+>>>>>> +		if (err) {
+>>>>>> +			put_page(page);
+>>>>>> +			return vmf_error(err);
+>>>>>
+>>>>> Would we want to translate that to a proper VM_FAULT_..., which would most
+>>>>> probably be VM_FAULT_OOM when we fail to allocate a pagetable?
+>>>>
+>>>> That's what vmf_error does, it translates -ESOMETHING to VM_FAULT_XYZ.
+>>>
+>>> I haven't read through the rest but this has just caught my attention.
+>>> Is it really reasonable to trigger the oom killer when you cannot
+>>> invalidate the direct mapping. From a quick look at the code it is quite
+>>> unlikely to se ENOMEM from that path (it allocates small pages) but this
+>>> can become quite sublte over time. Shouldn't this simply SIGBUS if it
+>>> cannot manipulate the direct mapping regardless of the underlying reason
+>>> for that?
+>>>
 >>
->> MADV_POPULATE_READ allows for optimizing this scenario: Pre-read a whole
->> mapping from backend storage without marking it dirty, such that eviction
->> won't have to write it back. As discussed above, shared file mappings
->> might require an explciit fallocate() upfront to achieve
->> preallcoation+prepopulation.
+>> OTOH, it means our kernel zones are depleted, so we'd better reclaim somehow
+>> ...
 > 
-> This means that you want to have two different uses depending on the
-> underlying mapping type. MADV_POPULATE_READ seems rather weak for
-> anonymous/private mappings. Memory backed by zero pages seems rather
-> unhelpful as the PF would need to do all the heavy lifting anyway.
-> Or is there any actual usecase when this is desirable?
-
-Currently, userfaultfd-wp, which requires "some mapping" to be able to 
-arm successfully. In QEMU, we currently have to prefault the shared 
-zeropage for userfaultfd-wp to work as expected. I expect that use case 
-might vanish over time (eventually with new kernels and updated user 
-space), but it might stick for a bit.
-
-Apart from that, populating the shared zeropage might be relevant in 
-some corner cases: I remember there are sparse matrix algorithms that 
-operate heavily on the shared zeropage.
-
+> Killing a userspace seems to be just a bad way around that.
 > 
-> So the split into these two modes seems more like gup interface
-> shortcomings bubbling up to the interface. I do expect userspace only
-> cares about pre-faulting the address range. No matter what the backing
-> storage is.
+> Although I have to say openly that I am not a great fan of VM_FAULT_OOM
+> in general. It is usually a a wrong way to tell the handle the failure
+> because it happens outside of the allocation context so you lose all the
+> details (e.g. allocation constrains, numa policy etc.). Also whenever
+> there is ENOMEM then the allocation itself has already made sure that
+> all the reclaim attempts have been already depleted. Just consider an
+> allocation with GFP_NOWAIT/NO_RETRY or similar to fail and propagate
+> ENOMEM up the call stack. Turning that into the OOM killer sounds like a
+> bad idea to me.  But that is a more general topic. I have tried to bring
+> this up in the past but there was not much of an interest to fix it as
+> it was not a pressing problem...
 > 
-> Or do I still misunderstand all the usecases?
 
-Let me give you an example where we really cannot tell what would be 
-best from a kernel perspective.
+I'm certainly interested; it would mean that we actually want to try 
+recovering from VM_FAULT_OOM in various cases, and as you state, we 
+might have to supply more information to make that work reliably.
 
-a) Mapping a file into a VM to be used as RAM. We might expect the guest 
-writing all memory immediately (e.g., booting Windows). We would want 
-MADV_POPULATE_WRITE as we expect a write access immediately.
-
-b) Mapping a file into a VM to be used as fake-NVDIMM, for example, 
-ROOTFS or just data storage. We expect mostly reading from this memory, 
-thus, we would want MADV_POPULATE_READ.
-
-Instead of trying to be smart in the kernel, I think for this case it 
-makes much more sense to provide user space the options. IMHO it doesn't 
-really hurt to let user space decide on what it thinks is best.
+Having that said, I guess what we have here is just the same as when our 
+process fails to allocate a generic page table in __handle_mm_fault(), 
+when we fail p4d_alloc() and friends ...
 
 -- 
 Thanks,
