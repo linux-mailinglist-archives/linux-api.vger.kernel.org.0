@@ -2,150 +2,106 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4756B38742B
-	for <lists+linux-api@lfdr.de>; Tue, 18 May 2021 10:39:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F9973875E3
+	for <lists+linux-api@lfdr.de>; Tue, 18 May 2021 11:59:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346424AbhERIj3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 18 May 2021 04:39:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59244 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242786AbhERIj2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 18 May 2021 04:39:28 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33319C06175F
-        for <linux-api@vger.kernel.org>; Tue, 18 May 2021 01:38:11 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id 6so6508305pgk.5
-        for <linux-api@vger.kernel.org>; Tue, 18 May 2021 01:38:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=IsQfm8chUVW8ruU/zwByxDAGkqSQlL5HqkqOWaarZV8=;
-        b=ukKsxtmbByI4qezd83ECTisfNU/W3KX1341Kq8mn/bXYGJIQFF5FVFs6ml6etvOWnM
-         P4Y6opKG3OzR7KUZDDRCr8FgTcikK4OgoE/WdDTxu0dFJ9Kej3iPNHcBd3Bbn3sN/tkJ
-         /+Tv2uunokVukXMQePMGBC1+TrnTjgksMOu4eDzYQNZ1+v01YfTdNIOydFkNbEBBpE0H
-         GEctc769XK+UcZoMpylKZKlVI77NKgBjYH8nwpW5+ya0X1+oAWPvzlk0nZp91KR+4KVJ
-         P/IOGS6kSlB1J3h6rHZDrARrdUYXbA7byXCDPJGUwqXZ3dkTsxU5K0u64vxTK7VNvH7V
-         waLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=IsQfm8chUVW8ruU/zwByxDAGkqSQlL5HqkqOWaarZV8=;
-        b=jdH0QCCjrNjeR1BieLuIyQ2gAH3k71aagcLVkpVpuL8xNDcz37jHDj2H/ujhBXcphB
-         9Z/fQV3ibi5DKClqOmIhoxwYdZk12IRf0/6O378bFVVpWfKQ7RyclAqjvH6oHWIaiRRb
-         SkdLw/eKC00HY2426pHVr5N4gCJN+LXoSHaxAec+LSzrQ9l1iaYky4QosdqWpOND2Vry
-         /6sU4u6iltQVwNV+nyFJx9xo8i+69y4ZR1opTm+W8a3KYDoiNX2S0LoNP/KxMzSdvhbs
-         DivnhdzWiY0qrMBeO1Mn9IE8E3tQyKElPrGNlhZ7FvaabWnT46NFpLmEcz9YDnB1dRwf
-         6gag==
-X-Gm-Message-State: AOAM532MFwhFt9SX0Oiqv9LwULb0+P+Qylbg0aEx7s8Rtjhz2clrPdLF
-        kAOfettX9qsUC+wo7E/XxsQgyQ==
-X-Google-Smtp-Source: ABdhPJwq2DvEeYKKKsKEj0GvuM/V84fu3u6/yO05LFfNBw62ZDKXiiHqOcm4KC2CB68fvJt8JakOeQ==
-X-Received: by 2002:a63:f651:: with SMTP id u17mr3960422pgj.300.1621327090512;
-        Tue, 18 May 2021 01:38:10 -0700 (PDT)
-Received: from relinquished.localdomain ([2601:602:8b80:8e0::1e58])
-        by smtp.gmail.com with ESMTPSA id n21sm4279949pfu.99.2021.05.18.01.38.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 May 2021 01:38:09 -0700 (PDT)
-Date:   Tue, 18 May 2021 01:38:08 -0700
-From:   Omar Sandoval <osandov@osandov.com>
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     Eric Biggers <ebiggers@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-btrfs <linux-btrfs@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
-        Jann Horn <jannh@google.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Kernel Team <kernel-team@fb.com>
-Subject: Re: [PATCH RERESEND v9 0/9] fs: interface for directly
- reading/writing compressed data
-Message-ID: <YKN88AbnmW73uRPw@relinquished.localdomain>
-References: <cover.1621276134.git.osandov@fb.com>
- <CAHk-=wh74eFxL0f_HSLUEsD1OQfFNH9ccYVgCXNoV1098VCV6Q@mail.gmail.com>
- <YKLt5GyznttizBjd@relinquished.localdomain>
- <YKLyvnb19QmayJaJ@gmail.com>
- <YKL7W7QO7Wis2n8a@relinquished.localdomain>
- <YKMsHMS4IfO8PhN1@mit.edu>
+        id S1348227AbhERKA2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 18 May 2021 06:00:28 -0400
+Received: from mx2.suse.de ([195.135.220.15]:55290 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1348228AbhERKAZ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 18 May 2021 06:00:25 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1621331946; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=b8xv7F9R3YDRWAMnBTpPRwnYRLd13u+yXERM3M4MUTs=;
+        b=JS/jDkcP1gH5mTt25RX5I6j86/cz/ZDydaWWHW2hqY8nQAAzE3DLIomRP5iqBIJVDfMfru
+        o/w0GyCy15FdVoUInzSjJEpAT5R+5767DWCkHYFbUgNcLAIQDa3PDa25+ejFAKMWeiZdjA
+        Bt7ymH4NrrKr2c/O8dhrS2VhugnQsAg=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id BEF56AEAC;
+        Tue, 18 May 2021 09:59:05 +0000 (UTC)
+Date:   Tue, 18 May 2021 11:59:03 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christopher Lameter <cl@linux.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Hagen Paul Pfeifer <hagen@jauu.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Matthew Wilcox <willy@infradead.org>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Palmer Dabbelt <palmerdabbelt@google.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
+        Yury Norov <yury.norov@gmail.com>, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org
+Subject: Re: [PATCH v19 5/8] mm: introduce memfd_secret system call to create
+ "secret" memory areas
+Message-ID: <YKOP5x8PPbqzcsdK@dhcp22.suse.cz>
+References: <20210513184734.29317-1-rppt@kernel.org>
+ <20210513184734.29317-6-rppt@kernel.org>
+ <b625c5d7-bfcc-9e95-1f79-fc8b61498049@redhat.com>
+ <YKDJ1L7XpJRQgSch@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YKMsHMS4IfO8PhN1@mit.edu>
+In-Reply-To: <YKDJ1L7XpJRQgSch@kernel.org>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, May 17, 2021 at 10:53:16PM -0400, Theodore Y. Ts'o wrote:
-> On Mon, May 17, 2021 at 04:25:15PM -0700, Omar Sandoval wrote:
-> > > Well, assuming we're talking about regular files only (so file contents
-> > > encryption, not filenames encryption),
+On Sun 16-05-21 10:29:24, Mike Rapoport wrote:
+> On Fri, May 14, 2021 at 11:25:43AM +0200, David Hildenbrand wrote:
+[...]
+> > > +		if (!page)
+> > > +			return VM_FAULT_OOM;
+> > > +
+> > > +		err = set_direct_map_invalid_noflush(page, 1);
+> > > +		if (err) {
+> > > +			put_page(page);
+> > > +			return vmf_error(err);
 > > 
-> > Yes, I was thinking of regular files. File operations using encrypted
-> > names sounds... interesting, but I think out of scope for this.
+> > Would we want to translate that to a proper VM_FAULT_..., which would most
+> > probably be VM_FAULT_OOM when we fail to allocate a pagetable?
 > 
-> So the question I have is why would you want to get the raw encrypted
-> data?  One possible reason (and this is what Michael Halwcrow and I
-> had tried designing years ago) was so you could backup a device that
-> had multiple users' files without having all of the users' keys ---
-> and then be able to restore them.  So for example, suppose you had a
-> tablet that is shared by multiple family members, and you want to be
-> backup all of the data on the shared device so that it could be
-> restored in case one of the kids drop the tablet in the swimming pool....
-> 
-> But in order to do that, you need to be able to restore the encrypted
-> files in the encrypted directories.  In practice, encrypted files
-> generally exist in encrypted directories.  That's because the typical
-> way fscrypt gets used is we set a policy on an empty directory, and
-> then all of the newly files created files have encrypted file names,
-> inherit the directory's encryption policy, and then have encrypted
-> file contents.
-> 
-> So do you have the encryption key, or not?  If you do have the
-> encryption key, then you can ignore the issue of the file name when
-> you open the file, but what's the reason why you would want to extract
-> out the raw encrypted data plus the raw encryption metadata?  You're
-> not going to be able to restore the encrypted file, in the encrypted
-> directory name.  Perhaps it's because you want to keep the data
-> encrypted while you're tranferring it --- but the filename needs to be
-> encrypted as well, and given modern CPU's, with or without
-> inline-crypto engines, the cost of decrypting the file data and then
-> re-encrypting it in the backup key isn't really that large.
-> 
-> If you don't have the encryption key, then you need to be able to open
-> the file using using the encrypted name (which fscrypt does support)
-> and then extract out the encrypted file name using another bundle of
-> encryption metadata.  So that's a bit more complicated, but it's
-> doable.
-> 
-> The *really* hard part is *restoring* an encrypted directory
-> hierarchy.  Michael and I did create a straw design proposal (which is
-> too small to fit in the margins of this e-mail :-), but suffice it to
-> say that the standard Posix system calls are not sufficient to be able
-> to create encrypted files and encrypted directories, and it would have
-> been messy as all hell.  Which is why we breathed a sign of relief
-> when the original product requirement of being able to do
-> backup/restore of shared devices went away.   :-)
-> 
-> The thing is, though, just being able to extract out regular files in
-> their raw encrypted on-disk form, along with their filename metadata,
-> seems to be a bit of a party trick without a compelling use case that
-> I can see.  But perhaps you have something in mind?
+> That's what vmf_error does, it translates -ESOMETHING to VM_FAULT_XYZ.
 
-Thanks for the detailed response, Ted. I personally don't have a use
-case for reading and writing encrypted data. I only care about skipping
-compression/decompression, but early on it was pointed out that this API
-could potentially also be used for encrypted data. The question at this
-point is: if someone else comes along and solves the problems with
-restoring encrypted filenames, is this interface enough for them to
-restore the encrypted file data? It seems like the answer is yes, with a
-couple of additions to fscrypt. I should've been clearer that I don't
-have concrete plans to do this, I just wanted to leave the door open for
-it so that we don't need a second, very similar interface.
-
-Thanks,
-Omar
+I haven't read through the rest but this has just caught my attention.
+Is it really reasonable to trigger the oom killer when you cannot
+invalidate the direct mapping. From a quick look at the code it is quite
+unlikely to se ENOMEM from that path (it allocates small pages) but this
+can become quite sublte over time. Shouldn't this simply SIGBUS if it
+cannot manipulate the direct mapping regardless of the underlying reason
+for that?
+-- 
+Michal Hocko
+SUSE Labs
