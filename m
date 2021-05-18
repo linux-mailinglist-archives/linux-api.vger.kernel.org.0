@@ -2,92 +2,87 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7251A387D46
-	for <lists+linux-api@lfdr.de>; Tue, 18 May 2021 18:21:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF1D2387F1F
+	for <lists+linux-api@lfdr.de>; Tue, 18 May 2021 19:58:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350579AbhERQWm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 18 May 2021 12:22:42 -0400
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:40807 "EHLO
-        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1350575AbhERQWl (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 18 May 2021 12:22:41 -0400
-Received: from callcc.thunk.org (96-72-84-49-static.hfc.comcastbusiness.net [96.72.84.49] (may be forged))
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 14IGL0w8021834
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 18 May 2021 12:21:01 -0400
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id 3B003420119; Tue, 18 May 2021 12:21:00 -0400 (EDT)
-Date:   Tue, 18 May 2021 12:21:00 -0400
-From:   "Theodore Y. Ts'o" <tytso@mit.edu>
-To:     Omar Sandoval <osandov@osandov.com>
-Cc:     Eric Biggers <ebiggers@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-btrfs <linux-btrfs@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
-        Jann Horn <jannh@google.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Kernel Team <kernel-team@fb.com>
-Subject: Re: [PATCH RERESEND v9 0/9] fs: interface for directly
- reading/writing compressed data
-Message-ID: <YKPpbEuRmxQQ89si@mit.edu>
-References: <cover.1621276134.git.osandov@fb.com>
- <CAHk-=wh74eFxL0f_HSLUEsD1OQfFNH9ccYVgCXNoV1098VCV6Q@mail.gmail.com>
- <YKLt5GyznttizBjd@relinquished.localdomain>
- <YKLyvnb19QmayJaJ@gmail.com>
- <YKL7W7QO7Wis2n8a@relinquished.localdomain>
- <YKMsHMS4IfO8PhN1@mit.edu>
- <YKN88AbnmW73uRPw@relinquished.localdomain>
+        id S1351325AbhERSAE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 18 May 2021 14:00:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46628 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1345799AbhERSAD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 18 May 2021 14:00:03 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C4B2C061573;
+        Tue, 18 May 2021 10:58:45 -0700 (PDT)
+Received: from zn.tnic (p200300ec2f0ae2009fe1e516c71afc1c.dip0.t-ipconnect.de [IPv6:2003:ec:2f0a:e200:9fe1:e516:c71a:fc1c])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 95C221EC01FC;
+        Tue, 18 May 2021 19:58:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1621360723;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=lYrYc/sDhQ8UivR+VcXmOLyHqj3bMiuASqw7cjE5B8M=;
+        b=kE3yncmQkEk2XHVbvQL9S4NC32KK+jj+Fl0PYMMYE8G0kYExZoHA05jH4Ec1u4xQh42DVJ
+        /PDQrNJrUjwflMJLWeG8oDZx1rrAv+9NAVmH0fphIxf1YyMY6xnNMzCdKt5kgt3lxj5pzh
+        EOgqO07ZZOj8oFfimX/wdixvqNsyjf0=
+Date:   Tue, 18 May 2021 19:58:38 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Eugene Syromiatnikov <esyr@redhat.com>
+Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v26 24/30] x86/cet/shstk: Introduce shadow stack token
+ setup/verify routines
+Message-ID: <YKQATkbU4DJ/nC3T@zn.tnic>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-25-yu-cheng.yu@intel.com>
+ <YKIfIEyW+sR+bDCk@zn.tnic>
+ <e225e357-a1d5-9596-8900-79e6b94cf924@intel.com>
+ <20210518001316.GR15897@asgard.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YKN88AbnmW73uRPw@relinquished.localdomain>
+In-Reply-To: <20210518001316.GR15897@asgard.redhat.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 18, 2021 at 01:38:08AM -0700, Omar Sandoval wrote:
-> Thanks for the detailed response, Ted. I personally don't have a use
-> case for reading and writing encrypted data. I only care about skipping
-> compression/decompression, but early on it was pointed out that this API
-> could potentially also be used for encrypted data. The question at this
-> point is: if someone else comes along and solves the problems with
-> restoring encrypted filenames, is this interface enough for them to
-> restore the encrypted file data? It seems like the answer is yes, with a
-> couple of additions to fscrypt. I should've been clearer that I don't
-> have concrete plans to do this, I just wanted to leave the door open for
-> it so that we don't need a second, very similar interface.
+On Tue, May 18, 2021 at 02:14:14AM +0200, Eugene Syromiatnikov wrote:
+> Speaking of which, I wonder what would happen if a 64-bit process makes
+> a 32-bit system call (using int 0x80, for example), and gets a signal.
 
-Well, practically speaking, we would need to have a way to extract out
-the encrypted file name information; and given that an encrypted file
-could have hard links, we need to be able to obtain the encrypted file
-name information for the dentry that was used to open that file.  This
-arguably should be separate from the encryption information for data
-stream itself, so if we want to handwave how we fetch the encrypted
-filename info (maybe some magic ioctl, or maybe via using some kind of
-magic RWF flag used for reading encrypted directories that are opened
-via O_DIRECTORY, which sorta-works like readdir() but also returns
-some additional metadata information for each directory entry), sure
-it should be possible to use your proposed interface as a starting
-point.
+I guess that's the next patch. And I see amluto has some concerns...
 
-I'm not sure we want to try to design all of the details of how to get
-the encrypted data plus encryption metadata for the data stream, but
-in theory, so long as there is a way to get the encryption metadata,
-sure, it could work.  One other approach is to just abuse the xattr
-interface, the way we do with Posix ACL's and Capabilities, where the
-on-disk format and the format used when we query a file's ACL via the
-xattr interface don't necessary have to be identical.  I'm sure that
-will result in howls of outrage in some quarters, but this is
-something for which we have a precedent.
+/me goes read.
 
-Cheers,
+-- 
+Regards/Gruss,
+    Boris.
 
-					- Ted
+https://people.kernel.org/tglx/notes-about-netiquette
