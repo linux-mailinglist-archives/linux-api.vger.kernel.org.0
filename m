@@ -2,98 +2,88 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A0F438801A
-	for <lists+linux-api@lfdr.de>; Tue, 18 May 2021 20:59:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07D513880B7
+	for <lists+linux-api@lfdr.de>; Tue, 18 May 2021 21:45:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351731AbhERTAX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 18 May 2021 15:00:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46921 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1343780AbhERTAW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 18 May 2021 15:00:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1621364343;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=EmvqAF/tGZxnpJT45xMDZ2Iz1NsXhbJqP8uJhgy88+E=;
-        b=e8E9uxQlyBwfTCyl/wNowmTI3LZESH5h39x4YndMDGKzfh2TQ+dUkQV5hsF6Cjy7tocF/U
-        g/ZR9OXQvX2hZsTRphBeJmWOZyI3QKGWNU58yyfRs1L7Z1s4Xcdf1UvBefG7P+DcQ9RPn/
-        0BhIa7KXyhveaF8LKEbQEuyJtP0gCzg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-501-msU198vYOKCHIds7qVJYZw-1; Tue, 18 May 2021 14:58:59 -0400
-X-MC-Unique: msU198vYOKCHIds7qVJYZw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED0AF80006E;
-        Tue, 18 May 2021 18:58:56 +0000 (UTC)
-Received: from redhat.com (ovpn-113-225.phx2.redhat.com [10.3.113.225])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E08931037E88;
-        Tue, 18 May 2021 18:58:55 +0000 (UTC)
-Date:   Tue, 18 May 2021 12:58:43 -0600
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     Shenming Lu <lushenming@huawei.com>
-Cc:     Cornelia Huck <cohuck@redhat.com>, Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Eric Auger <eric.auger@redhat.com>, <kvm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <iommu@lists.linux-foundation.org>, <linux-api@vger.kernel.org>,
-        Kevin Tian <kevin.tian@intel.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>, <yi.l.liu@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Barry Song <song.bao.hua@hisilicon.com>,
-        <wanghaibin.wang@huawei.com>, <yuzenghui@huawei.com>
-Subject: Re: [RFC PATCH v3 1/8] iommu: Evolve the device fault reporting
- framework
-Message-ID: <20210518125843.68552b67.alex.williamson@redhat.com>
-In-Reply-To: <20210409034420.1799-2-lushenming@huawei.com>
-References: <20210409034420.1799-1-lushenming@huawei.com>
-        <20210409034420.1799-2-lushenming@huawei.com>
+        id S1351935AbhERTqp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 18 May 2021 15:46:45 -0400
+Received: from mga07.intel.com ([134.134.136.100]:27039 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1351956AbhERTqm (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 18 May 2021 15:46:42 -0400
+IronPort-SDR: zQ0X6kd8P7C2v7/dKEdhUyu6nZleqfLe8HoacyZY7sYuZ1fXWE5a2cmr8gd6dxhn85RNBWp2dZ
+ dVA1Hj5RFtvQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="264720044"
+X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; 
+   d="scan'208";a="264720044"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2021 12:45:18 -0700
+IronPort-SDR: tYQi2B82XedKDm6qGiBjeEUdZVyLSN3ijHw1VG6+3/gOUcVnRwKduMlDNvjLJFTLm5urO60hXJ
+ V5q6mwSq98IA==
+X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; 
+   d="scan'208";a="439600915"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.166.158]) ([10.209.166.158])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2021 12:45:16 -0700
+Subject: Re: [PATCH v26 24/30] x86/cet/shstk: Introduce shadow stack token
+ setup/verify routines
+To:     Borislav Petkov <bp@alien8.de>,
+        Eugene Syromiatnikov <esyr@redhat.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-25-yu-cheng.yu@intel.com> <YKIfIEyW+sR+bDCk@zn.tnic>
+ <e225e357-a1d5-9596-8900-79e6b94cf924@intel.com>
+ <20210518001316.GR15897@asgard.redhat.com> <YKQATkbU4DJ/nC3T@zn.tnic>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <10f74571-f8c4-9b08-0157-1570b30a1a6d@intel.com>
+Date:   Tue, 18 May 2021 12:45:13 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <YKQATkbU4DJ/nC3T@zn.tnic>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, 9 Apr 2021 11:44:13 +0800
-Shenming Lu <lushenming@huawei.com> wrote:
-
-> This patch follows the discussion here:
+On 5/18/2021 10:58 AM, Borislav Petkov wrote:
+> On Tue, May 18, 2021 at 02:14:14AM +0200, Eugene Syromiatnikov wrote:
+>> Speaking of which, I wonder what would happen if a 64-bit process makes
+>> a 32-bit system call (using int 0x80, for example), and gets a signal.
 > 
-> https://lore.kernel.org/linux-acpi/YAaxjmJW+ZMvrhac@myrica/
+> I guess that's the next patch. And I see amluto has some concerns...
 > 
-> Besides SVA/vSVA, such as VFIO may also enable (2nd level) IOPF to remove
-> pinning restriction. In order to better support more scenarios of using
-> device faults, we extend iommu_register_fault_handler() with flags and
-> introduce FAULT_REPORT_ to describe the device fault reporting capability
-> under a specific configuration.
+> /me goes read.
 > 
-> Note that we don't further distinguish recoverable and unrecoverable faults
-> by flags in the fault reporting cap, having PAGE_FAULT_REPORT_ +
-> UNRECOV_FAULT_REPORT_ seems not a clean way.
-> 
-> In addition, still take VFIO as an example, in nested mode, the 1st level
-> and 2nd level fault reporting may be configured separately and currently
-> each device can only register one iommu dev fault handler, so we add a
-> handler update interface for this.
 
+In the next revision, there will be no "signal context extension" 
+struct.  However, the flow for 64, ia32 and x32 will be similar.  I will 
+send that out after some testing.
 
-IIUC, you're introducing flags for the fault handler callout, which
-essentially allows the IOMMU layer to filter which types of faults the
-handler can receive.  You then need an update function to modify those
-flags.  Why can't the handler itself perform this filtering?  For
-instance in your vfio example, the handler registered by the type1
-backend could itself return fault until the fault transfer path to the
-device driver is established.  Thanks,
-
-Alex
-
+Thanks,
+Yu-cheng
