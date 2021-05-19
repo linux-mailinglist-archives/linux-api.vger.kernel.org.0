@@ -2,122 +2,149 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC3C5389923
-	for <lists+linux-api@lfdr.de>; Thu, 20 May 2021 00:15:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D25738997B
+	for <lists+linux-api@lfdr.de>; Thu, 20 May 2021 00:52:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229762AbhESWQW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 19 May 2021 18:16:22 -0400
-Received: from mga04.intel.com ([192.55.52.120]:24024 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229512AbhESWQV (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 19 May 2021 18:16:21 -0400
-IronPort-SDR: pkuOXVHZbA1qShTff2ljYedicsWZkHXCAq8D8z5RZFbgxbSMuQltZIGwJkWGSsyCHGVmKnNGTp
- aQvIy+qzSAsA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9989"; a="199134411"
-X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; 
-   d="scan'208";a="199134411"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2021 15:15:00 -0700
-IronPort-SDR: 4htN2xJSznuZVhLFhhbfFRkZUb4nixiLBd8DZWgrRmw3SzyxERNbqQvWzA8B9KUhCVR5lyo/+I
- JW12+IiyJbFA==
-X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; 
-   d="scan'208";a="467381111"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.169.18]) ([10.209.169.18])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2021 15:14:58 -0700
-Subject: Re: [PATCH v26 26/30] ELF: Introduce arch_setup_elf_property()
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Mark Brown <broonie@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>
-References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
- <20210427204315.24153-27-yu-cheng.yu@intel.com> <YKVUgzJ0MVNBgjDd@zn.tnic>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <c29348d8-caae-5226-d095-ae3992d88338@intel.com>
-Date:   Wed, 19 May 2021 15:14:58 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+        id S229955AbhESWxV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 19 May 2021 18:53:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43094 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229734AbhESWxU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 19 May 2021 18:53:20 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99A8FC061574
+        for <linux-api@vger.kernel.org>; Wed, 19 May 2021 15:52:00 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id s4so6340003plg.12
+        for <linux-api@vger.kernel.org>; Wed, 19 May 2021 15:52:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:subject:to:cc:references:in-reply-to:mime-version
+         :message-id:content-transfer-encoding;
+        bh=K/gtSQyGUSDU2Jx3SxY9nAC3F0K9RnJVQwhiYzkSGHo=;
+        b=Li4+10qZfuoAIzSIdJugbWgsSwoc1VZ1cdDPmdYg/YSbcOh/JRR+H6pZrgwFRDnUEo
+         HGaEbrAhJe7+B5Glo+itY5TnswaO/K7rPHq1jJQgzhgX0leCQtJnPES6l9+tlC3YieE6
+         S/HQtpfeC3os3GwDdARMl27O8ubM/rlGmyZG+G3jzHM6KrPuGba3wdNYRwYki08XnMi0
+         A8UEKrOacg2Wrxx4Rejhv55B3yAwt1CynTgNc2c052ybYVpUHufFmowo4uNohnQBLZIF
+         hFYytl+q3SuIuwV+yhuVmt2BTZz+wY1e/lgWlrCUXqSojnpw3nx66trf6xWhBWA2W1VE
+         HbTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:subject:to:cc:references:in-reply-to
+         :mime-version:message-id:content-transfer-encoding;
+        bh=K/gtSQyGUSDU2Jx3SxY9nAC3F0K9RnJVQwhiYzkSGHo=;
+        b=q5tXuzsxzQzOd+1ul+jdLVV7hOV6I9XtCocyXOsQxwPaAIM8+CydGnLZxtkJXSJWTX
+         60qKaD+/B7QVjbnq4jQxYtIPyOJllzeDRVR7Qf/RYtxrgUHSWcUQjeTLiYcPSRUC0Sa7
+         0jb1GT3gQY/mkZ4yZ1GmhO1+IeRtcjH3h105XIkqMSAWEUTON737EnsRu2xm2y/PGcBQ
+         93qlY3NQqYhqID4MxfU9X2mm0nBxsxS96otF8HVKArK1m3feCdjhfS68pH/me6YaJ1x6
+         v4G13roT9gxjV1pb1kXbLq1MNxSgBCQcbVtLvEfHLXC2nGyVPqHWmEHmhDEftP3mGnjg
+         7OBA==
+X-Gm-Message-State: AOAM531U2a9zMw2sNndlOh2eGDUVcCHo7dgazcRFEFMtdHZJsSiyTCvu
+        U9cDqeP+qcIBgPfrG5Xej0U=
+X-Google-Smtp-Source: ABdhPJwwHW0r8aMTiKvsh1z2gjgvHDbBcxnmnURC+BE3zkCPCR2+LFtab8vdgFm6O8pyoHn65LB4gQ==
+X-Received: by 2002:a17:902:a40e:b029:e9:7253:8198 with SMTP id p14-20020a170902a40eb02900e972538198mr2160441plq.82.1621464720134;
+        Wed, 19 May 2021 15:52:00 -0700 (PDT)
+Received: from localhost (60-241-27-127.tpgi.com.au. [60.241.27.127])
+        by smtp.gmail.com with ESMTPSA id gg10sm364500pjb.49.2021.05.19.15.51.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 May 2021 15:51:59 -0700 (PDT)
+Date:   Thu, 20 May 2021 08:51:53 +1000
+From:   Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: Linux powerpc new system call instruction and ABI
+To:     "Dmitry V. Levin" <ldv@altlinux.org>,
+        Michael Ellerman <mpe@ellerman.id.au>
+Cc:     Joakim Tjernlund <Joakim.Tjernlund@infinera.com>,
+        libc-alpha@sourceware.org, libc-dev@lists.llvm.org,
+        linux-api@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        Matheus Castanho <msc@linux.ibm.com>, musl@lists.openwall.com
+References: <20210519132656.GA17204@altlinux.org>
+In-Reply-To: <20210519132656.GA17204@altlinux.org>
 MIME-Version: 1.0
-In-Reply-To: <YKVUgzJ0MVNBgjDd@zn.tnic>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Message-Id: <1621464056.o9t21cquw8.astroid@bobo.none>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 5/19/2021 11:10 AM, Borislav Petkov wrote:
-> On Tue, Apr 27, 2021 at 01:43:11PM -0700, Yu-cheng Yu wrote:
->> @@ -1951,6 +1951,8 @@ config X86_SHADOW_STACK
->>   	depends on AS_WRUSS
->>   	depends on ARCH_HAS_SHADOW_STACK
->>   	select ARCH_USES_HIGH_VMA_FLAGS
->> +	select ARCH_USE_GNU_PROPERTY
->> +	select ARCH_BINFMT_ELF_STATE
-> 		^^^^^^^^
-> 
-> What's that for? Isn't ARCH_USE_GNU_PROPERTY enough?
-> 
+Excerpts from Dmitry V. Levin's message of May 19, 2021 11:26 pm:
+> On Wed, May 19, 2021 at 08:59:05PM +1000, Nicholas Piggin wrote:
+>> Excerpts from Dmitry V. Levin's message of May 19, 2021 8:24 pm:
+>> > On Wed, May 19, 2021 at 12:50:24PM +1000, Nicholas Piggin wrote:
+>> > [...]
+>> >> With this patch, I think the ptrace ABI should mostly be fixed. I thi=
+nk=20
+>> >> a problem remains with applications that look at system call return=20
+>> >> registers directly and have powerpc specific error cases. Those proba=
+bly
+>> >> will just need to be updated unfortunately. Michael thought it might =
+be
+>> >> possible to return an indication via ptrace somehow that the syscall =
+is
+>> >> using a new ABI, so such apps can be updated to test for it. I don't=20
+>> >> know how that would be done.
+>> >=20
+>> > Is there any sane way for these applications to handle the scv case?
+>> > How can they tell that the scv semantics is being used for the given
+>> > syscall invocation?  Can this information be obtained e.g. from struct
+>> > pt_regs?
+>>=20
+>> Not that I know of. Michael suggested there might be a way to add=20
+>> something. ptrace_syscall_info has some pad bytes, could
+>> we use one for flags bits and set a bit for "new system call ABI"?
+>=20
+> PTRACE_GET_SYSCALL_INFO is an architecture-agnostic API, it hides all
+> architecture-specific details behind struct ptrace_syscall_info which has
+> the same meaning on all architectures.  ptrace_syscall_info.exit contains
+> both rval and is_error fields to support every architecture regardless of
+> its syscall ABI.
+>=20
+> ptrace_syscall_info.exit is extensible, but every architecture would have
+> to define a method of telling whether the system call follows the "new
+> system call ABI" conventions to export this bit of information.
 
-ARCH_USE_GNU_PROPERTY is for defining parsing functions, e.g.
-	arch_parse_elf_property(),
-	arch_setup_property().
+It's already architecture speicfic if you look at registers of syscall=20
+exit state so I don't see a problem with a flag that ppc can use for
+ABI.
 
-ARCH_BINFMT_ELF_STATE is for defining "struct arch_elf_state".
+>=20
+> This essentially means implementing something like
+> static inline long syscall_get_error_abi(struct task_struct *task, struct=
+ pt_regs *regs)
+> for every architecture, and using it along with syscall_get_error
+> in ptrace_get_syscall_info_exit to initialize the new field in
+> ptrace_syscall_info.exit structure.
 
-However, those parsing functions take (struct arch_elf_state *) as an 
-input.  It probably makes sense to have ARCH_USE_GNU_PROPERTY dependent 
-on ARCH_BINFMT_ELF_STATE.  It would be ok as-is too.  ARM people might 
-have other plans in mind.
+Yes this could work. Other architectures can just use a generic
+implementation if they don't define their own so that's easy. And
+in userspace they can continue to ignore the flag.
 
-[...]
+>=20
+>> As a more hacky thing you could make a syscall with -1 and see how
+>> the error looks, and then assume all syscalls will be the same.
+>=20
+> This would be very unreliable because sc and scv are allowed to interming=
+le,
+> so every syscall invocation can follow any of these two error handling
+> conventions.
+>=20
+>> Or... is it possible at syscall entry to peek the address of
+>> the instruction which caused the call and see if that was a
+>> scv instruction? That would be about as reliable as possible
+>> without having that new flag bit.
+>=20
+> No other architecture requires peeking into tracee memory just to find ou=
+t
+> the syscall ABI.  This would make powerpc the most ugly architecture for
+> ptracing.
+>=20
+> I wonder why can't this information be just exported to the tracer via
+> struct pt_regs?
 
-> 
->> diff --git a/include/uapi/linux/elf.h b/include/uapi/linux/elf.h
->> index 30f68b42eeb5..24ba55ba8278 100644
->> --- a/include/uapi/linux/elf.h
->> +++ b/include/uapi/linux/elf.h
->> @@ -455,4 +455,13 @@ typedef struct elf64_note {
->>   /* Bits for GNU_PROPERTY_AARCH64_FEATURE_1_BTI */
->>   #define GNU_PROPERTY_AARCH64_FEATURE_1_BTI	(1U << 0)
->>   
->> +/* .note.gnu.property types for x86: */
->> +#define GNU_PROPERTY_X86_FEATURE_1_AND		0xc0000002
-> 
-> Why not 0xc0000001? ARM64 is 0xc0000000...
-> 
+It might be able to, I don't see why that would be superior though.
 
-I just looked at the ABI document.
+Where could you put it... I guess it could go in the trap field in a=20
+high bit. But could that break things that just test for syscall=20
+trap number (and don't care about register ABI)? I'm not sure.
 
-ARM has GNU_PROPERTY_AARCH64_FEATURE_1_AND 0xc0000000
-
-X86 has:
-	GNU_PROPERTY_X86_ISA_1_USED	0xc0000000
-	GNU_PROPERTY_X86_ISA_1_NEEDED	0xc0000001
-	GNU_PROPERTY_X86_FEATURE_1_AND	0xc0000002
-
-Yu-cheng
+Thanks,
+Nick
