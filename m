@@ -2,183 +2,143 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 40BE33885B9
-	for <lists+linux-api@lfdr.de>; Wed, 19 May 2021 05:52:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6699238864E
+	for <lists+linux-api@lfdr.de>; Wed, 19 May 2021 07:01:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353154AbhESDxe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 18 May 2021 23:53:34 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:33438 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S238952AbhESDxd (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 18 May 2021 23:53:33 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14J3nalJ109545;
-        Tue, 18 May 2021 23:51:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : reply-to : to : cc : date : in-reply-to : references : content-type
- : mime-version : content-transfer-encoding; s=pp1;
- bh=RlHfyF6dV/ifSJEeZYS/RGJAYSImyxyDQ/6v4PYpUoQ=;
- b=RolvZNraQHV2P0qsntUMNydBlx0dyrhruAkYByqI3crIFJt30it3eMD9y1NI97YJlLBF
- lH6DuJL3/LDNdT9+XfECdNwXjT3ppXYd4fzdkztzifbZoyO1eST/M0EN/sWWCnsKPUuA
- H6yUOj/umX7XGfYGvS5ibBulsfPSz6SKd8vVmhFI43jBnRDxp7LT4KPHLt7J2Q5Dau17
- Cj6dF9IeuEdgqvHSFSWg1ukib6+/mHvqyFOXu1iQeX1CR2TyC88aG4iZ1bHXIXD9lr5e
- CzzvuZ7mMm9lvzxy43rUPcYtNcdwRbty82Q4G5bZScNpaeZL0p5CKCQtoBAQKkQrMsFM OQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 38mu4300f1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 18 May 2021 23:51:02 -0400
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14J3p11q115720;
-        Tue, 18 May 2021 23:51:01 -0400
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com [169.47.144.27])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 38mu4300et-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 18 May 2021 23:51:01 -0400
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
-        by ppma05wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 14J3h0dU007850;
-        Wed, 19 May 2021 03:51:00 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
-        by ppma05wdc.us.ibm.com with ESMTP id 38j7tb3hye-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 19 May 2021 03:51:00 +0000
-Received: from b03ledav004.gho.boulder.ibm.com (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
-        by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 14J3oxaK24117734
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 19 May 2021 03:50:59 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C57627805E;
-        Wed, 19 May 2021 03:50:59 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 7B91F78060;
-        Wed, 19 May 2021 03:50:52 +0000 (GMT)
-Received: from jarvis.int.hansenpartnership.com (unknown [9.80.208.94])
-        by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Wed, 19 May 2021 03:50:52 +0000 (GMT)
-Message-ID: <d6b31cd039bf717bc4ea496c2aff1f7cb9c62bfc.camel@linux.ibm.com>
-Subject: Re: [PATCH v19 6/8] PM: hibernate: disable when there are active
- secretmem users
-From:   James Bottomley <jejb@linux.ibm.com>
-Reply-To: jejb@linux.ibm.com
-To:     Dan Williams <dan.j.williams@intel.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christopher Lameter <cl@linux.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Hagen Paul Pfeifer <hagen@jauu.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Kees Cook <keescook@chromium.org>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Matthew Wilcox <willy@infradead.org>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Palmer Dabbelt <palmerdabbelt@google.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tycho Andersen <tycho@tycho.ws>, Will Deacon <will@kernel.org>,
-        Yury Norov <yury.norov@gmail.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-riscv@lists.infradead.org, X86 ML <x86@kernel.org>
-Date:   Tue, 18 May 2021 20:50:51 -0700
-In-Reply-To: <CAPcyv4hwZ2e-xzsySOjaJXDSXRKctsoGA5zW-enTn2Y9ezWPVw@mail.gmail.com>
-References: <20210513184734.29317-1-rppt@kernel.org>
-         <20210513184734.29317-7-rppt@kernel.org>
-         <20210518102424.GD82842@C02TD0UTHF1T.local>
-         <d99864e677cec4ed83e52c4417c58bbe5fd728b1.camel@linux.ibm.com>
-         <CAPcyv4hwZ2e-xzsySOjaJXDSXRKctsoGA5zW-enTn2Y9ezWPVw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+        id S232576AbhESFCj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 19 May 2021 01:02:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53046 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232842AbhESFCi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 19 May 2021 01:02:38 -0400
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51792C06175F
+        for <linux-api@vger.kernel.org>; Tue, 18 May 2021 22:01:18 -0700 (PDT)
+Received: by mail-pg1-x536.google.com with SMTP id i5so8635624pgm.0
+        for <linux-api@vger.kernel.org>; Tue, 18 May 2021 22:01:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:subject:to:cc:references:in-reply-to:mime-version
+         :message-id:content-transfer-encoding;
+        bh=esnhAa6zxT8tZsaixbuTSr+w0I6APKP+rmmO7EtAWv8=;
+        b=Nwmr/n+uZ+qIVnNcGfFrwhhAiHAr4FxT9EBnK3cxa7KO+Ne3CBxUItj4lbX/egY6In
+         XnT8HOLih6Z0kqPzx6lbFw3AihXuE3g1UUuSEKFoNJucJrfbmVX/QyFJgZU5sVUdUx9f
+         GEZ9NV76PX4k+eZpjBlEaZsKCOFK4taOBuCeqQQ8L0q/ey3abVbuWJHFH4I5SKDM9zTP
+         ENzgzoSNsmgM+qKso3YNJWneeO8bPLO9AXUno7lxcbEZh06+pel3sxPYwhE+0Es5NUrX
+         XnHin1HPVJOv1AKHB0IQFhU5yOuVIwj7Rqok6QD93uCURq2OXAILT22bTLkmb4HJri3P
+         hT2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:subject:to:cc:references:in-reply-to
+         :mime-version:message-id:content-transfer-encoding;
+        bh=esnhAa6zxT8tZsaixbuTSr+w0I6APKP+rmmO7EtAWv8=;
+        b=Mh6mGodycIvecJebWZZWy6UY8oLxj/tfHFLLVjTPcjJssOR5tZyiTgbHS29dEHsKV0
+         Ltx5FiwQS9WeDoS8YsWXKFiv5GU9FfBdB3ReWE++cYCDEjF3FLP8UwFQ0fagy13ZzbbO
+         J07A91yWjmmFZAEYPaC2tmqdLDx+1cUBsEVthnOGbV07LdGKggrnA0m9N4aE/UtnrI3E
+         DIv7QSORHlZjOq3oE+n+WLR4J+/6THjcxQcfJylef7d2qK8Acb9WyhK6XSrvSFebUHGB
+         I8lwn4vSbVU8ggoPynniAm4k131Jf5CnuU5NQ9kRFkLBINQrYj4zVrwo0OjRdevZBuTU
+         7ECg==
+X-Gm-Message-State: AOAM533cZdnftw5bLI+ORIL0/NOpQKv9phwhfDlO5k2e4/R5vi9USVw4
+        XULfvWcLI23i9LcNQtevPB+uNLBPMk0=
+X-Google-Smtp-Source: ABdhPJyxD/YfxWVyE3DDoF4YolxhuSLaZtlKUGtlNvp/sulWv5s9PfeXY/SVs3u/C7ewBdu/bBIG1g==
+X-Received: by 2002:a63:5641:: with SMTP id g1mr6412836pgm.351.1621400477693;
+        Tue, 18 May 2021 22:01:17 -0700 (PDT)
+Received: from localhost (14-201-155-8.tpgi.com.au. [14.201.155.8])
+        by smtp.gmail.com with ESMTPSA id i7sm5092172pgv.93.2021.05.18.22.01.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 May 2021 22:01:17 -0700 (PDT)
+Date:   Wed, 19 May 2021 15:01:12 +1000
+From:   Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: Linux powerpc new system call instruction and ABI
+To:     "Dmitry V. Levin" <ldv@altlinux.org>,
+        Michael Ellerman <mpe@ellerman.id.au>
+Cc:     libc-alpha@sourceware.org, libc-dev@lists.llvm.org,
+        linux-api@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        Matheus Castanho <msc@linux.ibm.com>, musl@lists.openwall.com
+References: <20200611081203.995112-1-npiggin@gmail.com>
+        <20210518231331.GA8464@altlinux.org>
+        <1621385544.nttlk5qugb.astroid@bobo.none>
+In-Reply-To: <1621385544.nttlk5qugb.astroid@bobo.none>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: VqtaOLO0XUQJCbKk9fXnTog4s3XC3y7U
-X-Proofpoint-GUID: TEWD-gwpPRN_Ns5w2NX9HRb7MXu4tE3d
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
- definitions=2021-05-19_01:2021-05-18,2021-05-19 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- clxscore=1015 impostorscore=0 phishscore=0 adultscore=0 suspectscore=0
- malwarescore=0 mlxlogscore=999 lowpriorityscore=0 bulkscore=0 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2105190024
+Message-Id: <1621400263.gf0mbqhkrf.astroid@bobo.none>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, 2021-05-18 at 18:49 -0700, Dan Williams wrote:
-> On Tue, May 18, 2021 at 6:33 PM James Bottomley <jejb@linux.ibm.com>
-> wrote:
-> > On Tue, 2021-05-18 at 11:24 +0100, Mark Rutland wrote:
-> > > On Thu, May 13, 2021 at 09:47:32PM +0300, Mike Rapoport wrote:
-> > > > From: Mike Rapoport <rppt@linux.ibm.com>
-> > > > 
-> > > > It is unsafe to allow saving of secretmem areas to the
-> > > > hibernation snapshot as they would be visible after the resume
-> > > > and this essentially will defeat the purpose of secret memory
-> > > > mappings.
-> > > > 
-> > > > Prevent hibernation whenever there are active secret memory
-> > > > users.
-> > > 
-> > > Have we thought about how this is going to work in practice, e.g.
-> > > on mobile systems? It seems to me that there are a variety of
-> > > common applications which might want to use this which people
-> > > don't expect to inhibit hibernate (e.g. authentication agents,
-> > > web browsers).
-> > 
-> > If mobile systems require hibernate, then the choice is to disable
-> > this functionality or implement a secure hibernation store.   I
-> > also thought most mobile hibernation was basically equivalent to
-> > S3, in which case there's no actual writing of ram into storage, in
-> > which case there's no security barrier and likely the inhibition
-> > needs to be made a bit more specific to the suspend to disk case?
-> > 
-> > > Are we happy to say that any userspace application can
-> > > incidentally inhibit hibernate?
-> > 
-> > Well, yes, for the laptop use case because we don't want suspend to
-> > disk to be able to compromise the secret area.  You can disable
-> > this for mobile if you like, or work out how to implement hibernate
-> > securely if you're really suspending to disk.
-> 
-> Forgive me if this was already asked and answered. Why not document
-> that secretmem is ephemeral in the case of hibernate and push the
-> problem to userspace to disable hibernation? In other words
-> hibernation causes applications to need to reload their secretmem, it
-> will be destroyed on the way down and SIGBUS afterwards. That at
-> least gives a system the flexibility to either sacrifice hibernate
-> for secretmem (with a userspace controlled policy), or sacrifice
-> secretmem using processes for hibernate.
+Excerpts from Nicholas Piggin's message of May 19, 2021 12:50 pm:
+> Excerpts from Dmitry V. Levin's message of May 19, 2021 9:13 am:
+>> Hi,
+>>=20
+>> On Thu, Jun 11, 2020 at 06:12:01PM +1000, Nicholas Piggin wrote:
+>> [...]
+>>> - Error handling: The consensus among kernel, glibc, and musl is to mov=
+e to
+>>>   using negative return values in r3 rather than CR0[SO]=3D1 to indicat=
+e error,
+>>>   which matches most other architectures, and is closer to a function c=
+all.
+>>=20
+>> Apparently, the patchset merged by commit v5.9-rc1~100^2~164 was
+>> incomplete: all functions defined in arch/powerpc/include/asm/ptrace.h a=
+nd
+>> arch/powerpc/include/asm/syscall.h that use ccr are broken when scv is u=
+sed.
+>> This includes syscall_get_error() and all its users including
+>> PTRACE_GET_SYSCALL_INFO API, which in turn makes strace unusable
+>> when scv is used.
+>>=20
+>> See also https://bugzilla.redhat.com/1929836
+>=20
+> I see, thanks. Using latest strace from github.com, the attached kernel
+> patch makes strace -k check results a lot greener.
+>=20
+> Some of the remaining failing tests look like this (I didn't look at all
+> of them yet):
+>=20
+> signal(SIGUSR1, 0xfacefeeddeadbeef)     =3D 0 (SIG_DFL)
+> write(1, "signal(SIGUSR1, 0xfacefeeddeadbe"..., 50signal(SIGUSR1, 0xfacef=
+eeddeadbeef) =3D 0 (SIG_DFL)
+> ) =3D 50
+> signal(SIGUSR1, SIG_IGN)                =3D 0xfacefeeddeadbeef
+> write(2, "errno2name.c:461: unknown errno "..., 41errno2name.c:461: unkno=
+wn errno 559038737) =3D 41
+> write(2, ": Unknown error 559038737\n", 26: Unknown error 559038737
+> ) =3D 26
+> exit_group(1)                           =3D ?
+>=20
+> I think the problem is glibc testing for -ve, but it should be comparing
+> against -4095 (+cc Matheus)
+>=20
+>   #define RET_SCV \
+>       cmpdi r3,0; \
+>       bgelr+; \
+>       neg r3,r3;
 
-Well, realistically, there are many possibilities for embedded if it
-wants to use secret memory.  However, not really having much of an
-interest in the use cases, it's not really for Mike or me to be acting
-as armchair fly half.  I think the best we can do is demonstrate the
-system for our use cases and let embedded kick the tyres for theirs if
-they care, and if not they can disable the feature.
+This glibc patch at least gets that signal test working. Haven't run the=20
+full suite yet because of trouble making it work with a local glibc
+install...
 
-James
+Thanks,
+Nick
 
+---
 
+diff --git a/sysdeps/powerpc/powerpc64/sysdep.h b/sysdeps/powerpc/powerpc64=
+/sysdep.h
+index c57bb1c05d..1ea4c3b917 100644
+--- a/sysdeps/powerpc/powerpc64/sysdep.h
++++ b/sysdeps/powerpc/powerpc64/sysdep.h
+@@ -398,8 +398,9 @@ LT_LABELSUFFIX(name,_name_end): ; \
+ #endif
+=20
+ #define RET_SCV \
+-    cmpdi r3,0; \
+-    bgelr+; \
++    li r9,-4095; \
++    cmpld r3,r9; \
++    bltlr+; \
+     neg r3,r3;
+=20
+ #define RET_SC \
