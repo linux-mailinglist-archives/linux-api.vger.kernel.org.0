@@ -2,79 +2,76 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4061338B099
-	for <lists+linux-api@lfdr.de>; Thu, 20 May 2021 15:55:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B865138B0C5
+	for <lists+linux-api@lfdr.de>; Thu, 20 May 2021 16:00:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235703AbhETN5A (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 20 May 2021 09:57:00 -0400
-Received: from mx2.suse.de ([195.135.220.15]:50468 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238751AbhETN4x (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 20 May 2021 09:56:53 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id B8DB8ABCD;
-        Thu, 20 May 2021 13:55:27 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 6A0451F2C9C; Thu, 20 May 2021 15:55:27 +0200 (CEST)
-Date:   Thu, 20 May 2021 15:55:27 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     Matthew Bobrowski <repnop@google.com>
-Cc:     jack@suse.cz, amir73il@gmail.com, christian.brauner@ubuntu.com,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH 0/5] Add pidfd support to the fanotify API
-Message-ID: <20210520135527.GD18952@quack2.suse.cz>
-References: <cover.1621473846.git.repnop@google.com>
+        id S242393AbhETOBZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 20 May 2021 10:01:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48720 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243690AbhETOA7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 20 May 2021 10:00:59 -0400
+Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86055C061574;
+        Thu, 20 May 2021 06:59:35 -0700 (PDT)
+Received: by mail-il1-x131.google.com with SMTP id e10so13700610ilu.11;
+        Thu, 20 May 2021 06:59:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9E+YaOa0xt0tpY5/Es8DJviCFAarLiTAnjx0rqctTrM=;
+        b=jZSTao8IO6znTllGcJgb9psFp2kPOKSB8ooj7rfNbJ3+zpAG1rQD0sHoHLs5THz2ML
+         N8iDZauGy6k6/kmXD2sLPTt8XNiinUCRdm1gc2toAJmQvBX2HpvZTSrafAeXyeF5DLIM
+         yt/GbsyytnoWimmM/JR74rBIes+NOF/Zff/h8DQhi+gMw+uSXZ0PKksZ9SWX87aG/Cyu
+         NfQl1jT1MeLyvOKVxIAHt5hUoQi827+mhBIf4/Xw+Ux8g31JcGjlSdEHj+iNwd081L52
+         F1yuw7dzkRy3aKJp3EbFhEFi7vHi7kIv4ol7pI0bde9+I+rZQZSCE3TRt9lQazwO5nUH
+         LfkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9E+YaOa0xt0tpY5/Es8DJviCFAarLiTAnjx0rqctTrM=;
+        b=p2yAqiykI8upuIa2U5QWw0GpwUqn0HNRm+3ZDTHoVJyQhHn7VPpqt01L/guaMLFk8X
+         qNtAmPqckmlyhWxmVSJz6PCpCj6JD4dn3MDKrPWWRaabxM3WdwsL44HGrR67iK4vaXH6
+         dsvZmz/V2m8xWF+NofOSK9M/fqETvXe+SKX4HC9RqBtwIpNLXSiyjeaxAjBQk5pesRR6
+         tWTuvVHjhv3g5SdAK0nCWYu4OTGv6UcIuGQtUxpYD5UdoCgagc9MCxLmgQSOOd/ajlM6
+         yu0ysnluqv7j2Z2nskc9mPY0uavhVB8GjPbMMyR6J7ge8US/oSzwsSDI78DAUi6PvI/w
+         0SkQ==
+X-Gm-Message-State: AOAM531I4aDIY9bC9KUd96U6RyEGP56fnIs3IeSGWeiDZfBXxVmZXicY
+        lTenEwCc0KEm9xOj4vmtfTVmQjA5/4/b7jdZ80z1OhAHsxI=
+X-Google-Smtp-Source: ABdhPJx9/t5mYTEt0sV/H1BbX6mG2pRq+skU0Y2pvHXkOnwrj+el+YiB6YEssIjD2HklKpjMoLZJZMPcDoHuk3qiBbM=
+X-Received: by 2002:a92:4446:: with SMTP id a6mr5905338ilm.9.1621519174654;
+ Thu, 20 May 2021 06:59:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1621473846.git.repnop@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <cover.1621473846.git.repnop@google.com> <24c761bd0bd1618c911a392d0c310c24da7d8941.1621473846.git.repnop@google.com>
+In-Reply-To: <24c761bd0bd1618c911a392d0c310c24da7d8941.1621473846.git.repnop@google.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Thu, 20 May 2021 16:59:23 +0300
+Message-ID: <CAOQ4uxjK-0nC5OHGQ5ArDuNq_3pFKfyjBmUfCqv=kAsq5y8KUQ@mail.gmail.com>
+Subject: Re: [PATCH 4/5] fanotify/fanotify_user.c: introduce a generic info
+ record copying function
+To:     Matthew Bobrowski <repnop@google.com>
+Cc:     Jan Kara <jack@suse.cz>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu 20-05-21 12:09:45, Matthew Bobrowski wrote:
-> Hey Jan/Amir/Christian,
-> 
-> This is the updated patch series for adding pidfd support to the
-> fanotify API. It incorporates all the suggestions that had come out of
-> the initial RFC patch series [0].
-> 
-> The main difference with this patch series is that FAN_REPORT_PIDFD
-> results in an additional info record object supplied alongside the
-> generic event metadata object instead of overloading metadata->pid. If
-> any of the fid flavoured init flags are specified, then the pidfd info
-> record object will follow any fid info record objects.
-> 
-> [0] https://www.spinics.net/lists/linux-fsdevel/msg193296.html
+On Thu, May 20, 2021 at 5:11 AM Matthew Bobrowski <repnop@google.com> wrote:
+>
+> The copy_info_to_user() function has been repurposed with the idea to
 
-Overall the series looks fine to me - modulo the problems Christian & Amir
-found. Do you have any tests for this? Preferably for LTP so that we can
-extend the coverage there?
+Sorry I gave comment on patch 5 before I knew you repurposed
+copy_info_to_user().
+Perhaps it would be better to give a non ambiguous name like
+copy_info_records_to_user() or
+copy_fid_info_records_to_user() and leave pidfd out of this helper.
+If you do wish to keep pidfd copy inside this helper and follow my
+suggestion on patch 5 you will have to pass in pidfd as another argument.
 
-								Honza
-
-> 
-> Matthew Bobrowski (5):
->   kernel/pid.c: remove static qualifier from pidfd_create()
->   kernel/pid.c: implement checks on parameters passed to pidfd_create()
->   fanotify_user.c: minor cosmetic adjustments to fid labels
->   fanotify/fanotify_user.c: introduce a generic info record copying
->     function
->   fanotify: Add pidfd info record support to the fanotify API
-> 
->  fs/notify/fanotify/fanotify_user.c | 216 +++++++++++++++++++----------
->  include/linux/fanotify.h           |   3 +
->  include/linux/pid.h                |   1 +
->  include/uapi/linux/fanotify.h      |  12 ++
->  kernel/pid.c                       |  15 +-
->  5 files changed, 170 insertions(+), 77 deletions(-)
-> 
-> -- 
-> 2.31.1.751.gd2f1c929bd-goog
-> 
-> /M
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Thanks,
+Amir.
