@@ -2,55 +2,55 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC84D38B631
-	for <lists+linux-api@lfdr.de>; Thu, 20 May 2021 20:36:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0F2738B635
+	for <lists+linux-api@lfdr.de>; Thu, 20 May 2021 20:37:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235884AbhETSiK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 20 May 2021 14:38:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55520 "EHLO
+        id S236098AbhETSiR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 20 May 2021 14:38:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235676AbhETSh7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 20 May 2021 14:37:59 -0400
-Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com [IPv6:2607:f8b0:4864:20::74a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B00D0C061760
-        for <linux-api@vger.kernel.org>; Thu, 20 May 2021 11:36:36 -0700 (PDT)
-Received: by mail-qk1-x74a.google.com with SMTP id d18-20020a05620a2052b02902eabc6fa35eso13321122qka.17
-        for <linux-api@vger.kernel.org>; Thu, 20 May 2021 11:36:36 -0700 (PDT)
+        with ESMTP id S235773AbhETSiB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 20 May 2021 14:38:01 -0400
+Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com [IPv6:2607:f8b0:4864:20::849])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A46A3C06138B
+        for <linux-api@vger.kernel.org>; Thu, 20 May 2021 11:36:38 -0700 (PDT)
+Received: by mail-qt1-x849.google.com with SMTP id 1-20020aed31010000b029019d1c685840so13031101qtg.3
+        for <linux-api@vger.kernel.org>; Thu, 20 May 2021 11:36:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=8yffkhZDmWpXGMStlaSYXLuhZAjuOm4fNCo0Z04i/w8=;
-        b=GsucztYPrzjbOEykp+tocWZBX5jNJAupJQLIid9XblEsjBdjSWCYjb2OQqeu+/LXzt
-         yg3UHC5fcuu1oxbmgTOVx2X5kWO8zLoaZ2eLUWeQ96tsNDtrRFmqUWygjmdtT9ELmzf6
-         c91kql2y3mt9QsDM2UMXrud0t54Zyp7qofJeqDJf09xjv3VOARq026mxZBr0RIjcKvtu
-         5fYGGC7us9SImZBY3EdaJJQTeP/vY7sPRJGi/aXrGXMpLVL9aGdNlHvi2xmq8d15Moca
-         u0jfMvahIAMzjHH+PEuwXIph/SdhODeDZL5kOXyS5llGWWTnyj7JGO7b1HZRExwkrVCo
-         QS2g==
+        bh=2I0X9v0dJgQjMRRuUZOaNPmbh6GSSvEWwVCe9Ujfz8U=;
+        b=C3xqf0+UAg9Xwtf3qSMNPtj55FVzIxrKGURuri+lM3l3Eybi0B/VjHSauNPDNm+szO
+         SHcJqYsFtqgNL7QQ1mbNGEQXHzzpLyJrgTBrTDlw7Rgy3D4mVZ9lxN++zuRVkeic0cUj
+         0ptNtzHH3GESwdpDAH18U5MiQ5g/DeJthBABL+CPIAAPbUoP8JgV5KEGn3oPXt0pBCV5
+         FiJL2D+C0CSUc7xF4tSPpi/sHosPuQD08yNkDiepDE50CS7XiOdiM24wSQUL1sOhwfBh
+         +cVTdfxSEEODarZ11/Y+WaBNIkqamwtKjbykuGM+ZjGZx893lS3ym3sgMbeKDZlfGIXk
+         Furg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=8yffkhZDmWpXGMStlaSYXLuhZAjuOm4fNCo0Z04i/w8=;
-        b=QHxKDOw7hm6Ff4jR+mVT0HMIJvU5EWY4VPzgyi8qPnH83OfvLaXrx69SfbJm8LykRZ
-         kYNZLj1hwb4Maj8UVB3WzCxTA+A7VySL5Srkpkp46FyBAyWCoh9cPLSdzYGHXfmtsxtW
-         oE/cQyfCa7t+eXO6/H6AXR+BWjxjfKyLVLFSqQ4bMVCb10o+SyaC8bP38pLfUQIF+5or
-         PkGkj+zWNvJr2lQb7RcYXtOYfI9UtP1xDyIMyc9zP7kH7UULUj6fl9WZ4sJn9PtuC5rD
-         ehKnZEWG5TzW+Qhck1xds+WEDa218EZ1Lev+YdYRTrzMzPxAUBs6FYslr1D5B69jArNf
-         leQA==
-X-Gm-Message-State: AOAM530tMbq7gpTrBZTGc62NG2yGgjxjnB8oNpDnNE50iIjYkZQSqS+H
-        XgqUzACQw4GGuD5obyN8fbJGL9O9
-X-Google-Smtp-Source: ABdhPJzgNvQy260TxIj9DoxZx5NnKywTTcckKGMG6Ktp38J7v63Sc/ZqVhtb6WmiDi7H8/baqKse2d5s
+        bh=2I0X9v0dJgQjMRRuUZOaNPmbh6GSSvEWwVCe9Ujfz8U=;
+        b=FNh7gxljrTIZwor5+jvscW24WWsV5meW/NF19wcMKGy6byy0Hd6yk+HXtzbRckINrv
+         UU2pbr3dwqmNjjbsC/ZI8qBaLXzhYG+68UDqWQAf4ED8IAeZW0U/8NBapaPf1Czd0zeS
+         72Mpxh5pyeKmyLDKnaBHOYTPfAtTZqKxsMEJRv7Jchyk8QX8r7YIcyQDsxS2fAZWKJRU
+         IX98LjpsXQ/qokC5AkUAbWUBQEP2K5XRhO7EJYxapOmAj9FSfIKRxo2wL1dsCZ249rsq
+         /9ObN1hSBiDr6GmVtF/QO2RQhdoalZ7jpGcMDWQrTAkR3knWjyJ0jPhnUDX3Kb5vZ18Z
+         wMDg==
+X-Gm-Message-State: AOAM532cqjY8S5RV9NGVwE9iQnwM+FkcbbSFnqEsRVRwMO0rv6vq9QzQ
+        lkIE08nV7mz/H0hMjkp7nRPCVWBj
+X-Google-Smtp-Source: ABdhPJzdaO85atzIR8SmPfcsO+1s3GIZZGd77MvO+jQbKJWb1gxRuPa3Gkrth9LgmjXmjBDS62+0+5Hc
 X-Received: from posk.svl.corp.google.com ([2620:15c:2cd:202:f13e:18cf:76e6:2dc4])
- (user=posk job=sendgmr) by 2002:a0c:8bd1:: with SMTP id a17mr7340347qvc.62.1621535795802;
- Thu, 20 May 2021 11:36:35 -0700 (PDT)
-Date:   Thu, 20 May 2021 11:36:13 -0700
+ (user=posk job=sendgmr) by 2002:a05:6214:126f:: with SMTP id
+ r15mr7180696qvv.35.1621535797790; Thu, 20 May 2021 11:36:37 -0700 (PDT)
+Date:   Thu, 20 May 2021 11:36:14 -0700
 In-Reply-To: <20210520183614.1227046-1-posk@google.com>
-Message-Id: <20210520183614.1227046-9-posk@google.com>
+Message-Id: <20210520183614.1227046-10-posk@google.com>
 Mime-Version: 1.0
 References: <20210520183614.1227046-1-posk@google.com>
 X-Mailer: git-send-email 2.31.1.818.g46aad6cb9e-goog
-Subject: [RFC PATCH v0.1 8/9] lib/umcg: add UMCG server/worker API (early RFC)
+Subject: [RFC PATCH v0.1 9/9] selftests/umcg: add UMCG server/worker API selftest
 From:   Peter Oskolkov <posk@google.com>
 To:     Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@redhat.com>,
@@ -68,384 +68,524 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Add userspace UMCG server/worker API.
+Add UMCG server/worker API selftests. These are only basic
+tests, they do not cover many important use cases/conditions.
 
-This is an early RFC patch, with a lot of changes expected on the way.
+More to come.
 
 Signed-off-by: Peter Oskolkov <posk@google.com>
 ---
- tools/lib/umcg/libumcg.c | 222 +++++++++++++++++++++++++++++++++++++++
- tools/lib/umcg/libumcg.h | 108 +++++++++++++++++++
- 2 files changed, 330 insertions(+)
+ tools/testing/selftests/umcg/.gitignore  |   1 +
+ tools/testing/selftests/umcg/Makefile    |   4 +-
+ tools/testing/selftests/umcg/umcg_test.c | 475 +++++++++++++++++++++++
+ 3 files changed, 479 insertions(+), 1 deletion(-)
+ create mode 100644 tools/testing/selftests/umcg/umcg_test.c
 
-diff --git a/tools/lib/umcg/libumcg.c b/tools/lib/umcg/libumcg.c
-index b177fb1d4b17..a11c2fc9e6e1 100644
---- a/tools/lib/umcg/libumcg.c
-+++ b/tools/lib/umcg/libumcg.c
-@@ -101,6 +101,86 @@ umcg_tid umcg_register_core_task(intptr_t tag)
- 	return umcg_task_tls->self;
- }
+diff --git a/tools/testing/selftests/umcg/.gitignore b/tools/testing/selftests/umcg/.gitignore
+index 89cca24e5907..f488ec82882a 100644
+--- a/tools/testing/selftests/umcg/.gitignore
++++ b/tools/testing/selftests/umcg/.gitignore
+@@ -1,2 +1,3 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ umcg_core_test
++umcg_test
+diff --git a/tools/testing/selftests/umcg/Makefile b/tools/testing/selftests/umcg/Makefile
+index b151098e2ed1..916897d82e53 100644
+--- a/tools/testing/selftests/umcg/Makefile
++++ b/tools/testing/selftests/umcg/Makefile
+@@ -6,8 +6,10 @@ LIBUMCGDIR := $(TOOLSDIR)/lib/umcg
+ CFLAGS += -g -O0 -I$(LIBUMCGDIR) -I$(TOOLSDIR)/include/ -I../../../../usr/include/
+ LDLIBS += -lpthread -static
  
-+umcg_tid umcg_register_worker(umcg_t group_id, intptr_t tag)
-+{
-+	int ret;
-+	struct umcg_group *group;
-+
-+	if (group_id == UMCG_NONE) {
-+		errno = EINVAL;
-+		return UMCG_NONE;
-+	}
-+
-+	if (umcg_task_tls != NULL) {
-+		errno = EINVAL;
-+		return UMCG_NONE;
-+	}
-+
-+	group = (struct umcg_group *)group_id;
-+
-+	umcg_task_tls = malloc(sizeof(struct umcg_task_tls));
-+	if (!umcg_task_tls) {
-+		errno = ENOMEM;
-+		return UMCG_NONE;
-+	}
-+
-+	umcg_task_tls->umcg_task.state = UMCG_TASK_NONE;
-+	umcg_task_tls->self = (umcg_tid)&umcg_task_tls;
-+	umcg_task_tls->tag = tag;
-+	umcg_task_tls->tid = gettid();
-+
-+	ret = sys_umcg_register_task(umcg_api_version, UMCG_REGISTER_WORKER,
-+			group->group_id, &umcg_task_tls->umcg_task);
-+	if (ret) {
-+		free(umcg_task_tls);
-+		umcg_task_tls = NULL;
-+		errno = ret;
-+		return UMCG_NONE;
-+	}
-+
-+	return umcg_task_tls->self;
-+}
-+
-+umcg_tid umcg_register_server(umcg_t group_id, intptr_t tag)
-+{
-+	int ret;
-+	struct umcg_group *group;
-+
-+	if (group_id == UMCG_NONE) {
-+		errno = EINVAL;
-+		return UMCG_NONE;
-+	}
-+
-+	if (umcg_task_tls != NULL) {
-+		errno = EINVAL;
-+		return UMCG_NONE;
-+	}
-+
-+	group = (struct umcg_group *)group_id;
-+
-+	umcg_task_tls = malloc(sizeof(struct umcg_task_tls));
-+	if (!umcg_task_tls) {
-+		errno = ENOMEM;
-+		return UMCG_NONE;
-+	}
-+
-+	umcg_task_tls->umcg_task.state = UMCG_TASK_NONE;
-+	umcg_task_tls->self = (umcg_tid)&umcg_task_tls;
-+	umcg_task_tls->tag = tag;
-+	umcg_task_tls->tid = gettid();
-+
-+	ret = sys_umcg_register_task(umcg_api_version, UMCG_REGISTER_SERVER,
-+			group->group_id, &umcg_task_tls->umcg_task);
-+	if (ret) {
-+		free(umcg_task_tls);
-+		umcg_task_tls = NULL;
-+		errno = ret;
-+		return UMCG_NONE;
-+	}
-+
-+	return umcg_task_tls->self;
-+}
-+
- int umcg_unregister_task(void)
- {
- 	int ret;
-@@ -348,3 +428,145 @@ int umcg_swap(umcg_tid next, const struct timespec *timeout)
+-TEST_GEN_PROGS := umcg_core_test
++TEST_GEN_PROGS := umcg_core_test umcg_test
  
- 	return 0;
- }
+ include ../lib.mk
+ 
+ $(OUTPUT)/umcg_core_test: umcg_core_test.c $(LIBUMCGDIR)/libumcg.c
 +
-+umcg_t umcg_create_group(uint32_t flags)
-+{
-+	int res = sys_umcg_create_group(umcg_api_version, flags);
-+	struct umcg_group *group;
++$(OUTPUT)/umcg_test: umcg_test.c $(LIBUMCGDIR)/libumcg.c
+diff --git a/tools/testing/selftests/umcg/umcg_test.c b/tools/testing/selftests/umcg/umcg_test.c
+new file mode 100644
+index 000000000000..2c01a61ec3f4
+--- /dev/null
++++ b/tools/testing/selftests/umcg/umcg_test.c
+@@ -0,0 +1,475 @@
++// SPDX-License-Identifier: GPL-2.0
++#define _GNU_SOURCE
++#include "libumcg.h"
 +
-+	if (res < 0) {
-+		errno = -res;
-+		return -1;
-+	}
++#include <pthread.h>
++#include <stdatomic.h>
 +
-+	group = malloc(sizeof(struct umcg_group));
-+	if (!group) {
-+		errno = ENOMEM;
-+		return UMCG_NONE;
-+	}
++#include "../kselftest_harness.h"
 +
-+	group->group_id = res;
-+	return (intptr_t)group;
++#define CHECK_CONFIG()						\
++{								\
++	int ret = sys_umcg_api_version(1, 0);	\
++								\
++	if (ret == -1 && errno == ENOSYS)			\
++		SKIP(return, "CONFIG_UMCG not set");	\
 +}
 +
-+int umcg_destroy_group(umcg_t umcg)
++struct worker_args {
++	umcg_t		group;  /* Which group the worker should join. */
++	umcg_tid	utid;   /* This worker's utid. */
++	void *(*thread_fn)(void *);  /* Function to run. */
++	void		*thread_arg;
++	intptr_t	tag;
++};
++
++static void validate_state(umcg_tid utid, u32 expected, const char *ctx)
 +{
-+	int res;
-+	struct umcg_group *group = (struct umcg_group *)umcg;
++	u32 state = umcg_get_task_state(utid);
 +
-+	res = sys_umcg_destroy_group(group->group_id);
-+	if (res) {
-+		errno = -res;
-+		return -1;
-+	}
++	if (state == expected)
++		return;
 +
-+	free(group);
-+	return 0;
++	fprintf(stderr, "BAD state for %ld: expected: %u; got: %u; ctx :%s\n",
++			utid, expected, state, ctx);
++	exit(1);
 +}
 +
-+umcg_tid umcg_poll_worker(void)
++static void *worker_fn(void *arg)
 +{
-+	struct umcg_task *server_ut = &umcg_task_tls->umcg_task;
-+	struct umcg_task *worker_ut;
-+	uint32_t expected_state;
-+	int ret;
++	void *result;
++	umcg_tid utid;
++	struct worker_args *args = (struct worker_args *)arg;
 +
-+	expected_state = UMCG_TASK_PROCESSING;
-+	if (!atomic_compare_exchange_strong_explicit(&server_ut->state,
-+			&expected_state, UMCG_TASK_POLLING,
-+			memory_order_seq_cst, memory_order_seq_cst)) {
-+		fprintf(stderr, "umcg_poll_worker: wrong server state before: %u\n",
-+				expected_state);
-+		exit(1);
-+		return UMCG_NONE;
-+	}
-+	ret = sys_umcg_poll_worker(0, &worker_ut);
++	validate_state(umcg_get_utid(), UMCG_TASK_NONE, "worker_fn start");
 +
-+	expected_state = UMCG_TASK_POLLING;
-+	if (!atomic_compare_exchange_strong_explicit(&server_ut->state,
-+			&expected_state, UMCG_TASK_PROCESSING,
-+			memory_order_seq_cst, memory_order_seq_cst)) {
-+		fprintf(stderr, "umcg_poll_worker: wrong server state after: %u\n",
-+				expected_state);
-+		exit(1);
-+		return UMCG_NONE;
-+	}
-+
-+	if (ret) {
-+		fprintf(stderr, "sys_umcg_poll_worker: unexpected result %d\n",
-+				errno);
-+		exit(1);
-+		return UMCG_NONE;
-+	}
-+
-+	return umcg_task_to_utid(worker_ut);
-+}
-+
-+umcg_tid umcg_run_worker(umcg_tid worker)
-+{
-+	struct umcg_task_tls *worker_utls;
-+	struct umcg_task *server_ut = &umcg_task_tls->umcg_task;
-+	struct umcg_task *worker_ut;
-+	uint32_t expected_state;
-+	int ret;
-+
-+	worker_utls = atomic_load_explicit((struct umcg_task_tls **)worker,
++	atomic_thread_fence(memory_order_acquire);
++	atomic_store_explicit(&args->utid, umcg_get_utid(),
 +			memory_order_seq_cst);
-+	if (!worker_utls)
-+		return UMCG_NONE;
 +
-+	worker_ut = &worker_utls->umcg_task;
-+
-+	expected_state = UMCG_TASK_RUNNABLE;
-+	if (!atomic_compare_exchange_strong_explicit(&worker_ut->state,
-+			&expected_state, UMCG_TASK_RUNNING,
-+			memory_order_seq_cst, memory_order_seq_cst)) {
-+		fprintf(stderr, "umcg_run_worker: wrong worker state: %u\n",
-+				expected_state);
++	utid = umcg_register_worker(args->group, args->tag);
++	if (args->utid != utid) {
++		fprintf(stderr, "umcg_register_worker failed.\n");
 +		exit(1);
-+		return UMCG_NONE;
 +	}
++	validate_state(umcg_get_utid(), UMCG_TASK_RUNNING, "worker_fn in");
 +
-+	expected_state = UMCG_TASK_PROCESSING;
-+	if (!atomic_compare_exchange_strong_explicit(&server_ut->state,
-+			&expected_state, UMCG_TASK_SERVING,
-+			memory_order_seq_cst, memory_order_seq_cst)) {
-+		fprintf(stderr, "umcg_run_worker: wrong server state: %u\n",
-+				expected_state);
++	/* Fence args->thread_arg */
++	atomic_thread_fence(memory_order_acquire);
++
++	result = args->thread_fn(args->thread_arg);
++	validate_state(umcg_get_utid(), UMCG_TASK_RUNNING, "worker_fn out");
++
++	if (umcg_unregister_task()) {
++		fprintf(stderr, "umcg_unregister_task failed.\n");
 +		exit(1);
-+		return UMCG_NONE;
 +	}
++	validate_state(umcg_get_utid(), UMCG_TASK_NONE, "worker_fn finish");
 +
-+again:
-+	ret = sys_umcg_run_worker(0, worker_utls->tid, &worker_ut);
-+	if (ret && errno == EAGAIN)
-+		goto again;
++	return result;
++}
 +
-+	if (ret) {
-+		fprintf(stderr, "umcg_run_worker failed: %d %d\n", ret, errno);
-+		return UMCG_NONE;
-+	}
++static void *simple_running_worker(void *arg)
++{
++	bool *checkpoint = (bool *)arg;
 +
-+	expected_state = UMCG_TASK_SERVING;
-+	if (!atomic_compare_exchange_strong_explicit(&server_ut->state,
-+			&expected_state, UMCG_TASK_PROCESSING,
-+			memory_order_seq_cst, memory_order_seq_cst)) {
-+		fprintf(stderr, "umcg_run_worker: wrong server state: %u\n",
-+				expected_state);
++	atomic_store_explicit(checkpoint, true, memory_order_relaxed);
++	return NULL;
++}
++
++TEST(umcg_poll_run_test) {
++	pthread_t worker;
++	bool checkpoint = false;
++	struct worker_args worker_args;
++
++	CHECK_CONFIG();
++
++	worker_args.utid = UMCG_NONE;
++	worker_args.group = umcg_create_group(0);
++	ASSERT_NE(UMCG_NONE, worker_args.group);
++
++	worker_args.thread_fn = &simple_running_worker;
++	worker_args.thread_arg = &checkpoint;
++	worker_args.tag = 0;
++
++	ASSERT_EQ(0, pthread_create(&worker, NULL, &worker_fn, &worker_args));
++
++	/* Wait for the worker to start. */
++	while (UMCG_NONE == atomic_load_explicit(&worker_args.utid,
++				memory_order_relaxed))
++		;
++
++	/*
++	 * Make sure that the worker does not checkpoint until the server
++	 * runs it.
++	 */
++	usleep(1000);
++	ASSERT_FALSE(atomic_load_explicit(&checkpoint, memory_order_relaxed));
++
++	ASSERT_NE(0, umcg_register_server(worker_args.group, 0));
++
++	/*
++	 * Run the worker until it exits. Need to loop because the worker
++	 * may pagefault and wake the server.
++	 */
++	do {
++		u32 state;
++
++		/* Poll the worker. */
++		ASSERT_EQ(worker_args.utid, umcg_poll_worker());
++		validate_state(worker_args.utid, UMCG_TASK_RUNNABLE, "wns poll");
++
++		umcg_tid utid = umcg_run_worker(worker_args.utid);
++		if (utid == UMCG_NONE) {
++			ASSERT_EQ(0, errno);
++			break;
++		}
++
++		ASSERT_EQ(utid, worker_args.utid);
++
++		state = umcg_get_task_state(utid);
++		ASSERT_TRUE(state == UMCG_TASK_BLOCKED || UMCG_TASK_UNBLOCKED);
++	} while (true);
++
++	ASSERT_TRUE(atomic_load_explicit(&checkpoint, memory_order_relaxed));
++
++	/* Can't destroy group while this thread still belongs to it. */
++	ASSERT_NE(0, umcg_destroy_group(worker_args.group));
++	ASSERT_EQ(0, umcg_unregister_task());
++	ASSERT_EQ(0, umcg_destroy_group(worker_args.group));
++	ASSERT_EQ(0, pthread_join(worker, NULL));
++}
++
++static void *sleeping_worker(void *arg)
++{
++	int *checkpoint = (int *)arg;
++
++	atomic_store_explicit(checkpoint, 1, memory_order_relaxed);
++	usleep(2000);
++	atomic_store_explicit(checkpoint, 2, memory_order_relaxed);
++
++	return NULL;
++}
++
++TEST(umcg_sleep_test) {
++	pthread_t worker;
++	u32 state;
++	int checkpoint = 0;
++	struct worker_args worker_args;
++
++	CHECK_CONFIG();
++
++	worker_args.utid = UMCG_NONE;
++	worker_args.group = umcg_create_group(0);
++	ASSERT_NE(UMCG_NONE, worker_args.group);
++
++	worker_args.thread_fn = &sleeping_worker;
++	worker_args.thread_arg = &checkpoint;
++	worker_args.tag = 0;
++
++	ASSERT_EQ(0, pthread_create(&worker, NULL, &worker_fn, &worker_args));
++
++	/* Wait for the worker to start. */
++	while (UMCG_NONE == atomic_load_explicit(&worker_args.utid,
++				memory_order_relaxed))
++		;
++
++	/*
++	 * Make sure that the worker does not checkpoint until the server
++	 * runs it.
++	 */
++	usleep(1000);
++	ASSERT_EQ(0, atomic_load_explicit(&checkpoint, memory_order_relaxed));
++
++	validate_state(umcg_get_utid(), UMCG_TASK_NONE, "sws prereg");
++
++	ASSERT_NE(0, umcg_register_server(worker_args.group, 0));
++
++	validate_state(umcg_get_utid(), UMCG_TASK_PROCESSING, "sws postreg");
++
++	/*
++	 * Run the worker until it checkpoints 1. Need to loop because
++	 * the worker may pagefault and wake the server.
++	 */
++	do {
++		ASSERT_EQ(worker_args.utid, umcg_poll_worker());
++		validate_state(worker_args.utid, UMCG_TASK_RUNNABLE,
++				"sws poll");
++
++		umcg_tid utid = umcg_run_worker(worker_args.utid);
++		ASSERT_EQ(utid, worker_args.utid);
++	} while (1 != atomic_load_explicit(&checkpoint, memory_order_relaxed));
++
++	state = umcg_get_task_state(worker_args.utid);
++	ASSERT_TRUE(state == UMCG_TASK_BLOCKED || UMCG_TASK_UNBLOCKED);
++	validate_state(umcg_get_utid(), UMCG_TASK_PROCESSING, "sws mid");
++
++	/* The worker cannot reach checkpoint 2 without the server running it. */
++	usleep(2000);
++	ASSERT_EQ(1, atomic_load_explicit(&checkpoint, memory_order_relaxed));
++
++	state = umcg_get_task_state(worker_args.utid);
++	ASSERT_TRUE(state == UMCG_TASK_BLOCKED || UMCG_TASK_UNBLOCKED);
++
++	/* Run the worker until it exits. */
++	do {
++		ASSERT_EQ(worker_args.utid, umcg_poll_worker());
++		umcg_tid utid = umcg_run_worker(worker_args.utid);
++		if (utid == UMCG_NONE) {
++			ASSERT_EQ(0, errno);
++			break;
++		}
++
++		ASSERT_EQ(utid, worker_args.utid);
++	} while (true);
++
++	/* The final check and cleanup. */
++	ASSERT_EQ(2, atomic_load_explicit(&checkpoint, memory_order_relaxed));
++	validate_state(umcg_get_utid(), UMCG_TASK_PROCESSING, "sws preunreg");
++	ASSERT_EQ(0, pthread_join(worker, NULL));
++	ASSERT_EQ(0, umcg_unregister_task());
++	validate_state(umcg_get_utid(), UMCG_TASK_NONE, "sws postunreg");
++	ASSERT_EQ(0, umcg_destroy_group(worker_args.group));
++}
++
++static void *waiting_worker(void *arg)
++{
++	int *checkpoint = (int *)arg;
++
++	atomic_store_explicit(checkpoint, 1, memory_order_relaxed);
++	if (umcg_wait(NULL)) {
++		fprintf(stderr, "umcg_wait() failed.\n");
 +		exit(1);
-+		return UMCG_NONE;
++	}
++	atomic_store_explicit(checkpoint, 2, memory_order_relaxed);
++
++	return NULL;
++}
++
++TEST(umcg_wait_wake_test) {
++	pthread_t worker;
++	int checkpoint = 0;
++	struct worker_args worker_args;
++
++	CHECK_CONFIG();
++
++	worker_args.utid = UMCG_NONE;
++	worker_args.group = umcg_create_group(0);
++	ASSERT_NE(UMCG_NONE, worker_args.group);
++
++	worker_args.thread_fn = &waiting_worker;
++	worker_args.thread_arg = &checkpoint;
++	worker_args.tag = 0;
++
++	ASSERT_EQ(0, pthread_create(&worker, NULL, &worker_fn, &worker_args));
++
++	/* Wait for the worker to start. */
++	while (UMCG_NONE == atomic_load_explicit(&worker_args.utid,
++				memory_order_relaxed))
++		;
++
++	/*
++	 * Make sure that the worker does not checkpoint until the server
++	 * runs it.
++	 */
++	usleep(1000);
++	ASSERT_EQ(0, atomic_load_explicit(&checkpoint, memory_order_relaxed));
++
++	ASSERT_NE(0, umcg_register_server(worker_args.group, 0));
++
++	/*
++	 * Run the worker until it checkpoints 1. Need to loop because
++	 * the worker may pagefault and wake the server.
++	 */
++	do {
++		ASSERT_EQ(worker_args.utid, umcg_poll_worker());
++		ASSERT_EQ(worker_args.utid, umcg_run_worker(worker_args.utid));
++	} while (1 != atomic_load_explicit(&checkpoint, memory_order_relaxed));
++
++	validate_state(worker_args.utid, UMCG_TASK_RUNNABLE, "wait_wake wait");
++
++	/* The worker cannot reach checkpoint 2 without the server waking it. */
++	usleep(2000);
++	ASSERT_EQ(1, atomic_load_explicit(&checkpoint, memory_order_relaxed));
++	validate_state(worker_args.utid, UMCG_TASK_RUNNABLE, "wait_wake wait");
++
++
++	ASSERT_EQ(0, umcg_wake(worker_args.utid));
++
++	/*
++	 * umcg_wake() above marks the worker as RUNNING; it will become
++	 * UNBLOCKED upon wakeup as it does not have a server. But this may
++	 * be delayed.
++	 */
++	while (umcg_get_task_state(worker_args.utid) != UMCG_TASK_UNBLOCKED)
++		;
++
++	/* The worker cannot reach checkpoint 2 without the server running it. */
++	usleep(2000);
++	ASSERT_EQ(1, atomic_load_explicit(&checkpoint, memory_order_relaxed));
++
++	/* Run the worker until it exits. */
++	do {
++		ASSERT_EQ(worker_args.utid, umcg_poll_worker());
++		umcg_tid utid = umcg_run_worker(worker_args.utid);
++		if (utid == UMCG_NONE) {
++			ASSERT_EQ(0, errno);
++			break;
++		}
++
++		ASSERT_EQ(utid, worker_args.utid);
++	} while (true);
++
++	/* The final check and cleanup. */
++	ASSERT_EQ(2, atomic_load_explicit(&checkpoint, memory_order_relaxed));
++	ASSERT_EQ(0, pthread_join(worker, NULL));
++	ASSERT_EQ(0, umcg_unregister_task());
++	ASSERT_EQ(0, umcg_destroy_group(worker_args.group));
++}
++
++static void *swapping_worker(void *arg)
++{
++	umcg_tid next;
++
++	atomic_thread_fence(memory_order_acquire);
++	next = (umcg_tid)arg;
++
++	if (next == UMCG_NONE) {
++		if (0 != umcg_wait(NULL)) {
++			fprintf(stderr, "swapping_worker: umcg_wait failed\n");
++			exit(1);
++		}
++	} else {
++		if (0 != umcg_swap(next, NULL)) {
++			fprintf(stderr, "swapping_worker: umcg_swap failed\n");
++			exit(1);
++		}
 +	}
 +
-+	return umcg_task_to_utid(worker_ut);
++	return NULL;
 +}
 +
-+uint32_t umcg_get_task_state(umcg_tid task)
-+{
-+	struct umcg_task_tls *utls = atomic_load_explicit(
-+			(struct umcg_task_tls **)task, memory_order_seq_cst);
++TEST(umcg_swap_test) {
++	const int n_workers = 10;
++	struct worker_args *worker_args;
++	int swap_chain_wakeups = 0;
++	umcg_tid utid = UMCG_NONE;
++	bool *workers_polled;
++	pthread_t *workers;
++	umcg_t group_id;
++	int idx;
 +
-+	if (!utls)
-+		return UMCG_TASK_NONE;
++	CHECK_CONFIG();
 +
-+	return atomic_load_explicit(&utls->umcg_task.state, memory_order_relaxed);
++	group_id = umcg_create_group(0);
++	ASSERT_NE(UMCG_NONE, group_id);
++
++	workers = malloc(n_workers * sizeof(pthread_t));
++	worker_args = malloc(n_workers * sizeof(struct worker_args));
++	workers_polled = malloc(n_workers * sizeof(bool));
++	if (!workers || !worker_args || !workers_polled) {
++		fprintf(stderr, "malloc failed\n");
++		exit(1);
++	}
++
++	memset(worker_args, 0, n_workers * sizeof(struct worker_args));
++
++	/* Start workers. All will block in umcg_register_worker(). */
++	for (idx = 0; idx < n_workers; ++idx) {
++		workers_polled[idx] = false;
++
++		worker_args[idx].group = group_id;
++		worker_args[idx].thread_fn = &swapping_worker;
++		worker_args[idx].tag = idx;
++		atomic_thread_fence(memory_order_release);
++
++		ASSERT_EQ(0, pthread_create(&workers[idx], NULL, &worker_fn,
++					&worker_args[idx]));
++	}
++
++	/* Wait for all workers to update their utids. */
++	for (idx = 0; idx < n_workers; ++idx) {
++		uint64_t counter = 0;
++		while (UMCG_NONE == atomic_load_explicit(&worker_args[idx].utid,
++					memory_order_seq_cst)) {
++			++counter;
++			if (!(counter % 1000000))
++				fprintf(stderr, "looping for utid: %d %lu\n",
++						idx, counter);
++		}
++	}
++
++	/* Update worker args. */
++	for (idx = 0; idx < (n_workers - 1); ++idx) {
++		worker_args[idx].thread_arg = (void *)worker_args[idx + 1].utid;
++	}
++	atomic_thread_fence(memory_order_release);
++
++	ASSERT_NE(0, umcg_register_server(group_id, 0));
++
++	/* Poll workers. */
++	for (idx = 0; idx < n_workers; ++idx) {
++		utid = umcg_poll_worker();
++
++		ASSERT_NE(UMCG_NONE, utid);
++		workers_polled[umcg_get_task_tag(utid)] = true;
++
++		validate_state(utid, UMCG_TASK_RUNNABLE, "swap poll");
++	}
++
++	/* Check that all workers have been polled. */
++	for (idx = 0; idx < n_workers; ++idx) {
++		ASSERT_TRUE(workers_polled[idx]);
++	}
++
++	/* Run the first worker; the swap chain will lead to the last worker. */
++	utid = worker_args[0].utid;
++	idx = 0;
++	do {
++		uint32_t state;
++
++		utid = umcg_run_worker(utid);
++		if (utid == worker_args[n_workers - 1].utid &&
++				umcg_get_task_state(utid) == UMCG_TASK_RUNNABLE)
++			break;
++
++		/* There can be an occasional mid-swap wakeup due to pagefault. */
++		++swap_chain_wakeups;
++
++		/* Validate progression. */
++		ASSERT_GE(umcg_get_task_tag(utid), idx);
++		idx = umcg_get_task_tag(utid);
++
++		/* Validate state. */
++		state = umcg_get_task_state(utid);
++		ASSERT_TRUE(state == UMCG_TASK_BLOCKED ||
++				state == UMCG_TASK_UNBLOCKED);
++
++		ASSERT_EQ(utid, umcg_poll_worker());
++	} while (true);
++
++	ASSERT_LT(swap_chain_wakeups, 4);
++	if (swap_chain_wakeups)
++		fprintf(stderr, "WARNING: %d swap chain wakeups\n",
++				swap_chain_wakeups);
++
++	/* Finally run/release all workers. */
++	for (idx = 0; idx < n_workers; ++idx) {
++		utid = worker_args[idx].utid;
++		do {
++			utid = umcg_run_worker(utid);
++			if (utid) {
++				ASSERT_EQ(utid, worker_args[idx].utid);
++				ASSERT_EQ(utid, umcg_poll_worker());
++			}
++		} while (utid != UMCG_NONE);
++	}
++
++	/* Cleanup. */
++	for (idx = 0; idx < n_workers; ++idx)
++		ASSERT_EQ(0, pthread_join(workers[idx], NULL));
++	ASSERT_EQ(0, umcg_unregister_task());
++	ASSERT_EQ(0, umcg_destroy_group(group_id));
 +}
-diff --git a/tools/lib/umcg/libumcg.h b/tools/lib/umcg/libumcg.h
-index 31ef786d1965..4307bc0bd08e 100644
---- a/tools/lib/umcg/libumcg.h
-+++ b/tools/lib/umcg/libumcg.h
-@@ -49,6 +49,28 @@ static int sys_umcg_swap(uint32_t wake_flags, uint32_t next_tid,
- 			wait_flags, timeout);
- }
- 
-+static int32_t sys_umcg_create_group(uint32_t api_version, uint32_t flags)
-+{
-+	return syscall(__NR_umcg_create_group, api_version, flags);
-+}
 +
-+static int sys_umcg_destroy_group(int32_t group_id)
-+{
-+	return syscall(__NR_umcg_destroy_group, group_id);
-+}
-+
-+static int sys_umcg_poll_worker(uint32_t flags, struct umcg_task **ut)
-+{
-+	return syscall(__NR_umcg_poll_worker, flags, ut);
-+}
-+
-+static int sys_umcg_run_worker(uint32_t flags, uint32_t worker_tid,
-+		struct umcg_task **ut)
-+{
-+	return syscall(__NR_umcg_run_worker, flags, worker_tid, ut);
-+}
-+
-+typedef intptr_t umcg_t;   /* UMCG group ID. */
- typedef intptr_t umcg_tid; /* UMCG thread ID. */
- 
- #define UMCG_NONE	(0)
-@@ -88,6 +110,28 @@ intptr_t umcg_get_task_tag(umcg_tid utid);
-  */
- umcg_tid umcg_register_core_task(intptr_t tag);
- 
-+/**
-+ * umcg_register_worker - register the current thread as a UMCG worker
-+ * @group_id:      The ID of the UMCG group the thread should join.
-+ *
-+ * Return:
-+ * UMCG_NONE     - an error occurred. Check errno.
-+ * != UMCG_NONE  - the ID of the thread to be used with UMCG API (guaranteed
-+ *                 to match the value returned by umcg_get_utid).
-+ */
-+umcg_tid umcg_register_worker(umcg_t group_id, intptr_t tag);
-+
-+/**
-+ * umcg_register_server - register the current thread as a UMCG server
-+ * @group_id:      The ID of the UMCG group the thread should join.
-+ *
-+ * Return:
-+ * UMCG_NONE     - an error occurred. Check errno.
-+ * != UMCG_NONE  - the ID of the thread to be used with UMCG API (guaranteed
-+ *                 to match the value returned by umcg_get_utid).
-+ */
-+umcg_tid umcg_register_server(umcg_t group_id, intptr_t tag);
-+
- /**
-  * umcg_unregister_task - unregister the current thread
-  *
-@@ -151,4 +195,68 @@ int umcg_wake(umcg_tid next);
-  */
- int umcg_swap(umcg_tid next, const struct timespec *timeout);
- 
-+/**
-+ * umcg_create_group - create a UMCG group
-+ * @flags:             Reserved.
-+ *
-+ * UMCG groups have worker and server threads.
-+ *
-+ * Worker threads are either RUNNABLE/RUNNING "on behalf" of server threads
-+ * (see umcg_run_worker), or are BLOCKED/UNBLOCKED. A worker thread can be
-+ * running only if it is attached to a server thread (interrupts can
-+ * complicate the matter - TBD).
-+ *
-+ * Server threads are either blocked while running worker threads or are
-+ * blocked waiting for available (=UNBLOCKED) workers. A server thread
-+ * can "run" only one worker thread.
-+ *
-+ * Return:
-+ * UMCG_NONE     - an error occurred. Check errno.
-+ * != UMCG_NONE  - the ID of the group, to be used in e.g. umcg_register.
-+ */
-+umcg_t umcg_create_group(uint32_t flags);
-+
-+/**
-+ * umcg_destroy_group - destroy a UMCG group
-+ * @umcg:               ID of the group to destroy
-+ *
-+ * The group must be empty (no server or worker threads).
-+ *
-+ * Return:
-+ * 0            - Ok
-+ * -1           - an error occurred. Check errno.
-+ *                errno == EAGAIN: the group has server or worker threads
-+ */
-+int umcg_destroy_group(umcg_t umcg);
-+
-+/**
-+ * umcg_poll_worker - wait for the first available UNBLOCKED worker
-+ *
-+ * The current thread must be a UMCG server. If there is a list/queue of
-+ * waiting UNBLOCKED workers in the server's group, umcg_poll_worker
-+ * picks the longest waiting one; if there are no UNBLOCKED workers, the
-+ * current thread sleeps in the polling queue.
-+ *
-+ * Return:
-+ * UMCG_NONE         - an error occurred; check errno;
-+ * != UMCG_NONE      - a RUNNABLE worker.
-+ */
-+umcg_tid umcg_poll_worker(void);
-+
-+/**
-+ * umcg_run_worker - run @worker as a UMCG server
-+ * @worker:          the ID of a RUNNABLE worker to run
-+ *
-+ * The current thread must be a UMCG "server".
-+ *
-+ * Return:
-+ * UMCG_NONE    - if errno == 0, the last worker the server was running
-+ *                unregistered itself; if errno != 0, an error occurred
-+ * != UMCG_NONE - the ID of the last worker the server was running before
-+ *                the worker was blocked or preempted.
-+ */
-+umcg_tid umcg_run_worker(umcg_tid worker);
-+
-+uint32_t umcg_get_task_state(umcg_tid task);
-+
- #endif  /* __LIBUMCG_H */
++TEST_HARNESS_MAIN
 -- 
 2.31.1.818.g46aad6cb9e-goog
 
