@@ -2,590 +2,235 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0F2738B635
-	for <lists+linux-api@lfdr.de>; Thu, 20 May 2021 20:37:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD45B38B8A2
+	for <lists+linux-api@lfdr.de>; Thu, 20 May 2021 22:54:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236098AbhETSiR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 20 May 2021 14:38:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55554 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235773AbhETSiB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 20 May 2021 14:38:01 -0400
-Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com [IPv6:2607:f8b0:4864:20::849])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A46A3C06138B
-        for <linux-api@vger.kernel.org>; Thu, 20 May 2021 11:36:38 -0700 (PDT)
-Received: by mail-qt1-x849.google.com with SMTP id 1-20020aed31010000b029019d1c685840so13031101qtg.3
-        for <linux-api@vger.kernel.org>; Thu, 20 May 2021 11:36:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=2I0X9v0dJgQjMRRuUZOaNPmbh6GSSvEWwVCe9Ujfz8U=;
-        b=C3xqf0+UAg9Xwtf3qSMNPtj55FVzIxrKGURuri+lM3l3Eybi0B/VjHSauNPDNm+szO
-         SHcJqYsFtqgNL7QQ1mbNGEQXHzzpLyJrgTBrTDlw7Rgy3D4mVZ9lxN++zuRVkeic0cUj
-         0ptNtzHH3GESwdpDAH18U5MiQ5g/DeJthBABL+CPIAAPbUoP8JgV5KEGn3oPXt0pBCV5
-         FiJL2D+C0CSUc7xF4tSPpi/sHosPuQD08yNkDiepDE50CS7XiOdiM24wSQUL1sOhwfBh
-         +cVTdfxSEEODarZ11/Y+WaBNIkqamwtKjbykuGM+ZjGZx893lS3ym3sgMbeKDZlfGIXk
-         Furg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=2I0X9v0dJgQjMRRuUZOaNPmbh6GSSvEWwVCe9Ujfz8U=;
-        b=FNh7gxljrTIZwor5+jvscW24WWsV5meW/NF19wcMKGy6byy0Hd6yk+HXtzbRckINrv
-         UU2pbr3dwqmNjjbsC/ZI8qBaLXzhYG+68UDqWQAf4ED8IAeZW0U/8NBapaPf1Czd0zeS
-         72Mpxh5pyeKmyLDKnaBHOYTPfAtTZqKxsMEJRv7Jchyk8QX8r7YIcyQDsxS2fAZWKJRU
-         IX98LjpsXQ/qokC5AkUAbWUBQEP2K5XRhO7EJYxapOmAj9FSfIKRxo2wL1dsCZ249rsq
-         /9ObN1hSBiDr6GmVtF/QO2RQhdoalZ7jpGcMDWQrTAkR3knWjyJ0jPhnUDX3Kb5vZ18Z
-         wMDg==
-X-Gm-Message-State: AOAM532cqjY8S5RV9NGVwE9iQnwM+FkcbbSFnqEsRVRwMO0rv6vq9QzQ
-        lkIE08nV7mz/H0hMjkp7nRPCVWBj
-X-Google-Smtp-Source: ABdhPJzdaO85atzIR8SmPfcsO+1s3GIZZGd77MvO+jQbKJWb1gxRuPa3Gkrth9LgmjXmjBDS62+0+5Hc
-X-Received: from posk.svl.corp.google.com ([2620:15c:2cd:202:f13e:18cf:76e6:2dc4])
- (user=posk job=sendgmr) by 2002:a05:6214:126f:: with SMTP id
- r15mr7180696qvv.35.1621535797790; Thu, 20 May 2021 11:36:37 -0700 (PDT)
-Date:   Thu, 20 May 2021 11:36:14 -0700
-In-Reply-To: <20210520183614.1227046-1-posk@google.com>
-Message-Id: <20210520183614.1227046-10-posk@google.com>
-Mime-Version: 1.0
-References: <20210520183614.1227046-1-posk@google.com>
-X-Mailer: git-send-email 2.31.1.818.g46aad6cb9e-goog
-Subject: [RFC PATCH v0.1 9/9] selftests/umcg: add UMCG server/worker API selftest
-From:   Peter Oskolkov <posk@google.com>
-To:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-Cc:     Paul Turner <pjt@google.com>, Ben Segall <bsegall@google.com>,
-        Peter Oskolkov <posk@google.com>,
-        Peter Oskolkov <posk@posk.io>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andrei Vagin <avagin@google.com>,
-        Jim Newsome <jnewsome@torproject.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S229597AbhETUzc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 20 May 2021 16:55:32 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:49146 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229589AbhETUzb (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 20 May 2021 16:55:31 -0400
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1621544048;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=1b5EOQQ/YePsonGaR3lRGcz0LoWmLLhdRCD6BOMopXw=;
+        b=YilffwgwuvF7ns1RjBuj3XrxFDri3U6Icv+iwHmiRgXp3DmKKS0ulGuvJ0ZUjdkYdRukdy
+        Ugesy59DLi6YlaP0HPqON0dQdlwMvm+NvSu685KsKn738V0o4JAv8nXaqvOa53QFbSWclW
+        ix0kOXubaeEQRikJDhEsq6F3vH2TKvhDmDafOIWZssFCWY8b/YWiybgXmo78qiBVUULv34
+        NDBeA44vBw4Rz3+MHOV56b44GcQpI7fccQJqdNqKsd/K3YxiN19nKXIcD1yhewM4Hsh/F8
+        7VetH0Qw/vqWBaqMNBUKpcLO1ODCP8+zoonmxII/kcGVYkp/AS0Ogi14+ibKHw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1621544048;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=1b5EOQQ/YePsonGaR3lRGcz0LoWmLLhdRCD6BOMopXw=;
+        b=bHSgkAE6LdkqO1B17Okr2XuhipocTUDnPnj2b5iBoHY25TggkOlXZ5Lfl5M14lyAGwirij
+        Jra0eTcBSOuz9KBg==
+To:     Len Brown <lenb@kernel.org>
+Cc:     Borislav Petkov <bp@alien8.de>, Willy Tarreau <w@1wt.eu>,
+        Andy Lutomirski <luto@kernel.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        "Bae\, Chang Seok" <chang.seok.bae@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>, X86 ML <x86@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        "libc-alpha\@sourceware.org" <libc-alpha@sourceware.org>,
+        Rich Felker <dalias@libc.org>, Kyle Huey <me@kylehuey.com>,
+        Keno Fischer <keno@juliacomputing.com>,
+        Arjan van de Ven <arjan@linux.intel.com>
+Subject: Re: Candidate Linux ABI for Intel AMX and hypothetical new related features
+In-Reply-To: <CAJvTdKkYp+zP_9tna6YsrOz2_nmEUDLJaL_i-SNog0m2T9wZ=Q@mail.gmail.com>
+References: <20210415044258.GA6318@zn.tnic> <20210415052938.GA2325@1wt.eu> <20210415054713.GB6318@zn.tnic> <CAJvTdKnjzAMh3N_c7KP3kA=e0LgYHgCANg44oJp3LcSm7dtbSQ@mail.gmail.com> <20210419141454.GE9093@zn.tnic> <CAJvTdK=p8mgO3xw9sRxu0c7NTNTG109M442b3UZh8TqLLfkC1Q@mail.gmail.com> <20210419191539.GH9093@zn.tnic> <CAJvTdK=VnG94ECcRVoUi8HrCbVEKc8X4_JmRTkqe+vTttf0Wsg@mail.gmail.com> <20210419215809.GJ9093@zn.tnic> <CAJvTdKn6JHo02karEs0e5g+6SimS5VUcXKjCkX35WY+xkgAgxw@mail.gmail.com> <YIMmwhEr46VPAZa4@zn.tnic> <CAJvTdKnhXnynybS4eNEF_EtF26auyb-mhKLNd1D9_zvCrchZsw@mail.gmail.com> <874kf11yoz.ffs@nanos.tec.linutronix.de> <CAJvTdKkYp+zP_9tna6YsrOz2_nmEUDLJaL_i-SNog0m2T9wZ=Q@mail.gmail.com>
+Date:   Thu, 20 May 2021 22:54:08 +0200
+Message-ID: <87k0ntazyn.ffs@nanos.tec.linutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Add UMCG server/worker API selftests. These are only basic
-tests, they do not cover many important use cases/conditions.
+Len,
 
-More to come.
+On Thu, May 20 2021 at 11:35, Len Brown wrote:
+> On Mon, May 17, 2021 at 5:45 AM Thomas Gleixner <tglx@linutronix.de> wrote:
+>
+>> AMX (or whatever comes next) is nothing else than a device and it
+>> just should be treated as such. The fact that it is not exposed
+>> via a driver and a device node does not matter at all.
+>
+> TMM registers are part of the CPU architectural state.
+> If TMM registers exist for one logical CPU, they exist for all CPUs --
+> including HT siblings. (Intel supports only homogeneous ISA)
+>
+> Ditto for the instructions that access and operate on TMM registers.
+>
+> One can reasonably predict, that like Intel has done for all other registers,
+> there will be future instructions added to the ISA to operate on TMM registers,
+> including in combination with non-TMM registers that are also part
+> of the architectural state.
+>
+> It is an unfortunate word choice that some documentation calls the
+> TMUL instruction an "accelerator".  It isn't. It is part of the ISA,
+> like any other instruction.
 
-Signed-off-by: Peter Oskolkov <posk@google.com>
----
- tools/testing/selftests/umcg/.gitignore  |   1 +
- tools/testing/selftests/umcg/Makefile    |   4 +-
- tools/testing/selftests/umcg/umcg_test.c | 475 +++++++++++++++++++++++
- 3 files changed, 479 insertions(+), 1 deletion(-)
- create mode 100644 tools/testing/selftests/umcg/umcg_test.c
+of course I know that it is an instruction and the register state is
+part of the per CPU architectural state.
 
-diff --git a/tools/testing/selftests/umcg/.gitignore b/tools/testing/selftests/umcg/.gitignore
-index 89cca24e5907..f488ec82882a 100644
---- a/tools/testing/selftests/umcg/.gitignore
-+++ b/tools/testing/selftests/umcg/.gitignore
-@@ -1,2 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0-only
- umcg_core_test
-+umcg_test
-diff --git a/tools/testing/selftests/umcg/Makefile b/tools/testing/selftests/umcg/Makefile
-index b151098e2ed1..916897d82e53 100644
---- a/tools/testing/selftests/umcg/Makefile
-+++ b/tools/testing/selftests/umcg/Makefile
-@@ -6,8 +6,10 @@ LIBUMCGDIR := $(TOOLSDIR)/lib/umcg
- CFLAGS += -g -O0 -I$(LIBUMCGDIR) -I$(TOOLSDIR)/include/ -I../../../../usr/include/
- LDLIBS += -lpthread -static
- 
--TEST_GEN_PROGS := umcg_core_test
-+TEST_GEN_PROGS := umcg_core_test umcg_test
- 
- include ../lib.mk
- 
- $(OUTPUT)/umcg_core_test: umcg_core_test.c $(LIBUMCGDIR)/libumcg.c
-+
-+$(OUTPUT)/umcg_test: umcg_test.c $(LIBUMCGDIR)/libumcg.c
-diff --git a/tools/testing/selftests/umcg/umcg_test.c b/tools/testing/selftests/umcg/umcg_test.c
-new file mode 100644
-index 000000000000..2c01a61ec3f4
---- /dev/null
-+++ b/tools/testing/selftests/umcg/umcg_test.c
-@@ -0,0 +1,475 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#define _GNU_SOURCE
-+#include "libumcg.h"
-+
-+#include <pthread.h>
-+#include <stdatomic.h>
-+
-+#include "../kselftest_harness.h"
-+
-+#define CHECK_CONFIG()						\
-+{								\
-+	int ret = sys_umcg_api_version(1, 0);	\
-+								\
-+	if (ret == -1 && errno == ENOSYS)			\
-+		SKIP(return, "CONFIG_UMCG not set");	\
-+}
-+
-+struct worker_args {
-+	umcg_t		group;  /* Which group the worker should join. */
-+	umcg_tid	utid;   /* This worker's utid. */
-+	void *(*thread_fn)(void *);  /* Function to run. */
-+	void		*thread_arg;
-+	intptr_t	tag;
-+};
-+
-+static void validate_state(umcg_tid utid, u32 expected, const char *ctx)
-+{
-+	u32 state = umcg_get_task_state(utid);
-+
-+	if (state == expected)
-+		return;
-+
-+	fprintf(stderr, "BAD state for %ld: expected: %u; got: %u; ctx :%s\n",
-+			utid, expected, state, ctx);
-+	exit(1);
-+}
-+
-+static void *worker_fn(void *arg)
-+{
-+	void *result;
-+	umcg_tid utid;
-+	struct worker_args *args = (struct worker_args *)arg;
-+
-+	validate_state(umcg_get_utid(), UMCG_TASK_NONE, "worker_fn start");
-+
-+	atomic_thread_fence(memory_order_acquire);
-+	atomic_store_explicit(&args->utid, umcg_get_utid(),
-+			memory_order_seq_cst);
-+
-+	utid = umcg_register_worker(args->group, args->tag);
-+	if (args->utid != utid) {
-+		fprintf(stderr, "umcg_register_worker failed.\n");
-+		exit(1);
-+	}
-+	validate_state(umcg_get_utid(), UMCG_TASK_RUNNING, "worker_fn in");
-+
-+	/* Fence args->thread_arg */
-+	atomic_thread_fence(memory_order_acquire);
-+
-+	result = args->thread_fn(args->thread_arg);
-+	validate_state(umcg_get_utid(), UMCG_TASK_RUNNING, "worker_fn out");
-+
-+	if (umcg_unregister_task()) {
-+		fprintf(stderr, "umcg_unregister_task failed.\n");
-+		exit(1);
-+	}
-+	validate_state(umcg_get_utid(), UMCG_TASK_NONE, "worker_fn finish");
-+
-+	return result;
-+}
-+
-+static void *simple_running_worker(void *arg)
-+{
-+	bool *checkpoint = (bool *)arg;
-+
-+	atomic_store_explicit(checkpoint, true, memory_order_relaxed);
-+	return NULL;
-+}
-+
-+TEST(umcg_poll_run_test) {
-+	pthread_t worker;
-+	bool checkpoint = false;
-+	struct worker_args worker_args;
-+
-+	CHECK_CONFIG();
-+
-+	worker_args.utid = UMCG_NONE;
-+	worker_args.group = umcg_create_group(0);
-+	ASSERT_NE(UMCG_NONE, worker_args.group);
-+
-+	worker_args.thread_fn = &simple_running_worker;
-+	worker_args.thread_arg = &checkpoint;
-+	worker_args.tag = 0;
-+
-+	ASSERT_EQ(0, pthread_create(&worker, NULL, &worker_fn, &worker_args));
-+
-+	/* Wait for the worker to start. */
-+	while (UMCG_NONE == atomic_load_explicit(&worker_args.utid,
-+				memory_order_relaxed))
-+		;
-+
-+	/*
-+	 * Make sure that the worker does not checkpoint until the server
-+	 * runs it.
-+	 */
-+	usleep(1000);
-+	ASSERT_FALSE(atomic_load_explicit(&checkpoint, memory_order_relaxed));
-+
-+	ASSERT_NE(0, umcg_register_server(worker_args.group, 0));
-+
-+	/*
-+	 * Run the worker until it exits. Need to loop because the worker
-+	 * may pagefault and wake the server.
-+	 */
-+	do {
-+		u32 state;
-+
-+		/* Poll the worker. */
-+		ASSERT_EQ(worker_args.utid, umcg_poll_worker());
-+		validate_state(worker_args.utid, UMCG_TASK_RUNNABLE, "wns poll");
-+
-+		umcg_tid utid = umcg_run_worker(worker_args.utid);
-+		if (utid == UMCG_NONE) {
-+			ASSERT_EQ(0, errno);
-+			break;
-+		}
-+
-+		ASSERT_EQ(utid, worker_args.utid);
-+
-+		state = umcg_get_task_state(utid);
-+		ASSERT_TRUE(state == UMCG_TASK_BLOCKED || UMCG_TASK_UNBLOCKED);
-+	} while (true);
-+
-+	ASSERT_TRUE(atomic_load_explicit(&checkpoint, memory_order_relaxed));
-+
-+	/* Can't destroy group while this thread still belongs to it. */
-+	ASSERT_NE(0, umcg_destroy_group(worker_args.group));
-+	ASSERT_EQ(0, umcg_unregister_task());
-+	ASSERT_EQ(0, umcg_destroy_group(worker_args.group));
-+	ASSERT_EQ(0, pthread_join(worker, NULL));
-+}
-+
-+static void *sleeping_worker(void *arg)
-+{
-+	int *checkpoint = (int *)arg;
-+
-+	atomic_store_explicit(checkpoint, 1, memory_order_relaxed);
-+	usleep(2000);
-+	atomic_store_explicit(checkpoint, 2, memory_order_relaxed);
-+
-+	return NULL;
-+}
-+
-+TEST(umcg_sleep_test) {
-+	pthread_t worker;
-+	u32 state;
-+	int checkpoint = 0;
-+	struct worker_args worker_args;
-+
-+	CHECK_CONFIG();
-+
-+	worker_args.utid = UMCG_NONE;
-+	worker_args.group = umcg_create_group(0);
-+	ASSERT_NE(UMCG_NONE, worker_args.group);
-+
-+	worker_args.thread_fn = &sleeping_worker;
-+	worker_args.thread_arg = &checkpoint;
-+	worker_args.tag = 0;
-+
-+	ASSERT_EQ(0, pthread_create(&worker, NULL, &worker_fn, &worker_args));
-+
-+	/* Wait for the worker to start. */
-+	while (UMCG_NONE == atomic_load_explicit(&worker_args.utid,
-+				memory_order_relaxed))
-+		;
-+
-+	/*
-+	 * Make sure that the worker does not checkpoint until the server
-+	 * runs it.
-+	 */
-+	usleep(1000);
-+	ASSERT_EQ(0, atomic_load_explicit(&checkpoint, memory_order_relaxed));
-+
-+	validate_state(umcg_get_utid(), UMCG_TASK_NONE, "sws prereg");
-+
-+	ASSERT_NE(0, umcg_register_server(worker_args.group, 0));
-+
-+	validate_state(umcg_get_utid(), UMCG_TASK_PROCESSING, "sws postreg");
-+
-+	/*
-+	 * Run the worker until it checkpoints 1. Need to loop because
-+	 * the worker may pagefault and wake the server.
-+	 */
-+	do {
-+		ASSERT_EQ(worker_args.utid, umcg_poll_worker());
-+		validate_state(worker_args.utid, UMCG_TASK_RUNNABLE,
-+				"sws poll");
-+
-+		umcg_tid utid = umcg_run_worker(worker_args.utid);
-+		ASSERT_EQ(utid, worker_args.utid);
-+	} while (1 != atomic_load_explicit(&checkpoint, memory_order_relaxed));
-+
-+	state = umcg_get_task_state(worker_args.utid);
-+	ASSERT_TRUE(state == UMCG_TASK_BLOCKED || UMCG_TASK_UNBLOCKED);
-+	validate_state(umcg_get_utid(), UMCG_TASK_PROCESSING, "sws mid");
-+
-+	/* The worker cannot reach checkpoint 2 without the server running it. */
-+	usleep(2000);
-+	ASSERT_EQ(1, atomic_load_explicit(&checkpoint, memory_order_relaxed));
-+
-+	state = umcg_get_task_state(worker_args.utid);
-+	ASSERT_TRUE(state == UMCG_TASK_BLOCKED || UMCG_TASK_UNBLOCKED);
-+
-+	/* Run the worker until it exits. */
-+	do {
-+		ASSERT_EQ(worker_args.utid, umcg_poll_worker());
-+		umcg_tid utid = umcg_run_worker(worker_args.utid);
-+		if (utid == UMCG_NONE) {
-+			ASSERT_EQ(0, errno);
-+			break;
-+		}
-+
-+		ASSERT_EQ(utid, worker_args.utid);
-+	} while (true);
-+
-+	/* The final check and cleanup. */
-+	ASSERT_EQ(2, atomic_load_explicit(&checkpoint, memory_order_relaxed));
-+	validate_state(umcg_get_utid(), UMCG_TASK_PROCESSING, "sws preunreg");
-+	ASSERT_EQ(0, pthread_join(worker, NULL));
-+	ASSERT_EQ(0, umcg_unregister_task());
-+	validate_state(umcg_get_utid(), UMCG_TASK_NONE, "sws postunreg");
-+	ASSERT_EQ(0, umcg_destroy_group(worker_args.group));
-+}
-+
-+static void *waiting_worker(void *arg)
-+{
-+	int *checkpoint = (int *)arg;
-+
-+	atomic_store_explicit(checkpoint, 1, memory_order_relaxed);
-+	if (umcg_wait(NULL)) {
-+		fprintf(stderr, "umcg_wait() failed.\n");
-+		exit(1);
-+	}
-+	atomic_store_explicit(checkpoint, 2, memory_order_relaxed);
-+
-+	return NULL;
-+}
-+
-+TEST(umcg_wait_wake_test) {
-+	pthread_t worker;
-+	int checkpoint = 0;
-+	struct worker_args worker_args;
-+
-+	CHECK_CONFIG();
-+
-+	worker_args.utid = UMCG_NONE;
-+	worker_args.group = umcg_create_group(0);
-+	ASSERT_NE(UMCG_NONE, worker_args.group);
-+
-+	worker_args.thread_fn = &waiting_worker;
-+	worker_args.thread_arg = &checkpoint;
-+	worker_args.tag = 0;
-+
-+	ASSERT_EQ(0, pthread_create(&worker, NULL, &worker_fn, &worker_args));
-+
-+	/* Wait for the worker to start. */
-+	while (UMCG_NONE == atomic_load_explicit(&worker_args.utid,
-+				memory_order_relaxed))
-+		;
-+
-+	/*
-+	 * Make sure that the worker does not checkpoint until the server
-+	 * runs it.
-+	 */
-+	usleep(1000);
-+	ASSERT_EQ(0, atomic_load_explicit(&checkpoint, memory_order_relaxed));
-+
-+	ASSERT_NE(0, umcg_register_server(worker_args.group, 0));
-+
-+	/*
-+	 * Run the worker until it checkpoints 1. Need to loop because
-+	 * the worker may pagefault and wake the server.
-+	 */
-+	do {
-+		ASSERT_EQ(worker_args.utid, umcg_poll_worker());
-+		ASSERT_EQ(worker_args.utid, umcg_run_worker(worker_args.utid));
-+	} while (1 != atomic_load_explicit(&checkpoint, memory_order_relaxed));
-+
-+	validate_state(worker_args.utid, UMCG_TASK_RUNNABLE, "wait_wake wait");
-+
-+	/* The worker cannot reach checkpoint 2 without the server waking it. */
-+	usleep(2000);
-+	ASSERT_EQ(1, atomic_load_explicit(&checkpoint, memory_order_relaxed));
-+	validate_state(worker_args.utid, UMCG_TASK_RUNNABLE, "wait_wake wait");
-+
-+
-+	ASSERT_EQ(0, umcg_wake(worker_args.utid));
-+
-+	/*
-+	 * umcg_wake() above marks the worker as RUNNING; it will become
-+	 * UNBLOCKED upon wakeup as it does not have a server. But this may
-+	 * be delayed.
-+	 */
-+	while (umcg_get_task_state(worker_args.utid) != UMCG_TASK_UNBLOCKED)
-+		;
-+
-+	/* The worker cannot reach checkpoint 2 without the server running it. */
-+	usleep(2000);
-+	ASSERT_EQ(1, atomic_load_explicit(&checkpoint, memory_order_relaxed));
-+
-+	/* Run the worker until it exits. */
-+	do {
-+		ASSERT_EQ(worker_args.utid, umcg_poll_worker());
-+		umcg_tid utid = umcg_run_worker(worker_args.utid);
-+		if (utid == UMCG_NONE) {
-+			ASSERT_EQ(0, errno);
-+			break;
-+		}
-+
-+		ASSERT_EQ(utid, worker_args.utid);
-+	} while (true);
-+
-+	/* The final check and cleanup. */
-+	ASSERT_EQ(2, atomic_load_explicit(&checkpoint, memory_order_relaxed));
-+	ASSERT_EQ(0, pthread_join(worker, NULL));
-+	ASSERT_EQ(0, umcg_unregister_task());
-+	ASSERT_EQ(0, umcg_destroy_group(worker_args.group));
-+}
-+
-+static void *swapping_worker(void *arg)
-+{
-+	umcg_tid next;
-+
-+	atomic_thread_fence(memory_order_acquire);
-+	next = (umcg_tid)arg;
-+
-+	if (next == UMCG_NONE) {
-+		if (0 != umcg_wait(NULL)) {
-+			fprintf(stderr, "swapping_worker: umcg_wait failed\n");
-+			exit(1);
-+		}
-+	} else {
-+		if (0 != umcg_swap(next, NULL)) {
-+			fprintf(stderr, "swapping_worker: umcg_swap failed\n");
-+			exit(1);
-+		}
-+	}
-+
-+	return NULL;
-+}
-+
-+TEST(umcg_swap_test) {
-+	const int n_workers = 10;
-+	struct worker_args *worker_args;
-+	int swap_chain_wakeups = 0;
-+	umcg_tid utid = UMCG_NONE;
-+	bool *workers_polled;
-+	pthread_t *workers;
-+	umcg_t group_id;
-+	int idx;
-+
-+	CHECK_CONFIG();
-+
-+	group_id = umcg_create_group(0);
-+	ASSERT_NE(UMCG_NONE, group_id);
-+
-+	workers = malloc(n_workers * sizeof(pthread_t));
-+	worker_args = malloc(n_workers * sizeof(struct worker_args));
-+	workers_polled = malloc(n_workers * sizeof(bool));
-+	if (!workers || !worker_args || !workers_polled) {
-+		fprintf(stderr, "malloc failed\n");
-+		exit(1);
-+	}
-+
-+	memset(worker_args, 0, n_workers * sizeof(struct worker_args));
-+
-+	/* Start workers. All will block in umcg_register_worker(). */
-+	for (idx = 0; idx < n_workers; ++idx) {
-+		workers_polled[idx] = false;
-+
-+		worker_args[idx].group = group_id;
-+		worker_args[idx].thread_fn = &swapping_worker;
-+		worker_args[idx].tag = idx;
-+		atomic_thread_fence(memory_order_release);
-+
-+		ASSERT_EQ(0, pthread_create(&workers[idx], NULL, &worker_fn,
-+					&worker_args[idx]));
-+	}
-+
-+	/* Wait for all workers to update their utids. */
-+	for (idx = 0; idx < n_workers; ++idx) {
-+		uint64_t counter = 0;
-+		while (UMCG_NONE == atomic_load_explicit(&worker_args[idx].utid,
-+					memory_order_seq_cst)) {
-+			++counter;
-+			if (!(counter % 1000000))
-+				fprintf(stderr, "looping for utid: %d %lu\n",
-+						idx, counter);
-+		}
-+	}
-+
-+	/* Update worker args. */
-+	for (idx = 0; idx < (n_workers - 1); ++idx) {
-+		worker_args[idx].thread_arg = (void *)worker_args[idx + 1].utid;
-+	}
-+	atomic_thread_fence(memory_order_release);
-+
-+	ASSERT_NE(0, umcg_register_server(group_id, 0));
-+
-+	/* Poll workers. */
-+	for (idx = 0; idx < n_workers; ++idx) {
-+		utid = umcg_poll_worker();
-+
-+		ASSERT_NE(UMCG_NONE, utid);
-+		workers_polled[umcg_get_task_tag(utid)] = true;
-+
-+		validate_state(utid, UMCG_TASK_RUNNABLE, "swap poll");
-+	}
-+
-+	/* Check that all workers have been polled. */
-+	for (idx = 0; idx < n_workers; ++idx) {
-+		ASSERT_TRUE(workers_polled[idx]);
-+	}
-+
-+	/* Run the first worker; the swap chain will lead to the last worker. */
-+	utid = worker_args[0].utid;
-+	idx = 0;
-+	do {
-+		uint32_t state;
-+
-+		utid = umcg_run_worker(utid);
-+		if (utid == worker_args[n_workers - 1].utid &&
-+				umcg_get_task_state(utid) == UMCG_TASK_RUNNABLE)
-+			break;
-+
-+		/* There can be an occasional mid-swap wakeup due to pagefault. */
-+		++swap_chain_wakeups;
-+
-+		/* Validate progression. */
-+		ASSERT_GE(umcg_get_task_tag(utid), idx);
-+		idx = umcg_get_task_tag(utid);
-+
-+		/* Validate state. */
-+		state = umcg_get_task_state(utid);
-+		ASSERT_TRUE(state == UMCG_TASK_BLOCKED ||
-+				state == UMCG_TASK_UNBLOCKED);
-+
-+		ASSERT_EQ(utid, umcg_poll_worker());
-+	} while (true);
-+
-+	ASSERT_LT(swap_chain_wakeups, 4);
-+	if (swap_chain_wakeups)
-+		fprintf(stderr, "WARNING: %d swap chain wakeups\n",
-+				swap_chain_wakeups);
-+
-+	/* Finally run/release all workers. */
-+	for (idx = 0; idx < n_workers; ++idx) {
-+		utid = worker_args[idx].utid;
-+		do {
-+			utid = umcg_run_worker(utid);
-+			if (utid) {
-+				ASSERT_EQ(utid, worker_args[idx].utid);
-+				ASSERT_EQ(utid, umcg_poll_worker());
-+			}
-+		} while (utid != UMCG_NONE);
-+	}
-+
-+	/* Cleanup. */
-+	for (idx = 0; idx < n_workers; ++idx)
-+		ASSERT_EQ(0, pthread_join(workers[idx], NULL));
-+	ASSERT_EQ(0, umcg_unregister_task());
-+	ASSERT_EQ(0, umcg_destroy_group(group_id));
-+}
-+
-+TEST_HARNESS_MAIN
--- 
-2.31.1.818.g46aad6cb9e-goog
+Though there is a fundamental difference between per logical CPU
+architectural state and per logical CPU resources and you know that as
+well as I do.
 
+IOW, that does not change the fact that AMX is a shared resource. That's
+true for AVX and that's also true for the architectural RNG, which is
+also accessed like "any other instruction". We've seen how well that
+works.
+
+That's the whole point. Because it's a shared resource with causes
+contention and also has side effects vs. power/thermal and state size
+this _is_ different from 'any other instruction'.
+
+> I agree that a device interface may make sense for real accelerators
+> that don't run x86 instructions, I don't see long term viability for attempting
+> to carve a sub-set of x86 instructions into a device, particularly when
+> the set of instructions will continue to evolve.
+
+Nobody asked for a device interface for AMX. All I asked for is a
+_mandatory_ "request usage" interface, e.g. prctl.
+
+Just for the record:
+
+ Your like "any other instruction" argument is a nothing else than a
+ strawman.
+
+ There exist instructions today which need OS assistance, e.g. the SGX
+ related instructions, the upcoming TDX related ones, ENQCMD & al.
+
+Please tell me _why_ they are so different. They are part of the ISA and
+still are subject to fine grained (OS) control.
+
+>> Not doing so requires this awkward buffer allocation issue via #NM with
+>> all it's downsides; it's just wrong to force the kernel to manage
+>> resources of a user space task without being able to return a proper
+>> error code.
+>
+> The hardware #NM support for fault on first use is a feature to allow the OS
+> to optimize space so that pages do not have to be dedicated to back registers
+> unless/until they are actually used.
+>
+> There is absolutely no requirement that a particular
+> OS take advantage of that feature.  If you think that this optimization is
+> awkward, we can easily delete/disable it and simply statically allocate buffers
+> for all threads at initialization time.  Though you'll have to convince me
+> why the word "awkward" applies, rather than "elegant".
+
+It's not elegant. It's a hack to avoid rethinking the approach to this
+kind of features.
+
+But I have to admit that it's a cute hack and it even can be utilized
+for a access-request based solution.
+
+> Regarding error return for allocation failures.
+>
+> I'm not familiar with the use-case where vmalloc would be likely to fail today,
+> and I'd be interested if anybody can detail that use-case.
+
+It does not matter whether it's likely or not. Unlikely simply does not
+exist at cloud-scale.
+
+> But even if there is none today, I grate that Linux could evolve to make vmalloc
+> fail in the future, and so an interface to reqeust pre-allocation of buffers
+> is reasonable insurance.  Chang has implemented this prctl in v5
+> of the TMUL patch series.
+
+No, it's not a reasonable insurance, simply because it's not mandatory.
+
+>> It also prevents fine grained control over access to this
+>> functionality. As AMX is clearly a shared resource which is not per HT
+>> thread (maybe not even per core) and it has impact on power/frequency it
+>> is important to be able to restrict access on a per process/cgroup
+>> scope.
+>
+> AMX is analogous to the multiplier used by AVX-512.
+> The architectural state must exist on every CPU, including HT siblings.
+> Today, the HT siblings share the same execution unit,
+> and I have no reason to expect that will change.
+
+I'm well aware that HT siblings share the same execution unit for
+AVX.
+
+Though AMX is if I remember the discussions two years ago correctly
+shared by more than the HT siblings which makes things worse.
+
+> I thought we already addressed the FUD surrounding power/frequency.
+
+What's FUD here?
+
+  The fact that AMX is a shared resource which has contention issues?
+
+  The fact that AMX usage has an influence on power/frequency?
+
+If that's FUD by now, then your documentation needs an update.
+
+> As with every kind of instruction -- those that use
+> more power will leave less power for their peers, and there is a mechanism
+> to track that power budget.  I acknowledge that the mechanism was overly
+> conservative and slow to recover in initial AVX-512 systems, and that issue
+> persists even with the latest publically available hardware today.
+> I acknowledge that you do not trust that Intel has addressed this
+> (for both AVX-512 and AMX) in the first hardware that supports AMX.
+
+It does not matter whether I trust Intel or not to get this right. It
+does neither matter whether there is a mechanism to track the budget or
+not.
+
+What matters is that the proposed #NM automatism simply prevents fine
+grained access control for a _shared_ resource which has implications on
+power and frequency and performance in general due to the fact that it's
+shared and causes contention.
+
+And because the #NM hack allows the world and its dog to use AMX any
+unpriviledged user can utilize it. See the idea to use it for grep...
+
+You might want to talk to the people in your company who care about
+real-time and functional safety whether they think it's a good idea to
+allow unrestricted access to functionality which has an influence on the
+overall system behaviour with no other knob than to turn it off
+completely. Turn it off completely is not an option simply because there
+are valid use cases even in that area.
+
+>> Having a proper interface (syscall, prctl) which user space can use to
+>> ask for permission and allocation of the necessary buffer(s) is clearly
+>> avoiding the downsides and provides the necessary mechanisms for proper
+>> control and failure handling.
+>>
+>> It's not the end of the world if something which wants to utilize this
+>> has do issue a syscall during detection. It does not matter whether
+>> that's a library or just the application code itself.
+>>
+>> That's a one off operation and every involved entity can cache the
+>> result in TLS.
+>>
+>> AVX512 has already proven that XSTATE management is fragile and error
+>> prone, so we really have to stop this instead of creating yet another
+>> half baked solution.
+>
+> We fixed the glibc ABI issue.  It is available now and production
+> release is this summer.
+
+That does not answer my questions at all.
+
+> Yes, it should have been addressed when AVX-512 was deployed.
+
+Correct. And in hindsight we should have insisted to have fine grained
+control over that back then, but that's water under the bridge.
+
+AMX and what's coming next is not.
+
+Thanks,
+
+        tglx
