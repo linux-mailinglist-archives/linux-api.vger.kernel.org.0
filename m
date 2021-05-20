@@ -2,289 +2,116 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E8B1389FAE
-	for <lists+linux-api@lfdr.de>; Thu, 20 May 2021 10:18:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B57438A12F
+	for <lists+linux-api@lfdr.de>; Thu, 20 May 2021 11:27:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230448AbhETITV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 20 May 2021 04:19:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36236 "EHLO mail.kernel.org"
+        id S231575AbhETJ27 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 20 May 2021 05:28:59 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:34194 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229536AbhETITU (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 20 May 2021 04:19:20 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 538F760698;
-        Thu, 20 May 2021 08:17:58 +0000 (UTC)
-Date:   Thu, 20 May 2021 10:17:55 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Matthew Bobrowski <repnop@google.com>
-Cc:     jack@suse.cz, amir73il@gmail.com, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH 5/5] fanotify: Add pidfd info record support to the
- fanotify API
-Message-ID: <20210520081755.eqey4ryngngt4yqd@wittgenstein>
-References: <cover.1621473846.git.repnop@google.com>
- <48d18055deb4617d97c695a08dca77eb573097e9.1621473846.git.repnop@google.com>
+        id S231811AbhETJ1t (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 20 May 2021 05:27:49 -0400
+Received: from zn.tnic (p200300ec2f0eb6008eba81a1ad09a99c.dip0.t-ipconnect.de [IPv6:2003:ec:2f0e:b600:8eba:81a1:ad09:a99c])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 4721A1EC051F;
+        Thu, 20 May 2021 11:26:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1621502786;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=sBPCBfFxpVVzA8qvfueuilIPqhAowYTHXr3cnG4eLoI=;
+        b=Ps5CMwItn7MpMTJ7xjmt5Te7zi7KyKAeJu1+YnmeLarTJdGGkhGNyRrYiLuMWqemQBxvJk
+        anKV0jiMn14lqWauALXkE4RwiiUPsYosxjjwmgqbyTltUkyT44O2vOA8LqAg/+ijlDlpav
+        xmBC5chCNww4ZWjVHkkaXZJu2/rHo+4=
+Date:   Thu, 20 May 2021 11:26:25 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        Mark Brown <broonie@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>
+Subject: Re: [PATCH v26 26/30] ELF: Introduce arch_setup_elf_property()
+Message-ID: <YKYrQQ6tKfifjNjW@zn.tnic>
+References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
+ <20210427204315.24153-27-yu-cheng.yu@intel.com>
+ <YKVUgzJ0MVNBgjDd@zn.tnic>
+ <c29348d8-caae-5226-d095-ae3992d88338@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <48d18055deb4617d97c695a08dca77eb573097e9.1621473846.git.repnop@google.com>
+In-Reply-To: <c29348d8-caae-5226-d095-ae3992d88338@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, May 20, 2021 at 12:11:51PM +1000, Matthew Bobrowski wrote:
-> Introduce a new flag FAN_REPORT_PIDFD for fanotify_init(2) which
-> allows userspace applications to control whether a pidfd info record
-> containing a pidfd is to be returned with each event.
-> 
-> If FAN_REPORT_PIDFD is enabled for a notification group, an additional
-> struct fanotify_event_info_pidfd object will be supplied alongside the
-> generic struct fanotify_event_metadata within a single event. This
-> functionality is analogous to that of FAN_REPORT_FID in terms of how
-> the event structure is supplied to the userspace application. Usage of
-> FAN_REPORT_PIDFD with FAN_REPORT_FID/FAN_REPORT_DFID_NAME is
-> permitted, and in this case a struct fanotify_event_info_pidfd object
-> will follow any struct fanotify_event_info_fid object.
-> 
-> Usage of FAN_REPORT_TID is not permitted with FAN_REPORT_PIDFD as the
-> pidfd API only supports the creation of pidfds for thread-group
-> leaders. Attempting to do so will result with a -EINVAL being returned
-> when calling fanotify_init(2).
-> 
-> If pidfd creation fails via pidfd_create(), the pidfd field within
-> struct fanotify_event_info_pidfd is set to FAN_NOPIDFD.
-> 
-> Signed-off-by: Matthew Bobrowski <repnop@google.com>
-> ---
->  fs/notify/fanotify/fanotify_user.c | 65 +++++++++++++++++++++++++++---
->  include/linux/fanotify.h           |  3 +-
->  include/uapi/linux/fanotify.h      | 12 ++++++
->  3 files changed, 74 insertions(+), 6 deletions(-)
-> 
-> diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
-> index 1e15f3222eb2..bba61988f4a0 100644
-> --- a/fs/notify/fanotify/fanotify_user.c
-> +++ b/fs/notify/fanotify/fanotify_user.c
-> @@ -106,6 +106,8 @@ struct kmem_cache *fanotify_perm_event_cachep __read_mostly;
->  #define FANOTIFY_EVENT_ALIGN 4
->  #define FANOTIFY_FID_INFO_HDR_LEN \
->  	(sizeof(struct fanotify_event_info_fid) + sizeof(struct file_handle))
-> +#define FANOTIFY_PIDFD_INFO_HDR_LEN \
-> +	sizeof(struct fanotify_event_info_pidfd)
->  
->  static int fanotify_fid_info_len(int fh_len, int name_len)
->  {
-> @@ -141,6 +143,9 @@ static int fanotify_event_info_len(unsigned int info_mode,
->  	if (fh_len)
->  		info_len += fanotify_fid_info_len(fh_len, dot_len);
->  
-> +	if (info_mode & FAN_REPORT_PIDFD)
-> +		info_len += FANOTIFY_PIDFD_INFO_HDR_LEN;
-> +
->  	return info_len;
->  }
->  
-> @@ -401,6 +406,29 @@ static int copy_fid_info_to_user(__kernel_fsid_t *fsid,
->  	return info_len;
->  }
->  
-> +static int copy_pidfd_info_to_user(struct pid *pid,
-> +				   char __user *buf,
-> +				   size_t count)
-> +{
-> +	struct fanotify_event_info_pidfd info = { };
-> +	size_t info_len = FANOTIFY_PIDFD_INFO_HDR_LEN;
-> +
-> +	if (WARN_ON_ONCE(info_len > count))
-> +		return -EFAULT;
-> +
-> +	info.hdr.info_type = FAN_EVENT_INFO_TYPE_PIDFD;
-> +	info.hdr.len = info_len;
-> +
-> +	info.pidfd = pidfd_create(pid, 0);
-> +	if (info.pidfd < 0)
-> +		info.pidfd = FAN_NOPIDFD;
-> +
-> +	if (copy_to_user(buf, &info, info_len))
-> +		return -EFAULT;
+On Wed, May 19, 2021 at 03:14:58PM -0700, Yu, Yu-cheng wrote:
+> However, those parsing functions take (struct arch_elf_state *) as an input.
 
-Hm, well this kinda sucks. The caller can end up with a pidfd in their
-fd table and when the copy_to_user() failed they won't know what fd it
-is. I think this might be better served by sm like (see what I did in
-kernel/fork.c): 
+Exactly.
 
-	pidfd = get_unused_fd_flags(O_RDWR | O_CLOEXEC);
-	if (pidfd < 0)
-		/* error handling */
-	
-	pidfile = anon_inode_getfile("[pidfd]", &pidfd_fops, pid, O_RDWR | O_CLOEXEC);
-	if (IS_ERR(pidfile)) {
-		put_unused_fd(pidfd);
-		pidfd = PTR_ERR(pidfile);
-		/* error handling */
-	}
-	get_pid(pid);	/* held by pidfile now */
+> It probably makes sense to have ARCH_USE_GNU_PROPERTY dependent on
+> ARCH_BINFMT_ELF_STATE.  It would be ok as-is too.  ARM people might have
+> other plans in mind.
 
-	info.hdr.info_type = FAN_EVENT_INFO_TYPE_PIDFD;
-	info.hdr.len = info_len;
-	info.pidfd = pidfd;
+Well, let's look at ARM, ARM64 in particular. They have defined struct
+arch_elf_state without the ifdeffery in
 
-	if (copy_to_user(buf, &info, info_len)) {
-		fput(pidfile);
-		put_unused_fd(pidfd);
-		return -EFAULT;
-	}
+arch/arm64/include/asm/elf.h
 
-	fd_install(pidfd, pidfile);
-	return 0;
+and are using that struct in arch_parse_elf_property().
 
-> +
-> +	return info_len;
-> +}
-> +
->  static int copy_info_to_user(struct fanotify_event *event,
->  			     struct fanotify_info *info,
->  			     unsigned int info_mode,
-> @@ -408,9 +436,12 @@ static int copy_info_to_user(struct fanotify_event *event,
->  {
->  	int ret, info_type = 0;
->  	unsigned int fid_mode = info_mode & FANOTIFY_FID_BITS;
-> +	unsigned int pidfd_mode = info_mode & FAN_REPORT_PIDFD;
->  
->  	/*
->  	 * Event info records order is as follows: dir fid + name, child fid.
-> +	 * If FAN_REPORT_PIDFD has been specified, then a pidfd info record
-> +	 * will follow the fid info records.
->  	 */
->  	if (fanotify_event_dir_fh_len(event)) {
->  		info_type = info->name_len ? FAN_EVENT_INFO_TYPE_DFID_NAME :
-> @@ -465,10 +496,18 @@ static int copy_info_to_user(struct fanotify_event *event,
->  		}
->  
->  		ret = copy_fid_info_to_user(fanotify_event_fsid(event),
-> -					    fanotify_event_object_fh(event),
-> -					    info_type, dot, dot_len,
-> -					    buf, count);
-> -	}
-> +					    fanotify_event_object_fh(event),
-> +					    info_type, dot, dot_len,
-> +					    buf, count);
-> +		if (ret < 0)
-> +			return ret;
-> +
-> +		buf += ret;
-> +		count -= ret;
-> +	}
-> +
-> +	if (pidfd_mode)
-> +		return copy_pidfd_info_to_user(event->pid, buf, count);
->  
->  	return ret;
->  }
-> @@ -530,6 +569,15 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
->  		fd_install(fd, f);
->  
->  	if (info_mode) {
-> +		/*
-> +		 * Complain if FAN_REPORT_PIDFD and FAN_REPORT_TID mutual
-> +		 * exclusion is ever lifted. At the time of implementing
-> +		 * FAN_REPORT_PIDFD, the pidfd API only supported the creation
-> +		 * of pidfds on thread-group leaders.
-> +		 */
-> +		WARN_ON_ONCE((info_mode & FAN_REPORT_PIDFD) &&
-> +			     FAN_GROUP_FLAG(group, FAN_REPORT_TID));
-> +
->  		ret = copy_info_to_user(event, info, info_mode, buf, count);
->  		if (ret < 0)
->  			return ret;
-> @@ -1079,6 +1127,13 @@ SYSCALL_DEFINE2(fanotify_init, unsigned int, flags, unsigned int, event_f_flags)
->  #endif
->  		return -EINVAL;
->  
-> +	/*
-> +	 * A pidfd can only be returned for a thread-group leader; thus
-> +	 * FAN_REPORT_TID and FAN_REPORT_PIDFD need to be mutually exclusive.
-> +	 */
-> +	if ((flags & FAN_REPORT_PIDFD) && (flags & FAN_REPORT_TID))
-> +		return -EINVAL;
-> +
->  	if (event_f_flags & ~FANOTIFY_INIT_ALL_EVENT_F_BITS)
->  		return -EINVAL;
->  
-> @@ -1477,7 +1532,7 @@ static int __init fanotify_user_setup(void)
->  	max_marks = clamp(max_marks, FANOTIFY_OLD_DEFAULT_MAX_MARKS,
->  				     FANOTIFY_DEFAULT_MAX_USER_MARKS);
->  
-> -	BUILD_BUG_ON(HWEIGHT32(FANOTIFY_INIT_FLAGS) != 10);
-> +	BUILD_BUG_ON(HWEIGHT32(FANOTIFY_INIT_FLAGS) != 11);
->  	BUILD_BUG_ON(HWEIGHT32(FANOTIFY_MARK_FLAGS) != 9);
->  
->  	fanotify_mark_cache = KMEM_CACHE(fsnotify_mark,
-> diff --git a/include/linux/fanotify.h b/include/linux/fanotify.h
-> index f76c7635efc8..bb2898240e5a 100644
-> --- a/include/linux/fanotify.h
-> +++ b/include/linux/fanotify.h
-> @@ -27,7 +27,7 @@ extern struct ctl_table fanotify_table[]; /* for sysctl */
->  
->  #define FANOTIFY_FID_BITS	(FAN_REPORT_FID | FAN_REPORT_DFID_NAME)
->  
-> -#define FANOTIFY_INFO_MODES	(FANOTIFY_FID_BITS)
-> +#define FANOTIFY_INFO_MODES	(FANOTIFY_FID_BITS | FAN_REPORT_PIDFD)
->  
->  /*
->   * fanotify_init() flags that require CAP_SYS_ADMIN.
-> @@ -37,6 +37,7 @@ extern struct ctl_table fanotify_table[]; /* for sysctl */
->   */
->  #define FANOTIFY_ADMIN_INIT_FLAGS	(FANOTIFY_PERM_CLASSES | \
->  					 FAN_REPORT_TID | \
-> +					 FAN_REPORT_PIDFD | \
->  					 FAN_UNLIMITED_QUEUE | \
->  					 FAN_UNLIMITED_MARKS)
->  
-> diff --git a/include/uapi/linux/fanotify.h b/include/uapi/linux/fanotify.h
-> index fbf9c5c7dd59..36c3bddcf690 100644
-> --- a/include/uapi/linux/fanotify.h
-> +++ b/include/uapi/linux/fanotify.h
-> @@ -55,6 +55,7 @@
->  #define FAN_REPORT_FID		0x00000200	/* Report unique file id */
->  #define FAN_REPORT_DIR_FID	0x00000400	/* Report unique directory id */
->  #define FAN_REPORT_NAME		0x00000800	/* Report events with name */
-> +#define FAN_REPORT_PIDFD	0x00001000	/* Report pidfd for event->pid */
->  
->  /* Convenience macro - FAN_REPORT_NAME requires FAN_REPORT_DIR_FID */
->  #define FAN_REPORT_DFID_NAME	(FAN_REPORT_DIR_FID | FAN_REPORT_NAME)
-> @@ -123,6 +124,7 @@ struct fanotify_event_metadata {
->  #define FAN_EVENT_INFO_TYPE_FID		1
->  #define FAN_EVENT_INFO_TYPE_DFID_NAME	2
->  #define FAN_EVENT_INFO_TYPE_DFID	3
-> +#define FAN_EVENT_INFO_TYPE_PIDFD	4
->  
->  /* Variable length info record following event metadata */
->  struct fanotify_event_info_header {
-> @@ -148,6 +150,15 @@ struct fanotify_event_info_fid {
->  	unsigned char handle[0];
->  };
->  
-> +/*
-> + * This structure is used for info records of type FAN_EVENT_INFO_TYPE_PIDFD.
-> + * It holds a pidfd for the pid responsible for generating an event.
-> + */
-> +struct fanotify_event_info_pidfd {
-> +	struct fanotify_event_info_header hdr;
-> +	__s32 pidfd;
-> +};
-> +
->  struct fanotify_response {
->  	__s32 fd;
->  	__u32 response;
-> @@ -160,6 +171,7 @@ struct fanotify_response {
->  
->  /* No fd set in event */
->  #define FAN_NOFD	-1
-> +#define FAN_NOPIDFD	FAN_NOFD
->  
->  /* Helper functions to deal with fanotify_event_metadata buffers */
->  #define FAN_EVENT_METADATA_LEN (sizeof(struct fanotify_event_metadata))
-> -- 
-> 2.31.1.751.gd2f1c929bd-goog
+And they have selected ARCH_BINFMT_ELF_STATE just so that they disable
+those dummy accessors in fs/binfmt_elf.c
+
+And you're practically glueing together ARCH_BINFMT_ELF_STATE and
+ARCH_USE_GNU_PROPERTY. However, all the functionality is for adding
+the gnu property note so I think you should select both but only use
+ARCH_USE_GNU_PROPERTY in all the ifdeffery in your patch to at least
+have this as simple as possible.
+
+> I just looked at the ABI document.
+
+Which document is that? Link?
+
+> ARM has GNU_PROPERTY_AARCH64_FEATURE_1_AND 0xc0000000
 > 
-> /M
+> X86 has:
+> 	GNU_PROPERTY_X86_ISA_1_USED	0xc0000000
+> 	GNU_PROPERTY_X86_ISA_1_NEEDED	0xc0000001
+> 	GNU_PROPERTY_X86_FEATURE_1_AND	0xc0000002
+
+Our defines should at least have a comment pointing to that document.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
