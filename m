@@ -2,160 +2,161 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3329438B946
-	for <lists+linux-api@lfdr.de>; Thu, 20 May 2021 23:58:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C545A38B9C2
+	for <lists+linux-api@lfdr.de>; Fri, 21 May 2021 00:53:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231129AbhETV7Z (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 20 May 2021 17:59:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54258 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230479AbhETV7Z (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 20 May 2021 17:59:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1621547883;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=GkTVO6S3XAPMr10XOopEA4GoA4JfOcUYU8NEFBnvEmw=;
-        b=X3QnwKOjsSFLCL8ZOzIZpb8v8gn52yzvkZ7Fu0N8FRieaXTR9WVjEeJbGoaki8EIcH6bkn
-        JHE+CgCDvyWOvax+sW6NXPCtssChyYWmj0AMWidx8PXqJQQnCTK8Pql8EFpPaOyG/D8WkN
-        WTlq9+UyX0nLMcScaO48hPT3v0DjBdQ=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-13-2HcsHzaZMaa4WzB6SHfVUQ-1; Thu, 20 May 2021 17:58:01 -0400
-X-MC-Unique: 2HcsHzaZMaa4WzB6SHfVUQ-1
-Received: by mail-lf1-f70.google.com with SMTP id q7-20020a196e470000b029022ff5d290c5so4149004lfk.13
-        for <linux-api@vger.kernel.org>; Thu, 20 May 2021 14:58:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GkTVO6S3XAPMr10XOopEA4GoA4JfOcUYU8NEFBnvEmw=;
-        b=jUoM0k9xUc9uCQfQudxcxP2/1QV/MVwZPbN4pgt3KdZkmDN98vNDmU9ol6Cb2Mfn9i
-         blKv/dWqmOhMll7aQ+qGEW+rlVWWJ+d6nO33BdVpXQJKyt4f2/CQcMiBW763WcyrjHWW
-         7WGtSyjxRd+2U/FFIB8qIgpzy/Pj4K6ArkS2X8aBquqwbqEmvvN+O80CpDkV1mWdLhxy
-         Ir8lCYkS6rBBedeIXeIqZDLxMdnGCwrMNgyrGlwtApWw4jzq+UP0O7/fx2XfhzVU2dmb
-         Nzla99TeTSmKClBy97M/UKbG7phdiz3nIc0kxI9CldLrmr0iqATQlCmXI5YJOY7IqUSp
-         Jz4A==
-X-Gm-Message-State: AOAM5319qgnVTcrEELA6aO2fXXA+tUMWVOqUbWopwzmT7HxXHS2aMlKC
-        LCgBp5H8WO9Z5qlTUtgrUPAyBp3gUgzUP2HX+d580ZYzBQyQnJGyP767lCrpSy0Nr+p3ahe0SVU
-        QpgNXjiq/ka5DhPVlnIa7u5AodpiNVeOKfcCB
-X-Received: by 2002:a05:6512:3b93:: with SMTP id g19mr4668373lfv.548.1621547879544;
-        Thu, 20 May 2021 14:57:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJycNBHNApdEMPPfyR1CFYsoWikWJFtl6kPpEuS6x/SuQ79H+NxWtvmFXVfNLuDCxOYam0+CaH+Jtui15wxD2Gc=
-X-Received: by 2002:a05:6512:3b93:: with SMTP id g19mr4668344lfv.548.1621547879329;
- Thu, 20 May 2021 14:57:59 -0700 (PDT)
+        id S232167AbhETWy1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 20 May 2021 18:54:27 -0400
+Received: from mga12.intel.com ([192.55.52.136]:52623 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232047AbhETWy1 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 20 May 2021 18:54:27 -0400
+IronPort-SDR: Cmjdr028K5eLwRgMY/TcEKRaMNb59xR7ujX+Qx+LhvVFqAPH/XIwaFqT1IGgFbSgxTSpVjhsMw
+ qQxLo0TnoVfw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9990"; a="180963325"
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; 
+   d="scan'208";a="180963325"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2021 15:53:05 -0700
+IronPort-SDR: Nqt9sxgoJI6a0rKGEuzKU/QXFfJvtXan9oZfSHtZZIZXrKmbE0i8P6P2asOOnxBEDLiNpp6G9a
+ L3gfOtaRDJBQ==
+X-IronPort-AV: E=Sophos;i="5.82,313,1613462400"; 
+   d="scan'208";a="631578936"
+Received: from blydon-mobl.amr.corp.intel.com (HELO [10.209.0.109]) ([10.209.0.109])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2021 15:53:04 -0700
+Subject: Re: Candidate Linux ABI for Intel AMX and hypothetical new related
+ features
+To:     Len Brown <lenb@kernel.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Borislav Petkov <bp@alien8.de>, Willy Tarreau <w@1wt.eu>,
+        Andy Lutomirski <luto@kernel.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
+        X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
+        Rich Felker <dalias@libc.org>, Kyle Huey <me@kylehuey.com>,
+        Keno Fischer <keno@juliacomputing.com>,
+        Arjan van de Ven <arjan@linux.intel.com>
+References: <20210415044258.GA6318@zn.tnic> <20210415052938.GA2325@1wt.eu>
+ <20210415054713.GB6318@zn.tnic>
+ <CAJvTdKnjzAMh3N_c7KP3kA=e0LgYHgCANg44oJp3LcSm7dtbSQ@mail.gmail.com>
+ <20210419141454.GE9093@zn.tnic>
+ <CAJvTdK=p8mgO3xw9sRxu0c7NTNTG109M442b3UZh8TqLLfkC1Q@mail.gmail.com>
+ <20210419191539.GH9093@zn.tnic>
+ <CAJvTdK=VnG94ECcRVoUi8HrCbVEKc8X4_JmRTkqe+vTttf0Wsg@mail.gmail.com>
+ <20210419215809.GJ9093@zn.tnic>
+ <CAJvTdKn6JHo02karEs0e5g+6SimS5VUcXKjCkX35WY+xkgAgxw@mail.gmail.com>
+ <YIMmwhEr46VPAZa4@zn.tnic>
+ <CAJvTdKnhXnynybS4eNEF_EtF26auyb-mhKLNd1D9_zvCrchZsw@mail.gmail.com>
+ <874kf11yoz.ffs@nanos.tec.linutronix.de>
+ <CAJvTdKkYp+zP_9tna6YsrOz2_nmEUDLJaL_i-SNog0m2T9wZ=Q@mail.gmail.com>
+ <87k0ntazyn.ffs@nanos.tec.linutronix.de>
+ <37833625-3e6b-5d93-cc4d-26164d06a0c6@intel.com>
+ <CAJvTdKmqzO4P9k3jqRA=dR+B7yV72hZCiyC8HGQxDKZBnXgzZQ@mail.gmail.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <9c8138eb-3956-e897-ed4e-426bf6663c11@intel.com>
+Date:   Thu, 20 May 2021 15:53:01 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20210504092340.00006c61@intel.com> <87pmxpdr32.ffs@nanos.tec.linutronix.de>
- <CAFki+Lkjn2VCBcLSAfQZ2PEkx-TR0Ts_jPnK9b-5ne3PUX37TQ@mail.gmail.com>
- <87im3gewlu.ffs@nanos.tec.linutronix.de> <CAFki+L=gp10W1ygv7zdsee=BUGpx9yPAckKr7pyo=tkFJPciEg@mail.gmail.com>
-In-Reply-To: <CAFki+L=gp10W1ygv7zdsee=BUGpx9yPAckKr7pyo=tkFJPciEg@mail.gmail.com>
-From:   Nitesh Lal <nilal@redhat.com>
-Date:   Thu, 20 May 2021 17:57:47 -0400
-Message-ID: <CAFki+L=eQoMq+mWhw_jVT-biyuDXpxbXY5nO+F6HvCtpbG9V2w@mail.gmail.com>
-Subject: Re: [PATCH tip:irq/core v1] genirq: remove auto-set of the mask when
- setting the hint
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>
-Cc:     Ingo Molnar <mingo@kernel.org>, linux-kernel@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, jbrandeb@kernel.org,
-        "frederic@kernel.org" <frederic@kernel.org>,
-        "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
-        Alex Belits <abelits@marvell.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
-        "stephen@networkplumber.org" <stephen@networkplumber.org>,
-        "rppt@linux.vnet.ibm.com" <rppt@linux.vnet.ibm.com>,
-        "jinyuqi@huawei.com" <jinyuqi@huawei.com>,
-        "zhangshaokun@hisilicon.com" <zhangshaokun@hisilicon.com>,
-        netdev@vger.kernel.org, chris.friesen@windriver.com,
-        Marc Zyngier <maz@kernel.org>,
-        Neil Horman <nhorman@tuxdriver.com>, pjwaskiewicz@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAJvTdKmqzO4P9k3jqRA=dR+B7yV72hZCiyC8HGQxDKZBnXgzZQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, May 17, 2021 at 8:23 PM Nitesh Lal <nilal@redhat.com> wrote:
->
-> On Mon, May 17, 2021 at 8:04 PM Thomas Gleixner <tglx@linutronix.de> wrote:
-> >
-> > On Mon, May 17 2021 at 18:44, Nitesh Lal wrote:
-> > > On Mon, May 17, 2021 at 4:48 PM Thomas Gleixner <tglx@linutronix.de> wrote:
-> > >> The hint was added so that userspace has a better understanding where it
-> > >> should place the interrupt. So if irqbalanced ignores it anyway, then
-> > >> what's the point of the hint? IOW, why is it still used drivers?
-> > >>
-> > > Took a quick look at the irqbalance repo and saw the following commit:
-> > >
-> > > dcc411e7bf    remove affinity_hint infrastructure
-> > >
-> > > The commit message mentions that "PJ is redesiging how affinity hinting
-> > > works in the kernel, the future model will just tell us to ignore an IRQ,
-> > > and the kernel will handle placement for us.  As such we can remove the
-> > > affinity_hint recognition entirely".
-> >
-> > No idea who PJ is. I really love useful commit messages. Maybe Neil can
-> > shed some light on that.
-> >
-> > > This does indicate that apparently, irqbalance moved away from the usage of
-> > > affinity_hint. However, the next question is what was this future
-> > > model?
-> >
-> > I might have missed something in the last 5 years, but that's the first
-> > time I hear about someone trying to cleanup that thing.
-> >
-> > > I don't know but I can surely look into it if that helps or maybe someone
-> > > here already knows about it?
-> >
-> > I CC'ed Neil :)
->
-> Thanks, I have added PJ Waskiewicz as well who I think was referred in
-> that commit message as PJ.
->
-> >
-> > >> Now there is another aspect to that. What happens if irqbalanced does
-> > >> not run at all and a driver relies on the side effect of the hint
-> > >> setting the initial affinity. Bah...
-> > >>
-> > >
-> > > Right, but if they only rely on this API so that the IRQs are spread across
-> > > all the CPUs then that issue is already resolved and these other drivers
-> > > should not regress because of changing this behavior. Isn't it?
-> >
-> > Is that true for all architectures?
->
-> Unfortunately, I don't know and that's probably why we have to be careful.
+On 5/20/21 2:41 PM, Len Brown wrote:
+> So the questions are:
+> 1. who calls it -- a call/thread or process?  the application?  a
+> library -- which library?
+> 2. is it optional, or mandatory?
+> 3. if it is mandatory, what is the best way to enforce it?
+> 4. should we have a "release" system call too?
+> 
+> 1. Every thread needs a context switch buffer.  Does every thread make
+> the system call?  It seems sort of awkward for a library to always
+> make a system call before doing a TMUL.  It would be functionally
+> harmless, but it would add latency to an otherwise low-latency
+> operation.  If some central library does it, and caches that it has
+> done it before, then it would be ugly, but at least it would remove an
+> unnecessary user/kernel transition.
 
-I think here to ensure that we are not breaking any of the drivers we have
-to first analyze all the existing drivers and understand how they are using
-this API.
-AFAIK there are three possible scenarios:
+Our system calls are *REALLY* fast.  We can even do a vsyscall for this
+if we want to get the overhead down near zero.  Userspace can also cache
+the "I did the prctl()" state in thread-local storage if it wants to
+avoid the syscall.
 
-- A driver use this API to spread the IRQs
-  + For this case we should be safe considering the spreading is naturally
-    done from the IRQ subsystem itself.
+> 2. If it is optional, then v5 is code complete -- because it allows
+> you to allocate either explicitly via prtcl, or transparently via #NM.
 
-- A driver use this API to actually set the hint
-  + These drivers should have no functional impact because of this revert
+It needs to be mandatory.  If it's not, then nobody will use it, and
+they'll suffer the dreaded SIGSEGV-on-vmalloc()-failure and start filing
+bug reports.
 
-- Driver use this API to force a certain affinity mask
-  + In this case we have to replace the API with the irq_force_affinity()
+> 3. If it is mandatory, then we should re-purpose the XFD mechanism:
+> app starts with XFD armed, by default
+> if app touches AMX before prctl, it takes a signal (and dies).
+> When app calls prctl, allocate buffer disarm XFD for that app (exactly
+> what #NM trap does today).
 
-I can start looking into the individual drivers, however, testing them will
-be a challenge.
+Yes, that sounds like a good use of XFD.
 
-Any thoughts?
+> 4. I don't see a justification for a release concept, but it is
+> possible -- though sort of sticky with possible nested calls from
+> combinations of apps and libraries.  If that were sorted out by a
+> central library, then the actual system call on the last release per
+> thread would re-arm XFD to prevent access until the next explicit
+> request.  Unclear if it is important that the kernel actually do the
+> free -- some things might run faster if we keep it around...
 
---
-Thanks
-Nitesh
+I think would be more of a get/put model rather than an allocate/free model.
 
+The "put" could effectively be a noop for now.  But, if we don't put
+this in the ABI up front, we can't add it later.  That means that we
+could never add a lazy-free, even if we wanted to.
