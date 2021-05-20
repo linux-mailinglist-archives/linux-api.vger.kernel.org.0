@@ -2,55 +2,55 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 86B6438B62B
-	for <lists+linux-api@lfdr.de>; Thu, 20 May 2021 20:36:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69E0838B62C
+	for <lists+linux-api@lfdr.de>; Thu, 20 May 2021 20:36:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235606AbhETShy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 20 May 2021 14:37:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55512 "EHLO
+        id S235671AbhETSh4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 20 May 2021 14:37:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235630AbhETShw (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 20 May 2021 14:37:52 -0400
-Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com [IPv6:2607:f8b0:4864:20::84a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6AE1C061761
-        for <linux-api@vger.kernel.org>; Thu, 20 May 2021 11:36:30 -0700 (PDT)
-Received: by mail-qt1-x84a.google.com with SMTP id w15-20020ac857cf0000b02901e11cd2e82fso13006397qta.12
-        for <linux-api@vger.kernel.org>; Thu, 20 May 2021 11:36:30 -0700 (PDT)
+        with ESMTP id S235661AbhETShz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 20 May 2021 14:37:55 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CFFFC061760
+        for <linux-api@vger.kernel.org>; Thu, 20 May 2021 11:36:32 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id s8-20020a5b04480000b029049fb35700b9so23985215ybp.5
+        for <linux-api@vger.kernel.org>; Thu, 20 May 2021 11:36:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=CiYj3xqa/3sBIT+R8Q57s77BdvC1TkRWShRTcp4bolo=;
-        b=tZXEbCkDQJ+6wLLjrPP8nUVwzG2bUC5k3GqLx5LHDrNEHe892Koo89lKLm3Xsu2Ovw
-         MXNR6bVM0819HDDm510QNmGJN7UwuEirV0J3uE6Eid8r+qLoSzjMpamTzwDy93ABkaHE
-         g5uqvWTLj6CQzFR3jc5Nh8d3hh+pdfIYPIr9i9rWVKOhjdueiaeQ7acDkrWZ+4AsQj6p
-         uLrDxK3chu8kLWPpUWLhNVIakUM4vehc198rboYbv8GcX5wJXQCHl2l+g0OL++mKDH4D
-         l/eD4rgL3vWbFRLq0V2zy44Bqpsdk9+GMfWtURE5b+/+yzV21KUFXDc63yTWW5HMhSpn
-         91zg==
+        bh=GF6IQET16CbWiLSpp1g7dBz7aEEoM3ThdSv7nONiCT0=;
+        b=bYn3Iyte+zbhoMUIrESR91NtSoaIaaY2JXALfvyxZwheD8M3ixUZRW68aZ6SB4uZ2W
+         lVk+UxV4Ge3jnkCMxl2bZab1nBkoCWANWQmbpT2WPzLZmvO6merb12eTyAHchYwo9Swg
+         K1ipEUFF80nHhJJlnmcw1saejXaQTXvqmWTmY3ntyjcED/LBFjHErXsKyoaXY8zFgMYM
+         JoJ1QEAbHzcrMrz6W3UGFKWIOP3ptve4ukhB2gErwWJ+KpKlHlywu3TndwPynYS6dRBt
+         I7EES31NjCRJlgJaz42bZMCQphxojC8YS2uNwP1BoqQ5dMwcFagsNa49bazkOqt6pEqp
+         LIxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=CiYj3xqa/3sBIT+R8Q57s77BdvC1TkRWShRTcp4bolo=;
-        b=bXSddVL85wBFVvI3DDZAzltXFzWlk0QTV+3hfb6NiOpjFqiJaUHxdIyxkOFNmG4/MK
-         POuV7ynBBh32rEK9IfIdoRlgNmm9JMj3pfxHwXJ5wYDGCINBpajAtuwbycHKwnAc7leY
-         CDld3rNrowkGPPqnjTyUO8v+lLMDb6hjJkEkCg26C/IGH0iLNG10t/Hbv+m53k86xcqX
-         osp2XlU3U3p0zow0G0j5iGdonFz63hNe2rJkN8xmp5qf/BknaKEiqCNRoeBy8TeMxa9s
-         PcRxjxt0Uz1Ysg3kTyaErzBfOToMbMkYfWRdZFG6PPa8JnCbw/dL6yLnvWuFwpa0GN0Q
-         wnDg==
-X-Gm-Message-State: AOAM533hA2ln2NqeCjLgh5TbJWfUrkRAra+4rgdGJQjgPnnArLvBGHDy
-        eBB7eQ85oG7yR3BRKVSU+V5OsUdp
-X-Google-Smtp-Source: ABdhPJy87EdzjLGTZce486+xBvwPmlC9FsJxGv1NOqgtocZwZj/3HhaUKfB+vJmNYFIbG7US02n4foOE
+        bh=GF6IQET16CbWiLSpp1g7dBz7aEEoM3ThdSv7nONiCT0=;
+        b=RTjPKdSLeVw8zyzLZW7BNPGNU4gVxwmRkcpIBBB1/jTRS2h4+sAgat2m8IDUUFH7wt
+         eXMXYNDHHppjnPv+CdzBpqoinH4EbFlJwWszgIRtDToyPJWmgcG+X4uYrmm+fzxCl3QG
+         U175y8tYUX4oaebQQ2rZvvRb1B4OycpgVwctMDMtriVsL3HmqzAal3VgIlobqA3TxzhF
+         1saR47xENMPMp7IoCTDe5aOF08IZODVtL5jB4HqCMFq9cq7wsSjhaS6JVj9CKfs5hs0r
+         SK4JcnNaKbory/B0VX7spaW1c96zbfoYUo3AldUf619RnsBQCWX7+NW1JEwcspT8XV1c
+         G2VQ==
+X-Gm-Message-State: AOAM533xZhMDJkVFQy4fMM0P/sCn+Y+7FKyX6MEr6Swm3eN2jrGCcLc3
+        2QnZerDP+R47CZmAsMHqoxRAMB/J
+X-Google-Smtp-Source: ABdhPJw+LgysJJZYDal5krvfI9Z8HAv9YZVf9VSZTXyQpj/foLiZfkuu8VRuCQSd7uZi4CtzHyGYWeKn
 X-Received: from posk.svl.corp.google.com ([2620:15c:2cd:202:f13e:18cf:76e6:2dc4])
- (user=posk job=sendgmr) by 2002:a0c:fb45:: with SMTP id b5mr3470588qvq.48.1621535789760;
- Thu, 20 May 2021 11:36:29 -0700 (PDT)
-Date:   Thu, 20 May 2021 11:36:10 -0700
+ (user=posk job=sendgmr) by 2002:a25:d8d0:: with SMTP id p199mr4993557ybg.261.1621535791803;
+ Thu, 20 May 2021 11:36:31 -0700 (PDT)
+Date:   Thu, 20 May 2021 11:36:11 -0700
 In-Reply-To: <20210520183614.1227046-1-posk@google.com>
-Message-Id: <20210520183614.1227046-6-posk@google.com>
+Message-Id: <20210520183614.1227046-7-posk@google.com>
 Mime-Version: 1.0
 References: <20210520183614.1227046-1-posk@google.com>
 X-Mailer: git-send-email 2.31.1.818.g46aad6cb9e-goog
-Subject: [RFC PATCH v0.1 5/9] lib/umcg: implement UMCG core API for userspace
+Subject: [RFC PATCH v0.1 6/9] selftests/umcg: add UMCG core API selftest
 From:   Peter Oskolkov <posk@google.com>
 To:     Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@redhat.com>,
@@ -68,567 +68,400 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-UMCG (= User Managed Concurrency Groups) kernel API
-is designed to be minimalistic and requires tightly
-coupled userspace code to make it easy to use.
-
-Add userspace UMCG core API to achieve this goal.
+Add UMCG core API selftests. In particular, test that
+umcg_wait/umcg_wake/umcg_swap behave correctly when racing
+with each other.
 
 Signed-off-by: Peter Oskolkov <posk@google.com>
 ---
- tools/lib/umcg/.gitignore |   4 +
- tools/lib/umcg/Makefile   |  11 ++
- tools/lib/umcg/libumcg.c  | 350 ++++++++++++++++++++++++++++++++++++++
- tools/lib/umcg/libumcg.h  | 154 +++++++++++++++++
- 4 files changed, 519 insertions(+)
- create mode 100644 tools/lib/umcg/.gitignore
- create mode 100644 tools/lib/umcg/Makefile
- create mode 100644 tools/lib/umcg/libumcg.c
- create mode 100644 tools/lib/umcg/libumcg.h
+ tools/testing/selftests/umcg/.gitignore       |   2 +
+ tools/testing/selftests/umcg/Makefile         |  13 +
+ tools/testing/selftests/umcg/umcg_core_test.c | 347 ++++++++++++++++++
+ 3 files changed, 362 insertions(+)
+ create mode 100644 tools/testing/selftests/umcg/.gitignore
+ create mode 100644 tools/testing/selftests/umcg/Makefile
+ create mode 100644 tools/testing/selftests/umcg/umcg_core_test.c
 
-diff --git a/tools/lib/umcg/.gitignore b/tools/lib/umcg/.gitignore
+diff --git a/tools/testing/selftests/umcg/.gitignore b/tools/testing/selftests/umcg/.gitignore
 new file mode 100644
-index 000000000000..ea55ae666041
+index 000000000000..89cca24e5907
 --- /dev/null
-+++ b/tools/lib/umcg/.gitignore
-@@ -0,0 +1,4 @@
-+PDX-License-Identifier: GPL-2.0-only
-+libumcg.a
-+libumcg.o
-+
-diff --git a/tools/lib/umcg/Makefile b/tools/lib/umcg/Makefile
++++ b/tools/testing/selftests/umcg/.gitignore
+@@ -0,0 +1,2 @@
++# SPDX-License-Identifier: GPL-2.0-only
++umcg_core_test
+diff --git a/tools/testing/selftests/umcg/Makefile b/tools/testing/selftests/umcg/Makefile
 new file mode 100644
-index 000000000000..fa53fd5a851a
+index 000000000000..b151098e2ed1
 --- /dev/null
-+++ b/tools/lib/umcg/Makefile
-@@ -0,0 +1,11 @@
-+# SPDX-License-Identifier: GPL-2.0
++++ b/tools/testing/selftests/umcg/Makefile
+@@ -0,0 +1,13 @@
++# SPDX-License-Identifier: GPL-2.0-only
 +
-+CFLAGS += -g -I../../../usr/include/ -I../../include/
++TOOLSDIR := $(abspath ../../..)
++LIBUMCGDIR := $(TOOLSDIR)/lib/umcg
 +
-+libumcg.a: libumcg.o
-+	ar rc libumcg.a libumcg.o
++CFLAGS += -g -O0 -I$(LIBUMCGDIR) -I$(TOOLSDIR)/include/ -I../../../../usr/include/
++LDLIBS += -lpthread -static
 +
-+libumcg.o: libumcg.c
++TEST_GEN_PROGS := umcg_core_test
 +
-+clean :
-+	rm libumcg.a libumcg.o
-diff --git a/tools/lib/umcg/libumcg.c b/tools/lib/umcg/libumcg.c
++include ../lib.mk
++
++$(OUTPUT)/umcg_core_test: umcg_core_test.c $(LIBUMCGDIR)/libumcg.c
+diff --git a/tools/testing/selftests/umcg/umcg_core_test.c b/tools/testing/selftests/umcg/umcg_core_test.c
 new file mode 100644
-index 000000000000..b177fb1d4b17
+index 000000000000..4dc20131ace7
 --- /dev/null
-+++ b/tools/lib/umcg/libumcg.c
-@@ -0,0 +1,350 @@
++++ b/tools/testing/selftests/umcg/umcg_core_test.c
+@@ -0,0 +1,347 @@
 +// SPDX-License-Identifier: GPL-2.0
 +#define _GNU_SOURCE
 +#include "libumcg.h"
 +
-+#include <errno.h>
 +#include <pthread.h>
-+#include <signal.h>
 +#include <stdatomic.h>
-+#include <stdbool.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <threads.h>
 +
-+/* UMCG API version supported by this library. */
-+static const uint32_t umcg_api_version = 1;
++#include "../kselftest_harness.h"
 +
-+struct umcg_group {
-+	uint32_t group_id;
-+};
-+
-+/**
-+ * struct umcg_task_tls - per thread struct used to identify/manage UMCG tasks
-+ *
-+ * Each UMCG task requires an instance of struct umcg_task passed to
-+ * sys_umcg_register. This struct contains it, as well as several additional
-+ * fields.
-+ */
-+struct umcg_task_tls {
-+	struct umcg_task	umcg_task;
-+	umcg_tid		self;
-+	intptr_t		tag;
-+	pid_t			tid;
-+
-+} __attribute((aligned(4 * sizeof(uint64_t))));
-+
-+static thread_local struct umcg_task_tls *umcg_task_tls;
-+
-+umcg_tid umcg_get_utid(void)
-+{
-+	return (umcg_tid)&umcg_task_tls;
++#define CHECK_CONFIG()						\
++{								\
++	int ret = sys_umcg_api_version(1, 0);			\
++	if (ret == -1 && errno == ENOSYS)			\
++		SKIP(return, "CONFIG_UMCG not set");	\
 +}
 +
-+static umcg_tid umcg_task_to_utid(struct umcg_task *ut)
-+{
-+	if (!ut)
-+		return UMCG_NONE;
-+
-+	return ((struct umcg_task_tls *)ut)->self;
++TEST(umcg_api_version) {
++	CHECK_CONFIG();
++	ASSERT_EQ(0, sys_umcg_api_version(1, 0));
++	ASSERT_EQ(1, sys_umcg_api_version(1234, 0));
 +}
 +
-+static struct umcg_task_tls *utid_to_utls(umcg_tid utid)
-+{
-+	if (!utid || !*(struct umcg_task_tls **)utid) {
-+		fprintf(stderr, "utid_to_utls: NULL\n");
-+		/* Kill the process rather than corrupt memory. */
-+		raise(SIGKILL);
-+		return NULL;
-+	}
-+	return *(struct umcg_task_tls **)utid;
-+}
++/* Test that forked children of UMCG enabled tasks are not UMCG enabled. */
++TEST(register_and_fork) {
++	CHECK_CONFIG();
++	pid_t pid;
++	int wstatus;
++	umcg_tid utid;
 +
-+void umcg_set_task_tag(umcg_tid utid, intptr_t tag)
-+{
-+	utid_to_utls(utid)->tag = tag;
-+}
++	/* umcg_unregister should fail without registering earlier. */
++	ASSERT_NE(0, umcg_unregister_task());
 +
-+intptr_t umcg_get_task_tag(umcg_tid utid)
-+{
-+	return utid_to_utls(utid)->tag;
-+}
++	utid = umcg_register_core_task(0);
++	ASSERT_TRUE(utid != UMCG_NONE);
 +
-+umcg_tid umcg_register_core_task(intptr_t tag)
-+{
-+	int ret;
-+
-+	if (umcg_task_tls != NULL) {
-+		errno = EINVAL;
-+		return UMCG_NONE;
-+	}
-+
-+	umcg_task_tls = malloc(sizeof(struct umcg_task_tls));
-+	if (!umcg_task_tls) {
-+		errno = ENOMEM;
-+		return UMCG_NONE;
-+	}
-+
-+	umcg_task_tls->umcg_task.state = UMCG_TASK_NONE;
-+	umcg_task_tls->self = (umcg_tid)&umcg_task_tls;
-+	umcg_task_tls->tag = tag;
-+	umcg_task_tls->tid = gettid();
-+
-+	ret = sys_umcg_register_task(umcg_api_version, UMCG_REGISTER_CORE_TASK,
-+			UMCG_NOID, &umcg_task_tls->umcg_task);
-+	if (ret) {
-+		free(umcg_task_tls);
-+		umcg_task_tls = NULL;
-+		errno = ret;
-+		return UMCG_NONE;
-+	}
-+
-+	return umcg_task_tls->self;
-+}
-+
-+int umcg_unregister_task(void)
-+{
-+	int ret;
-+
-+	if (!umcg_task_tls) {
-+		errno = EINVAL;
-+		return -1;
-+	}
-+
-+	ret = sys_umcg_unregister_task(0);
-+	if (ret) {
-+		errno = ret;
-+		return -1;
-+	}
-+
-+	free(umcg_task_tls);
-+	atomic_store_explicit(&umcg_task_tls, NULL, memory_order_seq_cst);
-+	return 0;
-+}
-+
-+/* Helper return codes. */
-+enum umcg_prepare_op_result {
-+	UMCG_OP_DONE,
-+	UMCG_OP_SYS,
-+	UMCG_OP_AGAIN,
-+	UMCG_OP_ERROR
-+};
-+
-+static enum umcg_prepare_op_result umcg_prepare_wait(void)
-+{
-+	struct umcg_task *ut;
-+	uint32_t umcg_state;
-+	int ret;
-+
-+	if (!umcg_task_tls) {
-+		errno = EINVAL;
-+		return UMCG_OP_ERROR;
-+	}
-+
-+	ut = &umcg_task_tls->umcg_task;
-+
-+	umcg_state = UMCG_TASK_RUNNING;
-+	if (atomic_compare_exchange_strong_explicit(&ut->state,
-+			&umcg_state, UMCG_TASK_RUNNABLE,
-+			memory_order_seq_cst, memory_order_seq_cst))
-+		return UMCG_OP_SYS;
-+
-+	if (umcg_state != (UMCG_TASK_RUNNING | UMCG_TF_WAKEUP_QUEUED)) {
-+		fprintf(stderr, "libumcg: unexpected state before wait: %u\n",
-+				umcg_state);
-+		errno = EINVAL;
-+		return UMCG_OP_ERROR;
-+	}
-+
-+	if (atomic_compare_exchange_strong_explicit(&ut->state,
-+			&umcg_state, UMCG_TASK_RUNNING,
-+			memory_order_seq_cst, memory_order_seq_cst)) {
-+		return UMCG_OP_DONE;
-+	}
-+
-+	/* Raced with another wait/wake? This is not supported. */
-+	fprintf(stderr, "libumcg: failed to remove the wakeup flag: %u\n",
-+			umcg_state);
-+	errno = EINVAL;
-+	return UMCG_OP_ERROR;
-+}
-+
-+static int umcg_do_wait(const struct timespec *timeout)
-+{
-+	uint32_t umcg_state;
-+	int ret;
-+
-+	do {
-+		ret = sys_umcg_wait(0, timeout);
-+		if (ret != 0 && errno != EAGAIN)
-+			return ret;
-+
-+		umcg_state = atomic_load_explicit(
-+				&umcg_task_tls->umcg_task.state,
-+				memory_order_acquire);
-+	} while (umcg_state == UMCG_TASK_RUNNABLE);
-+
-+	return 0;
-+}
-+
-+int umcg_wait(const struct timespec *timeout)
-+{
-+	switch (umcg_prepare_wait()) {
-+	case UMCG_OP_DONE:
-+		return 0;
-+	case UMCG_OP_SYS:
-+		break;
-+	case UMCG_OP_ERROR:
-+		return -1;
-+	default:
-+		fprintf(stderr, "Unknown pre_op result.\n");
-+		exit(1);
-+		return -1;
-+	}
-+
-+	return umcg_do_wait(timeout);
-+}
-+
-+static enum umcg_prepare_op_result umcg_prepare_wake(struct umcg_task_tls *utls)
-+{
-+	struct umcg_task *ut = &utls->umcg_task;
-+	uint32_t umcg_state, next_state;
-+
-+	next_state = UMCG_TASK_RUNNING;
-+	umcg_state = UMCG_TASK_RUNNABLE;
-+	if (atomic_compare_exchange_strong_explicit(&ut->state,
-+			&umcg_state, next_state,
-+			memory_order_seq_cst, memory_order_seq_cst))
-+		return UMCG_OP_SYS;
-+
-+	if (umcg_state != UMCG_TASK_RUNNING) {
-+		if (umcg_state == (UMCG_TASK_RUNNING | UMCG_TF_WAKEUP_QUEUED)) {
-+			/*
-+			 * With ping-pong mutual swapping using wake/wait
-+			 * without synchronization this can happen.
-+			 */
-+			return UMCG_OP_AGAIN;
++	pid = fork();
++	if (pid == 0) {
++		/* This is child. umcg_unregister_task() should fail. */
++		if (!umcg_unregister_task()) {
++			fprintf(stderr, "umcg_unregister_task() succeeded in "
++					"the forked child.\n");
++			exit(1);
 +		}
-+		fprintf(stderr, "libumcg: unexpected state in umcg_wake(): %u\n",
-+				umcg_state);
-+		errno = EINVAL;
-+		return UMCG_OP_ERROR;
++		exit(0);
 +	}
 +
-+	if (atomic_compare_exchange_strong_explicit(&ut->state,
-+			&umcg_state, UMCG_TASK_RUNNING | UMCG_TF_WAKEUP_QUEUED,
-+			memory_order_seq_cst, memory_order_seq_cst)) {
-+		return UMCG_OP_DONE;
-+	}
-+
-+	if (umcg_state != UMCG_TASK_RUNNABLE) {
-+		fprintf(stderr, "libumcg: unexpected state in umcg_wake (1): %u\n",
-+				umcg_state);
-+		errno = EINVAL;
-+		return UMCG_OP_ERROR;
-+	}
-+
-+	return UMCG_OP_AGAIN;
++	ASSERT_EQ(pid, waitpid(pid, &wstatus, 0));
++	ASSERT_TRUE(WIFEXITED(wstatus));
++	ASSERT_EQ(0, WEXITSTATUS(wstatus));
++	ASSERT_EQ(0, umcg_unregister_task());
 +}
 +
-+static int umcg_do_wake_or_swap(struct umcg_task_tls *next_utls,
-+				uint64_t prev_wait_counter, bool should_wait,
-+				const struct timespec *timeout)
++struct test_waiter_args {
++	umcg_tid	utid;
++	bool		stop;
++	bool		waiting;
++};
++
++/* Thread FN for the test waiter: calls umcg_wait() in a loop until stopped. */
++static void *test_waiter_threadfn(void *arg)
 +{
++	struct test_waiter_args *args = (struct test_waiter_args *)arg;
++	uint64_t counter = 0;
++
++	atomic_store_explicit(&args->utid, umcg_register_core_task(0),
++			memory_order_relaxed);
++	if (!args->utid) {
++		fprintf(stderr, "umcg_register_core_task failed: %d.\n", errno);
++		exit(1);
++	}
++
++	while (!atomic_load_explicit(&args->stop, memory_order_seq_cst)) {
++		bool expected = false;
++
++		if (!atomic_compare_exchange_strong_explicit(&args->waiting,
++					&expected, true,
++					memory_order_seq_cst,
++					memory_order_seq_cst)) {
++			fprintf(stderr, "Failed to set waiting flag.\n");
++			exit(1);
++		}
++
++		++counter;
++		if (counter % 5 == 0)
++			usleep(1);  /* Trigger a race with ucmg_wake(). */
++
++		if (umcg_wait(NULL)) {
++			fprintf(stderr, "umcg_wait failed: %d.\n", errno);
++			exit(1);
++		}
++	}
++
++	if (umcg_unregister_task()) {
++		fprintf(stderr, "umcg_register_core_task failed: %d.\n", errno);
++		exit(1);
++	}
++
++	return (void *)counter;
++}
++
++/* Test wake/wait pair racing with each other. */
++TEST(umcg_wake_wait) {
++	CHECK_CONFIG();
++	struct test_waiter_args args;
++	const int steps = 10000;
++	bool expected = true;
++	void *result;
++	pthread_t t;
 +	int ret;
 +
-+again:
++	args.utid = UMCG_NONE;
++	args.stop = false;
++	args.waiting = false;
 +
-+	if (should_wait)
-+		ret = sys_umcg_swap(0, next_utls->tid, 0, timeout);
-+	else
-+		ret = sys_umcg_wake(0, next_utls->tid);
++	ASSERT_EQ(0, pthread_create(&t, NULL, &test_waiter_threadfn, &args));
 +
-+	if (ret && errno == EAGAIN)
-+		goto again;
++	while (!atomic_load_explicit(&args.utid, memory_order_relaxed))
++		;
 +
-+	return ret;
-+}
++	for (int step = 0; step < steps; ++step) {
++		/* Spin until the waiter indicates it is going to wait. */
++		while (!atomic_compare_exchange_weak_explicit(&args.waiting,
++					&expected, false,
++					memory_order_seq_cst,
++					memory_order_seq_cst)) {
++			expected = true;
++		}
 +
-+int umcg_wake(umcg_tid next)
-+{
-+	struct umcg_task_tls *utls = *(struct umcg_task_tls **)next;
-+	uint64_t prev_wait_counter;
-+
-+	if (!utls) {
-+		errno = EINVAL;
-+		return -1;
++		ASSERT_EQ(0, umcg_wake(args.utid));
 +	}
 +
-+again:
-+	switch (umcg_prepare_wake(utls)) {
-+	case UMCG_OP_DONE:
-+		return 0;
-+	case UMCG_OP_SYS:
-+		break;
-+	case UMCG_OP_ERROR:
-+		return -1;
-+	case UMCG_OP_AGAIN:
-+		goto again;
-+	default:
-+		fprintf(stderr, "libumcg: unknown pre_op result.\n");
++	/* Carefully shut down. */
++	expected = true;
++	while (!atomic_compare_exchange_weak_explicit(&args.waiting, &expected,
++			false, memory_order_seq_cst, memory_order_seq_cst)) {
++		expected = true;
++	}
++	atomic_store_explicit(&args.stop, true, memory_order_seq_cst);
++	ret = umcg_wake(args.utid);
++
++	/* If the worker immediately exits upon wake, we may get ESRCH. */
++	ASSERT_TRUE((ret == 0) || (errno == ESRCH));
++
++	ASSERT_EQ(0, pthread_join(t, &result));
++	ASSERT_EQ(steps + 1, (uint64_t)result);
++}
++
++struct test_ping_pong_args {
++	bool		ping;  /* Is this worker doing pings or pongs? */
++	umcg_tid	utid_self;
++	umcg_tid	utid_peer;
++	int		steps;
++	bool		use_swap;  /* Use umcg_swap or wake/wait. */
++	bool		payload;   /* call gettid() if true at each iteration. */
++
++	/*
++	 * It is not allowed to wake a task that has a wakeup queued, so
++	 * normally the test "softly" synchronizes ping and pong tasks so
++	 * that pong calls umcg_wait() to wait for the first ping.
++	 *
++	 * However, it is allowed to do mutual umcg_swap(), so in the
++	 * test flavor when both ping and pong tasks use swaps we also
++	 * run the test without pong waiting for the initial ping.
++	 */
++	bool		pong_waits;
++};
++
++/* Thread FN for ping-pong workers. */
++static void *test_ping_pong_threadfn(void *arg)
++{
++	struct test_ping_pong_args *args = (struct test_ping_pong_args *)arg;
++	struct timespec start, stop;
++	int counter;
++
++	atomic_store_explicit(&args->utid_self, umcg_register_core_task(0),
++			memory_order_relaxed);
++	if (!args->utid_self) {
++		fprintf(stderr, "umcg_register_core_task failed: %d.\n", errno);
 +		exit(1);
-+		return -1;
 +	}
 +
-+	return umcg_do_wake_or_swap(utls, prev_wait_counter, false, NULL);
-+}
++	while (!atomic_load_explicit(&args->utid_peer, memory_order_acquire))
++		;
 +
-+int umcg_swap(umcg_tid next, const struct timespec *timeout)
-+{
-+	struct umcg_task_tls *utls = *(struct umcg_task_tls **)next;
-+	bool should_wake, should_wait;
-+	uint64_t prev_wait_counter;
-+	int ret;
-+
-+	if (!utls) {
-+		errno = EINVAL;
-+		return -1;
++	if (args->pong_waits && !args->ping) {
++		/* This is pong: we sleep first. */
++		if (umcg_wait(NULL)) {
++			fprintf(stderr, "umcg_wait failed: %d.\n", errno);
++			exit(1);
++		}
 +	}
 +
-+again:
-+	switch (umcg_prepare_wake(utls)) {
-+	case UMCG_OP_DONE:
-+		should_wake = false;
-+		break;
-+	case UMCG_OP_SYS:
-+		should_wake = true;
-+		break;
-+	case UMCG_OP_ERROR:
-+		return -1;
-+	case UMCG_OP_AGAIN:
-+		goto again;
-+	default:
-+		fprintf(stderr, "lubumcg: unknown pre_op result.\n");
++	if (args->ping) {  /* The "ping" measures the running time. */
++		if (clock_gettime(CLOCK_MONOTONIC, &start)) {
++			fprintf(stderr, "clock_gettime() failed.\n");
++			exit(1);
++		}
++	}
++
++	for (counter = 0; counter < args->steps; ++counter) {
++		int ret;
++
++		if (args->payload)
++			gettid();
++
++		if (args->use_swap) {
++			ret = umcg_swap(args->utid_peer, NULL);
++		} else {
++			ret = umcg_wake(args->utid_peer);
++			if (!ret)
++				ret = umcg_wait(NULL);
++		}
++
++		if (ret) {
++			if (args->use_swap)
++				fprintf(stderr, "umcg_swap failed: %d.\n", errno);
++			else
++				fprintf(stderr, "umcg_wake/wait failed: %d.\n", errno);
++			exit(1);
++		}
++	}
++
++	if (args->ping) {
++		uint64_t duration;
++
++		if (clock_gettime(CLOCK_MONOTONIC, &stop)) {
++			fprintf(stderr, "clock_gettime() failed.\n");
++			exit(1);
++		}
++
++		duration = (stop.tv_sec - start.tv_sec) * 1000000000LL +
++		stop.tv_nsec - start.tv_nsec;
++		printf("completed %d ping-pong iterations in %lu ns: "
++				"%lu ns per context switch\n",
++			args->steps, duration, duration / (args->steps * 2));
++	}
++
++	if (args->pong_waits && args->ping) {
++		/* This is ping: we wake pong at the end. */
++		if (umcg_wake(args->utid_peer)) {
++			fprintf(stderr, "umcg_wake failed: %d.\n", errno);
++			exit(1);
++		}
++	}
++
++	if (umcg_unregister_task()) {
++		fprintf(stderr, "umcg_unregister_task failed: %d.\n", errno);
 +		exit(1);
-+		return -1;
 +	}
 +
-+	switch (umcg_prepare_wait()) {
-+	case UMCG_OP_DONE:
-+		should_wait = false;
++	return NULL;
++}
++
++enum ping_pong_flavor {
++	NO_SWAPS,	/* Use wake/wait pairs on both sides. */
++	ONE_SWAP,	/* Use wake/wait on one side and swap on the other. */
++	ALL_SWAPS	/* Use swaps on both sides. */
++};
++
++static void test_ping_pong_flavored(enum ping_pong_flavor flavor,
++		bool pong_waits, bool payload)
++{
++	struct test_ping_pong_args ping, pong;
++	pthread_t ping_t, pong_t;
++	const int STEPS = 100000;
++
++	ping.ping = true;
++	ping.utid_self = UMCG_NONE;
++	ping.utid_peer = UMCG_NONE;
++	ping.steps = STEPS;
++	ping.pong_waits = pong_waits;
++	ping.payload = payload;
++
++	pong.ping = false;
++	pong.utid_self = UMCG_NONE;
++	pong.utid_peer = UMCG_NONE;
++	pong.steps = STEPS;
++	pong.pong_waits = pong_waits;
++	pong.payload = payload;
++
++	switch (flavor) {
++	case NO_SWAPS:
++		ping.use_swap = false;
++		pong.use_swap = false;
 +		break;
-+	case UMCG_OP_SYS:
-+		should_wait = true;
++	case ONE_SWAP:
++		ping.use_swap = true;
++		pong.use_swap = false;
 +		break;
-+	case UMCG_OP_ERROR:
-+		return -1;
++	case ALL_SWAPS:
++		ping.use_swap = true;
++		pong.use_swap = true;
++		break;
 +	default:
-+		fprintf(stderr, "lubumcg: unknown pre_op result.\n");
++		fprintf(stderr, "Unknown ping/pong flavor.\n");
 +		exit(1);
-+		return -1;
 +	}
 +
-+	if (should_wake)
-+		return umcg_do_wake_or_swap(utls, prev_wait_counter,
-+				should_wait, timeout);
++	if (pthread_create(&ping_t, NULL, &test_ping_pong_threadfn, &ping)) {
++		fprintf(stderr, "pthread_create(ping) failed.\n");
++		exit(1);
++	}
 +
-+	if (should_wait)
-+		return umcg_do_wait(timeout);
++	while (!atomic_load_explicit(&ping.utid_self, memory_order_relaxed))
++		;
++	pong.utid_peer = ping.utid_self;
 +
-+	return 0;
-+}
-diff --git a/tools/lib/umcg/libumcg.h b/tools/lib/umcg/libumcg.h
-new file mode 100644
-index 000000000000..31ef786d1965
---- /dev/null
-+++ b/tools/lib/umcg/libumcg.h
-@@ -0,0 +1,154 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
++	if (pthread_create(&pong_t, NULL, &test_ping_pong_threadfn, &pong)) {
++		fprintf(stderr, "pthread_create(pong) failed.\n");
++		exit(1);
++	}
 +
-+#ifndef __LIBUMCG_H
-+#define __LIBUMCG_H
++	while (!atomic_load_explicit(&pong.utid_self, memory_order_relaxed))
++		;
++	atomic_store_explicit(&ping.utid_peer, pong.utid_self,
++			memory_order_relaxed);
 +
-+#define _GNU_SOURCE
-+#include <errno.h>
-+#include <limits.h>
-+#include <unistd.h>
-+#include <linux/types.h>
-+#include <stdbool.h>
-+#include <stdint.h>
-+#include <syscall.h>
-+#include <time.h>
-+
-+#include <linux/umcg.h>
-+
-+static int sys_umcg_api_version(uint32_t requested_api_version, uint32_t flags)
-+{
-+	return syscall(__NR_umcg_api_version, requested_api_version, flags);
++	pthread_join(ping_t, NULL);
++	pthread_join(pong_t, NULL);
 +}
 +
-+static int sys_umcg_register_task(uint32_t api_version, uint32_t flags,
-+		uint32_t group_id, struct umcg_task *umcg_task)
-+{
-+	return syscall(__NR_umcg_register_task, api_version, flags, group_id,
-+			umcg_task);
++TEST(umcg_ping_pong_no_swaps_nop) {
++	CHECK_CONFIG();
++	test_ping_pong_flavored(NO_SWAPS, true, false);
++}
++TEST(umcg_ping_pong_one_swap_nop) {
++	CHECK_CONFIG();
++	test_ping_pong_flavored(ONE_SWAP, true, false);
++}
++TEST(umcg_ping_pong_all_swaps_nop) {
++	CHECK_CONFIG();
++	test_ping_pong_flavored(ALL_SWAPS, true, false);
++}
++TEST(umcg_ping_pong_all_swaps_loose_nop) {
++	CHECK_CONFIG();
++	test_ping_pong_flavored(ALL_SWAPS, false, false);
++}
++TEST(umcg_ping_pong_no_swaps_payload) {
++	CHECK_CONFIG();
++	test_ping_pong_flavored(NO_SWAPS, true, true);
++}
++TEST(umcg_ping_pong_all_swaps_payload) {
++	CHECK_CONFIG();
++	test_ping_pong_flavored(ALL_SWAPS, true, true);
 +}
 +
-+static int sys_umcg_unregister_task(uint32_t flags)
-+{
-+	return syscall(__NR_umcg_unregister_task, flags);
-+}
-+
-+static int sys_umcg_wait(uint32_t flags, const struct timespec *timeout)
-+{
-+	return syscall(__NR_umcg_wait, flags, timeout);
-+}
-+
-+static int sys_umcg_wake(uint32_t flags, uint32_t next_tid)
-+{
-+	return syscall(__NR_umcg_wake, flags, next_tid);
-+}
-+
-+static int sys_umcg_swap(uint32_t wake_flags, uint32_t next_tid,
-+		uint32_t wait_flags, const struct timespec *timeout)
-+{
-+	return syscall(__NR_umcg_swap, wake_flags, next_tid,
-+			wait_flags, timeout);
-+}
-+
-+typedef intptr_t umcg_tid; /* UMCG thread ID. */
-+
-+#define UMCG_NONE	(0)
-+
-+/**
-+ * umcg_get_utid - return the UMCG ID of the current thread.
-+ *
-+ * The function always succeeds, and the returned ID is guaranteed to be
-+ * stable over the life of the thread (and multiple
-+ * umcg_register/umcg_unregister calls).
-+ *
-+ * The ID is NOT guaranteed to be unique over the life of the process.
-+ */
-+umcg_tid umcg_get_utid(void);
-+
-+/**
-+ * umcg_set_task_tag - add an arbitrary tag to a registered UMCG task.
-+ *
-+ * Note: non-thread-safe: the user is responsible for proper memory fencing.
-+ */
-+void umcg_set_task_tag(umcg_tid utid, intptr_t tag);
-+
-+/*
-+ * umcg_get_task_tag - get the task tag. Returns zero if none set.
-+ *
-+ * Note: non-thread-safe: the user is responsible for proper memory fencing.
-+ */
-+intptr_t umcg_get_task_tag(umcg_tid utid);
-+
-+/**
-+ * umcg_register_core_task - register the current thread as a UMCG core task
-+ *
-+ * Return:
-+ * UMCG_NONE     - an error occurred. Check errno.
-+ * != UMCG_NONE  - the ID of the thread to be used with UMCG API (guaranteed
-+ *                 to match the value returned by umcg_get_utid).
-+ */
-+umcg_tid umcg_register_core_task(intptr_t tag);
-+
-+/**
-+ * umcg_unregister_task - unregister the current thread
-+ *
-+ * Return:
-+ * 0              - OK
-+ * -1             - the current thread is not a UMCG thread
-+ */
-+int umcg_unregister_task(void);
-+
-+/**
-+ * umcg_wait - block the current thread
-+ * @timeout:   absolute timeout (not supported at the moment)
-+ *
-+ * Blocks the current thread, which must have been registered via umcg_register,
-+ * until it is waken via umcg_wake or swapped into via umcg_swap. If the current
-+ * thread has a wakeup queued (see umcg_wake), returns zero immediately,
-+ * consuming the wakeup.
-+ *
-+ * Return:
-+ * 0         - OK, the thread was waken;
-+ * -1        - did not wake normally;
-+ *               errno:
-+ *                 EINTR: interrupted
-+ *                 EINVAL: some other error occurred
-+ */
-+int umcg_wait(const struct timespec *timeout);
-+
-+/**
-+ * umcg_wake - wake @next
-+ * @next:      ID of the thread to wake (IDs are returned by umcg_register).
-+ *
-+ * If @next is blocked via umcg_wait, or umcg_swap, wake it. If @next is
-+ * running, queue the wakeup, so that a future block of @next will consume
-+ * the wakeup but will not block.
-+ *
-+ * umcg_wake is non-blocking, but may retry a few times to make sure @next
-+ * has indeed woken.
-+ *
-+ * umcg_wake can queue at most one wakeup; if @next has a wakeup queued,
-+ * an error is returned.
-+ *
-+ * Return:
-+ * 0         - OK, @next has woken, or a wakeup has been queued;
-+ * -1        - an error occurred.
-+ */
-+int umcg_wake(umcg_tid next);
-+
-+/**
-+ * umcg_swap - wake @next, put the current thread to sleep
-+ * @next:      ID of the thread to wake
-+ * @timeout:   absolute timeout (not supported at the moment)
-+ *
-+ * umcg_swap is semantically equivalent to
-+ *
-+ *     int ret = umcg_wake(next);
-+ *     if (ret)
-+ *             return ret;
-+ *     return umcg_wait(timeout);
-+ *
-+ * but may do a synchronous context switch into @next on the current CPU.
-+ */
-+int umcg_swap(umcg_tid next, const struct timespec *timeout);
-+
-+#endif  /* __LIBUMCG_H */
++TEST_HARNESS_MAIN
 -- 
 2.31.1.818.g46aad6cb9e-goog
 
