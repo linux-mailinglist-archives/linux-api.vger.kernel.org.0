@@ -2,120 +2,121 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 98A8038D177
-	for <lists+linux-api@lfdr.de>; Sat, 22 May 2021 00:26:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BF1238D1AC
+	for <lists+linux-api@lfdr.de>; Sat, 22 May 2021 00:46:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230059AbhEUW1y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 May 2021 18:27:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37006 "EHLO
+        id S229542AbhEUWsH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 May 2021 18:48:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230013AbhEUW1u (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 18:27:50 -0400
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F1E3C061574
-        for <linux-api@vger.kernel.org>; Fri, 21 May 2021 15:26:26 -0700 (PDT)
-Received: by mail-io1-xd2d.google.com with SMTP id s7so5584682iov.2
-        for <linux-api@vger.kernel.org>; Fri, 21 May 2021 15:26:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/XkWG9p3vuThMnzF5+jHBK0yD8kKyiYj1CsPVcIZG2k=;
-        b=NbxYYDnKLkoxAba68BqL9ZpD3lb2ScBJAQcY7Ca85CXetGoTwjl6vkFeBlTcN0YXWC
-         cakB/2NABQKb7tNbJ2MKqdWXSJWkXwDc/wdJ8H7ra+iLPE55/qTgRwSHMrd07MrYUY75
-         Kgl+MdH4q6qoh3P/D/eA9hwhI9aygyHy6++nMr5XZJFn3YbAGBkxb+ubQgrwI1dJD3OY
-         9vRWqUhp82BhFUfhdlge9Gw7weWCJYd2vfR0waS4FJhMBieNYCihC9+e4aQthIz0cPw7
-         nPcq/dSyh3TQ2iYZM3164IV6Hk3xNVVeEtw/KweHzEb/39DcVr+NmfeTkJfTD0gaB7bH
-         HDpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/XkWG9p3vuThMnzF5+jHBK0yD8kKyiYj1CsPVcIZG2k=;
-        b=pmm3qHUOgP75anytzvfKtVTJumnmzFpJZPlqAdHoyMvnbVXxzTwLfiQFIHf6KlA0tV
-         ox2Sg57msbvO8WzFeG1hSN+wkbEuf2TYPCRYYOmq+P5FgtA0HFiUlmj8IhgByCbYaPhf
-         yI/uowofkYltmTmPhV9It4rTLYeJ0Rka0vePvwfJM6WqpSTjS4286g+OKCSCjJGZxaRk
-         eUnZjsVPjBaCwPcLi+JYDSPDzR7JVHP7OUI6vYzH8q7v2uHMM3KTO/diL1Rrw0N9biuf
-         yIZbq5UQiwwEhMjise9Ok8/WdOexXmYws3hsBrL7DdEV7CgM2VJsshCCTN8Zjz4XTjfF
-         agxQ==
-X-Gm-Message-State: AOAM5305ElcUEa5uEYnlo5gyfijayYmSOxYp8PeCYaqyIgEShTq5dfSv
-        1GZJpckPlD+6yR2jb7LQh3XRkVbdSkuTOJO0+GxuMA==
-X-Google-Smtp-Source: ABdhPJzlwY4snWFXpxBlNWlDJVr5O/yWYAqwfXJReVJK7U77qf3035eHhy3r6Qq2WuRy8RNFs9VDtvKPjIC+Z+H1LKQ=
-X-Received: by 2002:a02:aa85:: with SMTP id u5mr7968024jai.75.1621635984233;
- Fri, 21 May 2021 15:26:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210521221211.29077-1-yu-cheng.yu@intel.com> <20210521221211.29077-14-yu-cheng.yu@intel.com>
-In-Reply-To: <20210521221211.29077-14-yu-cheng.yu@intel.com>
-From:   Axel Rasmussen <axelrasmussen@google.com>
-Date:   Fri, 21 May 2021 15:25:47 -0700
-Message-ID: <CAJHvVcjsecq-nOVE1ew1ctG2UpK0F0d0MjNncUgK0L=R4eyDqA@mail.gmail.com>
-Subject: Re: [PATCH v27 13/31] mm: Move VM_UFFD_MINOR_BIT from 37 to 38
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux MM <linux-mm@kvack.org>, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
+        with ESMTP id S229512AbhEUWsH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 18:48:07 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4EF0C061574;
+        Fri, 21 May 2021 15:46:43 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1621637201;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=7AL4eSbRRfrL2LByAtHmtcseyv6XL+hFBItU0efUNQY=;
+        b=I7CGp5jnm8P1BsHpSC9A82tZ3cuS3c9nPvbb7LdqxvoMbVWcz5wJpDMo2A+fDOcZ8QcY4b
+        n9HP0ua0JyAKKM6hLbphS1de1YALzyaLxqsXZHJ5S8NOUIjN6ZNP5yl+dDWswpCI/gRLPB
+        oHKKobhOfYSodeCz7pCb81vRHnu32PyMqZbtb7zaGGebzeUzKI1L61jToCn7g7zf1eYzx6
+        IjbAHBLQdmXik4BMhHZyHU+uhRcFpora5hYqzjjpZy5svPICI9XQmMVB+Z4lDvi7TrPQ/f
+        1qPfBiTzmCDny0lMIDXEV32j3lQ/gDT9sNHi9hNr12sECZUfAA7Oux5DzZlo/A==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1621637201;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=7AL4eSbRRfrL2LByAtHmtcseyv6XL+hFBItU0efUNQY=;
+        b=HdOFBijiOOwEnDK506NEIaS/5VjPIOMEcDj018BpkIeJ+ZK+37B1sjpxz7F+15xHPXrx8+
+        wM3bXyBYBeOsVuDg==
+To:     Len Brown <lenb@kernel.org>
+Cc:     Andy Lutomirski <luto@kernel.org>,
         Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Peter Xu <peterx@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+        Dave Hansen <dave.hansen@intel.com>,
+        Dave Hansen via Libc-alpha <libc-alpha@sourceware.org>,
+        Rich Felker <dalias@libc.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        "Bae\, Chang Seok" <chang.seok.bae@intel.com>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Kyle Huey <me@kylehuey.com>, Borislav Petkov <bp@alien8.de>,
+        Keno Fischer <keno@juliacomputing.com>,
+        Arjan van de Ven <arjan@linux.intel.com>,
+        Willy Tarreau <w@1wt.eu>
+Subject: Re: Candidate Linux ABI for Intel AMX and hypothetical new related features
+In-Reply-To: <CAJvTdK=A64DQXjYkZgPebWb-V_p_HAM+jTZRLTyi1qrP9kucMg@mail.gmail.com>
+References: <20210415044258.GA6318@zn.tnic> <20210419141454.GE9093@zn.tnic>
+ <CAJvTdK=p8mgO3xw9sRxu0c7NTNTG109M442b3UZh8TqLLfkC1Q@mail.gmail.com>
+ <20210419191539.GH9093@zn.tnic>
+ <CAJvTdK=VnG94ECcRVoUi8HrCbVEKc8X4_JmRTkqe+vTttf0Wsg@mail.gmail.com>
+ <20210419215809.GJ9093@zn.tnic>
+ <CAJvTdKn6JHo02karEs0e5g+6SimS5VUcXKjCkX35WY+xkgAgxw@mail.gmail.com>
+ <YIMmwhEr46VPAZa4@zn.tnic>
+ <CAJvTdKnhXnynybS4eNEF_EtF26auyb-mhKLNd1D9_zvCrchZsw@mail.gmail.com>
+ <874kf11yoz.ffs@nanos.tec.linutronix.de>
+ <CAJvTdKkYp+zP_9tna6YsrOz2_nmEUDLJaL_i-SNog0m2T9wZ=Q@mail.gmail.com>
+ <87k0ntazyn.ffs@nanos.tec.linutronix.de>
+ <37833625-3e6b-5d93-cc4d-26164d06a0c6@intel.com>
+ <CAJvTdKmqzO4P9k3jqRA=dR+B7yV72hZCiyC8HGQxDKZBnXgzZQ@mail.gmail.com>
+ <9c8138eb-3956-e897-ed4e-426bf6663c11@intel.com>
+ <87pmxk87th.fsf@oldenburg.str.redhat.com>
+ <939ec057-3851-d8fb-7b45-993fa07c4cb5@intel.com>
+ <87r1i06ow2.fsf@oldenburg.str.redhat.com>
+ <263a58a9-26d5-4e55-b3e1-3718baf1b81d@www.fastmail.com>
+ <87k0nraonu.ffs@nanos.tec.linutronix.de>
+ <CAJvTdK=A64DQXjYkZgPebWb-V_p_HAM+jTZRLTyi1qrP9kucMg@mail.gmail.com>
+Date:   Sat, 22 May 2021 00:46:41 +0200
+Message-ID: <878s47aeni.ffs@nanos.tec.linutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This seems reasonable to me. The particular bit used isn't so
-important from my perspective. I can't think of a way this would break
-backward compatibility or such. So:
+On Fri, May 21 2021 at 18:07, Len Brown wrote:
+> On Fri, May 21, 2021 at 3:10 PM Thomas Gleixner <tglx@linutronix.de> wrote:
+> Regarding pre-allocation vs on-demand allocation, consider two scenarios:
+>
+> 1. Synchronous.  At process or thread start up time, prctl()
+> synchronously allocates 8K context switch buffers.  Return code is 0
+> -- good go go!  10 seconds later the program decides to create
+> additional threads.  Woops. vmalloc failed, and the process
+> synchronously dies.  bug filed.
 
-Reviewed-by: Axel Rasmussen <axelrasmussen@google.com>
+No. pthread_create() will fail with -ENOMEM. A return value of
+-ENOMEM is not a bug. 
 
-On Fri, May 21, 2021 at 3:13 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+If the application fails to check the error code then it's not the
+kernels problem and not a kernel bug either.
+
+> 2. On demand.  Same scenario, except vmalloc failure upon creation of
+> those additional threads sends a SIGSEGV at the instruction where AMX
+> is touched.  bug filed.
 >
-> To introduce VM_SHADOW_STACK as VM_HIGH_ARCH_BIT (37), and make all
-> VM_HIGH_ARCH_BITs stay together, move VM_UFFD_MINOR_BIT from 37 to 38.
->
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Cc: Axel Rasmussen <axelrasmussen@google.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> Cc: Mike Kravetz <mike.kravetz@oracle.com>
-> ---
->  include/linux/mm.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index c274f75efcf9..923f89b9f1b5 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -373,7 +373,7 @@ extern unsigned int kobjsize(const void *objp);
->  #endif
->
->  #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_MINOR
-> -# define VM_UFFD_MINOR_BIT     37
-> +# define VM_UFFD_MINOR_BIT     38
->  # define VM_UFFD_MINOR         BIT(VM_UFFD_MINOR_BIT)  /* UFFD minor faults */
->  #else /* !CONFIG_HAVE_ARCH_USERFAULTFD_MINOR */
->  # define VM_UFFD_MINOR         VM_NONE
-> --
-> 2.21.0
->
+> Why ignore the 2nd bug and not ignore the 1st bug?
+
+See above.
+
+> My concern about synchronous allocation is that it will be very easy
+> to abuse.  programs and threads can ask for buffers they will never
+> use.  With on-demand allocation, we allocate buffers only if they are
+> actually needed.
+
+Programs ask for memory in various ways. The buffer is not any different
+than any other memory allocation of the application/thread. It's
+accounted for and when the limits are reached the allocation fails.
+
+But it fails in a way which can be acted upon at the application level
+and not in a way where the kernel has no other choice than killing the
+whole process.
+
+So where is the problem? 
+
+Thanks,
+
+        tglx
