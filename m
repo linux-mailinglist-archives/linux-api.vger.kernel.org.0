@@ -2,174 +2,90 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B0A7038C2F9
-	for <lists+linux-api@lfdr.de>; Fri, 21 May 2021 11:22:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B787638C30A
+	for <lists+linux-api@lfdr.de>; Fri, 21 May 2021 11:28:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236319AbhEUJXm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 May 2021 05:23:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56870 "EHLO
+        id S236247AbhEUJ3a (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 May 2021 05:29:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236226AbhEUJXf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 05:23:35 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93C9EC061763
-        for <linux-api@vger.kernel.org>; Fri, 21 May 2021 02:22:12 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id d78so13607874pfd.10
-        for <linux-api@vger.kernel.org>; Fri, 21 May 2021 02:22:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=CxcTdu4LEVK1X/qRcHTkFo5KF6re61xKqQsQu0+20VA=;
-        b=fuF9lJwWpElOc/XGr5eY5YkzEltYO7J5XJRKZyyh3o2BdKErPel1MXWr46lnr8TEpz
-         E3480QIFoRAvIb9LRAujLMlqULXVcFnqvYYRxbQ8PArsZiKixeC2frV27hdUT5TjQ9K+
-         QZycriB9W251AOmP6tMkt1wnMSsQn2Pbl6P5b4rpmoR/6NCjNT3N1TiU6PC+iMq4PaGF
-         DWF8e3AfFAr0DuQ/hpqJe2IdIvCnPDSezmJYSDNE9HuEtug9yLKsOBXAU2uAxaUeThlF
-         b/s08M+YQ83Z8JvUZWo1Fst8Fa/RvHzR7MNpj3O0tbygwYRBt74fse5jHu0B0c05Ep7Y
-         0SjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=CxcTdu4LEVK1X/qRcHTkFo5KF6re61xKqQsQu0+20VA=;
-        b=CcAr7VqtNV+sBaArq7e3KTym6NZeLQuzc6Div4gEyVCl+9iKLYGIE6iLB3mg6x551n
-         psrFKtz9X1iHawl44ACcH2LTlu+aEj5qXyXV+ftOc+HCA1KP+Rw25HphQCNUqVzSXSHL
-         UiZP2F8hn37GbJR5Dx/DDkIFJTJNJaCqMC7w1xjwOg9CfSZwzStfX9LGRGry1vqmzzba
-         SU4mRoeA/3CKaMBrE672YazLyJt8V5KIS1k3dQMjJ4vpAVlFK22r2BY5NVyceXUhEMQe
-         cQwYceiU9pBQFly+II5AIpN9AYGhox9QMaxq+ePFslwKIXxro2yKZRbnQHrswI+a4wsh
-         xoZA==
-X-Gm-Message-State: AOAM532/qHs/NqSY1K38kxUY49gUZoGmbkYbzLpQwi2Uzz6G0xRh/d4g
-        V1n8JlblyHam5qEBouT4TKJ1Rw==
-X-Google-Smtp-Source: ABdhPJzimlABILKzoBWqV1SWIty9xnWuSqybYsJEn+raC6hR/Sac9mzgpOYZQvZx35SLAPMfbigXpg==
-X-Received: by 2002:a63:1224:: with SMTP id h36mr8995715pgl.296.1621588931756;
-        Fri, 21 May 2021 02:22:11 -0700 (PDT)
-Received: from google.com ([2401:fa00:9:211:42b2:c084:8468:626a])
-        by smtp.gmail.com with ESMTPSA id 80sm4139071pgc.23.2021.05.21.02.22.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 May 2021 02:22:11 -0700 (PDT)
-Date:   Fri, 21 May 2021 19:21:58 +1000
-From:   Matthew Bobrowski <repnop@google.com>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Jan Kara <jack@suse.cz>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH 5/5] fanotify: Add pidfd info record support to the
- fanotify API
-Message-ID: <YKd7tqiVd9ny6+oD@google.com>
-References: <cover.1621473846.git.repnop@google.com>
- <48d18055deb4617d97c695a08dca77eb573097e9.1621473846.git.repnop@google.com>
- <20210520081755.eqey4ryngngt4yqd@wittgenstein>
- <CAOQ4uxhvD2w1i3ia=8=4iCNEYDJ3wfps6AOLdUBXVi-H9Xu-OQ@mail.gmail.com>
+        with ESMTP id S236507AbhEUJ3S (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 05:29:18 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 550CAC061763;
+        Fri, 21 May 2021 02:26:30 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1621589187;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=YH3IeA3uE4Q+xSi3z5y5AVoS8ahuOw9YD3AMctxS7O0=;
+        b=RiphfFneNCnbD6G8Lii75tG/Vq+it+xs5PzoghIEjXytCf1126mnlkbNJqigdk5MJVInxQ
+        lMKqkSUARY3nzjofsEIEIvaOrZuOZLZDw2VfkM/XjzH06Y5zB3JWl85jUIa5NMf2QpPMu2
+        nuHiiBR6kZIgIvx9dGE1hP9DG6LBAmTjqNG8UHunL/0O+t5u7BEJMNBFIADdX+gRgP+Vog
+        rTBeEICG01i5xOYBO80dYlkUBBxTfZSEt8Zr8OiMcKmmqYT8fS26srUkJhWAkTI/xukqiH
+        GgGw20bXVU12gnejjg+x5Uj6n6+6dza5FAWXOUo+nq0BU9SK+N8NeJfeBSvOrg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1621589187;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=YH3IeA3uE4Q+xSi3z5y5AVoS8ahuOw9YD3AMctxS7O0=;
+        b=XcH8jWcpAmSlaGhTzXGoU4IyMmZXjpCi6Gh3Qo2esYoUJE1YRF6hson4GJXo1VfWgKqrMn
+        lveu5FhtbLBIYnBw==
+To:     Len Brown <lenb@kernel.org>
+Cc:     Borislav Petkov <bp@alien8.de>, Willy Tarreau <w@1wt.eu>,
+        Andy Lutomirski <luto@kernel.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        "Bae\, Chang Seok" <chang.seok.bae@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>, X86 ML <x86@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        "libc-alpha\@sourceware.org" <libc-alpha@sourceware.org>,
+        Rich Felker <dalias@libc.org>, Kyle Huey <me@kylehuey.com>,
+        Keno Fischer <keno@juliacomputing.com>,
+        Arjan van de Ven <arjan@linux.intel.com>
+Subject: Re: Candidate Linux ABI for Intel AMX and hypothetical new related features
+In-Reply-To: <CAJvTdKmC3dY3BZafPvh1M880kGAusViCAZNBQ3NoLvOQgWuuBA@mail.gmail.com>
+References: <20210415044258.GA6318@zn.tnic> <20210415052938.GA2325@1wt.eu> <20210415054713.GB6318@zn.tnic> <CAJvTdKnjzAMh3N_c7KP3kA=e0LgYHgCANg44oJp3LcSm7dtbSQ@mail.gmail.com> <20210419141454.GE9093@zn.tnic> <CAJvTdK=p8mgO3xw9sRxu0c7NTNTG109M442b3UZh8TqLLfkC1Q@mail.gmail.com> <20210419191539.GH9093@zn.tnic> <CAJvTdK=VnG94ECcRVoUi8HrCbVEKc8X4_JmRTkqe+vTttf0Wsg@mail.gmail.com> <20210419215809.GJ9093@zn.tnic> <CAJvTdKn6JHo02karEs0e5g+6SimS5VUcXKjCkX35WY+xkgAgxw@mail.gmail.com> <YIMmwhEr46VPAZa4@zn.tnic> <CAJvTdKnhXnynybS4eNEF_EtF26auyb-mhKLNd1D9_zvCrchZsw@mail.gmail.com> <874kf11yoz.ffs@nanos.tec.linutronix.de> <CAJvTdKkYp+zP_9tna6YsrOz2_nmEUDLJaL_i-SNog0m2T9wZ=Q@mail.gmail.com> <87k0ntazyn.ffs@nanos.tec.linutronix.de> <CAJvTdK=DCdwc86VdCVsCH+et6aGuAE3hi-wKmE5769SA0g1H-Q@mail.gmail.com> <87h7ixaxs9.ffs@nanos.tec.linutronix.de> <CAJvTdKmC3dY3BZafPvh1M880kGAusViCAZNBQ3NoLvOQgWuuBA@mail.gmail.com>
+Date:   Fri, 21 May 2021 11:26:26 +0200
+Message-ID: <87eee0bfp9.ffs@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOQ4uxhvD2w1i3ia=8=4iCNEYDJ3wfps6AOLdUBXVi-H9Xu-OQ@mail.gmail.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hey Amir/Christian,
+Len,
 
-On Thu, May 20, 2021 at 04:43:48PM +0300, Amir Goldstein wrote:
-> On Thu, May 20, 2021 at 11:17 AM Christian Brauner
-> <christian.brauner@ubuntu.com> wrote:
-> > > +#define FANOTIFY_PIDFD_INFO_HDR_LEN \
-> > > +     sizeof(struct fanotify_event_info_pidfd)
-> > >
-> > >  static int fanotify_fid_info_len(int fh_len, int name_len)
-> > >  {
-> > > @@ -141,6 +143,9 @@ static int fanotify_event_info_len(unsigned int info_mode,
-> > >       if (fh_len)
-> > >               info_len += fanotify_fid_info_len(fh_len, dot_len);
-> > >
-> > > +     if (info_mode & FAN_REPORT_PIDFD)
-> > > +             info_len += FANOTIFY_PIDFD_INFO_HDR_LEN;
-> > > +
-> > >       return info_len;
-> > >  }
-> > >
-> > > @@ -401,6 +406,29 @@ static int copy_fid_info_to_user(__kernel_fsid_t *fsid,
-> > >       return info_len;
-> > >  }
-> > >
-> > > +static int copy_pidfd_info_to_user(struct pid *pid,
-> > > +                                char __user *buf,
-> > > +                                size_t count)
-> > > +{
-> > > +     struct fanotify_event_info_pidfd info = { };
-> > > +     size_t info_len = FANOTIFY_PIDFD_INFO_HDR_LEN;
-> > > +
-> > > +     if (WARN_ON_ONCE(info_len > count))
-> > > +             return -EFAULT;
-> > > +
-> > > +     info.hdr.info_type = FAN_EVENT_INFO_TYPE_PIDFD;
-> > > +     info.hdr.len = info_len;
-> > > +
-> > > +     info.pidfd = pidfd_create(pid, 0);
-> > > +     if (info.pidfd < 0)
-> > > +             info.pidfd = FAN_NOPIDFD;
-> > > +
-> > > +     if (copy_to_user(buf, &info, info_len))
-> > > +             return -EFAULT;
-> >
-> > Hm, well this kinda sucks. The caller can end up with a pidfd in their
-> > fd table and when the copy_to_user() failed they won't know what fd it
-> 
-> Good catch!
+On Thu, May 20 2021 at 17:49, Len Brown wrote:
+> On Thu, May 20, 2021 at 5:41 PM Thomas Gleixner <tglx@linutronix.de> wrote:
+>>   2) It has effects on power/thermal and therefore effects which reach
+>>      outside of the core scope
+>
+> FWIW, this is true of *every* instruction in the CPU.
+> Indeed, even when the CPU is executing *no* instructions at all,
+> the C-state chosen by that CPU has power/thermal impacts on its peers.
+>
+> Granted, high performance instructions such as AVX-512 and TMUL
+> are the most extreme case.
 
-Super awesome catch Christian, thanks pulling this up!
+Right and we have to draw the line somewhere.
 
-> But I prefer to solve it differently, because moving fd_install() to the
-> end of this function does not guarantee that copy_event_to_user()
-> won't return an error one day with dangling pidfd in fd table.
+>>   3) Your approach of making it unconditionally available via the
+>>      proposed #NM prevents the OS and subsequently the system admin /
+>>      system designer to implement fine grained control over that
+>>      resource.
+>>
+>>      And no, an opt-in approach by providing a non-mandatory
+>>      preallocation prctl does not solve that problem.
+>
+> I'm perfectly fine with making the explicit allocation (aka opt-in) mandatory,
+> and enforcing it.
 
-I can see the angle you're approaching this from...
+Great!
 
-> It might be simpler to do pidfd_create() next to create_fd() in
-> copy_event_to_user() and pass pidfd to copy_pidfd_info_to_user().
-> pidfd can be closed on error along with fd on out_close_fd label.
-> 
-> You also forgot to add CAP_SYS_ADMIN check before pidfd_create()
-> (even though fanotify_init() does check for that).
+Thanks,
 
-I didn't really understand the need for this check here given that the
-administrative bits are already being checked for in fanotify_init()
-i.e. FAN_REPORT_PIDFD can never be set for an unprivileged listener;
-thus never walking any of the pidfd_mode paths. Is this just a defense
-in depth approach here, or is it something else that I'm missing?
-
-> Anyway, something like:
-> 
->         if (!capable(CAP_SYS_ADMIN) &&
->             task_tgid(current) != event->pid)
->                 metadata.pid = 0;
-> +      else if (pidfd_mode)
-> +              pidfd = pidfd_create(pid, 0);
-> 
-> [...]
-> 
-> +       if (pidfd_mode)
-> +               ret = copy_pidfd_info_to_user(pidfd, buf, count);
-> 
->         return metadata.event_len;
-> 
-> out_close_fd:
-> +        if (pidfd != FAN_NOPIDFD) {
-> ...
-
-The early call to pidfd_create() and clean up in copy_event_to_user()
-makes most sense to me.
-
-> And in any case, it wrong to call copy_pidfd_info_to_user() from
-> copy_info_to_user(). It needs to be called once from copy_event_to_user()
-> because copy_pidfd_info_to_user() may be called twice to report both
-> FAN_EVENT_INFO_TYPE_FID and FAN_EVENT_INFO_TYPE_DFID
-> records for the same event.
-
-Right, as mentioned in patch 4 of this series, copy_info_to_user() has
-been repurposed to account for the double call into
-copy_fid_info_to_user() when reporting FAN_EVENT_INFO_TYPE_FID and
-FAN_EVENT_INFO_TYPE_DFID.
-
-/M
+        tglx
