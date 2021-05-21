@@ -2,222 +2,125 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 997AA38CAB4
-	for <lists+linux-api@lfdr.de>; Fri, 21 May 2021 18:13:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D99738CAB8
+	for <lists+linux-api@lfdr.de>; Fri, 21 May 2021 18:14:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237399AbhEUQOz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 May 2021 12:14:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30606 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231773AbhEUQOy (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 12:14:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1621613610;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=0dYw+1ty9M4F1TS3R0pdrlfe9TmD8aidnu0vhpgiO6k=;
-        b=gkyaAvZ8gDrOp2HlACNscEYzBMSp1HfgbnmXMg80oxKLnMScpPACunCjiqe/f2sOxTOtwx
-        E7A2rpMpcZAOt2EdsXlOJ2pw0N4oLCa0pCcV4vMWL6XhoYLYFKs6nCmo+4+xt5isiOVGOd
-        lmi22iOSgvkCHhuOQeCz0eHzFOLnnHg=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-529-bBxX6mi6PIy-RG-p5tXqDA-1; Fri, 21 May 2021 12:13:28 -0400
-X-MC-Unique: bBxX6mi6PIy-RG-p5tXqDA-1
-Received: by mail-lf1-f70.google.com with SMTP id p10-20020a19f10a0000b02901d675ef8fb8so5338535lfh.16
-        for <linux-api@vger.kernel.org>; Fri, 21 May 2021 09:13:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0dYw+1ty9M4F1TS3R0pdrlfe9TmD8aidnu0vhpgiO6k=;
-        b=GxDYGUIcc1W3bzso22/Nf3iGI7nNEnBWCCYX6AkbFn8YcRFYytEZg5k91sE7HIbjBu
-         k6nKrSmO2dY/rJju9tmO9qGEEt6ku18HhsbNF5hgQ4vCvCjmwYOPNKgJgOjr7oesKl09
-         AEA7YIE4NoGg8pYXVJgHiLJKVQVTdKbWBTmeq7aGoYxXTewUoTwMy4rSFZce8k6+IY70
-         3szLYaz4CO83qG6Bmo1LVBJAOc8qjHYYUVCwOlHQIHmY+hsZNqfgNMQ1LazEa2NLJ7Gb
-         Hwb6J6zZRs/Xu/ZUhrwH862Gsdxl4NV8ny4Qeewt3EV7EgZfnWlEY8L6sSTTYHaEmJV2
-         RQRA==
-X-Gm-Message-State: AOAM533dbd/t76XIz8xdL2QPLDEyWvQKaTyV+5MEOsEDFlK5th1AIqby
-        YkNE4+fK8VkIOmpFL0OVPKwJ11NaMjv5QZA7qZHYON/U8YaIWBKjG1ibgH73ftl+Up0kRuAVNVa
-        9zCs1hjVj7xJjFvxdERrtFM2j2Y4IhtfRxFTJ
-X-Received: by 2002:a19:6a13:: with SMTP id u19mr2632860lfu.252.1621613606477;
-        Fri, 21 May 2021 09:13:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxcQ1NWe596jnGhcNjYe2J09TkPUM7blmWDbIf1NVN1FdeURq8gjDCG56i3qI32jqqzyZ4Ad08J+veH32YL/kw=
-X-Received: by 2002:a19:6a13:: with SMTP id u19mr2632844lfu.252.1621613606258;
- Fri, 21 May 2021 09:13:26 -0700 (PDT)
+        id S233603AbhEUQPi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 May 2021 12:15:38 -0400
+Received: from mga05.intel.com ([192.55.52.43]:27997 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233449AbhEUQPg (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 21 May 2021 12:15:36 -0400
+IronPort-SDR: HxsWiJLxoRe1safXyr3Oirr+wBV5OecSLyn2Q5GOdTh+ImZrq7Zft8Mj0Pbib5hZufzkpwWPhS
+ +2K4bwlRKKTw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9990"; a="287056728"
+X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; 
+   d="scan'208";a="287056728"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2021 09:14:12 -0700
+IronPort-SDR: Hz7MeGd/1hFtZkpd27CAmFnOp4pBgw+2qFNI3IAI1iMYChVGhFePSo/UlA6g4qgr1vLD0vcA1s
+ G5E1nqY0o4Wg==
+X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; 
+   d="scan'208";a="613305330"
+Received: from pburton-mobl.amr.corp.intel.com (HELO [10.209.36.169]) ([10.209.36.169])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2021 09:14:12 -0700
+Subject: Re: Candidate Linux ABI for Intel AMX and hypothetical new related
+ features
+To:     Florian Weimer <fweimer@redhat.com>,
+        Dave Hansen via Libc-alpha <libc-alpha@sourceware.org>
+Cc:     Len Brown <lenb@kernel.org>, Rich Felker <dalias@libc.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
+        X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Kyle Huey <me@kylehuey.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Keno Fischer <keno@juliacomputing.com>,
+        Arjan van de Ven <arjan@linux.intel.com>,
+        Willy Tarreau <w@1wt.eu>
+References: <20210415044258.GA6318@zn.tnic> <20210415052938.GA2325@1wt.eu>
+ <20210415054713.GB6318@zn.tnic>
+ <CAJvTdKnjzAMh3N_c7KP3kA=e0LgYHgCANg44oJp3LcSm7dtbSQ@mail.gmail.com>
+ <20210419141454.GE9093@zn.tnic>
+ <CAJvTdK=p8mgO3xw9sRxu0c7NTNTG109M442b3UZh8TqLLfkC1Q@mail.gmail.com>
+ <20210419191539.GH9093@zn.tnic>
+ <CAJvTdK=VnG94ECcRVoUi8HrCbVEKc8X4_JmRTkqe+vTttf0Wsg@mail.gmail.com>
+ <20210419215809.GJ9093@zn.tnic>
+ <CAJvTdKn6JHo02karEs0e5g+6SimS5VUcXKjCkX35WY+xkgAgxw@mail.gmail.com>
+ <YIMmwhEr46VPAZa4@zn.tnic>
+ <CAJvTdKnhXnynybS4eNEF_EtF26auyb-mhKLNd1D9_zvCrchZsw@mail.gmail.com>
+ <874kf11yoz.ffs@nanos.tec.linutronix.de>
+ <CAJvTdKkYp+zP_9tna6YsrOz2_nmEUDLJaL_i-SNog0m2T9wZ=Q@mail.gmail.com>
+ <87k0ntazyn.ffs@nanos.tec.linutronix.de>
+ <37833625-3e6b-5d93-cc4d-26164d06a0c6@intel.com>
+ <CAJvTdKmqzO4P9k3jqRA=dR+B7yV72hZCiyC8HGQxDKZBnXgzZQ@mail.gmail.com>
+ <9c8138eb-3956-e897-ed4e-426bf6663c11@intel.com>
+ <87pmxk87th.fsf@oldenburg.str.redhat.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <939ec057-3851-d8fb-7b45-993fa07c4cb5@intel.com>
+Date:   Fri, 21 May 2021 09:14:12 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20210504092340.00006c61@intel.com> <87pmxpdr32.ffs@nanos.tec.linutronix.de>
- <CAFki+Lkjn2VCBcLSAfQZ2PEkx-TR0Ts_jPnK9b-5ne3PUX37TQ@mail.gmail.com>
- <87im3gewlu.ffs@nanos.tec.linutronix.de> <CAFki+L=gp10W1ygv7zdsee=BUGpx9yPAckKr7pyo=tkFJPciEg@mail.gmail.com>
- <CAFki+L=eQoMq+mWhw_jVT-biyuDXpxbXY5nO+F6HvCtpbG9V2w@mail.gmail.com>
- <CAFki+LkB1sk3mOv4dd1D-SoPWHOs28ZwN-PqL_6xBk=Qkm40Lw@mail.gmail.com>
- <87zgwo9u79.ffs@nanos.tec.linutronix.de> <87wnrs9tvp.ffs@nanos.tec.linutronix.de>
-In-Reply-To: <87wnrs9tvp.ffs@nanos.tec.linutronix.de>
-From:   Nitesh Lal <nilal@redhat.com>
-Date:   Fri, 21 May 2021 12:13:15 -0400
-Message-ID: <CAFki+LkqBHnVYB5VBx_8Ch0u8RfXrJsRzxyuDfHhbR-dCeN3Lg@mail.gmail.com>
-Subject: Re: [PATCH] genirq: Provide new interfaces for affinity hints
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Ingo Molnar <mingo@kernel.org>, linux-kernel@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, jbrandeb@kernel.org,
-        "frederic@kernel.org" <frederic@kernel.org>,
-        "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
-        Alex Belits <abelits@marvell.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
-        "stephen@networkplumber.org" <stephen@networkplumber.org>,
-        "rppt@linux.vnet.ibm.com" <rppt@linux.vnet.ibm.com>,
-        "jinyuqi@huawei.com" <jinyuqi@huawei.com>,
-        "zhangshaokun@hisilicon.com" <zhangshaokun@hisilicon.com>,
-        netdev@vger.kernel.org, chris.friesen@windriver.com,
-        Marc Zyngier <maz@kernel.org>,
-        Neil Horman <nhorman@tuxdriver.com>, pjwaskiewicz@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <87pmxk87th.fsf@oldenburg.str.redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, May 21, 2021 at 8:03 AM Thomas Gleixner <tglx@linutronix.de> wrote:
->
-> The discussion about removing the side effect of irq_set_affinity_hint() of
-> actually applying the cpumask (if not NULL) as affinity to the interrupt,
-> unearthed a few unpleasantries:
->
->   1) The modular perf drivers rely on the current behaviour for the very
->      wrong reasons.
->
->   2) While none of the other drivers prevents user space from changing
->      the affinity, a cursorily inspection shows that there are at least
->      expectations in some drivers.
->
-> #1 needs to be cleaned up anyway, so that's not a problem
->
-> #2 might result in subtle regressions especially when irqbalanced (which
->    nowadays ignores the affinity hint) is disabled.
->
-> Provide new interfaces:
->
->   irq_update_affinity_hint() - Only sets the affinity hint pointer
->   irq_apply_affinity_hint()  - Set the pointer and apply the affinity to
->                                the interrupt
->
+On 5/21/21 7:44 AM, Florian Weimer wrote:
+> * Dave Hansen via Libc-alpha:
+>> Our system calls are *REALLY* fast.  We can even do a vsyscall for this
+>> if we want to get the overhead down near zero.  Userspace can also cache
+>> the "I did the prctl()" state in thread-local storage if it wants to
+>> avoid the syscall.
+> Why can't userspace look at XCR0 to make the decision?
 
-Any reason why you ruled out the usage of irq_set_affinity_and_hint()?
-IMHO the latter makes it very clear what the function is meant to do.
-
-
-> Make irq_set_affinity_hint() a wrapper around irq_apply_affinity_hint() and
-> document it to be phased out.
-
-Right, so eventually we will be only left with the following APIs that
-the driver will use:
-irq_set_affinity()- for drivers that only wants to set the affinity mask
-irq_apply_affinity_hint/irq_set_affinity_and_hint() - for drivers that
-wants to set same affinity and hint mask
-irq_update_affinity_hint() - for drivers that only wants to update the hint mask
-
-Thanks for clearing this.
-
->
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-> Link: https://lore.kernel.org/r/20210501021832.743094-1-jesse.brandeburg@intel.com
-> ---
-> Applies on:
->    git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/core
-> ---
->  include/linux/interrupt.h |   41 ++++++++++++++++++++++++++++++++++++++++-
->  kernel/irq/manage.c       |    8 ++++----
->  2 files changed, 44 insertions(+), 5 deletions(-)
->
-> --- a/include/linux/interrupt.h
-> +++ b/include/linux/interrupt.h
-> @@ -328,7 +328,46 @@ extern int irq_force_affinity(unsigned i
->  extern int irq_can_set_affinity(unsigned int irq);
->  extern int irq_select_affinity(unsigned int irq);
->
-> -extern int irq_set_affinity_hint(unsigned int irq, const struct cpumask *m);
-> +extern int __irq_apply_affinity_hint(unsigned int irq, const struct cpumask *m,
-> +                                    bool setaffinity);
-> +
-> +/**
-> + * irq_update_affinity_hint - Update the affinity hint
-> + * @irq:       Interrupt to update
-> + * @cpumask:   cpumask pointer (NULL to clear the hint)
-> + *
-> + * Updates the affinity hint, but does not change the affinity of the interrupt.
-> + */
-> +static inline int
-> +irq_update_affinity_hint(unsigned int irq, const struct cpumask *m)
-> +{
-> +       return __irq_apply_affinity_hint(irq, m, true);
-> +}
-> +
-> +/**
-> + * irq_apply_affinity_hint - Update the affinity hint and apply the provided
-> + *                          cpumask to the interrupt
-> + * @irq:       Interrupt to update
-> + * @cpumask:   cpumask pointer (NULL to clear the hint)
-> + *
-> + * Updates the affinity hint and if @cpumask is not NULL it applies it as
-> + * the affinity of that interrupt.
-> + */
-> +static inline int
-> +irq_apply_affinity_hint(unsigned int irq, const struct cpumask *m)
-> +{
-> +       return __irq_apply_affinity_hint(irq, m, true);
-> +}
-> +
-> +/*
-> + * Deprecated. Use irq_update_affinity_hint() or irq_apply_affinity_hint()
-> + * instead.
-> + */
-> +static inline int irq_set_affinity_hint(unsigned int irq, const struct cpumask *m)
-> +{
-> +       return irq_apply_affinity_hint(irq, cpumask);
-> +}
-> +
->  extern int irq_update_affinity_desc(unsigned int irq,
->                                     struct irq_affinity_desc *affinity);
->
-> --- a/kernel/irq/manage.c
-> +++ b/kernel/irq/manage.c
-> @@ -487,7 +487,8 @@ int irq_force_affinity(unsigned int irq,
->  }
->  EXPORT_SYMBOL_GPL(irq_force_affinity);
->
-> -int irq_set_affinity_hint(unsigned int irq, const struct cpumask *m)
-> +int __irq_apply_affinity_hint(unsigned int irq, const struct cpumask *m,
-> +                             bool setaffinity)
->  {
->         unsigned long flags;
->         struct irq_desc *desc = irq_get_desc_lock(irq, &flags, IRQ_GET_DESC_CHECK_GLOBAL);
-> @@ -496,12 +497,11 @@ int irq_set_affinity_hint(unsigned int i
->                 return -EINVAL;
->         desc->affinity_hint = m;
->         irq_put_desc_unlock(desc, flags);
-> -       /* set the initial affinity to prevent every interrupt being on CPU0 */
-> -       if (m)
-> +       if (m && setaffinity)
->                 __irq_set_affinity(irq, m, false);
->         return 0;
->  }
-> -EXPORT_SYMBOL_GPL(irq_set_affinity_hint);
-> +EXPORT_SYMBOL_GPL(__irq_apply_affinity_hint);
->
->  static void irq_affinity_notify(struct work_struct *work)
->  {
->
-
-
---
-Nitesh
-
+The thing we're trying to avoid is a #NM exception from XFD (the new
+first-use detection feature) that occurs on the first use of AMX.  XCR0
+will have XCR0[AMX]=1, even if XFD is "armed" and ready to generate the #NM.
