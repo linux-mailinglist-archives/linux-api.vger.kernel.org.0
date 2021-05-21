@@ -2,111 +2,147 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B478838CE78
-	for <lists+linux-api@lfdr.de>; Fri, 21 May 2021 22:01:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7F9F38CEA1
+	for <lists+linux-api@lfdr.de>; Fri, 21 May 2021 22:08:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230000AbhEUUCZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 May 2021 16:02:25 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:19556 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229916AbhEUUCY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 16:02:24 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14LJXTrJ029104;
-        Fri, 21 May 2021 16:00:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=references : from : to :
- cc : subject : in-reply-to : date : message-id : mime-version :
- content-type; s=pp1; bh=K59RhIwEEWnQcIteRBJOyIFsGYeKYqR866/ziffc5F0=;
- b=hLfRAjb/dGztkS5bFECtTgqzB5LJMQzmDROgh/AKBoLjId6zCouUQyAa8/sAvYo0yZdt
- eyH50PM/LI2/DSgpCOI2X+yq6rX7qwt+d3sHAmApHGXTpWu19BzHMfI5gH7TsEvq5iJs
- oER1iVoMjUnEaqcC/1gJuzCpPNoGo/WyfMs8Dgm3iQA4SxG0pxxbo24KYzmh8FsdVf8l
- DVGRHs8sZ3MTnqGFd7Lt5Pz7PzpdpVoBZisgUrLbmaFI+eJn8xMo2g1BPUJiQaJFQEMx
- Jw4sqvCQqomr3itfcYmH6Lm5y6BiuQuSZp34j77wrZ73YfYwjw/bWvN09tRSBPhq/O/u AQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 38pjfj9bf1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 21 May 2021 16:00:41 -0400
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14LJlXPY075988;
-        Fri, 21 May 2021 16:00:41 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.11])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 38pjfj9bej-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 21 May 2021 16:00:41 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
-        by ppma03dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 14LJpkwT010886;
-        Fri, 21 May 2021 20:00:40 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com [9.57.198.25])
-        by ppma03dal.us.ibm.com with ESMTP id 38j5xaesej-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 21 May 2021 20:00:40 +0000
-Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com [9.57.199.109])
-        by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 14LK0dTd37290306
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 21 May 2021 20:00:39 GMT
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 6A430112062;
-        Fri, 21 May 2021 20:00:39 +0000 (GMT)
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 7EEEE112063;
-        Fri, 21 May 2021 20:00:37 +0000 (GMT)
-Received: from TP480.linux.ibm.com (unknown [9.160.176.31])
-        by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
-        Fri, 21 May 2021 20:00:37 +0000 (GMT)
-References: <20200611081203.995112-1-npiggin@gmail.com>
- <20210518231331.GA8464@altlinux.org>
- <1621385544.nttlk5qugb.astroid@bobo.none>
- <1621400263.gf0mbqhkrf.astroid@bobo.none> <87a6oo4312.fsf@linux.ibm.com>
- <87k0nr6ezw.fsf@oldenburg.str.redhat.com>
-User-agent: mu4e 1.4.10; emacs 27.2
-From:   Matheus Castanho <msc@linux.ibm.com>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     Matheus Castanho via Libc-alpha <libc-alpha@sourceware.org>,
-        Nicholas Piggin <npiggin@gmail.com>, musl@lists.openwall.com,
-        "Dmitry V. Levin" <ldv@altlinux.org>, linux-api@vger.kernel.org,
-        libc-dev@lists.llvm.org, linuxppc-dev@lists.ozlabs.org
-Subject: Re: Linux powerpc new system call instruction and ABI
-In-reply-to: <87k0nr6ezw.fsf@oldenburg.str.redhat.com>
-Date:   Fri, 21 May 2021 17:00:36 -0300
-Message-ID: <87eedz3li3.fsf@linux.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: k9YXHXmkCEfCHht_gu-gXPH1T7WlSSvg
-X-Proofpoint-GUID: qW-bxH6-TgC73IAxn1qdzi1gG8N17u_Y
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
- definitions=2021-05-21_09:2021-05-20,2021-05-21 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 clxscore=1015
- mlxlogscore=999 bulkscore=0 lowpriorityscore=0 suspectscore=0 phishscore=0
- mlxscore=0 spamscore=0 adultscore=0 impostorscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2105210103
+        id S231137AbhEUUJl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 May 2021 16:09:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49126 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231295AbhEUUJl (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 21 May 2021 16:09:41 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 891A961164;
+        Fri, 21 May 2021 20:08:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621627697;
+        bh=L0AZm036/M2K55AooynLRoN6JnWPfVJLPizHslblkdE=;
+        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+        b=bdia2dNXMChRT1FrUhPyrH5YTyAz24zzWD6MGdmhXx6rJFOkWOcENC5UuFoJkONpu
+         ZRtfuzTVnzfOs8+bisqRrW4QQD0rKBqnxuyNU38TTQo5msofB7NShv3JNEchxjJDKI
+         ja5Ne1KwNDdZItIPe+qCrciyDBbEydTNGj6pzSyeis5cqyMERDh+SftNzKqCQJUzDe
+         x7J7OzkPGZGUvjj+JLEeMdIelxSRjLzl4rHKjIw/vGElRUpA5chWwXhXPKhmB72en7
+         MNtyhWmCl6a3v09I8Owow5kOEnhnuA28ShIzddvKEDSFquLsazf0Y1M2ngPjgmXVY4
+         EkNCKmKQdUtIg==
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+        by mailauth.nyi.internal (Postfix) with ESMTP id 9660027C0054;
+        Fri, 21 May 2021 16:08:15 -0400 (EDT)
+Received: from imap21 ([10.202.2.71])
+  by compute2.internal (MEProxy); Fri, 21 May 2021 16:08:15 -0400
+X-ME-Sender: <xms:LROoYMdFsaVNQlbxxYvrJi_TWd47kgTyAa6KrfywLf0FnfG-BMhf2g>
+    <xme:LROoYOOblf6yrd54RqI054F--HFw198aw8LAf396OJVvO3tY4w93ob-vWNrOCDs3B
+    ItUqFJuspPudhK2vgg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejfedgudeghecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvufgtgfesthhqredtreerjeenucfhrhhomhepfdet
+    nhguhicunfhuthhomhhirhhskhhifdcuoehluhhtoheskhgvrhhnvghlrdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpedvleehjeejvefhuddtgeegffdtjedtffegveethedvgfejieev
+    ieeufeevuedvteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpegrnhguhidomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudduiedu
+    keehieefvddqvdeifeduieeitdekqdhluhhtoheppehkvghrnhgvlhdrohhrgheslhhinh
+    hugidrlhhuthhordhush
+X-ME-Proxy: <xmx:LROoYNipZVZhRxJs1KNGaE0iBAwot-rCCEy7BHv0xTWwxkIyWOiE9w>
+    <xmx:LROoYB_N5EfQKoUkBzmR4m4P266lyLfUiBLuall6dHH9Xi_iVhJn-Q>
+    <xmx:LROoYIv0jGOqUOZmyuNsdWNqfcKv261uuPsJHFfZv9Vfnfg4yCAq8g>
+    <xmx:LxOoYJFKjiodfvx0MIoHTcq5VslWol0HG2xxKAVNl40dizKJDmfZ0EGsnL8waZ6cCQmL9Q>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id A9E8F51C0060; Fri, 21 May 2021 16:08:13 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-448-gae190416c7-fm-20210505.004-gae190416
+Mime-Version: 1.0
+Message-Id: <6c9c4597-a1af-4cbb-9dc8-424999d04793@www.fastmail.com>
+In-Reply-To: <87k0nraonu.ffs@nanos.tec.linutronix.de>
+References: <20210415044258.GA6318@zn.tnic> <20210415054713.GB6318@zn.tnic>
+ <CAJvTdKnjzAMh3N_c7KP3kA=e0LgYHgCANg44oJp3LcSm7dtbSQ@mail.gmail.com>
+ <20210419141454.GE9093@zn.tnic>
+ <CAJvTdK=p8mgO3xw9sRxu0c7NTNTG109M442b3UZh8TqLLfkC1Q@mail.gmail.com>
+ <20210419191539.GH9093@zn.tnic>
+ <CAJvTdK=VnG94ECcRVoUi8HrCbVEKc8X4_JmRTkqe+vTttf0Wsg@mail.gmail.com>
+ <20210419215809.GJ9093@zn.tnic>
+ <CAJvTdKn6JHo02karEs0e5g+6SimS5VUcXKjCkX35WY+xkgAgxw@mail.gmail.com>
+ <YIMmwhEr46VPAZa4@zn.tnic>
+ <CAJvTdKnhXnynybS4eNEF_EtF26auyb-mhKLNd1D9_zvCrchZsw@mail.gmail.com>
+ <874kf11yoz.ffs@nanos.tec.linutronix.de>
+ <CAJvTdKkYp+zP_9tna6YsrOz2_nmEUDLJaL_i-SNog0m2T9wZ=Q@mail.gmail.com>
+ <87k0ntazyn.ffs@nanos.tec.linutronix.de>
+ <37833625-3e6b-5d93-cc4d-26164d06a0c6@intel.com>
+ <CAJvTdKmqzO4P9k3jqRA=dR+B7yV72hZCiyC8HGQxDKZBnXgzZQ@mail.gmail.com>
+ <9c8138eb-3956-e897-ed4e-426bf6663c11@intel.com>
+ <87pmxk87th.fsf@oldenburg.str.redhat.com>
+ <939ec057-3851-d8fb-7b45-993fa07c4cb5@intel.com>
+ <87r1i06ow2.fsf@oldenburg.str.redhat.com>
+ <263a58a9-26d5-4e55-b3e1-3718baf1b81d@www.fastmail.com>
+ <87k0nraonu.ffs@nanos.tec.linutronix.de>
+Date:   Fri, 21 May 2021 13:07:52 -0700
+From:   "Andy Lutomirski" <luto@kernel.org>
+To:     "Thomas Gleixner" <tglx@linutronix.de>,
+        "Florian Weimer" <fweimer@redhat.com>,
+        "Dave Hansen" <dave.hansen@intel.com>
+Cc:     "Dave Hansen via Libc-alpha" <libc-alpha@sourceware.org>,
+        "Len Brown" <lenb@kernel.org>, "Rich Felker" <dalias@libc.org>,
+        "Linux API" <linux-api@vger.kernel.org>,
+        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        "Kyle Huey" <me@kylehuey.com>, "Borislav Petkov" <bp@alien8.de>,
+        "Keno Fischer" <keno@juliacomputing.com>,
+        "Arjan van de Ven" <arjan@linux.intel.com>,
+        "Willy Tarreau" <w@1wt.eu>
+Subject: =?UTF-8?Q?Re:_Candidate_Linux_ABI_for_Intel_AMX_and_hypothetical_new_rel?=
+ =?UTF-8?Q?ated_features?=
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 
-Florian Weimer <fweimer@redhat.com> writes:
 
-> * Matheus Castanho via Libc-alpha:
->
->> From: Nicholas Piggin <npiggin@gmail.com>
->> Subject: [PATCH 1/1] powerpc: Fix handling of scv return error codes
->>
->> When using scv on templated ASM syscalls, current code interprets any
->> negative return value as error, but the only valid error codes are in
->> the range -4095..-1 according to the ABI.
->>
->> Reviewed-by: Matheus Castanho <msc@linux.ibm.com>
->
-> Please reference bug 27892 in the commit message.  I'd also appreciate a
-> backport to the 2.33 release branch (where you need to add NEWS manually
-> to add the bug reference).
+On Fri, May 21, 2021, at 12:10 PM, Thomas Gleixner wrote:
+> On Fri, May 21 2021 at 09:31, Andy Lutomirski wrote:
+> > arch_prctl(SET_XSTATE_INIT_ON_FIRST_USE, TILE_STUFF);?
+> >
+> > As long as this is allowed to fail, I don=E2=80=99t have a huge prob=
+lem with
+> > it.
+>=20
+> I'm fine with that. It's still controlled by the OS and can return
+> -EPERM.
+>=20
+> If allowed then the application would also accept to be insta killed i=
+f
+> that #NM allocation fails. Any bug report vs. that will be ignored.
+>=20
+> > I think several things here are regrettable:
+> >
+> > 1. Legacy XSTATE code might assume that XCR0 is a constant.
+> >
+> > 2. Intel virt really doesn=E2=80=99t like us context switching XCR0,=
+ although
+> > we might say that this is Intel=E2=80=99s fault and therefore Intel=E2=
+=80=99s
+> > problem. AMD hardware doesn=E2=80=99t appear to have this issue.
+> >
+> > 3. AMX bring tangled up in XSTATE is unfortunate.  The whole XSTATE
+> > mechanism is less than amazing.
+> >
+> > IMO the best we can make of this whole situation is to make XCR0
+> > dynamic, but the legacy compatibility issues are potentially
+> > problematic.
+>=20
+> Why? The bit can be enabled and #NM catches the violation of the ABI
+> contract if the application did not request usage. No XCR0 fiddling on=
 
-No problem. [BZ #27892] appended to the commit title. I'll make sure to
-backport to 2.33 as well.
+> context switch required.
+>=20
+> Thanks,
+>=20
+>         tglx
+>=20
+>=20
+>=20
 
-Thanks
-
---
-Matheus Castanho
+XFD does nothing about signals.  It also doesn=E2=80=99t help give appli=
+cations a non-Linux-specific way to ask if AMX is available. The SDM say=
+s that one can read XCR0.  Sure, we can use it, but cross platform libra=
+ries seem likely to get it wrong.
