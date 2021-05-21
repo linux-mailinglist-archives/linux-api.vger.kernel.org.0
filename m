@@ -2,142 +2,199 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8315738C897
-	for <lists+linux-api@lfdr.de>; Fri, 21 May 2021 15:46:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CCA738C8B4
+	for <lists+linux-api@lfdr.de>; Fri, 21 May 2021 15:52:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233469AbhEUNsD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 May 2021 09:48:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24231 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231841AbhEUNr6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 09:47:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1621604795;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=pxEOV+Bz/B1tAe8FeS+TqChUcoqHhutaFnjDp8o1QJQ=;
-        b=KeNHVcRVT58onkahgRnGTqmZtrTznEsFOgUHylGzCH9uHS0L8SvF9pbsHHzFWDSPKU/Rjc
-        24Q6PtNJ1VDlSXDE6htWiX1E91iat0K77ARBw9w2UApjVhpniKREqcnDpgRvyfgj/hRCqD
-        nJSPZJoNVKZxafkwLg0WyUPDpWiwr/M=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-143-TIOp5O3gM_SsSenmR-rZDA-1; Fri, 21 May 2021 09:46:33 -0400
-X-MC-Unique: TIOp5O3gM_SsSenmR-rZDA-1
-Received: by mail-lj1-f199.google.com with SMTP id r15-20020a2eb60f0000b02900eddb317c52so8803471ljn.21
-        for <linux-api@vger.kernel.org>; Fri, 21 May 2021 06:46:33 -0700 (PDT)
+        id S233241AbhEUNxo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 May 2021 09:53:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33404 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231349AbhEUNxo (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 09:53:44 -0400
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E11BC061763;
+        Fri, 21 May 2021 06:52:20 -0700 (PDT)
+Received: by mail-io1-xd2f.google.com with SMTP id t11so20141098iol.9;
+        Fri, 21 May 2021 06:52:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/z49A5xjYjstfAwWBD6lDPYDhb3OM0GCCVdyr2X27lk=;
+        b=uwfoywKocI8W9RyMdxvN3Fyu2abc+f09wVFGFSqdsFho2MBA+jA3RiTz/L/E1KvtGR
+         8T4b7DtDgoH66320z2ekWTUzQWEbKdLSQaS/2sh5kGymWkkxvf3K/VKEjsyTExJISpOL
+         PU8PG+FLfbxzHzwQgila4oGvxDH7DxKMmBodYAYwZSNzNF8wFyFsJUcldpYk2xXhFB/M
+         sTmMsKCYN7wftxO04wsgyUPgPe8x2imFBAVf+h4Y9ntntF0X4Q+Cs7HR/AeN+WTOT5bC
+         kQun7XEPHVR7Jc02L1erks7opluDvO9qmSZk/FcppClHNSVJtJJYR1njb7L6JOM/Bt3J
+         Zm9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=pxEOV+Bz/B1tAe8FeS+TqChUcoqHhutaFnjDp8o1QJQ=;
-        b=tfzMT+o4WpoIqb+bOPNZsRsTnmnXvUDnNuAr8WiZE0v26Gr5CHd+Z8MFN/sU0pgbkC
-         CQ7NUXOBdbWE2CGeXsR1/JmuHQyFWTyGga2HDTyB5Sxxv+P+r7SdvhaynnU33MTZ82zn
-         HOKdGLFXMbSXqRJFu52L3doXQrliKKzs7LZjTk8afBf1sPcTtW2dlANbEXE95B/nniVL
-         amxJ0+gD1eGESAcWTNRAtKDAXPzn0hoDZCiV9HiZcIU40Fh5QoSxktWytat4LtFEF1pZ
-         KSORQiVacWXK5YOcQzaJUZaX/wJW2hwhxVSpFWdTWlUnLmep1IDLuRlsUI+9use3u2xG
-         hEIQ==
-X-Gm-Message-State: AOAM533DkcFoOhN4lM+jYNcazoWY8k5OpKRq59cvr7I5n6wBTI+7w4kt
-        e5nDf1O+y1XBTaHv5YQasVcToxMv8hrfE2ChjuIYQrLyXDLFsH6s6WkWU8o63Gfb2qrGR5ZdofH
-        qdliiqSta9cLw20iyGN5EDSDYCz8j52Ylcbv5
-X-Received: by 2002:a2e:9802:: with SMTP id a2mr6897010ljj.232.1621604792285;
-        Fri, 21 May 2021 06:46:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwlGxBda5A/LzKGja1+OEN8tx6PjZF4MfUkV3JmKj4AkWLhF+MPQT6UkdSN2h3rzdDqbYrS1zrIy9/RGgGSqN4=
-X-Received: by 2002:a2e:9802:: with SMTP id a2mr6896994ljj.232.1621604792081;
- Fri, 21 May 2021 06:46:32 -0700 (PDT)
+        bh=/z49A5xjYjstfAwWBD6lDPYDhb3OM0GCCVdyr2X27lk=;
+        b=puLSHjZE0Ygb3DUBucb34toPrpIzxYOaTGTPi1KkTuwXAlbsEJVK59S/x/FofRKIZx
+         gDR2ihXHk1aXdLw4rTz1kVe0iJ0yjBlwfWfZCFs/DXGD5v8JuxjJmO867q1sEbRxIy8Q
+         baqesRf7J5f1EI3vdAWIBv9XmZeH+sGf9G11jonrGWdX4dNhmTIad5XJllOJdrd8uB8v
+         XWIpnY+gTF1PSBRE1zyTLBRFLiT0/eSIu8zjhu8ZJY1133Fcu3MuL7kd6meRbQBjQD+4
+         vmRjd5TXuX5LSpErIVF5R+bwNXYAt+lG2w/IjsLVKpnlpr/aXQLPMkl7mh9VTRsSAN+X
+         VsyA==
+X-Gm-Message-State: AOAM530IRBdTAZFf8k8Ab+O2ctRcW6xRiIk3pvIjMDUexefTB3lbOsuu
+        AWObd0j2N98Y9X5GzTxSVPkuC/uvgYo5zPKp+gzWWpFcd5w=
+X-Google-Smtp-Source: ABdhPJx6/UfGhm7BGjDZbtF0JOc1IR8ovWq6nj8EYz3mPzb/CQBAZFEWz0XndpvCe9bLi3pnvXpvCQl9bJ43xz/FtwQ=
+X-Received: by 2002:a5d:814d:: with SMTP id f13mr11378158ioo.203.1621605139351;
+ Fri, 21 May 2021 06:52:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210504092340.00006c61@intel.com> <87pmxpdr32.ffs@nanos.tec.linutronix.de>
- <CAFki+Lkjn2VCBcLSAfQZ2PEkx-TR0Ts_jPnK9b-5ne3PUX37TQ@mail.gmail.com>
- <87im3gewlu.ffs@nanos.tec.linutronix.de> <CAFki+L=gp10W1ygv7zdsee=BUGpx9yPAckKr7pyo=tkFJPciEg@mail.gmail.com>
- <CAFki+L=eQoMq+mWhw_jVT-biyuDXpxbXY5nO+F6HvCtpbG9V2w@mail.gmail.com>
- <CAFki+LkB1sk3mOv4dd1D-SoPWHOs28ZwN-PqL_6xBk=Qkm40Lw@mail.gmail.com> <87zgwo9u79.ffs@nanos.tec.linutronix.de>
-In-Reply-To: <87zgwo9u79.ffs@nanos.tec.linutronix.de>
-From:   Nitesh Lal <nilal@redhat.com>
-Date:   Fri, 21 May 2021 09:46:20 -0400
-Message-ID: <CAFki+LnKycMFYTGTswX9vpMepNiCW6BL5TFMTuKZSniab5=4SA@mail.gmail.com>
-Subject: Re: [PATCH tip:irq/core v1] genirq: remove auto-set of the mask when
- setting the hint
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Ingo Molnar <mingo@kernel.org>, linux-kernel@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, jbrandeb@kernel.org,
-        "frederic@kernel.org" <frederic@kernel.org>,
-        "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
-        Alex Belits <abelits@marvell.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
-        "stephen@networkplumber.org" <stephen@networkplumber.org>,
-        "rppt@linux.vnet.ibm.com" <rppt@linux.vnet.ibm.com>,
-        "jinyuqi@huawei.com" <jinyuqi@huawei.com>,
-        "zhangshaokun@hisilicon.com" <zhangshaokun@hisilicon.com>,
-        netdev@vger.kernel.org, chris.friesen@windriver.com,
-        Marc Zyngier <maz@kernel.org>,
-        Neil Horman <nhorman@tuxdriver.com>, pjwaskiewicz@gmail.com
+References: <cover.1621473846.git.repnop@google.com> <48d18055deb4617d97c695a08dca77eb573097e9.1621473846.git.repnop@google.com>
+ <20210520081755.eqey4ryngngt4yqd@wittgenstein> <CAOQ4uxhvD2w1i3ia=8=4iCNEYDJ3wfps6AOLdUBXVi-H9Xu-OQ@mail.gmail.com>
+ <YKd7tqiVd9ny6+oD@google.com> <CAOQ4uxi6LceN+ETbF6XbbBqfAY3H+K5ZMuky1L-gh_g53TEN1A@mail.gmail.com>
+ <20210521102418.GF18952@quack2.suse.cz> <CAOQ4uxh84uXAQzz2w+TD1OeDtVwBX8uhM3Pumm46YvP-Wkndag@mail.gmail.com>
+ <20210521131917.GM18952@quack2.suse.cz>
+In-Reply-To: <20210521131917.GM18952@quack2.suse.cz>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Fri, 21 May 2021 16:52:08 +0300
+Message-ID: <CAOQ4uxiA77_P5vtv7e83g0+9d7B5W9ZTE4GfQEYbWmfT1rA=VA@mail.gmail.com>
+Subject: Re: [PATCH 5/5] fanotify: Add pidfd info record support to the
+ fanotify API
+To:     Jan Kara <jack@suse.cz>
+Cc:     Matthew Bobrowski <repnop@google.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, May 21, 2021 at 7:56 AM Thomas Gleixner <tglx@linutronix.de> wrote:
+On Fri, May 21, 2021 at 4:19 PM Jan Kara <jack@suse.cz> wrote:
 >
-> Nitesh,
->
-> On Thu, May 20 2021 at 20:03, Nitesh Lal wrote:
-> > On Thu, May 20, 2021 at 5:57 PM Nitesh Lal <nilal@redhat.com> wrote:
-> >> I think here to ensure that we are not breaking any of the drivers we have
-> >> to first analyze all the existing drivers and understand how they are using
-> >> this API.
-> >> AFAIK there are three possible scenarios:
-> >>
-> >> - A driver use this API to spread the IRQs
-> >>   + For this case we should be safe considering the spreading is naturally
-> >>     done from the IRQ subsystem itself.
+> On Fri 21-05-21 14:10:32, Amir Goldstein wrote:
+> > On Fri, May 21, 2021 at 1:24 PM Jan Kara <jack@suse.cz> wrote:
+> > >
+> > > On Fri 21-05-21 12:41:51, Amir Goldstein wrote:
+> > > > On Fri, May 21, 2021 at 12:22 PM Matthew Bobrowski <repnop@google.com> wrote:
+> > > > >
+> > > > > Hey Amir/Christian,
+> > > > >
+> > > > > On Thu, May 20, 2021 at 04:43:48PM +0300, Amir Goldstein wrote:
+> > > > > > On Thu, May 20, 2021 at 11:17 AM Christian Brauner
+> > > > > > <christian.brauner@ubuntu.com> wrote:
+> > > > > > > > +#define FANOTIFY_PIDFD_INFO_HDR_LEN \
+> > > > > > > > +     sizeof(struct fanotify_event_info_pidfd)
+> > > > > > > >
+> > > > > > > >  static int fanotify_fid_info_len(int fh_len, int name_len)
+> > > > > > > >  {
+> > > > > > > > @@ -141,6 +143,9 @@ static int fanotify_event_info_len(unsigned int info_mode,
+> > > > > > > >       if (fh_len)
+> > > > > > > >               info_len += fanotify_fid_info_len(fh_len, dot_len);
+> > > > > > > >
+> > > > > > > > +     if (info_mode & FAN_REPORT_PIDFD)
+> > > > > > > > +             info_len += FANOTIFY_PIDFD_INFO_HDR_LEN;
+> > > > > > > > +
+> > > > > > > >       return info_len;
+> > > > > > > >  }
+> > > > > > > >
+> > > > > > > > @@ -401,6 +406,29 @@ static int copy_fid_info_to_user(__kernel_fsid_t *fsid,
+> > > > > > > >       return info_len;
+> > > > > > > >  }
+> > > > > > > >
+> > > > > > > > +static int copy_pidfd_info_to_user(struct pid *pid,
+> > > > > > > > +                                char __user *buf,
+> > > > > > > > +                                size_t count)
+> > > > > > > > +{
+> > > > > > > > +     struct fanotify_event_info_pidfd info = { };
+> > > > > > > > +     size_t info_len = FANOTIFY_PIDFD_INFO_HDR_LEN;
+> > > > > > > > +
+> > > > > > > > +     if (WARN_ON_ONCE(info_len > count))
+> > > > > > > > +             return -EFAULT;
+> > > > > > > > +
+> > > > > > > > +     info.hdr.info_type = FAN_EVENT_INFO_TYPE_PIDFD;
+> > > > > > > > +     info.hdr.len = info_len;
+> > > > > > > > +
+> > > > > > > > +     info.pidfd = pidfd_create(pid, 0);
+> > > > > > > > +     if (info.pidfd < 0)
+> > > > > > > > +             info.pidfd = FAN_NOPIDFD;
+> > > > > > > > +
+> > > > > > > > +     if (copy_to_user(buf, &info, info_len))
+> > > > > > > > +             return -EFAULT;
+> > > > > > >
+> > > > > > > Hm, well this kinda sucks. The caller can end up with a pidfd in their
+> > > > > > > fd table and when the copy_to_user() failed they won't know what fd it
+> > > > > >
+> > > > > > Good catch!
+> > > > >
+> > > > > Super awesome catch Christian, thanks pulling this up!
+> > > > >
+> > > > > > But I prefer to solve it differently, because moving fd_install() to the
+> > > > > > end of this function does not guarantee that copy_event_to_user()
+> > > > > > won't return an error one day with dangling pidfd in fd table.
+> > > > >
+> > > > > I can see the angle you're approaching this from...
+> > > > >
+> > > > > > It might be simpler to do pidfd_create() next to create_fd() in
+> > > > > > copy_event_to_user() and pass pidfd to copy_pidfd_info_to_user().
+> > > > > > pidfd can be closed on error along with fd on out_close_fd label.
+> > > > > >
+> > > > > > You also forgot to add CAP_SYS_ADMIN check before pidfd_create()
+> > > > > > (even though fanotify_init() does check for that).
+> > > > >
+> > > > > I didn't really understand the need for this check here given that the
+> > > > > administrative bits are already being checked for in fanotify_init()
+> > > > > i.e. FAN_REPORT_PIDFD can never be set for an unprivileged listener;
+> > > > > thus never walking any of the pidfd_mode paths. Is this just a defense
+> > > > > in depth approach here, or is it something else that I'm missing?
+> > > > >
+> > > >
+> > > > We want to be extra careful not to create privilege escalations,
+> > > > so even if the fanotify fd is leaked or intentionally passed to a less
+> > > > privileged user, it cannot get an open pidfd.
+> > > >
+> > > > IOW, it is *much* easier to be defensive in this case than to prove
+> > > > that the change cannot introduce any privilege escalations.
+> > >
+> > > I have no problems with being more defensive (it's certainly better than
+> > > being too lax) but does it really make sence here? I mean if CAP_SYS_ADMIN
+> > > task opens O_RDWR /etc/passwd and then passes this fd to unpriviledged
+> > > process, that process is also free to update all the passwords.
+> > > Traditionally permission checks in Unix are performed on open and then who
+> > > has fd can do whatever that fd allows... I've tried to follow similar
+> > > philosophy with fanotify as well and e.g. open happening as a result of
+> > > fanotify path events does not check permissions either.
+> > >
 > >
-> > Forgot to mention another thing in the above case is to determine whether
-> > it is true for all architectures or not as Thomas mentioned.
+> > Agreed.
+> >
+> > However, because we had this issue with no explicit FAN_REPORT_PID
+> > we added the CAP_SYS_ADMIN check for reporting event->pid as next
+> > best thing. So now that becomes weird if priv process created fanotify fd
+> > and passes it to unpriv process, then unpriv process gets events with
+> > pidfd but without event->pid.
+> >
+> > We can change the code to:
+> >
+> >         if (!capable(CAP_SYS_ADMIN) && !pidfd_mode &&
+> >             task_tgid(current) != event->pid)
+> >                 metadata.pid = 0;
+> >
+> > So the case I decscribed above ends up reporting both pidfd
+> > and event->pid to unpriv user, but that is a bit inconsistent...
 >
-> Yes.
->
-> >>
-> >> - A driver use this API to actually set the hint
-> >>   + These drivers should have no functional impact because of this revert
->
-> Correct.
->
->
-> >> - Driver use this API to force a certain affinity mask
-> >>   + In this case we have to replace the API with the irq_force_affinity()
->
-> irq_set_affinity() or irq_set_affinity_and_hint()
+> Oh, now I see where you are coming from :) Thanks for explanation. And
+> remind me please, cannot we just have internal FAN_REPORT_PID flag that
+> gets set on notification group when priviledged process creates it and then
+> test for that instead of CAP_SYS_ADMIN in copy_event_to_user()? It is
+> mostly equivalent but I guess more in the spirit of how fanotify
+> traditionally does things. Also FAN_REPORT_PIDFD could then behave in the
+> same way...
 
-Ah yes! my bad. _force_ doesn't check the mask against the online CPUs.
-Hmm, I didn't realize that you also added irq_set_affinity_and_hint()
-in your last patchset.
+Yes, we can. In fact, we should call the internal flag FANOTIFY_UNPRIV
+as it described the situation better than FAN_REPORT_PID.
+This happens to be how I implemented it in the initial RFC [1].
 
->
-> >> I can start looking into the individual drivers, however, testing them will
-> >> be a challenge.
->
-> The only way to do that is to have the core infrastructure added and
+It's not easy to follow our entire discussion on this thread, but I think
+we can resurrect the FANOTIFY_UNPRIV internal flag and use it
+in this case instead of CAP_SYS_ADMIN.
 
-Right.
+Thanks,
+Amir.
 
-> then send patches changing it in the way you think. The relevant
-> maintainers/developers should be able to tell you when your analysis
-> went south. :)
-
-Ack will start looking into this.
-
-
---
-Thanks
-Nitesh
-
+https://lore.kernel.org/linux-fsdevel/20210124184204.899729-3-amir73il@gmail.com/
