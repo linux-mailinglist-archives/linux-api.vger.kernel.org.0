@@ -2,87 +2,153 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AF1F38C13D
-	for <lists+linux-api@lfdr.de>; Fri, 21 May 2021 10:04:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D2E938C1D8
+	for <lists+linux-api@lfdr.de>; Fri, 21 May 2021 10:31:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229748AbhEUIFl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 May 2021 04:05:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39028 "EHLO
+        id S231789AbhEUIcu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 May 2021 04:32:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229755AbhEUIFl (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 04:05:41 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA000C061574;
-        Fri, 21 May 2021 01:04:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=RDgWCR4as9+eENzKBkhKC/zFJosoat/YxaBkxON2NdE=; b=Kn3McS5avMP7Srb1l9zIfm8iGo
-        T6zACjqa6GCGoxgPBv5bjYSninoWr4tk1y7aFIkWeeQ+tVMk2TkSvJIOrnguR5EFKBQmcW9hciXIl
-        yOxm0czykddW036LBW74/F+HfLIoSX+R8LzIeE6oHJ2bCPI7uE8RuTWGIvtHf9l4Yr3y+mjOfHV5p
-        I1Iw9Z3nrf9hi8U0WP3ggOWz6mzICxeYrRxFkEaoFJEKsqBYwmmj15uFjP7KnH8up6Sz/GlyLd1Mj
-        3QRXO+jUMJaiyh5pP/7XbzidRcBXX79OjkI7oYO31H8w1FZURZo+SjSO0vh6VSzef4wl/riGVXsdS
-        8Xf7msBQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1lk08b-004MMw-Co; Fri, 21 May 2021 08:04:05 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 6EFA330022A;
-        Fri, 21 May 2021 10:04:04 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 537732C6D2B86; Fri, 21 May 2021 10:04:04 +0200 (CEST)
-Date:   Fri, 21 May 2021 10:04:04 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Peter Oskolkov <posk@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-api <linux-api@vger.kernel.org>,
-        Paul Turner <pjt@google.com>, Ben Segall <bsegall@google.com>,
-        Peter Oskolkov <posk@posk.io>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andrei Vagin <avagin@google.com>,
-        Jim Newsome <jnewsome@torproject.org>
-Subject: Re: [RFC PATCH v0.1 0/9] UMCG early preview/RFC patchset
-Message-ID: <YKdpdG5j/ELa9PR6@hirez.programming.kicks-ass.net>
-References: <20210520183614.1227046-1-posk@google.com>
- <87mtspm7fe.fsf@meer.lwn.net>
- <CAPNVh5eV+CtY74_JMv6_Bm5aCVBh_F9hkWLT6v3BT=H0UwodUg@mail.gmail.com>
- <c924d722-eee0-03ee-991d-c977089ecdbc@infradead.org>
+        with ESMTP id S230480AbhEUIct (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 04:32:49 -0400
+Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1FA8C061574;
+        Fri, 21 May 2021 01:31:26 -0700 (PDT)
+Received: by mail-il1-x12f.google.com with SMTP id l15so12394894iln.8;
+        Fri, 21 May 2021 01:31:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fD9naAkCO+UNu0R3N+jM35YfoYNYpu0KqAg9BLMmvKk=;
+        b=fq9WeXgEFKy8hMmc48lx06StsL6dK/9jTywTBBfxipX1KnaP2QezFCtpNAFlnadYD0
+         xl1X70mRKWRYerFlTvJDzNzhrtTO5cQqkmmeJYgFuYV+Gd2rrQTw1fIxth2bbCliOXNE
+         a3Dhq9DpWwqvqbvHkQqsH3H8a2f8hEWo2AUxJBcStUQP2dW4hgp+/FwAGtlW1VaN0GSF
+         1iEFtufDFiJcS+coi9P2PxoMXbapf61dzDlkAXOhxEjnVHxyMa60Jg+qh/c+UUhfM2P1
+         ppjJvtk1azW99JyH522e93HyDccuhXPweAS3gf4fzUgGksjYWKMzkq8Ts3UNosIyrDFF
+         lcPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fD9naAkCO+UNu0R3N+jM35YfoYNYpu0KqAg9BLMmvKk=;
+        b=frpRChaezLe3fRuewpJnv/4wdagbX9oUhvw8D/ywM3kErWQcw0SratGm4SNIQ3s/Nk
+         GfAost8UMWdYWm70kGGNbA85Jpfwo5KQ2TqBehwNY3CdQFdAZHXgR4b9VsV6/4xdRIXZ
+         HHaju42TLd6QIlcb/queZti7d5rzzfjQVl6Qu0Phgw0JlW73u99fbB+U3w3VxCucMPKn
+         kZk7CLdiSjSLT39jMO3kw31Gku92btMuX5C+JSSdrzO4V4wwCtENfy35Q2B4EL1vbxu4
+         +o7hge5cWyQXGeMxzo9rGBpZvLbtd95Q4dq5/G9vZamhgw1mUgfNpEIaCeP4tXBDqzy1
+         STNw==
+X-Gm-Message-State: AOAM532t12SM3HiLiOZ/E8IWPPYhnNyOse14cFLRI4oiKsM57+kuRRKQ
+        SRwNbuTaqoigEBXVkyalGHuFIpbOREp5v+Vic38=
+X-Google-Smtp-Source: ABdhPJzNgYFwclIHnCNKcRKMeZoZEgqly+y1H3n9eaINffPodzy6KQWzRZPqcw0lCocmWVKSRBjSGn4LpPf0pOcFHp0=
+X-Received: by 2002:a92:4446:: with SMTP id a6mr11074188ilm.9.1621585886178;
+ Fri, 21 May 2021 01:31:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c924d722-eee0-03ee-991d-c977089ecdbc@infradead.org>
+References: <20210521024134.1032503-1-krisman@collabora.com>
+In-Reply-To: <20210521024134.1032503-1-krisman@collabora.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Fri, 21 May 2021 11:31:15 +0300
+Message-ID: <CAOQ4uxjzoRLPK0w=wxpObu5Bg3aV=0+BDEFwhMx5uN5Zx9J5nQ@mail.gmail.com>
+Subject: Re: [PATCH 00/11] File system wide monitoring
+To:     Gabriel Krisman Bertazi <krisman@collabora.com>
+Cc:     kernel@collabora.com, "Darrick J . Wong" <djwong@kernel.org>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Dave Chinner <david@fromorbit.com>, Jan Kara <jack@suse.com>,
+        David Howells <dhowells@redhat.com>,
+        Khazhismel Kumykov <khazhy@google.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Ext4 <linux-ext4@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, May 20, 2021 at 05:15:41PM -0700, Randy Dunlap wrote:
+On Fri, May 21, 2021 at 5:42 AM Gabriel Krisman Bertazi
+<krisman@collabora.com> wrote:
+>
+> Hi,
+>
+> This series follow up on my previous proposal [1] to support file system
+> wide monitoring.  As suggested by Amir, this proposal drops the ring
+> buffer in favor of a single slot associated with each mark.  This
+> simplifies a bit the implementation, as you can see in the code.
+>
+> As a reminder, This proposal is limited to an interface for
+> administrators to monitor the health of a file system, instead of a
+> generic inteface for file errors.  Therefore, this doesn't solve the
+> problem of writeback errors or the need to watch a specific subtree.
+>
+> In comparison to the previous RFC, this implementation also drops the
+> per-fs data and location, and leave those as future extensions.
+>
+> * Implementation
+>
+> The feature is implemented on top of fanotify, as a new type of fanotify
+> mark, FAN_ERROR, which a file system monitoring tool can register to
+> receive error notifications.  When an error occurs a new notification is
+> generated, in addition followed by this info field:
+>
+>  - FS generic data: A file system agnostic structure that has a generic
+>  error code and identifies the filesystem.  Basically, it let's
+>  userspace know something happened on a monitored filesystem.  Since
+>  only the first error is recorded since the last read, this also
+>  includes a counter of errors that happened since the last read.
+>
+> * Testing
+>
+> This was tested by watching notifications flowing from an intentionally
+> corrupted filesystem in different places.  In addition, other events
+> were watched in an attempt to detect regressions.
+>
+> Is there a specific testsuite for fanotify I should be running?
 
-> > There is this Linux Plumbers video: https://www.youtube.com/watch?v=KXuZi9aeGTw
-> > And the pdf: http://pdxplumbers.osuosl.org/2013/ocw//system/presentations/1653/original/LPC%20-%20User%20Threading.pdf
-> > 
-> > I did not reference them in the patchset because links to sites other
-> > than kernel.org are strongly discouraged... I will definitely add a
-> > documentation patch.
-> 
-> Certainly for links to email, we prefer to use lore.kernel.org archives.
-> Are links to other sites discouraged?  If so, that's news to me.
+LTP is where we maintain the fsnotify regression test.
+The inotify* and fanotify* tests specifically.
 
-Discouraged in so far as that when an email solely references external
-resources and doesn't bother to summarize or otherwise recap the
-contents in the email proper; I'll ignore the whole thing.
+>
+> * Patches
+>
+> This patchset is divided as follows: Patch 1 through 5 are refactoring
+> to fsnotify/fanotify in preparation for FS_ERROR/FAN_ERROR; patch 6 and
+> 7 implement the FS_ERROR API for filesystems to report error; patch 8
+> add support for FAN_ERROR in fanotify; Patch 9 is an example
+> implementation for ext4; patch 10 and 11 provide a sample userspace code
+> and documentation.
+>
+> I also pushed the full series to:
+>
+>   https://gitlab.collabora.com/krisman/linux -b fanotify-notifications-single-slot
 
-Basically, if I have to click a link to figure out basic information of
-a patch series, the whole thing is a fail and goes into the bit bucket.
+All in all the series looks good, give or take some implementation
+details.
 
-That said; I have no objection against having links, as long as they're
-not used to convey the primary information that _should_ be in the
-cover letter and/or changelogs.
+One general comment about UAPI (CC linux-api) -
+I think Darrick has proposed to report ino/gen instead of only ino.
+I personally think it would be a shame not to reuse the already existing
+FAN_EVENT_INFO_TYPE_FID record format, but I can understand why
+you did not want to go there:
+1. Not all error reports carry inode information
+2. Not all filesystems support file handles
+3. Any other reason that I missed?
 
+My proposal is that in cases where group was initialized with
+FAN_REPORT_FID (implies fs supports file handles) AND error report
+does carry inode information, record fanotify_info in fanotify_error_event
+and report FAN_EVENT_INFO_TYPE_FID record in addition to
+FAN_EVENT_INFO_TYPE_ERROR record to user.
+
+I am not insisting on this change, but I think it won't add much complexity
+to your implementation and it will allow more flexibility to the API going
+forward.
+
+However, for the time being, if you want to avoid the UAPI discussion,
+I don't mind if you disallow FAN_ERROR mark for group with
+FAN_REPORT_FID.
+
+In most likelihood, the tool monitoring filesystem for errors will not care
+about other events, so it shouldn't care about FAN_REPORT_FID anyway.
+I'd like to hear what other think about this point as well.
+
+Thanks,
+Amir.
