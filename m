@@ -2,87 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7E7538CAD7
-	for <lists+linux-api@lfdr.de>; Fri, 21 May 2021 18:18:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D22838CAD9
+	for <lists+linux-api@lfdr.de>; Fri, 21 May 2021 18:19:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231747AbhEUQTZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 May 2021 12:19:25 -0400
-Received: from mga04.intel.com ([192.55.52.120]:15226 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231318AbhEUQTZ (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 21 May 2021 12:19:25 -0400
-IronPort-SDR: o+9RwqpsqLpqJR+lZh/NwfeQcDXpXKspzArxamWJez+xKsrlFC9a7FSSpfGQJf+ztj4Q/mQdgD
- b3rvgdGraxDg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9991"; a="199576048"
-X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; 
-   d="scan'208";a="199576048"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2021 09:17:35 -0700
-IronPort-SDR: mZryhIX47sLJixgt8Qc9gLmzKgJ+SBzaiz6RVQKGwMt7tm3L2OaO0MqVZ1E/fkxF8q0Q1gVB29
- ebFTGGc09p/A==
-X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; 
-   d="scan'208";a="434344646"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.254.177.76]) ([10.254.177.76])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2021 09:17:27 -0700
-Subject: Re: [PATCH v26 24/30] x86/cet/shstk: Introduce shadow stack token
- setup/verify routines
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
+        id S233316AbhEUQUp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 May 2021 12:20:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20084 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231234AbhEUQUp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 12:20:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1621613961;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=fFS4V+laUEHsiKbste7xkg0EuH4cmkgb3wAVYYo6X24=;
+        b=BBwI4GBLuCks0zB80XTryi7U7WmQmy543VsKKwJMjTS3FJbtK2pPcqCjZKlRjRBoKbsS+R
+        9olHBUnOQpp9yePob67raTPAhLtu0tKFMIRlkUHKyoX3gz1iaJiESzUpyQWcXmavvNchgu
+        y1mZol4pt59RXzX0CcNBz4vf+T8XKCg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-354-qYSbj5MvMNux4HU5wvqCEg-1; Fri, 21 May 2021 12:19:17 -0400
+X-MC-Unique: qYSbj5MvMNux4HU5wvqCEg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B8546D4E0;
+        Fri, 21 May 2021 16:19:15 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (ovpn-113-228.ams2.redhat.com [10.36.113.228])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 9302D5D6DC;
+        Fri, 21 May 2021 16:19:11 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     Dave Hansen via Libc-alpha <libc-alpha@sourceware.org>,
+        Len Brown <lenb@kernel.org>, Rich Felker <dalias@libc.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
+        X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Kyle Huey <me@kylehuey.com>, Borislav Petkov <bp@alien8.de>,
         Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-References: <20210427204315.24153-1-yu-cheng.yu@intel.com>
- <20210427204315.24153-25-yu-cheng.yu@intel.com> <YKIfIEyW+sR+bDCk@zn.tnic>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <c9121ca1-83cb-1c37-1a8e-edaafaa6fda2@intel.com>
-Date:   Fri, 21 May 2021 09:17:24 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+        Thomas Gleixner <tglx@linutronix.de>,
+        Keno Fischer <keno@juliacomputing.com>,
+        Arjan van de Ven <arjan@linux.intel.com>,
+        Willy Tarreau <w@1wt.eu>
+Subject: Re: Candidate Linux ABI for Intel AMX and hypothetical new related
+ features
+References: <20210415044258.GA6318@zn.tnic> <20210415052938.GA2325@1wt.eu>
+        <20210415054713.GB6318@zn.tnic>
+        <CAJvTdKnjzAMh3N_c7KP3kA=e0LgYHgCANg44oJp3LcSm7dtbSQ@mail.gmail.com>
+        <20210419141454.GE9093@zn.tnic>
+        <CAJvTdK=p8mgO3xw9sRxu0c7NTNTG109M442b3UZh8TqLLfkC1Q@mail.gmail.com>
+        <20210419191539.GH9093@zn.tnic>
+        <CAJvTdK=VnG94ECcRVoUi8HrCbVEKc8X4_JmRTkqe+vTttf0Wsg@mail.gmail.com>
+        <20210419215809.GJ9093@zn.tnic>
+        <CAJvTdKn6JHo02karEs0e5g+6SimS5VUcXKjCkX35WY+xkgAgxw@mail.gmail.com>
+        <YIMmwhEr46VPAZa4@zn.tnic>
+        <CAJvTdKnhXnynybS4eNEF_EtF26auyb-mhKLNd1D9_zvCrchZsw@mail.gmail.com>
+        <874kf11yoz.ffs@nanos.tec.linutronix.de>
+        <CAJvTdKkYp+zP_9tna6YsrOz2_nmEUDLJaL_i-SNog0m2T9wZ=Q@mail.gmail.com>
+        <87k0ntazyn.ffs@nanos.tec.linutronix.de>
+        <37833625-3e6b-5d93-cc4d-26164d06a0c6@intel.com>
+        <CAJvTdKmqzO4P9k3jqRA=dR+B7yV72hZCiyC8HGQxDKZBnXgzZQ@mail.gmail.com>
+        <9c8138eb-3956-e897-ed4e-426bf6663c11@intel.com>
+        <87pmxk87th.fsf@oldenburg.str.redhat.com>
+        <939ec057-3851-d8fb-7b45-993fa07c4cb5@intel.com>
+Date:   Fri, 21 May 2021 18:19:09 +0200
+In-Reply-To: <939ec057-3851-d8fb-7b45-993fa07c4cb5@intel.com> (Dave Hansen's
+        message of "Fri, 21 May 2021 09:14:12 -0700")
+Message-ID: <87r1i06ow2.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <YKIfIEyW+sR+bDCk@zn.tnic>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 5/17/2021 12:45 AM, Borislav Petkov wrote:
-> On Tue, Apr 27, 2021 at 01:43:09PM -0700, Yu-cheng Yu wrote:
+* Dave Hansen:
 
-[...]
+> On 5/21/21 7:44 AM, Florian Weimer wrote:
+>> * Dave Hansen via Libc-alpha:
+>>> Our system calls are *REALLY* fast.  We can even do a vsyscall for this
+>>> if we want to get the overhead down near zero.  Userspace can also cache
+>>> the "I did the prctl()" state in thread-local storage if it wants to
+>>> avoid the syscall.
+>> Why can't userspace look at XCR0 to make the decision?
+>
+> The thing we're trying to avoid is a #NM exception from XFD (the new
+> first-use detection feature) that occurs on the first use of AMX.
+> XCR0 will have XCR0[AMX]=1, even if XFD is "armed" and ready to
+> generate the #NM.
 
->> +
->> +	if ((!ia32 && !IS_ALIGNED(ssp, 8)) || !IS_ALIGNED(ssp, 4))
-> 
-> Flip this logic:
-> 
-> 	if ((ia32 && !IS_ALIGNED(ssp, 4)) || !IS_ALIGNED(ssp, 8))
+I see.  So essentially the hardware wants to offer transparent
+initialize-on-use, but Linux does not seem to want to implement it this
+way.
 
-If !IS_ALIGNED(ssp, 4), then certainly !IS_ALIGNED(ssp, 8).
-This has to be as-is, I think.
+Is there still a chance to bring the hardware and Linux into alignment?
 
 Thanks,
-Yu-cheng
+Florian
+
