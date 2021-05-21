@@ -2,234 +2,159 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 215AC38CEF7
-	for <lists+linux-api@lfdr.de>; Fri, 21 May 2021 22:20:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 133B438CEDA
+	for <lists+linux-api@lfdr.de>; Fri, 21 May 2021 22:19:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231442AbhEUUWN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 May 2021 16:22:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36464 "EHLO
+        id S230389AbhEUUUq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 May 2021 16:20:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231315AbhEUUVh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 16:21:37 -0400
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9333C061344;
-        Fri, 21 May 2021 13:20:13 -0700 (PDT)
-Received: by mail-pg1-x52f.google.com with SMTP id q15so15103467pgg.12;
-        Fri, 21 May 2021 13:20:13 -0700 (PDT)
+        with ESMTP id S230408AbhEUUUp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 16:20:45 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 405B2C06138B
+        for <linux-api@vger.kernel.org>; Fri, 21 May 2021 13:19:21 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id lg14so32201340ejb.9
+        for <linux-api@vger.kernel.org>; Fri, 21 May 2021 13:19:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=pWlA6Z0uQRB5gmh7CBDFvCwLAhIx3wGTepMZkB5gO+4=;
-        b=B6XPCCibCdHcokOHgjdOpDV2GQi58o9efG+Y1/QGN2ciJsBCG++oBKEfk3kXmwxHWH
-         6nadoIF5c3yBq0FyavAg3v0dBWWzahw+RvXAPYNj2dMSMMkaO3RNqpck+nwNz+r4PLu0
-         PcxQbT7NmCbWF+tEpDuiZ/DxOIEBK9CumePubWIWQybf72c+/oxUJA+yccZRP+yLOJW0
-         n8ulSP+fZ4+JFQim6rSXv7qgkI1735MB40wcDxkiI57mjIrpXRk5PQPzFzA8DMOCLL5t
-         jBoj8NoW2SoUv718YFcerKtWB0piXfqoyjmmHgfLlGaCBZvb6W+I8qaWAJszRNlcKGGW
-         tCdQ==
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=aVEzTQ8I4J/3yp3MgA3FQPj62TME7oEjwi3UB54+9j4=;
+        b=y5acabY0hHaFulLVyRw96Upc3Tfg5b6Vkr2way0sktzbQKqkTD9yR07FT7pm2dbtK2
+         OmIX/Fgm2xBpq1gKrI2N3x9jMvF7NuA98vf/xJIjcCcJndHdWK2E02xm9dExvkQ5GvlT
+         h0DXHodT+NB8JKTBfAsvxDtMdKm5KcxkiQcmBzjtyoKUWgK2oHjZtxvU8b6+lwdlDQjc
+         D5hZyeGTTzmQ2/4wUyAApkMxFk9M65r/4JDnrXFYNPAeRoAD80OVIQWfeFAH/8N1BNVg
+         qn061UVWCxSDmBHw6mCcH4UI/nRyNhP8vsZk5WokXPfE22Hielso21jzz8/mj0UnuA1U
+         Ha5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=pWlA6Z0uQRB5gmh7CBDFvCwLAhIx3wGTepMZkB5gO+4=;
-        b=O9v4tIT5S8nDW0Ba6zNC1fWXKE0HrBgW5wT0Ul6COdlZyUYU/EpXf+D5v3jqEnZ0Oy
-         wwFa9QrxvrsGhVevrq6epdf0mfpqh3iATAEIlwhExFPd0z9ShsFKG0O0PpptKg6YMbum
-         LQhNiaHGnTy2iEBT+QvjKi7EtOqNBY3e4QIIoecLtMoE/zZSh3xWXUbxXQebN/Wazq/1
-         qB8FgPvcfAi9/N/znVHKNPMFJLLCsuzhlIaCpD+hask4Uc4REYTFy+Q/RtoYGkT0t5tA
-         qv5kF3hvmmgWU0EYnXBh317Bi+ylDhYE1KqQDzfk1fS1NJkzM+TJ5ISWTMSYcIO12gWS
-         /iOA==
-X-Gm-Message-State: AOAM5334kAtefu+6K+NFwScdtTvnaPyE6i/rBRfIhJ1cPJ0mUBRyLcYx
-        AJs4duimlVtFkJhM9sO4yig=
-X-Google-Smtp-Source: ABdhPJwFZYzfGBFc5kuLKBBKfFSW9Lt0OhoE/wvMQJJzC1BdE3N9Ue5UVpWThDIscXfoF2i6inw71Q==
-X-Received: by 2002:aa7:839a:0:b029:27a:8c0b:3f5e with SMTP id u26-20020aa7839a0000b029027a8c0b3f5emr12152827pfm.69.1621628413028;
-        Fri, 21 May 2021 13:20:13 -0700 (PDT)
-Received: from gmail.com ([24.19.55.147])
-        by smtp.gmail.com with ESMTPSA id d13sm4783563pfn.136.2021.05.21.13.20.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 May 2021 13:20:12 -0700 (PDT)
-Date:   Fri, 21 May 2021 13:17:11 -0700
-From:   Andrei Vagin <avagin@gmail.com>
-To:     Peter Oskolkov <posk@google.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Paul Turner <pjt@google.com>, Ben Segall <bsegall@google.com>,
-        Peter Oskolkov <posk@posk.io>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andrei Vagin <avagin@google.com>,
-        Jim Newsome <jnewsome@torproject.org>
-Subject: Re: [RFC PATCH v0.1 7/9] sched/umcg: add UMCG server/worker API
- (early RFC)
-Message-ID: <YKgVR5dM9RTZmCjh@gmail.com>
-References: <20210520183614.1227046-1-posk@google.com>
- <20210520183614.1227046-8-posk@google.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=aVEzTQ8I4J/3yp3MgA3FQPj62TME7oEjwi3UB54+9j4=;
+        b=Bmnza2FwZDKupaAo/9ItarJN+ipZ2FY94ai+BitooyeT05E0eB6VcL5xzCzukPApF6
+         /L3cdMUQQwM40a3OVJMmGH+k4364OwhThxrbX32tkN0zBa/9PMOVoGu1jy+UmONTAxRa
+         5/Os+fMIYDw7q4clP246UveJbvDz+JspRRKHvqe+LFH6TdeWUPgOc36rB7zHA92pHdYA
+         ZUHS2wZqDSFgxAISqZ8Q6Ku4UjVVla+O1IN3JKgTkKmnEQhqUK27KIyyyw3g0ljELEhk
+         IBDjljK6b4gVZPzqO4rOnylINPwzXoUNnTugOEnfnTsEPRtufXkzPYbXoOQq8A6oIVtB
+         zDzg==
+X-Gm-Message-State: AOAM5332mNjrEtxgwFjcqgyklP2qYjyw8CsIQOZUD1/Sw9BPIeFVreSt
+        TqNsLS9AJRoXD4G2k60WqPdKDUOqosHQoq1F1IVB
+X-Google-Smtp-Source: ABdhPJziKJYfK7MvqTrwnHeo+NPoz2FUDF+4sST5fBaH9Y8+nll4YIEPRA92LUzjYQjCfkAjrte8Kmy6TkEhHB1xuyQ=
+X-Received: by 2002:a17:906:7e0f:: with SMTP id e15mr11771196ejr.398.1621628359745;
+ Fri, 21 May 2021 13:19:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=koi8-r
-Content-Disposition: inline
-In-Reply-To: <20210520183614.1227046-8-posk@google.com>
+References: <20210513200807.15910-1-casey@schaufler-ca.com>
+ <20210513200807.15910-15-casey@schaufler-ca.com> <202105141218.21BDA22F@keescook>
+ <c1ab101a-7ee3-6d20-c8b1-cff5bcdfe98c@schaufler-ca.com>
+In-Reply-To: <c1ab101a-7ee3-6d20-c8b1-cff5bcdfe98c@schaufler-ca.com>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Fri, 21 May 2021 16:19:08 -0400
+Message-ID: <CAHC9VhScDhmr2k5RpNhj1=6FpO_xPN1C6_qFqbXb6SWUbBiENA@mail.gmail.com>
+Subject: Re: [PATCH v26 14/25] LSM: Specify which LSM to display
+To:     Casey Schaufler <casey@schaufler-ca.com>
+Cc:     Kees Cook <keescook@chromium.org>, casey.schaufler@intel.com,
+        James Morris <jmorris@namei.org>,
+        linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
+        linux-audit@redhat.com, john.johansen@canonical.com,
+        penguin-kernel@i-love.sakura.ne.jp,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        linux-kernel@vger.kernel.org,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, May 20, 2021 at 11:36:12AM -0700, Peter Oskolkov wrote:
-> Implement UMCG server/worker API.
-> 
-> This is an early RFC patch - the code seems working, but
-> more testing is needed. Gaps I plan to address before this
-> is ready for a detailed review:
-> 
-> - preemption/interrupt handling;
-> - better documentation/comments;
-> - tracing;
-> - additional testing;
-> - corner cases like abnormal process/task termination;
-> - in some cases where I kill the task (umcg_segv), returning
-> an error may be more appropriate.
-> 
-> All in all, please focus more on the high-level approach
-> and less on things like variable names, (doc) comments, or indentation.
-> 
-> Signed-off-by: Peter Oskolkov <posk@google.com>
-> ---
->  include/linux/mm_types.h |   5 +
->  include/linux/syscalls.h |   5 +
->  kernel/fork.c            |  11 +
->  kernel/sched/core.c      |  11 +
->  kernel/sched/umcg.c      | 764 ++++++++++++++++++++++++++++++++++++++-
->  kernel/sched/umcg.h      |  54 +++
->  mm/init-mm.c             |   4 +
->  7 files changed, 845 insertions(+), 9 deletions(-)
-> 
-> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-> index 6613b26a8894..5ca7b7d55775 100644
-> --- a/include/linux/mm_types.h
-> +++ b/include/linux/mm_types.h
-> @@ -562,6 +562,11 @@ struct mm_struct {
->  #ifdef CONFIG_IOMMU_SUPPORT
->  		u32 pasid;
->  #endif
-> +
-> +#ifdef CONFIG_UMCG
-> +	spinlock_t umcg_lock;
-> +	struct list_head umcg_groups;
-> +#endif
->  	} __randomize_layout;
->  
->  	/*
-> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-> index 15de3e34ccee..2781659daaf1 100644
-> --- a/include/linux/syscalls.h
-> +++ b/include/linux/syscalls.h
-> @@ -1059,6 +1059,11 @@ asmlinkage long umcg_wait(u32 flags, const struct __kernel_timespec __user *time
->  asmlinkage long umcg_wake(u32 flags, u32 next_tid);
->  asmlinkage long umcg_swap(u32 wake_flags, u32 next_tid, u32 wait_flags,
->  				const struct __kernel_timespec __user *timeout);
-> +asmlinkage long umcg_create_group(u32 api_version, u64, flags);
-> +asmlinkage long umcg_destroy_group(u32 group_id);
-> +asmlinkage long umcg_poll_worker(u32 flags, struct umcg_task __user **ut);
-> +asmlinkage long umcg_run_worker(u32 flags, u32 worker_tid,
-> +		struct umcg_task __user **ut);
->  
->  /*
->   * Architecture-specific system calls
-> diff --git a/kernel/fork.c b/kernel/fork.c
-> index ace4631b5b54..3a2a7950df8e 100644
-> --- a/kernel/fork.c
-> +++ b/kernel/fork.c
-> @@ -1026,6 +1026,10 @@ static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
->  	seqcount_init(&mm->write_protect_seq);
->  	mmap_init_lock(mm);
->  	INIT_LIST_HEAD(&mm->mmlist);
-> +#ifdef CONFIG_UMCG
-> +	spin_lock_init(&mm->umcg_lock);
-> +	INIT_LIST_HEAD(&mm->umcg_groups);
-> +#endif
->  	mm->core_state = NULL;
->  	mm_pgtables_bytes_init(mm);
->  	mm->map_count = 0;
-> @@ -1102,6 +1106,13 @@ static inline void __mmput(struct mm_struct *mm)
->  		list_del(&mm->mmlist);
->  		spin_unlock(&mmlist_lock);
->  	}
-> +#ifdef CONFIG_UMCG
-> +	if (!list_empty(&mm->umcg_groups)) {
-> +		spin_lock(&mm->umcg_lock);
-> +		list_del(&mm->umcg_groups);
-
-I am not sure that I understand what is going on here. umsg_groups is
-the head of a group list. list_del is usually called on list entries.
-
-Should we enumirate all groups here and destroy them?
-
-> +		spin_unlock(&mm->umcg_lock);
-> +	}
-> +#endif
->  	if (mm->binfmt)
->  		module_put(mm->binfmt->module);
->  	mmdrop(mm);
+On Mon, May 17, 2021 at 3:53 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
+> On 5/14/2021 12:23 PM, Kees Cook wrote:
+> > On Thu, May 13, 2021 at 01:07:56PM -0700, Casey Schaufler wrote:
+> >> Create a new entry "interface_lsm" in the procfs attr directory for
+> >> controlling which LSM security information is displayed for a
+> >> process. A process can only read or write its own display value.
+> >>
+> >> The name of an active LSM that supplies hooks for
+> >> human readable data may be written to "interface_lsm" to set the
+> >> value. The name of the LSM currently in use can be read from
+> >> "interface_lsm". At this point there can only be one LSM capable
+> >> of display active. A helper function lsm_task_ilsm() is
+> >> provided to get the interface lsm slot for a task_struct.
+> >>
+> >> Setting the "interface_lsm" requires that all security modules using
+> >> setprocattr hooks allow the action. Each security module is
+> >> responsible for defining its policy.
+> >>
+> >> AppArmor hook provided by John Johansen <john.johansen@canonical.com>
+> >> SELinux hook provided by Stephen Smalley <stephen.smalley.work@gmail.com>
+> >>
+> >> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> >> Cc: Kees Cook <keescook@chromium.org>
+> >> Cc: Stephen Smalley <stephen.smalley.work@gmail.com>
+> >> Cc: Paul Moore <paul@paul-moore.com>
+> >> Cc: John Johansen <john.johansen@canonical.com>
+> >> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> >> Cc: linux-api@vger.kernel.org
+> >> Cc: linux-doc@vger.kernel.org
+> >> ---
+> >>  .../ABI/testing/procfs-attr-lsm_display       |  22 +++
+> >>  Documentation/security/lsm.rst                |  14 ++
+> >>  fs/proc/base.c                                |   1 +
+> >>  include/linux/lsm_hooks.h                     |  17 ++
+> >>  security/apparmor/include/apparmor.h          |   3 +-
+> >>  security/apparmor/lsm.c                       |  32 ++++
+> >>  security/security.c                           | 166 ++++++++++++++++--
+> >>  security/selinux/hooks.c                      |  11 ++
+> >>  security/selinux/include/classmap.h           |   2 +-
+> >>  security/smack/smack_lsm.c                    |   7 +
+> >>  10 files changed, 256 insertions(+), 19 deletions(-)
+> >>  create mode 100644 Documentation/ABI/testing/procfs-attr-lsm_display
 
 ...
 
-> +/**
-> + * sys_umcg_create_group - create a UMCG group
-> + * @api_version:           Requested API version.
-> + * @flags:                 Reserved.
-> + *
-> + * Return:
-> + * >= 0                - the group ID
-> + * -EOPNOTSUPP         - @api_version is not supported
-> + * -EINVAL             - @flags is not valid
-> + * -ENOMEM             - not enough memory
-> + */
-> +SYSCALL_DEFINE2(umcg_create_group, u32, api_version, u64, flags)
-> +{
-> +	int ret;
-> +	struct umcg_group *group;
-> +	struct umcg_group *list_entry;
-> +	struct mm_struct *mm = current->mm;
-> +
-> +	if (flags)
-> +		return -EINVAL;
-> +
-> +	if (__api_version(api_version))
-> +		return -EOPNOTSUPP;
-> +
-> +	group = kzalloc(sizeof(struct umcg_group), GFP_KERNEL);
-> +	if (!group)
-> +		return -ENOMEM;
-> +
-> +	spin_lock_init(&group->lock);
-> +	INIT_LIST_HEAD(&group->list);
-> +	INIT_LIST_HEAD(&group->waiters);
-> +	group->flags = flags;
-> +	group->api_version = api_version;
-> +
-> +	spin_lock(&mm->umcg_lock);
-> +
-> +	list_for_each_entry_rcu(list_entry, &mm->umcg_groups, list) {
-> +		if (list_entry->group_id >= group->group_id)
-> +			group->group_id = list_entry->group_id + 1;
-> +	}
+> >> @@ -2171,23 +2203,110 @@ int security_getprocattr(struct task_struct *p, const char *lsm, char *name,
+> >>                              char **value)
+> >>  {
+> >>      struct security_hook_list *hp;
+> >> +    int ilsm = lsm_task_ilsm(current);
+> >> +    int slot = 0;
+> >> +
+> >> +    if (!strcmp(name, "interface_lsm")) {
+> >> +            /*
+> >> +             * lsm_slot will be 0 if there are no displaying modules.
+> >> +             */
+> >> +            if (lsm_slot == 0)
+> >> +                    return -EINVAL;
+> >> +
+> >> +            /*
+> >> +             * Only allow getting the current process' interface_lsm.
+> >> +             * There are too few reasons to get another process'
+> >> +             * interface_lsm and too many LSM policy issues.
+> >> +             */
+> >> +            if (current != p)
+> >> +                    return -EINVAL;
+> > ... but context isn't established by just checking "current", as this
+> > file handle may have been given to another process.
+> >
+> > I suspect the security_get/setprocattr needs to gain a pointer to "file"
+> > so that the f_cred struct can be examined[1] (i.e. compare opener
+> > against reader/writer).
+> >
+> > [1] https://www.kernel.org/doc/html/latest/security/credentials.html#open-file-credentials
+>
+> It's not credentials being checked here. The check is whether the task that
+> would be affected is "current". Process A can't open /proc/B/attr/interface_lsm
+> with write access. The only process that can open it for write access is B.
+> If process B opens /proc/B/attr/interface_lsm for write access it could send
+> the file handle to process A, but process A can't write to the file because
+> (current != p) that is, (A != B).
 
-pls take into account that we need to be able to save and restore umcg
-groups from user-space. There is the CRIU project that allows to
-checkpoint/restore processes.
+Agreed.
 
-> +
-> +	list_add_rcu(&mm->umcg_groups, &group->list);
+Acked-by: Paul Moore <paul@paul-moore.com>
 
-I think it should be:
 
-	list_add_rcu(&group->list, &mm->umcg_groups);
-> +
-> +	ret = group->group_id;
-> +	spin_unlock(&mm->umcg_lock);
-> +
-> +	return ret;
-> +}
-> +
-
-Thanks,
-Andrei
+--
+paul moore
+www.paul-moore.com
