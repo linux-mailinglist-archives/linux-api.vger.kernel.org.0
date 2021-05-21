@@ -2,153 +2,236 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D2E938C1D8
-	for <lists+linux-api@lfdr.de>; Fri, 21 May 2021 10:31:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A517938C242
+	for <lists+linux-api@lfdr.de>; Fri, 21 May 2021 10:49:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231789AbhEUIcu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 May 2021 04:32:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45254 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230480AbhEUIct (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 04:32:49 -0400
-Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1FA8C061574;
-        Fri, 21 May 2021 01:31:26 -0700 (PDT)
-Received: by mail-il1-x12f.google.com with SMTP id l15so12394894iln.8;
-        Fri, 21 May 2021 01:31:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fD9naAkCO+UNu0R3N+jM35YfoYNYpu0KqAg9BLMmvKk=;
-        b=fq9WeXgEFKy8hMmc48lx06StsL6dK/9jTywTBBfxipX1KnaP2QezFCtpNAFlnadYD0
-         xl1X70mRKWRYerFlTvJDzNzhrtTO5cQqkmmeJYgFuYV+Gd2rrQTw1fIxth2bbCliOXNE
-         a3Dhq9DpWwqvqbvHkQqsH3H8a2f8hEWo2AUxJBcStUQP2dW4hgp+/FwAGtlW1VaN0GSF
-         1iEFtufDFiJcS+coi9P2PxoMXbapf61dzDlkAXOhxEjnVHxyMa60Jg+qh/c+UUhfM2P1
-         ppjJvtk1azW99JyH522e93HyDccuhXPweAS3gf4fzUgGksjYWKMzkq8Ts3UNosIyrDFF
-         lcPA==
+        id S232158AbhEUIu3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 May 2021 04:50:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50088 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233912AbhEUIu1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 04:50:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1621586944;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Ss3oq71TJpZynR4jRUU0R8ghR5Bhj/98WSz+6h5ZWWw=;
+        b=hdEAG1ZUglmz9WLA1mTx9/R/biXUQSfU04hHNIu8Gm+GXw1WjJwbGYBsLZ6kp8q9jHfHcS
+        tQor3uaX9bKQlmi3bVzU0Q+/ePDAACx3iDuGkFKgQ5YvjdPe8HZFyMmF2PA+KbgMOxuvYl
+        2UjwHaQ8nVwfrOTA4OKxUsSjsw0PMhc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-25-BXOVz3lVP9Ga4ba9d7rOIg-1; Fri, 21 May 2021 04:49:01 -0400
+X-MC-Unique: BXOVz3lVP9Ga4ba9d7rOIg-1
+Received: by mail-wr1-f70.google.com with SMTP id 22-20020adf82960000b02901115ae2f734so9179138wrc.5
+        for <linux-api@vger.kernel.org>; Fri, 21 May 2021 01:49:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fD9naAkCO+UNu0R3N+jM35YfoYNYpu0KqAg9BLMmvKk=;
-        b=frpRChaezLe3fRuewpJnv/4wdagbX9oUhvw8D/ywM3kErWQcw0SratGm4SNIQ3s/Nk
-         GfAost8UMWdYWm70kGGNbA85Jpfwo5KQ2TqBehwNY3CdQFdAZHXgR4b9VsV6/4xdRIXZ
-         HHaju42TLd6QIlcb/queZti7d5rzzfjQVl6Qu0Phgw0JlW73u99fbB+U3w3VxCucMPKn
-         kZk7CLdiSjSLT39jMO3kw31Gku92btMuX5C+JSSdrzO4V4wwCtENfy35Q2B4EL1vbxu4
-         +o7hge5cWyQXGeMxzo9rGBpZvLbtd95Q4dq5/G9vZamhgw1mUgfNpEIaCeP4tXBDqzy1
-         STNw==
-X-Gm-Message-State: AOAM532t12SM3HiLiOZ/E8IWPPYhnNyOse14cFLRI4oiKsM57+kuRRKQ
-        SRwNbuTaqoigEBXVkyalGHuFIpbOREp5v+Vic38=
-X-Google-Smtp-Source: ABdhPJzNgYFwclIHnCNKcRKMeZoZEgqly+y1H3n9eaINffPodzy6KQWzRZPqcw0lCocmWVKSRBjSGn4LpPf0pOcFHp0=
-X-Received: by 2002:a92:4446:: with SMTP id a6mr11074188ilm.9.1621585886178;
- Fri, 21 May 2021 01:31:26 -0700 (PDT)
+        h=x-gm-message-state:to:cc:references:from:organization:subject
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=Ss3oq71TJpZynR4jRUU0R8ghR5Bhj/98WSz+6h5ZWWw=;
+        b=NBJKHONf/eGEfk5ENAitYmnCiJj6kMr82zeBvSGC79+NZPf9TaXPZ9fhE7g56DmWM2
+         WycZj/+n27jG5LdzXy5hzRAyl+QPko9DIof2+bmXcqd9XvbEbrC+MyrH82WYS6F3cqfv
+         eBVhq57EPeMchW4IopYPHQvFpHYVjzS2vgOx1BR1u7fAT+SS0+RWTZTzp7DIfX0fiFWb
+         57Z4+VQNa00weyt5/K68Vd8Cq2WyqTitwWOU5NdRyucFWLsDv56GXj4i26hJ/2Cxc53e
+         KTMk9Z8xlWkO3sebJdKFsFkdrWb2LdMCoZ+BA3FyM2/KI6wLcqNFezEo4VuO3de66pB+
+         0MCA==
+X-Gm-Message-State: AOAM531MR0lpJLrpmiwEGwdFKgN0dD6qtBh2hg5UeUgx7kTgqU0+0Euw
+        SzcL8c4HcdxN0KH42SgVXfBz6qYj9jBSqZk7YiZY0gnVkHEP81Ok830HalJ3AMhdneUQNMPcao4
+        9zBq0h1zI8lfwNgicA9QhNbWYqiUCwu77q+fEXG+/mdr1tUHdPagTnzE8fQeAnxeCBuDP
+X-Received: by 2002:a05:600c:3592:: with SMTP id p18mr7606445wmq.44.1621586940396;
+        Fri, 21 May 2021 01:49:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwEzS6ZR08kC/nab/1F9qSPZO8CRDhLDB8U6o4FhSCqgEsVRhOFUu1qq4q3oGPk3STOmbHF0Q==
+X-Received: by 2002:a05:600c:3592:: with SMTP id p18mr7606385wmq.44.1621586939966;
+        Fri, 21 May 2021 01:48:59 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c6502.dip0.t-ipconnect.de. [91.12.101.2])
+        by smtp.gmail.com with ESMTPSA id x4sm11507774wmj.17.2021.05.21.01.48.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 May 2021 01:48:59 -0700 (PDT)
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Oscar Salvador <osalvador@suse.de>,
+        Matthew Wilcox <willy@infradead.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Minchan Kim <minchan@kernel.org>, Jann Horn <jannh@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Hugh Dickins <hughd@google.com>,
+        Rik van Riel <riel@surriel.com>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>, Chris Zankel <chris@zankel.net>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Peter Xu <peterx@redhat.com>,
+        Rolf Eike Beer <eike-kernel@sf-tec.de>,
+        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        linux-arch@vger.kernel.org, Linux API <linux-api@vger.kernel.org>
+References: <20210511081534.3507-1-david@redhat.com>
+ <20210511081534.3507-3-david@redhat.com> <YKOR/8LzEaOgCvio@dhcp22.suse.cz>
+ <bb0e2ebb-e66d-176c-b20a-fbadd95cde98@redhat.com>
+ <YKOiV9VkEdYFM9nB@dhcp22.suse.cz>
+ <b2fa988d-9625-7c0e-ce83-158af0058e38@redhat.com>
+ <YKZnsnqgEMx6Xl6X@dhcp22.suse.cz>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH resend v2 2/5] mm/madvise: introduce
+ MADV_POPULATE_(READ|WRITE) to prefault page tables
+Message-ID: <2e41144c-27f4-f341-d855-f966dabc2c21@redhat.com>
+Date:   Fri, 21 May 2021 10:48:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <20210521024134.1032503-1-krisman@collabora.com>
-In-Reply-To: <20210521024134.1032503-1-krisman@collabora.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Fri, 21 May 2021 11:31:15 +0300
-Message-ID: <CAOQ4uxjzoRLPK0w=wxpObu5Bg3aV=0+BDEFwhMx5uN5Zx9J5nQ@mail.gmail.com>
-Subject: Re: [PATCH 00/11] File system wide monitoring
-To:     Gabriel Krisman Bertazi <krisman@collabora.com>
-Cc:     kernel@collabora.com, "Darrick J . Wong" <djwong@kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Dave Chinner <david@fromorbit.com>, Jan Kara <jack@suse.com>,
-        David Howells <dhowells@redhat.com>,
-        Khazhismel Kumykov <khazhy@google.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Ext4 <linux-ext4@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <YKZnsnqgEMx6Xl6X@dhcp22.suse.cz>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, May 21, 2021 at 5:42 AM Gabriel Krisman Bertazi
-<krisman@collabora.com> wrote:
->
-> Hi,
->
-> This series follow up on my previous proposal [1] to support file system
-> wide monitoring.  As suggested by Amir, this proposal drops the ring
-> buffer in favor of a single slot associated with each mark.  This
-> simplifies a bit the implementation, as you can see in the code.
->
-> As a reminder, This proposal is limited to an interface for
-> administrators to monitor the health of a file system, instead of a
-> generic inteface for file errors.  Therefore, this doesn't solve the
-> problem of writeback errors or the need to watch a specific subtree.
->
-> In comparison to the previous RFC, this implementation also drops the
-> per-fs data and location, and leave those as future extensions.
->
-> * Implementation
->
-> The feature is implemented on top of fanotify, as a new type of fanotify
-> mark, FAN_ERROR, which a file system monitoring tool can register to
-> receive error notifications.  When an error occurs a new notification is
-> generated, in addition followed by this info field:
->
->  - FS generic data: A file system agnostic structure that has a generic
->  error code and identifies the filesystem.  Basically, it let's
->  userspace know something happened on a monitored filesystem.  Since
->  only the first error is recorded since the last read, this also
->  includes a counter of errors that happened since the last read.
->
-> * Testing
->
-> This was tested by watching notifications flowing from an intentionally
-> corrupted filesystem in different places.  In addition, other events
-> were watched in an attempt to detect regressions.
->
-> Is there a specific testsuite for fanotify I should be running?
+> [...]
+>> Anyhow, please suggest a way to handle it via a single flag in the kernel --
+>> which would be some kind of heuristic as we know from MAP_POPULATE. Having
+>> an alternative at hand would make it easier to discuss this topic further. I
+>> certainly *don't* want MAP_POPULATE semantics when it comes to
+>> MADV_POPULATE, especially when it comes to shared mappings. Not useful in
+>> QEMU now and in the future.
+> 
+> OK, this point is still not entirely clear to me. Elsewhere you are
+> saying that QEMU cannot use MAP_POPULATE because it ignores errors
+> and also it doesn't support sparse mappings because they apply to the
+> whole mmap. These are all clear but it is less clear to me why the same
+> semantic is not applicable for QEMU when used through madvise interface
+> which can handle both of those.
 
-LTP is where we maintain the fsnotify regression test.
-The inotify* and fanotify* tests specifically.
+It's a combination of things:
 
->
-> * Patches
->
-> This patchset is divided as follows: Patch 1 through 5 are refactoring
-> to fsnotify/fanotify in preparation for FS_ERROR/FAN_ERROR; patch 6 and
-> 7 implement the FS_ERROR API for filesystems to report error; patch 8
-> add support for FAN_ERROR in fanotify; Patch 9 is an example
-> implementation for ext4; patch 10 and 11 provide a sample userspace code
-> and documentation.
->
-> I also pushed the full series to:
->
->   https://gitlab.collabora.com/krisman/linux -b fanotify-notifications-single-slot
+a) MAP_POPULATE never was an option simply because of deferred
+    "prealloc=on" handling in QEMU, happening way after we created the
+    memmap. Further it doesn't report if there was an error, which is
+    another reason why it's basically useless for QEMU use cases.
+b) QEMU uses manual read-write prefaulting for "preallocation", for
+    example, to avoid SIGBUS on hugetlbfs or shmem at runtime. There are
+    cases where we absolutely want to avoid crashing the VM later just
+    because of a user error. MAP_POPULATE does *not* do what we want for
+    shared mappings, because it triggers a read fault.
+c) QEMU uses the same mechanism for prefaulting in RT environments,
+    where we want to avoid any kind of pagefault, using mlock() etc.
+d) MAP_POPULATE does not apply to sparse memory mappings that I'll be
+    using more heavily in QEMU, also for the purpose of preallocation
+    with virtio-mem.
 
-All in all the series looks good, give or take some implementation
-details.
+See the current QEMU code along with a comment in
 
-One general comment about UAPI (CC linux-api) -
-I think Darrick has proposed to report ino/gen instead of only ino.
-I personally think it would be a shame not to reuse the already existing
-FAN_EVENT_INFO_TYPE_FID record format, but I can understand why
-you did not want to go there:
-1. Not all error reports carry inode information
-2. Not all filesystems support file handles
-3. Any other reason that I missed?
+https://github.com/qemu/qemu/blob/972e848b53970d12cb2ca64687ef8ff797fb6236/util/oslib-posix.c#L496
 
-My proposal is that in cases where group was initialized with
-FAN_REPORT_FID (implies fs supports file handles) AND error report
-does carry inode information, record fanotify_info in fanotify_error_event
-and report FAN_EVENT_INFO_TYPE_FID record in addition to
-FAN_EVENT_INFO_TYPE_ERROR record to user.
+it's especially bad for PMEM ("wear on the storage backing"), which is 
+why we have to trust on users not to trigger preallocation/prefaulting 
+on PMEM, otherwise (as already expressed via bug reports) we waste a lot 
+of time when backing VMs on PMEM or forwarding NVDIMMs, unnecessarily 
+read/writing (slow) DAX.
 
-I am not insisting on this change, but I think it won't add much complexity
-to your implementation and it will allow more flexibility to the API going
-forward.
+> Do I get it right that you really want to emulate the full fledged write
+> fault to a) limit another write fault when the content is actually
+> modified and b) prevent from potential errors during the write fault
+> (e.g. mkwrite failing on the fs data)?
 
-However, for the time being, if you want to avoid the UAPI discussion,
-I don't mind if you disallow FAN_ERROR mark for group with
-FAN_REPORT_FID.
+Yes, for the use case of "preallocation" in QEMU. See the QEMU link.
 
-In most likelihood, the tool monitoring filesystem for errors will not care
-about other events, so it shouldn't care about FAN_REPORT_FID anyway.
-I'd like to hear what other think about this point as well.
+But again, the thing that makes it more complicated is that I can come 
+up with some use cases that want to handle "shared mappings of ordinary 
+files" a little better. Or the usefaultfd-wp example I gave, where 
+prefaulting via MADV_POPULATE_READ can roughly half the population time.
 
+>> We could make MADV_POPULATE act depending on the readability/writability of
+>> a mapping. Use MADV_POPULATE_WRITE on writable mappings, use
+>> MADV_POPULATE_READ on readable mappings. Certainly not perfect for use cases
+>> where you have writable mappings that are mostly read only (as in the
+>> example with fake-NVDIMMs I gave ...), but if it makes people happy, fine
+>> with me. I mostly care about MADV_POPULATE_WRITE.
+> 
+> Yes, this is where my thinking was going as well. Essentially define
+> MADV_POPULATE as "Populate the mapping with the memory based on the
+> mapping access." This looks like a straightforward semantic to me and it
+> doesn't really require any deep knowledge of internals.
+> 
+> Now, I was trying to compare which of those would be more tricky to
+> understand and use and TBH I am not really convinced any of the two is
+> much better. Separate READ/WRITE modes are explicit which can be good
+> but it will require quite an advanced knowledge of the #PF behavior.
+> On the other hand MADV_POPULATE would require some tricks like mmap,
+> madvise and mprotect(to change to writable) when the data is really
+> written to. I am not sure how much of a deal this would be for QEMU for
+> example.
+
+IIRC, at the time we enable background snapshotting, the VM is running 
+and we cannot temporarily mprotect(PROT_READ) without making the guest 
+crash. But again, uffd-wp handling is somewhat a special case because 
+the implementation in the kernel is really suboptimal.
+
+The reason I chose MADV_POPULATE_READ + MADV_POPULATE_WRITE is because 
+it really mimics what user space currently does to get the job done.
+
+I guess the important part to document is that "be careful when using 
+MADV_POPULATE_READ because it might just populate the shared zeropage" 
+and "be careful with MADV_POPULATE_WRITE because it will do the same as 
+when writing to every page: dirty the pages such that they will have to 
+be written back when backed by actual files".
+
+
+The current MAN page entry for MADV_POPULATE_READ reads:
+
+"
+Populate (prefault) page tables readable for the whole range without 
+actually reading. Depending on the underlying mapping, map the shared 
+zeropage, preallocate memory or read the underlying file. Do not 
+generate SIGBUS when populating fails, return an error instead.
+
+If  MADV_POPULATE_READ succeeds, all page tables have been populated 
+(prefaulted) readable once. If MADV_POPULATE_READ fails, some page 
+tables might have been populated.
+
+MADV_POPULATE_READ cannot be applied to mappings without read 
+permissions  and  special mappings marked with the kernel-internal 
+VM_PFNMAP and VM_IO.
+
+Note that with MADV_POPULATE_READ, the process can still be killed at 
+any moment when the system runs out of memory.
+"
+
+
+> 
+> So, all that being said, I am not really sure. I am not really happy
+> about READ/WRITE split but if a simpler interface is going to be a bad
+> fit for existing usecases then I believe a proper way to go is the
+> document the more complex interface thoroughly.
+
+I think with the split we are better off long term without requiring 
+workarounds (mprotect()) to make some use cases work in the long term.
+
+But again, if there is a good justification why a single MADV_POPULATE 
+make sense, I'm happy to change it. Again, for me, the most important 
+thing long-term is MADV_POPULATE_WRITE because that's really what QEMU 
+mainly uses right now for preallocation. But I can see use cases for 
+MADV_POPULATE_READ as well.
+
+Thanks for your input!
+
+-- 
 Thanks,
-Amir.
+
+David / dhildenb
+
