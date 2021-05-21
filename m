@@ -2,38 +2,45 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A23BA38C96B
-	for <lists+linux-api@lfdr.de>; Fri, 21 May 2021 16:45:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AB7538C982
+	for <lists+linux-api@lfdr.de>; Fri, 21 May 2021 16:49:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236908AbhEUOqm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 May 2021 10:46:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23162 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236903AbhEUOqe (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 10:46:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1621608310;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         references:references; bh=UzfrhhjYSYiIuzBU0H2YNGGzT9stjrQrZgCfIc9Eyrw=;
-        b=X7SjMra7JnYv8MCotiw/eICiF+y7diEz2xPmap63D6tKly6x5+6ysO8E7iLOSkkPpov6a2
-        pmIQGzausFHK3nBpK/MB+vk2NXvR9dZlZ7s/Ynr4dpAlzg6HsnQVkaN20bGTE1Ql+zpQ+p
-        xbHEMRlBJeLf8ANLMELErMxelwfHkHM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-470-vKGhCmr3Nfek4CE7RcWfvA-1; Fri, 21 May 2021 10:45:07 -0400
-X-MC-Unique: vKGhCmr3Nfek4CE7RcWfvA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43C78107ACC7;
-        Fri, 21 May 2021 14:45:05 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (ovpn-113-228.ams2.redhat.com [10.36.113.228])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id B410260D4B;
-        Fri, 21 May 2021 14:45:00 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Dave Hansen via Libc-alpha <libc-alpha@sourceware.org>
-Cc:     Len Brown <lenb@kernel.org>, Dave Hansen <dave.hansen@intel.com>,
+        id S233403AbhEUOvM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 May 2021 10:51:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46386 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232057AbhEUOvM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 10:51:12 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66B70C061574;
+        Fri, 21 May 2021 07:49:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=ALbn5lDFGLmOae7t1+VXfI4tB9A+uk2BFLNOfo90rDI=; b=MiZuaH47ebEV3px0iHZfjsGtUf
+        fIa/bT8qo86+Xj/otzNB0/fs5q7hAb6rTtqxfDmq6/F33H0hGJZ2j3usmoNfnnLzRGhu03FRYOwuQ
+        gR43d+PdjVqSRd9RgEb83MnvBtxMJrbbmGh1qlFsABzu97ilJaT/zXLcr2VUmn7MaacykgrNkYqvF
+        UQNvLKqV/PY10mXk6dbXBsM9e9bWBGiHrhjNK3TUyJ6NTWpXEXA9GCapn7+tWQcEWdNBMy1M142Mw
+        ekBF+739VztnZU5vUMgMknt3CxcDhWbmM5NSDwdnKu9IBWXMXhl9pdYEqRiogc/QZFGl8pszLgPcZ
+        IyqRTeYg==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1lk6Sp-005pTi-NA; Fri, 21 May 2021 14:49:23 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 9F0CE300264;
+        Fri, 21 May 2021 16:49:22 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 6F28F30D9D883; Fri, 21 May 2021 16:49:22 +0200 (CEST)
+Date:   Fri, 21 May 2021 16:49:22 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     Dave Hansen via Libc-alpha <libc-alpha@sourceware.org>,
+        Len Brown <lenb@kernel.org>,
+        Dave Hansen <dave.hansen@intel.com>,
         Rich Felker <dalias@libc.org>,
         Linux API <linux-api@vger.kernel.org>,
         "Bae, Chang Seok" <chang.seok.bae@intel.com>,
@@ -46,46 +53,29 @@ Cc:     Len Brown <lenb@kernel.org>, Dave Hansen <dave.hansen@intel.com>,
         Willy Tarreau <w@1wt.eu>
 Subject: Re: Candidate Linux ABI for Intel AMX and hypothetical new related
  features
-References: <20210415044258.GA6318@zn.tnic> <20210415052938.GA2325@1wt.eu>
-        <20210415054713.GB6318@zn.tnic>
-        <CAJvTdKnjzAMh3N_c7KP3kA=e0LgYHgCANg44oJp3LcSm7dtbSQ@mail.gmail.com>
-        <20210419141454.GE9093@zn.tnic>
-        <CAJvTdK=p8mgO3xw9sRxu0c7NTNTG109M442b3UZh8TqLLfkC1Q@mail.gmail.com>
-        <20210419191539.GH9093@zn.tnic>
-        <CAJvTdK=VnG94ECcRVoUi8HrCbVEKc8X4_JmRTkqe+vTttf0Wsg@mail.gmail.com>
-        <20210419215809.GJ9093@zn.tnic>
-        <CAJvTdKn6JHo02karEs0e5g+6SimS5VUcXKjCkX35WY+xkgAgxw@mail.gmail.com>
-        <YIMmwhEr46VPAZa4@zn.tnic>
-        <CAJvTdKnhXnynybS4eNEF_EtF26auyb-mhKLNd1D9_zvCrchZsw@mail.gmail.com>
-        <874kf11yoz.ffs@nanos.tec.linutronix.de>
-        <CAJvTdKkYp+zP_9tna6YsrOz2_nmEUDLJaL_i-SNog0m2T9wZ=Q@mail.gmail.com>
-        <87k0ntazyn.ffs@nanos.tec.linutronix.de>
-        <37833625-3e6b-5d93-cc4d-26164d06a0c6@intel.com>
-        <CAJvTdKmqzO4P9k3jqRA=dR+B7yV72hZCiyC8HGQxDKZBnXgzZQ@mail.gmail.com>
-        <9c8138eb-3956-e897-ed4e-426bf6663c11@intel.com>
-Date:   Fri, 21 May 2021 16:44:58 +0200
-Message-ID: <87pmxk87th.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Message-ID: <YKfIct+DhpEBbaCQ@hirez.programming.kicks-ass.net>
+References: <CAJvTdKn6JHo02karEs0e5g+6SimS5VUcXKjCkX35WY+xkgAgxw@mail.gmail.com>
+ <YIMmwhEr46VPAZa4@zn.tnic>
+ <CAJvTdKnhXnynybS4eNEF_EtF26auyb-mhKLNd1D9_zvCrchZsw@mail.gmail.com>
+ <874kf11yoz.ffs@nanos.tec.linutronix.de>
+ <CAJvTdKkYp+zP_9tna6YsrOz2_nmEUDLJaL_i-SNog0m2T9wZ=Q@mail.gmail.com>
+ <87k0ntazyn.ffs@nanos.tec.linutronix.de>
+ <37833625-3e6b-5d93-cc4d-26164d06a0c6@intel.com>
+ <CAJvTdKmqzO4P9k3jqRA=dR+B7yV72hZCiyC8HGQxDKZBnXgzZQ@mail.gmail.com>
+ <9c8138eb-3956-e897-ed4e-426bf6663c11@intel.com>
+ <87pmxk87th.fsf@oldenburg.str.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87pmxk87th.fsf@oldenburg.str.redhat.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Dave Hansen via Libc-alpha:
+On Fri, May 21, 2021 at 04:44:58PM +0200, Florian Weimer wrote:
 
-> Our system calls are *REALLY* fast.  We can even do a vsyscall for this
-> if we want to get the overhead down near zero.  Userspace can also cache
-> the "I did the prctl()" state in thread-local storage if it wants to
-> avoid the syscall.
+> And we added an interface for querying x86 CPU features to glibc 2.33
+> which is completely incompatible with this because it assumes that CPU
+> features do not change during the lifetime of a process. 8-(
 
-Why can't userspace look at XCR0 to make the decision?
-
-And we added an interface for querying x86 CPU features to glibc 2.33
-which is completely incompatible with this because it assumes that CPU
-features do not change during the lifetime of a process. 8-(
-
-Thanks,
-Florian
-
+How many x86 kernel maintainers signed off on that patch?
