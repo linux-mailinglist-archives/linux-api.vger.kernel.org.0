@@ -2,137 +2,132 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6A9C38D204
-	for <lists+linux-api@lfdr.de>; Sat, 22 May 2021 01:32:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A23E638D206
+	for <lists+linux-api@lfdr.de>; Sat, 22 May 2021 01:32:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230236AbhEUXdP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 May 2021 19:33:15 -0400
-Received: from mail-ej1-f46.google.com ([209.85.218.46]:42845 "EHLO
-        mail-ej1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230217AbhEUXdN (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 19:33:13 -0400
-Received: by mail-ej1-f46.google.com with SMTP id lg14so32730879ejb.9;
-        Fri, 21 May 2021 16:31:48 -0700 (PDT)
+        id S230236AbhEUXeS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 May 2021 19:34:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51840 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230111AbhEUXeN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 19:34:13 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 446FDC0613ED
+        for <linux-api@vger.kernel.org>; Fri, 21 May 2021 16:32:49 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id 22so15634163pfv.11
+        for <linux-api@vger.kernel.org>; Fri, 21 May 2021 16:32:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=purBBHjJnoQ+HpnRHXn+Th4dctTqM8bSVhw3bAuqGs4=;
+        b=aWsjNqpez8oLW0RT/qXktnN35upgDQ7UKoWLrDB8iFJ8esRxu4/34GiIXBntvbp8b4
+         5qLRwOuGiu44/olUYXlGnYc146HRjVrFVzZKWpx6ie8SVS7qBED5f5SHYrMI7JSu9d5o
+         s2gJbc9KAMVekm4GnvpecPkbvSzv6F6D+L5/KS/yAClIRyTsjEGjLTBKRdrqZOxuqVFs
+         XjKWLxku7Dkrr8M17vk01IzlCMZJuxuuGIx/QE73Eo5SOZAZmBevFut9E0SrrYyb0+fE
+         0SWeXQa22iehYljGjp3pePEYFcA3pwYr4M5P6q3F5zNJzTQvYXwZmUJlSpBo1J+rLKwK
+         ZRZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wV8Jn7oT1/R7b2roeYS63X9RldUmuefktohm7BDX3HU=;
-        b=XxzDQ+N3/y6YmsPojl6IqtP0Tclfi00AlIYkS0WvbfwRaOTaDluTWbFYjGiTf52pF1
-         zhsRwvK2tvFybmcHp9fEhn50IOxMfHYgM/MH1rWilrG5ukMzJReZ0ZCTyjfulf5pr8f2
-         nLZBDOCC5qjdg/s/Mj3vOQqFwGg3cV/yQcNaAHYl2pBTaR3rP2LDxO7F7HDHm1hDwBek
-         y0iCq3X4oidFHkp4w0x/s/Rre1kGSjRZNg+EGqjgNcgQzwZSZfN9FQgU4ZGoS1F3gwwY
-         fICThoQUeYs1P95bpdWwP6jvySk2nlxxjjnlQ0Q2RSvHTbPIVAzo9WG9JBoNaW+0EVCQ
-         Beeg==
-X-Gm-Message-State: AOAM532oXhmap4JEika/qU04bqgNGtTjY5npRhVj2+8JjHwxJyCNXH0/
-        uJ6/1qRTfTlrarp7iv81BfSb6diPUFDyN4dNL/8=
-X-Google-Smtp-Source: ABdhPJz4C5ZOddqS3tbZaqexGV5+LYrWfAAC+etCAF9RcobtSRavqwUwpidy3DCbGV2yMd2mlkf/1V/4C40J4ZVhZ60=
-X-Received: by 2002:a17:906:1dd1:: with SMTP id v17mr12370205ejh.31.1621639907917;
- Fri, 21 May 2021 16:31:47 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=purBBHjJnoQ+HpnRHXn+Th4dctTqM8bSVhw3bAuqGs4=;
+        b=mkBytwdSTV9gflvaAU4j65ctoBlbU2Epo4bKcfwakRg3TpjGnV69vip1oGEbTsTRBW
+         7wwKk+rAm5GA6jzZnXUaMJWr7QnkLbJw4SHN85nxPRH8loIXiP5TDl341vDnHQq8INpw
+         UvxsBUySbi3fbzPKcDIFWpOMrbbQh0jO/0JvwIkEunbaX8WWC6hb2/33A/Y07atZV750
+         xdfPVDcD3FahDlDllepU7NlmK0h/vxxjWohaSnx0JkygqdTiNa4oLZwdPVPQuRn8X+YU
+         bc6RuwVSJ/f9ri93sY2bjzB4eHSHVgJ3IEf6u6CDb1Degz8ocblwrtrCu7q/kjXpgSBS
+         pFLg==
+X-Gm-Message-State: AOAM531jzF70zh+ka7IxrNm5I6+RpCxGdQoGa/1LyRcnP7eesz99XvZw
+        D4OucI17hm6sMfNJuT06c3xUIg==
+X-Google-Smtp-Source: ABdhPJydSlJCNoG+KrdyFcXEOpcpP5VHqL8MUvR4KgIkpv8AsTDKsd+OBDpnABzWFRAWVFaMhH0eqg==
+X-Received: by 2002:a63:e4a:: with SMTP id 10mr1214993pgo.67.1621639968566;
+        Fri, 21 May 2021 16:32:48 -0700 (PDT)
+Received: from google.com ([2401:fa00:9:211:42b2:c084:8468:626a])
+        by smtp.gmail.com with ESMTPSA id b124sm5096735pfa.27.2021.05.21.16.32.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 May 2021 16:32:47 -0700 (PDT)
+Date:   Sat, 22 May 2021 09:32:36 +1000
+From:   Matthew Bobrowski <repnop@google.com>
+To:     Jan Kara <jack@suse.cz>
+Cc:     amir73il@gmail.com, christian.brauner@ubuntu.com,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH 0/5] Add pidfd support to the fanotify API
+Message-ID: <YKhDFCUWX7iU7AzM@google.com>
+References: <cover.1621473846.git.repnop@google.com>
+ <20210520135527.GD18952@quack2.suse.cz>
+ <YKeIR+LiSXqUHL8Q@google.com>
+ <20210521104056.GG18952@quack2.suse.cz>
 MIME-Version: 1.0
-References: <20210415044258.GA6318@zn.tnic> <20210419141454.GE9093@zn.tnic>
- <CAJvTdK=p8mgO3xw9sRxu0c7NTNTG109M442b3UZh8TqLLfkC1Q@mail.gmail.com>
- <20210419191539.GH9093@zn.tnic> <CAJvTdK=VnG94ECcRVoUi8HrCbVEKc8X4_JmRTkqe+vTttf0Wsg@mail.gmail.com>
- <20210419215809.GJ9093@zn.tnic> <CAJvTdKn6JHo02karEs0e5g+6SimS5VUcXKjCkX35WY+xkgAgxw@mail.gmail.com>
- <YIMmwhEr46VPAZa4@zn.tnic> <CAJvTdKnhXnynybS4eNEF_EtF26auyb-mhKLNd1D9_zvCrchZsw@mail.gmail.com>
- <874kf11yoz.ffs@nanos.tec.linutronix.de> <CAJvTdKkYp+zP_9tna6YsrOz2_nmEUDLJaL_i-SNog0m2T9wZ=Q@mail.gmail.com>
- <87k0ntazyn.ffs@nanos.tec.linutronix.de> <37833625-3e6b-5d93-cc4d-26164d06a0c6@intel.com>
- <CAJvTdKmqzO4P9k3jqRA=dR+B7yV72hZCiyC8HGQxDKZBnXgzZQ@mail.gmail.com>
- <9c8138eb-3956-e897-ed4e-426bf6663c11@intel.com> <87pmxk87th.fsf@oldenburg.str.redhat.com>
- <939ec057-3851-d8fb-7b45-993fa07c4cb5@intel.com> <87r1i06ow2.fsf@oldenburg.str.redhat.com>
- <263a58a9-26d5-4e55-b3e1-3718baf1b81d@www.fastmail.com> <87k0nraonu.ffs@nanos.tec.linutronix.de>
- <CAJvTdK=A64DQXjYkZgPebWb-V_p_HAM+jTZRLTyi1qrP9kucMg@mail.gmail.com> <878s47aeni.ffs@nanos.tec.linutronix.de>
-In-Reply-To: <878s47aeni.ffs@nanos.tec.linutronix.de>
-From:   Len Brown <lenb@kernel.org>
-Date:   Fri, 21 May 2021 19:31:36 -0400
-Message-ID: <CAJvTdK=Ws1QvBvdx50OSmAi0vBX49KZZHUoiMFbhUUEPmjGmBw@mail.gmail.com>
-Subject: Re: Candidate Linux ABI for Intel AMX and hypothetical new related features
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Dave Hansen via Libc-alpha <libc-alpha@sourceware.org>,
-        Rich Felker <dalias@libc.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Kyle Huey <me@kylehuey.com>, Borislav Petkov <bp@alien8.de>,
-        Keno Fischer <keno@juliacomputing.com>,
-        Arjan van de Ven <arjan@linux.intel.com>,
-        Willy Tarreau <w@1wt.eu>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210521104056.GG18952@quack2.suse.cz>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-With this proposed API, we seem to be combining two requirements, and
-I wonder if we should be treating them independently.
+On Fri, May 21, 2021 at 12:40:56PM +0200, Jan Kara wrote:
+> On Fri 21-05-21 20:15:35, Matthew Bobrowski wrote:
+> > On Thu, May 20, 2021 at 03:55:27PM +0200, Jan Kara wrote:
+> > There's one thing that I'd like to mention, and it's something in
+> > regards to the overall approach we've taken that I'm not particularly
+> > happy about and I'd like to hear all your thoughts. Basically, with
+> > this approach the pidfd creation is done only once an event has been
+> > queued and the notification worker wakes up and picks up the event
+> > from the queue processes it. There's a subtle latency introduced when
+> > taking such an approach which at times leads to pidfd creation
+> > failures. As in, by the time pidfd_create() is called the struct pid
+> > has already been reaped, which then results in FAN_NOPIDFD being
+> > returned in the pidfd info record.
+> > 
+> > Having said that, I'm wondering what the thoughts are on doing pidfd
+> > creation earlier on i.e. in the event allocation stages? This way, the
+> > struct pid is pinned earlier on and rather than FAN_NOPIDFD being
+> > returned in the pidfd info record because the struct pid has been
+> > already reaped, userspace application will atleast receive a valid
+> > pidfd which can be used to check whether the process still exists or
+> > not. I think it'll just set the expectation better from an API
+> > perspective.
+> 
+> Yes, there's this race. OTOH if FAN_NOPIDFD is returned, the listener can
+> be sure the original process doesn't exist anymore. So is it useful to
+> still receive pidfd of the dead process?
 
-Requirement 1: "Fine grained control".  We want the kernel to be able
-to prohibit a program from using AMX.  The foundation for this is a
-system call that the kernel can say "No".  It may deny access for
-whatever reason it wants, including inability to allocate a buffer, or
-some TBD administer-invoked hook in the system call, say membership or
-lack of membership of the process in an empowered cgroup.
+Well, you're absolutely right. However, FWIW I was approaching this
+from two different angles:
 
-Requirement 2: Ability to synchronously fail upon buffer allocation.
-I agree that pthread_create() returning an error code is more friendly
-way to kill a program rather than a SIGSEGV when touching AMX state
-for the first time.  But the reality is, that program is almost
-certainly going to exit either way.
+1) I wanted to keep the pattern in which the listener checks for the
+   existence/recycling of the process consistent. As in, the listener
+   would receive the pidfd, then send the pidfd a signal via
+   pidfd_send_signal() and check for -ESRCH which clearly indicates
+   that the target process has terminated.
 
-So the 1st question is if the system call requesting permission should
-be on a per-process basis, or a per-task basis.
+2) I didn't want to mask failed pidfd creation because of early
+   process termination and other possible failures behind a single
+   FAN_NOPIDFD. IOW, if we take the -ESRCH approach above, the
+   listener can take clear corrective branches as what's to be done
+   next if a race is to have been detected, whereas simply returning
+   FAN_NOPIDFD at this stage can mean multiple things.
 
-A. per-task.  If we do it this way, then we will likely wind up
-mandating a GET at the start of every routine in every library that
-touches AMX, and potentially also a PUT.  This is because the library
-has no idea what thread called it.  The plus is that this will address
-the "used once and sits on a buffer for the rest of the process
-lifetime' scenario.  The minus is that high performance users will be
-executing thousands of unnecessary system calls that have zero value.
+Now that I've written the above and keeping in mind that we'd like to
+refrain from doing anything in the event allocation stages, perhaps we
+could introduce a different error code for detecting early process
+termination while attempting to construct the info record. WDYT?
 
-B. per-process.  If we do it this way, then the run time linker can do
-a single system call on behalf of the entire process, and there is no
-need to sprinkle system calls throughout the library.  Presumably the
-startup code would query CPUID, query XCR0, query this system call,
-and set a global variable to access by all threads going forward.  The
-plus is that permission makes more sense on a process basis than on a
-task basis.  Why would the kernel give one thread in a process
-permission, and not another thread -- and if that happened, would a
-process actually be able to figure out what to do?  If we do
-per-process, I don't see that the PUT call would be useful, and I
-would skip it.
+> Also opening pidfd in the context of event generation is problematic
+> for two reasons:
+>
+> 1) Technically, the context under which events are generated can be rather
+> constrained (various locks held etc.). Adding relatively complex operations
+> such as pidfd creation is going to introduce strange lock dependencies,
+> possibly deadlocks.
+> 
+> 2) Doing pidfd generation in the context of the process generating event is
+> problematic - you don't know in which fd_table the fd will live. Also that
+> process is unfairly penalized (performance wise) because someone else is
+> listening. We try to keep overhead of event generation as low as possible
+> for this reason.
 
-Neither A or B has an advantage in the situation where a thread is
-created long after initialization and faces memory allocation failure.
-A synchronously fails in the new system call, and B synchronously
-fails in pthread_create.
+Fair points, thanks for sharing your view. :)
 
-The 2nd question is if "successful permission" implies synchronous
-allocation, or perhaps it allows "please enable on-demand dynamic
-allocation"
-
-X. Synchronous Allocation results in allocation failures returning a
-synchronous error code, explaining why the program needs to exit.  The
-downside is that it is likely that in both case A and B, every thread
-in the program will allocate a buffer, if they ever use it or not.
-Indeed, it is possible that the API we have invented to manage AMX
-buffer use will actually *increase* AMX buffer use...
-a
-Y. Enable on-demand allocation.  Here the system call enables XFD to
-not kill the process, but on first use to allocate a buffer for a
-thread that is actually touching AMX.  The benefit is if you have a
-program with many threads, only the ones that actually use AMX will
-allocate buffers.  Of course the down side is that this program is
-exposed to a SIGSEGV if vmalloc fails in that run-time allocation,
-rather than a friendly pthread_create -1 return code killing the
-program.
-
-And, of course, we can have our cake and eat it too, by having a the
-syscall tell the kernel if it wants (X) or (Y).  The question is if it
-is worth the complexity of having two options.
-
-thoughts?
--Len
+/M
