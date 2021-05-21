@@ -2,55 +2,35 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A56E38CE05
-	for <lists+linux-api@lfdr.de>; Fri, 21 May 2021 21:14:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D7D838CE0B
+	for <lists+linux-api@lfdr.de>; Fri, 21 May 2021 21:17:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235133AbhEUTPc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 May 2021 15:15:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49862 "EHLO
+        id S235067AbhEUTTT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 May 2021 15:19:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235077AbhEUTPb (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 15:15:31 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F512C0613CE
-        for <linux-api@vger.kernel.org>; Fri, 21 May 2021 12:14:08 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id m11so31254903lfg.3
-        for <linux-api@vger.kernel.org>; Fri, 21 May 2021 12:14:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5oPa6Xr9eac0PsBORLiu0TlT5LtjJE1rGnKDOXc4+iM=;
-        b=FZM+cOW+NzUZku+HiAJITJowouhCBpkNsWURcM63zHo2NSoOToXTS3DZjhq2R6Wjav
-         E2ermU9AUDzbpNaDUiC4sB+BRQM4xTB/aYH5SKsrbtsY5gtjMvevNm2yYe08TETvQXH1
-         0gwA/O1z7JgbtoM0VV+IHuQLgu9VlpQAuWOBI1N7jVp7Gpl0gZNACxp8cr33F1tVebC+
-         Bf+OYwEcZELBHbLtemvz/LWeYxZMfYY26CujM6Gy6zI4wtBFI/U3LpAbuTvavII8TgUm
-         idj2MxIqFX91k6blfy+u/YZOLK9mX2SAohMIUL63YpWIU/AoTHx40DEw0W9GOzJuxX6g
-         mnfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5oPa6Xr9eac0PsBORLiu0TlT5LtjJE1rGnKDOXc4+iM=;
-        b=RM441aL+kKitdyy1VD7gaLZCW7M3oFOqVuqtKqpKJ1EDe42APNj/Lm8jnHVh87qkSn
-         qZsMAGORWQW+v5t8DFVnXScZdyTg7i6s/7ydfefjjxY8PCBI0W07aEpOCjz5fb2ujEob
-         jggPfL2K7rSoP6hcXXaqZ6ahgZuqJe1BelFeOMdQJbHvKYcvUk6LpjHKtoQuu5M058c0
-         YF1NS2iB227mBYBWf3k5AxGIDfw8LpJNAe/xXHbBcC3DVgNiEAoXFraAHzZAX/ImFJJ3
-         AzRBuntnwRyRnbsG+4YDjKq2RE7IFDzseA9J4qUpnLN/vPW6308LtSb+s/Qw/GWW3BkU
-         XkAg==
-X-Gm-Message-State: AOAM530OGmxSl8VgzfMY0CV/E2beSYhU6PK5rc+xsBrVA++tG2lfiEQ3
-        k8oyMDXVFmewYd+INvZUhkBl1T85y6i8GNOPFzQaWw==
-X-Google-Smtp-Source: ABdhPJzljfo8EYXnQbOzQP0KViedCYWcKCDa8fpsepH7kKBan8/VjwxkEx2EQgztB54zdcBHuBWJfkDWZWrtedKqq38=
-X-Received: by 2002:ac2:520a:: with SMTP id a10mr3184843lfl.180.1621624446406;
- Fri, 21 May 2021 12:14:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210520183614.1227046-1-posk@google.com> <CAEWA0a72SvpcuN4ov=98T3uWtExPCr7BQePOgjkqD1ofWKEASw@mail.gmail.com>
-In-Reply-To: <CAEWA0a72SvpcuN4ov=98T3uWtExPCr7BQePOgjkqD1ofWKEASw@mail.gmail.com>
-From:   Peter Oskolkov <posk@google.com>
-Date:   Fri, 21 May 2021 12:13:55 -0700
-Message-ID: <CAPNVh5d54HNYqVSGG==ozA7YjGdmkisg2M+wsYmdgGx2-p3Oog@mail.gmail.com>
-Subject: Re: [RFC PATCH v0.1 0/9] UMCG early preview/RFC patchset
-To:     Andrei Vagin <avagin@google.com>
+        with ESMTP id S234961AbhEUTTT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 15:19:19 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8357C061574;
+        Fri, 21 May 2021 12:17:55 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d:444a:d152:279d:1dbb])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 77D8A2F3;
+        Fri, 21 May 2021 19:17:55 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 77D8A2F3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1621624675; bh=Xm2ZcunaeMCF59JtFhGKPUZwAFVrpYPgk1Cgjmzkh1I=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=ZGM71Y0RHRY3Aa13dkY1orOEI6svm5gyj0gNAeBF5zJaeQjaHREOoHM8uWL9AozyT
+         tcsef9Ma5zjbbYrpNKwkNv7ykW2H2wWM6V6s/Jlb4A1IipfLVZRiuy/HCZFe/MBz3R
+         LjAX8N7uf6FXP1goGPBZDBVCMySM497mrLdpM/6DNHhdxIyuAzhMGAAFIJq0AuOgY7
+         e9Ev1Mcmo9W4eBoENrq/Od2LF+NqaRqEKIl6rVAtZf4unZX5oNr58HwOBSW7KoxDlz
+         mxF/pLWMXrCTg8pqnZQTSj670XhL2Nxe5cIXMbr7YqiYls/iqvQpn1hEC6S+Ib2B01
+         U8tQext7fuj0g==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Peter Oskolkov <posk@google.com>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@redhat.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -60,43 +40,52 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Peter Oskolkov <posk@posk.io>,
         Joel Fernandes <joel@joelfernandes.org>,
         Andrew Morton <akpm@linux-foundation.org>,
+        Andrei Vagin <avagin@google.com>,
         Jim Newsome <jnewsome@torproject.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [RFC PATCH v0.1 0/9] UMCG early preview/RFC patchset
+In-Reply-To: <CAPNVh5fhkgscs44Lpj3DPBrA9NrhFohUpRwpT2iMM1BDBcLW4A@mail.gmail.com>
+References: <20210520183614.1227046-1-posk@google.com>
+ <87mtspm7fe.fsf@meer.lwn.net>
+ <CAPNVh5eV+CtY74_JMv6_Bm5aCVBh_F9hkWLT6v3BT=H0UwodUg@mail.gmail.com>
+ <87eee0m8ez.fsf@meer.lwn.net>
+ <CAPNVh5fhkgscs44Lpj3DPBrA9NrhFohUpRwpT2iMM1BDBcLW4A@mail.gmail.com>
+Date:   Fri, 21 May 2021 13:17:55 -0600
+Message-ID: <87wnrrlwv0.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, May 21, 2021 at 11:44 AM Andrei Vagin <avagin@google.com> wrote:
->
->
->
-> On Thu, May 20, 2021 at 11:36 AM Peter Oskolkov <posk@google.com> wrote:
->>
->> As indicated earlier in the FUTEX_SWAP patchset:
->>
->> https://lore.kernel.org/lkml/20200722234538.166697-1-posk@posk.io/
->
->
-> Hi Peter,
->
-> Do you have benchmark results? How fast is it compared with futex_swap and the google switchto?
+Peter Oskolkov <posk@google.com> writes:
 
-Hi Andrei,
+> On Fri, May 21, 2021 at 8:08 AM Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> [...]
+>> Documentation patches can help to guide that discussion; they also need
+>> to be reviewed as well.  So yes, I think they should be present from the
+>> beginning.  But then, that's the position I'm supposed to take :)  This
+>> is a big change to the kernel's system-call API, I don't think that
+>> there can be a proper discussion of that without a description of what
+>> you're trying to do.
+>
+> Hi Jon,
+>
+> There are doc comments in patches 2 and 7 in umcg.c documenting the
+> new syscalls. That said, I'll prepare a separate doc patch - I guess
+> I'll add Documentation/scheduler/umcg.rst, unless you tell me there is
+> a better place to do that. ETA mid-to-late next week.
 
-I did not run benchmarks on the same machine/kernel, but umcg_swap
-between "core" tasks (your use case for gVisor) should be somewhat
-faster than futex_swap, as there is no reading from the userspace and
-no futex hash lookup/dequeue ops; umcg_swap should be slower than
-switchto_switch because umcg_swap does go through ttwu+schedule, which
-switchto_switch bypasses.
+Yes, I saw those; they are a bit terse at best.  What are the "worker
+states"?  What's a "UMCG group"?  Yes, all this can be worked out by
+pounding one's head against the code for long enough, but you're asking
+a fair amount of your reviewers.
 
-I expect that if UMCG is merged in a form similar to what I posted, we
-will explore how to make UMCG context switches faster in later
-patches.
+A good overall description would be nice, perhaps for the userspace-api
+book.  But *somebody* is also going to have to write real man pages for
+all these system calls; if you provided those, the result should be a
+good description of how you expect this subsystem to work.
 
 Thanks,
-Peter
 
->
-> Thanks,
-> Andrei
+jon
