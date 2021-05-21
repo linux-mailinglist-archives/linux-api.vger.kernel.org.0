@@ -2,182 +2,168 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1927838C629
-	for <lists+linux-api@lfdr.de>; Fri, 21 May 2021 14:03:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65D0C38C7B1
+	for <lists+linux-api@lfdr.de>; Fri, 21 May 2021 15:19:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233795AbhEUMEc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 May 2021 08:04:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36650 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229512AbhEUMEb (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 08:04:31 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B7C0C061574;
-        Fri, 21 May 2021 05:03:08 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1621598586;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=73BhFEnE00P9EM7W8eDaV9ldNZ5X2YG6+sa8CRY7WwM=;
-        b=L25M5Zy6NkFNkFQBlo/MBFeB3Te3ulISHeXqR86FRlFCq8g6/qWe3XZ9/pwYYjkJ12704U
-        q9oPzIRd0iGCg1nN3gY3diTI02L0JBvQSKYWgiTFFoH/ZRePhtv2PYf5UsVDswqr7r+DwQ
-        5zJSxlP4BkqdpHUn2cv5x/8f/hXJK1toxKuforc+pQ193/UextIlqjeeGgMSPvANL+vr+p
-        iIg82cUse/0NSDAEaaV0af9Jig2TmfUADkV5cd6/QqMDOfDCFqcqJJG1rZUTNJ//Gl1gZp
-        6xZSGTHaCw0eAQW50oGNbgCMYvaZatY6jV+UxSdVx1J3k1tD1GaaYLHk1Vh6Qw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1621598586;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=73BhFEnE00P9EM7W8eDaV9ldNZ5X2YG6+sa8CRY7WwM=;
-        b=HEmmL6baryu7dXT+7IwyJWArNzSXr5UDH3j4xtBPCKgdAYRJHTQFzFPDgdTW9qDXx7Dk2G
-        3SF1UU9zwPJyrCBA==
-To:     Nitesh Lal <nilal@redhat.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>
-Cc:     Ingo Molnar <mingo@kernel.org>, linux-kernel@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, jbrandeb@kernel.org,
-        "frederic\@kernel.org" <frederic@kernel.org>,
-        "juri.lelli\@redhat.com" <juri.lelli@redhat.com>,
-        Alex Belits <abelits@marvell.com>,
-        "linux-api\@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "bhelgaas\@google.com" <bhelgaas@google.com>,
-        "linux-pci\@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "rostedt\@goodmis.org" <rostedt@goodmis.org>,
-        "peterz\@infradead.org" <peterz@infradead.org>,
-        "davem\@davemloft.net" <davem@davemloft.net>,
-        "akpm\@linux-foundation.org" <akpm@linux-foundation.org>,
-        "sfr\@canb.auug.org.au" <sfr@canb.auug.org.au>,
-        "stephen\@networkplumber.org" <stephen@networkplumber.org>,
-        "rppt\@linux.vnet.ibm.com" <rppt@linux.vnet.ibm.com>,
-        "jinyuqi\@huawei.com" <jinyuqi@huawei.com>,
-        "zhangshaokun\@hisilicon.com" <zhangshaokun@hisilicon.com>,
-        netdev@vger.kernel.org, chris.friesen@windriver.com,
-        Marc Zyngier <maz@kernel.org>,
-        Neil Horman <nhorman@tuxdriver.com>, pjwaskiewicz@gmail.com
-Subject: [PATCH] genirq: Provide new interfaces for affinity hints
-In-Reply-To: <87zgwo9u79.ffs@nanos.tec.linutronix.de>
-References: <20210504092340.00006c61@intel.com> <87pmxpdr32.ffs@nanos.tec.linutronix.de> <CAFki+Lkjn2VCBcLSAfQZ2PEkx-TR0Ts_jPnK9b-5ne3PUX37TQ@mail.gmail.com> <87im3gewlu.ffs@nanos.tec.linutronix.de> <CAFki+L=gp10W1ygv7zdsee=BUGpx9yPAckKr7pyo=tkFJPciEg@mail.gmail.com> <CAFki+L=eQoMq+mWhw_jVT-biyuDXpxbXY5nO+F6HvCtpbG9V2w@mail.gmail.com> <CAFki+LkB1sk3mOv4dd1D-SoPWHOs28ZwN-PqL_6xBk=Qkm40Lw@mail.gmail.com> <87zgwo9u79.ffs@nanos.tec.linutronix.de>
-Date:   Fri, 21 May 2021 14:03:06 +0200
-Message-ID: <87wnrs9tvp.ffs@nanos.tec.linutronix.de>
+        id S233317AbhEUNUu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 May 2021 09:20:50 -0400
+Received: from mx2.suse.de ([195.135.220.15]:35354 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234368AbhEUNUl (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 21 May 2021 09:20:41 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 961E3AC11;
+        Fri, 21 May 2021 13:19:17 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 5915E1F2C73; Fri, 21 May 2021 15:19:17 +0200 (CEST)
+Date:   Fri, 21 May 2021 15:19:17 +0200
+From:   Jan Kara <jack@suse.cz>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>, Matthew Bobrowski <repnop@google.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH 5/5] fanotify: Add pidfd info record support to the
+ fanotify API
+Message-ID: <20210521131917.GM18952@quack2.suse.cz>
+References: <cover.1621473846.git.repnop@google.com>
+ <48d18055deb4617d97c695a08dca77eb573097e9.1621473846.git.repnop@google.com>
+ <20210520081755.eqey4ryngngt4yqd@wittgenstein>
+ <CAOQ4uxhvD2w1i3ia=8=4iCNEYDJ3wfps6AOLdUBXVi-H9Xu-OQ@mail.gmail.com>
+ <YKd7tqiVd9ny6+oD@google.com>
+ <CAOQ4uxi6LceN+ETbF6XbbBqfAY3H+K5ZMuky1L-gh_g53TEN1A@mail.gmail.com>
+ <20210521102418.GF18952@quack2.suse.cz>
+ <CAOQ4uxh84uXAQzz2w+TD1OeDtVwBX8uhM3Pumm46YvP-Wkndag@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOQ4uxh84uXAQzz2w+TD1OeDtVwBX8uhM3Pumm46YvP-Wkndag@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The discussion about removing the side effect of irq_set_affinity_hint() of
-actually applying the cpumask (if not NULL) as affinity to the interrupt,
-unearthed a few unpleasantries:
+On Fri 21-05-21 14:10:32, Amir Goldstein wrote:
+> On Fri, May 21, 2021 at 1:24 PM Jan Kara <jack@suse.cz> wrote:
+> >
+> > On Fri 21-05-21 12:41:51, Amir Goldstein wrote:
+> > > On Fri, May 21, 2021 at 12:22 PM Matthew Bobrowski <repnop@google.com> wrote:
+> > > >
+> > > > Hey Amir/Christian,
+> > > >
+> > > > On Thu, May 20, 2021 at 04:43:48PM +0300, Amir Goldstein wrote:
+> > > > > On Thu, May 20, 2021 at 11:17 AM Christian Brauner
+> > > > > <christian.brauner@ubuntu.com> wrote:
+> > > > > > > +#define FANOTIFY_PIDFD_INFO_HDR_LEN \
+> > > > > > > +     sizeof(struct fanotify_event_info_pidfd)
+> > > > > > >
+> > > > > > >  static int fanotify_fid_info_len(int fh_len, int name_len)
+> > > > > > >  {
+> > > > > > > @@ -141,6 +143,9 @@ static int fanotify_event_info_len(unsigned int info_mode,
+> > > > > > >       if (fh_len)
+> > > > > > >               info_len += fanotify_fid_info_len(fh_len, dot_len);
+> > > > > > >
+> > > > > > > +     if (info_mode & FAN_REPORT_PIDFD)
+> > > > > > > +             info_len += FANOTIFY_PIDFD_INFO_HDR_LEN;
+> > > > > > > +
+> > > > > > >       return info_len;
+> > > > > > >  }
+> > > > > > >
+> > > > > > > @@ -401,6 +406,29 @@ static int copy_fid_info_to_user(__kernel_fsid_t *fsid,
+> > > > > > >       return info_len;
+> > > > > > >  }
+> > > > > > >
+> > > > > > > +static int copy_pidfd_info_to_user(struct pid *pid,
+> > > > > > > +                                char __user *buf,
+> > > > > > > +                                size_t count)
+> > > > > > > +{
+> > > > > > > +     struct fanotify_event_info_pidfd info = { };
+> > > > > > > +     size_t info_len = FANOTIFY_PIDFD_INFO_HDR_LEN;
+> > > > > > > +
+> > > > > > > +     if (WARN_ON_ONCE(info_len > count))
+> > > > > > > +             return -EFAULT;
+> > > > > > > +
+> > > > > > > +     info.hdr.info_type = FAN_EVENT_INFO_TYPE_PIDFD;
+> > > > > > > +     info.hdr.len = info_len;
+> > > > > > > +
+> > > > > > > +     info.pidfd = pidfd_create(pid, 0);
+> > > > > > > +     if (info.pidfd < 0)
+> > > > > > > +             info.pidfd = FAN_NOPIDFD;
+> > > > > > > +
+> > > > > > > +     if (copy_to_user(buf, &info, info_len))
+> > > > > > > +             return -EFAULT;
+> > > > > >
+> > > > > > Hm, well this kinda sucks. The caller can end up with a pidfd in their
+> > > > > > fd table and when the copy_to_user() failed they won't know what fd it
+> > > > >
+> > > > > Good catch!
+> > > >
+> > > > Super awesome catch Christian, thanks pulling this up!
+> > > >
+> > > > > But I prefer to solve it differently, because moving fd_install() to the
+> > > > > end of this function does not guarantee that copy_event_to_user()
+> > > > > won't return an error one day with dangling pidfd in fd table.
+> > > >
+> > > > I can see the angle you're approaching this from...
+> > > >
+> > > > > It might be simpler to do pidfd_create() next to create_fd() in
+> > > > > copy_event_to_user() and pass pidfd to copy_pidfd_info_to_user().
+> > > > > pidfd can be closed on error along with fd on out_close_fd label.
+> > > > >
+> > > > > You also forgot to add CAP_SYS_ADMIN check before pidfd_create()
+> > > > > (even though fanotify_init() does check for that).
+> > > >
+> > > > I didn't really understand the need for this check here given that the
+> > > > administrative bits are already being checked for in fanotify_init()
+> > > > i.e. FAN_REPORT_PIDFD can never be set for an unprivileged listener;
+> > > > thus never walking any of the pidfd_mode paths. Is this just a defense
+> > > > in depth approach here, or is it something else that I'm missing?
+> > > >
+> > >
+> > > We want to be extra careful not to create privilege escalations,
+> > > so even if the fanotify fd is leaked or intentionally passed to a less
+> > > privileged user, it cannot get an open pidfd.
+> > >
+> > > IOW, it is *much* easier to be defensive in this case than to prove
+> > > that the change cannot introduce any privilege escalations.
+> >
+> > I have no problems with being more defensive (it's certainly better than
+> > being too lax) but does it really make sence here? I mean if CAP_SYS_ADMIN
+> > task opens O_RDWR /etc/passwd and then passes this fd to unpriviledged
+> > process, that process is also free to update all the passwords.
+> > Traditionally permission checks in Unix are performed on open and then who
+> > has fd can do whatever that fd allows... I've tried to follow similar
+> > philosophy with fanotify as well and e.g. open happening as a result of
+> > fanotify path events does not check permissions either.
+> >
+> 
+> Agreed.
+> 
+> However, because we had this issue with no explicit FAN_REPORT_PID
+> we added the CAP_SYS_ADMIN check for reporting event->pid as next
+> best thing. So now that becomes weird if priv process created fanotify fd
+> and passes it to unpriv process, then unpriv process gets events with
+> pidfd but without event->pid.
+> 
+> We can change the code to:
+> 
+>         if (!capable(CAP_SYS_ADMIN) && !pidfd_mode &&
+>             task_tgid(current) != event->pid)
+>                 metadata.pid = 0;
+> 
+> So the case I decscribed above ends up reporting both pidfd
+> and event->pid to unpriv user, but that is a bit inconsistent...
 
-  1) The modular perf drivers rely on the current behaviour for the very
-     wrong reasons.
+Oh, now I see where you are coming from :) Thanks for explanation. And
+remind me please, cannot we just have internal FAN_REPORT_PID flag that
+gets set on notification group when priviledged process creates it and then
+test for that instead of CAP_SYS_ADMIN in copy_event_to_user()? It is
+mostly equivalent but I guess more in the spirit of how fanotify
+traditionally does things. Also FAN_REPORT_PIDFD could then behave in the
+same way...
 
-  2) While none of the other drivers prevents user space from changing
-     the affinity, a cursorily inspection shows that there are at least
-     expectations in some drivers.
-
-#1 needs to be cleaned up anyway, so that's not a problem
-
-#2 might result in subtle regressions especially when irqbalanced (which
-   nowadays ignores the affinity hint) is disabled.
-
-Provide new interfaces:
-
-  irq_update_affinity_hint() - Only sets the affinity hint pointer
-  irq_apply_affinity_hint()  - Set the pointer and apply the affinity to
-  			       the interrupt
-
-Make irq_set_affinity_hint() a wrapper around irq_apply_affinity_hint() and
-document it to be phased out.
-
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Link: https://lore.kernel.org/r/20210501021832.743094-1-jesse.brandeburg@intel.com
----
-Applies on:
-   git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/core
----
- include/linux/interrupt.h |   41 ++++++++++++++++++++++++++++++++++++++++-
- kernel/irq/manage.c       |    8 ++++----
- 2 files changed, 44 insertions(+), 5 deletions(-)
-
---- a/include/linux/interrupt.h
-+++ b/include/linux/interrupt.h
-@@ -328,7 +328,46 @@ extern int irq_force_affinity(unsigned i
- extern int irq_can_set_affinity(unsigned int irq);
- extern int irq_select_affinity(unsigned int irq);
- 
--extern int irq_set_affinity_hint(unsigned int irq, const struct cpumask *m);
-+extern int __irq_apply_affinity_hint(unsigned int irq, const struct cpumask *m,
-+				     bool setaffinity);
-+
-+/**
-+ * irq_update_affinity_hint - Update the affinity hint
-+ * @irq:	Interrupt to update
-+ * @cpumask:	cpumask pointer (NULL to clear the hint)
-+ *
-+ * Updates the affinity hint, but does not change the affinity of the interrupt.
-+ */
-+static inline int
-+irq_update_affinity_hint(unsigned int irq, const struct cpumask *m)
-+{
-+	return __irq_apply_affinity_hint(irq, m, true);
-+}
-+
-+/**
-+ * irq_apply_affinity_hint - Update the affinity hint and apply the provided
-+ *			     cpumask to the interrupt
-+ * @irq:	Interrupt to update
-+ * @cpumask:	cpumask pointer (NULL to clear the hint)
-+ *
-+ * Updates the affinity hint and if @cpumask is not NULL it applies it as
-+ * the affinity of that interrupt.
-+ */
-+static inline int
-+irq_apply_affinity_hint(unsigned int irq, const struct cpumask *m)
-+{
-+	return __irq_apply_affinity_hint(irq, m, true);
-+}
-+
-+/*
-+ * Deprecated. Use irq_update_affinity_hint() or irq_apply_affinity_hint()
-+ * instead.
-+ */
-+static inline int irq_set_affinity_hint(unsigned int irq, const struct cpumask *m)
-+{
-+	return irq_apply_affinity_hint(irq, cpumask);
-+}
-+
- extern int irq_update_affinity_desc(unsigned int irq,
- 				    struct irq_affinity_desc *affinity);
- 
---- a/kernel/irq/manage.c
-+++ b/kernel/irq/manage.c
-@@ -487,7 +487,8 @@ int irq_force_affinity(unsigned int irq,
- }
- EXPORT_SYMBOL_GPL(irq_force_affinity);
- 
--int irq_set_affinity_hint(unsigned int irq, const struct cpumask *m)
-+int __irq_apply_affinity_hint(unsigned int irq, const struct cpumask *m,
-+			      bool setaffinity)
- {
- 	unsigned long flags;
- 	struct irq_desc *desc = irq_get_desc_lock(irq, &flags, IRQ_GET_DESC_CHECK_GLOBAL);
-@@ -496,12 +497,11 @@ int irq_set_affinity_hint(unsigned int i
- 		return -EINVAL;
- 	desc->affinity_hint = m;
- 	irq_put_desc_unlock(desc, flags);
--	/* set the initial affinity to prevent every interrupt being on CPU0 */
--	if (m)
-+	if (m && setaffinity)
- 		__irq_set_affinity(irq, m, false);
- 	return 0;
- }
--EXPORT_SYMBOL_GPL(irq_set_affinity_hint);
-+EXPORT_SYMBOL_GPL(__irq_apply_affinity_hint);
- 
- static void irq_affinity_notify(struct work_struct *work)
- {
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
