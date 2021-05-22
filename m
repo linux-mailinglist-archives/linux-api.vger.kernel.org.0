@@ -2,132 +2,219 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A23E638D206
-	for <lists+linux-api@lfdr.de>; Sat, 22 May 2021 01:32:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B69438D29F
+	for <lists+linux-api@lfdr.de>; Sat, 22 May 2021 02:41:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230236AbhEUXeS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 May 2021 19:34:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51840 "EHLO
+        id S230369AbhEVAnE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 May 2021 20:43:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230111AbhEUXeN (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 19:34:13 -0400
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 446FDC0613ED
-        for <linux-api@vger.kernel.org>; Fri, 21 May 2021 16:32:49 -0700 (PDT)
-Received: by mail-pf1-x429.google.com with SMTP id 22so15634163pfv.11
-        for <linux-api@vger.kernel.org>; Fri, 21 May 2021 16:32:49 -0700 (PDT)
+        with ESMTP id S230345AbhEVAnD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 20:43:03 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74347C06138B
+        for <linux-api@vger.kernel.org>; Fri, 21 May 2021 17:41:38 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id e15so5211169plh.1
+        for <linux-api@vger.kernel.org>; Fri, 21 May 2021 17:41:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=purBBHjJnoQ+HpnRHXn+Th4dctTqM8bSVhw3bAuqGs4=;
-        b=aWsjNqpez8oLW0RT/qXktnN35upgDQ7UKoWLrDB8iFJ8esRxu4/34GiIXBntvbp8b4
-         5qLRwOuGiu44/olUYXlGnYc146HRjVrFVzZKWpx6ie8SVS7qBED5f5SHYrMI7JSu9d5o
-         s2gJbc9KAMVekm4GnvpecPkbvSzv6F6D+L5/KS/yAClIRyTsjEGjLTBKRdrqZOxuqVFs
-         XjKWLxku7Dkrr8M17vk01IzlCMZJuxuuGIx/QE73Eo5SOZAZmBevFut9E0SrrYyb0+fE
-         0SWeXQa22iehYljGjp3pePEYFcA3pwYr4M5P6q3F5zNJzTQvYXwZmUJlSpBo1J+rLKwK
-         ZRZA==
+        bh=Do8tBe8MKGvYLGV0ouciDO6sfr90+7VufJDC8snUPEk=;
+        b=hCTGdwYm3KHmZLXIA1s8Tt3EsWtz80guhJoj3GO2oLO8j5KzTDQq2hlyJrXqAd0zjT
+         aPPflvT3D6YRn3NHGIc5bxuqSfybPikU8aLvzX16G2RBA9nAFBbJulcJrjxb+TXal6YY
+         /lUkFk9Za8oabPvSiNP0xCi4AxZ5OResG4uAG1TRQyTuuyB6CRhs042hR3I934F1jpQb
+         rjiBCHAYSs26BTKg3doorTrc8A6uOd9/YU56ywgcrWWQnP1vN/dIQZj9+ePH9lT0xM9q
+         UvOT+Ole23+i1JwUR4NnfHFv+6SjQb+5Nw1/RHl6ketq7o3FBwMdWrV5UjY+5iwEFjSb
+         TxEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=purBBHjJnoQ+HpnRHXn+Th4dctTqM8bSVhw3bAuqGs4=;
-        b=mkBytwdSTV9gflvaAU4j65ctoBlbU2Epo4bKcfwakRg3TpjGnV69vip1oGEbTsTRBW
-         7wwKk+rAm5GA6jzZnXUaMJWr7QnkLbJw4SHN85nxPRH8loIXiP5TDl341vDnHQq8INpw
-         UvxsBUySbi3fbzPKcDIFWpOMrbbQh0jO/0JvwIkEunbaX8WWC6hb2/33A/Y07atZV750
-         xdfPVDcD3FahDlDllepU7NlmK0h/vxxjWohaSnx0JkygqdTiNa4oLZwdPVPQuRn8X+YU
-         bc6RuwVSJ/f9ri93sY2bjzB4eHSHVgJ3IEf6u6CDb1Degz8ocblwrtrCu7q/kjXpgSBS
-         pFLg==
-X-Gm-Message-State: AOAM531jzF70zh+ka7IxrNm5I6+RpCxGdQoGa/1LyRcnP7eesz99XvZw
-        D4OucI17hm6sMfNJuT06c3xUIg==
-X-Google-Smtp-Source: ABdhPJydSlJCNoG+KrdyFcXEOpcpP5VHqL8MUvR4KgIkpv8AsTDKsd+OBDpnABzWFRAWVFaMhH0eqg==
-X-Received: by 2002:a63:e4a:: with SMTP id 10mr1214993pgo.67.1621639968566;
-        Fri, 21 May 2021 16:32:48 -0700 (PDT)
+        bh=Do8tBe8MKGvYLGV0ouciDO6sfr90+7VufJDC8snUPEk=;
+        b=Q0RtVHzZlQRqyQcsE7oGMYurbM3OGIq5KAhJYZ/lm2a/3Q3mV36Z6+sX0/XoEDZZ9e
+         KjyN4fCBVVOA6LZ4cH1gHi3Ai3OcUD0/4PVYL3LA4pSqiAlIcTo3ZsEsxRjI66hymag+
+         NclF2z+DyH44iReC2Z1AtJvn1v6q9gWX3GFTUb8/IxrPP4kCeSmVdbIlaX8E7g/LnBmw
+         uK8FdjNmsE92e1NHrC9M+D6r0qXmve8VnatXRTEEaGgRPs2rBuRelKnU4dXzyRoVo2Tv
+         iJMafnxm1/HIrno6a7IHpm0mDyP5SXYwvZGGO9IZsVv8Qf9TDdWKolaiUksW+Y3iUjeD
+         EJEg==
+X-Gm-Message-State: AOAM5337G9mbW/+XYRuhHZGGeHgQ5HczGpDL8K3sOw51bYjM3SJiFUdL
+        vJi0zhrryok3aJJ5w6wq6XzR8Q==
+X-Google-Smtp-Source: ABdhPJwruN4mWdld13VPy8AKXxOMTRznaYTadIQjWS3DfaRCZLXeGt3kBdpujYY7DJ1j4bEwdFfZEg==
+X-Received: by 2002:a17:902:aa4c:b029:ee:ec17:89f with SMTP id c12-20020a170902aa4cb02900eeec17089fmr14665947plr.11.1621644097595;
+        Fri, 21 May 2021 17:41:37 -0700 (PDT)
 Received: from google.com ([2401:fa00:9:211:42b2:c084:8468:626a])
-        by smtp.gmail.com with ESMTPSA id b124sm5096735pfa.27.2021.05.21.16.32.45
+        by smtp.gmail.com with ESMTPSA id x19sm5259561pgj.66.2021.05.21.17.41.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 May 2021 16:32:47 -0700 (PDT)
-Date:   Sat, 22 May 2021 09:32:36 +1000
+        Fri, 21 May 2021 17:41:36 -0700 (PDT)
+Date:   Sat, 22 May 2021 10:41:24 +1000
 From:   Matthew Bobrowski <repnop@google.com>
 To:     Jan Kara <jack@suse.cz>
-Cc:     amir73il@gmail.com, christian.brauner@ubuntu.com,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH 0/5] Add pidfd support to the fanotify API
-Message-ID: <YKhDFCUWX7iU7AzM@google.com>
-References: <cover.1621473846.git.repnop@google.com>
- <20210520135527.GD18952@quack2.suse.cz>
- <YKeIR+LiSXqUHL8Q@google.com>
- <20210521104056.GG18952@quack2.suse.cz>
+Cc:     Amir Goldstein <amir73il@gmail.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH 5/5] fanotify: Add pidfd info record support to the
+ fanotify API
+Message-ID: <YKhTNCyQLlqaz3yC@google.com>
+References: <48d18055deb4617d97c695a08dca77eb573097e9.1621473846.git.repnop@google.com>
+ <20210520081755.eqey4ryngngt4yqd@wittgenstein>
+ <CAOQ4uxhvD2w1i3ia=8=4iCNEYDJ3wfps6AOLdUBXVi-H9Xu-OQ@mail.gmail.com>
+ <YKd7tqiVd9ny6+oD@google.com>
+ <CAOQ4uxi6LceN+ETbF6XbbBqfAY3H+K5ZMuky1L-gh_g53TEN1A@mail.gmail.com>
+ <20210521102418.GF18952@quack2.suse.cz>
+ <CAOQ4uxh84uXAQzz2w+TD1OeDtVwBX8uhM3Pumm46YvP-Wkndag@mail.gmail.com>
+ <20210521131917.GM18952@quack2.suse.cz>
+ <CAOQ4uxiA77_P5vtv7e83g0+9d7B5W9ZTE4GfQEYbWmfT1rA=VA@mail.gmail.com>
+ <20210521151415.GP18952@quack2.suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210521104056.GG18952@quack2.suse.cz>
+In-Reply-To: <20210521151415.GP18952@quack2.suse.cz>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, May 21, 2021 at 12:40:56PM +0200, Jan Kara wrote:
-> On Fri 21-05-21 20:15:35, Matthew Bobrowski wrote:
-> > On Thu, May 20, 2021 at 03:55:27PM +0200, Jan Kara wrote:
-> > There's one thing that I'd like to mention, and it's something in
-> > regards to the overall approach we've taken that I'm not particularly
-> > happy about and I'd like to hear all your thoughts. Basically, with
-> > this approach the pidfd creation is done only once an event has been
-> > queued and the notification worker wakes up and picks up the event
-> > from the queue processes it. There's a subtle latency introduced when
-> > taking such an approach which at times leads to pidfd creation
-> > failures. As in, by the time pidfd_create() is called the struct pid
-> > has already been reaped, which then results in FAN_NOPIDFD being
-> > returned in the pidfd info record.
+On Fri, May 21, 2021 at 05:14:15PM +0200, Jan Kara wrote:
+> On Fri 21-05-21 16:52:08, Amir Goldstein wrote:
+> > On Fri, May 21, 2021 at 4:19 PM Jan Kara <jack@suse.cz> wrote:
+> > >
+> > > On Fri 21-05-21 14:10:32, Amir Goldstein wrote:
+> > > > On Fri, May 21, 2021 at 1:24 PM Jan Kara <jack@suse.cz> wrote:
+> > > > >
+> > > > > On Fri 21-05-21 12:41:51, Amir Goldstein wrote:
+> > > > > > On Fri, May 21, 2021 at 12:22 PM Matthew Bobrowski <repnop@google.com> wrote:
+> > > > > > >
+> > > > > > > Hey Amir/Christian,
+> > > > > > >
+> > > > > > > On Thu, May 20, 2021 at 04:43:48PM +0300, Amir Goldstein wrote:
+> > > > > > > > On Thu, May 20, 2021 at 11:17 AM Christian Brauner
+> > > > > > > > <christian.brauner@ubuntu.com> wrote:
+> > > > > > > > > > +#define FANOTIFY_PIDFD_INFO_HDR_LEN \
+> > > > > > > > > > +     sizeof(struct fanotify_event_info_pidfd)
+> > > > > > > > > >
+> > > > > > > > > >  static int fanotify_fid_info_len(int fh_len, int name_len)
+> > > > > > > > > >  {
+> > > > > > > > > > @@ -141,6 +143,9 @@ static int fanotify_event_info_len(unsigned int info_mode,
+> > > > > > > > > >       if (fh_len)
+> > > > > > > > > >               info_len += fanotify_fid_info_len(fh_len, dot_len);
+> > > > > > > > > >
+> > > > > > > > > > +     if (info_mode & FAN_REPORT_PIDFD)
+> > > > > > > > > > +             info_len += FANOTIFY_PIDFD_INFO_HDR_LEN;
+> > > > > > > > > > +
+> > > > > > > > > >       return info_len;
+> > > > > > > > > >  }
+> > > > > > > > > >
+> > > > > > > > > > @@ -401,6 +406,29 @@ static int copy_fid_info_to_user(__kernel_fsid_t *fsid,
+> > > > > > > > > >       return info_len;
+> > > > > > > > > >  }
+> > > > > > > > > >
+> > > > > > > > > > +static int copy_pidfd_info_to_user(struct pid *pid,
+> > > > > > > > > > +                                char __user *buf,
+> > > > > > > > > > +                                size_t count)
+> > > > > > > > > > +{
+> > > > > > > > > > +     struct fanotify_event_info_pidfd info = { };
+> > > > > > > > > > +     size_t info_len = FANOTIFY_PIDFD_INFO_HDR_LEN;
+> > > > > > > > > > +
+> > > > > > > > > > +     if (WARN_ON_ONCE(info_len > count))
+> > > > > > > > > > +             return -EFAULT;
+> > > > > > > > > > +
+> > > > > > > > > > +     info.hdr.info_type = FAN_EVENT_INFO_TYPE_PIDFD;
+> > > > > > > > > > +     info.hdr.len = info_len;
+> > > > > > > > > > +
+> > > > > > > > > > +     info.pidfd = pidfd_create(pid, 0);
+> > > > > > > > > > +     if (info.pidfd < 0)
+> > > > > > > > > > +             info.pidfd = FAN_NOPIDFD;
+> > > > > > > > > > +
+> > > > > > > > > > +     if (copy_to_user(buf, &info, info_len))
+> > > > > > > > > > +             return -EFAULT;
+> > > > > > > > >
+> > > > > > > > > Hm, well this kinda sucks. The caller can end up with a pidfd in their
+> > > > > > > > > fd table and when the copy_to_user() failed they won't know what fd it
+> > > > > > > >
+> > > > > > > > Good catch!
+> > > > > > >
+> > > > > > > Super awesome catch Christian, thanks pulling this up!
+> > > > > > >
+> > > > > > > > But I prefer to solve it differently, because moving fd_install() to the
+> > > > > > > > end of this function does not guarantee that copy_event_to_user()
+> > > > > > > > won't return an error one day with dangling pidfd in fd table.
+> > > > > > >
+> > > > > > > I can see the angle you're approaching this from...
+> > > > > > >
+> > > > > > > > It might be simpler to do pidfd_create() next to create_fd() in
+> > > > > > > > copy_event_to_user() and pass pidfd to copy_pidfd_info_to_user().
+> > > > > > > > pidfd can be closed on error along with fd on out_close_fd label.
+> > > > > > > >
+> > > > > > > > You also forgot to add CAP_SYS_ADMIN check before pidfd_create()
+> > > > > > > > (even though fanotify_init() does check for that).
+> > > > > > >
+> > > > > > > I didn't really understand the need for this check here given that the
+> > > > > > > administrative bits are already being checked for in fanotify_init()
+> > > > > > > i.e. FAN_REPORT_PIDFD can never be set for an unprivileged listener;
+> > > > > > > thus never walking any of the pidfd_mode paths. Is this just a defense
+> > > > > > > in depth approach here, or is it something else that I'm missing?
+> > > > > > >
+> > > > > >
+> > > > > > We want to be extra careful not to create privilege escalations,
+> > > > > > so even if the fanotify fd is leaked or intentionally passed to a less
+> > > > > > privileged user, it cannot get an open pidfd.
+> > > > > >
+> > > > > > IOW, it is *much* easier to be defensive in this case than to prove
+> > > > > > that the change cannot introduce any privilege escalations.
+> > > > >
+> > > > > I have no problems with being more defensive (it's certainly better than
+> > > > > being too lax) but does it really make sence here? I mean if CAP_SYS_ADMIN
+> > > > > task opens O_RDWR /etc/passwd and then passes this fd to unpriviledged
+> > > > > process, that process is also free to update all the passwords.
+> > > > > Traditionally permission checks in Unix are performed on open and then who
+> > > > > has fd can do whatever that fd allows... I've tried to follow similar
+> > > > > philosophy with fanotify as well and e.g. open happening as a result of
+> > > > > fanotify path events does not check permissions either.
+> > > > >
+> > > >
+> > > > Agreed.
+> > > >
+> > > > However, because we had this issue with no explicit FAN_REPORT_PID
+> > > > we added the CAP_SYS_ADMIN check for reporting event->pid as next
+> > > > best thing. So now that becomes weird if priv process created fanotify fd
+> > > > and passes it to unpriv process, then unpriv process gets events with
+> > > > pidfd but without event->pid.
+> > > >
+> > > > We can change the code to:
+> > > >
+> > > >         if (!capable(CAP_SYS_ADMIN) && !pidfd_mode &&
+> > > >             task_tgid(current) != event->pid)
+> > > >                 metadata.pid = 0;
+> > > >
+> > > > So the case I decscribed above ends up reporting both pidfd
+> > > > and event->pid to unpriv user, but that is a bit inconsistent...
+> > >
+> > > Oh, now I see where you are coming from :) Thanks for explanation. And
+> > > remind me please, cannot we just have internal FAN_REPORT_PID flag that
+> > > gets set on notification group when priviledged process creates it and then
+> > > test for that instead of CAP_SYS_ADMIN in copy_event_to_user()? It is
+> > > mostly equivalent but I guess more in the spirit of how fanotify
+> > > traditionally does things. Also FAN_REPORT_PIDFD could then behave in the
+> > > same way...
 > > 
-> > Having said that, I'm wondering what the thoughts are on doing pidfd
-> > creation earlier on i.e. in the event allocation stages? This way, the
-> > struct pid is pinned earlier on and rather than FAN_NOPIDFD being
-> > returned in the pidfd info record because the struct pid has been
-> > already reaped, userspace application will atleast receive a valid
-> > pidfd which can be used to check whether the process still exists or
-> > not. I think it'll just set the expectation better from an API
-> > perspective.
+> > Yes, we can. In fact, we should call the internal flag FANOTIFY_UNPRIV
+> > as it described the situation better than FAN_REPORT_PID.
+> > This happens to be how I implemented it in the initial RFC [1].
+> > 
+> > It's not easy to follow our entire discussion on this thread, but I think
+> > we can resurrect the FANOTIFY_UNPRIV internal flag and use it
+> > in this case instead of CAP_SYS_ADMIN.
 > 
-> Yes, there's this race. OTOH if FAN_NOPIDFD is returned, the listener can
-> be sure the original process doesn't exist anymore. So is it useful to
-> still receive pidfd of the dead process?
+> I think at that time we were discussing how to handle opening of fds and
+> we decided to not depend on FANOTIFY_UNPRIV and then I didn't see a value
+> of that flag because I forgot about pids... Anyway now I agree to go for
+> that flag. :)
 
-Well, you're absolutely right. However, FWIW I was approaching this
-from two different angles:
+Resurrection of this flag SGTM! However, it also sounds like we need
+to land that series before this PIDFD series or simply incorporate the
+UNPRIV flag into this one.
 
-1) I wanted to keep the pattern in which the listener checks for the
-   existence/recycling of the process consistent. As in, the listener
-   would receive the pidfd, then send the pidfd a signal via
-   pidfd_send_signal() and check for -ESRCH which clearly indicates
-   that the target process has terminated.
-
-2) I didn't want to mask failed pidfd creation because of early
-   process termination and other possible failures behind a single
-   FAN_NOPIDFD. IOW, if we take the -ESRCH approach above, the
-   listener can take clear corrective branches as what's to be done
-   next if a race is to have been detected, whereas simply returning
-   FAN_NOPIDFD at this stage can mean multiple things.
-
-Now that I've written the above and keeping in mind that we'd like to
-refrain from doing anything in the event allocation stages, perhaps we
-could introduce a different error code for detecting early process
-termination while attempting to construct the info record. WDYT?
-
-> Also opening pidfd in the context of event generation is problematic
-> for two reasons:
->
-> 1) Technically, the context under which events are generated can be rather
-> constrained (various locks held etc.). Adding relatively complex operations
-> such as pidfd creation is going to introduce strange lock dependencies,
-> possibly deadlocks.
-> 
-> 2) Doing pidfd generation in the context of the process generating event is
-> problematic - you don't know in which fd_table the fd will live. Also that
-> process is unfairly penalized (performance wise) because someone else is
-> listening. We try to keep overhead of event generation as low as possible
-> for this reason.
-
-Fair points, thanks for sharing your view. :)
+Will chat with Amir to get this done.
 
 /M
