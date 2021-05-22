@@ -2,219 +2,114 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B69438D29F
-	for <lists+linux-api@lfdr.de>; Sat, 22 May 2021 02:41:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BAD638D2DD
+	for <lists+linux-api@lfdr.de>; Sat, 22 May 2021 03:58:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230369AbhEVAnE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 May 2021 20:43:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38842 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230345AbhEVAnD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 May 2021 20:43:03 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74347C06138B
-        for <linux-api@vger.kernel.org>; Fri, 21 May 2021 17:41:38 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id e15so5211169plh.1
-        for <linux-api@vger.kernel.org>; Fri, 21 May 2021 17:41:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Do8tBe8MKGvYLGV0ouciDO6sfr90+7VufJDC8snUPEk=;
-        b=hCTGdwYm3KHmZLXIA1s8Tt3EsWtz80guhJoj3GO2oLO8j5KzTDQq2hlyJrXqAd0zjT
-         aPPflvT3D6YRn3NHGIc5bxuqSfybPikU8aLvzX16G2RBA9nAFBbJulcJrjxb+TXal6YY
-         /lUkFk9Za8oabPvSiNP0xCi4AxZ5OResG4uAG1TRQyTuuyB6CRhs042hR3I934F1jpQb
-         rjiBCHAYSs26BTKg3doorTrc8A6uOd9/YU56ywgcrWWQnP1vN/dIQZj9+ePH9lT0xM9q
-         UvOT+Ole23+i1JwUR4NnfHFv+6SjQb+5Nw1/RHl6ketq7o3FBwMdWrV5UjY+5iwEFjSb
-         TxEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Do8tBe8MKGvYLGV0ouciDO6sfr90+7VufJDC8snUPEk=;
-        b=Q0RtVHzZlQRqyQcsE7oGMYurbM3OGIq5KAhJYZ/lm2a/3Q3mV36Z6+sX0/XoEDZZ9e
-         KjyN4fCBVVOA6LZ4cH1gHi3Ai3OcUD0/4PVYL3LA4pSqiAlIcTo3ZsEsxRjI66hymag+
-         NclF2z+DyH44iReC2Z1AtJvn1v6q9gWX3GFTUb8/IxrPP4kCeSmVdbIlaX8E7g/LnBmw
-         uK8FdjNmsE92e1NHrC9M+D6r0qXmve8VnatXRTEEaGgRPs2rBuRelKnU4dXzyRoVo2Tv
-         iJMafnxm1/HIrno6a7IHpm0mDyP5SXYwvZGGO9IZsVv8Qf9TDdWKolaiUksW+Y3iUjeD
-         EJEg==
-X-Gm-Message-State: AOAM5337G9mbW/+XYRuhHZGGeHgQ5HczGpDL8K3sOw51bYjM3SJiFUdL
-        vJi0zhrryok3aJJ5w6wq6XzR8Q==
-X-Google-Smtp-Source: ABdhPJwruN4mWdld13VPy8AKXxOMTRznaYTadIQjWS3DfaRCZLXeGt3kBdpujYY7DJ1j4bEwdFfZEg==
-X-Received: by 2002:a17:902:aa4c:b029:ee:ec17:89f with SMTP id c12-20020a170902aa4cb02900eeec17089fmr14665947plr.11.1621644097595;
-        Fri, 21 May 2021 17:41:37 -0700 (PDT)
-Received: from google.com ([2401:fa00:9:211:42b2:c084:8468:626a])
-        by smtp.gmail.com with ESMTPSA id x19sm5259561pgj.66.2021.05.21.17.41.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 May 2021 17:41:36 -0700 (PDT)
-Date:   Sat, 22 May 2021 10:41:24 +1000
-From:   Matthew Bobrowski <repnop@google.com>
-To:     Jan Kara <jack@suse.cz>
-Cc:     Amir Goldstein <amir73il@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH 5/5] fanotify: Add pidfd info record support to the
- fanotify API
-Message-ID: <YKhTNCyQLlqaz3yC@google.com>
-References: <48d18055deb4617d97c695a08dca77eb573097e9.1621473846.git.repnop@google.com>
- <20210520081755.eqey4ryngngt4yqd@wittgenstein>
- <CAOQ4uxhvD2w1i3ia=8=4iCNEYDJ3wfps6AOLdUBXVi-H9Xu-OQ@mail.gmail.com>
- <YKd7tqiVd9ny6+oD@google.com>
- <CAOQ4uxi6LceN+ETbF6XbbBqfAY3H+K5ZMuky1L-gh_g53TEN1A@mail.gmail.com>
- <20210521102418.GF18952@quack2.suse.cz>
- <CAOQ4uxh84uXAQzz2w+TD1OeDtVwBX8uhM3Pumm46YvP-Wkndag@mail.gmail.com>
- <20210521131917.GM18952@quack2.suse.cz>
- <CAOQ4uxiA77_P5vtv7e83g0+9d7B5W9ZTE4GfQEYbWmfT1rA=VA@mail.gmail.com>
- <20210521151415.GP18952@quack2.suse.cz>
+        id S230486AbhEVB7l (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 May 2021 21:59:41 -0400
+Received: from mga03.intel.com ([134.134.136.65]:6339 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230371AbhEVB7l (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 21 May 2021 21:59:41 -0400
+IronPort-SDR: tHeQdk5oT7sL4UaAgu8mD6ZspjcLNbF8qkxf1f1A7erTV42XuBd3g7fxtKwZOh9msq3p3vo3W5
+ usx89uXfcvww==
+X-IronPort-AV: E=McAfee;i="6200,9189,9991"; a="201660914"
+X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; 
+   d="scan'208";a="201660914"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2021 18:58:16 -0700
+IronPort-SDR: IS1a1WjJpDP/oMTDY7yRQl6/vLIwFp04ZRQAZ3ziPozZVC+dJYHKaJK5SF3eo2OzyVejVGMg9A
+ Ua3eWG277zeg==
+X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; 
+   d="scan'208";a="395558527"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.254.177.76]) ([10.254.177.76])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2021 18:58:14 -0700
+Subject: Re: [PATCH v27 13/31] mm: Move VM_UFFD_MINOR_BIT from 37 to 38
+To:     Axel Rasmussen <axelrasmussen@google.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        Linux MM <linux-mm@kvack.org>, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        Peter Xu <peterx@redhat.com>
+References: <20210521221211.29077-1-yu-cheng.yu@intel.com>
+ <20210521221211.29077-14-yu-cheng.yu@intel.com>
+ <CAJHvVcjsecq-nOVE1ew1ctG2UpK0F0d0MjNncUgK0L=R4eyDqA@mail.gmail.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <74057265-c148-98bf-9ada-21328b160227@intel.com>
+Date:   Fri, 21 May 2021 18:58:14 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210521151415.GP18952@quack2.suse.cz>
+In-Reply-To: <CAJHvVcjsecq-nOVE1ew1ctG2UpK0F0d0MjNncUgK0L=R4eyDqA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, May 21, 2021 at 05:14:15PM +0200, Jan Kara wrote:
-> On Fri 21-05-21 16:52:08, Amir Goldstein wrote:
-> > On Fri, May 21, 2021 at 4:19 PM Jan Kara <jack@suse.cz> wrote:
-> > >
-> > > On Fri 21-05-21 14:10:32, Amir Goldstein wrote:
-> > > > On Fri, May 21, 2021 at 1:24 PM Jan Kara <jack@suse.cz> wrote:
-> > > > >
-> > > > > On Fri 21-05-21 12:41:51, Amir Goldstein wrote:
-> > > > > > On Fri, May 21, 2021 at 12:22 PM Matthew Bobrowski <repnop@google.com> wrote:
-> > > > > > >
-> > > > > > > Hey Amir/Christian,
-> > > > > > >
-> > > > > > > On Thu, May 20, 2021 at 04:43:48PM +0300, Amir Goldstein wrote:
-> > > > > > > > On Thu, May 20, 2021 at 11:17 AM Christian Brauner
-> > > > > > > > <christian.brauner@ubuntu.com> wrote:
-> > > > > > > > > > +#define FANOTIFY_PIDFD_INFO_HDR_LEN \
-> > > > > > > > > > +     sizeof(struct fanotify_event_info_pidfd)
-> > > > > > > > > >
-> > > > > > > > > >  static int fanotify_fid_info_len(int fh_len, int name_len)
-> > > > > > > > > >  {
-> > > > > > > > > > @@ -141,6 +143,9 @@ static int fanotify_event_info_len(unsigned int info_mode,
-> > > > > > > > > >       if (fh_len)
-> > > > > > > > > >               info_len += fanotify_fid_info_len(fh_len, dot_len);
-> > > > > > > > > >
-> > > > > > > > > > +     if (info_mode & FAN_REPORT_PIDFD)
-> > > > > > > > > > +             info_len += FANOTIFY_PIDFD_INFO_HDR_LEN;
-> > > > > > > > > > +
-> > > > > > > > > >       return info_len;
-> > > > > > > > > >  }
-> > > > > > > > > >
-> > > > > > > > > > @@ -401,6 +406,29 @@ static int copy_fid_info_to_user(__kernel_fsid_t *fsid,
-> > > > > > > > > >       return info_len;
-> > > > > > > > > >  }
-> > > > > > > > > >
-> > > > > > > > > > +static int copy_pidfd_info_to_user(struct pid *pid,
-> > > > > > > > > > +                                char __user *buf,
-> > > > > > > > > > +                                size_t count)
-> > > > > > > > > > +{
-> > > > > > > > > > +     struct fanotify_event_info_pidfd info = { };
-> > > > > > > > > > +     size_t info_len = FANOTIFY_PIDFD_INFO_HDR_LEN;
-> > > > > > > > > > +
-> > > > > > > > > > +     if (WARN_ON_ONCE(info_len > count))
-> > > > > > > > > > +             return -EFAULT;
-> > > > > > > > > > +
-> > > > > > > > > > +     info.hdr.info_type = FAN_EVENT_INFO_TYPE_PIDFD;
-> > > > > > > > > > +     info.hdr.len = info_len;
-> > > > > > > > > > +
-> > > > > > > > > > +     info.pidfd = pidfd_create(pid, 0);
-> > > > > > > > > > +     if (info.pidfd < 0)
-> > > > > > > > > > +             info.pidfd = FAN_NOPIDFD;
-> > > > > > > > > > +
-> > > > > > > > > > +     if (copy_to_user(buf, &info, info_len))
-> > > > > > > > > > +             return -EFAULT;
-> > > > > > > > >
-> > > > > > > > > Hm, well this kinda sucks. The caller can end up with a pidfd in their
-> > > > > > > > > fd table and when the copy_to_user() failed they won't know what fd it
-> > > > > > > >
-> > > > > > > > Good catch!
-> > > > > > >
-> > > > > > > Super awesome catch Christian, thanks pulling this up!
-> > > > > > >
-> > > > > > > > But I prefer to solve it differently, because moving fd_install() to the
-> > > > > > > > end of this function does not guarantee that copy_event_to_user()
-> > > > > > > > won't return an error one day with dangling pidfd in fd table.
-> > > > > > >
-> > > > > > > I can see the angle you're approaching this from...
-> > > > > > >
-> > > > > > > > It might be simpler to do pidfd_create() next to create_fd() in
-> > > > > > > > copy_event_to_user() and pass pidfd to copy_pidfd_info_to_user().
-> > > > > > > > pidfd can be closed on error along with fd on out_close_fd label.
-> > > > > > > >
-> > > > > > > > You also forgot to add CAP_SYS_ADMIN check before pidfd_create()
-> > > > > > > > (even though fanotify_init() does check for that).
-> > > > > > >
-> > > > > > > I didn't really understand the need for this check here given that the
-> > > > > > > administrative bits are already being checked for in fanotify_init()
-> > > > > > > i.e. FAN_REPORT_PIDFD can never be set for an unprivileged listener;
-> > > > > > > thus never walking any of the pidfd_mode paths. Is this just a defense
-> > > > > > > in depth approach here, or is it something else that I'm missing?
-> > > > > > >
-> > > > > >
-> > > > > > We want to be extra careful not to create privilege escalations,
-> > > > > > so even if the fanotify fd is leaked or intentionally passed to a less
-> > > > > > privileged user, it cannot get an open pidfd.
-> > > > > >
-> > > > > > IOW, it is *much* easier to be defensive in this case than to prove
-> > > > > > that the change cannot introduce any privilege escalations.
-> > > > >
-> > > > > I have no problems with being more defensive (it's certainly better than
-> > > > > being too lax) but does it really make sence here? I mean if CAP_SYS_ADMIN
-> > > > > task opens O_RDWR /etc/passwd and then passes this fd to unpriviledged
-> > > > > process, that process is also free to update all the passwords.
-> > > > > Traditionally permission checks in Unix are performed on open and then who
-> > > > > has fd can do whatever that fd allows... I've tried to follow similar
-> > > > > philosophy with fanotify as well and e.g. open happening as a result of
-> > > > > fanotify path events does not check permissions either.
-> > > > >
-> > > >
-> > > > Agreed.
-> > > >
-> > > > However, because we had this issue with no explicit FAN_REPORT_PID
-> > > > we added the CAP_SYS_ADMIN check for reporting event->pid as next
-> > > > best thing. So now that becomes weird if priv process created fanotify fd
-> > > > and passes it to unpriv process, then unpriv process gets events with
-> > > > pidfd but without event->pid.
-> > > >
-> > > > We can change the code to:
-> > > >
-> > > >         if (!capable(CAP_SYS_ADMIN) && !pidfd_mode &&
-> > > >             task_tgid(current) != event->pid)
-> > > >                 metadata.pid = 0;
-> > > >
-> > > > So the case I decscribed above ends up reporting both pidfd
-> > > > and event->pid to unpriv user, but that is a bit inconsistent...
-> > >
-> > > Oh, now I see where you are coming from :) Thanks for explanation. And
-> > > remind me please, cannot we just have internal FAN_REPORT_PID flag that
-> > > gets set on notification group when priviledged process creates it and then
-> > > test for that instead of CAP_SYS_ADMIN in copy_event_to_user()? It is
-> > > mostly equivalent but I guess more in the spirit of how fanotify
-> > > traditionally does things. Also FAN_REPORT_PIDFD could then behave in the
-> > > same way...
-> > 
-> > Yes, we can. In fact, we should call the internal flag FANOTIFY_UNPRIV
-> > as it described the situation better than FAN_REPORT_PID.
-> > This happens to be how I implemented it in the initial RFC [1].
-> > 
-> > It's not easy to follow our entire discussion on this thread, but I think
-> > we can resurrect the FANOTIFY_UNPRIV internal flag and use it
-> > in this case instead of CAP_SYS_ADMIN.
+On 5/21/2021 3:25 PM, Axel Rasmussen wrote:
+> This seems reasonable to me. The particular bit used isn't so
+> important from my perspective. I can't think of a way this would break
+> backward compatibility or such. So:
 > 
-> I think at that time we were discussing how to handle opening of fds and
-> we decided to not depend on FANOTIFY_UNPRIV and then I didn't see a value
-> of that flag because I forgot about pids... Anyway now I agree to go for
-> that flag. :)
+> Reviewed-by: Axel Rasmussen <axelrasmussen@google.com>
 
-Resurrection of this flag SGTM! However, it also sounds like we need
-to land that series before this PIDFD series or simply incorporate the
-UNPRIV flag into this one.
+Thanks!
 
-Will chat with Amir to get this done.
+Yu-cheng
 
-/M
+> 
+> On Fri, May 21, 2021 at 3:13 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>>
+>> To introduce VM_SHADOW_STACK as VM_HIGH_ARCH_BIT (37), and make all
+>> VM_HIGH_ARCH_BITs stay together, move VM_UFFD_MINOR_BIT from 37 to 38.
+>>
+>> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+>> Cc: Axel Rasmussen <axelrasmussen@google.com>
+>> Cc: Peter Xu <peterx@redhat.com>
+>> Cc: Mike Kravetz <mike.kravetz@oracle.com>
+>> ---
+>>   include/linux/mm.h | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/include/linux/mm.h b/include/linux/mm.h
+>> index c274f75efcf9..923f89b9f1b5 100644
+>> --- a/include/linux/mm.h
+>> +++ b/include/linux/mm.h
+>> @@ -373,7 +373,7 @@ extern unsigned int kobjsize(const void *objp);
+>>   #endif
+>>
+>>   #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_MINOR
+>> -# define VM_UFFD_MINOR_BIT     37
+>> +# define VM_UFFD_MINOR_BIT     38
+>>   # define VM_UFFD_MINOR         BIT(VM_UFFD_MINOR_BIT)  /* UFFD minor faults */
+>>   #else /* !CONFIG_HAVE_ARCH_USERFAULTFD_MINOR */
+>>   # define VM_UFFD_MINOR         VM_NONE
+>> --
+>> 2.21.0
+>>
+
