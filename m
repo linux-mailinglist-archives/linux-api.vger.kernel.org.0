@@ -2,114 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BAD638D2DD
-	for <lists+linux-api@lfdr.de>; Sat, 22 May 2021 03:58:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59F1C38D422
+	for <lists+linux-api@lfdr.de>; Sat, 22 May 2021 09:17:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230486AbhEVB7l (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 May 2021 21:59:41 -0400
-Received: from mga03.intel.com ([134.134.136.65]:6339 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230371AbhEVB7l (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 21 May 2021 21:59:41 -0400
-IronPort-SDR: tHeQdk5oT7sL4UaAgu8mD6ZspjcLNbF8qkxf1f1A7erTV42XuBd3g7fxtKwZOh9msq3p3vo3W5
- usx89uXfcvww==
-X-IronPort-AV: E=McAfee;i="6200,9189,9991"; a="201660914"
-X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; 
-   d="scan'208";a="201660914"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2021 18:58:16 -0700
-IronPort-SDR: IS1a1WjJpDP/oMTDY7yRQl6/vLIwFp04ZRQAZ3ziPozZVC+dJYHKaJK5SF3eo2OzyVejVGMg9A
- Ua3eWG277zeg==
-X-IronPort-AV: E=Sophos;i="5.82,319,1613462400"; 
-   d="scan'208";a="395558527"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.254.177.76]) ([10.254.177.76])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2021 18:58:14 -0700
-Subject: Re: [PATCH v27 13/31] mm: Move VM_UFFD_MINOR_BIT from 37 to 38
-To:     Axel Rasmussen <axelrasmussen@google.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux MM <linux-mm@kvack.org>, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        id S229951AbhEVHSW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 22 May 2021 03:18:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53812 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229935AbhEVHSV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 22 May 2021 03:18:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1621667816;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=iE5kXnU1bSfbyfhUY7SBg1/m6Gfmn7ASSYypDQN8NXc=;
+        b=C2ZrUT5EjjezSgmXsufb+g7D4QFFSdVNfLYGg1LQS9K8IU0kNxoSA/GvVMSlDsm9iz5YV5
+        AQt/KwQI8Bkk+ukod9Eo5cye6gQNVqq+D3hxOJjU/OYx5+171ZYs/XKWLgchcF6OetfB0/
+        SzIeLj/oTvxUZHppYhFXN2JzMon5qVI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-302-rDC1RYf7NDmYYJ7YCWCSsQ-1; Sat, 22 May 2021 03:16:52 -0400
+X-MC-Unique: rDC1RYf7NDmYYJ7YCWCSsQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F6F21007476;
+        Sat, 22 May 2021 07:16:50 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (ovpn-113-228.ams2.redhat.com [10.36.113.228])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id C750B46;
+        Sat, 22 May 2021 07:16:46 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Len Brown <lenb@kernel.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Peter Xu <peterx@redhat.com>
-References: <20210521221211.29077-1-yu-cheng.yu@intel.com>
- <20210521221211.29077-14-yu-cheng.yu@intel.com>
- <CAJHvVcjsecq-nOVE1ew1ctG2UpK0F0d0MjNncUgK0L=R4eyDqA@mail.gmail.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <74057265-c148-98bf-9ada-21328b160227@intel.com>
-Date:   Fri, 21 May 2021 18:58:14 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+        Dave Hansen <dave.hansen@intel.com>,
+        Dave Hansen via Libc-alpha <libc-alpha@sourceware.org>,
+        Rich Felker <dalias@libc.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Kyle Huey <me@kylehuey.com>, Borislav Petkov <bp@alien8.de>,
+        Keno Fischer <keno@juliacomputing.com>,
+        Arjan van de Ven <arjan@linux.intel.com>,
+        Willy Tarreau <w@1wt.eu>
+Subject: Re: Candidate Linux ABI for Intel AMX and hypothetical new related
+ features
+References: <20210415044258.GA6318@zn.tnic> <20210419191539.GH9093@zn.tnic>
+        <CAJvTdK=VnG94ECcRVoUi8HrCbVEKc8X4_JmRTkqe+vTttf0Wsg@mail.gmail.com>
+        <20210419215809.GJ9093@zn.tnic>
+        <CAJvTdKn6JHo02karEs0e5g+6SimS5VUcXKjCkX35WY+xkgAgxw@mail.gmail.com>
+        <YIMmwhEr46VPAZa4@zn.tnic>
+        <CAJvTdKnhXnynybS4eNEF_EtF26auyb-mhKLNd1D9_zvCrchZsw@mail.gmail.com>
+        <874kf11yoz.ffs@nanos.tec.linutronix.de>
+        <CAJvTdKkYp+zP_9tna6YsrOz2_nmEUDLJaL_i-SNog0m2T9wZ=Q@mail.gmail.com>
+        <87k0ntazyn.ffs@nanos.tec.linutronix.de>
+        <37833625-3e6b-5d93-cc4d-26164d06a0c6@intel.com>
+        <CAJvTdKmqzO4P9k3jqRA=dR+B7yV72hZCiyC8HGQxDKZBnXgzZQ@mail.gmail.com>
+        <9c8138eb-3956-e897-ed4e-426bf6663c11@intel.com>
+        <87pmxk87th.fsf@oldenburg.str.redhat.com>
+        <939ec057-3851-d8fb-7b45-993fa07c4cb5@intel.com>
+        <87r1i06ow2.fsf@oldenburg.str.redhat.com>
+        <263a58a9-26d5-4e55-b3e1-3718baf1b81d@www.fastmail.com>
+        <87k0nraonu.ffs@nanos.tec.linutronix.de>
+        <CAJvTdK=A64DQXjYkZgPebWb-V_p_HAM+jTZRLTyi1qrP9kucMg@mail.gmail.com>
+        <878s47aeni.ffs@nanos.tec.linutronix.de>
+        <CAJvTdK=Ws1QvBvdx50OSmAi0vBX49KZZHUoiMFbhUUEPmjGmBw@mail.gmail.com>
+Date:   Sat, 22 May 2021 09:16:44 +0200
+In-Reply-To: <CAJvTdK=Ws1QvBvdx50OSmAi0vBX49KZZHUoiMFbhUUEPmjGmBw@mail.gmail.com>
+        (Len Brown's message of "Fri, 21 May 2021 19:31:36 -0400")
+Message-ID: <877djr5jc3.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <CAJHvVcjsecq-nOVE1ew1ctG2UpK0F0d0MjNncUgK0L=R4eyDqA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 5/21/2021 3:25 PM, Axel Rasmussen wrote:
-> This seems reasonable to me. The particular bit used isn't so
-> important from my perspective. I can't think of a way this would break
-> backward compatibility or such. So:
-> 
-> Reviewed-by: Axel Rasmussen <axelrasmussen@google.com>
+* Len Brown:
 
-Thanks!
+> A. per-task.  If we do it this way, then we will likely wind up
+> mandating a GET at the start of every routine in every library that
+> touches AMX, and potentially also a PUT.  This is because the library
+> has no idea what thread called it.  The plus is that this will address
+> the "used once and sits on a buffer for the rest of the process
+> lifetime' scenario.  The minus is that high performance users will be
+> executing thousands of unnecessary system calls that have zero value.
 
-Yu-cheng
+We could revive the KTLS proposal (userspace donates memory for use by
+the kernel & vDSO), and the thread could reserve (on-stack) buffer space
+for kernel use for the duration of the AMX computation.  There would be
+a pointer to that space in the KTLS area, set upon entry of the AMX
+region, and cleared upon exit.  It's not extremely cheap (unbounded
+alloca has a stack probing loop nowadays).  But no system call is
+required.
 
-> 
-> On Fri, May 21, 2021 at 3:13 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->>
->> To introduce VM_SHADOW_STACK as VM_HIGH_ARCH_BIT (37), and make all
->> VM_HIGH_ARCH_BITs stay together, move VM_UFFD_MINOR_BIT from 37 to 38.
->>
->> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
->> Cc: Axel Rasmussen <axelrasmussen@google.com>
->> Cc: Peter Xu <peterx@redhat.com>
->> Cc: Mike Kravetz <mike.kravetz@oracle.com>
->> ---
->>   include/linux/mm.h | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/include/linux/mm.h b/include/linux/mm.h
->> index c274f75efcf9..923f89b9f1b5 100644
->> --- a/include/linux/mm.h
->> +++ b/include/linux/mm.h
->> @@ -373,7 +373,7 @@ extern unsigned int kobjsize(const void *objp);
->>   #endif
->>
->>   #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_MINOR
->> -# define VM_UFFD_MINOR_BIT     37
->> +# define VM_UFFD_MINOR_BIT     38
->>   # define VM_UFFD_MINOR         BIT(VM_UFFD_MINOR_BIT)  /* UFFD minor faults */
->>   #else /* !CONFIG_HAVE_ARCH_USERFAULTFD_MINOR */
->>   # define VM_UFFD_MINOR         VM_NONE
->> --
->> 2.21.0
->>
+Thanks,
+Florian
 
