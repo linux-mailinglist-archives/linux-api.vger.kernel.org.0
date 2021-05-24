@@ -2,101 +2,117 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A07D438E2B3
-	for <lists+linux-api@lfdr.de>; Mon, 24 May 2021 10:49:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C80B638E659
+	for <lists+linux-api@lfdr.de>; Mon, 24 May 2021 14:11:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232458AbhEXIuy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 May 2021 04:50:54 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33584 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232623AbhEXIum (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 24 May 2021 04:50:42 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1621846152; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=jpE9YGrCjrEpHsW3uIKMlS6XsBu4wdObU8VGSrpMBhU=;
-        b=TQSoNE8TH8Qw/0nXV4p4prxRuZHyAGLtNsnT71NNZvBuaWH1gbkvAxRXfDZgQA8sIbDwma
-        5gMLetD5QwQVxTGM2c7fk/d+RT5EF66jMlM8U4RxKXXYtVeZzdFGJ6Zcji4MFCaQgiWwIX
-        DNVbY0eJfqLQwXRIWG6U1KWtOzPfoKo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1621846152;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=jpE9YGrCjrEpHsW3uIKMlS6XsBu4wdObU8VGSrpMBhU=;
-        b=9CU/XjoMjdxhBrK3qpgq8XzBbWs1+NP4iDMf3mat82Qp4+bb6af3LxjTm6UrVH0MarzXe2
-        XdS5UarcZ3H309CA==
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id B955EABB1;
-        Mon, 24 May 2021 08:49:12 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 7E08C1F2CA2; Mon, 24 May 2021 10:49:12 +0200 (CEST)
-Date:   Mon, 24 May 2021 10:49:12 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     Sascha Hauer <s.hauer@pengutronix.de>
-Cc:     Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Christoph Hellwig <hch@infradead.org>, kernel@pengutronix.de,
-        Jan Kara <jack@suse.com>, Richard Weinberger <richard@nod.at>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Subject: Re: [PATCH v3 0/2] quota: Add mountpath based quota support
-Message-ID: <20210524084912.GC32705@quack2.suse.cz>
-References: <20210304123541.30749-1-s.hauer@pengutronix.de>
- <20210316112916.GA23532@quack2.suse.cz>
- <20210512110149.GA31495@quack2.suse.cz>
- <20210512150346.GQ19819@pengutronix.de>
+        id S232785AbhEXMNA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 24 May 2021 08:13:00 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48876 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S232764AbhEXMM7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 24 May 2021 08:12:59 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14OC3acd064090;
+        Mon, 24 May 2021 08:11:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=references : from : to :
+ cc : subject : in-reply-to : date : message-id : mime-version :
+ content-type; s=pp1; bh=jDHvzDPLw37qvWxMMMl22IELHnVxoaPzZ6JtzlWI908=;
+ b=SJPrli0+IkbmRFk9J4TVYUQ9oTUsCnugHY+jb07cRa6SaN/5IE1wKauLFhW43Hk7xe/V
+ zyNwZkjH1NWDjQ30tLtnGUvUX7bQXG1oYTl5X9yDuSQwnktLr0RNwbZNT7icfoLcAOtc
+ ggY/JPsj8eGsp7SuQYmyofR3hfBBwrvIyGRdaTASOaw6ZhQIB9zApD+7nSQGXaABPx8h
+ l39/keCb+8DV9mKWERBDbNF2yuOX9D0sTf/Flj3wLtL79Epenv8noBAbCOW5mqbEcEmE
+ /K3eTuFFyXdpbLIU6sJBaUnKIgLDNQMtREEVJPu2pEM/6Hbu87YhuHpRDzm2AvvLohkQ Sg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 38ra87tv7s-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 24 May 2021 08:11:11 -0400
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14OC3cxS064226;
+        Mon, 24 May 2021 08:11:11 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com [169.53.41.122])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 38ra87tv77-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 24 May 2021 08:11:11 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+        by ppma04dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 14OC73q7017246;
+        Mon, 24 May 2021 12:11:10 GMT
+Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com [9.57.198.29])
+        by ppma04dal.us.ibm.com with ESMTP id 38psk8te9w-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 24 May 2021 12:11:10 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com [9.57.199.111])
+        by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 14OCB9hT30671232
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 24 May 2021 12:11:09 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 76D2FAC065;
+        Mon, 24 May 2021 12:11:09 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id D70B7AC05F;
+        Mon, 24 May 2021 12:11:07 +0000 (GMT)
+Received: from TP480.linux.ibm.com (unknown [9.65.94.141])
+        by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+        Mon, 24 May 2021 12:11:07 +0000 (GMT)
+References: <20200611081203.995112-1-npiggin@gmail.com>
+ <20210518231331.GA8464@altlinux.org>
+ <1621385544.nttlk5qugb.astroid@bobo.none>
+ <1621400263.gf0mbqhkrf.astroid@bobo.none> <87a6oo4312.fsf@linux.ibm.com>
+ <87k0nr6ezw.fsf@oldenburg.str.redhat.com> <87eedz3li3.fsf@linux.ibm.com>
+ <20210521205204.GA24309@altlinux.org>
+User-agent: mu4e 1.4.10; emacs 27.2
+From:   Matheus Castanho <msc@linux.ibm.com>
+To:     "Dmitry V. Levin" <ldv@altlinux.org>
+Cc:     Florian Weimer <fweimer@redhat.com>,
+        Matheus Castanho via Libc-alpha <libc-alpha@sourceware.org>,
+        Nicholas Piggin <npiggin@gmail.com>, musl@lists.openwall.com,
+        linux-api@vger.kernel.org, libc-dev@lists.llvm.org,
+        linuxppc-dev@lists.ozlabs.org
+Subject: Re: Linux powerpc new system call instruction and ABI
+In-reply-to: <20210521205204.GA24309@altlinux.org>
+Date:   Mon, 24 May 2021 09:11:06 -0300
+Message-ID: <87a6ok2uxx.fsf@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210512150346.GQ19819@pengutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: dXh77QyFFxp6TKxbR80PJ57BQbWLHVqR
+X-Proofpoint-ORIG-GUID: SsS5K6-b9wIyy35LWBJsEB91NJaxHQWR
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
+ definitions=2021-05-24_07:2021-05-24,2021-05-24 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ impostorscore=0 mlxscore=0 spamscore=0 lowpriorityscore=0 suspectscore=0
+ bulkscore=0 phishscore=0 adultscore=0 priorityscore=1501 mlxlogscore=999
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2105240080
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed 12-05-21 17:03:46, Sascha Hauer wrote:
-> On Wed, May 12, 2021 at 01:01:49PM +0200, Jan Kara wrote:
-> > Added a few more CCs.
-> > 
-> > On Tue 16-03-21 12:29:16, Jan Kara wrote:
-> > > On Thu 04-03-21 13:35:38, Sascha Hauer wrote:
-> > > > Current quotactl syscall uses a path to a block device to specify the
-> > > > filesystem to work on which makes it unsuitable for filesystems that
-> > > > do not have a block device. This series adds a new syscall quotactl_path()
-> > > > which replaces the path to the block device with a mountpath, but otherwise
-> > > > behaves like original quotactl.
-> > > > 
-> > > > This is done to add quota support to UBIFS. UBIFS quota support has been
-> > > > posted several times with different approaches to put the mountpath into
-> > > > the existing quotactl() syscall until it has been suggested to make it a
-> > > > new syscall instead, so here it is.
-> > > > 
-> > > > I'm not posting the full UBIFS quota series here as it remains unchanged
-> > > > and I'd like to get feedback to the new syscall first. For those interested
-> > > > the most recent series can be found here: https://lwn.net/Articles/810463/
-> > > 
-> > > Thanks. I've merged the two patches into my tree and will push them to
-> > > Linus for the next merge window.
-> > 
-> > So there are some people at LWN whining that quotactl_path() has no dirfd
-> > and flags arguments for specifying the target. Somewhat late in the game
-> > but since there's no major release with the syscall and no userspace using
-> > it, I think we could still change that. What do you think? What they
-> > suggest does make some sense. But then, rather then supporting API for
-> > million-and-one ways in which I may wish to lookup a fs object, won't it be
-> > better to just pass 'fd' in the new syscall (it may well be just O_PATH fd
-> > AFAICT) and be done with that?
-> 
-> This sounds like a much cleaner interface to me. If we agree on this I
-> wouldn't mind spinning this patch for another few rounds.
 
-So the syscall is currently disabled in Linus' tree. Will you send a patch
-for new fd-based quotactl variant?
+Dmitry V. Levin <ldv@altlinux.org> writes:
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> On Fri, May 21, 2021 at 05:00:36PM -0300, Matheus Castanho wrote:
+>> Florian Weimer <fweimer@redhat.com> writes:
+>> > * Matheus Castanho via Libc-alpha:
+>> >> From: Nicholas Piggin <npiggin@gmail.com>
+>> >> Subject: [PATCH 1/1] powerpc: Fix handling of scv return error codes
+>> >>
+>> >> When using scv on templated ASM syscalls, current code interprets any
+>> >> negative return value as error, but the only valid error codes are in
+>> >> the range -4095..-1 according to the ABI.
+>> >>
+>> >> Reviewed-by: Matheus Castanho <msc@linux.ibm.com>
+>> >
+>> > Please reference bug 27892 in the commit message.  I'd also appreciate a
+>> > backport to the 2.33 release branch (where you need to add NEWS manually
+>> > to add the bug reference).
+>>
+>> No problem. [BZ #27892] appended to the commit title. I'll make sure to
+>> backport to 2.33 as well.
+>
+> Could you also mention in the commit message that the change fixes
+> 'signal.gen.test' strace test where it was observed initially?
+
+Sure, no problem. I'll commit it later today.
+
+--
+Matheus Castanho
