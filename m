@@ -2,128 +2,296 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E438F38F470
-	for <lists+linux-api@lfdr.de>; Mon, 24 May 2021 22:33:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD23738F562
+	for <lists+linux-api@lfdr.de>; Tue, 25 May 2021 00:11:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233183AbhEXUfY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 May 2021 16:35:24 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37182 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232929AbhEXUfY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 24 May 2021 16:35:24 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14OK3nfj185241;
-        Mon, 24 May 2021 16:33:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=references : from : to :
- cc : subject : in-reply-to : date : message-id : mime-version :
- content-type; s=pp1; bh=FZyIYp++kLFd7+FZB7WEKrumdZ2aEQqCESOGbyT5Kxg=;
- b=gzA11SQ/YmnbE/fTjFn3zFl6e4vEnPt3lXbRRoYCVuYBcdi6mi3FYoUOLGIL3LQaVTlO
- MZ8ZBOV6Ku6HNxyalbBbGi1F5QVVAYJ5T8LN5AWOVAjrr0dXiElnI/OBa8fEFf+rzKQZ
- JgmyOdUyvrWc8UaTObizkwtGwemhCKutQVf6oUj3u+gEp0QQ6TbJWeeU0nf2g+rjP29M
- i8/T0hr5RsrAgO1+qUM/0xyRjIzR1cRluaiUYFUgwHpL+niwB/VkFKfDqzrL1sbk3iPK
- p6iZfxNVMMQW2Rw4QB0xoBS0CE57L2QBcMq28SnKQWrMajB5iDt5/0cqP6Sn3DriDBIg yw== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 38rjjp0yqt-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 24 May 2021 16:33:32 -0400
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14OK3ohP185380;
-        Mon, 24 May 2021 16:33:31 -0400
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com [169.55.91.170])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 38rjjp0yqj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 24 May 2021 16:33:31 -0400
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
-        by ppma02wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 14OKHPkF018856;
-        Mon, 24 May 2021 20:33:30 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
-        by ppma02wdc.us.ibm.com with ESMTP id 38psk99ta7-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 24 May 2021 20:33:30 +0000
-Received: from b03ledav005.gho.boulder.ibm.com (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
-        by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 14OKXTHR21496212
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 24 May 2021 20:33:29 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8741CBE053;
-        Mon, 24 May 2021 20:33:29 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 743DFBE058;
-        Mon, 24 May 2021 20:33:26 +0000 (GMT)
-Received: from TP480.linux.ibm.com (unknown [9.65.94.141])
-        by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Mon, 24 May 2021 20:33:26 +0000 (GMT)
-References: <20200611081203.995112-1-npiggin@gmail.com>
- <20210518231331.GA8464@altlinux.org>
- <1621385544.nttlk5qugb.astroid@bobo.none>
- <1621400263.gf0mbqhkrf.astroid@bobo.none> <87a6oo4312.fsf@linux.ibm.com>
- <87k0nr6ezw.fsf@oldenburg.str.redhat.com> <87eedz3li3.fsf@linux.ibm.com>
- <20210521205204.GA24309@altlinux.org> <87a6ok2uxx.fsf@linux.ibm.com>
-User-agent: mu4e 1.4.10; emacs 27.2
-From:   Matheus Castanho <msc@linux.ibm.com>
-To:     Matheus Castanho <msc@linux.ibm.com>
-Cc:     "Dmitry V. Levin" <ldv@altlinux.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        Matheus Castanho via Libc-alpha <libc-alpha@sourceware.org>,
-        linux-api@vger.kernel.org, musl@lists.openwall.com,
-        Nicholas Piggin <npiggin@gmail.com>, libc-dev@lists.llvm.org,
-        linuxppc-dev@lists.ozlabs.org
-Subject: Re: Linux powerpc new system call instruction and ABI
-In-reply-to: <87a6ok2uxx.fsf@linux.ibm.com>
-Date:   Mon, 24 May 2021 17:33:24 -0300
-Message-ID: <87im3727or.fsf@linux.ibm.com>
+        id S233855AbhEXWNH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 24 May 2021 18:13:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32562 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232911AbhEXWNG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 24 May 2021 18:13:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1621894297;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=N8N4a4sR/ZZ+d0ZXMR2fsZf/7WdgnIcboilxPxwn9wk=;
+        b=RYedZiQ8EuPQPvbWCKObm99UeLDoMyytbxREB/wzXLyxXLMXTp6qyDxILv/IH0FcqFI/Y0
+        nqXFqLu9GLa/jDJPKoZLKoGfvPgK+RpFH37UCuEpzVAJok2kHH1NKnUQmSBY0Yc/Pcam82
+        J2k1xHLHGqZYV3AbkQGTbp3maiTNfxE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-152-gqspFXgqMq2ZjzhsNVaoHQ-1; Mon, 24 May 2021 18:11:35 -0400
+X-MC-Unique: gqspFXgqMq2ZjzhsNVaoHQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E40B1005D50;
+        Mon, 24 May 2021 22:11:33 +0000 (UTC)
+Received: from x1.home.shazbot.org (ovpn-113-225.phx2.redhat.com [10.3.113.225])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 0548F5D71D;
+        Mon, 24 May 2021 22:11:29 +0000 (UTC)
+Date:   Mon, 24 May 2021 16:11:29 -0600
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Shenming Lu <lushenming@huawei.com>
+Cc:     Eric Auger <eric.auger@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Will Deacon <will@kernel.org>,
+        "Robin Murphy" <robin.murphy@arm.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        "Jean-Philippe Brucker" <jean-philippe@linaro.org>,
+        <kvm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <iommu@lists.linux-foundation.org>, <linux-api@vger.kernel.org>,
+        Kevin Tian <kevin.tian@intel.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>, <yi.l.liu@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Barry Song <song.bao.hua@hisilicon.com>,
+        <wanghaibin.wang@huawei.com>, <yuzenghui@huawei.com>
+Subject: Re: [RFC PATCH v3 8/8] vfio: Add nested IOPF support
+Message-ID: <20210524161129.085503ad@x1.home.shazbot.org>
+In-Reply-To: <83747758-ceb6-b498-8d95-609fdd0d763b@huawei.com>
+References: <20210409034420.1799-1-lushenming@huawei.com>
+        <20210409034420.1799-9-lushenming@huawei.com>
+        <20210518125808.345b812c.alex.williamson@redhat.com>
+        <ea8c92a8-6e51-8be6-de19-d5e6f1d5527f@huawei.com>
+        <83747758-ceb6-b498-8d95-609fdd0d763b@huawei.com>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: ER5I-gxskURqA0q20yF-IAm9RBLnInl_
-X-Proofpoint-ORIG-GUID: eAxo70sIvYvIrIANrjlNpsJk6RtF1TSC
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
- definitions=2021-05-24_09:2021-05-24,2021-05-24 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
- priorityscore=1501 lowpriorityscore=0 mlxscore=0 mlxlogscore=999
- phishscore=0 spamscore=0 bulkscore=0 clxscore=1015 suspectscore=0
- malwarescore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2104190000 definitions=main-2105240118
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Mon, 24 May 2021 21:11:11 +0800
+Shenming Lu <lushenming@huawei.com> wrote:
 
-Matheus Castanho <msc@linux.ibm.com> writes:
+> On 2021/5/21 15:59, Shenming Lu wrote:
+> > On 2021/5/19 2:58, Alex Williamson wrote:  
+> >> On Fri, 9 Apr 2021 11:44:20 +0800
+> >> Shenming Lu <lushenming@huawei.com> wrote:
+> >>  
+> >>> To set up nested mode, drivers such as vfio_pci need to register a
+> >>> handler to receive stage/level 1 faults from the IOMMU, but since
+> >>> currently each device can only have one iommu dev fault handler,
+> >>> and if stage 2 IOPF is already enabled (VFIO_IOMMU_ENABLE_IOPF),
+> >>> we choose to update the registered handler (a consolidated one) via
+> >>> flags (set FAULT_REPORT_NESTED_L1), and further deliver the received
+> >>> stage 1 faults in the handler to the guest through a newly added
+> >>> vfio_device_ops callback.  
+> >>
+> >> Are there proposed in-kernel drivers that would use any of these
+> >> symbols?  
+> > 
+> > I hope that such as Eric's SMMUv3 Nested Stage Setup series [1] can
+> > use these symbols to consolidate the two page fault handlers into one.
+> > 
+> > [1] https://patchwork.kernel.org/project/kvm/cover/20210411114659.15051-1-eric.auger@redhat.com/
+> >   
+> >>  
+> >>> Signed-off-by: Shenming Lu <lushenming@huawei.com>
+> >>> ---
+> >>>  drivers/vfio/vfio.c             | 81 +++++++++++++++++++++++++++++++++
+> >>>  drivers/vfio/vfio_iommu_type1.c | 49 +++++++++++++++++++-
+> >>>  include/linux/vfio.h            | 12 +++++
+> >>>  3 files changed, 141 insertions(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/drivers/vfio/vfio.c b/drivers/vfio/vfio.c
+> >>> index 44c8dfabf7de..4245f15914bf 100644
+> >>> --- a/drivers/vfio/vfio.c
+> >>> +++ b/drivers/vfio/vfio.c
+> >>> @@ -2356,6 +2356,87 @@ struct iommu_domain *vfio_group_iommu_domain(struct vfio_group *group)
+> >>>  }
+> >>>  EXPORT_SYMBOL_GPL(vfio_group_iommu_domain);
+> >>>  
+> >>> +/*
+> >>> + * Register/Update the VFIO IOPF handler to receive
+> >>> + * nested stage/level 1 faults.
+> >>> + */
+> >>> +int vfio_iommu_dev_fault_handler_register_nested(struct device *dev)
+> >>> +{
+> >>> +	struct vfio_container *container;
+> >>> +	struct vfio_group *group;
+> >>> +	struct vfio_iommu_driver *driver;
+> >>> +	int ret;
+> >>> +
+> >>> +	if (!dev)
+> >>> +		return -EINVAL;
+> >>> +
+> >>> +	group = vfio_group_get_from_dev(dev);
+> >>> +	if (!group)
+> >>> +		return -ENODEV;
+> >>> +
+> >>> +	ret = vfio_group_add_container_user(group);
+> >>> +	if (ret)
+> >>> +		goto out;
+> >>> +
+> >>> +	container = group->container;
+> >>> +	driver = container->iommu_driver;
+> >>> +	if (likely(driver && driver->ops->register_handler))
+> >>> +		ret = driver->ops->register_handler(container->iommu_data, dev);
+> >>> +	else
+> >>> +		ret = -ENOTTY;
+> >>> +
+> >>> +	vfio_group_try_dissolve_container(group);
+> >>> +
+> >>> +out:
+> >>> +	vfio_group_put(group);
+> >>> +	return ret;
+> >>> +}
+> >>> +EXPORT_SYMBOL_GPL(vfio_iommu_dev_fault_handler_register_nested);
+> >>> +
+> >>> +int vfio_iommu_dev_fault_handler_unregister_nested(struct device *dev)
+> >>> +{
+> >>> +	struct vfio_container *container;
+> >>> +	struct vfio_group *group;
+> >>> +	struct vfio_iommu_driver *driver;
+> >>> +	int ret;
+> >>> +
+> >>> +	if (!dev)
+> >>> +		return -EINVAL;
+> >>> +
+> >>> +	group = vfio_group_get_from_dev(dev);
+> >>> +	if (!group)
+> >>> +		return -ENODEV;
+> >>> +
+> >>> +	ret = vfio_group_add_container_user(group);
+> >>> +	if (ret)
+> >>> +		goto out;
+> >>> +
+> >>> +	container = group->container;
+> >>> +	driver = container->iommu_driver;
+> >>> +	if (likely(driver && driver->ops->unregister_handler))
+> >>> +		ret = driver->ops->unregister_handler(container->iommu_data, dev);
+> >>> +	else
+> >>> +		ret = -ENOTTY;
+> >>> +
+> >>> +	vfio_group_try_dissolve_container(group);
+> >>> +
+> >>> +out:
+> >>> +	vfio_group_put(group);
+> >>> +	return ret;
+> >>> +}
+> >>> +EXPORT_SYMBOL_GPL(vfio_iommu_dev_fault_handler_unregister_nested);
+> >>> +
+> >>> +int vfio_transfer_iommu_fault(struct device *dev, struct iommu_fault *fault)
+> >>> +{
+> >>> +	struct vfio_device *device = dev_get_drvdata(dev);
+> >>> +
+> >>> +	if (unlikely(!device->ops->transfer))
+> >>> +		return -EOPNOTSUPP;
+> >>> +
+> >>> +	return device->ops->transfer(device->device_data, fault);
+> >>> +}
+> >>> +EXPORT_SYMBOL_GPL(vfio_transfer_iommu_fault);
+> >>> +
+> >>>  /**
+> >>>   * Module/class support
+> >>>   */
+> >>> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
+> >>> index ba2b5a1cf6e9..9d1adeddb303 100644
+> >>> --- a/drivers/vfio/vfio_iommu_type1.c
+> >>> +++ b/drivers/vfio/vfio_iommu_type1.c
+> >>> @@ -3821,13 +3821,32 @@ static int vfio_iommu_type1_dma_map_iopf(struct iommu_fault *fault, void *data)
+> >>>  	struct vfio_batch batch;
+> >>>  	struct vfio_range *range;
+> >>>  	dma_addr_t iova = ALIGN_DOWN(fault->prm.addr, PAGE_SIZE);
+> >>> -	int access_flags = 0;
+> >>> +	int access_flags = 0, nested;
+> >>>  	size_t premap_len, map_len, mapped_len = 0;
+> >>>  	unsigned long bit_offset, vaddr, pfn, i, npages;
+> >>>  	int ret;
+> >>>  	enum iommu_page_response_code status = IOMMU_PAGE_RESP_INVALID;
+> >>>  	struct iommu_page_response resp = {0};
+> >>>  
+> >>> +	if (vfio_dev_domian_nested(dev, &nested))
+> >>> +		return -ENODEV;
+> >>> +
+> >>> +	/*
+> >>> +	 * When configured in nested mode, further deliver the
+> >>> +	 * stage/level 1 faults to the guest.
+> >>> +	 */
+> >>> +	if (nested) {
+> >>> +		bool l2;
+> >>> +
+> >>> +		if (fault->type == IOMMU_FAULT_PAGE_REQ)
+> >>> +			l2 = fault->prm.flags & IOMMU_FAULT_PAGE_REQUEST_L2;
+> >>> +		if (fault->type == IOMMU_FAULT_DMA_UNRECOV)
+> >>> +			l2 = fault->event.flags & IOMMU_FAULT_UNRECOV_L2;
+> >>> +
+> >>> +		if (!l2)
+> >>> +			return vfio_transfer_iommu_fault(dev, fault);
+> >>> +	}
+> >>> +
+> >>>  	if (fault->type != IOMMU_FAULT_PAGE_REQ)
+> >>>  		return -EOPNOTSUPP;
+> >>>  
+> >>> @@ -4201,6 +4220,32 @@ static void vfio_iommu_type1_notify(void *iommu_data,
+> >>>  	wake_up_all(&iommu->vaddr_wait);
+> >>>  }
+> >>>  
+> >>> +static int vfio_iommu_type1_register_handler(void *iommu_data,
+> >>> +					     struct device *dev)
+> >>> +{
+> >>> +	struct vfio_iommu *iommu = iommu_data;
+> >>> +
+> >>> +	if (iommu->iopf_enabled)
+> >>> +		return iommu_update_device_fault_handler(dev, ~0,
+> >>> +						FAULT_REPORT_NESTED_L1);
+> >>> +	else
+> >>> +		return iommu_register_device_fault_handler(dev,
+> >>> +						vfio_iommu_type1_dma_map_iopf,
+> >>> +						FAULT_REPORT_NESTED_L1, dev);
+> >>> +}
+> >>> +
+> >>> +static int vfio_iommu_type1_unregister_handler(void *iommu_data,
+> >>> +					       struct device *dev)
+> >>> +{
+> >>> +	struct vfio_iommu *iommu = iommu_data;
+> >>> +
+> >>> +	if (iommu->iopf_enabled)
+> >>> +		return iommu_update_device_fault_handler(dev,
+> >>> +						~FAULT_REPORT_NESTED_L1, 0);
+> >>> +	else
+> >>> +		return iommu_unregister_device_fault_handler(dev);
+> >>> +}  
+> >>
+> >>
+> >> The path through vfio to register this is pretty ugly, but I don't see
+> >> any reason for the the update interfaces here, the previously
+> >> registered handler just changes its behavior.  
+> > 
+> > Yeah, this seems not an elegant way...
+> > 
+> > If IOPF(L2) enabled, the fault handler has already been registered, so for
+> > nested mode setup, we only need to change the flags of the handler in the
+> > IOMMU driver to receive L1 faults.
+> > (assume that L1 IOPF is configured after L2 IOPF)
+> > 
+> > Currently each device can only have one iommu dev fault handler, and L1
+> > and L2 IOPF are configured separately in nested mode, I am also wondering
+> > that is there a better solution for this.  
 
-> Dmitry V. Levin <ldv@altlinux.org> writes:
->
->> On Fri, May 21, 2021 at 05:00:36PM -0300, Matheus Castanho wrote:
->>> Florian Weimer <fweimer@redhat.com> writes:
->>> > * Matheus Castanho via Libc-alpha:
->>> >> From: Nicholas Piggin <npiggin@gmail.com>
->>> >> Subject: [PATCH 1/1] powerpc: Fix handling of scv return error codes
->>> >>
->>> >> When using scv on templated ASM syscalls, current code interprets any
->>> >> negative return value as error, but the only valid error codes are in
->>> >> the range -4095..-1 according to the ABI.
->>> >>
->>> >> Reviewed-by: Matheus Castanho <msc@linux.ibm.com>
->>> >
->>> > Please reference bug 27892 in the commit message.  I'd also appreciate a
->>> > backport to the 2.33 release branch (where you need to add NEWS manually
->>> > to add the bug reference).
->>>
->>> No problem. [BZ #27892] appended to the commit title. I'll make sure to
->>> backport to 2.33 as well.
->>
->> Could you also mention in the commit message that the change fixes
->> 'signal.gen.test' strace test where it was observed initially?
->
-> Sure, no problem. I'll commit it later today.
+I haven't fully read all the references, but who imposes the fact that
+there's only one fault handler per device?  If type1 could register one
+handler and the vfio-pci bus driver another for the other level, would
+we need this path through vfio-core?
 
-Since the patch falls into the less-than-15-LOC category and this is
-Nick's first contribution to glibc, looks like he doesn't need a
-copyright assignment.
+> Let me simply add, maybe there is another way for this:
+> Would it be better to set host IOPF enabled (L2 faults) in the VFIO_IOMMU_MAP_DMA
+> ioctl (no need to add a new ioctl, and we can specify whether this mapping is IOPF
+> available or statically pinned), and set guest IOPF enabled (L1 faults) in the
+> VFIO_IOMMU_SET_PASID_TABLE (from Eric's series) ioctl?
+> And we have no requirement for the sequence of these two ioctls. The first called
+> one will register the handler, and the later one will just update the handler...
 
-Pushed to master as 7de36744ee1325f35d3fe0ca079dd33c40b12267
+This is looking more and more like it belongs with the IOASID work.  I
+think Eric has shifted his focus there too.  Thanks,
 
-Backported to 2.33 via commit 0ef0e6de7fdfa18328b09ba2afb4f0112d4bdab4
+Alex
 
-Thanks,
-Matheus Castanho
