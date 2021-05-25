@@ -2,190 +2,165 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E6C739067A
-	for <lists+linux-api@lfdr.de>; Tue, 25 May 2021 18:19:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81ED2390CE8
+	for <lists+linux-api@lfdr.de>; Wed, 26 May 2021 01:21:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231839AbhEYQU5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 25 May 2021 12:20:57 -0400
-Received: from mx2.suse.de ([195.135.220.15]:39230 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231936AbhEYQU5 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 25 May 2021 12:20:57 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1621959566; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=wOLQrLx78QxIRxytGL8WQqOpzKDP90+qDZBKi8kCbGw=;
-        b=y309SESAi1IKh9bbtHJp4fLSFcTpVLXMVAi8h1rX2nvwaFl40bP0icZKI5A6i7WH7Z927u
-        WZIcIFVyPkmZ5Br9wUBCa+gxaNmtgWhAfdrQ63RJo7iVGblDoY0V1b4GjNtCBBzJvV7gRo
-        Qq6XWMHMRdiuzp1S2TLcpPFlLnoAgfQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1621959566;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=wOLQrLx78QxIRxytGL8WQqOpzKDP90+qDZBKi8kCbGw=;
-        b=5y+TOxVgDFjkcLfOrHMRqSK3Fx1gDGHi/SmX9qxvjGhVYkNru/sdFXdqV5q1hC3zMBjlcF
-        8qOp2s3GDpnc5VCw==
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 2CD5CAEAA;
-        Tue, 25 May 2021 16:19:26 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id BDC091F2C9E; Tue, 25 May 2021 18:19:25 +0200 (CEST)
-Date:   Tue, 25 May 2021 18:19:25 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Sascha Hauer <s.hauer@pengutronix.de>, Jan Kara <jack@suse.cz>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, kernel@pengutronix.de,
-        Jan Kara <jack@suse.com>, Richard Weinberger <richard@nod.at>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Subject: Re: [PATCH v3 0/2] quota: Add mountpath based quota support
-Message-ID: <20210525161925.GF4112@quack2.suse.cz>
-References: <20210304123541.30749-1-s.hauer@pengutronix.de>
- <20210316112916.GA23532@quack2.suse.cz>
- <20210512110149.GA31495@quack2.suse.cz>
- <20210512150346.GQ19819@pengutronix.de>
- <20210524084912.GC32705@quack2.suse.cz>
- <20210525072615.GR19819@pengutronix.de>
- <YKyv3sFKLKDWUZ3C@infradead.org>
+        id S229898AbhEYXWk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 25 May 2021 19:22:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54722 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229610AbhEYXWj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 25 May 2021 19:22:39 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4642C061756
+        for <linux-api@vger.kernel.org>; Tue, 25 May 2021 16:21:08 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id q25so6766359pfn.1
+        for <linux-api@vger.kernel.org>; Tue, 25 May 2021 16:21:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=N9pRtcpwEgIj6sC0tHqwYGJBlDf6VjtQs2mfFfUfl6g=;
+        b=eM5f6HsI/GmdQGh0ezMqwI/wS6K88p5V+4+nkKfgg7z9bCJVxfabyrOhNmdw00kB33
+         tCk9CY+4PJEK82DpKSgc/nd/RIW7ux57thwYKIx29lVMv+6qOXK8DT3ufc79lKKWA8vR
+         9Mc/u7M7h1ZmFQzmKYjHQSTnxQpIOZBC0Mp3Fu0/LDUIlheg42ubaR+aV9VlDKemejyv
+         iAcpZ8Zxl7NKRsUvQe/IjPsINfN2wzvmp4JAezHdvy9SeN802OHAWjHZLIpxTANGwLeL
+         /uucrr9tIwGKayjHp7CRnA0eWe9b1P36Fsgip83lycGpNuwzqEPLqPa9i/AHF2txImAS
+         uZwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=N9pRtcpwEgIj6sC0tHqwYGJBlDf6VjtQs2mfFfUfl6g=;
+        b=XxL05sWvXLSB6OBd8aFiRDF2Qk+owDNIOOpYBIdBEtSbtKetGNmYnn232VxeYxhwtq
+         KqOoD/A/ZJgpItq+eMBtHJJoNH0+Q0oZPc8erUhql76ztkgDGrDOlf55vqutQxd9q6Ao
+         bKCZ1hcN7S5B4dPBIMtyNH8NomKsHa3K7WIZYv7cr/IfV1JScU9kbbqzzF/mFYsfJEuy
+         EWFCjtaCIp1A7QYX/grUadrMqKej/M1Lug+PhdEOV/n8d1WKGC718QL8p/s3ZUGRrqWR
+         qkUkbCIWMhzG7DKRjWueWKziLKp/zRxGWGuzWPpf3BRNW75UkTEAbDL+zvq5063niIka
+         DySw==
+X-Gm-Message-State: AOAM532IhGRjgwQa4MAmQjaSqJsvRxAjRjxWc2WUV5HXg9LtBhoXifnY
+        d7lBm2r4R/iVQfRpiwlBKXVE2fitMATECg==
+X-Google-Smtp-Source: ABdhPJzTaM1dRCFm8Mp7aPTQuQDnu9Zc4/Lrm8xw3bO2GrfQex+U+F4LYKC8FIWuLHWi9Xykyn29xQ==
+X-Received: by 2002:a65:48c2:: with SMTP id o2mr21347245pgs.376.1621984867810;
+        Tue, 25 May 2021 16:21:07 -0700 (PDT)
+Received: from google.com ([2401:fa00:9:211:a122:6bc0:d8f6:9eea])
+        by smtp.gmail.com with ESMTPSA id k20sm119872pgl.72.2021.05.25.16.21.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 May 2021 16:21:06 -0700 (PDT)
+Date:   Wed, 26 May 2021 09:20:55 +1000
+From:   Matthew Bobrowski <repnop@google.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Jan Kara <jack@suse.cz>, amir73il@gmail.com,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH 0/5] Add pidfd support to the fanotify API
+Message-ID: <YK2GV7hLamMpcO8i@google.com>
+References: <cover.1621473846.git.repnop@google.com>
+ <20210520135527.GD18952@quack2.suse.cz>
+ <YKeIR+LiSXqUHL8Q@google.com>
+ <20210521104056.GG18952@quack2.suse.cz>
+ <YKhDFCUWX7iU7AzM@google.com>
+ <20210524084746.GB32705@quack2.suse.cz>
+ <20210525103133.uctijrnffehlvjr3@wittgenstein>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="YZ5djTAD1cGYuMQK"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YKyv3sFKLKDWUZ3C@infradead.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210525103133.uctijrnffehlvjr3@wittgenstein>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-
---YZ5djTAD1cGYuMQK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Tue 25-05-21 09:05:50, Christoph Hellwig wrote:
-> Adding the dfd argument should be as simple as this patch (which also
-> moves the cmd argument later to match typical calling conventions).
+On Tue, May 25, 2021 at 12:31:33PM +0200, Christian Brauner wrote:
+> On Mon, May 24, 2021 at 10:47:46AM +0200, Jan Kara wrote:
+> > On Sat 22-05-21 09:32:36, Matthew Bobrowski wrote:
+> > > On Fri, May 21, 2021 at 12:40:56PM +0200, Jan Kara wrote:
+> > > > On Fri 21-05-21 20:15:35, Matthew Bobrowski wrote:
+> > > > > On Thu, May 20, 2021 at 03:55:27PM +0200, Jan Kara wrote:
+> > > > > There's one thing that I'd like to mention, and it's something in
+> > > > > regards to the overall approach we've taken that I'm not particularly
+> > > > > happy about and I'd like to hear all your thoughts. Basically, with
+> > > > > this approach the pidfd creation is done only once an event has been
+> > > > > queued and the notification worker wakes up and picks up the event
+> > > > > from the queue processes it. There's a subtle latency introduced when
+> > > > > taking such an approach which at times leads to pidfd creation
+> > > > > failures. As in, by the time pidfd_create() is called the struct pid
+> > > > > has already been reaped, which then results in FAN_NOPIDFD being
+> > > > > returned in the pidfd info record.
+> > > > > 
+> > > > > Having said that, I'm wondering what the thoughts are on doing pidfd
+> > > > > creation earlier on i.e. in the event allocation stages? This way, the
+> > > > > struct pid is pinned earlier on and rather than FAN_NOPIDFD being
+> > > > > returned in the pidfd info record because the struct pid has been
+> > > > > already reaped, userspace application will atleast receive a valid
+> > > > > pidfd which can be used to check whether the process still exists or
+> > > > > not. I think it'll just set the expectation better from an API
+> > > > > perspective.
+> > > > 
+> > > > Yes, there's this race. OTOH if FAN_NOPIDFD is returned, the listener can
+> > > > be sure the original process doesn't exist anymore. So is it useful to
+> > > > still receive pidfd of the dead process?
+> > > 
+> > > Well, you're absolutely right. However, FWIW I was approaching this
+> > > from two different angles:
+> > > 
+> > > 1) I wanted to keep the pattern in which the listener checks for the
+> > >    existence/recycling of the process consistent. As in, the listener
+> > >    would receive the pidfd, then send the pidfd a signal via
+> > >    pidfd_send_signal() and check for -ESRCH which clearly indicates
+> > >    that the target process has terminated.
+> > > 
+> > > 2) I didn't want to mask failed pidfd creation because of early
+> > >    process termination and other possible failures behind a single
+> > >    FAN_NOPIDFD. IOW, if we take the -ESRCH approach above, the
+> > >    listener can take clear corrective branches as what's to be done
+> > >    next if a race is to have been detected, whereas simply returning
+> > >    FAN_NOPIDFD at this stage can mean multiple things.
+> > > 
+> > > Now that I've written the above and keeping in mind that we'd like to
+> > > refrain from doing anything in the event allocation stages, perhaps we
+> > > could introduce a different error code for detecting early process
+> > > termination while attempting to construct the info record. WDYT?
+> > 
+> > Sure, I wouldn't like to overengineer it but having one special fd value for
+> > "process doesn't exist anymore" and another for general "creating pidfd
+> > failed" looks OK to me.
 > 
-> It might be worth to rename the syscall to quotactlat to better match
-> other syscalls.  A flags argument doesn't make much sense here, as the
-> cmd argument can be used for extensions and is properly checked for
-> unknown values.
+> FAN_EPIDFD -> "creation failed"
+> FAN_NOPIDFD -> "no such process"
 
-Thanks for the patch! So I was actually thinking about going to completely
-fd-based syscall like ioctl(2) and then we don't have to worry about lookup
-flags or paths at all. What do people thing about attached patch?
+Yes, I was thinking something along the lines of this...
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+With the approach that I've proposed in this series, the pidfd
+creation failure trips up in pidfd_create() at the following
+condition:
 
---YZ5djTAD1cGYuMQK
-Content-Type: text/x-patch; charset=us-ascii
-Content-Disposition: attachment; filename="0001-quota-Change-quotactl_path-systcall-to-an-fd-based-o.patch"
+	if (!pid || !pid_has_task(pid, PIDTYPE_TGID))
+	   	 return -EINVAL;
 
-From 359222f02ff7b69668a493207e3b84d53195f818 Mon Sep 17 00:00:00 2001
-From: Jan Kara <jack@suse.cz>
-Date: Tue, 25 May 2021 16:07:48 +0200
-Subject: [PATCH] quota: Change quotactl_path() systcall to an fd-based one
+Specifically, the following check:
+	!pid_has_task(pid, PIDTYPE_TGID)
 
-Some users have pointed out that path-based syscalls are problematic in
-some environments and at least directory fd argument and possibly also
-resolve flags are desirable for such syscalls. Rather than
-reimplementing all details of pathname lookup and following where it may
-eventually evolve, let's go for full file descriptor based syscall
-similar to how ioctl(2) works since the beginning. Managing of quotas
-isn't performance sensitive so the extra overhead of open does not
-matter and we are able to consume O_PATH descriptors as well which makes
-open cheap anyway. Also for frequent operations (such as retrieving
-usage information for all users) we can reuse single fd and in fact get
-even better performance as well as avoiding races with possible remounts
-etc.
+In order to properly report either FAN_NOPIDFD/FAN_EPIDFD to
+userspace, AFAIK I'll have to do one of either two things to better
+distinguish between why the pidfd creation had failed:
 
-Signed-off-by: Jan Kara <jack@suse.cz>
----
- fs/quota/quota.c         | 27 ++++++++++++---------------
- include/linux/syscalls.h |  4 ++--
- 2 files changed, 14 insertions(+), 17 deletions(-)
+1) Implement an additional check in pidfd_create() that effectively
+   checks whether provided pid still holds reference to a struct pid
+   that isn't in the process of being cleaned up. If it is being
+   cleaned up, then return something like -ESRCH instead of -EINVAL so
+   that the caller, in this case fanotify, can check and set
+   FAN_NOPIDFD if -ESRCH is returned from pidfd_create(). I definitely
+   don't feel as though returning -ESRCH from the !pid_has_task(pid,
+   PIDTYPE_TGID) would be appropriate. In saying that, I'm not aware
+   of a helper by which would allow us to perform such an in-flight
+   check? Perhaps something needs to be introduced here, IDK...
 
-diff --git a/fs/quota/quota.c b/fs/quota/quota.c
-index 05e4bd9ab6d6..8450bb6186f4 100644
---- a/fs/quota/quota.c
-+++ b/fs/quota/quota.c
-@@ -968,31 +968,29 @@ SYSCALL_DEFINE4(quotactl, unsigned int, cmd, const char __user *, special,
- 	return ret;
- }
- 
--SYSCALL_DEFINE4(quotactl_path, unsigned int, cmd, const char __user *,
--		mountpoint, qid_t, id, void __user *, addr)
-+SYSCALL_DEFINE4(quotactl_fd, unsigned int, fd, unsigned int, cmd,
-+		qid_t, id, void __user *, addr)
- {
- 	struct super_block *sb;
--	struct path mountpath;
- 	unsigned int cmds = cmd >> SUBCMDSHIFT;
- 	unsigned int type = cmd & SUBCMDMASK;
-+	struct fd f = fdget_raw(fd);
- 	int ret;
- 
--	if (type >= MAXQUOTAS)
--		return -EINVAL;
-+	if (!f.file)
-+		return -EBADF;
- 
--	ret = user_path_at(AT_FDCWD, mountpoint,
--			     LOOKUP_FOLLOW | LOOKUP_AUTOMOUNT, &mountpath);
--	if (ret)
--		return ret;
--
--	sb = mountpath.mnt->mnt_sb;
-+	ret = -EINVAL;
-+	if (type >= MAXQUOTAS)
-+		goto out;
- 
- 	if (quotactl_cmd_write(cmds)) {
--		ret = mnt_want_write(mountpath.mnt);
-+		ret = mnt_want_write(f.file->f_path.mnt);
- 		if (ret)
- 			goto out;
- 	}
- 
-+	sb = f.file->f_path.mnt->mnt_sb;
- 	if (quotactl_cmd_onoff(cmds))
- 		down_write(&sb->s_umount);
- 	else
-@@ -1006,9 +1004,8 @@ SYSCALL_DEFINE4(quotactl_path, unsigned int, cmd, const char __user *,
- 		up_read(&sb->s_umount);
- 
- 	if (quotactl_cmd_write(cmds))
--		mnt_drop_write(mountpath.mnt);
-+		mnt_drop_write(f.file->f_path.mnt);
- out:
--	path_put(&mountpath);
--
-+	fdput(f);
- 	return ret;
- }
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index 050511e8f1f8..586128d5c3b8 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -485,8 +485,8 @@ asmlinkage long sys_pipe2(int __user *fildes, int flags);
- /* fs/quota.c */
- asmlinkage long sys_quotactl(unsigned int cmd, const char __user *special,
- 				qid_t id, void __user *addr);
--asmlinkage long sys_quotactl_path(unsigned int cmd, const char __user *mountpoint,
--				  qid_t id, void __user *addr);
-+asmlinkage long sys_quotactl_fd(unsigned int fd, unsigned int cmd, qid_t id,
-+				void __user *addr);
- 
- /* fs/readdir.c */
- asmlinkage long sys_getdents64(unsigned int fd,
--- 
-2.26.2
+2) Refrain from performing any further changes to pidfd_create()
+   i.e. as proposed in option 1), and manually perform the pidfd
+   creation from some kind of new fanotify helper, as suggested by you
+   here [0]. However, I'm not convinved that I like this approach as
+   we may end up slowly drifting away from pidfd creation semantics
+   over time.
 
+[0] https://www.spinics.net/lists/linux-fsdevel/msg195556.html 
 
---YZ5djTAD1cGYuMQK--
+/M
