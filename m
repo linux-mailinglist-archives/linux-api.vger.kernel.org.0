@@ -2,166 +2,109 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7835738F56F
-	for <lists+linux-api@lfdr.de>; Tue, 25 May 2021 00:12:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B5B538FBA4
+	for <lists+linux-api@lfdr.de>; Tue, 25 May 2021 09:26:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233938AbhEXWNW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 May 2021 18:13:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32026 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233956AbhEXWNU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 24 May 2021 18:13:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1621894310;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=bUla4T9MuJZxERVs6XqEyftaAb31ccR2xj+puFqVVW8=;
-        b=RArM+gLfU+cIYjBJc0Wz2vtgrcWNAON3b4j19azyrJXdjkCgqVNUya6vP16Nufg2ls3sFH
-        JnLo41ODqgySKb3RluA+XWzRijeiFR6R7j/dYWHooX/1Z7YFeYSuXb6JWSljRXS4khmov/
-        9STFF4IZhfSNLt29XGIEv++07/m+QOg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-469-fIDzMO5AMui_CYToRjykfw-1; Mon, 24 May 2021 18:11:48 -0400
-X-MC-Unique: fIDzMO5AMui_CYToRjykfw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3220803622;
-        Mon, 24 May 2021 22:11:45 +0000 (UTC)
-Received: from x1.home.shazbot.org (ovpn-113-225.phx2.redhat.com [10.3.113.225])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 366BD5C6AB;
-        Mon, 24 May 2021 22:11:45 +0000 (UTC)
-Date:   Mon, 24 May 2021 16:11:36 -0600
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     Shenming Lu <lushenming@huawei.com>
-Cc:     Cornelia Huck <cohuck@redhat.com>, Will Deacon <will@kernel.org>,
-        "Robin Murphy" <robin.murphy@arm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        "Jean-Philippe Brucker" <jean-philippe@linaro.org>,
-        Eric Auger <eric.auger@redhat.com>, <kvm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <iommu@lists.linux-foundation.org>, <linux-api@vger.kernel.org>,
-        Kevin Tian <kevin.tian@intel.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>, <yi.l.liu@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        "Barry Song" <song.bao.hua@hisilicon.com>,
-        <wanghaibin.wang@huawei.com>, <yuzenghui@huawei.com>
-Subject: Re: [RFC PATCH v3 0/8] Add IOPF support for VFIO passthrough
-Message-ID: <20210524161136.03e9323d@x1.home.shazbot.org>
-In-Reply-To: <accfb404-1d7b-8d73-6fb7-50011a3e546f@huawei.com>
-References: <20210409034420.1799-1-lushenming@huawei.com>
-        <20210518125756.4c075300.alex.williamson@redhat.com>
-        <accfb404-1d7b-8d73-6fb7-50011a3e546f@huawei.com>
-Organization: Red Hat
+        id S231614AbhEYH1w (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 25 May 2021 03:27:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35616 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231618AbhEYH1u (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 25 May 2021 03:27:50 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 042F1C06138A
+        for <linux-api@vger.kernel.org>; Tue, 25 May 2021 00:26:20 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <sha@pengutronix.de>)
+        id 1llRSD-0004eo-GL; Tue, 25 May 2021 09:26:17 +0200
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <sha@pengutronix.de>)
+        id 1llRSB-0006it-P5; Tue, 25 May 2021 09:26:15 +0200
+Date:   Tue, 25 May 2021 09:26:15 +0200
+From:   Sascha Hauer <s.hauer@pengutronix.de>
+To:     Jan Kara <jack@suse.cz>
+Cc:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, Christoph Hellwig <hch@infradead.org>,
+        kernel@pengutronix.de, Jan Kara <jack@suse.com>,
+        Richard Weinberger <richard@nod.at>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian.brauner@ubuntu.com>
+Subject: Re: [PATCH v3 0/2] quota: Add mountpath based quota support
+Message-ID: <20210525072615.GR19819@pengutronix.de>
+References: <20210304123541.30749-1-s.hauer@pengutronix.de>
+ <20210316112916.GA23532@quack2.suse.cz>
+ <20210512110149.GA31495@quack2.suse.cz>
+ <20210512150346.GQ19819@pengutronix.de>
+ <20210524084912.GC32705@quack2.suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210524084912.GC32705@quack2.suse.cz>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 09:19:51 up 96 days, 10:43, 104 users,  load average: 0.29, 0.55,
+ 0.39
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-api@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, 21 May 2021 14:37:21 +0800
-Shenming Lu <lushenming@huawei.com> wrote:
-
-> Hi Alex,
-> 
-> On 2021/5/19 2:57, Alex Williamson wrote:
-> > On Fri, 9 Apr 2021 11:44:12 +0800
-> > Shenming Lu <lushenming@huawei.com> wrote:
-> >   
-> >> Hi,
-> >>
-> >> Requesting for your comments and suggestions. :-)
-> >>
-> >> The static pinning and mapping problem in VFIO and possible solutions
-> >> have been discussed a lot [1, 2]. One of the solutions is to add I/O
-> >> Page Fault support for VFIO devices. Different from those relatively
-> >> complicated software approaches such as presenting a vIOMMU that provides
-> >> the DMA buffer information (might include para-virtualized optimizations),
-> >> IOPF mainly depends on the hardware faulting capability, such as the PCIe
-> >> PRI extension or Arm SMMU stall model. What's more, the IOPF support in
-> >> the IOMMU driver has already been implemented in SVA [3]. So we add IOPF
-> >> support for VFIO passthrough based on the IOPF part of SVA in this series.  
+On Mon, May 24, 2021 at 10:49:12AM +0200, Jan Kara wrote:
+> On Wed 12-05-21 17:03:46, Sascha Hauer wrote:
+> > On Wed, May 12, 2021 at 01:01:49PM +0200, Jan Kara wrote:
+> > > Added a few more CCs.
+> > > 
+> > > On Tue 16-03-21 12:29:16, Jan Kara wrote:
+> > > > On Thu 04-03-21 13:35:38, Sascha Hauer wrote:
+> > > > > Current quotactl syscall uses a path to a block device to specify the
+> > > > > filesystem to work on which makes it unsuitable for filesystems that
+> > > > > do not have a block device. This series adds a new syscall quotactl_path()
+> > > > > which replaces the path to the block device with a mountpath, but otherwise
+> > > > > behaves like original quotactl.
+> > > > > 
+> > > > > This is done to add quota support to UBIFS. UBIFS quota support has been
+> > > > > posted several times with different approaches to put the mountpath into
+> > > > > the existing quotactl() syscall until it has been suggested to make it a
+> > > > > new syscall instead, so here it is.
+> > > > > 
+> > > > > I'm not posting the full UBIFS quota series here as it remains unchanged
+> > > > > and I'd like to get feedback to the new syscall first. For those interested
+> > > > > the most recent series can be found here: https://lwn.net/Articles/810463/
+> > > > 
+> > > > Thanks. I've merged the two patches into my tree and will push them to
+> > > > Linus for the next merge window.
+> > > 
+> > > So there are some people at LWN whining that quotactl_path() has no dirfd
+> > > and flags arguments for specifying the target. Somewhat late in the game
+> > > but since there's no major release with the syscall and no userspace using
+> > > it, I think we could still change that. What do you think? What they
+> > > suggest does make some sense. But then, rather then supporting API for
+> > > million-and-one ways in which I may wish to lookup a fs object, won't it be
+> > > better to just pass 'fd' in the new syscall (it may well be just O_PATH fd
+> > > AFAICT) and be done with that?
 > > 
-> > The SVA proposals are being reworked to make use of a new IOASID
-> > object, it's not clear to me that this shouldn't also make use of that
-> > work as it does a significant expansion of the type1 IOMMU with fault
-> > handlers that would duplicate new work using that new model.  
+> > This sounds like a much cleaner interface to me. If we agree on this I
+> > wouldn't mind spinning this patch for another few rounds.
 > 
-> It seems that the IOASID extension for guest SVA would not affect this series,
-> will we do any host-guest IOASID translation in the VFIO fault handler?
+> So the syscall is currently disabled in Linus' tree. Will you send a patch
+> for new fd-based quotactl variant?
 
-Surely it will, we don't currently have any IOMMU fault handling or
-forwarding of IOMMU faults through to the vfio bus driver, both of
-those would be included in an IOASID implementation.  I think Jason's
-vision is to use IOASID to deprecate type1 for all use cases, so even
-if we were to choose to implement IOPF in type1 we should agree on
-common interfaces with IOASID.
- 
-> >> We have measured its performance with UADK [4] (passthrough an accelerator
-> >> to a VM(1U16G)) on Hisilicon Kunpeng920 board (and compared with host SVA):
-> >>
-> >> Run hisi_sec_test...
-> >>  - with varying sending times and message lengths
-> >>  - with/without IOPF enabled (speed slowdown)
-> >>
-> >> when msg_len = 1MB (and PREMAP_LEN (in Patch 4) = 1):
-> >>             slowdown (num of faults)
-> >>  times      VFIO IOPF      host SVA
-> >>  1          63.4% (518)    82.8% (512)
-> >>  100        22.9% (1058)   47.9% (1024)
-> >>  1000       2.6% (1071)    8.5% (1024)
-> >>
-> >> when msg_len = 10MB (and PREMAP_LEN = 512):
-> >>             slowdown (num of faults)
-> >>  times      VFIO IOPF
-> >>  1          32.6% (13)
-> >>  100        3.5% (26)
-> >>  1000       1.6% (26)  
-> > 
-> > It seems like this is only an example that you can make a benchmark
-> > show anything you want.  The best results would be to pre-map
-> > everything, which is what we have without this series.  What is an
-> > acceptable overhead to incur to avoid page pinning?  What if userspace
-> > had more fine grained control over which mappings were available for
-> > faulting and which were statically mapped?  I don't really see what
-> > sense the pre-mapping range makes.  If I assume the user is QEMU in a
-> > non-vIOMMU configuration, pre-mapping the beginning of each RAM section
-> > doesn't make any logical sense relative to device DMA.  
-> 
-> As you said in Patch 4, we can introduce full end-to-end functionality
-> before trying to improve performance, and I will drop the pre-mapping patch
-> in the current stage...
-> 
-> Is there a need that userspace wants more fine grained control over which
-> mappings are available for faulting? If so, we may evolve the MAP ioctl
-> to support for specifying the faulting range.
+I'll sure do that, but I don't know when I can find a timeslot for it.
+I hope I can come up with something next month.
 
-You're essentially enabling this for a vfio bus driver via patch 7/8,
-pinning for selective DMA faulting.  How would a driver in userspace
-make equivalent requests?  In the case of performance, the user could
-mlock the page but they have no mechanism here to pre-fault it.  Should
-they?
+Sascha
 
-> As for the overhead of IOPF, it is unavoidable if enabling on-demand paging
-> (and page faults occur almost only when first accessing), and it seems that
-> there is a large optimization space compared to CPU page faulting.
-
-Yes, there's of course going to be overhead in terms of latency for the
-page faults.  My point was more that when a host is not under memory
-pressure we should trend towards the performance of pinned, static
-mappings and we should be able to create arbitrarily large pre-fault
-behavior to show that.  But I think what we really want to enable via
-IOPF is density, right?  Therefore how many more assigned device guests
-can you run on a host with IOPF?  How does the slope, plateau, and
-inflection point of their aggregate throughput compare to static
-pinning?  VM startup time is probably also a useful metric, ie. trading
-device latency for startup latency.  Thanks,
-
-Alex
-
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
