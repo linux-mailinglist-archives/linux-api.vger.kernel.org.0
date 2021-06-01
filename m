@@ -2,94 +2,189 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17191396C66
-	for <lists+linux-api@lfdr.de>; Tue,  1 Jun 2021 06:36:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 375C63971FE
+	for <lists+linux-api@lfdr.de>; Tue,  1 Jun 2021 13:03:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232796AbhFAEh7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 1 Jun 2021 00:37:59 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255]:3310 "EHLO
-        szxga08-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232787AbhFAEh6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Jun 2021 00:37:58 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4FvK472ZK2z19S5s;
-        Tue,  1 Jun 2021 12:31:35 +0800 (CST)
-Received: from dggpemm500022.china.huawei.com (7.185.36.162) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 1 Jun 2021 12:36:16 +0800
-Received: from [10.174.185.220] (10.174.185.220) by
- dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 1 Jun 2021 12:36:15 +0800
-Subject: Re: [RFC PATCH v3 8/8] vfio: Add nested IOPF support
-To:     Lu Baolu <baolu.lu@linux.intel.com>,
-        Alex Williamson <alex.williamson@redhat.com>
-CC:     Eric Auger <eric.auger@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "Joerg Roedel" <joro@8bytes.org>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        <kvm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <iommu@lists.linux-foundation.org>, <linux-api@vger.kernel.org>,
-        Kevin Tian <kevin.tian@intel.com>, <yi.l.liu@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Barry Song <song.bao.hua@hisilicon.com>,
-        <wanghaibin.wang@huawei.com>, <yuzenghui@huawei.com>
-References: <20210409034420.1799-1-lushenming@huawei.com>
- <20210409034420.1799-9-lushenming@huawei.com>
- <20210518125808.345b812c.alex.williamson@redhat.com>
- <ea8c92a8-6e51-8be6-de19-d5e6f1d5527f@huawei.com>
- <83747758-ceb6-b498-8d95-609fdd0d763b@huawei.com>
- <20210524161129.085503ad@x1.home.shazbot.org>
- <90b00e7d-7934-ee79-7643-e2949e2d3af4@huawei.com>
- <9daf8877-a538-2d19-f548-b00ea6f127df@linux.intel.com>
-From:   Shenming Lu <lushenming@huawei.com>
-Message-ID: <8b6e5abd-d965-2331-7af3-08bef399af0f@huawei.com>
-Date:   Tue, 1 Jun 2021 12:36:15 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.2.2
+        id S231201AbhFALFV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 1 Jun 2021 07:05:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35686 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230288AbhFALFV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Jun 2021 07:05:21 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FF2BC061574
+        for <linux-api@vger.kernel.org>; Tue,  1 Jun 2021 04:03:40 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id h16so4353308pjv.2
+        for <linux-api@vger.kernel.org>; Tue, 01 Jun 2021 04:03:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=/GksUVltJ6s29hzs/A+jMHzCCdCGNsvm+wEFX0vbmZ0=;
+        b=H2QHDNvIoEiRBDmCFCuEWTYlh4s7tJ8suD0HNA2NO6w+uSfVcEqr55KcafZ0ZoIikf
+         7GG3QHEVXPupN96W8wx+W4MAjjliWJI9vmyxRd9QgO/grr3+asT9B7CxAvKsypRMo8uD
+         OWG5AGaj3TgiptWV9hqz6ylsuPX0GTZizBt/trpi5hqkDCfNF9y3nKxfXN0UtU3Adsvw
+         12+AtOHlQni7OvFV/HfYe9wQPJnNatSTrLRs9Y8HBa/X4hqqpizBMVXCrBn+xiciHmVm
+         RhxUNrT2819tsy3iWHNgl3WbzD4xSwh4fhoazqczS5fdD/pNJ0v1XvNFJGbBjLiCxcFq
+         SRJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=/GksUVltJ6s29hzs/A+jMHzCCdCGNsvm+wEFX0vbmZ0=;
+        b=oYt0sRl5r915C1mxWvcsz6NyeeWzq1ICM+gxMTHJUTHkOuR3Z1nPmQMHSekf58PyRd
+         pkIr9d2CaaWGyfg8MAUniJJt03BDUw9Hqs6u1SNQriwPjNYzvsFNA6vYWJG1TKHsArYB
+         NjNw98U6W96E47MfO98S5Q6GqUM9Gk1SAdbJLr7FZV6im0BXmSOPvNrUJvjG59uKK9ky
+         RSm7ekD0uAVQtsEcnT+LjjqkBsJXn9rAKdlVFUzlQlkMCNhyCO8GqQ8jYZHbiRvSJdTV
+         0GH4zKc0CY/tjb0nehi9r8zVuTAdB0KsAE7ywbHbGZpXjvBqxELHARDvISPkAPLV8P2y
+         sVjQ==
+X-Gm-Message-State: AOAM531ugs2MOZRQtT5wyxCppAKA9v3nH2gmNoqHt1q1bAAeWy0QQrW5
+        NRG4jq56exdOwUA4mlpL04E/7w==
+X-Google-Smtp-Source: ABdhPJwK3pGNP4QcBqI+YD/SZkxB+C0XFBiP2O0CSI1dK7PelRZBq8JqjRYsH/YdRPnjdlY7EmwB7A==
+X-Received: by 2002:a17:902:e903:b029:108:d6d0:c1d1 with SMTP id k3-20020a170902e903b0290108d6d0c1d1mr1683552pld.67.1622545419433;
+        Tue, 01 Jun 2021 04:03:39 -0700 (PDT)
+Received: from google.com ([2401:fa00:9:211:10ae:a700:2fce:6fd6])
+        by smtp.gmail.com with ESMTPSA id h1sm13306414pfh.72.2021.06.01.04.03.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Jun 2021 04:03:38 -0700 (PDT)
+Date:   Tue, 1 Jun 2021 21:03:26 +1000
+From:   Matthew Bobrowski <repnop@google.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Jan Kara <jack@suse.cz>, amir73il@gmail.com,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH 0/5] Add pidfd support to the fanotify API
+Message-ID: <YLYT/oeBCcnbfMzE@google.com>
+References: <cover.1621473846.git.repnop@google.com>
+ <20210520135527.GD18952@quack2.suse.cz>
+ <YKeIR+LiSXqUHL8Q@google.com>
+ <20210521104056.GG18952@quack2.suse.cz>
+ <YKhDFCUWX7iU7AzM@google.com>
+ <20210524084746.GB32705@quack2.suse.cz>
+ <20210525103133.uctijrnffehlvjr3@wittgenstein>
+ <YK2GV7hLamMpcO8i@google.com>
+ <20210526180529.egrtfruccbioe7az@wittgenstein>
 MIME-Version: 1.0
-In-Reply-To: <9daf8877-a538-2d19-f548-b00ea6f127df@linux.intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.185.220]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500022.china.huawei.com (7.185.36.162)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210526180529.egrtfruccbioe7az@wittgenstein>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2021/5/27 19:18, Lu Baolu wrote:
-> Hi Shenming and Alex,
+On Wed, May 26, 2021 at 08:05:29PM +0200, Christian Brauner wrote:
+> On Wed, May 26, 2021 at 09:20:55AM +1000, Matthew Bobrowski wrote:
+> > On Tue, May 25, 2021 at 12:31:33PM +0200, Christian Brauner wrote:
+> > > On Mon, May 24, 2021 at 10:47:46AM +0200, Jan Kara wrote:
+> > > > On Sat 22-05-21 09:32:36, Matthew Bobrowski wrote:
+> > > > > On Fri, May 21, 2021 at 12:40:56PM +0200, Jan Kara wrote:
+> > > > > > On Fri 21-05-21 20:15:35, Matthew Bobrowski wrote:
+> > > > > > > On Thu, May 20, 2021 at 03:55:27PM +0200, Jan Kara wrote:
+> > > > > > > There's one thing that I'd like to mention, and it's something in
+> > > > > > > regards to the overall approach we've taken that I'm not particularly
+> > > > > > > happy about and I'd like to hear all your thoughts. Basically, with
+> > > > > > > this approach the pidfd creation is done only once an event has been
+> > > > > > > queued and the notification worker wakes up and picks up the event
+> > > > > > > from the queue processes it. There's a subtle latency introduced when
+> > > > > > > taking such an approach which at times leads to pidfd creation
+> > > > > > > failures. As in, by the time pidfd_create() is called the struct pid
+> > > > > > > has already been reaped, which then results in FAN_NOPIDFD being
+> > > > > > > returned in the pidfd info record.
+> > > > > > > 
+> > > > > > > Having said that, I'm wondering what the thoughts are on doing pidfd
+> > > > > > > creation earlier on i.e. in the event allocation stages? This way, the
+> > > > > > > struct pid is pinned earlier on and rather than FAN_NOPIDFD being
+> > > > > > > returned in the pidfd info record because the struct pid has been
+> > > > > > > already reaped, userspace application will atleast receive a valid
+> > > > > > > pidfd which can be used to check whether the process still exists or
+> > > > > > > not. I think it'll just set the expectation better from an API
+> > > > > > > perspective.
+> > > > > > 
+> > > > > > Yes, there's this race. OTOH if FAN_NOPIDFD is returned, the listener can
+> > > > > > be sure the original process doesn't exist anymore. So is it useful to
+> > > > > > still receive pidfd of the dead process?
+> > > > > 
+> > > > > Well, you're absolutely right. However, FWIW I was approaching this
+> > > > > from two different angles:
+> > > > > 
+> > > > > 1) I wanted to keep the pattern in which the listener checks for the
+> > > > >    existence/recycling of the process consistent. As in, the listener
+> > > > >    would receive the pidfd, then send the pidfd a signal via
+> > > > >    pidfd_send_signal() and check for -ESRCH which clearly indicates
+> > > > >    that the target process has terminated.
+> > > > > 
+> > > > > 2) I didn't want to mask failed pidfd creation because of early
+> > > > >    process termination and other possible failures behind a single
+> > > > >    FAN_NOPIDFD. IOW, if we take the -ESRCH approach above, the
+> > > > >    listener can take clear corrective branches as what's to be done
+> > > > >    next if a race is to have been detected, whereas simply returning
+> > > > >    FAN_NOPIDFD at this stage can mean multiple things.
+> > > > > 
+> > > > > Now that I've written the above and keeping in mind that we'd like to
+> > > > > refrain from doing anything in the event allocation stages, perhaps we
+> > > > > could introduce a different error code for detecting early process
+> > > > > termination while attempting to construct the info record. WDYT?
+> > > > 
+> > > > Sure, I wouldn't like to overengineer it but having one special fd value for
+> > > > "process doesn't exist anymore" and another for general "creating pidfd
+> > > > failed" looks OK to me.
+> > > 
+> > > FAN_EPIDFD -> "creation failed"
+> > > FAN_NOPIDFD -> "no such process"
+> > 
+> > Yes, I was thinking something along the lines of this...
+> > 
+> > With the approach that I've proposed in this series, the pidfd
+> > creation failure trips up in pidfd_create() at the following
+> > condition:
+> > 
+> > 	if (!pid || !pid_has_task(pid, PIDTYPE_TGID))
+> > 	   	 return -EINVAL;
+> > 
+> > Specifically, the following check:
+> > 	!pid_has_task(pid, PIDTYPE_TGID)
+> > 
+> > In order to properly report either FAN_NOPIDFD/FAN_EPIDFD to
+> > userspace, AFAIK I'll have to do one of either two things to better
+> > distinguish between why the pidfd creation had failed:
 > 
-> On 5/27/21 7:03 PM, Shenming Lu wrote:
->>> I haven't fully read all the references, but who imposes the fact that
->>> there's only one fault handler per device?  If type1 could register one
->>> handler and the vfio-pci bus driver another for the other level, would
->>> we need this path through vfio-core?
->> If we could register more than one handler per device, things would become
->> much more simple, and the path through vfio-core would not be needed.
->>
->> Hi Baolu,
->> Is there any restriction for having more than one handler per device?
->>
-> 
-> Currently, each device could only have one fault handler. But one device
-> might consume multiple page tables. From this point of view, it's more
-> reasonable to have one handler per page table.
+> Ok, I see. You already do have a reference to a struct pid and in that
+> case we should just always return a pidfd to the caller. For
+> pidfd_open() for example we only report an error when
+> find_get_pid(<pidnr>) doesn't find a struct pid to refer to. But in your
+> case here you already have a struct pid so I think we should just keep
+> this simple and always return a pidfd to the caller and in fact do
+> burden them with figuring out that the process is gone via
+> pidfd_send_signal() instead of complicating our lives here.
 
-Sounds good to me. I have pointed it out in the IOASID uAPI proposal. :-)
+Ah, actually Christian... Before, I go ahead and send through the updated
+series. Given what you've mentioned above I'm working with the assumption
+that you're OK with dropping the pid_has_task() check from pidfd_create()
+[0]. Is that right?
 
-Thanks,
-Shenming
+If so, I don't know how I feel about this given that pidfd_create() is now
+to be exposed to the rest of the kernel and the pidfd API, as it stands,
+doesn't support the creation of pidfds for non-thread-group leaders. I
+suppose what I don't want is other kernel subsystems, if any, thinking it's
+OK to call pidfd_create() with an arbitrary struct pid and setting the
+expectation that a fully functional pidfd will be returned.
 
-> 
-> Best regards,
-> baolu
-> .
+The way I see it, I think we've got two options here:
+
+1) Leave the pid_has_task() check within pidfd_create() and perform another
+   explicit pid_has_task() check from the fanotify code before calling
+   pidfd_create(). If it returns false, we set something like FAN_NOPIDFD
+   indicating to userspace that there's no such process when the event was
+   created.
+
+2) Scrap using pidfd_create() all together and implement a fanotify
+   specific pidfd creation wrapper which would allow for more
+   control. Something along the lines of what you've done in kernel/fork.c
+   [1]. Not the biggest fan of this idea just yet given the possibility of
+   it leading to an API drift over time.
+
+WDYT?
+
+[0] https://www.spinics.net/lists/linux-api/msg48568.html
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/kernel/fork.c#n2171  
+
+/M
