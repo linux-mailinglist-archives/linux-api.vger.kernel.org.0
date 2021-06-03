@@ -2,213 +2,126 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C04E63996A8
-	for <lists+linux-api@lfdr.de>; Thu,  3 Jun 2021 02:05:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AD2D39972E
+	for <lists+linux-api@lfdr.de>; Thu,  3 Jun 2021 02:46:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229697AbhFCAH1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 2 Jun 2021 20:07:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49056 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229620AbhFCAH0 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 2 Jun 2021 20:07:26 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 54D5C613E7;
-        Thu,  3 Jun 2021 00:05:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622678742;
-        bh=TtQqRvmnABCXwzNCvY4Sr+kkdewQDVf/VDvbiAiSo5c=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=CC13/UOgfauAzqtzZ3D4nwEQtKuZVeOcJXovzgSTBFcexfAdU36LUzMtmR2hb0tt6
-         /gdjPuVghRRyM8H5zTbkdWuhWOo3jjhtsXHYq0vWLj5qGY36C23+RYdhWcRr9+gCYh
-         U4Xtd1zz8MKu629Og/ggRUeJtPy4wL4h18WsEbyEk6iNi+7DjXJGPsqO5Warf2GieR
-         wKgdZrf70pquGL4hyQKlbYQAyTBZ1SnFPICb8tvCW6EkfApmqgI4y9xEY5an2X+ZnL
-         4h0zvJ8flBbYSXAAti098zF+L/MrJ1iSE4UsZSIlNYvSGmwE5C5MBcQHP8Gb8C7Bw6
-         PM4hQMh2PErMg==
-Subject: Re: [PATCH 2/2] mm: adds NOSIGBUS extension for out-of-band shmem
- read
-To:     Hugh Dickins <hughd@google.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        id S229554AbhFCAsU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 2 Jun 2021 20:48:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34160 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229541AbhFCAsT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 2 Jun 2021 20:48:19 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4870C06174A
+        for <linux-api@vger.kernel.org>; Wed,  2 Jun 2021 17:46:35 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id o9so928285pgd.2
+        for <linux-api@vger.kernel.org>; Wed, 02 Jun 2021 17:46:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:in-reply-to:message-id:references
+         :user-agent:mime-version;
+        bh=osOs0sHgu+64jN5ym3Au5W/VmmFJT/nDNYVamcF5dls=;
+        b=bIHL9vqryreOafST/ivSUZS4GWhywJbx7et4ZIiMUaBRnA7NWCTciWiUyxl6ulMfLH
+         kXmXxr8cMjOWt8/k7dZ65XzqJ6X1BOHznHYtJdFdzh9dNfhh08tUI5qvo92hUV9LyRVt
+         PmYnNgiekCfnu3BTs1AEvG3zbo0tb+h8fCRVbBGfETiFPwT+8huhKeM5TINFzKblHjxN
+         syvCafh6ZBRekNM5KyqkbEaIn+TAkAyBv6RWd53zYyo9Bx7o+TNzuvFxN1r82B4lZWR2
+         RcEnkvajmirWQ9AVXoeMyjOeXtLCxWSbRh1rJohuWKXM5HnS5WCawiy1AXC6cCp/6s7P
+         K9Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+         :references:user-agent:mime-version;
+        bh=osOs0sHgu+64jN5ym3Au5W/VmmFJT/nDNYVamcF5dls=;
+        b=lludK1y1JzUInqvxsSQwSwzZ3uLd59dL7eFKJrh7KscZsPnpcCacZdAo13ZYWlZcYO
+         /xwZ4Ib+8RAIefukAMZNK1vL3vAe75VnNHQgw8OztrODSfjJV8rJ///TZxkSXyh7SGk5
+         3sbFlN2HPGLcPxCtjpL2ZrajSCxQ+Ma0qJMH21mpHd65nKw3nLIEA9qmGMhhUd9hZ5QR
+         75iy62yeP+/EmXitu7YhlYf5/4Qha3SculZSRhfCEf5z6z2ysR+0ttX05Vy+4AqkfarS
+         YQUJ0TYdtwefBjDlp+hC4wUypO7poTUhAefrpxchdCPW23a33CB2IsSk6W5aBplbqFXY
+         /zkA==
+X-Gm-Message-State: AOAM530UxN+y2hDLuvS+OC7zcxVhJFJWymRq7vNJxjx1dN6FPQouH6ls
+        bbeRa9MsKYj7jn6FzobHJ2qy7A==
+X-Google-Smtp-Source: ABdhPJw9aoPIjkkHWSFoZXJWBT0STKpUe02wN8ncCMWEz3zK931xLJWKMZFE58iRtnhkygGC9ZYUMQ==
+X-Received: by 2002:a65:5608:: with SMTP id l8mr27030754pgs.329.1622681194923;
+        Wed, 02 Jun 2021 17:46:34 -0700 (PDT)
+Received: from eggly.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id g29sm804315pgm.11.2021.06.02.17.46.33
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Wed, 02 Jun 2021 17:46:34 -0700 (PDT)
+Date:   Wed, 2 Jun 2021 17:46:02 -0700 (PDT)
+From:   Hugh Dickins <hughd@google.com>
+X-X-Sender: hugh@eggly.anvils
+To:     Ming Lin <mlin@kernel.org>
+cc:     Hugh Dickins <hughd@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Simon Ser <contact@emersion.fr>, linux-mm@kvack.org,
         linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-api@vger.kernel.org
-References: <1622589753-9206-1-git-send-email-mlin@kernel.org>
- <1622589753-9206-3-git-send-email-mlin@kernel.org>
- <alpine.LSU.2.11.2106011913590.3353@eggly.anvils>
-From:   Ming Lin <mlin@kernel.org>
-Message-ID: <79a27014-5450-1345-9eea-12fc9ae25777@kernel.org>
-Date:   Wed, 2 Jun 2021 17:05:41 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+Subject: Re: [PATCH 2/2] mm: adds NOSIGBUS extension for out-of-band shmem
+ read
+In-Reply-To: <79a27014-5450-1345-9eea-12fc9ae25777@kernel.org>
+Message-ID: <alpine.LSU.2.11.2106021719500.8333@eggly.anvils>
+References: <1622589753-9206-1-git-send-email-mlin@kernel.org> <1622589753-9206-3-git-send-email-mlin@kernel.org> <alpine.LSU.2.11.2106011913590.3353@eggly.anvils> <79a27014-5450-1345-9eea-12fc9ae25777@kernel.org>
+User-Agent: Alpine 2.11 (LSU 23 2013-08-11)
 MIME-Version: 1.0
-In-Reply-To: <alpine.LSU.2.11.2106011913590.3353@eggly.anvils>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 6/1/2021 8:49 PM, Hugh Dickins wrote:
-
->> index 096bba4..69cd856 100644
->> --- a/mm/mmap.c
->> +++ b/mm/mmap.c
->> @@ -1419,6 +1419,9 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
->>   	if (!len)
->>   		return -EINVAL;
->>   
->> +	if ((flags & MAP_NOSIGBUS) && ((prot & PROT_WRITE) || !shmem_file(file)))
->> +		return -EINVAL;
->> +
+On Wed, 2 Jun 2021, Ming Lin wrote:
 > 
-> No, for several reasons.
+> This is what I wrote so far.
 > 
-> This has nothing to do with shmem really, that's just where this patch
-> hacks it in - and where you have a first user in mind.  If this goes
-> forward, please modify mm/memory.c not mm/shmem.c, to make
-> VM_FAULT_SIGBUS on fault to VM_NOSIGBUS vma do the mapping of zero page.
-> 
-> (prot & PROT_WRITE) tells you about the mmap() flags, but says nothing
-> about what mprotect() could do later on.  Look out for VM_SHARED and
-> VM_MAYSHARE and VM_MAYWRITE further down; and beware the else (!file)
-> block below them, shared anonymous would need more protection too.
-> 
-> Constructive comment: I guess much of my objection to this feature
-> comes from allowing it in the MAP_SHARED case.  If you restrict it
-> to MAP_PRIVATE mapping of file, then it's less objectionable, and
-> you won't have to worry (so much?) about write protection.  Copy
-> on write is normal there, and it's well established that subsequent
-> changes in the file will not be shared; you'd just be extending that
-> behaviour from writes to sigbusy reads.
-> 
-> And by restricting to MAP_PRIVATE, you would allow for adding a
-> proper MAP_SHARED implementation later, if it's thought useful
-> (that being the implementation which can subsequently unmap a
-> zero page to let new page cache be mapped).
+> ---
+>  include/linux/mm.h                     |  2 ++
+>  include/linux/mman.h                   |  1 +
+>  include/uapi/asm-generic/mman-common.h |  1 +
+>  mm/memory.c                            | 12 ++++++++++++
+>  mm/mmap.c                              |  4 ++++
+>  5 files changed, 20 insertions(+)
 
-This is what I wrote so far.
+I have not looked at the rest, just looking at mm/memory.c:
 
----
-  include/linux/mm.h                     |  2 ++
-  include/linux/mman.h                   |  1 +
-  include/uapi/asm-generic/mman-common.h |  1 +
-  mm/memory.c                            | 12 ++++++++++++
-  mm/mmap.c                              |  4 ++++
-  5 files changed, 20 insertions(+)
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -3676,6 +3676,18 @@ static vm_fault_t __do_fault(struct vm_fault *vmf)
+>  	}
+>   	ret = vma->vm_ops->fault(vmf);
+> +	if (unlikely(ret & VM_FAULT_SIGBUS) && (vma->vm_flags & VM_NOSIGBUS))
+> {
+> +		/*
+> +		 * Get zero page for MAP_NOSIGBUS mapping, which isn't
+> +		 * coherent wrt shmem contents that are expanded and
+> +		 * filled in later.
+> +		 */
+> +		vma->vm_flags |= VM_MIXEDMAP;
+> +		if (!vm_insert_page(vma, (unsigned long)vmf->address,
+> +				ZERO_PAGE(vmf->address)))
+> +			return VM_FAULT_NOPAGE;
+> +	}
+> +
+>  	if (unlikely(ret & (VM_FAULT_ERROR | VM_FAULT_NOPAGE | VM_FAULT_RETRY
+> |
+>  			    VM_FAULT_DONE_COW)))
+>  		return ret;
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index e9d67bc..af9e277 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -373,6 +373,8 @@ int __add_to_page_cache_locked(struct page *page, struct address_space *mapping,
-  # define VM_UFFD_MINOR		VM_NONE
-  #endif /* CONFIG_HAVE_ARCH_USERFAULTFD_MINOR */
-  
-+#define VM_NOSIGBUS		VM_FLAGS_BIT(38)	/* Do not SIGBUS on fault */
-+
-  /* Bits set in the VMA until the stack is in its final location */
-  #define VM_STACK_INCOMPLETE_SETUP	(VM_RAND_READ | VM_SEQ_READ)
-  
-diff --git a/include/linux/mman.h b/include/linux/mman.h
-index b2cbae9..c966b08 100644
---- a/include/linux/mman.h
-+++ b/include/linux/mman.h
-@@ -154,6 +154,7 @@ static inline bool arch_validate_flags(unsigned long flags)
-  	       _calc_vm_trans(flags, MAP_DENYWRITE,  VM_DENYWRITE ) |
-  	       _calc_vm_trans(flags, MAP_LOCKED,     VM_LOCKED    ) |
-  	       _calc_vm_trans(flags, MAP_SYNC,	     VM_SYNC      ) |
-+	       _calc_vm_trans(flags, MAP_NOSIGBUS,   VM_NOSIGBUS  ) |
-  	       arch_calc_vm_flag_bits(flags);
-  }
-  
-diff --git a/include/uapi/asm-generic/mman-common.h b/include/uapi/asm-generic/mman-common.h
-index f94f65d..a2a5333 100644
---- a/include/uapi/asm-generic/mman-common.h
-+++ b/include/uapi/asm-generic/mman-common.h
-@@ -29,6 +29,7 @@
-  #define MAP_HUGETLB		0x040000	/* create a huge page mapping */
-  #define MAP_SYNC		0x080000 /* perform synchronous page faults for the mapping */
-  #define MAP_FIXED_NOREPLACE	0x100000	/* MAP_FIXED which doesn't unmap underlying mapping */
-+#define MAP_NOSIGBUS		0x200000	/* do not SIGBUS on fault */
-  
-  #define MAP_UNINITIALIZED 0x4000000	/* For anonymous mmap, memory could be
-  					 * uninitialized */
-diff --git a/mm/memory.c b/mm/memory.c
-index eff2a47..7195dac 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -3676,6 +3676,18 @@ static vm_fault_t __do_fault(struct vm_fault *vmf)
-  	}
-  
-  	ret = vma->vm_ops->fault(vmf);
-+	if (unlikely(ret & VM_FAULT_SIGBUS) && (vma->vm_flags & VM_NOSIGBUS)) {
-+		/*
-+		 * Get zero page for MAP_NOSIGBUS mapping, which isn't
-+		 * coherent wrt shmem contents that are expanded and
-+		 * filled in later.
-+		 */
-+		vma->vm_flags |= VM_MIXEDMAP;
-+		if (!vm_insert_page(vma, (unsigned long)vmf->address,
-+				ZERO_PAGE(vmf->address)))
-+			return VM_FAULT_NOPAGE;
-+	}
-+
-  	if (unlikely(ret & (VM_FAULT_ERROR | VM_FAULT_NOPAGE | VM_FAULT_RETRY |
-  			    VM_FAULT_DONE_COW)))
-  		return ret;
-diff --git a/mm/mmap.c b/mm/mmap.c
-index 096bba4..74fb49a 100644
---- a/mm/mmap.c
-+++ b/mm/mmap.c
-@@ -1419,6 +1419,10 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
-  	if (!len)
-  		return -EINVAL;
-  
-+	/* Restrict MAP_NOSIGBUS to MAP_PRIVATE mapping */
-+	if ((flags & MAP_NOSIGBUS) && !(flags & MAP_PRIVATE))
-+		return -EINVAL;
-+
-  	/*
-  	 * Does the application expect PROT_READ to imply PROT_EXEC?
-  	 *
+Sorry, I directed you to mm/memory.c without indicating what's
+appropriate here.  Please don't attempt to use VM_MIXEDMAP and
+vm_insert_page(): they're for special driver mmaps, they're no
+better here than they were in mm/shmem.c.
 
-> 
->>   	/*
->>   	 * Does the application expect PROT_READ to imply PROT_EXEC?
->>   	 *
->> diff --git a/mm/shmem.c b/mm/shmem.c
->> index 5d46611..5d15b08 100644
->> --- a/mm/shmem.c
->> +++ b/mm/shmem.c
->> @@ -1812,7 +1812,22 @@ static int shmem_getpage_gfp(struct inode *inode, pgoff_t index,
->>   repeat:
->>   	if (sgp <= SGP_CACHE &&
->>   	    ((loff_t)index << PAGE_SHIFT) >= i_size_read(inode)) {
->> -		return -EINVAL;
->> +		if (!vma || !(vma->vm_flags & VM_NOSIGBUS))
->> +			return -EINVAL;
->> +
->> +		vma->vm_flags |= VM_MIXEDMAP;
-> 
-> No.  Presumably you hit the BUG_ON(mmap_read_trylock(vma->vm_mm))
-> in vm_insert_page(), so decided to modify the vm_flags here: no,
-> that BUG is saying you need mmap_write_lock() to write vm_flags.
+It's do_anonymous_page()'s business to map in the zero page on
+read fault (see "my_zero_pfn(vmf->address)" in there), or fill
+a freshly allocated page with zeroes on write fault - and now
+you're sticking to MAP_PRIVATE, write faults in VM_WRITE areas
+are okay for VM_NOSIGBUS.
 
-But the comments above vm_insert_page() told me to set VM_MIXEDMAP on vma
+Ideally you can simply call do_anonymous_page() from __do_fault()
+in the VM_FAULT_SIGBUS on VM_NOSIGBUS case.  That's what to start
+from anyway: but look to see if there's state to be adjusted to
+achieve that; and it won't be surprising if somewhere down in
+do_anonymous_page() or something it calls, there's a BUG on it
+being called when vma->vm_file is set, or something like that.
+May need some tweaking.
 
-  * Usually this function is called from f_op->mmap() handler
-  * under mm->mmap_lock write-lock, so it can change vma->vm_flags.
-  * Caller must set VM_MIXEDMAP on vma if it wants to call this
-  * function from other places, for example from page-fault handler.
-
-> 
-> One other thing while it crosses my mind.  You'll need to decide
-> what truncating or hole-punching the file does to the zero pages
-> in its userspace mappings.  I may turn out wrong, but I think you'll
-> find that truncation removes them, but hole-punch leaves them, and
-> ought to be modified to remove them too (it's a matter of how the
-> "even_cows" arg to unmap_mapping_range() is treated).
-
-I did a quick test, after inserting zero pages, seems that truncation
-also leaves the mappings.
-
-I'm still reading code to learn this part ...
+Hugh
