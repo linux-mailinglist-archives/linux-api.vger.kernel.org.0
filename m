@@ -2,126 +2,179 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AD2D39972E
-	for <lists+linux-api@lfdr.de>; Thu,  3 Jun 2021 02:46:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25AAB399777
+	for <lists+linux-api@lfdr.de>; Thu,  3 Jun 2021 03:25:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229554AbhFCAsU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 2 Jun 2021 20:48:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34160 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229541AbhFCAsT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 2 Jun 2021 20:48:19 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4870C06174A
-        for <linux-api@vger.kernel.org>; Wed,  2 Jun 2021 17:46:35 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id o9so928285pgd.2
-        for <linux-api@vger.kernel.org>; Wed, 02 Jun 2021 17:46:35 -0700 (PDT)
+        id S229753AbhFCB1G (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 2 Jun 2021 21:27:06 -0400
+Received: from mail-pj1-f48.google.com ([209.85.216.48]:52156 "EHLO
+        mail-pj1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229623AbhFCB1F (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 2 Jun 2021 21:27:05 -0400
+Received: by mail-pj1-f48.google.com with SMTP id k5so2703404pjj.1
+        for <linux-api@vger.kernel.org>; Wed, 02 Jun 2021 18:25:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:from:to:cc:subject:in-reply-to:message-id:references
-         :user-agent:mime-version;
-        bh=osOs0sHgu+64jN5ym3Au5W/VmmFJT/nDNYVamcF5dls=;
-        b=bIHL9vqryreOafST/ivSUZS4GWhywJbx7et4ZIiMUaBRnA7NWCTciWiUyxl6ulMfLH
-         kXmXxr8cMjOWt8/k7dZ65XzqJ6X1BOHznHYtJdFdzh9dNfhh08tUI5qvo92hUV9LyRVt
-         PmYnNgiekCfnu3BTs1AEvG3zbo0tb+h8fCRVbBGfETiFPwT+8huhKeM5TINFzKblHjxN
-         syvCafh6ZBRekNM5KyqkbEaIn+TAkAyBv6RWd53zYyo9Bx7o+TNzuvFxN1r82B4lZWR2
-         RcEnkvajmirWQ9AVXoeMyjOeXtLCxWSbRh1rJohuWKXM5HnS5WCawiy1AXC6cCp/6s7P
-         K9Gg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=y5eUJ8QAS6dcCgWeBqLCxxRo0PfEK90WScuol0NFsqc=;
+        b=JFbvNuwPNb0v9o1rc5jJ1trIdgYiNhiz4I6vVa/rTLlLcbEnnXcULDS+juthYDgeZd
+         KLdEdyTi2c7mvWDDZmxViRs8g6zWuJ/KLiNaVqEc4jgpMZ/4GC8NUzMY23qP9v5XTM/E
+         qutshpqYZWP4t6X90xCBsPT5xqlgPIyYoP4XPTiYz3ynlG1V77qPa7cfUL6GyGV9hXZK
+         Bj689Dl0J+2Bmah/m+sfE/iBnRIhW2hIAFnOhhov/V8ExV6ly9LvZZv1lLsE1pCTYOOp
+         ApAQNcJVzqa5toN9iY1kXqUDmUA1D5bmD2tEjzFChUEcu/3zLqDnt67LClH+UJoY0zsF
+         M2Bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
-         :references:user-agent:mime-version;
-        bh=osOs0sHgu+64jN5ym3Au5W/VmmFJT/nDNYVamcF5dls=;
-        b=lludK1y1JzUInqvxsSQwSwzZ3uLd59dL7eFKJrh7KscZsPnpcCacZdAo13ZYWlZcYO
-         /xwZ4Ib+8RAIefukAMZNK1vL3vAe75VnNHQgw8OztrODSfjJV8rJ///TZxkSXyh7SGk5
-         3sbFlN2HPGLcPxCtjpL2ZrajSCxQ+Ma0qJMH21mpHd65nKw3nLIEA9qmGMhhUd9hZ5QR
-         75iy62yeP+/EmXitu7YhlYf5/4Qha3SculZSRhfCEf5z6z2ysR+0ttX05Vy+4AqkfarS
-         YQUJ0TYdtwefBjDlp+hC4wUypO7poTUhAefrpxchdCPW23a33CB2IsSk6W5aBplbqFXY
-         /zkA==
-X-Gm-Message-State: AOAM530UxN+y2hDLuvS+OC7zcxVhJFJWymRq7vNJxjx1dN6FPQouH6ls
-        bbeRa9MsKYj7jn6FzobHJ2qy7A==
-X-Google-Smtp-Source: ABdhPJw9aoPIjkkHWSFoZXJWBT0STKpUe02wN8ncCMWEz3zK931xLJWKMZFE58iRtnhkygGC9ZYUMQ==
-X-Received: by 2002:a65:5608:: with SMTP id l8mr27030754pgs.329.1622681194923;
-        Wed, 02 Jun 2021 17:46:34 -0700 (PDT)
-Received: from eggly.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id g29sm804315pgm.11.2021.06.02.17.46.33
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Wed, 02 Jun 2021 17:46:34 -0700 (PDT)
-Date:   Wed, 2 Jun 2021 17:46:02 -0700 (PDT)
-From:   Hugh Dickins <hughd@google.com>
-X-X-Sender: hugh@eggly.anvils
-To:     Ming Lin <mlin@kernel.org>
-cc:     Hugh Dickins <hughd@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Simon Ser <contact@emersion.fr>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH 2/2] mm: adds NOSIGBUS extension for out-of-band shmem
- read
-In-Reply-To: <79a27014-5450-1345-9eea-12fc9ae25777@kernel.org>
-Message-ID: <alpine.LSU.2.11.2106021719500.8333@eggly.anvils>
-References: <1622589753-9206-1-git-send-email-mlin@kernel.org> <1622589753-9206-3-git-send-email-mlin@kernel.org> <alpine.LSU.2.11.2106011913590.3353@eggly.anvils> <79a27014-5450-1345-9eea-12fc9ae25777@kernel.org>
-User-Agent: Alpine 2.11 (LSU 23 2013-08-11)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=y5eUJ8QAS6dcCgWeBqLCxxRo0PfEK90WScuol0NFsqc=;
+        b=a0EegSyBv2YIvyH6UUn/aHcaS+iODNht4yX+44qLB0D8Lkpf0EHbAIh1X2J+/kUpoZ
+         F8hy2skSf4D9V4gWfHNHLZ9Ve7PiU4J4c70CXyLjm4jMPEK5FYvFNpjVga35KWqpffl6
+         Zz6tkG82VtS9yxC+Mau4z8NBn0PWi7hQp6YpH+2EMJsFQ3Lajhp9pUn631FYtadIsibI
+         DsStHRZTFK9t3kJKQs0XpLsax59HHFSeKJFbzeiUq7Ioi2uAifM4J8f0RuuDSm4cE2UA
+         ZUJdxj/xtF7PPriBsUhYMNZ5KM9xKWFP21EpJ6uBT6JLtGtJS33f8xUSzqX6/ZUabVrj
+         AOCQ==
+X-Gm-Message-State: AOAM5331XOtY/e7UjPhtRe2yiqSlvRKZg45/Z0sruyneZsO1kZVKYHQc
+        p85H3CsCapTyNZK6MFkoGqphMw==
+X-Google-Smtp-Source: ABdhPJx7C2YnPKFW+2sILLhXA2z9jUGbaSM39biV0SzUELfbi2Yiu9HZ49Kb9o7s9FH+8fgcSmTpDQ==
+X-Received: by 2002:a17:90a:c20b:: with SMTP id e11mr8351930pjt.67.1622683461381;
+        Wed, 02 Jun 2021 18:24:21 -0700 (PDT)
+Received: from google.com ([2401:fa00:9:211:3abe:a437:32fb:4e73])
+        by smtp.gmail.com with ESMTPSA id n129sm268786pfn.167.2021.06.02.18.24.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Jun 2021 18:24:20 -0700 (PDT)
+Date:   Thu, 3 Jun 2021 11:24:08 +1000
+From:   Matthew Bobrowski <repnop@google.com>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
+        Jan Kara <jack@suse.cz>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH 0/5] Add pidfd support to the fanotify API
+Message-ID: <YLgvN9MEi+NEgJhh@google.com>
+References: <20210524084746.GB32705@quack2.suse.cz>
+ <20210525103133.uctijrnffehlvjr3@wittgenstein>
+ <YK2GV7hLamMpcO8i@google.com>
+ <20210526180529.egrtfruccbioe7az@wittgenstein>
+ <YLYT/oeBCcnbfMzE@google.com>
+ <20210601114628.f3w33yyca5twgfho@wittgenstein>
+ <YLcliQRh4HRGt4Mi@google.com>
+ <CAOQ4uxieRQ3s5rWA55ZBDr4xm6i9vXyWx-iErMgYzGCE5nYKcA@mail.gmail.com>
+ <YLdg7wWQ/GTbe1eh@google.com>
+ <CAOQ4uxgWk6pX6U_F1aDRUSd5XRRHiToQL0+741b9RFW85WCxCQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOQ4uxgWk6pX6U_F1aDRUSd5XRRHiToQL0+741b9RFW85WCxCQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, 2 Jun 2021, Ming Lin wrote:
+On Wed, Jun 02, 2021 at 03:18:03PM +0300, Amir Goldstein wrote:
+> > > I still don't understand what's racy about this. Won't the event reader
+> > > get a valid pidfd?
+> >
+> > I guess this depends, right?
+> >
+> > As the logic/implementation currently stands in this specific patch series,
+> > pidfd_create() will _NOT_ return a valid pidfd unless the struct pid still
+> > holds reference to a task of type PIDTYPE_TGID. This is thanks to the extra
+> > pid_hash_task() check that I thought was appropriate to incorporate into
+> > pidfd_create() seeing as though:
+> >
+> >  - With the pidfd_create() declaration now being added to linux/pid.h, we
+> >    effectively are giving the implicit OK for it to be called from other
+> >    kernel subsystems, and hence why the caller should be subject to the
+> >    same restrictions/verifications imposed by the API specification
+> >    i.e. "Currently, the process identified by @pid must be a thread-group
+> >    leader...". Not enforcing the pid_has_task() check in pidfd_create()
+> >    effectively says that the pidfd creation can be done for any struct pid
+> >    types i.e. PIDTYPE_PID, PIDTYPE_PGID, etc. This leads to assumptions
+> >    being made by the callers, which effectively then could lead to
+> >    undefined/unexpected behavior.
+> >
+> > There definitely can be cases whereby the underlying task(s) associated
+> > with a struct pid have been freed as a result of process being killed
+> > early. As in, the process is killed before the pid_has_task() check is
+> > performed from within pidfd_create() when called from fanotify. This is
+> > precisely the race that I'm referring to here, and in such cases as the
+> > code currently stands, the event listener will _NOT_ receive a valid pidfd.
+> >
+> > > Can't the event reader verify that the pidfd points to a dead process?
+> >
+> > This was the idea, as in, the burden of checking whether a process has been
+> > killed before the event listener receives the event should be on the event
+> > listener. However, we're trying to come up with a good way to effectively
+> > communicate that the above race I've attempted to articulate has actually
+> > occurred. As in, do we:
+> >
+> > a) Drop the pid_has_task() check in pidfd_create() so that a pidfd can be
+> >    returned for all passed struct pids? That way, even if the above race is
+> >    experienced the caller will still receive a pidfd and the event listener
+> >    can do whatever it needs to with it.
+> >
+> > b) Before calling into pidfd_create(), perform an explicit pid_has_task()
+> >    check for PIDTYPE_TGID and if that returns false, then set FAN_NOPIDFD
+> >    and save ourselves from calling into pidfd_create() all together. The
+> >    event listener in this case doesn't have to perform the signal check to
+> >    determine whether the process has already been killed.
+> >
+> > c) Scrap calling into pidfd_create() all together and write a simple
+> >    fanotify wrapper that contains the pidfd creation logic we need.
+> >
+> > > I don't mind returning FAN_NOPIDFD for convenience, but user
+> > > will have to check the pidfd that it got anyway, because process
+> > > can die at any time between reading the event and acting on the
+> > > pidfd.
+> >
+> > Well sort of, as it depends on the approach that we decide to go ahead with
+> > to report such early process termination cases. If we return FAN_NOPIDFD,
+> > which signifies that the process died before a pidfd could be created, then
+> > there's no point for the listener to step into checking the pidfd because
+> > the pidfd already == FAN_NOPIDFD. If we simply return a pidfd regardless of
+> > the early termination of the process, then sure the event listener will
+> > need to check each pidfd that is supplied.
+> >
 > 
-> This is what I wrote so far.
+> I don't see any problem with the fact that the listener would have to check the
+> reported pidfd. I don't see how or why that should be avoided.
+> If we already know there is no process, we can be nice and return NOPIDFD,
+> because that doesn't add any complexity.
+
+Yes, agree. Going ahead with returning FAN_NOPIDFD for early process
+termination i.e. before fanotify calls into pidfd creation code. All other
+pidfd creation errors will be reported as FAN_EPIDFD.
+
+> Not to mention that if pid_vnr() returns 0 (process is outside of
+> pidns of caller)
+> then I think you MUST either report FAN_NOPIDFD or no pid info record,
+> because getting 0 event->pid  with a valid pidfd is weird IMO and could be
+> considered as a security breach.
+
+Good point. I feel as though reporting FAN_NOPIDFD in such cases would be
+more appropriate, rather than leaving off a pidfd info record completely.
+
+> > > > because we perform the pidfd creation during the notification queue
+> > > > processing and not in the event allocation stages (for reasons that Jan has
+> > > > already covered here [1]). So, tl;dr there is the case where the fanotify
+> > > > calls pidfd_create() and the check for pid_has_task() fails because the
+> > > > struct pid that we're hanging onto within an event no longer contains a
+> > > > task of type PIDTYPE_TGID...
+> > > >
+> > > > [0] https://www.spinics.net/lists/linux-api/msg48630.html
+> > > > [1] https://www.spinics.net/lists/linux-api/msg48632.html
+> >
+> > Maybe I'm going down a rabbit hole and overthinking this whole thing,
+> > IDK... :(
+> >
 > 
-> ---
->  include/linux/mm.h                     |  2 ++
->  include/linux/mman.h                   |  1 +
->  include/uapi/asm-generic/mman-common.h |  1 +
->  mm/memory.c                            | 12 ++++++++++++
->  mm/mmap.c                              |  4 ++++
->  5 files changed, 20 insertions(+)
+> That is the feeling I get as well.
+> Suggestion: write the man page - that will make it clear to yourself
+> and to code reviewers if the API is sane and if it is going to end up
+> being confusing to end users.
 
-I have not looked at the rest, just looking at mm/memory.c:
+Yeah, that's a good approach. I'll consider doing this for future API
+changes.
 
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -3676,6 +3676,18 @@ static vm_fault_t __do_fault(struct vm_fault *vmf)
->  	}
->   	ret = vma->vm_ops->fault(vmf);
-> +	if (unlikely(ret & VM_FAULT_SIGBUS) && (vma->vm_flags & VM_NOSIGBUS))
-> {
-> +		/*
-> +		 * Get zero page for MAP_NOSIGBUS mapping, which isn't
-> +		 * coherent wrt shmem contents that are expanded and
-> +		 * filled in later.
-> +		 */
-> +		vma->vm_flags |= VM_MIXEDMAP;
-> +		if (!vm_insert_page(vma, (unsigned long)vmf->address,
-> +				ZERO_PAGE(vmf->address)))
-> +			return VM_FAULT_NOPAGE;
-> +	}
-> +
->  	if (unlikely(ret & (VM_FAULT_ERROR | VM_FAULT_NOPAGE | VM_FAULT_RETRY
-> |
->  			    VM_FAULT_DONE_COW)))
->  		return ret;
-
-Sorry, I directed you to mm/memory.c without indicating what's
-appropriate here.  Please don't attempt to use VM_MIXEDMAP and
-vm_insert_page(): they're for special driver mmaps, they're no
-better here than they were in mm/shmem.c.
-
-It's do_anonymous_page()'s business to map in the zero page on
-read fault (see "my_zero_pfn(vmf->address)" in there), or fill
-a freshly allocated page with zeroes on write fault - and now
-you're sticking to MAP_PRIVATE, write faults in VM_WRITE areas
-are okay for VM_NOSIGBUS.
-
-Ideally you can simply call do_anonymous_page() from __do_fault()
-in the VM_FAULT_SIGBUS on VM_NOSIGBUS case.  That's what to start
-from anyway: but look to see if there's state to be adjusted to
-achieve that; and it won't be surprising if somewhere down in
-do_anonymous_page() or something it calls, there's a BUG on it
-being called when vma->vm_file is set, or something like that.
-May need some tweaking.
-
-Hugh
+/M
