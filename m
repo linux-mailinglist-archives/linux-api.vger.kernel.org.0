@@ -2,146 +2,106 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5135B39AB76
-	for <lists+linux-api@lfdr.de>; Thu,  3 Jun 2021 22:01:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A9BE39B1AC
+	for <lists+linux-api@lfdr.de>; Fri,  4 Jun 2021 06:52:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230340AbhFCUDf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 3 Jun 2021 16:03:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60260 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229894AbhFCUDf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 3 Jun 2021 16:03:35 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0F9AC061756;
-        Thu,  3 Jun 2021 13:01:49 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: tonyk)
-        with ESMTPSA id 6B54A1F434D5
-From:   =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
+        id S229752AbhFDEyj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 4 Jun 2021 00:54:39 -0400
+Received: from mail-il1-f178.google.com ([209.85.166.178]:45693 "EHLO
+        mail-il1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229704AbhFDEyj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 4 Jun 2021 00:54:39 -0400
+Received: by mail-il1-f178.google.com with SMTP id b5so7679603ilc.12;
+        Thu, 03 Jun 2021 21:52:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=1PgbPrY10zYsjifCFzWyh2BDHPVeu66kYt4xk+1XagA=;
+        b=BRFT0PFacapa79dgWyqVB1rrB4rCX8Hl4Jvwfuiik4wOdTQbuswOyQd3lyhUtIHA95
+         Jx7VbXc53nQfSF789Dj3KP3ekfgafPiF3LXWSR3RHbcAFkouBQ90k57rqEjvpjHNTAml
+         exhRmhEabKFIeAi/c0uebCRS9mqbDZgM1m1TG7dSOWQiJKgvTm23JzveZzHLvl8a6Iyy
+         GvJ/MtGTO+hTUTlDnvrLkzA9litdS5Nftaz25U1GIB8UCvepDI5ufPYCZcHoKkJjFCSw
+         g6t1zdEheCO/Xm7sICGnaUKQhil+VUxwPJpytk3FdvoN+Skb6Vxtu0Q9GN3SBsbh33+G
+         QVuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=1PgbPrY10zYsjifCFzWyh2BDHPVeu66kYt4xk+1XagA=;
+        b=WPKG39T1KtPCX8tSiYQ/BupkbvQ1mGkgLr5DPxESgWiCCI41eqKOvo8FNs8HLmuDsp
+         lUS+1VK91MaY3afWYqg/m0V1Fv54fqjb9xNPtFgOdbMjkOfSMA/qxVr1H7pTuOeBikxp
+         W/R8ELd46e2KPReC/Q/NS1lzeVWmby9FT/KV2g3GGfTVyJw+4giYQgNgu1gcUALZkivg
+         +A82fMgWPbjv12w5gVz6a+/e43R5rv74LlsKxwLImnUk/85jDERx6ZEphLs0DZC1Jv1E
+         5fu9Jux7aEWPSy5BKQmzga/dqIvqkmI3TF75C7yxWDLvRanRqtT7NNLCp3aUXd0V4KHK
+         k6/Q==
+X-Gm-Message-State: AOAM533ULToNXVvXw4wqqkopw19caf+RdUebEV+8cLQ2qiWuaS9Kn+v8
+        FvmDPknWCrDrp5SWGVxg5vQ=
+X-Google-Smtp-Source: ABdhPJy3sgFV/xsccZqhNRUor2dII2d6E1DIQNG12H/xDoszibp8FHPgZBX0ThCCy6cLblI5uHY9AA==
+X-Received: by 2002:a05:6e02:10d4:: with SMTP id s20mr2397773ilj.37.1622782303991;
+        Thu, 03 Jun 2021 21:51:43 -0700 (PDT)
+Received: from ?IPv6:2606:3280:8:e29:2093:3298:f887:8ed6? ([2606:3280:8:e29:2093:3298:f887:8ed6])
+        by smtp.googlemail.com with ESMTPSA id s23sm2762345iol.49.2021.06.03.21.51.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Jun 2021 21:51:43 -0700 (PDT)
+Subject: Re: [PATCH v4 00/15] Add futex2 syscalls
+To:     =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Darren Hart <dvhart@infradead.org>,
         linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Cc:     kernel@collabora.com, krisman@collabora.com,
-        pgriffais@valvesoftware.com, z.figura12@gmail.com,
-        joel@joelfernandes.org, malteskarupke@fastmail.fm,
-        linux-api@vger.kernel.org, fweimer@redhat.com,
-        libc-alpha@sourceware.org, linux-kselftest@vger.kernel.org,
-        shuah@kernel.org, acme@kernel.org, corbet@lwn.net,
-        Peter Oskolkov <posk@posk.io>,
+        pgriffais@valvesoftware.com, joel@joelfernandes.org,
+        malteskarupke@fastmail.fm, linux-api@vger.kernel.org,
+        fweimer@redhat.com, libc-alpha@sourceware.org,
+        linux-kselftest@vger.kernel.org, shuah@kernel.org, acme@kernel.org,
+        corbet@lwn.net, Peter Oskolkov <posk@posk.io>,
         Andrey Semashev <andrey.semashev@gmail.com>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
-Subject: [PATCH v4 15/15] kernel: Enable waitpid() for futex2
-Date:   Thu,  3 Jun 2021 16:59:24 -0300
-Message-Id: <20210603195924.361327-16-andrealmeid@collabora.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210603195924.361327-1-andrealmeid@collabora.com>
+        Davidlohr Bueso <dave@stgolabs.net>
 References: <20210603195924.361327-1-andrealmeid@collabora.com>
+From:   Zebediah Figura <z.figura12@gmail.com>
+Message-ID: <dab34fd2-b494-8686-bcd7-68beeba4f386@gmail.com>
+Date:   Thu, 3 Jun 2021 23:51:41 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210603195924.361327-1-andrealmeid@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-To make pthreads works as expected if they are using futex2, wake
-clear_child_tid with futex2 as well. This is make applications that uses
-waitpid() (and clone(CLONE_CHILD_SETTID)) wake while waiting for the
-child to terminate. Given that apps should not mix futex() and futex2(),
-any correct app will trigger a harmless noop wakeup on the interface
-that it isn't using.
+On 6/3/21 2:59 PM, André Almeida wrote:
+>   ** The wait on multiple problem
+> 
+>   The use case lies in the Wine implementation of the Windows NT interface
+>   WaitMultipleObjects. This Windows API function allows a thread to sleep
+>   waiting on the first of a set of event sources (mutexes, timers, signal,
+>   console input, etc) to signal.  Considering this is a primitive
+>   synchronization operation for Windows applications, being able to quickly
+>   signal events on the producer side, and quickly go to sleep on the
+>   consumer side is essential for good performance of those running over Wine.
+> 
 
-Signed-off-by: André Almeida <andrealmeid@collabora.com>
----
+I know this is part of the cover letter, but I really do want to clarify 
+that this isn't really accurate. The use case that this is referring to 
+is not "the Wine implementation of WaitForMultipleObjects", it is an 
+out-of-tree implementation of WaitForMultipleObjects that provides 
+improved performance compared to the in-tree implementation.
 
-This commit is here for the intend to show what we need to do in order
-to get a full NPTL working on top of futex2. It should be merged after
-we talk to glibc folks on the details around the futex_wait() side. For
-instance, we could use this as an opportunity to use private futexes or
-8bit sized futexes, but both sides need to use the exactly same flags.
----
- include/linux/syscalls.h |  2 ++
- kernel/fork.c            |  2 ++
- kernel/futex2.c          | 30 ++++++++++++++++++------------
- 3 files changed, 22 insertions(+), 12 deletions(-)
+This is especially salient because:
 
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index c108df6b3b82..94e0356ceeaa 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -1324,6 +1324,8 @@ int ksys_ipc(unsigned int call, int first, unsigned long second,
- 	unsigned long third, void __user * ptr, long fifth);
- int compat_ksys_ipc(u32 call, int first, int second,
- 	u32 third, u32 ptr, u32 fifth);
-+long ksys_futex_wake(void __user *uaddr, unsigned long nr_wake,
-+		     unsigned int flags);
- 
- /*
-  * The following kernel syscall equivalents are just wrappers to fs-internal
-diff --git a/kernel/fork.c b/kernel/fork.c
-index dc06afd725cb..344430d882b1 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -1322,6 +1322,8 @@ static void mm_release(struct task_struct *tsk, struct mm_struct *mm)
- 			put_user(0, tsk->clear_child_tid);
- 			do_futex(tsk->clear_child_tid, FUTEX_WAKE,
- 					1, NULL, NULL, 0, 0);
-+			ksys_futex_wake(tsk->clear_child_tid, 1,
-+					FUTEX_32 | FUTEX_SHARED_FLAG);
- 		}
- 		tsk->clear_child_tid = NULL;
- 	}
-diff --git a/kernel/futex2.c b/kernel/futex2.c
-index 5fd0b3d73b53..bf2de369b78a 100644
---- a/kernel/futex2.c
-+++ b/kernel/futex2.c
-@@ -978,18 +978,8 @@ static inline bool futex_match(struct futex_key key1, struct futex_key key2)
- 		key1.offset == key2.offset);
- }
- 
--/**
-- * sys_futex_wake - Wake a number of futexes waiting on an address
-- * @uaddr:   Address of futex to be woken up
-- * @nr_wake: Number of futexes waiting in uaddr to be woken up
-- * @flags:   Flags for size and shared
-- *
-- * Wake `nr_wake` threads waiting at uaddr.
-- *
-- * Returns the number of woken threads on success, error code otherwise.
-- */
--SYSCALL_DEFINE3(futex_wake, void __user *, uaddr, unsigned int, nr_wake,
--		unsigned int, flags)
-+long ksys_futex_wake(void __user *uaddr, unsigned long nr_wake,
-+		     unsigned int flags)
- {
- 	bool shared = (flags & FUTEX_SHARED_FLAG) ? true : false;
- 	unsigned int size = flags & FUTEX_SIZE_MASK;
-@@ -1023,6 +1013,22 @@ SYSCALL_DEFINE3(futex_wake, void __user *, uaddr, unsigned int, nr_wake,
- 	return ret;
- }
- 
-+/**
-+ * sys_futex_wake - Wake a number of futexes waiting on an address
-+ * @uaddr:   Address of futex to be woken up
-+ * @nr_wake: Number of futexes waiting in uaddr to be woken up
-+ * @flags:   Flags for size and shared
-+ *
-+ * Wake `nr_wake` threads waiting at uaddr.
-+ *
-+ * Returns the number of woken threads on success, error code otherwise.
-+ */
-+SYSCALL_DEFINE3(futex_wake, void __user *, uaddr, unsigned int, nr_wake,
-+		unsigned int, flags)
-+{
-+	return ksys_futex_wake(uaddr, nr_wake, flags);
-+}
-+
- static void futex_double_unlock(struct futex_bucket *b1, struct futex_bucket *b2)
- {
- 	spin_unlock(&b1->lock);
--- 
-2.31.1
+(1) this out-of-tree implementation is only in a small handful of cases 
+any more performant than a different out-of-tree implementation which 
+uses eventfd and poll() instead;
 
+(2) these implementations will remain out-of-tree due to compatibility 
+and robustness problems;
+
+(3) I believe there is potential for an upstreamable implementation 
+which does not rely on futex or futex2.
