@@ -2,102 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F1CB739BCFB
-	for <lists+linux-api@lfdr.de>; Fri,  4 Jun 2021 18:22:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87E2E39BDFA
+	for <lists+linux-api@lfdr.de>; Fri,  4 Jun 2021 19:04:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231465AbhFDQXw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 4 Jun 2021 12:23:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42014 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231415AbhFDQXv (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 4 Jun 2021 12:23:51 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B7ECB61405;
-        Fri,  4 Jun 2021 16:22:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622823725;
-        bh=xn5ZeMcRayu4wtKmfS44ZO8eZDtZJ7X1BNPhLvdFscA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=S3iL0bsoQhg6GddljyqUxX4xeNG6w7VNhf9ddnuBhnfpmo9PKNMJ5qPMhkH4dG1Rp
-         AFrhyQx8J2n+tSOSG9C69EH6ekvzdD6phQ0Xl2OEfUa+nHt98p5+OQpdW4FGjEe0Fp
-         1wYvXGfb1T2HELCDnsBeuUpueDrl2I5eXO1C4QrRIC/5HBMUbmo6u8JCWePMM6I0pL
-         bhFTBUlPNIu3XHRJG+QGe7bBoz+q64gteJdAyceQiI+yliq+mh3bRNvMTzlf0ULk+3
-         hNo5+vc0tOJd1XrbbrtBtoHWUo8bs5cfdCQ9kO437M66JkBLQmakWG0+PR6SvMZkaO
-         BqL1APQz1+4xw==
-Date:   Fri, 4 Jun 2021 09:22:03 -0700
-From:   Ming Lin <mlin@kernel.org>
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Hugh Dickins <hughd@google.com>,
-        Simon Ser <contact@emersion.fr>,
-        Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] mm: adds NOSIGBUS extension to mmap()
-Message-ID: <20210604162203.GA9562@ubuntu-server>
-References: <1622792602-40459-1-git-send-email-mlin@kernel.org>
- <1622792602-40459-3-git-send-email-mlin@kernel.org>
- <20210604152407.ouchyfuxjvchfroe@box>
+        id S230034AbhFDRGT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 4 Jun 2021 13:06:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53734 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229690AbhFDRGT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 4 Jun 2021 13:06:19 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5CB8C061766;
+        Fri,  4 Jun 2021 10:04:32 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: tonyk)
+        with ESMTPSA id 200A01F43A0D
+Subject: Re: [PATCH v4 00/15] Add futex2 syscalls
+To:     Zebediah Figura <z.figura12@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc:     kernel@collabora.com, krisman@collabora.com,
+        pgriffais@valvesoftware.com, joel@joelfernandes.org,
+        malteskarupke@fastmail.fm, linux-api@vger.kernel.org,
+        fweimer@redhat.com, libc-alpha@sourceware.org,
+        linux-kselftest@vger.kernel.org, shuah@kernel.org, acme@kernel.org,
+        corbet@lwn.net, Peter Oskolkov <posk@posk.io>,
+        Andrey Semashev <andrey.semashev@gmail.com>,
+        Davidlohr Bueso <dave@stgolabs.net>
+References: <20210603195924.361327-1-andrealmeid@collabora.com>
+ <dab34fd2-b494-8686-bcd7-68beeba4f386@gmail.com>
+From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
+Message-ID: <d3d2a8f9-4a5e-fff5-c0f3-2563366b4c11@collabora.com>
+Date:   Fri, 4 Jun 2021 14:04:21 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210604152407.ouchyfuxjvchfroe@box>
+In-Reply-To: <dab34fd2-b494-8686-bcd7-68beeba4f386@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jun 04, 2021 at 06:24:07PM +0300, Kirill A. Shutemov wrote:
-> On Fri, Jun 04, 2021 at 12:43:22AM -0700, Ming Lin wrote:
-> > Adds new flag MAP_NOSIGBUS of mmap() to specify the behavior of
-> > "don't SIGBUS on fault". Right now, this flag is only allowed
-> > for private mapping.
+Às 01:51 de 04/06/21, Zebediah Figura escreveu:
+> On 6/3/21 2:59 PM, André Almeida wrote:
+>>   ** The wait on multiple problem
+>>
+>>   The use case lies in the Wine implementation of the Windows NT
+>> interface
+>>   WaitMultipleObjects. This Windows API function allows a thread to sleep
+>>   waiting on the first of a set of event sources (mutexes, timers,
+>> signal,
+>>   console input, etc) to signal.  Considering this is a primitive
+>>   synchronization operation for Windows applications, being able to
+>> quickly
+>>   signal events on the producer side, and quickly go to sleep on the
+>>   consumer side is essential for good performance of those running
+>> over Wine.
+>>
 > 
-> That's not what your use case asks for.
-
-Simon explained the use case here: https://bit.ly/3wR85Lc
-
-FYI, I copied here too.
-
-------begin-------------------------------------------------------------------
-Regarding the requirements for Wayland:
-
-- The baseline requirement is being able to avoid SIGBUS for read-only mappings
-  of shm files.
-- Wayland clients can expand their shm files. However the compositor doesn't
-  need to immediately access the new expanded region. The client will tell the
-  compositor what the new shm file size is, and the compositor will re-map it.
-- Ideally, MAP_NOSIGBUS would work on PROT_WRITE + MAP_SHARED mappings (of
-  course, the no-SIGBUS behavior would be restricted to that mapping). The
-  use-case is writing back to client buffers e.g. for screen capture. From the
-  earlier discussions it seems like this would be complicated to implement.
-  This means we'll need to come up with a new libwayland API to allow
-  compositors to opt-in to the read-only mappings. This is sub-optimal but
-  seems doable.
-- Ideally, MAP_SIGBUS wouldn't be restricted to shm. There are use-cases for
-  using it on ordinary files too, e.g. for sharing ICC profiles. But from the
-  earlier replies it seems very unlikely that this will become possible, and
-  making it work only on shm files would already be fantastic.
-------end-------------------------------------------------------------------
-
+> I know this is part of the cover letter, but I really do want to clarify
+> that this isn't really accurate. The use case that this is referring to
+> is not "the Wine implementation of WaitForMultipleObjects", it is an
+> out-of-tree implementation of WaitForMultipleObjects that provides
+> improved performance compared to the in-tree implementation.
 > 
-> SIGBUS can be generated for a number of reasons, not only on fault beyond
-> end-of-file. vmf_error() would convert any errno, except ENOMEM to
-> VM_FAULT_SIGBUS.
+> This is especially salient because:
 > 
-> Do you want to ignore -EIO or -ENOSPC? I don't think so.
+> (1) this out-of-tree implementation is only in a small handful of cases
+> any more performant than a different out-of-tree implementation which
+> uses eventfd and poll() instead;
 > 
-> > For MAP_NOSIGBUS mapping, map in the zero page on read fault
-> > or fill a freshly allocated page with zeroes on write fault.
+> (2) these implementations will remain out-of-tree due to compatibility
+> and robustness problems;
 > 
-> I don't like the resulting semantics: if you had a read fault beyond EOF
-> and got zero page, you will still see zero page even if the file grows.
-> Yes, it's allowed by POSIX for MAP_PRIVATE to get out-of-sync with the
-> file, but it's not what users used to.
+> (3) I believe there is potential for an upstreamable implementation
+> which does not rely on futex or futex2.
 
-Actually old version did support file grows.
-https://github.com/minggr/linux/commit/77f3722b94ff33cafe0a72c1bf1b8fa374adb29f
+I'll let it more clear next time that this applies to Proton's Wine, and
+not Wine.
 
-We can support this if there is real use case.
-
-> 
-> It might be enough for the use case, but I would rather avoid one-user
-> features.
+Along with that, wait on multiple will be useful for other workloads,
+such as the ones that uses Boost's mass locking algorithms and native
+game engines for instance.
