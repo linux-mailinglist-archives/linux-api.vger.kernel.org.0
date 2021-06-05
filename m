@@ -2,78 +2,64 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2177039CA1C
-	for <lists+linux-api@lfdr.de>; Sat,  5 Jun 2021 19:07:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96EA839CB99
+	for <lists+linux-api@lfdr.de>; Sun,  6 Jun 2021 01:01:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229938AbhFERJH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 5 Jun 2021 13:09:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33734 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229930AbhFERJH (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sat, 5 Jun 2021 13:09:07 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AE46361416;
-        Sat,  5 Jun 2021 17:07:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1622912839;
-        bh=8K9ZUN1X6q7QYKaoMkC5sSzJVB3RkIZbgRR8IQ4iHzQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=x4De8Ow1WFCPQahQj1Mh7hSTuUB1qDxOFpxa6yTPbIBjo526qD9iDpkpZCc18/p15
-         9TCgLoDTxbyQ5Goy7XmQZUK7TuuMFRx2kwWemNdhx13i0OD4Gzjnd9WVyG50J4098d
-         1Psbz8yOqqi+f2/r1tnfkXREw6ulgxLXGwx5/T6g=
-Date:   Sat, 5 Jun 2021 19:07:15 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     yongw.pur@gmail.com
-Cc:     minchan@kernel.org, ngupta@vflare.org, senozhatsky@chromium.org,
-        axboe@kernel.dk, akpm@linux-foundation.org,
-        songmuchun@bytedance.com, david@redhat.com,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-mm@kvack.org, willy@infradead.org, linux-api@vger.kernel.org
-Subject: Re: [RFC PATCH V2] zram:calculate available memory when zram is used
-Message-ID: <YLuvQwkZkl9UCoJw@kroah.com>
-References: <1622910240-4621-1-git-send-email-yongw.pur@gmail.com>
+        id S230034AbhFEXDa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 5 Jun 2021 19:03:30 -0400
+Received: from mail-oi1-f173.google.com ([209.85.167.173]:33497 "EHLO
+        mail-oi1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230010AbhFEXDa (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 5 Jun 2021 19:03:30 -0400
+Received: by mail-oi1-f173.google.com with SMTP id t140so8637214oih.0
+        for <linux-api@vger.kernel.org>; Sat, 05 Jun 2021 16:01:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=Vuef6UMB3u4KtSmbVmPIsdI+pp8YGRUKBSdGzlDIu5o=;
+        b=nWdDLIfqV/Ru28LOMTqm5VaU9uF3qSVElKi9JXeiD+K3f5nIdGME2gkB3XfaoXh5+c
+         eMgMZodpCb9egDnOHQdRyakGjAPKhrCCcXLfIyz9WHEKVxx1ZzmWLWcmmtbxzuiKxgA7
+         6ZGXkx8RC8kvEK2TvnhlY6Li0sA7CkQoiQ1+iBRKYL6lBqRwWAfjbWGaRfsbqvIBdiBQ
+         g/eGIyscHNkHZ8E2/pggjwmnVQzzvZUyhB8l35y2OrCs4bK+b1AQ0RizcoiYzs2Af+HH
+         BVsCtlN0hsRZ/WCd81dBSixSluIkiKyENQ8cihJIc9ElU2lIXiMERoXDvQK7+o9EgyoL
+         +0bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=Vuef6UMB3u4KtSmbVmPIsdI+pp8YGRUKBSdGzlDIu5o=;
+        b=a7MMobv/uqbLYcSSFBBO0I1HDDfnwY4/O2NrGPuWkBWzn0KZ2y0bDzxweDWklPTPmM
+         bP5hh5KNkar7rh30qWtkRWqKXMa6upL8IsBOyQXxaoa8z1UnCAOssGzErFMh0SXVErOh
+         0Cbpo40QRAwLKDQknKsGZ9siNc9SrTnPI3UVoauj3D/fyi8ETqZqV5J9tyWWCiJ4y8iD
+         Hz1/LW8uaLBXq5/3pRNR9VbsJ25ukujc3i0iJmHzZpE01iE4/fBzauQRQBybaxCGbnwV
+         bjYFbXjNS5lz9b7HEZbDzcAz4nCRCzC+Bw9vVwh/HzO99JVGb6fMdMaRijaeYpCYPNzi
+         JRwQ==
+X-Gm-Message-State: AOAM531hC76uIROhWoGHXqAmTKzERJodfV0V/+RBKlcNsas+ohxxKmR6
+        cc9YWO6sAHIdUS293erUBsb4GOwD3qXmVLSBi3A=
+X-Google-Smtp-Source: ABdhPJw/GACAhjCxqrRkyVy8S68dVr9aB7zFI6oBr9cb0TTK3WO2TfEQ2ngkti0syLkk6sIMwV37SwrRaJ+Jcu96L/A=
+X-Received: by 2002:a54:400a:: with SMTP id x10mr15703327oie.158.1622934028096;
+ Sat, 05 Jun 2021 16:00:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1622910240-4621-1-git-send-email-yongw.pur@gmail.com>
+Received: by 2002:a4a:97a7:0:0:0:0:0 with HTTP; Sat, 5 Jun 2021 16:00:27 -0700 (PDT)
+Reply-To: maverickjones57@gmail.com
+From:   maverick Jones <jonesmaverick555@gmail.com>
+Date:   Sun, 6 Jun 2021 00:00:27 +0100
+Message-ID: <CAHk1UWkLO8teZCxyNxvjPGExgk4NgVzaof++Xgnd4XhsWqwDDw@mail.gmail.com>
+Subject: Hello
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Jun 05, 2021 at 09:24:00AM -0700, yongw.pur@gmail.com wrote:
-> From: wangyong <yongw.pur@gmail.com>
-> 
-> When zram is used, available+Swap free memory is obviously
-> bigger than we actually can use, because zram can compress
-> memory by compression algorithm and zram compressed data
-> will occupy memory too.
-> 
-> So, we can count the compression ratio of zram in the kernel.
-> The space will be saved by zram and other swap device are
-> calculated as follows:
-> zram[swapfree - swapfree * compress ratio] + swapdev[swapfree]
-> We can evaluate the available memory of the whole system as:
-> MemAvailable+zram[swapfree - swapfree * compress ratio]+swapdev[swapfree]
-> 
-> Add an entry to the /proc/meminfo file, returns swap will save space.
-> Which name is more appropriate is still under consideration.
-> There are several alternative names: SwapAvailable, SwapSaved,
-> SwapCompressible
-> 
-> Signed-off-by: wangyong <yongw.pur@gmail.com>
-> ---
->  drivers/block/zram/zcomp.h    |  1 +
->  drivers/block/zram/zram_drv.c | 19 +++++++++
->  drivers/block/zram/zram_drv.h |  1 +
->  fs/proc/meminfo.c             |  1 +
->  include/linux/swap.h          | 10 +++++
->  mm/swapfile.c                 | 95 +++++++++++++++++++++++++++++++++++++++++++
->  mm/vmscan.c                   |  1 +
->  7 files changed, 128 insertions(+)
+-- 
 
-You are adding a new sysfs file with no new Documentation/ABI entry.
-Also are you sure you are allowed to add a new proc file entry without
-breaking existing tools?
+We wish to notify you again that you were listed as a beneficiary in
+the intent of the deceased .Please provide
 
-thanks,
+your contact details to enable us contact you with full details on how
+to claims the Inheritance.
 
-greg k-h
+Yours faithfully,
+
+Maverick Jones.
