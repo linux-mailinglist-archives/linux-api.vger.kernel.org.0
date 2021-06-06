@@ -2,127 +2,157 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C4D0539CE9C
-	for <lists+linux-api@lfdr.de>; Sun,  6 Jun 2021 12:45:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A140D39CEBE
+	for <lists+linux-api@lfdr.de>; Sun,  6 Jun 2021 13:58:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229878AbhFFKrl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 6 Jun 2021 06:47:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30599 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229465AbhFFKrk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 6 Jun 2021 06:47:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1622976350;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=/HilGFSprc7YIEedvPuaQGfj7Ylt2W0rsufgmNzneQE=;
-        b=MiQWWFKJruWhVr5kzI30l7PiiwmOkkPhmCs0yL/lAkYLx1AN9p+nRIPaDuz+1jqb/YUnrp
-        /Wzw76mT/OHG4CJirk6fXUBLEmSs9qkOIKA29ST882n1cD971ned688dNEnEmRCRw09gJi
-        HzrTi3VNzaek0ORGR1t2QW1DgCGkf18=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-3GwoKBLyPdWHsURLBtnnJw-1; Sun, 06 Jun 2021 06:45:49 -0400
-X-MC-Unique: 3GwoKBLyPdWHsURLBtnnJw-1
-Received: by mail-wr1-f72.google.com with SMTP id k25-20020a5d52590000b0290114dee5b660so6650470wrc.16
-        for <linux-api@vger.kernel.org>; Sun, 06 Jun 2021 03:45:48 -0700 (PDT)
+        id S230175AbhFFMAi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 6 Jun 2021 08:00:38 -0400
+Received: from mail-pg1-f173.google.com ([209.85.215.173]:35417 "EHLO
+        mail-pg1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229776AbhFFMAh (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 6 Jun 2021 08:00:37 -0400
+Received: by mail-pg1-f173.google.com with SMTP id o9so8806155pgd.2;
+        Sun, 06 Jun 2021 04:58:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:subject:to:cc:references:in-reply-to:mime-version
+         :message-id:content-transfer-encoding;
+        bh=aPhZd0Ev1Ws/GdwHl8PJdNKfaX6hJwWh4xylt4wxRXc=;
+        b=Na4D8qBD3WbOV8ekMSlAia9NMbFTdGHAa+HvQcwfTucGT2H9caXMMBLm45GJVXA1vj
+         G58hHRdJjm3gE6MOFk8AlnVMZFnByfSnycUTus1HZCpCh7TG562tLypVdKCdYnLqhQ0Z
+         lGEkMsFs8z8c8c7iUSbEP4QAyaLB8cNC4Caf3GsuT2RalMCmOndS7N6eS0t4uhsvuKCm
+         Gbl0pv49bjReRXrkgcyuKAwHgTjkjWAY4Z6jsDCSfQVeFkDFW2zA2r42UT3goB1bxP5D
+         hwOmQNKFIOYlS33hyLIFQhyxNfdzfIbdLbarBDKrNVUf4qMBRsS+59ZxsePGIITCSwyX
+         1z0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=/HilGFSprc7YIEedvPuaQGfj7Ylt2W0rsufgmNzneQE=;
-        b=EVoOVpMdQEiGDfTumQdMoPRRPfZZ3NMfsOVCsXYOggWpK05Fw7DitZQYvRdVtpE3OK
-         wuQtBfZH0OQhaiVkYNnp+dfrOisBRunvJupTzcu4ZlEYMd7dEZdkOltuooBmad1FCOwb
-         /mDlQqPuo0SOK0likunlrMLvnAqJpVKRqSqOLO8smgQCtaua9e3eMsGcf1hvHH0M1POo
-         vVjGudMiWYA6+qLdISGIVGa9PGLORzP53gZB6vliRQuRzjWxxXcc+AF3ujlFrOG90Jo9
-         6RsOCgqAmm4U9/GU9eZklXNZzQq7tBe4ZClgRl6tcVb1g7WZpxbJrP/9vA9BjEOq2Nwa
-         xnhw==
-X-Gm-Message-State: AOAM533O33gIOhcX7czUs9RjSrMOhpBSYXBNavXRKsV+RAvyBTFACQUU
-        L+qR8jhmQZ5UDWvI95M5a+GCwPKanbwYUrnQP98vtoe+E2Dns9mvS860R/wHU1+DJ5NyKHP07vb
-        cN8siz0hlfBkiH8iDxktK3MwZifT6l6Zj0SqHXkCi0U7cTgh6OUk2cY7lMnIZ0xrutKl0
-X-Received: by 2002:a1c:7508:: with SMTP id o8mr11795345wmc.70.1622976347837;
-        Sun, 06 Jun 2021 03:45:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyT0ZOIVt4u7phjM8iGhd6Z6zCDQDV96nEVWCXs8D6/rSL4dr76fRMRcXDoMNIbSkIRNIyMTQ==
-X-Received: by 2002:a1c:7508:: with SMTP id o8mr11795321wmc.70.1622976347617;
-        Sun, 06 Jun 2021 03:45:47 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c65e5.dip0.t-ipconnect.de. [91.12.101.229])
-        by smtp.gmail.com with ESMTPSA id g205sm7110144wme.6.2021.06.06.03.45.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 06 Jun 2021 03:45:47 -0700 (PDT)
-Subject: Re: [RFC PATCH V2] zram:calculate available memory when zram is used
-To:     Greg KH <gregkh@linuxfoundation.org>, yongw.pur@gmail.com
-Cc:     minchan@kernel.org, ngupta@vflare.org, senozhatsky@chromium.org,
-        axboe@kernel.dk, akpm@linux-foundation.org,
-        songmuchun@bytedance.com, linux-kernel@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-mm@kvack.org,
-        willy@infradead.org, linux-api@vger.kernel.org
-References: <1622910240-4621-1-git-send-email-yongw.pur@gmail.com>
- <YLuvQwkZkl9UCoJw@kroah.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <aa43a75c-4699-0540-f918-5b2788b49162@redhat.com>
-Date:   Sun, 6 Jun 2021 12:45:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        h=x-gm-message-state:date:from:subject:to:cc:references:in-reply-to
+         :mime-version:message-id:content-transfer-encoding;
+        bh=aPhZd0Ev1Ws/GdwHl8PJdNKfaX6hJwWh4xylt4wxRXc=;
+        b=aZ5RXldlpTWUe3thjCbMeg1qpZjOL8SC1NVhhDq9EOlqkKCJWahy761subSfJKj3rN
+         lvpb3EFtY4KoNEkT/b40Kk/ed6ejtZ9GZDevqUvKpj/A/tr6YFGgDADhXeCSFOCiN9Mf
+         vjPsl2Mze3AuAQ5NB6SC3/dd2iURxXmEgz9L7A+/eqssY1VrOKfv8T9FCgtxMKi1luOl
+         n5Enu9qg5VUZ07lM2YfuGEjgVNF5tCGY4187/gkHGjXjmTe1zOHYuzxaCOpwuTnUbOJr
+         FIXRE6erFYVhipq4XqQMl7bpzzr4VPliiEX5dX10pMbjmOsBw7M6460UnsfIxg6JSA+d
+         edyg==
+X-Gm-Message-State: AOAM530xwfDFIkzzKmfpv0y+vCHM3svnniDrfbneWJxnDGQdyTqhr1NR
+        +LSjHOvYZRHuPd0SpAwMKro=
+X-Google-Smtp-Source: ABdhPJy1errmzyynWPa3ewKLZyjUWzm63irnwwd8zEtqQmGGqnOkU/D4lBRwVA3CX9TPyUVedCULLw==
+X-Received: by 2002:a05:6a00:810:b029:2ec:3b54:6a89 with SMTP id m16-20020a056a000810b02902ec3b546a89mr13064663pfk.0.1622980654096;
+        Sun, 06 Jun 2021 04:57:34 -0700 (PDT)
+Received: from localhost (60-242-147-73.tpgi.com.au. [60.242.147.73])
+        by smtp.gmail.com with ESMTPSA id s33sm5306006pfw.150.2021.06.06.04.57.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Jun 2021 04:57:33 -0700 (PDT)
+Date:   Sun, 06 Jun 2021 21:57:27 +1000
+From:   Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [PATCH v4 00/15] Add futex2 syscalls
+To:     =?iso-8859-1?b?QW5kcuk=?= Almeida <andrealmeid@collabora.com>,
+        Andrey Semashev <andrey.semashev@gmail.com>
+Cc:     acme@kernel.org, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        corbet@lwn.net, Davidlohr Bueso <dave@stgolabs.net>,
+        Darren Hart <dvhart@infradead.org>, fweimer@redhat.com,
+        joel@joelfernandes.org, kernel@collabora.com,
+        krisman@collabora.com, libc-alpha@sourceware.org,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, malteskarupke@fastmail.fm,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        pgriffais@valvesoftware.com, Peter Oskolkov <posk@posk.io>,
+        Steven Rostedt <rostedt@goodmis.org>, shuah@kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>, z.figura12@gmail.com
+References: <20210603195924.361327-1-andrealmeid@collabora.com>
+        <1622799088.hsuspipe84.astroid@bobo.none>
+        <fb85fb20-5421-b095-e68b-955afa105467@collabora.com>
+        <1622853816.mokf23xgnt.astroid@bobo.none>
+        <6d8e3bb4-0cef-b991-9a16-1f03d10f131d@gmail.com>
+In-Reply-To: <6d8e3bb4-0cef-b991-9a16-1f03d10f131d@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YLuvQwkZkl9UCoJw@kroah.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Message-Id: <1622980258.cfsuodze38.astroid@bobo.none>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 05.06.21 19:07, Greg KH wrote:
-> On Sat, Jun 05, 2021 at 09:24:00AM -0700, yongw.pur@gmail.com wrote:
->> From: wangyong <yongw.pur@gmail.com>
->>
->> When zram is used, available+Swap free memory is obviously
->> bigger than we actually can use, because zram can compress
->> memory by compression algorithm and zram compressed data
->> will occupy memory too.
->>
->> So, we can count the compression ratio of zram in the kernel.
->> The space will be saved by zram and other swap device are
->> calculated as follows:
->> zram[swapfree - swapfree * compress ratio] + swapdev[swapfree]
->> We can evaluate the available memory of the whole system as:
->> MemAvailable+zram[swapfree - swapfree * compress ratio]+swapdev[swapfree]
->>
->> Add an entry to the /proc/meminfo file, returns swap will save space.
->> Which name is more appropriate is still under consideration.
->> There are several alternative names: SwapAvailable, SwapSaved,
->> SwapCompressible
->>
->> Signed-off-by: wangyong <yongw.pur@gmail.com>
->> ---
->>   drivers/block/zram/zcomp.h    |  1 +
->>   drivers/block/zram/zram_drv.c | 19 +++++++++
->>   drivers/block/zram/zram_drv.h |  1 +
->>   fs/proc/meminfo.c             |  1 +
->>   include/linux/swap.h          | 10 +++++
->>   mm/swapfile.c                 | 95 +++++++++++++++++++++++++++++++++++++++++++
->>   mm/vmscan.c                   |  1 +
->>   7 files changed, 128 insertions(+)
-> 
-> You are adding a new sysfs file with no new Documentation/ABI entry.
+Excerpts from Andrey Semashev's message of June 5, 2021 6:56 pm:
+> On 6/5/21 4:09 AM, Nicholas Piggin wrote:
+>> Excerpts from Andr=C3=A9 Almeida's message of June 5, 2021 6:01 am:
+>>> =C3=80s 08:36 de 04/06/21, Nicholas Piggin escreveu:
+>>=20
+>>>> I'll be burned at the stake for suggesting it but it would be great if
+>>>> we could use file descriptors. At least for the shared futex, maybe
+>>>> private could use a per-process futex allocator. It solves all of the
+>>>> above, although I'm sure has many of its own problem. It may not play
+>>>> so nicely with the pthread mutex API because of the whole static
+>>>> initialiser problem, but the first futex proposal did use fds. But it'=
+s
+>>>> an example of an alternate API.
+>>>>
+>>>
+>>> FDs and futex doesn't play well, because for futex_wait() you need to
+>>> tell the kernel the expected value in the futex address to avoid
+>>> sleeping in a free lock. FD operations (poll, select) don't have this
+>>> `value` argument, so they could sleep forever, but I'm not sure if you
+>>> had taken this in consideration.
+>>=20
+>> I had. The futex wait API would take a fd additional. The only
+>> difference is the waitqueue that is used when a sleep or wake is
+>> required is derived from the fd, not from an address.
+>>=20
+>> I think the bigger sticking points would be if it's too heavyweight an
+>> object to use (which could be somewhat mitigated with a simpler ida
+>> allocator although that's difficult to do with shared), and whether libc
+>> could sanely use them due to the static initialiser problem of pthread
+>> mutexes.
+>=20
+> The static initialization feature is not the only benefit of the current=20
+> futex design, and probably not the most important one. You can work=20
+> around the static initialization in userspace, e.g. by initializing fd=20
+> to an invalid value and creating a valid fd upon the first use. Although=20
+> that would still incur a performance penalty and add a new source of=20
+> failure.
 
-Indeed. And in the best case, the change would be accompanied with a man 
-page update patch for the "proc" man page.
+Sounds like a serious problem, but maybe it isn't. On the other hand,
+maybe we don't have to support pthread mutexes as they are anyway=20
+because futex already does that fairly well.
 
-> Also are you sure you are allowed to add a new proc file entry without
-> breaking existing tools?
+> What is more important is that waiting on fd always requires a kernel=20
+> call. This will be terrible for performance of uncontended locks, which=20
+> is the majority of time.
 
-I think adding new entries is not a problem. Parsers have to deal with 
-new entries popping up. For example, we introduced "ShadowCallStack:" in 
-2020 via 628d06a48f57 ("scs: Add page accounting for shadow call stack 
-allocations").
+No. As I said just before, it would be the same except the waitqueue is=20
+derived from fd rather than address.
 
+>=20
+> Another important point is that a futex that is not being waited on=20
+> consumes zero kernel resources while fd is a limited resource even when=20
+> not used. You can have millions futexes in userspace and you are=20
+> guaranteed not to exhaust any limit as long as you have memory. That is=20
+> an important feature, and the current userspace is relying on it by=20
+> assuming that creating mutexes and condition variables is cheap.
 
--- 
+Is it an important feture? Would 1 byte of kernel memory per uncontended=20
+futex be okay? 10? 100?
+
+I do see it's very nice the current design that requires no=20
+initialization for uncontended, I'm just asking questions to get an idea=20
+of what constraints we're working with. We have a pretty good API=20
+already which can support unlimited uncontended futexes, so I'm=20
+wondering do we really need another very very similar API that doesn't
+fix the really difficult problems of the existing one?
+
 Thanks,
+Nick
 
-David / dhildenb
-
+> Having futex fd would be useful in some cases to be able to integrate=20
+> futexes with IO. I did have use cases where I would have liked to have=20
+> FUTEX_FD in the past. These cases arise when you already have a thread=20
+> that operates on fds and you want to avoid having a separate thread that=20
+> blocks on futexes in a similar fashion. But, IMO, that should be an=20
+> optional opt-in feature. By far, not every futex needs to have an fd.=20
+> For just waiting on multiple futexes, the native support that futex2=20
+> provides is superior.
+>=20
+> PS: I'm not asking FUTEX_FD to be implemented as part of futex2 API.=20
+> futex2 would be great even without it.
