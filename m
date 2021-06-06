@@ -2,168 +2,419 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C51EF39CF4A
-	for <lists+linux-api@lfdr.de>; Sun,  6 Jun 2021 15:16:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B264039D0E1
+	for <lists+linux-api@lfdr.de>; Sun,  6 Jun 2021 21:13:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230011AbhFFNSW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 6 Jun 2021 09:18:22 -0400
-Received: from mail-lj1-f172.google.com ([209.85.208.172]:46937 "EHLO
-        mail-lj1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbhFFNSV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 6 Jun 2021 09:18:21 -0400
-Received: by mail-lj1-f172.google.com with SMTP id e11so18121580ljn.13;
-        Sun, 06 Jun 2021 06:16:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=UyJmePmvAT8ujnkHGmMymmbI4mYpRcN4GEU/l9qlfiY=;
-        b=Cw98LNPcknNmGwGC8P9szo5eN68fYbOt6dmIN2aQVcvwc1rDgwFXFro1RA38NSy/Ie
-         U6WKUNPRrv2uHUYp6hCwXR8u84/G8QhwWtfGCHoOSt3G4l7nEmxfTVpd5MFKnK65qDq1
-         7yLFWFbk2G2pZ4jTRxx4bBXuPo/WAfSek1RNu7E6N5Fi8q51sfEIoJEYALs5ckvUaAIr
-         JptX+0Ue0MWIGR5VE2ZtQ4pKDgLTBkf2suLIlMFsZqYeu+pffaC4TkK3e4QILGxOVUJi
-         jH1mvQ44vparDOfC2N0VYTSl1wyhxGQzYBqSaTjSeWAUvIKr+Uma6dKfrEZr+JTyX+J9
-         Texw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=UyJmePmvAT8ujnkHGmMymmbI4mYpRcN4GEU/l9qlfiY=;
-        b=dhWJjjiMvVXObOVinWK6Uu2YNv+tRilTeZhW6qRlv/jasJZJ1h0NkKMJv7INP0dcjo
-         Z/87Z2TZJbo7RzCcf63catPUj54z5+aF58JAJi+fd0E47++M5OIFaeNCtVLDo+HHS3ZP
-         6PdhC+9lJ5a6KnOWnHKsHrPYs40B+fxY8C1OczT1yoQfPaK2Dj+sVB/w15PSbabIdQmk
-         ZDp2Z5Ihk3ZvRfcjBRNET2VvzWS37h+PTMtEg43Idq0kNPNj5p2baOKnSTAqOCPrP8jS
-         tpAplpD10mG24G8K3PEbqqbWRMqZAp4V6A3kL9umqnLi7n1pkjyuXtpSArrHiP5f/63I
-         bQyA==
-X-Gm-Message-State: AOAM531nyTWW4ugLV2BTf7fn9/ZcRfUkUa+ugJbbIqNZ9AanoIpW7UzP
-        EBiB+NBuElyr98+LI9LtPeM=
-X-Google-Smtp-Source: ABdhPJx+zE3g3ByP+HyPd8ppcEeXLxyAbBoJNbCSFuZnfTb6sieO0lsY7gJBhoeZ1l2VubSZ13jh+Q==
-X-Received: by 2002:a2e:b819:: with SMTP id u25mr10849232ljo.182.1622985330956;
-        Sun, 06 Jun 2021 06:15:30 -0700 (PDT)
-Received: from [192.168.1.2] (broadband-5-228-51-184.ip.moscow.rt.ru. [5.228.51.184])
-        by smtp.gmail.com with ESMTPSA id u10sm1450879lji.16.2021.06.06.06.15.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 06 Jun 2021 06:15:29 -0700 (PDT)
-Subject: Re: [PATCH v4 00/15] Add futex2 syscalls
-To:     Nicholas Piggin <npiggin@gmail.com>,
-        =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
-Cc:     acme@kernel.org, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        corbet@lwn.net, Davidlohr Bueso <dave@stgolabs.net>,
-        Darren Hart <dvhart@infradead.org>, fweimer@redhat.com,
-        joel@joelfernandes.org, kernel@collabora.com,
-        krisman@collabora.com, libc-alpha@sourceware.org,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, malteskarupke@fastmail.fm,
+        id S231490AbhFFTPl convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Sun, 6 Jun 2021 15:15:41 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:55108 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231522AbhFFTOi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 6 Jun 2021 15:14:38 -0400
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+        (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id CF06921A83;
+        Sun,  6 Jun 2021 19:12:44 +0000 (UTC)
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+        by imap.suse.de (Postfix) with ESMTP id A8D70118DD;
+        Sun,  6 Jun 2021 19:12:39 +0000 (UTC)
+Received: from director2.suse.de ([192.168.254.72])
+        by imap3-int with ESMTPSA
+        id 1dwyHycevWBQXAAALh3uQQ
+        (envelope-from <dave@stgolabs.net>); Sun, 06 Jun 2021 19:12:39 +0000
+Date:   Sun, 6 Jun 2021 12:12:33 -0700
+From:   Davidlohr Bueso <dave@stgolabs.net>
+To:     =?utf-8?B?QW5kcsOvwr/CvQ==?= Almeida <andrealmeid@collabora.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        pgriffais@valvesoftware.com, Peter Oskolkov <posk@posk.io>,
-        Steven Rostedt <rostedt@goodmis.org>, shuah@kernel.org,
-        Thomas Gleixner <tglx@linutronix.de>, z.figura12@gmail.com
+        Darren Hart <dvhart@infradead.org>,
+        linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        kernel@collabora.com, krisman@collabora.com,
+        pgriffais@valvesoftware.com, z.figura12@gmail.com,
+        joel@joelfernandes.org, malteskarupke@fastmail.fm,
+        linux-api@vger.kernel.org, fweimer@redhat.com,
+        libc-alpha@sourceware.org, linux-kselftest@vger.kernel.org,
+        shuah@kernel.org, acme@kernel.org, corbet@lwn.net,
+        Peter Oskolkov <posk@posk.io>,
+        Andrey Semashev <andrey.semashev@gmail.com>,
+        torvalds@linux-foundation.org
+Subject: Re: [PATCH v4 05/15] futex2: Implement support for different futex
+ sizes
+Message-ID: <20210606191233.asjaichvylpryser@offworld>
 References: <20210603195924.361327-1-andrealmeid@collabora.com>
- <1622799088.hsuspipe84.astroid@bobo.none>
- <fb85fb20-5421-b095-e68b-955afa105467@collabora.com>
- <1622853816.mokf23xgnt.astroid@bobo.none>
- <6d8e3bb4-0cef-b991-9a16-1f03d10f131d@gmail.com>
- <1622980258.cfsuodze38.astroid@bobo.none>
-From:   Andrey Semashev <andrey.semashev@gmail.com>
-Message-ID: <c6d86db8-4f63-6c57-9a67-6268da266afe@gmail.com>
-Date:   Sun, 6 Jun 2021 16:15:28 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ <20210603195924.361327-6-andrealmeid@collabora.com>
 MIME-Version: 1.0
-In-Reply-To: <1622980258.cfsuodze38.astroid@bobo.none>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8BIT
+In-Reply-To: <20210603195924.361327-6-andrealmeid@collabora.com>
+User-Agent: NeoMutt/20201120
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 6/6/21 2:57 PM, Nicholas Piggin wrote:
-> Excerpts from Andrey Semashev's message of June 5, 2021 6:56 pm:
->> On 6/5/21 4:09 AM, Nicholas Piggin wrote:
->>> Excerpts from André Almeida's message of June 5, 2021 6:01 am:
->>>> Às 08:36 de 04/06/21, Nicholas Piggin escreveu:
->>>
->>>>> I'll be burned at the stake for suggesting it but it would be great if
->>>>> we could use file descriptors. At least for the shared futex, maybe
->>>>> private could use a per-process futex allocator. It solves all of the
->>>>> above, although I'm sure has many of its own problem. It may not play
->>>>> so nicely with the pthread mutex API because of the whole static
->>>>> initialiser problem, but the first futex proposal did use fds. But it's
->>>>> an example of an alternate API.
->>>>>
->>>>
->>>> FDs and futex doesn't play well, because for futex_wait() you need to
->>>> tell the kernel the expected value in the futex address to avoid
->>>> sleeping in a free lock. FD operations (poll, select) don't have this
->>>> `value` argument, so they could sleep forever, but I'm not sure if you
->>>> had taken this in consideration.
->>>
->>> I had. The futex wait API would take a fd additional. The only
->>> difference is the waitqueue that is used when a sleep or wake is
->>> required is derived from the fd, not from an address.
->>>
->>> I think the bigger sticking points would be if it's too heavyweight an
->>> object to use (which could be somewhat mitigated with a simpler ida
->>> allocator although that's difficult to do with shared), and whether libc
->>> could sanely use them due to the static initialiser problem of pthread
->>> mutexes.
->>
->> The static initialization feature is not the only benefit of the current
->> futex design, and probably not the most important one. You can work
->> around the static initialization in userspace, e.g. by initializing fd
->> to an invalid value and creating a valid fd upon the first use. Although
->> that would still incur a performance penalty and add a new source of
->> failure.
-> 
-> Sounds like a serious problem, but maybe it isn't. On the other hand,
-> maybe we don't have to support pthread mutexes as they are anyway
-> because futex already does that fairly well.
-> 
->> What is more important is that waiting on fd always requires a kernel
->> call. This will be terrible for performance of uncontended locks, which
->> is the majority of time.
-> 
-> No. As I said just before, it would be the same except the waitqueue is
-> derived from fd rather than address.
+On Thu, 03 Jun 2021, Andr� Almeida wrote:
 
-Sorry, in that case I'm not sure I understand how that would work. You 
-do need to allocate a fd, do you?
+>Implement support for 8, 16 and 64 bit futexes, along with the existing
+>32 bit support. Userspace should use flags to specify in the syscall
+>the size of the *uaddr they are operating on.
+>
+>Variable sized futexes are useful for implementing atomic primitives in
+>userspace in an efficient manner. 64bit sized futexes are also
+>particularly useful when userspace stores information to be used in an
+>atomic fashion on the futex value, given more room for flexibility.
 
->> Another important point is that a futex that is not being waited on
->> consumes zero kernel resources while fd is a limited resource even when
->> not used. You can have millions futexes in userspace and you are
->> guaranteed not to exhaust any limit as long as you have memory. That is
->> an important feature, and the current userspace is relying on it by
->> assuming that creating mutexes and condition variables is cheap.
-> 
-> Is it an important feture? Would 1 byte of kernel memory per uncontended
-> futex be okay? 10? 100?
-> 
-> I do see it's very nice the current design that requires no
-> initialization for uncontended, I'm just asking questions to get an idea
-> of what constraints we're working with. We have a pretty good API
-> already which can support unlimited uncontended futexes, so I'm
-> wondering do we really need another very very similar API that doesn't
-> fix the really difficult problems of the existing one?
+Note that at least in the past, Linus has been vehemently against 64-bit
+futexes.
 
-It does provide the very much needed features that are missing in the 
-current futex. Namely, more futex sizes and wait for multiple. So the 
-argument of "why have two similar APIs" is not quite fair. It would be, 
-if there was feature parity with futex.
+Basically this additional data, like for implementing read/write locks,
+does not need to be in the futex atomic wait/wake parts. You can instead
+split the userspace lock into two adjacent 32-bit words and do 64-bit
+atomic ops on it.
 
-I believe, the low cost of a futex is an important feature, and was one 
-of the reasons for its original design and introduction. Otherwise we 
-would be using eventfds in mutexes.
+Of course, this is a new interface altogether, so this time it might
+be fair game.
 
-One other feature that I didn't mention earlier and which follows from 
-its "address in memory" design is the ability to use futexes in 
-process-shared memory. This is important for process-shared pthread 
-components, too, but has its own value even without this, if you use 
-futexes directly. With fds, you can't place the fd in a shared memory 
-since every process needs to have its own fd referring to the same 
-kernel object, and passing fds cannot be done without a UNIX socket. 
-This is incompatible with pthreads API design and would require 
-non-trivial design changes to the applications using futexes directly.
+Thanks,
+Davidlohr
+
+>
+>Overlapping futexes are not allowed, so userspace can't wait and wake on
+>the same memory address if the are using different sizes.
+>
+>Signed-off-by: Andr� Almeida <andrealmeid@collabora.com>
+>---
+> include/uapi/linux/futex.h |   3 +
+> kernel/futex2.c            | 124 ++++++++++++++++++++++++-------------
+> 2 files changed, 84 insertions(+), 43 deletions(-)
+>
+>diff --git a/include/uapi/linux/futex.h b/include/uapi/linux/futex.h
+>index 06ea9bdfa69e..5786270b0c75 100644
+>--- a/include/uapi/linux/futex.h
+>+++ b/include/uapi/linux/futex.h
+>@@ -42,7 +42,10 @@
+>					 FUTEX_PRIVATE_FLAG)
+>
+> /* Size argument to futex2 syscall */
+>+#define FUTEX_8		0
+>+#define FUTEX_16	1
+> #define FUTEX_32	2
+>+#define FUTEX_64	3
+>
+> #define FUTEX_SIZE_MASK	0x3
+>
+>diff --git a/kernel/futex2.c b/kernel/futex2.c
+>index 012d7f7fc17a..1e97e5f2e793 100644
+>--- a/kernel/futex2.c
+>+++ b/kernel/futex2.c
+>@@ -89,9 +89,11 @@ struct futex_bucket {
+> #define FUTEXV_WAITER_MASK (FUTEX_SIZE_MASK | FUTEX_SHARED_FLAG)
+>
+> #define is_object_shared ((futexv->objects[i].flags & FUTEX_SHARED_FLAG) ? true : false)
+>+#define object_size (futexv->objects[i].flags & FUTEX_SIZE_MASK)
+>
+>-#define FUT_OFF_INODE    1 /* We set bit 0 if key has a reference on inode */
+>-#define FUT_OFF_MMSHARED 2 /* We set bit 1 if key has a reference on mm */
+>+#define FUT_OFF_INODE    PAGE_SIZE
+>+#define FUT_OFF_MMSHARED (PAGE_SIZE << 1)
+>+#define FUT_OFF_SIZE     1
+>
+> static struct futex_bucket *futex_table;
+> static unsigned int futex2_hashsize;
+>@@ -321,6 +323,7 @@ static int futex_get_shared_key(uintptr_t address, struct mm_struct *mm,
+>  * @uaddr:   futex user address
+>  * @key:     data that uniquely identifies a futex
+>  * @shared:  is this a shared futex?
+>+ * @flags:   flags for the size
+>  *
+>  * For private futexes, each uaddr will be unique for a given mm_struct, and it
+>  * won't be freed for the life time of the process. For shared futexes, check
+>@@ -330,21 +333,41 @@ static int futex_get_shared_key(uintptr_t address, struct mm_struct *mm,
+>  */
+> static struct futex_bucket *futex_get_bucket(void __user *uaddr,
+>					     struct futex_key *key,
+>-					     bool shared)
+>+					     bool shared, unsigned int flags)
+> {
+>	uintptr_t address = (uintptr_t)uaddr;
+>	u32 hash_key;
+>
+>+	size_t size;
+>+
+>+	switch (flags) {
+>+	case FUTEX_8:
+>+		size = sizeof(u8);
+>+		break;
+>+	case FUTEX_16:
+>+		size = sizeof(u16);
+>+		break;
+>+	case FUTEX_32:
+>+		size = sizeof(u32);
+>+		break;
+>+	case FUTEX_64:
+>+		size = sizeof(u64);
+>+		break;
+>+	default:
+>+		return ERR_PTR(-EINVAL);
+>+	}
+>+
+>	/* Checking if uaddr is valid and accessible */
+>-	if (unlikely(!IS_ALIGNED(address, sizeof(u32))))
+>+	if (unlikely(!IS_ALIGNED(address, size)))
+>		return ERR_PTR(-EINVAL);
+>-	if (unlikely(!access_ok(uaddr, sizeof(u32))))
+>+	if (unlikely(!access_ok(uaddr, size)))
+>		return ERR_PTR(-EFAULT);
+>
+>	key->offset = address % PAGE_SIZE;
+>	address -= key->offset;
+>	key->pointer = (u64)address;
+>	key->index = (unsigned long)current->mm;
+>+	key->offset |= FUT_OFF_SIZE << (size - sizeof(u8));
+>
+>	if (shared)
+>		futex_get_shared_key(address, current->mm, key);
+>@@ -358,18 +381,39 @@ static struct futex_bucket *futex_get_bucket(void __user *uaddr,
+>
+> /**
+>  * futex_get_user - Get the userspace value on this address
+>- * @uval:  variable to store the value
+>- * @uaddr: userspace address
+>+ * @uval:	variable to store the value
+>+ * @uaddr:	userspace address
+>+ * @pagefault:	true if pagefault should be disabled
+>+ * @flags:	flags for the size
+>  *
+>  * Check the comment at futex_enqueue() for more information.
+>  */
+>-static int futex_get_user(u32 *uval, u32 __user *uaddr)
+>+static int futex_get_user(u64 *uval, void __user *uaddr, unsigned int flags, bool pagefault)
+> {
+>	int ret;
+>
+>-	pagefault_disable();
+>-	ret = __get_user(*uval, uaddr);
+>-	pagefault_enable();
+>+	if (pagefault)
+>+		pagefault_disable();
+>+
+>+	switch (flags) {
+>+	case FUTEX_8:
+>+		ret = __get_user(*uval, (u8 __user *)uaddr);
+>+		break;
+>+	case FUTEX_16:
+>+		ret = __get_user(*uval, (u16 __user *)uaddr);
+>+		break;
+>+	case FUTEX_32:
+>+		ret = __get_user(*uval, (u32 __user *)uaddr);
+>+		break;
+>+	case FUTEX_64:
+>+		ret = __get_user(*uval, (u64 __user *)uaddr);
+>+		break;
+>+	default:
+>+		BUG();
+>+	}
+>+
+>+	if (pagefault)
+>+		pagefault_enable();
+>
+>	return ret;
+> }
+>@@ -484,8 +528,8 @@ static int futex_enqueue(struct futex_waiter_head *futexv, unsigned int nr_futex
+>			 int *awakened)
+> {
+>	int i, ret;
+>-	u32 uval, val;
+>-	u32 __user *uaddr;
+>+	u64 uval, val;
+>+	void __user *uaddr;
+>	bool retry = false;
+>	struct futex_bucket *bucket;
+>
+>@@ -493,13 +537,14 @@ static int futex_enqueue(struct futex_waiter_head *futexv, unsigned int nr_futex
+>	set_current_state(TASK_INTERRUPTIBLE);
+>
+>	for (i = 0; i < nr_futexes; i++) {
+>-		uaddr = (u32 __user *)futexv->objects[i].uaddr;
+>-		val = (u32)futexv->objects[i].val;
+>+		uaddr = futexv->objects[i].uaddr;
+>+		val = (u64)futexv->objects[i].val;
+>
+>		if (is_object_shared && retry) {
+>			struct futex_bucket *tmp =
+>				futex_get_bucket((void __user *)uaddr,
+>-						 &futexv->objects[i].key, true);
+>+						 &futexv->objects[i].key, true,
+>+						 object_size);
+>			if (IS_ERR(tmp)) {
+>				__set_current_state(TASK_RUNNING);
+>				futex_dequeue_multiple(futexv, i);
+>@@ -513,7 +558,7 @@ static int futex_enqueue(struct futex_waiter_head *futexv, unsigned int nr_futex
+>		bucket_inc_waiters(bucket);
+>		spin_lock(&bucket->lock);
+>
+>-		ret = futex_get_user(&uval, uaddr);
+>+		ret = futex_get_user(&uval, uaddr, object_size, true);
+>
+>		if (unlikely(ret)) {
+>			spin_unlock(&bucket->lock);
+>@@ -525,7 +570,7 @@ static int futex_enqueue(struct futex_waiter_head *futexv, unsigned int nr_futex
+>			if (*awakened >= 0)
+>				return 1;
+>
+>-			if (__get_user(uval, uaddr))
+>+			if (futex_get_user(&uval, uaddr, object_size, false))
+>				return -EFAULT;
+>
+>			retry = true;
+>@@ -656,9 +701,6 @@ static long ksys_futex_wait(void __user *uaddr, u64 val, unsigned int flags,
+>	if (flags & ~FUTEX2_MASK)
+>		return -EINVAL;
+>
+>-	if (size != FUTEX_32)
+>-		return -EINVAL;
+>-
+>	futexv = &wait_single.futexv;
+>	futexv->task = current;
+>	futexv->hint = false;
+>@@ -667,12 +709,13 @@ static long ksys_futex_wait(void __user *uaddr, u64 val, unsigned int flags,
+>	waiter->index = 0;
+>	waiter->val = val;
+>	waiter->uaddr = uaddr;
+>+	waiter->flags = flags;
+>	memset(&wait_single.waiter.key, 0, sizeof(struct futex_key));
+>
+>	INIT_LIST_HEAD(&waiter->list);
+>
+>	/* Get an unlocked hash bucket */
+>-	waiter->bucket = futex_get_bucket(uaddr, &waiter->key, shared);
+>+	waiter->bucket = futex_get_bucket(uaddr, &waiter->key, shared, size);
+>	if (IS_ERR(waiter->bucket))
+>		return PTR_ERR(waiter->bucket);
+>
+>@@ -728,8 +771,7 @@ static int compat_futex_parse_waitv(struct futex_waiter_head *futexv,
+>		if (copy_from_user(&waitv, &uwaitv[i], sizeof(waitv)))
+>			return -EFAULT;
+>
+>-		if ((waitv.flags & ~FUTEXV_WAITER_MASK) ||
+>-		    (waitv.flags & FUTEX_SIZE_MASK) != FUTEX_32)
+>+		if (waitv.flags & ~FUTEXV_WAITER_MASK)
+>			return -EINVAL;
+>
+>		futexv->objects[i].key.pointer = 0;
+>@@ -740,7 +782,7 @@ static int compat_futex_parse_waitv(struct futex_waiter_head *futexv,
+>
+>		bucket = futex_get_bucket(compat_ptr(waitv.uaddr),
+>					  &futexv->objects[i].key,
+>-					  is_object_shared);
+>+					  is_object_shared, object_size);
+>
+>		if (IS_ERR(bucket))
+>			return PTR_ERR(bucket);
+>@@ -805,8 +847,7 @@ static int futex_parse_waitv(struct futex_waiter_head *futexv,
+>		if (copy_from_user(&waitv, &uwaitv[i], sizeof(waitv)))
+>			return -EFAULT;
+>
+>-		if ((waitv.flags & ~FUTEXV_WAITER_MASK) ||
+>-		    (waitv.flags & FUTEX_SIZE_MASK) != FUTEX_32)
+>+		if (waitv.flags & ~FUTEXV_WAITER_MASK)
+>			return -EINVAL;
+>
+>		futexv->objects[i].key.pointer = 0;
+>@@ -816,7 +857,7 @@ static int futex_parse_waitv(struct futex_waiter_head *futexv,
+>		futexv->objects[i].index  = i;
+>
+>		bucket = futex_get_bucket(waitv.uaddr, &futexv->objects[i].key,
+>-					  is_object_shared);
+>+					  is_object_shared, object_size);
+>
+>		if (IS_ERR(bucket))
+>			return PTR_ERR(bucket);
+>@@ -947,10 +988,7 @@ SYSCALL_DEFINE3(futex_wake, void __user *, uaddr, unsigned int, nr_wake,
+>	if (flags & ~FUTEX2_MASK)
+>		return -EINVAL;
+>
+>-	if (size != FUTEX_32)
+>-		return -EINVAL;
+>-
+>-	bucket = futex_get_bucket(uaddr, &waiter.key, shared);
+>+	bucket = futex_get_bucket(uaddr, &waiter.key, shared, size);
+>	if (IS_ERR(bucket))
+>		return PTR_ERR(bucket);
+>
+>@@ -987,28 +1025,30 @@ static inline int __futex_requeue(struct futex_requeue rq1,
+>	bool retry = false;
+>	struct futex_bucket *b1, *b2;
+>	DEFINE_WAKE_Q(wake_q);
+>-	u32 uval;
+>+	u64 uval;
+>	int ret;
+>	bool shared1 = (rq1.flags  & FUTEX_SHARED_FLAG) ? true : false;
+>	bool shared2 = (rq2.flags  & FUTEX_SHARED_FLAG) ? true : false;
+>+	unsigned int size1 = (rq1.flags  & FUTEX_SIZE_MASK);
+>+	unsigned int size2 = (rq2.flags  & FUTEX_SIZE_MASK);
+>
+>-	b1 = futex_get_bucket(rq1.uaddr, &w1.key, shared1);
+>+	b1 = futex_get_bucket(rq1.uaddr, &w1.key, shared1, size1);
+>	if (IS_ERR(b1))
+>		return PTR_ERR(b1);
+>
+>-	b2 = futex_get_bucket(rq2.uaddr, &w2.key, shared2);
+>+	b2 = futex_get_bucket(rq2.uaddr, &w2.key, shared2, size2);
+>	if (IS_ERR(b2))
+>		return PTR_ERR(b2);
+>
+> retry:
+>	if (shared1 && retry) {
+>-		b1 = futex_get_bucket(rq1.uaddr, &w1.key, shared1);
+>+		b1 = futex_get_bucket(rq1.uaddr, &w1.key, shared1, size1);
+>		if (IS_ERR(b1))
+>			return PTR_ERR(b1);
+>	}
+>
+>	if (shared2 && retry) {
+>-		b2 = futex_get_bucket(rq2.uaddr, &w2.key, shared2);
+>+		b2 = futex_get_bucket(rq2.uaddr, &w2.key, shared2, size2);
+>		if (IS_ERR(b2))
+>			return PTR_ERR(b2);
+>	}
+>@@ -1027,11 +1067,11 @@ static inline int __futex_requeue(struct futex_requeue rq1,
+>		spin_lock_nested(&b1->lock, SINGLE_DEPTH_NESTING);
+>	}
+>
+>-	ret = futex_get_user(&uval, rq1.uaddr);
+>+	ret = futex_get_user(&uval, rq1.uaddr, size1, true);
+>
+>	if (unlikely(ret)) {
+>		futex_double_unlock(b1, b2);
+>-		if (__get_user(uval, (u32 __user *)rq1.uaddr))
+>+		if (futex_get_user(&uval, rq1.uaddr, size1, false))
+>			return -EFAULT;
+>
+>		bucket_dec_waiters(b2);
+>@@ -1088,8 +1128,7 @@ static int compat_futex_parse_requeue(struct futex_requeue *rq,
+>	if (copy_from_user(&tmp, uaddr, sizeof(tmp)))
+>		return -EFAULT;
+>
+>-	if (tmp.flags & ~FUTEXV_WAITER_MASK ||
+>-	    (tmp.flags & FUTEX_SIZE_MASK) != FUTEX_32)
+>+	if (tmp.flags & ~FUTEXV_WAITER_MASK)
+>		return -EINVAL;
+>
+>	rq->uaddr = compat_ptr(tmp.uaddr);
+>@@ -1134,8 +1173,7 @@ static int futex_parse_requeue(struct futex_requeue *rq,
+>	if (copy_from_user(rq, uaddr, sizeof(*rq)))
+>		return -EFAULT;
+>
+>-	if (rq->flags & ~FUTEXV_WAITER_MASK ||
+>-	    (rq->flags & FUTEX_SIZE_MASK) != FUTEX_32)
+>+	if (rq->flags & ~FUTEXV_WAITER_MASK)
+>		return -EINVAL;
+>
+>	return 0;
+>--
+>2.31.1
+>
