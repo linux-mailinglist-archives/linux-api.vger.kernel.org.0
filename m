@@ -2,370 +2,211 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E0C9B39E168
-	for <lists+linux-api@lfdr.de>; Mon,  7 Jun 2021 18:03:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 577D739E4A7
+	for <lists+linux-api@lfdr.de>; Mon,  7 Jun 2021 19:00:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231415AbhFGQEO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 7 Jun 2021 12:04:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45858 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231393AbhFGQEM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 7 Jun 2021 12:04:12 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15F49C061766;
-        Mon,  7 Jun 2021 09:02:21 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: tonyk)
-        with ESMTPSA id 639201F422F2
-Subject: Re:
-To:     Davidlohr Bueso <dave@stgolabs.net>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        kernel@collabora.com, krisman@collabora.com,
-        pgriffais@valvesoftware.com, z.figura12@gmail.com,
-        joel@joelfernandes.org, malteskarupke@fastmail.fm,
-        linux-api@vger.kernel.org, fweimer@redhat.com,
-        libc-alpha@sourceware.org, linux-kselftest@vger.kernel.org,
-        shuah@kernel.org, acme@kernel.org, corbet@lwn.net,
-        Peter Oskolkov <posk@posk.io>,
-        Andrey Semashev <andrey.semashev@gmail.com>,
-        mtk.manpages@gmail.com
-References: <20210606191932.osytlsvsnks2cxwa@offworld>
-From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
-Message-ID: <ed1ab464-7362-e1ee-fe3d-d0b1b910b81a@collabora.com>
-Date:   Mon, 7 Jun 2021 13:02:10 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+        id S231184AbhFGRCU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 7 Jun 2021 13:02:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44667 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231225AbhFGRCQ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 7 Jun 2021 13:02:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1623085223;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=TImFWC0HTGVlVbnQIUSZh0jMNDwAtpjYOcXi7DdGfsg=;
+        b=DgICnnTXSvb0GL0vx/U3PAzfh8W/L5bByGEgCcOvJzkR3JBm21e94sMw0u+pHhM7A3QeuO
+        zzMnPk/Uu93SbM2J7/+Bsu0tU4GySIvQiTGwRcw+Ida3wypq0t3dRmSZB5cghEEXPQ3ICH
+        aSNhlgYsZUtSmWMSllrkLX15rgjiHjA=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-119-avBXzkb4OJCoN4xrbqWvJQ-1; Mon, 07 Jun 2021 13:00:19 -0400
+X-MC-Unique: avBXzkb4OJCoN4xrbqWvJQ-1
+Received: by mail-lj1-f197.google.com with SMTP id c12-20020a2ebf0c0000b029013f32d44cc7so1922079ljr.0
+        for <linux-api@vger.kernel.org>; Mon, 07 Jun 2021 10:00:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TImFWC0HTGVlVbnQIUSZh0jMNDwAtpjYOcXi7DdGfsg=;
+        b=eEuU0wcqTP5/Rbj4jQG8vq6FcU60lM4Fk8ywhpiy2wP3ejGNbCubYdt0iq5sxVdK2F
+         8wuT1S6wfmwA6CQKpEVW5XPss9crYcVn2UwaK6/+wVJfJ1W/0ND/EQCL/FNP6yt4W5iq
+         Ns/z7SDSYFK41bprPR6B+y5kX/1sE3KjMj4yawMtdcaGsdd+kyyGNSJyf8uPzuyPXKVj
+         /yzbxa4KCiYwGTaZbOW9fdYS+X2wUOPIrao3VQ6dnJc0khyX/QwUZeRyelNhsgCPR3S0
+         2G/C7gBvywuJt6eCXzILiJ7F5uI4VCcNuJYD5rNuLi9K6x2A+HKe9/mScMu4zp/PmpnM
+         /hZw==
+X-Gm-Message-State: AOAM5336qEf54mEeYoTmNjErwPIP0tQbeyywFgnE5dkkgVjGMsIMtusq
+        054rs/yf+VI2PNUbqg6Fq6PnUllnyAPKwM61vrCr3ELfhejD7YBk0ASnMZNVn5APv7lIWHnF7j+
+        Vq7f7VBgkIJ+zjrXKqWoUpvV8H5oOZteLASBT
+X-Received: by 2002:a2e:580e:: with SMTP id m14mr7269762ljb.197.1623085217185;
+        Mon, 07 Jun 2021 10:00:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwTkhzmxCJi6PS7y4jmDE+BJDdiD5YSK4954D2dCrGy7KysHZPt6B2LiTHdtA/lDYEXA8GWz+cruQBsawKJZwc=
+X-Received: by 2002:a2e:580e:: with SMTP id m14mr7269730ljb.197.1623085216890;
+ Mon, 07 Jun 2021 10:00:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210606191932.osytlsvsnks2cxwa@offworld>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210504092340.00006c61@intel.com> <87pmxpdr32.ffs@nanos.tec.linutronix.de>
+ <CAFki+Lkjn2VCBcLSAfQZ2PEkx-TR0Ts_jPnK9b-5ne3PUX37TQ@mail.gmail.com>
+ <87im3gewlu.ffs@nanos.tec.linutronix.de> <CAFki+L=gp10W1ygv7zdsee=BUGpx9yPAckKr7pyo=tkFJPciEg@mail.gmail.com>
+ <CAFki+L=eQoMq+mWhw_jVT-biyuDXpxbXY5nO+F6HvCtpbG9V2w@mail.gmail.com>
+ <CAFki+LkB1sk3mOv4dd1D-SoPWHOs28ZwN-PqL_6xBk=Qkm40Lw@mail.gmail.com>
+ <87zgwo9u79.ffs@nanos.tec.linutronix.de> <87wnrs9tvp.ffs@nanos.tec.linutronix.de>
+In-Reply-To: <87wnrs9tvp.ffs@nanos.tec.linutronix.de>
+From:   Nitesh Lal <nilal@redhat.com>
+Date:   Mon, 7 Jun 2021 13:00:05 -0400
+Message-ID: <CAFki+L=QTOu_O=1uNobVMi2s9mbcxXgSdTLADCpeBWBoPAikgQ@mail.gmail.com>
+Subject: Re: [PATCH] genirq: Provide new interfaces for affinity hints
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Ingo Molnar <mingo@kernel.org>, linux-kernel@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, jbrandeb@kernel.org,
+        "frederic@kernel.org" <frederic@kernel.org>,
+        "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
+        Alex Belits <abelits@marvell.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
+        "stephen@networkplumber.org" <stephen@networkplumber.org>,
+        "rppt@linux.vnet.ibm.com" <rppt@linux.vnet.ibm.com>,
+        "jinyuqi@huawei.com" <jinyuqi@huawei.com>,
+        "zhangshaokun@hisilicon.com" <zhangshaokun@hisilicon.com>,
+        netdev@vger.kernel.org, chris.friesen@windriver.com,
+        Marc Zyngier <maz@kernel.org>,
+        Neil Horman <nhorman@tuxdriver.com>, pjwaskiewicz@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Às 16:19 de 06/06/21, Davidlohr Bueso escreveu:
-> Bcc:
-> Subject: Re: [PATCH v4 07/15] docs: locking: futex2: Add documentation
-> Reply-To:
-> In-Reply-To: <20210603195924.361327-8-andrealmeid@collabora.com>
-> 
-> On Thu, 03 Jun 2021, Andrï¿½ Almeida wrote:
-> 
->> Add a new documentation file specifying both userspace API and internal
->> implementation details of futex2 syscalls.
-> 
-> I think equally important would be to provide a manpage for each new
-> syscall you are introducing, and keep mkt in the loop as in the past he
-> extensively documented and improved futex manpages, and overall has a
-> lot of experience with dealing with kernel interfaces.
+On Fri, May 21, 2021 at 8:03 AM Thomas Gleixner <tglx@linutronix.de> wrote:
+>
+> The discussion about removing the side effect of irq_set_affinity_hint() of
+> actually applying the cpumask (if not NULL) as affinity to the interrupt,
+> unearthed a few unpleasantries:
+>
+>   1) The modular perf drivers rely on the current behaviour for the very
+>      wrong reasons.
+>
+>   2) While none of the other drivers prevents user space from changing
+>      the affinity, a cursorily inspection shows that there are at least
+>      expectations in some drivers.
+>
+> #1 needs to be cleaned up anyway, so that's not a problem
+>
+> #2 might result in subtle regressions especially when irqbalanced (which
+>    nowadays ignores the affinity hint) is disabled.
+>
+> Provide new interfaces:
+>
+>   irq_update_affinity_hint() - Only sets the affinity hint pointer
+>   irq_apply_affinity_hint()  - Set the pointer and apply the affinity to
+>                                the interrupt
+>
+> Make irq_set_affinity_hint() a wrapper around irq_apply_affinity_hint() and
+> document it to be phased out.
+>
+> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+> Link: https://lore.kernel.org/r/20210501021832.743094-1-jesse.brandeburg@intel.com
+> ---
+> Applies on:
+>    git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/core
+> ---
+>  include/linux/interrupt.h |   41 ++++++++++++++++++++++++++++++++++++++++-
+>  kernel/irq/manage.c       |    8 ++++----
+>  2 files changed, 44 insertions(+), 5 deletions(-)
+>
+> --- a/include/linux/interrupt.h
+> +++ b/include/linux/interrupt.h
+> @@ -328,7 +328,46 @@ extern int irq_force_affinity(unsigned i
+>  extern int irq_can_set_affinity(unsigned int irq);
+>  extern int irq_select_affinity(unsigned int irq);
+>
+> -extern int irq_set_affinity_hint(unsigned int irq, const struct cpumask *m);
+> +extern int __irq_apply_affinity_hint(unsigned int irq, const struct cpumask *m,
+> +                                    bool setaffinity);
+> +
+> +/**
+> + * irq_update_affinity_hint - Update the affinity hint
+> + * @irq:       Interrupt to update
+> + * @cpumask:   cpumask pointer (NULL to clear the hint)
+> + *
+> + * Updates the affinity hint, but does not change the affinity of the interrupt.
+> + */
+> +static inline int
+> +irq_update_affinity_hint(unsigned int irq, const struct cpumask *m)
+> +{
+> +       return __irq_apply_affinity_hint(irq, m, true);
+> +}
+> +
+> +/**
+> + * irq_apply_affinity_hint - Update the affinity hint and apply the provided
+> + *                          cpumask to the interrupt
+> + * @irq:       Interrupt to update
+> + * @cpumask:   cpumask pointer (NULL to clear the hint)
+> + *
+> + * Updates the affinity hint and if @cpumask is not NULL it applies it as
+> + * the affinity of that interrupt.
+> + */
+> +static inline int
+> +irq_apply_affinity_hint(unsigned int irq, const struct cpumask *m)
+> +{
+> +       return __irq_apply_affinity_hint(irq, m, true);
+> +}
+> +
+> +/*
+> + * Deprecated. Use irq_update_affinity_hint() or irq_apply_affinity_hint()
+> + * instead.
+> + */
+> +static inline int irq_set_affinity_hint(unsigned int irq, const struct cpumask *m)
+> +{
+> +       return irq_apply_affinity_hint(irq, cpumask);
 
-Right, I'll add the man pages in a future version and make sure to have
-mkt in the loop, thanks for the tip.
+Another change required here, the above should be 'm' instead of 'cpumask'.
 
-> 
-> Thanks,
-> Davidlohr
-> 
->>
->> Signed-off-by: André Almeida <andrealmeid@collabora.com>
->> ---
->> Documentation/locking/futex2.rst | 198 +++++++++++++++++++++++++++++++
->> Documentation/locking/index.rst  |   1 +
->> 2 files changed, 199 insertions(+)
->> create mode 100644 Documentation/locking/futex2.rst
->>
->> diff --git a/Documentation/locking/futex2.rst
->> b/Documentation/locking/futex2.rst
->> new file mode 100644
->> index 000000000000..2f74d7c97a55
->> --- /dev/null
->> +++ b/Documentation/locking/futex2.rst
->> @@ -0,0 +1,198 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +======
->> +futex2
->> +======
->> +
->> +:Author: André Almeida <andrealmeid@collabora.com>
->> +
->> +futex, or fast user mutex, is a set of syscalls to allow userspace to
->> create
->> +performant synchronization mechanisms, such as mutexes, semaphores and
->> +conditional variables in userspace. C standard libraries, like glibc,
->> uses it
->> +as a means to implement more high level interfaces like pthreads.
->> +
->> +The interface
->> +=============
->> +
->> +uAPI functions
->> +--------------
->> +
->> +.. kernel-doc:: kernel/futex2.c
->> +   :identifiers: sys_futex_wait sys_futex_wake sys_futex_waitv
->> sys_futex_requeue
->> +
->> +uAPI structures
->> +---------------
->> +
->> +.. kernel-doc:: include/uapi/linux/futex.h
->> +
->> +The ``flag`` argument
->> +---------------------
->> +
->> +The flag is used to specify the size of the futex word
->> +(FUTEX_[8, 16, 32, 64]). It's mandatory to define one, since there's no
->> +default size.
->> +
->> +By default, the timeout uses a monotonic clock, but can be used as a
->> realtime
->> +one by using the FUTEX_REALTIME_CLOCK flag.
->> +
->> +By default, futexes are of the private type, that means that this
->> user address
->> +will be accessed by threads that share the same memory region. This
->> allows for
->> +some internal optimizations, so they are faster. However, if the
->> address needs
->> +to be shared with different processes (like using ``mmap()`` or
->> ``shm()``), they
->> +need to be defined as shared and the flag FUTEX_SHARED_FLAG is used
->> to set that.
->> +
->> +By default, the operation has no NUMA-awareness, meaning that the
->> user can't
->> +choose the memory node where the kernel side futex data will be
->> stored. The
->> +user can choose the node where it wants to operate by setting the
->> +FUTEX_NUMA_FLAG and using the following structure (where X can be 8,
->> 16, 32 or
->> +64)::
->> +
->> + struct futexX_numa {
->> +         __uX value;
->> +         __sX hint;
->> + };
->> +
->> +This structure should be passed at the ``void *uaddr`` of futex
->> functions. The
->> +address of the structure will be used to be waited on/waken on, and the
->> +``value`` will be compared to ``val`` as usual. The ``hint`` member
->> is used to
->> +define which node the futex will use. When waiting, the futex will be
->> +registered on a kernel-side table stored on that node; when waking,
->> the futex
->> +will be searched for on that given table. That means that there's no
->> redundancy
->> +between tables, and the wrong ``hint`` value will lead to undesired
->> behavior.
->> +Userspace is responsible for dealing with node migrations issues that
->> may
->> +occur. ``hint`` can range from [0, MAX_NUMA_NODES), for specifying a
->> node, or
->> +-1, to use the same node the current process is using.
->> +
->> +When not using FUTEX_NUMA_FLAG on a NUMA system, the futex will be
->> stored on a
->> +global table on allocated on the first node.
->> +
->> +The ``timo`` argument
->> +---------------------
->> +
->> +As per the Y2038 work done in the kernel, new interfaces shouldn't
->> add timeout
->> +options known to be buggy. Given that, ``timo`` should be a 64-bit
->> timeout at
->> +all platforms, using an absolute timeout value.
->> +
->> +Implementation
->> +==============
->> +
->> +The internal implementation follows a similar design to the original
->> futex.
->> +Given that we want to replicate the same external behavior of current
->> futex,
->> +this should be somewhat expected.
->> +
->> +Waiting
->> +-------
->> +
->> +For the wait operations, they are all treated as if you want to wait
->> on N
->> +futexes, so the path for futex_wait and futex_waitv is the basically
->> the same.
->> +For both syscalls, the first step is to prepare an internal list for
->> the list
->> +of futexes to wait for (using struct futexv_head). For futex_wait()
->> calls, this
->> +list will have a single object.
->> +
->> +We have a hash table, where waiters register themselves before
->> sleeping. Then
->> +the wake function checks this table looking for waiters at uaddr. 
->> The hash
->> +bucket to be used is determined by a struct futex_key, that stores
->> information
->> +to uniquely identify an address from a given process. Given the huge
->> address
->> +space, there'll be hash collisions, so we store information to be
->> later used on
->> +collision treatment.
->> +
->> +First, for every futex we want to wait on, we check if (``*uaddr ==
->> val``).
->> +This check is done holding the bucket lock, so we are correctly
->> serialized with
->> +any futex_wake() calls. If any waiter fails the check above, we
->> dequeue all
->> +futexes. The check (``*uaddr == val``) can fail for two reasons:
->> +
->> +- The values are different, and we return -EAGAIN. However, if while
->> +  dequeueing we found that some futexes were awakened, we prioritize
->> this
->> +  and return success.
->> +
->> +- When trying to access the user address, we do so with page faults
->> +  disabled because we are holding a bucket's spin lock (and can't sleep
->> +  while holding a spin lock). If there's an error, it might be a page
->> +  fault, or an invalid address. We release the lock, dequeue everyone
->> +  (because it's illegal to sleep while there are futexes enqueued, we
->> +  could lose wakeups) and try again with page fault enabled. If we
->> +  succeed, this means that the address is valid, but we need to do
->> +  all the work again. For serialization reasons, we need to have the
->> +  spin lock when getting the user value. Additionally, for shared
->> +  futexes, we also need to recalculate the hash, since the underlying
->> +  mapping mechanisms could have changed when dealing with page fault.
->> +  If, even with page fault enabled, we can't access the address, it
->> +  means it's an invalid user address, and we return -EFAULT. For this
->> +  case, we prioritize the error, even if some futexes were awaken.
->> +
->> +If the check is OK, they are enqueued on a linked list in our bucket,
->> and
->> +proceed to the next one. If all waiters succeed, we put the thread to
->> sleep
->> +until a futex_wake() call, timeout expires or we get a signal. After
->> waking up,
->> +we dequeue everyone, and check if some futex was awakened. This
->> dequeue is done
->> +by iteratively walking at each element of struct futex_head list.
->> +
->> +All enqueuing/dequeuing operations requires to hold the bucket lock,
->> to avoid
->> +racing while modifying the list.
->> +
->> +Waking
->> +------
->> +
->> +We get the bucket that's storing the waiters at uaddr, and wake the
->> required
->> +number of waiters, checking for hash collision.
->> +
->> +There's an optimization that makes futex_wake() not take the bucket
->> lock if
->> +there's no one to be woken on that bucket. It checks an atomic
->> counter that each
->> +bucket has, if it says 0, then the syscall exits. In order for this
->> to work, the
->> +waiter thread increases it before taking the lock, so the wake thread
->> will
->> +correctly see that there's someone waiting and will continue the path
->> to take
->> +the bucket lock. To get the correct serialization, the waiter issues
->> a memory
->> +barrier after increasing the bucket counter and the waker issues a
->> memory
->> +barrier before checking it.
->> +
->> +Requeuing
->> +---------
->> +
->> +The requeue path first checks for each struct futex_requeue and their
->> flags.
->> +Then, it will compare the expected value with the one at uaddr1::uaddr.
->> +Following the same serialization explained at Waking_, we increase
->> the atomic
->> +counter for the bucket of uaddr2 before taking the lock. We need to
->> have both
->> +buckets locks at same time so we don't race with other futex
->> operation. To
->> +ensure the locks are taken in the same order for all threads (and
->> thus avoiding
->> +deadlocks), every requeue operation takes the "smaller" bucket first,
->> when
->> +comparing both addresses.
->> +
->> +If the compare with user value succeeds, we proceed by waking
->> ``nr_wake``
->> +futexes, and then requeuing ``nr_requeue`` from bucket of uaddr1 to
->> the uaddr2.
->> +This consists in a simple list deletion/addition and replacing the
->> old futex key
->> +with the new one.
->> +
->> +Futex keys
->> +----------
->> +
->> +There are two types of futexes: private and shared ones. The private
->> are futexes
->> +meant to be used by threads that share the same memory space, are
->> easier to be
->> +uniquely identified and thus can have some performance optimization. The
->> +elements for identifying one are: the start address of the page where
->> the
->> +address is, the address offset within the page and the current->mm
->> pointer.
->> +
->> +Now, for uniquely identifying a shared futex:
->> +
->> +- If the page containing the user address is an anonymous page, we can
->> +  just use the same data used for private futexes (the start address of
->> +  the page, the address offset within the page and the current->mm
->> +  pointer); that will be enough for uniquely identifying such futex. We
->> +  also set one bit at the key to differentiate if a private futex is
->> +  used on the same address (mixing shared and private calls does not
->> +  work).
->> +
->> +- If the page is file-backed, current->mm maybe isn't the same one for
->> +  every user of this futex, so we need to use other data: the
->> +  page->index, a UUID for the struct inode and the offset within the
->> +  page.
->> +
->> +Note that members of futex_key don't have any particular meaning
->> after they
->> +are part of the struct - they are just bytes to identify a futex. 
->> Given that,
->> +we don't need to use a particular name or type that matches the
->> original data,
->> +we only need to care about the bitsize of each component and make
->> both private
->> +and shared fit in the same memory space.
->> +
->> +Source code documentation
->> +=========================
->> +
->> +.. kernel-doc:: kernel/futex2.c
->> +   :no-identifiers: sys_futex_wait sys_futex_wake sys_futex_waitv
->> sys_futex_requeue
->> diff --git a/Documentation/locking/index.rst
->> b/Documentation/locking/index.rst
->> index 7003bd5aeff4..9bf03c7fa1ec 100644
->> --- a/Documentation/locking/index.rst
->> +++ b/Documentation/locking/index.rst
->> @@ -24,6 +24,7 @@ locking
->>     percpu-rw-semaphore
->>     robust-futexes
->>     robust-futex-ABI
->> +    futex2
->>
->> .. only::  subproject and html
->>
->> -- 
->> 2.31.1
->>
+> +}
+> +
+>  extern int irq_update_affinity_desc(unsigned int irq,
+>                                     struct irq_affinity_desc *affinity);
+>
+> --- a/kernel/irq/manage.c
+> +++ b/kernel/irq/manage.c
+> @@ -487,7 +487,8 @@ int irq_force_affinity(unsigned int irq,
+>  }
+>  EXPORT_SYMBOL_GPL(irq_force_affinity);
+>
+> -int irq_set_affinity_hint(unsigned int irq, const struct cpumask *m)
+> +int __irq_apply_affinity_hint(unsigned int irq, const struct cpumask *m,
+> +                             bool setaffinity)
+>  {
+>         unsigned long flags;
+>         struct irq_desc *desc = irq_get_desc_lock(irq, &flags, IRQ_GET_DESC_CHECK_GLOBAL);
+> @@ -496,12 +497,11 @@ int irq_set_affinity_hint(unsigned int i
+>                 return -EINVAL;
+>         desc->affinity_hint = m;
+>         irq_put_desc_unlock(desc, flags);
+> -       /* set the initial affinity to prevent every interrupt being on CPU0 */
+> -       if (m)
+> +       if (m && setaffinity)
+>                 __irq_set_affinity(irq, m, false);
+>         return 0;
+>  }
+> -EXPORT_SYMBOL_GPL(irq_set_affinity_hint);
+> +EXPORT_SYMBOL_GPL(__irq_apply_affinity_hint);
+>
+>  static void irq_affinity_notify(struct work_struct *work)
+>  {
+>
+
+
+-- 
+Thanks
+Nitesh
+
