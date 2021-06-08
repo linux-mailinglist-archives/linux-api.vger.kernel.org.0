@@ -2,68 +2,113 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2122239F25D
-	for <lists+linux-api@lfdr.de>; Tue,  8 Jun 2021 11:29:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FD9F39F494
+	for <lists+linux-api@lfdr.de>; Tue,  8 Jun 2021 13:03:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230293AbhFHJbN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 8 Jun 2021 05:31:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38050 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230222AbhFHJbN (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 8 Jun 2021 05:31:13 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3D2EB61278;
-        Tue,  8 Jun 2021 09:29:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1623144560;
-        bh=DFQHA9AN0Bwqi+IGT+h997v/dvvg0EVj1Zuf554QF0Q=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OMc2fpUYVysUoQldR/Lysq905drBSZN0I8fEucHDRKLyfJMvV2rQZfAQzc9q0TC0o
-         +dp/oboZGUcmjPNwP9zqz0DgrqNoyrpNuHe4+AcCbggcoImZx1SwXFe3jiSc/ujFPt
-         3v4BkLgjwje0l21Y+dNLdfrlX3kfCwHgdr1eGym0=
-Date:   Tue, 8 Jun 2021 11:29:18 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     yongw.pur@gmail.com
-Cc:     minchan@kernel.org, ngupta@vflare.org, senozhatsky@chromium.org,
-        axboe@kernel.dk, akpm@linux-foundation.org,
-        songmuchun@bytedance.com, david@redhat.com,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-mm@kvack.org, willy@infradead.org, linux-api@vger.kernel.org,
-        lu.zhongjun@zte.com.cn, yang.yang29@zte.com.cn,
-        zhang.wenya1@zte.com.cn, wang.yong12@zte.com.cn
-Subject: Re: [RFC PATCH V3] zram:calculate available memory when zram is used
-Message-ID: <YL84boGKozWE+n23@kroah.com>
-References: <1623080354-21453-1-git-send-email-yongw.pur@gmail.com>
+        id S231783AbhFHLFr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 8 Jun 2021 07:05:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42212 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231337AbhFHLFr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Jun 2021 07:05:47 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B53FBC061574;
+        Tue,  8 Jun 2021 04:03:54 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id a1so21687938lfr.12;
+        Tue, 08 Jun 2021 04:03:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=pbvnIUDlmrsEz7h8hsEn+CaTGHHdDs7PDJp6JoerDy8=;
+        b=YVlYGp7EtT824NClgDG3hbnLiRHH4a8GrUF0qmRSNSqA5P7bo1VluGiSOyfx9lyzZ8
+         0qRUBMbXgS/EEDmZK1lvMVrQA4x1OdSvwQPrVv2wDizQwJIxlMDx15vrZSRWK4/H4NhA
+         izYjmFl79M4SiuGX4SxWSL0cKgc3OYrAaEy0WdnsicUjtq0ZMGPbNUcPEAW73xedwgog
+         EOltv+xwTvV/CBDqhQl5KzfeeRvAlVTr6zTxVPRQTuUclXXgsm/cIo5hTYGBRBzQBJbo
+         jcpn2EM2RCzETCjZHjtALTv6wSJtBpJGD3tqipHpeH9LkafEIwFlOlSi0PNshiQ3lLiy
+         V6YA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=pbvnIUDlmrsEz7h8hsEn+CaTGHHdDs7PDJp6JoerDy8=;
+        b=nnn1p8tmhjls7efkY4p0ziTCJWVN4EPIECS7dG88P1mucqXCENoojzHpworZyV/UnP
+         q7kIpVSnIUzrDilbXZoKOtrOdLPd8aWMOoMAWcqVpH4+cvx2njqF36G57bzOlR1iLqBi
+         LHi0eQ3K2OXu4yW1RE6BRV67ILxpGQOL2AD6iab0JQh+VgpzfYa3YKOn7uAa2vOOZ7yy
+         fhPxop4CqRpCSM3Mz56uvcIjlsFIc8+VTx8Ql+/1R883Z0epl9wb6rt22Go3SJe4+Chr
+         B2zKq6tF9F9aWmCZFocWZ4ZYVkTuSf6nIWgmlxNt+MSDPT1fR1Zwb4g1JPX+UU2U2/5i
+         5iuA==
+X-Gm-Message-State: AOAM533Sxyej8C8Fq8I3DKdVNz/6JNJ3PNw6/CgB2NcqSZjyEHrjABPc
+        Wq/Y7g5byu5mRX2hszOk1KQ=
+X-Google-Smtp-Source: ABdhPJxY4clPUf+kJEyTCGanb9QmdPfQfH9en2/Ins7WQwtCUTKyOZIBj5brYMql77/RoBELy+eFOw==
+X-Received: by 2002:ac2:43a3:: with SMTP id t3mr3746636lfl.183.1623150233042;
+        Tue, 08 Jun 2021 04:03:53 -0700 (PDT)
+Received: from [192.168.1.2] (broadband-5-228-51-184.ip.moscow.rt.ru. [5.228.51.184])
+        by smtp.gmail.com with ESMTPSA id x8sm1805778lfn.186.2021.06.08.04.03.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Jun 2021 04:03:52 -0700 (PDT)
+Subject: Re: [PATCH v4 00/15] Add futex2 syscalls
+To:     Nicholas Piggin <npiggin@gmail.com>,
+        =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
+Cc:     acme@kernel.org, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        corbet@lwn.net, Davidlohr Bueso <dave@stgolabs.net>,
+        Darren Hart <dvhart@infradead.org>, fweimer@redhat.com,
+        joel@joelfernandes.org, kernel@collabora.com,
+        krisman@collabora.com, libc-alpha@sourceware.org,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, malteskarupke@fastmail.fm,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        pgriffais@valvesoftware.com, Peter Oskolkov <posk@posk.io>,
+        Steven Rostedt <rostedt@goodmis.org>, shuah@kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>, z.figura12@gmail.com
+References: <20210603195924.361327-1-andrealmeid@collabora.com>
+ <1622799088.hsuspipe84.astroid@bobo.none>
+ <fb85fb20-5421-b095-e68b-955afa105467@collabora.com>
+ <1622853816.mokf23xgnt.astroid@bobo.none>
+ <6d8e3bb4-0cef-b991-9a16-1f03d10f131d@gmail.com>
+ <1622980258.cfsuodze38.astroid@bobo.none>
+ <c6d86db8-4f63-6c57-9a67-6268da266afe@gmail.com>
+ <1623114630.pc8fq7r5y9.astroid@bobo.none>
+From:   Andrey Semashev <andrey.semashev@gmail.com>
+Message-ID: <b3488d1b-a4ff-8791-d960-a5f7ae2ea8b3@gmail.com>
+Date:   Tue, 8 Jun 2021 14:03:50 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1623080354-21453-1-git-send-email-yongw.pur@gmail.com>
+In-Reply-To: <1623114630.pc8fq7r5y9.astroid@bobo.none>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jun 07, 2021 at 08:39:14AM -0700, yongw.pur@gmail.com wrote:
-> From: wangyong <wang.yong12@zte.com.cn>
+On 6/8/21 4:25 AM, Nicholas Piggin wrote:
 > 
-> When zram is used, available+Swap free memory is obviously bigger than we
-> actually can use, because zram can compress memory by compression
-> algorithm and zram compressed data will occupy memory too.
-> 
-> So, we can count the compression ratio of zram in the kernel. The space
-> will be saved by zram and other swap device are calculated as follows:
-> zram[swapfree - swapfree * compress ratio] + swapdev[swapfree]
-> We can evaluate the available memory of the whole system as:
-> MemAvailable+zram[swapfree - swapfree * compress ratio]+swapdev[swapfree]
+> Are shared pthread mutexes using existing pthread APIs that are today
+> implemented okay with futex1 system call a good reason to constrain
+> futex2 I wonder? Or do we have an opportunity to make a bigger change
+> to the API so it suffers less from non deterministic latency (for
+> example)?
 
-Why is this needed to be exported by userspace?  Who is going to use
-this information and why can't they just calculate it from the exported
-information already?
+If futex2 is not able to cover futex1 use cases then it cannot be viewed 
+as a replacement. In the long term this means futex1 cannot be 
+deprecated and has to be maintained. My impression was that futex1 was 
+basically unmaintainable(*) and futex2 was an evolution of futex1 so 
+that users of futex1 could migrate relatively easily and futex1 
+eventually removed. Maybe my impression was wrong, but I would like to 
+see futex2 as a replacement and extension of futex1, so the latter can 
+be deprecated at some point.
 
-What tool requires this new information and what is it going to be used
-for?
+In any case, creating a new API should consider requirements of its 
+potential users. If futex2 is intended to eventually replace futex1 then 
+all current futex1 users are potential users of futex2. If not, then the 
+futex2 submission should list its intended users, at least in general 
+terms, and their requirements that led to the proposed API design.
 
-And why add a block driver's information to a core proc file?  Shouldn't
-the information only be in the block driver's sysfs directory only?
-
-thanks,
-
-greg k-h
+(*) I use "unmaintainable" in a broad sense here. It exists and works in 
+newer kernel versions and may receive code changes that are necessary to 
+keep it working, but maintainers refuse any extensions or modifications 
+of the code, mostly because of its complexity.
