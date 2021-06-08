@@ -2,234 +2,112 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FCE039FB92
-	for <lists+linux-api@lfdr.de>; Tue,  8 Jun 2021 18:01:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85CE139FD8C
+	for <lists+linux-api@lfdr.de>; Tue,  8 Jun 2021 19:24:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233707AbhFHQDG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 8 Jun 2021 12:03:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29199 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233702AbhFHQDF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Jun 2021 12:03:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1623168072;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ny0GQOcOMIJ9f9GtQNBSHCKyJm/TZJpAh/jRCTYyLxE=;
-        b=VhaNSBSVb4jHaq2EckzEVHFOZSGnmlnIZpU8X35kUOjRBdI/CGQneuZV5Wv5a0/H37RNwS
-        F2zPzNnPed9fYMWgM3RxJ0QpAjBMPZCwwumqz9LCeoZ0cJuV6hzijQ1JopueVkN+LfhDLN
-        f+C1B09sEp1IFDD2bbV525HsinfMVEo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-4Lo9xQCRPVGWI_y5gK4qVQ-1; Tue, 08 Jun 2021 12:01:08 -0400
-X-MC-Unique: 4Lo9xQCRPVGWI_y5gK4qVQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB2EC501F4;
-        Tue,  8 Jun 2021 16:01:04 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-115-132.ams2.redhat.com [10.36.115.132])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id F1584189C7;
-        Tue,  8 Jun 2021 16:00:49 +0000 (UTC)
-From:   David Hildenbrand <david@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-mm@kvack.org, David Hildenbrand <david@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, Michal Hocko <mhocko@suse.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Matthew Wilcox <willy@infradead.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Minchan Kim <minchan@kernel.org>, Jann Horn <jannh@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Hugh Dickins <hughd@google.com>,
-        Rik van Riel <riel@surriel.com>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>, Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Rolf Eike Beer <eike-kernel@sf-tec.de>,
-        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        linux-arch@vger.kernel.org, Linux API <linux-api@vger.kernel.org>
-Subject: [PATCH] madvise.2: Document MADV_POPULATE_READ and MADV_POPULATE_WRITE
-Date:   Tue,  8 Jun 2021 18:00:49 +0200
-Message-Id: <20210608160049.24685-1-david@redhat.com>
-In-Reply-To: <20210511081534.3507-1-david@redhat.com>
-References: <20210511081534.3507-1-david@redhat.com>
+        id S232941AbhFHR0a (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 8 Jun 2021 13:26:30 -0400
+Received: from mail.codeweavers.com ([50.203.203.244]:51886 "EHLO
+        mail.codeweavers.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231556AbhFHR03 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Jun 2021 13:26:29 -0400
+X-Greylist: delayed 1045 seconds by postgrey-1.27 at vger.kernel.org; Tue, 08 Jun 2021 13:26:29 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=codeweavers.com; s=6377696661; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=o1rKVWS8yk/+TD71rwtUO/tlxJR2buWgJpKkF2iMIHE=; b=OxNn6SQM+f2RUa07cyRtggHlRX
+        SRjXsyCYik4TZ12vt2EzfmpVt7pYdTn0bdwyIqV8jJaks9GDLGho9rZ/8Y/n/hl+ELczNvNDAbim9
+        BYmjn0brfShV68C3j5sE9pU0qduGOsHD+c3xUeHmQM6vOxnW3K3fQf46SMn+eowv9FPo=;
+Received: from [75.162.249.176] (helo=[192.168.0.62])
+        by mail.codeweavers.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.92)
+        (envelope-from <zfigura@codeweavers.com>)
+        id 1lqfBv-0005Hl-Cl; Tue, 08 Jun 2021 12:07:04 -0500
+Subject: Re: [PATCH v4 00/15] Add futex2 syscalls
+To:     Andrey Semashev <andrey.semashev@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>
+Cc:     Nicholas Piggin <npiggin@gmail.com>,
+        =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>,
+        acme@kernel.org, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        corbet@lwn.net, Davidlohr Bueso <dave@stgolabs.net>,
+        Darren Hart <dvhart@infradead.org>, fweimer@redhat.com,
+        joel@joelfernandes.org, kernel@collabora.com,
+        krisman@collabora.com, libc-alpha@sourceware.org,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, malteskarupke@fastmail.fm,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        pgriffais@valvesoftware.com, Peter Oskolkov <posk@posk.io>,
+        Steven Rostedt <rostedt@goodmis.org>, shuah@kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>
+References: <1622799088.hsuspipe84.astroid@bobo.none>
+ <fb85fb20-5421-b095-e68b-955afa105467@collabora.com>
+ <1622853816.mokf23xgnt.astroid@bobo.none>
+ <6d8e3bb4-0cef-b991-9a16-1f03d10f131d@gmail.com>
+ <1622980258.cfsuodze38.astroid@bobo.none>
+ <c6d86db8-4f63-6c57-9a67-6268da266afe@gmail.com>
+ <1623114630.pc8fq7r5y9.astroid@bobo.none>
+ <b3488d1b-a4ff-8791-d960-a5f7ae2ea8b3@gmail.com> <YL9Q2tKLZP6GKbHW@kroah.com>
+ <8fa8b7fd-58ae-9467-138d-4ff4f32f68f7@gmail.com> <YL9kApyE6FbG/hru@kroah.com>
+ <3fca0afa-d9db-a176-aad1-ff7db21ba4a2@gmail.com>
+From:   Zebediah Figura <zfigura@codeweavers.com>
+Message-ID: <4c16b622-d2a8-c9f7-4c0b-80c9dbd8ef2c@codeweavers.com>
+Date:   Tue, 8 Jun 2021 12:06:58 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <3fca0afa-d9db-a176-aad1-ff7db21ba4a2@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Let's document MADV_POPULATE_READ and MADV_POPULATE_WRITE behavior and
-error conditions.
+On 6/8/21 8:18 AM, Andrey Semashev wrote:
+> On 6/8/21 3:35 PM, Greg KH wrote:
+>> On Tue, Jun 08, 2021 at 03:06:48PM +0300, Andrey Semashev wrote:
+>>> On 6/8/21 2:13 PM, Greg KH wrote:
+>>
+>>>> So what's keeping the futex2 code from doing all that futex1 does so
+>>>> that the futex1 code can be deleted internally?
+>>>
+>>> I think, André will answer this, but my guess is, as stated above, 
+>>> this is a
+>>> lot of work and time while the intermediate version is already useful.
+>>
+>> useful to who?  I still do not understand what users will be needing
+>> this.  All I can tell is a single userspace program wants to use it, and
+>> that is a fork from the real project it was based on and that the
+>> maintainers have no plan to merge it back.
+>>
+>> So who does need/want this?
+> 
+> I mentioned C++ std::atomic and Boost.Atomic before. Those need variable 
+> sized futexes.
+> 
+> The project you mention is probably Wine and its derivatives. Those need 
+> variable sized futexes and "wait for multiple" operation. I'm not sure 
+> about the "no plan to merge it back" part, I probably missed it in an 
+> earlier discussion. There are multiple different patches and versions 
+> out there, and I don't know which one it refers to. But WaitOnAddress 
+> and WaitForMultipleObjects APIs are very important and I would assume 
+> Wine wants to emulate those with best efficiency.
 
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Michal Hocko <mhocko@suse.com>
-Cc: Oscar Salvador <osalvador@suse.de>
-Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
-Cc: Andrea Arcangeli <aarcange@redhat.com>
-Cc: Minchan Kim <minchan@kernel.org>
-Cc: Jann Horn <jannh@google.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Dave Hansen <dave.hansen@intel.com>
-Cc: Hugh Dickins <hughd@google.com>
-Cc: Rik van Riel <riel@surriel.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-Cc: Matt Turner <mattst88@gmail.com>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Cc: Helge Deller <deller@gmx.de>
-Cc: Chris Zankel <chris@zankel.net>
-Cc: Max Filippov <jcmvbkbc@gmail.com>
-Cc: Mike Kravetz <mike.kravetz@oracle.com>
-Cc: Rolf Eike Beer <eike-kernel@sf-tec.de>
-Cc: linux-alpha@vger.kernel.org
-Cc: linux-mips@vger.kernel.org
-Cc: linux-parisc@vger.kernel.org
-Cc: linux-xtensa@linux-xtensa.org
-Cc: linux-arch@vger.kernel.org
-Cc: Linux API <linux-api@vger.kernel.org>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
+See [0]. The short version is that we can't use futexes the way that 
+out-of-tree patch set does, due to compatibility and robustness 
+problems. I wrote said patch set and I'm currently working on a 
+different solution for upstreaming.
 
-Not for upstream man pages yet, only for linux-mm and linux-api review
-purposes. Once/if the linux changes are merged upstream, I'll send it to
-the proper man list/maintainers.
+We also can't exactly use futexes to back WaitOnAddress() directly. We 
+actually do currently, but for various complex reasons that needs to 
+change, and none of the proposals for futex2 help the new implementation.
 
----
- man2/madvise.2 | 80 ++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
+ἔρρωσο,
+Zebediah
 
-diff --git a/man2/madvise.2 b/man2/madvise.2
-index f1f384c0c..3ec8c53a7 100644
---- a/man2/madvise.2
-+++ b/man2/madvise.2
-@@ -469,6 +469,59 @@ If a page is file-backed and dirty, it will be written back to the backing
- storage.
- The advice might be ignored for some pages in the range when it is not
- applicable.
-+.TP
-+.BR MADV_POPULATE_READ " (since Linux 5.14)
-+Populate (prefault) page tables readable for the whole range without actually
-+reading. Depending on the underlying mapping, map the shared zeropage,
-+preallocate memory or read the underlying file; files with holes might or
-+might not preallocate blocks.
-+Do not generate
-+.B SIGBUS
-+when populating fails, return an error instead.
-+.IP
-+If
-+.B MADV_POPULATE_READ
-+succeeds, all page tables have been populated (prefaulted) readable once.
-+If
-+.B MADV_POPULATE_READ
-+fails, some page tables might have been populated.
-+.IP
-+.B MADV_POPULATE_READ
-+cannot be applied to mappings without read permissions
-+and special mappings marked with the kernel-internal
-+.B VM_PFNMAP
-+and
-+.BR VM_IO .
-+.IP
-+Note that with
-+.BR MADV_POPULATE_READ ,
-+the process can be killed at any moment when the system runs out of memory.
-+.TP
-+.BR MADV_POPULATE_WRITE " (since Linux 5.14)
-+Populate (prefault) page tables writable for the whole range without actually
-+writing. Depending on the underlying mapping, preallocate memory or read the
-+underlying file; files with holes will preallocate blocks.
-+Do not generate
-+.B SIGBUS
-+when populating fails, return an error instead.
-+.IP
-+If
-+.B MADV_POPULATE_WRITE
-+succeeds, all page tables have been populated (prefaulted) writable once.
-+If
-+.B MADV_POPULATE_WRITE
-+fails, some page tables might have been populated.
-+.IP
-+.B MADV_POPULATE_WRITE
-+cannot be applied to mappings without write permissions
-+and special mappings marked with the kernel-internal
-+.B VM_PFNMAP
-+and
-+.BR VM_IO .
-+.IP
-+Note that
-+.BR MADV_POPULATE_WRITE ,
-+the process can be killed at any moment when the system runs out of memory.
- .SH RETURN VALUE
- On success,
- .BR madvise ()
-@@ -533,6 +586,17 @@ or
- .BR VM_PFNMAP
- ranges.
- .TP
-+.B EINVAL
-+.I advice
-+is
-+.B MADV_POPULATE_READ
-+or
-+.BR MADV_POPULATE_WRITE ,
-+but the specified address range includes ranges with insufficient permissions,
-+.B VM_IO
-+or
-+.BR VM_PFNMAP.
-+.TP
- .B EIO
- (for
- .BR MADV_WILLNEED )
-@@ -548,6 +612,14 @@ Not enough memory: paging in failed.
- Addresses in the specified range are not currently
- mapped, or are outside the address space of the process.
- .TP
-+.B ENOMEM
-+.I advice
-+is
-+.B MADV_POPULATE_READ
-+or
-+.BR MADV_POPULATE_WRITE ,
-+but populating (prefaulting) page tables failed.
-+.TP
- .B EPERM
- .I advice
- is
-@@ -555,6 +627,14 @@ is
- but the caller does not have the
- .B CAP_SYS_ADMIN
- capability.
-+.TP
-+.B EHWPOISON
-+.I advice
-+is
-+.B MADV_POPULATE_READ
-+or
-+.BR MADV_POPULATE_WRITE ,
-+and a HW poisoned page is encountered.
- .SH VERSIONS
- Since Linux 3.18,
- .\" commit d3ac21cacc24790eb45d735769f35753f5b56ceb
--- 
-2.31.1
-
+[0] 
+https://lore.kernel.org/lkml/dab34fd2-b494-8686-bcd7-68beeba4f386@gmail.com/
