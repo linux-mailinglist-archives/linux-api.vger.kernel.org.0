@@ -2,112 +2,138 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 85CE139FD8C
-	for <lists+linux-api@lfdr.de>; Tue,  8 Jun 2021 19:24:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78EC339FEB8
+	for <lists+linux-api@lfdr.de>; Tue,  8 Jun 2021 20:10:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232941AbhFHR0a (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 8 Jun 2021 13:26:30 -0400
-Received: from mail.codeweavers.com ([50.203.203.244]:51886 "EHLO
-        mail.codeweavers.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231556AbhFHR03 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Jun 2021 13:26:29 -0400
-X-Greylist: delayed 1045 seconds by postgrey-1.27 at vger.kernel.org; Tue, 08 Jun 2021 13:26:29 EDT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=codeweavers.com; s=6377696661; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=o1rKVWS8yk/+TD71rwtUO/tlxJR2buWgJpKkF2iMIHE=; b=OxNn6SQM+f2RUa07cyRtggHlRX
-        SRjXsyCYik4TZ12vt2EzfmpVt7pYdTn0bdwyIqV8jJaks9GDLGho9rZ/8Y/n/hl+ELczNvNDAbim9
-        BYmjn0brfShV68C3j5sE9pU0qduGOsHD+c3xUeHmQM6vOxnW3K3fQf46SMn+eowv9FPo=;
-Received: from [75.162.249.176] (helo=[192.168.0.62])
-        by mail.codeweavers.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.92)
-        (envelope-from <zfigura@codeweavers.com>)
-        id 1lqfBv-0005Hl-Cl; Tue, 08 Jun 2021 12:07:04 -0500
+        id S231935AbhFHSMC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 8 Jun 2021 14:12:02 -0400
+Received: from mail-qv1-f41.google.com ([209.85.219.41]:41975 "EHLO
+        mail-qv1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232753AbhFHSMC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Jun 2021 14:12:02 -0400
+Received: by mail-qv1-f41.google.com with SMTP id x2so10645753qvo.8
+        for <linux-api@vger.kernel.org>; Tue, 08 Jun 2021 11:09:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=SzY5mAzb8iAAncNXCHh5zNAEVzbO39nRlIsEjy7/kj4=;
+        b=yP1M9TwVufAhZhzjKMz4aXj5vc2/bthnQJnbC+4WdSfV+iBjkqH4wKJpiecqQ/eP8g
+         hBDLDWr0z6h+d218Lmsm1mjnb8XAh/r5jZhaHZYTv447YW5yFi8n0fl/p8XWGpr4U6tb
+         ym/nrKyOaJQcyxf1gk8nwJBCsTm8hr4GauoWtyKAVkx/pJGSe1P1h966OMxnD+OJp1V0
+         7nG9F97aKotXZ+nrrp4yfZ6Trq/o0rJwmlZs+WtiRFHjDu3kxnLxw9A3XxG3/IKQc/xO
+         1ctEGT0Yjl99/hnPpVyeM3+yfa9oQMUgpW3Cb8elFblEIYuU7fw6dO9OQwr5dhYA+M3R
+         Hz8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=SzY5mAzb8iAAncNXCHh5zNAEVzbO39nRlIsEjy7/kj4=;
+        b=eOxuFxatZiOtjX94KKO15vEkLU7GJqLIC4snH6e/QNKJ70HC42rmGAxrNcqiLuuEJ5
+         9AU+xqS8lE2j7NNvsI7h63ZVvBaoPAwiGC8g12Rj17jsmBi351FaLesvpq+n6kp3b28B
+         lI5lzbWbm6hd4guMeCyQ2bRwwGvQUa5VNOh7tCEyl9JFKF6L78pRtFfhNq5XvF6rAR7n
+         ESPUO6RITcl8mb8dwodUsHNxGvAuV+9lmI58KvMZmx5o9MRP9nqqv0VLhkTB44c46KZq
+         tzd1OhP8TKldPDW9vUAK51LT19uuqhxzo4quxVfeoLj3UbCoRkLL0IBrdeEAq0q3IAZb
+         hBBw==
+X-Gm-Message-State: AOAM530fyLj3ZXnwBJsbrQ3fX5kPET9IWkmRsbPYX1oFkZ5SVmISv/XQ
+        7ClSlE0t4uQKUizZNY1dlNnFyw==
+X-Google-Smtp-Source: ABdhPJzq29VJTnN5Q6aeV8Pg0HAuE5CchMgl31X1oKLF8UNjqTft6fNXk8EmKW6Qk8X9KRpEuN1lFQ==
+X-Received: by 2002:a05:6214:d41:: with SMTP id 1mr1468950qvr.6.1623175732347;
+        Tue, 08 Jun 2021 11:08:52 -0700 (PDT)
+Received: from [192.168.1.4] ([177.194.59.218])
+        by smtp.gmail.com with ESMTPSA id h12sm11987725qkj.52.2021.06.08.11.08.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Jun 2021 11:08:52 -0700 (PDT)
 Subject: Re: [PATCH v4 00/15] Add futex2 syscalls
-To:     Andrey Semashev <andrey.semashev@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>
-Cc:     Nicholas Piggin <npiggin@gmail.com>,
-        =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>,
-        acme@kernel.org, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        corbet@lwn.net, Davidlohr Bueso <dave@stgolabs.net>,
-        Darren Hart <dvhart@infradead.org>, fweimer@redhat.com,
-        joel@joelfernandes.org, kernel@collabora.com,
-        krisman@collabora.com, libc-alpha@sourceware.org,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, malteskarupke@fastmail.fm,
+To:     Peter Zijlstra <peterz@infradead.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc:     linux-kselftest@vger.kernel.org, joel@joelfernandes.org,
+        Andrey Semashev <andrey.semashev@gmail.com>,
+        kernel@collabora.com, shuah@kernel.org,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Peter Oskolkov <posk@posk.io>, corbet@lwn.net,
+        krisman@collabora.com, malteskarupke@fastmail.fm,
         Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        pgriffais@valvesoftware.com, Peter Oskolkov <posk@posk.io>,
-        Steven Rostedt <rostedt@goodmis.org>, shuah@kernel.org,
-        Thomas Gleixner <tglx@linutronix.de>
-References: <1622799088.hsuspipe84.astroid@bobo.none>
+        Darren Hart <dvhart@infradead.org>, acme@kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>,
+        =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>,
+        Thomas Gleixner <tglx@linutronix.de>, fweimer@redhat.com,
+        libc-alpha@sourceware.org, linux-api@vger.kernel.org,
+        z.figura12@gmail.com, Nicholas Piggin <npiggin@gmail.com>,
+        linux-kernel@vger.kernel.org, pgriffais@valvesoftware.com
+References: <20210603195924.361327-1-andrealmeid@collabora.com>
+ <1622799088.hsuspipe84.astroid@bobo.none>
  <fb85fb20-5421-b095-e68b-955afa105467@collabora.com>
  <1622853816.mokf23xgnt.astroid@bobo.none>
- <6d8e3bb4-0cef-b991-9a16-1f03d10f131d@gmail.com>
- <1622980258.cfsuodze38.astroid@bobo.none>
- <c6d86db8-4f63-6c57-9a67-6268da266afe@gmail.com>
- <1623114630.pc8fq7r5y9.astroid@bobo.none>
- <b3488d1b-a4ff-8791-d960-a5f7ae2ea8b3@gmail.com> <YL9Q2tKLZP6GKbHW@kroah.com>
- <8fa8b7fd-58ae-9467-138d-4ff4f32f68f7@gmail.com> <YL9kApyE6FbG/hru@kroah.com>
- <3fca0afa-d9db-a176-aad1-ff7db21ba4a2@gmail.com>
-From:   Zebediah Figura <zfigura@codeweavers.com>
-Message-ID: <4c16b622-d2a8-c9f7-4c0b-80c9dbd8ef2c@codeweavers.com>
-Date:   Tue, 8 Jun 2021 12:06:58 -0500
+ <22137ccd-c5e6-9fcc-a176-789558e9ab1e@collabora.com>
+ <20210608122622.oxf662ruaawrtyrd@linutronix.de>
+ <YL99cR0H+7xgU8L1@hirez.programming.kicks-ass.net>
+From:   Adhemerval Zanella <adhemerval.zanella@linaro.org>
+Message-ID: <74c7f1c1-ca15-1e86-a988-a4d349ad16ef@linaro.org>
+Date:   Tue, 8 Jun 2021 15:08:44 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <3fca0afa-d9db-a176-aad1-ff7db21ba4a2@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <YL99cR0H+7xgU8L1@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 6/8/21 8:18 AM, Andrey Semashev wrote:
-> On 6/8/21 3:35 PM, Greg KH wrote:
->> On Tue, Jun 08, 2021 at 03:06:48PM +0300, Andrey Semashev wrote:
->>> On 6/8/21 2:13 PM, Greg KH wrote:
->>
->>>> So what's keeping the futex2 code from doing all that futex1 does so
->>>> that the futex1 code can be deleted internally?
->>>
->>> I think, André will answer this, but my guess is, as stated above, 
->>> this is a
->>> lot of work and time while the intermediate version is already useful.
->>
->> useful to who?  I still do not understand what users will be needing
->> this.  All I can tell is a single userspace program wants to use it, and
->> that is a fork from the real project it was based on and that the
->> maintainers have no plan to merge it back.
->>
->> So who does need/want this?
+
+> All the attempts with API extensions didn't go well because glibc did
+> not want to change a bit. This starts with a mutex that has a static
+> initializer which has to work (I don't remember why the first
+> pthread_mutex_lock() could not fail with -ENOMEM but there was
+> something) and ends with glibc's struct mutex which is full and has no
+> room for additional data storage.
+
+Yes, we have binary compatibility constraints that prevents us to simply
+broken old binaries.  This is quite true for static initialization,
+which imposes even harder constraints, different than the pthread_mutex_t
+size where we can workaround with symbols versioning. But even then we hear
+from users that out pthread_mutex_t is still way larger, specially for
+fine grained locking so I am not sure if we do want to extend it.
+
+> That said; if we're going to do the whole futex-vector thing, we really
+> do need a new interface, because the futex multiplex monster is about to
+> crumble (see the fun wrt timeouts for example).
 > 
-> I mentioned C++ std::atomic and Boost.Atomic before. Those need variable 
-> sized futexes.
+> And if we're going to do a new interface, we ought to make one that can
+> solve all these problems. Now, ideally glibc will bring forth some
+> opinions, but if they don't want to play, we'll go back to the good old
+> days of non-standard locking libraries.. we're halfway there already due
+> to glibc not wanting to break with POSIX were we know POSIX was just
+> dead wrong broken.
 > 
-> The project you mention is probably Wine and its derivatives. Those need 
-> variable sized futexes and "wait for multiple" operation. I'm not sure 
-> about the "no plan to merge it back" part, I probably missed it in an 
-> earlier discussion. There are multiple different patches and versions 
-> out there, and I don't know which one it refers to. But WaitOnAddress 
-> and WaitForMultipleObjects APIs are very important and I would assume 
-> Wine wants to emulate those with best efficiency.
+> See: https://github.com/dvhart/librtpi
 
-See [0]. The short version is that we can't use futexes the way that 
-out-of-tree patch set does, due to compatibility and robustness 
-problems. I wrote said patch set and I'm currently working on a 
-different solution for upstreaming.
+You are right, we don't really want to break POSIX requirements in this
+regard because users constantly come with scenarios where they do expect
+our implementation to be conformant [1].  And even now, there are case we 
+don't get it fully right [2] and it is really hard to fix such issues.
 
-We also can't exactly use futexes to back WaitOnAddress() directly. We 
-actually do currently, but for various complex reasons that needs to 
-change, and none of the proposals for futex2 help the new implementation.
+If I recall correctly from a recent plumber couple of years ago about 
+the librtpi, the presents stated their implement do not follow POSIX
+standard by design.  It suits then for their required work, but it is 
+not what we really aim for glibc.  We *might* try to provide as an 
+extension, but even then I am not if it would be fully possible due 
+API constraints.
 
-ἔρρωσο,
-Zebediah
+So, regarding the futex2 we might try to support it eventually; but if
+this newer interface is not a really a superset of futex1 we won't 
+put much effort. Supporting newer syscall requires an extra effort from
+glibc, we need to keep fallback for older ones in case the kernel is
+too old and it also imposes runtime costs.
 
-[0] 
-https://lore.kernel.org/lkml/dab34fd2-b494-8686-bcd7-68beeba4f386@gmail.com/
+Also currently we don't have a specific usage.  The proposed patch to
+add the 'pthread_mutex_lock_any' and 'pthreada_timedlock_any' [3] 
+also did not gave much detail in realword usages or how it can be
+leveraged.
+
+[1] https://sourceware.org/bugzilla/show_bug.cgi?id=13165
+[2] https://sourceware.org/bugzilla/show_bug.cgi?id=25847
+[3] https://sourceware.org/pipermail/libc-alpha/2019-July/105422.html
