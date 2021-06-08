@@ -2,166 +2,294 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5072A39EDCC
-	for <lists+linux-api@lfdr.de>; Tue,  8 Jun 2021 06:46:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3F8839F24A
+	for <lists+linux-api@lfdr.de>; Tue,  8 Jun 2021 11:28:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229462AbhFHEso (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 8 Jun 2021 00:48:44 -0400
-Received: from mail-pf1-f171.google.com ([209.85.210.171]:44898 "EHLO
-        mail-pf1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbhFHEso (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Jun 2021 00:48:44 -0400
-Received: by mail-pf1-f171.google.com with SMTP id u18so14754462pfk.11;
-        Mon, 07 Jun 2021 21:46:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:subject:to:cc:references:in-reply-to:mime-version
-         :message-id:content-transfer-encoding;
-        bh=shODUYCaNFDiwECqxn3wjQe6HiQJ4Xmfy6/QLkqCTj0=;
-        b=QKOwrNn5pHgz+CO/6OengGsrAXQu/41qkmyIy8Sd4hqTRJb4WyhwEPIyJ7KTeTmb1f
-         tgGNdpezdeaUWAjRN4ouV90wX8AMl2hAztyIV5KFLK4IGrHYPrKWrYApmg/RKq4LkHEw
-         g+s1z4Crgb2ovl3x+duG0KHMz/JjHdsF1cXufhJWPzRVyFmi7vsGUnrb+k4jlh0VnLOC
-         IAhLhXzgNEhXfuNpfQsNhHHwQnEVQ864qDtVc6WR06mA+9XNkZ/WP4wZbWPcB//HaMtp
-         ndreGPmkrEsvkXquouv4PHE7iSKTL5xWlQ+SeuX5PqRh+LfPz/Dr0v6MTgRRhv74iqfV
-         UEEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:subject:to:cc:references:in-reply-to
-         :mime-version:message-id:content-transfer-encoding;
-        bh=shODUYCaNFDiwECqxn3wjQe6HiQJ4Xmfy6/QLkqCTj0=;
-        b=CavkB6x5CjO1QgkL5oEN6n3/ra33YMsN7d1R9MzMX6/tUa+VPxG4hY7s1mHkeECXsk
-         Ghh+Ldgp/FHAHyXgRa5L6RkA/no+ZbNQ/C9mLZmmTKpQpIQNN71aK2TC641UplRk4Vd5
-         NKRTcQYdSYfFBC8EipWIteGth1HD1/9HAtAsVPdKFuDQwzPBRfX60w3Az5rWvBYVjXLF
-         exz+oRsD8a4vtt6pQWtcfT2TkiidM7ymsnF5QqdE4jHiSnp5CtOrbyg2UvxcPlR0nFgo
-         fwd1NNuxzNkFCtoCqqt/OZITe+WMyD1OVvutSyVg7cMZUQVs9707QwgeMFArCwQeMe99
-         NWzQ==
-X-Gm-Message-State: AOAM5304L/ePaelDu6dZRh4tJuUInO0tdoXlqcdiBohY5X28Zfv2FvDy
-        mClo95CAyzP4GoPFXHs0O5M=
-X-Google-Smtp-Source: ABdhPJzo/Il7mH42sxJ9pqb+2MljKEc8Fi+ttQDpWQawgD1x5JDzvIavvyCaTIekl88MdUSoxOAf3g==
-X-Received: by 2002:a62:60c4:0:b029:2ca:ebf7:cd0d with SMTP id u187-20020a6260c40000b02902caebf7cd0dmr20270348pfb.71.1623127536730;
-        Mon, 07 Jun 2021 21:45:36 -0700 (PDT)
-Received: from localhost (60-242-147-73.tpgi.com.au. [60.242.147.73])
-        by smtp.gmail.com with ESMTPSA id v11sm950423pju.27.2021.06.07.21.45.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jun 2021 21:45:36 -0700 (PDT)
-Date:   Tue, 08 Jun 2021 14:45:31 +1000
-From:   Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [PATCH v4 00/15] Add futex2 syscalls
-To:     =?iso-8859-1?b?QW5kcu+/vQ==?= Almeida <andrealmeid@collabora.com>,
-        Davidlohr Bueso <dave@stgolabs.net>
-Cc:     acme@kernel.org, Andrey Semashev <andrey.semashev@gmail.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        corbet@lwn.net, Darren Hart <dvhart@infradead.org>,
-        fweimer@redhat.com, joel@joelfernandes.org, kernel@collabora.com,
-        krisman@collabora.com, libc-alpha@sourceware.org,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, malteskarupke@fastmail.fm,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        pgriffais@valvesoftware.com, Peter Oskolkov <posk@posk.io>,
-        Steven Rostedt <rostedt@goodmis.org>, shuah@kernel.org,
-        Thomas Gleixner <tglx@linutronix.de>, z.figura12@gmail.com
-References: <20210603195924.361327-1-andrealmeid@collabora.com>
-        <1622799088.hsuspipe84.astroid@bobo.none>
-        <fb85fb20-5421-b095-e68b-955afa105467@collabora.com>
-        <1622853816.mokf23xgnt.astroid@bobo.none>
-        <22137ccd-c5e6-9fcc-a176-789558e9ab1e@collabora.com>
-        <20210608023302.34yzrm5ktf3qvxhq@offworld>
-In-Reply-To: <20210608023302.34yzrm5ktf3qvxhq@offworld>
+        id S230222AbhFHJ35 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 8 Jun 2021 05:29:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37756 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229507AbhFHJ34 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 8 Jun 2021 05:29:56 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 72D166124C;
+        Tue,  8 Jun 2021 09:28:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1623144484;
+        bh=u/yn7qdyg2jplF/gHxRTO0ZByTH2g4Z41ES/bS2ZEpE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=vtlPXWHw03L/hDmiA5HUErLr5DckpuwpDtSY6cbWuMI9ey8p5BwoEf8QH0IFQ71FC
+         +BG2oHucIybGH7+JBhwG/k4l3j3bhUNsuh4yWD3cOEy//fBTyCi3JStstMsH8TRA0n
+         s2owd6UyymeLJCI3V1vEuD+gzCFu1R7uFRbjOTpo=
+Date:   Tue, 8 Jun 2021 11:28:01 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     yongw.pur@gmail.com
+Cc:     minchan@kernel.org, ngupta@vflare.org, senozhatsky@chromium.org,
+        axboe@kernel.dk, akpm@linux-foundation.org,
+        songmuchun@bytedance.com, david@redhat.com,
+        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-mm@kvack.org, willy@infradead.org, linux-api@vger.kernel.org,
+        lu.zhongjun@zte.com.cn, yang.yang29@zte.com.cn,
+        zhang.wenya1@zte.com.cn, wang.yong12@zte.com.cn
+Subject: Re: [RFC PATCH V3] zram:calculate available memory when zram is used
+Message-ID: <YL84IUIQ0XAvv16D@kroah.com>
+References: <1623080354-21453-1-git-send-email-yongw.pur@gmail.com>
 MIME-Version: 1.0
-Message-Id: <1623125574.l2jo2w0x2v.astroid@bobo.none>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1623080354-21453-1-git-send-email-yongw.pur@gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Excerpts from Davidlohr Bueso's message of June 8, 2021 12:33 pm:
-> On Mon, 07 Jun 2021, Andr=C3=AF=C2=BF=C2=BD Almeida wrote:
->=20
->>=C3=80s 22:09 de 04/06/21, Nicholas Piggin escreveu:
->>> Actually one other scalability thing while I remember it:
->>>
->>> futex_wait currently requires that the lock word is tested under the
->>> queue spin lock (to avoid consuming a wakeup). The problem with this is
->>> that the lock word can be a very hot cache line if you have a lot of
->>> concurrency, so accessing it under the queue lock can increase queue
->>> lock hold time.
->>>
->>> I would prefer if the new API was relaxed to avoid this restriction
->>> (e.g., any wait call may consume a wakeup so it's up to userspace to
->>> avoid that if it is a problem).
->>
->>Maybe I'm wrong, but AFAIK the goal of checking the lock word inside the
->>spin lock is to avoid sleeping forever (in other words, wrongly assuming
->>that the lock is taken and missing a wakeup call), not to avoid
->>consuming wakeups. Or at least this is my interpretation of this long
->>comment in futex.c:
->>
->>https://elixir.bootlin.com/linux/v5.12.9/source/kernel/futex.c#L51
->=20
-> I think what Nick is referring to is that futex_wait() could return 0
-> instead of EAGAIN upon a uval !=3D val condition if the check is done
-> without the hb lock. The value could have changed between when userspace
-> did the condition check and called into futex(2) to block in the slowpath=
-.
+On Mon, Jun 07, 2021 at 08:39:14AM -0700, yongw.pur@gmail.com wrote:
+> From: wangyong <wang.yong12@zte.com.cn>
+> 
+> When zram is used, available+Swap free memory is obviously bigger than we
+> actually can use, because zram can compress memory by compression
+> algorithm and zram compressed data will occupy memory too.
+> 
+> So, we can count the compression ratio of zram in the kernel. The space
+> will be saved by zram and other swap device are calculated as follows:
+> zram[swapfree - swapfree * compress ratio] + swapdev[swapfree]
+> We can evaluate the available memory of the whole system as:
+> MemAvailable+zram[swapfree - swapfree * compress ratio]+swapdev[swapfree]
+> 
+> Add an entry to the /proc/meminfo file, returns swap will save space.
+> Which name is more appropriate is still under consideration.
+> There are several alternative names: SwapAvailable, SwapSaved,
+> SwapCompressible, Which is better?
+> 
+> Adding new entries has little effect on user program, since parsers
+> usually parse by keywords
+> 
+> Changes from v2:
+> *Add interface description document
+> *Other mistakes and problems fix
+> 
+> Changes from v1:
+> *Use a new interface to return memory savings when using swap devices
+> *Zram add min_compr_ratio attr
 
-I just mean the check could be done after queueing ourselves on the wait=20
-queue (and unlocking the waitqueue lock, not checking while holding the
-lock). That is the standard pattern used everywhere else by the kernel:
+These "Changes" need to go below the --- line please.
 
-  prepare_to_wait() /* -> lock; add_wait_queue; unlock; */
-  check_again();
-  schedule();
+> 
+> Signed-off-by: wangyong <wang.yong12@zte.com.cn>
+> ---
+>  Documentation/admin-guide/blockdev/zram.rst |  6 ++
+>  Documentation/filesystems/proc.rst          |  4 ++
+>  drivers/block/zram/zcomp.h                  |  8 +++
+>  drivers/block/zram/zram_drv.c               | 19 ++++++
+>  drivers/block/zram/zram_drv.h               |  1 +
+>  fs/proc/meminfo.c                           |  1 +
+>  include/linux/swap.h                        | 11 ++++
+>  mm/swapfile.c                               | 95 +++++++++++++++++++++++++++++
+>  mm/vmscan.c                                 |  1 +
+>  9 files changed, 146 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/blockdev/zram.rst b/Documentation/admin-guide/blockdev/zram.rst
+> index 700329d..3b7c4c4 100644
+> --- a/Documentation/admin-guide/blockdev/zram.rst
+> +++ b/Documentation/admin-guide/blockdev/zram.rst
+> @@ -283,6 +283,12 @@ a single line of text and contains the following stats separated by whitespace:
+>  		Unit: 4K bytes
+>   ============== =============================================================
+>  
+> +File /sys/block/zram<id>/min_compr_ratio
+> +
+> +The min_compr_ratio file represents the min_compr_ratio during zram swapping out.The calculation formula is as follows:
+> +(orig_size * 100) / compr_data_size
+> +
+> +
 
-It can still return EAGAIN if there is a reasonable use for it, but I'd
-be wary about user code that cares about this -- it's racy you could=20
-arrive right before the value changes or right after it changes, so any
-user code checking this I would be suspicious of (I'm willing to see a
-use case that really cares).
 
->=20
-> But such spurious scenarios should be pretty rare, and while I agree that
-> the cacheline can be hot, I'm not sure how much of a performance issue th=
-is
-> really is(?),
+sysfs files need to be documented in Documentation/ABI/ files.  You can
+reference them in other documentation files, but they need to be in the
+ABI/ directory as well.
 
-It's not a spurious anything. The problem is the contention on the
-lock word cacheline means it can take a relatively long time just to perfor=
-m
-that one load instruction. Mandating that it must be done while holding the
-lock translates to increased lock hold times.
+Also please wrap your lines at the proper length and use a ' ' after a
+'.'
 
-This matters particularly in situations that have lock stealing,=20
-optimistic spinning, reader-writer locks or more exotic kind of things=20
-that allow some common types of critical section to go through while others
-are blocking. And partiuclarly when such things hash collide on other
-futexes that share the same hash lock.
 
-> compared to other issues, certainly not to govern futex2
-> design. Changing such semantics would be a _huge_ difference between fute=
-x1
-> and futex2.
 
-futex1 behaviour should not govern futex2 design. That's the only nice=20
-thing you get with an API change, so we should take full advantage of=20
-it. I'm not saying make changes for no reason, but I gave a reason, so=20
-that should be countered with a better reason to not change.
 
-Thanks,
-Nick
+>  9) Deactivate
+>  =============
+>  
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index 042c418..15d35ae 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -961,6 +961,7 @@ You may not have all of these fields.
+>      LowFree:          4432 kB
+>      SwapTotal:           0 kB
+>      SwapFree:            0 kB
+> +    SwapAvailable:       0 kB
+>      Dirty:             968 kB
+>      Writeback:           0 kB
+>      AnonPages:      861800 kB
+> @@ -1032,6 +1033,9 @@ SwapTotal
+>  SwapFree
+>                Memory which has been evicted from RAM, and is temporarily
+>                on the disk
+> +SwapAvailable
+> +              The memory savings when use swap devices. it takes zram
+> +              compression ratio into considerations, when zram is used    
 
->=20
-> At least compared, for example, to the hb collisions serializing independ=
-ent
-> futexes, affecting both performance and determinism. And I agree that a n=
-ew
-> interface should address this problem - albeit most of the workloads I ha=
-ve
-> seen in production use but a handful of futexes and larger thread counts.
-> One thing that crossed my mind (but have not actually sat down to look at=
-)
-> would be to use rlhastables for the dynamic resizing, but of course that =
-would
-> probably add a decent amount of overhead to the simple hashing we current=
-ly have.
+Trailing whitespace?
+
+Did you run your patch through scripts/checkpatch.pl first before
+sending it out?
+
+
+>  Dirty
+>                Memory which is waiting to get written back to the disk
+>  Writeback
+> diff --git a/drivers/block/zram/zcomp.h b/drivers/block/zram/zcomp.h
+> index 40f6420..9c9cb96 100644
+> --- a/drivers/block/zram/zcomp.h
+> +++ b/drivers/block/zram/zcomp.h
+> @@ -40,4 +40,12 @@ int zcomp_decompress(struct zcomp_strm *zstrm,
+>  		const void *src, unsigned int src_len, void *dst);
+>  
+>  bool zcomp_set_max_streams(struct zcomp *comp, int num_strm);
+> +#ifdef CONFIG_ZRAM
+> +int get_zram_major(void);
+> +#else
+> +int get_zram_major(void)
+> +{
+> +	return -1;
+> +}
+> +#endif
+>  #endif /* _ZCOMP_H_ */
+> diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
+> index fcaf275..8f527e0 100644
+> --- a/drivers/block/zram/zram_drv.c
+> +++ b/drivers/block/zram/zram_drv.c
+> @@ -59,6 +59,10 @@ static void zram_free_page(struct zram *zram, size_t index);
+>  static int zram_bvec_read(struct zram *zram, struct bio_vec *bvec,
+>  				u32 index, int offset, struct bio *bio);
+>  
+> +int get_zram_major(void)
+> +{
+> +	return zram_major;
+
+Why does anyone need the zram major number?
+
+
+> +}
+>  
+>  static int zram_slot_trylock(struct zram *zram, u32 index)
+>  {
+> @@ -1040,6 +1044,19 @@ static ssize_t compact_store(struct device *dev,
+>  	return len;
+>  }
+>  
+> +static ssize_t min_compr_ratio_show(struct device *dev,
+> +		struct device_attribute *attr, char *buf)
+> +{
+> +	struct zram *zram = dev_to_zram(dev);
+> +	ssize_t ret;
+> +
+> +	down_read(&zram->init_lock);
+> +	ret = scnprintf(buf, PAGE_SIZE, "%d\n", atomic_read(&zram->stats.min_compr_ratio));
+> +	up_read(&zram->init_lock);
+
+You are using an atomic variable _AND_ a read lock?  Are you sure that
+makes sense?
+
+And please use sysfs_emit() for sysfs files.
+
+
+> +
+> +	return ret;
+> +}
+> +
+>  static ssize_t io_stat_show(struct device *dev,
+>  		struct device_attribute *attr, char *buf)
+>  {
+> @@ -1132,6 +1149,7 @@ static ssize_t debug_stat_show(struct device *dev,
+>  	return ret;
+>  }
+>  
+> +static DEVICE_ATTR_RO(min_compr_ratio);
+>  static DEVICE_ATTR_RO(io_stat);
+>  static DEVICE_ATTR_RO(mm_stat);
+>  #ifdef CONFIG_ZRAM_WRITEBACK
+> @@ -1859,6 +1877,7 @@ static struct attribute *zram_disk_attrs[] = {
+>  	&dev_attr_idle.attr,
+>  	&dev_attr_max_comp_streams.attr,
+>  	&dev_attr_comp_algorithm.attr,
+> +	&dev_attr_min_compr_ratio.attr,
+>  #ifdef CONFIG_ZRAM_WRITEBACK
+>  	&dev_attr_backing_dev.attr,
+>  	&dev_attr_writeback.attr,
+> diff --git a/drivers/block/zram/zram_drv.h b/drivers/block/zram/zram_drv.h
+> index 80c3b43..5717e06 100644
+> --- a/drivers/block/zram/zram_drv.h
+> +++ b/drivers/block/zram/zram_drv.h
+> @@ -88,6 +88,7 @@ struct zram_stats {
+>  	atomic64_t bd_reads;		/* no. of reads from backing device */
+>  	atomic64_t bd_writes;		/* no. of writes from backing device */
+>  #endif
+> +	atomic_t min_compr_ratio;
+>  };
+>  
+>  struct zram {
+> diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
+> index 6fa761c..34a174b 100644
+> --- a/fs/proc/meminfo.c
+> +++ b/fs/proc/meminfo.c
+> @@ -86,6 +86,7 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
+>  
+>  	show_val_kb(m, "SwapTotal:      ", i.totalswap);
+>  	show_val_kb(m, "SwapFree:       ", i.freeswap);
+> +	show_val_kb(m, "SwapAvailable:	", count_avail_swaps());
+>  	show_val_kb(m, "Dirty:          ",
+>  		    global_node_page_state(NR_FILE_DIRTY));
+>  	show_val_kb(m, "Writeback:      ",
+> diff --git a/include/linux/swap.h b/include/linux/swap.h
+> index bb48893..deed141 100644
+> --- a/include/linux/swap.h
+> +++ b/include/linux/swap.h
+> @@ -515,6 +515,8 @@ extern int init_swap_address_space(unsigned int type, unsigned long nr_pages);
+>  extern void exit_swap_address_space(unsigned int type);
+>  extern struct swap_info_struct *get_swap_device(swp_entry_t entry);
+>  sector_t swap_page_sector(struct page *page);
+> +extern void update_zram_zstats(void);
+> +extern u64 count_avail_swaps(void);
+>  
+>  static inline void put_swap_device(struct swap_info_struct *si)
+>  {
+> @@ -689,6 +691,15 @@ static inline swp_entry_t get_swap_page(struct page *page)
+>  	return entry;
+>  }
+>  
+> +void update_zram_zstats(void)
+> +{
+> +}
+> +
+> +u64 count_avail_swaps(void)
+> +{
+> +	return 0;
+> +}
+> +
+>  #endif /* CONFIG_SWAP */
+>  
+>  #ifdef CONFIG_THP_SWAP
+> diff --git a/mm/swapfile.c b/mm/swapfile.c
+> index 1e07d1c..5ce5100 100644
+> --- a/mm/swapfile.c
+> +++ b/mm/swapfile.c
+> @@ -44,6 +44,7 @@
+>  #include <asm/tlbflush.h>
+>  #include <linux/swapops.h>
+>  #include <linux/swap_cgroup.h>
+> +#include "../drivers/block/zram/zram_drv.h"
+
+That's a big hint that this is not correct, please do not do this :(
+
+The core kernel should not depend on a random block driver's code.
+
+thanks,
+
+greg k-h
