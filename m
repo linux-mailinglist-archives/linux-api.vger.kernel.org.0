@@ -2,105 +2,114 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 92A0F3A1AD9
-	for <lists+linux-api@lfdr.de>; Wed,  9 Jun 2021 18:26:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D4733A1DA4
+	for <lists+linux-api@lfdr.de>; Wed,  9 Jun 2021 21:23:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232973AbhFIQ2K (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 9 Jun 2021 12:28:10 -0400
-Received: from eu-smtp-delivery-151.mimecast.com ([185.58.85.151]:54502 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231660AbhFIQ2I (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 9 Jun 2021 12:28:08 -0400
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-172-FdJreY3ZMLiLZuNVmMRzPw-1; Wed, 09 Jun 2021 17:26:11 +0100
-X-MC-Unique: FdJreY3ZMLiLZuNVmMRzPw-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.18; Wed, 9 Jun 2021 17:26:09 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.018; Wed, 9 Jun 2021 17:26:09 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Peter Zijlstra' <peterz@infradead.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-CC:     =?utf-8?B?QW5kcsOpIEFsbWVpZGE=?= <andrealmeid@collabora.com>,
-        "Nicholas Piggin" <npiggin@gmail.com>,
-        "acme@kernel.org" <acme@kernel.org>,
-        "Andrey Semashev" <andrey.semashev@gmail.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Darren Hart <dvhart@infradead.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "joel@joelfernandes.org" <joel@joelfernandes.org>,
-        "kernel@collabora.com" <kernel@collabora.com>,
-        "krisman@collabora.com" <krisman@collabora.com>,
-        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "malteskarupke@fastmail.fm" <malteskarupke@fastmail.fm>,
-        Ingo Molnar <mingo@redhat.com>,
-        "pgriffais@valvesoftware.com" <pgriffais@valvesoftware.com>,
-        Peter Oskolkov <posk@posk.io>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "z.figura12@gmail.com" <z.figura12@gmail.com>
-Subject: RE: [PATCH v4 00/15] Add futex2 syscalls
-Thread-Topic: [PATCH v4 00/15] Add futex2 syscalls
-Thread-Index: AQHXXHH+yOYikfdseE6EaGQch1EuiqsL3IpQ
-Date:   Wed, 9 Jun 2021 16:26:09 +0000
-Message-ID: <ae5b077863fb4853b4f26c3f0b176ac0@AcuMS.aculab.com>
-References: <20210603195924.361327-1-andrealmeid@collabora.com>
- <1622799088.hsuspipe84.astroid@bobo.none>
- <fb85fb20-5421-b095-e68b-955afa105467@collabora.com>
- <1622853816.mokf23xgnt.astroid@bobo.none>
- <22137ccd-c5e6-9fcc-a176-789558e9ab1e@collabora.com>
- <20210608122622.oxf662ruaawrtyrd@linutronix.de>
- <YL99cR0H+7xgU8L1@hirez.programming.kicks-ass.net>
-In-Reply-To: <YL99cR0H+7xgU8L1@hirez.programming.kicks-ass.net>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        id S229638AbhFITZ1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 9 Jun 2021 15:25:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47732 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229472AbhFITZ1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 9 Jun 2021 15:25:27 -0400
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [IPv6:2607:fcd0:100:8a00::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E99BC061574;
+        Wed,  9 Jun 2021 12:23:32 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by bedivere.hansenpartnership.com (Postfix) with ESMTP id 302271280667;
+        Wed,  9 Jun 2021 12:23:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+        d=hansenpartnership.com; s=20151216; t=1623266611;
+        bh=+ygb6ehnTWGTq4+1X/LDab7SOrMZFUMoYRjlVlc0Ylo=;
+        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+        b=F4n1wSPIfTJQLoiDdI1yZL/EUP3WrqHdOowail12Ffw336iWpi00V+GARW0MpjRsA
+         +kLf4BY4Sc6Ina61GAiJ1ssSy6/WS/P/lRQXRKmRPg9vCvtpZnVZw8QLYaEO4krOTO
+         cn06zPp/BfpaaJ8Ty2o2LbNdYZeyz9zun05H49Dk=
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id msFIPfflViLD; Wed,  9 Jun 2021 12:23:31 -0700 (PDT)
+Received: from jarvis.int.hansenpartnership.com (unknown [IPv6:2601:600:8280:66d1::c447])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 70C251280665;
+        Wed,  9 Jun 2021 12:23:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+        d=hansenpartnership.com; s=20151216; t=1623266611;
+        bh=+ygb6ehnTWGTq4+1X/LDab7SOrMZFUMoYRjlVlc0Ylo=;
+        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+        b=F4n1wSPIfTJQLoiDdI1yZL/EUP3WrqHdOowail12Ffw336iWpi00V+GARW0MpjRsA
+         +kLf4BY4Sc6Ina61GAiJ1ssSy6/WS/P/lRQXRKmRPg9vCvtpZnVZw8QLYaEO4krOTO
+         cn06zPp/BfpaaJ8Ty2o2LbNdYZeyz9zun05H49Dk=
+Message-ID: <e993d6c84c79d083ecfe5a8c8edabef9e9caa3ce.camel@HansenPartnership.com>
+Subject: Re: Maintainers / Kernel Summit 2021 planning kick-off
+From:   James Bottomley <James.Bottomley@HansenPartnership.com>
+To:     David Hildenbrand <david@redhat.com>, Greg KH <greg@kroah.com>,
+        Christoph Lameter <cl@gentwo.de>
+Cc:     Theodore Ts'o <tytso@mit.edu>, Jiri Kosina <jikos@kernel.org>,
+        ksummit@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, netdev@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org
+Date:   Wed, 09 Jun 2021 12:23:29 -0700
+In-Reply-To: <b32c8672-06ee-bf68-7963-10aeabc0596c@redhat.com>
+References: <YH2hs6EsPTpDAqXc@mit.edu>
+         <nycvar.YFH.7.76.2104281228350.18270@cbobk.fhfr.pm>
+         <YIx7R6tmcRRCl/az@mit.edu>
+         <alpine.DEB.2.22.394.2105271522320.172088@gentwo.de>
+         <YK+esqGjKaPb+b/Q@kroah.com>
+         <c46dbda64558ab884af060f405e3f067112b9c8a.camel@HansenPartnership.com>
+         <b32c8672-06ee-bf68-7963-10aeabc0596c@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-RnJvbTogUGV0ZXIgWmlqbHN0cmENCj4gU2VudDogMDggSnVuZSAyMDIxIDE1OjI0DQouLi4NCj4g
-QW5kIGlmIHdlJ3JlIGdvaW5nIHRvIGRvIGEgbmV3IGludGVyZmFjZSwgd2Ugb3VnaHQgdG8gbWFr
-ZSBvbmUgdGhhdCBjYW4NCj4gc29sdmUgYWxsIHRoZXNlIHByb2JsZW1zLiBOb3csIGlkZWFsbHkg
-Z2xpYmMgd2lsbCBicmluZyBmb3J0aCBzb21lDQo+IG9waW5pb25zLCBidXQgaWYgdGhleSBkb24n
-dCB3YW50IHRvIHBsYXksIHdlJ2xsIGdvIGJhY2sgdG8gdGhlIGdvb2Qgb2xkDQo+IGRheXMgb2Yg
-bm9uLXN0YW5kYXJkIGxvY2tpbmcgbGlicmFyaWVzLi4gd2UncmUgaGFsZndheSB0aGVyZSBhbHJl
-YWR5IGR1ZQ0KPiB0byBnbGliYyBub3Qgd2FudGluZyB0byBicmVhayB3aXRoIFBPU0lYIHdlcmUg
-d2Uga25vdyBQT1NJWCB3YXMganVzdA0KPiBkZWFkIHdyb25nIGJyb2tlbi4NCg0KSSBoYWQgYSBw
-cm9ibGVtIHdpdGggcHRocmVhZF9icm9hZGNhc3QoKS4NCkkndmUgZ290IG11bHRpcGxlIHRocmVh
-ZHMgYWxsIGJvdW5kIHRvIGRpZmZlcmVudCBjcHUgYW5kDQpJIHJlYWxseSBkbyB3YW50IHRvIHdh
-a2UgdGhlbSBhbGwgdXAgYXQgb25jZS4NCk5vdywgSSBrbm93IHRoZXknbGwgc3BpbiBvbiB0aGUg
-bXV0ZXggZm9yIGEgYml0IC0gYnV0IHRoYXQNCmlzIHNvb24gcmVsZWFzZWQgKHRoZSAnYWRhcHRp
-dmUnIHNwaW4gaXMgcHJvYmFibHkgbG9uZyBlbm91Z2gpLg0KDQpCdXQgd2hhdCBhY3R1YWxseSBo
-YXBwZW5zIChwcm9iYWJseSBiZWNhdXNlIG9mIHRoZSB3YXkgZ2xpYmMNCmlzIGNvbnN0cmFpbmVk
-IGJ5IHRoZSBmdXRleHQgc3lzdGVtIGNhbGwpIGlzOg0KMSkgVGhlIGZpcnN0IHRocmVhZCBpcyB3
-b2tlbi4NCjIpIEl0J3MgY3B1IGNvbWVzIG91dCBvZiBzbGVlcC4NCjMpIE9uY2UgcnVubmluZyBp
-dCB3YWtlcyB0aGUgc2Vjb25kIHRocmVhZC4NCjQpIEl0J3MgY3B1IGNvbWVzIG91dCBvZiBzbGVl
-cC4NCi4uLg0KU28geW91IGdldCBhIHZlcnkgc2xvdyByaXBwbGUgb2YgdGhlIHRocmVhZHMgc3Rh
-cnRpbmcuDQoNCldvcnNlIHN0aWxsLCBpZiB0aGUgdGhyZWFkIGNhbid0IGJlIHNjaGVkdWxlZCAo
-ZWcgYmVjYXVzZQ0KaXRzIGNwdSBpcyBydW5uaW5nIGFsbCB0aGUgbmV0d29yayBzdGFjayBzb2Z0
-aW50IGNvZGUpDQp0aGVuIG5vbmUgb2YgdGhlIGxhdGVyIHRocmVhZHMgc3RhcnQgcnVubmluZy4N
-Cg0KSSd2ZSBtaXRpZ2F0ZWQgaXQgYnkgdXNpbmcgYSBzZXBhcmF0ZSBjdiBmb3IgZWFjaCB0aHJl
-YWQNCmFuZCBsb29waW5nIHRvIHdha2UgdGhlbSBhbGwgLSBidXQgaXQgc2hvdWxkbid0IHJlYWxs
-eQ0KYmUgbmVjZXNzYXJ5Lg0KDQoJRGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2Vz
-aWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVL
-DQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
+On Wed, 2021-06-09 at 12:37 +0200, David Hildenbrand wrote:
+> On 28.05.21 16:58, James Bottomley wrote:
+> > On Thu, 2021-05-27 at 15:29 +0200, Greg KH wrote:
+> > > On Thu, May 27, 2021 at 03:23:03PM +0200, Christoph Lameter
+> > > wrote:
+> > > > On Fri, 30 Apr 2021, Theodore Ts'o wrote:
+> > > > 
+> > > > > I know we're all really hungry for some in-person meetups and
+> > > > > discussions, but at least for LPC, Kernel Summit, and
+> > > > > Maintainer's Summit, we're going to have to wait for another
+> > > > > year,
+> > > > 
+> > > > Well now that we are vaccinated: Can we still change it?
+> > > > 
+> > > 
+> > > Speak for yourself, remember that Europe and other parts of the
+> > > world are not as "flush" with vaccines as the US currently is :(
+> > 
+> > The rollout is accelerating in Europe.  At least in Germany, I know
+> > people younger than me are already vaccinated. 
+> 
+> And I know people younger than you in Germany personally ( ;) ) that
+> are not vaccinated yet and might not even get the first shot before 
+> September, not even dreaming about a second one + waiting until the 
+> vaccine is fully in effect.
+
+I said "is accelerating" not "is on a par with the US and UK".
+
+> So yes, sure, nobody can stop people that think the pandemic is over 
+> ("we are vaccinated") from meeting in person. Just make sure to not 
+> ignore the poor souls that really won't be traveling this year,
+> because "we are not vaccinated".
+
+I realise the UK government attitude is that everyone should suffer
+until we say it's over (mainly, it must be admitted, to try to keep
+people from asking awkward questions about what went wrong initially)
+and to some extent the EU shares that, but the US is definitely moving
+to a regime that says once you're vaccinated it's pretty much over for
+you and I don't see a problem with taking advantage of that for hybrid
+style events.  However, even with the best will in the world, I can't
+see much of a way around the problem that remote people at hybrid
+events will always be at a disadvantage ... suggestions for improving
+this are always welcome.
+
+James
+
 
