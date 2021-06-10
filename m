@@ -2,153 +2,98 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 950ED3A339E
-	for <lists+linux-api@lfdr.de>; Thu, 10 Jun 2021 20:57:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30FF93A3404
+	for <lists+linux-api@lfdr.de>; Thu, 10 Jun 2021 21:26:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230407AbhFJS7T (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 10 Jun 2021 14:59:19 -0400
-Received: from mail-lj1-f173.google.com ([209.85.208.173]:42723 "EHLO
-        mail-lj1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230428AbhFJS7R (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Jun 2021 14:59:17 -0400
-Received: by mail-lj1-f173.google.com with SMTP id r16so6316294ljk.9
-        for <linux-api@vger.kernel.org>; Thu, 10 Jun 2021 11:57:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fRLZs+xpPU0awlv/sVbELYsIsLJoY4yzfXqdoTcuQ/A=;
-        b=N7QJDxWDEjuPBEPA12jyVO3YWDYYqbNGXTo1BRgU5oCecpzdx8aNTH5DOHymsmQDFW
-         bM6009FTN+jOq0LFqGFGMXMPP21MQXClexESyGzTEThu4AXhimLTKMLcGuhoQmMeObv4
-         vKQi6VaJqiVAgxlZQuMHHR7MXSYsdMaF0cbPA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fRLZs+xpPU0awlv/sVbELYsIsLJoY4yzfXqdoTcuQ/A=;
-        b=U5QhATxyvt5UceqL7B813RtKAI1JERqaBJ6TEoyiq+233JZGRhb1FJfvUJSjbIqHhq
-         61DWJkqupcoRsO6V2Gr7yKVCOHwam49g/XWiREe0nCiBZhHNaNfo9gA9KTU2cWR38mHR
-         HmH8YhMO/7gos0U9oOgIi8U9A2kFxVOCuNntS9JulwfMU6Epu6gfYs3ThvM2oaxz/bWD
-         a/+KYv7FaHTdIplDjqpb0BeyKsd5pYBfJFoBt1MoLL8m1nqQXJq/ehaSEgqB2ImmL/Bz
-         qiNAR4fe9694EoYekAL4goxkBhwfJ4QaM2txbxoyZyWEkODtUEr4ktDmeBsyMJDbVI6f
-         +AZA==
-X-Gm-Message-State: AOAM532c8C5oWsC3zNWUzdOeOowz5YI4WloczmIKsVSiwpU1xTQIGZ/h
-        rHX3NH0nBChUYqgt7/SgKq082Z8t2sXAsycQ
-X-Google-Smtp-Source: ABdhPJzif7mNx7oX2vEt+VkRWNt5nT5ufPhL9ohDzXwpfXKJuIinsS4P4ZXxAMisOSn35su8ys0vsg==
-X-Received: by 2002:a2e:6a16:: with SMTP id f22mr7211ljc.423.1623351364597;
-        Thu, 10 Jun 2021 11:56:04 -0700 (PDT)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com. [209.85.167.45])
-        by smtp.gmail.com with ESMTPSA id b16sm430960ljh.93.2021.06.10.11.55.58
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Jun 2021 11:56:00 -0700 (PDT)
-Received: by mail-lf1-f45.google.com with SMTP id m21so4779269lfg.13
-        for <linux-api@vger.kernel.org>; Thu, 10 Jun 2021 11:55:58 -0700 (PDT)
-X-Received: by 2002:a05:6512:374b:: with SMTP id a11mr149804lfs.377.1623351358045;
- Thu, 10 Jun 2021 11:55:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <YH2hs6EsPTpDAqXc@mit.edu> <nycvar.YFH.7.76.2104281228350.18270@cbobk.fhfr.pm>
- <YIx7R6tmcRRCl/az@mit.edu> <alpine.DEB.2.22.394.2105271522320.172088@gentwo.de>
- <YK+esqGjKaPb+b/Q@kroah.com> <c46dbda64558ab884af060f405e3f067112b9c8a.camel@HansenPartnership.com>
- <b32c8672-06ee-bf68-7963-10aeabc0596c@redhat.com> <5038827c-463f-232d-4dec-da56c71089bd@metux.net>
-In-Reply-To: <5038827c-463f-232d-4dec-da56c71089bd@metux.net>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu, 10 Jun 2021 11:55:41 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiB6FJknDC5PMfpkg4gZrbSuC3d391VyReM4Wb0+JYXXA@mail.gmail.com>
-Message-ID: <CAHk-=wiB6FJknDC5PMfpkg4gZrbSuC3d391VyReM4Wb0+JYXXA@mail.gmail.com>
-Subject: Re: Maintainers / Kernel Summit 2021 planning kick-off
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     David Hildenbrand <david@redhat.com>,
+        id S230349AbhFJT2d (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 10 Jun 2021 15:28:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33540 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230059AbhFJT2d (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 10 Jun 2021 15:28:33 -0400
+Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 597D361376;
+        Thu, 10 Jun 2021 19:26:35 +0000 (UTC)
+Date:   Thu, 10 Jun 2021 15:26:33 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
+        David Hildenbrand <david@redhat.com>,
         James Bottomley <James.Bottomley@hansenpartnership.com>,
         Greg KH <greg@kroah.com>, Christoph Lameter <cl@gentwo.de>,
-        "Theodore Ts'o" <tytso@mit.edu>, Jiri Kosina <jikos@kernel.org>,
-        ksummit@lists.linux.dev,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-block <linux-block@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>, Netdev <netdev@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Theodore Ts'o <tytso@mit.edu>, Jiri Kosina <jikos@kernel.org>,
+        ksummit@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, netdev@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: Maintainers / Kernel Summit 2021 planning kick-off
+Message-ID: <20210610152633.7e4a7304@oasis.local.home>
+In-Reply-To: <YMJcdbRaQYAgI9ER@pendragon.ideasonboard.com>
+References: <YH2hs6EsPTpDAqXc@mit.edu>
+        <nycvar.YFH.7.76.2104281228350.18270@cbobk.fhfr.pm>
+        <YIx7R6tmcRRCl/az@mit.edu>
+        <alpine.DEB.2.22.394.2105271522320.172088@gentwo.de>
+        <YK+esqGjKaPb+b/Q@kroah.com>
+        <c46dbda64558ab884af060f405e3f067112b9c8a.camel@HansenPartnership.com>
+        <b32c8672-06ee-bf68-7963-10aeabc0596c@redhat.com>
+        <5038827c-463f-232d-4dec-da56c71089bd@metux.net>
+        <20210610182318.jrxe3avfhkqq7xqn@nitro.local>
+        <YMJcdbRaQYAgI9ER@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jun 10, 2021 at 11:08 AM Enrico Weigelt, metux IT consult
-<lkml@metux.net> wrote:
->
-> And I know *a lot* of people who will never take part in this generic
-> human experiment that basically creates a new humanoid race (people
-> who generate and exhaust the toxic spike proteine, whose gene sequence
-> doesn't look quote natural). I'm one of them, as my whole family.
+On Thu, 10 Jun 2021 21:39:49 +0300
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
 
-Please keep your insane and technically incorrect anti-vax comments to yourself.
+> There will always be more informal discussions between on-site
+> participants. After all, this is one of the benefits of conferences, by
+> being all together we can easily organize ad-hoc discussions. This is
+> traditionally done by finding a not too noisy corner in the conference
+> center, would it be useful to have more break-out rooms with A/V
+> equipment than usual ?
 
-You don't know what you are talking about, you don't know what mRNA
-is, and you're spreading idiotic lies. Maybe you do so unwittingly,
-because of bad education. Maybe you do so because you've talked to
-"experts" or watched youtube videos by charlatans that don't know what
-they are talking about.
+I've been giving this quite some thought too, and I've come to the
+understanding (and sure I can be wrong, but I don't think that I am),
+is that when doing a hybrid event, the remote people will always be
+"second class citizens" with respect to the communication that is going
+on. Saying that we can make it the same is not going to happen unless
+you start restricting what people can do that are present, and that
+will just destroy the conference IMO.
 
-But dammit, regardless of where you have gotten your mis-information
-from, any Linux kernel discussion list isn't going to have your
-idiotic drivel pass uncontested from me.
+That said, I think we should add more to make the communication better
+for those that are not present. Maybe an idea is to have break outs
+followed by the presentation and evening events that include remote
+attendees to discuss with those that are there about what they might
+have missed. Have incentives at these break outs (free stacks and
+beer?) to encourage the live attendees to attend and have a discussion
+with the remote attendees.
 
-Vaccines have saved the lives of literally tens of millions of people.
+The presentations would have remote access, where remote attendees can
+at the very least write in some chat their questions or comments. If
+video and connectivity is good enough, perhaps have a screen where they
+can show up and talk, but that may have logistical limitations.
 
-Just for your edification in case you are actually willing to be
-educated: mRNA doesn't change your genetic sequence in any way. It is
-the exact same intermediate - and temporary - kind of material that
-your cells generate internally all the time as part of your normal
-cell processes, and all that the mRNA vaccines do is to add a dose
-their own specialized sequence that then makes your normal cell
-machinery generate that spike protein so that your body learns how to
-recognize it.
+The evening events (including going out to the bars and just hanging
+with other developers) is a lost cause to try and have remote
+participation.
 
-The half-life of mRNA is a few hours. Any injected mRNA will be all
-gone from your body in a day or two. It doesn't change anything
-long-term, except for that natural "your body now knows how to
-recognize and fight off a new foreign protein" (which then tends to
-fade over time too, but lasts a lot longer than a few days). And yes,
-while your body learns to fight off that foreign material, you may
-feel like shit for a while. That's normal, and it's your natural
-response to your cells spending resources on learning how to deal with
-the new threat.
+Then the last day, perhaps have a bunch of rooms for various topics
+where people can come in and continue the conversation from the evening
+events but with a remote audience that can ask questions. Again, you
+may need to "bribe" the attendees to come to this and interact ;-)
 
-And of the vaccines, the mRNA ones are the most modern, and the most
-targeted - exactly because they do *not* need to have any of the other
-genetic material that you traditionally have in a vaccine (ie no need
-for basically the whole - if weakened - bacterial or virus genetic
-material). So the mRNA vaccines actually have *less* of that foreign
-material in them than traditional vaccines do. And  a *lot* less than
-the very real and actual COVID-19 virus that is spreading in your
-neighborhood.
+I'm all for making a better remote experience for hybrid events, but
+I'm against doing so by making it a worse experience for those that
+attend. Not saying that you suggested this, but I have heard of ideas
+about limiting what happens so that the live attendees do not have any
+advantage over the remote ones.
 
-Honestly, anybody who has told you differently, and who has told you
-that it changes your genetic material, is simply uneducated.  You need
-to stop believing the anti-vax lies, and you need to start protecting
-your family and the people around you.  Get vaccinated.
-
-I think you are in Germany, and COVID-19 numbers are going down. It's
-spreading a lot less these days, largely because people around you
-have started getting the vaccine - about half having gotten their
-first dose around you, and about a quarter being fully vaccinated. If
-you and your family are more protected these days, it's because of all
-those other people who made the right choice, but it's worth noting
-that as you see the disease numbers go down in your neighborhood,
-those diminishing numbers are going to predominantly be about people
-like you and your family.
-
-So don't feel all warm and fuzzy about the fact that covid cases have
-dropped a lot around you. Yes, all those vaccinated people around you
-will protect you too, but if there is another wave, possibly due to a
-more transmissible version - you and your family will be at _much_
-higher risk than those vaccinated people because of your ignorance and
-mis-information.
-
-Get vaccinated. Stop believing the anti-vax lies.
-
-And if you insist on believing in the crazy conspiracy theories, at
-least SHUT THE HELL UP about it on Linux kernel discussion lists.
-
-                Linus
+-- Steve
