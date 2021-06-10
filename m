@@ -2,127 +2,126 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E1AE3A24D8
-	for <lists+linux-api@lfdr.de>; Thu, 10 Jun 2021 08:57:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D33553A251E
+	for <lists+linux-api@lfdr.de>; Thu, 10 Jun 2021 09:13:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229980AbhFJG6z (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 10 Jun 2021 02:58:55 -0400
-Received: from mail-pj1-f41.google.com ([209.85.216.41]:56195 "EHLO
-        mail-pj1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229778AbhFJG6y (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Jun 2021 02:58:54 -0400
-Received: by mail-pj1-f41.google.com with SMTP id k7so3065000pjf.5
-        for <linux-api@vger.kernel.org>; Wed, 09 Jun 2021 23:56:59 -0700 (PDT)
+        id S230077AbhFJHPO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 10 Jun 2021 03:15:14 -0400
+Received: from mail-io1-f46.google.com ([209.85.166.46]:44954 "EHLO
+        mail-io1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230055AbhFJHPN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Jun 2021 03:15:13 -0400
+Received: by mail-io1-f46.google.com with SMTP id q3so2436280iop.11;
+        Thu, 10 Jun 2021 00:13:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=2aDtXE7kDwDYcnw1DjmnkRw8CyFdvtQ3yMA1h6IvAQg=;
-        b=mYoNlVCax049SKFZoh13ufk31j20rFC1095QG4YB8JO6fPhjRaFzIsD5C1PtEjqgj+
-         +dL7mbcki5gbyzQXRohncg/8iGGrSrkRNxqm5SgQmoANlkdLfs2zL9J2cKyHrXPCr3i+
-         79LsrQQ6H58GmN0SlP2t9ldB4fWhemWFH6Gq5JTglUvfJPDpmx06d6TWbiQk6UMGny0/
-         TcChl/XMznVzxT9QPDewGv/VpZCQ+ZRHlmerRgJGpfY8wLKp7VTQP6muG7+6/f0auegz
-         82J9obZ9DCo7vXh692fzDcIc+fHRLJI9fyrsX7IU4Wru28Kpf2of5YFvR2EzCXwklKQZ
-         pszQ==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tjDd7Uq7iGzt6/xpzWYUjJJ0G9Qh4pcbxJCp+7rmx/8=;
+        b=BMf0jfbhA5qKTTS7z9TQHqUpWsqaI1kdZAlIztel355FcaFCYRix2J+77M38nLhcFr
+         G6dYBvag/1jg7ATbM+AEdlzpuzieYvQzDZVpwyVvNOC0DXgE34dDTmSJsycQi/IHE3Yf
+         bNPcsLMRzIF5eGRPygkuvIE1PAdK8e7u+mWZ2BWPerZRnnPxhjbFUlmC/FWQF/OcLyp9
+         UkHbATU/R72uikzq5bawND8HgOV5sRQQ7hU8b1XDWkARFcDo6DilLref4ui1FMnER7/h
+         GlPq958UcVMfIFC6O0pluoIeCDqGOScYdasl+K2+VBbDgcm6OwThDZrVLJFOoPg0vxKk
+         vS3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=2aDtXE7kDwDYcnw1DjmnkRw8CyFdvtQ3yMA1h6IvAQg=;
-        b=EnIGS6sVi0jxhXQ/cZnBINZlO0yjJMbWkrFZKz3ntq4Vc8v6ScAdvq6kd4sF4JKtRN
-         gq9DeJk5iV57bJIhaBKz/x2o7HId983Q/UQnWahie4yBsPVbj5XMvKtMpPfBVrxDGHLK
-         uZXdZQi38RoB4oEYnAuZj3A0cl93U6h6K70cTiw1KvnKhcQMLg3lhcYit5xuUg74M9yp
-         Uo8Td9GyDToXYDcDhnvjpsxj8Dbnwnv5nG6iguLSLW0eVy105KTa8cA12DxZgnRAa2N2
-         0+by4P1xynYYvXftrbaDPK49PjdjwqpH3Hf0eEYCFLEQREEMLimyU+MSc1rNt+0TQe5K
-         LZLQ==
-X-Gm-Message-State: AOAM530ay5TW8PrPqVJHuKKNz/s3jy5tM6e4in3NNknEra5/DYcRu6ZB
-        OGvJ0W5P4wtLO4ShA0M+sDRkFg==
-X-Google-Smtp-Source: ABdhPJwnjY/iRVP5AKb8AM0J04xj7JCoATvoyOAwG+BoREk4gF/66U9HJyirJcaOR+FBsHqGcxCwoQ==
-X-Received: by 2002:a17:902:8a83:b029:10f:45c4:b435 with SMTP id p3-20020a1709028a83b029010f45c4b435mr3361949plo.17.1623308158698;
-        Wed, 09 Jun 2021 23:55:58 -0700 (PDT)
-Received: from google.com ([2401:fa00:9:211:6512:d64a:3615:dcbf])
-        by smtp.gmail.com with ESMTPSA id a11sm1513981pjq.45.2021.06.09.23.55.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Jun 2021 23:55:58 -0700 (PDT)
-Date:   Thu, 10 Jun 2021 16:55:46 +1000
-From:   Matthew Bobrowski <repnop@google.com>
-To:     Amir Goldstein <amir73il@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tjDd7Uq7iGzt6/xpzWYUjJJ0G9Qh4pcbxJCp+7rmx/8=;
+        b=nGbWP8mssxc5yaJRbFIkvNqF1X5vOjTj01jAUKE97/bXl/8s/a+3JKXrgOTH2d7t8p
+         oNKgBF1EVdR1G4Qeg2jnGtY2tno44/dl/LcRmxS6Q9Wvm8WFt9iqBfM0Y/ZsZBGwI/zB
+         PCyAWblvWDktncJ4wMQTbkUgLFbWYwyqaV5Vz50dV2D9l99q0+yb/WvVO50dZCz+UXaK
+         KCl93/P5z6QsqJpCI+pUvR2s3MNn+wbMr91anwYCwaUWw0DTvpkpmEdj6IM3GEfStKBC
+         ZPg+y5gfowYYi6fz+s7zTxR9xCPCQL/K5N2cuJbIOIhlR6EqSQOU2fU/+0lqBZCuf/mP
+         GjRg==
+X-Gm-Message-State: AOAM531lyNKm42m+maRRC9lsDeaYw4zZ6tO16/FNvj6zZ+DajzjJgtSX
+        K3FZnI2QRjnC1t/8rG1ePIUbdOjgk8j5DmV1tLQ=
+X-Google-Smtp-Source: ABdhPJzkx+5unvU+XObnz+HmupjYQbGxCSuX5v0IxDSzQPvAXtNp2Cv/hGkEQr2umZEOb3tFJAwvmbsJ9kPLbHE0BN0=
+X-Received: by 2002:a6b:3119:: with SMTP id j25mr2656890ioa.64.1623309122583;
+ Thu, 10 Jun 2021 00:12:02 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1623282854.git.repnop@google.com> <7f9d3b7815e72bfee92945cab51992f9db6533dd.1623282854.git.repnop@google.com>
+ <CAOQ4uxj2t+z1BWimWKKTae3saDbZQ=-h+6JSnr=Vyv1=rGT0Jw@mail.gmail.com> <YMGyrJMwpvqU2kcr@google.com>
+In-Reply-To: <YMGyrJMwpvqU2kcr@google.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Thu, 10 Jun 2021 10:11:51 +0300
+Message-ID: <CAOQ4uxhV32Qbk=uyxNEhUkdqzqspib=5FY_J6N-0HdLizDEAXA@mail.gmail.com>
+Subject: Re: [PATCH v2 5/5] fanotify: add pidfd support to the fanotify API
+To:     Matthew Bobrowski <repnop@google.com>
 Cc:     Jan Kara <jack@suse.cz>,
         Christian Brauner <christian.brauner@ubuntu.com>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v2 0/5] Add pidfd support to the fanotify API
-Message-ID: <YMG3crGB2RYZtVmf@google.com>
-References: <cover.1623282854.git.repnop@google.com>
- <CAOQ4uxgR1cSsE0JeTGshtyT3qgaTY3XwcxnGne7zuQmq00hv8w@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOQ4uxgR1cSsE0JeTGshtyT3qgaTY3XwcxnGne7zuQmq00hv8w@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Thanks for the review Amir, appreciated as always.
-
-On Thu, Jun 10, 2021 at 08:37:19AM +0300, Amir Goldstein wrote:
-> On Thu, Jun 10, 2021 at 3:19 AM Matthew Bobrowski <repnop@google.com> wrote:
+> > > +               ret = copy_info_records_to_user(event, info, info_mode, pidfd,
+> > > +                                               buf, count);
+> > >                 if (ret < 0)
+> > > -                       return ret;
+> > > +                       goto out_close_fd;
 > >
-> > Hey Jan/Amir/Christian,
+> > This looks like a bug in upstream.
+>
+> Yes, I'm glad this was picked up and I was actually wondering why it was
+> acceptable to directly return without jumping to the out_close_fd label in
+> the case of an error. I felt like it may have been a burden to raise the
+> question in the first place because I thought that this got picked up in
+> the review already and there was a good reason for having it, despite not
+> really making much sense.
+>
+> > It should have been goto out_close_fd to begin with.
+> > We did already copy metadata.fd to user, but the read() call
+> > returns an error.
+> > You should probably fix it before the refactoring patch, so it
+> > can be applied to stable kernels.
+>
+> Sure, I will send through a patch fixing this before submitting the next
+> version of this series though. How do I tag the patch so that it's picked
+> up an back ported accordingly?
+>
+
+The best option, in case this is a regression (it probably is)
+is the Fixes: tag which is both a clear indication for stale
+candidate patch tells the bots exactly which stable kernel the
+patch should be applied to.
+
+Otherwise, you can Cc: stable (see examples in git)
+and generally any commit title with the right keywords
+'fix' 'regression' 'bug' should be caught but the stable AI bots.
+
+> > >         }
+> > >
+> > >         return metadata.event_len;
+> > > @@ -558,6 +632,10 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
+> > >                 put_unused_fd(fd);
+> > >                 fput(f);
+> > >         }
+> > > +
+> > > +       if (pidfd < 0)
 > >
-> > Sending through v2 of the fanotify pidfd patch series. This series
-> > contains the necessary fixes/suggestions that had come out of the
-> > previous discussions, which can be found here [0], here [1], and here
-> > [3].
-> >
-> > The main difference in this series is that we perform pidfd creation a
-> > little earlier on i.e. in copy_event_to_user() so that clean up of the
-> > pidfd can be performed nicely in the event of an info
-> > generation/copying error. Additionally, we introduce two errors. One
-> > being FAN_NOPIDFD, which is supplied to the listener in the event that
-> > a pidfd cannot be created due to early process termination. The other
-> > being FAN_EPIDFD, which will be supplied in the event that an error
-> > was encountered during pidfd creation.
-> >
-> >   kernel/pid.c: remove static qualifier from pidfd_create()
-> >   kernel/pid.c: implement additional checks upon pidfd_create()
-> >     parameters
-> >   fanotify/fanotify_user.c: minor cosmetic adjustments to fid labels
-> >   fanotify/fanotify_user.c: introduce a generic info record copying
-> >     helper
-> 
-> Above fanotify commits look good to me.
-> Please remove /fanotify_user.c from commit titles and use 'pidfd:' for
-> the pidfd commit titles.
+> > That condition is reversed.
+> > We do not seem to have any test coverage for this error handling
+> > Not so surprising that upstream had a bug...
+>
+> Sorry Amir, I don't quite understand what you mean by "That condition is
+> reversed". Presumably you're referring to the fd != FAN_NOFD check and not
+> pidfd < 0 here.
+>
 
-OK, noted for the next series. Thanks for the pointers.
+IDGI, why is the init/cleanup code not as simple as
 
-> >   fanotify: add pidfd support to the fanotify API
-> >
-> 
-> This one looks mostly fine. Gave some minor comments.
-> 
-> The biggest thing I am missing is a link to an LTP test draft and
-> man page update draft.
+    int pidfd = FAN_NOPIDFD;
+...
+out_close_fd:
+...
+       if (pidfd >= 0)
+                 put_unused_fd(fd);
 
-Fair point, the way I approached it was that I'd get the ACK from all of
-you on the overall implementation and then go ahead with providing
-additional things like LTP and man-pages drafts, before the merge is
-performed.
+What am I missing?
 
-> In general, I think it is good practice to provide a test along with any
-> fix, but for UAPI changes we need to hold higher standards - both the
-> test and man page draft should be a must before merge IMO.
-
-Agree, moving forward I will take this approach.
-
-> We already know there is going to be a clause about FAN_NOPIDFD
-> and so on... I think it is especially hard for people on linux-api list to
-> review a UAPI change without seeing the contract in a user manual
-> format. Yes, much of the information is in the commit message, but it
-> is not the same thing as reading a user manual and verifying that the
-> contract makes sense to a programmer.
-
-Makes sense.
-
-/M
+Thanks,
+Amir.
