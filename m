@@ -2,107 +2,106 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BCDF63A213F
-	for <lists+linux-api@lfdr.de>; Thu, 10 Jun 2021 02:20:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A60B3A2142
+	for <lists+linux-api@lfdr.de>; Thu, 10 Jun 2021 02:21:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229557AbhFJAWu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 9 Jun 2021 20:22:50 -0400
-Received: from mail-pl1-f169.google.com ([209.85.214.169]:39749 "EHLO
-        mail-pl1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229507AbhFJAWt (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 9 Jun 2021 20:22:49 -0400
-Received: by mail-pl1-f169.google.com with SMTP id v11so32469ply.6
-        for <linux-api@vger.kernel.org>; Wed, 09 Jun 2021 17:20:54 -0700 (PDT)
+        id S229507AbhFJAXQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 9 Jun 2021 20:23:16 -0400
+Received: from mail-pf1-f178.google.com ([209.85.210.178]:42880 "EHLO
+        mail-pf1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229655AbhFJAXP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 9 Jun 2021 20:23:15 -0400
+Received: by mail-pf1-f178.google.com with SMTP id s14so112058pfd.9
+        for <linux-api@vger.kernel.org>; Wed, 09 Jun 2021 17:21:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=p1WSxsB6TRu9i7KJSrAgNiOR3znkSZzluTlpf7uAoYE=;
-        b=JJ3fRUajeIRSVXjXqqBXtgV6MCDGGAlouzrJTW8R0tjBo10Xm/lOxUYSpY5VOcrA2d
-         wwkrZ9y+sVIRv/hlKj9/0iSf7M+hFHSbnY8ToK/3vQkFhgSH1ARokXOVh+e0zADf3tQn
-         Oltzsmn6lsXurUsQqVInc46emgFQkqRXE85STTq6+/9Dm9WvF5VEl61WHFyYmQDjISO8
-         dq0aCA5Urp43bSo5sSBhJf/y84KzU/grCjISoIumJNf2x4D2q5ke8mxgA/rXI/KId2wU
-         BNceq8mX/5vEJTwjq/AS7kGwmNyQw6yKJrz8NKXBtWyBgdmIyiM93n/Rwiu3N0Xwk3X0
-         V12A==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=6TfNz2ZNpp6dNRK3iotr7VECkWYZVH4AaZ4EFsjw87Q=;
+        b=YbR8T67BbF+HkAvWvv1dop3ZquLweOMEp+IY2rqpV0IpI0GGLA5BuMxu/4jEJe1NCj
+         Vy4DN9Y9oqsck9njEWSj6zz3F52n9eGiUFQunnsPXy6vU7Ev4Va1JubvuOkU6+TiHiuW
+         dEOk9yLy1UIja9KIGBSaR4Wo797ahnTjJ7isaxqLEz5gGDcX1ORWrSYVZUFLOPkzJ/ro
+         Mo9l0MpHUwyhaYcDpnvoqL0wvH8S0sd5vYeW6N2R4I8f2TGkK5qZo5LsPY1SzpO3F7rH
+         7vrZ8VOcPWZsJjeJYQM6rBapqTx2eecR89jidb+EMlgSADyVGJQKDUMVk9Q9sW9pvX/p
+         uk2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=p1WSxsB6TRu9i7KJSrAgNiOR3znkSZzluTlpf7uAoYE=;
-        b=oxfgIOOK/XAFQ5hubBZe5d/Z14Fng+VmRMMxL8Jq+y5UHCPFZat47FpQl5vnvy2afZ
-         2GjQb+OkkXVwI92Sq8T2KnL9zHN54ETeOCPTuhiEQXGH4LubhjbrPYiholwIaX4HToIf
-         AeL+Ors63nMvp31IfOuvMDUTY6a/ibZdO4UGge7DGMPOFC6V/T99miC9PJFO/Ds1ySmS
-         fDd9JnZJfa7aXw5+Arn9Rogx+OM88jyTyqrYfg82/tT5xoKbJdDlPGktDSuJujA733Qg
-         akRvfIOjUXSEsZxYEDqAPtDIIkO6FwVBfjq2kJeQcf46mQl5pPV0kYBTNDdmCbThlfAV
-         Z8rQ==
-X-Gm-Message-State: AOAM533B3aepX0XLm/umPmRULdHJTGzUYjzGKAqEasPlJFrq2lWNqOT+
-        pH7/+18+ntaXi02pGdH9Wzv3Tw==
-X-Google-Smtp-Source: ABdhPJyKrtRhhcX7q88JBho0nVS81cBMjAuQYbAiaool0tyllwsMQ/7sJo58KhWY97F61exNG+C5+w==
-X-Received: by 2002:a17:902:f704:b029:f4:228d:4dca with SMTP id h4-20020a170902f704b02900f4228d4dcamr2199568plo.26.1623284393898;
-        Wed, 09 Jun 2021 17:19:53 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=6TfNz2ZNpp6dNRK3iotr7VECkWYZVH4AaZ4EFsjw87Q=;
+        b=CEBcQDF1CB3EqEBGs7eygGFbpr/nlKXNXzvjm97w+wn9iQrl3sVajESAJaNQ0tqGP5
+         +KWfq0I0fvP6M+WIBcp92mLZLS+5PobOrZQFowlD51K1REiaRkToSg2/Tt+XpIz4kzE/
+         rJ0/sWNwzpqCHbYy1dROgVcyVdcJFV1UhukLM+KZfgyFX2xhRJCvR1ZBUopjYLrhZZbm
+         4wSPh9uKRhfRh1kdRltKuAdol3CH8YTOTkd0zyUb7o9d6wfKhmxn8jHfGPxx11QP1Nu1
+         KD1BE8z/auaaqcZmu3GBZsmSCX2JdeGNFbeS8sUVJfSvYy+MUZ/ChTEVr9MPkIiWqYoi
+         Iktg==
+X-Gm-Message-State: AOAM533veyInfud9kk/ExOW2Rlw8lPsNPgWe/wNUwTmWwvdgkt2oUAy5
+        05JoKDDNzSU9qZC94reJhg3WTA==
+X-Google-Smtp-Source: ABdhPJwE/qhRzHZ5xeqpFBgQL6C66IrpYjggs2rhL2MzS9isWZBVcWI4BSVyYTfQ7fc/NKmN5zXRig==
+X-Received: by 2002:a63:4a49:: with SMTP id j9mr2256779pgl.234.1623284420019;
+        Wed, 09 Jun 2021 17:20:20 -0700 (PDT)
 Received: from google.com ([2401:fa00:9:211:6512:d64a:3615:dcbf])
-        by smtp.gmail.com with ESMTPSA id t143sm817712pgb.93.2021.06.09.17.19.51
+        by smtp.gmail.com with ESMTPSA id bo14sm5853250pjb.40.2021.06.09.17.20.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Jun 2021 17:19:53 -0700 (PDT)
-Date:   Thu, 10 Jun 2021 10:19:33 +1000
+        Wed, 09 Jun 2021 17:20:19 -0700 (PDT)
+Date:   Thu, 10 Jun 2021 10:20:06 +1000
 From:   Matthew Bobrowski <repnop@google.com>
 To:     jack@suse.cz, amir73il@gmail.com, christian.brauner@ubuntu.com
 Cc:     linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: [PATCH v2 0/5] Add pidfd support to the fanotify API
-Message-ID: <cover.1623282854.git.repnop@google.com>
+Subject: [PATCH v2 1/5] kernel/pid.c: remove static qualifier from
+ pidfd_create()
+Message-ID: <db15a492d4e1cd8aaecfa6802d0bb289d1b539e3.1623282854.git.repnop@google.com>
+References: <cover.1623282854.git.repnop@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1623282854.git.repnop@google.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hey Jan/Amir/Christian,
+With the idea of returning pidfds from the fanotify API, we need to
+expose a mechanism for creating pidfds. We drop the static qualifier
+from pidfd_create() and add its declaration to linux/pid.h so that the
+pidfd_create() helper can be called from other kernel subsystems
+i.e. fanotify.
 
-Sending through v2 of the fanotify pidfd patch series. This series
-contains the necessary fixes/suggestions that had come out of the
-previous discussions, which can be found here [0], here [1], and here
-[3].
+Signed-off-by: Matthew Bobrowski <repnop@google.com>
+---
+ include/linux/pid.h | 1 +
+ kernel/pid.c        | 4 +++-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-The main difference in this series is that we perform pidfd creation a
-little earlier on i.e. in copy_event_to_user() so that clean up of the
-pidfd can be performed nicely in the event of an info
-generation/copying error. Additionally, we introduce two errors. One
-being FAN_NOPIDFD, which is supplied to the listener in the event that
-a pidfd cannot be created due to early process termination. The other
-being FAN_EPIDFD, which will be supplied in the event that an error
-was encountered during pidfd creation.
-
-Please let me know what you think.
-
-[0]
-https://lore.kernel.org/linux-fsdevel/48d18055deb4617d97c695a08dca77eb57309\
-7e9.1621473846.git.repnop@google.com/
-
-[1]
-https://lore.kernel.org/linux-fsdevel/24c761bd0bd1618c911a392d0c310c24da7d8\
-941.1621473846.git.repnop@google.com/
-
-[2]
-https://lore.kernel.org/linux-fsdevel/48d18055deb4617d97c695a08dca77eb57309\
-7e9.1621473846.git.repnop@google.com/
-
-
-Matthew Bobrowski (5):
-  kernel/pid.c: remove static qualifier from pidfd_create()
-  kernel/pid.c: implement additional checks upon pidfd_create()
-    parameters
-  fanotify/fanotify_user.c: minor cosmetic adjustments to fid labels
-  fanotify/fanotify_user.c: introduce a generic info record copying
-    helper
-  fanotify: add pidfd support to the fanotify API
-
- fs/notify/fanotify/fanotify_user.c | 260 +++++++++++++++++++++--------
- include/linux/fanotify.h           |   3 +
- include/linux/pid.h                |   1 +
- include/uapi/linux/fanotify.h      |  13 ++
- kernel/pid.c                       |  15 +-
- 5 files changed, 213 insertions(+), 79 deletions(-)
-
+diff --git a/include/linux/pid.h b/include/linux/pid.h
+index fa10acb8d6a4..af308e15f174 100644
+--- a/include/linux/pid.h
++++ b/include/linux/pid.h
+@@ -78,6 +78,7 @@ struct file;
+ 
+ extern struct pid *pidfd_pid(const struct file *file);
+ struct pid *pidfd_get_pid(unsigned int fd, unsigned int *flags);
++int pidfd_create(struct pid *pid, unsigned int flags);
+ 
+ static inline struct pid *get_pid(struct pid *pid)
+ {
+diff --git a/kernel/pid.c b/kernel/pid.c
+index ebdf9c60cd0b..d3cd95b8b080 100644
+--- a/kernel/pid.c
++++ b/kernel/pid.c
+@@ -550,10 +550,12 @@ struct pid *pidfd_get_pid(unsigned int fd, unsigned int *flags)
+  * Note, that this function can only be called after the fd table has
+  * been unshared to avoid leaking the pidfd to the new process.
+  *
++ * This symbol should not be explicitly exported to loadable modules.
++ *
+  * Return: On success, a cloexec pidfd is returned.
+  *         On error, a negative errno number will be returned.
+  */
+-static int pidfd_create(struct pid *pid, unsigned int flags)
++int pidfd_create(struct pid *pid, unsigned int flags)
+ {
+ 	int fd;
+ 
 -- 
 2.30.2
 
