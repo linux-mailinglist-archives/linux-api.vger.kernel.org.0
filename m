@@ -2,103 +2,92 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2D8E3A38DF
-	for <lists+linux-api@lfdr.de>; Fri, 11 Jun 2021 02:36:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 120DB3A3A03
+	for <lists+linux-api@lfdr.de>; Fri, 11 Jun 2021 05:00:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230265AbhFKAh4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 10 Jun 2021 20:37:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39004 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230083AbhFKAh4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Jun 2021 20:37:56 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0DC8C061574
-        for <linux-api@vger.kernel.org>; Thu, 10 Jun 2021 17:35:46 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id 11so1926279plk.12
-        for <linux-api@vger.kernel.org>; Thu, 10 Jun 2021 17:35:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=XHEOneV6xOvgnCB9WfgoSFCEZ8op6W4928JKpNJVbTw=;
-        b=M1hyMFykopfO5ZcCQkpbyvSkWTZ8tSU+lHLbZNQgzFB3JS5x2/8o4ImE9/CGQfd4bG
-         XNXNPWarbyiA/yrrze7nZMCVx3TUyT8IJUwK0JCz7gCerKZlfl/436vbe+aHgrtAKOxk
-         b8fWoBbtjzkeqp9JuY0vwaX3L+480yW/tBi90NlQMEad7unccZQ6RPquEYVjNGcdZ63/
-         1SoyQLc6Juz1PJK42TjO6P+Q95tY7xLKOfBiB0F1omdXKLvnkl87JXsTBGdTeE8uIVKe
-         Vrq6tfYX+MbHmh0KUK7+tPJmByaw5vl9Ns1MgqK7ziWLpH+RkWrlv+HdiCPmjl1T4lnf
-         Fd4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=XHEOneV6xOvgnCB9WfgoSFCEZ8op6W4928JKpNJVbTw=;
-        b=s1GT+dfTir8UqfUR62tTGiUVMSeLOOFRt/cWzx1ANDUrRqeGOmzME4CbOaArUuA6ps
-         YXACAKaWl2+0TIu3pxJ1JYSRulRiuZ9FF8l+oQghNapBIdrlRYK/RFHjk91fN30HYjn/
-         4B8QT0JYWsLGVO9TFE/5AXffxKKajblzwQ1io2Wj9dsbqpJM3P9lH05dwLjtY0GD0wWg
-         na/+B+M0p93q8iDVUooCFUF1WjmMzXsziWG1UpqeY4GIQ2EH/lz66soS85HcnWhXag0O
-         NP1/+iqWW7Fw/ByvxpCj622Aocq0Rx9WVSgi7MSH13+m4keHSb21D+7fwjcR71mFBhHA
-         boFQ==
-X-Gm-Message-State: AOAM531VIpGq5KzSAzyi3EYoGqn+j2v0kka8z85l6FoGbPHRhkeTeVPX
-        tbq2SWzRqGAr79NkR7XNs2ylWg==
-X-Google-Smtp-Source: ABdhPJz1cLxliItxbhFi+YXdksjv1tMjK5cQfahLZG/tmnF1+KrSTR5JcyyVbVHffPbgvM/QCmbzNA==
-X-Received: by 2002:a17:90a:dc04:: with SMTP id i4mr1515932pjv.75.1623371746155;
-        Thu, 10 Jun 2021 17:35:46 -0700 (PDT)
-Received: from google.com ([2401:fa00:9:211:f66a:ff0e:a646:785c])
-        by smtp.gmail.com with ESMTPSA id 76sm3292949pfy.82.2021.06.10.17.35.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Jun 2021 17:35:45 -0700 (PDT)
-Date:   Fri, 11 Jun 2021 10:35:33 +1000
-From:   Matthew Bobrowski <repnop@google.com>
-To:     Jan Kara <jack@suse.cz>
-Cc:     Amir Goldstein <amir73il@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v2 0/5] Add pidfd support to the fanotify API
-Message-ID: <YMKv1U7tNPK955ho@google.com>
-References: <cover.1623282854.git.repnop@google.com>
- <CAOQ4uxgR1cSsE0JeTGshtyT3qgaTY3XwcxnGne7zuQmq00hv8w@mail.gmail.com>
- <YMG3crGB2RYZtVmf@google.com>
- <20210610113240.GC23539@quack2.suse.cz>
+        id S230103AbhFKDCo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 10 Jun 2021 23:02:44 -0400
+Received: from wtarreau.pck.nerim.net ([62.212.114.60]:55624 "EHLO 1wt.eu"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230001AbhFKDCm (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 10 Jun 2021 23:02:42 -0400
+Received: (from willy@localhost)
+        by pcw.home.local (8.15.2/8.15.2/Submit) id 15B2xgZD025772;
+        Fri, 11 Jun 2021 04:59:42 +0200
+Date:   Fri, 11 Jun 2021 04:59:42 +0200
+From:   Willy Tarreau <w@1wt.eu>
+To:     Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@redhat.com>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
+        David Hildenbrand <david@redhat.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Greg KH <greg@kroah.com>, Christoph Lameter <cl@gentwo.de>,
+        "Theodore Ts'o" <tytso@mit.edu>, Jiri Kosina <jikos@kernel.org>,
+        ksummit@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, netdev@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: Maintainers / Kernel Summit 2021 planning kick-off
+Message-ID: <20210611025942.GE25638@1wt.eu>
+References: <alpine.DEB.2.22.394.2105271522320.172088@gentwo.de>
+ <YK+esqGjKaPb+b/Q@kroah.com>
+ <c46dbda64558ab884af060f405e3f067112b9c8a.camel@HansenPartnership.com>
+ <b32c8672-06ee-bf68-7963-10aeabc0596c@redhat.com>
+ <5038827c-463f-232d-4dec-da56c71089bd@metux.net>
+ <20210610182318.jrxe3avfhkqq7xqn@nitro.local>
+ <YMJcdbRaQYAgI9ER@pendragon.ideasonboard.com>
+ <20210610152633.7e4a7304@oasis.local.home>
+ <37e8d1a5-7c32-8e77-bb05-f851c87a1004@linuxfoundation.org>
+ <87tum5uyrq.fsf@toke.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210610113240.GC23539@quack2.suse.cz>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87tum5uyrq.fsf@toke.dk>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jun 10, 2021 at 01:32:40PM +0200, Jan Kara wrote:
-> On Thu 10-06-21 16:55:46, Matthew Bobrowski wrote:
-> > > In general, I think it is good practice to provide a test along with any
-> > > fix, but for UAPI changes we need to hold higher standards - both the
-> > > test and man page draft should be a must before merge IMO.
-> > 
-> > Agree, moving forward I will take this approach.
-> > 
-> > > We already know there is going to be a clause about FAN_NOPIDFD
-> > > and so on... I think it is especially hard for people on linux-api list to
-> > > review a UAPI change without seeing the contract in a user manual
-> > > format. Yes, much of the information is in the commit message, but it
-> > > is not the same thing as reading a user manual and verifying that the
-> > > contract makes sense to a programmer.
-> > 
-> > Makes sense.
+On Fri, Jun 11, 2021 at 12:43:05AM +0200, Toke Høiland-Jørgensen wrote:
+> Shuah Khan <skhan@linuxfoundation.org> writes:
+> > I have a
+> > couple of ideas on how we might be able to improve remote experience
+> > without restricting in-person experience.
+> >
+> > - Have one or two moderators per session to watch chat and Q&A to enable
+> >    remote participants to chime in and participate.
+> > - Moderators can make sure remote participation doesn't go unnoticed and
+> >    enable taking turns for remote vs. people participating in person.
+> >
+> > It will be change in the way we interact in all in-person sessions for
+> > sure, however it might enhance the experience for remote attendees.
 > 
-> I agree with Amir that before your patches can get merged we need a manpage
-> update & LTP coverage. But I fully understand your approach of trying to
-> figure out how things will look like before writing the tests and manpage
-> to save some adaptation of tests & doc as the code changes. For relatively
-> simple changes like this one that approach is fine by me as well (for more
-> complex API changes it's often easier to actually *start* with a manpage to
-> get an idea where we are actually heading). I just want the tests & doc to
-> be part of at least one submission so that e.g. people on linux-api have a
-> good chance to review stuff without having to dive into code details.
+> This is basically how IETF meetings function: At the beginning of every
+> session, a volunteer "jabber scribe" is selected to watch the chat and
+> relay any questions to a microphone in the room. And the video streaming
+> platform has a "virtual queue" that remove participants can enter and
+> the session chairs are then responsible for giving people a chance to
+> speak. Works reasonably well, I'd say :)
 
-Sure, that's not a problem. I'll get the LTP and man-pages patches also
-prepared and send references through to them as part of the next version of
-this series.
+I was about to say the same. In addition, local participants line up
+at a microphone and do not interrupt the speaker, but the organiser
+gives them the signal to ask a question. This allows to maintain a
+good balance between local and remote participants. Also it's common
+to see some locals go back to their seat because someone else just
+asked the same question. And when remote questions are asked using
+pure text, it's easy for the organiser to skip them if already
+responded as well.
 
-Thanks for all the suggestions and review!
+This method is rather efficient because it doesn't require to keep the
+questions for the end of the session, yet questions do not interrupt
+the speaker. It also solves the problem of people not speaking in the
+microphone. The only thing is that it can be quite intimidating for
+local participants who are too shy of standing up in front of a
+microphone and everyone else.
 
-/M
+Just my two cents,
+Willy
