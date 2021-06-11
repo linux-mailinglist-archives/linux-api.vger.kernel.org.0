@@ -2,80 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64F173A3F8A
-	for <lists+linux-api@lfdr.de>; Fri, 11 Jun 2021 11:52:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A35FE3A40B5
+	for <lists+linux-api@lfdr.de>; Fri, 11 Jun 2021 12:59:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231494AbhFKJyn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 11 Jun 2021 05:54:43 -0400
-Received: from wtarreau.pck.nerim.net ([62.212.114.60]:55646 "EHLO 1wt.eu"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229480AbhFKJym (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 11 Jun 2021 05:54:42 -0400
-Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id 15B9pm8p026247;
-        Fri, 11 Jun 2021 11:51:48 +0200
-Date:   Fri, 11 Jun 2021 11:51:48 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@redhat.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
-        David Hildenbrand <david@redhat.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Greg KH <greg@kroah.com>, Christoph Lameter <cl@gentwo.de>,
-        "Theodore Ts'o" <tytso@mit.edu>, Jiri Kosina <jikos@kernel.org>,
+        id S231468AbhFKLBq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 11 Jun 2021 07:01:46 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:51773 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231515AbhFKLBS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 11 Jun 2021 07:01:18 -0400
+Received: from [192.168.1.155] ([95.115.52.72]) by mrelayeu.kundenserver.de
+ (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MPosX-1ldaEj40EF-00Mtt2; Fri, 11 Jun 2021 12:58:51 +0200
+Subject: Re: Maintainers / Kernel Summit 2021 planning kick-off
+To:     James Bottomley <James.Bottomley@HansenPartnership.com>,
+        David Hildenbrand <david@redhat.com>, Greg KH <greg@kroah.com>,
+        Christoph Lameter <cl@gentwo.de>
+Cc:     Theodore Ts'o <tytso@mit.edu>, Jiri Kosina <jikos@kernel.org>,
         ksummit@lists.linux.dev, linux-kernel@vger.kernel.org,
         linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-mm@kvack.org, netdev@vger.kernel.org,
         linux-arch@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: Maintainers / Kernel Summit 2021 planning kick-off
-Message-ID: <20210611095148.GC25968@1wt.eu>
-References: <c46dbda64558ab884af060f405e3f067112b9c8a.camel@HansenPartnership.com>
+References: <YH2hs6EsPTpDAqXc@mit.edu>
+ <nycvar.YFH.7.76.2104281228350.18270@cbobk.fhfr.pm>
+ <YIx7R6tmcRRCl/az@mit.edu>
+ <alpine.DEB.2.22.394.2105271522320.172088@gentwo.de>
+ <YK+esqGjKaPb+b/Q@kroah.com>
+ <c46dbda64558ab884af060f405e3f067112b9c8a.camel@HansenPartnership.com>
  <b32c8672-06ee-bf68-7963-10aeabc0596c@redhat.com>
- <5038827c-463f-232d-4dec-da56c71089bd@metux.net>
- <20210610182318.jrxe3avfhkqq7xqn@nitro.local>
- <YMJcdbRaQYAgI9ER@pendragon.ideasonboard.com>
- <20210610152633.7e4a7304@oasis.local.home>
- <37e8d1a5-7c32-8e77-bb05-f851c87a1004@linuxfoundation.org>
- <87tum5uyrq.fsf@toke.dk>
- <20210611025942.GE25638@1wt.eu>
- <20210611111248.250e6da8@coco.lan>
+ <e993d6c84c79d083ecfe5a8c8edabef9e9caa3ce.camel@HansenPartnership.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Message-ID: <6d8299e4-2707-7edf-ebe4-f5ca7b7ee8ca@metux.net>
+Date:   Fri, 11 Jun 2021 12:58:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210611111248.250e6da8@coco.lan>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <e993d6c84c79d083ecfe5a8c8edabef9e9caa3ce.camel@HansenPartnership.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: tl
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:W1CuRBv9b9vfO/cntxLvE7zRNUCd1/dUgLqWvl6KCwi7Sw23ByG
+ lxCAe9Q91/0vR2PyBETRIzab+l26EBWvYSHZ0LUnS9cubvCX5xzUC+CV5JjFwPCWXQxaQOo
+ 5taiouS8C+FKLJ+dmpW4iHuaNuDY6rfJXKdICti+cmqPwkBEzGu+ypcMKrurkTnsQ34K6rI
+ 06GNiokz08qz4bFDbl2SA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Hq+AqsHvTCw=:QA0c4LdeomjvdgpT+WeCnm
+ fvybeHcu/cjr4qkbFb37AHeWQkFDtgzJzer94ls3YhCWt+DHTcRYat2Xw0bDzC571L64go0Zn
+ S47+PKyO7iqLbN5ux7Q1bobJkmQyzd4AVn+mJY+DPRWcavypMr61kqgdFjuX6IrVfAowwYiyw
+ ly4+mDH127ZO25ThonvdPqnoC09zxMXWofSvrJHTIPF4vPxkQXahO8ZHchkVwwHh8tFFS9JUo
+ vw0Lc1EfnmgDoFqHS8P6BW62s3Uh3KwIa5lpH9LO079r/sMc5j3UnvF0meS+/OFKTSylXL8pQ
+ fF4Yn/2vfs6qyTFzVGrX0PFL6LNgcYXVDEO0NdXW2C5RLxtOyj3d1JvZqKDgzj4z6+zsBCtiK
+ +vjMQtcEEILeH+OmBOdGnY90xLmBJgEiytsBww27KXXtF3L8mJhAPmUpYrzB6flKlq1MN5TEr
+ gKbkU+qWBdVtrKAW68yo2YXTIZpiR3DPgifLAb24jDy5gkRZPhn17QKUazkuebWViJSbKQTtF
+ v7QlP+4xZ/23ZVOX5McNNQ=
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jun 11, 2021 at 11:13:07AM +0200, Mauro Carvalho Chehab wrote:
-> > The only thing is that it can be quite intimidating for
-> > local participants who are too shy of standing up in front of a
-> > microphone and everyone else.
-> 
-> If someone is shy, he/she could simply type the question as a
-> remote participant would do.
+On 09.06.21 21:23, James Bottomley wrote:
 
-+1
+> but the US is definitely moving
+> to a regime that says once you're vaccinated it's pretty much over for
 
-> This should work fine for a normal speech, but for BoFs and the
-> usual "round table" discussions we have at Kernel Maintainers,
-> this may not work well for local participants.
+As far as I see (watching from the other side of the globe), for most
+states it already is over, no matter whether somebody got a shot or not.
+(actually, getting reports of people *with* the shot get increasing
+trouble, eg. kept out of stores, schools, planes, ...).
 
-Indeed but for this one the problem is the same with those who are
-not much at ease with oral english. It's difficult to insert oneself
-into a discussion flow between multiple people speaking fast and
-naturally understanding what they're saying without having to think.
-So this situation is not new, and actually this ability to interact
-quickly is what makes such events profitable to a group, even if not
-everyone can participate at the same level.
+FL and TX seem to be the most relaxed states in this regard.
+Maybe ask DeStantis and Abbot whether they'd support such a conference
+in their states, maybe they'd even open their cheque books ;-)
 
-In such a case, it's the moderator's job to observe that some people
-want to say something and probably need a second or two of silence and
-concentration first. And this works both for local and remote ones.
+> you and I don't see a problem with taking advantage of that for hybrid
+> style events.  However, even with the best will in the world, I can't
+> see much of a way around the problem that remote people at hybrid
+> events will always be at a disadvantage ... suggestions for improving
+> this are always welcome.
 
-Willy
+Looking from a totally different angle, I believe the hybrid approach
+could even be a benefit. For example, longer talks - IMHO - are easier
+to do (and for the audience) when just recorded, so people can listen to
+them any time (and as often one wants to). Spontanous questions right
+after, I guess, are only helpful for a small minority that's already 
+deep in that particular topic - in those cases I'd prefer a more 
+personal conversation. Another scenario are expert working groups, where
+people already involved into certain topic talk closely - IMHO something
+where direct (group) calls are a good medium, and probably working
+better outside the strict time frames of such an event.
+
+Maybe it's good idea to jump back to square one and ask the question,
+what people actually expect from and try to achieve from such an event,
+before going into some actual planning. (I could only express my very
+personal view, but that's probably far from being representative)
+
+
+--mtx
+
+-- 
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
