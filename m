@@ -2,96 +2,173 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A66B3AA543
-	for <lists+linux-api@lfdr.de>; Wed, 16 Jun 2021 22:26:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D15C63ABB5F
+	for <lists+linux-api@lfdr.de>; Thu, 17 Jun 2021 20:23:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233477AbhFPU21 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 16 Jun 2021 16:28:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49146 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233466AbhFPU20 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 16 Jun 2021 16:28:26 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98795C061760
-        for <linux-api@vger.kernel.org>; Wed, 16 Jun 2021 13:26:18 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id fy24-20020a17090b0218b029016c5a59021fso4749535pjb.0
-        for <linux-api@vger.kernel.org>; Wed, 16 Jun 2021 13:26:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Zi6CxSdFzJAU/uJ8a5qyyg176z2pYarS7df6bpLiqLs=;
-        b=aX6jc6zprHZ43mJUwdioAb6eOdkAIYSqiTwpLB5yQlKOZb8kCeR+jE9eiVkmuWrC60
-         QO8dHZWrF7WXUZWH8/XJA4w1lzkhnNwIXfiNQOTzcCzTu0hhoOANqj+koouM4YDRHPf4
-         pC5yvVDdpWU2AgDlGZc430Qjitj+SeiTil6eU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Zi6CxSdFzJAU/uJ8a5qyyg176z2pYarS7df6bpLiqLs=;
-        b=ryWYZ19xZXFwSEaSHR2TWBAtf8YmUJrI1REQuUeObnN+tx3IERNwMsIxwZ9iP/U3/R
-         KuzP3VGlZOOrkNfAEHTtpDalofwDhwnRMmuptaXVvYyFWakNgaXrPqFCz4qmUZnwTthi
-         5y7CmpqsQSfoZ6CUOZKA5i2RsqpxyL0DAwC6QC2olbKEXSBrv+xbG54ZtPnyFDOuNbfL
-         gx4KfTkoMygj8V8ax4sToYbzdH0slQ9WiCR0rYzxWM4y5nBKp1DxhY127CDZmKbBG9pe
-         0QwUuWcnDbwfnFq1wz4NRZIrndBl7MZU1TCxOpCD6qXWM4u3oLlfle0hq2rlE/1VArmA
-         BMhQ==
-X-Gm-Message-State: AOAM533GN/Oq/98Fewi9JQm8zq27mH37SWJALi41TlD4tNGWqeZS9f9D
-        0Re9VO9/4BRw5du3v4z91IAuHg==
-X-Google-Smtp-Source: ABdhPJy70PETPLLA7ZceudoYAyvQR2YlLTVuaYUK00rS4eyaJVS5ue1+YPGv2YPyNzVPyQQhBjucSA==
-X-Received: by 2002:a17:902:b94c:b029:117:9c88:7744 with SMTP id h12-20020a170902b94cb02901179c887744mr1243178pls.20.1623875178044;
-        Wed, 16 Jun 2021 13:26:18 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id f15sm3044037pgg.23.2021.06.16.13.26.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jun 2021 13:26:17 -0700 (PDT)
-From:   Kees Cook <keescook@chromium.org>
-To:     Doug Ledford <dledford@redhat.com>
-Cc:     Kees Cook <keescook@chromium.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: [PATCH] RDMA/core: Use flexible array for mad data
-Date:   Wed, 16 Jun 2021 13:26:15 -0700
-Message-Id: <20210616202615.1247242-1-keescook@chromium.org>
-X-Mailer: git-send-email 2.25.1
+        id S232912AbhFQSZW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 17 Jun 2021 14:25:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57610 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232785AbhFQSZV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Jun 2021 14:25:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1623954192;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=zM68hbAHAIMOq7xMr7KE4zrDHYPaxIaEF68LhoRJqFo=;
+        b=FLdIayPdzNKA4AmgfBt58Jp9dmOcD9nbVlLqTaGcQZmc1ugKI6HjqDkxTMTRaDftS9HmtE
+        IrbOn0e3XIbKYxtTqA96WJL1jxiN8T5BWPxHSEjEg2vLR1G867iVfVgtPv7drdN2ITHghC
+        pNev+/ydL7aYgNLtdFuvi2ukJ8+ucW0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-49-ZpU273kTOTWQ_4Ywm7JjkQ-1; Thu, 17 Jun 2021 14:23:10 -0400
+X-MC-Unique: ZpU273kTOTWQ_4Ywm7JjkQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2940C7405;
+        Thu, 17 Jun 2021 18:23:03 +0000 (UTC)
+Received: from virtlab719.virt.lab.eng.bos.redhat.com (virtlab719.virt.lab.eng.bos.redhat.com [10.19.153.15])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 9ED1860E3A;
+        Thu, 17 Jun 2021 18:22:49 +0000 (UTC)
+From:   Nitesh Narayan Lal <nitesh@redhat.com>
+To:     linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-pci@vger.kernel.org,
+        tglx@linutronix.de, jesse.brandeburg@intel.com,
+        robin.murphy@arm.com, mtosatti@redhat.com, mingo@kernel.org,
+        jbrandeb@kernel.org, frederic@kernel.org, juri.lelli@redhat.com,
+        abelits@marvell.com, bhelgaas@google.com, rostedt@goodmis.org,
+        peterz@infradead.org, davem@davemloft.net,
+        akpm@linux-foundation.org, sfr@canb.auug.org.au,
+        stephen@networkplumber.org, rppt@linux.vnet.ibm.com,
+        chris.friesen@windriver.com, maz@kernel.org, nhorman@tuxdriver.com,
+        pjwaskiewicz@gmail.com, sassmann@redhat.com, thenzl@redhat.com,
+        kashyap.desai@broadcom.com, sumit.saxena@broadcom.com,
+        shivasharan.srikanteshwara@broadcom.com,
+        sathya.prakash@broadcom.com, sreekanth.reddy@broadcom.com,
+        suganath-prabu.subramani@broadcom.com, james.smart@broadcom.com,
+        dick.kennedy@broadcom.com, jkc@redhat.com, faisal.latif@intel.com,
+        shiraz.saleem@intel.com, tariqt@nvidia.com, ahleihel@redhat.com,
+        kheib@redhat.com, borisp@nvidia.com, saeedm@nvidia.com,
+        benve@cisco.com, govind@gmx.com, jassisinghbrar@gmail.com,
+        luobin9@huawei.com, ajit.khaparde@broadcom.com,
+        sriharsha.basavapatna@broadcom.com, somnath.kotur@broadcom.com,
+        nilal@redhat.com
+Subject: [PATCH v1 00/14] genirq: Cleanup the usage of irq_set_affinity_hint
+Date:   Thu, 17 Jun 2021 14:22:28 -0400
+Message-Id: <20210617182242.8637-1-nitesh@redhat.com>
 MIME-Version: 1.0
-X-Patch-Hashes: v=1; h=sha256; g=0f6e0b848f8b2a913015c9c030e5ea98deef9dd8; i=SiK2ULITvZfMNXmqRkr+ofG4gpql69b9o2o0ISRPW4c=; m=fvxiQzqzCA9QcgKSJbJ11pTGymCFRvYOOBlP5e4hgLU=; p=CQ7QTMm85lc4Pgf70Hbu6eKIHRL8Wkals6mfT8l9lfE=
-X-Patch-Sig: m=pgp; i=keescook@chromium.org; s=0x0x8972F4DFDC6DC026; b=iQIzBAABCgAdFiEEpcP2jyKd1g9yPm4TiXL039xtwCYFAmDKXmYACgkQiXL039xtwCZUIhAAmbc fSd5myhlaGN/jMAAF00rs3BZucrXnarQz+pUo4jMYg3H74eGHZXTEIxZuzz31LVqKNnVaPwn9Dulf 6vfBC6R7xgVa2itbSGgmKjZqc9PjipIbq5OZXqsNQSFhnrNF2yM2vnW2THPE7t0P+AgQi3L0+71ti xAi4P0F3wm0KGBbLwZjJ5uzQGQxafo/WmTOs+aNBdvtjaphiR01jOzRgkEL2YCa0WbkkKJlosEX3p tYDCV737ekukksTWBcvWTHfYFZYwKtGd/EBy53H/5RO5znlByzucnRl+pT08UZZPJw6mi91+7X3MR 7RsFCOvVGDQ8tPNpVBl85pokbb3CczKwEjk0qI12yU6MnUpLzwOsgBPEQZf3pTxo+8gkl69PC4hLH Aj03+EaHaduP0I3dOUyt4EZqqyihu/vbziilz8Ts51LwZyTF3zi8NJC+JdP7ODUVQ/QyIyIATexQV SMBJPh42E2LMe/5mZNrL4kgMBZokPbxtnpqvpl5kbGOdkzOAGaG60yz+Aj4bhbwNsvmzP/zKTiIBD ++4wpvw/6iON4fXoQZNdCCa6PTNLasiZo/h0+9Zc4xB2wTRraDJmn8P7SBGDuqwhdRt0Mjc7YWG07 1Y68hnZdy6m+30X2JglzbTwkWgUjb67Esa9MNoUo+Nz0dYu37W5el+hGnhPBd9FY=
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-In preparation for FORTIFY_SOURCE performing compile-time and run-time
-field bounds checking for memcpy(), memmove(), and memset(), avoid
-intentionally read across neighboring array fields.
+The drivers currently rely on irq_set_affinity_hint() to either set the
+affinity_hint that is consumed by the userspace and/or to enforce a custom
+affinity.
 
-Without a flexible array, this looks like an attempt to perform a
-memcpy() read beyond the end of the packet->mad.data array:
+irq_set_affinity_hint() as the name suggests is originally introduced to
+only set the affinity_hint to help the userspace in guiding the interrupts
+and not the affinity itself. However, since the commit
 
-drivers/infiniband/core/user_mad.c:
-	memcpy(packet->msg->mad, packet->mad.data, IB_MGMT_MAD_HDR);
+	e2e64a932556 "genirq: Set initial affinity in irq_set_affinity_hint()"
 
-Switch from [0] to [] to use the appropriately handled type for trailing
-bytes.
+irq_set_affinity_hint() also started applying the provided cpumask (if not
+NULL) as the affinity for the interrupts. The issue that this commit was
+trying to solve is to allow the drivers to enforce their affinity mask to
+distribute the interrupts across the CPUs such that they don't always end
+up on CPU0. This issue has been resolved within the irq subsystem since the
+commit
 
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- include/uapi/rdma/ib_user_mad.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+	a0c9259dc4e1 "irq/matrix: Spread interrupts on allocation"
 
-diff --git a/include/uapi/rdma/ib_user_mad.h b/include/uapi/rdma/ib_user_mad.h
-index 90c0cf228020..10b5f6a4c677 100644
---- a/include/uapi/rdma/ib_user_mad.h
-+++ b/include/uapi/rdma/ib_user_mad.h
-@@ -143,7 +143,7 @@ struct ib_user_mad_hdr {
-  */
- struct ib_user_mad {
- 	struct ib_user_mad_hdr hdr;
--	__aligned_u64	data[0];
-+	__aligned_u64	data[];
- };
- 
- /*
--- 
-2.25.1
+Hence, there is no need for the drivers to overwrite the affinity to spread
+as it is dynamically performed at the time of allocation.
+
+Also, irq_set_affinity_hint() setting affinity unconditionally introduces
+issues for the drivers that only want to set their affinity_hint and not the
+affinity itself as for these driver interrupts the default_smp_affinity_mask
+is completely ignored (for detailed investigation please refer to [1]).
+
+Unfortunately reverting the commit e2e64a932556 is not an option at this
+point for two reasons [2]:
+
+- Several drivers for a valid reason (performance) rely on this API to
+  enforce their own affinity mask
+
+- Until very recently this was the only exported interface that was
+  available
+
+To clear this out Thomas has come up with the following interfaces:
+
+- irq_set_affinity(): only sets affinity of an IRQ [3]
+- irq_update_affinity_hint(): Only sets the hint [4]
+- irq_set_affinity_and_hint(): Sets both affinity and the hint mask [4]
+
+The first API is already merged in the linux-next tree and a v2 for the
+remaining two is included with this patch-set.
+
+To move to the stage where we can safely get rid of the
+irq_set_affinity_hint(), which has been marked deprecated, we have to
+move all its consumers to these new interfaces. In this patch-set, I have
+done that for a few drivers and will hopefully try to move the remaining of
+them in the coming days.
+
+Testing
+-------
+In terms of testing, I have performed some basic testing on x86 to verify
+things such as the interrupts are evenly spread on all CPUs, hint mask is
+correctly set etc. for the drivers - i40e, iavf, mlx5, mlx4, ixgbe, i40iw
+and enic on top of:
+	git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git 
+	master - 5.13.0-rc6
+So more testing is probably required for these and the drivers that I didn't
+test and any help will be much appreciated.
+
+[1] https://lore.kernel.org/lkml/1a044a14-0884-eedb-5d30-28b4bec24b23@redhat.com/
+[2] https://lore.kernel.org/linux-pci/d1d5e797-49ee-4968-88c6-c07119343492@arm.com/
+[3] https://lore.kernel.org/linux-arm-kernel/20210518091725.046774792@linutronix.de/
+[4] https://lore.kernel.org/patchwork/patch/1434326/
+
+
+Nitesh Narayan Lal (13):
+  iavf: Use irq_update_affinity_hint
+  i40e: Use irq_update_affinity_hint
+  scsi: megaraid_sas: Use irq_set_affinity_and_hint
+  scsi: mpt3sas: Use irq_set_affinity_and_hint
+  RDMA/i40iw: Use irq_update_affinity_hint
+  enic: Use irq_update_affinity_hint
+  be2net: Use irq_update_affinity_hint
+  ixgbe: Use irq_update_affinity_hint
+  mailbox: Use irq_update_affinity_hint
+  scsi: lpfc: Use irq_set_affinity
+  hinic: Use irq_set_affinity_and_hint
+  net/mlx5: Use irq_update_affinity_hint
+  net/mlx4: Use irq_update_affinity_hint
+
+Thomas Gleixner (1):
+  genirq: Provide new interfaces for affinity hints
+
+ drivers/infiniband/hw/i40iw/i40iw_main.c      |  4 +-
+ drivers/mailbox/bcm-flexrm-mailbox.c          |  4 +-
+ drivers/net/ethernet/cisco/enic/enic_main.c   |  6 +--
+ drivers/net/ethernet/emulex/benet/be_main.c   |  4 +-
+ drivers/net/ethernet/huawei/hinic/hinic_rx.c  |  4 +-
+ drivers/net/ethernet/intel/i40e/i40e_main.c   |  8 ++--
+ drivers/net/ethernet/intel/iavf/iavf_main.c   |  8 ++--
+ drivers/net/ethernet/intel/ixgbe/ixgbe_main.c |  6 +--
+ drivers/net/ethernet/mellanox/mlx4/eq.c       |  6 +--
+ .../net/ethernet/mellanox/mlx5/core/pci_irq.c |  6 +--
+ drivers/scsi/lpfc/lpfc_init.c                 |  4 +-
+ drivers/scsi/megaraid/megaraid_sas_base.c     | 25 ++++++-----
+ drivers/scsi/mpt3sas/mpt3sas_base.c           | 15 ++++---
+ include/linux/interrupt.h                     | 41 ++++++++++++++++++-
+ kernel/irq/manage.c                           |  8 ++--
+ 15 files changed, 95 insertions(+), 54 deletions(-)
+
+--  
 
