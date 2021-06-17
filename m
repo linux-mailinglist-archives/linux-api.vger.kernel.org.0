@@ -2,37 +2,37 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DA853ABB9E
-	for <lists+linux-api@lfdr.de>; Thu, 17 Jun 2021 20:25:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E82D33ABB9D
+	for <lists+linux-api@lfdr.de>; Thu, 17 Jun 2021 20:25:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233721AbhFQS1M (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 17 Jun 2021 14:27:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60369 "EHLO
+        id S233641AbhFQS1K (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 17 Jun 2021 14:27:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37751 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233634AbhFQS0d (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Jun 2021 14:26:33 -0400
+        by vger.kernel.org with ESMTP id S233643AbhFQS0g (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Jun 2021 14:26:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1623954264;
+        s=mimecast20190719; t=1623954267;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=dzl9SMlyXCGzopav/TONWaUCuHf1BrQZlwHMjgB8AS8=;
-        b=Ap+QK3uBarxI2FOU9X32Id8o/m2lxlEl0zMr6n2/kNex6+QFJTTQhZeqmUEHP0ORC+42F3
-        Wsdy3imiSYR6McBwF8qtaVdwSgDNK7co4P3B3/hTIK3sIJpGeJ6v8Xcyy3W0AMMdDSTPUx
-        4gOIzyYLdTu1pdOS/VUj1wgwBqYwkR8=
+        bh=zkGoMadKmvDhmhMXSbPLlXhKPKbYIBPf7+Kg/PZ+k4c=;
+        b=NAGrQyiinBil3LI8sf3E9mfA79Gf3mx3PPimmm2FKBHL6Y5eiyaDnJaurxTbkh/04zudNI
+        v7tsrjAd8OJrSiugyG7ZOqDRC1hDa6lbHu0+37o3X3aeDrq54w/8yaWnjMpcygeGetKut5
+        6GRMTiStINZIYn1mUFtz3UCJ2bn/H2w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-Gu8BfsNbPwyyre1mfBHhxQ-1; Thu, 17 Jun 2021 14:24:21 -0400
-X-MC-Unique: Gu8BfsNbPwyyre1mfBHhxQ-1
+ us-mta-575-LOBidRndP4OqeYDabxhLeA-1; Thu, 17 Jun 2021 14:24:25 -0400
+X-MC-Unique: LOBidRndP4OqeYDabxhLeA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D683100C619;
-        Thu, 17 Jun 2021 18:24:16 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 098BC100C61F;
+        Thu, 17 Jun 2021 18:24:20 +0000 (UTC)
 Received: from virtlab719.virt.lab.eng.bos.redhat.com (virtlab719.virt.lab.eng.bos.redhat.com [10.19.153.15])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C965B9F64;
-        Thu, 17 Jun 2021 18:24:12 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7961F61156;
+        Thu, 17 Jun 2021 18:24:16 +0000 (UTC)
 From:   Nitesh Narayan Lal <nitesh@redhat.com>
 To:     linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
         intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
@@ -57,9 +57,9 @@ To:     linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
         luobin9@huawei.com, ajit.khaparde@broadcom.com,
         sriharsha.basavapatna@broadcom.com, somnath.kotur@broadcom.com,
         nilal@redhat.com
-Subject: [PATCH v1 09/14] ixgbe: Use irq_update_affinity_hint
-Date:   Thu, 17 Jun 2021 14:22:37 -0400
-Message-Id: <20210617182242.8637-10-nitesh@redhat.com>
+Subject: [PATCH v1 10/14] mailbox: Use irq_update_affinity_hint
+Date:   Thu, 17 Jun 2021 14:22:38 -0400
+Message-Id: <20210617182242.8637-11-nitesh@redhat.com>
 In-Reply-To: <20210617182242.8637-1-nitesh@redhat.com>
 References: <20210617182242.8637-1-nitesh@redhat.com>
 MIME-Version: 1.0
@@ -69,52 +69,54 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The driver uses irq_set_affinity_hint() to update the affinity_hint mask
-that is consumed by the userspace to distribute the interrupts. However,
-under the hood irq_set_affinity_hint() also applies the provided cpumask
-(if not NULL) as the affinity for the given interrupt which is an
-undocumented side effect.
+The driver uses irq_set_affinity_hint() to:
 
-To remove this side effect irq_set_affinity_hint() has been marked
-as deprecated and new interfaces have been introduced. Hence, replace the
-irq_set_affinity_hint() with the new interface irq_update_affinity_hint()
-that only updates the affinity_hint pointer.
+- Set the affinity_hint which is consumed by the userspace for
+  distributing the interrupts
+
+- Enforce affinity
+
+As per commit 6ac17fe8c14a ("mailbox: bcm-flexrm-mailbox: Set IRQ affinity
+hint for FlexRM ring IRQs") the latter is done to ensure that the FlexRM
+ring interrupts are evenly spread across all available CPUs. However, since
+commit a0c9259dc4e1 ("irq/matrix: Spread interrupts on allocation") the
+spreading of interrupts is dynamically performed at the time of allocation.
+Hence, there is no need for the drivers to enforce their own affinity for
+the spreading of interrupts.
+
+Also, irq_set_affinity_hint() applying the provided cpumask as an affinity
+for the interrupt is an undocumented side effect. To remove this side
+effect irq_set_affinity_hint() has been marked as deprecated and new
+interfaces have been introduced. Hence, replace the irq_set_affinity_hint()
+with the new interface irq_update_affinity_hint() that only sets the
+affinity_hint pointer.
 
 Signed-off-by: Nitesh Narayan Lal <nitesh@redhat.com>
 ---
- drivers/net/ethernet/intel/ixgbe/ixgbe_main.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/mailbox/bcm-flexrm-mailbox.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/net/ethernet/intel/ixgbe/ixgbe_main.c b/drivers/net/ethernet/intel/ixgbe/ixgbe_main.c
-index 2ac5b82676f3..b66040319bc6 100644
---- a/drivers/net/ethernet/intel/ixgbe/ixgbe_main.c
-+++ b/drivers/net/ethernet/intel/ixgbe/ixgbe_main.c
-@@ -3243,7 +3243,7 @@ static int ixgbe_request_msix_irqs(struct ixgbe_adapter *adapter)
- 		/* If Flow Director is enabled, set interrupt affinity */
- 		if (adapter->flags & IXGBE_FLAG_FDIR_HASH_CAPABLE) {
- 			/* assign the mask for this irq */
--			irq_set_affinity_hint(entry->vector,
-+			irq_update_affinity_hint(entry->vector,
- 					      &q_vector->affinity_mask);
- 		}
- 	}
-@@ -3260,7 +3260,7 @@ static int ixgbe_request_msix_irqs(struct ixgbe_adapter *adapter)
- free_queue_irqs:
- 	while (vector) {
- 		vector--;
--		irq_set_affinity_hint(adapter->msix_entries[vector].vector,
-+		irq_update_affinity_hint(adapter->msix_entries[vector].vector,
- 				      NULL);
- 		free_irq(adapter->msix_entries[vector].vector,
- 			 adapter->q_vector[vector]);
-@@ -3394,7 +3394,7 @@ static void ixgbe_free_irq(struct ixgbe_adapter *adapter)
- 			continue;
+diff --git a/drivers/mailbox/bcm-flexrm-mailbox.c b/drivers/mailbox/bcm-flexrm-mailbox.c
+index b4f33dc399a0..abdd06d1986a 100644
+--- a/drivers/mailbox/bcm-flexrm-mailbox.c
++++ b/drivers/mailbox/bcm-flexrm-mailbox.c
+@@ -1298,7 +1298,7 @@ static int flexrm_startup(struct mbox_chan *chan)
+ 	val = (num_online_cpus() < val) ? val / num_online_cpus() : 1;
+ 	cpumask_set_cpu((ring->num / val) % num_online_cpus(),
+ 			&ring->irq_aff_hint);
+-	ret = irq_set_affinity_hint(ring->irq, &ring->irq_aff_hint);
++	ret = irq_update_affinity_hint(ring->irq, &ring->irq_aff_hint);
+ 	if (ret) {
+ 		dev_err(ring->mbox->dev,
+ 			"failed to set IRQ affinity hint for ring%d\n",
+@@ -1425,7 +1425,7 @@ static void flexrm_shutdown(struct mbox_chan *chan)
  
- 		/* clear the affinity_mask in the IRQ descriptor */
--		irq_set_affinity_hint(entry->vector, NULL);
-+		irq_update_affinity_hint(entry->vector, NULL);
- 
- 		free_irq(entry->vector, q_vector);
+ 	/* Release IRQ */
+ 	if (ring->irq_requested) {
+-		irq_set_affinity_hint(ring->irq, NULL);
++		irq_update_affinity_hint(ring->irq, NULL);
+ 		free_irq(ring->irq, ring);
+ 		ring->irq_requested = false;
  	}
 -- 
 2.27.0
