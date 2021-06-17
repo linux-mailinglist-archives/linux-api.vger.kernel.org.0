@@ -2,203 +2,145 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B02483ABCD8
-	for <lists+linux-api@lfdr.de>; Thu, 17 Jun 2021 21:34:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 971E93ABFC5
+	for <lists+linux-api@lfdr.de>; Fri, 18 Jun 2021 01:51:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233570AbhFQTgt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 17 Jun 2021 15:36:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46287 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232361AbhFQTgl (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Jun 2021 15:36:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1623958473;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=0QVbZGtUMKX0YcURF5RZf3wyVH9YC9/0j+v5ommj7wg=;
-        b=WiX+suhnsAGnaXGZTnC1JjpKjH+hTDHbXayiN13pFL3mtcjowmwQDbB9KiAxkCSbO04PLN
-        AlUIy/zswui5E1Vhh2Z1v7xOhic5tjODbCWv1WOYhEqof16LAgj6h9TLe6+zyXyOkTuJkY
-        CGnNnWXu/nY4LgX2iyyARJFjNUhBKBU=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-234-DWIEY3xZPA65LPbYzGlbMA-1; Thu, 17 Jun 2021 15:34:31 -0400
-X-MC-Unique: DWIEY3xZPA65LPbYzGlbMA-1
-Received: by mail-lj1-f199.google.com with SMTP id k24-20020a2e88980000b0290162e62103f3so1964585lji.21
-        for <linux-api@vger.kernel.org>; Thu, 17 Jun 2021 12:34:31 -0700 (PDT)
+        id S229673AbhFQXx4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 17 Jun 2021 19:53:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48156 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229671AbhFQXx4 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Jun 2021 19:53:56 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07501C061574
+        for <linux-api@vger.kernel.org>; Thu, 17 Jun 2021 16:51:47 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id o10-20020a17090aac0ab029016e92770073so4799533pjq.5
+        for <linux-api@vger.kernel.org>; Thu, 17 Jun 2021 16:51:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=osandov-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kLtan7ZgJ39lAhTwAEL8BRZtTwp/aIezL/TyKBUefV8=;
+        b=CMbZvSZFdRziY2qn+EzuEJyFpb5KZc/g7cglf106+oa8PYPkBH90Vjzm8GS/NgOeJ+
+         yxc+cnRixg44tkVtPCwP7Nj1QHoAx2PgTqvkZl83ye7hBhxdXyjRzcXQN+i9arLDTVlZ
+         u5ZcQbdYqYB2r0tmcEo4NfOxV1zLYTz6NKqZRkeiG4b+Mgm6ORrx2FXBsUT32s5iW5Li
+         3/K1IZmDw76onWKA2uUKE6pX3ig2sp5K7/A8sN9aGSBSWSvLF7m8EDg0Idgy35bNHxnb
+         SpczVRDx7uvMVuM1Dps9nCh3R6B0UsfPp/PiNdu0OpTvIRgLanXcpOJk+tR1Gf5SHFyj
+         hosQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0QVbZGtUMKX0YcURF5RZf3wyVH9YC9/0j+v5ommj7wg=;
-        b=dlBIwyC8r3h3ntEwArpXscZvjTrhoZmhIfdoWDZ2XSwKchCk8cihu6UtGp2OegmohP
-         pvCC52cvB8eeAMsjVXwm492WI4zYlRczwd+/9C2fUNOFw4fYWwCWmxJIRzPqd+SReEqj
-         czrrak0Z9pzwYYn+qKXfn6e5ALJGVZWycK0Qwipqk7zMe2SuYY4s5Hc8/WqFB77bSneV
-         YPYxRtCDyhau1XaUobZCDFw8PAg8SoRXjM1lgKLW+WIEBrlVSMaj8cxCPNMkg485NU4s
-         piroKW8aJB7s9K2pRn2QEIoujOQlm+BpUoyBHtngsZtOSJCv9y/NBFYkjUHMFeShLgMI
-         +qpg==
-X-Gm-Message-State: AOAM533gXjz/bUYRQWz6EIR/Bw4dLMQzGWXVX3yyBVLNpojdwuln9UXu
-        gFDu7spFxG1+F5G5+V1D7du26muU9xI2JDkzXHMxsmQSjlfMKAv/vY7QuldWvkwDyn1z5Y+FPsg
-        O/TRyavj8f41db3zCBvsWaOSL4TIL9ept8Vmi
-X-Received: by 2002:a05:6512:3d15:: with SMTP id d21mr5249842lfv.252.1623958470497;
-        Thu, 17 Jun 2021 12:34:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxHcTsgvmvxoF61BXQGGx1dFhjz2R0T1Tg7FJZcTOE3TdflaZaCIihOhmtf7XN6SK1XYVxxcMtvKOgOo8AUTTw=
-X-Received: by 2002:a05:6512:3d15:: with SMTP id d21mr5249784lfv.252.1623958470194;
- Thu, 17 Jun 2021 12:34:30 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kLtan7ZgJ39lAhTwAEL8BRZtTwp/aIezL/TyKBUefV8=;
+        b=Mtufk+jyweHTK+N+lLnCvolbiqgGOt3TeOI5m0xhCFjvPUUEF5vRzh6bHV3inSJKJ+
+         qYXEhOIKRc2SRLz1ZOTFJ7lxrPHH/6vsbrjx/QtLdfaMoruPN+z6/PyEyDpdY5cx7YfQ
+         Tl8Lrm64sYvVXgMl4ozYcUZy4LLUFlCuRHFKDfSZIajciPCMBuWGKHISu7QjJv8pbIR0
+         fscusc8+hHWO8fhWRrbNaJaOxZqiClz7OecUTVFcaz6WckUM9tv65slROE0BX8aCD7wN
+         ksZOiMSTtrN9k6g8rWOpctbyADBpQBWYoTHE3wHrGwlVuwfWdSHUJyDyoLWNN5BXkjRx
+         OxIA==
+X-Gm-Message-State: AOAM532pDO31FrM7bhVhWOFV2pBJW4vWpPfqu5WUwQo4BmbO8W7/Lpoj
+        o4o3VuYH0IKgP+f7Ykf52iBzrw==
+X-Google-Smtp-Source: ABdhPJyA6tXbsmmkly8bTrUXZH/0/TjlUm3khtAowkRsCAeYUZKTslgJojSVEnGBaGDHmX3h6GCLlA==
+X-Received: by 2002:a17:90a:8502:: with SMTP id l2mr7943043pjn.215.1623973907360;
+        Thu, 17 Jun 2021 16:51:47 -0700 (PDT)
+Received: from relinquished.tfbnw.net ([2620:10d:c090:400::5:2f0e])
+        by smtp.gmail.com with ESMTPSA id a187sm6087517pfb.66.2021.06.17.16.51.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Jun 2021 16:51:46 -0700 (PDT)
+From:   Omar Sandoval <osandov@osandov.com>
+To:     linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+        Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-api@vger.kernel.org, kernel-team@fb.com
+Subject: [PATCH RESEND x3 v9 0/9] fs: interface for directly reading/writing compressed data
+Date:   Thu, 17 Jun 2021 16:51:23 -0700
+Message-Id: <cover.1623972518.git.osandov@fb.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20210617182242.8637-1-nitesh@redhat.com> <20210617182242.8637-5-nitesh@redhat.com>
- <ddee52a6-ac70-6e2d-b48e-e9bf38c94265@arm.com>
-In-Reply-To: <ddee52a6-ac70-6e2d-b48e-e9bf38c94265@arm.com>
-From:   Nitesh Lal <nilal@redhat.com>
-Date:   Thu, 17 Jun 2021 15:34:18 -0400
-Message-ID: <CAFki+LkTqThGZDGui4N6Ko-Z8PMPtX7m-KPm0BM4SvbAxrOqVw@mail.gmail.com>
-Subject: Re: [PATCH v1 04/14] scsi: megaraid_sas: Use irq_set_affinity_and_hint
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     Nitesh Narayan Lal <nitesh@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-pci@vger.kernel.org,
-        tglx@linutronix.de, jesse.brandeburg@intel.com,
-        mtosatti@redhat.com, mingo@kernel.org, jbrandeb@kernel.org,
-        frederic@kernel.org, juri.lelli@redhat.com, abelits@marvell.com,
-        bhelgaas@google.com, rostedt@goodmis.org, peterz@infradead.org,
-        davem@davemloft.net, akpm@linux-foundation.org,
-        sfr@canb.auug.org.au, stephen@networkplumber.org,
-        rppt@linux.vnet.ibm.com, chris.friesen@windriver.com,
-        maz@kernel.org, nhorman@tuxdriver.com, pjwaskiewicz@gmail.com,
-        sassmann@redhat.com, thenzl@redhat.com, kashyap.desai@broadcom.com,
-        sumit.saxena@broadcom.com, shivasharan.srikanteshwara@broadcom.com,
-        sathya.prakash@broadcom.com, sreekanth.reddy@broadcom.com,
-        suganath-prabu.subramani@broadcom.com, james.smart@broadcom.com,
-        dick.kennedy@broadcom.com, jkc@redhat.com, faisal.latif@intel.com,
-        shiraz.saleem@intel.com, tariqt@nvidia.com, ahleihel@redhat.com,
-        kheib@redhat.com, borisp@nvidia.com, saeedm@nvidia.com,
-        benve@cisco.com, govind@gmx.com, jassisinghbrar@gmail.com,
-        luobin9@huawei.com, ajit.khaparde@broadcom.com,
-        sriharsha.basavapatna@broadcom.com, somnath.kotur@broadcom.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jun 17, 2021 at 3:31 PM Robin Murphy <robin.murphy@arm.com> wrote:
->
-> On 2021-06-17 19:22, Nitesh Narayan Lal wrote:
-> > The driver uses irq_set_affinity_hint() specifically for the high IOPS
-> > queue interrupts for two purposes:
-> >
-> > - To set the affinity_hint which is consumed by the userspace for
-> >    distributing the interrupts
-> >
-> > - To apply an affinity that it provides
-> >
-> > The driver enforces its own affinity to bind the high IOPS queue interrupts
-> > to the local NUMA node. However, irq_set_affinity_hint() applying the
-> > provided cpumask as an affinity for the interrupt is an undocumented side
-> > effect.
-> >
-> > To remove this side effect irq_set_affinity_hint() has been marked
-> > as deprecated and new interfaces have been introduced. Hence, replace the
-> > irq_set_affinity_hint() with the new interface irq_set_affinity_and_hint()
-> > that clearly indicates the purpose of the usage and is meant to apply the
-> > affinity and set the affinity_hint pointer. Also, replace
-> > irq_set_affinity_hint() with irq_update_affinity_hint() when only
-> > affinity_hint needs to be updated.
-> >
-> > Change the megasas_set_high_iops_queue_affinity_hint function name to
-> > megasas_set_high_iops_queue_affinity_and_hint to clearly indicate that the
-> > function is setting both affinity and affinity_hint.
-> >
-> > Signed-off-by: Nitesh Narayan Lal <nitesh@redhat.com>
-> > ---
-> >   drivers/scsi/megaraid/megaraid_sas_base.c | 25 ++++++++++++++---------
-> >   1 file changed, 15 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/drivers/scsi/megaraid/megaraid_sas_base.c b/drivers/scsi/megaraid/megaraid_sas_base.c
-> > index 4d4e9dbe5193..54f4eac09589 100644
-> > --- a/drivers/scsi/megaraid/megaraid_sas_base.c
-> > +++ b/drivers/scsi/megaraid/megaraid_sas_base.c
-> > @@ -5666,7 +5666,7 @@ megasas_setup_irqs_msix(struct megasas_instance *instance, u8 is_probe)
-> >                               "Failed to register IRQ for vector %d.\n", i);
-> >                       for (j = 0; j < i; j++) {
-> >                               if (j < instance->low_latency_index_start)
-> > -                                     irq_set_affinity_hint(
-> > +                                     irq_update_affinity_hint(
-> >                                               pci_irq_vector(pdev, j), NULL);
-> >                               free_irq(pci_irq_vector(pdev, j),
-> >                                        &instance->irq_context[j]);
-> > @@ -5709,7 +5709,7 @@ megasas_destroy_irqs(struct megasas_instance *instance) {
-> >       if (instance->msix_vectors)
-> >               for (i = 0; i < instance->msix_vectors; i++) {
-> >                       if (i < instance->low_latency_index_start)
-> > -                             irq_set_affinity_hint(
-> > +                             irq_update_affinity_hint(
-> >                                   pci_irq_vector(instance->pdev, i), NULL);
-> >                       free_irq(pci_irq_vector(instance->pdev, i),
-> >                                &instance->irq_context[i]);
-> > @@ -5840,22 +5840,27 @@ int megasas_get_device_list(struct megasas_instance *instance)
-> >   }
-> >
-> >   /**
-> > - * megasas_set_high_iops_queue_affinity_hint -       Set affinity hint for high IOPS queues
-> > - * @instance:                                        Adapter soft state
-> > - * return:                                   void
-> > + * megasas_set_high_iops_queue_affinity_and_hint -   Set affinity and hint
-> > + *                                                   for high IOPS queues
-> > + * @instance:                                                Adapter soft state
-> > + * return:                                           void
-> >    */
-> >   static inline void
-> > -megasas_set_high_iops_queue_affinity_hint(struct megasas_instance *instance)
-> > +megasas_set_high_iops_queue_affinity_and_hint(struct megasas_instance *instance)
-> >   {
-> >       int i;
-> > +     unsigned int irq;
-> >       int local_numa_node;
-> > +     const struct cpumask *mask;
-> >
-> >       if (instance->perf_mode == MR_BALANCED_PERF_MODE) {
-> >               local_numa_node = dev_to_node(&instance->pdev->dev);
->
-> Drive-by nit: you could assign mask in this scope.
->
+From: Omar Sandoval <osandov@fb.com>
 
-Sure
+This series adds an API for reading compressed data on a filesystem
+without decompressing it as well as support for writing compressed data
+directly to the filesystem. I have test cases (including fsstress
+support) and example programs which I'll send up once the dust settles
+[1].
 
-> > -             for (i = 0; i < instance->low_latency_index_start; i++)
-> > -                     irq_set_affinity_hint(pci_irq_vector(instance->pdev, i),
-> > -                             cpumask_of_node(local_numa_node));
-> > +             for (i = 0; i < instance->low_latency_index_start; i++) {
-> > +                     irq = pci_irq_vector(instance->pdev, i);
-> > +                     mask = cpumask_of_node(local_numa_node);
-> > +                     irq_update_affinity_hint(irq, mask);
->
-> And this doesn't seem to match what the commit message says?
->
+The main use-case is Btrfs send/receive: currently, when sending data
+from one compressed filesystem to another, the sending side decompresses
+the data and the receiving side recompresses it before writing it out.
+This is wasteful and can be avoided if we can just send and write
+compressed extents. The patches implementing the send/receive support
+were sent with the last submission of this series [2].
 
-Clearly, thanks for catching it.
-This should be irq_set_affinity_and_hint().
+Patches 1-3 add the VFS support, UAPI, and documentation. Patches 4-7
+are Btrfs prep patches. Patch 8 adds Btrfs encoded read support and
+patch 9 adds Btrfs encoded write support.
 
-> Robin.
->
-> > +             }
-> >       }
-> >   }
-> >
-> > @@ -5944,7 +5949,7 @@ megasas_alloc_irq_vectors(struct megasas_instance *instance)
-> >               instance->msix_vectors = 0;
-> >
-> >       if (instance->smp_affinity_enable)
-> > -             megasas_set_high_iops_queue_affinity_hint(instance);
-> > +             megasas_set_high_iops_queue_affinity_and_hint(instance);
-> >   }
-> >
-> >   /**
-> >
->
+These patches are based on Dave Sterba's Btrfs misc-next branch [3],
+which is in turn currently based on v5.13-rc6.
 
+This is a _resend of a resend of a resend_ of v9 [4], rebased on the
+latest kdave/misc-next branch.
+
+In the last resend, there was some good discussion around how to support
+encryption with this interface in the future. The conclusion was that
+this interface should suffice for file data, and we would need separate
+interface(s) for working with encrypted file names. So, this really just
+needs review on the VFS side.
+
+1: https://github.com/osandov/xfstests/tree/rwf-encoded
+2: https://lore.kernel.org/linux-btrfs/cover.1615922753.git.osandov@fb.com/
+3: https://github.com/kdave/btrfs-devel/tree/misc-next
+4: https://lore.kernel.org/linux-fsdevel/cover.1621276134.git.osandov@fb.com/
+
+Omar Sandoval (9):
+  iov_iter: add copy_struct_from_iter()
+  fs: add O_ALLOW_ENCODED open flag
+  fs: add RWF_ENCODED for reading/writing compressed data
+  btrfs: don't advance offset for compressed bios in
+    btrfs_csum_one_bio()
+  btrfs: add ram_bytes and offset to btrfs_ordered_extent
+  btrfs: support different disk extent size for delalloc
+  btrfs: optionally extend i_size in cow_file_range_inline()
+  btrfs: implement RWF_ENCODED reads
+  btrfs: implement RWF_ENCODED writes
+
+ Documentation/filesystems/encoded_io.rst | 240 ++++++
+ Documentation/filesystems/index.rst      |   1 +
+ arch/alpha/include/uapi/asm/fcntl.h      |   1 +
+ arch/parisc/include/uapi/asm/fcntl.h     |   1 +
+ arch/sparc/include/uapi/asm/fcntl.h      |   1 +
+ fs/btrfs/compression.c                   |  12 +-
+ fs/btrfs/compression.h                   |   6 +-
+ fs/btrfs/ctree.h                         |   9 +-
+ fs/btrfs/delalloc-space.c                |  18 +-
+ fs/btrfs/file-item.c                     |  35 +-
+ fs/btrfs/file.c                          |  46 +-
+ fs/btrfs/inode.c                         | 925 +++++++++++++++++++++--
+ fs/btrfs/ordered-data.c                  | 124 +--
+ fs/btrfs/ordered-data.h                  |  25 +-
+ fs/btrfs/relocation.c                    |   4 +-
+ fs/fcntl.c                               |  10 +-
+ fs/namei.c                               |   4 +
+ fs/read_write.c                          | 168 +++-
+ include/linux/encoded_io.h               |  17 +
+ include/linux/fcntl.h                    |   2 +-
+ include/linux/fs.h                       |  13 +
+ include/linux/uio.h                      |   1 +
+ include/uapi/asm-generic/fcntl.h         |   4 +
+ include/uapi/linux/encoded_io.h          |  30 +
+ include/uapi/linux/fs.h                  |   5 +-
+ lib/iov_iter.c                           |  91 +++
+ 26 files changed, 1559 insertions(+), 234 deletions(-)
+ create mode 100644 Documentation/filesystems/encoded_io.rst
+ create mode 100644 include/linux/encoded_io.h
+ create mode 100644 include/uapi/linux/encoded_io.h
 
 -- 
-Thanks
-Nitesh
+2.32.0
 
