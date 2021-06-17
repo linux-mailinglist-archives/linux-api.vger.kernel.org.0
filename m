@@ -2,37 +2,37 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF4143ABB98
-	for <lists+linux-api@lfdr.de>; Thu, 17 Jun 2021 20:25:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DA853ABB9E
+	for <lists+linux-api@lfdr.de>; Thu, 17 Jun 2021 20:25:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233703AbhFQS1H (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 17 Jun 2021 14:27:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55351 "EHLO
+        id S233721AbhFQS1M (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 17 Jun 2021 14:27:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60369 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233367AbhFQS02 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Jun 2021 14:26:28 -0400
+        by vger.kernel.org with ESMTP id S233634AbhFQS0d (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Jun 2021 14:26:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1623954260;
+        s=mimecast20190719; t=1623954264;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=rMqIBkdEXGlTcUEG0kKj8faaNsrXX5tYRRo5QyPGYzw=;
-        b=OHzhyMXIMJ5fKmquzjDOXlBnjXV/Lnj8MG+i7iD1JHHiQNKUcsBoe2xA3VavRU8saHpxz0
-        bAHVwq6/bw5/GXJW5FWiE6AJ4PMwwtP7Y89JjNRrveLo+tAhkZrbs89sf7Plt17p+uy7zQ
-        KTZ4mXTLzHySHIz5eUAJktqBIAX4LYY=
+        bh=dzl9SMlyXCGzopav/TONWaUCuHf1BrQZlwHMjgB8AS8=;
+        b=Ap+QK3uBarxI2FOU9X32Id8o/m2lxlEl0zMr6n2/kNex6+QFJTTQhZeqmUEHP0ORC+42F3
+        Wsdy3imiSYR6McBwF8qtaVdwSgDNK7co4P3B3/hTIK3sIJpGeJ6v8Xcyy3W0AMMdDSTPUx
+        4gOIzyYLdTu1pdOS/VUj1wgwBqYwkR8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-GCfrhH0RPW6H-2tbd6OyUw-1; Thu, 17 Jun 2021 14:24:18 -0400
-X-MC-Unique: GCfrhH0RPW6H-2tbd6OyUw-1
+ us-mta-104-Gu8BfsNbPwyyre1mfBHhxQ-1; Thu, 17 Jun 2021 14:24:21 -0400
+X-MC-Unique: Gu8BfsNbPwyyre1mfBHhxQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0DF28018A7;
-        Thu, 17 Jun 2021 18:24:12 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D683100C619;
+        Thu, 17 Jun 2021 18:24:16 +0000 (UTC)
 Received: from virtlab719.virt.lab.eng.bos.redhat.com (virtlab719.virt.lab.eng.bos.redhat.com [10.19.153.15])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 450E760E3A;
-        Thu, 17 Jun 2021 18:24:04 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C965B9F64;
+        Thu, 17 Jun 2021 18:24:12 +0000 (UTC)
 From:   Nitesh Narayan Lal <nitesh@redhat.com>
 To:     linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
         intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
@@ -57,9 +57,9 @@ To:     linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
         luobin9@huawei.com, ajit.khaparde@broadcom.com,
         sriharsha.basavapatna@broadcom.com, somnath.kotur@broadcom.com,
         nilal@redhat.com
-Subject: [PATCH v1 08/14] be2net: Use irq_update_affinity_hint
-Date:   Thu, 17 Jun 2021 14:22:36 -0400
-Message-Id: <20210617182242.8637-9-nitesh@redhat.com>
+Subject: [PATCH v1 09/14] ixgbe: Use irq_update_affinity_hint
+Date:   Thu, 17 Jun 2021 14:22:37 -0400
+Message-Id: <20210617182242.8637-10-nitesh@redhat.com>
 In-Reply-To: <20210617182242.8637-1-nitesh@redhat.com>
 References: <20210617182242.8637-1-nitesh@redhat.com>
 MIME-Version: 1.0
@@ -82,31 +82,40 @@ that only updates the affinity_hint pointer.
 
 Signed-off-by: Nitesh Narayan Lal <nitesh@redhat.com>
 ---
- drivers/net/ethernet/emulex/benet/be_main.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/net/ethernet/intel/ixgbe/ixgbe_main.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/net/ethernet/emulex/benet/be_main.c b/drivers/net/ethernet/emulex/benet/be_main.c
-index b6eba29d8e99..7b7d97fcf008 100644
---- a/drivers/net/ethernet/emulex/benet/be_main.c
-+++ b/drivers/net/ethernet/emulex/benet/be_main.c
-@@ -3491,7 +3491,7 @@ static int be_msix_register(struct be_adapter *adapter)
- 		if (status)
- 			goto err_msix;
- 
--		irq_set_affinity_hint(vec, eqo->affinity_mask);
-+		irq_update_affinity_hint(vec, eqo->affinity_mask);
+diff --git a/drivers/net/ethernet/intel/ixgbe/ixgbe_main.c b/drivers/net/ethernet/intel/ixgbe/ixgbe_main.c
+index 2ac5b82676f3..b66040319bc6 100644
+--- a/drivers/net/ethernet/intel/ixgbe/ixgbe_main.c
++++ b/drivers/net/ethernet/intel/ixgbe/ixgbe_main.c
+@@ -3243,7 +3243,7 @@ static int ixgbe_request_msix_irqs(struct ixgbe_adapter *adapter)
+ 		/* If Flow Director is enabled, set interrupt affinity */
+ 		if (adapter->flags & IXGBE_FLAG_FDIR_HASH_CAPABLE) {
+ 			/* assign the mask for this irq */
+-			irq_set_affinity_hint(entry->vector,
++			irq_update_affinity_hint(entry->vector,
+ 					      &q_vector->affinity_mask);
+ 		}
  	}
+@@ -3260,7 +3260,7 @@ static int ixgbe_request_msix_irqs(struct ixgbe_adapter *adapter)
+ free_queue_irqs:
+ 	while (vector) {
+ 		vector--;
+-		irq_set_affinity_hint(adapter->msix_entries[vector].vector,
++		irq_update_affinity_hint(adapter->msix_entries[vector].vector,
+ 				      NULL);
+ 		free_irq(adapter->msix_entries[vector].vector,
+ 			 adapter->q_vector[vector]);
+@@ -3394,7 +3394,7 @@ static void ixgbe_free_irq(struct ixgbe_adapter *adapter)
+ 			continue;
  
- 	return 0;
-@@ -3552,7 +3552,7 @@ static void be_irq_unregister(struct be_adapter *adapter)
- 	/* MSIx */
- 	for_all_evt_queues(adapter, eqo, i) {
- 		vec = be_msix_vec_get(adapter, eqo);
--		irq_set_affinity_hint(vec, NULL);
-+		irq_update_affinity_hint(vec, NULL);
- 		free_irq(vec, eqo);
+ 		/* clear the affinity_mask in the IRQ descriptor */
+-		irq_set_affinity_hint(entry->vector, NULL);
++		irq_update_affinity_hint(entry->vector, NULL);
+ 
+ 		free_irq(entry->vector, q_vector);
  	}
- 
 -- 
 2.27.0
 
