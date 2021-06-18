@@ -2,124 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22E563AC190
-	for <lists+linux-api@lfdr.de>; Fri, 18 Jun 2021 05:45:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED6473ACC4D
+	for <lists+linux-api@lfdr.de>; Fri, 18 Jun 2021 15:34:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232179AbhFRDrW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 17 Jun 2021 23:47:22 -0400
-Received: from mga06.intel.com ([134.134.136.31]:1077 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232110AbhFRDrW (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 17 Jun 2021 23:47:22 -0400
-IronPort-SDR: xeB9BVVqP7L8w1iilhdHea5kZt8NF4+oqmxT0Sj+UUx3wO/r6Db44mS/VOZgGl2TEfaMvVSYXH
- zAEjFKt8p6XA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10018"; a="267636061"
-X-IronPort-AV: E=Sophos;i="5.83,281,1616482800"; 
-   d="scan'208";a="267636061"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2021 20:45:13 -0700
-IronPort-SDR: qR9+iaQdWzCsE35BjVpypOOMQpvzzJ5mIsIVy9inIGEKYhQQxoiL1om0lw6daoTJlmSyuYX5fL
- 6H74Bza6j9Ug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,281,1616482800"; 
-   d="scan'208";a="485539914"
-Received: from shbuild999.sh.intel.com ([10.239.147.94])
-  by orsmga001.jf.intel.com with ESMTP; 17 Jun 2021 20:45:09 -0700
-From:   Feng Tang <feng.tang@intel.com>
-To:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Ben Widawsky <ben.widawsky@intel.com>
-Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Andi Kleen <ak@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>, ying.huang@intel.com,
-        Feng Tang <feng.tang@intel.com>
-Subject: [PATCH v5 -mm 6/6] mm/mempolicy: unify the create() func for bind/interleave/prefer-many policies
-Date:   Fri, 18 Jun 2021 11:44:44 +0800
-Message-Id: <1623987884-43576-7-git-send-email-feng.tang@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1623987884-43576-1-git-send-email-feng.tang@intel.com>
-References: <1623987884-43576-1-git-send-email-feng.tang@intel.com>
+        id S233756AbhFRNgx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 18 Jun 2021 09:36:53 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:52731 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232253AbhFRNgw (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 18 Jun 2021 09:36:52 -0400
+Received: from [192.168.1.155] ([77.4.121.131]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MXH3Y-1ln9Tn1L0o-00YfuT; Fri, 18 Jun 2021 15:34:21 +0200
+Subject: Re: Maintainers / Kernel Summit 2021 planning kick-off
+To:     David Hildenbrand <david@redhat.com>,
+        James Bottomley <James.Bottomley@HansenPartnership.com>,
+        Greg KH <greg@kroah.com>, Christoph Lameter <cl@gentwo.de>
+Cc:     Theodore Ts'o <tytso@mit.edu>, Jiri Kosina <jikos@kernel.org>,
+        ksummit@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, netdev@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org
+References: <YH2hs6EsPTpDAqXc@mit.edu>
+ <nycvar.YFH.7.76.2104281228350.18270@cbobk.fhfr.pm>
+ <YIx7R6tmcRRCl/az@mit.edu>
+ <alpine.DEB.2.22.394.2105271522320.172088@gentwo.de>
+ <YK+esqGjKaPb+b/Q@kroah.com>
+ <c46dbda64558ab884af060f405e3f067112b9c8a.camel@HansenPartnership.com>
+ <b32c8672-06ee-bf68-7963-10aeabc0596c@redhat.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Message-ID: <87a0352d-7bd1-94fe-5586-2322c98cae15@metux.net>
+Date:   Fri, 18 Jun 2021 15:34:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <b32c8672-06ee-bf68-7963-10aeabc0596c@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: tl
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:lXlgNZQBNbe/1PCHa9NFfMFVAMYHizpg0dHiP4mDYfild/2Fz/0
+ NK4rSXjwK84RuMdCre0U1oAL00q6B7ydKpimHGybcF5r2NJbTVLVJCas9h96LlCyaQquYJc
+ VWyWO+jOrQxCJmUlewkveLsLM82fyP16BwB8wZm/PCMsDHHbOS+dG9TvVxo7DUEPv6jY1Os
+ 1vksdXo+HUxTL5GPIhujw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:1Pbaw9XW4KY=:33uNPw5m/Ml0bAeU0h6qJ7
+ rt8QzEytx1ZkJAoE71JCmsnZ043EOrbxo7Egr9/38t0eFKuy9t7S7FewNVr/7xYmPxF5DNlVq
+ ghdrQRf/VVXhMWCdLpnQJuJ1YtW+8FZL359DWyXe/d6uuFFHreJunpyDHsBrIeY/h3difn8LT
+ iM3XnQ1H3LgcswgVOwczIplmsaLVp9RN/RYtkU1Zj09n0Jp35HgRC2hBXdZ9Fb9UPMilOHdGK
+ YEmesqTDoK8cXb+jiWNG5Vvv6DhIAgdn0GSM8/DwyzMsGT9ksvz+LN+WUPxt1/ldTiQS2hrUf
+ KR1F1Y8aIrzMhPD2y9rc59r6rz4v/7pDT/a0BsA2vXUurWfx5340xKWJlu19jHEAFgwc8bkPi
+ 28fxbqY1HwBahrqUPVOPxnTxJ4qeQCzLdqNUe1iRoxcxTOXTiK0hTy3YznsXKsPHsxLn2xUCq
+ ZaldkCEM9HF1rKhFHtQ7z725Yn+/yHbrMtyuaFD83XC+qXUg1B8yXYODuWwIW+NdPKymtN5hq
+ aEkwHXYn0gorLvybhxGodg=
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-As they all do the same thing: sanity check and save nodemask info, create
-one mpol_new_nodemask() to reduce redundancy.
+On 09.06.21 12:37, David Hildenbrand wrote:
 
-Signed-off-by: Feng Tang <feng.tang@intel.com>
----
- mm/mempolicy.c | 24 ++++--------------------
- 1 file changed, 4 insertions(+), 20 deletions(-)
+> Just make sure to not
+> ignore the poor souls that really won't be traveling this year, because
+> "we are not vaccinated".
 
-diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index d90247d6a71b..e5ce5a7e8d92 100644
---- a/mm/mempolicy.c
-+++ b/mm/mempolicy.c
-@@ -192,7 +192,7 @@ static void mpol_relative_nodemask(nodemask_t *ret, const nodemask_t *orig,
- 	nodes_onto(*ret, tmp, *rel);
- }
- 
--static int mpol_new_interleave(struct mempolicy *pol, const nodemask_t *nodes)
-+static int mpol_new_nodemask(struct mempolicy *pol, const nodemask_t *nodes)
- {
- 	if (nodes_empty(*nodes))
- 		return -EINVAL;
-@@ -210,22 +210,6 @@ static int mpol_new_preferred(struct mempolicy *pol, const nodemask_t *nodes)
- 	return 0;
- }
- 
--static int mpol_new_preferred_many(struct mempolicy *pol, const nodemask_t *nodes)
--{
--	if (nodes_empty(*nodes))
--		return -EINVAL;
--	pol->nodes = *nodes;
--	return 0;
--}
--
--static int mpol_new_bind(struct mempolicy *pol, const nodemask_t *nodes)
--{
--	if (nodes_empty(*nodes))
--		return -EINVAL;
--	pol->nodes = *nodes;
--	return 0;
--}
--
- /*
-  * mpol_set_nodemask is called after mpol_new() to set up the nodemask, if
-  * any, for the new policy.  mpol_new() has already validated the nodes
-@@ -405,7 +389,7 @@ static const struct mempolicy_operations mpol_ops[MPOL_MAX] = {
- 		.rebind = mpol_rebind_default,
- 	},
- 	[MPOL_INTERLEAVE] = {
--		.create = mpol_new_interleave,
-+		.create = mpol_new_nodemask,
- 		.rebind = mpol_rebind_nodemask,
- 	},
- 	[MPOL_PREFERRED] = {
-@@ -413,14 +397,14 @@ static const struct mempolicy_operations mpol_ops[MPOL_MAX] = {
- 		.rebind = mpol_rebind_preferred,
- 	},
- 	[MPOL_BIND] = {
--		.create = mpol_new_bind,
-+		.create = mpol_new_nodemask,
- 		.rebind = mpol_rebind_nodemask,
- 	},
- 	[MPOL_LOCAL] = {
- 		.rebind = mpol_rebind_default,
- 	},
- 	[MPOL_PREFERRED_MANY] = {
--		.create = mpol_new_preferred_many,
-+		.create = mpol_new_nodemask,
- 		.rebind = mpol_rebind_preferred,
- 	},
- };
+That's NOT correct.
+
+People can't travel freely because OPPRESSIVE regimes all around the
+world forbid traveling freely - and enforcing that with brute force.
+
+Last year, i've been gunpointed by a cop just for walking over a market
+place in Nuremberg with my family, wearing a shirt with some Tucholsky
+quote and having my hands in the pants pockets !
+
+It is NOT the unvaxed who are stopping anybody from travel - it is
+nobody else than the GOVERMENT and its compliant abettors.
+
+US americans should remind themselves of the 2nd amendment.
+
+
+--mtx
+
 -- 
-2.7.4
-
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
