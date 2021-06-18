@@ -2,29 +2,29 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EFB973AC18C
-	for <lists+linux-api@lfdr.de>; Fri, 18 Jun 2021 05:45:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 813883AC18E
+	for <lists+linux-api@lfdr.de>; Fri, 18 Jun 2021 05:45:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231445AbhFRDrO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 17 Jun 2021 23:47:14 -0400
-Received: from mga06.intel.com ([134.134.136.31]:1072 "EHLO mga06.intel.com"
+        id S232258AbhFRDrU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 17 Jun 2021 23:47:20 -0400
+Received: from mga06.intel.com ([134.134.136.31]:1077 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232179AbhFRDrO (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 17 Jun 2021 23:47:14 -0400
-IronPort-SDR: m7oJ/9f8daOHtv32KrQvJi1ZIJqZNnUIaXGTA/IMiALUCw5bh8/sFFNt7DULTi2DXNFGNuV/zR
- dlDY9xpgwgug==
-X-IronPort-AV: E=McAfee;i="6200,9189,10018"; a="267636042"
+        id S232110AbhFRDrS (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 17 Jun 2021 23:47:18 -0400
+IronPort-SDR: Q4sBK70zh0Pi2XVzgDf4DLRnLjznTXqaPxLoNseh/vX0x1H6I3tNVXJpzsg95RhUCzwlPb+4Fy
+ 8PmhFvvoaCUA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10018"; a="267636052"
 X-IronPort-AV: E=Sophos;i="5.83,281,1616482800"; 
-   d="scan'208";a="267636042"
+   d="scan'208";a="267636052"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2021 20:45:05 -0700
-IronPort-SDR: y3IaxVP0Txk7G62sYbw6pSd5e9G2OHejtUlWZ2NFnbKdDL8kCVh7KnKpdb3SATlG2BS+/DNNE4
- x+T7eqwH2lrQ==
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2021 20:45:09 -0700
+IronPort-SDR: Y2UcYmkgo7ofW/CwpdZnIjjgTW/jSIz729Gi0+OaVMeItmiiyCFR1CIfsLVXZc/81IzLko0WUM
+ 375lQlHDEXuw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.83,281,1616482800"; 
-   d="scan'208";a="485539879"
+   d="scan'208";a="485539898"
 Received: from shbuild999.sh.intel.com ([10.239.147.94])
-  by orsmga001.jf.intel.com with ESMTP; 17 Jun 2021 20:45:02 -0700
+  by orsmga001.jf.intel.com with ESMTP; 17 Jun 2021 20:45:05 -0700
 From:   Feng Tang <feng.tang@intel.com>
 To:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
         Michal Hocko <mhocko@kernel.org>,
@@ -40,9 +40,9 @@ Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
         Andi Kleen <ak@linux.intel.com>,
         Dan Williams <dan.j.williams@intel.com>, ying.huang@intel.com,
         Feng Tang <feng.tang@intel.com>
-Subject: [PATCH v5 -mm 4/6] mm/hugetlb: add support for mempolicy MPOL_PREFERRED_MANY
-Date:   Fri, 18 Jun 2021 11:44:42 +0800
-Message-Id: <1623987884-43576-5-git-send-email-feng.tang@intel.com>
+Subject: [PATCH v5 -mm 5/6] mm/mempolicy: Advertise new MPOL_PREFERRED_MANY
+Date:   Fri, 18 Jun 2021 11:44:43 +0800
+Message-Id: <1623987884-43576-6-git-send-email-feng.tang@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1623987884-43576-1-git-send-email-feng.tang@intel.com>
 References: <1623987884-43576-1-git-send-email-feng.tang@intel.com>
@@ -52,92 +52,82 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 From: Ben Widawsky <ben.widawsky@intel.com>
 
-Implement the missing huge page allocation functionality while obeying
-the preferred node semantics. This is similar to the implementation
-for general page allocation, as it uses a fallback mechanism to try
-multiple preferred nodes first, and then all other nodes.
+Adds a new mode to the existing mempolicy modes, MPOL_PREFERRED_MANY.
 
-[Thanks to 0day bot for caching the missing #ifdef CONFIG_NUMA issue]
+MPOL_PREFERRED_MANY will be adequately documented in the internal
+admin-guide with this patch. Eventually, the man pages for mbind(2),
+get_mempolicy(2), set_mempolicy(2) and numactl(8) will also have text
+about this mode. Those shall contain the canonical reference.
 
-Link: https://lore.kernel.org/r/20200630212517.308045-12-ben.widawsky@intel.com
-Suggested-by: Michal Hocko <mhocko@suse.com>
+NUMA systems continue to become more prevalent. New technologies like
+PMEM make finer grain control over memory access patterns increasingly
+desirable. MPOL_PREFERRED_MANY allows userspace to specify a set of
+nodes that will be tried first when performing allocations. If those
+allocations fail, all remaining nodes will be tried. It's a straight
+forward API which solves many of the presumptive needs of system
+administrators wanting to optimize workloads on such machines. The mode
+will work either per VMA, or per thread.
+
+Link: https://lore.kernel.org/r/20200630212517.308045-13-ben.widawsky@intel.com
 Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-Co-developed-by: Feng Tang <feng.tang@intel.com>
 Signed-off-by: Feng Tang <feng.tang@intel.com>
 ---
- mm/hugetlb.c   | 27 +++++++++++++++++++++++++--
- mm/mempolicy.c |  3 ++-
- 2 files changed, 27 insertions(+), 3 deletions(-)
+ Documentation/admin-guide/mm/numa_memory_policy.rst | 16 ++++++++++++----
+ mm/mempolicy.c                                      |  7 +------
+ 2 files changed, 13 insertions(+), 10 deletions(-)
 
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index e4120680e31a..c771debd35a6 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -1143,7 +1143,7 @@ static struct page *dequeue_huge_page_vma(struct hstate *h,
- 				unsigned long address, int avoid_reserve,
- 				long chg)
- {
--	struct page *page;
-+	struct page *page = NULL;
- 	struct mempolicy *mpol;
- 	gfp_t gfp_mask;
- 	nodemask_t *nodemask;
-@@ -1164,7 +1164,18 @@ static struct page *dequeue_huge_page_vma(struct hstate *h,
+diff --git a/Documentation/admin-guide/mm/numa_memory_policy.rst b/Documentation/admin-guide/mm/numa_memory_policy.rst
+index 067a90a1499c..cd653561e531 100644
+--- a/Documentation/admin-guide/mm/numa_memory_policy.rst
++++ b/Documentation/admin-guide/mm/numa_memory_policy.rst
+@@ -245,6 +245,14 @@ MPOL_INTERLEAVED
+ 	address range or file.  During system boot up, the temporary
+ 	interleaved system default policy works in this mode.
  
- 	gfp_mask = htlb_alloc_mask(h);
- 	nid = huge_node(vma, address, gfp_mask, &mpol, &nodemask);
-+#ifdef CONFIG_NUMA
-+	if (mpol->mode == MPOL_PREFERRED_MANY) {
-+		page = dequeue_huge_page_nodemask(h, gfp_mask, nid, nodemask);
-+		if (page)
-+			goto check_reserve;
-+		/* Fallback to all nodes */
-+		nodemask = NULL;
-+	}
-+#endif
- 	page = dequeue_huge_page_nodemask(h, gfp_mask, nid, nodemask);
++MPOL_PREFERRED_MANY
++        This mode specifies that the allocation should be attempted from the
++        nodemask specified in the policy. If that allocation fails, the kernel
++        will search other nodes, in order of increasing distance from the first
++        set bit in the nodemask based on information provided by the platform
++        firmware. It is similar to MPOL_PREFERRED with the main exception that
++        is an error to have an empty nodemask.
 +
-+check_reserve:
- 	if (page && !avoid_reserve && vma_has_reserves(vma, chg)) {
- 		SetHPageRestoreReserve(page);
- 		h->resv_huge_pages--;
-@@ -2048,9 +2059,21 @@ struct page *alloc_buddy_huge_page_with_mpol(struct hstate *h,
- 	nodemask_t *nodemask;
+ NUMA memory policy supports the following optional mode flags:
  
- 	nid = huge_node(vma, addr, gfp_mask, &mpol, &nodemask);
-+#ifdef CONFIG_NUMA
-+	if (mpol->mode == MPOL_PREFERRED_MANY) {
-+		gfp_t gfp = (gfp_mask | __GFP_NOWARN) & ~__GFP_DIRECT_RECLAIM;
-+
-+		page = alloc_surplus_huge_page(h, gfp, nid, nodemask);
-+		if (page)
-+			goto exit;
-+		/* Fallback to all nodes */
-+		nodemask = NULL;
-+	}
-+#endif
- 	page = alloc_surplus_huge_page(h, gfp_mask, nid, nodemask);
--	mpol_cond_put(mpol);
+ MPOL_F_STATIC_NODES
+@@ -253,10 +261,10 @@ MPOL_F_STATIC_NODES
+ 	nodes changes after the memory policy has been defined.
  
-+exit:
-+	mpol_cond_put(mpol);
- 	return page;
- }
+ 	Without this flag, any time a mempolicy is rebound because of a
+-	change in the set of allowed nodes, the node (Preferred) or
+-	nodemask (Bind, Interleave) is remapped to the new set of
+-	allowed nodes.  This may result in nodes being used that were
+-	previously undesired.
++        change in the set of allowed nodes, the preferred nodemask (Preferred
++        Many), preferred node (Preferred) or nodemask (Bind, Interleave) is
++        remapped to the new set of allowed nodes.  This may result in nodes
++        being used that were previously undesired.
  
+ 	With this flag, if the user-specified nodes overlap with the
+ 	nodes allowed by the task's cpuset, then the memory policy is
 diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index 9dce67fc9bb6..93f8789758a7 100644
+index 93f8789758a7..d90247d6a71b 100644
 --- a/mm/mempolicy.c
 +++ b/mm/mempolicy.c
-@@ -2054,7 +2054,8 @@ int huge_node(struct vm_area_struct *vma, unsigned long addr, gfp_t gfp_flags,
- 					huge_page_shift(hstate_vma(vma)));
- 	} else {
- 		nid = policy_node(gfp_flags, *mpol, numa_node_id());
--		if ((*mpol)->mode == MPOL_BIND)
-+		if ((*mpol)->mode == MPOL_BIND ||
-+		    (*mpol)->mode == MPOL_PREFERRED_MANY)
- 			*nodemask = &(*mpol)->nodes;
- 	}
- 	return nid;
+@@ -1463,12 +1463,7 @@ static inline int sanitize_mpol_flags(int *mode, unsigned short *flags)
+ 	*flags = *mode & MPOL_MODE_FLAGS;
+ 	*mode &= ~MPOL_MODE_FLAGS;
+ 
+-	/*
+-	 * The check should be 'mode >= MPOL_MAX', but as 'prefer_many'
+-	 * is not fully implemented, don't permit it to be used for now,
+-	 * and the logic will be restored in following patch
+-	 */
+-	if ((unsigned int)(*mode) >=  MPOL_PREFERRED_MANY)
++	if ((unsigned int)(*mode) >=  MPOL_MAX)
+ 		return -EINVAL;
+ 	if ((*flags & MPOL_F_STATIC_NODES) && (*flags & MPOL_F_RELATIVE_NODES))
+ 		return -EINVAL;
 -- 
 2.7.4
 
