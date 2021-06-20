@@ -2,112 +2,104 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EEA83ADA8A
-	for <lists+linux-api@lfdr.de>; Sat, 19 Jun 2021 17:16:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CA633ADE7D
+	for <lists+linux-api@lfdr.de>; Sun, 20 Jun 2021 15:29:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234540AbhFSPSi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 19 Jun 2021 11:18:38 -0400
-Received: from gate.crashing.org ([63.228.1.57]:59443 "EHLO gate.crashing.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234128AbhFSPSh (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sat, 19 Jun 2021 11:18:37 -0400
-Received: from gate.crashing.org (localhost.localdomain [127.0.0.1])
-        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 15JF26n5018966;
-        Sat, 19 Jun 2021 10:02:07 -0500
-Received: (from segher@localhost)
-        by gate.crashing.org (8.14.1/8.14.1/Submit) id 15JF2288018951;
-        Sat, 19 Jun 2021 10:02:02 -0500
-X-Authentication-Warning: gate.crashing.org: segher set sender to segher@kernel.crashing.org using -f
-Date:   Sat, 19 Jun 2021 10:02:02 -0500
-From:   Segher Boessenkool <segher@kernel.crashing.org>
-To:     Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        maged michael <maged.michael@gmail.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Dave Watson <davejwatson@fb.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Andrew Hunter <ahh@google.com>, David Sehr <sehr@google.com>,
-        Paul Mackerras <paulus@samba.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        linux-arch <linux-arch@vger.kernel.org>, x86 <x86@kernel.org>,
-        "Russell King, ARM Linux" <linux@armlinux.org.uk>,
-        Greg Hackmann <ghackmann@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Paul <paulmck@linux.vnet.ibm.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Avi Kivity <avi@scylladb.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-api <linux-api@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
-Subject: Re: [PATCH for 4.16 v7 02/11] powerpc: membarrier: Skip memory barrier in switch_mm()
-Message-ID: <20210619150202.GZ5077@gate.crashing.org>
-References: <20180129202020.8515-1-mathieu.desnoyers@efficios.com> <20180129202020.8515-3-mathieu.desnoyers@efficios.com> <8b200dd5-f37b-b208-82fb-2775df7bcd49@csgroup.eu> <2077369633.12794.1624037192994.JavaMail.zimbra@efficios.com> <4d2026cc-28e1-7781-fc95-e6160bd8db86@csgroup.eu>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4d2026cc-28e1-7781-fc95-e6160bd8db86@csgroup.eu>
-User-Agent: Mutt/1.4.2.3i
+        id S229711AbhFTNbc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 20 Jun 2021 09:31:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38824 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229662AbhFTNba (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 20 Jun 2021 09:31:30 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23A85C061756
+        for <linux-api@vger.kernel.org>; Sun, 20 Jun 2021 06:29:17 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id m15-20020a17090a5a4fb029016f385ffad0so5819748pji.0
+        for <linux-api@vger.kernel.org>; Sun, 20 Jun 2021 06:29:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=D7l/Y2nU4ivOXB3kYNarWKNDy1SUWuawPt7q4q/Bhv4=;
+        b=N9P3zwGi8em7gGfzzP70XtIuv5/dLVIrnb3uT4EAIm3seIrobHCZjgokN8LxzIGzxw
+         OyW/bp94kwp9yTI7q8ic7FBrPJ5hoGRGtpPsYeYOshxL+A5r23wpqP9Lf556GLHe2FyH
+         N4rf2JWEUJkJE4I8hNUgkemzw0HsCYrv8gG2/JZ+xlR5UBMMqK1QgMs8Egzv69XEkSZT
+         pRlvEaLCESQMojxABhQM/t8OD8HCD4zzOjflbrKCLQ6B97+/2Zf5Pc9iXx5JFbsEyesz
+         Tr0RlTyB1UGHw8DDHJNPM4CCL1gitjmwfT+j4pDuqjlN0KDyAANKEwyUkzS/IJPEKC4H
+         1YXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=D7l/Y2nU4ivOXB3kYNarWKNDy1SUWuawPt7q4q/Bhv4=;
+        b=AHFa3JlMl05pXecc8UqbLLANXYTTYptTwVN/h95Gea+np45Dyc+KirEopDPlOWIAQ8
+         Xb9sr1PvQO2vfTQVZtjGenYzBAx7HI4Cev0gFZmzplW6EWNL4ktThcaZkozwmfsSJqQj
+         4sU3PCECL+WM55z+Xdw6nXkEAS7omx4A8jkD0k6wWt5lANisVggAy9o2VRsICOGB3sxn
+         lPHkKPJj+TnW+FVjp7WexNcGo5H2BZ7NaF9M17TOvtlYbpfIe14LL5WVMNGeIoDqZaEm
+         q4ZFBZnB7bYwOiNz5fYIbNfTfc4L0ZBqszdYEjgrKHWMg3WDZgZJfziCy0zlg2wWMseW
+         eD4A==
+X-Gm-Message-State: AOAM530pgM4h1ZSFsmP0SbRgF6eAyzHGrcjWZrIntaYK+YfAYXkIZgyY
+        8vKdaTek6AfxDd0v1wR9zWyh/tACJeflu1ZRuLA=
+X-Google-Smtp-Source: ABdhPJzKaGFjkh/0UMS0/to0Xq0uD3XH9x13/EkisI50hfXMkItvd1J6SvYn4Xjy/iiE0I0L01EcN86hHMHKTHufCjM=
+X-Received: by 2002:a17:902:9f93:b029:104:9bae:f56a with SMTP id
+ g19-20020a1709029f93b02901049baef56amr13400180plq.75.1624195756549; Sun, 20
+ Jun 2021 06:29:16 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a17:90b:38c4:0:0:0:0 with HTTP; Sun, 20 Jun 2021 06:29:15
+ -0700 (PDT)
+Reply-To: sarahkoffi389@yahoo.co.jp
+From:   Sarah Koffi <william.p15179@gmail.com>
+Date:   Sun, 20 Jun 2021 15:29:15 +0200
+Message-ID: <CAGDeiXGUu5h9iv+cDM9vAXbTMViF8-9h7e=T49OYt8=FRuP2Xw@mail.gmail.com>
+Subject: Greetings From Mrs. Sarah Koffi
+To:     sarahkoffi389@yahoo.co.jp
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Jun 19, 2021 at 11:35:34AM +0200, Christophe Leroy wrote:
-> 
-> 
-> Le 18/06/2021 à 19:26, Mathieu Desnoyers a écrit :
-> >----- On Jun 18, 2021, at 1:13 PM, Christophe Leroy 
-> >christophe.leroy@csgroup.eu wrote:
-> >[...]
-> >>
-> >>I don't understand all that complexity to just replace a simple
-> >>'smp_mb__after_unlock_lock()'.
-> >>
-> >>#define smp_mb__after_unlock_lock()	smp_mb()
-> >>#define smp_mb()	barrier()
-> >># define barrier() __asm__ __volatile__("": : :"memory")
-> >>
-> >>
-> >>Am I missing some subtility ?
-> >
-> >On powerpc CONFIG_SMP, smp_mb() is actually defined as:
-> >
-> >#define smp_mb()        __smp_mb()
-> >#define __smp_mb()      mb()
-> >#define mb()   __asm__ __volatile__ ("sync" : : : "memory")
-> >
-> >So the original motivation here was to skip a "sync" instruction whenever
-> >switching between threads which are part of the same process. But based on
-> >recent discussions, I suspect my implementation may be inaccurately doing
-> >so though.
-> >
-> 
-> I see.
-> 
-> Then, if you think a 'sync' is a concern, shouldn't we try and remove the 
-> forest of 'sync' in the I/O accessors ?
-> 
-> I can't really understand why we need all those 'sync' and 'isync' and 
-> 'twi' around the accesses whereas I/O memory is usually mapped as 'Guarded' 
-> so memory access ordering is already garantied.
-> 
-> I'm sure we'll save a lot with that.
+Greetings From Mrs. Sarah Koffi
 
-The point of the twi in the I/O accessors was to make things easier to
-debug if the accesses fail: for the twi insn to complete the load will
-have to have completed as well.  On a correctly working system you never
-should need this (until something fails ;-) )
+I'm contacting you based on your good profiles I read and for a good
+reasons, I am in search of a property to buy in your country as I
+intended to come over to your
+country for investment, Though I have not meet with you before but I
+believe that one has to risk confiding in someone to succeed sometimes
+in life.
 
-Without the twi you might need to enforce ordering in some cases still.
-The twi is a very heavy hammer, but some of that that gives us is no
-doubt actually needed.
+My name is Mrs. Sarah Koffi. My late husband deals on Crude Oil with
+Federal Government of Sudan and he has a personal Oil firm in Bentiu
+Oil zone town and Upper
+Nile city. What I have experience physically, I don't wish to
+experience it again in my life due to the recent civil Ethnic war
+cause by our President Mr. Salva Kiir
+and the rebel leader Mr Riek Machar, I have been Under United Nation
+refuge camp in chad to save my life and that of my little daughter.
 
+Though, I do not know how you will feel to my proposal, but the truth
+is that I sneaked into Chad our neighboring country where I am living
+now as a refugee.
+I escaped with my little daughter when the rebels bust into our house
+and killed my husband as one of the big oil dealers in the country,
+ever since then, I have being on the run.
 
-Segher
+I left my country and move to Chad our neighboring country with the
+little ceasefire we had, due to the face to face peace meeting accord
+coordinated by the US Secretary of State, Mr John Kerry and United
+Nations in Ethiopia (Addis Ababa) between our President Mr Salva Kiir
+and the rebel leader Mr Riek Machar to stop this war.
+
+I want to solicit for your partnership with trust to invest the $8
+million dollars deposited by my late husband in Bank because my life
+is no longer safe in our country, since the rebels are looking for the
+families of all the oil business men in the country to kill, saying
+that they are they one that is milking the country dry.
+
+I will offer you 20% of the total fund for your help while I will
+partner with you for the investment in your country.
+If I get your reply.
+
+I will wait to hear from you so as to give you details.With love from
+
+ i need you to contact me here sarahkoffi389@yahoo.co.jp
+
+Mrs. Sarah Koffi
