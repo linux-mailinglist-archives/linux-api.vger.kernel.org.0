@@ -2,104 +2,116 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CA633ADE7D
-	for <lists+linux-api@lfdr.de>; Sun, 20 Jun 2021 15:29:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A0B03AE3E9
+	for <lists+linux-api@lfdr.de>; Mon, 21 Jun 2021 09:11:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229711AbhFTNbc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 20 Jun 2021 09:31:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38824 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229662AbhFTNba (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 20 Jun 2021 09:31:30 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23A85C061756
-        for <linux-api@vger.kernel.org>; Sun, 20 Jun 2021 06:29:17 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id m15-20020a17090a5a4fb029016f385ffad0so5819748pji.0
-        for <linux-api@vger.kernel.org>; Sun, 20 Jun 2021 06:29:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=D7l/Y2nU4ivOXB3kYNarWKNDy1SUWuawPt7q4q/Bhv4=;
-        b=N9P3zwGi8em7gGfzzP70XtIuv5/dLVIrnb3uT4EAIm3seIrobHCZjgokN8LxzIGzxw
-         OyW/bp94kwp9yTI7q8ic7FBrPJ5hoGRGtpPsYeYOshxL+A5r23wpqP9Lf556GLHe2FyH
-         N4rf2JWEUJkJE4I8hNUgkemzw0HsCYrv8gG2/JZ+xlR5UBMMqK1QgMs8Egzv69XEkSZT
-         pRlvEaLCESQMojxABhQM/t8OD8HCD4zzOjflbrKCLQ6B97+/2Zf5Pc9iXx5JFbsEyesz
-         Tr0RlTyB1UGHw8DDHJNPM4CCL1gitjmwfT+j4pDuqjlN0KDyAANKEwyUkzS/IJPEKC4H
-         1YXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=D7l/Y2nU4ivOXB3kYNarWKNDy1SUWuawPt7q4q/Bhv4=;
-        b=AHFa3JlMl05pXecc8UqbLLANXYTTYptTwVN/h95Gea+np45Dyc+KirEopDPlOWIAQ8
-         Xb9sr1PvQO2vfTQVZtjGenYzBAx7HI4Cev0gFZmzplW6EWNL4ktThcaZkozwmfsSJqQj
-         4sU3PCECL+WM55z+Xdw6nXkEAS7omx4A8jkD0k6wWt5lANisVggAy9o2VRsICOGB3sxn
-         lPHkKPJj+TnW+FVjp7WexNcGo5H2BZ7NaF9M17TOvtlYbpfIe14LL5WVMNGeIoDqZaEm
-         q4ZFBZnB7bYwOiNz5fYIbNfTfc4L0ZBqszdYEjgrKHWMg3WDZgZJfziCy0zlg2wWMseW
-         eD4A==
-X-Gm-Message-State: AOAM530pgM4h1ZSFsmP0SbRgF6eAyzHGrcjWZrIntaYK+YfAYXkIZgyY
-        8vKdaTek6AfxDd0v1wR9zWyh/tACJeflu1ZRuLA=
-X-Google-Smtp-Source: ABdhPJzKaGFjkh/0UMS0/to0Xq0uD3XH9x13/EkisI50hfXMkItvd1J6SvYn4Xjy/iiE0I0L01EcN86hHMHKTHufCjM=
-X-Received: by 2002:a17:902:9f93:b029:104:9bae:f56a with SMTP id
- g19-20020a1709029f93b02901049baef56amr13400180plq.75.1624195756549; Sun, 20
- Jun 2021 06:29:16 -0700 (PDT)
+        id S229790AbhFUHNz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 21 Jun 2021 03:13:55 -0400
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:13573 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229597AbhFUHNy (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 21 Jun 2021 03:13:54 -0400
+Received: (Authenticated sender: alex@ghiti.fr)
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 437B6240008;
+        Mon, 21 Jun 2021 07:11:38 +0000 (UTC)
+Subject: Re: [PATCH] riscv: Bump COMMAND_LINE_SIZE value to 1024
+To:     Palmer Dabbelt <palmer@dabbelt.com>, macro@orcam.me.uk
+Cc:     david.abdurachmanov@gmail.com, dvyukov@google.com,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-api@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+References: <mhng-9e6b4607-6bea-411c-b843-916c1e0798ee@palmerdabbelt-glaptop>
+From:   Alex Ghiti <alex@ghiti.fr>
+Message-ID: <182c1d4e-a117-79d6-4dd1-8e3c8a447b4a@ghiti.fr>
+Date:   Mon, 21 Jun 2021 09:11:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Received: by 2002:a17:90b:38c4:0:0:0:0 with HTTP; Sun, 20 Jun 2021 06:29:15
- -0700 (PDT)
-Reply-To: sarahkoffi389@yahoo.co.jp
-From:   Sarah Koffi <william.p15179@gmail.com>
-Date:   Sun, 20 Jun 2021 15:29:15 +0200
-Message-ID: <CAGDeiXGUu5h9iv+cDM9vAXbTMViF8-9h7e=T49OYt8=FRuP2Xw@mail.gmail.com>
-Subject: Greetings From Mrs. Sarah Koffi
-To:     sarahkoffi389@yahoo.co.jp
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <mhng-9e6b4607-6bea-411c-b843-916c1e0798ee@palmerdabbelt-glaptop>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Greetings From Mrs. Sarah Koffi
+Hi Palmer,
 
-I'm contacting you based on your good profiles I read and for a good
-reasons, I am in search of a property to buy in your country as I
-intended to come over to your
-country for investment, Though I have not meet with you before but I
-believe that one has to risk confiding in someone to succeed sometimes
-in life.
+Le 23/04/2021 à 04:57, Palmer Dabbelt a écrit :
+> On Fri, 02 Apr 2021 11:33:30 PDT (-0700), macro@orcam.me.uk wrote:
+>> On Fri, 2 Apr 2021, David Abdurachmanov wrote:
+>>
+>>> > > >  This macro is exported as a part of the user API so it must 
+>>> not depend on
+>>> > > > Kconfig.  Also changing it (rather than say adding 
+>>> COMMAND_LINE_SIZE_V2 or
+>>> > > > switching to an entirely new data object that has its dimension 
+>>> set in a
+>>> > > > different way) requires careful evaluation as external binaries 
+>>> have and
+>>> > > > will have the value it expands to compiled in, so it's a part 
+>>> of the ABI
+>>> > > > too.
+>>> > >
+>>> > > Thanks, I didn't realize this was part of the user BI.  In that 
+>>> case we
+>>> > > really can't chage it, so we'll have to sort out some other way 
+>>> do fix
+>>> > > whatever is going on.
+>>> > >
+>>> > > I've dropped this from fixes.
+>>> >
+>>> > Does increasing COMMAND_LINE_SIZE break user-space binaries? I would
+>>> > expect it to work the same way as adding new enum values, or adding
+>>> > fields at the end of versioned structs, etc.
+>>> > I would assume the old bootloaders/etc will only support up to the
+>>> > old, smaller max command line size, while the kernel will support
+>>> > larger command line size, which is fine.
+>>> > However, if something copies /proc/cmdline into a fixed-size buffer
+>>> > and expects that to work, that will break... that's quite unfortunate
+>>> > user-space code... is it what we afraid of?
+>>> >
+>>> > Alternatively, could expose the same COMMAND_LINE_SIZE, but internally
+>>> > support a larger command line?
+>>>
+>>> Looking at kernel commit history I see PowerPC switched from 512 to
+>>> 2048, and I don't see complaints about the ABI on the mailing list.
+>>>
+>>> If COMMAND_LINE_SIZE is used by user space applications and we
+>>> increase it there shouldn't be problems. I would expect things to
+>>> work, but just get truncated boot args? That is the application will
+>>> continue only to look at the initial 512 chars.
+>>
+>>  The macro is in an include/uapi header, so it's exported to the userland
+>> and a part of the user API.  I don't know what the consequences are for
+>> the RISC-V port specifically, but it has raised my attention, and I think
+>> it has to be investigated.
+>>
+>>  Perhaps it's OK to change it after all, but you'd have to go through
+>> known/potential users of this macro.  I guess there shouldn't be that 
+>> many
+>> of them.
+>>
+>>  In any case it cannot depend on Kconfig, because the userland won't have
+>> access to the configuration, and then presumably wants to handle any and
+>> all.
+> 
+> It kind of feels to me like COMMAND_LINE_SIZE shouldn't have been part 
+> of the UABI to begin with.  I sent a patch to remove it from the 
+> asm-generic UABI, let's see if anyone knows of a reason it should be UABI:
+> 
+> https://lore.kernel.org/linux-arch/20210423025545.313965-1-palmer@dabbelt.com/T/#u 
 
-My name is Mrs. Sarah Koffi. My late husband deals on Crude Oil with
-Federal Government of Sudan and he has a personal Oil firm in Bentiu
-Oil zone town and Upper
-Nile city. What I have experience physically, I don't wish to
-experience it again in my life due to the recent civil Ethnic war
-cause by our President Mr. Salva Kiir
-and the rebel leader Mr Riek Machar, I have been Under United Nation
-refuge camp in chad to save my life and that of my little daughter.
+Arnd seemed to agree with you about removing COMMAND_LINE_SIZE from the 
+UABI, any progress on your side?
 
-Though, I do not know how you will feel to my proposal, but the truth
-is that I sneaked into Chad our neighboring country where I am living
-now as a refugee.
-I escaped with my little daughter when the rebels bust into our house
-and killed my husband as one of the big oil dealers in the country,
-ever since then, I have being on the run.
+Thanks,
 
-I left my country and move to Chad our neighboring country with the
-little ceasefire we had, due to the face to face peace meeting accord
-coordinated by the US Secretary of State, Mr John Kerry and United
-Nations in Ethiopia (Addis Ababa) between our President Mr Salva Kiir
-and the rebel leader Mr Riek Machar to stop this war.
+Alex
 
-I want to solicit for your partnership with trust to invest the $8
-million dollars deposited by my late husband in Bank because my life
-is no longer safe in our country, since the rebels are looking for the
-families of all the oil business men in the country to kill, saying
-that they are they one that is milking the country dry.
-
-I will offer you 20% of the total fund for your help while I will
-partner with you for the investment in your country.
-If I get your reply.
-
-I will wait to hear from you so as to give you details.With love from
-
- i need you to contact me here sarahkoffi389@yahoo.co.jp
-
-Mrs. Sarah Koffi
+> 
+> 
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
