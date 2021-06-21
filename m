@@ -2,206 +2,152 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4737A3AEACF
-	for <lists+linux-api@lfdr.de>; Mon, 21 Jun 2021 16:11:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A17333AF57D
+	for <lists+linux-api@lfdr.de>; Mon, 21 Jun 2021 20:48:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230160AbhFUONd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 21 Jun 2021 10:13:33 -0400
-Received: from pegase1.c-s.fr ([93.17.236.30]:50473 "EHLO pegase1.c-s.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230205AbhFUONb (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 21 Jun 2021 10:13:31 -0400
-Received: from localhost (mailhub3.si.c-s.fr [192.168.12.233])
-        by localhost (Postfix) with ESMTP id 4G7rzl1TYPzBDBX;
-        Mon, 21 Jun 2021 16:11:15 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-        by localhost (pegase1.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 5rSJmp-MP7YS; Mon, 21 Jun 2021 16:11:15 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-        by pegase1.c-s.fr (Postfix) with ESMTP id 4G7rzl0PmszBDBM;
-        Mon, 21 Jun 2021 16:11:15 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id C90BC8B7A3;
-        Mon, 21 Jun 2021 16:11:14 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-        with ESMTP id NPGP5zm3RQSE; Mon, 21 Jun 2021 16:11:14 +0200 (CEST)
-Received: from [172.25.230.102] (po15451.idsi0.si.c-s.fr [172.25.230.102])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id 6258B8B78E;
-        Mon, 21 Jun 2021 16:11:14 +0200 (CEST)
-Subject: Re: [PATCH for 4.16 v7 02/11] powerpc: membarrier: Skip memory
- barrier in switch_mm()
-To:     Segher Boessenkool <segher@kernel.crashing.org>
-Cc:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        maged michael <maged.michael@gmail.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Dave Watson <davejwatson@fb.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Andrew Hunter <ahh@google.com>, David Sehr <sehr@google.com>,
-        Paul Mackerras <paulus@samba.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        linux-arch <linux-arch@vger.kernel.org>, x86 <x86@kernel.org>,
-        "Russell King, ARM Linux" <linux@armlinux.org.uk>,
-        Greg Hackmann <ghackmann@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Paul <paulmck@linux.vnet.ibm.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Avi Kivity <avi@scylladb.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-api <linux-api@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
-References: <20180129202020.8515-1-mathieu.desnoyers@efficios.com>
- <20180129202020.8515-3-mathieu.desnoyers@efficios.com>
- <8b200dd5-f37b-b208-82fb-2775df7bcd49@csgroup.eu>
- <2077369633.12794.1624037192994.JavaMail.zimbra@efficios.com>
- <4d2026cc-28e1-7781-fc95-e6160bd8db86@csgroup.eu>
- <20210619150202.GZ5077@gate.crashing.org>
-From:   Christophe Leroy <christophe.leroy@csgroup.eu>
-Message-ID: <52451ce4-3eb2-e14b-81a9-99da2c0a2328@csgroup.eu>
-Date:   Mon, 21 Jun 2021 16:11:04 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S230217AbhFUSut (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 21 Jun 2021 14:50:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32854 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231994AbhFUStJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 21 Jun 2021 14:49:09 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1DCFC061760
+        for <linux-api@vger.kernel.org>; Mon, 21 Jun 2021 11:46:53 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id t32so3020545pfg.2
+        for <linux-api@vger.kernel.org>; Mon, 21 Jun 2021 11:46:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=osandov-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=uL42HY8VlJREjfdLY2mBJzSmeljzMYYYKlWMhT3H0y0=;
+        b=1jwQIzzwBurBAPJ1Q3HQ+QDPPD+Sot5nm9znVTSkxh3auGbJymMdlb+ig/jErsLYNv
+         8Wc8ZGD+Koaekj3tBcBf4gErMvlr58VMb94TA3Lx/2UF+mLOxnNbO+Xy98c8Aq+N6C8v
+         1pqIEXH1NWOC+MVQk9oavvnM3d0RToPw8JyQY5DTfPWQnod0hET8evSCbAZm9sE96pqp
+         ZF81K20Cz52IBidFWuvCTWpssSPVJXJDArLvhvLDSpKBZ/NbPPlTLw3Poi1ZkIk88MZw
+         qrKs6egrR/LpRHr2IxE7nA1SP1SLfsw5ZA72tTv50mBxP9Gl2wQ3pyHxcpfken45dWEB
+         OCZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=uL42HY8VlJREjfdLY2mBJzSmeljzMYYYKlWMhT3H0y0=;
+        b=Diq3QKw1MMd6JsLKhtVf0AWZirXO3whGIArkSBnuNU8Bw7ZUADs0IqOONw3blIqSBJ
+         Mnb0eEEKEdX+u0Gkfn0JAc9jZTmYU3uF/z47wU/9afU59yJXTw+JnXjeP/L4l1HfVLRO
+         aO5ABfaVbOmtlGmQMuKzeOjxRlN4GpTUiSoIMV7mXdlr/zE0x+jcA4IbGPU02I77EIoh
+         xF55dg3dNVCOxAzfUQglgYqVAw06SAXSD+74r4bjzndVEFFOYcLqFBVnMuZ2X2XCZIUV
+         rpryQm4chZGUR4iD3uPudLCHSSXVAmxbFBkSt5qZJRi9MlBH+S41PYIuJ09HgFrArtT+
+         vfKg==
+X-Gm-Message-State: AOAM530HbZ7S7HnnWVLMrm8pWadxZhSl1Qn+Bsdb/53fkLS4ZmnD/hjQ
+        P4OVZ+Ci6JrEHxnVf4Xx0BWNwA==
+X-Google-Smtp-Source: ABdhPJz47BBhcenbhytG6OdP+DxO/RsazurFaw70c4fLgUzwa0FzusVvUXFOyWxd2fV57wyngPPOIg==
+X-Received: by 2002:a63:5d5:: with SMTP id 204mr24823530pgf.72.1624301213253;
+        Mon, 21 Jun 2021 11:46:53 -0700 (PDT)
+Received: from relinquished.localdomain ([2620:10d:c090:400::5:cc49])
+        by smtp.gmail.com with ESMTPSA id s126sm6762341pfb.164.2021.06.21.11.46.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Jun 2021 11:46:52 -0700 (PDT)
+Date:   Mon, 21 Jun 2021 11:46:51 -0700
+From:   Omar Sandoval <osandov@osandov.com>
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-btrfs <linux-btrfs@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Kernel Team <kernel-team@fb.com>
+Subject: Re: [PATCH RESEND x3 v9 1/9] iov_iter: add copy_struct_from_iter()
+Message-ID: <YNDem7R6Yh4Wy9po@relinquished.localdomain>
+References: <CAHk-=whRA=54dtO3ha-C2-fV4XQ2nry99BmfancW-16EFGTHVg@mail.gmail.com>
+ <YMz3MfgmbtTSQljy@zeniv-ca.linux.org.uk>
+ <YM0C2mZfTE0uz3dq@relinquished.localdomain>
+ <YM0I3aQpam7wfDxI@zeniv-ca.linux.org.uk>
+ <CAHk-=wgiO+jG7yFEpL5=cW9AQSV0v1N6MhtfavmGEHwrXHz9pA@mail.gmail.com>
+ <YM0Q5/unrL6MFNCb@zeniv-ca.linux.org.uk>
+ <CAHk-=wjDhxnRaO8FU-fOEAF6WeTUsvaoz0+fr1tnJvRCfAaSCQ@mail.gmail.com>
+ <YM0Zu3XopJTGMIO5@relinquished.localdomain>
+ <YM0fFnMFSFpUb63U@zeniv-ca.linux.org.uk>
+ <YM09qaP3qATwoLTJ@relinquished.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20210619150202.GZ5077@gate.crashing.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YM09qaP3qATwoLTJ@relinquished.localdomain>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-
-
-Le 19/06/2021 à 17:02, Segher Boessenkool a écrit :
-> On Sat, Jun 19, 2021 at 11:35:34AM +0200, Christophe Leroy wrote:
->>
->>
->> Le 18/06/2021 à 19:26, Mathieu Desnoyers a écrit :
->>> ----- On Jun 18, 2021, at 1:13 PM, Christophe Leroy
->>> christophe.leroy@csgroup.eu wrote:
->>> [...]
->>>>
->>>> I don't understand all that complexity to just replace a simple
->>>> 'smp_mb__after_unlock_lock()'.
->>>>
->>>> #define smp_mb__after_unlock_lock()	smp_mb()
->>>> #define smp_mb()	barrier()
->>>> # define barrier() __asm__ __volatile__("": : :"memory")
->>>>
->>>>
->>>> Am I missing some subtility ?
->>>
->>> On powerpc CONFIG_SMP, smp_mb() is actually defined as:
->>>
->>> #define smp_mb()        __smp_mb()
->>> #define __smp_mb()      mb()
->>> #define mb()   __asm__ __volatile__ ("sync" : : : "memory")
->>>
->>> So the original motivation here was to skip a "sync" instruction whenever
->>> switching between threads which are part of the same process. But based on
->>> recent discussions, I suspect my implementation may be inaccurately doing
->>> so though.
->>>
->>
->> I see.
->>
->> Then, if you think a 'sync' is a concern, shouldn't we try and remove the
->> forest of 'sync' in the I/O accessors ?
->>
->> I can't really understand why we need all those 'sync' and 'isync' and
->> 'twi' around the accesses whereas I/O memory is usually mapped as 'Guarded'
->> so memory access ordering is already garantied.
->>
->> I'm sure we'll save a lot with that.
+On Fri, Jun 18, 2021 at 05:43:21PM -0700, Omar Sandoval wrote:
+> On Fri, Jun 18, 2021 at 10:32:54PM +0000, Al Viro wrote:
+> > On Fri, Jun 18, 2021 at 03:10:03PM -0700, Omar Sandoval wrote:
+> > 
+> > > Or do the same reverting thing that Al did, but with copy_from_iter()
+> > > instead of copy_from_iter_full() and being careful with the copied count
+> > > (which I'm not 100% sure I got correct here):
+> > > 
+> > > 	size_t copied = copy_from_iter(&encoded, sizeof(encoded), &i);
+> > > 	if (copied < offsetofend(struct encoded_iov, size))
+> > > 		return -EFAULT;
+> > > 	if (encoded.size > PAGE_SIZE)
+> > > 		return -E2BIG;
+> > > 	if (encoded.size < ENCODED_IOV_SIZE_VER0)
+> > > 		return -EINVAL;
+> > > 	if (encoded.size > sizeof(encoded)) {
+> > > 		if (copied < sizeof(encoded)
+> > > 			return -EFAULT;
+> > > 		if (!iov_iter_check_zeroes(&i, encoded.size - sizeof(encoded))
+> > > 			return -EINVAL;
+> > > 	} else if (encoded.size < sizeof(encoded)) {
+> > > 		// older than what we expect
+> > > 		if (copied < encoded.size)
+> > > 			return -EFAULT;
+> > > 		iov_iter_revert(&i, copied - encoded.size);
+> > > 		memset((void *)&encoded + encoded.size, 0, sizeof(encoded) - encoded.size);
+> > > 	}    
+> > 
+> > simpler than that, actually -
+> > 
+> > 	copied = copy_from_iter(&encoded, sizeof(encoded), &i);
+> > 	if (unlikely(copied < sizeof(encoded))) {
+> > 		if (copied < offsetofend(struct encoded_iov, size) ||
+> > 		    copied < encoded.size)
+> > 			return iov_iter_count(i) ? -EFAULT : -EINVAL;
+> > 	}
+> > 	if (encoded.size > sizeof(encoded)) {
+> > 		if (!iov_iter_check_zeroes(&i, encoded.size - sizeof(encoded))
+> > 			return -EINVAL;
+> > 	} else if (encoded.size < sizeof(encoded)) {
+> > 		// copied can't be less than encoded.size here - otherwise
+> > 		// we'd have copied < sizeof(encoded) and the check above
+> > 		// would've buggered off
+> > 		iov_iter_revert(&i, copied - encoded.size);
+> > 		memset((void *)&encoded + encoded.size, 0, sizeof(encoded) - encoded.size);
+> > 	}
+> > 
+> > should do it.
 > 
-> The point of the twi in the I/O accessors was to make things easier to
-> debug if the accesses fail: for the twi insn to complete the load will
-> have to have completed as well.  On a correctly working system you never
-> should need this (until something fails ;-) )
-> 
-> Without the twi you might need to enforce ordering in some cases still.
-> The twi is a very heavy hammer, but some of that that gives us is no
-> doubt actually needed.
-> 
+> Thanks, Al, I'll send an updated version with this approach next week.
 
-Well, I've always been quite perplex about that. According to the documentation of the 8xx, if a bus 
-error or something happens on an I/O access, the exception will be accounted on the instruction 
-which does the access. But based on the following function, I understand that some version of 
-powerpc do generate the trap on the instruction which was being executed at the time the I/O access 
-failed, not the instruction that does the access itself ?
+Okay, so this works for the write side of RWF_ENCODED, but it causes
+problems for the read side. That currently works like so:
 
-/*
-  * I/O accesses can cause machine checks on powermacs.
-  * Check if the NIP corresponds to the address of a sync
-  * instruction for which there is an entry in the exception
-  * table.
-  *  -- paulus.
-  */
-static inline int check_io_access(struct pt_regs *regs)
-{
-#ifdef CONFIG_PPC32
-	unsigned long msr = regs->msr;
-	const struct exception_table_entry *entry;
-	unsigned int *nip = (unsigned int *)regs->nip;
+	struct encoded_iov encoded_iov;
+	char compressed_data[...];
+	struct iovec iov[] = {
+		{ &encoded_iov, sizeof(encoded_iov) },
+		{ compressed_data, sizeof(compressed_data) },
+	};
+	preadv2(fd, iov, 2, -1, RWF_ENCODED);
 
-	if (((msr & 0xffff0000) == 0 || (msr & (0x80000 | 0x40000)))
-	    && (entry = search_exception_tables(regs->nip)) != NULL) {
-		/*
-		 * Check that it's a sync instruction, or somewhere
-		 * in the twi; isync; nop sequence that inb/inw/inl uses.
-		 * As the address is in the exception table
-		 * we should be able to read the instr there.
-		 * For the debug message, we look at the preceding
-		 * load or store.
-		 */
-		if (*nip == PPC_INST_NOP)
-			nip -= 2;
-		else if (*nip == PPC_INST_ISYNC)
-			--nip;
-		if (*nip == PPC_INST_SYNC || (*nip >> 26) == OP_TRAP) {
-			unsigned int rb;
+The kernel fills in the encoded_iov with the compression metadata and
+the remaining buffers with the compressed data. The kernel needs to know
+how much of the iovec is for the encoded_iov. The backwards
+compatibility is similar to the write side: if the kernel size is less
+than the userspace size, then we can fill in extra zeroes. If the kernel
+size is greater than the userspace size and all of the extra metadata is
+zero, then we can omit it. If the extra metadata is non-zero, then we
+return an error.
 
-			--nip;
-			rb = (*nip >> 11) & 0x1f;
-			printk(KERN_DEBUG "%s bad port %lx at %p\n",
-			       (*nip & 0x100)? "OUT to": "IN from",
-			       regs->gpr[rb] - _IO_BASE, nip);
-			regs->msr |= MSR_RI;
-			regs->nip = extable_fixup(entry);
-			return 1;
-		}
-	}
-#endif /* CONFIG_PPC32 */
-	return 0;
-}
-
-Am I right ?
-
-It is not only the twi which bother's me in the I/O accessors but also the sync/isync and stuff.
-
-A write typically is
-
-	sync
-	stw
-
-A read is
-
-	sync
-	lwz
-	twi
-	isync
-
-Taking into account that HW ordering is garanteed by the fact that __iomem is guarded, isn't the 
-'memory' clobber enough as a barrier ?
-
-Thanks
-Christophe
+How do we get the userspace size with the encoded_iov.size approach?
+We'd have to read the size from the iov_iter before writing to the rest
+of the iov_iter. Is it okay to mix the iov_iter as a source and
+destination like this? From what I can tell, it's not intended to be
+used like this.
