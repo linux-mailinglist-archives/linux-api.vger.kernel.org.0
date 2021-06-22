@@ -2,130 +2,180 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35C2C3B1016
-	for <lists+linux-api@lfdr.de>; Wed, 23 Jun 2021 00:29:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B4963B1020
+	for <lists+linux-api@lfdr.de>; Wed, 23 Jun 2021 00:33:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230013AbhFVWbx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 22 Jun 2021 18:31:53 -0400
-Received: from mail107.syd.optusnet.com.au ([211.29.132.53]:60727 "EHLO
-        mail107.syd.optusnet.com.au" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229675AbhFVWbx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 22 Jun 2021 18:31:53 -0400
-X-Greylist: delayed 1372 seconds by postgrey-1.27 at vger.kernel.org; Tue, 22 Jun 2021 18:31:52 EDT
-Received: from dread.disaster.area (pa49-179-138-183.pa.nsw.optusnet.com.au [49.179.138.183])
-        by mail107.syd.optusnet.com.au (Postfix) with ESMTPS id 3F98D7126;
-        Wed, 23 Jun 2021 08:06:40 +1000 (AEST)
-Received: from dave by dread.disaster.area with local (Exim 4.92.3)
-        (envelope-from <david@fromorbit.com>)
-        id 1lvoXX-00Fr2Q-Fn; Wed, 23 Jun 2021 08:06:39 +1000
-Date:   Wed, 23 Jun 2021 08:06:39 +1000
-From:   Dave Chinner <david@fromorbit.com>
-To:     Omar Sandoval <osandov@osandov.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-btrfs <linux-btrfs@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Kernel Team <kernel-team@fb.com>,
-        Dave Chinner <dchinner@redhat.com>
-Subject: Re: [PATCH RESEND x3 v9 1/9] iov_iter: add copy_struct_from_iter()
-Message-ID: <20210622220639.GH2419729@dread.disaster.area>
-References: <CAHk-=wgiO+jG7yFEpL5=cW9AQSV0v1N6MhtfavmGEHwrXHz9pA@mail.gmail.com>
- <YM0Q5/unrL6MFNCb@zeniv-ca.linux.org.uk>
- <CAHk-=wjDhxnRaO8FU-fOEAF6WeTUsvaoz0+fr1tnJvRCfAaSCQ@mail.gmail.com>
- <YM0Zu3XopJTGMIO5@relinquished.localdomain>
- <YM0fFnMFSFpUb63U@zeniv-ca.linux.org.uk>
- <YM09qaP3qATwoLTJ@relinquished.localdomain>
- <YNDem7R6Yh4Wy9po@relinquished.localdomain>
- <CAHk-=wh+-otnW30V7BUuBLF7Dg0mYaBTpdkH90Ov=zwLQorkQw@mail.gmail.com>
- <YND6jOrku2JDgqjt@relinquished.localdomain>
- <YND8p7ioQRfoWTOU@relinquished.localdomain>
+        id S230185AbhFVWfm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 22 Jun 2021 18:35:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43394 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230357AbhFVWfl (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 22 Jun 2021 18:35:41 -0400
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 750BDC061766
+        for <linux-api@vger.kernel.org>; Tue, 22 Jun 2021 15:33:24 -0700 (PDT)
+Received: by mail-il1-x12d.google.com with SMTP id q9so778913ilj.3
+        for <linux-api@vger.kernel.org>; Tue, 22 Jun 2021 15:33:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=wnmRkYKboAH8zJCZrdHT+Gn/DKgpUQ6lVnKyPQDk2e0=;
+        b=AR49a0Vnv4dm3JSBho21CVzLTpAw6AKYpkMLlF0NkD583G7YZ5+wtgml5dypSZYMud
+         2hfVQyG1d5bTuI2+7TuzCftNECNvg3nMDkkcS0jnB8f2TmWBOjU2CGLh4fNOy9Ya+Pg/
+         2GtHu1wBydy6jnwS6C8nQCjyYL+cINkYFKqTM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=wnmRkYKboAH8zJCZrdHT+Gn/DKgpUQ6lVnKyPQDk2e0=;
+        b=ubO3CqUXfLUl18neCi9qe9UidzcZFE3xyo7t0kpAZO5FVtdSLSBHMdv+XClwk04bdc
+         U8x/AaTISKJb/wEHJQvJcObrRbVSbCM20qTKbnMEmA5ni8ZkitfJImWktdHB4tR0mIIh
+         51K1BpdkG6xyNv3kdmvEZg8wra1Z+dR0O+b+pBEGeNZsqdJyTW4kGx7/JOVDANlJUzJ4
+         vd+NLDitXpQFmYZPtchQt4I/9AQta7TALFIHC+xVgWBIAnVqr7qUIXNac0bW4Ctx4JlX
+         31aKz5OZagK5FD14L8QucV3wBWyE9dewPyIFLA+f09L2T5rHOVETFbfWhE+0h2xKZqaE
+         v21g==
+X-Gm-Message-State: AOAM530U6DN0JmSelAQplYDCGIDKn+LMzzZB9nvHvRy/+dkguAWQ8fAi
+        XkdRtvN5dtelImjzz02WBi66aw==
+X-Google-Smtp-Source: ABdhPJxN9TU0oJIL6ix/vNDlgeb3nGygOZZkb/SbcRaq0bOTovZyipADlOgJDT4QhLMrlnkFt38wbw==
+X-Received: by 2002:a92:1310:: with SMTP id 16mr672327ilt.60.1624401203750;
+        Tue, 22 Jun 2021 15:33:23 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id j12sm8587753ilk.26.2021.06.22.15.33.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Jun 2021 15:33:23 -0700 (PDT)
+Subject: Re: Maintainers / Kernel Summit 2021 planning kick-off
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
+        David Hildenbrand <david@redhat.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Greg KH <greg@kroah.com>, Christoph Lameter <cl@gentwo.de>,
+        Theodore Ts'o <tytso@mit.edu>, Jiri Kosina <jikos@kernel.org>,
+        ksummit@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, netdev@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <YIx7R6tmcRRCl/az@mit.edu>
+ <alpine.DEB.2.22.394.2105271522320.172088@gentwo.de>
+ <YK+esqGjKaPb+b/Q@kroah.com>
+ <c46dbda64558ab884af060f405e3f067112b9c8a.camel@HansenPartnership.com>
+ <b32c8672-06ee-bf68-7963-10aeabc0596c@redhat.com>
+ <5038827c-463f-232d-4dec-da56c71089bd@metux.net>
+ <20210610182318.jrxe3avfhkqq7xqn@nitro.local>
+ <YMJcdbRaQYAgI9ER@pendragon.ideasonboard.com>
+ <20210610152633.7e4a7304@oasis.local.home>
+ <37e8d1a5-7c32-8e77-bb05-f851c87a1004@linuxfoundation.org>
+ <YMyjryXiAfKgS6BY@pendragon.ideasonboard.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <ae51f636-8fb5-20b7-bbc5-37e22edb9a02@linuxfoundation.org>
+Date:   Tue, 22 Jun 2021 16:33:22 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YND8p7ioQRfoWTOU@relinquished.localdomain>
-X-Optus-CM-Score: 0
-X-Optus-CM-Analysis: v=2.3 cv=F8MpiZpN c=1 sm=1 tr=0
-        a=MnllW2CieawZLw/OcHE/Ng==:117 a=MnllW2CieawZLw/OcHE/Ng==:17
-        a=kj9zAlcOel0A:10 a=r6YtysWOX24A:10 a=-uoBkjAQAAAA:8 a=VwQbUJbxAAAA:8
-        a=7-415B0cAAAA:8 a=SiS6zSyo1DA6T2jvNdwA:9 a=CjuIK1q_8ugA:10
-        a=y0wLjPFBLyexm0soFTcm:22 a=AjGcO6oz07-iQ99wixmX:22
-        a=biEYGPWJfzWAr4FL6Ov7:22
+In-Reply-To: <YMyjryXiAfKgS6BY@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jun 21, 2021 at 01:55:03PM -0700, Omar Sandoval wrote:
-> On Mon, Jun 21, 2021 at 01:46:04PM -0700, Omar Sandoval wrote:
-> > On Mon, Jun 21, 2021 at 12:33:17PM -0700, Linus Torvalds wrote:
-> > > On Mon, Jun 21, 2021 at 11:46 AM Omar Sandoval <osandov@osandov.com> wrote:
-> > > >
-> > > > How do we get the userspace size with the encoded_iov.size approach?
-> > > > We'd have to read the size from the iov_iter before writing to the rest
-> > > > of the iov_iter. Is it okay to mix the iov_iter as a source and
-> > > > destination like this? From what I can tell, it's not intended to be
-> > > > used like this.
-> > > 
-> > > I guess it could work that way, but yes, it's ugly as hell. And I
-> > > really don't want a readv() system call - that should write to the
-> > > result buffer - to first have to read from it.
-> > > 
-> > > So I think the original "just make it be the first iov entry" is the
-> > > better approach, even if Al hates it.
-> > > 
-> > > Although I still get the feeling that using an ioctl is the *really*
-> > > correct way to go. That was my first reaction to the series
-> > > originally, and I still don't see why we'd have encoded data in a
-> > > regular read/write path.
-> > > 
-> > > What was the argument against ioctl's, again?
-> > 
-> > The suggestion came from Dave Chinner here:
-> > https://lore.kernel.org/linux-fsdevel/20190905021012.GL7777@dread.disaster.area/
-> > 
-> > His objection to an ioctl was two-fold:
-> > 
-> > 1. This interfaces looks really similar to normal read/write, so we
-> >    should try to use the normal read/write interface for it. Perhaps
-> >    this trouble with iov_iter has refuted that.
-> > 2. The last time we had Btrfs-specific ioctls that eventually became
-> >    generic (FIDEDUPERANGE and FICLONE{,RANGE}), the generalization was
-> >    painful. Part of the problem with clone/dedupe was that the Btrfs
-> >    ioctls were underspecified. I think I've done a better job of
-> >    documenting all of the semantics and corner cases for the encoded I/O
-> >    interface (and if not, I can address this). The other part of the
-> >    problem is that there were various sanity checks in the normal
-> >    read/write paths that were missed or drifted out of sync in the
-> >    ioctls. That requires some vigilance going forward. Maybe starting
-> >    this off as a generic (not Btrfs-specific) ioctl right off the bat
-> >    will help.
-> > 
-> > If we do go the ioctl route, then we also have to decide how much of
-> > preadv2/pwritev2 it should emulate. Should it use the fd offset, or
-> > should that be an ioctl argument? Some of the RWF_ flags would be useful
-> > for encoded I/O, too (RWF_DSYNC, RWF_SYNC, RWF_APPEND), should it
-> > support those? These bring us back to Dave's first point.
+On 6/18/21 7:46 AM, Laurent Pinchart wrote:
+> Hi Shuah,
 > 
-> Oops, I dropped Dave from the Cc list at some point. Adding him back
-> now.
+> On Thu, Jun 10, 2021 at 01:55:23PM -0600, Shuah Khan wrote:
+>> On 6/10/21 1:26 PM, Steven Rostedt wrote:
+>>> On Thu, 10 Jun 2021 21:39:49 +0300 Laurent Pinchart wrote:
+>>>
+>>>> There will always be more informal discussions between on-site
+>>>> participants. After all, this is one of the benefits of conferences, by
+>>>> being all together we can easily organize ad-hoc discussions. This is
+>>>> traditionally done by finding a not too noisy corner in the conference
+>>>> center, would it be useful to have more break-out rooms with A/V
+>>>> equipment than usual ?
+>>>
+>>> I've been giving this quite some thought too, and I've come to the
+>>> understanding (and sure I can be wrong, but I don't think that I am),
+>>> is that when doing a hybrid event, the remote people will always be
+>>> "second class citizens" with respect to the communication that is going
+>>> on. Saying that we can make it the same is not going to happen unless
+>>> you start restricting what people can do that are present, and that
+>>> will just destroy the conference IMO.
+>>>
+>>> That said, I think we should add more to make the communication better
+>>> for those that are not present. Maybe an idea is to have break outs
+>>> followed by the presentation and evening events that include remote
+>>> attendees to discuss with those that are there about what they might
+>>> have missed. Have incentives at these break outs (free stacks and
+>>> beer?) to encourage the live attendees to attend and have a discussion
+>>> with the remote attendees.
+>>>
+>>> The presentations would have remote access, where remote attendees can
+>>> at the very least write in some chat their questions or comments. If
+>>> video and connectivity is good enough, perhaps have a screen where they
+>>> can show up and talk, but that may have logistical limitations.
+>>>
+>>
+>> You are absolutely right that the remote people will have a hard time
+>> participating and keeping up with in-person participants. I have a
+>> couple of ideas on how we might be able to improve remote experience
+>> without restricting in-person experience.
+>>
+>> - Have one or two moderators per session to watch chat and Q&A to enable
+>>     remote participants to chime in and participate.
+>> - Moderators can make sure remote participation doesn't go unnoticed and
+>>     enable taking turns for remote vs. people participating in person.
+>>
+>> It will be change in the way we interact in all in-person sessions for
+>> sure, however it might enhance the experience for remote attendees.
+> 
+> A moderator to watch online chat and relay questions is I believe very
+> good for presentations, it's hard for a presenter to keep an eye on a
+> screen while having to manage the interaction with the audience in the
+> room (there's the usual joke of the difference between an introvert and
+> an extrovert open-source developer is that the extrovert looks at *your*
+> shoes when talking to you, but in many presentations the speaker
+> nowadays does a fairly good job as watching the audience, at least from
+> time to time :-)).
+> 
+> For workshop or brainstorming types of sessions, the highest barrier to
+> participation for remote attendees is local attendees not speaking in
+> microphones. That's the number one rule that moderators would need to
+> enforce, I think all the rest depends on it. This may require a larger
+> number of microphones in the room than usual.
+> 
 
-Fair summary. The only other thing that I'd add is this is an IO
-interface that requires issuing physical IO. So if someone wants
-high throughput for encoded IO, we really need AIO and/or io_uring
-support, and we get that for free if we use readv2/writev2
-interfaces.
+Absolutely. Moderator has to make sure the following things happen for
+this to be effective:
 
-Yes, it could be an ioctl() interface, but I think that this sort of
-functionality is exactly what extensible syscalls like
-preadv2/pwritev2 should be used for. It's a slight variant on normal
-IO, and that's exactly what the RWF_* flags are intended to be used
-for - allowing interesting per-IO variant behaviour without having
-to completely re-implemnt the IO path via custom ioctls every time
-we want slightly different functionality...
+- Watch chat and Q&A, Raise hand from remote participants
+- Enforce some kind of taking turns to allow fairness in
+   participation
+- Have the speaker repeat questions asked in the room (we do that now
+   in some talks - both remote and in-person - chat and Q&A needs
+   reading out for recording)
+- Explore live Transcription features available in the virtual conf.
+   platform. You still need humans watching the transcription.
+- Have a running session notes combined with transcription.
 
-Cheers,
+Any of these options aren't sustainable when large number of people
+are participating remotely or in-person. In general a small number of
+people participate either in person or remote in any case, based on
+my observation in remote and in-person settings.
 
-Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+Maybe we can experiment with one or two workshops this time around
+and see how it works out. If we can figure an effective way, it would
+be beneficial for people that can't travel for one reason or the
+other.
+
+thanks,
+-- Shuah
+
+
+
+
+
