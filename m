@@ -2,66 +2,151 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CFA23B1DE3
-	for <lists+linux-api@lfdr.de>; Wed, 23 Jun 2021 17:54:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C06E3B1FDA
+	for <lists+linux-api@lfdr.de>; Wed, 23 Jun 2021 19:49:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231364AbhFWP4X convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Wed, 23 Jun 2021 11:56:23 -0400
-Received: from [183.90.58.236] ([183.90.58.236]:51536 "EHLO ns1.zackeruz.tk"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231348AbhFWP4V (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 23 Jun 2021 11:56:21 -0400
-Received: from johnlewis.com (unknown [192.168.20.1])
-        by ns1.zackeruz.tk (Postfix) with ESMTPSA id 63A068462EC
-        for <linux-api@vger.kernel.org>; Wed, 23 Jun 2021 23:54:02 +0800 (+08)
-Reply-To: robert_turner@johnlewis-trading.com,
-          pippawicks.sales@johnlewis-trading.com
-From:   John Lewis & Partnersip <robert.turner107@johnlewis.com>
-To:     linux-api@vger.kernel.org
-Subject: 6/23/2021 Product Inquiry 
-Date:   23 Jun 2021 15:54:01 +0000
-Message-ID: <20210623094114.0317628214A4EF7B@johnlewis.com>
+        id S229882AbhFWRwM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 23 Jun 2021 13:52:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48626 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229873AbhFWRwM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Jun 2021 13:52:12 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F755C061574
+        for <linux-api@vger.kernel.org>; Wed, 23 Jun 2021 10:49:54 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id a127so2899427pfa.10
+        for <linux-api@vger.kernel.org>; Wed, 23 Jun 2021 10:49:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=osandov-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=jM0/fuoJEp0WkWTBlwHRuxABxUrsbCLb+UOcPsZzDds=;
+        b=EaFaRZeD7LoVMH2RK8LnQujTeHrf3HShJG6nud7YS9AFM2LyWRu9nlRhgySleurNFJ
+         89k2FjZZ+1tLjbMsXkS/ooPf6M9HQvKXIL+Mkw3KYj6p6qrdud1zgNCANmADJKYVwdRV
+         1OUG3SLqBe3Agx0wbc1+xvpqElw5lbCme44rHa5Vp/0td7HOlaNOnMZlfTmpPbMnnckE
+         rJMImg/0nTszugtZPNlBOgC8iGfy2ZPaOsgYUUha/fmZIWVsk47abfZLOiXwPYnxraNd
+         689WqI6VbSTO2sMCq5cKJTIzkbW7Bj4cH2TBDNRp/EHuwq2GgDsv0Dk8s9Y16l4wKB3Q
+         dMpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=jM0/fuoJEp0WkWTBlwHRuxABxUrsbCLb+UOcPsZzDds=;
+        b=cEVqIBqyWUvT2YqQaaKnOzdGOlbFJ60jTTjjQVAp0CddcFDtDRhf1eIaUS3GQzLAmT
+         jl7d/Cw1als0MAENpzXC6onTenb/jFlBKJDBsDgfY2scxyD6IF60Lk1e/1Fad46W3Nak
+         FJn61BTsYaHaHsBp3ps2PTL2oCW3ultPuoRJ9KBeJSwWMVt4kR83vgOlSWmHGU/tobHt
+         h5e2sNxXAE738QerLbsBaJ5GgtVJ4WA1mhwQVjeEaUY/SMkhFVasCxTpNW/vW796A8Cp
+         AxQs8uiNZmNF9Xl9RL0HWMFQXl49SQkwypJmfRP++TtuDhDat4is5sq+4ZOpH6nDmybC
+         8wXg==
+X-Gm-Message-State: AOAM531RV6HYaJ7L0D1TXzHKVIga7Zt4PmPz+79WiNzIwVSYZz8kVxmL
+        xvn6B6mm3tcqETmpjtuXmxuoPkyXENAxKw==
+X-Google-Smtp-Source: ABdhPJwY3Rc0RaMhy2jttOviNOFzcgRD+TDNWD7DvxxKGlK9I4v47H14tspEa5h2Y2zaozqhlxe6Cw==
+X-Received: by 2002:a63:f13:: with SMTP id e19mr626162pgl.112.1624470593763;
+        Wed, 23 Jun 2021 10:49:53 -0700 (PDT)
+Received: from relinquished.localdomain ([2620:10d:c090:400::5:e167])
+        by smtp.gmail.com with ESMTPSA id kk4sm4385903pjb.50.2021.06.23.10.49.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Jun 2021 10:49:53 -0700 (PDT)
+Date:   Wed, 23 Jun 2021 10:49:51 -0700
+From:   Omar Sandoval <osandov@osandov.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Dave Chinner <david@fromorbit.com>
+Cc:     linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-btrfs <linux-btrfs@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Kernel Team <kernel-team@fb.com>,
+        Dave Chinner <dchinner@redhat.com>
+Subject: Re: [PATCH RESEND x3 v9 1/9] iov_iter: add copy_struct_from_iter()
+Message-ID: <YNN0P4KWH+Uj7dTE@relinquished.localdomain>
+References: <YM0Q5/unrL6MFNCb@zeniv-ca.linux.org.uk>
+ <CAHk-=wjDhxnRaO8FU-fOEAF6WeTUsvaoz0+fr1tnJvRCfAaSCQ@mail.gmail.com>
+ <YM0Zu3XopJTGMIO5@relinquished.localdomain>
+ <YM0fFnMFSFpUb63U@zeniv-ca.linux.org.uk>
+ <YM09qaP3qATwoLTJ@relinquished.localdomain>
+ <YNDem7R6Yh4Wy9po@relinquished.localdomain>
+ <CAHk-=wh+-otnW30V7BUuBLF7Dg0mYaBTpdkH90Ov=zwLQorkQw@mail.gmail.com>
+ <YND6jOrku2JDgqjt@relinquished.localdomain>
+ <YND8p7ioQRfoWTOU@relinquished.localdomain>
+ <20210622220639.GH2419729@dread.disaster.area>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210622220639.GH2419729@dread.disaster.area>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Dear linux-api
+On Wed, Jun 23, 2021 at 08:06:39AM +1000, Dave Chinner wrote:
+> On Mon, Jun 21, 2021 at 01:55:03PM -0700, Omar Sandoval wrote:
+> > On Mon, Jun 21, 2021 at 01:46:04PM -0700, Omar Sandoval wrote:
+> > > On Mon, Jun 21, 2021 at 12:33:17PM -0700, Linus Torvalds wrote:
+> > > > On Mon, Jun 21, 2021 at 11:46 AM Omar Sandoval <osandov@osandov.com> wrote:
+> > > > >
+> > > > > How do we get the userspace size with the encoded_iov.size approach?
+> > > > > We'd have to read the size from the iov_iter before writing to the rest
+> > > > > of the iov_iter. Is it okay to mix the iov_iter as a source and
+> > > > > destination like this? From what I can tell, it's not intended to be
+> > > > > used like this.
+> > > > 
+> > > > I guess it could work that way, but yes, it's ugly as hell. And I
+> > > > really don't want a readv() system call - that should write to the
+> > > > result buffer - to first have to read from it.
+> > > > 
+> > > > So I think the original "just make it be the first iov entry" is the
+> > > > better approach, even if Al hates it.
+> > > > 
+> > > > Although I still get the feeling that using an ioctl is the *really*
+> > > > correct way to go. That was my first reaction to the series
+> > > > originally, and I still don't see why we'd have encoded data in a
+> > > > regular read/write path.
+> > > > 
+> > > > What was the argument against ioctl's, again?
+> > > 
+> > > The suggestion came from Dave Chinner here:
+> > > https://lore.kernel.org/linux-fsdevel/20190905021012.GL7777@dread.disaster.area/
+> > > 
+> > > His objection to an ioctl was two-fold:
+> > > 
+> > > 1. This interfaces looks really similar to normal read/write, so we
+> > >    should try to use the normal read/write interface for it. Perhaps
+> > >    this trouble with iov_iter has refuted that.
+> > > 2. The last time we had Btrfs-specific ioctls that eventually became
+> > >    generic (FIDEDUPERANGE and FICLONE{,RANGE}), the generalization was
+> > >    painful. Part of the problem with clone/dedupe was that the Btrfs
+> > >    ioctls were underspecified. I think I've done a better job of
+> > >    documenting all of the semantics and corner cases for the encoded I/O
+> > >    interface (and if not, I can address this). The other part of the
+> > >    problem is that there were various sanity checks in the normal
+> > >    read/write paths that were missed or drifted out of sync in the
+> > >    ioctls. That requires some vigilance going forward. Maybe starting
+> > >    this off as a generic (not Btrfs-specific) ioctl right off the bat
+> > >    will help.
+> > > 
+> > > If we do go the ioctl route, then we also have to decide how much of
+> > > preadv2/pwritev2 it should emulate. Should it use the fd offset, or
+> > > should that be an ioctl argument? Some of the RWF_ flags would be useful
+> > > for encoded I/O, too (RWF_DSYNC, RWF_SYNC, RWF_APPEND), should it
+> > > support those? These bring us back to Dave's first point.
+> > 
+> > Oops, I dropped Dave from the Cc list at some point. Adding him back
+> > now.
+> 
+> Fair summary. The only other thing that I'd add is this is an IO
+> interface that requires issuing physical IO. So if someone wants
+> high throughput for encoded IO, we really need AIO and/or io_uring
+> support, and we get that for free if we use readv2/writev2
+> interfaces.
+> 
+> Yes, it could be an ioctl() interface, but I think that this sort of
+> functionality is exactly what extensible syscalls like
+> preadv2/pwritev2 should be used for. It's a slight variant on normal
+> IO, and that's exactly what the RWF_* flags are intended to be used
+> for - allowing interesting per-IO variant behaviour without having
+> to completely re-implemnt the IO path via custom ioctls every time
+> we want slightly different functionality...
 
-The famous brand John Lewis Partnership, is UK's largest multi-
-channel retailer with over 126 shops and multiple expansion in 
-Africa furnished by European/Asian/American products. We are 
-sourcing new products to attract new customers and also retain 
-our existing ones, create new partnerships with companies dealing 
-with different kinds of goods globally.
-
-Your company's products are of interest to our market as we have 
-an amazing market for your products.
-
-Provide us your current catalog through email to review more. We 
-hope to be able to order with you and start a long-term friendly,
-respectable and solid business partnership. Please we would 
-appreciate it if you could send us your stock availability via 
-email if any.
-
-Our payment terms are 15 days net in Europe, 30 days Net in UK 
-and 30 days net in Asia/USA as we operate with over 5297 
-suppliers around the globe for the past 50 years now. For 
-immediate response Send your reply to robert_turner@johnlewis-
-trading.com for us to be able to 
-treat with care and urgency.
-
-
-Best Regards
-
-Rob Turner
-Head Of Procurement Operations
-John Lewis & Partners.
-robert_turner@johnlewis-trading.com
-Tel: +44-7451-274090
-WhatsApp: +447497483925
-www.johnlewis.com
-REGISTERED OFFICE: 171 VICTORIA STREET, LONDON SW1E 5NN 
+Al, Linus, what do you think? Is there a path forward for this series as
+is? I'd be happy to have this functionality merged in any form, but I do
+think that this approach with preadv2/pwritev2 using iov_len is decent
+relative to the alternatives.
