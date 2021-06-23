@@ -2,54 +2,23 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E5CFF3B2200
-	for <lists+linux-api@lfdr.de>; Wed, 23 Jun 2021 22:46:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A41FE3B229B
+	for <lists+linux-api@lfdr.de>; Wed, 23 Jun 2021 23:40:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229812AbhFWUtM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 23 Jun 2021 16:49:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60114 "EHLO
+        id S229758AbhFWVme (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 23 Jun 2021 17:42:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229800AbhFWUtM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Jun 2021 16:49:12 -0400
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89731C06175F
-        for <linux-api@vger.kernel.org>; Wed, 23 Jun 2021 13:46:53 -0700 (PDT)
-Received: by mail-pf1-x432.google.com with SMTP id 21so3312511pfp.3
-        for <linux-api@vger.kernel.org>; Wed, 23 Jun 2021 13:46:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=35fX3b/9KipFW6E3fYUr5lcYBNTVVlADu03Gtygr2Nk=;
-        b=Hk+dH/qK+72QM33k5wW4gKCoofvBG35fBFE/5NSN9cuhFQ+yHUtHo14gwPuBvB5kLS
-         E6q16f1m17kqPZWIR5Z6unziZ6jNGg0lecaDbu/EOB01AT4yko4updWTWuzu3/j8Cp0K
-         YAFsNG5PL9jNw4QzSuNhiJLFiNHr9gXPNlJOJFVchKP7QBJrSVQFsIUSPF+FeTb7AtEa
-         F76qW3ZgBP/1e7hFW/auvpk9BMkPCXa5wT8JCEK2eWcXwJ2JRhyCm0QgqUMcmwgdVVOI
-         PQUwMPVkPN4hgOGpQ3sFI0P/fJEMAK2kqXaTj4te5hrUFsfFOqp3bsBD9XezvotPsgK6
-         CmQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=35fX3b/9KipFW6E3fYUr5lcYBNTVVlADu03Gtygr2Nk=;
-        b=kiyvF9R4IN/rvIlIc3eqZqnfKgJAqdZoTOSZeb7MqyDE8TvepSEB0vqB6B1eU9kxia
-         EYbLO+tp5zexss5o+sP9CHe0djHnpB6hKf56BuWKu85yqhPCeZUcbSyFReOaRexJHz1S
-         bslNkavX6y69YfCj9koQlebln+05HqlahL6PVnuWIxx1bCpxfy1nAjwucMNgTd3MfhXv
-         /2kevooqpDWEbGjf5sJmAfszKLCmbXaIcl6ulzk2Y3oXLNdlX05ZF6BkuVvtQr3kmGbo
-         HPlrHLgKaYdLR9YZfHQczXMqw8aCNpD21a1XNDcIVcjwhJKKc7v1plXBXNGOnJUpqYBK
-         6bVg==
-X-Gm-Message-State: AOAM5333z9j1iv+9erzOe/k9x03YmIkqNZEhttKQQVRjgcBS0fyKtWGX
-        EK/lvDv6YGGv4zekd0qUiSb7XA==
-X-Google-Smtp-Source: ABdhPJxc5l5DI/3/a0Vr5/trltrw8Ct1u+bkj2q4aYmLeaoJdbHwBVB2e0UdzNnQEvcMXtZUvOQ8aQ==
-X-Received: by 2002:a65:6644:: with SMTP id z4mr1258936pgv.101.1624481212718;
-        Wed, 23 Jun 2021 13:46:52 -0700 (PDT)
-Received: from relinquished.localdomain ([2620:10d:c090:400::5:e167])
-        by smtp.gmail.com with ESMTPSA id p45sm702640pfw.19.2021.06.23.13.46.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Jun 2021 13:46:52 -0700 (PDT)
-Date:   Wed, 23 Jun 2021 13:46:50 -0700
-From:   Omar Sandoval <osandov@osandov.com>
-To:     Al Viro <viro@zeniv.linux.org.uk>
+        with ESMTP id S229726AbhFWVmd (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Jun 2021 17:42:33 -0400
+Received: from zeniv-ca.linux.org.uk (zeniv-ca.linux.org.uk [IPv6:2607:5300:60:148a::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2A47C061574;
+        Wed, 23 Jun 2021 14:40:15 -0700 (PDT)
+Received: from viro by zeniv-ca.linux.org.uk with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1lwAb6-00BdqY-Is; Wed, 23 Jun 2021 21:39:48 +0000
+Date:   Wed, 23 Jun 2021 21:39:48 +0000
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     Omar Sandoval <osandov@osandov.com>
 Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Dave Chinner <david@fromorbit.com>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
@@ -58,9 +27,8 @@ Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Kernel Team <kernel-team@fb.com>,
         Dave Chinner <dchinner@redhat.com>
 Subject: Re: [PATCH RESEND x3 v9 1/9] iov_iter: add copy_struct_from_iter()
-Message-ID: <YNOdunP+Fvhbsixb@relinquished.localdomain>
-References: <YM0Zu3XopJTGMIO5@relinquished.localdomain>
- <YM0fFnMFSFpUb63U@zeniv-ca.linux.org.uk>
+Message-ID: <YNOqJIto1t13rPYZ@zeniv-ca.linux.org.uk>
+References: <YM0fFnMFSFpUb63U@zeniv-ca.linux.org.uk>
  <YM09qaP3qATwoLTJ@relinquished.localdomain>
  <YNDem7R6Yh4Wy9po@relinquished.localdomain>
  <CAHk-=wh+-otnW30V7BUuBLF7Dg0mYaBTpdkH90Ov=zwLQorkQw@mail.gmail.com>
@@ -69,60 +37,35 @@ References: <YM0Zu3XopJTGMIO5@relinquished.localdomain>
  <20210622220639.GH2419729@dread.disaster.area>
  <YNN0P4KWH+Uj7dTE@relinquished.localdomain>
  <YNOPdy14My+MHmy8@zeniv-ca.linux.org.uk>
+ <YNOdunP+Fvhbsixb@relinquished.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YNOPdy14My+MHmy8@zeniv-ca.linux.org.uk>
+In-Reply-To: <YNOdunP+Fvhbsixb@relinquished.localdomain>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jun 23, 2021 at 07:45:59PM +0000, Al Viro wrote:
-> On Wed, Jun 23, 2021 at 10:49:51AM -0700, Omar Sandoval wrote:
-> 
-> > > Fair summary. The only other thing that I'd add is this is an IO
-> > > interface that requires issuing physical IO. So if someone wants
-> > > high throughput for encoded IO, we really need AIO and/or io_uring
-> > > support, and we get that for free if we use readv2/writev2
-> > > interfaces.
-> > > 
-> > > Yes, it could be an ioctl() interface, but I think that this sort of
-> > > functionality is exactly what extensible syscalls like
-> > > preadv2/pwritev2 should be used for. It's a slight variant on normal
-> > > IO, and that's exactly what the RWF_* flags are intended to be used
-> > > for - allowing interesting per-IO variant behaviour without having
-> > > to completely re-implemnt the IO path via custom ioctls every time
-> > > we want slightly different functionality...
-> > 
-> > Al, Linus, what do you think? Is there a path forward for this series as
-> > is? I'd be happy to have this functionality merged in any form, but I do
-> > think that this approach with preadv2/pwritev2 using iov_len is decent
-> > relative to the alternatives.
-> 
-> IMO we might be better off with explicit ioctl - this magical mystery shite
-> with special meaning of the first iovec length is, IMO, more than enough
-> to make it a bad fit for read/write family.
-> 
-> It's *not* just a "slightly different functionality" - it's very different
-> calling conventions.  And the deeper one needs to dig into the interface
-> details to parse what's going on, the less it differs from ioctl() mess.
-> 
-> Said that, why do you need a variable-length header on the read side,
-> in the first place?
+On Wed, Jun 23, 2021 at 01:46:50PM -0700, Omar Sandoval wrote:
 
-Suppose we add a new field representing a new type of encoding to the
-end of encoded_iov. On the write side, the caller might want to specify
-that the data is encoded in that new way, of course. But on the read
-side, if the data is encoded in that new way, then the kernel will want
-to return that. The kernel needs to know if the user's structure
-includes the new field (otherwise when it copies the full struct out, it
-will write into what the user thinks is the data instead).
+> Suppose we add a new field representing a new type of encoding to the
+> end of encoded_iov. On the write side, the caller might want to specify
+> that the data is encoded in that new way, of course. But on the read
+> side, if the data is encoded in that new way, then the kernel will want
+> to return that. The kernel needs to know if the user's structure
+> includes the new field (otherwise when it copies the full struct out, it
+> will write into what the user thinks is the data instead).
 
-As I mentioned in my reply to Linus, maybe we can stick with
-preadv2/pwritev2, but make the struct encoded_iov structure a fixed size
-with some reserved space for future expansion. That makes this a lot
-less special: just copy a fixed size structure, then read/write the
-rest. And then we don't need to reinvent the rest of the
-preadv2/pwritev2 path for an ioctl.
+Er...  What's the problem with simply copying that extended structure out,
+followed by the data?
 
-Between a fixed size structure and an ioctl, what would you prefer?
+IOW, why can't the caller pick the header out of the whole thing and
+deal with it in whatever way it likes?  Why should kernel need to do
+anything special here?
+
+IDGI...  Userland had always been able to deal with that kind of stuff;
+you read e.g. gzipped data into buffer, you decode the header, you figure
+out how long it is and how far out does the payload begin, etc.
+
+How is that different?
