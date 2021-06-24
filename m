@@ -2,97 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DA313B29B8
-	for <lists+linux-api@lfdr.de>; Thu, 24 Jun 2021 09:50:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B67C83B3509
+	for <lists+linux-api@lfdr.de>; Thu, 24 Jun 2021 19:52:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231774AbhFXHxK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 24 Jun 2021 03:53:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38112 "EHLO
+        id S231488AbhFXRy7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 24 Jun 2021 13:54:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231755AbhFXHxK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Jun 2021 03:53:10 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16C65C06175F
-        for <linux-api@vger.kernel.org>; Thu, 24 Jun 2021 00:50:51 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id x22so2509865pll.11
-        for <linux-api@vger.kernel.org>; Thu, 24 Jun 2021 00:50:51 -0700 (PDT)
+        with ESMTP id S230480AbhFXRy6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Jun 2021 13:54:58 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97BB8C061756
+        for <linux-api@vger.kernel.org>; Thu, 24 Jun 2021 10:52:37 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id c16so8880137ljh.0
+        for <linux-api@vger.kernel.org>; Thu, 24 Jun 2021 10:52:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=DuYrhRvvccPm1tuDDRCCJiwUp+nK5oGg2qx9gi2wCLU=;
-        b=E1tHorlJ2Q3RtXy2nJKFiv2TCi095JaxSn8/8u2+X3wgTQWTBERzbcf8H4HdZg/T15
-         WDx7sMNuR9tHuIW8agdQY9Svoaxg8LsQLdkVMfUpZcReVik/5HGC/wKs9bkHPmizsW0x
-         thwgR+kpE3br7f3hLc1a8UugLTUYy5GjHzWlJMeb1S9HGzIDSkbfqN4IzukNrCw9fs3d
-         SiHtiYec9lBpnDytaWTGjJ+PwAoqne0/37fIYfRDFtIsZQP2755XH7Hmmeh9+1fQ34Dv
-         cE+7PmvyVj0kFKXZBvdA47kpRpGZ/G21O3ag+H3jWvj61qrcT1ItX2FlPQCF2oq+9Slf
-         o2gA==
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xXzv5t4y0ItgHpXo4Gzuok1AzI9JsF+CNwoC23K+8YE=;
+        b=M1HAJTPdELMbDEt8h2s5dhQionIdNRDyHkNhfhY1syeLAo6/VFxObkI/f+lokkkGcE
+         j1HF+yGNhbzK/YGIdkZj/X9CQbrxvaqIgb7AlEZBjCOvczeO+Yej2paumVA8emA9rYXt
+         mJQ5FMh8uo9EwCuu5+YVha+P+lPLPqVdEafsU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=DuYrhRvvccPm1tuDDRCCJiwUp+nK5oGg2qx9gi2wCLU=;
-        b=o4NQgkIEgxC1I5gvC+nThHo1qbho95by7hsjIc5pyF98Sf3X/eZ7ir0DLTKJjwWPaq
-         iFy1dfhoyRfPxluuetck3CYhzEHouo3dPoZ3k8hyq3m4DCAxdSmxigv+O02yJt5JDsU8
-         XbI2t1jPfnVm/C1p2ldcql8neLb7vXKTXMpa1lZ5MDkiuPuaECKyhJc/hheNqdxysG57
-         QB8zAub+iwBMuTXxy2NHD+9BE302/NKARrQoLtYTsV6KwhwHElwmKb8oVcuB1JcFttxL
-         ro/lkDfkrCQbKIkFkQK8dNWn6P2EKnIlhJvvMC94z9OMvHOyOeSJumWASYojWLAjm0To
-         gZDw==
-X-Gm-Message-State: AOAM530C2KWr9t2oW8HDNFfP44rD4w/6D4QsWXZm59c0pQT/zaroOymw
-        dyRIvjEu+Elv2MVGy3UJ8XVPZg==
-X-Google-Smtp-Source: ABdhPJyRfmSm1SUcUfxHGjDwmKcuk2FKqzM9vMqnbJyAcd/YNIZVThg+ZpYpW8IvtZGBWva8L+Kzsg==
-X-Received: by 2002:a17:902:ff16:b029:123:426a:9331 with SMTP id f22-20020a170902ff16b0290123426a9331mr3202253plj.34.1624521050548;
-        Thu, 24 Jun 2021 00:50:50 -0700 (PDT)
-Received: from relinquished.localdomain ([2601:602:8b80:8e0::ce6a])
-        by smtp.gmail.com with ESMTPSA id z204sm2029060pfc.84.2021.06.24.00.50.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jun 2021 00:50:49 -0700 (PDT)
-Date:   Thu, 24 Jun 2021 00:50:49 -0700
-From:   Omar Sandoval <osandov@osandov.com>
-To:     Christoph Hellwig <hch@infradead.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xXzv5t4y0ItgHpXo4Gzuok1AzI9JsF+CNwoC23K+8YE=;
+        b=oW5VGH6WZ6adWI7+rZh1BufqqNeDCrSrjEJC0vtnuxedx7Raq8eHFXTCQuJvyhVn51
+         a0O2AmVI39fSQHUHmtoh1yvgAskSZmcKxGGgyujBa/DMtpIvq5qDuALkX8lyV/VbHozk
+         c/+jWoWRtGIYPj05IDWWT4ngvpnwQpF1QqoI85NPSHWQEdlYjuCMGIP0k9HU1/aOea6w
+         DyYQ4lncovVJ9dH1ldnVeB50rVa6NDGHpIGWJKoYVt33mAWLKSzaXOsZc+b/qgEeaA5M
+         pKpu8ieA/oT7eW3zSFmXQC3cTWrW/OInWoDJc0bpUsSS+dM58B3VA4fVO/usw2nJaHlu
+         NUWQ==
+X-Gm-Message-State: AOAM531fjxCr9EFLsxn5DVxdZP6KMbu7BIkQDDY4/Xd6wKL339fGcZ/6
+        alyMNbd6UELOHfP4SItKdV1iHQ40UkmYzmzc
+X-Google-Smtp-Source: ABdhPJxuA+ubUjM81/cjZGkwTPgW9b9qGkWICcJcCjif3F8WgDaGCkM2EfLdtPTSM3let9bFRdi7QA==
+X-Received: by 2002:a2e:9951:: with SMTP id r17mr4970334ljj.496.1624557155723;
+        Thu, 24 Jun 2021 10:52:35 -0700 (PDT)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
+        by smtp.gmail.com with ESMTPSA id a15sm283344lfi.253.2021.06.24.10.52.33
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Jun 2021 10:52:33 -0700 (PDT)
+Received: by mail-lj1-f174.google.com with SMTP id q4so501238ljp.13
+        for <linux-api@vger.kernel.org>; Thu, 24 Jun 2021 10:52:33 -0700 (PDT)
+X-Received: by 2002:a2e:7813:: with SMTP id t19mr4741466ljc.411.1624557153074;
+ Thu, 24 Jun 2021 10:52:33 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAHk-=wh+-otnW30V7BUuBLF7Dg0mYaBTpdkH90Ov=zwLQorkQw@mail.gmail.com>
+ <YND6jOrku2JDgqjt@relinquished.localdomain> <YND8p7ioQRfoWTOU@relinquished.localdomain>
+ <20210622220639.GH2419729@dread.disaster.area> <YNN0P4KWH+Uj7dTE@relinquished.localdomain>
+ <YNOPdy14My+MHmy8@zeniv-ca.linux.org.uk> <YNOdunP+Fvhbsixb@relinquished.localdomain>
+ <YNOqJIto1t13rPYZ@zeniv-ca.linux.org.uk> <YNOuiMfRO51kLcOE@relinquished.localdomain>
+ <YNPnRyasHVq9NF79@casper.infradead.org> <YNQi3vgCLVs/ExiK@relinquished.localdomain>
+In-Reply-To: <YNQi3vgCLVs/ExiK@relinquished.localdomain>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Thu, 24 Jun 2021 10:52:17 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whmRQWm_gVek32ekPqBi3zAKOsdK6_6Hx8nHp3H5JAMew@mail.gmail.com>
+Message-ID: <CAHk-=whmRQWm_gVek32ekPqBi3zAKOsdK6_6Hx8nHp3H5JAMew@mail.gmail.com>
+Subject: Re: [PATCH RESEND x3 v9 1/9] iov_iter: add copy_struct_from_iter()
+To:     Omar Sandoval <osandov@osandov.com>
 Cc:     Matthew Wilcox <willy@infradead.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
         Dave Chinner <david@fromorbit.com>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         linux-btrfs <linux-btrfs@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
         Kernel Team <kernel-team@fb.com>,
         Dave Chinner <dchinner@redhat.com>
-Subject: Re: [PATCH RESEND x3 v9 1/9] iov_iter: add copy_struct_from_iter()
-Message-ID: <YNQ5WbH+Gu37nLoS@relinquished.localdomain>
-References: <YND6jOrku2JDgqjt@relinquished.localdomain>
- <YND8p7ioQRfoWTOU@relinquished.localdomain>
- <20210622220639.GH2419729@dread.disaster.area>
- <YNN0P4KWH+Uj7dTE@relinquished.localdomain>
- <YNOPdy14My+MHmy8@zeniv-ca.linux.org.uk>
- <YNOdunP+Fvhbsixb@relinquished.localdomain>
- <YNOqJIto1t13rPYZ@zeniv-ca.linux.org.uk>
- <YNOuiMfRO51kLcOE@relinquished.localdomain>
- <YNPnRyasHVq9NF79@casper.infradead.org>
- <YNQpCGQUIv3kvvPQ@infradead.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YNQpCGQUIv3kvvPQ@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jun 24, 2021 at 07:41:12AM +0100, Christoph Hellwig wrote:
-> I'm also really worried with overloading the regular r/w path and
-> iov_iter with ever more special cases.  We already have various
-> performance problems in the path, and adding more special cases ain't
-> gonna help.
+On Wed, Jun 23, 2021 at 11:15 PM Omar Sandoval <osandov@osandov.com> wrote:
+>
+> On Thu, Jun 24, 2021 at 03:00:39AM +0100, Matthew Wilcox wrote:
+> >
+> > Does that work for O_DIRECT and the required 512-byte alignment?
+>
+> I suppose the kernel could pad the encoded_iov structure with zeroes to
+> the next sector boundary, since zeroes are effectively noops for
+> encoded_iov.
 
-The changes to the normal path are:
+Ugh.
 
-* An extra check for RWF_ENCODED and FMODE_ENCODED_IO in kiocb_set_rw_flags().
-* Splitting some of the checks in generic_write_checks() into a new
-  function.
-* Checks for the IOCB_ENCODED flag in the filesystem's
-  read_iter/write_iter.
+I really think the whole "embed the control structure in the stream"
+is wrong. The alignment issue is just another sign of that.
 
-At least for Btrfs, the rest happens in a completely separate code path.
-So, there are a couple of extra checks, but it's not as drastic as it
-might first appear.
+Separating it out is the right thing to do. At least the "first iov
+entry" thing did separate the control structure from the actual data.
+I detest the whole "embed the two together".
+
+            Linus
