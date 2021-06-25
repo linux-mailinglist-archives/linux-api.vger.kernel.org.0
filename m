@@ -2,96 +2,137 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B135B3B494A
-	for <lists+linux-api@lfdr.de>; Fri, 25 Jun 2021 21:38:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE13B3B49ED
+	for <lists+linux-api@lfdr.de>; Fri, 25 Jun 2021 23:08:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229712AbhFYTlH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 25 Jun 2021 15:41:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41952 "EHLO
+        id S229796AbhFYVKY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 25 Jun 2021 17:10:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229741AbhFYTlD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Jun 2021 15:41:03 -0400
-Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com [IPv6:2607:f8b0:4864:20::b43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5367BC0617A6
-        for <linux-api@vger.kernel.org>; Fri, 25 Jun 2021 12:38:41 -0700 (PDT)
-Received: by mail-yb1-xb43.google.com with SMTP id p15so6309739ybe.6
-        for <linux-api@vger.kernel.org>; Fri, 25 Jun 2021 12:38:41 -0700 (PDT)
+        with ESMTP id S229531AbhFYVKY (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Jun 2021 17:10:24 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D70B7C061574
+        for <linux-api@vger.kernel.org>; Fri, 25 Jun 2021 14:08:02 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id l11so6132706pji.5
+        for <linux-api@vger.kernel.org>; Fri, 25 Jun 2021 14:08:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=2HpyCQpwgrc/aHBUoC6zr6QEL1NXeYoH0TAbwDDPVvg=;
-        b=rCKUqWmA8BR+GD7NPd5osBBesTgg+evmAfXhrRF8zb4z8ZMK0qCgFyAA7LUe27T8P7
-         TSf3Uv+f+ECGua1fdB5rglTVz1nwjNSe93+OrA+QThSAmYR/Eal2ozgqx63auaRIgxld
-         4FadkGkwTeG85tJBJTsFk+X6KKa3QprzdpV0+zfxK4YAXtZfp4eh0y6ZjawnEmcdo21T
-         UMxvvC66okxP3/PJIpsOq8yo885nyGi/ZeWNuZP2OL/Fd2G8VaPQLrJhp60UgR+Xo8Al
-         Qm4e5ErJkggRj1Qyt9e7JrajXErvsvXf5P6c6fDGfa42tuUouTgoz0oXgZDC+wc619wd
-         1cuw==
+        d=osandov-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=iwdrmqNuPsOzJ+vHk2n49886jjtTpzSZRkfEIGBbrK4=;
+        b=Mxh1EfJo071k5FikITprA7j5KY1IpIuJVfvkEl7ZWsosdwyTDiEvFDy740fuGMhGIQ
+         AxAOKh8mDMZ3Zk0bZBUGmheDV4XKa+X5VOYjR3tb552FmUqirzTC69g1j2uI2Zt2HVSC
+         kC6sm4BY7G892gR8UZP2ovtLklcLtsSgGVp0NNXyyseHl767ePNdRsR3hjnDZhBiWprh
+         R9peJ861wi34qzN4qW/8ANN6oeKZBRo6YVCBE2raFlTFBPxATQ3fedEwqYhLpKPXU2ha
+         c75O8Mh2sIjpWzsruGt1Dlto433gIoPup3EMvmVJIeODO8h4Hfc9AwQturZpSOGnOy6W
+         LGNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=2HpyCQpwgrc/aHBUoC6zr6QEL1NXeYoH0TAbwDDPVvg=;
-        b=P7qWV4FgMBGVK0wxS/FWrc1kpbQI5oNk/jRzg3ABf3QH3pw5e/R+0X1S9pEbZG0Vnx
-         Vyg8Vldt80w6xQoLp5t4iQPIBjDwplW/ZHM3l+Noh5zv5X5AjnF2OR+zcTyLSpghk+AD
-         P4BBoRdX4rm0LsT+Lj4+j1WmeS3Z53XRgIne/dvRBtbewjEXvscT2Whoh86kBpc3bzRu
-         OboHZIgYg/amx08uwDLOVli1CGPuIT0mAbQTsmbqbHp58f5CvAdc/235TNqLwgwLI4p+
-         j0dFsbPHQ2p1tIHLHDLpX2WS0SKPDPBwuyZAPV47bODAk6q8LWfbt2hNDV2GWGsvvRoO
-         C+Mg==
-X-Gm-Message-State: AOAM533yb98Tq7enjOfBuBpR/dLgU7tU48TOSFbya/qoStk95RSKgT9Q
-        kG5mV4e5nAigTJWQa7VKycK98tTOUmlNBT9zPFU=
-X-Google-Smtp-Source: ABdhPJwWrQNuNZxJVRgZ6OyCpXU7UMd7juCG0/SNLsqNYboCpkG5Ko4xGq2mmulw/dsxHVnF0g6HKsb6XujKmniOeCw=
-X-Received: by 2002:a25:ace1:: with SMTP id x33mr12941360ybd.28.1624649920336;
- Fri, 25 Jun 2021 12:38:40 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=iwdrmqNuPsOzJ+vHk2n49886jjtTpzSZRkfEIGBbrK4=;
+        b=qiCUZ+ebYRxW9HgiRJL6g5O5gpvbx0ScTA3HB2epx0cOzHmVe6/wNM1nEYJxBrs1oY
+         CokqXt8oA4iI1/Rl1rQqt27yBRi4JXS93k89IYsTooG4bnBk8/FA3g2ItNhbUHUBoJQo
+         a3+4472qYMXB6HoDKp/zEKNIvLC6K8zX5RihmCHjse9Vtk1fLEdA+cFy0ypo+N8OjGk2
+         mNSXViimX7880X5/aqOop0qiHp/qI7LfS7lchLS2u4di1xAR+Vs2EtZ3WlKyKbzlz4fG
+         z50fL9TsZsp6NPCVA9O07WRfmsMyXJVYdMPykBzsuPLnLjBxzUuJk1ZJ5CpDNrySO0xt
+         rN+g==
+X-Gm-Message-State: AOAM531E4vOvuHVT/WSlPpOkdLg7eacPZnFwt8/oey94fZbO6cS8M4Ew
+        sxcnji4XGUzaQ+B68RGvwg8Rpg==
+X-Google-Smtp-Source: ABdhPJwR+3izSSktVvZl0BZ1BTZ8AP1mV7Dv3U/8nWTz+Ja1L+paTYW+Uc/D2EqGapUY+o0q7OmDBQ==
+X-Received: by 2002:a17:90a:db0c:: with SMTP id g12mr13113680pjv.166.1624655282162;
+        Fri, 25 Jun 2021 14:08:02 -0700 (PDT)
+Received: from relinquished.localdomain ([2620:10d:c090:400::5:dd6d])
+        by smtp.gmail.com with ESMTPSA id l6sm6381275pgh.34.2021.06.25.14.08.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Jun 2021 14:08:01 -0700 (PDT)
+Date:   Fri, 25 Jun 2021 14:07:59 -0700
+From:   Omar Sandoval <osandov@osandov.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Dave Chinner <david@fromorbit.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-btrfs <linux-btrfs@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Kernel Team <kernel-team@fb.com>,
+        Dave Chinner <dchinner@redhat.com>
+Subject: Re: [PATCH RESEND x3 v9 1/9] iov_iter: add copy_struct_from_iter()
+Message-ID: <YNZFr7oJj1nkrwJY@relinquished.localdomain>
+References: <YNOqJIto1t13rPYZ@zeniv-ca.linux.org.uk>
+ <YNOuiMfRO51kLcOE@relinquished.localdomain>
+ <YNPnRyasHVq9NF79@casper.infradead.org>
+ <YNQi3vgCLVs/ExiK@relinquished.localdomain>
+ <CAHk-=whmRQWm_gVek32ekPqBi3zAKOsdK6_6Hx8nHp3H5JAMew@mail.gmail.com>
+ <YNTO1T6BEzmG6Uj5@relinquished.localdomain>
+ <CAHk-=wi37_ccWmq1EKTduS8ms_=KpyY2LwJV7roD+s=ZkBkjCw@mail.gmail.com>
+ <yq1tulmoqxf.fsf@ca-mkp.ca.oracle.com>
+ <YNVPp/Pgqshami3U@casper.infradead.org>
+ <CAHk-=wgH5pUbrL7CM5v6TWyNzDYpVM9k1qYCEgmY+b3Gx9nEAA@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 2002:a05:7010:7420:b029:be:3f87:f344 with HTTP; Fri, 25 Jun 2021
- 12:38:40 -0700 (PDT)
-Reply-To: lukaszjanuszjanuszewski@gmail.com
-From:   =?UTF-8?Q?=C5=81ukasz_Janusz_Januszewski?= 
-        <prof.charles087@gmail.com>
-Date:   Fri, 25 Jun 2021 12:38:40 -0700
-Message-ID: <CAAQ5Uk6DvT6ebxiTn8WnZ0JaNYSmcj7Xii0NpWT-gzVeTR7+CQ@mail.gmail.com>
-Subject: Business Offer!!!
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wgH5pUbrL7CM5v6TWyNzDYpVM9k1qYCEgmY+b3Gx9nEAA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
---=20
-Dear Friend,
+On Fri, Jun 25, 2021 at 09:16:15AM -0700, Linus Torvalds wrote:
+> On Thu, Jun 24, 2021 at 8:38 PM Matthew Wilcox <willy@infradead.org> wrote:
+> >
+> > Does it make any kind of sense to talk about doing this for buffered I/O,
+> > given that we can't generate them for (eg) mmaped files?
+> 
+> Sure we can.
+> 
+> Or rather, some people might very well like to do it even for mutable
+> data. In fact, _especially_ for mutable data.
+> 
+> You might want to do things like "write out the state I verified just
+> a moment ago", and if it has changed since then, you *want* the result
+> to be invalid because the checksums no longer match - in case somebody
+> else changed the data you used for the state calculation and
+> verification in the meantime. It's very much why you'd want a separate
+> checksum in the first place.
+> 
+> Yeah, yeah,  you can - and people do - just do things like this with a
+> separate checksum. But if you know that the filesystem has internal
+> checksumming support _anyway_, you might want to use it, and basically
+> say "use this checksum, if the data doesn't match when I read it back
+> I want to get an IO error".
+> 
+> (The "data doesn't match" _could_ be just due to DRAM corruption etc,
+> of course. Some people care about things like that. You want
+> "verified" filesystem contents - it might not be about security, it
+> might simply be about "I have validated this data and if it's not the
+> same data any more it's useless and I need to re-generate it").
+> 
+> Am I a big believer in this model? No. Portability concerns (across
+> OS'es, across filesystems, even just across backups on the same exact
+> system) means that even if we did this, very few people would use it.
+> 
+> People who want this end up using an external checksum instead and do
+> it outside of and separately from the actual IO, because then they can
+> do it on existing systems.
+> 
+> So my argument is not "we want this". My argument is purely that some
+> buffered filesystem IO case isn't actually any different from the
+> traditional "I want access to the low-level sector hardware checksum
+> data". The use cases are basically exactly the same.
+> 
+> Of course, basically nobody does that hw sector checksum either, for
+> all the same reasons, even if it's been around for decades.
+> 
+> So my "checksum metadata interface" is not something I'm a big
+> believer in, but I really don't think it's really all _that_ different
+> from the whole "compressed format interface" that this whole patch
+> series is about. They are pretty much the same thing in many ways.
 
-My sincere apologies for sending you this unsolicited e-mail, but
-based on strong instincts and deep conviction that you are a matured,
-trustworthy and reliable person, I am compelled to write you and seek
-your hand/co-operation in an investment/business scheme that will be
-mutually beneficial.
-
-My name is =C5=81ukasz Janusz Januszewski, Markets & Investment Banking,
-Raiffeisen Bank International AG, Vienna, Austria. I by virtue of my
-position have some good substantial sums of money in a private coded
-bank account and I am seeking someone like you who will help me to
-receive and have it invested in a profitable business venture in your
-country.
-
-Meanwhile, be rest assured that this offer is RISK-FREE but due to my
-status in the society, you are required to keep this offer strictly
-confidential and top secret. Kindly oblige me your full names, private
-e-mail address, your age, contact phone number, your profession and
-nationality.
-
-Upon receipt of your positive response, I will oblige you fuller
-details in my next e-mail correspondence, as it is said, "the taste of
-the pudding is in the eating" so join hands with me to make this
-once-in-a-life-opportunity a resounding success. Please have total
-faith on this offer and TRUST me on this too!
-
-Thank you very much.
-
-Sincerely,
-
-=C5=81ukasz Janusz Januszewski,
-Markets & Investment Banking,
-Raiffeisen Bank International AG,
-Vienna, Austria.
+I see the similarity in the sense that we basically want to pass some
+extra metadata down with the read or write. So then do we want to add
+preadv3/pwritev3 for encoded I/O now so that checksums can use it in the
+future? The encoding metadata could go in this "struct io_how", either
+directly or in a separate structure with a pointer in "struct io_how".
+It could get messy with compat syscalls.
