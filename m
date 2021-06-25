@@ -2,137 +2,144 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE13B3B49ED
-	for <lists+linux-api@lfdr.de>; Fri, 25 Jun 2021 23:08:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 710DC3B49F3
+	for <lists+linux-api@lfdr.de>; Fri, 25 Jun 2021 23:08:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229796AbhFYVKY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 25 Jun 2021 17:10:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33224 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbhFYVKY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Jun 2021 17:10:24 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D70B7C061574
-        for <linux-api@vger.kernel.org>; Fri, 25 Jun 2021 14:08:02 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id l11so6132706pji.5
-        for <linux-api@vger.kernel.org>; Fri, 25 Jun 2021 14:08:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=iwdrmqNuPsOzJ+vHk2n49886jjtTpzSZRkfEIGBbrK4=;
-        b=Mxh1EfJo071k5FikITprA7j5KY1IpIuJVfvkEl7ZWsosdwyTDiEvFDy740fuGMhGIQ
-         AxAOKh8mDMZ3Zk0bZBUGmheDV4XKa+X5VOYjR3tb552FmUqirzTC69g1j2uI2Zt2HVSC
-         kC6sm4BY7G892gR8UZP2ovtLklcLtsSgGVp0NNXyyseHl767ePNdRsR3hjnDZhBiWprh
-         R9peJ861wi34qzN4qW/8ANN6oeKZBRo6YVCBE2raFlTFBPxATQ3fedEwqYhLpKPXU2ha
-         c75O8Mh2sIjpWzsruGt1Dlto433gIoPup3EMvmVJIeODO8h4Hfc9AwQturZpSOGnOy6W
-         LGNQ==
+        id S229940AbhFYVKo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 25 Jun 2021 17:10:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41602 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229812AbhFYVKk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Jun 2021 17:10:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1624655298;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=8ZDICObM3KXek2Hb3yoYurGVvyXCqbMuKZU9WccmR1E=;
+        b=DWfL8hLf6RsN8v6vR+QK3l/KkUsTnb4xTrOPKeCaQuvJ22XJd9/PpXIYkyi8dCO3t/ynyk
+        9oq0zDAWEfaXZRuvg6QYmirBVzi248iY+DHLUr//hUGFS1I9n4Y+wG4PjAsFDbePGJllHJ
+        0r5WWvPaXf9biEAhxSqXUCBlz1V3YcE=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-269-2GjuWgJLOv2PKT214h_SEw-1; Fri, 25 Jun 2021 17:08:16 -0400
+X-MC-Unique: 2GjuWgJLOv2PKT214h_SEw-1
+Received: by mail-lj1-f200.google.com with SMTP id y10-20020a05651c154ab02901337d2c58f3so3781499ljp.9
+        for <linux-api@vger.kernel.org>; Fri, 25 Jun 2021 14:08:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=iwdrmqNuPsOzJ+vHk2n49886jjtTpzSZRkfEIGBbrK4=;
-        b=qiCUZ+ebYRxW9HgiRJL6g5O5gpvbx0ScTA3HB2epx0cOzHmVe6/wNM1nEYJxBrs1oY
-         CokqXt8oA4iI1/Rl1rQqt27yBRi4JXS93k89IYsTooG4bnBk8/FA3g2ItNhbUHUBoJQo
-         a3+4472qYMXB6HoDKp/zEKNIvLC6K8zX5RihmCHjse9Vtk1fLEdA+cFy0ypo+N8OjGk2
-         mNSXViimX7880X5/aqOop0qiHp/qI7LfS7lchLS2u4di1xAR+Vs2EtZ3WlKyKbzlz4fG
-         z50fL9TsZsp6NPCVA9O07WRfmsMyXJVYdMPykBzsuPLnLjBxzUuJk1ZJ5CpDNrySO0xt
-         rN+g==
-X-Gm-Message-State: AOAM531E4vOvuHVT/WSlPpOkdLg7eacPZnFwt8/oey94fZbO6cS8M4Ew
-        sxcnji4XGUzaQ+B68RGvwg8Rpg==
-X-Google-Smtp-Source: ABdhPJwR+3izSSktVvZl0BZ1BTZ8AP1mV7Dv3U/8nWTz+Ja1L+paTYW+Uc/D2EqGapUY+o0q7OmDBQ==
-X-Received: by 2002:a17:90a:db0c:: with SMTP id g12mr13113680pjv.166.1624655282162;
-        Fri, 25 Jun 2021 14:08:02 -0700 (PDT)
-Received: from relinquished.localdomain ([2620:10d:c090:400::5:dd6d])
-        by smtp.gmail.com with ESMTPSA id l6sm6381275pgh.34.2021.06.25.14.08.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Jun 2021 14:08:01 -0700 (PDT)
-Date:   Fri, 25 Jun 2021 14:07:59 -0700
-From:   Omar Sandoval <osandov@osandov.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Dave Chinner <david@fromorbit.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-btrfs <linux-btrfs@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Kernel Team <kernel-team@fb.com>,
-        Dave Chinner <dchinner@redhat.com>
-Subject: Re: [PATCH RESEND x3 v9 1/9] iov_iter: add copy_struct_from_iter()
-Message-ID: <YNZFr7oJj1nkrwJY@relinquished.localdomain>
-References: <YNOqJIto1t13rPYZ@zeniv-ca.linux.org.uk>
- <YNOuiMfRO51kLcOE@relinquished.localdomain>
- <YNPnRyasHVq9NF79@casper.infradead.org>
- <YNQi3vgCLVs/ExiK@relinquished.localdomain>
- <CAHk-=whmRQWm_gVek32ekPqBi3zAKOsdK6_6Hx8nHp3H5JAMew@mail.gmail.com>
- <YNTO1T6BEzmG6Uj5@relinquished.localdomain>
- <CAHk-=wi37_ccWmq1EKTduS8ms_=KpyY2LwJV7roD+s=ZkBkjCw@mail.gmail.com>
- <yq1tulmoqxf.fsf@ca-mkp.ca.oracle.com>
- <YNVPp/Pgqshami3U@casper.infradead.org>
- <CAHk-=wgH5pUbrL7CM5v6TWyNzDYpVM9k1qYCEgmY+b3Gx9nEAA@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8ZDICObM3KXek2Hb3yoYurGVvyXCqbMuKZU9WccmR1E=;
+        b=T2spbcqOf/dsssrQQ76/VXHV78LGPOLKQi/xKSl3fwvkFkBfCFV21p+pRAkHJ0QgUM
+         dkEE/idYEOqpG/ZLmFTLsjOo+tnNTxIfPKul2gqa4EQNC0rQgE0FxkWsN0q+lYddqyKi
+         e1oHI1qfHWsihKZ4BPS5vsOPGUgbi71eqf0BNCAF8M7In4KjnF+AjgwtJZYfDRWkr1Rd
+         xSxchJC9ZXiVAHI0GarAETi+WWMz3Dv9RF8rtIs+QXoBOCVw0YeWNjlfR8gxl8T8Swuy
+         jsw6eoFzLeRzrYwhvf73sPgwaYYtYfhzyTsrGXER9nd/7SKqTnaRdBN5y1DAZnMiX7Zs
+         ySSw==
+X-Gm-Message-State: AOAM530voscTElBGcREO9NR7ZXU5BKsncmjgOHT9hI1SCxEhGKD4JMt6
+        eDzErFVBD+oEBfptnYq6FZuBc7a6Kzm3uNTFUlE0JDLvAAxXsyY2fePNvsOlVvXIHkwMIYksG61
+        BFZikqH58edEuTr+PFOierjM65l/t1ShDNHhK
+X-Received: by 2002:a19:520b:: with SMTP id m11mr9732684lfb.548.1624655295025;
+        Fri, 25 Jun 2021 14:08:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxUexlIFHXeeKXO03SmwGePdENz2CjY0tC2d9T70zel0UdMzzrYS7rF2Shg08+5Cqm1V6fr5JNcCCdgzQuLKqk=
+X-Received: by 2002:a19:520b:: with SMTP id m11mr9732628lfb.548.1624655294717;
+ Fri, 25 Jun 2021 14:08:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wgH5pUbrL7CM5v6TWyNzDYpVM9k1qYCEgmY+b3Gx9nEAA@mail.gmail.com>
+References: <20210617182242.8637-1-nitesh@redhat.com> <20210617182242.8637-15-nitesh@redhat.com>
+ <YNBHQvo1uDfBbr5c@unreal>
+In-Reply-To: <YNBHQvo1uDfBbr5c@unreal>
+From:   Nitesh Lal <nilal@redhat.com>
+Date:   Fri, 25 Jun 2021 17:08:03 -0400
+Message-ID: <CAFki+L=2nVA3FB03BjuXbj+di28LhVUzo9P9WoJyxoQFggt0VQ@mail.gmail.com>
+Subject: Re: [PATCH v1 14/14] net/mlx4: Use irq_update_affinity_hint
+To:     Leon Romanovsky <leon@kernel.org>
+Cc:     Nitesh Narayan Lal <nitesh@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-pci@vger.kernel.org,
+        tglx@linutronix.de, jesse.brandeburg@intel.com,
+        robin.murphy@arm.com, mtosatti@redhat.com, mingo@kernel.org,
+        jbrandeb@kernel.org, frederic@kernel.org, juri.lelli@redhat.com,
+        abelits@marvell.com, bhelgaas@google.com, rostedt@goodmis.org,
+        peterz@infradead.org, davem@davemloft.net,
+        akpm@linux-foundation.org, sfr@canb.auug.org.au,
+        stephen@networkplumber.org, rppt@linux.vnet.ibm.com,
+        chris.friesen@windriver.com, maz@kernel.org, nhorman@tuxdriver.com,
+        pjwaskiewicz@gmail.com, sassmann@redhat.com, thenzl@redhat.com,
+        kashyap.desai@broadcom.com, sumit.saxena@broadcom.com,
+        shivasharan.srikanteshwara@broadcom.com,
+        sathya.prakash@broadcom.com, sreekanth.reddy@broadcom.com,
+        suganath-prabu.subramani@broadcom.com, james.smart@broadcom.com,
+        dick.kennedy@broadcom.com, jkc@redhat.com, faisal.latif@intel.com,
+        shiraz.saleem@intel.com, tariqt@nvidia.com, ahleihel@redhat.com,
+        kheib@redhat.com, borisp@nvidia.com, saeedm@nvidia.com,
+        benve@cisco.com, govind@gmx.com, jassisinghbrar@gmail.com,
+        luobin9@huawei.com, ajit.khaparde@broadcom.com,
+        sriharsha.basavapatna@broadcom.com, somnath.kotur@broadcom.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jun 25, 2021 at 09:16:15AM -0700, Linus Torvalds wrote:
-> On Thu, Jun 24, 2021 at 8:38 PM Matthew Wilcox <willy@infradead.org> wrote:
+On Mon, Jun 21, 2021 at 4:02 AM Leon Romanovsky <leon@kernel.org> wrote:
+>
+> On Thu, Jun 17, 2021 at 02:22:42PM -0400, Nitesh Narayan Lal wrote:
+> > The driver uses irq_set_affinity_hint() to update the affinity_hint mask
+> > that is consumed by the userspace to distribute the interrupts. However,
+> > under the hood irq_set_affinity_hint() also applies the provided cpumask
+> > (if not NULL) as the affinity for the given interrupt which is an
+> > undocumented side effect.
 > >
-> > Does it make any kind of sense to talk about doing this for buffered I/O,
-> > given that we can't generate them for (eg) mmaped files?
-> 
-> Sure we can.
-> 
-> Or rather, some people might very well like to do it even for mutable
-> data. In fact, _especially_ for mutable data.
-> 
-> You might want to do things like "write out the state I verified just
-> a moment ago", and if it has changed since then, you *want* the result
-> to be invalid because the checksums no longer match - in case somebody
-> else changed the data you used for the state calculation and
-> verification in the meantime. It's very much why you'd want a separate
-> checksum in the first place.
-> 
-> Yeah, yeah,  you can - and people do - just do things like this with a
-> separate checksum. But if you know that the filesystem has internal
-> checksumming support _anyway_, you might want to use it, and basically
-> say "use this checksum, if the data doesn't match when I read it back
-> I want to get an IO error".
-> 
-> (The "data doesn't match" _could_ be just due to DRAM corruption etc,
-> of course. Some people care about things like that. You want
-> "verified" filesystem contents - it might not be about security, it
-> might simply be about "I have validated this data and if it's not the
-> same data any more it's useless and I need to re-generate it").
-> 
-> Am I a big believer in this model? No. Portability concerns (across
-> OS'es, across filesystems, even just across backups on the same exact
-> system) means that even if we did this, very few people would use it.
-> 
-> People who want this end up using an external checksum instead and do
-> it outside of and separately from the actual IO, because then they can
-> do it on existing systems.
-> 
-> So my argument is not "we want this". My argument is purely that some
-> buffered filesystem IO case isn't actually any different from the
-> traditional "I want access to the low-level sector hardware checksum
-> data". The use cases are basically exactly the same.
-> 
-> Of course, basically nobody does that hw sector checksum either, for
-> all the same reasons, even if it's been around for decades.
-> 
-> So my "checksum metadata interface" is not something I'm a big
-> believer in, but I really don't think it's really all _that_ different
-> from the whole "compressed format interface" that this whole patch
-> series is about. They are pretty much the same thing in many ways.
+> > To remove this side effect irq_set_affinity_hint() has been marked
+> > as deprecated and new interfaces have been introduced. Hence, replace the
+> > irq_set_affinity_hint() with the new interface irq_update_affinity_hint()
+> > that only updates the affinity_hint pointer.
+> >
+> > Signed-off-by: Nitesh Narayan Lal <nitesh@redhat.com>
+> > ---
+> >  drivers/net/ethernet/mellanox/mlx4/eq.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/net/ethernet/mellanox/mlx4/eq.c b/drivers/net/ethernet/mellanox/mlx4/eq.c
+> > index 9e48509ed3b2..f549d697ca95 100644
+> > --- a/drivers/net/ethernet/mellanox/mlx4/eq.c
+> > +++ b/drivers/net/ethernet/mellanox/mlx4/eq.c
+> > @@ -244,9 +244,9 @@ static void mlx4_set_eq_affinity_hint(struct mlx4_priv *priv, int vec)
+> >           cpumask_empty(eq->affinity_mask))
+> >               return;
+> >
+> > -     hint_err = irq_set_affinity_hint(eq->irq, eq->affinity_mask);
+> > +     hint_err = irq_update_affinity_hint(eq->irq, eq->affinity_mask);
+> >       if (hint_err)
+> > -             mlx4_warn(dev, "irq_set_affinity_hint failed, err %d\n", hint_err);
+> > +             mlx4_warn(dev, "irq_update_affinity_hint failed, err %d\n", hint_err);
+> >  }
+> >  #endif
+> >
+> > @@ -1124,7 +1124,7 @@ static void mlx4_free_irqs(struct mlx4_dev *dev)
+> >               if (eq_table->eq[i].have_irq) {
+> >                       free_cpumask_var(eq_table->eq[i].affinity_mask);
+> >  #if defined(CONFIG_SMP)
+> > -                     irq_set_affinity_hint(eq_table->eq[i].irq, NULL);
+> > +                     irq_update_affinity_hint(eq_table->eq[i].irq, NULL);
+> >  #endif
+>
+> This #if/endif can be deleted.
 
-I see the similarity in the sense that we basically want to pass some
-extra metadata down with the read or write. So then do we want to add
-preadv3/pwritev3 for encoded I/O now so that checksums can use it in the
-future? The encoding metadata could go in this "struct io_how", either
-directly or in a separate structure with a pointer in "struct io_how".
-It could get messy with compat syscalls.
+I think we also can get rid of the other #if/endif CONFIG_SMP
+occurrences that are present around mlx4_set_eq_affinity_hint()
+definition and call, isn't it?
+There is already a check-in interrupt.h so doing it again in the
+driver looks like an unwanted repetition IMHO.
+
+>
+> Thanks,
+> Reviewed-by: Leon Romanovsky <leonro@nvidia.com>
+>
+
+
+-- 
+Thanks
+Nitesh
+
