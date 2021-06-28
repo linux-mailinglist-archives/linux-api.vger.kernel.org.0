@@ -2,70 +2,98 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 362873B5EC0
-	for <lists+linux-api@lfdr.de>; Mon, 28 Jun 2021 15:12:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AF723B5ED0
+	for <lists+linux-api@lfdr.de>; Mon, 28 Jun 2021 15:21:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232598AbhF1NOd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 28 Jun 2021 09:14:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47140 "EHLO
+        id S233128AbhF1NXc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 28 Jun 2021 09:23:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232502AbhF1NOd (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Jun 2021 09:14:33 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BEA5C061574;
-        Mon, 28 Jun 2021 06:12:08 -0700 (PDT)
+        with ESMTP id S232507AbhF1NX3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Jun 2021 09:23:29 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24389C061574;
+        Mon, 28 Jun 2021 06:21:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=DoOU4Ye85iqHkPCggtrUrtpKi/JT315TV3vpm+/Y/5M=; b=NIDwCLJywS5m/1hR5mnTPJw6YX
-        QUTpMMJZVek78cmbuFGnRBKc9NmFD4E3bv7HNyuGKTY6bM1EmdW/dMYJUHLlLsQzCtJf+7nH3kuPJ
-        0acr8oPi7TvFmmiIDhAyKjuqAnRsqBb4Fg3DIegHzRcoTPg4x/44pnC1Bf914Np5Nc3V6JTq1LHVo
-        UYz1iyyu1J7o49tkc8k7I3pDjRgSdk6coI2muUKFYug1wNI4RH+Stsw/FBh9jtQJywtWXBIju/VHd
-        lMC3HIFrJ/nROziYSHf9/qy1pMXjHSEJmCM87h4SH9Y+OWel1TFZ4W4xFcx8Mv5KEq9/zNj+mu7Zh
-        5TG2eFBw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1lxr22-002zqx-NA; Mon, 28 Jun 2021 13:10:52 +0000
-Date:   Mon, 28 Jun 2021 14:10:34 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Peter Collingbourne <pcc@google.com>
-Cc:     John Hubbard <jhubbard@nvidia.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Jann Horn <jannh@google.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-mm@kvack.org, kernel test robot <lkp@intel.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4] mm: introduce reference pages
-Message-ID: <YNnKSkcAM05tmPta@casper.infradead.org>
-References: <20210619092002.1791322-1-pcc@google.com>
+        bh=tETVd4qfZs7ZyGjHOxKkFCYCB/FaFBzlz/HaF4lqmR8=; b=m+9V3FPa/m6WA3KarpSESel7V5
+        F2SVzBINIxzlN0tdjV5WAFh1r6Rd/sWy9bVKMxOA8i3pl7PHSJS2cNgvTa6F3RAdTFOclcW4GeJBm
+        qC2UswMQeO9cB/MlxC9Eeu1Ubk6qr1i3QB7/QivQsfFU3DZA8h/qHaKpjrSUocCNcmGGIcWPgWXis
+        l1PBWmSdKvKve9mrKoRgzbj2LXP7ohe52DZu0zyvrAWPoutX0X5otnqcZ7RKiu0xWv2r61WbqkwvE
+        8ulItWULPYD5y/ZnBAOYuqXLZMksSZnWeWRo5V320CTNB3rRzp24x/wa7b/M0ozEIWQeKnE879s3C
+        pwDCYQOw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1lxrBx-00CZ9E-68; Mon, 28 Jun 2021 13:20:49 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 2E82F300242;
+        Mon, 28 Jun 2021 15:20:48 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 0F0E320157117; Mon, 28 Jun 2021 15:20:48 +0200 (CEST)
+Date:   Mon, 28 Jun 2021 15:20:48 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Cc:     Thiago Macieira <thiago.macieira@intel.com>, fweimer@redhat.com,
+        hjl.tools@gmail.com, libc-alpha@sourceware.org,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        x86@kernel.org
+Subject: Re: x86 CPU features detection for applications (and AMX)
+Message-ID: <YNnMsJJzI83cpnAQ@hirez.programming.kicks-ass.net>
+References: <22261946.eFiGugXE7Z@tjmaciei-mobl1>
+ <3c5c29e2-1b52-3576-eda2-018fb1e58ff9@metux.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210619092002.1791322-1-pcc@google.com>
+In-Reply-To: <3c5c29e2-1b52-3576-eda2-018fb1e58ff9@metux.net>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Jun 19, 2021 at 02:20:02AM -0700, Peter Collingbourne wrote:
-> +++ b/include/linux/mm.h
-> @@ -32,6 +32,7 @@
->  #include <linux/sched.h>
->  #include <linux/pgtable.h>
->  #include <linux/kasan.h>
-> +#include <linux/fs.h>
+On Mon, Jun 28, 2021 at 02:40:32PM +0200, Enrico Weigelt, metux IT consult wrote:
 
-No.
+> Going back to AMX - just had a quick look at the spec (*1). Sorry, but
+> this thing is really weird and horrible to use. Come on, these chips
+> already have billions of transistors, it really can't hurt so much
+> spending a few more to provide a clean and easy to use machine code
+> interface. Grmmpf! (This is a general problem we've got with so many
+> HW folks, why can't them just talk to us SW folks first so we can find
+> a good solution for both sides, before that goes into the field ?)
+> 
+> And one point that immediately jumps into my mind (w/o looking deeper
+> into it): it introduces completely new registers - do we now need extra
+> code for tasks switching etc ?
 
-> +++ b/include/linux/mman.h
-> @@ -2,6 +2,7 @@
->  #ifndef _LINUX_MMAN_H
->  #define _LINUX_MMAN_H
->  
-> +#include <linux/fs.h>
+No, but because it's register state and part of XSAVE, it has immediate
+impact in ABI. In particular, the signal stack layout includes XSAVE (as
+does ptrace()).
 
-No.
+At the same time, 'legacy' applications (up until _very_ recently) had a
+minimum signal stack size of 2K, which is already violated by the
+addition of AVX512 (there's actual breakage due to that).
+
+Adding the insane AMX state (8k+) into that is a complete trainwreck
+waiting to happen. Not to mention that having !INIT AMX state has direct
+consequences for P-state selection and thus performance.
+
+For these reasons, us OS folks, will mandate you get to do a prctl() to
+request/release AMX (and we get to say: no). If you use AMX without
+this, the instruction will fault (because not set in XCR0) and we'll
+SIGBUS or something.
+
+Userspace will have to do something like:
+
+ - check CPUID, if !AMX -> fail
+ - issue prctl(), if error -> fail
+ - issue XGETBV and check the AMX bit it set, if not -> fail
+ - request the signal stack size / spawn threads
+ - use AMX
+
+Spawning threads prior to enabling AMX will result in using the wrong
+signal stack size and result in malfunction, you get to keep the pieces.
+
 
