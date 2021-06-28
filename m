@@ -2,113 +2,124 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C069F3B5C52
-	for <lists+linux-api@lfdr.de>; Mon, 28 Jun 2021 12:15:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DEBE3B5DED
+	for <lists+linux-api@lfdr.de>; Mon, 28 Jun 2021 14:25:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232312AbhF1KRb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 28 Jun 2021 06:17:31 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:33075 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231935AbhF1KRa (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Jun 2021 06:17:30 -0400
-Received: from [192.168.1.155] ([77.9.21.236]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1Mq33i-1lTPOc2NxS-00nDbm; Mon, 28 Jun 2021 12:14:08 +0200
-Subject: Re: Candidate Linux ABI for Intel AMX and hypothetical new related
- features
-To:     Len Brown <lenb@kernel.org>, Florian Weimer <fweimer@redhat.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Dave Hansen via Libc-alpha <libc-alpha@sourceware.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Rich Felker <dalias@libc.org>,
+        id S232965AbhF1M10 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 28 Jun 2021 08:27:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36600 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232802AbhF1M1Z (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Jun 2021 08:27:25 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DCDAC061760
+        for <linux-api@vger.kernel.org>; Mon, 28 Jun 2021 05:24:59 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id d25so25411384lji.7
+        for <linux-api@vger.kernel.org>; Mon, 28 Jun 2021 05:24:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=mZl19EAHfBMj6o+esp+Ag6rbRzMSpGqttEk0/Qom/6Y=;
+        b=ZVOOxa14dG+gGR+HyULgfW1QlZEE0vq5WSIHRrgiYp/5DUgQrlUg70uTV9+iiQJOS8
+         Pe+tAx0ojKZ2yuaQIO/FdCeNLGMO39zO+3ghXHaGFb8Qv8ePjd2zRehTJFBSME3itL+N
+         I4PF9q/n+1mVW9pd2W3di0CYIOLGySCGxFs1hPQL3cVZ8Nvm7PSEvIwX0+LSAqzn+AHP
+         iK3mFtpAvxhnFAsLzeYuLG33r3zC3xTSgxkhDRIZ1EyktWdBn7qOB0Lv/WnKkjwB8Zei
+         PZfQu+0zQ2cpmQizSDr0XELO9PnJNinhQMSs8rMRcoWZ7nNKtHnHR/jLeX1UEUH/9d2F
+         YEBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=mZl19EAHfBMj6o+esp+Ag6rbRzMSpGqttEk0/Qom/6Y=;
+        b=WMsGakZo2iECq5AzjFpSvnE4v9TqKfQb09Y1lHSQi86W+CEg/S2phTX2ETIkAumqhp
+         uvsOaULew3OcVoMfnaooOhVEohtqyHJ+FWz41HfXkN1AjxrzT0EuShuy60vUg0Jn3Mns
+         r3sq0Bn/lp9Lf+NLfJRfGCyJnEucvkblQu0Vgb4T6NG2+Y8UVZkYUc1GCoDvqWXDWHqf
+         rU8KxP+3UwlxmiWzarA4cXR/eMhbRp5vgtDbUQvUpIHNYsnu/xBFfFuynSWDwM3myu4n
+         QF2oVruZk1u6qJ+JKzAHO4g21cSs9dUeYXj/Sfm47pnNGt8a0gADtedONckhrgIEt7VR
+         Jdtw==
+X-Gm-Message-State: AOAM533OM0aypDUbMemFIy2SGrKfoeqWfU808dpbH/NGE235TdLm0Et0
+        ma8GCW9PBglKfNIujVmEaJ17NA==
+X-Google-Smtp-Source: ABdhPJyfJ8jeeyfOn0CBv6l9Qm89e2M0XZhNu8UyBRm8yx8et6Em68BU7cax6g9fdMATElyOwR72kA==
+X-Received: by 2002:a05:651c:10a8:: with SMTP id k8mr5284294ljn.99.1624883097640;
+        Mon, 28 Jun 2021 05:24:57 -0700 (PDT)
+Received: from box.localdomain ([86.57.175.117])
+        by smtp.gmail.com with ESMTPSA id v3sm1355213lji.115.2021.06.28.05.24.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Jun 2021 05:24:56 -0700 (PDT)
+Received: by box.localdomain (Postfix, from userid 1000)
+        id 066BE10280E; Mon, 28 Jun 2021 15:24:56 +0300 (+03)
+Date:   Mon, 28 Jun 2021 15:24:55 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Peter Collingbourne <pcc@google.com>
+Cc:     John Hubbard <jhubbard@nvidia.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Jann Horn <jannh@google.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-mm@kvack.org, kernel test robot <lkp@intel.com>,
         Linux API <linux-api@vger.kernel.org>,
-        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
-        X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Kyle Huey <me@kylehuey.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Keno Fischer <keno@juliacomputing.com>,
-        Arjan van de Ven <arjan@linux.intel.com>,
-        Willy Tarreau <w@1wt.eu>
-References: <CAJvTdKn6JHo02karEs0e5g+6SimS5VUcXKjCkX35WY+xkgAgxw@mail.gmail.com>
- <YIMmwhEr46VPAZa4@zn.tnic>
- <CAJvTdKnhXnynybS4eNEF_EtF26auyb-mhKLNd1D9_zvCrchZsw@mail.gmail.com>
- <874kf11yoz.ffs@nanos.tec.linutronix.de>
- <CAJvTdKkYp+zP_9tna6YsrOz2_nmEUDLJaL_i-SNog0m2T9wZ=Q@mail.gmail.com>
- <87k0ntazyn.ffs@nanos.tec.linutronix.de>
- <37833625-3e6b-5d93-cc4d-26164d06a0c6@intel.com>
- <CAJvTdKmqzO4P9k3jqRA=dR+B7yV72hZCiyC8HGQxDKZBnXgzZQ@mail.gmail.com>
- <9c8138eb-3956-e897-ed4e-426bf6663c11@intel.com>
- <87pmxk87th.fsf@oldenburg.str.redhat.com>
- <YKfIct+DhpEBbaCQ@hirez.programming.kicks-ass.net>
- <87wnqkzklg.fsf@oldenburg.str.redhat.com>
- <CAJvTdKkBTD62GTi=GW0+y0_1qc2JxfpfkNbXKWniWWOEmZZmUw@mail.gmail.com>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Message-ID: <93e3b500-5992-a674-18e6-445d1db7b1f0@metux.net>
-Date:   Mon, 28 Jun 2021 12:14:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4] mm: introduce reference pages
+Message-ID: <20210628122455.sqo77q4jfxtiwt5b@box.shutemov.name>
+References: <20210619092002.1791322-1-pcc@google.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJvTdKkBTD62GTi=GW0+y0_1qc2JxfpfkNbXKWniWWOEmZZmUw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: tl
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:lSyi4PgVQ1Q3XMSWurC8SV8Bg+7YTr6EDcg0xFwZhAa7CdyqBwo
- y2/PQTszne3zHE2CsHWbDrsqI1aT0Fw+n02sncfcu7QcpMZEty6ObhDerSaUl0s9CfeDbEW
- J2Bc+/nkZppt5TRvJoWV34h+G8u5LaqhHPfRNRzz2bOHkBKsxApDfFYKNkE0YoY/tRdKYbV
- 1Bg7WvHflG+7NRsPIiLEQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:g8YuvF7/MfU=:oBD29W2LKejICBROVCUpSA
- zT5DGff/UY7BI0cMzJmmJP24/uK3IfbR5+WZcqyOE+1SzEs48igl1vOzV78iqfe5pROsVrCTb
- j6TfKvTeZJ+UY8fHM4x2USvej2b449ydTYG1/TAu1uEgBLINXfla7hDQfeZh6CTuQhObNUyWE
- P/p6kobIV17khYQcJOHrk1ZDl5J1WmPwJFyB38AbfoSBV0JtLyuik7Vy8gRDDNhdNgK/Mj6s1
- /G/ySKHQyVfeq8P77klUuIbY3PkxmUqkeHxXtDsVKEvQD3jdtiL2OLrLhiUJhTka7cadkvRb5
- kuzoKaHgc8Fy+7u8klD2h+oG0X4FAfEsKS94cdfKSZ00xUvGFK5tpmAs/l/Mf1s+QL64daG0Y
- Ei6+vAoZlmcLH5bNg6k5rO4ZsUJHAlfbr+Ip/4w0gJyJChAoBybjtVcaSUAW4cJ+giK0CRc4Z
- ub49WhLJ4YbDE6XtcmdKZhpq/NZ1k/TWlaEQLo2Ur8/v12gy4EcrvxaAizThD0tvBcm4ZKgAU
- J366UcY8EfYz9wf+mQr1ok=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210619092002.1791322-1-pcc@google.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 24.06.21 01:11, Len Brown wrote:
->>    x86 CPU features detection for applications (and AMX)
->>    <https://lore.kernel.org/linux-api/87tulo39ms.fsf@oldenburg.str.redhat.com/>
+On Sat, Jun 19, 2021 at 02:20:02AM -0700, Peter Collingbourne wrote:
+>   #include <stdio.h>
+>   #include <stdlib.h>
+>   #include <string.h>
+>   #include <sys/mman.h>
+>   #include <unistd.h>
 > 
-> FWIW, I didn't receive it, because you excluded
+>   constexpr unsigned char pattern_byte = 0xaa;
 > 
-> linux-kernel@vger.kernel.org
+>   #define PAGE_SIZE 4096
+> 
+>   _Alignas(PAGE_SIZE) static unsigned char pattern[PAGE_SIZE];
+> 
+>   int main(int argc, char **argv) {
+>     if (argc < 3)
+>       return 1;
+>     bool use_refpage = argc > 3;
+>     size_t mmap_size = atoi(argv[1]);
+>     size_t touch_size = atoi(argv[2]);
+> 
+>     int refpage_fd;
+>     if (use_refpage) {
+>       memset(pattern, pattern_byte, PAGE_SIZE);
+>       refpage_fd = syscall(448, pattern, 0);
+>     }
+>     for (unsigned i = 0; i != 1000; ++i) {
+>       char *p;
+>       if (use_refpage) {
+>         p = (char *)mmap(0, mmap_size, PROT_READ | PROT_WRITE, MAP_PRIVATE,
+>                          refpage_fd, 0);
+>       } else {
+>         p = (char *)mmap(0, mmap_size, PROT_READ | PROT_WRITE,
+>                          MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+>         memset(p, pattern_byte, mmap_size);
+>       }
+>       for (unsigned j = 0; j < touch_size; j += PAGE_SIZE)
+>         p[j] = 0;
+>       munmap(p, mmap_size);
+>     }
+>   }
 
-me neither :(
+I don't like the inteface. It is tied to PAGE_SIZE and this doesn't seem
+to be very future looking. How would it work with THPs?
 
-Maybe just repost it to LKML ?
-
-You mention the interface *was* designed with cpu features remaining
-constant over a process' lifetime. Between the line I'm reading that
-this might not be the case anymore.
-
-How could that happen ? Process migration on a different CPU (or perhaps
-on a different host) ?
-
-This is gonna be tricky, because this somehow needs to be synchronized
-with the application (even if we check the bits before calling some
-cpu-specific opcode, which also has some performance cost), there's
-still some window where the application might not yet recognize the
-change. So either we need some explicit migration points (where app
-tells, please let me finish this func first) or transparent emulation.
-
-Damn, how could the cpu designers come up with such weird concepts
-in the first place ? :o
-
-
---mtx
+Maybe we should cosider passing down a filling pattern to kernel and let
+kernel allocate appropriate page size on read page fault? The pattern has
+to be power of 2 and limited in lenght.
 
 -- 
----
-Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
-werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
-GPG/PGP-Schlüssel zu.
----
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+ Kirill A. Shutemov
