@@ -2,212 +2,174 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FD6C3B60CC
-	for <lists+linux-api@lfdr.de>; Mon, 28 Jun 2021 16:28:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61B2B3B6530
+	for <lists+linux-api@lfdr.de>; Mon, 28 Jun 2021 17:20:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233255AbhF1Oaq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 28 Jun 2021 10:30:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47258 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234504AbhF1OaA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Jun 2021 10:30:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1624890454;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=LH8UNtD4dgcFZ2cOzBHPmeit1WiRYTLTlJgZddc4rZA=;
-        b=DJJ6R3stJjInET9oyjBJBMQGZNsfsBwukwqIoEzPzDduoeHyEm99kxzcfcM1kTIgHwvMPm
-        d32uYh53822BKExud2zUF6R/lSHr2zAZH4REtdTZCffl+buXcnPAGgbQ6DjOH/vPQpA3ho
-        jXqYb961oq2QjExreBhn0hRuHC3y6VU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-591-vhDeOqsgOliBweVHyX5tHA-1; Mon, 28 Jun 2021 10:27:30 -0400
-X-MC-Unique: vhDeOqsgOliBweVHyX5tHA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 63DCC800D55;
-        Mon, 28 Jun 2021 14:27:28 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-115-225.rdu2.redhat.com [10.10.115.225])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 6162F5D9DC;
-        Mon, 28 Jun 2021 14:27:23 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
-        id 3427B22054F; Mon, 28 Jun 2021 10:27:23 -0400 (EDT)
-Date:   Mon, 28 Jun 2021 10:27:23 -0400
-From:   Vivek Goyal <vgoyal@redhat.com>
-To:     Ming Lin <mlin@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Hugh Dickins <hughd@google.com>,
-        Simon Ser <contact@emersion.fr>,
-        Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, virtio-fs-list <virtio-fs@redhat.com>,
-        "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
-        Miklos Szeredi <miklos@szeredi.hu>
-Subject: Re: [PATCH v2 2/2] mm: adds NOSIGBUS extension to mmap()
-Message-ID: <20210628142723.GB1803896@redhat.com>
-References: <1622792602-40459-1-git-send-email-mlin@kernel.org>
- <1622792602-40459-3-git-send-email-mlin@kernel.org>
+        id S237123AbhF1PWi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 28 Jun 2021 11:22:38 -0400
+Received: from mga04.intel.com ([192.55.52.120]:59985 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238171AbhF1PUi (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 28 Jun 2021 11:20:38 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10029"; a="206147164"
+X-IronPort-AV: E=Sophos;i="5.83,306,1616482800"; 
+   d="scan'208";a="206147164"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2021 08:08:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,306,1616482800"; 
+   d="scan'208";a="475585910"
+Received: from irsmsx605.ger.corp.intel.com ([163.33.146.138])
+  by fmsmga004.fm.intel.com with ESMTP; 28 Jun 2021 08:08:47 -0700
+Received: from tjmaciei-mobl1.localnet (10.212.206.236) by
+ IRSMSX605.ger.corp.intel.com (163.33.146.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Mon, 28 Jun 2021 16:08:45 +0100
+From:   Thiago Macieira <thiago.macieira@intel.com>
+To:     <fweimer@redhat.com>,
+        "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+CC:     <hjl.tools@gmail.com>, <libc-alpha@sourceware.org>,
+        <linux-api@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+        <x86@kernel.org>
+Subject: Re: x86 CPU features detection for applications (and AMX)
+Date:   Mon, 28 Jun 2021 08:08:41 -0700
+Message-ID: <2379132.fg5cGID6mU@tjmaciei-mobl1>
+Organization: Intel Corporation
+In-Reply-To: <3c5c29e2-1b52-3576-eda2-018fb1e58ff9@metux.net>
+References: <22261946.eFiGugXE7Z@tjmaciei-mobl1> <3c5c29e2-1b52-3576-eda2-018fb1e58ff9@metux.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1622792602-40459-3-git-send-email-mlin@kernel.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [10.212.206.236]
+X-ClientProxiedBy: orsmsx603.amr.corp.intel.com (10.22.229.16) To
+ IRSMSX605.ger.corp.intel.com (163.33.146.138)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jun 04, 2021 at 12:43:22AM -0700, Ming Lin wrote:
-> Adds new flag MAP_NOSIGBUS of mmap() to specify the behavior of
-> "don't SIGBUS on fault". Right now, this flag is only allowed
-> for private mapping.
+On Monday, 28 June 2021 05:40:32 PDT Enrico Weigelt, metux IT consult wrote:
+> > The first problem is the cross-platformness need. Because we library and
+> > application developers need to support other OSes, we'll need to deploy
+> > our
+> > own CPUID-based detection. It's far better to use common code everywhere,
+> > where one developer working on Linux can fix bugs in FreeBSD, macOS or
+> > Windows or any of the permutations. Every platform-specific deviation
+> > adds to maintenance requirements and is a source of potential latent
+> > bugs, now or in the future due to refactoring. That is why doing
+> > everything in the form of instructions would be far better and easier,
+> > rather than system calls.
+> hmm, maybe some libcpuid ?
+
+Indeed. I'm querying inside Intel to see if I can get buy-in to create such a 
+library.
+
+> > The second problem is going to be backwards compatibility. Applications
+> > and
+> > libraries may want to ship precompiled binaries that make use of the new
+> > CPU features, whether they are open source or not.
 > 
-> For MAP_NOSIGBUS mapping, map in the zero page on read fault
-> or fill a freshly allocated page with zeroes on write fault.
+> Since we're talking about GNU libc here, binary-only stuff is probably
+> out of scope here. OTOH, using differnt libc versions in those special
+> cases isn't such a big deal.
 
-I am wondering if this could be of limited use for me if MAP_NOSIGBUS
-were to be supported for shared mappings as well.
+Shipping a libc is not trivial, either technically or due to licensing 
+requirements. Most applications want to link against whatever libc the system 
+already provides, if that's possible.
 
-When virtiofs is run with dax enabled, then it is possible that if
-a file is shared between two guests, then one guest truncates the
-file and second guest tries to do load/store operation. Given current
-kvm architecture, there is no mechanism to propagate SIGBUS to guest
-process, instead KVM retries page fault infinitely and guest cpu/process
-hangs.
-
-Ideally we want this error to propagate all the way back into the
-guest and to the guest process but that solution is not in place yet.
-
-https://lore.kernel.org/kvm/20200406190951.GA19259@redhat.com/
-
-In the absense of a proper solution, one could think of mapping
-shared file on host with MAP_NOSIGBUS, and hopefully that means
-kvm will be able to resolve fault to a zero filled page and guest
-will not hang. But this means that data sharing between two processes
-is now broken. Writes by process A will not be visible to process B
-in another once this situation happens, IIUC.
-
-So if we were to MAP_NOSIGBUS, guest will not hang but failures resulting
-from ftruncate will be silent and will be noticed sometime later. I guess
-not exactly a very pleasant scenario...
-
-Thanks
-Vivek
-
-
-
+> > It comes as no surprise to anyone that we CPU makers will have made
+> > software that use those features and
+> > want to have it ready on Day 1 of the HW being available for the market
+> > (if
+> > we're doing our jobs right). That often involves precompiling because
+> > everyone > who installed their compilers more than one year ago will not
+> > have the necessary tools to build.
 > 
-> Signed-off-by: Ming Lin <mlin@kernel.org>
-> ---
->  arch/parisc/include/uapi/asm/mman.h          |  1 +
->  include/linux/mm.h                           |  2 ++
->  include/linux/mman.h                         |  1 +
->  include/uapi/asm-generic/mman-common.h       |  1 +
->  mm/memory.c                                  | 11 +++++++++++
->  mm/mmap.c                                    |  4 ++++
->  tools/include/uapi/asm-generic/mman-common.h |  1 +
->  7 files changed, 21 insertions(+)
+> Actually, you should talk to the compiler folks much more early, at the
+> point where you know how those features look like.
+
+We do, but it's not enough.
+
+GCC releases once a year, so it's easy to miss the feature freeze. Then there 
+are Linux distros that do LTS every 2 years or so. Worse, those two are 
+usually out of phase. For example, if you're using the current Ubuntu LTS 
+today (almost July 2021), you're using 20.04, which was released one month 
+before the GCC 10 release. So you're using GCC 9, released May 2019, which 
+means its features were frozen on December 2018. That's an incredibly long 
+lead time.
+
+As a consequence, you will see precompiled binaries.
+
+> For using certain new CPU specific features, the need for a compiler
+> upgrade really should be no excuse. And at least for vast majority of
+> cases, a proper compiler could do it much better than the average
+> programmer.
+
+To compile the software that uses those instructions, undoubtedly. But what if 
+I did that for you and you could simply download the binary for the library 
+and/or plugins such that you could slot into your existing systems and CI? 
+This could make a difference between adoption or not.
+
+> > And by "recently", I mean "anything since the glibc that came with Red Hat
+> > Enterprise Linux 7" (2.17).
 > 
-> diff --git a/arch/parisc/include/uapi/asm/mman.h b/arch/parisc/include/uapi/asm/mman.h
-> index ab78cba..eecf9af 100644
-> --- a/arch/parisc/include/uapi/asm/mman.h
-> +++ b/arch/parisc/include/uapi/asm/mman.h
-> @@ -25,6 +25,7 @@
->  #define MAP_STACK	0x40000		/* give out an address that is best suited for process/thread stacks */
->  #define MAP_HUGETLB	0x80000		/* create a huge page mapping */
->  #define MAP_FIXED_NOREPLACE 0x100000	/* MAP_FIXED which doesn't unmap underlying mapping */
-> +#define MAP_NOSIGBUS	0x200000	/* do not SIGBUS on fault */
->  #define MAP_UNINITIALIZED 0		/* uninitialized anonymous mmap */
->  
->  #define MS_SYNC		1		/* synchronous memory sync */
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 9e86ca1..100d122 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -373,6 +373,8 @@ int __add_to_page_cache_locked(struct page *page, struct address_space *mapping,
->  # define VM_UFFD_MINOR		VM_NONE
->  #endif /* CONFIG_HAVE_ARCH_USERFAULTFD_MINOR */
->  
-> +#define VM_NOSIGBUS		VM_FLAGS_BIT(38)	/* Do not SIGBUS on fault */
-> +
->  /* Bits set in the VMA until the stack is in its final location */
->  #define VM_STACK_INCOMPLETE_SETUP	(VM_RAND_READ | VM_SEQ_READ)
->  
-> diff --git a/include/linux/mman.h b/include/linux/mman.h
-> index b2cbae9..c966b08 100644
-> --- a/include/linux/mman.h
-> +++ b/include/linux/mman.h
-> @@ -154,6 +154,7 @@ static inline bool arch_validate_flags(unsigned long flags)
->  	       _calc_vm_trans(flags, MAP_DENYWRITE,  VM_DENYWRITE ) |
->  	       _calc_vm_trans(flags, MAP_LOCKED,     VM_LOCKED    ) |
->  	       _calc_vm_trans(flags, MAP_SYNC,	     VM_SYNC      ) |
-> +	       _calc_vm_trans(flags, MAP_NOSIGBUS,   VM_NOSIGBUS  ) |
->  	       arch_calc_vm_flag_bits(flags);
->  }
->  
-> diff --git a/include/uapi/asm-generic/mman-common.h b/include/uapi/asm-generic/mman-common.h
-> index f94f65d..a2a5333 100644
-> --- a/include/uapi/asm-generic/mman-common.h
-> +++ b/include/uapi/asm-generic/mman-common.h
-> @@ -29,6 +29,7 @@
->  #define MAP_HUGETLB		0x040000	/* create a huge page mapping */
->  #define MAP_SYNC		0x080000 /* perform synchronous page faults for the mapping */
->  #define MAP_FIXED_NOREPLACE	0x100000	/* MAP_FIXED which doesn't unmap underlying mapping */
-> +#define MAP_NOSIGBUS		0x200000	/* do not SIGBUS on fault */
->  
->  #define MAP_UNINITIALIZED 0x4000000	/* For anonymous mmap, memory could be
->  					 * uninitialized */
-> diff --git a/mm/memory.c b/mm/memory.c
-> index 8d5e583..6b5a897 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -3676,6 +3676,17 @@ static vm_fault_t __do_fault(struct vm_fault *vmf)
->  	}
->  
->  	ret = vma->vm_ops->fault(vmf);
-> +	if (unlikely(ret & VM_FAULT_SIGBUS) && (vma->vm_flags & VM_NOSIGBUS)) {
-> +		/*
-> +		 * For MAP_NOSIGBUS mapping, map in the zero page on read fault
-> +		 * or fill a freshly allocated page with zeroes on write fault
-> +		 */
-> +		ret = do_anonymous_page(vmf);
-> +		if (!ret)
-> +			ret = VM_FAULT_NOPAGE;
-> +		return ret;
-> +	}
-> +
->  	if (unlikely(ret & (VM_FAULT_ERROR | VM_FAULT_NOPAGE | VM_FAULT_RETRY |
->  			    VM_FAULT_DONE_COW)))
->  		return ret;
-> diff --git a/mm/mmap.c b/mm/mmap.c
-> index 8bed547..d5c9fb5 100644
-> --- a/mm/mmap.c
-> +++ b/mm/mmap.c
-> @@ -1419,6 +1419,10 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
->  	if (!len)
->  		return -EINVAL;
->  
-> +	/* Restrict MAP_NOSIGBUS to MAP_PRIVATE mapping */
-> +	if ((flags & MAP_NOSIGBUS) && !(flags & MAP_PRIVATE))
-> +		return -EINVAL;
-> +
->  	/*
->  	 * Does the application expect PROT_READ to imply PROT_EXEC?
->  	 *
-> diff --git a/tools/include/uapi/asm-generic/mman-common.h b/tools/include/uapi/asm-generic/mman-common.h
-> index f94f65d..a2a5333 100644
-> --- a/tools/include/uapi/asm-generic/mman-common.h
-> +++ b/tools/include/uapi/asm-generic/mman-common.h
-> @@ -29,6 +29,7 @@
->  #define MAP_HUGETLB		0x040000	/* create a huge page mapping */
->  #define MAP_SYNC		0x080000 /* perform synchronous page faults for the mapping */
->  #define MAP_FIXED_NOREPLACE	0x100000	/* MAP_FIXED which doesn't unmap underlying mapping */
-> +#define MAP_NOSIGBUS		0x200000	/* do not SIGBUS on fault */
->  
->  #define MAP_UNINITIALIZED 0x4000000	/* For anonymous mmap, memory could be
->  					 * uninitialized */
-> -- 
-> 1.8.3.1
-> 
+> Uh, that's really ancient. Nobody can seriously expect modern features
+> on such an ancient distro. If people really insist spending so much
+> money for running such old code, instead of just doing a dist upgrade,
+> then I can only reply with "not our problem".
+
+Yes and no.
+
+Red Hat has been incredibly successful in backporting kernel features to the 
+old 3.10 that came with RHEL 7. Whether they will do that for AMX state saving 
+and the system call that we're discussing here, I can't say. AFAIU, they did 
+backport the AVX512 state-saving to that 3.10, so they may.
+
+Even if they don't, the *software* that people deploy may be the same build 
+for RHEL 7 and for a modern distro that will have a 5.14 kernel. That software 
+may have non-AVX, AVX2, AVX512 and AMX-specific code paths and would do 
+runtime detection of which one is best to use. If a system call is needed, the 
+system call needs to be issued even on that 3.10 and if it responds with 
+-ENOSYS or -EINVAL, then it will fall back to the next best option.
+
+So my point is: this shouldn't be in glibc because the glibc will not have the 
+new system call wrappers or TLS fields.
+
+> What we SW engineers need is an easy and fast method to act depending on
+> whether some CPU supports some feature (eg. a new opcode). Things like
+> cpuinfo are only a tiny piece of that. What we could really use is a
+> conditional jump/call based on whether feature X is supported - without
+> any kernel intervention. Then the machine code could be easily layed out
+> to support both cases with our without some feature X. Alternatively we
+> could have a fast trapping in useland - hw generated call already would
+> be a big help.
+
+That's what cpuid is for. With GCC function multi-versioning or equivalent 
+manually-rolled solutions, you can get exactly what you're asking for.
+
+Yes, the checking became far more complex with the need to check XCR0 after 
+AVX came along, but since the instruction itself is a slow and serialising, 
+any library will just cache the results. And as a result, the level of CPU 
+features is not expected to change. It never has in the past, so this hasn't 
+been an issue.
+
+> If we had something in that direction, we wouldn't have to have this
+> kind discussion here anymore - it would be entirely up to compiler and
+> library folks, no need for any kernel support at all.
+
+For most features, there isn't. You don't see us discussing 
+AVX512VP2INTERSECT, for example. This discussion only exists because AMX 
+requires more state to be saved during context switches and signal delivery. 
+See Peter's email.
+
+> And one point that immediately jumps into my mind (w/o looking deeper
+> into it): it introduces completely new registers - do we now need extra
+> code for tasks switching etc ?
+
+Yes, this is the crux of this discussion.
+
+-- 
+Thiago Macieira - thiago.macieira (AT) intel.com
+  Software Architect - Intel DPG Cloud Engineering
+
+
 
