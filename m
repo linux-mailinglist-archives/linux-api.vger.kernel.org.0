@@ -2,128 +2,109 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C77B73B66C7
-	for <lists+linux-api@lfdr.de>; Mon, 28 Jun 2021 18:31:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E49C83B66CE
+	for <lists+linux-api@lfdr.de>; Mon, 28 Jun 2021 18:33:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233115AbhF1QdX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 28 Jun 2021 12:33:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46860 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233108AbhF1QdW (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 28 Jun 2021 12:33:22 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2E08F6198D;
-        Mon, 28 Jun 2021 16:30:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624897856;
-        bh=sKyqPO15EImCw3svh4v8lKYkwAoCpB9/n9aUDIsf1q4=;
-        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
-        b=QFNA5j0vI8jLovwax7NHz2zyoe1WSwCttoe+l2NqK0c+A9C1WJLsapEYOlDV5NN/7
-         pJ3cEIMqaCUgavTAPp3FV3X6GbPrkshvHIX4KjTkI5lCqY/FEjrfHnSvWGSEcloUMg
-         51Xm80XTAnXBCSXVEy5NJo0K/9kbpP5oY9cqwlBsB/KkZT0zTsl5JkAQivs6Zxkhzn
-         iAx8YfBLH4U6IJkBXesAdSN/n2+CROQ0tdg9X+thfR/8XaAXvmI3LUOlUlg+P36DfY
-         6cp6PnKni9TR7JYxnaXudh4KvdhoA036sLuqY+F5HLE6ZRq8gjZDWL0GXirRI0fjHW
-         o8pzJnZvgNf9A==
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailauth.nyi.internal (Postfix) with ESMTP id 2882D27C0060;
-        Mon, 28 Jun 2021 12:30:54 -0400 (EDT)
-Received: from imap21 ([10.202.2.71])
-  by compute6.internal (MEProxy); Mon, 28 Jun 2021 12:30:54 -0400
-X-ME-Sender: <xms:PPnZYO39LH4FBrTmGu_S-v39xiVujdiV8U2wGLRQTBLes97BQS1AQw>
-    <xme:PPnZYBEovQkNPTheGrXSbdyza8HHVdIuAftqy68ln6qYbwJnpabsO0uwRKKz3kbDH
-    Fg3njYskbrtEPjblio>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeehgedguddtudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvufgtgfesthhqredtreerjeenucfhrhhomhepfdet
-    nhguhicunfhuthhomhhirhhskhhifdcuoehluhhtoheskhgvrhhnvghlrdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpedvleehjeejvefhuddtgeegffdtjedtffegveethedvgfejieev
-    ieeufeevuedvteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpegrnhguhidomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudduiedu
-    keehieefvddqvdeifeduieeitdekqdhluhhtoheppehkvghrnhgvlhdrohhrgheslhhinh
-    hugidrlhhuthhordhush
-X-ME-Proxy: <xmx:PPnZYG6tlbzKCHxNF_IB4ikW4MJH4oj2A0f2ckUfzwvA4UkBZEa27g>
-    <xmx:PPnZYP0X108S2YRONIv1FFggAREuJfckBhZ4G8cYJCn36d9iCYmxag>
-    <xmx:PPnZYBFJov0Y5jG0VhjNMdhH4_4eg_LCXAOPGL4AabvKcOmFFAvXxg>
-    <xmx:PvnZYHUwjbJak9e-BJsYJFC-K0me8Y9bA7LKg9N_51G7pZ61d6dYHdMiyDs>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 2BC6251C0060; Mon, 28 Jun 2021 12:30:52 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-530-gd0c265785f-fm-20210616.002-gd0c26578
-Mime-Version: 1.0
-Message-Id: <f64f960b-d978-4022-9e56-0d9d9a3c0ebc@www.fastmail.com>
-In-Reply-To: <CAG48ez3UrzPE8rkucTgCu8ggcTEjx_h3Gj2FES1qM-uv2KD8bQ@mail.gmail.com>
-References: <20210414055217.543246-1-avagin@gmail.com>
- <20210414055217.543246-3-avagin@gmail.com>
- <CAG48ez3UrzPE8rkucTgCu8ggcTEjx_h3Gj2FES1qM-uv2KD8bQ@mail.gmail.com>
-Date:   Mon, 28 Jun 2021 09:30:31 -0700
-From:   "Andy Lutomirski" <luto@kernel.org>
-To:     "Jann Horn" <jannh@google.com>, "Andrei Vagin" <avagin@gmail.com>
-Cc:     "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
-        "Linux API" <linux-api@vger.kernel.org>,
-        linux-um@lists.infradead.org, criu@openvz.org, avagin@google.com,
-        "Andrew Morton" <akpm@linux-foundation.org>,
-        "Anton Ivanov" <anton.ivanov@cambridgegreys.com>,
-        "Christian Brauner" <christian.brauner@ubuntu.com>,
-        "Dmitry Safonov" <0x7f454c46@gmail.com>,
-        "Ingo Molnar" <mingo@redhat.com>, "Jeff Dike" <jdike@addtoit.com>,
-        "Mike Rapoport" <rppt@linux.ibm.com>,
-        "Michael Kerrisk" <mtk.manpages@gmail.com>,
-        "Oleg Nesterov" <oleg@redhat.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        "Richard Weinberger" <richard@nod.at>,
-        "Thomas Gleixner" <tglx@linutronix.de>
-Subject: Re: [PATCH 2/4] arch/x86: implement the process_vm_exec syscall
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+        id S233997AbhF1Qff (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 28 Jun 2021 12:35:35 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:41459 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S233189AbhF1Qff (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 28 Jun 2021 12:35:35 -0400
+Received: from cwcc.thunk.org (pool-72-74-133-215.bstnma.fios.verizon.net [72.74.133.215])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 15SGX3Lq021340
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 28 Jun 2021 12:33:04 -0400
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+        id 4DD1015C3CD8; Mon, 28 Jun 2021 12:33:03 -0400 (EDT)
+Date:   Mon, 28 Jun 2021 12:33:03 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     Rob Landley <rob@landley.net>
+Cc:     Denys Vlasenko <vda.linux@googlemail.com>,
+        David Howells <dhowells@redhat.com>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: lsattr: incorrect size for ioctl result
+Message-ID: <YNn5v7CTRsDo1mDO@mit.edu>
+References: <CAK1hOcO3qHFO6QOkpjnC_A4LVhwed02XxCYZvEn+8t+HnyGjZA@mail.gmail.com>
+ <b1b801af-d309-829e-fd48-6487661df809@landley.net>
+ <CAK1hOcMh3RK_Nd_=W-RgqhMZJh-OGY9qMDfxpALZHpxwriHgAA@mail.gmail.com>
+ <9acca2fa-eaef-1a0b-ac72-6b0eab3d8a45@landley.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9acca2fa-eaef-1a0b-ac72-6b0eab3d8a45@landley.net>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Fri, Jun 25, 2021 at 04:01:27AM -0500, Rob Landley wrote:
+> > No. The above is a lie.
+> 
+> --- a/include/uapi/linux/fs.h
+> +++ b/include/uapi/linux/fs.h
+> @@ -203,8 +203,8 @@ struct fsxattr {
+> 
+>  #define        FS_IOC_GETFLAGS                 _IOR('f', 1, long)
+>  #define        FS_IOC_SETFLAGS                 _IOW('f', 2, long)
+> -#define        FS_IOC_GETVERSION               _IOR('v', 1, long)
+> -#define        FS_IOC_SETVERSION               _IOW('v', 2, long)
+> +#define        FS_IOC_GETVERSION               _IOR('v', 1, unsigned int)
+> +#define        FS_IOC_SETVERSION               _IOW('v', 2, unsigned int)
+>  #define FS_IOC_FIEMAP                  _IOWR('f', 11, struct fiemap)
+>  #define FS_IOC32_GETFLAGS              _IOR('f', 1, int)
+>  #define FS_IOC32_SETFLAGS              _IOW('f', 2, int)
 
+The problem is that there are a large number of userspace programs
+which are using _IOR('v', 1, long) (the codepoint for
+FS_IOC_GETVERSION for decades), but are expecting the kernel to fill
+in an int.
 
-On Mon, Jun 28, 2021, at 9:13 AM, Jann Horn wrote:
-> On Wed, Apr 14, 2021 at 7:59 AM Andrei Vagin <avagin@gmail.com> wrote:=
+We could do something like this:
 
-> > This change introduces the new system call:
-> > process_vm_exec(pid_t pid, struct sigcontext *uctx, unsigned long fl=
-ags,
-> >                 siginfo_t * uinfo, sigset_t *sigmask, size_t sizemas=
-k)
-> >
-> > process_vm_exec allows to execute the current process in an address
-> > space of another process.
-> [...]
->=20
-> I still think that this whole API is fundamentally the wrong approach
-> because it tries to shoehorn multiple usecases with different
-> requirements into a single API. But that aside:
->=20
-> > +static void swap_mm(struct mm_struct *prev_mm, struct mm_struct *ta=
-rget_mm)
-> > +{
-> > +       struct task_struct *tsk =3D current;
-> > +       struct mm_struct *active_mm;
-> > +
-> > +       task_lock(tsk);
-> > +       /* Hold off tlb flush IPIs while switching mm's */
-> > +       local_irq_disable();
-> > +
-> > +       sync_mm_rss(prev_mm);
-> > +
-> > +       vmacache_flush(tsk);
-> > +
-> > +       active_mm =3D tsk->active_mm;
-> > +       if (active_mm !=3D target_mm) {
-> > +               mmgrab(target_mm);
-> > +               tsk->active_mm =3D target_mm;
-> > +       }
-> > +       tsk->mm =3D target_mm;
->=20
-> I'm pretty sure you're not currently allowed to overwrite the ->mm
-> pointer of a userspace thread. For example, zap_threads() assumes that=
+#define        FS_IOC_GETVERSION               _IOR('v', 1, int)
+#define        FS_IOC_GETVERSION_OLD           _IOR('v', 1, long)
 
-> all threads running under a process have the same ->mm. (And if you're=
+But the key is that we keep support for the codepoint of _IOR('v', 1,
+long) essentially forever, or we will break userspace binary
+compatibility, which is verboten.
 
-> fiddling with ->mm stuff, you should probably CC linux-mm@.)
+We also need to be a bit careful when we make these sorts of changes
+of #defines, so we don't break kernel code like this: 
 
-exec_mmap() does it, so it can=E2=80=99t be entirely impossible.
+long ext2_compat_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+{
+	/* These are just misnamed, they actually get/put from/to user an int */
+	switch (cmd) {
+	case EXT2_IOC32_GETFLAGS:
+		cmd = EXT2_IOC_GETFLAGS;
+		break;
+	case EXT2_IOC32_SETFLAGS:
+		cmd = EXT2_IOC_SETFLAGS;
+		break;
+	case EXT2_IOC32_GETVERSION:
+		cmd = EXT2_IOC_GETVERSION;
+		break;
+	case EXT2_IOC32_SETVERSION:
+		cmd = EXT2_IOC_SETVERSION;
+		break;
+	default:
+		return -ENOIOCTLCMD;
+	}
+	return ext2_ioctl(file, cmd, (unsigned long) compat_ptr(arg));
+}
+
+(This is from 4.4's fs/ext2/ioct.c; the point is if we want to "fix"
+the definition of *_IOC_GETFLAGS because of a pearl clutching fit that
+even though the code point is _IOR('v', 1, long), we're reading and
+writing an int, we need to be careful and check all of the kernel
+codepaths that refer to IOC_{GET,SET}{FLAGS,VERSION}.
+
+> Which raises the question "why is there an IOC32 version of this when it was
+> never NOT 32 bit" and "does GETFLAGS have the same problem"? (Haven't looked...)
+
+Probably because the people who added the IOC32 versions didn't
+understand this at the time?  :-)
+
+					- Ted
