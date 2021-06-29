@@ -2,398 +2,96 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2608F3B7301
-	for <lists+linux-api@lfdr.de>; Tue, 29 Jun 2021 15:14:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA3C33B751C
+	for <lists+linux-api@lfdr.de>; Tue, 29 Jun 2021 17:24:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233161AbhF2NQf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 29 Jun 2021 09:16:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52324 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233141AbhF2NQe (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 29 Jun 2021 09:16:34 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CB7F861D3A;
-        Tue, 29 Jun 2021 13:14:01 +0000 (UTC)
-Date:   Tue, 29 Jun 2021 15:13:58 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     akpm@linux-foundation.org, mhocko@kernel.org, mhocko@suse.com,
-        rientjes@google.com, willy@infradead.org, hannes@cmpxchg.org,
-        guro@fb.com, riel@surriel.com, minchan@kernel.org,
-        christian@brauner.io, hch@infradead.org, oleg@redhat.com,
-        david@redhat.com, jannh@google.com, shakeelb@google.com,
-        timmurray@google.com, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        kernel-team@android.com
-Subject: Re: [PATCH 1/1] mm: introduce process_reap system call
-Message-ID: <20210629131358.vgvpxhyc6hr5on7g@wittgenstein>
-References: <20210623192822.3072029-1-surenb@google.com>
+        id S234714AbhF2P1G (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 29 Jun 2021 11:27:06 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:43671 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S234675AbhF2P1D (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 29 Jun 2021 11:27:03 -0400
+Received: from cwcc.thunk.org (pool-72-74-133-215.bstnma.fios.verizon.net [72.74.133.215])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 15TFOQv1003604
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 29 Jun 2021 11:24:27 -0400
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+        id 5626E15C3CD8; Tue, 29 Jun 2021 11:24:26 -0400 (EDT)
+Date:   Tue, 29 Jun 2021 11:24:26 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     Rob Landley <rob@landley.net>
+Cc:     Denys Vlasenko <vda.linux@googlemail.com>,
+        David Howells <dhowells@redhat.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: lsattr: incorrect size for ioctl result
+Message-ID: <YNs7KsXJLdPp78Q5@mit.edu>
+References: <CAK1hOcO3qHFO6QOkpjnC_A4LVhwed02XxCYZvEn+8t+HnyGjZA@mail.gmail.com>
+ <b1b801af-d309-829e-fd48-6487661df809@landley.net>
+ <CAK1hOcMh3RK_Nd_=W-RgqhMZJh-OGY9qMDfxpALZHpxwriHgAA@mail.gmail.com>
+ <9acca2fa-eaef-1a0b-ac72-6b0eab3d8a45@landley.net>
+ <YNn5v7CTRsDo1mDO@mit.edu>
+ <b5f013f0-7720-e6fb-f512-c1ff7114dfb6@landley.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210623192822.3072029-1-surenb@google.com>
+In-Reply-To: <b5f013f0-7720-e6fb-f512-c1ff7114dfb6@landley.net>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jun 23, 2021 at 12:28:22PM -0700, Suren Baghdasaryan wrote:
-> In modern systems it's not unusual to have a system component monitoring
-> memory conditions of the system and tasked with keeping system memory
-> pressure under control. One way to accomplish that is to kill
-> non-essential processes to free up memory for more important ones.
-> Examples of this are Facebook's OOM killer daemon called oomd and
-> Android's low memory killer daemon called lmkd.
-> For such system component it's important to be able to free memory
-> quickly and efficiently. Unfortunately the time process takes to free
-> up its memory after receiving a SIGKILL might vary based on the state
-> of the process (uninterruptible sleep), size and OPP level of the core
-> the process is running. A mechanism to free resources of the target
-> process in a more predictable way would improve system's ability to
-> control its memory pressure.
-> Introduce process_reap system call that reclaims memory of a dying process
-> from the context of the caller. This way the memory in freed in a more
-> controllable way with CPU affinity and priority of the caller. The workload
-> of freeing the memory will also be charged to the caller.
-> The operation is allowed only on a dying process.
+On Mon, Jun 28, 2021 at 02:35:24PM -0500, Rob Landley wrote:
 > 
-> Previously I proposed a number of alternatives to accomplish this:
-> - https://lore.kernel.org/patchwork/patch/1060407 extending
-> pidfd_send_signal to allow memory reaping using oom_reaper thread;
-> - https://lore.kernel.org/patchwork/patch/1338196 extending
-> pidfd_send_signal to reap memory of the target process synchronously from
-> the context of the caller;
-> - https://lore.kernel.org/patchwork/patch/1344419/ to add MADV_DONTNEED
-> support for process_madvise implementing synchronous memory reaping.
+> Let me see if I understand:
 > 
-> The end of the last discussion culminated with suggestion to introduce a
-> dedicated system call (https://lore.kernel.org/patchwork/patch/1344418/#1553875)
-> The reasoning was that the new variant of process_madvise
->   a) does not work on an address range
->   b) is destructive
->   c) doesn't share much code at all with the rest of process_madvise
-> From the userspace point of view it was awkward and inconvenient to provide
-> memory range for this operation that operates on the entire address space.
-> Using special flags or address values to specify the entire address space
-> was too hacky.
+> 1) The API the kernel exports is not what the kernel is doing.
+> 2) Userspace can't reliably use the API the way it's currently exported.
+> 3) Even other kernel devs "didn't understand" it.
+> 4) Fixing it would involve scare quotes and result from a pearl clutching fit.
 > 
-> The API is as follows,
+> ... no, I'm pretty sure I don't understand.
 > 
->           int process_reap(int pidfd, unsigned int flags);
-> 
->         DESCRIPTION
->           The process_reap() system call is used to free the memory of a
->           dying process.
-> 
->           The pidfd selects the process referred to by the PID file
->           descriptor.
->           (See pidofd_open(2) for further information)
-> 
->           The flags argument is reserved for future use; currently, this
->           argument must be specified as 0.
-> 
->         RETURN VALUE
->           On success, process_reap() returns 0. On error, -1 is returned
->           and errno is set to indicate the error.
-> 
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> ---
->  arch/alpha/kernel/syscalls/syscall.tbl      |  1 +
->  arch/arm/tools/syscall.tbl                  |  1 +
->  arch/arm64/include/asm/unistd.h             |  2 +-
->  arch/arm64/include/asm/unistd32.h           |  2 +
->  arch/ia64/kernel/syscalls/syscall.tbl       |  1 +
->  arch/m68k/kernel/syscalls/syscall.tbl       |  1 +
->  arch/microblaze/kernel/syscalls/syscall.tbl |  1 +
->  arch/mips/kernel/syscalls/syscall_n32.tbl   |  1 +
->  arch/mips/kernel/syscalls/syscall_n64.tbl   |  1 +
->  arch/mips/kernel/syscalls/syscall_o32.tbl   |  1 +
->  arch/parisc/kernel/syscalls/syscall.tbl     |  1 +
->  arch/powerpc/kernel/syscalls/syscall.tbl    |  1 +
->  arch/s390/kernel/syscalls/syscall.tbl       |  1 +
->  arch/sh/kernel/syscalls/syscall.tbl         |  1 +
->  arch/sparc/kernel/syscalls/syscall.tbl      |  1 +
->  arch/x86/entry/syscalls/syscall_32.tbl      |  1 +
->  arch/x86/entry/syscalls/syscall_64.tbl      |  1 +
->  arch/xtensa/kernel/syscalls/syscall.tbl     |  1 +
->  include/linux/syscalls.h                    |  1 +
->  include/uapi/asm-generic/unistd.h           |  4 +-
->  kernel/sys_ni.c                             |  1 +
->  mm/oom_kill.c                               | 50 +++++++++++++++++++++
->  22 files changed, 74 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
-> index 3000a2e8ee21..14b9e81d2fc4 100644
-> --- a/arch/alpha/kernel/syscalls/syscall.tbl
-> +++ b/arch/alpha/kernel/syscalls/syscall.tbl
-> @@ -486,3 +486,4 @@
->  554	common	landlock_create_ruleset		sys_landlock_create_ruleset
->  555	common	landlock_add_rule		sys_landlock_add_rule
->  556	common	landlock_restrict_self		sys_landlock_restrict_self
-> +557	common	process_reap			sys_process_reap
-> diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
-> index 28e03b5fec00..889b78d0f63f 100644
-> --- a/arch/arm/tools/syscall.tbl
-> +++ b/arch/arm/tools/syscall.tbl
-> @@ -460,3 +460,4 @@
->  444	common	landlock_create_ruleset		sys_landlock_create_ruleset
->  445	common	landlock_add_rule		sys_landlock_add_rule
->  446	common	landlock_restrict_self		sys_landlock_restrict_self
-> +447	common	process_reap			sys_process_reap
-> diff --git a/arch/arm64/include/asm/unistd.h b/arch/arm64/include/asm/unistd.h
-> index 727bfc3be99b..fb7a0be2f3d9 100644
-> --- a/arch/arm64/include/asm/unistd.h
-> +++ b/arch/arm64/include/asm/unistd.h
-> @@ -38,7 +38,7 @@
->  #define __ARM_NR_compat_set_tls		(__ARM_NR_COMPAT_BASE + 5)
->  #define __ARM_NR_COMPAT_END		(__ARM_NR_COMPAT_BASE + 0x800)
->  
-> -#define __NR_compat_syscalls		447
-> +#define __NR_compat_syscalls		448
->  #endif
->  
->  #define __ARCH_WANT_SYS_CLONE
-> diff --git a/arch/arm64/include/asm/unistd32.h b/arch/arm64/include/asm/unistd32.h
-> index 5dab69d2c22b..80593454173e 100644
-> --- a/arch/arm64/include/asm/unistd32.h
-> +++ b/arch/arm64/include/asm/unistd32.h
-> @@ -900,6 +900,8 @@ __SYSCALL(__NR_landlock_create_ruleset, sys_landlock_create_ruleset)
->  __SYSCALL(__NR_landlock_add_rule, sys_landlock_add_rule)
->  #define __NR_landlock_restrict_self 446
->  __SYSCALL(__NR_landlock_restrict_self, sys_landlock_restrict_self)
-> +#define __NR_process_reap 447
-> +__SYSCALL(__NR_process_reap, sys_process_reap)
->  
->  /*
->   * Please add new compat syscalls above this comment and update
-> diff --git a/arch/ia64/kernel/syscalls/syscall.tbl b/arch/ia64/kernel/syscalls/syscall.tbl
-> index bb11fe4c875a..6c94feedf086 100644
-> --- a/arch/ia64/kernel/syscalls/syscall.tbl
-> +++ b/arch/ia64/kernel/syscalls/syscall.tbl
-> @@ -367,3 +367,4 @@
->  444	common	landlock_create_ruleset		sys_landlock_create_ruleset
->  445	common	landlock_add_rule		sys_landlock_add_rule
->  446	common	landlock_restrict_self		sys_landlock_restrict_self
-> +447	common	process_reap			sys_process_reap
-> diff --git a/arch/m68k/kernel/syscalls/syscall.tbl b/arch/m68k/kernel/syscalls/syscall.tbl
-> index 79c2d24c89dd..e80a7fa55696 100644
-> --- a/arch/m68k/kernel/syscalls/syscall.tbl
-> +++ b/arch/m68k/kernel/syscalls/syscall.tbl
-> @@ -446,3 +446,4 @@
->  444	common	landlock_create_ruleset		sys_landlock_create_ruleset
->  445	common	landlock_add_rule		sys_landlock_add_rule
->  446	common	landlock_restrict_self		sys_landlock_restrict_self
-> +447	common	process_reap			sys_process_reap
-> diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
-> index b11395a20c20..511b2bd61fc1 100644
-> --- a/arch/microblaze/kernel/syscalls/syscall.tbl
-> +++ b/arch/microblaze/kernel/syscalls/syscall.tbl
-> @@ -452,3 +452,4 @@
->  444	common	landlock_create_ruleset		sys_landlock_create_ruleset
->  445	common	landlock_add_rule		sys_landlock_add_rule
->  446	common	landlock_restrict_self		sys_landlock_restrict_self
-> +447	common	process_reap			sys_process_reap
-> diff --git a/arch/mips/kernel/syscalls/syscall_n32.tbl b/arch/mips/kernel/syscalls/syscall_n32.tbl
-> index 9220909526f9..1775704c6a24 100644
-> --- a/arch/mips/kernel/syscalls/syscall_n32.tbl
-> +++ b/arch/mips/kernel/syscalls/syscall_n32.tbl
-> @@ -385,3 +385,4 @@
->  444	n32	landlock_create_ruleset		sys_landlock_create_ruleset
->  445	n32	landlock_add_rule		sys_landlock_add_rule
->  446	n32	landlock_restrict_self		sys_landlock_restrict_self
-> +447	n32	process_reap			sys_process_reap
-> diff --git a/arch/mips/kernel/syscalls/syscall_n64.tbl b/arch/mips/kernel/syscalls/syscall_n64.tbl
-> index 9cd1c34f31b5..d769daca3f79 100644
-> --- a/arch/mips/kernel/syscalls/syscall_n64.tbl
-> +++ b/arch/mips/kernel/syscalls/syscall_n64.tbl
-> @@ -361,3 +361,4 @@
->  444	n64	landlock_create_ruleset		sys_landlock_create_ruleset
->  445	n64	landlock_add_rule		sys_landlock_add_rule
->  446	n64	landlock_restrict_self		sys_landlock_restrict_self
-> +447	n64	process_reap			sys_process_reap
-> diff --git a/arch/mips/kernel/syscalls/syscall_o32.tbl b/arch/mips/kernel/syscalls/syscall_o32.tbl
-> index d560c467a8c6..1bd2fc056677 100644
-> --- a/arch/mips/kernel/syscalls/syscall_o32.tbl
-> +++ b/arch/mips/kernel/syscalls/syscall_o32.tbl
-> @@ -434,3 +434,4 @@
->  444	o32	landlock_create_ruleset		sys_landlock_create_ruleset
->  445	o32	landlock_add_rule		sys_landlock_add_rule
->  446	o32	landlock_restrict_self		sys_landlock_restrict_self
-> +447	o32	process_reap			sys_process_reap
-> diff --git a/arch/parisc/kernel/syscalls/syscall.tbl b/arch/parisc/kernel/syscalls/syscall.tbl
-> index aabc37f8cae3..0012561ca557 100644
-> --- a/arch/parisc/kernel/syscalls/syscall.tbl
-> +++ b/arch/parisc/kernel/syscalls/syscall.tbl
-> @@ -444,3 +444,4 @@
->  444	common	landlock_create_ruleset		sys_landlock_create_ruleset
->  445	common	landlock_add_rule		sys_landlock_add_rule
->  446	common	landlock_restrict_self		sys_landlock_restrict_self
-> +447	common	process_reap			sys_process_reap
-> diff --git a/arch/powerpc/kernel/syscalls/syscall.tbl b/arch/powerpc/kernel/syscalls/syscall.tbl
-> index 8f052ff4058c..89cbcc732b18 100644
-> --- a/arch/powerpc/kernel/syscalls/syscall.tbl
-> +++ b/arch/powerpc/kernel/syscalls/syscall.tbl
-> @@ -526,3 +526,4 @@
->  444	common	landlock_create_ruleset		sys_landlock_create_ruleset
->  445	common	landlock_add_rule		sys_landlock_add_rule
->  446	common	landlock_restrict_self		sys_landlock_restrict_self
-> +447	common	process_reap			sys_process_reap
-> diff --git a/arch/s390/kernel/syscalls/syscall.tbl b/arch/s390/kernel/syscalls/syscall.tbl
-> index 0690263df1dd..7ebd4d809b5e 100644
-> --- a/arch/s390/kernel/syscalls/syscall.tbl
-> +++ b/arch/s390/kernel/syscalls/syscall.tbl
-> @@ -449,3 +449,4 @@
->  444  common	landlock_create_ruleset	sys_landlock_create_ruleset	sys_landlock_create_ruleset
->  445  common	landlock_add_rule	sys_landlock_add_rule		sys_landlock_add_rule
->  446  common	landlock_restrict_self	sys_landlock_restrict_self	sys_landlock_restrict_self
-> +447  common	process_reap		sys_process_reap		sys_process_reap
-> diff --git a/arch/sh/kernel/syscalls/syscall.tbl b/arch/sh/kernel/syscalls/syscall.tbl
-> index 0b91499ebdcf..178fd47b372e 100644
-> --- a/arch/sh/kernel/syscalls/syscall.tbl
-> +++ b/arch/sh/kernel/syscalls/syscall.tbl
-> @@ -449,3 +449,4 @@
->  444	common	landlock_create_ruleset		sys_landlock_create_ruleset
->  445	common	landlock_add_rule		sys_landlock_add_rule
->  446	common	landlock_restrict_self		sys_landlock_restrict_self
-> +447	common	process_reap			sys_process_reap
-> diff --git a/arch/sparc/kernel/syscalls/syscall.tbl b/arch/sparc/kernel/syscalls/syscall.tbl
-> index e34cc30ef22c..faee121b7ae2 100644
-> --- a/arch/sparc/kernel/syscalls/syscall.tbl
-> +++ b/arch/sparc/kernel/syscalls/syscall.tbl
-> @@ -492,3 +492,4 @@
->  444	common	landlock_create_ruleset		sys_landlock_create_ruleset
->  445	common	landlock_add_rule		sys_landlock_add_rule
->  446	common	landlock_restrict_self		sys_landlock_restrict_self
-> +447	common	process_reap			sys_process_reap
-> diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
-> index 4bbc267fb36b..cbe070de9884 100644
-> --- a/arch/x86/entry/syscalls/syscall_32.tbl
-> +++ b/arch/x86/entry/syscalls/syscall_32.tbl
-> @@ -451,3 +451,4 @@
->  444	i386	landlock_create_ruleset	sys_landlock_create_ruleset
->  445	i386	landlock_add_rule	sys_landlock_add_rule
->  446	i386	landlock_restrict_self	sys_landlock_restrict_self
-> +447	i386	process_reap		sys_process_reap
-> diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
-> index ce18119ea0d0..e6765646731b 100644
-> --- a/arch/x86/entry/syscalls/syscall_64.tbl
-> +++ b/arch/x86/entry/syscalls/syscall_64.tbl
-> @@ -368,6 +368,7 @@
->  444	common	landlock_create_ruleset	sys_landlock_create_ruleset
->  445	common	landlock_add_rule	sys_landlock_add_rule
->  446	common	landlock_restrict_self	sys_landlock_restrict_self
-> +447	common	process_reap		sys_process_reap
->  
->  #
->  # Due to a historical design error, certain syscalls are numbered differently
-> diff --git a/arch/xtensa/kernel/syscalls/syscall.tbl b/arch/xtensa/kernel/syscalls/syscall.tbl
-> index fd2f30227d96..f0e9dbee1a5b 100644
-> --- a/arch/xtensa/kernel/syscalls/syscall.tbl
-> +++ b/arch/xtensa/kernel/syscalls/syscall.tbl
-> @@ -417,3 +417,4 @@
->  444	common	landlock_create_ruleset		sys_landlock_create_ruleset
->  445	common	landlock_add_rule		sys_landlock_add_rule
->  446	common	landlock_restrict_self		sys_landlock_restrict_self
-> +447	common	process_reap			sys_process_reap
-> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-> index 050511e8f1f8..b6659e09bf0d 100644
-> --- a/include/linux/syscalls.h
-> +++ b/include/linux/syscalls.h
-> @@ -915,6 +915,7 @@ asmlinkage long sys_mincore(unsigned long start, size_t len,
->  asmlinkage long sys_madvise(unsigned long start, size_t len, int behavior);
->  asmlinkage long sys_process_madvise(int pidfd, const struct iovec __user *vec,
->  			size_t vlen, int behavior, unsigned int flags);
-> +asmlinkage long sys_process_reap(int pidfd, unsigned int flags);
->  asmlinkage long sys_remap_file_pages(unsigned long start, unsigned long size,
->  			unsigned long prot, unsigned long pgoff,
->  			unsigned long flags);
-> diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
-> index d2a942086fcb..b3bf57b928af 100644
-> --- a/include/uapi/asm-generic/unistd.h
-> +++ b/include/uapi/asm-generic/unistd.h
-> @@ -871,9 +871,11 @@ __SYSCALL(__NR_landlock_create_ruleset, sys_landlock_create_ruleset)
->  __SYSCALL(__NR_landlock_add_rule, sys_landlock_add_rule)
->  #define __NR_landlock_restrict_self 446
->  __SYSCALL(__NR_landlock_restrict_self, sys_landlock_restrict_self)
-> +#define __NR_process_reap 447
-> +__SYSCALL(__NR_process_reap, sys_process_reap)
->  
->  #undef __NR_syscalls
-> -#define __NR_syscalls 447
-> +#define __NR_syscalls 448
->  
->  /*
->   * 32 bit systems traditionally used different
-> diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
-> index 0ea8128468c3..56eb7c9f8356 100644
-> --- a/kernel/sys_ni.c
-> +++ b/kernel/sys_ni.c
-> @@ -289,6 +289,7 @@ COND_SYSCALL(munlockall);
->  COND_SYSCALL(mincore);
->  COND_SYSCALL(madvise);
->  COND_SYSCALL(process_madvise);
-> +COND_SYSCALL(process_reap);
->  COND_SYSCALL(remap_file_pages);
->  COND_SYSCALL(mbind);
->  COND_SYSCALL_COMPAT(mbind);
-> diff --git a/mm/oom_kill.c b/mm/oom_kill.c
-> index eefd3f5fde46..0f85a0442fa5 100644
-> --- a/mm/oom_kill.c
-> +++ b/mm/oom_kill.c
-> @@ -28,6 +28,7 @@
->  #include <linux/sched/task.h>
->  #include <linux/sched/debug.h>
->  #include <linux/swap.h>
-> +#include <linux/syscalls.h>
->  #include <linux/timex.h>
->  #include <linux/jiffies.h>
->  #include <linux/cpuset.h>
-> @@ -1141,3 +1142,52 @@ void pagefault_out_of_memory(void)
->  	out_of_memory(&oc);
->  	mutex_unlock(&oom_lock);
->  }
-> +
-> +SYSCALL_DEFINE2(process_reap, int, pidfd, unsigned int, flags)
+> *shrug* I've cc'd Michael Kerrisk in hopes he can update the man pages. "man
+> ioctl_list" already documents these ioctls correctishly (modulo the
+> signed/unsigned part) but might benefit from some sort of "warning, do not trust
+> the kernel headers here, they are wrong" comment.
 
-Hey Suren,
+The philosophical question is whether the encoding of _IO* is actually
+part of an exported "API", or just a way of encoding codepoints such
+that when data structures change size, the codepoint automatically
+changes/breaks.
 
-Wouldn't
-- process_memory_reap()
-- process_reap_memory()
-- process_mreap()
-be better names?
+We have historically speaking, a non-trivial number of ioctl's which
+don't follow the _IO[RW] convention.  For example, most of the block
+ioctls predate the _IO[RW] convention, and they set or get memory
+without specifying the size of the type that is set or get.  Oh, noos!
+The kernel is (clutchign pearls) *violating* an API "promise".
+(Although, in reality, these code points existed for long before we
+imposed this _IO[RW] "API".)  Should we break userspace to "fix" this
+supposed API violation?  Or should we go through a huge amount of
+effort to fix them all?
 
-> +{
-> +	struct pid *pid;
-> +	struct task_struct *task;
-> +	struct mm_struct *mm = NULL;
-> +	unsigned int f_flags;
-> +	long ret = 0;
-> +
-> +	if (flags != 0)
-> +		return -EINVAL;
-> +
-> +	pid = pidfd_get_pid(pidfd, &f_flags);
-> +	if (IS_ERR(pid))
-> +		return PTR_ERR(pid);
-> +
-> +	task = get_pid_task(pid, PIDTYPE_PID);
-> +	if (!task) {
-> +		ret = -ESRCH;
-> +		goto put_pid;
-> +	}
+At one point, I had made an attempt to define the "correct" codepoint
+via a definition of EXT4_IOC_GETVERSION and EXT4_IOC_GETVERSION_OLD,
+so the kernel would support the "correct" and "wrong" ioctl codepoint.
+Unfortunate, this got broken when other folks tried to unify
+everything to use FS_IOC_GETVERSION defined in
+include/uapi/linux/fs.h.  And given that we would have to support the
+"wrong" codepoint for a decade or more, personally, I've stopped
+caring about it, especially since we've lived with it for a decade or
+more, and very few people been harmed.
 
-You have a similar pattern in process_madvise():
+If someone wants to fix up all of the ioctl code points, perhaps so it
+would make life easier for strace, or some such, it's not a *terrible*
+idea.  (At the very least, it's more useful than KPI-hacking folks
+submitting whitespace fixes that don't even fix all of the
+checkpatch.pl "violations".)  But forcing all of the ioctl codepoints
+into the procrustean bed of the _IO[RW] covention is a huge amount of
+work, and would take years before userspace could depend on this
+"API".
 
-	pid = pidfd_get_pid(pidfd, &f_flags);
-	if (IS_ERR(pid)) {
-		ret = PTR_ERR(pid);
-		goto free_iov;
-	}
+Cheers,
 
-	task = get_pid_task(pid, PIDTYPE_PID);
-	if (!task) {
-		ret = -ESRCH;
-		goto put_pid;
-	}
-
-I'd suggest you add a tiny helper to kernel/pid.c and call it in both
-places.
+					- Ted
