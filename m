@@ -2,88 +2,132 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75C7E3B824E
-	for <lists+linux-api@lfdr.de>; Wed, 30 Jun 2021 14:42:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6ED7D3B826E
+	for <lists+linux-api@lfdr.de>; Wed, 30 Jun 2021 14:50:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234560AbhF3Mo7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 30 Jun 2021 08:44:59 -0400
-Received: from wtarreau.pck.nerim.net ([62.212.114.60]:57169 "EHLO 1wt.eu"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234455AbhF3Mo7 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 30 Jun 2021 08:44:59 -0400
-Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id 15UCfBAA024028;
-        Wed, 30 Jun 2021 14:41:11 +0200
-Date:   Wed, 30 Jun 2021 14:41:11 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     Florian Weimer <fweimer@redhat.com>, Len Brown <lenb@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Dave Hansen via Libc-alpha <libc-alpha@sourceware.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Rich Felker <dalias@libc.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
-        X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Kyle Huey <me@kylehuey.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Keno Fischer <keno@juliacomputing.com>,
-        Arjan van de Ven <arjan@linux.intel.com>
-Subject: Re: Candidate Linux ABI for Intel AMX and hypothetical new related
- features
-Message-ID: <20210630124111.GC23648@1wt.eu>
-References: <37833625-3e6b-5d93-cc4d-26164d06a0c6@intel.com>
- <CAJvTdKmqzO4P9k3jqRA=dR+B7yV72hZCiyC8HGQxDKZBnXgzZQ@mail.gmail.com>
- <9c8138eb-3956-e897-ed4e-426bf6663c11@intel.com>
- <87pmxk87th.fsf@oldenburg.str.redhat.com>
- <YKfIct+DhpEBbaCQ@hirez.programming.kicks-ass.net>
- <87wnqkzklg.fsf@oldenburg.str.redhat.com>
- <CAJvTdKkBTD62GTi=GW0+y0_1qc2JxfpfkNbXKWniWWOEmZZmUw@mail.gmail.com>
- <93e3b500-5992-a674-18e6-445d1db7b1f0@metux.net>
- <87tulirw5y.fsf@oldenburg.str.redhat.com>
- <84be3cfd-e825-ae75-bbae-2bbd3360daa7@metux.net>
+        id S234606AbhF3MxR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 30 Jun 2021 08:53:17 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:36361 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234481AbhF3MxR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Jun 2021 08:53:17 -0400
+Received: from [192.168.1.155] ([95.114.41.241]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MYtoe-1llI192cam-00UojT; Wed, 30 Jun 2021 14:50:31 +0200
+Subject: Re: x86 CPU features detection for applications (and AMX)
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Thiago Macieira <thiago.macieira@intel.com>, fweimer@redhat.com,
+        hjl.tools@gmail.com, libc-alpha@sourceware.org,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        x86@kernel.org
+References: <22261946.eFiGugXE7Z@tjmaciei-mobl1>
+ <3c5c29e2-1b52-3576-eda2-018fb1e58ff9@metux.net>
+ <YNnMsJJzI83cpnAQ@hirez.programming.kicks-ass.net>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Message-ID: <534d0171-2cc5-cd0a-904f-cd3c499b55af@metux.net>
+Date:   Wed, 30 Jun 2021 14:50:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <84be3cfd-e825-ae75-bbae-2bbd3360daa7@metux.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <YNnMsJJzI83cpnAQ@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: tl
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:f8wD1L5OnG5ZOsE+tGbUEtQNOAfBnMFdUohoZ6kW/kxSGkfL+Te
+ /GhbzcOAkyCqhN+6Q12lAdLx0dMHoClZJOIKOtfJu2BuIH23NUZOq22OFybpQnc1mGGwPZ1
+ ZJgsiwzeL8GBKsP0nIpL5Y8AisWANpQUHgYngvFA8rhB80DGCyqhDMo87kCFgeQhCWzwZHo
+ nU26D+SS/elEl7WIemcxQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:C8iwSlPCzpw=:lEoyWAgaSI5BgD6fxu/Yl3
+ eTnnDUemKypufZE7hCMa/u1thpekjxN5ryEywwcbMLVhp9MPHtB5+so7dMU0ncz0Z3I0O/zce
+ SdRX2YevS/BXqTrxsXsdl1uhdKBueTDIA9OuzYjj9g0U2GaZAYrOWHnwLveY8UCD5OAimJJsN
+ GzrzCiKdfQLOjge29p9bYLh+nPlBNpTVx1YYo9UzdcdhS3BeGEDhYMFYiF9N78qMhIHAVTmx7
+ Sd0wyE9DXkYNVVLhWxY+K9e++zYxwqOCxLm6x6UNoH2qtSDAzwaVWv8kgXNClt2efthR1Co+C
+ qGJ/HSiPGeAVd9ROGxJvAXxsYwF7V+JFeMgcp12NZvMoO2yKl8RnY7qlPX4rdVHeU+o6JnGNr
+ iRca/gOy9NmdQ2ukT6vsUT9eYgr+XGzQYoAF9SoCNJLGUUF3r6tXxFyx58kMtuvJ5rKrJlMRt
+ 7/q3KpFzOtnJiHsdPr7+3f6/fD77Rm/XlEAakOw0QqMVekjLk5xscflCWvRY7yWdUV2MF3yD2
+ fTx6ro8o1J6GZrHo2ahCZUv6I+1nLljsPUvOa7LmNmZcriwHchPyXkUpCOE9aYvTGHI4WTiCG
+ odiWx66s21E3cg3mvrSQAqyDR+vScyiS/1uY7xkfWTIneOl/7f22uGt0URtUdSdpvUhHz2ddJ
+ 7OsgXzC9NNo42/Wyrrq8ifu4qFC3i62XSTmj6RUD0Oig0R7kbF9JDEfPgrjnlyHv4LGCgtR0Y
+ 6+QWcJt58F/P/cGbyvHC3bedJiMNTuZu1+EPAQk2EHhAS21iRPLDxcsWwBE79JbUL6I021uni
+ EeSxsZLC0rBtaDPdYbYXW+BambhiSdk4+FQYZujL7hLJBj3u1Hu/NNP0xtpdx34PxC9TbtX
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jun 30, 2021 at 02:22:19PM +0200, Enrico Weigelt, metux IT consult wrote:
-> Ah, now I'm beginning to get it:
+On 28.06.21 15:20, Peter Zijlstra wrote:
+
+>> And one point that immediately jumps into my mind (w/o looking deeper
+>> into it): it introduces completely new registers - do we now need extra
+>> code for tasks switching etc ?
 > 
-> * this feature needs to be initialized first, before it can be used
-> * on first use (when not initialized yet), it traps into the kernel
-> * we don't want to always initialize it at boot
+> No, but because it's register state and part of XSAVE, it has immediate
+> impact in ABI. In particular, the signal stack layout includes XSAVE (as
+> does ptrace()).
+
+OMGs, I've already suspected such sickness. I don't even dare thinking
+about consequences for compilers and library ABIs.
+
+Does anyone here know why they designed this as inline operations ? This
+thing seems to be pretty much what typical TPUs are doing (or a subset
+of it). Why not just adding a TPU next to the CPU on the same chip ?
+
+We already have the same w/ GPUs, and I guess nobody seriously wants to
+put GPU functionality directly into CPU.
+
+> At the same time, 'legacy' applications (up until _very_ recently) had a
+> minimum signal stack size of 2K, which is already violated by the
+> addition of AVX512 (there's actual breakage due to that).
+
+grmpf!
+
+> Adding the insane AMX state (8k+) into that is a complete trainwreck
+> waiting to happen. Not to mention that having !INIT AMX state has direct
+> consequences for P-state selection and thus performance.
+
+Uh, are those new registers retained in certain sleep states or do they
+need to be saved somewhere ?
+
+> For these reasons, us OS folks, will mandate you get to do a prctl() to
+> request/release AMX (and we get to say: no). If you use AMX without
+> this, the instruction will fault (because not set in XCR0) and we'll
+> SIGBUS or something.
 > 
-> Correct ?
+> Userspace will have to do something like:
+> 
+>   - check CPUID, if !AMX -> fail
+>   - issue prctl(), if error -> fail
+>   - issue XGETBV and check the AMX bit it set, if not -> fail
 
-Not exactly. It's available but comes with a huge context-switch
-cost for each task using it.
+Can't we to this just by prctl() call ?
+IOW: ask the kernel, who gonna say yes or no.
 
-> What I'm wondering: why shall the process explicitly ask for it and
-> why isn't the initialization be done either on bootup or on first use ?
+Are there any situations where kernel says yes, but process still can't
+use it ? Why so ?
 
-The whole discussion about the pros and cons is archived here:
+>   - request the signal stack size / spawn threads
 
-   https://lore.kernel.org/lkml/CALCETrW2QHa2TLvnUuVxAAheqcbSZ-5_WRXtDSAGcbG8N+gtdQ@mail.gmail.com/
+Signal stack is separate from the usual stack, right ?
+Why can't this all be done in one shot ?
 
-> I'm still claiming already this old model is a horrible misdesign and
-> (most of) the extensions made over the decades are anything but well
-> designed - there had been many changes to do it much, much better.
-> For example there would have been ways to introduce new opcodes in a way
-> that they can be easily emulated in kernel or userland, w/o going
-> through a full trap.
+>   - use AMX
+> 
+> Spawning threads prior to enabling AMX will result in using the wrong
+> signal stack size and result in malfunction, you get to keep the pieces.
 
-It's not a matter of opcodes but of context switch cost which not
-everyone wants to inflict to every single task that opportunistically
-uses these instructions without realizing what this subsequently
-implies for the rest of their life. All this is discussed in the
-thread above. I don't remember seeing anybody criticize the choice
-of instruction encoding hence it's irrelevant to this discussion.
+No way of adjusting this once the threads are running ?
+Or could we even do that on per-thread basis ?
 
-Hoping this helps,
-Willy
+A thread here always has a corresponding kernel task, correct ?
+
+--mtx
+
+-- 
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
