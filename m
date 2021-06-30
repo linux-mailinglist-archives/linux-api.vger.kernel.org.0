@@ -2,97 +2,84 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0591C3B8622
-	for <lists+linux-api@lfdr.de>; Wed, 30 Jun 2021 17:16:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D0093B862A
+	for <lists+linux-api@lfdr.de>; Wed, 30 Jun 2021 17:21:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235689AbhF3PSt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 30 Jun 2021 11:18:49 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:33255 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235508AbhF3PSt (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Jun 2021 11:18:49 -0400
-Received: from [192.168.1.155] ([95.114.41.241]) by mrelayeu.kundenserver.de
- (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MF3U0-1m0qzA3KX2-00FX24; Wed, 30 Jun 2021 17:16:08 +0200
-Subject: Re: x86 CPU features detection for applications (and AMX)
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     Thiago Macieira <thiago.macieira@intel.com>, hjl.tools@gmail.com,
-        libc-alpha@sourceware.org, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, x86@kernel.org
-References: <22261946.eFiGugXE7Z@tjmaciei-mobl1>
- <3c5c29e2-1b52-3576-eda2-018fb1e58ff9@metux.net>
- <2379132.fg5cGID6mU@tjmaciei-mobl1>
- <e07294c9-b02a-e1c5-3620-7fae7269fdf1@metux.net>
- <87pmw3ifpv.fsf@oldenburg.str.redhat.com>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Message-ID: <030f1462-2bf9-39bc-d620-6d9fbe454a27@metux.net>
-Date:   Wed, 30 Jun 2021 17:16:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S235466AbhF3PX3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 30 Jun 2021 11:23:29 -0400
+Received: from mail-ed1-f41.google.com ([209.85.208.41]:35416 "EHLO
+        mail-ed1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235417AbhF3PX2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Jun 2021 11:23:28 -0400
+Received: by mail-ed1-f41.google.com with SMTP id df12so3826129edb.2;
+        Wed, 30 Jun 2021 08:20:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Sz1XXHWZ7zn1WpHe2P7mcJtnwjKt4l13a3EOZTMRPAo=;
+        b=YlJwaIFd1dvboak11sCCPkFvUblbcUhH4kkHmQYGjUVWfk65TxvrBEt3cCGh+IVcVl
+         8ODa4KqRakqWmt3uZE3F49SGGVCbErtfiTt+g84X5UXmgxbZ037nVlsu+ExO/aWoBk52
+         111Zhb8jlW8C3Weq5wYA3RoodWLhah9WuX3gGk6j/L6BoGNLxduOIyGLBlQ4ICAoo9w4
+         LDjCobAYkNWcaPBgQz3uoH3gW9/fQcfjnKZrUq5EQyjbn/NFPKAfHYRS784TAzn+7WZu
+         bb9EOxCB/Rajo3LNixyGPyqQqPrhPCQhtSphEQPCTO7u4s6JG5aZcWCTDL6lHeJO2a4Q
+         hlbg==
+X-Gm-Message-State: AOAM5311U9VaUcf3hPA0gBg5cenadp1b2siKA3GG6NWZtDXnjTBx0ijw
+        264XFwIr9QdAgMp6Jq+CtYvkGv+ro8YBgbUxzmnBDMe2O/A=
+X-Google-Smtp-Source: ABdhPJxTzFTAllAFF5dh/zsKE885gd2rn3QWQvuP9AHb6vrfEx/T/lgKjt1C+F/rqfHw6PNi6YS86cztvhpC7hViPEs=
+X-Received: by 2002:a05:6402:31b4:: with SMTP id dj20mr48326007edb.186.1625066458480;
+ Wed, 30 Jun 2021 08:20:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87pmw3ifpv.fsf@oldenburg.str.redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: tl
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:AyD6IunEr2ZVbQ6oYBfRq8AhWfgUWlhID3kd5E74rmHmA6gPuN5
- dPH2ajDyy3WEuUhOqy4OxS0TnAB7ONXUkzL1+52QpwrNAeZ6SdI0L8Xjl0iuQU1TuMGNYBs
- AzosIDWcQpHDUV8h9CLLFCFsEnR1yY1ZXBq2qUHfBvRZ7Sk3q6vkiUdtQ7Eke+eDA5RpWVD
- b+QCcwftECYMwOuGCGMfA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0quIKKXfv5c=:RRMbdvs69LyU0undJQsfFH
- z8mpAzkS1bPOkelKHRmRn+WYvyx2xBimmmQ2GSjKc8IUFsNBM5A/5x1pdBcsFbotjNFWgLde7
- ciU3sD5qI1ijjf7cn4Uy7bYNB3EXohhqFeQ0WZ4JrwZXY5W6HEwJl29KYNZQYtHLCtwj7smdI
- IGyCOBSnDLZQb28ZWK4DsmGILWvpS/WMnYu7SrhoNxTE9P0tj4xu73mCn5JmSJ2hpzYhDvshw
- 9Zn9Oco7aW0zxng4DeEkY2BxVmkbqIgA6ZWv21Mx2W0EWmiYHcWDtuNDoGuhK/tPjBc5pdVYc
- kYXYIfxYWZ3Kq7GgNC3QBvKQjAzbpLfX6i1d+OD0rEA55dcqTcX2Rp9iZAUYy7vaSAvoSlbgV
- m3gYk8+2ylgXyujmXVf0uWA9IJX9LfJe30orQV82xv1mxNbUzDuUE87tSfo7f2EpcFuLqIj6A
- PIfp6KxYqq5+A2IicovUgNqOwDM0l0z25EyIGeSTPnFZ2qx+ArFsFZy1r7lkIRsaZT59neVAj
- Gjac5Ki4g09Rl7jX2WhVEqUiWK49d3S14ksHwxY2fMqXpjuQC6K1Ej771S4lhbq5QS17mOqVk
- b1q6JlfZe7nZlNRtxTqNFGFW7FWR3PX2Vj124JtkfV9LvSg7dj1boYgNDXSe69gSgAqLZScaS
- 4YH08yhysCT+Z2WBvfHF1AN55nF2MObyq0xjtfjwZ/tAvnAFmP5EfpaW9gBzj43m0orKzw7j+
- neqaKXTJ2QRVk+TaqnpzbjpRK0m7YxZg1bH4AUVUcqJwRrDdcb65XUq81TFI+D+rOHt0vCUR6
- ioaTfpP3eapxF3s6Ec6tgt1qpWJB5zrYEmxLBkOGCmBS7WR/G7tHv9cNpDplzatEKL/1jz++X
- HqNw0YDo8YMqeaVi3bAZ/cUGEoU+GvmN+aMA0DFYw=
+References: <CAJvTdKn6JHo02karEs0e5g+6SimS5VUcXKjCkX35WY+xkgAgxw@mail.gmail.com>
+ <YIMmwhEr46VPAZa4@zn.tnic> <CAJvTdKnhXnynybS4eNEF_EtF26auyb-mhKLNd1D9_zvCrchZsw@mail.gmail.com>
+ <874kf11yoz.ffs@nanos.tec.linutronix.de> <CAJvTdKkYp+zP_9tna6YsrOz2_nmEUDLJaL_i-SNog0m2T9wZ=Q@mail.gmail.com>
+ <87k0ntazyn.ffs@nanos.tec.linutronix.de> <37833625-3e6b-5d93-cc4d-26164d06a0c6@intel.com>
+ <CAJvTdKmqzO4P9k3jqRA=dR+B7yV72hZCiyC8HGQxDKZBnXgzZQ@mail.gmail.com>
+ <9c8138eb-3956-e897-ed4e-426bf6663c11@intel.com> <87pmxk87th.fsf@oldenburg.str.redhat.com>
+ <YKfIct+DhpEBbaCQ@hirez.programming.kicks-ass.net> <87wnqkzklg.fsf@oldenburg.str.redhat.com>
+ <CAJvTdKkBTD62GTi=GW0+y0_1qc2JxfpfkNbXKWniWWOEmZZmUw@mail.gmail.com>
+ <93e3b500-5992-a674-18e6-445d1db7b1f0@metux.net> <87tulirw5y.fsf@oldenburg.str.redhat.com>
+ <84be3cfd-e825-ae75-bbae-2bbd3360daa7@metux.net> <0978e79c-33ad-c05b-3897-99334c381396@linux.intel.com>
+In-Reply-To: <0978e79c-33ad-c05b-3897-99334c381396@linux.intel.com>
+From:   Len Brown <lenb@kernel.org>
+Date:   Wed, 30 Jun 2021 11:20:47 -0400
+Message-ID: <CAJvTdKkwSxUzyUjTMKUUpaFRz49AoxtxTDYAPfAFPQtRmA_87w@mail.gmail.com>
+Subject: Re: Candidate Linux ABI for Intel AMX and hypothetical new related features
+To:     Arjan van de Ven <arjan@linux.intel.com>
+Cc:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
+        Florian Weimer <fweimer@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Dave Hansen via Libc-alpha <libc-alpha@sourceware.org>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Rich Felker <dalias@libc.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        "Bae, Chang Seok" <chang.seok.bae@intel.com>,
+        X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Kyle Huey <me@kylehuey.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Keno Fischer <keno@juliacomputing.com>,
+        Willy Tarreau <w@1wt.eu>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 30.06.21 16:34, Florian Weimer wrote:
+The latest proposal for kernel AMX support (updated today) is here:
 
-> It breaks integration with system-wide settings, such as user/group
-> databases, host name lookup, and cryptographic policies.  In many
-> environments, that is not really an option.
+https://lore.kernel.org/lkml/20210630060226.24652-1-chang.seok.bae@intel.com/
 
-Not necessarily, these can still be applied (and fairly simple).
-You actually have to twist more extra knobs if to wanted those weird
-things to happen.
+The main challenge for AMX is not context switch performance.
+Hardware recognizes INIT state (the common case) and skips that data
+transfer when it is not needed.
 
-The only thing that won't work easily is when the operator forces some
-custom libraries to be loaded arbitrarily into all processes. Yes,
-somebody could write his own nss plugins, but that's exactly the kind
-of audience that does NOT just use those (especially old) binary-only
-distros. In over 20 years, being inside dozens of corporations, I've
-only seen that exactly once. And it was me doing that.
-
-I actually wonder which kind of binary only application that shall be
-that's actually affected by that problem and actually used in the
-field that way.
-
-Do you have some actual practical (not theoretical) example ?
-
-By the way: today's method of choice for delivering binary only
-software is containers. (and I'd even count things like Steam into
-that category).
-
-
---mtx
-
--- 
----
-Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
-werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
-GPG/PGP-Schlüssel zu.
----
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+The main challenge for AMX is compatibility.  Specifically, user
+signal stack growth.
+The legacy ABI is that we put an uncompacted XSTATE image on the signal stack.
+In the default stack case, this isn't a problem, but when a user
+allocates an alternative signal stack,
+the 8K of XSTATE growth that AMX can exceed what the user allocated.
+The new system call tells the kernel that the application can handle it.
+(it can do this by not using altsigstack, or by using the updated
+stack size advertised
+ by glibc 2.34 and later, or some other means)
