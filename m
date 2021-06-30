@@ -2,104 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E7BDF3B7CFD
-	for <lists+linux-api@lfdr.de>; Wed, 30 Jun 2021 07:23:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 817863B7EE2
+	for <lists+linux-api@lfdr.de>; Wed, 30 Jun 2021 10:25:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229874AbhF3FZi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 30 Jun 2021 01:25:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45494 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229705AbhF3FZh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Jun 2021 01:25:37 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E763C061767
-        for <linux-api@vger.kernel.org>; Tue, 29 Jun 2021 22:23:08 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id m26so1085224pgb.8
-        for <linux-api@vger.kernel.org>; Tue, 29 Jun 2021 22:23:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=OkgX/l6nyVHOkHtVICWEWlZsAs77Eh7E8vZnP+04cZU=;
-        b=Ozuu7aPncD/CMLJza+F4JwA5PsKvNqi55YrM7STSKGqVfTpUR6pNiqkih8C4Yej/UI
-         pX+laWJdYLjpLb9flbG3+U2C2Ptmg+Az4aAgDQyct0uzw/FYqXma79YGfBZ+XB5d0fJG
-         dq5rXy7x0hVB2s2mU6bck5fQekMMTukz/ufvc=
+        id S233291AbhF3I1j (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 30 Jun 2021 04:27:39 -0400
+Received: from mail-vs1-f42.google.com ([209.85.217.42]:38473 "EHLO
+        mail-vs1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233085AbhF3I1i (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Jun 2021 04:27:38 -0400
+Received: by mail-vs1-f42.google.com with SMTP id o7so1209954vss.5;
+        Wed, 30 Jun 2021 01:25:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=OkgX/l6nyVHOkHtVICWEWlZsAs77Eh7E8vZnP+04cZU=;
-        b=QC3dptopxzCCBrsSsJ4jJN70Z/iqj6ug7IJvzaRZPZFtbrVVZ8YhFU1xF1V0nxH1zO
-         DGNA5YOi6HvfDwXyFWQ48f7+jqJvE/29OpQQO3zm8ZrnyKWojw9eKdhDGQT12IwM72xp
-         Ior6SMO//Kzz3w+oe7StJaHDBUAk7dJFyAwLVgRC3j1PNMVpXhfPAEV7rnoMI32/civa
-         ZoEPVpkBDKWbS8hUT6PemItpZwdI/cnpg1ihBzj6VF4OaSGobhSqf/GW3n8hhADbUd/K
-         Rac2CDNVUl+fow5mhAzhxs553M5mAOTuXwMJcHLQghPaafcH0+nTyyDw6APUDC99SQ4g
-         7DHw==
-X-Gm-Message-State: AOAM532rY4O6i+JJl+s00eW1xspQYJKd2p+iX4kqaTfCYp7uZ6jP4VD4
-        gr824PY3kOrZjZWSA0aF79OXVQ==
-X-Google-Smtp-Source: ABdhPJwDqkm3t0Zwuy34uTWGsjAywlzfUwSe78RbVnfvHZrGSmFPSQRG5iMuesZvQ5sZ2hfjRRaV2Q==
-X-Received: by 2002:a62:380c:0:b029:2f7:4057:c3ed with SMTP id f12-20020a62380c0000b02902f74057c3edmr34233852pfa.21.1625030588089;
-        Tue, 29 Jun 2021 22:23:08 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id q18sm20087789pfj.178.2021.06.29.22.23.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Jun 2021 22:23:07 -0700 (PDT)
-Date:   Tue, 29 Jun 2021 22:23:06 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     linux-api@vger.kernel.org, Andy Lutomirski <luto@amacapital.net>,
-        Will Drewry <wad@chromium.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        linux-man@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: Semantics of SECCOMP_MODE_STRICT?
-Message-ID: <202106292156.9458CF22@keescook>
-References: <87r1gkp9i7.fsf@disp2133>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HzfJJ9ti6dGQXCyhzrQPruP9ARjniKrfItQOricwCVM=;
+        b=UZsMxaLfjgSb8Wz+DM+qJJCcilpI+G3ZJtHCmVD0UlQPuFuQgHa4MI2n/jcsJDltPa
+         MlagtSTTjpp8wFyfDhHitz1dQ105kI8YMxN1vb97VtkeHNwOS1ODrb7XBiNGSdZ0PS00
+         0NVG6BBlWXVw1CoaBGTEFuDJRZz0jWlQrPw1IxfdvZZBCMbtaZ24alEeiYRaiuN7Sy9v
+         yqIhZ7CE1+HljHx6S4tOkQPP5O8ZFHlx+mQbcQ8GUiBS/IG/ccqcIjLz77bYgr0wa0eI
+         aLmCXOiPcS8KxwcbYl9AnaWB+90kzWqg0DCQwD6rikwKtsRHCtjrJJcSe6bb5Qs4zuMI
+         7/IQ==
+X-Gm-Message-State: AOAM531pq0G9qfmykpb+Rg+zMaoYe6usnLCnZGq5U0oiW8y/itlam15S
+        xUWtld6ZiP+BG9P6tM6qWRsv0WHrQb1S2Y6B/es=
+X-Google-Smtp-Source: ABdhPJwvmAwu+HHSJotcuovnPRGUgRQIzPIHkWjnNsqWWB4uNk5qd6bRBDzubrcXQnmkI1MR5TfaxpSeI4gWUCilEjI=
+X-Received: by 2002:a67:770d:: with SMTP id s13mr16356931vsc.40.1625041508842;
+ Wed, 30 Jun 2021 01:25:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87r1gkp9i7.fsf@disp2133>
+References: <YNCaMDQVYB04bk3j@zeniv-ca.linux.org.uk> <YNDhdb7XNQE6zQzL@zeniv-ca.linux.org.uk>
+ <CAHk-=whAsWXcJkpMM8ji77DkYkeJAT4Cj98WBX-S6=GnMQwhzg@mail.gmail.com>
+ <87a6njf0ia.fsf@disp2133> <CAHk-=wh4_iMRmWcao6a8kCvR0Hhdrz+M9L+q4Bfcwx9E9D0huw@mail.gmail.com>
+ <87tulpbp19.fsf@disp2133> <CAHk-=wi_kQAff1yx2ufGRo2zApkvqU8VGn7kgPT-Kv71FTs=AA@mail.gmail.com>
+ <87zgvgabw1.fsf@disp2133> <875yy3850g.fsf_-_@disp2133> <YNULA+Ff+eB66bcP@zeniv-ca.linux.org.uk>
+ <YNj4DItToR8FphxC@zeniv-ca.linux.org.uk> <6e283d24-7121-ae7c-d5ad-558f85858a09@gmail.com>
+ <CAMuHMdXSU6_98NbC1UWTT_kmwxD=6Ha5LJxFAtbSuD=y78nASg@mail.gmail.com>
+ <7ad6c3a9-b983-46a5-fc95-f961b636d3fe@gmail.com> <CAMuHMdUi5Ri=GmWzS8hb7dkfPyAE=HpQHg6OsKSLDse_364E=g@mail.gmail.com>
+ <dbb4ca2d-a857-84f0-f167-5ad4e06aa52b@gmail.com> <CAMuHMdVKdZNBU-cTUY0zotA5DmtQ=dxH+iFY0_GX=4DzqpycZQ@mail.gmail.com>
+ <36123b5d-daa0-6c2b-f2d4-a942f069fd54@gmail.com> <87sg10quue.fsf_-_@disp2133>
+In-Reply-To: <87sg10quue.fsf_-_@disp2133>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 30 Jun 2021 10:24:57 +0200
+Message-ID: <CAMuHMdU8avXoY=06Moj_y4Z1ymr0HB59Y3UzARvgPVjUgG+PGg@mail.gmail.com>
+Subject: Re: [CFT][PATCH] exit/bdflush: Remove the deprecated bdflush system call
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Michael Schmitz <schmitzmic@gmail.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Jens Axboe <axboe@kernel.dk>, Oleg Nesterov <oleg@redhat.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        alpha <linux-alpha@vger.kernel.org>,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        Arnd Bergmann <arnd@kernel.org>, Tejun Heo <tj@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jun 29, 2021 at 05:54:24PM -0500, Eric W. Biederman wrote:
-> 
-> I am the process of cleaning up the process exit path in the kernel, and
-> as part of that I am looking at the callers of do_exit.  A very
-> interesting one is __seccure_computing_strict.
-> 
-> Looking at the code is very clear that if a system call is attempted
-> that is not in the table the thread attempting to execute that system
-> call is terminated.
-> 
-> Reading the man page for seccomp it says that the process is delivered
-> SIGKILL.
-> 
-> The practical difference is what happens for multi-threaded
-> applications.
-> 
-> What are the desired semantics for a multi-threaded application if one
-> thread attempts to use a unsupported system call?  Should the thread be
-> terminated or the entire application?
-> 
-> Do we need to fix the kernel, or do we need to fix the manpages?
+On Tue, Jun 29, 2021 at 10:28 PM Eric W. Biederman
+<ebiederm@xmission.com> wrote:
+> The bdflush system call has been deprecated for a very long time.
+> Recently Michael Schmitz tested[1] and found that the last known
+> caller of of the bdflush system call is unaffected by it's removal.
+>
+> Since the code is not needed delete it.
+>
+> [1] https://lkml.kernel.org/r/36123b5d-daa0-6c2b-f2d4-a942f069fd54@gmail.com
+> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
 
-I don't know of anyone actually using SECCOMP_MODE_STRICT, but the
-original implementation was (perhaps accidentally) thread-killing. It
-turns out this is not a particularly desirable situation, and when
-SECCOMP_MODE_FILTER was created, it continued with that semantic,
-but later grew a process-killing flags, as that's what most programs
-actually wanted.
+>  arch/m68k/kernel/syscalls/syscall.tbl         |  2 +-
 
-It's likely the manpage needs fixing (we had to make similar updates
-for SECCOMP_MODE_FILTER), since some of the early examples of using
-SECCOMP_MODE_STRICT were basically "fork, calculate, write result to
-fd, exit".
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-FWIW the seccomp selftests don't even check for the thread-vs-process
-SIGKILL of SECCOMP_MODE_STRICT. :)
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Kees Cook
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
