@@ -2,75 +2,102 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EDA23B7C51
-	for <lists+linux-api@lfdr.de>; Wed, 30 Jun 2021 05:58:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E9873B7CE2
+	for <lists+linux-api@lfdr.de>; Wed, 30 Jun 2021 07:13:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229532AbhF3EAj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 30 Jun 2021 00:00:39 -0400
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:47548 "EHLO
-        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229446AbhF3EAi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Jun 2021 00:00:38 -0400
-Received: from cwcc.thunk.org (pool-72-74-133-215.bstnma.fios.verizon.net [72.74.133.215])
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 15U3vxQq002163
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 29 Jun 2021 23:58:00 -0400
-Received: by cwcc.thunk.org (Postfix, from userid 15806)
-        id 532E915C3C8E; Tue, 29 Jun 2021 23:57:59 -0400 (EDT)
-Date:   Tue, 29 Jun 2021 23:57:59 -0400
-From:   "Theodore Ts'o" <tytso@mit.edu>
-To:     "Darrick J. Wong" <djwong@kernel.org>
-Cc:     Rob Landley <rob@landley.net>,
-        Denys Vlasenko <vda.linux@googlemail.com>,
-        David Howells <dhowells@redhat.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: lsattr: incorrect size for ioctl result
-Message-ID: <YNvrx+Wt0WmA+gGJ@mit.edu>
-References: <CAK1hOcO3qHFO6QOkpjnC_A4LVhwed02XxCYZvEn+8t+HnyGjZA@mail.gmail.com>
- <b1b801af-d309-829e-fd48-6487661df809@landley.net>
- <CAK1hOcMh3RK_Nd_=W-RgqhMZJh-OGY9qMDfxpALZHpxwriHgAA@mail.gmail.com>
- <9acca2fa-eaef-1a0b-ac72-6b0eab3d8a45@landley.net>
- <YNn5v7CTRsDo1mDO@mit.edu>
- <b5f013f0-7720-e6fb-f512-c1ff7114dfb6@landley.net>
- <YNs7KsXJLdPp78Q5@mit.edu>
- <20210629210422.GD13767@locust>
+        id S232972AbhF3FPn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 30 Jun 2021 01:15:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43330 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232009AbhF3FPn (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Jun 2021 01:15:43 -0400
+X-Greylist: delayed 632 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 29 Jun 2021 22:13:14 PDT
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [IPv6:2001:67c:2050::465:103])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A3C4C061766;
+        Tue, 29 Jun 2021 22:13:14 -0700 (PDT)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:105:465:1:1:0])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4GF8NY2xyHzQk3d;
+        Wed, 30 Jun 2021 07:02:37 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp1.mailbox.org ([80.241.60.240])
+        by hefe.heinlein-support.de (hefe.heinlein-support.de [91.198.250.172]) (amavisd-new, port 10030)
+        with ESMTP id 4tliV6jmTDUS; Wed, 30 Jun 2021 07:02:33 +0200 (CEST)
+Date:   Wed, 30 Jun 2021 15:02:19 +1000
+From:   Aleksa Sarai <cyphar@cyphar.com>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     linux-api@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Will Drewry <wad@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Al Viro <viro@ZenIV.linux.org.uk>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        linux-man@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: Semantics of SECCOMP_MODE_STRICT?
+Message-ID: <20210630050219.nwixaloqs5oq5juy@senku>
+References: <87r1gkp9i7.fsf@disp2133>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="knyuqndtsekusods"
 Content-Disposition: inline
-In-Reply-To: <20210629210422.GD13767@locust>
+In-Reply-To: <87r1gkp9i7.fsf@disp2133>
+X-MBO-SPAM-Probability: 
+X-Rspamd-Score: -3.55 / 15.00 / 15.00
+X-Rspamd-Queue-Id: 0019D1860
+X-Rspamd-UID: f361c3
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jun 29, 2021 at 02:04:22PM -0700, Darrick J. Wong wrote:
-> 
-> Why don't we deprecate FS_IOC_[GS]ETFLAGS and tell everyone to use
-> FS[GS]ETXATTR?  They use the same code paths and vfs helpers now.
 
-The FS_IOC_[GS]ETXATTR ioctls use struct fsxattr, which contains
-fsx_xflags.  But there are flags returned (and set) by
-FS_IOC_[GS]ETFLAGS that are not in fsx_xflags --- and vice versa, of
-course.
+--knyuqndtsekusods
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-That's not a problem for xfs, since fsx_xflags was originally designed
-for xfs (and so it has some xfs-specific flags such as
-FS_XFLAG_REALTIME, FS_XFLAG_RTINHERIT, FS_XFLAG_FILESTREAM,
-FS_XFLAG_COWEXTSIZE, etc.).
+On 2021-06-29, Eric W. Biederman <ebiederm@xmission.com> wrote:
+>=20
+> I am the process of cleaning up the process exit path in the kernel, and
+> as part of that I am looking at the callers of do_exit.  A very
+> interesting one is __seccure_computing_strict.
+>=20
+> Looking at the code is very clear that if a system call is attempted
+> that is not in the table the thread attempting to execute that system
+> call is terminated.
+>=20
+> Reading the man page for seccomp it says that the process is delivered
+> SIGKILL.
+>=20
+> The practical difference is what happens for multi-threaded
+> applications.
+>=20
+> What are the desired semantics for a multi-threaded application if one
+> thread attempts to use a unsupported system call?  Should the thread be
+> terminated or the entire application?
+>=20
+> Do we need to fix the kernel, or do we need to fix the manpages?
 
-But for other file systems, including btrfs, ext4 and f2fs, which
-utilize FS_IOC_[GS]ETFLAGS flags which are not supported by
-FS_IOC_[GS]ETXATTR's fsx_xflags.  Examples of such flags include
-FS_ENCRYPT_FL, FS_TOPDIR_FL, FS_NOCMP_FL, and FS_CASEFOLD_FL.
+My expectation is that the correct action should be the equivalent of
+SECCOMP_RET_KILL(_THREAD) which kills the thread and is the current
+behaviour (SECCOMP_RET_KILL_PROCESS is relatively speaking quite new).
 
-There is also the _IO[RW] long vs int "API violation" for the
-FS_IOC_[GS]ETVERSION which isn't addressed by FS_IOC_[GS]ETATTR.
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
 
-So FS_IOC_[GS]ETATTR isn't a complete replacement/solution for these
-"problem" ioctls.  And of course, even if we were to start telling
-everyone to start using a new interface, it'll be many years before
-any transition is complete.
+--knyuqndtsekusods
+Content-Type: application/pgp-signature; name="signature.asc"
 
-						- Ted
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCYNv62AAKCRCdlLljIbnQ
+EmqeAQCwE2RYKejytscSCZFsA8BmtrqPevAElfKrXqcDdvKRoQEAqAhoskdp6IIK
+QTCUu1vbkKCwS4S63ntMofnCIFFKggE=
+=5aqA
+-----END PGP SIGNATURE-----
+
+--knyuqndtsekusods--
