@@ -2,55 +2,56 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 211043B88C6
-	for <lists+linux-api@lfdr.de>; Wed, 30 Jun 2021 20:51:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB3353B88E3
+	for <lists+linux-api@lfdr.de>; Wed, 30 Jun 2021 21:00:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232904AbhF3SyT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 30 Jun 2021 14:54:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57528 "EHLO
+        id S233085AbhF3TDX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 30 Jun 2021 15:03:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233336AbhF3SyS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Jun 2021 14:54:18 -0400
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39B7EC0617A8
-        for <linux-api@vger.kernel.org>; Wed, 30 Jun 2021 11:51:48 -0700 (PDT)
-Received: by mail-yb1-xb34.google.com with SMTP id i4so6699708ybe.2
-        for <linux-api@vger.kernel.org>; Wed, 30 Jun 2021 11:51:48 -0700 (PDT)
+        with ESMTP id S233635AbhF3TDW (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Jun 2021 15:03:22 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D9B6C0617A8
+        for <linux-api@vger.kernel.org>; Wed, 30 Jun 2021 12:00:52 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id h15so6972848lfv.12
+        for <linux-api@vger.kernel.org>; Wed, 30 Jun 2021 12:00:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=OoBBBmTYhX92RzZNabmusTXUOu2aNFXN3aBTat+PLK8=;
-        b=daVFivh6Fo86bv1Wet55ewJd8qrwOGm5ItRJ1EZ981lvQzwAQtcVcr528OLJT0AUrZ
-         uPGqoruHC6FgqMwQmnVIHpZsWdvftIcPQiJTh36OpuWLYufqvDrGcZmo1EriiSuNz4e6
-         ewBX7MlZFA4irWaGblZqYZZL6XX8cP6V0WPRPIeLkHoOuXvNqH68Y1t2W+60n5UrL1q4
-         Lec3YL7rigYCRThrHT1oeZV47Av1+9FbORqyDORYJ3Va82PSX3CP1/IyYPkUPB2mxynQ
-         H7zh/GZIicKa7n04VUE/s7aCo9EVClCt7RAs7JZHCQdbpUCf1HZfGEyHMQ6gb2JalHzd
-         t43Q==
+        bh=AEgh9Jy+v2hf9QQxXrhqFRUWrnkAgTuVo3us79cOIOw=;
+        b=ZKBY6VftutgEegz48judWjWXy81U7xX6OZgRzr3GXzWpadR6jP1iqlLNU7Y0d91WTG
+         Beq8K5ZKgeKbUwLlCcz/aYP37Gj8UvZH42R94ZAq7P0Rc43sFsmak+4n6NY8UGlVWZBt
+         DDCSUjd/HrmFRtzM5nWojlT5UF+iBDUCSRMJq5cbRi+d4m93TcHPHdB6yHVlIV8p8Ko6
+         Qj0HTt7jrncgZ4ntXM0Xazu8x5iwm77s+HJe7YvmCAJFyZcNXez8Oez4IdvPIMf/M9tw
+         bLbErz1qi1vxtLpvIBXoPpc5K9bdOU+yS/Ifv/UG3pA9BpwzpqV+e1vd5kSLvUmOWBe5
+         AnnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=OoBBBmTYhX92RzZNabmusTXUOu2aNFXN3aBTat+PLK8=;
-        b=My7qW4oEN/7m8i14qBa5F+iZw1V74737lWs4gGEh90UWyQtm9sV/uGNh1BJblkZLTo
-         mNlT6RagapuP8SkOBO/i7eupMSEnrmYZYAq03NiRMEwxjU5AQYd8EX1m5ZQssLFH831T
-         jqqjTpMf4guEO3rg+ColSLP4ZqRIZ4MJbjfVJGGSth+MgHombbDPLIsmf3+RRmaGzem+
-         6lbkXe4qT4GZyNbT3ZW2RXTShPdChXlBHUBFKAi7mSIxSnLky28W4jFnMbo/oCkbrdat
-         zWR6ETr0D2EXakvdcoDXSVcquvOXuUHIAx+iOmRqPBGPEFboMdXX15zxyr4/oT8NY7jv
-         vioQ==
-X-Gm-Message-State: AOAM533yOK/TfcPCoT4wMPSpyyVvGC7uXv9ViqWVEBj9Pyx0y1vQLDqq
-        upcoBf7x7mCjqtNXUodoOn/EkIy3n19u98xKn85Duw==
-X-Google-Smtp-Source: ABdhPJyKK+cDCxlBFy6A3X6BxKdCqBpHbAJ2DvVH7Xvrh+mJ3LBI5f4jNcPY6g5WKChTsyfqL2YzAZxR02WbxRbPTiU=
-X-Received: by 2002:a25:d913:: with SMTP id q19mr48111254ybg.397.1625079107259;
- Wed, 30 Jun 2021 11:51:47 -0700 (PDT)
+        bh=AEgh9Jy+v2hf9QQxXrhqFRUWrnkAgTuVo3us79cOIOw=;
+        b=CLX9+jPbN1Rghs4H6J+A3JgEnXmi7O9RNAi4E57h4ahYg81wNXCTE8PXQioxkd0GHI
+         6sidGIDksSK5TWN+m/tJU8Ak/Xn6fcDIdt6JI7/hPLAdc58LIvrxjbQKCWQMSsmMXa14
+         Bd21km6/37piTXaXOosmS+qz9DEh8sLqEPrqCcDbblyh6iYCzfF1eXuwG/cNS5NgMyxM
+         LFkMjf+PbDQ+m1o+vUt8r2I+QOiuYkF7HOrbHu617776+PGuaf97Ly3svPVK0jSVpzTw
+         YpRkIkxI7PFsq9mCCTpTNSygTZ961PIGukYkvINBeGPPiw7rx2zT5oriXRegP+Bm+y7C
+         O5Ig==
+X-Gm-Message-State: AOAM531GEQD7RNn97JceE4fJMX+mVd2Y6tW8WhrYVpfVX2y/ymZk2Ty/
+        UDInk7n5+c3C/7gNbkmFiSa0jl+aKDM/hMGaUtLvdw==
+X-Google-Smtp-Source: ABdhPJzDjoniOT1Bd7VA+hYgwG7DePFjKijlt9GhP+NN1iQALNtamNNzBBHpZmLXaQL0UebX9WZd5/yC9rRoLL/gt2g=
+X-Received: by 2002:a05:6512:442:: with SMTP id y2mr27208904lfk.117.1625079650220;
+ Wed, 30 Jun 2021 12:00:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210623192822.3072029-1-surenb@google.com> <CALCETrU577MD59P-+9sMYtS3t2sZYx-zi=VirhQpZLnhEck1vg@mail.gmail.com>
-In-Reply-To: <CALCETrU577MD59P-+9sMYtS3t2sZYx-zi=VirhQpZLnhEck1vg@mail.gmail.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Wed, 30 Jun 2021 11:51:36 -0700
-Message-ID: <CAJuCfpFMTP-g9CFELMqNawX0FhF4vBNtRDP_R=WAi_RiuGW8-Q@mail.gmail.com>
+References: <20210623192822.3072029-1-surenb@google.com> <CALvZod7GPeB6ArrU8oBPx-1NT-ZDBQzTiJHJDojjO2kAgALkHw@mail.gmail.com>
+ <CAJuCfpG4M=ZnqR9D9MPNB88nwWgQ9qA9Z9a6dymZ5abOxNucGg@mail.gmail.com>
+In-Reply-To: <CAJuCfpG4M=ZnqR9D9MPNB88nwWgQ9qA9Z9a6dymZ5abOxNucGg@mail.gmail.com>
+From:   Shakeel Butt <shakeelb@google.com>
+Date:   Wed, 30 Jun 2021 12:00:38 -0700
+Message-ID: <CALvZod6deRap_tE_dSPhQnpe7XNgQ6w9hZAEirRRB-bWBK+zBA@mail.gmail.com>
 Subject: Re: [PATCH 1/1] mm: introduce process_reap system call
-To:     Andy Lutomirski <luto@kernel.org>
+To:     Suren Baghdasaryan <surenb@google.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Michal Hocko <mhocko@kernel.org>,
         Michal Hocko <mhocko@suse.com>,
@@ -64,59 +65,36 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Oleg Nesterov <oleg@redhat.com>,
         David Hildenbrand <david@redhat.com>,
         Jann Horn <jannh@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
         Tim Murray <timmurray@google.com>,
         Linux API <linux-api@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
+        Linux MM <linux-mm@kvack.org>,
         LKML <linux-kernel@vger.kernel.org>,
-        Android Kernel Team <kernel-team@android.com>
+        kernel-team <kernel-team@android.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jun 30, 2021 at 11:26 AM Andy Lutomirski <luto@kernel.org> wrote:
+On Wed, Jun 30, 2021 at 11:44 AM Suren Baghdasaryan <surenb@google.com> wrote:
 >
-> On Wed, Jun 23, 2021 at 12:28 PM Suren Baghdasaryan <surenb@google.com> wrote:
+[...]
+> > > +       /*
+> > > +        * If the task is dying and in the process of releasing its memory
+> > > +        * then get its mm.
+> > > +        */
+> > > +       task_lock(task);
+> > > +       if (task_will_free_mem(task) && (task->flags & PF_KTHREAD) == 0) {
 > >
-> > In modern systems it's not unusual to have a system component monitoring
-> > memory conditions of the system and tasked with keeping system memory
-> > pressure under control. One way to accomplish that is to kill
-> > non-essential processes to free up memory for more important ones.
-> > Examples of this are Facebook's OOM killer daemon called oomd and
-> > Android's low memory killer daemon called lmkd.
-> > For such system component it's important to be able to free memory
-> > quickly and efficiently. Unfortunately the time process takes to free
-> > up its memory after receiving a SIGKILL might vary based on the state
-> > of the process (uninterruptible sleep), size and OPP level of the core
-> > the process is running. A mechanism to free resources of the target
-> > process in a more predictable way would improve system's ability to
-> > control its memory pressure.
-> > Introduce process_reap system call that reclaims memory of a dying process
-> > from the context of the caller. This way the memory in freed in a more
-> > controllable way with CPU affinity and priority of the caller. The workload
-> > of freeing the memory will also be charged to the caller.
-> > The operation is allowed only on a dying process.
+> > task_will_free_mem() is fine here but I think in parallel we should
+> > optimize this function. At the moment it is traversing all the
+> > processes on the machine. It is very normal to have tens of thousands
+> > of processes on big machines, so it would be really costly when
+> > reaping a bunch of processes.
 >
-> At the risk of asking a potentially silly question, should this just
-> be a file in procfs?
+> Hmm. But I think we still need to make sure that the mm is not shared
+> with another non-dying process. IIUC that's the point of that
+> traversal. Am I mistaken?
 
-Hmm. I guess it's doable if procfs will not disappear too soon before
-memory is released... syscall also supports parameters, in this case
-flags can be used in the future to support PIDs in addition to PIDFDs
-for example.
-Before looking more in that direction, a silly question from my side:
-why procfs interface would be preferable to a syscall?
-
->
-> Also, please consider removing all mention of the word "reap" from the
-> user API.  For better or for worse, "reap" in UNIX refers to what
-> happens when a dead task gets wait()ed.  I sincerely wish I could go
-> back in time and gently encourage whomever invented that particular
-> abomination to change their mind, but my time machine doesn't work.
-
-I see. Thanks for the note. How about process_mem_release() and
-replacing reap with release everywhere?
-
->
-> --Andy
+You are right. I am talking about efficiently finding all processes
+which are sharing mm (maybe linked into another list) instead of
+traversing all the processes on the system.
