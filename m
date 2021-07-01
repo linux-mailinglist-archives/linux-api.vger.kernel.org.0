@@ -2,51 +2,51 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A47333B8B63
-	for <lists+linux-api@lfdr.de>; Thu,  1 Jul 2021 02:44:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D2E83B8B67
+	for <lists+linux-api@lfdr.de>; Thu,  1 Jul 2021 02:46:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238110AbhGAArT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 30 Jun 2021 20:47:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56410 "EHLO mail.kernel.org"
+        id S238263AbhGAAsb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 30 Jun 2021 20:48:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56892 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237629AbhGAArT (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 30 Jun 2021 20:47:19 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 82D9761483
-        for <linux-api@vger.kernel.org>; Thu,  1 Jul 2021 00:44:49 +0000 (UTC)
+        id S237629AbhGAAsb (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 30 Jun 2021 20:48:31 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EFCB26148E
+        for <linux-api@vger.kernel.org>; Thu,  1 Jul 2021 00:46:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625100289;
-        bh=KzOU5etl1m1d6bSza+N7XM/HsZQCAVW9hItb7YjwLWk=;
+        s=k20201202; t=1625100362;
+        bh=0OplSnVaoxKOPAKIj0YXj4H1e8gkOZHWvzcV1/ElgJA=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=N2RgWghdU3Wjk0w7uX34y3R7WCDtq6wpIcfVtTGOZXgg6StM2NPvRnOVHTSNDlBxf
-         rLUFaJmoWYpkTESon4nh0mWN4lstECAf+OSKCyl+G+4ApLdrrfJazkMQM+lPjq3beA
-         xaRpKBvwpLwK3elynEhze4gxmm7tf1TQvVwWqAPX2emNoka+Mu40/V2chhbSCXfqr2
-         46s0mLAHxuIBFCE9VojFiGnj0AudiNgly5D6P1UixxT0FudQCStax9hewXysweFeYk
-         Hz+LC1sI9x3Sd36i8ckMri6r37To/8Lc576JaFjf7hpsXfqtTEHtCTF9xE4ivzy3Rr
-         lmpyfJ4RBQiPQ==
-Received: by mail-ej1-f43.google.com with SMTP id hr1so3981365ejc.1
-        for <linux-api@vger.kernel.org>; Wed, 30 Jun 2021 17:44:49 -0700 (PDT)
-X-Gm-Message-State: AOAM5327fwvyUzjSZawomAgqAneYlxcHIom98hunijHQs5cCWxjWNHJk
-        85KG0kWzdHWCH5PoCEKXWWYrPvX+yeRAWUifXIMJtQ==
-X-Google-Smtp-Source: ABdhPJzAb4C5+RtXDup6dhfGpilzWVw9K1ZS6+rN2ZPScS4npWvUVa7PsUSb5+URoJ6pBUECpl3Clp6njJO4GDxxVmc=
-X-Received: by 2002:a17:907:1c98:: with SMTP id nb24mr17429770ejc.316.1625100287892;
- Wed, 30 Jun 2021 17:44:47 -0700 (PDT)
+        b=Kzz/3Wd7G4WMacY6HfW3qXlVktscSpdpfr3dYCjztQ7jgvHma2uoNa+u5bJ7aYqMW
+         +YnNpwAjslPwuF5aAZ/IZOpK9bHmfRixh1ogrjV36gWrne2GB7ea8YgAMtCrt4jKhd
+         lkjq1+SeZabmlfJ78G5sr9E39HZTknSmtULkPkcMpaH67dI9i5csc6b01IbccNcLKd
+         sPoNgm9ChotEQZ7kJAHppdkMQnuFOkAleSHZeQTREG/zagZ/vgL5fZeprMUi599wgC
+         NH/JWm+iCAsFIj+G8XNPa7SJJXOrp2L322L+uLtwf815OtJh6nEjkARD73jx87+rI5
+         vnEwTZDSC7x7Q==
+Received: by mail-ed1-f44.google.com with SMTP id i5so5871851eds.1
+        for <linux-api@vger.kernel.org>; Wed, 30 Jun 2021 17:46:01 -0700 (PDT)
+X-Gm-Message-State: AOAM530AC3YaHdZMpB2xMgek+wWxPY87tR94J4mVUdl68cA+JK0RGe/i
+        rmhv0W7nX/jbePeP2IL/ZNutTQ31WuKzcKdtTh7fHg==
+X-Google-Smtp-Source: ABdhPJxUMSsYleMar6Ny4OBozaHRTablcTTgOJypvmdOI2KwxsSVPgnD113vOEQRqSPVn4WCmT84R/kKOTjaT4scv4A=
+X-Received: by 2002:a05:6402:4393:: with SMTP id o19mr49699733edc.263.1625100360517;
+ Wed, 30 Jun 2021 17:46:00 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210623192822.3072029-1-surenb@google.com> <CALCETrU577MD59P-+9sMYtS3t2sZYx-zi=VirhQpZLnhEck1vg@mail.gmail.com>
- <CAJuCfpFMTP-g9CFELMqNawX0FhF4vBNtRDP_R=WAi_RiuGW8-Q@mail.gmail.com> <YNzl6XNu2vxyCJu8@cmpxchg.org>
-In-Reply-To: <YNzl6XNu2vxyCJu8@cmpxchg.org>
+ <CAJuCfpFMTP-g9CFELMqNawX0FhF4vBNtRDP_R=WAi_RiuGW8-Q@mail.gmail.com>
+In-Reply-To: <CAJuCfpFMTP-g9CFELMqNawX0FhF4vBNtRDP_R=WAi_RiuGW8-Q@mail.gmail.com>
 From:   Andy Lutomirski <luto@kernel.org>
-Date:   Wed, 30 Jun 2021 17:44:36 -0700
-X-Gmail-Original-Message-ID: <CALCETrWsVw4+jT_Z1uxidRAZ0SQbngYe7E2m-8iyX6qRbug6zA@mail.gmail.com>
-Message-ID: <CALCETrWsVw4+jT_Z1uxidRAZ0SQbngYe7E2m-8iyX6qRbug6zA@mail.gmail.com>
+Date:   Wed, 30 Jun 2021 17:45:49 -0700
+X-Gmail-Original-Message-ID: <CALCETrW7Mm6xNwdhsEd9LZFJNJ_5ZtBPfTiqs=np3V7cqo=cAA@mail.gmail.com>
+Message-ID: <CALCETrW7Mm6xNwdhsEd9LZFJNJ_5ZtBPfTiqs=np3V7cqo=cAA@mail.gmail.com>
 Subject: Re: [PATCH 1/1] mm: introduce process_reap system call
-To:     Johannes Weiner <hannes@cmpxchg.org>
-Cc:     Suren Baghdasaryan <surenb@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Michal Hocko <mhocko@kernel.org>,
         Michal Hocko <mhocko@suse.com>,
         David Rientjes <rientjes@google.com>,
         Matthew Wilcox <willy@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
         Minchan Kim <minchan@kernel.org>,
         Christian Brauner <christian@brauner.io>,
@@ -65,27 +65,43 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jun 30, 2021 at 2:45 PM Johannes Weiner <hannes@cmpxchg.org> wrote:
+On Wed, Jun 30, 2021 at 11:51 AM Suren Baghdasaryan <surenb@google.com> wrote:
 >
-> On Wed, Jun 30, 2021 at 11:51:36AM -0700, Suren Baghdasaryan wrote:
-> > On Wed, Jun 30, 2021 at 11:26 AM Andy Lutomirski <luto@kernel.org> wrote:
-> > > Also, please consider removing all mention of the word "reap" from the
-> > > user API.  For better or for worse, "reap" in UNIX refers to what
-> > > happens when a dead task gets wait()ed.  I sincerely wish I could go
-> > > back in time and gently encourage whomever invented that particular
-> > > abomination to change their mind, but my time machine doesn't work.
+> On Wed, Jun 30, 2021 at 11:26 AM Andy Lutomirski <luto@kernel.org> wrote:
 > >
-> > I see. Thanks for the note. How about process_mem_release() and
-> > replacing reap with release everywhere?
+> > On Wed, Jun 23, 2021 at 12:28 PM Suren Baghdasaryan <surenb@google.com> wrote:
+> > >
+> > > In modern systems it's not unusual to have a system component monitoring
+> > > memory conditions of the system and tasked with keeping system memory
+> > > pressure under control. One way to accomplish that is to kill
+> > > non-essential processes to free up memory for more important ones.
+> > > Examples of this are Facebook's OOM killer daemon called oomd and
+> > > Android's low memory killer daemon called lmkd.
+> > > For such system component it's important to be able to free memory
+> > > quickly and efficiently. Unfortunately the time process takes to free
+> > > up its memory after receiving a SIGKILL might vary based on the state
+> > > of the process (uninterruptible sleep), size and OPP level of the core
+> > > the process is running. A mechanism to free resources of the target
+> > > process in a more predictable way would improve system's ability to
+> > > control its memory pressure.
+> > > Introduce process_reap system call that reclaims memory of a dying process
+> > > from the context of the caller. This way the memory in freed in a more
+> > > controllable way with CPU affinity and priority of the caller. The workload
+> > > of freeing the memory will also be charged to the caller.
+> > > The operation is allowed only on a dying process.
+> >
+> > At the risk of asking a potentially silly question, should this just
+> > be a file in procfs?
 >
-> I don't quite understand the objection. This syscall works on tasks
-> that are at the end of their life, right? Isn't something like
-> process_mreap() establishing exactly the mental link we want here?
-> Release is less descriptive for what this thing is to be used for.
+> Hmm. I guess it's doable if procfs will not disappear too soon before
+> memory is released... syscall also supports parameters, in this case
+> flags can be used in the future to support PIDs in addition to PIDFDs
+> for example.
+> Before looking more in that direction, a silly question from my side:
+> why procfs interface would be preferable to a syscall?
 
-For better or for worse, "reap" means to make a zombie pid go away.
-From the description, this new operation takes a dying process (not
-necessarily a zombie yet) and aggressively frees its memory.  This is
-a different optioneration.
+It avoids using a syscall nr.  (Admittedly a syscall nr is not *that*
+precious of a resource.)  It also makes it possible to use a shell
+script to do this, which is maybe useful.
 
-How about "free_dying_process_memory"?
+--Andy
