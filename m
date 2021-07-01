@@ -2,98 +2,90 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA90F3B8ACA
-	for <lists+linux-api@lfdr.de>; Thu,  1 Jul 2021 01:06:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A47333B8B63
+	for <lists+linux-api@lfdr.de>; Thu,  1 Jul 2021 02:44:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229622AbhF3XJ2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 30 Jun 2021 19:09:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56822 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229540AbhF3XJ1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Jun 2021 19:09:27 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FA87C0617A8
-        for <linux-api@vger.kernel.org>; Wed, 30 Jun 2021 16:06:58 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id l11so2922525pji.5
-        for <linux-api@vger.kernel.org>; Wed, 30 Jun 2021 16:06:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=RuO4JUZ+FX7giReeuhXb2PopY/hRsvujLpGRixSjArU=;
-        b=TONRcXHxn5CIhUD92++R45hGlhM6XWfsZ2e7kI9CufKonbQD+LigLT1FSb/YawlY9+
-         /PZdIIJvuBIew6OSwzEswA//AWNa4n/SnGMegbDON6KlsWVX2Hl0T6zyTn3M0EYh0vFu
-         wJLpmvNZnVmEUeMEk9SdPeJSrajHet8eAbo8Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=RuO4JUZ+FX7giReeuhXb2PopY/hRsvujLpGRixSjArU=;
-        b=DkoviuHukVyoie50oMRrNfApXcHDesnIgRIED8mwEyqa8MPZdYSKjEGVxYZplVTdOm
-         ZNSlTW5IupJHBjOJy8gB1axbrUG7OIYkejJeahBRsR052jJGqiJEuRQegj7X58/y+wNQ
-         BKWNQScNL5eh/HAF0txhZCJrIHA7x8UBAVGFMtRRVJiLbF8r19joiz9cn3FXbWpSVt89
-         ddRvudfWCl8H20OQo8aU9JJtOd3YggCsKq4+TvXU3OFUmAZSj2ZrNjvFM6g99QEPx/ZX
-         CzvNV3A7XULatX7tcE8A4qO5kyMOKvRSqCD8byvivpPZkjIw/h8X/hR1Hv01o4IFHq1G
-         HgWQ==
-X-Gm-Message-State: AOAM5319tga3BdZNsZRQDAvoIyvb5mfdDox8Ex/hHSa1bZUiM4vUoFcG
-        ue6ydaho/3Mpw5xuIepBTCoC0Q==
-X-Google-Smtp-Source: ABdhPJzXWAume3jqDZOat+M85hkUOSkfZfyzmUQzN1cAibRyEKMv4X5Q9IPaNHkQ0bijfz9Bd9k9bw==
-X-Received: by 2002:a17:90b:230a:: with SMTP id mt10mr6482633pjb.236.1625094417844;
-        Wed, 30 Jun 2021 16:06:57 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id l6sm24343279pgh.34.2021.06.30.16.06.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Jun 2021 16:06:57 -0700 (PDT)
-Date:   Wed, 30 Jun 2021 16:06:56 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Michael Kerrisk <mtk.manpages@gmail.com>,
-        linux-api@vger.kernel.org, Andy Lutomirski <luto@amacapital.net>,
-        Will Drewry <wad@chromium.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>, linux-man@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] seccomp.2:  Clarify that bad system calls kill the thread
-Message-ID: <202106301606.E710FF81EC@keescook>
-References: <87r1gkp9i7.fsf@disp2133>
- <202106292156.9458CF22@keescook>
- <87k0mbp0yc.fsf_-_@disp2133>
+        id S238110AbhGAArT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 30 Jun 2021 20:47:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56410 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237629AbhGAArT (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 30 Jun 2021 20:47:19 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 82D9761483
+        for <linux-api@vger.kernel.org>; Thu,  1 Jul 2021 00:44:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1625100289;
+        bh=KzOU5etl1m1d6bSza+N7XM/HsZQCAVW9hItb7YjwLWk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=N2RgWghdU3Wjk0w7uX34y3R7WCDtq6wpIcfVtTGOZXgg6StM2NPvRnOVHTSNDlBxf
+         rLUFaJmoWYpkTESon4nh0mWN4lstECAf+OSKCyl+G+4ApLdrrfJazkMQM+lPjq3beA
+         xaRpKBvwpLwK3elynEhze4gxmm7tf1TQvVwWqAPX2emNoka+Mu40/V2chhbSCXfqr2
+         46s0mLAHxuIBFCE9VojFiGnj0AudiNgly5D6P1UixxT0FudQCStax9hewXysweFeYk
+         Hz+LC1sI9x3Sd36i8ckMri6r37To/8Lc576JaFjf7hpsXfqtTEHtCTF9xE4ivzy3Rr
+         lmpyfJ4RBQiPQ==
+Received: by mail-ej1-f43.google.com with SMTP id hr1so3981365ejc.1
+        for <linux-api@vger.kernel.org>; Wed, 30 Jun 2021 17:44:49 -0700 (PDT)
+X-Gm-Message-State: AOAM5327fwvyUzjSZawomAgqAneYlxcHIom98hunijHQs5cCWxjWNHJk
+        85KG0kWzdHWCH5PoCEKXWWYrPvX+yeRAWUifXIMJtQ==
+X-Google-Smtp-Source: ABdhPJzAb4C5+RtXDup6dhfGpilzWVw9K1ZS6+rN2ZPScS4npWvUVa7PsUSb5+URoJ6pBUECpl3Clp6njJO4GDxxVmc=
+X-Received: by 2002:a17:907:1c98:: with SMTP id nb24mr17429770ejc.316.1625100287892;
+ Wed, 30 Jun 2021 17:44:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87k0mbp0yc.fsf_-_@disp2133>
+References: <20210623192822.3072029-1-surenb@google.com> <CALCETrU577MD59P-+9sMYtS3t2sZYx-zi=VirhQpZLnhEck1vg@mail.gmail.com>
+ <CAJuCfpFMTP-g9CFELMqNawX0FhF4vBNtRDP_R=WAi_RiuGW8-Q@mail.gmail.com> <YNzl6XNu2vxyCJu8@cmpxchg.org>
+In-Reply-To: <YNzl6XNu2vxyCJu8@cmpxchg.org>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Wed, 30 Jun 2021 17:44:36 -0700
+X-Gmail-Original-Message-ID: <CALCETrWsVw4+jT_Z1uxidRAZ0SQbngYe7E2m-8iyX6qRbug6zA@mail.gmail.com>
+Message-ID: <CALCETrWsVw4+jT_Z1uxidRAZ0SQbngYe7E2m-8iyX6qRbug6zA@mail.gmail.com>
+Subject: Re: [PATCH 1/1] mm: introduce process_reap system call
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     Suren Baghdasaryan <surenb@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Michal Hocko <mhocko@suse.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        Christoph Hellwig <hch@infradead.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Jann Horn <jannh@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Android Kernel Team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jun 30, 2021 at 03:11:23PM -0500, Eric W. Biederman wrote:
-> 
-> Signed-off-by: Eric W. Biederman <ebiederm@xmission.com>
-> ---
->  man2/seccomp.2 | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/man2/seccomp.2 b/man2/seccomp.2
-> index a3421871f0f4..bde54c3e3e99 100644
-> --- a/man2/seccomp.2
-> +++ b/man2/seccomp.2
-> @@ -69,9 +69,10 @@ The only system calls that the calling thread is permitted to make are
->  .BR exit_group (2)),
->  and
->  .BR sigreturn (2).
-> -Other system calls result in the delivery of a
-> +Other system calls result in the termination of the calling thread,
-> +or termination of the entire process with the
->  .BR SIGKILL
-> -signal.
-> +signal when there is only one thread.
->  Strict secure computing mode is useful for number-crunching
->  applications that may need to execute untrusted byte code, perhaps
->  obtained by reading from a pipe or socket.
+On Wed, Jun 30, 2021 at 2:45 PM Johannes Weiner <hannes@cmpxchg.org> wrote:
+>
+> On Wed, Jun 30, 2021 at 11:51:36AM -0700, Suren Baghdasaryan wrote:
+> > On Wed, Jun 30, 2021 at 11:26 AM Andy Lutomirski <luto@kernel.org> wrote:
+> > > Also, please consider removing all mention of the word "reap" from the
+> > > user API.  For better or for worse, "reap" in UNIX refers to what
+> > > happens when a dead task gets wait()ed.  I sincerely wish I could go
+> > > back in time and gently encourage whomever invented that particular
+> > > abomination to change their mind, but my time machine doesn't work.
+> >
+> > I see. Thanks for the note. How about process_mem_release() and
+> > replacing reap with release everywhere?
+>
+> I don't quite understand the objection. This syscall works on tasks
+> that are at the end of their life, right? Isn't something like
+> process_mreap() establishing exactly the mental link we want here?
+> Release is less descriptive for what this thing is to be used for.
 
-Thanks!
+For better or for worse, "reap" means to make a zombie pid go away.
+From the description, this new operation takes a dying process (not
+necessarily a zombie yet) and aggressively frees its memory.  This is
+a different optioneration.
 
-Acked-by: Kees Cook <keescook@chromium.org>
-
--- 
-Kees Cook
+How about "free_dying_process_memory"?
