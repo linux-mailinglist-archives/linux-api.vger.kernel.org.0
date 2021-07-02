@@ -2,60 +2,58 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 606AA3BA4DF
-	for <lists+linux-api@lfdr.de>; Fri,  2 Jul 2021 22:57:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E899E3BA5F4
+	for <lists+linux-api@lfdr.de>; Sat,  3 Jul 2021 00:24:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231733AbhGBU7k (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 2 Jul 2021 16:59:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42480 "EHLO
+        id S230020AbhGBW1a (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 2 Jul 2021 18:27:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231702AbhGBU7k (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Jul 2021 16:59:40 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99E61C061764
-        for <linux-api@vger.kernel.org>; Fri,  2 Jul 2021 13:57:06 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id k10so20246681lfv.13
-        for <linux-api@vger.kernel.org>; Fri, 02 Jul 2021 13:57:06 -0700 (PDT)
+        with ESMTP id S229917AbhGBW1a (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Jul 2021 18:27:30 -0400
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B8F9C061765;
+        Fri,  2 Jul 2021 15:24:56 -0700 (PDT)
+Received: by mail-pf1-x436.google.com with SMTP id a127so10362279pfa.10;
+        Fri, 02 Jul 2021 15:24:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8hDmjhh4CEc7tcPs29BDsOViDcQQOe2tkj/fgDDj4a8=;
-        b=WK38xMCuVpfUrGEjMntGywHqdXgVFuWSivGvWFJymCFPCO9Ml/kPCWA6DekIoIMQ/D
-         kZNRHf7S0mKDYkX1xvAyT8n7OUP1MQlFZLadK+qUubLFBPuZsgv/gJy1tovcgSjchPQO
-         1zkMQe147Ckwr5W5S2YvW2sygH/bGmwrv+rLpTHnI37KxoaCvULHquOLvIuMcdkwIkZ5
-         yZi+eV3R3hu9FJxtC6KMCLBrgP9x7Xno2W3HnohpYj89P+L6H1eVmcEzmnA1gkx5V7yv
-         rsGL3DkQGuRbG0+OTmk3xxv5IB1PV6/45GJu2NPlAroTtBnSwOtfQ0LuQv8zvrPCWAFt
-         jbfg==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=TM6cjgF2amzNsWvXOB7KJYtX5jxhorxbWHwc1I9Rrtw=;
+        b=SXpkEDNH/iGEKPGIGJQ+P9nX3dWAhgZii4Bd3EV5wTQhaQPy619uoJUzR6cjZbC18W
+         DaWUT90O5ug/ThjjYGZKrEQ5FbNLyJsR99Llg4VFauOUfA8FctMxLzDMaeiFX4k+DDym
+         Z7oH2IT72uD/htMxeHNaKWlYWzSQdjPg0za7exx5Qe55/paMiOhm3cHD0oNHcSmM8kIk
+         B5HQVntDF5bVhJ/QwwDOQdthYHEJdbmqTbWIzwG5e6pX3/ClZz7sNwujTuCOAt5o6mSu
+         3hwonR3hx7FE8Dz6w8K4fyghbz1zIkA+Bh/zoEI3JcIe7pFRESe6MGZq5gfOfVAiUV4t
+         LBzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8hDmjhh4CEc7tcPs29BDsOViDcQQOe2tkj/fgDDj4a8=;
-        b=OFurnv1p3+HhQpAtpgd7jhI33cnW+Qe6Pp3n5WgaERa0/mzJu+Z7yNjQwSZL48lefN
-         IG4G+TvgAuZp2vFlk72PYxt0YEeN9GNMLcKor5fqkd2ZzpxgE3m/Kw4yj7BO1WfO5yoJ
-         unfcg+8jUHw36tNwhmsxBYl2uUobcpxeSlHtsR3l3hI4SBKbO6ficnmUM6ggrr9FpjEb
-         LtrNCMgDTHpLthLXbRzIRfEUeHAOmGNyjSDS6+AGq+0sO3SYkRs6tMXhcQSvAywk5eIN
-         zy4gtt/9RA024mkjI9nIg75g8st9QfOIVKG11RlWvwjeUVoD7Dvv0HWEe58RTifuKzTL
-         0dhg==
-X-Gm-Message-State: AOAM530WtMy47h05jhPQ8kg8vhsq6jOROIMmUzA5bPwVLqXU/DjsJNRX
-        +EHETFCOQJluHQeRg35X5/5zPYex1LNVcwW6zr4XUQ==
-X-Google-Smtp-Source: ABdhPJwInonwQ2eFAluymRJg+OzibVAdAH9rjiGeegy/PBQqyDo3Lz9bheVoB3rtWdelqiuYYIjZmdtKHRWINk99MoU=
-X-Received: by 2002:a05:6512:210e:: with SMTP id q14mr1061425lfr.356.1625259424639;
- Fri, 02 Jul 2021 13:57:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210414055217.543246-1-avagin@gmail.com> <20210414055217.543246-3-avagin@gmail.com>
-In-Reply-To: <20210414055217.543246-3-avagin@gmail.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Fri, 2 Jul 2021 22:56:38 +0200
-Message-ID: <CAG48ez37ZUNvWy1eOvrW13kFRM-_ZW175x99Nyjq43w4Qz1qJQ@mail.gmail.com>
-Subject: Re: [PATCH 2/4] arch/x86: implement the process_vm_exec syscall
-To:     Andrei Vagin <avagin@gmail.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Andy Lutomirski <luto@kernel.org>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=TM6cjgF2amzNsWvXOB7KJYtX5jxhorxbWHwc1I9Rrtw=;
+        b=aXECF90TfqgQEhCHOo4fBSBsuogaVNHYJsbmjgfl+B0eYGbEzzLtbh55qCuSgo9oJ9
+         1tiHAZZsonpCKqYg7sxJmwDoBHEfTAdhND/eaQ+J80CuNwZzI0hHg4RW4weJm6+HevWB
+         Ok+fKGZmoXbt5/fOqzubJSVwGWfyzktYdtczsAgFNUXvMH8tngqax/zY2hFum6Wl+Pak
+         h3G9twp8VZSkaDW3NcVOb9kMJ4lDazm4YUnB4Hlp5SUvzp1fFsoqOfw4oUA8M/uIUiYv
+         jzMh+7r2xScpcwXshbXihW5zNBJGWPgjZEqFh3jOclwavPEAFwMR6x9p7Rd995tXU1is
+         tICg==
+X-Gm-Message-State: AOAM533VpQE41DIXsG9s054/wILKwVBF6+cl2a6s2GB2R9rtwGLdpfih
+        PCdZPQ7ERv39SrhgWh+LBzE=
+X-Google-Smtp-Source: ABdhPJxuPQTSDKsRpxKijJCvdVGphsFcyH6VXS8A1u6xap6S4Lz36I5vBFbYaTsQeUU7SBLy12yqyA==
+X-Received: by 2002:aa7:9727:0:b029:304:3644:2771 with SMTP id k7-20020aa797270000b029030436442771mr1682109pfg.73.1625264695987;
+        Fri, 02 Jul 2021 15:24:55 -0700 (PDT)
+Received: from gmail.com ([2601:600:8500:5f14:d627:c51e:516e:a105])
+        by smtp.gmail.com with ESMTPSA id y4sm5083312pfc.15.2021.07.02.15.24.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Jul 2021 15:24:55 -0700 (PDT)
+Date:   Fri, 2 Jul 2021 15:21:22 -0700
+From:   Andrei Vagin <avagin@gmail.com>
+To:     Peter Zijlstra <peterz@infradead.org>
 Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
         linux-um@lists.infradead.org, criu@openvz.org, avagin@google.com,
         Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
         Anton Ivanov <anton.ivanov@cambridgegreys.com>,
         Christian Brauner <christian.brauner@ubuntu.com>,
         Dmitry Safonov <0x7f454c46@gmail.com>,
@@ -63,112 +61,78 @@ Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
         Mike Rapoport <rppt@linux.ibm.com>,
         Michael Kerrisk <mtk.manpages@gmail.com>,
         Oleg Nesterov <oleg@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
         Richard Weinberger <richard@nod.at>,
         Thomas Gleixner <tglx@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 2/4] arch/x86: implement the process_vm_exec syscall
+Message-ID: <YN+RYi5honrgjFAw@gmail.com>
+References: <20210414055217.543246-1-avagin@gmail.com>
+ <20210414055217.543246-3-avagin@gmail.com>
+ <YN7TgV9RDJTRaY8R@hirez.programming.kicks-ass.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=koi8-r
+Content-Disposition: inline
+In-Reply-To: <YN7TgV9RDJTRaY8R@hirez.programming.kicks-ass.net>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Apr 14, 2021 at 7:59 AM Andrei Vagin <avagin@gmail.com> wrote:
-> This change introduces the new system call:
-> process_vm_exec(pid_t pid, struct sigcontext *uctx, unsigned long flags,
->                 siginfo_t * uinfo, sigset_t *sigmask, size_t sizemask)
->
-> process_vm_exec allows to execute the current process in an address
-> space of another process.
->
-> process_vm_exec swaps the current address space with an address space of
-> a specified process, sets a state from sigcontex and resumes the process.
-> When a process receives a signal or calls a system call,
-> process_vm_exec saves the process state back to sigcontext, restores the
-> origin address space, restores the origin process state, and returns to
-> userspace.
->
-> If it was interrupted by a signal and the signal is in the user_mask,
-> the signal is dequeued and information about it is saved in uinfo.
-> If process_vm_exec is interrupted by a system call, a synthetic siginfo
-> for the SIGSYS signal is generated.
->
-> The behavior of this system call is similar to PTRACE_SYSEMU but
-> everything is happing in the context of one process, so
-> process_vm_exec shows a better performance.
->
-> PTRACE_SYSEMU is primarily used to implement sandboxes (application
-> kernels) like User-mode Linux or gVisor. These type of sandboxes
-> intercepts applications system calls and acts as the guest kernel.
-> A simple benchmark, where a "tracee" process executes systems calls in a
-> loop and a "tracer" process traps syscalls and handles them just
-> incrementing the tracee instruction pointer to skip the syscall
-> instruction shows that process_vm_exec works more than 5 times faster
-> than PTRACE_SYSEMU.
-[...]
-> +long swap_vm_exec_context(struct sigcontext __user *uctx)
-> +{
-> +       struct sigcontext ctx = {};
-> +       sigset_t set = {};
-> +
-> +
-> +       if (copy_from_user(&ctx, uctx, CONTEXT_COPY_SIZE))
-> +               return -EFAULT;
-> +       /* A floating point state is managed from user-space. */
-> +       if (ctx.fpstate != 0)
-> +               return -EINVAL;
-> +       if (!user_access_begin(uctx, sizeof(*uctx)))
-> +               return -EFAULT;
-> +       unsafe_put_sigcontext(uctx, NULL, current_pt_regs(), (&set), Efault);
-> +       user_access_end();
-> +
-> +       if (__restore_sigcontext(current_pt_regs(), &ctx, 0))
-> +               goto badframe;
-> +
-> +       return 0;
-> +Efault:
-> +       user_access_end();
-> +badframe:
-> +       signal_fault(current_pt_regs(), uctx, "swap_vm_exec_context");
-> +       return -EFAULT;
-> +}
+On Fri, Jul 02, 2021 at 10:51:13AM +0200, Peter Zijlstra wrote:
+> 
+> I'm terrified of all of this...
+> 
+> On Tue, Apr 13, 2021 at 10:52:15PM -0700, Andrei Vagin wrote:
+> 
+> > +long swap_vm_exec_context(struct sigcontext __user *uctx)
+> > +{
+> > +	struct sigcontext ctx = {};
+> > +	sigset_t set = {};
+> > +
+> > +
+> > +	if (copy_from_user(&ctx, uctx, CONTEXT_COPY_SIZE))
+> > +		return -EFAULT;
+> > +	/* A floating point state is managed from user-space. */
+> > +	if (ctx.fpstate != 0)
+> > +		return -EINVAL;
 
-Comparing the pieces of context that restore_sigcontext() restores
-with what a normal task switch does (see __switch_to() and callees), I
-noticed: On CPUs with FSGSBASE support, I think sandboxed code could
-overwrite FSBASE/GSBASE using the WRFSBASE/WRGSBASE instructions,
-causing the supervisor to access attacker-controlled addresses when it
-tries to access a thread-local variable like "errno"? Signal handling
-saves the segment registers, but not the FS/GS base addresses.
+Here, we check that ctx doesn't have an FPU state.
 
+> > +	if (!user_access_begin(uctx, sizeof(*uctx)))
+> > +		return -EFAULT;
+> > +	unsafe_put_sigcontext(uctx, NULL, current_pt_regs(), (&set), Efault);
+> > +	user_access_end();
+> 
+> But here you save the sigcontext without FPU state.
+> 
+> > +
+> > +	if (__restore_sigcontext(current_pt_regs(), &ctx, 0))
+> > +		goto badframe;
+> 
+> And here you restore sigcontext, *with* FPU state.  At which point your
+> FPU state is irrecoverably lost.
 
-jannh@laptop:~/test$ cat signal_gsbase.c
-// compile with -mfsgsbase
-#include <stdio.h>
-#include <signal.h>
-#include <immintrin.h>
+process_vm_exec doesn't change a process FPU state. Unlike signals, here
+we can control it from a user-space. A process can set an FPU state
+before process_vm_exec and then retore its FPU state after the
+call.
 
-void signal_handler(int sig, siginfo_t *info, void *ucontext_) {
-  puts("signal handler");
-  _writegsbase_u64(0x12345678);
-}
+This version of patches has a bug that I fixed in my tree when I
+implemented the user-space part for gVisor. I didn't take into account
+that restore_sigcontext(ctx) clears a process fpu state if ctx->fpstate
+is zero. I moved fpu__restore_sig out from __restore_sigcontext to fix
+this issue:
 
-int main(void) {
-  struct sigaction new_act = {
-    .sa_sigaction = signal_handler,
-    .sa_flags = SA_SIGINFO
-  };
-  sigaction(SIGUSR1, &new_act, NULL);
+https://github.com/avagin/linux-task-diag/commit/55b7194d00ff
 
-  printf("original gsbase is 0x%lx\n", _readgsbase_u64());
-  raise(SIGUSR1);
-  printf("post-signal gsbase is 0x%lx\n", _readgsbase_u64());
-}
-jannh@laptop:~/test$ gcc -o signal_gsbase signal_gsbase.c -mfsgsbase
-jannh@laptop:~/test$ ./signal_gsbase
-original gsbase is 0x0
-signal handler
-post-signal gsbase is 0x12345678
-jannh@laptop:~/test$
-
-
-So to make this usable for a sandboxing usecase, you'd also have to
-save and restore FSBASE/GSBASE, just like __switch_to().
+> 
+> Also, I'm not at all convinced this can ever do the right thing when the
+> tasks don't agree on what the FPU state is. I suppose in the best case
+> the save will EFAULT.
+> 
+> > +
+> > +	return 0;
+> > +Efault:
+> > +	user_access_end();
+> > +badframe:
+> > +	signal_fault(current_pt_regs(), uctx, "swap_vm_exec_context");
+> > +	return -EFAULT;
+> > +}
