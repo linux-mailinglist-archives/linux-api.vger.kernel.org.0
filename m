@@ -2,128 +2,146 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F2F2C3B98D8
-	for <lists+linux-api@lfdr.de>; Fri,  2 Jul 2021 01:08:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62B413B9C29
+	for <lists+linux-api@lfdr.de>; Fri,  2 Jul 2021 08:25:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232845AbhGAXKp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 1 Jul 2021 19:10:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35944 "EHLO
+        id S229880AbhGBG2W (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 2 Jul 2021 02:28:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230006AbhGAXKp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 1 Jul 2021 19:10:45 -0400
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EC1BC061762
-        for <linux-api@vger.kernel.org>; Thu,  1 Jul 2021 16:08:13 -0700 (PDT)
-Received: by mail-yb1-xb34.google.com with SMTP id r135so13620606ybc.0
-        for <linux-api@vger.kernel.org>; Thu, 01 Jul 2021 16:08:13 -0700 (PDT)
+        with ESMTP id S229542AbhGBG2W (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Jul 2021 02:28:22 -0400
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9615C061762;
+        Thu,  1 Jul 2021 23:25:49 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id b1so5064375pls.5;
+        Thu, 01 Jul 2021 23:25:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JVFwhu0Nl1U9FivJTXYgbITws6r7aJBlzJ81RHuWBSo=;
-        b=lYp1QR+VzXen7d2xJF2fbcLqhi1ay1+vCQpxCfKI+F1Y7rAEbyh89MNhAJooFga14A
-         2CH/m1K/T8X3/uyuzQjJDfWZHqlboXl4tsagwV7koZJU7jeAfOYCnWCgWa/O4R5fwY3k
-         yYnfPUXeE/8aSQXjZhSXs6EvokPk/NMTM5PpcQaBWdcNl0Dl55TWRBjo3DMictyRffxP
-         FNevKNKq8Ym1jcjlF+kQrzoOANVGeNb9pQxesajua1x+gbaUcYlzLUHWX9Mz/Ee+5Yf1
-         2ZFBoRILOFE+9MK5DbKOXMVrix+YZBY/am2DjjhmAb4abHoU+TtwSZ7pcjhIfuwthRJm
-         tOjg==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=6gR7+oJ7XUI6MhB8zU2feJZoMeVNHRmve9e7TtBVXiM=;
+        b=lut5GHGzEENqE8c4bauh/TlTusHss46DVGXnM+uHrZNQa2tVs3OSIJno9FEvBX0IEE
+         DRd0IxZVKcqShqReCftvCxc27vVee57OdWf8It8CqNa6zWmIFhfx7PWIJKDW6UttNeFP
+         SR0aLs6JXUA7vWA9nCRK2R0GWaHK7Jt+UD4CtLFXDbj3lj9ZpHcgQzgbomiWONF2ySwc
+         BxX6qpyhqDIhg5Ks56kIlMaIX77/IH8xAwOaEMBtpkltVPWvlreaGyagGNX/3R+XR77y
+         DhCOij3wubI5Ai80m2VhgBv/HS/RUGw5JKna45VYuleIvU3tZzfdQWmHN2gEJIyt5Bek
+         rKEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JVFwhu0Nl1U9FivJTXYgbITws6r7aJBlzJ81RHuWBSo=;
-        b=conCFWdmerEisjt93nI6X0w1m1RYXV8ZfFPvcAAHnzSvY8H1L4ZGxlzcDO6OrnDu63
-         rLtw5s71doKZl8s3DTcmwCX0VPCv6YxmKC1aTw0trRzitRPJh/NRdtrXL2x4eO8hCvGL
-         FhKtro0uHl+DnGbaomfOY3xdrsJrGu8SmrXHJT3AzzfElzlJkByNyhaTS4VR0z4uNvhG
-         P5XbUEp6b4MMcp0Ow2vjpROZ7WWVb4Q1hCXmpOQDbvwmgB/PJ7d2CvHbMtSdzYX8YcOv
-         MQ8NE/O3MNUuJgL7K1T6dOlEFvGZVxEixtoErm5AOpklii9Su6v71zKiOQELmoNTEcFs
-         ITLw==
-X-Gm-Message-State: AOAM531cCXQL9aFq4nLO65+Vnm7UJ5SO/XmvPiOhYkfFTV+r0l0UcUya
-        /l+JYSY1Da7jJr74UW+Huwz57kgRXFr/4s4Qh4aQ9g==
-X-Google-Smtp-Source: ABdhPJzlD1Rwyg4aaTXscYYkLEEMfARA5rwHrPGJiwB0C5EZgf9sRsRKGD9SS7+cgRsYyt0WzPidD7cw4j9F8JmjJMM=
-X-Received: by 2002:a25:2341:: with SMTP id j62mr3050343ybj.190.1625180892125;
- Thu, 01 Jul 2021 16:08:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210623192822.3072029-1-surenb@google.com> <CALCETrU577MD59P-+9sMYtS3t2sZYx-zi=VirhQpZLnhEck1vg@mail.gmail.com>
- <CAJuCfpFMTP-g9CFELMqNawX0FhF4vBNtRDP_R=WAi_RiuGW8-Q@mail.gmail.com> <CALCETrW7Mm6xNwdhsEd9LZFJNJ_5ZtBPfTiqs=np3V7cqo=cAA@mail.gmail.com>
-In-Reply-To: <CALCETrW7Mm6xNwdhsEd9LZFJNJ_5ZtBPfTiqs=np3V7cqo=cAA@mail.gmail.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Thu, 1 Jul 2021 16:08:01 -0700
-Message-ID: <CAJuCfpEWmcJSKuAD+4yOcWyTTDTo0p7Aico5FruXZcyZt120Jg@mail.gmail.com>
-Subject: Re: [PATCH 1/1] mm: introduce process_reap system call
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Michal Hocko <mhocko@suse.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Christian Brauner <christian@brauner.io>,
-        Christoph Hellwig <hch@infradead.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=6gR7+oJ7XUI6MhB8zU2feJZoMeVNHRmve9e7TtBVXiM=;
+        b=Nfde3sgmsBjChbq4hsjs88LKac6roqGVakgEkeUTZrGpP9BWf5UwXGpE9Du3wajdNw
+         hdIfchFD3hseCznUBLlUbg46i8+zmToyE7IA7OEPBkhFaUHf8IWFvECF1gvu4wy/muki
+         bqPCmGplZd9lNBbGMYq0xKYwrHNk+PtmYYzY2410JODw+Fis9qTMyT0cCpMKYHi42qLO
+         F9lT7yJCAt2PHoIlLojoyDvJNPVHG5p17FtDqfwImcmGfz+QsNuAWuUsh2ui+Rc5jFH9
+         Ze5U4U8JChc9hRHr4oaS5JTllcd/WLqeB9O5GY6zTwbyt3c+dfh0kOpyEEoxTHbVgRx9
+         Kpzg==
+X-Gm-Message-State: AOAM532X1G+yN8FjATJonvEyZJrGzvyWtKvNkJYKgKkEHkzOE9JZNRB2
+        Bdo7zZSd0kGbxzpltzfurKA=
+X-Google-Smtp-Source: ABdhPJwNyKqnFsz6sUSx1d/aGhENQ2XeF1+TR5MNvyjlOl72Tstx0VP9NRESCGyA5ledv+bxfbqarg==
+X-Received: by 2002:a17:90a:4091:: with SMTP id l17mr3384594pjg.12.1625207148980;
+        Thu, 01 Jul 2021 23:25:48 -0700 (PDT)
+Received: from gmail.com ([2601:600:8500:5f14:d627:c51e:516e:a105])
+        by smtp.gmail.com with ESMTPSA id b19sm1499251pjh.29.2021.07.01.23.25.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Jul 2021 23:25:48 -0700 (PDT)
+Date:   Thu, 1 Jul 2021 23:22:15 -0700
+From:   Andrei Vagin <avagin@gmail.com>
+To:     Jann Horn <jannh@google.com>
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-um@lists.infradead.org, criu@openvz.org, avagin@google.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        Ingo Molnar <mingo@redhat.com>, Jeff Dike <jdike@addtoit.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
         Oleg Nesterov <oleg@redhat.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jann Horn <jannh@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Android Kernel Team <kernel-team@android.com>
-Content-Type: text/plain; charset="UTF-8"
+        Peter Zijlstra <peterz@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        Thomas Gleixner <tglx@linutronix.de>, linux-mm@kvack.org
+Subject: Re: [PATCH 2/4] arch/x86: implement the process_vm_exec syscall
+Message-ID: <YN6wlwFomEJ0LK1Y@gmail.com>
+References: <20210414055217.543246-1-avagin@gmail.com>
+ <20210414055217.543246-3-avagin@gmail.com>
+ <CAG48ez3UrzPE8rkucTgCu8ggcTEjx_h3Gj2FES1qM-uv2KD8bQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=koi8-r
+Content-Disposition: inline
+In-Reply-To: <CAG48ez3UrzPE8rkucTgCu8ggcTEjx_h3Gj2FES1qM-uv2KD8bQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-)
-
-On Wed, Jun 30, 2021 at 5:46 PM Andy Lutomirski <luto@kernel.org> wrote:
->
-> On Wed, Jun 30, 2021 at 11:51 AM Suren Baghdasaryan <surenb@google.com> wrote:
+On Mon, Jun 28, 2021 at 06:13:29PM +0200, Jann Horn wrote:
+> On Wed, Apr 14, 2021 at 7:59 AM Andrei Vagin <avagin@gmail.com> wrote:
+> > This change introduces the new system call:
+> > process_vm_exec(pid_t pid, struct sigcontext *uctx, unsigned long flags,
+> >                 siginfo_t * uinfo, sigset_t *sigmask, size_t sizemask)
 > >
-> > On Wed, Jun 30, 2021 at 11:26 AM Andy Lutomirski <luto@kernel.org> wrote:
-> > >
-> > > On Wed, Jun 23, 2021 at 12:28 PM Suren Baghdasaryan <surenb@google.com> wrote:
-> > > >
-> > > > In modern systems it's not unusual to have a system component monitoring
-> > > > memory conditions of the system and tasked with keeping system memory
-> > > > pressure under control. One way to accomplish that is to kill
-> > > > non-essential processes to free up memory for more important ones.
-> > > > Examples of this are Facebook's OOM killer daemon called oomd and
-> > > > Android's low memory killer daemon called lmkd.
-> > > > For such system component it's important to be able to free memory
-> > > > quickly and efficiently. Unfortunately the time process takes to free
-> > > > up its memory after receiving a SIGKILL might vary based on the state
-> > > > of the process (uninterruptible sleep), size and OPP level of the core
-> > > > the process is running. A mechanism to free resources of the target
-> > > > process in a more predictable way would improve system's ability to
-> > > > control its memory pressure.
-> > > > Introduce process_reap system call that reclaims memory of a dying process
-> > > > from the context of the caller. This way the memory in freed in a more
-> > > > controllable way with CPU affinity and priority of the caller. The workload
-> > > > of freeing the memory will also be charged to the caller.
-> > > > The operation is allowed only on a dying process.
-> > >
-> > > At the risk of asking a potentially silly question, should this just
-> > > be a file in procfs?
-> >
-> > Hmm. I guess it's doable if procfs will not disappear too soon before
-> > memory is released... syscall also supports parameters, in this case
-> > flags can be used in the future to support PIDs in addition to PIDFDs
-> > for example.
-> > Before looking more in that direction, a silly question from my side:
-> > why procfs interface would be preferable to a syscall?
->
-> It avoids using a syscall nr.  (Admittedly a syscall nr is not *that*
-> precious of a resource.)  It also makes it possible to use a shell
-> script to do this, which is maybe useful.
+> > process_vm_exec allows to execute the current process in an address
+> > space of another process.
+> [...]
+> 
+> I still think that this whole API is fundamentally the wrong approach
+> because it tries to shoehorn multiple usecases with different
+> requirements into a single API. But that aside:
 
-I see. Not really sure if the shell usage is a big usecase for this
-operation but let's see if more people like that approach. For my
-specific usecase one syscall (process_reap) is better than three
-syscalls (open, write, close) and the possibility to extend the
-functionality using flags might be of value for the future.
+Here, I can't agree with you, but this is discussed in the parallel
+thread.
 
->
-> --Andy
+> 
+> > +static void swap_mm(struct mm_struct *prev_mm, struct mm_struct *target_mm)
+> > +{
+> > +       struct task_struct *tsk = current;
+> > +       struct mm_struct *active_mm;
+> > +
+> > +       task_lock(tsk);
+> > +       /* Hold off tlb flush IPIs while switching mm's */
+> > +       local_irq_disable();
+> > +
+> > +       sync_mm_rss(prev_mm);
+> > +
+> > +       vmacache_flush(tsk);
+> > +
+> > +       active_mm = tsk->active_mm;
+> > +       if (active_mm != target_mm) {
+> > +               mmgrab(target_mm);
+> > +               tsk->active_mm = target_mm;
+> > +       }
+> > +       tsk->mm = target_mm;
+> 
+> I'm pretty sure you're not currently allowed to overwrite the ->mm
+> pointer of a userspace thread. For example, zap_threads() assumes that
+> all threads running under a process have the same ->mm. (And if you're
+> fiddling with ->mm stuff, you should probably CC linux-mm@.)
+> 
+> As far as I understand, only kthreads are allowed to do this (as
+> implemented in kthread_use_mm()).
+
+kthread_use_mm() was renamed from use_mm in the v5.8 kernel. Before
+that, it wasn't used for user processes in the kernel, but it was
+exported for modules, and we used it without any visible problems. We
+understood that there could be some issues like zap_threads and it was
+one of reasons why we decided to introduce this system call.
+
+I understand that there are no places in the kernel where we change mm
+of user threads back and forth, but are there any real concerns why we
+should not do that? I agree that zap_threads should be fixed, but it
+will the easy one.
+
+> 
+> > +       switch_mm_irqs_off(active_mm, target_mm, tsk);
+> > +       local_irq_enable();
+> > +       task_unlock(tsk);
+> > +#ifdef finish_arch_post_lock_switch
+> > +       finish_arch_post_lock_switch();
+> > +#endif
+> > +
+> > +       if (active_mm != target_mm)
+> > +               mmdrop(active_mm);
+> > +}
