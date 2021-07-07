@@ -2,141 +2,127 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C9853BED9E
-	for <lists+linux-api@lfdr.de>; Wed,  7 Jul 2021 19:59:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 539B83BEFC0
+	for <lists+linux-api@lfdr.de>; Wed,  7 Jul 2021 20:44:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230458AbhGGSCh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 7 Jul 2021 14:02:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59734 "EHLO
+        id S232047AbhGGSr1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 7 Jul 2021 14:47:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230184AbhGGSCh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 7 Jul 2021 14:02:37 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C489FC06175F
-        for <linux-api@vger.kernel.org>; Wed,  7 Jul 2021 10:59:56 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id y17so3067913pgf.12
-        for <linux-api@vger.kernel.org>; Wed, 07 Jul 2021 10:59:56 -0700 (PDT)
+        with ESMTP id S230431AbhGGSr1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 7 Jul 2021 14:47:27 -0400
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F37CC061574;
+        Wed,  7 Jul 2021 11:44:46 -0700 (PDT)
+Received: by mail-qk1-x733.google.com with SMTP id s6so166104qkc.8;
+        Wed, 07 Jul 2021 11:44:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=UuByXwl/ZggLuZLxjRPi2ENFNnrGhzIfjH6PqbhGc+Q=;
-        b=WoDkouFglcxUePWvEApdKmxPTVFS96FsfNYDMIzyLfghU4aZ6c7z7QJxehINkONY/e
-         b2ZQKf22q1y/84DTaOWCrv8BhYbGRbkNDgzBungaIZ0yBqUaJtdLNK9q/Dp5Gf6BAMsA
-         6YmGH3RpqmJCRGlJW5cUIqEHH+S72md0kk8NGot8RPSp+IndPM0sECgifngGpGdrdzeq
-         22A5152QisRl9Sw7iWZMv8JZbSofqlYb9FX0YYrRZAWxBQjQJC42iqGNmQ2DzhXo9RVQ
-         7fZnUhwgtVjxxjTr6Q+v+tzUhRAN7XLQ4NyhsaY0gObww7s/UAc/ROihXllf0NdJSnqN
-         TuAw==
+        bh=K9NP7NLwWkcfALoFIYmgROqgWj6k4wQiI1w4X/3676E=;
+        b=qC6cTiUNt4PvLCjzZUC7QC6IC7L+DJAXF5je2GSApBEjhocKpQ0oVD+MNGxfa4ftwS
+         02Wk54BymQcPUi/4myEhTbYW4MKlv5vk/DOT3ZP5wfzcTyz9kaIb572KOHmoSPj3oFbk
+         zZTpKvURz/5BzV7T64Fhc+i5Izgs0QhwEkJQIFfRXUj0oAO43ZvAi/LZbQQCCnByzfH8
+         lbbFbCevoVsobUoDGl4ECgKEFXKRDEA2m6MC+WNUnLLTdyQqqfWvp+p1JY0ljwauSR8K
+         Xb5gFqVUg8xblpgk5IevMfky4mVtH1e2snFkAZpmCk2o/AXLfkp4k31DrscLeNjujJuE
+         vN4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=UuByXwl/ZggLuZLxjRPi2ENFNnrGhzIfjH6PqbhGc+Q=;
-        b=rLGlg86/ieVpigGxF540gg4GlNTu/aMtMfx6DI4RVzRdc6eIMLErcLvqG5IHRQNtFI
-         yfVtAxGG81srz77t1OlUGhx2TFcnWage8mHrq5NhgdfxE6q8BDoiV5ssuoWUAcFdHwlG
-         01fj0uqghDJVPb3bAjNMzdi8vcyXCJEcA1U6nMcnXZhXiaPYqED+oJjXcO3fRpEGpNTf
-         Jd1qEQlS7YEhEuupbXnYTJqeUpjnwOP9jqhqsn/xf621yXjyJM4RrQsy64wDxozYzf43
-         BdomJw7Jh8V5fZZTqgvwrRpjlxvCTQSU62tXBWOZqqCbUiAChf1nCzI85In5oDYRWzXw
-         dvlA==
-X-Gm-Message-State: AOAM5316X8ghVMuROE1hvbl17EU2uXHa9xQYpqF/7gOB2fF3jOkuELqj
-        pzuWTdcDLO4PtynzQ4jgll87gw==
-X-Google-Smtp-Source: ABdhPJw2Ny6eY+qM9e9CB9jKdPUq2ELTuNxLaXr9A0ujWoYKCkdnJO9JcDw/ctABKjNsgpFUktehog==
-X-Received: by 2002:a63:580a:: with SMTP id m10mr16481833pgb.254.1625680796038;
-        Wed, 07 Jul 2021 10:59:56 -0700 (PDT)
-Received: from relinquished.localdomain ([2620:10d:c090:400::5:e1b5])
-        by smtp.gmail.com with ESMTPSA id u16sm10571142pfh.205.2021.07.07.10.59.54
+        bh=K9NP7NLwWkcfALoFIYmgROqgWj6k4wQiI1w4X/3676E=;
+        b=nJgr6SbeXnqYIWLzeDWCRJD6mRA/IY16OTVmnllmxbP9CTsfMf1h8zkNfESjY9ubXq
+         0gHvXmZYu0PA+e6tC/CENqgCjnRQYGKhXVQX8nR12JfJyRG/pxyh/pdMIC+l41EGqkI6
+         OQNzJZQxoioBkE31Zl3XOjFnkEQOQmJO1dredNO167CJi8Iql/WZXPMLByX3WUOEVNLc
+         moOdD3ltmDLhqs+9p3kdscJIkAFH0L5c8+zPUgJOcIIwCxcADYvdN43YGdnkQ3nYu8Dc
+         cyrknWMQpVUyYeZl9JQ1zmEl3pXP5+a8g90AO1qOg0bbgf4pC5lvFGmXqi8kl6VfwcZp
+         WKRQ==
+X-Gm-Message-State: AOAM530CmPeNvwi43IO1rUEpJ5P9T9xlyIA7N/hX0pbiYe5d3WIoLJqN
+        /c0RmGOEj05K4IZzkowsOGQ=
+X-Google-Smtp-Source: ABdhPJzjmkHNTPtRsEoRcvvh1kDxyaX4Rte6zSR7Famg52nqIPyXOBPMfXU+DhOr8BTyTIn3DjRmdA==
+X-Received: by 2002:a05:620a:1aa5:: with SMTP id bl37mr15895887qkb.200.1625683485662;
+        Wed, 07 Jul 2021 11:44:45 -0700 (PDT)
+Received: from localhost ([207.98.216.60])
+        by smtp.gmail.com with ESMTPSA id j141sm3789725qke.33.2021.07.07.11.44.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jul 2021 10:59:55 -0700 (PDT)
-Date:   Wed, 7 Jul 2021 10:59:53 -0700
-From:   Omar Sandoval <osandov@osandov.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Dave Chinner <david@fromorbit.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-btrfs <linux-btrfs@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Kernel Team <kernel-team@fb.com>,
-        Dave Chinner <dchinner@redhat.com>
-Subject: Re: [PATCH RESEND x3 v9 1/9] iov_iter: add copy_struct_from_iter()
-Message-ID: <YOXrmbi81Fr14fUV@relinquished.localdomain>
-References: <YNOuiMfRO51kLcOE@relinquished.localdomain>
- <YNPnRyasHVq9NF79@casper.infradead.org>
- <YNQi3vgCLVs/ExiK@relinquished.localdomain>
- <CAHk-=whmRQWm_gVek32ekPqBi3zAKOsdK6_6Hx8nHp3H5JAMew@mail.gmail.com>
- <YNTO1T6BEzmG6Uj5@relinquished.localdomain>
- <CAHk-=wi37_ccWmq1EKTduS8ms_=KpyY2LwJV7roD+s=ZkBkjCw@mail.gmail.com>
- <yq1tulmoqxf.fsf@ca-mkp.ca.oracle.com>
- <YNVPp/Pgqshami3U@casper.infradead.org>
- <CAHk-=wgH5pUbrL7CM5v6TWyNzDYpVM9k1qYCEgmY+b3Gx9nEAA@mail.gmail.com>
- <YNZFr7oJj1nkrwJY@relinquished.localdomain>
+        Wed, 07 Jul 2021 11:44:45 -0700 (PDT)
+Date:   Wed, 7 Jul 2021 11:44:44 -0700
+From:   Yury Norov <yury.norov@gmail.com>
+To:     Andreas Schwab <schwab@suse.de>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        linux-audit/audit-kernel 
+        <reply+ADSN7RXLQ62LNLD2MK5HFHF65GIU3EVBNHHDPMBXHU@reply.github.com>,
+        linux-audit/audit-kernel <audit-kernel@noreply.github.com>,
+        Mention <mention@noreply.github.com>,
+        Xiongfeng Wang <wangxiongfeng2@huawei.com>,
+        bobo.shaobowang@huawei.com,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        Adam Borowski <kilobyte@angband.pl>,
+        Alexander Graf <agraf@suse.de>,
+        Alexey Klimov <klimov.linux@gmail.com>,
+        Andrew Pinski <pinskia@gmail.com>,
+        Bamvor Zhangjian <bamv2005@gmail.com>,
+        Chris Metcalf <cmetcalf@mellanox.com>,
+        Christoph Muellner <christoph.muellner@theobroma-systems.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Florian Weimer <fweimer@redhat.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        James Hogan <james.hogan@imgtec.com>,
+        James Morse <james.morse@arm.com>,
+        Joseph Myers <joseph@codesourcery.com>,
+        Lin Yongting <linyongting@huawei.com>,
+        Manuel Montezelo <manuel.montezelo@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
+        Nathan_Lynch <Nathan_Lynch@mentor.com>,
+        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
+        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
+        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
+        Steve Ellcey <sellcey@caviumnetworks.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Paul Moore <paul@paul-moore.com>
+Subject: Re: [linux-audit/audit-kernel] BUG: audit_classify_syscall() fails
+ to properly handle 64-bit syscalls when executing as 32-bit application on
+ ARM (#131)
+Message-ID: <YOX2HBSoltXDGuu+@yury-ThinkPad>
+References: <linux-audit/audit-kernel/issues/131@github.com>
+ <linux-audit/audit-kernel/issues/131/872191450@github.com>
+ <YN9V/qM0mxIYXt3h@yury-ThinkPad>
+ <mvm7di59gtx.fsf@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YNZFr7oJj1nkrwJY@relinquished.localdomain>
+In-Reply-To: <mvm7di59gtx.fsf@suse.de>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jun 25, 2021 at 02:07:59PM -0700, Omar Sandoval wrote:
-> On Fri, Jun 25, 2021 at 09:16:15AM -0700, Linus Torvalds wrote:
-> > On Thu, Jun 24, 2021 at 8:38 PM Matthew Wilcox <willy@infradead.org> wrote:
-> > >
-> > > Does it make any kind of sense to talk about doing this for buffered I/O,
-> > > given that we can't generate them for (eg) mmaped files?
-> > 
-> > Sure we can.
-> > 
-> > Or rather, some people might very well like to do it even for mutable
-> > data. In fact, _especially_ for mutable data.
-> > 
-> > You might want to do things like "write out the state I verified just
-> > a moment ago", and if it has changed since then, you *want* the result
-> > to be invalid because the checksums no longer match - in case somebody
-> > else changed the data you used for the state calculation and
-> > verification in the meantime. It's very much why you'd want a separate
-> > checksum in the first place.
-> > 
-> > Yeah, yeah,  you can - and people do - just do things like this with a
-> > separate checksum. But if you know that the filesystem has internal
-> > checksumming support _anyway_, you might want to use it, and basically
-> > say "use this checksum, if the data doesn't match when I read it back
-> > I want to get an IO error".
-> > 
-> > (The "data doesn't match" _could_ be just due to DRAM corruption etc,
-> > of course. Some people care about things like that. You want
-> > "verified" filesystem contents - it might not be about security, it
-> > might simply be about "I have validated this data and if it's not the
-> > same data any more it's useless and I need to re-generate it").
-> > 
-> > Am I a big believer in this model? No. Portability concerns (across
-> > OS'es, across filesystems, even just across backups on the same exact
-> > system) means that even if we did this, very few people would use it.
-> > 
-> > People who want this end up using an external checksum instead and do
-> > it outside of and separately from the actual IO, because then they can
-> > do it on existing systems.
-> > 
-> > So my argument is not "we want this". My argument is purely that some
-> > buffered filesystem IO case isn't actually any different from the
-> > traditional "I want access to the low-level sector hardware checksum
-> > data". The use cases are basically exactly the same.
-> > 
-> > Of course, basically nobody does that hw sector checksum either, for
-> > all the same reasons, even if it's been around for decades.
-> > 
-> > So my "checksum metadata interface" is not something I'm a big
-> > believer in, but I really don't think it's really all _that_ different
-> > from the whole "compressed format interface" that this whole patch
-> > series is about. They are pretty much the same thing in many ways.
+On Mon, Jul 05, 2021 at 12:48:42PM +0200, Andreas Schwab wrote:
+> On Jul 02 2021, Yury Norov wrote:
 > 
-> I see the similarity in the sense that we basically want to pass some
-> extra metadata down with the read or write. So then do we want to add
-> preadv3/pwritev3 for encoded I/O now so that checksums can use it in the
-> future? The encoding metadata could go in this "struct io_how", either
-> directly or in a separate structure with a pointer in "struct io_how".
-> It could get messy with compat syscalls.
+> > At least Marvell, Samsung, Huawei, Cisco and Weiyuchen's employer
+> > actively use and develop arm64/ilp32.
+> 
+> This is good to know.  Where can I get the uptodate kernel patches for
+> ILP32?
+> 
+> Andreas.
 
-Ping. What's the path forward here? At this point, it seems like an
-ioctl is the path of least resistance.
+The latest kernel supported by me is 5.2:
+https://github.com/norov/linux/commits/ilp32-5.2
+
+I know about working ports of ILP32 on 5.7 and 5.10, but didn't see
+the code and testing results. Hopefully Paul Moore and Weiyuchen will
+share more details.
+
+Yury
