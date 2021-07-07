@@ -2,133 +2,113 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C32B3BEFE2
-	for <lists+linux-api@lfdr.de>; Wed,  7 Jul 2021 20:54:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 967533BF137
+	for <lists+linux-api@lfdr.de>; Wed,  7 Jul 2021 23:07:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230019AbhGGS5X (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 7 Jul 2021 14:57:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44282 "EHLO
+        id S231144AbhGGVKI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 7 Jul 2021 17:10:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230111AbhGGS5W (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 7 Jul 2021 14:57:22 -0400
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78B62C061764
-        for <linux-api@vger.kernel.org>; Wed,  7 Jul 2021 11:54:41 -0700 (PDT)
-Received: by mail-ed1-x532.google.com with SMTP id h2so4794428edt.3
-        for <linux-api@vger.kernel.org>; Wed, 07 Jul 2021 11:54:41 -0700 (PDT)
+        with ESMTP id S230333AbhGGVKI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 7 Jul 2021 17:10:08 -0400
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7F77C06175F
+        for <linux-api@vger.kernel.org>; Wed,  7 Jul 2021 14:07:27 -0700 (PDT)
+Received: by mail-yb1-xb32.google.com with SMTP id r132so5368973yba.5
+        for <linux-api@vger.kernel.org>; Wed, 07 Jul 2021 14:07:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ugbA+4JXRP1mJwLMiXh8sHPiNT5dm+iRolBoqcwvGKM=;
-        b=UWmdMoSC6n6QgehfuVD18jZrfRnAzOQu/YMvpyvP1FIKUp3BE0/9X7ze+Nr5kV6fzs
-         fNG/XxtM+aTtgosF3KIaFgB2xxVqlo9KjZhsZj0LNmOs535WsATvLMEWrkA9+uzQO5WZ
-         hLiWBNIXX8dW1gOk3PDCbjhD0UJtDraRimRZCedJTnw3SJSubzpyzBsQQ5Wv9JFk5w9O
-         GBs4V4067U1+f0SXZxlAq6cHUbn52Syibvd60smJNE8lDop7PUDEiluj0fntQJZjlrMo
-         xKy7+LSHA87ej/o1Qc6q7QbrTtWd4fsCMB8GTFTwATdAR+b/yqrELwX8SDK/L3lq2V/B
-         UuEQ==
+         :cc:content-transfer-encoding;
+        bh=aWzEI8RIsIrge+Ik0HeT8Rj/B4/rdob6KSKbIm3ow38=;
+        b=G2dTceXudrWKc33/bGZBuAZbtX51Pj+2wKWVk8gxp1kvWtNW/d7M7lvbb8SX5JZl4k
+         j2rh++vdPnZJtl3wEV3THrt9aEazho5gCYRFIqPqn5NV4P56BpRWTNvc9Xm9nRmYKucj
+         9rVLzXC1GYwDvQyydxen6RPYDnZQaPRyI+KsNuaDhnpCvWdjmZ8Mg8PA5A+k0/siwYze
+         ZkWboscEQO9CrBQcCHJYHkR636NGXyMs1KU7oPv6Zrvx1pw1UsozwbGuCQ4xtqrAx6Mh
+         aqIamJ422gzs6pvhVRevOcEENww/S6+nd/nUBn+zyfXeL8L0khf/AnInJ0zFpivsT9l0
+         VFMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ugbA+4JXRP1mJwLMiXh8sHPiNT5dm+iRolBoqcwvGKM=;
-        b=N49MdOAHpEN/PMRu28GJjywLwtLkhbBREr/fVCgT+oiozxr0eq2oH4zBXV3+hmMKhu
-         9YDUW/EDsrKEyJgTu7zHDsq40FqfcZSXeG7gW7sEcsr9Rg/bboUXDABVV8UY3mM3KsXT
-         gFwgnlAgh29NK7NUAQfBQMAiEC3BOXR9/Xqu9U3Ph8xOskT6W35lsyZUvhXERV/uUw6N
-         MvLfKnBaEBLBuNi5v3aJJLcyATmvvdEj8LSq/CjVO/TXQQ0MoDgsR2/wexdjcaEVnhz5
-         GCOqDinxt7NOVmg70e1GRcV3L6O3VKM5uxFFPVZOubIm7rVmQNDIvxjK+yjCGkjovfCc
-         YJ8Q==
-X-Gm-Message-State: AOAM531tgilJ6K1aXFRhcSAV/E9UbNgt0yXx8gxoRNGMcWEJLLWTJD15
-        JgmqrtMoSOjn1lNaPCZK6J6jXyCwWaWnLx1YPgO2
-X-Google-Smtp-Source: ABdhPJzwqV7FHm5eRzTwBwwPAUceWy+Y8yEhnDSBxTccP6bRO19RRdsI4wJHLd3uGtrVGw7qkCnAGwX2QsTdxop5hlo=
-X-Received: by 2002:a05:6402:2681:: with SMTP id w1mr31964013edd.275.1625684079863;
- Wed, 07 Jul 2021 11:54:39 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=aWzEI8RIsIrge+Ik0HeT8Rj/B4/rdob6KSKbIm3ow38=;
+        b=R4ECdLE31ddmiBJUDMkjovYsxf/Qz215Np5j+g+cemZ82cZJ5v0Vh4ULx9l9Msd+B2
+         FLKGQpHY9wptpEz8ZD46FZldyEkFf5Q5Gy+jmXD7A4kc+ymoV7JkUX9e7ZJXf1m/FhcJ
+         eo1b5H6FZukKh/pZuYZHQ5usPdgFVq+qJFhWpXXjSCNlBKVe7T1vd4YLQ2A0cf88WzMO
+         O0G7C8cJ8pgNaB1VdtyElYQ1f9DItrR/GRhtw4NJBlXfg6u3co3pqIH5RZuxwVWNJvKA
+         zAWXsgBSesZK/9ehpMY1s6TyYlYWab1q+1sf5V83kGcPBApDojsX/a8dkbwMf7N/EPJY
+         GyKg==
+X-Gm-Message-State: AOAM530ZEbAWPpq4r9sb5OrcICnp5vtTLIaddKXNlo8gCDNs18zJ5qDW
+        oE84QqMQGuPCnBgjuVzFE5vx6k62ba2QLJdyXp41xw==
+X-Google-Smtp-Source: ABdhPJzlh3iKXC4o8eTmffnWRvSU3WWD8l2hitr8rJd8o/wjeDD/epeVK3W9VCxZDoDcq/CbGDUoJ5iO+7AsTyDEzgY=
+X-Received: by 2002:a25:2e49:: with SMTP id b9mr36296163ybn.250.1625692046825;
+ Wed, 07 Jul 2021 14:07:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <linux-audit/audit-kernel/issues/131@github.com>
- <linux-audit/audit-kernel/issues/131/872191450@github.com>
- <YN9V/qM0mxIYXt3h@yury-ThinkPad> <mvm7di59gtx.fsf@suse.de> <YOX2HBSoltXDGuu+@yury-ThinkPad>
-In-Reply-To: <YOX2HBSoltXDGuu+@yury-ThinkPad>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Wed, 7 Jul 2021 14:54:28 -0400
-Message-ID: <CAHC9VhTbYk14D1ZaUOfafcEtQgnPPF=ySpNYrsO+VD+W7PcYXQ@mail.gmail.com>
-Subject: Re: [linux-audit/audit-kernel] BUG: audit_classify_syscall() fails to
- properly handle 64-bit syscalls when executing as 32-bit application on ARM (#131)
-To:     Yury Norov <yury.norov@gmail.com>
-Cc:     Andreas Schwab <schwab@suse.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "linux-audit/audit-kernel" 
-        <reply+ADSN7RXLQ62LNLD2MK5HFHF65GIU3EVBNHHDPMBXHU@reply.github.com>,
-        "linux-audit/audit-kernel" <audit-kernel@noreply.github.com>,
-        Mention <mention@noreply.github.com>,
-        Xiongfeng Wang <wangxiongfeng2@huawei.com>,
-        bobo.shaobowang@huawei.com,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Adam Borowski <kilobyte@angband.pl>,
-        Alexander Graf <agraf@suse.de>,
-        Alexey Klimov <klimov.linux@gmail.com>,
-        Andrew Pinski <pinskia@gmail.com>,
-        Bamvor Zhangjian <bamv2005@gmail.com>,
-        Chris Metcalf <cmetcalf@mellanox.com>,
-        Christoph Muellner <christoph.muellner@theobroma-systems.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Florian Weimer <fweimer@redhat.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        James Hogan <james.hogan@imgtec.com>,
-        James Morse <james.morse@arm.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Lin Yongting <linyongting@huawei.com>,
-        Manuel Montezelo <manuel.montezelo@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
-        Nathan_Lynch <Nathan_Lynch@mentor.com>,
-        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
-        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
-        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
-        Steve Ellcey <sellcey@caviumnetworks.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>
+References: <20210623192822.3072029-1-surenb@google.com> <87sg0qa22l.fsf@oldenburg.str.redhat.com>
+In-Reply-To: <87sg0qa22l.fsf@oldenburg.str.redhat.com>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Wed, 7 Jul 2021 14:07:15 -0700
+Message-ID: <CAJuCfpEWpvw+gW+NvBPOdGqUOEyucFoT8gdC2uk18dMBQFbhqw@mail.gmail.com>
+Subject: Re: [PATCH 1/1] mm: introduce process_reap system call
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Michal Hocko <mhocko@suse.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        Christoph Hellwig <hch@infradead.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Jann Horn <jannh@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jul 7, 2021 at 2:44 PM Yury Norov <yury.norov@gmail.com> wrote:
-> On Mon, Jul 05, 2021 at 12:48:42PM +0200, Andreas Schwab wrote:
-> > On Jul 02 2021, Yury Norov wrote:
-> >
-> > > At least Marvell, Samsung, Huawei, Cisco and Weiyuchen's employer
-> > > actively use and develop arm64/ilp32.
-> >
-> > This is good to know.  Where can I get the uptodate kernel patches for
-> > ILP32?
-> >
-> > Andreas.
+On Wed, Jul 7, 2021 at 2:47 AM Florian Weimer <fweimer@redhat.com> wrote:
 >
-> The latest kernel supported by me is 5.2:
-> https://github.com/norov/linux/commits/ilp32-5.2
+> * Suren Baghdasaryan:
 >
-> I know about working ports of ILP32 on 5.7 and 5.10, but didn't see
-> the code and testing results. Hopefully Paul Moore and Weiyuchen will
-> share more details.
+> > The API is as follows,
+> >
+> >           int process_reap(int pidfd, unsigned int flags);
+> >
+> >         DESCRIPTION
+> >           The process_reap() system call is used to free the memory of =
+a
+> >           dying process.
+> >
+> >           The pidfd selects the process referred to by the PID file
+> >           descriptor.
+> >           (See pidofd_open(2) for further information)
+> >
+> >           The flags argument is reserved for future use; currently, thi=
+s
+> >           argument must be specified as 0.
+> >
+> >         RETURN VALUE
+> >           On success, process_reap() returns 0. On error, -1 is returne=
+d
+> >           and errno is set to indicate the error.
+>
+> I think the manual page should mention what it means for a process to be
+> =E2=80=9Cdying=E2=80=9D, and how to move a process to this state.
 
-To be clear, I have not done any work with ILP32 nor do I have any
-immediate plans to do so (other tasks are higher priority).  I am not
-sure what details you are looking for, but there are several
-arches/ABIs in the kernel, including regular aarch64, that can serve
-as examples on how to enable syscall auditing (presumably that is what
-you are interested in with this thread).  There may be some
-interesting challenges with ILP32 due to overlap with aarch64
-syscalls, but I haven't looked closely enough at ILP32 to say that
-with any certainty.
+Thanks for the suggestion, Florian! Would replacing "dying process"
+with "process which was sent a SIGKILL signal" be sufficient?
 
--- 
-paul moore
-www.paul-moore.com
+>
+> Thanks,
+> Florian
+>
