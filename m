@@ -2,187 +2,141 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC5393BED77
-	for <lists+linux-api@lfdr.de>; Wed,  7 Jul 2021 19:52:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C9853BED9E
+	for <lists+linux-api@lfdr.de>; Wed,  7 Jul 2021 19:59:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230408AbhGGRzX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 7 Jul 2021 13:55:23 -0400
-Received: from esa.hc503-62.ca.iphmx.com ([216.71.131.47]:61214 "EHLO
-        esa.hc503-62.ca.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230196AbhGGRzW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 7 Jul 2021 13:55:22 -0400
-X-Greylist: delayed 430 seconds by postgrey-1.27 at vger.kernel.org; Wed, 07 Jul 2021 13:55:22 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=uwaterloo.ca; i=@uwaterloo.ca; q=dns/txt; s=default;
-  t=1625680362; x=1657216362;
-  h=to:cc:references:subject:in-reply-to:from:message-id:
-   date:mime-version:content-transfer-encoding;
-  bh=mejge8f99UcFMQhRJaVzjkTNPr7rJMW1K2b4GV5Rlkk=;
-  b=up0sGsm0IIVyupykV4Z87IsGQdd6cI2hE5a9gczAyCkfjOXPEYPy7i1q
-   uRkpgAfHImzd6vl0+3Ws3bUu3hOvm3ymhLouMx6S52X3vX/+qeRN5gH0r
-   sLZVH1/WxTS/tbS8XcnVwMKdNHL19w2khAK6NJZPBKvitSFTdpzzTFvFY
-   M=;
-Received: from connect.uwaterloo.ca (HELO connhm04.connect.uwaterloo.ca) ([129.97.208.43])
-  by ob1.hc503-62.ca.iphmx.com with ESMTP/TLS/AES256-GCM-SHA384; 07 Jul 2021 13:45:30 -0400
-Received: from [10.42.0.123] (10.32.139.159) by connhm04.connect.uwaterloo.ca
- (172.16.137.68) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Wed, 7 Jul
- 2021 13:45:29 -0400
-To:     <peterz@infradead.org>
-CC:     <akpm@linux-foundation.org>, <avagin@google.com>,
-        <bsegall@google.com>, <jnewsome@torproject.org>,
-        <joel@joelfernandes.org>, <linux-api@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <mingo@redhat.com>,
-        <pjt@google.com>, <posk@google.com>, <posk@posk.io>,
-        <tglx@linutronix.de>, Peter Buhr <pabuhr@uwaterloo.ca>,
-        Martin Karsten <mkarsten@uwaterloo.ca>
-References: <YMJTyVVdylyHtkeW@hirez.programming.kicks-ass.net>
-Subject: Re: [RFC PATCH v0.1 0/9] UMCG early preview/RFC patchset
-In-Reply-To: <YMJTyVVdylyHtkeW@hirez.programming.kicks-ass.net>
-From:   Thierry Delisle <tdelisle@uwaterloo.ca>
-Message-ID: <96842d90-7d3b-efac-fe1f-6e90b6a83ee5@uwaterloo.ca>
-Date:   Wed, 7 Jul 2021 13:45:28 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S230458AbhGGSCh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 7 Jul 2021 14:02:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59734 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230184AbhGGSCh (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 7 Jul 2021 14:02:37 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C489FC06175F
+        for <linux-api@vger.kernel.org>; Wed,  7 Jul 2021 10:59:56 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id y17so3067913pgf.12
+        for <linux-api@vger.kernel.org>; Wed, 07 Jul 2021 10:59:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=osandov-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=UuByXwl/ZggLuZLxjRPi2ENFNnrGhzIfjH6PqbhGc+Q=;
+        b=WoDkouFglcxUePWvEApdKmxPTVFS96FsfNYDMIzyLfghU4aZ6c7z7QJxehINkONY/e
+         b2ZQKf22q1y/84DTaOWCrv8BhYbGRbkNDgzBungaIZ0yBqUaJtdLNK9q/Dp5Gf6BAMsA
+         6YmGH3RpqmJCRGlJW5cUIqEHH+S72md0kk8NGot8RPSp+IndPM0sECgifngGpGdrdzeq
+         22A5152QisRl9Sw7iWZMv8JZbSofqlYb9FX0YYrRZAWxBQjQJC42iqGNmQ2DzhXo9RVQ
+         7fZnUhwgtVjxxjTr6Q+v+tzUhRAN7XLQ4NyhsaY0gObww7s/UAc/ROihXllf0NdJSnqN
+         TuAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=UuByXwl/ZggLuZLxjRPi2ENFNnrGhzIfjH6PqbhGc+Q=;
+        b=rLGlg86/ieVpigGxF540gg4GlNTu/aMtMfx6DI4RVzRdc6eIMLErcLvqG5IHRQNtFI
+         yfVtAxGG81srz77t1OlUGhx2TFcnWage8mHrq5NhgdfxE6q8BDoiV5ssuoWUAcFdHwlG
+         01fj0uqghDJVPb3bAjNMzdi8vcyXCJEcA1U6nMcnXZhXiaPYqED+oJjXcO3fRpEGpNTf
+         Jd1qEQlS7YEhEuupbXnYTJqeUpjnwOP9jqhqsn/xf621yXjyJM4RrQsy64wDxozYzf43
+         BdomJw7Jh8V5fZZTqgvwrRpjlxvCTQSU62tXBWOZqqCbUiAChf1nCzI85In5oDYRWzXw
+         dvlA==
+X-Gm-Message-State: AOAM5316X8ghVMuROE1hvbl17EU2uXHa9xQYpqF/7gOB2fF3jOkuELqj
+        pzuWTdcDLO4PtynzQ4jgll87gw==
+X-Google-Smtp-Source: ABdhPJw2Ny6eY+qM9e9CB9jKdPUq2ELTuNxLaXr9A0ujWoYKCkdnJO9JcDw/ctABKjNsgpFUktehog==
+X-Received: by 2002:a63:580a:: with SMTP id m10mr16481833pgb.254.1625680796038;
+        Wed, 07 Jul 2021 10:59:56 -0700 (PDT)
+Received: from relinquished.localdomain ([2620:10d:c090:400::5:e1b5])
+        by smtp.gmail.com with ESMTPSA id u16sm10571142pfh.205.2021.07.07.10.59.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jul 2021 10:59:55 -0700 (PDT)
+Date:   Wed, 7 Jul 2021 10:59:53 -0700
+From:   Omar Sandoval <osandov@osandov.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Dave Chinner <david@fromorbit.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-btrfs <linux-btrfs@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Kernel Team <kernel-team@fb.com>,
+        Dave Chinner <dchinner@redhat.com>
+Subject: Re: [PATCH RESEND x3 v9 1/9] iov_iter: add copy_struct_from_iter()
+Message-ID: <YOXrmbi81Fr14fUV@relinquished.localdomain>
+References: <YNOuiMfRO51kLcOE@relinquished.localdomain>
+ <YNPnRyasHVq9NF79@casper.infradead.org>
+ <YNQi3vgCLVs/ExiK@relinquished.localdomain>
+ <CAHk-=whmRQWm_gVek32ekPqBi3zAKOsdK6_6Hx8nHp3H5JAMew@mail.gmail.com>
+ <YNTO1T6BEzmG6Uj5@relinquished.localdomain>
+ <CAHk-=wi37_ccWmq1EKTduS8ms_=KpyY2LwJV7roD+s=ZkBkjCw@mail.gmail.com>
+ <yq1tulmoqxf.fsf@ca-mkp.ca.oracle.com>
+ <YNVPp/Pgqshami3U@casper.infradead.org>
+ <CAHk-=wgH5pUbrL7CM5v6TWyNzDYpVM9k1qYCEgmY+b3Gx9nEAA@mail.gmail.com>
+ <YNZFr7oJj1nkrwJY@relinquished.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.32.139.159]
-X-ClientProxiedBy: connhm04.connect.uwaterloo.ca (172.16.137.68) To
- connhm04.connect.uwaterloo.ca (172.16.137.68)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YNZFr7oJj1nkrwJY@relinquished.localdomain>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi,
-I wanted to way-in on this. I am one of the main developer's on the Cforall
-programming language (https://cforall.uwaterloo.ca), which implements 
-its own
-M:N user-threading runtime. I want to state that this RFC is an interesting
-feature, which we would be able to take advantage of immediately, assuming
-performance and flexibility closely match state-of-the-art implementations.
+On Fri, Jun 25, 2021 at 02:07:59PM -0700, Omar Sandoval wrote:
+> On Fri, Jun 25, 2021 at 09:16:15AM -0700, Linus Torvalds wrote:
+> > On Thu, Jun 24, 2021 at 8:38 PM Matthew Wilcox <willy@infradead.org> wrote:
+> > >
+> > > Does it make any kind of sense to talk about doing this for buffered I/O,
+> > > given that we can't generate them for (eg) mmaped files?
+> > 
+> > Sure we can.
+> > 
+> > Or rather, some people might very well like to do it even for mutable
+> > data. In fact, _especially_ for mutable data.
+> > 
+> > You might want to do things like "write out the state I verified just
+> > a moment ago", and if it has changed since then, you *want* the result
+> > to be invalid because the checksums no longer match - in case somebody
+> > else changed the data you used for the state calculation and
+> > verification in the meantime. It's very much why you'd want a separate
+> > checksum in the first place.
+> > 
+> > Yeah, yeah,  you can - and people do - just do things like this with a
+> > separate checksum. But if you know that the filesystem has internal
+> > checksumming support _anyway_, you might want to use it, and basically
+> > say "use this checksum, if the data doesn't match when I read it back
+> > I want to get an IO error".
+> > 
+> > (The "data doesn't match" _could_ be just due to DRAM corruption etc,
+> > of course. Some people care about things like that. You want
+> > "verified" filesystem contents - it might not be about security, it
+> > might simply be about "I have validated this data and if it's not the
+> > same data any more it's useless and I need to re-generate it").
+> > 
+> > Am I a big believer in this model? No. Portability concerns (across
+> > OS'es, across filesystems, even just across backups on the same exact
+> > system) means that even if we did this, very few people would use it.
+> > 
+> > People who want this end up using an external checksum instead and do
+> > it outside of and separately from the actual IO, because then they can
+> > do it on existing systems.
+> > 
+> > So my argument is not "we want this". My argument is purely that some
+> > buffered filesystem IO case isn't actually any different from the
+> > traditional "I want access to the low-level sector hardware checksum
+> > data". The use cases are basically exactly the same.
+> > 
+> > Of course, basically nobody does that hw sector checksum either, for
+> > all the same reasons, even if it's been around for decades.
+> > 
+> > So my "checksum metadata interface" is not something I'm a big
+> > believer in, but I really don't think it's really all _that_ different
+> > from the whole "compressed format interface" that this whole patch
+> > series is about. They are pretty much the same thing in many ways.
+> 
+> I see the similarity in the sense that we basically want to pass some
+> extra metadata down with the read or write. So then do we want to add
+> preadv3/pwritev3 for encoded I/O now so that checksums can use it in the
+> future? The encoding metadata could go in this "struct io_how", either
+> directly or in a separate structure with a pointer in "struct io_how".
+> It could get messy with compat syscalls.
 
-Precisely, we would benefit from two aspects of User Managed Control Groups:
-
-1. user-level threads would become regular pthreads, so that gdb, valgrind,
-    ptrace and TLS works normally, etc.
-
-2. The user-space scheduler can react on user-threads blocking in the 
-kernel.
-
-However, we would need to look at performance issues like thread 
-creation and
-context switch to know if your scheme is performant with user-level 
-threading.
-We are also conscious about use cases that involve a very high (100Ks to 
-1Ms)
-number of concurrent sessions and thus threads.
-
-Note, our team published a comprehensive look at M:N threading in ACM
-Sigmetrics 2020: https://doi.org/10.1145/3379483, which highlights the
-expected performance of M:N threading, and another look at high-performance
-control flow in SP&E 2021: 
-https://onlinelibrary.wiley.com/doi/10.1002/spe.2925
-
-
-  > > Yes, UNBLOCKED it a transitory state meaning the worker's blocking
-  > > operation has completed, but the wake event hasn't been delivered to
-  > > the userspace yet (and so the worker it not yet RUNNABLE)
-  >
-  > So if I understand the proposal correctly the only possible option is
-  > something like:
-  >
-  >     for (;;) {
-  >         next = user_sched_pick();
-  >         if (next) {
-  >             sys_umcg_run(next);
-  >             continue;
-  >         }
-  >
-  >         sys_umcg_poll(&next);
-  >         if (next) {
-  >             next->state = RUNNABLE;
-  >             user_sched_enqueue(next);
-  >         }
-  >     }
-  >
-  > This seems incapable of implementing generic scheduling policies and has
-  > a hard-coded FIFO policy.
-  >
-  > The poll() thing cannot differentiate between: 'find new task' and 'go
-  > idle'. So you cannot keep running it until all new tasks are found.
-  >
-  > But you basically get to do a syscall to discover every new task, while
-  > the other proposal gets you a user visible list of new tasks, no
-  > syscalls needed at all.
-
-I agree strongly with this comment, sys_umcg_poll() does not appear to be
-flexible enough for generic policies. I also suspect it would become a
-bottleneck in any SMP scheduler due to this central serial data-structure.
-
-
-  > But you basically get to do a syscall to discover every new task, while
-  > the other proposal gets you a user visible list of new tasks, no
-  > syscalls needed at all.
-  >
-  > It's also not quite clear to me what you do about RUNNING->BLOCKED, how
-  > does the userspace scheduler know to dequeue a task?
-
-In the schedulers we have implemented, threads are dequeued *before* being
-run. That is, the head of the queue is not the currently running thread.
-
-If the currently running threads need to be in the scheduler data-structure,
-I believe it can be dequeued immediately after sys_umcg_run() has returned.
-More on this below.
-
-
-  > My proposal gets you something like:
-  >
-  > [...]
-  >
-  > struct umcg_task {
-  >    u32 umcg_status;            /* r/w */
-  >    u32 umcg_server_tid;        /* r   */
-  >    u32 umcg_next_tid;          /* r   */
-  >    u32 umcg_tid;               /* r   */
-  >    u64 umcg_blocked_ptr;       /*   w */
-  >    u64 umcg_runnable_ptr;      /*   w */
-  > };
-
-I believe this approach may work, but could you elaborate on it? I 
-wasn't able
-to find a more complete description.
-
-For example, I fail to see what purpose the umcg_blocked_ptr serves. 
-When could
-it contain anything other then a single element that is already pointed
-to by "n" in the proposed loop? The only case I can come up with, is if a
-worker thread tries to context switch directly to another worker thread. 
-But in
-that case, I do not know what state that second worker would need to be 
-in for
-this operation to be correct. Is the objective to allow the scheduler to be
-invoked from worker threads?
-
-Also, what is the purpose of umcg_status being writable by the user-space?
-(I'm assuming status == state)? The code in sys_umcg_wait suggests it is for
-managing potential out-of-order wakes and waits, but the kernel should 
-be able
-to handle them already, the same way FUTEX_WAKE and FUTEX_WAIT are handled.
-When would these state transition not be handled by the kernel?
-
-I would also point out that creating worker threads as regular pthreads and
-then converting them to worker threads sounds less then ideal. It would
-probably be preferable directly appended new worker threads to the
-umcg_runnable_ptr list without scheduling them in the kernel. It makes the
-placement of the umcg_task trickier but maintains a stronger M:N model.
-
-Finally, I would recommend adding a 64-bit user pointer to umcg_task that is
-neither read nor written from the kernel. These kind of fields are always
-useful for implementers.
-
-Thank you for your time,
-
-Thierry
-
+Ping. What's the path forward here? At this point, it seems like an
+ioctl is the path of least resistance.
