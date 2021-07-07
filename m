@@ -2,92 +2,187 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 624863BE819
-	for <lists+linux-api@lfdr.de>; Wed,  7 Jul 2021 14:38:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC5393BED77
+	for <lists+linux-api@lfdr.de>; Wed,  7 Jul 2021 19:52:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231462AbhGGMlX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 7 Jul 2021 08:41:23 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:41440 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231452AbhGGMlX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 7 Jul 2021 08:41:23 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 240DA22420;
-        Wed,  7 Jul 2021 12:38:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1625661522; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Wtj4oqJE3RiN5VpO28h+0U6s0vV8LrwsND4LhinfUSo=;
-        b=AGrjPda2dkldufEtWLLsXeP5nO0ItjRm+3IxvNNgLrIvm4nmzr8qB7Rs1jBYQAQmbtB2eB
-        cNNHS8Ec+oK6JaWxToEy+d3SO1eChhxXobVV5PVdF0ZqT91UnOwuIs3Ejh11tiE0laYf/j
-        Uh6xJXRuUCZVfC0fZKQIPwtjb00Ya0c=
-Received: from suse.cz (unknown [10.100.201.86])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 7E6BDA3C27;
-        Wed,  7 Jul 2021 12:38:41 +0000 (UTC)
-Date:   Wed, 7 Jul 2021 14:38:40 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Christian Brauner <christian@brauner.io>,
-        Christoph Hellwig <hch@infradead.org>,
-        Oleg Nesterov <oleg@redhat.com>, Jann Horn <jannh@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Android Kernel Team <kernel-team@android.com>
-Subject: Re: [PATCH 1/1] mm: introduce process_reap system call
-Message-ID: <YOWcj0+P238W1y+t@dhcp22.suse.cz>
-References: <20210623192822.3072029-1-surenb@google.com>
- <CALCETrU577MD59P-+9sMYtS3t2sZYx-zi=VirhQpZLnhEck1vg@mail.gmail.com>
- <CAJuCfpFMTP-g9CFELMqNawX0FhF4vBNtRDP_R=WAi_RiuGW8-Q@mail.gmail.com>
- <YNzl6XNu2vxyCJu8@cmpxchg.org>
- <CALCETrWsVw4+jT_Z1uxidRAZ0SQbngYe7E2m-8iyX6qRbug6zA@mail.gmail.com>
- <CAJuCfpG5Ua7C4usJGEqTm6_UUd6VyRd0BsPgT97LWOzjb4Ry+g@mail.gmail.com>
- <20210702152724.7fv5tnik4qlap6do@wittgenstein>
- <af8e76f1-6625-25d1-98d2-a3c8a9bf2fd6@redhat.com>
+        id S230408AbhGGRzX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 7 Jul 2021 13:55:23 -0400
+Received: from esa.hc503-62.ca.iphmx.com ([216.71.131.47]:61214 "EHLO
+        esa.hc503-62.ca.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230196AbhGGRzW (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 7 Jul 2021 13:55:22 -0400
+X-Greylist: delayed 430 seconds by postgrey-1.27 at vger.kernel.org; Wed, 07 Jul 2021 13:55:22 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=uwaterloo.ca; i=@uwaterloo.ca; q=dns/txt; s=default;
+  t=1625680362; x=1657216362;
+  h=to:cc:references:subject:in-reply-to:from:message-id:
+   date:mime-version:content-transfer-encoding;
+  bh=mejge8f99UcFMQhRJaVzjkTNPr7rJMW1K2b4GV5Rlkk=;
+  b=up0sGsm0IIVyupykV4Z87IsGQdd6cI2hE5a9gczAyCkfjOXPEYPy7i1q
+   uRkpgAfHImzd6vl0+3Ws3bUu3hOvm3ymhLouMx6S52X3vX/+qeRN5gH0r
+   sLZVH1/WxTS/tbS8XcnVwMKdNHL19w2khAK6NJZPBKvitSFTdpzzTFvFY
+   M=;
+Received: from connect.uwaterloo.ca (HELO connhm04.connect.uwaterloo.ca) ([129.97.208.43])
+  by ob1.hc503-62.ca.iphmx.com with ESMTP/TLS/AES256-GCM-SHA384; 07 Jul 2021 13:45:30 -0400
+Received: from [10.42.0.123] (10.32.139.159) by connhm04.connect.uwaterloo.ca
+ (172.16.137.68) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Wed, 7 Jul
+ 2021 13:45:29 -0400
+To:     <peterz@infradead.org>
+CC:     <akpm@linux-foundation.org>, <avagin@google.com>,
+        <bsegall@google.com>, <jnewsome@torproject.org>,
+        <joel@joelfernandes.org>, <linux-api@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <mingo@redhat.com>,
+        <pjt@google.com>, <posk@google.com>, <posk@posk.io>,
+        <tglx@linutronix.de>, Peter Buhr <pabuhr@uwaterloo.ca>,
+        Martin Karsten <mkarsten@uwaterloo.ca>
+References: <YMJTyVVdylyHtkeW@hirez.programming.kicks-ass.net>
+Subject: Re: [RFC PATCH v0.1 0/9] UMCG early preview/RFC patchset
+In-Reply-To: <YMJTyVVdylyHtkeW@hirez.programming.kicks-ass.net>
+From:   Thierry Delisle <tdelisle@uwaterloo.ca>
+Message-ID: <96842d90-7d3b-efac-fe1f-6e90b6a83ee5@uwaterloo.ca>
+Date:   Wed, 7 Jul 2021 13:45:28 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <af8e76f1-6625-25d1-98d2-a3c8a9bf2fd6@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.32.139.159]
+X-ClientProxiedBy: connhm04.connect.uwaterloo.ca (172.16.137.68) To
+ connhm04.connect.uwaterloo.ca (172.16.137.68)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon 05-07-21 09:41:54, David Hildenbrand wrote:
-> On 02.07.21 17:27, Christian Brauner wrote:
-[...]
-> > That one was my favorite from the list I gave too but maybe we can
-> > satisfy Andy too if we use one of:
-> > - process_mfree()
-> > - process_mrelease()
-> > 
-> 
-> FWIW, I tend to like process_mrelease(), due to the implied "release" ("free
-> the memory if there are no other references") semantics.
+Hi,
+I wanted to way-in on this. I am one of the main developer's on the Cforall
+programming language (https://cforall.uwaterloo.ca), which implements 
+its own
+M:N user-threading runtime. I want to state that this RFC is an interesting
+feature, which we would be able to take advantage of immediately, assuming
+performance and flexibility closely match state-of-the-art implementations.
 
-Agreed.
+Precisely, we would benefit from two aspects of User Managed Control Groups:
 
-> Further, a new
-> syscall feels cleaner than some magic sysfs/procfs toggle. Just my 2 cents.
+1. user-level threads would become regular pthreads, so that gdb, valgrind,
+    ptrace and TLS works normally, etc.
 
-Yeah, proc based interface is both tricky to use and kinda ugly now that
-pidfd can solve all at in once.
+2. The user-space scheduler can react on user-threads blocking in the 
+kernel.
 
-My original preference was a more generic kill syscall to allow flags
-but a dedicated syscall doesn't look really bad either.
--- 
-Michal Hocko
-SUSE Labs
+However, we would need to look at performance issues like thread 
+creation and
+context switch to know if your scheme is performant with user-level 
+threading.
+We are also conscious about use cases that involve a very high (100Ks to 
+1Ms)
+number of concurrent sessions and thus threads.
+
+Note, our team published a comprehensive look at M:N threading in ACM
+Sigmetrics 2020: https://doi.org/10.1145/3379483, which highlights the
+expected performance of M:N threading, and another look at high-performance
+control flow in SP&E 2021: 
+https://onlinelibrary.wiley.com/doi/10.1002/spe.2925
+
+
+  > > Yes, UNBLOCKED it a transitory state meaning the worker's blocking
+  > > operation has completed, but the wake event hasn't been delivered to
+  > > the userspace yet (and so the worker it not yet RUNNABLE)
+  >
+  > So if I understand the proposal correctly the only possible option is
+  > something like:
+  >
+  >     for (;;) {
+  >         next = user_sched_pick();
+  >         if (next) {
+  >             sys_umcg_run(next);
+  >             continue;
+  >         }
+  >
+  >         sys_umcg_poll(&next);
+  >         if (next) {
+  >             next->state = RUNNABLE;
+  >             user_sched_enqueue(next);
+  >         }
+  >     }
+  >
+  > This seems incapable of implementing generic scheduling policies and has
+  > a hard-coded FIFO policy.
+  >
+  > The poll() thing cannot differentiate between: 'find new task' and 'go
+  > idle'. So you cannot keep running it until all new tasks are found.
+  >
+  > But you basically get to do a syscall to discover every new task, while
+  > the other proposal gets you a user visible list of new tasks, no
+  > syscalls needed at all.
+
+I agree strongly with this comment, sys_umcg_poll() does not appear to be
+flexible enough for generic policies. I also suspect it would become a
+bottleneck in any SMP scheduler due to this central serial data-structure.
+
+
+  > But you basically get to do a syscall to discover every new task, while
+  > the other proposal gets you a user visible list of new tasks, no
+  > syscalls needed at all.
+  >
+  > It's also not quite clear to me what you do about RUNNING->BLOCKED, how
+  > does the userspace scheduler know to dequeue a task?
+
+In the schedulers we have implemented, threads are dequeued *before* being
+run. That is, the head of the queue is not the currently running thread.
+
+If the currently running threads need to be in the scheduler data-structure,
+I believe it can be dequeued immediately after sys_umcg_run() has returned.
+More on this below.
+
+
+  > My proposal gets you something like:
+  >
+  > [...]
+  >
+  > struct umcg_task {
+  >    u32 umcg_status;            /* r/w */
+  >    u32 umcg_server_tid;        /* r   */
+  >    u32 umcg_next_tid;          /* r   */
+  >    u32 umcg_tid;               /* r   */
+  >    u64 umcg_blocked_ptr;       /*   w */
+  >    u64 umcg_runnable_ptr;      /*   w */
+  > };
+
+I believe this approach may work, but could you elaborate on it? I 
+wasn't able
+to find a more complete description.
+
+For example, I fail to see what purpose the umcg_blocked_ptr serves. 
+When could
+it contain anything other then a single element that is already pointed
+to by "n" in the proposed loop? The only case I can come up with, is if a
+worker thread tries to context switch directly to another worker thread. 
+But in
+that case, I do not know what state that second worker would need to be 
+in for
+this operation to be correct. Is the objective to allow the scheduler to be
+invoked from worker threads?
+
+Also, what is the purpose of umcg_status being writable by the user-space?
+(I'm assuming status == state)? The code in sys_umcg_wait suggests it is for
+managing potential out-of-order wakes and waits, but the kernel should 
+be able
+to handle them already, the same way FUTEX_WAKE and FUTEX_WAIT are handled.
+When would these state transition not be handled by the kernel?
+
+I would also point out that creating worker threads as regular pthreads and
+then converting them to worker threads sounds less then ideal. It would
+probably be preferable directly appended new worker threads to the
+umcg_runnable_ptr list without scheduling them in the kernel. It makes the
+placement of the umcg_task trickier but maintains a stronger M:N model.
+
+Finally, I would recommend adding a 64-bit user pointer to umcg_task that is
+neither read nor written from the kernel. These kind of fields are always
+useful for implementers.
+
+Thank you for your time,
+
+Thierry
+
