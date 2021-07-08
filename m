@@ -2,98 +2,94 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 365943BF5FC
-	for <lists+linux-api@lfdr.de>; Thu,  8 Jul 2021 09:08:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 503EE3BF614
+	for <lists+linux-api@lfdr.de>; Thu,  8 Jul 2021 09:14:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229872AbhGHHLH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 8 Jul 2021 03:11:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58373 "EHLO
+        id S230495AbhGHHQu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 8 Jul 2021 03:16:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59381 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229838AbhGHHLG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 8 Jul 2021 03:11:06 -0400
+        by vger.kernel.org with ESMTP id S230480AbhGHHQt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 8 Jul 2021 03:16:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1625728105;
+        s=mimecast20190719; t=1625728447;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=GEplN6PPVWnKiacZuxrNB8nQ+DkJqElBemBx73k30F4=;
-        b=OBh7e2OQf++4BWTpGMFx9EeijbcB2oVODDxMOHT8mBAJd7T2kziBod2QFcqxmOCYOTe8xk
-        PwmilLXfTW2E4ekSoRdi0lA+IoI1Sf26gXDLfTex7cw8+iKOWosE+lfWyuw5XVacBgPKQO
-        JiFoDRyG3ZnK38vpqkSxOdEzA1C8PXQ=
+        bh=aTVrKeNSZQYZXjn+U2KrdBcF3WfqOs66nwM/5SMqCdw=;
+        b=Fzplnnas8ys5W2dPtigf2fLjDukuOroOQHiHykPjtBWQjKinUlANepc4MB5h6nO4O1Mx9R
+        sjeT+SdK52lzQM6gkpkZqfxXe5strk5Wu3nQMQlMRhQRcig1KbYb9W662Wpdnmrvdlyw19
+        t7ErHm6atD8I3/CxLdrKlvNC7VJULAs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-58-Fp4q-RhJNQ6weHlme5jdPQ-1; Thu, 08 Jul 2021 03:08:21 -0400
-X-MC-Unique: Fp4q-RhJNQ6weHlme5jdPQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-240-thd_CwFgO0yjDP7m6NA6iA-1; Thu, 08 Jul 2021 03:14:03 -0400
+X-MC-Unique: thd_CwFgO0yjDP7m6NA6iA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51BC58030B0;
-        Thu,  8 Jul 2021 07:08:20 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1FDD91084F40;
+        Thu,  8 Jul 2021 07:14:01 +0000 (UTC)
 Received: from oldenburg.str.redhat.com (ovpn-115-5.ams2.redhat.com [10.36.115.5])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id A86EC5C1C2;
-        Thu,  8 Jul 2021 07:08:18 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 9FEBF5D9D3;
+        Thu,  8 Jul 2021 07:13:50 +0000 (UTC)
 From:   Florian Weimer <fweimer@redhat.com>
-To:     Thiago Macieira <thiago.macieira@intel.com>
-Cc:     <hjl.tools@gmail.com>, <libc-alpha@sourceware.org>,
-        <linux-api@vger.kernel.org>, <linux-arch@vger.kernel.org>,
-        <x86@kernel.org>
-Subject: Re: x86 CPU features detection for applications (and AMX)
-References: <22261946.eFiGugXE7Z@tjmaciei-mobl1>
-Date:   Thu, 08 Jul 2021 09:08:16 +0200
-In-Reply-To: <22261946.eFiGugXE7Z@tjmaciei-mobl1> (Thiago Macieira's message
-        of "Fri, 25 Jun 2021 16:31:06 -0700")
-Message-ID: <878s2hxoyn.fsf@oldenburg.str.redhat.com>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Michal Hocko <mhocko@suse.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        Christoph Hellwig <hch@infradead.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Jann Horn <jannh@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>
+Subject: Re: [PATCH 1/1] mm: introduce process_reap system call
+References: <20210623192822.3072029-1-surenb@google.com>
+        <87sg0qa22l.fsf@oldenburg.str.redhat.com>
+        <CAJuCfpEWpvw+gW+NvBPOdGqUOEyucFoT8gdC2uk18dMBQFbhqw@mail.gmail.com>
+        <87wnq1z7kl.fsf@oldenburg.str.redhat.com>
+        <CAJuCfpFt55Dw1uW3S6_AincNfPaAtwdi6iXYVvFr7x3fvt4uzw@mail.gmail.com>
+        <87zguxxrfl.fsf@oldenburg.str.redhat.com>
+        <CAJuCfpEUXz-oHi5Ho8nGAKtFV6ArQDx9yQwrdTzYgHr5+6=YaQ@mail.gmail.com>
+Date:   Thu, 08 Jul 2021 09:13:48 +0200
+In-Reply-To: <CAJuCfpEUXz-oHi5Ho8nGAKtFV6ArQDx9yQwrdTzYgHr5+6=YaQ@mail.gmail.com>
+        (Suren Baghdasaryan's message of "Wed, 7 Jul 2021 23:39:34 -0700")
+Message-ID: <874kd5xopf.fsf@oldenburg.str.redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Thiago Macieira:
+* Suren Baghdasaryan:
 
-> On 23 Jun 2021 17:04:27 +0200, Florian Weimer wrote:
->> We have an interface in glibc to query CPU features:
->> X86-specific Facilities
->> <https://www.gnu.org/software/libc/manual/html_node/X86.html>
->>
->> CPU_FEATURE_USABLE all preconditions for a feature are met,
->> HAS_CPU_FEATURE means it's in silicon but possibly dormant.
->> CPU_FEATURE_USABLE is supposed to look at XCR0, AT_HWCAP2 etc. before
->> enabling the relevant bit (so it cannot pass through any unknown bits).
->
-> It's a nice initiative, but it doesn't help library and applications that need 
-> to be either cross-platform or backwards compatible.
->
-> The first problem is the cross-platformness need. Because we library and 
-> application developers need to support other OSes, we'll need to deploy our 
-> own CPUID-based detection. It's far better to use common code everywhere, 
-> where one developer working on Linux can fix bugs in FreeBSD, macOS or Windows 
-> or any of the permutations. Every platform-specific deviation adds to 
-> maintenance requirements and is a source of potential latent bugs, now or in 
-> the future due to refactoring. That is why doing everything in the form of 
-> instructions would be far better and easier, rather than system calls.
+> Sending SIGKILL is blocking in terms of delivering the signal, but it
+> does not block waiting for SIGKILL to be processed by the signal
+> recipient and memory to be released. When I was talking about
+> "blocking", I meant that current kill() and friends do not block to
+> wait for SIGKILL to be processed.
+> process_reap() will block until the memory is released. Whether the
+> userspace caller is using it right after sending a SIGKILL to reclaim
+> the memory synchronously or spawns a separate thread to reclaim memory
+> asynchronously is up to the user. Both patterns are supported.
 
-I must say this is a rather application-specific view.  Sure, you get
-consistency within the application across different targets, but for
-those who work on multiple applications (but perhaps on a single
-distribution/OS), things are very inconsistent.
+I see, this makes sense.
 
-And the reason why I started this is that CPUID-based feature detection
-is dead anyway (assuming the kernel developers do not implement lazy
-initialization of the AMX state).  CPUID (and ancillary data such as
-XCR0) will say that AMX support is there, but it will not work unless
-some (yet to decided) steps are executed by the userspace thread.
-
-While I consider the CPUID-based model a success (and the cross-OS
-consistency may have contributed to that), its days seem to be over.
-
-> [Unless said system calls were standardised and actually
-> deployed. Making this a cross-platform library that is not part of
-> libc would be a major step in that direction]
-
-That won't help with AMX, as far as I can tell.
+Considering that the pidfd sticks around after process_reap returns, the
+issue described in bug 154011 probably does not apply to process_reap.
+(This relates to asynchronous resource deallocation, as discussed before.)
 
 Thanks,
 Florian
