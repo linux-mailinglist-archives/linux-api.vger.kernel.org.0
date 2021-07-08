@@ -2,45 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D95FF3C1486
-	for <lists+linux-api@lfdr.de>; Thu,  8 Jul 2021 15:42:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B2063C1503
+	for <lists+linux-api@lfdr.de>; Thu,  8 Jul 2021 16:19:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231936AbhGHNpU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 8 Jul 2021 09:45:20 -0400
-Received: from mx-n05.wc2.phx1.stabletransit.com ([207.246.242.251]:56538 "HELO
-        mx-n05.wc2.phx1.stabletransit.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with SMTP id S231800AbhGHNpU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 8 Jul 2021 09:45:20 -0400
-Received: by mx-n05.wc2.phx1.stabletransit.com (Postfix, from userid 114)
-        id C30C9CDB13; Thu,  8 Jul 2021 08:32:29 -0500 (CDT)
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on
-        mx-n05.wc2.phx1.stabletransit.com
-X-Spam-Level: **
-X-Spam-Status: No, score=2.6 required=6.0 tests=BAYES_50,FREEMAIL_FROM,
-        FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,SUBJ_ALL_CAPS,
-        T_FILL_THIS_FORM_SHORT,UNPARSEABLE_RELAY autolearn=no
-        autolearn_force=no version=3.4.2
-X-Spam-Virus: No
-Received: from php-v027.wc2.phx1.stabletransit.com (unknown [10.40.206.156])
-        by mx-n05.wc2.phx1.stabletransit.com (Postfix) with ESMTP id D16DDD1399
-        for <linux-api@vger.kernel.org>; Thu,  8 Jul 2021 08:32:28 -0500 (CDT)
-Received: from digilu (uid 2914979)
-        (envelope-from mabeljohnson@citromail.hu)
-        id 2019e
-        by php-v027.wc2.phx1.stabletransit.com (DragonFly Mail Agent v0.11);
-        Thu, 08 Jul 2021 08:32:28 -0500
-To:     linux-api@vger.kernel.org
-Subject: WORK OF GOD.
-X-PHP-Originating-Script: 2914979:class.engine.php(12) : runtime-created function
-Date:   Thu, 8 Jul 2021 08:32:28 -0500
-From:   MARY JOHNSON <mabeljohnson@citromail.hu>
-Reply-To: mj224294@gmail.com
-Message-ID: <6f08e33c89b02e36aa7e856415021746@jackieleestudio.com>
+        id S231872AbhGHOWG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 8 Jul 2021 10:22:06 -0400
+Received: from mga17.intel.com ([192.55.52.151]:51866 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229592AbhGHOWG (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 8 Jul 2021 10:22:06 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10038"; a="189889861"
+X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; 
+   d="scan'208";a="189889861"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2021 07:19:24 -0700
+X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; 
+   d="scan'208";a="645925463"
+Received: from kezheong-mobl.gar.corp.intel.com (HELO [10.212.152.178]) ([10.212.152.178])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2021 07:19:24 -0700
+Subject: Re: x86 CPU features detection for applications (and AMX)
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     libc-alpha@sourceware.org, linux-api@vger.kernel.org,
+        x86@kernel.org, linux-arch@vger.kernel.org,
+        "H.J. Lu" <hjl.tools@gmail.com>, linux-kernel@vger.kernel.org
+References: <87tulo39ms.fsf@oldenburg.str.redhat.com>
+ <e376bcb9-cd79-7665-5859-ae808dd286f1@intel.com>
+ <878s2hz6g3.fsf@oldenburg.str.redhat.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <b3b104cd-72d9-7f5c-116b-414c6ebf448d@intel.com>
+Date:   Thu, 8 Jul 2021 07:19:21 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <878s2hz6g3.fsf@oldenburg.str.redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-I am Mrs. Mary Johnson,78years,an aging widow suffering from cancer, I am on admission at a hospital.I would like to willfully entrust the rest of my monetary assets to you, Kindly reply back with your full Name, cellphone, address, to enable me to send you a letter of authorization to contact my bank first inland bank nigeria plc so that they can transfer my funds to your account for the purpose of helping the poor as indicated on my WILL.
+On 7/7/21 11:05 PM, Florian Weimer wrote:
+>> This looks basically like someone dumped a bunch of CPUID bit values and
+>> exposed them to applications without considering whether applications
+>> would ever need them.  For instance, why would an app ever care about:
+>>
+>> 	PKS – Protection keys for supervisor-mode pages.
+>>
+>> And how could glibc ever give applications accurate information about
+>> whether PKS "is supported by the operating system"?  It just plain
+>> doesn't know, or at least only knows from a really weak ABI like
+>> /proc/cpuinfo.
+> glibc is expected to mask these bits for CPU_FEATURE_USABLE because they
+> have unknown semantics (to glibc).
 
+OK, so if I call CPU_FEATURE_USABLE(PKS) on a system *WITH* PKS
+supported in the operating system, I'll get false from an interface that
+claims to be:
+
+> This macro returns a nonzero value (true) if the processor has the
+> feature name and the feature is supported by the operating system.
+
+The interface just seems buggy by *design*.
