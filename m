@@ -2,112 +2,95 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 294D83BF543
-	for <lists+linux-api@lfdr.de>; Thu,  8 Jul 2021 07:41:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 825363BF55F
+	for <lists+linux-api@lfdr.de>; Thu,  8 Jul 2021 08:05:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229608AbhGHFoA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 8 Jul 2021 01:44:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25238 "EHLO
+        id S229647AbhGHGIK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 8 Jul 2021 02:08:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52037 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229593AbhGHFoA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 8 Jul 2021 01:44:00 -0400
+        by vger.kernel.org with ESMTP id S229644AbhGHGIJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 8 Jul 2021 02:08:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1625722878;
+        s=mimecast20190719; t=1625724327;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=n1q1GzSSargcyAtgTNwOM0FZXkXUZDLZ+n4JlGr4Nm8=;
-        b=RRNqFHeUAVpMGyXgj8mdJJEPMfSxmv/WY6/XeK9xF4UWbn92pikd6SSDVJk040SJ3KixTa
-        ouI+slRSjDbxkqjR8IIKxAPG51rZ53M5Di/sAFGQwqHPVSDqhsf9ctGJzmapmbql7+itKR
-        uFc+/Ol/Dp+QTrgGY1uIS7hZ7oYHkhU=
+        bh=wCYV9rADVa/Zk0J+SdK18xNcB21VXuhcx5+1Vv01yS4=;
+        b=ZhJWEa6lQYjdBIYRomVqGRJPuv5ny4pgMuableob3n7s9psOCWrfFCh05reSAo0j2whddL
+        VhGXBJBiyCxyMYM/v/V6OsvvlQeX4jbQeFpD4KkYqJBc2qGbCfI9I1ZsKezUKRGtgby/CP
+        h9LnokGnj+OeoWD6VkLFEWaz47lLnRs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-109-wtLBaRfVPLy05KoC9hwVRQ-1; Thu, 08 Jul 2021 01:41:17 -0400
-X-MC-Unique: wtLBaRfVPLy05KoC9hwVRQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+ us-mta-91-9-DnYDoaOMCTGRYBVNbyrA-1; Thu, 08 Jul 2021 02:05:25 -0400
+X-MC-Unique: 9-DnYDoaOMCTGRYBVNbyrA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AAE5A1084F4C;
-        Thu,  8 Jul 2021 05:41:14 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 509EB18D6A2A;
+        Thu,  8 Jul 2021 06:05:20 +0000 (UTC)
 Received: from oldenburg.str.redhat.com (ovpn-115-5.ams2.redhat.com [10.36.115.5])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id AB8CD5D9DD;
-        Thu,  8 Jul 2021 05:41:00 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D14654450;
+        Thu,  8 Jul 2021 06:05:17 +0000 (UTC)
 From:   Florian Weimer <fweimer@redhat.com>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Michal Hocko <mhocko@suse.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Christian Brauner <christian@brauner.io>,
-        Christoph Hellwig <hch@infradead.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jann Horn <jannh@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Tim Murray <timmurray@google.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kernel-team <kernel-team@android.com>
-Subject: Re: [PATCH 1/1] mm: introduce process_reap system call
-References: <20210623192822.3072029-1-surenb@google.com>
-        <87sg0qa22l.fsf@oldenburg.str.redhat.com>
-        <CAJuCfpEWpvw+gW+NvBPOdGqUOEyucFoT8gdC2uk18dMBQFbhqw@mail.gmail.com>
-Date:   Thu, 08 Jul 2021 07:40:58 +0200
-In-Reply-To: <CAJuCfpEWpvw+gW+NvBPOdGqUOEyucFoT8gdC2uk18dMBQFbhqw@mail.gmail.com>
-        (Suren Baghdasaryan's message of "Wed, 7 Jul 2021 14:07:15 -0700")
-Message-ID: <87wnq1z7kl.fsf@oldenburg.str.redhat.com>
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     libc-alpha@sourceware.org, linux-api@vger.kernel.org,
+        x86@kernel.org, linux-arch@vger.kernel.org,
+        "H.J. Lu" <hjl.tools@gmail.com>, linux-kernel@vger.kernel.org
+Subject: Re: x86 CPU features detection for applications (and AMX)
+References: <87tulo39ms.fsf@oldenburg.str.redhat.com>
+        <e376bcb9-cd79-7665-5859-ae808dd286f1@intel.com>
+Date:   Thu, 08 Jul 2021 08:05:16 +0200
+In-Reply-To: <e376bcb9-cd79-7665-5859-ae808dd286f1@intel.com> (Dave Hansen's
+        message of "Wed, 23 Jun 2021 08:32:09 -0700")
+Message-ID: <878s2hz6g3.fsf@oldenburg.str.redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Suren Baghdasaryan:
+* Dave Hansen:
 
-> On Wed, Jul 7, 2021 at 2:47 AM Florian Weimer <fweimer@redhat.com> wrote:
->>
->> * Suren Baghdasaryan:
->>
->> > The API is as follows,
->> >
->> >           int process_reap(int pidfd, unsigned int flags);
->> >
->> >         DESCRIPTION
->> >           The process_reap() system call is used to free the memory of=
- a
->> >           dying process.
->> >
->> >           The pidfd selects the process referred to by the PID file
->> >           descriptor.
->> >           (See pidofd_open(2) for further information)
->> >
->> >           The flags argument is reserved for future use; currently, th=
-is
->> >           argument must be specified as 0.
->> >
->> >         RETURN VALUE
->> >           On success, process_reap() returns 0. On error, -1 is return=
-ed
->> >           and errno is set to indicate the error.
->>
->> I think the manual page should mention what it means for a process to be
->> =E2=80=9Cdying=E2=80=9D, and how to move a process to this state.
+> On 6/23/21 8:04 AM, Florian Weimer wrote:
+>> https://www.gnu.org/software/libc/manual/html_node/X86.html
+> ...
+>> Previously kernel developers have expressed dismay that we didn't
+>> coordinate the interface with them.  This is why I want raise this now.
 >
-> Thanks for the suggestion, Florian! Would replacing "dying process"
-> with "process which was sent a SIGKILL signal" be sufficient?
+> This looks basically like someone dumped a bunch of CPUID bit values and
+> exposed them to applications without considering whether applications
+> would ever need them.  For instance, why would an app ever care about:
+>
+> 	PKS =E2=80=93 Protection keys for supervisor-mode pages.
+>
+> And how could glibc ever give applications accurate information about
+> whether PKS "is supported by the operating system"?  It just plain
+> doesn't know, or at least only knows from a really weak ABI like
+> /proc/cpuinfo.
 
-That explains very clearly the requirement, but it raises the question
-why this isn't an si_code flag for rt_sigqueueinfo, reusing the existing
-system call.
+glibc is expected to mask these bits for CPU_FEATURE_USABLE because they
+have unknown semantics (to glibc).
+
+They are still exposed via HAS_CPU_FEATURE.
+
+I argued against HAS_CPU_FEATURE because the mere presence of this
+interface will introduce application bugs because application really
+must use CPU_FEATURE_USABLE instead.
+
+I wanted to go with a curated set of bits, but we couldn't get consensus
+around that.  Curiously, the present interface can expose changing CPU
+state (if the kernel updates some fixed memory region accordingly), my
+preferred interface would not have supported that.
+
+> It also doesn't seem to tell applications what they want which is, "can
+> I, the application, *use* this feature?"
+
+CPU_FEATURE_USABLE is supposed to be that interface.
 
 Thanks,
 Florian
