@@ -2,196 +2,127 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BB323C5F73
-	for <lists+linux-api@lfdr.de>; Mon, 12 Jul 2021 17:40:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0AB73C62BF
+	for <lists+linux-api@lfdr.de>; Mon, 12 Jul 2021 20:39:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235498AbhGLPni (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 12 Jul 2021 11:43:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44568 "EHLO
+        id S235963AbhGLSmL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 12 Jul 2021 14:42:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233166AbhGLPni (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 12 Jul 2021 11:43:38 -0400
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABCA8C0613DD
-        for <linux-api@vger.kernel.org>; Mon, 12 Jul 2021 08:40:49 -0700 (PDT)
-Received: by mail-lj1-x22d.google.com with SMTP id a18so24923943ljk.6
-        for <linux-api@vger.kernel.org>; Mon, 12 Jul 2021 08:40:49 -0700 (PDT)
+        with ESMTP id S235550AbhGLSmK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 12 Jul 2021 14:42:10 -0400
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3914AC0613E5
+        for <linux-api@vger.kernel.org>; Mon, 12 Jul 2021 11:39:22 -0700 (PDT)
+Received: by mail-yb1-xb36.google.com with SMTP id o139so30513627ybg.9
+        for <linux-api@vger.kernel.org>; Mon, 12 Jul 2021 11:39:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Sx2IKaIgugKwjbZh4RK43caAuNdf4BXBJqmTld2/qA0=;
-        b=NEWvAFhouQ4e7j5ggnmprP9PikemmsFblqPRXXAHQZV2IEIy9r/NIHTZHWwR3+w77y
-         vytETyqX23fY+KxY7hbkIW7ORnFbbomjiXm0CyBp5YoOi9dNBaU6aUVX2eTtAvoaiJpx
-         88pP7V9XkV+SohNlwuz01hbF1qLbIHmyj6WUFPWI77r8LDVuhnT6p041rK4ltWjCS0nq
-         DXM2Ykt0fnh9y3KnlZ10Mh/jnN2aG0C3JSDjAgqWoAxmI7nsT8R8YMrVBounYpCSVSgs
-         ztiUoIhd6z0DW/FxaNp7+ewQWz7vmPmJUaE/BvdIOIaV0ZvOzYBkDBVlxCdDxgvu9kTF
-         2ssg==
+        bh=Ho/Rg+kWQBT3g0s4WUPaNn7FgGVbD55gWWoqdPMQr/Y=;
+        b=cZPpg3JNJSZsY/M2IDNiSomK8Bf2SHwo5L67jNM4nDO+nxG8cUbpV2UP/O1+xGbJJQ
+         N3yHipF+FIfrgTJWdYILf8fxMwvIVBaoaYn+UaFaoIBpviZL0ck9f+OvxI2rj5X6igu2
+         9MOcR63E99EXetd822cmkj3AislCImB4DqhqpLJQpS1xq4z6p3vJnKixW2tJYI5oCcwR
+         5Uo+ye3cBtP++OBYZEpkuTZ/vXgj6CkeDTkVV3MXb65iOlqhkGUbYAEA8JlatVoA+wCW
+         3ifxHwcoVqscoVRkxNZRWTH4HEgOkH/YoxoQVHfm7bIpd/cdTorb/vS+UG9NHgjbZmNd
+         FOqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Sx2IKaIgugKwjbZh4RK43caAuNdf4BXBJqmTld2/qA0=;
-        b=tGXCdbgLpUT1dMVtJMUJNDyjrZVL+bvQ+VpmCCbt3ZABV7NzpsyAb5eGGJ2fQvD+ZN
-         ysZnw0i0p9E7Hluc6nGw6LHywwZOSOOAaX+q3oaNpNMxl74X6wW8Hjzb9XGtAyjtCHhO
-         Opc1hCS4+d+P1lyDA6BQw0LccWgXLiSAYx4c/Lt9AK3qPXMlqFhQmkxSnbl+xm+tiYvR
-         5aT3aVET1ExEOnjyPbcAb/VZj2n/qrf+Yv33+dEBvHQPGGmGvCfDiDsg5iqnwwAIsMbg
-         A5Ve1TKh5GhJb1cEqe0yutXt67AGGcO67cL88ZmhVixR4GdeelNApLP7TYtlNvFd3GhP
-         WZDA==
-X-Gm-Message-State: AOAM530k4lZ+l+kPbO1IAaZoSrn/E2SpZvT6kWpkGxz6n/crmVtMT5OP
-        vJb1dufPJcCRrYvXiqZV4dZ8MuO983DsAK0N7/Cr1Q==
-X-Google-Smtp-Source: ABdhPJx7ptjXxjNKzZ0q3xfM3GMwdaBnal/nB7DdO8AnH1LjuIVERQ2StOYIo3Yb7v9EfaXpMrpJ4b6ar3kDLpO6qG0=
-X-Received: by 2002:a05:651c:1684:: with SMTP id bd4mr26670952ljb.287.1626104447709;
- Mon, 12 Jul 2021 08:40:47 -0700 (PDT)
+        bh=Ho/Rg+kWQBT3g0s4WUPaNn7FgGVbD55gWWoqdPMQr/Y=;
+        b=KF79IpgIZ1zt+WEXCAFoGpPQHDuDyVTqWKmR1SCZUdl/hogIZy4awN23/sfVB14a0E
+         KPDWEDvlnL96b0DkHxN/f5tN1TGEgacnTSmUDYAOG2crGKkf+dL1D/E15dgrH8WWIn2+
+         K5UiWil2lAMb6ab6rUVDGzQZY8kpyk0fKDv6tfFKIjfNVMPzISPSYfhcwyGi/5gBAVWi
+         dn7vWUDPQP7edSP+pff7m3p+CAGHoAFXgVNRmuU/opRGwXyhLjqhMGzYxdBE4Ko7X4Mh
+         fGMkkLb7sh8zjfgDsBrRGkyQxBngwkE3eYT+qZIBeK0DY7Hsu+za0YDEo24VEh3T0lct
+         slPQ==
+X-Gm-Message-State: AOAM533rnzvpWjovM2Tmi2HiCDgFO/7Clhl4Y5xUrAyG6yl/nRpg0Iv1
+        eV5E+6a5aBVlBDPqffFoQCgI3v01Mf2tIGtulQ2Img==
+X-Google-Smtp-Source: ABdhPJw2Wd3lkFyCSaKE1R+Gmhq+CNRD3Sbcu3fX63Ehl7Ot2KbpAfryBXz7PS6nVCtlP1bo0qoVMzukbaU1xdsEhdc=
+X-Received: by 2002:a25:71c4:: with SMTP id m187mr414827ybc.397.1626115161245;
+ Mon, 12 Jul 2021 11:39:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210708194638.128950-4-posk@google.com> <bb30216c-4339-2703-9d87-9326af86a7b0@uwaterloo.ca>
-In-Reply-To: <bb30216c-4339-2703-9d87-9326af86a7b0@uwaterloo.ca>
-From:   Peter Oskolkov <posk@google.com>
-Date:   Mon, 12 Jul 2021 08:40:36 -0700
-Message-ID: <CAPNVh5f3H7Gor-Dph7=2jAdme-4mRfCCb0gv=wjgHQtd7Cad=Q@mail.gmail.com>
-Subject: Re: [RFC PATCH 3/3 v0.2] sched/umcg: RFC: implement UMCG syscalls
-To:     Thierry Delisle <tdelisle@uwaterloo.ca>
-Cc:     posk@posk.io, avagin@google.com, bsegall@google.com,
-        jannh@google.com, jnewsome@torproject.org, joel@joelfernandes.org,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mingo@redhat.com, peterz@infradead.org, pjt@google.com,
-        tglx@linutronix.de, Peter Buhr <pabuhr@uwaterloo.ca>,
-        Martin Karsten <mkarsten@uwaterloo.ca>
+References: <20210623192822.3072029-1-surenb@google.com> <87sg0qa22l.fsf@oldenburg.str.redhat.com>
+ <CAJuCfpEWpvw+gW+NvBPOdGqUOEyucFoT8gdC2uk18dMBQFbhqw@mail.gmail.com>
+ <87wnq1z7kl.fsf@oldenburg.str.redhat.com> <CAJuCfpFt55Dw1uW3S6_AincNfPaAtwdi6iXYVvFr7x3fvt4uzw@mail.gmail.com>
+ <q2s48op3-n660-p8r4-op50-po43r2249r24@vanv.qr>
+In-Reply-To: <q2s48op3-n660-p8r4-op50-po43r2249r24@vanv.qr>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Mon, 12 Jul 2021 11:39:10 -0700
+Message-ID: <CAJuCfpF6v9QMzo81kn9zT1VEftKTHsot1ytE8Gfh3UZzqZ9WBA@mail.gmail.com>
+Subject: Re: [PATCH 1/1] mm: introduce process_reap system call
+To:     Jan Engelhardt <jengelh@inai.de>
+Cc:     Florian Weimer <fweimer@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Michal Hocko <mhocko@suse.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        Christoph Hellwig <hch@infradead.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Jann Horn <jannh@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Tim Murray <timmurray@google.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Jul 11, 2021 at 11:29 AM Thierry Delisle <tdelisle@uwaterloo.ca> wrote:
+On Mon, Jul 12, 2021 at 5:51 AM Jan Engelhardt <jengelh@inai.de> wrote:
 >
->  > Let's move the discussion to the new thread.
 >
-> I'm happy to start a new thread. I'm re-responding to my last post
-> because many
-> of my questions are still unanswered.
+> On Thursday 2021-07-08 08:05, Suren Baghdasaryan wrote:
+> >>
+> >> That explains very clearly the requirement, but it raises the question
+> >> why this isn't an si_code flag for rt_sigqueueinfo, reusing the existing
+> >> system call.
+> >
+> >I think you are suggesting to use sigqueue() to deliver the signal and
+> >perform the reaping when a special value accompanies it. This would be
+> >somewhat similar to my early suggestion to use a flag in
+> >pidfd_send_signal() (see:
+> >https://lore.kernel.org/patchwork/patch/1060407) to implement memory
+> >reaping which has another advantage of operation on PIDFDs instead of
+> >PIDs which can be recycled.
+> >kill()/pidfd_send_signal()/sigqueue() are supposed to deliver the
+> >signal and return without blocking. Changing that behavior was
+> >considered unacceptable in these discussions.
 >
->  > + * State transitions:
->  > + *
->  > + * RUNNING => IDLE:   the current RUNNING task becomes IDLE by calling
->  > + *                    sys_umcg_wait();
->  >
->  > [...]
->  >
->  > +/**
->  > + * enum umcg_wait_flag - flags to pass to sys_umcg_wait
->  > + * @UMCG_WAIT_WAKE_ONLY: wake @self->next_tid, don't put @self to sleep;
->  > + * @UMCG_WF_CURRENT_CPU: wake @self->next_tid on the current CPU
->  > + *                       (use WF_CURRENT_CPU); @UMCG_WAIT_WAKE_ONLY
-> must be set.
->  > + */
->  > +enum umcg_wait_flag {
->  > +    UMCG_WAIT_WAKE_ONLY = 1,
->  > +    UMCG_WF_CURRENT_CPU = 2,
->  > +};
+> The way I understood the request is that a userspace program (or perhaps two,
+> if so desired) should issue _two_ calls, one to deliver the signal,
+> one to perform the reap portion:
 >
-> What is the purpose of using sys_umcg_wait without next_tid or with
-> UMCG_WAIT_WAKE_ONLY? It looks like Java's park/unpark semantics to me,
-> that is
-> worker threads can use this for synchronization and mutual exclusion. In
-> this
-> case, how do these compare to using FUTEX_WAIT/FUTEX_WAKE?
+>         uinfo.si_code = SI_QUEUE;
+>         sigqueue(pid, SIGKILL, &uinfo);
+>         uinfo.si_code = SI_REAP;
+>         sigqueue(pid, SIGKILL, &uinfo);
 
-sys_umcg_wait without next_tid puts the task in UMCG_IDLE state; wake
-wakes it. These are standard sched operations. If they are emulated
-via futexes, fast context switching will require something like
-FUTEX_SWAP that was NACKed last year.
+This approach would still lead to the same discussion: by design,
+sigqueue/kill/pidfd_send_signal deliver the signal but do not wait for
+the signal to be processed by the recipient. Changing that would be a
+behavior change. Therefore we would have to follow this pattern and
+implement memory reaping in an asynchronous manner using a
+kthread/workqueue and it won't be done in the context of the calling
+process. This is undesirable because we lose the ability to control
+priority and cpu affinity for this operation and work won't be charged
+to the caller.
+That's why the proposed syscall performs memory reaping in the
+caller's context and blocks until the operation is done. In this
+proposal, your sequence looks like this:
 
->
->
->  > +struct umcg_task {
->  > [...]
->  > +    /**
->  > +     * @server_tid: the TID of the server UMCG task that should be
->  > +     *              woken when this WORKER becomes BLOCKED. Can be zero.
->  > +     *
->  > +     *              If this is a UMCG server, @server_tid should
->  > +     *              contain the TID of @self - it will be used to find
->  > +     *              the task_struct to wake when pulled from
->  > +     *              @idle_servers.
->  > +     *
->  > +     * Read-only for the kernel, read/write for the userspace.
->  > +     */
->  > +    uint32_t    server_tid;        /* r   */
->  > [...]
->  > +    /**
->  > +     * @idle_servers_ptr: a single-linked list pointing to the list
->  > +     *                    of idle servers. Can be NULL.
->  > +     *
->  > +     * Readable/writable by both the kernel and the userspace: the
->  > +     * userspace adds items to the list, the kernel removes them.
->  > +     *
->  > +     * TODO: describe how the list works.
->  > +     */
->  > +    uint64_t    idle_servers_ptr;    /* r/w */
->  > [...]
->  > +} __attribute__((packed, aligned(8 * sizeof(__u64))));
->
->  From the comments and by elimination, I'm guessing that idle_servers_ptr is
-> somehow used by servers to block until some worker threads become idle.
-> However,
-> I do not understand how the userspace is expected to use it. I also do not
-> understand if these link fields form a stack or a queue and where is the
-> head.
+pidfd_send_signal(pidfd, SIGKILL, NULL, 0);
+process_reap(pidfd, 0);
 
-When a server has nothing to do (no work to run), it is put into IDLE
-state and added to the list. The kernel wakes an IDLE server if a
-blocked worker unblocks.
-
->
->
->  > +/**
->  > + * sys_umcg_ctl: (un)register a task as a UMCG task.
->  > + * @flags:       ORed values from enum umcg_ctl_flag; see below;
->  > + * @self:        a pointer to struct umcg_task that describes this
->  > + *               task and governs the behavior of sys_umcg_wait if
->  > + *               registering; must be NULL if unregistering.
->  > + *
->  > + * @flags & UMCG_CTL_REGISTER: register a UMCG task:
->  > + *         UMCG workers:
->  > + *              - self->state must be UMCG_TASK_IDLE
->  > + *              - @flags & UMCG_CTL_WORKER
->  > + *
->  > + *         If the conditions above are met, sys_umcg_ctl()
-> immediately returns
->  > + *         if the registered task is a RUNNING server or basic task;
-> an IDLE
->  > + *         worker will be added to idle_workers_ptr, and the worker
-> put to
->  > + *         sleep; an idle server from idle_servers_ptr will be
-> woken, if any.
->
-> This approach to creating UMCG workers concerns me a little. My
-> understanding
-> is that in general, the number of servers controls the amount of parallelism
-> in the program. But in the case of creating new UMCG workers, the new
-> threads
-> only respect the M:N threading model after sys_umcg_ctl has blocked.
-> What does
-> this mean for applications that create thousands of short lived tasks? Are
-> users expcted to create pools of reusable UMCG workers?
-
-Yes: task/thread creation is not as lightweight as just posting work
-items onto a preexisting pool of workers.
-
->
->
-> I would suggest adding at least one uint64_t field to the struct
-> umcg_task that
-> is left as-is by the kernel. This allows implementers of user-space
-> schedulers to add scheduler specific data structures to the threads without
-> needing some kind of table on the side.
-
-This is usually achieved by embedding the kernel struct into a larger
-userspace/TLS struct. For example:
-
-struct umcg_task_user {
-  struct umcg_task umcg_task;
-  extra_user_data d1;
-  extra_user_ptr p1;
-  /* etc. */
-} __aligned(...);
+except we decided to rename process_reap() to process_mrelease() in
+the next revision.
