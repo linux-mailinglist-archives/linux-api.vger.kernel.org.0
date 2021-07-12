@@ -2,135 +2,196 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FEBE3C5E12
-	for <lists+linux-api@lfdr.de>; Mon, 12 Jul 2021 16:13:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BB323C5F73
+	for <lists+linux-api@lfdr.de>; Mon, 12 Jul 2021 17:40:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234837AbhGLOQn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 12 Jul 2021 10:16:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33599 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234435AbhGLOQn (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 12 Jul 2021 10:16:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1626099234;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=afUNjuJXnPmwCmF5+FQfjA8ufj+e69/ivLf91qDfwSM=;
-        b=TbZxTk65cPuUu0PsJHuvtTv9FKg9xurhx2dLBUbOpZD47o0581fIAEnJ9GPb6iC8Q9ZOdu
-        RfID2cPFe5oL93LD/sgZfnBOLT9qLMh/h834LwBK4fs57YlWQL2p9c/O9D4MUHJNT8Kxxm
-        A81L7MlVXl7duWPBUqGc9qPEgnGmxBc=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-Wtlpl_qqNre81d_7oUpuaA-1; Mon, 12 Jul 2021 10:13:53 -0400
-X-MC-Unique: Wtlpl_qqNre81d_7oUpuaA-1
-Received: by mail-lf1-f70.google.com with SMTP id i13-20020a196d0d0000b029034f05dc854aso6479445lfc.1
-        for <linux-api@vger.kernel.org>; Mon, 12 Jul 2021 07:13:53 -0700 (PDT)
+        id S235498AbhGLPni (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 12 Jul 2021 11:43:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44568 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233166AbhGLPni (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 12 Jul 2021 11:43:38 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABCA8C0613DD
+        for <linux-api@vger.kernel.org>; Mon, 12 Jul 2021 08:40:49 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id a18so24923943ljk.6
+        for <linux-api@vger.kernel.org>; Mon, 12 Jul 2021 08:40:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Sx2IKaIgugKwjbZh4RK43caAuNdf4BXBJqmTld2/qA0=;
+        b=NEWvAFhouQ4e7j5ggnmprP9PikemmsFblqPRXXAHQZV2IEIy9r/NIHTZHWwR3+w77y
+         vytETyqX23fY+KxY7hbkIW7ORnFbbomjiXm0CyBp5YoOi9dNBaU6aUVX2eTtAvoaiJpx
+         88pP7V9XkV+SohNlwuz01hbF1qLbIHmyj6WUFPWI77r8LDVuhnT6p041rK4ltWjCS0nq
+         DXM2Ykt0fnh9y3KnlZ10Mh/jnN2aG0C3JSDjAgqWoAxmI7nsT8R8YMrVBounYpCSVSgs
+         ztiUoIhd6z0DW/FxaNp7+ewQWz7vmPmJUaE/BvdIOIaV0ZvOzYBkDBVlxCdDxgvu9kTF
+         2ssg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=afUNjuJXnPmwCmF5+FQfjA8ufj+e69/ivLf91qDfwSM=;
-        b=B/Y4n/IaMKdMjQ8ax/D2QbioNa9Hoo0ZTxyhEQnLYE/a/0JRaDHZZDhhihdqTMwspo
-         s3vLDGIITKJOPQ3W9wQLz81Ij8K5+dDYlb5fVnstr5ZRgtLvv3mgEtvv6Z/MbH0GVYad
-         imAMkXpmKDkIbtmXHwzBvjPbTvVBnqJIqBrqHhvPHG53OfUFobNV7qh7HKHWuTv9RoG/
-         +Z4j0YXV4UnpcTWzStwtVHIwi9FWQpatMqJjRbahCkp+YLHB4Puin9wjC518sJH/yFn2
-         mV2sbMa1HGX9+zXXvIBvipY/bcUt48hKjf9xpQydFh94CieHIClxFXdaEYfvDswIpCuy
-         frEw==
-X-Gm-Message-State: AOAM531L0XnEzVDpU4Y8P/itpoWrWSk6Ht+laKMju25Xdbizv9+E6iIS
-        s3yhx3qARxVp6qHV0vxRkp+YLulgIXNDo/Nv8x+aWL/Tv8ySp6Zmq59+RDonxMaWoPmvclzjsY9
-        Zl8hzCVbEbIS7OYDP+2VNhYwLX5RPK0PPTWmb
-X-Received: by 2002:a05:6512:33d3:: with SMTP id d19mr16315945lfg.114.1626099231943;
-        Mon, 12 Jul 2021 07:13:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwbVotmura6ZuXfGUNMWJgcOo2t2QFX2iHzhetzzTWpDB1SmKe/MGcsinyZmILKUBXZAM4S3H2xTgXGvDKvNv8=
-X-Received: by 2002:a05:6512:33d3:: with SMTP id d19mr16315896lfg.114.1626099231489;
- Mon, 12 Jul 2021 07:13:51 -0700 (PDT)
+        bh=Sx2IKaIgugKwjbZh4RK43caAuNdf4BXBJqmTld2/qA0=;
+        b=tGXCdbgLpUT1dMVtJMUJNDyjrZVL+bvQ+VpmCCbt3ZABV7NzpsyAb5eGGJ2fQvD+ZN
+         ysZnw0i0p9E7Hluc6nGw6LHywwZOSOOAaX+q3oaNpNMxl74X6wW8Hjzb9XGtAyjtCHhO
+         Opc1hCS4+d+P1lyDA6BQw0LccWgXLiSAYx4c/Lt9AK3qPXMlqFhQmkxSnbl+xm+tiYvR
+         5aT3aVET1ExEOnjyPbcAb/VZj2n/qrf+Yv33+dEBvHQPGGmGvCfDiDsg5iqnwwAIsMbg
+         A5Ve1TKh5GhJb1cEqe0yutXt67AGGcO67cL88ZmhVixR4GdeelNApLP7TYtlNvFd3GhP
+         WZDA==
+X-Gm-Message-State: AOAM530k4lZ+l+kPbO1IAaZoSrn/E2SpZvT6kWpkGxz6n/crmVtMT5OP
+        vJb1dufPJcCRrYvXiqZV4dZ8MuO983DsAK0N7/Cr1Q==
+X-Google-Smtp-Source: ABdhPJx7ptjXxjNKzZ0q3xfM3GMwdaBnal/nB7DdO8AnH1LjuIVERQ2StOYIo3Yb7v9EfaXpMrpJ4b6ar3kDLpO6qG0=
+X-Received: by 2002:a05:651c:1684:: with SMTP id bd4mr26670952ljb.287.1626104447709;
+ Mon, 12 Jul 2021 08:40:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210629152746.2953364-1-nitesh@redhat.com> <CAFki+LnUGiEE-7Uf-x8-TQZYZ+3Migrr=81gGLYszxaK-6A9WQ@mail.gmail.com>
- <YOrWqPYPkZp6nRLS@unreal>
-In-Reply-To: <YOrWqPYPkZp6nRLS@unreal>
-From:   Nitesh Lal <nilal@redhat.com>
-Date:   Mon, 12 Jul 2021 10:13:40 -0400
-Message-ID: <CAFki+LnZnq2T9WjDn76wKR9=kk6Zf93zrWbGrnnhgRUiehQ-RA@mail.gmail.com>
-Subject: Re: [PATCH v2 00/14] genirq: Cleanup the usage of irq_set_affinity_hint
-To:     Leon Romanovsky <leonro@nvidia.com>
-Cc:     Nitesh Narayan Lal <nitesh@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
-        netdev@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-pci@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Ingo Molnar <mingo@kernel.org>, jbrandeb@kernel.org,
-        frederic@kernel.org, Juri Lelli <juri.lelli@redhat.com>,
-        Alex Belits <abelits@marvell.com>,
-        Bjorn Helgaas <bhelgaas@google.com>, rostedt@goodmis.org,
-        peterz@infradead.org, davem@davemloft.net,
-        akpm@linux-foundation.org, sfr@canb.auug.org.au,
-        stephen@networkplumber.org, rppt@linux.vnet.ibm.com,
-        chris.friesen@windriver.com, Marc Zyngier <maz@kernel.org>,
-        Neil Horman <nhorman@tuxdriver.com>, pjwaskiewicz@gmail.com,
-        Stefan Assmann <sassmann@redhat.com>,
-        Tomas Henzl <thenzl@redhat.com>, kashyap.desai@broadcom.com,
-        Sumit Saxena <sumit.saxena@broadcom.com>,
-        shivasharan.srikanteshwara@broadcom.com,
-        sathya.prakash@broadcom.com,
-        Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
-        suganath-prabu.subramani@broadcom.com, james.smart@broadcom.com,
-        dick.kennedy@broadcom.com, Ken Cox <jkc@redhat.com>,
-        faisal.latif@intel.com, shiraz.saleem@intel.com, tariqt@nvidia.com,
-        Alaa Hleihel <ahleihel@redhat.com>,
-        Kamal Heib <kheib@redhat.com>, borisp@nvidia.com,
-        saeedm@nvidia.com, benve@cisco.com, govind@gmx.com,
-        jassisinghbrar@gmail.com, ajit.khaparde@broadcom.com,
-        sriharsha.basavapatna@broadcom.com, somnath.kotur@broadcom.com,
-        "Nikolova, Tatyana E" <tatyana.e.nikolova@intel.com>,
-        "Ismail, Mustafa" <mustafa.ismail@intel.com>,
-        Al Stone <ahs3@redhat.com>
+References: <20210708194638.128950-4-posk@google.com> <bb30216c-4339-2703-9d87-9326af86a7b0@uwaterloo.ca>
+In-Reply-To: <bb30216c-4339-2703-9d87-9326af86a7b0@uwaterloo.ca>
+From:   Peter Oskolkov <posk@google.com>
+Date:   Mon, 12 Jul 2021 08:40:36 -0700
+Message-ID: <CAPNVh5f3H7Gor-Dph7=2jAdme-4mRfCCb0gv=wjgHQtd7Cad=Q@mail.gmail.com>
+Subject: Re: [RFC PATCH 3/3 v0.2] sched/umcg: RFC: implement UMCG syscalls
+To:     Thierry Delisle <tdelisle@uwaterloo.ca>
+Cc:     posk@posk.io, avagin@google.com, bsegall@google.com,
+        jannh@google.com, jnewsome@torproject.org, joel@joelfernandes.org,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mingo@redhat.com, peterz@infradead.org, pjt@google.com,
+        tglx@linutronix.de, Peter Buhr <pabuhr@uwaterloo.ca>,
+        Martin Karsten <mkarsten@uwaterloo.ca>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Jul 11, 2021 at 7:32 AM Leon Romanovsky <leonro@nvidia.com> wrote:
+On Sun, Jul 11, 2021 at 11:29 AM Thierry Delisle <tdelisle@uwaterloo.ca> wrote:
 >
-> On Thu, Jul 08, 2021 at 03:24:20PM -0400, Nitesh Lal wrote:
-> > On Tue, Jun 29, 2021 at 11:28 AM Nitesh Narayan Lal <nitesh@redhat.com> wrote:
+>  > Let's move the discussion to the new thread.
 >
-> <...>
+> I'm happy to start a new thread. I'm re-responding to my last post
+> because many
+> of my questions are still unanswered.
 >
-> > >
-> > >  drivers/infiniband/hw/i40iw/i40iw_main.c      |  4 +-
-> > >  drivers/mailbox/bcm-flexrm-mailbox.c          |  4 +-
-> > >  drivers/net/ethernet/cisco/enic/enic_main.c   |  8 +--
-> > >  drivers/net/ethernet/emulex/benet/be_main.c   |  4 +-
-> > >  drivers/net/ethernet/huawei/hinic/hinic_rx.c  |  4 +-
-> > >  drivers/net/ethernet/intel/i40e/i40e_main.c   |  8 +--
-> > >  drivers/net/ethernet/intel/iavf/iavf_main.c   |  8 +--
-> > >  drivers/net/ethernet/intel/ixgbe/ixgbe_main.c | 10 ++--
-> > >  drivers/net/ethernet/mellanox/mlx4/eq.c       |  8 ++-
-> > >  .../net/ethernet/mellanox/mlx5/core/pci_irq.c |  6 +--
-> > >  drivers/scsi/lpfc/lpfc_init.c                 |  4 +-
-> > >  drivers/scsi/megaraid/megaraid_sas_base.c     | 27 +++++-----
-> > >  drivers/scsi/mpt3sas/mpt3sas_base.c           | 21 ++++----
-> > >  include/linux/interrupt.h                     | 53 ++++++++++++++++++-
-> > >  kernel/irq/manage.c                           |  8 +--
-> > >  15 files changed, 113 insertions(+), 64 deletions(-)
-> > >
-> > > --
-> > >
-> > >
-> >
-> > Gentle ping.
-> > Any comments or suggestions on any of the patches included in this series?
+>  > + * State transitions:
+>  > + *
+>  > + * RUNNING => IDLE:   the current RUNNING task becomes IDLE by calling
+>  > + *                    sys_umcg_wait();
+>  >
+>  > [...]
+>  >
+>  > +/**
+>  > + * enum umcg_wait_flag - flags to pass to sys_umcg_wait
+>  > + * @UMCG_WAIT_WAKE_ONLY: wake @self->next_tid, don't put @self to sleep;
+>  > + * @UMCG_WF_CURRENT_CPU: wake @self->next_tid on the current CPU
+>  > + *                       (use WF_CURRENT_CPU); @UMCG_WAIT_WAKE_ONLY
+> must be set.
+>  > + */
+>  > +enum umcg_wait_flag {
+>  > +    UMCG_WAIT_WAKE_ONLY = 1,
+>  > +    UMCG_WF_CURRENT_CPU = 2,
+>  > +};
 >
-> Please wait for -rc1, rebase and resend.
-> At least i40iw was deleted during merge window.
->
+> What is the purpose of using sys_umcg_wait without next_tid or with
+> UMCG_WAIT_WAKE_ONLY? It looks like Java's park/unpark semantics to me,
+> that is
+> worker threads can use this for synchronization and mutual exclusion. In
+> this
+> case, how do these compare to using FUTEX_WAIT/FUTEX_WAKE?
 
-Right, will rebase on top of 5.14-rc1 and resend.
+sys_umcg_wait without next_tid puts the task in UMCG_IDLE state; wake
+wakes it. These are standard sched operations. If they are emulated
+via futexes, fast context switching will require something like
+FUTEX_SWAP that was NACKed last year.
 
--- 
-Thanks
-Nitesh
+>
+>
+>  > +struct umcg_task {
+>  > [...]
+>  > +    /**
+>  > +     * @server_tid: the TID of the server UMCG task that should be
+>  > +     *              woken when this WORKER becomes BLOCKED. Can be zero.
+>  > +     *
+>  > +     *              If this is a UMCG server, @server_tid should
+>  > +     *              contain the TID of @self - it will be used to find
+>  > +     *              the task_struct to wake when pulled from
+>  > +     *              @idle_servers.
+>  > +     *
+>  > +     * Read-only for the kernel, read/write for the userspace.
+>  > +     */
+>  > +    uint32_t    server_tid;        /* r   */
+>  > [...]
+>  > +    /**
+>  > +     * @idle_servers_ptr: a single-linked list pointing to the list
+>  > +     *                    of idle servers. Can be NULL.
+>  > +     *
+>  > +     * Readable/writable by both the kernel and the userspace: the
+>  > +     * userspace adds items to the list, the kernel removes them.
+>  > +     *
+>  > +     * TODO: describe how the list works.
+>  > +     */
+>  > +    uint64_t    idle_servers_ptr;    /* r/w */
+>  > [...]
+>  > +} __attribute__((packed, aligned(8 * sizeof(__u64))));
+>
+>  From the comments and by elimination, I'm guessing that idle_servers_ptr is
+> somehow used by servers to block until some worker threads become idle.
+> However,
+> I do not understand how the userspace is expected to use it. I also do not
+> understand if these link fields form a stack or a queue and where is the
+> head.
 
+When a server has nothing to do (no work to run), it is put into IDLE
+state and added to the list. The kernel wakes an IDLE server if a
+blocked worker unblocks.
+
+>
+>
+>  > +/**
+>  > + * sys_umcg_ctl: (un)register a task as a UMCG task.
+>  > + * @flags:       ORed values from enum umcg_ctl_flag; see below;
+>  > + * @self:        a pointer to struct umcg_task that describes this
+>  > + *               task and governs the behavior of sys_umcg_wait if
+>  > + *               registering; must be NULL if unregistering.
+>  > + *
+>  > + * @flags & UMCG_CTL_REGISTER: register a UMCG task:
+>  > + *         UMCG workers:
+>  > + *              - self->state must be UMCG_TASK_IDLE
+>  > + *              - @flags & UMCG_CTL_WORKER
+>  > + *
+>  > + *         If the conditions above are met, sys_umcg_ctl()
+> immediately returns
+>  > + *         if the registered task is a RUNNING server or basic task;
+> an IDLE
+>  > + *         worker will be added to idle_workers_ptr, and the worker
+> put to
+>  > + *         sleep; an idle server from idle_servers_ptr will be
+> woken, if any.
+>
+> This approach to creating UMCG workers concerns me a little. My
+> understanding
+> is that in general, the number of servers controls the amount of parallelism
+> in the program. But in the case of creating new UMCG workers, the new
+> threads
+> only respect the M:N threading model after sys_umcg_ctl has blocked.
+> What does
+> this mean for applications that create thousands of short lived tasks? Are
+> users expcted to create pools of reusable UMCG workers?
+
+Yes: task/thread creation is not as lightweight as just posting work
+items onto a preexisting pool of workers.
+
+>
+>
+> I would suggest adding at least one uint64_t field to the struct
+> umcg_task that
+> is left as-is by the kernel. This allows implementers of user-space
+> schedulers to add scheduler specific data structures to the threads without
+> needing some kind of table on the side.
+
+This is usually achieved by embedding the kernel struct into a larger
+userspace/TLS struct. For example:
+
+struct umcg_task_user {
+  struct umcg_task umcg_task;
+  extra_user_data d1;
+  extra_user_ptr p1;
+  /* etc. */
+} __aligned(...);
