@@ -2,137 +2,132 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6546D3C657E
-	for <lists+linux-api@lfdr.de>; Mon, 12 Jul 2021 23:32:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D44723C658D
+	for <lists+linux-api@lfdr.de>; Mon, 12 Jul 2021 23:44:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231878AbhGLVfc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 12 Jul 2021 17:35:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41344 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231529AbhGLVfc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 12 Jul 2021 17:35:32 -0400
-Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2FC3C0613E5
-        for <linux-api@vger.kernel.org>; Mon, 12 Jul 2021 14:32:43 -0700 (PDT)
-Received: by mail-il1-x12a.google.com with SMTP id e2so4540822ilu.5
-        for <linux-api@vger.kernel.org>; Mon, 12 Jul 2021 14:32:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=p0UbOU0vjiqc719wOG0oZB7U04BfmrswCV40XldGFR0=;
-        b=YqAFiVSy2G1zBJfGO843I1ZiXvfaN9nxExGEz/h3bVNireLhXXg2m6/9qeSswhiRhE
-         lhzVRSRwgUVs6N7/VeOkw6PODsHmssoGDB+FgddHKZU+fKTC+AwQRhxO5+ERQCvIngg4
-         TVkXhlejoVbx4vliSkFmDszzwPHtef0K8odyM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=p0UbOU0vjiqc719wOG0oZB7U04BfmrswCV40XldGFR0=;
-        b=Gtgb2ksTSSHIjDWDrECbsTn4TPXz66ikrh1JVMhLsqXFGY54yLBFvp4VKtbzZoKkCK
-         DN8xjdrSLXujgUHRNQFbl3+cg0rDGLs36CF4LwXZMHLMbyRFlxdezzGv6uc+5AkwXHNK
-         0ohi13kyDxX4zc3A2rtkEZI6dbCeoov10o5fN2X4kOCOG7SdZA9pNI2qEEhGiaNYBVfq
-         qJaitB84rlSKs9rtzAALkzKXdjkmb/WOokCRFg7CM7uJV2NTQloqC1wB1R7PF3rdtkmq
-         hm+ja3DiD1/UXsfj6gTlE6bYISUPuIc05u5bgYg+ZRHN16DZKTRMwOM6IO6k1ErEFnx1
-         70MQ==
-X-Gm-Message-State: AOAM532hafqmqeB8sy0WC64XiKEWp8sYI7Aa8KusSUnuqJ3QNggbI7SK
-        x0LPk3Yz7ljKoIwSPEa3baBpQUs9e+XcJw==
-X-Google-Smtp-Source: ABdhPJwsV5aS/oFjdxSPZdN9MxyFANYSf+Hlan6etXYc7mULDvvEcuGCb2nJSDB9UQyRtHVKjA0Tpg==
-X-Received: by 2002:a92:d946:: with SMTP id l6mr598104ilq.162.1626125563178;
-        Mon, 12 Jul 2021 14:32:43 -0700 (PDT)
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com. [209.85.166.47])
-        by smtp.gmail.com with ESMTPSA id e1sm8090481ioe.24.2021.07.12.14.32.41
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Jul 2021 14:32:42 -0700 (PDT)
-Received: by mail-io1-f47.google.com with SMTP id h6so24555660iok.6
-        for <linux-api@vger.kernel.org>; Mon, 12 Jul 2021 14:32:41 -0700 (PDT)
-X-Received: by 2002:a6b:7719:: with SMTP id n25mr683754iom.37.1626125561291;
- Mon, 12 Jul 2021 14:32:41 -0700 (PDT)
+        id S233376AbhGLVrM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 12 Jul 2021 17:47:12 -0400
+Received: from esa.hc503-62.ca.iphmx.com ([216.71.131.47]:55736 "EHLO
+        esa.hc503-62.ca.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229842AbhGLVrM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 12 Jul 2021 17:47:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=uwaterloo.ca; i=@uwaterloo.ca; q=dns/txt; s=default;
+  t=1626126263; x=1657662263;
+  h=to:cc:references:subject:in-reply-to:from:message-id:
+   date:mime-version:content-transfer-encoding;
+  bh=seij5sVjCpiZ5ThWMz7niqAvKuxJMkBdQqYc7ftubO4=;
+  b=C30j/v9CzCtrUJvxKP1sQN4vMa3ayY0szBvfzDXZSDhnWJaB33cA8AbH
+   QIpDfEZ0M8OAmFde95AnFao8E4Z1D5TM3qt+iwX0b5OsY0Jac21hceMrA
+   HshPYpdguDOlC6G1gqi77wGst92/QaN4+/DUhn2Dd1tRrfk1phA+V/AMQ
+   k=;
+Received: from connect.uwaterloo.ca (HELO connhm04.connect.uwaterloo.ca) ([129.97.208.43])
+  by ob1.hc503-62.ca.iphmx.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Jul 2021 17:44:19 -0400
+Received: from [10.42.0.123] (10.32.139.159) by connhm04.connect.uwaterloo.ca
+ (172.16.137.68) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Mon, 12
+ Jul 2021 17:44:18 -0400
+To:     <posk@google.com>
+CC:     <avagin@google.com>, <bsegall@google.com>, <jannh@google.com>,
+        <jnewsome@torproject.org>, <joel@joelfernandes.org>,
+        <linux-api@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <mingo@redhat.com>, <mkarsten@uwaterloo.ca>, <pabuhr@uwaterloo.ca>,
+        <peterz@infradead.org>, <pjt@google.com>, <posk@posk.io>,
+        <tdelisle@uwaterloo.ca>, <tglx@linutronix.de>
+References: <CAPNVh5f3H7Gor-Dph7=2jAdme-4mRfCCb0gv=wjgHQtd7Cad=Q@mail.gmail.com>
+Subject: Re: [RFC PATCH 3/3 v0.2] sched/umcg: RFC: implement UMCG syscalls
+In-Reply-To: <CAPNVh5f3H7Gor-Dph7=2jAdme-4mRfCCb0gv=wjgHQtd7Cad=Q@mail.gmail.com>
+From:   Thierry Delisle <tdelisle@uwaterloo.ca>
+Message-ID: <acad5960-30b2-3693-9117-e0b054ee97a7@uwaterloo.ca>
+Date:   Mon, 12 Jul 2021 17:44:18 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210709105012.v2.1.I09866d90c6de14f21223a03e9e6a31f8a02ecbaf@changeid>
- <YOvpVRSMJe8NQuS2@dhcp22.suse.cz>
-In-Reply-To: <YOvpVRSMJe8NQuS2@dhcp22.suse.cz>
-From:   Evan Green <evgreen@chromium.org>
-Date:   Mon, 12 Jul 2021 14:32:05 -0700
-X-Gmail-Original-Message-ID: <CAE=gft7Qd3NSnoFYaXv=FkP0=Je85mNOKojuW5rhg6HkS=usLA@mail.gmail.com>
-Message-ID: <CAE=gft7Qd3NSnoFYaXv=FkP0=Je85mNOKojuW5rhg6HkS=usLA@mail.gmail.com>
-Subject: Re: [PATCH v2] mm: Enable suspend-only swap spaces
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        David Hildenbrand <david@redhat.com>,
-        Pavel Machek <pavel@ucw.cz>, Alex Shi <alexs@kernel.org>,
-        Alistair Popple <apopple@nvidia.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
-        linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.32.139.159]
+X-ClientProxiedBy: connhm04.connect.uwaterloo.ca (172.16.137.68) To
+ connhm04.connect.uwaterloo.ca (172.16.137.68)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jul 12, 2021 at 12:03 AM Michal Hocko <mhocko@suse.com> wrote:
->
-> [Cc linux-api]
->
-> On Fri 09-07-21 10:50:48, Evan Green wrote:
-> > Currently it's not possible to enable hibernation without also enabling
-> > generic swap for a given swap area. These two use cases are not the
-> > same. For example there may be users who want to enable hibernation,
-> > but whose drives don't have the write endurance for generic swap
-> > activities.
-> >
-> > Add a new SWAP_FLAG_NOSWAP that adds a swap region but refuses to allow
-> > generic swapping to it. This region can still be wired up for use in
-> > suspend-to-disk activities, but will never have regular pages swapped to
-> > it.
->
-> Could you expand some more on why a strict exclusion is really
-> necessary? I do understand that one might not want to have swap storage
-> available all the time but considering that swapon is really a light
-> operation so something like the following should be a reasonable
-> workaround, no?
->         swapon storage/file
->         s2disk
->         swapoff storage
+ > sys_umcg_wait without next_tid puts the task in UMCG_IDLE state; wake
+ > wakes it. These are standard sched operations. If they are emulated
+ > via futexes, fast context switching will require something like
+ > FUTEX_SWAP that was NACKed last year.
 
-Broadly, it seemed like a reasonable thing for the kernel to be able
-to do. The workaround you suggest does work for some use cases, but it
-seems like a gap the kernel could more naturally fill.
+I understand these wait and wake semantics and the need for the fast
+context-switch(swap). As I see it, you need 3 operations:
 
-Without getting too off into the weeds, there a handful of factors
-that make this change particularly useful to me:
+- SWAP: context-switch directly to a different thread, no scheduler involved
+- WAIT: block current thread, go back to server thread
+- WAKE: unblock target thread, add it to scheduler, e.g. through
+         idle_workers_ptr
 
- * Slicing off part of your SSD to be SLC (single level cell) is
-expensive. From what I understand you gain endurance and speed at the
-cost of 3-4x capacity. In other words for every 1GB of SLC space you
-need for swap, it costs you 3-4GB of storage space out of the primary
-namespace. So I'm incentivized to size this region as small as
-possible. Hibernate's speed/endurance requirements are not quite as
-harsh as regular swap. Steering them separately gives me the ability
-to put the hibernate image in regular storage, and not be forced to
-oversize expensive/fast swap space.
+There is no existing syscalls to handle SWAP, so I agree sys_umcg_wait is
+needed for this to work.
 
- * Even with the workaround, swap can end up in the hibernate region.
-Hibernate starts by allocating its giant 50%-of-memory region, which
-is often the forcing function for pushing things into swap. With the
-workaround, even if my hibernate region is in last priority, there's
-still a reasonable chance I'll end up swapping into it. If I have
-different security designs for swap space and hibernate, then even a
-chance of some swap leaking into this region is a problem.
+However, there already exists sys_futex to handle WAIT and WAKE. When a 
+worker
+calls either sys_futex WAIT or sys_umcg_wait next_tid == NULL, in both case
+the worker will block, SWAP to the server and wait for FUTEX_WAKE,
+UMCG_WAIT_WAKE_ONLY respectively. It's not obvious to me that there 
+would be
+performance difference and the semantics seem to be the same to me.
 
- * I also want to limit the online attack surface that swap presents.
-I can make headway here by disallowing open() calls on active swap
-regions (via an LSM), and permanently disabling swapon/swapoff system
-calls after early init. The workaround isn't great for me because I
-want to set everything up at early init time and then not touch it. By
-suspend time, on my system I no longer have the ability to make
-swapon/swapoff calls.
+So what I am asking is: is UMCG_WAIT_WAKE_ONLY needed?
 
--Evan
+Is the idea to support workers directly context-switching among each other,
+without involving server threads and without going through idle_servers_ptr?
+
+If so, can you explain some of the intended state transitions in this case.
+
+
+ > > However, I do not understand how the userspace is expected to use 
+it. I also
+ > > do not understand if these link fields form a stack or a queue and 
+where is
+ > > the head.
+ >
+ > When a server has nothing to do (no work to run), it is put into IDLE
+ > state and added to the list. The kernel wakes an IDLE server if a
+ > blocked worker unblocks.
+
+ From the code in umcg_wq_worker_running (Step 3), I am guessing users are
+expected to provide a global head somewhere in memory and
+umcg_task.idle_servers_ptr points to the head of the list for all workers.
+Servers are then added in user space using atomic_stack_push_user. Is this
+correct? I did not find any documentation on the list head.
+
+I like the idea that each worker thread points to a given list, it 
+allows the
+possibility for separate containers with their own independent servers, 
+workers
+and scheduling. However, it seems that the list itself could be implemented
+using existing kernel APIs, for example a futex or an event fd. Like so:
+
+struct umcg_task {
+      [...]
+
+      /**
+       * @idle_futex_ptr: pointer to a futex user for idle server threads.
+       *
+       * When waking a worker, the kernel decrements the pointed to 
+futex value
+       * if it is non-zero and wakes a server if the decrement occurred.
+       *
+       * Server threads that have no work to do should increment the futex
+       * value and FUTEX_WAIT
+       */
+      uint64_t    idle_futex_ptr;    /* r/w */
+
+      [...]
+} __attribute__((packed, aligned(8 * sizeof(__u64))));
+
+I believe the futex approach, like the list, has the advantage that when 
+there
+are no idle servers, checking the list requires no locking. I don't know if
+that can be achieved with eventfd.
+
