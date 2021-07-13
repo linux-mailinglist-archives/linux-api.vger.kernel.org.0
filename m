@@ -2,82 +2,270 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30C083C71BC
-	for <lists+linux-api@lfdr.de>; Tue, 13 Jul 2021 16:02:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E78223C726D
+	for <lists+linux-api@lfdr.de>; Tue, 13 Jul 2021 16:40:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236721AbhGMOFn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 13 Jul 2021 10:05:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38266 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236720AbhGMOFm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Jul 2021 10:05:42 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF025C0613DD;
-        Tue, 13 Jul 2021 07:02:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=qSFD2FiYbEqxI6h5fJ2mcIpTOMalsYT7JNKaXpDY58E=; b=CDYriJnhZwpQn6mou8CszAUrn0
-        OjUPAxBcuDlSKNNvz5PSIx8wbOhUFZqI9b6D4FX+opmEoN3+qiG4ojWMmu7RVIrx8sRLWbv6peSzi
-        G37dUTQTfE7Xg3nvLliIdh+9XzZwraMv1vzrQoXSn7xiw5mOBmLgpTqp4CiF5Jjj8rxGwQV9J4Id7
-        3elRe4nzVVhlTGgmV7y6jE7V45HTrxWiSTvt9GfhF6tWYNHn+CFH5WGEaLcwIcaLJ85TY7TA07EMy
-        H49Kv7nuH+m7pxQeTzz7uQiFwTCKZl7m5brZMjB+MoG3YcQQVDijaezFRtV8XQvBRmPJ5ZcLYA8up
-        16Qf0ePw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1m3Izc-00HAhl-GN; Tue, 13 Jul 2021 14:02:36 +0000
-Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 52A8D987782; Tue, 13 Jul 2021 16:02:35 +0200 (CEST)
-Date:   Tue, 13 Jul 2021 16:02:35 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Peter Oskolkov <posk@google.com>
-Cc:     Thierry Delisle <tdelisle@uwaterloo.ca>, avagin@google.com,
-        bsegall@google.com, jannh@google.com, jnewsome@torproject.org,
-        joel@joelfernandes.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mingo@redhat.com,
-        mkarsten@uwaterloo.ca, pabuhr@uwaterloo.ca, pjt@google.com,
-        posk@posk.io, tglx@linutronix.de
-Subject: Re: [RFC PATCH 3/3 v0.2] sched/umcg: RFC: implement UMCG syscalls
-Message-ID: <20210713140235.GE4170@worktop.programming.kicks-ass.net>
-References: <CAPNVh5f3H7Gor-Dph7=2jAdme-4mRfCCb0gv=wjgHQtd7Cad=Q@mail.gmail.com>
- <acad5960-30b2-3693-9117-e0b054ee97a7@uwaterloo.ca>
- <CAPNVh5cm9LhLEi1Td3rbOWtWH5oCvZTTMRd+p5bu75Epr3mqwA@mail.gmail.com>
+        id S236887AbhGMOnb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 13 Jul 2021 10:43:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56810 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236873AbhGMOnb (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 13 Jul 2021 10:43:31 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B9DE461249;
+        Tue, 13 Jul 2021 14:40:38 +0000 (UTC)
+Date:   Tue, 13 Jul 2021 16:40:36 +0200
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+Cc:     linux-fsdevel@vger.kernel.org,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Mattias Nissler <mnissler@chromium.org>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Andrei Vagin <avagin@gmail.com>, linux-api@vger.kernel.org,
+        lkml <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] move_mount: allow to add a mount into an existing
+ group
+Message-ID: <20210713144036.3kiwqgff364hw3pt@wittgenstein>
+References: <20210713115636.352504-1-ptikhomirov@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAPNVh5cm9LhLEi1Td3rbOWtWH5oCvZTTMRd+p5bu75Epr3mqwA@mail.gmail.com>
+In-Reply-To: <20210713115636.352504-1-ptikhomirov@virtuozzo.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jul 12, 2021 at 04:31:01PM -0700, Peter Oskolkov wrote:
-> On Mon, Jul 12, 2021 at 2:44 PM Thierry Delisle <tdelisle@uwaterloo.ca> wrote:
-
-> > So what I am asking is: is UMCG_WAIT_WAKE_ONLY needed?
+On Tue, Jul 13, 2021 at 02:56:36PM +0300, Pavel Tikhomirov wrote:
+> Previously a sharing group (shared and master ids pair) can be only
+> inherited when mount is created via bindmount. This patch adds an
+> ability to add an existing private mount into an existing sharing group.
 > 
-> Because the approach you described has been tried last year and was NACKed:
-> https://lore.kernel.org/lkml/20200722234538.166697-1-posk@posk.io/
+> With this functionality one can first create the desired mount tree from
+> only private mounts (without the need to care about undesired mount
+> propagation or mount creation order implied by sharing group
+> dependencies), and next then setup any desired mount sharing between
+> those mounts in tree as needed.
 > 
-> In short, futex maintainers do not want to touch the existing futex
-> code at all other than for bugfixes. No new futex functionality,
-> period. See e.g. futex2 efforts:
-> https://lore.kernel.org/lkml/20210603195924.361327-1-andrealmeid@collabora.com/
+> This allows CRIU to restore any set of mount namespaces, mount trees and
+> sharing group trees for a container.
+> 
+> We have many issues with restoring mounts in CRIU related to sharing
+> groups and propagation:
+> - reverse sharing groups vs mount tree order requires complex mounts
+>   reordering which mostly implies also using some temporary mounts
+> (please see https://lkml.org/lkml/2021/3/23/569 for more info)
 
-These are two orthogonal issues. We do not want to make the futex
-multiplex monster worse, but that's not the reason for rejecting
-FUTEX_SWAP.
+Thanks for working on this. We can make good use of this flag as well
+when setting up mount layouts and so can systemd so I'm happy to drive
+this.
 
-The problem with FUTEX_SWAP is that it doesn't even begin to solve the
-posed problem, namely N:M threading that natively allows blocking
-syscalls (IOW without wrapping all syscalls).
+> 
+> - mount() syscall creates tons of mounts due to propagation
+> - mount re-parenting due to propagation
+> - "Mount Trap" due to propagation
+> - "Non Uniform" propagation, meaning that with different tricks with
+>   mount order and temporary children-"lock" mounts one can create mount
+>   trees which can't be restored without those tricks
+> (see https://www.linuxplumbersconf.org/event/7/contributions/640/)
+> 
+> With this new functionality we can resolve all the problems with
+> propagation at once.
+> 
+> Cc: Eric W. Biederman <ebiederm@xmission.com>
+> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> Cc: Christian Brauner <christian.brauner@ubuntu.com>
+> Cc: Mattias Nissler <mnissler@chromium.org>
+> Cc: Aleksa Sarai <cyphar@cyphar.com>
+> Cc: Andrei Vagin <avagin@gmail.com>
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: linux-api@vger.kernel.org
+> Cc: lkml <linux-kernel@vger.kernel.org>
+> Signed-off-by: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+> 
+> ---
+> This is a rework of "mnt: allow to add a mount into an existing group"
+> patch from Andrei. https://lkml.org/lkml/2017/4/28/20
+> 
+> New do_set_group is similar to do_move_mount, but with many restrictions
+> of do_move_mount removed and that's why:
+> 
+> 1) Allow "cross-namespace" sharing group set. If we allow operation only
+> with mounts from current+anon mount namespace one would still be able to
+> setns(from_mntns) + open_tree(from, OPEN_TREE_CLONE) + setns(to_mntns) +
+> move_mount(anon, to, MOVE_MOUNT_SET_GROUP) to set sharing group to mount
 
-This means we need kernel->user notification of tasks that block and
-wakeup, such that the userspace scheduler can adequately react. This is
-not something that sanely fits in futex.
+That's similar to how we can do limited delegated mounting.
 
-It also requires an additional kernel side block point such that tasks
-that blocked in-kernel, will not resume userspace when the userspace
-scheduler decided to run another task in its stead.
+> in different mount namespace with source mount. But with this approach
+> we would need to create anon mount namespace and mount copy each time,
+> which is just a waste of resources. So instead lets just check if we are
+> allowed to modify both mount namespaces (which looks equivalent to what
+> setns-es and open_tree check).
+> 
+> 2) Allow operating on non-root dentry of the mount. As if we prohibit it
+> this would require extra care from CRIU side in places where we wan't to
+> copy sharing group from mount on host (for external mounts) and user
+> gives us path to non-root dentry. I don't see any problem with
+> referencing mount with any dentry for sharing group setting. Also there
+> is no problem with referencing one by file and one by directory.
 
-These things are what resulted in UMCG.
+I would prefer to not do this as it doesn't line up with any other
+mount modifying syscalls.
+
+> 
+> 3) Also checks wich only apply to actually moving mount which we have in
+> do_move_mount and open_tree are skipped. We don't need to check
+> MNT_LOCKED, unbindable, nsfs loops and ancestor relation as we don't
+> move mounts.
+> 
+> Also let's add some new checks (offered by Andrei):
+> 
+> 1) Don't allow to copy sharing from mount with narrow root to a wider
+> root, so that user does not have power to receive more propagations when
+> user already has.
+> 
+> 2) Don't allow to copy sharing from mount with locked children for the
+> same reason, as user shouldn't see propagations to areas overmounted by
+> locked mounts (if the user could not already do it before sharing
+> adjustment).
+> 
+> Security note: there would be no (new) loops in sharing groups tree,
+> because this new move_mount(MOVE_MOUNT_SET_GROUP) operation only adds
+> one _private_ mount to one group (without moving between groups), the
+> sharing groups tree itself stays unchanged after it.
+> 
+> In Virtuozzo we have "mount-v2" implementation, based with the original
+> kernel patch from Andrei, tested for almost a year and it actually
+> decreased number of bugs with mounts a lot. One can take a look on the
+> implementation of sharing group restore in CRIU in "mount-v2" here:
+> 
+> https://src.openvz.org/projects/OVZ/repos/criu/browse/criu/mount-v2.c#898
+> 
+> This works almost the same with current version of patch if we replace
+> mount(MS_SET_GROUP) to move_mount(MOVE_MOUNT_SET_GROUP), please see
+> super-draft port for mainstream criu, this at least passes
+> non-user-namespaced mount tests (zdtm.py --mounts-v2 -f ns).
+> 
+> https://github.com/Snorch/criu/commits/mount-v2-poc
+> 
+> v2: Solve the problem mentioned by Andrei:
+> - check mnt_root of "to" is in the sub-tree of mnt_root of "from"
+> - also check "from" has no locked mounts in subroot of "to"
+> 
+> ---
+
+Can you please add a simple test for this to selftests?
+
+>  fs/namespace.c             | 65 +++++++++++++++++++++++++++++++++++++-
+>  include/uapi/linux/mount.h |  3 +-
+>  2 files changed, 66 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/namespace.c b/fs/namespace.c
+> index ab4174a3c802..521cfd400d06 100644
+> --- a/fs/namespace.c
+> +++ b/fs/namespace.c
+> @@ -2684,6 +2684,66 @@ static bool check_for_nsfs_mounts(struct mount *subtree)
+>  	return ret;
+>  }
+>  
+> +static int do_set_group(struct path *from_path, struct path *to_path)
+> +{
+> +	struct mount *from, *to;
+> +	int err;
+> +
+> +	from = real_mount(from_path->mnt);
+> +	to = real_mount(to_path->mnt);
+> +
+> +	namespace_lock();
+> +
+> +	err = -EINVAL;
+> +	/* To and From must be mounted */
+> +	if (!is_mounted(&from->mnt))
+> +		goto out;
+> +	if (!is_mounted(&to->mnt))
+> +		goto out;
+> +
+> +	err = -EPERM;
+> +	/* We should be allowed to modify mount namespaces of both mounts */
+> +	if (!ns_capable(from->mnt_ns->user_ns, CAP_SYS_ADMIN))
+> +		goto out;
+> +	if (!ns_capable(to->mnt_ns->user_ns, CAP_SYS_ADMIN))
+> +		goto out;
+> +
+> +	err = -EINVAL;
+> +	/* Setting sharing groups is only allowed across same superblock */
+> +	if (from->mnt.mnt_sb != to->mnt.mnt_sb)
+> +		goto out;
+> +
+> +	/* From mount root should be wider than To mount root */
+> +	if (!is_subdir(to->mnt.mnt_root, from->mnt.mnt_root))
+> +		goto out;
+> +
+> +	/* From mount should not have locked children in place of To's root */
+> +	if (has_locked_children(from, to->mnt.mnt_root))
+> +		goto out;
+> +
+> +	/* Setting sharing groups is only allowed on private mounts */
+> +	if (IS_MNT_SHARED(to) || IS_MNT_SLAVE(to))
+> +		goto out;
+> +
+> +	if (IS_MNT_SLAVE(from)) {
+> +		struct mount *m = from->mnt_master;
+> +
+> +		list_add(&to->mnt_slave, &m->mnt_slave_list);
+> +		to->mnt_master = m;
+> +	}
+> +
+> +	if (IS_MNT_SHARED(from)) {
+> +		to->mnt_group_id = from->mnt_group_id;
+> +		list_add(&to->mnt_share, &from->mnt_share);
+> +		set_mnt_shared(to);
+> +	}
+
+Should we report EINVAL if a private mount is passed? Though that would
+require you to know in advance whether this is one so might actually be
+worth doing it like you do now.
+
+> +
+> +	err = 0;
+> +out:
+> +	namespace_unlock();
+> +	return err;
+> +}
+> +
+>  static int do_move_mount(struct path *old_path, struct path *new_path)
+
+Technically this could also be part of mount_setattr() (You'd need a new
+struct member though.) but it's fine here too.
+
+>  {
+>  	struct mnt_namespace *ns;
+> @@ -3669,7 +3729,10 @@ SYSCALL_DEFINE5(move_mount,
+>  	if (ret < 0)
+>  		goto out_to;
+>  
+> -	ret = do_move_mount(&from_path, &to_path);
+> +	if (flags & MOVE_MOUNT_SET_GROUP)
+> +		ret = do_set_group(&from_path, &to_path);
+> +	else
+> +		ret = do_move_mount(&from_path, &to_path);
+>  
+>  out_to:
+>  	path_put(&to_path);
+> diff --git a/include/uapi/linux/mount.h b/include/uapi/linux/mount.h
+> index dd7a166fdf9c..4d93967f8aea 100644
+> --- a/include/uapi/linux/mount.h
+> +++ b/include/uapi/linux/mount.h
+> @@ -73,7 +73,8 @@
+>  #define MOVE_MOUNT_T_SYMLINKS		0x00000010 /* Follow symlinks on to path */
+>  #define MOVE_MOUNT_T_AUTOMOUNTS		0x00000020 /* Follow automounts on to path */
+>  #define MOVE_MOUNT_T_EMPTY_PATH		0x00000040 /* Empty to path permitted */
+> -#define MOVE_MOUNT__MASK		0x00000077
+> +#define MOVE_MOUNT_SET_GROUP		0x00000100 /* Set sharing group instead */
+> +#define MOVE_MOUNT__MASK		0x00000177
+>  
+>  /*
+>   * fsopen() flags.
+> -- 
+> 2.31.1
+> 
