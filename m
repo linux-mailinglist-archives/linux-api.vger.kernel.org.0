@@ -2,189 +2,331 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22A363C84F1
-	for <lists+linux-api@lfdr.de>; Wed, 14 Jul 2021 15:03:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70F4B3C854B
+	for <lists+linux-api@lfdr.de>; Wed, 14 Jul 2021 15:28:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239372AbhGNNF4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 14 Jul 2021 09:05:56 -0400
-Received: from mail-dm6nam12on2088.outbound.protection.outlook.com ([40.107.243.88]:15777
-        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
+        id S231561AbhGNNbE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 14 Jul 2021 09:31:04 -0400
+Received: from mail-eopbgr30125.outbound.protection.outlook.com ([40.107.3.125]:16355
+        "EHLO EUR03-AM5-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S239364AbhGNNFz (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 14 Jul 2021 09:05:55 -0400
+        id S231478AbhGNNbE (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 14 Jul 2021 09:31:04 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Cu6GxpGq+LRA9/sDDDts+frTj8ZTifgcIB7nrPcqVmw73RSGnzS47jZTDbyafev/gIZ5/bAS6o0K5l7yFsXMGhw6O8ZqOc39jNGxHiFWfybiQZryfMnN8h1tdbz2LcbDDENqqzOXO7p3dd8c1DTujJVdK/XoHWTUbIt23Zt16kQG5MpW+OJS3bIY4E6x9N1D1ATMUanY2qRIZjMT1GNj55avl4KPEP1Z5jARHxpZ6Hj/8pYFd5SQwKjK/pqrAymptf+GPP8Jy4yliYPTNTU/4JbFkk9QW+gh/eVrEUnpxZkJxock7rz+9IDU4zA2cOFmbX6XETQETl/RxmiUji5N7Q==
+ b=LH8bgp453qXl7BzmaoikQNKujiD8vLWAwJllFP0vpcdfjaIbNrfQdRAoi6x70c7ypwE455fIfntfnbRD+gETjC8wCqoZD044V5cpen/ZAt+UQ94H/9SMLoTEzr4QwOS+YGQN9TiJB2MmTQXYq0Ih06JRxid228ebBpJU/+T8S0ePMjzfm5kxDN/FlrMhmV7qFwdb3LBDCubxLvH5GDEfQ1HyJAX7jmgOs6BhWjbgArsmXCM2NCuzzEPLUQa07qcLZzMJEw57q3OjNuLF00amIFyXaHDMf0aR/TheX+ka2IFVYsDyFjnQn+W4UNE7nOcxtIivHDtxPEPsmD1WMsxkmQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1z8TV4lfhpsOPtaDTnMBe4NgFq6Nz02iV8vlu6k78/U=;
- b=Z9pK2sq5o1k8MBKZuwzOKTRH7Sk4m1UvSgfs5L93sfvzSA0ysa27GU/dISO206kT6RxvlSstC3SZx1tIUfhjC3UZpvSYa0vaujSuCAkrL2jQ8F1xCt7Bg8zgx+PYXmd6dG1290+xfTdqrGXkwG3uhPBVA4nkqM2x3DDKKHwix225WJQq/tM90ysIcp/zbRhskXRyI8DLjLU09RX+jPIzItZrBLdf4DrhKIa0hyHwxuVvKnqHVre0lqzVq8U3ttkUh0CERPE2NfbdUwczkIBy7s0ZHJiYayiN/Ed3TMLNafsu0UZFIgz4p3yVSSWq08tTgVii7upnsHMwrE97bcsaog==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=broadcom.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ bh=HDb72DE9scJtrqVZqmCn6C3VEpaCOhYFU5KMjH1OQj4=;
+ b=Yu1qqh+Y8XlPsNHm7nKkXOQCb3ddcfcEqj8Y3RjOQ1F6lDSeoxGPq6pi25TAYiT+mjmCIMyLIH7oOk+3npxJHuiKehFTTnVmzwYIVwfUXhHc7sZ8zHxjuPMjmiFqFuW8YU3E3vfsSup85nOrhFIu/E4xWicBcIweZlmzlIwRIZ6WNWBuy8E3YhoFjbF488LHnwzfK57eq4kJEC1AOJr6lV9+FfVGYkfhs14U3vIJ7e2Yr2stxRchng8k2KmiTvuR7deklUMTnbzYfEgYOc1xKu5P3sfsk0UCr22o6Vy+ddDfh9gPiseexfS5hkKIMuPYXOtocVpkKLaDxdN33jdSMQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1z8TV4lfhpsOPtaDTnMBe4NgFq6Nz02iV8vlu6k78/U=;
- b=Kp2ZUldmLhXCx18mX6gpkuIDpjCXTGbkYhSdN/o/Z5Gzhzsag/qhSDZr1b8fW8OioI+GMI//hX3iFkzEAgb66+5rJv4aMcnOLLqwAjlZBj9bPExjY/gHCK3t1JXyA50hH4aJ4Wxnf3PEZaNFk8XkCxJEkt+jbBZQaIYRbkuCU+LABgfV1aQQBGYl9li1T/vqaGChT+25wQDwBouW8Le5psjWaTAXt74N9F03JSL6njmRBgEb3S+ptEB8uxEgMK1ldJL0RlyemnHOLFsOdCIEFPnQd0+n6ZPmyVVF/amdU6yG2zUipopDfTpIlo8oatM/igeUx3ND7mwapOWT1unw+A==
-Received: from MW4PR03CA0107.namprd03.prod.outlook.com (2603:10b6:303:b7::22)
- by BN8PR12MB3364.namprd12.prod.outlook.com (2603:10b6:408:40::15) with
+ bh=HDb72DE9scJtrqVZqmCn6C3VEpaCOhYFU5KMjH1OQj4=;
+ b=fp0EHKW1+aWVF7lhwojQsWSF+UDajeoeV8LrnNFE3n4fxruIQ9vpbv+V9khu0G8ZY3WQKBb2qsuIsvRfRUIn6nryVJhp9h2UVFmsYoVN7yTCPS49QEdrGTHZgOoESUEmoHrh2B2EwGx475jFOcVd6vvk3racOSh7FYLpJXl/ciA=
+Authentication-Results: ubuntu.com; dkim=none (message not signed)
+ header.d=none;ubuntu.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from VE1PR08MB4989.eurprd08.prod.outlook.com (2603:10a6:803:114::19)
+ by VI1PR08MB2765.eurprd08.prod.outlook.com (2603:10a6:802:18::32) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.23; Wed, 14 Jul
- 2021 13:03:02 +0000
-Received: from CO1NAM11FT006.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:b7:cafe::d3) by MW4PR03CA0107.outlook.office365.com
- (2603:10b6:303:b7::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21 via Frontend
- Transport; Wed, 14 Jul 2021 13:03:01 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; broadcom.com; dkim=none (message not signed)
- header.d=none;broadcom.com; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- CO1NAM11FT006.mail.protection.outlook.com (10.13.174.246) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4331.21 via Frontend Transport; Wed, 14 Jul 2021 13:03:01 +0000
-Received: from localhost (172.20.187.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 14 Jul
- 2021 13:03:00 +0000
-Date:   Wed, 14 Jul 2021 16:02:56 +0300
-From:   Leon Romanovsky <leonro@nvidia.com>
-To:     Nitesh Lal <nilal@redhat.com>
-CC:     Nitesh Narayan Lal <nitesh@redhat.com>,
-        <linux-kernel@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
-        <intel-wired-lan@lists.osuosl.org>, <netdev@vger.kernel.org>,
-        <linux-api@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Jesse Brandeburg" <jesse.brandeburg@intel.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Ingo Molnar <mingo@kernel.org>, <jbrandeb@kernel.org>,
-        <frederic@kernel.org>, Juri Lelli <juri.lelli@redhat.com>,
-        Alex Belits <abelits@marvell.com>,
-        Bjorn Helgaas <bhelgaas@google.com>, <rostedt@goodmis.org>,
-        <peterz@infradead.org>, <davem@davemloft.net>,
-        <akpm@linux-foundation.org>, <sfr@canb.auug.org.au>,
-        <stephen@networkplumber.org>, <rppt@linux.vnet.ibm.com>,
-        <chris.friesen@windriver.com>, Marc Zyngier <maz@kernel.org>,
-        Neil Horman <nhorman@tuxdriver.com>, <pjwaskiewicz@gmail.com>,
-        Stefan Assmann <sassmann@redhat.com>,
-        Tomas Henzl <thenzl@redhat.com>, <kashyap.desai@broadcom.com>,
-        Sumit Saxena <sumit.saxena@broadcom.com>,
-        <shivasharan.srikanteshwara@broadcom.com>,
-        <sathya.prakash@broadcom.com>,
-        Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
-        <suganath-prabu.subramani@broadcom.com>,
-        <james.smart@broadcom.com>, <dick.kennedy@broadcom.com>,
-        Ken Cox <jkc@redhat.com>, <faisal.latif@intel.com>,
-        <shiraz.saleem@intel.com>, <tariqt@nvidia.com>,
-        Alaa Hleihel <ahleihel@redhat.com>,
-        Kamal Heib <kheib@redhat.com>, <borisp@nvidia.com>,
-        <saeedm@nvidia.com>, <benve@cisco.com>, <govind@gmx.com>,
-        <jassisinghbrar@gmail.com>, <ajit.khaparde@broadcom.com>,
-        <sriharsha.basavapatna@broadcom.com>, <somnath.kotur@broadcom.com>,
-        "Nikolova, Tatyana E" <tatyana.e.nikolova@intel.com>,
-        "Ismail, Mustafa" <mustafa.ismail@intel.com>,
-        Al Stone <ahs3@redhat.com>,
-        Chandrakanth Patil <chandrakanth.patil@broadcom.com>
-Subject: Re: [PATCH v3 06/14] RDMA/irdma: Use irq_set_affinity_and_hint
-Message-ID: <YO7ggLW78FWE4z+1@unreal>
-References: <20210713211502.464259-1-nitesh@redhat.com>
- <20210713211502.464259-7-nitesh@redhat.com>
- <YO7SiFE1dE0dFhkE@unreal>
- <CAFki+Lm-CpKZai1fV5aMJzEb-x+003m8wLQShSrYpyNh3XC50Q@mail.gmail.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.21; Wed, 14 Jul
+ 2021 13:28:09 +0000
+Received: from VE1PR08MB4989.eurprd08.prod.outlook.com
+ ([fe80::c402:b828:df33:5694]) by VE1PR08MB4989.eurprd08.prod.outlook.com
+ ([fe80::c402:b828:df33:5694%7]) with mapi id 15.20.4331.021; Wed, 14 Jul 2021
+ 13:28:09 +0000
+From:   Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-fsdevel@vger.kernel.org
+Cc:     Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Mattias Nissler <mnissler@chromium.org>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Andrei Vagin <avagin@gmail.com>, linux-api@vger.kernel.org,
+        lkml <linux-kernel@vger.kernel.org>
+Subject: [PATCH v3 1/2] move_mount: allow to add a mount into an existing group
+Date:   Wed, 14 Jul 2021 16:27:53 +0300
+Message-Id: <20210714132754.94633-1-ptikhomirov@virtuozzo.com>
+X-Mailer: git-send-email 2.31.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: PR1P264CA0020.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:19f::7) To VE1PR08MB4989.eurprd08.prod.outlook.com
+ (2603:10a6:803:114::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <CAFki+Lm-CpKZai1fV5aMJzEb-x+003m8wLQShSrYpyNh3XC50Q@mail.gmail.com>
-X-Originating-IP: [172.20.187.6]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from fedora.sw.ru (91.207.170.60) by PR1P264CA0020.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:19f::7) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21 via Frontend Transport; Wed, 14 Jul 2021 13:28:07 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 29cf5632-499e-4e1a-2dfb-08d946c7b601
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3364:
-X-Microsoft-Antispam-PRVS: <BN8PR12MB3364E7C3E9DCE1D4D04A9F04BD139@BN8PR12MB3364.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-MS-Office365-Filtering-Correlation-Id: 3dbb224a-7825-4f8b-77d1-08d946cb3858
+X-MS-TrafficTypeDiagnostic: VI1PR08MB2765:
+X-LD-Processed: 0bc7f26d-0264-416e-a6fc-8352af79c58f,ExtAddr
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR08MB27653E1B8ADB3148B356FAC4B7139@VI1PR08MB2765.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LsXtPSnnYgrI0O738l9dZX/e80v3jIB6/0kRpQHvlSy0EoSNZQO2CpmB0o1rTR4gqxklkD2ijAJ5hZdiJhwsVto/VzsEnT2IDHkX2ajHz4y03bqlWUyXzFkPgMXB93nvN0HRdKAQMk6mtf5iZ6MHpxKkO3D0nDc6JHsa6q3S8BRa6561ph/a3pvhzQvkTqgSv2w816ts70wStqmyVIKPSoyr35bG3YdvIFEEDUDv5nllrBMrgpB5LMF2zK/8oPZoIheztHkLEwSCMfliblqq4apcW5MX/9SAkQe5lSgj3AS3aFu23oMLCgLm0hHzPaBs8xl7Gg39vFIA8wWnL/ND1LqXUNatHyw1KJmKS2E8GhPR4hW+eCJsyJhy9+eQVG+z9CXd7eq8tPwHuhnVLkMQKBVidI2UcRPuqUEYCl57ooTGjMHo4nluQ8KvGsmXNEpvBu1VrwY58bk4W9cqXJhsZnYEutJ2g2TISQn+Rf6+/Vt3wjbv/qqypoC5PZaV1ZIygdmxbdIBAE3Zz9uJr4FCu1jlPc5DV5hlcjLxJD9ejSUVt3Tuap/+7ffasnEXZTlxax+L/VgwNvzDavfrDjj2EJYcmoAG1FG31lPNrLrOZu74ouChIHeAiTbpSGw+LPqHB5LWjWMM+Pef9n50PU2BDJTPWb7DTuCeBtDUQX0lHEEoQLSO+tjPf13xQuJCWOVbsBSMNBsIir565s298yiO5e0TyBF04+V32wJ6ZtG5NQbUQpL46WsEgZXM9sOuHkYW9AG9+uZOcoyW1yzLomCNgw==
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(7916004)(4636009)(39850400004)(376002)(396003)(136003)(346002)(46966006)(36840700001)(478600001)(26005)(82310400003)(34020700004)(2906002)(70206006)(83380400001)(70586007)(86362001)(4326008)(54906003)(6916009)(9686003)(33716001)(186003)(356005)(16526019)(7636003)(8936002)(6666004)(336012)(53546011)(426003)(47076005)(8676002)(5660300002)(36860700001)(82740400003)(316002)(7416002)(7366002)(36906005)(7406005)(67856001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2021 13:03:01.4573
+X-Microsoft-Antispam-Message-Info: wBFl/J0tf3wwRvm7b6f/duqooJRDzCZGvoFggGVqXycffZI9UpQBHafVov1cR6ZjP8vWrFRad3GkcpJeuxgncQlqW9cxomCHvZhlfyM4c28m2vbenna3tVySLcfLzcHYV65sYJ3jeNtYtNQwrW6SBF1jp0vhpfhvoRBMvWuA6wjhVFxtffWEnhr2pEOfXRo5VAUw79ejwcMjPCDI07P3lNIa5/bKWU8ONKAa74pfKgMgDZEyqRc7+wDcgqIjdMpF4tUavRl7wDtM+w1N7orR50FStofjfFwyq7zaZtFybJS9HNJNqe0lPWzhrDxS1BKTLhLYwYBTFp5OYgVGEGdrV8o1JdPZpsm8aq5f2EDYJ6W4kbfd1MN6mTyE8XwfWE10aox84e/WFpkfv5m4dXFxUROnco0qBmtd4hCrHD+uzJkkJnr4m+hVUa1PMBBAhQrrJTiAWIbO5LRRaYy4XqNs5xKA8MYLUAR1zzxjGtbaVaQTZQyUwrLcbCfcZvnjYTLq6hKj7L7oHsklYVnKsnPDuuFQmVGzHZNJCrx+stPeJMyYrZY0EOuh6jFnGEXCZfpzFyIa9K0/S0HKfGhY8vAkISWCjm0JrCB83wTWXArMNyosxZ9UxNyexb2IBpSCgJg+oYpIOL7b5LnpIaZQ57F4/6Wt8DmFqZsAApjVrm1IL41RvTAyJ7oGDW7WZRGgyaOjIq7M1yVBoy0H3s2l4KAbYb8wbinwLvdVXS5FfJOtR+wurCi7KPxhiNLxGeVI+/HPE7wXyjA4mJ6vB9kLJJjfkOvCXtL2XxPBlp7jGrWHwS6O6e3m6nu+YKATzd3lAb3K
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR08MB4989.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39840400004)(376002)(366004)(396003)(136003)(346002)(6486002)(52116002)(186003)(36756003)(6666004)(5660300002)(66946007)(38350700002)(316002)(8936002)(1076003)(6506007)(956004)(86362001)(66556008)(4326008)(6512007)(2906002)(54906003)(8676002)(83380400001)(2616005)(966005)(478600001)(38100700002)(26005)(66476007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ahS5S4hcxpEhw6ysmxG3igvM0YRoGZLz6bCLwRJfTU15FhFPL18GuYbWf6ru?=
+ =?us-ascii?Q?I6KUkopwZyKLOMmP/V0qCrLSYraGzYquQ3LhRxQ96zKyyhjZ7Zox9+alalig?=
+ =?us-ascii?Q?iSSniMd2UVvBzV0n9D6fnXr5diEdGk2lIQRM0r5McNffPk9qsKZ5jZk1oRg9?=
+ =?us-ascii?Q?0biEg7wM9NCKvS4jqegdn5Nr6cXqAgS6IdDp2MOiKQI9LaTjPiltBp3VtPaF?=
+ =?us-ascii?Q?EvbX+MpDhHYBNwEbIb8EheZkK3gtOSQMJf6s/yVhqs+iV4G9IqgP+DFFNS0E?=
+ =?us-ascii?Q?SoX10c0aYw3z2ME9eE/qUleKWYR/DUGAwRteBtr0Z/C66tD4VDAoBvxoDgBI?=
+ =?us-ascii?Q?uss7nBUqTAQlNS87PI10VkQtcSc2TB4QObkLBCxLho/uEjlCLLv4ethbZk3p?=
+ =?us-ascii?Q?ZjccgdsLnq81HfFBenhBtgvNL5BKAiVrAXI+9qjILXNUu8FaN/K8bL8Svuaw?=
+ =?us-ascii?Q?qbPc3GJQjHlcL+Arlz5M/vpoFqJ93qKVsrwcJFG4LDtuGiGriHdPR4+vJzY+?=
+ =?us-ascii?Q?QgkiU109Lpa1pIREB15HRAfzndXdaipG0Pko95VdzWy8Xu0FMkfPFsFqd91t?=
+ =?us-ascii?Q?PICJ9ePcUdXrzsa5Jyuq3HsU0EcsDTLg9ekHfTF64MWRm3WuzAUEeTyTJy2O?=
+ =?us-ascii?Q?Jnm8fWUuihsgdlUJl6NbsHBt2kLx4av0GS5mZHQD4nAQ88eq/2iYf5EjRl88?=
+ =?us-ascii?Q?4t+G34/FFZsNdjLVk6BjdX+dF6t4F0/pMLrOKupkIQDBS01gxnuUusw1SIUz?=
+ =?us-ascii?Q?Hxl6Vvbm0NlAoFPcoSn3n8aDwn6UuIMvbNaDb9AX1J7008wffRq1XzGyCUiN?=
+ =?us-ascii?Q?JCL7OIKCDGXu6BM3J8Dq9MX6X9ioYY57aUy12t5LAU1nddkbfBikJIouDVsz?=
+ =?us-ascii?Q?KQn3UbjRskHscFpA27UGj0wwlBxsZYWNBHlZJjya0Rd16rrADnOGXES20LRu?=
+ =?us-ascii?Q?kfB5OoJUShfMVQ8jro1DgG+Lp7h9iS1DMrZtHQaI6wBFr/8+FfARtiy0NCID?=
+ =?us-ascii?Q?LPfncdOhmEsqiNBlPdYJqsp5O3zajXkPYZPIW3gmZ+IGWi/9bGdnR+gaarQc?=
+ =?us-ascii?Q?DmB0PsIV+BvsHz1phj61tf9jvk+qlXkRVsZtHejyBYeBHuFSGuSjUShNMUdf?=
+ =?us-ascii?Q?/OH01z0RI6BVk5C2fIxlkvU59xCd7xvKRdYdM9IgdY6F/kBoNTmWf9JfiYyt?=
+ =?us-ascii?Q?3nv0BNYFJcfllyRGDWoSpQKzhfjICuSZw0PyEubClQUCOM9wSwCEXRybx+In?=
+ =?us-ascii?Q?LP4i/RUyB37lUsq62Y0ScECCa7gkbcQas8Kyj7y/rmLhx2tbEwthR1jKA30c?=
+ =?us-ascii?Q?yElnHDjDCNkPLBG/+Hi4F0UB?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3dbb224a-7825-4f8b-77d1-08d946cb3858
+X-MS-Exchange-CrossTenant-AuthSource: VE1PR08MB4989.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2021 13:28:08.9571
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 29cf5632-499e-4e1a-2dfb-08d946c7b601
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT006.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3364
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FSqcdQz4rwJyaqiHEnuG9KhQFD1gOXfOBam9mjgb0QhfSPf6P+wXC62DTUM2d31D8JtY7UJJMkJLERF+ZLWla/gFqQuwVNVrT49iKWVpZkM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB2765
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jul 14, 2021 at 08:56:41AM -0400, Nitesh Lal wrote:
-> On Wed, Jul 14, 2021 at 8:03 AM Leon Romanovsky <leonro@nvidia.com> wrote:
-> >
-> > On Tue, Jul 13, 2021 at 05:14:54PM -0400, Nitesh Narayan Lal wrote:
-> > > The driver uses irq_set_affinity_hint() to update the affinity_hint mask
-> > > that is consumed by the userspace to distribute the interrupts and to apply
-> > > the provided mask as the affinity for its interrupts. However,
-> > > irq_set_affinity_hint() applying the provided cpumask as an affinity for
-> > > the interrupt is an undocumented side effect.
-> > >
-> > > To remove this side effect irq_set_affinity_hint() has been marked
-> > > as deprecated and new interfaces have been introduced. Hence, replace the
-> > > irq_set_affinity_hint() with the new interface irq_set_affinity_and_hint()
-> > > where the provided mask needs to be applied as the affinity and
-> > > affinity_hint pointer needs to be set and replace with
-> > > irq_update_affinity_hint() where only affinity_hint needs to be updated.
-> > >
-> > > Signed-off-by: Nitesh Narayan Lal <nitesh@redhat.com>
-> > > ---
-> > >  drivers/infiniband/hw/irdma/hw.c | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/infiniband/hw/irdma/hw.c b/drivers/infiniband/hw/irdma/hw.c
-> > > index 7afb8a6a0526..7f13a051d4de 100644
-> > > --- a/drivers/infiniband/hw/irdma/hw.c
-> > > +++ b/drivers/infiniband/hw/irdma/hw.c
-> > > @@ -537,7 +537,7 @@ static void irdma_destroy_irq(struct irdma_pci_f *rf,
-> > >       struct irdma_sc_dev *dev = &rf->sc_dev;
-> > >
-> > >       dev->irq_ops->irdma_dis_irq(dev, msix_vec->idx);
-> > > -     irq_set_affinity_hint(msix_vec->irq, NULL);
-> > > +     irq_update_affinity_hint(msix_vec->irq, NULL);
-> > >       free_irq(msix_vec->irq, dev_id);
-> > >  }
-> > >
-> > > @@ -1087,7 +1087,7 @@ irdma_cfg_ceq_vector(struct irdma_pci_f *rf, struct irdma_ceq *iwceq,
-> > >       }
-> > >       cpumask_clear(&msix_vec->mask);
-> > >       cpumask_set_cpu(msix_vec->cpu_affinity, &msix_vec->mask);
-> > > -     irq_set_affinity_hint(msix_vec->irq, &msix_vec->mask);
-> > > +     irq_set_affinity_and_hint(msix_vec->irq, &msix_vec->mask);
-> >
-> > I think that it needs to be irq_update_affinity_hint().
-> >
-> 
-> Ah! I got a little confused from our last conversation about mlx5.
-> 
-> IIUC mlx5 sub-function use case uses irdma (?) and that's why I thought
-> that perhaps we would also want to define the affinity here from the beginning.
+Previously a sharing group (shared and master ids pair) can be only
+inherited when mount is created via bindmount. This patch adds an
+ability to add an existing private mount into an existing sharing group.
 
-mlx5 is connected to mlx5_ib/mlx5_vdpa e.t.c.
+With this functionality one can first create the desired mount tree from
+only private mounts (without the need to care about undesired mount
+propagation or mount creation order implied by sharing group
+dependencies), and next then setup any desired mount sharing between
+those mounts in tree as needed.
 
-Not sure about that, but I think that only mlx5 implements SIOV model.
+This allows CRIU to restore any set of mount namespaces, mount trees and
+sharing group trees for a container.
 
-> 
-> In any case, I will make the change and re-post.
-> 
-> --
-> Thanks
-> Nitesh
-> 
+We have many issues with restoring mounts in CRIU related to sharing
+groups and propagation:
+- reverse sharing groups vs mount tree order requires complex mounts
+  reordering which mostly implies also using some temporary mounts
+(please see https://lkml.org/lkml/2021/3/23/569 for more info)
+
+- mount() syscall creates tons of mounts due to propagation
+- mount re-parenting due to propagation
+- "Mount Trap" due to propagation
+- "Non Uniform" propagation, meaning that with different tricks with
+  mount order and temporary children-"lock" mounts one can create mount
+  trees which can't be restored without those tricks
+(see https://www.linuxplumbersconf.org/event/7/contributions/640/)
+
+With this new functionality we can resolve all the problems with
+propagation at once.
+
+Cc: Eric W. Biederman <ebiederm@xmission.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Christian Brauner <christian.brauner@ubuntu.com>
+Cc: Mattias Nissler <mnissler@chromium.org>
+Cc: Aleksa Sarai <cyphar@cyphar.com>
+Cc: Andrei Vagin <avagin@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-api@vger.kernel.org
+Cc: lkml <linux-kernel@vger.kernel.org>
+Signed-off-by: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+
+---
+This is a rework of "mnt: allow to add a mount into an existing group"
+patch from Andrei. https://lkml.org/lkml/2017/4/28/20
+
+New do_set_group is similar to do_move_mount, but with some restrictions
+of do_move_mount removed and that's why:
+
+1) Allow "cross-namespace" sharing group set. If we allow operation only
+with mounts from current+anon mount namespace one would still be able to
+setns(from_mntns) + open_tree(from, OPEN_TREE_CLONE) + setns(to_mntns) +
+move_mount(anon, to, MOVE_MOUNT_SET_GROUP) to set sharing group to mount
+in different mount namespace with source mount. But with this approach
+we would need to create anon mount namespace and mount copy each time,
+which is just a waste of resources. So instead lets just check if we are
+allowed to modify both mount namespaces (which looks equivalent to what
+setns-es and open_tree check).
+
+2) Skip checks wich only apply to actually moving mount which we have in
+do_move_mount and open_tree. We don't need to check for MNT_LOCKED,
+d_is_dir matching, unbindable, nsfs loops and ancestor relation as we
+don't move mounts.
+
+Also let's add some new checks:
+
+1) Don't allow to copy sharing from mount with narrow root to a wider
+root, so that user does not have power to receive more propagations when
+user already has. (proposed by Andrei)
+
+2) Don't allow to copy sharing from mount with locked children for the
+same reason, as user shouldn't see propagations to areas overmounted by
+locked mounts (if the user could not already do it before sharing
+adjustment).
+
+3) If From is private for MOVE_MOUNT_SET_GROUP let's report an error
+instead of just doing nothing, so that the user knows that there is
+probably some logical usage error. (proposed by Christian)
+
+Security note: there would be no (new) loops in sharing groups tree,
+because this new move_mount(MOVE_MOUNT_SET_GROUP) operation only adds
+one _private_ mount to one group (without moving between groups), the
+sharing groups tree itself stays unchanged after it.
+
+In Virtuozzo we have "mount-v2" implementation, based with the original
+kernel patch from Andrei, tested for almost a year and it actually
+decreased number of bugs with mounts a lot. One can take a look on the
+implementation of sharing group restore in CRIU in "mount-v2" here:
+
+https://src.openvz.org/projects/OVZ/repos/criu/browse/criu/mount-v2.c#898
+
+This works almost the same with current version of patch if we replace
+mount(MS_SET_GROUP) to move_mount(MOVE_MOUNT_SET_GROUP), please see
+super-draft port for mainstream criu, this at least passes
+non-user-namespaced mount tests (zdtm.py --mounts-v2 -f ns).
+
+https://github.com/Snorch/criu/commits/mount-v2-poc
+
+v2: Solve the problem mentioned by Andrei:
+- check mnt_root of "to" is in the sub-tree of mnt_root of "from"
+- also check "from" has no locked mounts in subroot of "to"
+v3: Add checks:
+- check paths to be mount root dentries
+- return EINVAL if From is private (no sharing to copy)
+
+---
+ fs/namespace.c             | 75 +++++++++++++++++++++++++++++++++++++-
+ include/uapi/linux/mount.h |  3 +-
+ 2 files changed, 76 insertions(+), 2 deletions(-)
+
+diff --git a/fs/namespace.c b/fs/namespace.c
+index ab4174a3c802..a7828e695e03 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -2684,6 +2684,76 @@ static bool check_for_nsfs_mounts(struct mount *subtree)
+ 	return ret;
+ }
+ 
++static int do_set_group(struct path *from_path, struct path *to_path)
++{
++	struct mount *from, *to;
++	int err;
++
++	from = real_mount(from_path->mnt);
++	to = real_mount(to_path->mnt);
++
++	namespace_lock();
++
++	err = -EINVAL;
++	/* To and From must be mounted */
++	if (!is_mounted(&from->mnt))
++		goto out;
++	if (!is_mounted(&to->mnt))
++		goto out;
++
++	err = -EPERM;
++	/* We should be allowed to modify mount namespaces of both mounts */
++	if (!ns_capable(from->mnt_ns->user_ns, CAP_SYS_ADMIN))
++		goto out;
++	if (!ns_capable(to->mnt_ns->user_ns, CAP_SYS_ADMIN))
++		goto out;
++
++	err = -EINVAL;
++	/* To and From paths should be mount roots */
++	if (from_path->dentry != from_path->mnt->mnt_root)
++		goto out;
++	if (to_path->dentry != to_path->mnt->mnt_root)
++		goto out;
++
++	/* Setting sharing groups is only allowed across same superblock */
++	if (from->mnt.mnt_sb != to->mnt.mnt_sb)
++		goto out;
++
++	/* From mount root should be wider than To mount root */
++	if (!is_subdir(to->mnt.mnt_root, from->mnt.mnt_root))
++		goto out;
++
++	/* From mount should not have locked children in place of To's root */
++	if (has_locked_children(from, to->mnt.mnt_root))
++		goto out;
++
++	/* Setting sharing groups is only allowed on private mounts */
++	if (IS_MNT_SHARED(to) || IS_MNT_SLAVE(to))
++		goto out;
++
++	/* From should not be private */
++	if (!IS_MNT_SHARED(from) && !IS_MNT_SLAVE(from))
++		goto out;
++
++	if (IS_MNT_SLAVE(from)) {
++		struct mount *m = from->mnt_master;
++
++		list_add(&to->mnt_slave, &m->mnt_slave_list);
++		to->mnt_master = m;
++	}
++
++	if (IS_MNT_SHARED(from)) {
++		to->mnt_group_id = from->mnt_group_id;
++		list_add(&to->mnt_share, &from->mnt_share);
++		set_mnt_shared(to);
++	}
++
++	err = 0;
++out:
++	namespace_unlock();
++	return err;
++}
++
+ static int do_move_mount(struct path *old_path, struct path *new_path)
+ {
+ 	struct mnt_namespace *ns;
+@@ -3669,7 +3739,10 @@ SYSCALL_DEFINE5(move_mount,
+ 	if (ret < 0)
+ 		goto out_to;
+ 
+-	ret = do_move_mount(&from_path, &to_path);
++	if (flags & MOVE_MOUNT_SET_GROUP)
++		ret = do_set_group(&from_path, &to_path);
++	else
++		ret = do_move_mount(&from_path, &to_path);
+ 
+ out_to:
+ 	path_put(&to_path);
+diff --git a/include/uapi/linux/mount.h b/include/uapi/linux/mount.h
+index dd7a166fdf9c..4d93967f8aea 100644
+--- a/include/uapi/linux/mount.h
++++ b/include/uapi/linux/mount.h
+@@ -73,7 +73,8 @@
+ #define MOVE_MOUNT_T_SYMLINKS		0x00000010 /* Follow symlinks on to path */
+ #define MOVE_MOUNT_T_AUTOMOUNTS		0x00000020 /* Follow automounts on to path */
+ #define MOVE_MOUNT_T_EMPTY_PATH		0x00000040 /* Empty to path permitted */
+-#define MOVE_MOUNT__MASK		0x00000077
++#define MOVE_MOUNT_SET_GROUP		0x00000100 /* Set sharing group instead */
++#define MOVE_MOUNT__MASK		0x00000177
+ 
+ /*
+  * fsopen() flags.
+-- 
+2.31.1
+
