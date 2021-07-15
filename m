@@ -2,133 +2,235 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B5CEE3CA72C
-	for <lists+linux-api@lfdr.de>; Thu, 15 Jul 2021 20:49:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67D6C3CAE1C
+	for <lists+linux-api@lfdr.de>; Thu, 15 Jul 2021 22:46:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238804AbhGOSwp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 15 Jul 2021 14:52:45 -0400
-Received: from mga12.intel.com ([192.55.52.136]:21600 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240446AbhGOSwN (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 15 Jul 2021 14:52:13 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10046"; a="190290083"
-X-IronPort-AV: E=Sophos;i="5.84,243,1620716400"; 
-   d="scan'208";a="190290083"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2021 11:49:05 -0700
-X-IronPort-AV: E=Sophos;i="5.84,243,1620716400"; 
-   d="scan'208";a="495603050"
-Received: from snchan-mobl2.amr.corp.intel.com (HELO [10.209.125.33]) ([10.209.125.33])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2021 11:49:04 -0700
-Subject: Re: [PATCH v6 0/6] Introduce multi-preference mempolicy
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Feng Tang <feng.tang@intel.com>
-Cc:     linux-mm@kvack.org, Michal Hocko <mhocko@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Andi Kleen <ak@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>, ying.huang@intel.com
-References: <1626077374-81682-1-git-send-email-feng.tang@intel.com>
- <20210714171540.7cb9e221d683b531928b71f5@linux-foundation.org>
-From:   Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <fb4a6789-d461-e83e-c718-baff88026a88@intel.com>
-Date:   Thu, 15 Jul 2021 11:49:01 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20210714171540.7cb9e221d683b531928b71f5@linux-foundation.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        id S231896AbhGOUtM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 15 Jul 2021 16:49:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56858 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230515AbhGOUtM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 15 Jul 2021 16:49:12 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BE0EC06175F
+        for <linux-api@vger.kernel.org>; Thu, 15 Jul 2021 13:46:18 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id z39-20020a25ada70000b029056092741626so9378662ybi.19
+        for <linux-api@vger.kernel.org>; Thu, 15 Jul 2021 13:46:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=py55da35odqXUKPz6mWY1d6sBAOGNrGbD2bahMQ95KA=;
+        b=uqGtzYpj2e8Z7+9ZlSjER81JDMWTIgZmRpSoY38r/yzbX63hLoY5Ns2VG8zSRAyxPH
+         pT4LcI38pq2Kl7GvVXCBZ83eaWZkMgFOO4JGpqsVuFgKLBIrHoFesbxv/iEnPPk6jn51
+         xtnVXYn0rK2hSQE41rsOZHVKiIcDIGAY9PDk4vB1eKADuDr8q/CXrAYqsXoN8zxSWVvv
+         nrCUcXqOLRwuOTdvRy+xweAFlHuCPTw4Crf01lzsU1nSsNuPJcyLkAZ5FAm/bxK2sLjn
+         jLGBWUGAPKJ/xmPBTSPUpbdTBBnYhM6HW3MBSUA3GCMb1bqYhesNs5ehiKuMD9hHpZ/i
+         Zofw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=py55da35odqXUKPz6mWY1d6sBAOGNrGbD2bahMQ95KA=;
+        b=S5xrThH1b1gW+2BUovSWmaljGb2bIABuy5L2VVkD5fw3IxCZyzGycLi6Kx5hLnKVQ0
+         1UOHh3zfwvrVbOeFutxpRL5BIJvxSrFMqW8/LYmPEc2RXLW88Cra8FPg4y5Pebj8NdCo
+         sHkHvdXYPG2qu+YyrzzkPkGVaPuilLBWDDPwBqt8HzwymwZQzTQbsfnZimM98DGF0zlv
+         sSLhB6kQHxq3dkOnQk5m2TwcW0tIjuu0P02YCMM5bnz/9V6oOBtjPDCHbnODww3mPdEO
+         UEW6JI3a1jaRy/gFJdIsdzEvotv3gWcKW77BQGQWl72XjsD3BL9/qsF7NLAy8lgCVrKu
+         Nlnw==
+X-Gm-Message-State: AOAM530VaAoPeW9Ky6RDa5+CcPRLUxk9Mcx+iSZhzWRAxGBeJ2x2WfW9
+        yTlKG7gTTi43FwJgkbXSt4w/1k8=
+X-Google-Smtp-Source: ABdhPJxhM8MljKIEIqE1GyuEISKGfborLYfirArTvxCiqV41qv3cOIt4ZBh4F8EmX8+WHMIUosb9VwI=
+X-Received: from pcc-desktop.svl.corp.google.com ([2620:15c:2ce:200:5c63:3fc6:856c:f8d])
+ (user=pcc job=sendgmr) by 2002:a5b:801:: with SMTP id x1mr7983259ybp.137.1626381977487;
+ Thu, 15 Jul 2021 13:46:17 -0700 (PDT)
+Date:   Thu, 15 Jul 2021 13:46:10 -0700
+Message-Id: <20210715204610.575999-1-pcc@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.32.0.402.g57bb445576-goog
+Subject: [PATCH v4] sigaction.2: Document SA_EXPOSE_TAGBITS and the flag
+ support detection protocol
+From:   Peter Collingbourne <pcc@google.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Will Deacon <will@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Alejandro Colomar <alx.manpages@gmail.com>
+Cc:     Peter Collingbourne <pcc@google.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        linux-api@vger.kernel.org, Helge Deller <deller@gmx.de>,
+        David Spickett <david.spickett@linaro.org>,
+        linux-man@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 7/14/21 5:15 PM, Andrew Morton wrote:
-> On Mon, 12 Jul 2021 16:09:28 +0800 Feng Tang <feng.tang@intel.com> wrote:
->> This patch series introduces the concept of the MPOL_PREFERRED_MANY mempolicy.
->> This mempolicy mode can be used with either the set_mempolicy(2) or mbind(2)
->> interfaces. Like the MPOL_PREFERRED interface, it allows an application to set a
->> preference for nodes which will fulfil memory allocation requests. Unlike the
->> MPOL_PREFERRED mode, it takes a set of nodes. Like the MPOL_BIND interface, it
->> works over a set of nodes. Unlike MPOL_BIND, it will not cause a SIGSEGV or
->> invoke the OOM killer if those preferred nodes are not available.
-> Do we have any real-world testing which demonstrates the benefits of
-> all of this?
+Signed-off-by: Peter Collingbourne <pcc@google.com>
+---
+v4:
+- s/.BR/.BR/ in one location
+- 4 space indentation
+- raise(SIGSEGV) instead of manual SIGSEGV
+- use C99 initialization
 
-Yes, it's actually been quite useful in practice already.
+v3:
+- s/5.x/5.11/g
+- s/.IR/.I/ in one location
 
-If we take persistent memory media (PMEM) and hot-add/online it with the
-DAX kmem driver, we get NUMA nodes with lots of capacity (~6TB is
-typical) but weird performance; PMEM has good read speed, but low write
-speed.
+v2:
+- fix formatting
+- address feedback from Dave
 
-That low write speed is *so* low that it dominates the performance more
-than the distance from the CPUs.  Folks who want PMEM really don't care
-about locality.  The discussions with the testers usually go something
-like this:
+ man2/sigaction.2 | 123 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 123 insertions(+)
 
-Tester: How do I make my test use PMEM on nodes 2 and 3?
-Kernel Guys: use 'numactl --membind=2-3'
-Tester: I tried that, but I'm getting allocation failures once I fill up
-        PMEM.  Shouldn't it fall back to DRAM?
-Kernel Guys: Fine, use 'numactl --preferred=2-3'
-Tester: That worked, but it started using DRAM after it exhausted node 2
-Kernel Guys:  Dang it.  I forgot --preferred ignores everything after
-              the first node.  Fine, we'll patch the kernel.
+diff --git a/man2/sigaction.2 b/man2/sigaction.2
+index 57ad6418c..4bf6f095e 100644
+--- a/man2/sigaction.2
++++ b/man2/sigaction.2
+@@ -261,6 +261,44 @@ This flag is meaningful only when establishing a signal handler.
+ .\" .I sa_sigaction
+ .\" field was added in Linux 2.1.86.)
+ .\"
++.TP
++.B SA_UNSUPPORTED
++Used to dynamically probe for flag bit support.
++.IP
++If an attempt to register a handler succeeds with this flag set in
++.I act->sa_flags
++alongside other flags that are potentially unsupported by the kernel,
++and an immediately subsequent
++.BR sigaction ()
++call specifying the same signal number n and with non-NULL
++.I oldact
++yields
++.B SA_UNSUPPORTED
++.I clear
++in
++.IR oldact->sa_flags ,
++then
++.I oldact->sa_flags
++may be used as a bitmask
++describing which of the potentially unsupported flags are,
++in fact, supported.
++See the section "Dynamically probing for flag bit support"
++below for more details.
++.TP
++.BR SA_EXPOSE_TAGBITS " (since Linux 5.11)"
++Normally, when delivering a signal,
++an architecture-specific set of tag bits are cleared from the
++.I si_addr
++field of
++.IR siginfo_t .
++If this flag is set,
++an architecture-specific subset of the tag bits will be preserved in
++.IR si_addr .
++.IP
++Programs that need to be compatible with Linux versions older than 5.11
++must use
++.B SA_UNSUPPORTED
++to probe for support.
+ .SS The siginfo_t argument to a SA_SIGINFO handler
+ When the
+ .B SA_SIGINFO
+@@ -846,6 +884,91 @@ Triggered by a
+ .BR seccomp (2)
+ filter rule.
+ .RE
++.SS Dynamically probing for flag bit support
++The
++.BR sigaction ()
++call on Linux accepts unknown bits set in
++.I act->sa_flags
++without error.
++The behavior of the kernel starting with Linux 5.11 is that a second
++.BR sigaction ()
++will clear unknown bits from
++.IR oldact->sa_flags .
++However, historically, a second
++.BR sigaction ()
++call would typically leave those bits set in
++.IR oldact->sa_flags .
++.PP
++This means that support for new flags cannot be detected
++simply by testing for a flag in
++.IR sa_flags ,
++and a program must test that
++.B SA_UNSUPPORTED
++has been cleared before relying on the contents of
++.IR sa_flags .
++.PP
++Since the behavior of the signal handler cannot be guaranteed
++unless the check passes,
++it is wise to either block the affected signal
++while registering the handler and performing the check in this case,
++or where this is not possible,
++for example if the signal is synchronous, to issue the second
++.BR sigaction ()
++in the signal handler itself.
++.PP
++In kernels that do not support a specific flag,
++the kernel's behavior is as if the flag was not set,
++even if the flag was set in
++.IR act->sa_flags .
++.PP
++The flags
++.BR SA_NOCLDSTOP ,
++.BR SA_NOCLDWAIT ,
++.BR SA_SIGINFO ,
++.BR SA_ONSTACK ,
++.BR SA_RESTART ,
++.BR SA_NODEFER ,
++.BR SA_RESETHAND ,
++and, if defined by the architecture,
++.B SA_RESTORER
++may not be reliably probed for using this mechanism,
++because they were introduced before Linux 5.11.
++However, in general, programs may assume that these flags are supported,
++since they have all been supported since Linux 2.6,
++which was released in the year 2003.
++.PP
++The following example program exits with status 0 if
++.B SA_EXPOSE_TAGBITS
++is determined to be supported, and 1 otherwise.
++.PP
++.EX
++#include <signal.h>
++#include <stdio.h>
++#include <unistd.h>
++
++void handler(int signo, siginfo_t *info, void *context) {
++    struct sigaction oldact;
++    if (sigaction(SIGSEGV, 0, &oldact) == 0 &&
++        !(oldact.sa_flags & SA_UNSUPPORTED) &&
++        (oldact.sa_flags & SA_EXPOSE_TAGBITS)) {
++        _exit(0);
++    } else {
++        _exit(1);
++    }
++}
++
++int main(void) {
++    struct sigaction act = {0};
++    act.sa_flags = SA_SIGINFO | SA_UNSUPPORTED | SA_EXPOSE_TAGBITS;
++    act.sa_sigaction = handler;
++    if (sigaction(SIGSEGV, &act, 0) != 0) {
++        perror("sigaction");
++        return 1;
++    }
++
++    raise(SIGSEGV);
++}
++.EE
+ .SH RETURN VALUE
+ .BR sigaction ()
+ returns 0 on success; on error, \-1 is returned, and
+-- 
+2.32.0.402.g57bb445576-goog
 
-This has happened more than once.  End users want to be able to specify
-a specific physical media, but don't want to have to deal with the sharp
-edges of strict binding.
-
-This has happened both with slow media like PMEM and "faster" media like
-High-Bandwidth Memory.
