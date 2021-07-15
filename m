@@ -2,222 +2,133 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B59BE3CA528
-	for <lists+linux-api@lfdr.de>; Thu, 15 Jul 2021 20:13:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5CEE3CA72C
+	for <lists+linux-api@lfdr.de>; Thu, 15 Jul 2021 20:49:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232446AbhGOSQM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 15 Jul 2021 14:16:12 -0400
-Received: from out01.mta.xmission.com ([166.70.13.231]:48904 "EHLO
-        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231223AbhGOSQM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 15 Jul 2021 14:16:12 -0400
-Received: from in01.mta.xmission.com ([166.70.13.51])
-        by out01.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1m45rK-00Bf5I-3o; Thu, 15 Jul 2021 12:13:18 -0600
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95]:57124 helo=email.xmission.com)
-        by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1m45rI-00CTRy-RF; Thu, 15 Jul 2021 12:13:17 -0600
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Marco Elver <elver@google.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Florian Weimer <fweimer@redhat.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Collingbourne <pcc@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Alexander Potapenko <glider@google.com>,
-        sparclinux <sparclinux@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>
-References: <YIpkvGrBFGlB5vNj@elver.google.com>
-        <m11rat9f85.fsf@fess.ebiederm.org>
-        <CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com>
-        <m15z031z0a.fsf@fess.ebiederm.org> <YIxVWkT03TqcJLY3@elver.google.com>
-        <m1zgxfs7zq.fsf_-_@fess.ebiederm.org> <87a6mnzbx2.fsf_-_@disp2133>
-Date:   Thu, 15 Jul 2021 13:13:10 -0500
-In-Reply-To: <87a6mnzbx2.fsf_-_@disp2133> (Eric W. Biederman's message of
-        "Thu, 15 Jul 2021 13:09:45 -0500")
-Message-ID: <87bl73xx6x.fsf_-_@disp2133>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S238804AbhGOSwp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 15 Jul 2021 14:52:45 -0400
+Received: from mga12.intel.com ([192.55.52.136]:21600 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S240446AbhGOSwN (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 15 Jul 2021 14:52:13 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10046"; a="190290083"
+X-IronPort-AV: E=Sophos;i="5.84,243,1620716400"; 
+   d="scan'208";a="190290083"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2021 11:49:05 -0700
+X-IronPort-AV: E=Sophos;i="5.84,243,1620716400"; 
+   d="scan'208";a="495603050"
+Received: from snchan-mobl2.amr.corp.intel.com (HELO [10.209.125.33]) ([10.209.125.33])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2021 11:49:04 -0700
+Subject: Re: [PATCH v6 0/6] Introduce multi-preference mempolicy
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        Feng Tang <feng.tang@intel.com>
+Cc:     linux-mm@kvack.org, Michal Hocko <mhocko@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Andi Kleen <ak@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>, ying.huang@intel.com
+References: <1626077374-81682-1-git-send-email-feng.tang@intel.com>
+ <20210714171540.7cb9e221d683b531928b71f5@linux-foundation.org>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <fb4a6789-d461-e83e-c718-baff88026a88@intel.com>
+Date:   Thu, 15 Jul 2021 11:49:01 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1m45rI-00CTRy-RF;;;mid=<87bl73xx6x.fsf_-_@disp2133>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX19Q5lCKVhgwZDktS5VnfDpWALc25KTcAGQ=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa07.xmission.com
-X-Spam-Level: **
-X-Spam-Status: No, score=2.0 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,XMNoVowels,
-        XMSubLong autolearn=disabled version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4987]
-        *  0.7 XMSubLong Long Subject
-        *  1.5 XMNoVowels Alpha-numberic number with no vowels
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa07 1397; Body=1 Fuz1=1 Fuz2=1]
-        *  0.0 T_TooManySym_01 4+ unique symbols in subject
-X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: **;Marco Elver <elver@google.com>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 689 ms - load_scoreonly_sql: 0.05 (0.0%),
-        signal_user_changed: 11 (1.6%), b_tie_ro: 10 (1.4%), parse: 1.03
-        (0.1%), extract_message_metadata: 14 (2.0%), get_uri_detail_list: 2.8
-        (0.4%), tests_pri_-1000: 15 (2.2%), tests_pri_-950: 1.34 (0.2%),
-        tests_pri_-900: 1.04 (0.2%), tests_pri_-90: 153 (22.1%), check_bayes:
-        150 (21.8%), b_tokenize: 22 (3.2%), b_tok_get_all: 12 (1.7%),
-        b_comp_prob: 3.5 (0.5%), b_tok_touch_all: 108 (15.7%), b_finish: 1.57
-        (0.2%), tests_pri_0: 426 (61.8%), check_dkim_signature: 0.90 (0.1%),
-        check_dkim_adsp: 3.0 (0.4%), poll_dns_idle: 0.63 (0.1%), tests_pri_10:
-        2.3 (0.3%), tests_pri_500: 61 (8.9%), rewrite_mail: 0.00 (0.0%)
-Subject: [PATCH 6/6] signal: Remove the generic __ARCH_SI_TRAPNO support
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+In-Reply-To: <20210714171540.7cb9e221d683b531928b71f5@linux-foundation.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On 7/14/21 5:15 PM, Andrew Morton wrote:
+> On Mon, 12 Jul 2021 16:09:28 +0800 Feng Tang <feng.tang@intel.com> wrote:
+>> This patch series introduces the concept of the MPOL_PREFERRED_MANY mempolicy.
+>> This mempolicy mode can be used with either the set_mempolicy(2) or mbind(2)
+>> interfaces. Like the MPOL_PREFERRED interface, it allows an application to set a
+>> preference for nodes which will fulfil memory allocation requests. Unlike the
+>> MPOL_PREFERRED mode, it takes a set of nodes. Like the MPOL_BIND interface, it
+>> works over a set of nodes. Unlike MPOL_BIND, it will not cause a SIGSEGV or
+>> invoke the OOM killer if those preferred nodes are not available.
+> Do we have any real-world testing which demonstrates the benefits of
+> all of this?
 
-Now that __ARCH_SI_TRAPNO is no longer set by any architecture remove
-all of the code it enabled from the kernel.
+Yes, it's actually been quite useful in practice already.
 
-On alpha and sparc a more explict approach of using
-send_sig_fault_trapno or force_sig_fault_trapno in the very limited
-circumstances where si_trapno was set to a non-zero value.
+If we take persistent memory media (PMEM) and hot-add/online it with the
+DAX kmem driver, we get NUMA nodes with lots of capacity (~6TB is
+typical) but weird performance; PMEM has good read speed, but low write
+speed.
 
-The generic support that is being removed always set si_trapno on all
-fault signals.  With only SIGILL ILL_ILLTRAP on sparc and SIGFPE and
-SIGTRAP TRAP_UNK on alpla providing si_trapno values asking all senders
-of fault signals to provide an si_trapno value does not make sense.
+That low write speed is *so* low that it dominates the performance more
+than the distance from the CPUs.  Folks who want PMEM really don't care
+about locality.  The discussions with the testers usually go something
+like this:
 
-Making si_trapno an ordinary extension of the fault siginfo layout has
-enabled the architecture generic implementation of SIGTRAP TRAP_PERF,
-and enables other faulting signals to grow architecture generic
-senders as well.
+Tester: How do I make my test use PMEM on nodes 2 and 3?
+Kernel Guys: use 'numactl --membind=2-3'
+Tester: I tried that, but I'm getting allocation failures once I fill up
+        PMEM.  Shouldn't it fall back to DRAM?
+Kernel Guys: Fine, use 'numactl --preferred=2-3'
+Tester: That worked, but it started using DRAM after it exhausted node 2
+Kernel Guys:  Dang it.  I forgot --preferred ignores everything after
+              the first node.  Fine, we'll patch the kernel.
 
-v1: https://lkml.kernel.org/r/m18s4zs7nu.fsf_-_@fess.ebiederm.org
-v2: https://lkml.kernel.org/r/20210505141101.11519-8-ebiederm@xmission.com
-Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
----
- arch/mips/include/uapi/asm/siginfo.h |  2 --
- include/linux/sched/signal.h         |  8 --------
- kernel/signal.c                      | 14 --------------
- 3 files changed, 24 deletions(-)
+This has happened more than once.  End users want to be able to specify
+a specific physical media, but don't want to have to deal with the sharp
+edges of strict binding.
 
-diff --git a/arch/mips/include/uapi/asm/siginfo.h b/arch/mips/include/uapi/asm/siginfo.h
-index c34c7eef0a1c..8cb8bd061a68 100644
---- a/arch/mips/include/uapi/asm/siginfo.h
-+++ b/arch/mips/include/uapi/asm/siginfo.h
-@@ -10,9 +10,7 @@
- #ifndef _UAPI_ASM_SIGINFO_H
- #define _UAPI_ASM_SIGINFO_H
- 
--
- #define __ARCH_SIGEV_PREAMBLE_SIZE (sizeof(long) + 2*sizeof(int))
--#undef __ARCH_SI_TRAPNO /* exception code needs to fill this ...  */
- 
- #define __ARCH_HAS_SWAPPED_SIGINFO
- 
-diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
-index 6657184cef07..928e0025d358 100644
---- a/include/linux/sched/signal.h
-+++ b/include/linux/sched/signal.h
-@@ -298,11 +298,6 @@ static inline void kernel_signal_stop(void)
- 
- 	schedule();
- }
--#ifdef __ARCH_SI_TRAPNO
--# define ___ARCH_SI_TRAPNO(_a1) , _a1
--#else
--# define ___ARCH_SI_TRAPNO(_a1)
--#endif
- #ifdef __ia64__
- # define ___ARCH_SI_IA64(_a1, _a2, _a3) , _a1, _a2, _a3
- #else
-@@ -310,14 +305,11 @@ static inline void kernel_signal_stop(void)
- #endif
- 
- int force_sig_fault_to_task(int sig, int code, void __user *addr
--	___ARCH_SI_TRAPNO(int trapno)
- 	___ARCH_SI_IA64(int imm, unsigned int flags, unsigned long isr)
- 	, struct task_struct *t);
- int force_sig_fault(int sig, int code, void __user *addr
--	___ARCH_SI_TRAPNO(int trapno)
- 	___ARCH_SI_IA64(int imm, unsigned int flags, unsigned long isr));
- int send_sig_fault(int sig, int code, void __user *addr
--	___ARCH_SI_TRAPNO(int trapno)
- 	___ARCH_SI_IA64(int imm, unsigned int flags, unsigned long isr)
- 	, struct task_struct *t);
- 
-diff --git a/kernel/signal.c b/kernel/signal.c
-index ae06a424aa72..2181423e562a 100644
---- a/kernel/signal.c
-+++ b/kernel/signal.c
-@@ -1666,7 +1666,6 @@ void force_sigsegv(int sig)
- }
- 
- int force_sig_fault_to_task(int sig, int code, void __user *addr
--	___ARCH_SI_TRAPNO(int trapno)
- 	___ARCH_SI_IA64(int imm, unsigned int flags, unsigned long isr)
- 	, struct task_struct *t)
- {
-@@ -1677,9 +1676,6 @@ int force_sig_fault_to_task(int sig, int code, void __user *addr
- 	info.si_errno = 0;
- 	info.si_code  = code;
- 	info.si_addr  = addr;
--#ifdef __ARCH_SI_TRAPNO
--	info.si_trapno = trapno;
--#endif
- #ifdef __ia64__
- 	info.si_imm = imm;
- 	info.si_flags = flags;
-@@ -1689,16 +1685,13 @@ int force_sig_fault_to_task(int sig, int code, void __user *addr
- }
- 
- int force_sig_fault(int sig, int code, void __user *addr
--	___ARCH_SI_TRAPNO(int trapno)
- 	___ARCH_SI_IA64(int imm, unsigned int flags, unsigned long isr))
- {
- 	return force_sig_fault_to_task(sig, code, addr
--				       ___ARCH_SI_TRAPNO(trapno)
- 				       ___ARCH_SI_IA64(imm, flags, isr), current);
- }
- 
- int send_sig_fault(int sig, int code, void __user *addr
--	___ARCH_SI_TRAPNO(int trapno)
- 	___ARCH_SI_IA64(int imm, unsigned int flags, unsigned long isr)
- 	, struct task_struct *t)
- {
-@@ -1709,9 +1702,6 @@ int send_sig_fault(int sig, int code, void __user *addr
- 	info.si_errno = 0;
- 	info.si_code  = code;
- 	info.si_addr  = addr;
--#ifdef __ARCH_SI_TRAPNO
--	info.si_trapno = trapno;
--#endif
- #ifdef __ia64__
- 	info.si_imm = imm;
- 	info.si_flags = flags;
-@@ -3283,10 +3273,6 @@ enum siginfo_layout siginfo_layout(unsigned sig, int si_code)
- 				 ((sig == SIGFPE) ||
- 				  ((sig == SIGTRAP) && (si_code == TRAP_UNK))))
- 				layout = SIL_FAULT_TRAPNO;
--#ifdef __ARCH_SI_TRAPNO
--			else if (layout == SIL_FAULT)
--				layout = SIL_FAULT_TRAPNO;
--#endif
- 		}
- 		else if (si_code <= NSIGPOLL)
- 			layout = SIL_POLL;
--- 
-2.20.1
-
+This has happened both with slow media like PMEM and "faster" media like
+High-Bandwidth Memory.
