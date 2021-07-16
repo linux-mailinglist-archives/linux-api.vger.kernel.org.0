@@ -2,131 +2,149 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9ABF93CBB00
-	for <lists+linux-api@lfdr.de>; Fri, 16 Jul 2021 19:16:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0561E3CBC12
+	for <lists+linux-api@lfdr.de>; Fri, 16 Jul 2021 20:47:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230523AbhGPRTH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 16 Jul 2021 13:19:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52008 "EHLO
+        id S232445AbhGPSuk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 16 Jul 2021 14:50:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230439AbhGPRTG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 16 Jul 2021 13:19:06 -0400
-Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com [IPv6:2607:f8b0:4864:20::c33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02D15C061760
-        for <linux-api@vger.kernel.org>; Fri, 16 Jul 2021 10:16:08 -0700 (PDT)
-Received: by mail-oo1-xc33.google.com with SMTP id n187-20020a4a40c40000b029025e72bdf5d6so2613811ooa.0
-        for <linux-api@vger.kernel.org>; Fri, 16 Jul 2021 10:16:07 -0700 (PDT)
+        with ESMTP id S232428AbhGPSuY (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 16 Jul 2021 14:50:24 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6323C06175F
+        for <linux-api@vger.kernel.org>; Fri, 16 Jul 2021 11:47:28 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id x13-20020a17090a46cdb0290175cf22899cso1369961pjg.2
+        for <linux-api@vger.kernel.org>; Fri, 16 Jul 2021 11:47:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jWbVndvTFPt8BOcGSAnZdQeZBgwQ39VLXMDadBgw6kk=;
-        b=kycsT8OTIWrycyqND/lL5jUMQFDjltZ92oujogdg2Ndlkp+0StM8kAIg7tLjtQfeG1
-         YtQp0RLCivg5nlV/zFSc1mTULVPHjZTq7Ex+9U/i2yTDKpEG7bpkN+bJ8s8tT1JaBqwM
-         y2TLzY9HoTp/Uz4id24PK7R/mXY9Jq6r81ZebQ+l6yf4sVQAbW1lEdfkLQRpnnjyDDmt
-         bgikzUbY3QcdoaR5eMFhAPwFnx5Vw+ejdfPoUKSNgoBP0WsPICAy2cHDBYAdl8Ac/wYr
-         kP06C8cTP2tL3t0qMqlAqnL33Dxo7e9FDTC/AFaZehjspePkLl7z/2H0fI4s4//TTHjd
-         wV8Q==
+        d=posk.io; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=H+pBQszJfRlqDFcT5AL34vP285QtEH3o1QexaECMHjE=;
+        b=C6DA69bqkyuEEQ3/+YCbmMXwlUQEL2xr8/dCAS92UBXzQIfwSujEmvMblQ9zZkfwFq
+         y7i7pqMBykFqqMxhPBauRADJsOdFnqoOQqSeLwUgsH+7oLrF6GH35rs0ff7KBGgCrFjl
+         +0RLeSt0GDAIMuIfhSscxggApj0IYW+zFOUbgFlEOTBMgU80KSryDUrLcPEMeXPm24BG
+         hDz/KrYY9D5MstmykN0+L429aMS7EEh5mDNBBCywkkaOVN2edvjWANrWwXmxSlk/MEfq
+         CefVoLCI64YKzU6182BkczRnBclrvgrIRnhrA8A+4ZWjJd7qCNZnDlRA/qD6AWzsjE7T
+         c5pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jWbVndvTFPt8BOcGSAnZdQeZBgwQ39VLXMDadBgw6kk=;
-        b=Tv8RyroWlaqXLAyw8uPyFMoUh82+9gXMrEBX+7M01gOP6J5R+AAfQ9zG5h8lYA6CRd
-         ddQxkE5/GIu1i9tx32z68PfbXtmqJWjR2NG5uJhIEjJWFFBMOd/YNqKAYtu0evNI3pqz
-         yL+xAoOb4KymfUX1OpOAXjmFK5bKPkTcDxjGN9CPSZUdCH4sGC6qivQQd0UzkeXkj2xG
-         OjLmtC1yL2Y3d1E32m2ORTa5D/t1xxft/bgW+ObyJHZMVqUmm3zH9lFWOUHXjZVH8uhT
-         bxTKHgsxM22qGGhSwI241XpmxXaC5Ji/6Rb8Ugl9Hq5i+twAcw1vyqIacDQ/Zy4bm/yI
-         jFPw==
-X-Gm-Message-State: AOAM5328nDTRWI2Y99/0HHRWnfs1HmlKx7uG3wqy0Cz6VawI6oyiquYl
-        WekjIjFgnaIxEyUD18WWZTRfvo/sqQdzndrOh8EikA==
-X-Google-Smtp-Source: ABdhPJx9gk24ziK+bUUPctrm/fDAn5x21MphrWbNdm5y/1f6NtI1GUnsZkQdW2dgVWs4fHcFQbpBeYfuinN/+cxYnXU=
-X-Received: by 2002:a4a:956f:: with SMTP id n44mr8396820ooi.54.1626455767094;
- Fri, 16 Jul 2021 10:16:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <YIpkvGrBFGlB5vNj@elver.google.com> <m11rat9f85.fsf@fess.ebiederm.org>
- <CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com>
- <m15z031z0a.fsf@fess.ebiederm.org> <YIxVWkT03TqcJLY3@elver.google.com>
- <m1zgxfs7zq.fsf_-_@fess.ebiederm.org> <87a6mnzbx2.fsf_-_@disp2133>
- <YPFybJQ7eviet341@elver.google.com> <87tukuw8a3.fsf@disp2133>
-In-Reply-To: <87tukuw8a3.fsf@disp2133>
-From:   Marco Elver <elver@google.com>
-Date:   Fri, 16 Jul 2021 19:15:55 +0200
-Message-ID: <CANpmjNMAxk5--iAmL3fL8XpPuDDFdufu1T=r0USnO+6Rn-A95A@mail.gmail.com>
-Subject: Re: [PATCH 0/6] Final si_trapno bits
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Florian Weimer <fweimer@redhat.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=H+pBQszJfRlqDFcT5AL34vP285QtEH3o1QexaECMHjE=;
+        b=aE0UH3reCGOTQ6B/JiK4n9f1drngeK1bVtPmACycAT67ezjKZmaaZS+QyUioGU5EFM
+         zfXpDfLkANanAHAee02aHWaDhShnd6g7zY55A+B6qt+qPbTcCD943K1XA96eZWGBqur6
+         bgh9JdyVFmTwcwhrrlSnFZMKH1Aq1hQ90AHYnF3D257rAgk5erJua1+Z650qQWD4z0DU
+         lEExfP9jU0KHGcS+HhYqCgPJNodPtnSXpV0brsahphpxivWbXMmIuosTWfBrj123ej48
+         FC3WKj7Dohxdyd9JfuqmV7LAwQ1OTW4v7Jh6yUoGGiKmHnwOaW140BLpeeGxescv01/x
+         jpIw==
+X-Gm-Message-State: AOAM533BrIT8m6XZnbiF0fZFylYQm58ceji1w2DW03WdJqsoqhp+IXLl
+        h8fFZOKbL4Krs6v9UwQ53I7HdQ==
+X-Google-Smtp-Source: ABdhPJx25sqmHQRngk6kCUpj+FKylcaajEufZWTIO2wsCzdPzzfsFBsP1+lrBSYS0cTw9qfYsGQECg==
+X-Received: by 2002:a17:90a:fd93:: with SMTP id cx19mr16879210pjb.65.1626461248258;
+        Fri, 16 Jul 2021 11:47:28 -0700 (PDT)
+Received: from localhost.localdomain (23-118-52-46.lightspeed.sntcca.sbcglobal.net. [23.118.52.46])
+        by smtp.gmail.com with ESMTPSA id q125sm3170240pga.87.2021.07.16.11.47.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Jul 2021 11:47:27 -0700 (PDT)
+From:   Peter Oskolkov <posk@posk.io>
+X-Google-Original-From: Peter Oskolkov <posk@google.com>
+To:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Peter Collingbourne <pcc@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Alexander Potapenko <glider@google.com>,
-        sparclinux <sparclinux@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Cc:     Paul Turner <pjt@google.com>, Ben Segall <bsegall@google.com>,
+        Peter Oskolkov <posk@google.com>,
+        Peter Oskolkov <posk@posk.io>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Andrei Vagin <avagin@google.com>,
+        Jim Newsome <jnewsome@torproject.org>,
+        Jann Horn <jannh@google.com>,
+        Thierry Delisle <tdelisle@uwaterloo.ca>
+Subject: [RFC PATCH 0/4 v0.3] sched/UMCG
+Date:   Fri, 16 Jul 2021 11:47:15 -0700
+Message-Id: <20210716184719.269033-1-posk@google.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, 16 Jul 2021 at 18:09, Eric W. Biederman <ebiederm@xmission.com> wrote:
-> Marco Elver <elver@google.com> writes:
-> > On Thu, Jul 15, 2021 at 01:09PM -0500, Eric W. Biederman wrote:
-> >> As a part of a fix for the ABI of the newly added SIGTRAP TRAP_PERF a
-> >> si_trapno was reduced to an ordinary extention of the _sigfault case
-> >> of struct siginfo.
-> >>
-> >> When Linus saw the complete set of changes come in as a fix he requested
-> >> that the set of changes be trimmed down to just what was necessary to
-> >> fix the SIGTRAP TRAP_PERF ABI.
-> >>
-> >> I had intended to get the rest of the changes into the merge window for
-> >> v5.14 but I dropped the ball.
-> >>
-> >> I have made the changes to stop using __ARCH_SI_TRAPNO be per
-> >> architecture so they are easier to review.  In doing so I found one
-> >> place on alpha where I used send_sig_fault instead of
-> >> send_sig_fault_trapno(... si_trapno = 0).  That would not have changed
-> >> the userspace behavior but it did make the kernel code less clear.
-> >>
-> >> My rule in these patches is everywhere that siginfo layout calls
-> >> for SIL_FAULT_TRAPNO the code uses either force_sig_fault_trapno
-> >> or send_sig_fault_trapno.
-> >>
-> >> And of course I have rebased and compile tested Marco's compile time
-> >> assert patches.
-> >>
-> >> Eric
-> >>
-> >>
-> >> Eric W. Biederman (3):
-> >>       signal/sparc: si_trapno is only used with SIGILL ILL_ILLTRP
-> >>       signal/alpha: si_trapno is only used with SIGFPE and SIGTRAP TRAP_UNK
-> >>       signal: Remove the generic __ARCH_SI_TRAPNO support
-> >>
-> >> Marco Elver (3):
-> >>       sparc64: Add compile-time asserts for siginfo_t offsets
-> >>       arm: Add compile-time asserts for siginfo_t offsets
-> >>       arm64: Add compile-time asserts for siginfo_t offsets
-> >
-> > Nice, thanks for the respin. If I diffed it right, I see this is almost
-> > (modulo what you mentioned above) equivalent to:
-> >   https://lore.kernel.org/linux-api/m1tuni8ano.fsf_-_@fess.ebiederm.org/
-> > + what's already in mainline. It's only missing:
-> >
-> >       signal: Verify the alignment and size of siginfo_t
-> >       signal: Rename SIL_PERF_EVENT SIL_FAULT_PERF_EVENT for consistency
-> >
-> > Would this be appropriate for this series, or rather separately, or
-> > dropped completely?
->
-> Appropriate I just overlooked them.
+This is another attempt at implementing UMCG, based on
+discussion in https://lore.kernel.org/patchwork/cover/1433967/ and
+https://lore.kernel.org/lkml/20210708194638.128950-1-posk@google.com/
 
-Full series with the 2 patches just sent looks good to me.
+Most of the "why" is covered here (some details are obsolete):
+https://lore.kernel.org/patchwork/cover/1433967/#1632328
 
-Thanks,
--- Marco
+At a high level, UMCG servers/workers provide the foundation
+for an M:N threading library, as described in the link above.
+
+Joel Fernandes has also once mentioned that he had a use case
+for a wake+bring-the-wakee-to-the-current-CPU operation,
+so this is now also supported via UMCG_WF_CURRENT_CPU flag
+(patch 3).
+
+Patch 1: add WF_CURRENT_CPU and tweak ttwu - same as last time
+Patch 2: add X86_64 helpers to work atomically with userspace values
+Patch 3: add helpers to work with single-linked lists in userspace
+Patch 4: implement UMCG kernel-side
+
+In this version of the patchset I used only userspace/TLS
+data, as suggested by Peter Zijlstra. With the exception
+of one issue (see patch 3 commit message) everything seems
+to be working great.
+
+This TLS-only approach makes the userspace code a bit more
+involved, so I'm not posting libumcg/selftests with this
+patchset to focus on the kernel side only.
+
+v0.2->v0.3 chages:
+- split patch 2 into two paches: atomic ops and llist ops
+- rework atomic ops in patch 2 to avoid "stac/clac nonsense"
+- make llist kernel-side operations constant time (no indefinite
+  spinning)
+- make task wakeup work without spinning/retries
+
+I'm not aware of any issues with this patchset other than
+what's mentioned below. In short, it seems that "SMP basics":
+block/wake detection, worker "scheduling" by servers, etc.
+all work.
+
+TODO:
+  - combine cmpxchg_user_32/64 functions into a macro in patch 2
+  - implement timeout handling
+  - imlement worker preemption
+  - more testing
+  - manpages, docs, and similar
+  - attach libumbc and selftest patches
+
+Peter Oskolkov (4):
+  sched: add WF_CURRENT_CPU and externise ttwu
+  sched/umcg: RFC: add userspace atomic helpers
+  sched/umcg: RFC: add userspace sll helpers
+  sched/umcg: RFC: implement UMCG syscalls
+
+ arch/x86/entry/syscalls/syscall_64.tbl |   2 +
+ include/linux/sched.h                  |   6 +
+ include/linux/syscalls.h               |   4 +
+ include/uapi/asm-generic/unistd.h      |   8 +-
+ include/uapi/linux/umcg.h              | 259 +++++++++++++
+ init/Kconfig                           |  10 +
+ kernel/exit.c                          |   7 +
+ kernel/sched/Makefile                  |   1 +
+ kernel/sched/core.c                    |  20 +-
+ kernel/sched/fair.c                    |   4 +
+ kernel/sched/sched.h                   |  15 +-
+ kernel/sched/umcg.c                    | 485 +++++++++++++++++++++++++
+ kernel/sched/umcg.h                    | 298 +++++++++++++++
+ kernel/sys_ni.c                        |   4 +
+ 14 files changed, 1112 insertions(+), 11 deletions(-)
+ create mode 100644 include/uapi/linux/umcg.h
+ create mode 100644 kernel/sched/umcg.c
+ create mode 100644 kernel/sched/umcg.h
+
+--
+2.25.1
+
