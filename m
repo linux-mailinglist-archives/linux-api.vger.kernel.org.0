@@ -2,57 +2,58 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FB383CB6EA
-	for <lists+linux-api@lfdr.de>; Fri, 16 Jul 2021 13:48:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AFD83CB6F1
+	for <lists+linux-api@lfdr.de>; Fri, 16 Jul 2021 13:48:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232226AbhGPLv0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 16 Jul 2021 07:51:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34464 "EHLO
+        id S236222AbhGPLvq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 16 Jul 2021 07:51:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232088AbhGPLv0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 16 Jul 2021 07:51:26 -0400
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C693CC061760
-        for <linux-api@vger.kernel.org>; Fri, 16 Jul 2021 04:48:31 -0700 (PDT)
-Received: by mail-ot1-x32c.google.com with SMTP id f93-20020a9d03e60000b02904b1f1d7c5f4so9532452otf.9
-        for <linux-api@vger.kernel.org>; Fri, 16 Jul 2021 04:48:31 -0700 (PDT)
+        with ESMTP id S234603AbhGPLvp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 16 Jul 2021 07:51:45 -0400
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com [IPv6:2607:f8b0:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85EF9C061762
+        for <linux-api@vger.kernel.org>; Fri, 16 Jul 2021 04:48:49 -0700 (PDT)
+Received: by mail-oi1-x233.google.com with SMTP id w127so10527720oig.12
+        for <linux-api@vger.kernel.org>; Fri, 16 Jul 2021 04:48:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=SCAMfplbo3e2iODI9poYTm8lXc8h2ulhVqpOO6GIdUY=;
-        b=D8DMuB/NoSjS+60zzJxsOOILuPr+HxIwVzVsSJVfm6zUYFS1NK0YvlI3cpD03tai3C
-         GJ9bLATPo02qo5E8EMlSboDUJKP3a9sv6/pf4ZEmXdYHyqYE4X6+ykPYrw+cf9C+ZsZM
-         jy/vjWBZ+SwF6pCP9/yMw+4irHxJqozlpJZ+OAQ3CHtihG4wGuaWQk4a3h02e9VhfTPi
-         +PPAsxYybVsZirFe4ViK0/MrEuKSapzKgGNQIhj70Cun52P3cfjO8EJCZushXIiZI7sY
-         0LPINYDjuebVi0DTeW+nsHzfkaLeQrUyZfCZXYYOUXNifGO03KOWcSSlKWPOBWDNiPVl
-         VRpw==
+        bh=JBDiVd1cIkOM0UYh+A3OX5H90z0c0oFIied3Z31qv0U=;
+        b=gSPmr7lU1oUhLDXOUzHAv8ekI3BKFM0jh/vQdNZoh+RYnQYQSi9u0tDVeJJZN2eRsf
+         YGChMn2y0O/oOdUG954AtIkWRKiJVrorBf/W6GGSk27+zPJH/6LXgEwQ1r5NER1AhbQR
+         2wdIi7xU94X/B8g2gZ0jYxsPiR6nWD2NFG9SkYbhsfsZVfWuEFyi9NakKL/zLjlwLn6Y
+         uszvMIR8nKDP/1cxzBWl0rW1x2krgK93IIzHtrmZXODzNgUA10cppjag6Dwt2zFyCeZ0
+         RHAaQtINMzrMkOrTfXcYfdFNcdjLJ/BqlS4p4YmsOlc7XHs3Nz3TrhBqe5Tl5fUBnyXL
+         zh7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=SCAMfplbo3e2iODI9poYTm8lXc8h2ulhVqpOO6GIdUY=;
-        b=DHQ8gKZwLtKNTttGZWwQZbqRW7IIxTLGs9aVDYzZQ2mYbDFqrKkrpGhslqM63cV3zI
-         M+FTFBaRMO2KMv5iMysH0HUsjFPBemuXnU7TIhdbBLPC/StBeE1JBTp8C0HmvyI97QJQ
-         FAhhTOl+xddCT7pMfcI2rTkLXqaxage03hpR6kJbBB08iMNAkDTn7wOM8re9dEGHNF+K
-         0FiwO1NO4UITJHgIW3Mfbr6xU4sx+aPQ4gzXdqa1bwqSpa0tZZwuqLFUrY35OZsIy18A
-         ESo9AAj/Nbz4LVEHxFAoBhITaZhi5wgs5IsQzvZlJFY5yM6D1EoWF+YjkhFk4VZwyxpa
-         oo/A==
-X-Gm-Message-State: AOAM530TroqYqSuTlraFOmY5wnWgq+V/Vbh6ugf5yJmdYMxln9X8X/tK
-        R2eVqtjnHbCNpxKM8PIfVtTDqXOuqNXTvWNKmSN2Aw==
-X-Google-Smtp-Source: ABdhPJy8/WDKQVEqrCCE9FT/HDZN1LH/+u7mcWBjJjvPWwuIfb0/MZ3akM15S+WvAyRkg2OWOZfb6zqLz9Sg7NCFv6c=
-X-Received: by 2002:a9d:d04:: with SMTP id 4mr8241154oti.251.1626436110870;
- Fri, 16 Jul 2021 04:48:30 -0700 (PDT)
+        bh=JBDiVd1cIkOM0UYh+A3OX5H90z0c0oFIied3Z31qv0U=;
+        b=dfSAvJRBiOXR59Zpo1sCms29OXWAR4QoiAM2Y7v4SiA+Me/KoBKLlIPzWo5J8j7mvR
+         Xl/WOJbi8L9vJyU8kpv6X4gB14TZ+JIgUsk5rXYj4AOPw69Fht9unzBU5cxyvkgT+sd1
+         8LbwrmfoGgf1+nUL2gsTXQiaBOXteGEEF/AZaiR5DztojeRQVHyVoN2PPrIoeh0wYpI4
+         E0Z6pBVUSujBt9IPnX3TjxZ5//KN1fo+fi5AnP3wGCTYxTcXcEv9k9QvQYCeMSFRm+iI
+         gXtAuAb3wM8YMkeUDMxerOzD2zZfnuVJCk2I4/3vyn3h+RySs9F/y1fVN21osmrq48dH
+         3h+A==
+X-Gm-Message-State: AOAM5312DCwiMjKBwcblKhjmy4teCL8k6p0xxE0CiYLEwbatdnM9rpb0
+        B74/p/dr5WAMh8h6cyesy5TLs6f5kiI09QUwZyb+jA==
+X-Google-Smtp-Source: ABdhPJyocGIukR05lU8SBX3qok1ulYZ/9i3tbqXridnWz1yVkLUgDFIkcTRoM0E6lyFhuN6rd9iN7CzLs/G01va3i8Q=
+X-Received: by 2002:aca:4705:: with SMTP id u5mr7755996oia.70.1626436128741;
+ Fri, 16 Jul 2021 04:48:48 -0700 (PDT)
 MIME-Version: 1.0
 References: <YIpkvGrBFGlB5vNj@elver.google.com> <m11rat9f85.fsf@fess.ebiederm.org>
  <CAK8P3a0+uKYwL1NhY6Hvtieghba2hKYGD6hcKx5n8=4Gtt+pHA@mail.gmail.com>
  <m15z031z0a.fsf@fess.ebiederm.org> <YIxVWkT03TqcJLY3@elver.google.com>
- <m1zgxfs7zq.fsf_-_@fess.ebiederm.org> <87a6mnzbx2.fsf_-_@disp2133> <87bl73xx6x.fsf_-_@disp2133>
-In-Reply-To: <87bl73xx6x.fsf_-_@disp2133>
+ <m1zgxfs7zq.fsf_-_@fess.ebiederm.org> <87a6mnzbx2.fsf_-_@disp2133> <87h7gvxx7l.fsf_-_@disp2133>
+In-Reply-To: <87h7gvxx7l.fsf_-_@disp2133>
 From:   Marco Elver <elver@google.com>
-Date:   Fri, 16 Jul 2021 13:48:18 +0200
-Message-ID: <CANpmjNOv4mf3PiEVvAUFAXkRaA3V37UBYoB2j2P7_qF868B6mA@mail.gmail.com>
-Subject: Re: [PATCH 6/6] signal: Remove the generic __ARCH_SI_TRAPNO support
+Date:   Fri, 16 Jul 2021 13:48:37 +0200
+Message-ID: <CANpmjNNUX0cz39a2TYU+MVwd2MzACkBs9E+rECFGgE-1p8nPFA@mail.gmail.com>
+Subject: Re: [PATCH 5/6] signal/alpha: si_trapno is only used with SIGFPE and
+ SIGTRAP TRAP_UNK
 To:     "Eric W. Biederman" <ebiederm@xmission.com>
 Cc:     Arnd Bergmann <arnd@arndb.de>, Florian Weimer <fweimer@redhat.com>,
         "David S. Miller" <davem@davemloft.net>,
@@ -73,140 +74,238 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 On Thu, 15 Jul 2021 at 20:13, Eric W. Biederman <ebiederm@xmission.com> wrote:
-> Now that __ARCH_SI_TRAPNO is no longer set by any architecture remove
-> all of the code it enabled from the kernel.
+> While reviewing the signal handlers on alpha it became clear that
+> si_trapno is only set to a non-zero value when sending SIGFPE and when
+> sending SITGRAP with si_code TRAP_UNK.
 >
-> On alpha and sparc a more explict approach of using
-> send_sig_fault_trapno or force_sig_fault_trapno in the very limited
-> circumstances where si_trapno was set to a non-zero value.
+> Add send_sig_fault_trapno and send SIGTRAP TRAP_UNK, and SIGFPE with it.
 >
-> The generic support that is being removed always set si_trapno on all
-> fault signals.  With only SIGILL ILL_ILLTRAP on sparc and SIGFPE and
-> SIGTRAP TRAP_UNK on alpla providing si_trapno values asking all senders
-> of fault signals to provide an si_trapno value does not make sense.
+> Remove the define of __ARCH_SI_TRAPNO and remove the always zero
+> si_trapno parameter from send_sig_fault and force_sig_fault.
 >
-> Making si_trapno an ordinary extension of the fault siginfo layout has
-> enabled the architecture generic implementation of SIGTRAP TRAP_PERF,
-> and enables other faulting signals to grow architecture generic
-> senders as well.
->
-> v1: https://lkml.kernel.org/r/m18s4zs7nu.fsf_-_@fess.ebiederm.org
-> v2: https://lkml.kernel.org/r/20210505141101.11519-8-ebiederm@xmission.com
+> v1: https://lkml.kernel.org/r/m1eeers7q7.fsf_-_@fess.ebiederm.org
+> v2: https://lkml.kernel.org/r/20210505141101.11519-7-ebiederm@xmission.com
 > Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
 
 Reviewed-by: Marco Elver <elver@google.com>
 
 > ---
->  arch/mips/include/uapi/asm/siginfo.h |  2 --
->  include/linux/sched/signal.h         |  8 --------
->  kernel/signal.c                      | 14 --------------
->  3 files changed, 24 deletions(-)
+>  arch/alpha/include/uapi/asm/siginfo.h |  2 --
+>  arch/alpha/kernel/osf_sys.c           |  2 +-
+>  arch/alpha/kernel/signal.c            |  4 ++--
+>  arch/alpha/kernel/traps.c             | 26 +++++++++++++-------------
+>  arch/alpha/mm/fault.c                 |  4 ++--
+>  include/linux/sched/signal.h          |  2 ++
+>  kernel/signal.c                       | 21 +++++++++++++++++++++
+>  7 files changed, 41 insertions(+), 20 deletions(-)
 >
-> diff --git a/arch/mips/include/uapi/asm/siginfo.h b/arch/mips/include/uapi/asm/siginfo.h
-> index c34c7eef0a1c..8cb8bd061a68 100644
-> --- a/arch/mips/include/uapi/asm/siginfo.h
-> +++ b/arch/mips/include/uapi/asm/siginfo.h
-> @@ -10,9 +10,7 @@
->  #ifndef _UAPI_ASM_SIGINFO_H
->  #define _UAPI_ASM_SIGINFO_H
+> diff --git a/arch/alpha/include/uapi/asm/siginfo.h b/arch/alpha/include/uapi/asm/siginfo.h
+> index 6e1a2af2f962..e08eae88182b 100644
+> --- a/arch/alpha/include/uapi/asm/siginfo.h
+> +++ b/arch/alpha/include/uapi/asm/siginfo.h
+> @@ -2,8 +2,6 @@
+>  #ifndef _ALPHA_SIGINFO_H
+>  #define _ALPHA_SIGINFO_H
 >
+> -#define __ARCH_SI_TRAPNO
 > -
->  #define __ARCH_SIGEV_PREAMBLE_SIZE (sizeof(long) + 2*sizeof(int))
-> -#undef __ARCH_SI_TRAPNO /* exception code needs to fill this ...  */
+>  #include <asm-generic/siginfo.h>
 >
->  #define __ARCH_HAS_SWAPPED_SIGINFO
+>  #endif
+> diff --git a/arch/alpha/kernel/osf_sys.c b/arch/alpha/kernel/osf_sys.c
+> index d5367a1c6300..bbdb1a9a5fd8 100644
+> --- a/arch/alpha/kernel/osf_sys.c
+> +++ b/arch/alpha/kernel/osf_sys.c
+> @@ -876,7 +876,7 @@ SYSCALL_DEFINE5(osf_setsysinfo, unsigned long, op, void __user *, buffer,
+>                         if (fex & IEEE_TRAP_ENABLE_DZE) si_code = FPE_FLTDIV;
+>                         if (fex & IEEE_TRAP_ENABLE_INV) si_code = FPE_FLTINV;
 >
+> -                       send_sig_fault(SIGFPE, si_code,
+> +                       send_sig_fault_trapno(SIGFPE, si_code,
+>                                        (void __user *)NULL,  /* FIXME */
+>                                        0, current);
+>                 }
+> diff --git a/arch/alpha/kernel/signal.c b/arch/alpha/kernel/signal.c
+> index 948b89789da8..bc077babafab 100644
+> --- a/arch/alpha/kernel/signal.c
+> +++ b/arch/alpha/kernel/signal.c
+> @@ -219,7 +219,7 @@ do_sigreturn(struct sigcontext __user *sc)
+>
+>         /* Send SIGTRAP if we're single-stepping: */
+>         if (ptrace_cancel_bpt (current)) {
+> -               send_sig_fault(SIGTRAP, TRAP_BRKPT, (void __user *) regs->pc, 0,
+> +               send_sig_fault(SIGTRAP, TRAP_BRKPT, (void __user *) regs->pc,
+>                                current);
+>         }
+>         return;
+> @@ -247,7 +247,7 @@ do_rt_sigreturn(struct rt_sigframe __user *frame)
+>
+>         /* Send SIGTRAP if we're single-stepping: */
+>         if (ptrace_cancel_bpt (current)) {
+> -               send_sig_fault(SIGTRAP, TRAP_BRKPT, (void __user *) regs->pc, 0,
+> +               send_sig_fault(SIGTRAP, TRAP_BRKPT, (void __user *) regs->pc,
+>                                current);
+>         }
+>         return;
+> diff --git a/arch/alpha/kernel/traps.c b/arch/alpha/kernel/traps.c
+> index 921d4b6e4d95..e9e3de18793b 100644
+> --- a/arch/alpha/kernel/traps.c
+> +++ b/arch/alpha/kernel/traps.c
+> @@ -227,7 +227,7 @@ do_entArith(unsigned long summary, unsigned long write_mask,
+>         }
+>         die_if_kernel("Arithmetic fault", regs, 0, NULL);
+>
+> -       send_sig_fault(SIGFPE, si_code, (void __user *) regs->pc, 0, current);
+> +       send_sig_fault_trapno(SIGFPE, si_code, (void __user *) regs->pc, 0, current);
+>  }
+>
+>  asmlinkage void
+> @@ -268,13 +268,13 @@ do_entIF(unsigned long type, struct pt_regs *regs)
+>                         regs->pc -= 4;  /* make pc point to former bpt */
+>                 }
+>
+> -               send_sig_fault(SIGTRAP, TRAP_BRKPT, (void __user *)regs->pc, 0,
+> +               send_sig_fault(SIGTRAP, TRAP_BRKPT, (void __user *)regs->pc,
+>                                current);
+>                 return;
+>
+>               case 1: /* bugcheck */
+> -               send_sig_fault(SIGTRAP, TRAP_UNK, (void __user *) regs->pc, 0,
+> -                              current);
+> +               send_sig_fault_trapno(SIGTRAP, TRAP_UNK,
+> +                                     (void __user *) regs->pc, 0, current);
+>                 return;
+>
+>               case 2: /* gentrap */
+> @@ -335,8 +335,8 @@ do_entIF(unsigned long type, struct pt_regs *regs)
+>                         break;
+>                 }
+>
+> -               send_sig_fault(signo, code, (void __user *) regs->pc, regs->r16,
+> -                              current);
+> +               send_sig_fault_trapno(signo, code, (void __user *) regs->pc,
+> +                                     regs->r16, current);
+>                 return;
+>
+>               case 4: /* opDEC */
+> @@ -360,9 +360,9 @@ do_entIF(unsigned long type, struct pt_regs *regs)
+>                         if (si_code == 0)
+>                                 return;
+>                         if (si_code > 0) {
+> -                               send_sig_fault(SIGFPE, si_code,
+> -                                              (void __user *) regs->pc, 0,
+> -                                              current);
+> +                               send_sig_fault_trapno(SIGFPE, si_code,
+> +                                                     (void __user *) regs->pc,
+> +                                                     0, current);
+>                                 return;
+>                         }
+>                 }
+> @@ -387,7 +387,7 @@ do_entIF(unsigned long type, struct pt_regs *regs)
+>                       ;
+>         }
+>
+> -       send_sig_fault(SIGILL, ILL_ILLOPC, (void __user *)regs->pc, 0, current);
+> +       send_sig_fault(SIGILL, ILL_ILLOPC, (void __user *)regs->pc, current);
+>  }
+>
+>  /* There is an ifdef in the PALcode in MILO that enables a
+> @@ -402,7 +402,7 @@ do_entDbg(struct pt_regs *regs)
+>  {
+>         die_if_kernel("Instruction fault", regs, 0, NULL);
+>
+> -       force_sig_fault(SIGILL, ILL_ILLOPC, (void __user *)regs->pc, 0);
+> +       force_sig_fault(SIGILL, ILL_ILLOPC, (void __user *)regs->pc);
+>  }
+>
+>
+> @@ -964,12 +964,12 @@ do_entUnaUser(void __user * va, unsigned long opcode,
+>                         si_code = SEGV_MAPERR;
+>                 mmap_read_unlock(mm);
+>         }
+> -       send_sig_fault(SIGSEGV, si_code, va, 0, current);
+> +       send_sig_fault(SIGSEGV, si_code, va, current);
+>         return;
+>
+>  give_sigbus:
+>         regs->pc -= 4;
+> -       send_sig_fault(SIGBUS, BUS_ADRALN, va, 0, current);
+> +       send_sig_fault(SIGBUS, BUS_ADRALN, va, current);
+>         return;
+>  }
+>
+> diff --git a/arch/alpha/mm/fault.c b/arch/alpha/mm/fault.c
+> index 09172f017efc..eee5102c3d88 100644
+> --- a/arch/alpha/mm/fault.c
+> +++ b/arch/alpha/mm/fault.c
+> @@ -219,13 +219,13 @@ do_page_fault(unsigned long address, unsigned long mmcsr,
+>         mmap_read_unlock(mm);
+>         /* Send a sigbus, regardless of whether we were in kernel
+>            or user mode.  */
+> -       force_sig_fault(SIGBUS, BUS_ADRERR, (void __user *) address, 0);
+> +       force_sig_fault(SIGBUS, BUS_ADRERR, (void __user *) address);
+>         if (!user_mode(regs))
+>                 goto no_context;
+>         return;
+>
+>   do_sigsegv:
+> -       force_sig_fault(SIGSEGV, si_code, (void __user *) address, 0);
+> +       force_sig_fault(SIGSEGV, si_code, (void __user *) address);
+>         return;
+>
+>  #ifdef CONFIG_ALPHA_LARGE_VMALLOC
 > diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
-> index 6657184cef07..928e0025d358 100644
+> index 99a9ab2b169a..6657184cef07 100644
 > --- a/include/linux/sched/signal.h
 > +++ b/include/linux/sched/signal.h
-> @@ -298,11 +298,6 @@ static inline void kernel_signal_stop(void)
+> @@ -330,6 +330,8 @@ int force_sig_perf(void __user *addr, u32 type, u64 sig_data);
 >
->         schedule();
->  }
-> -#ifdef __ARCH_SI_TRAPNO
-> -# define ___ARCH_SI_TRAPNO(_a1) , _a1
-> -#else
-> -# define ___ARCH_SI_TRAPNO(_a1)
-> -#endif
->  #ifdef __ia64__
->  # define ___ARCH_SI_IA64(_a1, _a2, _a3) , _a1, _a2, _a3
->  #else
-> @@ -310,14 +305,11 @@ static inline void kernel_signal_stop(void)
->  #endif
+>  int force_sig_ptrace_errno_trap(int errno, void __user *addr);
+>  int force_sig_fault_trapno(int sig, int code, void __user *addr, int trapno);
+> +int send_sig_fault_trapno(int sig, int code, void __user *addr, int trapno,
+> +                       struct task_struct *t);
 >
->  int force_sig_fault_to_task(int sig, int code, void __user *addr
-> -       ___ARCH_SI_TRAPNO(int trapno)
->         ___ARCH_SI_IA64(int imm, unsigned int flags, unsigned long isr)
->         , struct task_struct *t);
->  int force_sig_fault(int sig, int code, void __user *addr
-> -       ___ARCH_SI_TRAPNO(int trapno)
->         ___ARCH_SI_IA64(int imm, unsigned int flags, unsigned long isr));
->  int send_sig_fault(int sig, int code, void __user *addr
-> -       ___ARCH_SI_TRAPNO(int trapno)
->         ___ARCH_SI_IA64(int imm, unsigned int flags, unsigned long isr)
->         , struct task_struct *t);
->
+>  extern int send_sig_info(int, struct kernel_siginfo *, struct task_struct *);
+>  extern void force_sigsegv(int sig);
 > diff --git a/kernel/signal.c b/kernel/signal.c
-> index ae06a424aa72..2181423e562a 100644
+> index 87a374225277..ae06a424aa72 100644
 > --- a/kernel/signal.c
 > +++ b/kernel/signal.c
-> @@ -1666,7 +1666,6 @@ void force_sigsegv(int sig)
+> @@ -1824,6 +1824,23 @@ int force_sig_fault_trapno(int sig, int code, void __user *addr, int trapno)
+>         return force_sig_info(&info);
 >  }
 >
->  int force_sig_fault_to_task(int sig, int code, void __user *addr
-> -       ___ARCH_SI_TRAPNO(int trapno)
->         ___ARCH_SI_IA64(int imm, unsigned int flags, unsigned long isr)
->         , struct task_struct *t)
+> +/* For the rare architectures that include trap information using
+> + * si_trapno.
+> + */
+> +int send_sig_fault_trapno(int sig, int code, void __user *addr, int trapno,
+> +                         struct task_struct *t)
+> +{
+> +       struct kernel_siginfo info;
+> +
+> +       clear_siginfo(&info);
+> +       info.si_signo = sig;
+> +       info.si_errno = 0;
+> +       info.si_code  = code;
+> +       info.si_addr  = addr;
+> +       info.si_trapno = trapno;
+> +       return send_sig_info(info.si_signo, &info, t);
+> +}
+> +
+>  int kill_pgrp(struct pid *pid, int sig, int priv)
 >  {
-> @@ -1677,9 +1676,6 @@ int force_sig_fault_to_task(int sig, int code, void __user *addr
->         info.si_errno = 0;
->         info.si_code  = code;
->         info.si_addr  = addr;
-> -#ifdef __ARCH_SI_TRAPNO
-> -       info.si_trapno = trapno;
-> -#endif
->  #ifdef __ia64__
->         info.si_imm = imm;
->         info.si_flags = flags;
-> @@ -1689,16 +1685,13 @@ int force_sig_fault_to_task(int sig, int code, void __user *addr
->  }
->
->  int force_sig_fault(int sig, int code, void __user *addr
-> -       ___ARCH_SI_TRAPNO(int trapno)
->         ___ARCH_SI_IA64(int imm, unsigned int flags, unsigned long isr))
->  {
->         return force_sig_fault_to_task(sig, code, addr
-> -                                      ___ARCH_SI_TRAPNO(trapno)
->                                        ___ARCH_SI_IA64(imm, flags, isr), current);
->  }
->
->  int send_sig_fault(int sig, int code, void __user *addr
-> -       ___ARCH_SI_TRAPNO(int trapno)
->         ___ARCH_SI_IA64(int imm, unsigned int flags, unsigned long isr)
->         , struct task_struct *t)
->  {
-> @@ -1709,9 +1702,6 @@ int send_sig_fault(int sig, int code, void __user *addr
->         info.si_errno = 0;
->         info.si_code  = code;
->         info.si_addr  = addr;
-> -#ifdef __ARCH_SI_TRAPNO
-> -       info.si_trapno = trapno;
-> -#endif
->  #ifdef __ia64__
->         info.si_imm = imm;
->         info.si_flags = flags;
-> @@ -3283,10 +3273,6 @@ enum siginfo_layout siginfo_layout(unsigned sig, int si_code)
->                                  ((sig == SIGFPE) ||
->                                   ((sig == SIGTRAP) && (si_code == TRAP_UNK))))
+>         int ret;
+> @@ -3262,6 +3279,10 @@ enum siginfo_layout siginfo_layout(unsigned sig, int si_code)
+>                         else if (IS_ENABLED(CONFIG_SPARC) &&
+>                                  (sig == SIGILL) && (si_code == ILL_ILLTRP))
 >                                 layout = SIL_FAULT_TRAPNO;
-> -#ifdef __ARCH_SI_TRAPNO
-> -                       else if (layout == SIL_FAULT)
-> -                               layout = SIL_FAULT_TRAPNO;
-> -#endif
->                 }
->                 else if (si_code <= NSIGPOLL)
->                         layout = SIL_POLL;
+> +                       else if (IS_ENABLED(CONFIG_ALPHA) &&
+> +                                ((sig == SIGFPE) ||
+> +                                 ((sig == SIGTRAP) && (si_code == TRAP_UNK))))
+> +                               layout = SIL_FAULT_TRAPNO;
+>  #ifdef __ARCH_SI_TRAPNO
+>                         else if (layout == SIL_FAULT)
+>                                 layout = SIL_FAULT_TRAPNO;
 > --
 > 2.20.1
 >
