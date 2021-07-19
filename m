@@ -2,128 +2,224 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A9C73CE989
-	for <lists+linux-api@lfdr.de>; Mon, 19 Jul 2021 19:53:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05E163CEC52
+	for <lists+linux-api@lfdr.de>; Mon, 19 Jul 2021 22:18:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353256AbhGSQ5l (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 19 Jul 2021 12:57:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39998 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358905AbhGSQx3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 19 Jul 2021 12:53:29 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D81A1C0F26EC
-        for <linux-api@vger.kernel.org>; Mon, 19 Jul 2021 10:11:39 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id d17so7322520ljq.12
-        for <linux-api@vger.kernel.org>; Mon, 19 Jul 2021 10:30:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+vqFcAPpr2Wrm3IQBRWJ29wt2kc6RE+Zc3iAnlFe6GY=;
-        b=DREFa+Crra3/Gwt/ozWS6XyyFKY4Mg7dPcld3cizJiTFXWiznp9HUE67QvDO9oZbMl
-         3B000kz0sS3krAYD5a9gSu4NLZy1dE4yjQ9TVgBrKCK528Roj8zK08CGtsxThRGSyXDy
-         ffWrnC9O7291POYBsVEi4zTCMxsxY7N/ykOM/tzi3rOF108KqHG+a3+2JefEhIN/oX0f
-         VyMRoQNFp8urHC5L9xqQac7l8DS+rfqzzY7gd9u2EOqO//9C9pgpq/ZMCAFw4jQUsB6A
-         v19hBqOGOdThZ0zo/07dXAHgVKO8uuU8kzOaDdOVo8Li2Tzapur/tu/weHW3xGPsT6zs
-         GwVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+vqFcAPpr2Wrm3IQBRWJ29wt2kc6RE+Zc3iAnlFe6GY=;
-        b=ehOeT8YH1GrZuz/wsKPRkrPgeS+4v6SfasSeltZ+GCc0Q87RLBGa+BrnrvfYkWk70x
-         nXA6fQo82L/yl6lZ6ujKsQNmBHBUJimyklQLuPgUh+ayWfiJNezXQlQFsyz3CoCxcAZe
-         n47Od7A/lDu+7IDVu6TjfwdychKpGYRuTgP195j8ZNW25imJMhFc1viC/I2V0HDINzGe
-         aGlvIZfuVKXXWFspl9EMaqnU9+1ND5ZbCVKhWWajNfYFlvurXGcBRNPKVkqzZC4P1S+o
-         onZsUvWYgN1FNUsHva7LV4cAnZA6SUmpI7wYTEE9f5tb9srJ4EmtJJLDXvCzCF+aevrx
-         pa6w==
-X-Gm-Message-State: AOAM530nww/qulTrURy2Ex9KMXGl8SSI0vn4OXTw/GjzPE+y/nKMlaS0
-        FULyJshRgViPniqOmtIvPNHSQmg3yNcE71MTAfNA9A==
-X-Google-Smtp-Source: ABdhPJyo55MqgRQDKulqoMn04KoWQCUp51qWy4Z5KYNeT0BBLUr4vsWWfK5wvi9jXem9ykTLN5UMvoyZTpEdSMcXwUM=
-X-Received: by 2002:a2e:934f:: with SMTP id m15mr22566736ljh.208.1626715811254;
- Mon, 19 Jul 2021 10:30:11 -0700 (PDT)
+        id S1353553AbhGSRbW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 19 Jul 2021 13:31:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58634 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1379917AbhGSR13 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 19 Jul 2021 13:27:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1626718087;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=IBF1HhagFH513KCNaC2u9KBtrM6AyFS1DGmN7/wZdAA=;
+        b=DzQq+QCoN/o1crVKrN6gL19XA6Q5K3KT6CYgPy98lxSQ9rySP5Yy3Ey63TgcsjxaIqq6FH
+        +urCnX+HqOH4hpG9gHuIZ5Tl/tZlktvk41phRezR0VUN19TdSCfVxOOx6upy80ZBtRa658
+        DP1SgJXwjM3/68oW6Y54CvtYhjq/geE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-354-_Q69ehj8NUSZbCa1hvPJdw-1; Mon, 19 Jul 2021 14:08:06 -0400
+X-MC-Unique: _Q69ehj8NUSZbCa1hvPJdw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 254B41023F57;
+        Mon, 19 Jul 2021 18:08:05 +0000 (UTC)
+Received: from virtlab719.virt.lab.eng.bos.redhat.com (virtlab719.virt.lab.eng.bos.redhat.com [10.19.153.15])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A38F460CA1;
+        Mon, 19 Jul 2021 18:07:52 +0000 (UTC)
+From:   Nitesh Narayan Lal <nitesh@redhat.com>
+To:     linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-pci@vger.kernel.org,
+        tglx@linutronix.de, jesse.brandeburg@intel.com,
+        robin.murphy@arm.com, mtosatti@redhat.com, mingo@kernel.org,
+        jbrandeb@kernel.org, frederic@kernel.org, juri.lelli@redhat.com,
+        abelits@marvell.com, bhelgaas@google.com, rostedt@goodmis.org,
+        peterz@infradead.org, davem@davemloft.net,
+        akpm@linux-foundation.org, sfr@canb.auug.org.au,
+        stephen@networkplumber.org, rppt@linux.vnet.ibm.com,
+        chris.friesen@windriver.com, maz@kernel.org, nhorman@tuxdriver.com,
+        pjwaskiewicz@gmail.com, sassmann@redhat.com, thenzl@redhat.com,
+        kashyap.desai@broadcom.com, sumit.saxena@broadcom.com,
+        shivasharan.srikanteshwara@broadcom.com,
+        sathya.prakash@broadcom.com, sreekanth.reddy@broadcom.com,
+        suganath-prabu.subramani@broadcom.com, james.smart@broadcom.com,
+        dick.kennedy@broadcom.com, jkc@redhat.com, faisal.latif@intel.com,
+        shiraz.saleem@intel.com, tariqt@nvidia.com, ahleihel@redhat.com,
+        kheib@redhat.com, borisp@nvidia.com, saeedm@nvidia.com,
+        benve@cisco.com, govind@gmx.com, jassisinghbrar@gmail.com,
+        ajit.khaparde@broadcom.com, sriharsha.basavapatna@broadcom.com,
+        somnath.kotur@broadcom.com, nilal@redhat.com,
+        tatyana.e.nikolova@intel.com, mustafa.ismail@intel.com,
+        ahs3@redhat.com, leonro@nvidia.com,
+        chandrakanth.patil@broadcom.com, bjorn.andersson@linaro.org,
+        chunkuang.hu@kernel.org, yongqiang.niu@mediatek.com,
+        baolin.wang7@gmail.com, poros@redhat.com, minlei@redhat.com,
+        emilne@redhat.com, jejb@linux.ibm.com, martin.petersen@oracle.com,
+        _govind@gmx.com, ley.foon.tan@intel.com, kabel@kernel.org,
+        viresh.kumar@linaro.org, Tushar.Khandelwal@arm.com,
+        luobin9@huawei.com
+Subject: [PATCH v4 00/14] genirq: Cleanup the usage of irq_set_affinity_hint
+Date:   Mon, 19 Jul 2021 14:07:32 -0400
+Message-Id: <20210719180746.1008665-1-nitesh@redhat.com>
 MIME-Version: 1.0
-References: <20210716184719.269033-5-posk@google.com> <2c971806-b8f6-50b9-491f-e1ede4a33579@uwaterloo.ca>
-In-Reply-To: <2c971806-b8f6-50b9-491f-e1ede4a33579@uwaterloo.ca>
-From:   Peter Oskolkov <posk@google.com>
-Date:   Mon, 19 Jul 2021 10:29:59 -0700
-Message-ID: <CAPNVh5cmhFEWr4bmODkDDFhV=mHLcO0DZJ432GEL=OitzPP80g@mail.gmail.com>
-Subject: Re: [RFC PATCH 4/4 v0.3] sched/umcg: RFC: implement UMCG syscalls
-To:     Thierry Delisle <tdelisle@uwaterloo.ca>
-Cc:     posk@posk.io, avagin@google.com, bsegall@google.com,
-        jannh@google.com, jnewsome@torproject.org, joel@joelfernandes.org,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mingo@redhat.com, peterz@infradead.org, pjt@google.com,
-        tglx@linutronix.de, Peter Buhr <pabuhr@uwaterloo.ca>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jul 19, 2021 at 9:07 AM Thierry Delisle <tdelisle@uwaterloo.ca> wrote:
->
->  > /**
->  >  * @idle_servers_ptr: a single-linked list pointing to the list
->  >  *                    of idle servers. Can be NULL.
->  >  *
->  >  * Readable/writable by both the kernel and the userspace: the
->  >  * userspace adds items to the list, the kernel removes them.
->  >  *
->  >  * This is a single-linked list (stack): head->next->next->next->NULL.
->  >  * "next" nodes are idle_servers_ptr fields in struct umcg_task.
->  >  *
->  >  * Example:
->  >  *
->  >  *  a running worker             idle server 1        idle server 2
->  >  *
->  >  * struct umct_task:             struct umcg_task:    struct umcg_task:
->  >  *    state                         state state
->  >  *    api_version                   api_version api_version
->  >  *    ...                           ...                  ...
->  >  *    idle_servers_ptr --> head --> idle_servers_ptr -->
-> idle_servers_ptr --> NULL
->  >  *    ...                           ...                  ...
->  >  *
->  >  *
->  >  * Due to the way struct umcg_task is aligned, idle_servers_ptr
->  >  * is aligned at 8 byte boundary, and so has its first byte as zero
->  >  * when it holds a valid pointer.
->  >  *
->  >  * When pulling idle servers from the list, the kernel marks nodes as
->  >  * "deleted" by ORing the node value (the pointer) with 1UL atomically.
->  >  * If a node is "deleted" (i.e. its value AND 1UL is not zero),
->  >  * the kernel proceeds to the next node.
->  >  *
->  >  * The kernel checks at most [nr_cpu_ids * 2] first nodes in the list.
->  >  *
->  >  * It is NOT considered an error if the kernel cannot find an idle
->  >  * server.
->  >  *
->  >  * The userspace is responsible for cleanup/gc (i.e. for actually
->  >  * removing nodes marked as "deleted" from the list).
->  >  */
->  > uint64_t    idle_servers_ptr;    /* r/w */
->
-> I don't understand the reason for using this ad-hoc scheme, over using a
-> simple
-> eventfd to do the job. As I understand it, the goal here is to let
-> servers that
-> cannot find workers to run, block instead of spinning. Isn't that
-> exactly what
-> the eventfd interface is for?
+The drivers currently rely on irq_set_affinity_hint() to either set the
+affinity_hint that is consumed by the userspace and/or to enforce a custom
+affinity.
 
-Latency/efficiency: on worker wakeup an idle server can be picked from
-the list and context-switched into synchronously, on the same CPU.
-Using FDs and select/poll/epoll will add extra layers of abstractions;
-synchronous context-switches (not yet fully implemented in UMCG) will
-most likely be impossible. This patchset seems much more efficient and
-lightweight than whatever can be built on top of FDs.
+irq_set_affinity_hint() as the name suggests is originally introduced to
+only set the affinity_hint to help the userspace in guiding the interrupts
+and not the affinity itself. However, since the commit
 
->
-> Have you considered an idle_fd field, the kernel writes 1 to the fd when a
-> worker is appended to the idle_workers_ptr? Servers that don't find work can
-> read the fd or alternatively use select/poll/epoll. Multiple workers are
-> expected to share fds, either a single global fd, one fd per server, or any
-> other combination the scheduler may fancy.
->
+        e2e64a932556 "genirq: Set initial affinity in irq_set_affinity_hint()"
+
+irq_set_affinity_hint() also started applying the provided cpumask (if not
+NULL) as the affinity for the interrupts. The issue that this commit was
+trying to solve is to allow the drivers to enforce their affinity mask to
+distribute the interrupts across the CPUs such that they don't always end
+up on CPU0. This issue has been resolved within the irq subsystem since the
+commit
+
+        a0c9259dc4e1 "irq/matrix: Spread interrupts on allocation"
+
+Hence, there is no need for the drivers to overwrite the affinity to spread
+as it is dynamically performed at the time of allocation.
+
+Also, irq_set_affinity_hint() setting affinity unconditionally introduces
+issues for the drivers that only want to set their affinity_hint and not the
+affinity itself as for these driver interrupts the default_smp_affinity_mask
+is completely ignored (for detailed investigation please refer to [1]).
+
+Unfortunately reverting the commit e2e64a932556 is not an option at this
+point for two reasons [2]:
+
+- Several drivers for a valid reason (performance) rely on this API to
+  enforce their affinity mask
+
+- Until very recently this was the only exported interface that was
+  available
+
+To clear this out Thomas has come up with the following interfaces:
+
+- irq_set_affinity(): only sets affinity of an IRQ [3]
+- irq_update_affinity_hint(): Only sets the hint [4]
+- irq_set_affinity_and_hint(): Sets both affinity and the hint mask [4]
+
+The first API is already merged in the linus's tree and the patch
+that introduces the other two interfaces is included with this patch-set.
+
+To move to the stage where we can safely get rid of the
+irq_set_affinity_hint(), which has been marked deprecated, we have to
+move all its consumers to these new interfaces. In this patch-set, I have
+done that for a few drivers and will hopefully try to move the remaining of
+them in the coming days.
+
+Testing
+-------
+In terms of testing, I have performed some basic testing on x86 to verify
+things such as the interrupts are evenly spread on all CPUs, hint mask is
+correctly set etc. for the drivers - i40e, iavf, mlx5, mlx4, ixgbe, and
+enic on top of:
+
+        git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
+
+So more testing is probably required for these and the drivers that I didn't
+test and any help will be much appreciated.
+
+
+Notes
+-----
+- For the mpt3sas driver I decided to go with the usage of
+  irq_set_affinity_and_hint over irq_set_affinity based on my analysis of
+  it and the megaraid driver. However, if we are sure that it is not
+  required then I can replace it with just irq_set_affinity as one of its
+  comment suggests.
+
+Change from v3 [5]
+------------------
+- Replaced irq_set_affinity_and_hint with irq_update_affinity_hint in
+  irdma (Leon Romanovsky)
+- rebased the patches on top of 5.14-rc2
+
+
+Change from v2 [6]
+------------------
+
+- Rebased on top of 5.14-rc1 (Leon Romanovsky)
+  + After discussion with Leon [7], made changes in the mlx5 patch to use
+    irq_set_affinity_and_hint over irq_update_affinity_hint
+  + i40iw is replaced with irdma driver, hence made the respective changes
+    in irdma (also replcaed irq_update_affinity_hint with
+    irq_set_affinity_and_hint).
+
+Change from v1 [8]
+------------------
+- Fixed compilation error by adding the new interface definitions for cases
+  where CONFIG_SMP is not defined
+
+- Fixed function usage in megaraid_sas and removed unnecessary variable
+  (Robin Murphy)
+
+- Removed unwanted #if/endif from mlx4 (Leon Romanovsky)
+
+- Other indentation related fixes
+
+ 
+[1] https://lore.kernel.org/lkml/1a044a14-0884-eedb-5d30-28b4bec24b23@redhat.com/
+[2] https://lore.kernel.org/linux-pci/d1d5e797-49ee-4968-88c6-c07119343492@arm.com/
+[3] https://lore.kernel.org/linux-arm-kernel/20210518091725.046774792@linutronix.de/
+[4] https://lore.kernel.org/patchwork/patch/1434326/
+[5] https://lore.kernel.org/linux-scsi/20210713211502.464259-1-nitesh@redhat.com/
+[6] https://lore.kernel.org/lkml/20210629152746.2953364-1-nitesh@redhat.com/
+[7] https://lore.kernel.org/lkml/YO0eKv2GJcADQTHH@unreal/
+[8] https://lore.kernel.org/linux-scsi/20210617182242.8637-1-nitesh@redhat.com/
+
+Nitesh Narayan Lal (13):
+  iavf: Use irq_update_affinity_hint
+  i40e: Use irq_update_affinity_hint
+  scsi: megaraid_sas: Use irq_set_affinity_and_hint
+  scsi: mpt3sas: Use irq_set_affinity_and_hint
+  RDMA/irdma: Use irq_update_affinity_hint
+  enic: Use irq_update_affinity_hint
+  be2net: Use irq_update_affinity_hint
+  ixgbe: Use irq_update_affinity_hint
+  mailbox: Use irq_update_affinity_hint
+  scsi: lpfc: Use irq_set_affinity
+  hinic: Use irq_set_affinity_and_hint
+  net/mlx5: Use irq_set_affinity_and_hint
+  net/mlx4: Use irq_update_affinity_hint
+
+Thomas Gleixner (1):
+  genirq: Provide new interfaces for affinity hints
+
+ drivers/infiniband/hw/irdma/hw.c              |  4 +-
+ drivers/mailbox/bcm-flexrm-mailbox.c          |  4 +-
+ drivers/net/ethernet/cisco/enic/enic_main.c   |  8 +--
+ drivers/net/ethernet/emulex/benet/be_main.c   |  4 +-
+ drivers/net/ethernet/huawei/hinic/hinic_rx.c  |  4 +-
+ drivers/net/ethernet/intel/i40e/i40e_main.c   |  8 +--
+ drivers/net/ethernet/intel/iavf/iavf_main.c   |  8 +--
+ drivers/net/ethernet/intel/ixgbe/ixgbe_main.c | 10 ++--
+ drivers/net/ethernet/mellanox/mlx4/eq.c       |  8 ++-
+ .../net/ethernet/mellanox/mlx5/core/pci_irq.c |  8 +--
+ drivers/scsi/lpfc/lpfc_init.c                 |  4 +-
+ drivers/scsi/megaraid/megaraid_sas_base.c     | 27 +++++-----
+ drivers/scsi/mpt3sas/mpt3sas_base.c           | 21 ++++----
+ include/linux/interrupt.h                     | 53 ++++++++++++++++++-
+ kernel/irq/manage.c                           |  8 +--
+ 15 files changed, 114 insertions(+), 65 deletions(-)
+
+--  
+
+
