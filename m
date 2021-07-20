@@ -2,207 +2,221 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EE893CFFFE
-	for <lists+linux-api@lfdr.de>; Tue, 20 Jul 2021 19:16:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E088D3D00DD
+	for <lists+linux-api@lfdr.de>; Tue, 20 Jul 2021 19:49:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229769AbhGTQfd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 20 Jul 2021 12:35:33 -0400
-Received: from mga06.intel.com ([134.134.136.31]:20594 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229779AbhGTQfb (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 20 Jul 2021 12:35:31 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10051"; a="272398710"
-X-IronPort-AV: E=Sophos;i="5.84,255,1620716400"; 
-   d="scan'208";a="272398710"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2021 10:13:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,255,1620716400"; 
-   d="scan'208";a="500833768"
-Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
-  by FMSMGA003.fm.intel.com with ESMTP; 20 Jul 2021 10:13:58 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Tue, 20 Jul 2021 10:13:58 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10 via Frontend Transport; Tue, 20 Jul 2021 10:13:58 -0700
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.49) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.10; Tue, 20 Jul 2021 10:13:55 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Wd7nfJiN/efwlagqwpy/ULSRbEL0Nw+IOuCW+iQjFocu9aHvPg4PENIUoPWzOGD6tPREZItFL1OuvjS4XaSMqXoRGBe7pk3hLy4g/FG0XjQ+1VdIoth4L2yh20ZmZd1bkBXA4AMeH+mGaGSH2uya2JTE3FsR4lWyGt4XdaNBTLtcwi9K2EsvGXLbbm6zP8cEo21p3iOGDBszDVkZiYICfoGioPxm/Qv8pzf7jHpY36gbVXXW8ybev53jg/YDViX2PGCNXtBCN4PWgDuq7bNBmnbXot/0/AUvWKk4/9u1L2HhADXgeKAdB0ru8q16VCa3Z4iDrofmFxx9/gJ0zV8Hbw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b1B1nHfnBy8kt9fksJFNGGqd0I9Jf5DlYWLV7KNWob8=;
- b=ZOLuKpmbO6PgHJyuLkQZaWdrkmvLymFBFovIt7z63Ne0XH0kQmDdvSHJmNdleHRrGmyIa9VMUi/W4iUPOuDArnb9OM8CjArV64b15OpRvEcSf6Y+cHTVFjgvCCqJyv/gTNMqfLIebzqP8KS8r1y/uQbp3TuUIvp7wUtK3i9T3A+2QUSmAjbzw7YLKz67GEQ7/rSvsrZVoY1ADmrBoil2O9XUjHvCqxQtBqWBactUkhFZTjiKGZEX8fIbOTz0hWslHzq+Sa7d884drTIoTIPIILamaigUBIh9OOeXRL/ZWiNXjvenB4jN+Tou5tuUvdHNIbibCMffEK3iQK2LvucwJQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b1B1nHfnBy8kt9fksJFNGGqd0I9Jf5DlYWLV7KNWob8=;
- b=m4Kl34ICihNz9++O7dTMW04H3/1C0432AH527yiH+MzP4DyUI0bGCJnG+OeYOub2YElTQuRIVX5dfYXyiTA7X1hnwKju8Yc+ID7cOk1KyC3jLF43sIaw5kV/F/mbMGIYXvngrxU34ta69JL/r9QXQ9LcXCdC/w27+o29YwdC6eM=
-Authentication-Results: linux.intel.com; dkim=none (message not signed)
- header.d=none;linux.intel.com; dmarc=none action=none header.from=intel.com;
-Received: from DM8PR11MB5736.namprd11.prod.outlook.com (2603:10b6:8:11::11) by
- DM6PR11MB2713.namprd11.prod.outlook.com (2603:10b6:5:c4::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4331.31; Tue, 20 Jul 2021 17:13:51 +0000
-Received: from DM8PR11MB5736.namprd11.prod.outlook.com
- ([fe80::b5d2:99f4:cd51:f197]) by DM8PR11MB5736.namprd11.prod.outlook.com
- ([fe80::b5d2:99f4:cd51:f197%4]) with mapi id 15.20.4331.034; Tue, 20 Jul 2021
- 17:13:51 +0000
-Subject: Re: [PATCH v27 23/31] x86/cet/shstk: Add user-mode shadow stack
- support
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "Xu, Pengfei" <pengfei.xu@intel.com>,
-        "vedvyas.shanbhogue@intel.com" <vedvyas.shanbhogue@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "jannh@google.com" <jannh@google.com>,
-        "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "Huang, Haitao" <haitao.huang@intel.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "esyr@redhat.com" <esyr@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>
-References: <20210521221211.29077-1-yu-cheng.yu@intel.com>
- <20210521221211.29077-24-yu-cheng.yu@intel.com>
- <798a369d3e7339a42f390321b56423cafd4e477f.camel@intel.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <44269526-6b77-f300-90cf-5501feac426c@intel.com>
-Date:   Tue, 20 Jul 2021 10:13:43 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.11.0
-In-Reply-To: <798a369d3e7339a42f390321b56423cafd4e477f.camel@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR03CA0354.namprd03.prod.outlook.com
- (2603:10b6:a03:39c::29) To DM8PR11MB5736.namprd11.prod.outlook.com
- (2603:10b6:8:11::11)
+        id S231562AbhGTRHJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 20 Jul 2021 13:07:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59672 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231201AbhGTRHE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 20 Jul 2021 13:07:04 -0400
+Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB0ACC061574;
+        Tue, 20 Jul 2021 10:47:42 -0700 (PDT)
+Received: by mail-il1-x12c.google.com with SMTP id p3so17921ilg.8;
+        Tue, 20 Jul 2021 10:47:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mojGnCKtKe4bKuPfPXowG0Y81V8x4ZUkv2eMpDDvWR4=;
+        b=Tv71jpcZfBeT13xtdlCuXJMPRgi4sip8V6BWRfqvAH0mjuDPb/aMUvuKObmJS0UF9w
+         V0ewkJV6pAaQoi1jbkFQ/shFD4YP59qHi+5haLa5/h7CjYgUIBQ6Tc7UMWP/LiqVJffe
+         sB54PSKpD8+3DEXWnnz74an+btqi4UTbvgdLCiO1EeEOZMx0smC79db+laRowyV0eOWS
+         r9X0qIaF49Iz0yzKbOGRpSVzMv+LlK0dIeHyJO4/32iC2s7EzxQluuA/CoBSNgjtsWRU
+         yF4dp3dc+grC+zOpX3Q5uKhFh4hjD58UHix44VfJnrBIxWfMxOv2k/n1r3A7K16b0O7c
+         JPBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mojGnCKtKe4bKuPfPXowG0Y81V8x4ZUkv2eMpDDvWR4=;
+        b=V5Ho+g3amP6K8hZApoSA7cq9JGjYejkIqxjLnxujwkiXSQnBSR4CkLlNh0rgvH5TGq
+         Yn8fqLKZuilntQ4taB4NZcHSaRSELtQevHjT4VIUiVf9yiO9RPR69ZL0AgcQmXOgVtaJ
+         hghEVB1MMCtRiXzLpm8y7cFvbt/34UAbMk3Kk0Etiy41GRJZr+Bima/KwtNNyZErwUeP
+         +6HIBtuNjJ66Krofv3vknfsNlpLh/1iQew1i8TntOxiZgorby+UEfPa3bVTNH4Hf4heS
+         x8C4ozeEPSn6/mu18OXbbd9xnXOuQjqXyppcWPcyl08YeOILI/USz986vqS0UF5WHg/L
+         oRhg==
+X-Gm-Message-State: AOAM5322gFAngOKQgdHyb7ARjVKsNnB/rQaEbK3Oq/fPkayzCI7Js/3c
+        l5kg379hFA8tcdtiKPmv8zJpMapd+IjsmL48nkY=
+X-Google-Smtp-Source: ABdhPJxle6nIlOmkV6HqQVHcAVu0rpcoNrsMztVyE94ak0Bfu0+lobjcYUz4TSxs7unoPcJ7d1rdBReIsfwNGvCEMxI=
+X-Received: by 2002:a92:6902:: with SMTP id e2mr21998034ilc.275.1626803262232;
+ Tue, 20 Jul 2021 10:47:42 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.0.18] (98.33.34.38) by SJ0PR03CA0354.namprd03.prod.outlook.com (2603:10b6:a03:39c::29) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.22 via Frontend Transport; Tue, 20 Jul 2021 17:13:47 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d8271ee5-b309-4e43-24e9-08d94ba1bef2
-X-MS-TrafficTypeDiagnostic: DM6PR11MB2713:
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR11MB2713C42D29BBAE2A34320A4BABE29@DM6PR11MB2713.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dY4WbcQl00Sdyvt/7H4LJAnyx7SXWHkGEINoZQFF+vGEtK7AWuMJituTfB/QAFFbOIjHrrLaMgALtRi8TKIkpX9UTndmND6N9U6ad4+WWlxfmiKNXjvre1EoqctDsmN576sllRb/34+BMuxuWUWzjTgupIA1CI9LFFkGv9rL9OVL/3bkp3csexPgDZUT3cABwKfYf2cTdvC/VsMoDvii7k8q0Tiei4+8N9Sdo2OdhrI3mO/Q2oUEpOtrnHYxOrsIcU2oNrCfMRRkuKBQmdgTnFGM1b+WPMYqhjvE4sPmrVq9JlhLJb+b/RwR0gg/1hGw5cxZ+bC90NkGOhXzDeXD4eZlIiy7hJaWDgpx+iCcLrfyWLaTKfWMzlOQ2+lB3kcqyKvaXHmCMb9Kq3KdXkBu60ltcKMbAH63GPsUZgazwIZeaKl156KYwlFqoa+KuisD55jvvDpl5WWoCbx/pL0UNJWvqPeOH2CaYDwmlsWcVLxZf9mGcvO6lBJ/Bjr6D9IV16Zd7QRCrFTENnk76F4rEe0A9ijOcoRHnK3V26U3VFEouw7I1G5cTfr7yRC5sejY0nbpCLwnOAAz2t/dFzL9GBlsqkt8Q3x1EFh0SqiDuBBmhljUCg9W4z33IH12h4dppfZ0iNiaGWUBCxyN3Y6DXJuL4H54/jUc4A+utSpg1LjIuDdDC6JWw9sasVGcXrauyr6pTwiIVs8goYyAGNM5/TdFoRYPCrl+rHxLN6EMhSCWIF31ICenAfZHqvpzGEtI
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR11MB5736.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(366004)(136003)(39860400002)(376002)(346002)(53546011)(36756003)(66476007)(26005)(956004)(38100700002)(83380400001)(921005)(478600001)(2616005)(6486002)(186003)(86362001)(8936002)(110136005)(316002)(31696002)(16576012)(2906002)(31686004)(6666004)(7416002)(8676002)(66946007)(5660300002)(66556008)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Rzl3d2lpMWs1YUlMejRXOWcxaHdjSFFvTUFER09JMlhwU1VpZ2NkTjBSRS9B?=
- =?utf-8?B?SWFYb0RRbnlyVHRJdEhHbHZ0QjdGUDUwdzBuam1iUXdQam1NM082ZlR0REYr?=
- =?utf-8?B?a3BRdHZrbWU1aW03N2FVZFlVeVFYdHlneWxSdXpSUWVOanovSkNmVkRUM2U1?=
- =?utf-8?B?RWljYVIxY0dORU8rQ0grbGd6YTdzNlYxV2tOYWwzWVM2R1Myc3ZBZHNhOVEx?=
- =?utf-8?B?b3ZsdHFoM3V4andsZGNaOFdmUHdYR0FZZDVSaVVTSFFKcit2dkEwa0JnWUFy?=
- =?utf-8?B?dGg0RnpZQk53YjF5bXZMRTlSQmZHa3dzSDVpM0ljSjVhU0JnUWhsd3ZSeS9U?=
- =?utf-8?B?a1AyQjJVZjZaVXFucy83ZDBGNitrdWF2M2YyOUQrYnVhTCtRWDZFaHFVWjRz?=
- =?utf-8?B?Q2dYYjZsb3g4UDdxZDhOc2VFNTg4SDZpK3duSjB3Um10S25vSW0wR0NYOU5I?=
- =?utf-8?B?WmJ1b3Byc3pkZWZSR3RPdk1CMEVTc0VycGxYSzNycSs4WU56WmhmRkxFMFhn?=
- =?utf-8?B?bHB5akh5azF5Y2lsQld2eXJEcldsQmpnRFpoQ1I0Z1N2dnZlbEpSRTRtRFFi?=
- =?utf-8?B?TXJibTlqVis4ck9paVlEd1lsaXkzQ3l5M3NWbjc3dS94N3BVVUlHOU9qd3c4?=
- =?utf-8?B?SDM0NzZHY2ZBQnVhREtqdnNabStsd3BoSmV0cEQyam94RnhyZzJvSkExcjR1?=
- =?utf-8?B?ZDVTMEgrYWlnZGFBQ3Y2aGl4T1N3U0tybjJYYWRuaC8zNXNrVnZYakI2eWZn?=
- =?utf-8?B?Vld5WURwaWUwSkVXZng4T2hMMnUyODlSM0RNOTVzTUU3dTNlUUtoNVhkVk44?=
- =?utf-8?B?T3o0M29jM2hFWWJSaE5HelcxUXJSZkdSVHpqMnVkeGhmaFg0SmQ3bmpEM1lt?=
- =?utf-8?B?NFYzZFJVVWh6OUJ4bTJyS2Yrb2pqbTVrRnE5L0JSK3ZpZzZRbFRjMDBrU0dl?=
- =?utf-8?B?T1RQRHhuaEYwNndEaWlQVkhWNjJGMEg0VlhVZHBYVjJrVHRzVjI1aVVhUk4v?=
- =?utf-8?B?NWlzREpXdU5sWTkvNTBSYUQxekp0UkJJc2VQUkdZb2VJc1pvR0dzZkpIc3Bm?=
- =?utf-8?B?RDRWajF5OHJ6MU9BRUMybVQ3M3dHUG9hYkgwb0I5TnJrbitRREdMSlVIUitT?=
- =?utf-8?B?TzBEY3hYd2lsZVBxZ2lBVjVYT0NsOEE5TFkwLzJKVVV2QkJqSGpYZnVSY1V5?=
- =?utf-8?B?YnN4YUtYWjV1VWhtV1YvRHZhSjQ1a29FNFo0TjZJRzFsS0dwd09GeE9DU0xQ?=
- =?utf-8?B?KzR6U08wYkg1aUdNYWVQNnAzbVpHcDVZQ2JUM0dYMFlnaDJrN3RoL3pNUHdK?=
- =?utf-8?B?ckJiY2JzQWIwVlNWTWFLZUNPWkRGbmIySjhCbTE2YTk3eEsveXQraDRsSEFr?=
- =?utf-8?B?N3FBM2FkODJCRURYMUtFTTlVUVBOcmk3cEFVL0E1eWRoSGpzaXNmcFJUREcz?=
- =?utf-8?B?WHFuSjZvQXNELzBFaDBiblQ0R1JzRUIxNXV3MGJWZHV0aUJYc3k5ZDQ4Qkdi?=
- =?utf-8?B?dHpmY1J5d2pFQk9aZFJ0T2hOSmtZYjJzZnI2RE9jb256QlB5eGxwNW5xaUNh?=
- =?utf-8?B?dFl3NHlLaE5DbXJXWEdLcXhpVVpKSWNlUzhEUmRFbDBYT0dCQWlKRVhWV3pm?=
- =?utf-8?B?OUoyL0xmSWVmMXdvZHhpenNmV0RpRXJPYnJ6VXA5bm1CblVDOTh2eWVwczB5?=
- =?utf-8?B?WnVEdTFRV1ZQZy93T1lVd2dwNXdHcDNWa25wbktSbjZtVGYzK1dMNDkzV1Jp?=
- =?utf-8?Q?z0n/5nFw9VXIGrffZpfUAWqK3cj+pL6o6jfARP6?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: d8271ee5-b309-4e43-24e9-08d94ba1bef2
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5736.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2021 17:13:51.6706
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qMk0GR2PrvzPTg2ebBlQXHkEwObe2Lsg0OilTL9FNAqBJn750YgLrED4xluUtnLwV1hh9J1qsbOPwpbwXwyb4g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB2713
-X-OriginatorOrg: intel.com
+References: <20210720160244.1449197-1-krisman@collabora.com>
+In-Reply-To: <20210720160244.1449197-1-krisman@collabora.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Tue, 20 Jul 2021 20:47:31 +0300
+Message-ID: <CAOQ4uxi9o6Vty2s+OXY5yeLDTJ2YMMO5NrAF+vmqOv69pQw0rw@mail.gmail.com>
+Subject: Re: [PATCH] fanotify.7, fanotify_mark.2: Document FAN_FS_ERROR
+To:     Gabriel Krisman Bertazi <krisman@collabora.com>
+Cc:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
+        linux-man <linux-man@vger.kernel.org>,
+        Khazhismel Kumykov <khazhy@google.com>,
+        Jan Kara <jack@suse.cz>, Linux API <linux-api@vger.kernel.org>,
+        Matthew Bobrowski <repnop@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 7/19/2021 11:23 AM, Edgecombe, Rick P wrote:
-> On Fri, 2021-05-21 at 15:12 -0700, Yu-cheng Yu wrote:
->> Introduce basic shadow stack enabling/disabling/allocation routines.
->> A task's shadow stack is allocated from memory with VM_SHADOW_STACK
->> flag
->> and has a fixed size of min(RLIMIT_STACK, 4GB).
->>
->> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
->> Cc: Kees Cook <keescook@chromium.org>
++linux-api
 
-[...]
+On Tue, Jul 20, 2021 at 7:02 PM Gabriel Krisman Bertazi
+<krisman@collabora.com> wrote:
+>
+> The kernel patches are not merged upstream, so please refrain from merging
+> it at the moment.  This submission attempts to preview the interface
+> and gather some interface review.
+>
+> Cc: Amir Goldstein <amir73il@gmail.com>
+> Cc: Jan Kara <jack@suse.cz>
+> Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
+>
 
->> diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
->> new file mode 100644
->> index 000000000000..5ea2b494e9f9
->> --- /dev/null
->> +++ b/arch/x86/kernel/shstk.c
-
-[...]
-
->> +int shstk_setup(void)
->> +{
->> +       struct thread_shstk *shstk = &current->thread.shstk;
->> +       unsigned long addr, size;
->> +
->> +       if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
->> +               return -EOPNOTSUPP;
-> The only caller of this will skip it if
-> !cpu_feature_enabled(X86_FEATURE_SHSTK), so this is dead logic. Same
-> pattern in the IBT patch.
-> 
-
-Indeed that is the case.  We can simply remove the test of 
-X86_FEATURE_SHSTK.
+Looks good as a first draft.
 
 Thanks,
-Yu-cheng
+Amir.
+
+> ---
+> To: Michael Kerrisk <mtk.manpages@gmail.com>
+> Cc: linux-man@vger.kernel.org
+> ---
+>  man2/fanotify_mark.2 | 14 +++++++++
+>  man7/fanotify.7      | 72 ++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 86 insertions(+)
+>
+> diff --git a/man2/fanotify_mark.2 b/man2/fanotify_mark.2
+> index be3f72e040c0..500e41faa4f0 100644
+> --- a/man2/fanotify_mark.2
+> +++ b/man2/fanotify_mark.2
+> @@ -214,6 +214,20 @@ Create an event when a marked file or directory itself is deleted.
+>  An fanotify group that identifies filesystem objects by file handles
+>  is required.
+>  .TP
+> +.BR FAN_FS_ERROR "(since Linux 5.15)"
+> +.\" commit WIP
+> +Create an event when a file system error is detected.
+> +A fanotify group that identifies filesystem objects by file handles
+> +is required.
+> +Support for this type of notification is done per-file system,
+> +but not every filesystem supports it.
+> +Additional information is submitted in the form of a
+> +.BR FAN_EVENT_INFO_TYPE_ERROR
+> +record.
+> +See
+> +.BR fanotify (7)
+> +for additional details.
+> +.TP
+>  .BR FAN_MOVED_FROM " (since Linux 5.1)"
+>  .\" commit 235328d1fa4251c6dcb32351219bb553a58838d2
+>  Create an event when a file or directory has been moved from a marked
+> diff --git a/man7/fanotify.7 b/man7/fanotify.7
+> index 6a7e70d75845..155ba8273463 100644
+> --- a/man7/fanotify.7
+> +++ b/man7/fanotify.7
+> @@ -188,6 +188,24 @@ struct fanotify_event_info_fid {
+>  .EE
+>  .in
+>  .PP
+> +In case of a FAN_FS_ERROR event,
+> +besides the file handle record,
+> +an additional record describing the error that occurred
+> +is included in the read buffer.
+> +The structure described below, will follow the generic
+> +.I fanotify_event_metadata
+> +structure within the read buffer:
+> +.PP
+> +.in +4n
+> +.EX
+> +struct fanotify_event_info_error {
+> +    struct fanotify_event_info_header hdr;
+> +    __s32 error;
+> +    __u32 error_count;
+> +};
+> +.EE
+> +.in
+> +.PP
+>  For performance reasons, it is recommended to use a large
+>  buffer size (for example, 4096 bytes),
+>  so that multiple events can be retrieved by a single
+> @@ -311,6 +329,9 @@ A child file or directory was deleted in a watched parent.
+>  .B FAN_DELETE_SELF
+>  A watched file or directory was deleted.
+>  .TP
+> +.B FAN_FS_ERROR
+> +A file-system error was detected.
+> +.TP
+>  .B FAN_MOVED_FROM
+>  A file or directory has been moved from a watched parent directory.
+>  .TP
+> @@ -510,6 +531,32 @@ and the file handle is followed by a null terminated string that identifies the
+>  name of a directory entry in that directory, or '.' to identify the directory
+>  object itself.
+>  .PP
+> +The fields of the
+> +.I fanotify_event_info_error
+> +structure are as follows:
+> +.TP
+> +.I hdr
+> +This is a structure of type
+> +.IR fanotify_event_info_header .
+> +is a generic header that contains information used to
+> +describe an additional information record attached to the event.
+> +For
+> +.IR fanotify_event_info_error ,
+> +.I info_type
+> +will have the value
+> +.BR FAN_EVENT_INFO_TYPE_ERROR .
+> +.I len
+> +has the size of the additional information record including the
+> +.IR fanotify_event_info_header
+> +itself.
+> +.TP
+> +.I error
+> +Identifies the file system specific error that occured
+> +.TP
+> +.I error_count
+> +This counts the number of errors suppressed
+> +since the last error was read.
+> +.PP
+>  The following macros are provided to iterate over a buffer containing
+>  fanotify event metadata returned by a
+>  .BR read (2)
+> @@ -599,6 +646,31 @@ field.
+>  In that case, the audit subsystem will log information about the access
+>  decision to the audit logs.
+>  .\"
+> +.SS Monitoring file systems for error
+> +A single FAN_FS_ERROR event is stored by the kernel at once.
+> +Extra error messages are suppressed and accounted
+> +inside the current FAN_FS_ERROR event record,
+> +but details about the errors are lost.
+> +.PP
+> +Error types reported by FAN_FS_ERROR are file system specific
+> +and not all kinds of error are reported by all file system.
+> +Refer to the file system documentation
+> +for the information of which errors are reported,
+> +and the meaning of those errors.
+> +.PP
+> +Errors not directly related to a file (i.e. super block corruption)
+> +are reported with an invalid file handler.
+> +For these errors,
+> +.I file_handle
+> +will have the field
+> +.I handle_type
+> +set to
+> +.BR FILEID_INVALID ,
+> +and the
+> +.I f_handle
+> +buffer set to
+> +.BR 0 .
+> +.\"
+>  .SS Closing the fanotify file descriptor
+>  When all file descriptors referring to the fanotify notification group are
+>  closed, the fanotify group is released and its resources
+> --
+> 2.32.0
+>
