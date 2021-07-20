@@ -2,37 +2,37 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E50F53D055C
-	for <lists+linux-api@lfdr.de>; Wed, 21 Jul 2021 01:29:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C6253D05C0
+	for <lists+linux-api@lfdr.de>; Wed, 21 Jul 2021 01:43:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236146AbhGTWrL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 20 Jul 2021 18:47:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45422 "EHLO
+        id S231425AbhGTXBP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 20 Jul 2021 19:01:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55161 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235899AbhGTWq4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 20 Jul 2021 18:46:56 -0400
+        by vger.kernel.org with ESMTP id S235030AbhGTWqS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 20 Jul 2021 18:46:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1626823650;
+        s=mimecast20190719; t=1626823615;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=MHX6VgCVwY3EOyxVkU/Jky0Gontpyo3T9jeHgUtLjNU=;
-        b=OFdlJgqGIW9KpGx3wyCDJQtD1MeM4FNR06pqEeY5xZp3IsLuB5oP72kvvkNzjDmkAjl1rT
-        /0e7dn7KIGLog1GciHKD7+wjodlq4i6ClbuJpchBFS1pqJu4gvfB/0njjp9gblSENK8gLM
-        hodKrBj3bxycncusYEaK9YpDi5OHqW4=
+        bh=Nhh0ybWcggmNFHzIxWUnjcT654bVMG/l5DZlZ7Mot4o=;
+        b=h9UvARjV+/P0fJHsTKYJnmJ0v7eVWhoexzR2DmySQQY7iPFLfApYrS1tQPimLKC40/6pnj
+        8cpjYIEMkgHKHQ2v/AQsdjxYDpyavG4UoewJZJJUNT9PZuRB/fcGgmSesx77/ISGQhW6Xu
+        8XqOaDlMYZv0MuQzwO7Me3UVE5M1zgU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-292-Aa6SylOWNZSpTkgrZbU9PA-1; Tue, 20 Jul 2021 19:27:29 -0400
-X-MC-Unique: Aa6SylOWNZSpTkgrZbU9PA-1
+ us-mta-229-_-xhb9uUOGux2J5_hNnWyw-1; Tue, 20 Jul 2021 19:26:54 -0400
+X-MC-Unique: _-xhb9uUOGux2J5_hNnWyw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE2BB1835AC2;
-        Tue, 20 Jul 2021 23:27:27 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C00EE100C610;
+        Tue, 20 Jul 2021 23:26:52 +0000 (UTC)
 Received: from virtlab719.virt.lab.eng.bos.redhat.com (virtlab719.virt.lab.eng.bos.redhat.com [10.19.153.15])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 318D519C87;
-        Tue, 20 Jul 2021 23:27:23 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A76B069FAD;
+        Tue, 20 Jul 2021 23:26:44 +0000 (UTC)
 From:   Nitesh Narayan Lal <nitesh@redhat.com>
 To:     linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
         intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
@@ -64,9 +64,9 @@ To:     linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
         emilne@redhat.com, jejb@linux.ibm.com, martin.petersen@oracle.com,
         _govind@gmx.com, kabel@kernel.org, viresh.kumar@linaro.org,
         Tushar.Khandelwal@arm.com, kuba@kernel.org
-Subject: [PATCH v5 09/14] ixgbe: Use irq_update_affinity_hint
-Date:   Tue, 20 Jul 2021 19:26:19 -0400
-Message-Id: <20210720232624.1493424-10-nitesh@redhat.com>
+Subject: [PATCH v5 03/14] i40e: Use irq_update_affinity_hint
+Date:   Tue, 20 Jul 2021 19:26:13 -0400
+Message-Id: <20210720232624.1493424-4-nitesh@redhat.com>
 In-Reply-To: <20210720232624.1493424-1-nitesh@redhat.com>
 References: <20210720232624.1493424-1-nitesh@redhat.com>
 MIME-Version: 1.0
@@ -76,58 +76,68 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The driver uses irq_set_affinity_hint() to update the affinity_hint mask
-that is consumed by the userspace to distribute the interrupts. However,
-under the hood irq_set_affinity_hint() also applies the provided cpumask
-(if not NULL) as the affinity for the given interrupt which is an
-undocumented side effect.
+The driver uses irq_set_affinity_hint() for two purposes:
 
-To remove this side effect irq_set_affinity_hint() has been marked
-as deprecated and new interfaces have been introduced. Hence, replace the
-irq_set_affinity_hint() with the new interface irq_update_affinity_hint()
-that only updates the affinity_hint pointer.
+- To set the affinity_hint which is consumed by the userspace for
+  distributing the interrupts
+
+- To apply an affinity that it provides for the i40e interrupts
+
+The latter is done to ensure that all the interrupts are evenly spread
+across all available CPUs. However, since commit a0c9259dc4e1 ("irq/matrix:
+Spread interrupts on allocation") the spreading of interrupts is
+dynamically performed at the time of allocation. Hence, there is no need
+for the drivers to enforce their own affinity for the spreading of
+interrupts.
+
+Also, irq_set_affinity_hint() applying the provided cpumask as an affinity
+for the interrupt is an undocumented side effect. To remove this side
+effect irq_set_affinity_hint() has been marked as deprecated and new
+interfaces have been introduced. Hence, replace the irq_set_affinity_hint()
+with the new interface irq_update_affinity_hint() that only sets the
+pointer for the affinity_hint.
 
 Signed-off-by: Nitesh Narayan Lal <nitesh@redhat.com>
 Acked-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
 ---
- drivers/net/ethernet/intel/ixgbe/ixgbe_main.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/net/ethernet/intel/i40e/i40e_main.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/net/ethernet/intel/ixgbe/ixgbe_main.c b/drivers/net/ethernet/intel/ixgbe/ixgbe_main.c
-index 913253f8ecb4..3b7db68ef860 100644
---- a/drivers/net/ethernet/intel/ixgbe/ixgbe_main.c
-+++ b/drivers/net/ethernet/intel/ixgbe/ixgbe_main.c
-@@ -3241,8 +3241,8 @@ static int ixgbe_request_msix_irqs(struct ixgbe_adapter *adapter)
- 		/* If Flow Director is enabled, set interrupt affinity */
- 		if (adapter->flags & IXGBE_FLAG_FDIR_HASH_CAPABLE) {
- 			/* assign the mask for this irq */
--			irq_set_affinity_hint(entry->vector,
--					      &q_vector->affinity_mask);
-+			irq_update_affinity_hint(entry->vector,
-+						 &q_vector->affinity_mask);
- 		}
+diff --git a/drivers/net/ethernet/intel/i40e/i40e_main.c b/drivers/net/ethernet/intel/i40e/i40e_main.c
+index 861e59a350bd..e2c525a6cab3 100644
+--- a/drivers/net/ethernet/intel/i40e/i40e_main.c
++++ b/drivers/net/ethernet/intel/i40e/i40e_main.c
+@@ -3873,10 +3873,10 @@ static int i40e_vsi_request_irq_msix(struct i40e_vsi *vsi, char *basename)
+ 		 *
+ 		 * get_cpu_mask returns a static constant mask with
+ 		 * a permanent lifetime so it's ok to pass to
+-		 * irq_set_affinity_hint without making a copy.
++		 * irq_update_affinity_hint without making a copy.
+ 		 */
+ 		cpu = cpumask_local_spread(q_vector->v_idx, -1);
+-		irq_set_affinity_hint(irq_num, get_cpu_mask(cpu));
++		irq_update_affinity_hint(irq_num, get_cpu_mask(cpu));
  	}
  
-@@ -3258,8 +3258,8 @@ static int ixgbe_request_msix_irqs(struct ixgbe_adapter *adapter)
- free_queue_irqs:
- 	while (vector) {
+ 	vsi->irqs_ready = true;
+@@ -3887,7 +3887,7 @@ static int i40e_vsi_request_irq_msix(struct i40e_vsi *vsi, char *basename)
  		vector--;
--		irq_set_affinity_hint(adapter->msix_entries[vector].vector,
--				      NULL);
-+		irq_update_affinity_hint(adapter->msix_entries[vector].vector,
-+					 NULL);
- 		free_irq(adapter->msix_entries[vector].vector,
- 			 adapter->q_vector[vector]);
+ 		irq_num = pf->msix_entries[base + vector].vector;
+ 		irq_set_affinity_notifier(irq_num, NULL);
+-		irq_set_affinity_hint(irq_num, NULL);
++		irq_update_affinity_hint(irq_num, NULL);
+ 		free_irq(irq_num, &vsi->q_vectors[vector]);
  	}
-@@ -3392,7 +3392,7 @@ static void ixgbe_free_irq(struct ixgbe_adapter *adapter)
- 			continue;
+ 	return err;
+@@ -4695,7 +4695,7 @@ static void i40e_vsi_free_irq(struct i40e_vsi *vsi)
+ 			/* clear the affinity notifier in the IRQ descriptor */
+ 			irq_set_affinity_notifier(irq_num, NULL);
+ 			/* remove our suggested affinity mask for this IRQ */
+-			irq_set_affinity_hint(irq_num, NULL);
++			irq_update_affinity_hint(irq_num, NULL);
+ 			synchronize_irq(irq_num);
+ 			free_irq(irq_num, vsi->q_vectors[i]);
  
- 		/* clear the affinity_mask in the IRQ descriptor */
--		irq_set_affinity_hint(entry->vector, NULL);
-+		irq_update_affinity_hint(entry->vector, NULL);
- 
- 		free_irq(entry->vector, q_vector);
- 	}
 -- 
 2.27.0
 
