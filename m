@@ -2,147 +2,122 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE66D3D1678
-	for <lists+linux-api@lfdr.de>; Wed, 21 Jul 2021 20:38:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F0AA3D1770
+	for <lists+linux-api@lfdr.de>; Wed, 21 Jul 2021 22:00:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230444AbhGUR52 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 21 Jul 2021 13:57:28 -0400
-Received: from mga05.intel.com ([192.55.52.43]:28452 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230269AbhGUR52 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 21 Jul 2021 13:57:28 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10052"; a="297055867"
-X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; 
-   d="scan'208";a="297055867"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2021 11:38:04 -0700
-X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; 
-   d="scan'208";a="576781537"
-Received: from aannamal-mobl.amr.corp.intel.com (HELO [10.212.140.253]) ([10.212.140.253])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2021 11:38:02 -0700
-Subject: Re: [PATCH v27 24/31] x86/cet/shstk: Handle thread shadow stack
-To:     John Allen <john.allen@amd.com>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        id S239170AbhGUTP1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 21 Jul 2021 15:15:27 -0400
+Received: from esa.hc503-62.ca.iphmx.com ([216.71.131.47]:56842 "EHLO
+        esa.hc503-62.ca.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238151AbhGUTP1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 21 Jul 2021 15:15:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=uwaterloo.ca; i=@uwaterloo.ca; q=dns/txt; s=default;
+  t=1626897363; x=1658433363;
+  h=subject:to:cc:references:in-reply-to:from:message-id:
+   date:mime-version:content-transfer-encoding;
+  bh=wByW4kQoNce1t766GDEbqdfp/u97yFN+31QKN2jPBsQ=;
+  b=vOHXJI3ZSwXAjw35WMwDVjMUKRFym0aTQFlZYY+xuv5RY2dY2oSoqMde
+   PhNOlO+XpEHr1278+4DGlvcZ4w4pv3HgXo/ikLOeREV+z5Pn2OksH4OlZ
+   +sLryW5B1bcFM7RXkioSHXrBHQTiOxhwcEyZXOgjyNKsuLO4eBr8lxhUy
+   I=;
+Received: from connect.uwaterloo.ca (HELO connhm04.connect.uwaterloo.ca) ([129.97.208.43])
+  by ob1.hc503-62.ca.iphmx.com with ESMTP/TLS/AES256-GCM-SHA384; 21 Jul 2021 15:56:01 -0400
+Received: from [10.42.0.123] (10.32.139.159) by connhm04.connect.uwaterloo.ca
+ (172.16.137.68) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Wed, 21
+ Jul 2021 15:56:00 -0400
+Subject: Re: [RFC PATCH 4/4 v0.3] sched/umcg: RFC: implement UMCG syscalls
+To:     Peter Oskolkov <posk@posk.io>
+CC:     Peter Oskolkov <posk@google.com>, Andrei Vagin <avagin@google.com>,
+        Ben Segall <bsegall@google.com>, Jann Horn <jannh@google.com>,
+        Jim Newsome <jnewsome@torproject.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        <linux-api@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-References: <20210521221211.29077-1-yu-cheng.yu@intel.com>
- <20210521221211.29077-25-yu-cheng.yu@intel.com>
- <YPhkIHJ0guc4UNoO@AUS-LX-JohALLEN.amd.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <cd064202-2c5f-b1d5-2970-9bff0a762a95@intel.com>
-Date:   Wed, 21 Jul 2021 11:37:59 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Paul Turner <pjt@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Buhr <pabuhr@uwaterloo.ca>
+References: <20210716184719.269033-5-posk@google.com>
+ <2c971806-b8f6-50b9-491f-e1ede4a33579@uwaterloo.ca>
+ <CAPNVh5cmhFEWr4bmODkDDFhV=mHLcO0DZJ432GEL=OitzPP80g@mail.gmail.com>
+ <c8ea4892-51e5-0dc2-86c6-b705e8a23cde@uwaterloo.ca>
+ <CAFTs51XW0H1UJKv0t2tq+5VLfgPMtZmDcxQVUQ5HkgDe38jHpw@mail.gmail.com>
+In-Reply-To: <CAFTs51XW0H1UJKv0t2tq+5VLfgPMtZmDcxQVUQ5HkgDe38jHpw@mail.gmail.com>
+From:   Thierry Delisle <tdelisle@uwaterloo.ca>
+Message-ID: <5790661b-869c-68bd-86fa-62f580e84be1@uwaterloo.ca>
+Date:   Wed, 21 Jul 2021 15:55:59 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YPhkIHJ0guc4UNoO@AUS-LX-JohALLEN.amd.com>
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.32.139.159]
+X-ClientProxiedBy: connhm04.connect.uwaterloo.ca (172.16.137.68) To
+ connhm04.connect.uwaterloo.ca (172.16.137.68)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 7/21/21 11:14 AM, John Allen wrote:
->> +int shstk_alloc_thread_stack(struct task_struct *tsk, unsigned long clone_flags,
->> +			     unsigned long stack_size)
->> +{
->> +	struct thread_shstk *shstk = &tsk->thread.shstk;
->> +	struct cet_user_state *state;
->> +	unsigned long addr;
->> +
->> +	if (!stack_size)
->> +		return -EINVAL;
-> I've been doing some light testing on AMD hardware and I've found that
-> this version of the patchset doesn't boot for me. It appears that when
-> systemd processes start spawning, they hit the above case, return
-> -EINVAL, and the fork fails. In these cases, copy_thread has been passed
-> 0 for both sp and stack_size.
+ > Yes, this is naturally supported in the current patchset on the kernel
+ > side, and is supported in libumcg (to be posted, later when the kernel
+ > side is settled); internally at Google, some applications use
+ > different "groups" of workers/servers per NUMA node.
 
-A few tangential things I noticed:
+Good to know. Cforall has the same feature, where we refer to these groups
+as "clusters". https://doi.org/10.1002/spe.2925 (Section 7)
 
-This hunk is not mentioned in the version changelog at all.  I also
-don't see any feedback that might have prompted it.  This is one reason
-per-patch changelogs are preferred.
+ > Please see the attached atomic_stack.h file - I use it in my tests,
+ > things seem to be working. Specifically, atomic_stack_gc does the
+ > cleanup. For the kernel side of things, see the third patch in this
+ > patchset.
 
-As a general rule, new features should strive to be implemented in a way
-that it's *obvious* that they won't break old code.
-shstk_alloc_thread_stack() fails that test for me.  If it had:
+I don't believe the atomic_stack_gc function is robust enough to be 
+offering
+any guarantee. I believe that once a node is unlinked, its next pointer 
+should
+be reset immediately, e.g., by writing 0xDEADDEADDEADDEAD. Do your tests 
+work
+if the next pointer is reset immediately on reclaimed nodes?
 
-	if (!cpu_feature_enabled(X86_FEATURE_SHSTK)) // or whatever
-		return 0;
+As far as I can tell, the reclaimed nodes in atomic_stack_gc still contain
+valid next fields. I believe there is a race which can lead to the kernel
+reading reclaimed nodes. If atomic_stack_gc does not reset the fields, 
+this bug
+could be hidden in the testing.
 
-in the function, it would be obviously harmless.  Better yet would be
-doing the feature check at the shstk_alloc_thread_stack() call site,
-that way even the function call can be optimized out.
+An more aggressive test is to put each node in a different page and 
+remove read
+permissions when the node is reclaimed. I'm not sure this applies when the
+kernel is the one reading.
 
-Further, this confused me because the changelog didn't even mention the
-arg -> stack_size rename.  That would have been nice for another patch,
-or an extra sentence in the changelog.
+
+ > To keep the kernel side light and simple. To also protect the kernel
+ > from spinning if userspace misbehaves. Basically, the overall approach
+ > is to delegate most of the work to the userspace, and keep the bare
+ > minimum in the kernel.
+
+I'll try to keep this in mind then.
+
+
+After some thought, I'll suggest a scheme to significantly reduce 
+complexity.
+As I understand, the idle_workers_ptr are linked to form one or more
+Multi-Producer Single-Consumer queues. If each head is augmented with a 
+single
+volatile tid-sized word, servers that want to go idle can simply write 
+their id
+in the word. When the kernel adds something to the idle_workers_ptr 
+list, it
+simply does an XCHG with 0 or any INVALID_TID. This scheme only supports 
+one
+server blocking per idle_workers_ptr list. To keep the "kernel side 
+light and
+simple", you can simply ask that any extra servers must synchronize 
+among each
+other to pick which server is responsible for wait on behalf of everyone.
+
+
