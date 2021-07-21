@@ -2,305 +2,272 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CDA423D08F8
-	for <lists+linux-api@lfdr.de>; Wed, 21 Jul 2021 08:35:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41BC13D0953
+	for <lists+linux-api@lfdr.de>; Wed, 21 Jul 2021 09:01:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234019AbhGUFys (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 21 Jul 2021 01:54:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33160 "EHLO
+        id S234244AbhGUGVM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 21 Jul 2021 02:21:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233961AbhGUFyq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 21 Jul 2021 01:54:46 -0400
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1987C061574;
-        Tue, 20 Jul 2021 23:35:21 -0700 (PDT)
-Received: by mail-io1-xd33.google.com with SMTP id v26so1155208iom.11;
-        Tue, 20 Jul 2021 23:35:21 -0700 (PDT)
+        with ESMTP id S234126AbhGUGVC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 21 Jul 2021 02:21:02 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05E87C061574
+        for <linux-api@vger.kernel.org>; Wed, 21 Jul 2021 00:01:35 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id q10so1494077pfj.12
+        for <linux-api@vger.kernel.org>; Wed, 21 Jul 2021 00:01:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=D1uJAgYZ/Oc4JHLBzSVMNZPEXe0EH86/omgrRve02Kg=;
-        b=hSLqggjE/c223eJhdCG0k6xZt0vQantraeLGVmLH4NyPWRsNc8AEmV3CAHVzhC+OQE
-         nxZMhTYDds3KShqv8Tx10Tb1YmrttWNh5ExGsXHurJol2thLtOzC3IWsz+RDos+EqL/k
-         rcgrXyaSWyVJQPgjCem51wR5lyiD00ieC7VtD+jGoMWZ1Lcw4KnVv79opsPhLZscHkuo
-         oBEtLxqVUHSHONT6OEfFxWFqtq+oOsQRVolAfRGXU0CjViPSfEUkIzUPgFipJ+HKMYP1
-         e+abRfFqKg6F4otkEt3yVzJC4s3VXqnTuGVEmFxzaiv1U4vnHwxs7czOwbkXtbWBi3iM
-         Tsfw==
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=4w+j0SwaMOCBb+VbQ/z6mH/2y8ZHdpNrgHHU7GAflIw=;
+        b=IImR3Br9yhWegMIsWUn1s4ke5bcgqB1fyuOckJ0362osTV9PLrEfxiMJc0ioiFVJkd
+         e1LqJ9seLSf0mz7n1A0zlfQKgx1rrcO3YZdqGcIEWbxSKMHPGkJJBLUG+PiYWLrYTuik
+         /Kexavs/CplATzd2LItOHsBBIZtYuGwHJzgnMv8Q3UhRIGiHQ9R3hOEgs5PsLBE3QGiM
+         3mYQhuKKTdvquSTL50t4GoiSPoErtgSO30YNwfQZz70kbErIK8voAx/MVqKy8LUaYACD
+         YhLJdklahrcJUPZtiKNgKOpB+Nu8vO499c8zPRWt+rwTcCT+XNNz2hxW6ISuWHPj0Va6
+         QHiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=D1uJAgYZ/Oc4JHLBzSVMNZPEXe0EH86/omgrRve02Kg=;
-        b=E4uR+q3lPtAY5QjQxax1gOOgZN0uQToaYYXx9e67PGf+50v6ED0gOmc3Xi86WFB8MS
-         mHVA7B2e9d6eNa3fg67xGfEMOp+3IETDDVffhWiaY8o6n8k/PPobdMHvT5JAHFSttkJb
-         AWEJzKI+hL7f1WOaSQOgKIX0tEJ+2Wlt3XS4pLagevIweOJuvPKS8ioK7QnbN9grwLul
-         btKQRenQtj/XDMput6fiMPyuFYJEabfBqO17jJPhXQsXhN2D9un9nii8b2PlK2h7VZvg
-         4J5pVFRI4N8Us1hcJmUHLrqpaZZ5xdk+5vCSAbZdqjcXG97OfsavBgdHfd+sLgjzlQ4l
-         1Vhg==
-X-Gm-Message-State: AOAM532NMrz97/3jNzwBOthA1P7fdDkdrL98ffzL21XSsgUH1R6h6nsb
-        05q7b4PBbDaJBGNrAaXazeUq9HX2SrYForN3L5Q=
-X-Google-Smtp-Source: ABdhPJyW/lVrvLFTmbxoRKp6rXxcn8wluibYq/AlDZrzuJYWszPR3ggE89X9LHKRiOfBiNZniYyY1oV96idENwtYwJ4=
-X-Received: by 2002:a05:6602:3304:: with SMTP id b4mr25550933ioz.186.1626849321322;
- Tue, 20 Jul 2021 23:35:21 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=4w+j0SwaMOCBb+VbQ/z6mH/2y8ZHdpNrgHHU7GAflIw=;
+        b=qT0SoEGAArl+nIhERajGdNY+pYXs/kG3V4Z5dL7XMErL6yrpyFtL9Qy3QldrtT7/35
+         +ECffwxdzLr0dy0ay+e03fI7tFoxaYCcpFoGMTxIDKYehYw6TY9lYUFrZgN5Nvhq6msH
+         RE47iRSejy5hmj5GK3XDe1xo3ed7W23ZORCmid4Xz3vXSZjMRL/0LXf+8OS7dkRUmldU
+         ot9wnyrbWSFHO0gkTuAWeXJpPHhoSfUeBpNzOYZQdjUgMR5rHDHcmfvDDJkQ+PtqtwWi
+         743stRyTJSKNP0MYseDV+GbGQ9XlK1K+WUI4pK1QsqGiNoy0rEE4a88104w7jXuA/Se+
+         peog==
+X-Gm-Message-State: AOAM530UD34XaZ+xs5U+YhPksSaWyvSXCJAVcM4Hz4l1OOUt6VB+nHzE
+        oMEni8bHxU/V5ZMT7Hyw90WaYg==
+X-Google-Smtp-Source: ABdhPJyfm9g7smILR0LXObkOvOQKYJvQKi2qb+DNZ3ZO9eHhSN3qE1SW8jHWkT3s8sBA2QAs5coikw==
+X-Received: by 2002:a63:1648:: with SMTP id 8mr34463262pgw.140.1626850895177;
+        Wed, 21 Jul 2021 00:01:35 -0700 (PDT)
+Received: from google.com ([2401:fa00:9:211:c03c:a42a:c97a:1b7d])
+        by smtp.gmail.com with ESMTPSA id o3sm4600702pjr.49.2021.07.21.00.01.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jul 2021 00:01:34 -0700 (PDT)
+Date:   Wed, 21 Jul 2021 17:01:22 +1000
+From:   Matthew Bobrowski <repnop@google.com>
+To:     krisman@collabora.com
+Cc:     amir73il@gmail.com,
+        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
+        linux-man <linux-man@vger.kernel.org>,
+        Khazhismel Kumykov <khazhy@google.com>,
+        Jan Kara <jack@suse.cz>, Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH] fanotify.7, fanotify_mark.2: Document FAN_FS_ERROR
+Message-ID: <YPfGQixNHTo0ZyoS@google.com>
+References: <20210720160244.1449197-1-krisman@collabora.com>
+ <CAOQ4uxi9o6Vty2s+OXY5yeLDTJ2YMMO5NrAF+vmqOv69pQw0rw@mail.gmail.com>
 MIME-Version: 1.0
-References: <cover.1626845287.git.repnop@google.com> <5ac9237ed6f055613c817eb1b9eedcaf1e53d4e6.1626845288.git.repnop@google.com>
-In-Reply-To: <5ac9237ed6f055613c817eb1b9eedcaf1e53d4e6.1626845288.git.repnop@google.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Wed, 21 Jul 2021 09:35:09 +0300
-Message-ID: <CAOQ4uxj8jzdT4uKzE7hFDo=KwiyH+E0GHbHpToWRpFZ+zX3fhw@mail.gmail.com>
-Subject: Re: [PATCH v3 4/5] fanotify/fanotify_user.c: introduce a generic info
- record copying helper
-To:     Matthew Bobrowski <repnop@google.com>
-Cc:     Jan Kara <jack@suse.cz>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOQ4uxi9o6Vty2s+OXY5yeLDTJ2YMMO5NrAF+vmqOv69pQw0rw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jul 21, 2021 at 9:18 AM Matthew Bobrowski <repnop@google.com> wrote:
->
-> The copy_info_records_to_user() helper allows for the separation of
-> info record copying routines/conditionals from copy_event_to_user(),
-> which reduces the overall clutter within this function. This becomes
-> especially true as we start introducing additional info records in the
-> future i.e. struct fanotify_event_info_pidfd. On success, this helper
-> returns the total amount of bytes that have been copied into the user
-> supplied buffer and on error, a negative value is returned to the
-> caller.
->
-> The newly defined macro FANOTIFY_INFO_MODES can be used to obtain info
-> record types that have been enabled for a specific notification
-> group. This macro becomes useful in the subsequent patch when the
-> FAN_REPORT_PIDFD initialization flag is introduced.
->
-> Signed-off-by: Matthew Bobrowski <repnop@google.com>
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+Hey Gabriel,
 
-> ---
->  fs/notify/fanotify/fanotify_user.c | 155 ++++++++++++++++-------------
->  include/linux/fanotify.h           |   2 +
->  2 files changed, 90 insertions(+), 67 deletions(-)
->
-> diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
-> index 182fea255376..d19f70b2c24c 100644
-> --- a/fs/notify/fanotify/fanotify_user.c
-> +++ b/fs/notify/fanotify/fanotify_user.c
-> @@ -173,7 +173,7 @@ static struct fanotify_event *get_one_event(struct fsnotify_group *group,
->         size_t event_size = FAN_EVENT_METADATA_LEN;
->         struct fanotify_event *event = NULL;
->         struct fsnotify_event *fsn_event;
-> -       unsigned int fid_mode = FAN_GROUP_FLAG(group, FANOTIFY_FID_BITS);
-> +       unsigned int info_mode = FAN_GROUP_FLAG(group, FANOTIFY_INFO_MODES);
->
->         pr_debug("%s: group=%p count=%zd\n", __func__, group, count);
->
-> @@ -183,8 +183,8 @@ static struct fanotify_event *get_one_event(struct fsnotify_group *group,
->                 goto out;
->
->         event = FANOTIFY_E(fsn_event);
-> -       if (fid_mode)
-> -               event_size += fanotify_event_info_len(fid_mode, event);
-> +       if (info_mode)
-> +               event_size += fanotify_event_info_len(info_mode, event);
->
->         if (event_size > count) {
->                 event = ERR_PTR(-EINVAL);
-> @@ -401,6 +401,86 @@ static int copy_fid_info_to_user(__kernel_fsid_t *fsid, struct fanotify_fh *fh,
->         return info_len;
->  }
->
-> +static int copy_info_records_to_user(struct fanotify_event *event,
-> +                                    struct fanotify_info *info,
-> +                                    unsigned int info_mode,
-> +                                    char __user *buf, size_t count)
-> +{
-> +       int ret, total_bytes = 0, info_type = 0;
-> +       unsigned int fid_mode = info_mode & FANOTIFY_FID_BITS;
-> +
-> +       /*
-> +        * Event info records order is as follows: dir fid + name, child fid.
-> +        */
-> +       if (fanotify_event_dir_fh_len(event)) {
-> +               info_type = info->name_len ? FAN_EVENT_INFO_TYPE_DFID_NAME :
-> +                                            FAN_EVENT_INFO_TYPE_DFID;
-> +               ret = copy_fid_info_to_user(fanotify_event_fsid(event),
-> +                                           fanotify_info_dir_fh(info),
-> +                                           info_type,
-> +                                           fanotify_info_name(info),
-> +                                           info->name_len, buf, count);
-> +               if (ret < 0)
-> +                       return ret;
-> +
-> +               buf += ret;
-> +               count -= ret;
-> +               total_bytes += ret;
-> +       }
-> +
-> +       if (fanotify_event_object_fh_len(event)) {
-> +               const char *dot = NULL;
-> +               int dot_len = 0;
-> +
-> +               if (fid_mode == FAN_REPORT_FID || info_type) {
-> +                       /*
-> +                        * With only group flag FAN_REPORT_FID only type FID is
-> +                        * reported. Second info record type is always FID.
-> +                        */
-> +                       info_type = FAN_EVENT_INFO_TYPE_FID;
-> +               } else if ((fid_mode & FAN_REPORT_NAME) &&
-> +                          (event->mask & FAN_ONDIR)) {
-> +                       /*
-> +                        * With group flag FAN_REPORT_NAME, if name was not
-> +                        * recorded in an event on a directory, report the name
-> +                        * "." with info type DFID_NAME.
-> +                        */
-> +                       info_type = FAN_EVENT_INFO_TYPE_DFID_NAME;
-> +                       dot = ".";
-> +                       dot_len = 1;
-> +               } else if ((event->mask & ALL_FSNOTIFY_DIRENT_EVENTS) ||
-> +                          (event->mask & FAN_ONDIR)) {
-> +                       /*
-> +                        * With group flag FAN_REPORT_DIR_FID, a single info
-> +                        * record has type DFID for directory entry
-> +                        * modificatio\ n event and for event on a directory.
-> +                        */
-> +                       info_type = FAN_EVENT_INFO_TYPE_DFID;
-> +               } else {
-> +                       /*
-> +                        * With group flags FAN_REPORT_DIR_FID|FAN_REPORT_FID,
-> +                        * a single info record has type FID for event on a
-> +                        * non-directory, when there is no directory to report.
-> +                        * For example, on FAN_DELETE_SELF event.
-> +                        */
-> +                       info_type = FAN_EVENT_INFO_TYPE_FID;
-> +               }
-> +
-> +               ret = copy_fid_info_to_user(fanotify_event_fsid(event),
-> +                                           fanotify_event_object_fh(event),
-> +                                           info_type, dot, dot_len,
-> +                                           buf, count);
-> +               if (ret < 0)
-> +                       return ret;
-> +
-> +               buf += ret;
-> +               count -= ret;
-> +               total_bytes += ret;
-> +       }
-> +
-> +       return total_bytes;
-> +}
-> +
->  static ssize_t copy_event_to_user(struct fsnotify_group *group,
->                                   struct fanotify_event *event,
->                                   char __user *buf, size_t count)
-> @@ -408,15 +488,14 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
->         struct fanotify_event_metadata metadata;
->         struct path *path = fanotify_event_path(event);
->         struct fanotify_info *info = fanotify_event_info(event);
-> -       unsigned int fid_mode = FAN_GROUP_FLAG(group, FANOTIFY_FID_BITS);
-> +       unsigned int info_mode = FAN_GROUP_FLAG(group, FANOTIFY_INFO_MODES);
->         struct file *f = NULL;
->         int ret, fd = FAN_NOFD;
-> -       int info_type = 0;
->
->         pr_debug("%s: group=%p event=%p\n", __func__, group, event);
->
->         metadata.event_len = FAN_EVENT_METADATA_LEN +
-> -                               fanotify_event_info_len(fid_mode, event);
-> +                               fanotify_event_info_len(info_mode, event);
->         metadata.metadata_len = FAN_EVENT_METADATA_LEN;
->         metadata.vers = FANOTIFY_METADATA_VERSION;
->         metadata.reserved = 0;
-> @@ -465,69 +544,11 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
->         if (f)
->                 fd_install(fd, f);
->
-> -       /* Event info records order is: dir fid + name, child fid */
-> -       if (fanotify_event_dir_fh_len(event)) {
-> -               info_type = info->name_len ? FAN_EVENT_INFO_TYPE_DFID_NAME :
-> -                                            FAN_EVENT_INFO_TYPE_DFID;
-> -               ret = copy_fid_info_to_user(fanotify_event_fsid(event),
-> -                                           fanotify_info_dir_fh(info),
-> -                                           info_type,
-> -                                           fanotify_info_name(info),
-> -                                           info->name_len, buf, count);
-> -               if (ret < 0)
-> -                       goto out_close_fd;
-> -
-> -               buf += ret;
-> -               count -= ret;
-> -       }
-> -
-> -       if (fanotify_event_object_fh_len(event)) {
-> -               const char *dot = NULL;
-> -               int dot_len = 0;
-> -
-> -               if (fid_mode == FAN_REPORT_FID || info_type) {
-> -                       /*
-> -                        * With only group flag FAN_REPORT_FID only type FID is
-> -                        * reported. Second info record type is always FID.
-> -                        */
-> -                       info_type = FAN_EVENT_INFO_TYPE_FID;
-> -               } else if ((fid_mode & FAN_REPORT_NAME) &&
-> -                          (event->mask & FAN_ONDIR)) {
-> -                       /*
-> -                        * With group flag FAN_REPORT_NAME, if name was not
-> -                        * recorded in an event on a directory, report the
-> -                        * name "." with info type DFID_NAME.
-> -                        */
-> -                       info_type = FAN_EVENT_INFO_TYPE_DFID_NAME;
-> -                       dot = ".";
-> -                       dot_len = 1;
-> -               } else if ((event->mask & ALL_FSNOTIFY_DIRENT_EVENTS) ||
-> -                          (event->mask & FAN_ONDIR)) {
-> -                       /*
-> -                        * With group flag FAN_REPORT_DIR_FID, a single info
-> -                        * record has type DFID for directory entry modification
-> -                        * event and for event on a directory.
-> -                        */
-> -                       info_type = FAN_EVENT_INFO_TYPE_DFID;
-> -               } else {
-> -                       /*
-> -                        * With group flags FAN_REPORT_DIR_FID|FAN_REPORT_FID,
-> -                        * a single info record has type FID for event on a
-> -                        * non-directory, when there is no directory to report.
-> -                        * For example, on FAN_DELETE_SELF event.
-> -                        */
-> -                       info_type = FAN_EVENT_INFO_TYPE_FID;
-> -               }
-> -
-> -               ret = copy_fid_info_to_user(fanotify_event_fsid(event),
-> -                                           fanotify_event_object_fh(event),
-> -                                           info_type, dot, dot_len,
-> -                                           buf, count);
-> +       if (info_mode) {
-> +               ret = copy_info_records_to_user(event, info, info_mode,
-> +                                               buf, count);
->                 if (ret < 0)
->                         goto out_close_fd;
-> -
-> -               buf += ret;
-> -               count -= ret;
->         }
->
->         return metadata.event_len;
-> diff --git a/include/linux/fanotify.h b/include/linux/fanotify.h
-> index a16dbeced152..10a7e26ddba6 100644
-> --- a/include/linux/fanotify.h
-> +++ b/include/linux/fanotify.h
-> @@ -27,6 +27,8 @@ extern struct ctl_table fanotify_table[]; /* for sysctl */
->
->  #define FANOTIFY_FID_BITS      (FAN_REPORT_FID | FAN_REPORT_DFID_NAME)
->
-> +#define FANOTIFY_INFO_MODES    (FANOTIFY_FID_BITS)
-> +
->  /*
->   * fanotify_init() flags that require CAP_SYS_ADMIN.
->   * We do not allow unprivileged groups to request permission events.
-> --
-> 2.32.0.432.gabb21c7263-goog
->
-> /M
+Sorry, I haven't really been following this series. However, I've just read
+through this man-pages patch from the perspective of an API consumer and
+sprayed a couple suggestions.
+
+For the next iteration, do you mind CC'ing me?
+
+On Tue, Jul 20, 2021 at 08:47:31PM +0300, Amir Goldstein wrote:
+> +linux-api
+> 
+> On Tue, Jul 20, 2021 at 7:02 PM Gabriel Krisman Bertazi
+> <krisman@collabora.com> wrote:
+> >
+> > The kernel patches are not merged upstream, so please refrain from merging
+> > it at the moment.  This submission attempts to preview the interface
+> > and gather some interface review.
+> >
+> > Cc: Amir Goldstein <amir73il@gmail.com>
+> > Cc: Jan Kara <jack@suse.cz>
+> > Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
+> >
+> 
+> Looks good as a first draft.
+> 
+> Thanks,
+> Amir.
+> 
+> > ---
+> > To: Michael Kerrisk <mtk.manpages@gmail.com>
+> > Cc: linux-man@vger.kernel.org
+> > ---
+> >  man2/fanotify_mark.2 | 14 +++++++++
+> >  man7/fanotify.7      | 72 ++++++++++++++++++++++++++++++++++++++++++++
+> >  2 files changed, 86 insertions(+)
+> >
+> > diff --git a/man2/fanotify_mark.2 b/man2/fanotify_mark.2
+> > index be3f72e040c0..500e41faa4f0 100644
+> > --- a/man2/fanotify_mark.2
+> > +++ b/man2/fanotify_mark.2
+> > @@ -214,6 +214,20 @@ Create an event when a marked file or directory itself is deleted.
+> >  An fanotify group that identifies filesystem objects by file handles
+> >  is required.
+> >  .TP
+> > +.BR FAN_FS_ERROR "(since Linux 5.15)"
+> > +.\" commit WIP
+> > +Create an event when a file system error is detected.
+> > +A fanotify group that identifies filesystem objects by file handles
+> > +is required.
+> > +Support for this type of notification is done per-file system,
+> > +but not every filesystem supports it.
+> > +Additional information is submitted in the form of a
+> > +.BR FAN_EVENT_INFO_TYPE_ERROR
+> > +record.
+
+The term "submitted" sounds confusing in this context, does it not? I think
+we traditionally mention that an event listener can expect to receive an
+additional information object of type X alongside the generic metadata
+event.
+
+> > +See
+> > +.BR fanotify (7)
+> > +for additional details.
+> > +.TP
+> >  .BR FAN_MOVED_FROM " (since Linux 5.1)"
+> >  .\" commit 235328d1fa4251c6dcb32351219bb553a58838d2
+> >  Create an event when a file or directory has been moved from a marked
+> > diff --git a/man7/fanotify.7 b/man7/fanotify.7
+> > index 6a7e70d75845..155ba8273463 100644
+> > --- a/man7/fanotify.7
+> > +++ b/man7/fanotify.7
+> > @@ -188,6 +188,24 @@ struct fanotify_event_info_fid {
+> >  .EE
+> >  .in
+> >  .PP
+> > +In case of a FAN_FS_ERROR event,
+> > +besides the file handle record,
+> > +an additional record describing the error that occurred
+> > +is included in the read buffer.
+> > +The structure described below, will follow the generic
+> > +.I fanotify_event_metadata
+> > +structure within the read buffer:
+> > +.PP
+> > +.in +4n
+> > +.EX
+> > +struct fanotify_event_info_error {
+> > +    struct fanotify_event_info_header hdr;
+> > +    __s32 error;
+> > +    __u32 error_count;
+> > +};
+> > +.EE
+> > +.in
+> > +.PP
+> >  For performance reasons, it is recommended to use a large
+> >  buffer size (for example, 4096 bytes),
+> >  so that multiple events can be retrieved by a single
+> > @@ -311,6 +329,9 @@ A child file or directory was deleted in a watched parent.
+> >  .B FAN_DELETE_SELF
+> >  A watched file or directory was deleted.
+> >  .TP
+> > +.B FAN_FS_ERROR
+> > +A file-system error was detected.
+> > +.TP
+> >  .B FAN_MOVED_FROM
+> >  A file or directory has been moved from a watched parent directory.
+> >  .TP
+> > @@ -510,6 +531,32 @@ and the file handle is followed by a null terminated string that identifies the
+> >  name of a directory entry in that directory, or '.' to identify the directory
+> >  object itself.
+> >  .PP
+> > +The fields of the
+> > +.I fanotify_event_info_error
+> > +structure are as follows:
+> > +.TP
+> > +.I hdr
+> > +This is a structure of type
+> > +.IR fanotify_event_info_header .
+> > +is a generic header that contains information used to
+
+... and is a generic ...
+
+> > +describe an additional information record attached to the event.
+> > +For
+> > +.IR fanotify_event_info_error ,
+> > +.I info_type
+> > +will have the value
+> > +.BR FAN_EVENT_INFO_TYPE_ERROR .
+> > +.I len
+> > +has the size of the additional information record including the
+> > +.IR fanotify_event_info_header
+> > +itself.
+> > +.TP
+> > +.I error
+> > +Identifies the file system specific error that occured
+> > +.TP
+> > +.I error_count
+> > +This counts the number of errors suppressed
+> > +since the last error was read.
+> > +.PP
+> >  The following macros are provided to iterate over a buffer containing
+> >  fanotify event metadata returned by a
+> >  .BR read (2)
+> > @@ -599,6 +646,31 @@ field.
+> >  In that case, the audit subsystem will log information about the access
+> >  decision to the audit logs.
+> >  .\"
+> > +.SS Monitoring file systems for error
+					  ^ s?
+					  
+> > +A single FAN_FS_ERROR event is stored by the kernel at once.
+> > +Extra error messages are suppressed and accounted
+						       ^ for?
+> > +inside the current FAN_FS_ERROR event record,
+> > +but details about the errors are lost.
+> > +.PP
+> > +Error types reported by FAN_FS_ERROR are file system specific
+> > +and not all kinds of error are reported by all file system.
+    	     	       	       ^ s?			       ^ s?
+
+Here, my understanding is that the filesystem errors are distinct across
+each of the different filesystems that are capable of generating
+FAN_FS_ERROR errors i.e. ext4; therefore filesystem specific documentation
+should be consulted in order to get more meta-information about the actual
+underlying filesystem error that occurred on the watched object.
+
+Is that correct?
+
+> > +Refer to the file system documentation
+> > +for the information of which errors are reported,
+
+... for additional/more information on the type of errors that are
+supported/reported, ...?
+
+> > +and the meaning of those errors.
+> > +.PP
+> > +Errors not directly related to a file (i.e. super block corruption)
+> > +are reported with an invalid file handler.
+    	 	       	  	  ^
+.I file_handle .
+
+> > +For these errors,
+> > +.I file_handle
+
+For such errors, the
+.I file_handle
+will have the field... 
+
+> > +will have the field
+> > +.I handle_type
+> > +set to
+> > +.BR FILEID_INVALID ,
+> > +and the
+> > +.I f_handle
+> > +buffer set to
+> > +.BR 0 .
+> > +.\"
+> >  .SS Closing the fanotify file descriptor
+> >  When all file descriptors referring to the fanotify notification group are
+> >  closed, the fanotify group is released and its resources
+> > --
+> > 2.32.0
+> >
+
+/M
