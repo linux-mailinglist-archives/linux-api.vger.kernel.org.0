@@ -2,202 +2,170 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E23DC3D17C7
-	for <lists+linux-api@lfdr.de>; Wed, 21 Jul 2021 22:18:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 010C33D17F6
+	for <lists+linux-api@lfdr.de>; Wed, 21 Jul 2021 22:29:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229691AbhGUTek (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 21 Jul 2021 15:34:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51130 "EHLO
+        id S230509AbhGUTjM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 21 Jul 2021 15:39:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229591AbhGUTej (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 21 Jul 2021 15:34:39 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DF68C061575;
-        Wed, 21 Jul 2021 13:15:14 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id k4-20020a17090a5144b02901731c776526so579977pjm.4;
-        Wed, 21 Jul 2021 13:15:14 -0700 (PDT)
+        with ESMTP id S229927AbhGUTjL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 21 Jul 2021 15:39:11 -0400
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCCABC061575
+        for <linux-api@vger.kernel.org>; Wed, 21 Jul 2021 13:19:47 -0700 (PDT)
+Received: by mail-yb1-xb33.google.com with SMTP id c16so4989234ybl.9
+        for <linux-api@vger.kernel.org>; Wed, 21 Jul 2021 13:19:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=SOGnEDYj6+aPEFG0m6p/HdJZ6lLy+2oB11LH/GMIPe8=;
-        b=DQfgQO3uCJmeqfPd4GrrnMGsak6ZUiMipZ5qwGZtq+Y4GnbN+3ZveORbh7uh+P7+E5
-         Ku/Q0UMDjt7U15df32VENimOMh3ZwtrJcN0sYnZvDr+UbOp39zxNBXTzGgEeIORNtAXY
-         1Ye1OkKig6CHdJD/D5zeG4cOXQodWG4c90noX+n+xKnNY3so0BtSPU6o8pWYlVHiN3B3
-         ENX5NV2ASXhgf6aPSywQx8ik2OzP6OW+ni11VnAaLtdMavEltJs0/pz1h1E2SViLf8SV
-         uxLJfKNjZM7W0PMTRmpnPtaH3PSFofI4UyzIRQwKlnFTHOvaN/+kU7pndu/ledNmiCC3
-         GZGA==
+        bh=xkz8e5zoLl+P/xUlIkmPyH45rVLINuttESNxvxpX8Aw=;
+        b=mkhSJH5Yhy9xgGZWWTzQK3DU7fOimBnomF7BAoS4IX/VY4PIqsb/NJCEdkVcZi0xZr
+         SDKETen7hW9gU9RX1zFKjWYS06prWY5uy2QxLyCS0jsjkSJYmuntjg7SpB4N0ckkXlqb
+         LVJef5RdBJ32sTsFue1OUwRae/EolE3XZAnQ2+XxWVPIh7/OOh1dRjbXd4ZESa4LZ2Eo
+         QAPhsVXsj5a3dPbPo24528AN/wyavMn/guI8mAxz7Py3+9YM94KZY16BNQReg2cCIGEr
+         HJ6HA6J7Y7BYQL5JoL86dK0G6lvBjBh1GjbojighOM90a6VIngUgRGdR7NpCV7dDFNFs
+         HwhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=SOGnEDYj6+aPEFG0m6p/HdJZ6lLy+2oB11LH/GMIPe8=;
-        b=U7MyZGcKOsr/FTrVDzvkIku2RCnfehlz9zRML6VGeJPc0mNolX+dpJCwLtkuEGZRXv
-         4FwdjuwVfcVALIgJe+cgDN9l6BtSpx+jk2+E2ma0D6Qq81XqQRemluoK8hSXgdExYc0I
-         GUzx63VjeH4wFhg/o7HW79OBV765KLyLKQfKnV540iZoo95loijPP972OYLp1mHdoUGA
-         MxT0/Mlhgab/z5xMMpuVPJTwKJjpJVLAbI+gF4x7PyLNej2hJwc2kAmO5Hwxh8Ai4QYy
-         pSVl7oMterHS0S59l0AUSvSoSPfBNf1VJ7jwH44MOveA9HsCFBt0MyQhCffQdBPRvxYn
-         zJZA==
-X-Gm-Message-State: AOAM530gK3pgkSnG9aEu+9JEImScTh1akb8YThC68WoC7+cIJVz/x/Ub
-        JsxhnwdCr1Im7r3s5q4tUpywNgQKa8Btu8h29dQ=
-X-Google-Smtp-Source: ABdhPJx640ylm2KAYp8SewF8Z1tD2mQcn3QMu2iUcvhaFtOAx0ZMixA4m1wVyyq0Dg6aSdjc6BVMPAJP4hkVR2M1HcU=
-X-Received: by 2002:a63:58e:: with SMTP id 136mr6723399pgf.37.1626898513639;
- Wed, 21 Jul 2021 13:15:13 -0700 (PDT)
+        bh=xkz8e5zoLl+P/xUlIkmPyH45rVLINuttESNxvxpX8Aw=;
+        b=gHz4mM8HEGFUrinGoUCu7ODlJDSabHfj86OiqCXNdr7RQLXtwuDPWyjRa8TgdmnBb1
+         9u8Tj++pjoX+BhlZd3rhyFOfbgK/zWd7+O61OQDO3v1ZoGe37o4ocZBztHvSFfS3vBqC
+         WzleBS8CeRpMUrSyUiK1N0rwGODoJMZz+2wgNwDRC8tCz9iI7Kl2WwJydLyR/2WSMeJa
+         WxCE/xeaYDgJ897LEHP7RbgCaRoptA+X1ydQJqYE+v7yeZrz5QKH7HbyBF72IMBOE4+F
+         1iy0LY1zGToN4QlOZY+PGkJj/tUrERE9BD5OY3U7LCg7vQ1iQzyE1sIzou1ThTQRqXuU
+         8exQ==
+X-Gm-Message-State: AOAM531jJHI5vyY3yZe/KL58ronMcYHgGpdpTZFHhvwAfreQUmPpGyv3
+        4oUC0KGKkbnxVDFh4Rd5Mra85aFniI8Zb7lPjt+ZpA==
+X-Google-Smtp-Source: ABdhPJypFChcBkzFoquthKjD/24AdEw1F2MgJ9qToLmo3bIsOhEjDYJRxwCKXDd+h8fBIXpz3mR3FPRLVJtQ0pLXrB8=
+X-Received: by 2002:a25:ba08:: with SMTP id t8mr47509822ybg.111.1626898786723;
+ Wed, 21 Jul 2021 13:19:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210521221211.29077-1-yu-cheng.yu@intel.com> <20210521221211.29077-25-yu-cheng.yu@intel.com>
- <YPhkIHJ0guc4UNoO@AUS-LX-JohALLEN.amd.com>
-In-Reply-To: <YPhkIHJ0guc4UNoO@AUS-LX-JohALLEN.amd.com>
-From:   "H.J. Lu" <hjl.tools@gmail.com>
-Date:   Wed, 21 Jul 2021 13:14:37 -0700
-Message-ID: <CAMe9rOqwe8Mr2pkf0yopWj_F7yZLj9_nmz97+AmFkkmd2U=-fg@mail.gmail.com>
-Subject: Re: [PATCH v27 24/31] x86/cet/shstk: Handle thread shadow stack
-To:     John Allen <john.allen@amd.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
+References: <20210718214134.2619099-1-surenb@google.com> <7eb17da6-03a6-5eaf-16e6-97b53ba163d8@redhat.com>
+ <20210720160707.2332738708948f7d865d67c1@linux-foundation.org>
+ <ba763ed3-9ad1-9502-1ffc-3175446570d1@redhat.com> <CAJuCfpEB994Xj3FcmzyH1p3yOdLVf6EwZaGaRj7NJi_c9hbsRQ@mail.gmail.com>
+ <0ee6775b-589c-3243-1c01-aafad5eecb73@redhat.com>
+In-Reply-To: <0ee6775b-589c-3243-1c01-aafad5eecb73@redhat.com>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Wed, 21 Jul 2021 13:19:35 -0700
+Message-ID: <CAJuCfpHtRzCNH6Cspu8ngjw+WLvZTMsVbmBu_F-z8YY_n=RbvA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] mm, oom: move task_will_free_mem up in the file to
+ be used in process_mrelease
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Michal Hocko <mhocko@suse.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        Christoph Hellwig <hch@infradead.org>,
+        Oleg Nesterov <oleg@redhat.com>, Jann Horn <jannh@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
         Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
         Florian Weimer <fweimer@redhat.com>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
+        Jan Engelhardt <jengelh@inai.de>,
+        Tim Murray <timmurray@google.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jul 21, 2021 at 11:15 AM John Allen <john.allen@amd.com> wrote:
+On Wed, Jul 21, 2021 at 9:13 AM David Hildenbrand <david@redhat.com> wrote:
 >
-> On Fri, May 21, 2021 at 03:12:04PM -0700, Yu-cheng Yu wrote:
-> > diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
-> > index 5ea2b494e9f9..8e5f772181b9 100644
-> > --- a/arch/x86/kernel/shstk.c
-> > +++ b/arch/x86/kernel/shstk.c
-> > @@ -71,6 +71,53 @@ int shstk_setup(void)
-> >       return 0;
-> >  }
+> On 21.07.21 17:33, Suren Baghdasaryan wrote:
+> > On Wed, Jul 21, 2021 at 12:30 AM David Hildenbrand <david@redhat.com> wrote:
+> >>
+> >> On 21.07.21 01:07, Andrew Morton wrote:
+> >>> On Tue, 20 Jul 2021 14:43:52 +0200 David Hildenbrand <david@redhat.com> wrote:
+> >>>
+> >>>> On 18.07.21 23:41, Suren Baghdasaryan wrote:
+> >>>>> process_mrelease needs to be added in the CONFIG_MMU-dependent block which
+> >>>>> comes before __task_will_free_mem and task_will_free_mem. Move these
+> >>>>> functions before this block so that new process_mrelease syscall can use
+> >>>>> them.
+> >>>>>
+> >>>>> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> >>>>> ---
+> >>>>> changes in v2:
+> >>>>> - Fixed build error when CONFIG_MMU=n, reported by kernel test robot. This
+> >>>>> required moving task_will_free_mem implemented in the first patch
+> >>>>> - Renamed process_reap to process_mrelease, per majority of votes
+> >>>>> - Replaced "dying process" with "process which was sent a SIGKILL signal" in
+> >>>>> the manual page text, per Florian Weimer
+> >>>>> - Added ERRORS section in the manual page text
+> >>>>> - Resolved conflicts in syscall numbers caused by the new memfd_secret syscall
+> >>>>> - Separated boilerplate code wiring-up the new syscall into a separate patch
+> >>>>> to facilitate the review process
+> >>>>>
+> >>>>>     mm/oom_kill.c | 150 +++++++++++++++++++++++++-------------------------
+> >>>>>     1 file changed, 75 insertions(+), 75 deletions(-)
+> >>>>
+> >>>> TBH, I really dislike this move as it makes git blame a lot harder with
+> >>>> any real benefit.
+> >>>>
+> >>>> Can't you just use prototypes to avoid the move for now in patch #2?
+> >>>>
+> >>>> static bool task_will_free_mem(struct task_struct *task);
+> >>>
+> >>> This change makes the code better - it's silly to be adding forward
+> >>> declarations just because the functions are in the wrong place.
+> >>
+> >> I'd really love to learn what "better" here means and if it's rather
+> >> subjective. When it comes to navigating the code, we do have established
+> >> tools for that (ctags), and personally I couldn't care less where
+> >> exactly in a file the code is located.
+> >>
+> >> Sure, ending up with a forward-declaration for every function might not
+> >> be what we want ;)
+> >>
+> >>>
+> >>> If that messes up git-blame then let's come up with better tooling
+> >>> rather than suffering poorer kernel code because the tools aren't doing
+> >>> what we want of them.  Surely?
+> >>
+> >> I don't agree that what we get is "poorer kernel code" in this very
+> >> instance; I can understand that we avoid forward-declarations when
+> >> moving smallish functions. But moving two functions with 75 LOC is a bit
+> >> too much for my taste at least -- speaking as someone who cares about
+> >> easy backports and git-blame.
 > >
-> > +int shstk_alloc_thread_stack(struct task_struct *tsk, unsigned long clone_flags,
-> > +                          unsigned long stack_size)
-> > +{
-> > +     struct thread_shstk *shstk = &tsk->thread.shstk;
-> > +     struct cet_user_state *state;
-> > +     unsigned long addr;
-> > +
-> > +     if (!stack_size)
-> > +             return -EINVAL;
+> > There is a third alternative here to have process_mrelease() at the
+> > end of the file with its own #ifdef CONFIG_MMU block, maybe even
+> > embedded in the function like this:
+> >
+> >   int process_mrelease(int pidfd, unsigned int flags)
+> > {
+> > #ifdef CONFIG_MMU
+> >          ...
+> > #else
+> >          return ENOSYS;
+> > #endif
+> > }
+> >
+> > This would not require moving other functions.
+> > Would that be better than the current approach or the forward declaration?
 >
-> I've been doing some light testing on AMD hardware and I've found that
-> this version of the patchset doesn't boot for me. It appears that when
-> systemd processes start spawning, they hit the above case, return
-> -EINVAL, and the fork fails. In these cases, copy_thread has been passed
-> 0 for both sp and stack_size.
->
-> For previous versions of the patchset, I can still boot. When the
-> stack_size check was last, the function would always return before
-> completing the check, hitting one of the two cases below.
->
-> At the very least, it would seem that on some systems, it isn't valid to
-> rely on the stack_size passed from clone3, though I'm unsure what the
-> correct behavior should be here. If the passed stack_size == 0 and sp ==
-> 0, is this a case where we want to alloc a shadow stack for this thread
-> with some capped size? Alternatively, is this a case that isn't valid to
-> alloc a shadow stack and we should simply return 0 instead of -EINVAL?
->
-> I'm running Fedora 34 which satisfies the required versions of gcc,
-> binutils, and glibc.
->
-> Please let me know if there is any additional information I can provide.
+> IMHO that could be an easy, possible alternative.
 
-FWIW, I have been maintaining stable CET kernels at:
+Andrew, others? Should I follow this path instead?
 
-https://github.com/hjl-tools/linux/
-
-The current CET kernel is on hjl/cet/linux-5.13.y branch.
-
+>
+> --
 > Thanks,
-> John
 >
-> > +
-> > +     if (!shstk->size)
-> > +             return 0;
-> > +
-> > +     /*
-> > +      * For CLONE_VM, except vfork, the child needs a separate shadow
-> > +      * stack.
-> > +      */
-> > +     if ((clone_flags & (CLONE_VFORK | CLONE_VM)) != CLONE_VM)
-> > +             return 0;
-> > +
-> > +     state = get_xsave_addr(&tsk->thread.fpu.state.xsave, XFEATURE_CET_USER);
-> > +     if (!state)
-> > +             return -EINVAL;
-> > +
-> > +     /*
-> > +      * Compat-mode pthreads share a limited address space.
-> > +      * If each function call takes an average of four slots
-> > +      * stack space, allocate 1/4 of stack size for shadow stack.
-> > +      */
-> > +     if (in_compat_syscall())
-> > +             stack_size /= 4;
-> > +
-> > +     stack_size = round_up(stack_size, PAGE_SIZE);
-> > +     addr = alloc_shstk(stack_size);
-> > +     if (IS_ERR_VALUE(addr)) {
-> > +             shstk->base = 0;
-> > +             shstk->size = 0;
-> > +             return PTR_ERR((void *)addr);
-> > +     }
-> > +
-> > +     fpu__prepare_write(&tsk->thread.fpu);
-> > +     state->user_ssp = (u64)(addr + stack_size);
-> > +     shstk->base = addr;
-> > +     shstk->size = stack_size;
-> > +     return 0;
-> > +}
-> > +
-> >  void shstk_free(struct task_struct *tsk)
-> >  {
-> >       struct thread_shstk *shstk = &tsk->thread.shstk;
-> > @@ -80,7 +127,13 @@ void shstk_free(struct task_struct *tsk)
-> >           !shstk->base)
-> >               return;
-> >
-> > -     if (!tsk->mm)
-> > +     /*
-> > +      * When fork() with CLONE_VM fails, the child (tsk) already has a
-> > +      * shadow stack allocated, and exit_thread() calls this function to
-> > +      * free it.  In this case the parent (current) and the child share
-> > +      * the same mm struct.
-> > +      */
-> > +     if (!tsk->mm || tsk->mm != current->mm)
-> >               return;
-> >
-> >       while (1) {
-
-
-
--- 
-H.J.
+> David / dhildenb
+>
+> --
+> To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
+>
