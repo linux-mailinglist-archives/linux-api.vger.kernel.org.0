@@ -2,125 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC6603D0592
-	for <lists+linux-api@lfdr.de>; Wed, 21 Jul 2021 01:42:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13C563D08BA
+	for <lists+linux-api@lfdr.de>; Wed, 21 Jul 2021 08:17:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236874AbhGTWu1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 20 Jul 2021 18:50:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21012 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236225AbhGTWrV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 20 Jul 2021 18:47:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1626823677;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=tEPNOxkaSwVynI5bC9ITnmbjNbhpuULp2AY9Cx1gq1w=;
-        b=a/n+JuUB5hf98u8shmXO6KWpK0DRPrjTGkueaGN8LYDmHw4aLbSo+fiQsIXcB5IbS55XNO
-        kPbn1iFRBnN6SNw4mBrZpYRDvpdkxxW0PIcFLwsSErNR/xx2ivGjp3LN1Iu6eN75tP3hOm
-        fhapB+7nWwoA/dgM2cUAi+JTd0cUZJ4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-247-BA7Jin6zPPO1eS4usxWFSA-1; Tue, 20 Jul 2021 19:27:56 -0400
-X-MC-Unique: BA7Jin6zPPO1eS4usxWFSA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04179100C618;
-        Tue, 20 Jul 2021 23:27:55 +0000 (UTC)
-Received: from virtlab719.virt.lab.eng.bos.redhat.com (virtlab719.virt.lab.eng.bos.redhat.com [10.19.153.15])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 6462B69CB4;
-        Tue, 20 Jul 2021 23:27:50 +0000 (UTC)
-From:   Nitesh Narayan Lal <nitesh@redhat.com>
-To:     linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-pci@vger.kernel.org,
-        tglx@linutronix.de, jesse.brandeburg@intel.com,
-        robin.murphy@arm.com, mtosatti@redhat.com, mingo@kernel.org,
-        jbrandeb@kernel.org, frederic@kernel.org, juri.lelli@redhat.com,
-        abelits@marvell.com, bhelgaas@google.com, rostedt@goodmis.org,
-        peterz@infradead.org, davem@davemloft.net,
-        akpm@linux-foundation.org, sfr@canb.auug.org.au,
-        stephen@networkplumber.org, rppt@linux.vnet.ibm.com,
-        chris.friesen@windriver.com, maz@kernel.org, nhorman@tuxdriver.com,
-        pjwaskiewicz@gmail.com, sassmann@redhat.com, thenzl@redhat.com,
-        kashyap.desai@broadcom.com, sumit.saxena@broadcom.com,
-        shivasharan.srikanteshwara@broadcom.com,
-        sathya.prakash@broadcom.com, sreekanth.reddy@broadcom.com,
-        suganath-prabu.subramani@broadcom.com, james.smart@broadcom.com,
-        dick.kennedy@broadcom.com, jkc@redhat.com, faisal.latif@intel.com,
-        shiraz.saleem@intel.com, tariqt@nvidia.com, ahleihel@redhat.com,
-        kheib@redhat.com, borisp@nvidia.com, saeedm@nvidia.com,
-        benve@cisco.com, govind@gmx.com, jassisinghbrar@gmail.com,
-        ajit.khaparde@broadcom.com, sriharsha.basavapatna@broadcom.com,
-        somnath.kotur@broadcom.com, nilal@redhat.com,
-        tatyana.e.nikolova@intel.com, mustafa.ismail@intel.com,
-        ahs3@redhat.com, leonro@nvidia.com,
-        chandrakanth.patil@broadcom.com, bjorn.andersson@linaro.org,
-        chunkuang.hu@kernel.org, yongqiang.niu@mediatek.com,
-        baolin.wang7@gmail.com, poros@redhat.com, minlei@redhat.com,
-        emilne@redhat.com, jejb@linux.ibm.com, martin.petersen@oracle.com,
-        _govind@gmx.com, kabel@kernel.org, viresh.kumar@linaro.org,
-        Tushar.Khandelwal@arm.com, kuba@kernel.org
-Subject: [PATCH v5 14/14] net/mlx4: Use irq_update_affinity_hint
-Date:   Tue, 20 Jul 2021 19:26:24 -0400
-Message-Id: <20210720232624.1493424-15-nitesh@redhat.com>
-In-Reply-To: <20210720232624.1493424-1-nitesh@redhat.com>
-References: <20210720232624.1493424-1-nitesh@redhat.com>
+        id S233601AbhGUFhL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 21 Jul 2021 01:37:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57144 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233254AbhGUFg7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 21 Jul 2021 01:36:59 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B85FCC0613DB
+        for <linux-api@vger.kernel.org>; Tue, 20 Jul 2021 23:17:26 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id gv20-20020a17090b11d4b0290173b9578f1cso415785pjb.0
+        for <linux-api@vger.kernel.org>; Tue, 20 Jul 2021 23:17:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=8uCp46ImvOgWa9UyjUPDoGLTVj3tcqAJCj1XniwrNiw=;
+        b=B9IlnaRBuRNB1oSr1pJNEQidkE7pZe8zqpMHRKXNd6jcCE84xR1FHOK9neFtl8W5Jx
+         h7kWNJaJLNP0CClLcsXK7x3DqRD7VSsyMMQhrZX3fQV8SXGTTaebbsJs/Uv0xAILgN3D
+         6Ihkf62IdEbaDRoD0pAq7OF0Z+S8qEU0iJw0dHu19U2CPE96He33msgBzM4fRDzh+xzY
+         SniIS0akPTw5RvbT+ctATwAmw5EmTX9IRlaZCyHfNpVXssDwtGB7aN3Fy/bMtLHCqevI
+         seeMkLttKTEKkB7YgehaPpqvssVEnCryb9SdbbfbzExP+vXOkl3d1qpNkptuPw9HcP0k
+         lVNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=8uCp46ImvOgWa9UyjUPDoGLTVj3tcqAJCj1XniwrNiw=;
+        b=KrxpZ4hODBw0U6TbCIh7Nbpd9EgLEm3Hi9yN3Q9zlf04cNHzuBRizYIVHeVpyFf+v3
+         FW+86N9M4oUjN9ZVDJ0HcaAeEV8qpgPzCpVL4zv4Klzf3Rs+HPITr3SrbIoL3GnE7gwZ
+         3hLgN+ZXEH8m6WjE00DMGqMmdMnyChYhuPjfhXmgwODf1OGLZOxGqnE/dJ9kY25cb7qw
+         L7wtxHK3css9spTqZK2wC1vo1UVm6geoNsRsTHmtjPCBTdnWeMXV0A72jk5BwsL3mL54
+         6NtB3AaBGFEZmJnVnJe5Vvirm5Tus7SK464jrEtCzNl6MhvOVC+BZvmetEkvfQzjqOEX
+         6ddQ==
+X-Gm-Message-State: AOAM532Fq/5fhbDjJe8wqy7eGU7W5mE7v2ic/XFLPdcal7o2crvpvybD
+        Sr+xVzWx6i4Yxpw8nIobWReefQ==
+X-Google-Smtp-Source: ABdhPJwYCRdq0WmMoZOc63NSNJYVoR/qId1AztX5GG9Kzwe/jnOzR5O7IsdEvJw3k8ol/+ciwYIXMw==
+X-Received: by 2002:a17:90b:310a:: with SMTP id gc10mr33523912pjb.173.1626848246088;
+        Tue, 20 Jul 2021 23:17:26 -0700 (PDT)
+Received: from google.com ([2401:fa00:9:211:c03c:a42a:c97a:1b7d])
+        by smtp.gmail.com with ESMTPSA id g71sm1384542pfb.139.2021.07.20.23.17.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jul 2021 23:17:25 -0700 (PDT)
+Date:   Wed, 21 Jul 2021 16:17:12 +1000
+From:   Matthew Bobrowski <repnop@google.com>
+To:     jack@suse.cz, amir73il@gmail.com, christian.brauner@ubuntu.com
+Cc:     linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: [PATCH v3 0/5] Add pidfd support to the fanotify API
+Message-ID: <cover.1626845287.git.repnop@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-The driver uses irq_set_affinity_hint() to update the affinity_hint mask
-that is consumed by the userspace to distribute the interrupts. However,
-under the hood irq_set_affinity_hint() also applies the provided cpumask
-(if not NULL) as the affinity for the given interrupt which is an
-undocumented side effect.
+Hey Jan/Amir/Christian,
 
-To remove this side effect irq_set_affinity_hint() has been marked
-as deprecated and new interfaces have been introduced. Hence, replace the
-irq_set_affinity_hint() with the new interface irq_update_affinity_hint()
-that only updates the affinity_hint pointer.
+This is an updated version of the FAN_REPORT_PIDFD series which contains
+the addressed nits from the previous review [0]. As per request, you can
+also find the draft LTP tests here [1] and man-pages update for this new
+API change here [2].
 
-Signed-off-by: Nitesh Narayan Lal <nitesh@redhat.com>
-Reviewed-by: Leon Romanovsky <leonro@nvidia.com>
-Reviewed-by: Tariq Toukan <tariqt@nvidia.com>
----
- drivers/net/ethernet/mellanox/mlx4/eq.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+[0] https://lore.kernel.org/linux-fsdevel/cover.1623282854.git.repnop@google.com/
+[1] https://github.com/matthewbobrowski/ltp/commits/fanotify_pidfd_v2
+[2] https://github.com/matthewbobrowski/man-pages/commits/fanotify_pidfd_v1
 
-diff --git a/drivers/net/ethernet/mellanox/mlx4/eq.c b/drivers/net/ethernet/mellanox/mlx4/eq.c
-index 9e48509ed3b2..414e390e6b48 100644
---- a/drivers/net/ethernet/mellanox/mlx4/eq.c
-+++ b/drivers/net/ethernet/mellanox/mlx4/eq.c
-@@ -244,9 +244,9 @@ static void mlx4_set_eq_affinity_hint(struct mlx4_priv *priv, int vec)
- 	    cpumask_empty(eq->affinity_mask))
- 		return;
- 
--	hint_err = irq_set_affinity_hint(eq->irq, eq->affinity_mask);
-+	hint_err = irq_update_affinity_hint(eq->irq, eq->affinity_mask);
- 	if (hint_err)
--		mlx4_warn(dev, "irq_set_affinity_hint failed, err %d\n", hint_err);
-+		mlx4_warn(dev, "irq_update_affinity_hint failed, err %d\n", hint_err);
- }
- #endif
- 
-@@ -1123,9 +1123,7 @@ static void mlx4_free_irqs(struct mlx4_dev *dev)
- 	for (i = 0; i < dev->caps.num_comp_vectors + 1; ++i)
- 		if (eq_table->eq[i].have_irq) {
- 			free_cpumask_var(eq_table->eq[i].affinity_mask);
--#if defined(CONFIG_SMP)
--			irq_set_affinity_hint(eq_table->eq[i].irq, NULL);
--#endif
-+			irq_update_affinity_hint(eq_table->eq[i].irq, NULL);
- 			free_irq(eq_table->eq[i].irq, eq_table->eq + i);
- 			eq_table->eq[i].have_irq = 0;
- 		}
+Matthew Bobrowski (5):
+  kernel/pid.c: remove static qualifier from pidfd_create()
+  kernel/pid.c: implement additional checks upon pidfd_create()
+    parameters
+  fanotify/fanotify_user.c: minor cosmetic adjustments to fid labels
+  fanotify/fanotify_user.c: introduce a generic info record copying
+    helper
+  fanotify: add pidfd support to the fanotify API
+
+ fs/notify/fanotify/fanotify_user.c | 252 ++++++++++++++++++++---------
+ include/linux/fanotify.h           |   3 +
+ include/linux/pid.h                |   1 +
+ include/uapi/linux/fanotify.h      |  13 ++
+ kernel/pid.c                       |  15 +-
+ 5 files changed, 205 insertions(+), 79 deletions(-)
+
 -- 
-2.27.0
+2.32.0.432.gabb21c7263-goog
 
+/M
