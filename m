@@ -2,56 +2,58 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C23653D12B3
-	for <lists+linux-api@lfdr.de>; Wed, 21 Jul 2021 17:43:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33B9A3D138F
+	for <lists+linux-api@lfdr.de>; Wed, 21 Jul 2021 18:13:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232939AbhGUPC5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 21 Jul 2021 11:02:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44996 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238551AbhGUPCz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 21 Jul 2021 11:02:55 -0400
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69A86C061575
-        for <linux-api@vger.kernel.org>; Wed, 21 Jul 2021 08:43:31 -0700 (PDT)
-Received: by mail-yb1-xb35.google.com with SMTP id i18so3812898yba.13
-        for <linux-api@vger.kernel.org>; Wed, 21 Jul 2021 08:43:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sSQuChGU6tQxqfm5TWusep8hq6ZmIB+zOQ9/zhsm9m0=;
-        b=RLnulxEIKc6/HHiZPGnMsW/NWTGGd+/02XHxpoueIRWPlwZcUimrZ71r6IThuWxOXg
-         75KNKayV2leW/+yS0L4WBHTKpKY4j1WS52QVEg124GIyUeTj6KzIJco4wRwNGmCyJ4Tv
-         vi1oSDfpMZTvOEsY7+ixaGnwfvhJwtNjI5sW34qUnmEaXNUr6I9zozPSGkd3uUPfybUy
-         1whWB2HJyFVLi9nb7TbW2pwIG51esbwS1i32iCl5PtaBmjZInP4f9CabTblWM8gDe0/1
-         eA4LN4i+dtFecOnHVR1jDRwZAf4wpZpoTupMnRanwXgdBLm7KwfAnfyX7FPam37v0FyK
-         km5Q==
+        id S232504AbhGUPc0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 21 Jul 2021 11:32:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53749 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232502AbhGUPcZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 21 Jul 2021 11:32:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1626883981;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=q+1x1mENMFxc8VLP/jpqaTH0FYhxbACKoXkinVL26Wc=;
+        b=ZHyTF170NfcPOTX8NolJl1xAFPyUHgfQFTO4w96hQE2WINm8rkkQmcdANofR2fzBWyZS72
+        5ulPu6B30q8ZgSqBnrB8nZlNHmWl12Usykobs/CDV2V5HDu8xpBFM3/o9Xp5ZaX3IjqMZU
+        33Eu4DQCRQ2uUZd1jXmf+eOriXncIeM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-97-RgMUrauhMbif4ouQUNhm_Q-1; Wed, 21 Jul 2021 12:12:59 -0400
+X-MC-Unique: RgMUrauhMbif4ouQUNhm_Q-1
+Received: by mail-wm1-f69.google.com with SMTP id z127-20020a1c7e850000b02901e46e4d52c0so1213100wmc.6
+        for <linux-api@vger.kernel.org>; Wed, 21 Jul 2021 09:12:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sSQuChGU6tQxqfm5TWusep8hq6ZmIB+zOQ9/zhsm9m0=;
-        b=eLXBuVzVJLkJd0GMU7g19lPwaw0jkAXoKzvc31imkH99gjMK3kQ0AfdlVkfCSxEz8r
-         qEI6AiWZyE26d83oAGfUM90cNZnDRzTh65YyQKLoSADHSVjv4wRCcl0J1QiCl5Z9bBpa
-         idskBHfEC2HMYPyHNdgLGylfVVw930/mXGaz06ncuIjlGrjDNGv/0w1M17mcvyFy0Ice
-         PiME5iPar2I1zicuFTYHMPfGkQM9bYVgYIhpvZvBAaI/mNRnlNREkldd/e+UkL7YcMjB
-         o+H30b6RlVAk9nBgGcpNY1kXjDgcTzQuynH+97KoAp4yx/0I8Xth3EBiaQbNJUQgYmx0
-         FgbQ==
-X-Gm-Message-State: AOAM530F7pLjHXpc2jP3lyIbYfnKkLHeFhx0O3/5Xhkxg+HUmmapHmH9
-        X7DPlvQESlK/aY3toPN44wRpz00Qo/aRgro/megdDw==
-X-Google-Smtp-Source: ABdhPJzM/OQSfrNn9MjFL2p5RV9t3hMxfHHij+8DcfFovPESSzpJ5AdB4Nl0Gw/KVUh6Vbgch08Axn4qft8+xWhpwGo=
-X-Received: by 2002:a25:83ca:: with SMTP id v10mr47053164ybm.84.1626882210451;
- Wed, 21 Jul 2021 08:43:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210718214134.2619099-1-surenb@google.com> <20210718214134.2619099-2-surenb@google.com>
- <6ab82426-ddbd-7937-3334-468f16ceedab@redhat.com>
-In-Reply-To: <6ab82426-ddbd-7937-3334-468f16ceedab@redhat.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Wed, 21 Jul 2021 08:43:18 -0700
-Message-ID: <CAJuCfpEGexDf0=Lfc66d8puUOf5FXxO3aUWffMhRFLPsiYs91A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] mm: introduce process_mrelease system call
-To:     David Hildenbrand <david@redhat.com>
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=q+1x1mENMFxc8VLP/jpqaTH0FYhxbACKoXkinVL26Wc=;
+        b=X967SnJ9fnEPCKjh16C9XvD3WmOnDt/1cC7s5a9yRtShvlKJKsaw04ee4OMQK4jiAp
+         5lLJ2cqVPz6Sa2+gscnnhjNyWxfXnSO4908/EPZrybeiyAMdAAEdfgFWbErUiuAKYAwb
+         WdRm3nKJTBIA2gmlEp6q4TrjIk1ZDpt46KzqxMpFSHx1uHq0hnInfr75LS8oqTo40iHj
+         1N7KE86gAXEyhyN9z1QyM08bNdKTWy/ychWRIiUpEWYIToV565hjeCfvD4dWRSYLB0t8
+         a0DYSGPDRdbUfdge+PL/pQ7sjYtLm0CbIp4HC0GOiTYGx3M/NIvP4Ga8feP/gMlK8ECp
+         GOhQ==
+X-Gm-Message-State: AOAM532DkewRIzPyMW6hGhdwsSFV7VxzlchX6s21fENYRn4qZ79tDmCn
+        xfgGwFB0yfgPqVuB/V+ncXsaaTwAoKAoLInOINiwNl+3RIOe3XNlydjlG9uFjfNUjO+NuZmrdbL
+        kLRLe81xe4nH37xw+BnPX
+X-Received: by 2002:a05:600c:4108:: with SMTP id j8mr4782846wmi.67.1626883978717;
+        Wed, 21 Jul 2021 09:12:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzBad4MtATTGEezDpg/5UCIzeBsvG9+jv9Q5/Fp96JqgG0VxamWxXA/f1dTpJs61LbL4pViDg==
+X-Received: by 2002:a05:600c:4108:: with SMTP id j8mr4782827wmi.67.1626883978487;
+        Wed, 21 Jul 2021 09:12:58 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c65c3.dip0.t-ipconnect.de. [91.12.101.195])
+        by smtp.gmail.com with ESMTPSA id d8sm28546989wra.41.2021.07.21.09.12.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Jul 2021 09:12:58 -0700 (PDT)
+Subject: Re: [PATCH v2 1/3] mm, oom: move task_will_free_mem up in the file to
+ be used in process_mrelease
+To:     Suren Baghdasaryan <surenb@google.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Michal Hocko <mhocko@kernel.org>,
         Michal Hocko <mhocko@suse.com>,
@@ -73,187 +75,103 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         linux-mm <linux-mm@kvack.org>,
         LKML <linux-kernel@vger.kernel.org>,
         kernel-team <kernel-team@android.com>
-Content-Type: text/plain; charset="UTF-8"
+References: <20210718214134.2619099-1-surenb@google.com>
+ <7eb17da6-03a6-5eaf-16e6-97b53ba163d8@redhat.com>
+ <20210720160707.2332738708948f7d865d67c1@linux-foundation.org>
+ <ba763ed3-9ad1-9502-1ffc-3175446570d1@redhat.com>
+ <CAJuCfpEB994Xj3FcmzyH1p3yOdLVf6EwZaGaRj7NJi_c9hbsRQ@mail.gmail.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <0ee6775b-589c-3243-1c01-aafad5eecb73@redhat.com>
+Date:   Wed, 21 Jul 2021 18:12:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <CAJuCfpEB994Xj3FcmzyH1p3yOdLVf6EwZaGaRj7NJi_c9hbsRQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jul 21, 2021 at 1:02 AM David Hildenbrand <david@redhat.com> wrote:
->
-> On 18.07.21 23:41, Suren Baghdasaryan wrote:
-> > In modern systems it's not unusual to have a system component monitoring
-> > memory conditions of the system and tasked with keeping system memory
-> > pressure under control. One way to accomplish that is to kill
-> > non-essential processes to free up memory for more important ones.
-> > Examples of this are Facebook's OOM killer daemon called oomd and
-> > Android's low memory killer daemon called lmkd.
-> > For such system component it's important to be able to free memory
-> > quickly and efficiently. Unfortunately the time process takes to free
-> > up its memory after receiving a SIGKILL might vary based on the state
-> > of the process (uninterruptible sleep), size and OPP level of the core
-> > the process is running. A mechanism to free resources of the target
-> > process in a more predictable way would improve system's ability to
-> > control its memory pressure.
-> > Introduce process_mrelease system call that releases memory of a dying
-> > process from the context of the caller. This way the memory is freed in
-> > a more controllable way with CPU affinity and priority of the caller.
-> > The workload of freeing the memory will also be charged to the caller.
-> > The operation is allowed only on a dying process.
-> >
-> > Previously I proposed a number of alternatives to accomplish this:
-> > - https://lore.kernel.org/patchwork/patch/1060407 extending
-> > pidfd_send_signal to allow memory reaping using oom_reaper thread;
-> > - https://lore.kernel.org/patchwork/patch/1338196 extending
-> > pidfd_send_signal to reap memory of the target process synchronously from
-> > the context of the caller;
-> > - https://lore.kernel.org/patchwork/patch/1344419/ to add MADV_DONTNEED
-> > support for process_madvise implementing synchronous memory reaping.
->
-> To me, this looks a lot cleaner. Although I do wonder why we need two
-> separate mechanisms to achieve the end goal
->
-> 1. send sigkill
-> 2. process_mrelease
->
-> As 2. doesn't make sense without 1. it somehow feels like it would be
-> optimal to achieve both steps in a single syscall. But I remember there
-> were discussions around that.
+On 21.07.21 17:33, Suren Baghdasaryan wrote:
+> On Wed, Jul 21, 2021 at 12:30 AM David Hildenbrand <david@redhat.com> wrote:
+>>
+>> On 21.07.21 01:07, Andrew Morton wrote:
+>>> On Tue, 20 Jul 2021 14:43:52 +0200 David Hildenbrand <david@redhat.com> wrote:
+>>>
+>>>> On 18.07.21 23:41, Suren Baghdasaryan wrote:
+>>>>> process_mrelease needs to be added in the CONFIG_MMU-dependent block which
+>>>>> comes before __task_will_free_mem and task_will_free_mem. Move these
+>>>>> functions before this block so that new process_mrelease syscall can use
+>>>>> them.
+>>>>>
+>>>>> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+>>>>> ---
+>>>>> changes in v2:
+>>>>> - Fixed build error when CONFIG_MMU=n, reported by kernel test robot. This
+>>>>> required moving task_will_free_mem implemented in the first patch
+>>>>> - Renamed process_reap to process_mrelease, per majority of votes
+>>>>> - Replaced "dying process" with "process which was sent a SIGKILL signal" in
+>>>>> the manual page text, per Florian Weimer
+>>>>> - Added ERRORS section in the manual page text
+>>>>> - Resolved conflicts in syscall numbers caused by the new memfd_secret syscall
+>>>>> - Separated boilerplate code wiring-up the new syscall into a separate patch
+>>>>> to facilitate the review process
+>>>>>
+>>>>>     mm/oom_kill.c | 150 +++++++++++++++++++++++++-------------------------
+>>>>>     1 file changed, 75 insertions(+), 75 deletions(-)
+>>>>
+>>>> TBH, I really dislike this move as it makes git blame a lot harder with
+>>>> any real benefit.
+>>>>
+>>>> Can't you just use prototypes to avoid the move for now in patch #2?
+>>>>
+>>>> static bool task_will_free_mem(struct task_struct *task);
+>>>
+>>> This change makes the code better - it's silly to be adding forward
+>>> declarations just because the functions are in the wrong place.
+>>
+>> I'd really love to learn what "better" here means and if it's rather
+>> subjective. When it comes to navigating the code, we do have established
+>> tools for that (ctags), and personally I couldn't care less where
+>> exactly in a file the code is located.
+>>
+>> Sure, ending up with a forward-declaration for every function might not
+>> be what we want ;)
+>>
+>>>
+>>> If that messes up git-blame then let's come up with better tooling
+>>> rather than suffering poorer kernel code because the tools aren't doing
+>>> what we want of them.  Surely?
+>>
+>> I don't agree that what we get is "poorer kernel code" in this very
+>> instance; I can understand that we avoid forward-declarations when
+>> moving smallish functions. But moving two functions with 75 LOC is a bit
+>> too much for my taste at least -- speaking as someone who cares about
+>> easy backports and git-blame.
+> 
+> There is a third alternative here to have process_mrelease() at the
+> end of the file with its own #ifdef CONFIG_MMU block, maybe even
+> embedded in the function like this:
+> 
+>   int process_mrelease(int pidfd, unsigned int flags)
+> {
+> #ifdef CONFIG_MMU
+>          ...
+> #else
+>          return ENOSYS;
+> #endif
+> }
+> 
+> This would not require moving other functions.
+> Would that be better than the current approach or the forward declaration?
 
-Yep, we recently discussed the approach in this thread:
-https://lore.kernel.org/patchwork/patch/1450952/#1652452
+IMHO that could be an easy, possible alternative.
 
->
-> >
-> > The end of the last discussion culminated with suggestion to introduce a
-> > dedicated system call (https://lore.kernel.org/patchwork/patch/1344418/#1553875)
-> > The reasoning was that the new variant of process_madvise
-> >    a) does not work on an address range
-> >    b) is destructive
-> >    c) doesn't share much code at all with the rest of process_madvise
-> >  From the userspace point of view it was awkward and inconvenient to provide
-> > memory range for this operation that operates on the entire address space.
-> > Using special flags or address values to specify the entire address space
-> > was too hacky.
-> >
-> > The API is as follows,
-> >
-> >            int process_mrelease(int pidfd, unsigned int flags);
-> >
-> >          DESCRIPTION
-> >            The process_mrelease() system call is used to free the memory of
-> >            a process which was sent a SIGKILL signal.
-> >
-> >            The pidfd selects the process referred to by the PID file
-> >            descriptor.
-> >            (See pidofd_open(2) for further information)
-> >
-> >            The flags argument is reserved for future use; currently, this
-> >            argument must be specified as 0.
-> >
-> >          RETURN VALUE
-> >            On success, process_mrelease() returns 0. On error, -1 is
-> >            returned and errno is set to indicate the error.
-> >
-> >          ERRORS
-> >            EBADF  pidfd is not a valid PID file descriptor.
-> >
-> >            EAGAIN Failed to release part of the address space.
-> >
-> >            EINVAL flags is not 0.
-> >
-> >            EINVAL The task does not have a pending SIGKILL or its memory is
-> >                   shared with another process with no pending SIGKILL.
-> >
-> >            ENOSYS This system call is not supported by kernels built with no
-> >                   MMU support (CONFIG_MMU=n).
-> >
-> >            ESRCH  The target process does not exist (i.e., it has terminated
-> >                   and been waited on).
-> >
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > ---
-> >   mm/oom_kill.c | 55 +++++++++++++++++++++++++++++++++++++++++++++++++++
-> >   1 file changed, 55 insertions(+)
-> >
-> > diff --git a/mm/oom_kill.c b/mm/oom_kill.c
-> > index d04a13dc9fde..7fbfa70d4e97 100644
-> > --- a/mm/oom_kill.c
-> > +++ b/mm/oom_kill.c
-> > @@ -28,6 +28,7 @@
-> >   #include <linux/sched/task.h>
-> >   #include <linux/sched/debug.h>
-> >   #include <linux/swap.h>
-> > +#include <linux/syscalls.h>
-> >   #include <linux/timex.h>
-> >   #include <linux/jiffies.h>
-> >   #include <linux/cpuset.h>
-> > @@ -755,10 +756,64 @@ static int __init oom_init(void)
-> >       return 0;
-> >   }
-> >   subsys_initcall(oom_init)
-> > +
-> > +SYSCALL_DEFINE2(process_mrelease, int, pidfd, unsigned int, flags)
-> > +{
-> > +     struct pid *pid;
-> > +     struct task_struct *task;
-> > +     struct mm_struct *mm = NULL;
-> > +     unsigned int f_flags;
-> > +     long ret = 0;
->
-> Nit: reverse Christmas tree.
+-- 
+Thanks,
 
-Ack. Will reorder like this:
+David / dhildenb
 
-struct mm_struct *mm = NULL;
-struct task_struct *task;
-unsigned int f_flags;
-struct pid *pid;
-long ret = 0;
-
->
-> > +
-> > +     if (flags != 0)
-> > +             return -EINVAL;
-> > +
-> > +     pid = pidfd_get_pid(pidfd, &f_flags);
-> > +     if (IS_ERR(pid))
-> > +             return PTR_ERR(pid);
-> > +
-> > +     task = get_pid_task(pid, PIDTYPE_PID);
-> > +     if (!task) {
-> > +             ret = -ESRCH;
-> > +             goto put_pid;
-> > +     }
-> > +
-> > +     /*
-> > +      * If the task is dying and in the process of releasing its memory
-> > +      * then get its mm.
-> > +      */
-> > +     task_lock(task);
-> > +     if (task_will_free_mem(task) && (task->flags & PF_KTHREAD) == 0) {
-> > +             mm = task->mm;
-> > +             mmget(mm);
-> > +     }
->
-> AFAIU, while holding the task_lock, task->mm won't change and we cannot
-> see a concurrent exit_mm()->mmput(). So the mm structure and the VMAs
-> won't go away while holding the task_lock(). I do wonder if we need the
-> mmget() at all here.
->
-> Also, I wonder if it would be worth dropping the task_lock() while
-> reaping - to unblock anybody else wanting to lock the task. Getting a
-> hold of the mm and locking the mmap_lock would be sufficient I guess.
-
-Let me take a closer look at the locking sequence here and will follow
-up afterwards.
-Thanks for the review!
-
->
->
-> In general, looks quite good to me.
->
-> --
-> Thanks,
->
-> David / dhildenb
->
