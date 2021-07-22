@@ -2,127 +2,190 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6C9D3D1F3B
-	for <lists+linux-api@lfdr.de>; Thu, 22 Jul 2021 09:45:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6054D3D1FAA
+	for <lists+linux-api@lfdr.de>; Thu, 22 Jul 2021 10:11:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230125AbhGVHFL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 22 Jul 2021 03:05:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55247 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230090AbhGVHFL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Jul 2021 03:05:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1626939946;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=fQbFrR8ICe6f4hwDSR7XnZ4TZ/I96RPWGlnwYnqKWKc=;
-        b=XkcdJa7EkE/1YFXzVPr7HVZFk2Q1REH120LJ76Jl9WMeQgEesPp0XR0arumgDibP3w2Cam
-        ePwOkuJRRnsYlL2vSegzX+I7n+jPlnK4nFE/WoJIspKHmdpP16OXIoXLl3bf2o8rax3EoL
-        EXp6AcBIQ2HAfAIXpKe9tXI6CBcVEUE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-kRpYsbSONH6N0TImX6-WWQ-1; Thu, 22 Jul 2021 03:45:45 -0400
-X-MC-Unique: kRpYsbSONH6N0TImX6-WWQ-1
-Received: by mail-wr1-f69.google.com with SMTP id r6-20020a0560000146b0290150e4a5e7e0so2100731wrx.13
-        for <linux-api@vger.kernel.org>; Thu, 22 Jul 2021 00:45:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:references:from:organization:subject
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=fQbFrR8ICe6f4hwDSR7XnZ4TZ/I96RPWGlnwYnqKWKc=;
-        b=KZ4m2iWLK8VeWnR7MYIxDMHPxg0deRObb7w4pBmII2cwk3119JqZA7uHasIull5oAO
-         C+WfP5ghQ/tmjPgCxN6Hpx0YgalNALlmJx+Ce86EffRZYqzKgM4KIH12lXCoonwyVoUi
-         vtA5I5Pvtp92BvaTmpCgMYIC0cTuLFFovxrwzcEiEk8h+vYWm2LrqpODEo4gNKjdc6hl
-         B3lwfsWfRrn8NFDtxdOliz7b0DWqy1ZRbgTGRuNRdhVbpwx/77NYHC51UltrQVJD/nxu
-         RUV2ucQfcoO0ChPBp7O0Y0aXG4qb+C0sPwQHWBPa8ikoaC7YxPhMc93bPrSt8DI2OORv
-         FZQw==
-X-Gm-Message-State: AOAM533kXbxu2k11GSNbJbR/QeZmQ9jgkKv+S4c8df7XCNaI/hlAfay5
-        7RrLEoVkhHnp3zZZCm56s1e9k6/SsIHwR2b4nTPGui0L5wNIJhFAFhKfxToiSr+/GNg9mVLnCdz
-        BtkE8DMNgT6hdg0tWKcxy
-X-Received: by 2002:adf:9bd7:: with SMTP id e23mr47724162wrc.349.1626939944206;
-        Thu, 22 Jul 2021 00:45:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyyj/MqcBTyAhaFv6JVF9pw5A4aPF8yIJ55K25C05arJo0Ih3l1nU6gs8GsRcD8DSEDIGWRmA==
-X-Received: by 2002:adf:9bd7:: with SMTP id e23mr47724149wrc.349.1626939944019;
-        Thu, 22 Jul 2021 00:45:44 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c6970.dip0.t-ipconnect.de. [91.12.105.112])
-        by smtp.gmail.com with ESMTPSA id d24sm1869662wmb.42.2021.07.22.00.45.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Jul 2021 00:45:43 -0700 (PDT)
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        id S230503AbhGVHaw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 22 Jul 2021 03:30:52 -0400
+Received: from mga01.intel.com ([192.55.52.88]:55161 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230048AbhGVHav (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 22 Jul 2021 03:30:51 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10052"; a="233404455"
+X-IronPort-AV: E=Sophos;i="5.84,260,1620716400"; 
+   d="scan'208";a="233404455"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2021 01:11:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,260,1620716400"; 
+   d="scan'208";a="501660028"
+Received: from shbuild999.sh.intel.com (HELO localhost) ([10.239.146.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 22 Jul 2021 01:11:22 -0700
+Date:   Thu, 22 Jul 2021 16:11:22 +0800
+From:   Feng Tang <feng.tang@intel.com>
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
         Michal Hocko <mhocko@kernel.org>,
-        Michal Hocko <mhocko@suse.com>,
         David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Christian Brauner <christian@brauner.io>,
-        Christoph Hellwig <hch@infradead.org>,
-        Oleg Nesterov <oleg@redhat.com>, Jann Horn <jannh@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Jan Engelhardt <jengelh@inai.de>,
-        Tim Murray <timmurray@google.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kernel-team <kernel-team@android.com>
-References: <20210718214134.2619099-1-surenb@google.com>
- <20210718214134.2619099-2-surenb@google.com>
- <6ab82426-ddbd-7937-3334-468f16ceedab@redhat.com>
- <CAJuCfpEGexDf0=Lfc66d8puUOf5FXxO3aUWffMhRFLPsiYs91A@mail.gmail.com>
- <CAJuCfpHWTA+bGfg=aaRzmiszpo1pphJDL2T7=XSzzjfekSgW8w@mail.gmail.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v2 2/3] mm: introduce process_mrelease system call
-Message-ID: <472b91d2-d678-2d54-b2d0-8618f32e6e69@redhat.com>
-Date:   Thu, 22 Jul 2021 09:45:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Dave Hansen <dave.hansen@intel.com>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Andi Kleen <ak@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>, ying.huang@intel.com
+Subject: Re: [PATCH v6 4/6] mm/hugetlb: add support for mempolicy
+ MPOL_PREFERRED_MANY
+Message-ID: <20210722081122.GA2169@shbuild999.sh.intel.com>
+References: <1626077374-81682-1-git-send-email-feng.tang@intel.com>
+ <1626077374-81682-5-git-send-email-feng.tang@intel.com>
+ <7cdf88d8-9eea-5547-ee77-7d46829bf2dd@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJuCfpHWTA+bGfg=aaRzmiszpo1pphJDL2T7=XSzzjfekSgW8w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7cdf88d8-9eea-5547-ee77-7d46829bf2dd@oracle.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
->>> Getting a hold of the mm and locking the mmap_lock would be sufficient I guess.
+Mike,
+
+On Wed, Jul 21, 2021 at 01:49:15PM -0700, Mike Kravetz wrote:
+> On 7/12/21 1:09 AM, Feng Tang wrote:
+> > From: Ben Widawsky <ben.widawsky@intel.com>
+> > 
+> > Implement the missing huge page allocation functionality while obeying
+> > the preferred node semantics. This is similar to the implementation
+> > for general page allocation, as it uses a fallback mechanism to try
+> > multiple preferred nodes first, and then all other nodes.
+> > 
+> > [Thanks to 0day bot for caching the missing #ifdef CONFIG_NUMA issue]
+> > 
+> > Link: https://lore.kernel.org/r/20200630212517.308045-12-ben.widawsky@intel.com
+> > Suggested-by: Michal Hocko <mhocko@suse.com>
+> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> > Co-developed-by: Feng Tang <feng.tang@intel.com>
+> > Signed-off-by: Feng Tang <feng.tang@intel.com>
+> > ---
+> >  mm/hugetlb.c   | 25 +++++++++++++++++++++++++
+> >  mm/mempolicy.c |  3 ++-
+> >  2 files changed, 27 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> > index 924553aa8f78..3e84508c1b8c 100644
+> > --- a/mm/hugetlb.c
+> > +++ b/mm/hugetlb.c
+> > @@ -1164,7 +1164,18 @@ static struct page *dequeue_huge_page_vma(struct hstate *h,
+> >  
+> >  	gfp_mask = htlb_alloc_mask(h);
+> >  	nid = huge_node(vma, address, gfp_mask, &mpol, &nodemask);
+> > +#ifdef CONFIG_NUMA
+> > +	if (mpol->mode == MPOL_PREFERRED_MANY) {
+> > +		page = dequeue_huge_page_nodemask(h, gfp_mask, nid, nodemask);
+> > +		if (page)
+> > +			goto check_reserve;
+> > +		/* Fallback to all nodes */
+> > +		nodemask = NULL;
+> > +	}
+> > +#endif
+> >  	page = dequeue_huge_page_nodemask(h, gfp_mask, nid, nodemask);
+> > +
+> > +check_reserve:
+> >  	if (page && !avoid_reserve && vma_has_reserves(vma, chg)) {
+> >  		SetHPageRestoreReserve(page);
+> >  		h->resv_huge_pages--;
+> > @@ -2095,6 +2106,20 @@ struct page *alloc_buddy_huge_page_with_mpol(struct hstate *h,
+> >  	nodemask_t *nodemask;
+> >  
+> >  	nid = huge_node(vma, addr, gfp_mask, &mpol, &nodemask);
+> > +#ifdef CONFIG_NUMA
+> > +	if (mpol->mode == MPOL_PREFERRED_MANY) {
+> > +		gfp_t gfp = (gfp_mask | __GFP_NOWARN) & ~__GFP_DIRECT_RECLAIM;
 > 
-> That's exactly what I do here. The simplified sequence is:
+> I believe __GFP_NOWARN will be added later in alloc_buddy_huge_page, so
+> no need to add here?
+
+Thanks for the suggestion, will remove it. 
+
+> > +
+> > +		page = alloc_surplus_huge_page(h, gfp, nid, nodemask);
+> > +		if (page) {
+> > +			mpol_cond_put(mpol);
+> > +			return page;
+> > +		}
+> > +
+> > +		/* Fallback to all nodes */
+> > +		nodemask = NULL;
+> > +	}
+> > +#endif
+> >  	page = alloc_surplus_huge_page(h, gfp_mask, nid, nodemask);
+> >  	mpol_cond_put(mpol);
+> >  
+> > diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+> > index 9dce67fc9bb6..93f8789758a7 100644
+> > --- a/mm/mempolicy.c
+> > +++ b/mm/mempolicy.c
+> > @@ -2054,7 +2054,8 @@ int huge_node(struct vm_area_struct *vma, unsigned long addr, gfp_t gfp_flags,
+> >  					huge_page_shift(hstate_vma(vma)));
+> >  	} else {
+> >  		nid = policy_node(gfp_flags, *mpol, numa_node_id());
+> > -		if ((*mpol)->mode == MPOL_BIND)
+> > +		if ((*mpol)->mode == MPOL_BIND ||
+> > +		    (*mpol)->mode == MPOL_PREFERRED_MANY)
+> >  			*nodemask = &(*mpol)->nodes;
+> >  	}
+> >  	return nid;
+> > 
 > 
->         task_lock
->         if (task_will_free_mem())
->                 mm=mmget()
->         task_unlock
->         if (!mm) return;
+> Other than the one nit above,
 > 
->         mmap_read_lock(mm)
->         __oom_reap_task_mm(mm)
->         mmap_read_unlock(mm)
->         mmput(mm)
-> 
-> Or did I misunderstand your comments?
+> Reviewed-by: Mike Kravetz <mike.kravetz@oracle.com>
 
-Oh, sorry, my tired eyes confused "put_task_struct()" with 
-"task_unlock()" and even "mmget()" with "mmgrab()" ...
+Thanks!
 
-So this is essentially get_task_mm() with an additional 
-task_will_free_mem() check.
 
-LGHTM!
 
-:)
+Andrew,
 
+I have to ask for your help again to fold this to the 4/6 patch, thanks!
+
+- Feng
+
+---------------------------8<--------------------------------------------
+
+From de1cd29d8da96856a6d754a30a4c7585d87b8348 Mon Sep 17 00:00:00 2001
+From: Feng Tang <feng.tang@intel.com>
+Date: Thu, 22 Jul 2021 16:00:49 +0800
+Subject: [PATCH] mm/hugetlb: remove the unneeded __GFP_NOWARN flag setting
+
+As the alloc_buddy_huge_page() will set it anyway.
+
+Suggested-by: Mike Kravetz <mike.kravetz@oracle.com>
+Signed-off-by: Feng Tang <feng.tang@intel.com>
+---
+ mm/hugetlb.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 528947d..a96e283 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -2162,9 +2162,9 @@ struct page *alloc_buddy_huge_page_with_mpol(struct hstate *h,
+ 	nid = huge_node(vma, addr, gfp_mask, &mpol, &nodemask);
+ #ifdef CONFIG_NUMA
+ 	if (mpol->mode == MPOL_PREFERRED_MANY) {
+-		gfp_t gfp = (gfp_mask | __GFP_NOWARN) & ~__GFP_DIRECT_RECLAIM;
+-
+-		page = alloc_surplus_huge_page(h, gfp, nid, nodemask, false);
++		page = alloc_surplus_huge_page(h,
++					gfp_mask & ~__GFP_DIRECT_RECLAIM,
++					nid, nodemask, false);
+ 		if (page) {
+ 			mpol_cond_put(mpol);
+ 			return page;
 -- 
-Thanks,
-
-David / dhildenb
+2.7.4
 
