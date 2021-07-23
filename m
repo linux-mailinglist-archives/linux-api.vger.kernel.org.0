@@ -2,58 +2,36 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BF8C3D3180
-	for <lists+linux-api@lfdr.de>; Fri, 23 Jul 2021 04:04:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0AD93D3491
+	for <lists+linux-api@lfdr.de>; Fri, 23 Jul 2021 08:20:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233126AbhGWBXh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 22 Jul 2021 21:23:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34812 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233111AbhGWBXf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Jul 2021 21:23:35 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27827C061757
-        for <linux-api@vger.kernel.org>; Thu, 22 Jul 2021 19:04:09 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id f30so11508052lfj.1
-        for <linux-api@vger.kernel.org>; Thu, 22 Jul 2021 19:04:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=uWU9VPUi87pNrXCcR4PCrzd/Kzrus891hORmT5PC+zM=;
-        b=eGNdTCrx6valxUE5ycbThNR4R02XvSCraZrOHIJQ3+uqYxLGjXSsd22UWXr8N8UOPD
-         pTfRBCs/s/EKxTP63S4eW3pg+ooV0Y0g5l6l2r6t0UIosBihxBzwuMctSG+1emfQCfSE
-         px9lck/vGt9WgFrHHUB99tl86i/uxoPbCAIgVSVpr/+N6v6cSOq37fum8aRsrqO7ACZJ
-         nTK2PdPZtydq9eYLRimByBEr+6baMS+91ckZZ/T+wduT5gQD9zre78+/Eu79TJsACHbw
-         ct2HMQmLl83gfQCVoDTYqZOIgZfE8fsaRlcVKLmHNhSi+3LRiz9+fY4hm+TfpU8IS/Kw
-         5qpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uWU9VPUi87pNrXCcR4PCrzd/Kzrus891hORmT5PC+zM=;
-        b=P19Q8BAtehB6yrZLYg1lpuN2gvJDgmVNv74xBg3XlXbHUoKg6dP7vadBHzF/DsMJ8v
-         3kkq1n6jWq3AQDXnA0lt8HOtV+yXs2SbDsQjdXNWYYgdRuI4nNbHVhh0UEKBz9V9tVje
-         jV8fN51gVBNlIW8cs1+cpw78Yj1jZS1byF3aS1Dvj86IozGY3yQLDmgj/5Fguv9s/bsW
-         59wISkNF/jdwnfSk0wFR9kkUAg2pJdjoVtSsh22Px+rBaHN5L7vDHM8F3UZZFS5dOGiB
-         BYdKm6sGa5O4BmDLbS/Igg9TdzeJpSOvlwvhSlbgoiQvhposSpfvipQnnzlsI+7/svet
-         P8Zg==
-X-Gm-Message-State: AOAM530yOrN7dOGD+xom6sJr7eOSb9HR4nds40rL0GvOtaIGlJfjxmmf
-        YXv6ic9g+r34GO42247cA5dp289/d76e/qJIowVd6Q==
-X-Google-Smtp-Source: ABdhPJyBmT6ZL/CfKLSg3rGD/pmyxU4+PR/Rv/FDU5r/DAMR4iBuE7Qg4ScYmuWcXBXaW8hLAfCfxGHev47wUrR2oFI=
-X-Received: by 2002:a19:e053:: with SMTP id g19mr1426820lfj.83.1627005847018;
- Thu, 22 Jul 2021 19:04:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210723011436.60960-1-surenb@google.com>
-In-Reply-To: <20210723011436.60960-1-surenb@google.com>
-From:   Shakeel Butt <shakeelb@google.com>
-Date:   Thu, 22 Jul 2021 19:03:56 -0700
-Message-ID: <CALvZod7ehaHoWRD-Pzvet5c1LQ6DYDHjs=xbJWZYEdMsgTpRgA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] mm: introduce process_mrelease system call
+        id S233820AbhGWFjw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 23 Jul 2021 01:39:52 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:47628 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234047AbhGWFjt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 23 Jul 2021 01:39:49 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 5D0521FF53;
+        Fri, 23 Jul 2021 06:20:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1627021220; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=v8uQ4/E3Pg2AaedWhgz8TbxdBCTE3NVNf26n2c3ARfE=;
+        b=Fitv+2rBlAONt3Ul0ivrD3yXXmi9oKL+oO7Ox7WlnJ2NUNdmDc1v77oKiYkcu9cD7/+soA
+        XTDUsHdv00QaXiHZMYR6/OBlrF1TDLJIdzHP9CIOn1gfKTaCTMj2cnqcLfYUzG1pnCkTe9
+        2lkTTuRTtzv8CgTPlhOL9EI2R6g3AuU=
+Received: from suse.cz (tiehlicka.dhcp.prg.suse.com [10.156.228.52])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 12EDBA3B87;
+        Fri, 23 Jul 2021 06:20:20 +0000 (UTC)
+Date:   Fri, 23 Jul 2021 08:20:19 +0200
+From:   Michal Hocko <mhocko@suse.com>
 To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Michal Hocko <mhocko@suse.com>,
+Cc:     Shakeel Butt <shakeelb@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
         David Rientjes <rientjes@google.com>,
         Matthew Wilcox <willy@infradead.org>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -66,27 +44,44 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Jann Horn <jannh@google.com>,
         Andy Lutomirski <luto@kernel.org>,
         Christian Brauner <christian.brauner@ubuntu.com>,
-        Florian Weimer <fweimer@redhat.com>, jengelh@inai.de,
+        Florian Weimer <fweimer@redhat.com>,
+        Jan Engelhardt <jengelh@inai.de>,
         Tim Murray <timmurray@google.com>,
         Linux API <linux-api@vger.kernel.org>,
         Linux MM <linux-mm@kvack.org>,
         LKML <linux-kernel@vger.kernel.org>,
         kernel-team <kernel-team@android.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v3 1/2] mm: introduce process_mrelease system call
+Message-ID: <YPpfo2z8feq0vTlE@dhcp22.suse.cz>
+References: <20210723011436.60960-1-surenb@google.com>
+ <CALvZod7ehaHoWRD-Pzvet5c1LQ6DYDHjs=xbJWZYEdMsgTpRgA@mail.gmail.com>
+ <CAJuCfpFZeQez77CB7odfaSpi3JcLQ_Nz0WvDTsra1VPoA-j7sg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJuCfpFZeQez77CB7odfaSpi3JcLQ_Nz0WvDTsra1VPoA-j7sg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jul 22, 2021 at 6:14 PM Suren Baghdasaryan <surenb@google.com> wrote:
->
-[...]
-> +
-> +       mmap_read_lock(mm);
+On Thu 22-07-21 21:47:56, Suren Baghdasaryan wrote:
+> On Thu, Jul 22, 2021, 7:04 PM Shakeel Butt <shakeelb@google.com> wrote:
+> 
+> > On Thu, Jul 22, 2021 at 6:14 PM Suren Baghdasaryan <surenb@google.com>
+> > wrote:
+> > >
+> > [...]
+> > > +
+> > > +       mmap_read_lock(mm);
+> >
+> > How about mmap_read_trylock(mm) and return -EAGAIN on failure?
+> >
+> 
+> That sounds like a good idea. Thanks! I'll add that in the next respin.
 
-How about mmap_read_trylock(mm) and return -EAGAIN on failure?
+Why is that a good idea? Can you do anything meaningful about the
+failure other than immediately retry the syscall and hope for the best?
 
-
-> +       if (!__oom_reap_task_mm(mm))
-> +               ret = -EAGAIN;
-> +       mmap_read_unlock(mm);
-> +
+-- 
+Michal Hocko
+SUSE Labs
