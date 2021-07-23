@@ -2,132 +2,220 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2D003D2EE3
-	for <lists+linux-api@lfdr.de>; Thu, 22 Jul 2021 23:15:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E43F3D3125
+	for <lists+linux-api@lfdr.de>; Fri, 23 Jul 2021 03:14:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231140AbhGVUfD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 22 Jul 2021 16:35:03 -0400
-Received: from mga07.intel.com ([134.134.136.100]:56216 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230455AbhGVUfD (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 22 Jul 2021 16:35:03 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10053"; a="275564231"
-X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; 
-   d="scan'208";a="275564231"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2021 14:15:23 -0700
-X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; 
-   d="scan'208";a="454881931"
-Received: from mjang2-mobl1.amr.corp.intel.com (HELO [10.209.3.78]) ([10.209.3.78])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2021 14:15:22 -0700
-Subject: Re: [PATCH v28 26/32] x86/cet/shstk: Introduce shadow stack token
- setup/verify routines
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Rick P Edgecombe <rick.p.edgecombe@intel.com>
-References: <20210722205219.7934-1-yu-cheng.yu@intel.com>
- <20210722205219.7934-27-yu-cheng.yu@intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <6cff5396-dff3-8db2-0883-62125252741c@intel.com>
-Date:   Thu, 22 Jul 2021 14:15:19 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20210722205219.7934-27-yu-cheng.yu@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S233018AbhGWAeG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 22 Jul 2021 20:34:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52006 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232892AbhGWAeG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Jul 2021 20:34:06 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF902C061575
+        for <linux-api@vger.kernel.org>; Thu, 22 Jul 2021 18:14:40 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id h7-20020a5b0a870000b029054c59edf217so9673025ybq.3
+        for <linux-api@vger.kernel.org>; Thu, 22 Jul 2021 18:14:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=w//jlFLX9+ZSHdVn9vUWOdr1tmIhHkNEpty1jGjHcPU=;
+        b=AbCwBH20jw8sBTAhoQfNhqS0EsIpCOiubspGKg1TWwuX0H89dxlBwzFv6r/HFhDdIp
+         giDC4FXWje/YEdEPkumtvMsZiP5AkYnXgBsVOhLQhq3ubkYfNut0l+/CzUE+0KTICXbN
+         fiTZK1HC0eeOi7mLLbBksjOAND5sOrEnSqfjDfqK202Zp4HvgsDVTf/JIehBdmTT0C+m
+         t/XlfSy1qbVP/ZEAUoVsWMG7MPuKvdHe+zn88RdWzoGUeOdUT3jEdANBFffdlRQh6i6F
+         s/nxk0TRg8a2sMpyxuNFASfvHxoAuJaRnTXeoZuhgjGdqrgI9uaTrTUUhJYcOrfZ7fIu
+         kJHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=w//jlFLX9+ZSHdVn9vUWOdr1tmIhHkNEpty1jGjHcPU=;
+        b=XmStUORgDCoVrehtRGHoqIN0Y2FZBlfRrWYvkUZ2Xrn+jQ9V3etJO2znqUmf1sSY2G
+         M77A9HsKn2v5d9B+H+EgXIkpYXjJ7VJcsJ+Ru/fpizehEWqYhNkLTU5/QcI1EVZxrRsR
+         Z4yPExL8HOt1g72Ew+Ak7mHYmXi2jhK2gNhR7lq6d9tDcLtFAP+seYdTY5zrtipO17b4
+         umU7EUmnVpAAxra5/MOvrVz+Zjz6UnObQiO2hWBbIHgb30+H7h+DTPgMxHgdp3OhMU+5
+         yj22/zNvBgXfzbkIkX2FdT2VmVhUrNLu6ACfO4AFWgizRFgPVJzbLxuKxNK3kr2eXJ5s
+         JquA==
+X-Gm-Message-State: AOAM533BzrmRZvQkjpCzwOyHeZwukI6m62xiL/3B9tt9sqs65XCePC/b
+        aZ5Lnwi2NJKIubscAgVFfug2aFJghZY=
+X-Google-Smtp-Source: ABdhPJy3vTo4OqL+wNFslFerv8aSMyArHFXBtxkLN8ueXa396MQ+DdZ/X6m3w95usWbDX14N98UzxULLgHo=
+X-Received: from surenb1.mtv.corp.google.com ([2620:15c:211:200:9b49:cc32:b051:fd83])
+ (user=surenb job=sendgmr) by 2002:a25:afcd:: with SMTP id d13mr3206313ybj.504.1627002879922;
+ Thu, 22 Jul 2021 18:14:39 -0700 (PDT)
+Date:   Thu, 22 Jul 2021 18:14:35 -0700
+Message-Id: <20210723011436.60960-1-surenb@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.32.0.432.gabb21c7263-goog
+Subject: [PATCH v3 1/2] mm: introduce process_mrelease system call
+From:   Suren Baghdasaryan <surenb@google.com>
+To:     akpm@linux-foundation.org
+Cc:     mhocko@kernel.org, mhocko@suse.com, rientjes@google.com,
+        willy@infradead.org, hannes@cmpxchg.org, guro@fb.com,
+        riel@surriel.com, minchan@kernel.org, christian@brauner.io,
+        hch@infradead.org, oleg@redhat.com, david@redhat.com,
+        jannh@google.com, shakeelb@google.com, luto@kernel.org,
+        christian.brauner@ubuntu.com, fweimer@redhat.com, jengelh@inai.de,
+        timmurray@google.com, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        kernel-team@android.com, surenb@google.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 7/22/21 1:52 PM, Yu-cheng Yu wrote:
-> +	if (fpregs_state_valid(fpu, smp_processor_id())) {
-> +		rdmsrl(MSR_IA32_PL3_SSP, ssp);
-> +	} else {
-> +		struct cet_user_state *p;
-> +
-> +		/*
-> +		 * When !fpregs_state_valid() and get_xsave_addr() returns
-> +		 * null, XFEAUTRE_CET_USER is in init state.  Shadow stack
-> +		 * pointer is null in this case, so return zero.
-> +		 */
-> +		p = get_xsave_addr(&fpu->state.xsave, XFEATURE_CET_USER);
-> +		if (p)
-> +			ssp = p->user_ssp;
-> +	}
-> +
-> +	fpregs_unlock();
+In modern systems it's not unusual to have a system component monitoring
+memory conditions of the system and tasked with keeping system memory
+pressure under control. One way to accomplish that is to kill
+non-essential processes to free up memory for more important ones.
+Examples of this are Facebook's OOM killer daemon called oomd and
+Android's low memory killer daemon called lmkd.
+For such system component it's important to be able to free memory
+quickly and efficiently. Unfortunately the time process takes to free
+up its memory after receiving a SIGKILL might vary based on the state
+of the process (uninterruptible sleep), size and OPP level of the core
+the process is running. A mechanism to free resources of the target
+process in a more predictable way would improve system's ability to
+control its memory pressure.
+Introduce process_mrelease system call that releases memory of a dying
+process from the context of the caller. This way the memory is freed in
+a more controllable way with CPU affinity and priority of the caller.
+The workload of freeing the memory will also be charged to the caller.
+The operation is allowed only on a dying process.
 
-Why are we even calling into this code if shadow stacks might be
-disabled?  Seems like we should have just errored out long before
-getting here.
+Previously I proposed a number of alternatives to accomplish this:
+- https://lore.kernel.org/patchwork/patch/1060407 extending
+pidfd_send_signal to allow memory reaping using oom_reaper thread;
+- https://lore.kernel.org/patchwork/patch/1338196 extending
+pidfd_send_signal to reap memory of the target process synchronously from
+the context of the caller;
+- https://lore.kernel.org/patchwork/patch/1344419/ to add MADV_DONTNEED
+support for process_madvise implementing synchronous memory reaping.
+
+The end of the last discussion culminated with suggestion to introduce a
+dedicated system call (https://lore.kernel.org/patchwork/patch/1344418/#1553875)
+The reasoning was that the new variant of process_madvise
+  a) does not work on an address range
+  b) is destructive
+  c) doesn't share much code at all with the rest of process_madvise
+From the userspace point of view it was awkward and inconvenient to provide
+memory range for this operation that operates on the entire address space.
+Using special flags or address values to specify the entire address space
+was too hacky.
+
+The API is as follows,
+
+          int process_mrelease(int pidfd, unsigned int flags);
+
+        DESCRIPTION
+          The process_mrelease() system call is used to free the memory of
+          a process which was sent a SIGKILL signal.
+
+          The pidfd selects the process referred to by the PID file
+          descriptor.
+          (See pidofd_open(2) for further information)
+
+          The flags argument is reserved for future use; currently, this
+          argument must be specified as 0.
+
+        RETURN VALUE
+          On success, process_mrelease() returns 0. On error, -1 is
+          returned and errno is set to indicate the error.
+
+        ERRORS
+          EBADF  pidfd is not a valid PID file descriptor.
+
+          EAGAIN Failed to release part of the address space.
+
+          EINVAL flags is not 0.
+
+          EINVAL The task does not have a pending SIGKILL or its memory is
+                 shared with another process with no pending SIGKILL.
+
+          ENOSYS This system call is not supported by kernels built with no
+                 MMU support (CONFIG_MMU=n).
+
+          ESRCH  The target process does not exist (i.e., it has terminated
+                 and been waited on).
+
+Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+---
+changes in v3:
+- Added #ifdef CONFIG_MMU inside process_mrelease to keep task_will_free_mem in
+the same place, per David Hildenbrand
+- Reordered variable definitions in process_mrelease, per David Hildenbrand
+
+ mm/oom_kill.c | 54 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
+
+diff --git a/mm/oom_kill.c b/mm/oom_kill.c
+index c729a4c4a1ac..8bf7a1020ac5 100644
+--- a/mm/oom_kill.c
++++ b/mm/oom_kill.c
+@@ -28,6 +28,7 @@
+ #include <linux/sched/task.h>
+ #include <linux/sched/debug.h>
+ #include <linux/swap.h>
++#include <linux/syscalls.h>
+ #include <linux/timex.h>
+ #include <linux/jiffies.h>
+ #include <linux/cpuset.h>
+@@ -1141,3 +1142,56 @@ void pagefault_out_of_memory(void)
+ 	out_of_memory(&oc);
+ 	mutex_unlock(&oom_lock);
+ }
++
++SYSCALL_DEFINE2(process_mrelease, int, pidfd, unsigned int, flags)
++{
++#ifdef CONFIG_MMU
++	struct mm_struct *mm = NULL;
++	struct task_struct *task;
++	unsigned int f_flags;
++	struct pid *pid;
++	long ret = 0;
++
++	if (flags != 0)
++		return -EINVAL;
++
++	pid = pidfd_get_pid(pidfd, &f_flags);
++	if (IS_ERR(pid))
++		return PTR_ERR(pid);
++
++	task = get_pid_task(pid, PIDTYPE_PID);
++	if (!task) {
++		ret = -ESRCH;
++		goto put_pid;
++	}
++
++	/*
++	 * If the task is dying and in the process of releasing its memory
++	 * then get its mm.
++	 */
++	task_lock(task);
++	if (task_will_free_mem(task) && (task->flags & PF_KTHREAD) == 0) {
++		mm = task->mm;
++		mmget(mm);
++	}
++	task_unlock(task);
++	if (!mm) {
++		ret = -EINVAL;
++		goto put_task;
++	}
++
++	mmap_read_lock(mm);
++	if (!__oom_reap_task_mm(mm))
++		ret = -EAGAIN;
++	mmap_read_unlock(mm);
++
++	mmput(mm);
++put_task:
++	put_task_struct(task);
++put_pid:
++	put_pid(pid);
++	return ret;
++#else
++	return -ENOSYS;
++#endif /* CONFIG_MMU */
++}
+-- 
+2.32.0.432.gabb21c7263-goog
+
