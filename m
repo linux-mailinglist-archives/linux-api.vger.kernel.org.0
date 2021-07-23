@@ -2,54 +2,56 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E02B03D3B51
-	for <lists+linux-api@lfdr.de>; Fri, 23 Jul 2021 15:41:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BD7E3D3B5B
+	for <lists+linux-api@lfdr.de>; Fri, 23 Jul 2021 15:46:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234972AbhGWNAf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 23 Jul 2021 09:00:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52524 "EHLO
+        id S235245AbhGWNFq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 23 Jul 2021 09:05:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233535AbhGWNAe (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 23 Jul 2021 09:00:34 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05E22C061575
-        for <linux-api@vger.kernel.org>; Fri, 23 Jul 2021 06:41:07 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id d18so2136378lfb.6
-        for <linux-api@vger.kernel.org>; Fri, 23 Jul 2021 06:41:06 -0700 (PDT)
+        with ESMTP id S233486AbhGWNFp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 23 Jul 2021 09:05:45 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DE98C061757
+        for <linux-api@vger.kernel.org>; Fri, 23 Jul 2021 06:46:19 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id f12so1796209ljn.1
+        for <linux-api@vger.kernel.org>; Fri, 23 Jul 2021 06:46:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=8IUOnTm1w1NEGAKUMKN9++OeCABD3VuZuK8Yv72862w=;
-        b=gA0KTI9EjtWRrS83kMofDP16+r28w0JxI7MivS3NNKG3D7h0NX3kFG8jahIo/K4+j/
-         InBy0eAqybKo30iUV2ObUz79y65QEqzuqfkNGtvlG9qDbovYf1u1un6Ke2X6l0BQcFu3
-         q2ilMtGg0WxDs+eaJxTJ42jKEAk8ZC5FQCcKy9F9rN4zkZMmZAtFEsm862G3Sp4rfXt+
-         bWn2TLAs2bbq/De8aok+VvnJvts2urLLECzI97u8kviZl9k23Vte7DZGLFmO1BEBPF5P
-         xDFQ7wrG07ut5ziGOcjIEp43y+8WGHUOdB6/5aXhk06UdWjH2dL5UeZuP/j6p+J6uGi+
-         INXg==
+        bh=R+ag2d72KvvFEXZNBsdQcAfMeju6Pa8JiIFVIvwyZAs=;
+        b=Bel0NWzfFa7+d0KBmjVVM5nyRPf5LEz7p5f/UNtfAB3KKC96xHbvTXWvvBbDrM72ZT
+         SXzM2conoYeEZZEkJzsgAfViHZODQnnziIxW6NqqsuypTghZgf8poGb2JK44l6zAAcaC
+         i9Zy6ftMma9CWf8ne5JIemBQgOSSMEEMmUCloaNBkmVSkf/4xN9A9PdqMccjr86sO/L0
+         SlZ2zOvit+JbzDXBXK2HNeAo9yEGfaIhs58ErsHRUutYP/eJa7m9LcUCFmPE1kKKpqWX
+         WV/fA8ZMK01uTIlDsfdmpgAb14HExE356njQnykVutaFhedklFS4hrmq3dh94Ebo0o7a
+         JtWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=8IUOnTm1w1NEGAKUMKN9++OeCABD3VuZuK8Yv72862w=;
-        b=BueujwqwIOjBu1WU+IrIG6Txwx64Gbp6Ek/b9vWAWeAlUVtZRqt7/fcAboIa6NYBr4
-         s2ItR7lBFRej5alABsr6AnxXH5TAiqpwtkV/Q1ywDnsmhVn2N4ryCGvdh9ilbiIpdugC
-         o6Q5V/F18q3Q7KKCrBGUuY0XwPv/HzEn8AUXjpfyww5O8Zjn0ipKg68jDm5KMhBRKkms
-         EgY52KFTfoPmgVLCkmJbgpohUT8x/wHb72unrNT8LvaFVCMWXc0DTYW24KAnejL+KYKx
-         P+mu0M/56r/numH6sk/C4oYCHEAKLt4riwKHaZmwP9EoW2+4W6JZd/hdAjLgonpvJRQw
-         ij3g==
-X-Gm-Message-State: AOAM531nUBl6r06BkEYtzcvbJA5V3iWYF+gx3w6yagLbimCQEyYhQQfk
-        ulDAZyiFUKWf5o6TkUxiE3mdVQLY3srzyw/bGhlB2g==
-X-Google-Smtp-Source: ABdhPJw8jqOznbPrS2TBhfpe4BhYyrVrnm33Cq5MfitNfhmTtB11IoaLYUskZkWSJpsoHlUm0sPAcJR3h0yAR38JgHQ=
-X-Received: by 2002:ac2:4d86:: with SMTP id g6mr3049839lfe.549.1627047665042;
- Fri, 23 Jul 2021 06:41:05 -0700 (PDT)
+        bh=R+ag2d72KvvFEXZNBsdQcAfMeju6Pa8JiIFVIvwyZAs=;
+        b=QpPl13bPCTpIIbG7WnAfNrHi6aoFbeWpdqj/i8/xwQm9jIG2lPjO5kFjjGdCoEJ/U6
+         nmr9HvsrItMYNUG/KonadubHPGWxpNWcaReoCPMSR9sH2COVzXSJv858aLbxLxwHFP0r
+         /rU8KDF3Pk92VlVg0W51Xf9haLdNNlHxNRa3vcXhnJrUinkkMRrPfErv6QvSD/G0Uv2Q
+         KUh31eVqMQRdE3b6EIJ8+8LNas0Vlq4alfIP/+lvgjZLe2W17Svh9ikMi0j4jNfFdAzW
+         +axgD1HoYydJQF7XQXtw1UDQ3a1KJKfTDDJxQ/n8G7maE5ie5pmxIgmOSIP9X6fJQ5hT
+         ooNg==
+X-Gm-Message-State: AOAM531AVYiPRPEG+VoFAcxm5CMndFxy6j7pNUfiOqrILGeU8QFWaTyR
+        YfBHRGhCi2+ejJwe7GKnHNfoaNLqq9nE/tQPNeRBIg==
+X-Google-Smtp-Source: ABdhPJxHBOisaZMsrpVGL5IjrNztOtO9ALzW8qKpkWXbWzvMb52gUbcej6/EFccqagBqkkFhvSoB5KjNacZFYxqbkBQ=
+X-Received: by 2002:a2e:9ec1:: with SMTP id h1mr3464593ljk.0.1627047977179;
+ Fri, 23 Jul 2021 06:46:17 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210723011436.60960-1-surenb@google.com> <CALvZod7ehaHoWRD-Pzvet5c1LQ6DYDHjs=xbJWZYEdMsgTpRgA@mail.gmail.com>
- <CAJuCfpFZeQez77CB7odfaSpi3JcLQ_Nz0WvDTsra1VPoA-j7sg@mail.gmail.com> <YPpfo2z8feq0vTlE@dhcp22.suse.cz>
-In-Reply-To: <YPpfo2z8feq0vTlE@dhcp22.suse.cz>
+ <CAJuCfpFZeQez77CB7odfaSpi3JcLQ_Nz0WvDTsra1VPoA-j7sg@mail.gmail.com>
+ <YPpfo2z8feq0vTlE@dhcp22.suse.cz> <CAJuCfpGSZwVgZ=FxhCV-uC_mzC7O-v-3k3tm-F6kOB7WM9t9tw@mail.gmail.com>
+ <YPqDnqULylkkzQG5@dhcp22.suse.cz>
+In-Reply-To: <YPqDnqULylkkzQG5@dhcp22.suse.cz>
 From:   Shakeel Butt <shakeelb@google.com>
-Date:   Fri, 23 Jul 2021 06:40:53 -0700
-Message-ID: <CALvZod470Q9yZzjRGZr5q3oZ2z7-EYc3fEGtoridk8MJu3k7jg@mail.gmail.com>
+Date:   Fri, 23 Jul 2021 06:46:06 -0700
+Message-ID: <CALvZod4=9aEd9tUdku293uhVQ4mqsfYckCOKzqxXVTDYsmaVtQ@mail.gmail.com>
 Subject: Re: [PATCH v3 1/2] mm: introduce process_mrelease system call
 To:     Michal Hocko <mhocko@suse.com>
 Cc:     Suren Baghdasaryan <surenb@google.com>,
@@ -78,25 +80,18 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jul 22, 2021 at 11:20 PM Michal Hocko <mhocko@suse.com> wrote:
+On Fri, Jul 23, 2021 at 1:53 AM Michal Hocko <mhocko@suse.com> wrote:
 >
-> On Thu 22-07-21 21:47:56, Suren Baghdasaryan wrote:
-> > On Thu, Jul 22, 2021, 7:04 PM Shakeel Butt <shakeelb@google.com> wrote:
-> >
-> > > On Thu, Jul 22, 2021 at 6:14 PM Suren Baghdasaryan <surenb@google.com>
-> > > wrote:
-> > > >
-> > > [...]
-> > > > +
-> > > > +       mmap_read_lock(mm);
-> > >
-> > > How about mmap_read_trylock(mm) and return -EAGAIN on failure?
-> > >
-> >
-> > That sounds like a good idea. Thanks! I'll add that in the next respin.
+[...]
+> > However
+> > retrying means issuing another syscall, so additional overhead...
+> > I guess such "best effort" approach would be unusual for a syscall, so
+> > maybe we can keep it as it is now and if such "do not block" mode is needed
+> > we can use flags to implement it later?
 >
-> Why is that a good idea? Can you do anything meaningful about the
-> failure other than immediately retry the syscall and hope for the best?
+> Yeah, an explicit opt-in via flags would be an option if that turns out
+> to be really necessary.
 >
 
-Yes we can. Based on the situation/impact we can select more victims.
+I am fine with keeping it as it is but we do need the non-blocking
+option (via flags) to enable userspace to act more aggressively.
