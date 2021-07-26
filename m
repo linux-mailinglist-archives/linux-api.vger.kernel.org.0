@@ -2,158 +2,115 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 98F2F3D5E9D
-	for <lists+linux-api@lfdr.de>; Mon, 26 Jul 2021 17:51:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29E7B3D64D2
+	for <lists+linux-api@lfdr.de>; Mon, 26 Jul 2021 18:48:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236377AbhGZPLD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 26 Jul 2021 11:11:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48710 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236734AbhGZPJr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 26 Jul 2021 11:09:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1627314615;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=XgsuJsqBr9kyZ7zj2ygISOlArfFVIIfczRuQHcGCOnA=;
-        b=aLkmavssjXiLeNOZ2wCQlceCIo7H7o9xNSL6Fj9v1xUhksUO9oQhGQPAmAj/tKNUbruXlz
-        Af+RyBwUydDcJDS99LyLD36Lj8xm5ZL7OjdazFd2PB+WQ9fG29J26RBLh64Lf2xDqF6ISV
-        bCPBvcgv5T4zlHBjcmjtVU2sWwbkrW0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-YwsBknGRN-mDp0-0o9nRCQ-1; Mon, 26 Jul 2021 11:50:11 -0400
-X-MC-Unique: YwsBknGRN-mDp0-0o9nRCQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5750E92500;
-        Mon, 26 Jul 2021 15:50:07 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-112-199.ams2.redhat.com [10.36.112.199])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B386510190AA;
-        Mon, 26 Jul 2021 15:49:33 +0000 (UTC)
-From:   David Hildenbrand <david@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-mm@kvack.org, Linux API <linux-api@vger.kernel.org>,
-        David Hildenbrand <david@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Michal Hocko <mhocko@suse.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Matthew Wilcox <willy@infradead.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Minchan Kim <minchan@kernel.org>, Jann Horn <jannh@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Hugh Dickins <hughd@google.com>,
-        Rik van Riel <riel@surriel.com>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>, Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Peter Xu <peterx@redhat.com>,
-        Rolf Eike Beer <eike-kernel@sf-tec.de>,
-        Ram Pai <linuxram@us.ibm.com>, Shuah Khan <shuah@kernel.org>
-Subject: [PATCH v1] mm/madvise: report SIGBUS as -EFAULT for MADV_POPULATE_(READ|WRITE)
-Date:   Mon, 26 Jul 2021 17:49:32 +0200
-Message-Id: <20210726154932.102880-1-david@redhat.com>
+        id S235202AbhGZQGq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 26 Jul 2021 12:06:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60462 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240777AbhGZQFA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 26 Jul 2021 12:05:00 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FB15C0617A0
+        for <linux-api@vger.kernel.org>; Mon, 26 Jul 2021 09:44:41 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id a26so16524886lfr.11
+        for <linux-api@vger.kernel.org>; Mon, 26 Jul 2021 09:44:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DlqUXAYss0z4CwOkVfGtreR6OseE/eXEXPezp0fcD5Q=;
+        b=v/GwQOc/nfVoJOaP+06LI0uq/yjmmZ5T1xMXwDdNwHDrRxLXrNQwJP1e4uwRyy/xrp
+         IOsfYH+cdtu62lwlEx6yb2NTKwdzZFS458KkFOrWnizERkKOK6i0bQGNnwFSRZz/fWGp
+         IUKWriV5wMB6wC/h+yVzUQwFI1DpjFLSud5NrBDizwqsJstnZB+Xp9j+SsylMZ8dAMa0
+         c5vGk2HKgYounGCCH8vn5pJBitXuNwTgVHaH2TLqdTMi19u/hzVUfmrugGVmb0G267k4
+         qqIiLUiCwPOwDvDOINBK5Mr9CyRbvnH0wmr+ej6s4ON7UwpM6YzmX8c1kKl6VEmKwpnO
+         IOCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DlqUXAYss0z4CwOkVfGtreR6OseE/eXEXPezp0fcD5Q=;
+        b=h6M+sgN+v2lQ0EeP7tymQ8Z7OKIdDJNTwcQ+NrtTJU+8NbcV+5pEwp5ATVZ8X3fz0e
+         5IpfOawF/gQnOOPEbttKIhcM2g5/EPoMZbqPk9F04jC4BVEz4/3K4fGKCxf7g0E3iYHc
+         fp3Wunyk2kab65fZ3YNHFxYEFNvvOs9hmDwsOUxXfmV30d5teSpLeLQ7JVas/1+JcWpT
+         6Tj9prYokTUvKNvNlbPCB7r+aGJ0mKb9uCT4k9Auvd7Z1oWEIuOh/z+mtmWPaAUPSwWW
+         SfMDhRkjOWhMLkJyHz35Tlj0DlLu030uTYWeE6Jb1cyY3rFG8wsKz5t0dJF3ChXZMNrG
+         vG3Q==
+X-Gm-Message-State: AOAM5305BzwZ5mbcAiITA1o8ks844osSvJAbyWtvjP+yRfRnnef8Weho
+        13S/GXzSbgSkSC75huto9buKjPOUVNzorUyiOx58OQ==
+X-Google-Smtp-Source: ABdhPJxzBJ3xGLvlzG0KVYzemKw7irNCJbPzXu7HMAIWodwPYqtCqbkZVo0CNJWicFJd4Rc0zQnPhQrIet41JLV3XB0=
+X-Received: by 2002:a05:6512:3f8:: with SMTP id n24mr6547107lfq.125.1627317879269;
+ Mon, 26 Jul 2021 09:44:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+References: <20210716184719.269033-5-posk@google.com> <2c971806-b8f6-50b9-491f-e1ede4a33579@uwaterloo.ca>
+ <CAPNVh5cmhFEWr4bmODkDDFhV=mHLcO0DZJ432GEL=OitzPP80g@mail.gmail.com>
+ <c8ea4892-51e5-0dc2-86c6-b705e8a23cde@uwaterloo.ca> <CAFTs51XW0H1UJKv0t2tq+5VLfgPMtZmDcxQVUQ5HkgDe38jHpw@mail.gmail.com>
+ <5790661b-869c-68bd-86fa-62f580e84be1@uwaterloo.ca> <CAPNVh5ecidSmKFW2ck0ASw44GUnP20m7baSP1+KXnGfkM8FLLg@mail.gmail.com>
+ <e1403574-1151-8399-0ce9-bb80852ec56b@uwaterloo.ca>
+In-Reply-To: <e1403574-1151-8399-0ce9-bb80852ec56b@uwaterloo.ca>
+From:   Peter Oskolkov <posk@google.com>
+Date:   Mon, 26 Jul 2021 09:44:27 -0700
+Message-ID: <CAPNVh5fug5cPu7gPoAR7ZiKzAZ5i8007=Hs9_MG+fCTL3XkLBQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 4/4 v0.3] sched/umcg: RFC: implement UMCG syscalls
+To:     Thierry Delisle <tdelisle@uwaterloo.ca>
+Cc:     Peter Oskolkov <posk@posk.io>, Andrei Vagin <avagin@google.com>,
+        Ben Segall <bsegall@google.com>, Jann Horn <jannh@google.com>,
+        Jim Newsome <jnewsome@torproject.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        linux-api@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Paul Turner <pjt@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Buhr <pabuhr@uwaterloo.ca>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Doing some extended tests and polishing the man page update for
-MADV_POPULATE_(READ|WRITE), I realized that we end up converting also
-SIGBUS (via -EFAULT) to -EINVAL, making it look like yet another
-madvise() user error.
+On Fri, Jul 23, 2021 at 12:06 PM Thierry Delisle <tdelisle@uwaterloo.ca> wrote:
+>
+>  > In my tests reclaimed nodes have their next pointers immediately set
+>  > to point to the list head. If the kernel gets a node with its @next
+>  > pointing to something else, then yes, things break down (the kernel
+>  > kills the process); this has happened occasionally when I had a bug in
+>  > the userspace code.
+>
+> I believe that approach is fine for production, but for testing it may
+> not detect some bugs. For example, it may not detect the race I detail
+> below.
 
-We want to report only problematic mappings and permission problems that
-the user could have know as -EINVAL.
+While I think I have the idle servers list working, I now believe that
+what peterz@ was suggesting is not much slower in the common case
+(many idle workers; few, if any, idle servers) than having a list of
+idle servers exposed to the kernel: I think having a single idle
+server at head, not a list, is enough: when a worker is added to idle
+workers list, a single idle server at head, if present, can be
+"popped" and woken; the userspace can maintain the list of idle
+servers itself; having the kernel wake only one is enough - it will
+pop all idle workers and decide whether any other servers are needed
+to process the newly available work.
 
-Let's not convert -EFAULT arising due to SIGBUS (or SIGSEGV) to
--EINVAL, but instead indicate -EFAULT to user space. While we could also
-convert it to -ENOMEM, using -EFAULT looks more helpful when user space
-might want to troubleshoot what's going wrong: MADV_POPULATE_(READ|WRITE)
-is not part of an final Linux release and we can still adjust the behavior.
+[...]
 
-Fixes: 4ca9b3859dac ("mm/madvise: introduce MADV_POPULATE_(READ|WRITE) to prefault page tables")
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Michal Hocko <mhocko@suse.com>
-Cc: Oscar Salvador <osalvador@suse.de>
-Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
-Cc: Andrea Arcangeli <aarcange@redhat.com>
-Cc: Minchan Kim <minchan@kernel.org>
-Cc: Jann Horn <jannh@google.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Dave Hansen <dave.hansen@intel.com>
-Cc: Hugh Dickins <hughd@google.com>
-Cc: Rik van Riel <riel@surriel.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-Cc: Matt Turner <mattst88@gmail.com>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Cc: Helge Deller <deller@gmx.de>
-Cc: Chris Zankel <chris@zankel.net>
-Cc: Max Filippov <jcmvbkbc@gmail.com>
-Cc: Mike Kravetz <mike.kravetz@oracle.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Rolf Eike Beer <eike-kernel@sf-tec.de>
-Cc: Ram Pai <linuxram@us.ibm.com>
-Cc: Shuah Khan <shuah@kernel.org>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- mm/gup.c     | 7 +++++--
- mm/madvise.c | 4 +++-
- 2 files changed, 8 insertions(+), 3 deletions(-)
+>  > Workers are trickier, as they can be woken by signals and then block
+>  > again, but stray signals are so bad here that I'm thinking of actually
+>  > not letting sleeping workers wake on signals. Other than signals
+>  > waking queued/unqueued idle workers, are there any other potential
+>  > races here?
+>
+> Timeouts on blocked threads is virtually the same as a signal I think. I
+> can see that both could lead to attempts at waking workers that are not
+> blocked.
 
-diff --git a/mm/gup.c b/mm/gup.c
-index 42b8b1fa6521..b94717977d17 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -1558,9 +1558,12 @@ long faultin_vma_page_range(struct vm_area_struct *vma, unsigned long start,
- 		gup_flags |= FOLL_WRITE;
- 
- 	/*
--	 * See check_vma_flags(): Will return -EFAULT on incompatible mappings
--	 * or with insufficient permissions.
-+	 * We want to report -EINVAL instead of -EFAULT for any permission
-+	 * problems or incompatible mappings.
- 	 */
-+	if (check_vma_flags(vma, gup_flags))
-+		return -EINVAL;
-+
- 	return __get_user_pages(mm, start, nr_pages, gup_flags,
- 				NULL, NULL, locked);
- }
-diff --git a/mm/madvise.c b/mm/madvise.c
-index 6d3d348b17f4..5c065bc8b5f6 100644
---- a/mm/madvise.c
-+++ b/mm/madvise.c
-@@ -862,10 +862,12 @@ static long madvise_populate(struct vm_area_struct *vma,
- 			switch (pages) {
- 			case -EINTR:
- 				return -EINTR;
--			case -EFAULT: /* Incompatible mappings / permissions. */
-+			case -EINVAL: /* Incompatible mappings / permissions. */
- 				return -EINVAL;
- 			case -EHWPOISON:
- 				return -EHWPOISON;
-+			case -EFAULT: /* VM_FAULT_SIGBUS or VM_FAULT_SIGSEGV */
-+				return -EFAULT;
- 			default:
- 				pr_warn_once("%s: unhandled return value: %ld\n",
- 					     __func__, pages);
--- 
-2.31.1
+I've got preemption working well enough to warrant a new RFC patchset
+(also have timeouts done, but these were easy). I'll clean things up,
+change the idle servers logic to only one idle server exposed to the
+kernel, not a list, add some additional documentation (state
+transitions, userspace code snippets, etc.) and will post v0.4 RFC
+patchset to LKML later this week.
 
+[...]
