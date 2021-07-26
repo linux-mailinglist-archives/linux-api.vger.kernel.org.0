@@ -2,115 +2,174 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29E7B3D64D2
-	for <lists+linux-api@lfdr.de>; Mon, 26 Jul 2021 18:48:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3346D3D69E7
+	for <lists+linux-api@lfdr.de>; Tue, 27 Jul 2021 01:04:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235202AbhGZQGq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 26 Jul 2021 12:06:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60462 "EHLO
+        id S233644AbhGZWY1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 26 Jul 2021 18:24:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240777AbhGZQFA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 26 Jul 2021 12:05:00 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FB15C0617A0
-        for <linux-api@vger.kernel.org>; Mon, 26 Jul 2021 09:44:41 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id a26so16524886lfr.11
-        for <linux-api@vger.kernel.org>; Mon, 26 Jul 2021 09:44:41 -0700 (PDT)
+        with ESMTP id S233491AbhGZWY1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 26 Jul 2021 18:24:27 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CAD2C061757
+        for <linux-api@vger.kernel.org>; Mon, 26 Jul 2021 16:04:55 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id ds11-20020a17090b08cbb0290172f971883bso1288297pjb.1
+        for <linux-api@vger.kernel.org>; Mon, 26 Jul 2021 16:04:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DlqUXAYss0z4CwOkVfGtreR6OseE/eXEXPezp0fcD5Q=;
-        b=v/GwQOc/nfVoJOaP+06LI0uq/yjmmZ5T1xMXwDdNwHDrRxLXrNQwJP1e4uwRyy/xrp
-         IOsfYH+cdtu62lwlEx6yb2NTKwdzZFS458KkFOrWnizERkKOK6i0bQGNnwFSRZz/fWGp
-         IUKWriV5wMB6wC/h+yVzUQwFI1DpjFLSud5NrBDizwqsJstnZB+Xp9j+SsylMZ8dAMa0
-         c5vGk2HKgYounGCCH8vn5pJBitXuNwTgVHaH2TLqdTMi19u/hzVUfmrugGVmb0G267k4
-         qqIiLUiCwPOwDvDOINBK5Mr9CyRbvnH0wmr+ej6s4ON7UwpM6YzmX8c1kKl6VEmKwpnO
-         IOCg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=3zvXXrm1EhbPo/karfODgyzPbnnWPGS2r+uLic52hag=;
+        b=fQqHn6H1zjjuCf+tc7UHRpbniU8mOLPDIyKvV9Dp8Au6zgcLVA2luunJGKsi4iOKYq
+         PU+f6c81qLy3GY4FTsy6Y0jO6J1hzO6qN3p75ulLdhfAUp15o2p+k9Q6j1nJxLdjBZcr
+         cE8N+lhtbCV4tijsMCCaFPtIAq+rokxvhmIwhV7nultbEDHmDDD+cxyDnDumUO0exViY
+         UT/gyZ8Rt6zy7mAcVJiJtPU1CzRC7yIGTVGPyR9Oi2lFQaGpVtxgZGi1B8gHxv8U6VNu
+         7RrEbCNOjJgZ17nnIM0NJx+nXXrlUrCUrWIQ7ZDCQOcgvYfbOZnySNs2ibTGsGOvaCbp
+         NKqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DlqUXAYss0z4CwOkVfGtreR6OseE/eXEXPezp0fcD5Q=;
-        b=h6M+sgN+v2lQ0EeP7tymQ8Z7OKIdDJNTwcQ+NrtTJU+8NbcV+5pEwp5ATVZ8X3fz0e
-         5IpfOawF/gQnOOPEbttKIhcM2g5/EPoMZbqPk9F04jC4BVEz4/3K4fGKCxf7g0E3iYHc
-         fp3Wunyk2kab65fZ3YNHFxYEFNvvOs9hmDwsOUxXfmV30d5teSpLeLQ7JVas/1+JcWpT
-         6Tj9prYokTUvKNvNlbPCB7r+aGJ0mKb9uCT4k9Auvd7Z1oWEIuOh/z+mtmWPaAUPSwWW
-         SfMDhRkjOWhMLkJyHz35Tlj0DlLu030uTYWeE6Jb1cyY3rFG8wsKz5t0dJF3ChXZMNrG
-         vG3Q==
-X-Gm-Message-State: AOAM5305BzwZ5mbcAiITA1o8ks844osSvJAbyWtvjP+yRfRnnef8Weho
-        13S/GXzSbgSkSC75huto9buKjPOUVNzorUyiOx58OQ==
-X-Google-Smtp-Source: ABdhPJxzBJ3xGLvlzG0KVYzemKw7irNCJbPzXu7HMAIWodwPYqtCqbkZVo0CNJWicFJd4Rc0zQnPhQrIet41JLV3XB0=
-X-Received: by 2002:a05:6512:3f8:: with SMTP id n24mr6547107lfq.125.1627317879269;
- Mon, 26 Jul 2021 09:44:39 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=3zvXXrm1EhbPo/karfODgyzPbnnWPGS2r+uLic52hag=;
+        b=Sn8eV4asJjbLv+hWT0+3zFVQ19djTINQkaIB9nsKZVJJZerp23+X7tnFGZce5o8paK
+         Wfz8uCWVSEnGGr3+joxjRfb2Xofoeenu19yLJ6G7BQybDZExLMr81/4MtcqHVNB8ZR4p
+         7OXi/zwBZmQFzBPXJBpqq0H31ROQvO+k84iOvlLwLIHx/LkffvzK/kMgf8fDEIJNa0bH
+         Rgv0Wn8WK5bFSAiX6CTqecxwporMYc8JkQUd+3QKA0d0yKuGjeiXknJbKeDSQ9p/vAIg
+         uJOHpXnxnm/G4/l2t0Pt20kPuYiTcNScMZxjS9lXyrZSIL+Gg/0q8J3mwSHcfzcOAtC2
+         mQUQ==
+X-Gm-Message-State: AOAM533UxqLJhnhfSa3thcv+QlK0rXTX1v3JGmYCLnJRtO9ZtWIdtK/C
+        JwypI2xfs1T/EPXg317v/tO5Pg==
+X-Google-Smtp-Source: ABdhPJx+p/J/UmtOIKmFNatkBElLn81HQzlpbugT6PblqvElzb35xaht8zzK6Vd6GySW97vMRf08Cw==
+X-Received: by 2002:a63:e350:: with SMTP id o16mr20556164pgj.98.1627340694696;
+        Mon, 26 Jul 2021 16:04:54 -0700 (PDT)
+Received: from google.com ([2401:fa00:9:211:c253:e6ea:83ee:c870])
+        by smtp.gmail.com with ESMTPSA id a20sm545465pjh.46.2021.07.26.16.04.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Jul 2021 16:04:54 -0700 (PDT)
+Date:   Tue, 27 Jul 2021 09:04:42 +1000
+From:   Matthew Bobrowski <repnop@google.com>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH v3 5/5] fanotify: add pidfd support to the fanotify API
+Message-ID: <YP8/itVISGZhDhad@google.com>
+References: <cover.1626845287.git.repnop@google.com>
+ <02ba3581fee21c34bd986e093d9eb0b9897fa741.1626845288.git.repnop@google.com>
+ <CAOQ4uxgO3oViTSFZ0zs6brrHrmw362r1C9SQ7g6=XgRwyrzMuw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210716184719.269033-5-posk@google.com> <2c971806-b8f6-50b9-491f-e1ede4a33579@uwaterloo.ca>
- <CAPNVh5cmhFEWr4bmODkDDFhV=mHLcO0DZJ432GEL=OitzPP80g@mail.gmail.com>
- <c8ea4892-51e5-0dc2-86c6-b705e8a23cde@uwaterloo.ca> <CAFTs51XW0H1UJKv0t2tq+5VLfgPMtZmDcxQVUQ5HkgDe38jHpw@mail.gmail.com>
- <5790661b-869c-68bd-86fa-62f580e84be1@uwaterloo.ca> <CAPNVh5ecidSmKFW2ck0ASw44GUnP20m7baSP1+KXnGfkM8FLLg@mail.gmail.com>
- <e1403574-1151-8399-0ce9-bb80852ec56b@uwaterloo.ca>
-In-Reply-To: <e1403574-1151-8399-0ce9-bb80852ec56b@uwaterloo.ca>
-From:   Peter Oskolkov <posk@google.com>
-Date:   Mon, 26 Jul 2021 09:44:27 -0700
-Message-ID: <CAPNVh5fug5cPu7gPoAR7ZiKzAZ5i8007=Hs9_MG+fCTL3XkLBQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 4/4 v0.3] sched/umcg: RFC: implement UMCG syscalls
-To:     Thierry Delisle <tdelisle@uwaterloo.ca>
-Cc:     Peter Oskolkov <posk@posk.io>, Andrei Vagin <avagin@google.com>,
-        Ben Segall <bsegall@google.com>, Jann Horn <jannh@google.com>,
-        Jim Newsome <jnewsome@torproject.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        linux-api@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Paul Turner <pjt@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Buhr <pabuhr@uwaterloo.ca>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOQ4uxgO3oViTSFZ0zs6brrHrmw362r1C9SQ7g6=XgRwyrzMuw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jul 23, 2021 at 12:06 PM Thierry Delisle <tdelisle@uwaterloo.ca> wrote:
->
->  > In my tests reclaimed nodes have their next pointers immediately set
->  > to point to the list head. If the kernel gets a node with its @next
->  > pointing to something else, then yes, things break down (the kernel
->  > kills the process); this has happened occasionally when I had a bug in
->  > the userspace code.
->
-> I believe that approach is fine for production, but for testing it may
-> not detect some bugs. For example, it may not detect the race I detail
-> below.
+On Wed, Jul 21, 2021 at 10:05:17AM +0300, Amir Goldstein wrote:
+> On Wed, Jul 21, 2021 at 9:19 AM Matthew Bobrowski <repnop@google.com> wrote:
+> >
+> > Introduce a new flag FAN_REPORT_PIDFD for fanotify_init(2) which
+> > allows userspace applications to control whether a pidfd info record
+> > containing a pidfd is to be returned with each event.
+> >
+> > If FAN_REPORT_PIDFD is enabled for a notification group, an additional
+> > struct fanotify_event_info_pidfd object will be supplied alongside the
+> > generic struct fanotify_event_metadata within a single event. This
+> > functionality is analogous to that of FAN_REPORT_FID in terms of how
+> > the event structure is supplied to the userspace application. Usage of
+> > FAN_REPORT_PIDFD with FAN_REPORT_FID/FAN_REPORT_DFID_NAME is
+> > permitted, and in this case a struct fanotify_event_info_pidfd object
+> > will follow any struct fanotify_event_info_fid object.
+> >
+> > Currently, the usage of FAN_REPORT_TID is not permitted along with
+> > FAN_REPORT_PIDFD as the pidfd API only supports the creation of pidfds
+> > for thread-group leaders. Additionally, the FAN_REPORT_PIDFD is
+> > limited to privileged processes only i.e. listeners that are running
+> > with the CAP_SYS_ADMIN capability. Attempting to supply either of
+> > these initialization flags with FAN_REPORT_PIDFD will result with
+> > EINVAL being returned to the caller.
+> >
+> > In the event of a pidfd creation error, there are two types of error
+> > values that can be reported back to the listener. There is
+> > FAN_NOPIDFD, which will be reported in cases where the process
+> > responsible for generating the event has terminated prior to fanotify
+> > being able to create pidfd for event->pid via pidfd_create(). The
+> 
+> I think that "...prior to event listener reading the event..." is a more
+> accurate description of the situation.
 
-While I think I have the idle servers list working, I now believe that
-what peterz@ was suggesting is not much slower in the common case
-(many idle workers; few, if any, idle servers) than having a list of
-idle servers exposed to the kernel: I think having a single idle
-server at head, not a list, is enough: when a worker is added to idle
-workers list, a single idle server at head, if present, can be
-"popped" and woken; the userspace can maintain the list of idle
-servers itself; having the kernel wake only one is enough - it will
-pop all idle workers and decide whether any other servers are needed
-to process the newly available work.
+Yes, and to be fair, I actually forgot to update this specific commit
+message and comments within the commit after making these exact adjustments
+to the man-pages.
 
-[...]
+> > there is FAN_EPIDFD, which will be reported if a more generic pidfd
+> > creation error occurred when calling pidfd_create().
+> >
+> > Signed-off-by: Matthew Bobrowski <repnop@google.com>
+> > ---
+> >
+> > Changes since v2:
+> >
+> >  * The FAN_REPORT_PIDFD flag value has been changed from 0x00001000 to
+> >    0x00000080. This was so that future FID related initialization flags
+> >    could be grouped nicely.
+> >
+> > * Fixed pidfd clean up at out_close_fd label in
+> >   copy_event_to_user(). Reversed the conditional and it now uses the
+> >   close_fd() helper instead of put_unused_fd() as we also need to close the
+> >   backing file, not just just mark the pidfd free in the fdtable.
+> >
+> > * Shuffled around the WARN_ON_ONCE(FAN_REPORT_TID) within
+> >   copy_event_to_user() so that it's inside the if (pidfd_mode) branch. It
+> >   makes more sense to be as close to pidfd creation as possible.
+> >
+> > * Fixed up the comment block within the if (pidfd_mode) branch.
+> >
+> >  fs/notify/fanotify/fanotify_user.c | 88 ++++++++++++++++++++++++++++--
+> >  include/linux/fanotify.h           |  3 +-
+> >  include/uapi/linux/fanotify.h      | 13 +++++
+> >  3 files changed, 98 insertions(+), 6 deletions(-)
+> >
+> 
+> [...]
+> 
+> >
+> > @@ -489,8 +526,9 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
+> >         struct path *path = fanotify_event_path(event);
+> >         struct fanotify_info *info = fanotify_event_info(event);
+> >         unsigned int info_mode = FAN_GROUP_FLAG(group, FANOTIFY_INFO_MODES);
+> > +       unsigned int pidfd_mode = info_mode & FAN_REPORT_PIDFD;
+> >         struct file *f = NULL;
+> > -       int ret, fd = FAN_NOFD;
+> > +       int ret, pidfd = FAN_NOPIDFD, fd = FAN_NOFD;
+> >
+> >         pr_debug("%s: group=%p event=%p\n", __func__, group, event);
+> >
+> > @@ -524,6 +562,34 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
+> >         }
+> >         metadata.fd = fd;
+> >
+> > +       if (pidfd_mode) {
+> > +               /*
+> > +                * Complain if the FAN_REPORT_PIDFD and FAN_REPORT_TID mutual
+> > +                * exclusion is ever lifted. At the time of incoporating pidfd
+> > +                * support within fanotify, the pidfd API only supported the
+> > +                * creation of pidfds for thread-group leaders.
+> > +                */
+> > +               WARN_ON_ONCE(FAN_GROUP_FLAG(group, FAN_REPORT_TID));
+> > +
+> > +               /*
+> > +                * The PIDTYPE_TGID check for an event->pid is performed
+> > +                * preemptively in attempt to catch those rare instances where
+> > +                * the process responsible for generating the event has
+> > +                * terminated prior to calling into pidfd_create() and acquiring
+> 
+> I find the description above to be "over dramatic".
+> An event listener reading events after generating process has terminated
+> could be quite common in case of one shot tools like mv,touch,etc.
 
->  > Workers are trickier, as they can be woken by signals and then block
->  > again, but stray signals are so bad here that I'm thinking of actually
->  > not letting sleeping workers wake on signals. Other than signals
->  > waking queued/unqueued idle workers, are there any other potential
->  > races here?
->
-> Timeouts on blocked threads is virtually the same as a signal I think. I
-> can see that both could lead to attempts at waking workers that are not
-> blocked.
+Agree, will adjust.
 
-I've got preemption working well enough to warrant a new RFC patchset
-(also have timeouts done, but these were easy). I'll clean things up,
-change the idle servers logic to only one idle server exposed to the
-kernel, not a list, add some additional documentation (state
-transitions, userspace code snippets, etc.) and will post v0.4 RFC
-patchset to LKML later this week.
-
-[...]
+/M
