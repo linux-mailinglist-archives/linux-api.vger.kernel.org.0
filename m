@@ -2,108 +2,125 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B7553D7B61
-	for <lists+linux-api@lfdr.de>; Tue, 27 Jul 2021 18:51:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 161A63D7C20
+	for <lists+linux-api@lfdr.de>; Tue, 27 Jul 2021 19:29:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229848AbhG0QvO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 27 Jul 2021 12:51:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48598 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229815AbhG0QvO (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 27 Jul 2021 12:51:14 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7DF3460240;
-        Tue, 27 Jul 2021 16:51:12 +0000 (UTC)
-Date:   Tue, 27 Jul 2021 17:51:09 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Peter Collingbourne <pcc@google.com>
-Cc:     Evgenii Stepanov <eugenis@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Dave Martin <Dave.Martin@arm.com>,
+        id S229729AbhG0R3Y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 27 Jul 2021 13:29:24 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:10858 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S229453AbhG0R3Y (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 27 Jul 2021 13:29:24 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 16RH8XT8135522;
+        Tue, 27 Jul 2021 13:27:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=6bEhk6CA8+q+IY9gEhnRgyDjoAcMWP97ymU6QSxJwgM=;
+ b=Szegunf0HGyFNV2b8yLhhTiTbB2G11ULeAsSAs5IS8IBQ5XC2o9b4a/j9PiJsezf/SKf
+ 0BOR+eMlWzlDOmqZ9ccsvpqu8Ay0wDblV5m9FD2Uz4WCiTsFvja7DFv+sRM4YLe7/fpg
+ 9RfojCcPO1OiZi5uQZXTtvondsM0TMO2JY225Dsx1llsyv3lzbT6NiZgMtFn7h0MdwJn
+ G0hkj7TK3W6/IYODaFXW6l1VkmrkAOkyGP/SI9NQ2FwZipFi2yxS4r9CQ+fXoVeiEnp8
+ F2sTEFx/5xGJlYijzakq3eLf+nz68ZpvM4fxXGg3kfBbMtGCtFJQGYj5F1rM0I0xyfBd tA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3a2p1xs0sr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 27 Jul 2021 13:27:29 -0400
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16RHLP22195489;
+        Tue, 27 Jul 2021 13:27:28 -0400
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com [149.81.74.108])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3a2p1xs0ru-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 27 Jul 2021 13:27:28 -0400
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+        by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16RHRQ0Z015888;
+        Tue, 27 Jul 2021 17:27:26 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+        by ppma05fra.de.ibm.com with ESMTP id 3a235prc4f-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 27 Jul 2021 17:27:26 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 16RHOgEM27001256
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 27 Jul 2021 17:24:42 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 666B1A4051;
+        Tue, 27 Jul 2021 17:27:22 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 3EE6AA404D;
+        Tue, 27 Jul 2021 17:27:21 +0000 (GMT)
+Received: from osiris (unknown [9.145.19.157])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Tue, 27 Jul 2021 17:27:21 +0000 (GMT)
+Date:   Tue, 27 Jul 2021 19:27:19 +0200
+From:   Heiko Carstens <hca@linux.ibm.com>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will@kernel.org>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH v2] arm64: allow TCR_EL1.TBID0 to be configured
-Message-ID: <20210727165109.GB13920@arm.com>
-References: <20210622051204.3682580-1-pcc@google.com>
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Feng Tang <feng.tang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-mm@kvack.org,
+        Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v5 4/6] mm: simplify compat numa syscalls
+Message-ID: <YQBB9yteAwtG2xyp@osiris>
+References: <20210727144859.4150043-1-arnd@kernel.org>
+ <20210727144859.4150043-5-arnd@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210622051204.3682580-1-pcc@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210727144859.4150043-5-arnd@kernel.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Mscltp_EWBx0evJ9yR5nijJF9sLL6ZBk
+X-Proofpoint-ORIG-GUID: Zo0_7XKq5kYAI3uc1Uuw3gP06noaQbBO
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
+ definitions=2021-07-27_10:2021-07-27,2021-07-27 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ suspectscore=0 impostorscore=0 clxscore=1011 adultscore=0 mlxscore=0
+ priorityscore=1501 spamscore=0 phishscore=0 malwarescore=0 mlxlogscore=911
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2107270103
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Peter,
+On Tue, Jul 27, 2021 at 04:48:57PM +0200, Arnd Bergmann wrote:
+> ---
+>  include/linux/compat.h |  17 ++--
+>  mm/mempolicy.c         | 175 +++++++++++++----------------------------
+>  2 files changed, 63 insertions(+), 129 deletions(-)
+...
+> +static int get_bitmap(unsigned long *mask, const unsigned long __user *nmask,
+> +		      unsigned long maxnode)
+> +{
+> +	unsigned long nlongs = BITS_TO_LONGS(maxnode);
+> +	int ret;
+> +
+> +	if (in_compat_syscall())
+> +		ret = compat_get_bitmap(mask,
+> +					(const compat_ulong_t __user *)nmask,
+> +					maxnode);
 
-On Mon, Jun 21, 2021 at 10:12:04PM -0700, Peter Collingbourne wrote:
-> Introduce a command line flag that controls whether TCR_EL1.TBID0
-> is set at boot time. Since this is a change to the userspace ABI the
-> option defaults to off for now, although it seems likely that we'll
-> be able to change the default at some future point.
-> 
-> Setting TCR_EL1.TBID0 increases the number of signature bits used by
-> the pointer authentication instructions for instruction addresses by 8,
-> which improves the security of pointer authentication, but it also has
-> the consequence of changing the operation of the branch instructions
-> so that they no longer ignore the top byte of the target address but
-> instead fault if they are non-zero.
-
-I'm a bit uneasy about the ABI change and not so keen on constraining
-the ABI through the kernel command line. Ideally we should make this an
-opt-in per application (prctl()) but that has some aspects to address
-first: (a) this bit is permitted to be cached in the TLB so we'd need
-some TLBI when setting it (and a clarification in the specs that it is
-tagged by ASID/VMID, probably fine) and (b) we'd need to context-switch
-TCR_EL1, with a small performance penalty (I don't think it's
-significant but worth testing).
-
-Unfortunately, we can't turn TBID0 off dynamically when we detect a
-tagged PC since this would break authentication of already encoded
-pointers.
-
-Prior to hwasan and MTE, I doubt anyone would have noticed this change
-but once malloc() and friends started returning tagged pointers,
-programs executing code from malloc()'ed regions would fall apart with
-TBID0. I think it's a bit of stretch to argue that it's hwasan and MTE
-causing the application breakage rather than a user-kernel ABI change,
-since that's already working currently (though such programs should be
-re-written).
-
-Longer term, I'd like the TBID0 to be the default but transitioning
-without breaking the user is tricky, hence my first option would be
-per-application with an opt-in.
-
-> diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-> index 871c82ab0a30..9ee32afe121c 100644
-> --- a/arch/arm64/mm/fault.c
-> +++ b/arch/arm64/mm/fault.c
-> @@ -529,11 +529,23 @@ static int __kprobes do_page_fault(unsigned long far, unsigned int esr,
->  	vm_fault_t fault;
->  	unsigned long vm_flags;
->  	unsigned int mm_flags = FAULT_FLAG_DEFAULT;
-> -	unsigned long addr = untagged_addr(far);
-> +	unsigned long addr;
->  
->  	if (kprobe_page_fault(regs, esr))
->  		return 0;
->  
-> +	/*
-> +	 * If TBID0 is set then we may get an IABT with a tagged address here as
-> +	 * a result of branching to a tagged address. In this case we want to
-> +	 * avoid untagging the address, let the VMA lookup fail and get a
-> +	 * SIGSEGV. Leaving the address as is will also work if TBID0 is clear
-> +	 * or unsupported because the tag bits of FAR_EL1 will be clear.
-> +	 */
-> +	if (is_el0_instruction_abort(esr))
-> +		addr = far;
-> +	else
-> +		addr = untagged_addr(far);
-
-Should this also check for tcr_tbid0_enabled() before deciding not to
-untag the address?
-
--- 
-Catalin
+compat_ptr() conversion for e.g. nmask is missing with the next patch
+which removes the compat system calls.
+Is that intended or am I missing something?
