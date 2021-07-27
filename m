@@ -2,189 +2,188 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25CB43D756D
-	for <lists+linux-api@lfdr.de>; Tue, 27 Jul 2021 14:57:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AAD93D7911
+	for <lists+linux-api@lfdr.de>; Tue, 27 Jul 2021 16:52:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236507AbhG0M5x (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 27 Jul 2021 08:57:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54804 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232039AbhG0M5v (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 27 Jul 2021 08:57:51 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67528C061757
-        for <linux-api@vger.kernel.org>; Tue, 27 Jul 2021 05:57:50 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id e2-20020a17090a4a02b029016f3020d867so4709455pjh.3
-        for <linux-api@vger.kernel.org>; Tue, 27 Jul 2021 05:57:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=+OLe4SwBjD3Geveq3gUDmMMou2dUigqaRFQxgLA7Ezk=;
-        b=QSHIwZzUgPD2aHYSt5mb+1L8fBEQhacAJ7ZZuQ84aRa7gl3nBmKm3ReBjI4TzrlzaA
-         +I303AH1H1KlcVC6LIi97rJZTzCvf/w0abGqkvMEqB7Mc0hfU7+j8XiIO2p6TE/ProMv
-         hugmB2GMlbKeZ186yHV2xknYU1ffhqrVhzsuJQGXHPSrbtTj5PzyThbJ0IOK773IzZtU
-         j3NUQSdfmCxPdi7vTgmXQBiBptOJrIqwK+5+ox1i4aljLznMG0vsGeISfu0tMcsqqH85
-         AmlcMaDYVsbwCEyVMI8QT3JTd7dRbPsMV41LutqApx9Z2gO9Ki8ZIUaIxwbTHVhL7/9+
-         CNhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=+OLe4SwBjD3Geveq3gUDmMMou2dUigqaRFQxgLA7Ezk=;
-        b=gaNjmkUcKHtKBbL6gGWrIxFR6NwJWcuJOItpLjNQJS+nwEXWr96Flf1HUKapfbaH0D
-         XsjEGliowx5oBPll/aIo8iO4jMyNzuhEEDXqbNPovrzlrV5CZrsQla8jV9EjjkGlsLhe
-         jWdtB/JImODInfz3gFdt/0ZZzcvINV49BwGFcIGth7YoMbFUEhKkdNstQJL7irQ5U6to
-         6/4mnk8rm405VX5H8ppURhtY1ULhPJsTN6uR9aYk9dfhL8g6BNyqUGkxsprLD5NAv7iX
-         pNRW8FudCvN1yTe7QS7PQQcZEo2++Dw18yZQon/s69PowQtsRqX2KkZK+ubiWKWYv8HJ
-         Kr8Q==
-X-Gm-Message-State: AOAM531kT/n5nVeEsp11HB90Zck2ZCDgYfhXAgSfpe4By57KJLjJUCmQ
-        T7vWLnyJs0J8jZCMWe9UGF4yoA==
-X-Google-Smtp-Source: ABdhPJwFPlVfauZjy+10jsZ+iisjwQLAANVlBKN5kkwy+6GgSXjIrLx6kl1kcpGRCtitAhDHA9r7Lw==
-X-Received: by 2002:a17:902:868b:b029:12b:84f8:d916 with SMTP id g11-20020a170902868bb029012b84f8d916mr18770845plo.75.1627390668985;
-        Tue, 27 Jul 2021 05:57:48 -0700 (PDT)
-Received: from google.com ([2401:fa00:9:211:c654:968d:5171:3855])
-        by smtp.gmail.com with ESMTPSA id o2sm3853542pfp.28.2021.07.27.05.57.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jul 2021 05:57:48 -0700 (PDT)
-Date:   Tue, 27 Jul 2021 22:57:37 +1000
-From:   Matthew Bobrowski <repnop@google.com>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Jan Kara <jack@suse.cz>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v3 4/5] fanotify/fanotify_user.c: introduce a generic
- info record copying helper
-Message-ID: <YQACwX4i1UjWqtfZ@google.com>
-References: <cover.1626845287.git.repnop@google.com>
- <5ac9237ed6f055613c817eb1b9eedcaf1e53d4e6.1626845288.git.repnop@google.com>
- <CAOQ4uxj8jzdT4uKzE7hFDo=KwiyH+E0GHbHpToWRpFZ+zX3fhw@mail.gmail.com>
- <CAOQ4uxhnCk+FXK_e_GA=jC_0HWO+3ZdwHSi=zCa2Kpb0NDxBSg@mail.gmail.com>
+        id S236827AbhG0Ou2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 27 Jul 2021 10:50:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35944 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236864AbhG0Ott (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 27 Jul 2021 10:49:49 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3559861AFD;
+        Tue, 27 Jul 2021 14:49:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1627397359;
+        bh=Tjiwf4/hYWXFn9aUgPpl3D0HHZbelU5u+FTy8tvX/BA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Jm0Ghr4DY8S8DbJUMOgzNYNZ9TpUDawl2m4udsOCvZu6uErY0ceZK1ugOzDu5GYfU
+         FcpYwKuxA6AjAy3zyCgVACtAq/UWFPG3mNHsh8tFDA5zWzInxHIu8o0jJfWh5vuzLj
+         ++JkgaoWIL8JM41Ld9ZSmOyhjlGS5DRNjCGi0qceKIOC/UT+DuY98htxeqdY7x3FKV
+         40uaxkb5SA6kv5iFRlvbFCA5wazm8JgMVhL91/E5GnpKc2GEeZREYLyo0ppxHTqLHX
+         HXWc8AwqP3FWNXks7HkSQo4WKwHmUdrLF/lKZgKuXzZvtIgXac3yNPJy/etARITDNG
+         3IhheeU5vs0Kw==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Feng Tang <feng.tang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-mm@kvack.org
+Subject: [PATCH v5 0/6] compat: remove compat_alloc_user_space
+Date:   Tue, 27 Jul 2021 16:48:53 +0200
+Message-Id: <20210727144859.4150043-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOQ4uxhnCk+FXK_e_GA=jC_0HWO+3ZdwHSi=zCa2Kpb0NDxBSg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jul 27, 2021 at 11:16:33AM +0300, Amir Goldstein wrote:
-> On Wed, Jul 21, 2021 at 9:35 AM Amir Goldstein <amir73il@gmail.com> wrote:
-> >
-> > On Wed, Jul 21, 2021 at 9:18 AM Matthew Bobrowski <repnop@google.com> wrote:
-> > >
-> > > The copy_info_records_to_user() helper allows for the separation of
-> > > info record copying routines/conditionals from copy_event_to_user(),
-> > > which reduces the overall clutter within this function. This becomes
-> > > especially true as we start introducing additional info records in the
-> > > future i.e. struct fanotify_event_info_pidfd. On success, this helper
-> > > returns the total amount of bytes that have been copied into the user
-> > > supplied buffer and on error, a negative value is returned to the
-> > > caller.
-> > >
-> > > The newly defined macro FANOTIFY_INFO_MODES can be used to obtain info
-> > > record types that have been enabled for a specific notification
-> > > group. This macro becomes useful in the subsequent patch when the
-> > > FAN_REPORT_PIDFD initialization flag is introduced.
-> > >
-> > > Signed-off-by: Matthew Bobrowski <repnop@google.com>
-> > Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-> >
-> > > ---
-> > >  fs/notify/fanotify/fanotify_user.c | 155 ++++++++++++++++-------------
-> > >  include/linux/fanotify.h           |   2 +
-> > >  2 files changed, 90 insertions(+), 67 deletions(-)
-> > >
-> > > diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
-> > > index 182fea255376..d19f70b2c24c 100644
-> > > --- a/fs/notify/fanotify/fanotify_user.c
-> > > +++ b/fs/notify/fanotify/fanotify_user.c
-> > > @@ -173,7 +173,7 @@ static struct fanotify_event *get_one_event(struct fsnotify_group *group,
-> > >         size_t event_size = FAN_EVENT_METADATA_LEN;
-> > >         struct fanotify_event *event = NULL;
-> > >         struct fsnotify_event *fsn_event;
-> > > -       unsigned int fid_mode = FAN_GROUP_FLAG(group, FANOTIFY_FID_BITS);
-> > > +       unsigned int info_mode = FAN_GROUP_FLAG(group, FANOTIFY_INFO_MODES);
-> > >
-> > >         pr_debug("%s: group=%p count=%zd\n", __func__, group, count);
-> > >
-> > > @@ -183,8 +183,8 @@ static struct fanotify_event *get_one_event(struct fsnotify_group *group,
-> > >                 goto out;
-> > >
-> > >         event = FANOTIFY_E(fsn_event);
-> > > -       if (fid_mode)
-> > > -               event_size += fanotify_event_info_len(fid_mode, event);
-> > > +       if (info_mode)
-> > > +               event_size += fanotify_event_info_len(info_mode, event);
-> > >
-> > >         if (event_size > count) {
-> > >                 event = ERR_PTR(-EINVAL);
-> > > @@ -401,6 +401,86 @@ static int copy_fid_info_to_user(__kernel_fsid_t *fsid, struct fanotify_fh *fh,
-> > >         return info_len;
-> > >  }
-> > >
-> > > +static int copy_info_records_to_user(struct fanotify_event *event,
-> > > +                                    struct fanotify_info *info,
-> > > +                                    unsigned int info_mode,
-> > > +                                    char __user *buf, size_t count)
-> > > +{
-> > > +       int ret, total_bytes = 0, info_type = 0;
-> > > +       unsigned int fid_mode = info_mode & FANOTIFY_FID_BITS;
-> > > +
-> > > +       /*
-> > > +        * Event info records order is as follows: dir fid + name, child fid.
-> > > +        */
-> > > +       if (fanotify_event_dir_fh_len(event)) {
-> > > +               info_type = info->name_len ? FAN_EVENT_INFO_TYPE_DFID_NAME :
-> > > +                                            FAN_EVENT_INFO_TYPE_DFID;
-> > > +               ret = copy_fid_info_to_user(fanotify_event_fsid(event),
-> > > +                                           fanotify_info_dir_fh(info),
-> > > +                                           info_type,
-> > > +                                           fanotify_info_name(info),
-> > > +                                           info->name_len, buf, count);
-> > > +               if (ret < 0)
-> > > +                       return ret;
-> > > +
-> > > +               buf += ret;
-> > > +               count -= ret;
-> > > +               total_bytes += ret;
-> > > +       }
-> > > +
-> > > +       if (fanotify_event_object_fh_len(event)) {
-> > > +               const char *dot = NULL;
-> > > +               int dot_len = 0;
-> > > +
-> > > +               if (fid_mode == FAN_REPORT_FID || info_type) {
-> > > +                       /*
-> > > +                        * With only group flag FAN_REPORT_FID only type FID is
-> > > +                        * reported. Second info record type is always FID.
-> > > +                        */
-> > > +                       info_type = FAN_EVENT_INFO_TYPE_FID;
-> > > +               } else if ((fid_mode & FAN_REPORT_NAME) &&
-> > > +                          (event->mask & FAN_ONDIR)) {
-> > > +                       /*
-> > > +                        * With group flag FAN_REPORT_NAME, if name was not
-> > > +                        * recorded in an event on a directory, report the name
-> > > +                        * "." with info type DFID_NAME.
-> > > +                        */
-> > > +                       info_type = FAN_EVENT_INFO_TYPE_DFID_NAME;
-> > > +                       dot = ".";
-> > > +                       dot_len = 1;
-> > > +               } else if ((event->mask & ALL_FSNOTIFY_DIRENT_EVENTS) ||
-> > > +                          (event->mask & FAN_ONDIR)) {
-> > > +                       /*
-> > > +                        * With group flag FAN_REPORT_DIR_FID, a single info
-> > > +                        * record has type DFID for directory entry
-> > > +                        * modificatio\ n event and for event on a directory.
-> 
-> Just notices this typo in the copied comment:
-> modificatio\ n
-> 
-> And for the next posting, please remove the mention of fanotify_user.c from
-> the commit title - it adds no information and clutters the git oneline log.
-> This concerns patch 3/5 as well. It does NOT concern the kernel/pid.c patches.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Noted.
+Going through compat_alloc_user_space() to convert indirect system call
+arguments tends to add complexity compared to handling the native and
+compat logic in the same code.
 
-/M
+Out of the other remaining callers, the linux-media series went into
+v5.14, and the network ioctl handling is now fixed in net-next, so
+these are the last remaining users, and I now include the final
+patch to remove the definitions as well.
+
+Since these patches are now all that remains, it would be nice to
+merge it all through Andrew's Linux-mm tree, which is already based
+on top of linux-next.
+
+       Arnd
+---
+
+Changes in v4:
+
+- Rebase on top of net-next
+- Split up and improve the kexec patch based on Christoph's suggestions
+- Include final patch to remove compat_alloc_user_space
+- Cc compat architecture maintainers
+
+Link: https://lore.kernel.org/lkml/20210720150950.3669610-1-arnd@kernel.org/
+
+Changes in v3:
+
+- fix whitespace as pointed out by Christoph Hellwig
+- minor build fixes
+- rebase to v5.13-rc1
+
+Link: https://lore.kernel.org/lkml/20210517203343.3941777-1-arnd@kernel.org/
+
+Changes in v2:
+
+- address review comments from Christoph Hellwig
+- split syscall removal into a separate patch
+- replace __X32_COND_SYSCALL() with individual macros for x32
+
+Link: https://lore.kernel.org/lkml/20201208150614.GA15765@infradead.org/
+
+Arnd Bergmann (6):
+  kexec: move locking into do_kexec_load
+  kexec: avoid compat_alloc_user_space
+  mm: simplify compat_sys_move_pages
+  mm: simplify compat numa syscalls
+  compat: remove some compat entry points
+  arch: remove compat_alloc_user_space
+
+ arch/arm64/include/asm/compat.h           |   5 -
+ arch/arm64/include/asm/uaccess.h          |  11 --
+ arch/arm64/include/asm/unistd32.h         |  10 +-
+ arch/arm64/lib/Makefile                   |   2 +-
+ arch/arm64/lib/copy_in_user.S             |  77 ---------
+ arch/mips/cavium-octeon/octeon-memcpy.S   |   2 -
+ arch/mips/include/asm/compat.h            |   8 -
+ arch/mips/include/asm/uaccess.h           |  26 ---
+ arch/mips/kernel/syscalls/syscall_n32.tbl |  10 +-
+ arch/mips/kernel/syscalls/syscall_o32.tbl |  10 +-
+ arch/mips/lib/memcpy.S                    |  11 --
+ arch/parisc/include/asm/compat.h          |   6 -
+ arch/parisc/include/asm/uaccess.h         |   2 -
+ arch/parisc/kernel/syscalls/syscall.tbl   |   8 +-
+ arch/parisc/lib/memcpy.c                  |   9 -
+ arch/powerpc/include/asm/compat.h         |  16 --
+ arch/powerpc/kernel/syscalls/syscall.tbl  |  10 +-
+ arch/s390/include/asm/compat.h            |  10 --
+ arch/s390/include/asm/uaccess.h           |   3 -
+ arch/s390/kernel/syscalls/syscall.tbl     |  10 +-
+ arch/s390/lib/uaccess.c                   |  63 -------
+ arch/sparc/include/asm/compat.h           |  19 ---
+ arch/sparc/kernel/process_64.c            |   2 +-
+ arch/sparc/kernel/signal32.c              |  12 +-
+ arch/sparc/kernel/signal_64.c             |   8 +-
+ arch/sparc/kernel/syscalls/syscall.tbl    |  10 +-
+ arch/x86/entry/syscalls/syscall_32.tbl    |   4 +-
+ arch/x86/entry/syscalls/syscall_64.tbl    |   2 +-
+ arch/x86/include/asm/compat.h             |  13 --
+ arch/x86/include/asm/uaccess_64.h         |   7 -
+ include/linux/compat.h                    |  39 +----
+ include/linux/uaccess.h                   |  10 --
+ include/uapi/asm-generic/unistd.h         |  10 +-
+ kernel/compat.c                           |  21 ---
+ kernel/kexec.c                            | 103 +++++-------
+ kernel/sys_ni.c                           |   5 -
+ mm/mempolicy.c                            | 196 +++++-----------------
+ mm/migrate.c                              |  50 +++---
+ 38 files changed, 175 insertions(+), 645 deletions(-)
+ delete mode 100644 arch/arm64/lib/copy_in_user.S
+
+-- 
+2.29.2
+
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Paul Mackerras <paulus@samba.org>
+Cc: Heiko Carstens <hca@linux.ibm.com>
+Cc: Vasily Gorbik <gor@linux.ibm.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: x86@kernel.org
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: "Eric W. Biederman" <ebiederm@xmission.com>
+Cc: Christoph Hellwig <hch@infradead.org>
+Cc: Feng Tang <feng.tang@intel.com>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-mips@vger.kernel.org
+Cc: linux-parisc@vger.kernel.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-s390@vger.kernel.org
+Cc: sparclinux@vger.kernel.org
+Cc: linux-arch@vger.kernel.org
+Cc: linux-api@vger.kernel.org
+Cc: linux-mm@kvack.org
