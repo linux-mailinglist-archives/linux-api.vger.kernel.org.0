@@ -2,180 +2,197 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 90FA63D7103
-	for <lists+linux-api@lfdr.de>; Tue, 27 Jul 2021 10:16:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EACE3D711D
+	for <lists+linux-api@lfdr.de>; Tue, 27 Jul 2021 10:23:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235931AbhG0IQq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 27 Jul 2021 04:16:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47514 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235916AbhG0IQp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 27 Jul 2021 04:16:45 -0400
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE931C061757;
-        Tue, 27 Jul 2021 01:16:44 -0700 (PDT)
-Received: by mail-io1-xd2b.google.com with SMTP id r18so15030432iot.4;
-        Tue, 27 Jul 2021 01:16:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sP8eKZ1XYYokuigntJ2pKqnPDXKqzr0gADQFPYAP/F0=;
-        b=ZIbksXglz0e8nvEHWrY+mdEE+bNMt2sZuDLW6CpWne4HLRmCnyaT6SJNUOEPzXzdC1
-         qqF8bmMlLkkYY58+O6NVL+7ZvYdEstzp8OL8m84rAnCkAOAzav+aPNeWUvYKPUyR2yjK
-         xB5770Ay737fd/KiQdUUbDdXySit084aH4fC2QsGfAlYnbHGl9iNBoCGJdwSbYqh0H9h
-         +zGJEnXlTbqCIuv9xOoN8IucdY86g93Rl/pEC0cL6w3zRSQMHtBK5bmF+TxC+5/r+Mxv
-         fFagCnQvY1IKer0kANqp99tip0dmwWf+qHrVpsTE0wCKa36EmxEcMqfnaDqGk9MBL0+E
-         yBxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sP8eKZ1XYYokuigntJ2pKqnPDXKqzr0gADQFPYAP/F0=;
-        b=Rgw+P6+z/ByRq9kQ/ACvRNQmN0HR9o9hrdXJK3itis2BDI6SqitjxC1tNVY6g7M8uJ
-         v6Bi0i38+AGiUK+nMoQXmMdhKOpOThAhlMmVTdwwcwiIitn4T0vctSjlXOXEErcU8+LN
-         s6XCdrACXop6VPlnm044lOSvGImiuJ1MFcNWwY2Ar6Ue98serCdI0kXHOwT/16OzYSsw
-         Ystfm8JJCCBT+LwfOMS1xAvHXS8KV/Vlwgvp8HWl3qgKTFtf1AWk3UG/hDM0KC/3I4xk
-         YCeMZ4c+fRI9HjJVx/bZt4YSfpSUsDSaPq0Q+OswDhsQQPn83nhQX7ltUkaZ5wOh4818
-         Zu1Q==
-X-Gm-Message-State: AOAM532s+Y/1uI9oji0B7XdhsQSW3e6fDhD5149FVtP99ju5xOGPmssH
-        X4ZcN+LiRzykpRB7Ah0pkwHpkJac7kI6lHHJxls=
-X-Google-Smtp-Source: ABdhPJyzTxUEARhWR3GJXMzMXYIDCi9AdH6GOVhq6lMHJTWBTHL+qtdQTPGOL49nz+Vc/ybGO3vUwcPwP9VE70uGoWA=
-X-Received: by 2002:a6b:7b44:: with SMTP id m4mr17981714iop.72.1627373804363;
- Tue, 27 Jul 2021 01:16:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1626845287.git.repnop@google.com> <5ac9237ed6f055613c817eb1b9eedcaf1e53d4e6.1626845288.git.repnop@google.com>
- <CAOQ4uxj8jzdT4uKzE7hFDo=KwiyH+E0GHbHpToWRpFZ+zX3fhw@mail.gmail.com>
-In-Reply-To: <CAOQ4uxj8jzdT4uKzE7hFDo=KwiyH+E0GHbHpToWRpFZ+zX3fhw@mail.gmail.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Tue, 27 Jul 2021 11:16:33 +0300
-Message-ID: <CAOQ4uxhnCk+FXK_e_GA=jC_0HWO+3ZdwHSi=zCa2Kpb0NDxBSg@mail.gmail.com>
-Subject: Re: [PATCH v3 4/5] fanotify/fanotify_user.c: introduce a generic info
- record copying helper
-To:     Matthew Bobrowski <repnop@google.com>
-Cc:     Jan Kara <jack@suse.cz>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
+        id S235933AbhG0IWg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 27 Jul 2021 04:22:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55428 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235920AbhG0IWe (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 27 Jul 2021 04:22:34 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F248260F58;
+        Tue, 27 Jul 2021 08:22:32 +0000 (UTC)
+Date:   Tue, 27 Jul 2021 10:22:30 +0200
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Matthew Bobrowski <repnop@google.com>,
+        Jann Horn <jannh@google.com>, Jan Kara <jack@suse.cz>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Linux API <linux-api@vger.kernel.org>,
+        Andy Lutomirski <luto@kernel.org>
+Subject: Re: [PATCH v3 5/5] fanotify: add pidfd support to the fanotify API
+Message-ID: <20210727082230.7qf5ar7ut3otjkkl@wittgenstein>
+References: <cover.1626845287.git.repnop@google.com>
+ <02ba3581fee21c34bd986e093d9eb0b9897fa741.1626845288.git.repnop@google.com>
+ <CAG48ez3MsFPn6TsJz75hvikgyxG5YGyT2gdoFwZuvKut4Xms1g@mail.gmail.com>
+ <CAOQ4uxhDkAmqkxT668sGD8gHcssGTeJ3o6kzzz3=0geJvfAjdg@mail.gmail.com>
+ <YP+VNZt2y+jP3BNR@google.com>
+ <CAOQ4uxgD3xBzffqtRx-UPbj1wHoi2TXZoWx3DKyknUHspevP1w@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAOQ4uxgD3xBzffqtRx-UPbj1wHoi2TXZoWx3DKyknUHspevP1w@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jul 21, 2021 at 9:35 AM Amir Goldstein <amir73il@gmail.com> wrote:
->
-> On Wed, Jul 21, 2021 at 9:18 AM Matthew Bobrowski <repnop@google.com> wrote:
+On Tue, Jul 27, 2021 at 10:03:20AM +0300, Amir Goldstein wrote:
+> On Tue, Jul 27, 2021 at 8:10 AM Matthew Bobrowski <repnop@google.com> wrote:
 > >
-> > The copy_info_records_to_user() helper allows for the separation of
-> > info record copying routines/conditionals from copy_event_to_user(),
-> > which reduces the overall clutter within this function. This becomes
-> > especially true as we start introducing additional info records in the
-> > future i.e. struct fanotify_event_info_pidfd. On success, this helper
-> > returns the total amount of bytes that have been copied into the user
-> > supplied buffer and on error, a negative value is returned to the
-> > caller.
+> > On Tue, Jul 27, 2021 at 07:19:43AM +0300, Amir Goldstein wrote:
+> > > On Tue, Jul 27, 2021 at 3:24 AM Jann Horn <jannh@google.com> wrote:
+> > > >
+> > > > On Wed, Jul 21, 2021 at 8:21 AM Matthew Bobrowski <repnop@google.com> wrote:
+> > > > > Introduce a new flag FAN_REPORT_PIDFD for fanotify_init(2) which
+> > > > > allows userspace applications to control whether a pidfd info record
+> > > > > containing a pidfd is to be returned with each event.
+> > > > >
+> > > > > If FAN_REPORT_PIDFD is enabled for a notification group, an additional
+> > > > > struct fanotify_event_info_pidfd object will be supplied alongside the
+> > > > > generic struct fanotify_event_metadata within a single event. This
+> > > > > functionality is analogous to that of FAN_REPORT_FID in terms of how
+> > > > > the event structure is supplied to the userspace application. Usage of
+> > > > > FAN_REPORT_PIDFD with FAN_REPORT_FID/FAN_REPORT_DFID_NAME is
+> > > > > permitted, and in this case a struct fanotify_event_info_pidfd object
+> > > > > will follow any struct fanotify_event_info_fid object.
+> > > > >
+> > > > > Currently, the usage of FAN_REPORT_TID is not permitted along with
+> > > > > FAN_REPORT_PIDFD as the pidfd API only supports the creation of pidfds
+> > > > > for thread-group leaders. Additionally, the FAN_REPORT_PIDFD is
+> > > > > limited to privileged processes only i.e. listeners that are running
+> > > > > with the CAP_SYS_ADMIN capability. Attempting to supply either of
+> > > > > these initialization flags with FAN_REPORT_PIDFD will result with
+> > > > > EINVAL being returned to the caller.
+> > > > >
+> > > > > In the event of a pidfd creation error, there are two types of error
+> > > > > values that can be reported back to the listener. There is
+> > > > > FAN_NOPIDFD, which will be reported in cases where the process
+> > > > > responsible for generating the event has terminated prior to fanotify
+> > > > > being able to create pidfd for event->pid via pidfd_create(). The
+> > > > > there is FAN_EPIDFD, which will be reported if a more generic pidfd
+> > > > > creation error occurred when calling pidfd_create().
+> > > > [...]
+> > > > > @@ -524,6 +562,34 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
+> > > > >         }
+> > > > >         metadata.fd = fd;
+> > > > >
+> > > > > +       if (pidfd_mode) {
+> > > > > +               /*
+> > > > > +                * Complain if the FAN_REPORT_PIDFD and FAN_REPORT_TID mutual
+> > > > > +                * exclusion is ever lifted. At the time of incoporating pidfd
+> > > > > +                * support within fanotify, the pidfd API only supported the
+> > > > > +                * creation of pidfds for thread-group leaders.
+> > > > > +                */
+> > > > > +               WARN_ON_ONCE(FAN_GROUP_FLAG(group, FAN_REPORT_TID));
+> > > > > +
+> > > > > +               /*
+> > > > > +                * The PIDTYPE_TGID check for an event->pid is performed
+> > > > > +                * preemptively in attempt to catch those rare instances where
+> > > > > +                * the process responsible for generating the event has
+> > > > > +                * terminated prior to calling into pidfd_create() and acquiring
+> > > > > +                * a valid pidfd. Report FAN_NOPIDFD to the listener in those
+> > > > > +                * cases. All other pidfd creation errors are represented as
+> > > > > +                * FAN_EPIDFD.
+> > > > > +                */
+> > > > > +               if (metadata.pid == 0 ||
+> > > > > +                   !pid_has_task(event->pid, PIDTYPE_TGID)) {
+> > > > > +                       pidfd = FAN_NOPIDFD;
+> > > > > +               } else {
+> > > > > +                       pidfd = pidfd_create(event->pid, 0);
+> > > > > +                       if (pidfd < 0)
+> > > > > +                               pidfd = FAN_EPIDFD;
+> > > > > +               }
+> > > > > +       }
+> > > > > +
+> > > >
+> > > > As a general rule, f_op->read callbacks aren't allowed to mess with
+> > > > the file descriptor table of the calling process. A process should be
+> > > > able to receive a file descriptor from an untrusted source and call
+> > > > functions like read() on it without worrying about affecting its own
+> > > > file descriptor table state with that.
+> > > >
+> > >
+> > > Interesting. I've never considered this interface flaw.
+> > > Thanks for bringing this up!
+> > >
+> > > > I realize that existing fanotify code appears to be violating that
+> > > > rule already, and that you're limiting creation of fanotify file
+> > > > descriptors that can hit this codepath to CAP_SYS_ADMIN, but still, I
+> > > > think fanotify_read() probably ought to be an ioctl, or something
+> > > > along those lines, instead of an f_op->read handler if it messes with
+> > > > the caller's fd table?
+> > >
+> > > Naturally, we cannot change the legacy interface.
+> > > However, since fanotify has a modern FAN_REPORT_FID interface
+> > > which does not mess with fd table maybe this is an opportunity not
+> > > to repeat the same mistake for the FAN_REPORT_FID interface.
 > >
-> > The newly defined macro FANOTIFY_INFO_MODES can be used to obtain info
-> > record types that have been enabled for a specific notification
-> > group. This macro becomes useful in the subsequent patch when the
-> > FAN_REPORT_PIDFD initialization flag is introduced.
+> > You mean the FAN_REPORT_PIDFD interface, right?
+> 
+> No, I mean FAN_REPORT_FID.
+> We have a new interface that does not pollute reader process fd table
+> with fds of event->fd, so maybe let's try to avoiding regressing this
+> use case by polluting the reader process fd table with pidfds.
+> 
 > >
-> > Signed-off-by: Matthew Bobrowski <repnop@google.com>
-> Reviewed-by: Amir Goldstein <amir73il@gmail.com>
->
-> > ---
-> >  fs/notify/fanotify/fanotify_user.c | 155 ++++++++++++++++-------------
-> >  include/linux/fanotify.h           |   2 +
-> >  2 files changed, 90 insertions(+), 67 deletions(-)
+> > > Matthew, can you explain what is the use case of the consumer
+> > > application of pidfd. I am guessing this is for an audit user case?
+> > > because if it were for permission events, event->pid would have been
+> > > sufficient.
 > >
-> > diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
-> > index 182fea255376..d19f70b2c24c 100644
-> > --- a/fs/notify/fanotify/fanotify_user.c
-> > +++ b/fs/notify/fanotify/fanotify_user.c
-> > @@ -173,7 +173,7 @@ static struct fanotify_event *get_one_event(struct fsnotify_group *group,
-> >         size_t event_size = FAN_EVENT_METADATA_LEN;
-> >         struct fanotify_event *event = NULL;
-> >         struct fsnotify_event *fsn_event;
-> > -       unsigned int fid_mode = FAN_GROUP_FLAG(group, FANOTIFY_FID_BITS);
-> > +       unsigned int info_mode = FAN_GROUP_FLAG(group, FANOTIFY_INFO_MODES);
+> > Yes, the primary use case would be for reliable auditing i.e. what actual
+> > process had accessed what filesystem object of interest. Generally, finding
+> > what process is a little unreliable at the moment given that the reporting
+> > event->pid and crawling through /proc based on that has been observed to
+> > lead to certain inaccuracy in the past i.e. reporting an access that was in
+> > fact not performed by event->pid.
 > >
-> >         pr_debug("%s: group=%p count=%zd\n", __func__, group, count);
+> > The permission model doesn't work in this case given that it takes the
+> > "blocking" approach and not it's not something that can always be
+> > afforded...
 > >
-> > @@ -183,8 +183,8 @@ static struct fanotify_event *get_one_event(struct fsnotify_group *group,
-> >                 goto out;
+> > > If that is the case, then I presume that the application does not really
+> > > need to operate on the pidfd, it only need to avoid reporting wrong
+> > > process details after pid wraparound?
 > >
-> >         event = FANOTIFY_E(fsn_event);
-> > -       if (fid_mode)
-> > -               event_size += fanotify_event_info_len(fid_mode, event);
-> > +       if (info_mode)
-> > +               event_size += fanotify_event_info_len(info_mode, event);
+> > The idea is that the event listener, or receiver will use the
+> > pidfd_send_signal(2) and specify event->info->pidfd as one of its arguments
+> > in order to _reliably_ determine whether the process that generated the
+> > event is still around. If so, it can freely ascertain further contextual
+> > information from /proc reliably.
 > >
-> >         if (event_size > count) {
-> >                 event = ERR_PTR(-EINVAL);
-> > @@ -401,6 +401,86 @@ static int copy_fid_info_to_user(__kernel_fsid_t *fsid, struct fanotify_fh *fh,
-> >         return info_len;
-> >  }
+> > > If that is the case, then maybe a model similar to inode generation
+> > > can be used to report a "pid generation" in addition to event->pid
+> > > and export pid generation in /proc/<pid>/stat
 > >
-> > +static int copy_info_records_to_user(struct fanotify_event *event,
-> > +                                    struct fanotify_info *info,
-> > +                                    unsigned int info_mode,
-> > +                                    char __user *buf, size_t count)
-> > +{
-> > +       int ret, total_bytes = 0, info_type = 0;
-> > +       unsigned int fid_mode = info_mode & FANOTIFY_FID_BITS;
-> > +
-> > +       /*
-> > +        * Event info records order is as follows: dir fid + name, child fid.
-> > +        */
-> > +       if (fanotify_event_dir_fh_len(event)) {
-> > +               info_type = info->name_len ? FAN_EVENT_INFO_TYPE_DFID_NAME :
-> > +                                            FAN_EVENT_INFO_TYPE_DFID;
-> > +               ret = copy_fid_info_to_user(fanotify_event_fsid(event),
-> > +                                           fanotify_info_dir_fh(info),
-> > +                                           info_type,
-> > +                                           fanotify_info_name(info),
-> > +                                           info->name_len, buf, count);
-> > +               if (ret < 0)
-> > +                       return ret;
-> > +
-> > +               buf += ret;
-> > +               count -= ret;
-> > +               total_bytes += ret;
-> > +       }
-> > +
-> > +       if (fanotify_event_object_fh_len(event)) {
-> > +               const char *dot = NULL;
-> > +               int dot_len = 0;
-> > +
-> > +               if (fid_mode == FAN_REPORT_FID || info_type) {
-> > +                       /*
-> > +                        * With only group flag FAN_REPORT_FID only type FID is
-> > +                        * reported. Second info record type is always FID.
-> > +                        */
-> > +                       info_type = FAN_EVENT_INFO_TYPE_FID;
-> > +               } else if ((fid_mode & FAN_REPORT_NAME) &&
-> > +                          (event->mask & FAN_ONDIR)) {
-> > +                       /*
-> > +                        * With group flag FAN_REPORT_NAME, if name was not
-> > +                        * recorded in an event on a directory, report the name
-> > +                        * "." with info type DFID_NAME.
-> > +                        */
-> > +                       info_type = FAN_EVENT_INFO_TYPE_DFID_NAME;
-> > +                       dot = ".";
-> > +                       dot_len = 1;
-> > +               } else if ((event->mask & ALL_FSNOTIFY_DIRENT_EVENTS) ||
-> > +                          (event->mask & FAN_ONDIR)) {
-> > +                       /*
-> > +                        * With group flag FAN_REPORT_DIR_FID, a single info
-> > +                        * record has type DFID for directory entry
-> > +                        * modificatio\ n event and for event on a directory.
+> > TBH, I don't fully understand what you mean by this model...
+> >
+> 
+> The model is this:
+> 
+> FAN_REPORT_UPID (or something) will report an info record
+> with a unique identifier of the generating process or thread, because
+> there is no restriction imposed by pidfd to support only group leaders.
+> 
+> That unique identifier may be obtained from /proc, e.g.:
+> $ cat /proc/self/upid
+> 633733.0
+> 
+> In this case .0 represents generation 0.
+> If pid numbers would wrap around in that pid namespace
+> generation would be bumped and next process to get pid
+> 633733 would have a unique id 633733.1.
+> 
+> There are probably more pid namespace considerations of how
+> that /proc API will be designed exactly.
 
-Just notices this typo in the copied comment:
-modificatio\ n
-
-And for the next posting, please remove the mention of fanotify_user.c from
-the commit title - it adds no information and clutters the git oneline log.
-This concerns patch 3/5 as well. It does NOT concern the kernel/pid.c patches.
-
-Thanks,
-Amir.
+I'm not a fan of this at all to be honest. This very much reminds me of
+(a weak version of) pid uuids which has been very controversial. This
+sounds all kinds of messy. If the pid gets recycled then you bump the
+generation number in all pid namespace where that pid has been recycled
+and not in the others and then you expose it through /proc. Then if a
+process from one pid namespaces looks at a process from another pid
+namespace through the proc file what would it see as the generation
+number? That can probably all be solved but the API sounds justy very
+unpleasant and hacky.
