@@ -2,171 +2,220 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 847033D823A
-	for <lists+linux-api@lfdr.de>; Wed, 28 Jul 2021 00:00:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FA9F3D8B21
+	for <lists+linux-api@lfdr.de>; Wed, 28 Jul 2021 11:52:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232088AbhG0WAX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 27 Jul 2021 18:00:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40072 "EHLO
+        id S235647AbhG1JwN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 28 Jul 2021 05:52:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231814AbhG0WAW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 27 Jul 2021 18:00:22 -0400
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EC08C061757
-        for <linux-api@vger.kernel.org>; Tue, 27 Jul 2021 15:00:22 -0700 (PDT)
-Received: by mail-io1-xd2c.google.com with SMTP id f11so542074ioj.3
-        for <linux-api@vger.kernel.org>; Tue, 27 Jul 2021 15:00:22 -0700 (PDT)
+        with ESMTP id S231761AbhG1JwN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 28 Jul 2021 05:52:13 -0400
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B9E9C061757;
+        Wed, 28 Jul 2021 02:52:11 -0700 (PDT)
+Received: by mail-io1-xd32.google.com with SMTP id h1so2262395iol.9;
+        Wed, 28 Jul 2021 02:52:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=tz27L2xymBSA/ePNcx9XWRL9ZWND6PMR5qj+3yVjmw0=;
-        b=DeiunGFvQdsNF5MhgwXhvQ090t0D91mrc2h/B9XIa2jr3YsI8WWGi4rcEW5VaJOo8z
-         f7RMH7YWOgr17iNfgF2nn9WeTRRHBpOuiWohbO3WHtwuNQTBLqMLlkMCAzUIiCuzB3of
-         loWmijMSDuo/xRf72dAVBk6Lial2XBlgw4v/rkL4FNsyVrsBhfbAsA3YiUv7md2hGQi9
-         HYcCmhVcOXJU7pyOV0cO7+c7jCE0VfXp15nNPmmfLsTkTAzQlI24t1I5iHnh+PE2PxmR
-         WxjRZXl3n/O1j5zFT2/uPJabI699ktQOcn9mZ3eIsaeAN+tWsQiPc73xzZSprJoauN8K
-         kF1w==
+        bh=5Gl5yKnnnXk1ZZ9W2CvCpjkieAWrOTayTVRuhnyyS2A=;
+        b=tJJhdYDgpfaS/of679bqGpm6ttt0guS76v3xlyTTDNpGC23fZhQkBx839/xBzYwv/r
+         bMxXqgYRjIVOPXo9edEag/ujh9Q1ijnBOWVdfB9SBiG7DS6+jACcXHskvI/gPOtGjbLp
+         dDsIsz1O9yrxEhQXz7BDcAyXmWyLiTjP0KxVIqD79/U+526IA7l2353QlS8x2pgnzEG0
+         ZnbjgIh/bRGDSW4h+h55k9v99ZaWbrXH3KXn8RG/gTQlg6/erma/7Gjp3csq7CY21F5F
+         KsModwnjL7lXQva5a8FZbvw4F6KWc4t8pH8Vhm8+kHtpxeyzBnwwYzD8O1IZ2CeziJ9n
+         qqDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=tz27L2xymBSA/ePNcx9XWRL9ZWND6PMR5qj+3yVjmw0=;
-        b=RAStB9m60oGPC3IlBKlmE+RqEZ1Wm9+rRxnfPq8fgNDjGnoKEkJdCj0SPfv6OWjOqa
-         HxwK0QGg8WvWzPhNIfSqhXBZfCvfAVkjKqGiRpXdTDcyGXavY4FM/NLXRu5SWOfqRT9a
-         QAFKM8TSMH5L3W51kzVA7eDG1oHa+BfSx20bQnIxxz7VNRIUTvWWaklqtGdk2OXl77ya
-         L0c3hCK9BH+IW8qlzVb1lpsZ4cY6pFXiTHh2GUhPAfa80npKm0pRhEz5WPpqun/1vIOx
-         TWn0RlAHHH4DX2gYj9+Nec0+0EWFll7JyIrj6EAeav0m8sAOG7jCPNBvFEtHVaik364W
-         hcWA==
-X-Gm-Message-State: AOAM533FJnT+V2rNPLYNzSsAzrDNulsvb0iJ6vT0uasXuBFbLpKpLlfA
-        Fgnf58o512eaUyroIe3IRcba/uxpRO8yZc9nZAA+ew==
-X-Google-Smtp-Source: ABdhPJxhQnt23Ae+G6XB/6Dh2n6rSWmDYhKd2XuDo5k61vLPlH8zwrPR7PH9fHKyFaOd2JNFbzt1XpEGVXofMLIMoyU=
-X-Received: by 2002:a02:cab9:: with SMTP id e25mr23050058jap.25.1627423221533;
- Tue, 27 Jul 2021 15:00:21 -0700 (PDT)
+        bh=5Gl5yKnnnXk1ZZ9W2CvCpjkieAWrOTayTVRuhnyyS2A=;
+        b=ZiLyzIUOX+wOGi9TndjKCKYDR0F+/jpIURermKrgLeRvG8JblWO0NgGiTSJ/wy3q1v
+         vlJS77SvIXZkjkP8sIOD25rQ82weenYFeK0AGwAWztU3mipXjx98Fmi8JugYs4ky+U82
+         DmhEAn4aHXR796FUs6aioCCuXQu21QjfivN2T3+hQx0Nlbp+MVmx221pRDkYufnwDjd4
+         FxbrEYkf+JFqqXww98vemThRv9IHxnFYwnnMOxApgepa1UMbA40C3CC+AVxi4efa5TgF
+         bkXt6vtTp4SkKliz0gez58qyDhWJa9s0o/5VooPxV440hlQf6jNFWhhZpr/jghu9MlUu
+         5odg==
+X-Gm-Message-State: AOAM531ZpjrvgoEP0pqX/kgnGKcD70a4YaTDZenBvI5KWbIaPFaXtV51
+        4C+hng83vIsOSj9a+zEwvVpMsraiZwR6h3DYqVQ=
+X-Google-Smtp-Source: ABdhPJwzmbjWzXm46dMehQD8J+uVfI9iD/EAnjGLfzR63SUwwxrfDn07VGBqZF9SQHgt6TtSzI9/ts7DwZQJrLS3h5o=
+X-Received: by 2002:a02:908a:: with SMTP id x10mr25256456jaf.30.1627465930719;
+ Wed, 28 Jul 2021 02:52:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210622051204.3682580-1-pcc@google.com> <20210727165109.GB13920@arm.com>
-In-Reply-To: <20210727165109.GB13920@arm.com>
-From:   Peter Collingbourne <pcc@google.com>
-Date:   Tue, 27 Jul 2021 15:00:10 -0700
-Message-ID: <CAMn1gO7DcY4tWu0Q7XsZAt-pEmD-4S64sMzu_gARH7Pvc8sP8g@mail.gmail.com>
-Subject: Re: [PATCH v2] arm64: allow TCR_EL1.TBID0 to be configured
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Evgenii Stepanov <eugenis@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+References: <CAOQ4uxgckzeRuiKSe7D=TVaJGTYwy4cbCFDpdWMQr1R_xXkJig@mail.gmail.com>
+ <20210712111016.GC26530@quack2.suse.cz> <CAOQ4uxgnbirvr-KSMQyz-PL+Q_FmBF_OfSmWFEu6B0TYN-w1tg@mail.gmail.com>
+ <20210712162623.GA9804@quack2.suse.cz> <CAOQ4uxgHeX3r4eJ=4OgksDnkddPqOs0a8JxP5VDFjEddmRcorA@mail.gmail.com>
+ <YO469q9T7h0LBlIT@google.com> <CAOQ4uxgkMrMiNNA=Y2OKP4XYoiDMMZLZshzyviirmRzwQvjr2w@mail.gmail.com>
+ <YPDKa0tZ+kIoT8Um@google.com> <20210716094755.GD31920@quack2.suse.cz>
+ <CAOQ4uxhxa9PL4CTkXNe6_iH2qNOf-TW8FdWgwSDa-ZiCGzb=UQ@mail.gmail.com> <CAOQ4uxhuQ71pxyK5DqPa=-toAL2-w=0mUwnZjwGLjbYm72AuKQ@mail.gmail.com>
+In-Reply-To: <CAOQ4uxhuQ71pxyK5DqPa=-toAL2-w=0mUwnZjwGLjbYm72AuKQ@mail.gmail.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Wed, 28 Jul 2021 12:51:59 +0300
+Message-ID: <CAOQ4uxjYDDk00VPdWtRB1_tf+gCoPFgSQ9O0p0fGaW_JiFUUKA@mail.gmail.com>
+Subject: Re: FAN_REPORT_CHILD_FID
+To:     Jan Kara <jack@suse.cz>
+Cc:     Matthew Bobrowski <repnop@google.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jul 27, 2021 at 9:51 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
++linux-api
+
+On Tue, Jul 27, 2021 at 1:44 PM Amir Goldstein <amir73il@gmail.com> wrote:
 >
-> Hi Peter,
->
-> On Mon, Jun 21, 2021 at 10:12:04PM -0700, Peter Collingbourne wrote:
-> > Introduce a command line flag that controls whether TCR_EL1.TBID0
-> > is set at boot time. Since this is a change to the userspace ABI the
-> > option defaults to off for now, although it seems likely that we'll
-> > be able to change the default at some future point.
+> On Fri, Jul 16, 2021 at 2:24 PM Amir Goldstein <amir73il@gmail.com> wrote:
 > >
-> > Setting TCR_EL1.TBID0 increases the number of signature bits used by
-> > the pointer authentication instructions for instruction addresses by 8,
-> > which improves the security of pointer authentication, but it also has
-> > the consequence of changing the operation of the branch instructions
-> > so that they no longer ignore the top byte of the target address but
-> > instead fault if they are non-zero.
->
-> I'm a bit uneasy about the ABI change and not so keen on constraining
-> the ABI through the kernel command line. Ideally we should make this an
-> opt-in per application (prctl()) but that has some aspects to address
-
-This doesn't necessarily need to be the end state, we can enhance this
-based on need. For example, we could choose to take this patch now and
-later implement the per-process opt-in where the default is controlled
-by the command line. Or just implement the software-only per-process
-TBID0 almost-disablement which would be much simpler than doing it in
-hardware, if that is enough to satisfy future needs. Otherwise we risk
-adding "unused" complexity to the kernel that we can never remove due
-to API stability guarantees.
-
-> first: (a) this bit is permitted to be cached in the TLB so we'd need
-> some TLBI when setting it (and a clarification in the specs that it is
-> tagged by ASID/VMID, probably fine) and (b) we'd need to context-switch
-> TCR_EL1, with a small performance penalty (I don't think it's
-> significant but worth testing).
-
-So TLBI all of the CPUs on prctl() and context-switch TCR_EL1? I
-thought there would be DOS concerns with the first part of that?
-
-I hope it would be a straightforward spec clarification. Maybe Cortex
-tags TBID0 by ASID/VMID but what about Apple?
-
-If we can resolve these concerns I suppose that would work. But as
-mentioned above I'm not sure we should do it straight away.
-
-> Unfortunately, we can't turn TBID0 off dynamically when we detect a
-> tagged PC since this would break authentication of already encoded
-> pointers.
->
-> Prior to hwasan and MTE, I doubt anyone would have noticed this change
-> but once malloc() and friends started returning tagged pointers,
-> programs executing code from malloc()'ed regions would fall apart with
-> TBID0. I think it's a bit of stretch to argue that it's hwasan and MTE
-> causing the application breakage rather than a user-kernel ABI change,
-> since that's already working currently (though such programs should be
-> re-written).
->
-> Longer term, I'd like the TBID0 to be the default but transitioning
-> without breaking the user is tricky, hence my first option would be
-> per-application with an opt-in.
-
-If we want to transition to TBID0 being the default, it seems better
-to not let it be controlled by the application, if we can get away
-with it. Otherwise applications may start implicitly disabling it, or
-assuming it to be disabled by default. For example if we made it a bit
-in tagged_addr_ctrl then a call such as:
-
-prctl(PR_SET_TAGGED_ADDR_CTRL, PR_TAGGED_ADDR_ENABLE, 0, 0, 0);
-
-will disable TBID0 even if the default is for it to be enabled. (So
-it's a bit unfortunate that we didn't adopt the
-PR_PAC_SET_ENABLED_KEYS scheme for PR_SET_TAGGED_ADDR_CTRL.)
-
-> > diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-> > index 871c82ab0a30..9ee32afe121c 100644
-> > --- a/arch/arm64/mm/fault.c
-> > +++ b/arch/arm64/mm/fault.c
-> > @@ -529,11 +529,23 @@ static int __kprobes do_page_fault(unsigned long far, unsigned int esr,
-> >       vm_fault_t fault;
-> >       unsigned long vm_flags;
-> >       unsigned int mm_flags = FAULT_FLAG_DEFAULT;
-> > -     unsigned long addr = untagged_addr(far);
-> > +     unsigned long addr;
+> > On Fri, Jul 16, 2021 at 12:47 PM Jan Kara <jack@suse.cz> wrote:
+> > >
+> > > On Fri 16-07-21 09:53:15, Matthew Bobrowski wrote:
+> > > > On Wed, Jul 14, 2021 at 03:09:56PM +0300, Amir Goldstein wrote:
+> > > > > I am still debating with myself between adding a new event type
+> > > > > (FAN_RENAME), adding a new report flag (FAN_REPORT_TARGET_FID)
+> > > > > that adds info records to existing MOVE_ events or some combination.
+> > > >
+> > > > Well, if we went with adding a new event FAN_RENAME and specifying that
+> > > > resulted in the generation of additional
+> > > > FAN_EVENT_INFO_TYPE_DFID_NAME_{FROM,TO} information record types for an
+> > > > event, wouldn't it be weird as it doesn't follow the conventional mechanism
+> > > > of a listener asking for additional information records? As in,
+> > > > traditionally we'd intialize the notification group with a flag and then
+> > > > that flag controls whether or not one is permitted to receive events of a
+> > > > particular type that may or may not include information records?
+> > > >
+> > > > Maybe a combination approach is needed in this instance, but this doesn't
+> > > > necessarily simplify things when attempting to document the API semantics
+> > > > IMO.
+> > >
+> > > So there are couple of ways how to approach this I guess. One is that we
+> > > add a flag like FAN_REPORT_SECONDARY_DFID and FAN_REPORT_SECONDARY_NAME
+> > > which would add another DFID(+NAME) record of new type to rename event. In
+> > > principle these could be added to MOVED_FROM and/or MOVED_TO events
+> > > (probably both are useful). But I'd find the naming somewhat confusing and
+> > > difficult to sensibly describe.
+> > >
+> > > That's why I think it may be clearer to go with new FAN_RENAME event that
+> > > will be triggered when the directory is on either end of rename(2) (source
+> > > or target). If DFID(+NAME) is enabled for the group, the event would report
+> > > both source and target DFIDs (and names if enabled) instead of one. I don't
+> > > think special FAN_REPORT_? flag to enable the second DFID would be useful
+> > > in this case (either for clarity or enabling some functionality).
+> > >
 > >
-> >       if (kprobe_page_fault(regs, esr))
-> >               return 0;
+> > I agree that FAN_RENAME without any new REPORT flag is possible.
+> > Still, I would like to at least try to come up with some UAPI that is more
+> > compatible with existing semantics and simlifies them rather than creating
+> > more special cases.
 > >
-> > +     /*
-> > +      * If TBID0 is set then we may get an IABT with a tagged address here as
-> > +      * a result of branching to a tagged address. In this case we want to
-> > +      * avoid untagging the address, let the VMA lookup fail and get a
-> > +      * SIGSEGV. Leaving the address as is will also work if TBID0 is clear
-> > +      * or unsupported because the tag bits of FAR_EL1 will be clear.
-> > +      */
-> > +     if (is_el0_instruction_abort(esr))
-> > +             addr = far;
-> > +     else
-> > +             addr = untagged_addr(far);
+> > For example, if FAN_REPORT_ALL_FIDS would start reporting all the
+> > relevant fid records for all events, then nothing would change for
+> > FAN_OPEN etc, but FAN_CREATE etc would start reporting the
+> > target fid and FAN_MOVED_* would start reporting source, target and self
+> > fids or dfid/name records and then FAN_MOVED_* pair can be "merged"
+> > because they carry the exact same information.
+> > (I suppose FAN_MOVE_SELF could be "merged" with them as well)
+> >
+> > When I write "merged" I mean queued as a single recorded event
+> > depending on backend flags, like we do with event ON_CHILD and
+> > event on self for inotify vs. fanotify.
+> >
+> > With this scheme, listeners that only set FAN_MOVED_FROM in
+> > mask would get all relevant information and users that only set
+> > FAN_MOVED_TO would get all relevant information and we avoid
+> > the spam of different event formats for the same event in case
+> > users set FAN_MOVED|FAN_RENAME|FAN_MOVE_SELF in the mask.
+> >
+> > That just leaves the question of HOW to describe the info records
+> > in a consistent way.
+> >
+> > I was thinking about:
+> >
+> > #define FAN_EVENT_INFO_OF_SELF           1
+> > #define FAN_EVENT_INFO_OF_SOURCE    2
+> > #define FAN_EVENT_INFO_OF_TARGET     3
+> >
+> > struct fanotify_event_info_header {
+> >         __u8 info_type; /* The type of object of the info record */
+> >         __u8 info_of;     /* The subject of the info record */
+> >         __u16 len;
+> > };
+> >
+> > The existing info_type values determine HOW that info can be used.
+> > For example, FAN_EVENT_INFO_TYPE_DFID can always be resolved
+> > to a linked path if directory is not dead and reachable, while
+> > FAN_EVENT_INFO_TYPE_FID is similar, but it could resolve to an
+> > unknown path even if the inode is linked.
+> >
+> > Most events will only report records OF_SELF or OF_TARGET or both.
+> > FAN_MOVED_* will also report records OF_SOURCE.
+> >
+> > One way to think about it is that we are encoding all the information
+> > found in man page about what the info record is describing, depending
+> > on the event type and making it available in the event itself, so application
+> > does not need to code the semantics of the man page w.r.t info records
+> > meaning for different event types.
+> >
+> > w.r.t backward compatibility of event parsers, naturally, the REPORT_ALL
+> > flag protects us from regressions, but also adapting to the new scheme is
+> > pretty easy. In particular, if application ignored the info_of field the only
+> > event where things could go wrong is FAN_MOVED_TO because the
+> > first info record is not what it used to be (assuming that we report the
+> > info of source dirent first).
+> >
 >
-> Should this also check for tcr_tbid0_enabled() before deciding not to
-> untag the address?
+> > Thoughts?
+>
+> Jan,
+>
+> I know you are catching up on emails and this is a very low priority.
+> Whenever you get to it, here is a POC branch I prepared for
+> FAN_REPORT_FID_OF:
+>
+> https://github.com/amir73il/linux/commits/fanotify_fid_of
+>
 
-No, if TBID0 is disabled then by this point the hardware would have
-untagged the PC for us.
+Slight change of plans. I pushed new branches:
+https://github.com/amir73il/linux/commits/fanotify_target_fid
+https://github.com/amir73il/ltp/commits/fanotify_target_fid
 
-Peter
+With the following changes:
+1. Uses FAN_REPORT_TARGET_FID as you suggested
+2. Requires FAN_REPORT_NAME (to reduce test matrix)
+3. Implements 3rd record only for MOVED_FROM event
+
+> This does not include the unified move event with 3 info records
+> only the basic extension of the UAPI with the sub_type info
+> concept, which is used to report child fid records for dirent events.
+>
+
+So I dropped the plan for a "unified rename event".
+Adding one extra record only to MOVED_FROM was really easy
+because we already have that information available in the "moved"
+dentry passed to the backend.
+
+I kept the info record subtype concept and second info record
+I created with type DFID_NAME and subtype FID_OF_PARENT2,
+but now this UAPI detail is up for debate.
+
+We can easily throw away the subtype and use info type DFID2_NAME
+instead.
+
+The thing is, in an earlier version I did not require FAN_REPORT_NAME
+and it was useful to reuse the subtype without having to create two new
+types (i.e.  DFID2 and DFID2_NAME).
+
+All-in-all it's a very minor difference in the UAPI and I could go either way.
+I am leaning towards dropping the subtype, but I am not sure, so I kept
+it to hear what other people have to say (CC: linux-api).
+
+There is also the possibility to use the same info record type for the
+second info record (DFID_NAME) because this record can only be
+reported after a first valid DFID_NAME record, but I do not like this option.
+
+Thoughts?
+
+Amir.
