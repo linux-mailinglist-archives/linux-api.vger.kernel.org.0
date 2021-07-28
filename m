@@ -2,32 +2,32 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 65C543D8E0E
-	for <lists+linux-api@lfdr.de>; Wed, 28 Jul 2021 14:42:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B64FA3D8E29
+	for <lists+linux-api@lfdr.de>; Wed, 28 Jul 2021 14:47:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234979AbhG1Mmb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 28 Jul 2021 08:42:31 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:39930 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235244AbhG1Mma (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 28 Jul 2021 08:42:30 -0400
+        id S235162AbhG1Mr3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 28 Jul 2021 08:47:29 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:51072 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235130AbhG1Mr2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 28 Jul 2021 08:47:28 -0400
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 8A6BA1FF9B;
-        Wed, 28 Jul 2021 12:42:27 +0000 (UTC)
+        by smtp-out1.suse.de (Postfix) with ESMTP id B58FA22319;
+        Wed, 28 Jul 2021 12:47:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1627476147; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1627476445; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=qE0e4wOwIM2Ykf5ORgyVCo3+kxWcajIMYmHfIA6nLmQ=;
-        b=ntohU5YhnPckBDLRXy7jZyMABFIfjgtUiUSE+YSbG3Xy3cFXp6gLSSRYbXjtHRMsv68cT9
-        aA+XbhgIsRwtoVAgIiH72jPBHGRTZEWXkNim1tSR7v2W9KDF0vqslft7+NnEDkYdctGdkY
-        wnFQaT9K3yli+1v+FyncTDMcP0GMbyE=
+        bh=EY9hnViqgNkITZKfwU8A+2DXRShAbB8e006BrNU9EUA=;
+        b=p/UNkGke6IeE6hvLVkNQT3mfouqZHYRvLlWkdaVdkw3vUpU1ih7lZuutI4zV3Hf8sPAhBB
+        oyAcN9O1Xzb/RsOHMnjNyBcu8IPM43Vpyf2V+Wi/3moXSQvxB4cPA9ZEAoMezQCueKLpYr
+        XQjwdTGzkzZvThjBdS1sig55zyTJYfU=
 Received: from suse.cz (unknown [10.100.201.86])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 4EB51A3B83;
-        Wed, 28 Jul 2021 12:42:27 +0000 (UTC)
-Date:   Wed, 28 Jul 2021 14:42:26 +0200
+        by relay2.suse.de (Postfix) with ESMTPS id 4FF98A3B81;
+        Wed, 28 Jul 2021 12:47:24 +0000 (UTC)
+Date:   Wed, 28 Jul 2021 14:47:23 +0200
 From:   Michal Hocko <mhocko@suse.com>
 To:     Feng Tang <feng.tang@intel.com>
 Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
@@ -42,88 +42,72 @@ Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
         Vlastimil Babka <vbabka@suse.cz>,
         Andi Kleen <ak@linux.intel.com>,
         Dan Williams <dan.j.williams@intel.com>, ying.huang@intel.com
-Subject: Re: [PATCH v6 2/6] mm/memplicy: add page allocation function for
- MPOL_PREFERRED_MANY policy
-Message-ID: <YQFQsnSt/DaWoQHV@dhcp22.suse.cz>
+Subject: Re: [PATCH v6 5/6] mm/mempolicy: Advertise new MPOL_PREFERRED_MANY
+Message-ID: <YQFR27gkFNqJqzGN@dhcp22.suse.cz>
 References: <1626077374-81682-1-git-send-email-feng.tang@intel.com>
- <1626077374-81682-3-git-send-email-feng.tang@intel.com>
+ <1626077374-81682-6-git-send-email-feng.tang@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1626077374-81682-3-git-send-email-feng.tang@intel.com>
+In-Reply-To: <1626077374-81682-6-git-send-email-feng.tang@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon 12-07-21 16:09:30, Feng Tang wrote:
-> The semantics of MPOL_PREFERRED_MANY is similar to MPOL_PREFERRED,
-> that it will first try to allocate memory from the preferred node(s),
-> and fallback to all nodes in system when first try fails.
+On Mon 12-07-21 16:09:33, Feng Tang wrote:
+> From: Ben Widawsky <ben.widawsky@intel.com>
 > 
-> Add a dedicated function for it just like 'interleave' policy.
+> Adds a new mode to the existing mempolicy modes, MPOL_PREFERRED_MANY.
 > 
-> Link: https://lore.kernel.org/r/20200630212517.308045-9-ben.widawsky@intel.com
-> Suggested-by: Michal Hocko <mhocko@suse.com>
-> Co-developed-by: Ben Widawsky <ben.widawsky@intel.com>
+> MPOL_PREFERRED_MANY will be adequately documented in the internal
+> admin-guide with this patch. Eventually, the man pages for mbind(2),
+> get_mempolicy(2), set_mempolicy(2) and numactl(8) will also have text
+> about this mode. Those shall contain the canonical reference.
+> 
+> NUMA systems continue to become more prevalent. New technologies like
+> PMEM make finer grain control over memory access patterns increasingly
+> desirable. MPOL_PREFERRED_MANY allows userspace to specify a set of
+> nodes that will be tried first when performing allocations. If those
+> allocations fail, all remaining nodes will be tried. It's a straight
+> forward API which solves many of the presumptive needs of system
+> administrators wanting to optimize workloads on such machines. The mode
+> will work either per VMA, or per thread.
+> 
+> Link: https://lore.kernel.org/r/20200630212517.308045-13-ben.widawsky@intel.com
 > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
 > Signed-off-by: Feng Tang <feng.tang@intel.com>
-
-It would be better to squash this together with the actual user of the
-function added by the next patch.
-
 > ---
->  mm/mempolicy.c | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
+>  Documentation/admin-guide/mm/numa_memory_policy.rst | 16 ++++++++++++----
+>  mm/mempolicy.c                                      |  7 +------
+>  2 files changed, 13 insertions(+), 10 deletions(-)
 > 
-> diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-> index 17b5800b7dcc..d17bf018efcc 100644
-> --- a/mm/mempolicy.c
-> +++ b/mm/mempolicy.c
-> @@ -2153,6 +2153,25 @@ static struct page *alloc_page_interleave(gfp_t gfp, unsigned order,
->  	return page;
->  }
+> diff --git a/Documentation/admin-guide/mm/numa_memory_policy.rst b/Documentation/admin-guide/mm/numa_memory_policy.rst
+> index 067a90a1499c..cd653561e531 100644
+> --- a/Documentation/admin-guide/mm/numa_memory_policy.rst
+> +++ b/Documentation/admin-guide/mm/numa_memory_policy.rst
+> @@ -245,6 +245,14 @@ MPOL_INTERLEAVED
+>  	address range or file.  During system boot up, the temporary
+>  	interleaved system default policy works in this mode.
 >  
-> +static struct page *alloc_page_preferred_many(gfp_t gfp, unsigned int order,
-> +						struct mempolicy *pol)
+> +MPOL_PREFERRED_MANY
+> +        This mode specifies that the allocation should be attempted from the
+> +        nodemask specified in the policy. If that allocation fails, the kernel
+> +        will search other nodes, in order of increasing distance from the first
+> +        set bit in the nodemask based on information provided by the platform
+> +        firmware. It is similar to MPOL_PREFERRED with the main exception that
+> +        is an error to have an empty nodemask.
 
-We likely want a node parameter to know which one we want to start with
-for locality. Callers should use policy_node for that.
+I believe the target audience of this documents are users rather than
+kernel developers and for those the wording might be rather cryptic. I
+would rephrase like this
+	This mode specifices that the allocation should be preferrably
+	satisfied from the nodemask specified in the policy. If there is
+	a memory pressure on all nodes in the nodemask the allocation
+	can fall back to all existing numa nodes. This is effectively
+	MPOL_PREFERRED allowed for a mask rather than a single node.
 
-> +{
-> +	struct page *page;
-> +
-> +	/*
-> +	 * This is a two pass approach. The first pass will only try the
-> +	 * preferred nodes but skip the direct reclaim and allow the
-> +	 * allocation to fail, while the second pass will try all the
-> +	 * nodes in system.
-> +	 */
-> +	page = __alloc_pages(((gfp | __GFP_NOWARN) & ~__GFP_DIRECT_RECLAIM),
-> +				order, first_node(pol->nodes), &pol->nodes);
-
-Although most users will likely have some form of GFP_*USER* here and
-clearing __GFP_DIRECT_RECLAIM will put all other reclaim modifiers out
-of game I think it would be better to explicitly disable some of them to
-prevent from surprises. E.g. any potential __GFP_NOFAIL would be more
-than surprising here. We do not have any (hopefully) but this should be
-pretty cheap to exclude as we already have to modify already.
-
-	preferred_gfp = gfp | __GFP_NOWARN;
-	preferred_gfp &= ~(__GFP_DIRECT_RECLAIM | __GFP_NOFAIL)
-
-
-> +	if (!page)
-> +		page = __alloc_pages(gfp, order, numa_node_id(), NULL);
-> +
-> +	return page;
-> +}
-> +
->  /**
->   * alloc_pages_vma - Allocate a page for a VMA.
->   * @gfp: GFP flags.
-> -- 
-> 2.7.4
-
+With that or similar feel free to add
+Acked-by: Michal Hocko <mhocko@suse.com>
 -- 
 Michal Hocko
 SUSE Labs
