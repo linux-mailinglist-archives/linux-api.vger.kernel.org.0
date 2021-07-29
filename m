@@ -2,175 +2,124 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EAC923D99C1
-	for <lists+linux-api@lfdr.de>; Thu, 29 Jul 2021 01:50:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 811783D9E12
+	for <lists+linux-api@lfdr.de>; Thu, 29 Jul 2021 09:09:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232879AbhG1XuY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 28 Jul 2021 19:50:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54688 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232837AbhG1XuW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 28 Jul 2021 19:50:22 -0400
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C85EC061757
-        for <linux-api@vger.kernel.org>; Wed, 28 Jul 2021 16:50:19 -0700 (PDT)
-Received: by mail-yb1-xb33.google.com with SMTP id s48so6893279ybi.7
-        for <linux-api@vger.kernel.org>; Wed, 28 Jul 2021 16:50:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ri7dkKO6h5RV/Ibe3NWL4402v4LTTBbbSPPGdrr9EWA=;
-        b=JXqLLLKQ9B7Aib4nfyynUM9ac2AoEGdFAEcPjQMIKwvDcgOLzVYdf+qjF7FgO+/h9h
-         +zYlReGNpSP0ophDpBZ0yGZPPsp7BeFOnQ+/m6ObpExwEA8SmdbkK2wSAwcwEXbWlKjt
-         tboOqc29hiWTaGpc15cex24JduRM19DLsxcMfxQTIpOrecAVRnnQmAQdG/aaADAIEPlC
-         gUq1eRL+K13UJtoBot6QOz5oMrq46S6mGevRYdYsmGjFBUVn4nYbRIS3PnKLfXF5ELn2
-         IYVOUBqdv8EFBIq//hQWUCvaO0EMzjoLycStVNkm5wPV50xaycsHzEoWo3YytDAgJKqf
-         6D/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ri7dkKO6h5RV/Ibe3NWL4402v4LTTBbbSPPGdrr9EWA=;
-        b=egqk4We30sBQ4h7GtHv8oa4p7u7dWPgs02OVcxadgbINm5s2jAiW8BVgXP+XDiuH6T
-         mR279F9bxKRLyu2Xnpov/LwZJSsYvvPAkHLcvK3DryyNLrcCChHyGoJs/OttyWevjvrt
-         U1yTIGsmoxvs6P2mMqZY6EmblTsR8vP3d/3VtwIDPnCA99dM/GPVy16mOTdTtYWahmF/
-         f55+qtnmXSQeRcP1DodTSeyFSYzSGqaxQBq/Rw+GX3UBbnGly/CZcGz1V+ODcRTTPZys
-         LEXMQw3n5HK9j8TcBSibO8UXYIi4x+WgTlTQv/FCjpwzFjcSgxUZGzgfxKk6Ub3Wlix4
-         Zj0A==
-X-Gm-Message-State: AOAM532jXN4YhPcIQoYQgE6UZTZIAEtU3Bf6MdtpIUbg4yGNlXY3MeUw
-        8E0E10F/90VWqjAjhnA5+VyyA1RZnhiI6lp8ro2g2g==
-X-Google-Smtp-Source: ABdhPJwaWRA1sv94hlkOc3Y+gpCGthbwr9k9FCG8Qb/Bs8BGo0KCxMQgxJPIc5XqICNw82VbJOR+Ix3caEe0YlKrUfM=
-X-Received: by 2002:a5b:648:: with SMTP id o8mr3120806ybq.260.1627516218334;
- Wed, 28 Jul 2021 16:50:18 -0700 (PDT)
+        id S234347AbhG2HJ2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 29 Jul 2021 03:09:28 -0400
+Received: from mga09.intel.com ([134.134.136.24]:64994 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234339AbhG2HJ1 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 29 Jul 2021 03:09:27 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10059"; a="212810214"
+X-IronPort-AV: E=Sophos;i="5.84,278,1620716400"; 
+   d="scan'208";a="212810214"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2021 00:09:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,278,1620716400"; 
+   d="scan'208";a="438102616"
+Received: from shbuild999.sh.intel.com (HELO localhost) ([10.239.146.151])
+  by fmsmga007.fm.intel.com with ESMTP; 29 Jul 2021 00:09:19 -0700
+Date:   Thu, 29 Jul 2021 15:09:18 +0800
+From:   Feng Tang <feng.tang@intel.com>
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Andi Kleen <ak@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>, ying.huang@intel.com,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Subject: Re: [PATCH v6 1/6] mm/mempolicy: Add MPOL_PREFERRED_MANY for
+ multiple preferred nodes
+Message-ID: <20210729070918.GA96680@shbuild999.sh.intel.com>
+References: <1626077374-81682-1-git-send-email-feng.tang@intel.com>
+ <1626077374-81682-2-git-send-email-feng.tang@intel.com>
+ <YQFOB4UDK+dNZeOV@dhcp22.suse.cz>
+ <20210728141156.GC43486@shbuild999.sh.intel.com>
+ <YQGB5cB5NlgOuNIN@dhcp22.suse.cz>
 MIME-Version: 1.0
-References: <20210622051204.3682580-1-pcc@google.com> <20210727165109.GB13920@arm.com>
- <CAMn1gO7DcY4tWu0Q7XsZAt-pEmD-4S64sMzu_gARH7Pvc8sP8g@mail.gmail.com> <20210728164219.GC7408@arm.com>
-In-Reply-To: <20210728164219.GC7408@arm.com>
-From:   Peter Collingbourne <pcc@google.com>
-Date:   Wed, 28 Jul 2021 16:50:07 -0700
-Message-ID: <CAMn1gO4zkXBdW-qzY+15Q=Pk7E-x3vR-PXmKRakyE4Wr87Xhdg@mail.gmail.com>
-Subject: Re: [PATCH v2] arm64: allow TCR_EL1.TBID0 to be configured
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Evgenii Stepanov <eugenis@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YQGB5cB5NlgOuNIN@dhcp22.suse.cz>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jul 28, 2021 at 9:42 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
->
-> On Tue, Jul 27, 2021 at 03:00:10PM -0700, Peter Collingbourne wrote:
-> > On Tue, Jul 27, 2021 at 9:51 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
-> > > On Mon, Jun 21, 2021 at 10:12:04PM -0700, Peter Collingbourne wrote:
-> > > > Introduce a command line flag that controls whether TCR_EL1.TBID0
-> > > > is set at boot time. Since this is a change to the userspace ABI the
-> > > > option defaults to off for now, although it seems likely that we'll
-> > > > be able to change the default at some future point.
-> > > >
-> > > > Setting TCR_EL1.TBID0 increases the number of signature bits used by
-> > > > the pointer authentication instructions for instruction addresses by 8,
-> > > > which improves the security of pointer authentication, but it also has
-> > > > the consequence of changing the operation of the branch instructions
-> > > > so that they no longer ignore the top byte of the target address but
-> > > > instead fault if they are non-zero.
-> > >
-> > > I'm a bit uneasy about the ABI change and not so keen on constraining
-> > > the ABI through the kernel command line. Ideally we should make this an
-> > > opt-in per application (prctl()) but that has some aspects to address
-> >
-> > This doesn't necessarily need to be the end state, we can enhance this
-> > based on need. For example, we could choose to take this patch now and
-> > later implement the per-process opt-in where the default is controlled
-> > by the command line.
->
-> What's the risk of an application becoming reliant on the new mode
-> (TBID0) and breaking with the old one? Probably very small but I haven't
-> figured out if it's zero. Depending on whether we have PAC or PAC2 (the
-> latter came with 8.6 but optional in 8.3) with TBID0, there are some
-> differences on how the PAC/AUT instructions work and the code generated
-> (XOR with the top bits).
+On Wed, Jul 28, 2021 at 06:12:21PM +0200, Michal Hocko wrote:
+> On Wed 28-07-21 22:11:56, Feng Tang wrote:
+> > On Wed, Jul 28, 2021 at 02:31:03PM +0200, Michal Hocko wrote:
+> > > [Sorry for a late review]
+> > 
+> > Not at all. Thank you for all your reviews and suggestions from v1
+> > to v6!
+> > 
+> > > On Mon 12-07-21 16:09:29, Feng Tang wrote:
+> > > [...]
+> > > > @@ -1887,7 +1909,8 @@ nodemask_t *policy_nodemask(gfp_t gfp, struct mempolicy *policy)
+> > > >  /* Return the node id preferred by the given mempolicy, or the given id */
+> > > >  static int policy_node(gfp_t gfp, struct mempolicy *policy, int nd)
+> > > >  {
+> > > > -	if (policy->mode == MPOL_PREFERRED) {
+> > > > +	if (policy->mode == MPOL_PREFERRED ||
+> > > > +	    policy->mode == MPOL_PREFERRED_MANY) {
+> > > >  		nd = first_node(policy->nodes);
+> > > >  	} else {
+> > > >  		/*
+> > > 
+> > > Do we really want to have the preferred node to be always the first node
+> > > in the node mask? Shouldn't that strive for a locality as well? Existing
+> > > callers already prefer numa_node_id() - aka local node - and I belive we
+> > > shouldn't just throw that away here.
+> >  
+> > I think it's about the difference of 'local' and 'prefer/perfer-many'
+> > policy. There are different kinds of memory HW: HBM(High Bandwidth
+> > Memory), normal DRAM, PMEM (Persistent Memory), which have different
+> > price, bandwidth, speed etc. A platform may have two, or all three of
+> > these types, and there are real use case which want memory comes
+> > 'preferred' node/nodes than the local node.
+> > 
+> > And good point for 'local node', if the 'prefer-many' policy's
+> > nodemask has local node set, we should pick it han this
+> > 'first_node', and the same semantic also applies to the other
+> > several places you pointed out. Or do I misunderstand you point?
+> 
+> Yeah. Essentially what I am trying to tell is that for
+> MPOL_PREFERRED_MANY you simply want to return the given node without any
+> alternation. That node will be used for the fallback zonelist and the
+> nodemask would make sure we won't get out of the policy.
 
-I think it would be quite small. On Android, at least to begin with
-there would be a mixture of devices with different TBID0 settings
-(devices without PAC support and devices with older kernels would all
-have this disabled), so I think it would be difficult for an
-application to depend on it being enabled.
+I think I got your point now :)
 
-> > Or just implement the software-only per-process
-> > TBID0 almost-disablement which would be much simpler than doing it in
-> > hardware, if that is enough to satisfy future needs.
->
-> I don't entirely follow this.
+With current mainline code, the 'prefer' policy will return the preferred
+node.
 
-Sorry, I was referring to my earlier proposal for recovering from
-tagged PC in the kernel by clearing the tag bits:
-https://lore.kernel.org/linux-arm-kernel/CAMn1gO7+_JhTUw2gS6jnyRV+TCqprmpuCAfee3RCAhNjoVyy9w@mail.gmail.com/
+For 'prefer-many', we would like to keep the similar semantic, that the
+preference of node is 'preferred' > 'local' > all other nodes. There is
+some customer use case, whose platform has both DRAM and cheaper, bigger
+and slower PMEM, and they anlayzed the hotness of their huge data, and
+they want to put huge cold data into the PMEM, and only fallback to DRAM
+as the last step. The HW topology could be simplified like this:
 
-> > Otherwise we risk adding "unused" complexity to the kernel that we can
-> > never remove due to API stability guarantees.
->
-> We've had other debates over the years and, in general, if a kernel
-> change causes apps to break, we'd have to keep the original behaviour.
-> Are there any plans to fix the JITs tools you discovered?
+Socket 0:  Node 0 (CPU + 64GB DRAM), Node 2 (512GB PMEM)
+Socket 1:  Node 1 (CPU + 64GB DRAM), Node 3 (512GB PMEM)
 
-Yes, we would definitely want to fix the JIT issue in the Android
-platform before rolling out a forward PAC ABI. This would be separate
-from fixing apps, which would need to opt into MTE (or address tagging
-via the target API level) anyway. But if it turns out that there are
-too many apps with these JITs that use MTE or address tagging, I think
-we would need to come back to the kernel to figure out some way to let
-these programs run.
+E.g they want to allocate memory for colde application data with
+'prefer-many' policy + 0xC nodemask (N2+N3 PMEM nodes), so no matter the
+application is running on Node 0 or Node 1, the 'local' node only has DRAM
+which is not their preference, and want a preferred-->local-->others order. 
 
-> Talking to Will about this he was wondering whether we could make TBID0
-> on by default and clear the tag in PC if we take a fault (on tagged PC),
-> restarting the context. PAC shouldn't be affected since we would only
-> branch to an authenticated (PAC code removed) pointer. If this works,
-> we'd only affect performance slightly on such apps but don't completely
-> break them.
+Thanks,
+Feng
 
-Right, this sounds exactly like my earlier proposal.
-
-> > > first: (a) this bit is permitted to be cached in the TLB so we'd need
-> > > some TLBI when setting it (and a clarification in the specs that it is
-> > > tagged by ASID/VMID, probably fine) and (b) we'd need to context-switch
-> > > TCR_EL1, with a small performance penalty (I don't think it's
-> > > significant but worth testing).
-> >
-> > So TLBI all of the CPUs on prctl() and context-switch TCR_EL1? I
-> > thought there would be DOS concerns with the first part of that?
->
-> The DoS problem appears if we need to issue an IPI to all CPUs (like
-> stop_machine). The TLBI with broadcast handled in hardware should be OK
-> as it's targeted to a specific ASID. But this would have to be issued
-
-I see -- I hadn't realised that this instruction is implemented as a
-broadcast. So we would just need to issue the instruction from any CPU
-and we should be good.
-
-> before any app threads are started, otherwise we'd need to synchronise
-> TCR_EL1. Given that TBID0 toggling affects PAC, this can only be done
-
-Right, so this would be different from everything currently in
-tagged_addr_ctrl because it would be per-process rather than
-per-thread. So if this were a true TBID0 control we may even want it
-as a separate prctl() since there are certainly use cases for changing
-the other bits of tagged_addr_ctrl while the other threads are
-running.
-
-> safely very early in the application before return addresses get a PAC
-> code.
-
-Right, so maybe the "almost-disablement" would work better since all
-of the signatures would then still be valid, and you could even have
-different settings for different threads if you wanted to (e.g. if you
-arranged to run legacy code only on a specific thread).
-
-Peter
+> -- 
+> Michal Hocko
+> SUSE Labs
