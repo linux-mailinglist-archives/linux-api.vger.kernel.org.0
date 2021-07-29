@@ -2,158 +2,229 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE4713DA73D
-	for <lists+linux-api@lfdr.de>; Thu, 29 Jul 2021 17:12:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C91283DA73F
+	for <lists+linux-api@lfdr.de>; Thu, 29 Jul 2021 17:13:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229970AbhG2PMx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 29 Jul 2021 11:12:53 -0400
-Received: from mga09.intel.com ([134.134.136.24]:15975 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229934AbhG2PMx (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 29 Jul 2021 11:12:53 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10060"; a="212895755"
-X-IronPort-AV: E=Sophos;i="5.84,278,1620716400"; 
-   d="scan'208";a="212895755"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2021 08:12:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,278,1620716400"; 
-   d="scan'208";a="507255384"
-Received: from shbuild999.sh.intel.com (HELO localhost) ([10.239.146.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 29 Jul 2021 08:12:42 -0700
-Date:   Thu, 29 Jul 2021 23:12:42 +0800
-From:   Feng Tang <feng.tang@intel.com>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Andi Kleen <ak@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>, ying.huang@intel.com,
-        Dave Hansen <dave.hansen@linux.intel.com>
-Subject: Re: [PATCH v6 1/6] mm/mempolicy: Add MPOL_PREFERRED_MANY for
- multiple preferred nodes
-Message-ID: <20210729151242.GA42865@shbuild999.sh.intel.com>
-References: <1626077374-81682-1-git-send-email-feng.tang@intel.com>
- <1626077374-81682-2-git-send-email-feng.tang@intel.com>
- <YQFOB4UDK+dNZeOV@dhcp22.suse.cz>
- <20210728141156.GC43486@shbuild999.sh.intel.com>
- <YQGB5cB5NlgOuNIN@dhcp22.suse.cz>
- <20210729070918.GA96680@shbuild999.sh.intel.com>
- <YQKvZDXmRSVVRvfi@dhcp22.suse.cz>
+        id S229934AbhG2PNV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 29 Jul 2021 11:13:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44046 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229864AbhG2PNV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 29 Jul 2021 11:13:21 -0400
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 331B2C061765;
+        Thu, 29 Jul 2021 08:13:17 -0700 (PDT)
+Received: by mail-io1-xd32.google.com with SMTP id 185so7610690iou.10;
+        Thu, 29 Jul 2021 08:13:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Nua3Rn1N6LerhfGPLxEEhXWOndG8+5p+OI6P+akMl1A=;
+        b=m4YScbaD9QIw9AwZPdFEsnfKjf7ZokjEP+7zKsRsyxsJDvbbbKF1pQ1pmjZRRrBPaX
+         a0sJgR8LcZ0qcHhjSJl7Z/OZNFFFoPIx1sdrnGGjBlh07ciQN6Ix5HP4jPaUvxCa5zUO
+         vCHysTNEENyAZdx8/I1LYV/dkunMI61NmME40d+W407ULeVljLlL35mxrWO9QGJJ+/E+
+         ENwER+OW6xqeZbRG2zme++s8Xp/nRwdxA0AKDYR04jUVlJ0f1+YNrBwqRmGJg6X4vs49
+         HiZoCndQD+SoEIXIBwSbmaQXmvAhoZwSVtVSU4aRD69bdhwnSSaD6/8u6M73gyt8m2Ot
+         e7Fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Nua3Rn1N6LerhfGPLxEEhXWOndG8+5p+OI6P+akMl1A=;
+        b=HY0d2ec7HU5OKxyi2PIcjevpRbzAx3veB5kufdVB+REZY6r2lTjXt8KHIJwfs22wRF
+         i+GXRiy+cLR2pFT03Jq2bX+2dPbWM6nSs76SIlnKQR9xbR2b2d290ksP7MpVwGsRK1Zj
+         pfHIZh4b9tCe/HvA/7wRENNCIWFQglqUoGon7sc6SpTmTzOzJu+MN/3e/vSWIrUcfU2v
+         0zyEwmDrkK9+kO49TorDANiMUnnaQe8fpBW0+X2iDPLCICpO+nYczu/Ts6U9f9BGBX7z
+         LEyONNc3vfLBtH/fDxwnfSfzuUwViLSdbgL0NmCR6yVwAU+rMYW6BRVmgEN2NCHhrKVb
+         LbKg==
+X-Gm-Message-State: AOAM531EI3pGCsRXrVzxMHtWESnpvWc7rwgdBlRJLiWZFEKiSmbW5q8Y
+        kmHrQnrg3XFar3T4Dz7NhP6xS8qJN/rF1o0Yj3Y=
+X-Google-Smtp-Source: ABdhPJzq8YUSxUBQ+7HsVo5gRtsHjBLgc3FRx4IqJOEvM9Zq6mv8yuNFWRbzXaemsL3JY8KVeTK65vtcBG0oQ1txDX0=
+X-Received: by 2002:a6b:3bc3:: with SMTP id i186mr4539502ioa.64.1627571596658;
+ Thu, 29 Jul 2021 08:13:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YQKvZDXmRSVVRvfi@dhcp22.suse.cz>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <cover.1626845287.git.repnop@google.com> <02ba3581fee21c34bd986e093d9eb0b9897fa741.1626845288.git.repnop@google.com>
+ <CAG48ez3MsFPn6TsJz75hvikgyxG5YGyT2gdoFwZuvKut4Xms1g@mail.gmail.com>
+ <CAOQ4uxhDkAmqkxT668sGD8gHcssGTeJ3o6kzzz3=0geJvfAjdg@mail.gmail.com> <20210729133953.GL29619@quack2.suse.cz>
+In-Reply-To: <20210729133953.GL29619@quack2.suse.cz>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Thu, 29 Jul 2021 18:13:05 +0300
+Message-ID: <CAOQ4uxi70KXGwpcBnRiyPXZCjFQfifaWaYVSDK2chaaZSyXXhQ@mail.gmail.com>
+Subject: Re: [PATCH v3 5/5] fanotify: add pidfd support to the fanotify API
+To:     Jan Kara <jack@suse.cz>
+Cc:     Jann Horn <jannh@google.com>,
+        Matthew Bobrowski <repnop@google.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Andy Lutomirski <luto@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jul 29, 2021 at 03:38:44PM +0200, Michal Hocko wrote:
-> On Thu 29-07-21 15:09:18, Feng Tang wrote:
-> > On Wed, Jul 28, 2021 at 06:12:21PM +0200, Michal Hocko wrote:
-> > > On Wed 28-07-21 22:11:56, Feng Tang wrote:
-> > > > On Wed, Jul 28, 2021 at 02:31:03PM +0200, Michal Hocko wrote:
-> > > > > [Sorry for a late review]
-> > > > 
-> > > > Not at all. Thank you for all your reviews and suggestions from v1
-> > > > to v6!
-> > > > 
-> > > > > On Mon 12-07-21 16:09:29, Feng Tang wrote:
-> > > > > [...]
-> > > > > > @@ -1887,7 +1909,8 @@ nodemask_t *policy_nodemask(gfp_t gfp, struct mempolicy *policy)
-> > > > > >  /* Return the node id preferred by the given mempolicy, or the given id */
-> > > > > >  static int policy_node(gfp_t gfp, struct mempolicy *policy, int nd)
-> > > > > >  {
-> > > > > > -	if (policy->mode == MPOL_PREFERRED) {
-> > > > > > +	if (policy->mode == MPOL_PREFERRED ||
-> > > > > > +	    policy->mode == MPOL_PREFERRED_MANY) {
-> > > > > >  		nd = first_node(policy->nodes);
-> > > > > >  	} else {
-> > > > > >  		/*
-> > > > > 
-> > > > > Do we really want to have the preferred node to be always the first node
-> > > > > in the node mask? Shouldn't that strive for a locality as well? Existing
-> > > > > callers already prefer numa_node_id() - aka local node - and I belive we
-> > > > > shouldn't just throw that away here.
-> > > >  
-> > > > I think it's about the difference of 'local' and 'prefer/perfer-many'
-> > > > policy. There are different kinds of memory HW: HBM(High Bandwidth
-> > > > Memory), normal DRAM, PMEM (Persistent Memory), which have different
-> > > > price, bandwidth, speed etc. A platform may have two, or all three of
-> > > > these types, and there are real use case which want memory comes
-> > > > 'preferred' node/nodes than the local node.
-> > > > 
-> > > > And good point for 'local node', if the 'prefer-many' policy's
-> > > > nodemask has local node set, we should pick it han this
-> > > > 'first_node', and the same semantic also applies to the other
-> > > > several places you pointed out. Or do I misunderstand you point?
-> > > 
-> > > Yeah. Essentially what I am trying to tell is that for
-> > > MPOL_PREFERRED_MANY you simply want to return the given node without any
-> > > alternation. That node will be used for the fallback zonelist and the
-> > > nodemask would make sure we won't get out of the policy.
-> > 
-> > I think I got your point now :)
-> > 
-> > With current mainline code, the 'prefer' policy will return the preferred
-> > node.
-> 
-> Yes this makes sense as there is only one node.
-> 
-> > For 'prefer-many', we would like to keep the similar semantic, that the
-> > preference of node is 'preferred' > 'local' > all other nodes.
-> 
-> Yes but which of the preferred nodes you want to start with. Say your
-> nodemask preferring nodes 0 and 2 with the following topology
-> 	0	1	2	3
-> 0	10	30	20	30
-> 1	30	10	20	30
-> 2	20	30	10	30
-> 3	30	30	30	10
-> 
-> And say you are running on cpu 1. I believe you want your allocation
-> preferably from node 2 rathern than 0, right?
+On Thu, Jul 29, 2021 at 4:39 PM Jan Kara <jack@suse.cz> wrote:
+>
+> On Tue 27-07-21 07:19:43, Amir Goldstein wrote:
+> > On Tue, Jul 27, 2021 at 3:24 AM Jann Horn <jannh@google.com> wrote:
+> > >
+> > > On Wed, Jul 21, 2021 at 8:21 AM Matthew Bobrowski <repnop@google.com> wrote:
+> > > > Introduce a new flag FAN_REPORT_PIDFD for fanotify_init(2) which
+> > > > allows userspace applications to control whether a pidfd info record
+> > > > containing a pidfd is to be returned with each event.
+> > > >
+> > > > If FAN_REPORT_PIDFD is enabled for a notification group, an additional
+> > > > struct fanotify_event_info_pidfd object will be supplied alongside the
+> > > > generic struct fanotify_event_metadata within a single event. This
+> > > > functionality is analogous to that of FAN_REPORT_FID in terms of how
+> > > > the event structure is supplied to the userspace application. Usage of
+> > > > FAN_REPORT_PIDFD with FAN_REPORT_FID/FAN_REPORT_DFID_NAME is
+> > > > permitted, and in this case a struct fanotify_event_info_pidfd object
+> > > > will follow any struct fanotify_event_info_fid object.
+> > > >
+> > > > Currently, the usage of FAN_REPORT_TID is not permitted along with
+> > > > FAN_REPORT_PIDFD as the pidfd API only supports the creation of pidfds
+> > > > for thread-group leaders. Additionally, the FAN_REPORT_PIDFD is
+> > > > limited to privileged processes only i.e. listeners that are running
+> > > > with the CAP_SYS_ADMIN capability. Attempting to supply either of
+> > > > these initialization flags with FAN_REPORT_PIDFD will result with
+> > > > EINVAL being returned to the caller.
+> > > >
+> > > > In the event of a pidfd creation error, there are two types of error
+> > > > values that can be reported back to the listener. There is
+> > > > FAN_NOPIDFD, which will be reported in cases where the process
+> > > > responsible for generating the event has terminated prior to fanotify
+> > > > being able to create pidfd for event->pid via pidfd_create(). The
+> > > > there is FAN_EPIDFD, which will be reported if a more generic pidfd
+> > > > creation error occurred when calling pidfd_create().
+> > > [...]
+> > > > @@ -524,6 +562,34 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
+> > > >         }
+> > > >         metadata.fd = fd;
+> > > >
+> > > > +       if (pidfd_mode) {
+> > > > +               /*
+> > > > +                * Complain if the FAN_REPORT_PIDFD and FAN_REPORT_TID mutual
+> > > > +                * exclusion is ever lifted. At the time of incoporating pidfd
+> > > > +                * support within fanotify, the pidfd API only supported the
+> > > > +                * creation of pidfds for thread-group leaders.
+> > > > +                */
+> > > > +               WARN_ON_ONCE(FAN_GROUP_FLAG(group, FAN_REPORT_TID));
+> > > > +
+> > > > +               /*
+> > > > +                * The PIDTYPE_TGID check for an event->pid is performed
+> > > > +                * preemptively in attempt to catch those rare instances where
+> > > > +                * the process responsible for generating the event has
+> > > > +                * terminated prior to calling into pidfd_create() and acquiring
+> > > > +                * a valid pidfd. Report FAN_NOPIDFD to the listener in those
+> > > > +                * cases. All other pidfd creation errors are represented as
+> > > > +                * FAN_EPIDFD.
+> > > > +                */
+> > > > +               if (metadata.pid == 0 ||
+> > > > +                   !pid_has_task(event->pid, PIDTYPE_TGID)) {
+> > > > +                       pidfd = FAN_NOPIDFD;
+> > > > +               } else {
+> > > > +                       pidfd = pidfd_create(event->pid, 0);
+> > > > +                       if (pidfd < 0)
+> > > > +                               pidfd = FAN_EPIDFD;
+> > > > +               }
+> > > > +       }
+> > > > +
+> > >
+> > > As a general rule, f_op->read callbacks aren't allowed to mess with
+> > > the file descriptor table of the calling process. A process should be
+> > > able to receive a file descriptor from an untrusted source and call
+> > > functions like read() on it without worrying about affecting its own
+> > > file descriptor table state with that.
+> > >
+> >
+> > Interesting. I've never considered this interface flaw.
+> > Thanks for bringing this up!
+>
+> Me neither. But I guess it's one more reason why any fd-generating variant
+> of fanotify should stay priviledged.
+>
+> > > I realize that existing fanotify code appears to be violating that
+> > > rule already, and that you're limiting creation of fanotify file
+> > > descriptors that can hit this codepath to CAP_SYS_ADMIN, but still, I
+> > > think fanotify_read() probably ought to be an ioctl, or something
+> > > along those lines, instead of an f_op->read handler if it messes with
+> > > the caller's fd table?
+> >
+> > Naturally, we cannot change the legacy interface.
+> > However, since fanotify has a modern FAN_REPORT_FID interface
+> > which does not mess with fd table maybe this is an opportunity not
+> > to repeat the same mistake for the FAN_REPORT_FID interface.
+> >
+> > Matthew, can you explain what is the use case of the consumer
+> > application of pidfd. I am guessing this is for an audit user case?
+> > because if it were for permission events, event->pid would have been
+> > sufficient.
+> >
+> > If that is the case, then I presume that the application does not really
+> > need to operate on the pidfd, it only need to avoid reporting wrong
+> > process details after pid wraparound?
+> >
+> > If that is the case, then maybe a model similar to inode generation
+> > can be used to report a "pid generation" in addition to event->pid
+> > and export pid generation in /proc/<pid>/status?
+> >
+> > Or am I completely misunderstanding the use case?
+>
+> Well, but pidfd also makes sure that /proc/<pid>/ keeps belonging to the
+> same process while you read various data from it. And you cannot achieve
+> that with pid+generation thing you've suggested. Plus the additional
+> concept and its complexity is non-trivial So I tend to agree with
+> Christian that we really want to return pidfd.
+>
+> Given returning pidfd is CAP_SYS_ADMIN priviledged operation I'm undecided
+> whether it is worth the trouble to come up with some other mechanism how to
+> return pidfd with the event. We could return some cookie which could be
+> then (by some ioctl or so) either transformed into real pidfd or released
+> (so that we can release pid handle in the kernel) but it looks ugly and
+> complicates things for everybody without bringing significant security
+> improvement (we already can pass fd with the event). So I'm pondering
+> whether there's some other way how we could make the interface safer - e.g.
+> so that the process receiving the event (not the one creating the group)
+> would also need to opt in for getting fds created in its file table.
+>
+> But so far nothing bright has come to my mind. :-|
+>
 
-Yes, and in one earlier reply, I had a similar thought
-https://lore.kernel.org/lkml/20210728152507.GE43486@shbuild999.sh.intel.com/
+There is a way, it is not bright, but it is pretty simple -
+store an optional pid in group->fanotify_data.fd_reader.
 
-  "
-  One further thought is, if local node is not in the nodemask,
-  should we compare the distance of all the nodes in nodemask
-  to the local node and chose the shortest?
-  "
-And we may add a new API if there is no existing one:
-	int cloest_node(int nid, nodemask_t *nmask);
-to pick the best node from 'prefer-many' nodemsk.
+With flag FAN_REPORT_PIDFD, both pidfd and event->fd reporting
+will be disabled to any process other than fd_reader.
+Without FAN_REPORT_PIDFD, event->fd reporting will be disabled
+if fd_reaader is set to a process other than the reader.
 
-> With your approach you
-> would start with node 0 which would be more distant from cpu 1. 
+A process can call ioctl START_FD_READER to set fd_reader to itself.
+With FAN_REPORT_PIDFD, if reaader_fd is NULL and the reader
+process has CAP_SYS_ADMIN, read() sets fd_reader to itself.
 
-> Also the
-> semantic to give nodes some ordering based on their numbers sounds
-> rather weird to me.
+Permission wise, START_FD_READER is allowed with
+CAP_SYS_ADMIN or if fd_reader is not owned by another process.
+We may consider YIELD_FD_READER ioctl if needed.
 
-I agree, and as I admitted in the first reply, this need to be fixed.
+I think that this is a pretty cheap price for implementation
+and maybe acceptable overhead for complicating the API?
+Note that without passing fd, there is no need for any ioctl.
 
-> The semantic I am proposing is to allocate from prefered nodes in
-> distance order starting from the local node.
+An added security benefit is that the ioctl adds is a way for the
+caller of fanotify_init() to make sure that even if the fanotify_fd is
+leaked, that event->fd will not be leaked, regardless of flag
+FAN_REPORT_PIDFD.
 
-So the plan is:
-* if the local node is set in 'prefer-many's nodemask, then chose
-* otherwise chose the node with the shortest distance to local node
-?
+So the START_FD_READER ioctl feature could be implemented
+and documented first.
+And then FAN_REPORT_PIDFD could use the feature with a
+very minor API difference:
+- Without the flag, other processes can read fds by default and
+  group initiator can opt-out
+- With the flag, other processes cannot read fds by default and
+  need to opt-in
 
 Thanks,
-Feng
-
-> -- 
-> Michal Hocko
-> SUSE Labs
+Amir.
