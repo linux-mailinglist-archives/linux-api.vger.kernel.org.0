@@ -2,101 +2,74 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CE4E3DB3BA
-	for <lists+linux-api@lfdr.de>; Fri, 30 Jul 2021 08:36:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 890AB3DB3BF
+	for <lists+linux-api@lfdr.de>; Fri, 30 Jul 2021 08:39:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237264AbhG3Gg5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 30 Jul 2021 02:36:57 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:58594 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237278AbhG3Gg4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Jul 2021 02:36:56 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 1311422254;
-        Fri, 30 Jul 2021 06:36:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1627627011; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=CQoiuOtQizQ1P3NzC2UpgAVz64H8oYKXgC33uSSYg5k=;
-        b=RqY0P6/UWT3A05JkuBUlU6MX5gX2+tBxO+oMt+xBtWSGC9B0O2+ZxXvVcM9J2gcUYzPmWo
-        WBufMu0pwcbO9Doj9HG1t8jpQVV33vHQyMWccrpxKUuccTdFJQvG+VD2ze43GqTPyu2v40
-        5mvvNVtAPXKyCSGPxWsaMDEXkXs818A=
-Received: from suse.cz (unknown [10.100.201.86])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id A4633A3B8A;
-        Fri, 30 Jul 2021 06:36:50 +0000 (UTC)
-Date:   Fri, 30 Jul 2021 08:36:50 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Feng Tang <feng.tang@intel.com>
-Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Andi Kleen <ak@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>, ying.huang@intel.com,
-        Dave Hansen <dave.hansen@linux.intel.com>
-Subject: Re: [PATCH v6 1/6] mm/mempolicy: Add MPOL_PREFERRED_MANY for
- multiple preferred nodes
-Message-ID: <YQOeAgPS9+FUseIx@dhcp22.suse.cz>
-References: <1626077374-81682-1-git-send-email-feng.tang@intel.com>
- <1626077374-81682-2-git-send-email-feng.tang@intel.com>
- <YQFOB4UDK+dNZeOV@dhcp22.suse.cz>
- <20210728141156.GC43486@shbuild999.sh.intel.com>
- <YQGB5cB5NlgOuNIN@dhcp22.suse.cz>
- <20210729070918.GA96680@shbuild999.sh.intel.com>
- <YQKvZDXmRSVVRvfi@dhcp22.suse.cz>
- <20210729151242.GA42865@shbuild999.sh.intel.com>
- <YQLVf3pkQTHLemAZ@dhcp22.suse.cz>
- <20210730030502.GA87066@shbuild999.sh.intel.com>
+        id S237531AbhG3Gjz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 30 Jul 2021 02:39:55 -0400
+Received: from smtpbg704.qq.com ([203.205.195.105]:35893 "EHLO
+        smtpproxy21.qq.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S237274AbhG3Gjz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Jul 2021 02:39:55 -0400
+X-QQ-mid: bizesmtp51t1627627184trqqb981
+Received: from localhost.localdomain (unknown [36.154.209.16])
+        by esmtp6.qq.com (ESMTP) with 
+        id ; Fri, 30 Jul 2021 14:39:43 +0800 (CST)
+X-QQ-SSF: 01400000001000B0P000B00C0000000
+X-QQ-FEAT: O9RHVi+JMbLUPY7Z72ydJScM1wEB//DG03nLTbnojYiU27w4RQUaDsKemarlY
+        6hAul2jZScuV+t/rrenhQ6GmFVMINVnuGjIK4s/AJFebeJa2GkDpTLSE+w3tYxVM9q4F7c3
+        3oxo9NgWbkPYGbmAey4bPqgJesnbdsTvdsRMJ9y86FDxeusST/CW8Hf9uouiQSpHTJS8Gug
+        LTQ3qddINsqD93hW/FZvvFdy2QyyMNiTVnF4e9RD7tlCjmiUb5rsDA+4w5zU/02HsES0Lyi
+        WVHWtOga105c1t9uRhT7A4zNGCJVIm2BnCsQtb2CrW7vglD/Zgysj4qxQYfOQgmxv3EJWOH
+        2bRcPwYYMKul3jlc5Uv+bIRf/3uDw==
+X-QQ-GoodBg: 2
+From:   Wang Zi-cheng <wzc@smail.nju.edu.cn>
+To:     linux-api@vger.kernel.org, akpm@linux-foundation.org
+Cc:     Wang Zi-cheng <wzc@smail.nju.edu.cn>
+Subject: [PATCH] corrent sys_reboot annotation
+Date:   Fri, 30 Jul 2021 14:40:32 +0800
+Message-Id: <20210730064032.101113-1-wzc@smail.nju.edu.cn>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210730030502.GA87066@shbuild999.sh.intel.com>
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:smail.nju.edu.cn:qybgforeign:qybgforeign2
+X-QQ-Bgrelay: 1
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri 30-07-21 11:05:02, Feng Tang wrote:
-> On Thu, Jul 29, 2021 at 06:21:19PM +0200, Michal Hocko wrote:
-> > On Thu 29-07-21 23:12:42, Feng Tang wrote:
-> > > On Thu, Jul 29, 2021 at 03:38:44PM +0200, Michal Hocko wrote:
-> > [...]
-> > > > Also the
-> > > > semantic to give nodes some ordering based on their numbers sounds
-> > > > rather weird to me.
-> > > 
-> > > I agree, and as I admitted in the first reply, this need to be fixed.
-> > 
-> > OK. I was not really clear that we are on the same page here.
-> > 
-> > > > The semantic I am proposing is to allocate from prefered nodes in
-> > > > distance order starting from the local node.
-> > > 
-> > > So the plan is:
-> > > * if the local node is set in 'prefer-many's nodemask, then chose
-> > > * otherwise chose the node with the shortest distance to local node
-> > > ?
-> > 
-> > Yes and what I am trying to say is that you will achieve that simply by
-> > doing the following in policy_node:
-> > 	if (policy->mode == MPOL_PREFERRED_MANY)
-> > 		return nd;
-> 
-> One thing is, it's possible that 'nd' is not set in the preferred
-> nodemask. 
+Signed-off-by: Wang Zi-cheng <wzc@smail.nju.edu.cn>
+---
+ include/linux/syscalls.h | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-Yes, and there shouldn't be any problem with that.  The given node is
-only used to get the respective zonelist (order distance ordered list of
-zones to try). get_page_from_freelist will then use the preferred node
-mask to filter this zone list. Is that more clear now?
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index 586128d5c3b8..68746eec0092 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -735,11 +735,14 @@ asmlinkage long sys_rt_sigtimedwait_time32(const sigset_t __user *uthese,
+ 				size_t sigsetsize);
+ asmlinkage long sys_rt_sigqueueinfo(pid_t pid, int sig, siginfo_t __user *uinfo);
+ 
++/* kernel/reboot.c */
++asmlinkage long sys_reboot(int magic1, int magic2, unsigned int cmd,
++				void __user *arg);
++
+ /* kernel/sys.c */
+ asmlinkage long sys_setpriority(int which, int who, int niceval);
+ asmlinkage long sys_getpriority(int which, int who);
+-asmlinkage long sys_reboot(int magic1, int magic2, unsigned int cmd,
+-				void __user *arg);
++
+ asmlinkage long sys_setregid(gid_t rgid, gid_t egid);
+ asmlinkage long sys_setgid(gid_t gid);
+ asmlinkage long sys_setreuid(uid_t ruid, uid_t euid);
 -- 
-Michal Hocko
-SUSE Labs
+2.32.0
+
+--------------
+
+sys_reboot is in kernel/reboot.c not kernel/sys.c  
+
+
