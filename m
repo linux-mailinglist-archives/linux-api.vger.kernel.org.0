@@ -2,55 +2,54 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A6643DC04E
-	for <lists+linux-api@lfdr.de>; Fri, 30 Jul 2021 23:36:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38C863DC06A
+	for <lists+linux-api@lfdr.de>; Fri, 30 Jul 2021 23:51:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229871AbhG3Vgs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 30 Jul 2021 17:36:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37470 "EHLO
+        id S229997AbhG3VvR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 30 Jul 2021 17:51:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229997AbhG3Vgs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Jul 2021 17:36:48 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 965C9C061765;
-        Fri, 30 Jul 2021 14:36:41 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id x11so18298984ejj.8;
-        Fri, 30 Jul 2021 14:36:41 -0700 (PDT)
+        with ESMTP id S229840AbhG3VvR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Jul 2021 17:51:17 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2761DC06175F;
+        Fri, 30 Jul 2021 14:51:12 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id nd39so19298211ejc.5;
+        Fri, 30 Jul 2021 14:51:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=BHRdpHzssosN281+yG++IdMiDGzijOSqxARWz3dit88=;
-        b=aui1RaBDIevJde/b4U2A9KW2i7OSym58Ljf37Yt407gYsdr3UjgRvhVyxXb49AHR0s
-         xvaH5NuuZufzFD/u3Gu/jceTu4lKxySYb9rUqS/XcaP8+HyfRg5Vzkxi4V4Zmm3uec48
-         sIZDw+1sSU/dg/+T5CPNsEk6dBZgZDsw6iiyeNCYPI6XLlRiNM1fhqENpY2FN7Tjq2od
-         /E+HHKVELqMJ5eI3JxZFsaLxtQMbu/ScZcVeBBxLwV1Z9pVDDX/5fR+lExNNOTTwAv8B
-         QT08FB6ZVSIlJS30Gx/G5P3maeOX/MIEBBkPbqbpsKxDz+oUhxn0qTAeF2vJ6qM1kdT2
-         4n9A==
+        bh=ALuer+FidfIoua3TUSD8gX2hS4i01XLeemyyVEmMoQc=;
+        b=mqVuNenWLGsGEestEyn1VFsrzeMOzP2lqyROg7AXmeoUVCaf6TFWK0BzzfuDLeM8zF
+         jrmLd/hIp0m+ic8y82kCwAN0lqF4BBb2R0/TfRuZAMIj75G3qjAMcNI/bmIg3r+iEPAA
+         zvlmNMBIbCR9gdYmAXk6vjnxw1Qc7zKeYuh+ou6PBz3PX+ICXhcc6+qSBDL10VuMZoMv
+         gO3hy/DQALNsneH7xBudPFMdVe9/kKHac5rsioR4L9rqOdjI/yqHZWh/kci6xACpbJZ7
+         Oo5wYVhKkHGi6U3QOU2L3BWo8w2xFyhzX3/Vs+5Z/QywaGRQ/qTIwDX6tFPufDV2UvHe
+         Jo8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=BHRdpHzssosN281+yG++IdMiDGzijOSqxARWz3dit88=;
-        b=IhQfwlUsE3ZOLjdaLCLwVsq/IXwk2ORzm2DVQgDjhmdfq7R1m9KqzwQiBqaXpBFUBH
-         HOYVQQPJ7gVp72clS3FmM8dMWrp0jz35bmuBcYnEvNToVxL/LjK5cxCObVH1qk9HaOWH
-         brZeqd+tnz4IYGk9bH2BpV1HZKOmvCJLwtwiT+6saIltq316zEKU+wq5Ovuyqpm7+p3g
-         cNyjEhgD1wW4grj8g7Q+BEoijejHUd+OZA3dOS6sqBLPYNtpenc60vW8HjM8/2jfzk6d
-         ZyjRePF5X+gagrjBQGtOQhrcjdBP1kFtRTg3CkO0fV77SZk2Tv08k9mtTsiNn6vZdq2c
-         qzqQ==
-X-Gm-Message-State: AOAM531PFHyRVnU5kxkP8nbG3pfV9IYTnUfSZOs5GstsRtEWAmSUqaSk
-        WcBzSszwBRfMc0pakFr1ojCcwCzmajZnP8uXIPU=
-X-Google-Smtp-Source: ABdhPJy9R4i42eTcls1i9Y/2WZAQ0xCIG6g3TtP09aeUVBKpq+6WOSbADUykf66Emajn0U1oncUepgaehqmCD4oyJsg=
-X-Received: by 2002:a17:906:1919:: with SMTP id a25mr4722791eje.161.1627681000237;
- Fri, 30 Jul 2021 14:36:40 -0700 (PDT)
+        bh=ALuer+FidfIoua3TUSD8gX2hS4i01XLeemyyVEmMoQc=;
+        b=WXckuOeVbUU0c/Uxmtaby0Jj1Xenjfmzc1NsDUXTDdCpepuI9nBElnc45X23J7nkGV
+         4B5rnj7E3APvASn84BARp6fUnsnt/RDVokwhNdErKen0NCdREItEaCHiZss4w7VJeb/r
+         B41+Ypu/OyJiYIWZTzSUUJfYgUXjA7NZSmWDpEqDS6YwHqoVAE0RcSnpAcLrkoyoiKBP
+         GYiRgq7l4/9I3J3lVu7m5Lrt99Ot3dTz0phwnjGIumEbBaW8k3cSbCopxWO1rDbSxx6r
+         T+sO3WLdVF1tw97p9TCBYiM6Y2DwhAaJzFUe3kx+PL5gFBjKC5tDzz5A6fikCXOyMvT7
+         xwyg==
+X-Gm-Message-State: AOAM5318rp/ej8NAg1t64A+2dubB868JqnqLPwAJfUKH8ZpyxuZbwQcT
+        uZtQSYlAEPeAsxAFuUUPMzzlTn7RaAMVX5VsX2o=
+X-Google-Smtp-Source: ABdhPJw21kECf87JDJrKuLPPTCnErY9hdTNVhtt2vxlhdDQkryswZ+3LZtsPd3/QdyTUiF1AXes0gf1b7z2RCq/IpB0=
+X-Received: by 2002:a17:906:fc0b:: with SMTP id ov11mr1436950ejb.238.1627681870825;
+ Fri, 30 Jul 2021 14:51:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <2862852d-badd-7486-3a8e-c5ea9666d6fb@google.com> <af71608e-ecc-af95-3511-1a62cbf8d751@google.com>
-In-Reply-To: <af71608e-ecc-af95-3511-1a62cbf8d751@google.com>
+References: <2862852d-badd-7486-3a8e-c5ea9666d6fb@google.com> <42353193-6896-aa85-9127-78881d5fef66@google.com>
+In-Reply-To: <42353193-6896-aa85-9127-78881d5fef66@google.com>
 From:   Yang Shi <shy828301@gmail.com>
-Date:   Fri, 30 Jul 2021 14:36:28 -0700
-Message-ID: <CAHbLzkqp5-SrOBkpvxieswD6OwPT70gsztNpXCTBXW2JnrFpfg@mail.gmail.com>
-Subject: Re: [PATCH 01/16] huge tmpfs: fix fallocate(vanilla) advance over
- huge pages
+Date:   Fri, 30 Jul 2021 14:50:58 -0700
+Message-ID: <CAHbLzkp9UQ9bb4gMN-BtrSHY3uet+nSxN-wMaObrtp5yhSN5Sw@mail.gmail.com>
+Subject: Re: [PATCH 03/16] huge tmpfs: remove shrinklist addition from shmem_setattr()
 To:     Hugh Dickins <hughd@google.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Shakeel Butt <shakeelb@google.com>,
@@ -73,79 +72,66 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jul 30, 2021 at 12:25 AM Hugh Dickins <hughd@google.com> wrote:
+On Fri, Jul 30, 2021 at 12:31 AM Hugh Dickins <hughd@google.com> wrote:
 >
-> shmem_fallocate() goes to a lot of trouble to leave its newly allocated
-> pages !Uptodate, partly to identify and undo them on failure, partly to
-> leave the overhead of clearing them until later.  But the huge page case
-> did not skip to the end of the extent, walked through the tail pages one
-> by one, and appeared to work just fine: but in doing so, cleared and
-> Uptodated the huge page, so there was no way to undo it on failure.
+> There's a block of code in shmem_setattr() to add the inode to
+> shmem_unused_huge_shrink()'s shrinklist when lowering i_size: it dates
+> from before 5.7 changed truncation to do split_huge_page() for itself,
+> and should have been removed at that time.
 >
-> Now advance immediately to the end of the huge extent, with a comment on
-> why this is more than just an optimization.  But although this speeds up
-> huge tmpfs fallocation, it does leave the clearing until first use, and
-> some users may have come to appreciate slow fallocate but fast first use:
-> if they complain, then we can consider adding a pass to clear at the end.
+> I am over-stating that: split_huge_page() can fail (notably if there's
+> an extra reference to the page at that time), so there might be value in
+> retrying.  But there were already retries as truncation worked through
+> the tails, and this addition risks repeating unsuccessful retries
+> indefinitely: I'd rather remove it now, and work on reducing the
+> chance of split_huge_page() failures separately, if we need to.
+
+Yes, agreed. Reviewed-by: Yang Shi <shy828301@gmail.com>
+
 >
-> Fixes: 800d8c63b2e9 ("shmem: add huge pages support")
+> Fixes: 71725ed10c40 ("mm: huge tmpfs: try to split_huge_page() when punching hole")
 > Signed-off-by: Hugh Dickins <hughd@google.com>
-
-Reviewed-by: Yang Shi <shy828301@gmail.com>
-
-A nit below:
-
 > ---
->  mm/shmem.c | 19 ++++++++++++++++---
->  1 file changed, 16 insertions(+), 3 deletions(-)
+>  mm/shmem.c | 19 -------------------
+>  1 file changed, 19 deletions(-)
 >
 > diff --git a/mm/shmem.c b/mm/shmem.c
-> index 70d9ce294bb4..0cd5c9156457 100644
+> index 24c9da6b41c2..ce3ccaac54d6 100644
 > --- a/mm/shmem.c
 > +++ b/mm/shmem.c
-> @@ -2736,7 +2736,7 @@ static long shmem_fallocate(struct file *file, int mode, loff_t offset,
->         inode->i_private = &shmem_falloc;
->         spin_unlock(&inode->i_lock);
+> @@ -1061,7 +1061,6 @@ static int shmem_setattr(struct user_namespace *mnt_userns,
+>  {
+>         struct inode *inode = d_inode(dentry);
+>         struct shmem_inode_info *info = SHMEM_I(inode);
+> -       struct shmem_sb_info *sbinfo = SHMEM_SB(inode->i_sb);
+>         int error;
 >
-> -       for (index = start; index < end; index++) {
-> +       for (index = start; index < end; ) {
->                 struct page *page;
->
->                 /*
-> @@ -2759,13 +2759,26 @@ static long shmem_fallocate(struct file *file, int mode, loff_t offset,
->                         goto undone;
+>         error = setattr_prepare(&init_user_ns, dentry, attr);
+> @@ -1097,24 +1096,6 @@ static int shmem_setattr(struct user_namespace *mnt_userns,
+>                         if (oldsize > holebegin)
+>                                 unmap_mapping_range(inode->i_mapping,
+>                                                         holebegin, 0, 1);
+> -
+> -                       /*
+> -                        * Part of the huge page can be beyond i_size: subject
+> -                        * to shrink under memory pressure.
+> -                        */
+> -                       if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE)) {
+> -                               spin_lock(&sbinfo->shrinklist_lock);
+> -                               /*
+> -                                * _careful to defend against unlocked access to
+> -                                * ->shrink_list in shmem_unused_huge_shrink()
+> -                                */
+> -                               if (list_empty_careful(&info->shrinklist)) {
+> -                                       list_add_tail(&info->shrinklist,
+> -                                                       &sbinfo->shrinklist);
+> -                                       sbinfo->shrinklist_len++;
+> -                               }
+> -                               spin_unlock(&sbinfo->shrinklist_lock);
+> -                       }
 >                 }
+>         }
 >
-> +               index++;
-> +               /*
-> +                * Here is a more important optimization than it appears:
-> +                * a second SGP_FALLOC on the same huge page will clear it,
-> +                * making it PageUptodate and un-undoable if we fail later.
-> +                */
-> +               if (PageTransCompound(page)) {
-> +                       index = round_up(index, HPAGE_PMD_NR);
-> +                       /* Beware 32-bit wraparound */
-> +                       if (!index)
-> +                               index--;
-> +               }
-> +
->                 /*
->                  * Inform shmem_writepage() how far we have reached.
->                  * No need for lock or barrier: we have the page lock.
->                  */
-> -               shmem_falloc.next++;
->                 if (!PageUptodate(page))
-> -                       shmem_falloc.nr_falloced++;
-> +                       shmem_falloc.nr_falloced += index - shmem_falloc.next;
-> +               shmem_falloc.next = index;
-
-This also fixed the wrong accounting of nr_falloced, so it should be
-able to avoid returning -ENOMEM prematurely IIUC. Is it worth
-mentioning in the commit log?
-
->
->                 /*
->                  * If !PageUptodate, leave it that way so that freeable pages
 > --
 > 2.26.2
 >
