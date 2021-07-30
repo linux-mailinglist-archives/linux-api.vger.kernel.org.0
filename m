@@ -2,83 +2,109 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E5C63DB922
-	for <lists+linux-api@lfdr.de>; Fri, 30 Jul 2021 15:16:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64E743DB967
+	for <lists+linux-api@lfdr.de>; Fri, 30 Jul 2021 15:36:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238824AbhG3NQP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 30 Jul 2021 09:16:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41035 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S238801AbhG3NQP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Jul 2021 09:16:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1627650970;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=T5n9htUTUEDNFMWHlREjCeA6Lm63re0yV9LYwhjCq4c=;
-        b=U9JkZ5q8nwKB1qsez4t+MpAg+USf1zPUro/oPJhvd0tep0d91cudUwV2Z662U0kBywso1Y
-        YCCIMmpPTwJmKqAT6DklDEJoKytbBT75KFzG78RpJJ5Ya/7diVkdhlDu5GPv8US2/lkHrr
-        AqXKNsYzU60OqosLpGSIUUCnQAgsxwc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-69-2AWqov1LPKuunWD90ncSHg-1; Fri, 30 Jul 2021 09:16:05 -0400
-X-MC-Unique: 2AWqov1LPKuunWD90ncSHg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5B50101C7DD;
-        Fri, 30 Jul 2021 13:15:48 +0000 (UTC)
-Received: from ws.net.home (ovpn-112-16.ams2.redhat.com [10.36.112.16])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 4D3045D9D5;
-        Fri, 30 Jul 2021 13:15:44 +0000 (UTC)
-Date:   Fri, 30 Jul 2021 15:15:41 +0200
-From:   Karel Zak <kzak@redhat.com>
-To:     Evan Green <evgreen@chromium.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Michal Hocko <mhocko@suse.com>, Pavel Machek <pavel@ucw.cz>,
-        linux-api@vger.kernel.org, David Hildenbrand <david@redhat.com>,
-        Alex Shi <alexs@kernel.org>,
-        Alistair Popple <apopple@nvidia.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v4] mm: Enable suspend-only swap spaces
-Message-ID: <20210730131541.ighhjiazc4agehcy@ws.net.home>
-References: <20210726171106.v4.1.I09866d90c6de14f21223a03e9e6a31f8a02ecbaf@changeid>
+        id S238972AbhG3NgJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 30 Jul 2021 09:36:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40744 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238971AbhG3NgI (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 30 Jul 2021 09:36:08 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3016C60F5C;
+        Fri, 30 Jul 2021 13:36:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1627652164;
+        bh=Kxc+WnvFkFgpyTYYCMg+FHtM463+Ta69Z65pcvFy+nw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ho38LvuKv74hab1fk9TeMpOaOP6S+B8D6La1ytammZe5husN2Sln3hk0b/jsKKSP0
+         Oz9B9qEtRAk1vmf+xAbnGmmd1qGPrQ9eU9guuq08fEy1thlwKJFnvdr7w53exlPS5B
+         k3IeKepk+++IJ/FD/tQwIU77xPc6BY7A8E0E/yzZnR1X6UFUVaRYVOX9RitafiYcbV
+         bib44KzdYE0lqK4kU4CYw8St0cKpzFa5VucXQ9aczPK2DoLoAKfefZLGOIjmQj1Tqw
+         GMjjZmvtivOvJ8j07Wxuk3EZcIC+y0tVdQ6NY50ImRhnD1JcDVSgsJHoIXs89/F/p8
+         Jl4YG45FZpqUg==
+Received: by mail-ej1-f45.google.com with SMTP id e19so16854416ejs.9;
+        Fri, 30 Jul 2021 06:36:04 -0700 (PDT)
+X-Gm-Message-State: AOAM530U5TA7H9peY0mh8WKWGEoKFFky28NbbltMa8POY+az9yFOBLuP
+        WuZNzjyeFFrLKF3kncT4pX//6+imT7nXEpC2Eu4=
+X-Google-Smtp-Source: ABdhPJwuftgxHedyhF9ABjFcX5ntB4hnZJtnEQD3qNPIiKJ5o00xy/u2gbz8S8h+EITSt2YoA2WUUAyPzv0cemOlwyo=
+X-Received: by 2002:adf:fd90:: with SMTP id d16mr3288984wrr.105.1627652152412;
+ Fri, 30 Jul 2021 06:35:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210726171106.v4.1.I09866d90c6de14f21223a03e9e6a31f8a02ecbaf@changeid>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+References: <20210727144859.4150043-1-arnd@kernel.org> <YQPLG20V3dmOfq3a@osiris>
+In-Reply-To: <YQPLG20V3dmOfq3a@osiris>
+From:   Arnd Bergmann <arnd@kernel.org>
+Date:   Fri, 30 Jul 2021 15:35:35 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0YV0UVsui67WE4LiGM+RmQsDBOvFMaKArT5UmNLgN5GA@mail.gmail.com>
+Message-ID: <CAK8P3a0YV0UVsui67WE4LiGM+RmQsDBOvFMaKArT5UmNLgN5GA@mail.gmail.com>
+Subject: Re: [PATCH v5 0/6] compat: remove compat_alloc_user_space
+To:     Heiko Carstens <hca@linux.ibm.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Feng Tang <feng.tang@intel.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        Parisc List <linux-parisc@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        sparclinux <sparclinux@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jul 26, 2021 at 05:12:46PM -0700, Evan Green wrote:
-> Swap regions with SWAP_FLAG_HIBERNATE_ONLY set will not appear in
-> /proc/meminfo under SwapTotal and SwapFree, since they are not usable as
-> general swap. These regions do still appear in /proc/swaps.
+On Fri, Jul 30, 2021 at 11:49 AM Heiko Carstens <hca@linux.ibm.com> wrote:
+> On Tue, Jul 27, 2021 at 04:48:53PM +0200, Arnd Bergmann wrote:
+>
+> Our CI reports this with linux-next and running strace selftest in
+> compat mode:
 
-Off-topic, /proc/swaps is in the same situation like /proc/mounts years ago ...
+Thanks a lot for the report! I managed track it down based on your
+output, it turns out that I end up copying data from the stack according
+to how much the user asked for, and in this case that was much more
+than the 8 byte nodemask_t, copying all of the kernel stack all the
+way into the guard page with CONFIG_VMAP_STACK, where it
+crashed. Without CONFIG_VMAP_STACK, or with user space that
+asks for less data, it would just be an information leak, so others
+probably haven't noticed the problem.
 
-It does not provide all important information like SWAP_FLAG_DISCARD_PAGES
-SWAP_FLAG_DISCARD_ONCE and SWAP_FLAG_HIBERNATE_ONLY flags. 
+The change below should fix that, I'll double-check the other callers
+as well before sending a proper fixup patch to Andrew.
 
-Users will not able to differentiate between regular and hibernate-only
-devices in "swapon" or "cat /proc/swaps" output ;-(
+        Arnd
 
-It would be nice to have /proc/swapsinfo with extendible "flags" column.
+diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+index 4fabf2dddbc0..0d1f3be32723 100644
+--- a/mm/mempolicy.c
++++ b/mm/mempolicy.c
+@@ -1438,6 +1438,7 @@ static int copy_nodes_to_user(unsigned long
+__user *mask, unsigned long maxnode,
+                if (clear_user((char __user *)mask + nbytes, copy - nbytes))
+                        return -EFAULT;
+                copy = nbytes;
++               maxnode = nr_node_ids;
+        }
 
- Karel
-
-
--- 
- Karel Zak  <kzak@redhat.com>
- http://karelzak.blogspot.com
-
+        if (compat)
