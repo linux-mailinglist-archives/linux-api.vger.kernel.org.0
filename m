@@ -2,110 +2,111 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82EBC3DB468
-	for <lists+linux-api@lfdr.de>; Fri, 30 Jul 2021 09:18:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A83B33DB46D
+	for <lists+linux-api@lfdr.de>; Fri, 30 Jul 2021 09:22:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237733AbhG3HSv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 30 Jul 2021 03:18:51 -0400
-Received: from mga07.intel.com ([134.134.136.100]:32138 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237639AbhG3HSu (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 30 Jul 2021 03:18:50 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10060"; a="276823009"
-X-IronPort-AV: E=Sophos;i="5.84,281,1620716400"; 
-   d="scan'208";a="276823009"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2021 00:18:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,281,1620716400"; 
-   d="scan'208";a="664728415"
-Received: from shbuild999.sh.intel.com (HELO localhost) ([10.239.146.151])
-  by fmsmga006.fm.intel.com with ESMTP; 30 Jul 2021 00:18:41 -0700
-Date:   Fri, 30 Jul 2021 15:18:40 +0800
-From:   Feng Tang <feng.tang@intel.com>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Mel Gorman <mgorman@techsingularity.net>,
+        id S237761AbhG3HXC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 30 Jul 2021 03:23:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46878 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237630AbhG3HXB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Jul 2021 03:23:01 -0400
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75CB0C061765
+        for <linux-api@vger.kernel.org>; Fri, 30 Jul 2021 00:22:57 -0700 (PDT)
+Received: by mail-qk1-x72c.google.com with SMTP id t66so8625941qkb.0
+        for <linux-api@vger.kernel.org>; Fri, 30 Jul 2021 00:22:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version;
+        bh=W19ulHdbRii8uGULgM4xCYIrYZn/kkVxbVYhZIEWkWk=;
+        b=IWpcSmeCeF6GGdHsOxfv5cO5VtTb2UpZlZv2kMHjrK1vD6llmIA49c41Kip/TzTPQC
+         8pyBPuaKLUt3CjflHMs0OcSM+lv74B8UjBe+RIJUDmnzvVHB/Bbg4VUAjDXfXjK+BcTp
+         MmJPREd21f/WQPa3PW2F8+95/NsMu7LXr6OSruWBxnRNlia9jC4qRKe3RsVg1R5wuih3
+         94Y2iPdQjcGv3Xae+Nov4IWLssQ3IhpyOAHDgRmhqziDfcNMB3WJ1I7WzK5+NhU6zq/F
+         4BrZa229o2W9RrXccNVRCyv1J+u+UhtBoHYbQWfKC0saEpi1N9y2FUBDFT2sA+xQVltK
+         DKug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version;
+        bh=W19ulHdbRii8uGULgM4xCYIrYZn/kkVxbVYhZIEWkWk=;
+        b=AK0fh3QsL+hkfuMaKw9Lk2q4RBJQA4P8cHasZgzY3LWlXDqdxGlclHvomlqwuNTD0S
+         +znwxIpM4n4/i0B8ND6tJwx4zRni476QhsmxOOPnLTRTKjhdMed2wHNrt/zaI4FbPWQn
+         zcK4fXG94XNRjEb39mI84B9Juq2EoqHEyHzqEiWSIelLn3jxpPegz6ukDueR/X7vXrnF
+         5EeYeSNuj+wh/M9FO1GSCRTBmtSWNSHMAQaTir5a1sLVdIYdeFsFvXI1HHb0btbsWkX3
+         g/Cge7f64slJi1bLlWd08pR3Sj7VcFEvXZB0vcm7wpoKtYjWHxqDLJ9syc2mz2fbc+Vi
+         kBFw==
+X-Gm-Message-State: AOAM532mmxbTGyFdhucKwPeCxAH9W0iK7GXrawkw2CMtv/ZBZsMqcXsm
+        RJBIBGr7Lx4rWwpirqhbWYeOSQ==
+X-Google-Smtp-Source: ABdhPJykA6Jb3yBOp5zc/TcieykN44zj2IVlu/Hldx8zKyLBorE+22RYQHjNgr4D6QAgGwOovh/0Sw==
+X-Received: by 2002:a05:620a:1227:: with SMTP id v7mr998851qkj.3.1627629776350;
+        Fri, 30 Jul 2021 00:22:56 -0700 (PDT)
+Received: from ripple.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id b204sm490194qkg.76.2021.07.30.00.22.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Jul 2021 00:22:55 -0700 (PDT)
+Date:   Fri, 30 Jul 2021 00:22:41 -0700 (PDT)
+From:   Hugh Dickins <hughd@google.com>
+X-X-Sender: hugh@ripple.anvils
+To:     Andrew Morton <akpm@linux-foundation.org>
+cc:     Hugh Dickins <hughd@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Yang Shi <shy828301@gmail.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
         Mike Kravetz <mike.kravetz@oracle.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Andi Kleen <ak@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>, ying.huang@intel.com,
-        Dave Hansen <dave.hansen@linux.intel.com>
-Subject: Re: [PATCH v6 1/6] mm/mempolicy: Add MPOL_PREFERRED_MANY for
- multiple preferred nodes
-Message-ID: <20210730071840.GA87305@shbuild999.sh.intel.com>
-References: <1626077374-81682-2-git-send-email-feng.tang@intel.com>
- <YQFOB4UDK+dNZeOV@dhcp22.suse.cz>
- <20210728141156.GC43486@shbuild999.sh.intel.com>
- <YQGB5cB5NlgOuNIN@dhcp22.suse.cz>
- <20210729070918.GA96680@shbuild999.sh.intel.com>
- <YQKvZDXmRSVVRvfi@dhcp22.suse.cz>
- <20210729151242.GA42865@shbuild999.sh.intel.com>
- <YQLVf3pkQTHLemAZ@dhcp22.suse.cz>
- <20210730030502.GA87066@shbuild999.sh.intel.com>
- <YQOeAgPS9+FUseIx@dhcp22.suse.cz>
+        Michal Hocko <mhocko@suse.com>,
+        Rik van Riel <riel@surriel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Alexey Gladkov <legion@kernel.org>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Matthew Auld <matthew.auld@intel.com>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-mm@kvack.org
+Subject: [PATCH 00/16] tmpfs: HUGEPAGE and MEM_LOCK fcntls and memfds
+Message-ID: <2862852d-badd-7486-3a8e-c5ea9666d6fb@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YQOeAgPS9+FUseIx@dhcp22.suse.cz>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jul 30, 2021 at 08:36:50AM +0200, Michal Hocko wrote:
-> On Fri 30-07-21 11:05:02, Feng Tang wrote:
-> > On Thu, Jul 29, 2021 at 06:21:19PM +0200, Michal Hocko wrote:
-> > > On Thu 29-07-21 23:12:42, Feng Tang wrote:
-> > > > On Thu, Jul 29, 2021 at 03:38:44PM +0200, Michal Hocko wrote:
-> > > [...]
-> > > > > Also the
-> > > > > semantic to give nodes some ordering based on their numbers sounds
-> > > > > rather weird to me.
-> > > > 
-> > > > I agree, and as I admitted in the first reply, this need to be fixed.
-> > > 
-> > > OK. I was not really clear that we are on the same page here.
-> > > 
-> > > > > The semantic I am proposing is to allocate from prefered nodes in
-> > > > > distance order starting from the local node.
-> > > > 
-> > > > So the plan is:
-> > > > * if the local node is set in 'prefer-many's nodemask, then chose
-> > > > * otherwise chose the node with the shortest distance to local node
-> > > > ?
-> > > 
-> > > Yes and what I am trying to say is that you will achieve that simply by
-> > > doing the following in policy_node:
-> > > 	if (policy->mode == MPOL_PREFERRED_MANY)
-> > > 		return nd;
-> > 
-> > One thing is, it's possible that 'nd' is not set in the preferred
-> > nodemask. 
-> 
-> Yes, and there shouldn't be any problem with that.  The given node is
-> only used to get the respective zonelist (order distance ordered list of
-> zones to try). get_page_from_freelist will then use the preferred node
-> mask to filter this zone list. Is that more clear now?
+A series of HUGEPAGE and MEM_LOCK tmpfs fcntls and memfd_create flags,
+after fixes (not essential for stable) and cleanups in related areas.
 
-Yes, from the code, the policy_node() is always coupled with
-policy_nodemask(), which secures the 'nodemask' limit. Thanks for
-the clarification!
+Against 5.14-rc3: currently no conflict with linux-next or mmotm.
 
-And for the mempolicy_slab_node(), it seems to be a little different,
-and we may need to reuse its logic for 'bind' policy, which is similar
-to what we've discussed, pick a nearest node to the local node. And
-similar for mpol_misplaced(). Thoughts?
+01/16 huge tmpfs: fix fallocate(vanilla) advance over huge pages
+02/16 huge tmpfs: fix split_huge_page() after FALLOC_FL_KEEP_SIZE
+03/16 huge tmpfs: remove shrinklist addition from shmem_setattr()
+04/16 huge tmpfs: revert shmem's use of transhuge_vma_enabled()
+05/16 huge tmpfs: move shmem_huge_enabled() upwards
+06/16 huge tmpfs: shmem_is_huge(vma, inode, index)
+07/16 memfd: memfd_create(name, MFD_HUGEPAGE) for shmem huge pages
+08/16 huge tmpfs: fcntl(fd, F_HUGEPAGE) and fcntl(fd, F_NOHUGEPAGE)
+09/16 huge tmpfs: decide stat.st_blksize by shmem_is_huge()
+10/16 tmpfs: fcntl(fd, F_MEM_LOCK) to memlock a tmpfs file
+11/16 tmpfs: fcntl(fd, F_MEM_LOCKED) to test if memlocked
+12/16 tmpfs: refuse memlock when fallocated beyond i_size
+13/16 mm: bool user_shm_lock(loff_t size, struct ucounts *)
+14/16 mm: user_shm_lock(,,getuc) and user_shm_unlock(,,putuc)
+15/16 tmpfs: permit changing size of memlocked file
+16/16 memfd: memfd_create(name, MFD_MEM_LOCK) for memlocked shmem
 
-Thanks,
-Feng
+ fs/fcntl.c                 |    8 
+ fs/hugetlbfs/inode.c       |    4 
+ include/linux/mm.h         |    4 
+ include/linux/shmem_fs.h   |   31 ++-
+ include/uapi/linux/fcntl.h |   17 +
+ include/uapi/linux/memfd.h |    4 
+ ipc/shm.c                  |    4 
+ mm/huge_memory.c           |    6 
+ mm/khugepaged.c            |    2 
+ mm/memfd.c                 |   27 ++
+ mm/mlock.c                 |   19 -
+ mm/shmem.c                 |  397 ++++++++++++++++++++++++++-------------
+ 12 files changed, 370 insertions(+), 153 deletions(-)
 
-> -- 
-> Michal Hocko
-> SUSE Labs
+Hugh
