@@ -2,168 +2,198 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D7683DB669
-	for <lists+linux-api@lfdr.de>; Fri, 30 Jul 2021 11:51:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D11373DB885
+	for <lists+linux-api@lfdr.de>; Fri, 30 Jul 2021 14:23:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238287AbhG3Jvw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 30 Jul 2021 05:51:52 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:21702 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S238223AbhG3Jvv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Jul 2021 05:51:51 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 16U9Wma0032673;
-        Fri, 30 Jul 2021 05:49:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=RYVrVB0Cv2/R3lfmKnDGtLWGBHS277MIQR61B43z3uM=;
- b=dGwRHMW+dV44draTp+TTntVOVZQoJjo0X1i/5LdgoAcqjM8JLU7lkDxlZoaKCMUKaNvy
- M+ZjKdhpw34/vrKYLtUjIcBj6RIwv6+gThIzOeXw63W5RhwZ8jEpeJ8lUJRSg2zz7PKT
- zOASTY1gTLrCWIjcz6bYSEGewtcDHLwf8Fzcaot81sFOXT7yz2HvFqBZo3EV+0ejZ807
- GKQxJOKRmMFhInRW8OmWGMh92ydIzQl4xBQTCE6PhqZ4pcTf9HFmQHnHKz/7RK4PlcBW
- De6pJGr9HrSc0qCw+yczs0r3u8j6/ghV1t4+xXF8c6L5aVgh19eC+7GvSO/OXLM2ZsPF Kw== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 3a4e9j1cme-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 30 Jul 2021 05:49:24 -0400
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16U9WmsP032691;
-        Fri, 30 Jul 2021 05:49:23 -0400
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 3a4e9j1ckr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 30 Jul 2021 05:49:23 -0400
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
-        by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16U9lRKT013772;
-        Fri, 30 Jul 2021 09:49:21 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
-        by ppma06fra.de.ibm.com with ESMTP id 3a235kjwrx-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 30 Jul 2021 09:49:21 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
-        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 16U9kYNh23789872
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 30 Jul 2021 09:46:34 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id ABB9742052;
-        Fri, 30 Jul 2021 09:49:17 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 77B664203F;
-        Fri, 30 Jul 2021 09:49:16 +0000 (GMT)
-Received: from osiris (unknown [9.145.161.212])
-        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Fri, 30 Jul 2021 09:49:16 +0000 (GMT)
-Date:   Fri, 30 Jul 2021 11:49:15 +0200
-From:   Heiko Carstens <hca@linux.ibm.com>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
+        id S238776AbhG3MYB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 30 Jul 2021 08:24:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52194 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238705AbhG3MYA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 30 Jul 2021 08:24:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1627647835;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=o099h3eyKLatB2qTEqr+nt7BhMYNRVj70jWcHx8N7L4=;
+        b=N/Xcb3MabH+IcDbm09v1Ypoue4ZUvR9YVI9Q9qEQGO3gWqRIj6wnQ42CNgwLRJb/g/tbeJ
+        rWpoyGJ/iFXmiuNs2bWX4NSRQBnfVkaIv5eRD9H4zlel4TO3/GqPLD+mjjkBbnJ7wiQct6
+        FFrhK8TXrjS4vtpCPHJxyCGO8bMYK0s=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-104-eIz0JEgIPsyIZM519nU8zg-1; Fri, 30 Jul 2021 08:23:54 -0400
+X-MC-Unique: eIz0JEgIPsyIZM519nU8zg-1
+Received: by mail-wr1-f71.google.com with SMTP id c5-20020a5d52850000b0290126f2836a61so3183580wrv.6
+        for <linux-api@vger.kernel.org>; Fri, 30 Jul 2021 05:23:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=o099h3eyKLatB2qTEqr+nt7BhMYNRVj70jWcHx8N7L4=;
+        b=HxNn9kmuC01ByysZiHREtMQFQXn2BpX5lt5fLUdDfr2z0pFtMJh+f5cTI/DnHPgFwG
+         eT1T001maUtm/uc4RKDHuU2yhgm9rQ+jabTEtJWaQSPVTcsw5t4Wi2g/DrBFOLiyR4jD
+         PhY2ii1uL94q32OmP9ttFZU1te5qHYymQGk8xSMeR8LgRQchqu1asbcrqJWyWDyfwPyo
+         bIiu08yAEcdMiHHqCGBdBE/XSWoITdftAeAT3erTUc7TlLsoE51X0ZTj9eTdWA+yqjkf
+         M5sMpcqhHBAqyk/HqJAo1rzYn8CQ7tK8Ch/FkGzlpn25v/M31GU+p26zZ1W6AODvQzuZ
+         esfg==
+X-Gm-Message-State: AOAM533nKOAspwUnl0O2BjvB8IXF8rnoTEsEES4GApqEO1EgPLX0DQTD
+        C61Nm4ihqloN7kcZ4p+hgGiwkXBrK6lVtKC+L3pD7OuuCLP223q3c+8UfOm6mhrTELuYA2D5k7h
+        PLaTPv75Hzi1iH5t4Pi4m
+X-Received: by 2002:a05:600c:350a:: with SMTP id h10mr184477wmq.184.1627647833323;
+        Fri, 30 Jul 2021 05:23:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy7H0CLmKXC7bceTQEaG3gTwuLm+5FooguUuol7APR+1g3WafQj2fDWXl80uW7T1OCOEd1scw==
+X-Received: by 2002:a05:600c:350a:: with SMTP id h10mr184451wmq.184.1627647833106;
+        Fri, 30 Jul 2021 05:23:53 -0700 (PDT)
+Received: from ?IPv6:2003:d8:2f0a:7f00:fad7:3bc9:69d:31f? (p200300d82f0a7f00fad73bc9069d031f.dip0.t-ipconnect.de. [2003:d8:2f0a:7f00:fad7:3bc9:69d:31f])
+        by smtp.gmail.com with ESMTPSA id k7sm1550622wms.48.2021.07.30.05.23.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 Jul 2021 05:23:52 -0700 (PDT)
+Subject: Re: [PATCH v1] mm/madvise: report SIGBUS as -EFAULT for
+ MADV_POPULATE_(READ|WRITE)
+To:     linux-kernel@vger.kernel.org, akpm@linuxfoundation.org
+Cc:     linux-mm@kvack.org, Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Michal Hocko <mhocko@suse.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Matthew Wilcox <willy@infradead.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Minchan Kim <minchan@kernel.org>, Jann Horn <jannh@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Hugh Dickins <hughd@google.com>,
+        Rik van Riel <riel@surriel.com>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
         Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Feng Tang <feng.tang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v5 0/6] compat: remove compat_alloc_user_space
-Message-ID: <YQPLG20V3dmOfq3a@osiris>
-References: <20210727144859.4150043-1-arnd@kernel.org>
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>, Chris Zankel <chris@zankel.net>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Peter Xu <peterx@redhat.com>,
+        Rolf Eike Beer <eike-kernel@sf-tec.de>,
+        Ram Pai <linuxram@us.ibm.com>, Shuah Khan <shuah@kernel.org>
+References: <20210726154932.102880-1-david@redhat.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <dfd5ee42-0789-4373-4e1b-f6e902a80230@redhat.com>
+Date:   Fri, 30 Jul 2021 14:23:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210727144859.4150043-1-arnd@kernel.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: zR7p1uPVJVzE85QHjW8aYnuNusoUj_ko
-X-Proofpoint-GUID: cr8jFOyeRsqaNkR-GlUmXQX1PdWeweCa
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
- definitions=2021-07-30_05:2021-07-29,2021-07-30 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- mlxlogscore=697 impostorscore=0 suspectscore=0 adultscore=0 spamscore=0
- priorityscore=1501 mlxscore=0 clxscore=1015 phishscore=0 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2107140000 definitions=main-2107300057
+In-Reply-To: <20210726154932.102880-1-david@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jul 27, 2021 at 04:48:53PM +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> Going through compat_alloc_user_space() to convert indirect system call
-> arguments tends to add complexity compared to handling the native and
-> compat logic in the same code.
-> 
-> Out of the other remaining callers, the linux-media series went into
-> v5.14, and the network ioctl handling is now fixed in net-next, so
-> these are the last remaining users, and I now include the final
-> patch to remove the definitions as well.
-> 
-> Since these patches are now all that remains, it would be nice to
-> merge it all through Andrew's Linux-mm tree, which is already based
-> on top of linux-next.
-...
-> 
-> Arnd Bergmann (6):
->   kexec: move locking into do_kexec_load
->   kexec: avoid compat_alloc_user_space
->   mm: simplify compat_sys_move_pages
->   mm: simplify compat numa syscalls
->   compat: remove some compat entry points
->   arch: remove compat_alloc_user_space
+Hi Andrew,
 
-Our CI reports this with linux-next and running strace selftest in
-compat mode:
+sorry for not CCing you, absolutely no clue why I accidentally dropped 
+you. Can you give this patch a churn? It would be great if we could get 
+that into 5.14, so we don't have to deal with differing behavior between 
+Linux versions.
 
-Unable to handle kernel pointer dereference in virtual kernel address space
-Failing address: 0000038003e7c000 TEID: 0000038003e7c803
-Fault in home space mode while using kernel ASCE.
-AS:00000001fb388007 R3:000000008021c007 S:0000000082142000 P:0000000000000400 
-Oops: 0011 ilc:3 [#1] SMP 
-CPU: 0 PID: 1017495 Comm: get_mempolicy Tainted: G           OE     5.14.0-20210730.rc3.git0.4ccc9e2db7ac.300.fc34.s390x+next #1
-Hardware name: IBM 2827 H66 708 (LPAR)
-Krnl PSW : 0704e00180000000 00000001f9f11000 (compat_put_bitmap+0x48/0xd0)
-           R:0 T:1 IO:1 EX:1 Key:0 M:1 W:0 P:0 AS:3 CC:2 PM:0 RI:0 EA:3
-Krnl GPRS: 0000000000810000 0000000000000000 000000007d9df1c0 0000038003e7c008
-           0000000000000004 000000007d9df1c4 0000038003e7be40 0000000000010000
-           0000000000008000 0000000000000000 0000000000000390 00000000000001c8
-           000000020d6ea000 000002aa00401a48 00000001fa0a85fa 0000038003e7bd50
-Krnl Code: 00000001f9f10ff4: a7bb0001            aghi    %r11,1
-           00000001f9f10ff8: 41303008            la      %r3,8(%r3)
-          #00000001f9f10ffc: 41502004            la      %r5,4(%r2)
-          >00000001f9f11000: e3103ff8ff04        lg      %r1,-8(%r3)
-           00000001f9f11006: 5010f0a4            st      %r1,164(%r15)
-           00000001f9f1100a: a50e0081            llilh   %r0,129
-           00000001f9f1100e: c8402000f0a4        mvcos   0(%r2),164(%r15),%r4
-           00000001f9f11014: 1799                xr      %r9,%r9
-Call Trace:
- [<00000001f9f11000>] compat_put_bitmap+0x48/0xd0 
- [<00000001fa0a85fa>] kernel_get_mempolicy+0x102/0x178 
- [<00000001fa0a86b0>] __s390_sys_get_mempolicy+0x40/0x50 
- [<00000001fa92be30>] __do_syscall+0x1c0/0x1e8 
- [<00000001fa939148>] system_call+0x78/0xa0 
-Last Breaking-Event-Address:
- [<0000038003e7bc00>] 0x38003e7bc00
-Kernel panic - not syncing: Fatal exception: panic_on_oops
+Cheers!
 
-Note: I did not try to bisect this, since it looks to me like this
-patch series causes the problem. Also, please don't get confused with
-the kernel version name. The date encoded is the build date, not the
-linux-next version.
-linux-next commit 4ccc9e2db7ac ("Add linux-next specific files for
-20210729") was used to build the kernel (s390 defconfig).
+On 26.07.21 17:49, David Hildenbrand wrote:
+> Doing some extended tests and polishing the man page update for
+> MADV_POPULATE_(READ|WRITE), I realized that we end up converting also
+> SIGBUS (via -EFAULT) to -EINVAL, making it look like yet another
+> madvise() user error.
+> 
+> We want to report only problematic mappings and permission problems that
+> the user could have know as -EINVAL.
+> 
+> Let's not convert -EFAULT arising due to SIGBUS (or SIGSEGV) to
+> -EINVAL, but instead indicate -EFAULT to user space. While we could also
+> convert it to -ENOMEM, using -EFAULT looks more helpful when user space
+> might want to troubleshoot what's going wrong: MADV_POPULATE_(READ|WRITE)
+> is not part of an final Linux release and we can still adjust the behavior.
+> 
+> Fixes: 4ca9b3859dac ("mm/madvise: introduce MADV_POPULATE_(READ|WRITE) to prefault page tables")
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Michal Hocko <mhocko@suse.com>
+> Cc: Oscar Salvador <osalvador@suse.de>
+> Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
+> Cc: Andrea Arcangeli <aarcange@redhat.com>
+> Cc: Minchan Kim <minchan@kernel.org>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Dave Hansen <dave.hansen@intel.com>
+> Cc: Hugh Dickins <hughd@google.com>
+> Cc: Rik van Riel <riel@surriel.com>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Cc: Richard Henderson <rth@twiddle.net>
+> Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+> Cc: Matt Turner <mattst88@gmail.com>
+> Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+> Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: Chris Zankel <chris@zankel.net>
+> Cc: Max Filippov <jcmvbkbc@gmail.com>
+> Cc: Mike Kravetz <mike.kravetz@oracle.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Rolf Eike Beer <eike-kernel@sf-tec.de>
+> Cc: Ram Pai <linuxram@us.ibm.com>
+> Cc: Shuah Khan <shuah@kernel.org>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>   mm/gup.c     | 7 +++++--
+>   mm/madvise.c | 4 +++-
+>   2 files changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/mm/gup.c b/mm/gup.c
+> index 42b8b1fa6521..b94717977d17 100644
+> --- a/mm/gup.c
+> +++ b/mm/gup.c
+> @@ -1558,9 +1558,12 @@ long faultin_vma_page_range(struct vm_area_struct *vma, unsigned long start,
+>   		gup_flags |= FOLL_WRITE;
+>   
+>   	/*
+> -	 * See check_vma_flags(): Will return -EFAULT on incompatible mappings
+> -	 * or with insufficient permissions.
+> +	 * We want to report -EINVAL instead of -EFAULT for any permission
+> +	 * problems or incompatible mappings.
+>   	 */
+> +	if (check_vma_flags(vma, gup_flags))
+> +		return -EINVAL;
+> +
+>   	return __get_user_pages(mm, start, nr_pages, gup_flags,
+>   				NULL, NULL, locked);
+>   }
+> diff --git a/mm/madvise.c b/mm/madvise.c
+> index 6d3d348b17f4..5c065bc8b5f6 100644
+> --- a/mm/madvise.c
+> +++ b/mm/madvise.c
+> @@ -862,10 +862,12 @@ static long madvise_populate(struct vm_area_struct *vma,
+>   			switch (pages) {
+>   			case -EINTR:
+>   				return -EINTR;
+> -			case -EFAULT: /* Incompatible mappings / permissions. */
+> +			case -EINVAL: /* Incompatible mappings / permissions. */
+>   				return -EINVAL;
+>   			case -EHWPOISON:
+>   				return -EHWPOISON;
+> +			case -EFAULT: /* VM_FAULT_SIGBUS or VM_FAULT_SIGSEGV */
+> +				return -EFAULT;
+>   			default:
+>   				pr_warn_once("%s: unhandled return value: %ld\n",
+>   					     __func__, pages);
+> 
+
+
+-- 
+Thanks,
+
+David / dhildenb
+
