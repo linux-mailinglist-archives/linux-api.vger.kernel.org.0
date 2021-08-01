@@ -2,111 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F7CD3DCA28
-	for <lists+linux-api@lfdr.de>; Sun,  1 Aug 2021 07:38:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACE953DCA41
+	for <lists+linux-api@lfdr.de>; Sun,  1 Aug 2021 08:05:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230147AbhHAFiS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 1 Aug 2021 01:38:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56500 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230094AbhHAFiS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 1 Aug 2021 01:38:18 -0400
-Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0940C0613CF
-        for <linux-api@vger.kernel.org>; Sat, 31 Jul 2021 22:38:09 -0700 (PDT)
-Received: by mail-qv1-xf35.google.com with SMTP id d3so7389279qvq.6
-        for <linux-api@vger.kernel.org>; Sat, 31 Jul 2021 22:38:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:in-reply-to:message-id:references
-         :mime-version;
-        bh=iGWJvQyFhYWArKOyYVxVLAiTfV4uzV67U+jmo+FAouk=;
-        b=EMVItB+G7FfUUoNMnfQwOUjV3ArbnBTu1oFkd7HLTYn2tVC6AJEYtE4T+IsCywUSpg
-         Gw4RUEMFPxQ3c9322Xw+RyDT87+g5/V4dM1xr6NBy3DpWF3Y02qrA72ey7xkFYZJd8of
-         qvOv35ebfTG1e41XeO2QIcJBLmf4x0wzo4lWLjyI/uSpUUbEIQw1c6tXOakZLKmIU5vJ
-         UR8u6931Pg3iNzH27zPBbSiikVRqrIuOAPnoELhiKdGJ5DZrHSq5Xgrf+zD2wDgtJvSs
-         z16Y7Ke/ASDEDjgWOS8tZrDCCMqsa1ToXM08aiKAmUQOQkjWTt8QElX2iHgbpwCxCk0j
-         zQkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
-         :references:mime-version;
-        bh=iGWJvQyFhYWArKOyYVxVLAiTfV4uzV67U+jmo+FAouk=;
-        b=AphCePSpQxLu1hntmPLYfnoAzt81bTf9iKAEpXQew9cxMArm1/aZyoWd8sPqv2Lb4k
-         oCIgR8uYWg4l+XKDgO+9G38vrrEitCLnNljxZerTrZGJiCHWpRzlUTFNVyR/f9LSQm6K
-         CfNDCoXIeLLqjAKY1a1xGk6mCF7w1WojgwynBwGsm7gRm/z8rk6uj2m7Z9z/3jp8ZX9l
-         L6Sn5S4HenLKEGrYm6k5cSL+rceQyEU4BBa6RotVby/3lAfd8RX9W/OYJ+BqibAd6i3u
-         yBN7ocfZJMhoVaI5mU/JG6NTlgKgYmugjv5W78uj/Ns27Et0vhorEJA7QYg+AEM3c5I1
-         JWKg==
-X-Gm-Message-State: AOAM533f8cUIC0xIo1MITgS56fEaBVKoZlHjdYj9biHXuxW1VRdSrGp2
-        0ku/6+nNKDAD+2c6C+0/KKYEPA==
-X-Google-Smtp-Source: ABdhPJx99ZPzHnZXgS9SRq4nFquQqzs6nebhu/Lg9udhCOUcHRGzDhYlonCB3p+LX1OoydNRLgHVnw==
-X-Received: by 2002:ad4:442e:: with SMTP id e14mr10587697qvt.43.1627796288923;
-        Sat, 31 Jul 2021 22:38:08 -0700 (PDT)
-Received: from ripple.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id h10sm3613305qka.83.2021.07.31.22.38.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Jul 2021 22:38:08 -0700 (PDT)
-Date:   Sat, 31 Jul 2021 22:37:55 -0700 (PDT)
-From:   Hugh Dickins <hughd@google.com>
-X-X-Sender: hugh@ripple.anvils
-To:     Yang Shi <shy828301@gmail.com>
-cc:     Hugh Dickins <hughd@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Rik van Riel <riel@surriel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Alexey Gladkov <legion@kernel.org>,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        Matthew Auld <matthew.auld@intel.com>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-api@vger.kernel.org, Linux MM <linux-mm@kvack.org>
-Subject: Re: [PATCH 06/16] huge tmpfs: shmem_is_huge(vma, inode, index)
-In-Reply-To: <e7374d7e-4773-aba1-763-8fa2c953f917@google.com>
-Message-ID: <ccb7e48b-b9ad-30bb-47df-14cc8298ef8e@google.com>
-References: <2862852d-badd-7486-3a8e-c5ea9666d6fb@google.com> <dae523ab-c75b-f532-af9d-8b6a1d4e29b@google.com> <CAHbLzkoKZ9OdUfP5DX81CKOJWrRZ0GANrmenNeKWNmSOgUh0bQ@mail.gmail.com> <e7374d7e-4773-aba1-763-8fa2c953f917@google.com>
+        id S229505AbhHAGFp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 1 Aug 2021 02:05:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41704 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229451AbhHAGFo (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Sun, 1 Aug 2021 02:05:44 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C93EA60EE9;
+        Sun,  1 Aug 2021 06:05:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1627797937;
+        bh=lZYTf0hB8SVyjZ0HrbaV7fPUmQEOgzERwyKm7Q3fBQs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=oLu5v5M8nctM7CzmuNibUCbZiHMLwzMLjSskhnFRGVBVgc4UfQ6U9bbMv6DHIGbf0
+         RT+KycDF+lmr4CKFDbZk1jxMxtIF4PgaT+7cqEXPjZ6w9b+xZRWNkVXJW7NAO4Rr33
+         bQ+WK5Q3GMeb7/5PQxZBSu8Bjx9zuTFx0Qn8tr70=
+Date:   Sun, 1 Aug 2021 08:05:34 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Adrien Precigout <dev@asdrip.fr>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Shawn Guo <shawn.guo@linaro.org>,
+        Erik Kaneda <erik.kaneda@intel.com>,
+        Bob Moore <robert.moore@intel.com>
+Cc:     stable@vger.kernel.org, regressions@lists.linux.dev,
+        erik.kaneda@intel.com, linux-api@vger.kernel.org
+Subject: Re: Tr: Unable to boot on multiple kernel with acpi
+Message-ID: <YQY5rsWFhk5Okt0Y@kroah.com>
+References: <fc66decb-ed13-45dd-bf82-91f0cc516a30@asdrip.fr>
+ <eb9250ed-2ae9-07d5-e966-9063fffa34f8@asdrip.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eb9250ed-2ae9-07d5-e966-9063fffa34f8@asdrip.fr>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, 31 Jul 2021, Hugh Dickins wrote:
-> On Fri, 30 Jul 2021, Yang Shi wrote:
-> > On Fri, Jul 30, 2021 at 12:42 AM Hugh Dickins <hughd@google.com> wrote:
-> > >
-> > > Extend shmem_huge_enabled(vma) to shmem_is_huge(vma, inode, index), so
-> > > that a consistent set of checks can be applied, even when the inode is
-> > > accessed through read/write syscalls (with NULL vma) instead of mmaps
-> > > (the index argument is seldom of interest, but required by mount option
-> > > "huge=within_size").  Clean up and rearrange the checks a little.
-> > >
-> > > This then replaces the checks which shmem_fault() and shmem_getpage_gfp()
-> > > were making, and eliminates the SGP_HUGE and SGP_NOHUGE modes: while it's
-> > > still true that khugepaged's collapse_file() at that point wants a small
-> > > page, the race that might allocate it a huge page is too unlikely to be
-> > > worth optimizing against (we are there *because* there was at least one
-> > > small page in the way), and handled by a later PageTransCompound check.
+On Sat, Jul 31, 2021 at 05:27:39PM +0200, Adrien Precigout wrote:
+> > Hi,
 > > 
-> > Yes, it seems too unlikely. But if it happens the PageTransCompound
-> > check may be not good enough since the page allocated by
-> > shmem_getpage() may be charged to wrong memcg (root memcg). And it
-> > won't be replaced by a newly allocated huge page so the wrong charge
-> > can't be undone.
+> > On my acer swift 3 (SF314-51), I can't boot on my device since 4.19.198
+> > (no issue with 4.19.197) without adding "acpi=off" in the parameters.
+> > Same thing happens on 5.12.19 (didn't happened in 5.12.16), 5.13.4 and
+> > .5 and 5.10.52.
+> > 
+> > If acpi is not off issue is :
+> > -black screen after grub,
+> > -no errors, no activity (tested by leaving the pc 10 hours), no tty, no
+> > logs whatsoever in journalctl as if the kernel didn't start. Even adding
+> > 'debug' or 'initcall_debug' doesn't show anything.
+> > 
+> > If I add acpi=off, the screen blinks one time and boots normally but
+> > after kernel 5.10 (5.12 and 5.13) I loose usage of keyboard and
+> > touchpad.
+> > 
+> > Notes:
+> > - I'm using Manjaro KDE
+> > - I have tested with 4.19.198 Vanilla (config file attached) and same
+> > thing happened
+> > - setting nomodeset doesn't change anything
+> > - tried every acpi parameters, only =off worked
+> > - Bios was not updated, but the bug persisted after upgrading it
+> > - Acpi issue is recurrent with this pc it seems below 4.11
+> > (https://askubuntu.com/questions/929904/cant-pass-the-acpi-off-problem
+> > <https://askubuntu.com/questions/929904/cant-pass-the-acpi-off-problem>)
+> > 
+> > Thank you for your help,
+> > Adrien
+> > 
+> Hi again,
 > 
-> Good point on the memcg charge: I hadn't thought of that.  Of course
-> it's not specific to SGP_CACHE versus SGP_NOHUGE (this patch), but I
-> admit that a huge mischarge is hugely worse than a small mischarge.
+> I've done a bisect on the 4.19.y branch and I've found that it is the commit
+> 2bf1f848ca0af4e3d49624df49cbbd5511ec49a3 [ACPICA: Fix memory leak caused by
+> _CID repair function] that introduced the bug. By doing a git revert and
+> building the kernel I can boot normally but as long as this commit exist I
+> just get a black screen as explained above.
 
-Stupid me (and maybe I haven't given this enough consideration yet):
-but, much better than SGP_NOHUGE, much better than SGP_CACHE, would be
-SGP_READ there, wouldn't it?  Needs to beware of the NULL too, of course.
+Thanks for helping to narrow this down.
 
-Hugh
+Rafael and EriK, this is commit c27bac031413 ("ACPICA: Fix memory leak
+caused by _CID repair function") in Linus's tree, that showed up in
+5.14-rc1.  Any chance you all can revert this, or provide a fix?
+
+thanks,
+
+greg k-h
