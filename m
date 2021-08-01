@@ -2,91 +2,115 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACE953DCA41
-	for <lists+linux-api@lfdr.de>; Sun,  1 Aug 2021 08:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 674B13DCD87
+	for <lists+linux-api@lfdr.de>; Sun,  1 Aug 2021 22:06:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229505AbhHAGFp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 1 Aug 2021 02:05:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41704 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229451AbhHAGFo (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sun, 1 Aug 2021 02:05:44 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C93EA60EE9;
-        Sun,  1 Aug 2021 06:05:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1627797937;
-        bh=lZYTf0hB8SVyjZ0HrbaV7fPUmQEOgzERwyKm7Q3fBQs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oLu5v5M8nctM7CzmuNibUCbZiHMLwzMLjSskhnFRGVBVgc4UfQ6U9bbMv6DHIGbf0
-         RT+KycDF+lmr4CKFDbZk1jxMxtIF4PgaT+7cqEXPjZ6w9b+xZRWNkVXJW7NAO4Rr33
-         bQ+WK5Q3GMeb7/5PQxZBSu8Bjx9zuTFx0Qn8tr70=
-Date:   Sun, 1 Aug 2021 08:05:34 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Adrien Precigout <dev@asdrip.fr>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Shawn Guo <shawn.guo@linaro.org>,
-        Erik Kaneda <erik.kaneda@intel.com>,
-        Bob Moore <robert.moore@intel.com>
-Cc:     stable@vger.kernel.org, regressions@lists.linux.dev,
-        erik.kaneda@intel.com, linux-api@vger.kernel.org
-Subject: Re: Tr: Unable to boot on multiple kernel with acpi
-Message-ID: <YQY5rsWFhk5Okt0Y@kroah.com>
-References: <fc66decb-ed13-45dd-bf82-91f0cc516a30@asdrip.fr>
- <eb9250ed-2ae9-07d5-e966-9063fffa34f8@asdrip.fr>
+        id S230146AbhHAUGa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 1 Aug 2021 16:06:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41200 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229497AbhHAUGa (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 1 Aug 2021 16:06:30 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D49AAC06175F
+        for <linux-api@vger.kernel.org>; Sun,  1 Aug 2021 13:06:21 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id e21so17220014pla.5
+        for <linux-api@vger.kernel.org>; Sun, 01 Aug 2021 13:06:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=posk.io; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=azZm4s2ItKFFM6P1T/V7Z4U9NU3xhdubwb5X+bc1wpI=;
+        b=KuNyqP+Rlms7E+4zWlYj6P8Th/4KnDCAoxkX1SuRhop94eaeeFLy94V4Mvh2qcWLkn
+         gphUC6LKNMPvYDZrVJDSuoWyAqC4i9C7iNLtNJ7eH3bBw1cwvXisWq5TTccu2hu1esVV
+         UPGXWPloaMY2F1lELn7m3oihgQJEYFk6h7qRVk6UMdDn/Kn2Fs9ZS4CHF9EYfltm0Lhl
+         7I/PtQybXlEgRAaFEXYWIVh2s4dCqZ9swhFIS1h2938988jDh1h66bMloBeJzPabUSVy
+         4EHZdjgzIXqCS4DQYV+ig7tYNpcvKojdSVHNyYCBhK2yGmSrjYcaRN8RLuPKRIyXW13j
+         uQlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=azZm4s2ItKFFM6P1T/V7Z4U9NU3xhdubwb5X+bc1wpI=;
+        b=pbwdXWik6FPF8A5DcsLdV3l+FUN16ifKW66vj+ca6llsopyKwjx5lWnCsCucp3mUBu
+         TVBp/GmaXtCangAT2mTs9OXQsZI4ie/KGDPy/pJCnlDlLdPXJ5lRgT/nd0Mab/TB21g+
+         H/jayKjaZvjowYgySz120a2/YGNYZcm4pM0m8BzTXBgCRKN6OWNj9XfSHFUPuoJZzCw8
+         ZyC4+1DudV8ROiHaeCcW47K9fNsRNSG8Ap38UaKT0Yz6kg0v9n2JDIXAzlAZkc17fazI
+         ry1x5/KxIiZEZxiS+u1fuV9uaWL3sdVIEgiKoWtzsCy+OzxG06Eo+A80A8oyi8pTkMgl
+         Yaiw==
+X-Gm-Message-State: AOAM530sVbjOQKCudkLA7YhgpRG2m12TyvK2i3Ft8u3rBv8o83vDYVdI
+        HKy+j+9Uy4wV6KO6swubI/Fz0Q==
+X-Google-Smtp-Source: ABdhPJykIKwdJ3YQiR9QYmfh/XXE7vTxgi5e6RwTs15LS9FhzhnHzyf+73jP193tdLruwLdRw7xT4Q==
+X-Received: by 2002:a63:1748:: with SMTP id 8mr2227544pgx.369.1627848381272;
+        Sun, 01 Aug 2021 13:06:21 -0700 (PDT)
+Received: from posk-g1.lan (23-118-52-46.lightspeed.sntcca.sbcglobal.net. [23.118.52.46])
+        by smtp.gmail.com with ESMTPSA id b3sm9293714pfi.179.2021.08.01.13.06.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Aug 2021 13:06:20 -0700 (PDT)
+From:   Peter Oskolkov <posk@posk.io>
+X-Google-Original-From: Peter Oskolkov <posk@google.com>
+To:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Cc:     Paul Turner <pjt@google.com>, Ben Segall <bsegall@google.com>,
+        Peter Oskolkov <posk@google.com>,
+        Peter Oskolkov <posk@posk.io>,
+        Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
+        Thierry Delisle <tdelisle@uwaterloo.ca>
+Subject: [PATCH 0/4 v0.4] sched/umcg: RFC UMCG patchset
+Date:   Sun,  1 Aug 2021 13:06:13 -0700
+Message-Id: <20210801200617.623745-1-posk@google.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <eb9250ed-2ae9-07d5-e966-9063fffa34f8@asdrip.fr>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Jul 31, 2021 at 05:27:39PM +0200, Adrien Precigout wrote:
-> > Hi,
-> > 
-> > On my acer swift 3 (SF314-51), I can't boot on my device since 4.19.198
-> > (no issue with 4.19.197) without adding "acpi=off" in the parameters.
-> > Same thing happens on 5.12.19 (didn't happened in 5.12.16), 5.13.4 and
-> > .5 and 5.10.52.
-> > 
-> > If acpi is not off issue is :
-> > -black screen after grub,
-> > -no errors, no activity (tested by leaving the pc 10 hours), no tty, no
-> > logs whatsoever in journalctl as if the kernel didn't start. Even adding
-> > 'debug' or 'initcall_debug' doesn't show anything.
-> > 
-> > If I add acpi=off, the screen blinks one time and boots normally but
-> > after kernel 5.10 (5.12 and 5.13) I loose usage of keyboard and
-> > touchpad.
-> > 
-> > Notes:
-> > - I'm using Manjaro KDE
-> > - I have tested with 4.19.198 Vanilla (config file attached) and same
-> > thing happened
-> > - setting nomodeset doesn't change anything
-> > - tried every acpi parameters, only =off worked
-> > - Bios was not updated, but the bug persisted after upgrading it
-> > - Acpi issue is recurrent with this pc it seems below 4.11
-> > (https://askubuntu.com/questions/929904/cant-pass-the-acpi-off-problem
-> > <https://askubuntu.com/questions/929904/cant-pass-the-acpi-off-problem>)
-> > 
-> > Thank you for your help,
-> > Adrien
-> > 
-> Hi again,
-> 
-> I've done a bisect on the 4.19.y branch and I've found that it is the commit
-> 2bf1f848ca0af4e3d49624df49cbbd5511ec49a3 [ACPICA: Fix memory leak caused by
-> _CID repair function] that introduced the bug. By doing a git revert and
-> building the kernel I can boot normally but as long as this commit exist I
-> just get a black screen as explained above.
+This is an update on v0.3:
 
-Thanks for helping to narrow this down.
+https://lore.kernel.org/patchwork/cover/1461708/
 
-Rafael and EriK, this is commit c27bac031413 ("ACPICA: Fix memory leak
-caused by _CID repair function") in Linus's tree, that showed up in
-5.14-rc1.  Any chance you all can revert this, or provide a fix?
+Key changes v0.3 => v0.4:
+- made idle workers list logic simpler
+- only one idle server tracking
+- removed two fields from struct umcg_task
+- added timeout handling
+- added worker preemption
+- added a doc patch that now documents the syscalls and state
+  transitions.
 
-thanks,
+More details on the state of the patchset and future work are provided
+in the patch 4 commit message.
 
-greg k-h
+Peter Oskolkov (4):
+  sched: add WF_CURRENT_CPU and externise ttwu
+  sched/umcg: RFC: add userspace atomic helpers
+  sched/umcg: add Documentation/userspace-api/umcg.rst
+  sched/umcg: RFC: implement UMCG syscalls
+
+ Documentation/userspace-api/umcg.rst   | 532 ++++++++++++++++++++++
+ arch/x86/entry/syscalls/syscall_64.tbl |   2 +
+ include/linux/sched.h                  |   6 +
+ include/linux/syscalls.h               |   4 +
+ include/uapi/asm-generic/unistd.h      |   8 +-
+ include/uapi/linux/umcg.h              | 114 +++++
+ init/Kconfig                           |  10 +
+ kernel/exit.c                          |   7 +
+ kernel/sched/Makefile                  |   1 +
+ kernel/sched/core.c                    |  20 +-
+ kernel/sched/fair.c                    |   4 +
+ kernel/sched/sched.h                   |  15 +-
+ kernel/sched/umcg.c                    | 601 +++++++++++++++++++++++++
+ kernel/sched/umcg.h                    | 211 +++++++++
+ kernel/sys_ni.c                        |   4 +
+ 15 files changed, 1528 insertions(+), 11 deletions(-)
+ create mode 100644 Documentation/userspace-api/umcg.rst
+ create mode 100644 include/uapi/linux/umcg.h
+ create mode 100644 kernel/sched/umcg.c
+ create mode 100644 kernel/sched/umcg.h
+
+--
+2.25.1
+
