@@ -2,186 +2,178 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D171F3DE06D
-	for <lists+linux-api@lfdr.de>; Mon,  2 Aug 2021 22:10:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E72493DE0C0
+	for <lists+linux-api@lfdr.de>; Mon,  2 Aug 2021 22:36:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230175AbhHBUKP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 2 Aug 2021 16:10:15 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:55216 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229622AbhHBUKP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Aug 2021 16:10:15 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 3873D21FDC;
-        Mon,  2 Aug 2021 20:10:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1627935004; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=z9wAp2fNu1NNlwVm7iEjFsxTEjyxLOb7i61fxorxCJA=;
-        b=MdFHCAsWOsFqpl4ldPcyrq3shKMzPye07RNpQi6Jij+O0GS24UwTk9E9jvCj0MGF9caFkI
-        llPcBhZOK3fAncZwwylW2GpWOLacYhggb8cupizfrmfKbufx9KdA/PzNjZfhTbbjGGhVHP
-        G0G2PQ86Ph7D2zLivnyMVVBQU4YwkD8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1627935004;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=z9wAp2fNu1NNlwVm7iEjFsxTEjyxLOb7i61fxorxCJA=;
-        b=b21RrNfBxenIe9ujARcYe2zY30Z5QLBqgnEDOo043Hr4E2mBygrWowYc3Rx0xQSI09qxgd
-        Tc2YvcwgXXiUXFCw==
-Received: from quack2.suse.cz (unknown [10.100.200.198])
-        by relay2.suse.de (Postfix) with ESMTP id 22E0CA3BBE;
-        Mon,  2 Aug 2021 20:10:04 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id F18E91E62D6; Mon,  2 Aug 2021 22:10:02 +0200 (CEST)
-Date:   Mon, 2 Aug 2021 22:10:02 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>,
-        Matthew Bobrowski <repnop@google.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Andy Lutomirski <luto@kernel.org>
-Subject: Re: [PATCH v3 5/5] fanotify: add pidfd support to the fanotify API
-Message-ID: <20210802201002.GF28745@quack2.suse.cz>
-References: <cover.1626845287.git.repnop@google.com>
- <02ba3581fee21c34bd986e093d9eb0b9897fa741.1626845288.git.repnop@google.com>
- <CAG48ez3MsFPn6TsJz75hvikgyxG5YGyT2gdoFwZuvKut4Xms1g@mail.gmail.com>
- <CAOQ4uxhDkAmqkxT668sGD8gHcssGTeJ3o6kzzz3=0geJvfAjdg@mail.gmail.com>
- <20210729133953.GL29619@quack2.suse.cz>
- <CAOQ4uxi70KXGwpcBnRiyPXZCjFQfifaWaYVSDK2chaaZSyXXhQ@mail.gmail.com>
- <CAOQ4uxgFLqO5_vPTb5hkfO1Fb27H-h0TqHsB6owZxrZw4YLoEA@mail.gmail.com>
- <20210802123428.GB28745@quack2.suse.cz>
- <CAOQ4uxhk-vTOFvpuh81A2V5H0nfAJW6y3qBi9TgnZxAkRDSeKQ@mail.gmail.com>
+        id S231199AbhHBUg3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 2 Aug 2021 16:36:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56220 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231165AbhHBUg2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Aug 2021 16:36:28 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAC5BC06175F;
+        Mon,  2 Aug 2021 13:36:17 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id hs10so24238883ejc.0;
+        Mon, 02 Aug 2021 13:36:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zBWtV7N+RxH/CGPxWHVVPsVwXrz5q6//82lIjHdhJwk=;
+        b=dZjqXQSQJ+v4/jf7G29LGsKvh6x+AOb0oGYBMMznnJ3q4NjcfHQ8mHJzkBCKKQ9CzU
+         4bMEE0mY2rh8+ivUJqwoBfUTrZgLkE66Xc15R8Uvy+tIaLRkFCkGRhFKNeLfq71pM3WX
+         RQBOA3ryTimbaIeOc6CNntH0Q7FBxwucGeE2btN5wWeue9iDtUs19AZySnaq+FJeJ2Di
+         wJQmkgU/Tw5eMvjDKRw+f1nlXnsoWiODiKmtOb0/AjY9Rd7Pn8w7uarkaD9qTIod3nn8
+         i8JegkEq4i0r0aOrscicZ2LtIHQhNGMjKVwJ0+j2hJSFg6JaaIxESpYHjE/o8oVGiqtn
+         skYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zBWtV7N+RxH/CGPxWHVVPsVwXrz5q6//82lIjHdhJwk=;
+        b=oJxTJsHv/h4BpKXZb5X+mQif8e3vHMKVzbVW8+Gf+5t6Pz5hab++Y/W3VyKms9yvhO
+         u27mVKw0S2rId/aGGcUuCnKGeNObx+ZT3mxCWrqZdGDuySPHK6g5IYEk9rIjPRVs8Lwe
+         XzvDsfMcR4i4NR/WG3w2HuPUbagv4cdiRcjTcDYjh2ZUTfayfkTNl38BpuTXWCTo2NQh
+         OtWhkNeAefO27ahqbqdCJ9JWocITAkZ6lKci0phWoS0fK0FXOqPHDd1s4SVoj7MrXKqp
+         KicLVURrzJrPH0Vbuk6yDBObr8a+LditGNU7KxEqGh7HTCepMHfFbhFflbXkT+AS5B5L
+         3TWg==
+X-Gm-Message-State: AOAM532aZIvN3Kexp6DBE3y3DNSkFD5N/UiS41OSC2fZ64h8dv3wohEF
+        oXqFEDZSLB1eL1w90e6tDLRTzaZKvcyIoMvB9lQ=
+X-Google-Smtp-Source: ABdhPJwFajkjqJ/lrekCzz9XwsvODk97FD+a2XwTBTnhhdH0saAAl6Z3OYjKtXSNXFb1fHhngk46UbjmPQt3yc+CIGE=
+X-Received: by 2002:a17:906:31d4:: with SMTP id f20mr16721382ejf.383.1627936576255;
+ Mon, 02 Aug 2021 13:36:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOQ4uxhk-vTOFvpuh81A2V5H0nfAJW6y3qBi9TgnZxAkRDSeKQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <2862852d-badd-7486-3a8e-c5ea9666d6fb@google.com>
+ <af71608e-ecc-af95-3511-1a62cbf8d751@google.com> <CAHbLzkqp5-SrOBkpvxieswD6OwPT70gsztNpXCTBXW2JnrFpfg@mail.gmail.com>
+ <422db5c4-2490-749c-964b-dd2b93286ed5@google.com>
+In-Reply-To: <422db5c4-2490-749c-964b-dd2b93286ed5@google.com>
+From:   Yang Shi <shy828301@gmail.com>
+Date:   Mon, 2 Aug 2021 13:36:04 -0700
+Message-ID: <CAHbLzkrvB6r5CKxwhcKmLZN+H3t10UuqeXT5vgi=YzkZjA2qnw@mail.gmail.com>
+Subject: Re: [PATCH 01/16] huge tmpfs: fix fallocate(vanilla) advance over
+ huge pages
+To:     Hugh Dickins <hughd@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Rik van Riel <riel@surriel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Alexey Gladkov <legion@kernel.org>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Matthew Auld <matthew.auld@intel.com>,
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-api@vger.kernel.org, Linux MM <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon 02-08-21 17:38:20, Amir Goldstein wrote:
-> On Mon, Aug 2, 2021 at 3:34 PM Jan Kara <jack@suse.cz> wrote:
-> >
-> > On Fri 30-07-21 08:03:01, Amir Goldstein wrote:
-> > > On Thu, Jul 29, 2021 at 6:13 PM Amir Goldstein <amir73il@gmail.com> wrote:
-> > > > On Thu, Jul 29, 2021 at 4:39 PM Jan Kara <jack@suse.cz> wrote:
-> > > > > Well, but pidfd also makes sure that /proc/<pid>/ keeps belonging to the
-> > > > > same process while you read various data from it. And you cannot achieve
-> > > > > that with pid+generation thing you've suggested. Plus the additional
-> > > > > concept and its complexity is non-trivial So I tend to agree with
-> > > > > Christian that we really want to return pidfd.
-> > > > >
-> > > > > Given returning pidfd is CAP_SYS_ADMIN priviledged operation I'm undecided
-> > > > > whether it is worth the trouble to come up with some other mechanism how to
-> > > > > return pidfd with the event. We could return some cookie which could be
-> > > > > then (by some ioctl or so) either transformed into real pidfd or released
-> > > > > (so that we can release pid handle in the kernel) but it looks ugly and
-> > > > > complicates things for everybody without bringing significant security
-> > > > > improvement (we already can pass fd with the event). So I'm pondering
-> > > > > whether there's some other way how we could make the interface safer - e.g.
-> > > > > so that the process receiving the event (not the one creating the group)
-> > > > > would also need to opt in for getting fds created in its file table.
-> > > > >
-> > > > > But so far nothing bright has come to my mind. :-|
-> > > > >
-> > > >
-> > > > There is a way, it is not bright, but it is pretty simple -
-> > > > store an optional pid in group->fanotify_data.fd_reader.
-> > > >
-> > > > With flag FAN_REPORT_PIDFD, both pidfd and event->fd reporting
-> > > > will be disabled to any process other than fd_reader.
-> > > > Without FAN_REPORT_PIDFD, event->fd reporting will be disabled
-> > > > if fd_reaader is set to a process other than the reader.
-> > > >
-> > > > A process can call ioctl START_FD_READER to set fd_reader to itself.
-> > > > With FAN_REPORT_PIDFD, if reaader_fd is NULL and the reader
-> > > > process has CAP_SYS_ADMIN, read() sets fd_reader to itself.
-> > > >
-> > > > Permission wise, START_FD_READER is allowed with
-> > > > CAP_SYS_ADMIN or if fd_reader is not owned by another process.
-> > > > We may consider YIELD_FD_READER ioctl if needed.
-> > > >
-> > > > I think that this is a pretty cheap price for implementation
-> > > > and maybe acceptable overhead for complicating the API?
-> > > > Note that without passing fd, there is no need for any ioctl.
-> > > >
-> > > > An added security benefit is that the ioctl adds is a way for the
-> > > > caller of fanotify_init() to make sure that even if the fanotify_fd is
-> > > > leaked, that event->fd will not be leaked, regardless of flag
-> > > > FAN_REPORT_PIDFD.
-> > > >
-> > > > So the START_FD_READER ioctl feature could be implemented
-> > > > and documented first.
-> > > > And then FAN_REPORT_PIDFD could use the feature with a
-> > > > very minor API difference:
-> > > > - Without the flag, other processes can read fds by default and
-> > > >   group initiator can opt-out
-> > > > - With the flag, other processes cannot read fds by default and
-> > > >   need to opt-in
+On Sat, Jul 31, 2021 at 8:38 PM Hugh Dickins <hughd@google.com> wrote:
+>
+> On Fri, 30 Jul 2021, Yang Shi wrote:
+> > On Fri, Jul 30, 2021 at 12:25 AM Hugh Dickins <hughd@google.com> wrote:
 > > >
-> > > Or maybe something even simpler... fanotify_init() flag
-> > > FAN_PRIVATE (or FAN_PROTECTED) that limits event reading
-> > > to the initiator process (not only fd reading).
+> > > shmem_fallocate() goes to a lot of trouble to leave its newly allocated
+> > > pages !Uptodate, partly to identify and undo them on failure, partly to
+> > > leave the overhead of clearing them until later.  But the huge page case
+> > > did not skip to the end of the extent, walked through the tail pages one
+> > > by one, and appeared to work just fine: but in doing so, cleared and
+> > > Uptodated the huge page, so there was no way to undo it on failure.
 > > >
-> > > FAN_REPORT_PIDFD requires FAN_PRIVATE.
-> > > If we do not know there is a use case for passing fanotify_fd
-> > > that reports pidfds to another process why implement the ioctl.
-> > > We can always implement it later if the need arises.
-> > > If we contemplate this future change, though, maybe the name
-> > > FAN_PROTECTED is better to start with.
+> > > Now advance immediately to the end of the huge extent, with a comment on
+> > > why this is more than just an optimization.  But although this speeds up
+> > > huge tmpfs fallocation, it does leave the clearing until first use, and
+> > > some users may have come to appreciate slow fallocate but fast first use:
+> > > if they complain, then we can consider adding a pass to clear at the end.
+> > >
+> > > Fixes: 800d8c63b2e9 ("shmem: add huge pages support")
+> > > Signed-off-by: Hugh Dickins <hughd@google.com>
 > >
-> > Good ideas. I think we are fine with returning pidfd only to the process
-> > creating the fanotify group. Later we can add an ioctl which would indicate
-> > that the process is also prepared to have fds created in its file table.
-> > But I have still some open questions:
-> > Do we want threads of the same process to still be able to receive fds?
-> 
-> I don't see why not.
-> They will be bloating the same fd table as the thread that called
-> fanotify_init().
+> > Reviewed-by: Yang Shi <shy828301@gmail.com>
+>
+> Many thanks for reviewing so many of these.
+>
+> >
+> > A nit below:
+> >
+> > > ---
+> > >  mm/shmem.c | 19 ++++++++++++++++---
+> > >  1 file changed, 16 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/mm/shmem.c b/mm/shmem.c
+> > > index 70d9ce294bb4..0cd5c9156457 100644
+> > > --- a/mm/shmem.c
+> > > +++ b/mm/shmem.c
+> > > @@ -2736,7 +2736,7 @@ static long shmem_fallocate(struct file *file, int mode, loff_t offset,
+> > >         inode->i_private = &shmem_falloc;
+> > >         spin_unlock(&inode->i_lock);
+> > >
+> > > -       for (index = start; index < end; index++) {
+> > > +       for (index = start; index < end; ) {
+> > >                 struct page *page;
+> > >
+> > >                 /*
+> > > @@ -2759,13 +2759,26 @@ static long shmem_fallocate(struct file *file, int mode, loff_t offset,
+> > >                         goto undone;
+> > >                 }
+> > >
+> > > +               index++;
+> > > +               /*
+> > > +                * Here is a more important optimization than it appears:
+> > > +                * a second SGP_FALLOC on the same huge page will clear it,
+> > > +                * making it PageUptodate and un-undoable if we fail later.
+> > > +                */
+> > > +               if (PageTransCompound(page)) {
+> > > +                       index = round_up(index, HPAGE_PMD_NR);
+> > > +                       /* Beware 32-bit wraparound */
+> > > +                       if (!index)
+> > > +                               index--;
+> > > +               }
+> > > +
+> > >                 /*
+> > >                  * Inform shmem_writepage() how far we have reached.
+> > >                  * No need for lock or barrier: we have the page lock.
+> > >                  */
+> > > -               shmem_falloc.next++;
+> > >                 if (!PageUptodate(page))
+> > > -                       shmem_falloc.nr_falloced++;
+> > > +                       shmem_falloc.nr_falloced += index - shmem_falloc.next;
+> > > +               shmem_falloc.next = index;
+> >
+> > This also fixed the wrong accounting of nr_falloced, so it should be
+> > able to avoid returning -ENOMEM prematurely IIUC. Is it worth
+> > mentioning in the commit log?
+>
+> It took me a long time to see your point there: ah yes, because it made
+> the whole huge page Uptodate when it reached the first tail, there would
+> have been only one nr_falloced++ for the whole of the huge page: well
+> spotted, thanks, I hadn't realized that.
+>
+> Though I'm not so sure about your premature -ENOMEM: because once it has
+> made the huge page Uptodate, the other end (shmem_writepage()) will not
+> be incrementing nr_unswapped at all: so -ENOMEM would have been deferred
+> rather than premature, wouldn't it?
 
-I agree. So do we store thread group leader PID in fanotify group? What if
-thread group leader changes? I guess I have to do some reading as I don't
-know how all these details work internally.
+Ah, ok, I didn't pay too much attention to how nr_unswapped is
+incremented. Just thought nr_falloced will be incremented by 512
+rather than 1, so it is more unlikely to return -ENOMEM.
 
-> > Also pids can be recycled so they are probably not completely reliable
-> > identifiers?
-> 
-> Not sure I follow. The group hold a refcount on struct pid of the process that
-> called fanotify_init() - I think that can used to check if reader process is
-> the same process, but not sure. Maybe there is another way (Christian?).
-
-Yes, if we hold refcount on struct pid, it should be safe against recycling.
-But cannot someone (even unpriviledged process in this case) mount some
-attack by creating a process which creates fanotify group, passes fanotify fd,
-and dies but pid would be still blocked because fanotify holds reference to
-it? I guess this is not practical as the number of fanotify groups is limited
-as well as number of fds.
-
-> > What if someone wants to process events from fanotify group by
-> > multiple processes / threads (fd can be inherited also through fork(2)...)?
-> 
-> That's the same as passing fd between processes, no?
-> If users want to do that, we will need to implement the ioctl or
-> fanotify_init() flag FAN_SHARED.
-
-Well, FAN_SHARED would be the current behavior so I don't think there's any
-point in that (we'd loose much of the security benefit gained by this
-excercise). I agree we'd need to implement the ioctl for such usecase
-but my point was that we could have a relatively sensible setup in which
-multiple pids may need to read events from fanotify queue and so fanotify
-group would need to track multiple pids allowed to read from it.
-
-I'm sorry if I sound negative at times. I'm not settled on any particular
-solution.  I'm just trying to brainstorm various pros and cons of possible
-solutions to settle on what's going to be the best :).
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+>
+> Add a comment on this in the commit log: yes, I guess so, but I haven't
+> worked out what to write yet.
+>
+> Hugh
+>
+> >
+> > >
+> > >                 /*
+> > >                  * If !PageUptodate, leave it that way so that freeable pages
+> > > --
+> > > 2.26.2
