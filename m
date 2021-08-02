@@ -2,138 +2,186 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 233B43DE068
-	for <lists+linux-api@lfdr.de>; Mon,  2 Aug 2021 22:08:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D171F3DE06D
+	for <lists+linux-api@lfdr.de>; Mon,  2 Aug 2021 22:10:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230001AbhHBUIz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 2 Aug 2021 16:08:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49410 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229607AbhHBUIz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Aug 2021 16:08:55 -0400
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B32EC06175F
-        for <linux-api@vger.kernel.org>; Mon,  2 Aug 2021 13:08:44 -0700 (PDT)
-Received: by mail-yb1-xb2a.google.com with SMTP id z18so3650940ybg.8
-        for <linux-api@vger.kernel.org>; Mon, 02 Aug 2021 13:08:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YxYj5zYVZBv3JoffDNb2oh5CmT3tQ9PMXwExh030AyY=;
-        b=gAPpLlsnvFmwBUS/RotmADz0y1jFOql5yavKhcCuzzhLGTP773gam1KzfrZLjUiUYO
-         vrAdGUXVwwnk8xF6hSlYaZJU5HSNoWJtsrFGI53HS/FHYIy8Hno1yff7dhDKmQeyunHV
-         f28TBibGXlCmbZuBlJ8rmpIJZPLbsIxxPPsrmRK4lqEEgLeX/8aC67V01aohnUg+Jc7T
-         iKlXYtFeVY1IJkCXrxJnd6mljaBfHQpRuS89jLXqDs/tI50kmbOBR3bLyxdG4zJtS2qZ
-         y0BpBof9eCh/YBq1qLt/IJliATGCMu/M4cdho12OVjzlmqq48CkKt562vpTPlwBxHyxE
-         hn6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YxYj5zYVZBv3JoffDNb2oh5CmT3tQ9PMXwExh030AyY=;
-        b=oKzyW+Fcdsg1SOsc+pc2zhRRjA4vEkni5FdOQsIz9xkroRViP3jkEq0GGPQ05GHYcY
-         Ex73LSjq8TUfz0NHeXBKQiCMNVESXntJ4Hy/RbAUqO/oOUtFB/egOBvtK0qNeAFB6Plo
-         jlqVbYhDknV3TDVp90zofXaA/3F9/hyh3Owrrl9OfEFVwHBt6XOimwkQLTWtkTuAXCyR
-         cO+QTI815FFaCo0aVOAUqfgjGBC6UzYH1/dIhbs4k5jeYsFa05FBkXm4YKU1L9BACV99
-         sipD6VgIxz6cKGaHZh/flfvSv0GWFrEHENvFG2/c/TsNHYe7p75BuJfPprh0/+wPpeQI
-         ZKxw==
-X-Gm-Message-State: AOAM532iYIgTFHOIbTXgEpUV9yxmGGtQ71fUttXnbM+rtMRFc4/N6c2j
-        o8yEFOHyY5jqbbhUjhgWmnALwOPpmIIaOAAoW0zVEA==
-X-Google-Smtp-Source: ABdhPJw9JDr+e+SrPj7jJ/TgU+U9CAwlGhl01CB2D6tdPsR4tGrBGm8zKZFdiwctNmPUMtVoabAkddYuwkdLfCl+uXw=
-X-Received: by 2002:a25:9ac6:: with SMTP id t6mr23179320ybo.190.1627934923594;
- Mon, 02 Aug 2021 13:08:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210723011436.60960-1-surenb@google.com> <CALvZod7ehaHoWRD-Pzvet5c1LQ6DYDHjs=xbJWZYEdMsgTpRgA@mail.gmail.com>
- <CAJuCfpFZeQez77CB7odfaSpi3JcLQ_Nz0WvDTsra1VPoA-j7sg@mail.gmail.com>
- <YPpfo2z8feq0vTlE@dhcp22.suse.cz> <CAJuCfpGSZwVgZ=FxhCV-uC_mzC7O-v-3k3tm-F6kOB7WM9t9tw@mail.gmail.com>
- <YPqDnqULylkkzQG5@dhcp22.suse.cz> <CALvZod4=9aEd9tUdku293uhVQ4mqsfYckCOKzqxXVTDYsmaVtQ@mail.gmail.com>
- <CAJuCfpGmpwTv92joNuVPaEJg1PigtGQn2daywHaqF4TXjuiCWQ@mail.gmail.com>
- <CALvZod7Vb2MKgCcSYtsMd8F4sFb2K7jQk3AGSECYfKvd3MNqzQ@mail.gmail.com>
- <YP5jyLeYsN3JtdX8@dhcp22.suse.cz> <CALvZod4M6mF3VvAdade3n5fE1E0LQp+CeJHWLc+pHmZqqAhepg@mail.gmail.com>
- <CAJuCfpHObuK7jOcqdme9fU5=zFoteaY+5f2_uKdW0VQJa6H7OQ@mail.gmail.com> <CALvZod7-0zra65jTUUYx6Oi17GPbRtHpAtVysiTX4_=bfqthPA@mail.gmail.com>
-In-Reply-To: <CALvZod7-0zra65jTUUYx6Oi17GPbRtHpAtVysiTX4_=bfqthPA@mail.gmail.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Mon, 2 Aug 2021 13:08:32 -0700
-Message-ID: <CAJuCfpHVUZZFPBFc6SPWOT7TrH5=SczegruB1+j=2N_ka7DG4A@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] mm: introduce process_mrelease system call
-To:     Shakeel Butt <shakeelb@google.com>
-Cc:     Michal Hocko <mhocko@suse.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Christian Brauner <christian@brauner.io>,
-        Christoph Hellwig <hch@infradead.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jann Horn <jannh@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
+        id S230175AbhHBUKP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 2 Aug 2021 16:10:15 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:55216 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229622AbhHBUKP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 2 Aug 2021 16:10:15 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 3873D21FDC;
+        Mon,  2 Aug 2021 20:10:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1627935004; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=z9wAp2fNu1NNlwVm7iEjFsxTEjyxLOb7i61fxorxCJA=;
+        b=MdFHCAsWOsFqpl4ldPcyrq3shKMzPye07RNpQi6Jij+O0GS24UwTk9E9jvCj0MGF9caFkI
+        llPcBhZOK3fAncZwwylW2GpWOLacYhggb8cupizfrmfKbufx9KdA/PzNjZfhTbbjGGhVHP
+        G0G2PQ86Ph7D2zLivnyMVVBQU4YwkD8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1627935004;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=z9wAp2fNu1NNlwVm7iEjFsxTEjyxLOb7i61fxorxCJA=;
+        b=b21RrNfBxenIe9ujARcYe2zY30Z5QLBqgnEDOo043Hr4E2mBygrWowYc3Rx0xQSI09qxgd
+        Tc2YvcwgXXiUXFCw==
+Received: from quack2.suse.cz (unknown [10.100.200.198])
+        by relay2.suse.de (Postfix) with ESMTP id 22E0CA3BBE;
+        Mon,  2 Aug 2021 20:10:04 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id F18E91E62D6; Mon,  2 Aug 2021 22:10:02 +0200 (CEST)
+Date:   Mon, 2 Aug 2021 22:10:02 +0200
+From:   Jan Kara <jack@suse.cz>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>,
+        Matthew Bobrowski <repnop@google.com>,
         Christian Brauner <christian.brauner@ubuntu.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Jan Engelhardt <jengelh@inai.de>,
-        Tim Murray <timmurray@google.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kernel-team <kernel-team@android.com>
-Content-Type: text/plain; charset="UTF-8"
+        Andy Lutomirski <luto@kernel.org>
+Subject: Re: [PATCH v3 5/5] fanotify: add pidfd support to the fanotify API
+Message-ID: <20210802201002.GF28745@quack2.suse.cz>
+References: <cover.1626845287.git.repnop@google.com>
+ <02ba3581fee21c34bd986e093d9eb0b9897fa741.1626845288.git.repnop@google.com>
+ <CAG48ez3MsFPn6TsJz75hvikgyxG5YGyT2gdoFwZuvKut4Xms1g@mail.gmail.com>
+ <CAOQ4uxhDkAmqkxT668sGD8gHcssGTeJ3o6kzzz3=0geJvfAjdg@mail.gmail.com>
+ <20210729133953.GL29619@quack2.suse.cz>
+ <CAOQ4uxi70KXGwpcBnRiyPXZCjFQfifaWaYVSDK2chaaZSyXXhQ@mail.gmail.com>
+ <CAOQ4uxgFLqO5_vPTb5hkfO1Fb27H-h0TqHsB6owZxrZw4YLoEA@mail.gmail.com>
+ <20210802123428.GB28745@quack2.suse.cz>
+ <CAOQ4uxhk-vTOFvpuh81A2V5H0nfAJW6y3qBi9TgnZxAkRDSeKQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOQ4uxhk-vTOFvpuh81A2V5H0nfAJW6y3qBi9TgnZxAkRDSeKQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Aug 2, 2021 at 1:05 PM Shakeel Butt <shakeelb@google.com> wrote:
->
-> On Mon, Aug 2, 2021 at 12:54 PM Suren Baghdasaryan <surenb@google.com> wrote:
+On Mon 02-08-21 17:38:20, Amir Goldstein wrote:
+> On Mon, Aug 2, 2021 at 3:34 PM Jan Kara <jack@suse.cz> wrote:
 > >
-> > On Mon, Jul 26, 2021 at 6:44 AM Shakeel Butt <shakeelb@google.com> wrote:
-> > >
-> > > On Mon, Jul 26, 2021 at 12:27 AM Michal Hocko <mhocko@suse.com> wrote:
+> > On Fri 30-07-21 08:03:01, Amir Goldstein wrote:
+> > > On Thu, Jul 29, 2021 at 6:13 PM Amir Goldstein <amir73il@gmail.com> wrote:
+> > > > On Thu, Jul 29, 2021 at 4:39 PM Jan Kara <jack@suse.cz> wrote:
+> > > > > Well, but pidfd also makes sure that /proc/<pid>/ keeps belonging to the
+> > > > > same process while you read various data from it. And you cannot achieve
+> > > > > that with pid+generation thing you've suggested. Plus the additional
+> > > > > concept and its complexity is non-trivial So I tend to agree with
+> > > > > Christian that we really want to return pidfd.
+> > > > >
+> > > > > Given returning pidfd is CAP_SYS_ADMIN priviledged operation I'm undecided
+> > > > > whether it is worth the trouble to come up with some other mechanism how to
+> > > > > return pidfd with the event. We could return some cookie which could be
+> > > > > then (by some ioctl or so) either transformed into real pidfd or released
+> > > > > (so that we can release pid handle in the kernel) but it looks ugly and
+> > > > > complicates things for everybody without bringing significant security
+> > > > > improvement (we already can pass fd with the event). So I'm pondering
+> > > > > whether there's some other way how we could make the interface safer - e.g.
+> > > > > so that the process receiving the event (not the one creating the group)
+> > > > > would also need to opt in for getting fds created in its file table.
+> > > > >
+> > > > > But so far nothing bright has come to my mind. :-|
+> > > > >
 > > > >
-> > > [...]
+> > > > There is a way, it is not bright, but it is pretty simple -
+> > > > store an optional pid in group->fanotify_data.fd_reader.
 > > > >
-> > > > Is process_mrelease on all of them really necessary? I thought that the
-> > > > primary reason for the call is to guarantee a forward progress in cases
-> > > > where the userspace OOM victim cannot die on SIGKILL. That should be
-> > > > more an exception than a normal case, no?
+> > > > With flag FAN_REPORT_PIDFD, both pidfd and event->fd reporting
+> > > > will be disabled to any process other than fd_reader.
+> > > > Without FAN_REPORT_PIDFD, event->fd reporting will be disabled
+> > > > if fd_reaader is set to a process other than the reader.
 > > > >
-> > >
-> > > I am thinking of using this API in this way: On user-defined OOM
-> > > condition, kill a job/cgroup and unconditionally reap all of its
-> > > processes. Keep monitoring the situation and if it does not improve go
-> > > for another kill and reap.
-> > >
-> > > I can add additional logic in between kill and reap to see if reap is
-> > > necessary but unconditionally reaping is more simple.
-> > >
+> > > > A process can call ioctl START_FD_READER to set fd_reader to itself.
+> > > > With FAN_REPORT_PIDFD, if reaader_fd is NULL and the reader
+> > > > process has CAP_SYS_ADMIN, read() sets fd_reader to itself.
 > > > >
-> > > > > An alternative would be to have a cgroup specific interface for
-> > > > > reaping similar to cgroup.kill.
+> > > > Permission wise, START_FD_READER is allowed with
+> > > > CAP_SYS_ADMIN or if fd_reader is not owned by another process.
+> > > > We may consider YIELD_FD_READER ioctl if needed.
 > > > >
-> > > > Could you elaborate?
+> > > > I think that this is a pretty cheap price for implementation
+> > > > and maybe acceptable overhead for complicating the API?
+> > > > Note that without passing fd, there is no need for any ioctl.
 > > > >
+> > > > An added security benefit is that the ioctl adds is a way for the
+> > > > caller of fanotify_init() to make sure that even if the fanotify_fd is
+> > > > leaked, that event->fd will not be leaked, regardless of flag
+> > > > FAN_REPORT_PIDFD.
+> > > >
+> > > > So the START_FD_READER ioctl feature could be implemented
+> > > > and documented first.
+> > > > And then FAN_REPORT_PIDFD could use the feature with a
+> > > > very minor API difference:
+> > > > - Without the flag, other processes can read fds by default and
+> > > >   group initiator can opt-out
+> > > > - With the flag, other processes cannot read fds by default and
+> > > >   need to opt-in
 > > >
-> > > I mentioned this in [1] where I was thinking if it makes sense to
-> > > overload cgroup.kill to also add the SIGKILLed processes in
-> > > oom_reaper_list. The downside would be that there will be one thread
-> > > doing the reaping and the syscall approach allows userspace to reap in
-> > > multiple threads. I think for now, I would go with whatever Suren is
-> > > proposing and we can always add more stuff if need arises.
+> > > Or maybe something even simpler... fanotify_init() flag
+> > > FAN_PRIVATE (or FAN_PROTECTED) that limits event reading
+> > > to the initiator process (not only fd reading).
 > > >
-> > > [1] https://lore.kernel.org/containers/CALvZod4jsb6bFzTOS4ZRAJGAzBru0oWanAhezToprjACfGm+ew@mail.gmail.com/
+> > > FAN_REPORT_PIDFD requires FAN_PRIVATE.
+> > > If we do not know there is a use case for passing fanotify_fd
+> > > that reports pidfds to another process why implement the ioctl.
+> > > We can always implement it later if the need arises.
+> > > If we contemplate this future change, though, maybe the name
+> > > FAN_PROTECTED is better to start with.
 > >
-> > Hi Folks,
-> > So far I don't think there was any request for further changes.
-> > Anything else you would want me to address or are we in a good shape
-> > wrt this feature?
-> > If so, would people who had a chance to review this patchset be
-> > willing to endorse it with their Reviewed-by or Acked-by?
->
-> I think with Michal's suggestion to use a killable mmap lock, at least
-> I am good with the patch.
+> > Good ideas. I think we are fine with returning pidfd only to the process
+> > creating the fanotify group. Later we can add an ioctl which would indicate
+> > that the process is also prepared to have fds created in its file table.
+> > But I have still some open questions:
+> > Do we want threads of the same process to still be able to receive fds?
+> 
+> I don't see why not.
+> They will be bloating the same fd table as the thread that called
+> fanotify_init().
 
-Ah, yes. Thanks for pointing this out! I'll replace mmap_read_lock()
-with mmap_read_lock_killable(). Will post an updated version later
-today.
+I agree. So do we store thread group leader PID in fanotify group? What if
+thread group leader changes? I guess I have to do some reading as I don't
+know how all these details work internally.
+
+> > Also pids can be recycled so they are probably not completely reliable
+> > identifiers?
+> 
+> Not sure I follow. The group hold a refcount on struct pid of the process that
+> called fanotify_init() - I think that can used to check if reader process is
+> the same process, but not sure. Maybe there is another way (Christian?).
+
+Yes, if we hold refcount on struct pid, it should be safe against recycling.
+But cannot someone (even unpriviledged process in this case) mount some
+attack by creating a process which creates fanotify group, passes fanotify fd,
+and dies but pid would be still blocked because fanotify holds reference to
+it? I guess this is not practical as the number of fanotify groups is limited
+as well as number of fds.
+
+> > What if someone wants to process events from fanotify group by
+> > multiple processes / threads (fd can be inherited also through fork(2)...)?
+> 
+> That's the same as passing fd between processes, no?
+> If users want to do that, we will need to implement the ioctl or
+> fanotify_init() flag FAN_SHARED.
+
+Well, FAN_SHARED would be the current behavior so I don't think there's any
+point in that (we'd loose much of the security benefit gained by this
+excercise). I agree we'd need to implement the ioctl for such usecase
+but my point was that we could have a relatively sensible setup in which
+multiple pids may need to read events from fanotify queue and so fanotify
+group would need to track multiple pids allowed to read from it.
+
+I'm sorry if I sound negative at times. I'm not settled on any particular
+solution.  I'm just trying to brainstorm various pros and cons of possible
+solutions to settle on what's going to be the best :).
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
