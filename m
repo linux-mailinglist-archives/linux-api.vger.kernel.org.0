@@ -2,238 +2,273 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84DB63DEFA5
-	for <lists+linux-api@lfdr.de>; Tue,  3 Aug 2021 16:04:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7BB13DF3D1
+	for <lists+linux-api@lfdr.de>; Tue,  3 Aug 2021 19:19:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236363AbhHCOEg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 Aug 2021 10:04:36 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:46930 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236342AbhHCOEf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Aug 2021 10:04:35 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id C4700200D0;
-        Tue,  3 Aug 2021 14:04:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1627999463; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ouKVLmkiteY68R/zynjh6KepxiHsDjIoMNZZTeGuY5U=;
-        b=tjtea3Rx6ytI78BvUZo7csPrrPKe966cgHVR5uDRG9X8hiDFmb3zp+VTDn5iPIyujSMODC
-        R6m86ik94oezjNLWtotH/EHjYBcIUqrDQm8nFBzn3ZpJqDRkkCqaiLQkDCEemInd9VOk1s
-        FjyhdgubPi/9fKEg3U5hk1Ck5n412vg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1627999463;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ouKVLmkiteY68R/zynjh6KepxiHsDjIoMNZZTeGuY5U=;
-        b=fyRdVF7dmtn/7NX4nKORIylX3CowC2fQXU1fFRAC+td8hqUuoPQ7yZpnbN+WCYCAJKqvKd
-        nJ5KuH4jZrZD7cAw==
-Received: from quack2.suse.cz (jack.udp.ovpn2.nue.suse.de [10.163.43.118])
-        by relay2.suse.de (Postfix) with ESMTP id AD495A3BD5;
-        Tue,  3 Aug 2021 14:04:23 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 1A9F81E62D6; Tue,  3 Aug 2021 16:04:21 +0200 (CEST)
-Date:   Tue, 3 Aug 2021 16:04:21 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>,
-        Matthew Bobrowski <repnop@google.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Andy Lutomirski <luto@kernel.org>
-Subject: Re: [PATCH v3 5/5] fanotify: add pidfd support to the fanotify API
-Message-ID: <20210803140421.GE10621@quack2.suse.cz>
-References: <02ba3581fee21c34bd986e093d9eb0b9897fa741.1626845288.git.repnop@google.com>
- <CAG48ez3MsFPn6TsJz75hvikgyxG5YGyT2gdoFwZuvKut4Xms1g@mail.gmail.com>
- <CAOQ4uxhDkAmqkxT668sGD8gHcssGTeJ3o6kzzz3=0geJvfAjdg@mail.gmail.com>
- <20210729133953.GL29619@quack2.suse.cz>
- <CAOQ4uxi70KXGwpcBnRiyPXZCjFQfifaWaYVSDK2chaaZSyXXhQ@mail.gmail.com>
- <CAOQ4uxgFLqO5_vPTb5hkfO1Fb27H-h0TqHsB6owZxrZw4YLoEA@mail.gmail.com>
- <20210802123428.GB28745@quack2.suse.cz>
- <CAOQ4uxhk-vTOFvpuh81A2V5H0nfAJW6y3qBi9TgnZxAkRDSeKQ@mail.gmail.com>
- <20210803093753.mxcn6nzgj55erpuw@wittgenstein>
- <CAOQ4uxgKuS8SJjz2AJQAB=3d3Yw5EeJxZ28L-u4Z0Wd35ZZFHQ@mail.gmail.com>
+        id S237836AbhHCRT1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Aug 2021 13:19:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45644 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237953AbhHCRT0 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Aug 2021 13:19:26 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97BC5C061757
+        for <linux-api@vger.kernel.org>; Tue,  3 Aug 2021 10:19:12 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id p145so20353927ybg.6
+        for <linux-api@vger.kernel.org>; Tue, 03 Aug 2021 10:19:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Ease6Bm6+dYO/uI5+kt9cx0YuwGkjF//n2DwGz99/N8=;
+        b=TKDsSCcLpNBZT1j0QmGrbeKuBdTl/zfuIZXU6+MkSTkD7Ahdq5p9NgaW7hh9Cp99l2
+         MS2VP4Gj46jIc3wOwMJUGT02Otc+5TQui50zqeXhcAvOSZNoxd7kOQCZqb+g9GnTto5W
+         j2wylHxy7k5LkGkku8iHp/tUK/0w3ASWtR/IkF/XruCEOrGJPymWtUy/GZzHRmNNN6LY
+         X8WVAs4CJywuFTQ70SvMhrLia7ri0lqA+vMNT6Oc2OMVRUpU6up9F+lt4AY9aakKalvN
+         PCOdJXGAhDX/O+/egvR8DDnb6AjysMtWl6SK73TybIfBrJ/kh+eyxdQvP1BN1j9ax8Rk
+         5emw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ease6Bm6+dYO/uI5+kt9cx0YuwGkjF//n2DwGz99/N8=;
+        b=aSooHX+8KHwN8UZEWElvDY/tVPYWuHH0hTVac4KLKvywYiOHXugICH1iss3+mw0Dvf
+         sde2q5BDp64TqW9cb5OKLGG5h8Xkehug8P8Wlfa2izsvOg8HGpwyYqF0lVdE53Vupbg9
+         e5mqLaGhtRZc2aOnN6XfKdYJKe1hCwke26/sURpTcbKhz+1Fvmvh2rEiwifYeAyQzBEF
+         WmrILT/h0yABcks5q8zj3DR/Dytr8uqqyRR1iCrLm2tCaverkWx+gYSZu4zQuPuDJEsJ
+         3JGZVdMxDtmw+6YiW0oeepe4lQlmQUSL2vVfet5TR7AToH2HH8zvF+puEx+pVcYvltUk
+         4bsg==
+X-Gm-Message-State: AOAM532UzhiURiLqIYUL4/8dREB6tTZv1Vau4zWKlPeSM/5KOXwX73l6
+        T8ik3fzle3vYxBbraT+28mt7nOal0617Y2I7hg/zsg==
+X-Google-Smtp-Source: ABdhPJxJ9Go27O6MYURKg3BsXlQyfpQgLOUbfQkaxflJgO/w1vwhSpIZOsObpoFRTdH7vsAUwJroozpS36h0i4WrMrk=
+X-Received: by 2002:a25:49c2:: with SMTP id w185mr26981788yba.294.1628011151536;
+ Tue, 03 Aug 2021 10:19:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOQ4uxgKuS8SJjz2AJQAB=3d3Yw5EeJxZ28L-u4Z0Wd35ZZFHQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20210802221431.2251210-1-surenb@google.com> <95eff329-a7b1-dc2d-026c-fd61e476c846@redhat.com>
+In-Reply-To: <95eff329-a7b1-dc2d-026c-fd61e476c846@redhat.com>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Tue, 3 Aug 2021 10:19:00 -0700
+Message-ID: <CAJuCfpFU++hzqA=ouy+G39agC0dymntadOJfLDzKC25fwM6z3w@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] mm: introduce process_mrelease system call
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Michal Hocko <mhocko@suse.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        Christoph Hellwig <hch@infradead.org>,
+        Oleg Nesterov <oleg@redhat.com>, Jann Horn <jannh@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Jan Engelhardt <jengelh@inai.de>,
+        Tim Murray <timmurray@google.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue 03-08-21 13:07:57, Amir Goldstein wrote:
-> On Tue, Aug 3, 2021 at 12:37 PM Christian Brauner
-> <christian.brauner@ubuntu.com> wrote:
-> >
-> > On Mon, Aug 02, 2021 at 05:38:20PM +0300, Amir Goldstein wrote:
-> > > On Mon, Aug 2, 2021 at 3:34 PM Jan Kara <jack@suse.cz> wrote:
-> > > >
-> > > > On Fri 30-07-21 08:03:01, Amir Goldstein wrote:
-> > > > > On Thu, Jul 29, 2021 at 6:13 PM Amir Goldstein <amir73il@gmail.com> wrote:
-> > > > > > On Thu, Jul 29, 2021 at 4:39 PM Jan Kara <jack@suse.cz> wrote:
-> > > > > > > Well, but pidfd also makes sure that /proc/<pid>/ keeps belonging to the
-> > > > > > > same process while you read various data from it. And you cannot achieve
-> > > > > > > that with pid+generation thing you've suggested. Plus the additional
-> > > > > > > concept and its complexity is non-trivial So I tend to agree with
-> > > > > > > Christian that we really want to return pidfd.
-> > > > > > >
-> > > > > > > Given returning pidfd is CAP_SYS_ADMIN priviledged operation I'm undecided
-> > > > > > > whether it is worth the trouble to come up with some other mechanism how to
-> > > > > > > return pidfd with the event. We could return some cookie which could be
-> > > > > > > then (by some ioctl or so) either transformed into real pidfd or released
-> > > > > > > (so that we can release pid handle in the kernel) but it looks ugly and
-> > > > > > > complicates things for everybody without bringing significant security
-> > > > > > > improvement (we already can pass fd with the event). So I'm pondering
-> > > > > > > whether there's some other way how we could make the interface safer - e.g.
-> > > > > > > so that the process receiving the event (not the one creating the group)
-> > > > > > > would also need to opt in for getting fds created in its file table.
-> > > > > > >
-> > > > > > > But so far nothing bright has come to my mind. :-|
-> > > > > > >
-> > > > > >
-> > > > > > There is a way, it is not bright, but it is pretty simple -
-> > > > > > store an optional pid in group->fanotify_data.fd_reader.
-> > > > > >
-> > > > > > With flag FAN_REPORT_PIDFD, both pidfd and event->fd reporting
-> > > > > > will be disabled to any process other than fd_reader.
-> > > > > > Without FAN_REPORT_PIDFD, event->fd reporting will be disabled
-> > > > > > if fd_reaader is set to a process other than the reader.
-> > > > > >
-> > > > > > A process can call ioctl START_FD_READER to set fd_reader to itself.
-> > > > > > With FAN_REPORT_PIDFD, if reaader_fd is NULL and the reader
-> > > > > > process has CAP_SYS_ADMIN, read() sets fd_reader to itself.
-> > > > > >
-> > > > > > Permission wise, START_FD_READER is allowed with
-> > > > > > CAP_SYS_ADMIN or if fd_reader is not owned by another process.
-> > > > > > We may consider YIELD_FD_READER ioctl if needed.
-> > > > > >
-> > > > > > I think that this is a pretty cheap price for implementation
-> > > > > > and maybe acceptable overhead for complicating the API?
-> > > > > > Note that without passing fd, there is no need for any ioctl.
-> > > > > >
-> > > > > > An added security benefit is that the ioctl adds is a way for the
-> > > > > > caller of fanotify_init() to make sure that even if the fanotify_fd is
-> > > > > > leaked, that event->fd will not be leaked, regardless of flag
-> > > > > > FAN_REPORT_PIDFD.
-> > > > > >
-> > > > > > So the START_FD_READER ioctl feature could be implemented
-> > > > > > and documented first.
-> > > > > > And then FAN_REPORT_PIDFD could use the feature with a
-> > > > > > very minor API difference:
-> > > > > > - Without the flag, other processes can read fds by default and
-> > > > > >   group initiator can opt-out
-> > > > > > - With the flag, other processes cannot read fds by default and
-> > > > > >   need to opt-in
-> > > > >
-> > > > > Or maybe something even simpler... fanotify_init() flag
-> > > > > FAN_PRIVATE (or FAN_PROTECTED) that limits event reading
-> > > > > to the initiator process (not only fd reading).
-> > > > >
-> > > > > FAN_REPORT_PIDFD requires FAN_PRIVATE.
-> > > > > If we do not know there is a use case for passing fanotify_fd
-> > > > > that reports pidfds to another process why implement the ioctl.
-> > > > > We can always implement it later if the need arises.
-> > > > > If we contemplate this future change, though, maybe the name
-> > > > > FAN_PROTECTED is better to start with.
-> > > >
-> > > > Good ideas. I think we are fine with returning pidfd only to the process
-> > > > creating the fanotify group. Later we can add an ioctl which would indicate
-> > > > that the process is also prepared to have fds created in its file table.
-> > > > But I have still some open questions:
-> > > > Do we want threads of the same process to still be able to receive fds?
-> > >
-> > > I don't see why not.
-> > > They will be bloating the same fd table as the thread that called
-> > > fanotify_init().
-> > >
-> > > > Also pids can be recycled so they are probably not completely reliable
-> > > > identifiers?
-> > >
-> > > Not sure I follow. The group hold a refcount on struct pid of the process that
-> > > called fanotify_init() - I think that can used to check if reader process is
-> > > the same process, but not sure. Maybe there is another way (Christian?).
-> >
-> > If the fanotify group hold's a reference to struct pid it won't get
-> > recycled. And it can be used to check if the reader thread is the same
-> > thread with some care. You also have to be specific what exactly you
-> > want to know.  If you're asking if the reading process is the same as
-> > the fanotify_init() process you can be asking one of two things.
-> >
-> > You can be asking if the reader is a thread in the same thread-group as
-> > the thread that called fanotify_init(). In that case you might need to
-> > do something like
-> >
-> > rcu_read_lock();
-> > struct task_struct *fanotify_init_task_struct = pid_task(stashed_struct_pid, PIDTYPE_PID);
-> > if (!fanotify_init_task_struct) {
-> >         /* The thread which called fanotify_init() has died already. */
-> >         return -ESRCH;
-> > }
-> > if (same_thread_group(fanotify_init_task_struct, current))
-> > rcu_read_unlock();
-> >
-> > though thinking about it makes me realise that there's a corner case. If
-> > the thread that called fanotify_init() is a thread in a non-empty
-> > thread-group it can already have died and been reaped. This would mean,
-> > pid_task(..., PIDTYPE_PID) will return NULL but there are still other
-> > threads alive in the thread-group. Handling that case might be a bit
-> > complicated.
-> >
-> > If you're asking whether the reading thread is really the same as the
-> > thread that created the fanotify instance then you might need to do sm
-> > like
-> >
-> > rcu_read_lock();
-> > if (pid_task(stashed_struct_pid, PIDTYPE_PID) == current)
-> > rcu_read_unlock();
-> >
-> > Just for completeness if I remember all of this right: there's a corner
-> > case because of how de_thread() works.
-> > During exec the thread that is execing will assume the struct pid of the
-> > old thread-group leader. (All other threads in the same thread-group
-> > will get killed.)
-> > Assume the thread that created the fanotify instance is not the
-> > thread-group leader in its non-empty thread-group. And further assume it
-> > exec's. Then it will assume the struct pid of the old thread-group
-> > leader during de_thread().
-> > Assume the thread inherits the fanotify fd across the exec. Now, when it
-> > tries to read a new event after the exec then pid_task() will return
-> > NULL.
-> > However, if the thread was already the thread-group leader before the
-> > exec then pid_task() will return the same task struct as before after
-> > the exec (because no struct pid swapping needed to take place).
-> >
-> > I hope this causes more clarity ?then confusion. :)
-> 
-> I'm afraid it's the latter :D
-> 
-> Sigh! We must simplify.
-> 
-> Thinking out loud, instead of sealing the possibility of another
-> process reading pidfd, maybe just avoid the most obvious unintentional
-> leak of fanotify_fd to another process by mandating  FAN_CLOEXEC?
+On Tue, Aug 3, 2021 at 12:48 AM David Hildenbrand <david@redhat.com> wrote:
+>
+> [...]
+>
+> > Previously I proposed a number of alternatives to accomplish this:
+> > - https://lore.kernel.org/patchwork/patch/1060407 extending
+>
+> I have no idea how stable these links are. Referencing via message id is
+> the common practice. For this link, we'd use
+>
+> https://lkml.kernel.org/r/20190411014353.113252-3-surenb@google.com/
+>
+> instead.
 
-Well, I don't think we need any protection from leaking fanotify_fd. It is
-special fd with special priviledges as any other. If you leak it, well, bad
-luck but that's how Unix priviledge model works.
+Ack.
 
-The threat IMO is that you have a process X, that process expects to
-receive fd to work with from process Y. Now process Y is malicious (or
-taken over by an attacker) and passes to X fanotify_fd. X reads from
-fanotify_fd to get data to process, it performs all kinds of validity
-checks on untrusted input but it does not expect that the read has side
-effects on X's file_table and in the worst case can lead to some compromise
-of X or easily to DoS on X by exhausting its file_table space.
+>
+> > pidfd_send_signal to allow memory reaping using oom_reaper thread;
+> > - https://lore.kernel.org/patchwork/patch/1338196 extending
+> > pidfd_send_signal to reap memory of the target process synchronously from
+> > the context of the caller;
+> > - https://lore.kernel.org/patchwork/patch/1344419/ to add MADV_DONTNEED
+> > support for process_madvise implementing synchronous memory reaping.
+> >
+> > The end of the last discussion culminated with suggestion to introduce a
+> > dedicated system call (https://lore.kernel.org/patchwork/patch/1344418/#1553875)
+> > The reasoning was that the new variant of process_madvise
+> >    a) does not work on an address range
+> >    b) is destructive
+> >    c) doesn't share much code at all with the rest of process_madvise
+> >  From the userspace point of view it was awkward and inconvenient to provide
+> > memory range for this operation that operates on the entire address space.
+> > Using special flags or address values to specify the entire address space
+> > was too hacky.
+>
+> I'd condense this description and only reference previous discussions to
+> put a main focus on what this patch actually does. Like
+>
+> "
+> After previous discussions [1, 2, 3] the decision was made to introduce
+> a dedicated system call to cover this use case.
+>
+> ...
+>
+> [1] https://lkml.kernel.org/r/20190411014353.113252-3-surenb@google.com/
+> "
+>
 
-Currently this attack vector is moot because you have to have CAP_SYS_ADMIN
-to get to fanotify_fd and then you can certainly do worse things. But OTOH
-I can see why Jann was uneasy about this.
+Ack.
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> >
+> > The API is as follows,
+> >
+> >            int process_mrelease(int pidfd, unsigned int flags);
+> >
+> >          DESCRIPTION
+> >            The process_mrelease() system call is used to free the memory of
+> >            a process which was sent a SIGKILL signal.
+> >
+> >            The pidfd selects the process referred to by the PID file
+> >            descriptor.
+> >            (See pidofd_open(2) for further information)
+> >
+> >            The flags argument is reserved for future use; currently, this
+> >            argument must be specified as 0.
+> >
+> >          RETURN VALUE
+> >            On success, process_mrelease() returns 0. On error, -1 is
+> >            returned and errno is set to indicate the error.
+> >
+> >          ERRORS
+> >            EBADF  pidfd is not a valid PID file descriptor.
+> >
+> >            EAGAIN Failed to release part of the address space.
+> >
+> >            EINTR  The call was interrupted by a signal; see signal(7).
+> >
+> >            EINVAL flags is not 0.
+> >
+> >            EINVAL The task does not have a pending SIGKILL or its memory is
+> >                   shared with another process with no pending SIGKILL.
+>
+> Hm, I do wonder if it would make sense to have a mode (e.g., via a flag)
+> to reap all but shared memory from a dying process. Future work.
+
+Agree. Let's keep it simple for now and will expand when the need arises.
+
+>
+> >
+> >            ENOSYS This system call is not supported by kernels built with no
+> >                   MMU support (CONFIG_MMU=n).
+>
+> Maybe "This system call is not supported, for example, without MMU
+> support built into Linux."
+
+Ack.
+
+>
+> >
+> >            ESRCH  The target process does not exist (i.e., it has terminated
+> >                   and been waited on).
+> >
+> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > ---
+> > changes in v4:
+> > - Replaced mmap_read_lock() with mmap_read_lock_killable(), per Michal Hocko
+> > - Added EINTR error in the manual pages documentation
+> >
+> >   mm/oom_kill.c | 58 +++++++++++++++++++++++++++++++++++++++++++++++++++
+> >   1 file changed, 58 insertions(+)
+> >
+> > diff --git a/mm/oom_kill.c b/mm/oom_kill.c
+> > index c729a4c4a1ac..86727794b0a8 100644
+> > --- a/mm/oom_kill.c
+> > +++ b/mm/oom_kill.c
+> > @@ -28,6 +28,7 @@
+> >   #include <linux/sched/task.h>
+> >   #include <linux/sched/debug.h>
+> >   #include <linux/swap.h>
+> > +#include <linux/syscalls.h>
+> >   #include <linux/timex.h>
+> >   #include <linux/jiffies.h>
+> >   #include <linux/cpuset.h>
+> > @@ -1141,3 +1142,60 @@ void pagefault_out_of_memory(void)
+> >       out_of_memory(&oc);
+> >       mutex_unlock(&oom_lock);
+> >   }
+> > +
+> > +SYSCALL_DEFINE2(process_mrelease, int, pidfd, unsigned int, flags)
+> > +{
+> > +#ifdef CONFIG_MMU
+> > +     struct mm_struct *mm = NULL;
+> > +     struct task_struct *task;
+> > +     unsigned int f_flags;
+> > +     struct pid *pid;
+> > +     long ret = 0;
+> > +
+> > +     if (flags != 0)
+>
+> if (flags)
+
+Ack.
+
+>
+> > +             return -EINVAL;
+> > +
+> > +     pid = pidfd_get_pid(pidfd, &f_flags);
+> > +     if (IS_ERR(pid))
+> > +             return PTR_ERR(pid);
+> > +
+> > +     task = get_pid_task(pid, PIDTYPE_PID);
+> > +     if (!task) {
+> > +             ret = -ESRCH;
+> > +             goto put_pid;
+> > +     }
+> > +
+> > +     /*
+> > +      * If the task is dying and in the process of releasing its memory
+> > +      * then get its mm.
+> > +      */
+> > +     task_lock(task);
+> > +     if (task_will_free_mem(task) && (task->flags & PF_KTHREAD) == 0) {
+> > +             mm = task->mm;
+> > +             mmget(mm);
+> > +     }
+> > +     task_unlock(task);
+> > +     if (!mm) {
+> > +             ret = -EINVAL;
+> > +             goto put_task;
+> > +     }
+> > +
+> > +     if (mmap_read_lock_killable(mm)) {
+> > +             ret = -EINTR;
+> > +             goto put_mm;
+> > +     }
+> > +     if (!__oom_reap_task_mm(mm))
+> > +             ret = -EAGAIN;
+>
+> I'm not an expert on __oom_reap_task_mm(), but the whole approach makes
+> sense to. So feel free to add my
+>
+> Acked-by: David Hildenbrand <david@redhat.com>
+
+Thanks! I see Michal also asked for some documentation changes and a
+simple code change, so I won't roll your Acked-by automatically into
+the next version but would appreciate it on the final version :)
+Will post the next rev later today or tomorrow morning.
+Thanks for the review!
+
+>
+> --
+> Thanks,
+>
+> David / dhildenb
+>
