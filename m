@@ -2,58 +2,56 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7BB13DF3D1
-	for <lists+linux-api@lfdr.de>; Tue,  3 Aug 2021 19:19:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FF713DF3EE
+	for <lists+linux-api@lfdr.de>; Tue,  3 Aug 2021 19:27:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237836AbhHCRT1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 Aug 2021 13:19:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45644 "EHLO
+        id S238114AbhHCR2J (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Aug 2021 13:28:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237953AbhHCRT0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Aug 2021 13:19:26 -0400
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97BC5C061757
-        for <linux-api@vger.kernel.org>; Tue,  3 Aug 2021 10:19:12 -0700 (PDT)
-Received: by mail-yb1-xb30.google.com with SMTP id p145so20353927ybg.6
-        for <linux-api@vger.kernel.org>; Tue, 03 Aug 2021 10:19:12 -0700 (PDT)
+        with ESMTP id S238073AbhHCR2J (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Aug 2021 13:28:09 -0400
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4CE7C06175F
+        for <linux-api@vger.kernel.org>; Tue,  3 Aug 2021 10:27:57 -0700 (PDT)
+Received: by mail-yb1-xb31.google.com with SMTP id f26so14357121ybj.5
+        for <linux-api@vger.kernel.org>; Tue, 03 Aug 2021 10:27:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Ease6Bm6+dYO/uI5+kt9cx0YuwGkjF//n2DwGz99/N8=;
-        b=TKDsSCcLpNBZT1j0QmGrbeKuBdTl/zfuIZXU6+MkSTkD7Ahdq5p9NgaW7hh9Cp99l2
-         MS2VP4Gj46jIc3wOwMJUGT02Otc+5TQui50zqeXhcAvOSZNoxd7kOQCZqb+g9GnTto5W
-         j2wylHxy7k5LkGkku8iHp/tUK/0w3ASWtR/IkF/XruCEOrGJPymWtUy/GZzHRmNNN6LY
-         X8WVAs4CJywuFTQ70SvMhrLia7ri0lqA+vMNT6Oc2OMVRUpU6up9F+lt4AY9aakKalvN
-         PCOdJXGAhDX/O+/egvR8DDnb6AjysMtWl6SK73TybIfBrJ/kh+eyxdQvP1BN1j9ax8Rk
-         5emw==
+        bh=tTZ5g4GTILsDQHp1eqPRFqPGKzM3iGG8XzvZFkbQn5Q=;
+        b=Q2WtkHAqT08j9j6JZNFmzJDazhybSJWhcsPGUi93jChlAh7Ooo/2WM/Wagoul/9Nl0
+         Y+kU5GD/nFBQ4T5SPxSvqmnXMmhvTTp3EaP3e89PAQkKwV66ajjGdizUmux4142dQqxR
+         BU7E0KbviB2lKuItNBO9ITKSEBuNXA0f83J07AJxgGXFXVDQ2FeES+ydhEnE67NdTR48
+         iMe8SZwe0c0Wc6RFTlxHCS7TCO/IvG07Npz0znwrjnhhxsHhZxUdaNROpbTbkmjKhAk8
+         lGcptZtMb69rNGTYsyY7wEdqJf/qcrp+gRRGAL9+aMIrACMSwlbky78bIaiDZj9BMG48
+         4ycg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Ease6Bm6+dYO/uI5+kt9cx0YuwGkjF//n2DwGz99/N8=;
-        b=aSooHX+8KHwN8UZEWElvDY/tVPYWuHH0hTVac4KLKvywYiOHXugICH1iss3+mw0Dvf
-         sde2q5BDp64TqW9cb5OKLGG5h8Xkehug8P8Wlfa2izsvOg8HGpwyYqF0lVdE53Vupbg9
-         e5mqLaGhtRZc2aOnN6XfKdYJKe1hCwke26/sURpTcbKhz+1Fvmvh2rEiwifYeAyQzBEF
-         WmrILT/h0yABcks5q8zj3DR/Dytr8uqqyRR1iCrLm2tCaverkWx+gYSZu4zQuPuDJEsJ
-         3JGZVdMxDtmw+6YiW0oeepe4lQlmQUSL2vVfet5TR7AToH2HH8zvF+puEx+pVcYvltUk
-         4bsg==
-X-Gm-Message-State: AOAM532UzhiURiLqIYUL4/8dREB6tTZv1Vau4zWKlPeSM/5KOXwX73l6
-        T8ik3fzle3vYxBbraT+28mt7nOal0617Y2I7hg/zsg==
-X-Google-Smtp-Source: ABdhPJxJ9Go27O6MYURKg3BsXlQyfpQgLOUbfQkaxflJgO/w1vwhSpIZOsObpoFRTdH7vsAUwJroozpS36h0i4WrMrk=
-X-Received: by 2002:a25:49c2:: with SMTP id w185mr26981788yba.294.1628011151536;
- Tue, 03 Aug 2021 10:19:11 -0700 (PDT)
+        bh=tTZ5g4GTILsDQHp1eqPRFqPGKzM3iGG8XzvZFkbQn5Q=;
+        b=oJ4q+170uY9KBW1kzRi3W8ffRokrI6Qk8bI2eRdQgRtp76Af3Af1Vkd36cDtyY4H98
+         Gc6RSIQguGmeEbRH1xyitX2gQw0P0sHfGLUCROzZiU+zNaVwccdv0+GhCRFzqjqA8xEF
+         n0aqM6/nWVcTLe9YaYg0S9iZlUeuAnKdpd8fKvjPEiF0u3gLwsq+12TlT/HLOolbhZUL
+         Y+dBqcoYMIHEI6DyFNxBfxLJlG+QwQJDQYVNuF6lfQGsspsLP3hzzFFDOwiHObLvWXoi
+         1Yi2e/ozonm4ZWjTrLn5NKXoLxj4SF1H9S2LabHUCLeT6nJbO91E87mDUHgPagSqIg4C
+         IdoQ==
+X-Gm-Message-State: AOAM532uiKbYSX6BySHk9+LeMyci55HAAGT37U9AEEtekdrpzOkxQonZ
+        bAttqCWEVXg8RYy/cplB98FbwTNs7OFV0RcAyIMMyw==
+X-Google-Smtp-Source: ABdhPJzQyiU4rreG5VZBo/3+o/Cqn4zQ4RIZdZLrfNJKLQ/gBgJysO57Kkp1iRQQ1WakNnYBMblrGG3vb9gVi120A4w=
+X-Received: by 2002:a25:bc2:: with SMTP id 185mr28865645ybl.23.1628011676754;
+ Tue, 03 Aug 2021 10:27:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210802221431.2251210-1-surenb@google.com> <95eff329-a7b1-dc2d-026c-fd61e476c846@redhat.com>
-In-Reply-To: <95eff329-a7b1-dc2d-026c-fd61e476c846@redhat.com>
+References: <20210802221431.2251210-1-surenb@google.com> <YQkAqwZIF+AnpexA@dhcp22.suse.cz>
+In-Reply-To: <YQkAqwZIF+AnpexA@dhcp22.suse.cz>
 From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Tue, 3 Aug 2021 10:19:00 -0700
-Message-ID: <CAJuCfpFU++hzqA=ouy+G39agC0dymntadOJfLDzKC25fwM6z3w@mail.gmail.com>
+Date:   Tue, 3 Aug 2021 10:27:45 -0700
+Message-ID: <CAJuCfpGiYAdvOydimHbK73oKS-ZfMMBtADXxWCYpxkX2qJX08g@mail.gmail.com>
 Subject: Re: [PATCH v4 1/2] mm: introduce process_mrelease system call
-To:     David Hildenbrand <david@redhat.com>
+To:     Michal Hocko <mhocko@suse.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Michal Hocko <mhocko@suse.com>,
         David Rientjes <rientjes@google.com>,
         Matthew Wilcox <willy@infradead.org>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -61,7 +59,9 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Minchan Kim <minchan@kernel.org>,
         Christian Brauner <christian@brauner.io>,
         Christoph Hellwig <hch@infradead.org>,
-        Oleg Nesterov <oleg@redhat.com>, Jann Horn <jannh@google.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Jann Horn <jannh@google.com>,
         Shakeel Butt <shakeelb@google.com>,
         Andy Lutomirski <luto@kernel.org>,
         Christian Brauner <christian.brauner@ubuntu.com>,
@@ -77,107 +77,115 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 3, 2021 at 12:48 AM David Hildenbrand <david@redhat.com> wrote:
+On Tue, Aug 3, 2021 at 1:39 AM Michal Hocko <mhocko@suse.com> wrote:
 >
-> [...]
->
+> On Mon 02-08-21 15:14:30, Suren Baghdasaryan wrote:
+> > In modern systems it's not unusual to have a system component monitoring
+> > memory conditions of the system and tasked with keeping system memory
+> > pressure under control. One way to accomplish that is to kill
+> > non-essential processes to free up memory for more important ones.
+> > Examples of this are Facebook's OOM killer daemon called oomd and
+> > Android's low memory killer daemon called lmkd.
+> > For such system component it's important to be able to free memory
+> > quickly and efficiently. Unfortunately the time process takes to free
+> > up its memory after receiving a SIGKILL might vary based on the state
+> > of the process (uninterruptible sleep), size and OPP level of the core
+> > the process is running. A mechanism to free resources of the target
+> > process in a more predictable way would improve system's ability to
+> > control its memory pressure.
+> > Introduce process_mrelease system call that releases memory of a dying
+> > process from the context of the caller. This way the memory is freed in
+> > a more controllable way with CPU affinity and priority of the caller.
+> > The workload of freeing the memory will also be charged to the caller.
+> > The operation is allowed only on a dying process.
+> >
 > > Previously I proposed a number of alternatives to accomplish this:
 > > - https://lore.kernel.org/patchwork/patch/1060407 extending
 >
-> I have no idea how stable these links are. Referencing via message id is
-> the common practice. For this link, we'd use
->
-> https://lkml.kernel.org/r/20190411014353.113252-3-surenb@google.com/
->
-> instead.
+> Please use the msg-id based urls https://lore.kernel.org/lkml/20190411014353.113252-3-surenb@google.com/
 
-Ack.
+Will do. Thanks!
 
 >
 > > pidfd_send_signal to allow memory reaping using oom_reaper thread;
 > > - https://lore.kernel.org/patchwork/patch/1338196 extending
+>
+> https://lore.kernel.org/linux-api/20201113173448.1863419-1-surenb@google.com/
+>
 > > pidfd_send_signal to reap memory of the target process synchronously from
 > > the context of the caller;
 > > - https://lore.kernel.org/patchwork/patch/1344419/ to add MADV_DONTNEED
 > > support for process_madvise implementing synchronous memory reaping.
-> >
+>
+> https://lore.kernel.org/linux-api/20201124053943.1684874-3-surenb@google.com/
+>
 > > The end of the last discussion culminated with suggestion to introduce a
 > > dedicated system call (https://lore.kernel.org/patchwork/patch/1344418/#1553875)
+>
+> https://lore.kernel.org/linux-api/20201223075712.GA4719@lst.de/
+>
 > > The reasoning was that the new variant of process_madvise
-> >    a) does not work on an address range
-> >    b) is destructive
-> >    c) doesn't share much code at all with the rest of process_madvise
-> >  From the userspace point of view it was awkward and inconvenient to provide
+> >   a) does not work on an address range
+> >   b) is destructive
+> >   c) doesn't share much code at all with the rest of process_madvise
+> > >From the userspace point of view it was awkward and inconvenient to provide
 > > memory range for this operation that operates on the entire address space.
 > > Using special flags or address values to specify the entire address space
 > > was too hacky.
->
-> I'd condense this description and only reference previous discussions to
-> put a main focus on what this patch actually does. Like
->
-> "
-> After previous discussions [1, 2, 3] the decision was made to introduce
-> a dedicated system call to cover this use case.
->
-> ...
->
-> [1] https://lkml.kernel.org/r/20190411014353.113252-3-surenb@google.com/
-> "
->
-
-Ack.
-
 > >
 > > The API is as follows,
 > >
-> >            int process_mrelease(int pidfd, unsigned int flags);
+> >           int process_mrelease(int pidfd, unsigned int flags);
 > >
-> >          DESCRIPTION
-> >            The process_mrelease() system call is used to free the memory of
-> >            a process which was sent a SIGKILL signal.
-> >
-> >            The pidfd selects the process referred to by the PID file
-> >            descriptor.
-> >            (See pidofd_open(2) for further information)
-> >
-> >            The flags argument is reserved for future use; currently, this
-> >            argument must be specified as 0.
-> >
-> >          RETURN VALUE
-> >            On success, process_mrelease() returns 0. On error, -1 is
-> >            returned and errno is set to indicate the error.
-> >
-> >          ERRORS
-> >            EBADF  pidfd is not a valid PID file descriptor.
-> >
-> >            EAGAIN Failed to release part of the address space.
-> >
-> >            EINTR  The call was interrupted by a signal; see signal(7).
-> >
-> >            EINVAL flags is not 0.
-> >
-> >            EINVAL The task does not have a pending SIGKILL or its memory is
-> >                   shared with another process with no pending SIGKILL.
+> >         DESCRIPTION
+> >           The process_mrelease() system call is used to free the memory of
+> >           a process which was sent a SIGKILL signal.
 >
-> Hm, I do wonder if it would make sense to have a mode (e.g., via a flag)
-> to reap all but shared memory from a dying process. Future work.
-
-Agree. Let's keep it simple for now and will expand when the need arises.
-
->
-> >
-> >            ENOSYS This system call is not supported by kernels built with no
-> >                   MMU support (CONFIG_MMU=n).
->
-> Maybe "This system call is not supported, for example, without MMU
-> support built into Linux."
+> This is not really precise. The implementation will allow to use the
+> syscall on any exiting or fatal signal received process. Not just those
+> that have been SIGKILLed, right? For the purpose of the man page I would
+> go with exiting process for the wording.
 
 Ack.
 
 >
+> >           The pidfd selects the process referred to by the PID file
+> >           descriptor.
+> >           (See pidofd_open(2) for further information)
 > >
-> >            ESRCH  The target process does not exist (i.e., it has terminated
-> >                   and been waited on).
+> >           The flags argument is reserved for future use; currently, this
+> >           argument must be specified as 0.
+> >
+> >         RETURN VALUE
+> >           On success, process_mrelease() returns 0. On error, -1 is
+> >           returned and errno is set to indicate the error.
+> >
+> >         ERRORS
+> >           EBADF  pidfd is not a valid PID file descriptor.
+> >
+> >           EAGAIN Failed to release part of the address space.
+> >
+> >           EINTR  The call was interrupted by a signal; see signal(7).
+> >
+> >           EINVAL flags is not 0.
+> >
+> >           EINVAL The task does not have a pending SIGKILL or its memory is
+> >                  shared with another process with no pending SIGKILL.
+>
+> again, wording here. I would go with
+>             EINVAL The memory of the task cannot be released because the
+>                    process is not exiting, the address space is shared
+>                    with an alive process or there is a core dump is in
+>                    progress..
+
+Ack.
+
+> >
+> >           ENOSYS This system call is not supported by kernels built with no
+> >                  MMU support (CONFIG_MMU=n).
+> >
+> >           ESRCH  The target process does not exist (i.e., it has terminated
+> >                  and been waited on).
 > >
 > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 > > ---
@@ -185,25 +193,25 @@ Ack.
 > > - Replaced mmap_read_lock() with mmap_read_lock_killable(), per Michal Hocko
 > > - Added EINTR error in the manual pages documentation
 > >
-> >   mm/oom_kill.c | 58 +++++++++++++++++++++++++++++++++++++++++++++++++++
-> >   1 file changed, 58 insertions(+)
+> >  mm/oom_kill.c | 58 +++++++++++++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 58 insertions(+)
 > >
 > > diff --git a/mm/oom_kill.c b/mm/oom_kill.c
 > > index c729a4c4a1ac..86727794b0a8 100644
 > > --- a/mm/oom_kill.c
 > > +++ b/mm/oom_kill.c
 > > @@ -28,6 +28,7 @@
-> >   #include <linux/sched/task.h>
-> >   #include <linux/sched/debug.h>
-> >   #include <linux/swap.h>
+> >  #include <linux/sched/task.h>
+> >  #include <linux/sched/debug.h>
+> >  #include <linux/swap.h>
 > > +#include <linux/syscalls.h>
-> >   #include <linux/timex.h>
-> >   #include <linux/jiffies.h>
-> >   #include <linux/cpuset.h>
+> >  #include <linux/timex.h>
+> >  #include <linux/jiffies.h>
+> >  #include <linux/cpuset.h>
 > > @@ -1141,3 +1142,60 @@ void pagefault_out_of_memory(void)
 > >       out_of_memory(&oc);
 > >       mutex_unlock(&oom_lock);
-> >   }
+> >  }
 > > +
 > > +SYSCALL_DEFINE2(process_mrelease, int, pidfd, unsigned int, flags)
 > > +{
@@ -215,12 +223,6 @@ Ack.
 > > +     long ret = 0;
 > > +
 > > +     if (flags != 0)
->
-> if (flags)
-
-Ack.
-
->
 > > +             return -EINVAL;
 > > +
 > > +     pid = pidfd_get_pid(pidfd, &f_flags);
@@ -238,12 +240,27 @@ Ack.
 > > +      * then get its mm.
 > > +      */
 > > +     task_lock(task);
+>
+> Don't we need find_lock_task_mm here?
+
+Yes, we do. Will fix in the next rev.
+
+>
 > > +     if (task_will_free_mem(task) && (task->flags & PF_KTHREAD) == 0) {
 > > +             mm = task->mm;
 > > +             mmget(mm);
 > > +     }
 > > +     task_unlock(task);
 > > +     if (!mm) {
+>
+> Do we want to treat MMF_OOM_SKIP as a failure?
+
+Yeah, I don't think we want to create additional contention if
+oom-killer is already working on this mm. Should we return EBUSY in
+this case? Other possible options is ESRCH, indicating that this
+process is a goner, so don't bother. WDYT?
+
+>
 > > +             ret = -EINVAL;
 > > +             goto put_task;
 > > +     }
@@ -254,21 +271,25 @@ Ack.
 > > +     }
 > > +     if (!__oom_reap_task_mm(mm))
 > > +             ret = -EAGAIN;
+> > +     mmap_read_unlock(mm);
+> > +
+> > +put_mm:
+> > +     mmput(mm);
+> > +put_task:
+> > +     put_task_struct(task);
+> > +put_pid:
+> > +     put_pid(pid);
+> > +     return ret;
+> > +#else
+> > +     return -ENOSYS;
+> > +#endif /* CONFIG_MMU */
+> > +}
+> > --
+> > 2.32.0.554.ge1b32706d8-goog
 >
-> I'm not an expert on __oom_reap_task_mm(), but the whole approach makes
-> sense to. So feel free to add my
->
-> Acked-by: David Hildenbrand <david@redhat.com>
 
-Thanks! I see Michal also asked for some documentation changes and a
-simple code change, so I won't roll your Acked-by automatically into
-the next version but would appreciate it on the final version :)
-Will post the next rev later today or tomorrow morning.
 Thanks for the review!
 
->
 > --
-> Thanks,
->
-> David / dhildenb
->
+> Michal Hocko
+> SUSE Labs
