@@ -2,326 +2,306 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C1EF3DF731
-	for <lists+linux-api@lfdr.de>; Wed,  4 Aug 2021 00:04:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 257D43DF743
+	for <lists+linux-api@lfdr.de>; Wed,  4 Aug 2021 00:09:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231469AbhHCWEK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 Aug 2021 18:04:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57246 "EHLO
+        id S232144AbhHCWKI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 Aug 2021 18:10:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231602AbhHCWEK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Aug 2021 18:04:10 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64819C061757
-        for <linux-api@vger.kernel.org>; Tue,  3 Aug 2021 15:03:58 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id a6-20020a25ae060000b0290551bbd99700so756063ybj.6
-        for <linux-api@vger.kernel.org>; Tue, 03 Aug 2021 15:03:58 -0700 (PDT)
+        with ESMTP id S231783AbhHCWKI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 3 Aug 2021 18:10:08 -0400
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80854C061757
+        for <linux-api@vger.kernel.org>; Tue,  3 Aug 2021 15:09:55 -0700 (PDT)
+Received: by mail-yb1-xb31.google.com with SMTP id w17so1011002ybl.11
+        for <linux-api@vger.kernel.org>; Tue, 03 Aug 2021 15:09:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=QDum0StXSY3lEe5NHVGk92kk81iIMQ9tJ12P9cSRrpQ=;
-        b=R7SpO6Nw4We4wY5jplh8SWRpAAOdnV+vV7mWM4Nw470Ycn1SJCf1OYb8vr5OWKXBg4
-         b2ugS9SPmFCf6ZVsKpC4PsTY00JzqeLCsrAqVuz5U68PqGBSY4u+KsPKa8viIugOjLZF
-         5skzGJlYH5EDTQbVRIXbcD1PQLPV0dlb1qu9o+lju0FjF+8vUlvEKvUBbd2ff0SbQWeu
-         wAjziC7llCJoOcw/sdGYICAuOSqK9qmjvJ1dcVsB9JfM/v8nzRvqHrRRnjfZNmJwgoSE
-         h7heTKjVjiD+sNGMmzq2yB8zJ0c4CLnBrjnjKANp1/V9M++ceN/1S40lTfEGtrpOlzwR
-         gs1g==
+        bh=6FiAIaMy2C3duPSFo6M7ujpZbEN7hAllZgdmnRkqo6w=;
+        b=vVjM6WashkbHD78Q7dI62gTPTYZh3xyul9cjLIOm7ASBkb5EvLaD+/U8ompMvFBmxN
+         xe0Ll6jDyk2e2Uf5GIAThESVRTLjS10Su7BDD/phMLLQMdxjAMZdZ2qSj9/tKiWngymU
+         IIUEwKYfZMONug9gYWV1tdnmrvPy2gnLYw5aWjC5wtu8if+nABdReDQX2v4SM4FCh/NS
+         vXnwI0QppM+RM5gGwDox1KYEQpDFT0FdF//xhF7DzXprTyvoP5R9HJXGtVp65qpJdFpJ
+         zGzxXsfY0WBSDwHb4mKfzAZeSmW7PEfB5zHQQ/H5LkFgJRyqoi+h0TIEN+8r7D8NVO13
+         bXpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=QDum0StXSY3lEe5NHVGk92kk81iIMQ9tJ12P9cSRrpQ=;
-        b=Biikrlwspwoi4KIkm6NXJPjldeeGg5/GKXWjc/ZG0nlfZprOt4XmU7MR5Trru17zFB
-         p6COy7FR5jCFMrCYM9yKNow+v4CRo/yChVScmWFId3tZC/khgo8s3oPHrk5xfLbSR7Ah
-         EQw0pRRXtlb3CMhKL+i8kmidAmwSRjX/TsdNwNF20D33E6gd1+TCz9epmXhfTbRNZ6/n
-         6mDYCGuwOcSaA99YNl2L/FpagzeOD30i4zmK9XO8lqY2cO2+RO8di7HniOjR5j05ZuAP
-         fkKa7n9R7UvSDUqkc6Yl9+DaNQq0fkA05zhe0b65/hYXoE0o0wthGHpT6FeXAvuEyget
-         UD8A==
-X-Gm-Message-State: AOAM5307YMPdUkMCJ5pdRQVFr7bqadxEUyxAKVcC6fkIfb3rDkzkk+du
-        KmWJFyWNkZLH+7og2wsfc61IDN/qfTk=
-X-Google-Smtp-Source: ABdhPJyQrSL2oinZTt+/qGYsDge4pF5tMuOF7i4fQJE7Cqz/jCcDNQa6UmDLT+FH5DEUWgQFDOe9rcdBD0E=
-X-Received: from surenb1.mtv.corp.google.com ([2620:15c:211:200:ec88:ca07:cb52:bb88])
- (user=surenb job=sendgmr) by 2002:a25:db0c:: with SMTP id g12mr28537554ybf.6.1628028237557;
- Tue, 03 Aug 2021 15:03:57 -0700 (PDT)
-Date:   Tue,  3 Aug 2021 15:03:51 -0700
-In-Reply-To: <20210803220351.245332-1-surenb@google.com>
-Message-Id: <20210803220351.245332-2-surenb@google.com>
-Mime-Version: 1.0
-References: <20210803220351.245332-1-surenb@google.com>
-X-Mailer: git-send-email 2.32.0.554.ge1b32706d8-goog
-Subject: [PATCH v5 2/2] mm: wire up syscall process_mrelease
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6FiAIaMy2C3duPSFo6M7ujpZbEN7hAllZgdmnRkqo6w=;
+        b=F85PVjbHp/rCU9t4ejDevyao8RDMFjUe1MtrOL7FHz4UV+xe99tn/AAnLKDIKi9SDJ
+         Qe+CfcVv6na1C7oy7CtY0ony2WUxjIIatGvFDDTsXbE1TpG8CHzwt3NHxTFjwDCcyGJ+
+         mEkECIt2k/pQEiMhU80bWJEUAiXEaRVCAtbI/MUlHv6UD80NegaS14IVloqqRRuKZall
+         7vRKc8LBkkd86fykTMQGmqTf3MB5a4/AUyNzV6O2ndcfSEuyYP76azoNcdqkAp+uVQ+q
+         9BYd5TDdrKPWI+C1qGT6UhenSr824V/hO9cV7/TD5MDMBRgSXT23cjovmVafAK6vS281
+         MS2g==
+X-Gm-Message-State: AOAM530H6j4xunfAjxfhP4EzTWWLeM5kq71rmKIRIe3vi9HwItp1aeLz
+        YkpBCSdV0Aad4UGo/qOImCsuKu0nVu+dFUytY3gB7Q==
+X-Google-Smtp-Source: ABdhPJyGshMLYtVaVG5xK6igxtN1nsvJlI+CR/QJ1sJxl0p/Bb4EbVUZJ9xHTg+hAYJNjoZTnMShcj9hfWwjLbG/WTQ=
+X-Received: by 2002:a25:bc2:: with SMTP id 185mr30284331ybl.23.1628028594501;
+ Tue, 03 Aug 2021 15:09:54 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210802221431.2251210-1-surenb@google.com> <YQkAqwZIF+AnpexA@dhcp22.suse.cz>
+ <CAJuCfpGiYAdvOydimHbK73oKS-ZfMMBtADXxWCYpxkX2qJX08g@mail.gmail.com>
+In-Reply-To: <CAJuCfpGiYAdvOydimHbK73oKS-ZfMMBtADXxWCYpxkX2qJX08g@mail.gmail.com>
 From:   Suren Baghdasaryan <surenb@google.com>
-To:     akpm@linux-foundation.org
-Cc:     mhocko@kernel.org, mhocko@suse.com, rientjes@google.com,
-        willy@infradead.org, hannes@cmpxchg.org, guro@fb.com,
-        riel@surriel.com, minchan@kernel.org, christian@brauner.io,
-        hch@infradead.org, oleg@redhat.com, david@redhat.com,
-        jannh@google.com, shakeelb@google.com, luto@kernel.org,
-        christian.brauner@ubuntu.com, fweimer@redhat.com, jengelh@inai.de,
-        timmurray@google.com, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        kernel-team@android.com, surenb@google.com
+Date:   Tue, 3 Aug 2021 15:09:43 -0700
+Message-ID: <CAJuCfpEjb+o_TuQqxYALcvpr+4kq7tVNjq7A3oahB=1=JPyWtw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] mm: introduce process_mrelease system call
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        Christoph Hellwig <hch@infradead.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Jann Horn <jannh@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Jan Engelhardt <jengelh@inai.de>,
+        Tim Murray <timmurray@google.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Split off from prev patch in the series that implements the syscall.
+On Tue, Aug 3, 2021 at 10:27 AM Suren Baghdasaryan <surenb@google.com> wrote:
+>
+> On Tue, Aug 3, 2021 at 1:39 AM Michal Hocko <mhocko@suse.com> wrote:
+> >
+> > On Mon 02-08-21 15:14:30, Suren Baghdasaryan wrote:
+> > > In modern systems it's not unusual to have a system component monitoring
+> > > memory conditions of the system and tasked with keeping system memory
+> > > pressure under control. One way to accomplish that is to kill
+> > > non-essential processes to free up memory for more important ones.
+> > > Examples of this are Facebook's OOM killer daemon called oomd and
+> > > Android's low memory killer daemon called lmkd.
+> > > For such system component it's important to be able to free memory
+> > > quickly and efficiently. Unfortunately the time process takes to free
+> > > up its memory after receiving a SIGKILL might vary based on the state
+> > > of the process (uninterruptible sleep), size and OPP level of the core
+> > > the process is running. A mechanism to free resources of the target
+> > > process in a more predictable way would improve system's ability to
+> > > control its memory pressure.
+> > > Introduce process_mrelease system call that releases memory of a dying
+> > > process from the context of the caller. This way the memory is freed in
+> > > a more controllable way with CPU affinity and priority of the caller.
+> > > The workload of freeing the memory will also be charged to the caller.
+> > > The operation is allowed only on a dying process.
+> > >
+> > > Previously I proposed a number of alternatives to accomplish this:
+> > > - https://lore.kernel.org/patchwork/patch/1060407 extending
+> >
+> > Please use the msg-id based urls https://lore.kernel.org/lkml/20190411014353.113252-3-surenb@google.com/
+>
+> Will do. Thanks!
+>
+> >
+> > > pidfd_send_signal to allow memory reaping using oom_reaper thread;
+> > > - https://lore.kernel.org/patchwork/patch/1338196 extending
+> >
+> > https://lore.kernel.org/linux-api/20201113173448.1863419-1-surenb@google.com/
+> >
+> > > pidfd_send_signal to reap memory of the target process synchronously from
+> > > the context of the caller;
+> > > - https://lore.kernel.org/patchwork/patch/1344419/ to add MADV_DONTNEED
+> > > support for process_madvise implementing synchronous memory reaping.
+> >
+> > https://lore.kernel.org/linux-api/20201124053943.1684874-3-surenb@google.com/
+> >
+> > > The end of the last discussion culminated with suggestion to introduce a
+> > > dedicated system call (https://lore.kernel.org/patchwork/patch/1344418/#1553875)
+> >
+> > https://lore.kernel.org/linux-api/20201223075712.GA4719@lst.de/
+> >
+> > > The reasoning was that the new variant of process_madvise
+> > >   a) does not work on an address range
+> > >   b) is destructive
+> > >   c) doesn't share much code at all with the rest of process_madvise
+> > > >From the userspace point of view it was awkward and inconvenient to provide
+> > > memory range for this operation that operates on the entire address space.
+> > > Using special flags or address values to specify the entire address space
+> > > was too hacky.
+> > >
+> > > The API is as follows,
+> > >
+> > >           int process_mrelease(int pidfd, unsigned int flags);
+> > >
+> > >         DESCRIPTION
+> > >           The process_mrelease() system call is used to free the memory of
+> > >           a process which was sent a SIGKILL signal.
+> >
+> > This is not really precise. The implementation will allow to use the
+> > syscall on any exiting or fatal signal received process. Not just those
+> > that have been SIGKILLed, right? For the purpose of the man page I would
+> > go with exiting process for the wording.
+>
+> Ack.
+>
+> >
+> > >           The pidfd selects the process referred to by the PID file
+> > >           descriptor.
+> > >           (See pidofd_open(2) for further information)
+> > >
+> > >           The flags argument is reserved for future use; currently, this
+> > >           argument must be specified as 0.
+> > >
+> > >         RETURN VALUE
+> > >           On success, process_mrelease() returns 0. On error, -1 is
+> > >           returned and errno is set to indicate the error.
+> > >
+> > >         ERRORS
+> > >           EBADF  pidfd is not a valid PID file descriptor.
+> > >
+> > >           EAGAIN Failed to release part of the address space.
+> > >
+> > >           EINTR  The call was interrupted by a signal; see signal(7).
+> > >
+> > >           EINVAL flags is not 0.
+> > >
+> > >           EINVAL The task does not have a pending SIGKILL or its memory is
+> > >                  shared with another process with no pending SIGKILL.
+> >
+> > again, wording here. I would go with
+> >             EINVAL The memory of the task cannot be released because the
+> >                    process is not exiting, the address space is shared
+> >                    with an alive process or there is a core dump is in
+> >                    progress..
+>
+> Ack.
+>
+> > >
+> > >           ENOSYS This system call is not supported by kernels built with no
+> > >                  MMU support (CONFIG_MMU=n).
+> > >
+> > >           ESRCH  The target process does not exist (i.e., it has terminated
+> > >                  and been waited on).
+> > >
+> > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > > ---
+> > > changes in v4:
+> > > - Replaced mmap_read_lock() with mmap_read_lock_killable(), per Michal Hocko
+> > > - Added EINTR error in the manual pages documentation
+> > >
+> > >  mm/oom_kill.c | 58 +++++++++++++++++++++++++++++++++++++++++++++++++++
+> > >  1 file changed, 58 insertions(+)
+> > >
+> > > diff --git a/mm/oom_kill.c b/mm/oom_kill.c
+> > > index c729a4c4a1ac..86727794b0a8 100644
+> > > --- a/mm/oom_kill.c
+> > > +++ b/mm/oom_kill.c
+> > > @@ -28,6 +28,7 @@
+> > >  #include <linux/sched/task.h>
+> > >  #include <linux/sched/debug.h>
+> > >  #include <linux/swap.h>
+> > > +#include <linux/syscalls.h>
+> > >  #include <linux/timex.h>
+> > >  #include <linux/jiffies.h>
+> > >  #include <linux/cpuset.h>
+> > > @@ -1141,3 +1142,60 @@ void pagefault_out_of_memory(void)
+> > >       out_of_memory(&oc);
+> > >       mutex_unlock(&oom_lock);
+> > >  }
+> > > +
+> > > +SYSCALL_DEFINE2(process_mrelease, int, pidfd, unsigned int, flags)
+> > > +{
+> > > +#ifdef CONFIG_MMU
+> > > +     struct mm_struct *mm = NULL;
+> > > +     struct task_struct *task;
+> > > +     unsigned int f_flags;
+> > > +     struct pid *pid;
+> > > +     long ret = 0;
+> > > +
+> > > +     if (flags != 0)
+> > > +             return -EINVAL;
+> > > +
+> > > +     pid = pidfd_get_pid(pidfd, &f_flags);
+> > > +     if (IS_ERR(pid))
+> > > +             return PTR_ERR(pid);
+> > > +
+> > > +     task = get_pid_task(pid, PIDTYPE_PID);
+> > > +     if (!task) {
+> > > +             ret = -ESRCH;
+> > > +             goto put_pid;
+> > > +     }
+> > > +
+> > > +     /*
+> > > +      * If the task is dying and in the process of releasing its memory
+> > > +      * then get its mm.
+> > > +      */
+> > > +     task_lock(task);
+> >
+> > Don't we need find_lock_task_mm here?
+>
+> Yes, we do. Will fix in the next rev.
+>
+> >
+> > > +     if (task_will_free_mem(task) && (task->flags & PF_KTHREAD) == 0) {
+> > > +             mm = task->mm;
+> > > +             mmget(mm);
+> > > +     }
+> > > +     task_unlock(task);
+> > > +     if (!mm) {
+> >
+> > Do we want to treat MMF_OOM_SKIP as a failure?
+>
+> Yeah, I don't think we want to create additional contention if
+> oom-killer is already working on this mm. Should we return EBUSY in
+> this case? Other possible options is ESRCH, indicating that this
+> process is a goner, so don't bother. WDYT?
 
-Signed-off-by: Suren Baghdasaryan <surenb@google.com>
----
- arch/alpha/kernel/syscalls/syscall.tbl      | 2 ++
- arch/arm/tools/syscall.tbl                  | 2 ++
- arch/arm64/include/asm/unistd.h             | 2 +-
- arch/arm64/include/asm/unistd32.h           | 2 ++
- arch/ia64/kernel/syscalls/syscall.tbl       | 2 ++
- arch/m68k/kernel/syscalls/syscall.tbl       | 2 ++
- arch/microblaze/kernel/syscalls/syscall.tbl | 2 ++
- arch/mips/kernel/syscalls/syscall_n32.tbl   | 2 ++
- arch/mips/kernel/syscalls/syscall_n64.tbl   | 2 ++
- arch/mips/kernel/syscalls/syscall_o32.tbl   | 2 ++
- arch/parisc/kernel/syscalls/syscall.tbl     | 2 ++
- arch/powerpc/kernel/syscalls/syscall.tbl    | 2 ++
- arch/s390/kernel/syscalls/syscall.tbl       | 2 ++
- arch/sh/kernel/syscalls/syscall.tbl         | 2 ++
- arch/sparc/kernel/syscalls/syscall.tbl      | 2 ++
- arch/x86/entry/syscalls/syscall_32.tbl      | 1 +
- arch/x86/entry/syscalls/syscall_64.tbl      | 1 +
- arch/xtensa/kernel/syscalls/syscall.tbl     | 2 ++
- include/linux/syscalls.h                    | 1 +
- include/uapi/asm-generic/unistd.h           | 4 +++-
- kernel/sys_ni.c                             | 1 +
- 21 files changed, 38 insertions(+), 2 deletions(-)
+After considering this some more I think ESRCH would be more
+appropriate. EBUSY might be understood as "I need to retry at a better
+time", which is not what we want here.
+I posted v5 at https://lore.kernel.org/patchwork/patch/1471926 with
+suggested changes.
+Thanks,
+Suren.
 
-diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
-index a17687ed4b51..605645eae04c 100644
---- a/arch/alpha/kernel/syscalls/syscall.tbl
-+++ b/arch/alpha/kernel/syscalls/syscall.tbl
-@@ -486,3 +486,5 @@
- 554	common	landlock_create_ruleset		sys_landlock_create_ruleset
- 555	common	landlock_add_rule		sys_landlock_add_rule
- 556	common	landlock_restrict_self		sys_landlock_restrict_self
-+# 557 reserved for memfd_secret
-+558	common	process_mrelease		sys_process_mrelease
-diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
-index c5df1179fc5d..2f32eb8beca8 100644
---- a/arch/arm/tools/syscall.tbl
-+++ b/arch/arm/tools/syscall.tbl
-@@ -460,3 +460,5 @@
- 444	common	landlock_create_ruleset		sys_landlock_create_ruleset
- 445	common	landlock_add_rule		sys_landlock_add_rule
- 446	common	landlock_restrict_self		sys_landlock_restrict_self
-+# 447 reserved for memfd_secret
-+448	common	process_mrelease		sys_process_mrelease
-diff --git a/arch/arm64/include/asm/unistd.h b/arch/arm64/include/asm/unistd.h
-index 727bfc3be99b..3cb206aea3db 100644
---- a/arch/arm64/include/asm/unistd.h
-+++ b/arch/arm64/include/asm/unistd.h
-@@ -38,7 +38,7 @@
- #define __ARM_NR_compat_set_tls		(__ARM_NR_COMPAT_BASE + 5)
- #define __ARM_NR_COMPAT_END		(__ARM_NR_COMPAT_BASE + 0x800)
- 
--#define __NR_compat_syscalls		447
-+#define __NR_compat_syscalls		449
- #endif
- 
- #define __ARCH_WANT_SYS_CLONE
-diff --git a/arch/arm64/include/asm/unistd32.h b/arch/arm64/include/asm/unistd32.h
-index 99ffcafc736c..0f49cdb180dd 100644
---- a/arch/arm64/include/asm/unistd32.h
-+++ b/arch/arm64/include/asm/unistd32.h
-@@ -901,6 +901,8 @@ __SYSCALL(__NR_landlock_create_ruleset, sys_landlock_create_ruleset)
- __SYSCALL(__NR_landlock_add_rule, sys_landlock_add_rule)
- #define __NR_landlock_restrict_self 446
- __SYSCALL(__NR_landlock_restrict_self, sys_landlock_restrict_self)
-+#define __NR_process_mrelease 448
-+__SYSCALL(__NR_process_mrelease, sys_process_mrelease)
- 
- /*
-  * Please add new compat syscalls above this comment and update
-diff --git a/arch/ia64/kernel/syscalls/syscall.tbl b/arch/ia64/kernel/syscalls/syscall.tbl
-index 6d07742c57b8..9bf45f2be966 100644
---- a/arch/ia64/kernel/syscalls/syscall.tbl
-+++ b/arch/ia64/kernel/syscalls/syscall.tbl
-@@ -367,3 +367,5 @@
- 444	common	landlock_create_ruleset		sys_landlock_create_ruleset
- 445	common	landlock_add_rule		sys_landlock_add_rule
- 446	common	landlock_restrict_self		sys_landlock_restrict_self
-+# 447 reserved for memfd_secret
-+448	common	process_mrelease		sys_process_mrelease
-diff --git a/arch/m68k/kernel/syscalls/syscall.tbl b/arch/m68k/kernel/syscalls/syscall.tbl
-index 541bc1b3a8f9..f1f98ee6c82d 100644
---- a/arch/m68k/kernel/syscalls/syscall.tbl
-+++ b/arch/m68k/kernel/syscalls/syscall.tbl
-@@ -446,3 +446,5 @@
- 444	common	landlock_create_ruleset		sys_landlock_create_ruleset
- 445	common	landlock_add_rule		sys_landlock_add_rule
- 446	common	landlock_restrict_self		sys_landlock_restrict_self
-+# 447 reserved for memfd_secret
-+448	common	process_mrelease		sys_process_mrelease
-diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
-index a176faca2927..da49ddd4bb54 100644
---- a/arch/microblaze/kernel/syscalls/syscall.tbl
-+++ b/arch/microblaze/kernel/syscalls/syscall.tbl
-@@ -452,3 +452,5 @@
- 444	common	landlock_create_ruleset		sys_landlock_create_ruleset
- 445	common	landlock_add_rule		sys_landlock_add_rule
- 446	common	landlock_restrict_self		sys_landlock_restrict_self
-+# 447 reserved for memfd_secret
-+448	common	process_mrelease		sys_process_mrelease
-diff --git a/arch/mips/kernel/syscalls/syscall_n32.tbl b/arch/mips/kernel/syscalls/syscall_n32.tbl
-index c2d2e19abea8..56c8d3cf42ed 100644
---- a/arch/mips/kernel/syscalls/syscall_n32.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_n32.tbl
-@@ -385,3 +385,5 @@
- 444	n32	landlock_create_ruleset		sys_landlock_create_ruleset
- 445	n32	landlock_add_rule		sys_landlock_add_rule
- 446	n32	landlock_restrict_self		sys_landlock_restrict_self
-+# 447 reserved for memfd_secret
-+448	n32	process_mrelease		sys_process_mrelease
-diff --git a/arch/mips/kernel/syscalls/syscall_n64.tbl b/arch/mips/kernel/syscalls/syscall_n64.tbl
-index ac653d08b1ea..1ca7bc337932 100644
---- a/arch/mips/kernel/syscalls/syscall_n64.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_n64.tbl
-@@ -361,3 +361,5 @@
- 444	n64	landlock_create_ruleset		sys_landlock_create_ruleset
- 445	n64	landlock_add_rule		sys_landlock_add_rule
- 446	n64	landlock_restrict_self		sys_landlock_restrict_self
-+# 447 reserved for memfd_secret
-+448	n64	process_mrelease		sys_process_mrelease
-diff --git a/arch/mips/kernel/syscalls/syscall_o32.tbl b/arch/mips/kernel/syscalls/syscall_o32.tbl
-index 253f2cd70b6b..fd3a9df60ec2 100644
---- a/arch/mips/kernel/syscalls/syscall_o32.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_o32.tbl
-@@ -434,3 +434,5 @@
- 444	o32	landlock_create_ruleset		sys_landlock_create_ruleset
- 445	o32	landlock_add_rule		sys_landlock_add_rule
- 446	o32	landlock_restrict_self		sys_landlock_restrict_self
-+# 447 reserved for memfd_secret
-+448	o32	process_mrelease		sys_process_mrelease
-diff --git a/arch/parisc/kernel/syscalls/syscall.tbl b/arch/parisc/kernel/syscalls/syscall.tbl
-index e26187b9ab87..040df1b7a589 100644
---- a/arch/parisc/kernel/syscalls/syscall.tbl
-+++ b/arch/parisc/kernel/syscalls/syscall.tbl
-@@ -444,3 +444,5 @@
- 444	common	landlock_create_ruleset		sys_landlock_create_ruleset
- 445	common	landlock_add_rule		sys_landlock_add_rule
- 446	common	landlock_restrict_self		sys_landlock_restrict_self
-+# 447 reserved for memfd_secret
-+448	common	process_mrelease		sys_process_mrelease
-diff --git a/arch/powerpc/kernel/syscalls/syscall.tbl b/arch/powerpc/kernel/syscalls/syscall.tbl
-index aef2a290e71a..d8ebd7d37c0f 100644
---- a/arch/powerpc/kernel/syscalls/syscall.tbl
-+++ b/arch/powerpc/kernel/syscalls/syscall.tbl
-@@ -526,3 +526,5 @@
- 444	common	landlock_create_ruleset		sys_landlock_create_ruleset
- 445	common	landlock_add_rule		sys_landlock_add_rule
- 446	common	landlock_restrict_self		sys_landlock_restrict_self
-+# 447 reserved for memfd_secret
-+448	common	process_mrelease		sys_process_mrelease
-diff --git a/arch/s390/kernel/syscalls/syscall.tbl b/arch/s390/kernel/syscalls/syscall.tbl
-index 64d51ab5a8b4..57233ace30cb 100644
---- a/arch/s390/kernel/syscalls/syscall.tbl
-+++ b/arch/s390/kernel/syscalls/syscall.tbl
-@@ -449,3 +449,5 @@
- 444  common	landlock_create_ruleset	sys_landlock_create_ruleset	sys_landlock_create_ruleset
- 445  common	landlock_add_rule	sys_landlock_add_rule		sys_landlock_add_rule
- 446  common	landlock_restrict_self	sys_landlock_restrict_self	sys_landlock_restrict_self
-+# 447 reserved for memfd_secret
-+448  common	process_mrelease	sys_process_mrelease		sys_process_mrelease
-diff --git a/arch/sh/kernel/syscalls/syscall.tbl b/arch/sh/kernel/syscalls/syscall.tbl
-index e0a70be77d84..2f6e95eb4690 100644
---- a/arch/sh/kernel/syscalls/syscall.tbl
-+++ b/arch/sh/kernel/syscalls/syscall.tbl
-@@ -449,3 +449,5 @@
- 444	common	landlock_create_ruleset		sys_landlock_create_ruleset
- 445	common	landlock_add_rule		sys_landlock_add_rule
- 446	common	landlock_restrict_self		sys_landlock_restrict_self
-+# 447 reserved for memfd_secret
-+448	common	process_mrelease		sys_process_mrelease
-diff --git a/arch/sparc/kernel/syscalls/syscall.tbl b/arch/sparc/kernel/syscalls/syscall.tbl
-index 603f5a821502..42fc2906215d 100644
---- a/arch/sparc/kernel/syscalls/syscall.tbl
-+++ b/arch/sparc/kernel/syscalls/syscall.tbl
-@@ -492,3 +492,5 @@
- 444	common	landlock_create_ruleset		sys_landlock_create_ruleset
- 445	common	landlock_add_rule		sys_landlock_add_rule
- 446	common	landlock_restrict_self		sys_landlock_restrict_self
-+# 447 reserved for memfd_secret
-+448	common	process_mrelease		sys_process_mrelease
-diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
-index ce763a12311c..661a03bcfbd1 100644
---- a/arch/x86/entry/syscalls/syscall_32.tbl
-+++ b/arch/x86/entry/syscalls/syscall_32.tbl
-@@ -452,3 +452,4 @@
- 445	i386	landlock_add_rule	sys_landlock_add_rule
- 446	i386	landlock_restrict_self	sys_landlock_restrict_self
- 447	i386	memfd_secret		sys_memfd_secret
-+448	i386	process_mrelease	sys_process_mrelease
-diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
-index f6b57799c1ea..807b6a1de8e8 100644
---- a/arch/x86/entry/syscalls/syscall_64.tbl
-+++ b/arch/x86/entry/syscalls/syscall_64.tbl
-@@ -369,6 +369,7 @@
- 445	common	landlock_add_rule	sys_landlock_add_rule
- 446	common	landlock_restrict_self	sys_landlock_restrict_self
- 447	common	memfd_secret		sys_memfd_secret
-+448	common	process_mrelease	sys_process_mrelease
- 
- #
- # Due to a historical design error, certain syscalls are numbered differently
-diff --git a/arch/xtensa/kernel/syscalls/syscall.tbl b/arch/xtensa/kernel/syscalls/syscall.tbl
-index 235d67d6ceb4..f4384951f393 100644
---- a/arch/xtensa/kernel/syscalls/syscall.tbl
-+++ b/arch/xtensa/kernel/syscalls/syscall.tbl
-@@ -417,3 +417,5 @@
- 444	common	landlock_create_ruleset		sys_landlock_create_ruleset
- 445	common	landlock_add_rule		sys_landlock_add_rule
- 446	common	landlock_restrict_self		sys_landlock_restrict_self
-+# 447 reserved for memfd_secret
-+448	common	process_mrelease		sys_process_mrelease
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index 69c9a7010081..00bc170a50f0 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -915,6 +915,7 @@ asmlinkage long sys_mincore(unsigned long start, size_t len,
- asmlinkage long sys_madvise(unsigned long start, size_t len, int behavior);
- asmlinkage long sys_process_madvise(int pidfd, const struct iovec __user *vec,
- 			size_t vlen, int behavior, unsigned int flags);
-+asmlinkage long sys_process_mrelease(int pidfd, unsigned int flags);
- asmlinkage long sys_remap_file_pages(unsigned long start, unsigned long size,
- 			unsigned long prot, unsigned long pgoff,
- 			unsigned long flags);
-diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
-index a9d6fcd95f42..14c8fe863c6d 100644
---- a/include/uapi/asm-generic/unistd.h
-+++ b/include/uapi/asm-generic/unistd.h
-@@ -877,9 +877,11 @@ __SYSCALL(__NR_landlock_restrict_self, sys_landlock_restrict_self)
- #define __NR_memfd_secret 447
- __SYSCALL(__NR_memfd_secret, sys_memfd_secret)
- #endif
-+#define __NR_process_mrelease 448
-+__SYSCALL(__NR_process_mrelease, sys_process_mrelease)
- 
- #undef __NR_syscalls
--#define __NR_syscalls 448
-+#define __NR_syscalls 449
- 
- /*
-  * 32 bit systems traditionally used different
-diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
-index 30971b1dd4a9..18a9c2cde767 100644
---- a/kernel/sys_ni.c
-+++ b/kernel/sys_ni.c
-@@ -289,6 +289,7 @@ COND_SYSCALL(munlockall);
- COND_SYSCALL(mincore);
- COND_SYSCALL(madvise);
- COND_SYSCALL(process_madvise);
-+COND_SYSCALL(process_mrelease);
- COND_SYSCALL(remap_file_pages);
- COND_SYSCALL(mbind);
- COND_SYSCALL_COMPAT(mbind);
--- 
-2.32.0.554.ge1b32706d8-goog
-
+>
+> >
+> > > +             ret = -EINVAL;
+> > > +             goto put_task;
+> > > +     }
+> > > +
+> > > +     if (mmap_read_lock_killable(mm)) {
+> > > +             ret = -EINTR;
+> > > +             goto put_mm;
+> > > +     }
+> > > +     if (!__oom_reap_task_mm(mm))
+> > > +             ret = -EAGAIN;
+> > > +     mmap_read_unlock(mm);
+> > > +
+> > > +put_mm:
+> > > +     mmput(mm);
+> > > +put_task:
+> > > +     put_task_struct(task);
+> > > +put_pid:
+> > > +     put_pid(pid);
+> > > +     return ret;
+> > > +#else
+> > > +     return -ENOSYS;
+> > > +#endif /* CONFIG_MMU */
+> > > +}
+> > > --
+> > > 2.32.0.554.ge1b32706d8-goog
+> >
+>
+> Thanks for the review!
+>
+> > --
+> > Michal Hocko
+> > SUSE Labs
