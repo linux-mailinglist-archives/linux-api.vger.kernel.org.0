@@ -2,166 +2,119 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AACC3E0A3B
-	for <lists+linux-api@lfdr.de>; Thu,  5 Aug 2021 00:05:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EB633E0A8C
+	for <lists+linux-api@lfdr.de>; Thu,  5 Aug 2021 00:50:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234986AbhHDWFM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 4 Aug 2021 18:05:12 -0400
-Received: from esa.hc503-62.ca.iphmx.com ([216.71.135.51]:8674 "EHLO
-        esa.hc503-62.ca.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231249AbhHDWFM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 4 Aug 2021 18:05:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=uwaterloo.ca; i=@uwaterloo.ca; q=dns/txt; s=default;
-  t=1628114699; x=1659650699;
-  h=to:cc:references:subject:in-reply-to:from:message-id:
-   date:mime-version;
-  bh=L9nJV2YSSJWQgya0qOZuNRNyTlFsERQnSEL4wHqvqwI=;
-  b=DtRX71VVpT2PqDuVh4qrFL4Ch2rGWx/gVv99H+6yVDl53YjYXYQzh69e
-   2YTHFRgPAEf3One9DKxrOu1sQAMaBcjVkx1KenOdAmBvsk0aXaJhmtkmR
-   sLDPUikcuITz2O+zlJRUXfl24LLDreeU3tpwOT3jxrLAcur0BlW8NFOAz
-   Q=;
-Received: from connect.uwaterloo.ca (HELO connhm04.connect.uwaterloo.ca) ([129.97.208.43])
-  by ob1.hc503-62.ca.iphmx.com with ESMTP/TLS/AES256-GCM-SHA384; 04 Aug 2021 18:04:57 -0400
-Received: from [10.42.0.123] (10.32.139.159) by connhm04.connect.uwaterloo.ca
- (172.16.137.68) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Wed, 4 Aug
- 2021 18:04:57 -0400
-To:     <posk@posk.io>
-CC:     <avagin@google.com>, <bsegall@google.com>, <jannh@google.com>,
-        <linux-api@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <mingo@redhat.com>, <peterz@infradead.org>, <pjt@google.com>,
-        <posk@google.com>, <tdelisle@uwaterloo.ca>, <tglx@linutronix.de>,
-        Peter Buhr <pabuhr@uwaterloo.ca>
-References: <20210801200617.623745-5-posk@google.com>
-Subject: Re: [PATCH 4/4 v0.4] sched/umcg: RFC: implement UMCG syscalls
-In-Reply-To: <20210801200617.623745-5-posk@google.com>
-From:   Thierry Delisle <tdelisle@uwaterloo.ca>
-Message-ID: <3530714d-125b-e0f5-45b2-72695e2fc4ee@uwaterloo.ca>
-Date:   Wed, 4 Aug 2021 18:04:57 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-Content-Type: multipart/mixed;
-        boundary="------------80684090183B5F7F3FBA5261"
-Content-Language: en-US
-X-Originating-IP: [10.32.139.159]
-X-ClientProxiedBy: connhm03.connect.uwaterloo.ca (172.16.137.67) To
- connhm04.connect.uwaterloo.ca (172.16.137.68)
+        id S235277AbhHDWum (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 4 Aug 2021 18:50:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34802 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229775AbhHDWum (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 4 Aug 2021 18:50:42 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8D76F601FE;
+        Wed,  4 Aug 2021 22:50:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1628117428;
+        bh=au1jMsHrlZQGAFtzrot7CCPS+RgEAXFEcGYA0uxvwUA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=O4pj+MUbZwCirnYWew8Dlfb93x0HyiTgZGzxQRxfDe2cCKD9mmUaO/UBk3HS5o85X
+         +iXxVrhGnbwzdi1E8oJHSppWyTUsv/w/Crsj4UEOIdnq3i7j+tsAGvPAtI8QFWeoMG
+         MavZmyqLfP1+ptt0e4qk0PPEXD3nST0irkff/xDA=
+Date:   Wed, 4 Aug 2021 15:50:24 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     mhocko@kernel.org, mhocko@suse.com, rientjes@google.com,
+        willy@infradead.org, hannes@cmpxchg.org, guro@fb.com,
+        riel@surriel.com, minchan@kernel.org, christian@brauner.io,
+        hch@infradead.org, oleg@redhat.com, david@redhat.com,
+        jannh@google.com, shakeelb@google.com, luto@kernel.org,
+        christian.brauner@ubuntu.com, fweimer@redhat.com, jengelh@inai.de,
+        timmurray@google.com, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        kernel-team@android.com
+Subject: Re: [PATCH v6 1/2] mm: introduce process_mrelease system call
+Message-Id: <20210804155024.e4e42e1b7b087937271fa7ce@linux-foundation.org>
+In-Reply-To: <20210804185004.1304692-1-surenb@google.com>
+References: <20210804185004.1304692-1-surenb@google.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
---------------80684090183B5F7F3FBA5261
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+On Wed,  4 Aug 2021 11:50:03 -0700 Suren Baghdasaryan <surenb@google.com> wrote:
 
-I have attached an atomic stack implementation I wrote. I believe it would
-be applicable here. It is very similar except the kernel side no longer
-needs a retry loop, the looping is moved to the user-space after the pop.
-Using it instead of the code you have in enqueue_idle_worker means the
-timeout is no longer needed.
+> In modern systems it's not unusual to have a system component monitoring
+> memory conditions of the system and tasked with keeping system memory
+> pressure under control. One way to accomplish that is to kill
+> non-essential processes to free up memory for more important ones.
+> Examples of this are Facebook's OOM killer daemon called oomd and
+> Android's low memory killer daemon called lmkd.
+> For such system component it's important to be able to free memory
+> quickly and efficiently. Unfortunately the time process takes to free
+> up its memory after receiving a SIGKILL might vary based on the state
+> of the process (uninterruptible sleep), size and OPP level of the core
+> the process is running. A mechanism to free resources of the target
+> process in a more predictable way would improve system's ability to
+> control its memory pressure.
+> Introduce process_mrelease system call that releases memory of a dying
+> process from the context of the caller. This way the memory is freed in
+> a more controllable way with CPU affinity and priority of the caller.
+> The workload of freeing the memory will also be charged to the caller.
+> The operation is allowed only on a dying process.
+> 
+> After previous discussions [1, 2, 3] the decision was made [4] to introduce
+> a dedicated system call to cover this use case.
+> 
+> The API is as follows,
+> 
+>           int process_mrelease(int pidfd, unsigned int flags);
+> 
+>         DESCRIPTION
+>           The process_mrelease() system call is used to free the memory of
+>           an exiting process.
+> 
+>           The pidfd selects the process referred to by the PID file
+>           descriptor.
+>           (See pidofd_open(2) for further information)
 
- > - ``uint64_t idle_server_tid_ptr``: points to a pointer variable in the
- >   userspace that points to an idle server, i.e. a server in IDLE 
-state waiting
- >   in sys_umcg_wait(); read-only; workers must have this field set; 
-not used
- >   in servers.
- >
- >   When a worker's blocking operation in the kernel completes, the kernel
- >   changes the worker's state from ``BLOCKED`` to ``IDLE``, adds the 
-worker
- >   to the list of idle workers, and checks whether
- >   ``*idle_server_tid_ptr`` is not zero. If not, the kernel tries to 
-cmpxchg()
- >   it with zero; if cmpxchg() succeeds, the kernel will then wake the 
-server.
- >   See `State transitions`_ below for more details.
+I did s/pidofd_open/pidfd_open/
 
-In this case, I believe cmpxchg is not necessary and xchg suffices.
+> 
+>           The flags argument is reserved for future use; currently, this
+>           argument must be specified as 0.
+> 
+>         RETURN VALUE
+>           On success, process_mrelease() returns 0. On error, -1 is
+>           returned and errno is set to indicate the error.
+> 
+>         ERRORS
+>           EBADF  pidfd is not a valid PID file descriptor.
+> 
+>           EAGAIN Failed to release part of the address space.
+> 
+>           EINTR  The call was interrupted by a signal; see signal(7).
+> 
+>           EINVAL flags is not 0.
+> 
+>           EINVAL The memory of the task cannot be released because the
+>                  process is not exiting, the address space is shared
+>                  with another live process or there is a core dump in
+>                  progress.
+> 
+>           ENOSYS This system call is not supported, for example, without
+>                  MMU support built into Linux.
+> 
+>           ESRCH  The target process does not exist (i.e., it has terminated
+>                  and been waited on).
+> 
+> ...
+>
+>  mm/oom_kill.c | 65 +++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 65 insertions(+)
 
+The code is nice and simple.
 
---------------80684090183B5F7F3FBA5261
-Content-Type: text/x-csrc; charset="UTF-8"; name="atomic_stack.c"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="atomic_stack.c"
-
-// This is free and unencumbered software released into the public domain.
-//
-// Anyone is free to copy, modify, publish, use, compile, sell, or
-// distribute this software, either in source code form or as a compiled
-// binary, for any purpose, commercial or non-commercial, and by any
-// means.
-//
-// In jurisdictions that recognize copyright laws, the author or authors
-// of this software dedicate any and all copyright interest in the
-// software to the public domain. We make this dedication for the benefit
-// of the public at large and to the detriment of our heirs and
-// successors. We intend this dedication to be an overt act of
-// relinquishment in perpetuity of all present and future rights to this
-// software under copyright law.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-// OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-// ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-// OTHER DEALINGS IN THE SOFTWARE.
-//
-// For more information, please refer to <https://unlicense.org>
-
-#include <assert.h>
-#include <stdbool.h>
-
-struct node {
-	struct node * volatile next;
-};
-
-// Two sentinels, the values do not matter but must be different
-// and unused by real addresses.
-static struct node * const STACK_NO_VAL  = 0;
-static struct node * const STACK_PENDING = 1;
-
-// push a node to the stack
-static inline void atomic_stack_push(struct node * volatile * head, struct node * n) {
-	/* paranoid */ assert( n->next == STACK_NO_VAL );
-	// Mark as pending so if it gets poped before the assignment to next
-	// the reader knows this isn't necessarily the end of the list
-	n->next = STACK_PENDING;
-
-	// actually add the node to the list
-	struct node * e = __atomic_exchange_n(head, n, __ATOMIC_SEQ_CST);
-
-	// update the next field
-	__atomic_store_n(&n->next, e, __ATOMIC_RELAXED);
-}
-
-// Pop all nodes from the stack
-// Once popped, nodes should be iterate on using atomic_stack_next
-static inline struct node * atomic_stack_pop_all(struct node * volatile * head) {
-	// Steal the entire list for ourselves atomically
-	// Nodes can still have pending next fields but everyone should agree
-	// the nodes are ours.
-	return __atomic_exchange_n(head, STACK_NO_VAL, __ATOMIC_SEQ_CST);
-}
-
-// from a given node, advance to the next node, waiting for pending nodes
-// to be resolved
-// if clear is set, the nodes that are advanced from are unlinked before the
-// previous node is returned
-static inline struct node * atomic_stack_next(struct node * n, bool clear) {
-	// Wait until the next field is pending
-	while(STACK_PENDING == __atomic_load_n(&n->next, __ATOMIC_RELAXED)) asm volatile("pause" : : :);
-
-	// The field is no longer pending, any subsequent concurrent write to that field
-	// should now be dependent on the next read.
-	struct node * r = n->next;
-
-	// For convenience, unlink the node if desired and return.
-	if(clear) n->next = STACK_NO_VAL;
-	return r;
-}
-
---------------80684090183B5F7F3FBA5261--
+Can we get a test suite into tools/testing/selftests?
