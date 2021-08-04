@@ -2,157 +2,166 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CDD83E0A23
-	for <lists+linux-api@lfdr.de>; Wed,  4 Aug 2021 23:48:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AACC3E0A3B
+	for <lists+linux-api@lfdr.de>; Thu,  5 Aug 2021 00:05:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234655AbhHDVse (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 4 Aug 2021 17:48:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42654 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234576AbhHDVsd (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 4 Aug 2021 17:48:33 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B696C0613D5
-        for <linux-api@vger.kernel.org>; Wed,  4 Aug 2021 14:48:19 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id y7so4261155ljp.3
-        for <linux-api@vger.kernel.org>; Wed, 04 Aug 2021 14:48:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=p61PC16bUuso/Amoh3NYJjFdJNg2Vvrhz9NsPLJI2kI=;
-        b=rvH4kgg0GfGFnEqKfX34PZtd4ehblaAK7jJ9hyMOOGjVH+azWRtio4V2hO76ltXawm
-         I0l+U5lkfhILEgFrFhOdJTeWg0PQTfkwCjIapcPmvhX7ztYsdP73TtGkdGjd8oxtDa3z
-         7AXLy8EEvJyiJYDX5NA8ik/RnHMGGKMh+5qV7rzmdz1DQncFm+SdXJTPs46Aj66RFWYv
-         rnDHtR7lWptKqcCbkeEiPh7DbVVOrNlL0bGh45HkONt82MA8ndGc2tlEcpXEGKEuiUr6
-         ud42MPgiwPzmCXvss7OVmDfvE3zkTgQAX+hn0I5kTHVP2WxXNw4a4KPDc/fn9G+C/rEh
-         OUaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=p61PC16bUuso/Amoh3NYJjFdJNg2Vvrhz9NsPLJI2kI=;
-        b=aS84BXDHXZB9WFMtf/Tnv/IpRcfIlkjyl2r+Siues5xKMEGTBkmsRlEGa1XSz0GcVv
-         mle6nbrUxe1uqK5IrUeW2D15E4b1+Ng/cUgVa4qxGbGvVXaDyEDWesV6HBNA3TZtu5bi
-         VWdcFhN4vXCLtZM+NNMt4hO4+LIxe/XRpf7DIxYZ21Sl+qJlS/7Brf7UV9R5pJAz1LQq
-         +2hlR1OPl9t5/FyEo/LWg8pQh5dBjWJnbNiCo4PeI/Obc0kkZyw/csskZmW6F8yKfJ82
-         QGxiFvTFff5IcTzJYnBwKusNtLcaKHlfFPoqnE/ocUFD6LOAbCLQUEoLpPAa5FyTsPwZ
-         4zKQ==
-X-Gm-Message-State: AOAM531nCeEmGvAaaEGEbvk59WFIVPjLbwo9mRUsjzlQ46ozgxiO0r7v
-        LDIiBjo6jOsj/pIHw9y4ammWqosbEqszm6pb7lIjUQ==
-X-Google-Smtp-Source: ABdhPJwGgHKbETvILP+pVn9YEjSNQhACoXNI8lG+ruWmThNwylH3Op3qp1odulRPt5jvlWyOgQyUV9eqUIcRkkoQkZs=
-X-Received: by 2002:a2e:95cc:: with SMTP id y12mr859265ljh.387.1628113697696;
- Wed, 04 Aug 2021 14:48:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210801200617.623745-4-posk@google.com> <605a9d20-8fe4-ec9a-97b4-bc6db38da62f@uwaterloo.ca>
-In-Reply-To: <605a9d20-8fe4-ec9a-97b4-bc6db38da62f@uwaterloo.ca>
-From:   Peter Oskolkov <posk@google.com>
-Date:   Wed, 4 Aug 2021 14:48:06 -0700
-Message-ID: <CAPNVh5fjcJHKJOuQP+UebpYf+GBMDkj5me1c=EzS9cpDSTbzfA@mail.gmail.com>
-Subject: Re: [PATCH 3/4 v0.4] sched/umcg: add Documentation/userspace-api/umcg.rst
-To:     Thierry Delisle <tdelisle@uwaterloo.ca>
-Cc:     posk@posk.io, avagin@google.com, bsegall@google.com,
-        jannh@google.com, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mingo@redhat.com,
-        peterz@infradead.org, pjt@google.com, tglx@linutronix.de,
+        id S234986AbhHDWFM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 4 Aug 2021 18:05:12 -0400
+Received: from esa.hc503-62.ca.iphmx.com ([216.71.135.51]:8674 "EHLO
+        esa.hc503-62.ca.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231249AbhHDWFM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 4 Aug 2021 18:05:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=uwaterloo.ca; i=@uwaterloo.ca; q=dns/txt; s=default;
+  t=1628114699; x=1659650699;
+  h=to:cc:references:subject:in-reply-to:from:message-id:
+   date:mime-version;
+  bh=L9nJV2YSSJWQgya0qOZuNRNyTlFsERQnSEL4wHqvqwI=;
+  b=DtRX71VVpT2PqDuVh4qrFL4Ch2rGWx/gVv99H+6yVDl53YjYXYQzh69e
+   2YTHFRgPAEf3One9DKxrOu1sQAMaBcjVkx1KenOdAmBvsk0aXaJhmtkmR
+   sLDPUikcuITz2O+zlJRUXfl24LLDreeU3tpwOT3jxrLAcur0BlW8NFOAz
+   Q=;
+Received: from connect.uwaterloo.ca (HELO connhm04.connect.uwaterloo.ca) ([129.97.208.43])
+  by ob1.hc503-62.ca.iphmx.com with ESMTP/TLS/AES256-GCM-SHA384; 04 Aug 2021 18:04:57 -0400
+Received: from [10.42.0.123] (10.32.139.159) by connhm04.connect.uwaterloo.ca
+ (172.16.137.68) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Wed, 4 Aug
+ 2021 18:04:57 -0400
+To:     <posk@posk.io>
+CC:     <avagin@google.com>, <bsegall@google.com>, <jannh@google.com>,
+        <linux-api@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <mingo@redhat.com>, <peterz@infradead.org>, <pjt@google.com>,
+        <posk@google.com>, <tdelisle@uwaterloo.ca>, <tglx@linutronix.de>,
         Peter Buhr <pabuhr@uwaterloo.ca>
-Content-Type: text/plain; charset="UTF-8"
+References: <20210801200617.623745-5-posk@google.com>
+Subject: Re: [PATCH 4/4 v0.4] sched/umcg: RFC: implement UMCG syscalls
+In-Reply-To: <20210801200617.623745-5-posk@google.com>
+From:   Thierry Delisle <tdelisle@uwaterloo.ca>
+Message-ID: <3530714d-125b-e0f5-45b2-72695e2fc4ee@uwaterloo.ca>
+Date:   Wed, 4 Aug 2021 18:04:57 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+        boundary="------------80684090183B5F7F3FBA5261"
+Content-Language: en-US
+X-Originating-IP: [10.32.139.159]
+X-ClientProxiedBy: connhm03.connect.uwaterloo.ca (172.16.137.67) To
+ connhm04.connect.uwaterloo.ca (172.16.137.68)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Aug 4, 2021 at 12:13 PM Thierry Delisle <tdelisle@uwaterloo.ca> wrote:
->
-> These state transition descriptions are very helpful, but what is not
-> clear is the details of these transitions when there are concurrent
-> wake/waits. I do not know enough about the kernel code to be able to
-> read the implementation and answer my own questions.
->
-> For example, imagine two worker threads W1 and W2. W1 adds itself to a
-> concurrent list and calls umcg_wait(next_tid = 0). W2 pops from the list
-> and calls umcg_wait(UMCG_WAIT_WAKE_ONLY | UMCG_WAIT_WF_CURRENT_CPU) on the
-> popped worker, W1 in this example.
+--------------80684090183B5F7F3FBA5261
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-All _umcg_ state changes here happen in the userspace before
-sys_umcg_wait() is called. So:
+I have attached an atomic stack implementation I wrote. I believe it would
+be applicable here. It is very similar except the kernel side no longer
+needs a retry loop, the looping is moved to the user-space after the pop.
+Using it instead of the code you have in enqueue_idle_worker means the
+timeout is no longer needed.
 
-W1: cmpxchg W1:RUNNING => W1:IDLE
- - if OK, call sys_umcg_wait()
- - if failed, do something else (notes below)
+ > - ``uint64_t idle_server_tid_ptr``: points to a pointer variable in the
+ >   userspace that points to an idle server, i.e. a server in IDLE 
+state waiting
+ >   in sys_umcg_wait(); read-only; workers must have this field set; 
+not used
+ >   in servers.
+ >
+ >   When a worker's blocking operation in the kernel completes, the kernel
+ >   changes the worker's state from ``BLOCKED`` to ``IDLE``, adds the 
+worker
+ >   to the list of idle workers, and checks whether
+ >   ``*idle_server_tid_ptr`` is not zero. If not, the kernel tries to 
+cmpxchg()
+ >   it with zero; if cmpxchg() succeeds, the kernel will then wake the 
+server.
+ >   See `State transitions`_ below for more details.
 
-W2: cmpxchg W1:IDLE => W1:RUNNING
- - if OK, lock itself, set W2:next_tid to W1, call sys_umcg_wait()
-(will not block nor spin), restore next_tid and state/unlock upon
-syscall return
- - if failed, do something else
+In this case, I believe cmpxchg is not necessary and xchg suffices.
 
-So assuming the cmpxchg() calls succeeded, sys_umcg_wait() will be called.
 
-W1 sys_umcg_wait(): (W1 sleeping):
-- (1) mark itself as TASK_INTERRUPTIBLE (sleeping)
-- (2) check _umcg_ state
-  - (a) if UMCG_RUNNING, mark itself as TASK_RUNNING, return to userspace
-  - (b) if still UMCG_IDLE, sleep
-- (3) upon wakeup, go to step (1)
+--------------80684090183B5F7F3FBA5261
+Content-Type: text/x-csrc; charset="UTF-8"; name="atomic_stack.c"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="atomic_stack.c"
 
-W2 sys_umcg_wait(): (wake W1):
-- call try_to_wake_up(W1): if W1 is INTERRUPTIBLE, change it to
-TASK_RUNNING, wake
-- return
+// This is free and unencumbered software released into the public domain.
+//
+// Anyone is free to copy, modify, publish, use, compile, sell, or
+// distribute this software, either in source code form or as a compiled
+// binary, for any purpose, commercial or non-commercial, and by any
+// means.
+//
+// In jurisdictions that recognize copyright laws, the author or authors
+// of this software dedicate any and all copyright interest in the
+// software to the public domain. We make this dedication for the benefit
+// of the public at large and to the detriment of our heirs and
+// successors. We intend this dedication to be an overt act of
+// relinquishment in perpetuity of all present and future rights to this
+// software under copyright law.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+// OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+// ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+//
+// For more information, please refer to <https://unlicense.org>
 
-Note the ordering and interplay of UMCG state changes
-(UMCG_IDLE/UMCG_RUNNING) and TASK state changes
-(TASK_INTERRUPTIBLE/TASK_RUNNING).
+#include <assert.h>
+#include <stdbool.h>
 
-As you can see, W2 does not block nor spin. W1 will either catch
-_umcg_ state change to UMCG_RUNNING and abort, or ttwu() will wake it
-_after_ it is marked as UMCG_RUNNING.
+struct node {
+	struct node * volatile next;
+};
 
-Now what happens if cmpxchg() calls above fail? That means that W1 is
-still running when W2 tries to change its state RUNNING => IDLE. This
-is a race in the userspace, and two options are available:
-- the userspace spins waiting for W1 to become IDLE (note that the
-userspace spins, not the kernel)
-- the userspace "queues the wakeup" and returns; the sleeper (W1) sees
-wakeup_queued and does not go to sleep; this is the solution I
-have/use. See the previous version here:
-https://lore.kernel.org/patchwork/patch/1433971/, search for
-UMCG_TF_WAKEUP_QUEUED.
+// Two sentinels, the values do not matter but must be different
+// and unused by real addresses.
+static struct node * const STACK_NO_VAL  = 0;
+static struct node * const STACK_PENDING = 1;
 
-In the current version 0.4 WAKEUP_QUEUED is a purely userspace flag,
-so it is not documented in the _kernel API_ doc. I'll post the
-userspace parts (libumcg, selftests) a bit later. In short, wait/wake
-races do not result in spinning, and sometimes even elide syscalls by
-using WAKEUP_QUEUED userspace state flag.
+// push a node to the stack
+static inline void atomic_stack_push(struct node * volatile * head, struct node * n) {
+	/* paranoid */ assert( n->next == STACK_NO_VAL );
+	// Mark as pending so if it gets poped before the assignment to next
+	// the reader knows this isn't necessarily the end of the list
+	n->next = STACK_PENDING;
 
->
-> If W1 calls umcg_wait first, W2 context-switches to W1 and W2's state
-> changes to IDLE. My understanding is that wake detection/block does not
-> apply to this case.
->
-> If W2 calls umcg_wait first, what happens? I can imagine two different
-> behaviour in this case:
->
-> 1. W2 waits for W1 to call umcg_wait, by spinning or blocking, and then
->     execution proceed like the first ordering.
->
-> 2. W2 sets W1's state to RUNNING. When W1 eventually calls umcg_wait, it
->     simply notices the state change and returns without context-switching.
->     In this case, W1 is not migrated to W2's CPU.
->
-> Behaviour 1 makes me uncomfortable since it means umcg_wait must wait for
-> cooperation that potentially never comes.
->
-> But in Behaviour 2, the state of W2 after both calls to umcg_wait is not
-> clear to me, either. I could imagine that W2 is set to IDLE, but since W1
-> is not migrated, W2 could also simply be left RUNNING.
->
-> Which behaviour is correct and in what state does W2 end up?
+	// actually add the node to the list
+	struct node * e = __atomic_exchange_n(head, n, __ATOMIC_SEQ_CST);
 
-W2 will always end up RUNNING, as everything here is about W1. W2 will
-never sleep nor spin. Just a couple of atomic ops and maybe a syscall
-that does the same.
+	// update the next field
+	__atomic_store_n(&n->next, e, __ATOMIC_RELAXED);
+}
 
->
-> Thierry
->
+// Pop all nodes from the stack
+// Once popped, nodes should be iterate on using atomic_stack_next
+static inline struct node * atomic_stack_pop_all(struct node * volatile * head) {
+	// Steal the entire list for ourselves atomically
+	// Nodes can still have pending next fields but everyone should agree
+	// the nodes are ours.
+	return __atomic_exchange_n(head, STACK_NO_VAL, __ATOMIC_SEQ_CST);
+}
+
+// from a given node, advance to the next node, waiting for pending nodes
+// to be resolved
+// if clear is set, the nodes that are advanced from are unlinked before the
+// previous node is returned
+static inline struct node * atomic_stack_next(struct node * n, bool clear) {
+	// Wait until the next field is pending
+	while(STACK_PENDING == __atomic_load_n(&n->next, __ATOMIC_RELAXED)) asm volatile("pause" : : :);
+
+	// The field is no longer pending, any subsequent concurrent write to that field
+	// should now be dependent on the next read.
+	struct node * r = n->next;
+
+	// For convenience, unlink the node if desired and return.
+	if(clear) n->next = STACK_NO_VAL;
+	return r;
+}
+
+--------------80684090183B5F7F3FBA5261--
