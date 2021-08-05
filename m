@@ -2,146 +2,291 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 18F653E0B11
-	for <lists+linux-api@lfdr.de>; Thu,  5 Aug 2021 02:04:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E10F3E0DE3
+	for <lists+linux-api@lfdr.de>; Thu,  5 Aug 2021 07:51:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232694AbhHEAE5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 4 Aug 2021 20:04:57 -0400
-Received: from sonic304-25.consmr.mail.gq1.yahoo.com ([98.137.68.206]:33407
-        "EHLO sonic304-25.consmr.mail.gq1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230133AbhHEAE5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 4 Aug 2021 20:04:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.ca; s=s2048; t=1628121883; bh=Px8nlLLH6Ndx1EN/tjAFhxnmFATVGBm9MtGprGQu7l8=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=klz2LRcMmTQ+82Cewoijf4xcyROAAd/q5TtybEGGXkrTE9QbyvzCvTz7KQVa78atK0C8Usl0n2JwjC8wt7I4PV4YSVgRrRFaCLpKcgrsH8pTdisVEK96Dp5w9+Op0eqnd8Rl02CcAdiEGNbmI3HjhqY8jZaH6gl9Ud6xCkpf52jPBDoshUaYFH6qfhpZCEc6N58gg/+ID8LQCB3+jlU1l4h+cLhA0ZA3hTHHxvISgbmShLIsswtv+zuCl2sA00y+ijM19TE3HotofBtCipoyUk6MJ8zuBayldswWEw6XzLGKRT/duJ+lulqFeUi6OXHgtGL7IVQH3UcQtBGzRGWutQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1628121883; bh=4bVZhNLThSBycdrdTcCuPlk2Xule4gNTmLRVIugiHx1=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=uiM9X9SNbs6/dM8+4iGoP7sUAr2dhBrEl3cmqMU2fzxHCiFULDuhmPv/W3cXVBveyjNhXphztxcBtQ5fSles5LopszMxfDzObTnRJGh7obR2bFSK5DTcqyk+v2X4FblnhVa1dCDLVfGyvO+n9yAw2v1Z5Pgwhi0z69dngeZNAXKw5T6MvDABz1DwehTnYPLBzfpD1HoePn6GNKGX+374G7jHQL5vImV8cgLiPVTORogtUMIn++4fr+QvyCjqXPJLRAhCxJf6p+EgDJLk2GD4fL0PU0psj2eE8cOzd/mzZPco1Jep8fCMpfu1N46TnDxiavGpeFxfPh1v3ErMQDXj2w==
-X-YMail-OSG: Ut64WiMVM1mxv7Orgh0IVRL93eKlPeW1mj6CJ6RV1o23dUlgWRdU8_33C1V9mFU
- tDYZJ52_8vck6CJbNruXSNzdQCF361C8OMpdawxru51wZPBSinVyil1oCa_YxvFJIZi3RnYy0IwC
- d_B_INsS7t6MIoInpZvvLMWcHQHj2sGFqdg.rDRoKGmeiDLdBJduR91hphmJcSkOOM3KvdvAhu1Q
- bywDg..J62C9A_zxtixya5mtSIuLEJ6q1fzivVP4SHNkMadJImKq4YzHbKIQ2QQJtXSVQjOYymhP
- zMnM4aMdfqHh2D_hLx_lf5FuGo6j_Y_I4Ljd8sXI8VQb1VSotHAz5n7MHhDaVWHBZlNNg2cxRsFu
- AXfX1N.z.DzYUhCvgBNEIgAq0OS4S_cZqKZ0guhxTmX1bqBDWx0CtL5bHlp5WXVe0QrzNqYA0_bt
- eUxVhBNSidXQlpMQZLKp79C3cVfrCFrrQV0fb_46lBovIpFk5l9CyBcv2_xn8Ms7hEZzxQ6NQ0Fe
- mHxkHaol0BeNV24uQ.nlOsI_QvCa9bHU7GwXTMu1zzSqFW9Cbb536qzMeu8aOd8fevqArW9JIOOH
- uJa.ggvW1kWEueRnRBDdexPQaatDxiCe6Mp.I3csaQbitvJsTpkSWGXnJNVWyTPe8QuKUvGFuTjm
- dw_UNolrhrJEWVWlhxunBnY0w5y8AiyKIKpXEA3qi0CUUTLJcCLnuyOgaq.4dv072cohuhmORUTH
- p8C4BG3SmkeJckEml4m30D6incpJcYTq.UT_HhtUDZsD6j2TGivFEXpjLAZBqVnoae9iIDkfkPH0
- zYyZlsTcqMHkcJLJEd6ny5zIMoIXRWKlfhMKInTIjihieKFVR49SstJ1zAlpDnwpKzFStO_Rf_9B
- NG1GUwdzgrv1cRbDr4UvaCglrZkzkg885KorkkU4tLnmsY.SVqQaTaLS.nsH7GdqeRjY0CW_p06k
- YltU_nFhbIW.xwwdbsJV64ZLRm1djnAMkoAIErbrDq1.0rNYfVPzMLFiwIO1hAzf91_M67JTYLFc
- 1_IxBhEkPqGXkkFBcwBXDzHJ4GzEGAH3UNRMnpWAAz1UmRArgQ_sisO.ifEY0RqlEpPLo9DQVYJW
- XyN_PRENxsUMQSuoEdwepGG9Axx0HsxT08qAi8oh7rQcQN1K8T2SOvgstJ6kyiQj9ClNCcV5kt6p
- zFT49SRoXv1Cj.yfR4O78WQ6_xYUctfKWLng8of_L5OR24WlVNYHahxyH7ar6S9NWh.a1bVrgh0G
- SYXR940ajd8AiimHVAPp2QkNYAd_RwmLrJz66_CU7.b6YKY4wYE7Rf0hhfW81WAI38tKslTXzH4Y
- af44tGtzsPW7U8Dh_R18i0QaYUZ1UeT4wYT3.EPJyUPNQ9sj01dB0muvfVEoxCoZVleZk0PcAmC.
- 22z9AeckmGcnfB2AU..GHyggKnhgQfExtnMf4I.sRhXMFI08VaFT6taLQAijvs6.1T8jKHvTfbq6
- P2wszjsYGIoxeQoh4GEuveg6nqAfqpeH.iFspGXTM_A4EVeWUC6NsB5oJoMFWbzz8j2kra1cPAkK
- 0agJ0gh_0w0D_5yLw17dvRcMWT6IeIAVvq_liSP3JCELoTpScQoRp6C8I.ym_HCBj0vmckfEFcY8
- pxHWOL_hIoOWnpES3Tc6lYp29.lo8DfSt6ftITUXNStxuok1KsNzDEHJFLNYJudCM1ScVcXQQoPJ
- 1KU2gtGH_XhXMvQM92K6fE.CJJrpSRqsMpSkReeR5x8mj8V4Hgx5gJIIFXCZIS4ujkSbs7TaZ1RS
- R5PJBCDZW3pMytqlBx4IaayXBnO9nyUTR1jCF1m_mMiwk1pKYS8dxckAGP7T6q4vNHa4I2L92pZM
- DaPpiM5aeBaj7DLxmm1cSuhCODDb3GBngqj5JoOyOIrhdkrPZ5QKSYoHplgcC9_dhvXcYy32oN0W
- LS.Ufdp5vwc5X.bxDKNpBzaqlvKtyxhnxv5okvVr8yyH77n0QCdmXyI1ky7oo9ygg_4tPjx8I1MI
- 6PswxJZ0kea5m923Sj7omdMb3iZlWK6RXwJoXlqIhS0OEMjRE1kA7ZlPi9DQ7Ps1GkGXNmNE898Q
- vW8TxqMBVaLsf8Q3sFBdp1vX6RwjPRz_MHxgo_lkCY9xr4pvUFJVAU4W5dNJHTcXD1BhUWBIvgfN
- XUU1eXk_bSAGMy5f04o.SnLRTkToW9R7c3x_.Po4lUCh3YzfiiW5n6WCFRi7ZhP1Pm2vCLglSOX8
- tTSzPoRozgl7XfGSWfbxg7mP3eIgROUXIEtn4VZrmiPRhkY9NaylzB6lXWlJPaa3aY2F29uvFcqS
- YCHqQxruucBGxGWsG3HFb2Puuhv9XbnmC9yzzsErTBmHQZP.onvrXOqZ4T6IOuD_MgsR9FNl5Nl5
- v6Dnhp2SY8afnWRJonMbTGOgRgksCYw7hjdb68CvdkqaTaDK37XLHomWuQBNU5d1FDNtqOGoTx6a
- hgPm3ybxX3BGbeK9K6L_yVyhqqWWmLodV5tGZD9XjFHpgvLJB5QjoMkqFQdqiZ9ZAwZqrBv2_u1k
- 76e6pJZl_UyxsCp4jpwLpoh_tLzn6ERtwIywsK9GEGcCiyZqhdyBXr194L5qo9hPLiNeTjGbOhYa
- bBrrupqlOltyGyRatp11LETCJXv9Cf7_XHhPKWlN6cNiP1Rmbf4G7n_.MTJuKT7cy9_Cyv9WRtmg
- rjTfV.Z8akF.xlmiIql7TsziNJ_YCKl3Lgy7H4T2Wv1ab.GPwb21SqbfiSSrap2Hh.RspK5QpJ48
- eTIhqkWX_DzsX.3rdjitnezWHcnnxUDmO.Fn0EAZ358qandFyVjjt.7APiL0Qgbn9IWzcNRWj9V1
- ou5aQN.j0m8Aw8JblbA48b9P_0cf6OrAqWRyCzEu6PpTQZaAY7AHybr0hCnDYfOXGKCHQPnBcCjd
- mSIFk5wBHCbz1l.N55X786GMaEgkga7GsxMUkhqiAmlQ3r8GCUuTG5OBGnwVRKJJnSHKxfceYCOw
- oyOmHcwqC4W4G3SSIAmOWWPyDZFLiwo3iYfZEnQXYcUWlXFKR9MEsbkXBphruKZtlUQrB0hD_wyz
- 9kFxrU2THEJ3d5sAm7Qd3Z4TwfBVaL_eFelZRwAurT1rzvjnCf6QXY0eoxoyKupoTYA4bFfFSTgC
- j0ENR63K8S2Rxj2DepVTBDbiJnFx4jwA9eW1HCOTiQO5RD2KkKRo4UwSXpjj5Z.ZiUmZrq9pipqq
- jETPnhXOCjQTpHWcpC8iuJg6Z3x9WAUISsbgpY08iemm65HSVVdtcWmlkFgU6YttO.6XWo9fHVAv
- ycho0t8VQX6HYE1_8kO.FZLAt4aBvqL09FXpZX1SU
-X-Sonic-MF: <alex_y_xu@yahoo.ca>
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic304.consmr.mail.gq1.yahoo.com with HTTP; Thu, 5 Aug 2021 00:04:43 +0000
-Received: by kubenode542.mail-prod1.omega.bf1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID 7a8253fde8c36a750343d2fbeabffa3e;
-          Thu, 05 Aug 2021 00:04:38 +0000 (UTC)
-From:   "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>
-To:     torvalds@linux-foundation.org
-Cc:     linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.or, dhowells@redhat.com,
-        linux@rasmusvillemoes.dk, gregkh@linuxfoundation.org,
-        peterz@infradead.org, nicolas.dichtel@6wind.com, raven@themaw.net,
-        christian@brauner.io, "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>
-Subject: [PATCH] pipe: increase minimum default pipe size to 2 pages
-Date:   Wed,  4 Aug 2021 20:04:35 -0400
-Message-Id: <20210805000435.10833-1-alex_y_xu@yahoo.ca>
-X-Mailer: git-send-email 2.32.0
+        id S234171AbhHEFvs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 Aug 2021 01:51:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36300 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232144AbhHEFvo (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Aug 2021 01:51:44 -0400
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98211C0613C1
+        for <linux-api@vger.kernel.org>; Wed,  4 Aug 2021 22:51:30 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id u16so5801547ple.2
+        for <linux-api@vger.kernel.org>; Wed, 04 Aug 2021 22:51:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Hb1RiTdXXmVTdccKQEBpxF/aHVE3JRKRb2+RAfdmXqA=;
+        b=Sb7laE7/7wFc+Hct1FwlI7jbeFp6iSakTI8tl1rsJcfKuaZmczcDvQanNEmfXWW5nF
+         F6Kc0yHkfdIgZ+m09KvVAqC93MT1E+GlJa/dHwGPzc9EaxuoUQtbCrdlTTtX4gqhcZ09
+         cX+ZG8QLsfnIM4Kst3ch+D1l4qyaoQGHdDiDtUyH9SZIM/WMADH3FiybL47Rvd1rQ/eT
+         jHlnk1Tsfexw8jXwaC1RdZKCaTH1UNeTbxZTuuvirOHh9ONYSOkkSWCJCmBkHGYJ0chA
+         DKdMtBl5+BfFlIwa8GjELsJgmK1nrLZMg5UQHuoDsjGVN+dvxtE60VSAIFwc2NdSN6ok
+         lCcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Hb1RiTdXXmVTdccKQEBpxF/aHVE3JRKRb2+RAfdmXqA=;
+        b=tb1un5V0nV8A+HCdGL/ORZzm6EI81LAkojbwISMQXkS8W2NcGZSW/U/thNu/NilszU
+         bPju9YHadpmTXE6OGSaUYmzbmbQfNjb++fyV31ci9jwV/9vPROyvqYCZSQ9WpeDRmgxA
+         st4L9bl/sVTWjFHdGNZTuN4C1uL0MCt0lyUU7Cu1+RrnQvgplLE+aUwR3DEguUnkKyDf
+         pCBa0P/oRVyfGXon7vYA4kCu7iMEDYQjXq7YmwgUNPMGB44m1twGSgmLakzTAMIKVq4v
+         EhLpmNIHy0UyTXI5UTRMgALE9XFiQWGYj4xsclksdVM5S4CiKub3W8yPlStxDSDk8npe
+         xDrw==
+X-Gm-Message-State: AOAM531MkagzAE4AWM8UDTfMhd5sylchyrTAxBjunAHGL/of094Nl3ZV
+        wv+tQuqXXtavBPBDw7JU2MzW9A==
+X-Google-Smtp-Source: ABdhPJxzr9RZNQEMfrBd9eCpkhmXphAz7TaGhHybtCMVaK6G5tSveWsrI81RGYZqhWL/5ABSgzsYig==
+X-Received: by 2002:a17:90a:1c9:: with SMTP id 9mr2945132pjd.79.1628142689773;
+        Wed, 04 Aug 2021 22:51:29 -0700 (PDT)
+Received: from google.com ([2401:fa00:9:211:8490:30e3:f52b:e185])
+        by smtp.gmail.com with ESMTPSA id a12sm5140990pfg.120.2021.08.04.22.51.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Aug 2021 22:51:29 -0700 (PDT)
+Date:   Thu, 5 Aug 2021 15:51:16 +1000
+From:   Matthew Bobrowski <repnop@google.com>
+To:     Jan Kara <jack@suse.cz>
+Cc:     Amir Goldstein <amir73il@gmail.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Jann Horn <jannh@google.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Andy Lutomirski <luto@kernel.org>
+Subject: Re: [PATCH v3 5/5] fanotify: add pidfd support to the fanotify API
+Message-ID: <YQt8VCexMYvysJB+@google.com>
+References: <20210729133953.GL29619@quack2.suse.cz>
+ <CAOQ4uxi70KXGwpcBnRiyPXZCjFQfifaWaYVSDK2chaaZSyXXhQ@mail.gmail.com>
+ <CAOQ4uxgFLqO5_vPTb5hkfO1Fb27H-h0TqHsB6owZxrZw4YLoEA@mail.gmail.com>
+ <20210802123428.GB28745@quack2.suse.cz>
+ <CAOQ4uxhk-vTOFvpuh81A2V5H0nfAJW6y3qBi9TgnZxAkRDSeKQ@mail.gmail.com>
+ <20210803093753.mxcn6nzgj55erpuw@wittgenstein>
+ <CAOQ4uxgKuS8SJjz2AJQAB=3d3Yw5EeJxZ28L-u4Z0Wd35ZZFHQ@mail.gmail.com>
+ <20210803140421.GE10621@quack2.suse.cz>
+ <YQoNfd2tCjt4MLl2@google.com>
+ <20210804123940.GD4578@quack2.suse.cz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-References: <20210805000435.10833-1-alex_y_xu.ref@yahoo.ca>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210804123940.GD4578@quack2.suse.cz>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Before this patch, the following program prints 4096 and hangs.
-Afterwards, it prints 8192 and exits successfully. Note that you may
-need to increase your RLIMIT_NOFILE before running the program.
+On Wed, Aug 04, 2021 at 02:39:40PM +0200, Jan Kara wrote:
+> On Wed 04-08-21 13:46:05, Matthew Bobrowski wrote:
+> > On Tue, Aug 03, 2021 at 04:04:21PM +0200, Jan Kara wrote:
+> > > On Tue 03-08-21 13:07:57, Amir Goldstein wrote:
+> > > > On Tue, Aug 3, 2021 at 12:37 PM Christian Brauner
+> > > > <christian.brauner@ubuntu.com> wrote:
+> > > > >
+> > > > > On Mon, Aug 02, 2021 at 05:38:20PM +0300, Amir Goldstein wrote:
+> > > > > > On Mon, Aug 2, 2021 at 3:34 PM Jan Kara <jack@suse.cz> wrote:
+> > > > > > >
+> > > > > > > On Fri 30-07-21 08:03:01, Amir Goldstein wrote:
+> > > > > > > > On Thu, Jul 29, 2021 at 6:13 PM Amir Goldstein <amir73il@gmail.com> wrote:
+> > > > > > > > > On Thu, Jul 29, 2021 at 4:39 PM Jan Kara <jack@suse.cz> wrote:
+> > > > > > > > > > Well, but pidfd also makes sure that /proc/<pid>/ keeps belonging to the
+> > > > > > > > > > same process while you read various data from it. And you cannot achieve
+> > > > > > > > > > that with pid+generation thing you've suggested. Plus the additional
+> > > > > > > > > > concept and its complexity is non-trivial So I tend to agree with
+> > > > > > > > > > Christian that we really want to return pidfd.
+> > > > > > > > > >
+> > > > > > > > > > Given returning pidfd is CAP_SYS_ADMIN priviledged operation I'm undecided
+> > > > > > > > > > whether it is worth the trouble to come up with some other mechanism how to
+> > > > > > > > > > return pidfd with the event. We could return some cookie which could be
+> > > > > > > > > > then (by some ioctl or so) either transformed into real pidfd or released
+> > > > > > > > > > (so that we can release pid handle in the kernel) but it looks ugly and
+> > > > > > > > > > complicates things for everybody without bringing significant security
+> > > > > > > > > > improvement (we already can pass fd with the event). So I'm pondering
+> > > > > > > > > > whether there's some other way how we could make the interface safer - e.g.
+> > > > > > > > > > so that the process receiving the event (not the one creating the group)
+> > > > > > > > > > would also need to opt in for getting fds created in its file table.
+> > > > > > > > > >
+> > > > > > > > > > But so far nothing bright has come to my mind. :-|
+> > > > > > > > > >
+> > > > > > > > >
+> > > > > > > > > There is a way, it is not bright, but it is pretty simple -
+> > > > > > > > > store an optional pid in group->fanotify_data.fd_reader.
+> > > > > > > > >
+> > > > > > > > > With flag FAN_REPORT_PIDFD, both pidfd and event->fd reporting
+> > > > > > > > > will be disabled to any process other than fd_reader.
+> > > > > > > > > Without FAN_REPORT_PIDFD, event->fd reporting will be disabled
+> > > > > > > > > if fd_reaader is set to a process other than the reader.
+> > > > > > > > >
+> > > > > > > > > A process can call ioctl START_FD_READER to set fd_reader to itself.
+> > > > > > > > > With FAN_REPORT_PIDFD, if reaader_fd is NULL and the reader
+> > > > > > > > > process has CAP_SYS_ADMIN, read() sets fd_reader to itself.
+> > > > > > > > >
+> > > > > > > > > Permission wise, START_FD_READER is allowed with
+> > > > > > > > > CAP_SYS_ADMIN or if fd_reader is not owned by another process.
+> > > > > > > > > We may consider YIELD_FD_READER ioctl if needed.
+> > > > > > > > >
+> > > > > > > > > I think that this is a pretty cheap price for implementation
+> > > > > > > > > and maybe acceptable overhead for complicating the API?
+> > > > > > > > > Note that without passing fd, there is no need for any ioctl.
+> > > > > > > > >
+> > > > > > > > > An added security benefit is that the ioctl adds is a way for the
+> > > > > > > > > caller of fanotify_init() to make sure that even if the fanotify_fd is
+> > > > > > > > > leaked, that event->fd will not be leaked, regardless of flag
+> > > > > > > > > FAN_REPORT_PIDFD.
+> > > > > > > > >
+> > > > > > > > > So the START_FD_READER ioctl feature could be implemented
+> > > > > > > > > and documented first.
+> > > > > > > > > And then FAN_REPORT_PIDFD could use the feature with a
+> > > > > > > > > very minor API difference:
+> > > > > > > > > - Without the flag, other processes can read fds by default and
+> > > > > > > > >   group initiator can opt-out
+> > > > > > > > > - With the flag, other processes cannot read fds by default and
+> > > > > > > > >   need to opt-in
+> > > > > > > >
+> > > > > > > > Or maybe something even simpler... fanotify_init() flag
+> > > > > > > > FAN_PRIVATE (or FAN_PROTECTED) that limits event reading
+> > > > > > > > to the initiator process (not only fd reading).
+> > > > > > > >
+> > > > > > > > FAN_REPORT_PIDFD requires FAN_PRIVATE.
+> > > > > > > > If we do not know there is a use case for passing fanotify_fd
+> > > > > > > > that reports pidfds to another process why implement the ioctl.
+> > > > > > > > We can always implement it later if the need arises.
+> > > > > > > > If we contemplate this future change, though, maybe the name
+> > > > > > > > FAN_PROTECTED is better to start with.
+> > > > > > >
+> > > > > > > Good ideas. I think we are fine with returning pidfd only to the process
+> > > > > > > creating the fanotify group. Later we can add an ioctl which would indicate
+> > > > > > > that the process is also prepared to have fds created in its file table.
+> > > > > > > But I have still some open questions:
+> > > > > > > Do we want threads of the same process to still be able to receive fds?
+> > > > > >
+> > > > > > I don't see why not.
+> > > > > > They will be bloating the same fd table as the thread that called
+> > > > > > fanotify_init().
+> > > > > >
+> > > > > > > Also pids can be recycled so they are probably not completely reliable
+> > > > > > > identifiers?
+> > > > > >
+> > > > > > Not sure I follow. The group hold a refcount on struct pid of the process that
+> > > > > > called fanotify_init() - I think that can used to check if reader process is
+> > > > > > the same process, but not sure. Maybe there is another way (Christian?).
+> > > > >
+> > > > > If the fanotify group hold's a reference to struct pid it won't get
+> > > > > recycled. And it can be used to check if the reader thread is the same
+> > > > > thread with some care. You also have to be specific what exactly you
+> > > > > want to know.  If you're asking if the reading process is the same as
+> > > > > the fanotify_init() process you can be asking one of two things.
+> > > > >
+> > > > > You can be asking if the reader is a thread in the same thread-group as
+> > > > > the thread that called fanotify_init(). In that case you might need to
+> > > > > do something like
+> > > > >
+> > > > > rcu_read_lock();
+> > > > > struct task_struct *fanotify_init_task_struct = pid_task(stashed_struct_pid, PIDTYPE_PID);
+> > > > > if (!fanotify_init_task_struct) {
+> > > > >         /* The thread which called fanotify_init() has died already. */
+> > > > >         return -ESRCH;
+> > > > > }
+> > > > > if (same_thread_group(fanotify_init_task_struct, current))
+> > > > > rcu_read_unlock();
+> > > > >
+> > > > > though thinking about it makes me realise that there's a corner case. If
+> > > > > the thread that called fanotify_init() is a thread in a non-empty
+> > > > > thread-group it can already have died and been reaped. This would mean,
+> > > > > pid_task(..., PIDTYPE_PID) will return NULL but there are still other
+> > > > > threads alive in the thread-group. Handling that case might be a bit
+> > > > > complicated.
+> > > > >
+> > > > > If you're asking whether the reading thread is really the same as the
+> > > > > thread that created the fanotify instance then you might need to do sm
+> > > > > like
+> > > > >
+> > > > > rcu_read_lock();
+> > > > > if (pid_task(stashed_struct_pid, PIDTYPE_PID) == current)
+> > > > > rcu_read_unlock();
+> > > > >
+> > > > > Just for completeness if I remember all of this right: there's a corner
+> > > > > case because of how de_thread() works.
+> > > > > During exec the thread that is execing will assume the struct pid of the
+> > > > > old thread-group leader. (All other threads in the same thread-group
+> > > > > will get killed.)
+> > > > > Assume the thread that created the fanotify instance is not the
+> > > > > thread-group leader in its non-empty thread-group. And further assume it
+> > > > > exec's. Then it will assume the struct pid of the old thread-group
+> > > > > leader during de_thread().
+> > > > > Assume the thread inherits the fanotify fd across the exec. Now, when it
+> > > > > tries to read a new event after the exec then pid_task() will return
+> > > > > NULL.
+> > > > > However, if the thread was already the thread-group leader before the
+> > > > > exec then pid_task() will return the same task struct as before after
+> > > > > the exec (because no struct pid swapping needed to take place).
+> > > > >
+> > > > > I hope this causes more clarity ?then confusion. :)
+> > > > 
+> > > > I'm afraid it's the latter :D
+> > > > 
+> > > > Sigh! We must simplify.
+> > > > 
+> > > > Thinking out loud, instead of sealing the possibility of another
+> > > > process reading pidfd, maybe just avoid the most obvious unintentional
+> > > > leak of fanotify_fd to another process by mandating  FAN_CLOEXEC?
+> > >
+> > > Well, I don't think we need any protection from leaking fanotify_fd. It is
+> > > special fd with special priviledges as any other. If you leak it, well, bad
+> > > luck but that's how Unix priviledge model works.
+> > > 
+> > > The threat IMO is that you have a process X, that process expects to
+> > > receive fd to work with from process Y. Now process Y is malicious (or
+> > > taken over by an attacker) and passes to X fanotify_fd. X reads from
+> > > fanotify_fd to get data to process, it performs all kinds of validity
+> > > checks on untrusted input but it does not expect that the read has side
+> > > effects on X's file_table and in the worst case can lead to some compromise
+> > > of X or easily to DoS on X by exhausting its file_table space.
+> > >
+> > > Currently this attack vector is moot because you have to have CAP_SYS_ADMIN
+> > > to get to fanotify_fd and then you can certainly do worse things. But OTOH
+> > > I can see why Jann was uneasy about this.
+> > 
+> > As I have breifly expressed in my previous emails, the cause for concern
+> > here is flakey IMO. If there's sensible something that I'm clearly missing,
+> > then please explain.
+> 
+> No, I think your understanding is correct.
+> 
+> > From my perspective, the only sensible attack vector that's maybe worth
+> > worrying about here is the possibility of exhausting the fdtable of a given
+> > process, which yes, can be considered as a form of DoS. However, in any
+> > case, there are other defensive protections/measures that a programmer
+> > could employ in their application code which could prevent such from ever
+> > happening.
+> > 
+> > The whole passing of file descriptors between process Y and process X and
+> > the leaking of a file descriptor thing simply goes back to what you've
+> > mentioned above Jan. I consider it a very weak argument. When enabling
+> > FAN_REPORT_PIDFD, the process requires CAP_SYS_ADMIN. If that process ever
+> > has its execution flow hijacked by an attacker, then I'm sorry, I think
+> > there's other larger causes for concern at that point rather then worrying
+> > about the state of some other child processes fdtable.
+> > 
+> > In general cases, I get that passing a file descriptor between process Y
+> > and process X and then having process X's fdtable modified as result of
+> > calling functions like read() is considered undesired. But, for
+> > applications that makes use of fanotify is there ever a case where we pass
+> > the fanotify file descriptor to a random/unexpected process and have it
+> > process events? I don't think so. So, I suppose what I'm trying to say is
+> > that, if an application chooses to opt-in and use a flag like
+> > FAN_REPORT_PIDFD or any other future file descriptor generating variant,
+> > the expectation is that which ever process is created and event processing
+> > is passed to that process, then it should always expect to have its fdtable
+> > modified when reading events.
+> 
+> Yes, I was thinking about this some more and at this point, given the lack
+> of convenient options for the hardening, I think the best option is to keep
+> the interface as originally planned. Because I'm afraid the hardening options
+> we were able to come up with would only cause confusion (and from confusion
+> bugs easily arise) for little security gain.
 
-int main() {
-    int pipefd[2];
-    for (int i = 0; i < 1025; i++)
-        if (pipe(pipefd) == -1)
-            return 1;
-    size_t bufsz = fcntl(pipefd[1], F_GETPIPE_SZ);
-    printf("%zd\n", bufsz);
-    char *buf = calloc(bufsz, 1);
-    write(pipefd[1], buf, bufsz);
-    read(pipefd[0], buf, bufsz-1);
-    write(pipefd[1], buf, 1);
-}
+OK, in that case are you happy for me to post hopefully the last iteration
+of this series with the minor nits addressed?
 
-Signed-off-by: Alex Xu (Hello71) <alex_y_xu@yahoo.ca>
----
-
-See discussion at https://lore.kernel.org/lkml/1628086770.5rn8p04n6j.none@localhost/.
-
- fs/pipe.c | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
-
-diff --git a/fs/pipe.c b/fs/pipe.c
-index 9ef4231cce61..8e6ef62aeb1c 100644
---- a/fs/pipe.c
-+++ b/fs/pipe.c
-@@ -31,6 +31,21 @@
- 
- #include "internal.h"
- 
-+/*
-+ * New pipe buffers will be restricted to this size while the user is exceeding
-+ * their pipe buffer quota. The general pipe use case needs at least two
-+ * buffers: one for data yet to be read, and one for new data. If this is less
-+ * than two, then a write to a non-empty pipe may block even if the pipe is not
-+ * full. This can occur with GNU make jobserver or similar uses of pipes as
-+ * semaphores: multiple processes may be waiting to write tokens back to the
-+ * pipe before reading tokens: https://lore.kernel.org/lkml/1628086770.5rn8p04n6j.none@localhost/.
-+ *
-+ * Users can reduce their pipe buffers with F_SETPIPE_SZ below this at their
-+ * own risk, namely: pipe writes to non-full pipes may block until the pipe is
-+ * emptied.
-+ */
-+#define PIPE_MIN_DEF_BUFFERS 2
-+
- /*
-  * The max size that a non-root user is allowed to grow the pipe. Can
-  * be set by root in /proc/sys/fs/pipe-max-size
-@@ -781,8 +796,8 @@ struct pipe_inode_info *alloc_pipe_info(void)
- 	user_bufs = account_pipe_buffers(user, 0, pipe_bufs);
- 
- 	if (too_many_pipe_buffers_soft(user_bufs) && pipe_is_unprivileged_user()) {
--		user_bufs = account_pipe_buffers(user, pipe_bufs, 1);
--		pipe_bufs = 1;
-+		user_bufs = account_pipe_buffers(user, pipe_bufs, PIPE_MIN_DEF_BUFFERS);
-+		pipe_bufs = PIPE_MIN_DEF_BUFFERS;
- 	}
- 
- 	if (too_many_pipe_buffers_hard(user_bufs) && pipe_is_unprivileged_user())
--- 
-2.32.0
-
+/M
