@@ -2,291 +2,270 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E10F3E0DE3
-	for <lists+linux-api@lfdr.de>; Thu,  5 Aug 2021 07:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9251C3E0E71
+	for <lists+linux-api@lfdr.de>; Thu,  5 Aug 2021 08:35:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234171AbhHEFvs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 5 Aug 2021 01:51:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36300 "EHLO
+        id S236015AbhHEGfc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 Aug 2021 02:35:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232144AbhHEFvo (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Aug 2021 01:51:44 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98211C0613C1
-        for <linux-api@vger.kernel.org>; Wed,  4 Aug 2021 22:51:30 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id u16so5801547ple.2
-        for <linux-api@vger.kernel.org>; Wed, 04 Aug 2021 22:51:30 -0700 (PDT)
+        with ESMTP id S230183AbhHEGfc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Aug 2021 02:35:32 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4259C061765
+        for <linux-api@vger.kernel.org>; Wed,  4 Aug 2021 23:35:18 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id dw2-20020a17090b0942b0290177cb475142so12595457pjb.2
+        for <linux-api@vger.kernel.org>; Wed, 04 Aug 2021 23:35:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=Hb1RiTdXXmVTdccKQEBpxF/aHVE3JRKRb2+RAfdmXqA=;
-        b=Sb7laE7/7wFc+Hct1FwlI7jbeFp6iSakTI8tl1rsJcfKuaZmczcDvQanNEmfXWW5nF
-         F6Kc0yHkfdIgZ+m09KvVAqC93MT1E+GlJa/dHwGPzc9EaxuoUQtbCrdlTTtX4gqhcZ09
-         cX+ZG8QLsfnIM4Kst3ch+D1l4qyaoQGHdDiDtUyH9SZIM/WMADH3FiybL47Rvd1rQ/eT
-         jHlnk1Tsfexw8jXwaC1RdZKCaTH1UNeTbxZTuuvirOHh9ONYSOkkSWCJCmBkHGYJ0chA
-         DKdMtBl5+BfFlIwa8GjELsJgmK1nrLZMg5UQHuoDsjGVN+dvxtE60VSAIFwc2NdSN6ok
-         lCcA==
+        bh=yw+dfXvJIDBVeZYoVj8XzX5qi4Azokeflw5Ku86+K6w=;
+        b=GTDi+zK4gVfIGBCxIO46T6VDh1Knx03ODP2kRO1DnNsUOPLAeE6v/vSDGzYkycfWtX
+         VYwqqxBDCuvvHs5SShVCIQudMwYb/AlfeasjvmOR4eHsV8B/424D0xpPGoci681z139U
+         DBFzjU1NV7yibp5JbmkBhVFSxRu1NlQUr6CTbhoyd67k+k32XQGfYA3FVp52kIBL5ndT
+         ejpAtNanR2uAg4G03ajOUw5vh91PGH7GruVkgTUw4iU1bpLjH20TPw6nCIOpAqgmjSKX
+         Ahv0F1ykQck6neW24kGBcGelHF6i/ud4jMld+GrqcWZchonJSz9eU3gAKc3fLfmGMn0u
+         z66g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=Hb1RiTdXXmVTdccKQEBpxF/aHVE3JRKRb2+RAfdmXqA=;
-        b=tb1un5V0nV8A+HCdGL/ORZzm6EI81LAkojbwISMQXkS8W2NcGZSW/U/thNu/NilszU
-         bPju9YHadpmTXE6OGSaUYmzbmbQfNjb++fyV31ci9jwV/9vPROyvqYCZSQ9WpeDRmgxA
-         st4L9bl/sVTWjFHdGNZTuN4C1uL0MCt0lyUU7Cu1+RrnQvgplLE+aUwR3DEguUnkKyDf
-         pCBa0P/oRVyfGXon7vYA4kCu7iMEDYQjXq7YmwgUNPMGB44m1twGSgmLakzTAMIKVq4v
-         EhLpmNIHy0UyTXI5UTRMgALE9XFiQWGYj4xsclksdVM5S4CiKub3W8yPlStxDSDk8npe
-         xDrw==
-X-Gm-Message-State: AOAM531MkagzAE4AWM8UDTfMhd5sylchyrTAxBjunAHGL/of094Nl3ZV
-        wv+tQuqXXtavBPBDw7JU2MzW9A==
-X-Google-Smtp-Source: ABdhPJxzr9RZNQEMfrBd9eCpkhmXphAz7TaGhHybtCMVaK6G5tSveWsrI81RGYZqhWL/5ABSgzsYig==
-X-Received: by 2002:a17:90a:1c9:: with SMTP id 9mr2945132pjd.79.1628142689773;
-        Wed, 04 Aug 2021 22:51:29 -0700 (PDT)
+        bh=yw+dfXvJIDBVeZYoVj8XzX5qi4Azokeflw5Ku86+K6w=;
+        b=SwTjGGldTBohMHiOB7ttML1ZBvOSiUsVrM7fffEIgZTm+QMz+EzdDMpIbpORxtW22f
+         Jx1dbDRSmB4tAHkZECX/+rGT7JIIoH3uPJGb1/6tbv4qxy/0D2FZEWwx62GAGyrkduxX
+         Gsc2ZLlMJ8ANGerLIelPMnB2K3ZvPUkQsoq7AcnEVhp4FBcHaiqnQ7PaMFBAzux35Si6
+         sLkEw88CFmbPwETUyJLoFWNnSblCes8mRG2WlDI8IsY0KtDKwfW/nvUbvq3YQ8eZ6rjn
+         7Ta3aTpQXILswdA0lCWR5kkcBtJRImtRzwH78uLwRIJVLKzGdLQgppIs2/hlS3R2Sp6y
+         mPVQ==
+X-Gm-Message-State: AOAM5336LGwC+VeMh06IGmFnC/8nijiPM2GxeZXjRuVwcqGi8eDDq2tx
+        ygBI2SvZRfHSeD2rhWrPrLBsnw==
+X-Google-Smtp-Source: ABdhPJzhf1OaJMjLkOM/kIo9B/w+IVVstmRNwiiT3o0BYEzrLaeYNmmFs/II0q2QK/wS8jLuCzKsuA==
+X-Received: by 2002:a65:6910:: with SMTP id s16mr282728pgq.270.1628145318236;
+        Wed, 04 Aug 2021 23:35:18 -0700 (PDT)
 Received: from google.com ([2401:fa00:9:211:8490:30e3:f52b:e185])
-        by smtp.gmail.com with ESMTPSA id a12sm5140990pfg.120.2021.08.04.22.51.26
+        by smtp.gmail.com with ESMTPSA id z15sm6184331pgc.13.2021.08.04.23.35.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Aug 2021 22:51:29 -0700 (PDT)
-Date:   Thu, 5 Aug 2021 15:51:16 +1000
+        Wed, 04 Aug 2021 23:35:17 -0700 (PDT)
+Date:   Thu, 5 Aug 2021 16:35:05 +1000
 From:   Matthew Bobrowski <repnop@google.com>
-To:     Jan Kara <jack@suse.cz>
-Cc:     Amir Goldstein <amir73il@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Jann Horn <jannh@google.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Andy Lutomirski <luto@kernel.org>
-Subject: Re: [PATCH v3 5/5] fanotify: add pidfd support to the fanotify API
-Message-ID: <YQt8VCexMYvysJB+@google.com>
-References: <20210729133953.GL29619@quack2.suse.cz>
- <CAOQ4uxi70KXGwpcBnRiyPXZCjFQfifaWaYVSDK2chaaZSyXXhQ@mail.gmail.com>
- <CAOQ4uxgFLqO5_vPTb5hkfO1Fb27H-h0TqHsB6owZxrZw4YLoEA@mail.gmail.com>
- <20210802123428.GB28745@quack2.suse.cz>
- <CAOQ4uxhk-vTOFvpuh81A2V5H0nfAJW6y3qBi9TgnZxAkRDSeKQ@mail.gmail.com>
- <20210803093753.mxcn6nzgj55erpuw@wittgenstein>
- <CAOQ4uxgKuS8SJjz2AJQAB=3d3Yw5EeJxZ28L-u4Z0Wd35ZZFHQ@mail.gmail.com>
- <20210803140421.GE10621@quack2.suse.cz>
- <YQoNfd2tCjt4MLl2@google.com>
- <20210804123940.GD4578@quack2.suse.cz>
+To:     Gabriel Krisman Bertazi <krisman@collabora.com>
+Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
+        linux-api@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
+        Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH v2] fanotify.7, fanotify_mark.2: Document FAN_FS_ERROR
+Message-ID: <YQuGmbgZHH+VKyzB@google.com>
+References: <20210804161024.3578338-1-krisman@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210804123940.GD4578@quack2.suse.cz>
+In-Reply-To: <20210804161024.3578338-1-krisman@collabora.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Aug 04, 2021 at 02:39:40PM +0200, Jan Kara wrote:
-> On Wed 04-08-21 13:46:05, Matthew Bobrowski wrote:
-> > On Tue, Aug 03, 2021 at 04:04:21PM +0200, Jan Kara wrote:
-> > > On Tue 03-08-21 13:07:57, Amir Goldstein wrote:
-> > > > On Tue, Aug 3, 2021 at 12:37 PM Christian Brauner
-> > > > <christian.brauner@ubuntu.com> wrote:
-> > > > >
-> > > > > On Mon, Aug 02, 2021 at 05:38:20PM +0300, Amir Goldstein wrote:
-> > > > > > On Mon, Aug 2, 2021 at 3:34 PM Jan Kara <jack@suse.cz> wrote:
-> > > > > > >
-> > > > > > > On Fri 30-07-21 08:03:01, Amir Goldstein wrote:
-> > > > > > > > On Thu, Jul 29, 2021 at 6:13 PM Amir Goldstein <amir73il@gmail.com> wrote:
-> > > > > > > > > On Thu, Jul 29, 2021 at 4:39 PM Jan Kara <jack@suse.cz> wrote:
-> > > > > > > > > > Well, but pidfd also makes sure that /proc/<pid>/ keeps belonging to the
-> > > > > > > > > > same process while you read various data from it. And you cannot achieve
-> > > > > > > > > > that with pid+generation thing you've suggested. Plus the additional
-> > > > > > > > > > concept and its complexity is non-trivial So I tend to agree with
-> > > > > > > > > > Christian that we really want to return pidfd.
-> > > > > > > > > >
-> > > > > > > > > > Given returning pidfd is CAP_SYS_ADMIN priviledged operation I'm undecided
-> > > > > > > > > > whether it is worth the trouble to come up with some other mechanism how to
-> > > > > > > > > > return pidfd with the event. We could return some cookie which could be
-> > > > > > > > > > then (by some ioctl or so) either transformed into real pidfd or released
-> > > > > > > > > > (so that we can release pid handle in the kernel) but it looks ugly and
-> > > > > > > > > > complicates things for everybody without bringing significant security
-> > > > > > > > > > improvement (we already can pass fd with the event). So I'm pondering
-> > > > > > > > > > whether there's some other way how we could make the interface safer - e.g.
-> > > > > > > > > > so that the process receiving the event (not the one creating the group)
-> > > > > > > > > > would also need to opt in for getting fds created in its file table.
-> > > > > > > > > >
-> > > > > > > > > > But so far nothing bright has come to my mind. :-|
-> > > > > > > > > >
-> > > > > > > > >
-> > > > > > > > > There is a way, it is not bright, but it is pretty simple -
-> > > > > > > > > store an optional pid in group->fanotify_data.fd_reader.
-> > > > > > > > >
-> > > > > > > > > With flag FAN_REPORT_PIDFD, both pidfd and event->fd reporting
-> > > > > > > > > will be disabled to any process other than fd_reader.
-> > > > > > > > > Without FAN_REPORT_PIDFD, event->fd reporting will be disabled
-> > > > > > > > > if fd_reaader is set to a process other than the reader.
-> > > > > > > > >
-> > > > > > > > > A process can call ioctl START_FD_READER to set fd_reader to itself.
-> > > > > > > > > With FAN_REPORT_PIDFD, if reaader_fd is NULL and the reader
-> > > > > > > > > process has CAP_SYS_ADMIN, read() sets fd_reader to itself.
-> > > > > > > > >
-> > > > > > > > > Permission wise, START_FD_READER is allowed with
-> > > > > > > > > CAP_SYS_ADMIN or if fd_reader is not owned by another process.
-> > > > > > > > > We may consider YIELD_FD_READER ioctl if needed.
-> > > > > > > > >
-> > > > > > > > > I think that this is a pretty cheap price for implementation
-> > > > > > > > > and maybe acceptable overhead for complicating the API?
-> > > > > > > > > Note that without passing fd, there is no need for any ioctl.
-> > > > > > > > >
-> > > > > > > > > An added security benefit is that the ioctl adds is a way for the
-> > > > > > > > > caller of fanotify_init() to make sure that even if the fanotify_fd is
-> > > > > > > > > leaked, that event->fd will not be leaked, regardless of flag
-> > > > > > > > > FAN_REPORT_PIDFD.
-> > > > > > > > >
-> > > > > > > > > So the START_FD_READER ioctl feature could be implemented
-> > > > > > > > > and documented first.
-> > > > > > > > > And then FAN_REPORT_PIDFD could use the feature with a
-> > > > > > > > > very minor API difference:
-> > > > > > > > > - Without the flag, other processes can read fds by default and
-> > > > > > > > >   group initiator can opt-out
-> > > > > > > > > - With the flag, other processes cannot read fds by default and
-> > > > > > > > >   need to opt-in
-> > > > > > > >
-> > > > > > > > Or maybe something even simpler... fanotify_init() flag
-> > > > > > > > FAN_PRIVATE (or FAN_PROTECTED) that limits event reading
-> > > > > > > > to the initiator process (not only fd reading).
-> > > > > > > >
-> > > > > > > > FAN_REPORT_PIDFD requires FAN_PRIVATE.
-> > > > > > > > If we do not know there is a use case for passing fanotify_fd
-> > > > > > > > that reports pidfds to another process why implement the ioctl.
-> > > > > > > > We can always implement it later if the need arises.
-> > > > > > > > If we contemplate this future change, though, maybe the name
-> > > > > > > > FAN_PROTECTED is better to start with.
-> > > > > > >
-> > > > > > > Good ideas. I think we are fine with returning pidfd only to the process
-> > > > > > > creating the fanotify group. Later we can add an ioctl which would indicate
-> > > > > > > that the process is also prepared to have fds created in its file table.
-> > > > > > > But I have still some open questions:
-> > > > > > > Do we want threads of the same process to still be able to receive fds?
-> > > > > >
-> > > > > > I don't see why not.
-> > > > > > They will be bloating the same fd table as the thread that called
-> > > > > > fanotify_init().
-> > > > > >
-> > > > > > > Also pids can be recycled so they are probably not completely reliable
-> > > > > > > identifiers?
-> > > > > >
-> > > > > > Not sure I follow. The group hold a refcount on struct pid of the process that
-> > > > > > called fanotify_init() - I think that can used to check if reader process is
-> > > > > > the same process, but not sure. Maybe there is another way (Christian?).
-> > > > >
-> > > > > If the fanotify group hold's a reference to struct pid it won't get
-> > > > > recycled. And it can be used to check if the reader thread is the same
-> > > > > thread with some care. You also have to be specific what exactly you
-> > > > > want to know.  If you're asking if the reading process is the same as
-> > > > > the fanotify_init() process you can be asking one of two things.
-> > > > >
-> > > > > You can be asking if the reader is a thread in the same thread-group as
-> > > > > the thread that called fanotify_init(). In that case you might need to
-> > > > > do something like
-> > > > >
-> > > > > rcu_read_lock();
-> > > > > struct task_struct *fanotify_init_task_struct = pid_task(stashed_struct_pid, PIDTYPE_PID);
-> > > > > if (!fanotify_init_task_struct) {
-> > > > >         /* The thread which called fanotify_init() has died already. */
-> > > > >         return -ESRCH;
-> > > > > }
-> > > > > if (same_thread_group(fanotify_init_task_struct, current))
-> > > > > rcu_read_unlock();
-> > > > >
-> > > > > though thinking about it makes me realise that there's a corner case. If
-> > > > > the thread that called fanotify_init() is a thread in a non-empty
-> > > > > thread-group it can already have died and been reaped. This would mean,
-> > > > > pid_task(..., PIDTYPE_PID) will return NULL but there are still other
-> > > > > threads alive in the thread-group. Handling that case might be a bit
-> > > > > complicated.
-> > > > >
-> > > > > If you're asking whether the reading thread is really the same as the
-> > > > > thread that created the fanotify instance then you might need to do sm
-> > > > > like
-> > > > >
-> > > > > rcu_read_lock();
-> > > > > if (pid_task(stashed_struct_pid, PIDTYPE_PID) == current)
-> > > > > rcu_read_unlock();
-> > > > >
-> > > > > Just for completeness if I remember all of this right: there's a corner
-> > > > > case because of how de_thread() works.
-> > > > > During exec the thread that is execing will assume the struct pid of the
-> > > > > old thread-group leader. (All other threads in the same thread-group
-> > > > > will get killed.)
-> > > > > Assume the thread that created the fanotify instance is not the
-> > > > > thread-group leader in its non-empty thread-group. And further assume it
-> > > > > exec's. Then it will assume the struct pid of the old thread-group
-> > > > > leader during de_thread().
-> > > > > Assume the thread inherits the fanotify fd across the exec. Now, when it
-> > > > > tries to read a new event after the exec then pid_task() will return
-> > > > > NULL.
-> > > > > However, if the thread was already the thread-group leader before the
-> > > > > exec then pid_task() will return the same task struct as before after
-> > > > > the exec (because no struct pid swapping needed to take place).
-> > > > >
-> > > > > I hope this causes more clarity ?then confusion. :)
-> > > > 
-> > > > I'm afraid it's the latter :D
-> > > > 
-> > > > Sigh! We must simplify.
-> > > > 
-> > > > Thinking out loud, instead of sealing the possibility of another
-> > > > process reading pidfd, maybe just avoid the most obvious unintentional
-> > > > leak of fanotify_fd to another process by mandating  FAN_CLOEXEC?
-> > >
-> > > Well, I don't think we need any protection from leaking fanotify_fd. It is
-> > > special fd with special priviledges as any other. If you leak it, well, bad
-> > > luck but that's how Unix priviledge model works.
-> > > 
-> > > The threat IMO is that you have a process X, that process expects to
-> > > receive fd to work with from process Y. Now process Y is malicious (or
-> > > taken over by an attacker) and passes to X fanotify_fd. X reads from
-> > > fanotify_fd to get data to process, it performs all kinds of validity
-> > > checks on untrusted input but it does not expect that the read has side
-> > > effects on X's file_table and in the worst case can lead to some compromise
-> > > of X or easily to DoS on X by exhausting its file_table space.
-> > >
-> > > Currently this attack vector is moot because you have to have CAP_SYS_ADMIN
-> > > to get to fanotify_fd and then you can certainly do worse things. But OTOH
-> > > I can see why Jann was uneasy about this.
-> > 
-> > As I have breifly expressed in my previous emails, the cause for concern
-> > here is flakey IMO. If there's sensible something that I'm clearly missing,
-> > then please explain.
+On Wed, Aug 04, 2021 at 12:10:24PM -0400, Gabriel Krisman Bertazi wrote:
+> The kernel patches are not merged upstream, so please refrain from merging
+> it at the moment.  This submission attempts to preview the interface
+> and gather some interface review.
 > 
-> No, I think your understanding is correct.
+> Cc: Amir Goldstein <amir73il@gmail.com>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: Matthew Bobrowski <repnop@google.com>
+> Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
 > 
-> > From my perspective, the only sensible attack vector that's maybe worth
-> > worrying about here is the possibility of exhausting the fdtable of a given
-> > process, which yes, can be considered as a form of DoS. However, in any
-> > case, there are other defensive protections/measures that a programmer
-> > could employ in their application code which could prevent such from ever
-> > happening.
-> > 
-> > The whole passing of file descriptors between process Y and process X and
-> > the leaking of a file descriptor thing simply goes back to what you've
-> > mentioned above Jan. I consider it a very weak argument. When enabling
-> > FAN_REPORT_PIDFD, the process requires CAP_SYS_ADMIN. If that process ever
-> > has its execution flow hijacked by an attacker, then I'm sorry, I think
-> > there's other larger causes for concern at that point rather then worrying
-> > about the state of some other child processes fdtable.
-> > 
-> > In general cases, I get that passing a file descriptor between process Y
-> > and process X and then having process X's fdtable modified as result of
-> > calling functions like read() is considered undesired. But, for
-> > applications that makes use of fanotify is there ever a case where we pass
-> > the fanotify file descriptor to a random/unexpected process and have it
-> > process events? I don't think so. So, I suppose what I'm trying to say is
-> > that, if an application chooses to opt-in and use a flag like
-> > FAN_REPORT_PIDFD or any other future file descriptor generating variant,
-> > the expectation is that which ever process is created and event processing
-> > is passed to that process, then it should always expect to have its fdtable
-> > modified when reading events.
+> ---
+> Changes since v1:
+> (Matthew)
+>   - Grammar fixes
+>   - Don't use the term "submitted" for events sent to the listener
+>   - Clarify the kind of information that is file system specific
+> ---
+>  man2/fanotify_mark.2 | 16 ++++++++++
+>  man7/fanotify.7      | 73 ++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 89 insertions(+)
 > 
-> Yes, I was thinking about this some more and at this point, given the lack
-> of convenient options for the hardening, I think the best option is to keep
-> the interface as originally planned. Because I'm afraid the hardening options
-> we were able to come up with would only cause confusion (and from confusion
-> bugs easily arise) for little security gain.
+> diff --git a/man2/fanotify_mark.2 b/man2/fanotify_mark.2
+> index be3f72e040c0..2ae52f81d43b 100644
+> --- a/man2/fanotify_mark.2
+> +++ b/man2/fanotify_mark.2
+> @@ -214,6 +214,22 @@ Create an event when a marked file or directory itself is deleted.
+>  An fanotify group that identifies filesystem objects by file handles
+>  is required.
+>  .TP
+> +.BR FAN_FS_ERROR "(since Linux 5.15)"
+> +.\" commit WIP
+> +Create an event when a file system error is detected.
+> +A fanotify group that identifies filesystem objects by file handles
+   ^ 
+   An
 
-OK, in that case are you happy for me to post hopefully the last iteration
-of this series with the minor nits addressed?
+> +is required.
+> +Support for this type of notification is done per-file system,
+> +but not every filesystem supports it.
+
+IMO, I think this would be clearer by saying something like:
+
+Support for such a notification type is dependent on the underlying
+filesystem.
+Not all filesystems support such notification types.
+
+...
+
+Also, not sure whether this has already been considered, but it may be a
+good idea to keep/include a list of supported filesystems somewhere in the
+man-pages too. Understand that lists generally are hard to maintain moving
+forward and at some point in the future they tend to move a way from
+depicting what actually is the case. As in, something like:
+
+The filesystems that currently support FAN_FS_ERROR are:
+    * ext4
+
+Looks like this was something that was included in the kernel documentation
+side of things.
+
+> +A user can also expect to receive additional information
+> +in the form of a
+> +.BR FAN_EVENT_INFO_TYPE_ERROR
+> +record
+> +alongside the generic metadata event.
+> +See
+> +.BR fanotify (7)
+> +for additional details.
+> +.TP
+>  .BR FAN_MOVED_FROM " (since Linux 5.1)"
+>  .\" commit 235328d1fa4251c6dcb32351219bb553a58838d2
+>  Create an event when a file or directory has been moved from a marked
+> diff --git a/man7/fanotify.7 b/man7/fanotify.7
+> index 6a7e70d75845..b8b7f44d4e32 100644
+> --- a/man7/fanotify.7
+> +++ b/man7/fanotify.7
+> @@ -188,6 +188,24 @@ struct fanotify_event_info_fid {
+>  .EE
+>  .in
+>  .PP
+> +In case of a FAN_FS_ERROR event,
+> +besides the file handle record,
+> +an additional record describing the error that occurred
+> +is included in the read buffer.
+
+There's mention of getting a bonus file_handle, but there's no mention of
+FAN_FS_ERROR being dependent on FAN_REPORT_FID. This needs to be corrected
+IMO. I think the most appropriate place to put this kind of detail would be
+in fanotify_mark(2) under the actual definition of FAN_FS_ERROR. I believe
+it'd also make sense to document what the behavior/status code of setting a
+mark on notification group without FAN_REPORT_FID actually is.
+
+> +The structure described below, will follow the generic
+> +.I fanotify_event_metadata
+> +structure within the read buffer:
+> +.PP
+> +.in +4n
+> +.EX
+> +struct fanotify_event_info_error {
+> +    struct fanotify_event_info_header hdr;
+> +    __s32 error;
+> +    __u32 error_count;
+> +};
+> +.EE
+> +.in
+> +.PP
+>  For performance reasons, it is recommended to use a large
+>  buffer size (for example, 4096 bytes),
+>  so that multiple events can be retrieved by a single
+> @@ -311,6 +329,9 @@ A child file or directory was deleted in a watched parent.
+>  .B FAN_DELETE_SELF
+>  A watched file or directory was deleted.
+>  .TP
+> +.B FAN_FS_ERROR
+> +A file-system error was detected.
+> +.TP
+>  .B FAN_MOVED_FROM
+>  A file or directory has been moved from a watched parent directory.
+>  .TP
+> @@ -510,6 +531,32 @@ and the file handle is followed by a null terminated string that identifies the
+>  name of a directory entry in that directory, or '.' to identify the directory
+>  object itself.
+>  .PP
+> +The fields of the
+> +.I fanotify_event_info_error
+> +structure are as follows:
+> +.TP
+> +.I hdr
+> +This is a structure of type
+> +.IR fanotify_event_info_header .
+> +and is a generic header that contains information used to
+> +describe an additional information record attached to the event.
+> +For
+> +.IR fanotify_event_info_error ,
+> +.I info_type
+> +will have the value
+> +.BR FAN_EVENT_INFO_TYPE_ERROR .
+> +.I len
+> +has the size of the additional information record including the
+> +.IR fanotify_event_info_header
+> +itself.
+> +.TP
+> +.I error
+> +Identifies the file system specific error that occured
+
+s/occured/occurred
+
+> +.TP
+> +.I error_count
+> +This counts the number of errors suppressed
+
+This is a count of the number...
+
+> +since the last error was read.
+> +.PP
+>  The following macros are provided to iterate over a buffer containing
+>  fanotify event metadata returned by a
+>  .BR read (2)
+> @@ -599,6 +646,32 @@ field.
+>  In that case, the audit subsystem will log information about the access
+>  decision to the audit logs.
+>  .\"
+> +.SS Monitoring file systems for errors
+> +A single FAN_FS_ERROR event is stored by the kernel at once.
+
+This has to be a single FAN_FS_ERROR event per object? If so, I think we'd
+need to make that clear here.
+
+> +Extra error messages are suppressed and accounted for
+> +inside the current FAN_FS_ERROR event record,
+> +but details about the errors are lost.
+> +.PP
+> +Error types reported by FAN_FS_ERROR are file system specific
+> +and not all kinds of errors are reported by all file system.
+
+... not all kinds of error types are reported by all filesystems.
+
+> +Refer to the file system documentation
+> +for additional information on the type of errors that are reported,
+> +and the meaning of those errors.
+> +.PP
+> +Errors not directly related to a file (i.e. super block corruption)
+> +are reported with an invalid
+> +.IR file_handle .
+> +For these errors, the
+> +.I file_handle
+> +will have the field
+> +.I handle_type
+> +set to
+> +.BR FILEID_INVALID ,
+> +and the
+> +.I f_handle
+> +buffer set to
+> +.BR 0 .
+> +.\"
+
+This might strick controversy, but for the sake of keeping things
+consistent in this man page (as neither are really wrong), let's generally
+stick with the following throughout the supplied updates:
+
+s/{file system, file-system}/filesystem
+
+:P
 
 /M
