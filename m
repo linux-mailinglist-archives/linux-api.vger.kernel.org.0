@@ -2,18 +2,18 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D46CD3E1C0A
-	for <lists+linux-api@lfdr.de>; Thu,  5 Aug 2021 21:04:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 733053E1C0C
+	for <lists+linux-api@lfdr.de>; Thu,  5 Aug 2021 21:04:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242795AbhHETEv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 5 Aug 2021 15:04:51 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:34198 "EHLO
+        id S241988AbhHETEy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 Aug 2021 15:04:54 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:34218 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242637AbhHETEm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Aug 2021 15:04:42 -0400
+        with ESMTP id S242712AbhHETEq (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Aug 2021 15:04:46 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: tonyk)
-        with ESMTPSA id 30C5C1F4431A
+        with ESMTPSA id 363781F4431D
 From:   =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
 To:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
@@ -25,10 +25,12 @@ Cc:     kernel@collabora.com, krisman@collabora.com,
         linux-api@vger.kernel.org, libc-alpha@sourceware.org,
         mtk.manpages@gmail.com, Davidlohr Bueso <dave@stgolabs.net>,
         =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
-Subject: [PATCH 0/4] futex2: Add wait on multiple futexes syscall
-Date:   Thu,  5 Aug 2021 16:04:01 -0300
-Message-Id: <20210805190405.59110-1-andrealmeid@collabora.com>
+Subject: [PATCH 1/4] futex: Prepare for futex_wait_multiple()
+Date:   Thu,  5 Aug 2021 16:04:02 -0300
+Message-Id: <20210805190405.59110-2-andrealmeid@collabora.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210805190405.59110-1-andrealmeid@collabora.com>
+References: <20210805190405.59110-1-andrealmeid@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -36,76 +38,155 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi,
+Make public functions and defines that will be used for
+futex_wait_multiple() function in next commit.
 
-As opposed to previous futex2 patchsets, this one adds only one syscall:
-futex_waitv(). This way we can focus on this operation that already have
-a well defined use case and has been tested for months now.
+Signed-off-by: André Almeida <andrealmeid@collabora.com>
+---
+ include/linux/futex.h | 60 +++++++++++++++++++++++++++++++++++++++++++
+ kernel/futex.c        | 42 +-----------------------------
+ 2 files changed, 61 insertions(+), 41 deletions(-)
 
-The patchset reuses as much as possible of original futex code for the new
-operation, so the first commit move some stuff to futex header to make
-accessible for futex2.
-
-Ideally, I would completely replace futex_wait_setup() with
-futex_wait_multiple(): it is basic the same logic, but for n futexes,
-so for existing operations it was a matter of calling it with nr_futexes=1.
-This worked pretty well for futex_wait(): I tested with glibc tests,
-tested with a complete distro running on top of it and perf benchs
-presented no performance difference. However, it didn't work for
-futex_wait_requeue_pi(), since the wait path for it is slightly different
-of the normal wait, that would require some refactor to get it in a way to
-be easily replaced. So I decided to not replace it at all.
-
- Use case
-
-The use case of this syscall is to allow low level locking libraries to
-wait for multiple locks at the same time. This is specially useful for
-emulating Windows' WaitForMultipleObjects. A futex_waitv()-based solution
-has been used for some time at Proton's Wine (a compatibility layer to
-run Windows games on Linux). Compared to a solution that uses eventfd(),
-futex was able to reduce CPU utilization for games, and even increase
-frames per second for some games. This happens because eventfd doesn't
-scale very well for a huge number of read, write and poll calls compared
-to futex. Native game engines will benefit of this as well, given that
-this wait pattern is common for games.
-
- Testing
-
-Selftest is provided as part of this patchset. As stated above, I used
-the futex_wait_multiple() in FUTEX_WAIT path and it worked fine in a
-full distro. Throught Proton, I've tested futex_waitv() with modern games
-that issue more than 40k futex calls per second.
-
-André Almeida (4):
-  futex: Prepare for futex_wait_multiple()
-  futex2: Implement vectorized wait
-  selftests: futex2: Add waitv test
-  futex2: Documentation: Document futex_waitv() uAPI
-
- Documentation/userspace-api/futex2.rst        |  79 ++++++
- Documentation/userspace-api/index.rst         |   1 +
- arch/x86/entry/syscalls/syscall_32.tbl        |   1 +
- arch/x86/entry/syscalls/syscall_64.tbl        |   1 +
- include/linux/compat.h                        |   9 +
- include/linux/futex.h                         |  75 ++++++
- include/uapi/asm-generic/unistd.h             |   5 +-
- include/uapi/linux/futex.h                    |  17 ++
- init/Kconfig                                  |   7 +
- kernel/Makefile                               |   1 +
- kernel/futex.c                                | 224 ++++++++++++++----
- kernel/futex2.c                               | 198 ++++++++++++++++
- kernel/sys_ni.c                               |   4 +
- .../selftests/futex/functional/.gitignore     |   1 +
- .../selftests/futex/functional/Makefile       |   3 +-
- .../selftests/futex/functional/futex2_waitv.c | 154 ++++++++++++
- .../testing/selftests/futex/functional/run.sh |   3 +
- .../selftests/futex/include/futex2test.h      |  72 ++++++
- 18 files changed, 812 insertions(+), 43 deletions(-)
- create mode 100644 Documentation/userspace-api/futex2.rst
- create mode 100644 kernel/futex2.c
- create mode 100644 tools/testing/selftests/futex/functional/futex2_waitv.c
- create mode 100644 tools/testing/selftests/futex/include/futex2test.h
-
+diff --git a/include/linux/futex.h b/include/linux/futex.h
+index b70df27d7e85..f7a0f4a4b5f0 100644
+--- a/include/linux/futex.h
++++ b/include/linux/futex.h
+@@ -11,6 +11,22 @@ struct inode;
+ struct mm_struct;
+ struct task_struct;
+ 
++/*
++ * Futex flags used to encode options to functions and preserve them across
++ * restarts.
++ */
++#ifdef CONFIG_MMU
++# define FLAGS_SHARED		0x01
++#else
++/*
++ * NOMMU does not have per process address space. Let the compiler optimize
++ * code away.
++ */
++# define FLAGS_SHARED		0x00
++#endif
++#define FLAGS_CLOCKRT		0x02
++#define FLAGS_HAS_TIMEOUT	0x04
++
+ /*
+  * Futexes are matched on equal values of this key.
+  * The key type depends on whether it's a shared or private mapping.
+@@ -50,8 +66,52 @@ union futex_key {
+ 	} both;
+ };
+ 
++/**
++ * struct futex_q - The hashed futex queue entry, one per waiting task
++ * @list:		priority-sorted list of tasks waiting on this futex
++ * @task:		the task waiting on the futex
++ * @lock_ptr:		the hash bucket lock
++ * @key:		the key the futex is hashed on
++ * @pi_state:		optional priority inheritance state
++ * @rt_waiter:		rt_waiter storage for use with requeue_pi
++ * @requeue_pi_key:	the requeue_pi target futex key
++ * @bitset:		bitset for the optional bitmasked wakeup
++ *
++ * We use this hashed waitqueue, instead of a normal wait_queue_entry_t, so
++ * we can wake only the relevant ones (hashed queues may be shared).
++ *
++ * A futex_q has a woken state, just like tasks have TASK_RUNNING.
++ * It is considered woken when plist_node_empty(&q->list) || q->lock_ptr == 0.
++ * The order of wakeup is always to make the first condition true, then
++ * the second.
++ *
++ * PI futexes are typically woken before they are removed from the hash list via
++ * the rt_mutex code. See unqueue_me_pi().
++ */
++struct futex_q {
++	struct plist_node list;
++
++	struct task_struct *task;
++	spinlock_t *lock_ptr;
++	union futex_key key;
++	struct futex_pi_state *pi_state;
++	struct rt_mutex_waiter *rt_waiter;
++	union futex_key *requeue_pi_key;
++	u32 bitset;
++} __randomize_layout;
++
+ #define FUTEX_KEY_INIT (union futex_key) { .both = { .ptr = 0ULL } }
+ 
++static const struct futex_q futex_q_init = {
++	/* list gets initialized in queue_me()*/
++	.key = FUTEX_KEY_INIT,
++	.bitset = FUTEX_BITSET_MATCH_ANY
++};
++
++inline struct hrtimer_sleeper *
++futex_setup_timer(ktime_t *time, struct hrtimer_sleeper *timeout,
++		  int flags, u64 range_ns);
++
+ #ifdef CONFIG_FUTEX
+ enum {
+ 	FUTEX_STATE_OK,
+diff --git a/kernel/futex.c b/kernel/futex.c
+index 2ecb07575055..c07cb0f747ac 100644
+--- a/kernel/futex.c
++++ b/kernel/futex.c
+@@ -187,46 +187,6 @@ struct futex_pi_state {
+ 	union futex_key key;
+ } __randomize_layout;
+ 
+-/**
+- * struct futex_q - The hashed futex queue entry, one per waiting task
+- * @list:		priority-sorted list of tasks waiting on this futex
+- * @task:		the task waiting on the futex
+- * @lock_ptr:		the hash bucket lock
+- * @key:		the key the futex is hashed on
+- * @pi_state:		optional priority inheritance state
+- * @rt_waiter:		rt_waiter storage for use with requeue_pi
+- * @requeue_pi_key:	the requeue_pi target futex key
+- * @bitset:		bitset for the optional bitmasked wakeup
+- *
+- * We use this hashed waitqueue, instead of a normal wait_queue_entry_t, so
+- * we can wake only the relevant ones (hashed queues may be shared).
+- *
+- * A futex_q has a woken state, just like tasks have TASK_RUNNING.
+- * It is considered woken when plist_node_empty(&q->list) || q->lock_ptr == 0.
+- * The order of wakeup is always to make the first condition true, then
+- * the second.
+- *
+- * PI futexes are typically woken before they are removed from the hash list via
+- * the rt_mutex code. See unqueue_me_pi().
+- */
+-struct futex_q {
+-	struct plist_node list;
+-
+-	struct task_struct *task;
+-	spinlock_t *lock_ptr;
+-	union futex_key key;
+-	struct futex_pi_state *pi_state;
+-	struct rt_mutex_waiter *rt_waiter;
+-	union futex_key *requeue_pi_key;
+-	u32 bitset;
+-} __randomize_layout;
+-
+-static const struct futex_q futex_q_init = {
+-	/* list gets initialized in queue_me()*/
+-	.key = FUTEX_KEY_INIT,
+-	.bitset = FUTEX_BITSET_MATCH_ANY
+-};
+-
+ /*
+  * Hash buckets are shared by all the futex_keys that hash to the same
+  * location.  Each key may have multiple futex_q structures, one for each task
+@@ -395,7 +355,7 @@ enum futex_access {
+  * Return: Initialized hrtimer_sleeper structure or NULL if no timeout
+  *	   value given
+  */
+-static inline struct hrtimer_sleeper *
++inline struct hrtimer_sleeper *
+ futex_setup_timer(ktime_t *time, struct hrtimer_sleeper *timeout,
+ 		  int flags, u64 range_ns)
+ {
 -- 
 2.32.0
 
