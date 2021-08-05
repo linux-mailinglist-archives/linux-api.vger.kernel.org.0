@@ -2,97 +2,69 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 34C323E18D8
-	for <lists+linux-api@lfdr.de>; Thu,  5 Aug 2021 17:55:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 408C13E19D6
+	for <lists+linux-api@lfdr.de>; Thu,  5 Aug 2021 18:53:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242707AbhHEPzo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 5 Aug 2021 11:55:44 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:39658 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242655AbhHEPzo (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Aug 2021 11:55:44 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 088C0223D1;
-        Thu,  5 Aug 2021 15:55:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1628178929; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
+        id S234434AbhHEQxs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 Aug 2021 12:53:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50897 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229685AbhHEQxs (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 5 Aug 2021 12:53:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1628182413;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=dRS8W2fSdbInZnode1VLLZoQwYcBMtWZIsbGmSoeHq4=;
-        b=CIthExvPxVPjncvT/rZM6Ys3SU0tML4mogdAk1aRD87nTInO6G33Hzr9uOphb4MtjNowbh
-        h9hScglk4NVTZ0kEfvj8QHNvFRgfW0210bWSYiiY/6uymFwRjMZT6eulb8g7V2u+t5Do2+
-        hlCDwKYqAduCr+xDTxKZAD8VLBkwEaA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1628178929;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=dRS8W2fSdbInZnode1VLLZoQwYcBMtWZIsbGmSoeHq4=;
-        b=EDs3lSsswX+BstistyykpAfNDfRb8tHe6Csjc0wAl/PivhiucKFONjcq4WCjIZb3++9/5v
-        /clobKWir5R/mIDg==
-Received: from quack2.suse.cz (unknown [10.100.224.230])
-        by relay2.suse.de (Postfix) with ESMTP id E3B0BA4A52;
-        Thu,  5 Aug 2021 15:55:28 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id B55671E1511; Thu,  5 Aug 2021 17:55:28 +0200 (CEST)
-Date:   Thu, 5 Aug 2021 17:55:28 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Jan Kara <jack@suse.cz>,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        Jan Kara <jack@suse.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Theodore Tso <tytso@mit.edu>,
-        Dave Chinner <david@fromorbit.com>,
-        David Howells <dhowells@redhat.com>,
-        Khazhismel Kumykov <khazhy@google.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Ext4 <linux-ext4@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>, kernel@collabora.com
-Subject: Re: [PATCH v5 10/23] fsnotify: Allow events reported with an empty
- inode
-Message-ID: <20210805155528.GN14483@quack2.suse.cz>
-References: <20210804160612.3575505-1-krisman@collabora.com>
- <20210804160612.3575505-11-krisman@collabora.com>
- <20210805102453.GG14483@quack2.suse.cz>
- <CAOQ4uxjFyMd=Ja4W18JjBBSpzoKdPD-jafdw78OZO3eAEeMFNA@mail.gmail.com>
+        bh=7YXGNQbr4wplIdZKTM4CbuCelmPltUOGZ4aCXYZWJxk=;
+        b=fGjvgiw5LvOC0flgQYGItRkLIcFKWckLueCax9H4ZQgrIS3+64x4Oz9BVXGlP7AxlJFpx+
+        W4ivYQalwPdnor7OU7Z3IRMxNkfR7uvvOQCJ5z+SoSk0HEx5UsAbyZZK3kSB78HVxhTJ3i
+        JD/80oTrwlDooyzey8IV5Grm2t7q9xg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-581-BbmM3Ef6MPaMMjyxqDZCKw-1; Thu, 05 Aug 2021 12:53:29 -0400
+X-MC-Unique: BbmM3Ef6MPaMMjyxqDZCKw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2792E107ACF5;
+        Thu,  5 Aug 2021 16:53:27 +0000 (UTC)
+Received: from asgard.redhat.com (unknown [10.36.110.7])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8CCB760BF4;
+        Thu,  5 Aug 2021 16:53:20 +0000 (UTC)
+Date:   Thu, 5 Aug 2021 18:53:19 +0200
+From:   Eugene Syromiatnikov <esyr@redhat.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     joel@joelfernandes.org, chris.hyser@oracle.com, joshdon@google.com,
+        mingo@kernel.org, vincent.guittot@linaro.org,
+        valentin.schneider@arm.com, mgorman@suse.de,
+        linux-kernel@vger.kernel.org, tglx@linutronix.de,
+        linux-api@vger.kernel.org, ldv@strace.io
+Subject: Re: [PATCH 18/19] sched: prctl() core-scheduling interface
+Message-ID: <20210805165319.GA5916@asgard.redhat.com>
+References: <20210422120459.447350175@infradead.org>
+ <20210422123309.039845339@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAOQ4uxjFyMd=Ja4W18JjBBSpzoKdPD-jafdw78OZO3eAEeMFNA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210422123309.039845339@infradead.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu 05-08-21 17:14:26, Amir Goldstein wrote:
-> > 2) AFAICS 'inode' can be always derived from 'data' as well. So maybe we
-> > can drop it Amir?
+On Thu, Apr 22, 2021 at 02:05:17PM +0200, Peter Zijlstra wrote:
+> API:
 > 
-> If only we could. The reason that we pass the allegedly redundant inode
-> argument is because there are two different distinguished inode
-> arguments:
+>   prctl(PR_SCHED_CORE, PR_SCHED_CORE_GET, tgtpid, pidtype, &cookie)
+>   prctl(PR_SCHED_CORE, PR_SCHED_CORE_CREATE, tgtpid, pidtype, NULL)
+>   prctl(PR_SCHED_CORE, PR_SCHED_CORE_SHARE_TO, tgtpid, pidtype, NULL)
+>   prctl(PR_SCHED_CORE, PR_SCHED_CORE_SHARE_FROM, srcpid, pidtype, NULL)
 > 
-> 1. The inode event happened on, which can be referenced from data
-> 2. Inode that may be marked, which is passed in the inode argument
-> 
-> Particularly, dirent events carry the inode of the child as data, but
-> intentionally pass NULL inode arguments, because mark on inode
-> itself should not be getting e.g. FAN_DELETE event, but
-> audit_mark_handle_event() uses the child inode data.
+> where 'tgtpid/srcpid == 0' implies the current process and pidtype is
+> kernel enum pid_type {PIDTYPE_PID, PIDTYPE_TGID, PIDTYPE_PGID, ...}.
 
-I see, thanks for explanation. I forgot that NULL 'inode' argument from
-fsnotify_name() is actually needed for this to work.
+It means that enum pid_tipe has to be a part of UAPI now.  Would you
+like to address it, or rather I'd send a patch?
 
-> If we wanted to, we could pass report_mask arg to fsnotify()
-> instead of inode arg and then fsnotify() will build iter_info
-> accordingly, but that sounds very complicated and doesn't gain
-> much.
-
-Yeah. I'll think a bit more if we could simplify this but now I don't see
-anything obvious.
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
