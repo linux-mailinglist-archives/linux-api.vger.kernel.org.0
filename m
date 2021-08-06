@@ -2,60 +2,59 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A1F53E22A0
-	for <lists+linux-api@lfdr.de>; Fri,  6 Aug 2021 06:34:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABDC63E22D9
+	for <lists+linux-api@lfdr.de>; Fri,  6 Aug 2021 07:21:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232055AbhHFEew (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Aug 2021 00:34:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35654 "EHLO
+        id S242932AbhHFFVo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Aug 2021 01:21:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231904AbhHFEek (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Aug 2021 00:34:40 -0400
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6CAFC061799
-        for <linux-api@vger.kernel.org>; Thu,  5 Aug 2021 21:34:24 -0700 (PDT)
-Received: by mail-oi1-x22d.google.com with SMTP id q6so10427369oiw.7
-        for <linux-api@vger.kernel.org>; Thu, 05 Aug 2021 21:34:24 -0700 (PDT)
+        with ESMTP id S241340AbhHFFVn (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Aug 2021 01:21:43 -0400
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EAFBC06179A
+        for <linux-api@vger.kernel.org>; Thu,  5 Aug 2021 22:21:28 -0700 (PDT)
+Received: by mail-qv1-xf36.google.com with SMTP id em4so4353087qvb.0
+        for <linux-api@vger.kernel.org>; Thu, 05 Aug 2021 22:21:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:from:to:cc:subject:in-reply-to:message-id:references
          :mime-version;
-        bh=zoxn86tI0OeId1+HsMFj7XfTnI0a8mb/MBGQLX/EXMQ=;
-        b=vHJ6XPyUZn6HJNpOvReBw9udckcsYokef5di4Syl6LKnkAactsc4UI9tj9lhQKRc0p
-         i/+4HPQobOZvRyjNn4Zebf2F1yOcSKsOn5V8tBuYKsk+PFIOtt1jrMEl8xd9Ztx5wzIT
-         n1MAnsVD+YiW8TTm0+g7+a2VsbVcGvGNym6KWmauxtV7zjI5v3XCM763w7dEODDSFNa4
-         uQvcfkiiE2EZApZ+s4qyMeJUKiqubOkwcYJT9ybNscj3gYQHSv5qHjzvedj9jcAMlbI6
-         Hf1bmO06V/2hWuag9tcb5QyIhNQNwLNAoczuTesYJsa7F0HDtlZdIRlHkTJLI4nHQAol
-         9/kQ==
+        bh=zcQ8sL2CqDTX+4kbgN4gpZBAnX2ERdxEAX8JcULAxIw=;
+        b=gUNzJSOkj20KGKHXFPVIgJjwzfkmpuadqQVQpncG4R9KzZkgDK7F33mliEcdzrl5ep
+         8A2fWKG5yycXn0Wm0gXcCfdmVRENQuZGBzUcUTbIjoymlifLcaASCmqk34KrHyI7k5wZ
+         /wjyfSaCTB9U7DgfOrP5kz4ACwISxt/Nl1cXRSqkGnEu/LWRcJfBD+gAZ96FE551038H
+         chdRHjClBWCNo80PpjOw1TXVOvt3UcianthQ0Fd4q8id+rjkVB3F48iuzM3AKao/OL2t
+         phCu6ig+mjf+7opPXQB86ugRjpibTknZgynHrR2aY+DNUZ5NVBNiXx6CIXOSLc15/TZY
+         LyYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
          :references:mime-version;
-        bh=zoxn86tI0OeId1+HsMFj7XfTnI0a8mb/MBGQLX/EXMQ=;
-        b=bcDkGrXJXvouP0id8EkM2gOBeJS8PGdQdtMi5GaEZd5Q8YRuaEf1Kedrk4OmHpmlqd
-         xwTXkEwifjJ7z9ef9nGFRvAq9hXxylkU+gLeyEmJW4fvb6iYXMRPG+Kk4Ja5YbKoPE++
-         1La+7ukkevd+67QNH9uldWtktWeCYmhFbNJxSVXIvkkPCZFEYZ958BqSIczLI3y1xpg2
-         sFpkSBo7YlMd7IzJ+gIYjL/eqOqouLgBXbWd0PvFSGWlyrse7gwWNlafTRJH3ONH8Xj7
-         zIqyHbsc+LSz9U9HwUovoTI/UukXlPGq3fBHfgAhT5sZPShnQbqFLLqNj0RdIYRsRG3j
-         f/Ug==
-X-Gm-Message-State: AOAM531XKn4AEQRmAJfu+EoSgwyENlsCfOWgCVlVVXfIQvVXECBQ+sXg
-        niauDzU86xheIeNlRK9SmDdERA==
-X-Google-Smtp-Source: ABdhPJy5u56QxNQUqymSFnehqcKPsPChropjc6cHc2YkxdrkZ0dZqTbexTDkIM8YqLF7bAvQLHej5w==
-X-Received: by 2002:aca:b909:: with SMTP id j9mr13116203oif.9.1628224463623;
-        Thu, 05 Aug 2021 21:34:23 -0700 (PDT)
+        bh=zcQ8sL2CqDTX+4kbgN4gpZBAnX2ERdxEAX8JcULAxIw=;
+        b=DJsE8ybgnd5XKa0sacpWd3JZ5qVlDYcfUSz082wxFBvsvge2ovZG1OOjfEQB/hPcQe
+         LrUvTavOhkrnZ4BuVcRxAX96KOTBSeajOp1FIfg2zB1i1Sfm9ZP10yduTu8YKde6zip2
+         o0hCbLm34FETS+6vekaLZGnPeft2/0oRvaJ8gUZE3Y18E4zzejUba30fNP4dnasBOo/G
+         h0AnITJj4wo5I2qshRnJ15Clj8sspSxROXYLsQ7pkCxwcJUjOsTPnrHE7Q1s0S8AAf0h
+         i67jZKrziltsQvRnco+Yau1M0uDC+aRtjAlr7PmvK2q0Gj5GtzXhmAgyqOKn/1xAwsOe
+         rPcg==
+X-Gm-Message-State: AOAM533L/KLEEGlhyLFzBSJx3NNuDua4FIsmfbKkjc5OBb2QqYgrt8fY
+        SNzjOtgB+m9HQ3iub/Afqnu2OA==
+X-Google-Smtp-Source: ABdhPJx2TIa3URYgDE8tF8OrtnfZbT+pjWok+3pEMPuWe/4OFj/lOx3ydolPsjWS9Et4I5nTeiWVeQ==
+X-Received: by 2002:ad4:4312:: with SMTP id c18mr9113165qvs.54.1628227287282;
+        Thu, 05 Aug 2021 22:21:27 -0700 (PDT)
 Received: from ripple.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id n1sm1358979otk.34.2021.08.05.21.34.21
+        by smtp.gmail.com with ESMTPSA id q3sm4181366qkn.14.2021.08.05.22.21.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Aug 2021 21:34:22 -0700 (PDT)
-Date:   Thu, 5 Aug 2021 21:34:20 -0700 (PDT)
+        Thu, 05 Aug 2021 22:21:26 -0700 (PDT)
+Date:   Thu, 5 Aug 2021 22:21:24 -0700 (PDT)
 From:   Hugh Dickins <hughd@google.com>
 X-X-Sender: hugh@ripple.anvils
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Yang Shi <shy828301@gmail.com>
 cc:     Hugh Dickins <hughd@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Shakeel Butt <shakeelb@google.com>,
         "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Yang Shi <shy828301@gmail.com>,
         Miaohe Lin <linmiaohe@huawei.com>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Michal Hocko <mhocko@suse.com>,
@@ -66,83 +65,89 @@ cc:     Hugh Dickins <hughd@google.com>,
         Alexey Gladkov <legion@kernel.org>,
         Chris Wilson <chris@chris-wilson.co.uk>,
         Matthew Auld <matthew.auld@intel.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 08/16] huge tmpfs: fcntl(fd, F_HUGEPAGE) and fcntl(fd,
- F_NOHUGEPAGE)
-In-Reply-To: <20210804140805.vpuerwaiqtcvc5or@box.shutemov.name>
-Message-ID: <caf82af1-1412-c8d7-e622-4f391689f8fe@google.com>
-References: <2862852d-badd-7486-3a8e-c5ea9666d6fb@google.com> <1c32c75b-095-22f0-aee3-30a44d4a4744@google.com> <20210804140805.vpuerwaiqtcvc5or@box.shutemov.name>
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-api@vger.kernel.org, Linux MM <linux-mm@kvack.org>
+Subject: Re: [PATCH 06/16] huge tmpfs: shmem_is_huge(vma, inode, index)
+In-Reply-To: <CAHbLzkrvOCCbN3EcDeKwfqWrtU6kH0+7fuSv7aahyjpKtsHn3g@mail.gmail.com>
+Message-ID: <5add2467-3b23-f8b8-e07b-82d8a573ecb7@google.com>
+References: <2862852d-badd-7486-3a8e-c5ea9666d6fb@google.com> <dae523ab-c75b-f532-af9d-8b6a1d4e29b@google.com> <CAHbLzkoKZ9OdUfP5DX81CKOJWrRZ0GANrmenNeKWNmSOgUh0bQ@mail.gmail.com> <e7374d7e-4773-aba1-763-8fa2c953f917@google.com>
+ <CAHbLzko_wg4mx-LTbJ6JcJo-6VzMh5BAcuMV8PXKPsFXOBVASw@mail.gmail.com> <8baad8b2-8f7a-2589-ce21-4135a59c5dc6@google.com> <CAHbLzkrvOCCbN3EcDeKwfqWrtU6kH0+7fuSv7aahyjpKtsHn3g@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, 4 Aug 2021, Kirill A. Shutemov wrote:
-> On Fri, Jul 30, 2021 at 12:48:33AM -0700, Hugh Dickins wrote:
-> > Add support for fcntl(fd, F_HUGEPAGE) and fcntl(fd, F_NOHUGEPAGE), to
-> > select hugeness per file: useful to override the default hugeness of the
-> > shmem mount, when occasionally needing to store a hugepage file in a
-> > smallpage mount or vice versa.
+On Wed, 4 Aug 2021, Yang Shi wrote:
+> On Wed, Aug 4, 2021 at 1:28 AM Hugh Dickins <hughd@google.com> wrote:
+> >
+> > Thanks, but despite us agreeing that the race is too unlikely to be worth
+> > optimizing against, it does still nag at me ever since you questioned it:
+> > silly, but I can't quite be convinced by my own dismissals.
+> >
+> > I do still want to get rid of SGP_HUGE and SGP_NOHUGE, clearing up those
+> > huge allocation decisions remains the intention; but now think to add
+> > SGP_NOALLOC for collapse_file() in place of SGP_NOHUGE or SGP_CACHE -
+> > to rule out that possibility of mischarge after racing hole-punch,
+> > no matter whether it's huge or small.  If any such race occurs,
+> > collapse_file() should just give up.
+> >
+> > This being the "Stupid me" SGP_READ idea, except that of course would
+> > not work: because half the point of that block in collapse_file() is
+> > to initialize the !Uptodate pages, whereas SGP_READ avoids doing so.
+> >
+> > There is, of course, the danger that in fixing this unlikely mischarge,
+> > I've got the code wrong and am introducing a bug: here's what a 17/16
+> > would look like, though it will be better inserted early.  I got sick
+> > of all the "if (page "s, and was glad of the opportunity to fix that
+> > outdated "bring it back from swap" comment - swap got done above.
+> >
+> > What do you think? Should I add this in or leave it out?
 > 
-> Hm. But why is the new MFD_* needed if the fcntl() can do the same.
+> Thanks for keeping investigating this. The patch looks good to me. I
+> think we could go this way. Just a nit below.
 
-That I've just addressed in the MFD_HUGEPAGE 07/16 thread.
+Thanks, I'll add it into the series, a patch before SGP_NOHUGE goes away;
+but I'm not intending to respin the series until there's more feedback
+from others - fcntl versus fadvise is the main issue so far.
 
+> > --- a/include/linux/shmem_fs.h
+> > +++ b/include/linux/shmem_fs.h
+> > @@ -108,6 +108,7 @@ extern unsigned long shmem_partial_swap_usage(struct address_space *mapping,
+> >  /* Flag allocation requirements to shmem_getpage */
+> >  enum sgp_type {
+> >         SGP_READ,       /* don't exceed i_size, don't allocate page */
+> > +       SGP_NOALLOC,    /* like SGP_READ, but do use fallocated page */
 > 
-> > These fcntls just specify whether or not to try for huge pages when
-> > allocating to the object later: F_HUGEPAGE does not touch small pages
-> > already allocated (though khugepaged may do so when the file is mapped
-> > afterwards), F_NOHUGEPAGE does not split huge pages already allocated.
-> > 
-> > Why fcntl?  Because it's already in use (for sealing) on memfds; and I'm
-> > anxious to keep this simple, just applying it to whole files: fallocate,
-> > madvise and posix_fadvise each involve a range, which would need a new
-> > kind of tree attached to the inode for proper support.
-> 
-> Most of fadvise() operations ignore the range. I like fadvise() because
-> it's less prescriptive: kernel is free to ignore it.
+> The comment looks misleading, it seems SGP_NOALLOC does clear the
+> Uptodate flag but SGP_READ doesn't. Or it is fine not to distinguish
+> this difference?
 
-As to ignoring the range, yes, I see now that some do; and I'm relieved
-to see "Len == 0 means as much as possible", that's great, I was afraid
-of compat bugs over 0xffy numbers for the len.  And we would want, not
-to ignore the range, but insist on offset 0, len 0 for now, if there's
-any intention (not mine) of extending it to ranges in the future.
+I think you meant to say, SGP_NOALLOC does *set* the Uptodate flag but
+SGP_READ doesn't.  And a more significant difference, as coded to suit
+collapse_file(), is that SGP_NOALLOC returns failure on hole, whereas
+SGP_READ returns success: I should have mentioned that.
 
-As to ignoring the prescription, that's just a matter of how we describe
-it in the manpage, no matter whether it's fadvise() or fcntl().
+When I wrote "like SGP_READ" there, I just meant "like what's said in
+the line above": would "ditto" be okay with you, and I say
+	SGP_NOALLOC,	/* ditto, but fail on hole, or use fallocated page */
 
-And in the 07/16 thread you also said:
+I don't really want to get into the "Uptodate" business there.
+And I'm afraid someone is going to ask me to write multi-line comments
+on each of those SGP_flags, and I'm going to plead "read the source"!
 
-> 
-> If a tunable needed, I would rather go with fadvise(). It would operate on
-> a couple of bits per struct file and they get translated into VM_HUGEPAGE
-> and VM_NOHUGEPAGE on mmap().
+Oh, now I see why you said SGP_NOALLOC does clear the Uptodate flag:
+"goto clear", haha: when we clear the page we set the Uptodate flag.
 
-Not so sure about that detail: the point here is to decide what kind
-of allocations to try for, before the file is mmap()ed; and it is the
-file (the underlying object) that I want to condition here, rather than
-the struct file of who has it open at the time, or their mmap()s.
+And I may have another patch to slot in: I was half expecting you to
+question why SGP_READ behaves as it does, so in preparing its defence
+I checked, and found it was not doing quite what I remembered: changes
+were made a long time ago, which have left it slightly suboptimal.
+But that really has nothing to do with the rest of this series,
+and I don't need to run it past you before reposting.
 
-But adding the flags into the vm_flags on mmap(): that's an interesting
-idea, I haven't played with that at all.  Offhand, I don't think it will
-give different allocation results from what I'm already doing, but might
-affect what is shown by default in /proc/<pid>/smaps.
+I hope that some of the features in this series can be useful to you.
 
-> 
-> Later if needed fadvise() implementation may be extended to track
-> requested ranges. But initially it can be simple.
-
-I still prefer fcntl() myself, but we can go with either: what I'd
-like to hear is the preference of linux-fsdevel and linux-api people.
-
-Aside from the unused offset+len, my main problem with fadvise()
-is that... it doesn't exist.  It's posix_fadvise() or fadvise64() or
-fadvise64_64(), and all its good advices are POSIX_MADV_whatever.
-
-Are we comfortable now adding LINUX_MADV_HUGEPAGE, LINUX_MADV_NOHUGEPAGE?
-
-I find myself singing 64 64 Zoo Lane.
-
+Thanks,
 Hugh
