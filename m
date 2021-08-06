@@ -2,137 +2,70 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B6C73E2B73
-	for <lists+linux-api@lfdr.de>; Fri,  6 Aug 2021 15:35:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 744BC3E2C32
+	for <lists+linux-api@lfdr.de>; Fri,  6 Aug 2021 16:11:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243927AbhHFNgK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 Aug 2021 09:36:10 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:51718 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233838AbhHFNgI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Aug 2021 09:36:08 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 1290A21F91;
-        Fri,  6 Aug 2021 13:35:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1628256952; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=yE3Uk/UgQFDJwZHbh1+RL0Led8QeXNn8UlO09LuvY6U=;
-        b=fiYr6g9t/DoJEyJF5CFB7zTZUyIAEfgvQ/bWOoomvQ4cGuOm9BM6a2tDqReI/4GvbSMXuZ
-        hXyEDfPhJC34DRxbHFUjvKgZaGd/Qk9KAGxh6nbL2qjiWAsY6XnWHy2GyolEy2kSm8Ydtg
-        6yYynAI7nKqmXwjrE37BErnSRIGMhnc=
-Received: from suse.cz (unknown [10.100.201.86])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id D35C5A3B8A;
-        Fri,  6 Aug 2021 13:35:51 +0000 (UTC)
-Date:   Fri, 6 Aug 2021 15:35:48 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Feng Tang <feng.tang@intel.com>
-Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Andi Kleen <ak@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>, ying.huang@intel.com
-Subject: Re: [PATCH v7 3/5] mm/hugetlb: add support for mempolicy
- MPOL_PREFERRED_MANY
-Message-ID: <YQ06tNiDEsvl8004@dhcp22.suse.cz>
-References: <1627970362-61305-1-git-send-email-feng.tang@intel.com>
- <1627970362-61305-4-git-send-email-feng.tang@intel.com>
+        id S236287AbhHFOLR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 Aug 2021 10:11:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54798 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235641AbhHFOKu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 Aug 2021 10:10:50 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAE9AC0617A1
+        for <linux-api@vger.kernel.org>; Fri,  6 Aug 2021 07:10:32 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id p21so13185599edi.9
+        for <linux-api@vger.kernel.org>; Fri, 06 Aug 2021 07:10:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=/oMubRmlLM5EZ/UdY6Fj3wsfS2kyoMzN9ASXgZ3xneY=;
+        b=q3xyYt1HrVQnyL1KZndhIFKim0Z6RZXWCajZa6+jKaUt/xPBmWrU2b2TpwIqgxHoY3
+         6sUeXJPoUC3zz+xqx5Y/7bh16ON7BcCcP2liy5jl/yv+hyxVGmxIcBCDJXoapuOO0RIl
+         REN9Zv+ClhtVVEMybVDTEUTnyt+YraWqvgNO4CiPEvSNbjJp0ymaQzc4FwPALfOqM4La
+         f+KzIMXFoGuca5XlZdCXXnnqi+xUiOGsem/cV9JUjNFonSZWOzEGazowyEr2eG3dp5DR
+         pLBa7cN2FmOkeXw/dSFAaB7k29Eu0Yivashc8iQbXHlro4ZoI7aiyRP21+G8wGDlMmu6
+         HPDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=/oMubRmlLM5EZ/UdY6Fj3wsfS2kyoMzN9ASXgZ3xneY=;
+        b=gQ4OINoiXjphuNprXCAjNsiQ9sSaFbpsLkGVBb3cAJKovXLinjeQcdyRMkKcVE0zaP
+         WvZOK4uEWNhqOB06owWMtO6bukO3/EZqv9gYC2VpmVrN5Luih4lhaAmPZ4UbwajxXnNL
+         wyCmbeYzLKvXvsOPy9mPzuqDJbgBAgVxCOThCZpiBkKKh7CBLQwzuRSW+uFSfDR1CJHv
+         nkmAnw139SkQwd4EhkyEV1nmJIxbnUzA9vKbhRTM6XF3Udz5K2yfI/prl8KTcrspcN1T
+         4wDH830GTFwf4SIzC6urSZ5KFzRpAaZ9pwo87ZwrvZxWaWJfe026GGHMKANKwEUYpyfW
+         03pg==
+X-Gm-Message-State: AOAM533bg0Mny02rXZnFrzXP6O54QqzpPmH68N8PunjDEkvoK5Sjpm7v
+        KPZsXe3yg2xxeq68qz+bT2LwAXYmpR+HYZrNlg==
+X-Google-Smtp-Source: ABdhPJx229jhz+o+nQwdgIkoqR5HwLh3S4+JGHt0eG+5fB4X3WTmNmInTj1ZpuXDIVm9CYEhhFZzLyuZYbLrplGdX6A=
+X-Received: by 2002:a05:6402:3094:: with SMTP id de20mr13526197edb.272.1628259031175;
+ Fri, 06 Aug 2021 07:10:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1627970362-61305-4-git-send-email-feng.tang@intel.com>
+Received: by 2002:a54:26cf:0:0:0:0:0 with HTTP; Fri, 6 Aug 2021 07:10:30 -0700 (PDT)
+Reply-To: mrmaxwellwatford@gmail.com
+From:   Maxwell Watford <orchowskiruthi@gmail.com>
+Date:   Fri, 6 Aug 2021 14:10:30 +0000
+Message-ID: <CA+q9Q6OJB6Z0+y=5_3MBDNGkAUG9rVxg7bZVma38uDOvJ+sOGw@mail.gmail.com>
+Subject: i need your reply
+To:     orchowskiruthi@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue 03-08-21 13:59:20, Feng Tang wrote:
-> From: Ben Widawsky <ben.widawsky@intel.com>
-> 
-> Implement the missing huge page allocation functionality while obeying
-> the preferred node semantics. This is similar to the implementation
-> for general page allocation, as it uses a fallback mechanism to try
-> multiple preferred nodes first, and then all other nodes.
-> 
-> [akpm: fix compling issue when merging with other hugetlb patch]
-> [Thanks to 0day bot for catching the missing #ifdef CONFIG_NUMA issue]
-> Link: https://lore.kernel.org/r/20200630212517.308045-12-ben.widawsky@intel.com
-> Suggested-by: Michal Hocko <mhocko@suse.com>
-> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> Co-developed-by: Feng Tang <feng.tang@intel.com>
-> Signed-off-by: Feng Tang <feng.tang@intel.com>
+Greetings,
 
-ifdefery is just ugly as hell. One way to get rid of that would be to
-provide a mpol_is_preferred_many() wrapper and hide the CONFIG_NUMA in
-mempolicy.h. I haven't checked but this might help to remove some other
-ifdefery as well.
+We are writing to you from Ecowas Finance Controller Office Lome Togo,
+because we have received a file from the Ministry of Finance Lome-
+Togo, concerning an Inherited Fund bearing your name on it, And after
+our verifications, we found out that the funds belong to you.
 
-I especially dislike the label hidden in the ifdef. You can get rid of
-that by checking the page for NULL.
+It has been awarded and I will like to guide you to claim the funds.
+Please contact me at my private email address
+(mrmaxwellwatford@gmail.com) for more information and directive
 
-> ---
->  mm/hugetlb.c | 28 ++++++++++++++++++++++++++++
->  1 file changed, 28 insertions(+)
-> 
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index 95714fb28150..9279f6d478d9 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -1166,7 +1166,20 @@ static struct page *dequeue_huge_page_vma(struct hstate *h,
->  
->  	gfp_mask = htlb_alloc_mask(h);
->  	nid = huge_node(vma, address, gfp_mask, &mpol, &nodemask);
-> +#ifdef CONFIG_NUMA
-> +	if (mpol->mode == MPOL_PREFERRED_MANY) {
-> +		page = dequeue_huge_page_nodemask(h, gfp_mask, nid, nodemask);
-> +		if (page)
-> +			goto check_reserve;
-> +		/* Fallback to all nodes */
-> +		nodemask = NULL;
-> +	}
-> +#endif
->  	page = dequeue_huge_page_nodemask(h, gfp_mask, nid, nodemask);
-> +
-> +#ifdef CONFIG_NUMA
-> +check_reserve:
-> +#endif
->  	if (page && !avoid_reserve && vma_has_reserves(vma, chg)) {
->  		SetHPageRestoreReserve(page);
->  		h->resv_huge_pages--;
-> @@ -2147,6 +2160,21 @@ struct page *alloc_buddy_huge_page_with_mpol(struct hstate *h,
->  	nodemask_t *nodemask;
->  
->  	nid = huge_node(vma, addr, gfp_mask, &mpol, &nodemask);
-> +#ifdef CONFIG_NUMA
-> +	if (mpol->mode == MPOL_PREFERRED_MANY) {
-> +		gfp_t gfp = gfp_mask | __GFP_NOWARN;
-> +
-> +		gfp &=  ~(__GFP_DIRECT_RECLAIM | __GFP_NOFAIL);
-> +		page = alloc_surplus_huge_page(h, gfp, nid, nodemask, false);
-> +		if (page) {
-> +			mpol_cond_put(mpol);
-> +			return page;
-> +		}
-> +
-> +		/* Fallback to all nodes */
-> +		nodemask = NULL;
-> +	}
-> +#endif
->  	page = alloc_surplus_huge_page(h, gfp_mask, nid, nodemask, false);
->  	mpol_cond_put(mpol);
->  
-> -- 
-> 2.14.1
-
--- 
-Michal Hocko
-SUSE Labs
+I am looking forward to your urgent reply,
+Best regards
+Mr Maxwell Watford
