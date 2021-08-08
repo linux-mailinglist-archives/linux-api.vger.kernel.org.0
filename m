@@ -2,358 +2,228 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 70C333E390E
-	for <lists+linux-api@lfdr.de>; Sun,  8 Aug 2021 07:26:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CE9B3E3B45
+	for <lists+linux-api@lfdr.de>; Sun,  8 Aug 2021 18:08:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230214AbhHHF06 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 8 Aug 2021 01:26:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59810 "EHLO
+        id S231634AbhHHQIt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 8 Aug 2021 12:08:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229726AbhHHF05 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 8 Aug 2021 01:26:57 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67BBAC0613CF
-        for <linux-api@vger.kernel.org>; Sat,  7 Aug 2021 22:26:38 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id z3so12869291plg.8
-        for <linux-api@vger.kernel.org>; Sat, 07 Aug 2021 22:26:38 -0700 (PDT)
+        with ESMTP id S231414AbhHHQIr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 8 Aug 2021 12:08:47 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 941FCC061760
+        for <linux-api@vger.kernel.org>; Sun,  8 Aug 2021 09:08:27 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id f3-20020a25cf030000b029055a2303fc2dso14805783ybg.11
+        for <linux-api@vger.kernel.org>; Sun, 08 Aug 2021 09:08:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=d5TQEBSltF1Jl8QbnZ9wGWmDeIT6QZEMT6LXfMiWouA=;
-        b=MTnYhHsWnWkMXckKLqcbIQjkgd/u8vVdc1l/npHD2r7tqInztARLWB79YX95NbCQTx
-         TlhbJhSpYcW0tHHlugycE8K/gT2G3T/e1M9BaD5mhdgHwvW3eA+Lrl6bJz4h9NiR87bk
-         6wfB9eGcFEToRIer+LsZZUzKpn5GztlR3Dh5Gy/+hkTtALwBTkTX6su6V7exOUdeuqxa
-         jGMfvmr0cbBmSt7dqB+Rwsu++/qr9hZWH6YwLYfFABnrCQVeX7e/W3qpW3C7DlXX1lEt
-         0zHUYATNC+kaj6bIGyphiTqIR+pBM+jBcQJu5RN6zt8FzV0u1Wjg9XKm/pwSHKBTitUW
-         bDtw==
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=L0Uwt6aQVn6oCqr0wcgwrO21cHc++7sRbVmBO4SXG1I=;
+        b=s3dgGmM+iGKhdSUGeERXwP1nS3yy3tu3ZVhJaMxAzrZ6KZpc4YYMtpMyq5HyPVSxuC
+         2us/Vq0FvGTmJmW8xheeHHq7180460RM5HRwekMWKtdMfeUHDDbPv0Z898IykmWAnnAe
+         dPo19jcuexX8gQj8oNgdAIZawDK5Ztm3oqub9Btf0G6LY4JDsyZNII2VpHlEs96mNqku
+         SsSAqRlcSno8EBIl+kAAp7MwsNxOlKxtdEUtj3DX/nk+BQ2eSRfH3DP3eU47Oi8tk/XE
+         zkXA4AhfAFcH4ibSKtFPtkSxJtwYSByRMUXCiFRZJ9c1aJK2uQc0gl6lx8kHNpwS8U2S
+         zEwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=d5TQEBSltF1Jl8QbnZ9wGWmDeIT6QZEMT6LXfMiWouA=;
-        b=muuDAIx9VwkNef0iCxpoGO3E5grBj0xte7kjs+1O62CbNb1acDyHmSyvXhtCL9z7fg
-         Wsyy8WbWlZ1t0pXZ83OiK6GhcYyjZaLvOaCHNueD6cLDIMiguqTNSnB2XEVIEmA/62d2
-         VOtyxmebfayK2m28AB63cGYhpsPbqXWawgZ1ZWzVhSbXo0wXVuQoIxPoafWphmS1bgxa
-         /Wvkz5Jlb/IE82BJLJlOS3/jXSZQetOnSA7Nyp/SD0B2GLK3gRLwdH69By1jnzaRC90A
-         MS/aSEW/UhSAxpoSR+IYLNVDNSZgM10NtUi5Wu8K0TDCOQSY/F2GNBic90nYWI3jpICS
-         a35g==
-X-Gm-Message-State: AOAM532DfFyZ5fKUNa6VzneJ8pbw2tNsFd/PXPOyah45hcUPWyCcKhLi
-        iX8vDtKd5o0wWtoGuSoQQXUTaw==
-X-Google-Smtp-Source: ABdhPJzyW/bEBMlZftBmwx2GnxMwjf1AYNbT7kxVGsJ5w6zBlVDLtoWYHKfkSZMsOp+xdxblBSxd/Q==
-X-Received: by 2002:a17:902:ec02:b029:12d:1090:77bf with SMTP id l2-20020a170902ec02b029012d109077bfmr3224617pld.19.1628400397759;
-        Sat, 07 Aug 2021 22:26:37 -0700 (PDT)
-Received: from google.com ([2401:fa00:9:211:c29e:146d:490d:33cc])
-        by smtp.gmail.com with ESMTPSA id e35sm17629513pjk.28.2021.08.07.22.26.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Aug 2021 22:26:36 -0700 (PDT)
-Date:   Sun, 8 Aug 2021 15:26:25 +1000
-From:   Matthew Bobrowski <repnop@google.com>
-To:     jack@suse.cz, amir73il@gmail.com, christian.brauner@ubuntu.com
-Cc:     linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: [PATCH v4 5/5] fanotify: add pidfd support to the fanotify API
-Message-ID: <5f9e09cff7ed62bfaa51c1369e0f7ea5f16a91aa.1628398044.git.repnop@google.com>
-References: <cover.1628398044.git.repnop@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1628398044.git.repnop@google.com>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=L0Uwt6aQVn6oCqr0wcgwrO21cHc++7sRbVmBO4SXG1I=;
+        b=eLGt0pXBWq+vQQphb5M0VOgYEIUgVn9+8OyUvfrUQ1uglASQEfSflgh30/RG3lF5HF
+         YsW9tW72OkmNA2i5TQpTaLZkSDbl76iGZLQxwpuROHyPsYxqHzcRZFhViS99VzfyggZM
+         zfQ7ID+5INrI6MWybiiP69rDc2Wku/dIElA7O2cqP75T/uScfDQIsQCVKyGIPiPrMZIn
+         gWP2qym+gx87r3PyCdmfZIuoqSO5oNntSsMqtmK21dBLfiRpEcZIC7q0S0/t4MjX3A/g
+         gyx8EfzpnQ0I2JJoFc9e+LHzV+vhkB6zglI/rl0HSAQ6TyXeMdNx1S1lapqACMWOTI0g
+         LdxQ==
+X-Gm-Message-State: AOAM532Oqep3B/hJoPwVUaQS96BD/b4FiwWgZ7OTYkcdypZ4lMFnpAFr
+        5xSAAp6M9dUykMZJCL32wSrZMUNGg3o=
+X-Google-Smtp-Source: ABdhPJwEn5+tkNQT95/gXM1hjJF8w7UFxUuw/9aklMQdoC4vu59seQzRMgmzfK37SButDmGOIwraHedl8TQ=
+X-Received: from surenb1.mtv.corp.google.com ([2620:15c:211:200:55a4:b9af:f5da:997e])
+ (user=surenb job=sendgmr) by 2002:a25:764e:: with SMTP id r75mr7581963ybc.263.1628438906646;
+ Sun, 08 Aug 2021 09:08:26 -0700 (PDT)
+Date:   Sun,  8 Aug 2021 09:08:22 -0700
+Message-Id: <20210808160823.3553954-1-surenb@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.32.0.605.g8dce9f2422-goog
+Subject: [PATCH v8 1/2] mm: introduce process_mrelease system call
+From:   Suren Baghdasaryan <surenb@google.com>
+To:     akpm@linux-foundation.org
+Cc:     mhocko@kernel.org, mhocko@suse.com, rientjes@google.com,
+        willy@infradead.org, hannes@cmpxchg.org, guro@fb.com,
+        riel@surriel.com, minchan@kernel.org, christian@brauner.io,
+        hch@infradead.org, oleg@redhat.com, david@redhat.com,
+        jannh@google.com, shakeelb@google.com, luto@kernel.org,
+        christian.brauner@ubuntu.com, fweimer@redhat.com, jengelh@inai.de,
+        timmurray@google.com, linux-api@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        kernel-team@android.com, surenb@google.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Introduce a new flag FAN_REPORT_PIDFD for fanotify_init(2) which
-allows userspace applications to control whether a pidfd information
-record containing a pidfd is to be returned alongside the generic
-event metadata for each event.
+In modern systems it's not unusual to have a system component monitoring
+memory conditions of the system and tasked with keeping system memory
+pressure under control. One way to accomplish that is to kill
+non-essential processes to free up memory for more important ones.
+Examples of this are Facebook's OOM killer daemon called oomd and
+Android's low memory killer daemon called lmkd.
+For such system component it's important to be able to free memory
+quickly and efficiently. Unfortunately the time process takes to free
+up its memory after receiving a SIGKILL might vary based on the state
+of the process (uninterruptible sleep), size and OPP level of the core
+the process is running. A mechanism to free resources of the target
+process in a more predictable way would improve system's ability to
+control its memory pressure.
+Introduce process_mrelease system call that releases memory of a dying
+process from the context of the caller. This way the memory is freed in
+a more controllable way with CPU affinity and priority of the caller.
+The workload of freeing the memory will also be charged to the caller.
+The operation is allowed only on a dying process.
 
-If FAN_REPORT_PIDFD is enabled for a notification group, an additional
-struct fanotify_event_info_pidfd object type will be supplied
-alongside the generic struct fanotify_event_metadata for a single
-event. This functionality is analogous to that of FAN_REPORT_FID in
-terms of how the event structure is supplied to a userspace
-application. Usage of FAN_REPORT_PIDFD with
-FAN_REPORT_FID/FAN_REPORT_DFID_NAME is permitted, and in this case a
-struct fanotify_event_info_pidfd object will likely follow any struct
-fanotify_event_info_fid object.
+After previous discussions [1, 2, 3] the decision was made [4] to introduce
+a dedicated system call to cover this use case.
 
-Currently, the usage of the FAN_REPORT_TID flag is not permitted along
-with FAN_REPORT_PIDFD as the pidfd API currently only supports the
-creation of pidfds for thread-group leaders. Additionally, usage of
-the FAN_REPORT_PIDFD flag is limited to privileged processes only
-i.e. event listeners that are running with the CAP_SYS_ADMIN
-capability. Attempting to supply the FAN_REPORT_TID initialization
-flags with FAN_REPORT_PIDFD or creating a notification group without
-CAP_SYS_ADMIN will result with -EINVAL being returned to the caller.
+The API is as follows,
 
-In the event of a pidfd creation error, there are two types of error
-values that can be reported back to the listener. There is
-FAN_NOPIDFD, which will be reported in cases where the process
-responsible for generating the event has terminated prior to the event
-listener being able to read the event. Then there is FAN_EPIDFD, which
-will be reported when a more generic pidfd creation error has occurred
-when fanotify calls pidfd_create().
+          int process_mrelease(int pidfd, unsigned int flags);
 
-Signed-off-by: Matthew Bobrowski <repnop@google.com>
+        DESCRIPTION
+          The process_mrelease() system call is used to free the memory of
+          an exiting process.
+
+          The pidfd selects the process referred to by the PID file
+          descriptor.
+          (See pidfd_open(2) for further information)
+
+          The flags argument is reserved for future use; currently, this
+          argument must be specified as 0.
+
+        RETURN VALUE
+          On success, process_mrelease() returns 0. On error, -1 is
+          returned and errno is set to indicate the error.
+
+        ERRORS
+          EBADF  pidfd is not a valid PID file descriptor.
+
+          EAGAIN Failed to release part of the address space.
+
+          EINTR  The call was interrupted by a signal; see signal(7).
+
+          EINVAL flags is not 0.
+
+          EINVAL The memory of the task cannot be released because the
+                 process is not exiting, the address space is shared
+                 with another live process or there is a core dump in
+                 progress.
+
+          ENOSYS This system call is not supported, for example, without
+                 MMU support built into Linux.
+
+          ESRCH  The target process does not exist (i.e., it has terminated
+                 and been waited on).
+
+[1] https://lore.kernel.org/lkml/20190411014353.113252-3-surenb@google.com/
+[2] https://lore.kernel.org/linux-api/20201113173448.1863419-1-surenb@google.com/
+[3] https://lore.kernel.org/linux-api/20201124053943.1684874-3-surenb@google.com/
+[4] https://lore.kernel.org/linux-api/20201223075712.GA4719@lst.de/
+
+Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 ---
+changes in v8:
+- Replaced mmget with mmgrab, per Shakeel Butt
+- Refactored the code to simplify and fix the task_lock release issue,
+per Michal Hocko
 
-Changes since v3:
+ mm/oom_kill.c | 70 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
 
- * Updated the commit message to describe in when/why FAN_NOPIDFD can be
-   returned.
-
- * Modified the comment above the coditional where we attempt to
-   preemptively check for PIDTYPE_TGID as FAN_NOPIDFD can be quite common
-   for one shot programs, so it's not appropriate to describe it as being
-   "rare".
-
- fs/notify/fanotify/fanotify_user.c | 87 ++++++++++++++++++++++++++++--
- include/linux/fanotify.h           |  3 +-
- include/uapi/linux/fanotify.h      | 13 +++++
- 3 files changed, 97 insertions(+), 6 deletions(-)
-
-diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
-index 99d145eaab49..ee0f24cb90d7 100644
---- a/fs/notify/fanotify/fanotify_user.c
-+++ b/fs/notify/fanotify/fanotify_user.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- #include <linux/fanotify.h>
- #include <linux/fcntl.h>
-+#include <linux/fdtable.h>
- #include <linux/file.h>
- #include <linux/fs.h>
- #include <linux/anon_inodes.h>
-@@ -106,6 +107,8 @@ struct kmem_cache *fanotify_perm_event_cachep __read_mostly;
- #define FANOTIFY_EVENT_ALIGN 4
- #define FANOTIFY_FID_INFO_HDR_LEN \
- 	(sizeof(struct fanotify_event_info_fid) + sizeof(struct file_handle))
-+#define FANOTIFY_PIDFD_INFO_HDR_LEN \
-+	sizeof(struct fanotify_event_info_pidfd)
- 
- static int fanotify_fid_info_len(int fh_len, int name_len)
- {
-@@ -138,6 +141,9 @@ static int fanotify_event_info_len(unsigned int info_mode,
- 		dot_len = 1;
- 	}
- 
-+	if (info_mode & FAN_REPORT_PIDFD)
-+		info_len += FANOTIFY_PIDFD_INFO_HDR_LEN;
-+
- 	if (fh_len)
- 		info_len += fanotify_fid_info_len(fh_len, dot_len);
- 
-@@ -401,13 +407,34 @@ static int copy_fid_info_to_user(__kernel_fsid_t *fsid, struct fanotify_fh *fh,
- 	return info_len;
+diff --git a/mm/oom_kill.c b/mm/oom_kill.c
+index c729a4c4a1ac..f8acc26f7300 100644
+--- a/mm/oom_kill.c
++++ b/mm/oom_kill.c
+@@ -28,6 +28,7 @@
+ #include <linux/sched/task.h>
+ #include <linux/sched/debug.h>
+ #include <linux/swap.h>
++#include <linux/syscalls.h>
+ #include <linux/timex.h>
+ #include <linux/jiffies.h>
+ #include <linux/cpuset.h>
+@@ -1141,3 +1142,72 @@ void pagefault_out_of_memory(void)
+ 	out_of_memory(&oc);
+ 	mutex_unlock(&oom_lock);
  }
- 
-+static int copy_pidfd_info_to_user(int pidfd,
-+				   char __user *buf,
-+				   size_t count)
++
++SYSCALL_DEFINE2(process_mrelease, int, pidfd, unsigned int, flags)
 +{
-+	struct fanotify_event_info_pidfd info = { };
-+	size_t info_len = FANOTIFY_PIDFD_INFO_HDR_LEN;
++#ifdef CONFIG_MMU
++	struct mm_struct *mm = NULL;
++	struct task_struct *task;
++	struct task_struct *p;
++	unsigned int f_flags;
++	bool reap = true;
++	struct pid *pid;
++	long ret = 0;
 +
-+	if (WARN_ON_ONCE(info_len > count))
-+		return -EFAULT;
-+
-+	info.hdr.info_type = FAN_EVENT_INFO_TYPE_PIDFD;
-+	info.hdr.len = info_len;
-+	info.pidfd = pidfd;
-+
-+	if (copy_to_user(buf, &info, info_len))
-+		return -EFAULT;
-+
-+	return info_len;
-+}
-+
- static int copy_info_records_to_user(struct fanotify_event *event,
- 				     struct fanotify_info *info,
--				     unsigned int info_mode,
-+				     unsigned int info_mode, int pidfd,
- 				     char __user *buf, size_t count)
- {
- 	int ret, total_bytes = 0, info_type = 0;
- 	unsigned int fid_mode = info_mode & FANOTIFY_FID_BITS;
-+	unsigned int pidfd_mode = info_mode & FAN_REPORT_PIDFD;
- 
- 	/*
- 	 * Event info records order is as follows: dir fid + name, child fid.
-@@ -478,6 +505,16 @@ static int copy_info_records_to_user(struct fanotify_event *event,
- 		total_bytes += ret;
- 	}
- 
-+	if (pidfd_mode) {
-+		ret = copy_pidfd_info_to_user(pidfd, buf, count);
-+		if (ret < 0)
-+			return ret;
-+
-+		buf += ret;
-+		count -= ret;
-+		total_bytes += ret;
-+	}
-+
- 	return total_bytes;
- }
- 
-@@ -489,8 +526,9 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
- 	struct path *path = fanotify_event_path(event);
- 	struct fanotify_info *info = fanotify_event_info(event);
- 	unsigned int info_mode = FAN_GROUP_FLAG(group, FANOTIFY_INFO_MODES);
-+	unsigned int pidfd_mode = info_mode & FAN_REPORT_PIDFD;
- 	struct file *f = NULL;
--	int ret, fd = FAN_NOFD;
-+	int ret, pidfd = FAN_NOPIDFD, fd = FAN_NOFD;
- 
- 	pr_debug("%s: group=%p event=%p\n", __func__, group, event);
- 
-@@ -524,6 +562,33 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
- 	}
- 	metadata.fd = fd;
- 
-+	if (pidfd_mode) {
-+		/*
-+		 * Complain if the FAN_REPORT_PIDFD and FAN_REPORT_TID mutual
-+		 * exclusion is ever lifted. At the time of incoporating pidfd
-+		 * support within fanotify, the pidfd API only supported the
-+		 * creation of pidfds for thread-group leaders.
-+		 */
-+		WARN_ON_ONCE(FAN_GROUP_FLAG(group, FAN_REPORT_TID));
-+
-+		/*
-+		 * The PIDTYPE_TGID check for an event->pid is performed
-+		 * preemptively in an attempt to catch out cases where the event
-+		 * listener reads events after the event generating process has
-+		 * already terminated. Report FAN_NOPIDFD to the event listener
-+		 * in those cases, with all other pidfd creation errors being
-+		 * reported as FAN_EPIDFD.
-+		 */
-+		if (metadata.pid == 0 ||
-+		    !pid_has_task(event->pid, PIDTYPE_TGID)) {
-+			pidfd = FAN_NOPIDFD;
-+		} else {
-+			pidfd = pidfd_create(event->pid, 0);
-+			if (pidfd < 0)
-+				pidfd = FAN_EPIDFD;
-+		}
-+	}
-+
- 	ret = -EFAULT;
- 	/*
- 	 * Sanity check copy size in case get_one_event() and
-@@ -545,8 +610,8 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
- 		fd_install(fd, f);
- 
- 	if (info_mode) {
--		ret = copy_info_records_to_user(event, info, info_mode,
--						buf, count);
-+		ret = copy_info_records_to_user(event, info, info_mode, pidfd,
-+						buf, count);
- 		if (ret < 0)
- 			goto out_close_fd;
- 	}
-@@ -558,6 +623,10 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
- 		put_unused_fd(fd);
- 		fput(f);
- 	}
-+
-+	if (pidfd >= 0)
-+		close_fd(pidfd);
-+
- 	return ret;
- }
- 
-@@ -1103,6 +1172,14 @@ SYSCALL_DEFINE2(fanotify_init, unsigned int, flags, unsigned int, event_f_flags)
- #endif
- 		return -EINVAL;
- 
-+	/*
-+	 * A pidfd can only be returned for a thread-group leader; thus
-+	 * FAN_REPORT_PIDFD and FAN_REPORT_TID need to remain mutually
-+	 * exclusive.
-+	 */
-+	if ((flags & FAN_REPORT_PIDFD) && (flags & FAN_REPORT_TID))
++	if (flags)
 +		return -EINVAL;
 +
- 	if (event_f_flags & ~FANOTIFY_INIT_ALL_EVENT_F_BITS)
- 		return -EINVAL;
- 
-@@ -1504,7 +1581,7 @@ static int __init fanotify_user_setup(void)
- 				     FANOTIFY_DEFAULT_MAX_USER_MARKS);
- 
- 	BUILD_BUG_ON(FANOTIFY_INIT_FLAGS & FANOTIFY_INTERNAL_GROUP_FLAGS);
--	BUILD_BUG_ON(HWEIGHT32(FANOTIFY_INIT_FLAGS) != 10);
-+	BUILD_BUG_ON(HWEIGHT32(FANOTIFY_INIT_FLAGS) != 11);
- 	BUILD_BUG_ON(HWEIGHT32(FANOTIFY_MARK_FLAGS) != 9);
- 
- 	fanotify_mark_cache = KMEM_CACHE(fsnotify_mark,
-diff --git a/include/linux/fanotify.h b/include/linux/fanotify.h
-index 10a7e26ddba6..eec3b7c40811 100644
---- a/include/linux/fanotify.h
-+++ b/include/linux/fanotify.h
-@@ -27,7 +27,7 @@ extern struct ctl_table fanotify_table[]; /* for sysctl */
- 
- #define FANOTIFY_FID_BITS	(FAN_REPORT_FID | FAN_REPORT_DFID_NAME)
- 
--#define FANOTIFY_INFO_MODES	(FANOTIFY_FID_BITS)
-+#define FANOTIFY_INFO_MODES	(FANOTIFY_FID_BITS | FAN_REPORT_PIDFD)
- 
- /*
-  * fanotify_init() flags that require CAP_SYS_ADMIN.
-@@ -37,6 +37,7 @@ extern struct ctl_table fanotify_table[]; /* for sysctl */
-  */
- #define FANOTIFY_ADMIN_INIT_FLAGS	(FANOTIFY_PERM_CLASSES | \
- 					 FAN_REPORT_TID | \
-+					 FAN_REPORT_PIDFD | \
- 					 FAN_UNLIMITED_QUEUE | \
- 					 FAN_UNLIMITED_MARKS)
- 
-diff --git a/include/uapi/linux/fanotify.h b/include/uapi/linux/fanotify.h
-index fbf9c5c7dd59..64553df9d735 100644
---- a/include/uapi/linux/fanotify.h
-+++ b/include/uapi/linux/fanotify.h
-@@ -51,6 +51,7 @@
- #define FAN_ENABLE_AUDIT	0x00000040
- 
- /* Flags to determine fanotify event format */
-+#define FAN_REPORT_PIDFD	0x00000080	/* Report pidfd for event->pid */
- #define FAN_REPORT_TID		0x00000100	/* event->pid is thread id */
- #define FAN_REPORT_FID		0x00000200	/* Report unique file id */
- #define FAN_REPORT_DIR_FID	0x00000400	/* Report unique directory id */
-@@ -123,6 +124,7 @@ struct fanotify_event_metadata {
- #define FAN_EVENT_INFO_TYPE_FID		1
- #define FAN_EVENT_INFO_TYPE_DFID_NAME	2
- #define FAN_EVENT_INFO_TYPE_DFID	3
-+#define FAN_EVENT_INFO_TYPE_PIDFD	4
- 
- /* Variable length info record following event metadata */
- struct fanotify_event_info_header {
-@@ -148,6 +150,15 @@ struct fanotify_event_info_fid {
- 	unsigned char handle[0];
- };
- 
-+/*
-+ * This structure is used for info records of type FAN_EVENT_INFO_TYPE_PIDFD.
-+ * It holds a pidfd for the pid that was responsible for generating an event.
-+ */
-+struct fanotify_event_info_pidfd {
-+	struct fanotify_event_info_header hdr;
-+	__s32 pidfd;
-+};
++	pid = pidfd_get_pid(pidfd, &f_flags);
++	if (IS_ERR(pid))
++		return PTR_ERR(pid);
 +
- struct fanotify_response {
- 	__s32 fd;
- 	__u32 response;
-@@ -160,6 +171,8 @@ struct fanotify_response {
- 
- /* No fd set in event */
- #define FAN_NOFD	-1
-+#define FAN_NOPIDFD	FAN_NOFD
-+#define FAN_EPIDFD	-2
- 
- /* Helper functions to deal with fanotify_event_metadata buffers */
- #define FAN_EVENT_METADATA_LEN (sizeof(struct fanotify_event_metadata))
++	task = get_pid_task(pid, PIDTYPE_PID);
++	if (!task) {
++		ret = -ESRCH;
++		goto put_pid;
++	}
++
++	/*
++	 * Make sure to choose a thread which still has a reference to mm
++	 * during the group exit
++	 */
++	p = find_lock_task_mm(task);
++	if (!p) {
++		ret = -ESRCH;
++		goto put_task;
++	}
++
++	mm = p->mm;
++	mmgrab(mm);
++
++	/* If the work has been done already, just exit with success */
++	if (test_bit(MMF_OOM_SKIP, &mm->flags))
++		reap = false;
++	else if (!task_will_free_mem(p)) {
++		reap = false;
++		ret = -EINVAL;
++	}
++	task_unlock(p);
++
++	if (!reap)
++		goto drop_mm;
++
++	if (mmap_read_lock_killable(mm)) {
++		ret = -EINTR;
++		goto drop_mm;
++	}
++	if (!__oom_reap_task_mm(mm))
++		ret = -EAGAIN;
++	mmap_read_unlock(mm);
++
++drop_mm:
++	mmdrop(mm);
++put_task:
++	put_task_struct(task);
++put_pid:
++	put_pid(pid);
++	return ret;
++#else
++	return -ENOSYS;
++#endif /* CONFIG_MMU */
++}
 -- 
 2.32.0.605.g8dce9f2422-goog
 
-/M
