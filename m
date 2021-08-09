@@ -2,193 +2,203 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A9B373E3B50
-	for <lists+linux-api@lfdr.de>; Sun,  8 Aug 2021 18:13:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5872D3E3DFD
+	for <lists+linux-api@lfdr.de>; Mon,  9 Aug 2021 04:44:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231430AbhHHQOC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 8 Aug 2021 12:14:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58720 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230448AbhHHQOB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 8 Aug 2021 12:14:01 -0400
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95CB8C0613CF
-        for <linux-api@vger.kernel.org>; Sun,  8 Aug 2021 09:13:42 -0700 (PDT)
-Received: by mail-yb1-xb2a.google.com with SMTP id s48so24892190ybi.7
-        for <linux-api@vger.kernel.org>; Sun, 08 Aug 2021 09:13:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TCK5nBQQabIUN0WbQjXhg9KlErctfVr7limBHCaiG+A=;
-        b=P09Mz/mILYaoYE3EajDRpkc8akaY7fTBsUTWh/DDjvyIVcbgMaZWzI+LtlcoWEveOD
-         rhx8918aHZb+O4eacyH9xJ39yZ0R0Ijqpx/MepcAKa8/2gZ5+AVf01MP0FU5rtgj0aaI
-         ZOn+r2ameWRT7D0AaL+uSp1MMJV6BIO04kwUPuwtrDbWxbL86dxGwXjCh8J+AwMkozcs
-         y1mHfPiyIhI4iox17HTcyNBHoFvdDSpVFAZKWamRg7qw92Jqi0wzk6fCPKC2Ilmft8gc
-         6xtZM6GOlAFZn84PTqwvcOz6XFlG9JONgTvDHC8swDsPKC28qv4jvo5Vx9VKEuRlASq2
-         T1rQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TCK5nBQQabIUN0WbQjXhg9KlErctfVr7limBHCaiG+A=;
-        b=IHKDryPWso2TV0cfttb1sdZjMHzlnCnfiyL4N1X10fpCQH3kYaHw3idnGsNRTdzCe/
-         AbvKT8Tm7g1G2Hgxzud8n8yYTo3Jnd901ooYIptKdurB8peCVrDNPABR3nPa3pTKwM4y
-         YMuX1VbwVsrBDpLtGjAqxlKqrPK26P6ZMl6rDo4uAKjlyTk/ldhpBDaKvtFgpcK/yX+U
-         NWqbN/U8FY/MV042gaw1jC+v0souHe0a9yQ0S1chaUYH35MXs4zqXqTIwqiw6W4c3lnK
-         ijlOGnbNuXTiYaVdPWYkaaJqoxbiio1luO/8+13LslmEv7nixgIT/ECmyJTzpdxZfsys
-         79vw==
-X-Gm-Message-State: AOAM530NLij16SMwcKlpIwvi7RmF69eW3uSMI7avGgZtk0MF9sAtH0j3
-        twkB4YDW3j5Y9+oRt3/hCZPWQFyuYsLZJEAtQJH71A==
-X-Google-Smtp-Source: ABdhPJx0dWjYkHDsO+8kSP89UPL2BlSOBVWTieqq/F7t4NM8YSZ1slbEbkxEHATJiigRfMb9++IRuvn6g9kCzcz5GpU=
-X-Received: by 2002:a25:49c2:: with SMTP id w185mr23459074yba.294.1628439221480;
- Sun, 08 Aug 2021 09:13:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210805170859.2389276-1-surenb@google.com> <YQzZSmRqYmxFJ61y@dhcp22.suse.cz>
- <CAJuCfpFL_7Zk4Nk5E_kCSnsCsXgmWGW9R3AnXW-T5EH7URUkRg@mail.gmail.com>
-In-Reply-To: <CAJuCfpFL_7Zk4Nk5E_kCSnsCsXgmWGW9R3AnXW-T5EH7URUkRg@mail.gmail.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Sun, 8 Aug 2021 09:13:30 -0700
-Message-ID: <CAJuCfpFeup+rppM7mbJWJeaCbTdbp=1=r24CjmLWWv4Vsydd2A@mail.gmail.com>
-Subject: Re: [PATCH v7 1/2] mm: introduce process_mrelease system call
+        id S231324AbhHICoz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 8 Aug 2021 22:44:55 -0400
+Received: from mga02.intel.com ([134.134.136.20]:40775 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229942AbhHICoz (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Sun, 8 Aug 2021 22:44:55 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10070"; a="201790018"
+X-IronPort-AV: E=Sophos;i="5.84,305,1620716400"; 
+   d="scan'208";a="201790018"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2021 19:44:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,305,1620716400"; 
+   d="scan'208";a="525015065"
+Received: from shbuild999.sh.intel.com (HELO localhost) ([10.239.146.151])
+  by fmsmga002.fm.intel.com with ESMTP; 08 Aug 2021 19:44:31 -0700
+Date:   Mon, 9 Aug 2021 10:44:30 +0800
+From:   Feng Tang <feng.tang@intel.com>
 To:     Michal Hocko <mhocko@suse.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
+Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
         David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Christian Brauner <christian@brauner.io>,
-        Christoph Hellwig <hch@infradead.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jann Horn <jannh@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Jan Engelhardt <jengelh@inai.de>,
-        Tim Murray <timmurray@google.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kernel-team <kernel-team@android.com>
-Content-Type: text/plain; charset="UTF-8"
+        Dave Hansen <dave.hansen@intel.com>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Andi Kleen <ak@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>, ying.huang@intel.com
+Subject: Re: [PATCH v7 3/5] mm/hugetlb: add support for mempolicy
+ MPOL_PREFERRED_MANY
+Message-ID: <20210809024430.GA46432@shbuild999.sh.intel.com>
+References: <1627970362-61305-1-git-send-email-feng.tang@intel.com>
+ <1627970362-61305-4-git-send-email-feng.tang@intel.com>
+ <YQ06tNiDEsvl8004@dhcp22.suse.cz>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YQ06tNiDEsvl8004@dhcp22.suse.cz>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Aug 6, 2021 at 9:07 AM Suren Baghdasaryan <surenb@google.com> wrote:
->
-> On Thu, Aug 5, 2021 at 11:40 PM Michal Hocko <mhocko@suse.com> wrote:
-> >
-> > On Thu 05-08-21 10:08:58, Suren Baghdasaryan wrote:
-> > [...]
-> > > +     /*
-> > > +      * If the task is dying and in the process of releasing its memory
-> > > +      * then get its mm.
-> > > +      */
-> > > +     p = find_lock_task_mm(task);
-> > > +     if (!p) {
-> > > +             ret = -ESRCH;
-> > > +             goto put_pid;
-> > > +     }
-> > > +     if (task != p) {
-> > > +             get_task_struct(p);
-> > > +             put_task_struct(task);
-> > > +             task = p;
-> > > +     }
-> >
-> > Why do you need to take a reference to the p here? You are under
-> > task_lock so this will not go away and you only need p to get your mm.
->
-> True.
->
-> >
-> > > +
-> > > +     /* If the work has been done already, just exit with success */
-> > > +     if (test_bit(MMF_OOM_SKIP, &task->mm->flags))
-> > > +             goto put_task;
-> >
-> > You want to release the task_lock
->
-> Missed it again :(
->
-> >
-> > > +
-> > > +     if (task_will_free_mem(task) && (task->flags & PF_KTHREAD) == 0) {
-> >
-> > you want task_will_free_mem(p) and what is the point of the PF_KTHREAD
-> > check?
->
-> Yeah, looks like task_will_free_mem() covers that case already.
->
-> >
-> > > +             mm = task->mm;
-> > > +             mmget(mm);
-> >
-> > All you need is to make sure mm will not get released under your feet
-> > once task_lock is released so mmgrab is the right thing to do here. The
-> > address space can be torn down in parallel and that is OK and desirable.
-> >
-> > I think you really want something like this:
-> >
-> >         if (flags)
-> >                 return -EINVAL;
-> >
-> >         pid = pidfd_get_pid(fd, &f_flags);
-> >         if (IS_ERR(pid))
-> >                 return PTR_ERR(pid);
-> >         task = get_pid_task(pid, PIDTYPE_PID);
-> >         if (!task) {
-> >                 ret = -ESRCH;
-> >                 goto put_pid;
-> >         }
-> >
-> >         /*
-> >          * Make sure to chose a thread which still has a reference to mm
-> >          * during the group exit
-> >          */
-> >         p = find_lock_task_mm(task);
-> >         if (!p) {
-> >                 ret = -ESRCH;
-> >                 goto put_task;
-> >         }
-> >
-> >         mm = task->mm;
-> >         mmgrab(mm);
-> >         reap = true;
-> >         /* If the work has been done already, just exit with success */
-> >         if (test_bit(MMF_OOM_SKIP, &mm->flags)) {
-> >                 reap = false;
-> >         } else if (!task_will_free_mem(p)) {
-> >                 reap = false;
-> >                 ret = -EINVAL;
-> >         }
-> >         task_unlock(p);
-> >
-> >         if (!reap)
-> >                 goto dropmm;;
-> >
-> >         /* Do the work*/
-> >
-> >
-> > dropmm:
-> >         mmdrop(mm);
-> > put_task:
-> >         put_task(task);
-> > put_pid:
-> >         put_pid(pid);
-> >
-> >         return ret;
-> >
->
-> This is indeed simpler to follow. I'll adopt your version. Thanks!
+Hi Michal,
 
-v8 is posted at https://lore.kernel.org/patchwork/patch/1473697/
-Testing shows performance improvement from replacing mmget with mmgrab.
+Thanks for the review and ACKs to 1/5 and 2/5 patches.
 
->
-> > --
-> > Michal Hocko
-> > SUSE Labs
+On Fri, Aug 06, 2021 at 03:35:48PM +0200, Michal Hocko wrote:
+> On Tue 03-08-21 13:59:20, Feng Tang wrote:
+> > From: Ben Widawsky <ben.widawsky@intel.com>
+> > 
+> > Implement the missing huge page allocation functionality while obeying
+> > the preferred node semantics. This is similar to the implementation
+> > for general page allocation, as it uses a fallback mechanism to try
+> > multiple preferred nodes first, and then all other nodes.
+> > 
+> > [akpm: fix compling issue when merging with other hugetlb patch]
+> > [Thanks to 0day bot for catching the missing #ifdef CONFIG_NUMA issue]
+> > Link: https://lore.kernel.org/r/20200630212517.308045-12-ben.widawsky@intel.com
+> > Suggested-by: Michal Hocko <mhocko@suse.com>
+> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> > Co-developed-by: Feng Tang <feng.tang@intel.com>
+> > Signed-off-by: Feng Tang <feng.tang@intel.com>
+> 
+> ifdefery is just ugly as hell. One way to get rid of that would be to
+> provide a mpol_is_preferred_many() wrapper and hide the CONFIG_NUMA in
+> mempolicy.h. I haven't checked but this might help to remove some other
+> ifdefery as well.
+> 
+> I especially dislike the label hidden in the ifdef. You can get rid of
+> that by checking the page for NULL.
+
+Yes, the 'ifdef's were annoying to me too, and thanks for the suggestions.
+Following is the revised patch upon the suggestion.
+
+Thanks,
+Feng
+
+-------8<---------------------
+
+From fc30718c40f02ba5ea73456af49173e66b5032c1 Mon Sep 17 00:00:00 2001
+From: Ben Widawsky <ben.widawsky@intel.com>
+Date: Thu, 5 Aug 2021 23:01:11 -0400
+Subject: [PATCH] mm/hugetlb: add support for mempolicy MPOL_PREFERRED_MANY
+
+Implement the missing huge page allocation functionality while obeying the
+preferred node semantics.  This is similar to the implementation for
+general page allocation, as it uses a fallback mechanism to try multiple
+preferred nodes first, and then all other nodes. 
+
+To avoid adding too many "#ifdef CONFIG_NUMA" check, add a helper function
+in mempolicy.h to check whether a mempolicy is MPOL_PREFERRED_MANY.
+
+[akpm: fix compling issue when merging with other hugetlb patch]
+[Thanks to 0day bot for catching the !CONFIG_NUMA compiling issue]
+[Michal Hocko: suggest to remove the #ifdef CONFIG_NUMA check]
+Link: https://lore.kernel.org/r/20200630212517.308045-12-ben.widawsky@intel.com
+Link: https://lkml.kernel.org/r/1627970362-61305-4-git-send-email-feng.tang@intel.com
+Suggested-by: Michal Hocko <mhocko@suse.com>
+Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+Co-developed-by: Feng Tang <feng.tang@intel.com>
+Signed-off-by: Feng Tang <feng.tang@intel.com>
+--
+ include/linux/mempolicy.h | 12 ++++++++++++
+ mm/hugetlb.c              | 28 ++++++++++++++++++++++++----
+ 2 files changed, 36 insertions(+), 4 deletions(-)
+
+diff --git a/include/linux/mempolicy.h b/include/linux/mempolicy.h
+index 0117e1e..60d5e6c 100644
+--- a/include/linux/mempolicy.h
++++ b/include/linux/mempolicy.h
+@@ -187,6 +187,12 @@ extern void mpol_put_task_policy(struct task_struct *);
+ 
+ extern bool numa_demotion_enabled;
+ 
++static inline bool mpol_is_preferred_many(struct mempolicy *pol)
++{
++	return  (pol->mode == MPOL_PREFERRED_MANY);
++}
++
++
+ #else
+ 
+ struct mempolicy {};
+@@ -297,5 +303,11 @@ static inline nodemask_t *policy_nodemask_current(gfp_t gfp)
+ }
+ 
+ #define numa_demotion_enabled	false
++
++static inline bool mpol_is_preferred_many(struct mempolicy *pol)
++{
++	return  false;
++}
++
+ #endif /* CONFIG_NUMA */
+ #endif
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 95714fb..75ea8bc 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -1145,7 +1145,7 @@ static struct page *dequeue_huge_page_vma(struct hstate *h,
+ 				unsigned long address, int avoid_reserve,
+ 				long chg)
+ {
+-	struct page *page;
++	struct page *page = NULL;
+ 	struct mempolicy *mpol;
+ 	gfp_t gfp_mask;
+ 	nodemask_t *nodemask;
+@@ -1166,7 +1166,17 @@ static struct page *dequeue_huge_page_vma(struct hstate *h,
+ 
+ 	gfp_mask = htlb_alloc_mask(h);
+ 	nid = huge_node(vma, address, gfp_mask, &mpol, &nodemask);
+-	page = dequeue_huge_page_nodemask(h, gfp_mask, nid, nodemask);
++
++	if (mpol_is_preferred_many(mpol)) {
++		page = dequeue_huge_page_nodemask(h, gfp_mask, nid, nodemask);
++
++		/* Fallback to all nodes if page==NULL */
++		nodemask = NULL;
++	}
++
++	if (!page)
++		page = dequeue_huge_page_nodemask(h, gfp_mask, nid, nodemask);
++
+ 	if (page && !avoid_reserve && vma_has_reserves(vma, chg)) {
+ 		SetHPageRestoreReserve(page);
+ 		h->resv_huge_pages--;
+@@ -2147,9 +2157,19 @@ struct page *alloc_buddy_huge_page_with_mpol(struct hstate *h,
+ 	nodemask_t *nodemask;
+ 
+ 	nid = huge_node(vma, addr, gfp_mask, &mpol, &nodemask);
+-	page = alloc_surplus_huge_page(h, gfp_mask, nid, nodemask, false);
+-	mpol_cond_put(mpol);
++	if (mpol_is_preferred_many(mpol)) {
++		gfp_t gfp = gfp_mask | __GFP_NOWARN;
+ 
++		gfp &=  ~(__GFP_DIRECT_RECLAIM | __GFP_NOFAIL);
++		page = alloc_surplus_huge_page(h, gfp, nid, nodemask, false);
++
++		/* Fallback to all nodes if page==NULL */
++		nodemask = NULL;
++	}
++
++	if (!page)
++		page = alloc_surplus_huge_page(h, gfp_mask, nid, nodemask, false);
++	mpol_cond_put(mpol);
+ 	return page;
+ }
+ 
+-- 
+2.7.4
+
+
