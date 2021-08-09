@@ -2,167 +2,98 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DDBB33E451A
-	for <lists+linux-api@lfdr.de>; Mon,  9 Aug 2021 13:55:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A6D13E45AD
+	for <lists+linux-api@lfdr.de>; Mon,  9 Aug 2021 14:37:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233156AbhHILzl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Aug 2021 07:55:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46880 "EHLO mail.kernel.org"
+        id S233657AbhHIMiM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 Aug 2021 08:38:12 -0400
+Received: from mga06.intel.com ([134.134.136.31]:33314 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233069AbhHILzl (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 9 Aug 2021 07:55:41 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AB3C260F55;
-        Mon,  9 Aug 2021 11:55:15 +0000 (UTC)
-Date:   Mon, 9 Aug 2021 13:55:12 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     akpm@linux-foundation.org, mhocko@kernel.org, mhocko@suse.com,
-        rientjes@google.com, willy@infradead.org, hannes@cmpxchg.org,
-        guro@fb.com, riel@surriel.com, minchan@kernel.org,
-        christian@brauner.io, hch@infradead.org, oleg@redhat.com,
-        david@redhat.com, jannh@google.com, shakeelb@google.com,
-        luto@kernel.org, fweimer@redhat.com, jengelh@inai.de,
-        timmurray@google.com, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        kernel-team@android.com
-Subject: Re: [PATCH v8 1/2] mm: introduce process_mrelease system call
-Message-ID: <20210809115512.hdpj2cxqkmd3myee@wittgenstein>
-References: <20210808160823.3553954-1-surenb@google.com>
+        id S232991AbhHIMiM (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 9 Aug 2021 08:38:12 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10070"; a="275719038"
+X-IronPort-AV: E=Sophos;i="5.84,307,1620716400"; 
+   d="scan'208";a="275719038"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Aug 2021 05:37:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,307,1620716400"; 
+   d="scan'208";a="670778789"
+Received: from shbuild999.sh.intel.com (HELO localhost) ([10.239.146.151])
+  by fmsmga006.fm.intel.com with ESMTP; 09 Aug 2021 05:37:47 -0700
+Date:   Mon, 9 Aug 2021 20:37:47 +0800
+From:   Feng Tang <feng.tang@intel.com>
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Andi Kleen <ak@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>, ying.huang@intel.com
+Subject: Re: [PATCH v7 3/5] mm/hugetlb: add support for mempolicy
+ MPOL_PREFERRED_MANY
+Message-ID: <20210809123747.GB46432@shbuild999.sh.intel.com>
+References: <1627970362-61305-1-git-send-email-feng.tang@intel.com>
+ <1627970362-61305-4-git-send-email-feng.tang@intel.com>
+ <YQ06tNiDEsvl8004@dhcp22.suse.cz>
+ <20210809024430.GA46432@shbuild999.sh.intel.com>
+ <YRDqRMTXVZO9EkoC@dhcp22.suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210808160823.3553954-1-surenb@google.com>
+In-Reply-To: <YRDqRMTXVZO9EkoC@dhcp22.suse.cz>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Aug 08, 2021 at 09:08:22AM -0700, Suren Baghdasaryan wrote:
-> In modern systems it's not unusual to have a system component monitoring
-> memory conditions of the system and tasked with keeping system memory
-> pressure under control. One way to accomplish that is to kill
-> non-essential processes to free up memory for more important ones.
-> Examples of this are Facebook's OOM killer daemon called oomd and
-> Android's low memory killer daemon called lmkd.
-> For such system component it's important to be able to free memory
-> quickly and efficiently. Unfortunately the time process takes to free
-> up its memory after receiving a SIGKILL might vary based on the state
-> of the process (uninterruptible sleep), size and OPP level of the core
-> the process is running. A mechanism to free resources of the target
-> process in a more predictable way would improve system's ability to
-> control its memory pressure.
-> Introduce process_mrelease system call that releases memory of a dying
-> process from the context of the caller. This way the memory is freed in
-> a more controllable way with CPU affinity and priority of the caller.
-> The workload of freeing the memory will also be charged to the caller.
-> The operation is allowed only on a dying process.
+On Mon, Aug 09, 2021 at 10:41:40AM +0200, Michal Hocko wrote:
+[snip]
+> > >From fc30718c40f02ba5ea73456af49173e66b5032c1 Mon Sep 17 00:00:00 2001
+> > From: Ben Widawsky <ben.widawsky@intel.com>
+> > Date: Thu, 5 Aug 2021 23:01:11 -0400
+> > Subject: [PATCH] mm/hugetlb: add support for mempolicy MPOL_PREFERRED_MANY
+> > 
+> > Implement the missing huge page allocation functionality while obeying the
+> > preferred node semantics.  This is similar to the implementation for
+> > general page allocation, as it uses a fallback mechanism to try multiple
+> > preferred nodes first, and then all other nodes. 
+> > 
+> > To avoid adding too many "#ifdef CONFIG_NUMA" check, add a helper function
+> > in mempolicy.h to check whether a mempolicy is MPOL_PREFERRED_MANY.
+> > 
+> > [akpm: fix compling issue when merging with other hugetlb patch]
+> > [Thanks to 0day bot for catching the !CONFIG_NUMA compiling issue]
+> > [Michal Hocko: suggest to remove the #ifdef CONFIG_NUMA check]
+> > Link: https://lore.kernel.org/r/20200630212517.308045-12-ben.widawsky@intel.com
+> > Link: https://lkml.kernel.org/r/1627970362-61305-4-git-send-email-feng.tang@intel.com
+> > Suggested-by: Michal Hocko <mhocko@suse.com>
+> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> > Co-developed-by: Feng Tang <feng.tang@intel.com>
+> > Signed-off-by: Feng Tang <feng.tang@intel.com>
 > 
-> After previous discussions [1, 2, 3] the decision was made [4] to introduce
-> a dedicated system call to cover this use case.
-> 
-> The API is as follows,
-> 
->           int process_mrelease(int pidfd, unsigned int flags);
-> 
->         DESCRIPTION
->           The process_mrelease() system call is used to free the memory of
->           an exiting process.
-> 
->           The pidfd selects the process referred to by the PID file
->           descriptor.
->           (See pidfd_open(2) for further information)
-> 
->           The flags argument is reserved for future use; currently, this
->           argument must be specified as 0.
-> 
->         RETURN VALUE
->           On success, process_mrelease() returns 0. On error, -1 is
->           returned and errno is set to indicate the error.
-> 
->         ERRORS
->           EBADF  pidfd is not a valid PID file descriptor.
-> 
->           EAGAIN Failed to release part of the address space.
-> 
->           EINTR  The call was interrupted by a signal; see signal(7).
-> 
->           EINVAL flags is not 0.
-> 
->           EINVAL The memory of the task cannot be released because the
->                  process is not exiting, the address space is shared
->                  with another live process or there is a core dump in
->                  progress.
-> 
->           ENOSYS This system call is not supported, for example, without
->                  MMU support built into Linux.
-> 
->           ESRCH  The target process does not exist (i.e., it has terminated
->                  and been waited on).
-> 
-> [1] https://lore.kernel.org/lkml/20190411014353.113252-3-surenb@google.com/
-> [2] https://lore.kernel.org/linux-api/20201113173448.1863419-1-surenb@google.com/
-> [3] https://lore.kernel.org/linux-api/20201124053943.1684874-3-surenb@google.com/
-> [4] https://lore.kernel.org/linux-api/20201223075712.GA4719@lst.de/
-> 
-> Link: https://lore.kernel.org/r/20210808160823.3553954-1-surenb@google.com
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> ---
-> changes in v8:
-> - Replaced mmget with mmgrab, per Shakeel Butt
-> - Refactored the code to simplify and fix the task_lock release issue,
-> per Michal Hocko
-> 
->  mm/oom_kill.c | 70 +++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 70 insertions(+)
-> 
-> diff --git a/mm/oom_kill.c b/mm/oom_kill.c
-> index c729a4c4a1ac..f8acc26f7300 100644
-> --- a/mm/oom_kill.c
-> +++ b/mm/oom_kill.c
-> @@ -28,6 +28,7 @@
->  #include <linux/sched/task.h>
->  #include <linux/sched/debug.h>
->  #include <linux/swap.h>
-> +#include <linux/syscalls.h>
->  #include <linux/timex.h>
->  #include <linux/jiffies.h>
->  #include <linux/cpuset.h>
-> @@ -1141,3 +1142,72 @@ void pagefault_out_of_memory(void)
->  	out_of_memory(&oc);
->  	mutex_unlock(&oom_lock);
->  }
-> +
-> +SYSCALL_DEFINE2(process_mrelease, int, pidfd, unsigned int, flags)
-> +{
-> +#ifdef CONFIG_MMU
-> +	struct mm_struct *mm = NULL;
-> +	struct task_struct *task;
-> +	struct task_struct *p;
-> +	unsigned int f_flags;
-> +	bool reap = true;
-> +	struct pid *pid;
-> +	long ret = 0;
-> +
-> +	if (flags)
-> +		return -EINVAL;
-> +
-> +	pid = pidfd_get_pid(pidfd, &f_flags);
-> +	if (IS_ERR(pid))
-> +		return PTR_ERR(pid);
-> +
-> +	task = get_pid_task(pid, PIDTYPE_PID);
+> Yeah. This looks much better. Thanks!
+> Acked-by: Michal Hocko <mhocko@suse.com>
 
-Technically, we really want PIDTYPE_TGID here. Currently, a pidfd can't
-be created for a thread that isn't a thread-group leader. And while we
-do make sure that when a pidfd is created the thread is a thread-group
-leader, i.e. has a PIDTYPE_TGID entry in its struct pid we might in the
-future not carry this restriction and will allow pidfds to refer to a
-single thread. When we do that we need to take a good look at all users
-carefully. So I'd prefer if this is changed to
+Thank you!
 
-task = get_pid_task(pid, PIDTYPE_TGID);
+> Do you think you can provide same helpers for other policies as well?
+> Maybe we can get rid of some other ifdefery as well.
 
-to clearly express that the assumption is that this is a thread-group
-leader.
+Sure. I can make separate patch(es) for that.
 
-Otherwise,
-Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
+And you mean helper like mpol_is_bind/default/local/preferred? 
+
+I just run 'git-grep MPOL', and for places using "mode == MPOL_XXX",
+mostly they are in mempolicy.[ch], the only another place is in
+shmem.c, do we need to create all the helpers for it and the
+potential future users? 
+
+Thanks,
+Feng
