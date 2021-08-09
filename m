@@ -2,55 +2,41 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D9E443E4507
-	for <lists+linux-api@lfdr.de>; Mon,  9 Aug 2021 13:42:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDBB33E451A
+	for <lists+linux-api@lfdr.de>; Mon,  9 Aug 2021 13:55:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233559AbhHILnL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Aug 2021 07:43:11 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:38122 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233512AbhHILnL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Aug 2021 07:43:11 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id CB1741FDC8;
-        Mon,  9 Aug 2021 11:42:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1628509369; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=TLyE1mmon2vKKKl0SvVhnQIjlLnXPzD9ELTQJvXVjt0=;
-        b=h1qGoQV6zG7DmmvyeLjnIL8QWs9Mt/pkI3z0EeX3Y3w9O+tEscmrzzhabFg+KANZbthLH8
-        xIvie+mXaTSekM+1OID0XLzoPYlCevDPaHJFMQnIomKDf4TM1yILtOD4TtaQwOCfx6hadv
-        ghjBv037IaFQ8DpiNL9jFp/l5YNWgmE=
-Received: from suse.cz (unknown [10.100.201.86])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 783E4A3B81;
-        Mon,  9 Aug 2021 11:42:49 +0000 (UTC)
-Date:   Mon, 9 Aug 2021 13:42:49 +0200
-From:   Michal Hocko <mhocko@suse.com>
+        id S233156AbhHILzl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 Aug 2021 07:55:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46880 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233069AbhHILzl (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 9 Aug 2021 07:55:41 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AB3C260F55;
+        Mon,  9 Aug 2021 11:55:15 +0000 (UTC)
+Date:   Mon, 9 Aug 2021 13:55:12 +0200
+From:   Christian Brauner <christian.brauner@ubuntu.com>
 To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     akpm@linux-foundation.org, rientjes@google.com,
-        willy@infradead.org, hannes@cmpxchg.org, guro@fb.com,
-        riel@surriel.com, minchan@kernel.org, christian@brauner.io,
-        hch@infradead.org, oleg@redhat.com, david@redhat.com,
-        jannh@google.com, shakeelb@google.com, luto@kernel.org,
-        christian.brauner@ubuntu.com, fweimer@redhat.com, jengelh@inai.de,
+Cc:     akpm@linux-foundation.org, mhocko@kernel.org, mhocko@suse.com,
+        rientjes@google.com, willy@infradead.org, hannes@cmpxchg.org,
+        guro@fb.com, riel@surriel.com, minchan@kernel.org,
+        christian@brauner.io, hch@infradead.org, oleg@redhat.com,
+        david@redhat.com, jannh@google.com, shakeelb@google.com,
+        luto@kernel.org, fweimer@redhat.com, jengelh@inai.de,
         timmurray@google.com, linux-api@vger.kernel.org,
         linux-mm@kvack.org, linux-kernel@vger.kernel.org,
         kernel-team@android.com
 Subject: Re: [PATCH v8 1/2] mm: introduce process_mrelease system call
-Message-ID: <YREUuWF4+y4rRBzu@dhcp22.suse.cz>
+Message-ID: <20210809115512.hdpj2cxqkmd3myee@wittgenstein>
 References: <20210808160823.3553954-1-surenb@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 In-Reply-To: <20210808160823.3553954-1-surenb@google.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun 08-08-21 09:08:22, Suren Baghdasaryan wrote:
+On Sun, Aug 08, 2021 at 09:08:22AM -0700, Suren Baghdasaryan wrote:
 > In modern systems it's not unusual to have a system component monitoring
 > memory conditions of the system and tasked with keeping system memory
 > pressure under control. One way to accomplish that is to kill
@@ -117,11 +103,8 @@ On Sun 08-08-21 09:08:22, Suren Baghdasaryan wrote:
 > [3] https://lore.kernel.org/linux-api/20201124053943.1684874-3-surenb@google.com/
 > [4] https://lore.kernel.org/linux-api/20201223075712.GA4719@lst.de/
 > 
+> Link: https://lore.kernel.org/r/20210808160823.3553954-1-surenb@google.com
 > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-
-Acked-by: Michal Hocko <mhocko@suse.com>
-Thanks!
-
 > ---
 > changes in v8:
 > - Replaced mmget with mmgrab, per Shakeel Butt
@@ -167,58 +150,19 @@ Thanks!
 > +		return PTR_ERR(pid);
 > +
 > +	task = get_pid_task(pid, PIDTYPE_PID);
-> +	if (!task) {
-> +		ret = -ESRCH;
-> +		goto put_pid;
-> +	}
-> +
-> +	/*
-> +	 * Make sure to choose a thread which still has a reference to mm
-> +	 * during the group exit
-> +	 */
-> +	p = find_lock_task_mm(task);
-> +	if (!p) {
-> +		ret = -ESRCH;
-> +		goto put_task;
-> +	}
-> +
-> +	mm = p->mm;
-> +	mmgrab(mm);
-> +
-> +	/* If the work has been done already, just exit with success */
-> +	if (test_bit(MMF_OOM_SKIP, &mm->flags))
-> +		reap = false;
-> +	else if (!task_will_free_mem(p)) {
-> +		reap = false;
-> +		ret = -EINVAL;
-> +	}
-> +	task_unlock(p);
-> +
-> +	if (!reap)
-> +		goto drop_mm;
-> +
-> +	if (mmap_read_lock_killable(mm)) {
-> +		ret = -EINTR;
-> +		goto drop_mm;
-> +	}
-> +	if (!__oom_reap_task_mm(mm))
-> +		ret = -EAGAIN;
-> +	mmap_read_unlock(mm);
-> +
-> +drop_mm:
-> +	mmdrop(mm);
-> +put_task:
-> +	put_task_struct(task);
-> +put_pid:
-> +	put_pid(pid);
-> +	return ret;
-> +#else
-> +	return -ENOSYS;
-> +#endif /* CONFIG_MMU */
-> +}
-> -- 
-> 2.32.0.605.g8dce9f2422-goog
 
--- 
-Michal Hocko
-SUSE Labs
+Technically, we really want PIDTYPE_TGID here. Currently, a pidfd can't
+be created for a thread that isn't a thread-group leader. And while we
+do make sure that when a pidfd is created the thread is a thread-group
+leader, i.e. has a PIDTYPE_TGID entry in its struct pid we might in the
+future not carry this restriction and will allow pidfds to refer to a
+single thread. When we do that we need to take a good look at all users
+carefully. So I'd prefer if this is changed to
+
+task = get_pid_task(pid, PIDTYPE_TGID);
+
+to clearly express that the assumption is that this is a thread-group
+leader.
+
+Otherwise,
+Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
