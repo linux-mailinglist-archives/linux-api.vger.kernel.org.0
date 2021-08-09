@@ -2,93 +2,82 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC0383E474F
-	for <lists+linux-api@lfdr.de>; Mon,  9 Aug 2021 16:16:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C2523E484A
+	for <lists+linux-api@lfdr.de>; Mon,  9 Aug 2021 17:04:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234739AbhHIOQX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Aug 2021 10:16:23 -0400
-Received: from esa.hc503-62.ca.iphmx.com ([216.71.135.51]:25938 "EHLO
-        esa.hc503-62.ca.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234707AbhHIOQX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Aug 2021 10:16:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=uwaterloo.ca; i=@uwaterloo.ca; q=dns/txt; s=default;
-  t=1628518562; x=1660054562;
-  h=to:cc:references:subject:in-reply-to:from:message-id:
-   date:mime-version:content-transfer-encoding;
-  bh=4x9sjHeD5a8VARosMaEyBrjLPXQdoIE6Gb2m/Ff3xKs=;
-  b=pm8lt8eAk1wNnmMKDg6tTD4jh3xzjbBDgGkpfEZQqsHZMEXdnh7uMGJ3
-   NgB951MUPtAPoy2RX4S8+lmMfW4RTImEb4oL89kgrhN/8grlulDalyVV2
-   SF5Qtw3U48fjmEqLBdfph719YVNDz+oXXOOjBt31wEEe64kjdok1a7PSM
-   4=;
-Received: from connect.uwaterloo.ca (HELO connhm04.connect.uwaterloo.ca) ([129.97.208.43])
-  by ob1.hc503-62.ca.iphmx.com with ESMTP/TLS/AES256-GCM-SHA384; 09 Aug 2021 10:16:00 -0400
-Received: from [10.42.0.123] (10.32.240.218) by connhm04.connect.uwaterloo.ca
- (172.16.137.68) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Mon, 9 Aug
- 2021 10:15:59 -0400
-To:     <posk@google.com>
-CC:     <avagin@google.com>, <bsegall@google.com>, <jannh@google.com>,
-        <linux-api@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <mingo@redhat.com>, <pabuhr@uwaterloo.ca>, <peterz@infradead.org>,
-        <pjt@google.com>, <posk@posk.io>, <tdelisle@uwaterloo.ca>,
-        <tglx@linutronix.de>
-References: <CAPNVh5cQG8WjRryYXhrApNmV-7ybJ7ePpjXqtS6RUdguXO4e=A@mail.gmail.com>
-Subject: Re: [PATCH 3/4 v0.4] sched/umcg: add
- Documentation/userspace-api/umcg.rst
-In-Reply-To: <CAPNVh5cQG8WjRryYXhrApNmV-7ybJ7ePpjXqtS6RUdguXO4e=A@mail.gmail.com>
-From:   Thierry Delisle <tdelisle@uwaterloo.ca>
-Message-ID: <b6308f50-8e0a-c0bc-d25a-d8f515e5183d@uwaterloo.ca>
-Date:   Mon, 9 Aug 2021 10:15:59 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S234729AbhHIPE2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 Aug 2021 11:04:28 -0400
+Received: from mail-ua1-f51.google.com ([209.85.222.51]:42690 "EHLO
+        mail-ua1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234721AbhHIPE1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Aug 2021 11:04:27 -0400
+Received: by mail-ua1-f51.google.com with SMTP id m39so1883060uad.9;
+        Mon, 09 Aug 2021 08:04:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2WVMYOqEa/bLtuXQ6WMOZh3F4v9HS1yFs7MrmGYYVUc=;
+        b=HmnC0WIVazwQ6nhvLaz9JWNnR3JKueiwHpbLS3p1AsIsmISF/mR9J+falMrlTdV0wd
+         irHa/+sveSz8A4chUUm7v3Id3ezK/LCOZ2gQGEVFwlBik5JZ3YVOpr70rszHKOAmhtSa
+         XOYqHppA57yWOQ/+Hc3rB4FGEzd6M2aksEjR3b0Eye7kqEJkQ2wLbGi5M8saoNbfNlo4
+         MbJgFZmo0MwrcaSfltF3mV3OeW2s4lsMDYCogRv5LEjZD6RVp3PJJ+2hkiQTPuBgWumn
+         itvSn2ds6/UziN4mvdP/hGGkqMQGbK7zFigwawgqcovbSJxYuuc3c3UkpWJHP+qtnIJG
+         Y0/g==
+X-Gm-Message-State: AOAM531h3XxDVEc8n6QA3rTXJaPD3rsjjiLUDfvdb+S7nyoppBavKbrO
+        d1H8kdcbBO1Ugs6dUQfzAdLauQsDaWAZDsYQaek=
+X-Google-Smtp-Source: ABdhPJxZA2LpZiU8DOllIwZGZvqRRctpyutcM8ui5lDbadGe9QWO10AogpNXRHIIp09OCdbbh1DuGYgr2ki/2pYlsTo=
+X-Received: by 2002:a9f:2341:: with SMTP id 59mr15759589uae.4.1628521446744;
+ Mon, 09 Aug 2021 08:04:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.32.240.218]
-X-ClientProxiedBy: connhm01.connect.uwaterloo.ca (172.16.137.65) To
- connhm04.connect.uwaterloo.ca (172.16.137.68)
+References: <20210808160823.3553954-1-surenb@google.com> <20210808160823.3553954-2-surenb@google.com>
+In-Reply-To: <20210808160823.3553954-2-surenb@google.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 9 Aug 2021 17:03:55 +0200
+Message-ID: <CAMuHMdX7YyBRmKNkQJ0k0chaHrziPa=OfKOXStEgXjZNfgg5Nw@mail.gmail.com>
+Subject: Re: [PATCH v8 2/2] mm: wire up syscall process_mrelease
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Michal Hocko <mhocko@suse.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        Christoph Hellwig <hch@infradead.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Jann Horn <jannh@google.com>, shakeelb@google.com,
+        Andy Lutomirski <luto@kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Florian Weimer <fweimer@redhat.com>, jengelh@inai.de,
+        timmurray@google.com, Linux API <linux-api@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Android Kernel Team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
- > This is a wake, not a context switch, right?
+On Sun, Aug 8, 2021 at 6:23 PM Suren Baghdasaryan <surenb@google.com> wrote:
+> Split off from prev patch in the series that implements the syscall.
+>
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 
-I followed the "worker to worker context switch" procedure in the
-documentation.
+>  arch/m68k/kernel/syscalls/syscall.tbl       | 2 ++
 
- > I'm not sure why you are concerned with context switching here. And even
- > if it were a context switch, the kernel manages thread stacks properly,
- > there's nothing to worry about.
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-The reason I'm interested in this particular operation is because the
-outcome is decided by an invisible race (between W1 and W2) in the
-kernel. W2 might context-switch to W1 and it might not. Note I don't mean
-race in the problematic sense, just that there are two possible outcomes
-that are decided by relative speed. I'm wondering how many outcomes the
-users needs to program for and if they may have to back-track anything.
+Gr{oetje,eeting}s,
 
-For example, if W2 wants to "yield to", it must enqueue itself in the
-user scheduler before the system call. But if the system call doesn't
-context-switch and W2 keeps running, it may need to undo the enqueue.
+                        Geert
 
-I agree the comment about the stack was a tangent and I expected the
-kernel to handle it. But, I believe, how the kernel handles this case
-affects the number of outcomes for this scenario.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
- > If both cmpxchg() succeeded, but W1 was never put to sleep, ttwu()
- > will do nothing and W1 will continue running on its initial CPU, while
- > W2 will continue running on its own CPU. WF_CURRENT_CPU is an advisory
- > flag, and in this situation it will not do anything.
-
-This does not sound right to me. If ttwu does nothing, W1 and W2 keep
-running. Who sets W2's state back to RUNNING?
-
-Is W2 responsible for doing that? It's not "the party initiating
-the state transition" in this case.
-
-Since there is no way for W2 to tell if it did context-switch to W1, does
-that mean that W2 should always cmpxchg() its state to RUNNING after a
-sys_umcg_wait()?
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
