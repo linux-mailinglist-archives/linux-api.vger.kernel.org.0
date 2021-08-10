@@ -2,178 +2,88 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 278753E55E8
-	for <lists+linux-api@lfdr.de>; Tue, 10 Aug 2021 10:50:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43D363E5928
+	for <lists+linux-api@lfdr.de>; Tue, 10 Aug 2021 13:33:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236844AbhHJIvP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 10 Aug 2021 04:51:15 -0400
-Received: from mga17.intel.com ([192.55.52.151]:16147 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234054AbhHJIvP (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 10 Aug 2021 04:51:15 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10070"; a="195129928"
-X-IronPort-AV: E=Sophos;i="5.84,310,1620716400"; 
-   d="scan'208";a="195129928"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2021 01:50:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,310,1620716400"; 
-   d="scan'208";a="445053532"
-Received: from shbuild999.sh.intel.com (HELO localhost) ([10.239.146.151])
-  by fmsmga007.fm.intel.com with ESMTP; 10 Aug 2021 01:50:48 -0700
-Date:   Tue, 10 Aug 2021 16:50:48 +0800
-From:   Feng Tang <feng.tang@intel.com>
-To:     Michal Hocko <mhocko@suse.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Hugh Dickins <hughd@google.com>
-Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Andi Kleen <ak@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>, ying.huang@intel.com
-Subject: Re: [PATCH v7 3/5] mm/hugetlb: add support for mempolicy
- MPOL_PREFERRED_MANY
-Message-ID: <20210810085048.GA67328@shbuild999.sh.intel.com>
-References: <1627970362-61305-1-git-send-email-feng.tang@intel.com>
- <1627970362-61305-4-git-send-email-feng.tang@intel.com>
- <YQ06tNiDEsvl8004@dhcp22.suse.cz>
- <20210809024430.GA46432@shbuild999.sh.intel.com>
- <YRDqRMTXVZO9EkoC@dhcp22.suse.cz>
- <20210809123747.GB46432@shbuild999.sh.intel.com>
- <YRErZFQGZx4aPYuU@dhcp22.suse.cz>
+        id S238353AbhHJLeN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 10 Aug 2021 07:34:13 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:34604 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237365AbhHJLeM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Aug 2021 07:34:12 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 83AB92009E;
+        Tue, 10 Aug 2021 11:33:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1628595229; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=aGHQoxFgLxzrAyVEvKxaCUt+s4AACK8ClH0C6z1y2uQ=;
+        b=pH0mWjcf96HRpsrC0a3PRfKNZs7kdyxtskfolLcI6rf9pr+zfzBfIz9plCDNYwGkcYnswp
+        ks9Tft/MSU7VIQTSAFn27rgeZtGYll2jna2JfyFUdXTKtE0ejTfkdYnL/2skVPYErK0+Ev
+        wyoarCd5/DZqId/b2VdC5s/X4NoCij8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1628595229;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=aGHQoxFgLxzrAyVEvKxaCUt+s4AACK8ClH0C6z1y2uQ=;
+        b=8OTIdUaUUGFf7+DABViXEEcLQx9Q1vS7HVep007te9+/iNfhrMPajU+ElZb4MN9mH6ZfG8
+        Mi3WcL/hc4FeUMAA==
+Received: from quack2.suse.cz (unknown [10.100.224.230])
+        by relay2.suse.de (Postfix) with ESMTP id 5192FA3BAF;
+        Tue, 10 Aug 2021 11:33:49 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id F19F41F2AC2; Tue, 10 Aug 2021 13:33:48 +0200 (CEST)
+Date:   Tue, 10 Aug 2021 13:33:48 +0200
+From:   Jan Kara <jack@suse.cz>
+To:     Matthew Bobrowski <repnop@google.com>
+Cc:     jack@suse.cz, amir73il@gmail.com, christian.brauner@ubuntu.com,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH v4 0/5] Add pidfd support to the fanotify API
+Message-ID: <20210810113348.GE18722@quack2.suse.cz>
+References: <cover.1628398044.git.repnop@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YRErZFQGZx4aPYuU@dhcp22.suse.cz>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <cover.1628398044.git.repnop@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Aug 09, 2021 at 03:19:32PM +0200, Michal Hocko wrote:
-[snip]
-> > > Do you think you can provide same helpers for other policies as well?
-> > > Maybe we can get rid of some other ifdefery as well.
-> > 
-> > Sure. I can make separate patch(es) for that.
-> > 
-> > And you mean helper like mpol_is_bind/default/local/preferred? 
-> > 
-> > I just run 'git-grep MPOL', and for places using "mode == MPOL_XXX",
-> > mostly they are in mempolicy.[ch], the only another place is in
-> > shmem.c, do we need to create all the helpers for it and the
-> > potential future users? 
+Hello Matthew!
+
+On Sun 08-08-21 15:23:59, Matthew Bobrowski wrote:
+> This is V5 of the FAN_REPORT_PIDFD patch series. It contains the minor
+> comment/commit description fixes that were picked up by Amir in the
+> last series review [0, 1].
 > 
-> I would just go with those instances which need to ifdef for NUMA.
-> Thanks!
+> LTP tests for this API change can be found here [2]. Man page updates
+> for this change can be found here [3].
+> 
+> [0] https://lore.kernel.org/linux-fsdevel/CAOQ4uxhnCk+FXK_e_GA=jC_0HWO+3ZdwHSi=zCa2Kpb0NDxBSg@mail.gmail.com/
+> [1] https://lore.kernel.org/linux-fsdevel/CAOQ4uxgO3oViTSFZ0zs6brrHrmw362r1C9SQ7g6=XgRwyrzMuw@mail.gmail.com/
+> [2] https://github.com/matthewbobrowski/ltp/tree/fanotify_pidfd_v2
+> [3] https://github.com/matthewbobrowski/man-pages/tree/fanotify_pidfd_v1
+> 
+> Matthew Bobrowski (5):
+>   kernel/pid.c: remove static qualifier from pidfd_create()
+>   kernel/pid.c: implement additional checks upon pidfd_create()
+>     parameters
+>   fanotify: minor cosmetic adjustments to fid labels
+>   fanotify: introduce a generic info record copying helper
+>   fanotify: add pidfd support to the fanotify API
 
-Yes, following is a patch to remove one CONFIG_NUMA check, though
-an bolder idea to extend the patch by removing the CONFIG_TMPFS
-check in the same line.
+Thanks! I've pulled the series into my tree. Note that your fanotify21 LTP
+testcase is broken with the current kernel because 'ino' entry got added to
+fdinfo. I think having to understand all possible keys that can occur in
+fdinfo is too fragile. I understand why you want to do that but I guess the
+test would be too faulty to be practical. So I'd just ignore unknown keys
+in fdinfo for that test.
 
-Thanks,
-Feng
+								Honza
 
----------8<---------------------------------
-
-From 1a5858721ac8ce99c27c13d310bba2983dc73d97 Mon Sep 17 00:00:00 2001
-From: Feng Tang <feng.tang@intel.com>
-Date: Tue, 10 Aug 2021 17:00:59 +0800
-Subject: [PATCH] mm: shmem: avoid open coded check for mempolicy's mode
-
-Add a mempolicy helper to do the check, which can also remove
-a CONFIG_NUMA option check.
-
-Suggested-by: Michal Hocko <mhocko@suse.com>
-Signed-off-by: Feng Tang <feng.tang@intel.com>
----
- include/linux/mempolicy.h | 14 ++++++++++++++
- mm/shmem.c                |  8 ++++----
- 2 files changed, 18 insertions(+), 4 deletions(-)
-
-diff --git a/include/linux/mempolicy.h b/include/linux/mempolicy.h
-index 60d5e6c3340c..8fc518ad4f3c 100644
---- a/include/linux/mempolicy.h
-+++ b/include/linux/mempolicy.h
-@@ -192,6 +192,10 @@ static inline bool mpol_is_preferred_many(struct mempolicy *pol)
- 	return  (pol->mode == MPOL_PREFERRED_MANY);
- }
- 
-+static inline bool mpol_is_default(struct mempolicy *pol)
-+{
-+	return  (pol->mode == MPOL_DEFAULT);
-+}
- 
- #else
- 
-@@ -287,6 +291,10 @@ static inline int mpol_parse_str(char *str, struct mempolicy **mpol)
- }
- #endif
- 
-+static inline void mpol_to_str(char *buffer, int maxlen, struct mempolicy *pol)
-+{
-+}
-+
- static inline int mpol_misplaced(struct page *page, struct vm_area_struct *vma,
- 				 unsigned long address)
- {
-@@ -309,5 +317,11 @@ static inline bool mpol_is_preferred_many(struct mempolicy *pol)
- 	return  false;
- }
- 
-+static inline bool mpol_is_default(struct mempolicy *pol)
-+{
-+	return  false;
-+}
-+
-+
- #endif /* CONFIG_NUMA */
- #endif
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 96f05f6af8bb..26b195209ef7 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -1437,12 +1437,12 @@ static int shmem_writepage(struct page *page, struct writeback_control *wbc)
- 	return 0;
- }
- 
--#if defined(CONFIG_NUMA) && defined(CONFIG_TMPFS)
-+#ifdef CONFIG_TMPFS
- static void shmem_show_mpol(struct seq_file *seq, struct mempolicy *mpol)
- {
- 	char buffer[64];
- 
--	if (!mpol || mpol->mode == MPOL_DEFAULT)
-+	if (!mpol || mpol_is_default(mpol))
- 		return;		/* show nothing */
- 
- 	mpol_to_str(buffer, sizeof(buffer), mpol);
-@@ -1461,7 +1461,7 @@ static struct mempolicy *shmem_get_sbmpol(struct shmem_sb_info *sbinfo)
- 	}
- 	return mpol;
- }
--#else /* !CONFIG_NUMA || !CONFIG_TMPFS */
-+#else /* !CONFIG_TMPFS */
- static inline void shmem_show_mpol(struct seq_file *seq, struct mempolicy *mpol)
- {
- }
-@@ -1469,7 +1469,7 @@ static inline struct mempolicy *shmem_get_sbmpol(struct shmem_sb_info *sbinfo)
- {
- 	return NULL;
- }
--#endif /* CONFIG_NUMA && CONFIG_TMPFS */
-+#endif /* CONFIG_TMPFS */
- #ifndef CONFIG_NUMA
- #define vm_policy vm_private_data
- #endif
 -- 
-2.14.1
-
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
