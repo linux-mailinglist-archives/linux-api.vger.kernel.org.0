@@ -2,115 +2,178 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BEA73E50F2
-	for <lists+linux-api@lfdr.de>; Tue, 10 Aug 2021 04:08:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 278753E55E8
+	for <lists+linux-api@lfdr.de>; Tue, 10 Aug 2021 10:50:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237487AbhHJCI1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 Aug 2021 22:08:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34522 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236131AbhHJCIY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 Aug 2021 22:08:24 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BAE6C0613D3;
-        Mon,  9 Aug 2021 19:08:03 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id s22-20020a17090a1c16b0290177caeba067so2135148pjs.0;
-        Mon, 09 Aug 2021 19:08:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=v7qOXxkhDcJDtLfYGjeWm7crxawwUhx3Jo2RHArHK7o=;
-        b=kZr2MFpJb+HrDAFlUE+B1DBa4v2e+sEelA93ZpD8k/EqGx6HDNZc0Ma/obngQAYFTs
-         9swosAEHpVF9VSA++7ZAysUPKcikf9ixUtoaQDd+/tbt1A1twrWcJJGE20d5AdgtMCvK
-         bUP1Yc6WuxCITOUUMIGV9s9tr+TW/4vzr+CDtLbKjo8M4zor8IoPerygOyUIVUfLkuyw
-         gsB61Xl6MnEDx7lpfzz/hcqVL5TQn45hEA9/tq66LzWQiW4fXPed5oSvUbckk3KanMR3
-         QXdPI1SPGEjFnZsU0v94wKaO8yztqh+Mayr8fU4kLD9CiA/9TD6rTmNhq6erYIzF6d/6
-         MN+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=v7qOXxkhDcJDtLfYGjeWm7crxawwUhx3Jo2RHArHK7o=;
-        b=Bh2KK5F7MALtyzWU4GBqWkpo/RGvWf66aeiaNoGEyikIIl0IozglJSGGYuRFQy9vGh
-         Zjota9a9eVsAwpMWX8ldtMz9ppw0llHRhiBSvGuyVyo8ykgJq2e2unywMfLag8hjG64t
-         TMVZq+5jwmwdXT6MUtwK/WuAfU5ippz2rSpdBlneMTQ9uIDwuI3HJXShlxmre1ZBMGet
-         Z1qjBmm63hVfBRd9rG6s9arswNLb1Dfa2/xdgT8TI6cBfwLlFNV//e5g2Av2tZugGjYb
-         DNQavZ+vi941lfam3LqgcjKTjw6xlyIzoLaXOt1EHQrad/O964klcIrT3k1Mks1BRlhD
-         3M0Q==
-X-Gm-Message-State: AOAM532R2Aj1ibXXArgpG3A5lR+xDzZNCMMuzDsGOQGAPHW4B+M+EP5Q
-        PNxihor3HygZbDxehEnIX5Af9QCBS7k=
-X-Google-Smtp-Source: ABdhPJzl24llLvq6TUgfoQq5igPpwr6oDqJYKMfP77TqoX9ynYvLNX1tbw0ygzuuKXn1CLZFMQvHaQ==
-X-Received: by 2002:a65:6a0c:: with SMTP id m12mr86484pgu.267.1628561282668;
-        Mon, 09 Aug 2021 19:08:02 -0700 (PDT)
-Received: from [192.168.1.71] (122-61-176-117-fibre.sparkbb.co.nz. [122.61.176.117])
-        by smtp.gmail.com with ESMTPSA id z1sm17392853pfg.18.2021.08.09.19.07.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Aug 2021 19:08:01 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, linux-api@vger.kernel.org,
-        Andy Lutomirski <luto@amacapital.net>,
-        Will Drewry <wad@chromium.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Kees Cook <keescook@chromium.org>, linux-man@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] seccomp.2: Clarify that bad system calls kill the thread
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-References: <87r1gkp9i7.fsf@disp2133> <202106292156.9458CF22@keescook>
- <87k0mbp0yc.fsf_-_@disp2133>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <1da46e75-fd67-e3e6-4db3-1d37dcae7f75@gmail.com>
-Date:   Tue, 10 Aug 2021 04:07:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S236844AbhHJIvP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 10 Aug 2021 04:51:15 -0400
+Received: from mga17.intel.com ([192.55.52.151]:16147 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234054AbhHJIvP (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 10 Aug 2021 04:51:15 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10070"; a="195129928"
+X-IronPort-AV: E=Sophos;i="5.84,310,1620716400"; 
+   d="scan'208";a="195129928"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2021 01:50:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,310,1620716400"; 
+   d="scan'208";a="445053532"
+Received: from shbuild999.sh.intel.com (HELO localhost) ([10.239.146.151])
+  by fmsmga007.fm.intel.com with ESMTP; 10 Aug 2021 01:50:48 -0700
+Date:   Tue, 10 Aug 2021 16:50:48 +0800
+From:   Feng Tang <feng.tang@intel.com>
+To:     Michal Hocko <mhocko@suse.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hugh Dickins <hughd@google.com>
+Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Andi Kleen <ak@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>, ying.huang@intel.com
+Subject: Re: [PATCH v7 3/5] mm/hugetlb: add support for mempolicy
+ MPOL_PREFERRED_MANY
+Message-ID: <20210810085048.GA67328@shbuild999.sh.intel.com>
+References: <1627970362-61305-1-git-send-email-feng.tang@intel.com>
+ <1627970362-61305-4-git-send-email-feng.tang@intel.com>
+ <YQ06tNiDEsvl8004@dhcp22.suse.cz>
+ <20210809024430.GA46432@shbuild999.sh.intel.com>
+ <YRDqRMTXVZO9EkoC@dhcp22.suse.cz>
+ <20210809123747.GB46432@shbuild999.sh.intel.com>
+ <YRErZFQGZx4aPYuU@dhcp22.suse.cz>
 MIME-Version: 1.0
-In-Reply-To: <87k0mbp0yc.fsf_-_@disp2133>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YRErZFQGZx4aPYuU@dhcp22.suse.cz>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Eric,
-
-On 6/30/21 10:11 PM, Eric W. Biederman wrote:
+On Mon, Aug 09, 2021 at 03:19:32PM +0200, Michal Hocko wrote:
+[snip]
+> > > Do you think you can provide same helpers for other policies as well?
+> > > Maybe we can get rid of some other ifdefery as well.
+> > 
+> > Sure. I can make separate patch(es) for that.
+> > 
+> > And you mean helper like mpol_is_bind/default/local/preferred? 
+> > 
+> > I just run 'git-grep MPOL', and for places using "mode == MPOL_XXX",
+> > mostly they are in mempolicy.[ch], the only another place is in
+> > shmem.c, do we need to create all the helpers for it and the
+> > potential future users? 
 > 
-> Signed-off-by: Eric W. Biederman <ebiederm@xmission.com>
+> I would just go with those instances which need to ifdef for NUMA.
+> Thanks!
 
-Thanks. Patch applied, with Kees' Ack.
+Yes, following is a patch to remove one CONFIG_NUMA check, though
+an bolder idea to extend the patch by removing the CONFIG_TMPFS
+check in the same line.
 
-Cheers,
+Thanks,
+Feng
 
-Michael
+---------8<---------------------------------
 
+From 1a5858721ac8ce99c27c13d310bba2983dc73d97 Mon Sep 17 00:00:00 2001
+From: Feng Tang <feng.tang@intel.com>
+Date: Tue, 10 Aug 2021 17:00:59 +0800
+Subject: [PATCH] mm: shmem: avoid open coded check for mempolicy's mode
 
-> ---
->  man2/seccomp.2 | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/man2/seccomp.2 b/man2/seccomp.2
-> index a3421871f0f4..bde54c3e3e99 100644
-> --- a/man2/seccomp.2
-> +++ b/man2/seccomp.2
-> @@ -69,9 +69,10 @@ The only system calls that the calling thread is permitted to make are
->  .BR exit_group (2)),
->  and
->  .BR sigreturn (2).
-> -Other system calls result in the delivery of a
-> +Other system calls result in the termination of the calling thread,
-> +or termination of the entire process with the
->  .BR SIGKILL
-> -signal.
-> +signal when there is only one thread.
->  Strict secure computing mode is useful for number-crunching
->  applications that may need to execute untrusted byte code, perhaps
->  obtained by reading from a pipe or socket.
-> 
+Add a mempolicy helper to do the check, which can also remove
+a CONFIG_NUMA option check.
 
+Suggested-by: Michal Hocko <mhocko@suse.com>
+Signed-off-by: Feng Tang <feng.tang@intel.com>
+---
+ include/linux/mempolicy.h | 14 ++++++++++++++
+ mm/shmem.c                |  8 ++++----
+ 2 files changed, 18 insertions(+), 4 deletions(-)
 
+diff --git a/include/linux/mempolicy.h b/include/linux/mempolicy.h
+index 60d5e6c3340c..8fc518ad4f3c 100644
+--- a/include/linux/mempolicy.h
++++ b/include/linux/mempolicy.h
+@@ -192,6 +192,10 @@ static inline bool mpol_is_preferred_many(struct mempolicy *pol)
+ 	return  (pol->mode == MPOL_PREFERRED_MANY);
+ }
+ 
++static inline bool mpol_is_default(struct mempolicy *pol)
++{
++	return  (pol->mode == MPOL_DEFAULT);
++}
+ 
+ #else
+ 
+@@ -287,6 +291,10 @@ static inline int mpol_parse_str(char *str, struct mempolicy **mpol)
+ }
+ #endif
+ 
++static inline void mpol_to_str(char *buffer, int maxlen, struct mempolicy *pol)
++{
++}
++
+ static inline int mpol_misplaced(struct page *page, struct vm_area_struct *vma,
+ 				 unsigned long address)
+ {
+@@ -309,5 +317,11 @@ static inline bool mpol_is_preferred_many(struct mempolicy *pol)
+ 	return  false;
+ }
+ 
++static inline bool mpol_is_default(struct mempolicy *pol)
++{
++	return  false;
++}
++
++
+ #endif /* CONFIG_NUMA */
+ #endif
+diff --git a/mm/shmem.c b/mm/shmem.c
+index 96f05f6af8bb..26b195209ef7 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -1437,12 +1437,12 @@ static int shmem_writepage(struct page *page, struct writeback_control *wbc)
+ 	return 0;
+ }
+ 
+-#if defined(CONFIG_NUMA) && defined(CONFIG_TMPFS)
++#ifdef CONFIG_TMPFS
+ static void shmem_show_mpol(struct seq_file *seq, struct mempolicy *mpol)
+ {
+ 	char buffer[64];
+ 
+-	if (!mpol || mpol->mode == MPOL_DEFAULT)
++	if (!mpol || mpol_is_default(mpol))
+ 		return;		/* show nothing */
+ 
+ 	mpol_to_str(buffer, sizeof(buffer), mpol);
+@@ -1461,7 +1461,7 @@ static struct mempolicy *shmem_get_sbmpol(struct shmem_sb_info *sbinfo)
+ 	}
+ 	return mpol;
+ }
+-#else /* !CONFIG_NUMA || !CONFIG_TMPFS */
++#else /* !CONFIG_TMPFS */
+ static inline void shmem_show_mpol(struct seq_file *seq, struct mempolicy *mpol)
+ {
+ }
+@@ -1469,7 +1469,7 @@ static inline struct mempolicy *shmem_get_sbmpol(struct shmem_sb_info *sbinfo)
+ {
+ 	return NULL;
+ }
+-#endif /* CONFIG_NUMA && CONFIG_TMPFS */
++#endif /* CONFIG_TMPFS */
+ #ifndef CONFIG_NUMA
+ #define vm_policy vm_private_data
+ #endif
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.14.1
+
+
