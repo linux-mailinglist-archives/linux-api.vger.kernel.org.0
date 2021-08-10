@@ -2,63 +2,89 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD28B3E5AD9
-	for <lists+linux-api@lfdr.de>; Tue, 10 Aug 2021 15:16:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFF383E5CA1
+	for <lists+linux-api@lfdr.de>; Tue, 10 Aug 2021 16:12:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238517AbhHJNQz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 10 Aug 2021 09:16:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46636 "EHLO
+        id S237799AbhHJONS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 10 Aug 2021 10:13:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230410AbhHJNQz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Aug 2021 09:16:55 -0400
-Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com [IPv6:2607:f8b0:4864:20::e31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04E52C0613D3
-        for <linux-api@vger.kernel.org>; Tue, 10 Aug 2021 06:16:33 -0700 (PDT)
-Received: by mail-vs1-xe31.google.com with SMTP id f6so1589608vso.5
-        for <linux-api@vger.kernel.org>; Tue, 10 Aug 2021 06:16:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=2tvLhkad0w+Mh63WhnFJkmRFgYsLXsJmUqGVjzUAFIo=;
-        b=B7tL5VQG5MZRNa/ZHMFJzSyT64jr6XBem4XUQNw3E/IBo0b54fbRLcjrVhLAJs4pzH
-         4QYpHpxsSCj80XftT6O5at4SG8JrD6eX3IxsCIy2pULeQXx9GwdUuJ0p0BnsRRRHijyQ
-         HUqcJwCzG5cpTzYqstBkjV7fLoHffLs0P1jythnSXEiT6yPYmCmCBwnl154a79cAjERL
-         /IpFIq75IWNb/rIPJ1jven9AbY0JpEH0g4EDmprebJ1SVW1t5skziIzdF0q6kFQA+rdB
-         svPr+7BTEisXlxqj5CbpLJEc26ZzQnUor+jx+n5Mx3csJPgQGfrkCjxF2Z0vkp1tepgz
-         QL+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=2tvLhkad0w+Mh63WhnFJkmRFgYsLXsJmUqGVjzUAFIo=;
-        b=kq7IEqisBLCG/2fZ4mEJmZGteXSg4hiff6icnwy4IJuCemd8TwwJuRytvzd73s60px
-         27ShEMkQF0aikH7FfS2CuNT7s5qUtyYWWMGjc6xmkttjNRxjeHSa+Wwq4xophI+tnuRM
-         KY8ln6S5EiDGSgeE+cmYb3JPR2M9kZ9NQcLbz7Qb1DeOBc99KcrN8ISwNcaymnstC7Xz
-         ETL4bI0OsUrGM15x6lN4vlqV2HrWEascYXF02mVJ8Fx1s4ZK+iSHQZauNf6HTBqGG0o6
-         zEMYt2rYCRZlhDmZDllZzV6/MWvfatgFRJmpujmXno2UvfNnsB7CFdhq7bj74xWgVBk7
-         9A5w==
-X-Gm-Message-State: AOAM533DWyanuL78/JkpIxwz1FW4CCW5QK3lt2NXRDECSwnHUtkX/aR7
-        Frojgw8Bpmi/Jn2E8VmCKOm2MzQmzda6g/3zlME=
-X-Google-Smtp-Source: ABdhPJzzSsOAPVTyc0REljUXBoOJIfkY7T3Jj55BQJnwrRM36XKxxhswNUVNmFvV6iy6VzXkitD4X82AO9lEZSpQJR8=
-X-Received: by 2002:a67:e9c1:: with SMTP id q1mr13251798vso.27.1628601392193;
- Tue, 10 Aug 2021 06:16:32 -0700 (PDT)
+        with ESMTP id S240580AbhHJONS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Aug 2021 10:13:18 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECEBFC0613C1;
+        Tue, 10 Aug 2021 07:12:55 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1628604774;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=TiJmA3POi9FctASNMfUPbhLh0CEUmHRjBKpCXOyY61A=;
+        b=xw6VoRMG1YZcz3aozL3rahY9dAgQCn2l2vSKWQ7AJbhWgF1WEQElAieDb5A4aNl7402Qsz
+        18wBjGzofgKkIqVGF+Am6JDlxKcY14fJ3VnQ7kCgJ/LW5gmusLivzK/5hG4ULV1FCkbt32
+        ASnzYiElDNcoKLgD5q2H3d3Ikg1jC2+5R0TKlTcc1vHHCD1QCr/MduHydq3d01zGmQP+ml
+        UprbxgVqN/3BuDNKcJNe3ICWt4W27vwS1AJ7rptufqF+2dXIm5bfE0QsnPIXt/os19v67K
+        FSFbIsYZDqDc6z8mH42Q/O0UpznkQmgwfK66EF8aptdUuausjNFyFXHySKiPXg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1628604774;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=TiJmA3POi9FctASNMfUPbhLh0CEUmHRjBKpCXOyY61A=;
+        b=GQvIEL30+f0CmUBjLBwLCPb4AcR0xsmoX9poarHYh0pPPFV7tZGOlFa5JPgHk3z0qSKufX
+        HAUHoYCIkXRo0NDA==
+To:     Shung-Hsi Yu <shung-hsi.yu@suse.com>, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, netdev@vger.kernel.org,
+        linux-pci@vger.kernel.org
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Nitesh Lal <nilal@redhat.com>
+Subject: Re: [RFC] genirq: Add effective CPU index retrieving interface
+In-Reply-To: <YL3LrgAzMNI2hp5i@syu-laptop>
+References: <YL3LrgAzMNI2hp5i@syu-laptop>
+Date:   Tue, 10 Aug 2021 16:12:53 +0200
+Message-ID: <874kbxs80q.ffs@tglx>
 MIME-Version: 1.0
-Sender: immeublesourou@gmail.com
-Received: by 2002:ab0:3903:0:0:0:0:0 with HTTP; Tue, 10 Aug 2021 06:16:31
- -0700 (PDT)
-From:   John Kumor <owo219901@gmail.com>
-Date:   Wed, 11 Aug 2021 01:16:31 +1200
-X-Google-Sender-Auth: 0jkHZgTRdEtQ1iLPqVdXWP318dw
-Message-ID: <CAHdg_cTOMgS1y2D1zGF2k2_n+zieHAU+-GLmZxjRRk5LeiRX+w@mail.gmail.com>
-Subject: Urgent
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-My dear,
-Greetings! I trust that all is well with you and your family. Did you
-receive my previous email?
-Regards
-John Kumor.
+On Mon, Jun 07 2021 at 15:33, Shung-Hsi Yu wrote:
+> Most driver's IRQ spreading scheme is naive compared to the IRQ spreading
+> scheme introduced since IRQ subsystem rework, so it better to rely
+> request_irq() to spread IRQ out.
+>
+> However, drivers that care about performance enough also tends to try
+> allocating memory on the same NUMA node on which the IRQ handler will run.
+> For such driver to rely on request_irq() for IRQ spreading, we also need to
+> provide an interface to retrieve the CPU index after calling
+> request_irq().
+
+So if you are interested in the resulting NUMA node, then why exposing a
+random CPU out of the affinity mask instead of exposing a function to
+retrieve the NUMA node?
+  
+> +/**
+> + * irq_get_effective_cpu - Retrieve the effective CPU index
+> + * @irq:	Target interrupt to retrieve effective CPU index
+> + *
+> + * When the effective affinity cpumask has multiple CPU toggled, it just
+> + * returns the first CPU in the cpumask.
+> + */
+> +int irq_get_effective_cpu(unsigned int irq)
+> +{
+> +	struct irq_data *data = irq_get_irq_data(irq);
+
+This can be NULL.
+
+> +	struct cpumask *m;
+> +
+> +	m = irq_data_get_effective_affinity_mask(data);
+> +	return cpumask_first(m);
+> +}
+
+Thanks,
+
+        tglx
