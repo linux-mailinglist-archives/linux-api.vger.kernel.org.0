@@ -2,85 +2,93 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 206F53E7DCA
-	for <lists+linux-api@lfdr.de>; Tue, 10 Aug 2021 18:50:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 472AC3E8415
+	for <lists+linux-api@lfdr.de>; Tue, 10 Aug 2021 22:06:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229512AbhHJQuv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 10 Aug 2021 12:50:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40982 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229474AbhHJQuu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Aug 2021 12:50:50 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EE94C0613C1;
-        Tue, 10 Aug 2021 09:50:27 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f0d6500329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:6500:329c:23ff:fea6:a903])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id AD16D1EC01DF;
-        Tue, 10 Aug 2021 18:50:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1628614221;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=dJ3McOp6GAWMX9lMvbCNin2G349VMHYC/ZPMdsNmIDQ=;
-        b=THHqHQdG5NOH8KE4zUN+hcNyc5eR3ZuFzp719QN2wydoaiNqnG8umE976PGxExzUhR4Xbc
-        UnFkaKVlGrHG0odgq4JOy6nA2RSqrk6Jj67JB93xbQf1dqL9mfQDq+YG94nqS1ODNHhZg5
-        5DFJRS451oOD5VfRfqSwv6YKn/2Gdrg=
-Date:   Tue, 10 Aug 2021 18:51:06 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Rick P Edgecombe <rick.p.edgecombe@intel.com>
-Subject: Re: [PATCH v28 04/32] x86/cpufeatures: Introduce CPU setup and
- option parsing for CET
-Message-ID: <YRKueiV82YmvT8a3@zn.tnic>
-References: <20210722205219.7934-1-yu-cheng.yu@intel.com>
- <20210722205219.7934-5-yu-cheng.yu@intel.com>
- <YRFSg45dDMfeiGbt@zn.tnic>
- <c7867ec7-f03e-8928-3cce-88eaafd1efa1@intel.com>
+        id S231671AbhHJUHU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 10 Aug 2021 16:07:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34428 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230124AbhHJUHT (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 10 Aug 2021 16:07:19 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F218C60EC0;
+        Tue, 10 Aug 2021 20:06:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1628626017;
+        bh=dYMLAdLlwEAxyd8jTPoXpFKuKuNTSFdWKtkdKgFw5QU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=J9r9SHnOKzunQebZoc7NfQP7ef7ow0SY52KTIUc8l4bbpzZGOraE3n1hWGaZ8/Y6H
+         mQTrN497q3UdoD1kBQ2Uo5MdV0BlzddoXIrqMN4L+SHu4Jbi7BH2iPeRKp7x1ilu99
+         aZIZ+XWpJgF9r5rHgVHoCRgUl4yWvj3XzrzSed2TJvafiM1R9Jn9QcQmClbczA/vza
+         fInweENoSIUa73c7iyJ5Sr1dtScKMwNjL+cnfqQoD2455YYp6FqFMM3i/tAekdjjDp
+         6YJoAJ/KVgnZOwFgMQPk/CjT8ppRHF+cTHtinxE4RqC51N8PHcPXG94FnYKT8yrTIf
+         x1NrhU2OuBpYw==
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     feng.tang@intel.com
+Cc:     aarcange@redhat.com, ak@linux.intel.com, akpm@linux-foundation.org,
+        ben.widawsky@intel.com, dan.j.williams@intel.com,
+        dave.hansen@intel.com, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        mgorman@techsingularity.net, mhocko@suse.com,
+        mike.kravetz@oracle.com, rdunlap@infradead.org,
+        rientjes@google.com, vbabka@suse.cz, ying.huang@intel.com,
+        Nathan Chancellor <nathan@kernel.org>
+Subject: [PATCH] mm/hugetlb: Initialize page to NULL in alloc_buddy_huge_page_with_mpol()
+Date:   Tue, 10 Aug 2021 13:06:32 -0700
+Message-Id: <20210810200632.3812797-1-nathan@kernel.org>
+X-Mailer: git-send-email 2.33.0.rc1
+In-Reply-To: <20210809024430.GA46432@shbuild999.sh.intel.com>
+References: <20210809024430.GA46432@shbuild999.sh.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <c7867ec7-f03e-8928-3cce-88eaafd1efa1@intel.com>
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 10, 2021 at 08:39:00AM -0700, Yu, Yu-cheng wrote:
-> We have X86_FEATURE_IBT dependent on X86_FEATURE_SHSTK (patch #3).
+Clang warns:
 
-Ah, do_clear_cpu_cap() will handle the deps, missed that.
+mm/hugetlb.c:2162:6: warning: variable 'page' is used uninitialized
+whenever 'if' condition is false [-Wsometimes-uninitialized]
+        if (mpol_is_preferred_many(mpol)) {
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+mm/hugetlb.c:2172:7: note: uninitialized use occurs here
+        if (!page)
+             ^~~~
+mm/hugetlb.c:2162:2: note: remove the 'if' if its condition is always
+true
+        if (mpol_is_preferred_many(mpol)) {
+        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+mm/hugetlb.c:2155:19: note: initialize the variable 'page' to silence
+this warning
+        struct page *page;
+                         ^
+                          = NULL
+1 warning generated.
 
-Thx.
+Initialize page to NULL like in dequeue_huge_page_vma() so that page is
+not used uninitialized.
 
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+ mm/hugetlb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 3d9cd2722ea5..604e2d6bd506 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -2152,7 +2152,7 @@ static
+ struct page *alloc_buddy_huge_page_with_mpol(struct hstate *h,
+ 		struct vm_area_struct *vma, unsigned long addr)
+ {
+-	struct page *page;
++	struct page *page = NULL;
+ 	struct mempolicy *mpol;
+ 	gfp_t gfp_mask = htlb_alloc_mask(h);
+ 	int nid;
+
+base-commit: 18f73b217b4633e27a61832e1485ce927a8ee5c1
 -- 
-Regards/Gruss,
-    Boris.
+2.33.0.rc1
 
-https://people.kernel.org/tglx/notes-about-netiquette
