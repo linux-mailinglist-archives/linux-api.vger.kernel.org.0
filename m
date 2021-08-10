@@ -2,88 +2,63 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43D363E5928
-	for <lists+linux-api@lfdr.de>; Tue, 10 Aug 2021 13:33:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD28B3E5AD9
+	for <lists+linux-api@lfdr.de>; Tue, 10 Aug 2021 15:16:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238353AbhHJLeN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 10 Aug 2021 07:34:13 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:34604 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237365AbhHJLeM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Aug 2021 07:34:12 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 83AB92009E;
-        Tue, 10 Aug 2021 11:33:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1628595229; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=aGHQoxFgLxzrAyVEvKxaCUt+s4AACK8ClH0C6z1y2uQ=;
-        b=pH0mWjcf96HRpsrC0a3PRfKNZs7kdyxtskfolLcI6rf9pr+zfzBfIz9plCDNYwGkcYnswp
-        ks9Tft/MSU7VIQTSAFn27rgeZtGYll2jna2JfyFUdXTKtE0ejTfkdYnL/2skVPYErK0+Ev
-        wyoarCd5/DZqId/b2VdC5s/X4NoCij8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1628595229;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=aGHQoxFgLxzrAyVEvKxaCUt+s4AACK8ClH0C6z1y2uQ=;
-        b=8OTIdUaUUGFf7+DABViXEEcLQx9Q1vS7HVep007te9+/iNfhrMPajU+ElZb4MN9mH6ZfG8
-        Mi3WcL/hc4FeUMAA==
-Received: from quack2.suse.cz (unknown [10.100.224.230])
-        by relay2.suse.de (Postfix) with ESMTP id 5192FA3BAF;
-        Tue, 10 Aug 2021 11:33:49 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id F19F41F2AC2; Tue, 10 Aug 2021 13:33:48 +0200 (CEST)
-Date:   Tue, 10 Aug 2021 13:33:48 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     Matthew Bobrowski <repnop@google.com>
-Cc:     jack@suse.cz, amir73il@gmail.com, christian.brauner@ubuntu.com,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH v4 0/5] Add pidfd support to the fanotify API
-Message-ID: <20210810113348.GE18722@quack2.suse.cz>
-References: <cover.1628398044.git.repnop@google.com>
+        id S238517AbhHJNQz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 10 Aug 2021 09:16:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46636 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230410AbhHJNQz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 10 Aug 2021 09:16:55 -0400
+Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com [IPv6:2607:f8b0:4864:20::e31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04E52C0613D3
+        for <linux-api@vger.kernel.org>; Tue, 10 Aug 2021 06:16:33 -0700 (PDT)
+Received: by mail-vs1-xe31.google.com with SMTP id f6so1589608vso.5
+        for <linux-api@vger.kernel.org>; Tue, 10 Aug 2021 06:16:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=2tvLhkad0w+Mh63WhnFJkmRFgYsLXsJmUqGVjzUAFIo=;
+        b=B7tL5VQG5MZRNa/ZHMFJzSyT64jr6XBem4XUQNw3E/IBo0b54fbRLcjrVhLAJs4pzH
+         4QYpHpxsSCj80XftT6O5at4SG8JrD6eX3IxsCIy2pULeQXx9GwdUuJ0p0BnsRRRHijyQ
+         HUqcJwCzG5cpTzYqstBkjV7fLoHffLs0P1jythnSXEiT6yPYmCmCBwnl154a79cAjERL
+         /IpFIq75IWNb/rIPJ1jven9AbY0JpEH0g4EDmprebJ1SVW1t5skziIzdF0q6kFQA+rdB
+         svPr+7BTEisXlxqj5CbpLJEc26ZzQnUor+jx+n5Mx3csJPgQGfrkCjxF2Z0vkp1tepgz
+         QL+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=2tvLhkad0w+Mh63WhnFJkmRFgYsLXsJmUqGVjzUAFIo=;
+        b=kq7IEqisBLCG/2fZ4mEJmZGteXSg4hiff6icnwy4IJuCemd8TwwJuRytvzd73s60px
+         27ShEMkQF0aikH7FfS2CuNT7s5qUtyYWWMGjc6xmkttjNRxjeHSa+Wwq4xophI+tnuRM
+         KY8ln6S5EiDGSgeE+cmYb3JPR2M9kZ9NQcLbz7Qb1DeOBc99KcrN8ISwNcaymnstC7Xz
+         ETL4bI0OsUrGM15x6lN4vlqV2HrWEascYXF02mVJ8Fx1s4ZK+iSHQZauNf6HTBqGG0o6
+         zEMYt2rYCRZlhDmZDllZzV6/MWvfatgFRJmpujmXno2UvfNnsB7CFdhq7bj74xWgVBk7
+         9A5w==
+X-Gm-Message-State: AOAM533DWyanuL78/JkpIxwz1FW4CCW5QK3lt2NXRDECSwnHUtkX/aR7
+        Frojgw8Bpmi/Jn2E8VmCKOm2MzQmzda6g/3zlME=
+X-Google-Smtp-Source: ABdhPJzzSsOAPVTyc0REljUXBoOJIfkY7T3Jj55BQJnwrRM36XKxxhswNUVNmFvV6iy6VzXkitD4X82AO9lEZSpQJR8=
+X-Received: by 2002:a67:e9c1:: with SMTP id q1mr13251798vso.27.1628601392193;
+ Tue, 10 Aug 2021 06:16:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1628398044.git.repnop@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Sender: immeublesourou@gmail.com
+Received: by 2002:ab0:3903:0:0:0:0:0 with HTTP; Tue, 10 Aug 2021 06:16:31
+ -0700 (PDT)
+From:   John Kumor <owo219901@gmail.com>
+Date:   Wed, 11 Aug 2021 01:16:31 +1200
+X-Google-Sender-Auth: 0jkHZgTRdEtQ1iLPqVdXWP318dw
+Message-ID: <CAHdg_cTOMgS1y2D1zGF2k2_n+zieHAU+-GLmZxjRRk5LeiRX+w@mail.gmail.com>
+Subject: Urgent
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello Matthew!
-
-On Sun 08-08-21 15:23:59, Matthew Bobrowski wrote:
-> This is V5 of the FAN_REPORT_PIDFD patch series. It contains the minor
-> comment/commit description fixes that were picked up by Amir in the
-> last series review [0, 1].
-> 
-> LTP tests for this API change can be found here [2]. Man page updates
-> for this change can be found here [3].
-> 
-> [0] https://lore.kernel.org/linux-fsdevel/CAOQ4uxhnCk+FXK_e_GA=jC_0HWO+3ZdwHSi=zCa2Kpb0NDxBSg@mail.gmail.com/
-> [1] https://lore.kernel.org/linux-fsdevel/CAOQ4uxgO3oViTSFZ0zs6brrHrmw362r1C9SQ7g6=XgRwyrzMuw@mail.gmail.com/
-> [2] https://github.com/matthewbobrowski/ltp/tree/fanotify_pidfd_v2
-> [3] https://github.com/matthewbobrowski/man-pages/tree/fanotify_pidfd_v1
-> 
-> Matthew Bobrowski (5):
->   kernel/pid.c: remove static qualifier from pidfd_create()
->   kernel/pid.c: implement additional checks upon pidfd_create()
->     parameters
->   fanotify: minor cosmetic adjustments to fid labels
->   fanotify: introduce a generic info record copying helper
->   fanotify: add pidfd support to the fanotify API
-
-Thanks! I've pulled the series into my tree. Note that your fanotify21 LTP
-testcase is broken with the current kernel because 'ino' entry got added to
-fdinfo. I think having to understand all possible keys that can occur in
-fdinfo is too fragile. I understand why you want to do that but I guess the
-test would be too faulty to be practical. So I'd just ignore unknown keys
-in fdinfo for that test.
-
-								Honza
-
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+My dear,
+Greetings! I trust that all is well with you and your family. Did you
+receive my previous email?
+Regards
+John Kumor.
