@@ -2,149 +2,186 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D2173EA7F9
-	for <lists+linux-api@lfdr.de>; Thu, 12 Aug 2021 17:51:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE4453EA869
+	for <lists+linux-api@lfdr.de>; Thu, 12 Aug 2021 18:18:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237682AbhHLPvY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 12 Aug 2021 11:51:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39290 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238369AbhHLPvS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 12 Aug 2021 11:51:18 -0400
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1790FC061756;
-        Thu, 12 Aug 2021 08:50:53 -0700 (PDT)
-Received: by mail-io1-xd32.google.com with SMTP id x10so9014285iop.13;
-        Thu, 12 Aug 2021 08:50:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=52YB11PbYT2XA7ZGSfNYASI7QWQYhJ2oqmyQJ6UPaGI=;
-        b=acV8F4nvjDnsC8bUwxCrVhhEFhDrUrr2UgW57D+BRtnlN6duv2qNDnK2Wg4n9AKTYI
-         BwmD+jTG7xoYZ9Hj1cras4NXgpGTatOWDzhNLzIwCj7D+GkNK+aAXQ6LFoiAhQcQn2sr
-         VAqa/HtRPz6NSGPfTZXLVFWl+eryrvFW7MJ2LnyqsofOYN7uM6tPtj2NrRVcHWF+q5sb
-         iVMuRpXDIan/4ftjovlpI2pJPFzInp6R7jw1GuqHkVHqDckKER8WWof/k1qKMs5sCfEC
-         43/6/LXaJ2xkdzSKJaHxGT0molQp3tw/R2IctVKaXYuND2qd4Di85mVBls3UKJl3+fBZ
-         GzjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=52YB11PbYT2XA7ZGSfNYASI7QWQYhJ2oqmyQJ6UPaGI=;
-        b=YOYTz1DDZiiR5yXi0Fd5ocMjB8e2rcPkHPZOKcWyk8ctzQHILGeZURyLs7NtJvrGS3
-         DJE3ORns51eQSJ0U3HWoRDOuNEGRpHPfQoE+G6gnqCXhIuFJVzvHTXj9Sq+11E74ADlb
-         N+Wq7wJxXzAQ9DpbgZ4BEGEphzynmcVG4S4lVXEuPyO2cRJxXXD/2t5sRWIBP2q62qHY
-         Qaz47TTX3+uiQkjhhRYHwwPgGXfs0JPmMFusvWBCKu+Yn1kum/nvddfppmtlcF6mkAG8
-         qM9A1NsQ6f2UnawXjaqbK7VsRgKGC3mF9QiOVFzpNeTGxEcAxbbTDlOAZbBXmBWM+RE4
-         /7Cw==
-X-Gm-Message-State: AOAM533AeozB3mIvZ+DUt7+qLZCi4HKepDE+DQyCVvkpe2jayRgRRYHK
-        tBiWKNu/8AeLTBXIs5MDahwjltLNyAhK0dwTDzM=
-X-Google-Smtp-Source: ABdhPJz8VyxH2BDxkmkCxOiVdMqBv89kfQC3ux1OVoTulzLkpgrdP97H5C9XiuvZ1ym9f/EwGAK1/jt71pMAik46c3M=
-X-Received: by 2002:a05:6602:1848:: with SMTP id d8mr3500267ioi.72.1628783452469;
- Thu, 12 Aug 2021 08:50:52 -0700 (PDT)
+        id S229791AbhHLQSx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 12 Aug 2021 12:18:53 -0400
+Received: from out03.mta.xmission.com ([166.70.13.233]:34132 "EHLO
+        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229518AbhHLQSx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 12 Aug 2021 12:18:53 -0400
+Received: from in01.mta.xmission.com ([166.70.13.51]:43426)
+        by out03.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1mEDPR-00CQHg-B6; Thu, 12 Aug 2021 10:18:21 -0600
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95]:42228 helo=email.xmission.com)
+        by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1mEDPQ-00EqWu-5G; Thu, 12 Aug 2021 10:18:20 -0600
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Kees Cook <keescook@chromium.org>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Chinwen Chang <chinwen.chang@mediatek.com>,
+        Michel Lespinasse <walken@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
+        Huang Ying <ying.huang@intel.com>,
+        Jann Horn <jannh@google.com>, Feng Tang <feng.tang@intel.com>,
+        Kevin Brodsky <Kevin.Brodsky@arm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Shawn Anastasio <shawn@anastas.io>,
+        Steven Price <steven.price@arm.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        Peter Xu <peterx@redhat.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Marco Elver <elver@google.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Nicolas Viennot <Nicolas.Viennot@twosigma.com>,
+        Thomas Cedeno <thomascedeno@google.com>,
+        Collin Fijalkovich <cfijalkovich@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Chengguang Xu <cgxu519@mykernel.net>,
+        Christian =?utf-8?Q?K=C3=B6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>, linux-unionfs@vger.kernel.org,
+        linux-api@vger.kernel.org, x86@kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+References: <20210812084348.6521-1-david@redhat.com>
+        <87r1eyg8h6.fsf@oldenburg.str.redhat.com>
+Date:   Thu, 12 Aug 2021 11:17:24 -0500
+In-Reply-To: <87r1eyg8h6.fsf@oldenburg.str.redhat.com> (Florian Weimer's
+        message of "Thu, 12 Aug 2021 14:20:37 +0200")
+Message-ID: <877dgqfxij.fsf@disp2133>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20210804160612.3575505-1-krisman@collabora.com>
- <20210804160612.3575505-15-krisman@collabora.com> <20210805095618.GF14483@quack2.suse.cz>
- <87fsvf65zu.fsf@collabora.com> <20210812142047.GG14675@quack2.suse.cz> <875ywa66ga.fsf@collabora.com>
-In-Reply-To: <875ywa66ga.fsf@collabora.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Thu, 12 Aug 2021 18:50:41 +0300
-Message-ID: <CAOQ4uxiZAM2ma_iSiCvdcr_kBasuJocbEGAwPtVZAkU4WwugcQ@mail.gmail.com>
-Subject: Re: [PATCH v5 14/23] fanotify: Encode invalid file handler when no
- inode is provided
-To:     Gabriel Krisman Bertazi <krisman@collabora.com>
-Cc:     Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Theodore Tso <tytso@mit.edu>,
-        Dave Chinner <david@fromorbit.com>,
-        David Howells <dhowells@redhat.com>,
-        Khazhismel Kumykov <khazhy@google.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Ext4 <linux-ext4@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>, kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-XM-SPF: eid=1mEDPQ-00EqWu-5G;;;mid=<877dgqfxij.fsf@disp2133>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1+fUaUYby0ovoa4j4axcDNjRQxbnPUhyZI=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa07.xmission.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-0.2 required=8.0 tests=ALL_TRUSTED,BAYES_50,
+        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,
+        T_TooManySym_02 autolearn=disabled version=3.4.2
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4999]
+        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+        *      [sa07 1397; Body=1 Fuz1=1 Fuz2=1]
+        *  0.0 T_TooManySym_02 5+ unique symbols in subject
+        *  0.0 T_TooManySym_01 4+ unique symbols in subject
+X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: ;Florian Weimer <fweimer@redhat.com>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 564 ms - load_scoreonly_sql: 0.06 (0.0%),
+        signal_user_changed: 10 (1.8%), b_tie_ro: 9 (1.5%), parse: 1.10 (0.2%),
+         extract_message_metadata: 3.8 (0.7%), get_uri_detail_list: 1.92
+        (0.3%), tests_pri_-1000: 15 (2.6%), tests_pri_-950: 1.26 (0.2%),
+        tests_pri_-900: 1.15 (0.2%), tests_pri_-90: 85 (15.1%), check_bayes:
+        84 (14.8%), b_tokenize: 22 (3.9%), b_tok_get_all: 13 (2.3%),
+        b_comp_prob: 3.6 (0.6%), b_tok_touch_all: 41 (7.3%), b_finish: 0.85
+        (0.2%), tests_pri_0: 424 (75.1%), check_dkim_signature: 0.59 (0.1%),
+        check_dkim_adsp: 2.6 (0.5%), poll_dns_idle: 0.96 (0.2%), tests_pri_10:
+        2.4 (0.4%), tests_pri_500: 13 (2.2%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [PATCH v1 0/7] Remove in-tree usage of MAP_DENYWRITE
+X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Aug 12, 2021 at 6:14 PM Gabriel Krisman Bertazi
-<krisman@collabora.com> wrote:
+Florian Weimer <fweimer@redhat.com> writes:
+
+> * David Hildenbrand:
 >
-> Jan Kara <jack@suse.cz> writes:
+>> There are some (minor) user-visible changes with this series:
+>> 1. We no longer deny write access to shared libaries loaded via legacy
+>>    uselib(); this behavior matches modern user space e.g., via dlopen().
+>> 2. We no longer deny write access to the elf interpreter after exec
+>>    completed, treating it just like shared libraries (which it often is).
 >
-> > On Wed 11-08-21 17:12:05, Gabriel Krisman Bertazi wrote:
-> >> Jan Kara <jack@suse.cz> writes:
-> >> >> @@ -376,14 +371,24 @@ static int fanotify_encode_fh(struct fanotify_fh *fh, struct inode *inode,
-> >> >>           fh->flags |= FANOTIFY_FH_FLAG_EXT_BUF;
-> >> >>   }
-> >> >>
-> >> >> - dwords = fh_len >> 2;
-> >> >> - type = exportfs_encode_inode_fh(inode, buf, &dwords, NULL);
-> >> >> - err = -EINVAL;
-> >> >> - if (!type || type == FILEID_INVALID || fh_len != dwords << 2)
-> >> >> -         goto out_err;
-> >> >> -
-> >> >> - fh->type = type;
-> >> >> - fh->len = fh_len;
-> >> >> + if (inode) {
-> >> >> +         dwords = fh_len >> 2;
-> >> >> +         type = exportfs_encode_inode_fh(inode, buf, &dwords, NULL);
-> >> >> +         err = -EINVAL;
-> >> >> +         if (!type || type == FILEID_INVALID || fh_len != dwords << 2)
-> >> >> +                 goto out_err;
-> >> >> +         fh->type = type;
-> >> >> +         fh->len = fh_len;
-> >> >> + } else {
-> >> >> +         /*
-> >> >> +          * Invalid FHs are used on FAN_FS_ERROR for errors not
-> >> >> +          * linked to any inode. Caller needs to guarantee the fh
-> >> >> +          * has at least FANOTIFY_NULL_FH_LEN bytes of space.
-> >> >> +          */
-> >> >> +         fh->type = FILEID_INVALID;
-> >> >> +         fh->len = FANOTIFY_NULL_FH_LEN;
-> >> >> +         memset(buf, 0, FANOTIFY_NULL_FH_LEN);
-> >> >> + }
-> >> >
-> >> > Maybe it will become clearer later during the series but why do you set
-> >> > fh->len to FANOTIFY_NULL_FH_LEN and not 0?
-> >>
-> >> Jan,
-> >>
-> >> That is how we encode a NULL file handle (i.e. superblock error).  Amir
-> >> suggested it would be an invalid FILEID_INVALID, with a zeroed handle of
-> >> size 8.  I will improve the comment on the next iteration.
-> >
-> > Thanks for info. Then I have a question for Amir I guess :) Amir, what's
-> > the advantage of zeroed handle of size 8 instead of just 0 length file
-> > handle?
+> We have a persistent issue with people using cp (or similar tools) to
+> replace system libraries.  Since the file is truncated first, all
+> relocations and global data are replaced by file contents, result in
+> difficult-to-diagnose crashes.  It would be nice if we had a way to
+> prevent this mistake.  It doesn't have to be MAP_DENYWRITE or MAP_COPY.
+> It could be something completely new, like an option that turns every
+> future access beyond the truncation point into a signal (rather than
+> getting bad data or bad code and crashing much later).
 >
-> Jan,
+> I don't know how many invalid copy operations are currently thwarted by
+> the current program interpreter restriction.  I doubt that lifting the
+> restriction matters.
+
+I suspect that what should happen is that we should make shared
+libraries and executables read-only on disk.
+
+We could potentially take this a step farther and introduce a new sysctl
+that causes "mmap(adr, len, PROT_EXEC, MAP_SHARED, fd, off)" but not
+PROT_WRITE to fail if the file can be written by anyone.  That sysctl
+could even deny chown adding write access to the file if there are
+mappings open.
+
+Given that there hasn't been enough pain for people to install shared
+libraries read-only yet I suspect just installing executables and shared
+libraries without write-permissions on disk is enough to prevent the
+hard to track down bugs you have been talking about.
+
+>> 3. We always deny write access to the file linked via /proc/pid/exe:
+>>    sys_prctl(PR_SET_MM_EXE_FILE) will fail if write access to the file
+>>    cannot be denied, and write access to the file will remain denied
+>>    until the link is effectivel gone (exec, termination,
+>>    PR_SET_MM_EXE_FILE) -- just as if exec'ing the file.
+>>
+>> I was wondering if we really care about permanently disabling write access
+>> to the executable, or if it would be good enough to just disable write
+>> access while loading the new executable during exec; but I don't know
+>> the history of that -- and it somewhat makes sense to deny write access
+>> at least to the main executable. With modern user space -- dlopen() -- we
+>> can effectively modify the content of shared libraries while being used.
 >
-> Looking back at the email from Amir, I realize I misunderstood his
-> original suggestion.  Amir suggested it be FILEID_INVALID with 0-len OR
-> FILEID_INO32_GEN with zeroed fields.  I mixed the two suggestions.
->
+> Is there a difference between ET_DYN and ET_EXEC executables?
 
-That was from a discussion about UAPI and agree it doesn't make much sense
-to report non-zero handle_bytes and invalid handle_type.
+What is being changed is how we track which files to denying write
+access on.  Instead of denying write-access based on a per mapping (aka
+mmap) basis, the new code is only denying access to /proc/self/exe.
 
-But specifically, Jan's question above was directly referring to the internal
-representation of the event.
+Because the method of tracking is much coarser is why the interper stops
+being protected.  The code doesn't care how the mappings happen, only
+if the file is /proc/self/exe or not.
 
-Since you are going to allocate a file handle buffer of size MAX_HANDLE_SZ
-(right?), then there is no caveat in declaring the NULL_FH with positive size
-internally, which I think, simplifies the implementation.
-NULL_FH internal length could be 4 instead of 8 though.
+Eric
 
-You will not have to special case fanotify_fid_info_len() and the info record
-hdr.len will include a 4 bytes zero padding after the fid info record
-with NULL_FH.
-
-You will only special case this line in copy_fid_info_to_user():
-    handle.handle_type = fh->type;
-    if (fh->type != FILEID_INVALID)
-        handle.handle_bytes = fh_len;
-
-Thanks,
-Amir.
