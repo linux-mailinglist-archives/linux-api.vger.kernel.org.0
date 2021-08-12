@@ -2,40 +2,21 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D2AF93EA0F1
-	for <lists+linux-api@lfdr.de>; Thu, 12 Aug 2021 10:46:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 671773EA1C8
+	for <lists+linux-api@lfdr.de>; Thu, 12 Aug 2021 11:18:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235427AbhHLIrH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 12 Aug 2021 04:47:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44782 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234184AbhHLIrG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 12 Aug 2021 04:47:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1628758001;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=i29czw9Qyxt5GRshhvU4+ALP+14hXV/6g5fULUW9cSo=;
-        b=gSpXUEhbpIplR6EbcFkvesQ9PX3zeR7GbpLHnfNVX2nv+chALb8QSmmW+PJwGjx4yh992H
-        TgR94zJJlTkygBtXV8WNdODD5D4ACk7JaF+AdAdNVXYvHSpB23HCMlfQ4klbg7xxgMd5JV
-        TQO6iEW+BAXOBcFQtFf2TFjs8iAYkqo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-533-R40yVh9yMViusNQ_OgxF_g-1; Thu, 12 Aug 2021 04:46:40 -0400
-X-MC-Unique: R40yVh9yMViusNQ_OgxF_g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CACE1008061;
-        Thu, 12 Aug 2021 08:46:34 +0000 (UTC)
-Received: from t480s.redhat.com (unknown [10.39.193.117])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A840B5C3E0;
-        Thu, 12 Aug 2021 08:46:14 +0000 (UTC)
-From:   David Hildenbrand <david@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     David Hildenbrand <david@redhat.com>,
+        id S235364AbhHLJSX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 12 Aug 2021 05:18:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57912 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235317AbhHLJSX (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 12 Aug 2021 05:18:23 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0C8256056B;
+        Thu, 12 Aug 2021 09:17:44 +0000 (UTC)
+Date:   Thu, 12 Aug 2021 11:17:42 +0200
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     linux-kernel@vger.kernel.org,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -72,7 +53,6 @@ Cc:     David Hildenbrand <david@redhat.com>,
         Shawn Anastasio <shawn@anastas.io>,
         Steven Price <steven.price@arm.com>,
         Nicholas Piggin <npiggin@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
         Jens Axboe <axboe@kernel.dk>,
         Gabriel Krisman Bertazi <krisman@collabora.com>,
         Peter Xu <peterx@redhat.com>,
@@ -86,62 +66,160 @@ Cc:     David Hildenbrand <david@redhat.com>,
         Michal Hocko <mhocko@suse.com>,
         Miklos Szeredi <miklos@szeredi.hu>,
         Chengguang Xu <cgxu519@mykernel.net>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>, linux-unionfs@vger.kernel.org,
-        linux-api@vger.kernel.org, x86@kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH v1 7/7] fs: update documentation of get_write_access() and friends
-Date:   Thu, 12 Aug 2021 10:43:48 +0200
-Message-Id: <20210812084348.6521-8-david@redhat.com>
-In-Reply-To: <20210812084348.6521-1-david@redhat.com>
+        Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
+        linux-unionfs@vger.kernel.org, linux-api@vger.kernel.org,
+        x86@kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v1 2/7] kernel/fork: factor out atomcially replacing the
+ current MM exe_file
+Message-ID: <20210812091742.nbnmsa37adaqkxwd@wittgenstein>
 References: <20210812084348.6521-1-david@redhat.com>
+ <20210812084348.6521-3-david@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210812084348.6521-3-david@redhat.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-As VM_DENYWRITE does no longer exists, let's spring-clean the
-documentation of get_write_access() and friends.
+On Thu, Aug 12, 2021 at 10:43:43AM +0200, David Hildenbrand wrote:
+> Let's factor the main logic out into atomic_set_mm_exe_file(), such that
+> all mm->exe_file logic is contained in kernel/fork.c.
+> 
+> While at it, perform some simple cleanups that are possible now that
+> we're simplifying the individual functions.
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
 
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- include/linux/fs.h | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
+Looks good.
+Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 640574294216..e0dc3e96ed72 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -3055,15 +3055,20 @@ static inline void file_end_write(struct file *file)
- }
- 
- /*
-+ * This is used for regular files where some users -- especially the
-+ * currently executed binary in a process, previously handled via
-+ * VM_DENYWRITE -- cannot handle concurrent write (and maybe mmap
-+ * read-write shared) accesses.
-+ *
-  * get_write_access() gets write permission for a file.
-  * put_write_access() releases this write permission.
-- * This is used for regular files.
-- * We cannot support write (and maybe mmap read-write shared) accesses and
-- * MAP_DENYWRITE mmappings simultaneously. The i_writecount field of an inode
-- * can have the following values:
-- * 0: no writers, no VM_DENYWRITE mappings
-- * < 0: (-i_writecount) vm_area_structs with VM_DENYWRITE set exist
-- * > 0: (i_writecount) users are writing to the file.
-+ * deny_write_access() denies write access to a file.
-+ * allow_write_access() re-enables write access to a file.
-+ *
-+ * The i_writecount field of an inode can have the following values:
-+ * 0: no write access, no denied write access
-+ * < 0: (-i_writecount) users that denied write access to the file.
-+ * > 0: (i_writecount) users that have write access to the file.
-  *
-  * Normally we operate on that counter with atomic_{inc,dec} and it's safe
-  * except for the cases where we don't hold i_writecount yet. Then we need to
--- 
-2.31.1
-
+>  include/linux/mm.h |  2 ++
+>  kernel/fork.c      | 35 +++++++++++++++++++++++++++++++++--
+>  kernel/sys.c       | 33 +--------------------------------
+>  3 files changed, 36 insertions(+), 34 deletions(-)
+> 
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 7ca22e6e694a..197505324b74 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -2581,6 +2581,8 @@ extern int mm_take_all_locks(struct mm_struct *mm);
+>  extern void mm_drop_all_locks(struct mm_struct *mm);
+>  
+>  extern void set_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file);
+> +extern int atomic_set_mm_exe_file(struct mm_struct *mm,
+> +				  struct file *new_exe_file);
+>  extern struct file *get_mm_exe_file(struct mm_struct *mm);
+>  extern struct file *get_task_exe_file(struct task_struct *task);
+>  
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index bc94b2cc5995..6bd2e52bcdfb 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -1149,8 +1149,8 @@ void mmput_async(struct mm_struct *mm)
+>   * Main users are mmput() and sys_execve(). Callers prevent concurrent
+>   * invocations: in mmput() nobody alive left, in execve task is single
+>   * threaded. sys_prctl(PR_SET_MM_MAP/EXE_FILE) also needs to set the
+> - * mm->exe_file, but does so without using set_mm_exe_file() in order
+> - * to avoid the need for any locks.
+> + * mm->exe_file, but uses atomic_set_mm_exe_file(), avoiding the need
+> + * for any locks.
+>   */
+>  void set_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file)
+>  {
+> @@ -1170,6 +1170,37 @@ void set_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file)
+>  		fput(old_exe_file);
+>  }
+>  
+> +int atomic_set_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file)
+> +{
+> +	struct vm_area_struct *vma;
+> +	struct file *old_exe_file;
+> +	int ret = 0;
+> +
+> +	/* Forbid mm->exe_file change if old file still mapped. */
+> +	old_exe_file = get_mm_exe_file(mm);
+> +	if (old_exe_file) {
+> +		mmap_read_lock(mm);
+> +		for (vma = mm->mmap; vma && !ret; vma = vma->vm_next) {
+> +			if (!vma->vm_file)
+> +				continue;
+> +			if (path_equal(&vma->vm_file->f_path,
+> +				       &old_exe_file->f_path))
+> +				ret = -EBUSY;
+> +		}
+> +		mmap_read_unlock(mm);
+> +		fput(old_exe_file);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	/* set the new file, lockless */
+> +	get_file(new_exe_file);
+> +	old_exe_file = xchg(&mm->exe_file, new_exe_file);
+> +	if (old_exe_file)
+> +		fput(old_exe_file);
+> +	return 0;
+> +}
+> +
+>  /**
+>   * get_mm_exe_file - acquire a reference to the mm's executable file
+>   *
+> diff --git a/kernel/sys.c b/kernel/sys.c
+> index ef1a78f5d71c..40551b411fda 100644
+> --- a/kernel/sys.c
+> +++ b/kernel/sys.c
+> @@ -1846,7 +1846,6 @@ SYSCALL_DEFINE1(umask, int, mask)
+>  static int prctl_set_mm_exe_file(struct mm_struct *mm, unsigned int fd)
+>  {
+>  	struct fd exe;
+> -	struct file *old_exe, *exe_file;
+>  	struct inode *inode;
+>  	int err;
+>  
+> @@ -1869,40 +1868,10 @@ static int prctl_set_mm_exe_file(struct mm_struct *mm, unsigned int fd)
+>  	if (err)
+>  		goto exit;
+>  
+> -	/*
+> -	 * Forbid mm->exe_file change if old file still mapped.
+> -	 */
+> -	exe_file = get_mm_exe_file(mm);
+> -	err = -EBUSY;
+> -	if (exe_file) {
+> -		struct vm_area_struct *vma;
+> -
+> -		mmap_read_lock(mm);
+> -		for (vma = mm->mmap; vma; vma = vma->vm_next) {
+> -			if (!vma->vm_file)
+> -				continue;
+> -			if (path_equal(&vma->vm_file->f_path,
+> -				       &exe_file->f_path))
+> -				goto exit_err;
+> -		}
+> -
+> -		mmap_read_unlock(mm);
+> -		fput(exe_file);
+> -	}
+> -
+> -	err = 0;
+> -	/* set the new file, lockless */
+> -	get_file(exe.file);
+> -	old_exe = xchg(&mm->exe_file, exe.file);
+> -	if (old_exe)
+> -		fput(old_exe);
+> +	err = atomic_set_mm_exe_file(mm, exe.file);
+>  exit:
+>  	fdput(exe);
+>  	return err;
+> -exit_err:
+> -	mmap_read_unlock(mm);
+> -	fput(exe_file);
+> -	goto exit;
+>  }
+>  
+>  /*
+> -- 
+> 2.31.1
+> 
