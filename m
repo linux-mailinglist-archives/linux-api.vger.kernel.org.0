@@ -2,20 +2,58 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27B9D3EA2AC
-	for <lists+linux-api@lfdr.de>; Thu, 12 Aug 2021 12:06:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11FD73EA2D9
+	for <lists+linux-api@lfdr.de>; Thu, 12 Aug 2021 12:13:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234895AbhHLKGZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 12 Aug 2021 06:06:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40962 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231470AbhHLKGY (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 12 Aug 2021 06:06:24 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6346160FBF;
-        Thu, 12 Aug 2021 10:05:47 +0000 (UTC)
-Date:   Thu, 12 Aug 2021 12:05:44 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     David Hildenbrand <david@redhat.com>
+        id S236391AbhHLKOT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 12 Aug 2021 06:14:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41259 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236442AbhHLKOP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 12 Aug 2021 06:14:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1628763229;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=J8fNLHegk5RzvmFVmibZ710pAngI+WF9X5zWgbKhZ8g=;
+        b=TJwEb5GGr6u2YYcI3F2FXTd1YoDeBbXngd0o7bYp379yNm5huhyHAJEnmEZ+IN3Cz/uek4
+        lwoVrf3TML2aOccac8WuSm0TEnurIoVeIicq5agtFd+xwXc6JJKO7miayB6D7hdUHGKQ/v
+        UpDDQNLx5RfLWi9JahJDe1x2YEm+OLA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-445-OO_8amnuNBudNksE3AEFIw-1; Thu, 12 Aug 2021 06:13:48 -0400
+X-MC-Unique: OO_8amnuNBudNksE3AEFIw-1
+Received: by mail-wm1-f69.google.com with SMTP id k4-20020a05600c1c84b0290210c73f067aso1676673wms.6
+        for <linux-api@vger.kernel.org>; Thu, 12 Aug 2021 03:13:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=J8fNLHegk5RzvmFVmibZ710pAngI+WF9X5zWgbKhZ8g=;
+        b=tdfkX1DwQW6prEleoXitGDuFCjl1h1gVCLy3I8s6+VyL8PYqcjyCtt+O1vzX5q5Y3q
+         Rbn9JhsiSVgHaAd7ExqKLHa7IqjtoshAKZ0UxY/y29cliYyaWtKG6L7/kWU2YiLJ2a2E
+         xb9vdxsBQQNpTXVwqGuMgSgWQsg/a6rYAdcieMs/d9Po6C7VtTdEPkU+TzdXrASRzmxo
+         PaAunL5NFQ42+bSs5xhLhoeZJUlzOMUb9vn1RZx6WpJ2qtqvFRfKBZ9phN6wyEw8SzAw
+         2tvgrl6Ga/X+bEBzbEqe0i0bNEMVILok/vf7kMMSlcgMoxfu4SIc0GUbVOj1P95x+3nZ
+         bQEw==
+X-Gm-Message-State: AOAM532IjROTXRNKPC4HG4IdP21t54Y4BaRtcQ0KLfIVe+5JVD6N2px7
+        OriTXRPx77tVV7V7EgHtOeDKSD9xPktSx/JzLh4NLChu5SqG4zJZbfp8x4WyKM5rW5ENnohSGDa
+        MIHdjLMhbBEUhLdOUFpAG
+X-Received: by 2002:a05:600c:4f85:: with SMTP id n5mr3185708wmq.146.1628763227423;
+        Thu, 12 Aug 2021 03:13:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwVPOFrEbL/sos2RT24E1z82P1IG5Ylm0/152IG6CScUCHtpvAEXWsNjyopV1zDkbIpjnwS6A==
+X-Received: by 2002:a05:600c:4f85:: with SMTP id n5mr3185661wmq.146.1628763227156;
+        Thu, 12 Aug 2021 03:13:47 -0700 (PDT)
+Received: from [192.168.3.132] (p4ff23d8b.dip0.t-ipconnect.de. [79.242.61.139])
+        by smtp.gmail.com with ESMTPSA id d15sm2768384wri.96.2021.08.12.03.13.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Aug 2021 03:13:46 -0700 (PDT)
+Subject: Re: [PATCH v1 3/7] kernel/fork: always deny write access to current
+ MM exe_file
+To:     Christian Brauner <christian.brauner@ubuntu.com>
 Cc:     linux-kernel@vger.kernel.org,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -66,153 +104,180 @@ Cc:     linux-kernel@vger.kernel.org,
         Michal Hocko <mhocko@suse.com>,
         Miklos Szeredi <miklos@szeredi.hu>,
         Chengguang Xu <cgxu519@mykernel.net>,
-        Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
         linux-unionfs@vger.kernel.org, linux-api@vger.kernel.org,
         x86@kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
         Andrei Vagin <avagin@gmail.com>
-Subject: Re: [PATCH v1 3/7] kernel/fork: always deny write access to current
- MM exe_file
-Message-ID: <20210812100544.uhsfp75b4jcrv3qx@wittgenstein>
 References: <20210812084348.6521-1-david@redhat.com>
  <20210812084348.6521-4-david@redhat.com>
+ <20210812100544.uhsfp75b4jcrv3qx@wittgenstein>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <1b6d27cf-2238-0c1c-c563-b38728fbabc2@redhat.com>
+Date:   Thu, 12 Aug 2021 12:13:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210812084348.6521-4-david@redhat.com>
+In-Reply-To: <20210812100544.uhsfp75b4jcrv3qx@wittgenstein>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[+Cc Andrei]
-
-On Thu, Aug 12, 2021 at 10:43:44AM +0200, David Hildenbrand wrote:
-> We want to remove VM_DENYWRITE only currently only used when mapping the
-> executable during exec. During exec, we already deny_write_access() the
-> executable, however, after exec completes the VMAs mapped
-> with VM_DENYWRITE effectively keeps write access denied via
-> deny_write_access().
+On 12.08.21 12:05, Christian Brauner wrote:
+> [+Cc Andrei]
 > 
-> Let's deny write access when setting the MM exe_file. With this change, we
-> can remove VM_DENYWRITE for mapping executables.
+> On Thu, Aug 12, 2021 at 10:43:44AM +0200, David Hildenbrand wrote:
+>> We want to remove VM_DENYWRITE only currently only used when mapping the
+>> executable during exec. During exec, we already deny_write_access() the
+>> executable, however, after exec completes the VMAs mapped
+>> with VM_DENYWRITE effectively keeps write access denied via
+>> deny_write_access().
+>>
+>> Let's deny write access when setting the MM exe_file. With this change, we
+>> can remove VM_DENYWRITE for mapping executables.
+>>
+>> This represents a minor user space visible change:
+>> sys_prctl(PR_SET_MM_EXE_FILE) can now fail if the file is already
+>> opened writable. Also, after sys_prctl(PR_SET_MM_EXE_FILE), the file
 > 
-> This represents a minor user space visible change:
-> sys_prctl(PR_SET_MM_EXE_FILE) can now fail if the file is already
-> opened writable. Also, after sys_prctl(PR_SET_MM_EXE_FILE), the file
+> Just for completeness, this also affects PR_SET_MM_MAP when exe_fd is
+> set.
 
-Just for completeness, this also affects PR_SET_MM_MAP when exe_fd is
-set.
+Correct.
 
-> cannot be opened writable. Note that we can already fail with -EACCES if
-> the file doesn't have execute permissions.
 > 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
-
-The biggest user I know and that I'm involved in is CRIU which heavily
-uses PR_SET_MM_MAP (with a fallback to PR_SET_MM_EXE_FILE on older
-kernels) during restore. Afair, criu opens the exe fd as an O_PATH
-during dump and thus will use the same flag during restore when
-opening it. So that should be fine.
-
-However, if I understand the consequences of this change correctly, a
-problem could be restoring workloads that hold a writable fd open to
-their exe file at dump time which would mean that during restore that fd
-would be reopened writable causing CRIU to fail when setting the exe
-file for the task to be restored.
-
-Which honestly, no idea how many such workloads exist. (I know at least
-of runC and LXC need to sometimes reopen to rexec themselves (weird bug
-to protect against attacking the exe file) and thus re-open
-/proc/self/exe but read-only.)
-
->  kernel/fork.c | 39 ++++++++++++++++++++++++++++++++++-----
->  1 file changed, 34 insertions(+), 5 deletions(-)
+>> cannot be opened writable. Note that we can already fail with -EACCES if
+>> the file doesn't have execute permissions.
+>>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
 > 
-> diff --git a/kernel/fork.c b/kernel/fork.c
-> index 6bd2e52bcdfb..5d904878f19b 100644
-> --- a/kernel/fork.c
-> +++ b/kernel/fork.c
-> @@ -476,6 +476,7 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
->  {
->  	struct vm_area_struct *mpnt, *tmp, *prev, **pprev;
->  	struct rb_node **rb_link, *rb_parent;
-> +	struct file *exe_file;
->  	int retval;
->  	unsigned long charge;
->  	LIST_HEAD(uf);
-> @@ -493,7 +494,10 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
->  	mmap_write_lock_nested(mm, SINGLE_DEPTH_NESTING);
->  
->  	/* No ordering required: file already has been exposed. */
-> -	RCU_INIT_POINTER(mm->exe_file, get_mm_exe_file(oldmm));
-> +	exe_file = get_mm_exe_file(oldmm);
-> +	RCU_INIT_POINTER(mm->exe_file, exe_file);
-> +	if (exe_file)
-> +		deny_write_access(exe_file);
->  
->  	mm->total_vm = oldmm->total_vm;
->  	mm->data_vm = oldmm->data_vm;
-> @@ -638,8 +642,13 @@ static inline void mm_free_pgd(struct mm_struct *mm)
->  #else
->  static int dup_mmap(struct mm_struct *mm, struct mm_struct *oldmm)
->  {
-> +	struct file *exe_file;
-> +
->  	mmap_write_lock(oldmm);
-> -	RCU_INIT_POINTER(mm->exe_file, get_mm_exe_file(oldmm));
-> +	exe_file = get_mm_exe_file(oldmm);
-> +	RCU_INIT_POINTER(mm->exe_file, exe_file);
-> +	if (exe_file)
-> +		deny_write_access(exe_file);
->  	mmap_write_unlock(oldmm);
->  	return 0;
->  }
-> @@ -1163,11 +1172,19 @@ void set_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file)
->  	 */
->  	old_exe_file = rcu_dereference_raw(mm->exe_file);
->  
-> -	if (new_exe_file)
-> +	if (new_exe_file) {
->  		get_file(new_exe_file);
-> +		/*
-> +		 * exec code is required to deny_write_access() successfully,
-> +		 * so this cannot fail
-> +		 */
-> +		deny_write_access(new_exe_file);
-> +	}
->  	rcu_assign_pointer(mm->exe_file, new_exe_file);
-> -	if (old_exe_file)
-> +	if (old_exe_file) {
-> +		allow_write_access(old_exe_file);
->  		fput(old_exe_file);
-> +	}
->  }
->  
->  int atomic_set_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file)
-> @@ -1194,10 +1211,22 @@ int atomic_set_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file)
->  	}
->  
->  	/* set the new file, lockless */
-> +	ret = deny_write_access(new_exe_file);
-> +	if (ret)
-> +		return -EACCES;
->  	get_file(new_exe_file);
-> +
->  	old_exe_file = xchg(&mm->exe_file, new_exe_file);
-> -	if (old_exe_file)
-> +	if (old_exe_file) {
-> +		/*
-> +		 * Don't race with dup_mmap() getting the file and disallowing
-> +		 * write access while someone might open the file writable.
-> +		 */
-> +		mmap_read_lock(mm);
-> +		allow_write_access(old_exe_file);
->  		fput(old_exe_file);
-> +		mmap_read_unlock(mm);
-> +	}
->  	return 0;
->  }
->  
-> -- 
-> 2.31.1
+> The biggest user I know and that I'm involved in is CRIU which heavily
+> uses PR_SET_MM_MAP (with a fallback to PR_SET_MM_EXE_FILE on older
+> kernels) during restore. Afair, criu opens the exe fd as an O_PATH
+> during dump and thus will use the same flag during restore when
+> opening it. So that should be fine.
+
+Yes.
+
 > 
+> However, if I understand the consequences of this change correctly, a
+> problem could be restoring workloads that hold a writable fd open to
+> their exe file at dump time which would mean that during restore that fd
+> would be reopened writable causing CRIU to fail when setting the exe
+> file for the task to be restored.
+
+If it's their exe file, then the existing VM_DENYWRITE handling would 
+have forbidden these workloads to open the fd of their exe file 
+writable, right? At least before doing any 
+PR_SET_MM_MAP/PR_SET_MM_EXE_FILE. But that should rule out quite a lot 
+of cases we might be worried about, right?
+
+> 
+> Which honestly, no idea how many such workloads exist. (I know at least
+> of runC and LXC need to sometimes reopen to rexec themselves (weird bug
+> to protect against attacking the exe file) and thus re-open
+> /proc/self/exe but read-only.)
+> 
+>>   kernel/fork.c | 39 ++++++++++++++++++++++++++++++++++-----
+>>   1 file changed, 34 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/kernel/fork.c b/kernel/fork.c
+>> index 6bd2e52bcdfb..5d904878f19b 100644
+>> --- a/kernel/fork.c
+>> +++ b/kernel/fork.c
+>> @@ -476,6 +476,7 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
+>>   {
+>>   	struct vm_area_struct *mpnt, *tmp, *prev, **pprev;
+>>   	struct rb_node **rb_link, *rb_parent;
+>> +	struct file *exe_file;
+>>   	int retval;
+>>   	unsigned long charge;
+>>   	LIST_HEAD(uf);
+>> @@ -493,7 +494,10 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
+>>   	mmap_write_lock_nested(mm, SINGLE_DEPTH_NESTING);
+>>   
+>>   	/* No ordering required: file already has been exposed. */
+>> -	RCU_INIT_POINTER(mm->exe_file, get_mm_exe_file(oldmm));
+>> +	exe_file = get_mm_exe_file(oldmm);
+>> +	RCU_INIT_POINTER(mm->exe_file, exe_file);
+>> +	if (exe_file)
+>> +		deny_write_access(exe_file);
+>>   
+>>   	mm->total_vm = oldmm->total_vm;
+>>   	mm->data_vm = oldmm->data_vm;
+>> @@ -638,8 +642,13 @@ static inline void mm_free_pgd(struct mm_struct *mm)
+>>   #else
+>>   static int dup_mmap(struct mm_struct *mm, struct mm_struct *oldmm)
+>>   {
+>> +	struct file *exe_file;
+>> +
+>>   	mmap_write_lock(oldmm);
+>> -	RCU_INIT_POINTER(mm->exe_file, get_mm_exe_file(oldmm));
+>> +	exe_file = get_mm_exe_file(oldmm);
+>> +	RCU_INIT_POINTER(mm->exe_file, exe_file);
+>> +	if (exe_file)
+>> +		deny_write_access(exe_file);
+>>   	mmap_write_unlock(oldmm);
+>>   	return 0;
+>>   }
+>> @@ -1163,11 +1172,19 @@ void set_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file)
+>>   	 */
+>>   	old_exe_file = rcu_dereference_raw(mm->exe_file);
+>>   
+>> -	if (new_exe_file)
+>> +	if (new_exe_file) {
+>>   		get_file(new_exe_file);
+>> +		/*
+>> +		 * exec code is required to deny_write_access() successfully,
+>> +		 * so this cannot fail
+>> +		 */
+>> +		deny_write_access(new_exe_file);
+>> +	}
+>>   	rcu_assign_pointer(mm->exe_file, new_exe_file);
+>> -	if (old_exe_file)
+>> +	if (old_exe_file) {
+>> +		allow_write_access(old_exe_file);
+>>   		fput(old_exe_file);
+>> +	}
+>>   }
+>>   
+>>   int atomic_set_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file)
+>> @@ -1194,10 +1211,22 @@ int atomic_set_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file)
+>>   	}
+>>   
+>>   	/* set the new file, lockless */
+>> +	ret = deny_write_access(new_exe_file);
+>> +	if (ret)
+>> +		return -EACCES;
+>>   	get_file(new_exe_file);
+>> +
+>>   	old_exe_file = xchg(&mm->exe_file, new_exe_file);
+>> -	if (old_exe_file)
+>> +	if (old_exe_file) {
+>> +		/*
+>> +		 * Don't race with dup_mmap() getting the file and disallowing
+>> +		 * write access while someone might open the file writable.
+>> +		 */
+>> +		mmap_read_lock(mm);
+>> +		allow_write_access(old_exe_file);
+>>   		fput(old_exe_file);
+>> +		mmap_read_unlock(mm);
+>> +	}
+>>   	return 0;
+>>   }
+>>   
+>> -- 
+>> 2.31.1
+>>
+> 
+
+
+-- 
+Thanks,
+
+David / dhildenb
+
