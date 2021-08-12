@@ -2,68 +2,65 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 787E13EAAE2
-	for <lists+linux-api@lfdr.de>; Thu, 12 Aug 2021 21:24:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B2753EAB1C
+	for <lists+linux-api@lfdr.de>; Thu, 12 Aug 2021 21:38:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233793AbhHLTYd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 12 Aug 2021 15:24:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48774 "EHLO
+        id S232619AbhHLTjA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 12 Aug 2021 15:39:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42813 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229554AbhHLTYc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 12 Aug 2021 15:24:32 -0400
+        by vger.kernel.org with ESMTP id S232468AbhHLTi7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 12 Aug 2021 15:38:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1628796246;
+        s=mimecast20190719; t=1628797113;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=8N86vzBdNfGIw1497CO2pBCfWWqdNZr9GKs8Sj+sQpI=;
-        b=LIpTaVRmcRILJgdF0PAQaWjGXprX7N0Ib8w/me6HXxfiG5JqvllOzvBf3KB22UwKtmcoth
-        0Hc1VCIb9yaOba/LX/p1yvhQWH9xaGC1LHn5+dk6NbqGQ4yZC4fuAMl+v3mGSS1BAGjOlg
-        a5fGl4gM6ydAsVcsvsxOHr9yoLeyRiE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-410-4rKalbYwNX26ylsztuvQnA-1; Thu, 12 Aug 2021 15:24:05 -0400
-X-MC-Unique: 4rKalbYwNX26ylsztuvQnA-1
-Received: by mail-wm1-f72.google.com with SMTP id r21-20020a05600c35d5b02902e685ef1f76so1474525wmq.5
-        for <linux-api@vger.kernel.org>; Thu, 12 Aug 2021 12:24:04 -0700 (PDT)
+        bh=tGJibS4yiaglb2J5rU+JWBqNKg1kdcrr0OdS+mMkHrI=;
+        b=YsZPejHEDNuP59u5DgBvk4kho1KqLMikTMva8fQFqGcUB5Zv/X5np47jKoEAhQC2o1/3fw
+        XN1GGdkS/lNaYiTeY0hEC4I1CJpgS5MlUQCo/bXS7Tot3QgIFzp+/Wbu7B36XlIjkIkYI3
+        7taUgRmjsZlLW+RzVkCA0VgaR/0r4K4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-174-0IPXbdg6MfiAlfuoAi6xyQ-1; Thu, 12 Aug 2021 15:38:32 -0400
+X-MC-Unique: 0IPXbdg6MfiAlfuoAi6xyQ-1
+Received: by mail-wm1-f71.google.com with SMTP id f25-20020a1c6a190000b029024fa863f6b0so3754431wmc.1
+        for <linux-api@vger.kernel.org>; Thu, 12 Aug 2021 12:38:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
+        h=x-gm-message-state:to:cc:references:from:organization:subject
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=8N86vzBdNfGIw1497CO2pBCfWWqdNZr9GKs8Sj+sQpI=;
-        b=Y55E9hh6npNKPog+ZFGmKPeI/b7jHy+96RbLUkt/39DuNdUlNrpL+MMQmNaqJz/E2y
-         AeP8TH8ccQm3xlXzwufQOPxYj0+YoqLjMHc/IzTSZJNljaOeERRAuvf/Izg7OaswNC66
-         QXPjjf3V/MJsELgHvivUvcdrqc8SrJS1BzAUAlDORvcff3mA5jgAXzpmpz2gdtuzAG1O
-         ++XUr4xDE8rgC1Gz2GAm5JbS06LzYAb+1e+bMALlQCQZLH3Jylq8cc3NsDE/0QJiUYgK
-         zL7RoJNZ1tEUIU9tiXx1Mc2KBG8oS/mWTWSFlrtQ/1CdQNB8eQnTMJKvjxDPe/MPVgmQ
-         BuGw==
-X-Gm-Message-State: AOAM533nc4z9YcVQdVBNqJjUwS2B1SmdDT21fLWw/CH7LSa+aEldGlYq
-        InEqS2t3TWIwTswMJTPWnp/U0emnzG3kbYpPe69vJ8ZNo6aI3s+6/2Z3SHnF/lVXx0hQVmo7Bjj
-        Mc1Gd0yhGLl7ICN23XKfV
-X-Received: by 2002:a05:600c:1552:: with SMTP id f18mr160508wmg.40.1628796243840;
-        Thu, 12 Aug 2021 12:24:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyoi73TjuPhfXBY9qVs1gNFHq5iS0Cg54p1SYixusgscxJCJ6YZqkOPk8ytKcP9LVXjwJLvRw==
-X-Received: by 2002:a05:600c:1552:: with SMTP id f18mr160487wmg.40.1628796243648;
-        Thu, 12 Aug 2021 12:24:03 -0700 (PDT)
+        bh=tGJibS4yiaglb2J5rU+JWBqNKg1kdcrr0OdS+mMkHrI=;
+        b=jBSZ5Song7kT663Lj27QNERpoh6JA4WI3wY+8qCMlnheqpaRI7nXDyZXhdJ6dvTynL
+         G3b1O44FRHhxr/qKlY3rA7StPN/CvXLkWzZhGLNGEknsMAcuilvkrCatbdSAxqUi84s/
+         92hX2f6cRFWhncyKOATn2rQ5oqYN+7xw77gTlKWpbpU/947cjPBY490kQwAWI0P0HvAN
+         n2icjHoDAoW0rX+7AcDhUSZPlD0MKBZf4UmrQlKRIKJpA/y/dYkGcnBV4jzRRucVnXMM
+         nJzmZ9/PcH6tD+EOfB4b6faRF7wN2j4kbWUvZtNngyLZJ0zb11AWzs9Piclt9i/L+ecD
+         RRvA==
+X-Gm-Message-State: AOAM533lFymEZYJTEPuXDLeFGRAE4EA73fvAiuFfjPbm3RbnAXWyNFhU
+        8cZKobJkI6BgAzhzwpZXhZh1+GGi+5L2OC53V4BbagJYFsEJDebbNUHjnn/D1qgjtLHmXa+K6zw
+        uqXGVL0/QEnd/RGRW+eGf
+X-Received: by 2002:a5d:45c2:: with SMTP id b2mr5697495wrs.188.1628797111136;
+        Thu, 12 Aug 2021 12:38:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw2yA9S5GLR5aZS72Vs7D04/GT/ipvgAFBAJrXhJd9/Q2ngghrrOQ4av0TFSdLK0A6HDNvrvg==
+X-Received: by 2002:a5d:45c2:: with SMTP id b2mr5697441wrs.188.1628797110959;
+        Thu, 12 Aug 2021 12:38:30 -0700 (PDT)
 Received: from [192.168.3.132] (p4ff23d8b.dip0.t-ipconnect.de. [79.242.61.139])
-        by smtp.gmail.com with ESMTPSA id m10sm3080907wro.63.2021.08.12.12.24.01
+        by smtp.gmail.com with ESMTPSA id i9sm4899610wre.36.2021.08.12.12.38.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Aug 2021 12:24:02 -0700 (PDT)
-Subject: Re: [PATCH v1 0/7] Remove in-tree usage of MAP_DENYWRITE
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Thu, 12 Aug 2021 12:38:29 -0700 (PDT)
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         "H. Peter Anvin" <hpa@zytor.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
         Alexey Dobriyan <adobriyan@gmail.com>,
         Steven Rostedt <rostedt@goodmis.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Peter Zijlstra <peterz@infradead.org>,
         Arnaldo Carvalho de Melo <acme@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Alexander Shishkin <alexander.shishkin@linux.intel.com>,
@@ -74,6 +71,7 @@ Cc:     Andy Lutomirski <luto@kernel.org>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Kees Cook <keescook@chromium.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
         Greg Ungerer <gerg@linux-m68k.org>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Mike Rapoport <rppt@kernel.org>,
@@ -110,50 +108,109 @@ Cc:     Andy Lutomirski <luto@kernel.org>,
         the arch/x86 maintainers <x86@kernel.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Linux-MM <linux-mm@kvack.org>
-References: <20210812084348.6521-1-david@redhat.com> <87o8a2d0wf.fsf@disp2133>
- <60db2e61-6b00-44fa-b718-e4361fcc238c@www.fastmail.com>
- <87lf56bllc.fsf@disp2133>
- <CAHk-=wgru1UAm3kAKSOdnbewPXQMOxYkq9PnAsRadAC6pXCCMQ@mail.gmail.com>
+References: <20210812084348.6521-1-david@redhat.com>
+ <20210812084348.6521-4-david@redhat.com>
+ <CAHk-=wjWgFbEaE9T0smQu8WKkhrcNZZrghBUQ9441OdMsDg1-w@mail.gmail.com>
 From:   David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-Message-ID: <0ab1a811-4040-2657-7b48-b39ada300749@redhat.com>
-Date:   Thu, 12 Aug 2021 21:24:00 +0200
+Subject: Re: [PATCH v1 3/7] kernel/fork: always deny write access to current
+ MM exe_file
+Message-ID: <15628c8a-9c71-5611-2edf-07087ad662b7@redhat.com>
+Date:   Thu, 12 Aug 2021 21:38:26 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAHk-=wgru1UAm3kAKSOdnbewPXQMOxYkq9PnAsRadAC6pXCCMQ@mail.gmail.com>
+In-Reply-To: <CAHk-=wjWgFbEaE9T0smQu8WKkhrcNZZrghBUQ9441OdMsDg1-w@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 12.08.21 20:10, Linus Torvalds wrote:
-> On Thu, Aug 12, 2021 at 7:48 AM Eric W. Biederman <ebiederm@xmission.com> wrote:
+On 12.08.21 18:51, Linus Torvalds wrote:
+> On Wed, Aug 11, 2021 at 10:45 PM David Hildenbrand <david@redhat.com> wrote:
 >>
->> Given that MAP_PRIVATE for shared libraries is our strategy for handling
->> writes to shared libraries perhaps we just need to use MAP_POPULATE or a
->> new related flag (perhaps MAP_PRIVATE_NOW)
+>>          /* No ordering required: file already has been exposed. */
+>> -       RCU_INIT_POINTER(mm->exe_file, get_mm_exe_file(oldmm));
+>> +       exe_file = get_mm_exe_file(oldmm);
+>> +       RCU_INIT_POINTER(mm->exe_file, exe_file);
+>> +       if (exe_file)
+>> +               deny_write_access(exe_file);
 > 
-> No. That would be horrible for the usual bloated GUI libraries. It
-> might help some (dynamic page faults are not cheap either), but it
-> would hurt a lot.
+> Can we make a helper function for this, since it's done in two different places?
 
-Right, we most certainly don't want to waste system ram / swap space, 
-memory for page tables, and degrade performance just because some 
-corner-case nasty user space could harm itself.
+Sure, no compelling reason not to (except finding a suitable name, but 
+I'll think about that tomorrow).
 
 > 
-> This is definitely a "if you overwrite a system library while it's
-> being used, you get to keep both pieces" situation.
+>> -       if (new_exe_file)
+>> +       if (new_exe_file) {
+>>                  get_file(new_exe_file);
+>> +               /*
+>> +                * exec code is required to deny_write_access() successfully,
+>> +                * so this cannot fail
+>> +                */
+>> +               deny_write_access(new_exe_file);
+>> +       }
+>>          rcu_assign_pointer(mm->exe_file, new_exe_file);
+> 
+> And the above looks positively wrong. The comment is also nonsensical,
+> in that it basically says "we thought this cannot fail, so we'll just
+> rely on it".
 
-Right, play stupid games, win stupid prices. I agree that if there would 
-be an efficient way to detect+handle such overwrites gracefully, it 
-would be great to have the kernel support that. ETXTBUSY as implemented 
-with this series (but also before this series) is really only a 
-minimalistic approach to help detect some issues regarding the main 
-executable.
+Well, it documents the expectation towards the caller, but in a 
+suboptimal way, I agree.
+
+> 
+> If it truly cannot fail, then the comment should give the reason, not
+> the "we depend on this not failing".
+
+Right, "We depend on the caller already have done a deny_write_access() 
+successfully first such that this call cannot fail." combined with
+
+if (deny_write_access(new_exe_file))
+	pr_warn("Unexpected failure of deny_write_access() in %s",
+                  __func__);
+
+suggestions welcome.
+
+> 
+> And honestly, I don't see why it couldn't fail. And if it *does* fail,
+> we cannot then RCU-assign the exe_file pointer with this, because
+> you'll get a counter imbalance when you do the allow_write_access()
+> later.
+
+Anyone calling set_mm_exe_file() (-> begin_new_exec()) is expected to 
+successfully triggered a deny_write_access() upfront such that we won't 
+fail at that point.
+
+Further, on the dup_mmap() path we are sure the previous oldmm exe_file 
+properly saw a successful deny_write_access() already, because that's 
+now guaranteed for any exe_file.
+
+> 
+> Anyway, do_open_execat() does do deny_write_access() with proper error
+> checking. I think that is the existing reference that you depend on -
+> so that it doesn't fail. So the comment could possibly say that the
+> only caller has done this, but can we not just use the reference
+> deny_write_access() directly, and not do a new one here?
+
+I think that might over-complicate the exec code where we would see a 
+allow_write_access() on error paths, but not on success paths. This here 
+looks cleaner to me, agreeing that the comment and the error check has 
+to be improved.
+
+We handle all allow_write_access()/deny_write_access() regarding 
+exe_file completely in kernel/fork.c, which is IMHO quite nice.
+
+> 
+> IOW, maybe there's an extraneous 'allow_write_access()' somewhere that
+> should be dropped when we do the whole binprm dance in execve()?
+
+fs/exec.c: free_bprm() and exec_binprm() to be precise.
+
+Thanks!
 
 -- 
 Thanks,
