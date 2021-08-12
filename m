@@ -2,218 +2,202 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B2753EAB1C
-	for <lists+linux-api@lfdr.de>; Thu, 12 Aug 2021 21:38:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E36E13EAC76
+	for <lists+linux-api@lfdr.de>; Thu, 12 Aug 2021 23:40:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232619AbhHLTjA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 12 Aug 2021 15:39:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42813 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232468AbhHLTi7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 12 Aug 2021 15:38:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1628797113;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=tGJibS4yiaglb2J5rU+JWBqNKg1kdcrr0OdS+mMkHrI=;
-        b=YsZPejHEDNuP59u5DgBvk4kho1KqLMikTMva8fQFqGcUB5Zv/X5np47jKoEAhQC2o1/3fw
-        XN1GGdkS/lNaYiTeY0hEC4I1CJpgS5MlUQCo/bXS7Tot3QgIFzp+/Wbu7B36XlIjkIkYI3
-        7taUgRmjsZlLW+RzVkCA0VgaR/0r4K4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-174-0IPXbdg6MfiAlfuoAi6xyQ-1; Thu, 12 Aug 2021 15:38:32 -0400
-X-MC-Unique: 0IPXbdg6MfiAlfuoAi6xyQ-1
-Received: by mail-wm1-f71.google.com with SMTP id f25-20020a1c6a190000b029024fa863f6b0so3754431wmc.1
-        for <linux-api@vger.kernel.org>; Thu, 12 Aug 2021 12:38:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:references:from:organization:subject
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=tGJibS4yiaglb2J5rU+JWBqNKg1kdcrr0OdS+mMkHrI=;
-        b=jBSZ5Song7kT663Lj27QNERpoh6JA4WI3wY+8qCMlnheqpaRI7nXDyZXhdJ6dvTynL
-         G3b1O44FRHhxr/qKlY3rA7StPN/CvXLkWzZhGLNGEknsMAcuilvkrCatbdSAxqUi84s/
-         92hX2f6cRFWhncyKOATn2rQ5oqYN+7xw77gTlKWpbpU/947cjPBY490kQwAWI0P0HvAN
-         n2icjHoDAoW0rX+7AcDhUSZPlD0MKBZf4UmrQlKRIKJpA/y/dYkGcnBV4jzRRucVnXMM
-         nJzmZ9/PcH6tD+EOfB4b6faRF7wN2j4kbWUvZtNngyLZJ0zb11AWzs9Piclt9i/L+ecD
-         RRvA==
-X-Gm-Message-State: AOAM533lFymEZYJTEPuXDLeFGRAE4EA73fvAiuFfjPbm3RbnAXWyNFhU
-        8cZKobJkI6BgAzhzwpZXhZh1+GGi+5L2OC53V4BbagJYFsEJDebbNUHjnn/D1qgjtLHmXa+K6zw
-        uqXGVL0/QEnd/RGRW+eGf
-X-Received: by 2002:a5d:45c2:: with SMTP id b2mr5697495wrs.188.1628797111136;
-        Thu, 12 Aug 2021 12:38:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw2yA9S5GLR5aZS72Vs7D04/GT/ipvgAFBAJrXhJd9/Q2ngghrrOQ4av0TFSdLK0A6HDNvrvg==
-X-Received: by 2002:a5d:45c2:: with SMTP id b2mr5697441wrs.188.1628797110959;
-        Thu, 12 Aug 2021 12:38:30 -0700 (PDT)
-Received: from [192.168.3.132] (p4ff23d8b.dip0.t-ipconnect.de. [79.242.61.139])
-        by smtp.gmail.com with ESMTPSA id i9sm4899610wre.36.2021.08.12.12.38.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Aug 2021 12:38:29 -0700 (PDT)
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Kees Cook <keescook@chromium.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Greg Ungerer <gerg@linux-m68k.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Chinwen Chang <chinwen.chang@mediatek.com>,
-        Michel Lespinasse <walken@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Huang Ying <ying.huang@intel.com>,
-        Jann Horn <jannh@google.com>, Feng Tang <feng.tang@intel.com>,
-        Kevin Brodsky <Kevin.Brodsky@arm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Shawn Anastasio <shawn@anastas.io>,
-        Steven Price <steven.price@arm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Jens Axboe <axboe@kernel.dk>,
+        id S237286AbhHLVk4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 12 Aug 2021 17:40:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35268 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237290AbhHLVkz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 12 Aug 2021 17:40:55 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24F0CC061756;
+        Thu, 12 Aug 2021 14:40:29 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: krisman)
+        with ESMTPSA id 7D0B91F441E9
+From:   Gabriel Krisman Bertazi <krisman@collabora.com>
+To:     amir73il@gmail.com, jack@suse.com
+Cc:     linux-api@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, khazhy@google.com,
+        dhowells@redhat.com, david@fromorbit.com, tytso@mit.edu,
+        djwong@kernel.org, repnop@google.com,
         Gabriel Krisman Bertazi <krisman@collabora.com>,
-        Peter Xu <peterx@redhat.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Marco Elver <elver@google.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        Nicolas Viennot <Nicolas.Viennot@twosigma.com>,
-        Thomas Cedeno <thomascedeno@google.com>,
-        Collin Fijalkovich <cfijalkovich@google.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Chengguang Xu <cgxu519@mykernel.net>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        linux-unionfs@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>
-References: <20210812084348.6521-1-david@redhat.com>
- <20210812084348.6521-4-david@redhat.com>
- <CAHk-=wjWgFbEaE9T0smQu8WKkhrcNZZrghBUQ9441OdMsDg1-w@mail.gmail.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v1 3/7] kernel/fork: always deny write access to current
- MM exe_file
-Message-ID: <15628c8a-9c71-5611-2edf-07087ad662b7@redhat.com>
-Date:   Thu, 12 Aug 2021 21:38:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        kernel@collabora.com
+Subject: [PATCH v6 00/21] File system wide monitoring
+Date:   Thu, 12 Aug 2021 17:39:49 -0400
+Message-Id: <20210812214010.3197279-1-krisman@collabora.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <CAHk-=wjWgFbEaE9T0smQu8WKkhrcNZZrghBUQ9441OdMsDg1-w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 12.08.21 18:51, Linus Torvalds wrote:
-> On Wed, Aug 11, 2021 at 10:45 PM David Hildenbrand <david@redhat.com> wrote:
->>
->>          /* No ordering required: file already has been exposed. */
->> -       RCU_INIT_POINTER(mm->exe_file, get_mm_exe_file(oldmm));
->> +       exe_file = get_mm_exe_file(oldmm);
->> +       RCU_INIT_POINTER(mm->exe_file, exe_file);
->> +       if (exe_file)
->> +               deny_write_access(exe_file);
-> 
-> Can we make a helper function for this, since it's done in two different places?
+Hi,
 
-Sure, no compelling reason not to (except finding a suitable name, but 
-I'll think about that tomorrow).
+This is the 6th version of the FAN_FS_ERROR patches.  This applies
+the feedback from last version (thanks Amir, Jan).
 
-> 
->> -       if (new_exe_file)
->> +       if (new_exe_file) {
->>                  get_file(new_exe_file);
->> +               /*
->> +                * exec code is required to deny_write_access() successfully,
->> +                * so this cannot fail
->> +                */
->> +               deny_write_access(new_exe_file);
->> +       }
->>          rcu_assign_pointer(mm->exe_file, new_exe_file);
-> 
-> And the above looks positively wrong. The comment is also nonsensical,
-> in that it basically says "we thought this cannot fail, so we'll just
-> rely on it".
+There are important changes in this version. some of which brings us
+back to previous versions of this series.  I did my best to avoid
+problems that were mentioned during earlier revisions, and I think I
+covered everything. But I apologize if this requires reviewers to repeat
+some comments.
 
-Well, it documents the expectation towards the caller, but in a 
-suboptimal way, I agree.
+First of all, despite initializing the error event from inside the
+insert callback and abusing the merge logic for err_count update, this
+version reverts to a simple insertion code, and configures the event
+before sending it to be queued by fsnotify.  This makes the submission
+code less trivial, but addresses the potential problem of encoding the
+FH while holding the group->notification_lock.
 
-> 
-> If it truly cannot fail, then the comment should give the reason, not
-> the "we depend on this not failing".
+This version also drops the slot replacement code when dequeueing, and
+reverts back to the copy-to-stack mechanism.  This simplifies the code a
+lot.
 
-Right, "We depend on the caller already have done a deny_write_access() 
-successfully first such that this call cannot fail." combined with
+The way we report superblock errors also changed.  Now, the handle is
+omitted and we return the handle_bytes as 0.
 
-if (deny_write_access(new_exe_file))
-	pr_warn("Unexpected failure of deny_write_access() in %s",
-                  __func__);
+Finally, we no longer play games with predicting the file handle size
+beforehand.  Now, the code just allocates space for the largest handle
+possible, and assume that is enough.
 
-suggestions welcome.
+On another note, this also restores the mark reference owned by the
+error event while it is queued.  As Amir explained, this is required to
+prevent the mark from going away while the event is queued.
 
-> 
-> And honestly, I don't see why it couldn't fail. And if it *does* fail,
-> we cannot then RCU-assign the exe_file pointer with this, because
-> you'll get a counter imbalance when you do the allow_write_access()
-> later.
+This was tested with LTP for regressions and also using the sample code
+on the last patch, with a corrupted image.  I wrote a new ltp test for
+this feature which is being reviewed and is available at:
 
-Anyone calling set_mm_exe_file() (-> begin_new_exec()) is expected to 
-successfully triggered a deny_write_access() upfront such that we won't 
-fail at that point.
+  https://gitlab.collabora.com/krisman/ltp  -b fan-fs-error
 
-Further, on the dup_mmap() path we are sure the previous oldmm exe_file 
-properly saw a successful deny_write_access() already, because that's 
-now guaranteed for any exe_file.
+In addition, I wrote a man-page that can be pulled from:
 
-> 
-> Anyway, do_open_execat() does do deny_write_access() with proper error
-> checking. I think that is the existing reference that you depend on -
-> so that it doesn't fail. So the comment could possibly say that the
-> only caller has done this, but can we not just use the reference
-> deny_write_access() directly, and not do a new one here?
+  https://gitlab.collabora.com/krisman/man-pages.git -b fan-fs-error
 
-I think that might over-complicate the exec code where we would see a 
-allow_write_access() on error paths, but not on success paths. This here 
-looks cleaner to me, agreeing that the comment and the error check has 
-to be improved.
+And is being reviewed at the list.
 
-We handle all allow_write_access()/deny_write_access() regarding 
-exe_file completely in kernel/fork.c, which is IMHO quite nice.
+I also pushed this full series to:
 
-> 
-> IOW, maybe there's an extraneous 'allow_write_access()' somewhere that
-> should be dropped when we do the whole binprm dance in execve()?
+  https://gitlab.collabora.com/krisman/linux -b fanotify-notifications-single-slot
 
-fs/exec.c: free_bprm() and exec_binprm() to be precise.
+Thank you
 
-Thanks!
+Original cover letter
+---------------------
+Hi,
+
+This series follow up on my previous proposal [1] to support file system
+wide monitoring.  As suggested by Amir, this proposal drops the ring
+buffer in favor of a single slot associated with each mark.  This
+simplifies a bit the implementation, as you can see in the code.
+
+As a reminder, This proposal is limited to an interface for
+administrators to monitor the health of a file system, instead of a
+generic inteface for file errors.  Therefore, this doesn't solve the
+problem of writeback errors or the need to watch a specific subtree.
+
+In comparison to the previous RFC, this implementation also drops the
+per-fs data and location, and leave those as future extensions.
+
+* Implementation
+
+The feature is implemented on top of fanotify, as a new type of fanotify
+mark, FAN_ERROR, which a file system monitoring tool can register to
+receive error notifications.  When an error occurs a new notification is
+generated, in addition followed by this info field:
+
+ - FS generic data: A file system agnostic structure that has a generic
+ error code and identifies the filesystem.  Basically, it let's
+ userspace know something happened on a monitored filesystem.  Since
+ only the first error is recorded since the last read, this also
+ includes a counter of errors that happened since the last read.
+
+* Testing
+
+This was tested by watching notifications flowing from an intentionally
+corrupted filesystem in different places.  In addition, other events
+were watched in an attempt to detect regressions.
+
+Is there a specific testsuite for fanotify I should be running?
+
+* Patches
+
+This patchset is divided as follows: Patch 1 through 5 are refactoring
+to fsnotify/fanotify in preparation for FS_ERROR/FAN_ERROR; patch 6 and
+7 implement the FS_ERROR API for filesystems to report error; patch 8
+add support for FAN_ERROR in fanotify; Patch 9 is an example
+implementation for ext4; patch 10 and 11 provide a sample userspace code
+and documentation.
+
+I also pushed the full series to:
+
+  https://gitlab.collabora.com/krisman/linux -b fanotify-notifications-single-slot
+
+[1] https://lwn.net/Articles/854545/
+[2] https://lwn.net/Articles/856916/
+
+Cc: Darrick J. Wong <djwong@kernel.org>
+Cc: Theodore Ts'o <tytso@mit.edu>
+Cc: Dave Chinner <david@fromorbit.com>
+Cc: jack@suse.com
+To: amir73il@gmail.com
+Cc: dhowells@redhat.com
+Cc: khazhy@google.com
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-ext4@vger.kernel.org
+Cc: linux-api@vger.kernel.org
+Cc: linux-api@vger.kernel.org
+
+Gabriel Krisman Bertazi (21):
+  fsnotify: Don't insert unmergeable events in hashtable
+  fanotify: Fold event size calculation to its own function
+  fanotify: Split fsid check from other fid mode checks
+  fsnotify: Reserve mark flag bits for backends
+  fanotify: Split superblock marks out to a new cache
+  inotify: Don't force FS_IN_IGNORED
+  fsnotify: Add helper to detect overflow_event
+  fsnotify: Add wrapper around fsnotify_add_event
+  fsnotify: Allow events reported with an empty inode
+  fsnotify: Support FS_ERROR event type
+  fanotify: Allow file handle encoding for unhashed events
+  fanotify: Encode invalid file handle when no inode is provided
+  fanotify: Require fid_mode for any non-fd event
+  fanotify: Reserve UAPI bits for FAN_FS_ERROR
+  fanotify: Preallocate per superblock mark error event
+  fanotify: Handle FAN_FS_ERROR events
+  fanotify: Report fid info for file related file system errors
+  fanotify: Emit generic error info type for error event
+  ext4: Send notifications on error
+  samples: Add fs error monitoring example
+  docs: Document the FAN_FS_ERROR event
+
+ .../admin-guide/filesystem-monitoring.rst     |  70 +++++
+ Documentation/admin-guide/index.rst           |   1 +
+ fs/ext4/super.c                               |   8 +
+ fs/notify/fanotify/fanotify.c                 | 139 +++++++++-
+ fs/notify/fanotify/fanotify.h                 |  69 ++++-
+ fs/notify/fanotify/fanotify_user.c            | 256 ++++++++++++++----
+ fs/notify/fsnotify.c                          |  19 +-
+ fs/notify/inotify/inotify_fsnotify.c          |   2 +-
+ fs/notify/inotify/inotify_user.c              |   6 +-
+ fs/notify/notification.c                      |  12 +-
+ include/linux/fanotify.h                      |   9 +-
+ include/linux/fsnotify.h                      |  13 +
+ include/linux/fsnotify_backend.h              |  64 ++++-
+ include/uapi/linux/fanotify.h                 |   8 +
+ samples/Kconfig                               |   9 +
+ samples/Makefile                              |   1 +
+ samples/fanotify/Makefile                     |   5 +
+ samples/fanotify/fs-monitor.c                 | 138 ++++++++++
+ 18 files changed, 740 insertions(+), 89 deletions(-)
+ create mode 100644 Documentation/admin-guide/filesystem-monitoring.rst
+ create mode 100644 samples/fanotify/Makefile
+ create mode 100644 samples/fanotify/fs-monitor.c
 
 -- 
-Thanks,
-
-David / dhildenb
+2.32.0
 
