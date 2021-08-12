@@ -2,37 +2,37 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 460993EA0D2
-	for <lists+linux-api@lfdr.de>; Thu, 12 Aug 2021 10:44:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BE293EA0D6
+	for <lists+linux-api@lfdr.de>; Thu, 12 Aug 2021 10:45:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234843AbhHLIpM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 12 Aug 2021 04:45:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59559 "EHLO
+        id S235119AbhHLIp0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 12 Aug 2021 04:45:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51875 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234153AbhHLIpE (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 12 Aug 2021 04:45:04 -0400
+        by vger.kernel.org with ESMTP id S234768AbhHLIpY (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 12 Aug 2021 04:45:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1628757879;
+        s=mimecast20190719; t=1628757899;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=0POxZDht8C8634FZ8jO36kh3AwROGuUlXP474C8QLFU=;
-        b=J4mhLw7FEeGTXBmxaX6ZOevxcrvBBEPprIm+D8RwnrEGvmCuxIuUgxYJexm6df57tWXWaK
-        S3UzeR+e86GWQ+Siak1MvAutTRXr1AWCnHtBnbGaKu/2QcJb9Dxp3h3Zo5hQvLhJuqjTHE
-        wa3R5CIPZ/Vbgx7jDKlmd9IoDf9Ozio=
+        bh=1nJ3sCCeU/Laa3+5e8aXWQ4V37WaSYkmm42BNuz/MdU=;
+        b=CFisnLfIGtLRV24KAXsnPUnbLdfm0bJC6JYA/lS3uyF8RFOES8LuXZQhUdLKZlbhBTyhni
+        WOWFTltsEqHRGBO/U/LoH45Kre8EKUXsW06BkhB3GH7hCD9AIsIJ6e50NqCWnilgXHYxv0
+        RRvAp7X2iVHervtBvddA1QENHfblSqQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-221-o3PeVIknPgSSOcf0sD5uhA-1; Thu, 12 Aug 2021 04:44:38 -0400
-X-MC-Unique: o3PeVIknPgSSOcf0sD5uhA-1
+ us-mta-62-_ADIQLN-N9OvMmQWq5OAuw-1; Thu, 12 Aug 2021 04:44:58 -0400
+X-MC-Unique: _ADIQLN-N9OvMmQWq5OAuw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4248B760C5;
-        Thu, 12 Aug 2021 08:44:32 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1AC40190B2A1;
+        Thu, 12 Aug 2021 08:44:53 +0000 (UTC)
 Received: from t480s.redhat.com (unknown [10.39.193.117])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 998805FC22;
-        Thu, 12 Aug 2021 08:44:12 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id AA66E5FC22;
+        Thu, 12 Aug 2021 08:44:32 +0000 (UTC)
 From:   David Hildenbrand <david@redhat.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     David Hildenbrand <david@redhat.com>,
@@ -90,9 +90,9 @@ Cc:     David Hildenbrand <david@redhat.com>,
         <ckoenig.leichtzumerken@gmail.com>, linux-unionfs@vger.kernel.org,
         linux-api@vger.kernel.org, x86@kernel.org,
         linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH v1 1/7] binfmt: don't use MAP_DENYWRITE when loading shared libraries via uselib()
-Date:   Thu, 12 Aug 2021 10:43:42 +0200
-Message-Id: <20210812084348.6521-2-david@redhat.com>
+Subject: [PATCH v1 2/7] kernel/fork: factor out atomcially replacing the current MM exe_file
+Date:   Thu, 12 Aug 2021 10:43:43 +0200
+Message-Id: <20210812084348.6521-3-david@redhat.com>
 In-Reply-To: <20210812084348.6521-1-david@redhat.com>
 References: <20210812084348.6521-1-david@redhat.com>
 MIME-Version: 1.0
@@ -102,68 +102,139 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-uselib() is the legacy systemcall for loading shared libraries.
-Nowadays, applications use dlopen() to load shared libraries, completely
-implemented in user space via mmap().
+Let's factor the main logic out into atomic_set_mm_exe_file(), such that
+all mm->exe_file logic is contained in kernel/fork.c.
 
-For example, glibc uses MAP_COPY to mmap shared libraries. While this
-maps to MAP_PRIVATE | MAP_DENYWRITE on Linux, Linux ignores any
-MAP_DENYWRITE specification from user space in mmap.
-
-With this change, all remaining in-tree users of MAP_DENYWRITE use it
-to map an executable. We will be able to open shared libraries loaded
-via uselib() writable, just as we already can via dlopen() from user
-space.
-
-This is one step into the direction of removing MAP_DENYWRITE from the
-kernel. This can be considered a minor user space visible change.
+While at it, perform some simple cleanups that are possible now that
+we're simplifying the individual functions.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- arch/x86/ia32/ia32_aout.c | 2 +-
- fs/binfmt_aout.c          | 2 +-
- fs/binfmt_elf.c           | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ include/linux/mm.h |  2 ++
+ kernel/fork.c      | 35 +++++++++++++++++++++++++++++++++--
+ kernel/sys.c       | 33 +--------------------------------
+ 3 files changed, 36 insertions(+), 34 deletions(-)
 
-diff --git a/arch/x86/ia32/ia32_aout.c b/arch/x86/ia32/ia32_aout.c
-index 5e5b9fc2747f..321d7b22ad2d 100644
---- a/arch/x86/ia32/ia32_aout.c
-+++ b/arch/x86/ia32/ia32_aout.c
-@@ -293,7 +293,7 @@ static int load_aout_library(struct file *file)
- 	/* Now use mmap to map the library into memory. */
- 	error = vm_mmap(file, start_addr, ex.a_text + ex.a_data,
- 			PROT_READ | PROT_WRITE | PROT_EXEC,
--			MAP_FIXED | MAP_PRIVATE | MAP_DENYWRITE | MAP_32BIT,
-+			MAP_FIXED | MAP_PRIVATE | MAP_32BIT,
- 			N_TXTOFF(ex));
- 	retval = error;
- 	if (error != start_addr)
-diff --git a/fs/binfmt_aout.c b/fs/binfmt_aout.c
-index 145917f734fe..d29de971d3f3 100644
---- a/fs/binfmt_aout.c
-+++ b/fs/binfmt_aout.c
-@@ -309,7 +309,7 @@ static int load_aout_library(struct file *file)
- 	/* Now use mmap to map the library into memory. */
- 	error = vm_mmap(file, start_addr, ex.a_text + ex.a_data,
- 			PROT_READ | PROT_WRITE | PROT_EXEC,
--			MAP_FIXED | MAP_PRIVATE | MAP_DENYWRITE,
-+			MAP_FIXED | MAP_PRIVATE;
- 			N_TXTOFF(ex));
- 	retval = error;
- 	if (error != start_addr)
-diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
-index 439ed81e755a..6d2c79533631 100644
---- a/fs/binfmt_elf.c
-+++ b/fs/binfmt_elf.c
-@@ -1384,7 +1384,7 @@ static int load_elf_library(struct file *file)
- 			(eppnt->p_filesz +
- 			 ELF_PAGEOFFSET(eppnt->p_vaddr)),
- 			PROT_READ | PROT_WRITE | PROT_EXEC,
--			MAP_FIXED_NOREPLACE | MAP_PRIVATE | MAP_DENYWRITE,
-+			MAP_FIXED_NOREPLACE | MAP_PRIVATE,
- 			(eppnt->p_offset -
- 			 ELF_PAGEOFFSET(eppnt->p_vaddr)));
- 	if (error != ELF_PAGESTART(eppnt->p_vaddr))
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 7ca22e6e694a..197505324b74 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -2581,6 +2581,8 @@ extern int mm_take_all_locks(struct mm_struct *mm);
+ extern void mm_drop_all_locks(struct mm_struct *mm);
+ 
+ extern void set_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file);
++extern int atomic_set_mm_exe_file(struct mm_struct *mm,
++				  struct file *new_exe_file);
+ extern struct file *get_mm_exe_file(struct mm_struct *mm);
+ extern struct file *get_task_exe_file(struct task_struct *task);
+ 
+diff --git a/kernel/fork.c b/kernel/fork.c
+index bc94b2cc5995..6bd2e52bcdfb 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -1149,8 +1149,8 @@ void mmput_async(struct mm_struct *mm)
+  * Main users are mmput() and sys_execve(). Callers prevent concurrent
+  * invocations: in mmput() nobody alive left, in execve task is single
+  * threaded. sys_prctl(PR_SET_MM_MAP/EXE_FILE) also needs to set the
+- * mm->exe_file, but does so without using set_mm_exe_file() in order
+- * to avoid the need for any locks.
++ * mm->exe_file, but uses atomic_set_mm_exe_file(), avoiding the need
++ * for any locks.
+  */
+ void set_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file)
+ {
+@@ -1170,6 +1170,37 @@ void set_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file)
+ 		fput(old_exe_file);
+ }
+ 
++int atomic_set_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file)
++{
++	struct vm_area_struct *vma;
++	struct file *old_exe_file;
++	int ret = 0;
++
++	/* Forbid mm->exe_file change if old file still mapped. */
++	old_exe_file = get_mm_exe_file(mm);
++	if (old_exe_file) {
++		mmap_read_lock(mm);
++		for (vma = mm->mmap; vma && !ret; vma = vma->vm_next) {
++			if (!vma->vm_file)
++				continue;
++			if (path_equal(&vma->vm_file->f_path,
++				       &old_exe_file->f_path))
++				ret = -EBUSY;
++		}
++		mmap_read_unlock(mm);
++		fput(old_exe_file);
++		if (ret)
++			return ret;
++	}
++
++	/* set the new file, lockless */
++	get_file(new_exe_file);
++	old_exe_file = xchg(&mm->exe_file, new_exe_file);
++	if (old_exe_file)
++		fput(old_exe_file);
++	return 0;
++}
++
+ /**
+  * get_mm_exe_file - acquire a reference to the mm's executable file
+  *
+diff --git a/kernel/sys.c b/kernel/sys.c
+index ef1a78f5d71c..40551b411fda 100644
+--- a/kernel/sys.c
++++ b/kernel/sys.c
+@@ -1846,7 +1846,6 @@ SYSCALL_DEFINE1(umask, int, mask)
+ static int prctl_set_mm_exe_file(struct mm_struct *mm, unsigned int fd)
+ {
+ 	struct fd exe;
+-	struct file *old_exe, *exe_file;
+ 	struct inode *inode;
+ 	int err;
+ 
+@@ -1869,40 +1868,10 @@ static int prctl_set_mm_exe_file(struct mm_struct *mm, unsigned int fd)
+ 	if (err)
+ 		goto exit;
+ 
+-	/*
+-	 * Forbid mm->exe_file change if old file still mapped.
+-	 */
+-	exe_file = get_mm_exe_file(mm);
+-	err = -EBUSY;
+-	if (exe_file) {
+-		struct vm_area_struct *vma;
+-
+-		mmap_read_lock(mm);
+-		for (vma = mm->mmap; vma; vma = vma->vm_next) {
+-			if (!vma->vm_file)
+-				continue;
+-			if (path_equal(&vma->vm_file->f_path,
+-				       &exe_file->f_path))
+-				goto exit_err;
+-		}
+-
+-		mmap_read_unlock(mm);
+-		fput(exe_file);
+-	}
+-
+-	err = 0;
+-	/* set the new file, lockless */
+-	get_file(exe.file);
+-	old_exe = xchg(&mm->exe_file, exe.file);
+-	if (old_exe)
+-		fput(old_exe);
++	err = atomic_set_mm_exe_file(mm, exe.file);
+ exit:
+ 	fdput(exe);
+ 	return err;
+-exit_err:
+-	mmap_read_unlock(mm);
+-	fput(exe_file);
+-	goto exit;
+ }
+ 
+ /*
 -- 
 2.31.1
 
