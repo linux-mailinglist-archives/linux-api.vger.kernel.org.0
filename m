@@ -2,37 +2,37 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C23A53EA0ED
-	for <lists+linux-api@lfdr.de>; Thu, 12 Aug 2021 10:46:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2AF93EA0F1
+	for <lists+linux-api@lfdr.de>; Thu, 12 Aug 2021 10:46:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235435AbhHLIqw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 12 Aug 2021 04:46:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31875 "EHLO
+        id S235427AbhHLIrH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 12 Aug 2021 04:47:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44782 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235413AbhHLIqq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 12 Aug 2021 04:46:46 -0400
+        by vger.kernel.org with ESMTP id S234184AbhHLIrG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 12 Aug 2021 04:47:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1628757981;
+        s=mimecast20190719; t=1628758001;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=35wUXv1jSLd4Y2PTErtZ5+2TNdih1YbrbBc7k9U7DsY=;
-        b=CLEPJuyQSC9J9WyHyS9KiPVyYfawgYCICBXqsmgBlGyG9moSbxYHNfu+bb4ZFgHqpxMo9Z
-        97N9tRv21NM+atOCHLoGgUrzWfL6u53LrNExnOcTBhp9M4NUqXsIPMe2r2F7CGUL0PdpRl
-        wjQ4PNnBWzGpdLL/FJuBEfcMGsx7otg=
+        bh=i29czw9Qyxt5GRshhvU4+ALP+14hXV/6g5fULUW9cSo=;
+        b=gSpXUEhbpIplR6EbcFkvesQ9PX3zeR7GbpLHnfNVX2nv+chALb8QSmmW+PJwGjx4yh992H
+        TgR94zJJlTkygBtXV8WNdODD5D4ACk7JaF+AdAdNVXYvHSpB23HCMlfQ4klbg7xxgMd5JV
+        TQO6iEW+BAXOBcFQtFf2TFjs8iAYkqo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-UtMYJfsRP-mzVBqBrN3bHg-1; Thu, 12 Aug 2021 04:46:20 -0400
-X-MC-Unique: UtMYJfsRP-mzVBqBrN3bHg-1
+ us-mta-533-R40yVh9yMViusNQ_OgxF_g-1; Thu, 12 Aug 2021 04:46:40 -0400
+X-MC-Unique: R40yVh9yMViusNQ_OgxF_g-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B09D190B2A0;
-        Thu, 12 Aug 2021 08:46:14 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CACE1008061;
+        Thu, 12 Aug 2021 08:46:34 +0000 (UTC)
 Received: from t480s.redhat.com (unknown [10.39.193.117])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E2D365FC22;
-        Thu, 12 Aug 2021 08:45:54 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A840B5C3E0;
+        Thu, 12 Aug 2021 08:46:14 +0000 (UTC)
 From:   David Hildenbrand <david@redhat.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     David Hildenbrand <david@redhat.com>,
@@ -90,9 +90,9 @@ Cc:     David Hildenbrand <david@redhat.com>,
         <ckoenig.leichtzumerken@gmail.com>, linux-unionfs@vger.kernel.org,
         linux-api@vger.kernel.org, x86@kernel.org,
         linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH v1 6/7] mm: ignore MAP_DENYWRITE in ksys_mmap_pgoff()
-Date:   Thu, 12 Aug 2021 10:43:47 +0200
-Message-Id: <20210812084348.6521-7-david@redhat.com>
+Subject: [PATCH v1 7/7] fs: update documentation of get_write_access() and friends
+Date:   Thu, 12 Aug 2021 10:43:48 +0200
+Message-Id: <20210812084348.6521-8-david@redhat.com>
 In-Reply-To: <20210812084348.6521-1-david@redhat.com>
 References: <20210812084348.6521-1-david@redhat.com>
 MIME-Version: 1.0
@@ -102,60 +102,46 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Let's also remove masking off MAP_DENYWROTE from ksys_mmap_pgoff():
-the last in-tree occurrence of MAP_DENYWRITE is now in LEGACY_MAP_MASK,
-which accepts the flag e.g., for MAP_SHARED_VALIDATE; however, the flag
-is ignored throughout the kernel now.
-
-Add a comment to LEGACY_MAP_MASK stating that MAP_DENYWRITE is ignored.
+As VM_DENYWRITE does no longer exists, let's spring-clean the
+documentation of get_write_access() and friends.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- include/linux/mman.h | 3 ++-
- mm/mmap.c            | 2 --
- mm/nommu.c           | 2 --
- 3 files changed, 2 insertions(+), 5 deletions(-)
+ include/linux/fs.h | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/include/linux/mman.h b/include/linux/mman.h
-index bd9aadda047b..b66e91b8176c 100644
---- a/include/linux/mman.h
-+++ b/include/linux/mman.h
-@@ -32,7 +32,8 @@
-  * The historical set of flags that all mmap implementations implicitly
-  * support when a ->mmap_validate() op is not provided in file_operations.
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 640574294216..e0dc3e96ed72 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -3055,15 +3055,20 @@ static inline void file_end_write(struct file *file)
+ }
+ 
+ /*
++ * This is used for regular files where some users -- especially the
++ * currently executed binary in a process, previously handled via
++ * VM_DENYWRITE -- cannot handle concurrent write (and maybe mmap
++ * read-write shared) accesses.
++ *
+  * get_write_access() gets write permission for a file.
+  * put_write_access() releases this write permission.
+- * This is used for regular files.
+- * We cannot support write (and maybe mmap read-write shared) accesses and
+- * MAP_DENYWRITE mmappings simultaneously. The i_writecount field of an inode
+- * can have the following values:
+- * 0: no writers, no VM_DENYWRITE mappings
+- * < 0: (-i_writecount) vm_area_structs with VM_DENYWRITE set exist
+- * > 0: (i_writecount) users are writing to the file.
++ * deny_write_access() denies write access to a file.
++ * allow_write_access() re-enables write access to a file.
++ *
++ * The i_writecount field of an inode can have the following values:
++ * 0: no write access, no denied write access
++ * < 0: (-i_writecount) users that denied write access to the file.
++ * > 0: (i_writecount) users that have write access to the file.
   *
-- * MAP_EXECUTABLE is completely ignored throughout the kernel.
-+ * MAP_EXECUTABLE and MAP_DENYWRITE are completely ignored throughout the
-+ * kernel.
-  */
- #define LEGACY_MAP_MASK (MAP_SHARED \
- 		| MAP_PRIVATE \
-diff --git a/mm/mmap.c b/mm/mmap.c
-index 589dc1dc13db..bf11fc6e8311 100644
---- a/mm/mmap.c
-+++ b/mm/mmap.c
-@@ -1626,8 +1626,6 @@ unsigned long ksys_mmap_pgoff(unsigned long addr, unsigned long len,
- 			return PTR_ERR(file);
- 	}
- 
--	flags &= ~MAP_DENYWRITE;
--
- 	retval = vm_mmap_pgoff(file, addr, len, prot, flags, pgoff);
- out_fput:
- 	if (file)
-diff --git a/mm/nommu.c b/mm/nommu.c
-index 3a93d4054810..0987d131bdfc 100644
---- a/mm/nommu.c
-+++ b/mm/nommu.c
-@@ -1296,8 +1296,6 @@ unsigned long ksys_mmap_pgoff(unsigned long addr, unsigned long len,
- 			goto out;
- 	}
- 
--	flags &= ~MAP_DENYWRITE;
--
- 	retval = vm_mmap_pgoff(file, addr, len, prot, flags, pgoff);
- 
- 	if (file)
+  * Normally we operate on that counter with atomic_{inc,dec} and it's safe
+  * except for the cases where we don't hold i_writecount yet. Then we need to
 -- 
 2.31.1
 
