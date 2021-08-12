@@ -2,131 +2,84 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 71E143E9A43
-	for <lists+linux-api@lfdr.de>; Wed, 11 Aug 2021 23:12:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A588C3E9CC1
+	for <lists+linux-api@lfdr.de>; Thu, 12 Aug 2021 05:00:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231316AbhHKVMh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 11 Aug 2021 17:12:37 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:55444 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229589AbhHKVMg (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 11 Aug 2021 17:12:36 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: krisman)
-        with ESMTPSA id 05F241F438CB
-From:   Gabriel Krisman Bertazi <krisman@collabora.com>
-To:     Jan Kara <jack@suse.cz>
-Cc:     jack@suse.com, amir73il@gmail.com, djwong@kernel.org,
-        tytso@mit.edu, david@fromorbit.com, dhowells@redhat.com,
-        khazhy@google.com, linux-fsdevel@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-api@vger.kernel.org,
-        kernel@collabora.com
-Subject: Re: [PATCH v5 14/23] fanotify: Encode invalid file handler when no
- inode is provided
-Organization: Collabora
-References: <20210804160612.3575505-1-krisman@collabora.com>
-        <20210804160612.3575505-15-krisman@collabora.com>
-        <20210805095618.GF14483@quack2.suse.cz>
-Date:   Wed, 11 Aug 2021 17:12:05 -0400
-In-Reply-To: <20210805095618.GF14483@quack2.suse.cz> (Jan Kara's message of
-        "Thu, 5 Aug 2021 11:56:18 +0200")
-Message-ID: <87fsvf65zu.fsf@collabora.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+        id S233585AbhHLDAo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 11 Aug 2021 23:00:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60164 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233530AbhHLDAn (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 11 Aug 2021 23:00:43 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16D27C061765
+        for <linux-api@vger.kernel.org>; Wed, 11 Aug 2021 20:00:19 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id z9so5888339wrh.10
+        for <linux-api@vger.kernel.org>; Wed, 11 Aug 2021 20:00:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=vUNcmXc2/K7KDde6E3FGIOTG+4JxWYWoR+srzbPcm1A=;
+        b=QuUnanFUJA9Il8jUoECaGUZvVuVXT2LMU/gpPFlZZwyLFo2P7MfNf3LQVhw2K8kSNt
+         pRf9PYNij7iHgk+CKxSEJiiWSpXGAjiWS1hIXb1HRU80R1Kxwx8kCiziJ88oCfept6Ds
+         2dzthCByuNloyBI4V79UDel2L0DsYKu6SKz2gwSxe9cGUmsv9b4uMmvxy23/pIyve95e
+         lFBM3BO7gFu4oMW08VYXykcd+ws5QPG6nB2hCXlXZAU+Wwouvtxt3FgaVNa4XL6J59LX
+         EC+hoDsaEuKqBMs6oqM0wszhZbXR0faWpFEimSpQ33eYtguvFB0351dhGsN/IeGkjVES
+         w3+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=vUNcmXc2/K7KDde6E3FGIOTG+4JxWYWoR+srzbPcm1A=;
+        b=uSeD+MFV6XeoGg5d1uufGp/MAfBBpZEyJjdnammgKuRpSnQg3vClao8m8NXxkhF4Jh
+         Sbp2v4Z5sueO1oputlMw1+PcWQ6s98ZvBJ1WPtTVpQ069hBNfuaT54A1JxPwB0MFUq0X
+         L2XlSRh6c4/KMP/Zr63gDODlq841R06HtAXVAq4AJtfr4sO2RCD2tKkk8g8N5lw9971L
+         xXJuAEQSgSswyioJo/r2z2+2Agb/VkGYb5VfZNxCGuQlB/0GMtt3tsAudu3mYwxktoNr
+         r35039LdFz4pnqmeTSZKuMbQEEAvhn4KjDvXg4g0brFgTjZQdSvefXsa2qCBsjoSNlZE
+         3aiw==
+X-Gm-Message-State: AOAM531GkE/l7nwzP1jRCUhpOP1AmmCcN1t/iGo674VwNuByig68eG7e
+        cZvhm/R9lo8p0m/Y/7Qd8TRHyQ+LIBo9GSrL9iQ=
+X-Google-Smtp-Source: ABdhPJzWYcdYyzLa+tSn9Rus4beoGO32OL/e87lRFkwbdlqoFrTNMewE/SkQ4UJHRMveLU3bik9jQ/my525KecIZGBA=
+X-Received: by 2002:adf:cd91:: with SMTP id q17mr1394448wrj.122.1628737217725;
+ Wed, 11 Aug 2021 20:00:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+Received: by 2002:a1c:f316:0:0:0:0:0 with HTTP; Wed, 11 Aug 2021 20:00:17
+ -0700 (PDT)
+Reply-To: comradevahid.armstrong@gmail.com
+From:   Comrade Vahid Armstrong <pualwilliams817@gmail.com>
+Date:   Wed, 11 Aug 2021 20:00:17 -0700
+Message-ID: <CAPxgDuOZt8D_3nrySuGsNHXSC25QpGUwEPYwn+D78HtJXfrJng@mail.gmail.com>
+Subject: My Distinguished Greetings.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Jan Kara <jack@suse.cz> writes:
+Greetings,
 
-> On Wed 04-08-21 12:06:03, Gabriel Krisman Bertazi wrote:
->> Instead of failing, encode an invalid file handler in fanotify_encode_fh
->> if no inode is provided.  This bogus file handler will be reported by
->> FAN_FS_ERROR for non-inode errors.
->> 
->> Also adjust the single caller that might rely on failure after passing
->> an empty inode.
->
-> It is not 'file handler' but rather 'file handle' - several times in the
-> changelog and in subject :).
->
->> Suggested-by: Amir Goldstein <amir73il@gmail.com>
->> Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
->> ---
->>  fs/notify/fanotify/fanotify.c | 39 ++++++++++++++++++++---------------
->>  fs/notify/fanotify/fanotify.h |  6 ++++--
->>  2 files changed, 26 insertions(+), 19 deletions(-)
->> 
->> diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
->> index 0d6ba218bc01..456c60107d88 100644
->> --- a/fs/notify/fanotify/fanotify.c
->> +++ b/fs/notify/fanotify/fanotify.c
->> @@ -349,12 +349,6 @@ static int fanotify_encode_fh(struct fanotify_fh *fh, struct inode *inode,
->>  	void *buf = fh->buf;
->>  	int err;
->>  
->> -	fh->type = FILEID_ROOT;
->> -	fh->len = 0;
->> -	fh->flags = 0;
->> -	if (!inode)
->> -		return 0;
->> -
->
-> I'd keep the fh->flags initialization here. Otherwise it will not be
-> initialized on some error returns.
->
->> @@ -363,8 +357,9 @@ static int fanotify_encode_fh(struct fanotify_fh *fh, struct inode *inode,
->>  	if (fh_len < 4 || WARN_ON_ONCE(fh_len % 4))
->>  		goto out_err;
->>  
->> -	/* No external buffer in a variable size allocated fh */
->> -	if (gfp && fh_len > FANOTIFY_INLINE_FH_LEN) {
->> +	fh->flags = 0;
->> +	/* No external buffer in a variable size allocated fh or null fh */
->> +	if (inode && gfp && fh_len > FANOTIFY_INLINE_FH_LEN) {
->>  		/* Treat failure to allocate fh as failure to encode fh */
->>  		err = -ENOMEM;
->>  		ext_buf = kmalloc(fh_len, gfp);
->> @@ -376,14 +371,24 @@ static int fanotify_encode_fh(struct fanotify_fh *fh, struct inode *inode,
->>  		fh->flags |= FANOTIFY_FH_FLAG_EXT_BUF;
->>  	}
->>  
->> -	dwords = fh_len >> 2;
->> -	type = exportfs_encode_inode_fh(inode, buf, &dwords, NULL);
->> -	err = -EINVAL;
->> -	if (!type || type == FILEID_INVALID || fh_len != dwords << 2)
->> -		goto out_err;
->> -
->> -	fh->type = type;
->> -	fh->len = fh_len;
->> +	if (inode) {
->> +		dwords = fh_len >> 2;
->> +		type = exportfs_encode_inode_fh(inode, buf, &dwords, NULL);
->> +		err = -EINVAL;
->> +		if (!type || type == FILEID_INVALID || fh_len != dwords << 2)
->> +			goto out_err;
->> +		fh->type = type;
->> +		fh->len = fh_len;
->> +	} else {
->> +		/*
->> +		 * Invalid FHs are used on FAN_FS_ERROR for errors not
->> +		 * linked to any inode. Caller needs to guarantee the fh
->> +		 * has at least FANOTIFY_NULL_FH_LEN bytes of space.
->> +		 */
->> +		fh->type = FILEID_INVALID;
->> +		fh->len = FANOTIFY_NULL_FH_LEN;
->> +		memset(buf, 0, FANOTIFY_NULL_FH_LEN);
->> +	}
->
-> Maybe it will become clearer later during the series but why do you set
-> fh->len to FANOTIFY_NULL_FH_LEN and not 0?
+My name is Mr.Comrade Vahid Armstrone, Chief Operating Financial
+Officer Burkina Faso Investment bank, It is true that we have not met
+each other in person, but I strongly believe in trust and friendship
+in every business. As I am contacting you independently of my
+investigation and no one is informed of this communication.
 
-Jan,
+My reason for contacting you is to transfer an abandoned sum of
+$10.5million Dollars immediately to your private account, the money
+has been here in our Bank lying dormant for years now without anybody
+coming for the claim of it.
 
-That is how we encode a NULL file handle (i.e. superblock error).  Amir
-suggested it would be an invalid FILEID_INVALID, with a zeroed handle of
-size 8.  I will improve the comment on the next iteration.
+The funds belong to our deceased Customer Mrs.Shannel Lake who
+perished along with her family since 9 years ago and the Banking laws
+here does not allow such money to stay more than 10 years, that is the
+reason why I need your Cooperation in transferring the money to your
+account so that we can use it to secure the future of our both
+families because I don't want the money to be recalled to the bank
+treasury as unclaimed fund.
 
--- 
-Gabriel Krisman Bertazi
+For the success of this operation, you should keep strictly
+confidential what I have just confided in you. Only this condition can
+allow us to achieve total success.
+
+Mr. Comrade Vahid Armstrong.
+Chief Operating Financial Officer.
