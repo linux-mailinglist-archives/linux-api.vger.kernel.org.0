@@ -2,137 +2,147 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E5AA83EAA06
-	for <lists+linux-api@lfdr.de>; Thu, 12 Aug 2021 20:16:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD2DB3EAA1A
+	for <lists+linux-api@lfdr.de>; Thu, 12 Aug 2021 20:19:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237464AbhHLSQb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 12 Aug 2021 14:16:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48373 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236984AbhHLSQb (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 12 Aug 2021 14:16:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1628792165;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=S+E4q/M54NKHA7t+0+yZiG5e1rXRHCWENhzfTmuDkeE=;
-        b=EcbWKQGf9e0LexLu83WWLma+sJ5qn9WKcE+zoHcRfip06dYtvrfW0ccwsquYkDIxuefCvN
-        0ZFZDhCwyqQcKt8CsrSiuQIa83cMfPkQITuLC/r9jXSho1MK1fVUU7TPmm1FJ5DhnGvE34
-        fWQtv5VGwS7kQJoEgFbtyp5oYsgfoSA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-410-gDhWt0HiO3W_TydA5ZQu8w-1; Thu, 12 Aug 2021 14:16:04 -0400
-X-MC-Unique: gDhWt0HiO3W_TydA5ZQu8w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A87080124F;
-        Thu, 12 Aug 2021 18:16:03 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.39.194.2])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id BB15D1017CE5;
-        Thu, 12 Aug 2021 18:15:42 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     ebiederm@xmission.com (Eric W. Biederman)
-Cc:     "Andy Lutomirski" <luto@kernel.org>,
-        "David Hildenbrand" <david@redhat.com>,
-        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
-        "Linus Torvalds" <torvalds@linux-foundation.org>,
-        "Andrew Morton" <akpm@linux-foundation.org>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Al Viro" <viro@zeniv.linux.org.uk>,
-        "Alexey Dobriyan" <adobriyan@gmail.com>,
-        "Steven Rostedt" <rostedt@goodmis.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        "Arnaldo Carvalho de Melo" <acme@kernel.org>,
-        "Mark Rutland" <mark.rutland@arm.com>,
-        "Alexander Shishkin" <alexander.shishkin@linux.intel.com>,
-        "Jiri Olsa" <jolsa@redhat.com>,
-        "Namhyung Kim" <namhyung@kernel.org>,
-        "Petr Mladek" <pmladek@suse.com>,
-        "Sergey Senozhatsky" <sergey.senozhatsky@gmail.com>,
-        "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
-        "Rasmus Villemoes" <linux@rasmusvillemoes.dk>,
-        "Kees Cook" <keescook@chromium.org>,
-        "Greg Ungerer" <gerg@linux-m68k.org>,
-        "Geert Uytterhoeven" <geert@linux-m68k.org>,
-        "Mike Rapoport" <rppt@kernel.org>,
-        "Vlastimil Babka" <vbabka@suse.cz>,
-        "Vincenzo Frascino" <vincenzo.frascino@arm.com>,
-        "Chinwen Chang" <chinwen.chang@mediatek.com>,
-        "Michel Lespinasse" <walken@google.com>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        "Huang Ying" <ying.huang@intel.com>,
-        "Jann Horn" <jannh@google.com>, "Feng Tang" <feng.tang@intel.com>,
-        "Kevin Brodsky" <Kevin.Brodsky@arm.com>,
-        "Michael Ellerman" <mpe@ellerman.id.au>,
-        "Shawn Anastasio" <shawn@anastas.io>,
-        "Steven Price" <steven.price@arm.com>,
-        "Nicholas Piggin" <npiggin@gmail.com>,
-        "Christian Brauner" <christian.brauner@ubuntu.com>,
-        "Jens Axboe" <axboe@kernel.dk>,
-        "Gabriel Krisman Bertazi" <krisman@collabora.com>,
-        "Peter Xu" <peterx@redhat.com>,
-        "Suren Baghdasaryan" <surenb@google.com>,
-        "Shakeel Butt" <shakeelb@google.com>,
-        "Marco Elver" <elver@google.com>,
-        "Daniel Jordan" <daniel.m.jordan@oracle.com>,
-        "Nicolas Viennot" <Nicolas.Viennot@twosigma.com>,
-        "Thomas Cedeno" <thomascedeno@google.com>,
-        "Collin Fijalkovich" <cfijalkovich@google.com>,
-        "Michal Hocko" <mhocko@suse.com>,
-        "Miklos Szeredi" <miklos@szeredi.hu>,
-        "Chengguang Xu" <cgxu519@mykernel.net>,
-        Christian =?utf-8?Q?K=C3=B6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>, linux-unionfs@vger.kernel.org,
-        "Linux API" <linux-api@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v1 0/7] Remove in-tree usage of MAP_DENYWRITE
-References: <20210812084348.6521-1-david@redhat.com> <87o8a2d0wf.fsf@disp2133>
-        <60db2e61-6b00-44fa-b718-e4361fcc238c@www.fastmail.com>
-        <87lf56bllc.fsf@disp2133>
-Date:   Thu, 12 Aug 2021 20:15:40 +0200
-In-Reply-To: <87lf56bllc.fsf@disp2133> (Eric W. Biederman's message of "Thu,
-        12 Aug 2021 12:48:31 -0500")
-Message-ID: <87lf56edgz.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+        id S231149AbhHLSUO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 12 Aug 2021 14:20:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45778 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230110AbhHLSUN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 12 Aug 2021 14:20:13 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C7C3C061756;
+        Thu, 12 Aug 2021 11:19:48 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id w5so13297529ejq.2;
+        Thu, 12 Aug 2021 11:19:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8nzZyrKMG5TvZzfbf2DLNKR6Jtfcs5c5EesoZusA2AY=;
+        b=T9KK0Hg/ncYGvFpuJf1onKvfAmh032mxqNoQxxDccdXc/LZQyFFuQ3vB6xNpz8szEg
+         PX23xmhiSis4EHAeZY9QHbnay9hENt9ixpzGFNjMCHRVD8wcJnQAgYtsngVaBlf7ZZ32
+         Z90sESGr+S82m+dmANG/y67aKAHecjvzbzutg7COYRcQrouY5yhuSDisolLuuWcycnxz
+         JA59o02qWy9dhI6tzvm5ATAYtYLzXPn8x62EzJzOe9zAFQQTc6Pb2CNk0PP/XZgRyaG2
+         eOQGWp+Ma6wAQp9ZYddxWtaxM1h35yGBjtDgIZwnAMz7z3pkAwRBO3XmEX4y2zO8bqW2
+         t2vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8nzZyrKMG5TvZzfbf2DLNKR6Jtfcs5c5EesoZusA2AY=;
+        b=C3+V2wPyqKNpCrO53skLwO7RHEVArt4VUlVGNZKeI5lHWIKvyQ+ndKXOFYjGyqlk8R
+         c5ar6YUBGW3xF/qEQwmVfH8Y0o1IIS889LM26I23vjpkOiLPjMQH615RKyeeRoYSh2W+
+         rbwKgY4RrnV++O7MuHMzfQuySpNe3dT1jB0BV6QXs4hhSFqsr0ukAounKdOLtsK+kqq+
+         r+03OqYxIpquvnE9bD1BhPH90VLIDapUhbYaCv9p3J2tjuyD9G8qvxAr4hCqT7TIS4Ot
+         Eqpe0QIhJbNPqY/OLdct2Kr1dUrJrn5qO9/66iv937zwf9vydnDVXbpQxo3NcEcaBROg
+         8cIg==
+X-Gm-Message-State: AOAM5320xq8+jrlVyGpHpuiaHijFEQMGokrMIE0c937fJFQiLYJYMBn/
+        eZY+klvJNYPBxAMgR/G1O9ZYzNgOSzFVWqridnk=
+X-Google-Smtp-Source: ABdhPJzVb8Ly7AuiUHCY8iVDKVjkusJJzpLqX0GR+dzzhsa0I2l70v548ZkgUFHNHkulXbMmvrnJb/V7KyfLVsjBK1Y=
+X-Received: by 2002:a17:906:491a:: with SMTP id b26mr5005149ejq.25.1628792386664;
+ Thu, 12 Aug 2021 11:19:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+References: <2862852d-badd-7486-3a8e-c5ea9666d6fb@google.com>
+ <dae523ab-c75b-f532-af9d-8b6a1d4e29b@google.com> <CAHbLzkoKZ9OdUfP5DX81CKOJWrRZ0GANrmenNeKWNmSOgUh0bQ@mail.gmail.com>
+ <e7374d7e-4773-aba1-763-8fa2c953f917@google.com> <CAHbLzko_wg4mx-LTbJ6JcJo-6VzMh5BAcuMV8PXKPsFXOBVASw@mail.gmail.com>
+ <CAHbLzkqKQ_k_aipojZd=UiHyivaweCpCFJJn7WCWVcxhTijqAQ@mail.gmail.com>
+ <749bcf72-efbd-d6c-db30-e9ff98242390@google.com> <CAHbLzkou+6m+htMNzSQrHfd6U0yURWiewK=Pvg30XSdiW=t+-w@mail.gmail.com>
+In-Reply-To: <CAHbLzkou+6m+htMNzSQrHfd6U0yURWiewK=Pvg30XSdiW=t+-w@mail.gmail.com>
+From:   Yang Shi <shy828301@gmail.com>
+Date:   Thu, 12 Aug 2021 11:19:34 -0700
+Message-ID: <CAHbLzkpd1r1kLhNP7=Una_Fxpdgx7vE9aeyBgqHRE8M5e9j-qQ@mail.gmail.com>
+Subject: Re: [PATCH 06/16] huge tmpfs: shmem_is_huge(vma, inode, index)
+To:     Hugh Dickins <hughd@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Rik van Riel <riel@surriel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Alexey Gladkov <legion@kernel.org>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Matthew Auld <matthew.auld@intel.com>,
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-api@vger.kernel.org, Linux MM <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Eric W. Biederman:
+On Fri, Aug 6, 2021 at 10:57 AM Yang Shi <shy828301@gmail.com> wrote:
+>
+> On Thu, Aug 5, 2021 at 10:43 PM Hugh Dickins <hughd@google.com> wrote:
+> >
+> > On Thu, 5 Aug 2021, Yang Shi wrote:
+> > >
+> > > By rereading the code, I think you are correct. Both cases do work
+> > > correctly without leaking. And the !CONFIG_NUMA case may carry the
+> > > huge page indefinitely.
+> > >
+> > > I think it is because khugepaged may collapse memory for another NUMA
+> > > node in the next loop, so it doesn't make too much sense to carry the
+> > > huge page, but it may be an optimization for !CONFIG_NUMA case.
+> >
+> > Yes, that is its intention.
+> >
+> > >
+> > > However, as I mentioned in earlier email the new pcp implementation
+> > > could cache THP now, so we might not need keep this convoluted logic
+> > > anymore. Just free the page if collapse is failed then re-allocate
+> > > THP. The carried THP might improve the success rate a little bit but I
+> > > doubt how noticeable it would be, may be not worth for the extra
+> > > complexity at all.
+> >
+> > It would be great if the new pcp implementation is good enough to
+> > get rid of khugepaged's confusing NUMA=y/NUMA=n differences; and all
+> > the *hpage stuff too, I hope.  That would be a welcome cleanup.
+>
+>  The other question is if that optimization is worth it nowadays or
+> not. I bet not too many users build NUMA=n kernel nowadays even though
+> the kernel is actually running on a non-NUMA machine. Some small
+> devices may run NUMA=n kernel, but I don't think they actually use
+> THP. So such code complexity could be removed from this point of view
+> too.
+>
+> >
+> > > > > Collapse failure is not uncommon and leaking huge pages gets noticed.
+> >
+> > After writing that, I realized how I'm almost always testing a NUMA=y
+> > kernel (though on non-NUMA machines), and seldom try the NUMA=n build.
+> > So did so to check no leak, indeed; but was surprised, when comparing
+> > vmstats, that the NUMA=n run had done 5 times as much thp_collapse_alloc
+> > as the NUMA=y run.  I've merely made a note to look into that one day:
+> > maybe it was just a one-off oddity, or maybe the incrementing of stats
+> > is wrong down one path or the other.
 
-> Given that MAP_PRIVATE for shared libraries is our strategy for handling
-> writes to shared libraries perhaps we just need to use MAP_POPULATE or a
-> new related flag (perhaps MAP_PRIVATE_NOW) that just makes certain that
-> everything mapped from the executable is guaranteed to be visible from
-> the time of the mmap, and any changes from the filesystem side after
-> that are guaranteed to cause a copy on write.
+I came up with a patch to remove !CONFIG_NUMA case, and my test found
+the same problem. NUMA=n run had done 5 times as much
+thp_collapse_alloc as NUMA=y run with vanilla kernel just exactly as
+what you saw.
 
-I think this is called MAP_COPY:
+A quick look shows the huge page allocation timing is different for
+the two cases. For NUMA=n, the huge page is allocated by
+khugepaged_prealloc_page() before scanning the address space, so it
+means huge page may be allocated even though there is no suitable
+range for collapsing. Then the page would be just freed if khugepaged
+already made enough progress then try to reallocate again. The problem
+should be more noticeable if you have a shorter scan interval
+(scan_sleep_millisecs). I set it to 100ms for my test.
 
-  <https://www.gnu.org/software/hurd/glibc/mmap.html>
+We could carry the huge page across scan passes for NUMA=n, but this
+would make the code more complicated. I don't think it is really
+worth, so just removing the special case for NUMA=n sounds more
+reasonable to me.
 
-If we could get that functionality, we would certainly use it in the
-glibc dynamic loader.  And it's not just dynamic loaders that would
-benefit.
-
-But I assume there are some rather thorny issues around semantics.  If
-the changed areas of the file are in the page cache already, everything
-is okay.  But if parts of the file are changed or discarded that are
-not, they would have to be read in first, which is rather awkward.
-
-That's why I suggested the signal for all future accesses.  It seems
-more tractable and addresses the largest issue (the difficulty of
-figuring out why some processes crash occasionally).
-
-Thanks,
-Florian
-
+>
+> Yeah, probably.
+>
+> >
+> > Hugh
