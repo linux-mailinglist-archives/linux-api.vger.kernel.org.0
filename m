@@ -2,18 +2,18 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 671773EA1C8
-	for <lists+linux-api@lfdr.de>; Thu, 12 Aug 2021 11:18:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 27B9D3EA2AC
+	for <lists+linux-api@lfdr.de>; Thu, 12 Aug 2021 12:06:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235364AbhHLJSX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 12 Aug 2021 05:18:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57912 "EHLO mail.kernel.org"
+        id S234895AbhHLKGZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 12 Aug 2021 06:06:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40962 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235317AbhHLJSX (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 12 Aug 2021 05:18:23 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0C8256056B;
-        Thu, 12 Aug 2021 09:17:44 +0000 (UTC)
-Date:   Thu, 12 Aug 2021 11:17:42 +0200
+        id S231470AbhHLKGY (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 12 Aug 2021 06:06:24 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6346160FBF;
+        Thu, 12 Aug 2021 10:05:47 +0000 (UTC)
+Date:   Thu, 12 Aug 2021 12:05:44 +0200
 From:   Christian Brauner <christian.brauner@ubuntu.com>
 To:     David Hildenbrand <david@redhat.com>
 Cc:     linux-kernel@vger.kernel.org,
@@ -68,158 +68,151 @@ Cc:     linux-kernel@vger.kernel.org,
         Chengguang Xu <cgxu519@mykernel.net>,
         Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
         linux-unionfs@vger.kernel.org, linux-api@vger.kernel.org,
-        x86@kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v1 2/7] kernel/fork: factor out atomcially replacing the
- current MM exe_file
-Message-ID: <20210812091742.nbnmsa37adaqkxwd@wittgenstein>
+        x86@kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        Andrei Vagin <avagin@gmail.com>
+Subject: Re: [PATCH v1 3/7] kernel/fork: always deny write access to current
+ MM exe_file
+Message-ID: <20210812100544.uhsfp75b4jcrv3qx@wittgenstein>
 References: <20210812084348.6521-1-david@redhat.com>
- <20210812084348.6521-3-david@redhat.com>
+ <20210812084348.6521-4-david@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210812084348.6521-3-david@redhat.com>
+In-Reply-To: <20210812084348.6521-4-david@redhat.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Aug 12, 2021 at 10:43:43AM +0200, David Hildenbrand wrote:
-> Let's factor the main logic out into atomic_set_mm_exe_file(), such that
-> all mm->exe_file logic is contained in kernel/fork.c.
+[+Cc Andrei]
+
+On Thu, Aug 12, 2021 at 10:43:44AM +0200, David Hildenbrand wrote:
+> We want to remove VM_DENYWRITE only currently only used when mapping the
+> executable during exec. During exec, we already deny_write_access() the
+> executable, however, after exec completes the VMAs mapped
+> with VM_DENYWRITE effectively keeps write access denied via
+> deny_write_access().
 > 
-> While at it, perform some simple cleanups that are possible now that
-> we're simplifying the individual functions.
+> Let's deny write access when setting the MM exe_file. With this change, we
+> can remove VM_DENYWRITE for mapping executables.
+> 
+> This represents a minor user space visible change:
+> sys_prctl(PR_SET_MM_EXE_FILE) can now fail if the file is already
+> opened writable. Also, after sys_prctl(PR_SET_MM_EXE_FILE), the file
+
+Just for completeness, this also affects PR_SET_MM_MAP when exe_fd is
+set.
+
+> cannot be opened writable. Note that we can already fail with -EACCES if
+> the file doesn't have execute permissions.
 > 
 > Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
 
-Looks good.
-Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
+The biggest user I know and that I'm involved in is CRIU which heavily
+uses PR_SET_MM_MAP (with a fallback to PR_SET_MM_EXE_FILE on older
+kernels) during restore. Afair, criu opens the exe fd as an O_PATH
+during dump and thus will use the same flag during restore when
+opening it. So that should be fine.
 
->  include/linux/mm.h |  2 ++
->  kernel/fork.c      | 35 +++++++++++++++++++++++++++++++++--
->  kernel/sys.c       | 33 +--------------------------------
->  3 files changed, 36 insertions(+), 34 deletions(-)
+However, if I understand the consequences of this change correctly, a
+problem could be restoring workloads that hold a writable fd open to
+their exe file at dump time which would mean that during restore that fd
+would be reopened writable causing CRIU to fail when setting the exe
+file for the task to be restored.
+
+Which honestly, no idea how many such workloads exist. (I know at least
+of runC and LXC need to sometimes reopen to rexec themselves (weird bug
+to protect against attacking the exe file) and thus re-open
+/proc/self/exe but read-only.)
+
+>  kernel/fork.c | 39 ++++++++++++++++++++++++++++++++++-----
+>  1 file changed, 34 insertions(+), 5 deletions(-)
 > 
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 7ca22e6e694a..197505324b74 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -2581,6 +2581,8 @@ extern int mm_take_all_locks(struct mm_struct *mm);
->  extern void mm_drop_all_locks(struct mm_struct *mm);
->  
->  extern void set_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file);
-> +extern int atomic_set_mm_exe_file(struct mm_struct *mm,
-> +				  struct file *new_exe_file);
->  extern struct file *get_mm_exe_file(struct mm_struct *mm);
->  extern struct file *get_task_exe_file(struct task_struct *task);
->  
 > diff --git a/kernel/fork.c b/kernel/fork.c
-> index bc94b2cc5995..6bd2e52bcdfb 100644
+> index 6bd2e52bcdfb..5d904878f19b 100644
 > --- a/kernel/fork.c
 > +++ b/kernel/fork.c
-> @@ -1149,8 +1149,8 @@ void mmput_async(struct mm_struct *mm)
->   * Main users are mmput() and sys_execve(). Callers prevent concurrent
->   * invocations: in mmput() nobody alive left, in execve task is single
->   * threaded. sys_prctl(PR_SET_MM_MAP/EXE_FILE) also needs to set the
-> - * mm->exe_file, but does so without using set_mm_exe_file() in order
-> - * to avoid the need for any locks.
-> + * mm->exe_file, but uses atomic_set_mm_exe_file(), avoiding the need
-> + * for any locks.
->   */
->  void set_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file)
+> @@ -476,6 +476,7 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
 >  {
-> @@ -1170,6 +1170,37 @@ void set_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file)
->  		fput(old_exe_file);
->  }
+>  	struct vm_area_struct *mpnt, *tmp, *prev, **pprev;
+>  	struct rb_node **rb_link, *rb_parent;
+> +	struct file *exe_file;
+>  	int retval;
+>  	unsigned long charge;
+>  	LIST_HEAD(uf);
+> @@ -493,7 +494,10 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
+>  	mmap_write_lock_nested(mm, SINGLE_DEPTH_NESTING);
 >  
-> +int atomic_set_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file)
-> +{
-> +	struct vm_area_struct *vma;
-> +	struct file *old_exe_file;
-> +	int ret = 0;
+>  	/* No ordering required: file already has been exposed. */
+> -	RCU_INIT_POINTER(mm->exe_file, get_mm_exe_file(oldmm));
+> +	exe_file = get_mm_exe_file(oldmm);
+> +	RCU_INIT_POINTER(mm->exe_file, exe_file);
+> +	if (exe_file)
+> +		deny_write_access(exe_file);
+>  
+>  	mm->total_vm = oldmm->total_vm;
+>  	mm->data_vm = oldmm->data_vm;
+> @@ -638,8 +642,13 @@ static inline void mm_free_pgd(struct mm_struct *mm)
+>  #else
+>  static int dup_mmap(struct mm_struct *mm, struct mm_struct *oldmm)
+>  {
+> +	struct file *exe_file;
 > +
-> +	/* Forbid mm->exe_file change if old file still mapped. */
-> +	old_exe_file = get_mm_exe_file(mm);
-> +	if (old_exe_file) {
-> +		mmap_read_lock(mm);
-> +		for (vma = mm->mmap; vma && !ret; vma = vma->vm_next) {
-> +			if (!vma->vm_file)
-> +				continue;
-> +			if (path_equal(&vma->vm_file->f_path,
-> +				       &old_exe_file->f_path))
-> +				ret = -EBUSY;
-> +		}
-> +		mmap_read_unlock(mm);
-> +		fput(old_exe_file);
-> +		if (ret)
-> +			return ret;
+>  	mmap_write_lock(oldmm);
+> -	RCU_INIT_POINTER(mm->exe_file, get_mm_exe_file(oldmm));
+> +	exe_file = get_mm_exe_file(oldmm);
+> +	RCU_INIT_POINTER(mm->exe_file, exe_file);
+> +	if (exe_file)
+> +		deny_write_access(exe_file);
+>  	mmap_write_unlock(oldmm);
+>  	return 0;
+>  }
+> @@ -1163,11 +1172,19 @@ void set_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file)
+>  	 */
+>  	old_exe_file = rcu_dereference_raw(mm->exe_file);
+>  
+> -	if (new_exe_file)
+> +	if (new_exe_file) {
+>  		get_file(new_exe_file);
+> +		/*
+> +		 * exec code is required to deny_write_access() successfully,
+> +		 * so this cannot fail
+> +		 */
+> +		deny_write_access(new_exe_file);
 > +	}
-> +
-> +	/* set the new file, lockless */
-> +	get_file(new_exe_file);
-> +	old_exe_file = xchg(&mm->exe_file, new_exe_file);
-> +	if (old_exe_file)
-> +		fput(old_exe_file);
-> +	return 0;
-> +}
-> +
->  /**
->   * get_mm_exe_file - acquire a reference to the mm's executable file
->   *
-> diff --git a/kernel/sys.c b/kernel/sys.c
-> index ef1a78f5d71c..40551b411fda 100644
-> --- a/kernel/sys.c
-> +++ b/kernel/sys.c
-> @@ -1846,7 +1846,6 @@ SYSCALL_DEFINE1(umask, int, mask)
->  static int prctl_set_mm_exe_file(struct mm_struct *mm, unsigned int fd)
->  {
->  	struct fd exe;
-> -	struct file *old_exe, *exe_file;
->  	struct inode *inode;
->  	int err;
->  
-> @@ -1869,40 +1868,10 @@ static int prctl_set_mm_exe_file(struct mm_struct *mm, unsigned int fd)
->  	if (err)
->  		goto exit;
->  
-> -	/*
-> -	 * Forbid mm->exe_file change if old file still mapped.
-> -	 */
-> -	exe_file = get_mm_exe_file(mm);
-> -	err = -EBUSY;
-> -	if (exe_file) {
-> -		struct vm_area_struct *vma;
-> -
-> -		mmap_read_lock(mm);
-> -		for (vma = mm->mmap; vma; vma = vma->vm_next) {
-> -			if (!vma->vm_file)
-> -				continue;
-> -			if (path_equal(&vma->vm_file->f_path,
-> -				       &exe_file->f_path))
-> -				goto exit_err;
-> -		}
-> -
-> -		mmap_read_unlock(mm);
-> -		fput(exe_file);
-> -	}
-> -
-> -	err = 0;
-> -	/* set the new file, lockless */
-> -	get_file(exe.file);
-> -	old_exe = xchg(&mm->exe_file, exe.file);
-> -	if (old_exe)
-> -		fput(old_exe);
-> +	err = atomic_set_mm_exe_file(mm, exe.file);
->  exit:
->  	fdput(exe);
->  	return err;
-> -exit_err:
-> -	mmap_read_unlock(mm);
-> -	fput(exe_file);
-> -	goto exit;
+>  	rcu_assign_pointer(mm->exe_file, new_exe_file);
+> -	if (old_exe_file)
+> +	if (old_exe_file) {
+> +		allow_write_access(old_exe_file);
+>  		fput(old_exe_file);
+> +	}
 >  }
 >  
->  /*
+>  int atomic_set_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file)
+> @@ -1194,10 +1211,22 @@ int atomic_set_mm_exe_file(struct mm_struct *mm, struct file *new_exe_file)
+>  	}
+>  
+>  	/* set the new file, lockless */
+> +	ret = deny_write_access(new_exe_file);
+> +	if (ret)
+> +		return -EACCES;
+>  	get_file(new_exe_file);
+> +
+>  	old_exe_file = xchg(&mm->exe_file, new_exe_file);
+> -	if (old_exe_file)
+> +	if (old_exe_file) {
+> +		/*
+> +		 * Don't race with dup_mmap() getting the file and disallowing
+> +		 * write access while someone might open the file writable.
+> +		 */
+> +		mmap_read_lock(mm);
+> +		allow_write_access(old_exe_file);
+>  		fput(old_exe_file);
+> +		mmap_read_unlock(mm);
+> +	}
+>  	return 0;
+>  }
+>  
 > -- 
 > 2.31.1
 > 
