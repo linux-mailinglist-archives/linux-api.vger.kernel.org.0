@@ -2,163 +2,149 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C4EDA3EBB69
-	for <lists+linux-api@lfdr.de>; Fri, 13 Aug 2021 19:25:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EBDB3EBDA7
+	for <lists+linux-api@lfdr.de>; Fri, 13 Aug 2021 22:51:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229533AbhHMR0O (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 13 Aug 2021 13:26:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50228 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230377AbhHMR0N (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 13 Aug 2021 13:26:13 -0400
-Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BE11C061756;
-        Fri, 13 Aug 2021 10:25:46 -0700 (PDT)
-Received: by mail-il1-x12a.google.com with SMTP id j18so11565827ile.8;
-        Fri, 13 Aug 2021 10:25:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+S4KVBw8yJJB/lH4WqdNiyvGW22o5SNQiP41sgzMDNQ=;
-        b=qCL/GtZbI6TEy2j8PXsp4xYga40DBF2y5vJrPqkm7lDJRM7Bvat6M5IrGE+Utie2Ak
-         qT9/G+b762+CSLWqSddSRQVJIfZHO/mZcHIuQvLV9yxYh+NRO50kyh7DqlByW0f88MKt
-         Cv8i4i33w/eEVWNDl1QDeaKdiMd2T2KxxDiM72vrGwx+kWRQN4J97Zx+S43vTZYsJu26
-         NYkwLLsigMfr1D+qau34a66fe+1VibqZ55+XcdaAz11hzsf5juWU5cqmZt8v5+2MTPFb
-         RxTNWGlDftqImdhHLtuSvH8L0+mvco7qPQ3XJnraSfQIZRVYLmI1CtjdKeEvpFvo2lMD
-         yL/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+S4KVBw8yJJB/lH4WqdNiyvGW22o5SNQiP41sgzMDNQ=;
-        b=blYggq4kD5jX/i6icHVusWG/vBbJWGktm30XaEOawsC3sJkXERJizfEy4n75fCDSzy
-         MjP3FZbBwCVuCgHw1+vrpzhQ3RX5MSsFZKwNuwzerksO6BrX9Xb0vWa64Y50c54rN/+F
-         kTGUZr+FC1PSQ0Zn5s+EsIbrlvlt3GAYZzz+lzlIDr1IhZmohCtwfNLQ/u94pwxDiSIm
-         DdYe3VtrNEHm+x7AWwDMAiDOWbP6MgFobHdnL2XBHdB72Q60c0mOBd+TYgrRlaF9bFxT
-         YGOHaDIB1+SG0BpNrI8FmQ6AHCbvQDPyLzYRNwCKZO4OXRXzHwE4ysGCgA0WZmVsDZND
-         ixJw==
-X-Gm-Message-State: AOAM533A5mwqwZiIncax7QMlPMkoxQbiPgE6P1ww9ENdaaykDkT++UjA
-        JgQs9RaeIi0K+wmp09+OIG5HwBnD3AueAzX1Ies=
-X-Google-Smtp-Source: ABdhPJz5mNdrteFnDuv6JqWGHzA1iVZT98tciPujIaiqBIoNiO83BVZdgRaJR3Z/lQ6gvp0Q8n1Va5/WZ6JI0ZPxlms=
-X-Received: by 2002:a92:cd0a:: with SMTP id z10mr2392060iln.137.1628875545704;
- Fri, 13 Aug 2021 10:25:45 -0700 (PDT)
+        id S233915AbhHMUwI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 13 Aug 2021 16:52:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54523 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234734AbhHMUwG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 13 Aug 2021 16:52:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1628887899;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=m2X6nzOXxo3H0EdqupppVKuVb2Pe4/bVUTDNmqoeLdE=;
+        b=Yb9gXmJpHHNu/HqklSnm31wbvC8bBlv8gKdSiA+a7d+FtI6Bzyi4+e3H1U01hkOQOwzeem
+        Tj/tf6750ZYgyEWoOZesgJbVNYYFecx168Jt+/mAgw24gKmoshrcZtJMQONMybGZtcSFGp
+        wq3Net7QgEd7LAThqPxXqz0cDYypRYo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-183-Y3LCxE_EOcGvjoJz3lSDhA-1; Fri, 13 Aug 2021 16:51:35 -0400
+X-MC-Unique: Y3LCxE_EOcGvjoJz3lSDhA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9ADC1008060;
+        Fri, 13 Aug 2021 20:51:33 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.39.194.2])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 795DB1BCF0;
+        Fri, 13 Aug 2021 20:51:11 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     ebiederm@xmission.com (Eric W. Biederman)
+Cc:     David Laight <David.Laight@ACULAB.COM>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        David Hildenbrand <david@redhat.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Ingo Molnar" <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        "Namhyung Kim" <namhyung@kernel.org>,
+        Petr Mladek <pmladek@suse.com>,
+        "Sergey Senozhatsky" <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Kees Cook <keescook@chromium.org>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "Mike Rapoport" <rppt@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        "Vincenzo Frascino" <vincenzo.frascino@arm.com>,
+        Chinwen Chang <chinwen.chang@mediatek.com>,
+        Michel Lespinasse <walken@google.com>,
+        "Catalin Marinas" <catalin.marinas@arm.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Huang Ying <ying.huang@intel.com>,
+        Jann Horn <jannh@google.com>, Feng Tang <feng.tang@intel.com>,
+        Kevin Brodsky <Kevin.Brodsky@arm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        "Shawn Anastasio" <shawn@anastas.io>,
+        Steven Price <steven.price@arm.com>,
+        "Nicholas Piggin" <npiggin@gmail.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        "Gabriel Krisman Bertazi" <krisman@collabora.com>,
+        Peter Xu <peterx@redhat.com>,
+        "Suren Baghdasaryan" <surenb@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        "Marco Elver" <elver@google.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Nicolas Viennot <Nicolas.Viennot@twosigma.com>,
+        Thomas Cedeno <thomascedeno@google.com>,
+        Collin Fijalkovich <cfijalkovich@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Chengguang Xu <cgxu519@mykernel.net>,
+        Christian =?utf-8?Q?K=C3=B6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>,
+        "linux-unionfs@vger.kernel.org" <linux-unionfs@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, Linux-MM <linux-mm@kvack.org>,
+        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [PATCH v1 0/7] Remove in-tree usage of MAP_DENYWRITE
+References: <20210812084348.6521-1-david@redhat.com> <87o8a2d0wf.fsf@disp2133>
+        <60db2e61-6b00-44fa-b718-e4361fcc238c@www.fastmail.com>
+        <87lf56bllc.fsf@disp2133>
+        <CAHk-=wgru1UAm3kAKSOdnbewPXQMOxYkq9PnAsRadAC6pXCCMQ@mail.gmail.com>
+        <87eeay8pqx.fsf@disp2133>
+        <5b0d7c1e73ca43ef9ce6665fec6c4d7e@AcuMS.aculab.com>
+        <87h7ft2j68.fsf@disp2133>
+Date:   Fri, 13 Aug 2021 22:51:09 +0200
+In-Reply-To: <87h7ft2j68.fsf@disp2133> (Eric W. Biederman's message of "Fri,
+        13 Aug 2021 15:17:51 -0500")
+Message-ID: <871r6xdq6a.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20210804160612.3575505-1-krisman@collabora.com>
- <20210804160612.3575505-15-krisman@collabora.com> <20210805095618.GF14483@quack2.suse.cz>
- <87fsvf65zu.fsf@collabora.com> <20210812142047.GG14675@quack2.suse.cz>
- <CAOQ4uxjy2FOt6r5=x9FO3YXs8_FWwew055ZfrumDjSz0HCgz3w@mail.gmail.com> <20210813120954.GA11955@quack2.suse.cz>
-In-Reply-To: <20210813120954.GA11955@quack2.suse.cz>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Fri, 13 Aug 2021 20:25:34 +0300
-Message-ID: <CAOQ4uxgffafdqTYYjy4tsXFMQxN5zeKfXcC3G93SGaEOnqpZMQ@mail.gmail.com>
-Subject: Re: [PATCH v5 14/23] fanotify: Encode invalid file handler when no
- inode is provided
-To:     Jan Kara <jack@suse.cz>
-Cc:     Gabriel Krisman Bertazi <krisman@collabora.com>,
-        Jan Kara <jack@suse.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Theodore Tso <tytso@mit.edu>,
-        Dave Chinner <david@fromorbit.com>,
-        David Howells <dhowells@redhat.com>,
-        Khazhismel Kumykov <khazhy@google.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Ext4 <linux-ext4@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>, kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Aug 13, 2021 at 3:09 PM Jan Kara <jack@suse.cz> wrote:
->
-> On Thu 12-08-21 18:17:10, Amir Goldstein wrote:
-> > On Thu, Aug 12, 2021 at 5:20 PM Jan Kara <jack@suse.cz> wrote:
-> > >
-> > > On Wed 11-08-21 17:12:05, Gabriel Krisman Bertazi wrote:
-> > > > Jan Kara <jack@suse.cz> writes:
-> > > > >> @@ -376,14 +371,24 @@ static int fanotify_encode_fh(struct fanotify_fh *fh, struct inode *inode,
-> > > > >>            fh->flags |= FANOTIFY_FH_FLAG_EXT_BUF;
-> > > > >>    }
-> > > > >>
-> > > > >> -  dwords = fh_len >> 2;
-> > > > >> -  type = exportfs_encode_inode_fh(inode, buf, &dwords, NULL);
-> > > > >> -  err = -EINVAL;
-> > > > >> -  if (!type || type == FILEID_INVALID || fh_len != dwords << 2)
-> > > > >> -          goto out_err;
-> > > > >> -
-> > > > >> -  fh->type = type;
-> > > > >> -  fh->len = fh_len;
-> > > > >> +  if (inode) {
-> > > > >> +          dwords = fh_len >> 2;
-> > > > >> +          type = exportfs_encode_inode_fh(inode, buf, &dwords, NULL);
-> > > > >> +          err = -EINVAL;
-> > > > >> +          if (!type || type == FILEID_INVALID || fh_len != dwords << 2)
-> > > > >> +                  goto out_err;
-> > > > >> +          fh->type = type;
-> > > > >> +          fh->len = fh_len;
-> > > > >> +  } else {
-> > > > >> +          /*
-> > > > >> +           * Invalid FHs are used on FAN_FS_ERROR for errors not
-> > > > >> +           * linked to any inode. Caller needs to guarantee the fh
-> > > > >> +           * has at least FANOTIFY_NULL_FH_LEN bytes of space.
-> > > > >> +           */
-> > > > >> +          fh->type = FILEID_INVALID;
-> > > > >> +          fh->len = FANOTIFY_NULL_FH_LEN;
-> > > > >> +          memset(buf, 0, FANOTIFY_NULL_FH_LEN);
-> > > > >> +  }
-> > > > >
-> > > > > Maybe it will become clearer later during the series but why do you set
-> > > > > fh->len to FANOTIFY_NULL_FH_LEN and not 0?
-> > > >
-> > > > Jan,
-> > > >
-> > > > That is how we encode a NULL file handle (i.e. superblock error).  Amir
-> > > > suggested it would be an invalid FILEID_INVALID, with a zeroed handle of
-> > > > size 8.  I will improve the comment on the next iteration.
-> > >
-> > > Thanks for info. Then I have a question for Amir I guess :) Amir, what's
-> > > the advantage of zeroed handle of size 8 instead of just 0 length file
-> > > handle?
-> >
-> > With current code, zero fh->len means we are not reporting an FID info
-> > record (e.g. due to encode error), see copy_info_records_to_user().
-> >
-> > This is because fh->len plays a dual role for indicating the length of the
-> > file handle and the existence of FID info.
->
-> I see, thanks for info.
->
-> > I figured that keeping a positive length for the special NULL_FH is an
-> > easy way to workaround this ambiguity and keep the code simpler.
-> > We don't really need to pay any cost for keeping the 8 bytes zero buffer.
->
-> There are two separate questions:
-> 1) How do we internally propagate the information that we don't have
-> file_handle to report but we do want fsid reported.
-> 2) What do we report to userspace in file_handle.
->
-> For 2) I think we should report fsid + FILEID_INVALID, 0-length filehandle.
-> Currently the non-zero lenght FILEID_INVALID filehandle was propagating to
-> userspace and IMO that's confusing.
+* Eric W. Biederman:
 
-Agree. That was implemented in v6.
+> Florian Weimer, would it be possible to get glibc's ld.so implementation to use
+> MAP_SHARED?  Just so people reading the code know what to expect of the
+> kernel?  As far as I can tell there is not a practical difference
+> between a read-only MAP_PRIVATE and a read-only MAP_SHARED.
 
-> For 1), whatever is the simplest to
-> propagate the information "we want only fsid reported" internally is fine
-> by me.
->
+Some applications use mprotect to change page protections behind glibc's
+back.  Using MAP_SHARED would break fork pretty badly.
 
-Ok. I think it would be fair (based on v6 patches) to call the fh->len = 4
-option "simple".
+Most of the hard-to-diagnose crashes seem to come from global data or
+relocations because they are wiped by truncation.  And we certainly
+can't use MAP_SHARED for those.  Code often seems to come back unchanged
+after the truncation because the overwritten file hasn't actually
+changed.  File attributes don't help because the copying is an
+adminstrative action in the context of the application (maybe the result
+of some automation).
 
-But following my "simple" suggestion as is, v6 has a side effect of
-adding 4 bytes of zero padding after the event fid info record.
+I think avoiding the crashes isn't the right approach.  What I'd like to
+see is better diagnostics.  Writing mtime and ctime to the core file
+might help.  Or adding a flag to the core file and /proc/PID/smaps that
+indicates if the file has been truncated across the mapping since the
+mapping was created.
 
-Can you please confirm that this side effect is fine by you as well.
-It wouldn't be too hard to special case FILEID_INVALID and also
-truncate those 4 bytes of zero padding, but I really don't think it is
-worth the effort.
+A bit less conservative and even more obvious to diagnose would be a new
+flag for the mapping (perhaps set via madvise) that causes any future
+access to the mapping to fault with SIGBUS and a special si_code value
+after the file has been truncated across the mapping.  I think we would
+set that in the glibc dynamic loader.  It would make the crashes much
+less weird.
 
 Thanks,
-Amir.
+Florian
+
