@@ -2,35 +2,23 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E0BE3EC003
-	for <lists+linux-api@lfdr.de>; Sat, 14 Aug 2021 05:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D4333EC141
+	for <lists+linux-api@lfdr.de>; Sat, 14 Aug 2021 09:53:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236562AbhHNDGC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 13 Aug 2021 23:06:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39558 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236466AbhHNDGB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 13 Aug 2021 23:06:01 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5817AC061756;
-        Fri, 13 Aug 2021 20:05:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=yN2dIOe0Z4eAh1szyhdFaKZBa9WH2LVQEv32bhzJ1Gk=; b=I4PD14GIEIEFUS97KQ1JaPr8O1
-        jEt2+76AALN7XmTI1K/K9Ih4BAVvJd4zvIzjPq0zJvtjVapvv6ch5SdyqU1sbSwqWMh1UJkG7cKZ8
-        F3gJWMlVuDyDL/ouukgS4cA8V5ywtHh972JA2mA1mjjkYURYkqt8QPFTYNJa9CEP7q6Eq2yJLVTXh
-        ChOvHo7d0DD3rAlJs3B8hjNedgWZDRaiBkqeUP6XeZlHCSfduGYmClCDOn8mKonEqWWbxqWuvSkX6
-        +RNlmD7G4UpWf0ZCigaJFieSxeP8p1NSWUwm77cIXxeWoMlCXqpRUBpY3qLMTBQa12jRNtKbxceGd
-        YFDseCUw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mEjxx-00GKXu-NG; Sat, 14 Aug 2021 03:04:14 +0000
-Date:   Sat, 14 Aug 2021 04:04:09 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
+        id S237195AbhHNHyT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 14 Aug 2021 03:54:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46138 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236519AbhHNHyT (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Sat, 14 Aug 2021 03:54:19 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id ADBE3604D7;
+        Sat, 14 Aug 2021 07:53:37 +0000 (UTC)
+Date:   Sat, 14 Aug 2021 09:53:33 +0200
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Al Viro <viro@zeniv.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>
+Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
         David Laight <David.Laight@aculab.com>,
         David Hildenbrand <david@redhat.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -38,7 +26,6 @@ Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         "H. Peter Anvin" <hpa@zytor.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
         Alexey Dobriyan <adobriyan@gmail.com>,
         Steven Rostedt <rostedt@goodmis.org>,
         "Peter Zijlstra (Intel)" <peterz@infradead.org>,
@@ -60,6 +47,7 @@ Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Chinwen Chang <chinwen.chang@mediatek.com>,
         Michel Lespinasse <walken@google.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
         Huang Ying <ying.huang@intel.com>,
         Jann Horn <jannh@google.com>, Feng Tang <feng.tang@intel.com>,
         Kevin Brodsky <Kevin.Brodsky@arm.com>,
@@ -67,7 +55,6 @@ Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Shawn Anastasio <shawn@anastas.io>,
         Steven Price <steven.price@arm.com>,
         Nicholas Piggin <npiggin@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
         Jens Axboe <axboe@kernel.dk>,
         Gabriel Krisman Bertazi <krisman@collabora.com>,
         Peter Xu <peterx@redhat.com>,
@@ -81,37 +68,142 @@ Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Michal Hocko <mhocko@suse.com>,
         Miklos Szeredi <miklos@szeredi.hu>,
         Chengguang Xu <cgxu519@mykernel.net>,
-        Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>,
+        Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
         "linux-unionfs@vger.kernel.org" <linux-unionfs@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
         the arch/x86 maintainers <x86@kernel.org>,
         "<linux-fsdevel@vger.kernel.org>" <linux-fsdevel@vger.kernel.org>,
         Linux-MM <linux-mm@kvack.org>,
         Florian Weimer <fweimer@redhat.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Christoph Hellwig <hch@lst.de>
 Subject: Re: [PATCH v1 0/7] Remove in-tree usage of MAP_DENYWRITE
-Message-ID: <YRcyqbpVqwwq3P6n@casper.infradead.org>
-References: <20210812084348.6521-1-david@redhat.com>
- <87o8a2d0wf.fsf@disp2133>
- <60db2e61-6b00-44fa-b718-e4361fcc238c@www.fastmail.com>
- <87lf56bllc.fsf@disp2133>
+Message-ID: <20210814075333.7333bxduk4tei57i@wittgenstein>
+References: <87lf56bllc.fsf@disp2133>
  <CAHk-=wgru1UAm3kAKSOdnbewPXQMOxYkq9PnAsRadAC6pXCCMQ@mail.gmail.com>
  <87eeay8pqx.fsf@disp2133>
  <5b0d7c1e73ca43ef9ce6665fec6c4d7e@AcuMS.aculab.com>
  <87h7ft2j68.fsf@disp2133>
  <CAHk-=whmXTiGUzVrTP=mOPQrg-XOi3R-45hC4dQOqW4JmZdFUQ@mail.gmail.com>
  <b629cda1-becd-4725-b16c-13208ff478d3@www.fastmail.com>
+ <CAHk-=wiJ0u33h2CXAO4b271Diik=z4jRt64=Gt6YV2jV4ef27g@mail.gmail.com>
+ <CAHk-=wgi2+OSk2_uYwhL56NGzN8t2To8hm+c0BdBEbuBuzhg6g@mail.gmail.com>
+ <YRcjCwfHvUZhcKf3@zeniv-ca.linux.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <b629cda1-becd-4725-b16c-13208ff478d3@www.fastmail.com>
+In-Reply-To: <YRcjCwfHvUZhcKf3@zeniv-ca.linux.org.uk>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Aug 13, 2021 at 05:49:19PM -0700, Andy Lutomirski wrote:
-> [0] we have mandatory locks, too. Sigh.
+On Sat, Aug 14, 2021 at 01:57:31AM +0000, Al Viro wrote:
+> On Fri, Aug 13, 2021 at 02:58:57PM -1000, Linus Torvalds wrote:
+> > On Fri, Aug 13, 2021 at 2:54 PM Linus Torvalds
+> > <torvalds@linux-foundation.org> wrote:
+> > >
+> > > And nobody really complained when we weakened it, so maybe removing it
+> > > entirely might be acceptable.
+> > 
+> > I guess we could just try it and see... Worst comes to worst, we'll
+> > have to put it back, but at least we'd know what crazy thing still
+> > wants it..
+> 
+> Umm...  I'll need to go back and look through the thread, but I'm
+> fairly sure that there used to be suckers that did replacement of
+> binary that way (try to write, count on exclusion with execve while
+> it's being written to) instead of using rename.  Install scripts
+> of weird crap and stuff like that...
 
-I'd love to remove that.  Perhaps we could try persuading more of the
-distros to disable the CONFIG option first.
+I'm not agains trying to remove it, but I think Al has a point.
+
+Removing the write protection will also most certainly make certain
+classes of attacks _easier_. For example, the runC container breakout
+from last year using privileged containers issued CVE-2019-5736 would be
+easier. I'm quoting from the commit I fixed this with:
+
+    The attack can be made when attaching to a running container or when starting a
+    container running a specially crafted image.  For example, when runC attaches
+    to a container the attacker can trick it into executing itself. This could be
+    done by replacing the target binary inside the container with a custom binary
+    pointing back at the runC binary itself. As an example, if the target binary
+    was /bin/bash, this could be replaced with an executable script specifying the
+    interpreter path #!/proc/self/exe (/proc/self/exec is a symbolic link created
+    by the kernel for every process which points to the binary that was executed
+    for that process). As such when /bin/bash is executed inside the container,
+    instead the target of /proc/self/exe will be executed - which will point to the
+    runc binary on the host. The attacker can then proceed to write to the target
+    of /proc/self/exe to try and overwrite the runC binary on the host.
+
+and then the write protection kicks in of course:
+
+    However in general, this will not succeed as the kernel will not
+    permit it to be overwritten whilst runC is executing.
+
+which the attack can of course already overcome nowadays with minimal
+smarts:
+
+    To overcome this, the attacker can instead open a file descriptor to
+    /proc/self/exe using the O_PATH flag and then proceed to reopen the
+    binary as O_WRONLY through /proc/self/fd/<nr> and try to write to it
+    in a busy loop from a separate process. Ultimately it will succeed
+    when the runC binary exits. After this the runC binary is
+    compromised and can be used to attack other containers or the host
+    itself.
+
+But with write protection removed you'd allow such attacks to succeed
+right away. It's not a huge deal to remove it since we need to have
+other protection mechanisms in place already:
+
+    To prevent this attack, LXC has been patched to create a temporary copy of the
+    calling binary itself when it starts or attaches to containers. To do this LXC
+    creates an anonymous, in-memory file using the memfd_create() system call and
+    copies itself into the temporary in-memory file, which is then sealed to
+    prevent further modifications. LXC then executes this sealed, in-memory file
+    instead of the original on-disk binary. Any compromising write operations from
+    a privileged container to the host LXC binary will then write to the temporary
+    in-memory binary and not to the host binary on-disk, preserving the integrity
+    of the host LXC binary. Also as the temporary, in-memory LXC binary is sealed,
+    writes to this will also fail.
+
+    Note: memfd_create() was added to the Linux kernel in the 3.17 release.
+
+However, I still like to pich the upgrade mask idea Aleksa and we tried
+to implement when we did openat2(). If we leave write-protection in
+preventing /proc/self/exe from being written to:
+
+we can take some time and upstream the upgrade mask patchset which was
+part of the initial openat2() patchset but was dropped back then (and I
+had Linus remove the last remants of the idea in [1]).
+
+The idea was to add a new field to struct open_how "upgrade_mask" that
+would allow a caller to specify with what permissions an fd could be
+reopened with. I still like this idea a great deal and it would be a
+very welcome addition to system management programs. The upgrade mask is
+of course optional, i.e. the caller would have to specify the upgrade
+mask at open time to restrict reopening (lest we regress the whole
+world).
+
+But, we could make it so that an O_PATH fd gotten from opening
+/proc/<pid>/exe always gets a restricted upgrade mask set and so it
+can't be upgraded to a O_WRONLY fd afterwards. For this to be
+meaningful, write protection for /proc/self/exe would need to be kept.
+
+[1]: commit 5c350aa11b441b32baf3bfe4018168cb8d10cef7
+     Author: Christian Brauner <christian.brauner@ubuntu.com>
+     Date:   Fri May 28 11:24:15 2021 +0200
+     
+         fcntl: remove unused VALID_UPGRADE_FLAGS
+     
+         We currently do not maky use of this feature and should we implement
+         something like this in the future it's trivial to add it back.
+     
+         Link: https://lore.kernel.org/r/20210528092417.3942079-2-brauner@kernel.org
+         Cc: Christoph Hellwig <hch@lst.de>
+         Cc: Aleksa Sarai <cyphar@cyphar.com>
+         Cc: Al Viro <viro@zeniv.linux.org.uk>
+         Cc: linux-fsdevel@vger.kernel.org
+         Suggested-by: Richard Guy Briggs <rgb@redhat.com>
+         Reviewed-by: Richard Guy Briggs <rgb@redhat.com>
+         Reviewed-by: Christoph Hellwig <hch@lst.de>
+         Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
