@@ -2,99 +2,148 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EDDA3EDB02
-	for <lists+linux-api@lfdr.de>; Mon, 16 Aug 2021 18:35:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12DCA3EDB15
+	for <lists+linux-api@lfdr.de>; Mon, 16 Aug 2021 18:41:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229679AbhHPQft (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 16 Aug 2021 12:35:49 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:53494 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229481AbhHPQft (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 16 Aug 2021 12:35:49 -0400
-Received: from zn.tnic (p200300ec2f08b500a9c2327ac48af0d7.dip0.t-ipconnect.de [IPv6:2003:ec:2f08:b500:a9c2:327a:c48a:f0d7])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 074D81EC01B7;
-        Mon, 16 Aug 2021 18:35:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1629131712;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=6Fl5YWTL0C8PiwMTzshA9ckbCB+YmFNF66gMHeCJyyE=;
-        b=VnK6ZyGjzS0hqOjB9/RYnWtKKbiGNk2vrjbauFy3rCMkklgRjSXSjv+U9pf/yGeOZ/DdUI
-        +BE9dZnDzIAUiqRR00IUYG8UHu6rfrgIM9OezD4H86J56M3Z85cZtUTMolU+5LcBNjSY2w
-        nz/m6R5h9wUf0wEsN7ke7wBNyouBG24=
-Date:   Mon, 16 Aug 2021 18:35:51 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Rick P Edgecombe <rick.p.edgecombe@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v28 14/32] mm: Introduce VM_SHADOW_STACK for shadow stack
- memory
-Message-ID: <YRqT5+ggVQ1zW9PK@zn.tnic>
-References: <20210722205219.7934-1-yu-cheng.yu@intel.com>
- <20210722205219.7934-15-yu-cheng.yu@intel.com>
+        id S231175AbhHPQlZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 16 Aug 2021 12:41:25 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:47932 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231390AbhHPQlT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 16 Aug 2021 12:41:19 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 2724C1FFA0;
+        Mon, 16 Aug 2021 16:40:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1629132047; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Y5mvDbyXu38EQg7d4bfWnpLk/l1fW+Wsj5gUw54o9gA=;
+        b=Zt3lYYGzbKNRAJa39AbOvG6Nd/EZDb1ofETzUnQVeAC79MWchH/mFZT5Ts3nXtZCRWmhkW
+        M+7I34t4DkXmBEPJIpq9hg1zxakGIVX++M3arzjPfJRI3NxKVLBmUohd4ovt1hQ4NMlqgZ
+        9gVn8FSX0iuCtTXvJWz+D3TlNp6i+0Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1629132047;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Y5mvDbyXu38EQg7d4bfWnpLk/l1fW+Wsj5gUw54o9gA=;
+        b=uqO6KNWfCTLD6qYgtQfXp6hDsHL6toqXp7Q/LBwNiYliP2YN1hs6NY3kiS46IC/RJBdSTB
+        013BVcwgwNSKJ+DA==
+Received: from quack2.suse.cz (unknown [10.100.224.230])
+        by relay2.suse.de (Postfix) with ESMTP id 0F4A8A3B94;
+        Mon, 16 Aug 2021 16:40:47 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id E07DC1E0426; Mon, 16 Aug 2021 18:40:43 +0200 (CEST)
+Date:   Mon, 16 Aug 2021 18:40:43 +0200
+From:   Jan Kara <jack@suse.cz>
+To:     Gabriel Krisman Bertazi <krisman@collabora.com>
+Cc:     amir73il@gmail.com, jack@suse.com, linux-api@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        khazhy@google.com, dhowells@redhat.com, david@fromorbit.com,
+        tytso@mit.edu, djwong@kernel.org, repnop@google.com,
+        kernel@collabora.com
+Subject: Re: [PATCH v6 21/21] docs: Document the FAN_FS_ERROR event
+Message-ID: <20210816164043.GK30215@quack2.suse.cz>
+References: <20210812214010.3197279-1-krisman@collabora.com>
+ <20210812214010.3197279-22-krisman@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210722205219.7934-15-yu-cheng.yu@intel.com>
+In-Reply-To: <20210812214010.3197279-22-krisman@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jul 22, 2021 at 01:52:01PM -0700, Yu-cheng Yu wrote:
-> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> index eb97468dfe4c..02c70198b989 100644
-> --- a/fs/proc/task_mmu.c
-> +++ b/fs/proc/task_mmu.c
-> @@ -662,6 +662,9 @@ static void show_smap_vma_flags(struct seq_file *m, struct vm_area_struct *vma)
->  #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_MINOR
->  		[ilog2(VM_UFFD_MINOR)]	= "ui",
->  #endif /* CONFIG_HAVE_ARCH_USERFAULTFD_MINOR */
-> +#ifdef CONFIG_ARCH_HAS_SHADOW_STACK
-> +		[ilog2(VM_SHADOW_STACK)]= "ss",
-> +#endif
+On Thu 12-08-21 17:40:10, Gabriel Krisman Bertazi wrote:
+> Document the FAN_FS_ERROR event for user administrators and user space
+> developers.
+> 
+> Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+> Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
 
+<snip>
 
-ERROR: spaces required around that '=' (ctx:VxW)
-#109: FILE: fs/proc/task_mmu.c:666:
-+		[ilog2(VM_SHADOW_STACK)]= "ss",
- 		                        ^
+> diff --git a/Documentation/admin-guide/filesystem-monitoring.rst b/Documentation/admin-guide/filesystem-monitoring.rst
+> new file mode 100644
+> index 000000000000..b03093567a93
+> --- /dev/null
+> +++ b/Documentation/admin-guide/filesystem-monitoring.rst
+> @@ -0,0 +1,70 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +====================================
+> +File system Monitoring with fanotify
+> +====================================
+> +
+> +File system Error Reporting
+> +===========================
+> +
+> +fanotify supports the FAN_FS_ERROR mark for file system-wide error
+   ^ Capital 'F'.                     ^^^ I'd rather write "event type".
 
-total: 1 errors, 0 warnings, 49 lines checked
+> +reporting.  It is meant to be used by file system health monitoring
+> +daemons who listen on that interface and take actions (notify sysadmin,
+           ^^^ which  ^^^^^^^^^^^^^^^^^ for these events
 
-Please integrate scripts/checkpatch.pl into your patch creation
-workflow. Some of the warnings/errors *actually* make sense.
+> +start recovery) when a file system problem is detected by the kernel.
+> +
+> +By design, A FAN_FS_ERROR notification exposes sufficient information for a
+> +monitoring tool to know a problem in the file system has happened.  It
+> +doesn't necessarily provide a user space application with semantics to
+> +verify an IO operation was successfully executed.  That is outside of
+> +scope of this feature. Instead, it is only meant as a framework for
+> +early file system problem detection and reporting recovery tools.
+> +
+> +When a file system operation fails, it is common for dozens of kernel
+> +errors to cascade after the initial failure, hiding the original failure
+> +log, which is usually the most useful debug data to troubleshoot the
+> +problem.  For this reason, FAN_FS_ERROR only reports the first error that
+> +occurred since the last notification, and it simply counts addition
+							      ^^^ additional
 
+> +errors.  This ensures that the most important piece of error information
+> +is never lost.
+> +
+> +FAN_FS_ERROR requires the fanotify group to be setup with the
+> +FAN_REPORT_FID flag.
+> +
+> +At the time of this writing, the only file system that emits FAN_FS_ERROR
+> +notifications is Ext4.
+> +
+> +A user space example code is provided at ``samples/fanotify/fs-monitor.c``.
+> +
+> +A FAN_FS_ERROR Notification has the following format::
+> +
+> +  [ Notification Metadata (Mandatory) ]
+> +  [ Generic Error Record  (Mandatory) ]
+> +  [ FID record            (Mandatory) ]
+> +
+> +Generic error record
+> +--------------------
+> +
+> +The generic error record provides enough information for a file system
+> +agnostic tool to learn about a problem in the file system, without
+> +providing any additional details about the problem.  This record is
+> +identified by ``struct fanotify_event_info_header.info_type`` being set
+> +to FAN_EVENT_INFO_TYPE_ERROR.
+> +
+> +  struct fanotify_event_info_error {
+> +	struct fanotify_event_info_header hdr;
+> +	__s32 error;
+> +	__u32 error_count;
+> +  };
+> +
+> +The `error` field identifies the type of error. `error_count` count
+> +tracks the number of errors that occurred and were suppressed to
+> +preserve the original error, since the last notification.
+
+So is 'error' expected to be errno? Or is that some fs-specific error
+identifier? Will it be positive (i.e. real errno) or negative (as errno is
+usually passed in the kernel)? I think it should be specified here.
+
+								Honza
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
