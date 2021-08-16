@@ -2,147 +2,156 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 912883EDE37
-	for <lists+linux-api@lfdr.de>; Mon, 16 Aug 2021 21:52:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CCC7C3EDF6B
+	for <lists+linux-api@lfdr.de>; Mon, 16 Aug 2021 23:41:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231338AbhHPTwZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 16 Aug 2021 15:52:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34303 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231749AbhHPTwZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 16 Aug 2021 15:52:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1629143513;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=HXTa/VyECSSTBgPq2TU+rmvN898vFz2Xyhub0w4Arrg=;
-        b=CY5Ha1Tc/PnKP+kYP1pnIq5FsNoNivZA3XN5Ac2iUj2+hq2gbq5Jr6ylMX9JO8+mAzvcqU
-        FHjZTBJXwljTPoQmOtb36+kzW5WYEJppN8DNtMiJEd9QyzBeRSqweTAKBssgF/EqAyTZ8f
-        Q7Yu+gTP0fq21uIuP6o5dxL1tFBVbYo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-101-CEYb4fPPN2aT7B97vW8omg-1; Mon, 16 Aug 2021 15:51:51 -0400
-X-MC-Unique: CEYb4fPPN2aT7B97vW8omg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17C951082921;
-        Mon, 16 Aug 2021 19:51:46 +0000 (UTC)
-Received: from t480s.redhat.com (unknown [10.39.192.85])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 6FFAE5C1D5;
-        Mon, 16 Aug 2021 19:51:26 +0000 (UTC)
-From:   David Hildenbrand <david@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     David Hildenbrand <david@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Kees Cook <keescook@chromium.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Greg Ungerer <gerg@linux-m68k.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Chinwen Chang <chinwen.chang@mediatek.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Huang Ying <ying.huang@intel.com>,
-        Jann Horn <jannh@google.com>, Feng Tang <feng.tang@intel.com>,
-        Kevin Brodsky <Kevin.Brodsky@arm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Shawn Anastasio <shawn@anastas.io>,
-        Steven Price <steven.price@arm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        Peter Xu <peterx@redhat.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Marco Elver <elver@google.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        Nicolas Viennot <Nicolas.Viennot@twosigma.com>,
-        Thomas Cedeno <thomascedeno@google.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Chengguang Xu <cgxu519@mykernel.net>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        David Laight <David.Laight@ACULAB.COM>,
-        linux-unionfs@vger.kernel.org, linux-api@vger.kernel.org,
-        x86@kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH v2 7/7] fs: update documentation of get_write_access() and friends
-Date:   Mon, 16 Aug 2021 21:48:40 +0200
-Message-Id: <20210816194840.42769-8-david@redhat.com>
-In-Reply-To: <20210816194840.42769-1-david@redhat.com>
-References: <20210816194840.42769-1-david@redhat.com>
+        id S233569AbhHPVlj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 16 Aug 2021 17:41:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37154 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229987AbhHPVlg (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 16 Aug 2021 17:41:36 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2EC9960E09;
+        Mon, 16 Aug 2021 21:41:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1629150064;
+        bh=20nFMMREAcxNH6QbkQ0N0qSyPuh5AN9LdcPTNM8PNjs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RHknz1j31Z6FKlzVMbHugSLYht7pulY+wT/1twvGFT18Ded8tg+SnTo7CMJbjoYeM
+         mfH9BP4EG6+Z7pmD+VhVvJfaTNBRvCNJ5QPpc/yC4LedqeRuv/gqclhPza5i/Zt2vC
+         f0k06hsdVmmsW0sbP6oOX49TLQEraPdhIqyecFn9L/YgHCVbnknusS56sAweuqyXza
+         fJ3Qf18jaLWKuE9JYvd2pBWcbjVjS7H+NXWP2mKPFYbn/eI799doCFPDreJA4UNuBS
+         0xhqozhfFiikTmjt3/6QG0aW/zC84hrOyPFNJVd9fFRGjFILCoxzjiWO9HpBRAXxtI
+         pm/w/jTvq42gg==
+Date:   Mon, 16 Aug 2021 14:41:03 -0700
+From:   "Darrick J. Wong" <djwong@kernel.org>
+To:     Gabriel Krisman Bertazi <krisman@collabora.com>
+Cc:     amir73il@gmail.com, jack@suse.com, linux-api@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        khazhy@google.com, dhowells@redhat.com, david@fromorbit.com,
+        tytso@mit.edu, repnop@google.com, kernel@collabora.com
+Subject: Re: [PATCH v6 18/21] fanotify: Emit generic error info type for
+ error event
+Message-ID: <20210816214103.GA12664@magnolia>
+References: <20210812214010.3197279-1-krisman@collabora.com>
+ <20210812214010.3197279-19-krisman@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210812214010.3197279-19-krisman@collabora.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-As VM_DENYWRITE does no longer exists, let's spring-clean the
-documentation of get_write_access() and friends.
+On Thu, Aug 12, 2021 at 05:40:07PM -0400, Gabriel Krisman Bertazi wrote:
+> The Error info type is a record sent to users on FAN_FS_ERROR events
+> documenting the type of error.  It also carries an error count,
+> documenting how many errors were observed since the last reporting.
+> 
+> Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
+> 
+> ---
+> Changes since v5:
+>   - Move error code here
+> ---
+>  fs/notify/fanotify/fanotify.c      |  1 +
+>  fs/notify/fanotify/fanotify.h      |  1 +
+>  fs/notify/fanotify/fanotify_user.c | 36 ++++++++++++++++++++++++++++++
+>  include/uapi/linux/fanotify.h      |  7 ++++++
+>  4 files changed, 45 insertions(+)
 
-Acked-by: "Eric W. Biederman" <ebiederm@xmission.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- include/linux/fs.h | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
+<snip>
 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 640574294216..e0dc3e96ed72 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -3055,15 +3055,20 @@ static inline void file_end_write(struct file *file)
- }
- 
- /*
-+ * This is used for regular files where some users -- especially the
-+ * currently executed binary in a process, previously handled via
-+ * VM_DENYWRITE -- cannot handle concurrent write (and maybe mmap
-+ * read-write shared) accesses.
-+ *
-  * get_write_access() gets write permission for a file.
-  * put_write_access() releases this write permission.
-- * This is used for regular files.
-- * We cannot support write (and maybe mmap read-write shared) accesses and
-- * MAP_DENYWRITE mmappings simultaneously. The i_writecount field of an inode
-- * can have the following values:
-- * 0: no writers, no VM_DENYWRITE mappings
-- * < 0: (-i_writecount) vm_area_structs with VM_DENYWRITE set exist
-- * > 0: (i_writecount) users are writing to the file.
-+ * deny_write_access() denies write access to a file.
-+ * allow_write_access() re-enables write access to a file.
-+ *
-+ * The i_writecount field of an inode can have the following values:
-+ * 0: no write access, no denied write access
-+ * < 0: (-i_writecount) users that denied write access to the file.
-+ * > 0: (i_writecount) users that have write access to the file.
-  *
-  * Normally we operate on that counter with atomic_{inc,dec} and it's safe
-  * except for the cases where we don't hold i_writecount yet. Then we need to
--- 
-2.31.1
+> diff --git a/include/uapi/linux/fanotify.h b/include/uapi/linux/fanotify.h
+> index 16402037fc7a..80040a92e9d9 100644
+> --- a/include/uapi/linux/fanotify.h
+> +++ b/include/uapi/linux/fanotify.h
+> @@ -124,6 +124,7 @@ struct fanotify_event_metadata {
+>  #define FAN_EVENT_INFO_TYPE_FID		1
+>  #define FAN_EVENT_INFO_TYPE_DFID_NAME	2
+>  #define FAN_EVENT_INFO_TYPE_DFID	3
+> +#define FAN_EVENT_INFO_TYPE_ERROR	4
+>  
+>  /* Variable length info record following event metadata */
+>  struct fanotify_event_info_header {
+> @@ -149,6 +150,12 @@ struct fanotify_event_info_fid {
+>  	unsigned char handle[0];
+>  };
+>  
+> +struct fanotify_event_info_error {
+> +	struct fanotify_event_info_header hdr;
+> +	__s32 error;
+> +	__u32 error_count;
+> +};
 
+My apologies for not having time to review this patchset since it was
+redesigned to use fanotify.  Someday it would be helpful to be able to
+export more detailed error reports from XFS, but as I'm not ready to
+move forward and write that today, I'll try to avoid derailling this at
+the last minute.
+
+Eventually, XFS might want to be able to report errors in file data,
+file metadata, allocation group metadata, and whole-filesystem metadata.
+Userspace can already gather reports from XFS about corruptions reported
+by the online fsck code (see xfs_health.c).
+
+I /think/ we could subclass the file error structure that you've
+provided like so:
+
+struct fanotify_event_info_xfs_filesystem_error {
+	struct fanotify_event_info_error	base;
+
+	__u32 magic; /* 0x58465342 to identify xfs */
+	__u32 type; /* quotas, realtime bitmap, etc. */
+};
+
+struct fanotify_event_info_xfs_perag_error {
+	struct fanotify_event_info_error	base;
+
+	__u32 magic; /* 0x58465342 to identify xfs */
+	__u32 type; /* agf, agi, agfl, bno btree, ino btree, etc. */
+	__u32 agno; /* allocation group number */
+};
+
+struct fanotify_event_info_xfs_file_error {
+	struct fanotify_event_info_error	base;
+
+	__u32 magic; /* 0x58465342 to identify xfs */
+	__u32 type; /* extent map, dir, attr, etc. */
+	__u64 offset; /* file data offset, if applicable */
+	__u64 length; /* file data length, if applicable */
+};
+
+(A real XFS implementation might have one structure with the type code
+providing for a tagged union or something; I split it into three
+separate structs here to avoid confusing things.)
+
+I have three questions at this point:
+
+1) What's the maximum size of a fanotify event structure?  None of these
+structures exceed 36 bytes, which I hope will fit in whatever size
+constraints?
+
+2) If a program written for today's notification events sees a
+fanotify_event_info_header from future-XFS with a header length that is
+larger than FANOTIFY_INFO_ERROR_LEN, will it be able to react
+appropriately?  Which is to say, ignore it on the grounds that the
+length is unexpectedly large?
+
+It /looks/ like this is the case; really I'm just fishing around here
+to make sure nothing in the design of /this/ patchset would make it Very
+Difficult(tm) to add more information later.
+
+3) Once we let filesystem implementations create their own extended
+error notifications, should we have a "u32 magic" to aid in decoding?
+Or even add it to fanotify_event_info_error now?
+
+--D
+
+> +
+>  struct fanotify_response {
+>  	__s32 fd;
+>  	__u32 response;
+> -- 
+> 2.32.0
+> 
