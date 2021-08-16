@@ -2,165 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 924343EDA73
-	for <lists+linux-api@lfdr.de>; Mon, 16 Aug 2021 18:01:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72EC33EDA97
+	for <lists+linux-api@lfdr.de>; Mon, 16 Aug 2021 18:11:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229832AbhHPQBf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 16 Aug 2021 12:01:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58032 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229801AbhHPQBf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 16 Aug 2021 12:01:35 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7DBEC061764;
-        Mon, 16 Aug 2021 09:01:03 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f08b5007042c35e67cc1097.dip0.t-ipconnect.de [IPv6:2003:ec:2f08:b500:7042:c35e:67cc:1097])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E82191EC03D5;
-        Mon, 16 Aug 2021 18:00:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1629129658;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=fWWTWO1JV4RsH463+53B7fbAW0qIhoTlvqX4vBT05vw=;
-        b=BRIM2XbGCS8PHu4uS9LjB3oJPIwmGugzEX2I9WKF3Kk3KgHt7XBxSQY7R/h21OIthbEVbt
-        DxcGj5ZGjnftTImnuk4LNOX/n4WudjZC4XiRhQdco5iHZwIha2bu0OFEbAvx4QipOjrqtA
-        ris5Up7VSOO60XbJjm+5MKqK4cEzRHg=
-Date:   Mon, 16 Aug 2021 18:01:37 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Rick P Edgecombe <rick.p.edgecombe@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v28 12/32] x86/mm: Update ptep_set_wrprotect() and
- pmdp_set_wrprotect() for transition from _PAGE_DIRTY to _PAGE_COW
-Message-ID: <YRqL4QyYPaCXSmi+@zn.tnic>
-References: <20210722205219.7934-1-yu-cheng.yu@intel.com>
- <20210722205219.7934-13-yu-cheng.yu@intel.com>
+        id S229767AbhHPQMU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 16 Aug 2021 12:12:20 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:44602 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229517AbhHPQMU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 16 Aug 2021 12:12:20 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 4A7921FF92;
+        Mon, 16 Aug 2021 16:11:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1629130307; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=V7D2Rou1vicTgUvdFxy/dJsujRrKhPDwxoEsMczEVOQ=;
+        b=lzWBdZVys7J4/xRH4cyem2qHUbEJQJTV0QA4W4UmTlT+e5DzZtMFs6wT4HvSCZpXYhP3mE
+        8YQBykhCqPZhDsac6fb5RAyGNcjwzTaSycbTQ80vbg7JG5m1s4SKqkYg5kD90evvIXbM8V
+        cG+no2/urqGOfD4sYkr/pTKEZhGT7Fw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1629130307;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=V7D2Rou1vicTgUvdFxy/dJsujRrKhPDwxoEsMczEVOQ=;
+        b=o4IeOzGpfehIyua9llXjd5Y9W5slD9tVO5tCKn3ur3TvdEkiwccPK1unZ1jQLy4UiKXDA+
+        IfFNjYlnbnvHvICg==
+Received: from quack2.suse.cz (unknown [10.100.224.230])
+        by relay2.suse.de (Postfix) with ESMTP id 1E678A3B87;
+        Mon, 16 Aug 2021 16:11:47 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id DFE701E0426; Mon, 16 Aug 2021 18:11:43 +0200 (CEST)
+Date:   Mon, 16 Aug 2021 18:11:43 +0200
+From:   Jan Kara <jack@suse.cz>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        Jan Kara <jack@suse.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Ext4 <linux-ext4@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Khazhismel Kumykov <khazhy@google.com>,
+        David Howells <dhowells@redhat.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Theodore Tso <tytso@mit.edu>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Matthew Bobrowski <repnop@google.com>, kernel@collabora.com
+Subject: Re: [PATCH v6 12/21] fanotify: Encode invalid file handle when no
+ inode is provided
+Message-ID: <20210816161143.GG30215@quack2.suse.cz>
+References: <20210812214010.3197279-1-krisman@collabora.com>
+ <20210812214010.3197279-13-krisman@collabora.com>
+ <CAOQ4uxgwuJ4hv8Dp1v40K5qdnnwa7n9MYyvuh2tkb4gkpZv2Yw@mail.gmail.com>
+ <20210816140657.GE30215@quack2.suse.cz>
+ <CAOQ4uxjQ6R0SvUjasyU3c_ZHTAC1J4=2eamgxJAOyq7C9HZFbQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210722205219.7934-13-yu-cheng.yu@intel.com>
+In-Reply-To: <CAOQ4uxjQ6R0SvUjasyU3c_ZHTAC1J4=2eamgxJAOyq7C9HZFbQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jul 22, 2021 at 01:51:59PM -0700, Yu-cheng Yu wrote:
-> When Shadow Stack is introduced, [R/O + _PAGE_DIRTY] PTE is reserved for
-> shadow stack.  Copy-on-write PTEs have [R/O + _PAGE_COW].
+On Mon 16-08-21 18:54:58, Amir Goldstein wrote:
+> On Mon, Aug 16, 2021 at 5:07 PM Jan Kara <jack@suse.cz> wrote:
+> > Dunno, it still seems like quite some complications (simple ones but
+> > non-trivial amount of them) for what is rather a corner case. What if we
+> > *internally* propagated the information that there's no inode info with
+> > FILEID_ROOT fh? That means: No changes to fanotify_encode_fh_len(),
+> > fanotify_encode_fh(), or fanotify_alloc_name_event(). In
+> > copy_info_to_user() we just mangle FILEID_ROOT to FILEID_INVALID and that's
+> > all. No useless padding, no specialcasing of copying etc. Am I missing
+> > something?
 > 
-> When a PTE goes from [R/W + _PAGE_DIRTY] to [R/O + _PAGE_COW], it could
-> become a transient shadow stack PTE in two cases:
+> I am perfectly fine with encoding "no inode" with FILEID_ROOT internally.
+> It's already the value used by fanotify_encode_fh() in upstream.
 > 
-> The first case is that some processors can start a write but end up seeing
-> a read-only PTE by the time they get to the Dirty bit, creating a transient
-> shadow stack PTE.  However, this will not occur on processors supporting
-> Shadow Stack, and a TLB flush is not necessary.
+> However, if we use zero len internally, we need to pass fh_type to
+> fanotify_fid_info_len() and special case FILEID_ROOT in order to
+> take FANOTIFY_FID_INFO_HDR_LEN into account.
 > 
-> The second case is that when _PAGE_DIRTY is replaced with _PAGE_COW non-
-> atomically, a transient shadow stack PTE can be created as a result.
-> Thus, prevent that with cmpxchg.
-> 
-> Dave Hansen, Jann Horn, Andy Lutomirski, and Peter Zijlstra provided many
-> insights to the issue.  Jann Horn provided the cmpxchg solution.
-> 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> Reviewed-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> ---
->  arch/x86/include/asm/pgtable.h | 36 ++++++++++++++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
-> 
-> diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
-> index cf7316e968df..df4ce715560a 100644
-> --- a/arch/x86/include/asm/pgtable.h
-> +++ b/arch/x86/include/asm/pgtable.h
-> @@ -1278,6 +1278,24 @@ static inline pte_t ptep_get_and_clear_full(struct mm_struct *mm,
->  static inline void ptep_set_wrprotect(struct mm_struct *mm,
->  				      unsigned long addr, pte_t *ptep)
->  {
-> +	/*
-> +	 * If Shadow Stack is enabled, pte_wrprotect() moves _PAGE_DIRTY
-> +	 * to _PAGE_COW (see comments at pte_wrprotect()).
-> +	 * When a thread reads a RW=1, Dirty=0 PTE and before changing it
-> +	 * to RW=0, Dirty=0, another thread could have written to the page
-> +	 * and the PTE is RW=1, Dirty=1 now.  Use try_cmpxchg() to detect
-> +	 * PTE changes and update old_pte, then try again.
-> +	 */
-> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
-> +		pte_t old_pte, new_pte;
-> +
-> +		old_pte = READ_ONCE(*ptep);
-> +		do {
-> +			new_pte = pte_wrprotect(old_pte);
-> +		} while (!try_cmpxchg(&ptep->pte, &old_pte.pte, new_pte.pte));
-> +
-> +		return;
-> +	}
->  	clear_bit(_PAGE_BIT_RW, (unsigned long *)&ptep->pte);
->  }
->  
-> @@ -1322,6 +1340,24 @@ static inline pud_t pudp_huge_get_and_clear(struct mm_struct *mm,
->  static inline void pmdp_set_wrprotect(struct mm_struct *mm,
->  				      unsigned long addr, pmd_t *pmdp)
->  {
-> +	/*
-> +	 * If Shadow Stack is enabled, pmd_wrprotect() moves _PAGE_DIRTY
-> +	 * to _PAGE_COW (see comments at pmd_wrprotect()).
-> +	 * When a thread reads a RW=1, Dirty=0 PMD and before changing it
-> +	 * to RW=0, Dirty=0, another thread could have written to the page
-> +	 * and the PMD is RW=1, Dirty=1 now.  Use try_cmpxchg() to detect
-> +	 * PMD changes and update old_pmd, then try again.
-> +	 */
-> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
-> +		pmd_t old_pmd, new_pmd;
-> +
-> +		old_pmd = READ_ONCE(*pmdp);
-> +		do {
-> +			new_pmd = pmd_wrprotect(old_pmd);
-> +		} while (!try_cmpxchg((pmdval_t *)pmdp, (pmdval_t *)&old_pmd, pmd_val(new_pmd)));
+> And special case fanotify_event_object_fh_len() in
+>  fanotify_event_info_len() and in copy_info_records_to_user().
 
-Why is that try_cmpxchg() call doing casting to its operands instead of
-like the pte one above?
+Right, this will need some tweaking. I would actually leave
+fanotify_fid_info_len() alone, just have in fanotify_event_info_len()
+something like:
 
-I.e., why aren't you doing here the same thing as above:
+-	if (fh_len)
++	if (fh_len || fanotify_event_needs_fsid(event))
 
-		...
-		} while (!try_cmpxchg(&pmdp->pmd, &old_pmd.pmd, new_pmd.pmd));
+and similarly in copy_info_records_to_user():
 
-?
+-	if (fanotify_event_object_fh_len(event)) {
++	if (fanotify_event_object_fh_len(event) ||
++	    fanotify_event_needs_fsid(event)) {
 
-Thx.
+And that should be all that's needed as far as I'm reading the code.
 
+								Honza
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
