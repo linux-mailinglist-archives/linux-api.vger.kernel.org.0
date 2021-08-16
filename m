@@ -2,99 +2,99 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E2903EDAE2
-	for <lists+linux-api@lfdr.de>; Mon, 16 Aug 2021 18:26:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EDDA3EDB02
+	for <lists+linux-api@lfdr.de>; Mon, 16 Aug 2021 18:35:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229644AbhHPQ0v (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 16 Aug 2021 12:26:51 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:46490 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229556AbhHPQ0u (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 16 Aug 2021 12:26:50 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id EAA1D1FF97;
-        Mon, 16 Aug 2021 16:26:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1629131177; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=AZtW2eLH5Jc4BSlumnFX2rAGLAWiKCRNP7E7mnGiwas=;
-        b=P2zBM7aVl9bt1cLchKdLrLR8BsistDtqUsKhKMaI+E4Cug1Dgmft6/i9wzJtvtIQZo0ZSs
-        cCjQlP3qiUR8Ed1X6lZZRzAjoeLIvjdClWkzjhsRvMtazzTHDLc0xw4M92SkizeILa+i8h
-        tWwQd0uM+2QrlK21PR+0bdjZmA0aHrw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1629131177;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=AZtW2eLH5Jc4BSlumnFX2rAGLAWiKCRNP7E7mnGiwas=;
-        b=A2oVdEY7DFwQYE/Tc8AoYVdDbdePd8JwwKD+YBbGzG5TcvZNs/ce2LhK3KYAzBHopk7QU6
-        ZpQH+LA8r97/IkAA==
-Received: from quack2.suse.cz (jack.udp.ovpn1.prg.suse.de [10.100.224.230])
-        by relay2.suse.de (Postfix) with ESMTP id D3B58A3B8F;
-        Mon, 16 Aug 2021 16:26:17 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 46EA01E0426; Mon, 16 Aug 2021 18:26:15 +0200 (CEST)
-Date:   Mon, 16 Aug 2021 18:26:15 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     Gabriel Krisman Bertazi <krisman@collabora.com>
-Cc:     amir73il@gmail.com, jack@suse.com, linux-api@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        khazhy@google.com, dhowells@redhat.com, david@fromorbit.com,
-        tytso@mit.edu, djwong@kernel.org, repnop@google.com,
-        kernel@collabora.com
-Subject: Re: [PATCH v6 19/21] ext4: Send notifications on error
-Message-ID: <20210816162615.GJ30215@quack2.suse.cz>
-References: <20210812214010.3197279-1-krisman@collabora.com>
- <20210812214010.3197279-20-krisman@collabora.com>
+        id S229679AbhHPQft (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 16 Aug 2021 12:35:49 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:53494 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229481AbhHPQft (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 16 Aug 2021 12:35:49 -0400
+Received: from zn.tnic (p200300ec2f08b500a9c2327ac48af0d7.dip0.t-ipconnect.de [IPv6:2003:ec:2f08:b500:a9c2:327a:c48a:f0d7])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 074D81EC01B7;
+        Mon, 16 Aug 2021 18:35:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1629131712;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=6Fl5YWTL0C8PiwMTzshA9ckbCB+YmFNF66gMHeCJyyE=;
+        b=VnK6ZyGjzS0hqOjB9/RYnWtKKbiGNk2vrjbauFy3rCMkklgRjSXSjv+U9pf/yGeOZ/DdUI
+        +BE9dZnDzIAUiqRR00IUYG8UHu6rfrgIM9OezD4H86J56M3Z85cZtUTMolU+5LcBNjSY2w
+        nz/m6R5h9wUf0wEsN7ke7wBNyouBG24=
+Date:   Mon, 16 Aug 2021 18:35:51 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        Rick P Edgecombe <rick.p.edgecombe@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v28 14/32] mm: Introduce VM_SHADOW_STACK for shadow stack
+ memory
+Message-ID: <YRqT5+ggVQ1zW9PK@zn.tnic>
+References: <20210722205219.7934-1-yu-cheng.yu@intel.com>
+ <20210722205219.7934-15-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210812214010.3197279-20-krisman@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210722205219.7934-15-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu 12-08-21 17:40:08, Gabriel Krisman Bertazi wrote:
-> Send a FS_ERROR message via fsnotify to a userspace monitoring tool
-> whenever a ext4 error condition is triggered.  This follows the existing
-> error conditions in ext4, so it is hooked to the ext4_error* functions.
-> 
-> It also follows the current dmesg reporting in the format.  The
-> filesystem message is composed mostly by the string that would be
-> otherwise printed in dmesg.
-> 
-> A new ext4 specific record format is exposed in the uapi, such that a
-> monitoring tool knows what to expect when listening errors of an ext4
-> filesystem.
-> 
-> Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
-> Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-> ---
->  fs/ext4/super.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+On Thu, Jul 22, 2021 at 01:52:01PM -0700, Yu-cheng Yu wrote:
+> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> index eb97468dfe4c..02c70198b989 100644
+> --- a/fs/proc/task_mmu.c
+> +++ b/fs/proc/task_mmu.c
+> @@ -662,6 +662,9 @@ static void show_smap_vma_flags(struct seq_file *m, struct vm_area_struct *vma)
+>  #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_MINOR
+>  		[ilog2(VM_UFFD_MINOR)]	= "ui",
+>  #endif /* CONFIG_HAVE_ARCH_USERFAULTFD_MINOR */
+> +#ifdef CONFIG_ARCH_HAS_SHADOW_STACK
+> +		[ilog2(VM_SHADOW_STACK)]= "ss",
+> +#endif
 
-<snip>
 
-> diff --git a/fs/ext4/super.c b/fs/ext4/super.c
-> index dfa09a277b56..b9ecd43678d7 100644
-> --- a/fs/ext4/super.c
-> +++ b/fs/ext4/super.c
-> @@ -897,6 +904,7 @@ void __ext4_std_error(struct super_block *sb, const char *function,
->  		printk(KERN_CRIT "EXT4-fs error (device %s) in %s:%d: %s\n",
->  		       sb->s_id, function, line, errstr);
->  	}
-> +	fsnotify_sb_error(sb, sb->s_root->d_inode, errno);
->  
->  	ext4_handle_error(sb, false, -errno, 0, 0, function, line);
->  }
+ERROR: spaces required around that '=' (ctx:VxW)
+#109: FILE: fs/proc/task_mmu.c:666:
++		[ilog2(VM_SHADOW_STACK)]= "ss",
+ 		                        ^
 
-Does it make sense to report root inode here? ext4_std_error() gets
-generally used for filesystem-wide errors.
+total: 1 errors, 0 warnings, 49 lines checked
 
-								Honza
+Please integrate scripts/checkpatch.pl into your patch creation
+workflow. Some of the warnings/errors *actually* make sense.
 
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
