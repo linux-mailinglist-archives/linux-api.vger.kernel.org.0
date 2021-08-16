@@ -2,103 +2,125 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BEE33ED22A
-	for <lists+linux-api@lfdr.de>; Mon, 16 Aug 2021 12:43:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B11BB3ED62A
+	for <lists+linux-api@lfdr.de>; Mon, 16 Aug 2021 15:17:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231355AbhHPKnh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 16 Aug 2021 06:43:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40172 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230250AbhHPKng (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 16 Aug 2021 06:43:36 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81757C061764;
-        Mon, 16 Aug 2021 03:43:05 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f08b5004455011f3e43b910.dip0.t-ipconnect.de [IPv6:2003:ec:2f08:b500:4455:11f:3e43:b910])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 050AD1EC04FB;
-        Mon, 16 Aug 2021 12:42:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1629110579;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=KJr3PLH9kdh7sq6ftHE42Mk4Hk9JcVNuZWU5FfzNhng=;
-        b=EdTJv86x/KgsZfUTho7nmU2tWDU7gWlJWwEPgv85zH6gBUrThHi9fC1iX5VEY4vmFQ3Wat
-        4L7CZpxMtqUnumgeTAAvIdt+GZJGAVni8JOdP7ssdtvST2BWMH3jSXeGJW+5iIwTMEZB+b
-        GdsXFMbpKbQbyECkWOQbzWkuxXgeI58=
-Date:   Mon, 16 Aug 2021 12:43:34 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Rick P Edgecombe <rick.p.edgecombe@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v28 09/32] x86/mm: Introduce _PAGE_COW
-Message-ID: <YRpBVu7dCBjks71I@zn.tnic>
-References: <20210722205219.7934-1-yu-cheng.yu@intel.com>
- <20210722205219.7934-10-yu-cheng.yu@intel.com>
+        id S240074AbhHPNSN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 16 Aug 2021 09:18:13 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:45690 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237173AbhHPNQJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 16 Aug 2021 09:16:09 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 1FD131FE5F;
+        Mon, 16 Aug 2021 13:15:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1629119737; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=kFqrL9tlo3vHH2OdCMbi/CRA3pJJfS/41yIA8FjXzf0=;
+        b=Y+/b46UOpoHG8J+Den7D1I/U91wSOlxhsn4uivMO+Um52pZb4o1wu3i9pSHbwFY003kxJK
+        kPOLDVKsavKS3HPLJIvRjNoc6/OBKQliGpPOfuNPqY/GvYA0yB3R9ZwQdyfqtPYTk3sv0O
+        3jDtlS6KKuQ/rW8m8bCC1m04jU6inNQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1629119737;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=kFqrL9tlo3vHH2OdCMbi/CRA3pJJfS/41yIA8FjXzf0=;
+        b=K9F1H0giDC5X/udipaLGIVqN+I2jMVsptFImKLYPW//ApiZGVPXmfixcCOcXe7vKoEHmgT
+        szNwcQFVyAmS1lBw==
+Received: from quack2.suse.cz (unknown [10.100.224.230])
+        by relay2.suse.de (Postfix) with ESMTP id 058AEA3B8F;
+        Mon, 16 Aug 2021 13:15:37 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id E21741E0426; Mon, 16 Aug 2021 15:15:36 +0200 (CEST)
+Date:   Mon, 16 Aug 2021 15:15:36 +0200
+From:   Jan Kara <jack@suse.cz>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Gabriel Krisman Bertazi <krisman@collabora.com>,
+        Jan Kara <jack@suse.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Ext4 <linux-ext4@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Khazhismel Kumykov <khazhy@google.com>,
+        David Howells <dhowells@redhat.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Theodore Tso <tytso@mit.edu>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Matthew Bobrowski <repnop@google.com>, kernel@collabora.com
+Subject: Re: [PATCH v6 04/21] fsnotify: Reserve mark flag bits for backends
+Message-ID: <20210816131536.GB30215@quack2.suse.cz>
+References: <20210812214010.3197279-1-krisman@collabora.com>
+ <20210812214010.3197279-5-krisman@collabora.com>
+ <CAOQ4uxh0WNxsuwtfv_iDCaZbmJEDB700D5_v==ffm2-WAg_V7w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210722205219.7934-10-yu-cheng.yu@intel.com>
+In-Reply-To: <CAOQ4uxh0WNxsuwtfv_iDCaZbmJEDB700D5_v==ffm2-WAg_V7w@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jul 22, 2021 at 01:51:56PM -0700, Yu-cheng Yu wrote:
-> @@ -153,13 +178,23 @@ static inline int pud_young(pud_t pud)
->  
->  static inline int pte_write(pte_t pte)
->  {
-> -	return pte_flags(pte) & _PAGE_RW;
-> +	/*
-> +	 * Shadow stack pages are always writable - but not by normal
-> +	 * instructions, and only by shadow stack operations.  Therefore,
-> +	 * the W=0,D=1 test with pte_shstk().
-> +	 */
-> +	return (pte_flags(pte) & _PAGE_RW) || pte_shstk(pte);
+On Fri 13-08-21 10:28:27, Amir Goldstein wrote:
+> On Fri, Aug 13, 2021 at 12:40 AM Gabriel Krisman Bertazi
+> <krisman@collabora.com> wrote:
+> >
+> > Split out the final bits of struct fsnotify_mark->flags for use by a
+> > backend.
+> >
+> > Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
+> >
+> > Changes since v1:
+> >   - turn consts into defines (jan)
+> > ---
+> >  include/linux/fsnotify_backend.h | 18 +++++++++++++++---
+> >  1 file changed, 15 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/include/linux/fsnotify_backend.h b/include/linux/fsnotify_backend.h
+> > index 1ce66748a2d2..ae1bd9f06808 100644
+> > --- a/include/linux/fsnotify_backend.h
+> > +++ b/include/linux/fsnotify_backend.h
+> > @@ -363,6 +363,20 @@ struct fsnotify_mark_connector {
+> >         struct hlist_head list;
+> >  };
+> >
+> > +enum fsnotify_mark_bits {
+> > +       FSN_MARK_FL_BIT_IGNORED_SURV_MODIFY,
+> > +       FSN_MARK_FL_BIT_ALIVE,
+> > +       FSN_MARK_FL_BIT_ATTACHED,
+> > +       FSN_MARK_PRIVATE_FLAGS,
+> > +};
+> > +
+> > +#define FSNOTIFY_MARK_FLAG_IGNORED_SURV_MODIFY \
+> > +       (1 << FSN_MARK_FL_BIT_IGNORED_SURV_MODIFY)
+> > +#define FSNOTIFY_MARK_FLAG_ALIVE \
+> > +       (1 << FSN_MARK_FL_BIT_ALIVE)
+> > +#define FSNOTIFY_MARK_FLAG_ATTACHED \
+> > +       (1 << FSN_MARK_FL_BIT_ATTACHED)
+> > +
+> >  /*
+> >   * A mark is simply an object attached to an in core inode which allows an
+> >   * fsnotify listener to indicate they are either no longer interested in events
+> > @@ -398,9 +412,7 @@ struct fsnotify_mark {
+> >         struct fsnotify_mark_connector *connector;
+> >         /* Events types to ignore [mark->lock, group->mark_mutex] */
+> >         __u32 ignored_mask;
+> > -#define FSNOTIFY_MARK_FLAG_IGNORED_SURV_MODIFY 0x01
+> > -#define FSNOTIFY_MARK_FLAG_ALIVE               0x02
+> > -#define FSNOTIFY_MARK_FLAG_ATTACHED            0x04
+> > +       /* Upper bits [31:PRIVATE_FLAGS] are reserved for backend usage */
+> 
+> I don't understand what [31:PRIVATE_FLAGS] means
 
-Well, this is weird: if some kernel code queries a shstk page and this
-here function says it is writable but then goes and tries to write into
-it and that write fails, then it'll confuse the user.
+I think it should be [FSN_MARK_PRIVATE_FLAGS:31] (identifying a range of
+bits). I'd maybe write just "Bits starting from FSN_MARK_PRIVATE_FLAGS are
+reserved for backend usage". With this fixed feel free to add:
 
-IOW, from where I'm standing, that should be:
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-	return (pte_flags(pte) & _PAGE_RW) && !pte_shstk(pte);
-
-as in, a writable page is one which has _PAGE_RW and it is *not* a
-shadow stack page because latter is special and not really writable.
-
-Hmmm?
-
+								Honza
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
