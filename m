@@ -2,244 +2,329 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FDE23EEBBA
-	for <lists+linux-api@lfdr.de>; Tue, 17 Aug 2021 13:29:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B57873EEB50
+	for <lists+linux-api@lfdr.de>; Tue, 17 Aug 2021 13:01:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239806AbhHQLaM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 17 Aug 2021 07:30:12 -0400
-Received: from mailout2.samsung.com ([203.254.224.25]:27562 "EHLO
-        mailout2.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239726AbhHQLaL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Aug 2021 07:30:11 -0400
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-        by mailout2.samsung.com (KnoxPortal) with ESMTP id 20210817112936epoutp029dfed7f9ab43222ed0bbaa021a781c6e~cFJC4FqAH1212112121epoutp02R
-        for <linux-api@vger.kernel.org>; Tue, 17 Aug 2021 11:29:36 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20210817112936epoutp029dfed7f9ab43222ed0bbaa021a781c6e~cFJC4FqAH1212112121epoutp02R
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1629199777;
-        bh=muF+tmBf18oq+jqxS8Klsw9Cot4xGLU3sYZJeI5PbUg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FtlI5eYOYCGUG/61qGsJgWinqIwb8hf4mv1CnWOvuBgxRLncXf0L2InO514rIwSxu
-         QvfzVwvhxtvTnV8IAio/Nw0cIxPeOc1NBezsQFMiJgKJ/ThpnKyg8jxeji4ebhNnuA
-         rgQwIEQY01lNOARa9GxWnFnZNwUJ2qqqCglraCdo=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-        epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-        20210817112935epcas5p1c85a4d338de4388002d2ed46ef2c3f39~cFJB1cQDN0060000600epcas5p15;
-        Tue, 17 Aug 2021 11:29:35 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.183]) by
-        epsnrtp2.localdomain (Postfix) with ESMTP id 4Gpphq5p9Mz4x9Px; Tue, 17 Aug
-        2021 11:29:31 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-        epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        13.9B.09595.B9D9B116; Tue, 17 Aug 2021 20:29:31 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-        epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-        20210817101822epcas5p470644cf681d5e8db5367dc7998305c65~cEK1x04pr2768027680epcas5p47;
-        Tue, 17 Aug 2021 10:18:22 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20210817101822epsmtrp138474bfe16a311ca3898be176791ab29~cEK1wcEAH2073620736epsmtrp1f;
-        Tue, 17 Aug 2021 10:18:22 +0000 (GMT)
-X-AuditID: b6c32a4a-ed5ff7000000257b-5d-611b9d9b47ff
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-        epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-        1D.19.32548.EEC8B116; Tue, 17 Aug 2021 19:18:22 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.110.206.5]) by
-        epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20210817101818epsmtip24573d2010be5372cecb5a4286a23f483~cEKyBa81A3274532745epsmtip2H;
-        Tue, 17 Aug 2021 10:18:18 +0000 (GMT)
-From:   SelvaKumar S <selvakuma.s1@samsung.com>
-To:     linux-nvme@lists.infradead.org, linux-block@vger.kernel.org
-Cc:     linux-api@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, dm-devel@redhat.com,
-        kbusch@kernel.org, axboe@kernel.dk, damien.lemoal@wdc.com,
-        asml.silence@gmail.com, johannes.thumshirn@wdc.com, hch@lst.de,
-        willy@infradead.org, kch@kernel.org, martin.petersen@oracle.com,
-        mpatocka@redhat.com, bvanassche@acm.org, djwong@kernel.org,
-        snitzer@redhat.com, agk@redhat.com, selvajove@gmail.com,
-        joshiiitr@gmail.com, nj.shetty@samsung.com,
-        nitheshshetty@gmail.com, joshi.k@samsung.com,
-        javier.gonz@samsung.com, SelvaKumar S <selvakuma.s1@samsung.com>
-Subject: [PATCH 7/7] dm kcopyd: add simple copy offload support
-Date:   Tue, 17 Aug 2021 15:44:23 +0530
-Message-Id: <20210817101423.12367-8-selvakuma.s1@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210817101423.12367-1-selvakuma.s1@samsung.com>
-MIME-Version: 1.0
+        id S239690AbhHQLCH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 17 Aug 2021 07:02:07 -0400
+Received: from mail-co1nam11on2077.outbound.protection.outlook.com ([40.107.220.77]:50657
+        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S236704AbhHQLCD (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 17 Aug 2021 07:02:03 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TEGFGht/4Oe+sjWgbUh1nZ9ckHeccps989epLX7BkyeRqb4MYxCnAckOgkASxf9nLWhM6SsBYI0H5AJNWb09Ur/AtC5GY+xFywwF6i7mjjHIfFXTaO93MbIMIH9sZcGAAIXhMcHxPyU1+vlTGpbcuRen9IPRHkoRhv1+8NQuCXKMc99k3wt7fky8ZSEs529hiq4pitQwL3502QS4wdlZLgZooyyOkIXxYuaSedMIN+AAjPp3W+meN1nBDvYboAIWtrUQGCzB0dR16DcgGtIXufV/xmHDS1tjOdmin2e7pJ4m50xBRo9GJJTjIv0EFItY/J0w0nvb9D8wWJrQsSlOAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5DZr5bHdaCjQcs0FIrwXy5nB9FnSjr8ZMgpaKdcNu5s=;
+ b=VsyRpe3NymNzES+zEiLabKvi8eW1fOf8xPtoGAX7K3z30LD9HLPTIXv3CDGnzKAi70RR1RstkMy7FVnUVnTUXRoRvGXEFXbfsZ2dKY2DihgZEKXfQWR5eRkbtIkhhVQYXkwcwlA4mDCcsOya554YvtBwrJllA48DVo79jd0RZ1QCy39diTx+NnfOJoaN66N+2zjl38HUVAGWCmAa+cIpzeppkYpoSVLn8rFsyvdTbIyAaYwUsqu5wRMXsLmgJtHALBSxAUQugTOdUrjxMTj9EXSA9x+JpT85n2N1RHpZrqLvbAdGSzv7iTNDmWmq/ZU5IJQy6hqW5nYScra0+c6WOQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5DZr5bHdaCjQcs0FIrwXy5nB9FnSjr8ZMgpaKdcNu5s=;
+ b=DKfYafA94NPUVQJN4xgveTJwxYo6C6bqYJFXN071fIrV/sc1m0aLLKbbAjJOUTSnIFJUAA+HzPE1gS2tUwMNjuk1aRIB5DcjahU7XtRWyB7T+7gko7lIfadViVojD8ZdUIMcTpqj5L0nVmBQRGTXqQT2RJFmUkErZSHnqZf30SY=
+Authentication-Results: kvack.org; dkim=none (message not signed)
+ header.d=none;kvack.org; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by BL0PR12MB2483.namprd12.prod.outlook.com (2603:10b6:207:4c::26) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.14; Tue, 17 Aug
+ 2021 11:01:26 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::dce2:96e5:aba2:66fe]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::dce2:96e5:aba2:66fe%6]) with mapi id 15.20.4415.024; Tue, 17 Aug 2021
+ 11:01:26 +0000
+Subject: Re: [PATCH v2 0/7] Remove in-tree usage of MAP_DENYWRITE
+To:     David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Kees Cook <keescook@chromium.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Chinwen Chang <chinwen.chang@mediatek.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Huang Ying <ying.huang@intel.com>,
+        Jann Horn <jannh@google.com>, Feng Tang <feng.tang@intel.com>,
+        Kevin Brodsky <Kevin.Brodsky@arm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Shawn Anastasio <shawn@anastas.io>,
+        Steven Price <steven.price@arm.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        Peter Xu <peterx@redhat.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Marco Elver <elver@google.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Nicolas Viennot <Nicolas.Viennot@twosigma.com>,
+        Thomas Cedeno <thomascedeno@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Chengguang Xu <cgxu519@mykernel.net>,
+        Florian Weimer <fweimer@redhat.com>,
+        David Laight <David.Laight@ACULAB.COM>,
+        linux-unionfs@vger.kernel.org, linux-api@vger.kernel.org,
+        x86@kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+References: <20210816194840.42769-1-david@redhat.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <6e64c3ea-b9c9-decb-36fa-fad713414833@amd.com>
+Date:   Tue, 17 Aug 2021 13:01:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <20210816194840.42769-1-david@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Te0xTZxTfd29pC1lNVyB+VhzsJsjAAa0W9rGBksjMFR/DkcVA2OAOLs++
-        0hZRMxyMN8jLIWABUac4WwVX5CEW40DX0IVtDijDiIGtzIyHIJ0DB4yVFp3//c7v/M73O+d8
-        OWycV83is1OkKlohpcQE04nR3uvt7VvXsJkSrGZtQy3G73FUr2kHSDtazkTVc89xlFfwN4YG
-        zBtQ95M6B3RFew9Dvz+0sNBK8SMM3VudYaKfZnoxdKrHBJBeV8VArQuFTNT9YBvSd/cxUGPT
-        BAuVDHcy0WXDvxiqLBzCUKc5G6D2pUYcDVZdwNHY7DALTS32MVH+t88AWlqsZ4a6kQOD+8ib
-        6lEW2fqNDznQn07qNEVMsvXiF+StkSwm+XTiAYOcvT3EJMtuaABp0b1JFtwpwSJej04LTqap
-        BFrhQUvjZQkp0qQQYl9k7O7YgECB0FcYhN4lPKSUhA4hwvZH+O5JEVuXQXgcocTpViqCUioJ
-        /53BClm6ivZIlilVIQQtTxDLRXI/JSVRpkuT/KS06j2hQLA9wCqMS0uuH61jyc3uR//RX8az
-        QAW/GDiyIVcET/1w1aEYOLF53FsA1pXWrAfzAOY1NOP2wAJgx+kq/EVJg/4OZk90AWgYtLBe
-        qh62VTisqZhcX2i6qGOsYRfuLnjlucb2Ls41MmDN7AXWWsLZmpj6tRZbwwyuJzyfu2LjOdwQ
-        OHP3Z8xu5w7P/LJg5dlsR+5O2DXvaZe8AfvOmG3v41ZJTludrVXI1TrCq6Yapr02DBrPLTHs
-        2BlOGm6w7JgP/yzPX8cZ8I+i6nWvLADLZjPseBe8r1/B1nxxrjds6fK301vgaWMzZvfdAEuX
-        zOulHNh51myTQ+5WaOwItNNucK63a70bEpbf1KwvrhLA/uXvHCqAh/qVcdSvjKP+3/kcwDVg
-        Ey1XSpJoZYB8u5TOePnL8TKJDtgOxCe8E4yPzfn1AIwNegBk44QLx4vNp3icBOrYcVohi1Wk
-        i2llDwiwrrsS57vGy6wXJlXFCkVBAlFgYKAoaEegkNjIidm/meJxkygVnUbTclrxog5jO/Kz
-        sIyDezmGty5df9o2b5Is0FMRi65PTkamVro9DqvtatmY+Ki90TPq7tixyEuvVfDzS6gopfNk
-        U3/4llGBU8ymI7UZ13cI+9SlH33qN97T3Hot80BTYWhRaN6Yi0K7mtM8J6nOrdXTBF9R5hjf
-        K5teqJiUE+Wp4zMKQ67UU9BwOLrAf4/4aFJL99vPdNPvSJarGv2/DjfK3v+wT3P4eKElZaID
-        jP01WJPo7jXMM2VOp33lTjuvfpki+fx21CfL2Sd0lsaRzEPXTi4fqMx2fXy/2nhQDX6MIeJG
-        ks4rcqI5H2hxQ6TWxButkB/6eCpRJVrx+2x36m8ntkaKw4K9huKqcs82EAxlMiX0wRVK6j8p
-        fxJIqQQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Ra0hTYRjHe885nZ2tVscp9M4uxsCiVUtL6i3TiiAOlFYQCGmsoQctb2PT
-        7AJpmNXULppWusW6SOq026ylc6thas2SpGle6pTpLMk0tcyszHQa9O3P//d7nufDQ+GiesKT
-        2heXwKriFDESUkCYHku8lvdlzlX4ZJkodLuuFkc6gwmgEu4siS70j+Ao7eR3DDmcs5C1Tzsd
-        FZfUYKjzzVceGk1/i6GasV4Sveh9jKHsqlcAWYw5BCobPkUia9tSZLHaCaS/0cVDGc3lJCp8
-        8gdDWaeaMFTuPAaQ6ZceR40513DU/qWZh3p+2El04u4QQL9+6MiN8xhH41amIp/jMWVFUsZR
-        n8gYDRqSKStIZipbU0hmoKuNYL48bCKZM/cMgPlqXMCctGVgO2buFqyPYGP2HWBVKwL3CqJ0
-        nJandHod/GkpxFPAOc90wKcg7QcvW2xYOhBQIrocwOvt+dgkmAdvchpyMrvD4j8feZPSAIBP
-        02wuiaSXw1cFRmIie9Cb4LNBk2sTTn8i4FuuEp8A7vQG2NNyyTVA0N7w6vFR3kQW0gGwt7ph
-        6poXzHs5PN5TFJ8OhOZB74laNK48suRO6W7Qnud03cLH9dT7WvwcoPP/Q/n/oSsAMwAxq1TH
-        RsaqfZUr49gkmVoRq06Mi5SFx8cagevjUmk5sBj6ZVUAo0AVgBQu8RAupjwVImGE4tBhVhUv
-        VyXGsOoqMJciJHOEDel2uYiOVCSw0SyrZFX/KEbxPVOwgG9B3OHtIeeviqfNqo/w6WI+67Cm
-        LfKwwfbQ7FG3m2eEI1CUevTIWf26/lKrPeS2d7S5o9FjJ/8IeVqckCxoq/AL7LPqzZl7CuR1
-        3dJFqm65YBk/zSa+HzYQ9KYmdX5owIoM7evkhpYUaXBBy/7eqMyR4Lo9d2yJ1avMtcPf6LwP
-        +ncHHQH6zbIikf+22Yb4leE+O8wznpOyav8x60W3z0ty39+FODcjZq27mxLThtInutfoFvol
-        FZk7s7lnFTe6dLc0d3ZlPekplRc+iHaeLikN35n0tGZklZ7r0OQU+QYGi98Rn8I0rZWW32Ot
-        694PLQhuXg2Hhhz+eTB7aa2EUEcpfKW4Sq34CwqI2DlgAwAA
-X-CMS-MailID: 20210817101822epcas5p470644cf681d5e8db5367dc7998305c65
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20210817101822epcas5p470644cf681d5e8db5367dc7998305c65
-References: <20210817101423.12367-1-selvakuma.s1@samsung.com>
-        <CGME20210817101822epcas5p470644cf681d5e8db5367dc7998305c65@epcas5p4.samsung.com>
+Content-Language: en-US
+X-ClientProxiedBy: FR0P281CA0007.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:15::12) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:5ed8:be6b:d062:84f3] (2a02:908:1252:fb60:5ed8:be6b:d062:84f3) by FR0P281CA0007.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:15::12) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.9 via Frontend Transport; Tue, 17 Aug 2021 11:01:18 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: cd259ed7-e3f1-40c3-b648-08d9616e5bcc
+X-MS-TrafficTypeDiagnostic: BL0PR12MB2483:
+X-Microsoft-Antispam-PRVS: <BL0PR12MB248352C9A663538177F13FA683FE9@BL0PR12MB2483.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pFGeXhge8AgHqKGwahujYplowvXDD/mb6Nx2F1jBNYEQewrwkD59TXhQcOEY7lnHP1dcv0+0g7DZ+/j0i70rW6xc723gDOSLWxBEYUs48fphs+s2zjlCmUYEUjDdrSL4eqpjUmcQurO2DwXlQIgtzZ9iGJZtOxg8rjHOfRl2gUIP7SnUXoO84VIaRiusQ1WAJdhLDoJBU638DcaL5QCc8tPPW6/2nI7V0z5SqCj0E6I6XivloZimgqJeOHafyqDz3dqY62qEIMROCMGIYibHHRB1tW3tIIKDB1thqciIjUM72h3BY7YfbVjFZNRqpDXtkGo9M/qnVS2+iuTcNyLIESqfPqbNZDLxCHAiZhH4mtE1lnMjDnw5tTmkVYnMYBPK1fcPuWSHq9ufWXPkYtaax6qGKI/HqTWbF/EgtqtrEzW3UnxZAfZtoUdSBWmFUe2A2eow4k9GE/imdwaWQNFYK/AZlqVGSyZblCWwYz8x2Bqln9gUw0sTF/6hGcpULvuHMBR516QdWRASmSq0Dh9YFiwWSOhiEIFwHR0OdTN3yXOXJUA+ID6JQAY6H9p//8tXMwk+E/53NqXPnxnFBu15+Yc7XxtvRx9GeeUTEoEPSltZZFcUKgrr3pO0fgDECW74Z8rcE9ZpifZmh15PaTWVpr/yR30V/lu6Ay+0nX2zBm4AlSWrRYjeyETEO54u/ruhwmF9A8GO6aY+eFB6giSOiY96/RGsHl0aKFW4I/1puIyjkT34eNKWHFbv8bKRPFyUJOHgqaRtz8gQWAQuBNXr/kNo/RZ0ES/08jo0TaxKF8vpu7Li6j5qedY+/fs8O6Uuo1y9gwf8F/yd/bbgJ7ep9MnhUnuaqwUF2PNEM0grwvU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(66574015)(54906003)(7416002)(7406005)(7366002)(2906002)(66556008)(66476007)(2616005)(508600001)(86362001)(5660300002)(316002)(83380400001)(4326008)(966005)(36756003)(66946007)(31696002)(8936002)(6666004)(6486002)(38100700002)(186003)(31686004)(8676002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L1NnU0thTjJ5ZUh3dTlCU3FjblRwR3Y5ZmNFSGdKZm5aWHFSQ1ZDL2pnN25u?=
+ =?utf-8?B?SjFXZzlEZ3ZMbnRlaGZIUFZqV01YOFd6ZHpVWWI0a1lFS25Qb3RYMVE3UXBY?=
+ =?utf-8?B?YyszaG5wcEVlMkwvSVJzWCtTNlpNazI1SEc4K2FWdHdHcGV1ZmdZTlB3dXpJ?=
+ =?utf-8?B?L0xkZXVQOTduMjZCelJ5N3d2Y2NUaEZ2Y25rL1JUOTZ6Mzd1WERET2xSR1Uv?=
+ =?utf-8?B?SExtVUhSL1h6ZTBwMlMwSzdyMkRmMFBRd21lV2Mxb0VpK09FVHdnM21lb0E2?=
+ =?utf-8?B?U09XeXg2eUMycnYzTHlGRkFmNFF4U0Nsb1BNMGlrNXRxcmRMNDBPVll3UWhX?=
+ =?utf-8?B?aTRWbkp1cDh6TnI0WThJNndpdkZUbjZ1Y3FNR1lUV2U3VG4rNFJ6d1pRbzZm?=
+ =?utf-8?B?eVQ2UlgyYTZ2RVdFNWJyR3Y3ZzdxZWxJME5vajE3RFdrNWcyU0J1NnduM08r?=
+ =?utf-8?B?MnJrVTJMS29pS1NpaDloQmpkcVgvbXhvMlBKc0pJNGtjS2lmcnpCbFY1L2Rh?=
+ =?utf-8?B?cHcrS1o5bHZYcFk0OUdDbWM3OWNLY1h0cXFhSGI3bnBNNXRNRW5RRjJ2aTBr?=
+ =?utf-8?B?M3Zva0Jpdzh2Ry9oa0NvTFpDbEMzaGYzNEFYUWx6OUhOYVJrbll0RkVlWGh1?=
+ =?utf-8?B?U3FENUZqT0JZdU9yRitEYTFVRU1pZzZLTjJNUllKenNoY2VpZjRWZC8vL3Mz?=
+ =?utf-8?B?UmFzT0N5Yy9mRWErNFE5bmd3SDNVejlMMXgxb0U0L2NRYk0zVWZ6cmZieEdN?=
+ =?utf-8?B?SmxTOHdsTkZFU2doSkROc1FQYjIzeDRwTVdJNm1kSHJ1czJVT0dEWkxDSWJI?=
+ =?utf-8?B?aTc4aWwybldrR1Zka2hlVllHc3hDQ25zSGhEeXlTSE5mT3RMTC92VENteUI0?=
+ =?utf-8?B?dWk3VUlaaXUwNlBKR0Frcmw4ejd0bVNJbXdhY1lDdnRqVEg4azYvL2xBMFFV?=
+ =?utf-8?B?VzQxNitqa0pNdTJRWnJVNkJPM3AreUxCMWFBRU5hbjF3YUc5ZkswZkIydFVh?=
+ =?utf-8?B?ZGZ0WXo1M2o1Y1p0Vk1vSHJRT0JCcTVybFdDOG43ZE1HREdmcHVTaGdUSzJJ?=
+ =?utf-8?B?WW04L25GOVZGcVVxcllXQndlSjgrNWVOV3JoWmlIaStnbGtVUmRrckZYVlpy?=
+ =?utf-8?B?Q2lxM0VFelo1RWVIVUFHVUtza0hOdWxTaXJiRGIwWVdoU1VYa3pwU1NOem04?=
+ =?utf-8?B?RzZIelNuVGhzNXAzNGNVQkc2RmVBVXk2MitlK29BLzJLbHp2M0d0TXJ6Y2pU?=
+ =?utf-8?B?OTNYWVVzVjEyTURUa2doUjlBUk1rSldvSkIwanpnakR6UXMyMnhHM2E4QXNj?=
+ =?utf-8?B?Y1dvN3h1WjhmNmN6VHNOaXJUeEUyZXl6V3FUODIyeHNyRlBodWd0N3p5VS81?=
+ =?utf-8?B?aFhVRTZFaU03c3p5U0dsc2NXZ1I0ZDkxUDEvVVhkVTZGTllJVWpBRHFtTW4v?=
+ =?utf-8?B?eHNRVGFsMUpKb0cwSi91eW42cUg2Si83VXRKenRRUEZERTNZRzR5c2JCK3Ra?=
+ =?utf-8?B?V1JLWllOUktMM0lRREczMGVGb1pmV0NMQ1J2WFhKUk9hMVFmY2NhTzhCYjNk?=
+ =?utf-8?B?NE5tcVpNVmhRcHpzSlN4TitCT1NoQVBsdC9nQUthRHI4REFQVVlKTW02MG9y?=
+ =?utf-8?B?em9uMkFJNk5nYksyZ0h4QWxydUpqS3RIQ2R3Z1RYM0FnK0JKTHhnZ3Jrcy8x?=
+ =?utf-8?B?NDhXZTVTcVFhY0Qvck03QkN6UHYxSWp1S0NSNWczMDlmTjdVWUZGdEVQM1Iw?=
+ =?utf-8?B?YjFIRTQxbWpTaVlIdXJ4WjFyaFpWVFFBRHN6cGlhV296ZnpvR3N2TnplY3FY?=
+ =?utf-8?B?NmtBS3V5UkN5N25hSTNMMlZwcDB5YzVOczQxbVRUczlaWWc1V0NYRUs0RVVL?=
+ =?utf-8?Q?0RL4G4Tn/ilaS?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd259ed7-e3f1-40c3-b648-08d9616e5bcc
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2021 11:01:26.7833
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /SAQ76fh03rHHvJts8JqUrv40OkLCuF8rN+y72lPFB9n/BQVBHvRFi7DEP5HE3Nb
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2483
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Introduce copy_jobs to use copy-offload, if supported by underlying devices
-otherwise fall back to existing method.
+Am 16.08.21 um 21:48 schrieb David Hildenbrand:
+> This series removes all in-tree usage of MAP_DENYWRITE from the kernel
+> and removes VM_DENYWRITE. We stopped supporting MAP_DENYWRITE for
+> user space applications a while ago because of the chance for DoS.
+> The last renaming user is binfmt binary loading during exec and
+> legacy library loading via uselib().
+>
+> With this change, MAP_DENYWRITE is effectively ignored throughout the
+> kernel. Although the net change is small (well, we actually add code and
+> comments), I think the cleanup in mmap() is quite nice.
+>
+> There are some (minor) user-visible changes with this series:
+> 1. We no longer deny write access to shared libaries loaded via legacy
+>     uselib(); this behavior matches modern user space e.g., via dlopen().
+> 2. We no longer deny write access to the elf interpreter after exec
+>     completed, treating it just like shared libraries (which it often is).
+> 3. We always deny write access to the file linked via /proc/pid/exe:
+>     sys_prctl(PR_SET_MM_MAP/EXE_FILE) will fail if write access to the file
+>     cannot be denied, and write access to the file will remain denied
+>     until the link is effectivel gone (exec, termination,
+>     sys_prctl(PR_SET_MM_MAP/EXE_FILE)) -- just as if exec'ing the file.
+>
+> There is a related problem [2] with overlayfs, that should at least partly
+> be tackled by this series. I don't quite understand the interaction of
+> overlayfs and deny_write_access()/allow_write_access() at exec time:
+>
+> If we end up denying write access to the wrong file and not to the
+> realfile, that would be fundamentally broken. We would have to reroute
+> our deny_write_access()/ allow_write_access() calls for the exec file to
+> the realfile -- but I leave figuring out the details to overlayfs guys, as
+> that would be a related but different issue.
+>
+> There was a lengthy discussion in [3] whether to remove deny_write_access()
+> completely; however, if we decide to go that way, it would ideally be done
+> on top, because it could be that some applications even rely on the current
+> behavior.
+>
+> v1 -> v2:
+> - "kernel/fork: factor out replacing the current MM exe_file"
+> -- Call the function "replace_mm_exe_file()" instead
+> -- Add some doc, similar to set_mm_exe_file()
+> -- Update patch subject/description
+> - "kernel/fork: always deny write access to current MM exe_file"
+> -- Introduce dup_mm_exe_file()
+> -- Make set_mm_exe_file() return an error to make the code easier to
+>     grasp.
+> -- Improve comments
+> - Added ACKs
+> - Mention "sys_prctl(PR_SET_MM_MAP/EXE_FILE)" everywhere instead of
+>    only "sys_prctl(PR_SET_MM_EXE_FILE)".
+>
+> RFC -> v1:
+> - "binfmt: remove in-tree usage of MAP_DENYWRITE"
+> -- Add a note that this should fix part of a problem with overlayfs
 
-run_copy_jobs() calls block layer copy offload API, if both source and
-destination request queue are same and support copy offload.
-On successful completion, destination regions copied count is made zero,
-failed regions are processed via existing method.
+This is unfortunately way beyond my understanding of the fs layer to 
+actually review this.
 
-Signed-off-by: SelvaKumar S <selvakuma.s1@samsung.com>
-Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
----
- drivers/md/dm-kcopyd.c | 56 +++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 50 insertions(+), 6 deletions(-)
+But from the ten mile high view it looks like a really nice cleanup to 
+me and makes my live in the DRM subsystem much easier.
 
-diff --git a/drivers/md/dm-kcopyd.c b/drivers/md/dm-kcopyd.c
-index 37b03ab7e5c9..d9ee105a6127 100644
---- a/drivers/md/dm-kcopyd.c
-+++ b/drivers/md/dm-kcopyd.c
-@@ -74,18 +74,20 @@ struct dm_kcopyd_client {
- 	atomic_t nr_jobs;
- 
- /*
-- * We maintain four lists of jobs:
-+ * We maintain five lists of jobs:
-  *
-- * i)   jobs waiting for pages
-- * ii)  jobs that have pages, and are waiting for the io to be issued.
-- * iii) jobs that don't need to do any IO and just run a callback
-- * iv) jobs that have completed.
-+ * i)	jobs waiting to try copy offload
-+ * ii)   jobs waiting for pages
-+ * iii)  jobs that have pages, and are waiting for the io to be issued.
-+ * iv) jobs that don't need to do any IO and just run a callback
-+ * v) jobs that have completed.
-  *
-- * All four of these are protected by job_lock.
-+ * All five of these are protected by job_lock.
-  */
- 	spinlock_t job_lock;
- 	struct list_head callback_jobs;
- 	struct list_head complete_jobs;
-+	struct list_head copy_jobs;
- 	struct list_head io_jobs;
- 	struct list_head pages_jobs;
- };
-@@ -579,6 +581,43 @@ static int run_io_job(struct kcopyd_job *job)
- 	return r;
- }
- 
-+static int run_copy_job(struct kcopyd_job *job)
-+{
-+	int r, i, count = 0;
-+	unsigned long flags = 0;
-+	struct range_entry srange;
-+
-+	struct request_queue *src_q, *dest_q;
-+
-+	for (i = 0; i < job->num_dests; i++) {
-+		srange.src = job->source.sector;
-+		srange.len = job->source.count;
-+
-+		src_q = bdev_get_queue(job->source.bdev);
-+		dest_q = bdev_get_queue(job->dests[i].bdev);
-+
-+		if (src_q != dest_q && !src_q->limits.copy_offload)
-+			break;
-+
-+		r = blkdev_issue_copy(job->source.bdev, 1, &srange,
-+			job->dests[i].bdev, job->dests[i].sector, GFP_KERNEL, flags);
-+		if (r)
-+			break;
-+
-+		job->dests[i].count = 0;
-+		count++;
-+	}
-+
-+	if (count == job->num_dests) {
-+		push(&job->kc->complete_jobs, job);
-+	} else {
-+		push(&job->kc->pages_jobs, job);
-+		r = 0;
-+	}
-+
-+	return r;
-+}
-+
- static int run_pages_job(struct kcopyd_job *job)
- {
- 	int r;
-@@ -659,6 +698,7 @@ static void do_work(struct work_struct *work)
- 	spin_unlock_irq(&kc->job_lock);
- 
- 	blk_start_plug(&plug);
-+	process_jobs(&kc->copy_jobs, kc, run_copy_job);
- 	process_jobs(&kc->complete_jobs, kc, run_complete_job);
- 	process_jobs(&kc->pages_jobs, kc, run_pages_job);
- 	process_jobs(&kc->io_jobs, kc, run_io_job);
-@@ -676,6 +716,8 @@ static void dispatch_job(struct kcopyd_job *job)
- 	atomic_inc(&kc->nr_jobs);
- 	if (unlikely(!job->source.count))
- 		push(&kc->callback_jobs, job);
-+	else if (job->source.bdev->bd_disk == job->dests[0].bdev->bd_disk)
-+		push(&kc->copy_jobs, job);
- 	else if (job->pages == &zero_page_list)
- 		push(&kc->io_jobs, job);
- 	else
-@@ -916,6 +958,7 @@ struct dm_kcopyd_client *dm_kcopyd_client_create(struct dm_kcopyd_throttle *thro
- 	spin_lock_init(&kc->job_lock);
- 	INIT_LIST_HEAD(&kc->callback_jobs);
- 	INIT_LIST_HEAD(&kc->complete_jobs);
-+	INIT_LIST_HEAD(&kc->copy_jobs);
- 	INIT_LIST_HEAD(&kc->io_jobs);
- 	INIT_LIST_HEAD(&kc->pages_jobs);
- 	kc->throttle = throttle;
-@@ -971,6 +1014,7 @@ void dm_kcopyd_client_destroy(struct dm_kcopyd_client *kc)
- 
- 	BUG_ON(!list_empty(&kc->callback_jobs));
- 	BUG_ON(!list_empty(&kc->complete_jobs));
-+	WARN_ON(!list_empty(&kc->copy_jobs));
- 	BUG_ON(!list_empty(&kc->io_jobs));
- 	BUG_ON(!list_empty(&kc->pages_jobs));
- 	destroy_workqueue(kc->kcopyd_wq);
--- 
-2.25.1
+Feel free to add a Acked-by: Christian König <christian.koenig@amd.com> 
+to the series.
+
+Thanks,
+Christian.
+
+>
+> [1] https://lore.kernel.org/r/20210423131640.20080-1-david@redhat.com/
+> [2] https://lore.kernel.org/r/YNHXzBgzRrZu1MrD@miu.piliscsaba.redhat.com/
+> [3] https://lkml.kernel.org/r/20210812084348.6521-1-david@redhat.com
+>
+> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Borislav Petkov <bp@alien8.de>
+> Cc: "H. Peter Anvin" <hpa@zytor.com>
+> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> Cc: Alexey Dobriyan <adobriyan@gmail.com>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Arnaldo Carvalho de Melo <acme@kernel.org>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+> Cc: Jiri Olsa <jolsa@redhat.com>
+> Cc: Namhyung Kim <namhyung@kernel.org>
+> Cc: Petr Mladek <pmladek@suse.com>
+> Cc: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: "Eric W. Biederman" <ebiederm@xmission.com>
+> Cc: Greg Ungerer <gerg@linux-m68k.org>
+> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> Cc: Mike Rapoport <rppt@kernel.org>
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> Cc: Chinwen Chang <chinwen.chang@mediatek.com>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+> Cc: Huang Ying <ying.huang@intel.com>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: Feng Tang <feng.tang@intel.com>
+> Cc: Kevin Brodsky <Kevin.Brodsky@arm.com>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Shawn Anastasio <shawn@anastas.io>
+> Cc: Steven Price <steven.price@arm.com>
+> Cc: Nicholas Piggin <npiggin@gmail.com>
+> Cc: Christian Brauner <christian.brauner@ubuntu.com>
+> Cc: Jens Axboe <axboe@kernel.dk>
+> Cc: Gabriel Krisman Bertazi <krisman@collabora.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Suren Baghdasaryan <surenb@google.com>
+> Cc: Shakeel Butt <shakeelb@google.com>
+> Cc: Marco Elver <elver@google.com>
+> Cc: Daniel Jordan <daniel.m.jordan@oracle.com>
+> Cc: Nicolas Viennot <Nicolas.Viennot@twosigma.com>
+> Cc: Thomas Cedeno <thomascedeno@google.com>
+> Cc: Michal Hocko <mhocko@suse.com>
+> Cc: Miklos Szeredi <miklos@szeredi.hu>
+> Cc: Chengguang Xu <cgxu519@mykernel.net>
+> Cc: "Christian König" <ckoenig.leichtzumerken@gmail.com>
+> Cc: Florian Weimer <fweimer@redhat.com>
+> Cc: Al Viro <viro@zeniv.linux.org.uk>
+> Cc: David Laight <David.Laight@ACULAB.COM>
+> Cc: linux-unionfs@vger.kernel.org
+> Cc: linux-api@vger.kernel.org
+> Cc: x86@kernel.org
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: linux-mm@kvack.org
+>
+> David Hildenbrand (7):
+>    binfmt: don't use MAP_DENYWRITE when loading shared libraries via
+>      uselib()
+>    kernel/fork: factor out replacing the current MM exe_file
+>    kernel/fork: always deny write access to current MM exe_file
+>    binfmt: remove in-tree usage of MAP_DENYWRITE
+>    mm: remove VM_DENYWRITE
+>    mm: ignore MAP_DENYWRITE in ksys_mmap_pgoff()
+>    fs: update documentation of get_write_access() and friends
+>
+>   arch/x86/ia32/ia32_aout.c      |  8 ++-
+>   fs/binfmt_aout.c               |  7 ++-
+>   fs/binfmt_elf.c                |  6 +--
+>   fs/binfmt_elf_fdpic.c          |  2 +-
+>   fs/exec.c                      |  4 +-
+>   fs/proc/task_mmu.c             |  1 -
+>   include/linux/fs.h             | 19 ++++---
+>   include/linux/mm.h             |  4 +-
+>   include/linux/mman.h           |  4 +-
+>   include/trace/events/mmflags.h |  1 -
+>   kernel/events/core.c           |  2 -
+>   kernel/fork.c                  | 95 ++++++++++++++++++++++++++++++----
+>   kernel/sys.c                   | 33 +-----------
+>   lib/test_printf.c              |  5 +-
+>   mm/mmap.c                      | 29 ++---------
+>   mm/nommu.c                     |  2 -
+>   16 files changed, 119 insertions(+), 103 deletions(-)
+>
+>
+> base-commit: 7c60610d476766e128cc4284bb6349732cbd6606
 
