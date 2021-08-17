@@ -2,168 +2,231 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0379E3EE8E1
-	for <lists+linux-api@lfdr.de>; Tue, 17 Aug 2021 10:51:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C7DC3EE924
+	for <lists+linux-api@lfdr.de>; Tue, 17 Aug 2021 11:05:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238797AbhHQIwJ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Tue, 17 Aug 2021 04:52:09 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:34217 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239349AbhHQIvr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Aug 2021 04:51:47 -0400
-Received: from mail-wr1-f44.google.com ([209.85.221.44]) by
- mrelayeu.kundenserver.de (mreue011 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MaInF-1mccmC2Ekf-00WEWx; Tue, 17 Aug 2021 10:51:13 +0200
-Received: by mail-wr1-f44.google.com with SMTP id u16so10302086wrn.5;
-        Tue, 17 Aug 2021 01:51:13 -0700 (PDT)
-X-Gm-Message-State: AOAM532RCyQ7ad0IJuH95R9ZM5ZqSjQNUXmeO9E55jg4GQqcjfiCFt/z
-        Mtl+KfaInwS9i9VyfcrPLYivejFeD4iRNtaYO3s=
-X-Google-Smtp-Source: ABdhPJxy0S3dgbrbB+2nYK7McLmi6W/2RjAdWpCVrlXTpjcij9P5V8Nqaanw785zBrA27G7kE8fatC0nUCf8MIMztug=
-X-Received: by 2002:a5d:4b86:: with SMTP id b6mr2726669wrt.286.1629190273176;
- Tue, 17 Aug 2021 01:51:13 -0700 (PDT)
+        id S235316AbhHQJGP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 17 Aug 2021 05:06:15 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:46484 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235401AbhHQJGP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Aug 2021 05:06:15 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 7D0911FF24;
+        Tue, 17 Aug 2021 09:05:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1629191141; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=tYIuqM/Chm7t/2F0vOjCd4IWeziZVkfp6uHEacyooi0=;
+        b=OS+7651fWfmjbiN6U/sHZKYRTpAXjnKsk02Zz7bsl1KBMQ/K1GNm9Y86Y6Y654f+q1uGQX
+        pEDho5ezaX75Iz25dE4oniuwK/xy+oPVgDQq3lY5yQIkqzraniI6MGAWqgm/GLmsYF2UzY
+        nuVFoMZf2Kf5n4lVaCM6sj44DyNpBSU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1629191141;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=tYIuqM/Chm7t/2F0vOjCd4IWeziZVkfp6uHEacyooi0=;
+        b=ofQYjrpmcK0ZY6ODBwXXe5AT6VUEtZ/2Z73+5MfslMo8xFBh4o0bQTTN4kMXJkhheOL4nX
+        xeukdncdkRwvF0AA==
+Received: from quack2.suse.cz (unknown [10.100.224.230])
+        by relay2.suse.de (Postfix) with ESMTP id 6270BA3B96;
+        Tue, 17 Aug 2021 09:05:41 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 250C11E0679; Tue, 17 Aug 2021 11:05:38 +0200 (CEST)
+Date:   Tue, 17 Aug 2021 11:05:38 +0200
+From:   Jan Kara <jack@suse.cz>
+To:     "Darrick J. Wong" <djwong@kernel.org>
+Cc:     Gabriel Krisman Bertazi <krisman@collabora.com>,
+        amir73il@gmail.com, jack@suse.com, linux-api@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        khazhy@google.com, dhowells@redhat.com, david@fromorbit.com,
+        tytso@mit.edu, repnop@google.com, kernel@collabora.com
+Subject: Re: [PATCH v6 18/21] fanotify: Emit generic error info type for
+ error event
+Message-ID: <20210817090538.GA26181@quack2.suse.cz>
+References: <20210812214010.3197279-1-krisman@collabora.com>
+ <20210812214010.3197279-19-krisman@collabora.com>
+ <20210816214103.GA12664@magnolia>
 MIME-Version: 1.0
-References: <20210709001328.329716-1-andrealmeid@collabora.com> <20210709001328.329716-3-andrealmeid@collabora.com>
-In-Reply-To: <20210709001328.329716-3-andrealmeid@collabora.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Tue, 17 Aug 2021 10:50:57 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0MO1qJLRkCH8KrZ3+=L66KOsMRmcbrUvYdMoKykdKoyQ@mail.gmail.com>
-Message-ID: <CAK8P3a0MO1qJLRkCH8KrZ3+=L66KOsMRmcbrUvYdMoKykdKoyQ@mail.gmail.com>
-Subject: Re: [PATCH v5 02/11] futex2: Implement vectorized wait
-To:     =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@collabora.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Collabora kernel ML <kernel@collabora.com>,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        pgriffais@valvesoftware.com, z.figura12@gmail.com,
-        Joel Fernandes <joel@joelfernandes.org>,
-        malteskarupke@fastmail.fm, Linux API <linux-api@vger.kernel.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        GNU C Library <libc-alpha@sourceware.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Oskolkov <posk@posk.io>,
-        Andrey Semashev <andrey.semashev@gmail.com>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Adhemerval Zanella <adhemerval.zanella@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Provags-ID: V03:K1:UISJMkl+IaBsSotgyl9AZQDkgjgU/btUkhlQoMCvDrc2FeOQO++
- DsOC/69f8AAXV5IjbQOXUcsDP22sJQRcNJmIXPjP19dq3At8k7v4Mis8ZCn3VyYJHV9F4Tf
- kMrR7xSmtcTwxYdGPkMdYS2nYmuyh2YwFkuXhjhBvVjrLisEV7xxOmlVoTuBx2LBQSfwkkK
- ClbEeRBgBfk6nJEO6Z/FQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:c0Ovau80hZI=:FTgVn/JcfGlpaD7+Z8o+og
- 7uZ4MWCcs3tJhgIM4cEgcRNy0E5PIWHo43uxLgzQ6rsuvxsdbOvz9U3DpDnX1jYN11W6rmkBt
- iO1LlKWUGOYjYe4I1Mny4y6rGfXnhFi9TbSMdZduBJbUd74m0S9LxW3BtoMRnuqerZz2vL9oQ
- RMXoiRA/P1HUxbN0NbCvB3bDIRfGLRRVodN0XtvA6HbSoVKZ07iQTS8A2XC22X49paWV0EpEi
- 1FS7ljhHlH3OHPcvDpVVYLW6GgBstPVLrFHC9/1RpzyI585yN13MEobYLojSdkdGw360/zraU
- h7ZGEE9ViP2yUS2dvoXRzT3rTuc/EKrNcXOLutlu2+XZ5s8UjXPvg8nzkgs2G9yCcHlBRgYpz
- +8tOnr8/i4CiZMVzoEQ0c9rPlbk4qpMfjMTSq6EJAExVwjBJqVkI+cgYVo2poNPbKnZLqkfMl
- gKGg912NmkL3oYbj8IspQl625IwIQ/PmgcjUcdLOdTObTGb4cCfxWJX6zHNoWhlhYZH961t5U
- 29viLW8tq/a0kqxU7aMYDyHXWJzBDpv/2RoR7nQGNAOrwrkiDzccTlqR0xNtKC2xA1dpKZ2ut
- +9JGdRHxbWL0UXyUI1Sz7yLmRoFofOkDcWNrVAcpD0OB0Ye4pYsKK0Ee8IdJlW5t6qlzj5Zlm
- d3wpAdhAIwcnYkfqFDnoKAE/eDVO2/0yo7Si55yywh1ggopJImTqwdgxwTWL2XDkzG2p8XsDa
- NLqclA/8FJJ6poaey4mt49/wx0o/wabQ9mJM6JN3fU40QBNOTsQ/Q/QDOXwgqOyQexxx6MTc9
- 1f+ZJE1DMJX0SvtWIVYviNqrg911TsRkcD1jV3MO9xnup/VnMFimnUpER1mm2HZeGGbR4PlGl
- GaAfn7rx6FuydsTY4nqP5Lf4z58pXbcRZ8l+3fYQYC9Ns1hYdXc+IuVqAaL8ov/xvOMsBq/Q3
- oQq4bH1C4jIH07410vqiKKEDeyVPbDhqHJZBXSoEYdtEccY4dszy1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210816214103.GA12664@magnolia>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jul 9, 2021 at 2:13 AM André Almeida <andrealmeid@collabora.com> wrote:
->
-> Add support to wait on multiple futexes. This is the interface
-> implemented by this syscall:
->
-> futex_waitv(struct futex_waitv *waiters, unsigned int nr_futexes,
->             unsigned int flags, struct timespec *timo)
->
-> struct futex_waitv {
->         __u64 val;
->         void *uaddr;
->         unsigned int flags;
+On Mon 16-08-21 14:41:03, Darrick J. Wong wrote:
+> On Thu, Aug 12, 2021 at 05:40:07PM -0400, Gabriel Krisman Bertazi wrote:
+> > The Error info type is a record sent to users on FAN_FS_ERROR events
+> > documenting the type of error.  It also carries an error count,
+> > documenting how many errors were observed since the last reporting.
+> > 
+> > Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
+> > 
+> > ---
+> > Changes since v5:
+> >   - Move error code here
+> > ---
+> >  fs/notify/fanotify/fanotify.c      |  1 +
+> >  fs/notify/fanotify/fanotify.h      |  1 +
+> >  fs/notify/fanotify/fanotify_user.c | 36 ++++++++++++++++++++++++++++++
+> >  include/uapi/linux/fanotify.h      |  7 ++++++
+> >  4 files changed, 45 insertions(+)
+> 
+> <snip>
+> 
+> > diff --git a/include/uapi/linux/fanotify.h b/include/uapi/linux/fanotify.h
+> > index 16402037fc7a..80040a92e9d9 100644
+> > --- a/include/uapi/linux/fanotify.h
+> > +++ b/include/uapi/linux/fanotify.h
+> > @@ -124,6 +124,7 @@ struct fanotify_event_metadata {
+> >  #define FAN_EVENT_INFO_TYPE_FID		1
+> >  #define FAN_EVENT_INFO_TYPE_DFID_NAME	2
+> >  #define FAN_EVENT_INFO_TYPE_DFID	3
+> > +#define FAN_EVENT_INFO_TYPE_ERROR	4
+> >  
+> >  /* Variable length info record following event metadata */
+> >  struct fanotify_event_info_header {
+> > @@ -149,6 +150,12 @@ struct fanotify_event_info_fid {
+> >  	unsigned char handle[0];
+> >  };
+> >  
+> > +struct fanotify_event_info_error {
+> > +	struct fanotify_event_info_header hdr;
+> > +	__s32 error;
+> > +	__u32 error_count;
+> > +};
+> 
+> My apologies for not having time to review this patchset since it was
+> redesigned to use fanotify.  Someday it would be helpful to be able to
+> export more detailed error reports from XFS, but as I'm not ready to
+> move forward and write that today, I'll try to avoid derailling this at
+> the last minute.
+
+I think we are not quite there and tweaking the passed structure is easy
+enough so no worries. Eventually, passing some filesystem-specific blob
+together with the event was the plan AFAIR. You're right now is a good
+moment to think how exactly we want that passed.
+
+> Eventually, XFS might want to be able to report errors in file data,
+> file metadata, allocation group metadata, and whole-filesystem metadata.
+> Userspace can already gather reports from XFS about corruptions reported
+> by the online fsck code (see xfs_health.c).
+
+Yes, although note that the current plan is that we currently have only one
+error event queue, others are just added to error_count until the event is
+fetched by userspace (on the grounds that the first error is usually the
+most meaningful, the others are usually just cascading problems). But I'm
+not sure if this scheme would be suitable for online fsck usecase since we
+may discard even valid independent errors this way.
+
+> I /think/ we could subclass the file error structure that you've
+> provided like so:
+> 
+> struct fanotify_event_info_xfs_filesystem_error {
+> 	struct fanotify_event_info_error	base;
+> 
+> 	__u32 magic; /* 0x58465342 to identify xfs */
+> 	__u32 type; /* quotas, realtime bitmap, etc. */
 > };
+> 
+> struct fanotify_event_info_xfs_perag_error {
+> 	struct fanotify_event_info_error	base;
+> 
+> 	__u32 magic; /* 0x58465342 to identify xfs */
+> 	__u32 type; /* agf, agi, agfl, bno btree, ino btree, etc. */
+> 	__u32 agno; /* allocation group number */
+> };
+> 
+> struct fanotify_event_info_xfs_file_error {
+> 	struct fanotify_event_info_error	base;
+> 
+> 	__u32 magic; /* 0x58465342 to identify xfs */
+> 	__u32 type; /* extent map, dir, attr, etc. */
+> 	__u64 offset; /* file data offset, if applicable */
+> 	__u64 length; /* file data length, if applicable */
+> };
+> 
+> (A real XFS implementation might have one structure with the type code
+> providing for a tagged union or something; I split it into three
+> separate structs here to avoid confusing things.)
 
-You should generally try to avoid structures with implicit padding
-like this one.
+The structure of fanotify event as passed to userspace generally is:
 
->  arch/x86/entry/syscalls/syscall_32.tbl |   1 +
->  arch/x86/entry/syscalls/syscall_64.tbl |   1 +
->  include/linux/compat.h                 |   9 +
->  include/linux/futex.h                  | 108 ++++++--
->  include/uapi/asm-generic/unistd.h      |   4 +-
+struct fanotify_event_metadata {
+        __u32 event_len;
+        __u8 vers;
+        __u8 reserved;
+        __u16 metadata_len;
+        __aligned_u64 mask;
+        __s32 fd;
+        __s32 pid;
+};
 
-I would split out the syscall table changes from the implementation, but then
-do the table changes for all architectures, at least when you get to a version
-that gets close to being accepted.
+If event_len is > sizeof(struct fanotify_event_metadata), userspace is
+expected to look for struct fanotify_event_info_header after struct
+fanotify_event_metadata. struct fanotify_event_info_header looks like:
 
-> +#ifdef CONFIG_COMPAT
-> +/**
-> + * compat_futex_parse_waitv - Parse a waitv array from userspace
-> + * @futexv:    Kernel side list of waiters to be filled
-> + * @uwaitv:     Userspace list to be parsed
-> + * @nr_futexes: Length of futexv
-> + *
-> + * Return: Error code on failure, pointer to a prepared futexv otherwise
-> + */
-> +static int compat_futex_parse_waitv(struct futex_vector *futexv,
-> +                                   struct compat_futex_waitv __user *uwaitv,
-> +                                   unsigned int nr_futexes)
-> +{
-> +       struct compat_futex_waitv aux;
-> +       unsigned int i;
-> +
-> +       for (i = 0; i < nr_futexes; i++) {
-> +               if (copy_from_user(&aux, &uwaitv[i], sizeof(aux)))
-> +                       return -EFAULT;
-> +
-> +               if ((aux.flags & ~FUTEXV_WAITER_MASK) ||
-> +                   (aux.flags & FUTEX_SIZE_MASK) != FUTEX_32)
-> +                       return -EINVAL;
-> +
-> +               futexv[i].w.flags = aux.flags;
-> +               futexv[i].w.val = aux.val;
-> +               futexv[i].w.uaddr = compat_ptr(aux.uaddr);
-> +               futexv[i].q = futex_q_init;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +COMPAT_SYSCALL_DEFINE4(futex_waitv, struct compat_futex_waitv __user *, waiters,
-> +                      unsigned int, nr_futexes, unsigned int, flags,
-> +                      struct __kernel_timespec __user *, timo)
-> +{
-> +       struct hrtimer_sleeper to;
-> +       struct futex_vector *futexv;
-> +       struct timespec64 ts;
-> +       ktime_t time;
-> +       int ret;
+struct fanotify_event_info_header {
+        __u8 info_type;
+        __u8 pad;
+        __u16 len;
+};
 
-It would be nice to reduce the duplication a little. compat_sys_futex_waitv()
-and sys_futex_waitv() only differ by a single line, in which they call
-a different
-parse function, and the two parse functions only differ in the layout of the
-user space structure. The get_timespec64() call already has an
-in_compat_syscall() check in it, so I would suggest having a single entry
-point for native and compat mode, but either having the parse function
-add another such check or making the structure layout compatible.
+Again if the end of this info (defined by 'len') is smaller than
+'event_len', there is next header with next payload of data. So for example
+error event will have:
 
-The normal way of doing this is to have a __u64 value instead of the pointer,
-and then using u64_to_uptr() for the conversion. It might be nice to
-add a global
+struct fanotify_event_metadata
+struct fanotify_event_info_error
+struct fanotify_event_info_fid
 
-typedef __u64 __kernel_uptr_t;
+Now either we could add fs specific blob into fanotify_event_info_error
+(but then it would be good to add 'magic' to fanotify_event_info_error now
+and define that if 'len' is larger, fs-specific blob follows after fixed
+data) or we can add another info type FAN_EVENT_INFO_TYPE_ERROR_FS_DATA
+(i.e., attach another structure into the event) which would contain the
+'magic' and then blob of data. I don't have strong preference.
 
-for this purpose.
+> I have three questions at this point:
+> 
+> 1) What's the maximum size of a fanotify event structure?  None of these
+> structures exceed 36 bytes, which I hope will fit in whatever size
+> constraints?
 
-       Arnd
+Whole event must fit into 4G, each event info needs to fit in 64k. At least
+these are the limits of the interface. Practically, it would be difficult
+and inefficient to manipulate such huge events... 
+
+> 2) If a program written for today's notification events sees a
+> fanotify_event_info_header from future-XFS with a header length that is
+> larger than FANOTIFY_INFO_ERROR_LEN, will it be able to react
+> appropriately?  Which is to say, ignore it on the grounds that the
+> length is unexpectedly large?
+
+That is the expected behavior :). But I guess separate info type for
+fs-specific blob might be more foolproof in this sense - when parsing
+events, you are expected to just skip info_types you don't understand
+(based on 'len' and 'type' in the common header) and generally different
+events have different sets of infos attached to them so you mostly have to
+implement this logic to be able to process events.
+
+> It /looks/ like this is the case; really I'm just fishing around here
+> to make sure nothing in the design of /this/ patchset would make it Very
+> Difficult(tm) to add more information later.
+> 
+> 3) Once we let filesystem implementations create their own extended
+> error notifications, should we have a "u32 magic" to aid in decoding?
+> Or even add it to fanotify_event_info_error now?
+
+If we go via the 'separate info type' route, then the magic can go into
+that structure and there's no great use for 'magic' in
+fanotify_event_info_error.
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
