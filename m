@@ -2,350 +2,109 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C46763EF51E
-	for <lists+linux-api@lfdr.de>; Tue, 17 Aug 2021 23:42:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 537E53EF55E
+	for <lists+linux-api@lfdr.de>; Wed, 18 Aug 2021 00:02:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231882AbhHQVnE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 17 Aug 2021 17:43:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43486 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229883AbhHQVnE (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Aug 2021 17:43:04 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 885DDC061764;
-        Tue, 17 Aug 2021 14:42:30 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id w13-20020a17090aea0db029017897a5f7bcso935576pjy.5;
-        Tue, 17 Aug 2021 14:42:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=d+H0gXNKH3urURMSdySQgW8qNOqBtUMbrLmE7hYGHoA=;
-        b=ItcrMaINrM2S+C3s7hI47qjwnxgeDNYAzzVwQe4s3VQNW600GAMPbzH6WepeccL7+Y
-         HbYt0Sr4FCJTIMmlwG8TPBwiukxsEMhvGktbW84uo7HYHX853vqMc1Xx7ay7z8QD/RGa
-         rfFZKSeF1IZ8fK+RUFhMUZnD67gIieTcN9poeWMoUSvq05OezWweSEWJyBh5xe8jYErL
-         jpsYhoyB0JLnrLJ4Q7SZfLEu3mlIQKkUBW2qP+gOUBlsp26pnYVonkVPPXhd40T4PzTm
-         s/rwd4jbliQuwaeQjNSdCZplTa2dR7cfwl/hgY9i5PIiysl6WCEtkir96xfXBtwX3IT5
-         eD/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=d+H0gXNKH3urURMSdySQgW8qNOqBtUMbrLmE7hYGHoA=;
-        b=RpQub52gs0rVNxhamOa8rUi8uXtFLVCMxsyJ+dGw3Os6z5epKJckaMy+RASQ3bKepJ
-         9Q9A3mKMTEN+np8Z7LyIs/QFC+YtNfCQCVAf4YSeqTbPS35PbwPnGFsAj5ogfSIe/pFi
-         vwGBvg/GjfbYgKoJ1zrnpIPjpIt7gGtHlXTnBNm0tGWy4p4M5SDi7fdNB04DuzRUQEgo
-         AeGjSRo1rnyLUjkrBTBYvbHA5U/bVptJo0pAnNl+XoqtJHbsAlLJoYkvxZTtt1i+ur1n
-         3a7Ju8pKhC4pysmrvMBFw1FArcBT9i1qgx2ok9lUiFXOVhy9kPZXSkD0eDaYzMdB5+mI
-         KWVA==
-X-Gm-Message-State: AOAM531gR4u7DchD0g/CdyXpa1HIWr5DEMRGPhXS+plxK3G9xcvkQu6R
-        jWpdjIXg3PqCThsMShlTYJw=
-X-Google-Smtp-Source: ABdhPJxIw5oKSYdNhmNUOXRnN1wOg8UQmF0W6l9JJUYULjiosNhFVgGg9Gg1tfs0F7PUe5wlqXcQMg==
-X-Received: by 2002:a17:90a:4285:: with SMTP id p5mr5717285pjg.162.1629236549972;
-        Tue, 17 Aug 2021 14:42:29 -0700 (PDT)
-Received: from [192.168.1.71] (122-61-176-117-fibre.sparkbb.co.nz. [122.61.176.117])
-        by smtp.gmail.com with ESMTPSA id q1sm3597256pfs.143.2021.08.17.14.42.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Aug 2021 14:42:29 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, Pankaj Gupta <pankaj.gupta@ionos.com>,
-        Alejandro Colomar <alx.manpages@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Jann Horn <jannh@google.com>, Mike Rapoport <rppt@kernel.org>,
-        Linux API <linux-api@vger.kernel.org>, linux-mm@kvack.org
-Subject: Re: [PATCH v2] madvise.2: Document MADV_POPULATE_READ and
- MADV_POPULATE_WRITE
-To:     David Hildenbrand <david@redhat.com>, linux-man@vger.kernel.org
-References: <20210816081922.5155-1-david@redhat.com>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <d70ef542-051a-521f-807d-fa469b28e897@gmail.com>
-Date:   Tue, 17 Aug 2021 23:42:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S235451AbhHQWDJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 17 Aug 2021 18:03:09 -0400
+Received: from mail-1.ca.inter.net ([208.85.220.69]:37403 "EHLO
+        mail-1.ca.inter.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230381AbhHQWDI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Aug 2021 18:03:08 -0400
+X-Greylist: delayed 519 seconds by postgrey-1.27 at vger.kernel.org; Tue, 17 Aug 2021 18:03:08 EDT
+Received: from mp-mx11.ca.inter.net (mp-mx11.ca.inter.net [208.85.217.19])
+        by mail-1.ca.inter.net (Postfix) with ESMTP id 005612EA31E;
+        Tue, 17 Aug 2021 17:53:49 -0400 (EDT)
+Received: from mail-1.ca.inter.net ([208.85.220.69])
+        by mp-mx11.ca.inter.net (mp-mx11.ca.inter.net [208.85.217.19]) (amavisd-new, port 10024)
+        with ESMTP id HJZLiWIjEmCF; Tue, 17 Aug 2021 17:53:49 -0400 (EDT)
+Received: from [192.168.48.23] (host-45-78-207-107.dyn.295.ca [45.78.207.107])
+        (using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dgilbert@interlog.com)
+        by mail-1.ca.inter.net (Postfix) with ESMTPSA id DC7C52EA1C8;
+        Tue, 17 Aug 2021 17:53:45 -0400 (EDT)
+Reply-To: dgilbert@interlog.com
+Subject: Re: [PATCH 3/7] block: copy offload support infrastructure
+To:     Mikulas Patocka <mpatocka@redhat.com>,
+        Bart Van Assche <bvanassche@acm.org>
+Cc:     SelvaKumar S <selvakuma.s1@samsung.com>,
+        linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, dm-devel@redhat.com,
+        kbusch@kernel.org, axboe@kernel.dk, damien.lemoal@wdc.com,
+        asml.silence@gmail.com, johannes.thumshirn@wdc.com, hch@lst.de,
+        willy@infradead.org, kch@kernel.org,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        djwong@kernel.org, Mike Snitzer <snitzer@redhat.com>,
+        agk@redhat.com, selvajove@gmail.com, joshiiitr@gmail.com,
+        nj.shetty@samsung.com, nitheshshetty@gmail.com,
+        joshi.k@samsung.com, javier.gonz@samsung.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20210817101423.12367-1-selvakuma.s1@samsung.com>
+ <CGME20210817101758epcas5p1ec353b3838d64654e69488229256d9eb@epcas5p1.samsung.com>
+ <20210817101423.12367-4-selvakuma.s1@samsung.com>
+ <ad3561b9-775d-dd4d-0d92-6343440b1f8f@acm.org>
+ <alpine.LRH.2.02.2108171630120.30363@file01.intranet.prod.int.rdu2.redhat.com>
+From:   Douglas Gilbert <dgilbert@interlog.com>
+Message-ID: <bbecc7e7-8bf5-3fe3-6c24-883c79fb7517@interlog.com>
+Date:   Tue, 17 Aug 2021 17:53:45 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210816081922.5155-1-david@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <alpine.LRH.2.02.2108171630120.30363@file01.intranet.prod.int.rdu2.redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-CA
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello David,
-
-Thank you for writing this! Could you please take
-a look at the comments below and revise?
-
-On 8/16/21 10:19 AM, David Hildenbrand wrote:
-> MADV_POPULATE_READ and MADV_POPULATE_WRITE have been merged into
-> upstream Linux via commit 4ca9b3859dac ("mm/madvise: introduce
-> MADV_POPULATE_(READ|WRITE) to prefault page tables"), part of v5.14-rc1.
+On 2021-08-17 4:41 p.m., Mikulas Patocka wrote:
 > 
-> Further, commit eb2faa513c24 ("mm/madvise: report SIGBUS as -EFAULT for
-> MADV_POPULATE_(READ|WRITE)"), part of v5.14-rc6, made sure that SIGBUS is
-> converted to -EFAULT instead of -EINVAL.
 > 
-> Let's document the behavior and error conditions of these new madvise()
-> options.
+> On Tue, 17 Aug 2021, Bart Van Assche wrote:
 > 
-> Acked-by: Pankaj Gupta <pankaj.gupta@ionos.com>
-> Cc: Alejandro Colomar <alx.manpages@gmail.com>
-> Cc: Michael Kerrisk <mtk.manpages@gmail.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Michal Hocko <mhocko@suse.com>
-> Cc: Oscar Salvador <osalvador@suse.de>
-> Cc: Jann Horn <jannh@google.com>
-> Cc: Mike Rapoport <rppt@kernel.org>
-> Cc: Linux API <linux-api@vger.kernel.org>
-> Cc: linux-mm@kvack.org
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
+>> On 8/17/21 3:14 AM, SelvaKumar S wrote:
+>>> Introduce REQ_OP_COPY, a no-merge copy offload operation. Create
+>>> bio with control information as payload and submit to the device.
+>>> Larger copy operation may be divided if necessary by looking at device
+>>> limits. REQ_OP_COPY(19) is a write op and takes zone_write_lock when
+>>> submitted to zoned device.
+>>> Native copy offload is not supported for stacked devices.
+>>
+>> Using a single operation for copy-offloading instead of separate operations
+>> for reading and writing is fundamentally incompatible with the device mapper.
+>> I think we need a copy-offloading implementation that is compatible with the
+>> device mapper.
 > 
-> v1 -> v2:
-> - Use semantic newlines in all cases
-> - Add two missing "
-> - Document -EFAULT handling
-> - Rephrase some parts to make it more generic: VM_PFNMAP and VM_IO are only
->   examples for special mappings
+> I once wrote a copy offload implementation that is compatible with device
+> mapper. The copy operation creates two bios (one for reading and one for
+> writing), passes them independently through device mapper and pairs them
+> at the physical device driver.
 > 
-> ---
->  man2/madvise.2 | 107 +++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 107 insertions(+)
+> It's here: http://people.redhat.com/~mpatocka/patches/kernel/xcopy/current
+
+In my copy solution the read-side and write-side bio pairs share the same 
+storage (i.e. ram) This gets around the need to copy data between the bio_s.
+See:
+    https://sg.danny.cz/sg/sg_v40.html
+in Section 8 on Request sharing. This technique can be efficiently extend to
+source --> destination1,destination2,...      copies.
+
+Doug Gilbert
+
+> I verified that it works with iSCSI. Would you be interested in continuing
+> this work?
 > 
-> diff --git a/man2/madvise.2 b/man2/madvise.2
-> index f1f384c0c..f6cea9ad2 100644
-> --- a/man2/madvise.2
-> +++ b/man2/madvise.2
-> @@ -469,6 +469,72 @@ If a page is file-backed and dirty, it will be written back to the backing
->  storage.
->  The advice might be ignored for some pages in the range when it is not
->  applicable.
-> +.TP
-> +.BR MADV_POPULATE_READ " (since Linux 5.14)"
-> +Populate (prefault) page tables readable for the whole range without actually
+> Mikulas
+> 
+>> Storing the parameters of the copy operation in the bio payload is
+>> incompatible with the current implementation of bio_split().
+>>
+>> In other words, I think there are fundamental problems with this patch series.
+>>
+>> Bart.
+>>
+> 
 
-I have trouble to understand "Populate (prefault) page tables readable".
-Does it mean that it is just the page tables are being populated, and the
-PTEs are marked to indicate that the pages are readable? If yes, I
-think some rewording would help.
-
-> +reading memory.
-
-I don't understand "without actually reading memory"? Do you mean,
-"without actually  faulting in the pages"; or something else?
-
-> +Depending on the underlying mapping,
-> +map the shared zeropage,
-> +preallocate memory or read the underlying file;
-> +files with holes might or might not preallocate blocks.
-> +Do not generate
-> +.B SIGBUS
-> +when populating fails,
-> +return an error instead.
-
-Better:
-
-[[
-If populating fails, a
-.B SIGBUS
-signal is not generated; instead, an error i returned.
-]]
-
-> +.IP
-> +If
-> +.B MADV_POPULATE_READ
-> +succeeds,
-> +all page tables have been populated (prefaulted) readable once.
-> +If
-> +.B MADV_POPULATE_READ
-> +fails,
-> +some page tables might have been populated.
-> +.IP
-> +.B MADV_POPULATE_READ
-> +cannot be applied to mappings without read permissions
-> +and special mappings,
-> +for example,
-> +marked with the kernel-internal
-
-s/marked/mappings marked/
-
-> +.B VM_PFNMAP
-> +and
-
-Just checking: should it be "and" or "or" here"?
-
-Looking at the EINVAL error below, I guess "or", and a better 
-wording would be:
-
-[[
-...for example, mappings marked with kernel-internal flags such as
-.B VMPPFNMAP
-or
-.BR BR_V_IO.
-]]
-
-> +.BR VM_IO .
-> +.IP
-> +Note that with
-> +.BR MADV_POPULATE_READ ,
-> +the process can be killed at any moment when the system runs out of memory.
-> +.TP
-> +.BR MADV_POPULATE_WRITE " (since Linux 5.14)"
-> +Populate (prefault) page tables writable for the whole range without actually
-
-I have trouble to understand "Populate (prefault) page tables writable".
-Does it mean that it is just the page tables are being populated, and the
-PTEs are marked to indicate that the pages are writable? If yes, I
-think some rewording would help.
-
-> +writing memory.
-
-I don't understand "without actually writing memory"? Do you mean,
-"without actually  faulting in the pages"; or something else?
-
-> +Depending on the underlying mapping,
-> +preallocate memory or read the underlying file;
-> +files with holes will preallocate blocks.
-> +Do not generate
-> +.B SIGBUS
-> +when populating fails,
-> +return an error instead.
-
-Better:
-
-[[
-If populating fails, a
-.B SIGBUS
-signal is not generated; instead, an error i returned.
-]]
-
-+.IP
-> +If
-> +.B MADV_POPULATE_WRITE
-> +succeeds,
-> +all page tables have been populated (prefaulted) writable once.
-> +If
-> +.B MADV_POPULATE_WRITE
-> +fails, some page tables might have been populated.
-> +.IP
-> +.B MADV_POPULATE_WRITE
-> +cannot be applied to mappings without write permissions
-> +and special mappings,
-> +for example,
-> +marked with the kernel-internal
-
-s/marked/mappings marked/
-
-> +.B VM_PFNMAP
-> +and
-
-Just checking: should it be "and" or "or" here"?
-
-Looking at the EINVAL error below, I guess "or", and a better 
-wording would be:
-
-[[
-...for example, mappings marked with kernel-internal flags such as
-.B VMPPFNMAP
-or
-.BR BR_V_IO.
-]]
-
-> +.BR VM_IO .
-> +.IP
-> +Note that with
-> +.BR MADV_POPULATE_WRITE ,
-> +the process can be killed at any moment when the system runs out of memory.
->  .SH RETURN VALUE
->  On success,
->  .BR madvise ()
-> @@ -490,6 +556,17 @@ A kernel resource was temporarily unavailable.
->  .B EBADF
->  The map exists, but the area maps something that isn't a file.
->  .TP
-> +.B EFAULT
-> +.I advice
-> +is
-> +.B MADV_POPULATE_READ
-> +or
-> +.BR MADV_POPULATE_WRITE ,
-> +and populating (prefaulting) page tables failed because a
-> +.B SIGBUS
-> +would have been generated on actual memory access and the reason is not a
-> +HW poisoned page.
-
-Maybe:
-s/.$/(see the description of MADV_HWPOISON in this page)./
-?
-
-> +.TP
->  .B EINVAL
->  .I addr
->  is not page-aligned or
-> @@ -533,6 +610,18 @@ or
->  .BR VM_PFNMAP
->  ranges.
->  .TP
-> +.B EINVAL
-> +.I advice
-> +is
-> +.B MADV_POPULATE_READ
-> +or
-> +.BR MADV_POPULATE_WRITE ,
-> +but the specified address range includes ranges with insufficient permissions
-> +or incompatible mappings such as
-> +.B VM_IO
-> +or
-> +.BR VM_PFNMAP.
-
-s/.BR VM_PFNMAP./.BR VM_PFNMAP ./
-
-> +.TP
->  .B EIO
->  (for
->  .BR MADV_WILLNEED )
-> @@ -548,6 +637,15 @@ Not enough memory: paging in failed.
->  Addresses in the specified range are not currently
->  mapped, or are outside the address space of the process.
->  .TP
-> +.B ENOMEM
-> +.I advice
-> +is
-> +.B MADV_POPULATE_READ
-> +or
-> +.BR MADV_POPULATE_WRITE ,
-> +and populating (prefaulting) page tables failed because there was not enough
-> +memory.
-> +.TP
->  .B EPERM
->  .I advice
->  is
-> @@ -555,6 +653,15 @@ is
->  but the caller does not have the
->  .B CAP_SYS_ADMIN
->  capability.
-> +.TP
-> +.B EHWPOISON
-> +.I advice
-> +is
-> +.B MADV_POPULATE_READ
-> +or
-> +.BR MADV_POPULATE_WRITE ,
-> +and populating (prefaulting) page tables failed because a HW poisoned page
-> +was encountered.
->  .SH VERSIONS
->  Since Linux 3.18,
->  .\" commit d3ac21cacc24790eb45d735769f35753f5b56ceb
-
-Thanks,
-
-Michael
-
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
