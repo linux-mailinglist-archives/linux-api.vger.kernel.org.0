@@ -2,155 +2,160 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C1EC03EEEC4
-	for <lists+linux-api@lfdr.de>; Tue, 17 Aug 2021 16:48:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED5823EF05F
+	for <lists+linux-api@lfdr.de>; Tue, 17 Aug 2021 18:48:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238059AbhHQOtB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 17 Aug 2021 10:49:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60856 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237387AbhHQOtB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Aug 2021 10:49:01 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D09F0C061764;
-        Tue, 17 Aug 2021 07:48:26 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id z2so41934333lft.1;
-        Tue, 17 Aug 2021 07:48:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LkI5q0Ud7n3yU60UTm3c6JeteGC7wMUAGiEejPjFM0g=;
-        b=Vnd8MvzcyIJss0OkwpMOukq2mHc6qzT3i2r3F2v8Rq3m4IyAu38H3oi2pVyzXM9G+s
-         9VecOZWA8UAF+urrr+2W519JaLBlHuWQzG+UDOngpQkbSQIj0M/0ws8PZhy6xLhG07Wa
-         Vz/DJoYr8NWlmQtvDqIea+oR7xpJHXXiqxGFF3SOwH7uyLdNstSbjKZJ2uXuFYYwEX4r
-         fr0NXkker9zxQM8m6Q9vTdYWONIUCHPKEIJ0MuujaeG25SlMoKnMoV0oCv6SIjnOz5rU
-         sugq1U8oav7TjjWnQTEBM/oIZ7yUGwYL0iDYaL2+yIIAxr4gb+Bxv6Th8TCaf6NRLBLn
-         4brg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LkI5q0Ud7n3yU60UTm3c6JeteGC7wMUAGiEejPjFM0g=;
-        b=ggeSSe0+VIq09hlpo4BnoMUHHT3bZBNwS1pnkZhFgn8LsuzApV/CIaOsXK1UfqNqCI
-         iZDlHh2UQG93phNS//zmaFeLfwKxrNPfP8nDRF3vgTGaesyERXp/8Aw3XpMvbjVpP0c7
-         6VdddArZpu5kV34sr0ZnQjV1EClbPqR1VLSrBZgxb5BDlMPXTxjwM8RMEA38dr0WyVDk
-         V1tkD3Jw0Z6fLUNaWoGhgkJcQCCdu+Ie55Qe7xjGyBdOOcc4SayEmt9tYdt0jQ4OgY2d
-         lm9iJ68tK+grP/YjiJEexs0EFyQ0ohKUwxawfxI1A8holxDa4PAid5mX4pPwAlSs+Q8g
-         BKTw==
-X-Gm-Message-State: AOAM531TDoc2yCzxAZs6yaq1yo1Y8T3nICzL3SG1YpzDqSc3wfGf8I5q
-        SbCGT/HltTeAKuLaAwW2Pn0fwggIkx4Vnqw0EPA=
-X-Google-Smtp-Source: ABdhPJy78VibbpwFw9aY9bJD6KbF0FN0r9oY1sz4LqrxVQ5ggLWZJqClrS+h2E/ukIwkOys47vQF7tDbHI+OS3kdo5Q=
-X-Received: by 2002:ac2:4573:: with SMTP id k19mr2666539lfm.459.1629211705214;
- Tue, 17 Aug 2021 07:48:25 -0700 (PDT)
+        id S229477AbhHQQtI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 17 Aug 2021 12:49:08 -0400
+Received: from out02.mta.xmission.com ([166.70.13.232]:57478 "EHLO
+        out02.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229716AbhHQQtH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Aug 2021 12:49:07 -0400
+Received: from in02.mta.xmission.com ([166.70.13.52]:36550)
+        by out02.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1mG2GG-00B1AV-9W; Tue, 17 Aug 2021 10:48:24 -0600
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95]:53352 helo=email.xmission.com)
+        by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1mG2GE-004s3F-8f; Tue, 17 Aug 2021 10:48:23 -0600
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        David Laight <David.Laight@aculab.com>,
+        David Hildenbrand <david@redhat.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Kees Cook <keescook@chromium.org>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Chinwen Chang <chinwen.chang@mediatek.com>,
+        Michel Lespinasse <walken@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Huang Ying <ying.huang@intel.com>,
+        Jann Horn <jannh@google.com>, Feng Tang <feng.tang@intel.com>,
+        Kevin Brodsky <Kevin.Brodsky@arm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Shawn Anastasio <shawn@anastas.io>,
+        Steven Price <steven.price@arm.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        Peter Xu <peterx@redhat.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Marco Elver <elver@google.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Nicolas Viennot <Nicolas.Viennot@twosigma.com>,
+        Thomas Cedeno <thomascedeno@google.com>,
+        Collin Fijalkovich <cfijalkovich@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Chengguang Xu <cgxu519@mykernel.net>,
+        Christian =?utf-8?Q?K=C3=B6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>,
+        "linux-unionfs\@vger.kernel.org" <linux-unionfs@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "\<linux-fsdevel\@vger.kernel.org\>" <linux-fsdevel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+References: <20210812084348.6521-1-david@redhat.com> <87o8a2d0wf.fsf@disp2133>
+        <60db2e61-6b00-44fa-b718-e4361fcc238c@www.fastmail.com>
+        <87lf56bllc.fsf@disp2133>
+        <CAHk-=wgru1UAm3kAKSOdnbewPXQMOxYkq9PnAsRadAC6pXCCMQ@mail.gmail.com>
+        <87eeay8pqx.fsf@disp2133>
+        <5b0d7c1e73ca43ef9ce6665fec6c4d7e@AcuMS.aculab.com>
+        <87h7ft2j68.fsf@disp2133>
+        <CAHk-=whmXTiGUzVrTP=mOPQrg-XOi3R-45hC4dQOqW4JmZdFUQ@mail.gmail.com>
+        <b629cda1-becd-4725-b16c-13208ff478d3@www.fastmail.com>
+        <YRcyqbpVqwwq3P6n@casper.infradead.org>
+Date:   Tue, 17 Aug 2021 11:48:12 -0500
+In-Reply-To: <YRcyqbpVqwwq3P6n@casper.infradead.org> (Matthew Wilcox's message
+        of "Sat, 14 Aug 2021 04:04:09 +0100")
+Message-ID: <87k0kkxbjn.fsf_-_@disp2133>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20210817101423.12367-1-selvakuma.s1@samsung.com>
- <CGME20210817101803epcas5p10cda1d52f8a8f1172e34b1f9cf8eef3b@epcas5p1.samsung.com>
- <20210817101423.12367-5-selvakuma.s1@samsung.com> <YRu1WFImFulfpk7s@kroah.com>
-In-Reply-To: <YRu1WFImFulfpk7s@kroah.com>
-From:   Nitesh Shetty <nitheshshetty@gmail.com>
-Date:   Tue, 17 Aug 2021 20:18:13 +0530
-Message-ID: <CAOSviJ2q-y8h=Pf4t7oUZoL7WHdYeFQQOnoeN6Ta07iPNjX-wg@mail.gmail.com>
-Subject: Re: [PATCH 4/7] block: Introduce a new ioctl for simple copy
-To:     Greg KH <greg@kroah.com>
-Cc:     SelvaKumar S <selvakuma.s1@samsung.com>,
-        linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, dm-devel@redhat.com,
-        kbusch@kernel.org, axboe@kernel.dk, damien.lemoal@wdc.com,
-        asml.silence@gmail.com, johannes.thumshirn@wdc.com, hch@lst.de,
-        willy@infradead.org, kch@kernel.org, martin.petersen@oracle.com,
-        mpatocka@redhat.com, bvanassche@acm.org, djwong@kernel.org,
-        snitzer@redhat.com, agk@redhat.com, selvajove@gmail.com,
-        joshiiitr@gmail.com, nj.shetty@samsung.com, joshi.k@samsung.com,
-        javier.gonz@samsung.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-XM-SPF: eid=1mG2GE-004s3F-8f;;;mid=<87k0kkxbjn.fsf_-_@disp2133>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1/RgSCC94xL9aHXm5fqRL3zu5kuwNAWKt8=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa01.xmission.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-0.2 required=8.0 tests=ALL_TRUSTED,BAYES_50,
+        DCC_CHECK_NEGATIVE autolearn=disabled version=3.4.2
+X-Spam-Virus: No
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4998]
+        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+        *      [sa01 1397; Body=1 Fuz1=1 Fuz2=1]
+X-Spam-DCC: XMission; sa01 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: ;Matthew Wilcox <willy@infradead.org>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 1373 ms - load_scoreonly_sql: 0.02 (0.0%),
+        signal_user_changed: 4.3 (0.3%), b_tie_ro: 3.0 (0.2%), parse: 1.40
+        (0.1%), extract_message_metadata: 10 (0.7%), get_uri_detail_list: 0.95
+        (0.1%), tests_pri_-1000: 17 (1.3%), tests_pri_-950: 1.03 (0.1%),
+        tests_pri_-900: 0.94 (0.1%), tests_pri_-90: 1014 (73.9%), check_bayes:
+        1009 (73.5%), b_tokenize: 15 (1.1%), b_tok_get_all: 9 (0.7%),
+        b_comp_prob: 1.85 (0.1%), b_tok_touch_all: 980 (71.4%), b_finish: 0.75
+        (0.1%), tests_pri_0: 312 (22.7%), check_dkim_signature: 0.39 (0.0%),
+        check_dkim_adsp: 2.1 (0.1%), poll_dns_idle: 0.42 (0.0%), tests_pri_10:
+        2.3 (0.2%), tests_pri_500: 7 (0.5%), rewrite_mail: 0.00 (0.0%)
+Subject: Removing Mandatory Locks
+X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
+X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 17, 2021 at 6:40 PM Greg KH <greg@kroah.com> wrote:
->
-> On Tue, Aug 17, 2021 at 03:44:20PM +0530, SelvaKumar S wrote:
-> > From: Nitesh Shetty <nj.shetty@samsung.com>
-> >
-> > Add new BLKCOPY ioctl that offloads copying of one or more sources ranges
-> > to a destination in the device. COPY ioctl accepts a 'copy_range'
-> > structure that contains destination (in sectors), no of sources and
-> > pointer to the array of source ranges. Each source range is represented by
-> > 'range_entry' that contains start and length of source ranges (in sectors)
-> >
-> > MAX_COPY_NR_RANGE, limits the number of entries for the IOCTL and
-> > MAX_COPY_TOTAL_LENGTH limits the total copy length, IOCTL can handle.
-> >
-> > Example code, to issue BLKCOPY:
-> > /* Sample example to copy three source-ranges [0, 8] [16, 8] [32,8] to
-> >  * [64,24], on the same device */
-> >
-> > int main(void)
-> > {
-> >       int ret, fd;
-> >       struct range_entry source_range[] = {{.src = 0, .len = 8},
-> >               {.src = 16, .len = 8}, {.src = 32, .len = 8},};
-> >       struct copy_range cr;
-> >
-> >       cr.dest = 64;
-> >       cr.nr_range = 3;
-> >       cr.range_list = (__u64)&source_range;
-> >
-> >       fd = open("/dev/nvme0n1", O_RDWR);
-> >       if (fd < 0) return 1;
-> >
-> >       ret = ioctl(fd, BLKCOPY, &cr);
-> >       if (ret < 0) printf("copy failure\n");
-> >
-> >       close(fd);
-> >
-> >       return ret;
-> > }
-> >
-> > Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
-> > Signed-off-by: SelvaKumar S <selvakuma.s1@samsung.com>
-> > Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-> > ---
-> >  block/ioctl.c           | 33 +++++++++++++++++++++++++++++++++
-> >  include/uapi/linux/fs.h |  8 ++++++++
-> >  2 files changed, 41 insertions(+)
-> >
-> > diff --git a/block/ioctl.c b/block/ioctl.c
-> > index eb0491e90b9a..2af56d01e9fe 100644
-> > --- a/block/ioctl.c
-> > +++ b/block/ioctl.c
-> > @@ -143,6 +143,37 @@ static int blk_ioctl_discard(struct block_device *bdev, fmode_t mode,
-> >                                   GFP_KERNEL, flags);
-> >  }
-> >
-> > +static int blk_ioctl_copy(struct block_device *bdev, fmode_t mode,
-> > +             unsigned long arg)
-> > +{
-> > +     struct copy_range crange;
-> > +     struct range_entry *rlist;
-> > +     int ret;
-> > +
-> > +     if (!(mode & FMODE_WRITE))
-> > +             return -EBADF;
-> > +
-> > +     if (copy_from_user(&crange, (void __user *)arg, sizeof(crange)))
-> > +             return -EFAULT;
-> > +
-> > +     rlist = kmalloc_array(crange.nr_range, sizeof(*rlist),
-> > +                     GFP_KERNEL);
->
-> No error checking for huge values of nr_range?  Is that wise?  You
-> really want userspace to be able to allocate "all" of the kernel memory
-> in the system?
->
-> thanks,
->
-> greg k-h
+Matthew Wilcox <willy@infradead.org> writes:
 
-We added a kernel imposed limit MAX_COPY_NR_RANGE for that purpose,
-but missed adding the check here.
-Will have that fixed. Thanks for pointing this out.
+> On Fri, Aug 13, 2021 at 05:49:19PM -0700, Andy Lutomirski wrote:
+>> [0] we have mandatory locks, too. Sigh.
+>
+> I'd love to remove that.  Perhaps we could try persuading more of the
+> distros to disable the CONFIG option first.
 
-Nitesh Shetty
+Yes.  The support is disabled in RHEL8.
+
+Does anyone know the appropriate people to talk to encourage other
+distro's to encourage them to disable the CONFIG_MANDATORY_FILE_LOCKING?
+
+Either that or we can wait until the code bit-rots, but distro's
+disabling and removing a feature on their own is the more responsible
+path.
+
+Given how many hoops need to be jumped through to use mandatory file
+locking once it is enabled, and the fact it has never worked in
+containers makes me suspect there are no more users.
+
+Eric
+
+
