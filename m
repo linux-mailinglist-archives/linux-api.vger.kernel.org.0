@@ -2,107 +2,176 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FE633EF452
-	for <lists+linux-api@lfdr.de>; Tue, 17 Aug 2021 23:00:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B48C23EF45A
+	for <lists+linux-api@lfdr.de>; Tue, 17 Aug 2021 23:07:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233963AbhHQVBT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 17 Aug 2021 17:01:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33970 "EHLO
+        id S232695AbhHQVHq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 17 Aug 2021 17:07:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbhHQVBT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Aug 2021 17:01:19 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6F79C061764;
-        Tue, 17 Aug 2021 14:00:45 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f1175002d6ed1db7aad8219.dip0.t-ipconnect.de [IPv6:2003:ec:2f11:7500:2d6e:d1db:7aad:8219])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id ECBC61EC054F;
-        Tue, 17 Aug 2021 23:00:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1629234040;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=mXsfggRjwQDlm0H7Ke4Yg4s+PjvD0gM8YpelP0TsXHU=;
-        b=h50TDWS4H9GdDodATzIk47AkyXvA4xxH+tNY8zodUJbiv66vz2uFecq8W13pkePmohzcG+
-        9bTxxFbcNJNR6KjEBv4mabKrZU3gRqlEIj14TxD1Hrp0arnMYTBjLNHIqwAoViz5K4MhkU
-        9jeBsoXMtMB5jcgWi4P1gXtqA77We3I=
-Date:   Tue, 17 Aug 2021 23:01:18 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     "luto@amacapital.net" <luto@amacapital.net>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Rick P Edgecombe <rick.p.edgecombe@intel.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v28 09/32] x86/mm: Introduce _PAGE_COW
-Message-ID: <YRwjnmT9O8jYmL/9@zn.tnic>
-References: <YRwT7XX36fQ2GWXn@zn.tnic>
- <1A27F5DF-477B-45B7-AD33-CC68D9B7CB89@amacapital.net>
- <YRwbD1hCYFXlYysI@zn.tnic>
- <490345b6-3e3d-4692-8162-85dcb71434c9@www.fastmail.com>
+        with ESMTP id S229869AbhHQVHq (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Aug 2021 17:07:46 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77FD5C0613C1
+        for <linux-api@vger.kernel.org>; Tue, 17 Aug 2021 14:07:12 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id u13-20020a17090abb0db0290177e1d9b3f7so7480051pjr.1
+        for <linux-api@vger.kernel.org>; Tue, 17 Aug 2021 14:07:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=osandov-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ifEyWOEWl5Nw2lfaWWMjDfhWjw1d7zOJ4aJ2plb67Sw=;
+        b=n/sAVmuY9CIYVhjQ1u8YuEheUBxiDAT3Qq5KhqBh9pEWH1NIbUvHYCj82lGsB/m3oJ
+         8xQaJNDHdtVaHqaXN7awyXGJ7tt8dNa2LUPtBQh93BkED8iDD28XaRW5lTNtlZ/1zfPU
+         16xY9Z+0z3MSNZ0dB0EjUfBbRqHhdzKujD/lA9zfmZyZof/6r27SHtXTN14WTntTv4mM
+         8J2InWbzw74K72hBkaPQgUC2lUcOVSptHdKickgE8ZuASeW3f4fb2t7w/VOdQ0HrZ2rd
+         bxtguNPv7HcKbqzS2tCjPBObnWb/89afr1pyZOun3WBRyQzQ2jKAZQLeX5iPkun+8rvQ
+         JznA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ifEyWOEWl5Nw2lfaWWMjDfhWjw1d7zOJ4aJ2plb67Sw=;
+        b=gTuqdxlujqbnDvWHtncOgoD6mj8Rs7uAbc2oER7rmUEGQhNNx+2xQfobiEKDCmJE05
+         K5ygX8bo1Lo9zkabZ9OYlpj3nKNEIg5DivlgH8TLZif90Ab/GO9xk3x5MCdYYpAsBAfA
+         kc+ROx7qQwnN1q1BKuZ51+n1Z8S24uM1eTflUNPYuwyfziJyBp//tG3A7rY/HG0s0xaA
+         jBHE31L5D/ioITQ1Sva7y3CUSUKzKNg06JoUTRNPGDvwouCnsM2bE+zROzzFYKppZz4d
+         ZhWAqJQ/WZ6s8VKpeiPCxvLFzxM1/mbj+fVGHMpzBUY++8K18psIq6WpGvnXNx6IB/uj
+         ABuQ==
+X-Gm-Message-State: AOAM532wMdsB9joyMfKCUjeDTrI7gBxViJ2IpFh4HU+8ZgEq/Q3ybGj8
+        Moib60zW2NHwOhlU7v+Zq+FTDw==
+X-Google-Smtp-Source: ABdhPJz/IZROrp97aDIRUXdDu/LOy3ugJNxfLXXcCcN00ssDpDS72383ZPqnJkHn/I0sxXPz5dBB6A==
+X-Received: by 2002:a17:90a:7283:: with SMTP id e3mr5556175pjg.65.1629234431937;
+        Tue, 17 Aug 2021 14:07:11 -0700 (PDT)
+Received: from relinquished.tfbnw.net ([2620:10d:c090:400::5:df70])
+        by smtp.gmail.com with ESMTPSA id c9sm4205194pgq.58.2021.08.17.14.07.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Aug 2021 14:07:07 -0700 (PDT)
+From:   Omar Sandoval <osandov@osandov.com>
+To:     linux-btrfs@vger.kernel.org
+Cc:     kernel-team@fb.com, linux-fsdevel@vger.kernel.org,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-api@vger.kernel.org
+Subject: [PATCH v10 00/14] btrfs: add ioctls and send/receive support for reading/writing compressed data
+Date:   Tue, 17 Aug 2021 14:06:32 -0700
+Message-Id: <cover.1629234193.git.osandov@fb.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <490345b6-3e3d-4692-8162-85dcb71434c9@www.fastmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 17, 2021 at 01:51:52PM -0700, Andy Lutomirski wrote:
-> WRSS can be used from user mode depending on the configuration.
+From: Omar Sandoval <osandov@fb.com>
 
-My point being, if you're going to do shadow stack management
-operations, you should check whether the target you're writing to is a
-shadow stack page. Clearly userspace can't do that but userspace will
-get notified of that pretty timely.
+This series has three parts: new Btrfs ioctls for reading/writing
+compressed data, support for sending compressed data via Btrfs send, and
+btrfs-progs support for sending/receiving compressed data and writing it
+with the new ioctl.
 
-> Double-you shmouble-you. You can't write it with MOV, but you can
-> write it from user code and from kernel code. As far as the mm is
-> concerned, I think it should be considered writable.
+The Btrfs ioctls for reading compressed data from a file without
+decompressing it and for writing compressed data directly to a file are
+adapted from my previous attempt to do this as an extension to
+preadv2/pwritev2 [1]. We weren't able to come up with a generic
+interface that everyone was happy with, so we're going to do this
+ourselves in Btrfs. If another user comes along, we can generalize it
+then. Test cases are here [2]
 
-Because?
+Patches 1 and 2 are VFS changes exporting a couple of helpers for checks
+needed by reads and writes. Patches 3-7 are preparatory Btrfs changes
+for compressed reads and writes. Patch 8 adds the compressed read ioctl
+and patch 9 adds the compressed write ioctl.
 
-> Although... anyone who tries to copy_to_user() it is going to be a bit
-> surprised. Hmm.
+The main use-case for this interface is Btrfs send/receive. Currently,
+when sending data from one compressed filesystem to another, the sending
+side decompresses the data and the receiving side recompresses it before
+writing it out. This is wasteful and can be avoided if we can just send
+and write compressed extents.
 
-Ok, so you see the confusion.
+Patches 10-14 add the Btrfs send support. See the previous posting for
+more details and benchmarks [3]. Patches 10-12 prepare some protocol
+changes for send stream v2. Patch 13 implements compressed send. Patch
+14 enables send stream v2 and compressed send in the send ioctl when
+requested.
 
-In any case, I don't think you can simply look at a shadow stack page as
-simple writable page. There are cases where it is going to be fun.
+These patches are based on Dave Sterba's Btrfs misc-next branch [4],
+which is in turn currently based on v5.14-rc6.
 
-So why are we even saying that a shadow stack page is writable? Why
-can't we simply say that a shadow stack page is, well, something
-special?
+1: https://lore.kernel.org/linux-fsdevel/cover.1623972518.git.osandov@fb.com/
+2: https://github.com/osandov/xfstests/tree/btrfs-encoded-io
+3: https://lore.kernel.org/linux-btrfs/cover.1615922753.git.osandov@fb.com/
+4: https://github.com/kdave/btrfs-devel/tree/misc-next
+
+Omar Sandoval (14):
+  fs: export rw_verify_area()
+  fs: export variant of generic_write_checks without iov_iter
+  btrfs: don't advance offset for compressed bios in
+    btrfs_csum_one_bio()
+  btrfs: add ram_bytes and offset to btrfs_ordered_extent
+  btrfs: support different disk extent size for delalloc
+  btrfs: optionally extend i_size in cow_file_range_inline()
+  btrfs: add definitions + documentation for encoded I/O ioctls
+  btrfs: add BTRFS_IOC_ENCODED_READ
+  btrfs: add BTRFS_IOC_ENCODED_WRITE
+  btrfs: add send stream v2 definitions
+  btrfs: send: write larger chunks when using stream v2
+  btrfs: send: allocate send buffer with alloc_page() and vmap() for v2
+  btrfs: send: send compressed extents with encoded writes
+  btrfs: send: enable support for stream v2 and compressed writes
+
+ fs/btrfs/compression.c     |  12 +-
+ fs/btrfs/compression.h     |   6 +-
+ fs/btrfs/ctree.h           |  17 +-
+ fs/btrfs/delalloc-space.c  |  18 +-
+ fs/btrfs/file-item.c       |  35 +-
+ fs/btrfs/file.c            |  68 ++-
+ fs/btrfs/inode.c           | 911 +++++++++++++++++++++++++++++++++----
+ fs/btrfs/ioctl.c           | 213 +++++++++
+ fs/btrfs/ordered-data.c    | 124 ++---
+ fs/btrfs/ordered-data.h    |  25 +-
+ fs/btrfs/relocation.c      |   2 +-
+ fs/btrfs/send.c            | 307 +++++++++++--
+ fs/btrfs/send.h            |  32 +-
+ fs/internal.h              |   5 -
+ fs/read_write.c            |  41 +-
+ include/linux/fs.h         |   2 +
+ include/uapi/linux/btrfs.h | 149 +++++-
+ 17 files changed, 1690 insertions(+), 277 deletions(-)
+
+The btrfs-progs patches were written by Boris Burkov with some updates
+from me. Patches 1-4 are preparation. Patch 5 implements encoded writes.
+Patch 6 implements the fallback to decompressing. Patches 7 and 8
+implement the other commands. Patch 9 adds the new `btrfs send` options.
+Patch 10 adds a test case.
+
+Boris Burkov (10):
+  btrfs-progs: receive: support v2 send stream larger tlv_len
+  btrfs-progs: receive: dynamically allocate sctx->read_buf
+  btrfs-progs: receive: support v2 send stream DATA tlv format
+  btrfs-progs: receive: add send stream v2 cmds and attrs to send.h
+  btrfs-progs: receive: process encoded_write commands
+  btrfs-progs: receive: encoded_write fallback to explicit decode and
+    write
+  btrfs-progs: receive: process fallocate commands
+  btrfs-progs: receive: process setflags ioctl commands
+  btrfs-progs: send: stream v2 ioctl flags
+  btrfs-progs: receive: add tests for basic encoded_write send/receive
+
+ Documentation/btrfs-receive.asciidoc          |   4 +
+ Documentation/btrfs-send.asciidoc             |  16 +-
+ cmds/receive-dump.c                           |  31 +-
+ cmds/receive.c                                | 347 +++++++++++++++++-
+ cmds/send.c                                   |  54 ++-
+ common/send-stream.c                          | 157 ++++++--
+ common/send-stream.h                          |   7 +
+ ioctl.h                                       | 149 +++++++-
+ libbtrfsutil/btrfs.h                          |  17 +-
+ send.h                                        |  19 +-
+ .../049-receive-write-encoded/test.sh         | 114 ++++++
+ 11 files changed, 871 insertions(+), 44 deletions(-)
+ create mode 100755 tests/misc-tests/049-receive-write-encoded/test.sh
 
 -- 
-Regards/Gruss,
-    Boris.
+2.32.0
 
-https://people.kernel.org/tglx/notes-about-netiquette
