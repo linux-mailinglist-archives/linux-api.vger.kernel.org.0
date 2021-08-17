@@ -2,108 +2,149 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 089AB3EF430
-	for <lists+linux-api@lfdr.de>; Tue, 17 Aug 2021 22:49:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B0783EF441
+	for <lists+linux-api@lfdr.de>; Tue, 17 Aug 2021 22:52:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234219AbhHQUmY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 17 Aug 2021 16:42:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54417 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232563AbhHQUmX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Aug 2021 16:42:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1629232909;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=wcl4Dsri643WTYT2ZVvqT65s7dgjheTTZlEE7QZJGi0=;
-        b=cNtDwZv4I4gzlWlDkcuA9A8LcgnZ4nw7NmBcLOF6+OpgDv2ZO6OSlF8ZxXpuRNPNW729wm
-        NZ+/1UVLUp0NF37JD2i31SjDARtkfuLT0GtjFQeMWfqwd0EVJvlTXnWDq3bqn9NFAZAPVV
-        x1iL3DKXFcCXS3maVooTmvdX5SrfWSI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-OibFsp8zNtK8OL7wOrtR7Q-1; Tue, 17 Aug 2021 16:41:46 -0400
-X-MC-Unique: OibFsp8zNtK8OL7wOrtR7Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D08F51082925;
-        Tue, 17 Aug 2021 20:41:43 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 3995E60BF4;
-        Tue, 17 Aug 2021 20:41:36 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
-        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id 17HKfZQS031822;
-        Tue, 17 Aug 2021 16:41:35 -0400
-Received: from localhost (mpatocka@localhost)
-        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP id 17HKfZrZ031818;
-        Tue, 17 Aug 2021 16:41:35 -0400
-X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka owned process doing -bs
-Date:   Tue, 17 Aug 2021 16:41:35 -0400 (EDT)
-From:   Mikulas Patocka <mpatocka@redhat.com>
-X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
-To:     Bart Van Assche <bvanassche@acm.org>
-cc:     SelvaKumar S <selvakuma.s1@samsung.com>,
-        linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, dm-devel@redhat.com,
-        kbusch@kernel.org, axboe@kernel.dk, damien.lemoal@wdc.com,
-        asml.silence@gmail.com, johannes.thumshirn@wdc.com, hch@lst.de,
-        willy@infradead.org, kch@kernel.org,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        djwong@kernel.org, Mike Snitzer <snitzer@redhat.com>,
-        agk@redhat.com, selvajove@gmail.com, joshiiitr@gmail.com,
-        nj.shetty@samsung.com, nitheshshetty@gmail.com,
-        joshi.k@samsung.com, javier.gonz@samsung.com,
-        Mike Snitzer <snitzer@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>
-Subject: Re: [PATCH 3/7] block: copy offload support infrastructure
-In-Reply-To: <ad3561b9-775d-dd4d-0d92-6343440b1f8f@acm.org>
-Message-ID: <alpine.LRH.2.02.2108171630120.30363@file01.intranet.prod.int.rdu2.redhat.com>
-References: <20210817101423.12367-1-selvakuma.s1@samsung.com> <CGME20210817101758epcas5p1ec353b3838d64654e69488229256d9eb@epcas5p1.samsung.com> <20210817101423.12367-4-selvakuma.s1@samsung.com> <ad3561b9-775d-dd4d-0d92-6343440b1f8f@acm.org>
-User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
-MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+        id S232539AbhHQUw4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 17 Aug 2021 16:52:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51336 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229531AbhHQUwz (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 17 Aug 2021 16:52:55 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7633D60FD7;
+        Tue, 17 Aug 2021 20:52:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1629233541;
+        bh=jtaJev2QUJEIL//Sa7qkQRM5UVkuG/GV/6sCBDB69YQ=;
+        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+        b=EXUTMGcvqyfo0fqanbYsezZKOFdpg3HRdxAt0LvmEwLNzIu8wvsPzVfAoPcZc9IGM
+         Wn7iyW4zf1Yh+a6uL9GqBHyZ6bVu+UxTjfuE3uMiziB4MOcZ3gL1NQwV3PorPXNCOj
+         rpOaEQyylhfLSVyKqqmZXIdkwOrJ7mGvlfcmt8N0ZbaEzFUxAeevPtGRlHoTS3t7s/
+         rSLdrJtTA8JEJwt9z6SU8wIB8m7WpxwCPkR34om4XeRZIIGVvZfg1hv8t7y5uAahqO
+         f8dRRcUh1jFtm/Ijw3pumRDQsTg9NXOAorhhvQQaAcc1qnRzL50vir2hqecyZxg//f
+         YzvkmjWWuASNQ==
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailauth.nyi.internal (Postfix) with ESMTP id 74F3427C0054;
+        Tue, 17 Aug 2021 16:52:18 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+  by compute6.internal (MEProxy); Tue, 17 Aug 2021 16:52:18 -0400
+X-ME-Sender: <xms:fSEcYeu4l5G7OQMAURqdCUo-R2sL5W3yqVi9Aig_gxvxg-5nxA9JDA>
+    <xme:fSEcYTf6VtgnposqEhR-yt9hLGLpyLDyQxOnE-1HfRvra4prKVkPbrqGepbpedNCd
+    XMzRgEVFDtF4v2R7Ik>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleefgdduheegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedftehn
+    ugihucfnuhhtohhmihhrshhkihdfuceolhhuthhosehkvghrnhgvlhdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepuefgueefveekhedvtdffgfekleehgfekheevteegieekgeehiedv
+    fffgjeetudfhnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhguhidomhgvshhmthhprghu
+    thhhphgvrhhsohhnrghlihhthidqudduiedukeehieefvddqvdeifeduieeitdekqdhluh
+    htoheppehkvghrnhgvlhdrohhrgheslhhinhhugidrlhhuthhordhush
+X-ME-Proxy: <xmx:fSEcYZxL6pWWXxK3vzGs7QTvuLNYNse4RWzk5hq7HiJ7DpBW0_VP5A>
+    <xmx:fSEcYZPFY5WRAigCyxiZqS8sNuq5AdEwQ9dr0D7eH2qFlS1D4Hc6qw>
+    <xmx:fSEcYe_1xBgT81Ia_BysQPp8RbWEOGT7kqZlzpoGBUc2QIYokZlbGA>
+    <xmx:giEcYX2SAYNKuh6NimWAkH0gpWXsp9g3sY99BkJTCpj8QbuboeAnqeHQzAQ>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id D5CC2A038A7; Tue, 17 Aug 2021 16:52:13 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-1118-g75eff666e5-fm-20210816.002-g75eff666
+Mime-Version: 1.0
+Message-Id: <490345b6-3e3d-4692-8162-85dcb71434c9@www.fastmail.com>
+In-Reply-To: <YRwbD1hCYFXlYysI@zn.tnic>
+References: <YRwT7XX36fQ2GWXn@zn.tnic>
+ <1A27F5DF-477B-45B7-AD33-CC68D9B7CB89@amacapital.net>
+ <YRwbD1hCYFXlYysI@zn.tnic>
+Date:   Tue, 17 Aug 2021 13:51:52 -0700
+From:   "Andy Lutomirski" <luto@kernel.org>
+To:     "Borislav Petkov" <bp@alien8.de>,
+        "luto@amacapital.net" <luto@amacapital.net>
+Cc:     "Yu-cheng Yu" <yu-cheng.yu@intel.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Ingo Molnar" <mingo@redhat.com>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org,
+        "Linux API" <linux-api@vger.kernel.org>,
+        "Arnd Bergmann" <arnd@arndb.de>,
+        "Balbir Singh" <bsingharora@gmail.com>,
+        "Cyrill Gorcunov" <gorcunov@gmail.com>,
+        "Dave Hansen" <dave.hansen@linux.intel.com>,
+        "Eugene Syromiatnikov" <esyr@redhat.com>,
+        "Florian Weimer" <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, "Jann Horn" <jannh@google.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Kees Cook" <keescook@chromium.org>,
+        "Mike Kravetz" <mike.kravetz@oracle.com>,
+        "Nadav Amit" <nadav.amit@gmail.com>,
+        "Oleg Nesterov" <oleg@redhat.com>, "Pavel Machek" <pavel@ucw.cz>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        "Randy Dunlap" <rdunlap@infradead.org>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "Dave Martin" <Dave.Martin@arm.com>,
+        "Weijiang Yang" <weijiang.yang@intel.com>,
+        "Pengfei Xu" <pengfei.xu@intel.com>,
+        "Haitao Huang" <haitao.huang@intel.com>,
+        "Rick P Edgecombe" <rick.p.edgecombe@intel.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v28 09/32] x86/mm: Introduce _PAGE_COW
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Tue, Aug 17, 2021, at 1:24 PM, Borislav Petkov wrote:
+> On Tue, Aug 17, 2021 at 01:13:09PM -0700, Andy Lutomirski wrote:
+> > > If special kernel code using shadow stack management insns needs
+> > > to modify a shadow stack, then it can check whether a page is
+> > > pte/pmd_shstk() but that code is special anyway.
+> > >=20
+> > > Hell, a shadow stack page is (Write=3D0, Dirty=3D1) so calling it =
+writable
+> > >                  ^^^^^^^
+> > > is simply wrong.
+> >=20
+> > But it *is* writable using WRUSS, and it=E2=80=99s also writable by =
+CALL,
+>=20
+> Well, if we have to be precise, CALL doesn't write it directly - it
+> causes for shadow stack to be written as part of CALL's execution. Yeah
+> yeah, potato potato.
 
+Potahto.
 
-On Tue, 17 Aug 2021, Bart Van Assche wrote:
+>=20
+> > WRSS, etc.
+>=20
+> Thus the "special kernel code" thing above. I've left it in instead of
+> snipping it.
+>=20
 
-> On 8/17/21 3:14 AM, SelvaKumar S wrote:
-> > Introduce REQ_OP_COPY, a no-merge copy offload operation. Create
-> > bio with control information as payload and submit to the device.
-> > Larger copy operation may be divided if necessary by looking at device
-> > limits. REQ_OP_COPY(19) is a write op and takes zone_write_lock when
-> > submitted to zoned device.
-> > Native copy offload is not supported for stacked devices.
-> 
-> Using a single operation for copy-offloading instead of separate operations
-> for reading and writing is fundamentally incompatible with the device mapper.
-> I think we need a copy-offloading implementation that is compatible with the
-> device mapper.
+WRSS can be used from user mode depending on the configuration.
 
-I once wrote a copy offload implementation that is compatible with device 
-mapper. The copy operation creates two bios (one for reading and one for 
-writing), passes them independently through device mapper and pairs them 
-at the physical device driver.
+> > Now if the mm code tries to write protect it and expects sensible
+> > semantics, the results could be interesting. At the very least,
+> > someone would need to validate that RET reading a read only shadow
+> > stack page does the right thing.
+>=20
+> Huh?
+>=20
+> A shadow stack page is RO (W=3D0).
 
-It's here: http://people.redhat.com/~mpatocka/patches/kernel/xcopy/current
+Double-you shmouble-you.  You can't write it with MOV, but you can write=
+ it from user code and from kernel code.  As far as the mm is concerned,=
+ I think it should be considered writable.
 
-I verified that it works with iSCSI. Would you be interested in continuing 
-this work?
+Although... anyone who tries to copy_to_user() it is going to be a bit s=
+urprised.  Hmm.
 
-Mikulas
-
-> Storing the parameters of the copy operation in the bio payload is
-> incompatible with the current implementation of bio_split().
-> 
-> In other words, I think there are fundamental problems with this patch series.
-> 
-> Bart.
-> 
-
+>=20
+> --=20
+> Regards/Gruss,
+>     Boris.
+>=20
+> https://people.kernel.org/tglx/notes-about-netiquette
+>=20
