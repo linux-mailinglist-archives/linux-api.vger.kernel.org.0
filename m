@@ -2,386 +2,184 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A6303F0AC5
-	for <lists+linux-api@lfdr.de>; Wed, 18 Aug 2021 20:07:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F3053F0B1F
+	for <lists+linux-api@lfdr.de>; Wed, 18 Aug 2021 20:36:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229676AbhHRSIX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 18 Aug 2021 14:08:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45150 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229528AbhHRSIV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 18 Aug 2021 14:08:21 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 933E9C0613CF
-        for <linux-api@vger.kernel.org>; Wed, 18 Aug 2021 11:07:46 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id cp15-20020a17090afb8fb029017891959dcbso9463132pjb.2
-        for <linux-api@vger.kernel.org>; Wed, 18 Aug 2021 11:07:46 -0700 (PDT)
+        id S232684AbhHRSgj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 18 Aug 2021 14:36:39 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:44116 "EHLO
+        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229558AbhHRSgj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 18 Aug 2021 14:36:39 -0400
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 17IIXHtC005472;
+        Wed, 18 Aug 2021 18:35:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
+ from : message-id : references : date : in-reply-to : content-type :
+ mime-version; s=corp-2021-07-09;
+ bh=C7jJnCGqyn3PlMxa+WAR5gBtBAIecUjkIu8SeV5o2xI=;
+ b=WoyTSoLyivkqrmAuaKYKST31jQmw7vWOD7I7yQC+7NJ4vqNG8+vTWTz5Ahz9d0ndRI8Q
+ FyvfVz7gR9S5aLT2CH0p291cZ7mzNGX3DUGZl/1DTJ948bVFds8A3Ee2NO8AdLk7z63I
+ iYTktoZcBH0evtuOiV4ENVN+1uh0Wsw3L9mbEWu3Cw8A35CWzMP1zSLHdSpR+hEHJ3zw
+ tT+wlk9rieFEL9ZL+zWcBELZziX1z/58VWP5FNH/i3P/wpbrQ8mlxzhwBDwCRcJ1qc3t
+ xCUewsZeSdRz+aTDtzZTUlEqDLCslMxPx3avfRkcwTPH7qPCCSw/TGyQXU4f1XwfpJ4J zg== 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
+ from : message-id : references : date : in-reply-to : content-type :
+ mime-version; s=corp-2020-01-29;
+ bh=C7jJnCGqyn3PlMxa+WAR5gBtBAIecUjkIu8SeV5o2xI=;
+ b=iTqwtKxdMpqLFwKO1enITLOICRE8kPBH585uPNhnMO5aGWigy1ZoFIGC2PxUi3AniE4+
+ I8S1yGnt1Gq7qNfPOcBiPbpz3TEijm8BIMq8APeTpGV9CWXdeSwET3cHAvXo1519E0QA
+ FnSOSoa78Ip2EJe+4ln+p3UjCc15Lid+IErZpyT7DtVL7VOxECqYoCn9cd47JnVkhsDy
+ tszsJTjXXgn6ekXhG/4B0TfWtG8ybykeeLKW3uQ2F4QRfZuGlCHcFL47RjeHi/mSy24Z
+ yYiA1A53Odk1qv8xEktBdX1LF7L/j0XWsA8Lg2lS99j9ATs8LTcJcDyxkeLzWw4oAnPK 6g== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3agykmhaua-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 18 Aug 2021 18:35:31 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17IIV8v3143978;
+        Wed, 18 Aug 2021 18:35:30 GMT
+Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam08lp2046.outbound.protection.outlook.com [104.47.74.46])
+        by userp3030.oracle.com with ESMTP id 3ae2y2q9y1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 18 Aug 2021 18:35:29 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Hkz6DrPPbo/zZDxXLH84b5iAeIisXwAUf9IJ2HGzE//MQt7gsJtEvX6IUfXKq3VO9QnJCl47bIIVtZ4UUWNF5QsAtLhEZwaqsV8/bCbV8OoMM8nAVOxwdjLOK9M2wiMiAe/E+KvzncQs3RgAAjC1Yy/6o+hUO0QqdjDrRQ8mMGgIPqKCe97DwoyI7wE/iEUO6r44TwEqw5nNwv3Ur2iXZdmGtZuSvZlu25ZoN9G8N35EPRrV74bHGbyvRmOpYlVWcbvXDNV9yAPg4JFrUi6ip5QsrTdarhEQwNDjXwRcude1H6Pyzj9MkPa1P12F4gWClfh0N3C3qvb/0zgRFiPIaw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=C7jJnCGqyn3PlMxa+WAR5gBtBAIecUjkIu8SeV5o2xI=;
+ b=Qwnxvj21S4Z18g9asSPxY2X0Xn0wmA23SLW4Yaf1VshgRGuKdTOYiA6n+/aixRkQVyD4MBTab2wKl8GWcJVoCOaHN8PaUCksOaOvQ/qVYd3X+exxwzARasM4odrqdQrJi7b+Myr/JtA6cr02b3mOQICM96gr6tB2KYgdKsmQ6yJe4OOLHStlujuXxDQLFgfuF3EZlJTWPaI3TYhPRsou9ImvfYJTsidc8j1ax6WzzppDjMgw14LBVy8VAuhWkkub12623ICEHf8SRDe6PfcOPqww5Pqt6cIX+OdrbYRgbgMOcrt/Jyrl/bIoUa7pdeRMYRnPviV/F5EAS+peyHlfBw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=bgi+u30ADL5qAUBsITAW8rYqpY0ExP8Ilge2KjgCxl0=;
-        b=aY7Gv/1P1ww0PFzv/SpBbUA8lvn4NGQ3y1ukivnK1MpNm9PZrjzO60JRCzjs1MhQQa
-         2aaT7vXl0rObrHk6OGFGlS2a9cfxsSGVpjRuCfRF1iNEe2UobdCUjC5iXKnqQRxLfH1X
-         nPm9+PPzBSBGZ9nFyg24Ty3sZG/DL4POwHy1FmJcbt/tg0JgIA2f5GCGrPfZwqJPjYEA
-         8fz60rZfghhmkzBjuFm/PGhNmfAJn/V6xaDwjzvQWrR6GMJsab6P5RzdFoFPC+6lx/At
-         htrclTm2OX1qSW4M23hQBADV9xkvYijNg/MaJSCQN9vQ/USQ7hRaQdQo4eg3dGVMNJwB
-         MxCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=bgi+u30ADL5qAUBsITAW8rYqpY0ExP8Ilge2KjgCxl0=;
-        b=hLECaO+xPjG9JBA3kkaNSPGqt8UkwJi6lhFjn5l5N/A1t0zV7UFI51TEnXfv0lFz/y
-         vygHvC5Sj/yTszAdnSfdnMmaDf9QJEewIJg0Kz3SSH+lW+kp0sFhfCGxSfMZiGfN73CX
-         I3RyIzlPOviow0y8She7R5GjYLCI1+Qz4p20gQyaTV2IZi87c2BwvFiRyk58d7Ep1jxA
-         aHrYgb3Lmdtj6ySpzjOe3xa/nPkHWwUn3uS3YwYRjjaq+9uRofd0gmwaSgArnoetVHFa
-         zY0C8g6RkgEibw0+qJudBtKirnhSRKQkkkHJ1Vp5BbgMTB8BJTiV88CbIeWst8rTglGp
-         vdwQ==
-X-Gm-Message-State: AOAM5332/eFRMfjPkZ9g95NyUGvZb0NMhOB2DZMbr5eHMcunI2gOJuZs
-        6QmQQnC/1Cu8HOopFxqd3BJqow==
-X-Google-Smtp-Source: ABdhPJz9AmKluTiUkqlSXVIa9lO7Hw37mDklIBre4pAgvVEe2KXQAYoxw1MAS0lJPPnyEadfvbgriQ==
-X-Received: by 2002:a17:90a:de16:: with SMTP id m22mr10550255pjv.38.1629310065758;
-        Wed, 18 Aug 2021 11:07:45 -0700 (PDT)
-Received: from relinquished.localdomain ([2620:10d:c090:400::5:1e84])
-        by smtp.gmail.com with ESMTPSA id b12sm472931pff.63.2021.08.18.11.07.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 11:07:45 -0700 (PDT)
-Date:   Wed, 18 Aug 2021 11:07:43 -0700
-From:   Omar Sandoval <osandov@osandov.com>
-To:     linux-btrfs@vger.kernel.org
-Cc:     kernel-team@fb.com, linux-fsdevel@vger.kernel.org,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH v10 06/10] btrfs-progs: receive: encoded_write fallback
- to explicit decode and write
-Message-ID: <YR1Mb0i6Fk1LggJb@relinquished.localdomain>
-References: <cover.1629234193.git.osandov@fb.com>
- <27ad30578c6e4347ff4161183c55ba6dee2e9227.1629234282.git.osandov@fb.com>
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=C7jJnCGqyn3PlMxa+WAR5gBtBAIecUjkIu8SeV5o2xI=;
+ b=lrWxFDW2jy1+RPzKL2VGu4wohONMNEiQbkDdAxDtEsdxSotwk4zCVODxatRkGAstJdUYwjWVygcQI3+/avrtPjBZcH/S7PJvkVg9XFhEJckVj0dPbzFa5ozucN0DN9707xrxyizmL7xd1eyVU/qV9eTaHIb0H5Tb3fnLJO8MfJA=
+Authentication-Results: samsung.com; dkim=none (message not signed)
+ header.d=none;samsung.com; dmarc=none action=none header.from=oracle.com;
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
+ by PH0PR10MB5596.namprd10.prod.outlook.com (2603:10b6:510:f8::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.19; Wed, 18 Aug
+ 2021 18:35:26 +0000
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::c0ed:36a0:7bc8:f2dc]) by PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::c0ed:36a0:7bc8:f2dc%6]) with mapi id 15.20.4415.024; Wed, 18 Aug 2021
+ 18:35:26 +0000
+To:     SelvaKumar S <selvakuma.s1@samsung.com>
+Cc:     linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, dm-devel@redhat.com,
+        kbusch@kernel.org, axboe@kernel.dk, damien.lemoal@wdc.com,
+        asml.silence@gmail.com, johannes.thumshirn@wdc.com, hch@lst.de,
+        willy@infradead.org, kch@kernel.org, martin.petersen@oracle.com,
+        mpatocka@redhat.com, bvanassche@acm.org, djwong@kernel.org,
+        snitzer@redhat.com, agk@redhat.com, selvajove@gmail.com,
+        joshiiitr@gmail.com, nj.shetty@samsung.com,
+        nitheshshetty@gmail.com, joshi.k@samsung.com,
+        javier.gonz@samsung.com
+Subject: Re: [PATCH 3/7] block: copy offload support infrastructure
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <yq1sfz6loh9.fsf@ca-mkp.ca.oracle.com>
+References: <20210817101423.12367-1-selvakuma.s1@samsung.com>
+        <CGME20210817101758epcas5p1ec353b3838d64654e69488229256d9eb@epcas5p1.samsung.com>
+        <20210817101423.12367-4-selvakuma.s1@samsung.com>
+Date:   Wed, 18 Aug 2021 14:35:22 -0400
+In-Reply-To: <20210817101423.12367-4-selvakuma.s1@samsung.com> (SelvaKumar
+        S.'s message of "Tue, 17 Aug 2021 15:44:19 +0530")
+Content-Type: text/plain
+X-ClientProxiedBy: SA0PR11CA0037.namprd11.prod.outlook.com
+ (2603:10b6:806:d0::12) To PH0PR10MB4759.namprd10.prod.outlook.com
+ (2603:10b6:510:3d::12)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <27ad30578c6e4347ff4161183c55ba6dee2e9227.1629234282.git.osandov@fb.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ca-mkp.ca.oracle.com (138.3.200.58) by SA0PR11CA0037.namprd11.prod.outlook.com (2603:10b6:806:d0::12) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend Transport; Wed, 18 Aug 2021 18:35:25 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 21382182-2547-4135-b6a1-08d96276f229
+X-MS-TrafficTypeDiagnostic: PH0PR10MB5596:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <PH0PR10MB559692EBC6B94420CF645D318EFF9@PH0PR10MB5596.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2BGYh6qIQriDldauWLY68jn7Z351Qu1YIrT6esraEf5ehwLYscyk1nFrwtbsPWI70QV16i8gGFuMrNONB74W3JiaOBSjhTD6nynBIhE2VuLE+xXNdWQHGEFkqgBSUTx8ycMAX3dV+MJxA3UG0BBTwPIKyOg+2vI16Sk0X+Ih9jYynrtIlPtJU8CMw4CMVr4FQOqfstBGL/0msySmfCJ0DP1VzWOKUJr/IsTh2HZlbDLxfBJQ/Hf+D4HxKwoFPFgYJ4eB69ov0HyWvcy1f0LS5lqtoeAZbsDNWciT63OJVqcPGZMKWlNH8ViQj8dHzyBD/Qlfrfp88GIqTTwGHJi55CV2E2mW8Co6l9RIbiqRHTLQ+BXTDeRH1tABG+3nQ9QR2jkFSiZ2K0YGoyX4X38GsFh1XyhxPDE0SXNHmAN5k93cwo5CUxVU1aHF7iJ6tttXME7ZL2qlnmCQBKwx06WU0dEH5kAMxdxQvaHKTV6ysdFX9no38q4917DK5zFbUDx+oYZX6ZQeNScwnJiWHZYdoTYxNgdYHPSpI6gTu5I3JMLxVpk4OeBbgUVLJd6pMHWqZVQrrw3E5h3QLsUBucoMIpIbsTEE4uPh/cvNYq/mcUdq13ON9ipAeG6UFy7QhLgzk7Z2cDFMCU0f2a+JAnCwv6ifw2vlLg2a1eAOAvVPLQAJPe8RIIvl8ZoKONx3xQzqdiilmLjP3CosUf57m5Y8Eg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4759.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(39860400002)(366004)(376002)(136003)(346002)(5660300002)(8676002)(956004)(478600001)(8936002)(6916009)(316002)(83380400001)(36916002)(55016002)(38350700002)(4326008)(7696005)(38100700002)(52116002)(86362001)(66946007)(66476007)(186003)(66556008)(26005)(6666004)(2906002)(7416002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mSBNHsRPLAWUjMfUvinAyt2Mo/LFD4pwqpequnVfpH4z+aneMKLobh5a0DSH?=
+ =?us-ascii?Q?sweoGK7btq7HFQCJH7NnL1/YDg+b1bbUDhnIvcjR8maTNohvfEV9kd3LKT12?=
+ =?us-ascii?Q?dg6FDrSkRutxSkLOHeOs7RL1DztJyG/OMC0Hyurkpkz4cq2O2yP4/r016wXD?=
+ =?us-ascii?Q?iP1l90U542/mU8pc8Uiya4ZBVJlG7wITR2YCbLDqwuafaf67jreOgHlcnydC?=
+ =?us-ascii?Q?kzCoag10anTUbF7ZwSR6xeI7iFd/M06JN08vjVx98rnx3RPVZsltzc+8jqAK?=
+ =?us-ascii?Q?47/Us+IDhYY7uf99aGUYdNRxN+RzZHkjuO1VrPC8snbJ6H3xHKAglJ3nUSHU?=
+ =?us-ascii?Q?Cw7QJD1gYI4rz9UeAs4OnFBJM8S0n2A8gy6W/JR4PVTtDMzmjMkoXjzDZy9q?=
+ =?us-ascii?Q?t7609kz7yT8+XcLaVkXIbzxyC6ExLuqY9tPswVV2R/hUGStc/QPhWIEU8ESh?=
+ =?us-ascii?Q?z5MQSYoJulZ9GJju9CZjxNGjx9Hy91RNs3ZFoeQZvoxwVRalSA1YGXFsMeCv?=
+ =?us-ascii?Q?5u2zrw3wP7Q3Zw0N+HmqAEiAI0fECYNEWBp690bIJng+HSjqaBR0/L/zU/0a?=
+ =?us-ascii?Q?Cj8E2IZWGTjOpl/dr6DfC10VZRn4+DoOPUNMN+QeEjEhjh2F26W6B0aFij+H?=
+ =?us-ascii?Q?pjate4YsBF78z0ro05cApQldALNwmxFHmYIIzda4aGnQJS0MPaGIhK3VvQCj?=
+ =?us-ascii?Q?8ldJ6V2hQbahMdlgWTnKCitE5sTsY6v2U2a6I3k6bMGgkj0JJQ/K9ykMF8Xg?=
+ =?us-ascii?Q?fLTf+jmOuQ7I5ymaPFomPQ3qi1yndkLPULj+IqjqHXcJN7WdWvijA8gl8mrf?=
+ =?us-ascii?Q?c0vjTl1FzsEn44Y9oyonv+qFzFuPAXUmRqseItzv8+e16k0kUhn+vytdxCUX?=
+ =?us-ascii?Q?n79WzEIyRTh0LpSfxARWFQrsk+zaRCleldoUK/AeWxW3cTkI4pNEJccv7M7+?=
+ =?us-ascii?Q?E46dlttx2AgqH6TbXwu9dHACXDEXDdNYDulGQaiHDy6O+UVhFn7ovMQmI/OD?=
+ =?us-ascii?Q?3WN1lG1JS3bC7JhcmBbtJmtzUlx01A92NXuf3eODYFKxXNQr6Va/u4fNmph4?=
+ =?us-ascii?Q?I8JXJhhclvk7UmdQSKQFJ308Xe8KMO/Eep8AXJjP/n56R9Fbiu0Yx9rhcAD+?=
+ =?us-ascii?Q?+IwtVoJ8QGgLXjiFZzhJtHw32yfeQaZ1uNa1lv4rpKjiBaQw/WnkAqznCkmL?=
+ =?us-ascii?Q?XJiP2F70aSf9yQY0eBocgtaH5OIPHK3dyaWPHtXsRUyv8rv7VxKyExksFqb7?=
+ =?us-ascii?Q?QcI3XVVQnoV1xYYmUiAt57QyJCyAb9JYZ879s+n1jkF+QgRCsZMY0zU76w3R?=
+ =?us-ascii?Q?6RIHzmGJ6t0N5X82qsaACFE2?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 21382182-2547-4135-b6a1-08d96276f229
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2021 18:35:25.9353
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sHc7u94W/QHGM8lD5GSzUg8LnI23KY3HOiVOsjEunBzshuYSU/MokY1lkrBxRTCzHwZ4yYrobeVN1Lh49WdsnHRcvmUFnpSqLMKXSC/V+ng=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB5596
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10080 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0 adultscore=0
+ suspectscore=0 phishscore=0 mlxlogscore=780 malwarescore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
+ definitions=main-2108180116
+X-Proofpoint-ORIG-GUID: Gyd2TjD4-4FMg1vGcvo3PBu7--Qoh0SD
+X-Proofpoint-GUID: Gyd2TjD4-4FMg1vGcvo3PBu7--Qoh0SD
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 17, 2021 at 02:06:52PM -0700, Omar Sandoval wrote:
-> From: Boris Burkov <boris@bur.io>
-> 
-> An encoded_write can fail if the file system it is being applied to does
-> not support encoded writes or if it can't find enough contiguous space
-> to accommodate the encoded extent. In those cases, we can likely still
-> process an encoded_write by explicitly decoding the data and doing a
-> normal write.
-> 
-> Add the necessary fallback path for decoding data compressed with zlib,
-> lzo, or zstd. zlib and zstd have reusable decoding context data
-> structures which we cache in the receive context so that we don't have
-> to recreate them on every encoded_write.
-> 
-> Finally, add a command line flag for force-decompress which causes
-> receive to always use the fallback path rather than first attempting the
-> encoded write.
-> 
-> Signed-off-by: Boris Burkov <boris@bur.io>
-> ---
->  Documentation/btrfs-receive.asciidoc |   4 +
->  cmds/receive.c                       | 266 ++++++++++++++++++++++++++-
->  2 files changed, 261 insertions(+), 9 deletions(-)
-> 
-> diff --git a/Documentation/btrfs-receive.asciidoc b/Documentation/btrfs-receive.asciidoc
-> index e4c4d2c0..354a71dc 100644
-> --- a/Documentation/btrfs-receive.asciidoc
-> +++ b/Documentation/btrfs-receive.asciidoc
-> @@ -60,6 +60,10 @@ By default the mountpoint is searched in '/proc/self/mounts'.
->  If '/proc' is not accessible, eg. in a chroot environment, use this option to
->  tell us where this filesystem is mounted.
->  
-> +--force-decompress::
-> +if the stream contains compressed data (see '--compressed-data' in
-> +`btrfs-send`(8)), always decompress it instead of writing it with encoded I/O.
-> +
->  --dump::
->  dump the stream metadata, one line per operation
->  +
-> diff --git a/cmds/receive.c b/cmds/receive.c
-> index b43c298f..7506f992 100644
-> --- a/cmds/receive.c
-> +++ b/cmds/receive.c
-> @@ -40,6 +40,10 @@
->  #include <sys/xattr.h>
->  #include <uuid/uuid.h>
->  
-> +#include <lzo/lzo1x.h>
-> +#include <zlib.h>
-> +#include <zstd.h>
-> +
->  #include "kernel-shared/ctree.h"
->  #include "ioctl.h"
->  #include "cmds/commands.h"
-> @@ -79,6 +83,12 @@ struct btrfs_receive
->  	struct subvol_uuid_search sus;
->  
->  	int honor_end_cmd;
-> +
-> +	int force_decompress;
-> +
-> +	/* Reuse stream objects for encoded_write decompression fallback */
-> +	ZSTD_DStream *zstd_dstream;
-> +	z_stream *zlib_stream;
->  };
->  
->  static int finish_subvol(struct btrfs_receive *rctx)
-> @@ -989,9 +999,222 @@ static int process_update_extent(const char *path, u64 offset, u64 len,
->  	return 0;
->  }
->  
-> +static int decompress_zlib(struct btrfs_receive *rctx, const char *encoded_data,
-> +			   u64 encoded_len, char *unencoded_data,
-> +			   u64 unencoded_len)
-> +{
-> +	bool init = false;
-> +	int ret;
-> +
-> +	if (!rctx->zlib_stream) {
-> +		init = true;
-> +		rctx->zlib_stream = malloc(sizeof(z_stream));
-> +		if (!rctx->zlib_stream) {
-> +			error("failed to allocate zlib stream %m");
-> +			return -ENOMEM;
-> +		}
-> +	}
-> +	rctx->zlib_stream->next_in = (void *)encoded_data;
-> +	rctx->zlib_stream->avail_in = encoded_len;
-> +	rctx->zlib_stream->next_out = (void *)unencoded_data;
-> +	rctx->zlib_stream->avail_out = unencoded_len;
-> +
-> +	if (init) {
-> +		rctx->zlib_stream->zalloc = Z_NULL;
-> +		rctx->zlib_stream->zfree = Z_NULL;
-> +		rctx->zlib_stream->opaque = Z_NULL;
-> +		ret = inflateInit(rctx->zlib_stream);
-> +	} else {
-> +		ret = inflateReset(rctx->zlib_stream);
-> +	}
-> +	if (ret != Z_OK) {
-> +		error("zlib inflate init failed: %d", ret);
-> +		return -EIO;
-> +	}
-> +
-> +	while (rctx->zlib_stream->avail_in > 0 &&
-> +	       rctx->zlib_stream->avail_out > 0) {
-> +		ret = inflate(rctx->zlib_stream, Z_FINISH);
-> +		if (ret == Z_STREAM_END) {
-> +			break;
-> +		} else if (ret != Z_OK) {
-> +			error("zlib inflate failed: %d", ret);
-> +			return -EIO;
-> +		}
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int decompress_zstd(struct btrfs_receive *rctx, const char *encoded_buf,
-> +			   u64 encoded_len, char *unencoded_buf,
-> +			   u64 unencoded_len)
-> +{
-> +	ZSTD_inBuffer in_buf = {
-> +		.src = encoded_buf,
-> +		.size = encoded_len
-> +	};
-> +	ZSTD_outBuffer out_buf = {
-> +		.dst = unencoded_buf,
-> +		.size = unencoded_len
-> +	};
-> +	size_t ret;
-> +
-> +	if (!rctx->zstd_dstream) {
-> +		rctx->zstd_dstream = ZSTD_createDStream();
-> +		if (!rctx->zstd_dstream) {
-> +			error("failed to create zstd dstream");
-> +			return -ENOMEM;
-> +		}
-> +	}
-> +	ret = ZSTD_initDStream(rctx->zstd_dstream);
-> +	if (ZSTD_isError(ret)) {
-> +		error("failed to init zstd stream: %s", ZSTD_getErrorName(ret));
-> +		return -EIO;
-> +	}
-> +	while (in_buf.pos < in_buf.size && out_buf.pos < out_buf.size) {
-> +		ret = ZSTD_decompressStream(rctx->zstd_dstream, &out_buf, &in_buf);
-> +		if (ret == 0) {
-> +			break;
-> +		} else if (ZSTD_isError(ret)) {
-> +			error("failed to decompress zstd stream: %s",
-> +			      ZSTD_getErrorName(ret));
-> +			return -EIO;
-> +		}
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int decompress_lzo(const char *encoded_data, u64 encoded_len,
-> +			  char *unencoded_data, u64 unencoded_len,
-> +			  unsigned int page_size)
-> +{
-> +	uint32_t total_len;
-> +	size_t in_pos, out_pos;
-> +
-> +	if (encoded_len < 4) {
-> +		error("lzo header is truncated");
-> +		return -EIO;
-> +	}
-> +	memcpy(&total_len, encoded_data, 4);
-> +	total_len = le32toh(total_len);
-> +	if (total_len > encoded_len) {
-> +		error("lzo header is invalid");
-> +		return -EIO;
-> +	}
-> +
-> +	in_pos = 4;
-> +	out_pos = 0;
-> +	while (in_pos < total_len && out_pos < unencoded_len) {
-> +		size_t page_remaining;
-> +		uint32_t src_len;
-> +		lzo_uint dst_len;
-> +		int ret;
-> +
-> +		page_remaining = -in_pos % page_size;
-> +		if (page_remaining < 4) {
-> +			if (total_len - in_pos <= page_remaining)
-> +				break;
-> +			in_pos += page_remaining;
-> +		}
-> +
-> +		if (total_len - in_pos < 4) {
-> +			error("lzo segment header is truncated");
-> +			return -EIO;
-> +		}
-> +
-> +		memcpy(&src_len, encoded_data + in_pos, 4);
-> +		src_len = le32toh(src_len);
-> +		in_pos += 4;
-> +		if (src_len > total_len - in_pos) {
-> +			error("lzo segment header is invalid");
-> +			return -EIO;
-> +		}
-> +
-> +		dst_len = page_size;
-> +		ret = lzo1x_decompress_safe((void *)(encoded_data + in_pos),
-> +					    src_len,
-> +					    (void *)(unencoded_data + out_pos),
-> +					    &dst_len, NULL);
-> +		if (ret != LZO_E_OK) {
-> +			error("lzo1x_decompress_safe failed: %d", ret);
-> +			return -EIO;
-> +		}
-> +
-> +		in_pos += src_len;
-> +		out_pos += dst_len;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int decompress_and_write(struct btrfs_receive *rctx,
-> +				const char *encoded_data, u64 offset,
-> +				u64 encoded_len, u64 unencoded_file_len,
-> +				u64 unencoded_len, u64 unencoded_offset,
-> +				u32 compression)
-> +{
-> +	int ret = 0;
-> +	size_t pos;
-> +	ssize_t w;
-> +	char *unencoded_data;
-> +	int page_shift;
-> +
-> +	unencoded_data = calloc(unencoded_len, 1);
-> +	if (!unencoded_data) {
-> +		error("allocating space for unencoded data failed: %m");
-> +		return -errno;
-> +	}
-> +
-> +	switch (compression) {
-> +	case BTRFS_ENCODED_IO_COMPRESSION_ZLIB:
-> +		ret = decompress_zlib(rctx, encoded_data, encoded_len,
-> +				      unencoded_data, unencoded_len);
-> +		if (ret)
-> +			goto out;
-> +		break;
-> +	case BTRFS_ENCODED_IO_COMPRESSION_ZSTD:
-> +		ret = decompress_zstd(rctx, encoded_data, encoded_len,
-> +				      unencoded_data, unencoded_len);
-> +		if (ret)
-> +			goto out;
-> +		break;
-> +	case BTRFS_ENCODED_IO_COMPRESSION_LZO_4K:
-> +	case BTRFS_ENCODED_IO_COMPRESSION_LZO_8K:
-> +	case BTRFS_ENCODED_IO_COMPRESSION_LZO_16K:
-> +	case BTRFS_ENCODED_IO_COMPRESSION_LZO_32K:
-> +	case BTRFS_ENCODED_IO_COMPRESSION_LZO_64K:
-> +		page_shift = compression - BTRFS_ENCODED_IO_COMPRESSION_LZO_4K + 12;
-> +		ret = decompress_lzo(encoded_data, encoded_len, unencoded_data,
-> +				     unencoded_len, 1U << page_shift);
-> +		if (ret)
-> +			goto out;
-> +		break;
-> +	default:
-> +		error("unknown compression: %d", compression);
-> +		ret = -EOPNOTSUPP;
-> +		goto out;
-> +	}
-> +
-> +	pos = unencoded_offset;
-> +	while (pos < unencoded_file_len) {
-> +		w = pwrite(rctx->write_fd, unencoded_data + pos,
-> +			   unencoded_file_len - pos, offset);
-> +		if (w < 0) {
-> +			ret = -errno;
-> +			error("writing unencoded data failed: %m");
-> +			goto out;
-> +		}
-> +		pos += w;
-> +		offset += w;
-> +	}
-> +out:
-> +	free(unencoded_data);
-> +	return ret;
-> +}
-> +
->  static int process_encoded_write(const char *path, const void *data, u64 offset,
-> -	u64 len, u64 unencoded_file_len, u64 unencoded_len,
-> -	u64 unencoded_offset, u32 compression, u32 encryption, void *user)
-> +				 u64 len, u64 unencoded_file_len,
-> +				 u64 unencoded_len, u64 unencoded_offset,
-> +				 u32 compression, u32 encryption, void *user)
->  {
->  	int ret;
->  	struct btrfs_receive *rctx = user;
-> @@ -1007,6 +1230,7 @@ static int process_encoded_write(const char *path, const void *data, u64 offset,
->  		.compression = compression,
->  		.encryption = encryption,
->  	};
-> +	bool encoded_write = !rctx->force_decompress;
->  
->  	if (encryption) {
->  		error("encoded_write: encryption not supported");
-> @@ -1023,13 +1247,21 @@ static int process_encoded_write(const char *path, const void *data, u64 offset,
->  	if (ret < 0)
->  		return ret;
->  
-> -	ret = ioctl(rctx->write_fd, BTRFS_IOC_ENCODED_WRITE, &encoded);
-> -	if (ret < 0) {
-> -		ret = -errno;
-> -		error("encoded_write: writing to %s failed: %m", path);
-> -		return ret;
-> +	if (encoded_write) {
-> +		ret = ioctl(rctx->write_fd, BTRFS_IOC_ENCODED_WRITE, &encoded);
-> +		if (ret >= 0)
-> +			return 0;
-> +		/* Fall back for these errors, fail hard for anything else. */
-> +		if (errno != ENOSPC && errno != EOPNOTSUPP && errno != EINVAL) {
 
-Just caught something that I missed in the conversion, this needs to be
-ENOTTY instead of EOPNOTSUPP.
+> Native copy offload is not supported for stacked devices.
+
+One of the main reasons that the historic attempts at supporting copy
+offload did not get merged was that the ubiquitous deployment scenario,
+stacked block devices, was not handled well.
+
+Pitfalls surrounding stacking has been brought up several times in
+response to your series. It is critically important that both kernel
+plumbing and user-facing interfaces are defined in a way that works for
+the most common use cases. This includes copying between block devices
+and handling block device stacking. Stacking being one of the most
+fundamental operating principles of the Linux block layer!
+
+Proposing a brand new interface that out of the gate is incompatible
+with both stacking and the copy offload capability widely implemented in
+shipping hardware makes little sense. While NVMe currently only supports
+copy operations inside a single namespace, it is surely only a matter of
+time before that restriction is lifted.
+
+Changing existing interfaces is painful, especially when these are
+exposed to userland. We obviously can't predict every field or feature
+that may be needed in the future. But we should at the very least build
+the infrastructure around what already exists. And that's where the
+proposed design falls short...
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
