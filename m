@@ -2,193 +2,210 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B0F53F0423
-	for <lists+linux-api@lfdr.de>; Wed, 18 Aug 2021 15:02:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB62A3F0825
+	for <lists+linux-api@lfdr.de>; Wed, 18 Aug 2021 17:38:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236552AbhHRNDb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 18 Aug 2021 09:03:31 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:42580 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236365AbhHRNDa (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 18 Aug 2021 09:03:30 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 9CEDE21FFA;
-        Wed, 18 Aug 2021 13:02:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1629291774; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Of/xWW25j+0qfuTt0uqhfyFoCDsIAoSKsFXcHn3KrVQ=;
-        b=sBIhF0p0cHgtBFNlDwhvKlmsZy9dqpTd4MsakUchdAhS44il9Ti3LTVTErIF+t94bX+DfR
-        LM6uf0h57gBgCS2bevTPknrs3L3ia9VwI+5DWBJFoWrunC+Ux7Sl4DvETOfNaW2eldG2p5
-        4vaseWUYUuOcLlchpFyRbpKMhEI4ACM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1629291774;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Of/xWW25j+0qfuTt0uqhfyFoCDsIAoSKsFXcHn3KrVQ=;
-        b=1XlBou6zFY/a+jMJWGtXXTVTg6b3wyFdWjzZZxeNMaiCLszioV2GT9Y3/9w8m4TH4t0D6v
-        8+uNSe7DoLvdxfCw==
-Received: from quack2.suse.cz (unknown [10.100.224.230])
-        by relay2.suse.de (Postfix) with ESMTP id 832A2A3B98;
-        Wed, 18 Aug 2021 13:02:54 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 4DF7C1E14B9; Wed, 18 Aug 2021 15:02:51 +0200 (CEST)
-Date:   Wed, 18 Aug 2021 15:02:51 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     Gabriel Krisman Bertazi <krisman@collabora.com>
-Cc:     amir73il@gmail.com, jack@suse.com, linux-api@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        khazhy@google.com, dhowells@redhat.com, david@fromorbit.com,
-        tytso@mit.edu, djwong@kernel.org, repnop@google.com,
-        kernel@collabora.com
-Subject: Re: [PATCH v6 20/21] samples: Add fs error monitoring example
-Message-ID: <20210818130251.GD28119@quack2.suse.cz>
-References: <20210812214010.3197279-1-krisman@collabora.com>
- <20210812214010.3197279-21-krisman@collabora.com>
+        id S239800AbhHRPio (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 18 Aug 2021 11:38:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38454 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230360AbhHRPio (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 18 Aug 2021 11:38:44 -0400
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 244B8C061764;
+        Wed, 18 Aug 2021 08:38:09 -0700 (PDT)
+Received: by mail-lj1-x236.google.com with SMTP id d16so5879371ljq.4;
+        Wed, 18 Aug 2021 08:38:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=w3ll9rEluHSDama/Ed30duPlqRRIZoR05Nb3hLVOtx8=;
+        b=SZVyg6lcsl/zo5CQqmnYbxPEke1lmc5Wz/0/h3x/snSVKlDBfFRhOlIulTvCvq3CmL
+         2AyUcVNoWh6fT8Y2mzqhstEN0tBtfFcE/FmFdS2YeoYgZP2b9jP6bLJqHtTqeK7LjYth
+         pRLrydLxUCJwpDery90ZnH7XK18jSm3UmpaULXrq8FN1Q9fA2ppL0RbXETVAC4qX+HDX
+         ZCmhAqQ1sxilJpxz1gjjW/rx7y41x5IBLvJ1cZXL5mBrMFbis7YA4Y65Om1Vd47DRa+L
+         25KZv4FSH7L7dHotSmtqSHaWg64HeTwEl2H+LAKT55KNTpgshS/Y8Upz7gDN6yFevoJr
+         2vCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=w3ll9rEluHSDama/Ed30duPlqRRIZoR05Nb3hLVOtx8=;
+        b=bTDiSFknckwblYYvm9OG0QEsXgXWWrIMDuG/1rtM3kUvMpdryJ8nbHW3b2yNnOUVNb
+         ypsPn3gn2ruRZZIcEPySEnx3UvTVczmA2/ViyKYGZW1pDcfUhMooGmCET3+MFXTJrU59
+         EbA7F2x20J2L28t4YHaCbleklKOXjNJ+yj/HP041KI0ly+fxKVweUApk6popAyOn9u2V
+         2QsPBoxe8AdAFr3qTwD4ZKcuJjGtVQXsuYch9maVg9QmyRXkxRYZp12tVe/WvuHgFqR6
+         UegCXOC6pJnKCl2JU7bPYv3pb8ReyLwwfewVoNe2Q5DaSa/rUrubcNv4S2aTKSbl8nfm
+         MoRA==
+X-Gm-Message-State: AOAM532v2zGXBMQcBzkQg8duCcpfTC5cQ1Aczmgt367WYKi7n/osiE4c
+        lm6lvwvZVDQkHW8rANzJpR1x59uZwS+Ca3C+78Y=
+X-Google-Smtp-Source: ABdhPJyHlvwEZDvtVg7ECPybOIfKBF9lejw9ydLmJNwCaSnodUkhQwT38M17ag35N8pXpz0/br0Ro2/VbLkmdjAWlpM=
+X-Received: by 2002:a2e:a37a:: with SMTP id i26mr3352203ljn.466.1629301087484;
+ Wed, 18 Aug 2021 08:38:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210812214010.3197279-21-krisman@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20210817101423.12367-1-selvakuma.s1@samsung.com>
+ <CGME20210817101803epcas5p10cda1d52f8a8f1172e34b1f9cf8eef3b@epcas5p1.samsung.com>
+ <20210817101423.12367-5-selvakuma.s1@samsung.com> <20210817233613.GA12597@magnolia>
+In-Reply-To: <20210817233613.GA12597@magnolia>
+From:   Nitesh Shetty <nitheshshetty@gmail.com>
+Date:   Wed, 18 Aug 2021 21:07:54 +0530
+Message-ID: <CAOSviJ2+deUdDXTWbWXaSxNX2t6cnhPg7KCDA4C2qm74KD9vdQ@mail.gmail.com>
+Subject: Re: [PATCH 4/7] block: Introduce a new ioctl for simple copy
+To:     "Darrick J. Wong" <djwong@kernel.org>
+Cc:     SelvaKumar S <selvakuma.s1@samsung.com>,
+        linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, dm-devel@redhat.com,
+        kbusch@kernel.org, axboe@kernel.dk, damien.lemoal@wdc.com,
+        asml.silence@gmail.com, johannes.thumshirn@wdc.com, hch@lst.de,
+        willy@infradead.org, kch@kernel.org, martin.petersen@oracle.com,
+        mpatocka@redhat.com, bvanassche@acm.org, snitzer@redhat.com,
+        agk@redhat.com, selvajove@gmail.com, joshiiitr@gmail.com,
+        nj.shetty@samsung.com, joshi.k@samsung.com, javier.gonz@samsung.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu 12-08-21 17:40:09, Gabriel Krisman Bertazi wrote:
-> Introduce an example of a FAN_FS_ERROR fanotify user to track filesystem
-> errors.
-> 
-> Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-> Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
+On Wed, Aug 18, 2021 at 5:06 AM Darrick J. Wong <djwong@kernel.org> wrote:
+>
+> On Tue, Aug 17, 2021 at 03:44:20PM +0530, SelvaKumar S wrote:
+> > From: Nitesh Shetty <nj.shetty@samsung.com>
+> >
+> > Add new BLKCOPY ioctl that offloads copying of one or more sources ranges
+> > to a destination in the device. COPY ioctl accepts a 'copy_range'
+> > structure that contains destination (in sectors), no of sources and
+> > pointer to the array of source ranges. Each source range is represented by
+> > 'range_entry' that contains start and length of source ranges (in sectors)
+> >
+> > MAX_COPY_NR_RANGE, limits the number of entries for the IOCTL and
+> > MAX_COPY_TOTAL_LENGTH limits the total copy length, IOCTL can handle.
+> >
+> > Example code, to issue BLKCOPY:
+> > /* Sample example to copy three source-ranges [0, 8] [16, 8] [32,8] to
+> >  * [64,24], on the same device */
+> >
+> > int main(void)
+> > {
+> >       int ret, fd;
+> >       struct range_entry source_range[] = {{.src = 0, .len = 8},
+> >               {.src = 16, .len = 8}, {.src = 32, .len = 8},};
+> >       struct copy_range cr;
+> >
+> >       cr.dest = 64;
+> >       cr.nr_range = 3;
+> >       cr.range_list = (__u64)&source_range;
+> >
+> >       fd = open("/dev/nvme0n1", O_RDWR);
+> >       if (fd < 0) return 1;
+> >
+> >       ret = ioctl(fd, BLKCOPY, &cr);
+> >       if (ret < 0) printf("copy failure\n");
+> >
+> >       close(fd);
+> >
+> >       return ret;
+> > }
+> >
+> > Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> > Signed-off-by: SelvaKumar S <selvakuma.s1@samsung.com>
+> > Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+> > ---
+> >  block/ioctl.c           | 33 +++++++++++++++++++++++++++++++++
+> >  include/uapi/linux/fs.h |  8 ++++++++
+> >  2 files changed, 41 insertions(+)
+> >
+> > diff --git a/block/ioctl.c b/block/ioctl.c
+> > index eb0491e90b9a..2af56d01e9fe 100644
+> > --- a/block/ioctl.c
+> > +++ b/block/ioctl.c
+> > @@ -143,6 +143,37 @@ static int blk_ioctl_discard(struct block_device *bdev, fmode_t mode,
+> >                                   GFP_KERNEL, flags);
+> >  }
+> >
+> > +static int blk_ioctl_copy(struct block_device *bdev, fmode_t mode,
+> > +             unsigned long arg)
+> > +{
+> > +     struct copy_range crange;
+> > +     struct range_entry *rlist;
+> > +     int ret;
+> > +
+> > +     if (!(mode & FMODE_WRITE))
+> > +             return -EBADF;
+> > +
+> > +     if (copy_from_user(&crange, (void __user *)arg, sizeof(crange)))
+> > +             return -EFAULT;
+> > +
+> > +     rlist = kmalloc_array(crange.nr_range, sizeof(*rlist),
+> > +                     GFP_KERNEL);
+> > +     if (!rlist)
+> > +             return -ENOMEM;
+> > +
+> > +     if (copy_from_user(rlist, (void __user *)crange.range_list,
+> > +                             sizeof(*rlist) * crange.nr_range)) {
+> > +             ret = -EFAULT;
+> > +             goto out;
+> > +     }
+> > +
+> > +     ret = blkdev_issue_copy(bdev, crange.nr_range, rlist, bdev, crange.dest,
+> > +                     GFP_KERNEL, 0);
+> > +out:
+> > +     kfree(rlist);
+> > +     return ret;
+> > +}
+> > +
+> >  static int blk_ioctl_zeroout(struct block_device *bdev, fmode_t mode,
+> >               unsigned long arg)
+> >  {
+> > @@ -468,6 +499,8 @@ static int blkdev_common_ioctl(struct block_device *bdev, fmode_t mode,
+> >       case BLKSECDISCARD:
+> >               return blk_ioctl_discard(bdev, mode, arg,
+> >                               BLKDEV_DISCARD_SECURE);
+> > +     case BLKCOPY:
+> > +             return blk_ioctl_copy(bdev, mode, arg);
+> >       case BLKZEROOUT:
+> >               return blk_ioctl_zeroout(bdev, mode, arg);
+> >       case BLKGETDISKSEQ:
+> > diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+> > index 7a97b588d892..4183688ff398 100644
+> > --- a/include/uapi/linux/fs.h
+> > +++ b/include/uapi/linux/fs.h
+> > @@ -76,6 +76,13 @@ struct range_entry {
+> >       __u64 len;
+> >  };
+> >
+> > +struct copy_range {
+> > +     __u64 dest;
+> > +     __u64 nr_range;
+>
+> If the maximum number of elements in the range list is 1<<12, there's no
+> need for this to be larger than a u16, right?
+>
+> > +     __u64 range_list;
+>
+> Pointers embedded in a structure are /not/ a good idea, because this
+> will create a lot of compatibility headaches for 32-bit binaries running
+> on 64-bit kernels.  Please just make the size of this header structure
+> a multiple of 8 bytes and put the range_entry list immediately after it.
+>
+> struct copy_range {
+>         __s64 dest_offset;
+>         __u32 nr_range_entries;
+>         __u32 flags;
+>         __u64 reserved[2];
+> };
+>
+> struct __user range_entry *re = ((struct range_entry *)(copyhead + 1));
+>
+> copy_from_user(&urk, re...);
+>
+> --D
+>
+Thanks, this is better. 'Reserved' field was there to be used for
+future extension of the interface.
+Now that you mentioned 'flags', it seems we can do away with
+'reserved' fields altogether?
 
-<snip>
-
-> diff --git a/samples/fanotify/fs-monitor.c b/samples/fanotify/fs-monitor.c
-> new file mode 100644
-> index 000000000000..e115053382be
-> --- /dev/null
-> +++ b/samples/fanotify/fs-monitor.c
-> @@ -0,0 +1,138 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright 2021, Collabora Ltd.
-> + */
-> +
-> +#define _GNU_SOURCE
-> +#include <errno.h>
-> +#include <err.h>
-> +#include <stdlib.h>
-> +#include <stdio.h>
-> +#include <fcntl.h>
-> +#include <sys/fanotify.h>
-> +#include <sys/types.h>
-> +#include <unistd.h>
-> +#include <sys/types.h>
-> +
-> +#ifndef FAN_FS_ERROR
-> +#define FAN_FS_ERROR		0x00008000
-> +#define FAN_EVENT_INFO_TYPE_ERROR	4
-> +
-> +struct fanotify_event_info_error {
-> +	struct fanotify_event_info_header hdr;
-> +	__s32 error;
-> +	__u32 error_count;
-> +};
-> +#endif
-
-Shouldn't we get these from uapi headers? But I guess the problem is that
-you want this sample to work before glibc picks up the new headers? Is this
-meant as a sample code for userspace to copy from or more as a testcase?
-
-> +#ifndef FILEID_INO32_GEN
-> +#define FILEID_INO32_GEN	1
-> +#endif
-> +
-> +#ifndef FILEID_INVALID
-> +#define	FILEID_INVALID		0xff
-> +#endif
-> +
-> +static void print_fh(struct file_handle *fh)
-> +{
-> +	int i;
-> +	uint32_t *h = (uint32_t *) fh->f_handle;
-> +
-> +	printf("\tfh: ");
-> +	for (i = 0; i < fh->handle_bytes; i++)
-> +		printf("%hhx", fh->f_handle[i]);
-> +	printf("\n");
-> +
-> +	printf("\tdecoded fh: ");
-> +	if (fh->handle_type == FILEID_INO32_GEN)
-> +		printf("inode=%u gen=%u\n", h[0], h[1]);
-> +	else if (fh->handle_type == FILEID_INVALID && !fh->handle_bytes)
-> +		printf("Type %d (Superblock error)\n", fh->handle_type);
-> +	else
-> +		printf("Type %d (Unknown)\n", fh->handle_type);
-> +
-> +}
-> +
-> +static void handle_notifications(char *buffer, int len)
-> +{
-> +	struct fanotify_event_metadata *metadata;
-> +	struct fanotify_event_info_error *error;
-> +	struct fanotify_event_info_fid *fid;
-> +	char *next;
-> +
-> +	for (metadata = (struct fanotify_event_metadata *) buffer;
-> +	     FAN_EVENT_OK(metadata, len);
-> +	     metadata = FAN_EVENT_NEXT(metadata, len)) {
-> +		next = (char *)metadata + metadata->event_len;
-> +		if (metadata->mask != FAN_FS_ERROR) {
-> +			printf("unexpected FAN MARK: %llx\n", metadata->mask);
-> +			goto next_event;
-> +		} else if (metadata->fd != FAN_NOFD) {
-> +			printf("Unexpected fd (!= FAN_NOFD)\n");
-> +			goto next_event;
-> +		}
-> +
-> +		printf("FAN_FS_ERROR found len=%d\n", metadata->event_len);
-> +
-> +		error = (struct fanotify_event_info_error *) (metadata+1);
-> +		if (error->hdr.info_type != FAN_EVENT_INFO_TYPE_ERROR) {
-> +			printf("unknown record: %d (Expecting TYPE_ERROR)\n",
-> +			       error->hdr.info_type);
-> +			goto next_event;
-> +		}
-
-The ordering of additional infos is undefined. Your code must not rely on
-the fact that FAN_EVENT_INFO_TYPE_ERROR comes first and
-FAN_EVENT_INFO_TYPE_FID second. Also you should ignore (maybe just print
-type and len in this sample code) when you see unexpected info types as
-later additions to the API may add additional info records 
-
-> +
-> +		printf("\tGeneric Error Record: len=%d\n", error->hdr.len);
-> +		printf("\terror: %d\n", error->error);
-> +		printf("\terror_count: %d\n", error->error_count);
-> +
-> +		fid = (struct fanotify_event_info_fid *) (error + 1);
-> +		if ((char *) fid >= next) {
-> +			printf("Event doesn't have FID\n");
-> +			goto next_event;
-> +		}
-> +		printf("FID record found\n");
-> +
-> +		if (fid->hdr.info_type != FAN_EVENT_INFO_TYPE_FID) {
-> +			printf("unknown record: %d (Expecting TYPE_FID)\n",
-> +			       fid->hdr.info_type);
-> +			goto next_event;
-> +		}
-> +		printf("\tfsid: %x%x\n", fid->fsid.val[0], fid->fsid.val[1]);
-> +		print_fh((struct file_handle *) &fid->handle);
-> +
-> +next_event:
-> +		printf("---\n\n");
-> +	}
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Regards,
+Nitesh Shetty
