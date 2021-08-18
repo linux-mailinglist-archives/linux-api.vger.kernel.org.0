@@ -2,217 +2,105 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B7AC3EF87D
-	for <lists+linux-api@lfdr.de>; Wed, 18 Aug 2021 05:24:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5AD43EFE38
+	for <lists+linux-api@lfdr.de>; Wed, 18 Aug 2021 09:51:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233760AbhHRDZO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 17 Aug 2021 23:25:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35690 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230433AbhHRDZL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 17 Aug 2021 23:25:11 -0400
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DE69C061764;
-        Tue, 17 Aug 2021 20:24:38 -0700 (PDT)
-Received: by mail-io1-xd31.google.com with SMTP id a21so884472ioq.6;
-        Tue, 17 Aug 2021 20:24:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lxgMShP02OzqCyU4HZns8XCd8Gu3vaU5BWxjPBu+pfw=;
-        b=u3LYM3iJ/eYoRW9wyogu1URuW3TOynqVuereHTK/XKefc+T4xpqktPy6C2xUiZkYCs
-         UUuU+uF2vnD0bGG7/CCa+W3jddLc7xeeHMlrDNS1oFCBMd7gyQyyi2Quu26Vi1SBDlN0
-         WSqz3F3tLusStN6TP99VAM3YUQ9qtHrWRcNOTcngExTMOmSmwaM9erbdfKrQAMxISshq
-         ijhe7a8eWGaHu8Yy4iL9m5UvUAvcE43B4FsKM7o9eZttd9RLv7iKTQxoS3B0elctGNfU
-         vC1BhxJloyEGer+5mMG9jQYHY9kcsse7OvD+h1yLmlEfU46kSr8h+iOsHHLrPfErnAgU
-         YQ1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lxgMShP02OzqCyU4HZns8XCd8Gu3vaU5BWxjPBu+pfw=;
-        b=LM3FrjaMiiztbUujm+ydRLpTBvSXpTppAULS6yjBRxd4jIRPbHEBngPvW0W+wzgPRb
-         NY586c1FhtgQcVPo3YqN3mJ9FpIPZ4zHFRxj6PtArVYzQozO+UUInqnGcZsw1fUCKvLK
-         unI0CffWNk0WcB0JCyhX1Y+QAFte2NGHEwmPKcK7k/aA8Mfq+REE8Re86jyFGQih+PYj
-         j93EsZtccyZ8swAOheuX7zuom5fWDL77p8rBxTyRwcF3uh2y0y+9AI3QmN4LkYGDgAF+
-         +8H0TrBxl3GE+N9G97MpaoIhxc1HO5WhPTmngMUdGVwOTS0Bjvm5xNm+MLS8PnJ9aA7p
-         GTcQ==
-X-Gm-Message-State: AOAM533FrlVME6J5hdmaYow8xR7hGlsHRhI9ZEzYjnNPAv8td6QjyP8h
-        ZjY6NPqfKWbIQGDGH49dPOfKV8aQ8P9HA0GDc2Q=
-X-Google-Smtp-Source: ABdhPJxv6T/CBLPV1MDJ7ULTOwIhPYrOUENzcyBXkNceFQSVSmJwF6AYknf2lpKLPYdklXk5c8HN98zdbOJg8uBeErI=
-X-Received: by 2002:a05:6602:200f:: with SMTP id y15mr5349155iod.64.1629257077539;
- Tue, 17 Aug 2021 20:24:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210812214010.3197279-1-krisman@collabora.com>
- <20210812214010.3197279-19-krisman@collabora.com> <20210816214103.GA12664@magnolia>
- <20210817090538.GA26181@quack2.suse.cz> <CAOQ4uxgdJpovZ-zzJkLOdQ=YYF3ta46m0_jrt0QFSdJ9GdXR=g@mail.gmail.com>
- <20210818001632.GD12664@magnolia>
-In-Reply-To: <20210818001632.GD12664@magnolia>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Wed, 18 Aug 2021 06:24:26 +0300
-Message-ID: <CAOQ4uxhccRchiajjje3C20UOKwxQUapu=RYPsM1Y0uTnS81Vew@mail.gmail.com>
-Subject: Re: [PATCH v6 18/21] fanotify: Emit generic error info type for error event
-To:     "Darrick J. Wong" <djwong@kernel.org>
-Cc:     Jan Kara <jack@suse.cz>,
+        id S239060AbhHRHwI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 18 Aug 2021 03:52:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50798 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237962AbhHRHwE (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 18 Aug 2021 03:52:04 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7071A60EB5;
+        Wed, 18 Aug 2021 07:51:17 +0000 (UTC)
+Date:   Wed, 18 Aug 2021 09:51:15 +0200
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        David Laight <David.Laight@aculab.com>,
+        David Hildenbrand <david@redhat.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Kees Cook <keescook@chromium.org>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Chinwen Chang <chinwen.chang@mediatek.com>,
+        Michel Lespinasse <walken@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Huang Ying <ying.huang@intel.com>,
+        Jann Horn <jannh@google.com>, Feng Tang <feng.tang@intel.com>,
+        Kevin Brodsky <Kevin.Brodsky@arm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Shawn Anastasio <shawn@anastas.io>,
+        Steven Price <steven.price@arm.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Jens Axboe <axboe@kernel.dk>,
         Gabriel Krisman Bertazi <krisman@collabora.com>,
-        Jan Kara <jack@suse.com>,
+        Peter Xu <peterx@redhat.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Marco Elver <elver@google.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Nicolas Viennot <Nicolas.Viennot@twosigma.com>,
+        Thomas Cedeno <thomascedeno@google.com>,
+        Collin Fijalkovich <cfijalkovich@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Chengguang Xu <cgxu519@mykernel.net>,
+        Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
+        "linux-unionfs@vger.kernel.org" <linux-unionfs@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
-        Ext4 <linux-ext4@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Khazhismel Kumykov <khazhy@google.com>,
-        David Howells <dhowells@redhat.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Theodore Tso <tytso@mit.edu>,
-        Matthew Bobrowski <repnop@google.com>, kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
+        the arch/x86 maintainers <x86@kernel.org>,
+        "<linux-fsdevel@vger.kernel.org>" <linux-fsdevel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: Re: [PATCH v1 0/7] Remove in-tree usage of MAP_DENYWRITE
+Message-ID: <20210818075115.dsee5b3p5xxn65ka@wittgenstein>
+References: <87o8a2d0wf.fsf@disp2133>
+ <60db2e61-6b00-44fa-b718-e4361fcc238c@www.fastmail.com>
+ <87lf56bllc.fsf@disp2133>
+ <CAHk-=wgru1UAm3kAKSOdnbewPXQMOxYkq9PnAsRadAC6pXCCMQ@mail.gmail.com>
+ <87eeay8pqx.fsf@disp2133>
+ <5b0d7c1e73ca43ef9ce6665fec6c4d7e@AcuMS.aculab.com>
+ <87h7ft2j68.fsf@disp2133>
+ <CAHk-=whmXTiGUzVrTP=mOPQrg-XOi3R-45hC4dQOqW4JmZdFUQ@mail.gmail.com>
+ <b629cda1-becd-4725-b16c-13208ff478d3@www.fastmail.com>
+ <YRcyqbpVqwwq3P6n@casper.infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YRcyqbpVqwwq3P6n@casper.infradead.org>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[...]
+On Sat, Aug 14, 2021 at 04:04:09AM +0100, Matthew Wilcox wrote:
+> On Fri, Aug 13, 2021 at 05:49:19PM -0700, Andy Lutomirski wrote:
+> > [0] we have mandatory locks, too. Sigh.
+> 
+> I'd love to remove that.  Perhaps we could try persuading more of the
+> distros to disable the CONFIG option first.
 
-> > Just keep in mind that the current scheme pre-allocates the single event slot
-> > on fanotify_mark() time and (I think) we agreed to pre-allocate
-> > sizeof(fsnotify_error_event) + MAX_HDNALE_SZ.
-> > If filesystems would want to store some variable length fs specific info,
-> > a future implementation will have to take that into account.
->
-> <nod> I /think/ for the fs and AG metadata we could preallocate these,
-> so long as fsnotify doesn't free them out from under us.
-
-fs won't get notified when the event is freed, so fsnotify must
-take ownership on the data structure.
-I was thinking more along the lines of limiting maximum size for fs
-specific info and pre-allocating that size for the event.
-
-> For inodes...
-> there are many more of those, so they'd have to be allocated
-> dynamically.
-
-The current scheme is that the size of the queue for error events
-is one and the single slot is pre-allocated.
-The reason for pre-allocate is that the assumption is that fsnotify_error()
-could be called from contexts where memory allocation would be
-inconvenient.
-Therefore, we can store the encoded file handle of the first erroneous
-inode, but we do not store any more events until user read this
-one event.
-
-> Hmm.  For handling accumulated errors, can we still access the
-> fanotify_event_info_* object once we've handed it to fanotify?  If the
-> user hasn't picked up the event yet, it might be acceptable to set more
-> bits in the type mask and bump the error count.  In other words, every
-> time userspace actually reads the event, it'll get the latest error
-> state.  I /think/ that's where the design of this patchset is going,
-> right?
-
-Sort of.
-fsnotify does have a concept of "merging" new event with an event
-already in queue.
-
-With most fsnotify events, merge only happens if the info related
-to the new event (e.g. sb,inode) is the same as that off the queued
-event and the "merge" is only in the event mask
-(e.g. FS_OPEN|FS_CLOSE).
-
-However, the current scheme for "merge" of an FS_ERROR event is only
-bumping err_count, even if the new reported error or inode do not
-match the error/inode in the queued event.
-
-If we define error event subtypes (e.g. FS_ERROR_WRITEBACK,
-FS_ERROR_METADATA), then the error event could contain
-a field for subtype mask and user could read the subtype mask
-along with the accumulated error count, but this cannot be
-done by providing the filesystem access to modify an internal
-fsnotify event, so those have to be generic UAPI defined subtypes.
-
-If you think that would be useful, then we may want to consider
-reserving the subtype mask field in fanotify_event_info_error in
-advance.
-
->
-> > > > 2) If a program written for today's notification events sees a
-> > > > fanotify_event_info_header from future-XFS with a header length that is
-> > > > larger than FANOTIFY_INFO_ERROR_LEN, will it be able to react
-> > > > appropriately?  Which is to say, ignore it on the grounds that the
-> > > > length is unexpectedly large?
-> > >
-> > > That is the expected behavior :). But I guess separate info type for
-> > > fs-specific blob might be more foolproof in this sense - when parsing
-> > > events, you are expected to just skip info_types you don't understand
-> > > (based on 'len' and 'type' in the common header) and generally different
-> > > events have different sets of infos attached to them so you mostly have to
-> > > implement this logic to be able to process events.
-> > >
-> > > > It /looks/ like this is the case; really I'm just fishing around here
-> > > > to make sure nothing in the design of /this/ patchset would make it Very
-> > > > Difficult(tm) to add more information later.
-> > > >
-> > > > 3) Once we let filesystem implementations create their own extended
-> > > > error notifications, should we have a "u32 magic" to aid in decoding?
-> > > > Or even add it to fanotify_event_info_error now?
-> > >
-> > > If we go via the 'separate info type' route, then the magic can go into
-> > > that structure and there's no great use for 'magic' in
-> > > fanotify_event_info_error.
-> >
-> > My 0.02$:
-> > With current patch set, filesystem reports error using:
-> > fsnotify_sb_error(sb, inode, error)
-> >
-> > The optional @inode argument is encoded to a filesystem opaque
-> > blob using  exportfs_encode_inode_fh(), recorded in the event
-> > as a blob and reported to userspace as a blob.
-> >
-> > If filesystem would like to report a different type of opaque blob
-> > (e.g. xfs_perag_info), the interface should be extended to:
-> > fsnotify_sb_error(sb, inode, error, info, info_len)
-> > and the 'separate info type' route seems like the best and most natural
-> > way to deal with the case of information that is only emitted from
-> > a specific filesystem with a specific feature enabled (online fsck).
->
-> <nod> This seems reasonable to me.
->
-> > IOW, there is no need for fanotify_event_info_xfs_perag_error
-> > in fanotify UAPI if you ask me.
-> >
-> > Regarding 'magic' in fanotify_event_info_error, I also don't see the
-> > need for that, because the event already has fsid which can be
-> > used to identify the filesystem in question.
-> >
-> > Keep in mind that the value of handle_type inside struct file_handle
-> > inside struct fanotify_event_info_fid is not a universal classifier.
-> > Specifically, the type 0x81 means "XFS_FILEID_INO64_GEN"
-> > only in the context of XFS and it can mean something else in the
-> > context of another type of filesystem.
->
-> Can you pass the handle into the kernel to open a fd to file mentioned
-> in the report?  I don't think userspace is supposed to know what's
-> inside a file handle, and it would be helpful if it didn't matter here
-> either. :)
->
-
-User gets a file handle and can do whatever users can do with file
-handles... that is, open_by_handle_at() (if filesystem and inode are
-still alive and healthy) and for less privileged users, compare with
-result of name_to_handle_at() of another object.
-
-Obviously, filesystem specialized tools could parse the file handle
-to extract more information.
-
-> > If we add a new info record fanotify_event_info_fs_private
-> > it could even be an alias to fanotify_event_info_fid with the only
-> > difference that the handle[0] member is not expected to be
-> > struct file_handle, but some other fs private struct.
->
-> I ... think I prefer it being a separate info blob.
->
-
-Yes. That is what I meant.
-Separate info record INFO_TYPE_ERROR_FS_DATA, whose info record
-format is quite the same as that of INFO_TYPE_FID, but the blob is a
-different type of blob.
-
-Thanks,
-Amir.
+https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1940392
