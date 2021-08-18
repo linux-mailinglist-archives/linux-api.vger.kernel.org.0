@@ -2,200 +2,81 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CFE03F1226
-	for <lists+linux-api@lfdr.de>; Thu, 19 Aug 2021 05:58:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD64F3F190B
+	for <lists+linux-api@lfdr.de>; Thu, 19 Aug 2021 14:18:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236007AbhHSD70 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 18 Aug 2021 23:59:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46662 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235893AbhHSD70 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 18 Aug 2021 23:59:26 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4475C610CB;
-        Thu, 19 Aug 2021 03:58:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629345530;
-        bh=It3UWJT/EISjJbSXJOa9YOZrmo0c8cMi/Z71oauhW1o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=B8YJS3s9/SG4ffD2pUndnBEUmZ/rGTKk143b5aSWLidLDRfF3rRHrbS3sG/KdLFoe
-         fO2i8I4B/tdR+nOAn50qXcduL736ue0ayVwSLKnC/382wpgRKNX5yQDev19DIoX1a+
-         UwlH6klunOX5kQtDhqsLRRIrl+3915OVPlaZ7Y9f2us1VPtcFk+i63959XJXFvw/M5
-         QRlP2OK4MdbEHUVxd7bTwXjGnxQc6dfcZsNPZBIVoWma/HKUPKgOERVOqcosqqCvTZ
-         s+IKizsl4Qz4slLXVbqbopf3vCpQcnfx6wBx7Iyx2br0qroybo7gYnk7e+GEniPSC5
-         7Q1M+zJjI5SCg==
-Date:   Wed, 18 Aug 2021 20:58:49 -0700
-From:   "Darrick J. Wong" <djwong@kernel.org>
-To:     Jan Kara <jack@suse.cz>
-Cc:     Amir Goldstein <amir73il@gmail.com>,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        Jan Kara <jack@suse.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Ext4 <linux-ext4@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Khazhismel Kumykov <khazhy@google.com>,
-        David Howells <dhowells@redhat.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Theodore Tso <tytso@mit.edu>,
-        Matthew Bobrowski <repnop@google.com>, kernel@collabora.com
-Subject: Re: [PATCH v6 18/21] fanotify: Emit generic error info type for
- error event
-Message-ID: <20210819035849.GA12586@magnolia>
-References: <20210812214010.3197279-1-krisman@collabora.com>
- <20210812214010.3197279-19-krisman@collabora.com>
- <20210816214103.GA12664@magnolia>
- <20210817090538.GA26181@quack2.suse.cz>
- <CAOQ4uxgdJpovZ-zzJkLOdQ=YYF3ta46m0_jrt0QFSdJ9GdXR=g@mail.gmail.com>
- <20210818001632.GD12664@magnolia>
- <CAOQ4uxhccRchiajjje3C20UOKwxQUapu=RYPsM1Y0uTnS81Vew@mail.gmail.com>
- <20210818095818.GA28119@quack2.suse.cz>
+        id S230132AbhHSMSy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 19 Aug 2021 08:18:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40772 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230005AbhHSMSy (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Aug 2021 08:18:54 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5BA5C061575;
+        Thu, 19 Aug 2021 05:18:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=HwP/nMh1cO8cF7GObYL+nv9FmhI1pvtnORa3FRBGMnE=; b=WUnIjLgD7Owt4dgF8MGz1ihYek
+        Pb39fkA0P/KvqKWQqBrqBKRWLo8yWHSgLrdt5k7R4YlidDhBidqkLGYbQZGxg3cCkIkOZToiAuTMN
+        joMHaSWppnXh4gOKUntHJ10SAmsbMDYei8p4hAghu/OePiTAPpKFDMECjqL8MDF8QOzWE9IVrJo12
+        g6Kxp6T6kbi+1/JVeGpL459DTV/oc5/ieuOadDEcVgA1eSqz/yNa0i9cp/veUaUHjBaIYIHUHNICW
+        /VRNw9ZjtfaTttDN7U/iot2oUHG+JYf8nP4g6ocNLMSgfvbZ4tnRdHELk8iGXTcFUGb4+veO77jNX
+        mRMC1CxA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mGgzZ-00B6Mc-5J; Thu, 19 Aug 2021 12:17:53 +0000
+Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
+        id C955F981DD4; Wed, 18 Aug 2021 18:20:34 +0200 (CEST)
+Date:   Wed, 18 Aug 2021 18:20:34 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@collabora.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Darren Hart <dvhart@infradead.org>,
+        linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        kernel@collabora.com, krisman@collabora.com,
+        linux-api@vger.kernel.org, libc-alpha@sourceware.org,
+        mtk.manpages@gmail.com, Davidlohr Bueso <dave@stgolabs.net>
+Subject: Re: [PATCH 2/4] futex2: Implement vectorized wait
+Message-ID: <20210818162034.GA26408@worktop.programming.kicks-ass.net>
+References: <20210805190405.59110-1-andrealmeid@collabora.com>
+ <20210805190405.59110-3-andrealmeid@collabora.com>
+ <87v94310gm.ffs@tglx>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210818095818.GA28119@quack2.suse.cz>
+In-Reply-To: <87v94310gm.ffs@tglx>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Aug 18, 2021 at 11:58:18AM +0200, Jan Kara wrote:
-> On Wed 18-08-21 06:24:26, Amir Goldstein wrote:
-> > [...]
-> > 
-> > > > Just keep in mind that the current scheme pre-allocates the single event slot
-> > > > on fanotify_mark() time and (I think) we agreed to pre-allocate
-> > > > sizeof(fsnotify_error_event) + MAX_HDNALE_SZ.
-> > > > If filesystems would want to store some variable length fs specific info,
-> > > > a future implementation will have to take that into account.
-> > >
-> > > <nod> I /think/ for the fs and AG metadata we could preallocate these,
-> > > so long as fsnotify doesn't free them out from under us.
-> > 
-> > fs won't get notified when the event is freed, so fsnotify must
-> > take ownership on the data structure.
-> > I was thinking more along the lines of limiting maximum size for fs
-> > specific info and pre-allocating that size for the event.
+On Wed, Aug 18, 2021 at 01:00:57PM +0200, Thomas Gleixner wrote:
+> > +/**
+> > + * struct futex_waitv - A waiter for vectorized wait
+> > + * @val:   Expected value at uaddr
+> > + * @uaddr: User address to wait on
+> > + * @flags: Flags for this waiter
+> > + */
+> > +struct futex_waitv {
+> > +	__u64 val;
 > 
-> Agreed. If there's a sensible upperbound than preallocating this inside
-> fsnotify is likely the least problematic solution.
-> 
-> > > For inodes...
-> > > there are many more of those, so they'd have to be allocated
-> > > dynamically.
-> > 
-> > The current scheme is that the size of the queue for error events
-> > is one and the single slot is pre-allocated.
-> > The reason for pre-allocate is that the assumption is that fsnotify_error()
-> > could be called from contexts where memory allocation would be
-> > inconvenient.
-> > Therefore, we can store the encoded file handle of the first erroneous
-> > inode, but we do not store any more events until user read this
-> > one event.
-> 
-> Right. OTOH I can imagine allowing GFP_NOFS allocations in the error
-> context. At least for ext4 it would be workable (after all ext4 manages to
-> lock & modify superblock in its error handlers, GFP_NOFS allocation isn't
-> harder). But then if events are dynamically allocated there's still the
-> inconvenient question what are you going to do if you need to report fs
-> error and you hit ENOMEM. Just not sending the notification may have nasty
-> consequences and in the world of containerization and virtualization
-> tightly packed machines where ENOMEM happens aren't that unlikely. It is
-> just difficult to make assumptions about filesystems overall so we decided
-> to be better safe and preallocate the event.
-> 
-> Or, we could leave the allocation troubles for the filesystem and
-> fsnotify_sb_error() would be passed already allocated event (this way
-> attaching of fs-specific blobs to the event is handled as well) which it
-> would just queue. Plus we'd need to provide some helper to fill in generic
-> part of the event...
-> 
-> The disadvantage is that if there are filesystems / callsites needing
-> preallocated events, it would be painful for them. OTOH current two users -
-> ext4 & xfs - can handle allocation in the error path AFAIU.
-> 
-> Thinking about this some more, maybe we could have event preallocated (like
-> a "rescue event"). Normally we would dynamically allocate (or get passed
-> from fs) the event and only if the allocation fails, we would queue the
-> rescue event to indicate to listeners that something bad happened, there
-> was error but we could not fully report it.
+> Again. Why u64?
 
-Yes.
+So I think the idea was that if we're going to do new syscalls, we
+should cater for future extentions, one of which was 64bit futexes (for
+64bit archs) (along with u{8,16,32})
 
-> But then, even if we'd go for dynamic event allocation by default, we need
-> to efficiently merge events since some fs failures (e.g. resulting in
-> journal abort in ext4) lead to basically all operations with the filesystem
-> to fail and that could easily swamp the notification system with useless
-> events.
+The previous set of patches implemented a more complete replacement ABI
+-- which I rather liked, however the implementation was completely
+disjoint from the existing futexes, which was a non-starter for me.
 
-Hm.  Going out on a limb, I would guess that the majority of fs error
-flood events happen if the storage fails catastrophically.  Assuming
-that a catastrophic failure will quickly take the filesystem offline, I
-would say that for XFS we should probably send one last "and then we
-died" event and stop reporting after that.
+Anyway, yes, current futexes are u32, but if we want to ever do u64
+futexes, we should either do this syscall with a u64, or already plan to
+retire the whole syscall.
 
-> Current system with preallocated event nicely handles this
-> situation, it is questionable how to extend it for online fsck usecase
-> where we need to queue more than one event (but even there probably needs
-> to be some sensible upper-bound). I'll think about it...
+Obiously this would've made good Changelog material, but alas it wasn't
+there.
 
-At least for XFS, I was figuring that xfs_scrub errors wouldn't be
-reported via fsnotify since the repair tool is already running anyway.
-
-> > > Hmm.  For handling accumulated errors, can we still access the
-> > > fanotify_event_info_* object once we've handed it to fanotify?  If the
-> > > user hasn't picked up the event yet, it might be acceptable to set more
-> > > bits in the type mask and bump the error count.  In other words, every
-> > > time userspace actually reads the event, it'll get the latest error
-> > > state.  I /think/ that's where the design of this patchset is going,
-> > > right?
-> > 
-> > Sort of.
-> > fsnotify does have a concept of "merging" new event with an event
-> > already in queue.
-> > 
-> > With most fsnotify events, merge only happens if the info related
-> > to the new event (e.g. sb,inode) is the same as that off the queued
-> > event and the "merge" is only in the event mask
-> > (e.g. FS_OPEN|FS_CLOSE).
-> > 
-> > However, the current scheme for "merge" of an FS_ERROR event is only
-> > bumping err_count, even if the new reported error or inode do not
-> > match the error/inode in the queued event.
-> > 
-> > If we define error event subtypes (e.g. FS_ERROR_WRITEBACK,
-> > FS_ERROR_METADATA), then the error event could contain
-> > a field for subtype mask and user could read the subtype mask
-> > along with the accumulated error count, but this cannot be
-> > done by providing the filesystem access to modify an internal
-> > fsnotify event, so those have to be generic UAPI defined subtypes.
-> > 
-> > If you think that would be useful, then we may want to consider
-> > reserving the subtype mask field in fanotify_event_info_error in
-> > advance.
-> 
-> It depends on what exactly Darrick has in mind but I suspect we'd need a
-> fs-specific merge helper that would look at fs-specific blobs in the event
-> and decide whether events can be merged or not, possibly also handling the
-> merge by updating the blob.
-
-Yes.  If the filesystem itself were allowed to manage the lifespan of
-the fsnotify error event object then this would be trivial -- we'll own
-the object, keep it updated as needed, and fsnotify can copy the
-contents to userspace whenever convenient.
-
-(This might be a naïve view of fsnotify...)
-
-> From the POV of fsnotify that would probably
-> mean merge callback in the event itself. But I guess this needs more
-> details from Darrick and maybe we don't need to decide this at this moment
-> since nobody is close to the point of having code needing to pass fs-blobs
-> with events.
-
-<nod> We ... probably don't need to decide this now.
-
---D
-
-> 
-> 								Honza
-> -- 
-> Jan Kara <jack@suse.com>
-> SUSE Labs, CR
