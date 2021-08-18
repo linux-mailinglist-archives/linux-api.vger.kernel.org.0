@@ -2,183 +2,609 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 33E863F011E
-	for <lists+linux-api@lfdr.de>; Wed, 18 Aug 2021 11:58:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83F4B3F0229
+	for <lists+linux-api@lfdr.de>; Wed, 18 Aug 2021 13:01:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233252AbhHRJ65 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 18 Aug 2021 05:58:57 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:34184 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231218AbhHRJ6y (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 18 Aug 2021 05:58:54 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 5156520062;
-        Wed, 18 Aug 2021 09:58:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1629280699; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
+        id S235077AbhHRLBf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 18 Aug 2021 07:01:35 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:39702 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234748AbhHRLBf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 18 Aug 2021 07:01:35 -0400
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1629284458;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=h+rRQt+xchplA/lQroz3AGG/lSqy7x3et1wOuKoPYcI=;
-        b=2WgJQfml0HC8ZChU4woY8/ZYiIFO3bKTpxHEpgpQg7Z65fglewLlavFSyieM2blBevpcR3
-        Ag6p7dFgx5Hm833BTfP6q8JT5R937W4JNI0aXtmGEAC+t2R41Trqo6Yne2PhQIemta1IRF
-        GzbDFTJwLPNIhEDay8wQi9Hbtp3E0/s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1629280699;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
+        bh=P0jkaBF9ICggO+H1xa0h+M8KCLUt8o7vM3H3sSYR5nc=;
+        b=Fy1NoJ7cMlsftXYIcUcUqkShv5P/Qzj/wR/BSer0KbG1UxSKQ0B4PfSP7d4rIbyVI5vvpQ
+        Ll9Q02IQ7HXOsc0ElcBBDz1bgZGqBfBoqnKJQPWuaOvco/+F2tgU0IU8nXbBr9NR3USYsv
+        DYa7/RVdhaMz/rAHNopnVBixzlre8zYDnCCTHL4He1wZCI6rYn5RDA75fz6oXob1UddeGM
+        h8KpAgPFuY/Ao6fCOqm4i1DmN/QuQ5kP6IO19OBWBgzqim2xlgT1ijIUwP2sqX666hVteE
+        8YDFxtVZ6gYxRlVGwsxKlqVRvvin+sX8K0oV3wCF/McxN4ns8gs2wzaDjoUpFw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1629284458;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=h+rRQt+xchplA/lQroz3AGG/lSqy7x3et1wOuKoPYcI=;
-        b=b9tNGYu3lxjwFwKMh9TjvA2OTxvgYAoQKMuoPx6o74EpVtizbcWyBWO6utHO2JjUMHdHH8
-        QGGCZEafKm6h3oBw==
-Received: from quack2.suse.cz (unknown [10.100.224.230])
-        by relay2.suse.de (Postfix) with ESMTP id 39C90A3B96;
-        Wed, 18 Aug 2021 09:58:19 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id F1DE91E14B9; Wed, 18 Aug 2021 11:58:18 +0200 (CEST)
-Date:   Wed, 18 Aug 2021 11:58:18 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     "Darrick J. Wong" <djwong@kernel.org>, Jan Kara <jack@suse.cz>,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        Jan Kara <jack@suse.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Ext4 <linux-ext4@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Khazhismel Kumykov <khazhy@google.com>,
-        David Howells <dhowells@redhat.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Theodore Tso <tytso@mit.edu>,
-        Matthew Bobrowski <repnop@google.com>, kernel@collabora.com
-Subject: Re: [PATCH v6 18/21] fanotify: Emit generic error info type for
- error event
-Message-ID: <20210818095818.GA28119@quack2.suse.cz>
-References: <20210812214010.3197279-1-krisman@collabora.com>
- <20210812214010.3197279-19-krisman@collabora.com>
- <20210816214103.GA12664@magnolia>
- <20210817090538.GA26181@quack2.suse.cz>
- <CAOQ4uxgdJpovZ-zzJkLOdQ=YYF3ta46m0_jrt0QFSdJ9GdXR=g@mail.gmail.com>
- <20210818001632.GD12664@magnolia>
- <CAOQ4uxhccRchiajjje3C20UOKwxQUapu=RYPsM1Y0uTnS81Vew@mail.gmail.com>
+        bh=P0jkaBF9ICggO+H1xa0h+M8KCLUt8o7vM3H3sSYR5nc=;
+        b=vjVdPnwPmYB32i+OMdUw596cYvFQCAIdiDs9Vd7hyXt9INkiU/I+pBcJtuoznYYjh0aem6
+        4R+a/EdeTU4VjxDQ==
+To:     =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@collabora.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc:     kernel@collabora.com, krisman@collabora.com,
+        linux-api@vger.kernel.org, libc-alpha@sourceware.org,
+        mtk.manpages@gmail.com, Davidlohr Bueso <dave@stgolabs.net>,
+        =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@collabora.com>
+Subject: Re: [PATCH 2/4] futex2: Implement vectorized wait
+In-Reply-To: <20210805190405.59110-3-andrealmeid@collabora.com>
+References: <20210805190405.59110-1-andrealmeid@collabora.com>
+ <20210805190405.59110-3-andrealmeid@collabora.com>
+Date:   Wed, 18 Aug 2021 13:00:57 +0200
+Message-ID: <87v94310gm.ffs@tglx>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOQ4uxhccRchiajjje3C20UOKwxQUapu=RYPsM1Y0uTnS81Vew@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed 18-08-21 06:24:26, Amir Goldstein wrote:
-> [...]
-> 
-> > > Just keep in mind that the current scheme pre-allocates the single event slot
-> > > on fanotify_mark() time and (I think) we agreed to pre-allocate
-> > > sizeof(fsnotify_error_event) + MAX_HDNALE_SZ.
-> > > If filesystems would want to store some variable length fs specific info,
-> > > a future implementation will have to take that into account.
-> >
-> > <nod> I /think/ for the fs and AG metadata we could preallocate these,
-> > so long as fsnotify doesn't free them out from under us.
-> 
-> fs won't get notified when the event is freed, so fsnotify must
-> take ownership on the data structure.
-> I was thinking more along the lines of limiting maximum size for fs
-> specific info and pre-allocating that size for the event.
+Andre,
 
-Agreed. If there's a sensible upperbound than preallocating this inside
-fsnotify is likely the least problematic solution.
+On Thu, Aug 05 2021 at 16:04, Andr=C3=A9 Almeida wrote:
+>  arch/x86/entry/syscalls/syscall_32.tbl |   1 +
+>  arch/x86/entry/syscalls/syscall_64.tbl |   1 +
+>  include/linux/compat.h                 |   9 ++
+>  include/linux/futex.h                  |  15 ++
+>  include/uapi/asm-generic/unistd.h      |   5 +-
+>  include/uapi/linux/futex.h             |  17 +++
+>  init/Kconfig                           |   7 +
+>  kernel/Makefile                        |   1 +
+>  kernel/futex.c                         | 182 +++++++++++++++++++++++
+>  kernel/futex2.c                        | 192 +++++++++++++++++++++++++
+>  kernel/sys_ni.c                        |   4 +
 
-> > For inodes...
-> > there are many more of those, so they'd have to be allocated
-> > dynamically.
-> 
-> The current scheme is that the size of the queue for error events
-> is one and the single slot is pre-allocated.
-> The reason for pre-allocate is that the assumption is that fsnotify_error()
-> could be called from contexts where memory allocation would be
-> inconvenient.
-> Therefore, we can store the encoded file handle of the first erroneous
-> inode, but we do not store any more events until user read this
-> one event.
+please split this in implementation and enabling on x86.=20
 
-Right. OTOH I can imagine allowing GFP_NOFS allocations in the error
-context. At least for ext4 it would be workable (after all ext4 manages to
-lock & modify superblock in its error handlers, GFP_NOFS allocation isn't
-harder). But then if events are dynamically allocated there's still the
-inconvenient question what are you going to do if you need to report fs
-error and you hit ENOMEM. Just not sending the notification may have nasty
-consequences and in the world of containerization and virtualization
-tightly packed machines where ENOMEM happens aren't that unlikely. It is
-just difficult to make assumptions about filesystems overall so we decided
-to be better safe and preallocate the event.
+> index c270124e4402..0c38adfc40a2 100644
+> --- a/include/linux/compat.h
+> +++ b/include/linux/compat.h
+> @@ -368,6 +368,12 @@ struct compat_robust_list_head {
+>  	compat_uptr_t			list_op_pending;
+>  };
+>=20=20
+> +struct compat_futex_waitv {
+> +	compat_u64 val;
 
-Or, we could leave the allocation troubles for the filesystem and
-fsnotify_sb_error() would be passed already allocated event (this way
-attaching of fs-specific blobs to the event is handled as well) which it
-would just queue. Plus we'd need to provide some helper to fill in generic
-part of the event...
+Why do we need a u64 here? u32 is what futexes are based on.
 
-The disadvantage is that if there are filesystems / callsites needing
-preallocated events, it would be painful for them. OTOH current two users -
-ext4 & xfs - can handle allocation in the error path AFAIU.
+> +/**
+> + * struct futex_vector - Auxiliary struct for futex_waitv()
+> + * @w: Userspace provided data
+> + * @q: Kernel side data
+> + *
+> + * Struct used to build an array with all data need for futex_waitv()
+> + */
+> +struct futex_vector {
+> +	struct futex_waitv w;
+> +	struct futex_q q;
+> +};
 
-Thinking about this some more, maybe we could have event preallocated (like
-a "rescue event"). Normally we would dynamically allocate (or get passed
-from fs) the event and only if the allocation fails, we would queue the
-rescue event to indicate to listeners that something bad happened, there
-was error but we could not fully report it.
+No point in exposing this globaly.
 
-But then, even if we'd go for dynamic event allocation by default, we need
-to efficiently merge events since some fs failures (e.g. resulting in
-journal abort in ext4) lead to basically all operations with the filesystem
-to fail and that could easily swamp the notification system with useless
-events. Current system with preallocated event nicely handles this
-situation, it is questionable how to extend it for online fsck usecase
-where we need to queue more than one event (but even there probably needs
-to be some sensible upper-bound). I'll think about it...
+> diff --git a/include/uapi/linux/futex.h b/include/uapi/linux/futex.h
+> index 235e5b2facaa..daa135bdedda 100644
+> --- a/include/uapi/linux/futex.h
+> +++ b/include/uapi/linux/futex.h
+> @@ -42,6 +42,23 @@
+>  					 FUTEX_PRIVATE_FLAG)
+>  #define FUTEX_CMP_REQUEUE_PI_PRIVATE	(FUTEX_CMP_REQUEUE_PI | \
+>  					 FUTEX_PRIVATE_FLAG)
+> +#define FUTEX_32	2
+> +#define FUTEX_SHARED_FLAG 8
+> +#define FUTEX_SIZE_MASK	0x3
+> +
+> +#define FUTEX_WAITV_MAX 128
 
-> > Hmm.  For handling accumulated errors, can we still access the
-> > fanotify_event_info_* object once we've handed it to fanotify?  If the
-> > user hasn't picked up the event yet, it might be acceptable to set more
-> > bits in the type mask and bump the error count.  In other words, every
-> > time userspace actually reads the event, it'll get the latest error
-> > state.  I /think/ that's where the design of this patchset is going,
-> > right?
-> 
-> Sort of.
-> fsnotify does have a concept of "merging" new event with an event
-> already in queue.
-> 
-> With most fsnotify events, merge only happens if the info related
-> to the new event (e.g. sb,inode) is the same as that off the queued
-> event and the "merge" is only in the event mask
-> (e.g. FS_OPEN|FS_CLOSE).
-> 
-> However, the current scheme for "merge" of an FS_ERROR event is only
-> bumping err_count, even if the new reported error or inode do not
-> match the error/inode in the queued event.
-> 
-> If we define error event subtypes (e.g. FS_ERROR_WRITEBACK,
-> FS_ERROR_METADATA), then the error event could contain
-> a field for subtype mask and user could read the subtype mask
-> along with the accumulated error count, but this cannot be
-> done by providing the filesystem access to modify an internal
-> fsnotify event, so those have to be generic UAPI defined subtypes.
-> 
-> If you think that would be useful, then we may want to consider
-> reserving the subtype mask field in fanotify_event_info_error in
-> advance.
+Style nitpick. All the defines above this are layed out tabular. Please
+keep that.
 
-It depends on what exactly Darrick has in mind but I suspect we'd need a
-fs-specific merge helper that would look at fs-specific blobs in the event
-and decide whether events can be merged or not, possibly also handling the
-merge by updating the blob. From the POV of fsnotify that would probably
-mean merge callback in the event itself. But I guess this needs more
-details from Darrick and maybe we don't need to decide this at this moment
-since nobody is close to the point of having code needing to pass fs-blobs
-with events.
+Aside of that these constants look like random numbers and lack any form
+of explanation.
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Plus I don't see a reason why this new stuff wants FUTEX_SHARED_FLAG
+which is the opposite of the FUTEX_PRIVATE_FLAG for the existing futex
+interface. Can we please make this stuff consistent instead of creating
+more confusion?
+
+> +
+> +/**
+> + * struct futex_waitv - A waiter for vectorized wait
+> + * @val:   Expected value at uaddr
+> + * @uaddr: User address to wait on
+> + * @flags: Flags for this waiter
+> + */
+> +struct futex_waitv {
+> +	__u64 val;
+
+Again. Why u64?
+
+> +	void __user *uaddr;
+> +	unsigned int flags;
+> +};
+>=20=20
+> +/**
+> + * unqueue_multiple() - Remove various futexes from their futex_hash_buc=
+ket
+
+s/()// and what are the underscores in futex_hash_bucket for?
+
+> +/**
+> + * futex_wait_multiple_setup() - Prepare to wait and enqueue multiple fu=
+texes
+> + * @vs:		The corresponding futex list
+
+To what is this corresponding?
+
+> + * @count:	The size of the list
+> + * @awaken:	Index of the last awoken futex (return parameter)
+
+What's the purpose of this?
+
+> +static int futex_wait_multiple_setup(struct futex_vector *vs, int count,=
+ int *awaken)
+> +{
+> +	struct futex_hash_bucket *hb;
+> +	int ret, i;
+> +	u32 uval;
+> +
+> +	/*
+> +	 * Enqueuing multiple futexes is tricky, because we need to
+> +	 * enqueue each futex in the list before dealing with the next
+> +	 * one to avoid deadlocking on the hash bucket.  But, before
+> +	 * enqueuing, we need to make sure that current->state is
+> +	 * TASK_INTERRUPTIBLE, so we don't absorb any awake events, which
+> +	 * cannot be done before the get_futex_key of the next key,
+> +	 * because it calls get_user_pages, which can sleep.  Thus, we
+> +	 * fetch the list of futexes keys in two steps, by first pinning
+> +	 * all the memory keys in the futex key, and only then we read
+> +	 * each key and queue the corresponding futex.
+> +	 */
+> +retry:
+> +	for (i =3D 0; i < count; i++) {
+> +		ret =3D get_futex_key(vs[i].w.uaddr,
+> +				    vs[i].w.flags & FUTEX_SHARED_FLAG,
+> +				    &vs[i].q.key, FUTEX_READ);
+> +		if (unlikely(ret))
+> +			return ret;
+> +	}
+> +
+> +	set_current_state(TASK_INTERRUPTIBLE);
+> +
+> +	for (i =3D 0; i < count; i++) {
+> +		struct futex_q *q =3D &vs[i].q;
+> +		struct futex_waitv *waitv =3D &vs[i].w;
+
+Please order them reverse.
+
+> +
+> +		hb =3D queue_lock(q);
+> +		ret =3D get_futex_value_locked(&uval, waitv->uaddr);
+> +		if (ret) {
+> +			/*
+> +			 * We need to try to handle the fault, which
+> +			 * cannot be done without sleep, so we need to
+> +			 * undo all the work already done, to make sure
+> +			 * we don't miss any wake ups.  Therefore, clean
+> +			 * up, handle the fault and retry from the
+> +			 * beginning.
+> +			 */
+> +			queue_unlock(hb);
+> +			__set_current_state(TASK_RUNNING);
+> +
+> +			*awaken =3D unqueue_multiple(vs, i);
+> +			if (*awaken >=3D 0)
+> +				return 1;
+> +
+> +			if (get_user(uval, (u32 __user *)waitv->uaddr))
+
+This type cast is horrible.
+
+> +				return -EINVAL;
+
+-EFAULT
+
+> +
+> +			goto retry;
+
+Why a full retry if the futexes are private?
+
+> +		}
+> +
+> +		if (uval !=3D waitv->val) {
+
+Comparison between u32 and u64 ...
+
+> +			queue_unlock(hb);
+> +			__set_current_state(TASK_RUNNING);
+> +
+> +			/*
+> +			 * If something was already awaken, we can
+> +			 * safely ignore the error and succeed.
+> +			 */
+> +			*awaken =3D unqueue_multiple(vs, i);
+> +			if (*awaken >=3D 0)
+> +				return 1;
+> +
+> +			return -EWOULDBLOCK;
+> +		}
+> +
+> +		/*
+> +		 * The bucket lock can't be held while dealing with the
+> +		 * next futex. Queue each futex at this moment so hb can
+> +		 * be unlocked.
+> +		 */
+> +		queue_me(&vs[i].q, hb);
+
+So the two error pathes are doing both
+
+> +			queue_unlock(hb);
+> +			__set_current_state(TASK_RUNNING);
+> +
+> +			*awaken =3D unqueue_multiple(vs, i);
+> +			if (*awaken >=3D 0)
+> +				return 1;
+
+This can be consolidated into:
+
+	if (!ret && uval =3D=3D waitv->val) {
+        	queue_me();
+                continue;
+        }
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+	queue_unlock(hb);
+	__set_current_state(TASK_RUNNING);
+	*awaken =3D unqueue_multiple(vs, i);
+	if (*awaken >=3D 0)
+		return 1;
+
+        if (uval !=3D waitv->val)
+        	return -EWOULDBLOCK;
+        ....
+
+> +	}
+> +	return 0;
+> +}
+> +
+> +/**
+> + * futex_wait_multiple() - Prepare to wait on and enqueue several futexes
+> + * @vs:		The list of futexes to wait on
+> + * @count:	The number of objects
+> + * @to:		Timeout before giving up and returning to userspace
+> + *
+> + * Entry point for the FUTEX_WAIT_MULTIPLE futex operation, this function
+> + * sleeps on a group of futexes and returns on the first futex that
+> + * triggered, or after the timeout has elapsed.
+
+futexes can't trigger.
+
+> + * Return:
+> + *  - >=3D0 - Hint to the futex that was awoken
+> + *  - <0  - On error
+> + */
+> +int futex_wait_multiple(struct futex_vector *vs, unsigned int count,
+> +			struct hrtimer_sleeper *to)
+> +{
+> +	int ret, hint =3D 0;
+> +	unsigned int i;
+> +
+> +	while (1) {
+> +		ret =3D futex_wait_multiple_setup(vs, count, &hint);
+> +		if (ret) {
+> +			if (ret > 0) {
+> +				/* A futex was awaken during setup */
+> +				ret =3D hint;
+> +			}
+> +			return ret;
+> +		}
+> +
+> +		if (to)
+> +			hrtimer_start_expires(&to->timer, HRTIMER_MODE_ABS);
+
+hrtimer_sleeper_start_expires() and also why is this inside of the loop?
+
+> +
+> +		/*
+> +		 * Avoid sleeping if another thread already tried to
+> +		 * wake us.
+> +		 */
+> +		for (i =3D 0; i < count; i++) {
+> +			if (plist_node_empty(&vs[i].q.list))
+> +				break;
+> +		}
+> +
+> +		if (i =3D=3D count && (!to || to->task))
+> +			freezable_schedule();
+
+TBH, this sleeping condition along with the loop above is
+unreadable. It can be nicely split out:
+
+static void futex_sleep_multiple(struct futex_vector *vs, unsigned int coun=
+t,
+				 struct hrtimer_sleeper *to)
+{
+	if (to && !to->task)
+        	return;
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+	for (; count; count--, vs++) {
+		if (!READ_ONCE(vs->q.lock_ptr))
+			return;
+	}
+
+	freezable_schedule();
+}
+
+> +
+> +		__set_current_state(TASK_RUNNING);
+> +
+> +		ret =3D unqueue_multiple(vs, count);
+> +		if (ret >=3D 0)
+> +			return ret;
+> +		if (to && !to->task)
+> +			return -ETIMEDOUT;
+> +		else if (signal_pending(current))
+> +			return -ERESTARTSYS;
+> +		/*
+> +		 * The final case is a spurious wakeup, for
+> +		 * which just retry.
+> +		 */
+> +	}
+> +}
+> +
+
+>  /**
+>   * futex_wait_setup() - Prepare to wait on a futex
+>   * @uaddr:	the futex userspace address
+> diff --git a/kernel/futex2.c b/kernel/futex2.c
+> new file mode 100644
+> index 000000000000..19bbd4bf7187
+> --- /dev/null
+> +++ b/kernel/futex2.c
+> @@ -0,0 +1,192 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * futex2 system call interface by Andr=C3=A9 Almeida <andrealmeid@colla=
+bora.com>
+
+I don't see a futex2 system call anywhere
+
+> + * Copyright 2021 Collabora Ltd.
+> + */
+> +
+> +#include <asm/futex.h>
+> +
+> +#include <linux/freezer.h>
+> +#include <linux/syscalls.h>
+> +
+> +/* Mask for each futex in futex_waitv list */
+> +#define FUTEXV_WAITER_MASK (FUTEX_SIZE_MASK | FUTEX_SHARED_FLAG)
+
+This piggy packs on the existing futex code, so what is this size thing
+going to help?
+
+> +/* Mask for sys_futex_waitv flag */
+> +#define FUTEXV_MASK (FUTEX_CLOCK_REALTIME)
+> +
+> +#ifdef CONFIG_COMPAT
+> +/**
+> + * compat_futex_parse_waitv - Parse a waitv array from userspace
+> + * @futexv:	Kernel side list of waiters to be filled
+> + * @uwaitv:     Userspace list to be parsed
+> + * @nr_futexes: Length of futexv
+> + *
+> + * Return: Error code on failure, pointer to a prepared futexv otherwise
+
+The int return value becomes magically a pointer ?
+
+> + */
+> +static int compat_futex_parse_waitv(struct futex_vector *futexv,
+> +				    struct compat_futex_waitv __user *uwaitv,
+> +				    unsigned int nr_futexes)
+> +{
+> +	struct compat_futex_waitv aux;
+> +	unsigned int i;
+> +
+> +	for (i =3D 0; i < nr_futexes; i++) {
+> +		if (copy_from_user(&aux, &uwaitv[i], sizeof(aux)))
+> +			return -EFAULT;
+> +
+> +		if ((aux.flags & ~FUTEXV_WAITER_MASK) ||
+> +		    (aux.flags & FUTEX_SIZE_MASK) !=3D FUTEX_32)
+> +			return -EINVAL;
+> +
+> +		futexv[i].w.flags =3D aux.flags;
+> +		futexv[i].w.val =3D aux.val;
+> +		futexv[i].w.uaddr =3D compat_ptr(aux.uaddr);
+> +		futexv[i].q =3D futex_q_init;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +COMPAT_SYSCALL_DEFINE4(futex_waitv, struct compat_futex_waitv __user *, =
+waiters,
+> +		       unsigned int, nr_futexes, unsigned int, flags,
+> +		       struct __kernel_timespec __user *, timo)
+> +{
+> +	struct hrtimer_sleeper to;
+> +	struct futex_vector *futexv;
+> +	struct timespec64 ts;
+> +	ktime_t time;
+> +	int ret;
+> +
+> +	if (flags & ~FUTEXV_MASK)
+> +		return -EINVAL;
+> +
+> +	if (!nr_futexes || nr_futexes > FUTEX_WAITV_MAX || !waiters)
+> +		return -EINVAL;
+> +
+> +	if (timo) {
+> +		int flag_clkid =3D 0;
+> +
+> +		if (get_timespec64(&ts, timo))
+> +			return -EFAULT;
+> +
+> +		if (!timespec64_valid(&ts))
+> +			return -EINVAL;
+> +
+> +		if (flags & FUTEX_CLOCK_REALTIME)
+> +			flag_clkid =3D FLAGS_CLOCKRT;
+> +
+> +		time =3D timespec64_to_ktime(ts);
+
+What's the point of open coding futex_init_timeout() and thereby failing to
+do the namespace adjustment for CLOCK_MONOTONIC?
+
+> +		futex_setup_timer(&time, &to, flag_clkid, 0);
+> +	}
+> +
+> +	futexv =3D kcalloc(nr_futexes, sizeof(*futexv), GFP_KERNEL);
+> +	if (!futexv)
+> +		return -ENOMEM;
+> +
+> +	ret =3D compat_futex_parse_waitv(futexv, waiters, nr_futexes);
+> +	if (!ret)
+> +		ret =3D futex_wait_multiple(futexv, nr_futexes, timo ? &to : NULL);
+> +
+> +	if (timo) {
+> +		hrtimer_cancel(&to.timer);
+> +		destroy_hrtimer_on_stack(&to.timer);
+> +	}
+> +
+> +	kfree(futexv);
+> +	return ret;
+> +}
+> +#endif
+> +
+> +static int futex_parse_waitv(struct futex_vector *futexv,
+> +			     struct futex_waitv __user *uwaitv,
+> +			     unsigned int nr_futexes)
+> +{
+> +	struct futex_waitv aux;
+> +	unsigned int i;
+> +
+> +	for (i =3D 0; i < nr_futexes; i++) {
+> +		if (copy_from_user(&aux, &uwaitv[i], sizeof(aux)))
+> +			return -EFAULT;
+> +
+> +		if ((aux.flags & ~FUTEXV_WAITER_MASK) ||
+> +		    (aux.flags & FUTEX_SIZE_MASK) !=3D FUTEX_32)
+> +			return -EINVAL;
+> +
+> +		futexv[i].w.flags =3D aux.flags;
+> +		futexv[i].w.val =3D aux.val;
+> +		futexv[i].w.uaddr =3D aux.uaddr;
+> +		futexv[i].q =3D futex_q_init;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * sys_futex_waitv - Wait on a list of futexes
+> + * @waiters:    List of futexes to wait on
+> + * @nr_futexes: Length of futexv
+> + * @flags:      Flag for timeout (monotonic/realtime)
+> + * @timo:	Optional absolute timeout.
+> + *
+> + * Given an array of `struct futex_waitv`, wait on each uaddr. The threa=
+d wakes
+> + * if a futex_wake() is performed at any uaddr. The syscall returns imme=
+diately
+> + * if any waiter has *uaddr !=3D val. *timo is an optional timeout value=
+ for the
+> + * operation. Each waiter has individual flags. The `flags` argument for=
+ the
+> + * syscall should be used solely for specifying the timeout as realtime,=
+ if
+> + * needed. Flags for shared futexes, sizes, etc. should be used on the
+> + * individual flags of each waiter.
+> + *
+> + * Returns the array index of one of the awaken futexes. There's no given
+> + * information of how many were awakened, or any particular attribute of=
+ it (if
+> + * it's the first awakened, if it is of the smaller index...).
+> + */
+> +SYSCALL_DEFINE4(futex_waitv, struct futex_waitv __user *, waiters,
+> +		unsigned int, nr_futexes, unsigned int, flags,
+> +		struct __kernel_timespec __user *, timo)
+> +{
+> +	struct hrtimer_sleeper to;
+> +	struct futex_vector *futexv;
+> +	struct timespec64 ts;
+> +	ktime_t time;
+> +	int ret;
+> +
+> +	if (flags & ~FUTEXV_MASK)
+> +		return -EINVAL;
+> +
+> +	if (!nr_futexes || nr_futexes > FUTEX_WAITV_MAX || !waiters)
+> +		return -EINVAL;
+> +
+> +	if (timo) {
+> +		int flag_clkid =3D 0;
+> +
+> +		if (get_timespec64(&ts, timo))
+> +			return -EFAULT;
+> +
+> +		if (!timespec64_valid(&ts))
+> +			return -EINVAL;
+> +
+> +		if (flags & FUTEX_CLOCK_REALTIME)
+> +			flag_clkid =3D FLAGS_CLOCKRT;
+> +
+> +		time =3D timespec64_to_ktime(ts);
+> +		futex_setup_timer(&time, &to, flag_clkid, 0);
+
+And of course we need a copy of the same here again.
+
+> +	}
+> +
+> +	futexv =3D kcalloc(nr_futexes, sizeof(*futexv), GFP_KERNEL);
+> +	if (!futexv)
+> +		return -ENOMEM;
+> +
+> +	ret =3D futex_parse_waitv(futexv, waiters, nr_futexes);
+> +	if (!ret)
+> +		ret =3D futex_wait_multiple(futexv, nr_futexes, timo ? &to : NULL);
+> +
+> +	if (timo) {
+> +		hrtimer_cancel(&to.timer);
+> +		destroy_hrtimer_on_stack(&to.timer);
+> +	}
+> +
+> +	kfree(futexv);
+> +	return ret;
+
+So the only difference of the compat code and the non compat version is
+the pointer size in struct futex_waitv.
+
+struct futex_waitv {
+       __u32	val;
+       __u32	flags;
+       __u64	uaddr;
+};
+
+which gets rid of all the code duplication and special casing of compat.
+
+Thanks,
+
+        tglx
+=20=20=20=20
