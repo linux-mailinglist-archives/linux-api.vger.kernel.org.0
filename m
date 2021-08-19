@@ -2,26 +2,34 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FF2D3F2155
-	for <lists+linux-api@lfdr.de>; Thu, 19 Aug 2021 22:06:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD82E3F217B
+	for <lists+linux-api@lfdr.de>; Thu, 19 Aug 2021 22:18:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234789AbhHSUHO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 19 Aug 2021 16:07:14 -0400
-Received: from wtarreau.pck.nerim.net ([62.212.114.60]:36543 "EHLO 1wt.eu"
+        id S232122AbhHSUTV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 19 Aug 2021 16:19:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39720 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229514AbhHSUHL (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 19 Aug 2021 16:07:11 -0400
-Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id 17JK3N5l013157;
-        Thu, 19 Aug 2021 22:03:23 +0200
-Date:   Thu, 19 Aug 2021 22:03:23 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     Jeff Layton <jlayton@kernel.org>
-Cc:     Rodrigo Campos <rodrigo@kinvolk.io>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
+        id S231683AbhHSUTV (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 19 Aug 2021 16:19:21 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 44918610D2;
+        Thu, 19 Aug 2021 20:18:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1629404324;
+        bh=KOZeEQ6+e5vmt7Bs8g0Kbr0+54TTcsuZ0T/h9pwZyM8=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=Y0no770OomjNFKB035BfRxjOBa/7l57z8/67cAYgKi9iEIilRwEA1+MpReyNUBE2g
+         5K74KeGOo72rKpjlb8I5kwPM/rJtNeru9AbzDGva5VpHOWJz3+GFglKge5ZXRxMFJO
+         FzXuaTZ05YyY+nzLVR2FfqKPFWs+46609wU7EK6AWDQakrwORkMEcjKRym6Xy8B47S
+         FN/YGXAIoEU7NOyw1WMzXKaqMEUXzlDGECiK0k5nOkIXI7t1uSi2QOYb+4+AbAli9U
+         nza8j1aClMWkrZPs2goP6EyoM4qH5A9zWanMR3kfyksw/Y9DUXBFUF1qUS2reHecSE
+         90fjuIrO52COg==
+Message-ID: <a1385746582a675c410aca4eb4947320faec4821.camel@kernel.org>
+Subject: Re: Removing Mandatory Locks
+From:   Jeff Layton <jlayton@kernel.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
         Matthew Wilcox <willy@infradead.org>,
         Andy Lutomirski <luto@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
         David Laight <David.Laight@aculab.com>,
         David Hildenbrand <david@redhat.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -72,7 +80,7 @@ Cc:     Rodrigo Campos <rodrigo@kinvolk.io>,
         Michal Hocko <mhocko@suse.com>,
         Miklos Szeredi <miklos@szeredi.hu>,
         Chengguang Xu <cgxu519@mykernel.net>,
-        Christian =?iso-8859-1?Q?K=F6nig?= 
+        Christian =?ISO-8859-1?Q?K=F6nig?= 
         <ckoenig.leichtzumerken@gmail.com>,
         "linux-unionfs@vger.kernel.org" <linux-unionfs@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
@@ -81,55 +89,66 @@ Cc:     Rodrigo Campos <rodrigo@kinvolk.io>,
         Linux-MM <linux-mm@kvack.org>,
         Florian Weimer <fweimer@redhat.com>,
         Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: Re: Removing Mandatory Locks
-Message-ID: <20210819200323.GA13017@1wt.eu>
-References: <CAHk-=wgru1UAm3kAKSOdnbewPXQMOxYkq9PnAsRadAC6pXCCMQ@mail.gmail.com>
- <87eeay8pqx.fsf@disp2133>
- <5b0d7c1e73ca43ef9ce6665fec6c4d7e@AcuMS.aculab.com>
- <87h7ft2j68.fsf@disp2133>
- <CAHk-=whmXTiGUzVrTP=mOPQrg-XOi3R-45hC4dQOqW4JmZdFUQ@mail.gmail.com>
- <b629cda1-becd-4725-b16c-13208ff478d3@www.fastmail.com>
- <YRcyqbpVqwwq3P6n@casper.infradead.org>
- <87k0kkxbjn.fsf_-_@disp2133>
- <CACaBj2ZgrA2JeeGenXxEf5ha6OYaFrj2=iuVXnQxC=kZLZpjng@mail.gmail.com>
- <8ba92aa3e97bfc3df89cd64fffcbc91b640530f1.camel@kernel.org>
+Date:   Thu, 19 Aug 2021 16:18:38 -0400
+In-Reply-To: <CAHk-=wgewmbABDC3_ZNn11C+sm4Uz0L9HZ5Kvx0Joho4vsV4DQ@mail.gmail.com>
+References: <20210812084348.6521-1-david@redhat.com>
+         <87o8a2d0wf.fsf@disp2133>
+         <60db2e61-6b00-44fa-b718-e4361fcc238c@www.fastmail.com>
+         <87lf56bllc.fsf@disp2133>
+         <CAHk-=wgru1UAm3kAKSOdnbewPXQMOxYkq9PnAsRadAC6pXCCMQ@mail.gmail.com>
+         <87eeay8pqx.fsf@disp2133>
+         <5b0d7c1e73ca43ef9ce6665fec6c4d7e@AcuMS.aculab.com>
+         <87h7ft2j68.fsf@disp2133>
+         <CAHk-=whmXTiGUzVrTP=mOPQrg-XOi3R-45hC4dQOqW4JmZdFUQ@mail.gmail.com>
+         <b629cda1-becd-4725-b16c-13208ff478d3@www.fastmail.com>
+         <YRcyqbpVqwwq3P6n@casper.infradead.org> <87k0kkxbjn.fsf_-_@disp2133>
+         <0c2af732e4e9f74c9d20b09fc4b6cbae40351085.camel@kernel.org>
+         <CAHk-=wgewmbABDC3_ZNn11C+sm4Uz0L9HZ5Kvx0Joho4vsV4DQ@mail.gmail.com>
+Content-Type: text/plain; charset="ISO-8859-15"
+User-Agent: Evolution 3.40.3 (3.40.3-1.fc34) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8ba92aa3e97bfc3df89cd64fffcbc91b640530f1.camel@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Aug 19, 2021 at 03:18:15PM -0400, Jeff Layton wrote:
-> On Wed, 2021-08-18 at 11:34 +0200, Rodrigo Campos wrote:
-> > On Tue, Aug 17, 2021 at 6:49 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
-> > > 
-> > > Matthew Wilcox <willy@infradead.org> writes:
-> > > 
-> > > > On Fri, Aug 13, 2021 at 05:49:19PM -0700, Andy Lutomirski wrote:
-> > > > > [0] we have mandatory locks, too. Sigh.
-> > > > 
-> > > > I'd love to remove that.  Perhaps we could try persuading more of the
-> > > > distros to disable the CONFIG option first.
-> > > 
-> > > Yes.  The support is disabled in RHEL8.
+On Thu, 2021-08-19 at 12:15 -0700, Linus Torvalds wrote:
+> On Thu, Aug 19, 2021 at 11:39 AM Jeff Layton <jlayton@kernel.org> wrote:
 > > 
-> > If it helps, it seems to be enabled on the just released debian stable:
-> >     $ grep CONFIG_MANDATORY_FILE_LOCKING /boot/config-5.10.0-8-amd64
-> >     CONFIG_MANDATORY_FILE_LOCKING=y
+> > I'm all for ripping it out too. It's an insane interface anyway.
 > > 
-> > Also the new 5.13 kernel in experimental has it too:
-> >     $ grep CONFIG_MANDATORY_FILE_LOCKING /boot/config-5.13.0-trunk-amd64
-> >     CONFIG_MANDATORY_FILE_LOCKING=y
+> > I've not heard a single complaint about this being turned off in
+> > fedora/rhel or any other distro that has this disabled.
 > 
-> A pity. It would have been nice if they had turned it off a while ago. I
-> guess I should have done more outreach at the time. Sigh...
+> I'd love to remove it, we could absolutely test it. The fact that
+> several major distros have it disabled makes me think it's fine.
+> 
+> But as always, it would be good to check Android.
+> 
+> The desktop distros tend to have the same tools and programs, so if
+> Fedora and RHEL haven't needed it for years, then it's likely stale in
+> Debian too (despite being enabled).
+> 
+> But Android tends to be very different. Does anybody know?
+> 
 
-Would it be acceptable to add a warning when MS_MANDLOCK is passed to
-mount() and backport this to stable kernels in order to get reports
-of any such use in a reasonably short time ? Anyway it sounds
-important to at least warn about deprecation.
+Now that I think about it a little more, I actually did get one
+complaint a few years ago:
 
-Willy
+Someone had upgraded from an earlier distro that supported the -o mand
+mount option to a later one that had disabled it, and they had an (old)
+fstab entry that specified it. They didn't actually use mandatory
+locking and weren't sure why the option was set, so they removed it and
+moved on.
+
+I would feel a lot better about it if we had gotten Debian to turn it
+off several years ago too, but I agree it's unlikely anyone uses this
+and the risk of removing it is low.
+
+I've spun up a patch to just rip it out. I'll do a bit of testing with
+it tomorrow and then send it out.
+
+Cheers,
+-- 
+Jeff Layton <jlayton@kernel.org>
+
