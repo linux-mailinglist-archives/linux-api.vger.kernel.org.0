@@ -2,35 +2,34 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA5163F2076
-	for <lists+linux-api@lfdr.de>; Thu, 19 Aug 2021 21:18:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50F213F2121
+	for <lists+linux-api@lfdr.de>; Thu, 19 Aug 2021 21:55:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233673AbhHSTS6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 19 Aug 2021 15:18:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55934 "EHLO mail.kernel.org"
+        id S234911AbhHSTzs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 19 Aug 2021 15:55:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35256 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229465AbhHSTS5 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 19 Aug 2021 15:18:57 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2D15E6056B;
-        Thu, 19 Aug 2021 19:18:16 +0000 (UTC)
+        id S234138AbhHSTzr (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 19 Aug 2021 15:55:47 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 71009610A5;
+        Thu, 19 Aug 2021 19:55:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629400701;
-        bh=RucYjuroxGmQst2JfSDCLfzdBGUla3ujUHowg41WDyE=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=CohXTWkzJotiOQmeVmG65jGjNWkRibbytLNpU+bQ91W5vlKqoCp6Mv0QgrfeF+v3X
-         NIkEPiyLxbPyEiIbUjDIfAix7Z8AfRFOp8FzHRzPJ/1ks56kn/ez5YUSaywrIBqu9p
-         ibMFdjvbtfTbgHOOUkf8HON9BkXYFIFjsMXK+3sZln2yD305IUV8ayXQvdW0ViyGV+
-         Knn+U1QyVeDn8xMkbwR6EjWAXOCgI7eoh0WzwAMQzcf6pArOA3bxk5w3kF/2JMsmRW
-         YT/ZZ7iNU1vf/9dmA3tdJzQDyvTdlJiqL+NzekA5CcHK+iopv5wIMajwfE1r7sRcfb
-         MCupGyEyaqTTQ==
-Message-ID: <8ba92aa3e97bfc3df89cd64fffcbc91b640530f1.camel@kernel.org>
-Subject: Re: Removing Mandatory Locks
-From:   Jeff Layton <jlayton@kernel.org>
-To:     Rodrigo Campos <rodrigo@kinvolk.io>,
-        "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Matthew Wilcox <willy@infradead.org>,
+        s=k20201202; t=1629402911;
+        bh=a7hA2i1JEu2oNE3vKMxIBbK/e83UydJxEWPDh43mTdQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=d3CMeAe9SK80ZY+a4MOWda/Fzm7Lfq0N6tpDOQ1W5hDmmhy2reBm34QrnQERUxJul
+         G9sn5DE0WvICokk4lAbvyR49dzprb1tLXbgIhoH5y971HD9nOraJGCjdViLUgrlj69
+         xCtoQhhp32pkD3/CmK/DFFnvx1yveF/Kid9C0jkVqDKc89DF+J5GviG2L8HcD/3tQP
+         i/iIH7pjAOy/I/r/PQ742Asin6ojMCpwfg9OVnJ8Fq0rzmGnN2lUFtg1Osau5wBr3w
+         KsvJAEvNOyMWi1gs+8nhqECbO+wdtwingfK/846hL5TUxVerK9wWFKAgMGNZUNxasE
+         V2Hg7ToCX2MqQ==
+Date:   Thu, 19 Aug 2021 12:55:08 -0700
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Jeff Layton <jlayton@kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Matthew Wilcox <willy@infradead.org>,
         Andy Lutomirski <luto@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
         David Laight <David.Laight@aculab.com>,
         David Hildenbrand <david@redhat.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -81,7 +80,7 @@ Cc:     Matthew Wilcox <willy@infradead.org>,
         Michal Hocko <mhocko@suse.com>,
         Miklos Szeredi <miklos@szeredi.hu>,
         Chengguang Xu <cgxu519@mykernel.net>,
-        Christian =?ISO-8859-1?Q?K=F6nig?= 
+        Christian =?iso-8859-1?Q?K=F6nig?= 
         <ckoenig.leichtzumerken@gmail.com>,
         "linux-unionfs@vger.kernel.org" <linux-unionfs@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
@@ -90,54 +89,51 @@ Cc:     Matthew Wilcox <willy@infradead.org>,
         Linux-MM <linux-mm@kvack.org>,
         Florian Weimer <fweimer@redhat.com>,
         Michael Kerrisk <mtk.manpages@gmail.com>
-Date:   Thu, 19 Aug 2021 15:18:15 -0400
-In-Reply-To: <CACaBj2ZgrA2JeeGenXxEf5ha6OYaFrj2=iuVXnQxC=kZLZpjng@mail.gmail.com>
-References: <20210812084348.6521-1-david@redhat.com>
-         <87o8a2d0wf.fsf@disp2133>
-         <60db2e61-6b00-44fa-b718-e4361fcc238c@www.fastmail.com>
-         <87lf56bllc.fsf@disp2133>
-         <CAHk-=wgru1UAm3kAKSOdnbewPXQMOxYkq9PnAsRadAC6pXCCMQ@mail.gmail.com>
-         <87eeay8pqx.fsf@disp2133>
-         <5b0d7c1e73ca43ef9ce6665fec6c4d7e@AcuMS.aculab.com>
-         <87h7ft2j68.fsf@disp2133>
-         <CAHk-=whmXTiGUzVrTP=mOPQrg-XOi3R-45hC4dQOqW4JmZdFUQ@mail.gmail.com>
-         <b629cda1-becd-4725-b16c-13208ff478d3@www.fastmail.com>
-         <YRcyqbpVqwwq3P6n@casper.infradead.org> <87k0kkxbjn.fsf_-_@disp2133>
-         <CACaBj2ZgrA2JeeGenXxEf5ha6OYaFrj2=iuVXnQxC=kZLZpjng@mail.gmail.com>
-Content-Type: text/plain; charset="ISO-8859-15"
-User-Agent: Evolution 3.40.3 (3.40.3-1.fc34) 
+Subject: Re: Removing Mandatory Locks
+Message-ID: <YR63HOPASyh21DjK@gmail.com>
+References: <CAHk-=wgru1UAm3kAKSOdnbewPXQMOxYkq9PnAsRadAC6pXCCMQ@mail.gmail.com>
+ <87eeay8pqx.fsf@disp2133>
+ <5b0d7c1e73ca43ef9ce6665fec6c4d7e@AcuMS.aculab.com>
+ <87h7ft2j68.fsf@disp2133>
+ <CAHk-=whmXTiGUzVrTP=mOPQrg-XOi3R-45hC4dQOqW4JmZdFUQ@mail.gmail.com>
+ <b629cda1-becd-4725-b16c-13208ff478d3@www.fastmail.com>
+ <YRcyqbpVqwwq3P6n@casper.infradead.org>
+ <87k0kkxbjn.fsf_-_@disp2133>
+ <0c2af732e4e9f74c9d20b09fc4b6cbae40351085.camel@kernel.org>
+ <CAHk-=wgewmbABDC3_ZNn11C+sm4Uz0L9HZ5Kvx0Joho4vsV4DQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wgewmbABDC3_ZNn11C+sm4Uz0L9HZ5Kvx0Joho4vsV4DQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, 2021-08-18 at 11:34 +0200, Rodrigo Campos wrote:
-> On Tue, Aug 17, 2021 at 6:49 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
-> > 
-> > Matthew Wilcox <willy@infradead.org> writes:
-> > 
-> > > On Fri, Aug 13, 2021 at 05:49:19PM -0700, Andy Lutomirski wrote:
-> > > > [0] we have mandatory locks, too. Sigh.
-> > > 
-> > > I'd love to remove that.  Perhaps we could try persuading more of the
-> > > distros to disable the CONFIG option first.
-> > 
-> > Yes.  The support is disabled in RHEL8.
+On Thu, Aug 19, 2021 at 12:15:08PM -0700, Linus Torvalds wrote:
+> On Thu, Aug 19, 2021 at 11:39 AM Jeff Layton <jlayton@kernel.org> wrote:
+> >
+> > I'm all for ripping it out too. It's an insane interface anyway.
+> >
+> > I've not heard a single complaint about this being turned off in
+> > fedora/rhel or any other distro that has this disabled.
 > 
-> If it helps, it seems to be enabled on the just released debian stable:
->     $ grep CONFIG_MANDATORY_FILE_LOCKING /boot/config-5.10.0-8-amd64
->     CONFIG_MANDATORY_FILE_LOCKING=y
+> I'd love to remove it, we could absolutely test it. The fact that
+> several major distros have it disabled makes me think it's fine.
 > 
-> Also the new 5.13 kernel in experimental has it too:
->     $ grep CONFIG_MANDATORY_FILE_LOCKING /boot/config-5.13.0-trunk-amd64
->     CONFIG_MANDATORY_FILE_LOCKING=y
+> But as always, it would be good to check Android.
+> 
+> The desktop distros tend to have the same tools and programs, so if
+> Fedora and RHEL haven't needed it for years, then it's likely stale in
+> Debian too (despite being enabled).
+> 
+> But Android tends to be very different. Does anybody know?
+> 
 
-A pity. It would have been nice if they had turned it off a while ago. I
-guess I should have done more outreach at the time. Sigh...
+As far as I know, Android never uses mandatory file locking.  While
+CONFIG_MANDATORY_LOCKING=y is typically set (as it's "default y" upstream),
+I can't find anywhere in the Android source tree that uses the "mand" mount
+option, let alone anything actually using mandatory locks.  (I'm assuming that
+Documentation/filesystems/mandatory-locking.rst is up-to-date regarding what
+userspace actually has to do to use it.)
 
-In any case, I'm still inclined toward just ripping it out at this
-point. It's hard to believe that anyone really uses it.
--- 
-Jeff Layton <jlayton@kernel.org>
-
+- Eric
