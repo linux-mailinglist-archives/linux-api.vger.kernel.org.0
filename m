@@ -2,166 +2,166 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A88733F1BA2
-	for <lists+linux-api@lfdr.de>; Thu, 19 Aug 2021 16:33:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 469C23F2003
+	for <lists+linux-api@lfdr.de>; Thu, 19 Aug 2021 20:38:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238595AbhHSOeZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 19 Aug 2021 10:34:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44386 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238547AbhHSOeZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Aug 2021 10:34:25 -0400
-Received: from fieldses.org (fieldses.org [IPv6:2600:3c00:e000:2f7::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24918C061575;
-        Thu, 19 Aug 2021 07:33:49 -0700 (PDT)
-Received: by fieldses.org (Postfix, from userid 2815)
-        id 0EA147C77; Thu, 19 Aug 2021 10:33:48 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 fieldses.org 0EA147C77
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fieldses.org;
-        s=default; t=1629383628;
-        bh=jzbjzvXyQlf+H2UBIwSlz7fpA+3D5JHeP2MlM5sXDjI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LdI6RHpG6vWkbMJHx+T8sGp2HTIBMl8C6Y3I9MxMQf3OieaHH+54hTCP7w7HTcJYZ
-         XoYA2s2NbzkXfX+sO+YgAEfITt5y2E/zJ58O83BiSUVh63ChGJvf5V2NsNQRmjXRkG
-         SFh7CeCUmCNKPRCezs2FufWRHgsvgV65tLcV4278=
-Date:   Thu, 19 Aug 2021 10:33:48 -0400
-From:   "J. Bruce Fields" <bfields@fieldses.org>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        David Laight <David.Laight@aculab.com>,
-        David Hildenbrand <david@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        id S230404AbhHSSi5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 19 Aug 2021 14:38:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44574 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229451AbhHSSi4 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Aug 2021 14:38:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1629398299;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=mtbOiorio7fFl+PE8qnsYo+g02ez/oL57Nqm27L5x2A=;
+        b=KJvgcogQcGQIIGAP/N2XC8irbnW9oF951x+QoNkxM1tEpOQ6ugBQaH2rVXnS3GVnCOBlf8
+        MAlOLDdXayCfx5In1HBgkNQjXHsrwVCfeBLn36O8nGhxy59YFtf+GmyVS6pTgUBbkAU3kM
+        4c8Dj9s5QOpmcmbw6xwcMrqhJ6PM+t8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-590-rzWqBMHzPoe_p9D-uykTPw-1; Thu, 19 Aug 2021 14:38:15 -0400
+X-MC-Unique: rzWqBMHzPoe_p9D-uykTPw-1
+Received: by mail-wr1-f72.google.com with SMTP id k15-20020a5d628f0000b029015501bab520so1992952wru.16
+        for <linux-api@vger.kernel.org>; Thu, 19 Aug 2021 11:38:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:to:cc:references:from:organization:subject
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=mtbOiorio7fFl+PE8qnsYo+g02ez/oL57Nqm27L5x2A=;
+        b=LlqJOaW93YSh8So7EtfTYIpnqjzILDSrTG4+jZ6i57EMDVH8sN1anx07qRIrOA8jc9
+         q3ZlF+az0NPZoP+IUhLJ8rOZdFkKgMPxXVQfuGshwVDORqLQx2+Qa/qWzuLJXNz+E214
+         SIOzJSUAWFwk1duCSuwqEbel6BwXDnqLNVY2UwpRTjnGikwwGvg+c/FZ+Hkf8k0cParV
+         4mLhkeEr5oDLFmv9jF9n5ulgeKGbLA2k1kIs2iLKZc1apxadu8XTtqv/mYSNadiP5ovY
+         io32Vk21KCooGMp7XseJ4J9o1F5MouIEAR3sJGFbf7j73Y9IBAMk4PMtQ9z6KheYj43J
+         ZhLA==
+X-Gm-Message-State: AOAM531VwiL+OZZOpNjzEmyfg2s7f7CdetgFsrFpDQMTFseXFg+98HOw
+        7zBy9NAKJmgISWzHgVBK9/CFSoVt3hXQ47SQ0xAjRC333nQg3qZA+6C8YUhUPCceqBfX76aBJLW
+        4UjMncOlKHKaYSCIdjMng
+X-Received: by 2002:a1c:26c5:: with SMTP id m188mr91599wmm.19.1629398293787;
+        Thu, 19 Aug 2021 11:38:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwhiL4DY3GndFGf/b2//2e4NpH2tZ8005hNZ4k5duF98UqYuOwTat2FIGJxcrV60izFAN4w5w==
+X-Received: by 2002:a1c:26c5:: with SMTP id m188mr91579wmm.19.1629398293536;
+        Thu, 19 Aug 2021 11:38:13 -0700 (PDT)
+Received: from ?IPv6:2003:d8:2f0a:7f00:fad7:3bc9:69d:31f? (p200300d82f0a7f00fad73bc9069d031f.dip0.t-ipconnect.de. [2003:d8:2f0a:7f00:fad7:3bc9:69d:31f])
+        by smtp.gmail.com with ESMTPSA id c8sm3593777wrx.53.2021.08.19.11.38.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Aug 2021 11:38:13 -0700 (PDT)
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
+        linux-man@vger.kernel.org
+Cc:     Pankaj Gupta <pankaj.gupta@ionos.com>,
+        Alejandro Colomar <alx.manpages@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Kees Cook <keescook@chromium.org>,
-        Greg Ungerer <gerg@linux-m68k.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Chinwen Chang <chinwen.chang@mediatek.com>,
-        Michel Lespinasse <walken@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Huang Ying <ying.huang@intel.com>,
-        Jann Horn <jannh@google.com>, Feng Tang <feng.tang@intel.com>,
-        Kevin Brodsky <Kevin.Brodsky@arm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Shawn Anastasio <shawn@anastas.io>,
-        Steven Price <steven.price@arm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        Peter Xu <peterx@redhat.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Marco Elver <elver@google.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        Nicolas Viennot <Nicolas.Viennot@twosigma.com>,
-        Thomas Cedeno <thomascedeno@google.com>,
-        Collin Fijalkovich <cfijalkovich@google.com>,
         Michal Hocko <mhocko@suse.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Chengguang Xu <cgxu519@mykernel.net>,
-        Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
-        "linux-unionfs@vger.kernel.org" <linux-unionfs@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "<linux-fsdevel@vger.kernel.org>" <linux-fsdevel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: Re: [PATCH v1 0/7] Remove in-tree usage of MAP_DENYWRITE
-Message-ID: <20210819143348.GA21090@fieldses.org>
-References: <60db2e61-6b00-44fa-b718-e4361fcc238c@www.fastmail.com>
- <87lf56bllc.fsf@disp2133>
- <CAHk-=wgru1UAm3kAKSOdnbewPXQMOxYkq9PnAsRadAC6pXCCMQ@mail.gmail.com>
- <87eeay8pqx.fsf@disp2133>
- <5b0d7c1e73ca43ef9ce6665fec6c4d7e@AcuMS.aculab.com>
- <87h7ft2j68.fsf@disp2133>
- <CAHk-=whmXTiGUzVrTP=mOPQrg-XOi3R-45hC4dQOqW4JmZdFUQ@mail.gmail.com>
- <b629cda1-becd-4725-b16c-13208ff478d3@www.fastmail.com>
- <20210818154217.GB24115@fieldses.org>
- <87bl5tv8pn.fsf@disp2133>
+        Oscar Salvador <osalvador@suse.de>,
+        Jann Horn <jannh@google.com>, Mike Rapoport <rppt@kernel.org>,
+        Linux API <linux-api@vger.kernel.org>, linux-mm@kvack.org
+References: <20210816081922.5155-1-david@redhat.com>
+ <d70ef542-051a-521f-807d-fa469b28e897@gmail.com>
+ <70792f9c-ace1-6876-378b-5388f7948a60@redhat.com>
+ <abec69cb-6db9-79ab-869e-907da573bfbc@gmail.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v2] madvise.2: Document MADV_POPULATE_READ and
+ MADV_POPULATE_WRITE
+Message-ID: <ae29a12b-bd15-a927-3c31-5b720b542799@redhat.com>
+Date:   Thu, 19 Aug 2021 20:38:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <abec69cb-6db9-79ab-869e-907da573bfbc@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87bl5tv8pn.fsf@disp2133>
-User-Agent: Mutt/1.5.21 (2010-09-15)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Aug 19, 2021 at 08:56:52AM -0500, Eric W. Biederman wrote:
-> bfields@fieldses.org (J. Bruce Fields) writes:
+>>> I don't understand "without actually reading memory"? Do you mean,
+>>> "without actually  faulting in the pages"; or something else?
+>>
+>> "Populate (prefault) page tables readable, faulting in all pages in the
+>> range just as if manually reading one byte of each page; however, avoid
+>> the actual memory access that would have been performed after handling
+>> the fault."
+>>
+>> Does that make it clearer? (avoiding eventually touching the page at all
+>> can be beneficial, especially when dealing with DAX memory where memory
+>> access might be expensive)
 > 
-> > On Fri, Aug 13, 2021 at 05:49:19PM -0700, Andy Lutomirski wrote:
-> >> I’ll bite.  How about we attack this in the opposite direction: remove
-> >> the deny write mechanism entirely.
-> >
-> > For what it's worth, Windows has open flags that allow denying read or
-> > write opens.  They also made their way into the NFSv4 protocol, but
-> > knfsd enforces them only against other NFSv4 clients.  Last I checked,
-> > Samba attempted to emulate them using flock (and there's a comment to
-> > that effect on the flock syscall in fs/locks.c).  I don't know what Wine
-> > does.
-> >
-> > Pavel Shilovsky posted flags adding O_DENY* flags years ago:
-> >
-> > 	https://lwn.net/Articles/581005/
-> >
-> > I keep thinking I should look back at those some day but will probably
-> > never get to it.
-> >
-> > I've no idea how Windows applications use them, though I'm told it's
-> > common.
+> That text is much better. But, what's still not clear to me then is the
+> dfference between mmap(2) MAP_POPULATE, and MADV_POPULATE_READ and
+> MADV_POPULATE_WRITE. What is the differnece, and in what situations
+> would one prefer one or the other approach? I think it would be helpful
+> if the manual page said something about these details.
+
+Well, MAP_POPULATE
+
+1. Can only be used on new mappings, not on existing mappings and 
+especially not on parts of (sparse) memory mappings.
+
+2. Hides actual population errors, simply returning "success"
+
+3. Cannot specify the actual faultin behavior (readable vs. writable). 
+Private mappings are always faulted in writable, shared mappings writable.
+
+MADV_POPULATE_WRITE is the way to go to preallocate memory, especially 
+hugetlbfs. MADV_POPULATE_READ can be used to just populate the shared 
+zero page, or to fault-in file-backed memory without marking everything 
+dirty such that it won't have to be written back to disk.
+
+for MADV_POPULATE_READ
+
+"In contrast to MAP_POPULATE, MADV_POPULATE_READ does not hide errors, 
+can be applied to (parts of) existing mappings and will always populate 
+(prefault) page tables readable. One example use case is prefaulting a 
+file mapping, reading all file content from disk; however, pages won't 
+be dirtied and consequently won't have to be written back to disk when 
+evicting the pages from memory."
+
+Suggestions welcome :)
+
+for MADV_POPULATE_WRITE
+
+"In contrast to MAP_POPULATE, MADV_POPULATE_WRITE does not hide errors, 
+can be applied to (parts of) existing mappings and will always populate 
+(prefault) page tables writable. One example use case is preallocating 
+memory, breaking any CoW (Copy on Write)."
+
+Again, suggestions welcome :)
+
+[...]
+
+>> Much better. Note that there might be more types of mappings that won't
+>> work (e.g., initially also secretmem IIRC).
 > 
-> I don't know in any detail.  I just have this memory of not being able
-> to open or do anything with a file on windows while any application has
-> it open.
+> Ahh nice. Since there's about to be a memfd_secret() manual page,
+> I suggest adding also "or secret memory regions created using
+> memfd_secret(2)".
+
+Can do, thanks!
+
+[...]
+
+>>
+>> Sure, we can add that. But note that MADV_HWPOISON is just one of many
+>> ways to HWpoison a page.
 > 
-> We limit mandatory locks to filesystems that have the proper mount flag
-> and files that are sgid but are not executable.  Reusing that limit we
-> could probably allow such a behavior in Linux without causing chaos.
-
-I'm pretty confused about how we're using the term "mandatory locking".
-
-The locks you're thinking of are basically ordinary posix byte-range
-locks which we attempt to enforce as mandatory under certain conditions
-(e.g. in fs/read_write.c:rw_verify_area).  That means we have to check
-them on ordinary reads and writes, which is a pain in the butt.  (And we
-don't manage to do it correctly--the code just checks for the existence
-of a conflicting lock before performing IO, ignoring the obvious
-time-of-check/time-of-use race.)
-
-This has nothing to do with Windows share locks which from what I
-understand are whole-file locks that are only enforced against opens.
-
---b.
-
-> Without being very strict about which files can participate I can just
-> imagine someone hiding their presence by not allowing other applications
-> the ability to write to utmp or a log file.
+> Then maybe something like:
 > 
-> In the windows world where everything evolved with those kinds of
-> restrictions it is probably fine (although super annoying).
-> 
-> Eric
+> "(HW poisoned pages can, for example, be created using the
+> MADV_HWPOISON flag described elsewhere in this page.)"
+
+Makes sense, I'll reuse the same description at the other place in this 
+file where I mention HW poisoned pages.
+
+
+-- 
+Thanks,
+
+David / dhildenb
+
