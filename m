@@ -2,156 +2,109 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D13043F317B
-	for <lists+linux-api@lfdr.de>; Fri, 20 Aug 2021 18:30:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 980C53F3247
+	for <lists+linux-api@lfdr.de>; Fri, 20 Aug 2021 19:31:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229791AbhHTQbM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 20 Aug 2021 12:31:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35472 "EHLO
+        id S234859AbhHTRcS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 20 Aug 2021 13:32:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229619AbhHTQbL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Aug 2021 12:31:11 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD1EBC061756
-        for <linux-api@vger.kernel.org>; Fri, 20 Aug 2021 09:30:33 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id 7so9059690pfl.10
-        for <linux-api@vger.kernel.org>; Fri, 20 Aug 2021 09:30:33 -0700 (PDT)
+        with ESMTP id S234711AbhHTRcR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Aug 2021 13:32:17 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3253EC061757
+        for <linux-api@vger.kernel.org>; Fri, 20 Aug 2021 10:31:39 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id mq3so7753214pjb.5
+        for <linux-api@vger.kernel.org>; Fri, 20 Aug 2021 10:31:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=osandov-com.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=hx/7x/JErQYdtBSrXWm/zLl3le+VQc9WWGW/gattMeA=;
-        b=AHhWe/b1QJudaK4piB/jpm81AVtQQUsE+FQy6FY3gPQsXxurQppN29+lwRB1w87Hk9
-         s5LnDo+Sqxo/2pCK/R5LdbAN1tgOMvgop4IKUrmYIGWWy9GZBoPvfMqYDTrPjGlW+5pa
-         Zl5yoXP7YgbsHkiiQ3CQ7BLFzXLsUcMFh1zuU=
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=hausAV75QDfnkXVBVC/RcV475eLvboVMKfHjcdo1TZ0=;
+        b=p+XcEkMrdKp6ZS4EVumBBINKww5sw0P4gqnLC5q56jK1VfTqgDaRo1rsqLhwZvydLw
+         5j8ppl+MaJcNf43LfLSHPMsJURSRtzZmIYZMhlcAXpsM+ALjlrlhZyOhmCqnIwULb4xF
+         6yB3AEhV8cNVUgog4kzuADIS52L84AP+ZgjY6nnwj49NJp2TWjfq1hIPOs54Zu4GK/0j
+         oQ3r044con7YQA1FzGM/0pzLB4Ji/kZlKoTbVdMov7ITDwDjCNQpmYadoCr/Wk0w6Rf+
+         4i7ohJDZb6Dkw1ZOo4fVGmvj3D4P5JbDUioQ5PBaAHkVrP0QzFI2RKijvZzoF13KctNC
+         P/Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=hx/7x/JErQYdtBSrXWm/zLl3le+VQc9WWGW/gattMeA=;
-        b=Lczm3u9xxwOs1Tjjk7O4crpHm+kVLMyw/srSZPkLcCP36H+Sn0yAUgMlZze4dtvYyW
-         VaEwCk+A2J6ez+SME4oFKHd71vyOSQJXJKytMCfbZOXA5B9JHgaRHKxAeh5LmnwHYSpM
-         2Xv+ZQl4YSjq8dxoWNwXA4oc4FU8kH6YZAvak0U3OTDbYTiE7YlDCUeDn2eOpkGfzwv6
-         SDuFJZ0IqFS8SCSt693ZMaML6xGoEvuyY28FtR9sGnS8f4R+jX8bz24Z4ss0Tx+Ccm/r
-         SJqOSr4ZCfMgm6GYYp9nOwa4OYnv3rHEIbM0YdCH90dGFdwDDV/CcgT2CJazNrpkGNl8
-         qXQQ==
-X-Gm-Message-State: AOAM5334xtUH7tnofbewRjVdzSZvRfv8Z8wvX433jrJrHQZ+VV9XkoF5
-        O3UFS4yGyy0heqB7O1lCviGglQ==
-X-Google-Smtp-Source: ABdhPJwaxnuALu+UM0AoVLj6IiQMA+NoS7/1nkP1/GdVgN0I1V5xyMU8srw+/7RYQUxQMtn9M0uIlg==
-X-Received: by 2002:a65:608f:: with SMTP id t15mr19281560pgu.452.1629477033146;
-        Fri, 20 Aug 2021 09:30:33 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id b7sm7023269pfl.195.2021.08.20.09.30.32
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=hausAV75QDfnkXVBVC/RcV475eLvboVMKfHjcdo1TZ0=;
+        b=kcCeE+osROPDP6vmoJp2G8DZ4OTYEqVr7+oKq575klWG9uvA/y9iD+y0h8Khs7uw3W
+         1q72ZmyL4lGkFL5hoTwjSBeM7BbNQ6xIaHvqn4G+cfx3g3Z3MY4siNnfWjlLgxWLL30V
+         c1AahYMoYmR7LhIYjlfWRVYzOwp9OKOnNpvgEtDnoLmhnNFEc7VYpx3PqKXV8rZ+wcQY
+         ecmH7ANjyy0i7BQpgViQ+LkDutB2WDEbwfW48ZdvIQg1lnmej0k5yovFKh6fDBP56Oqf
+         MN4lV/vZCIX1znVTmue/CItHUgHZyIrZPapJSuO0d3BX8WISIBvHFfG4M7Evoh14+6Ep
+         YXMQ==
+X-Gm-Message-State: AOAM531EQfivULL2pfx6PlenQyEsedt+8raGwTGRcQI8jrNdJPF4kO6r
+        +uUM7OYwXsEuiCGuyNj1lbVbNA==
+X-Google-Smtp-Source: ABdhPJxb423S2zbhxthqfJoLTc1GUl5giKYxZDtIxjcBC593fYLmbufbC2vlgZ0rQ8f42OskIWu8Bw==
+X-Received: by 2002:a17:902:e891:b0:12d:97bf:b2d8 with SMTP id w17-20020a170902e89100b0012d97bfb2d8mr17144006plg.84.1629480698614;
+        Fri, 20 Aug 2021 10:31:38 -0700 (PDT)
+Received: from relinquished.localdomain ([2620:10d:c090:400::5:4387])
+        by smtp.gmail.com with ESMTPSA id b15sm8763070pgj.60.2021.08.20.10.31.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Aug 2021 09:30:32 -0700 (PDT)
-Date:   Fri, 20 Aug 2021 09:30:31 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Jeff Layton <jlayton@kernel.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        David Laight <David.Laight@aculab.com>,
-        David Hildenbrand <david@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Greg Ungerer <gerg@linux-m68k.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Chinwen Chang <chinwen.chang@mediatek.com>,
-        Michel Lespinasse <walken@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Huang Ying <ying.huang@intel.com>,
-        Jann Horn <jannh@google.com>, Feng Tang <feng.tang@intel.com>,
-        Kevin Brodsky <Kevin.Brodsky@arm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Shawn Anastasio <shawn@anastas.io>,
-        Steven Price <steven.price@arm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        Peter Xu <peterx@redhat.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Marco Elver <elver@google.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        Nicolas Viennot <Nicolas.Viennot@twosigma.com>,
-        Thomas Cedeno <thomascedeno@google.com>,
-        Collin Fijalkovich <cfijalkovich@google.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Chengguang Xu <cgxu519@mykernel.net>,
-        Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>,
-        "linux-unionfs@vger.kernel.org" <linux-unionfs@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "<linux-fsdevel@vger.kernel.org>" <linux-fsdevel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: Re: Removing Mandatory Locks
-Message-ID: <202108200905.BE8AF7C@keescook>
-References: <CAHk-=wgru1UAm3kAKSOdnbewPXQMOxYkq9PnAsRadAC6pXCCMQ@mail.gmail.com>
- <87eeay8pqx.fsf@disp2133>
- <5b0d7c1e73ca43ef9ce6665fec6c4d7e@AcuMS.aculab.com>
- <87h7ft2j68.fsf@disp2133>
- <CAHk-=whmXTiGUzVrTP=mOPQrg-XOi3R-45hC4dQOqW4JmZdFUQ@mail.gmail.com>
- <b629cda1-becd-4725-b16c-13208ff478d3@www.fastmail.com>
- <YRcyqbpVqwwq3P6n@casper.infradead.org>
- <87k0kkxbjn.fsf_-_@disp2133>
- <0c2af732e4e9f74c9d20b09fc4b6cbae40351085.camel@kernel.org>
- <CAHk-=wgewmbABDC3_ZNn11C+sm4Uz0L9HZ5Kvx0Joho4vsV4DQ@mail.gmail.com>
+        Fri, 20 Aug 2021 10:31:37 -0700 (PDT)
+Date:   Fri, 20 Aug 2021 10:31:36 -0700
+From:   Omar Sandoval <osandov@osandov.com>
+To:     Nikolay Borisov <nborisov@suse.com>
+Cc:     linux-btrfs@vger.kernel.org, kernel-team@fb.com,
+        linux-fsdevel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH v10 02/14] fs: export variant of generic_write_checks
+ without iov_iter
+Message-ID: <YR/m+IxihIBGm6Ps@relinquished.localdomain>
+References: <cover.1629234193.git.osandov@fb.com>
+ <237db7dc485834d3d359b5765f07ebf7c3514f3a.1629234193.git.osandov@fb.com>
+ <ae6f8c7e-3b9b-bd95-140d-b556ce04df8f@suse.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wgewmbABDC3_ZNn11C+sm4Uz0L9HZ5Kvx0Joho4vsV4DQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ae6f8c7e-3b9b-bd95-140d-b556ce04df8f@suse.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Aug 19, 2021 at 12:15:08PM -0700, Linus Torvalds wrote:
-> On Thu, Aug 19, 2021 at 11:39 AM Jeff Layton <jlayton@kernel.org> wrote:
-> >
-> > I'm all for ripping it out too. It's an insane interface anyway.
-> >
-> > I've not heard a single complaint about this being turned off in
-> > fedora/rhel or any other distro that has this disabled.
+On Fri, Aug 20, 2021 at 10:59:28AM +0300, Nikolay Borisov wrote:
 > 
-> I'd love to remove it, we could absolutely test it. The fact that
-> several major distros have it disabled makes me think it's fine.
+> 
+> On 18.08.21 г. 0:06, Omar Sandoval wrote:
+> > From: Omar Sandoval <osandov@fb.com>
+> > 
+> > Encoded I/O in Btrfs needs to check a write with a given logical size
+> > without an iov_iter that matches that size (because the iov_iter we have
+> > is for the compressed data). So, factor out the parts of
+> > generic_write_check() that expect an iov_iter into a new
+> > __generic_write_checks() function and export that.
+> > 
+> > Signed-off-by: Omar Sandoval <osandov@fb.com>
+> > ---
+> >  fs/read_write.c    | 40 ++++++++++++++++++++++------------------
+> >  include/linux/fs.h |  1 +
+> >  2 files changed, 23 insertions(+), 18 deletions(-)
+> > 
+> > diff --git a/fs/read_write.c b/fs/read_write.c
+> > index 0029ff2b0ca8..3bddd5ee7f64 100644
+> > --- a/fs/read_write.c
+> > +++ b/fs/read_write.c
+> > @@ -1633,6 +1633,26 @@ int generic_write_check_limits(struct file *file, loff_t pos, loff_t *count)
+> >  	return 0;
+> >  }
+> >  
+> > +/* Like generic_write_checks(), but takes size of write instead of iter. */
+> > +int __generic_write_checks(struct kiocb *iocb, loff_t *count)
+> > +{
+> > +	struct file *file = iocb->ki_filp;
+> > +	struct inode *inode = file->f_mapping->host;
+> > +
+> > +	if (IS_SWAPFILE(inode))
+> > +		return -ETXTBSY;
+> 
+>  Missing 'if(!count) return 0' from original code ?
 
-FWIW, it is now disabled in Ubuntu too:
-
-https://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/impish/commit/?h=master-next&id=f3aac5e47789cbeb3177a14d3d2a06575249e14b
-
-> But as always, it would be good to check Android.
-
-It looks like it's enabled (checking the Pixel 4 kernel image), but it's
-not specifically mentioned in any of the build configs that are used to
-construct the image, so I think this is just catching the "default y". I
-expect it'd be fine to turn this off.
-
-I will ask around to see if it's actually used.
-
--- 
-Kees Cook
+Good catch, thanks.
