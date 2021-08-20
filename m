@@ -2,255 +2,214 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66EF03F32D5
-	for <lists+linux-api@lfdr.de>; Fri, 20 Aug 2021 20:11:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B39573F32F4
+	for <lists+linux-api@lfdr.de>; Fri, 20 Aug 2021 20:18:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229560AbhHTSLz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 20 Aug 2021 14:11:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59012 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231148AbhHTSLz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Aug 2021 14:11:55 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 169F3C061756
-        for <linux-api@vger.kernel.org>; Fri, 20 Aug 2021 11:11:15 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id mq2-20020a17090b3802b0290178911d298bso7846784pjb.1
-        for <linux-api@vger.kernel.org>; Fri, 20 Aug 2021 11:11:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=V5r0QBB3dH/OiX2kiIw1xmcLlB44IKRIoxKY/IbkIRc=;
-        b=hO0R24oRUfX7HKsGgjaLXtOYFKth5/VwPHNvi6tBtj0DqIjyMnHUbvw+d0MxCQREb5
-         ugF93aCdSCv7M9MSg2/KCEfN5tfK7u6q4cfxOP6KOSG9rG2FUGoPnq3HgVGLC7QhsmXU
-         zCKzqVhy5J9DvlFq8Tj6KTpu/2J5YfYIa+2rAhFDCA4thtnruuArm+wo0PbszDBzCuJL
-         CcaZq2JdTxox3kCvC7HNMiPnjnkxvogeCZJhumYKwM6+YyKuGLx3jeK4S6UbqbKA/a7M
-         aJcsSuLs/c2zkC++TueHa85ms3HjLkR0vYKzEw/smK2txdK31F6UxP9rKLLq0a8xWojX
-         +HyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=V5r0QBB3dH/OiX2kiIw1xmcLlB44IKRIoxKY/IbkIRc=;
-        b=Vy0ySSjfvFkv6eyP/EUjXA+DsdEODx/BYvfmT2nb1E1xe69Mhq5qtDwh1AAjSBmcgz
-         yvbf1wYuGGhB0J+gyNBEq54oc1SSaIRFkphUyzy0BaLul2pnsfknKtINUeVH+ekEvonl
-         idbTr3ozFIhm8AT0VgerHEZQy22V7eoMoJNKeoQqGpR4zxOH2RKSbM05OWs1U2CkxIkC
-         WqhAgrkbteAnuedMnq7zu6E/ZVyUWFmmeZuRpBvVOpZorYWtPQs1nfNUt0jZqmYc60tt
-         N4zdvhhQRi0A7mpXEBbDSmtPSiBkvzUzn7wFLN14foUAvGJGwtErr9zLaOE9DY8gh7UH
-         D2Og==
-X-Gm-Message-State: AOAM530NlcspgO+56791M1DPLaPuTTnpJ0SIL6mNsuudDrhKdzNH7330
-        L3OGTCjAOzW8QA50PEKrYP4F/Q==
-X-Google-Smtp-Source: ABdhPJxWQOhci2cPJ0qbqpQ1FjpkM5lBLdHQ9WkZkJ3a7YWA5WiNmDOr/8mxCegSDQ1PhLs8q2lf9Q==
-X-Received: by 2002:a17:902:b487:b029:12c:4051:a8de with SMTP id y7-20020a170902b487b029012c4051a8demr17415766plr.76.1629483074409;
-        Fri, 20 Aug 2021 11:11:14 -0700 (PDT)
-Received: from relinquished.localdomain ([2620:10d:c090:400::5:4387])
-        by smtp.gmail.com with ESMTPSA id d15sm8983194pgj.84.2021.08.20.11.11.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Aug 2021 11:11:13 -0700 (PDT)
-Date:   Fri, 20 Aug 2021 11:11:12 -0700
-From:   Omar Sandoval <osandov@osandov.com>
-To:     Qu Wenruo <quwenruo.btrfs@gmx.com>
-Cc:     Nikolay Borisov <nborisov@suse.com>, linux-btrfs@vger.kernel.org,
-        kernel-team@fb.com, linux-fsdevel@vger.kernel.org,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-api@vger.kernel.org, Qu Wenruo <wqu@suse.com>
-Subject: Re: [PATCH v10 06/14] btrfs: optionally extend i_size in
- cow_file_range_inline()
-Message-ID: <YR/wQPJcv25vPIp7@relinquished.localdomain>
-References: <cover.1629234193.git.osandov@fb.com>
- <a00b59623219c8a07f2c22f80ef1466d0f182d77.1629234193.git.osandov@fb.com>
- <1b495420-f4c6-6988-c0b1-9aa8a7aa952d@suse.com>
- <2eae3b11-d9aa-42b1-122e-49bd40258d9b@gmx.com>
+        id S235987AbhHTSTY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 20 Aug 2021 14:19:24 -0400
+Received: from mga05.intel.com ([192.55.52.43]:22426 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231341AbhHTSTX (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 20 Aug 2021 14:19:23 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10082"; a="302407774"
+X-IronPort-AV: E=Sophos;i="5.84,338,1620716400"; 
+   d="scan'208";a="302407774"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2021 11:18:43 -0700
+X-IronPort-AV: E=Sophos;i="5.84,338,1620716400"; 
+   d="scan'208";a="533074658"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2021 11:18:43 -0700
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        Rick P Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v29 00/32] Control-flow Enforcement: Shadow Stack
+Date:   Fri, 20 Aug 2021 11:11:29 -0700
+Message-Id: <20210820181201.31490-1-yu-cheng.yu@intel.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2eae3b11-d9aa-42b1-122e-49bd40258d9b@gmx.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Aug 20, 2021 at 05:13:34PM +0800, Qu Wenruo wrote:
-> 
-> 
-> On 2021/8/20 下午4:51, Nikolay Borisov wrote:
-> > 
-> > 
-> > On 18.08.21 г. 0:06, Omar Sandoval wrote:
-> > > From: Omar Sandoval <osandov@fb.com>
-> > > 
-> > > Currently, an inline extent is always created after i_size is extended
-> > > from btrfs_dirty_pages(). However, for encoded writes, we only want to
-> > > update i_size after we successfully created the inline extent.
-> 
-> To me, the idea of write first then update isize is just going to cause
-> tons of inline extent related prblems.
-> 
-> The current example is falloc, which only update the isize after the
-> falloc finishes.
-> 
-> This behavior has already bothered me quite a lot, as it can easily
-> create mixed inline and regular extents.
+Control-flow Enforcement (CET) is a new Intel processor feature that blocks
+return/jump-oriented programming attacks.  Details are in "Intel 64 and
+IA-32 Architectures Software Developer's Manual" [1].
 
-Do you have an example of how this would happen? I have the inode and
-extent bits locked during an encoded write, and I see that fallocate
-does the same.
+CET can protect applications and the kernel.  This series enables only
+application-level protection, and is further split into the Shadow Stack
+and Indirect Branch Tracking.
 
-> Can't we remember the old isize (with proper locking), enlarge isize
-> (with holes filled), do the write.
-> 
-> If something wrong happened, we truncate the isize back to its old isize.
-> 
-> > > Add an
-> > > update_i_size parameter to cow_file_range_inline() and
-> > > insert_inline_extent() and pass in the size of the extent rather than
-> > > determining it from i_size. Since the start parameter is always passed
-> > > as 0, get rid of it and simplify the logic in these two functions. While
-> > > we're here, let's document the requirements for creating an inline
-> > > extent.
-> > > 
-> > > Reviewed-by: Josef Bacik <josef@toxicpanda.com>
-> > > Signed-off-by: Omar Sandoval <osandov@fb.com>
-> > > ---
-> > >   fs/btrfs/inode.c | 100 +++++++++++++++++++++++------------------------
-> > >   1 file changed, 48 insertions(+), 52 deletions(-)
-> > > 
-> > > diff --git a/fs/btrfs/inode.c b/fs/btrfs/inode.c
-> > > index 708d8ab098bc..0b5ff14aa7fd 100644
-> > > --- a/fs/btrfs/inode.c
-> > > +++ b/fs/btrfs/inode.c
-> > > @@ -236,9 +236,10 @@ static int btrfs_init_inode_security(struct btrfs_trans_handle *trans,
-> > >   static int insert_inline_extent(struct btrfs_trans_handle *trans,
-> > >   				struct btrfs_path *path, bool extent_inserted,
-> > >   				struct btrfs_root *root, struct inode *inode,
-> > > -				u64 start, size_t size, size_t compressed_size,
-> > > +				size_t size, size_t compressed_size,
-> > >   				int compress_type,
-> > > -				struct page **compressed_pages)
-> > > +				struct page **compressed_pages,
-> > > +				bool update_i_size)
-> > >   {
-> > >   	struct extent_buffer *leaf;
-> > >   	struct page *page = NULL;
-> > > @@ -247,7 +248,7 @@ static int insert_inline_extent(struct btrfs_trans_handle *trans,
-> > >   	struct btrfs_file_extent_item *ei;
-> > >   	int ret;
-> > >   	size_t cur_size = size;
-> > > -	unsigned long offset;
-> > > +	u64 i_size;
-> > > 
-> > >   	ASSERT((compressed_size > 0 && compressed_pages) ||
-> > >   	       (compressed_size == 0 && !compressed_pages));
-> > > @@ -260,7 +261,7 @@ static int insert_inline_extent(struct btrfs_trans_handle *trans,
-> > >   		size_t datasize;
-> > > 
-> > >   		key.objectid = btrfs_ino(BTRFS_I(inode));
-> > > -		key.offset = start;
-> > > +		key.offset = 0;
-> > >   		key.type = BTRFS_EXTENT_DATA_KEY;
-> > > 
-> > >   		datasize = btrfs_file_extent_calc_inline_size(cur_size);
-> > > @@ -297,12 +298,10 @@ static int insert_inline_extent(struct btrfs_trans_handle *trans,
-> > >   		btrfs_set_file_extent_compression(leaf, ei,
-> > >   						  compress_type);
-> > >   	} else {
-> > > -		page = find_get_page(inode->i_mapping,
-> > > -				     start >> PAGE_SHIFT);
-> > > +		page = find_get_page(inode->i_mapping, 0);
-> > >   		btrfs_set_file_extent_compression(leaf, ei, 0);
-> > >   		kaddr = kmap_atomic(page);
-> > > -		offset = offset_in_page(start);
-> > > -		write_extent_buffer(leaf, kaddr + offset, ptr, size);
-> > > +		write_extent_buffer(leaf, kaddr, ptr, size);
-> > >   		kunmap_atomic(kaddr);
-> > >   		put_page(page);
-> > >   	}
-> > > @@ -313,8 +312,8 @@ static int insert_inline_extent(struct btrfs_trans_handle *trans,
-> > >   	 * We align size to sectorsize for inline extents just for simplicity
-> > >   	 * sake.
-> > >   	 */
-> > > -	size = ALIGN(size, root->fs_info->sectorsize);
-> > > -	ret = btrfs_inode_set_file_extent_range(BTRFS_I(inode), start, size);
-> > > +	ret = btrfs_inode_set_file_extent_range(BTRFS_I(inode), 0,
-> > > +					ALIGN(size, root->fs_info->sectorsize));
-> > >   	if (ret)
-> > >   		goto fail;
-> > > 
-> > > @@ -327,7 +326,13 @@ static int insert_inline_extent(struct btrfs_trans_handle *trans,
-> > >   	 * before we unlock the pages.  Otherwise we
-> > >   	 * could end up racing with unlink.
-> > >   	 */
-> > > -	BTRFS_I(inode)->disk_i_size = inode->i_size;
-> > > +	i_size = i_size_read(inode);
-> > > +	if (update_i_size && size > i_size) {
-> > > +		i_size_write(inode, size);
-> > > +		i_size = size;
-> > > +	}
-> > > +	BTRFS_I(inode)->disk_i_size = i_size;
-> > > +
-> > >   fail:
-> > >   	return ret;
-> > >   }
-> > > @@ -338,35 +343,31 @@ static int insert_inline_extent(struct btrfs_trans_handle *trans,
-> > >    * does the checks required to make sure the data is small enough
-> > >    * to fit as an inline extent.
-> > >    */
-> > > -static noinline int cow_file_range_inline(struct btrfs_inode *inode, u64 start,
-> > > -					  u64 end, size_t compressed_size,
-> > > +static noinline int cow_file_range_inline(struct btrfs_inode *inode, u64 size,
-> > > +					  size_t compressed_size,
-> > >   					  int compress_type,
-> > > -					  struct page **compressed_pages)
-> > > +					  struct page **compressed_pages,
-> > > +					  bool update_i_size)
-> > >   {
-> > >   	struct btrfs_drop_extents_args drop_args = { 0 };
-> > >   	struct btrfs_root *root = inode->root;
-> > >   	struct btrfs_fs_info *fs_info = root->fs_info;
-> > >   	struct btrfs_trans_handle *trans;
-> > > -	u64 isize = i_size_read(&inode->vfs_inode);
-> > > -	u64 actual_end = min(end + 1, isize);
-> > > -	u64 inline_len = actual_end - start;
-> > > -	u64 aligned_end = ALIGN(end, fs_info->sectorsize);
-> > > -	u64 data_len = inline_len;
-> > > +	u64 data_len = compressed_size ? compressed_size : size;
-> > >   	int ret;
-> > >   	struct btrfs_path *path;
-> > > 
-> > > -	if (compressed_size)
-> > > -		data_len = compressed_size;
-> > > -
-> > > -	if (start > 0 ||
-> > > -	    actual_end > fs_info->sectorsize ||
-> > > +	/*
-> > > +	 * We can create an inline extent if it ends at or beyond the current
-> > > +	 * i_size, is no larger than a sector (decompressed), and the (possibly
-> > > +	 * compressed) data fits in a leaf and the configured maximum inline
-> > > +	 * size.
-> > > +	 */
-> > 
-> > Urgh, just some days ago Qu was talking about how awkward it is to have
-> > mixed extents in a file. And now, AFAIU, you are making them more likely
-> > since now they can be created not just at the beginning of the file but
-> > also after i_size write. While this won't be a problem in and of itself
-> > it goes just the opposite way of us trying to shrink the possible cases
-> > when we can have mixed extents.
-> 
-> Tree-checker should reject such inline extent at non-zero offset.
+Linux distributions with CET are available now.  The patches being sent are
+regularly applied to upstream Linus tree and tested by Zero-day service and
+verified in all configurations of GLIBC tests.  In addition, Linux kernel
+selftests/x86 has been updated and run with CET enabled.  Selftests patches
+v2 will be sent separately [2].
 
-This change does not allow creating inline extents at a non-zero offset.
+Changes in v29:
+- Patch #5: Move CET MSR definitions up in msr-index.h.
+- Patch #6: Remove pr_emerg() from CP fault handler, since that is followed by die().
+- Patch #16: Remove likely().
+- Patch #25: Add WARN_ON_ONCE() when get_xsave_addr() returns NULL (Dave Hansen).
+- Rebased to Linus tree v5.14-rc6.
 
-> > Qu what is your take on that?
-> 
-> My question is, why encoded write needs to bother the inline extents at all?
-> 
-> My intuition of such encoded write is, it should not create inline
-> extents at all.
-> 
-> Or is there any special use-case involved for encoded write?
+Changes in v28:
+- Patch #1: Update Document to indicate no-user-shstk also disables IBT.
+- Patch #23: Update shstk_setup() with wrmsrl_safe().  Update return value.
+- Patch #25: Split out copy_thread() changes.  Add support for old clone().
+  Add comments.
+- Add comments for get_xsave_addr() (Patch #25, #26).
+- Rebase to Linus tree v5.14-rc2.
 
-We create compressed inline extents with normal writes. We should be
-able to send and receive them without converting them into regular
-extents.
+Changes in v27:
+- Eliminate signal context extension structure.  Simplify signal handling.
+- Add a new patch to move VM_UFFD_MINOR_BIT to 38.
+- Smaller changes are in each patch's log.
+- Rebase to Linus tree v5.13-rc2.
+
+[1] Intel 64 and IA-32 Architectures Software Developer's Manual:
+
+    https://software.intel.com/en-us/download/intel-64-and-ia-32-
+    architectures-sdm-combined-volumes-1-2a-2b-2c-2d-3a-3b-3c-3d-and-4
+
+[2] Selftests patches v1:
+
+    https://lkml.kernel.org/r/20200521211720.20236-1-yu-cheng.yu@intel.com/
+
+Yu-cheng Yu (32):
+  Documentation/x86: Add CET description
+  x86/cet/shstk: Add Kconfig option for Shadow Stack
+  x86/cpufeatures: Add CET CPU feature flags for Control-flow
+    Enforcement Technology (CET)
+  x86/cpufeatures: Introduce CPU setup and option parsing for CET
+  x86/fpu/xstate: Introduce CET MSR and XSAVES supervisor states
+  x86/cet: Add control-protection fault handler
+  x86/mm: Remove _PAGE_DIRTY from kernel RO pages
+  x86/mm: Move pmd_write(), pud_write() up in the file
+  x86/mm: Introduce _PAGE_COW
+  drm/i915/gvt: Change _PAGE_DIRTY to _PAGE_DIRTY_BITS
+  x86/mm: Update pte_modify for _PAGE_COW
+  x86/mm: Update ptep_set_wrprotect() and pmdp_set_wrprotect() for
+    transition from _PAGE_DIRTY to _PAGE_COW
+  mm: Move VM_UFFD_MINOR_BIT from 37 to 38
+  mm: Introduce VM_SHADOW_STACK for shadow stack memory
+  x86/mm: Shadow Stack page fault error checking
+  x86/mm: Update maybe_mkwrite() for shadow stack
+  mm: Fixup places that call pte_mkwrite() directly
+  mm: Add guard pages around a shadow stack.
+  mm/mmap: Add shadow stack pages to memory accounting
+  mm: Update can_follow_write_pte() for shadow stack
+  mm/mprotect: Exclude shadow stack from preserve_write
+  mm: Re-introduce vm_flags to do_mmap()
+  x86/cet/shstk: Add user-mode shadow stack support
+  x86/process: Change copy_thread() argument 'arg' to 'stack_size'
+  x86/cet/shstk: Handle thread shadow stack
+  x86/cet/shstk: Introduce shadow stack token setup/verify routines
+  x86/cet/shstk: Handle signals for shadow stack
+  ELF: Introduce arch_setup_elf_property()
+  x86/cet/shstk: Add arch_prctl functions for shadow stack
+  mm: Move arch_calc_vm_prot_bits() to arch/x86/include/asm/mman.h
+  mm: Update arch_validate_flags() to test vma anonymous
+  mm: Introduce PROT_SHADOW_STACK for shadow stack
+
+ .../admin-guide/kernel-parameters.txt         |   7 +
+ Documentation/filesystems/proc.rst            |   1 +
+ Documentation/x86/index.rst                   |   1 +
+ Documentation/x86/intel_cet.rst               | 139 +++++++
+ arch/arm64/include/asm/elf.h                  |   5 +
+ arch/arm64/include/asm/mman.h                 |   4 +-
+ arch/sparc/include/asm/mman.h                 |   4 +-
+ arch/x86/Kconfig                              |  24 ++
+ arch/x86/Kconfig.assembler                    |   5 +
+ arch/x86/ia32/ia32_signal.c                   |  25 +-
+ arch/x86/include/asm/cet.h                    |  53 +++
+ arch/x86/include/asm/cpufeatures.h            |   2 +
+ arch/x86/include/asm/disabled-features.h      |   8 +-
+ arch/x86/include/asm/elf.h                    |  11 +
+ arch/x86/include/asm/fpu/types.h              |  23 +-
+ arch/x86/include/asm/fpu/xstate.h             |   6 +-
+ arch/x86/include/asm/idtentry.h               |   4 +
+ arch/x86/include/asm/mman.h                   |  88 ++++
+ arch/x86/include/asm/mmu_context.h            |   3 +
+ arch/x86/include/asm/msr-index.h              |  20 +
+ arch/x86/include/asm/page_types.h             |   7 +
+ arch/x86/include/asm/pgtable.h                | 300 ++++++++++++--
+ arch/x86/include/asm/pgtable_types.h          |  48 ++-
+ arch/x86/include/asm/processor.h              |   5 +
+ arch/x86/include/asm/special_insns.h          |  30 ++
+ arch/x86/include/asm/trap_pf.h                |   2 +
+ arch/x86/include/uapi/asm/mman.h              |  28 +-
+ arch/x86/include/uapi/asm/prctl.h             |   4 +
+ arch/x86/include/uapi/asm/processor-flags.h   |   2 +
+ arch/x86/kernel/Makefile                      |   2 +
+ arch/x86/kernel/cet_prctl.c                   |  60 +++
+ arch/x86/kernel/cpu/common.c                  |  14 +
+ arch/x86/kernel/cpu/cpuid-deps.c              |   2 +
+ arch/x86/kernel/fpu/xstate.c                  |  11 +-
+ arch/x86/kernel/idt.c                         |   4 +
+ arch/x86/kernel/process.c                     |  21 +-
+ arch/x86/kernel/process_64.c                  |  27 ++
+ arch/x86/kernel/shstk.c                       | 377 ++++++++++++++++++
+ arch/x86/kernel/signal.c                      |  13 +
+ arch/x86/kernel/signal_compat.c               |   2 +-
+ arch/x86/kernel/traps.c                       |  62 +++
+ arch/x86/mm/fault.c                           |  19 +
+ arch/x86/mm/mmap.c                            |  48 +++
+ arch/x86/mm/pat/set_memory.c                  |   2 +-
+ arch/x86/mm/pgtable.c                         |  25 ++
+ drivers/gpu/drm/i915/gvt/gtt.c                |   2 +-
+ fs/aio.c                                      |   2 +-
+ fs/binfmt_elf.c                               |   4 +
+ fs/proc/task_mmu.c                            |   3 +
+ include/linux/elf.h                           |   6 +
+ include/linux/mm.h                            |  20 +-
+ include/linux/mman.h                          |   2 +-
+ include/linux/pgtable.h                       |   7 +
+ include/uapi/asm-generic/siginfo.h            |   3 +-
+ include/uapi/linux/elf.h                      |  14 +
+ ipc/shm.c                                     |   2 +-
+ mm/gup.c                                      |  16 +-
+ mm/huge_memory.c                              |  27 +-
+ mm/memory.c                                   |   5 +-
+ mm/migrate.c                                  |   3 +-
+ mm/mmap.c                                     |  17 +-
+ mm/mprotect.c                                 |  11 +-
+ mm/nommu.c                                    |   4 +-
+ mm/util.c                                     |   2 +-
+ 64 files changed, 1583 insertions(+), 115 deletions(-)
+ create mode 100644 Documentation/x86/intel_cet.rst
+ create mode 100644 arch/x86/include/asm/cet.h
+ create mode 100644 arch/x86/include/asm/mman.h
+ create mode 100644 arch/x86/kernel/cet_prctl.c
+ create mode 100644 arch/x86/kernel/shstk.c
+
+-- 
+2.21.0
+
