@@ -2,35 +2,37 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 582273F3609
-	for <lists+linux-api@lfdr.de>; Fri, 20 Aug 2021 23:29:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91C4B3F3678
+	for <lists+linux-api@lfdr.de>; Sat, 21 Aug 2021 00:32:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237534AbhHTVaP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 20 Aug 2021 17:30:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59602 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231761AbhHTVaO (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 20 Aug 2021 17:30:14 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3DDF461102;
-        Fri, 20 Aug 2021 21:29:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629494976;
-        bh=CSpxkRr0njJFwn1bNyK1M/lOW65Uuk1c0JklPI8xo7w=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=paHJbV4aD+5TZGOJ6zZf6GRISmKjaaMLmZ5WgIftKEepMQlOUns10X8IPDExdOOjN
-         M/+2s9X8hIT0bzVhH2fJEWiuiA3DReUbBZJoMKhaDOClD3nTHIWlYB3Z64nnt3IhjL
-         Qhyaur14Ly1nMotZUaNZOApgaDumSL5frA7f9XxVB79HQOiVXHYr7NQQccH4YDlqrf
-         pCmUTnDPPVkixLdijZ31QqSe4oSUdYj8fOH7Z0pokJ7Kbt2XwdSi/ylF1dTttV1iS0
-         eVX16h4vU8/pa8yUqM7lcwkLKoy6p1J7oOXmydwT/haVOnxxqpZGiI5kpbF4jOXCLq
-         SEYYNJYbWsn5w==
-Message-ID: <8a6737f9fa2dd3b8b9d851064cd28ca57e489a77.camel@kernel.org>
-Subject: Re: Removing Mandatory Locks
-From:   Jeff Layton <jlayton@kernel.org>
-To:     "H. Peter Anvin" <hpa@zytor.com>,
-        Kees Cook <keescook@chromium.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
-        Matthew Wilcox <willy@infradead.org>,
+        id S229642AbhHTWdJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 20 Aug 2021 18:33:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33690 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229451AbhHTWdI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 20 Aug 2021 18:33:08 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AE86C061575;
+        Fri, 20 Aug 2021 15:32:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=Rqd7XZjlI+nNgy4uwpEVUNLUjFWyJ9EMV7pUgmSDTMM=; b=ScMaiyryPuwarKlOD4teq+Ru/Q
+        wv7TrfDsI7YN5IkHpuXdP0Wz99OxXtNoibwbOYSZbJ7N/oL+yem9/3XsoJyK2D+YWGJrCnnYQvm2h
+        qV30W6G8LNquDniLNXz/nRBs3Z1mAmvdDTgC3MNIppohKZUExmN+apIfxJLHksWCOa67p9+1GwAuh
+        f5FvMDA9G9rWZohHRQWV2w5pTT+FyUrnAdFCPsE/FSuCVG8+VoKxMjs+4JrS//xNOW5rk5cS4DPj4
+        aS2Ets2iO3kIAh6Tftnn5hacmQmzeoMaQKS211gaqDIdFYqQE6lpkb8D8CRtzCNTSla6apcYpJdV8
+        SrI9ABTQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mHD2X-0073QU-D1; Fri, 20 Aug 2021 22:31:21 +0000
+Date:   Fri, 20 Aug 2021 23:31:05 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     "H. Peter Anvin" <hpa@zytor.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jeff Layton <jlayton@kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
         Andy Lutomirski <luto@kernel.org>,
         David Laight <David.Laight@aculab.com>,
         David Hildenbrand <david@redhat.com>,
@@ -80,7 +82,7 @@ Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
         Michal Hocko <mhocko@suse.com>,
         Miklos Szeredi <miklos@szeredi.hu>,
         Chengguang Xu <cgxu519@mykernel.net>,
-        Christian =?ISO-8859-1?Q?K=F6nig?= 
+        Christian =?iso-8859-1?Q?K=F6nig?= 
         <ckoenig.leichtzumerken@gmail.com>,
         "linux-unionfs@vger.kernel.org" <linux-unionfs@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
@@ -89,66 +91,28 @@ Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
         Linux-MM <linux-mm@kvack.org>,
         Florian Weimer <fweimer@redhat.com>,
         Michael Kerrisk <mtk.manpages@gmail.com>
-Date:   Fri, 20 Aug 2021 17:29:30 -0400
-In-Reply-To: <D2325492-F4DD-4E7A-B4F1-0E595FF2469A@zytor.com>
-References: <CAHk-=wgru1UAm3kAKSOdnbewPXQMOxYkq9PnAsRadAC6pXCCMQ@mail.gmail.com>
-         <87eeay8pqx.fsf@disp2133>
-         <5b0d7c1e73ca43ef9ce6665fec6c4d7e@AcuMS.aculab.com>
-         <87h7ft2j68.fsf@disp2133>
-         <CAHk-=whmXTiGUzVrTP=mOPQrg-XOi3R-45hC4dQOqW4JmZdFUQ@mail.gmail.com>
-         <b629cda1-becd-4725-b16c-13208ff478d3@www.fastmail.com>
-         <YRcyqbpVqwwq3P6n@casper.infradead.org> <87k0kkxbjn.fsf_-_@disp2133>
-         <0c2af732e4e9f74c9d20b09fc4b6cbae40351085.camel@kernel.org>
-         <CAHk-=wgewmbABDC3_ZNn11C+sm4Uz0L9HZ5Kvx0Joho4vsV4DQ@mail.gmail.com>
-         <202108200905.BE8AF7C@keescook>
-         <D2325492-F4DD-4E7A-B4F1-0E595FF2469A@zytor.com>
-Content-Type: text/plain; charset="ISO-8859-15"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Subject: Re: Removing Mandatory Locks
+Message-ID: <YSAtKesNFlSIhHar@casper.infradead.org>
+References: <5b0d7c1e73ca43ef9ce6665fec6c4d7e@AcuMS.aculab.com>
+ <87h7ft2j68.fsf@disp2133>
+ <CAHk-=whmXTiGUzVrTP=mOPQrg-XOi3R-45hC4dQOqW4JmZdFUQ@mail.gmail.com>
+ <b629cda1-becd-4725-b16c-13208ff478d3@www.fastmail.com>
+ <YRcyqbpVqwwq3P6n@casper.infradead.org>
+ <87k0kkxbjn.fsf_-_@disp2133>
+ <0c2af732e4e9f74c9d20b09fc4b6cbae40351085.camel@kernel.org>
+ <CAHk-=wgewmbABDC3_ZNn11C+sm4Uz0L9HZ5Kvx0Joho4vsV4DQ@mail.gmail.com>
+ <202108200905.BE8AF7C@keescook>
+ <D2325492-F4DD-4E7A-B4F1-0E595FF2469A@zytor.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <D2325492-F4DD-4E7A-B4F1-0E595FF2469A@zytor.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-No, Windows has deny-mode locking at open time, but the kernel's
-mandatory locks are enforced during read/write (which is why they are
-such a pain). Samba will not miss these at all.
-
-If we want something to provide windows-like semantics, we'd probably
-want to start with something like Pavel Shilovsky's O_DENY_* patches.
-
--- Jeff
-
-On Fri, 2021-08-20 at 12:17 -0700, H. Peter Anvin wrote:
+On Fri, Aug 20, 2021 at 12:17:49PM -0700, H. Peter Anvin wrote:
 > I thought the main user was Samba and/or otherwise providing file service for M$ systems?
-> 
-> On August 20, 2021 9:30:31 AM PDT, Kees Cook <keescook@chromium.org> wrote:
-> > On Thu, Aug 19, 2021 at 12:15:08PM -0700, Linus Torvalds wrote:
-> > > On Thu, Aug 19, 2021 at 11:39 AM Jeff Layton <jlayton@kernel.org> wrote:
-> > > > 
-> > > > I'm all for ripping it out too. It's an insane interface anyway.
-> > > > 
-> > > > I've not heard a single complaint about this being turned off in
-> > > > fedora/rhel or any other distro that has this disabled.
-> > > 
-> > > I'd love to remove it, we could absolutely test it. The fact that
-> > > several major distros have it disabled makes me think it's fine.
-> > 
-> > FWIW, it is now disabled in Ubuntu too:
-> > 
-> > https://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/impish/commit/?h=master-next&id=f3aac5e47789cbeb3177a14d3d2a06575249e14b
-> > 
-> > > But as always, it would be good to check Android.
-> > 
-> > It looks like it's enabled (checking the Pixel 4 kernel image), but it's
-> > not specifically mentioned in any of the build configs that are used to
-> > construct the image, so I think this is just catching the "default y". I
-> > expect it'd be fine to turn this off.
-> > 
-> > I will ask around to see if it's actually used.
-> > 
-> 
 
--- 
-Jeff Layton <jlayton@kernel.org>
-
+When I asked around about this in ~2001, the only example anyoe was able
+to come up with was some database that I no longer remember the name of.
