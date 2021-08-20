@@ -2,73 +2,35 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D6A53F2322
-	for <lists+linux-api@lfdr.de>; Fri, 20 Aug 2021 00:33:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE1AA3F24A8
+	for <lists+linux-api@lfdr.de>; Fri, 20 Aug 2021 04:14:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235854AbhHSWdi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 19 Aug 2021 18:33:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43148 "EHLO
+        id S237293AbhHTCOp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 19 Aug 2021 22:14:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232906AbhHSWdh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Aug 2021 18:33:37 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4D4BC061756
-        for <linux-api@vger.kernel.org>; Thu, 19 Aug 2021 15:33:00 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id n6so13968979ljp.9
-        for <linux-api@vger.kernel.org>; Thu, 19 Aug 2021 15:33:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=d7xFbb+3EvqQGpxyml4JHHWLdIJirfcFBHOQItDEp7E=;
-        b=WJcRZ5ECnMTu5Q30pfx/0sVzarr1xcPILRNADM84n9O0Z5vxSCIEUyI67jzVtA2erg
-         2u4KECFy2YAYP9QfFCE1KRjE+0ldOJD2qybITXQz3MnjYBy7U8BGR/S3O2zpZU3ODREn
-         vt5dXowvmoFxXKfn8qNFotVfe953q+8cvuBsw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=d7xFbb+3EvqQGpxyml4JHHWLdIJirfcFBHOQItDEp7E=;
-        b=Ur0qvDODHOv1F5yraPtcI3oLV5xsFKGwGvL0xyH0B76vFbFHPeoKJdLs5bOOuGmTRU
-         vqMoDE6slLFUewWCj/KTeMYcAMf+B+vqDROkrB/uy/mVuYEu1nUprmP356VAeqo2kJ4t
-         +ovM/W6y4aEenzV/AZ4OgUA6r9NI5Clh8FcYBQe8UNtp3VL2BJv0aJtwa6k/FxMqgm6z
-         Aa5BAXfnEUV3NxF/TNJkmZ8x33xUCaJTaQfKwXy/OT1FETXVkmK/niXkAFoHNgndR4lg
-         lyyP03Y9vlDLM98lKXPZjHXC8X7TMYh6nLBVPWL4jbCqx2FNDGDKemJ9Rx9x2+f8hPCZ
-         tFXQ==
-X-Gm-Message-State: AOAM531e8gwM+9qeiMazwcHe3IofQXgtgHiO7x2fqVdgF+ykpUy7Ry+H
-        JSRQao4rN5N/BY6FKdOXL7y6kiAjliF6nRyttoM=
-X-Google-Smtp-Source: ABdhPJz2qJDCNWMjRcLbCcqzlX2k0mUgaoW+wmhagCzgXek6/9XD5RrILaHQSBaoRReCtkBK5rmavA==
-X-Received: by 2002:a2e:b52c:: with SMTP id z12mr13657470ljm.271.1629412379082;
-        Thu, 19 Aug 2021 15:32:59 -0700 (PDT)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
-        by smtp.gmail.com with ESMTPSA id x14sm478371lfg.220.2021.08.19.15.32.58
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Aug 2021 15:32:58 -0700 (PDT)
-Received: by mail-lj1-f169.google.com with SMTP id w4so12501092ljh.13
-        for <linux-api@vger.kernel.org>; Thu, 19 Aug 2021 15:32:58 -0700 (PDT)
-X-Received: by 2002:a2e:557:: with SMTP id 84mr13704523ljf.507.1629412367774;
- Thu, 19 Aug 2021 15:32:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210812084348.6521-1-david@redhat.com> <87o8a2d0wf.fsf@disp2133>
- <60db2e61-6b00-44fa-b718-e4361fcc238c@www.fastmail.com> <87lf56bllc.fsf@disp2133>
- <CAHk-=wgru1UAm3kAKSOdnbewPXQMOxYkq9PnAsRadAC6pXCCMQ@mail.gmail.com>
- <87eeay8pqx.fsf@disp2133> <5b0d7c1e73ca43ef9ce6665fec6c4d7e@AcuMS.aculab.com>
- <87h7ft2j68.fsf@disp2133> <CAHk-=whmXTiGUzVrTP=mOPQrg-XOi3R-45hC4dQOqW4JmZdFUQ@mail.gmail.com>
- <b629cda1-becd-4725-b16c-13208ff478d3@www.fastmail.com> <YRcyqbpVqwwq3P6n@casper.infradead.org>
- <87k0kkxbjn.fsf_-_@disp2133> <0c2af732e4e9f74c9d20b09fc4b6cbae40351085.camel@kernel.org>
- <CAHk-=wgewmbABDC3_ZNn11C+sm4Uz0L9HZ5Kvx0Joho4vsV4DQ@mail.gmail.com>
- <a1385746582a675c410aca4eb4947320faec4821.camel@kernel.org>
- <CAHk-=wgD-SNxB=2iCurEoP=RjrciRgLtXZ7R_DejK+mXF2etfg@mail.gmail.com> <639d90212662cf5cdf80c71bbfec95907c70114a.camel@kernel.org>
-In-Reply-To: <639d90212662cf5cdf80c71bbfec95907c70114a.camel@kernel.org>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu, 19 Aug 2021 15:32:31 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgHbYmUZvFkthGJ6zZx+ofTiiTRxPai5mPkmbtE=6JbaQ@mail.gmail.com>
-Message-ID: <CAHk-=wgHbYmUZvFkthGJ6zZx+ofTiiTRxPai5mPkmbtE=6JbaQ@mail.gmail.com>
-Subject: Re: Removing Mandatory Locks
-To:     Jeff Layton <jlayton@kernel.org>
-Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
-        Matthew Wilcox <willy@infradead.org>,
+        with ESMTP id S234768AbhHTCOo (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 19 Aug 2021 22:14:44 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2F99C061575;
+        Thu, 19 Aug 2021 19:14:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=XSjREASVEvDR589eO6Ijn0bZU+wzCen1b/RgVCWKb2s=; b=H4jwt/iwZH+J07Ms0xFu4grwYh
+        6omomnqIBNoFTTCWp0YdBtyQp6jA2olzsf31U0XPG+HjMeaBZRs6AKaozY0P7j9wsPCCKMHV+vcER
+        8z9egjZURpkPkQH/OQxf1R97pwRN+turgoLRoTu0EcSh+eFkmshp0nG2kC+CinoDpwFLYTez5MVIE
+        dnAwHIZ49meqESwtfsgqjqkWTTWhSQ0k+MoZ9+W5hfZduTGkhy+4t9GN3vIkMiqrAqjoUGsRUvudq
+        AKOjDs5LHGbOnIPKy8zq1pyp9gmQPn4If4jfhDdgb3xEpRCGi3fZQsC8utNkSpZz5H8cEI5OeYP4Z
+        pYYnbQdQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mGtys-005stK-2d; Fri, 20 Aug 2021 02:10:21 +0000
+Date:   Fri, 20 Aug 2021 03:10:02 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Jeff Layton <jlayton@kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
         Andy Lutomirski <luto@kernel.org>,
         David Laight <David.Laight@aculab.com>,
         David Hildenbrand <david@redhat.com>,
@@ -120,35 +82,71 @@ Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
         Michal Hocko <mhocko@suse.com>,
         Miklos Szeredi <miklos@szeredi.hu>,
         Chengguang Xu <cgxu519@mykernel.net>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>,
         "linux-unionfs@vger.kernel.org" <linux-unionfs@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
         "<linux-fsdevel@vger.kernel.org>" <linux-fsdevel@vger.kernel.org>,
         Linux-MM <linux-mm@kvack.org>,
         Florian Weimer <fweimer@redhat.com>,
         Michael Kerrisk <mtk.manpages@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: Removing Mandatory Locks
+Message-ID: <YR8O+khCJnHZw0rs@casper.infradead.org>
+References: <5b0d7c1e73ca43ef9ce6665fec6c4d7e@AcuMS.aculab.com>
+ <87h7ft2j68.fsf@disp2133>
+ <CAHk-=whmXTiGUzVrTP=mOPQrg-XOi3R-45hC4dQOqW4JmZdFUQ@mail.gmail.com>
+ <b629cda1-becd-4725-b16c-13208ff478d3@www.fastmail.com>
+ <YRcyqbpVqwwq3P6n@casper.infradead.org>
+ <87k0kkxbjn.fsf_-_@disp2133>
+ <0c2af732e4e9f74c9d20b09fc4b6cbae40351085.camel@kernel.org>
+ <CAHk-=wgewmbABDC3_ZNn11C+sm4Uz0L9HZ5Kvx0Joho4vsV4DQ@mail.gmail.com>
+ <a1385746582a675c410aca4eb4947320faec4821.camel@kernel.org>
+ <CAHk-=wgD-SNxB=2iCurEoP=RjrciRgLtXZ7R_DejK+mXF2etfg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wgD-SNxB=2iCurEoP=RjrciRgLtXZ7R_DejK+mXF2etfg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Aug 19, 2021 at 2:43 PM Jeff Layton <jlayton@kernel.org> wrote:
->
-> What sort of big, ugly warning did you have in mind?
+On Thu, Aug 19, 2021 at 01:31:35PM -0700, Linus Torvalds wrote:
+> Yes, yes, currently if you turn off CONFIG_MANDATORY_FILE_LOCKING, we
+> already do that
+> 
+>         VFS: "mand" mount option not supported
+> 
+> warning print, but then we fail the mount.
+> 
+> If CONFIG_MANDATORY_FILE_LOCKING goes away entirely, it might make
+> sense to turn that warning into something bigger, but then let the
+> mount continue - since now that "mand" flag would be purely a legacy
+> thing.
+> 
+> And yes, if we do that, we'd want the warning to be a big ugly thing,
+> just to make people very aware of it happening. Right now it's a
+> one-liner that is easy to miss, and the "oh, the mount failed" is the
+> thing that hopefully informs people about the fact that they need to
+> enable CONFIG_MANDATORY_FILE_LOCKING.
 
-I originally thought WARN_ON_ONCE() just to get the distro automatic
-error handling involved, but it would probably be a big problem for
-the people who end up having panic-on-warn or something.
+When I ripped out the NFS "intr" mount option fourteen years ago,
+I just turned it into a noop (commit 150030b78a45).  It has greatly
+amused me every article I've read that's been written since then
+that recommends using it.  Just shows how much tribal knowledge we
+have.
 
-So probably just a "make it a big box" thing that stands out, kind of
-what lockdep etc does with
+I think this is a little different, though; I was essetially making the
+*wanted* behaviour of 'intr' the default (and disabling the unwanted
+behaviour).  With 'mand', we're losing the behaviour entirely, and it's
+plausible that someone might care.  Maybe something more like the old
+sys_bdflush implementation?
 
-        pr_warn("======...====\n");
+        if (msg_count < 5) {
+                msg_count++;
+                printk(KERN_INFO
+                        "warning: process `%s' used the obsolete bdflush"
+                        " system call\n", current->comm);
+                printk(KERN_INFO "Fix your initscripts?\n");
+        }
 
-around the messages..
-
-I don't know if distros have some pattern we could use that would end
-up being something that gets reported to the user?
-
-              Linus
