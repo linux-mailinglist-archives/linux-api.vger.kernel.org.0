@@ -2,161 +2,135 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A3DF3F37E2
-	for <lists+linux-api@lfdr.de>; Sat, 21 Aug 2021 03:11:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 527843F3AAD
+	for <lists+linux-api@lfdr.de>; Sat, 21 Aug 2021 14:46:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240893AbhHUBMW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 20 Aug 2021 21:12:22 -0400
-Received: from mout.gmx.net ([212.227.15.19]:55623 "EHLO mout.gmx.net"
+        id S229844AbhHUMqk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 21 Aug 2021 08:46:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48706 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229783AbhHUBMW (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 20 Aug 2021 21:12:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1629508297;
-        bh=rsF/9Y1W4s1enmJfcUq4mHsHRWaNu+mxRl2OdfIvAgA=;
-        h=X-UI-Sender-Class:To:Cc:References:From:Subject:Date:In-Reply-To;
-        b=g793vqVgDJaWziIvPveR3zO42yA25TL4ZoStHPtjuGCPiV/EtCjx0ylNALT8fgUUC
-         tD4nB5Q3TBJJB774AV0M758IkZUb5dLjLd7iFitlE+8eOO3OSewA/Yh3I6lvnbvbJ3
-         /tyJVXanAE1Er6advmrfEm1X7GSSqBcUPYO5AeyE=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [0.0.0.0] ([149.28.201.231]) by mail.gmx.net (mrgmx004
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1MWics-1mWbcL1syW-00X57a; Sat, 21
- Aug 2021 03:11:37 +0200
-To:     Omar Sandoval <osandov@osandov.com>
-Cc:     Nikolay Borisov <nborisov@suse.com>, linux-btrfs@vger.kernel.org,
-        kernel-team@fb.com, linux-fsdevel@vger.kernel.org,
+        id S229722AbhHUMqj (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Sat, 21 Aug 2021 08:46:39 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 26DB461222;
+        Sat, 21 Aug 2021 12:45:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1629549960;
+        bh=BWRBpnQrNoRcs319+vTr8OUV7hK/02HoruNC5g/r9g8=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=fa7ZeHuGl+4XP1WpEyzmi5hufYrREjDgNdRg4U3s/96SFCEqdGYDGUtBnHEuVeQqG
+         15E2/qqommNNVF93RIEDLEQP4hibseJYGAbILdAXC/LwejAZfgBOGT6SdESXBfYcDN
+         cd7+Xd17PsJ2c9mp9buI/usXYtVu6bkO7afSWz4635iAHyaAYKSzDM3WPhavCSsRv0
+         ClTsJRXKpG8hsODsdUHQ/aV4CV1rhOspJM2fWX2hRqBJCYHxYAYyp8at738ytBtNYE
+         0IToQvyCx1mwLtuRTjN4k+vGA4g035zp2YTFthSWuCdKxQhCRB0nph9IOGgywfzekG
+         j3T7MrokxJRCg==
+Message-ID: <18b073b95d692f4c7782c68de1f803681c15a467.camel@kernel.org>
+Subject: Re: Removing Mandatory Locks
+From:   Jeff Layton <jlayton@kernel.org>
+To:     "H. Peter Anvin" <hpa@zytor.com>,
+        Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        David Laight <David.Laight@aculab.com>,
+        David Hildenbrand <david@redhat.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Al Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-api@vger.kernel.org, Qu Wenruo <wqu@suse.com>
-References: <cover.1629234193.git.osandov@fb.com>
- <a00b59623219c8a07f2c22f80ef1466d0f182d77.1629234193.git.osandov@fb.com>
- <1b495420-f4c6-6988-c0b1-9aa8a7aa952d@suse.com>
- <2eae3b11-d9aa-42b1-122e-49bd40258d9b@gmx.com>
- <YR/wQPJcv25vPIp7@relinquished.localdomain>
-From:   Qu Wenruo <quwenruo.btrfs@gmx.com>
-Subject: Re: [PATCH v10 06/14] btrfs: optionally extend i_size in
- cow_file_range_inline()
-Message-ID: <d7e302f9-7230-0065-c908-86c10d77d738@gmx.com>
-Date:   Sat, 21 Aug 2021 09:11:26 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Chinwen Chang <chinwen.chang@mediatek.com>,
+        Michel Lespinasse <walken@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Huang Ying <ying.huang@intel.com>,
+        Jann Horn <jannh@google.com>, Feng Tang <feng.tang@intel.com>,
+        Kevin Brodsky <Kevin.Brodsky@arm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Shawn Anastasio <shawn@anastas.io>,
+        Steven Price <steven.price@arm.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        Peter Xu <peterx@redhat.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Marco Elver <elver@google.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Nicolas Viennot <Nicolas.Viennot@twosigma.com>,
+        Thomas Cedeno <thomascedeno@google.com>,
+        Collin Fijalkovich <cfijalkovich@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Chengguang Xu <cgxu519@mykernel.net>,
+        Christian =?ISO-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>,
+        "linux-unionfs@vger.kernel.org" <linux-unionfs@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "<linux-fsdevel@vger.kernel.org>" <linux-fsdevel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Date:   Sat, 21 Aug 2021 08:45:54 -0400
+In-Reply-To: <8a6737f9fa2dd3b8b9d851064cd28ca57e489a77.camel@kernel.org>
+References: <CAHk-=wgru1UAm3kAKSOdnbewPXQMOxYkq9PnAsRadAC6pXCCMQ@mail.gmail.com>
+         <87eeay8pqx.fsf@disp2133>
+         <5b0d7c1e73ca43ef9ce6665fec6c4d7e@AcuMS.aculab.com>
+         <87h7ft2j68.fsf@disp2133>
+         <CAHk-=whmXTiGUzVrTP=mOPQrg-XOi3R-45hC4dQOqW4JmZdFUQ@mail.gmail.com>
+         <b629cda1-becd-4725-b16c-13208ff478d3@www.fastmail.com>
+         <YRcyqbpVqwwq3P6n@casper.infradead.org> <87k0kkxbjn.fsf_-_@disp2133>
+         <0c2af732e4e9f74c9d20b09fc4b6cbae40351085.camel@kernel.org>
+         <CAHk-=wgewmbABDC3_ZNn11C+sm4Uz0L9HZ5Kvx0Joho4vsV4DQ@mail.gmail.com>
+         <202108200905.BE8AF7C@keescook>
+         <D2325492-F4DD-4E7A-B4F1-0E595FF2469A@zytor.com>
+         <8a6737f9fa2dd3b8b9d851064cd28ca57e489a77.camel@kernel.org>
+Content-Type: text/plain; charset="ISO-8859-15"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-In-Reply-To: <YR/wQPJcv25vPIp7@relinquished.localdomain>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:tzl6/9YY2KjiUvi9znImUVGUZC+JDucaRnNpDPUYlX0PtGesSmH
- gM1lE6SiNcGQPuCHr7cJ01lxfUMsApgYpSxwk97dXKu+hS0B/zCHPoM0Lp6ntuwtJf0M7Ix
- C0KMwRj668judAheWL4iqoxWl347QP9ndaWGhTYdD/4iKYMitMmVmJF9rmJJ+RyAmqEl+St
- ifvMetmP0cYGsU4EFi8NA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:idshmnk7gLU=:lriiHwSXKZR5/OrHIHhgfV
- TQ5WnIqEkTa1NJWP3yc7pbQI4isq60A/3ZxaqJm2l4ieHIo1spF6WzNlKpIj6UNnqfoBv63GC
- hN9TOKw/TrOo8F3+8EtVDJVf3j+OM3aUVqLMHgnZbKWEIrtpiQIPgfLfcoWjZhKPyVCHVUTN8
- hJr54x3WxrwIJ7Q/r3BB7RiHGEuTEPV9njxUZkTDOth7Ib7RKTF39sFRn9G/4tCKL9uvaaqDY
- lg9k981Ell1x9HHGBEcmw/f1Kxkidr5zb3s1wCyUWMdqyw3A3PBWOoqR436mOm0cFljnzewLR
- 0RLBRxPjIpQbUNuvD1EwdXNNYJVWMdcBDER8eo+/rzbbV/DtJlzRDzsrYhwWpg0EVQAfliR+1
- vBIl4PkfPUq82Q3JjU4WeF0R/e8U0FmdRJAoBbeGaUZ0z3pOexN8rb6nL6OrlfLxjMnyQd4Bd
- Cs/83jNjkZ2W3rQJuL8SFWdnkDU8MNRqV/DfCuLxj9p3ZNeZvNYufRqwIWYX4UaNPTh2l4F8l
- VFft66kDQZG9d7BNPg/+DUKW9m09ubgZwmu7MfRmVS+VSp2UUPPhhIqnyY1vENSOR1OSM90D7
- UPKTXdZe3kGBDQM87+1kqmeXKVpko8oVx4QhchgTtoWgczXkbDxKFdMrU312gJyTnuSH0YsZC
- iWR0vrY3a2aELbel1cplsNGKy4QYrAjNyYC35uegG7UN4jFKcU6wFcHXWpIbMsvKSyYnls8Qx
- nxlssSQPy7yzLXKVbbDuKy5Vv875AqyQB5cjsS5AtnlUbHxI/Ww3xlblR88ntNjp3AJXOrJoI
- PY0HZJU0Y9+A03xUE3SNoMysmhcEIRIZPlc31kNdFg8/Ds7Yal7MBC2Ca5H4LbCCWdg/gpoRb
- a04lE6xyqJ0gE5qsABqbdW0/FAtLki1HpCdNEQtxrou8p+9d9NiHWOqQPg+moOVuoo/CgXU8N
- hA/vKavZ8LsvMXl43+xqS5DxFCFudbCmxP5dag1v70K1Wtp0C1ZGk+wrig4pFjJ4qm50W+G22
- 5lHOz7fwzPNJCXOvYHOB3GNzg0XEqQ3+smxA1SrKAouxA2o9FBESuOS7NRMz0su9TQeeOUtUi
- y1DuDEq8Ct7UZGC+znvi4eNyZVolm/mNuHn4cVDtvoGamRbW55FHsNtEQ==
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Fri, 2021-08-20 at 17:29 -0400, Jeff Layton wrote:
+> No, Windows has deny-mode locking at open time, but the kernel's
+> mandatory locks are enforced during read/write (which is why they are
+> such a pain). Samba will not miss these at all.
+> 
+> If we want something to provide windows-like semantics, we'd probably
+> want to start with something like Pavel Shilovsky's O_DENY_* patches.
+> 
+> -- Jeff
+> 
 
+Doh! It completely slipped my mind about byte-range locks on windows...
 
-On 2021/8/21 =E4=B8=8A=E5=8D=882:11, Omar Sandoval wrote:
-> On Fri, Aug 20, 2021 at 05:13:34PM +0800, Qu Wenruo wrote:
->>
->>
->> On 2021/8/20 =E4=B8=8B=E5=8D=884:51, Nikolay Borisov wrote:
->>>
->>>
->>> On 18.08.21 =D0=B3. 0:06, Omar Sandoval wrote:
->>>> From: Omar Sandoval <osandov@fb.com>
->>>>
->>>> Currently, an inline extent is always created after i_size is extende=
-d
->>>> from btrfs_dirty_pages(). However, for encoded writes, we only want t=
-o
->>>> update i_size after we successfully created the inline extent.
->>
->> To me, the idea of write first then update isize is just going to cause
->> tons of inline extent related prblems.
->>
->> The current example is falloc, which only update the isize after the
->> falloc finishes.
->>
->> This behavior has already bothered me quite a lot, as it can easily
->> create mixed inline and regular extents.
->
-> Do you have an example of how this would happen? I have the inode and
-> extent bits locked during an encoded write, and I see that fallocate
-> does the same.
+Those are mandatory and they do block read and write activity to the
+ranges locked. They have weird semantics vs. POSIX locks (they stack
+instead of splitting/merging, etc.).
 
-xfs_io -f -c "pwrite 0 1K" -c "sync" -c "falloc 0 4k" -c "pwrite 4k 4k"
+Samba emulates these with (advisory) POSIX locks in most cases. Using
+mandatory locks is probably possible, but I think it would add more
+potential for deadlock and security issues.
+-- 
+Jeff Layton <jlayton@kernel.org>
 
-The [0, 1K) will be written as inline without doubt.
-
-Then we go to falloc, it will try to zero the range [1K, 4K), but it
-doesn't increase the isize.
-Thus the page [0, 4k) will still be written back as inline, since isize
-is still 1K.
-
-Later [4K, 8K) will be written back as regular, causing mixed extents.
-
->
->> Can't we remember the old isize (with proper locking), enlarge isize
->> (with holes filled), do the write.
->>
->> If something wrong happened, we truncate the isize back to its old isiz=
-e.
->>
-[...]
->>>
->>> Urgh, just some days ago Qu was talking about how awkward it is to hav=
-e
->>> mixed extents in a file. And now, AFAIU, you are making them more like=
-ly
->>> since now they can be created not just at the beginning of the file bu=
-t
->>> also after i_size write. While this won't be a problem in and of itsel=
-f
->>> it goes just the opposite way of us trying to shrink the possible case=
-s
->>> when we can have mixed extents.
->>
->> Tree-checker should reject such inline extent at non-zero offset.
->
-> This change does not allow creating inline extents at a non-zero offset.
->
->>> Qu what is your take on that?
->>
->> My question is, why encoded write needs to bother the inline extents at=
- all?
->>
->> My intuition of such encoded write is, it should not create inline
->> extents at all.
->>
->> Or is there any special use-case involved for encoded write?
->
-> We create compressed inline extents with normal writes. We should be
-> able to send and receive them without converting them into regular
-> extents.
->
-But my first impression for any encoded write is that, they should work
-like DIO, thus everything should be sectorsize aligned.
-
-Then why could they create inline extent? As inline extent can only be
-possible when the isize is smaller than sectorsize.
-
-Thanks,
-Qu
