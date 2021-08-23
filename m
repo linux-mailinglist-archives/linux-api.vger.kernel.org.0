@@ -2,74 +2,67 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AECF3F40C9
-	for <lists+linux-api@lfdr.de>; Sun, 22 Aug 2021 20:05:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5603B3F4629
+	for <lists+linux-api@lfdr.de>; Mon, 23 Aug 2021 09:56:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231637AbhHVSG1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 22 Aug 2021 14:06:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37140 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230245AbhHVSG0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 22 Aug 2021 14:06:26 -0400
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 350B8C061575
-        for <linux-api@vger.kernel.org>; Sun, 22 Aug 2021 11:05:45 -0700 (PDT)
-Received: by mail-ed1-x532.google.com with SMTP id bo19so22478590edb.9
-        for <linux-api@vger.kernel.org>; Sun, 22 Aug 2021 11:05:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=FdFxYhd+eeTvCDoJF+ykQd/hvB6y5cUN0QY2l3gJKV8=;
-        b=au92NbSisRvXy93M+NrgnvN1ZFxFpdCvErKBfMKVIqPkcLDsmlc4H8IlkBaoDTokon
-         +3bncuuUd0fsd3z1HifoTs0zMQn06fmz518jwP3j+xMbPOi2iWMFEHBiOt1QHwW5pDC9
-         gQ87hYhnRnXoLWW0aQEtDFTGVTYDaIQIFcmIA=
+        id S235293AbhHWH4w (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 23 Aug 2021 03:56:52 -0400
+Received: from mail-vs1-f41.google.com ([209.85.217.41]:40755 "EHLO
+        mail-vs1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235263AbhHWH4v (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Aug 2021 03:56:51 -0400
+Received: by mail-vs1-f41.google.com with SMTP id h29so8184113vsr.7;
+        Mon, 23 Aug 2021 00:56:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=FdFxYhd+eeTvCDoJF+ykQd/hvB6y5cUN0QY2l3gJKV8=;
-        b=lYkegeXEdFadP8EtZeWRU1kQ9SMMAAqOgtYYeEEVtYtND9X1mO7NFNyJEGWIEb2uTT
-         NbMytVdNCakFM+qKKDMVMNnS9OQRjmephcZVIl/BmwGeimBk9qH3FCCmXWIFLfAoW/3E
-         yhNi5f0qBvLiOivszDOSEWg7GUv6TSRq32g3OHiUWNe1Yj5FgjYe4Q8kYattD7t4i8ag
-         +TkgnYAdW7i+630KUwzmlJ282rmL4saMAOcsLACw2tohKmPk9t9KLoe9NagFaWUKMEil
-         B95PxrCnWF1XJT64XK7JAHg19YLrHmKBqUm81RvVZY3q4tsh/nBSKIsw85KFXePZ5Jtr
-         pd7g==
-X-Gm-Message-State: AOAM530p1WDwN4hUMXCL+xBbRQPJFcWqUYQyV5mHiLGCBWEv+j4ZAPs9
-        SBGz5n16NcO4vxKF4B3w8Ru9XzsjK4dYLeMiW5w=
-X-Google-Smtp-Source: ABdhPJzXuR6SEX1eCLxJ1ainya1I3MqH6spJ2f+A21KeSYF9b/Px0fOnEjeIP/uBoM0CrSqHIYoyng==
-X-Received: by 2002:a05:6402:445:: with SMTP id p5mr33771770edw.208.1629655543771;
-        Sun, 22 Aug 2021 11:05:43 -0700 (PDT)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com. [209.85.221.42])
-        by smtp.gmail.com with ESMTPSA id c6sm6052842eje.105.2021.08.22.11.05.43
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Aug 2021 11:05:43 -0700 (PDT)
-Received: by mail-wr1-f42.google.com with SMTP id u16so22657615wrn.5
-        for <linux-api@vger.kernel.org>; Sun, 22 Aug 2021 11:05:43 -0700 (PDT)
-X-Received: by 2002:a2e:81c2:: with SMTP id s2mr23439411ljg.48.1629655124814;
- Sun, 22 Aug 2021 10:58:44 -0700 (PDT)
+        bh=bO20WydNuUjicbzTyFZXQBF0DVpWSwKIJdDjl+VnxdI=;
+        b=FlqhUFLsgf820Fnm207VUxAruP6Em7I3U7iCjyNkX30DAXODEZslEYO17X9auGNjdC
+         Owoy9ZwEsHTO5rttHTyOxiVtxsBgGo6psXXpruKWe6nwWSY9tVW9FngJR3n2RQ9sScnW
+         BX3TMoHG6EY3ulm7cOCAS4I4h+AHM3ANZe2cQUDTRO9p8jsD6EqfICM6UQ5K7wwnE0c/
+         N+DRlR041Drx7DRzTPkggY3KHH1bACK5wTDyPHPDCB+sV/uTLbRo6sp0cJcnm+RO08RU
+         D9XY25TOhTIo66GuPB176tyLayWj5tdUnFO8E0d6epENTUPg6pIsIL9i11pGdfb4JJhl
+         HIqQ==
+X-Gm-Message-State: AOAM5310y4BUrX/1GL8G+gtSmKCz+eQQeI5piT288VDOPRSIC1TQkXRX
+        fE4YjnNfLVS1RUSsb+IZAY9SF4NdOl/OHboWbw8=
+X-Google-Smtp-Source: ABdhPJxMhnJoTSMt1e3XrfAQGUikNOXfRuWG7TZ644Gun+YviYlr+fG1nVKaZQa7BFgcKGc/DC0y/v+xN1ESjGAyAXg=
+X-Received: by 2002:a05:6102:3e92:: with SMTP id m18mr22891652vsv.53.1629705368522;
+ Mon, 23 Aug 2021 00:56:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210816194840.42769-1-david@redhat.com> <20210816194840.42769-3-david@redhat.com>
- <CAHk-=wgsLtJ7=+NGGSEbTw9XBh7qyf4Py9-jBdajGnPTxU1hZg@mail.gmail.com>
- <d90a7dfd-11c8-c4e1-1c59-91aad5a7f08e@redhat.com> <87o89srxnn.fsf@disp2133>
-In-Reply-To: <87o89srxnn.fsf@disp2133>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sun, 22 Aug 2021 10:58:28 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wi6XnsUf+WioJ3qRS09QhWqf50-DwCmUCjja5PHqjvsxw@mail.gmail.com>
-Message-ID: <CAHk-=wi6XnsUf+WioJ3qRS09QhWqf50-DwCmUCjja5PHqjvsxw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/7] kernel/fork: factor out replacing the current MM exe_file
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     David Hildenbrand <david@redhat.com>,
+References: <20210812084348.6521-1-david@redhat.com> <87o8a2d0wf.fsf@disp2133>
+ <60db2e61-6b00-44fa-b718-e4361fcc238c@www.fastmail.com> <87lf56bllc.fsf@disp2133>
+ <CAHk-=wgru1UAm3kAKSOdnbewPXQMOxYkq9PnAsRadAC6pXCCMQ@mail.gmail.com>
+ <87eeay8pqx.fsf@disp2133> <5b0d7c1e73ca43ef9ce6665fec6c4d7e@AcuMS.aculab.com>
+ <87h7ft2j68.fsf@disp2133> <CAHk-=whmXTiGUzVrTP=mOPQrg-XOi3R-45hC4dQOqW4JmZdFUQ@mail.gmail.com>
+ <b629cda1-becd-4725-b16c-13208ff478d3@www.fastmail.com> <YRcyqbpVqwwq3P6n@casper.infradead.org>
+ <87k0kkxbjn.fsf_-_@disp2133> <0c2af732e4e9f74c9d20b09fc4b6cbae40351085.camel@kernel.org>
+ <CAHk-=wgewmbABDC3_ZNn11C+sm4Uz0L9HZ5Kvx0Joho4vsV4DQ@mail.gmail.com>
+ <a1385746582a675c410aca4eb4947320faec4821.camel@kernel.org>
+ <CAHk-=wgD-SNxB=2iCurEoP=RjrciRgLtXZ7R_DejK+mXF2etfg@mail.gmail.com>
+ <639d90212662cf5cdf80c71bbfec95907c70114a.camel@kernel.org>
+ <CAHk-=wgHbYmUZvFkthGJ6zZx+ofTiiTRxPai5mPkmbtE=6JbaQ@mail.gmail.com> <ec075ee5764f4c7f9dd630090fb01f70@AcuMS.aculab.com>
+In-Reply-To: <ec075ee5764f4c7f9dd630090fb01f70@AcuMS.aculab.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 23 Aug 2021 09:55:57 +0200
+Message-ID: <CAMuHMdVWC9=TtFG7=SmN+KQ=phh1MqNqgLFbrWXr9XsDv-Sp5Q@mail.gmail.com>
+Subject: Re: Removing Mandatory Locks
+To:     David Laight <David.Laight@aculab.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Jeff Layton <jlayton@kernel.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        David Hildenbrand <david@redhat.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         "H. Peter Anvin" <hpa@zytor.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Al Viro <viro@zeniv.linux.org.uk>,
         Alexey Dobriyan <adobriyan@gmail.com>,
         Steven Rostedt <rostedt@goodmis.org>,
-        Peter Zijlstra <peterz@infradead.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
         Arnaldo Carvalho de Melo <acme@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Alexander Shishkin <alexander.shishkin@linux.intel.com>,
@@ -81,13 +74,12 @@ Cc:     David Hildenbrand <david@redhat.com>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Kees Cook <keescook@chromium.org>,
         Greg Ungerer <gerg@linux-m68k.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
         Mike Rapoport <rppt@kernel.org>,
         Vlastimil Babka <vbabka@suse.cz>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
         Chinwen Chang <chinwen.chang@mediatek.com>,
+        Michel Lespinasse <walken@google.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
         Huang Ying <ying.huang@intel.com>,
         Jann Horn <jannh@google.com>, Feng Tang <feng.tang@intel.com>,
         Kevin Brodsky <Kevin.Brodsky@arm.com>,
@@ -105,58 +97,91 @@ Cc:     David Hildenbrand <david@redhat.com>,
         Daniel Jordan <daniel.m.jordan@oracle.com>,
         Nicolas Viennot <Nicolas.Viennot@twosigma.com>,
         Thomas Cedeno <thomascedeno@google.com>,
+        Collin Fijalkovich <cfijalkovich@google.com>,
         Michal Hocko <mhocko@suse.com>,
         Miklos Szeredi <miklos@szeredi.hu>,
         Chengguang Xu <cgxu519@mykernel.net>,
         =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        David Laight <David.Laight@aculab.com>,
-        linux-unionfs@vger.kernel.org,
+        "linux-unionfs@vger.kernel.org" <linux-unionfs@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
         "the arch/x86 maintainers" <x86@kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>
+        "<linux-fsdevel@vger.kernel.org>" <linux-fsdevel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Aug 20, 2021 at 7:36 AM Eric W. Biederman <ebiederm@xmission.com> wrote:
+On Fri, Aug 20, 2021 at 10:30 AM David Laight <David.Laight@aculab.com> wrote:
+> From: Linus Torvalds
+> > Sent: 19 August 2021 23:33
+> >
+> > On Thu, Aug 19, 2021 at 2:43 PM Jeff Layton <jlayton@kernel.org> wrote:
+> > >
+> > > What sort of big, ugly warning did you have in mind?
+> >
+> > I originally thought WARN_ON_ONCE() just to get the distro automatic
+> > error handling involved, but it would probably be a big problem for
+> > the people who end up having panic-on-warn or something.
 >
-> I think this check is there to keep from changing /proc/self/exe
-> arbitrarily.
+> Even panic-on-oops is a PITA.
+> Took us weeks to realise that a customer system that was randomly
+> rebooting was 'just' having a boring NULL pointer access.
+>
+> > So probably just a "make it a big box" thing that stands out, kind of
+> > what lockdep etc does with
+> >
+> >         pr_warn("======...====\n");
+> >
+> > around the messages..
 
-Well, you pretty much can already. You just have to jump through a few hoops.
+Do we really need more of these?
+They take time to print (especially on serial
+consoles) and increase kernel size.
 
-> Maybe it is all completely silly and we should not care about the code
-> that thinks /proc/self/exe is a reliable measure of anything, but short
-> of that I think we should either keep the code or put in some careful
-> thought as to which restrictions make sense when changing
-> /proc/self/exe.
+What's wrong with using an appropriate KERN_*, and letting userspace
+make sure the admin/user will see the message (see below)?
 
-I think the important ones are already there: checking that it is (a)
-an executable and (b) that we have execute permission to it.
+> >
+> > I don't know if distros have some pattern we could use that would end
+> > up being something that gets reported to the user?
+>
+> Will users even see it?
+> A lot of recent distro installs try very hard to hide all the kernel
+> messages.
 
-I also think the code is actually racy - while we are checking "did
-the old mm_exe file have any mappings", there's nothing that keeps
-another thread from changing the exe file to another one that _does_
-have mappings, and then we'll happily replace it with yet another file
-because we checked the old one, not the new one it was replaced by in
-the meantime.
+Exactly.  E.g. Ubuntu doesn't show any kernel output during normal
+operation.
 
-Of course, that "race" doesn't really matter - exactly because this
-isn't about security, it's just a random "let's test that immaterial
-thing, and we don't actually care about corner cases".
+On Fri, Aug 20, 2021 at 6:12 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+> On Fri, Aug 20, 2021 at 6:43 AM Steven Rostedt <rostedt@goodmis.org> wrote:
+> > On Thu, 19 Aug 2021 15:32:31 -0700
+> > Linus Torvalds <torvalds@linux-foundation.org> wrote:
+> > >
+> > > I don't know if distros have some pattern we could use that would end
+> > > up being something that gets reported to the user?
 
-So I'm not saying that race needs to be fixed - I'm just pointing it
-out as an example of how nonsensical the test really is. It's not
-fundamental to anything, it's just a random "let's test this odd
-condition".
+> So what would be more interesting is if there's some distro support
+> for showing kernel notifications..
+>
+> I see new notifications for calendar events, for devices that got
+> mounted, for a lot of things - so I'm really wondering if somebody
+> already perhaps had something for specially formatted kernel
+> messages..
 
-That said, I don't care _that_ much. I'm happy with David's series, I
-just think that once we don't do this at a mmap level any more, the
-"go look for mappings" code makes little sense.
+Isn't that what the old syslog and the new systemd are supposed to
+handle in userspace?
 
-So we can leave it, and remove it later if people agree.
+Gr{oetje,eeting}s,
 
-                  Linus
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
