@@ -2,137 +2,302 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B1DD93F467B
-	for <lists+linux-api@lfdr.de>; Mon, 23 Aug 2021 10:15:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFF373F4A4F
+	for <lists+linux-api@lfdr.de>; Mon, 23 Aug 2021 14:07:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235545AbhHWIPq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 23 Aug 2021 04:15:46 -0400
-Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:41014 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235536AbhHWIPk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Aug 2021 04:15:40 -0400
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-239-OUwiafUSPFqExTCfFob29g-1; Mon, 23 Aug 2021 09:14:54 +0100
-X-MC-Unique: OUwiafUSPFqExTCfFob29g-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.23; Mon, 23 Aug 2021 09:14:52 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.023; Mon, 23 Aug 2021 09:14:52 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Geert Uytterhoeven' <geert@linux-m68k.org>
-CC:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Jeff Layton <jlayton@kernel.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "Matthew Wilcox" <willy@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        "David Hildenbrand" <david@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        id S235990AbhHWMHs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 23 Aug 2021 08:07:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32551 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233755AbhHWMHs (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 23 Aug 2021 08:07:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1629720425;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=iPSPC+NwQeFpMWMRRBx4FR2HEbNT0VSAkYeTuMe/Ulg=;
+        b=M7LGIkqiXdQi6IE1U9tQJpi6hlDS9rLI6tLJZDJwj6P0JRYGzmkqxfaqtdXNpoE5lQThsA
+        jiRcc+e116VPsnSAOfu6ww0kLTIZL5MXSlzFJCCztVTAYrp7ayxBZVuLguMX3ysr4HaXoK
+        gOnAV/PU4LY6hN9CUwDFfJXlXQORPnk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-420-nS38xyqLML2fy8_STjSe1g-1; Mon, 23 Aug 2021 08:06:57 -0400
+X-MC-Unique: nS38xyqLML2fy8_STjSe1g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3714E801A92;
+        Mon, 23 Aug 2021 12:06:53 +0000 (UTC)
+Received: from t480s.redhat.com (unknown [10.39.194.57])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id DDFFA189C7;
+        Mon, 23 Aug 2021 12:06:46 +0000 (UTC)
+From:   David Hildenbrand <david@redhat.com>
+To:     linux-man@vger.kernel.org
+Cc:     David Hildenbrand <david@redhat.com>,
+        Pankaj Gupta <pankaj.gupta@ionos.com>,
+        Alejandro Colomar <alx.manpages@gmail.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        "Steven Rostedt" <rostedt@goodmis.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        "Mark Rutland" <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        "Namhyung Kim" <namhyung@kernel.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Kees Cook <keescook@chromium.org>,
-        Greg Ungerer <gerg@linux-m68k.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        "Chinwen Chang" <chinwen.chang@mediatek.com>,
-        Michel Lespinasse <walken@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Huang Ying <ying.huang@intel.com>,
-        Jann Horn <jannh@google.com>, Feng Tang <feng.tang@intel.com>,
-        Kevin Brodsky <Kevin.Brodsky@arm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "Shawn Anastasio" <shawn@anastas.io>,
-        Steven Price <steven.price@arm.com>,
-        "Nicholas Piggin" <npiggin@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        Peter Xu <peterx@redhat.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Marco Elver <elver@google.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        "Nicolas Viennot" <Nicolas.Viennot@twosigma.com>,
-        Thomas Cedeno <thomascedeno@google.com>,
-        Collin Fijalkovich <cfijalkovich@google.com>,
         Michal Hocko <mhocko@suse.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Chengguang Xu <cgxu519@mykernel.net>,
-        =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= 
-        <ckoenig.leichtzumerken@gmail.com>,
-        "linux-unionfs@vger.kernel.org" <linux-unionfs@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "<linux-fsdevel@vger.kernel.org>" <linux-fsdevel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        "Florian Weimer" <fweimer@redhat.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: RE: Removing Mandatory Locks
-Thread-Topic: Removing Mandatory Locks
-Thread-Index: AQHXlUolKQrpfCPkWUimXalbi9gnr6t8D3AggASd1ICAABU/YA==
-Date:   Mon, 23 Aug 2021 08:14:52 +0000
-Message-ID: <521f2702176148569a251c5db0a3ea48@AcuMS.aculab.com>
-References: <20210812084348.6521-1-david@redhat.com> <87o8a2d0wf.fsf@disp2133>
- <60db2e61-6b00-44fa-b718-e4361fcc238c@www.fastmail.com>
- <87lf56bllc.fsf@disp2133>
- <CAHk-=wgru1UAm3kAKSOdnbewPXQMOxYkq9PnAsRadAC6pXCCMQ@mail.gmail.com>
- <87eeay8pqx.fsf@disp2133> <5b0d7c1e73ca43ef9ce6665fec6c4d7e@AcuMS.aculab.com>
- <87h7ft2j68.fsf@disp2133>
- <CAHk-=whmXTiGUzVrTP=mOPQrg-XOi3R-45hC4dQOqW4JmZdFUQ@mail.gmail.com>
- <b629cda1-becd-4725-b16c-13208ff478d3@www.fastmail.com>
- <YRcyqbpVqwwq3P6n@casper.infradead.org> <87k0kkxbjn.fsf_-_@disp2133>
- <0c2af732e4e9f74c9d20b09fc4b6cbae40351085.camel@kernel.org>
- <CAHk-=wgewmbABDC3_ZNn11C+sm4Uz0L9HZ5Kvx0Joho4vsV4DQ@mail.gmail.com>
- <a1385746582a675c410aca4eb4947320faec4821.camel@kernel.org>
- <CAHk-=wgD-SNxB=2iCurEoP=RjrciRgLtXZ7R_DejK+mXF2etfg@mail.gmail.com>
- <639d90212662cf5cdf80c71bbfec95907c70114a.camel@kernel.org>
- <CAHk-=wgHbYmUZvFkthGJ6zZx+ofTiiTRxPai5mPkmbtE=6JbaQ@mail.gmail.com>
- <ec075ee5764f4c7f9dd630090fb01f70@AcuMS.aculab.com>
- <CAMuHMdVWC9=TtFG7=SmN+KQ=phh1MqNqgLFbrWXr9XsDv-Sp5Q@mail.gmail.com>
-In-Reply-To: <CAMuHMdVWC9=TtFG7=SmN+KQ=phh1MqNqgLFbrWXr9XsDv-Sp5Q@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Oscar Salvador <osalvador@suse.de>,
+        Jann Horn <jannh@google.com>, Mike Rapoport <rppt@kernel.org>,
+        Linux API <linux-api@vger.kernel.org>, linux-mm@kvack.org
+Subject: [PATCH v3] madvise.2: Document MADV_POPULATE_READ and MADV_POPULATE_WRITE
+Date:   Mon, 23 Aug 2021 14:06:45 +0200
+Message-Id: <20210823120645.8223-1-david@redhat.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-RnJvbTogR2VlcnQgVXl0dGVyaG9ldmVuDQo+IFNlbnQ6IDIzIEF1Z3VzdCAyMDIxIDA4OjU2DQou
-Li4NCj4gRXhhY3RseS4gIEUuZy4gVWJ1bnR1IGRvZXNuJ3Qgc2hvdyBhbnkga2VybmVsIG91dHB1
-dCBkdXJpbmcgbm9ybWFsDQo+IG9wZXJhdGlvbi4NCg0KQ3VycmVudCB1YnVudHUgKHg4NikgaXMg
-Z2V0dGluZyB0byBiZSBhIFBJVEEuDQpJdCBldmVuIHJ1bnMgdGhlIGdyYXBoaWNhbCBsb2dpbiBv
-biB0dHkwIC0gd2hpY2ggaXMgd2hlcmUNCnRoZSBrZXJuZWwgbWVzc2FnZXMgd291bGQgZW5kIHVw
-Lg0KSXQgaXMgYWxtb3N0IGltcG9zc2libGUgdG8gZ2V0IGFuIGFjdHVhbCBWR0EgY29uc29sZS4N
-Cg0KSSBuZWVkIHRvIGZpbmQgYSBkaWZmZXJlbnQgZGlzdHJvIHRoYXQgaGFzIGxlc3MgYmxvYXQg
-aW4gaXQuDQoNCglEYXZpZA0KDQotDQpSZWdpc3RlcmVkIEFkZHJlc3MgTGFrZXNpZGUsIEJyYW1s
-ZXkgUm9hZCwgTW91bnQgRmFybSwgTWlsdG9uIEtleW5lcywgTUsxIDFQVCwgVUsNClJlZ2lzdHJh
-dGlvbiBObzogMTM5NzM4NiAoV2FsZXMpDQo=
+MADV_POPULATE_READ and MADV_POPULATE_WRITE have been merged into
+upstream Linux via commit 4ca9b3859dac ("mm/madvise: introduce
+MADV_POPULATE_(READ|WRITE) to prefault page tables"), part of v5.14-rc1.
+
+Further, commit eb2faa513c24 ("mm/madvise: report SIGBUS as -EFAULT for
+MADV_POPULATE_(READ|WRITE)"), part of v5.14-rc6, made sure that SIGBUS is
+converted to -EFAULT instead of -EINVAL.
+
+Let's document the behavior and error conditions of these new madvise()
+options.
+
+Acked-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+Cc: Alejandro Colomar <alx.manpages@gmail.com>
+Cc: Michael Kerrisk <mtk.manpages@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Oscar Salvador <osalvador@suse.de>
+Cc: Jann Horn <jannh@google.com>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Linux API <linux-api@vger.kernel.org>
+Cc: linux-mm@kvack.org
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+
+v2 -> v3:
+- Refine what "populating readable/writable" means
+- Compare each version with MAP_POPULATE and give an example use case
+- Reword SIGBUS handling
+- Reword comment regarding special mappings and also add memfd_secret(2)
+- Reference MADV_HWPOISON when talking about HW poisoned pages
+- Minor cosmetic fixes
+
+v1 -> v2:
+- Use semantic newlines in all cases
+- Add two missing "
+- Document -EFAULT handling
+- Rephrase some parts to make it more generic: VM_PFNMAP and VM_IO are only
+  examples for special mappings
+
+---
+ man2/madvise.2 | 156 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 156 insertions(+)
+
+diff --git a/man2/madvise.2 b/man2/madvise.2
+index f1f384c0c..37f6dd6fa 100644
+--- a/man2/madvise.2
++++ b/man2/madvise.2
+@@ -469,6 +469,106 @@ If a page is file-backed and dirty, it will be written back to the backing
+ storage.
+ The advice might be ignored for some pages in the range when it is not
+ applicable.
++.TP
++.BR MADV_POPULATE_READ " (since Linux 5.14)"
++"Populate (prefault) page tables readable,
++faulting in all pages in the range just as if manually reading from each page;
++however,
++avoid the actual memory access that would have been performed after handling
++the fault.
++.IP
++In contrast to
++.BR MAP_POPULATE ,
++.B MADV_POPULATE_READ
++does not hide errors,
++can be applied to (parts of) existing mappings and will always populate
++(prefault) page tables readable.
++One example use case is prefaulting a file mapping,
++reading all file content from disk;
++however,
++pages won't be dirtied and consequently won't have to be written back to disk
++when evicting the pages from memory.
++.IP
++Depending on the underlying mapping,
++map the shared zeropage,
++preallocate memory or read the underlying file;
++files with holes might or might not preallocate blocks.
++If populating fails,
++a
++.B SIGBUS
++signal is not generated; instead, an error is returned.
++.IP
++If
++.B MADV_POPULATE_READ
++succeeds,
++all page tables have been populated (prefaulted) readable once.
++If
++.B MADV_POPULATE_READ
++fails,
++some page tables might have been populated.
++.IP
++.B MADV_POPULATE_READ
++cannot be applied to mappings without read permissions
++and special mappings,
++for example,
++mappings marked with kernel-internal flags such as
++.B VM_PFNMAP
++or
++.BR VM_IO ,
++or secret memory regions created using
++.BR memfd_secret(2) .
++.IP
++Note that with
++.BR MADV_POPULATE_READ ,
++the process can be killed at any moment when the system runs out of memory.
++.TP
++.BR MADV_POPULATE_WRITE " (since Linux 5.14)"
++Populate (prefault) page tables writable,
++faulting in all pages in the range just as if manually writing to each
++each page;
++however,
++avoid the actual memory access that would have been performed after handling
++the fault.
++.IP
++In contrast to
++.BR MAP_POPULATE ,
++MADV_POPULATE_WRITE does not hide errors,
++can be applied to (parts of) existing mappings and will always populate
++(prefault) page tables writable.
++One example use case is preallocating memory,
++breaking any CoW (Copy on Write).
++.IP
++Depending on the underlying mapping,
++preallocate memory or read the underlying file;
++files with holes will preallocate blocks.
++If populating fails,
++a
++.B SIGBUS
++signal is not generated; instead, an error is returned.
++.IP
++If
++.B MADV_POPULATE_WRITE
++succeeds,
++all page tables have been populated (prefaulted) writable once.
++If
++.B MADV_POPULATE_WRITE
++fails,
++some page tables might have been populated.
++.IP
++.B MADV_POPULATE_WRITE
++cannot be applied to mappings without write permissions
++and special mappings,
++for example,
++mappings marked with kernel-internal flags such as
++.B VM_PFNMAP
++or
++.BR VM_IO ,
++or secret memory regions created using
++.BR memfd_secret(2) .
++.IP
++Note that with
++.BR MADV_POPULATE_WRITE ,
++the process can be killed at any moment when the system runs out of memory.
+ .SH RETURN VALUE
+ On success,
+ .BR madvise ()
+@@ -490,6 +590,22 @@ A kernel resource was temporarily unavailable.
+ .B EBADF
+ The map exists, but the area maps something that isn't a file.
+ .TP
++.B EFAULT
++.I advice
++is
++.B MADV_POPULATE_READ
++or
++.BR MADV_POPULATE_WRITE ,
++and populating (prefaulting) page tables failed because a
++.B SIGBUS
++would have been generated on actual memory access and the reason is not a
++HW poisoned page
++(HW poisoned pages can,
++for example,
++be created using the
++.B MADV_HWPOISON
++flag described elsewhere in this page).
++.TP
+ .B EINVAL
+ .I addr
+ is not page-aligned or
+@@ -533,6 +649,22 @@ or
+ .BR VM_PFNMAP
+ ranges.
+ .TP
++.B EINVAL
++.I advice
++is
++.B MADV_POPULATE_READ
++or
++.BR MADV_POPULATE_WRITE ,
++but the specified address range includes ranges with insufficient permissions
++or special mappings,
++for example,
++mappings marked with kernel-internal flags such a
++.B VM_IO
++or
++.BR VM_PFNMAP ,
++or secret memory regions created using
++.BR memfd_secret(2) .
++.TP
+ .B EIO
+ (for
+ .BR MADV_WILLNEED )
+@@ -548,6 +680,15 @@ Not enough memory: paging in failed.
+ Addresses in the specified range are not currently
+ mapped, or are outside the address space of the process.
+ .TP
++.B ENOMEM
++.I advice
++is
++.B MADV_POPULATE_READ
++or
++.BR MADV_POPULATE_WRITE ,
++and populating (prefaulting) page tables failed because there was not enough
++memory.
++.TP
+ .B EPERM
+ .I advice
+ is
+@@ -555,6 +696,20 @@ is
+ but the caller does not have the
+ .B CAP_SYS_ADMIN
+ capability.
++.TP
++.B EHWPOISON
++.I advice
++is
++.B MADV_POPULATE_READ
++or
++.BR MADV_POPULATE_WRITE ,
++and populating (prefaulting) page tables failed because a HW poisoned page
++(HW poisoned pages can,
++for example,
++be created using the
++.B MADV_HWPOISON
++flag described elsewhere in this page)
++was encountered.
+ .SH VERSIONS
+ Since Linux 3.18,
+ .\" commit d3ac21cacc24790eb45d735769f35753f5b56ceb
+@@ -602,6 +757,7 @@ from the system call, as it should).
+ .\" function first appeared in 4.4BSD.
+ .SH SEE ALSO
+ .BR getrlimit (2),
++.BR memfd_secret(2),
+ .BR mincore (2),
+ .BR mmap (2),
+ .BR mprotect (2),
+-- 
+2.31.1
 
