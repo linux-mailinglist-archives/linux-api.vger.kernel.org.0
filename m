@@ -2,136 +2,129 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7010C3F7B29
-	for <lists+linux-api@lfdr.de>; Wed, 25 Aug 2021 19:06:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 579EC3F7C53
+	for <lists+linux-api@lfdr.de>; Wed, 25 Aug 2021 20:40:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235489AbhHYRHM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 25 Aug 2021 13:07:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25351 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S241872AbhHYRHL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 25 Aug 2021 13:07:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1629911185;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-        bh=gpUKC5h8J10ybyvZDqljNfqjwgKTySHJSQK0IjTg2II=;
-        b=iueABD+a0TjAOVkgcv9XdbuWN8eoN+gYomP15ktadt2yZxQ4C+tc+d71ZuMYUkZfcdba+r
-        XatjFE1bC7+Y3yHTtoMtxyxFQfA8eHyqfkAxM6XJXar6SeaJpun0xkFSsRUcUqzxed/HO6
-        GDm3ZhvE3UvyRPSjHRhVH7gLL4uSdAw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-387-9c4mkFDsP1WkbHzUj8Z4Jw-1; Wed, 25 Aug 2021 13:06:23 -0400
-X-MC-Unique: 9c4mkFDsP1WkbHzUj8Z4Jw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B18239381;
-        Wed, 25 Aug 2021 17:06:21 +0000 (UTC)
-Received: from asgard.redhat.com (unknown [10.36.110.3])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E7001346F;
-        Wed, 25 Aug 2021 17:06:16 +0000 (UTC)
-Date:   Wed, 25 Aug 2021 19:06:13 +0200
-From:   Eugene Syromiatnikov <esyr@redhat.com>
-To:     "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Chris Hyser <chris.hyser@oracle.com>,
-        Josh Don <joshdon@google.com>, Ingo Molnar <mingo@kernel.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Mel Gorman <mgorman@suse.de>
-Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        "Dmitry V. Levin" <ldv@strace.io>, linux-doc@vger.kernel.org,
-        linux-api@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v4] uapi/linux/prctl: provide macro definitions for the
- PR_SCHED_CORE type argument
-Message-ID: <20210825170613.GA3884@asgard.redhat.com>
+        id S235599AbhHYSlH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 25 Aug 2021 14:41:07 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:54222 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232017AbhHYSlH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 25 Aug 2021 14:41:07 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: krisman)
+        with ESMTPSA id 7F6401F43C0C
+From:   Gabriel Krisman Bertazi <krisman@collabora.com>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.com>, Linux API <linux-api@vger.kernel.org>,
+        Ext4 <linux-ext4@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Khazhismel Kumykov <khazhy@google.com>,
+        David Howells <dhowells@redhat.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Theodore Tso <tytso@mit.edu>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Matthew Bobrowski <repnop@google.com>, kernel@collabora.com
+Subject: Re: [PATCH v6 09/21] fsnotify: Allow events reported with an empty
+ inode
+Organization: Collabora
+References: <20210812214010.3197279-1-krisman@collabora.com>
+        <20210812214010.3197279-10-krisman@collabora.com>
+        <CAOQ4uxi7otGo6aNNMk9-fVQCx4Q0tDFe7sJaCr6jj1tNtfExTg@mail.gmail.com>
+Date:   Wed, 25 Aug 2021 14:40:16 -0400
+In-Reply-To: <CAOQ4uxi7otGo6aNNMk9-fVQCx4Q0tDFe7sJaCr6jj1tNtfExTg@mail.gmail.com>
+        (Amir Goldstein's message of "Fri, 13 Aug 2021 10:58:56 +0300")
+Message-ID: <87tujdz7u7.fsf@collabora.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Commit 7ac592aa35a684ff ("sched: prctl() core-scheduling interface")
-made use of enum pid_type in prctl's arg4; this type and the associated
-enumeration definitions are not exposed to userspace.  Christian
-has suggested to provide additional macro definitions that convey
-the meaning of the type argument more in alignment with its actual
-usage, and this patch does exactly that.
+Amir Goldstein <amir73il@gmail.com> writes:
 
-Suggested-by: Christian Brauner <christian.brauner@ubuntu.com>
-Complements: 7ac592aa35a684ff ("sched: prctl() core-scheduling interface")
-Signed-off-by: Eugene Syromiatnikov <esyr@redhat.com>
----
-v4:
-  - Rewritten in accordance with Christian Brauner's suggestion to provide
-    macro definitions that are explicitly tailored for the prctl op.
+> On Fri, Aug 13, 2021 at 12:41 AM Gabriel Krisman Bertazi
+> <krisman@collabora.com> wrote:
+>>
+>> Some file system events (i.e. FS_ERROR) might not be associated with an
+>> inode.  For these, it makes sense to associate them directly with the
+>> super block of the file system they apply to.  This patch allows the
+>> event to be reported with a NULL inode, by recovering the superblock
+>> directly from the data field, if needed.
+>>
+>> Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
+>>
+>> --
+>> Changes since v5:
+>>   - add fsnotify_data_sb handle to retrieve sb from the data field. (jan)
+>> ---
+>>  fs/notify/fsnotify.c | 16 +++++++++++++---
+>>  1 file changed, 13 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/fs/notify/fsnotify.c b/fs/notify/fsnotify.c
+>> index 30d422b8c0fc..536db02cb26e 100644
+>> --- a/fs/notify/fsnotify.c
+>> +++ b/fs/notify/fsnotify.c
+>> @@ -98,6 +98,14 @@ void fsnotify_sb_delete(struct super_block *sb)
+>>         fsnotify_clear_marks_by_sb(sb);
+>>  }
+>>
+>> +static struct super_block *fsnotify_data_sb(const void *data, int data_type)
+>> +{
+>> +       struct inode *inode = fsnotify_data_inode(data, data_type);
+>> +       struct super_block *sb = inode ? inode->i_sb : NULL;
+>> +
+>> +       return sb;
+>> +}
+>> +
+>>  /*
+>>   * Given an inode, first check if we care what happens to our children.  Inotify
+>>   * and dnotify both tell their parents about events.  If we care about any event
+>> @@ -455,8 +463,10 @@ static void fsnotify_iter_next(struct fsnotify_iter_info *iter_info)
+>>   *             @file_name is relative to
+>>   * @file_name: optional file name associated with event
+>>   * @inode:     optional inode associated with event -
+>> - *             either @dir or @inode must be non-NULL.
+>> - *             if both are non-NULL event may be reported to both.
+>> + *             If @dir and @inode are NULL, @data must have a type that
+>> + *             allows retrieving the file system associated with this
+>
+> Irrelevant comment. sb must always be available from @data.
+>
+>> + *             event.  if both are non-NULL event may be reported to
+>> + *             both.
+>>   * @cookie:    inotify rename cookie
+>>   */
+>>  int fsnotify(__u32 mask, const void *data, int data_type, struct inode *dir,
+>> @@ -483,7 +493,7 @@ int fsnotify(__u32 mask, const void *data, int data_type, struct inode *dir,
+>>                  */
+>>                 parent = dir;
+>>         }
+>> -       sb = inode->i_sb;
+>> +       sb = inode ? inode->i_sb : fsnotify_data_sb(data, data_type);
+>
+>         const struct path *path = fsnotify_data_path(data, data_type);
+> +       const struct super_block *sb = fsnotify_data_sb(data, data_type);
+>
+> All the games with @data @inode and @dir args are irrelevant to this.
+> sb should always be available from @data and it does not matter
+> if fsnotify_data_inode() is the same as @inode, @dir or neither.
+> All those inodes are anyway on the same sb.
 
-v3: https://lore.kernel.org/lkml/20210807120905.GA14706@asgard.redhat.com/
-  - Fixed header guard macro: s/_UAPI_LINUX_PID_H/_UAPI_LINUX_PIDTYPE_H/,
-    as noted by Dmitry Levin.
+Hi Amir,
 
-v2: https://lore.kernel.org/lkml/20210807104800.GA22620@asgard.redhat.com/
-  - Header file is renamed from pid.h to pidtype.h to avoid collisions
-    with include/linux/pid.h when included from uapi headers;
-  - The enum type has renamed from __kernel_pid_type to __kernel_pidtype
-    to avoid possible confusion with __kernel_pid_t.
+I think this is actually necessary.  I could identify at least one event
+(FS_CREATE | FS_ISDIR) where fsnotify is invoked with a NULL data field.
+In that case, fsnotify_dirent is called with a negative dentry from
+vfs_mkdir().  I'm not sure why exactly the dentry is negative after the
+mkdir, but it would be possible we are racing with the file removal, I
+guess?  It might be a bug in fsnotify that this case even happen, but
+I'm not sure yet.
 
-v1: https://lore.kernel.org/lkml/20210807010123.GA5174@asgard.redhat.com/
----
- Documentation/admin-guide/hw-vuln/core-scheduling.rst | 5 +++--
- include/uapi/linux/prctl.h                            | 3 +++
- kernel/sched/core_sched.c                             | 4 ++++
- 3 files changed, 10 insertions(+), 2 deletions(-)
+The easiest way around it is what I proposed: just use inode->i_sb if
+data is NULL.  Since, as you said, data, inode and dir are all on the
+same superblock, it should work, I think.
 
-diff --git a/Documentation/admin-guide/hw-vuln/core-scheduling.rst b/Documentation/admin-guide/hw-vuln/core-scheduling.rst
-index 7b410ae..9a65fed 100644
---- a/Documentation/admin-guide/hw-vuln/core-scheduling.rst
-+++ b/Documentation/admin-guide/hw-vuln/core-scheduling.rst
-@@ -61,8 +61,9 @@ arg3:
-     ``pid`` of the task for which the operation applies.
- 
- arg4:
--    ``pid_type`` for which the operation applies. It is of type ``enum pid_type``.
--    For example, if arg4 is ``PIDTYPE_TGID``, then the operation of this command
-+    ``pid_type`` for which the operation applies. It is one of
-+    ``PR_SCHED_CORE_SCOPE_``-prefixed macro constants.  For example, if arg4
-+    is ``PR_SCHED_CORE_SCOPE_THREAD_GROUP``, then the operation of this command
-     will be performed for all tasks in the task group of ``pid``.
- 
- arg5:
-diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
-index 967d9c5..644a3b4 100644
---- a/include/uapi/linux/prctl.h
-+++ b/include/uapi/linux/prctl.h
-@@ -266,5 +266,8 @@ struct prctl_mm_map {
- # define PR_SCHED_CORE_SHARE_TO		2 /* push core_sched cookie to pid */
- # define PR_SCHED_CORE_SHARE_FROM	3 /* pull core_sched cookie to pid */
- # define PR_SCHED_CORE_MAX		4
-+# define PR_SCHED_CORE_SCOPE_THREAD		0
-+# define PR_SCHED_CORE_SCOPE_THREAD_GROUP	1
-+# define PR_SCHED_CORE_SCOPE_PROCESS_GROUP	2
- 
- #endif /* _LINUX_PRCTL_H */
-diff --git a/kernel/sched/core_sched.c b/kernel/sched/core_sched.c
-index 9a80e9a..20f6409 100644
---- a/kernel/sched/core_sched.c
-+++ b/kernel/sched/core_sched.c
-@@ -134,6 +134,10 @@ int sched_core_share_pid(unsigned int cmd, pid_t pid, enum pid_type type,
- 	if (!static_branch_likely(&sched_smt_present))
- 		return -ENODEV;
- 
-+	BUILD_BUG_ON(PR_SCHED_CORE_SCOPE_THREAD != PIDTYPE_PID);
-+	BUILD_BUG_ON(PR_SCHED_CORE_SCOPE_THREAD_GROUP != PIDTYPE_TGID);
-+	BUILD_BUG_ON(PR_SCHED_CORE_SCOPE_PROCESS_GROUP != PIDTYPE_PGID);
-+
- 	if (type > PIDTYPE_PGID || cmd >= PR_SCHED_CORE_MAX || pid < 0 ||
- 	    (cmd != PR_SCHED_CORE_GET && uaddr))
- 		return -EINVAL;
 -- 
-2.1.4
-
+Gabriel Krisman Bertazi
