@@ -2,200 +2,136 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C7753F6E1B
-	for <lists+linux-api@lfdr.de>; Wed, 25 Aug 2021 06:09:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7010C3F7B29
+	for <lists+linux-api@lfdr.de>; Wed, 25 Aug 2021 19:06:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229495AbhHYEKa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 25 Aug 2021 00:10:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40836 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229379AbhHYEK3 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 25 Aug 2021 00:10:29 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4EF976128A;
-        Wed, 25 Aug 2021 04:09:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629864584;
-        bh=q4CZczZ6yHtjNAN4pZWATkm+2V/iisboWueuQzZu/lg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WCu7njjXw6mJCEYmrE1MxjEtX/TXJBIe6OC1Ud9uT+P0VzjxsK0mPusvZ2B4dpCpd
-         QW8UzxsXDz2cTJoJbG1b357gvcFC+z5L6qdhR1ORAXn93GPRIJ87oAeOl4lxO4YDRy
-         GMDpfxLqGtDbAOLoLxMayhgOPK4FgH+0rcSFE+Slmb9hfiGLVcMoJ00C7r6Z4O94QE
-         iXoZw/URRBgg/iR8g8Onzb1ef6m186SBLYdqEX8dQfhR4DyepCaLE7t5n1mwFuo1aq
-         9JmnjoEmuMPa0vrSbEzjwNMm65VczJ0MVxJHID73KKUV+8LPjGZE5Evn2TjSuRV58p
-         MQ9oouMWhmlQA==
-Date:   Tue, 24 Aug 2021 21:09:43 -0700
-From:   "Darrick J. Wong" <djwong@kernel.org>
-To:     Gabriel Krisman Bertazi <krisman@collabora.com>
-Cc:     Jan Kara <jack@suse.cz>, amir73il@gmail.com, jack@suse.com,
-        linux-api@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, khazhy@google.com,
-        dhowells@redhat.com, david@fromorbit.com, tytso@mit.edu,
-        repnop@google.com, kernel@collabora.com
-Subject: Re: [PATCH v6 18/21] fanotify: Emit generic error info type for
- error event
-Message-ID: <20210825040943.GC12586@magnolia>
-References: <20210812214010.3197279-1-krisman@collabora.com>
- <20210812214010.3197279-19-krisman@collabora.com>
- <20210816214103.GA12664@magnolia>
- <20210817090538.GA26181@quack2.suse.cz>
- <871r6i2397.fsf@collabora.com>
+        id S235489AbhHYRHM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 25 Aug 2021 13:07:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25351 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S241872AbhHYRHL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 25 Aug 2021 13:07:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1629911185;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+        bh=gpUKC5h8J10ybyvZDqljNfqjwgKTySHJSQK0IjTg2II=;
+        b=iueABD+a0TjAOVkgcv9XdbuWN8eoN+gYomP15ktadt2yZxQ4C+tc+d71ZuMYUkZfcdba+r
+        XatjFE1bC7+Y3yHTtoMtxyxFQfA8eHyqfkAxM6XJXar6SeaJpun0xkFSsRUcUqzxed/HO6
+        GDm3ZhvE3UvyRPSjHRhVH7gLL4uSdAw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-387-9c4mkFDsP1WkbHzUj8Z4Jw-1; Wed, 25 Aug 2021 13:06:23 -0400
+X-MC-Unique: 9c4mkFDsP1WkbHzUj8Z4Jw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B18239381;
+        Wed, 25 Aug 2021 17:06:21 +0000 (UTC)
+Received: from asgard.redhat.com (unknown [10.36.110.3])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E7001346F;
+        Wed, 25 Aug 2021 17:06:16 +0000 (UTC)
+Date:   Wed, 25 Aug 2021 19:06:13 +0200
+From:   Eugene Syromiatnikov <esyr@redhat.com>
+To:     "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Chris Hyser <chris.hyser@oracle.com>,
+        Josh Don <joshdon@google.com>, Ingo Molnar <mingo@kernel.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Mel Gorman <mgorman@suse.de>
+Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        "Dmitry V. Levin" <ldv@strace.io>, linux-doc@vger.kernel.org,
+        linux-api@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v4] uapi/linux/prctl: provide macro definitions for the
+ PR_SCHED_CORE type argument
+Message-ID: <20210825170613.GA3884@asgard.redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <871r6i2397.fsf@collabora.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 24, 2021 at 12:53:24PM -0400, Gabriel Krisman Bertazi wrote:
-> Jan Kara <jack@suse.cz> writes:
-> 
-> > On Mon 16-08-21 14:41:03, Darrick J. Wong wrote:
-> >> On Thu, Aug 12, 2021 at 05:40:07PM -0400, Gabriel Krisman Bertazi wrote:
-> >> > The Error info type is a record sent to users on FAN_FS_ERROR events
-> >> > documenting the type of error.  It also carries an error count,
-> >> > documenting how many errors were observed since the last reporting.
-> >> > 
-> >> > Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
-> >> > 
-> >> > ---
-> >> > Changes since v5:
-> >> >   - Move error code here
-> >> > ---
-> >> >  fs/notify/fanotify/fanotify.c      |  1 +
-> >> >  fs/notify/fanotify/fanotify.h      |  1 +
-> >> >  fs/notify/fanotify/fanotify_user.c | 36 ++++++++++++++++++++++++++++++
-> >> >  include/uapi/linux/fanotify.h      |  7 ++++++
-> >> >  4 files changed, 45 insertions(+)
-> >> 
-> >> <snip>
-> >> 
-> >> > diff --git a/include/uapi/linux/fanotify.h b/include/uapi/linux/fanotify.h
-> >> > index 16402037fc7a..80040a92e9d9 100644
-> >> > --- a/include/uapi/linux/fanotify.h
-> >> > +++ b/include/uapi/linux/fanotify.h
-> >> > @@ -124,6 +124,7 @@ struct fanotify_event_metadata {
-> >> >  #define FAN_EVENT_INFO_TYPE_FID		1
-> >> >  #define FAN_EVENT_INFO_TYPE_DFID_NAME	2
-> >> >  #define FAN_EVENT_INFO_TYPE_DFID	3
-> >> > +#define FAN_EVENT_INFO_TYPE_ERROR	4
-> >> >  
-> >> >  /* Variable length info record following event metadata */
-> >> >  struct fanotify_event_info_header {
-> >> > @@ -149,6 +150,12 @@ struct fanotify_event_info_fid {
-> >> >  	unsigned char handle[0];
-> >> >  };
-> >> >  
-> >> > +struct fanotify_event_info_error {
-> >> > +	struct fanotify_event_info_header hdr;
-> >> > +	__s32 error;
-> >> > +	__u32 error_count;
-> >> > +};
-> >> 
-> >> My apologies for not having time to review this patchset since it was
-> >> redesigned to use fanotify.  Someday it would be helpful to be able to
-> >> export more detailed error reports from XFS, but as I'm not ready to
-> >> move forward and write that today, I'll try to avoid derailling this at
-> >> the last minute.
-> >
-> > I think we are not quite there and tweaking the passed structure is easy
-> > enough so no worries. Eventually, passing some filesystem-specific blob
-> > together with the event was the plan AFAIR. You're right now is a good
-> > moment to think how exactly we want that passed.
-> >
-> >> Eventually, XFS might want to be able to report errors in file data,
-> >> file metadata, allocation group metadata, and whole-filesystem metadata.
-> >> Userspace can already gather reports from XFS about corruptions reported
-> >> by the online fsck code (see xfs_health.c).
-> >
-> > Yes, although note that the current plan is that we currently have only one
-> > error event queue, others are just added to error_count until the event is
-> > fetched by userspace (on the grounds that the first error is usually the
-> > most meaningful, the others are usually just cascading problems). But I'm
-> > not sure if this scheme would be suitable for online fsck usecase since we
-> > may discard even valid independent errors this way.
-> >
-> >> I /think/ we could subclass the file error structure that you've
-> >> provided like so:
-> >> 
-> >> struct fanotify_event_info_xfs_filesystem_error {
-> >> 	struct fanotify_event_info_error	base;
-> >> 
-> >> 	__u32 magic; /* 0x58465342 to identify xfs */
-> >> 	__u32 type; /* quotas, realtime bitmap, etc. */
-> >> };
-> >> 
-> >> struct fanotify_event_info_xfs_perag_error {
-> >> 	struct fanotify_event_info_error	base;
-> >> 
-> >> 	__u32 magic; /* 0x58465342 to identify xfs */
-> >> 	__u32 type; /* agf, agi, agfl, bno btree, ino btree, etc. */
-> >> 	__u32 agno; /* allocation group number */
-> >> };
-> >> 
-> >> struct fanotify_event_info_xfs_file_error {
-> >> 	struct fanotify_event_info_error	base;
-> >> 
-> >> 	__u32 magic; /* 0x58465342 to identify xfs */
-> >> 	__u32 type; /* extent map, dir, attr, etc. */
-> >> 	__u64 offset; /* file data offset, if applicable */
-> >> 	__u64 length; /* file data length, if applicable */
-> >> };
-> >> 
-> >> (A real XFS implementation might have one structure with the type code
-> >> providing for a tagged union or something; I split it into three
-> >> separate structs here to avoid confusing things.)
-> >
-> > The structure of fanotify event as passed to userspace generally is:
-> >
-> > struct fanotify_event_metadata {
-> >         __u32 event_len;
-> >         __u8 vers;
-> >         __u8 reserved;
-> >         __u16 metadata_len;
-> >         __aligned_u64 mask;
-> >         __s32 fd;
-> >         __s32 pid;
-> > };
-> >
-> > If event_len is > sizeof(struct fanotify_event_metadata), userspace is
-> > expected to look for struct fanotify_event_info_header after struct
-> > fanotify_event_metadata. struct fanotify_event_info_header looks like:
-> >
-> > struct fanotify_event_info_header {
-> >         __u8 info_type;
-> >         __u8 pad;
-> >         __u16 len;
-> > };
-> >
-> > Again if the end of this info (defined by 'len') is smaller than
-> > 'event_len', there is next header with next payload of data. So for example
-> > error event will have:
-> >
-> > struct fanotify_event_metadata
-> > struct fanotify_event_info_error
-> > struct fanotify_event_info_fid
-> >
-> > Now either we could add fs specific blob into fanotify_event_info_error
-> > (but then it would be good to add 'magic' to fanotify_event_info_error now
-> > and define that if 'len' is larger, fs-specific blob follows after fixed
-> > data) or we can add another info type FAN_EVENT_INFO_TYPE_ERROR_FS_DATA
-> > (i.e., attach another structure into the event) which would contain the
-> > 'magic' and then blob of data. I don't have strong preference.
-> 
-> In the v1 of this patchset [1] I implemented the later option, a new
-> info type that the filesystem could provide as a blob.  It was dropped
-> by Amir's request to leave it out of the discussion at that moment.  Should I
-> ressucitate it for the next iteration?  I believe it would attend to XFS needs.
+Commit 7ac592aa35a684ff ("sched: prctl() core-scheduling interface")
+made use of enum pid_type in prctl's arg4; this type and the associated
+enumeration definitions are not exposed to userspace.  Christian
+has suggested to provide additional macro definitions that convey
+the meaning of the type argument more in alignment with its actual
+usage, and this patch does exactly that.
 
-I don't think it's necessary at this time.  We (XFS community) would
-have a bit more work to do before we get to the point of needing those
-sorts of hooks in upstream. :)
+Suggested-by: Christian Brauner <christian.brauner@ubuntu.com>
+Complements: 7ac592aa35a684ff ("sched: prctl() core-scheduling interface")
+Signed-off-by: Eugene Syromiatnikov <esyr@redhat.com>
+---
+v4:
+  - Rewritten in accordance with Christian Brauner's suggestion to provide
+    macro definitions that are explicitly tailored for the prctl op.
 
---D
+v3: https://lore.kernel.org/lkml/20210807120905.GA14706@asgard.redhat.com/
+  - Fixed header guard macro: s/_UAPI_LINUX_PID_H/_UAPI_LINUX_PIDTYPE_H/,
+    as noted by Dmitry Levin.
 
-> 
-> [1] https://lwn.net/ml/linux-fsdevel/20210426184201.4177978-12-krisman@collabora.com/
-> 
-> -- 
-> Gabriel Krisman Bertazi
+v2: https://lore.kernel.org/lkml/20210807104800.GA22620@asgard.redhat.com/
+  - Header file is renamed from pid.h to pidtype.h to avoid collisions
+    with include/linux/pid.h when included from uapi headers;
+  - The enum type has renamed from __kernel_pid_type to __kernel_pidtype
+    to avoid possible confusion with __kernel_pid_t.
+
+v1: https://lore.kernel.org/lkml/20210807010123.GA5174@asgard.redhat.com/
+---
+ Documentation/admin-guide/hw-vuln/core-scheduling.rst | 5 +++--
+ include/uapi/linux/prctl.h                            | 3 +++
+ kernel/sched/core_sched.c                             | 4 ++++
+ 3 files changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/admin-guide/hw-vuln/core-scheduling.rst b/Documentation/admin-guide/hw-vuln/core-scheduling.rst
+index 7b410ae..9a65fed 100644
+--- a/Documentation/admin-guide/hw-vuln/core-scheduling.rst
++++ b/Documentation/admin-guide/hw-vuln/core-scheduling.rst
+@@ -61,8 +61,9 @@ arg3:
+     ``pid`` of the task for which the operation applies.
+ 
+ arg4:
+-    ``pid_type`` for which the operation applies. It is of type ``enum pid_type``.
+-    For example, if arg4 is ``PIDTYPE_TGID``, then the operation of this command
++    ``pid_type`` for which the operation applies. It is one of
++    ``PR_SCHED_CORE_SCOPE_``-prefixed macro constants.  For example, if arg4
++    is ``PR_SCHED_CORE_SCOPE_THREAD_GROUP``, then the operation of this command
+     will be performed for all tasks in the task group of ``pid``.
+ 
+ arg5:
+diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+index 967d9c5..644a3b4 100644
+--- a/include/uapi/linux/prctl.h
++++ b/include/uapi/linux/prctl.h
+@@ -266,5 +266,8 @@ struct prctl_mm_map {
+ # define PR_SCHED_CORE_SHARE_TO		2 /* push core_sched cookie to pid */
+ # define PR_SCHED_CORE_SHARE_FROM	3 /* pull core_sched cookie to pid */
+ # define PR_SCHED_CORE_MAX		4
++# define PR_SCHED_CORE_SCOPE_THREAD		0
++# define PR_SCHED_CORE_SCOPE_THREAD_GROUP	1
++# define PR_SCHED_CORE_SCOPE_PROCESS_GROUP	2
+ 
+ #endif /* _LINUX_PRCTL_H */
+diff --git a/kernel/sched/core_sched.c b/kernel/sched/core_sched.c
+index 9a80e9a..20f6409 100644
+--- a/kernel/sched/core_sched.c
++++ b/kernel/sched/core_sched.c
+@@ -134,6 +134,10 @@ int sched_core_share_pid(unsigned int cmd, pid_t pid, enum pid_type type,
+ 	if (!static_branch_likely(&sched_smt_present))
+ 		return -ENODEV;
+ 
++	BUILD_BUG_ON(PR_SCHED_CORE_SCOPE_THREAD != PIDTYPE_PID);
++	BUILD_BUG_ON(PR_SCHED_CORE_SCOPE_THREAD_GROUP != PIDTYPE_TGID);
++	BUILD_BUG_ON(PR_SCHED_CORE_SCOPE_PROCESS_GROUP != PIDTYPE_PGID);
++
+ 	if (type > PIDTYPE_PGID || cmd >= PR_SCHED_CORE_MAX || pid < 0 ||
+ 	    (cmd != PR_SCHED_CORE_GET && uaddr))
+ 		return -EINVAL;
+-- 
+2.1.4
+
