@@ -2,127 +2,131 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 311633F84F5
-	for <lists+linux-api@lfdr.de>; Thu, 26 Aug 2021 12:00:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EB2D3F85BB
+	for <lists+linux-api@lfdr.de>; Thu, 26 Aug 2021 12:42:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241112AbhHZKBT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 26 Aug 2021 06:01:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34894 "EHLO mail.kernel.org"
+        id S241317AbhHZKm7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 26 Aug 2021 06:42:59 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:60006 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241085AbhHZKBT (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 26 Aug 2021 06:01:19 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 60C0A610D0;
-        Thu, 26 Aug 2021 10:00:28 +0000 (UTC)
-Date:   Thu, 26 Aug 2021 12:00:25 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Eugene Syromiatnikov <esyr@redhat.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>
-Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Chris Hyser <chris.hyser@oracle.com>,
-        Josh Don <joshdon@google.com>, Ingo Molnar <mingo@kernel.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Mel Gorman <mgorman@suse.de>, linux-kernel@vger.kernel.org,
+        id S241651AbhHZKm4 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 26 Aug 2021 06:42:56 -0400
+Received: from zn.tnic (p200300ec2f131000e9f5f92baa539bd3.dip0.t-ipconnect.de [IPv6:2003:ec:2f13:1000:e9f5:f92b:aa53:9bd3])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 9EDD51EC059F;
+        Thu, 26 Aug 2021 12:42:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1629974522;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=/+zhsnMCrl4A1n84q3D+HixyM8NtGVeoOXJJaRfniYk=;
+        b=c5jpgK1MuWlgU05fahpkc1I9eMRr/FOkjedaTw9QY/zCUba7rQd7eEX53TDqwO6Y6qKXWo
+        hBHX2exznBaT3SXIjGxWc1w+FlzKFNm26E8tQXEj7Jshs/5Zy9aH364EXKZqXh7cIDlJHj
+        /t4AWf7oZRi4ov8NimScmrn48Z12fNQ=
+Date:   Thu, 26 Aug 2021 12:42:39 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        "Dmitry V. Levin" <ldv@strace.io>, linux-doc@vger.kernel.org,
-        linux-api@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v4] uapi/linux/prctl: provide macro definitions for the
- PR_SCHED_CORE type argument
-Message-ID: <20210826100025.pdakvmg24gomnuk5@wittgenstein>
-References: <20210825170613.GA3884@asgard.redhat.com>
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        Rick P Edgecombe <rick.p.edgecombe@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v29 12/32] x86/mm: Update ptep_set_wrprotect() and
+ pmdp_set_wrprotect() for transition from _PAGE_DIRTY to _PAGE_COW
+Message-ID: <YSdwH1T7g5B3E9ZH@zn.tnic>
+References: <20210820181201.31490-1-yu-cheng.yu@intel.com>
+ <20210820181201.31490-13-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210825170613.GA3884@asgard.redhat.com>
+In-Reply-To: <20210820181201.31490-13-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Aug 25, 2021 at 07:06:13PM +0200, Eugene Syromiatnikov wrote:
-> Commit 7ac592aa35a684ff ("sched: prctl() core-scheduling interface")
-> made use of enum pid_type in prctl's arg4; this type and the associated
-> enumeration definitions are not exposed to userspace.  Christian
-> has suggested to provide additional macro definitions that convey
-> the meaning of the type argument more in alignment with its actual
-> usage, and this patch does exactly that.
-> 
-> Suggested-by: Christian Brauner <christian.brauner@ubuntu.com>
-> Complements: 7ac592aa35a684ff ("sched: prctl() core-scheduling interface")
-> Signed-off-by: Eugene Syromiatnikov <esyr@redhat.com>
-> ---
-
-I mean, I proposed the names so I'm ok with them. :)
-Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
-
-Peter et al. are you ok with this and do the names make sense to you?
-
-Christian
-
-> v4:
->   - Rewritten in accordance with Christian Brauner's suggestion to provide
->     macro definitions that are explicitly tailored for the prctl op.
-> 
-> v3: https://lore.kernel.org/lkml/20210807120905.GA14706@asgard.redhat.com/
->   - Fixed header guard macro: s/_UAPI_LINUX_PID_H/_UAPI_LINUX_PIDTYPE_H/,
->     as noted by Dmitry Levin.
-> 
-> v2: https://lore.kernel.org/lkml/20210807104800.GA22620@asgard.redhat.com/
->   - Header file is renamed from pid.h to pidtype.h to avoid collisions
->     with include/linux/pid.h when included from uapi headers;
->   - The enum type has renamed from __kernel_pid_type to __kernel_pidtype
->     to avoid possible confusion with __kernel_pid_t.
-> 
-> v1: https://lore.kernel.org/lkml/20210807010123.GA5174@asgard.redhat.com/
-> ---
->  Documentation/admin-guide/hw-vuln/core-scheduling.rst | 5 +++--
->  include/uapi/linux/prctl.h                            | 3 +++
->  kernel/sched/core_sched.c                             | 4 ++++
->  3 files changed, 10 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/hw-vuln/core-scheduling.rst b/Documentation/admin-guide/hw-vuln/core-scheduling.rst
-> index 7b410ae..9a65fed 100644
-> --- a/Documentation/admin-guide/hw-vuln/core-scheduling.rst
-> +++ b/Documentation/admin-guide/hw-vuln/core-scheduling.rst
-> @@ -61,8 +61,9 @@ arg3:
->      ``pid`` of the task for which the operation applies.
->  
->  arg4:
-> -    ``pid_type`` for which the operation applies. It is of type ``enum pid_type``.
-> -    For example, if arg4 is ``PIDTYPE_TGID``, then the operation of this command
-> +    ``pid_type`` for which the operation applies. It is one of
-> +    ``PR_SCHED_CORE_SCOPE_``-prefixed macro constants.  For example, if arg4
-> +    is ``PR_SCHED_CORE_SCOPE_THREAD_GROUP``, then the operation of this command
->      will be performed for all tasks in the task group of ``pid``.
->  
->  arg5:
-> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
-> index 967d9c5..644a3b4 100644
-> --- a/include/uapi/linux/prctl.h
-> +++ b/include/uapi/linux/prctl.h
-> @@ -266,5 +266,8 @@ struct prctl_mm_map {
->  # define PR_SCHED_CORE_SHARE_TO		2 /* push core_sched cookie to pid */
->  # define PR_SCHED_CORE_SHARE_FROM	3 /* pull core_sched cookie to pid */
->  # define PR_SCHED_CORE_MAX		4
-> +# define PR_SCHED_CORE_SCOPE_THREAD		0
-> +# define PR_SCHED_CORE_SCOPE_THREAD_GROUP	1
-> +# define PR_SCHED_CORE_SCOPE_PROCESS_GROUP	2
->  
->  #endif /* _LINUX_PRCTL_H */
-> diff --git a/kernel/sched/core_sched.c b/kernel/sched/core_sched.c
-> index 9a80e9a..20f6409 100644
-> --- a/kernel/sched/core_sched.c
-> +++ b/kernel/sched/core_sched.c
-> @@ -134,6 +134,10 @@ int sched_core_share_pid(unsigned int cmd, pid_t pid, enum pid_type type,
->  	if (!static_branch_likely(&sched_smt_present))
->  		return -ENODEV;
->  
-> +	BUILD_BUG_ON(PR_SCHED_CORE_SCOPE_THREAD != PIDTYPE_PID);
-> +	BUILD_BUG_ON(PR_SCHED_CORE_SCOPE_THREAD_GROUP != PIDTYPE_TGID);
-> +	BUILD_BUG_ON(PR_SCHED_CORE_SCOPE_PROCESS_GROUP != PIDTYPE_PGID);
+On Fri, Aug 20, 2021 at 11:11:41AM -0700, Yu-cheng Yu wrote:
+> @@ -1322,6 +1340,24 @@ static inline pud_t pudp_huge_get_and_clear(struct mm_struct *mm,
+>  static inline void pmdp_set_wrprotect(struct mm_struct *mm,
+>  				      unsigned long addr, pmd_t *pmdp)
+>  {
+> +	/*
+> +	 * If Shadow Stack is enabled, pmd_wrprotect() moves _PAGE_DIRTY
+> +	 * to _PAGE_COW (see comments at pmd_wrprotect()).
+> +	 * When a thread reads a RW=1, Dirty=0 PMD and before changing it
+> +	 * to RW=0, Dirty=0, another thread could have written to the page
+> +	 * and the PMD is RW=1, Dirty=1 now.  Use try_cmpxchg() to detect
+> +	 * PMD changes and update old_pmd, then try again.
+> +	 */
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+> +		pmd_t old_pmd, new_pmd;
 > +
->  	if (type > PIDTYPE_PGID || cmd >= PR_SCHED_CORE_MAX || pid < 0 ||
->  	    (cmd != PR_SCHED_CORE_GET && uaddr))
->  		return -EINVAL;
-> -- 
-> 2.1.4
-> 
+> +		old_pmd = READ_ONCE(*pmdp);
+> +		do {
+> +			new_pmd = pmd_wrprotect(old_pmd);
+> +		} while (!try_cmpxchg((pmdval_t *)pmdp, (pmdval_t *)&old_pmd, pmd_val(new_pmd)));
+
+From the previous thread:
+
+> If !(CONFIG_PGTABLE_LEVELS > 2), we don't have pmd_t.pmd.
+
+So I guess you can do this, in line with how the pmd folding is done in
+the rest of the mm headers. There's no need to make this more complex
+than it is just so that 32-bit !PAE builds but where CET is not even
+enabled.
+
+---
+diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
+index df4ce715560a..7c0542997790 100644
+--- a/arch/x86/include/asm/pgtable.h
++++ b/arch/x86/include/asm/pgtable.h
+@@ -1340,6 +1340,7 @@ static inline pud_t pudp_huge_get_and_clear(struct mm_struct *mm,
+ static inline void pmdp_set_wrprotect(struct mm_struct *mm,
+ 				      unsigned long addr, pmd_t *pmdp)
+ {
++#if CONFIG_PGTABLE_LEVELS > 2
+ 	/*
+ 	 * If Shadow Stack is enabled, pmd_wrprotect() moves _PAGE_DIRTY
+ 	 * to _PAGE_COW (see comments at pmd_wrprotect()).
+@@ -1354,10 +1355,11 @@ static inline void pmdp_set_wrprotect(struct mm_struct *mm,
+ 		old_pmd = READ_ONCE(*pmdp);
+ 		do {
+ 			new_pmd = pmd_wrprotect(old_pmd);
+-		} while (!try_cmpxchg((pmdval_t *)pmdp, (pmdval_t *)&old_pmd, pmd_val(new_pmd)));
++		} while (!try_cmpxchg(&pmdp->pmd, &old_pmd.pmd, new_pmd.pmd));
+ 
+ 		return;
+ 	}
++#endif
+ 	clear_bit(_PAGE_BIT_RW, (unsigned long *)pmdp);
+ }
+ 
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
