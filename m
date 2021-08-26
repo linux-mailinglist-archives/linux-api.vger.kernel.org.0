@@ -2,30 +2,30 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E74EC3F8C0C
-	for <lists+linux-api@lfdr.de>; Thu, 26 Aug 2021 18:25:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D69D3F8C74
+	for <lists+linux-api@lfdr.de>; Thu, 26 Aug 2021 18:50:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242900AbhHZQZj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 26 Aug 2021 12:25:39 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:56304 "EHLO mail.skyhub.de"
+        id S243076AbhHZQup (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 26 Aug 2021 12:50:45 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:59892 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S243097AbhHZQZd (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 26 Aug 2021 12:25:33 -0400
+        id S243057AbhHZQuo (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 26 Aug 2021 12:50:44 -0400
 Received: from zn.tnic (p200300ec2f131000dba9b80c472eda01.dip0.t-ipconnect.de [IPv6:2003:ec:2f13:1000:dba9:b80c:472e:da01])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B1D801EC05A0;
-        Thu, 26 Aug 2021 18:24:39 +0200 (CEST)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D62201EC05A0;
+        Thu, 26 Aug 2021 18:49:50 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1629995079;
+        t=1629996590;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=nAR7I+RvkkR/CrtB9Lh5jb8RkckwGTFjzOTKJm0aJng=;
-        b=Fv5in2D0HjkccNSYDhG+FSvC/iX9cjzHUQdJQToLlOkfDP7a/N8oTZciIY7S/3bDe82h3m
-        ix8Spe+M056b1gjhQeLRDPPZPBWO3+W2s6SQcOAvtunECnZo8gqH1zzVBzzJnCvo/M8jNy
-        9fPksymjuHyNGHV1LbVz3DmW57apopg=
-Date:   Thu, 26 Aug 2021 18:25:17 +0200
+        bh=xrrLoUFQeTzSv38tX8kg/sBY3s9iE6Grlnu4Ib+IL4w=;
+        b=Niz6S7oZDR2Axj3lptRap8tMoCfDtYU0aCE/5Ruk8qqTLxFk4LNQ3Yb9tm2laIvHHeU9xg
+        RY9zVoTSpMpeYsaJrK/baDxYAh7/jRThR7B7v3AN/yQG8N8w/MVg6288Rrsjhye+e/lXwa
+        8WPKCUbtMwXvxyQ4bDhuAA87KVWHCss=
+Date:   Thu, 26 Aug 2021 18:50:26 +0200
 From:   Borislav Petkov <bp@alien8.de>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -54,92 +54,44 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Pengfei Xu <pengfei.xu@intel.com>,
         Haitao Huang <haitao.huang@intel.com>,
         Rick P Edgecombe <rick.p.edgecombe@intel.com>
-Subject: Re: [PATCH v29 23/32] x86/cet/shstk: Add user-mode shadow stack
- support
-Message-ID: <YSfAbaMxQegvmN2p@zn.tnic>
+Subject: Re: [PATCH v29 25/32] x86/cet/shstk: Handle thread shadow stack
+Message-ID: <YSfGUlGJdV/5EcBs@zn.tnic>
 References: <20210820181201.31490-1-yu-cheng.yu@intel.com>
- <20210820181201.31490-24-yu-cheng.yu@intel.com>
+ <20210820181201.31490-26-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210820181201.31490-24-yu-cheng.yu@intel.com>
+In-Reply-To: <20210820181201.31490-26-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Aug 20, 2021 at 11:11:52AM -0700, Yu-cheng Yu wrote:
-> diff --git a/arch/x86/include/asm/cet.h b/arch/x86/include/asm/cet.h
-> new file mode 100644
-> index 000000000000..6432baf4de1f
-> --- /dev/null
-> +++ b/arch/x86/include/asm/cet.h
-> @@ -0,0 +1,30 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef _ASM_X86_CET_H
-> +#define _ASM_X86_CET_H
-> +
-> +#ifndef __ASSEMBLY__
-> +#include <linux/types.h>
-> +
-> +struct task_struct;
-> +
-> +/*
-> + * Per-thread CET status
-> + */
-
-That comment is superfluous and wrong now. The struct name says exactly
-what that thing is.
-
-> +static unsigned long alloc_shstk(unsigned long size)
+On Fri, Aug 20, 2021 at 11:11:54AM -0700, Yu-cheng Yu wrote:
+> diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
+> index 5993aa8db338..7c1ca2476a5e 100644
+> --- a/arch/x86/kernel/shstk.c
+> +++ b/arch/x86/kernel/shstk.c
+> @@ -75,6 +75,61 @@ int shstk_setup(void)
+>  	return err;
+>  }
+>  
+> +int shstk_alloc_thread_stack(struct task_struct *tsk, unsigned long clone_flags,
+> +			     unsigned long stack_size)
 > +{
-> +	int flags = MAP_ANONYMOUS | MAP_PRIVATE;
-> +	struct mm_struct *mm = current->mm;
-> +	unsigned long addr, populate;
-
-s/populate/unused/
-
+> +	struct thread_shstk *shstk = &tsk->thread.shstk;
+> +	struct cet_user_state *state;
+> +	unsigned long addr;
 > +
-> +	mmap_write_lock(mm);
-> +	addr = do_mmap(NULL, 0, size, PROT_READ, flags, VM_SHADOW_STACK, 0,
-> +		       &populate, NULL);
-> +	mmap_write_unlock(mm);
-> +
-> +	return addr;
-> +}
-> +
-> +int shstk_setup(void)
-> +{
-> +	struct thread_shstk *shstk = &current->thread.shstk;
-> +	unsigned long addr, size;
-> +	int err;
-> +
-> +	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
+> +	if (!shstk->size)
 > +		return 0;
 > +
-> +	size = round_up(min_t(unsigned long long, rlimit(RLIMIT_STACK), SZ_4G), PAGE_SIZE);
-> +	addr = alloc_shstk(size);
-> +	if (IS_ERR_VALUE(addr))
-> +		return PTR_ERR((void *)addr);
-> +
-> +	start_update_msrs();
+> +	/*
+> +	 * Earlier clone() does not pass stack_size.  Use RLIMIT_STACK and
 
-You're setting CET_U with the MSR writes below. Why do you need to do
-XRSTOR here? To zero out PL[012]_SSP?
+What is "earlier clone()"?
 
-If so, you can WRMSR those too - no need for a full XRSTOR...
-
-> +	err = wrmsrl_safe(MSR_IA32_PL3_SSP, addr + size);
-> +	if (!err)
-> +		wrmsrl_safe(MSR_IA32_U_CET, CET_SHSTK_EN);
-> +	end_update_msrs();
-> +
-> +	if (!err) {
-> +		shstk->base = addr;
-> +		shstk->size = size;
-> +	}
-> +
-> +	return err;
-> +}
+> +	 * cap to 4 GB.
+> +	 */
 
 -- 
 Regards/Gruss,
