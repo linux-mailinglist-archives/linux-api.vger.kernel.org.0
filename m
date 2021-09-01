@@ -2,78 +2,182 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CAA33FE067
-	for <lists+linux-api@lfdr.de>; Wed,  1 Sep 2021 18:52:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 667543FE08E
+	for <lists+linux-api@lfdr.de>; Wed,  1 Sep 2021 19:01:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344529AbhIAQx1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 1 Sep 2021 12:53:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38713 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1344338AbhIAQxP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 1 Sep 2021 12:53:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1630515137;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=TFvsn1Vu39hsNbhEPHNzOXZ3d4CPqiedKNbByx0eETA=;
-        b=RU55tzVXdm+wTLnfb05d6aEPexdA9WMqTDkXoM/ydHoDPw6l5uAYWsgxHNiHzOOJa3T4Ga
-        RKWQGCsBLEwQQmun/wziUUJDr+iegZ6X5XWCwkNlgcXNSCavz3d/YtC9phn/I7+w6TugdR
-        6UrkGW3ogPaAyCgXmRxf+yOUGbYGIHI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-5lVYr0grPgqxlMWjHEDMAA-1; Wed, 01 Sep 2021 12:52:14 -0400
-X-MC-Unique: 5lVYr0grPgqxlMWjHEDMAA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79BC76D581;
-        Wed,  1 Sep 2021 16:52:12 +0000 (UTC)
-Received: from asgard.redhat.com (unknown [10.36.110.7])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B6DC5C1BB;
-        Wed,  1 Sep 2021 16:52:05 +0000 (UTC)
-Date:   Wed, 1 Sep 2021 18:52:02 +0200
-From:   Eugene Syromiatnikov <esyr@redhat.com>
-To:     Cai Huoqing <caihuoqing@baidu.com>
-Cc:     linux-audit@redhat.com,
-        strace development discussions <strace-devel@lists.strace.io>,
-        linux-api@vger.kernel.org, davem@davemloft.net,
-        yoshfuji@linux-ipv6.org, dsahern@kernel.org, kuba@kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org, ldv@strace.io
-Subject: Re: [PATCH 1/2] net: Remove net/ipx.h and uapi/linux/ipx.h header
- files
-Message-ID: <20210901165202.GA4518@asgard.redhat.com>
-References: <20210813120803.101-1-caihuoqing@baidu.com>
- <20210813120803.101-2-caihuoqing@baidu.com>
- <20210901160244.GA5957@asgard.redhat.com>
+        id S1344625AbhIARCY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 1 Sep 2021 13:02:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36860 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232491AbhIARCY (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 1 Sep 2021 13:02:24 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95698C061760
+        for <linux-api@vger.kernel.org>; Wed,  1 Sep 2021 10:01:27 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id d17so23735plr.12
+        for <linux-api@vger.kernel.org>; Wed, 01 Sep 2021 10:01:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=osandov-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7z/2dlf0grWEDBYN4uBpH9eN+dQign0MVAnQPoL4FCI=;
+        b=SGmKIf7tlBfPr0guxBZYwXYtkwbjtmVtlw9BMNNqkPuJhTMnou2pWpE4TpZmX0S3To
+         XUU3YH5kDpAJ+xm2pyr9HgCcURxQOVRD50zql7kLN0CWkR4+udpILV4r1RN8lPet/Ex0
+         uY24+XJmgclryg30uZ8aFnDfa7dN2YI6oT3AfXrGHYxULPBDLZSKaHyHBmm/o3NYVcim
+         Zb1sDtKxrboGjedha9wrONqzvumRG74Cdven23JFKXblkKXizJAPrhasp5qn5l90V5i3
+         ggUrYsBLDskiK0jp8Dotk4/SObvW/TdcsYIFYdBaIYPO8UfoVtQKhar2hSivP1cApQzX
+         /bww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7z/2dlf0grWEDBYN4uBpH9eN+dQign0MVAnQPoL4FCI=;
+        b=Ww4i0Ss0OHHReDE34dJgh2JDANu8FcoEJAFFjGu+AW4wJQeo61LAz4U854N+BP//cK
+         4I0koNHxluLjeCn2yCMafXFeyajMaD0cYNJP7YH4vg0CUq7i8KA9b3rpij1KhQG0JkaC
+         V6T4cyykoU/7xzR+9R8zkd+G6wMwCdHVx6q7zAtnQGxOqD7LV5ThOWpYpLrCBjezB4Ie
+         cCaUzcbMab0zErl8dQtHJJ0LYs+B13z5QyENWKhB6HPDRLOSEQjdORw9kvjTv/L3o2RR
+         b3B18xs/qghAiddn/6SAPZIpplMBBGdqjk0leQdlGww8VpHXI1jrW7lykVOuijPYLLD1
+         CiZA==
+X-Gm-Message-State: AOAM532CRzb7BBk6ht0Q6mDcsb6s69AfP6k++ug2W7lUt3DSYPKNWRSM
+        7k6C91TxftKfnKkj7mZKj8EXAA==
+X-Google-Smtp-Source: ABdhPJytGmKyXo5rkmIO4tgwrK5+2+MBFj7bC+6lm3wyFfgwR0hVBdgwITuwmiJeZ8yyGgOFeDGTCA==
+X-Received: by 2002:a17:90a:1991:: with SMTP id 17mr342058pji.149.1630515686879;
+        Wed, 01 Sep 2021 10:01:26 -0700 (PDT)
+Received: from relinquished.tfbnw.net ([2620:10d:c090:400::5:a2b2])
+        by smtp.gmail.com with ESMTPSA id y7sm58642pff.206.2021.09.01.10.01.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Sep 2021 10:01:26 -0700 (PDT)
+From:   Omar Sandoval <osandov@osandov.com>
+To:     linux-btrfs@vger.kernel.org
+Cc:     kernel-team@fb.com, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org
+Subject: [PATCH v11 00/14] btrfs: add ioctls and send/receive support for reading/writing compressed data
+Date:   Wed,  1 Sep 2021 10:00:55 -0700
+Message-Id: <cover.1630514529.git.osandov@fb.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210901160244.GA5957@asgard.redhat.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Adding linux-audit, strace-devel, and linux-api to CC:.
+From: Omar Sandoval <osandov@fb.com>
 
-On Wed, Sep 01, 2021 at 06:02:44PM +0200, Eugene Syromiatnikov wrote:
-> On Fri, Aug 13, 2021 at 08:08:02PM +0800, Cai Huoqing wrote:
-> > commit <47595e32869f> ("<MAINTAINERS: Mark some staging directories>")
-> > indicated the ipx network layer as obsolete in Jan 2018,
-> > updated in the MAINTAINERS file
-> > 
-> > now, after being exposed for 3 years to refactoring, so to
-> > delete uapi/linux/ipx.h and net/ipx.h header files for good.
-> > additionally, there is no module that depends on ipx.h except
-> > a broken staging driver(r8188eu)
-> > 
-> > Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
-> 
-> This removal breaks audit[1] and potentially breaks strace[2][3], at least.
-> 
-> [1] https://github.com/linux-audit/audit-userspace/blob/ce58837d44b7d9fcb4e140c23f68e0c94d95ab6e/auparse/interpret.c#L48
-> [2] https://gitlab.com/strace/strace/-/blob/9fe63f42df8badd22fb7eef9c12fc07ed7106d6b/src/net.c#L34
-> [3] https://gitlab.com/strace/strace/-/blob/9fe63f42df8badd22fb7eef9c12fc07ed7106d6b/src/sockaddr.c#L30
+This series has three parts: new Btrfs ioctls for reading/writing
+compressed data, support for sending compressed data via Btrfs send, and
+btrfs-progs support for sending/receiving compressed data and writing it
+with the new ioctl.
+
+Patches 1 and 2 are VFS changes exporting a couple of helpers for checks
+needed by reads and writes. Patches 3-7 are preparatory Btrfs changes
+for compressed reads and writes. Patch 8 adds the compressed read ioctl
+and patch 9 adds the compressed write ioctl.
+
+The main use-case for this interface is Btrfs send/receive. Currently,
+when sending data from one compressed filesystem to another, the sending
+side decompresses the data and the receiving side recompresses it before
+writing it out. This is wasteful and can be avoided if we can just send
+and write compressed extents.
+
+Patches 10-14 add the Btrfs send support. See the previous posting for
+more details and benchmarks [1]. Patches 10-12 prepare some protocol
+changes for send stream v2. Patch 13 implements compressed send. Patch
+14 enables send stream v2 and compressed send in the send ioctl when
+requested.
+
+These patches are based on Dave Sterba's Btrfs misc-next branch [2],
+which is in turn currently based on v5.14-rc7. Test cases are here [3].
+
+Changes since v10 [4]:
+
+Addressed Dave's and Nikolay's comments, mostly stylistic.
+
+- Renamed __generic_write_checks() to generic_write_checks_count().
+- Add missing count == 0 check to generic_write_checks_count().
+- Used in_range() macro in btrfs_csum_one_bio().
+- Renamed page_offsets variable to use_page_offsets in
+  btrfs_csum_one_bio().
+- Removed conditional on offset increment in btrfs_csum_one_bio().
+- Fixed stale reference to RWF_ENCODED in comment.
+
+1: https://lore.kernel.org/linux-btrfs/cover.1615922753.git.osandov@fb.com/
+2: https://github.com/kdave/btrfs-devel/tree/misc-next
+3: https://github.com/osandov/xfstests/tree/btrfs-encoded-io
+4: https://lore.kernel.org/linux-btrfs/cover.1629234193.git.osandov@fb.com/
+
+Omar Sandoval (14):
+  fs: export rw_verify_area()
+  fs: export variant of generic_write_checks without iov_iter
+  btrfs: don't advance offset for compressed bios in
+    btrfs_csum_one_bio()
+  btrfs: add ram_bytes and offset to btrfs_ordered_extent
+  btrfs: support different disk extent size for delalloc
+  btrfs: optionally extend i_size in cow_file_range_inline()
+  btrfs: add definitions + documentation for encoded I/O ioctls
+  btrfs: add BTRFS_IOC_ENCODED_READ
+  btrfs: add BTRFS_IOC_ENCODED_WRITE
+  btrfs: add send stream v2 definitions
+  btrfs: send: write larger chunks when using stream v2
+  btrfs: send: allocate send buffer with alloc_page() and vmap() for v2
+  btrfs: send: send compressed extents with encoded writes
+  btrfs: send: enable support for stream v2 and compressed writes
+
+ fs/btrfs/compression.c     |  12 +-
+ fs/btrfs/compression.h     |   6 +-
+ fs/btrfs/ctree.h           |  17 +-
+ fs/btrfs/delalloc-space.c  |  18 +-
+ fs/btrfs/file-item.c       |  32 +-
+ fs/btrfs/file.c            |  68 ++-
+ fs/btrfs/inode.c           | 911 +++++++++++++++++++++++++++++++++----
+ fs/btrfs/ioctl.c           | 213 +++++++++
+ fs/btrfs/ordered-data.c    | 124 ++---
+ fs/btrfs/ordered-data.h    |  25 +-
+ fs/btrfs/relocation.c      |   2 +-
+ fs/btrfs/send.c            | 307 +++++++++++--
+ fs/btrfs/send.h            |  32 +-
+ fs/internal.h              |   5 -
+ fs/read_write.c            |  34 +-
+ include/linux/fs.h         |   2 +
+ include/uapi/linux/btrfs.h | 149 +++++-
+ 17 files changed, 1686 insertions(+), 271 deletions(-)
+
+The btrfs-progs patches were written by Boris Burkov with some updates
+from me. Patches 1-4 are preparation. Patch 5 implements encoded writes.
+Patch 6 implements the fallback to decompressing. Patches 7 and 8
+implement the other commands. Patch 9 adds the new `btrfs send` options.
+Patch 10 adds a test case.
+
+Changes from v10:
+
+- Fixed feature fallback to check for ENOTTY instead of EOPNOTSUPP.
+
+Boris Burkov (10):
+  btrfs-progs: receive: support v2 send stream larger tlv_len
+  btrfs-progs: receive: dynamically allocate sctx->read_buf
+  btrfs-progs: receive: support v2 send stream DATA tlv format
+  btrfs-progs: receive: add send stream v2 cmds and attrs to send.h
+  btrfs-progs: receive: process encoded_write commands
+  btrfs-progs: receive: encoded_write fallback to explicit decode and
+    write
+  btrfs-progs: receive: process fallocate commands
+  btrfs-progs: receive: process setflags ioctl commands
+  btrfs-progs: send: stream v2 ioctl flags
+  btrfs-progs: receive: add tests for basic encoded_write send/receive
+
+ Documentation/btrfs-receive.asciidoc          |   4 +
+ Documentation/btrfs-send.asciidoc             |  16 +-
+ cmds/receive-dump.c                           |  31 +-
+ cmds/receive.c                                | 347 +++++++++++++++++-
+ cmds/send.c                                   |  54 ++-
+ common/send-stream.c                          | 157 ++++++--
+ common/send-stream.h                          |   7 +
+ ioctl.h                                       | 149 +++++++-
+ libbtrfsutil/btrfs.h                          |  17 +-
+ send.h                                        |  19 +-
+ .../049-receive-write-encoded/test.sh         | 114 ++++++
+ 11 files changed, 871 insertions(+), 44 deletions(-)
+ create mode 100755 tests/misc-tests/049-receive-write-encoded/test.sh
+
+-- 
+2.33.0
 
