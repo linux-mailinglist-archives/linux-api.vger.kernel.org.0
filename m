@@ -2,201 +2,96 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6327D3FE0D4
-	for <lists+linux-api@lfdr.de>; Wed,  1 Sep 2021 19:02:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F0273FE137
+	for <lists+linux-api@lfdr.de>; Wed,  1 Sep 2021 19:37:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345661AbhIARDF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 1 Sep 2021 13:03:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37124 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345703AbhIARDB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 1 Sep 2021 13:03:01 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75FEFC0613D9
-        for <linux-api@vger.kernel.org>; Wed,  1 Sep 2021 10:02:04 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id n4so33136plh.9
-        for <linux-api@vger.kernel.org>; Wed, 01 Sep 2021 10:02:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=9YobspOtAz1+Sdf06vQkAR93CT6czB2ar8/rJ/GZ6Cs=;
-        b=DVF0QuoysMADKI+Uk36IrlUjkmNaQEVFqpz7H8AfZLLH+3ksTzrXUSKxzeF2JXN17U
-         Cy0/k8dB97mVQzSKQrT3T3IslRY0NnSrIQV5smt13P0uVmXBaL4PcXirOc3vjmjeidvs
-         ZETEsWMLQ+NXpgME1Nd4aznuyidqux52JXSI6yrpDqzj2iLsmwgu1Mtq2CHrKv2CAvln
-         n+JgMoCz2dld8xMQBENigy4Hu1U6okMOmOPVwBHbdPWMgmcUlHjUx6AM/FrGxJQLLQV9
-         wiYNiDRxaDTHkwDcKzENMDpn1cQIcyw7j3LmD/SDtHmfeVELR0ia7YZGkWPvIeSXBghm
-         f3Sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=9YobspOtAz1+Sdf06vQkAR93CT6czB2ar8/rJ/GZ6Cs=;
-        b=SjjP7VOG+HusBLfUrylXpgcoA7Z5BIxTX21obafa5au5B0jY6hletefuS5oyCH6cCs
-         TFgA7ouHGgCsohVqaZcPaM6jlN3Dv7L/ba7ODJWV2k3gaRAjMAHvif6myjA7HI6Vw8cL
-         amyodi7CpwrLS49Wb3+K2RpuMPbU8wkyYWU9rjoMUoPTPGZIZ+TqUvbJMIw4NJtUwHlT
-         hIb60JxdOQrNRrwY0jStTKuKCksZfse4Xy378K92TBiP91hWjyd5IL5qOshyDd2hlGgf
-         WswJ+Mj1UnKVS49SUNVtyqKa1TBmDBM23vElGBx7Hjz1abUZno5KSUI9PGaeAMT8l6hM
-         pCcw==
-X-Gm-Message-State: AOAM531HFW1rCv7S/4/9T5oDxwf4Oo56z/wFBUkMg7TkywV55X2Fccb6
-        rerOLRnQNqzWLM8q3nAg0JhDyg==
-X-Google-Smtp-Source: ABdhPJxlfcEIPskxwVOEb8HGmwea/3letveiP0TIoBbY71RY9I7yYXBsq7m4I1vfiL+CZvoGyJHCsg==
-X-Received: by 2002:a17:90b:38cd:: with SMTP id nn13mr405391pjb.108.1630515723923;
-        Wed, 01 Sep 2021 10:02:03 -0700 (PDT)
-Received: from relinquished.tfbnw.net ([2620:10d:c090:400::5:a2b2])
-        by smtp.gmail.com with ESMTPSA id y7sm58642pff.206.2021.09.01.10.02.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Sep 2021 10:02:03 -0700 (PDT)
-From:   Omar Sandoval <osandov@osandov.com>
-To:     linux-btrfs@vger.kernel.org
-Cc:     kernel-team@fb.com, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org
-Subject: [PATCH v11 10/10] btrfs-progs: receive: add tests for basic encoded_write send/receive
-Date:   Wed,  1 Sep 2021 10:01:19 -0700
-Message-Id: <c48dbaee54ec45a822d734ef08f76c2414291eb1.1630515568.git.osandov@fb.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <cover.1630514529.git.osandov@fb.com>
-References: <cover.1630514529.git.osandov@fb.com>
+        id S231852AbhIARiA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 1 Sep 2021 13:38:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32170 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1344499AbhIARiA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 1 Sep 2021 13:38:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1630517822;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=xhdpu5W1fJXLeojM24bKC1MSSzMuWR+Cf49l2mlXcbA=;
+        b=JAS88if+Dj9G5e049lqCm8N5LeL24BxdUlyMGgw5I7CluW8m+KETOHPvlgHk148kT7uXWl
+        vPGVcNg5hxh2BJPyQAW3dq4VfoyDnN6bnxdU9aK+T+Ns49Li/gBSnhY0J2buVz1U3voQub
+        hxhx5xWjbekg6yPphDqxDZYC5ajlq3g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-377-vPtR8mibOjGdW4PL0N-50A-1; Wed, 01 Sep 2021 13:36:59 -0400
+X-MC-Unique: vPtR8mibOjGdW4PL0N-50A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2A7C801A92;
+        Wed,  1 Sep 2021 17:36:57 +0000 (UTC)
+Received: from x2.localnet (unknown [10.22.8.210])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 74C9A5C1BB;
+        Wed,  1 Sep 2021 17:36:56 +0000 (UTC)
+From:   Steve Grubb <sgrubb@redhat.com>
+To:     Cai Huoqing <caihuoqing@baidu.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>
+Cc:     linux-audit@redhat.com,
+        strace development discussions <strace-devel@lists.strace.io>,
+        linux-api@vger.kernel.org, davem@davemloft.net,
+        yoshfuji@linux-ipv6.org, dsahern@kernel.org, kuba@kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org, ldv@strace.io
+Subject: Re: [PATCH 1/2] net: Remove net/ipx.h and uapi/linux/ipx.h header files
+Date:   Wed, 01 Sep 2021 13:36:54 -0400
+Message-ID: <1797920.tdWV9SEqCh@x2>
+Organization: Red Hat
+In-Reply-To: <20210901165202.GA4518@asgard.redhat.com>
+References: <20210813120803.101-1-caihuoqing@baidu.com> <20210901160244.GA5957@asgard.redhat.com> <20210901165202.GA4518@asgard.redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Boris Burkov <boris@bur.io>
+Hello,
 
-Adapt the existing send/receive tests by passing '-o --force-compress'
-to the mount commands in a new test. After writing a few files in the
-various compression formats, send/receive them with and without
---force-decompress to test both the encoded_write path and the
-fallback to decode+write.
+Thanks for the heads up.
 
-Signed-off-by: Boris Burkov <boris@bur.io>
----
- .../049-receive-write-encoded/test.sh         | 114 ++++++++++++++++++
- 1 file changed, 114 insertions(+)
- create mode 100755 tests/misc-tests/049-receive-write-encoded/test.sh
+On Wednesday, September 1, 2021 12:52:02 PM EDT Eugene Syromiatnikov wrote:
+> Adding linux-audit, strace-devel, and linux-api to CC:.
+> 
+> On Wed, Sep 01, 2021 at 06:02:44PM +0200, Eugene Syromiatnikov wrote:
+> > On Fri, Aug 13, 2021 at 08:08:02PM +0800, Cai Huoqing wrote:
+> > > commit <47595e32869f> ("<MAINTAINERS: Mark some staging directories>")
+> > > indicated the ipx network layer as obsolete in Jan 2018,
+> > > updated in the MAINTAINERS file
+> > > 
+> > > now, after being exposed for 3 years to refactoring, so to
+> > > delete uapi/linux/ipx.h and net/ipx.h header files for good.
+> > > additionally, there is no module that depends on ipx.h except
+> > > a broken staging driver(r8188eu)
+> > > 
+> > > Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+> > 
+> > This removal breaks audit[1] and potentially breaks strace[2][3], at
+> > least.
 
-diff --git a/tests/misc-tests/049-receive-write-encoded/test.sh b/tests/misc-tests/049-receive-write-encoded/test.sh
-new file mode 100755
-index 00000000..b9390e88
---- /dev/null
-+++ b/tests/misc-tests/049-receive-write-encoded/test.sh
-@@ -0,0 +1,114 @@
-+#!/bin/bash
-+#
-+# test that we can send and receive encoded writes for three modes of
-+# transparent compression: zlib, lzo, and zstd.
-+
-+source "$TEST_TOP/common"
-+
-+check_prereq mkfs.btrfs
-+check_prereq btrfs
-+
-+setup_root_helper
-+prepare_test_dev
-+
-+here=`pwd`
-+
-+# assumes the filesystem exists, and does mount, write, snapshot, send, unmount
-+# for the specified encoding option
-+send_one() {
-+	local str
-+	local subv
-+	local snap
-+
-+	algorithm="$1"
-+	shift
-+	str="$1"
-+	shift
-+
-+	subv="subv-$algorithm"
-+	snap="snap-$algorithm"
-+
-+	run_check_mount_test_dev "-o" "compress-force=$algorithm"
-+	cd "$TEST_MNT" || _fail "cannot chdir to TEST_MNT"
-+
-+	run_check $SUDO_HELPER "$TOP/btrfs" subvolume create "$subv"
-+	run_check $SUDO_HELPER dd if=/dev/zero of="$subv/file1" bs=1M count=1
-+	run_check $SUDO_HELPER dd if=/dev/zero of="$subv/file2" bs=500K count=1
-+	run_check $SUDO_HELPER "$TOP/btrfs" subvolume snapshot -r "$subv" "$snap"
-+	run_check $SUDO_HELPER "$TOP/btrfs" send -f "$str" "$snap" "$@"
-+
-+	cd "$here" || _fail "cannot chdir back to test directory"
-+	run_check_umount_test_dev
-+}
-+
-+receive_one() {
-+	local str
-+	str="$1"
-+	shift
-+
-+	run_check_mkfs_test_dev
-+	run_check_mount_test_dev
-+	run_check $SUDO_HELPER "$TOP/btrfs" receive "$@" -v -f "$str" "$TEST_MNT"
-+	run_check_umount_test_dev
-+	run_check rm -f -- "$str"
-+}
-+
-+test_one_write_encoded() {
-+	local str
-+	local algorithm
-+	algorithm="$1"
-+	shift
-+	str="$here/stream-$algorithm.stream"
-+
-+	run_check_mkfs_test_dev
-+	send_one "$algorithm" "$str" --compressed-data
-+	receive_one "$str" "$@"
-+}
-+
-+test_one_stream_v1() {
-+	local str
-+	local algorithm
-+	algorithm="$1"
-+	shift
-+	str="$here/stream-$algorithm.stream"
-+
-+	run_check_mkfs_test_dev
-+	send_one "$algorithm" "$str" --stream-version 1
-+	receive_one "$str" "$@"
-+}
-+
-+test_mix_write_encoded() {
-+	local strzlib
-+	local strlzo
-+	local strzstd
-+	strzlib="$here/stream-zlib.stream"
-+	strlzo="$here/stream-lzo.stream"
-+	strzstd="$here/stream-zstd.stream"
-+
-+	run_check_mkfs_test_dev
-+
-+	send_one "zlib" "$strzlib" --compressed-data
-+	send_one "lzo" "$strlzo" --compressed-data
-+	send_one "zstd" "$strzstd" --compressed-data
-+
-+	receive_one "$strzlib"
-+	receive_one "$strlzo"
-+	receive_one "$strzstd"
-+}
-+
-+test_one_write_encoded "zlib"
-+test_one_write_encoded "lzo"
-+test_one_write_encoded "zstd"
-+
-+# with decompression forced
-+test_one_write_encoded "zlib" "--force-decompress"
-+test_one_write_encoded "lzo" "--force-decompress"
-+test_one_write_encoded "zstd" "--force-decompress"
-+
-+# send stream v1
-+test_one_stream_v1 "zlib"
-+test_one_stream_v1 "lzo"
-+test_one_stream_v1 "zstd"
-+
-+# files use a mix of compression algorithms
-+test_mix_write_encoded
--- 
-2.33.0
+I wouldn't say breaks so much as needs coordination with. :-)   If ipx is 
+being dropped in its entirety, I can just make that part of the code 
+conditional to the header existing.
+
+-Steve
+
+> > [1]
+> > https://github.com/linux-audit/audit-userspace/blob/ce58837d44b7d9fcb4e1
+> > 40c23f68e0c94d95ab6e/auparse/interpret.c#L48 [2]
+> > https://gitlab.com/strace/strace/-/blob/9fe63f42df8badd22fb7eef9c12fc07e
+> > d7106d6b/src/net.c#L34 [3]
+> > https://gitlab.com/strace/strace/-/blob/9fe63f42df8badd22fb7eef9c12fc07e
+> > d7106d6b/src/sockaddr.c#L30
+
+
+
 
