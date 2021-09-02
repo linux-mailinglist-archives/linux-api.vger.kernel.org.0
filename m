@@ -2,96 +2,87 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F0273FE137
-	for <lists+linux-api@lfdr.de>; Wed,  1 Sep 2021 19:37:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B9B93FE9EE
+	for <lists+linux-api@lfdr.de>; Thu,  2 Sep 2021 09:22:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231852AbhIARiA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 1 Sep 2021 13:38:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32170 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1344499AbhIARiA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 1 Sep 2021 13:38:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1630517822;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=xhdpu5W1fJXLeojM24bKC1MSSzMuWR+Cf49l2mlXcbA=;
-        b=JAS88if+Dj9G5e049lqCm8N5LeL24BxdUlyMGgw5I7CluW8m+KETOHPvlgHk148kT7uXWl
-        vPGVcNg5hxh2BJPyQAW3dq4VfoyDnN6bnxdU9aK+T+Ns49Li/gBSnhY0J2buVz1U3voQub
-        hxhx5xWjbekg6yPphDqxDZYC5ajlq3g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-vPtR8mibOjGdW4PL0N-50A-1; Wed, 01 Sep 2021 13:36:59 -0400
-X-MC-Unique: vPtR8mibOjGdW4PL0N-50A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2A7C801A92;
-        Wed,  1 Sep 2021 17:36:57 +0000 (UTC)
-Received: from x2.localnet (unknown [10.22.8.210])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 74C9A5C1BB;
-        Wed,  1 Sep 2021 17:36:56 +0000 (UTC)
-From:   Steve Grubb <sgrubb@redhat.com>
-To:     Cai Huoqing <caihuoqing@baidu.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>
-Cc:     linux-audit@redhat.com,
-        strace development discussions <strace-devel@lists.strace.io>,
-        linux-api@vger.kernel.org, davem@davemloft.net,
-        yoshfuji@linux-ipv6.org, dsahern@kernel.org, kuba@kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org, ldv@strace.io
-Subject: Re: [PATCH 1/2] net: Remove net/ipx.h and uapi/linux/ipx.h header files
-Date:   Wed, 01 Sep 2021 13:36:54 -0400
-Message-ID: <1797920.tdWV9SEqCh@x2>
-Organization: Red Hat
-In-Reply-To: <20210901165202.GA4518@asgard.redhat.com>
-References: <20210813120803.101-1-caihuoqing@baidu.com> <20210901160244.GA5957@asgard.redhat.com> <20210901165202.GA4518@asgard.redhat.com>
+        id S243351AbhIBHXM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 2 Sep 2021 03:23:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34924 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243172AbhIBHXL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Sep 2021 03:23:11 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94FB7C061760
+        for <linux-api@vger.kernel.org>; Thu,  2 Sep 2021 00:22:13 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id n5so1255113wro.12
+        for <linux-api@vger.kernel.org>; Thu, 02 Sep 2021 00:22:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=6wind.com; s=google;
+        h=reply-to:subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=2Sr4JglvdWDBQ2wOTZW6ElZD1OAh7p+s3FJK89qhgiM=;
+        b=FS94AIis1HaeP4YWFLvWShRs7pOBIvYRjx0VLv6hM9zDKmreAzv5G5CfG8A6iX29W2
+         01ozlnfm6paVlRWetFTsY9E/v+GNNLRVtSwNwt1mJymNKqlW8N7jcS7fMQauEzG2D16y
+         +KgcW68JBohppxrdZB/0JOBdxCrW37YMLzm5SjbdSM5R/I3Zo92O9HGMlOA4+ncodUog
+         Q884MiVIxhIPuj45jbj554K1MyQkbm4SWLhGU6/7FLQ48yZJbASmWaXZLNCl4VST96iD
+         Dcjumy9O6saBzIuzqZIjRA60ReyVtHuT5NtvxMHmzpJ1x39HljOu3SzB7h3BI0Dqto89
+         Pf4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:reply-to:subject:to:cc:references:from
+         :organization:message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=2Sr4JglvdWDBQ2wOTZW6ElZD1OAh7p+s3FJK89qhgiM=;
+        b=na69vQih49c141l3WlxtAvqrnQzo8B8v+YyN0pleD2EkwCOjBGS4urrLbcbbgOXfSU
+         fTnb9QPHyxtm3ExDGOuo3fnf22SuzFjd/FspD2dDM6NCRDEksbdwfZlVhDr9zlngb7L3
+         u6NxHr50dxte0LIe8e5Fk9WF4D0W/l7FXhfTTuTEdFjU/duISeifwuwomZCCUK70Yv4k
+         9i9DHIywid3cWy3l97ZFzFjgqZUjrZCjKczu+wfq/FIOv+YUiiUPLdd0xiSYgpYxQD3u
+         o5lFJPIXjhabUFdsxiwxeTJ9eSuT4POxhl7y5TnbmEfrolupdbd5dlDUBeGVgES7Sp0w
+         n71Q==
+X-Gm-Message-State: AOAM5306WKVpK5vIoHjdX0grR00UST0nCuD0ePlfjcaozIDDrUWly9mu
+        +s4aJyAtrAn/Fg5I0ZCI5IODvm6QpPtUDA==
+X-Google-Smtp-Source: ABdhPJx1rtSdVuiiyy5iVOmwPt+Um0lx4nMkwJpGQD/JuUD1FLEgHSpCgTfxVv0hcA4cMAUz7kzYFA==
+X-Received: by 2002:adf:fb44:: with SMTP id c4mr1892372wrs.179.1630567332137;
+        Thu, 02 Sep 2021 00:22:12 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:410:bb00:ad0b:57f0:790e:61f9? ([2a01:e0a:410:bb00:ad0b:57f0:790e:61f9])
+        by smtp.gmail.com with ESMTPSA id y11sm1166719wru.0.2021.09.02.00.22.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Sep 2021 00:22:11 -0700 (PDT)
+Reply-To: nicolas.dichtel@6wind.com
+Subject: Re: [PATCH] include/uapi/linux/xfrm.h: Fix XFRM_MSG_MAPPING ABI
+ breakage
+To:     Eugene Syromiatnikov <esyr@redhat.com>,
+        Steffen Klassert <steffen.klassert@secunet.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Antony Antony <antony.antony@secunet.com>,
+        Christian Langrock <christian.langrock@secunet.com>
+Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Dmitry V. Levin" <ldv@strace.io>, linux-api@vger.kernel.org
+References: <20210901153407.GA20446@asgard.redhat.com>
+From:   Nicolas Dichtel <nicolas.dichtel@6wind.com>
+Organization: 6WIND
+Message-ID: <ef57d76e-358b-4868-aa31-ac45f67bc813@6wind.com>
+Date:   Thu, 2 Sep 2021 09:22:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210901153407.GA20446@asgard.redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello,
-
-Thanks for the heads up.
-
-On Wednesday, September 1, 2021 12:52:02 PM EDT Eugene Syromiatnikov wrote:
-> Adding linux-audit, strace-devel, and linux-api to CC:.
+Le 01/09/2021 à 17:34, Eugene Syromiatnikov a écrit :
+> Commit 2d151d39073a ("xfrm: Add possibility to set the default to block
+> if we have no policy") broke ABI by changing the value of the XFRM_MSG_MAPPING
+> enum item.  Fix it by placing XFRM_MSG_SETDEFAULT/XFRM_MSG_GETDEFAULT
+> to the end of the enum, right before __XFRM_MSG_MAX.
 > 
-> On Wed, Sep 01, 2021 at 06:02:44PM +0200, Eugene Syromiatnikov wrote:
-> > On Fri, Aug 13, 2021 at 08:08:02PM +0800, Cai Huoqing wrote:
-> > > commit <47595e32869f> ("<MAINTAINERS: Mark some staging directories>")
-> > > indicated the ipx network layer as obsolete in Jan 2018,
-> > > updated in the MAINTAINERS file
-> > > 
-> > > now, after being exposed for 3 years to refactoring, so to
-> > > delete uapi/linux/ipx.h and net/ipx.h header files for good.
-> > > additionally, there is no module that depends on ipx.h except
-> > > a broken staging driver(r8188eu)
-> > > 
-> > > Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
-> > 
-> > This removal breaks audit[1] and potentially breaks strace[2][3], at
-> > least.
+> Fixes: 2d151d39073a ("xfrm: Add possibility to set the default to block if we have no policy")
+> Signed-off-by: Eugene Syromiatnikov <esyr@redhat.com>
 
-I wouldn't say breaks so much as needs coordination with. :-)   If ipx is 
-being dropped in its entirety, I can just make that part of the code 
-conditional to the header existing.
-
--Steve
-
-> > [1]
-> > https://github.com/linux-audit/audit-userspace/blob/ce58837d44b7d9fcb4e1
-> > 40c23f68e0c94d95ab6e/auparse/interpret.c#L48 [2]
-> > https://gitlab.com/strace/strace/-/blob/9fe63f42df8badd22fb7eef9c12fc07e
-> > d7106d6b/src/net.c#L34 [3]
-> > https://gitlab.com/strace/strace/-/blob/9fe63f42df8badd22fb7eef9c12fc07e
-> > d7106d6b/src/sockaddr.c#L30
-
-
-
-
+Acked-by: Nicolas Dichtel <nicolas.dichtel@6wind.com>
