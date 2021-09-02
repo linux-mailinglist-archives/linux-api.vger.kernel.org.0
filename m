@@ -2,87 +2,100 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B9B93FE9EE
-	for <lists+linux-api@lfdr.de>; Thu,  2 Sep 2021 09:22:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 999503FEEBD
+	for <lists+linux-api@lfdr.de>; Thu,  2 Sep 2021 15:35:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243351AbhIBHXM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 2 Sep 2021 03:23:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34924 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243172AbhIBHXL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Sep 2021 03:23:11 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94FB7C061760
-        for <linux-api@vger.kernel.org>; Thu,  2 Sep 2021 00:22:13 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id n5so1255113wro.12
-        for <linux-api@vger.kernel.org>; Thu, 02 Sep 2021 00:22:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=6wind.com; s=google;
-        h=reply-to:subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=2Sr4JglvdWDBQ2wOTZW6ElZD1OAh7p+s3FJK89qhgiM=;
-        b=FS94AIis1HaeP4YWFLvWShRs7pOBIvYRjx0VLv6hM9zDKmreAzv5G5CfG8A6iX29W2
-         01ozlnfm6paVlRWetFTsY9E/v+GNNLRVtSwNwt1mJymNKqlW8N7jcS7fMQauEzG2D16y
-         +KgcW68JBohppxrdZB/0JOBdxCrW37YMLzm5SjbdSM5R/I3Zo92O9HGMlOA4+ncodUog
-         Q884MiVIxhIPuj45jbj554K1MyQkbm4SWLhGU6/7FLQ48yZJbASmWaXZLNCl4VST96iD
-         Dcjumy9O6saBzIuzqZIjRA60ReyVtHuT5NtvxMHmzpJ1x39HljOu3SzB7h3BI0Dqto89
-         Pf4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:reply-to:subject:to:cc:references:from
-         :organization:message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=2Sr4JglvdWDBQ2wOTZW6ElZD1OAh7p+s3FJK89qhgiM=;
-        b=na69vQih49c141l3WlxtAvqrnQzo8B8v+YyN0pleD2EkwCOjBGS4urrLbcbbgOXfSU
-         fTnb9QPHyxtm3ExDGOuo3fnf22SuzFjd/FspD2dDM6NCRDEksbdwfZlVhDr9zlngb7L3
-         u6NxHr50dxte0LIe8e5Fk9WF4D0W/l7FXhfTTuTEdFjU/duISeifwuwomZCCUK70Yv4k
-         9i9DHIywid3cWy3l97ZFzFjgqZUjrZCjKczu+wfq/FIOv+YUiiUPLdd0xiSYgpYxQD3u
-         o5lFJPIXjhabUFdsxiwxeTJ9eSuT4POxhl7y5TnbmEfrolupdbd5dlDUBeGVgES7Sp0w
-         n71Q==
-X-Gm-Message-State: AOAM5306WKVpK5vIoHjdX0grR00UST0nCuD0ePlfjcaozIDDrUWly9mu
-        +s4aJyAtrAn/Fg5I0ZCI5IODvm6QpPtUDA==
-X-Google-Smtp-Source: ABdhPJx1rtSdVuiiyy5iVOmwPt+Um0lx4nMkwJpGQD/JuUD1FLEgHSpCgTfxVv0hcA4cMAUz7kzYFA==
-X-Received: by 2002:adf:fb44:: with SMTP id c4mr1892372wrs.179.1630567332137;
-        Thu, 02 Sep 2021 00:22:12 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:410:bb00:ad0b:57f0:790e:61f9? ([2a01:e0a:410:bb00:ad0b:57f0:790e:61f9])
-        by smtp.gmail.com with ESMTPSA id y11sm1166719wru.0.2021.09.02.00.22.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Sep 2021 00:22:11 -0700 (PDT)
-Reply-To: nicolas.dichtel@6wind.com
-Subject: Re: [PATCH] include/uapi/linux/xfrm.h: Fix XFRM_MSG_MAPPING ABI
- breakage
-To:     Eugene Syromiatnikov <esyr@redhat.com>,
-        Steffen Klassert <steffen.klassert@secunet.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Antony Antony <antony.antony@secunet.com>,
-        Christian Langrock <christian.langrock@secunet.com>
-Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Dmitry V. Levin" <ldv@strace.io>, linux-api@vger.kernel.org
-References: <20210901153407.GA20446@asgard.redhat.com>
-From:   Nicolas Dichtel <nicolas.dichtel@6wind.com>
-Organization: 6WIND
-Message-ID: <ef57d76e-358b-4868-aa31-ac45f67bc813@6wind.com>
-Date:   Thu, 2 Sep 2021 09:22:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S234354AbhIBNgv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 2 Sep 2021 09:36:51 -0400
+Received: from mx20.baidu.com ([111.202.115.85]:53226 "EHLO baidu.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S234350AbhIBNgu (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 2 Sep 2021 09:36:50 -0400
+Received: from Bc-Mail-Ex13.internal.baidu.com (unknown [172.31.51.53])
+        by Forcepoint Email with ESMTPS id 7AFDD116EDC554C40873;
+        Thu,  2 Sep 2021 21:35:30 +0800 (CST)
+Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
+ Bc-Mail-Ex13.internal.baidu.com (172.31.51.53) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2242.12; Thu, 2 Sep 2021 21:35:30 +0800
+Received: from localhost (172.31.63.8) by BJHW-MAIL-EX27.internal.baidu.com
+ (10.127.64.42) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Thu, 2
+ Sep 2021 21:35:30 +0800
+Date:   Thu, 2 Sep 2021 21:35:29 +0800
+From:   Cai Huoqing <caihuoqing@baidu.com>
+To:     Steve Grubb <sgrubb@redhat.com>
+CC:     <linux-audit@redhat.com>,
+        strace development discussions <strace-devel@lists.strace.io>,
+        <linux-api@vger.kernel.org>, <davem@davemloft.net>,
+        <yoshfuji@linux-ipv6.org>, <dsahern@kernel.org>, <kuba@kernel.org>,
+        <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <ldv@strace.io>
+Subject: Re: [PATCH 1/2] net: Remove net/ipx.h and uapi/linux/ipx.h header
+ files
+Message-ID: <20210902133529.GA32500@LAPTOP-UKSR4ENP.internal.baidu.com>
+Reply-To: q@vger.kernel.org
+References: <20210813120803.101-1-caihuoqing@baidu.com>
+ <20210901160244.GA5957@asgard.redhat.com>
+ <20210901165202.GA4518@asgard.redhat.com>
+ <1797920.tdWV9SEqCh@x2>
 MIME-Version: 1.0
-In-Reply-To: <20210901153407.GA20446@asgard.redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <1797920.tdWV9SEqCh@x2>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [172.31.63.8]
+X-ClientProxiedBy: BJHW-Mail-Ex16.internal.baidu.com (10.127.64.39) To
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Le 01/09/2021 à 17:34, Eugene Syromiatnikov a écrit :
-> Commit 2d151d39073a ("xfrm: Add possibility to set the default to block
-> if we have no policy") broke ABI by changing the value of the XFRM_MSG_MAPPING
-> enum item.  Fix it by placing XFRM_MSG_SETDEFAULT/XFRM_MSG_GETDEFAULT
-> to the end of the enum, right before __XFRM_MSG_MAX.
+On 01 Sep 21 13:36:54, Steve Grubb wrote:
+> Hello,
 > 
-> Fixes: 2d151d39073a ("xfrm: Add possibility to set the default to block if we have no policy")
-> Signed-off-by: Eugene Syromiatnikov <esyr@redhat.com>
+> Thanks for the heads up.
+> 
+> On Wednesday, September 1, 2021 12:52:02 PM EDT Eugene Syromiatnikov wrote:
+> > Adding linux-audit, strace-devel, and linux-api to CC:.
+> > 
+> > On Wed, Sep 01, 2021 at 06:02:44PM +0200, Eugene Syromiatnikov wrote:
+> > > On Fri, Aug 13, 2021 at 08:08:02PM +0800, Cai Huoqing wrote:
+> > > > commit <47595e32869f> ("<MAINTAINERS: Mark some staging directories>")
+> > > > indicated the ipx network layer as obsolete in Jan 2018,
+> > > > updated in the MAINTAINERS file
+> > > > 
+> > > > now, after being exposed for 3 years to refactoring, so to
+> > > > delete uapi/linux/ipx.h and net/ipx.h header files for good.
+> > > > additionally, there is no module that depends on ipx.h except
+> > > > a broken staging driver(r8188eu)
+> > > > 
+> > > > Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+> > > 
+> > > This removal breaks audit[1] and potentially breaks strace[2][3], at
+> > > least.
+> 
+> I wouldn't say breaks so much as needs coordination with. :-)   If ipx is 
+> being dropped in its entirety, I can just make that part of the code 
+> conditional to the header existing.
+> 
+> -Steve
+IPX is marked obsolete for serveral years. so remove it and the
+dependency in linux tree.
+I'm sorry to not thinking about linux-audit and strace.
+Might you remove the dependency or make the part of the code.
+Many thanks.
 
-Acked-by: Nicolas Dichtel <nicolas.dichtel@6wind.com>
+-Cai
+> 
+> > > [1]
+> > > https://github.com/linux-audit/audit-userspace/blob/ce58837d44b7d9fcb4e1
+> > > 40c23f68e0c94d95ab6e/auparse/interpret.c#L48 [2]
+> > > https://gitlab.com/strace/strace/-/blob/9fe63f42df8badd22fb7eef9c12fc07e
+> > > d7106d6b/src/net.c#L34 [3]
+> > > https://gitlab.com/strace/strace/-/blob/9fe63f42df8badd22fb7eef9c12fc07e
+> > > d7106d6b/src/sockaddr.c#L30
+> 
+> 
+> 
+> 
