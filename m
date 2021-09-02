@@ -2,135 +2,88 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E5FBB3FEEE6
-	for <lists+linux-api@lfdr.de>; Thu,  2 Sep 2021 15:44:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43B623FF055
+	for <lists+linux-api@lfdr.de>; Thu,  2 Sep 2021 17:39:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234350AbhIBNpi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 2 Sep 2021 09:45:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33332 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234188AbhIBNpi (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 2 Sep 2021 09:45:38 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0605161056;
-        Thu,  2 Sep 2021 13:44:36 +0000 (UTC)
-Date:   Thu, 2 Sep 2021 15:44:34 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Eugene Syromiatnikov <esyr@redhat.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>
-Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Chris Hyser <chris.hyser@oracle.com>,
-        Josh Don <joshdon@google.com>, Ingo Molnar <mingo@kernel.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Mel Gorman <mgorman@suse.de>, linux-kernel@vger.kernel.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Dmitry V. Levin" <ldv@strace.io>, linux-doc@vger.kernel.org,
-        linux-api@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v4] uapi/linux/prctl: provide macro definitions for the
- PR_SCHED_CORE type argument
-Message-ID: <20210902134434.gdctjkc5pvrwm3db@wittgenstein>
-References: <20210825170613.GA3884@asgard.redhat.com>
- <20210826100025.pdakvmg24gomnuk5@wittgenstein>
+        id S1345841AbhIBPj6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 2 Sep 2021 11:39:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52789 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1345822AbhIBPjy (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Sep 2021 11:39:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1630597135;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=dThrFUEauS0PVKV2QOhWb7PoGtgPW3EHRoCBlNIp8ng=;
+        b=GdV4Q3M/yb5GB8iBS1zWk5RORuPPol5m8SZsaCmciWDmRkUkVid3OH9ce6so5VoXKgyLC8
+        Fd8OXuGwQNWKRuuJcW5RiFG9Hg9mSLHjDu286eyMeMoZtKZIyCPdlH2UtUVzjHv3FZGaJE
+        32b1qzSuvNhTHyZMyAUS09jZ2xgDO4A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-509-fWh-sNzWP9GaIwZRi3O0-A-1; Thu, 02 Sep 2021 11:38:54 -0400
+X-MC-Unique: fWh-sNzWP9GaIwZRi3O0-A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C0A6801AE3;
+        Thu,  2 Sep 2021 15:38:52 +0000 (UTC)
+Received: from horse.redhat.com (unknown [10.22.8.149])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id B2AF728554;
+        Thu,  2 Sep 2021 15:38:48 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+        id 52139220257; Thu,  2 Sep 2021 11:38:48 -0400 (EDT)
+Date:   Thu, 2 Sep 2021 11:38:48 -0400
+From:   Vivek Goyal <vgoyal@redhat.com>
+To:     linux-api@vger.kernel.org, mtk.manpages@gmail.com
+Cc:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        virtio-fs@redhat.com, dwalsh@redhat.com, dgilbert@redhat.com,
+        christian.brauner@ubuntu.com, casey.schaufler@intel.com,
+        linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
+        tytso@mit.edu, miklos@szeredi.hu, gscrivan@redhat.com,
+        bfields@redhat.com, stephen.smalley.work@gmail.com,
+        agruenba@redhat.com, david@fromorbit.com, viro@zeniv.linux.org.uk
+Subject: [PATCH 2/1] man-pages: xattr.7: Update text for user extended xattr
+ behavior change
+Message-ID: <YTDwCFbO9Jl6a7vP@redhat.com>
+References: <20210902152228.665959-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210826100025.pdakvmg24gomnuk5@wittgenstein>
+In-Reply-To: <20210902152228.665959-1-vgoyal@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Aug 26, 2021 at 12:00:25PM +0200, Christian Brauner wrote:
-> On Wed, Aug 25, 2021 at 07:06:13PM +0200, Eugene Syromiatnikov wrote:
-> > Commit 7ac592aa35a684ff ("sched: prctl() core-scheduling interface")
-> > made use of enum pid_type in prctl's arg4; this type and the associated
-> > enumeration definitions are not exposed to userspace.  Christian
-> > has suggested to provide additional macro definitions that convey
-> > the meaning of the type argument more in alignment with its actual
-> > usage, and this patch does exactly that.
-> > 
-> > Suggested-by: Christian Brauner <christian.brauner@ubuntu.com>
-> > Complements: 7ac592aa35a684ff ("sched: prctl() core-scheduling interface")
-> > Signed-off-by: Eugene Syromiatnikov <esyr@redhat.com>
-> > ---
-> 
-> I mean, I proposed the names so I'm ok with them. :)
-> Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
-> 
-> Peter et al. are you ok with this and do the names make sense to you?
+I have proposed a patch to relax restrictions on user extended xattrs and
+allow file owner (or CAP_FOWNER) to get/set user extended xattrs on symlink
+and device files.
 
-I'll pick this up once the merge window closes then.
+Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+---
+ man7/xattr.7 |    9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-Thanks!
-Christian
+Index: man-pages/man7/xattr.7
+===================================================================
+--- man-pages.orig/man7/xattr.7	2021-09-01 13:46:16.165016463 -0400
++++ man-pages/man7/xattr.7	2021-09-01 16:31:51.038016463 -0400
+@@ -129,8 +129,13 @@ a way not controllable by disk quotas fo
+ special files and directories.
+ .PP
+ For this reason,
+-user extended attributes are allowed only for regular files and directories,
+-and access to user extended attributes is restricted to the
++user extended attributes are allowed only for regular files and directories
++till kernel 5.14. In newer kernel (5.15 onwards), restrictions have been
++relaxed a bit and user extended attributes are also allowed on symlinks
++and special files as long as caller is either owner of the file or is
++privileged (CAP_FOWNER).
++
++Access to user extended attributes is restricted to the
+ owner and to users with appropriate capabilities for directories with the
+ sticky bit set (see the
+ .BR chmod (1)
 
-> 
-> Christian
-> 
-> > v4:
-> >   - Rewritten in accordance with Christian Brauner's suggestion to provide
-> >     macro definitions that are explicitly tailored for the prctl op.
-> > 
-> > v3: https://lore.kernel.org/lkml/20210807120905.GA14706@asgard.redhat.com/
-> >   - Fixed header guard macro: s/_UAPI_LINUX_PID_H/_UAPI_LINUX_PIDTYPE_H/,
-> >     as noted by Dmitry Levin.
-> > 
-> > v2: https://lore.kernel.org/lkml/20210807104800.GA22620@asgard.redhat.com/
-> >   - Header file is renamed from pid.h to pidtype.h to avoid collisions
-> >     with include/linux/pid.h when included from uapi headers;
-> >   - The enum type has renamed from __kernel_pid_type to __kernel_pidtype
-> >     to avoid possible confusion with __kernel_pid_t.
-> > 
-> > v1: https://lore.kernel.org/lkml/20210807010123.GA5174@asgard.redhat.com/
-> > ---
-> >  Documentation/admin-guide/hw-vuln/core-scheduling.rst | 5 +++--
-> >  include/uapi/linux/prctl.h                            | 3 +++
-> >  kernel/sched/core_sched.c                             | 4 ++++
-> >  3 files changed, 10 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/Documentation/admin-guide/hw-vuln/core-scheduling.rst b/Documentation/admin-guide/hw-vuln/core-scheduling.rst
-> > index 7b410ae..9a65fed 100644
-> > --- a/Documentation/admin-guide/hw-vuln/core-scheduling.rst
-> > +++ b/Documentation/admin-guide/hw-vuln/core-scheduling.rst
-> > @@ -61,8 +61,9 @@ arg3:
-> >      ``pid`` of the task for which the operation applies.
-> >  
-> >  arg4:
-> > -    ``pid_type`` for which the operation applies. It is of type ``enum pid_type``.
-> > -    For example, if arg4 is ``PIDTYPE_TGID``, then the operation of this command
-> > +    ``pid_type`` for which the operation applies. It is one of
-> > +    ``PR_SCHED_CORE_SCOPE_``-prefixed macro constants.  For example, if arg4
-> > +    is ``PR_SCHED_CORE_SCOPE_THREAD_GROUP``, then the operation of this command
-> >      will be performed for all tasks in the task group of ``pid``.
-> >  
-> >  arg5:
-> > diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
-> > index 967d9c5..644a3b4 100644
-> > --- a/include/uapi/linux/prctl.h
-> > +++ b/include/uapi/linux/prctl.h
-> > @@ -266,5 +266,8 @@ struct prctl_mm_map {
-> >  # define PR_SCHED_CORE_SHARE_TO		2 /* push core_sched cookie to pid */
-> >  # define PR_SCHED_CORE_SHARE_FROM	3 /* pull core_sched cookie to pid */
-> >  # define PR_SCHED_CORE_MAX		4
-> > +# define PR_SCHED_CORE_SCOPE_THREAD		0
-> > +# define PR_SCHED_CORE_SCOPE_THREAD_GROUP	1
-> > +# define PR_SCHED_CORE_SCOPE_PROCESS_GROUP	2
-> >  
-> >  #endif /* _LINUX_PRCTL_H */
-> > diff --git a/kernel/sched/core_sched.c b/kernel/sched/core_sched.c
-> > index 9a80e9a..20f6409 100644
-> > --- a/kernel/sched/core_sched.c
-> > +++ b/kernel/sched/core_sched.c
-> > @@ -134,6 +134,10 @@ int sched_core_share_pid(unsigned int cmd, pid_t pid, enum pid_type type,
-> >  	if (!static_branch_likely(&sched_smt_present))
-> >  		return -ENODEV;
-> >  
-> > +	BUILD_BUG_ON(PR_SCHED_CORE_SCOPE_THREAD != PIDTYPE_PID);
-> > +	BUILD_BUG_ON(PR_SCHED_CORE_SCOPE_THREAD_GROUP != PIDTYPE_TGID);
-> > +	BUILD_BUG_ON(PR_SCHED_CORE_SCOPE_PROCESS_GROUP != PIDTYPE_PGID);
-> > +
-> >  	if (type > PIDTYPE_PGID || cmd >= PR_SCHED_CORE_MAX || pid < 0 ||
-> >  	    (cmd != PR_SCHED_CORE_GET && uaddr))
-> >  		return -EINVAL;
-> > -- 
-> > 2.1.4
-> > 
