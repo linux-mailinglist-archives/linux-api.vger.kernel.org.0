@@ -2,100 +2,135 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 999503FEEBD
-	for <lists+linux-api@lfdr.de>; Thu,  2 Sep 2021 15:35:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5FBB3FEEE6
+	for <lists+linux-api@lfdr.de>; Thu,  2 Sep 2021 15:44:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234354AbhIBNgv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 2 Sep 2021 09:36:51 -0400
-Received: from mx20.baidu.com ([111.202.115.85]:53226 "EHLO baidu.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S234350AbhIBNgu (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Thu, 2 Sep 2021 09:36:50 -0400
-Received: from Bc-Mail-Ex13.internal.baidu.com (unknown [172.31.51.53])
-        by Forcepoint Email with ESMTPS id 7AFDD116EDC554C40873;
-        Thu,  2 Sep 2021 21:35:30 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- Bc-Mail-Ex13.internal.baidu.com (172.31.51.53) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Thu, 2 Sep 2021 21:35:30 +0800
-Received: from localhost (172.31.63.8) by BJHW-MAIL-EX27.internal.baidu.com
- (10.127.64.42) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Thu, 2
- Sep 2021 21:35:30 +0800
-Date:   Thu, 2 Sep 2021 21:35:29 +0800
-From:   Cai Huoqing <caihuoqing@baidu.com>
-To:     Steve Grubb <sgrubb@redhat.com>
-CC:     <linux-audit@redhat.com>,
-        strace development discussions <strace-devel@lists.strace.io>,
-        <linux-api@vger.kernel.org>, <davem@davemloft.net>,
-        <yoshfuji@linux-ipv6.org>, <dsahern@kernel.org>, <kuba@kernel.org>,
-        <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <ldv@strace.io>
-Subject: Re: [PATCH 1/2] net: Remove net/ipx.h and uapi/linux/ipx.h header
- files
-Message-ID: <20210902133529.GA32500@LAPTOP-UKSR4ENP.internal.baidu.com>
-Reply-To: q@vger.kernel.org
-References: <20210813120803.101-1-caihuoqing@baidu.com>
- <20210901160244.GA5957@asgard.redhat.com>
- <20210901165202.GA4518@asgard.redhat.com>
- <1797920.tdWV9SEqCh@x2>
+        id S234350AbhIBNpi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 2 Sep 2021 09:45:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33332 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234188AbhIBNpi (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 2 Sep 2021 09:45:38 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0605161056;
+        Thu,  2 Sep 2021 13:44:36 +0000 (UTC)
+Date:   Thu, 2 Sep 2021 15:44:34 +0200
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Eugene Syromiatnikov <esyr@redhat.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>
+Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Chris Hyser <chris.hyser@oracle.com>,
+        Josh Don <joshdon@google.com>, Ingo Molnar <mingo@kernel.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Mel Gorman <mgorman@suse.de>, linux-kernel@vger.kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Dmitry V. Levin" <ldv@strace.io>, linux-doc@vger.kernel.org,
+        linux-api@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v4] uapi/linux/prctl: provide macro definitions for the
+ PR_SCHED_CORE type argument
+Message-ID: <20210902134434.gdctjkc5pvrwm3db@wittgenstein>
+References: <20210825170613.GA3884@asgard.redhat.com>
+ <20210826100025.pdakvmg24gomnuk5@wittgenstein>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1797920.tdWV9SEqCh@x2>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BJHW-Mail-Ex16.internal.baidu.com (10.127.64.39) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+In-Reply-To: <20210826100025.pdakvmg24gomnuk5@wittgenstein>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 01 Sep 21 13:36:54, Steve Grubb wrote:
-> Hello,
-> 
-> Thanks for the heads up.
-> 
-> On Wednesday, September 1, 2021 12:52:02 PM EDT Eugene Syromiatnikov wrote:
-> > Adding linux-audit, strace-devel, and linux-api to CC:.
+On Thu, Aug 26, 2021 at 12:00:25PM +0200, Christian Brauner wrote:
+> On Wed, Aug 25, 2021 at 07:06:13PM +0200, Eugene Syromiatnikov wrote:
+> > Commit 7ac592aa35a684ff ("sched: prctl() core-scheduling interface")
+> > made use of enum pid_type in prctl's arg4; this type and the associated
+> > enumeration definitions are not exposed to userspace.  Christian
+> > has suggested to provide additional macro definitions that convey
+> > the meaning of the type argument more in alignment with its actual
+> > usage, and this patch does exactly that.
 > > 
-> > On Wed, Sep 01, 2021 at 06:02:44PM +0200, Eugene Syromiatnikov wrote:
-> > > On Fri, Aug 13, 2021 at 08:08:02PM +0800, Cai Huoqing wrote:
-> > > > commit <47595e32869f> ("<MAINTAINERS: Mark some staging directories>")
-> > > > indicated the ipx network layer as obsolete in Jan 2018,
-> > > > updated in the MAINTAINERS file
-> > > > 
-> > > > now, after being exposed for 3 years to refactoring, so to
-> > > > delete uapi/linux/ipx.h and net/ipx.h header files for good.
-> > > > additionally, there is no module that depends on ipx.h except
-> > > > a broken staging driver(r8188eu)
-> > > > 
-> > > > Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
-> > > 
-> > > This removal breaks audit[1] and potentially breaks strace[2][3], at
-> > > least.
+> > Suggested-by: Christian Brauner <christian.brauner@ubuntu.com>
+> > Complements: 7ac592aa35a684ff ("sched: prctl() core-scheduling interface")
+> > Signed-off-by: Eugene Syromiatnikov <esyr@redhat.com>
+> > ---
 > 
-> I wouldn't say breaks so much as needs coordination with. :-)   If ipx is 
-> being dropped in its entirety, I can just make that part of the code 
-> conditional to the header existing.
+> I mean, I proposed the names so I'm ok with them. :)
+> Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
 > 
-> -Steve
-IPX is marked obsolete for serveral years. so remove it and the
-dependency in linux tree.
-I'm sorry to not thinking about linux-audit and strace.
-Might you remove the dependency or make the part of the code.
-Many thanks.
+> Peter et al. are you ok with this and do the names make sense to you?
 
--Cai
+I'll pick this up once the merge window closes then.
+
+Thanks!
+Christian
+
 > 
-> > > [1]
-> > > https://github.com/linux-audit/audit-userspace/blob/ce58837d44b7d9fcb4e1
-> > > 40c23f68e0c94d95ab6e/auparse/interpret.c#L48 [2]
-> > > https://gitlab.com/strace/strace/-/blob/9fe63f42df8badd22fb7eef9c12fc07e
-> > > d7106d6b/src/net.c#L34 [3]
-> > > https://gitlab.com/strace/strace/-/blob/9fe63f42df8badd22fb7eef9c12fc07e
-> > > d7106d6b/src/sockaddr.c#L30
+> Christian
 > 
-> 
-> 
-> 
+> > v4:
+> >   - Rewritten in accordance with Christian Brauner's suggestion to provide
+> >     macro definitions that are explicitly tailored for the prctl op.
+> > 
+> > v3: https://lore.kernel.org/lkml/20210807120905.GA14706@asgard.redhat.com/
+> >   - Fixed header guard macro: s/_UAPI_LINUX_PID_H/_UAPI_LINUX_PIDTYPE_H/,
+> >     as noted by Dmitry Levin.
+> > 
+> > v2: https://lore.kernel.org/lkml/20210807104800.GA22620@asgard.redhat.com/
+> >   - Header file is renamed from pid.h to pidtype.h to avoid collisions
+> >     with include/linux/pid.h when included from uapi headers;
+> >   - The enum type has renamed from __kernel_pid_type to __kernel_pidtype
+> >     to avoid possible confusion with __kernel_pid_t.
+> > 
+> > v1: https://lore.kernel.org/lkml/20210807010123.GA5174@asgard.redhat.com/
+> > ---
+> >  Documentation/admin-guide/hw-vuln/core-scheduling.rst | 5 +++--
+> >  include/uapi/linux/prctl.h                            | 3 +++
+> >  kernel/sched/core_sched.c                             | 4 ++++
+> >  3 files changed, 10 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/Documentation/admin-guide/hw-vuln/core-scheduling.rst b/Documentation/admin-guide/hw-vuln/core-scheduling.rst
+> > index 7b410ae..9a65fed 100644
+> > --- a/Documentation/admin-guide/hw-vuln/core-scheduling.rst
+> > +++ b/Documentation/admin-guide/hw-vuln/core-scheduling.rst
+> > @@ -61,8 +61,9 @@ arg3:
+> >      ``pid`` of the task for which the operation applies.
+> >  
+> >  arg4:
+> > -    ``pid_type`` for which the operation applies. It is of type ``enum pid_type``.
+> > -    For example, if arg4 is ``PIDTYPE_TGID``, then the operation of this command
+> > +    ``pid_type`` for which the operation applies. It is one of
+> > +    ``PR_SCHED_CORE_SCOPE_``-prefixed macro constants.  For example, if arg4
+> > +    is ``PR_SCHED_CORE_SCOPE_THREAD_GROUP``, then the operation of this command
+> >      will be performed for all tasks in the task group of ``pid``.
+> >  
+> >  arg5:
+> > diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+> > index 967d9c5..644a3b4 100644
+> > --- a/include/uapi/linux/prctl.h
+> > +++ b/include/uapi/linux/prctl.h
+> > @@ -266,5 +266,8 @@ struct prctl_mm_map {
+> >  # define PR_SCHED_CORE_SHARE_TO		2 /* push core_sched cookie to pid */
+> >  # define PR_SCHED_CORE_SHARE_FROM	3 /* pull core_sched cookie to pid */
+> >  # define PR_SCHED_CORE_MAX		4
+> > +# define PR_SCHED_CORE_SCOPE_THREAD		0
+> > +# define PR_SCHED_CORE_SCOPE_THREAD_GROUP	1
+> > +# define PR_SCHED_CORE_SCOPE_PROCESS_GROUP	2
+> >  
+> >  #endif /* _LINUX_PRCTL_H */
+> > diff --git a/kernel/sched/core_sched.c b/kernel/sched/core_sched.c
+> > index 9a80e9a..20f6409 100644
+> > --- a/kernel/sched/core_sched.c
+> > +++ b/kernel/sched/core_sched.c
+> > @@ -134,6 +134,10 @@ int sched_core_share_pid(unsigned int cmd, pid_t pid, enum pid_type type,
+> >  	if (!static_branch_likely(&sched_smt_present))
+> >  		return -ENODEV;
+> >  
+> > +	BUILD_BUG_ON(PR_SCHED_CORE_SCOPE_THREAD != PIDTYPE_PID);
+> > +	BUILD_BUG_ON(PR_SCHED_CORE_SCOPE_THREAD_GROUP != PIDTYPE_TGID);
+> > +	BUILD_BUG_ON(PR_SCHED_CORE_SCOPE_PROCESS_GROUP != PIDTYPE_PGID);
+> > +
+> >  	if (type > PIDTYPE_PGID || cmd >= PR_SCHED_CORE_MAX || pid < 0 ||
+> >  	    (cmd != PR_SCHED_CORE_GET && uaddr))
+> >  		return -EINVAL;
+> > -- 
+> > 2.1.4
+> > 
