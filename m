@@ -2,117 +2,54 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 965373FF0C0
-	for <lists+linux-api@lfdr.de>; Thu,  2 Sep 2021 18:08:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D18FD3FF33B
+	for <lists+linux-api@lfdr.de>; Thu,  2 Sep 2021 20:28:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346049AbhIBQJt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 2 Sep 2021 12:09:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27338 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1346043AbhIBQJt (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Sep 2021 12:09:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1630598930;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=GSpEDr48SFMamWq8zs4iNuq1IKQ5SNS2nRQshqJ9RkY=;
-        b=AuxWUWPrZsJfL5KU9wa4EYGjvDCn+gcA2diEzL2v23DBWmNCE/nrx6er9CKr2hjaIL+6J+
-        XJH4+PrDnoy3a+AK7WOHDDmZFY3YlWdbeZehl/ZaRRvbNAfMKNpEYw1f1ubZlOek3dVOgs
-        xBscJU7jHMtakBczlwJptN+HpSSAqzU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-518-p8V3IUfjMrCKAJvZJcwcTw-1; Thu, 02 Sep 2021 12:08:49 -0400
-X-MC-Unique: p8V3IUfjMrCKAJvZJcwcTw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76666195D563;
-        Thu,  2 Sep 2021 16:08:47 +0000 (UTC)
-Received: from asgard.redhat.com (unknown [10.36.110.7])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8976419C46;
-        Thu,  2 Sep 2021 16:08:43 +0000 (UTC)
-Date:   Thu, 2 Sep 2021 18:08:40 +0200
-From:   Eugene Syromiatnikov <esyr@redhat.com>
-To:     Cai Huoqing <caihuoqing@baidu.com>
-Cc:     Steve Grubb <sgrubb@redhat.com>, linux-audit@redhat.com,
-        strace development discussions <strace-devel@lists.strace.io>,
-        linux-api@vger.kernel.org, davem@davemloft.net,
-        yoshfuji@linux-ipv6.org, dsahern@kernel.org, kuba@kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org, ldv@strace.io
-Subject: Re: [PATCH 1/2] net: Remove net/ipx.h and uapi/linux/ipx.h header
- files
-Message-ID: <20210902160840.GA2220@asgard.redhat.com>
-References: <20210813120803.101-1-caihuoqing@baidu.com>
- <20210901160244.GA5957@asgard.redhat.com>
- <20210901165202.GA4518@asgard.redhat.com>
- <1797920.tdWV9SEqCh@x2>
- <20210902133529.GA32500@LAPTOP-UKSR4ENP.internal.baidu.com>
+        id S239508AbhIBS3g (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 2 Sep 2021 14:29:36 -0400
+Received: from vmicros1.altlinux.org ([194.107.17.57]:54724 "EHLO
+        vmicros1.altlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346971AbhIBS3e (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Sep 2021 14:29:34 -0400
+Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
+        by vmicros1.altlinux.org (Postfix) with ESMTP id 363AC72C8F8;
+        Thu,  2 Sep 2021 21:28:33 +0300 (MSK)
+Received: by mua.local.altlinux.org (Postfix, from userid 508)
+        id 274F87CF76A; Thu,  2 Sep 2021 21:28:33 +0300 (MSK)
+Date:   Thu, 2 Sep 2021 21:28:33 +0300
+From:   "Dmitry V. Levin" <ldv@altlinux.org>
+To:     Eugene Syromiatnikov <esyr@redhat.com>,
+        Steffen Klassert <steffen.klassert@secunet.com>
+Cc:     Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Antony Antony <antony.antony@secunet.com>,
+        Christian Langrock <christian.langrock@secunet.com>,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH] include/uapi/linux/xfrm.h: Fix XFRM_MSG_MAPPING ABI
+ breakage
+Message-ID: <20210902182832.GB21258@altlinux.org>
+References: <20210901153407.GA20446@asgard.redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210902133529.GA32500@LAPTOP-UKSR4ENP.internal.baidu.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210901153407.GA20446@asgard.redhat.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 02, 2021 at 09:35:29PM +0800, Cai Huoqing wrote:
-> On 01 Sep 21 13:36:54, Steve Grubb wrote:
-> > Hello,
-> > 
-> > Thanks for the heads up.
-> > 
-> > On Wednesday, September 1, 2021 12:52:02 PM EDT Eugene Syromiatnikov wrote:
-> > > Adding linux-audit, strace-devel, and linux-api to CC:.
-> > > 
-> > > On Wed, Sep 01, 2021 at 06:02:44PM +0200, Eugene Syromiatnikov wrote:
-> > > > On Fri, Aug 13, 2021 at 08:08:02PM +0800, Cai Huoqing wrote:
-> > > > > commit <47595e32869f> ("<MAINTAINERS: Mark some staging directories>")
-> > > > > indicated the ipx network layer as obsolete in Jan 2018,
-> > > > > updated in the MAINTAINERS file
-> > > > > 
-> > > > > now, after being exposed for 3 years to refactoring, so to
-> > > > > delete uapi/linux/ipx.h and net/ipx.h header files for good.
-> > > > > additionally, there is no module that depends on ipx.h except
-> > > > > a broken staging driver(r8188eu)
-> > > > > 
-> > > > > Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
-> > > > 
-> > > > This removal breaks audit[1] and potentially breaks strace[2][3], at
-> > > > least.
-> > 
-> > I wouldn't say breaks so much as needs coordination with. :-)   If ipx is 
-> > being dropped in its entirety, I can just make that part of the code 
-> > conditional to the header existing.
-> > 
-> > -Steve
-> IPX is marked obsolete for serveral years. so remove it and the
-> dependency in linux tree.
-> I'm sorry to not thinking about linux-audit and strace.
-> Might you remove the dependency or make the part of the code.
-> Many thanks.
-
-Unfortunately, that is not how UAPI works.  That change breaks building
-of the existing code;  one cannot change already released versions
-of either audit, strace, or any other userspace program that happens
-to unconditionally include <linux/ipx.h> without any fallback (like
-<netipx/ipx.h> provided by glibc).
-
+On Wed, Sep 01, 2021 at 05:34:07PM +0200, Eugene Syromiatnikov wrote:
+> Commit 2d151d39073a ("xfrm: Add possibility to set the default to block
+> if we have no policy") broke ABI by changing the value of the XFRM_MSG_MAPPING
+> enum item.  Fix it by placing XFRM_MSG_SETDEFAULT/XFRM_MSG_GETDEFAULT
+> to the end of the enum, right before __XFRM_MSG_MAX.
 > 
-> -Cai
-> > 
-> > > > [1]
-> > > > https://github.com/linux-audit/audit-userspace/blob/ce58837d44b7d9fcb4e1
-> > > > 40c23f68e0c94d95ab6e/auparse/interpret.c#L48 [2]
-> > > > https://gitlab.com/strace/strace/-/blob/9fe63f42df8badd22fb7eef9c12fc07e
-> > > > d7106d6b/src/net.c#L34 [3]
-> > > > https://gitlab.com/strace/strace/-/blob/9fe63f42df8badd22fb7eef9c12fc07e
-> > > > d7106d6b/src/sockaddr.c#L30
-> > 
-> > 
-> > 
-> > 
-> 
+> Fixes: 2d151d39073a ("xfrm: Add possibility to set the default to block if we have no policy")
+> Signed-off-by: Eugene Syromiatnikov <esyr@redhat.com>
 
+References: https://lore.kernel.org/netdev/20210901151402.GA2557@altlinux.org/
+Reviewed-by: Dmitry V. Levin <ldv@altlinux.org>
+
+
+-- 
+ldv
