@@ -2,59 +2,64 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C2D33FFD66
-	for <lists+linux-api@lfdr.de>; Fri,  3 Sep 2021 11:45:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE435400341
+	for <lists+linux-api@lfdr.de>; Fri,  3 Sep 2021 18:26:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348930AbhICJqI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 3 Sep 2021 05:46:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51684 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1348822AbhICJqH (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 3 Sep 2021 05:46:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1630662307;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=/vGWzQqDyFpKhyOh2wIj+Kx4GVFTcdYuhnpoMJMGvEA=;
-        b=HOaWSbxaoOijHJtzyyvY+jf0zlsY3B4I917IjTuiLRM2TgCzjyYxgRfYPaUAjmmYVxyN2t
-        SHrxkmUMa68gsbF05Pu5Wev5/6y0Sav5qdsEMts0p5OAlztJYRrSajm5VAQYBQy8sRk4ss
-        KSrJNiV8K3vbG9IrSrs5ylcwRgF43gY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-eJDVAEt6Nk6Dh-U4T5FG6g-1; Fri, 03 Sep 2021 05:45:06 -0400
-X-MC-Unique: eJDVAEt6Nk6Dh-U4T5FG6g-1
-Received: by mail-wm1-f71.google.com with SMTP id x125-20020a1c3183000000b002e73f079eefso2454291wmx.0
-        for <linux-api@vger.kernel.org>; Fri, 03 Sep 2021 02:45:06 -0700 (PDT)
+        id S1349968AbhICQ1y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 3 Sep 2021 12:27:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37596 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1349977AbhICQ1q (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 3 Sep 2021 12:27:46 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65ECAC061760
+        for <linux-api@vger.kernel.org>; Fri,  3 Sep 2021 09:26:46 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id z19so8668181edi.9
+        for <linux-api@vger.kernel.org>; Fri, 03 Sep 2021 09:26:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PGwJPrU2ymA9P5fTXacx3Qx7nyhlT5Ql+hJVxARh6kE=;
+        b=K1rpsMJtFquFY0qt0aI/UI9kou+zwJyr90hh+Vza9DcECr82hORBsg2aFd3wZYBMyW
+         mxSJGjFZE1t/C6jfyYk7elauPxHWpv1yEHosEvvwTsPovx6P/GaYLx1qmSOFYXAnwgSc
+         ifABx5ircSoY9atjYL5bS6LS1nIcyTGaPGEEI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=/vGWzQqDyFpKhyOh2wIj+Kx4GVFTcdYuhnpoMJMGvEA=;
-        b=ACqhWOB0lYJ73v8LQdCd0TGHGcUqw/Ls+ZERDojlEbcVavrBI4WL+QsUetZxEy5PkY
-         bFi7ABG0xH2KJIY9hw/9tYpOF0kswxNCBLE3/N9MI0OixbPZi1kXynWfnfb9eExv6XFB
-         yfS5wyqokGTqDhd4tkYMkOwXb7/YrJgiwt8zF6fIqJO/mPyfnVT+d0GR/AhygDF7KPYk
-         xFyh27VP1Byuv9VV7AHeVt6co3nomKy/m6n0wYqFHh58s3WXZwKKtVdeqCY9ZGus44ap
-         QbtFJc31x6ddP/RLiybXYhgQq1TH5BDKEL9IvDseG23gmYH504G9vp9d5jhGEa373V9J
-         pzwA==
-X-Gm-Message-State: AOAM532+H95CzazITayiMhDnZco6MeK8e1nAf2GkJ0InSrJ3tOi84FtH
-        BwsmixMK/Reu5mi+Nsc+ZCDp/dUX/grIGyCAy2KY5abJjbfAKFoNyd3zejk35KdEqa60d9xoxLD
-        T+R9YHM/iDGX/UryotAMQ
-X-Received: by 2002:a5d:534c:: with SMTP id t12mr2933339wrv.219.1630662305220;
-        Fri, 03 Sep 2021 02:45:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwp4wZnhZMdzpuRGRjPbO89lNQeoyMiOxBHqBuOuGQAYy9XHQ2xW00EnKcwVfrZ6lqnhbC09Q==
-X-Received: by 2002:a5d:534c:: with SMTP id t12mr2933309wrv.219.1630662305062;
-        Fri, 03 Sep 2021 02:45:05 -0700 (PDT)
-Received: from [192.168.3.132] (p4ff23e05.dip0.t-ipconnect.de. [79.242.62.5])
-        by smtp.gmail.com with ESMTPSA id v21sm4449203wra.92.2021.09.03.02.45.01
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PGwJPrU2ymA9P5fTXacx3Qx7nyhlT5Ql+hJVxARh6kE=;
+        b=OTLbNwZZ7z2p4cgMhyesWxN1GNNhoG4EZ5273llgfloYeyppF7M8fVcunkUHlJ+w/x
+         Sy9cmSCz2SIHpx9xWnXH+JI65BYo7SxGmtlq+9VeKJkVLurDH6ozkKf0klkNidP4UidL
+         GovcyZ9YjZSyX0THxprp2nt5jthTB3NCnyq9+Ud5zuj/qrkLO11Rw4Dns/SvJOIgkZy8
+         nGKJO5NRbMu0f3X2sTM4pmgytIyJVKKoNVjihJPfgeDom14/dW5OIf/qNK8ecJSHy4N8
+         ATTpDLl6NufqLe7esHOQWcGNB2M7wxM6u94u9eS5Y7hp3IbmFFejngL2FVGRP0xYqlPs
+         zeFA==
+X-Gm-Message-State: AOAM5331D+EFfAyG72knOEJr1OyhGIl2dqrFhH1D8wGl19ZILQ6tZtwY
+        dugDR3bsc28QAMVng+zgKjypbUQfanvDFiVxzXg=
+X-Google-Smtp-Source: ABdhPJzkck5zr8fhgh6r10Mz/gBI0qYBTl0Rgwqp4nLwtdh+tOJqCgNFunuOdV89gjkVk8iqQXlHjA==
+X-Received: by 2002:aa7:dd57:: with SMTP id o23mr4866998edw.385.1630686404673;
+        Fri, 03 Sep 2021 09:26:44 -0700 (PDT)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com. [209.85.208.49])
+        by smtp.gmail.com with ESMTPSA id z15sm3172196edr.80.2021.09.03.09.26.42
+        for <linux-api@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Sep 2021 02:45:03 -0700 (PDT)
+        Fri, 03 Sep 2021 09:26:43 -0700 (PDT)
+Received: by mail-ed1-f49.google.com with SMTP id u19so8696051edb.3
+        for <linux-api@vger.kernel.org>; Fri, 03 Sep 2021 09:26:42 -0700 (PDT)
+X-Received: by 2002:a2e:8107:: with SMTP id d7mr3678393ljg.68.1630686392088;
+ Fri, 03 Sep 2021 09:26:32 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210816194840.42769-1-david@redhat.com> <7c57a16b-8184-36a3-fcdc-5e751184827b@redhat.com>
+In-Reply-To: <7c57a16b-8184-36a3-fcdc-5e751184827b@redhat.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Fri, 3 Sep 2021 09:26:16 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whghWSYo498cKaK9VLwBKKW0uMynwPT3zpnEG73MfKqUA@mail.gmail.com>
+Message-ID: <CAHk-=whghWSYo498cKaK9VLwBKKW0uMynwPT3zpnEG73MfKqUA@mail.gmail.com>
 Subject: Re: [PATCH v2 0/7] Remove in-tree usage of MAP_DENYWRITE
-To:     linux-kernel@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         "H. Peter Anvin" <hpa@zytor.com>,
@@ -101,43 +106,28 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Michal Hocko <mhocko@suse.com>,
         Miklos Szeredi <miklos@szeredi.hu>,
         Chengguang Xu <cgxu519@mykernel.net>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
         Florian Weimer <fweimer@redhat.com>,
-        David Laight <David.Laight@ACULAB.COM>,
-        linux-unionfs@vger.kernel.org, linux-api@vger.kernel.org,
-        x86@kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-References: <20210816194840.42769-1-david@redhat.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <7c57a16b-8184-36a3-fcdc-5e751184827b@redhat.com>
-Date:   Fri, 3 Sep 2021 11:45:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <20210816194840.42769-1-david@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        David Laight <David.Laight@aculab.com>,
+        linux-unionfs@vger.kernel.org,
+        Linux API <linux-api@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 16.08.21 21:48, David Hildenbrand wrote:
-> This series removes all in-tree usage of MAP_DENYWRITE from the kernel
-> and removes VM_DENYWRITE. We stopped supporting MAP_DENYWRITE for
-> user space applications a while ago because of the chance for DoS.
-> The last renaming user is binfmt binary loading during exec and
-> legacy library loading via uselib().
-> 
+On Fri, Sep 3, 2021 at 2:45 AM David Hildenbrand <david@redhat.com> wrote:
+>
+> So, how do we want to continue with this? Pick it up for v5.15? Have it
+> in -next for a while and eventually pick it up for v5.16?
 
-So, how do we want to continue with this? Pick it up for v5.15? Have it 
-in -next for a while and eventually pick it up for v5.16?
+I'm ok with the series. If you have a git tree, do the normal pull
+request, and we can do it for 5.15 and see if anybody notices.
 
-I think the "remove ETXTBSY completely" and "remove the sanity mapping 
-check" thingies should be done on top.
+As you say, any final removal of ETXTBSY should be a separate and
+later patch on top.
 
--- 
-Thanks,
-
-David / dhildenb
-
+            Linus
