@@ -2,57 +2,66 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C683F401092
-	for <lists+linux-api@lfdr.de>; Sun,  5 Sep 2021 17:32:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FBDE401108
+	for <lists+linux-api@lfdr.de>; Sun,  5 Sep 2021 19:28:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236947AbhIEPdh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 5 Sep 2021 11:33:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35908 "EHLO
+        id S231804AbhIERZP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 5 Sep 2021 13:25:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229566AbhIEPdh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 5 Sep 2021 11:33:37 -0400
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 008C6C061575;
-        Sun,  5 Sep 2021 08:32:34 -0700 (PDT)
-Received: by mail-ot1-x332.google.com with SMTP id c19-20020a9d6153000000b0051829acbfc7so5454206otk.9;
-        Sun, 05 Sep 2021 08:32:33 -0700 (PDT)
+        with ESMTP id S229865AbhIERZO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 5 Sep 2021 13:25:14 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14FC7C061575
+        for <linux-api@vger.kernel.org>; Sun,  5 Sep 2021 10:24:11 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id j12so7122752ljg.10
+        for <linux-api@vger.kernel.org>; Sun, 05 Sep 2021 10:24:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=XoAlzqJi3De8B+VzmGNnnTIvew9rejsmVUIc2D4Tpw0=;
-        b=LurNh+xXN3Seno1v6vKCeczmHg5jkp75T7+rEOTZc9poUVG66GYg/QUXCpVw/gZFaz
-         UrOiFKVGus5FSJFr25SxzrUPwkqmdBOL2RrQ9cqQnQV+zeT6US5zUeogQAglGZ9aQRpu
-         g+f4EQwqe1RumBAG3axpcqPQtpkxvocGhMlE2O7dmqkW0U/qx0C36GKaVq1rhDbNs7Aq
-         d0kmTanGwQiiXk849oEBv1wsz2C3u5LbNaV8lb9H9tcU+UWwtp/6tZUNqAZ+LW9AQmmY
-         /cbJ4ru1mUxJ8CmChZjh79C9VmP5PfoaUWgv6dfo692Lw8w0YblbPX71SpcZgzh3TgZj
-         pi8Q==
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jpxSclMyPpq3hjTkndeLX+vXWq2jAp6AUp9RJSFInpc=;
+        b=gK/q/jXjhkCQnjJcvu9HTWv3Xy/cZUkhrGXV+w6Yieir7RJN0wnXBCgrW7qEaTLfMe
+         oYo31t90pvfHuligx33j3D0RxXp6Y2ZbKY0rpcBN0DvbvSQ1EHWrcrgoKint1hxYzqDA
+         HGx76j07IWwevhOJYViS08kEj6stJNiezUr3E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=XoAlzqJi3De8B+VzmGNnnTIvew9rejsmVUIc2D4Tpw0=;
-        b=RdLpgm2pEKZXzVPjHyLD4MO8Mx20ZFkjn6KH29aovOh5bnpe4vnxOvEhPNFAodRfUj
-         dWc8w8IZoHkreTKd/nUD7r3jcA3z8G1C2kq+L7hpLHVklmfROz0qSfI1RXT54MyMXlI5
-         DtEqbhWaFTAu9/fAwlGkrW5qkf66NxZd2no3yMf/m7EQcwMQ72/JaIW+kHkNg+eGf2ue
-         aAXNj1RH5aYjmSEmHvVHFzXzRh9sY8ogSXS2/J3pMsdlwSe8PfkbxAVfSpMFxU09zpis
-         W3zolk0P4G83Zzqvm01Z7/JFrrIih/W8pIKITBBHlXhiArHrXbLxAkRXGqIEULQkaJbT
-         2Jjg==
-X-Gm-Message-State: AOAM532nR+HRfvqAnD6c0Oed8K7sNP8K5idjzZw92uF0dwklSgiQP2o0
-        ds2WVENpqpfaobJvhkpbs43jH7QKL9w=
-X-Google-Smtp-Source: ABdhPJzbxr3wcNwbKxd3onpfBStc77h8RDWiIefjN+/Q69lK78BTudJW3loI0eDagfkU7WkIR01wsQ==
-X-Received: by 2002:a9d:6359:: with SMTP id y25mr7629665otk.274.1630855952160;
-        Sun, 05 Sep 2021 08:32:32 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id x12sm999383oie.56.2021.09.05.08.32.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Sep 2021 08:32:31 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Sun, 5 Sep 2021 08:32:29 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jpxSclMyPpq3hjTkndeLX+vXWq2jAp6AUp9RJSFInpc=;
+        b=Qwhlmyf7SOgjftOFREZyjp9OoftZ4mzZ18yaMr1aeYgjSK7Xe5Gxkb8Wnz3Uast0ny
+         UvAoU9ThOWBTeKWTblBEKX78vlxO5AqKl90UmGfV2Cxdi+6npXQb6JjVrujO5PY2DSgn
+         Ov2NyRBUTUQ/vtJrUQ8FEB5L1HAkgSJxRml7g361V/tpS+OGnKufwFdXCHjtuAowy418
+         npkKl65aIlRBocXR5V4HAi23Rjx56H+9zPkxf/Eih9fVDD2/YGpFbLpLQIQZ4k7LSEiN
+         XeJw8RJ1N/SyAgAEK7o1RDZjfZpfXfjUVvW4SJyaVTDE/wRKwXMaXTTmTix+65MVBQAF
+         oLYA==
+X-Gm-Message-State: AOAM533mORGAWI3Ju+9DY2Nx0ptjX7tp42qsx12njVHhblT8aogwjKUf
+        0muONIHOBYh1jiHHEiJc39F5Ee9RREZChEAGKdg=
+X-Google-Smtp-Source: ABdhPJwz8IFQ1bSYrJMO+L7cl3XJU9HfMj8pQArgUkAzpKIhZqqrNP/Oh4/HeW3YkUMyBlfplJZt3w==
+X-Received: by 2002:a05:651c:1683:: with SMTP id bd3mr7419010ljb.323.1630862649063;
+        Sun, 05 Sep 2021 10:24:09 -0700 (PDT)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com. [209.85.167.50])
+        by smtp.gmail.com with ESMTPSA id c35sm531008lfv.137.2021.09.05.10.24.08
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 05 Sep 2021 10:24:08 -0700 (PDT)
+Received: by mail-lf1-f50.google.com with SMTP id bq28so8652491lfb.7
+        for <linux-api@vger.kernel.org>; Sun, 05 Sep 2021 10:24:08 -0700 (PDT)
+X-Received: by 2002:a2e:a7d0:: with SMTP id x16mr7195539ljp.494.1630862262563;
+ Sun, 05 Sep 2021 10:17:42 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210816194840.42769-1-david@redhat.com> <20210816194840.42769-2-david@redhat.com>
+ <20210905153229.GA3019909@roeck-us.net>
+In-Reply-To: <20210905153229.GA3019909@roeck-us.net>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sun, 5 Sep 2021 10:17:26 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whO-dnNxz5H8yfnGsNxrDHu-TVQq-X-VwhoDyWu3Lgnyg@mail.gmail.com>
+Message-ID: <CAHk-=whO-dnNxz5H8yfnGsNxrDHu-TVQq-X-VwhoDyWu3Lgnyg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/7] binfmt: don't use MAP_DENYWRITE when loading
+ shared libraries via uselib()
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
@@ -100,76 +109,28 @@ Cc:     linux-kernel@vger.kernel.org,
         Michal Hocko <mhocko@suse.com>,
         Miklos Szeredi <miklos@szeredi.hu>,
         Chengguang Xu <cgxu519@mykernel.net>,
-        Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
         Florian Weimer <fweimer@redhat.com>,
-        David Laight <David.Laight@ACULAB.COM>,
-        linux-unionfs@vger.kernel.org, linux-api@vger.kernel.org,
-        x86@kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v2 1/7] binfmt: don't use MAP_DENYWRITE when loading
- shared libraries via uselib()
-Message-ID: <20210905153229.GA3019909@roeck-us.net>
-References: <20210816194840.42769-1-david@redhat.com>
- <20210816194840.42769-2-david@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210816194840.42769-2-david@redhat.com>
+        David Laight <David.Laight@aculab.com>,
+        linux-unionfs@vger.kernel.org,
+        Linux API <linux-api@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Aug 16, 2021 at 09:48:34PM +0200, David Hildenbrand wrote:
-> uselib() is the legacy systemcall for loading shared libraries.
-> Nowadays, applications use dlopen() to load shared libraries, completely
-> implemented in user space via mmap().
-> 
-> For example, glibc uses MAP_COPY to mmap shared libraries. While this
-> maps to MAP_PRIVATE | MAP_DENYWRITE on Linux, Linux ignores any
-> MAP_DENYWRITE specification from user space in mmap.
-> 
-> With this change, all remaining in-tree users of MAP_DENYWRITE use it
-> to map an executable. We will be able to open shared libraries loaded
-> via uselib() writable, just as we already can via dlopen() from user
-> space.
-> 
-> This is one step into the direction of removing MAP_DENYWRITE from the
-> kernel. This can be considered a minor user space visible change.
-> 
-> Acked-by: "Eric W. Biederman" <ebiederm@xmission.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  arch/x86/ia32/ia32_aout.c | 2 +-
->  fs/binfmt_aout.c          | 2 +-
->  fs/binfmt_elf.c           | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/arch/x86/ia32/ia32_aout.c b/arch/x86/ia32/ia32_aout.c
-> index 5e5b9fc2747f..321d7b22ad2d 100644
-> --- a/arch/x86/ia32/ia32_aout.c
-> +++ b/arch/x86/ia32/ia32_aout.c
-> @@ -293,7 +293,7 @@ static int load_aout_library(struct file *file)
->  	/* Now use mmap to map the library into memory. */
->  	error = vm_mmap(file, start_addr, ex.a_text + ex.a_data,
->  			PROT_READ | PROT_WRITE | PROT_EXEC,
-> -			MAP_FIXED | MAP_PRIVATE | MAP_DENYWRITE | MAP_32BIT,
-> +			MAP_FIXED | MAP_PRIVATE | MAP_32BIT,
->  			N_TXTOFF(ex));
->  	retval = error;
->  	if (error != start_addr)
-> diff --git a/fs/binfmt_aout.c b/fs/binfmt_aout.c
-> index 145917f734fe..d29de971d3f3 100644
-> --- a/fs/binfmt_aout.c
-> +++ b/fs/binfmt_aout.c
-> @@ -309,7 +309,7 @@ static int load_aout_library(struct file *file)
->  	/* Now use mmap to map the library into memory. */
->  	error = vm_mmap(file, start_addr, ex.a_text + ex.a_data,
->  			PROT_READ | PROT_WRITE | PROT_EXEC,
-> -			MAP_FIXED | MAP_PRIVATE | MAP_DENYWRITE,
-> +			MAP_FIXED | MAP_PRIVATE;
->  			N_TXTOFF(ex));
+On Sun, Sep 5, 2021 at 8:32 AM Guenter Roeck <linux@roeck-us.net> wrote:
+>
+> Guess someone didn't care compile testing their code. This is now in
+> mainline.
 
-Guess someone didn't care compile testing their code. This is now in
-mainline.
+To be fair, a.out is disabled pretty much on all relevant platforms these days.
 
-Guenter
+Only alpha and m68k left, I think.
+
+I applied the obvious patch from Geert.
+
+            Linus
