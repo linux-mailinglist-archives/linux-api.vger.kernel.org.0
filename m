@@ -2,115 +2,174 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 079B7400F0D
-	for <lists+linux-api@lfdr.de>; Sun,  5 Sep 2021 12:20:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C683F401092
+	for <lists+linux-api@lfdr.de>; Sun,  5 Sep 2021 17:32:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237479AbhIEKUs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 5 Sep 2021 06:20:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52680 "EHLO
+        id S236947AbhIEPdh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 5 Sep 2021 11:33:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237663AbhIEKUs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 5 Sep 2021 06:20:48 -0400
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7F2AC061575
-        for <linux-api@vger.kernel.org>; Sun,  5 Sep 2021 03:19:45 -0700 (PDT)
-Received: by mail-yb1-xb2a.google.com with SMTP id c206so7432199ybb.12
-        for <linux-api@vger.kernel.org>; Sun, 05 Sep 2021 03:19:45 -0700 (PDT)
+        with ESMTP id S229566AbhIEPdh (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 5 Sep 2021 11:33:37 -0400
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 008C6C061575;
+        Sun,  5 Sep 2021 08:32:34 -0700 (PDT)
+Received: by mail-ot1-x332.google.com with SMTP id c19-20020a9d6153000000b0051829acbfc7so5454206otk.9;
+        Sun, 05 Sep 2021 08:32:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=AQI+gaP3gRr3DWEJsbHrkGhbGs7Zx+5Z3tcCL1B09EM=;
-        b=PP2+3iwryer9c+3oAptnpufAewviz+Xw07zANbq0y0EqgBiqIN2lw5LS0Ujjbcq8Cn
-         ZkOGLPtS7Y/BcrhCUbGbBqy2yMcMoZXIHLHx2B8ZqtiZQPYL58iA5NzDBVd8ztAOdBi3
-         i1hF14pWrFc0WFUfJGkhzjcJ4R++fN25F9IE2hYGvmjHDxQNL1SRxkoAL61/P9Xp6J6w
-         zQ861cKZXYJeCFRRzrOcDoaFfoutp//uk8tQgLkTloAyzJcTB4xcKM57qDOJh8nKou3T
-         l1O/VIB6d4J7ENsuMQ4riJZszU+FRG6JXVpQAzZ4jOHLa83P01WggssJ+4gBFo9MDbA6
-         NoGQ==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=XoAlzqJi3De8B+VzmGNnnTIvew9rejsmVUIc2D4Tpw0=;
+        b=LurNh+xXN3Seno1v6vKCeczmHg5jkp75T7+rEOTZc9poUVG66GYg/QUXCpVw/gZFaz
+         UrOiFKVGus5FSJFr25SxzrUPwkqmdBOL2RrQ9cqQnQV+zeT6US5zUeogQAglGZ9aQRpu
+         g+f4EQwqe1RumBAG3axpcqPQtpkxvocGhMlE2O7dmqkW0U/qx0C36GKaVq1rhDbNs7Aq
+         d0kmTanGwQiiXk849oEBv1wsz2C3u5LbNaV8lb9H9tcU+UWwtp/6tZUNqAZ+LW9AQmmY
+         /cbJ4ru1mUxJ8CmChZjh79C9VmP5PfoaUWgv6dfo692Lw8w0YblbPX71SpcZgzh3TgZj
+         pi8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=AQI+gaP3gRr3DWEJsbHrkGhbGs7Zx+5Z3tcCL1B09EM=;
-        b=NTceeEEH2Y9UQoOtupIws4WYp2C90VhOVrutm/jAhBpgJjSwaDFngwuy8njgcTG25S
-         TqcX5oJSIQlzlWYWSfdapx2CpmRLeSrLAy3E/DxlYIiBKJS+krAZ+hTZzsStW0aeBEpT
-         ARLhyReG43QusEKVCNuk9wGvfRTr/MQPKFn4yxzny5XPLfjAby0dXHG0Z+xy+HNMTwX7
-         RYwCqR0CMeLJ5mcPcfTYHiEsag/NHpGKsCMnInJXa4zXZ/n0B2w8EFb5aPdxCMkPcM+7
-         Ze+FyeEPpZ8ehQc+hwKvq90xnCN75SgYeneYPPGe77ICFN3LRNouFMzrZM48SANdpE1D
-         qW+g==
-X-Gm-Message-State: AOAM530/O1WoVS4fARb8i3EjHc2GSLk/0w8cNjtCUQGKMAg2mhboD1pG
-        zmdsRQ80e+8dR8lM4dW90XDWaKIdlrtOWThYkuO2Dyztiw1t3Q==
-X-Google-Smtp-Source: ABdhPJxIVkl/9rQomcRDEB3buRe5jOxRSRUy3/mBtk0ONn0OMmz+zkSBSPUX9ZlZblx4M4PSKAznQqE/mptsIQEU3jQ=
-X-Received: by 2002:a25:ba08:: with SMTP id t8mr9881709ybg.111.1630837184821;
- Sun, 05 Sep 2021 03:19:44 -0700 (PDT)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=XoAlzqJi3De8B+VzmGNnnTIvew9rejsmVUIc2D4Tpw0=;
+        b=RdLpgm2pEKZXzVPjHyLD4MO8Mx20ZFkjn6KH29aovOh5bnpe4vnxOvEhPNFAodRfUj
+         dWc8w8IZoHkreTKd/nUD7r3jcA3z8G1C2kq+L7hpLHVklmfROz0qSfI1RXT54MyMXlI5
+         DtEqbhWaFTAu9/fAwlGkrW5qkf66NxZd2no3yMf/m7EQcwMQ72/JaIW+kHkNg+eGf2ue
+         aAXNj1RH5aYjmSEmHvVHFzXzRh9sY8ogSXS2/J3pMsdlwSe8PfkbxAVfSpMFxU09zpis
+         W3zolk0P4G83Zzqvm01Z7/JFrrIih/W8pIKITBBHlXhiArHrXbLxAkRXGqIEULQkaJbT
+         2Jjg==
+X-Gm-Message-State: AOAM532nR+HRfvqAnD6c0Oed8K7sNP8K5idjzZw92uF0dwklSgiQP2o0
+        ds2WVENpqpfaobJvhkpbs43jH7QKL9w=
+X-Google-Smtp-Source: ABdhPJzbxr3wcNwbKxd3onpfBStc77h8RDWiIefjN+/Q69lK78BTudJW3loI0eDagfkU7WkIR01wsQ==
+X-Received: by 2002:a9d:6359:: with SMTP id y25mr7629665otk.274.1630855952160;
+        Sun, 05 Sep 2021 08:32:32 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id x12sm999383oie.56.2021.09.05.08.32.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Sep 2021 08:32:31 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Sun, 5 Sep 2021 08:32:29 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Kees Cook <keescook@chromium.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Chinwen Chang <chinwen.chang@mediatek.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Huang Ying <ying.huang@intel.com>,
+        Jann Horn <jannh@google.com>, Feng Tang <feng.tang@intel.com>,
+        Kevin Brodsky <Kevin.Brodsky@arm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Shawn Anastasio <shawn@anastas.io>,
+        Steven Price <steven.price@arm.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        Peter Xu <peterx@redhat.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Marco Elver <elver@google.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Nicolas Viennot <Nicolas.Viennot@twosigma.com>,
+        Thomas Cedeno <thomascedeno@google.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Chengguang Xu <cgxu519@mykernel.net>,
+        Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        David Laight <David.Laight@ACULAB.COM>,
+        linux-unionfs@vger.kernel.org, linux-api@vger.kernel.org,
+        x86@kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v2 1/7] binfmt: don't use MAP_DENYWRITE when loading
+ shared libraries via uselib()
+Message-ID: <20210905153229.GA3019909@roeck-us.net>
+References: <20210816194840.42769-1-david@redhat.com>
+ <20210816194840.42769-2-david@redhat.com>
 MIME-Version: 1.0
-From:   Turritopsis Dohrnii Teo En Ming <ceo.teo.en.ming@gmail.com>
-Date:   Sun, 5 Sep 2021 18:19:35 +0800
-Message-ID: <CAMEJMGFL4Q81ZsH0=d7gi_25kHM8_kVX2fEEUJp-sbkaa-4pqQ@mail.gmail.com>
-Subject: Introduction: I am a Linux and open source software enthusiast
-To:     linux-api@vger.kernel.org
-Cc:     ceo@teo-en-ming-corp.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210816194840.42769-2-david@redhat.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Subject: Introduction: I am a Linux and open source software enthusiast
+On Mon, Aug 16, 2021 at 09:48:34PM +0200, David Hildenbrand wrote:
+> uselib() is the legacy systemcall for loading shared libraries.
+> Nowadays, applications use dlopen() to load shared libraries, completely
+> implemented in user space via mmap().
+> 
+> For example, glibc uses MAP_COPY to mmap shared libraries. While this
+> maps to MAP_PRIVATE | MAP_DENYWRITE on Linux, Linux ignores any
+> MAP_DENYWRITE specification from user space in mmap.
+> 
+> With this change, all remaining in-tree users of MAP_DENYWRITE use it
+> to map an executable. We will be able to open shared libraries loaded
+> via uselib() writable, just as we already can via dlopen() from user
+> space.
+> 
+> This is one step into the direction of removing MAP_DENYWRITE from the
+> kernel. This can be considered a minor user space visible change.
+> 
+> Acked-by: "Eric W. Biederman" <ebiederm@xmission.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  arch/x86/ia32/ia32_aout.c | 2 +-
+>  fs/binfmt_aout.c          | 2 +-
+>  fs/binfmt_elf.c           | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/x86/ia32/ia32_aout.c b/arch/x86/ia32/ia32_aout.c
+> index 5e5b9fc2747f..321d7b22ad2d 100644
+> --- a/arch/x86/ia32/ia32_aout.c
+> +++ b/arch/x86/ia32/ia32_aout.c
+> @@ -293,7 +293,7 @@ static int load_aout_library(struct file *file)
+>  	/* Now use mmap to map the library into memory. */
+>  	error = vm_mmap(file, start_addr, ex.a_text + ex.a_data,
+>  			PROT_READ | PROT_WRITE | PROT_EXEC,
+> -			MAP_FIXED | MAP_PRIVATE | MAP_DENYWRITE | MAP_32BIT,
+> +			MAP_FIXED | MAP_PRIVATE | MAP_32BIT,
+>  			N_TXTOFF(ex));
+>  	retval = error;
+>  	if (error != start_addr)
+> diff --git a/fs/binfmt_aout.c b/fs/binfmt_aout.c
+> index 145917f734fe..d29de971d3f3 100644
+> --- a/fs/binfmt_aout.c
+> +++ b/fs/binfmt_aout.c
+> @@ -309,7 +309,7 @@ static int load_aout_library(struct file *file)
+>  	/* Now use mmap to map the library into memory. */
+>  	error = vm_mmap(file, start_addr, ex.a_text + ex.a_data,
+>  			PROT_READ | PROT_WRITE | PROT_EXEC,
+> -			MAP_FIXED | MAP_PRIVATE | MAP_DENYWRITE,
+> +			MAP_FIXED | MAP_PRIVATE;
+>  			N_TXTOFF(ex));
 
-Greetings from Singapore,
+Guess someone didn't care compile testing their code. This is now in
+mainline.
 
-My name is Mr. Turritopsis Dohrnii Teo En Ming, 43 years old as of 5
-September 2021. My country is Singapore. Presently I am an IT
-Consultant with a System Integrator (SI)/computer firm in Singapore. I
-am also a Linux and open source software and information technology
-enthusiast.
-
-You can read my autobiography on my redundant blogs. The title of my
-autobiography is:
-
-"Autobiography of Singaporean Targeted Individual Mr. Turritopsis
-Dohrnii Teo En Ming (Very First Draft, Lots More to Add in Future)"
-
-Links to my redundant blogs (Blogger and Wordpress) can be found in my
-email signature below.
-
-I have three other redundant blogs, namely:
-
-https://teo-en-ming.tumblr.com/
-
-https://teo-en-ming.medium.com/
-
-https://teo-en-ming.livejournal.com/
-
-Future/subsequent versions of my autobiography will be published on my
-redundant blogs.
-
-My Blog Books are also available for download on my redundant blogs.
-
-Thank you very much.
-
-
-
-
------BEGIN EMAIL SIGNATURE-----
-
-The Gospel for all Targeted Individuals (TIs):
-
-[The New York Times] Microwave Weapons Are Prime Suspect in Ills of
-U.S. Embassy Workers
-
-Link:
-https://www.nytimes.com/2018/09/01/science/sonic-attack-cuba-microwave.html
-
-********************************************************************************************
-
-Singaporean Targeted Individual Mr. Turritopsis Dohrnii Teo En Ming's
-Academic Qualifications as at 14 Feb 2019 and refugee seeking attempts
-at the United Nations Refugee Agency Bangkok (21 Mar 2017), in Taiwan
-(5 Aug 2019) and Australia (25 Dec 2019 to 9 Jan 2020):
-
-[1] https://tdtemcerts.wordpress.com/
-
-[2] https://tdtemcerts.blogspot.sg/
-
-[3] https://www.scribd.com/user/270125049/Teo-En-Ming
-
------END EMAIL SIGNATURE-----
+Guenter
