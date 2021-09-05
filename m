@@ -2,66 +2,60 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FBDE401108
-	for <lists+linux-api@lfdr.de>; Sun,  5 Sep 2021 19:28:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 108C9401154
+	for <lists+linux-api@lfdr.de>; Sun,  5 Sep 2021 21:19:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231804AbhIERZP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 5 Sep 2021 13:25:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60426 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229865AbhIERZO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 5 Sep 2021 13:25:14 -0400
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14FC7C061575
-        for <linux-api@vger.kernel.org>; Sun,  5 Sep 2021 10:24:11 -0700 (PDT)
-Received: by mail-lj1-x232.google.com with SMTP id j12so7122752ljg.10
-        for <linux-api@vger.kernel.org>; Sun, 05 Sep 2021 10:24:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jpxSclMyPpq3hjTkndeLX+vXWq2jAp6AUp9RJSFInpc=;
-        b=gK/q/jXjhkCQnjJcvu9HTWv3Xy/cZUkhrGXV+w6Yieir7RJN0wnXBCgrW7qEaTLfMe
-         oYo31t90pvfHuligx33j3D0RxXp6Y2ZbKY0rpcBN0DvbvSQ1EHWrcrgoKint1hxYzqDA
-         HGx76j07IWwevhOJYViS08kEj6stJNiezUr3E=
+        id S238147AbhIETJR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 5 Sep 2021 15:09:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52338 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238393AbhIETI7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 5 Sep 2021 15:08:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1630868873;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=GBTVYvl6r/DGTmkrkWcHeYmKn9Wnjnzo76ZSWSpnbek=;
+        b=PeqfpFtOcgYLHpImbilspXx7NNcD9AFdc1+vbYZSW8XLdVNXxdpUyIBE6a8Jd//2ySrAW3
+        A3Rarm2+FChvFF82fOeq1qd0qcEaGVFxiA7bu3YZinBh2cKjqLW0qR2oAdLuSd4aERoPN5
+        DrpsC4lYjcWWoLLXHz6HAA10siuMJ7o=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-555-WHfTkxzAPlWsN9yUPgqy6A-1; Sun, 05 Sep 2021 15:07:52 -0400
+X-MC-Unique: WHfTkxzAPlWsN9yUPgqy6A-1
+Received: by mail-wm1-f71.google.com with SMTP id x125-20020a1c3183000000b002e73f079eefso2911357wmx.0
+        for <linux-api@vger.kernel.org>; Sun, 05 Sep 2021 12:07:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jpxSclMyPpq3hjTkndeLX+vXWq2jAp6AUp9RJSFInpc=;
-        b=Qwhlmyf7SOgjftOFREZyjp9OoftZ4mzZ18yaMr1aeYgjSK7Xe5Gxkb8Wnz3Uast0ny
-         UvAoU9ThOWBTeKWTblBEKX78vlxO5AqKl90UmGfV2Cxdi+6npXQb6JjVrujO5PY2DSgn
-         Ov2NyRBUTUQ/vtJrUQ8FEB5L1HAkgSJxRml7g361V/tpS+OGnKufwFdXCHjtuAowy418
-         npkKl65aIlRBocXR5V4HAi23Rjx56H+9zPkxf/Eih9fVDD2/YGpFbLpLQIQZ4k7LSEiN
-         XeJw8RJ1N/SyAgAEK7o1RDZjfZpfXfjUVvW4SJyaVTDE/wRKwXMaXTTmTix+65MVBQAF
-         oLYA==
-X-Gm-Message-State: AOAM533mORGAWI3Ju+9DY2Nx0ptjX7tp42qsx12njVHhblT8aogwjKUf
-        0muONIHOBYh1jiHHEiJc39F5Ee9RREZChEAGKdg=
-X-Google-Smtp-Source: ABdhPJwz8IFQ1bSYrJMO+L7cl3XJU9HfMj8pQArgUkAzpKIhZqqrNP/Oh4/HeW3YkUMyBlfplJZt3w==
-X-Received: by 2002:a05:651c:1683:: with SMTP id bd3mr7419010ljb.323.1630862649063;
-        Sun, 05 Sep 2021 10:24:09 -0700 (PDT)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com. [209.85.167.50])
-        by smtp.gmail.com with ESMTPSA id c35sm531008lfv.137.2021.09.05.10.24.08
-        for <linux-api@vger.kernel.org>
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=GBTVYvl6r/DGTmkrkWcHeYmKn9Wnjnzo76ZSWSpnbek=;
+        b=ZZ+iLJRl66TywXxlNKP1XjKHUed3JGrBX+Yn5CHcA7ORzoFSXmk29CHzajtTae8Xtb
+         LQjfRedCQZUnuCHJbCQgdJ/oIUkGGQpJxUING9m7TdI6n/3DUKY4IijB5xPEDDCDZVSo
+         Wtp89krlI3OB53gVk6Q//juSSAp3oWZ5QO8pU0V2MNH9tJPeZs+CcvmlacpBB8KM90l+
+         X8y/hR28TAUtqKNccaBpK/dk7iYP3K5Pj+WUgj+skNICtkIrVr8KAXZY7UtnoQeD+Iyg
+         ezJnSXauUWpVpKAk1iEc7IT5T9a5U+9tAGwCVnxyJLICqHnK3dqjGojLRVib4kDNWkqg
+         KN3Q==
+X-Gm-Message-State: AOAM533qdK2swrEGsKsid7HhdsrIWrmKg8WIWvK9P3nK8fxzl+Rgp+kX
+        cCwk7F6csLrmGyttHf7dyIMRQcl+aQq106cq3F1wqAsyblcNwm/ISEqJocmBjpNMuem2NLDKcmP
+        xiOTAGvmPouFd6s2YDvQD
+X-Received: by 2002:adf:916f:: with SMTP id j102mr9428593wrj.422.1630868871732;
+        Sun, 05 Sep 2021 12:07:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwJKpXpbX8Zx9j1c0iF75tnA3gLF7m6WMhftI7dZFfieFpkJUATagtI6L+4VC8O/dknnYxpxg==
+X-Received: by 2002:adf:916f:: with SMTP id j102mr9428550wrj.422.1630868871507;
+        Sun, 05 Sep 2021 12:07:51 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c6f04.dip0.t-ipconnect.de. [91.12.111.4])
+        by smtp.gmail.com with ESMTPSA id i20sm5300193wml.37.2021.09.05.12.07.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 Sep 2021 10:24:08 -0700 (PDT)
-Received: by mail-lf1-f50.google.com with SMTP id bq28so8652491lfb.7
-        for <linux-api@vger.kernel.org>; Sun, 05 Sep 2021 10:24:08 -0700 (PDT)
-X-Received: by 2002:a2e:a7d0:: with SMTP id x16mr7195539ljp.494.1630862262563;
- Sun, 05 Sep 2021 10:17:42 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210816194840.42769-1-david@redhat.com> <20210816194840.42769-2-david@redhat.com>
- <20210905153229.GA3019909@roeck-us.net>
-In-Reply-To: <20210905153229.GA3019909@roeck-us.net>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sun, 5 Sep 2021 10:17:26 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whO-dnNxz5H8yfnGsNxrDHu-TVQq-X-VwhoDyWu3Lgnyg@mail.gmail.com>
-Message-ID: <CAHk-=whO-dnNxz5H8yfnGsNxrDHu-TVQq-X-VwhoDyWu3Lgnyg@mail.gmail.com>
+        Sun, 05 Sep 2021 12:07:51 -0700 (PDT)
 Subject: Re: [PATCH v2 1/7] binfmt: don't use MAP_DENYWRITE when loading
  shared libraries via uselib()
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     David Hildenbrand <david@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Guenter Roeck <linux@roeck-us.net>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
@@ -109,28 +103,55 @@ Cc:     David Hildenbrand <david@redhat.com>,
         Michal Hocko <mhocko@suse.com>,
         Miklos Szeredi <miklos@szeredi.hu>,
         Chengguang Xu <cgxu519@mykernel.net>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
         Florian Weimer <fweimer@redhat.com>,
         David Laight <David.Laight@aculab.com>,
         linux-unionfs@vger.kernel.org,
         Linux API <linux-api@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Linux-MM <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+References: <20210816194840.42769-1-david@redhat.com>
+ <20210816194840.42769-2-david@redhat.com>
+ <20210905153229.GA3019909@roeck-us.net>
+ <CAHk-=whO-dnNxz5H8yfnGsNxrDHu-TVQq-X-VwhoDyWu3Lgnyg@mail.gmail.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <77b36c45-773b-3cb8-fa18-45f0914c3090@redhat.com>
+Date:   Sun, 5 Sep 2021 21:07:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <CAHk-=whO-dnNxz5H8yfnGsNxrDHu-TVQq-X-VwhoDyWu3Lgnyg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Sep 5, 2021 at 8:32 AM Guenter Roeck <linux@roeck-us.net> wrote:
->
-> Guess someone didn't care compile testing their code. This is now in
-> mainline.
+On 05.09.21 19:17, Linus Torvalds wrote:
+> On Sun, Sep 5, 2021 at 8:32 AM Guenter Roeck <linux@roeck-us.net> wrote:
+>>
+>> Guess someone didn't care compile testing their code. This is now in
+>> mainline.
+> 
+> To be fair, a.out is disabled pretty much on all relevant platforms these days.
 
-To be fair, a.out is disabled pretty much on all relevant platforms these days.
+Yes, and it seems like it was disabled in all configs I used. (I did not 
+compile all-yes configs; usually my stuff goes via -mm where it will end 
+up in -next for a while ... this one was special)
 
-Only alpha and m68k left, I think.
+> 
+> Only alpha and m68k left, I think.
+> 
+> I applied the obvious patch from Geert.
 
-I applied the obvious patch from Geert.
+Thanks Linus!
 
-            Linus
+
+-- 
+Thanks,
+
+David / dhildenb
+
