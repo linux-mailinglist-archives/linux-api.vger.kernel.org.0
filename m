@@ -2,78 +2,78 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 65D03404228
-	for <lists+linux-api@lfdr.de>; Thu,  9 Sep 2021 02:16:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88A5F40422B
+	for <lists+linux-api@lfdr.de>; Thu,  9 Sep 2021 02:16:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348223AbhIIAR3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 8 Sep 2021 20:17:29 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:42590 "EHLO
+        id S1348419AbhIIARb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 8 Sep 2021 20:17:31 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:43496 "EHLO
         mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1348297AbhIIAR3 (ORCPT
+        by vger.kernel.org with ESMTP id S1348315AbhIIAR3 (ORCPT
         <rfc822;linux-api@vger.kernel.org>); Wed, 8 Sep 2021 20:17:29 -0400
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 188LSsGs031115;
-        Thu, 9 Sep 2021 00:16:19 GMT
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 188LgTf6004812;
+        Thu, 9 Sep 2021 00:16:20 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=MKsGW3YNtdCT3n76iLsj/+P0SaF9vTCcqb6gTdBfnuE=;
- b=YUluOzNhljjtpvbr4uUZ02WpWLercGp3jENXGJH5NcR2CWJg1yp+XmL/9ACt/fKpDLfG
- rTeY3Gq9ChAhJVy6mr5zCFj0uRt7KWLe2w1znjHWgvnaOEBPULNcTC5GahNvO2z7wqwr
- xSYm9crlYMS++LfrL44bXaLew4IkdVJ+sNZYDEAXPeQIiACTW7RiGKLDlnsnBDyLuEgr
- 4zjGoVd9t2tqN1aJzoI+dPrq+H/3EKHiTJPalUPyTEOtV4RBaBd30O2LNXGdzQh45zy2
- miPt9rHcyTfLFGfTgxOQ3IuCZdvoCWTqtP4Ph1HOioMD//bBSOe0Zu8bHNKEzB15NvpU UA== 
+ bh=FiNHCvW8j9EtIsfwJ5mPzwMPH3ZxaIUjcFJjqO5hVPQ=;
+ b=nNEKA90GudLCUBcxqErz7wVEiclwguN0YsBvnfRc1o3Z/nv6oviwNl4dkKzmxjVJgQnH
+ xa20TLcRDHJrtl9IqfdQDmDYib/jxS4lFnPV5z0+g5GjzXC5RAGveuYVv4jiOqB787j1
+ YJHgJaC0bAhkAMh/KbFft/ki80TnFYe9/iYorCysGc8iBd/B/3G9FL4lfWW0j1B6pgOG
+ sRuC6N78SkrwiiURreLD8j4cTL44BaxpkrxDCg3hyVSayi6gmK6g7brd8KIOjHsHCtsR
+ BqJNGYAHCw4i6osYeZXf1sWWH6k7HRQ3NYm5gHEKkiGVd3p73zOqaMuBe4M1tAhUk8qP 3Q== 
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2020-01-29;
- bh=MKsGW3YNtdCT3n76iLsj/+P0SaF9vTCcqb6gTdBfnuE=;
- b=0UCfco5rdtURO8du+KVQM1g//ngWpBuahVXT9U0XDKCbEdyJk3TDoJRoG8b5PbDTO0Kq
- gcIq7TTVEANbqgCXuefCUprxk3cGOeTu5oB9dwrE6RdVpTg0S3EkqmC35fQwhEy62b7d
- Oo4DU26m0MpDPLbYHgiOBhv4AckrV1TYhuadZ4rVacd0UMuQpWqkgczspvoBxo+mCTh7
- Wh+3W8onvI4AHGRHV9p/OCNujKbv8sw7cfptf9pnGN1xG+zErZPlDp6uCK+HpF/gE44D
- wApWitqQdqX5o+hV931P952EGScqG6KkpcdJgGznBLsm8Hu3G8qdOpWM6xLi7lrq7TJd gQ== 
+ bh=FiNHCvW8j9EtIsfwJ5mPzwMPH3ZxaIUjcFJjqO5hVPQ=;
+ b=q+06ntvpd92p07jiMJEvUC7b0iG1F4YarPpQZZSab7qKKhKbohN6WfXET8Ssf/xYJUu4
+ iH7Br0ixMV8Y77oYvRX7vfxdRCoJgJT7Fb9PkLcZXdbCk2qiEoTiqUH2Xl5SDQJ/fg//
+ 0PJy9jSB0onuqXl7kfIuQloeBtc93mEH7pMntxt/qNiBXAd4evitdj5CtGMisoFvvTNt
+ K7NVOeCBaOd7uNeniCSfO4J0nnsjYuPmeRdlVrQF51agz+a61arkr2lmVEbg7K6U3zZQ
+ 6o0oYSGymXTOp5yUit0fHs6bnlmR90w2H0PfVItK+n/uqwovxJi+P5VLBfwNymHbPqJP fQ== 
 Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3axcw6chuc-1
+        by mx0b-00069f02.pphosted.com with ESMTP id 3axcuqcdtr-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
         Thu, 09 Sep 2021 00:16:19 +0000
 Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1890GEmY180423;
-        Thu, 9 Sep 2021 00:16:18 GMT
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1890GEma180423;
+        Thu, 9 Sep 2021 00:16:19 GMT
 Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam07lp2047.outbound.protection.outlook.com [104.47.51.47])
-        by aserp3030.oracle.com with ESMTP id 3axcppf5gy-3
+        by aserp3030.oracle.com with ESMTP id 3axcppf5gy-4
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
         Thu, 09 Sep 2021 00:16:18 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FTaR1DrOeF9qwqhvaVJdO8Q0fSLHZfEq2mXZWowk7iwXj3BtiQ2WUUn54ChicCfYVhT/7mopci/qqFB15kECAbqEZzxPQE7LzQc092BxZwS1YwJM7IVO3QVr1pKQH5FxzhdnFlwhgpCzF3ahqUvqJ0BT+v4k9yN+x53JRumigzB5OQ/uIsUVHsx9vC/ujFWROQv8phK+JWhL1cQ/Hfv++a3l+GtpwzhIzQMKy4OfkA0ZMhQG3dxzeSJ1+OxppxikouIWkTb7tZtAERB1cB7cB/GU1DD5MsAWjU7Xl0dp9XRx8Vgk4gntGKsFo9jNS1lSCOx8BcSju9Sfd9ioOABSxg==
+ b=K3nEMlfFn9PRv8aIlJN+3MCCGS0xH9rAGBC5m6YmiyRZoFajDVaFVhFjUw26jGMgOClHcl8zJZrn7eJHehSR51uph99xj7bVgZJT4J49ni6ARTsvmSvcsKhrxMuRq4EKWz7lOlHM63xjUCxND75Y0J1dXVMJc4JJUYJvcM1gL+1XTJLST42AuPSjhjkloy4jWKt6h/A5MCMdzksJ/onLoaVIwaCZgxwx3iu7AKx6uv9KeJ8NcS9pEj4mW52x7GJLk+89MMtrzaIZIhTPw/BUH0ffC/X+jFzwmeblIR04RwHQ6KfU1VX2jJE9f3KrVvLyytsoYKIIZJBjTKVdxVESnw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=MKsGW3YNtdCT3n76iLsj/+P0SaF9vTCcqb6gTdBfnuE=;
- b=LJRrARe+paiDL78Nz2pnLEao3ZwEarcraTFI6V2Uj736YDjyvxf2C1D0Q31RAEbnulC2W4kPQFETcWxaEC/b+QEfd7Y0NAgvpY1S8tQ67yitMIaI/3IzpqO/nTvGGX1CxgQtGYcnA6vXmxftsS4EED5PCdxArAyKim8N/ZN+7dLyL49fdxTZiX+hIta0yaoeq3sV0v8t+Dgyvzp+BZOQQXnjW2ppkm4eyu6oNOq/9PM9WPCGXde4a3fA7N3Fr1yiT3yB7m6QgH0Hzdj6CMDzP2mqbYF9/NrfoQtpqm8xeBE4oiBb/JUJ2ob/F0a5K7HLnRmNihf7PY0FPETfwHG9mg==
+ bh=FiNHCvW8j9EtIsfwJ5mPzwMPH3ZxaIUjcFJjqO5hVPQ=;
+ b=JJSt1LR0lwDgTUY4ZTmBd9WzpIByOFW4I6E5hcszFCObYZO7gZZej/AfJrDbdTBXBET8nGZE30vmQXGxC7hjea+AizYsLwKCt+lVj6E0fHaMPcQgGhi38JRIuBco2T3pV1L0+R3h0uBNYf3Si2E9ByCodKExbz+M1cbwWb447+aKh1+OatClCnlQIxqoloEu+pyxMRRvhrSrigYCLeZgSFyE5WfjghzIg/pH7rum5PaWBsVJzbRlbIN1EmHXNr8ObKvzLmnYRkR2byNATcNpsXRfG8I7ZADfbly601yCeB9gzjzcHJ40i5y2nuKLzVzXBA+PN3wXwkEFAuHSNwalrg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MKsGW3YNtdCT3n76iLsj/+P0SaF9vTCcqb6gTdBfnuE=;
- b=ArGGsCs3ka2TXiXrrdg212uJVFAXyqxX9u8Whh8MaCfuZsFXp/gmGFO+oFa/tdWD5fz21oB5G/44DGCHD6fzhNCnVTd75Rm4DaVXZ2UY+ORJ0MjBxa5yeZT8unkyOmWZNUaPBe/F6CBmJvoE+n8wDyU0IJdTBAkBagDHuVkbKhU=
+ bh=FiNHCvW8j9EtIsfwJ5mPzwMPH3ZxaIUjcFJjqO5hVPQ=;
+ b=LC56otMFMsCMhMOK1GTcD3usKHTBu7YGcvuTAZN6UJrAhk4nDIx1PEIR4j9OGdjfYy5ojI1Ktlfze8CtV5jK8SyPDLqc7RKqts68wFq8cwwBwnu5xPRJgQ7iClW1hdQZJZoDDJ8pqRIXggFRGF/9fMfxBD73LER03qtkErMy0xA=
 Authentication-Results: vger.kernel.org; dkim=none (message not signed)
  header.d=none;vger.kernel.org; dmarc=none action=none header.from=oracle.com;
 Received: from BYAPR10MB2629.namprd10.prod.outlook.com (2603:10b6:a02:b7::24)
  by BYAPR10MB2888.namprd10.prod.outlook.com (2603:10b6:a03:88::32) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.21; Thu, 9 Sep
- 2021 00:16:06 +0000
+ 2021 00:16:07 +0000
 Received: from BYAPR10MB2629.namprd10.prod.outlook.com
  ([fe80::c9c2:64d4:c67f:6837]) by BYAPR10MB2629.namprd10.prod.outlook.com
  ([fe80::c9c2:64d4:c67f:6837%7]) with mapi id 15.20.4478.025; Thu, 9 Sep 2021
- 00:16:06 +0000
+ 00:16:07 +0000
 From:   Prakash Sangappa <prakash.sangappa@oracle.com>
 To:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
 Cc:     mingo@redhat.com, prakash.sangappa@oracle.com
-Subject: [RESEND RFC PATCH 2/3] Publish tasks's scheduler stats thru the shared structure
-Date:   Wed,  8 Sep 2021 17:23:55 -0700
-Message-Id: <1631147036-13597-3-git-send-email-prakash.sangappa@oracle.com>
+Subject: [RESEND RFC PATCH 3/3] Introduce task's 'off cpu' time
+Date:   Wed,  8 Sep 2021 17:23:56 -0700
+Message-Id: <1631147036-13597-4-git-send-email-prakash.sangappa@oracle.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1631147036-13597-1-git-send-email-prakash.sangappa@oracle.com>
 References: <1631147036-13597-1-git-send-email-prakash.sangappa@oracle.com>
@@ -82,292 +82,211 @@ X-ClientProxiedBy: SJ0PR03CA0171.namprd03.prod.outlook.com
  (2603:10b6:a03:338::26) To BYAPR10MB2629.namprd10.prod.outlook.com
  (2603:10b6:a02:b7::24)
 MIME-Version: 1.0
-Received: from pp-ThinkCentre-M82.us.oracle.com (2606:b400:8024:1010::13d2) by SJ0PR03CA0171.namprd03.prod.outlook.com (2603:10b6:a03:338::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.4500.16 via Frontend Transport; Thu, 9 Sep 2021 00:16:04 +0000
+Received: from pp-ThinkCentre-M82.us.oracle.com (2606:b400:8024:1010::13d2) by SJ0PR03CA0171.namprd03.prod.outlook.com (2603:10b6:a03:338::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.4500.16 via Frontend Transport; Thu, 9 Sep 2021 00:16:06 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: eeb046d4-b4fa-4850-b4f5-08d9732703fd
+X-MS-Office365-Filtering-Correlation-Id: 121546ce-a6b9-4400-943e-08d9732704d4
 X-MS-TrafficTypeDiagnostic: BYAPR10MB2888:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR10MB2888208489149C50EC1810A5E4D59@BYAPR10MB2888.namprd10.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <BYAPR10MB288859CF06A665BBC45C7A08E4D59@BYAPR10MB2888.namprd10.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dbzwVKGRkqoj+eTyTsZyXij5KcasLMI5z6XpXimvghw0PH3wg6d2WvXqggnnBg8W+C8whRP/mbsEh7wx7E2a7FoLvl054tADj5H3gYf1/jQIcMNOMn+vJX/KZDX8F1JmQM0k437BACbkhBOhpg3zNI0DYZ8f/e0yTIAl0YZimFLadUr3svaebND25+xw51WnsMYaOY3bBx9iGLkoVPZ/CNSwbMrTi90ctsauqL64pVMu32tX5IML9wBPJmWLbPB4fQzBAVsT8m8lcjIZmhy4+M+YbGPVbFitZzVcLe2eYf3x3iZiWUYY0XvaaTytg3oYdeycEBBng9l4qkYHBAVDieLwIr0xFRv8VWr+uk0TPZGO+EGMUjldXk6NTGNwB9Ot7i0LYJnXhGVl3E8QYoDKJUuoUZPq4CVNNM6xyAa7RbqBnnFtQUHXHvI82WJNjr87WDyiTIZNsHPR/nhcdzkjNm1AeoutXLb+5KBROrNdKyQbyq13A/03kiGUxpykVuuI19Tbu1YYQlXXEb8wE5Q6q+FAC58uLFQpGXIjEqX3TE9cTq/roIkSQOJjQvPl7JcfFiYR3GuBVDXjZ3rKF7ugcO1be9dPa4tmxkd2G9E4dHGpMBJOqx5ZWftp598NZnY0m84n4IlRGx8muVoChcaFow==
+X-Microsoft-Antispam-Message-Info: JZtqJSxHt7K89suobw8YN/tjkuiOJTmiDV1BcWdPWVtr9P0nm3c0zcKYBgYqLJVLTpKD/KNca3YuLpD1eG72P6qNDNa714AMUAV8OqOYiCFjZ+w5jp5ectvT1DEQrwl2NU0Lpk5yJEtbXCLAhA2yBbfja/WM/oq3pyHqU5IR2aT8FD0CayXxb40YcLBwv4ewPcE7U9UYTGqoSmEqdZdzByfkblqqFFCLlS2GvzQzNHHylcBpr3DJ97dLdLKpdHmXcDXwfL6bR2AnkiJ7IsErYD7l7sF4zi6+IXYkdgpKmqxP4QTU2Sv9MOCCoLEu8xU6fvI57QBPzO6Eh2Fn77Ot0WO6Ii6wsMWA8REUH1HfdeOEyfUW+Xc+20yGFKLNCWwN5yHEhDSrdcwwbPRwLkZ9MCtDX0MojupaJ8U7IlLn1cRd07QZIkZ+10/xPKXGE5QMbotMIL9qev2peeZmFcApADW2ycTGreXo0EOQzz+VInBbqYcBH5dqzx8JdDovUvxhaSbKlA1KwAerhv/L3MfdPUAuvXNg7kgP4676LNgVy5syh8+akQQCuiSyKp1YOIHd0u++fIbFfTgMwuXf7Ak9a8eefK+7OM6EgyE3lrGWNUiwx+MkDEXSvNO0WjN4TGw2G0n1HmalUQwJ/2oIKYwABQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR10MB2629.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(136003)(376002)(366004)(396003)(39860400002)(346002)(8676002)(2616005)(8936002)(5660300002)(66476007)(6486002)(83380400001)(6666004)(7696005)(52116002)(44832011)(107886003)(316002)(186003)(66556008)(2906002)(66946007)(36756003)(38100700002)(478600001)(86362001)(4326008);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Cey/rWj6spYNUPe9bPQl88kmLeyCELY43qPS4Qc/lU5v2M8EyUQ28RW3TbZm?=
- =?us-ascii?Q?XMCUgp6SDiEpP47SEz7+92wDKZBtNBq0qppgfHsoxwbogtrzVw+wUSVuO8vO?=
- =?us-ascii?Q?zCqPo04wAseYcUyI77WnnjiwrXnERwBKOuCa3XbAgXnThNMSJLw/o2a0XHI8?=
- =?us-ascii?Q?R0q0MR4C0uOiBh2jCd34pk3Yh6MrymrA1k+1OLLxj1rhp8ZzH1LSWlS6ZHHK?=
- =?us-ascii?Q?GJT1BxKnYlQ2Bq75bwiZqDB/xoKFMyFU5y5a2Fg1U5DA7D8wJ/ByiInMy0Jy?=
- =?us-ascii?Q?bikgQrOXGNmqzaBRhOinSdZYV27Wm4FG2wOa7AsKoJLBhLCwJkpkfWn+Rj8L?=
- =?us-ascii?Q?0uPLIC93cApadsiWWoVxFfEviE+rf8P97YGjz17k3osPYBD9825O5CicSFgE?=
- =?us-ascii?Q?umKCO7yxpJ8R41xYlGB0APQtJaeq4Q+lN0y4t5YBQfggozfmVNJKq85y85jl?=
- =?us-ascii?Q?4XPFzaCdGFuLKWeIv3t3iEGFM26LXFfOahpERFt1IVEMG6v7qI1W9nZnoumE?=
- =?us-ascii?Q?hXi594TlvJLgyvgNZfKS02HRYwH5wO2MlqLvBcKUhpKRecBTTmo+xbwk1o81?=
- =?us-ascii?Q?sUwfsuqIruQOGHCkDUFXcRHjAX4PqAJrRtnd/pQCHXoq7skr8aHspG4Y1+gr?=
- =?us-ascii?Q?MfC5mSTomheAumLW/uoIBz/N8wjLq9xyUju/2IVDDiQ0q+mNUmbdsk3fD6MK?=
- =?us-ascii?Q?kpz8KChxe/TOr9yoyHVZtn1kpcXTL9YjWgujI1J1MnnteUbM7ZmtrymK/qdn?=
- =?us-ascii?Q?CPZuH3khLAUiDgrMe3ucaDFQOuOVIqak8rrEHrBw6Z5dZtAycuHod+awlrN2?=
- =?us-ascii?Q?qNOtABwKKmA3dCXLuVdafrOAcHlxGUyBZKAbwaSco6hX+mJU5l9kZ6EVYEpW?=
- =?us-ascii?Q?lNAAKS7zKqInILrxsb/OIULMe4zGIYimXt5Ryc14qFqxaiACy1yOjlLjlTdY?=
- =?us-ascii?Q?/NXstgShfwZ1RBPR6v/tYcflLa17jIj1yh1w0WU8YFSLjh5YPpdJk3WUZqaq?=
- =?us-ascii?Q?MCRosI6b9m3hgSytWmMesMOJg2GgliR+HFYfH9f4P1rqOvEGV37TbYCMWyVL?=
- =?us-ascii?Q?NCiqcP3Zt0w08AaDszaCe89oIzMMvhkEN31g6BmYT+d6d0g6If/HKljTcaCz?=
- =?us-ascii?Q?9c47slCEc+HKleQla31GwwDpR+iDBHX7FQL3S7sPIS550Rp7HDJ508EXVu9K?=
- =?us-ascii?Q?c8s9epOc93h083SvYIUEV0tvZq5I2ZcOn0ofItGiXeUE28angDevyp9xzR6I?=
- =?us-ascii?Q?1bF177VVeuQzZBCOHIBZaxD5SAGvoqIgFWycijlXMg6VoBRvZbpYr5aohxPA?=
- =?us-ascii?Q?wkIMrEDKmye6t9MPpZGQteYlesQuP8hsILTP7+7t6XPrWQ=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?D46WJjr9Ucmq6Qg8Z6JNw4HPnxnz0GfLikHvcGC/d5DLwafxFqR/+Y6wkZFS?=
+ =?us-ascii?Q?zvdcC15cthwCmgAjRjOpiGeY3MyLrWwXnSK/aTEPxA+NvIOxRdSqFC91uF8R?=
+ =?us-ascii?Q?VPwZLXSSM4yGbB5Q8IX3IzPcHDE/vX2n0w5re42WL9e01LqNBGVMYwH46Umk?=
+ =?us-ascii?Q?wFjSSH4vP4AO1sZmzmCVGM94OT/ucLYmR1bxotMtv3ykiEzYbsJFyLTUTOu/?=
+ =?us-ascii?Q?nxK6c8tSVuYe5V6WlJTTm0km+WrP+YRTNeMXeKo6tB0DDE/b6nBhSEZOg86G?=
+ =?us-ascii?Q?pG1a13jLecW0H0dpwWjSMYYZ1dnqmccxP+QMHtgfLMHQGw29B7gq+m4GgpQv?=
+ =?us-ascii?Q?cO8m5yBsVEOv23NMKjYEEnRUDD0ZSE2tWmdfAI+njNcW6kZeIrEcPGNRM4/w?=
+ =?us-ascii?Q?A36k6Dl7A2sRaCNbjdUdlgdqrSuWil+wESYo00IQENK2r90k6TeccbbSt+fk?=
+ =?us-ascii?Q?i/Ped1fhRORBC5swwyzmCG0ZECbMsQDOymAVMSLKrNTBs4I6Wae8aiXNQ7LC?=
+ =?us-ascii?Q?iRoR6pLkHtaVfqMU0pEJ5gPBKyae6Wy54FbazyncqqptfYcbEHbDms32TsJh?=
+ =?us-ascii?Q?rZVDSh01Jw0jXEy1SF/+XoDlh9rUTFApbnZRQrVxhO13BzeGTIXzLQpVY7eS?=
+ =?us-ascii?Q?2UKy+fLdAQVfkpYepnGBqrvg2aW9A0iUnqQd6yAyKKABGmQviMPbXYpFdwf7?=
+ =?us-ascii?Q?dgp1gl3Z2WqK6aapQwiqhVh8R7yd4OjYSz0l5YQQdsJP44jrmKZig4vs3R3g?=
+ =?us-ascii?Q?k3bPntarKuMAbdSWNue9hhgNg8G3fcFptJk3E/yAHi49qkQ3fQwR0nvVh7NE?=
+ =?us-ascii?Q?wUACiw2HIsop2vfShLzwsElTjbKTIBnYaLEGnVQnZptaFdOALzBr8TOMZrBh?=
+ =?us-ascii?Q?lpi/TOFx2Uauacv/wNzpjHqTBpu7L6AsvPS3j50zKSPn3cDeT7KEmEWQstD4?=
+ =?us-ascii?Q?ISwmPVvdQRW/BefgOBo62fUaDoPt772V0nXdtdyoSmc/Y+3NJMVRIqZztF8O?=
+ =?us-ascii?Q?EOr/mAY/5QGAR2dsLIX1xUhuAoKs2Y4M/owgbrHfgrmCYOfT7mHqegVGI19b?=
+ =?us-ascii?Q?QJP8CTbS3fPYyloroYx5PW5nlkgTgwiJIiam2aLBkoYJ5S4hKEgGy8GzyIJC?=
+ =?us-ascii?Q?EsLuya8wcYj56E2Kdt72quXUQqK75FjwHkxuK9n4gJIVmOBu2V6gm+hlj7/x?=
+ =?us-ascii?Q?jakLdNvdVDmqMHgmv1kQxMb53VWQwa07yqLT35nBFWBZfcsMRm89gplKYgNv?=
+ =?us-ascii?Q?U2zkYksXYQ/u4Wn/ag53O3eRxfIryG5jWskGxoH+9bzOiAwlqWgqqDEjBRdK?=
+ =?us-ascii?Q?iViAcJll5/AVTbFBuYf0Kkqeh6l/fgfifWB9WGP7bgh7wjs+LnH2ifBcOSaY?=
+ =?us-ascii?Q?OKEjVgw=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eeb046d4-b4fa-4850-b4f5-08d9732703fd
+X-MS-Exchange-CrossTenant-Network-Message-Id: 121546ce-a6b9-4400-943e-08d9732704d4
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2629.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2021 00:16:06.0081
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2021 00:16:07.3813
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ucuzCahF/J7uC7AhPq5WdbU7hEVZv5zlyPv8eLRnVJkaJcst4L9if9XRFUbY/vwS+1JyhzpZL2FyG3QRcwUkkZXHCtYwwhZpCj+VN8NHChY=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5SfgjSqweN/bCt5LIEAq79m5s57IC1rKw5vvroUIXZqa28ZBdnTSHLQiSIb0b4dVTNPl9qBUvHfV8FgelKnPW5CUBB1hLVfDncxWb+pQYk4=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB2888
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10101 signatures=668682
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999 bulkscore=0
  suspectscore=0 mlxscore=0 phishscore=0 malwarescore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109030001
  definitions=main-2109090000
-X-Proofpoint-GUID: efxFCVlFbCjNpJ6mb_Y6P5s5B9OoiQkf
-X-Proofpoint-ORIG-GUID: efxFCVlFbCjNpJ6mb_Y6P5s5B9OoiQkf
+X-Proofpoint-ORIG-GUID: Rykf8vKh2GWYy6qCEuscNX-C7V8Vx7wC
+X-Proofpoint-GUID: Rykf8vKh2GWYy6qCEuscNX-C7V8Vx7wC
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Define a 'struct task_schedstat' which contains members corresponding to
-scheduler stats that are currently available thru /proc/pid/tasks/pid
-/schedstats. Update scheduler stats in this structure in kernel at the
-same time stats in the 'struct task_struct' are updated. Add a
-TASK_SCHEDSTAT option to task_getshared system call to request these per
-thread scheduler stats thru the shared structure.
+Add a task's 'off cpu' time in nanoseconds to sched_info, that represents
+accumulated time spent either on run queue or blocked in the kernel.
+Publish the off cpu time thru the shared structure. This will be used by
+an application to determine cpu time consumed(time executing on a cpu) as
+accurately as possible, by taking elapsed time and subtracting off cpu
+time.
 
 Signed-off-by: Prakash Sangappa <prakash.sangappa@oracle.com>
 ---
- include/linux/task_shared.h      | 35 ++++++++++++++++++++++++++++++++++-
- include/uapi/linux/task_shared.h | 22 ++++++++++++++++++++++
- kernel/sched/deadline.c          |  1 +
- kernel/sched/fair.c              |  1 +
- kernel/sched/rt.c                |  1 +
- kernel/sched/sched.h             |  1 +
- kernel/sched/stats.h             |  3 +++
- kernel/sched/stop_task.c         |  1 +
- mm/task_shared.c                 | 13 +++++++++++++
- 9 files changed, 77 insertions(+), 1 deletion(-)
- create mode 100644 include/uapi/linux/task_shared.h
+ include/linux/sched.h            |  6 +++++
+ include/linux/task_shared.h      |  2 ++
+ include/uapi/linux/task_shared.h |  1 +
+ kernel/sched/stats.h             | 56 ++++++++++++++++++++++++++--------------
+ 4 files changed, 45 insertions(+), 20 deletions(-)
 
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 237aa21..a63e447 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -311,6 +311,12 @@ struct sched_info {
+ 	/* When were we last queued to run? */
+ 	unsigned long long		last_queued;
+ 
++	/* When did we last leave cpu */
++	unsigned long long		last_depart;
++
++	/* Time spent off cpu */
++	unsigned long long		off_cpu;
++
+ #endif /* CONFIG_SCHED_INFO */
+ };
+ 
 diff --git a/include/linux/task_shared.h b/include/linux/task_shared.h
-index de17849..62793e4 100644
+index 62793e4..ce475c4 100644
 --- a/include/linux/task_shared.h
 +++ b/include/linux/task_shared.h
-@@ -3,6 +3,7 @@
- #define	__TASK_SHARED_H__
- 
- #include <linux/mm_types.h>
-+#include <uapi/linux/task_shared.h>
- 
- /*
-  * Track user-kernel shared pages referred by mm_struct
-@@ -18,7 +19,7 @@ struct ushared_pages {
-  * fast communication.
-  */
- struct task_ushared {
--	long version;
-+	struct task_schedstat ts;
- };
- 
- /*
-@@ -52,6 +53,38 @@ struct task_ushrd_struct {
- 	struct ushared_pg *upg;
- };
- 
-+
-+#ifdef CONFIG_SCHED_INFO
-+
-+#define task_update_exec_runtime(t)					\
-+	do {								\
-+		struct task_ushrd_struct *shrdp = t->task_ushrd;	\
-+		if (shrdp != NULL && shrdp->kaddr != NULL)		\
-+			shrdp->kaddr->ts.sum_exec_runtime =		\
-+				 t->se.sum_exec_runtime;		\
-+	} while (0)
-+
-+#define task_update_runq_stat(t, p)					\
-+	do {								\
-+		struct task_ushrd_struct *shrdp = t->task_ushrd;	\
-+		if (shrdp != NULL && shrdp->kaddr != NULL) {		\
-+			shrdp->kaddr->ts.run_delay =			\
-+				 t->sched_info.run_delay;		\
-+			if (p) {					\
-+				shrdp->kaddr->ts.pcount =		\
-+					 t->sched_info.pcount;		\
-+			}						\
-+		}							\
-+	} while (0)
-+#else
-+
-+#define task_update_exec_runtime(t)	do { } while (0)
-+#define task_update_runq_stat(t, p)	do { } while (0)
-+
-+#endif
-+
-+
-+
- extern void task_ushared_free(struct task_struct *t);
- extern void mm_ushared_clear(struct mm_struct *mm);
- #endif /* __TASK_SHARED_H__ */
+@@ -70,6 +70,8 @@ struct task_ushrd_struct {
+ 		if (shrdp != NULL && shrdp->kaddr != NULL) {		\
+ 			shrdp->kaddr->ts.run_delay =			\
+ 				 t->sched_info.run_delay;		\
++			shrdp->kaddr->ts.off_cpu =			\
++				 t->sched_info.off_cpu;			\
+ 			if (p) {					\
+ 				shrdp->kaddr->ts.pcount =		\
+ 					 t->sched_info.pcount;		\
 diff --git a/include/uapi/linux/task_shared.h b/include/uapi/linux/task_shared.h
-new file mode 100644
-index 0000000..06a8522
---- /dev/null
+index 06a8522..c867c09 100644
+--- a/include/uapi/linux/task_shared.h
 +++ b/include/uapi/linux/task_shared.h
-@@ -0,0 +1,22 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+#ifndef LINUX_TASK_SHARED_H
-+#define LINUX_TASK_SHARED_H
-+
-+/*
-+ * Per task user-kernel mapped structure for faster communication.
-+ */
-+
-+/*
-+ * Following is the option to request struct task_schedstats shared structure,
-+ * in which kernel shares the task's exec time and time on run queue & number
-+ * of times it was scheduled to run on a cpu. Requires kernel with
-+ * CONFIG_SCHED_INFO enabled.
-+ */
-+#define TASK_SCHEDSTAT 1
-+
-+struct task_schedstat {
-+	volatile u64	sum_exec_runtime;
-+	volatile u64	run_delay;
-+	volatile u64	pcount;
-+};
-+#endif
-diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-index aaacd6c..189c74c 100644
---- a/kernel/sched/deadline.c
-+++ b/kernel/sched/deadline.c
-@@ -1270,6 +1270,7 @@ static void update_curr_dl(struct rq *rq)
- 
- 	curr->se.sum_exec_runtime += delta_exec;
- 	account_group_exec_runtime(curr, delta_exec);
-+	task_update_exec_runtime(curr);
- 
- 	curr->se.exec_start = now;
- 	cgroup_account_cputime(curr, delta_exec);
-diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index 44c4520..cbd182b 100644
---- a/kernel/sched/fair.c
-+++ b/kernel/sched/fair.c
-@@ -817,6 +817,7 @@ static void update_curr(struct cfs_rq *cfs_rq)
- 	if (entity_is_task(curr)) {
- 		struct task_struct *curtask = task_of(curr);
- 
-+		task_update_exec_runtime(curtask);
- 		trace_sched_stat_runtime(curtask, delta_exec, curr->vruntime);
- 		cgroup_account_cputime(curtask, delta_exec);
- 		account_group_exec_runtime(curtask, delta_exec);
-diff --git a/kernel/sched/rt.c b/kernel/sched/rt.c
-index 3daf42a..61082fc 100644
---- a/kernel/sched/rt.c
-+++ b/kernel/sched/rt.c
-@@ -1014,6 +1014,7 @@ static void update_curr_rt(struct rq *rq)
- 
- 	curr->se.sum_exec_runtime += delta_exec;
- 	account_group_exec_runtime(curr, delta_exec);
-+	task_update_exec_runtime(curr);
- 
- 	curr->se.exec_start = now;
- 	cgroup_account_cputime(curr, delta_exec);
-diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index 14a41a2..4ebbd8f 100644
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -67,6 +67,7 @@
- #include <linux/syscalls.h>
- #include <linux/task_work.h>
- #include <linux/tsacct_kern.h>
-+#include <linux/task_shared.h>
- 
- #include <asm/tlb.h>
- 
+@@ -18,5 +18,6 @@ struct task_schedstat {
+ 	volatile u64	sum_exec_runtime;
+ 	volatile u64	run_delay;
+ 	volatile u64	pcount;
++	volatile u64	off_cpu;
+ };
+ #endif
 diff --git a/kernel/sched/stats.h b/kernel/sched/stats.h
-index d8f8eb0..6b2d69c 100644
+index 6b2d69c..ee59994 100644
 --- a/kernel/sched/stats.h
 +++ b/kernel/sched/stats.h
-@@ -1,6 +1,7 @@
- /* SPDX-License-Identifier: GPL-2.0 */
+@@ -159,17 +159,24 @@ static inline void psi_sched_switch(struct task_struct *prev,
+  */
+ static inline void sched_info_dequeue(struct rq *rq, struct task_struct *t)
+ {
+-	unsigned long long delta = 0;
++	unsigned long long now = rq_clock(rq), delta = 0, ddelta = 0;
  
- #ifdef CONFIG_SCHEDSTATS
-+#include <linux/task_shared.h>
+-	if (!t->sched_info.last_queued)
+-		return;
++	if (t->sched_info.last_queued) {
++		delta = now - t->sched_info.last_queued;
++		t->sched_info.last_queued = 0;
++		t->sched_info.run_delay += delta;
++
++		rq_sched_info_dequeue(rq, delta);
++	}
+ 
+-	delta = rq_clock(rq) - t->sched_info.last_queued;
+-	t->sched_info.last_queued = 0;
+-	t->sched_info.run_delay += delta;
+-	task_update_runq_stat(t, 0);
++	if (t->sched_info.last_depart) {
++		ddelta = now - t->sched_info.last_depart;
++		t->sched_info.last_depart = 0;
++		t->sched_info.off_cpu += ddelta;
++	}
+ 
+-	rq_sched_info_dequeue(rq, delta);
++	if (delta || ddelta)
++		task_update_runq_stat(t, 0);
+ }
  
  /*
-  * Expects runqueue lock to be held for atomicity of update
-@@ -166,6 +167,7 @@ static inline void sched_info_dequeue(struct rq *rq, struct task_struct *t)
- 	delta = rq_clock(rq) - t->sched_info.last_queued;
- 	t->sched_info.last_queued = 0;
- 	t->sched_info.run_delay += delta;
-+	task_update_runq_stat(t, 0);
- 
- 	rq_sched_info_dequeue(rq, delta);
- }
-@@ -188,6 +190,7 @@ static void sched_info_arrive(struct rq *rq, struct task_struct *t)
- 	t->sched_info.run_delay += delta;
- 	t->sched_info.last_arrival = now;
- 	t->sched_info.pcount++;
-+	task_update_runq_stat(t, 1);
- 
- 	rq_sched_info_arrive(rq, delta);
- }
-diff --git a/kernel/sched/stop_task.c b/kernel/sched/stop_task.c
-index f988ebe..7b9b60f 100644
---- a/kernel/sched/stop_task.c
-+++ b/kernel/sched/stop_task.c
-@@ -82,6 +82,7 @@ static void put_prev_task_stop(struct rq *rq, struct task_struct *prev)
- 			max(curr->se.statistics.exec_max, delta_exec));
- 
- 	curr->se.sum_exec_runtime += delta_exec;
-+	task_update_exec_runtime(curr);
- 	account_group_exec_runtime(curr, delta_exec);
- 
- 	curr->se.exec_start = rq_clock_task(rq);
-diff --git a/mm/task_shared.c b/mm/task_shared.c
-index 3ec5eb6..7169ccd 100644
---- a/mm/task_shared.c
-+++ b/mm/task_shared.c
-@@ -275,6 +275,14 @@ static long task_getshared(u64 opt, u64 flags, void __user *uaddr)
+@@ -179,20 +186,27 @@ static inline void sched_info_dequeue(struct rq *rq, struct task_struct *t)
+  */
+ static void sched_info_arrive(struct rq *rq, struct task_struct *t)
  {
- 	struct task_ushrd_struct *ushrd = current->task_ushrd;
+-	unsigned long long now, delta = 0;
++	unsigned long long now = rq_clock(rq), delta = 0, ddelta = 0;
  
-+	/* Currently only TASK_SCHEDSTAT supported */
-+#ifdef CONFIG_SCHED_INFO
-+	if (opt != TASK_SCHEDSTAT)
-+		return (-EINVAL);
-+#else
-+	return (-EOPNOTSUPP);
-+#endif
+-	if (!t->sched_info.last_queued)
+-		return;
++	if (t->sched_info.last_queued) {
++		delta = now - t->sched_info.last_queued;
++		t->sched_info.last_queued = 0;
++		t->sched_info.run_delay += delta;
++		t->sched_info.last_arrival = now;
++		t->sched_info.pcount++;
 +
- 	/* We have address, return. */
- 	if (ushrd != NULL && ushrd->upg != NULL) {
- 		if (copy_to_user(uaddr, &ushrd->uaddr,
-@@ -286,6 +294,11 @@ static long task_getshared(u64 opt, u64 flags, void __user *uaddr)
- 	task_ushared_alloc();
- 	ushrd = current->task_ushrd;
- 	if (ushrd != NULL && ushrd->upg != NULL) {
-+		if (opt == TASK_SCHEDSTAT) {
-+			/* init current values */
-+			task_update_exec_runtime(current);
-+			task_update_runq_stat(current, 1);
-+		}
- 		if (copy_to_user(uaddr, &ushrd->uaddr,
- 			sizeof(struct task_ushared *)))
- 			return (-EFAULT);
++		rq_sched_info_arrive(rq, delta);
++	}
++
++	if (t->sched_info.last_depart) {
++		ddelta = now - t->sched_info.last_depart;
++		t->sched_info.last_depart = 0;
++		t->sched_info.off_cpu += ddelta;
++	}
+ 
+-	now = rq_clock(rq);
+-	delta = now - t->sched_info.last_queued;
+-	t->sched_info.last_queued = 0;
+-	t->sched_info.run_delay += delta;
+-	t->sched_info.last_arrival = now;
+-	t->sched_info.pcount++;
+-	task_update_runq_stat(t, 1);
++	if (delta || ddelta)
++		task_update_runq_stat(t, 1);
+ 
+-	rq_sched_info_arrive(rq, delta);
+ }
+ 
+ /*
+@@ -216,10 +230,12 @@ static inline void sched_info_enqueue(struct rq *rq, struct task_struct *t)
+  */
+ static inline void sched_info_depart(struct rq *rq, struct task_struct *t)
+ {
+-	unsigned long long delta = rq_clock(rq) - t->sched_info.last_arrival;
++	unsigned long long delta, now = rq_clock(rq);
+ 
++	delta = now - t->sched_info.last_arrival;
+ 	rq_sched_info_depart(rq, delta);
+ 
++	t->sched_info.last_depart = now;
+ 	if (task_is_running(t))
+ 		sched_info_enqueue(rq, t);
+ }
 -- 
 2.7.4
 
