@@ -2,266 +2,705 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C6307404202
-	for <lists+linux-api@lfdr.de>; Thu,  9 Sep 2021 02:02:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47B9E404203
+	for <lists+linux-api@lfdr.de>; Thu,  9 Sep 2021 02:02:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347801AbhIIAD5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 8 Sep 2021 20:03:57 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:65534 "EHLO
-        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236059AbhIIAD5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 8 Sep 2021 20:03:57 -0400
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 188LUsVL031111;
-        Thu, 9 Sep 2021 00:02:47 GMT
+        id S1347902AbhIIAD7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 8 Sep 2021 20:03:59 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:27278 "EHLO
+        mx0a-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236059AbhIIAD7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 8 Sep 2021 20:03:59 -0400
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 188LKhqe016624;
+        Thu, 9 Sep 2021 00:02:48 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : content-type : mime-version;
- s=corp-2021-07-09; bh=7lhhCiiXq+cfxiOxhHdRjF0shwkv9w9F2QKtC0iEFg4=;
- b=BGtPT5HdI+rD6B6IuA+BWkztgH6VYWDWg8HQWtD7u9Q+VQFjq3UrY0rTsQIdJwl/U4Br
- xNIryYh1SwY5TwXaXbga6iOkrSmXsLgvtnEIPlqZBB8nNttCvH/dpILlCTDRh0xUTglL
- mlRrpaTXpTAHJ3TgIwFggRivO+eIj8iRZGKblsOJ4S5XiL+5apGvEr0w+en4AUfFtT/y
- g9qp03Fen3u2T4t1sR6PhrZArtg5ttNHFXX1MwqfuVBBq2tQoL79fIPmivne9euw6zz9
- 8KmCj5YLaUUxhCsLsMN44zeBRrSdOyTY6CGZgjR3u6DVhI0Wj4js9EqsQEI98vrBbD2M RA== 
+ subject : date : message-id : in-reply-to : references : content-type :
+ mime-version; s=corp-2021-07-09;
+ bh=k5fVO95Mmc13d2D5X4wqAJVS16Ftlh8XgO/cI8DDa34=;
+ b=i+b1i19BZH1OjsTDmwHyDHlPKGkhJr4bITNpaHrZ5hAnOcabcDDWHkpZAQI72y5NSbZ2
+ PMDzJa4kfRZWrFsCKDIohShu7zHEaSw8yI7FB6JPSeRq8F1GOGXUYNz7nyXnM0Z8FWtP
+ AEeaUJta/4w0PK53UZnAMkJMT8fB+hFnfF+cpxTFlwuD3XOXtA3pZCxVvG3Vhe5dGt5t
+ OnGPiHG51sKt2DY+Ulxks6V6v02cb3Jy8dbQ/hJsJ1aTpthKMieizBETV5+2BGeLe4US
+ cgfdVvJ6RCbQqaW6tkN1Raa5QsCom/HC00zpZSV3oG/WZLPYsMnUNp9EV3TxLOBBTk6B Kw== 
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : content-type : mime-version;
- s=corp-2020-01-29; bh=7lhhCiiXq+cfxiOxhHdRjF0shwkv9w9F2QKtC0iEFg4=;
- b=Et+dlUWQgUZT8Yy8+tpSriVBB0D62t/+j3bcOl83crakqhYuR4Vzauu+m89gPveYAwx2
- 86NPh6CtfG2NPInOWOpIuyWC0Mk8O+RGjwrphnQC70fGsqbGuxFz7vCPIwhRe137+6Qd
- jtsevAHLmGMCG+wn5rGahiMiGMmZTGcN9ram9TGrQsx+NpibzarMA87YsqLicCjeFSAE
- xdiiTDVJy3Z7cx0sRDEYhQs3wTTRNMd8iWM1+6T6lSLHXrzQF8MExKC60GrXOW2kXN4i
- VPCqlbAJNEw40rgs8irSANYnnx0o7Q/Iu7l5cPGwNAq/fwGh3vrx1qTHRxjWfYWrdXdz 4g== 
+ subject : date : message-id : in-reply-to : references : content-type :
+ mime-version; s=corp-2020-01-29;
+ bh=k5fVO95Mmc13d2D5X4wqAJVS16Ftlh8XgO/cI8DDa34=;
+ b=UldOM6WgAOMvX4f91DTqpHbOzl92UCFK9ySA/tiROqaPpWsk8bxZXJX5L7qIP2UAFobG
+ 5BTu1lbvzEnPzqX5iUdOkyaCP1ltubui1YU+3Khu+kKJiMgR06oxhqMm6tKgCqfpTDgp
+ +ydAmHqPkyjDKbmpc9f1eutVh08J0BXni36zgYdUwHkHGzeC/B9bHWSnKzo8Wc1cGuJB
+ JOuMYnEziOS4nh7tBksSlMQvBfFTvNw2Gp8q5C8+Wnh8tv7/CxsE+4CnoeSb3nlmCiD1
+ F6Kh8zfPzb74UppL/S1V5uGKP80kMG3ad5AFpgrB5YU3PvE5bYffe3T/uqE5eTNtqQ7t jw== 
 Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3axcw6cgw7-1
+        by mx0b-00069f02.pphosted.com with ESMTP id 3axd7tcfkd-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 09 Sep 2021 00:02:47 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 18900sUY066616;
+        Thu, 9 Sep 2021 00:02:46 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2045.outbound.protection.outlook.com [104.47.66.45])
+        by userp3030.oracle.com with ESMTP id 3axcq24yse-2
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
         Thu, 09 Sep 2021 00:02:46 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 18900sUW066616;
-        Thu, 9 Sep 2021 00:02:45 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2045.outbound.protection.outlook.com [104.47.66.45])
-        by userp3030.oracle.com with ESMTP id 3axcq24yse-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 09 Sep 2021 00:02:45 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AuMBkk8h3/bRse0hEGed3CXnnaTAkIbVNqT9HP2jnZaa8WcmDewz/WOHKeIjexeDRUk0ntLvcT2/czBocwqQ4w2dRBaahz8lEWljl5BukACDZA5u3Yy52hljLHFJ8yxfD3ThlUNizBDwI/5B16Y7piKazwl5spc32AhgRYEn+Pn9KZCTaLJ5yzQ/f6MkL6z0afwt7QmhxIPDgE9Uz0B72OUmRE55nFvwtN/dwd08dmbG05iwF22oYZ639ErBy1/FeuEawL3mVNriwSAIoSqeO25t1q/9F8Z4rYFuuqq7M7wTlhH1M8Gi6TsnbEaxm97dIilGCHWMh5QB2ndw1hBuBA==
+ b=jlGmej9Rhs/w82EukEhkqeuDv/j6nPdMxR+7NA5hOoJWzSuRv3USM48bMmLHVFjnV4JeUQrPzoc7p3NJPk1MdJLe4QucG99Q387hvaARXfR9V5mdurxJ/UPgWLYOOQQOqvDimCe4pldLWWFMGFGAky36C/hx/RDsbClA2ttMatjArZKZMb84WKwAM4r02keUt0plRoJHk6uAOL4sicRtTqO9mZ1Sbb11wj5V87RXKTVzlnF6eboSaq/LKA+8IiTAm6OL2yOpYWRNUSVNyJBpi4NX7iIlZ9sAakQgppln5MbX8fxqe1jmEKqeHh5s0iGaigugvTzTeIv+VE1vNBVrsw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=7lhhCiiXq+cfxiOxhHdRjF0shwkv9w9F2QKtC0iEFg4=;
- b=lmCZYbEOv+tFPm205xuuZAMd928wjz1ZLmGvt1n1xd3ff5aKlJWRtzufzY69PZIjyOKfkTHVmWuPcgDxCTtromugYPg7f5FYHTe1GqM0IgJEMmwWAdKPgwv5Mz79hGFAJvOyiTHj4sumf4TxMkFrtCxsWj35ZDVPxGxycHqyVwZxscwatx3cmULRYr1ZpA5dWLDNiCnNU6cbJ8k/wDABRx6QiNTm1JTVlJEp+POPIXFH2Mb23c/46/WxCYDXXuGgrY5V8sQnjIW8GdEH/s7iQGtQ2Y6c5ZjyzuA/Z2WBNoGyfVZp14MUoCemi8TeUuFIi2qe8gOK97cIN7qXvlzwFQ==
+ bh=k5fVO95Mmc13d2D5X4wqAJVS16Ftlh8XgO/cI8DDa34=;
+ b=dTzeFVopGy3kyoEa3mSM8VGywG4yKTosq2xGdj2blz/mo6l7aDACIkcBtw00OYexq9/OYb9WZomd5akEE4o81L9HsnEvGypC4xtbnVfDz5J74cvmZqPgadKzUJ+srl1VeRsGh4KmndRn0QoFn3jUE2mLcRtuF4SolqVHuu1LlYDU6cKftVDojQ6GzYWxS3S7hbtYr2lTJUWMMuIfF3xxWZ5QR+sFzM/HdzCFcGrwzaBHVZdX3SW74OIyp6klu96LWcO/hZ5R5jHOGh60/cIDveh9EetWvdHZXytjai+N/eNsFTjU422ZhwBB46Jal2v3PcHJbdTcXxy+H+bHPJw+1g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7lhhCiiXq+cfxiOxhHdRjF0shwkv9w9F2QKtC0iEFg4=;
- b=X+/YlVp2VI59R/mMfhQjecOinurvGydhUSD4crjKGEqw2jPpHE7vQCrPckdxZ4x0MM4BkCuNwYgMQUGqgSN8QOne2dgf6YaIXXI+0XbN0QE/mhAb7LiM7Kmy4dpDV6F3+mhHWJbmulk+PUbakii7FiMHNqj8q06VdZlDUA3luk8=
+ bh=k5fVO95Mmc13d2D5X4wqAJVS16Ftlh8XgO/cI8DDa34=;
+ b=Cb8kac8VQ91CDntss5pzkMvONb81svt338uevTpTOLaQkX47tf5OJJwBjrSek7agKMReHzqtRIibENteFGV2UoHfyvcMeqgFR32tK52hTwfSa1ndMq4Bw5CMRHWP4Bvy/xigu5r+bmatDIcb+qkYCzEbNBrjj1x30AdbDr54YB4=
 Authentication-Results: vger.kernel.org; dkim=none (message not signed)
  header.d=none;vger.kernel.org; dmarc=none action=none header.from=oracle.com;
 Received: from BYAPR10MB2629.namprd10.prod.outlook.com (2603:10b6:a02:b7::24)
  by SJ0PR10MB5472.namprd10.prod.outlook.com (2603:10b6:a03:303::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19; Thu, 9 Sep
- 2021 00:02:43 +0000
+ 2021 00:02:45 +0000
 Received: from BYAPR10MB2629.namprd10.prod.outlook.com
  ([fe80::c9c2:64d4:c67f:6837]) by BYAPR10MB2629.namprd10.prod.outlook.com
  ([fe80::c9c2:64d4:c67f:6837%7]) with mapi id 15.20.4478.025; Thu, 9 Sep 2021
- 00:02:43 +0000
+ 00:02:45 +0000
 From:   Prakash Sangappa <prakash.sangappa@oracle.com>
 To:     --to=linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
 Cc:     mingo@redhat.com, prakash.sangappa@oracle.com
-Subject: [RESEND RFC PATCH 0/3] Provide fast access to thread specific data
-Date:   Wed,  8 Sep 2021 17:10:22 -0700
-Message-Id: <1631146225-13387-1-git-send-email-prakash.sangappa@oracle.com>
+Subject: [RESEND RFC PATCH 1/3] Introduce per thread user-kernel shared structure
+Date:   Wed,  8 Sep 2021 17:10:23 -0700
+Message-Id: <1631146225-13387-2-git-send-email-prakash.sangappa@oracle.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1631146225-13387-1-git-send-email-prakash.sangappa@oracle.com>
+References: <1631146225-13387-1-git-send-email-prakash.sangappa@oracle.com>
 Content-Type: text/plain
 X-ClientProxiedBy: SN7PR04CA0025.namprd04.prod.outlook.com
  (2603:10b6:806:f2::30) To BYAPR10MB2629.namprd10.prod.outlook.com
  (2603:10b6:a02:b7::24)
 MIME-Version: 1.0
-Received: from pp-ThinkCentre-M82.us.oracle.com (2606:b400:8024:1010::13d2) by SN7PR04CA0025.namprd04.prod.outlook.com (2603:10b6:806:f2::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.4500.14 via Frontend Transport; Thu, 9 Sep 2021 00:02:42 +0000
+Received: from pp-ThinkCentre-M82.us.oracle.com (2606:b400:8024:1010::13d2) by SN7PR04CA0025.namprd04.prod.outlook.com (2603:10b6:806:f2::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.4500.14 via Frontend Transport; Thu, 9 Sep 2021 00:02:43 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 357212f5-9842-4cd0-0133-08d97325256f
+X-MS-Office365-Filtering-Correlation-Id: a935e6a7-f3a0-41af-c314-08d973252675
 X-MS-TrafficTypeDiagnostic: SJ0PR10MB5472:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SJ0PR10MB54725D67F2B3DAC3676AB08AE4D59@SJ0PR10MB5472.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Microsoft-Antispam-PRVS: <SJ0PR10MB54724B45CF627A2FC553AC4EE4D59@SJ0PR10MB5472.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8x2ac3BkBHxusxp8xQ/7Hi7zDzGvjzXB+wx+NuB1tfVLEDSkQr047o7zsQf9UWEiFAbHgJ4iiI13KeqWVXb3CYbuact+y/Is62wCjfiuhmP6Ghlp6+zH8ifsk/v+ztgEteli501hDK6UhEcCmdTe8b7f9sKs5i/65XfEW0A7LXVTmD+r62yMWlaJ70amw8mEQfayQ5v0pE3dNKa0VEd5J3VUFMRlsuvi9ncmrvwHajLoR39ySLIUQZQUEpvz1Ki5jb0f/I9B6Gq85aV1c/Iflnl9A3BFse2kpj4NMloMeLcBB/ICWu1rV0SAPTK39SyW5DsG/zIGjwumWVJylxl2BHepBqJEj8pxvAd1AxKeL9kzhK5LCIBBpyZ3wPaGdZwKNWDClCHaZZG+duo0/6sW9Y4hEEt6TYPVpV6X+5GU8U1+b1TxACaoDn0RjZuSGUkryFlSVxSmPmScsiuzGmYLBGTo+ilYWV9agVMIjNMGJZ3v3jw5HeEmATfAZGIYwt3kXRbZ8WKMcsLDCJ/gyaxs9Da9kY/Uh5GNZZDOKcY8BJJ4T/AlzsJ4AlKwlnqmo2rI4tOIDNOYTQtWVtEoMXEBJI9q5T9D62LmhInLMZ3XAu/NccYpTeP6lpRrnHjmutPXTfBvlJcp5K2KJxpje/lYmA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR10MB2629.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(346002)(39860400002)(366004)(136003)(376002)(66476007)(36756003)(2906002)(186003)(83380400001)(107886003)(38100700002)(478600001)(44832011)(2616005)(66556008)(4326008)(66946007)(8936002)(86362001)(6486002)(8676002)(6666004)(316002)(7696005)(52116002)(5660300002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: L7V9/sicU5yZekE+rrKL1G4Kw1sZBUYXBljSt2oR8hErAV+pCOIpUQYLASXYQhmikaj4Y8fk/kS/1mx/lXBgqz42aD/vuyPZzfj8PobvZQUDcLp38Fs294cpm/DjwPokH751aEIButUI9VbK2MFZUR7I+AxB9YOW2qt2f8GiY39ARS9k3BMqoOEsmfTEZWiDReyDCf1n3LRQNITsSxzTweg/BOU4dpuglfLySNoxa+6KFwoiZYi+4SW4eZ+R3MAJdAlbL0jgNAYzUZMC/K7CoPZOzOp3NgtZsjl68hEXKRYDDJcSyvIFxo3lnt9V1Kfcv+BAQwi2nHgLsQn0D1cE/6zToQ9kqng+GEXYLav5T4qCeqGdFmdFXQpnH9kNzJH3grDW1Hu+qcN/0KkbLmQxoVGjNTObvrfsCaN36iXQyMUzA+p8D8gTCu/sCiyIwSXdSYODY7e45WlV05kOecZq6unnMdlYv18ei2t0xD/xhYhU42jqZtX68Jv9Svkf9LbAGb7mZYuyRnTIMpRfI82gF4NvbYUDzLJyDR0QntR+1F8T9PLOozVkyYceFnyaODWOCIxRpqAALDapN7w+ESOgNl5pu4Pp7qTuPCN+YENYCI6t9+nyH1lB2j/gfwgdh5+ffmnghOn38HentaUxNs9Q/w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR10MB2629.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(346002)(39860400002)(366004)(136003)(376002)(66476007)(36756003)(2906002)(186003)(83380400001)(107886003)(38100700002)(478600001)(44832011)(2616005)(66556008)(4326008)(30864003)(66946007)(8936002)(86362001)(6486002)(8676002)(6666004)(316002)(7696005)(52116002)(5660300002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FmAb9W9pNZFnnr5ufG404/wbTfZXwphCB6ppNXF6iqjjEzJ2Mqflwums90/l?=
- =?us-ascii?Q?I7tX6K2Hq3gPlkUCgCyppV/ncsFjjGCxXv3G7LyW38O+DZ4ytQf8yNRAJlKG?=
- =?us-ascii?Q?5oQlh2kTrc/dIHaegGefio3YQ8yLrjrblCpwJXfg6w1XXtg28vX4jleL5Zzz?=
- =?us-ascii?Q?43ywNSSx8mzIDvW/Ec5JoAr1h/Yj/BrG3IA3e5ULk2nIPihFEnQTvUTW4Jpn?=
- =?us-ascii?Q?Uq/oQP1vgK+86OS4TZIDntK/kUSETyQoQ21w6j987Ev4SZleZzC0dUE/7cT4?=
- =?us-ascii?Q?4ODJzBH4bgoxQ++RCmxu+QF2N59XL+yjDtUDgqsWBtm4q6W69HcZ/gZzXGfr?=
- =?us-ascii?Q?CgfVp03xXbhAYJMlU9Hw/A4eVYSveCgq4gTJTZ4Wod/g7mm1MvoLtAFcyFD8?=
- =?us-ascii?Q?TnQCxgCk40gvrBVpYv2WAvCT84mHU2TVlz1cq+MSnUkQwzHzfi6jPPrdVNVO?=
- =?us-ascii?Q?OZlRaK+V8O0V4Tefb7vmuz7uj4dZPEZ4DfzWlwtHYew+P5YDu6mN+hqJEprr?=
- =?us-ascii?Q?4hyyx9ROF7loo4NnYTzisNdwiFdQrXUf9AIZiARGInvV9nWgSnYCZZ13wRiE?=
- =?us-ascii?Q?RPeTjx00hHg77ay78vaiNsSMZ23CbMIsJOwW3pcsp+K0nROZroc+mUKYeXB7?=
- =?us-ascii?Q?UJrDT1ftRd7brpNZi1kjGh68H8vcGxQu2H8eMepkJwYInXEKgEfg/12gNLZb?=
- =?us-ascii?Q?BLUW65Q6Ph73vbVIVzdUmkJD5z3vKjxM+7LtJI6lYfAL1ZS0EaZTzQHvmW9X?=
- =?us-ascii?Q?RVSI3zcufri6EQu+lkPevSJo84jfGXKB8PGXj1to4DlxWS2jiYNSOo4Q+05L?=
- =?us-ascii?Q?5VpPONI4UWdWP1SK3KcMV4VhS4yBbofBr/srIfelsvCNOOy1lWazQlGdkjUf?=
- =?us-ascii?Q?AnVnoHZApIvdK/IN4L3CBCA0lJGxjrvjono6TVkWVfqLfcGxzJb690j637fN?=
- =?us-ascii?Q?NyPCHmtUrQ6D8oR4On320xm8N19k7BtqgwTu+hhqKnz2JLkNpxN/rs6mN0wW?=
- =?us-ascii?Q?7xQjCPHcQ25dJTge15i/sAl6lVj8Ua7NdJAkNc3kML91eXJVlu8Vwbk1SBIB?=
- =?us-ascii?Q?QRYjmOHnrDVBIZqCMNMr6VSwdQaR6cdQbduxGvpIeIQxRJboVRB2fdAkmW7U?=
- =?us-ascii?Q?YzUl97Me08/3x0DAMyWIyQrQZGElpYKojo5uQgasjSeoUYiCGytCqT6BqY8E?=
- =?us-ascii?Q?ls22bVtAn49C1hDd3eQT3L9EU6y1wNWj52+XrfYRqUIJCKUqLFzdiP24+N3i?=
- =?us-ascii?Q?dRdGhTlMthDawg7FYKFTBaG0pQ58oQrjEIIp0Bfhx/ttHG/P/XMmoGdfNjJw?=
- =?us-ascii?Q?F4Qbi+VEk1cd0/BBNvDCJAwjnpF/B1UpbNN2N+eKSthIhw=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?gbu9hpeBHNS1ly9k1MPjl5IYeHUpq1UWdcsYSK6eU5AImvkTpadlIB4Xn4Sg?=
+ =?us-ascii?Q?xwZVQVOA0Qiy0W8UNgGckFiVgytgrcMuq8t0iPlaDpD8xpkvyhdCoyQs8qrU?=
+ =?us-ascii?Q?c5fSoifL8cpeNoBrvO1MC3zvyWLy2EimRKodkt9QTRYDA1hAlI13nIjM2w0s?=
+ =?us-ascii?Q?6EijJs7Bz74uYsMYalNhvgLE0tyPlYxpk4ReDTAMYB43EOyPW6VAJRf0NLIv?=
+ =?us-ascii?Q?sagK8SuwWDDiIbsAN7J57uqcwPJc9CcZx7XOLgfD+RbVe+qmYjoYk855Al32?=
+ =?us-ascii?Q?4RL/ic+vPf24gmsv1pyDizo4sOV345H40ykVqOvEWzyyA3Obz0TGCxKSTySH?=
+ =?us-ascii?Q?xqsmCoaO/Hx17ISFOvZN8CLv5Ha0uOT3fXTMWxIGCsC/d0J6+cXz8MWO4QBh?=
+ =?us-ascii?Q?HAVF+ANgXCwfSpSfjts8Ns88GagLm+wjwkel+ph+4Tb0q9DLQXVlcBizXznf?=
+ =?us-ascii?Q?SN8jrwZ/VO+uOkKmYQiPQq0IJ1olLaqcxAjpBS/adHqTaHHbaO96SOB6mKjJ?=
+ =?us-ascii?Q?0nXiUy8Ya5AnOvOsyGkid9xiRUYyl1szT9j5KJAs5CtoyomhYSe8FD8RUZty?=
+ =?us-ascii?Q?8fVSbNJu3rhEbQbR5LDNHx11Dt5yMJM2yfY9lwBZe8S79RbbmNp92cnLa8Hi?=
+ =?us-ascii?Q?q/1kN0d6/uwQfZoDYhnz0MUKybb9yFb/jS147xwZ02x0dkq7od8gMCZtZpBW?=
+ =?us-ascii?Q?1qkHSlppCJJa0oFAnNYuqO+e1U+0HODpvDzvgJqOzQlnxnZX95Ez5NB3rmwz?=
+ =?us-ascii?Q?pHu3RyBISpOzh6BWdlgRSA8rZ0Ys+iCk9lA7vlvxFA2Zyk23H2ruUT12gAfn?=
+ =?us-ascii?Q?e70QfMXSEJwVXtg5JkIYSUOSXZidlq7p3FxSEhxI/fHgOSjO9p82Fg+zSpRu?=
+ =?us-ascii?Q?dG6zkxYoRn+iIfmncw76MTXv2NrUjL/DHyjV15VQGO+O4lAWHDAF49IfTEEl?=
+ =?us-ascii?Q?22fwyLPEj6w4n2X782eesSg0VFJkxMHft/D/C1bSJGuk3zoYLA+9trD/3PuF?=
+ =?us-ascii?Q?xnJd1V+zXr92hiDsSm3RaHxOS3ZTHy6zHWsBmw2/P71dGqW0TPO6uqhsGxTP?=
+ =?us-ascii?Q?v5liKNn2lbLgOrcivy1e9cwtLn11PfKniaq6xF4nCh8oG13CNFm4XGYqOfKr?=
+ =?us-ascii?Q?PtCOMciJ+5LAHsm/TPWWdpQ3u76npUb3rDOgVjAxo01Z+HairYWf+Kc9iT/V?=
+ =?us-ascii?Q?SZV2fPaN5Ddu0UHWcHmBjTVzd1amxifTZD1iGURpGQCjBoTzH2b7r0LzjEv4?=
+ =?us-ascii?Q?Vs3Li3T+CgfpOreq3Xe+DYP/Hriw3A8Sj92ug8T0/71sHclhPFIU1UaRWeoY?=
+ =?us-ascii?Q?cx1YIU1eR12ctQLRBmDHf3cFUIZ6Pnbr9nfjvAORqGjA3g=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 357212f5-9842-4cd0-0133-08d97325256f
+X-MS-Exchange-CrossTenant-Network-Message-Id: a935e6a7-f3a0-41af-c314-08d973252675
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2629.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2021 00:02:43.3788
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2021 00:02:44.9979
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lSJNBR9Repni1XOh3UK6wholHoSilX256gJVPuPqlK3RjZ/QK8DSf5GIJtlasCrNV4cB3h8zGDvLx2GY98b/7uDFmj0Iyoq8nxlT0deypSw=
+X-MS-Exchange-CrossTenant-UserPrincipalName: /TacI/siQGAhMY4wdoFs0VzbXm7tu0jRZVTeKdaP6u7jMRzf3hCeDJX2o506UI1DoGeFtoRC8J5+F69biepypc7rVzuMnH/+0kXCa5jmfNM=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB5472
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10101 signatures=668682
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 adultscore=0
  malwarescore=0 mlxscore=0 spamscore=0 bulkscore=0 mlxlogscore=999
  suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2109030001 definitions=main-2109080150
-X-Proofpoint-GUID: pWnpNQ4w5E7pFMj9d3hWAfkgVxFaCRSj
-X-Proofpoint-ORIG-GUID: pWnpNQ4w5E7pFMj9d3hWAfkgVxFaCRSj
+X-Proofpoint-GUID: xuwa5zh9HDS-vSp1qiF1MHEVdTGfMHLe
+X-Proofpoint-ORIG-GUID: xuwa5zh9HDS-vSp1qiF1MHEVdTGfMHLe
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Resending RFC. This patchset is not final. I am looking for feedback on
-this proposal to share thread specific data for us in latency sensitive
-codepath.
+A structure per thread is allocated from a page that is shared mapped
+between user space and kernel as means for faster communication. This will
+facilitate sharing information, Ex: per thread stats shared between kernel
+and user space, that can be read by applications without the need for
+making frequent system calls in latency sensitive code path.
 
-(patchset based on v5.14-rc7)
+A new system call is added, which will allocate the shared structure and
+return its mapped user address. Multiple such structures will be allocated
+on a page to accommodate requests from different threads of a multithreaded
+process. Available space on a page is managed using a bitmap. When a thread
+exits, the shared structure is freed and can get reused for another thread
+that requests the shared structure. More pages will be allocated and used
+as needed based on the number of threads requesting use of shared
+structures. These pages are all freed when the process exits.
 
-Cover letter previously sent:
-----------------------------
+Each of these shared structures are rounded to 128 bytes. Available space
+in this structure can be used to accommodate additional per thread stats,
+state etc as needed. In future, if more space beyond 128 bytes, is
+needed, multiple such shared structures per thread could be allocated and
+managed by the kernel. Although, space in shared structure for sharing any
+kind of stats or state should be sparingly used. Therefore shared structure
+layout is not exposed to user space. the system call will return the
+mapped user address of a specific member or nested structure within the
+shared structure corresponding to stats requested, This would allow future
+enhancements/changes without breaking the API.
 
-Some applications, like a Databases require reading thread specific stats
-frequently from the kernel in latency sensitive codepath. The overhead of
-reading stats from kernel using system call affects performance.
-One use case is reading thread's scheduler stats from /proc schedstat file
-(/proc/pid/schedstat) to collect time spent by a thread executing on the
-cpu(sum_exec_runtime), time blocked waiting on runq(run_delay). These
-scheduler stats, read several times per transaction in latency-sensitive
-codepath, are used to measure time taken by DB operations.
-
-This patch proposes to introduce a mechanism for kernel to share thread
-stats thru a per thread shared structure shared between userspace and
-kernel. The per thread shared structure is allocated on a page shared
-mapped between user space and kernel, which will provide a way for fast
-communication between user and kernel. Kernel publishes stats in this
-shared structure. Application thread can read from it in user space
-without requiring system calls.
-
-Similarly, there can be other use cases for such shared structure
-mechanism.
-
-Introduce 'off cpu' time:
-
-The time spent executing on a cpu(sum_exec_runtime) by a thread,
-currently available thru thread's schedstat file, can be shared thru
-the shared structure mentioned above. However, when a thread is running 
-on the cpu, this time gets updated periodically, can take upto 1ms or
-more as part of scheduler tick processing. If the application has to 
-measure cpu time consumed across some DB operations, using
-'sum_exec_runtime' will not be accurate. To address this the proposal
-is to introduce a thread's 'off cpu' time, which is measured at context
-switch, similar to time on runq(ie run_delay in schedstat file) is and
-should be more accurate. With that the application can determine cpu time
-consumed by taking the elapsed time and subtracting off cpu time. The
-off cpu time will be made available thru the shared structure along with
-the other schedstats from /proc/pid/schedstat file.
-
-The elapsed time itself can be measured using clock_gettime, which is
-vdso optimized and would be fast. The schedstats(runq time & off cpu time)
-published in the shared structure will be accumulated time, same as what
-is available thru schedstat file, all in units of nanoseconds. The
-application would take the difference of the values from before and after
-the operation for measurement.
-
-Preliminary results from a simple cached read Database workload shows
-performance benefit, when the database uses shared struct for reading
-stats vs reading from /proc directly.
-
-Implementation:
-
-A new system call is added to request use of shared structure by a user
-thread. Kernel will allocate page(s), shared mapped with user space in
-which per-thread shared structures will be allocated. These structures
-are padded to 128 bytes. This will contain struct members or nested
-structures corresponding to supported stats, like the thread's schedstats,
-published by the kernel for user space consumption. More struct members
-can be added as new feature support is implemented. Multiple such shared
-structures will be allocated from a page(upto 32 per 4k page) and avoid
-having to allocate one page per thread of a process. Although, will need
-optimizing for locality. Additional pages will be allocated as needed to
-accommodate more threads requesting use of shared structures. Aim is to
-not expose the layout of the shared structure itself to the application,
-which will allow future enhancements/changes without affecting the
-existing APIs.
-
-The system call will return a pointer(user space mapped address) to the per
-thread shared structure members. Application would save this per thread
-pointer in a TLS variable and reference it.
-
-The system call is of the form.
-int task_getshared(int option, int flags, void __user *uaddr)
-
-// Currently only TASK_SCHEDSTAT option is supported - returns pointer
-// to struct task_schedstat. The struct task_schedstat is nested within
-// the shared structure.
-
-struct task_schedstat {
-        volatile u64    sum_exec_runtime;
-        volatile u64    run_delay;
-        volatile u64    pcount;
-        volatile u64    off_cpu;
-};
-
-Usage:
-
-__thread struct task_schedstat *ts;
-task_getshared(TASK_SCHEDSTAT, 0, &ts);
-
-Subsequently the stats are accessed using the 'ts' pointer by the thread
-
-Prakash Sangappa (3):
-  Introduce per thread user-kernel shared structure
-  Publish tasks's scheduler stats thru the shared structure
-  Introduce task's 'off cpu' time
-
+Signed-off-by: Prakash Sangappa <prakash.sangappa@oracle.com>
+---
  arch/x86/entry/syscalls/syscall_32.tbl |   1 +
  arch/x86/entry/syscalls/syscall_64.tbl |   1 +
  include/linux/mm_types.h               |   2 +
- include/linux/sched.h                  |   9 +
+ include/linux/sched.h                  |   3 +
  include/linux/syscalls.h               |   2 +
- include/linux/task_shared.h            |  92 ++++++++++
+ include/linux/task_shared.h            |  57 +++++++
  include/uapi/asm-generic/unistd.h      |   5 +-
- include/uapi/linux/task_shared.h       |  23 +++
  kernel/fork.c                          |   7 +
- kernel/sched/deadline.c                |   1 +
- kernel/sched/fair.c                    |   1 +
- kernel/sched/rt.c                      |   1 +
- kernel/sched/sched.h                   |   1 +
- kernel/sched/stats.h                   |  55 ++++--
- kernel/sched/stop_task.c               |   1 +
  kernel/sys_ni.c                        |   3 +
  mm/Makefile                            |   2 +-
- mm/task_shared.c                       | 314 +++++++++++++++++++++++++++++++++
- 18 files changed, 501 insertions(+), 20 deletions(-)
+ mm/task_shared.c                       | 301 +++++++++++++++++++++++++++++++++
+ 11 files changed, 382 insertions(+), 2 deletions(-)
  create mode 100644 include/linux/task_shared.h
- create mode 100644 include/uapi/linux/task_shared.h
  create mode 100644 mm/task_shared.c
 
+diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
+index ce763a1..a194581 100644
+--- a/arch/x86/entry/syscalls/syscall_32.tbl
++++ b/arch/x86/entry/syscalls/syscall_32.tbl
+@@ -452,3 +452,4 @@
+ 445	i386	landlock_add_rule	sys_landlock_add_rule
+ 446	i386	landlock_restrict_self	sys_landlock_restrict_self
+ 447	i386	memfd_secret		sys_memfd_secret
++448	i386	task_getshared		sys_task_getshared
+diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+index f6b5779..9dda907 100644
+--- a/arch/x86/entry/syscalls/syscall_64.tbl
++++ b/arch/x86/entry/syscalls/syscall_64.tbl
+@@ -369,6 +369,7 @@
+ 445	common	landlock_add_rule	sys_landlock_add_rule
+ 446	common	landlock_restrict_self	sys_landlock_restrict_self
+ 447	common	memfd_secret		sys_memfd_secret
++448	common	task_getshared		sys_task_getshared
+ 
+ #
+ # Due to a historical design error, certain syscalls are numbered differently
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index 52bbd2b..5ec26ed 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -572,6 +572,8 @@ struct mm_struct {
+ #ifdef CONFIG_IOMMU_SUPPORT
+ 		u32 pasid;
+ #endif
++		/* user shared pages */
++		void *usharedpg;
+ 	} __randomize_layout;
+ 
+ 	/*
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index ec8d07d..237aa21 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -1400,6 +1400,9 @@ struct task_struct {
+ 	struct llist_head               kretprobe_instances;
+ #endif
+ 
++	/* user shared struct */
++	void *task_ushrd;
++
+ 	/*
+ 	 * New fields for task_struct should be added above here, so that
+ 	 * they are included in the randomized portion of task_struct.
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index 69c9a70..09680b7 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -1052,6 +1052,8 @@ asmlinkage long sys_landlock_add_rule(int ruleset_fd, enum landlock_rule_type ru
+ asmlinkage long sys_landlock_restrict_self(int ruleset_fd, __u32 flags);
+ asmlinkage long sys_memfd_secret(unsigned int flags);
+ 
++asmlinkage long sys_task_getshared(long opt, long flags, void __user *uaddr);
++
+ /*
+  * Architecture-specific system calls
+  */
+diff --git a/include/linux/task_shared.h b/include/linux/task_shared.h
+new file mode 100644
+index 0000000..de17849
+--- /dev/null
++++ b/include/linux/task_shared.h
+@@ -0,0 +1,57 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef	__TASK_SHARED_H__
++#define	__TASK_SHARED_H__
++
++#include <linux/mm_types.h>
++
++/*
++ * Track user-kernel shared pages referred by mm_struct
++ */
++struct ushared_pages {
++	struct list_head plist;
++	struct list_head frlist;
++	unsigned long pcount;
++};
++
++/*
++ * Following is the per task struct shared with kernel for
++ * fast communication.
++ */
++struct task_ushared {
++	long version;
++};
++
++/*
++ * Following is used for cacheline aligned allocations in a page.
++ */
++union  task_shared {
++	struct task_ushared tu;
++	char    s[128];
++};
++
++/*
++ * Struct to track per page slots
++ */
++struct ushared_pg {
++	struct list_head list;
++	struct list_head fr_list;
++	struct page *pages[2];
++	u64 bitmap; /* free slots */
++	int slot_count;
++	unsigned long kaddr;
++	unsigned long vaddr; /* user address */
++	struct vm_special_mapping ushrd_mapping;
++};
++
++/*
++ * Following struct is referred by tast_struct
++ */
++struct task_ushrd_struct {
++	struct task_ushared *kaddr; /* kernel address */
++	struct task_ushared *uaddr; /* user address */
++	struct ushared_pg *upg;
++};
++
++extern void task_ushared_free(struct task_struct *t);
++extern void mm_ushared_clear(struct mm_struct *mm);
++#endif /* __TASK_SHARED_H__ */
+diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+index a9d6fcd..7c985b1 100644
+--- a/include/uapi/asm-generic/unistd.h
++++ b/include/uapi/asm-generic/unistd.h
+@@ -878,8 +878,11 @@ __SYSCALL(__NR_landlock_restrict_self, sys_landlock_restrict_self)
+ __SYSCALL(__NR_memfd_secret, sys_memfd_secret)
+ #endif
+ 
++#define __NR_task_getshared 448
++__SYSCALL(__NR_task_getshared, sys_task_getshared)
++
+ #undef __NR_syscalls
+-#define __NR_syscalls 448
++#define __NR_syscalls 449
+ 
+ /*
+  * 32 bit systems traditionally used different
+diff --git a/kernel/fork.c b/kernel/fork.c
+index bc94b2c..f84bac0 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -97,6 +97,7 @@
+ #include <linux/scs.h>
+ #include <linux/io_uring.h>
+ #include <linux/bpf.h>
++#include <linux/task_shared.h>
+ 
+ #include <asm/pgalloc.h>
+ #include <linux/uaccess.h>
+@@ -903,6 +904,9 @@ static struct task_struct *dup_task_struct(struct task_struct *orig, int node)
+ 	if (err)
+ 		goto free_stack;
+ 
++	/* task's ushared struct not inherited across fork */
++	tsk->task_ushrd =  NULL;
++
+ #ifdef CONFIG_SECCOMP
+ 	/*
+ 	 * We must handle setting up seccomp filters once we're under
+@@ -1049,6 +1053,7 @@ static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
+ #if defined(CONFIG_TRANSPARENT_HUGEPAGE) && !USE_SPLIT_PMD_PTLOCKS
+ 	mm->pmd_huge_pte = NULL;
+ #endif
++	mm->usharedpg = NULL;
+ 	mm_init_uprobes_state(mm);
+ 
+ 	if (current->mm) {
+@@ -1099,6 +1104,7 @@ static inline void __mmput(struct mm_struct *mm)
+ 	ksm_exit(mm);
+ 	khugepaged_exit(mm); /* must run before exit_mmap */
+ 	exit_mmap(mm);
++	mm_ushared_clear(mm);
+ 	mm_put_huge_zero_page(mm);
+ 	set_mm_exe_file(mm, NULL);
+ 	if (!list_empty(&mm->mmlist)) {
+@@ -1308,6 +1314,7 @@ static int wait_for_vfork_done(struct task_struct *child,
+ static void mm_release(struct task_struct *tsk, struct mm_struct *mm)
+ {
+ 	uprobe_free_utask(tsk);
++	task_ushared_free(tsk);
+ 
+ 	/* Get rid of any cached register state */
+ 	deactivate_mm(tsk, mm);
+diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
+index 30971b1..8fbdc55 100644
+--- a/kernel/sys_ni.c
++++ b/kernel/sys_ni.c
+@@ -481,3 +481,6 @@ COND_SYSCALL(setuid16);
+ 
+ /* restartable sequence */
+ COND_SYSCALL(rseq);
++
++/* task shared */
++COND_SYSCALL(task_getshared);
+diff --git a/mm/Makefile b/mm/Makefile
+index e343674..03f88fe 100644
+--- a/mm/Makefile
++++ b/mm/Makefile
+@@ -52,7 +52,7 @@ obj-y			:= filemap.o mempool.o oom_kill.o fadvise.o \
+ 			   mm_init.o percpu.o slab_common.o \
+ 			   compaction.o vmacache.o \
+ 			   interval_tree.o list_lru.o workingset.o \
+-			   debug.o gup.o mmap_lock.o $(mmu-y)
++			   debug.o gup.o mmap_lock.o task_shared.o $(mmu-y)
+ 
+ # Give 'page_alloc' its own module-parameter namespace
+ page-alloc-y := page_alloc.o
+diff --git a/mm/task_shared.c b/mm/task_shared.c
+new file mode 100644
+index 0000000..3ec5eb6
+--- /dev/null
++++ b/mm/task_shared.c
+@@ -0,0 +1,301 @@
++// SPDX-License-Identifier: GPL-2.0
++#include <linux/mm.h>
++#include <linux/uio.h>
++#include <linux/sched.h>
++#include <linux/sched/mm.h>
++#include <linux/highmem.h>
++#include <linux/ptrace.h>
++#include <linux/slab.h>
++#include <linux/syscalls.h>
++#include <linux/task_shared.h>
++
++/* Shared page */
++
++#define TASK_USHARED_SLOTS (PAGE_SIZE/sizeof(union task_shared))
++
++/*
++ * Called once to init struct ushared_pages pointer.
++ */
++static int init_mm_ushared(struct mm_struct *mm)
++{
++	struct ushared_pages *usharedpg;
++
++	usharedpg = kmalloc(sizeof(struct ushared_pages), GFP_KERNEL);
++	if (usharedpg == NULL)
++		return 1;
++
++	INIT_LIST_HEAD(&usharedpg->plist);
++	INIT_LIST_HEAD(&usharedpg->frlist);
++	usharedpg->pcount = 0;
++	mmap_write_lock(mm);
++	if (mm->usharedpg == NULL) {
++		mm->usharedpg = usharedpg;
++		usharedpg = NULL;
++	}
++	mmap_write_unlock(mm);
++	if (usharedpg != NULL)
++		kfree(usharedpg);
++	return 0;
++}
++
++static int init_task_ushrd(struct task_struct *t)
++{
++	struct task_ushrd_struct *ushrd;
++
++	ushrd = kzalloc(sizeof(struct task_ushrd_struct), GFP_KERNEL);
++	if (ushrd == NULL)
++		return 1;
++
++	mmap_write_lock(t->mm);
++	if (t->task_ushrd == NULL) {
++		t->task_ushrd = ushrd;
++		ushrd = NULL;
++	}
++	mmap_write_unlock(t->mm);
++	if (ushrd != NULL)
++		kfree(ushrd);
++	return 0;
++}
++
++/*
++ * Called from __mmput(), mm is going away
++ */
++void mm_ushared_clear(struct mm_struct *mm)
++{
++	struct ushared_pg *upg;
++	struct ushared_pg *tmp;
++	struct ushared_pages *usharedpg;
++
++	if (mm == NULL || mm->usharedpg == NULL)
++		return;
++
++	usharedpg = mm->usharedpg;
++	if (list_empty(&usharedpg->frlist))
++		goto out;
++
++	list_for_each_entry_safe(upg, tmp, &usharedpg->frlist, fr_list) {
++		list_del(&upg->fr_list);
++		put_page(upg->pages[0]);
++		kfree(upg);
++	}
++out:
++	kfree(mm->usharedpg);
++	mm->usharedpg = NULL;
++
++}
++
++void task_ushared_free(struct task_struct *t)
++{
++	struct task_ushrd_struct *ushrd = t->task_ushrd;
++	struct mm_struct *mm = t->mm;
++	struct ushared_pages *usharedpg;
++	int slot;
++
++	if (mm == NULL || mm->usharedpg == NULL || ushrd == NULL)
++		return;
++
++	usharedpg = mm->usharedpg;
++	mmap_write_lock(mm);
++
++	if (ushrd->upg == NULL)
++		goto out;
++
++	slot = (unsigned long)((unsigned long)ushrd->uaddr
++		 - ushrd->upg->vaddr) / sizeof(union task_shared);
++	clear_bit(slot, (unsigned long *)(&ushrd->upg->bitmap));
++
++	/* move to head */
++	if (ushrd->upg->slot_count == 0) {
++		list_del(&ushrd->upg->fr_list);
++		list_add(&ushrd->upg->fr_list, &usharedpg->frlist);
++	}
++
++	ushrd->upg->slot_count++;
++
++	ushrd->uaddr = ushrd->kaddr = NULL;
++	ushrd->upg = NULL;
++
++out:
++	t->task_ushrd = NULL;
++	mmap_write_unlock(mm);
++	kfree(ushrd);
++}
++
++/* map shared page */
++static int task_shared_add_vma(struct ushared_pg *pg)
++{
++	struct vm_area_struct *vma;
++	struct mm_struct *mm =  current->mm;
++	unsigned long ret = 1;
++
++
++	if (!pg->vaddr) {
++		/* Try to map as high as possible, this is only a hint. */
++		pg->vaddr = get_unmapped_area(NULL, TASK_SIZE - PAGE_SIZE,
++					PAGE_SIZE, 0, 0);
++		if (pg->vaddr & ~PAGE_MASK) {
++			ret = 0;
++			goto fail;
++		}
++	}
++
++	vma = _install_special_mapping(mm, pg->vaddr, PAGE_SIZE,
++			VM_SHARED|VM_READ|VM_MAYREAD|VM_DONTCOPY,
++			&pg->ushrd_mapping);
++	if (IS_ERR(vma)) {
++		ret = 0;
++		pg->vaddr = 0;
++		goto fail;
++	}
++
++	pg->kaddr = (unsigned long)page_address(pg->pages[0]);
++fail:
++	return ret;
++}
++
++/*
++ * Allocate a page, map user address and add to freelist
++ */
++static struct ushared_pg *ushared_allocpg(void)
++{
++
++	struct ushared_pg *pg;
++	struct mm_struct *mm = current->mm;
++	struct ushared_pages *usharedpg = mm->usharedpg;
++
++	if (usharedpg == NULL)
++		return NULL;
++	pg = kzalloc(sizeof(*pg), GFP_KERNEL);
++
++	if (unlikely(!pg))
++		return NULL;
++	pg->ushrd_mapping.name = "[task_shared]";
++	pg->ushrd_mapping.fault = NULL;
++	pg->ushrd_mapping.pages = pg->pages;
++	pg->pages[0] = alloc_page(GFP_KERNEL);
++	if (!pg->pages[0])
++		goto out;
++	pg->pages[1] = NULL;
++	pg->bitmap = 0;
++
++	/*
++	 * page size should be 4096 or 8192
++	 */
++	pg->slot_count = TASK_USHARED_SLOTS;
++
++	mmap_write_lock(mm);
++	if (task_shared_add_vma(pg)) {
++		list_add(&pg->fr_list, &usharedpg->frlist);
++		usharedpg->pcount++;
++		mmap_write_unlock(mm);
++		return pg;
++	}
++	mmap_write_unlock(mm);
++
++out:
++	__free_page(pg->pages[0]);
++	kfree(pg);
++	return NULL;
++}
++
++
++/*
++ * Allocate task_ushared struct for calling thread.
++ */
++static int task_ushared_alloc(void)
++{
++	struct mm_struct *mm = current->mm;
++	struct ushared_pg *ent = NULL;
++	struct task_ushrd_struct *ushrd;
++	struct ushared_pages *usharedpg;
++	int tryalloc = 0;
++	int slot = -1;
++	int ret = -ENOMEM;
++
++	if (mm->usharedpg == NULL && init_mm_ushared(mm))
++		return ret;
++
++	if (current->task_ushrd == NULL && init_task_ushrd(current))
++		return ret;
++
++	usharedpg = mm->usharedpg;
++	ushrd = current->task_ushrd;
++repeat:
++	if (mmap_write_lock_killable(mm))
++		return -EINTR;
++
++	ent = list_empty(&usharedpg->frlist) ? NULL :
++		list_entry(usharedpg->frlist.next,
++		struct ushared_pg, fr_list);
++
++	if (ent == NULL || ent->slot_count == 0) {
++		if (tryalloc == 0) {
++			mmap_write_unlock(mm);
++			(void)ushared_allocpg();
++			tryalloc = 1;
++			goto repeat;
++		} else {
++			ent = NULL;
++		}
++	}
++
++	if (ent) {
++		slot = find_first_zero_bit((unsigned long *)(&ent->bitmap),
++		  TASK_USHARED_SLOTS);
++		BUG_ON(slot >=  TASK_USHARED_SLOTS);
++
++		set_bit(slot, (unsigned long *)(&ent->bitmap));
++
++		ushrd->uaddr = (struct task_ushared *)(ent->vaddr +
++		  (slot * sizeof(union task_shared)));
++		ushrd->kaddr = (struct task_ushared *)(ent->kaddr +
++		  (slot * sizeof(union task_shared)));
++		ushrd->upg = ent;
++		ent->slot_count--;
++		/* move it to tail */
++		if (ent->slot_count == 0) {
++			list_del(&ent->fr_list);
++			list_add_tail(&ent->fr_list, &usharedpg->frlist);
++		}
++
++	       ret = 0;
++	}
++
++out:
++	mmap_write_unlock(mm);
++	return ret;
++}
++
++
++/*
++ * Task Shared : allocate if needed, and return address of shared struct for
++ * this thread/task.
++ */
++static long task_getshared(u64 opt, u64 flags, void __user *uaddr)
++{
++	struct task_ushrd_struct *ushrd = current->task_ushrd;
++
++	/* We have address, return. */
++	if (ushrd != NULL && ushrd->upg != NULL) {
++		if (copy_to_user(uaddr, &ushrd->uaddr,
++			sizeof(struct task_ushared *)))
++			return (-EFAULT);
++		return 0;
++	}
++
++	task_ushared_alloc();
++	ushrd = current->task_ushrd;
++	if (ushrd != NULL && ushrd->upg != NULL) {
++		if (copy_to_user(uaddr, &ushrd->uaddr,
++			sizeof(struct task_ushared *)))
++			return (-EFAULT);
++		return 0;
++	}
++	return (-ENOMEM);
++}
++
++
++SYSCALL_DEFINE3(task_getshared, u64, opt, u64, flags, void __user *, uaddr)
++{
++	return task_getshared(opt, flags, uaddr);
++}
 -- 
 2.7.4
 
