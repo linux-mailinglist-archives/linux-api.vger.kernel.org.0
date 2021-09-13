@@ -2,104 +2,143 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB123408219
-	for <lists+linux-api@lfdr.de>; Mon, 13 Sep 2021 00:49:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CCC1240850B
+	for <lists+linux-api@lfdr.de>; Mon, 13 Sep 2021 09:00:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236633AbhILWuf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 12 Sep 2021 18:50:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60660 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236596AbhILWud (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 12 Sep 2021 18:50:33 -0400
-Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CB32C061574
-        for <linux-api@vger.kernel.org>; Sun, 12 Sep 2021 15:49:18 -0700 (PDT)
-Received: by mail-il1-x135.google.com with SMTP id a1so8124443ilj.6
-        for <linux-api@vger.kernel.org>; Sun, 12 Sep 2021 15:49:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=AJrC16PRsHHg5tAzb/rAVTdnbMY9m3dUA/sB9NSaV1w=;
-        b=GDtZPoLVej6DIsmOHmNxiH9fqIqIBKe4sJn+9ozqyEexLv7RWLQjDLLQ9USK2b8vt0
-         hCd/yRDfMQ0rcGOMjeAEnhcip1w2vdkTFvbNhfZbHNzRRfYZ+w/Fy9s4h89V+hgteonA
-         LOTi64X0FPKiFUC+aprSkxqpkMUTJ4Zk783rT5S879wTnLPclP3roeUyjIBrAYs4KmFd
-         q1ub+S9nmCMtjm11ZsMx/c6bzO6vXx6ghaE4S6dbyJQaJnxjs8+HMbllzUD2cxftqo39
-         uDjwPyy+utYHZ+MqhBHj0HOGJBmGhwqfLNzuEdR1uJ38AMhE/NPVUmwjDNlc1b6lRYPg
-         8vJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=AJrC16PRsHHg5tAzb/rAVTdnbMY9m3dUA/sB9NSaV1w=;
-        b=vc7jalD2CzHTBhUH69sUbqt7Cxcncv989G+qdfC2ztK+ZYHQ8K+WJseW0/T/jX6JLh
-         YKJuDtQn60sIpEWIo3hVEc6MAjRGJjnwWCcOQW/nipLV1+g2GovxH85inxZC9rGC/7Ex
-         d1iRJeZEbdWeEw7HBiJ0N50hYHoPiLy0RXymGb0cQV/NSWfLWaVAPZdAjXJ/kgvoQQVT
-         qk1iQ3H3onuIgCGyJBqNf64lqjCEs0gjk1+QxEqEJTOoK1N8YlaoZNIxGmb9LxQk/XgL
-         9QuWTEvMdAoCTISXP9CLbtG8Z80pfsWYglUm14QDX11eq1M3p66t/bX0v+6Ng1QHTSEc
-         gpEw==
-X-Gm-Message-State: AOAM530LmOU4Vuf9bZTRsAqnxTearH40tMbo0WfxKnr7emAf8C8FTYhb
-        XkjQy/CKfB3OfhmTPuuSiiWyD2PI2k9X2g==
-X-Google-Smtp-Source: ABdhPJxOeGSjU740gKaUYJ/WU89BmB0xx4i1LJSwutClSky6n4Lu/orWfB4i1btgj747QZtef9HTtQ==
-X-Received: by 2002:a92:c84c:: with SMTP id b12mr5890537ilq.105.1631486956825;
-        Sun, 12 Sep 2021 15:49:16 -0700 (PDT)
-Received: from [192.168.1.116] ([66.219.217.159])
-        by smtp.gmail.com with ESMTPSA id p19sm3537811ilj.58.2021.09.12.15.49.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 12 Sep 2021 15:49:16 -0700 (PDT)
-Subject: Re: [PATCH] io-wq: expose IO_WQ_ACCT_* enumeration items to UAPI
-To:     "Dmitry V. Levin" <ldv@altlinux.org>
-Cc:     Eugene Syromiatnikov <esyr@redhat.com>,
-        Pavel Begunkov <asml.silence@gmail.com>,
-        io-uring@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org
-References: <20210912122411.GA27679@asgard.redhat.com>
- <a6027db7-3ebc-6f12-2b58-4b068a346ee2@kernel.dk>
- <20210912222434.GD18053@altlinux.org>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <7d702960-bb2b-4abb-29b4-4f169db7ecf2@kernel.dk>
-Date:   Sun, 12 Sep 2021 16:49:15 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S237467AbhIMHCJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 13 Sep 2021 03:02:09 -0400
+Received: from a.mx.secunet.com ([62.96.220.36]:52864 "EHLO a.mx.secunet.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237454AbhIMHCI (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 13 Sep 2021 03:02:08 -0400
+X-Greylist: delayed 356 seconds by postgrey-1.27 at vger.kernel.org; Mon, 13 Sep 2021 03:02:07 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by a.mx.secunet.com (Postfix) with ESMTP id 9052A2019C;
+        Mon, 13 Sep 2021 08:54:55 +0200 (CEST)
+X-Virus-Scanned: by secunet
+Received: from a.mx.secunet.com ([127.0.0.1])
+        by localhost (a.mx.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id opzlf57cRu9C; Mon, 13 Sep 2021 08:54:54 +0200 (CEST)
+Received: from mailout2.secunet.com (mailout2.secunet.com [62.96.220.49])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by a.mx.secunet.com (Postfix) with ESMTPS id B6A202057E;
+        Mon, 13 Sep 2021 08:54:54 +0200 (CEST)
+Received: from cas-essen-02.secunet.de (unknown [10.53.40.202])
+        by mailout2.secunet.com (Postfix) with ESMTP id B0A6E80004A;
+        Mon, 13 Sep 2021 08:54:54 +0200 (CEST)
+Received: from mbx-essen-01.secunet.de (10.53.40.197) by
+ cas-essen-02.secunet.de (10.53.40.202) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.14; Mon, 13 Sep 2021 08:54:54 +0200
+Received: from moon.secunet.de (172.18.26.121) by mbx-essen-01.secunet.de
+ (10.53.40.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Mon, 13 Sep
+ 2021 08:54:53 +0200
+Date:   Mon, 13 Sep 2021 08:54:46 +0200
+From:   Antony Antony <antony.antony@secunet.com>
+To:     Eugene Syromiatnikov <esyr@redhat.com>
+CC:     Steffen Klassert <steffen.klassert@secunet.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Antony Antony <antony.antony@secunet.com>,
+        Christian Langrock <christian.langrock@secunet.com>,
+        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
+        <selinux@vger.kernel.org>, Paul Moore <paul@paul-moore.com>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        "Eric Paris" <eparis@parisplace.org>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, "Dmitry V. Levin" <ldv@strace.io>,
+        <linux-api@vger.kernel.org>
+Subject: Re: [PATCH v2] include/uapi/linux/xfrm.h: Fix XFRM_MSG_MAPPING ABI
+ breakage
+Message-ID: <20210913065446.GA2611@moon.secunet.de>
+Reply-To: <antony.antony@secunet.com>
+References: <20210912122234.GA22469@asgard.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210912222434.GD18053@altlinux.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20210912122234.GA22469@asgard.redhat.com>
+Organization: secunet
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-ClientProxiedBy: cas-essen-02.secunet.de (10.53.40.202) To
+ mbx-essen-01.secunet.de (10.53.40.197)
+X-EXCLAIMER-MD-CONFIG: 2c86f778-e09b-4440-8b15-867914633a10
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 9/12/21 4:24 PM, Dmitry V. Levin wrote:
-> On Sun, Sep 12, 2021 at 12:29:41PM -0600, Jens Axboe wrote:
->> On 9/12/21 6:24 AM, Eugene Syromiatnikov wrote:
->>> These are used to index aargument of IORING_REGISTER_IOWQ_MAX_WORKERS
->>> io_uring_register command, so they are to be exposed in UAPI.
->>
->> Not sure that's necessary, as it's really just a boolean values - is
->> the worker type bounded or not. That said, not against making it
->> available for userspace, but definitely not IO_WQ_ACCT_NR. It
->> should probably just go in liburing, I guess.
+Thanks!
+
+Acked-by: Antony Antony <antony.antony@secunet.com>
+
+-antony
+
+On Sun, Sep 12, 2021 at 14:22:34 +0200, Eugene Syromiatnikov wrote:
+> Commit 2d151d39073a ("xfrm: Add possibility to set the default to block
+> if we have no policy") broke ABI by changing the value of the XFRM_MSG_MAPPING
+> enum item, thus also evading the build-time check
+> in security/selinux/nlmsgtab.c:selinux_nlmsg_lookup for presence of proper
+> security permission checks in nlmsg_xfrm_perms.  Fix it by placing
+> XFRM_MSG_SETDEFAULT/XFRM_MSG_GETDEFAULT to the end of the enum, right before
+> __XFRM_MSG_MAX, and updating the nlmsg_xfrm_perms accordingly.
 > 
-> If IO_WQ_ACCT_* were just boolean values, no enum would have been
-> introduced in the first place.  What's the benefit of hiding
-> the API in the implementation, or burying it inside liburing?
-
-Because it's easier to grok internally with an enum instead of
-using 0/1. And you could argue that's the case too for an app,
-and as I said, I'm not against making them exposed, but the _NR
-part is strictly internal.
-
-Just add separate defines or an enum in io_uring.h:
-
-enum {
-	IO_WQ_BOUND,
-	IO_WQ_UNBOUND,
-};
-
-and be done with it.
-
--- 
-Jens Axboe
-
+> Fixes: 2d151d39073a ("xfrm: Add possibility to set the default to block if we have no policy")
+> References: https://lore.kernel.org/netdev/20210901151402.GA2557@altlinux.org/
+> Signed-off-by: Eugene Syromiatnikov <esyr@redhat.com>
+> ---
+> v2:
+>  - Updated SELinux nlmsg_xfrm_perms permissions table and selinux_nlmsg_lookup
+>    build-time check accordingly.
+> 
+> v1: https://lore.kernel.org/lkml/20210901153407.GA20446@asgard.redhat.com/
+> ---
+>  include/uapi/linux/xfrm.h   | 6 +++---
+>  security/selinux/nlmsgtab.c | 4 +++-
+>  2 files changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/uapi/linux/xfrm.h b/include/uapi/linux/xfrm.h
+> index b96c1ea..26f456b1 100644
+> --- a/include/uapi/linux/xfrm.h
+> +++ b/include/uapi/linux/xfrm.h
+> @@ -213,13 +213,13 @@ enum {
+>  	XFRM_MSG_GETSPDINFO,
+>  #define XFRM_MSG_GETSPDINFO XFRM_MSG_GETSPDINFO
+>  
+> +	XFRM_MSG_MAPPING,
+> +#define XFRM_MSG_MAPPING XFRM_MSG_MAPPING
+> +
+>  	XFRM_MSG_SETDEFAULT,
+>  #define XFRM_MSG_SETDEFAULT XFRM_MSG_SETDEFAULT
+>  	XFRM_MSG_GETDEFAULT,
+>  #define XFRM_MSG_GETDEFAULT XFRM_MSG_GETDEFAULT
+> -
+> -	XFRM_MSG_MAPPING,
+> -#define XFRM_MSG_MAPPING XFRM_MSG_MAPPING
+>  	__XFRM_MSG_MAX
+>  };
+>  #define XFRM_MSG_MAX (__XFRM_MSG_MAX - 1)
+> diff --git a/security/selinux/nlmsgtab.c b/security/selinux/nlmsgtab.c
+> index d59276f..94ea2a8 100644
+> --- a/security/selinux/nlmsgtab.c
+> +++ b/security/selinux/nlmsgtab.c
+> @@ -126,6 +126,8 @@ static const struct nlmsg_perm nlmsg_xfrm_perms[] =
+>  	{ XFRM_MSG_NEWSPDINFO,	NETLINK_XFRM_SOCKET__NLMSG_WRITE },
+>  	{ XFRM_MSG_GETSPDINFO,	NETLINK_XFRM_SOCKET__NLMSG_READ  },
+>  	{ XFRM_MSG_MAPPING,	NETLINK_XFRM_SOCKET__NLMSG_READ  },
+> +	{ XFRM_MSG_SETDEFAULT,	NETLINK_XFRM_SOCKET__NLMSG_WRITE },
+> +	{ XFRM_MSG_GETDEFAULT,	NETLINK_XFRM_SOCKET__NLMSG_READ  },
+>  };
+>  
+>  static const struct nlmsg_perm nlmsg_audit_perms[] =
+> @@ -189,7 +191,7 @@ int selinux_nlmsg_lookup(u16 sclass, u16 nlmsg_type, u32 *perm)
+>  		 * structures at the top of this file with the new mappings
+>  		 * before updating the BUILD_BUG_ON() macro!
+>  		 */
+> -		BUILD_BUG_ON(XFRM_MSG_MAX != XFRM_MSG_MAPPING);
+> +		BUILD_BUG_ON(XFRM_MSG_MAX != XFRM_MSG_GETDEFAULT);
+>  		err = nlmsg_perm(nlmsg_type, perm, nlmsg_xfrm_perms,
+>  				 sizeof(nlmsg_xfrm_perms));
+>  		break;
+> -- 
+> 2.1.4
+> 
