@@ -2,98 +2,143 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2540F409090
-	for <lists+linux-api@lfdr.de>; Mon, 13 Sep 2021 15:52:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 624F5409480
+	for <lists+linux-api@lfdr.de>; Mon, 13 Sep 2021 16:32:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243388AbhIMNxx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 13 Sep 2021 09:53:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58075 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S244104AbhIMNvu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Sep 2021 09:51:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1631541034;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=aBjIIvcb5dunWtRsVviIpL9DBOBpPMCvEHR7NyeCpew=;
-        b=jVyALL4fF5rGaMeuDIctAKv2DgvLVwcUNFj5A+AglGbMxyGTxN9FEelKQNeLRLd/UGs1Mk
-        47F+ItWPYOk+znu0nB49VUz2pHEv1S9C0fljulPHGCr7lO0kk1pIABxAl1RmxfWY61Ehrq
-        mL56a7TNTnXw9OF3NuABmssn49yv7VM=
-Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
- [209.85.219.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-129-JCmDNYRBO-m12dIc6faDOg-1; Mon, 13 Sep 2021 09:50:33 -0400
-X-MC-Unique: JCmDNYRBO-m12dIc6faDOg-1
-Received: by mail-yb1-f199.google.com with SMTP id b84-20020a253457000000b0059e6b730d45so12921058yba.6
-        for <linux-api@vger.kernel.org>; Mon, 13 Sep 2021 06:50:33 -0700 (PDT)
+        id S242158AbhIMObg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 13 Sep 2021 10:31:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45382 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346957AbhIMOaA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Sep 2021 10:30:00 -0400
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A115EC08ED3D
+        for <linux-api@vger.kernel.org>; Mon, 13 Sep 2021 06:28:14 -0700 (PDT)
+Received: by mail-io1-xd2e.google.com with SMTP id a22so12010717iok.12
+        for <linux-api@vger.kernel.org>; Mon, 13 Sep 2021 06:28:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=3vN9Wyfdy3B+3jKSNNbQuDbmy9ISudB6NcF4MytTblk=;
+        b=jpzDoGuP/wSXHe0WqEmzabSx+dvjhnyfFogYYYQGZH68NdgavhywOFPo2DLzfABvCC
+         /5FdzQWSrf7JrHRTEbfOrguym7OQZSOjDpTT2WDVBMSQkPqlxKm4DBNqo+lNWu/f+q5K
+         o6RoAmj0iMNOlNWIvktciFnbS93hEgBE6GTkYZpxPTfdJbRN5K1cwfKjEIH1FkhnuatC
+         mBZlqLEmfZvx0KLxzjcWUM3ZgvReF3iueVkrC38BcPVTlUS58WHmq/Nwd9+lV/IXQPmi
+         fYDEJXLbGFoMeY3smdmCHxFmzS1sBHjpSUFSJxA2WjHkjxrz9uiuHDtLR3zuMay8ffag
+         PHzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=aBjIIvcb5dunWtRsVviIpL9DBOBpPMCvEHR7NyeCpew=;
-        b=7oWqBhpl1uG8GU8cs9lMfblkbqMbvF1l6yF3o1/kAjJWYtqufc1miLYHJDSR8qBMBY
-         pgTzZ1rhjwc+06km2WN56xuHwhhVelYWeeQpwz8SpwarVfe6PHwM48Dinn7QiL9Q359M
-         zzM16buApklwGi7s5rWyh23rJUZpGGgrYh4tIIz0ix7YSvImrk1b8VGzDn3N5KSfpD98
-         iP7a/cK4F0u6INLpStXrA5tya8WWOxt5IQySbTtfyM73a5Ea7H5J327O0oOo0ZDxbWou
-         VmClTN9uUfh6JbOLAC0dv5YiteQDrf6FKuMp0y/er4SWgVRdbO+OY4iZ0PbZbztUx6Ir
-         N5YQ==
-X-Gm-Message-State: AOAM530vheveBwafgislv7USgdsFMPl6DHjQ/tS7BXhiow48BF8APraE
-        3E9jS9goSS10CmQpSyIDv2sKlSpccWvO5i/9pMcMZf6Rt4CZuXJhymaoB8QCWKzjfvAsE+kLPLK
-        QlnzFXYQ+AHyJg7BWglSiK9L1NlP7+H0zfxFv
-X-Received: by 2002:a25:6913:: with SMTP id e19mr15482535ybc.25.1631541032795;
-        Mon, 13 Sep 2021 06:50:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxaynW83umBqEPokVSSibnO6NtuWoQhuE0RyA2lBp5gkMZ2HjvBKRYnpKQf1MqN054h1RGdfDAUtNC2myJBoIU=
-X-Received: by 2002:a25:6913:: with SMTP id e19mr15482493ybc.25.1631541032487;
- Mon, 13 Sep 2021 06:50:32 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=3vN9Wyfdy3B+3jKSNNbQuDbmy9ISudB6NcF4MytTblk=;
+        b=MpW7cIZFopzRN8tM+VPmCCNH9fckdGF63tojkRB3Jeat61tWSgqxw8fz6gWYZi3jgR
+         WeHLXHzQq7AaadHjWFkurXR/Aek+RKx8DQoK8rx2a1jUoZMkH19J51xyFpOULLYdWqtE
+         gWBt6rYHsXqtW9uQHtZ8eHQ2jnVOibR4qSyRFmmWDJeh2aw+fWKUIgAEs/uNrHIvqUxB
+         lHzUw/TMstzxsZMop2nYxXbLalENyIwJ/k8fNPW7ificyWOPVQRbBh2KzpJ6rf8TgJnO
+         lsUs6w4Zk4LiIAxtdWrbZc1MYU+LwxIDIB0TCR2gqNTrE9b+4tq/PBOUf7MJtGCu46Sg
+         lyng==
+X-Gm-Message-State: AOAM532UyHr9ca7Ex3KZubjDlug2MtvgltxB8LWdWmHNt3kRJhxWmF1I
+        xS8qU/rr4c8U/fZUw6OHhR0q6K6ANu/laQ==
+X-Google-Smtp-Source: ABdhPJwlpCCBm0jBOd/op8tvfj2w7pmggym/wUZlWOPKQS65wEUgcW89MfQfiXFqMNCFeZqsH+q/pQ==
+X-Received: by 2002:a5e:a913:: with SMTP id c19mr8795732iod.31.1631539693066;
+        Mon, 13 Sep 2021 06:28:13 -0700 (PDT)
+Received: from [192.168.1.116] ([66.219.217.159])
+        by smtp.gmail.com with ESMTPSA id n2sm4701205ile.86.2021.09.13.06.28.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Sep 2021 06:28:12 -0700 (PDT)
+Subject: Re: [PATCH v2] io-wq: expose IO_WQ_ACCT_* enumeration items to UAPI
+To:     Eugene Syromiatnikov <esyr@redhat.com>,
+        Pavel Begunkov <asml.silence@gmail.com>
+Cc:     io-uring@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Dmitry V. Levin" <ldv@strace.io>, linux-api@vger.kernel.org
+References: <20210913104101.GA29616@asgard.redhat.com>
+From:   Jens Axboe <axboe@kernel.dk>
+Message-ID: <872209f5-d11c-1b80-6146-5646206e22cb@kernel.dk>
+Date:   Mon, 13 Sep 2021 07:28:11 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20210912122234.GA22469@asgard.redhat.com> <CAFqZXNtmN9827MQ0aX7ZcUia5amXuZWppb-9-ySxVP0QBy=O8Q@mail.gmail.com>
- <20210913102316.GA30886@asgard.redhat.com>
-In-Reply-To: <20210913102316.GA30886@asgard.redhat.com>
-From:   Ondrej Mosnacek <omosnace@redhat.com>
-Date:   Mon, 13 Sep 2021 15:50:21 +0200
-Message-ID: <CAFqZXNsp84kFLDfJfdu5fboB8vMm85FU7BDDjpiqeiJ2WSjWAg@mail.gmail.com>
-Subject: Re: [PATCH v2] include/uapi/linux/xfrm.h: Fix XFRM_MSG_MAPPING ABI breakage
-To:     Eugene Syromiatnikov <esyr@redhat.com>
-Cc:     Steffen Klassert <steffen.klassert@secunet.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Antony Antony <antony.antony@secunet.com>,
-        Christian Langrock <christian.langrock@secunet.com>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
-        SElinux list <selinux@vger.kernel.org>,
-        Paul Moore <paul@paul-moore.com>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Eric Paris <eparis@parisplace.org>,
-        network dev <netdev@vger.kernel.org>,
-        Linux kernel mailing list <linux-kernel@vger.kernel.org>,
-        "Dmitry V. Levin" <ldv@strace.io>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210913104101.GA29616@asgard.redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Sep 13, 2021 at 12:23 PM Eugene Syromiatnikov <esyr@redhat.com> wro=
-te:
-> On Mon, Sep 13, 2021 at 09:16:39AM +0200, Ondrej Mosnacek wrote:
-> > Perhaps it would be a good idea to put a comment here to make it less
-> > likely that this repeats in the future. Something like:
-> >
-> > /* IMPORTANT: Only insert new entries right above this line, otherwise
-> > you break ABI! */
->
-> Well, this statement is true for (almost) every UAPI-exposed enum, and
-> netlink is vast and relies on enums heavily.  I think it is already
-> mentioned somewhere in the documentation, and in the end it falls on the
-> shoulders of the maintainers=E2=80=94to pay additional attention to UAPI =
-changes.
+On 9/13/21 4:41 AM, Eugene Syromiatnikov wrote:
+> These are used to index elements in the argument
+> of IORING_REGISTER_IOWQ_MAX_WORKERS io_uring_register command,
+> so they are to be exposed in UAPI.
+> 
+> Complements: 2e480058ddc21ec5 ("io-wq: provide a way to limit max number of workers")
+> Signed-off-by: Eugene Syromiatnikov <esyr@redhat.com>
+> ---
+> v2:
+>  - IO_WQ_ACCT_NR is no longer exposed directly in UAPI, per Jens Axboe's
+>    suggestion.
+> 
+> v1: https://lore.kernel.org/lkml/20210912122411.GA27679@asgard.redhat.com/
+> ---
+>  fs/io-wq.c                    | 5 ++---
+>  include/uapi/linux/io_uring.h | 8 ++++++++
+>  2 files changed, 10 insertions(+), 3 deletions(-)
+> 
+> diff --git a/fs/io-wq.c b/fs/io-wq.c
+> index 6c55362..eb5162d 100644
+> --- a/fs/io-wq.c
+> +++ b/fs/io-wq.c
+> @@ -14,6 +14,7 @@
+>  #include <linux/rculist_nulls.h>
+>  #include <linux/cpu.h>
+>  #include <linux/tracehook.h>
+> +#include <uapi/linux/io_uring.h>
+>  
+>  #include "io-wq.h"
+>  
+> @@ -78,9 +79,7 @@ struct io_wqe_acct {
+>  };
+>  
+>  enum {
+> -	IO_WQ_ACCT_BOUND,
+> -	IO_WQ_ACCT_UNBOUND,
+> -	IO_WQ_ACCT_NR,
+> +	IO_WQ_ACCT_NR = __IO_WQ_ACCT_MAX
+>  };
+>  
+>  /*
+> diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
+> index 59ef351..dae1841 100644
+> --- a/include/uapi/linux/io_uring.h
+> +++ b/include/uapi/linux/io_uring.h
+> @@ -324,6 +324,14 @@ enum {
+>  	IORING_REGISTER_LAST
+>  };
+>  
+> +/* io-wq worker limit categories */
+> +enum {
+> +	IO_WQ_ACCT_BOUND,
+> +	IO_WQ_ACCT_UNBOUND,
+> +
+> +	__IO_WQ_ACCT_MAX /* Non-UAPI */
+> +};
 
-Ok, fair enough.
+This is really the same thing as before, just the names have changed.
+What I suggested was keeping the enum in io_uring, then just adding
 
---=20
-Ondrej Mosnacek
-Software Engineer, Linux Security - SELinux kernel
-Red Hat, Inc.
+enum {
+	IO_WQ_BOUND,
+	IO_WQ_UNBOUND,
+};
+
+to uapi header. The ACCT stuff is io-wq specific too, that kind of naming
+shouldn't be propagated to userspace.
+
+A BUILD_BUG_ON() could be added for them being different, but honestly
+I don't think that's worth it.
+
+-- 
+Jens Axboe
 
