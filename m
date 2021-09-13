@@ -2,57 +2,40 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F39640852F
-	for <lists+linux-api@lfdr.de>; Mon, 13 Sep 2021 09:16:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33B8B4088E8
+	for <lists+linux-api@lfdr.de>; Mon, 13 Sep 2021 12:23:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237578AbhIMHSJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 13 Sep 2021 03:18:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23339 "EHLO
+        id S238490AbhIMKYs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 13 Sep 2021 06:24:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55535 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237532AbhIMHSI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Sep 2021 03:18:08 -0400
+        by vger.kernel.org with ESMTP id S239006AbhIMKYo (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Sep 2021 06:24:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1631517412;
+        s=mimecast20190719; t=1631528609;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=3sfiq9gd+F6JH8oSBvW0EmNYJfq7/aiWJpxsGuGmiIY=;
-        b=ZKEAB7pFxe9CC54RI/gGq7S3Gjl2Hu1ASFt2nwrlZmBeY3kwt4Us5yujxcersJxpgJT06Z
-        u9T7cTt7xgtvhnSp3DOonl9FwGJFp+X5AV1ULlPFOsq7JmqCN4wJC1YjCgogQv5xQGJRRo
-        01dg0MXd84s+fz9nnDrJ+xt0py5Spho=
-Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
- [209.85.219.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-247-QvS12wUWN3GfjjpZm--_JQ-1; Mon, 13 Sep 2021 03:16:51 -0400
-X-MC-Unique: QvS12wUWN3GfjjpZm--_JQ-1
-Received: by mail-yb1-f199.google.com with SMTP id s204-20020a252cd5000000b005a16e62ee63so11720649ybs.12
-        for <linux-api@vger.kernel.org>; Mon, 13 Sep 2021 00:16:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3sfiq9gd+F6JH8oSBvW0EmNYJfq7/aiWJpxsGuGmiIY=;
-        b=qCArvHWkCpy8mzRojnN64d7Z2bxZ0uZH7nQ+2/O/GRwybPSkYAYEn4Boe/d7TJJic9
-         LpuXpBPD+4nDqUU46WmW2F4yj7YaJ7Tgm2+7jdXfYMxS4J6Fq3ObraQdZFD8e2SRpgiA
-         +dtpJ78Hxwf3oG3f5PTTiBGC9hC89QIWsPhB+6dpjO+DBUkcMuGJwAN8+7US9YUEg9y4
-         ajaToCtbKDCofq3WIqVNcPpKPU3A5jXLYWp9bn8MEkeJ46sc4AqweuO+NlWBsepcB+Ln
-         V9ylQ4yML6avlGKM6BtHnQNBXSqHM8D+vHMwoCXyxG/JilWtNsOTVLLTEJihizb/U2ka
-         /VhA==
-X-Gm-Message-State: AOAM533tVEYn/FZ7+u1mhKhOwD2NU06yV0iKoOO7EzmgCp6Ybj9Y+YCg
-        CWOizsyr1iAaS10EL3hnWiqh65yPtEcJ0ahvceB15yMSle4rlUj2rEnTmHFXLMOOSmgKkmW3bsc
-        knuO0JhjdcVqW5MmW/d44GcstG2DnaAaKn1Mw
-X-Received: by 2002:a25:83:: with SMTP id 125mr13609792yba.467.1631517411145;
-        Mon, 13 Sep 2021 00:16:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx7kJQ1PXFrM1GJmwLzxTDCzAnCF4sbmb32hyfGmjO6KYJLAN17PxbqC5KZnDcXxN+lY9MSOWE9m1W7pZXWyqo=
-X-Received: by 2002:a25:83:: with SMTP id 125mr13609777yba.467.1631517410913;
- Mon, 13 Sep 2021 00:16:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210912122234.GA22469@asgard.redhat.com>
-In-Reply-To: <20210912122234.GA22469@asgard.redhat.com>
-From:   Ondrej Mosnacek <omosnace@redhat.com>
-Date:   Mon, 13 Sep 2021 09:16:39 +0200
-Message-ID: <CAFqZXNtmN9827MQ0aX7ZcUia5amXuZWppb-9-ySxVP0QBy=O8Q@mail.gmail.com>
-Subject: Re: [PATCH v2] include/uapi/linux/xfrm.h: Fix XFRM_MSG_MAPPING ABI breakage
-To:     Eugene Syromiatnikov <esyr@redhat.com>
+        bh=/nzkwe3pr/qPUFlHM8thmADhxRTA4dSRMErI6BImOww=;
+        b=I+aDEz/xtCHz/hloUfHFzQo2IPa7fuHbjeXFyfee6j3TcaL/ExRDTzBT0cYsyBCIQBDj+o
+        Ri+VtAu5qgPBVti2CKjwinxOJIcWS/RkRrMCmaqyoloKf4pO+D+ZtpKYucnhr9RG7zjDsJ
+        0J4DHazHuC/ToGS28PhmkmCby50m/sM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-67--V7vw2jsOni4c7SRmCQniw-1; Mon, 13 Sep 2021 06:23:26 -0400
+X-MC-Unique: -V7vw2jsOni4c7SRmCQniw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3D07835DE9;
+        Mon, 13 Sep 2021 10:23:23 +0000 (UTC)
+Received: from asgard.redhat.com (unknown [10.36.110.5])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 23C4377F35;
+        Mon, 13 Sep 2021 10:23:18 +0000 (UTC)
+Date:   Mon, 13 Sep 2021 12:23:16 +0200
+From:   Eugene Syromiatnikov <esyr@redhat.com>
+To:     Ondrej Mosnacek <omosnace@redhat.com>
 Cc:     Steffen Klassert <steffen.klassert@secunet.com>,
         Herbert Xu <herbert@gondor.apana.org.au>,
         "David S. Miller" <davem@davemloft.net>,
@@ -67,93 +50,31 @@ Cc:     Steffen Klassert <steffen.klassert@secunet.com>,
         Linux kernel mailing list <linux-kernel@vger.kernel.org>,
         "Dmitry V. Levin" <ldv@strace.io>,
         Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v2] include/uapi/linux/xfrm.h: Fix XFRM_MSG_MAPPING ABI
+ breakage
+Message-ID: <20210913102316.GA30886@asgard.redhat.com>
+References: <20210912122234.GA22469@asgard.redhat.com>
+ <CAFqZXNtmN9827MQ0aX7ZcUia5amXuZWppb-9-ySxVP0QBy=O8Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFqZXNtmN9827MQ0aX7ZcUia5amXuZWppb-9-ySxVP0QBy=O8Q@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi,
+On Mon, Sep 13, 2021 at 09:16:39AM +0200, Ondrej Mosnacek wrote:
+> Perhaps it would be a good idea to put a comment here to make it less
+> likely that this repeats in the future. Something like:
+> 
+> /* IMPORTANT: Only insert new entries right above this line, otherwise
+> you break ABI! */
 
-On Sun, Sep 12, 2021 at 2:23 PM Eugene Syromiatnikov <esyr@redhat.com> wrote:
-> Commit 2d151d39073a ("xfrm: Add possibility to set the default to block
-> if we have no policy") broke ABI by changing the value of the XFRM_MSG_MAPPING
-> enum item, thus also evading the build-time check
-> in security/selinux/nlmsgtab.c:selinux_nlmsg_lookup for presence of proper
-> security permission checks in nlmsg_xfrm_perms.  Fix it by placing
-> XFRM_MSG_SETDEFAULT/XFRM_MSG_GETDEFAULT to the end of the enum, right before
-> __XFRM_MSG_MAX, and updating the nlmsg_xfrm_perms accordingly.
->
-> Fixes: 2d151d39073a ("xfrm: Add possibility to set the default to block if we have no policy")
-> References: https://lore.kernel.org/netdev/20210901151402.GA2557@altlinux.org/
-> Signed-off-by: Eugene Syromiatnikov <esyr@redhat.com>
-> ---
-> v2:
->  - Updated SELinux nlmsg_xfrm_perms permissions table and selinux_nlmsg_lookup
->    build-time check accordingly.
->
-> v1: https://lore.kernel.org/lkml/20210901153407.GA20446@asgard.redhat.com/
-> ---
->  include/uapi/linux/xfrm.h   | 6 +++---
->  security/selinux/nlmsgtab.c | 4 +++-
->  2 files changed, 6 insertions(+), 4 deletions(-)
->
-> diff --git a/include/uapi/linux/xfrm.h b/include/uapi/linux/xfrm.h
-> index b96c1ea..26f456b1 100644
-> --- a/include/uapi/linux/xfrm.h
-> +++ b/include/uapi/linux/xfrm.h
-> @@ -213,13 +213,13 @@ enum {
->         XFRM_MSG_GETSPDINFO,
->  #define XFRM_MSG_GETSPDINFO XFRM_MSG_GETSPDINFO
->
-> +       XFRM_MSG_MAPPING,
-> +#define XFRM_MSG_MAPPING XFRM_MSG_MAPPING
-> +
->         XFRM_MSG_SETDEFAULT,
->  #define XFRM_MSG_SETDEFAULT XFRM_MSG_SETDEFAULT
->         XFRM_MSG_GETDEFAULT,
->  #define XFRM_MSG_GETDEFAULT XFRM_MSG_GETDEFAULT
-> -
-> -       XFRM_MSG_MAPPING,
-> -#define XFRM_MSG_MAPPING XFRM_MSG_MAPPING
-
-Perhaps it would be a good idea to put a comment here to make it less
-likely that this repeats in the future. Something like:
-
-/* IMPORTANT: Only insert new entries right above this line, otherwise
-you break ABI! */
-
->         __XFRM_MSG_MAX
->  };
->  #define XFRM_MSG_MAX (__XFRM_MSG_MAX - 1)
-> diff --git a/security/selinux/nlmsgtab.c b/security/selinux/nlmsgtab.c
-> index d59276f..94ea2a8 100644
-> --- a/security/selinux/nlmsgtab.c
-> +++ b/security/selinux/nlmsgtab.c
-> @@ -126,6 +126,8 @@ static const struct nlmsg_perm nlmsg_xfrm_perms[] =
->         { XFRM_MSG_NEWSPDINFO,  NETLINK_XFRM_SOCKET__NLMSG_WRITE },
->         { XFRM_MSG_GETSPDINFO,  NETLINK_XFRM_SOCKET__NLMSG_READ  },
->         { XFRM_MSG_MAPPING,     NETLINK_XFRM_SOCKET__NLMSG_READ  },
-> +       { XFRM_MSG_SETDEFAULT,  NETLINK_XFRM_SOCKET__NLMSG_WRITE },
-> +       { XFRM_MSG_GETDEFAULT,  NETLINK_XFRM_SOCKET__NLMSG_READ  },
->  };
->
->  static const struct nlmsg_perm nlmsg_audit_perms[] =
-> @@ -189,7 +191,7 @@ int selinux_nlmsg_lookup(u16 sclass, u16 nlmsg_type, u32 *perm)
->                  * structures at the top of this file with the new mappings
->                  * before updating the BUILD_BUG_ON() macro!
->                  */
-> -               BUILD_BUG_ON(XFRM_MSG_MAX != XFRM_MSG_MAPPING);
-> +               BUILD_BUG_ON(XFRM_MSG_MAX != XFRM_MSG_GETDEFAULT);
->                 err = nlmsg_perm(nlmsg_type, perm, nlmsg_xfrm_perms,
->                                  sizeof(nlmsg_xfrm_perms));
->                 break;
-> --
-> 2.1.4
->
-
-
--- 
-Ondrej Mosnacek
-Software Engineer, Linux Security - SELinux kernel
-Red Hat, Inc.
+Well, this statement is true for (almost) every UAPI-exposed enum, and
+netlink is vast and relies on enums heavily.  I think it is already
+mentioned somewhere in the documentation, and in the end it falls on the
+shoulders of the maintainers—to pay additional attention to UAPI changes.
 
