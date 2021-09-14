@@ -2,144 +2,114 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5130E40A8EE
-	for <lists+linux-api@lfdr.de>; Tue, 14 Sep 2021 10:10:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A79B840AB2D
+	for <lists+linux-api@lfdr.de>; Tue, 14 Sep 2021 11:53:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229622AbhINIL6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 14 Sep 2021 04:11:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33978 "EHLO
+        id S230045AbhINJyo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 14 Sep 2021 05:54:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229590AbhINIL6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Sep 2021 04:11:58 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34396C061574;
-        Tue, 14 Sep 2021 01:10:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=ZELYicw1akr9KH3zH9mr6S5GTKctUyhkTss9Ht1dvsM=; b=TKPgpA8nid+6oPxrRgNdT2vu2U
-        CwG372BFoe8zI122HiN2hdhmQOKs1VcDGv5ZWCKTvYxgTN3mj1LxKCpZ1A7ptGjPswDIcsBh5tBQ5
-        USkq8kU59W5MGoNnRlan5NBYh87AuSoFqIZcBZ0ftbqfzEXHx8+jhimsbqNZMzJzxxD2R5pKNeyuO
-        bFScG29Y3WHgfzaCZw3uhmgfYM38iE8/bbH7yoMySr7B0cDmI2AkfA+meo6kMTPLBL3DPZZGJ2KkM
-        9t1N7sYY0amotrETbQ4djT79YjO25G0nCfRJwyUs++AlNA507BJ6v3RKAcdEeqnp0mO0ImUjQijNt
-        aUVuQkBQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mQ3T4-00EQcm-0F; Tue, 14 Sep 2021 08:07:21 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 882AF30026F;
-        Tue, 14 Sep 2021 10:07:00 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 67FBD233CAE6B; Tue, 14 Sep 2021 10:07:00 +0200 (CEST)
-Date:   Tue, 14 Sep 2021 10:07:00 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Peter Oskolkov <posk@google.com>
-Cc:     Jann Horn <jannh@google.com>, Peter Oskolkov <posk@posk.io>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Paul Turner <pjt@google.com>, Ben Segall <bsegall@google.com>,
-        Andrei Vagin <avagin@google.com>,
-        Thierry Delisle <tdelisle@uwaterloo.ca>
-Subject: Re: [PATCH 2/4 v0.5] sched/umcg: RFC: add userspace atomic helpers
-Message-ID: <YUBYJLCYpy3yJO5F@hirez.programming.kicks-ass.net>
-References: <20210908184905.163787-1-posk@google.com>
- <20210908184905.163787-3-posk@google.com>
- <CAG48ez2LyLNkH4iVbeKJUuH=oh57WECkKYCW+G9mtheoh7Fsvg@mail.gmail.com>
- <CAPNVh5eaW7r_Nv-wHEyxQiFkXngmONwPyZSFvtTEhk3TxJ+iMA@mail.gmail.com>
+        with ESMTP id S230369AbhINJyf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Sep 2021 05:54:35 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CF63C061762;
+        Tue, 14 Sep 2021 02:53:18 -0700 (PDT)
+Received: from zn.tnic (p200300ec2f1048004bf380b26d2cf776.dip0.t-ipconnect.de [IPv6:2003:ec:2f10:4800:4bf3:80b2:6d2c:f776])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 07D1D1EC0453;
+        Tue, 14 Sep 2021 11:53:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1631613192;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ViyruqyaOCoCW/0p2JZLgQLm3FfQGbXjvmpiABsrfCI=;
+        b=RJB4znnZ3Vdx8xwIRKp/GquN5eUjvPjpfOZhxfz0G06K+1tAtY4CRKjGHkci8G6uqT909A
+        hWeLlUA99oGVkIlEzNF1pgmmUafrY+0e3mG4RMHGGDr5b4CPS7Wv3qN3hMvbzoi15ZESpr
+        gJLpU/Z822KRQonHTRZ/g1iP6GsO1d4=
+Date:   Tue, 14 Sep 2021 11:53:06 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "Lutomirski, Andy" <luto@kernel.org>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "esyr@redhat.com" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "tarasmadan@google.com" <tarasmadan@google.com>,
+        "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
+        "vedvyas.shanbhogue@intel.com" <vedvyas.shanbhogue@intel.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Subject: Re: [NEEDS-REVIEW] Re: [PATCH v11 25/25] x86/cet/shstk: Add
+ arch_prctl functions for shadow stack
+Message-ID: <YUBxAut2PtGzX/6k@zn.tnic>
+References: <5979c58d-a6e3-d14d-df92-72cdeb97298d@intel.com>
+ <ab1a3344-60f4-9b9d-81d4-e6538fdcafcf@intel.com>
+ <08c91835-8486-9da5-a7d1-75e716fc5d36@intel.com>
+ <a881837d-c844-30e8-a614-8b92be814ef6@intel.com>
+ <cbec8861-8722-ec31-2c02-1cfed20255eb@intel.com>
+ <b3379d26-d8a7-deb7-59f1-c994bb297dcb@intel.com>
+ <a1efc4330a3beff10671949eddbba96f8cde96da.camel@intel.com>
+ <41aa5e8f-ad88-2934-6d10-6a78fcbe019b@intel.com>
+ <CALCETrX5qJAZBe9sHL6+HFvre-bbo+us1==q9KHNCyRrzaUsjw@mail.gmail.com>
+ <45c62101c065ed7e728fadac7207866bf8c36ec4.camel@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAPNVh5eaW7r_Nv-wHEyxQiFkXngmONwPyZSFvtTEhk3TxJ+iMA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <45c62101c065ed7e728fadac7207866bf8c36ec4.camel@intel.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 09, 2021 at 12:06:58PM -0700, Peter Oskolkov wrote:
-> On Wed, Sep 8, 2021 at 4:39 PM Jann Horn <jannh@google.com> wrote:
-> 
-> Thanks a lot for the reviews, Jann!
-> 
-> I understand how to address most of your comments. However, one issue
-> I'm not sure what to do about:
-> 
-> [...]
-> 
-> > If this function is not allowed to sleep, as the comment says...
-> 
-> [...]
-> 
-> > ... then I'm pretty sure you can't call fix_pagefault() here, which
-> > acquires the mmap semaphore (which may involve sleeping) and then goes
-> > through the pagefault handling path (which can also sleep for various
-> > reasons, like allocating memory for pagetables, loading pages from
-> > disk / NFS / FUSE, and so on).
-> 
-> <quote from peterz@ from
-> https://lore.kernel.org/lkml/20210609125435.GA68187@worktop.programming.kicks-ass.net/>:
->   So a PF_UMCG_WORKER would be added to sched_submit_work()'s PF_*_WORKER
->   path to capture these tasks blocking. The umcg_sleeping() hook added
->   there would:
-> 
->     put_user(BLOCKED, umcg_task->umcg_status);
->     ...
-> </quote>
-> 
-> Which is basically what I am doing here: in sched_submit_work() I need
-> to read/write to userspace; and we cannot sleep in
-> sched_submit_work(), I believe.
-> 
-> If you are right that it is impossible to deal with pagefaults from
-> within non-sleepable contexts, I see two options:
-> 
-> Option 1: as you suggest, pin pages holding struct umcg_task in sys_umcg_ctl;
-> 
-> or
-> 
-> Option 2: add more umcg-related kernel state to task_struct so that
-> reading/writing to userspace is not necessary in sched_submit_work().
+On Tue, Sep 14, 2021 at 01:33:02AM +0000, Edgecombe, Rick P wrote:
+> The original prctl solution prevents this case since the kernel did the
+> allocation and restore token setup, but of course it had other issues.
+> The other ideas discussed previously were a new syscall, or some sort
+> of new madvise() operation that could be involved in setting up shadow
+> stack, such that it is never writable in userspace.
 
-Durr.. so yeah this is a bit of a chicken and egg problem here. We need
-a userspace page to notify we're blocked, but at the same time,
-accessing said page can get us blocked.
+If I had to choose - and this is only my 2¢ anyway - I'd opt for this
+until there's a really good reason for allowing shstk programs to fiddle
+with their own shstk. Maybe there is but allowing them to do that sounds
+to me like: "ew, why do we go to all this trouble to have shadow stacks
+if programs would be allowed to fumble with it themselves? Might as well
+not do shadow stacks at all."
 
-And then worse, as Jann said, we cannot do this in the appropriate spot
-because we could be blocking on mmap_sem, so we must not require
-mmap_sem to make progress etc.. :/
+And if/when there is a good reason, the API should be defined and
+discussed properly at first, before we expose it to luserspace, ofc.
 
-Now, in reality actually taking a fault for these pages is extremely
-unlikely, but if we do, there's really no option but to block and wait
-for it without notification. Tought luck there.
+Thx.
 
-So what we can do, is use get_user_page() on the appropriate pages
-(alignment ensure the whole umcg struct must be in a single page etc..)
-the moment a umcg task enters the kernel. For this we need some
-SYSCALL_WORK_ENTER flag.
+-- 
+Regards/Gruss,
+    Boris.
 
-So normally a task would have ->umcg_page and ->umcg_server_page be
-NULL, the above SYSCALL_WORK_SYSCALL_UMCG flag would get_user_page() the
-self and server pages. If get_user_page() blocks, these fields would
-still be NULL and sched_submit_work() would not do anything, c'est la
-vie.
-
-Once we have the pages, any actual blocking hitting sched_submit_work()
-can do the updates without further blocking. It can then also put_page()
-and clear the ->umcg_{,server_}page pointers, because the task_work that
-will set RUNNABLE *can* suffer mmap_sem (again, unlikely, again tough
-luck if it does).
-
-The reason for put'ing the pages on blocking, is that this guarantees
-the pages are only pinned for a short amount of time, and 'never' by a
-blocked task. IOW, it's a proper transient pin and doesn't require extra
-special care or accounting.
-
-
-
-Also, can you *please* convert that RST crud to a text file, it's
-absolutely unreadable gunk. Those documentation files should be readable
-as plain text first and foremost. That whole rendering to html crap is
-nonsense. Using a browser to read a test file is insane.
+https://people.kernel.org/tglx/notes-about-netiquette
