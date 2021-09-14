@@ -2,84 +2,104 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E021040B579
-	for <lists+linux-api@lfdr.de>; Tue, 14 Sep 2021 18:58:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A73F240B5C7
+	for <lists+linux-api@lfdr.de>; Tue, 14 Sep 2021 19:19:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229464AbhINQ7R (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 14 Sep 2021 12:59:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45946 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbhINQ7Q (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Sep 2021 12:59:16 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3D2FC061762
-        for <linux-api@vger.kernel.org>; Tue, 14 Sep 2021 09:57:58 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id o11so17698943ljp.8
-        for <linux-api@vger.kernel.org>; Tue, 14 Sep 2021 09:57:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fqQSMJ8RTVDNrryIulJY4YULkRA8eJdXQSnIYvRutRM=;
-        b=bOyzoS6TBDReuHrgJ73iE7TVyyReZIJ23lD6wghw6vtmD+J/kmrNOL66GQYOZbGyn7
-         iao01Np6tfD4fXrcNrsZrxBOr/kZX5yIUbmdB+WYDiu0fdw8WROJMqUheZBabwzRdzJc
-         S3yRwWcdOIGT+DzwYKmX2UxKzOm/KZEdkUs05mHhxgTb7tT8S+PggPMcaJOWr8QkQVZp
-         2Qf9lB+UKDuSz5Wjgt4QRgUgbvRbbZKpsTTT+Lqz04aeMN2mR0MNc4AdjPddJkHMDA/e
-         cgtcfH+3u7tLbNezP8DCYXLw9I8RjlsQpv2s/843ZPjaMNl65AkJE4DHLWqd15d9ysK7
-         mPsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fqQSMJ8RTVDNrryIulJY4YULkRA8eJdXQSnIYvRutRM=;
-        b=5URcEsBA6Jyxz/saMvB6YcVXjlaKlADiFhycy/4HQsRtvzR+tO5c8Y97R1jMod+uUz
-         1inwaSCmjY38IuZlaD6TEPB/s4mvSlrM+9LHHVLsTEH16nPo712XJ5tHkQosafzPVRFV
-         0N/fKz9TlU2WNnOkcbIBHDse9SeKgQjCWRUfiJz8hzQwdEXcs2LqcCBneaGR2wJAMvGC
-         J2m4GZCM8gYssOrPE95Oag/RyFz6j/3AhcWsVX1MD7+OM2B8Ojs4JFNvTvWPuJTXHQb0
-         jn2Gwss1DtcgAe+RxEYkQBPgExtAilGNcemw/9rcXmmFsBr1sSonQO24MN6evrYq19SA
-         HV8Q==
-X-Gm-Message-State: AOAM530w9iSkYUP4AfbFfWtjy4986UnDXKVhEJULVmhDDABsAS7fd4et
-        TTPtdBgrDP0FH7/sA+7asZbo+ChmiXC+tcD2G/cqmA==
-X-Google-Smtp-Source: ABdhPJysNsvUDtxy30q4rx85+AbNCPtjDAx3HsUEPIj+nSsSwNY/e2GbTq6iwD8+O1eU5K92Jipb2fb7C5+7NUhYswM=
-X-Received: by 2002:a2e:900c:: with SMTP id h12mr16782693ljg.263.1631638677287;
- Tue, 14 Sep 2021 09:57:57 -0700 (PDT)
+        id S229482AbhINRUZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 14 Sep 2021 13:20:25 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:52070 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229464AbhINRUZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Sep 2021 13:20:25 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: tonyk)
+        with ESMTPSA id 517711F41E7E
+Message-ID: <58536544-e032-1954-ce30-d131869dc95e@collabora.com>
+Date:   Tue, 14 Sep 2021 14:18:58 -0300
 MIME-Version: 1.0
-References: <20210908184905.163787-1-posk@google.com> <20210908184905.163787-5-posk@google.com>
- <YUDPWnsLRoU8StFi@geo.homenetwork>
-In-Reply-To: <YUDPWnsLRoU8StFi@geo.homenetwork>
-From:   Peter Oskolkov <posk@google.com>
-Date:   Tue, 14 Sep 2021 09:57:46 -0700
-Message-ID: <CAPNVh5eY68FSWEFwQuqN69rx2gvAn6T04SvV6MA=uEhtdy-Uyw@mail.gmail.com>
-Subject: Re: [PATCH 4/4 v0.5] sched/umcg: add Documentation/userspace-api/umcg.rst
-To:     Tao Zhou <tao.zhou@linux.dev>
-Cc:     Peter Oskolkov <posk@posk.io>,
-        Peter Zijlstra <peterz@infradead.org>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v3 2/6] futex2: Implement vectorized wait
+Content-Language: en-US
+To:     Gabriel Krisman Bertazi <krisman@collabora.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Paul Turner <pjt@google.com>, Ben Segall <bsegall@google.com>,
-        Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
-        Thierry Delisle <tdelisle@uwaterloo.ca>
-Content-Type: text/plain; charset="UTF-8"
+        Peter Zijlstra <peterz@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        kernel@collabora.com, linux-api@vger.kernel.org,
+        libc-alpha@sourceware.org, mtk.manpages@gmail.com,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Arnd Bergmann <arnd@arndb.de>
+References: <20210913175249.81074-1-andrealmeid@collabora.com>
+ <20210913175249.81074-3-andrealmeid@collabora.com>
+ <875yv4ge83.fsf@collabora.com>
+From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
+In-Reply-To: <875yv4ge83.fsf@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Sep 14, 2021 at 9:34 AM Tao Zhou <tao.zhou@linux.dev> wrote:
+Hi Gabriel, thanks for the feedback! A few clarifications:
+
+Às 22:03 de 13/09/21, Gabriel Krisman Bertazi escreveu:
+> André Almeida <andrealmeid@collabora.com> writes:
+> 
+>> Add support to wait on multiple futexes. This is the interface
+>> implemented by this syscall:
+>>
 
 [...]
 
-> > +- worker to worker context switch:
-> > +  ``W1:RUNNING+W2:IDLE => W1:IDLE+W2:RUNNING``:
-> > +
-> > +  - in the userspace, in the context of W1 running:
-> > +
-> > +    - ``W2:IDLE => W2:RUNNING|LOCKED`` (mark W2 as running)
-> > +    - ``W1:RUNNING => W1:IDLE|LOCKED`` (mark self as idle)
-> > +    - ``W2.next_tid := W1.next_tid; S.next_tid := W2.next_tid``
->                                                         ^^^^^^^^
-> W2.next_tid is a server. S.next_tid should be a worker; say:
->
->   S.next_tid := W2.tid
+>>  
+>> +/*
+>> + * Flags to specify the bit length of the futex word for futex2 syscalls.
+>> + * Currently, only 32 is supported.
+>> + */
+>> +#define FUTEX_32		2
+> 
+> Why start at 2?
 
-You are definitely right here. I'll fix the doc in the next patchset.
+I was planning to do:
+
+FUTEX_8		0
+FUTEX_16	1
+FUTEX_32	2
+FUTEX_64	3
+
+> 
+>> +
+>> +/*
+>> + * Max numbers of elements in a futex_waitv array
+>> + */
+>> +#define FUTEX_WAITV_MAX		128
+>> +
+>> +/**
+>> + * struct futex_waitv - A waiter for vectorized wait
+>> + * @val:	Expected value at uaddr
+>> + * @uaddr:	User address to wait on
+>> + * @flags:	Flags for this waiter
+>> + * @__reserved:	Reserved member to preserve data alignment. Should be 0.
+>> + */
+>> +struct futex_waitv {
+>> +	__u64 val;
+>> +	__u64 uaddr;
+>> +	__u32 flags;
+>> +	__u32 __reserved;
+>> +};
+> 
+> why force uaddr  to be __u64, even for 32-bit?  uaddr could be a (void*) for
+> all we care, no?  Also, by adding a reserved field, you are wasting 32
+> bits even on 32-bit architectures.
+> 
+
+We do that to make the structure layout compatible with both entry
+points, remove the need for special cast and duplicated code, as
+suggested by Thomas and Arnd:
+
+https://lore.kernel.org/lkml/87v94310gm.ffs@tglx/
+
+https://lore.kernel.org/lkml/CAK8P3a0MO1qJLRkCH8KrZ3+=L66KOsMRmcbrUvYdMoKykdKoyQ@mail.gmail.com/
