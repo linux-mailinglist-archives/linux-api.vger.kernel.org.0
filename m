@@ -2,159 +2,83 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 940D440CA10
-	for <lists+linux-api@lfdr.de>; Wed, 15 Sep 2021 18:29:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6392B40CAFF
+	for <lists+linux-api@lfdr.de>; Wed, 15 Sep 2021 18:47:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229467AbhIOQa7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Sep 2021 12:30:59 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:42962 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229465AbhIOQa7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Sep 2021 12:30:59 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: tonyk)
-        with ESMTPSA id A42F91F43794
-Message-ID: <cbf1dbc3-6c38-0b53-8eb9-69530c8220b9@collabora.com>
-Date:   Wed, 15 Sep 2021 13:29:30 -0300
+        id S230023AbhIOQs7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Sep 2021 12:48:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49174 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229697AbhIOQs6 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 15 Sep 2021 12:48:58 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BB5256121F
+        for <linux-api@vger.kernel.org>; Wed, 15 Sep 2021 16:47:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631724459;
+        bh=RXpsF/VO6GEdjb1aQhtYiJKHMct/U0k37GgDFDGgrR4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=j05dwuutr3ixumWPZWdZIcn+eEOt/vnSb1TnGP9o2pp+YwKIGCoNzYsjFCOUVo4pz
+         WjPRbZJqT4GU1lVr/pFLN4xZnFgWQxLEbPPm6waSRAsmR7qGtgkvSdod5R14MlWOjd
+         PMnpP7w1LZK4hxdH7iLxck8zaw3Hw9lZ5SZBQqOSLbNuPtuRvBWgPtgeBu101aaefw
+         qr1jO7Jlu0/UrCsWuOSXL8YoCi58n24Pb/MD5PEz4MFJctJrqxlXfPL+vKQiQPWz8E
+         KKagKKIwaKxlQOh6TIxx73aYyPRl5gleaZZw6jpUPwPFl184cl6+hJZ0w5ueCozUll
+         GyqVDHQy2Dg3g==
+Received: by mail-ed1-f46.google.com with SMTP id t6so5919821edi.9
+        for <linux-api@vger.kernel.org>; Wed, 15 Sep 2021 09:47:39 -0700 (PDT)
+X-Gm-Message-State: AOAM531n21fLc3fGB4NMLIMSCznjMviKcw9kX3Y9iSYM0yGrgN/CL/NY
+        X0/DrHu9HdVuzURcH5FUH86tOLAXttj/a9ZYlj8zOg==
+X-Google-Smtp-Source: ABdhPJynY4FSVmglrMDA36UZlrr7peMUTfEqx8YeTiK3u74IyWamFT9pPKsO1KiexgAnay+21MZnBhxbl1CrQQs4Aow=
+X-Received: by 2002:a17:906:1557:: with SMTP id c23mr926887ejd.371.1631724458312;
+ Wed, 15 Sep 2021 09:47:38 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH 16/20] futex: Implement sys_futex_waitv()
-Content-Language: en-US
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, kernel@collabora.com,
-        bigeasy@linutronix.de, krisman@collabora.com,
-        linux-api@vger.kernel.org, libc-alpha@sourceware.org,
-        mingo@redhat.com, rostedt@goodmis.org, dvhart@infradead.org,
-        mtk.manpages@gmail.com, dave@stgolabs.net, arnd@arndb.de,
-        tglx@linutronix.de
-References: <20210915140710.596174479@infradead.org>
- <20210915141525.621568509@infradead.org>
-From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
-In-Reply-To: <20210915141525.621568509@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <705fde50-37a6-49ed-b9c2-c9107cd88189@t-8ch.de>
+In-Reply-To: <705fde50-37a6-49ed-b9c2-c9107cd88189@t-8ch.de>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Wed, 15 Sep 2021 09:47:25 -0700
+X-Gmail-Original-Message-ID: <CALCETrUM0cko=5ki-Dd402DNFU2TmgnJTz_vfrsaofkGD-1kmA@mail.gmail.com>
+Message-ID: <CALCETrUM0cko=5ki-Dd402DNFU2TmgnJTz_vfrsaofkGD-1kmA@mail.gmail.com>
+Subject: Re: [RFC] Expose request_module via syscall
+To:     =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>
+Cc:     Linux API <linux-api@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Jessica Yu <jeyu@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Às 11:07 de 15/09/21, Peter Zijlstra escreveu:
-> From: André Almeida <andrealmeid@collabora.com>
-> 
-> Add support to wait on multiple futexes. This is the interface
-> implemented by this syscall:
-> 
-> futex_waitv(struct futex_waitv *waiters, unsigned int nr_futexes,
-> 	    unsigned int flags, struct timespec *timo)
-> 
-> +/**
-> + * futex_wait_multiple_setup - Prepare to wait and enqueue multiple futexes
-> + * @vs:		The futex list to wait on
-> + * @count:	The size of the list
-> + * @awaken:	Index of the last awoken futex, if any. Used to notify the
-> + *		caller that it can return this index to userspace (return parameter)
-> + *
-> + * Prepare multiple futexes in a single step and enqueue them. This may fail if
-> + * the futex list is invalid or if any futex was already awoken. On success the
-> + * task is ready to interruptible sleep.
-> + *
-> + * Return:
-> + *  -  1 - One of the futexes was awaken by another thread
-> + *  -  0 - Success
-> + *  - <0 - -EFAULT, -EWOULDBLOCK or -EINVAL
-> + */
-> +static int futex_wait_multiple_setup(struct futex_vector *vs, int count, int *awaken)
-> +{
-> +	struct futex_hash_bucket *hb;
-> +	bool retry = false;
-> +	int ret, i;
-> +	u32 uval;
-> +
-> +	/*
-> +	 * Enqueuing multiple futexes is tricky, because we need to enqueue
-> +	 * each futex in the list before dealing with the next one to avoid
-> +	 * deadlocking on the hash bucket. But, before enqueuing, we need to
-> +	 * make sure that current->state is TASK_INTERRUPTIBLE, so we don't
-> +	 * absorb any awake events, which cannot be done before the
-> +	 * get_futex_key of the next key, because it calls get_user_pages,
-> +	 * which can sleep. Thus, we fetch the list of futexes keys in two
-> +	 * steps, by first pinning all the memory keys in the futex key, and
-> +	 * only then we read each key and queue the corresponding futex.
-> +	 *
-> +	 * Private futexes doesn't need to recalculate hash in retry, so skip
-> +	 * get_futex_key() when retrying.
-> +	 */
-> +retry:
-> +	for (i = 0; i < count; i++) {
-> +		if ((vs[i].w.flags & FUTEX_PRIVATE_FLAG) && retry)
-> +			continue;
-> +
-> +		ret = get_futex_key(u64_to_user_ptr(vs[i].w.uaddr),
-> +				    !(vs[i].w.flags & FUTEX_PRIVATE_FLAG),
-> +				    &vs[i].q.key, FUTEX_READ);
-> +
-> +		if (unlikely(ret))
-> +			return ret;
-> +	}
-> +
-> +	set_current_state(TASK_INTERRUPTIBLE);
-> +
-> +	for (i = 0; i < count; i++) {
-> +		u32 __user *uaddr = (u32 __user *)(unsigned long)vs[i].w.uaddr;
-> +		struct futex_q *q = &vs[i].q;
-> +		u32 val = (u32)vs[i].w.val;
-> +
-> +		hb = futex_q_lock(q);
-> +		ret = futex_get_value_locked(&uval, uaddr);
-> +
-> +		if (!ret && uval == val) {
-> +			/*
-> +			 * The bucket lock can't be held while dealing with the
-> +			 * next futex. Queue each futex at this moment so hb can
-> +			 * be unlocked.
-> +			 */
-> +			futex_queue(q, hb);
-> +			continue;
-> +		}
-> +
-> +		futex_q_unlock(hb);
-> +		__set_current_state(TASK_RUNNING);
-> +
-> +		/*
-> +		 * Even if something went wrong, if we find out that a futex
-> +		 * was awaken, we don't return error and return this index to
-> +		 * userspace
-> +		 */
-> +		*awaken = unqueue_multiple(vs, i);
-> +		if (*awaken >= 0)
-> +			return 1;
-> +
-> +		if (uval != val)
-> +			return -EWOULDBLOCK;
-> +
-> +		if (ret) {
-> +			/*
-> +			 * If we need to handle a page fault, we need to do so
-> +			 * without any lock and any enqueued futex (otherwise
-> +			 * we could lose some wakeup). So we do it here, after
-> +			 * undoing all the work done so far. In success, we
-> +			 * retry all the work.
-> +			 */
-> +			if (get_user(uval, uaddr))
-> +				return -EFAULT;
-> +
-> +			retry = true;
-> +			goto retry;
-> +		}
+On Wed, Sep 15, 2021 at 8:50 AM Thomas Wei=C3=9Fschuh <thomas@t-8ch.de> wro=
+te:
+>
+> Hi,
+>
+> I would like to propose a new syscall that exposes the functionality of
+> request_module() to userspace.
+>
+> Propsed signature: request_module(char *module_name, char **args, int fla=
+gs);
+> Where args and flags have to be NULL and 0 for the time being.
+>
+> Rationale:
+>
+> We are using nested, privileged containers which are loading kernel modul=
+es.
+> Currently we have to always pass around the contents of /lib/modules from=
+ the
+> root namespace which contains the modules.
+> (Also the containers need to have userspace components for moduleloading
+> installed)
+>
+> The syscall would remove the need for this bookkeeping work.
 
-My bad again: the last two if's should be in the reserve order. If ret
-!= 0, the user copy didn't succeed and the value wasn't copied to uval,
-thus the comparison (uval != val) should happen only if ret == 0.
+I feel like I'm missing something, and I don't understand the purpose
+of this syscall.  Wouldn't the right solution be for the container to
+have a stub module loader (maybe doable with a special /sbin/modprobe
+or maybe a kernel patch would be needed, depending on the exact use
+case) and have the stub call out to the container manager to request
+the module?  The container manager would check its security policy and
+load the module or not load it as appropriate.
 
-
-> +	}
-> +
-> +	return 0;
-> +}
-
-	
+--Andy
