@@ -2,99 +2,78 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D501F40CCC9
-	for <lists+linux-api@lfdr.de>; Wed, 15 Sep 2021 20:48:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 032BE40CD07
+	for <lists+linux-api@lfdr.de>; Wed, 15 Sep 2021 21:12:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231473AbhIOSt3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Sep 2021 14:49:29 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:35103 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232098AbhIOSt2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Sep 2021 14:49:28 -0400
-Received: from mail-wr1-f48.google.com ([209.85.221.48]) by
- mrelayeu.kundenserver.de (mreue108 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1Mwfeu-1moPAT3bkw-00y89t; Wed, 15 Sep 2021 20:48:07 +0200
-Received: by mail-wr1-f48.google.com with SMTP id g16so5443007wrb.3;
-        Wed, 15 Sep 2021 11:48:07 -0700 (PDT)
-X-Gm-Message-State: AOAM531f+v44h4fcdFn2JsdlESZ7wPV0D+sjQB2jGS/Db/5yxob+tHU0
-        DpeOsOWs67TQKIytAAqrsB9as/+CF6Jy81FqWcw=
-X-Google-Smtp-Source: ABdhPJxK7SeTGX8+XfGCJ4SbF2UTweNhxicgClsiVZ2HPcmo85hjrsvQk6FDN6pdsJWlaTcZb9qud2EO6qBml0363OE=
-X-Received: by 2002:adf:f884:: with SMTP id u4mr1571436wrp.411.1631731687472;
- Wed, 15 Sep 2021 11:48:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210915140710.596174479@infradead.org> <20210915141525.621568509@infradead.org>
- <YUITUXbnzAK98DEl@hirez.programming.kicks-ass.net>
-In-Reply-To: <YUITUXbnzAK98DEl@hirez.programming.kicks-ass.net>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 15 Sep 2021 20:47:51 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1s=fJPyaCUj0otNA2bWjY09F_ir2zxigFgaZ69ejHkcw@mail.gmail.com>
-Message-ID: <CAK8P3a1s=fJPyaCUj0otNA2bWjY09F_ir2zxigFgaZ69ejHkcw@mail.gmail.com>
-Subject: Re: [PATCH 16/20] futex: Implement sys_futex_waitv()
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@collabora.com>,
+        id S231331AbhIOTNz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Sep 2021 15:13:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41132 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230230AbhIOTNz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Sep 2021 15:13:55 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B3DFC061574;
+        Wed, 15 Sep 2021 12:12:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=FhF5ZEUfgtRm0W8Km2DWenQUkdHHR5Cd4JcveZESDfQ=; b=VHRzgjaQjFEk4mLIFinoi1c2Sk
+        GmyHxKZnMqs6KiQsGqEHuig15rcLVGccWq4rMoxdzfv7CInmVLrKhxIjxONTQfD8Ms9uGxK2iJa9q
+        i4chkJ9DbDCZ84rNuXjUoKAFfRt7jKmfLj4j1O/DYumJ95cAfk7d5qTQH3eWugN4/JJasXjUBGIPO
+        3gs3/n2LCoe2qvDlpTYNrK2/ZnEpF7cT4bFfTptjw5CtS7EFNx6RKk5xyyaYq6Lu/cN/Or1wbPdF7
+        Xiw7n917xLS293xtCWDVK8djzZwuLEysQti/wEj42oH3qoaAgPoZPbBQgc72Ez97tVkMIHWh3TrtJ
+        n+I2kzZQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mQaIa-003STh-1v; Wed, 15 Sep 2021 19:11:01 +0000
+Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
+        id F3B419811C0; Wed, 15 Sep 2021 21:10:23 +0200 (CEST)
+Date:   Wed, 15 Sep 2021 21:10:23 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Jann Horn <jannh@google.com>, Peter Oskolkov <posk@google.com>,
+        Peter Oskolkov <posk@posk.io>, Ingo Molnar <mingo@redhat.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Collabora kernel ML <kernel@collabora.com>,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
         Linux API <linux-api@vger.kernel.org>,
-        GNU C Library <libc-alpha@sourceware.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:9B4JQw9ex8Xn/WXdpP7jH8OJB0y+5WRYBwQgt/Yzthxvw/sjEd9
- LY2u9g7LfxU2FyUSWQr4PJJIqXCP4AlXVNYaonPwHow74liegzd12IT3hNJ8ayJuZ8qndiH
- CABnych4/cH3KD67c1BPJEtkqRzV+ZGPWraJtiYntRo3ONtSD/xcKMuNr/+GtoyyJg1wvm9
- bL8Up9spm3OA+sq5Ortyw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:qRBr4pAJpNg=:3eI9IEcTuXlQ8DyQBVf49D
- /wMI8584iVETQUlxgdEST50UnsSDGY862QhU47nc6/T96RIcBBTxGq38kdQtHOFCbmW+mOtO2
- viYXqzIHGgCVWEqPA+eezDuD3yBYU+rHSCkKreCqbnff//w902GgRM+RGPoLlFYENrqzUA0A1
- MJOZRbXqAlS1zIdPu/wN4D7+tpZLiSj5lbrXUhNItmT/5OEGHZ+NCq4YaM3cq+xHYhmmrnvdj
- 1BWABAYm+8kRMhkAJPwFys9uByvZzQvmLRAKD1dbMtfqVzSzUuyeJr+/iT39ogNGlzPZJCiDB
- RfSYb6IZ+pntqvnJsHyxCGlF8HJTdm97MGT7BsWFFClXWHG1t+TvTxA3tQoc0cBIh0BBV/cDD
- eVAGNHlsGfF6QG3e3Ye7283ftH75+fuoZxAx280ER6phqz5Ri2D6483TOvov03930Vogc/K1+
- xgGmOS5PFRBxdRvpKr7c01ZzxPKAh96LICFveMmW0jDaqkqeMXRjeJLIh5fftxzNzmtAJ1Yv6
- ZEquO9l/tTabGzsF1XcV2VHuwiA4SrV8Ne6qjC1Q061+RSAdgvwAbZrGL1z+ub+n0KGXeXPJH
- XRtN3lsHoJvwYrUEDut5JpnwB6wQMTSxU6WVbOOaLCXyw2IBXAg52fJsRsTzKNV+73V/Cyfxf
- 5nAXGKC15d2yivysnDigGn9vf+0N5g1GZHK7tPynBVO4T2I7BlXG3d2HkoRXghy0C81YCsKN2
- 1espmMcRfoiHA1Noou8Iod9p2qqOugNbfIkw+Q==
+        Paul Turner <pjt@google.com>, Ben Segall <bsegall@google.com>,
+        Andrei Vagin <avagin@google.com>,
+        Thierry Delisle <tdelisle@uwaterloo.ca>
+Subject: Re: [PATCH 2/4 v0.5] sched/umcg: RFC: add userspace atomic helpers
+Message-ID: <20210915191023.GF4323@worktop.programming.kicks-ass.net>
+References: <20210908184905.163787-1-posk@google.com>
+ <20210908184905.163787-3-posk@google.com>
+ <CAG48ez2LyLNkH4iVbeKJUuH=oh57WECkKYCW+G9mtheoh7Fsvg@mail.gmail.com>
+ <CAPNVh5eaW7r_Nv-wHEyxQiFkXngmONwPyZSFvtTEhk3TxJ+iMA@mail.gmail.com>
+ <CAG48ez0mgCXpXnqAUsa0TcFBPjrid-74Gj=xG8HZqj2n+OPoKw@mail.gmail.com>
+ <d656e605-4f89-4ea2-8baf-f7786f0630d9@www.fastmail.com>
+ <YUDlzxLjNsW+oYGC@hirez.programming.kicks-ass.net>
+ <f6fdecfe-963d-4669-ae05-1d7192467a19@www.fastmail.com>
+ <YUIUWs9pIfHh51lP@hirez.programming.kicks-ass.net>
+ <CALCETrUnnHN0dyx02ewuRu=_TZ+cD=HaEzNs34ADNbWps1tTBw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALCETrUnnHN0dyx02ewuRu=_TZ+cD=HaEzNs34ADNbWps1tTBw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Sep 15, 2021 at 5:39 PM Peter Zijlstra <peterz@infradead.org> wrote:
->
-> On Wed, Sep 15, 2021 at 04:07:26PM +0200, Peter Zijlstra wrote:
-> > +SYSCALL_DEFINE4(futex_waitv, struct futex_waitv __user *, waiters,
-> > +             unsigned int, nr_futexes, unsigned int, flags,
-> > +             struct __kernel_timespec __user *, timo)
->
-> So I utterly detest timespec.. it makes no sense what so ever.
->
-> Can't we just, for new syscalls, simply use a s64 nsec argument and call
-> it a day?
->
-> Thomas, Arnd ?
+On Wed, Sep 15, 2021 at 09:50:41AM -0700, Andy Lutomirski wrote:
+> What's the precise problem?  The code would be roughly:
+> 
+> if (try_pin_the_page) {
+>   write it;
+>   unpin;
+> } else {
+>   do nothing -- .fault will fill in the correct contents.
+> }
+> 
+> The time this takes is nondeterministic, but it's bounded and short.
 
-Do you mean passing the nanoseconds by value instead of a pointer?
-I think that would be worse, since that means having incompatible calling
-conventions between 32-bit and 64-bit architectures, and even
-between 32-bit architectures that have different requirements for 64-bit
-function arguments.
+You can't do this from sched_submit_work(), you might already hold
+mmap_sem. Hence the suggestion to, for UMCG registered threads, pin the
+page(s) on syscall-enter and unpin on either schedule() or
+syscall-return.
 
-If we pass it by reference, there is much less to gain from changing the
-timespec to plain nanoseconds. I wouldn't object to that, but I don't
-see it helping much either. It would work for relative timeouts, but the
-general trend seems to be to specify timeouts as absolute times,
-and that would force each caller to read the time using clock_gettime()
-and then convert it to nanoseconds before adding the timeout.
-
-Specifying the timeout in terms of 32-bit relative milliseconds would the
-way that epoll() does would be really simple, but that still feels odd.
-
-        Arnd
