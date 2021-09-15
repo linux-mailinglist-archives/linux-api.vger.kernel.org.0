@@ -2,80 +2,167 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A249840C249
-	for <lists+linux-api@lfdr.de>; Wed, 15 Sep 2021 11:01:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0092140C3A7
+	for <lists+linux-api@lfdr.de>; Wed, 15 Sep 2021 12:31:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236974AbhIOJCL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Sep 2021 05:02:11 -0400
-Received: from a.mx.secunet.com ([62.96.220.36]:54194 "EHLO a.mx.secunet.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236766AbhIOJCK (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 15 Sep 2021 05:02:10 -0400
-X-Greylist: delayed 536 seconds by postgrey-1.27 at vger.kernel.org; Wed, 15 Sep 2021 05:02:10 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by a.mx.secunet.com (Postfix) with ESMTP id 47BED20270;
-        Wed, 15 Sep 2021 10:51:55 +0200 (CEST)
-X-Virus-Scanned: by secunet
-Received: from a.mx.secunet.com ([127.0.0.1])
-        by localhost (a.mx.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id Ga3avR8Rp5gE; Wed, 15 Sep 2021 10:51:54 +0200 (CEST)
-Received: from mailout1.secunet.com (mailout1.secunet.com [62.96.220.44])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by a.mx.secunet.com (Postfix) with ESMTPS id 739D22019C;
-        Wed, 15 Sep 2021 10:51:54 +0200 (CEST)
-Received: from cas-essen-02.secunet.de (unknown [10.53.40.202])
-        by mailout1.secunet.com (Postfix) with ESMTP id 6CF8C80004A;
-        Wed, 15 Sep 2021 10:51:54 +0200 (CEST)
-Received: from mbx-essen-01.secunet.de (10.53.40.197) by
- cas-essen-02.secunet.de (10.53.40.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.14; Wed, 15 Sep 2021 10:51:54 +0200
-Received: from gauss2.secunet.de (10.182.7.193) by mbx-essen-01.secunet.de
- (10.53.40.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Wed, 15 Sep
- 2021 10:51:54 +0200
-Received: by gauss2.secunet.de (Postfix, from userid 1000)
-        id B2F94318016B; Wed, 15 Sep 2021 10:51:53 +0200 (CEST)
-Date:   Wed, 15 Sep 2021 10:51:53 +0200
-From:   Steffen Klassert <steffen.klassert@secunet.com>
-To:     Eugene Syromiatnikov <esyr@redhat.com>
-CC:     Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Antony Antony <antony.antony@secunet.com>,
-        "Christian Langrock" <christian.langrock@secunet.com>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
-        <selinux@vger.kernel.org>, Paul Moore <paul@paul-moore.com>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        "Eric Paris" <eparis@parisplace.org>, <netdev@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, "Dmitry V. Levin" <ldv@strace.io>,
-        <linux-api@vger.kernel.org>
-Subject: Re: [PATCH v2] include/uapi/linux/xfrm.h: Fix XFRM_MSG_MAPPING ABI
- breakage
-Message-ID: <20210915085153.GB36125@gauss3.secunet.de>
-References: <20210912122234.GA22469@asgard.redhat.com>
+        id S237151AbhIOKdC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Sep 2021 06:33:02 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:35732 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232286AbhIOKdC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Sep 2021 06:33:02 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 8A0E11FE50;
+        Wed, 15 Sep 2021 10:31:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1631701902; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=OBqVQGnFWgtPG9Q+UphQmLlXVL6BaYYUbmftNzq04iQ=;
+        b=vCIxgPTi6OMDqQ1ajFPPws6U/nEaOZXbNreE5vLj0ORZVg9SGJK5j03eyv1Pm/qcwe8Lul
+        zUSA36no50k4583wA4oRhu13+NFroEoBYuq2Ymiujc9Cj8pkGoJdk9VkNNBNFavQhvy8eK
+        jqk/KMIUfFBs0odiRg8c66j8c+i81Z8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1631701902;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=OBqVQGnFWgtPG9Q+UphQmLlXVL6BaYYUbmftNzq04iQ=;
+        b=e/WnNShqk62O0dQZnZD9WPguIsQYzduDCgskdnNv9m/4hbEBfdiHXgi+hGDxnaudXKibAb
+        jiWMOVYTfo8QVvCQ==
+Received: from quack2.suse.cz (unknown [10.100.224.230])
+        by relay2.suse.de (Postfix) with ESMTP id 6D872A3B90;
+        Wed, 15 Sep 2021 10:31:42 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 02FF31E4318; Wed, 15 Sep 2021 12:31:40 +0200 (CEST)
+Date:   Wed, 15 Sep 2021 12:31:40 +0200
+From:   Jan Kara <jack@suse.cz>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Gabriel Krisman Bertazi <krisman@collabora.com>,
+        Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Ext4 <linux-ext4@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Khazhismel Kumykov <khazhy@google.com>,
+        David Howells <dhowells@redhat.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Theodore Tso <tytso@mit.edu>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Matthew Bobrowski <repnop@google.com>, kernel@collabora.com
+Subject: Re: [PATCH v6 15/21] fanotify: Preallocate per superblock mark error
+ event
+Message-ID: <20210915103140.GA6166@quack2.suse.cz>
+References: <20210812214010.3197279-1-krisman@collabora.com>
+ <20210812214010.3197279-16-krisman@collabora.com>
+ <20210816155758.GF30215@quack2.suse.cz>
+ <877dg6rbtn.fsf@collabora.com>
+ <87a6kusmar.fsf@collabora.com>
+ <CAOQ4uxjDtA45nn4iT9LFbbavuGa=vMPQJFp7GOJHdqrst8y+1A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210912122234.GA22469@asgard.redhat.com>
-X-ClientProxiedBy: cas-essen-01.secunet.de (10.53.40.201) To
- mbx-essen-01.secunet.de (10.53.40.197)
-X-EXCLAIMER-MD-CONFIG: 2c86f778-e09b-4440-8b15-867914633a10
+In-Reply-To: <CAOQ4uxjDtA45nn4iT9LFbbavuGa=vMPQJFp7GOJHdqrst8y+1A@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Sep 12, 2021 at 02:22:34PM +0200, Eugene Syromiatnikov wrote:
-> Commit 2d151d39073a ("xfrm: Add possibility to set the default to block
-> if we have no policy") broke ABI by changing the value of the XFRM_MSG_MAPPING
-> enum item, thus also evading the build-time check
-> in security/selinux/nlmsgtab.c:selinux_nlmsg_lookup for presence of proper
-> security permission checks in nlmsg_xfrm_perms.  Fix it by placing
-> XFRM_MSG_SETDEFAULT/XFRM_MSG_GETDEFAULT to the end of the enum, right before
-> __XFRM_MSG_MAX, and updating the nlmsg_xfrm_perms accordingly.
+On Fri 03-09-21 07:16:33, Amir Goldstein wrote:
+> On Fri, Sep 3, 2021 at 12:24 AM Gabriel Krisman Bertazi
+> <krisman@collabora.com> wrote:
+> > Actually, I don't think this will work for insertion unless we keep a
+> > bounce buffer for the file_handle, because we need to keep the
+> > group->notification_lock to ensure the fee doesn't go away with the mark
+> > (since it is not yet enqueued) but, as discussed before, we don't want
+> > to hold that lock when generating the FH.
+> >
+> > I think the correct way is to have some sort of refcount of the error
+> > event slot.  We could use err_count for that and change the suggestion
+> > above to:
+> >
+> > if (mark->flags & FANOTIFY_MARK_FLAG_SB_MARK) {
+> >         struct fanotify_sb_mark *fa_mark = FANOTIFY_SB_MARK(mark);
+> >
+> >         spin_lock(&group->notification_lock);
+> >         if (fa_mark->fee_slot) {
+> >                 if (!fee->err_count) {
+> >                         kfree(fa_mark->fee_slot);
+> >                         fa_mark->fee_slot = NULL;
+> >                 } else {
+> >                         fa_mark->fee_slot->mark_alive = 0;
+> >                 }
+> >         }
+> >         spin_unlock(&group->notification_lock);
+> > }
+> >
+> > And insertion would look like this:
+> >
+> > static int fanotify_handle_error_event(....) {
+> >
+> >         spin_lock(&group->notification_lock);
+> >
+> >         if (!mark->fee || (mark->fee->err_count++) {
+> >                 spin_unlock(&group->notification_lock);
+> >                 return 0;
+> >         }
+> >
+> >         spin_unlock(&group->notification_lock);
+> >
+> >         mark->fee->fae.type = FANOTIFY_EVENT_TYPE_FS_ERROR;
+> >
+> >         /* ... Write report data to error event ... */
+> >
+> >         fanotify_encode_fh(&fee->object_fh, fanotify_encode_fh_len(inode),
+> >                            NULL, 0);
+> >
+> >         fsnotify_add_event(group, &fee->fae.fse, NULL);
+> >    }
+> >
+> > Unless you think this is too hack-ish.
+> >
+> > To be fair, I think it is hack-ish.
 > 
-> Fixes: 2d151d39073a ("xfrm: Add possibility to set the default to block if we have no policy")
-> References: https://lore.kernel.org/netdev/20210901151402.GA2557@altlinux.org/
-> Signed-off-by: Eugene Syromiatnikov <esyr@redhat.com>
+> Actually, I wouldn't mind the hack-ish-ness if it would simplify things,
+> but I do not see how this is the case here.
+> I still cannot wrap my head around the semantics, which is a big red light.
+> First of all a suggestion should start with the lifetime rules:
+> - Possible states
+> - State transition rules
+> 
+> Speaking for myself, I simply cannot review a proposal without these
+> documented rules.
 
-Applied, thanks a lot Eugene!
+Hum, getting back up to speed on this after vacation is tough which
+suggests maybe we've indeed overengineered this :) So let's try to simplify
+things.
+
+> > I would add a proper refcount_t
+> > to the error event, and let the mark own a reference to it, which is
+> > dropped when the mark goes away.  Enqueue and Dequeue will acquire and
+> > drop references, respectively. In this case, err_count is not
+> > overloaded.
+> >
+> > Will it work?
+> 
+> Maybe, I still don't see the full picture, but if this can get us to a state
+> where error events handling is simpler then it's a good idea.
+> Saving the space of refcount_t in error event struct is not important at all.
+> 
+> But if Jan's option #1 (mempool) brings us to less special casing
+> of enqueue/dequeue of error events, then I think that would be
+> my preference.
+
+Yes, I think mempools would result in a simpler code overall (the
+complexity of recycling events would be handled by mempool for us). Maybe
+we would not even need to play tricks with mempool resizing? We could just
+make sure it has couple of events reserved and if it ever happens that
+mempool_alloc() cannot give us any event, we'd report queue overflow (like
+we already do for other event types if that happens). I think we could
+require that callers generating error events are in a context where GFP_NOFS
+allocation is OK - this should be achievable target for filesystems and
+allocation failures should be rare with such mask.
+
+									Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
