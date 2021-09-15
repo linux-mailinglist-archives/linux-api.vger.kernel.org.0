@@ -2,42 +2,42 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CEA4340C751
-	for <lists+linux-api@lfdr.de>; Wed, 15 Sep 2021 16:21:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1BDB40C73B
+	for <lists+linux-api@lfdr.de>; Wed, 15 Sep 2021 16:18:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237528AbhIOOVc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Sep 2021 10:21:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57800 "EHLO
+        id S237807AbhIOOTZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Sep 2021 10:19:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237755AbhIOOVb (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Sep 2021 10:21:31 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0045EC061764;
-        Wed, 15 Sep 2021 07:20:12 -0700 (PDT)
+        with ESMTP id S233819AbhIOOTK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Sep 2021 10:19:10 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AEE9C061575;
+        Wed, 15 Sep 2021 07:17:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:References:
+        d=infradead.org; s=desiato.20200630; h=Content-Type:MIME-Version:References:
         Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
         Content-ID:Content-Description:In-Reply-To;
-        bh=FIg7Q2J/vp2ylpBzJVo856CPHzZwuzD/X3i3oTcfYII=; b=SLQbYRAWNK3aiMluXohJrY3ekU
-        XZC5TgYBiC6VUNJx3EBRsJuIY2sA/Xs+A5FeIWDpw074kxtGlBM3heeafiGE7L/Ir8XCtMQ/E54T/
-        cHvAkZ1CYb25WISi+em6CazPmam27wiQEC1PhTA8hw8iZUU2K8+OsY+QcSq9x2imiQGBARB8ecZAu
-        yLsVfS+qWllgq1NUpkgZVQKmYaVuWCg5PAbnPNhsLd4avCEl4u2hsTZBLvaBkCOV0TdysnaKvjV8t
-        s7RR36d9xRx5o+JHi/2PxQtpJvGYiBIelIF/8JY7Ry815Ul+1nU0EiIReAi6bXopS1XE2c3A5mhfR
-        LP92nbTg==;
+        bh=okI2FK1N300YT0sokvHtq1dM4yskPwK72COTI7AEgXE=; b=hCKy1PJJ6Khpy8uofJWpBoGe+a
+        qwzXluoQaCs/5tjj1puxi1YK5VjnTQrGQTg2usfdDRm86FSTvmjRxGuZB91n6y/wm/HPj73P0qO5t
+        92VH9F1lmn0Xt510WVwtuNmC+v3jv6M4wOw513maxADrkyokf6QN2ebWKu/L5XpLKH2+OKB5s2/25
+        TMmFO7Zu/4rQPPgrP6y5vbnEtu92B9dW0asIbmcYM9L4IGx9bnOnuTOltBQKiglbYIdRxdxxjTAGH
+        4V7/s8WGA4FZKkmPWNATJQHFnkX6dVGTmkxgt/bfomAiCq1jYckNgpX+wrBDnv+hM7ChlyV5fzKYf
+        PhH+sGxw==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mQVj9-00Fk3k-F0; Wed, 15 Sep 2021 14:17:40 +0000
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mQVjA-003PU0-6P; Wed, 15 Sep 2021 14:17:32 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 1DB5B300BE6;
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 229B3300BFA;
         Wed, 15 Sep 2021 16:17:30 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-        id 0F9B1285DCA98; Wed, 15 Sep 2021 16:17:29 +0200 (CEST)
-Message-ID: <20210915141525.232684270@infradead.org>
+        id 12F4D28B2AE83; Wed, 15 Sep 2021 16:17:29 +0200 (CEST)
+Message-ID: <20210915141525.292466778@infradead.org>
 User-Agent: quilt/0.66
-Date:   Wed, 15 Sep 2021 16:07:20 +0200
+Date:   Wed, 15 Sep 2021 16:07:21 +0200
 From:   Peter Zijlstra <peterz@infradead.org>
 To:     andrealmeid@collabora.com, tglx@linutronix.de, mingo@redhat.com,
         dvhart@infradead.org, rostedt@goodmis.org, bigeasy@linutronix.de
@@ -45,7 +45,7 @@ Cc:     linux-kernel@vger.kernel.org, peterz@infradead.org,
         kernel@collabora.com, krisman@collabora.com,
         linux-api@vger.kernel.org, libc-alpha@sourceware.org,
         mtk.manpages@gmail.com, dave@stgolabs.net, arnd@arndb.de
-Subject: [PATCH 10/20] futex: Rename: hb_waiter_{inc,dec,pending}()
+Subject: [PATCH 11/20] futex: Rename: match_futex()
 References: <20210915140710.596174479@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -54,154 +54,122 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 In order to prepare introducing these symbols into the global
-namespace; rename them:
+namespace; rename:
 
-  s/hb_waiters_/futex_&/g
+  s/match_futex/futex_match/g
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 ---
- kernel/futex/core.c |   34 +++++++++++++++++-----------------
- 1 file changed, 17 insertions(+), 17 deletions(-)
+ kernel/futex/core.c |   24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
 --- a/kernel/futex/core.c
 +++ b/kernel/futex/core.c
-@@ -115,8 +115,8 @@
-  *     waiters--; (b)                        unlock(hash_bucket(futex));
+@@ -324,13 +324,13 @@ static struct futex_hash_bucket *futex_h
+ 
+ 
+ /**
+- * match_futex - Check whether two futex keys are equal
++ * futex_match - Check whether two futex keys are equal
+  * @key1:	Pointer to key1
+  * @key2:	Pointer to key2
   *
-  * Where (A) orders the waiters increment and the futex value read through
-- * atomic operations (see hb_waiters_inc) and where (B) orders the write
-- * to futex and the waiters read (see hb_waiters_pending()).
-+ * atomic operations (see futex_hb_waiters_inc) and where (B) orders the write
-+ * to futex and the waiters read (see futex_hb_waiters_pending()).
-  *
-  * This yields the following case (where X:=waiters, Y:=futex):
-  *
-@@ -272,7 +272,7 @@ late_initcall(fail_futex_debugfs);
- /*
-  * Reflects a new waiter being added to the waitqueue.
+  * Return 1 if two futex_keys are equal, 0 otherwise.
   */
--static inline void hb_waiters_inc(struct futex_hash_bucket *hb)
-+static inline void futex_hb_waiters_inc(struct futex_hash_bucket *hb)
+-static inline int match_futex(union futex_key *key1, union futex_key *key2)
++static inline int futex_match(union futex_key *key1, union futex_key *key2)
  {
- #ifdef CONFIG_SMP
- 	atomic_inc(&hb->waiters);
-@@ -287,14 +287,14 @@ static inline void hb_waiters_inc(struct
-  * Reflects a waiter being removed from the waitqueue by wakeup
-  * paths.
+ 	return (key1 && key2
+ 		&& key1->both.word == key2->both.word
+@@ -381,7 +381,7 @@ futex_setup_timer(ktime_t *time, struct
+  * a new sequence number and will _NOT_ match, even though it is the exact same
+  * file.
+  *
+- * It is important that match_futex() will never have a false-positive, esp.
++ * It is important that futex_match() will never have a false-positive, esp.
+  * for PI futexes that can mess up the state. The above argues that false-negatives
+  * are only possible for malformed programs.
   */
--static inline void hb_waiters_dec(struct futex_hash_bucket *hb)
-+static inline void futex_hb_waiters_dec(struct futex_hash_bucket *hb)
- {
- #ifdef CONFIG_SMP
- 	atomic_dec(&hb->waiters);
- #endif
- }
+@@ -648,7 +648,7 @@ struct futex_q *futex_top_waiter(struct
+ 	struct futex_q *this;
  
--static inline int hb_waiters_pending(struct futex_hash_bucket *hb)
-+static inline int futex_hb_waiters_pending(struct futex_hash_bucket *hb)
- {
- #ifdef CONFIG_SMP
- 	/*
-@@ -723,7 +723,7 @@ static void __futex_unqueue(struct futex
- 
- 	hb = container_of(q->lock_ptr, struct futex_hash_bucket, lock);
- 	plist_del(&q->list, &hb->chain);
--	hb_waiters_dec(hb);
-+	futex_hb_waiters_dec(hb);
- }
- 
- /*
-@@ -802,7 +802,7 @@ int futex_wake(u32 __user *uaddr, unsign
- 	hb = futex_hash(&key);
- 
- 	/* Make sure we really have tasks to wakeup */
--	if (!hb_waiters_pending(hb))
-+	if (!futex_hb_waiters_pending(hb))
- 		return ret;
- 
- 	spin_lock(&hb->lock);
-@@ -979,8 +979,8 @@ void requeue_futex(struct futex_q *q, st
- 	 */
- 	if (likely(&hb1->chain != &hb2->chain)) {
- 		plist_del(&q->list, &hb1->chain);
--		hb_waiters_dec(hb1);
--		hb_waiters_inc(hb2);
-+		futex_hb_waiters_dec(hb1);
-+		futex_hb_waiters_inc(hb2);
- 		plist_add(&q->list, &hb2->chain);
- 		q->lock_ptr = &hb2->lock;
+ 	plist_for_each_entry(this, &hb->chain, list) {
+-		if (match_futex(&this->key, key))
++		if (futex_match(&this->key, key))
+ 			return this;
  	}
-@@ -1341,7 +1341,7 @@ int futex_requeue(u32 __user *uaddr1, un
- 	hb2 = futex_hash(&key2);
+ 	return NULL;
+@@ -808,7 +808,7 @@ int futex_wake(u32 __user *uaddr, unsign
+ 	spin_lock(&hb->lock);
  
- retry_private:
--	hb_waiters_inc(hb2);
-+	futex_hb_waiters_inc(hb2);
- 	double_lock_hb(hb1, hb2);
+ 	plist_for_each_entry_safe(this, next, &hb->chain, list) {
+-		if (match_futex (&this->key, &key)) {
++		if (futex_match (&this->key, &key)) {
+ 			if (this->pi_state || this->rt_waiter) {
+ 				ret = -EINVAL;
+ 				break;
+@@ -928,7 +928,7 @@ int futex_wake_op(u32 __user *uaddr1, un
+ 	}
  
- 	if (likely(cmpval != NULL)) {
-@@ -1351,7 +1351,7 @@ int futex_requeue(u32 __user *uaddr1, un
+ 	plist_for_each_entry_safe(this, next, &hb1->chain, list) {
+-		if (match_futex (&this->key, &key1)) {
++		if (futex_match (&this->key, &key1)) {
+ 			if (this->pi_state || this->rt_waiter) {
+ 				ret = -EINVAL;
+ 				goto out_unlock;
+@@ -942,7 +942,7 @@ int futex_wake_op(u32 __user *uaddr1, un
+ 	if (op_ret > 0) {
+ 		op_ret = 0;
+ 		plist_for_each_entry_safe(this, next, &hb2->chain, list) {
+-			if (match_futex (&this->key, &key2)) {
++			if (futex_match (&this->key, &key2)) {
+ 				if (this->pi_state || this->rt_waiter) {
+ 					ret = -EINVAL;
+ 					goto out_unlock;
+@@ -1199,7 +1199,7 @@ futex_proxy_trylock_atomic(u32 __user *p
+ 		return -EINVAL;
  
- 		if (unlikely(ret)) {
- 			double_unlock_hb(hb1, hb2);
--			hb_waiters_dec(hb2);
-+			futex_hb_waiters_dec(hb2);
+ 	/* Ensure we requeue to the expected futex. */
+-	if (!match_futex(top_waiter->requeue_pi_key, key2))
++	if (!futex_match(top_waiter->requeue_pi_key, key2))
+ 		return -EINVAL;
  
- 			ret = get_user(curval, uaddr1);
- 			if (ret)
-@@ -1437,7 +1437,7 @@ int futex_requeue(u32 __user *uaddr1, un
- 		 */
- 		case -EFAULT:
- 			double_unlock_hb(hb1, hb2);
--			hb_waiters_dec(hb2);
-+			futex_hb_waiters_dec(hb2);
- 			ret = fault_in_user_writeable(uaddr2);
- 			if (!ret)
- 				goto retry;
-@@ -1451,7 +1451,7 @@ int futex_requeue(u32 __user *uaddr1, un
- 			 * - EAGAIN: The user space value changed.
- 			 */
- 			double_unlock_hb(hb1, hb2);
--			hb_waiters_dec(hb2);
-+			futex_hb_waiters_dec(hb2);
- 			/*
- 			 * Handle the case where the owner is in the middle of
- 			 * exiting. Wait for the exit to complete otherwise
-@@ -1570,7 +1570,7 @@ int futex_requeue(u32 __user *uaddr1, un
- out_unlock:
- 	double_unlock_hb(hb1, hb2);
- 	wake_up_q(&wake_q);
--	hb_waiters_dec(hb2);
-+	futex_hb_waiters_dec(hb2);
- 	return ret ? ret : task_count;
- }
- 
-@@ -1600,7 +1600,7 @@ struct futex_hash_bucket *futex_q_lock(s
- 	 * decrement the counter at futex_q_unlock() when some error has
- 	 * occurred and we don't end up adding the task to the list.
+ 	/* Ensure that this does not race against an early wakeup */
+@@ -1334,7 +1334,7 @@ int futex_requeue(u32 __user *uaddr1, un
+ 	 * The check above which compares uaddrs is not sufficient for
+ 	 * shared futexes. We need to compare the keys:
  	 */
--	hb_waiters_inc(hb); /* implies smp_mb(); (A) */
-+	futex_hb_waiters_inc(hb); /* implies smp_mb(); (A) */
+-	if (requeue_pi && match_futex(&key1, &key2))
++	if (requeue_pi && futex_match(&key1, &key2))
+ 		return -EINVAL;
  
- 	q->lock_ptr = &hb->lock;
+ 	hb1 = futex_hash(&key1);
+@@ -1469,7 +1469,7 @@ int futex_requeue(u32 __user *uaddr1, un
+ 		if (task_count - nr_wake >= nr_requeue)
+ 			break;
  
-@@ -1612,7 +1612,7 @@ void futex_q_unlock(struct futex_hash_bu
- 	__releases(&hb->lock)
- {
- 	spin_unlock(&hb->lock);
--	hb_waiters_dec(hb);
-+	futex_hb_waiters_dec(hb);
- }
+-		if (!match_futex(&this->key, &key1))
++		if (!futex_match(&this->key, &key1))
+ 			continue;
  
- void __futex_queue(struct futex_q *q, struct futex_hash_bucket *hb)
-@@ -1942,7 +1942,7 @@ int handle_early_requeue_pi_wakeup(struc
- 	 * Unqueue the futex_q and determine which it was.
+ 		/*
+@@ -1496,7 +1496,7 @@ int futex_requeue(u32 __user *uaddr1, un
+ 		}
+ 
+ 		/* Ensure we requeue to the expected futex for requeue_pi. */
+-		if (!match_futex(this->requeue_pi_key, &key2)) {
++		if (!futex_match(this->requeue_pi_key, &key2)) {
+ 			ret = -EINVAL;
+ 			break;
+ 		}
+@@ -2043,7 +2043,7 @@ int futex_wait_requeue_pi(u32 __user *ua
+ 	 * The check above which compares uaddrs is not sufficient for
+ 	 * shared futexes. We need to compare the keys:
  	 */
- 	plist_del(&q->list, &hb->chain);
--	hb_waiters_dec(hb);
-+	futex_hb_waiters_dec(hb);
- 
- 	/* Handle spurious wakeups gracefully */
- 	ret = -EWOULDBLOCK;
+-	if (match_futex(&q.key, &key2)) {
++	if (futex_match(&q.key, &key2)) {
+ 		futex_q_unlock(hb);
+ 		ret = -EINVAL;
+ 		goto out;
 
 
