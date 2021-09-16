@@ -2,59 +2,102 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D05B40D214
-	for <lists+linux-api@lfdr.de>; Thu, 16 Sep 2021 05:39:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 438E440D237
+	for <lists+linux-api@lfdr.de>; Thu, 16 Sep 2021 06:10:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232217AbhIPDkv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Sep 2021 23:40:51 -0400
-Received: from dkpb0ek.cn ([106.75.27.222]:58620 "EHLO dkpb0ek.cn"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229471AbhIPDkv (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 15 Sep 2021 23:40:51 -0400
-X-Greylist: delayed 550 seconds by postgrey-1.27 at vger.kernel.org; Wed, 15 Sep 2021 23:40:51 EDT
-Received: from mnj (unknown [122.226.180.195])
-        by dkpb0ek.cn (Postfix) with ESMTPA id 71A35336B033
-        for <linux-api@vger.kernel.org>; Thu, 16 Sep 2021 11:28:23 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dkpb0ek.cn; s=default;
-        t=1631762903;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=FxnaP1pynOYhMUHa1+7gwlgB4KASZLwQyR2BJW/kG+g=;
-        b=L0Ffq03s6+idfOKcyXIjV/nPrGRG4tvupGNNgykyk+3v8rzywP02o9IYJZKxQXJeqRscH3
-        5zK2RG4gyDHQbCAaS8gm8LM3amyj3dOVQNtGij9BjnoPWIdHbRb2XAAonAGZ49PaJWc79g
-        6XwlUaGUhtHXez7Q0FeYSmLai2d1LTo=
-Message-ID: <20210916112823245042@dkpb0ek.cn>
-From:   =?utf-8?B?RVRD44K144O844OT44K5?= <etc-update@dkpb0ek.cn>
-To:     <linux-api@vger.kernel.org>
-Subject: =?utf-8?B?RVRD44K144O844OT44K5?=
-Date:   Thu, 16 Sep 2021 11:28:09 +0800
+        id S229521AbhIPELw convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Thu, 16 Sep 2021 00:11:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47950 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229463AbhIPELv (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Sep 2021 00:11:51 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0530C061574;
+        Wed, 15 Sep 2021 21:10:31 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2a00:5f00:102:0:f4d2:afff:fe2b:18b5])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: krisman)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 161211F435AC;
+        Thu, 16 Sep 2021 05:10:28 +0100 (BST)
+From:   Gabriel Krisman Bertazi <krisman@collabora.com>
+To:     =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@collabora.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        kernel@collabora.com, linux-api@vger.kernel.org,
+        libc-alpha@sourceware.org, mtk.manpages@gmail.com,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH v3 2/6] futex2: Implement vectorized wait
+Organization: Collabora
+References: <20210913175249.81074-1-andrealmeid@collabora.com>
+        <20210913175249.81074-3-andrealmeid@collabora.com>
+        <875yv4ge83.fsf@collabora.com>
+        <58536544-e032-1954-ce30-d131869dc95e@collabora.com>
+Date:   Thu, 16 Sep 2021 00:10:25 -0400
+In-Reply-To: <58536544-e032-1954-ce30-d131869dc95e@collabora.com>
+ (=?utf-8?Q?=22Andr=C3=A9?=
+        Almeida"'s message of "Tue, 14 Sep 2021 14:18:58 -0300")
+Message-ID: <8735q5dutq.fsf@collabora.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: base64
-X-mailer: Lpf 1
-X-Spam: Yes
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-RVRD44K144O844OT44K544KS44GU5Yip55So44Gu44GK5a6i5qeYOg0KDQpFVEPjgrXjg7zjg5Pj
-grnjga/nhKHlirnjgavjgarjgorjgb7jgZfjgZ/jgIINCuW8leOBjee2muOBjeOCteODvOODk+OC
-ueOCkuOBlOWIqeeUqOOBhOOBn+OBoOOBjeOBn+OBhOWgtOWQiOOBr+OAgeS4i+iomOODquODs+OC
-r+OCiOOCiuips+e0sOOCkuOBlOeiuuiqjeOBj+OBoOOBleOBhOOAgg0KDQrkuIvoqJjjga7mjqXn
-tprjgYvjgonlgZzmraLljp/lm6DjgpLnorroqo3jgZfjgabjgY/jgaDjgZXjgYQNCg0KaHR0cHM6
-Ly9ldGMtbWVpc2FpLmpwLmZuLWluZm8udG9wLw0KDQoo55u05o6l44Ki44Kv44K744K544Gn44GN
-44Gq44GE5aC05ZCI44Gv44CB5omL5YuV44Gn44OW44Op44Km44K244Gr44Kz44OU44O844GX44Gm
-6ZaL44GE44Gm44GP44Gg44GV44GEKQ0KDQrigLvjgZPjga7jg6Hjg7zjg6vjga/pgIHkv6HlsILn
-lKjjgafjgZnjgIINCuOAgOOBk+OBruOCouODieODrOOCueOBq+mAgeS/oeOBhOOBn+OBoOOBhOOB
-puOCgui/lOS/oeOBhOOBn+OBl+OBi+OBreOBvuOBmeOBruOBp+OAgeOBguOCieOBi+OBmOOCgeOB
-lOS6huaJv+mhmOOBhOOBvuOBmeOAgg0K4oC744Gq44GK44CB44GU5LiN5piO44Gq54K544Gr44Gk
-44GN44G+44GX44Gm44Gv44CB44GK5omL5pWw44Gn44GZ44GM44CBDQogIEVUQ+OCteODvOODk+OC
-ueS6i+WLmeWxgOOBq+OBiuWVj+OBhOWQiOOCj+OBm+OBj+OBoOOBleOBhOOAgg0KDQrilqBFVEPl
-iKnnlKjnhafkvJrjgrXjg7zjg5Pjgrnkuovli5nlsYANCuW5tOS4reeEoeS8keOAgDk6MDDvvZ4x
-ODowMA0K44OK44OT44OA44Kk44Ok44Or44CAMDU3MC0wMTAxMzkNCu+8iOODiuODk+ODgOOCpOOD
-pOODq+OBjOOBlOWIqeeUqOOBhOOBn+OBoOOBkeOBquOBhOOBiuWuouOBleOBvuOAgDA0NS03NDQt
-MTM3Mu+8iQ0KMDQ1LTc0NC01NzUNCg==
+André Almeida <andrealmeid@collabora.com> writes:
 
+>>> +/**
+>>> + * struct futex_waitv - A waiter for vectorized wait
+>>> + * @val:	Expected value at uaddr
+>>> + * @uaddr:	User address to wait on
+>>> + * @flags:	Flags for this waiter
+>>> + * @__reserved:	Reserved member to preserve data alignment. Should be 0.
+>>> + */
+>>> +struct futex_waitv {
+>>> +	__u64 val;
+>>> +	__u64 uaddr;
+>>> +	__u32 flags;
+>>> +	__u32 __reserved;
+>>> +};
+>> 
+>> why force uaddr  to be __u64, even for 32-bit?  uaddr could be a (void*) for
+>> all we care, no?  Also, by adding a reserved field, you are wasting 32
+>> bits even on 32-bit architectures.
+>> 
+>
+> We do that to make the structure layout compatible with both entry
+> points, remove the need for special cast and duplicated code, as
+> suggested by Thomas and Arnd:
+>
+> https://lore.kernel.org/lkml/87v94310gm.ffs@tglx/
+>
+> https://lore.kernel.org/lkml/CAK8P3a0MO1qJLRkCH8KrZ3+=L66KOsMRmcbrUvYdMoKykdKoyQ@mail.gmail.com/
 
+I find this weird.  I'm not even juts talking about compat, but even on
+native 32-bit. But also, 32 applications on 64, which is a big use
+case for games.
+
+The structure is mandating a 64 bit uaddr field and has an unnecessary
+pad.  You are wasting 20% of the space, which is gonna be elements of a
+vector coming from user space.  Worst case, you are doing copy_from_user
+of an extra 1k bytes in the critical path of futex_waitv for no good
+reason.
+
+Also, if I understand correctly, Arnd suggestion, at least, was to have
+two parser functions and a single syscall entry point, that would do the
+translation:
+
+if (in_compat_syscall())
+   futex_parse_waitv_compat(futexv, waiters, nr_futexes);
+else
+   futex_parse_waitv(futexv, waiters, nr_futexes);
+
+-- 
+Gabriel Krisman Bertazi
