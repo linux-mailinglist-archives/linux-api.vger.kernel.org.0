@@ -2,78 +2,59 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 032BE40CD07
-	for <lists+linux-api@lfdr.de>; Wed, 15 Sep 2021 21:12:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D05B40D214
+	for <lists+linux-api@lfdr.de>; Thu, 16 Sep 2021 05:39:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231331AbhIOTNz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Sep 2021 15:13:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41132 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230230AbhIOTNz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Sep 2021 15:13:55 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B3DFC061574;
-        Wed, 15 Sep 2021 12:12:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=FhF5ZEUfgtRm0W8Km2DWenQUkdHHR5Cd4JcveZESDfQ=; b=VHRzgjaQjFEk4mLIFinoi1c2Sk
-        GmyHxKZnMqs6KiQsGqEHuig15rcLVGccWq4rMoxdzfv7CInmVLrKhxIjxONTQfD8Ms9uGxK2iJa9q
-        i4chkJ9DbDCZ84rNuXjUoKAFfRt7jKmfLj4j1O/DYumJ95cAfk7d5qTQH3eWugN4/JJasXjUBGIPO
-        3gs3/n2LCoe2qvDlpTYNrK2/ZnEpF7cT4bFfTptjw5CtS7EFNx6RKk5xyyaYq6Lu/cN/Or1wbPdF7
-        Xiw7n917xLS293xtCWDVK8djzZwuLEysQti/wEj42oH3qoaAgPoZPbBQgc72Ez97tVkMIHWh3TrtJ
-        n+I2kzZQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mQaIa-003STh-1v; Wed, 15 Sep 2021 19:11:01 +0000
-Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id F3B419811C0; Wed, 15 Sep 2021 21:10:23 +0200 (CEST)
-Date:   Wed, 15 Sep 2021 21:10:23 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Jann Horn <jannh@google.com>, Peter Oskolkov <posk@google.com>,
-        Peter Oskolkov <posk@posk.io>, Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Paul Turner <pjt@google.com>, Ben Segall <bsegall@google.com>,
-        Andrei Vagin <avagin@google.com>,
-        Thierry Delisle <tdelisle@uwaterloo.ca>
-Subject: Re: [PATCH 2/4 v0.5] sched/umcg: RFC: add userspace atomic helpers
-Message-ID: <20210915191023.GF4323@worktop.programming.kicks-ass.net>
-References: <20210908184905.163787-1-posk@google.com>
- <20210908184905.163787-3-posk@google.com>
- <CAG48ez2LyLNkH4iVbeKJUuH=oh57WECkKYCW+G9mtheoh7Fsvg@mail.gmail.com>
- <CAPNVh5eaW7r_Nv-wHEyxQiFkXngmONwPyZSFvtTEhk3TxJ+iMA@mail.gmail.com>
- <CAG48ez0mgCXpXnqAUsa0TcFBPjrid-74Gj=xG8HZqj2n+OPoKw@mail.gmail.com>
- <d656e605-4f89-4ea2-8baf-f7786f0630d9@www.fastmail.com>
- <YUDlzxLjNsW+oYGC@hirez.programming.kicks-ass.net>
- <f6fdecfe-963d-4669-ae05-1d7192467a19@www.fastmail.com>
- <YUIUWs9pIfHh51lP@hirez.programming.kicks-ass.net>
- <CALCETrUnnHN0dyx02ewuRu=_TZ+cD=HaEzNs34ADNbWps1tTBw@mail.gmail.com>
+        id S232217AbhIPDkv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Sep 2021 23:40:51 -0400
+Received: from dkpb0ek.cn ([106.75.27.222]:58620 "EHLO dkpb0ek.cn"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229471AbhIPDkv (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 15 Sep 2021 23:40:51 -0400
+X-Greylist: delayed 550 seconds by postgrey-1.27 at vger.kernel.org; Wed, 15 Sep 2021 23:40:51 EDT
+Received: from mnj (unknown [122.226.180.195])
+        by dkpb0ek.cn (Postfix) with ESMTPA id 71A35336B033
+        for <linux-api@vger.kernel.org>; Thu, 16 Sep 2021 11:28:23 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dkpb0ek.cn; s=default;
+        t=1631762903;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=FxnaP1pynOYhMUHa1+7gwlgB4KASZLwQyR2BJW/kG+g=;
+        b=L0Ffq03s6+idfOKcyXIjV/nPrGRG4tvupGNNgykyk+3v8rzywP02o9IYJZKxQXJeqRscH3
+        5zK2RG4gyDHQbCAaS8gm8LM3amyj3dOVQNtGij9BjnoPWIdHbRb2XAAonAGZ49PaJWc79g
+        6XwlUaGUhtHXez7Q0FeYSmLai2d1LTo=
+Message-ID: <20210916112823245042@dkpb0ek.cn>
+From:   =?utf-8?B?RVRD44K144O844OT44K5?= <etc-update@dkpb0ek.cn>
+To:     <linux-api@vger.kernel.org>
+Subject: =?utf-8?B?RVRD44K144O844OT44K5?=
+Date:   Thu, 16 Sep 2021 11:28:09 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALCETrUnnHN0dyx02ewuRu=_TZ+cD=HaEzNs34ADNbWps1tTBw@mail.gmail.com>
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: base64
+X-mailer: Lpf 1
+X-Spam: Yes
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Sep 15, 2021 at 09:50:41AM -0700, Andy Lutomirski wrote:
-> What's the precise problem?  The code would be roughly:
-> 
-> if (try_pin_the_page) {
->   write it;
->   unpin;
-> } else {
->   do nothing -- .fault will fill in the correct contents.
-> }
-> 
-> The time this takes is nondeterministic, but it's bounded and short.
+RVRD44K144O844OT44K544KS44GU5Yip55So44Gu44GK5a6i5qeYOg0KDQpFVEPjgrXjg7zjg5Pj
+grnjga/nhKHlirnjgavjgarjgorjgb7jgZfjgZ/jgIINCuW8leOBjee2muOBjeOCteODvOODk+OC
+ueOCkuOBlOWIqeeUqOOBhOOBn+OBoOOBjeOBn+OBhOWgtOWQiOOBr+OAgeS4i+iomOODquODs+OC
+r+OCiOOCiuips+e0sOOCkuOBlOeiuuiqjeOBj+OBoOOBleOBhOOAgg0KDQrkuIvoqJjjga7mjqXn
+tprjgYvjgonlgZzmraLljp/lm6DjgpLnorroqo3jgZfjgabjgY/jgaDjgZXjgYQNCg0KaHR0cHM6
+Ly9ldGMtbWVpc2FpLmpwLmZuLWluZm8udG9wLw0KDQoo55u05o6l44Ki44Kv44K744K544Gn44GN
+44Gq44GE5aC05ZCI44Gv44CB5omL5YuV44Gn44OW44Op44Km44K244Gr44Kz44OU44O844GX44Gm
+6ZaL44GE44Gm44GP44Gg44GV44GEKQ0KDQrigLvjgZPjga7jg6Hjg7zjg6vjga/pgIHkv6HlsILn
+lKjjgafjgZnjgIINCuOAgOOBk+OBruOCouODieODrOOCueOBq+mAgeS/oeOBhOOBn+OBoOOBhOOB
+puOCgui/lOS/oeOBhOOBn+OBl+OBi+OBreOBvuOBmeOBruOBp+OAgeOBguOCieOBi+OBmOOCgeOB
+lOS6huaJv+mhmOOBhOOBvuOBmeOAgg0K4oC744Gq44GK44CB44GU5LiN5piO44Gq54K544Gr44Gk
+44GN44G+44GX44Gm44Gv44CB44GK5omL5pWw44Gn44GZ44GM44CBDQogIEVUQ+OCteODvOODk+OC
+ueS6i+WLmeWxgOOBq+OBiuWVj+OBhOWQiOOCj+OBm+OBj+OBoOOBleOBhOOAgg0KDQrilqBFVEPl
+iKnnlKjnhafkvJrjgrXjg7zjg5Pjgrnkuovli5nlsYANCuW5tOS4reeEoeS8keOAgDk6MDDvvZ4x
+ODowMA0K44OK44OT44OA44Kk44Ok44Or44CAMDU3MC0wMTAxMzkNCu+8iOODiuODk+ODgOOCpOOD
+pOODq+OBjOOBlOWIqeeUqOOBhOOBn+OBoOOBkeOBquOBhOOBiuWuouOBleOBvuOAgDA0NS03NDQt
+MTM3Mu+8iQ0KMDQ1LTc0NC01NzUNCg==
 
-You can't do this from sched_submit_work(), you might already hold
-mmap_sem. Hence the suggestion to, for UMCG registered threads, pin the
-page(s) on syscall-enter and unpin on either schedule() or
-syscall-return.
 
