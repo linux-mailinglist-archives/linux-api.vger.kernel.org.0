@@ -2,62 +2,48 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DBEFB40EA4D
-	for <lists+linux-api@lfdr.de>; Thu, 16 Sep 2021 20:55:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB73240F148
+	for <lists+linux-api@lfdr.de>; Fri, 17 Sep 2021 06:26:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344595AbhIPS4U (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 16 Sep 2021 14:56:20 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:57492 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345117AbhIPS4E (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Sep 2021 14:56:04 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: tonyk)
-        with ESMTPSA id E6F371F44239
-Message-ID: <ea73969e-529f-b1af-9d47-ccaf0696ff0f@collabora.com>
-Date:   Thu, 16 Sep 2021 15:54:32 -0300
+        id S244612AbhIQE2K convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Fri, 17 Sep 2021 00:28:10 -0400
+Received: from gw.math.univ-paris13.fr ([194.254.165.1]:5973 "EHLO
+        obelix.math.univ-paris13.fr" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S244266AbhIQE2J (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 17 Sep 2021 00:28:09 -0400
+Received: from DESKTOP-AH5A7AN.home (unknown [45.135.187.135])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: landoulsi)
+        by obelix.math.univ-paris13.fr (Postfix) with ESMTPSA id 1B62F351E4;
+        Fri, 17 Sep 2021 02:34:12 +0200 (CEST)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH 16/20] futex: Implement sys_futex_waitv()
-Content-Language: en-US
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>
-Cc:     dave@stgolabs.net, libc-alpha@sourceware.org, dvhart@infradead.org,
-        mingo@redhat.com, Paul Eggert <eggert@cs.ucla.edu>,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mtk.manpages@gmail.com, kernel@collabora.com,
-        krisman@collabora.com, rostedt@goodmis.org, bigeasy@linutronix.de,
-        Arnd Bergmann <arnd@arndb.de>
-References: <20210915140710.596174479@infradead.org>
- <20210915141525.621568509@infradead.org>
- <YUITUXbnzAK98DEl@hirez.programming.kicks-ass.net>
- <bdeb5453-e019-7c5b-1bf0-7a225401d358@cs.ucla.edu> <87tuika83y.ffs@tglx>
-From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
-In-Reply-To: <87tuika83y.ffs@tglx>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Re: Partnerskab
+To:     Recipients <assistant.sec@math.univ-paris13.fr>
+From:   "Dave Ramsden" <assistant.sec@math.univ-paris13.fr>
+Date:   Fri, 17 Sep 2021 01:34:08 +0100
+Reply-To: davdr1964@aol.com
+Message-Id: <20210917003412.1B62F351E4@obelix.math.univ-paris13.fr>
+X-LAGA-MailScanner-Information: Please contact the ISP for more information
+X-LAGA-MailScanner-ID: 1B62F351E4.A3663
+X-LAGA-MailScanner: Found to be clean
+X-LAGA-MailScanner-From: assistant.sec@math.univ-paris13.fr
+X-Spam-Status: No
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Ã€s 11:49 de 16/09/21, Thomas Gleixner escreveu:
-> On Wed, Sep 15 2021 at 10:34, Paul Eggert wrote:
-> 
->> On 9/15/21 8:37 AM, Peter Zijlstra wrote:
->>> I utterly detest timespec.. it makes no sense what so ever.
->>>
->>> Can't we just, for new syscalls, simply use a s64 nsec argument and call
->>> it a day?
->>
->> This would stop working in the year 2262. Not a good idea.
-> 
-> Make it u64 and it stops in 2552, i.e. 584 years from now which is
-> plenty. Lot's of the kernel internal timekeeping will stop working at
-> that point, so that interface is the least of my worries. And TBH, my
-> worries about the Y2552 problem are extremly close to zero.
-> 
-
-What do we win by using u64 instead of timespec?
-
-Or what's so bad about timespec?
+16. september 2021.
+ 
+Er du åben for en forretningsouverture, der er et betydeligt beløb værd? Efter modtagelse af din bekræftelse til denne mail, vil jeg afsløre detaljer om min hensigt i min næste side mail.
+ 
+Angiv din interesse for engelsk, hvis det er muligt, for bedre kommunikation.
+ 
+Venlig hilsen,
+Dave Ramsden
+E-mail: davdr1964@aol.com
+__________________________
+Sekretær: Rose Anderson
