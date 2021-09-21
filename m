@@ -2,81 +2,75 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 95AA041262A
-	for <lists+linux-api@lfdr.de>; Mon, 20 Sep 2021 20:54:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54D404133B1
+	for <lists+linux-api@lfdr.de>; Tue, 21 Sep 2021 15:04:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354251AbhITSyF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 20 Sep 2021 14:54:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38256 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1385955AbhITSwy (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 20 Sep 2021 14:52:54 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2F14861175
-        for <linux-api@vger.kernel.org>; Mon, 20 Sep 2021 18:37:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632163023;
-        bh=vQjBnhTwHmPMbbhl5uyt9zJIV9R7eGnAmOsYenFvtsk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=AGrJqMWLy5D8MwbrPjvH57/frMZS8S7h+L//qAV4bKFU+HlX8arcdT2Ob9ihnD8d2
-         xeoCik8ycGNmI+WAlLIMnk4UP/i8ZX2K4bXfLFOY9xvc7belpMuLi+LplsX0af9QXh
-         fi3HP54KCv36+hF/zA1NWiTlRgoHkgVSkGB5vfQSM/vJdBWnP2y43Z12j3DQjSHDWh
-         Pg2xpmi6uJHtCWRteGH62j/5mJA3PYQNZyfYqYdhbFF6RYh6f0c11cxQbIenKAO9zT
-         FrPQnqv4SezdW+iRpIg4NIXW0MEXCNMqXx80fJnEPY4W0qnZ349pBapAiS1DHTAKdJ
-         nQVijGdTYNzpg==
-Received: by mail-ed1-f44.google.com with SMTP id bx4so20456606edb.4
-        for <linux-api@vger.kernel.org>; Mon, 20 Sep 2021 11:37:03 -0700 (PDT)
-X-Gm-Message-State: AOAM533wNFuGDKBoGcFMF7J2dNBxPPoYybqyywQg4YBjrWwiEphbGSB/
-        s1Kza2PP6JMquiNvFyqq29s05//wy0vpwUWEvGz2Tg==
-X-Google-Smtp-Source: ABdhPJybR6N3U9WMW2cuE+TpvrIh2UZNl4YM1p+MlmtT3J1aFk/vnh+3IzRCGMqSBwkk5gktGNysKCQGbjYyhLubSuo=
-X-Received: by 2002:a17:906:2cd5:: with SMTP id r21mr30711354ejr.435.1632163021669;
- Mon, 20 Sep 2021 11:37:01 -0700 (PDT)
+        id S232850AbhIUNGK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 21 Sep 2021 09:06:10 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:53386 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232842AbhIUNGK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 21 Sep 2021 09:06:10 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id D69021FED6;
+        Tue, 21 Sep 2021 13:04:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1632229480; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=hl/MOmvXomLoOTDJpYFB1eX0OKjWBWw5KeY0f7BZBk8=;
+        b=DDAn3qOj3hI0wsKV+6nC7kwpEoKuHTKIVo5QpbT/czkSEyqcAejn81xt4A/suCV0oxFEmo
+        Cn0pouydQemRsd5QaLfWJwxS7TpPEqOzRGwkOr1NxIRaR9LnAwtCDmsgS/XIUHI0U0t4Mu
+        X++nb53QCf8CzcKprEebYeluK4pye/4=
+Received: from g78.suse.de (unknown [10.163.24.38])
+        by relay2.suse.de (Postfix) with ESMTP id BE194A3B85;
+        Tue, 21 Sep 2021 13:04:39 +0000 (UTC)
+From:   Richard Palethorpe <rpalethorpe@suse.com>
+To:     linux-fsdevel@vger.kernel.org
+Cc:     Richard Palethorpe <rpalethorpe@suse.com>,
+        linux-api@vger.kernel.org, linux-aio@kvack.org,
+        y2038@lists.linaro.org, Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Deepa Dinamani <deepa.kernel@gmail.com>,
+        linux-kernel@vger.kernel.org, ltp@lists.linux.it
+Subject: [PATCH] aio: Wire up compat_sys_io_pgetevents_time64 for x86
+Date:   Tue, 21 Sep 2021 14:01:27 +0100
+Message-Id: <20210921130127.24131-1-rpalethorpe@suse.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <705fde50-37a6-49ed-b9c2-c9107cd88189@t-8ch.de>
- <CALCETrUM0cko=5ki-Dd402DNFU2TmgnJTz_vfrsaofkGD-1kmA@mail.gmail.com>
- <20210916092719.v4pkhhugdiq7ytcp@wittgenstein> <2ebf1a9d-77d5-472b-a99a-b141654725da@www.fastmail.com>
- <6eff0e8a-4965-437d-9273-1d9d73892e1a@t-8ch.de> <CALCETrWA1TBvbknH1Jzt=newTd4sHzNFm0RPuRxazjuRQRsR7w@mail.gmail.com>
- <8cbf0703-5734-4e92-a6cc-12de69094f95@t-8ch.de> <YUi95tFDWS7oceYP@bombadil.infradead.org>
-In-Reply-To: <YUi95tFDWS7oceYP@bombadil.infradead.org>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Mon, 20 Sep 2021 11:36:47 -0700
-X-Gmail-Original-Message-ID: <CALCETrX9keVFxEZYUkKr7_dWb9Ubo9q4E2aTY_ZOWGSHyRph8g@mail.gmail.com>
-Message-ID: <CALCETrX9keVFxEZYUkKr7_dWb9Ubo9q4E2aTY_ZOWGSHyRph8g@mail.gmail.com>
-Subject: Re: [RFC] Expose request_module via syscall
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jessica Yu <jeyu@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Sep 20, 2021 at 11:16 AM Luis Chamberlain <mcgrof@kernel.org> wrote=
-:
->
-> On Mon, Sep 20, 2021 at 04:51:19PM +0200, Thomas Wei=C3=9Fschuh wrote:
+The LTP test io_pgetevents02 fails in 32bit compat mode because an
+nr_max of -1 appears to be treated as a large positive integer. This
+causes pgetevents_time64 to return an event. The test expects the call
+to fail and errno to be set to EINVAL.
 
-> > > Do you mean it literally invokes /sbin/modprobe?  If so, hooking this
-> > > at /sbin/modprobe and calling out to the container manager seems like
-> > > a decent solution.
-> >
-> > Yes it does. Thanks for the idea, I'll see how this works out.
->
-> Would documentation guiding you in that way have helped? If so
-> I welcome a patch that does just that.
+Using the compat syscall fixes the issue.
 
-If someone wants to make this classy, we should probably have the
-container counterpart of a standardized paravirt interface.  There
-should be a way for a container to, in a runtime-agnostic way, issue
-requests to its manager, and requesting a module by (name, Linux
-kernel version for which that name makes sense) seems like an
-excellent use of such an interface.
+Fixes: 7a35397f8c06 ("io_pgetevents: use __kernel_timespec")
+Signed-off-by: Richard Palethorpe <rpalethorpe@suse.com>
+---
+ arch/x86/entry/syscalls/syscall_32.tbl | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---Andy
+diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
+index 960a021d543e..0985d8333368 100644
+--- a/arch/x86/entry/syscalls/syscall_32.tbl
++++ b/arch/x86/entry/syscalls/syscall_32.tbl
+@@ -420,7 +420,7 @@
+ 412	i386	utimensat_time64	sys_utimensat
+ 413	i386	pselect6_time64		sys_pselect6			compat_sys_pselect6_time64
+ 414	i386	ppoll_time64		sys_ppoll			compat_sys_ppoll_time64
+-416	i386	io_pgetevents_time64	sys_io_pgetevents
++416	i386	io_pgetevents_time64	sys_io_pgetevents		compat_sys_io_pgetevents_time64
+ 417	i386	recvmmsg_time64		sys_recvmmsg			compat_sys_recvmmsg_time64
+ 418	i386	mq_timedsend_time64	sys_mq_timedsend
+ 419	i386	mq_timedreceive_time64	sys_mq_timedreceive
+-- 
+2.31.1
 
->
->   Luis
