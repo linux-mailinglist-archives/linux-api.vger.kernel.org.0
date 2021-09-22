@@ -2,131 +2,121 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A21F641454A
-	for <lists+linux-api@lfdr.de>; Wed, 22 Sep 2021 11:36:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E94774148C1
+	for <lists+linux-api@lfdr.de>; Wed, 22 Sep 2021 14:25:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234454AbhIVJhl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 22 Sep 2021 05:37:41 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:59657 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234321AbhIVJhk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 22 Sep 2021 05:37:40 -0400
-Received: from mail-wr1-f46.google.com ([209.85.221.46]) by
- mrelayeu.kundenserver.de (mreue011 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MvKGv-1mke2z2qrh-00rJOX; Wed, 22 Sep 2021 11:36:08 +0200
-Received: by mail-wr1-f46.google.com with SMTP id u18so4891243wrg.5;
-        Wed, 22 Sep 2021 02:36:08 -0700 (PDT)
-X-Gm-Message-State: AOAM533cNokXKeivlFWQu63N4hKhYioHpwbRhcJag3IFKL7DtZXHcL4H
-        HZhEKZ93HH6+ZISnH+FpQbO3jJiG5WhMB04iEic=
-X-Google-Smtp-Source: ABdhPJwsfHOtthBHhMYj7RntawREErl/gNXDh2elD51lflVYSeYX0WIWYL6DcBkNwC3VMpYByIJ66yyH/mg7lRlO9Aw=
-X-Received: by 2002:a1c:23cb:: with SMTP id j194mr9469852wmj.1.1632303368159;
- Wed, 22 Sep 2021 02:36:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210921130127.24131-1-rpalethorpe@suse.com> <CAK8P3a29ycNqOC_pD-UUtK37jK=Rz=nik=022Q1XtXr6-o6tuA@mail.gmail.com>
- <87o88mkor1.fsf@suse.de> <87lf3qkk72.fsf@suse.de> <87ilytkngp.fsf@suse.de>
-In-Reply-To: <87ilytkngp.fsf@suse.de>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 22 Sep 2021 11:35:51 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2S=a0aw8GY8fZxaU5fz7ZkdehtHgStkn2=u9gO28GVEw@mail.gmail.com>
-Message-ID: <CAK8P3a2S=a0aw8GY8fZxaU5fz7ZkdehtHgStkn2=u9gO28GVEw@mail.gmail.com>
-Subject: Re: ia32 signed long treated as x64 unsigned int by __ia32_sys*
-To:     rpalethorpe@suse.de
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
+        id S230171AbhIVM1A (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 22 Sep 2021 08:27:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40958 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235335AbhIVM1A (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 22 Sep 2021 08:27:00 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 443DF610A1;
+        Wed, 22 Sep 2021 12:25:28 +0000 (UTC)
+Date:   Wed, 22 Sep 2021 14:25:23 +0200
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Luis Chamberlain <mcgrof@kernel.org>,
+        Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
         Linux API <linux-api@vger.kernel.org>,
-        linux-aio <linux-aio@kvack.org>,
-        y2038 Mailman List <y2038@lists.linaro.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Deepa Dinamani <deepa.kernel@gmail.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        LTP List <ltp@lists.linux.it>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:E43EkxaNqQt7a2EM5CvjQOmodQJGkqkdhWvhc8juHYmhiMLs4Go
- IbW2+sxjzL/v+bC1TjAJuIAJkvdkRqWtshmTuomY7ZXc4o8TmFFU0jTFc/0kcBONtdpCpKJ
- pdAnuhXJ3zkNyIbgsEOVQsBVzc/mcKL19ZBTjVFljj4yr6sGgPYcxQEbZWvB5T4YGuZIcsP
- IWPoea3HhM7oHPTuEX28Q==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:xvRax+mwGJw=:F6N9qx/RxiNv53T3WxYNF+
- ESYy2Ly22uoI5wtNsnX1caZ8vLs0xTbPQ4mt6qhqT8uKdSH8xxS/Q9cSVzXpswJ1hbGAICua7
- 4FFj9lPkMO7M4hhObm/7JgNHYj1dw/OMC4RgtVijl3JvcUOe3pCefKawuXw9urpV3QDrjMXkl
- KsZv+rZ0PvgqfGy4gTFM4WT6UO+Mghzq3vbVGsL5gqix+/G45x4hmzSAtXkJx7mu1fyV1iXb7
- A18UV43st6++EZfGsNZdCY7qMzxBedGPKLCo7E2ENR8rvqJRmoNEhUGchijYbAs8Dp+Gc2rtM
- Ww1auVOXnUjJXnbDSxZI2PMtVl0Kc0HIqo0JCGKgB5qPxbRUBfXn6o2/aGl3YNSepJ5B20xHE
- kfM65QH2A9FzeJk6a5DcGq4/nDfR/1phOQomZY3SCQFs/ksPA4a7VPg7jmDw4cb2Flkf8ZYcK
- GR6CQmMTe9F48TKuuYStvKBmcbURkrSgVz5PoDZmIOsEk/3V7cG/2XTLqOkkI5A9wuKYhe/pi
- fQTw5Jj/HMTEB0VGWIamya1XPXm/EP8TAnjSzDN31OFOjqMHVw2LWkUUCtsYjNrPAkpueAoha
- Ne6Bp/jV4Fn+G3h0WDBeK8jnxVrYcScG9uDHzVED7GjQvZLcbBcmXR6pwdwkQvtbGPIXgXWTz
- S0UcmWsf10UTl/mnHamlBgUwa8SAkldmAEbAbrWbF3o4CzORYOp1rWRbX294qbEH2wEgQNvKu
- xodc0t9pS0FRSDkEKZ86rcJaWNDqy/0W9jVlRDnJDtoag94fh77LrJiVuAgy3RoQdTvzCeSMZ
- X8yacmFqIm4pPIvUd+h2OhxXovwiUOLSjnkTxq6hBgt+oneLkcRhjTh0VoyfxALHtlUC7mx40
- 9sJUWPo7OK4y1Mi8VoSg==
+        Jessica Yu <jeyu@kernel.org>
+Subject: Re: [RFC] Expose request_module via syscall
+Message-ID: <20210922122523.72ypzg4pm2x6nkod@wittgenstein>
+References: <705fde50-37a6-49ed-b9c2-c9107cd88189@t-8ch.de>
+ <CALCETrUM0cko=5ki-Dd402DNFU2TmgnJTz_vfrsaofkGD-1kmA@mail.gmail.com>
+ <20210916092719.v4pkhhugdiq7ytcp@wittgenstein>
+ <2ebf1a9d-77d5-472b-a99a-b141654725da@www.fastmail.com>
+ <6eff0e8a-4965-437d-9273-1d9d73892e1a@t-8ch.de>
+ <CALCETrWA1TBvbknH1Jzt=newTd4sHzNFm0RPuRxazjuRQRsR7w@mail.gmail.com>
+ <8cbf0703-5734-4e92-a6cc-12de69094f95@t-8ch.de>
+ <YUi95tFDWS7oceYP@bombadil.infradead.org>
+ <CALCETrX9keVFxEZYUkKr7_dWb9Ubo9q4E2aTY_ZOWGSHyRph8g@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALCETrX9keVFxEZYUkKr7_dWb9Ubo9q4E2aTY_ZOWGSHyRph8g@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Sep 22, 2021 at 10:46 AM Richard Palethorpe <rpalethorpe@suse.de> wrote:
-> Richard Palethorpe <rpalethorpe@suse.de> writes:
-
+On Mon, Sep 20, 2021 at 11:36:47AM -0700, Andy Lutomirski wrote:
+> On Mon, Sep 20, 2021 at 11:16 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
 > >
-> > Then the output is:
+> > On Mon, Sep 20, 2021 at 04:51:19PM +0200, Thomas Weißschuh wrote:
+> 
+> > > > Do you mean it literally invokes /sbin/modprobe?  If so, hooking this
+> > > > at /sbin/modprobe and calling out to the container manager seems like
+> > > > a decent solution.
+> > >
+> > > Yes it does. Thanks for the idea, I'll see how this works out.
 > >
-> > [   11.252268] io_pgetevents(f7f19000, 4294967295, 1, ...)
-> > [   11.252401] comparing 4294967295 <= 1
-> > io_pgetevents02.c:114: TPASS: invalid min_nr: io_pgetevents() failed as expected: EINVAL (22)
-> > [   11.252610] io_pgetevents(f7f19000, 1, 4294967295, ...)
-> > [   11.252748] comparing 1 <= 4294967295
-> > io_pgetevents02.c:103: TFAIL: invalid max_nr: io_pgetevents() passed unexpectedly
->
-> and below is the macro expansion for the automatically generated 32bit to
-> 64bit io_pgetevents. I believe it is casting u32 to s64, which appears
-> to mean there is no sign extension. I don't know if this is the expected
-> behaviour?
+> > Would documentation guiding you in that way have helped? If so
+> > I welcome a patch that does just that.
+> 
+> If someone wants to make this classy, we should probably have the
+> container counterpart of a standardized paravirt interface.  There
+> should be a way for a container to, in a runtime-agnostic way, issue
+> requests to its manager, and requesting a module by (name, Linux
+> kernel version for which that name makes sense) seems like an
+> excellent use of such an interface.
 
-Thank you for digging through this, I meant to already reply once more yesterday
-but didn't get around to that.
+I always thought of this in two ways we currently do this:
 
->     __typeof(__builtin_choose_expr(
->         (__builtin_types_compatible_p(typeof((long)0), typeof(0LL)) ||
->          __builtin_types_compatible_p(typeof((long)0), typeof(0ULL))),
->         0LL, 0L)) min_nr,
->     __typeof(__builtin_choose_expr(
->         (__builtin_types_compatible_p(typeof((long)0), typeof(0LL)) ||
->          __builtin_types_compatible_p(typeof((long)0), typeof(0ULL))),
->         0LL, 0L)) nr,
+1. Caller transparent container manager requests.
+   This is the seccomp notifier where we transparently handle syscalls
+   including intercepting init_module() where we parse out the module to
+   be loaded from the syscall args of the container and if it is
+   allow-listed load it for the container otherwise continue the syscall
+   letting it fail or failing directly through seccomp return value.
 
-The part that I remembered is in arch/s390/include/asm/syscall_wrapper.h,
-which uses this version instead:
+2. A process in the container explicitly calling out to the container
+   manager.
+   One example how this happens is systemd-nspawn via dbus messages
+   between systemd in the container and systemd outside the container to
+   e.g. allocate a new terminal in the container (kinda insecure but
+   that's another issue) or other stuff.
 
-#define __SC_COMPAT_CAST(t, a)                                          \
-({                                                                      \
-        long __ReS = a;                                                 \
-                                                                        \
-        BUILD_BUG_ON((sizeof(t) > 4) && !__TYPE_IS_L(t) &&              \
-                     !__TYPE_IS_UL(t) && !__TYPE_IS_PTR(t) &&           \
-                     !__TYPE_IS_LL(t));                                 \
-        if (__TYPE_IS_L(t))                                             \
-                __ReS = (s32)a;                                         \
-        if (__TYPE_IS_UL(t))                                            \
-                __ReS = (u32)a;                                         \
-        if (__TYPE_IS_PTR(t))                                           \
-                __ReS = a & 0x7fffffff;                                 \
-        if (__TYPE_IS_LL(t))                                            \
-                return -ENOSYS;                                         \
-        (t)__ReS;                                                       \
-})
+So what was your idea: would it be like a device file that could be
+exposed to the container where it writes requestes to the container
+manager? What would be the advantage to just standardizing a socket
+protocol which is what we do for example (it doesn't do module loading
+of course as we handle that differently):
 
-This also takes care of s390-specific pointer conversion, which is the
-reason for needing an architecture-specific wrapper, but I suppose the
-handling of signed arguments as done in s390 should also be done
-everywhere else.
+## Container to host communication
+LXD sets up a socket at `/dev/lxd/sock` which root in the container can
+use to communicate with LXD on the host.
 
-I also noticed that only x86 and s390 even have separate entry
-points for normal syscalls when called in compat mode, while
-the others all just zero the upper halves of the registers in the
-low-level entry code and then call the native entry point.
+In LXD, this feature is implemented through a /dev/lxd/sock node which
+is created and setup for all LXD instances.
 
-        Arnd
+This file is a Unix socket which processes inside the instance can
+connect to. It's multi-threaded so multiple clients can be connected at
+the same time.
+
+Implementation details
+LXD on the host binds /var/lib/lxd/devlxd/sock and starts listening for
+new connections on it.
+
+This socket is then exposed into every single instance started by LXD at
+/dev/lxd/sock.
+
+The single socket is required so we can exceed 4096 instances,
+otherwise, LXD would have to bind a different socket for every instance,
+quickly reaching the FD limit.
+
+Authentication
+Queries on /dev/lxd/sock will only return information related to the
+requesting instance. To figure out where a request comes from, LXD will
+extract the initial socket ucred and compare that to the list of
+instances it manages.
+
+Protocol
+The protocol on /dev/lxd/sock is plain-text HTTP with JSON messaging, so
+very similar to the local version of the LXD protocol.
+
+Unlike the main LXD API, there is no background operation and no
+authentication support in the /dev/lxd/sock API.
+
+Christian
