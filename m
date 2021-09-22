@@ -2,115 +2,180 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A5AC5415019
-	for <lists+linux-api@lfdr.de>; Wed, 22 Sep 2021 20:46:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 865B4415123
+	for <lists+linux-api@lfdr.de>; Wed, 22 Sep 2021 22:08:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237110AbhIVSr6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 22 Sep 2021 14:47:58 -0400
-Received: from esa.hc503-62.ca.iphmx.com ([216.71.135.51]:37169 "EHLO
-        esa.hc503-62.ca.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbhIVSr6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 22 Sep 2021 14:47:58 -0400
-X-Greylist: delayed 430 seconds by postgrey-1.27 at vger.kernel.org; Wed, 22 Sep 2021 14:47:57 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=uwaterloo.ca; i=@uwaterloo.ca; q=dns/txt; s=default;
-  t=1632336388; x=1663872388;
-  h=subject:to:cc:references:in-reply-to:from:message-id:
-   date:mime-version:content-transfer-encoding;
-  bh=v5kFGHXxXJ0RZ8ntYh31K9vkfTpEhCGFEcTqn2MiuNY=;
-  b=FKSEgWvEt3fJKVBjL+90D0+393OqOjvRUQjZEMl9fN+9K4ue0vEWyY4F
-   bf9LS+z7AX+HXIEE7UcQu+fN+Gj0ggWxjPoTvV8UN7073H8R4n9YKpgSB
-   NFXpwWZ2cweCXlsoLREDt2Rf6CV797Yx1dtWxpIllZ8Zp97+EEd18/Iih
-   M=;
-IronPort-Data: A9a23:GelqL6sv2p26iAIjwW0qpRr/UOfnVLFfMUV32f8akzHdYApBsoF/q
- tZmKW3QPf+MMGqhe9hyPoq+9UsO7JeByIdmGVdp+HoxEnhAgMeUXt7xwmUcns+xwm8vaGo9s
- q3yv/GZdJhcoln0+E/1atANilEjifrXLlbE5Wqt1hlZHWeIcg944f5Ys7N/0tMAbeSRWVvX4
- Iuj+ZeHYzdJ5hYtWo4qw/PSwP9QlKmq0N8olgRWiSdj5QK2e9E9VfrzFInpR5fKatA88t2SG
- 44v+IqEElbxpH/BPD8HfoHTKSXmSpaKVeSHZ+E/t6KK2nCurQRquko32WZ1he66RFxlkvgoo
- Oihu6BcRi8MZ5T+wtsNeiNYSRhxEp1Kwb7nOkiG5Jn7I03uKxMAwt1lC0cwPYhApqB8BmdI+
- PcEbi0SZwyOneaxx/SwQ4GAhOx6dpitbdxZ4Ckwi22CZRolacmrr6Hi+dNV2DYrgs1mAOnXe
- 8cDbT1oKh/JC/FKEg5HUchkxLzx7pX5WxlptQPEvPYZ30zs9FQpwLXDGvbvQNPfEK25mW7d/
- Aoq5V/RABgcMty3xj2C/XahwOTImEvTUZwbG7y+3vFth1KXyyoYDxh+fUO8uvqRhUm5VNZSb
- UcT/0IGp7M/+0WvSvHyWBq3pHPCtRkZM/JIEfES5waKxa7ZpQ2eAwAsSj9Hdcxjvdc3bSIl2
- 0XPnN7zAzFr9rqPRhq18raSsCP3OiUPK2IGTTELQBFD4NT5pow3yBXVQb5LDKGxnvXxGDft3
- yqNqikuwbke5eYO1qO0+njdjj6sr4SPRQkwji3PU36o9BFRZYirfYWk5FHXq/FaI+6xVl6av
- 1AcnNOdquEJZaxhjwSGR+MLEbq1oeuaOSHRm1poGN8q/lxB5kKeQGyZ2xkmTG8BDyrOUWa5C
- KMPkWu9PKNuAUY=
-Received: from connect.uwaterloo.ca (HELO connhm04.connect.uwaterloo.ca) ([129.97.208.43])
-  by ob1.hc503-62.ca.iphmx.com with ESMTP/TLS/AES256-GCM-SHA384; 22 Sep 2021 14:39:05 -0400
-Received: from [10.42.0.123] (10.32.225.138) by connhm04.connect.uwaterloo.ca
- (172.16.137.68) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Wed, 22
- Sep 2021 14:39:04 -0400
-Subject: Re: [PATCH 5/5 v0.6] sched/umcg: add
- Documentation/userspace-api/umcg.txt
-To:     Peter Oskolkov <posk@posk.io>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        <linux-kernel@vger.kernel.org>, <linux-api@vger.kernel.org>
-CC:     Paul Turner <pjt@google.com>, Ben Segall <bsegall@google.com>,
-        Peter Oskolkov <posk@google.com>,
-        Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>
-References: <20210917180323.278250-1-posk@google.com>
- <20210917180323.278250-6-posk@google.com>
-In-Reply-To: <20210917180323.278250-6-posk@google.com>
-From:   Thierry Delisle <tdelisle@uwaterloo.ca>
-Message-ID: <12eb2300-4a78-9e93-30a3-8e2ddba4693f@uwaterloo.ca>
-Date:   Wed, 22 Sep 2021 14:39:04 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.32.225.138]
-X-ClientProxiedBy: connhm03.connect.uwaterloo.ca (172.16.137.67) To
- connhm04.connect.uwaterloo.ca (172.16.137.68)
+        id S237892AbhIVUJj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 22 Sep 2021 16:09:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52886 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237792AbhIVUIn (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 22 Sep 2021 16:08:43 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F037D6120F;
+        Wed, 22 Sep 2021 20:07:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1632341232;
+        bh=EUDv/d1z0+Yk3qR9RCf+lUMDPezno7R23Coza2AStXw=;
+        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+        b=S+xED0a/uPB0/Xg5j1sgWSuL2K8cTZOmXac4v2rAGlAgLV4wxIZd9MZxxrEl+xdt2
+         bi67aJ7G2QhSzv+8oMAjgS4gPtXBraDGmPWUAiMYhsKc94/z0K19KdytTHjmY60She
+         VWeD0laDrf+xiSLYilTE3JkhSAQYn7lmN+KfsHSmX23rhWozb7lYxwtq9aGAFoaMuH
+         yae+e7lCij8fVRUBUjvyfnwPwNzNrQTT2qGtDbuAC0ZwAg0gW4jf72K0ansu8b5Xsd
+         DXYGNKrur2oqz2hwtJnmBmMG74+UqiLm36v9laACrVdhpKuBoTrXDpLmkRXNnL6AQ3
+         2L0p+ihz4klEg==
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailauth.nyi.internal (Postfix) with ESMTP id 0A9C327C005B;
+        Wed, 22 Sep 2021 16:07:11 -0400 (EDT)
+Received: from imap48 ([10.202.2.98])
+  by compute6.internal (MEProxy); Wed, 22 Sep 2021 16:07:11 -0400
+X-ME-Sender: <xms:7oxLYaBxxqK4obnXad4C7Ol1pEzQ2wO3VTgVX07lksiIiiW6MOAzEA>
+    <xme:7oxLYUg9CmAX57-4BFdWVc1wVCtNPt_l1cMPkyXIB-hb5NDvcSMOXT32LItalPJ0E
+    ab6XD-nw-FKuRFghz8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeijedgudeggecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvufgtgfesthhqredtreerjeenucfhrhhomhepfdet
+    nhguhicunfhuthhomhhirhhskhhifdcuoehluhhtoheskhgvrhhnvghlrdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpedvleehjeejvefhuddtgeegffdtjedtffegveethedvgfejieev
+    ieeufeevuedvteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpegrnhguhidomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudduiedu
+    keehieefvddqvdeifeduieeitdekqdhluhhtoheppehkvghrnhgvlhdrohhrgheslhhinh
+    hugidrlhhuthhordhush
+X-ME-Proxy: <xmx:7oxLYdkfK_3gvwX7TUxRnFARMDnXZxxli_rJGQ95kZOfXs4BhvZ6qg>
+    <xmx:7oxLYYzx6FhnQiNrNa8fLbZH777WZTuy5sOOryiUrfaj6ikfavSz0Q>
+    <xmx:7oxLYfRkhnX45a8ZcOFZi7zcFrkGFrVOfJ7voUfhwpA-lFLKWmVevQ>
+    <xmx:74xLYZfG5NGsT5YOB1YphMRJtJfjkfJ9FeqkRxSQ_ueak3BejFrc4g>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 7BA7F21E0063; Wed, 22 Sep 2021 16:07:10 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-1302-gc62ab821ef-fm-20210921.001-gc62ab821
+Mime-Version: 1.0
+Message-Id: <0f209e1c-3d5c-46be-b5e7-323970112a8e@www.fastmail.com>
+In-Reply-To: <20210922155253.nj5dorsyv7loduws@wittgenstein>
+References: <CALCETrUM0cko=5ki-Dd402DNFU2TmgnJTz_vfrsaofkGD-1kmA@mail.gmail.com>
+ <20210916092719.v4pkhhugdiq7ytcp@wittgenstein>
+ <2ebf1a9d-77d5-472b-a99a-b141654725da@www.fastmail.com>
+ <6eff0e8a-4965-437d-9273-1d9d73892e1a@t-8ch.de>
+ <CALCETrWA1TBvbknH1Jzt=newTd4sHzNFm0RPuRxazjuRQRsR7w@mail.gmail.com>
+ <8cbf0703-5734-4e92-a6cc-12de69094f95@t-8ch.de>
+ <YUi95tFDWS7oceYP@bombadil.infradead.org>
+ <CALCETrX9keVFxEZYUkKr7_dWb9Ubo9q4E2aTY_ZOWGSHyRph8g@mail.gmail.com>
+ <20210922122523.72ypzg4pm2x6nkod@wittgenstein>
+ <59e230b3-0e85-42ff-84a8-6b30ad0719d8@www.fastmail.com>
+ <20210922155253.nj5dorsyv7loduws@wittgenstein>
+Date:   Wed, 22 Sep 2021 13:06:49 -0700
+From:   "Andy Lutomirski" <luto@kernel.org>
+To:     "Christian Brauner" <christian.brauner@ubuntu.com>
+Cc:     "Luis Chamberlain" <mcgrof@kernel.org>,
+        =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
+        "Linux API" <linux-api@vger.kernel.org>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        "Jessica Yu" <jeyu@kernel.org>
+Subject: Re: [RFC] Expose request_module via syscall
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2021-09-17 2:03 p.m., Peter Oskolkov wrote:
- > [...]
- > +SYS_UMCG_WAIT()
- > +
- > +int sys_umcg_wait(uint32_t flags, uint64_t abs_timeout) operates on
- > +registered UMCG servers and workers: struct umcg_task *self provided to
- > +sys_umcg_ctl() when registering the current task is consulted in 
-addition
- > +to flags and abs_timeout parameters.
- > +
- > +The function can be used to perform one of the three operations:
- > +
- > +* wait: if self->next_tid is zero, sys_umcg_wait() puts the current
- > +  server or worker to sleep;
-
-I believe this description is misleading but I might be wrong.
- From the example
-     * worker to server context switch (worker "yields"):
-       S:IDLE+W:RUNNING => +S:RUNNING+W:IDLE
-
-It seems to me that when a worker goes from running to idle, it should
-*not* set the next_tid to 0, it should preserve the next_tid as-is,
-which is expected to point to its current server. This is consistent
-with my understanding of the umcg_wait implementation. This operation
-is effectively a direct context-switch to the server.
-
-With that said, I'm a little confused by the usage of "yields" in that
-example. I would expect workers yielding to behave like kernel threads
-calling sched_yield(), i.e., context switch to the server but also be
-immediately added to the idle_workers_ptr.
-
- From my understanding of the umcg_wait call, "worker to server context
-switch" does not have analogous behaviour to sched_yield. Am I correct?
-If so, I suggest using "park" instead of "yield" in the description
-of that example. I believe the naming of wait/wake as park/unpark is
-consistent with Java[1] and Rust[2], but I don't know if that naming
-is used in contexts closer to the linux kernel.
-
-[1] 
-https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/locks/LockSupport.html
-[2] https://doc.rust-lang.org/std/thread/fn.park.html
 
 
+On Wed, Sep 22, 2021, at 8:52 AM, Christian Brauner wrote:
+> On Wed, Sep 22, 2021 at 08:34:23AM -0700, Andy Lutomirski wrote:
+>> On Wed, Sep 22, 2021, at 5:25 AM, Christian Brauner wrote:
+>> > On Mon, Sep 20, 2021 at 11:36:47AM -0700, Andy Lutomirski wrote:
+>> >> On Mon, Sep 20, 2021 at 11:16 AM Luis Chamberlain <mcgrof@kernel.o=
+rg> wrote:
+>> >> >
+>> >> > On Mon, Sep 20, 2021 at 04:51:19PM +0200, Thomas Wei=C3=9Fschuh =
+wrote:
+>> >>=20
+>> >> > > > Do you mean it literally invokes /sbin/modprobe?  If so, hoo=
+king this
+>> >> > > > at /sbin/modprobe and calling out to the container manager s=
+eems like
+>> >> > > > a decent solution.
+>> >> > >
+>> >> > > Yes it does. Thanks for the idea, I'll see how this works out.
+>> >> >
+>> >> > Would documentation guiding you in that way have helped? If so
+>> >> > I welcome a patch that does just that.
+>> >>=20
+>> >> If someone wants to make this classy, we should probably have the
+>> >> container counterpart of a standardized paravirt interface.  There
+>> >> should be a way for a container to, in a runtime-agnostic way, iss=
+ue
+>> >> requests to its manager, and requesting a module by (name, Linux
+>> >> kernel version for which that name makes sense) seems like an
+>> >> excellent use of such an interface.
+>> >
+>> > I always thought of this in two ways we currently do this:
+>> >
+>> > 1. Caller transparent container manager requests.
+>> >    This is the seccomp notifier where we transparently handle sysca=
+lls
+>> >    including intercepting init_module() where we parse out the modu=
+le to
+>> >    be loaded from the syscall args of the container and if it is
+>> >    allow-listed load it for the container otherwise continue the sy=
+scall
+>> >    letting it fail or failing directly through seccomp return value.
+>>=20
+>> Specific problems here include aliases and dependencies.  My modules.=
+alias file, for example, has:
+>>=20
+>> alias net-pf-16-proto-16-family-wireguard wireguard
+>>=20
+>> If I do modprobe net-pf-16-proto-16-family-wireguard, modprobe parses=
+ some files in /lib/modules/`uname -r` and issues init_module() asking f=
+or 'wireguard'.  So hooking init_module() is at the wrong layer -- for t=
+hat to work, the container's /sbin/modprobe needs to already have figure=
+d out that the desired module is wireguard and have a .ko for it.
+>
+> You can't use the container's .ko module. For this you would need to
+> trust the image that the container wants you to load. The container
+> manager should always load a host module.
+>
+
+Agreed.=20
+
+>>=20
+>> >
+>> > 2. A process in the container explicitly calling out to the contain=
+er
+>> >    manager.
+>> >    One example how this happens is systemd-nspawn via dbus messages
+>> >    between systemd in the container and systemd outside the contain=
+er to
+>> >    e.g. allocate a new terminal in the container (kinda insecure but
+>> >    that's another issue) or other stuff.
+>> >
+>> > So what was your idea: would it be like a device file that could be
+>> > exposed to the container where it writes requestes to the container
+>> > manager? What would be the advantage to just standardizing a socket
+>> > protocol which is what we do for example (it doesn't do module load=
+ing
+>> > of course as we handle that differently):
+>>=20
+>> My idea is standardizing *something*.  I think it would be nice if, f=
+or example, distros could ship a /sbin/modprobe that would do the right =
+thing inside any compliant container runtime as well as when running out=
+side a container.
+>>=20
+>> I suppose container managers could also bind-mount over /sbin/modprob=
+e, but that's more intrusive.
+>
+> I don't see this is a big issue because that is fairly trivial.
+> I think we never want to trust the container's modules.
+> What probably should be happening is that the manager exposes a list of
+> modules the container can request in some form. We have precedence for
+> doing something like this.
+> So now modprobe and similar tools can be made aware that if they are in
+> a container they should request that module from the container manager
+> be it via a socket request or something else.
+> Nesting will be a bit funny but can probably be made to work by just
+> bind-mounting the outermost socket into the container or relaying the
+> request.
+
+Why bother with a list?  I think it should be sufficient for the contain=
+er to ask for a module and either get it or not get it.
