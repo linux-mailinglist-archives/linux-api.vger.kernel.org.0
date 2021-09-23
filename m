@@ -2,157 +2,144 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4054C416423
-	for <lists+linux-api@lfdr.de>; Thu, 23 Sep 2021 19:13:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF59A4167EF
+	for <lists+linux-api@lfdr.de>; Fri, 24 Sep 2021 00:24:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242675AbhIWRO7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 Sep 2021 13:14:59 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:47274 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242705AbhIWROg (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Sep 2021 13:14:36 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: tonyk)
-        with ESMTPSA id A9F1D1F44614
-From:   =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
+        id S243467AbhIWWZn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 Sep 2021 18:25:43 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:37578 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243436AbhIWWZf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Sep 2021 18:25:35 -0400
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1632435841;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=6Matoo2OIfdawfGuu3j6hbf2m+pvAyOqko4uRRDDqJ0=;
+        b=N9ssRTZGMxorWOBqZEIQ9Tt2vNTC5I8aj19BMSE9Xssk0QWWtT/+0NICD6ssXGkA5FR8ds
+        7HwcthwHMm5PC2Ku+n2v00I8mpZkiSVyBlEP9litACd8ROqGfpHbiBNt7rpSxNEqPlEYoy
+        0WAbbsoSaHa38BXkXdMOEyhZcgpZeu/OVVG86ipRvJudoV8qZrOLuOHhnH4J38TdHWYzTm
+        k2wC7mCPI2oPu5BiSuRDTc1c4YPpiojnhbSVvtiUjxhC8qtgZkHBzuLSFi9C4zMHQXQui+
+        44GBHIIVFKD1k02kDBFfUkrxVzbrvQND6Rs33SPZqSweYAPfS01ntNPARWGLOg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1632435841;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=6Matoo2OIfdawfGuu3j6hbf2m+pvAyOqko4uRRDDqJ0=;
+        b=/7ConpvTXAvFWy6BmvzoZaT07ZxWDyhnP2mIpX3mCcpKyA1zbHQBf+ebCtIwiiVEMqZdvP
+        uR9Iu/xxODMvHjBw==
+To:     Sohil Mehta <sohil.mehta@intel.com>, x86@kernel.org
+Cc:     Sohil Mehta <sohil.mehta@intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jens Axboe <axboe@kernel.dk>,
+        Christian Brauner <christian@brauner.io>,
         Peter Zijlstra <peterz@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc:     kernel@collabora.com, krisman@collabora.com,
-        linux-api@vger.kernel.org, libc-alpha@sourceware.org,
-        mtk.manpages@gmail.com, Davidlohr Bueso <dave@stgolabs.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
-Subject: [PATCH v2 22/22] futex2: Documentation: Document sys_futex_waitv() uAPI
-Date:   Thu, 23 Sep 2021 14:11:11 -0300
-Message-Id: <20210923171111.300673-23-andrealmeid@collabora.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210923171111.300673-1-andrealmeid@collabora.com>
-References: <20210923171111.300673-1-andrealmeid@collabora.com>
+        Shuah Khan <shuah@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ashok Raj <ashok.raj@intel.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        Zeng Guang <guang.zeng@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Randy E Witt <randy.e.witt@intel.com>,
+        Ravi V Shankar <ravi.v.shankar@intel.com>,
+        Ramesh Thomas <ramesh.thomas@intel.com>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [RFC PATCH 03/13] x86/cpu: Enumerate User Interrupts support
+In-Reply-To: <20210913200132.3396598-4-sohil.mehta@intel.com>
+References: <20210913200132.3396598-1-sohil.mehta@intel.com>
+ <20210913200132.3396598-4-sohil.mehta@intel.com>
+Date:   Fri, 24 Sep 2021 00:24:00 +0200
+Message-ID: <87lf3nexrz.ffs@tglx>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Create userspace documentation for futex_waitv() syscall, detailing how
-the arguments are used.
+On Mon, Sep 13 2021 at 13:01, Sohil Mehta wrote:
+> SENDUIPI is a special ring-3 instruction that makes a supervisor mode
+> memory access to the UPID and UITT memory. Currently, KPTI needs to be
+> off for User IPIs to work.  Processors that support user interrupts are
+> not affected by Meltdown so the auto mode of KPTI will default to off.
+>
+> Users who want to force enable KPTI will need to wait for a later
+> version of this patch series that is compatible with KPTI. We need to
+> allocate the UPID and UITT structures from a special memory region that
+> has supervisor access but it is mapped into userspace. The plan is to
+> implement a mechanism similar to LDT.
 
-Signed-off-by: André Almeida <andrealmeid@collabora.com>
----
- Documentation/userspace-api/futex2.rst | 86 ++++++++++++++++++++++++++
- Documentation/userspace-api/index.rst  |  1 +
- 2 files changed, 87 insertions(+)
- create mode 100644 Documentation/userspace-api/futex2.rst
+Seriously?
 
-diff --git a/Documentation/userspace-api/futex2.rst b/Documentation/userspace-api/futex2.rst
-new file mode 100644
-index 000000000000..7d37409df355
---- /dev/null
-+++ b/Documentation/userspace-api/futex2.rst
-@@ -0,0 +1,86 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+======
-+futex2
-+======
-+
-+:Author: André Almeida <andrealmeid@collabora.com>
-+
-+futex, or fast user mutex, is a set of syscalls to allow userspace to create
-+performant synchronization mechanisms, such as mutexes, semaphores and
-+conditional variables in userspace. C standard libraries, like glibc, uses it
-+as a means to implement more high level interfaces like pthreads.
-+
-+futex2 is a followup version of the initial futex syscall, designed to overcome
-+limitations of the original interface.
-+
-+User API
-+========
-+
-+``futex_waitv()``
-+-----------------
-+
-+Wait on an array of futexes, wake on any::
-+
-+  futex_waitv(struct futex_waitv *waiters, unsigned int nr_futexes,
-+              unsigned int flags, struct timespec *timeout, clockid_t clockid)
-+
-+  struct futex_waitv {
-+        __u64 val;
-+        __u64 uaddr;
-+        __u32 flags;
-+        __u32 __reserved;
-+  };
-+
-+Userspace sets an array of struct futex_waitv (up to a max of 128 entries),
-+using ``uaddr`` for the address to wait for, ``val`` for the expected value
-+and ``flags`` to specify the type (e.g. private) and size of futex.
-+``__reserved`` needs to be 0, but it can be used for future extension. The
-+pointer for the first item of the array is passed as ``waiters``. An invalid
-+address for ``waiters`` or for any ``uaddr`` returns ``-EFAULT``.
-+
-+If userspace has 32-bit pointers, it should do a explicit cast to make sure
-+the upper bits are zeroed. ``uintptr_t`` does the tricky and it works for
-+both 32/64-bit pointers.
-+
-+``nr_futexes`` specifies the size of the array. Numbers out of [1, 128]
-+interval will make the syscall return ``-EINVAL``.
-+
-+The ``flags`` argument of the syscall needs to be 0, but it can be used for
-+future extension.
-+
-+For each entry in ``waiters`` array, the current value at ``uaddr`` is compared
-+to ``val``. If it's different, the syscall undo all the work done so far and
-+return ``-EAGAIN``. If all tests and verifications succeeds, syscall waits until
-+one of the following happens:
-+
-+- The timeout expires, returning ``-ETIMEOUT``.
-+- A signal was sent to the sleeping task, returning ``-ERESTARTSYS``.
-+- Some futex at the list was awaken, returning the index of some waked futex.
-+
-+An example of how to use the interface can be found at ``tools/testing/selftests/futex/functional/futex_waitv.c``.
-+
-+Timeout
-+-------
-+
-+``struct timespec *timeout`` argument is an optional argument that points to an
-+absolute timeout. You need to specify the type of clock being used at
-+``clockid`` argument. ``CLOCK_MONOTONIC`` and ``CLOCK_REALTIME`` are supported.
-+This syscall accepts only 64bit timespec structs.
-+
-+Types of futex
-+--------------
-+
-+A futex can be either private or shared. Private is used for processes that
-+shares the same memory space and the virtual address of the futex will be the
-+same for all processes. This allows for optimizations in the kernel. To use
-+private futexes, it's necessary to specify ``FUTEX_PRIVATE_FLAG`` in the futex
-+flag. For processes that doesn't share the same memory space and therefore can
-+have different virtual addresses for the same futex (using, for instance, a
-+file-backed shared memory) requires different internal mechanisms to be get
-+properly enqueued. This is the default behavior, and it works with both private
-+and shared futexes.
-+
-+Futexes can be of different sizes: 8, 16, 32 or 64 bits. Currently, the only
-+supported one is 32 bit sized futex, and it need to be specified using
-+``FUTEX_32`` flag.
-diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
-index c432be070f67..a61eac0c73f8 100644
---- a/Documentation/userspace-api/index.rst
-+++ b/Documentation/userspace-api/index.rst
-@@ -28,6 +28,7 @@ place where this information is gathered.
-    media/index
-    sysfs-platform_profile
-    vduse
-+   futex2
- 
- .. only::  subproject and html
- 
--- 
-2.33.0
+> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
 
+This SOB chain is invalid. Ditto in several other patches.
+
+>  
+> +config X86_USER_INTERRUPTS
+> +	bool "User Interrupts (UINTR)"
+> +	depends on X86_LOCAL_APIC && X86_64
+
+X86_64 does not work w/o LOCAL_APIC so this dependency is pointless.
+
+> +	depends on CPU_SUP_INTEL
+> +	help
+> +	  User Interrupts are events that can be delivered directly to
+> +	  userspace without a transition through the kernel. The interrupts
+> +	  could be generated by another userspace application, kernel or a
+> +	  device.
+> +
+> +	  Refer, Documentation/x86/user-interrupts.rst for details.
+
+"Refer, Documentation..." is not a sentence.
+
+>  
+> +/* User Interrupt interface */
+> +#define MSR_IA32_UINTR_RR		0x985
+> +#define MSR_IA32_UINTR_HANDLER		0x986
+> +#define MSR_IA32_UINTR_STACKADJUST	0x987
+> +#define MSR_IA32_UINTR_MISC		0x988	/* 39:32-UINV, 31:0-UITTSZ */
+
+Bah, these tail comments are crap. Please define proper masks/shift
+constants for this instead of using magic numbers in the code.
+
+> +static __always_inline void setup_uintr(struct cpuinfo_x86 *c)
+
+This has to be always inline because it's performance critical or what?
+
+> +{
+> +	/* check the boot processor, plus compile options for UINTR. */
+
+Sentences start with uppercase letters.
+
+> +	if (!cpu_feature_enabled(X86_FEATURE_UINTR))
+> +		goto disable_uintr;
+> +
+> +	/* checks the current processor's cpuid bits: */
+> +	if (!cpu_has(c, X86_FEATURE_UINTR))
+> +		goto disable_uintr;
+> +
+> +	/*
+> +	 * User Interrupts currently doesn't support PTI. For processors that
+> +	 * support User interrupts PTI in auto mode will default to off.  Need
+> +	 * this check only for users who have force enabled PTI.
+> +	 */
+> +	if (boot_cpu_has(X86_FEATURE_PTI)) {
+> +		pr_info_once("x86: User Interrupts (UINTR) not enabled. Please disable PTI using 'nopti' kernel parameter\n");
+
+That message does not make sense. The admin has explicitly added 'pti'
+to the kernel command line on a CPU which is not affected. So why would
+he now have to add 'nopti' ?
+
+Thanks,
+
+        tglx
