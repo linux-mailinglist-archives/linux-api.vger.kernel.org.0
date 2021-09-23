@@ -2,18 +2,21 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 52EAD416406
-	for <lists+linux-api@lfdr.de>; Thu, 23 Sep 2021 19:12:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13EE2416408
+	for <lists+linux-api@lfdr.de>; Thu, 23 Sep 2021 19:12:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242530AbhIWRNq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 Sep 2021 13:13:46 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:47062 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242540AbhIWRNn (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Sep 2021 13:13:43 -0400
+        id S242590AbhIWRNw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 Sep 2021 13:13:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58234 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242578AbhIWRNs (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Sep 2021 13:13:48 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41C91C061574;
+        Thu, 23 Sep 2021 10:12:16 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: tonyk)
-        with ESMTPSA id E67B61F44602
+        with ESMTPSA id 4B9A41F4460A
 From:   =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
 To:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
@@ -26,9 +29,9 @@ Cc:     kernel@collabora.com, krisman@collabora.com,
         mtk.manpages@gmail.com, Davidlohr Bueso <dave@stgolabs.net>,
         Arnd Bergmann <arnd@arndb.de>,
         =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
-Subject: [PATCH v2 10/22] futex: Rename: hb_waiter_{inc,dec,pending}()
-Date:   Thu, 23 Sep 2021 14:10:59 -0300
-Message-Id: <20210923171111.300673-11-andrealmeid@collabora.com>
+Subject: [PATCH v2 11/22] futex: Rename: match_futex()
+Date:   Thu, 23 Sep 2021 14:11:00 -0300
+Message-Id: <20210923171111.300673-12-andrealmeid@collabora.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210923171111.300673-1-andrealmeid@collabora.com>
 References: <20210923171111.300673-1-andrealmeid@collabora.com>
@@ -42,159 +45,127 @@ X-Mailing-List: linux-api@vger.kernel.org
 From: Peter Zijlstra <peterz@infradead.org>
 
 In order to prepare introducing these symbols into the global
-namespace; rename them:
+namespace; rename:
 
-  s/hb_waiters_/futex_&/g
+  s/match_futex/futex_match/g
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 Reviewed-by: André Almeida <andrealmeid@collabora.com>
 Signed-off-by: André Almeida <andrealmeid@collabora.com>
 ---
- kernel/futex/core.c | 34 +++++++++++++++++-----------------
- 1 file changed, 17 insertions(+), 17 deletions(-)
+ kernel/futex/core.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
 diff --git a/kernel/futex/core.c b/kernel/futex/core.c
-index a8ca5b5cbc99..a26045e17fac 100644
+index a26045e17fac..30246e63e74b 100644
 --- a/kernel/futex/core.c
 +++ b/kernel/futex/core.c
-@@ -115,8 +115,8 @@
-  *     waiters--; (b)                        unlock(hash_bucket(futex));
+@@ -324,13 +324,13 @@ struct futex_hash_bucket *futex_hash(union futex_key *key)
+ 
+ 
+ /**
+- * match_futex - Check whether two futex keys are equal
++ * futex_match - Check whether two futex keys are equal
+  * @key1:	Pointer to key1
+  * @key2:	Pointer to key2
   *
-  * Where (A) orders the waiters increment and the futex value read through
-- * atomic operations (see hb_waiters_inc) and where (B) orders the write
-- * to futex and the waiters read (see hb_waiters_pending()).
-+ * atomic operations (see futex_hb_waiters_inc) and where (B) orders the write
-+ * to futex and the waiters read (see futex_hb_waiters_pending()).
-  *
-  * This yields the following case (where X:=waiters, Y:=futex):
-  *
-@@ -272,7 +272,7 @@ late_initcall(fail_futex_debugfs);
- /*
-  * Reflects a new waiter being added to the waitqueue.
+  * Return 1 if two futex_keys are equal, 0 otherwise.
   */
--static inline void hb_waiters_inc(struct futex_hash_bucket *hb)
-+static inline void futex_hb_waiters_inc(struct futex_hash_bucket *hb)
+-static inline int match_futex(union futex_key *key1, union futex_key *key2)
++static inline int futex_match(union futex_key *key1, union futex_key *key2)
  {
- #ifdef CONFIG_SMP
- 	atomic_inc(&hb->waiters);
-@@ -287,14 +287,14 @@ static inline void hb_waiters_inc(struct futex_hash_bucket *hb)
-  * Reflects a waiter being removed from the waitqueue by wakeup
-  * paths.
+ 	return (key1 && key2
+ 		&& key1->both.word == key2->both.word
+@@ -381,7 +381,7 @@ futex_setup_timer(ktime_t *time, struct hrtimer_sleeper *timeout,
+  * a new sequence number and will _NOT_ match, even though it is the exact same
+  * file.
+  *
+- * It is important that match_futex() will never have a false-positive, esp.
++ * It is important that futex_match() will never have a false-positive, esp.
+  * for PI futexes that can mess up the state. The above argues that false-negatives
+  * are only possible for malformed programs.
   */
--static inline void hb_waiters_dec(struct futex_hash_bucket *hb)
-+static inline void futex_hb_waiters_dec(struct futex_hash_bucket *hb)
- {
- #ifdef CONFIG_SMP
- 	atomic_dec(&hb->waiters);
- #endif
- }
+@@ -648,7 +648,7 @@ struct futex_q *futex_top_waiter(struct futex_hash_bucket *hb, union futex_key *
+ 	struct futex_q *this;
  
--static inline int hb_waiters_pending(struct futex_hash_bucket *hb)
-+static inline int futex_hb_waiters_pending(struct futex_hash_bucket *hb)
- {
- #ifdef CONFIG_SMP
- 	/*
-@@ -723,7 +723,7 @@ static void __futex_unqueue(struct futex_q *q)
- 
- 	hb = container_of(q->lock_ptr, struct futex_hash_bucket, lock);
- 	plist_del(&q->list, &hb->chain);
--	hb_waiters_dec(hb);
-+	futex_hb_waiters_dec(hb);
- }
- 
- /*
-@@ -802,7 +802,7 @@ int futex_wake(u32 __user *uaddr, unsigned int flags, int nr_wake, u32 bitset)
- 	hb = futex_hash(&key);
- 
- 	/* Make sure we really have tasks to wakeup */
--	if (!hb_waiters_pending(hb))
-+	if (!futex_hb_waiters_pending(hb))
- 		return ret;
- 
- 	spin_lock(&hb->lock);
-@@ -979,8 +979,8 @@ void requeue_futex(struct futex_q *q, struct futex_hash_bucket *hb1,
- 	 */
- 	if (likely(&hb1->chain != &hb2->chain)) {
- 		plist_del(&q->list, &hb1->chain);
--		hb_waiters_dec(hb1);
--		hb_waiters_inc(hb2);
-+		futex_hb_waiters_dec(hb1);
-+		futex_hb_waiters_inc(hb2);
- 		plist_add(&q->list, &hb2->chain);
- 		q->lock_ptr = &hb2->lock;
+ 	plist_for_each_entry(this, &hb->chain, list) {
+-		if (match_futex(&this->key, key))
++		if (futex_match(&this->key, key))
+ 			return this;
  	}
-@@ -1341,7 +1341,7 @@ int futex_requeue(u32 __user *uaddr1, unsigned int flags, u32 __user *uaddr2,
- 	hb2 = futex_hash(&key2);
+ 	return NULL;
+@@ -808,7 +808,7 @@ int futex_wake(u32 __user *uaddr, unsigned int flags, int nr_wake, u32 bitset)
+ 	spin_lock(&hb->lock);
  
- retry_private:
--	hb_waiters_inc(hb2);
-+	futex_hb_waiters_inc(hb2);
- 	double_lock_hb(hb1, hb2);
+ 	plist_for_each_entry_safe(this, next, &hb->chain, list) {
+-		if (match_futex (&this->key, &key)) {
++		if (futex_match (&this->key, &key)) {
+ 			if (this->pi_state || this->rt_waiter) {
+ 				ret = -EINVAL;
+ 				break;
+@@ -928,7 +928,7 @@ int futex_wake_op(u32 __user *uaddr1, unsigned int flags, u32 __user *uaddr2,
+ 	}
  
- 	if (likely(cmpval != NULL)) {
-@@ -1351,7 +1351,7 @@ int futex_requeue(u32 __user *uaddr1, unsigned int flags, u32 __user *uaddr2,
+ 	plist_for_each_entry_safe(this, next, &hb1->chain, list) {
+-		if (match_futex (&this->key, &key1)) {
++		if (futex_match (&this->key, &key1)) {
+ 			if (this->pi_state || this->rt_waiter) {
+ 				ret = -EINVAL;
+ 				goto out_unlock;
+@@ -942,7 +942,7 @@ int futex_wake_op(u32 __user *uaddr1, unsigned int flags, u32 __user *uaddr2,
+ 	if (op_ret > 0) {
+ 		op_ret = 0;
+ 		plist_for_each_entry_safe(this, next, &hb2->chain, list) {
+-			if (match_futex (&this->key, &key2)) {
++			if (futex_match (&this->key, &key2)) {
+ 				if (this->pi_state || this->rt_waiter) {
+ 					ret = -EINVAL;
+ 					goto out_unlock;
+@@ -1199,7 +1199,7 @@ futex_proxy_trylock_atomic(u32 __user *pifutex, struct futex_hash_bucket *hb1,
+ 		return -EINVAL;
  
- 		if (unlikely(ret)) {
- 			double_unlock_hb(hb1, hb2);
--			hb_waiters_dec(hb2);
-+			futex_hb_waiters_dec(hb2);
+ 	/* Ensure we requeue to the expected futex. */
+-	if (!match_futex(top_waiter->requeue_pi_key, key2))
++	if (!futex_match(top_waiter->requeue_pi_key, key2))
+ 		return -EINVAL;
  
- 			ret = get_user(curval, uaddr1);
- 			if (ret)
-@@ -1437,7 +1437,7 @@ int futex_requeue(u32 __user *uaddr1, unsigned int flags, u32 __user *uaddr2,
- 		 */
- 		case -EFAULT:
- 			double_unlock_hb(hb1, hb2);
--			hb_waiters_dec(hb2);
-+			futex_hb_waiters_dec(hb2);
- 			ret = fault_in_user_writeable(uaddr2);
- 			if (!ret)
- 				goto retry;
-@@ -1451,7 +1451,7 @@ int futex_requeue(u32 __user *uaddr1, unsigned int flags, u32 __user *uaddr2,
- 			 * - EAGAIN: The user space value changed.
- 			 */
- 			double_unlock_hb(hb1, hb2);
--			hb_waiters_dec(hb2);
-+			futex_hb_waiters_dec(hb2);
- 			/*
- 			 * Handle the case where the owner is in the middle of
- 			 * exiting. Wait for the exit to complete otherwise
-@@ -1570,7 +1570,7 @@ int futex_requeue(u32 __user *uaddr1, unsigned int flags, u32 __user *uaddr2,
- out_unlock:
- 	double_unlock_hb(hb1, hb2);
- 	wake_up_q(&wake_q);
--	hb_waiters_dec(hb2);
-+	futex_hb_waiters_dec(hb2);
- 	return ret ? ret : task_count;
- }
- 
-@@ -1590,7 +1590,7 @@ struct futex_hash_bucket *futex_q_lock(struct futex_q *q)
- 	 * decrement the counter at futex_q_unlock() when some error has
- 	 * occurred and we don't end up adding the task to the list.
+ 	/* Ensure that this does not race against an early wakeup */
+@@ -1334,7 +1334,7 @@ int futex_requeue(u32 __user *uaddr1, unsigned int flags, u32 __user *uaddr2,
+ 	 * The check above which compares uaddrs is not sufficient for
+ 	 * shared futexes. We need to compare the keys:
  	 */
--	hb_waiters_inc(hb); /* implies smp_mb(); (A) */
-+	futex_hb_waiters_inc(hb); /* implies smp_mb(); (A) */
+-	if (requeue_pi && match_futex(&key1, &key2))
++	if (requeue_pi && futex_match(&key1, &key2))
+ 		return -EINVAL;
  
- 	q->lock_ptr = &hb->lock;
+ 	hb1 = futex_hash(&key1);
+@@ -1469,7 +1469,7 @@ int futex_requeue(u32 __user *uaddr1, unsigned int flags, u32 __user *uaddr2,
+ 		if (task_count - nr_wake >= nr_requeue)
+ 			break;
  
-@@ -1602,7 +1602,7 @@ void futex_q_unlock(struct futex_hash_bucket *hb)
- 	__releases(&hb->lock)
- {
- 	spin_unlock(&hb->lock);
--	hb_waiters_dec(hb);
-+	futex_hb_waiters_dec(hb);
- }
+-		if (!match_futex(&this->key, &key1))
++		if (!futex_match(&this->key, &key1))
+ 			continue;
  
- void __futex_queue(struct futex_q *q, struct futex_hash_bucket *hb)
-@@ -1932,7 +1932,7 @@ int handle_early_requeue_pi_wakeup(struct futex_hash_bucket *hb,
- 	 * Unqueue the futex_q and determine which it was.
+ 		/*
+@@ -1496,7 +1496,7 @@ int futex_requeue(u32 __user *uaddr1, unsigned int flags, u32 __user *uaddr2,
+ 		}
+ 
+ 		/* Ensure we requeue to the expected futex for requeue_pi. */
+-		if (!match_futex(this->requeue_pi_key, &key2)) {
++		if (!futex_match(this->requeue_pi_key, &key2)) {
+ 			ret = -EINVAL;
+ 			break;
+ 		}
+@@ -2033,7 +2033,7 @@ int futex_wait_requeue_pi(u32 __user *uaddr, unsigned int flags,
+ 	 * The check above which compares uaddrs is not sufficient for
+ 	 * shared futexes. We need to compare the keys:
  	 */
- 	plist_del(&q->list, &hb->chain);
--	hb_waiters_dec(hb);
-+	futex_hb_waiters_dec(hb);
- 
- 	/* Handle spurious wakeups gracefully */
- 	ret = -EWOULDBLOCK;
+-	if (match_futex(&q.key, &key2)) {
++	if (futex_match(&q.key, &key2)) {
+ 		futex_q_unlock(hb);
+ 		ret = -EINVAL;
+ 		goto out;
 -- 
 2.33.0
 
