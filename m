@@ -2,90 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EB1A8415BEA
-	for <lists+linux-api@lfdr.de>; Thu, 23 Sep 2021 12:25:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0201415E30
+	for <lists+linux-api@lfdr.de>; Thu, 23 Sep 2021 14:19:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240354AbhIWK06 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 Sep 2021 06:26:58 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:53853 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231530AbhIWK06 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Sep 2021 06:26:58 -0400
-Received: from mail-wr1-f42.google.com ([209.85.221.42]) by
- mrelayeu.kundenserver.de (mreue108 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MBDrM-1mZRGd30Lm-00CkVZ; Thu, 23 Sep 2021 12:25:25 +0200
-Received: by mail-wr1-f42.google.com with SMTP id t7so15596748wrw.13;
-        Thu, 23 Sep 2021 03:25:24 -0700 (PDT)
-X-Gm-Message-State: AOAM533U++mQHBaaYO5RMxpMyepzUCbUHL4CJwEw4wDgCsGB0CAZkrVC
-        JDOdxhP7WxoaowhEjwi12zJ5u2xoJwgGwODFipw=
-X-Google-Smtp-Source: ABdhPJzC5Pos1T3UiHJSSsCIdXJofBl7ZfARwRkYsLQOoX39pi6HQSPjzuB5Y3XPLHj7prwJBhe6ePUG76CgqIgVldI=
-X-Received: by 2002:a05:6000:1561:: with SMTP id 1mr4003238wrz.369.1632392724385;
- Thu, 23 Sep 2021 03:25:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210921130127.24131-1-rpalethorpe@suse.com> <CAK8P3a29ycNqOC_pD-UUtK37jK=Rz=nik=022Q1XtXr6-o6tuA@mail.gmail.com>
- <87o88mkor1.fsf@suse.de> <87lf3qkk72.fsf@suse.de> <87ilytkngp.fsf@suse.de>
- <CAK8P3a2S=a0aw8GY8fZxaU5fz7ZkdehtHgStkn2=u9gO28GVEw@mail.gmail.com> <87fstvlifu.fsf@suse.de>
-In-Reply-To: <87fstvlifu.fsf@suse.de>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 23 Sep 2021 12:25:07 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3H3ZikSfqoeh0=PQQuFw6PTg2KgP+p=4G26ayuzgwQeQ@mail.gmail.com>
-Message-ID: <CAK8P3a3H3ZikSfqoeh0=PQQuFw6PTg2KgP+p=4G26ayuzgwQeQ@mail.gmail.com>
-Subject: Re: ia32 signed long treated as x64 unsigned int by __ia32_sys*
-To:     rpalethorpe@suse.de
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-aio <linux-aio@kvack.org>,
-        y2038 Mailman List <y2038@lists.linaro.org>,
-        Andy Lutomirski <luto@kernel.org>,
+        id S240991AbhIWMUt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 Sep 2021 08:20:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44976 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S240987AbhIWMUj (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 23 Sep 2021 08:20:39 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A753361214;
+        Thu, 23 Sep 2021 12:19:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1632399548;
+        bh=a5drWzuoeMZl8QP24M3+/zzD9bz02p+umQKMUtGw/us=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=I/mTuHbo2gLcg9kkEvmFogd2VA8vMY06o9QjuRssvz5ca5X16E29nSfJHjVqYlvON
+         AAjPv2xjDCwOnqOjTatbJGebL91RmGSqgVKwn6ouKN9V1zudAfAOoY4XWPISHnNaeP
+         fx3vOX8EQqw7aGWb5n8vm1/D/l0XNWiftPVdmBmU=
+Date:   Thu, 23 Sep 2021 14:19:05 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     "Mehta, Sohil" <sohil.mehta@intel.com>
+Cc:     "Hansen, Dave" <dave.hansen@intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Luck, Tony" <tony.luck@intel.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Deepa Dinamani <deepa.kernel@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        LTP List <ltp@lists.linux.it>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:VsT0RG+x5xNNl9O9ELm6YaPkZKL9FOCyhaL/glhemx1qSo9Pqdt
- F5hd8W0T2BT/1gpRjV1jHZAaCEezqjigrdCSpB9ebAMrWdYzngCXs3SoUA64jEXZWhr/1mO
- 8tzEqLBWv44kAnMD/A9f345A3oMFlAOE5+Yn/05RP58yb5eLvg1UHZoXlPl6pjSdAvwYb6O
- TrYUwgYgq3LZIkS6cYIWw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6eHKhAuQYxY=:s1HAIRIX+ogJcWuq5K/LVb
- ilhxyUya05Qxs8DX/KuEKg+8XsbNHSxfYxTOODXIs6q4C2LgElpNUIvB5fLjmvHfe3wAvaTtL
- LbKfvt6ck1irp1WfkZBjU8Z7OlJPZMZm7wPzBcMfeKWuKQyzKqSgfqWYs7d2/AVm3Td4U1++Q
- 9g4g3vj1aZ92WD8cYnjStOWMYdBZnnE8cR8g4YylnAg2IvTl0NLqVZq53fevtqdQ0yEYzSWSP
- fjBtKlpuk2iyoY6Xmj0L/pPvCs3dSc5mEWUgicLtXkpLMYBZgJGqGNlNA2bcwWE01u7jrjjnf
- 1JwtbmhV6mEZ2Xz0Tc30vHYPbhi1ysrtqLpm4Px9iR71dwnYV3xyQPzssCCb7TvKZVCGkqwBf
- uEUHz+vR8zNrpP6GjxN+20avT4FgT+xcPjS/kRjDuTdEi6Eh9unw1J4gKnlOhL3U7bE+yogiW
- OtF1zTZN/1BOOfqorn4sFnBrP4PcqzwdDjeyTiOv3u27rjTQ1aSW9NpjJmfmkPXJ6IcD8Pq6J
- ZwJPYhAZUoLEIMraP+8qStuPKX3LRA7JwEuO5RkWjEOxgEI34bkRphfiwbe134qN0Q89h81ft
- BWUPp0YXA16up+yosjj2c9UL1ENNaNAf2APSqhMs+Gop5Aiwrelc0GyS3222xbLnCg1eM38eL
- bma52stjJtehEdbWaiDVmBLHe3qr8d/uXUvjIZYVle4Gg7qBnAHJKw5VYtWSr2yQU5Kt5Y3wG
- 6o3q6ZKLaNyxzF/EaKgwQOxFOH04oLdbWBump3BFr2uEm0tDDEVBvXCsmYRsy5Jb/j5z7Il+T
- IzM2i0e9jFiPubqSWpIldkra3WICBCCOnaXYnVAeFOX8Yjq1UXzdbj8yKQ8nZZPJtZzPHL0EE
- Gv8mMjywzG/a1GZHI4OA==
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Lutomirski, Andy" <luto@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+        Christian Brauner <christian@brauner.io>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Shuah Khan <shuah@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        "Kammela, Gayatri" <gayatri.kammela@intel.com>,
+        "Zeng, Guang" <guang.zeng@intel.com>,
+        "Williams, Dan J" <dan.j.williams@intel.com>,
+        "Witt, Randy E" <randy.e.witt@intel.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "Thomas, Ramesh" <ramesh.thomas@intel.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
+Subject: Re: [RFC PATCH 00/13] x86 User Interrupts support
+Message-ID: <YUxwuR4V+kwk1L34@kroah.com>
+References: <20210913200132.3396598-1-sohil.mehta@intel.com>
+ <c08f38db-77da-c50e-23f7-b3a76688deeb@intel.com>
+ <BYAPR11MB33203044CD5D7413846655F9E5DA9@BYAPR11MB3320.namprd11.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BYAPR11MB33203044CD5D7413846655F9E5DA9@BYAPR11MB3320.namprd11.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 23, 2021 at 12:01 PM Richard Palethorpe <rpalethorpe@suse.de> wrote:
-> Arnd Bergmann <arnd@arndb.de> writes:
-> > On Wed, Sep 22, 2021 at 10:46 AM Richard Palethorpe <rpalethorpe@suse.de> wrote:
-> >> Richard Palethorpe <rpalethorpe@suse.de> writes:
-> >
-> > I also noticed that only x86 and s390 even have separate entry
-> > points for normal syscalls when called in compat mode, while
-> > the others all just zero the upper halves of the registers in the
-> > low-level entry code and then call the native entry point.
->
-> It looks to me like aarch64 also has something similar? At any rate, I
-> can try to fix it for x86 and investigate what else might be effected.
+On Tue, Sep 14, 2021 at 07:03:36PM +0000, Mehta, Sohil wrote:
+> Resending.. There were some email delivery issues.
+> 
+> On 9/13/2021 1:27 PM, Dave Hansen wrote:
+> >	User Interrupts directly deliver events to user space and are
+> >	10x faster than the closest alternative.
+> 
+> Thanks Dave. This is definitely more attention-grabbing than the
+> previous intro. I'll include this next time.
+> 
+> One thing to note, the 10x gain is only applicable for User IPIs.
+> For other source of User Interrupts (like kernel-to-user
+> notifications and other external sources), we don't have the data
+> yet.
+> 
+> I realized the User IPI data in the cover also needs some
+> clarification. The 10x gain is only seen when the receiver is
+> spinning in User space - waiting for interrupts.
+> 
+> If the receiver were to block (wait) in the kernel, the performance
+> would drop as expected. However, User IPI (blocked) would still be
+> 10% faster than Eventfd and 40% faster than signals.
+> 
+> Here is the updated table:
+> +---------------------+-------------------------+
+> | IPC type            |   Relative Latency      |
+> |                     |(normalized to User IPI) |
+> +---------------------+-------------------------+
+> | User IPI            |                     1.0 |
+> | User IPI (blocked)  |                     8.9 |
+> | Signal              |                    14.8 |
+> | Eventfd             |                     9.7 |
+> | Pipe                |                    16.3 |
+> | Domain              |                    17.3 |
+> +---------------------+-------------------------+
 
-arm64 also has a custom asm/syscall_wrapper.h, but it only does
-this for accessing pt_regs (as x86 does), not for doing any
-argument conversion. x86 does the 32-to-64 widening in the
-wrapper, arm64 relies on the pt_regs already having the upper
-halves zeroed.
+Relative is just that, "relative".  If the real values are extremely
+tiny, then relative is just "this goes a tiny tiny bit faster than what
+you have today in eventfd", right?
 
-        Arnd
+So how about "absolute"?  What are we talking here?
+
+And this is really only for the "one userspace task waking up another
+userspace task" policies.  What real workload can actually use this?
+
+thanks,
+
+greg k-h
