@@ -2,312 +2,447 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 360EE417B4F
-	for <lists+linux-api@lfdr.de>; Fri, 24 Sep 2021 20:51:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76168417B58
+	for <lists+linux-api@lfdr.de>; Fri, 24 Sep 2021 20:56:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244064AbhIXSxD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 24 Sep 2021 14:53:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43050 "EHLO
+        id S1345354AbhIXS5m (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 24 Sep 2021 14:57:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230025AbhIXSxD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 24 Sep 2021 14:53:03 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28370C061571
-        for <linux-api@vger.kernel.org>; Fri, 24 Sep 2021 11:51:30 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id 145so9636027pfz.11
-        for <linux-api@vger.kernel.org>; Fri, 24 Sep 2021 11:51:30 -0700 (PDT)
+        with ESMTP id S1345189AbhIXS5h (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 24 Sep 2021 14:57:37 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCD76C061613
+        for <linux-api@vger.kernel.org>; Fri, 24 Sep 2021 11:56:02 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id m21so10660839pgu.13
+        for <linux-api@vger.kernel.org>; Fri, 24 Sep 2021 11:56:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=TAVnXc0nms8n7fIN2yXfZYjRn1YNEO4XXoVuRCnkQP0=;
-        b=hjVSGmqQZY77x8GN05wghbbgxmYt+ZzQwcOZWL4wLmQjX7fdgMzeVdCMKGKN5EPBGD
-         ayGZAG17jhHtKqzgz0XZK10sE95PBUYD0dg9kshFHiOs2tynL8hlwgpOAd6+Yg8vGLed
-         faiG8KbBUHkOLdwlZoLv3vfeB3YFb1zf9b1eE=
+        bh=NGoW/Pauk57xfcR+YHAaw7k6fzsKu4UrCFosKDZQNhc=;
+        b=jsHCR5rFzTcloSpo/nmpIFZpciSorWh4Y+oVGCvzGVncHgEBO/G44pcvRIwJrshFKW
+         VjoSHczn2EvtVLXEP8/pEhu/4ZtVKH9YvuBvdrRUqQEyhPp318CJtE9qHIy6oo1wiUs9
+         gOr5NSF1RSLgoKQhy1gViChfBGi54MpUO+B/c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=TAVnXc0nms8n7fIN2yXfZYjRn1YNEO4XXoVuRCnkQP0=;
-        b=i92/44rv0ErBJ+NvZm4CyiTIirR42zzQqvcz7J4v7a7oHLJsLyWGYa/UkPKCIQE0ly
-         OG4dSmIFk5ZSAhwB4kGYrg9d/xnbKZ3NwIjTORMJewPyloswhoOvd2htkB88Hm8tsg+6
-         YmUd15KNs/G6F9gKOJq8E/iDx0C2DVGXWMFlApQa4OGY5bdVfNR7yWoP4IcddudUNei/
-         wYJf+9OiRWE9DkJMqZO8yHtl50v0gbcwwhNLcnBovvJ16XH020iRNBO3CQXWu7lfV6IC
-         GTlNQ+W8DjePLe8qoQEZwWInvjXzVCBHgBgKsglzbyWS8m2hRTimz2aEws6TOZ8FeC4d
-         y+oA==
-X-Gm-Message-State: AOAM531+8BaXYypu6w2P/GO4KRleh4iI/PiMfAd0gG3jY+nBWZPf2ycs
-        a6PW5QokvZ0hq9cZfafKDjUkjw==
-X-Google-Smtp-Source: ABdhPJzuKiRhbaVns0VLiUSt+SK8E0CLC+N2x7hv3DOVNEhnI6OfGnntuCXPLcyntdmBmCC+YpQRaw==
-X-Received: by 2002:a63:b34a:: with SMTP id x10mr4986221pgt.473.1632509489436;
-        Fri, 24 Sep 2021 11:51:29 -0700 (PDT)
+        bh=NGoW/Pauk57xfcR+YHAaw7k6fzsKu4UrCFosKDZQNhc=;
+        b=abQYWcLXg5frilOnW4m1c68jt87w+IJrkhbNMHOM1/Cnh/U7Ku2yR00TLk5PIJ53l4
+         8lc8Y0ncrLhYVxt3OkAgW/4m7HxYzSdUGxUoHDDZgVakkhF/x7yzWbJxckqs8ieRPs3E
+         319lkyJuCVBfkQohN0vhjgfUnd4JquWvciJU9bf930ZqyH/GDSJofgZTaeGFiJdJ0S7G
+         +wo1h8Uh45+xdH0z2uhxGGrO7ZGRz4PsCp2bC++4kydV5Q13c+RxVKQQ3kzUOkSV0n5q
+         7BSnsKRKItBBd1HkpcDZHRBDFdxrSleDx0JDFa4s7qfPFr8lVlm/smAEgBVcGBIHCbC+
+         Heag==
+X-Gm-Message-State: AOAM533oNG2EduSYbG355mKfHilWcIwIwkWwKhf1w1mVGKY0VirC/Wi2
+        Uaj717U32SUsXJZ3AV2S8sdpZw==
+X-Google-Smtp-Source: ABdhPJyqUfeL746hH0cL1FYdt51gjGj7+Ui07J5qNrocIp8zuNCXfJ5ku/NGqVYCGF2G6hP7AMg8FQ==
+X-Received: by 2002:a65:40c4:: with SMTP id u4mr5120061pgp.186.1632509761981;
+        Fri, 24 Sep 2021 11:56:01 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id e15sm13177223pjl.11.2021.09.24.11.51.28
+        by smtp.gmail.com with ESMTPSA id x19sm9522763pfn.105.2021.09.24.11.56.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Sep 2021 11:51:28 -0700 (PDT)
-Date:   Fri, 24 Sep 2021 11:51:27 -0700
+        Fri, 24 Sep 2021 11:56:01 -0700 (PDT)
+Date:   Fri, 24 Sep 2021 11:56:00 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     "Eric W. Biederman" <ebiederm@xmission.com>
 Cc:     linux-kernel@vger.kernel.org,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Oleg Nesterov <oleg@redhat.com>,
         Al Viro <viro@zeniv.linux.org.uk>, linux-api@vger.kernel.org
-Subject: Re: [PATCH 5/6] coredump:  Don't perform any cleanups before dumping
- core
-Message-ID: <202109241135.A683423@keescook>
+Subject: Re: [PATCH 6/6] coredump: Limit coredumps to a single thread group
+Message-ID: <202109241154.A915C488E2@keescook>
 References: <87v92qx2c6.fsf@disp2133>
- <874kaax26c.fsf@disp2133>
+ <87y27mvnke.fsf@disp2133>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <874kaax26c.fsf@disp2133>
+In-Reply-To: <87y27mvnke.fsf@disp2133>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 23, 2021 at 07:11:39PM -0500, Eric W. Biederman wrote:
+On Thu, Sep 23, 2021 at 07:12:33PM -0500, Eric W. Biederman wrote:
 > 
-> Rename coredump_exit_mm to coredump_task_exit and call it from do_exit
-> before PTRACE_EVENT_EXIT, and before any cleanup work for a task
-> happens.  This ensures that an accurate copy of the process can be
-> captured in the coredump as no cleanup for the process happens before
-> the coredump completes.  This also ensures that PTRACE_EVENT_EXIT
-> will not be visited by any thread until the coredump is complete.
+> Today when a signal is delivered with a handler of SIG_DFL whose
+> default behavior is to generate a core dump not only that process but
+> every process that shares the mm is killed.
 > 
-> Add a new flag PF_POSTCOREDUMP so that tasks that have passed through
-> coredump_task_exit can be recognized and ignored in zap_process.
+> In the case of vfork this looks like a real world problem.  Consider
+> the following well defined sequence.
 > 
-> Now that all of the coredumping happens before exit_mm remove code to
-> test for a coredump in progress from mm_release.
+> 	if (vfork() == 0) {
+> 		execve(...);
+> 		_exit(EXIT_FAILURE);
+> 	}
 > 
-> Replace "may_ptrace_stop()" with a simple test of "current->ptrace".
-> The other tests in may_ptrace_stop all concern avoiding stopping
-> during a coredump.  These tests are no longer necessary as it is now
-> guaranteed that fatal_signal_pending will be set if the code enters
-> ptrace_stop during a coredump.  The code in ptrace_stop is guaranteed
-> not to stop if fatal_signal_pending returns true.
+> If a signal that generates a core dump is received after vfork but
+> before the execve changes the mm the process that called vfork will
+> also be killed (as the mm is shared).
 > 
-> Until this change "ptrace_event(PTRACE_EVENT_EXIT)" could call
-> ptrace_stop without fatal_signal_pending being true, as signals are
-> dequeued in get_signal before calling do_exit.  This is no longer
-> an issue as "ptrace_event(PTRACE_EVENT_EXIT)" is no longer reached
-> until after the coredump completes.
+> Similarly if the execve fails after the point of no return the kernel
+> delivers SIGSEGV which will kill both the exec'ing process and because
+> the mm is shared the process that called vfork as well.
 > 
+> As far as I can tell this behavior is a violation of people's
+> reasonable expectations, POSIX, and is unnecessarily fragile when the
+> system is low on memory.
+> 
+> Solve this by making a userspace visible change to only kill a single
+> process/thread group.  This is possible because Jann Horn recently
+> modified[1] the coredump code so that the mm can safely be modified
+> while the coredump is happening.  With LinuxThreads long gone I don't
+> expect anyone to have a notice this behavior change in practice.
+> 
+> To accomplish this move the core_state pointer from mm_struct to
+> signal_struct, which allows different thread groups to coredump
+> simultatenously.
+> 
+> In zap_threads remove the work to kill anything except for the current
+> thread group.
+> 
+> [1] a07279c9a8cd ("binfmt_elf, binfmt_elf_fdpic: use a VMA list snapshot")
+> Fixes: d89f3847def4 ("[PATCH] thread-aware coredumps, 2.5.43-C3")
+> History-tree: git://git.kernel.org/pub/scm/linux/kernel/git/tglx/history.git
 > Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
-> ---
->  fs/coredump.c         |  8 ++++----
->  include/linux/sched.h |  1 +
->  kernel/exit.c         | 19 ++++++++++++-------
->  kernel/fork.c         |  3 +--
->  kernel/signal.c       | 27 +--------------------------
->  mm/oom_kill.c         |  2 +-
->  6 files changed, 20 insertions(+), 40 deletions(-)
-> 
-> diff --git a/fs/coredump.c b/fs/coredump.c
-> index 5e0e08a7fb9b..d576287fb88b 100644
-> --- a/fs/coredump.c
-> +++ b/fs/coredump.c
-> @@ -359,7 +359,7 @@ static int zap_process(struct task_struct *start, int exit_code, int flags)
->  
->  	for_each_thread(start, t) {
->  		task_clear_jobctl_pending(t, JOBCTL_PENDING_MASK);
-> -		if (t != current && t->mm) {
-> +		if (t != current && !(t->flags & PF_POSTCOREDUMP)) {
 
-PF_POSTCOREDUMP is "my exit path is done with anything associated with
-coredumping, including not having dumped core", yes? i.e. it's a task
-lifetime mark, not a "did this actually dump core" mark?
+This looks correct to me, but depends on the 5/6 not introducing any
+races. So, to that end:
 
->  			sigaddset(&t->pending.signal, SIGKILL);
->  			signal_wake_up(t, 1);
->  			nr++;
-> @@ -404,8 +404,8 @@ static int zap_threads(struct task_struct *tsk, struct mm_struct *mm,
->  	 *
->  	 * do_exit:
->  	 *	The caller holds mm->mmap_lock. This means that the task which
-> -	 *	uses this mm can't pass coredump_exit_mm(), so it can't exit or
-> -	 *	clear its ->mm.
-> +	 *	uses this mm can't pass coredump_task_exit(), so it can't exit
-> +	 *	or clear its ->mm.
->  	 *
->  	 * de_thread:
->  	 *	It does list_replace_rcu(&leader->tasks, &current->tasks),
-> @@ -500,7 +500,7 @@ static void coredump_finish(struct mm_struct *mm, bool core_dumped)
->  		next = curr->next;
->  		task = curr->task;
->  		/*
-> -		 * see coredump_exit_mm(), curr->task must not see
-> +		 * see coredump_task_exit(), curr->task must not see
->  		 * ->task == NULL before we read ->next.
->  		 */
->  		smp_mb();
-> diff --git a/include/linux/sched.h b/include/linux/sched.h
-> index e12b524426b0..f3741f23935e 100644
-> --- a/include/linux/sched.h
-> +++ b/include/linux/sched.h
-> @@ -1664,6 +1664,7 @@ extern struct pid *cad_pid;
->  #define PF_VCPU			0x00000001	/* I'm a virtual CPU */
->  #define PF_IDLE			0x00000002	/* I am an IDLE thread */
->  #define PF_EXITING		0x00000004	/* Getting shut down */
-> +#define PF_POSTCOREDUMP		0x00000008	/* Coredumps should ignore this task */
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-This might need some bikeshedding. It happens that the coredump code
-(zap_process(), actually) will ignore it, but I think what's being
-described is "this process has reached an point-of-no-return on the exit
-path, where coredumping is either done or never happened".
-
->  #define PF_IO_WORKER		0x00000010	/* Task is an IO worker */
->  #define PF_WQ_WORKER		0x00000020	/* I'm a workqueue worker */
->  #define PF_FORKNOEXEC		0x00000040	/* Forked but didn't exec */
-> diff --git a/kernel/exit.c b/kernel/exit.c
-> index cb1619d8fd64..774e6b5061b8 100644
-> --- a/kernel/exit.c
-> +++ b/kernel/exit.c
-> @@ -339,23 +339,29 @@ kill_orphaned_pgrp(struct task_struct *tsk, struct task_struct *parent)
->  	}
->  }
->  
-> -static void coredump_exit_mm(struct mm_struct *mm)
-> +static void coredump_task_exit(struct task_struct *tsk)
->  {
->  	struct core_state *core_state;
-> +	struct mm_struct *mm;
-> +
-> +	mm = tsk->mm;
-> +	if (!mm)
-> +		return;
->  
->  	/*
->  	 * Serialize with any possible pending coredump.
->  	 * We must hold mmap_lock around checking core_state
-> -	 * and clearing tsk->mm.  The core-inducing thread
-> +	 * and setting PF_POSTCOREDUMP.  The core-inducing thread
->  	 * will increment ->nr_threads for each thread in the
-> -	 * group with ->mm != NULL.
-> +	 * group without PF_POSTCOREDUMP set.
->  	 */
-> +	mmap_read_lock(mm);
-> +	tsk->flags |= PF_POSTCOREDUMP;
-
-What are the races possible here?
-
-- 2 threads exiting, but neither have core_state, so no change, looks ok
-- 1 thread exiting, 1 thread has dumped. core_state exists, in which
-  case this starts a loop to wait for wakeup?
-	if dumping thread enters zap_process, gets to sigaddset/signal_wake_up
-	then the exiting thread sets PF_POSTCOREDUMP and goes to sleep,
-	will it wait forever? (I can't tell if sighand locking prevents
-	this ordering problem...)
-- 2 threads dumping -- similar race to above? I suspect I'm missing
-  something, as I'd expect this case to already be handled.
+If you have some local tools you've been using for testing this series,
+can you toss them into tools/testing/selftests/ptrace/ ? I can help
+clean them up if want.
 
 -Kees
 
->  	core_state = mm->core_state;
-> +	mmap_read_unlock(mm);
+> ---
+>  fs/binfmt_elf.c              |  4 +-
+>  fs/binfmt_elf_fdpic.c        |  2 +-
+>  fs/coredump.c                | 84 ++++--------------------------------
+>  fs/proc/array.c              |  6 +--
+>  include/linux/mm_types.h     | 13 ------
+>  include/linux/sched/signal.h | 13 ++++++
+>  kernel/exit.c                | 13 ++----
+>  kernel/fork.c                |  1 -
+>  8 files changed, 32 insertions(+), 104 deletions(-)
+> 
+> diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
+> index 69d900a8473d..796e5327ee7d 100644
+> --- a/fs/binfmt_elf.c
+> +++ b/fs/binfmt_elf.c
+> @@ -1834,7 +1834,7 @@ static int fill_note_info(struct elfhdr *elf, int phdrs,
+>  	/*
+>  	 * Allocate a structure for each thread.
+>  	 */
+> -	for (ct = &dump_task->mm->core_state->dumper; ct; ct = ct->next) {
+> +	for (ct = &dump_task->signal->core_state->dumper; ct; ct = ct->next) {
+>  		t = kzalloc(offsetof(struct elf_thread_core_info,
+>  				     notes[info->thread_notes]),
+>  			    GFP_KERNEL);
+> @@ -2024,7 +2024,7 @@ static int fill_note_info(struct elfhdr *elf, int phdrs,
+>  	if (!elf_note_info_init(info))
+>  		return 0;
+>  
+> -	for (ct = current->mm->core_state->dumper.next;
+> +	for (ct = current->signal->core_state->dumper.next;
+>  					ct; ct = ct->next) {
+>  		ets = kzalloc(sizeof(*ets), GFP_KERNEL);
+>  		if (!ets)
+> diff --git a/fs/binfmt_elf_fdpic.c b/fs/binfmt_elf_fdpic.c
+> index 6d8fd6030cbb..c6f588dc4a9d 100644
+> --- a/fs/binfmt_elf_fdpic.c
+> +++ b/fs/binfmt_elf_fdpic.c
+> @@ -1494,7 +1494,7 @@ static int elf_fdpic_core_dump(struct coredump_params *cprm)
+>  	if (dump_vma_snapshot(cprm, &vma_count, &vma_meta, &vma_data_size))
+>  		goto end_coredump;
+>  
+> -	for (ct = current->mm->core_state->dumper.next;
+> +	for (ct = current->signal->core_state->dumper.next;
+>  					ct; ct = ct->next) {
+>  		tmp = elf_dump_thread_status(cprm->siginfo->si_signo,
+>  					     ct->task, &thread_status_size);
+> diff --git a/fs/coredump.c b/fs/coredump.c
+> index d576287fb88b..a6b3c196cdef 100644
+> --- a/fs/coredump.c
+> +++ b/fs/coredump.c
+> @@ -369,99 +369,34 @@ static int zap_process(struct task_struct *start, int exit_code, int flags)
+>  	return nr;
+>  }
+>  
+> -static int zap_threads(struct task_struct *tsk, struct mm_struct *mm,
+> +static int zap_threads(struct task_struct *tsk,
+>  			struct core_state *core_state, int exit_code)
+>  {
+> -	struct task_struct *g, *p;
+> -	unsigned long flags;
+>  	int nr = -EAGAIN;
+>  
+>  	spin_lock_irq(&tsk->sighand->siglock);
+>  	if (!signal_group_exit(tsk->signal)) {
+> -		mm->core_state = core_state;
+> +		tsk->signal->core_state = core_state;
+>  		tsk->signal->group_exit_task = tsk;
+>  		nr = zap_process(tsk, exit_code, 0);
+>  		clear_tsk_thread_flag(tsk, TIF_SIGPENDING);
+> +		tsk->flags |= PF_DUMPCORE;
+> +		atomic_set(&core_state->nr_threads, nr);
+>  	}
+>  	spin_unlock_irq(&tsk->sighand->siglock);
+> -	if (unlikely(nr < 0))
+> -		return nr;
+> -
+> -	tsk->flags |= PF_DUMPCORE;
+> -	if (atomic_read(&mm->mm_users) == nr + 1)
+> -		goto done;
+> -	/*
+> -	 * We should find and kill all tasks which use this mm, and we should
+> -	 * count them correctly into ->nr_threads. We don't take tasklist
+> -	 * lock, but this is safe wrt:
+> -	 *
+> -	 * fork:
+> -	 *	None of sub-threads can fork after zap_process(leader). All
+> -	 *	processes which were created before this point should be
+> -	 *	visible to zap_threads() because copy_process() adds the new
+> -	 *	process to the tail of init_task.tasks list, and lock/unlock
+> -	 *	of ->siglock provides a memory barrier.
+> -	 *
+> -	 * do_exit:
+> -	 *	The caller holds mm->mmap_lock. This means that the task which
+> -	 *	uses this mm can't pass coredump_task_exit(), so it can't exit
+> -	 *	or clear its ->mm.
+> -	 *
+> -	 * de_thread:
+> -	 *	It does list_replace_rcu(&leader->tasks, &current->tasks),
+> -	 *	we must see either old or new leader, this does not matter.
+> -	 *	However, it can change p->sighand, so lock_task_sighand(p)
+> -	 *	must be used. Since p->mm != NULL and we hold ->mmap_lock
+> -	 *	it can't fail.
+> -	 *
+> -	 *	Note also that "g" can be the old leader with ->mm == NULL
+> -	 *	and already unhashed and thus removed from ->thread_group.
+> -	 *	This is OK, __unhash_process()->list_del_rcu() does not
+> -	 *	clear the ->next pointer, we will find the new leader via
+> -	 *	next_thread().
+> -	 */
+> -	rcu_read_lock();
+> -	for_each_process(g) {
+> -		if (g == tsk->group_leader)
+> -			continue;
+> -		if (g->flags & PF_KTHREAD)
+> -			continue;
+> -
+> -		for_each_thread(g, p) {
+> -			if (unlikely(!p->mm))
+> -				continue;
+> -			if (unlikely(p->mm == mm)) {
+> -				lock_task_sighand(p, &flags);
+> -				nr += zap_process(p, exit_code,
+> -							SIGNAL_GROUP_EXIT);
+> -				unlock_task_sighand(p, &flags);
+> -			}
+> -			break;
+> -		}
+> -	}
+> -	rcu_read_unlock();
+> -done:
+> -	atomic_set(&core_state->nr_threads, nr);
+>  	return nr;
+>  }
+>  
+>  static int coredump_wait(int exit_code, struct core_state *core_state)
+>  {
+>  	struct task_struct *tsk = current;
+> -	struct mm_struct *mm = tsk->mm;
+>  	int core_waiters = -EBUSY;
+>  
+>  	init_completion(&core_state->startup);
+>  	core_state->dumper.task = tsk;
+>  	core_state->dumper.next = NULL;
+>  
+> -	if (mmap_write_lock_killable(mm))
+> -		return -EINTR;
+> -
+> -	if (!mm->core_state)
+> -		core_waiters = zap_threads(tsk, mm, core_state, exit_code);
+> -	mmap_write_unlock(mm);
+> -
+> +	core_waiters = zap_threads(tsk, core_state, exit_code);
+>  	if (core_waiters > 0) {
+>  		struct core_thread *ptr;
+>  
+> @@ -483,7 +418,7 @@ static int coredump_wait(int exit_code, struct core_state *core_state)
+>  	return core_waiters;
+>  }
+>  
+> -static void coredump_finish(struct mm_struct *mm, bool core_dumped)
+> +static void coredump_finish(bool core_dumped)
+>  {
+>  	struct core_thread *curr, *next;
+>  	struct task_struct *task;
+> @@ -493,9 +428,10 @@ static void coredump_finish(struct mm_struct *mm, bool core_dumped)
+>  		current->signal->group_exit_code |= 0x80;
+>  	current->signal->group_exit_task = NULL;
+>  	current->signal->flags = SIGNAL_GROUP_EXIT;
+> +	next = current->signal->core_state->dumper.next;
+> +	current->signal->core_state = NULL;
+>  	spin_unlock_irq(&current->sighand->siglock);
+>  
+> -	next = mm->core_state->dumper.next;
+>  	while ((curr = next) != NULL) {
+>  		next = curr->next;
+>  		task = curr->task;
+> @@ -507,8 +443,6 @@ static void coredump_finish(struct mm_struct *mm, bool core_dumped)
+>  		curr->task = NULL;
+>  		wake_up_process(task);
+>  	}
+> -
+> -	mm->core_state = NULL;
+>  }
+>  
+>  static bool dump_interrupted(void)
+> @@ -839,7 +773,7 @@ void do_coredump(const kernel_siginfo_t *siginfo)
+>  fail_unlock:
+>  	kfree(argv);
+>  	kfree(cn.corename);
+> -	coredump_finish(mm, core_dumped);
+> +	coredump_finish(core_dumped);
+>  	revert_creds(old_cred);
+>  fail_creds:
+>  	put_cred(cred);
+> diff --git a/fs/proc/array.c b/fs/proc/array.c
+> index 49be8c8ef555..520c51be1e57 100644
+> --- a/fs/proc/array.c
+> +++ b/fs/proc/array.c
+> @@ -408,9 +408,9 @@ static void task_cpus_allowed(struct seq_file *m, struct task_struct *task)
+>  		   cpumask_pr_args(&task->cpus_mask));
+>  }
+>  
+> -static inline void task_core_dumping(struct seq_file *m, struct mm_struct *mm)
+> +static inline void task_core_dumping(struct seq_file *m, struct task_struct *task)
+>  {
+> -	seq_put_decimal_ull(m, "CoreDumping:\t", !!mm->core_state);
+> +	seq_put_decimal_ull(m, "CoreDumping:\t", !!task->signal->core_state);
+>  	seq_putc(m, '\n');
+>  }
+>  
+> @@ -436,7 +436,7 @@ int proc_pid_status(struct seq_file *m, struct pid_namespace *ns,
+>  
+>  	if (mm) {
+>  		task_mem(m, mm);
+> -		task_core_dumping(m, mm);
+> +		task_core_dumping(m, task);
+>  		task_thp_status(m, mm);
+>  		mmput(mm);
+>  	}
+> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> index 7f8ee09c711f..1039f6ae922c 100644
+> --- a/include/linux/mm_types.h
+> +++ b/include/linux/mm_types.h
+> @@ -387,17 +387,6 @@ struct vm_area_struct {
+>  	struct vm_userfaultfd_ctx vm_userfaultfd_ctx;
+>  } __randomize_layout;
+>  
+> -struct core_thread {
+> -	struct task_struct *task;
+> -	struct core_thread *next;
+> -};
+> -
+> -struct core_state {
+> -	atomic_t nr_threads;
+> -	struct core_thread dumper;
+> -	struct completion startup;
+> -};
+> -
+>  struct kioctx_table;
+>  struct mm_struct {
+>  	struct {
+> @@ -518,8 +507,6 @@ struct mm_struct {
+>  
+>  		unsigned long flags; /* Must use atomic bitops to access */
+>  
+> -		struct core_state *core_state; /* coredumping support */
+> -
+>  #ifdef CONFIG_AIO
+>  		spinlock_t			ioctx_lock;
+>  		struct kioctx_table __rcu	*ioctx_table;
+> diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
+> index e5f4ce622ee6..a8fe2a593a3a 100644
+> --- a/include/linux/sched/signal.h
+> +++ b/include/linux/sched/signal.h
+> @@ -72,6 +72,17 @@ struct multiprocess_signals {
+>  	struct hlist_node node;
+>  };
+>  
+> +struct core_thread {
+> +	struct task_struct *task;
+> +	struct core_thread *next;
+> +};
+> +
+> +struct core_state {
+> +	atomic_t nr_threads;
+> +	struct core_thread dumper;
+> +	struct completion startup;
+> +};
+> +
+>  /*
+>   * NOTE! "signal_struct" does not have its own
+>   * locking, because a shared signal_struct always
+> @@ -110,6 +121,8 @@ struct signal_struct {
+>  	int			group_stop_count;
+>  	unsigned int		flags; /* see SIGNAL_* flags below */
+>  
+> +	struct core_state *core_state; /* coredumping support */
+> +
+>  	/*
+>  	 * PR_SET_CHILD_SUBREAPER marks a process, like a service
+>  	 * manager, to re-parent orphan (double-forking) child processes
+> diff --git a/kernel/exit.c b/kernel/exit.c
+> index 774e6b5061b8..2b355e926c13 100644
+> --- a/kernel/exit.c
+> +++ b/kernel/exit.c
+> @@ -342,23 +342,18 @@ kill_orphaned_pgrp(struct task_struct *tsk, struct task_struct *parent)
+>  static void coredump_task_exit(struct task_struct *tsk)
+>  {
+>  	struct core_state *core_state;
+> -	struct mm_struct *mm;
+> -
+> -	mm = tsk->mm;
+> -	if (!mm)
+> -		return;
+>  
+>  	/*
+>  	 * Serialize with any possible pending coredump.
+> -	 * We must hold mmap_lock around checking core_state
+> +	 * We must hold siglock around checking core_state
+>  	 * and setting PF_POSTCOREDUMP.  The core-inducing thread
+>  	 * will increment ->nr_threads for each thread in the
+>  	 * group without PF_POSTCOREDUMP set.
+>  	 */
+> -	mmap_read_lock(mm);
+> +	spin_lock_irq(&tsk->sighand->siglock);
+>  	tsk->flags |= PF_POSTCOREDUMP;
+> -	core_state = mm->core_state;
+> -	mmap_read_unlock(mm);
+> +	core_state = tsk->signal->core_state;
+> +	spin_unlock_irq(&tsk->sighand->siglock);
 >  	if (core_state) {
 >  		struct core_thread self;
 >  
-> -		mmap_read_unlock(mm);
-> -
->  		self.task = current;
->  		if (self.task->flags & PF_SIGNALED)
->  			self.next = xchg(&core_state->dumper.next, &self);
-> @@ -375,7 +381,6 @@ static void coredump_exit_mm(struct mm_struct *mm)
->  			freezable_schedule();
->  		}
->  		__set_current_state(TASK_RUNNING);
-> -		mmap_read_lock(mm);
->  	}
->  }
->  
-> @@ -480,7 +485,6 @@ static void exit_mm(void)
->  		return;
->  	sync_mm_rss(mm);
->  	mmap_read_lock(mm);
-> -	coredump_exit_mm(mm);
->  	mmgrab(mm);
->  	BUG_ON(mm != current->active_mm);
->  	/* more a memory barrier than a real lock */
-> @@ -768,6 +772,7 @@ void __noreturn do_exit(long code)
->  	profile_task_exit(tsk);
->  	kcov_task_exit(tsk);
->  
-> +	coredump_task_exit(tsk);
->  	ptrace_event(PTRACE_EVENT_EXIT, code);
->  
->  	validate_creds_for_do_exit(tsk);
 > diff --git a/kernel/fork.c b/kernel/fork.c
-> index 38681ad44c76..9bd9f2da9e41 100644
+> index 9bd9f2da9e41..c8adb76982f7 100644
 > --- a/kernel/fork.c
 > +++ b/kernel/fork.c
-> @@ -1392,8 +1392,7 @@ static void mm_release(struct task_struct *tsk, struct mm_struct *mm)
->  	 * purposes.
->  	 */
->  	if (tsk->clear_child_tid) {
-> -		if (!(tsk->signal->flags & SIGNAL_GROUP_COREDUMP) &&
-> -		    atomic_read(&mm->mm_users) > 1) {
-> +		if (atomic_read(&mm->mm_users) > 1) {
->  			/*
->  			 * We don't check the error code - if userspace has
->  			 * not set up a proper pointer then tough luck.
-> diff --git a/kernel/signal.c b/kernel/signal.c
-> index c9759ff2cb43..b0db80acc6ef 100644
-> --- a/kernel/signal.c
-> +++ b/kernel/signal.c
-> @@ -2158,31 +2158,6 @@ static void do_notify_parent_cldstop(struct task_struct *tsk,
->  	spin_unlock_irqrestore(&sighand->siglock, flags);
->  }
->  
-> -static inline bool may_ptrace_stop(void)
-> -{
-> -	if (!likely(current->ptrace))
-> -		return false;
-> -	/*
-> -	 * Are we in the middle of do_coredump?
-> -	 * If so and our tracer is also part of the coredump stopping
-> -	 * is a deadlock situation, and pointless because our tracer
-> -	 * is dead so don't allow us to stop.
-> -	 * If SIGKILL was already sent before the caller unlocked
-> -	 * ->siglock we must see ->core_state != NULL. Otherwise it
-> -	 * is safe to enter schedule().
-> -	 *
-> -	 * This is almost outdated, a task with the pending SIGKILL can't
-> -	 * block in TASK_TRACED. But PTRACE_EVENT_EXIT can be reported
-> -	 * after SIGKILL was already dequeued.
-> -	 */
-> -	if (unlikely(current->mm->core_state) &&
-> -	    unlikely(current->mm == current->parent->mm))
-> -		return false;
-> -
-> -	return true;
-> -}
-> -
-> -
->  /*
->   * This must be called with current->sighand->siglock held.
->   *
-> @@ -2263,7 +2238,7 @@ static void ptrace_stop(int exit_code, int why, int clear_code, kernel_siginfo_t
->  
->  	spin_unlock_irq(&current->sighand->siglock);
->  	read_lock(&tasklist_lock);
-> -	if (may_ptrace_stop()) {
-> +	if (likely(current->ptrace)) {
->  		/*
->  		 * Notify parents of the stop.
->  		 *
-> diff --git a/mm/oom_kill.c b/mm/oom_kill.c
-> index 295c8bdfd6c8..7877c755ab37 100644
-> --- a/mm/oom_kill.c
-> +++ b/mm/oom_kill.c
-> @@ -788,7 +788,7 @@ static inline bool __task_will_free_mem(struct task_struct *task)
->  
->  	/*
->  	 * A coredumping process may sleep for an extended period in
-> -	 * coredump_exit_mm(), so the oom killer cannot assume that
-> +	 * coredump_task_exit(), so the oom killer cannot assume that
->  	 * the process will promptly exit and release memory.
->  	 */
->  	if (sig->flags & SIGNAL_GROUP_COREDUMP)
+> @@ -1044,7 +1044,6 @@ static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
+>  	seqcount_init(&mm->write_protect_seq);
+>  	mmap_init_lock(mm);
+>  	INIT_LIST_HEAD(&mm->mmlist);
+> -	mm->core_state = NULL;
+>  	mm_pgtables_bytes_init(mm);
+>  	mm->map_count = 0;
+>  	mm->locked_vm = 0;
 > -- 
 > 2.20.1
 > 
