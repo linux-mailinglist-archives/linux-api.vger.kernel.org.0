@@ -2,114 +2,217 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AFF28416B5E
-	for <lists+linux-api@lfdr.de>; Fri, 24 Sep 2021 07:59:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC3C941705B
+	for <lists+linux-api@lfdr.de>; Fri, 24 Sep 2021 12:33:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231675AbhIXGBU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 24 Sep 2021 02:01:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33508 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230452AbhIXGBT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 24 Sep 2021 02:01:19 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 275AEC061756
-        for <linux-api@vger.kernel.org>; Thu, 23 Sep 2021 22:59:47 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id bb10so5762134plb.2
-        for <linux-api@vger.kernel.org>; Thu, 23 Sep 2021 22:59:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=8p2GDhUEcWRPomZMh4hnXGZQSPROou5FNFUE/6Z7XNs=;
-        b=hu0GUgYMSxCGS3d/nz4es6JF5GhGa6GYd8gqS3gJlce3SwWURqNLza6o9KP6S2PF53
-         2r/gtNdbaaStWI5436G5xXBEL1JjNwrOPK50rWOOEaqSyyDc8t65paBMCLh0x75DX1bZ
-         zCDeskBmNnseSPRHYaU26sxp3Fwj5f59mueKQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=8p2GDhUEcWRPomZMh4hnXGZQSPROou5FNFUE/6Z7XNs=;
-        b=iOLHmHWP8DnTMieJC5o0YzmUrRvktnHNR1nxwthEMEv5Jm2VwgbsVxOZuIJK2myo6e
-         nH1TCd/IGOAza/D/c7KZTRyO6kRHXh/Z6SvsVuu6/azaKMFxs7aMWsUQAqxKTDBxkDJm
-         QkU/vgl0NatUWw0RzkF46uUpVRGd9qkgJnHT5SQpbTh9enHxrK7n/MKwWiEznS2ynOGh
-         IeFuOYqYJzUIgcMdODdjBBjA3+c3SBgcHR7mmMJY//bAcTmZSQV52OrQfA0bWRO2E9JQ
-         j6pt5CUF46LcTqd4Ub182x5Lj38cNaa+qoKu/hfwuID8peQh0QkylQ/hTUzAcr33rn2F
-         N0hg==
-X-Gm-Message-State: AOAM531sIClEjwj8QCCxjuSKzuIHOyxcK2SHoA/smSzFmsy+3WClXImQ
-        bNs0oPrKh0flaLP+jFRgqVYiTw==
-X-Google-Smtp-Source: ABdhPJwSne78xKpXWR2MdgVgCnh3GwedXeE0BttcTmfTsCQlAxyAbanWu4xD5IhRLBP0N6OIjNAOqQ==
-X-Received: by 2002:a17:90a:c89:: with SMTP id v9mr151177pja.71.1632463186533;
-        Thu, 23 Sep 2021 22:59:46 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id l128sm7586461pfd.106.2021.09.23.22.59.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Sep 2021 22:59:45 -0700 (PDT)
-Date:   Thu, 23 Sep 2021 22:59:44 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>, linux-api@vger.kernel.org
-Subject: Re: [PATCH 0/6] per signal_struct coredumps
-Message-ID: <202109232234.135BF1325@keescook>
-References: <87v92qx2c6.fsf@disp2133>
+        id S240270AbhIXKfX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 24 Sep 2021 06:35:23 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:41134 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229911AbhIXKfX (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 24 Sep 2021 06:35:23 -0400
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1632479629;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to; bh=3qlwpik2ZScVioRdtjZP8dq5+cHoEHM42Y3IpVn8O9Q=;
+        b=AvrQWPehTUVeCLggZJeZ3UYEa+fnpn39vXJdpbQqIG/r6Rui1EN4hlJBV8UQ3zBeDSB3BQ
+        BKkOHaQ+yVzL/HOgB+9iWi5Lz8GXpxPAUhdUHWPcTQSpFVcCqywiA78Ymd32UcKZNbt9fx
+        +LRZJgrq/4BtoDPDFofUuyLpwpSG2ggTdIRBAQ5joeXEfvlBBs/38u7pJvrCmbtzys8/Nl
+        9ZRYAuD2f7OWTC2rwXKqv47ryeVecQ/PxQqhrpNbghize7ara9fFRGmibIfxomh1lqQUxy
+        Q/Wqpk+OIJuQGgSPMcaw7+fnBIA+HNrXLpVtvtGVAeq9qpFI2qFZNrxGZ2IB4w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1632479629;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to; bh=3qlwpik2ZScVioRdtjZP8dq5+cHoEHM42Y3IpVn8O9Q=;
+        b=ne6ljzK1+lXK4uvd1YB/lXPIykpTmY7pn0htgpsCu3j7Zq1g8CpGd2UYATKTaqbfUhth9B
+        EEY3Lsa/5HpuihBQ==
+To:     Sohil Mehta <sohil.mehta@intel.com>, x86@kernel.org
+Cc:     Sohil Mehta <sohil.mehta@intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jens Axboe <axboe@kernel.dk>,
+        Christian Brauner <christian@brauner.io>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Shuah Khan <shuah@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ashok Raj <ashok.raj@intel.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        Zeng Guang <guang.zeng@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Randy E Witt <randy.e.witt@intel.com>,
+        Ravi V Shankar <ravi.v.shankar@intel.com>,
+        Ramesh Thomas <ramesh.thomas@intel.com>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [RFC PATCH 09/13] x86/uintr: Introduce vector registration and
+ uintr_fd syscall
+In-Reply-To: <20210913200132.3396598-10-sohil.mehta@intel.com>
+Date:   Fri, 24 Sep 2021 12:33:48 +0200
+Message-ID: <87wnn6dzzn.ffs@tglx>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87v92qx2c6.fsf@disp2133>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 23, 2021 at 07:08:09PM -0500, Eric W. Biederman wrote:
-> Current coredumps are mixed up with the exit code, the signal handling
-> code and with the ptrace code in was they are much more complicated than
-> necessary and difficult to follow.
-> 
-> This series of changes starts with ptrace_stop and cleans it up,
-> making it easier to follow what is happening in ptrace_stop.
-> Then cleans up the exec interactions with coredumps.
-> Then cleans up the coredump interactions with exit.
-> Then the coredump interactions with the signal handling code is clean
-> up.
-> 
-> The first and last changes are bug fixes for minor bugs.
+On Mon, Sep 13 2021 at 13:01, Sohil Mehta wrote:
+>  static void free_upid(struct uintr_upid_ctx *upid_ctx)
+>  {
+> +	put_task_struct(upid_ctx->task);
 
-I haven't had a chance to carefully look through this yet, but I like
-the sound of it. :)
+That's current, right?
 
-Do we have any behavioral tests around this? The ptrace tests in seccomp
-don't explicitly exercise the exit handling. Are there regression tests
-for "rr"? They're usually the first to notice subtle changes in ptrace.
+>  	kfree(upid_ctx->upid);
+>  	upid_ctx->upid = NULL;
+>  	kfree(upid_ctx);
+> @@ -93,6 +93,7 @@ static struct uintr_upid_ctx *alloc_upid(void)
+>  
+>  	upid_ctx->upid = upid;
+>  	refcount_set(&upid_ctx->refs, 1);
+> +	upid_ctx->task = get_task_struct(current);
 
-What I couldn't tell from my quick skim: does this further change the
-behavior around force_sig_seccomp()? Specifically the "am I single
-threaded?" check:
+Current takes a refcount on it's own task struct when allocating upid,
+and releases it at some point when freeing upid, right?
 
-        case SECCOMP_RET_KILL_THREAD:
-        case SECCOMP_RET_KILL_PROCESS:
-        default:
-                seccomp_log(this_syscall, SIGSYS, action, true);
-                /* Dump core only if this is the last remaining thread. */
-                if (action != SECCOMP_RET_KILL_THREAD ||
-                    (atomic_read(&current->signal->live) == 1)) {
-                        /* Show the original registers in the dump. */
-                        syscall_rollback(current, current_pt_regs());
-                        /* Trigger a coredump with SIGSYS */
-                        force_sig_seccomp(this_syscall, data, true);
-                } else {
-                        do_exit(SIGSYS);
-                }
-                return -1; /* skip the syscall go directly to signal handling */
+What for? Comments are overrated, except for comments describing
+the obvious in the wrong way.
 
-I *think* the answer is "no", in the sense that coredump_wait() is still
-calling zap_threads() which calls zap_process(). Which now seem like
-should have opposite names. :) And therefore inducing a coredump will
-still take out all threads. (i.e. after your series, no changes need to
-be made to seccomp for it.)
+If this ever comes back in some form, then I pretty please want the life
+time rules of this documented properly. The current state is
+unreviewable.
 
--Kees
+>  	return upid_ctx;
+>  }
+> @@ -103,6 +104,77 @@ static void put_upid_ref(struct uintr_upid_ctx *upid_ctx)
+>  		free_upid(upid_ctx);
+>  }
+>  
+> +static struct uintr_upid_ctx *get_upid_ref(struct uintr_upid_ctx *upid_ctx)
+> +{
+> +	refcount_inc(&upid_ctx->refs);
+> +	return upid_ctx;
+> +}
+> +
+> +static void __clear_vector_from_upid(u64 uvec, struct uintr_upid *upid)
+> +{
+> +	clear_bit(uvec, (unsigned long *)&upid->puir);
+> +}
+> +
+> +static void __clear_vector_from_task(u64 uvec)
+> +{
+> +	struct task_struct *t = current;
+> +
+> +	pr_debug("recv: task=%d free vector %llu\n", t->pid, uvec);
+> +
+> +	if (!(BIT_ULL(uvec) & t->thread.ui_recv->uvec_mask))
+> +		return;
+> +
+> +	clear_bit(uvec, (unsigned long *)&t->thread.ui_recv->uvec_mask);
+> +
+> +	if (!t->thread.ui_recv->uvec_mask)
+> +		pr_debug("recv: task=%d unregistered all user vectors\n", t->pid);
 
--- 
-Kees Cook
+Once you are done debugging this complex function can you please turn it
+into an unconditional clear_bit(...) at the call site?
+
+> +/* Callback to clear the vector structures when a vector is unregistered. */
+> +static void receiver_clear_uvec(struct callback_head *head)
+> +{
+> +	struct uintr_receiver_info *r_info;
+> +	struct uintr_upid_ctx *upid_ctx;
+> +	struct task_struct *t = current;
+> +	u64 uvec;
+> +
+> +	r_info = container_of(head, struct uintr_receiver_info, twork);
+> +	uvec = r_info->uvec;
+> +	upid_ctx = r_info->upid_ctx;
+> +
+> +	/*
+> +	 * If a task has unregistered the interrupt handler the vector
+> +	 * structures would have already been cleared.
+
+would ? No. They must have been cleared already, anything else is a bug.
+
+> +	 */
+> +	if (is_uintr_receiver(t)) {
+> +		/*
+> +		 * The UPID context in the callback might differ from the one
+> +		 * on the task if the task unregistered its interrupt handler
+> +		 * and then registered itself again. The vector structures
+> +		 * related to the previous UPID would have already been cleared
+> +		 * in that case.
+> +		 */
+> +		if (t->thread.ui_recv->upid_ctx != upid_ctx) {
+> +			pr_debug("recv: task %d is now using a different UPID\n",
+> +				 t->pid);
+> +			goto out_free;
+> +		}
+> +
+> +		/*
+> +		 * If the vector has been recognized in the UIRR don't modify
+> +		 * it. We need to disable User Interrupts before modifying the
+> +		 * UIRR. It might be better to just let that interrupt get
+> +		 * delivered.
+
+Might be better? Please provide coherent explanations why this is correct.
+
+> +		 */
+> +		__clear_vector_from_upid(uvec, upid_ctx->upid);
+> +		__clear_vector_from_task(uvec);
+> +	}
+> +
+> +out_free:
+> +	put_upid_ref(upid_ctx);
+> +	kfree(r_info);
+> +}
+> +
+>  int do_uintr_unregister_handler(void)
+>  {
+>  	struct task_struct *t = current;
+> @@ -239,6 +311,53 @@ int do_uintr_register_handler(u64 handler)
+>  	return 0;
+>  }
+>  
+> +void do_uintr_unregister_vector(struct uintr_receiver_info *r_info)
+> +{
+> +	int ret;
+> +
+> +	pr_debug("recv: Adding task work to clear vector %llu added for task=%d\n",
+> +		 r_info->uvec, r_info->upid_ctx->task->pid);
+> +
+> +	init_task_work(&r_info->twork, receiver_clear_uvec);
+
+How is this safe? Reinitialization has to be serialized against other
+usage. Again: Document the life time and serialization rules. Your
+pr_debugs sprinkled all over the place are not a replacement for that.
+
+> +	ret = task_work_add(r_info->upid_ctx->task, &r_info->twork, true);
+
+Care to look at the type of the third argument of task_work_add()?
+
+> +struct uintrfd_ctx {
+> +	struct uintr_receiver_info *r_info;
+
+Yet another wrapper struct? What for?
+
+> +/*
+> + * sys_uintr_create_fd - Create a uintr_fd for the registered interrupt vector.
+
+So this creates a file descriptor for a vector which is already
+allocated and then it calls do_uintr_register_vector() which allocates
+the vector?
+
+> + */
+> +SYSCALL_DEFINE2(uintr_create_fd, u64, vector, unsigned int, flags)
+> +{
+
+Thanks,
+
+        tglx
