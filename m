@@ -2,179 +2,130 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 81648417093
-	for <lists+linux-api@lfdr.de>; Fri, 24 Sep 2021 13:04:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46A1141756B
+	for <lists+linux-api@lfdr.de>; Fri, 24 Sep 2021 15:20:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244563AbhIXLGB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 24 Sep 2021 07:06:01 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:41368 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244510AbhIXLGA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 24 Sep 2021 07:06:00 -0400
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1632481466;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=R0xmbt7Av+GwVclLZhRHdpujH9c0cVpxkWZDFBaxUtM=;
-        b=OsU5VzNgLGtvscowoSnpo57k/J92eaphSGiTNWv8fOkgM9kvbwSbg3BzhDg5z2shi90pF7
-        sx8bFGSIY/PLP/Pm4QOwON/6l9t8NQwzid0k8fbAs4/ZsaOz4MsvpjKkt1u98P7za/S7Dd
-        cVEJbdAtNnSrfv3qVySmTASvY4yKUiqn8Zs49FxlYx/DIc+5tO6tna0q9GqRZ+a5iweaEt
-        ufZHJxBR1M1K3Os9x8r5wSL8xobVsMh8hcUrXwuMoSihqtLPAZie0AXMbe7NgjytJO7ie3
-        MkIbp0v63kSbVe/jxLfqRmDcHh8/2fCDIoMmf2Dy+hbXYVT0fFISwAupCo88RQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1632481466;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=R0xmbt7Av+GwVclLZhRHdpujH9c0cVpxkWZDFBaxUtM=;
-        b=ADW+qoGHk4FKZa85mQXSXh5rJDACF1IJmkDonEbagVzDoaNlHD9Bf0S5UTGdfeByEe4oy1
-        H4oboX/eR8q281Ag==
-To:     Sohil Mehta <sohil.mehta@intel.com>, x86@kernel.org
-Cc:     Sohil Mehta <sohil.mehta@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Jens Axboe <axboe@kernel.dk>,
-        Christian Brauner <christian@brauner.io>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Shuah Khan <shuah@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ashok Raj <ashok.raj@intel.com>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Zeng Guang <guang.zeng@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Randy E Witt <randy.e.witt@intel.com>,
-        Ravi V Shankar <ravi.v.shankar@intel.com>,
-        Ramesh Thomas <ramesh.thomas@intel.com>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [RFC PATCH 11/13] x86/uintr: Introduce uintr_wait() syscall
-In-Reply-To: <20210913200132.3396598-12-sohil.mehta@intel.com>
-References: <20210913200132.3396598-1-sohil.mehta@intel.com>
- <20210913200132.3396598-12-sohil.mehta@intel.com>
-Date:   Fri, 24 Sep 2021 13:04:25 +0200
-Message-ID: <87r1dedykm.ffs@tglx>
+        id S1344499AbhIXNWW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 24 Sep 2021 09:22:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46164 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1346169AbhIXNVQ (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 24 Sep 2021 09:21:16 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 13D0060FC1;
+        Fri, 24 Sep 2021 13:19:41 +0000 (UTC)
+Date:   Fri, 24 Sep 2021 15:19:39 +0200
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Luis Chamberlain <mcgrof@kernel.org>,
+        Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jessica Yu <jeyu@kernel.org>
+Subject: Re: [RFC] Expose request_module via syscall
+Message-ID: <20210924131939.4jaou665fodiziml@wittgenstein>
+References: <2ebf1a9d-77d5-472b-a99a-b141654725da@www.fastmail.com>
+ <6eff0e8a-4965-437d-9273-1d9d73892e1a@t-8ch.de>
+ <CALCETrWA1TBvbknH1Jzt=newTd4sHzNFm0RPuRxazjuRQRsR7w@mail.gmail.com>
+ <8cbf0703-5734-4e92-a6cc-12de69094f95@t-8ch.de>
+ <YUi95tFDWS7oceYP@bombadil.infradead.org>
+ <CALCETrX9keVFxEZYUkKr7_dWb9Ubo9q4E2aTY_ZOWGSHyRph8g@mail.gmail.com>
+ <20210922122523.72ypzg4pm2x6nkod@wittgenstein>
+ <59e230b3-0e85-42ff-84a8-6b30ad0719d8@www.fastmail.com>
+ <20210922155253.nj5dorsyv7loduws@wittgenstein>
+ <0f209e1c-3d5c-46be-b5e7-323970112a8e@www.fastmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0f209e1c-3d5c-46be-b5e7-323970112a8e@www.fastmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Sep 13 2021 at 13:01, Sohil Mehta wrote:
-> Add a new system call to allow applications to block in the kernel and
-> wait for user interrupts.
->
-> <The current implementation doesn't support waking up from other
-> blocking system calls like sleep(), read(), epoll(), etc.
->
-> uintr_wait() is a placeholder syscall while we decide on that
-> behaviour.>
->
-> When the application makes this syscall the notification vector is
-> switched to a new kernel vector. Any new SENDUIPI will invoke the kernel
-> interrupt which is then used to wake up the process.
->
-> Currently, the task wait list is global one. To make the implementation
-> scalable there is a need to move to a distributed per-cpu wait list.
+On Wed, Sep 22, 2021 at 01:06:49PM -0700, Andy Lutomirski wrote:
+> 
+> 
+> On Wed, Sep 22, 2021, at 8:52 AM, Christian Brauner wrote:
+> > On Wed, Sep 22, 2021 at 08:34:23AM -0700, Andy Lutomirski wrote:
+> >> On Wed, Sep 22, 2021, at 5:25 AM, Christian Brauner wrote:
+> >> > On Mon, Sep 20, 2021 at 11:36:47AM -0700, Andy Lutomirski wrote:
+> >> >> On Mon, Sep 20, 2021 at 11:16 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
+> >> >> >
+> >> >> > On Mon, Sep 20, 2021 at 04:51:19PM +0200, Thomas Weißschuh wrote:
+> >> >> 
+> >> >> > > > Do you mean it literally invokes /sbin/modprobe?  If so, hooking this
+> >> >> > > > at /sbin/modprobe and calling out to the container manager seems like
+> >> >> > > > a decent solution.
+> >> >> > >
+> >> >> > > Yes it does. Thanks for the idea, I'll see how this works out.
+> >> >> >
+> >> >> > Would documentation guiding you in that way have helped? If so
+> >> >> > I welcome a patch that does just that.
+> >> >> 
+> >> >> If someone wants to make this classy, we should probably have the
+> >> >> container counterpart of a standardized paravirt interface.  There
+> >> >> should be a way for a container to, in a runtime-agnostic way, issue
+> >> >> requests to its manager, and requesting a module by (name, Linux
+> >> >> kernel version for which that name makes sense) seems like an
+> >> >> excellent use of such an interface.
+> >> >
+> >> > I always thought of this in two ways we currently do this:
+> >> >
+> >> > 1. Caller transparent container manager requests.
+> >> >    This is the seccomp notifier where we transparently handle syscalls
+> >> >    including intercepting init_module() where we parse out the module to
+> >> >    be loaded from the syscall args of the container and if it is
+> >> >    allow-listed load it for the container otherwise continue the syscall
+> >> >    letting it fail or failing directly through seccomp return value.
+> >> 
+> >> Specific problems here include aliases and dependencies.  My modules.alias file, for example, has:
+> >> 
+> >> alias net-pf-16-proto-16-family-wireguard wireguard
+> >> 
+> >> If I do modprobe net-pf-16-proto-16-family-wireguard, modprobe parses some files in /lib/modules/`uname -r` and issues init_module() asking for 'wireguard'.  So hooking init_module() is at the wrong layer -- for that to work, the container's /sbin/modprobe needs to already have figured out that the desired module is wireguard and have a .ko for it.
+> >
+> > You can't use the container's .ko module. For this you would need to
+> > trust the image that the container wants you to load. The container
+> > manager should always load a host module.
+> >
+> 
+> Agreed. 
+> 
+> >> 
+> >> >
+> >> > 2. A process in the container explicitly calling out to the container
+> >> >    manager.
+> >> >    One example how this happens is systemd-nspawn via dbus messages
+> >> >    between systemd in the container and systemd outside the container to
+> >> >    e.g. allocate a new terminal in the container (kinda insecure but
+> >> >    that's another issue) or other stuff.
+> >> >
+> >> > So what was your idea: would it be like a device file that could be
+> >> > exposed to the container where it writes requestes to the container
+> >> > manager? What would be the advantage to just standardizing a socket
+> >> > protocol which is what we do for example (it doesn't do module loading
+> >> > of course as we handle that differently):
+> >> 
+> >> My idea is standardizing *something*.  I think it would be nice if, for example, distros could ship a /sbin/modprobe that would do the right thing inside any compliant container runtime as well as when running outside a container.
+> >> 
+> >> I suppose container managers could also bind-mount over /sbin/modprobe, but that's more intrusive.
+> >
+> > I don't see this is a big issue because that is fairly trivial.
+> > I think we never want to trust the container's modules.
+> > What probably should be happening is that the manager exposes a list of
+> > modules the container can request in some form. We have precedence for
+> > doing something like this.
+> > So now modprobe and similar tools can be made aware that if they are in
+> > a container they should request that module from the container manager
+> > be it via a socket request or something else.
+> > Nesting will be a bit funny but can probably be made to work by just
+> > bind-mounting the outermost socket into the container or relaying the
+> > request.
+> 
+> Why bother with a list?  I think it should be sufficient for the container to ask for a module and either get it or not get it.
 
-How are per cpu wait lists going to solve the problem?
-
-> +
-> +/*
-> + * Handler for UINTR_KERNEL_VECTOR.
-> + */
-> +DEFINE_IDTENTRY_SYSVEC(sysvec_uintr_kernel_notification)
-> +{
-> +	/* TODO: Add entry-exit tracepoints */
-> +	ack_APIC_irq();
-> +	inc_irq_stat(uintr_kernel_notifications);
-> +
-> +	uintr_wake_up_process();
-
-So this interrupt happens for any of those notifications. How are they
-differentiated? 
->  
-> +int uintr_receiver_wait(void)
-> +{
-> +	struct uintr_upid_ctx *upid_ctx;
-> +	unsigned long flags;
-> +
-> +	if (!is_uintr_receiver(current))
-> +		return -EOPNOTSUPP;
-> +
-> +	upid_ctx = current->thread.ui_recv->upid_ctx;
-> +	upid_ctx->upid->nc.nv = UINTR_KERNEL_VECTOR;
-> +	upid_ctx->waiting = true;
-> +	spin_lock_irqsave(&uintr_wait_lock, flags);
-> +	list_add(&upid_ctx->node, &uintr_wait_list);
-> +	spin_unlock_irqrestore(&uintr_wait_lock, flags);
-> +
-> +	set_current_state(TASK_INTERRUPTIBLE);
-
-Because we have not enough properly implemented wait primitives you need
-to open code one which is blantantly wrong vs. a concurrent wake up?
-
-> +	schedule();
-
-How is that correct vs. a spurious wakeup? What takes care that the
-entry is removed from the list?
-
-Again. We have proper wait primitives.
-
-> +	return -EINTR;
-> +}
-> +
-> +/*
-> + * Runs in interrupt context.
-> + * Scan through all UPIDs to check if any interrupt is on going.
-> + */
-> +void uintr_wake_up_process(void)
-> +{
-> +	struct uintr_upid_ctx *upid_ctx, *tmp;
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&uintr_wait_lock, flags);
-> +	list_for_each_entry_safe(upid_ctx, tmp, &uintr_wait_list, node) {
-> +		if (test_bit(UPID_ON, (unsigned long*)&upid_ctx->upid->nc.status)) {
-> +			set_bit(UPID_SN, (unsigned long *)&upid_ctx->upid->nc.status);
-> +			upid_ctx->upid->nc.nv = UINTR_NOTIFICATION_VECTOR;
-> +			upid_ctx->waiting = false;
-> +			wake_up_process(upid_ctx->task);
-> +			list_del(&upid_ctx->node);
-
-So any of these notification interrupts does a global mass wake up? How
-does that make sense?
-
-> +		}
-> +	}
-> +	spin_unlock_irqrestore(&uintr_wait_lock, flags);
-> +}
-> +
-> +/* Called when task is unregistering/exiting */
-> +static void uintr_remove_task_wait(struct task_struct *task)
-> +{
-> +	struct uintr_upid_ctx *upid_ctx, *tmp;
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&uintr_wait_lock, flags);
-> +	list_for_each_entry_safe(upid_ctx, tmp, &uintr_wait_list, node) {
-> +		if (upid_ctx->task == task) {
-> +			pr_debug("wait: Removing task %d from wait\n",
-> +				 upid_ctx->task->pid);
-> +			upid_ctx->upid->nc.nv = UINTR_NOTIFICATION_VECTOR;
-> +			upid_ctx->waiting = false;
-> +			list_del(&upid_ctx->node);
-> +		}
-
-What? You have to do a global list walk to find the entry which you
-added yourself?
-
-Thanks,
-
-        tglx
- 
+I just meant that the programs in the container can see the modules
+available on the host. Simplest thing could be bind-mounting in the
+host's module folder with suitable protection (locked read-only mount).
+But yeah, it can likely be as simple as allowing it to ask for a module
+and not bother telling it about what is available.
