@@ -2,210 +2,176 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E46AD417B76
-	for <lists+linux-api@lfdr.de>; Fri, 24 Sep 2021 21:06:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1ED0E417C11
+	for <lists+linux-api@lfdr.de>; Fri, 24 Sep 2021 21:59:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346211AbhIXTIR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 24 Sep 2021 15:08:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46556 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346210AbhIXTIQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 24 Sep 2021 15:08:16 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D886C061613
-        for <linux-api@vger.kernel.org>; Fri, 24 Sep 2021 12:06:43 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id k23so7655250pji.0
-        for <linux-api@vger.kernel.org>; Fri, 24 Sep 2021 12:06:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=QQbXTp9jwktw89AtddwoXiRRXvT8q44fMgRU+kpBvAs=;
-        b=hBT2094Q4KVQXKdAcY4LmJQYGAi98KaiZtil0A1jpS1bLDBgk9TcwJnTG2A01kZ5bg
-         SJUY9OTGwlTCsKmBvVQe2Ftu0EdsEdtzn2QRd7ZYieqsS36uKU6KPPZ/aPUafZ7nntEf
-         8+eEObucgDEbSrBWSI04DzobWanfxDZXhUFUM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=QQbXTp9jwktw89AtddwoXiRRXvT8q44fMgRU+kpBvAs=;
-        b=RPHuOIoFpe0lEVYuGwV2EJXGcTnFlUsT2RiHAAz1yInagaWdm4DQddYqXgiqWLNwTT
-         1hLqOrY/T4uZMdnBk8p427DKOblq6ixoyzuDBsSfYGE6FsRrR5APwbyaMNm9sfaonW61
-         cxL0SDoh9ZqXrS+4DHisGWQ/BLn6joW1XmkybdRkAg8vjdUFa9XQS9ZJlBapkXSZuIQJ
-         sjMfgr4UlVieIleXjCcKxYw0TggEkkHhnW53KtM+cwpKgKCApEuYon59g0Tx/69/ez++
-         TKy+/yOzuOMWFJF/tiEeYNojmkYCrDBWJKhgRvo34olHGjeV8LPXIPTe5IHXeO5B1KiO
-         WAsg==
-X-Gm-Message-State: AOAM5301NrkTBiZqPBGMI1GUuQgSkBAzKm/qKpf7Ngn97IcduWUN9euo
-        NdBU9g5beBy8N2BfjahkhBCQGg==
-X-Google-Smtp-Source: ABdhPJz0Cmr2FruFvG3V3BsomRdJH/fcunLCf5Ac+KO5P7m6yIHEkK69BsHG2AwYfGqnjGfbR7IWMA==
-X-Received: by 2002:a17:90a:a584:: with SMTP id b4mr4076791pjq.70.1632510402841;
-        Fri, 24 Sep 2021 12:06:42 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id h17sm9748992pfk.66.2021.09.24.12.06.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Sep 2021 12:06:42 -0700 (PDT)
-Date:   Fri, 24 Sep 2021 12:06:41 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>, linux-api@vger.kernel.org
-Subject: Re: [PATCH 1/6] signal: Remove the bogus sigkill_pending in
- ptrace_stop
-Message-ID: <202109241159.950557F64@keescook>
-References: <87v92qx2c6.fsf@disp2133>
- <87pmsyx29t.fsf@disp2133>
- <202109240804.BC44773A@keescook>
- <87tuiaotz1.fsf@disp2133>
+        id S1348279AbhIXUBG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 24 Sep 2021 16:01:06 -0400
+Received: from mga06.intel.com ([134.134.136.31]:30785 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1345980AbhIXUBF (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 24 Sep 2021 16:01:05 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10117"; a="285166332"
+X-IronPort-AV: E=Sophos;i="5.85,320,1624345200"; 
+   d="scan'208";a="285166332"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2021 12:59:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,320,1624345200"; 
+   d="scan'208";a="436246456"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orsmga006.jf.intel.com with ESMTP; 24 Sep 2021 12:59:31 -0700
+Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Fri, 24 Sep 2021 12:59:31 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Fri, 24 Sep 2021 12:59:31 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12 via Frontend Transport; Fri, 24 Sep 2021 12:59:31 -0700
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.168)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.12; Fri, 24 Sep 2021 12:59:30 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lmjAOs71aCi7zw55HylxZwGd33JGYCfwBGq1O5jmB5jkm9eERJUYrLCAMLkOeTaZEzm05FME+jqX6qaGMhVraE0diRgISpOurMNLJ97pVLDUflZt6QJFxgPYCdkYhRD4OOO3zAQCUUHMElG4VYuk2983UOUQLgdumyfTyC2NpQ7OJsAPN2q6hre4+ywreNU0fQfIc6WftjQ0s9DgBBYXeGjyydiJw2PULqdokzg/WLPGs9eJrekHBhU2l7TT1KU9c13QtGMvth0FXI+9ll2pxfnOcT7uhcJ8S3vdIPayg+Gm2+a4yyK52BSDR6mVZicYtjzIZw8x2Asvy5JLrA7BVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=AiwDntc0JyWW11Z6KdmllqFVNCpLmFN/huRcrymPHwg=;
+ b=ilcS9njtNhVfWB9aMKt4IvCTMsGMFoYTs+/1JN4e0Z7+CCV0XL4+1XohbPzvxqxGQnQWRx8C+lEEGUsaoxmgKOJF7C33TO3gzD40vmD11fcRuSBH5XDWQ/Gs4N0Q/UDBjBH9Wyd9HWGdcwxvGAcbm0G4KdX8HelHFt/4SqF1iADipHuyjPcZhP2ny2RybynocTXYFBLMLJkig74Umj17OwFEEC408nUfyPQ4pnUCjG14gjgHCYZLAUJ9hTRIPvhhNIHfiveoETQ64hz7D+YNIma6xCdWah7dWPJfgfhf/ubJPYt8o4KcbPEoXs05mWimG2WzNjL3cG0AG6aoSbKvNA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AiwDntc0JyWW11Z6KdmllqFVNCpLmFN/huRcrymPHwg=;
+ b=fE65cwK2eESdlc3Y4rcLtR1hbnmaCm8WWR0sCfOPUYKFYjINWMNok+7WuVvCNV+Peyiw0MvpE3DR3gaxwmGLobioXN46zVP9Nil2/4tB9kKLQ/efftY34JBoXk2bSDcSNN+Ils0qD3TBzSAFgkz0d/0IrqbjNQwPorQ7YBWevXE=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=intel.com;
+Received: from BYAPR11MB3320.namprd11.prod.outlook.com (2603:10b6:a03:18::25)
+ by BYAPR11MB2565.namprd11.prod.outlook.com (2603:10b6:a02:c9::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.15; Fri, 24 Sep
+ 2021 19:59:29 +0000
+Received: from BYAPR11MB3320.namprd11.prod.outlook.com
+ ([fe80::6db5:94d3:e534:617c]) by BYAPR11MB3320.namprd11.prod.outlook.com
+ ([fe80::6db5:94d3:e534:617c%7]) with mapi id 15.20.4523.018; Fri, 24 Sep 2021
+ 19:59:28 +0000
+Subject: Re: [RFC PATCH 03/13] x86/cpu: Enumerate User Interrupts support
+To:     Thomas Gleixner <tglx@linutronix.de>, <x86@kernel.org>
+CC:     Tony Luck <tony.luck@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jens Axboe <axboe@kernel.dk>,
+        Christian Brauner <christian@brauner.io>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Shuah Khan <shuah@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ashok Raj <ashok.raj@intel.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        "Gayatri Kammela" <gayatri.kammela@intel.com>,
+        Zeng Guang <guang.zeng@intel.com>,
+        "Dan Williams" <dan.j.williams@intel.com>,
+        Randy E Witt <randy.e.witt@intel.com>,
+        Ravi V Shankar <ravi.v.shankar@intel.com>,
+        Ramesh Thomas <ramesh.thomas@intel.com>,
+        <linux-api@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>
+References: <20210913200132.3396598-1-sohil.mehta@intel.com>
+ <20210913200132.3396598-4-sohil.mehta@intel.com> <87lf3nexrz.ffs@tglx>
+From:   Sohil Mehta <sohil.mehta@intel.com>
+Message-ID: <86123a94-c156-4d93-e199-1f2f1de4b95f@intel.com>
+Date:   Fri, 24 Sep 2021 12:59:25 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
+In-Reply-To: <87lf3nexrz.ffs@tglx>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ClientProxiedBy: SJ0PR05CA0177.namprd05.prod.outlook.com
+ (2603:10b6:a03:339::32) To BYAPR11MB3320.namprd11.prod.outlook.com
+ (2603:10b6:a03:18::25)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87tuiaotz1.fsf@disp2133>
+Received: from [192.168.86.37] (73.222.31.188) by SJ0PR05CA0177.namprd05.prod.outlook.com (2603:10b6:a03:339::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.8 via Frontend Transport; Fri, 24 Sep 2021 19:59:27 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f5447dbd-a364-43c9-3102-08d97f95d0f8
+X-MS-TrafficTypeDiagnostic: BYAPR11MB2565:
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr,ExtFwd
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BYAPR11MB2565C319AA7DC38461BB992CE5A49@BYAPR11MB2565.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ucY3j/b1f0fBqGODdbsJetsKeSOtlQM+FKvjHuyC5gNBagzem/Fk1TfzfXTON+jSAQ3WJGrQPXb5eKV7I1YV9TNnWaNvkU+p/gFPkUBqRAZc6vJ08IIWf2WhRx6Y9d5ylBdLuF2kU5uVN+6N2D7dOe2ADiNuXKNATL6OJFFzCHfrFhfdMtC5Cn8vi6eU1WVCpanlYfaimKV4RvY1CY/roRGSZs0pn+g6+U4796/uEIzJm9WGBtd0E29AJhl245cPUkkeGZ6syakSRLeM4YM3j24xaGxrDQLccO1LlBR95voRxeRoKq83fAc73Sr/agpBo9wQUafQQ+uZx6UywdhClolgk98rvJKNPMLGq0CLXOjrCcqliwvDtDy+c0/6THmr5L31VZ/OAo0srYbFcIcKPe0Wf5BK2iPW1mo+75ShIONjdzdXjIUMNFa5aiIMEkuJIL+VhII2OJmCtm6GzbZc9IteAOuI2q2QBB4e/dNW8UG8G3MFgvU9+SaZwg9761nLCAdMRd8YB8mRPBqGHCTeKrJdeBUmdrkovVQTMZo38WpSsDHglDCqK2XtvULl/vGM4kFTZtwYml5CNEgHO41gkVpf+gnWA+BOxDFRkL+QpYtUW35I5usUuglKIcQOcmspW5ZfLmBkJNR06gSlUXwdOBpsFHg3GZ76OdrHPYOj9eTyy1mtFksuHNJ36iGf7ytmn6fTrGfaAgROJHYYLS5/UCvZVyZ7v+H070GAw6DTpMs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3320.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6486002)(186003)(53546011)(44832011)(508600001)(5660300002)(2906002)(26005)(36756003)(4326008)(2616005)(4744005)(956004)(8676002)(38100700002)(8936002)(31686004)(66476007)(86362001)(66556008)(54906003)(66946007)(16576012)(7416002)(31696002)(316002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?STdxTlZKUUw3L2ZBd3VzaU1LTFdtTTVoSTNPdDNqZ3k5SWwxUVdsNFZBZ3dk?=
+ =?utf-8?B?d29KV1Q2YjdCRjM3Y0VLQ1VPVk00djB4SUxrQ2d1NVB3MlFadU0zcG9xcHZr?=
+ =?utf-8?B?ekZ3V0NKZUx5eFhEakZtaGQrdndJU2RGdUhTUGZnTVVZZG1uVGJvekc1S3NR?=
+ =?utf-8?B?bkViVW5hM29IbmtYRnY3VWZ0eXJLSTFxN2R2eUNJWlppeXpnVHVSQ3QrL3h0?=
+ =?utf-8?B?WkNOVEwyVVg3dmVEMTFoU2Z1dkFyT1Z2b2hXRkkySy9HeEhwR2FuRWZ5TVZ1?=
+ =?utf-8?B?VVRVaUdHejdoWDRqaFpNRG1sQW91L0R6UDh4NnFIb1hMYW5USU9tQnpuQjFB?=
+ =?utf-8?B?UmJDd3RhVUMzenhtQjhndWtXZndCVUY5OFFyME9taVIyMmlnOEd3ZnRidGlx?=
+ =?utf-8?B?SzBtYlR5Szd2SHdzTDRkRk0zZmFZREJ1Q2lpZlJndFYzaHhGSGh2YjloUHlt?=
+ =?utf-8?B?OFV6ajdZdXZLUVdJR1U2VkxpaWl4TXNxZUM4cUgzSU12ajZvOGRacktvNGdU?=
+ =?utf-8?B?a0FnQmR0cWRmbE5BUVdSMkowbjZqNG1WazdIV3l5QjJMWnBsUHJQQmdBbXhK?=
+ =?utf-8?B?Yk5GZ3l5am5ZR2FRbUR3bXUzUXBRcVc5MlZxZDhrOStXM3YxeEdUYi85R1pC?=
+ =?utf-8?B?bDMxYVpZZitNNkcrZ0M2dXRCTlZibkYzTFo4eU45aFUyem9ac0RTZTMyVnpZ?=
+ =?utf-8?B?NUMzNWlKVDJhL2JhK1MrNlZrTUZpS296SFZCUDdLZENOOUxTbFJLSWdubDVz?=
+ =?utf-8?B?UkF4WjdWaGpjSUczN3ZYd0dCZ2RoRXdsMnB5ak9NdkF0akhINExRNE1xcU5O?=
+ =?utf-8?B?YlkrOGl4Ly9BUmk4UXlMNjVQRnZ4cnpnblp0dFhYck0vaXRXaTVEeC9EYnhZ?=
+ =?utf-8?B?cWkwMkV2R3pCWjVnZDFicVFUNnZlNFljQ2pQMDRHaHJkeE9DZElGMEgyN2tJ?=
+ =?utf-8?B?d2lIbDFkM1pQTTI4dVVXblpZVXQyOVdKVjN6dHJTd0JuK0NTbytYcHpZQnJG?=
+ =?utf-8?B?NnhpcS9VZ01qTnVWZWFpMmg1Qlp1c1l0NnZtZmg0dmJPNStuT2htQVdTYVg2?=
+ =?utf-8?B?NW9OeXlXN011YWNwMVZjQmZIY1BXcnk0RkY5Q2NxcXNLN2dNOVlDYUl2QWNJ?=
+ =?utf-8?B?RERjVEl4aUtwRm5zSnBKdVNzV3NmalM5R3VQWkFFZmJIQ1pRSlEzUjhMTWht?=
+ =?utf-8?B?RTh1TUlremxsRjE4Zytuci9odFNrM3R4eWVkUkd2YTlkMm5UcGd1czhkMGt2?=
+ =?utf-8?B?dHdBL0duZDhEVFhvS0NpZDZQblBmUFEwbTdBVE14ZjZkMjloU1hCNTBRUi9l?=
+ =?utf-8?B?d1dtZXE0UHMzR21zWk5vaVZnMVI5YUNDaEJ6OU9GNnI3WVJneTlGdXFSaG5J?=
+ =?utf-8?B?VkVkSlplSUxWMDdMTkJnQlJXOVJTSDdVM0FtL2xqNFVYb3lPeEtMSFZqMVJm?=
+ =?utf-8?B?S2pUUHE5dnZXYUZUYmgxZnYxaDFZUG1EclcyTmpuUlhEb3lGaXFpVktuNEl2?=
+ =?utf-8?B?bkk0akhseVg0UkdLMHl5bDZuaXIxbG5JM2RSeHVIdkp0azlYS1V6U1p3MlZj?=
+ =?utf-8?B?SVJrSVZGcWNtb2NMUFBmTjVNOXcvdUxpeS8rYW5SdkJ3dnpTcjFFQlV4dSs4?=
+ =?utf-8?B?ZWNuMFliM2MrMWx6cWlHWjdST241cXhOMUZnRkI4WTM1aUdUZ2pjYWx0YWVt?=
+ =?utf-8?B?SEs5V25hSjg0dVd0djlPQUUreFRwS3krbnJ0cDUzb1Q4V0NMUGI5NnpMaFpq?=
+ =?utf-8?Q?te9ZLUMX7zobul6HwAoULe4pDiXm2ePlCWtAiiJ?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: f5447dbd-a364-43c9-3102-08d97f95d0f8
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3320.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2021 19:59:28.7064
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SW1E/5fH6Zs+THpSuL29hjBrmVqwKXlEUKYi7U3kB/SbbVxyqmSOrvY6EhtEWckpPGi6JtfMOgTVDqf0oGBsfA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2565
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Sep 24, 2021 at 10:48:18AM -0500, Eric W. Biederman wrote:
-> Kees Cook <keescook@chromium.org> writes:
-> 
-> > On Thu, Sep 23, 2021 at 07:09:34PM -0500, Eric W. Biederman wrote:
-> >> 
-> >> The existence of sigkill_pending is a little silly as it is
-> >> functionally a duplicate of fatal_signal_pending that is used in
-> >> exactly one place.
-> >
-> > sigkill_pending() checks for &tsk->signal->shared_pending.signal but
-> > fatal_signal_pending() doesn't.
-> 
-> The extra test is unnecessary as all SIGKILL's visit complete_signal
-> immediately run the loop:
-> 
-> 			/*
-> 			 * Start a group exit and wake everybody up.
-> 			 * This way we don't have other threads
-> 			 * running and doing things after a slower
-> 			 * thread has the fatal signal pending.
-> 			 */
-> 			signal->flags = SIGNAL_GROUP_EXIT;
-> 			signal->group_exit_code = sig;
-> 			signal->group_stop_count = 0;
-> 			t = p;
-> 			do {
-> 				task_clear_jobctl_pending(t, JOBCTL_PENDING_MASK);
-> 				sigaddset(&t->pending.signal, SIGKILL);
-> 				signal_wake_up(t, 1);
-> 			} while_each_thread(p, t);
-> 			return;
-> 
-> Which sets SIGKILL in the task specific queue.  Which means only the
-> non-shared queue needs to be tested.  Further fatal_signal_pending would
-> be buggy if this was not the case.
+On 9/23/2021 3:24 PM, Thomas Gleixner wrote:
+> On Mon, Sep 13 2021 at 13:01, Sohil Mehta wrote:
+>> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+>> Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
+> This SOB chain is invalid. Ditto in several other patches.
+>
+>
+Thank you Thomas for reviewing the patches! Really appreciate it.
 
-Okay, so SIGKILL is special from the perspective of shared_pending. Why
-was it tested for before? Or rather: how could SIGKILL ever have gotten
-set in shared_pending?
+I'll fix the SOB chain next time. I am planning to reply to rest of the 
+comments over the next week.
 
-Oh, I think I see what you mean about complete_signal() now: that's just
-looking at sig, and doesn't care where it got written. i.e. SIGKILL gets
-immediately written to pending, even if the prior path through
-__send_signal() only wrote it to shared_pending.
+Thanks,
 
-> 
-> >> Checking for pending fatal signals and returning early in ptrace_stop
-> >> is actively harmful.  It casues the ptrace_stop called by
-> >> ptrace_signal to return early before setting current->exit_code.
-> >> Later when ptrace_signal reads the signal number from
-> >> current->exit_code is undefined, making it unpredictable what will
-> >> happen.
-> >> 
-> >> Instead rely on the fact that schedule will not sleep if there is a
-> >> pending signal that can awaken a task.
-> >
-> > This reasoning sound fine, but I can't see where it's happening.
-> > It looks like recalc_sigpending() is supposed to happen at the start
-> > of scheduling? I see it at the end of ptrace_stop(), though, so it looks
-> > like it's reasonable to skip checking shared_pending.
-> >
-> > (Does the scheduler deal with shared_pending directly?)
-> 
-> In the call of signal_pending_state from kernel/core/.c:__schedule().
-> 
-> ptrace_stop would actually be badly broken today if that was not the
-> case as several places enter into ptrace_event without testing signals
-> first.
-> 
-> >> Removing the explict sigkill_pending test fixes fixes ptrace_signal
-> >> when ptrace_stop does not stop because current->exit_code is always
-> >> set to to signr.
-> >> 
-> >> Cc: stable@vger.kernel.org
-> >> Fixes: 3d749b9e676b ("ptrace: simplify ptrace_stop()->sigkill_pending() path")
-> >> Fixes: 1a669c2f16d4 ("Add arch_ptrace_stop")
-> >> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
-> >> ---
-> >>  kernel/signal.c | 18 ++++--------------
-> >>  1 file changed, 4 insertions(+), 14 deletions(-)
-> >> 
-> >> diff --git a/kernel/signal.c b/kernel/signal.c
-> >> index 952741f6d0f9..9f2dc9cf3208 100644
-> >> --- a/kernel/signal.c
-> >> +++ b/kernel/signal.c
-> >> @@ -2182,15 +2182,6 @@ static inline bool may_ptrace_stop(void)
-> >>  	return true;
-> >>  }
-> >>  
-> >> -/*
-> >> - * Return non-zero if there is a SIGKILL that should be waking us up.
-> >> - * Called with the siglock held.
-> >> - */
-> >> -static bool sigkill_pending(struct task_struct *tsk)
-> >> -{
-> >> -	return sigismember(&tsk->pending.signal, SIGKILL) ||
-> >> -	       sigismember(&tsk->signal->shared_pending.signal, SIGKILL);
-> >> -}
-> >>  
-> >>  /*
-> >>   * This must be called with current->sighand->siglock held.
-> >> @@ -2217,17 +2208,16 @@ static void ptrace_stop(int exit_code, int why, int clear_code, kernel_siginfo_t
-> >>  		 * calling arch_ptrace_stop, so we must release it now.
-> >>  		 * To preserve proper semantics, we must do this before
-> >>  		 * any signal bookkeeping like checking group_stop_count.
-> >> -		 * Meanwhile, a SIGKILL could come in before we retake the
-> >> -		 * siglock.  That must prevent us from sleeping in TASK_TRACED.
-> >> -		 * So after regaining the lock, we must check for SIGKILL.
-> >
-> > Where is the sleep this comment is talking about?
-> >
-> > i.e. will recalc_sigpending() have been called before the above sleep
-> > would happen? I assume it's after ptrace_stop() returns... But I want to
-> > make sure the sleep isn't in ptrace_stop() itself somewhere I can't see.
-> > I *do* see freezable_schedule() called, and that dumps us into
-> > __schedule(), and I don't see a recalc before it checks
-> > signal_pending_state().
-> >
-> > Does a recalc need to happen in plce of the old sigkill_pending()
-> > call?
-> 
-> You read that correctly freezable_schedule is where ptrace_stop sleeps.
-> 
-> The call chain you are looking for looks something like:
-> send_signal
->   complete_signal
->      signal_wake_up
->        signal_wake_up_state
->          set_tsk_thread_flag(t, TIF_SIGPENDING)
-> 
-> That is to say complete_signal sets TIF_SIGPENDING and
-> the per task siqueue SIGKILL entry.
-> 
-> Calling recalc_sigpending is only needed when a signal is removed from
-> the queues, not when a signal is added.
+Sohil
 
-Got it; thanks! Yeah, it was mainly I didn't see where SIGKILL got
-handled specially, and now I do. :)
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
-
--- 
-Kees Cook
