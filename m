@@ -2,68 +2,113 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE66B417E06
-	for <lists+linux-api@lfdr.de>; Sat, 25 Sep 2021 01:04:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57BBC4181C9
+	for <lists+linux-api@lfdr.de>; Sat, 25 Sep 2021 14:08:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346016AbhIXXGR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 24 Sep 2021 19:06:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56934 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1344410AbhIXXGQ (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 24 Sep 2021 19:06:16 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B060661039;
-        Fri, 24 Sep 2021 23:04:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632524683;
-        bh=8Gn10cKU7CtsiOEauZx4GtwUoFgLAEPG53mOJzrLlVQ=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=c5LlWTMhpUHgddMSAfJ9CrzhXWk/JnAM0D6mRTT/nPazU9tINDA0upOAoZ12580Je
-         yDyeEBhLNDG47sJDpa7WHSp2oTjp9huYh8GajlG0YfWGug0h6M6T6RxRKJDhs4yKa1
-         pDewtrQZGTrzQVNsChGQWOvzz/DDS+G6/zJ8N38LImu9Uw+iOLU5uZg9zzWi2zes8q
-         GzhoDpcj00urKgSs2OoJguzzuE+UqqAqPXcz1dFRSar5QmXhBDSV8SKpz+NXAcbXYE
-         MIbc0Qe+NL4cafFPf4ajhreoaYuFzBOPWQEs8OuXnvzytnRTkMHafjh7Tv/CKc5t4s
-         MepQjuEVvT87g==
-Message-ID: <b7390542-ea4a-de12-7567-734f6dbf488d@kernel.org>
-Date:   Fri, 24 Sep 2021 16:04:39 -0700
+        id S237412AbhIYMKU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 25 Sep 2021 08:10:20 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:46738 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236977AbhIYMKT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 25 Sep 2021 08:10:19 -0400
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1632571723;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=e2B/DnmBtUTdcjfM1I8ybzwGAyOjG6d7ZfGM/cv0fB8=;
+        b=3xSA4uJrcj05si1FtYNZ2gjHPgD+iZ3ZzFnVsR+SgUx5njX7sbDGiyw+ocIZ4L4EsWmfjU
+        GeoM4tBxBbSdGX6VPKH1EsY7i3KapzZsFJD/izk92L1dba9MaRgYGfSnxuSN3Oi5Ie3NSL
+        vBk0DyeW9hsAY1KhfdnwqE7TXATl3UPBUg69UFlCAcWphH3z1hqrefcDATSz8mxK25BqcG
+        UNod0jc26wnkW0zfKnAhdtpw6RMG6XE2KVyVOHVD+W75zSnB37J1LwlbnjQ1+DBbSil1iV
+        YPUokMNf8pAIjVjOMek6F/dR0Dd+K+MtyjrD2Ua0+B/W3kmZa47D0L1+09LZfg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1632571723;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=e2B/DnmBtUTdcjfM1I8ybzwGAyOjG6d7ZfGM/cv0fB8=;
+        b=GiWhD8eeRtvuZCs7HMXPcrsK+5wD7DWsSVEj54dK3+H3KTnPYjd58ntmrhReVT9hByTGvZ
+        QabEZ4Ka3zSyrFDA==
+To:     Sohil Mehta <sohil.mehta@intel.com>, x86@kernel.org
+Cc:     Sohil Mehta <sohil.mehta@intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jens Axboe <axboe@kernel.dk>,
+        Christian Brauner <christian@brauner.io>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Shuah Khan <shuah@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ashok Raj <ashok.raj@intel.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        Zeng Guang <guang.zeng@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Randy E Witt <randy.e.witt@intel.com>,
+        Ravi V Shankar <ravi.v.shankar@intel.com>,
+        Ramesh Thomas <ramesh.thomas@intel.com>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [RFC PATCH 11/13] x86/uintr: Introduce uintr_wait() syscall
+In-Reply-To: <87r1dedykm.ffs@tglx>
+References: <20210913200132.3396598-1-sohil.mehta@intel.com>
+ <20210913200132.3396598-12-sohil.mehta@intel.com> <87r1dedykm.ffs@tglx>
+Date:   Sat, 25 Sep 2021 14:08:42 +0200
+Message-ID: <87czoweu2d.ffs@tglx>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [RFC] Expose request_module via syscall
-Content-Language: en-US
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Luis Chamberlain <mcgrof@kernel.org>,
-        =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <thomas@t-8ch.de>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jessica Yu <jeyu@kernel.org>
-References: <2ebf1a9d-77d5-472b-a99a-b141654725da@www.fastmail.com>
- <6eff0e8a-4965-437d-9273-1d9d73892e1a@t-8ch.de>
- <CALCETrWA1TBvbknH1Jzt=newTd4sHzNFm0RPuRxazjuRQRsR7w@mail.gmail.com>
- <8cbf0703-5734-4e92-a6cc-12de69094f95@t-8ch.de>
- <YUi95tFDWS7oceYP@bombadil.infradead.org>
- <CALCETrX9keVFxEZYUkKr7_dWb9Ubo9q4E2aTY_ZOWGSHyRph8g@mail.gmail.com>
- <20210922122523.72ypzg4pm2x6nkod@wittgenstein>
- <59e230b3-0e85-42ff-84a8-6b30ad0719d8@www.fastmail.com>
- <20210922155253.nj5dorsyv7loduws@wittgenstein>
- <0f209e1c-3d5c-46be-b5e7-323970112a8e@www.fastmail.com>
- <20210924131939.4jaou665fodiziml@wittgenstein>
-From:   Andy Lutomirski <luto@kernel.org>
-In-Reply-To: <20210924131939.4jaou665fodiziml@wittgenstein>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 9/24/21 06:19, Christian Brauner wrote:
-> On Wed, Sep 22, 2021 at 01:06:49PM -0700, Andy Lutomirski wrote:
+On Fri, Sep 24 2021 at 13:04, Thomas Gleixner wrote:
+> On Mon, Sep 13 2021 at 13:01, Sohil Mehta wrote:
+>> +int uintr_receiver_wait(void)
+>> +{
+>> +	struct uintr_upid_ctx *upid_ctx;
+>> +	unsigned long flags;
+>> +
+>> +	if (!is_uintr_receiver(current))
+>> +		return -EOPNOTSUPP;
+>> +
+>> +	upid_ctx = current->thread.ui_recv->upid_ctx;
+>> +	upid_ctx->upid->nc.nv = UINTR_KERNEL_VECTOR;
+>> +	upid_ctx->waiting = true;
+>> +	spin_lock_irqsave(&uintr_wait_lock, flags);
+>> +	list_add(&upid_ctx->node, &uintr_wait_list);
+>> +	spin_unlock_irqrestore(&uintr_wait_lock, flags);
+>> +
+>> +	set_current_state(TASK_INTERRUPTIBLE);
+>
+> Because we have not enough properly implemented wait primitives you need
+> to open code one which is blantantly wrong vs. a concurrent wake up?
+>
+>> +	schedule();
+>
+> How is that correct vs. a spurious wakeup? What takes care that the
+> entry is removed from the list?
+>
+> Again. We have proper wait primitives.
 
-> I just meant that the programs in the container can see the modules
-> available on the host. Simplest thing could be bind-mounting in the
-> host's module folder with suitable protection (locked read-only mount).
-> But yeah, it can likely be as simple as allowing it to ask for a module
-> and not bother telling it about what is available.
-> 
+Aisde of that this is completely broken vs. CPU hotplug.
 
-If the container gets to see host modules, interesting races when 
-containers are migrated CRIU-style will result.
+CPUX
+  switchto(tsk)
+    tsk->upid.ndst = apicid(smp_processor_id();
+
+  ret_to_user()
+  ...
+  sys_uintr_wait()
+    ...
+    schedule()
+
+After that CPU X is unplugged which means the task won't be woken up by
+an user IPI which is issued after CPU X went down.
+
+Thanks,
+
+        tglx
