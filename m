@@ -2,123 +2,140 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A360418983
-	for <lists+linux-api@lfdr.de>; Sun, 26 Sep 2021 16:41:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09C6A4198C8
+	for <lists+linux-api@lfdr.de>; Mon, 27 Sep 2021 18:21:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231862AbhIZOmq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 26 Sep 2021 10:42:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51424 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231849AbhIZOmq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 26 Sep 2021 10:42:46 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EF5BC061570;
-        Sun, 26 Sep 2021 07:41:10 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1632667266;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=hvxujl/WR9NE4z9yR3CG2NsuD0b1CscqQ9FonpyX/t8=;
-        b=tO78wZ3Oimkqfmo32SdwkVOF2u/4YvsMWW2EXJfAPODt9bSIgiRTcNErsZUgyFLIGVv/Cg
-        Di1LV7baxeht89PKwwHXAbFVgWi5S4IPzVbrk5Z2i7HfxZJlm2ell/1R1y06Q+zSHs1T6m
-        uE4gD1ECNgKECGHjZCQ8ip1ZtAnJLeEvg2bxcTIYTlgBMfjTQDg9fdZ49GPfsbCYaYUlOW
-        xAs6yJth3Jvgt6Sqbfoap6j5qnvc1nHDaQmYbuUemVtsSqNsEXWUW8RoB0kRC4VAPNZJmp
-        C4F+dcTMCSSeijZMlO4+mBM7HnIxNocVovtnxQAQByV9gLl7DVH+0x4Jc/NpDg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1632667266;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=hvxujl/WR9NE4z9yR3CG2NsuD0b1CscqQ9FonpyX/t8=;
-        b=tdgMfNN+QcT4fi/5uor+BX9eFf6MqMfFfSFACxG9tQhS5/lYAY9zYIxJTeRg9vtexB8PPb
-        F2lwNbzM65TLgfDQ==
-To:     Sohil Mehta <sohil.mehta@intel.com>, x86@kernel.org
-Cc:     Sohil Mehta <sohil.mehta@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
+        id S235339AbhI0QWl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 27 Sep 2021 12:22:41 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:39550 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235341AbhI0QWk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 27 Sep 2021 12:22:40 -0400
+Received: from relay1.suse.de (relay1.suse.de [149.44.160.133])
+        by smtp-out2.suse.de (Postfix) with ESMTP id B1E5520174;
+        Mon, 27 Sep 2021 16:21:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1632759661; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=OhdVD9gOAiEfK7wpJLmapbTk6U8empUyrJJ+9sKjxDc=;
+        b=UE0ndxT/7SMUQi2S12WiU1L8o3vezLNsivOroJUx3J6QMJZLqypB8enMbr/LXtEAwGfFAK
+        NzJ4YnTh1xfRrxWsdPLZurdMg5t7WZFYMs4KALj0b0mNHEFMJXFyVTgeZZs4VR5x0dP06T
+        Q0cDAVQEP9WHufbko8M+3o9EQbDZ9BY=
+Received: from g78.suse.de (unknown [10.163.24.38])
+        by relay1.suse.de (Postfix) with ESMTP id A3FD825D3E;
+        Mon, 27 Sep 2021 16:20:58 +0000 (UTC)
+From:   Richard Palethorpe <rpalethorpe@suse.com>
+To:     x86@kernel.org
+Cc:     Richard Palethorpe <rpalethorpe@suse.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Jens Axboe <axboe@kernel.dk>,
-        Christian Brauner <christian@brauner.io>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Shuah Khan <shuah@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ashok Raj <ashok.raj@intel.com>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Zeng Guang <guang.zeng@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Randy E Witt <randy.e.witt@intel.com>,
-        Ravi V Shankar <ravi.v.shankar@intel.com>,
-        Ramesh Thomas <ramesh.thomas@intel.com>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [RFC PATCH 11/13] x86/uintr: Introduce uintr_wait() syscall
-In-Reply-To: <20210913200132.3396598-12-sohil.mehta@intel.com>
-References: <20210913200132.3396598-1-sohil.mehta@intel.com>
- <20210913200132.3396598-12-sohil.mehta@intel.com>
-Date:   Sun, 26 Sep 2021 16:41:05 +0200
-Message-ID: <874ka7csce.ffs@tglx>
+        "H. Peter Anvin" <hpa@zytor.com>, linux-s390@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>, rpalethorpe@richiejp.com,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        ltp@lists.linux.it
+Subject: [PATCH] x86/entry/ia32: Ensure s32 is sign extended to s64
+Date:   Mon, 27 Sep 2021 17:19:55 +0100
+Message-Id: <20210927161955.28494-1-rpalethorpe@suse.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Sep 13 2021 at 13:01, Sohil Mehta wrote:
-> Add a new system call to allow applications to block in the kernel and
-> wait for user interrupts.
->
-> <The current implementation doesn't support waking up from other
-> blocking system calls like sleep(), read(), epoll(), etc.
->
-> uintr_wait() is a placeholder syscall while we decide on that
-> behaviour.>
+Presently ia32 registers stored in ptregs are unconditionally cast to
+unsigned int by the ia32 stub. They are then cast to long when passed
+to __se_sys*, but will not be sign extended.
 
-Which behaviour? You cannot integrate this into [clock_]nanosleep() by
-any means or wakeup something which is blocked in read(somefd) via
-SENDUIPI.
+This takes the sign of the syscall argument into account in the ia32
+stub. It still casts to unsigned int to avoid implementation specific
+behavior. However then casts to int or unsigned int as necessary. So
+that the following cast to long sign extends the value.
 
-What you can do is implement read() and poll() support for the
-uintrfd. Anything else is just not going to fly.
+This fixes the io_pgetevents02 LTP test when compiled with
+-m32. Presently the systemcall io_pgetevents_time64 unexpectedly
+accepts -1 for the maximum number of events. It doesn't appear other
+systemcalls with signed arguments are effected because they all have
+compat variants defined and wired up. A less general solution is to
+wire up the systemcall:
+https://lore.kernel.org/ltp/20210921130127.24131-1-rpalethorpe@suse.com/
 
-Adding support for read/poll is pretty much a straight forward variant
-of a correctly implemented wait()/wakeup() mechanism.
+Fixes: ebeb8c82ffaf ("syscalls/x86: Use 'struct pt_regs' based syscall calling for IA32_EMULATION and x32")
+Signed-off-by: Richard Palethorpe <rpalethorpe@suse.com>
+Suggested-by: Arnd Bergmann <arnd@arndb.de>
+---
+ arch/s390/include/asm/syscall_wrapper.h |  2 --
+ arch/x86/include/asm/syscall_wrapper.h  | 25 +++++++++++++++++++++----
+ include/linux/syscalls.h                |  1 +
+ 3 files changed, 22 insertions(+), 6 deletions(-)
 
-While poll()/read() support might be useful and poll() also provides a
-timeout, having an explicit (timed) wait mechanism might be interesting.
+diff --git a/arch/s390/include/asm/syscall_wrapper.h b/arch/s390/include/asm/syscall_wrapper.h
+index ad2c996e7e93..25ab58b0ded1 100644
+--- a/arch/s390/include/asm/syscall_wrapper.h
++++ b/arch/s390/include/asm/syscall_wrapper.h
+@@ -7,8 +7,6 @@
+ #ifndef _ASM_S390_SYSCALL_WRAPPER_H
+ #define _ASM_S390_SYSCALL_WRAPPER_H
+ 
+-#define __SC_TYPE(t, a) t
+-
+ #define SYSCALL_PT_ARG6(regs, m, t1, t2, t3, t4, t5, t6)\
+ 	SYSCALL_PT_ARG5(regs, m, t1, t2, t3, t4, t5),	\
+ 		m(t6, (regs->gprs[7]))
+diff --git a/arch/x86/include/asm/syscall_wrapper.h b/arch/x86/include/asm/syscall_wrapper.h
+index 6a2827d0681f..811139a82b13 100644
+--- a/arch/x86/include/asm/syscall_wrapper.h
++++ b/arch/x86/include/asm/syscall_wrapper.h
+@@ -58,12 +58,29 @@ extern long __ia32_sys_ni_syscall(const struct pt_regs *regs);
+ 		,,regs->di,,regs->si,,regs->dx				\
+ 		,,regs->r10,,regs->r8,,regs->r9)			\
+ 
++
++/* SYSCALL_PT_ARGS is Adapted from s390x */
++#define SYSCALL_PT_ARG6(m, t1, t2, t3, t4, t5, t6)			\
++	SYSCALL_PT_ARG5(m, t1, t2, t3, t4, t5), m(t6, (regs->bp))
++#define SYSCALL_PT_ARG5(m, t1, t2, t3, t4, t5)				\
++	SYSCALL_PT_ARG4(m, t1, t2, t3, t4),  m(t5, (regs->di))
++#define SYSCALL_PT_ARG4(m, t1, t2, t3, t4)				\
++	SYSCALL_PT_ARG3(m, t1, t2, t3),  m(t4, (regs->si))
++#define SYSCALL_PT_ARG3(m, t1, t2, t3)					\
++	SYSCALL_PT_ARG2(m, t1, t2), m(t3, (regs->dx))
++#define SYSCALL_PT_ARG2(m, t1, t2)					\
++	SYSCALL_PT_ARG1(m, t1), m(t2, (regs->cx))
++#define SYSCALL_PT_ARG1(m, t1) m(t1, (regs->bx))
++#define SYSCALL_PT_ARGS(x, ...) SYSCALL_PT_ARG##x(__VA_ARGS__)
++
++#define __SC_COMPAT_CAST(t, a)						\
++	(__typeof(__builtin_choose_expr(__TYPE_IS_L(t), 0, 0U)))	\
++	(unsigned int)a
++
+ /* Mapping of registers to parameters for syscalls on i386 */
+ #define SC_IA32_REGS_TO_ARGS(x, ...)					\
+-	__MAP(x,__SC_ARGS						\
+-	      ,,(unsigned int)regs->bx,,(unsigned int)regs->cx		\
+-	      ,,(unsigned int)regs->dx,,(unsigned int)regs->si		\
+-	      ,,(unsigned int)regs->di,,(unsigned int)regs->bp)
++	SYSCALL_PT_ARGS(x, __SC_COMPAT_CAST,				\
++			__MAP(x, __SC_TYPE, __VA_ARGS__))		\
+ 
+ #define __SYS_STUB0(abi, name)						\
+ 	long __##abi##_##name(const struct pt_regs *regs);		\
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index 69c9a7010081..a492276a11f1 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -122,6 +122,7 @@ enum landlock_rule_type;
+ #define __TYPE_IS_LL(t) (__TYPE_AS(t, 0LL) || __TYPE_AS(t, 0ULL))
+ #define __SC_LONG(t, a) __typeof(__builtin_choose_expr(__TYPE_IS_LL(t), 0LL, 0L)) a
+ #define __SC_CAST(t, a)	(__force t) a
++#define __SC_TYPE(t, a)	t
+ #define __SC_ARGS(t, a)	a
+ #define __SC_TEST(t, a) (void)BUILD_BUG_ON_ZERO(!__TYPE_IS_LL(t) && sizeof(t) > sizeof(long))
+ 
+-- 
+2.31.1
 
-But that brings me to an interesting question. There are two cases:
-
- 1) The task installed a user space interrupt handler. Now it
-    want's to play nice and yield the CPU while waiting.
-
-    So it needs to reinstall the UINV vector on return to user and
-    update UIRR, but that'd be covered by the existing mechanism. Fine.
-
- 2) Task has no user space interrupt handler installed and just want's
-    to use that wait mechanism.
-
-    What is consuming the pending bit(s)? 
-
-    If that's not a valid use case, then the wait has to check for that
-    and reject the syscall with EINVAL.
-
-    If it is valid, then how are the pending bits consumed and relayed to
-    user space?
-
-The same questions arise when you think about implementing poll/read
-support simply because the regular poll/read semantics are:
-
-  poll waits for the event and read consumes the event
-
-which would be similar to #2 above, but with an installed user space
-interrupt handler the return from the poll system call would consume the
-event immediately (assumed that UIF is set).
-
-Thanks,
-
-        tglx
