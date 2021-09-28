@@ -2,166 +2,135 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 97E0F41AA76
-	for <lists+linux-api@lfdr.de>; Tue, 28 Sep 2021 10:11:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3594441AB5C
+	for <lists+linux-api@lfdr.de>; Tue, 28 Sep 2021 11:02:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239426AbhI1IN1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 Sep 2021 04:13:27 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:33958 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239043AbhI1IN0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 28 Sep 2021 04:13:26 -0400
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1632816706;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+        id S238706AbhI1JEV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 28 Sep 2021 05:04:21 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:55570 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239761AbhI1JEU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 28 Sep 2021 05:04:20 -0400
+Received: from relay1.suse.de (relay1.suse.de [149.44.160.133])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 7AED721BC2;
+        Tue, 28 Sep 2021 09:02:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1632819760;
+        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+         cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=MuA+W1hIA1rAMXQIqohvtqkn6nT1tdEByWW7so2/mJE=;
-        b=o4AnzY92TDieIgsy0BxYM5ZrB7EKL02pFUFM6LcB4FFSjyx/IoknxzoYCwx61/g49g1LW9
-        K6ODGpL2PzQRXYgEhGdPzWWs/0oZKiBxLNrfe7Vf75kdG+hFBCC9oIUPDD4Z3KmMuxxn2z
-        Eg4wnTUmdqDlGRQ9761Xg/RubHl4bDgobqZFuEimIakTgiYXKDfnsZ7HDISSL4gSa4q4ni
-        WhxbEGAaexob8STeYYdPQ1VURR2ErZWrmiBRLAY6VVshAZAENbVuJrWbK11ilMwSQ2Y/uF
-        5qZWAPY1vXTkeOvt8isNigKPsNXfir2Zi9EpdZDuxDjOHZAqQht0UjX0xxs+bA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1632816706;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+        bh=7rw75VSmRwP8/RIgXFPLCmhyy1FPhry8ZvpaNKqg7aQ=;
+        b=pWvl8r9N6tqQ508IhwJ0P2cgH9bILyurruAKGvqHocV6+0dOcAvYlz07rCporIsasrs+N7
+        f6gzMo0Akcn8ARvdw97rF1N2i9IRpCLOa4YTLu60KNiE0rakTzyY4Q3lPVsmO1pF5nJ0Za
+        JFzZ8m/DDx4trXvdRqUjnAE679OOhJk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1632819760;
+        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+         cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=MuA+W1hIA1rAMXQIqohvtqkn6nT1tdEByWW7so2/mJE=;
-        b=l8vTUOns3NZZW+RgVuFEifsZxru0n8deKjPocVe7Z5Jbqqa5HK5OCRpnvmZ2yuboQGYauN
-        090YSxHuWDSQ8PAw==
-To:     Sohil Mehta <sohil.mehta@intel.com>, x86@kernel.org
-Cc:     Tony Luck <tony.luck@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
+        bh=7rw75VSmRwP8/RIgXFPLCmhyy1FPhry8ZvpaNKqg7aQ=;
+        b=OV+rtC16fdoMmYxtaeEUVcBdefcxrTBtLO7r1A83cfYnwlIZ3Xaubkr77qI9b1SNYp11Qx
+        fybX1Zl3tv+JhmDg==
+Received: from g78 (unknown [10.163.24.38])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay1.suse.de (Postfix) with ESMTPS id 92F8725D50;
+        Tue, 28 Sep 2021 09:02:37 +0000 (UTC)
+References: <20210927161955.28494-1-rpalethorpe@suse.com>
+ <CAK8P3a2kuZkoF1m0pTXWeq0gnzUG9oSTQKtjjdiCyo1ptmXPgA@mail.gmail.com>
+User-agent: mu4e 1.4.15; emacs 27.2
+From:   Richard Palethorpe <rpalethorpe@suse.de>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     the arch/x86 maintainers <x86@kernel.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Jens Axboe <axboe@kernel.dk>,
-        Christian Brauner <christian@brauner.io>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Shuah Khan <shuah@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ashok Raj <ashok.raj@intel.com>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Zeng Guang <guang.zeng@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Randy E Witt <randy.e.witt@intel.com>,
-        Ravi V Shankar <ravi.v.shankar@intel.com>,
-        Ramesh Thomas <ramesh.thomas@intel.com>,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [RFC PATCH 05/13] x86/irq: Reserve a user IPI notification vector
-In-Reply-To: <447377f0-21e5-067d-55ac-cb2eeca7ceae@intel.com>
-References: <20210913200132.3396598-1-sohil.mehta@intel.com>
- <20210913200132.3396598-6-sohil.mehta@intel.com> <87fstugabg.ffs@tglx>
- <878rzkeq9f.ffs@tglx> <87bl4fcxz8.ffs@tglx>
- <447377f0-21e5-067d-55ac-cb2eeca7ceae@intel.com>
-Date:   Tue, 28 Sep 2021 10:11:45 +0200
-Message-ID: <878rzhazlq.ffs@tglx>
+        "H. Peter Anvin" <hpa@zytor.com>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        rpalethorpe@richiejp.com,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        LTP List <ltp@lists.linux.it>
+Subject: Re: [PATCH] x86/entry/ia32: Ensure s32 is sign extended to s64
+Reply-To: rpalethorpe@suse.de
+In-reply-to: <CAK8P3a2kuZkoF1m0pTXWeq0gnzUG9oSTQKtjjdiCyo1ptmXPgA@mail.gmail.com>
+Date:   Tue, 28 Sep 2021 10:02:32 +0100
+Message-ID: <87pmstf4yf.fsf@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Sohil,
+Hello Arnd,
 
-On Mon, Sep 27 2021 at 12:07, Sohil Mehta wrote:
-> On 9/26/2021 5:39 AM, Thomas Gleixner wrote:
+Arnd Bergmann <arnd@arndb.de> writes:
+
+> On Mon, Sep 27, 2021 at 6:21 PM Richard Palethorpe <rpalethorpe@suse.com> wrote:
+>>
+>> Presently ia32 registers stored in ptregs are unconditionally cast to
+>> unsigned int by the ia32 stub. They are then cast to long when passed
+>> to __se_sys*, but will not be sign extended.
+>>
+>> This takes the sign of the syscall argument into account in the ia32
+>> stub. It still casts to unsigned int to avoid implementation specific
+>> behavior. However then casts to int or unsigned int as necessary. So
+>> that the following cast to long sign extends the value.
+>>
+>> This fixes the io_pgetevents02 LTP test when compiled with
+>> -m32. Presently the systemcall io_pgetevents_time64 unexpectedly
+>> accepts -1 for the maximum number of events. It doesn't appear other
+>> systemcalls with signed arguments are effected because they all have
+>> compat variants defined and wired up. A less general solution is to
+>> wire up the systemcall:
+>> https://lore.kernel.org/ltp/20210921130127.24131-1-rpalethorpe@suse.com/
+>>
+>> Fixes: ebeb8c82ffaf ("syscalls/x86: Use 'struct pt_regs' based syscall calling for IA32_EMULATION and x32")
+>> Signed-off-by: Richard Palethorpe <rpalethorpe@suse.com>
+>> Suggested-by: Arnd Bergmann <arnd@arndb.de>
 >
-> The User-interrupt notification processing moves all the pending 
-> interrupts from UPID.PIR to the UIRR.
-
-Indeed that makes sense. Should have thought about that myself.
-
->> Also the restore portion on the way back to user space has to be coupled
->> more tightly:
->>
->> arch_exit_to_user_mode_prepare()
->> {
->>          ...
->>          if (unlikely(ti_work & _TIF_UPID))
->>          	uintr_restore_upid(ti_work & _TIF_NEED_FPU_LOAD);
->>          if (unlikely(ti_work & _TIF_NEED_FPU_LOAD))
->>          	switch_fpu_return();
->> }
+> Looks good to me, thanks for following through with this part, and for
+> checking the other syscalls!
 >
-> I am assuming _TIF_UPID would be set everytime SN is set and XSTATE is 
-> saved.
+> Reviewed-by: Arnd Bergmann <arnd@arndb.de>
 
-Yes.
+Thanks for the feedback and suggestions.
 
->> upid_set_ndst(upid)
->> {
->> 	apicid = __this_cpu_read(x86_cpu_to_apicid);
->>
->>          if (x2apic_enabled())
->>              upid->ndst.x2apic = apicid;
->>          else
->>              upid->ndst.apic = apicid;
->> }
->>
->> uintr_restore_upid(bool xrstors_pending)
->> {
->>          clear_thread_flag(TIF_UPID);
->>          
->> 	// Update destination
->>          upid_set_ndst(upid);
->>
->>          // Do we need something stronger here?
->>          barrier();
->>
->>          clear_bit(SN, upid->status);
->>
->>          // Any SENDUIPI after this point sends to this CPU
->>             
->>          // Any bit which was set in upid->pir after SN was set
->>          // and/or UINV was cleared by XSAVES up to the point
->>          // where SN was cleared above is not reflected in UIRR.
->>
->> 	// As this runs with interrupts disabled the current state
->>          // of upid->pir can be read and used for restore. A SENDUIPI
->>          // which sets a bit in upid->pir after that read will send
->>          // the notification vector which is going to be handled once
->>          // the task reenables interrupts on return to user space.
->>          // If the SENDUIPI set the bit before the read then the
->>          // notification vector handling will just observe the same
->>          // PIR state.
->>
->>          // Needs to be a locked access as there might be a
->>          // concurrent SENDUIPI modiying it.
->>          pir = read_locked(upid->pir);
->>
->>          if (xrstors_pending)) {
->>          	// Update the saved xstate for xrstors
->>             	current->xstate.uintr.uinv = UINTR_NOTIFICATION_VECTOR;
 >
-> XSAVES saves the UINV value into the XSTATE buffer. I am not sure if we 
-> need this again. Is it because it could have been overwritten by calling 
-> XSAVES twice?
-
-Yes that can happen AFAICT. I haven't done a deep analysis, but this
-needs to looked at.
-
->>                  current->xstate.uintr.uirr = pir;
+> I've added this to my randconfig build tree as well, to see if
+> it causes any unexpected compile-time issues, though I
+> don't expect any problems here.
 >
-> I believe PIR should be ORed. There could be some bits already set in 
-> the UIRR.
+> There are a few things that I think we should do as a follow-up:
 >
-> Also, shouldn't UPID->PIR be cleared? If not, we would detect these 
-> interrupts all over again during the next ring transition.
+> - do the same thing in the generic syscall wrapper, to ensure the
+>   other architectures also do the sign-extension.
+>
+> - Fix the big-endian architectures (ppc64be, mips64be, sparc, s390
+>   parisc) so they pass the correct signal mask, either using your original
+>   approach, or by reworking the syscall to detect compat syscalls
+>   at runtime, killing off the separate entry point
+>
+> - Go through the compat syscalls to see if any of them can be
+>   removed once all architectures do sign-extension correctly.
+>
+> Are you motivated to help out with one or more of these as well?
+>
+>        Arnd
 
-Right. So that PIR read above needs to be a locked cmpxchg().
+I am motivated. There have been a number of nasty bugs in compat
+code. Including high-profile stuff like CVE-2021-22555. However also
+just relatively minor things which cause tests to fail and could be
+masking worse issues. I like the idea of removing as much syscall/arch
+specific compat code as possible.
 
->>          } else {
->>                  // Manually restore UIRR and UINV
->>                  wrmsrl(IA32_UINTR_RR, pir);
-> I believe read-modify-write here as well.
+I also wonder whether syscalls like ftruncate64 can be generalised and
+if there would be any benefit to doing so. All it is doing is merging
+two u32 args into an s64 arg.
 
-Sigh, yes.
-
-Thanks,
-
-        tglx
+-- 
+Thank you,
+Richard.
