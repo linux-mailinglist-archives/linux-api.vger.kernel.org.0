@@ -2,476 +2,205 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE29541B51B
-	for <lists+linux-api@lfdr.de>; Tue, 28 Sep 2021 19:26:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18AB141B594
+	for <lists+linux-api@lfdr.de>; Tue, 28 Sep 2021 20:02:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242072AbhI1R14 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 Sep 2021 13:27:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37494 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229869AbhI1R1z (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 28 Sep 2021 13:27:55 -0400
-Received: from mail-vk1-xa2c.google.com (mail-vk1-xa2c.google.com [IPv6:2607:f8b0:4864:20::a2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06FC5C061745
-        for <linux-api@vger.kernel.org>; Tue, 28 Sep 2021 10:26:16 -0700 (PDT)
-Received: by mail-vk1-xa2c.google.com with SMTP id w68so820455vkd.7
-        for <linux-api@vger.kernel.org>; Tue, 28 Sep 2021 10:26:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=posk.io; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vHjd87qme1N48KPcv4St3/bkFcFepzmwvqFaB3gotgo=;
-        b=X0aIcMY0L9KtNAVG+BPTin0cWR/8AVWDq2N3O6QDsSwe7BkK1ktKQkt11WhBbxlEAn
-         hwSxpRtANVqbmMSp16Sq1DZIsKUBQd7q+ICKp0PO8p7pGgWAwBssK4TS+hm4kTP6JSms
-         TJ2nb1xX4o7OFE5q9R1XupZI/a3FPRhzMd0vrii/Ny+zClkmkUBW8CWKciLaV/FjNwz4
-         LkxKwbzKS/1rSPohcf+w6e0gn4ylhCq61pjKN/Ig5i8biM2kk0TIStryl+mCPHyQUlAD
-         SOZ/75bPBR+fQljN2NwTj66+l3En60QnMgXbDUZ0oAt6a2kEz358Oc71ppbbGd5sshaj
-         av6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vHjd87qme1N48KPcv4St3/bkFcFepzmwvqFaB3gotgo=;
-        b=TnvpmhCEHhMe09Z1xE2OUUN8RMU2KtDlIEoOchMJiUod2ySF/Ttx8OlEG6pIKnNiFJ
-         junNmWXc7A0FhtD1qpQJXM2QiUhJuwk4a+/YQbhooe6vVfcw+J2LOUX3giiDDb5XG2Qk
-         F4fkjjeq58mplHCzXkIbsFA5MZAKpdLOEq61GAflemXVgYs8bsC7AzaNUv0TIq0k4Oj3
-         QoeJooFzely1Vw/dkUrVufa9f7+UQHTyxA4LmHzL1srGjvuldI5+Ytb4DGJdylOG0iiJ
-         r4y5Jt0e5qLt/Ur0P1NJu8mOWWCqRbBeNHOI3nwfdFq/ZfWRhniz/KLHHkGaXt0Pg4aw
-         /I6A==
-X-Gm-Message-State: AOAM532snS2BkR6xObJjnjzHcJdDOdCCulb3QgeTASE/5kg25jiZO82q
-        z7QOzlRi6CxYB2qWu7Zeo8k0iMZLVW8tHRxTomdfFA==
-X-Google-Smtp-Source: ABdhPJx3e3F4KZJWMSzzHgKJJUDagxiaFXGmFppmxBCGxK01x/LRYcdyRXbEIJ3Xhgav2OhUleOgk18ORPdltX8k4UY=
-X-Received: by 2002:a1f:ab8f:: with SMTP id u137mr5705209vke.17.1632849974870;
- Tue, 28 Sep 2021 10:26:14 -0700 (PDT)
+        id S242128AbhI1SDm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 28 Sep 2021 14:03:42 -0400
+Received: from mga01.intel.com ([192.55.52.88]:24146 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S241839AbhI1SDm (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 28 Sep 2021 14:03:42 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10121"; a="247287498"
+X-IronPort-AV: E=Sophos;i="5.85,330,1624345200"; 
+   d="scan'208";a="247287498"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2021 11:02:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,330,1624345200"; 
+   d="scan'208";a="520543083"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orsmga001.jf.intel.com with ESMTP; 28 Sep 2021 11:02:01 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 28 Sep 2021 11:02:01 -0700
+Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 28 Sep 2021 11:02:00 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12 via Frontend Transport; Tue, 28 Sep 2021 11:02:00 -0700
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.43) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.12; Tue, 28 Sep 2021 11:02:00 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ntlHsaujprZ//uCnK2C6fX8HEiSDNkVu5Ic29VQAcLQDuRlyntkop18pyDfCS7rGmDAWWZ1kfILh4sNQkSBl5dLSFD9dWHyFnXxmBKpfl33BUgtmmHMGV64kyk5jsIRztmmePDJCSbEEykZWamQUdRn94/BXp+rAwjVDVWwTYY+4LeWmX6S+5z6yqZgP0NVoKcAj/g+7zoV29LpIQ34TtoDCCuwH+hTl6vFoCukIlo8AIsch8lOisdcLb1VXhXrydlO0jxFBlDwS+MVQedejHvV5MpM223R4vCzoq7zxL16rdChZDMRdLC8qU4NXxAdBtP4MQnbYjsoG7YLBSRzvPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=OxyreQCmF9MmJp4bDMvFrettzEULf8WyRST8zIDDFw0=;
+ b=YV7kIg2Dg9bU35FsYujE+bCNr2l7l43H6I9Zd7ZEHW1xQ/+YkWsnNDvXncH5q5V2FwU/uHosPKtTWDhadTb1FxsJ5e1FJGTExRDtaoKpty1rbgAYOAko3RKbyhGyb/0o5Ygn2g2IXSykClQu+Qyr3fQ9z9TXgu2rVdkY7BHlLMV9Cx5ZPKNrzIXOn7756kLRWoCBERNzFMlwQeYoSdK4NegqDg/46IVwn+zMKrc3r0ES2GVh1f5IC8QxUSn0VKFXkXumWuuzJiPn7Aml8xVsj3AFYSfp36wZ2t1bkcDPX+adz1RQSZFo1dJXj7IVo93NczMM6ebjfF0qUnwO+jvC2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OxyreQCmF9MmJp4bDMvFrettzEULf8WyRST8zIDDFw0=;
+ b=lHT8aEP8i7yjlTJ8tcH/9uaFn228lwJLT7aTQ0XBkyh0LZWI0F7DDDHWx3JCYWTc34Rd9afq+cgocTK09diJyeGsMr2jN6sYZ4h9AWQO/4s+o3hGsiV5pdVc1dEcevHc2c0DA+nJkN6rYR+DPJuWK9Cr4DyAqzsaPTAtg9KD34Y=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=intel.com;
+Received: from BYAPR11MB3320.namprd11.prod.outlook.com (2603:10b6:a03:18::25)
+ by BY5PR11MB4038.namprd11.prod.outlook.com (2603:10b6:a03:18c::33) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.14; Tue, 28 Sep
+ 2021 18:01:56 +0000
+Received: from BYAPR11MB3320.namprd11.prod.outlook.com
+ ([fe80::4167:f9ef:19b2:eaff]) by BYAPR11MB3320.namprd11.prod.outlook.com
+ ([fe80::4167:f9ef:19b2:eaff%3]) with mapi id 15.20.4544.021; Tue, 28 Sep 2021
+ 18:01:56 +0000
+Subject: Re: [RFC PATCH 10/13] x86/uintr: Introduce user IPI sender syscalls
+To:     Greg KH <gregkh@linuxfoundation.org>
+CC:     <x86@kernel.org>, Tony Luck <tony.luck@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jens Axboe <axboe@kernel.dk>,
+        Christian Brauner <christian@brauner.io>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Shuah Khan <shuah@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ashok Raj <ashok.raj@intel.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        "Gayatri Kammela" <gayatri.kammela@intel.com>,
+        Zeng Guang <guang.zeng@intel.com>,
+        "Dan Williams" <dan.j.williams@intel.com>,
+        Randy E Witt <randy.e.witt@intel.com>,
+        Ravi V Shankar <ravi.v.shankar@intel.com>,
+        Ramesh Thomas <ramesh.thomas@intel.com>,
+        <linux-api@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>
+References: <20210913200132.3396598-1-sohil.mehta@intel.com>
+ <20210913200132.3396598-11-sohil.mehta@intel.com>
+ <YUxy6XqMB1+DYJtP@kroah.com>
+From:   Sohil Mehta <sohil.mehta@intel.com>
+Message-ID: <4704e81d-a3d2-aedf-1c79-e45cc86826a5@intel.com>
+Date:   Tue, 28 Sep 2021 11:01:54 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
+In-Reply-To: <YUxy6XqMB1+DYJtP@kroah.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ClientProxiedBy: BYAPR05CA0096.namprd05.prod.outlook.com
+ (2603:10b6:a03:e0::37) To BYAPR11MB3320.namprd11.prod.outlook.com
+ (2603:10b6:a03:18::25)
 MIME-Version: 1.0
-References: <20210917180323.278250-4-posk@google.com> <874ka5awdp.ffs@tglx>
-In-Reply-To: <874ka5awdp.ffs@tglx>
-From:   Peter Oskolkov <posk@posk.io>
-Date:   Tue, 28 Sep 2021 10:26:04 -0700
-Message-ID: <CAFTs51V7QTt3pjfHJ8MSxCgdnTz_5J3Dp8VLt6aGpE0WeB09tA@mail.gmail.com>
-Subject: Re: [PATCH 3/5 v0.6] sched/umcg: RFC: implement UMCG syscalls
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-api@vger.kernel.org, Paul Turner <pjt@google.com>,
-        Ben Segall <bsegall@google.com>,
-        Peter Oskolkov <posk@google.com>,
-        Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
-        Thierry Delisle <tdelisle@uwaterloo.ca>
-Content-Type: text/plain; charset="UTF-8"
+Received: from [192.168.86.37] (73.222.31.188) by BYAPR05CA0096.namprd05.prod.outlook.com (2603:10b6:a03:e0::37) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.7 via Frontend Transport; Tue, 28 Sep 2021 18:01:55 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2e928a98-e1e7-4535-072d-08d982aa0f4c
+X-MS-TrafficTypeDiagnostic: BY5PR11MB4038:
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr,ExtFwd
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BY5PR11MB4038F7DA118C0E796E8F010AE5A89@BY5PR11MB4038.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: LqtatOuuKevzbqSNrzaIkJO21Xe3SrpQrfw/oni5ZaJm+eNYM62oBohWV7hK+YHhqvq8Q19Jv2kKDGHuB4vUquMBrDW83RcZqkVckIpUZQgyQ7RLVyBqwP/xvbbkmiIunpErZkUhWwf8X8zY/Zz1MPbC8fBLIJ3nMsh6eFxSyvgwPOdr/ITsDeVlq46cTlRtPyePzwE9sU07r20G4MJfMyYNeXkLPj13w4cstuRxpMzxhFNb3caDez7t4nuLBWQ+Q1WqnAsly13aPvSSiKWtPZWdRnqRPMNrS1hRieg3k5S5f234Fy3WG/snz/TFVDH0dLiQ5qP1Ma7dnWPZvtWCj7t+JkO6o2lnqCfml3a5ZPVoLevoNobUGU4ZtgwwCZKoRL7IgiA9nZgpzWxgJGd9viZltrnQDDNtuvXVZ5IEuavYsjH+o8yr/zNwYY79mz+4v+UczRHWDRYokb0/hRQwJQHvgQiWCRILJkejK40UOafYFKRk24PuM+UYHXBCeNkJiMhQJYXv3CkZ84xorWRkdgDqYGu1AA19nk9I0rqV7knd0KCiZaTjy9EY9ezpsiy4AGk2wI01rQoz0MoETwxcQdv/TquwICR014RPtagH/uyLsZYyTx7Yb46QbI3+TeQV7dXUQov+hXPWI/gs3fVYaxTr5iVBER9dimy4ZTim77bnsM15Zh7/82/E5XFDbrdt9Xpp/tFPihATFDVYu5MyeHs0BFrWlErzbK46jFSL25g=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3320.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(316002)(31686004)(66476007)(66556008)(956004)(16576012)(8676002)(83380400001)(4326008)(186003)(36756003)(38100700002)(54906003)(508600001)(26005)(66946007)(2616005)(6916009)(5660300002)(7416002)(6486002)(44832011)(53546011)(31696002)(86362001)(8936002)(2906002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NTlvckI3elltNVBxYTR5cUZsOVcyNUdiVXN6MkhOYWFGTXNrUjUwdk5sdGE3?=
+ =?utf-8?B?Vi9GdVRHcEpzSG52S3MwQitRRUE1Vm5nckZKNHFybjBrQjh5NHRkdFVoUk5z?=
+ =?utf-8?B?dFhGQkllQ25nOWFMd0NtR0w3QStJUmFJUW1ZWTJIbk9oUkRUdWh2QUYrODhU?=
+ =?utf-8?B?NmZlMG1ZRDh1UC9EU3E4UjZ2RzFsWDA3K0JkeThZYXkreTEvQlA4Y09xK0ZF?=
+ =?utf-8?B?Mjd4SWJrelhtK21rVUQvOTNBWm0xWXgzYlcveDNvcUVneXl5OGNaeHR5eUto?=
+ =?utf-8?B?eGp3K1laWlJuMEUxUzFkdk1uaEg5bExQeDhMa3hLMkwwTURzdXZ1dDFQZGlC?=
+ =?utf-8?B?cXo0eFh6bXBuM3ZoUUU2ZFZLR1BXNUpGQ21IazZGVWF5dEwzbVIxMVNINWZu?=
+ =?utf-8?B?RnlaSVJ0RDkvSkx2Z05DeE50S1FaNEVxL081Qm8zSmJVVHBjK2NmMzFvdy9x?=
+ =?utf-8?B?ejhVd0ZaWmlzZEc2V1dRZ2JYV0dweUVjTklJSkpVaUJSc2RBbFhiWHR4VGk3?=
+ =?utf-8?B?RVh6WXRFNklPWEJld0hKRXZlSHUwckw5SDlSMzcyaVQ0b2diOGNEbVdlZ0s1?=
+ =?utf-8?B?Nk9Od2pmY0dXcXlvYzY5azNmVG4xaUlobUFQbmhtTUh5cFlxUHNxV2dlWG8z?=
+ =?utf-8?B?dnppNE5qYi94U3JNUklLYTRIM0hrdzYybm5NNWxDRE96Q1RGYU9HK0U5aUJy?=
+ =?utf-8?B?eVBhVGRUMVVwM2J1MEFNY3BWYnRocTM1c0FyK0JFTUxPT0dBTE96YnNXN1Ny?=
+ =?utf-8?B?bGhEcmdGdXdCZHdLSHRTeVBydDJ1SXZTbEdzVUk1cGxnWm9wbEQ2Y3JTL1Bv?=
+ =?utf-8?B?R1VvQjVXMC9uRFcwb1gwVDJwV1VtcE5nZ2cxdG9UV1d6eCtEYTF2Q2F6TVhE?=
+ =?utf-8?B?bldHRjdtemdTUXdxR1BNYWZ0dnlUZyttT2ttVTE4bXRFZC91QmdXcElhRjBK?=
+ =?utf-8?B?MXBpZm5jZ0pFVTJ3dUFjSEhxYURCdVI2Rjkvb1FGcWEzOFdUWTVrQWlFRGlV?=
+ =?utf-8?B?RncvMWg1b0JMNnR2ZEZnYTZNeFNSKzIwWUNnNVhJdE5DSlgrdm1BcEFLS2I5?=
+ =?utf-8?B?Z2NrUTNEa0pJbWRuMjR4RmZhZXhHMkhkLzBYRG5SSEpFMStjbzFGNDVQRnNt?=
+ =?utf-8?B?RVhWMERxUEVlODBDelc1cW4yK3EvSTBRblJuTkFCSFoxblRIQ21KOE5Ja3Nw?=
+ =?utf-8?B?SGdvUEVEYUJzRHhmQysxQi9vdTBZNHptWU5JcjcvVXdoQ1JQdVZFYWw5bTdi?=
+ =?utf-8?B?N1hYcFQ3eGdESkYyTm5hemdyK00wWkpMaG9yM0RDQ084OUZsVjMyZVRBRXly?=
+ =?utf-8?B?QWdQZ0RrTytZVGd5bC9VYXdmdkQ1c2pKYVhrYkJZZWxnSHVSNHpwWmlyYU9k?=
+ =?utf-8?B?WW0vQnBydmUyOEo3YWtxb0MrbzZHY0JHL1dJVTVGRHJiS0V3RUVDMUg5aUNn?=
+ =?utf-8?B?RGFWZzBnOVl5MmE0WDFYSmkvL3VhUCtDYk4xNE1BUldIZGthVG1FVnQvMzRH?=
+ =?utf-8?B?Z1V4UnRqcFcrbUh1U3gwZFJYdC9XQmQ4algyS2MyM3djV0lPZ3JOQnpManNT?=
+ =?utf-8?B?R0ZpYjFYQzQ4V2IyUWZRQ3p1SURaQXlZNU8wYUY4ZXZ3TVdxWnhDenpPY20v?=
+ =?utf-8?B?cTFSRlZGMk5IbVI2d1JyTUlWcUpyRFpXcjJyTU5hOWQxRU5ha0JXUlduankx?=
+ =?utf-8?B?YVFjQ2V6YVl4ckxjbzMzVCtHTlRCT0VzZmJTU2hiTUF4dTVpR0JIUHhnc1hI?=
+ =?utf-8?Q?PYkzypE7Jq6mog5OV3XWANrCzP/uyedFL0p8p7C?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e928a98-e1e7-4535-072d-08d982aa0f4c
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3320.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2021 18:01:56.5955
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: G8zj74uYHwS+sk+6j7AAcGxq1CMXqfU+p26gW6usI33sM7CEspTT4tSjPi7LssH4oB8uikY6Luvj9rMHa4ohgw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4038
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Thomas,
+On 9/23/2021 5:28 AM, Greg KH wrote:
+> On Mon, Sep 13, 2021 at 01:01:29PM -0700, Sohil Mehta wrote:
+>> +/* User Interrupt Target Table Entry (UITTE) */
+>> +struct uintr_uitt_entry {
+>> +	u8	valid;			/* bit 0: valid, bit 1-7: reserved */
+> Do you check that the other bits are set to 0?
 
-Thanks a lot for the review! I will not comment here on your
-suggestions that I fully understand how to address. Please see my
-comments below on issues that need more clarification.
+I don't have a check but kzalloc() in alloc_uitt() should set it to 0.
 
-Thanks,
-Peter
+>> +	u8	user_vec;
+>> +	u8	reserved[6];
+> What is this reserved for?
 
-On Tue, Sep 28, 2021 at 2:21 AM Thomas Gleixner <tglx@linutronix.de> wrote:
->
-> Peter,
->
-> On Fri, Sep 17 2021 at 11:03, Peter Oskolkov wrote:
->
-> > Define struct umcg_task and two syscalls: sys_umcg_ctl sys_umcg_wait.
-> >
-> > All key operations, such as wait/wake/context-switch, as well as
-> > timeouts and block/wake detection, are working quite reliably.
-> >
-> > In addition, the userspace can now force the kernel to preempt
-> > a running worker by changing its state from RUNNING to
-> > RUNNING | PREEMPTED and sending a signal to it. This new functionality
-> > is less well tested than the key operations above, but is working
-> > well in the common case of the worker busy in the userspace.
-> >
-> > These big things remain to be addressed (in no particular order):
-> > - tracing/debugging
-> > - faster context switches (see umcg_do_context_switch in umcg.c)
-> > - other architectures (we will need at least arm64 in addition to amd64)
-> > - tools/lib/umcg for userspace
-> > - kselftests
-> >
-> > I'm working on finalizing libumcg and kselftests.
-> >
-> > See Documentation/userspace-api/umcg.[txt|rst] for API usage and
-> > other details.
->
-> The above is a work log and a todo list, but not a change log.
->
-> Change logs have to explain the what and especially the why and for new
-> concepts also the design and the rationale behind it.
->
-> And no, links to random discussions are not a replacement for that. It's
-> not the job of a reviewer to dig for that information. It's the task of
-> the submitter to provide that information so the reviewer can digest it.
->
-> > v0.5->v0.6 changes:
-> > - umcg_task pages are now pinned for RUNNING workers;
->
-> What's the rationale for that? Why is that needed and desired?
+This is hardware defined structure as well. I should probably mention 
+this it in the comment above.
 
-This was discussed in detail here:
-https://lore.kernel.org/lkml/20210908184905.163787-1-posk@google.com/,
-for example: https://lore.kernel.org/lkml/YUBYJLCYpy3yJO5F@hirez.programming.kicks-ass.net/
+>> +	u64	target_upid_addr;
+> If this is a pointer, why not say it is a pointer?
 
-In short, workqueue functions (sched_submit_work, sched_update_worker)
-can be called with mm lock held, and so we cannot fixup pagefaults
-inline; so we need to pin struct umcg_task pages temporarily. On the
-wakeup path I elide this by setting TF_NOTIFY_RESUME flag and doing
-everything later in return-to-usermode-loop in a sleepable context; on
-the sched_submit_work (going to sleep) path, we need to access the
-userspace to wake up the server, but this is a "nosleep" context, so
-the pages have to be pinned.
+I used a u64 to get the size and alignment of this structure as required 
+by the hardware. I wasn't sure if using a struct upid * would complicate 
+that.
 
->
-> > v0.2->v0.3 changes:
-> > - the overall approach is now based on peterz@'s suggestion in
-> >   https://lore.kernel.org/patchwork/cover/1433967/
->
-> All of these lore.kernel/org/patchwork/* links resolve to 404. Please
-> use proper lore.kernel.org/r/$MSGID links
->
-> > /*
-> > +
-> > --- a/kernel/entry/common.c
-> > +++ b/kernel/entry/common.c
-> > @@ -173,6 +173,7 @@ static unsigned long exit_to_user_mode_loop(struct pt_regs *regs,
-> >
-> >               if (ti_work & _TIF_NOTIFY_RESUME) {
-> >                       tracehook_notify_resume(regs);
-> > +                     umcg_handle_notify_resume();  /* might sleep */
->
-> Please do not use tail comments. They are horrible and disturb the
-> reading flow.
->
-> Aside of that this 'might sleep' info is not really interesting. All
-> functions which are invoked in exit_to_user_mode_loop() can sleep, so
-> what's special about this one?
->
-> > diff --git a/kernel/exit.c b/kernel/exit.c
-> > index fd1c04193e18..fdd4e923cca9 100644
-> > --- a/kernel/exit.c
-> > +++ b/kernel/exit.c
-> > @@ -744,6 +744,8 @@ void __noreturn do_exit(long code)
-> >       if (unlikely(!tsk->pid))
-> >               panic("Attempted to kill the idle task!");
-> >
-> > +     umcg_handle_exit();
->
-> Why is this invoked _before_ the oops fixup? How is that correct in the
-> oops case?
+Also this field is never used as a pointer by the kernel. It is only 
+used to program an entry that is read by the hardware.
 
-umcg_handle_exit() is just unpinning pinned pages, assigning NULL to a
-couple of pointers, and clearing PF_UMCG_WORKER flag, so I assumed
-doing it as early as possible is the best way to avoid unnecessarily
-triggering workqueue callbacks. Is my logic wrong? (UMCG tasks should
-unregister before exiting; if they do, umcg_handle_exit() is a NOOP;
-but if they did not unregister, umcg_handle_exit() just makes sure no
-pinned pages are left over).
+Is this reasonable or would you still prefer a pointer?
 
->
-> > index 12a9d053e724..c9133cf153b9 100644
-> > --- a/kernel/sched/core.c
-> > +++ b/kernel/sched/core.c
-> > @@ -4159,6 +4159,9 @@ static void __sched_fork(unsigned long clone_flags, struct task_struct *p)
-> >       p->wake_entry.u_flags = CSD_TYPE_TTWU;
-> >       p->migration_pending = NULL;
-> >  #endif
-> > +#ifdef CONFIG_UMCG
-> > +     umcg_clear_child(p);
-> > +#endif
->
-> Can you please provide stub functions for the CONFIG_UMCG=n case instead
-> of sprinkling #ifdefs all over the place?
+
+>> +} __packed __aligned(16);
+>> +
+>> +struct uintr_uitt_ctx {
+>> +	struct uintr_uitt_entry *uitt;
+>> +	/* Protect UITT */
+>> +	spinlock_t uitt_lock;
+>> +	refcount_t refs;
+> Again, a kref please.
 
 Will do.
 
->
-> >  DEFINE_STATIC_KEY_FALSE(sched_numa_balancing);
-> > @@ -6105,10 +6108,14 @@ static inline void sched_submit_work(struct task_struct *tsk)
-> >        * in the possible wakeup of a kworker and because wq_worker_sleeping()
-> >        * requires it.
-> >        */
-> > -     if (task_flags & (PF_WQ_WORKER | PF_IO_WORKER)) {
-> > +     if (task_flags & (PF_WQ_WORKER | PF_IO_WORKER | PF_UMCG_WORKER)) {
-> >               preempt_disable();
-> >               if (task_flags & PF_WQ_WORKER)
-> >                       wq_worker_sleeping(tsk);
-> > +#ifdef CONFIG_UMCG
-> > +             else if (task_flags & PF_UMCG_WORKER)
-> > +                     umcg_wq_worker_sleeping(tsk);
-> > +#endif
->
-> This #ifdeffery can be completely avoided:
->
-> #define PF_SWAPWRITE            0x00800000      /* Allowed to write to swap */
-> #ifdef CONFIG_UMCG
-> # define PF_UMCG_WORKER         0x01000000      /* UMCG worker */
-> #else
-> # define PF_UMCG_WORKER         0x00000000
-> #endif
->
-> plus a stub function for umcg_wq_worker_sleeping() and for UMCG=n the whole muck is
-> compiled out, the flags test does not care about PF_UMCG_WORKER....
->
-> But aside of that, why has umcg_wq_worker_sleeping() to run with
-> preemption disabled?
->
-> > +/*
-> > + * Called by sched_submit_work() for UMCG workers from within preempt_disable()
-> > + * context. In the common case, the worker's state changes RUNNING => BLOCKED,
-> > + * and its server's state changes IDLE => RUNNING, and the server is ttwu-ed.
-> > + *
-> > + * Under some conditions (e.g. the worker is "locked", see
-> > + * /Documentation/userspace-api/umcg.[txt|rst] for more details), the
-> > + * function does nothing.
-> > + */
-> > +static void __umcg_wq_worker_sleeping(struct task_struct *tsk)
-> > +{
-> > +     struct umcg_task __user *ut_worker = tsk->umcg_task;
-> > +     u32 prev_state, next_state, server_tid;
-> > +     bool preempted = false;
-> > +     int ret;
-> > +
-> > +     if (WARN_ONCE((tsk != current) || !ut_worker, "Invalid umcg worker"))
-> > +             return;
-> > +
-> > +     /* Sometimes "locked" workers run without servers. */
->
-> Sometimes the sun shines... Can you please add understandable comments?
-> What's wrong with:
->
->        /* Nothing to do for workers which are not attached to a server */
->
-> or something like that which explains nicely what this is about.
->
-> > +     if (unlikely(!tsk->pinned_umcg_server_page))
->
-> and the comment is needed because tsk->pinned_umcg_server_page does not
-> make it obvious what the test is about while
->
->         if (unlikely(!ut_worker_has_server(tsk)))
->
-> or
->
->         if (unlikely(ut_worker_detached(tsk)))
->
-> would be self explanatory.
->
-> > +             return;
-> > +
-> > +     smp_mb();  /* The userspace may change the state concurrently. */
->
-> No tail comments please.
->
-> Also this does not explain why this needs to be a full barrier. All
-> barriers have to come with a proper explanation what they are
-> serializing against and what the counter part is even if the counter
-> part is in user space. And that documentation wants to be in the code
-> and not somewhere else.
->
-> > +     if (get_user_nosleep(prev_state, &ut_worker->state))
-> > +             goto die;  /* EFAULT */
->
-> This /* EFAULT */ comment documents the obvious. Can you please document
-> the non-obvious things properly?
->
-> > +
-> > +     if (prev_state & UMCG_TF_LOCKED)
-> > +             return;
-> > +
-> > +     if ((prev_state & UMCG_TASK_STATE_MASK) != UMCG_TASK_RUNNING)
-> > +             return;  /* the worker is in umcg_wait */
->
-> So if the worker is in umcg_wait() then why is it reaching this place at
-> all? The current task surely knows that it comes here from umcg_wait(),
-> right?
-
-This place is on the "worker goes to sleep" path (sched_submit_work).
-umcg_wait() puts the worker to sleep, so this place is triggered. I
-can remove PF_UMCG_WORKER in umcg_wait() to elide this if you think
-this would be better. I'll try that in the next patchset version.
-
->
-> > +retry_once:
-> > +     next_state = prev_state & ~UMCG_TASK_STATE_MASK;
-> > +     next_state |= UMCG_TASK_BLOCKED;
-> > +     preempted = prev_state & UMCG_TF_PREEMPTED;
-> > +
-> > +     ret = cmpxchg_user_32_nosleep(&ut_worker->state, &prev_state, next_state);
-> > +     if (ret == -EAGAIN) {
-> > +             if (preempted)
-> > +                     goto die;  /* Preemption can only happen once. */
-> > +
-> > +             if (prev_state != (UMCG_TASK_RUNNING | UMCG_TF_PREEMPTED))
->
-> This check falls flat on it's nose when one of the user space bits
-> (24-31) is set in prev_state. prev_state is a misnomer anyway. The usual
-> convention is to use cur_state because that's what it is up to the point
-> where the cmpxchg succeeds.
-
-Right, will fix.
-
->
-> > +                     goto die;  /* Only preemption can happen. */
-> > +
-> > +             preempted = true;
->
-> How is this supposed to do anything? This goes back to retry_once which
-> overwrites preempted...
-
-Hmm, yea, will fix. The idea is that we retry here only once, and only
-if we retry due to UMCG_TF_PREEMPTED getting set.
-
->
-> > +             goto retry_once;
-> > +     }
->
-> > +     if (ret)
-> > +             goto die;  /* EFAULT */
-> > +
-> > +     if (get_user_nosleep(server_tid, &ut_worker->next_tid))
-> > +             goto die;  /* EFAULT */
-> > +
-> > +     if (!server_tid)
-> > +             return;  /* Waking a waiting worker leads here. */
->
-> I have no idea what that comment is trying to say.
->
-> > +     /* The idle server's wait may timeout. */
-> > +     /* TODO: make a smarter context switch below when available. */
->
-> Neither those make any sense to me.
->
-> > +     if (mark_server_running(server_tid, false))
-> > +             umcg_ttwu(server_tid, WF_CURRENT_CPU);
->
-> Well, after looking at both functions I can see why this wants to be
-> smarter. Doing the vpid lookup twice instead of once is certainly not
-> the smartest solution.
-
-I'll do some refactoring to avoid extra vpid lookups. The comment,
-though, hints at a "smarter context switch" that is more than just
-"ttwu the server and put the worker to sleep".
-
->
-> > +     return;
-> > +
-> > +die:
-> > +     pr_warn("umcg_wq_worker_sleeping: killing task %d\n", current->pid);
-> > +     force_sig(SIGKILL);
-> > +}
-> > +
-> > +/* Called from sched_submit_work() with preempt_disable. */
-> > +void umcg_wq_worker_sleeping(struct task_struct *tsk)
-> > +{
-> > +     __umcg_wq_worker_sleeping(tsk);
-> > +     umcg_unpin_pages();
->
-> Coming back to my previous question: Why has all of this to run with
-> preemption disabled?
->
-> There is absolutely no reason to do that and just because you picked a
-> place to invoke that with preemption disabled does not count.
->
-> In fact none of the existing two functions require to be invoked with
-> preemption disabled and I'm going to send out a patch which removes that
-> historic leftover.
-
-I've seen your patch - thanks!
-
->
-> And if this is not called with preemption disabled then none of these
-> misnomed _nosleep() accessors are needed and the code can be simplified.
-
-We still need to work with pinned pages, as described above - mm lock
-can be held here. How would you prefer these accessors to be named
-other than "_nosleep()"? Maybe "_nofixup()"?
-
->
-> > + * Try to wake up. May be called with preempt_disable set. May be called
-> > + * cross-process.
-> > + *
-> > + * Note: umcg_ttwu succeeds even if ttwu fails: see wait/wake state
-> > + *       ordering logic.
-> > + */
-> > +static int umcg_ttwu(u32 next_tid, int wake_flags)
-> > +{
-> > +     struct task_struct *next;
-> > +
-> > +     rcu_read_lock();
-> > +     next = find_task_by_vpid(next_tid);
-> > +     if (!next || !(READ_ONCE(next->umcg_task))) {
-> > +             rcu_read_unlock();
-> > +             return -ESRCH;
-> > +     }
-> > +
-> > +     /* Note: next does not necessarily share mm with current. */
->
-> Which is irrelevant, but what's relevant is that there is absolutely no
-> sanity check of next_tid. So this just wakes up what ever TID user space
-> writes into the user space task memory. Anything copmeing from user
-> space cannot be trusted and needs to be validated. find_task_by_vpid()
-> is not sufficient for that.
-
-Well, next_tid must point to a task registered with UMCG, and this is
-checked above. I'm not sure what other validation is appropriate here.
-What kind of sanity checks are needed? The worst thing that can happen
-is a spurious wakeup, which is supposedly something that can happen
-anyway and is not a major concern?
-
->
-> > +     try_to_wake_up(next, TASK_NORMAL, wake_flags);  /* Result ignored. */
-> > +     rcu_read_unlock();
-> > +
-> > +     return 0;
-> > +}
->
->
-> > +/* Returns true on success, false on _any_ error. */
-> > +static bool mark_server_running(u32 server_tid, bool may_sleep)
-> > +{
-> > +     struct umcg_task __user *ut_server = NULL;
-> > +     u32 state = UMCG_TASK_IDLE;
-> > +     struct task_struct *tsk;
-> > +
-> > +     rcu_read_lock();
-> > +     tsk = find_task_by_vpid(server_tid);
-> > +     if (tsk)
-> > +             ut_server = READ_ONCE(tsk->umcg_task);
-> > +     rcu_read_unlock();
-> > +
-> > +     if (!ut_server)
-> > +             return false;
-> > +
-> > +     if (READ_ONCE(current->mm) != READ_ONCE(tsk->mm))
-> > +             return false;
->
-> This is broken because it's outside the rcu read side critical section
-> so @tsk can be gone already. Also this lacks a check whether @tsk is a
-> kthread because kthreads can use a user mm temporarily.
-
-I don't think kthreads can have tsk->umcg_task set, so the function
-will return earlier. I'll move the check under rcu.
-
->
-> Also what's the purpose of these undocumented READ_ONCE() instances?
-
-While ttwu can be called cross-mm, anything more involved, such as
-changing the server's UMCG state, requires the remote task to belong
-to the same process, and this is what the check validates. I'll add
-that comment to the code.
-
->
-> Thanks,
->
->         tglx
-
 Thanks,
-Peter
+
+Sohil
+
