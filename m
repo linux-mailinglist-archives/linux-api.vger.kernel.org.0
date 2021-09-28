@@ -2,304 +2,197 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 052A441B7E1
-	for <lists+linux-api@lfdr.de>; Tue, 28 Sep 2021 22:00:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CB7141B87E
+	for <lists+linux-api@lfdr.de>; Tue, 28 Sep 2021 22:40:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242585AbhI1UCY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 Sep 2021 16:02:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45144 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242593AbhI1UCX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 28 Sep 2021 16:02:23 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3FE0C06161C;
-        Tue, 28 Sep 2021 13:00:43 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1632859241;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=D7e/QL1SpcLLIiSjaCP7hCUsjIQqSLXxLXSn+s1HLR0=;
-        b=qrrDYwtMqfYfSlrEZshrqamhhneYMkL5HOJWzOEINdVZw1wlzriW3L5BlMwVing1IagUSc
-        PVRuFzd99C8Bn1l/BCdqMvuDvoXR44K3j/QZ1LHsH4PeD+kyKmK/rROU4i7gENxfvmAsJx
-        exLpOHT60xcf/blr1WRv8ZI5UxBluQWgPsMBrvld5b+30oliqY07hUfMNz0oemFnn6Exon
-        SHuiLAAk2D4oqUV+otqe1rO3D2ZBYe4r0cXqGDXqOZ8zVyddfdA988Keq/kS1gM9QE5zrt
-        x4DRRijzgyWBwiWj2JxKw5Dxc7+k6zPsjXbBh0F06f+P7KK1PBgod9nt0Xc4LQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1632859241;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=D7e/QL1SpcLLIiSjaCP7hCUsjIQqSLXxLXSn+s1HLR0=;
-        b=CTRXym9cjzJ0XEMNvPypvEgu1rtkDDIAWUy4WmrbCbAxq7L4ELtLOPRWKraRue8s4QA0NK
-        Gt/NYcgF80PVm+Aw==
-To:     Peter Oskolkov <posk@posk.io>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-api@vger.kernel.org, Paul Turner <pjt@google.com>,
-        Ben Segall <bsegall@google.com>,
-        Peter Oskolkov <posk@google.com>,
-        Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
-        Thierry Delisle <tdelisle@uwaterloo.ca>
-Subject: Re: [PATCH 3/5 v0.6] sched/umcg: RFC: implement UMCG syscalls
-In-Reply-To: <CAFTs51V7QTt3pjfHJ8MSxCgdnTz_5J3Dp8VLt6aGpE0WeB09tA@mail.gmail.com>
-References: <20210917180323.278250-4-posk@google.com> <874ka5awdp.ffs@tglx>
- <CAFTs51V7QTt3pjfHJ8MSxCgdnTz_5J3Dp8VLt6aGpE0WeB09tA@mail.gmail.com>
-Date:   Tue, 28 Sep 2021 22:00:40 +0200
-Message-ID: <87mtnwa2s7.ffs@tglx>
+        id S242774AbhI1UmV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 28 Sep 2021 16:42:21 -0400
+Received: from mga07.intel.com ([134.134.136.100]:19533 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S242790AbhI1UmU (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 28 Sep 2021 16:42:20 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10121"; a="288459877"
+X-IronPort-AV: E=Sophos;i="5.85,330,1624345200"; 
+   d="scan'208";a="288459877"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2021 13:40:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,330,1624345200"; 
+   d="scan'208";a="478888649"
+Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
+  by fmsmga007.fm.intel.com with ESMTP; 28 Sep 2021 13:40:37 -0700
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 28 Sep 2021 13:40:36 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12 via Frontend Transport; Tue, 28 Sep 2021 13:40:36 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.171)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.12; Tue, 28 Sep 2021 13:40:36 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jOdNVVX/kCuqG8pQVYXbolNJ8qNgiA/Dh/pcVxBoAIW/iqPtggrC/5hrlZMHdIu9fwmOez+QNbFfP1Ny+oiBLPgidsmA+1uHfes54+skW4Jk+p87ePTqI3HSAO3yiEkJ5SIpViIGUZouyvZGkS9cJoKQrWrAhi795vIzE5YdAwYc6GDQtN/er5wsCk6+El4hRLYQIaQxPaehteKFMGTGOW2YvUIgPsSXKXQrJkSVSwZA5zC3nZ2hCklXdZAh0kMAyf6adIc05nllpeEpjAzBQ1kWdKApEg3MKxjmb6orIm88F9gQulQ1ZBix43teppjm+kVPPI/a1+6LyoPMkcS6fQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=UhTz0Efumml7hzMHNzeknCaWUW/LLT9pOLmFFzIkizo=;
+ b=PcVnCvJrYFh9iS4a9JJ6QvH0Myn8nEQser4oQKyBlD6MG26iwKH4MpHSkJSqhHi9D+9IRhKWGMQx/KjSDp6Rr7y0MYuHhzc/uNP2PhEIEZaQDuNzqB3IAB3vIHOlj+YpULVpj2DVrTj0AM9RYuvbmfgMqf/YqNnYFW4djsBscTqJ/2y3T7QLttjXz3mgqqrFVVxXJOV1S33mavvqhb/vo/NkhALtcHdlLIpHzM4gXKqtcARzudFbJydVM4FYoF8CaGKlu4FAVDOUgqVuTwUOhBHvGf0MGoEZOg5F77ouuOC8Nz2axB4gR4CRKPYO2+W+qszpnXunRaTKlf0q/+/JxA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UhTz0Efumml7hzMHNzeknCaWUW/LLT9pOLmFFzIkizo=;
+ b=WU07+UB1ZlHNX1AbBFGLPsE2BVKPSPsZMu81XPGDDNlfvjIMdbPWiVVbB4Y5ULe3L8nHvbYtwqvEu60TU7xCgnIfk7Ji2qpHnlNxFhg4PN3NljJ3W8eR2kQSEp9XhhggP/2rbePc7z8hJAPsMW4L4O+a49/C2Qvh2EDWmHWUdIs=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=intel.com;
+Received: from BYAPR11MB3320.namprd11.prod.outlook.com (2603:10b6:a03:18::25)
+ by BY5PR11MB4040.namprd11.prod.outlook.com (2603:10b6:a03:186::27) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.18; Tue, 28 Sep
+ 2021 20:40:33 +0000
+Received: from BYAPR11MB3320.namprd11.prod.outlook.com
+ ([fe80::4167:f9ef:19b2:eaff]) by BYAPR11MB3320.namprd11.prod.outlook.com
+ ([fe80::4167:f9ef:19b2:eaff%3]) with mapi id 15.20.4544.021; Tue, 28 Sep 2021
+ 20:40:33 +0000
+Subject: Re: [RFC PATCH 09/13] x86/uintr: Introduce vector registration and
+ uintr_fd syscall
+To:     Thomas Gleixner <tglx@linutronix.de>, <x86@kernel.org>
+CC:     Tony Luck <tony.luck@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        "Ingo Molnar" <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jens Axboe <axboe@kernel.dk>,
+        Christian Brauner <christian@brauner.io>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Shuah Khan <shuah@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ashok Raj <ashok.raj@intel.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        "Gayatri Kammela" <gayatri.kammela@intel.com>,
+        Zeng Guang <guang.zeng@intel.com>,
+        "Dan Williams" <dan.j.williams@intel.com>,
+        Randy E Witt <randy.e.witt@intel.com>,
+        Ravi V Shankar <ravi.v.shankar@intel.com>,
+        Ramesh Thomas <ramesh.thomas@intel.com>,
+        <linux-api@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>
+References: <87wnn6dzzn.ffs@tglx>
+From:   Sohil Mehta <sohil.mehta@intel.com>
+Message-ID: <c2b50159-836f-2fd4-e469-938c9dd50166@intel.com>
+Date:   Tue, 28 Sep 2021 13:40:30 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
+In-Reply-To: <87wnn6dzzn.ffs@tglx>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ClientProxiedBy: BYAPR08CA0028.namprd08.prod.outlook.com
+ (2603:10b6:a03:100::41) To BYAPR11MB3320.namprd11.prod.outlook.com
+ (2603:10b6:a03:18::25)
 MIME-Version: 1.0
-Content-Type: text/plain
+Received: from [192.168.86.37] (73.222.31.188) by BYAPR08CA0028.namprd08.prod.outlook.com (2603:10b6:a03:100::41) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.15 via Frontend Transport; Tue, 28 Sep 2021 20:40:32 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 947f314c-d618-4e7f-4b40-08d982c0378a
+X-MS-TrafficTypeDiagnostic: BY5PR11MB4040:
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr,ExtFwd
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BY5PR11MB4040E0CAF398D7D80803574DE5A89@BY5PR11MB4040.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: h5tczE+DBA1BhKiB47nOfNMT1kEl55N4XfwYQBfQMfza/YZeX3Q1DRdsJeE3xPZJH2gy6AnPO9D149XALgnnmrJ6Q54JbjnaVaJmpzICMpAniWsBPJ/3Tg1wriHbjIbu7aMWNQ42JF/Pe8f0fiQZ5f2kgZzhz4FoXJk9gFNVNKvGedVgbKCFsMfG1Z8OkzKVFPh0Kl82tKM1xwkjdcGsMTHh+vgPManLlVkPnQVRfNAvGlKLLmE/P2xOPiSow7Yp8xJLwxOuvI9mslRjLuxj6jeFg62Wo6xGA7RuU/Z+RwUjz8Ip47bN2TXt6RDja1dlmWty36w8MQ0RDOdkH2uuTMh9G7VeDIL7DcIyYlE+dgd1QQVVjfgg9V3ukC95D5CRfsbdxwWORBc4YuMHuGD/F6DOx4v96c/07ynbDdxHbDba6HwNVR0SLPkGMa31tCCr8Cx1goseS35Y+DcsDePwFlt+j+1hSPzEqCjWLyfo+0fuRlMcKSBuzwDk3k6Cp9W0QdcJxphwjPCXgzhKcuEbFN/nUA8MAzl57FR9WF8oYrHPVoYSRFkr+i9RhsXnVMNpUeGkWDJfXid0Y+UPaOzaZ5WtDpq4B22lbImayeSdbpZustJ3tudy9zUqthBQ+UquYbZ3E/4cJB2fnYpYGWJPcB8yRRMfBn20pHy3vovHbDCM9J+FfD39dOIvUQhK/t3f+6xRNj9oV8gPbGM2mcijZu0WYIoEKeFOJmaxgRPFwmw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3320.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(54906003)(2906002)(16576012)(38100700002)(86362001)(6486002)(316002)(31696002)(31686004)(4326008)(508600001)(36756003)(26005)(5660300002)(956004)(7416002)(53546011)(66556008)(66476007)(66946007)(186003)(44832011)(2616005)(8676002)(8936002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cStseFlTZUxrTm8rSlI2WE1wUDZjT3EybmNSYTdYN2EzeVByNjdsVWxyV0JE?=
+ =?utf-8?B?OFd2M0hIcG1QOGVoYnNUYTRPWlFheGNkbVJWcVV0SWtiZXdVV1ZaTkFuaGxk?=
+ =?utf-8?B?OHVjVWUwQ1ZVN004Z0hDVytnaDFXNUQ0TmlGRFZtaG5HMnpkV2pOTTRTTnZu?=
+ =?utf-8?B?YTg3RTB5VWV1Y3JaV3ZTMmpOZzRRUFp3RnU0eDhlZENYVG1pZFBqaTAyOHFL?=
+ =?utf-8?B?TWROOVk0UTliaFdYVzVhZ00wSm5HSUFxdHhXMjJ5NUVPZGQvSTlFc0dRZjU5?=
+ =?utf-8?B?YkEvMkxoRzMwWmxtU2p6MWJYSnpiV3BxaWk2NWsvaTRzT0s5ZVJCakNIK0Q4?=
+ =?utf-8?B?ZkZrcGppTllmZ09NYStoWU5Ob0R4Tm9LbTF4QTZaRjdJaGJCMHlEdW5nTVV1?=
+ =?utf-8?B?Q2pSVXB4YVlNZmk4VWdNUGpzTUlmQVRtUlhzUWpWOFo1U0JtY0xCRXNKeDNT?=
+ =?utf-8?B?ekJEd1VlTzRHNDFnLzRINXkxa3VoOGpZQ09FVVNkeG1IYXVwWjh3blZpWmxh?=
+ =?utf-8?B?MTZ6OElNOHJTWXdCYlJzeVN6RUJpQmQvd2xXYmY2Z05WWFFvUmtXQ3pyWmt3?=
+ =?utf-8?B?eHdtejZ2djVhdGF6R0xqTDdrOVNSMHJidnRFZHQwbngxdi9GR1R0UFhwQVpB?=
+ =?utf-8?B?RjZ2RjMxK3Awa1RmU2NwZ0l5NVRrNHZZeHF5ZmlqL1Q2UXNrOUVDOWZRWXph?=
+ =?utf-8?B?d0VUQ2NZdytqNlhuRk5oTi9RREJENFZHTXNJZlNJSndpTk9DTGhYMXdadVRv?=
+ =?utf-8?B?T3IySWRWcnRQRkJLcEEybVdEUzVHc1lxeUJQOGptM2FtUkdYZS9PTVdtSGZs?=
+ =?utf-8?B?ckp3bW54Q0FNLzQ5Wms0M0ZzSlFoeUlBZVVFSmFPZU1haXdhbk9ueHJFZ1RI?=
+ =?utf-8?B?d3RkaC93bkNWZGZtdHZXOXF3NDN0bU1iQ29qbmFHSVBZdVVCcnFTUmNrZjlt?=
+ =?utf-8?B?TzFkYUExeGo5YTA1dVFEaEZKNTkxdzJQZTVuRVFHZXREQUVXVUdiQStLUUND?=
+ =?utf-8?B?QTZkdUdCcmd2d3lBS1pBVVlJOEw2dWpLSVFwakNWRVFjbUwyM0ZZR0VMR2lF?=
+ =?utf-8?B?bzVEVG9SdnV4UEY4cnJ4TlhUeGIxV3ZYNU5kMWVvVTUrUVpneE9qajMvVUsw?=
+ =?utf-8?B?eCtyOEFWZ0JYMnRVS29kTUQ2TTBsUzBaNXlTQVUyUkpRTG1oaWdUUjFXbzJV?=
+ =?utf-8?B?ZXNuTEFzMTJZbUNzMUFXWXlYcFFJdmlwSitXZzBEbnltNTFuWTYybTg4dDNz?=
+ =?utf-8?B?QzNZZ2JjZE1JeE9RYWxoWGNtS2w1ZW5EL2htUy9ZeUJHTzNwVnlTOGJ4bVFk?=
+ =?utf-8?B?Vk1BNzFTYjdPSnNhZ05ma09HL3hSMVZNMFZpMGx3QUV0dkJuSjVwMzZNaW5K?=
+ =?utf-8?B?OUFvN0E2RkhYdWc5ZnJuU3B2eHo2Kzk4VEZicXp1bFFYaEFYQVNWK04wTmh1?=
+ =?utf-8?B?aWEwMytJZXkzZGZ2b0Q0ZEpKWkdZK1VMNE4xUnVOYXlDeVFvWEFyOVNDVUxY?=
+ =?utf-8?B?NkV4KzFDMTg2VUwxZ0Z2MzVzTDVqMGl3UDYwT3FpOStnZmNNRHIwQXdiNVpD?=
+ =?utf-8?B?UjRkenJzWVUyMi9lbVZ2RHg5bkd6Ty9tYVFPalVDMTVENGxBKzE1bG9LY2VG?=
+ =?utf-8?B?ME1jMXlyclg2ckRmT3NFb2VsaWZ0ZXg2WXVORVkrQis1THRVNFcySGdacmFU?=
+ =?utf-8?B?MStLbnY5RlFwREFneGZHYnNaeG83MDNzdXZBYlBzaUlneXAyeG9XVmh1SUJR?=
+ =?utf-8?Q?rQ9jLa+8gz5ZRKAXhpX1NTiHxkiQuFcOU7XL1Ze?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 947f314c-d618-4e7f-4b40-08d982c0378a
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3320.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2021 20:40:33.1265
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EviMVkDE959sS3cwLcOB+uTRiUU/WgApVodLeL8hJheQqxIcLjN3pG7kyRKc6sprgInYGjO4yMJPhqIEo+wLpQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4040
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Peter,
+On 9/24/2021 3:33 AM, Thomas Gleixner wrote:
+> If this ever comes back in some form, then I pretty please want the life
+> time rules of this documented properly.
 
-On Tue, Sep 28 2021 at 10:26, Peter Oskolkov wrote:
-> On Tue, Sep 28, 2021 at 2:21 AM Thomas Gleixner <tglx@linutronix.de> wrote:
->> On Fri, Sep 17 2021 at 11:03, Peter Oskolkov wrote:
->>
->> What's the rationale for that? Why is that needed and desired?
+I'll document the life time rules for the UPID, vector and UITT next 
+time. I realize now that they are quite convoluted in the current 
+implementation.
+
+I'll also fix the concurrency and serialization issues that you 
+mentioned in this patch and the next one.
+
+
 >
-> In short, workqueue functions (sched_submit_work, sched_update_worker)
-> can be called with mm lock held, and so we cannot fixup pagefaults
-> inline; so we need to pin struct umcg_task pages temporarily. On the
-> wakeup path I elide this by setting TF_NOTIFY_RESUME flag and doing
-> everything later in return-to-usermode-loop in a sleepable context; on
-> the sched_submit_work (going to sleep) path, we need to access the
-> userspace to wake up the server, but this is a "nosleep" context, so
-> the pages have to be pinned.
+>> +	ret = task_work_add(r_info->upid_ctx->task, &r_info->twork, true);
+> Care to look at the type of the third argument of task_work_add()?
 
-Fair enough. That's the kind of information which belongs into the
-change log. But this wants also be documented in the code, e.g. in the
-comment above umcg_pin_pages(). You'll be happy to have it there when
-you are forced to stare at that code 3 month after it got merged.
+Ah! I didn't realize the third argument changed a long time back.
 
->> > diff --git a/kernel/exit.c b/kernel/exit.c
->> > index fd1c04193e18..fdd4e923cca9 100644
->> > --- a/kernel/exit.c
->> > +++ b/kernel/exit.c
->> > @@ -744,6 +744,8 @@ void __noreturn do_exit(long code)
->> >       if (unlikely(!tsk->pid))
->> >               panic("Attempted to kill the idle task!");
->> >
->> > +     umcg_handle_exit();
->>
->> Why is this invoked _before_ the oops fixup? How is that correct in the
->> oops case?
+
 >
-> umcg_handle_exit() is just unpinning pinned pages, assigning NULL to a
-> couple of pointers, and clearing PF_UMCG_WORKER flag, so I assumed
-> doing it as early as possible is the best way to avoid unnecessarily
-> triggering workqueue callbacks. Is my logic wrong? (UMCG tasks should
-> unregister before exiting; if they do, umcg_handle_exit() is a NOOP;
-> but if they did not unregister, umcg_handle_exit() just makes sure no
-> pinned pages are left over).
+>> +/*
+>> + * sys_uintr_create_fd - Create a uintr_fd for the registered interrupt vector.
+> So this creates a file descriptor for a vector which is already
+> allocated and then it calls do_uintr_register_vector() which allocates
+> the vector?
 
-Look at the comment right below where you placed that call.
+The syscall comment is misleading. Will fix it.
 
-"Just unpinning" calls into a boatload of code in mm and you really want
-to do that _after_ all sanity checks and fixups and before exit_mm(). 
+Vector allocation happens in userspace. The application is only expected 
+to register the vector.
 
-It really does not matter much where exactly and I have no idea which
-workqueue callbacks you are worried about. The code after the fixup is
-fully preemptible (in theory).
+This syscall only creates an FD abstraction for the vector that is 
+*being* registered.
 
->> > +
->> > +     if (prev_state & UMCG_TF_LOCKED)
->> > +             return;
->> > +
->> > +     if ((prev_state & UMCG_TASK_STATE_MASK) != UMCG_TASK_RUNNING)
->> > +             return;  /* the worker is in umcg_wait */
->>
->> So if the worker is in umcg_wait() then why is it reaching this place at
->> all? The current task surely knows that it comes here from umcg_wait(),
->> right?
->
-> This place is on the "worker goes to sleep" path (sched_submit_work).
-> umcg_wait() puts the worker to sleep, so this place is triggered. I
-> can remove PF_UMCG_WORKER in umcg_wait() to elide this if you think
-> this would be better. I'll try that in the next patchset version.
-
-I was just wondering about that as it seemed strange to me that a task
-which invoked umcg_wait() has to inspect it's own user space state to
-figure out that it comes from umcg_wait(). There might be a reason for
-this, but if not then avoiding this pointless exercise completely is
-definitely not the worst idea.
-
->> > +     /* The idle server's wait may timeout. */
->> > +     /* TODO: make a smarter context switch below when available. */
->>
->> Neither those make any sense to me.
->>
->> > +     if (mark_server_running(server_tid, false))
->> > +             umcg_ttwu(server_tid, WF_CURRENT_CPU);
->>
->> Well, after looking at both functions I can see why this wants to be
->> smarter. Doing the vpid lookup twice instead of once is certainly not
->> the smartest solution.
->
-> I'll do some refactoring to avoid extra vpid lookups. The comment,
-> though, hints at a "smarter context switch" that is more than just
-> "ttwu the server and put the worker to sleep".
-
-These TODOs are not really helpful at the moment. Let's get the straight
-forward version to work first. Enhancing this is an orthogonal issue.
-
->> And if this is not called with preemption disabled then none of these
->> misnomed _nosleep() accessors are needed and the code can be simplified.
->
-> We still need to work with pinned pages, as described above - mm lock
-> can be held here. How would you prefer these accessors to be named
-> other than "_nosleep()"? Maybe "_nofixup()"?
-
-nofixup() would be weird because the actual access uses an exception
-fixup :)
-
-If you look at mm/maccess.c you might notice that we already have such
-functions, e.g. copy_from_user_nofault(). Pretty obvious name that.
-
-I'll reply to that patch separately as the approach taken there needs
-more than a quick name change.
-
->> > +static int umcg_ttwu(u32 next_tid, int wake_flags)
->> > +{
->> > +     struct task_struct *next;
->> > +
->> > +     rcu_read_lock();
->> > +     next = find_task_by_vpid(next_tid);
->> > +     if (!next || !(READ_ONCE(next->umcg_task))) {
->> > +             rcu_read_unlock();
->> > +             return -ESRCH;
->> > +     }
->> > +
->> > +     /* Note: next does not necessarily share mm with current. */
->>
->> Which is irrelevant, but what's relevant is that there is absolutely no
->> sanity check of next_tid. So this just wakes up what ever TID user space
->> writes into the user space task memory. Anything copmeing from user
->> space cannot be trusted and needs to be validated. find_task_by_vpid()
->> is not sufficient for that.
->
-> Well, next_tid must point to a task registered with UMCG, and this is
-> checked above. I'm not sure what other validation is appropriate here.
-> What kind of sanity checks are needed? The worst thing that can happen
-> is a spurious wakeup, which is supposedly something that can happen
-> anyway and is not a major concern?
-
-A spurious wakeup which is caused by a race in the kernel is definitely
-not unexpected and inevitable.
-
-User controlled targeted wakeups at random threads are not really the
-same category. There is a reason why you can't send signals to random
-processes/tasks. 
-
-Whether you like it or not, _any_ user supplied value which is used to
-cause a directed action of the kernel has to be considered malicious
-unless you can explain coherently why there is absolutely no risk.
-
-> Well, next_tid must point to a task registered with UMCG ...
-
-is not really sufficient. All it tells us is that it is a task which has
-a umcg pointer. Not more not less. It does not answer the following
-questions:
-
- - Is it a task which is related to the same UMCG entity?
- - Does it belong to the same user/group or whatever?
- - ...
-
-You might want to talk to Kees Cook about that.
-
->> > +     rcu_read_lock();
->> > +     tsk = find_task_by_vpid(server_tid);
->> > +     if (tsk)
->> > +             ut_server = READ_ONCE(tsk->umcg_task);
->> > +     rcu_read_unlock();
->> > +
->> > +     if (!ut_server)
->> > +             return false;
->> > +
->> > +     if (READ_ONCE(current->mm) != READ_ONCE(tsk->mm))
->> > +             return false;
->>
->> This is broken because it's outside the rcu read side critical section
->> so @tsk can be gone already. Also this lacks a check whether @tsk is a
->> kthread because kthreads can use a user mm temporarily.
->
-> I don't think kthreads can have tsk->umcg_task set, so the function
-> will return earlier. I'll move the check under rcu.
-
-Indeed, you are right. This stuff is just hard to read.
-
-	rcu_read_lock();
-	tsk = find_task_by_vpid(server_tid);
-
-        /*
-         * Validate that the task is associated with UMCG and
-         * has the same mm because $RAISINS...
-         */
-        if (tsk && tsk->umcg_task && current->mm == tsk->mm) {
-            ...
-            do_stuff(tsk);
-	    ...
-        }
-        rcu_read_unlock();
-
->> Also what's the purpose of these undocumented READ_ONCE() instances?
->
-> While ttwu can be called cross-mm, anything more involved, such as
-> changing the server's UMCG state, requires the remote task to belong
-> to the same process, and this is what the check validates. I'll add
-> that comment to the code.
-
-But that has nothing to do with my question:
-
-  >> Also what's the purpose of these undocumented READ_ONCE() instances?
-
-READ_ONCE(current->mm) is pointless. current->mm cannot change while
-current is evaluating it. READ_ONCE(tsk->mm) does not provide any value
-either.
-
-READ_ONCE() is a clear indicator for dealing with concurrency and we
-expect a corresponding WRITE_ONCE() and a comment explaining what this
-is about.
-
-Sprinkling READ_ONCE() around the code is absolutely not helpful.
-
-If you are unsure about the usage of this, please ask your colleagues or
-on the mailing list upfront instead of letting reviewers scratch their
-heads.
-
-Btw, the same problems exist all over the place and there is quite some
-duplicated code which is wrong except for one instance. Can you please
-make that:
-
-find_umcg_task(tid)
-{
-	tsk = find_task_by_vpid(tid);
-
-        /*
-         * Validate that the task is associated with UMCG and
-         * has the same mm because $RAISINS...
-         */
-        if (tsk && tsk->umcg_task && current->mm == tsk->mm)
-        	return tsk;
-
-        return NULL:
-}
-
-and at the callsites:
-
-    rcu_read_lock();
-    tsk = find_umcg_task(tid);
-    if (tsk)
-       do_stuff(tsk);
-    rcu_read_unlock();
-
-Hmm? 
+>> + */
+>> +SYSCALL_DEFINE2(uintr_create_fd, u64, vector, unsigned int, flags)
+>> +{
 
 Thanks,
 
-        tglx
+Sohil
+
