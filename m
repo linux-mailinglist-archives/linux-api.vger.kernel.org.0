@@ -2,377 +2,334 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BAC8D41ABA5
-	for <lists+linux-api@lfdr.de>; Tue, 28 Sep 2021 11:21:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 148FA41B3F5
+	for <lists+linux-api@lfdr.de>; Tue, 28 Sep 2021 18:34:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239644AbhI1JXE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 28 Sep 2021 05:23:04 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:34318 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239573AbhI1JXD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 28 Sep 2021 05:23:03 -0400
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1632820883;
+        id S241766AbhI1QgR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 28 Sep 2021 12:36:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35745 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S241662AbhI1QgQ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 28 Sep 2021 12:36:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1632846876;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to; bh=8jF/RWqUhtlDzgHTagBW1Hz3S8WO0o9VCka7fE40OCY=;
-        b=pmaBBbhFwDbuJzBxUXAjIlNWY2sYm8IHV+d5Uc0tX5qgftDjb8AsYWbNCNkeStMEXA3/UI
-        7AkOviSOB7Y0c1KyfKqAofbk+Rem7nn0en7XMGUbTTb9BzoF3TnbyFCu0+Uvcay3fSU5eJ
-        WuDZ8OoDCZOgJMIGL0UadzWty0Yh5tLO5VU24ZBl5Ny7pSj8WWXhJFpv/kMFegKmTLv+X7
-        xsBKEX7CKKPR/alU5+z0VffLwiBKrmdUQOplnQ9bPOuD82P0anEeuKyXYU4vL0Sz8vzyG5
-        Av3uxqBgPI8dN8jew8UvNVi9Iws+3aOhynbdfdTF0np+iMnpegM6ZUQehbZ9+g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1632820883;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to; bh=8jF/RWqUhtlDzgHTagBW1Hz3S8WO0o9VCka7fE40OCY=;
-        b=E+OVgO+7jqGZm38Pit7F14GpHMnAlp5UqXBcfwqUJRiyGxfBaZGHtnxEYy1Ac8NFUq7p8t
-        jcLl6ZIIhOSAkCDA==
-To:     Peter Oskolkov <posk@posk.io>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org
-Cc:     Paul Turner <pjt@google.com>, Ben Segall <bsegall@google.com>,
-        Peter Oskolkov <posk@google.com>,
-        Peter Oskolkov <posk@posk.io>,
-        Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
-        Thierry Delisle <tdelisle@uwaterloo.ca>
-Subject: Re: [PATCH 3/5 v0.6] sched/umcg: RFC: implement UMCG syscalls
-In-Reply-To: <20210917180323.278250-4-posk@google.com>
-Date:   Tue, 28 Sep 2021 11:21:22 +0200
-Message-ID: <874ka5awdp.ffs@tglx>
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=90MnpVDj+JolZRQzNZV0139yLGyO6wZA0RZidpLY/d8=;
+        b=avAEbCV/jcaB48n844D9j4qSOxuEIhq12fzA1MKcHZVSJs01NF3RmD34/7luyfwOGPnOoT
+        JJKm9UfegSwRs04sfvueqgh0MgIfcS+ufjewDdAhTFqXDE4q4pNk+X6sg7+hREroEq2ycx
+        vciEsbkd6FBqw2FPggCpk0nzG2OyFFg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-91-BjPgbooOOqCx8RyEFRnjyg-1; Tue, 28 Sep 2021 12:34:34 -0400
+X-MC-Unique: BjPgbooOOqCx8RyEFRnjyg-1
+Received: by mail-wr1-f69.google.com with SMTP id j16-20020adfa550000000b0016012acc443so15357205wrb.14
+        for <linux-api@vger.kernel.org>; Tue, 28 Sep 2021 09:34:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=90MnpVDj+JolZRQzNZV0139yLGyO6wZA0RZidpLY/d8=;
+        b=kuXyF3JwLZrI3Qyr6lEs7hv/IMTTv/dQspFEvWWGJu5CKT/UZmBxHayvVrD1ssD2yy
+         SkgkH937ZOlxrfCuY8flYSaGhcMgQIr2cmwxoLQx8/RjJvsWcXi1zQroPQEOeqACMd/z
+         +dN00tjZEl5Kkn8AdBpBJwhBxEGrRph3fbov+3mB6s1NYtVsySCNtZ8LMqNUBkJdnkSX
+         S/+9DLi8X8pO7Cfoo+5gx24YgTr8NYx/uD2Z1Jh1hBZTm4AtuyA4fN3ostqKm6WUabIl
+         1Qlw6JAFnAtWBuB1i0rNnEAUCoaXIV03oBVo7mk7Qs3aysxUirqKnv5a9GnS1MiRIdZh
+         RHyA==
+X-Gm-Message-State: AOAM532h6SsiQqfEQtTou66x8HgjNPVFuw3oQEbq5e+EI3/HZSNGbehe
+        3K4PYMBUoU+tERYdGc7bMNw/PBkV6/EhLjAgCOZv7O9pw+NlpdZ6Q99SaovNMDQ1zZitmmgCqOB
+        zqUFhfCX7hj5gOBRCXMmq
+X-Received: by 2002:adf:f011:: with SMTP id j17mr1209204wro.320.1632846873583;
+        Tue, 28 Sep 2021 09:34:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxC9lznFV3Ctkcfw7xljoa+4peYF5PkipscjyHbVyunvo7v7A6WC0Wx/PgoIe9YRO5C7xaV8Q==
+X-Received: by 2002:adf:f011:: with SMTP id j17mr1209179wro.320.1632846873331;
+        Tue, 28 Sep 2021 09:34:33 -0700 (PDT)
+Received: from [192.168.3.132] (p4ff23aaf.dip0.t-ipconnect.de. [79.242.58.175])
+        by smtp.gmail.com with ESMTPSA id l18sm3700515wrp.56.2021.09.28.09.34.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Sep 2021 09:34:32 -0700 (PDT)
+Subject: Re: [PATCH v3] madvise.2: Document MADV_POPULATE_READ and
+ MADV_POPULATE_WRITE
+To:     linux-man@vger.kernel.org
+Cc:     Pankaj Gupta <pankaj.gupta@ionos.com>,
+        Alejandro Colomar <alx.manpages@gmail.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Jann Horn <jannh@google.com>, Mike Rapoport <rppt@kernel.org>,
+        Linux API <linux-api@vger.kernel.org>, linux-mm@kvack.org
+References: <20210823120645.8223-1-david@redhat.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <50357269-d227-5fda-a450-c47b035b9586@redhat.com>
+Date:   Tue, 28 Sep 2021 18:34:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20210823120645.8223-1-david@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Peter,
+On 23.08.21 14:06, David Hildenbrand wrote:
+> MADV_POPULATE_READ and MADV_POPULATE_WRITE have been merged into
+> upstream Linux via commit 4ca9b3859dac ("mm/madvise: introduce
+> MADV_POPULATE_(READ|WRITE) to prefault page tables"), part of v5.14-rc1.
+> 
+> Further, commit eb2faa513c24 ("mm/madvise: report SIGBUS as -EFAULT for
+> MADV_POPULATE_(READ|WRITE)"), part of v5.14-rc6, made sure that SIGBUS is
+> converted to -EFAULT instead of -EINVAL.
+> 
+> Let's document the behavior and error conditions of these new madvise()
+> options.
+> 
+> Acked-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+> Cc: Alejandro Colomar <alx.manpages@gmail.com>
+> Cc: Michael Kerrisk <mtk.manpages@gmail.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Michal Hocko <mhocko@suse.com>
+> Cc: Oscar Salvador <osalvador@suse.de>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: Mike Rapoport <rppt@kernel.org>
+> Cc: Linux API <linux-api@vger.kernel.org>
+> Cc: linux-mm@kvack.org
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+> 
+> v2 -> v3:
+> - Refine what "populating readable/writable" means
+> - Compare each version with MAP_POPULATE and give an example use case
+> - Reword SIGBUS handling
+> - Reword comment regarding special mappings and also add memfd_secret(2)
+> - Reference MADV_HWPOISON when talking about HW poisoned pages
+> - Minor cosmetic fixes
+> 
+> v1 -> v2:
+> - Use semantic newlines in all cases
+> - Add two missing "
+> - Document -EFAULT handling
+> - Rephrase some parts to make it more generic: VM_PFNMAP and VM_IO are only
+>    examples for special mappings
+> 
+> ---
+>   man2/madvise.2 | 156 +++++++++++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 156 insertions(+)
+> 
+> diff --git a/man2/madvise.2 b/man2/madvise.2
+> index f1f384c0c..37f6dd6fa 100644
+> --- a/man2/madvise.2
+> +++ b/man2/madvise.2
+> @@ -469,6 +469,106 @@ If a page is file-backed and dirty, it will be written back to the backing
+>   storage.
+>   The advice might be ignored for some pages in the range when it is not
+>   applicable.
+> +.TP
+> +.BR MADV_POPULATE_READ " (since Linux 5.14)"
+> +"Populate (prefault) page tables readable,
+> +faulting in all pages in the range just as if manually reading from each page;
+> +however,
+> +avoid the actual memory access that would have been performed after handling
+> +the fault.
+> +.IP
+> +In contrast to
+> +.BR MAP_POPULATE ,
+> +.B MADV_POPULATE_READ
+> +does not hide errors,
+> +can be applied to (parts of) existing mappings and will always populate
+> +(prefault) page tables readable.
+> +One example use case is prefaulting a file mapping,
+> +reading all file content from disk;
+> +however,
+> +pages won't be dirtied and consequently won't have to be written back to disk
+> +when evicting the pages from memory.
+> +.IP
+> +Depending on the underlying mapping,
+> +map the shared zeropage,
+> +preallocate memory or read the underlying file;
+> +files with holes might or might not preallocate blocks.
+> +If populating fails,
+> +a
+> +.B SIGBUS
+> +signal is not generated; instead, an error is returned.
+> +.IP
+> +If
+> +.B MADV_POPULATE_READ
+> +succeeds,
+> +all page tables have been populated (prefaulted) readable once.
+> +If
+> +.B MADV_POPULATE_READ
+> +fails,
+> +some page tables might have been populated.
+> +.IP
+> +.B MADV_POPULATE_READ
+> +cannot be applied to mappings without read permissions
+> +and special mappings,
+> +for example,
+> +mappings marked with kernel-internal flags such as
+> +.B VM_PFNMAP
+> +or
+> +.BR VM_IO ,
+> +or secret memory regions created using
+> +.BR memfd_secret(2) .
+> +.IP
+> +Note that with
+> +.BR MADV_POPULATE_READ ,
+> +the process can be killed at any moment when the system runs out of memory.
+> +.TP
+> +.BR MADV_POPULATE_WRITE " (since Linux 5.14)"
+> +Populate (prefault) page tables writable,
+> +faulting in all pages in the range just as if manually writing to each
+> +each page;
+> +however,
+> +avoid the actual memory access that would have been performed after handling
+> +the fault.
+> +.IP
+> +In contrast to
+> +.BR MAP_POPULATE ,
+> +MADV_POPULATE_WRITE does not hide errors,
+> +can be applied to (parts of) existing mappings and will always populate
+> +(prefault) page tables writable.
+> +One example use case is preallocating memory,
+> +breaking any CoW (Copy on Write).
+> +.IP
+> +Depending on the underlying mapping,
+> +preallocate memory or read the underlying file;
+> +files with holes will preallocate blocks.
+> +If populating fails,
+> +a
+> +.B SIGBUS
+> +signal is not generated; instead, an error is returned.
+> +.IP
+> +If
+> +.B MADV_POPULATE_WRITE
+> +succeeds,
+> +all page tables have been populated (prefaulted) writable once.
+> +If
+> +.B MADV_POPULATE_WRITE
+> +fails,
+> +some page tables might have been populated.
+> +.IP
+> +.B MADV_POPULATE_WRITE
+> +cannot be applied to mappings without write permissions
+> +and special mappings,
+> +for example,
+> +mappings marked with kernel-internal flags such as
+> +.B VM_PFNMAP
+> +or
+> +.BR VM_IO ,
+> +or secret memory regions created using
+> +.BR memfd_secret(2) .
+> +.IP
+> +Note that with
+> +.BR MADV_POPULATE_WRITE ,
+> +the process can be killed at any moment when the system runs out of memory.
+>   .SH RETURN VALUE
+>   On success,
+>   .BR madvise ()
+> @@ -490,6 +590,22 @@ A kernel resource was temporarily unavailable.
+>   .B EBADF
+>   The map exists, but the area maps something that isn't a file.
+>   .TP
+> +.B EFAULT
+> +.I advice
+> +is
+> +.B MADV_POPULATE_READ
+> +or
+> +.BR MADV_POPULATE_WRITE ,
+> +and populating (prefaulting) page tables failed because a
+> +.B SIGBUS
+> +would have been generated on actual memory access and the reason is not a
+> +HW poisoned page
+> +(HW poisoned pages can,
+> +for example,
+> +be created using the
+> +.B MADV_HWPOISON
+> +flag described elsewhere in this page).
+> +.TP
+>   .B EINVAL
+>   .I addr
+>   is not page-aligned or
+> @@ -533,6 +649,22 @@ or
+>   .BR VM_PFNMAP
+>   ranges.
+>   .TP
+> +.B EINVAL
+> +.I advice
+> +is
+> +.B MADV_POPULATE_READ
+> +or
+> +.BR MADV_POPULATE_WRITE ,
+> +but the specified address range includes ranges with insufficient permissions
+> +or special mappings,
+> +for example,
+> +mappings marked with kernel-internal flags such a
+> +.B VM_IO
+> +or
+> +.BR VM_PFNMAP ,
+> +or secret memory regions created using
+> +.BR memfd_secret(2) .
+> +.TP
+>   .B EIO
+>   (for
+>   .BR MADV_WILLNEED )
+> @@ -548,6 +680,15 @@ Not enough memory: paging in failed.
+>   Addresses in the specified range are not currently
+>   mapped, or are outside the address space of the process.
+>   .TP
+> +.B ENOMEM
+> +.I advice
+> +is
+> +.B MADV_POPULATE_READ
+> +or
+> +.BR MADV_POPULATE_WRITE ,
+> +and populating (prefaulting) page tables failed because there was not enough
+> +memory.
+> +.TP
+>   .B EPERM
+>   .I advice
+>   is
+> @@ -555,6 +696,20 @@ is
+>   but the caller does not have the
+>   .B CAP_SYS_ADMIN
+>   capability.
+> +.TP
+> +.B EHWPOISON
+> +.I advice
+> +is
+> +.B MADV_POPULATE_READ
+> +or
+> +.BR MADV_POPULATE_WRITE ,
+> +and populating (prefaulting) page tables failed because a HW poisoned page
+> +(HW poisoned pages can,
+> +for example,
+> +be created using the
+> +.B MADV_HWPOISON
+> +flag described elsewhere in this page)
+> +was encountered.
+>   .SH VERSIONS
+>   Since Linux 3.18,
+>   .\" commit d3ac21cacc24790eb45d735769f35753f5b56ceb
+> @@ -602,6 +757,7 @@ from the system call, as it should).
+>   .\" function first appeared in 4.4BSD.
+>   .SH SEE ALSO
+>   .BR getrlimit (2),
+> +.BR memfd_secret(2),
+>   .BR mincore (2),
+>   .BR mmap (2),
+>   .BR mprotect (2),
+> 
 
-On Fri, Sep 17 2021 at 11:03, Peter Oskolkov wrote:
+Gentle ping.
 
-> Define struct umcg_task and two syscalls: sys_umcg_ctl sys_umcg_wait.
->
-> All key operations, such as wait/wake/context-switch, as well as
-> timeouts and block/wake detection, are working quite reliably.
->
-> In addition, the userspace can now force the kernel to preempt
-> a running worker by changing its state from RUNNING to
-> RUNNING | PREEMPTED and sending a signal to it. This new functionality
-> is less well tested than the key operations above, but is working
-> well in the common case of the worker busy in the userspace.
->
-> These big things remain to be addressed (in no particular order):
-> - tracing/debugging
-> - faster context switches (see umcg_do_context_switch in umcg.c)
-> - other architectures (we will need at least arm64 in addition to amd64)
-> - tools/lib/umcg for userspace
-> - kselftests
->
-> I'm working on finalizing libumcg and kselftests.
->
-> See Documentation/userspace-api/umcg.[txt|rst] for API usage and
-> other details.
-
-The above is a work log and a todo list, but not a change log.
-
-Change logs have to explain the what and especially the why and for new
-concepts also the design and the rationale behind it.
-
-And no, links to random discussions are not a replacement for that. It's
-not the job of a reviewer to dig for that information. It's the task of
-the submitter to provide that information so the reviewer can digest it.
-
-> v0.5->v0.6 changes:
-> - umcg_task pages are now pinned for RUNNING workers;
-
-What's the rationale for that? Why is that needed and desired?
-
-> v0.2->v0.3 changes:
-> - the overall approach is now based on peterz@'s suggestion in
->   https://lore.kernel.org/patchwork/cover/1433967/
-
-All of these lore.kernel/org/patchwork/* links resolve to 404. Please
-use proper lore.kernel.org/r/$MSGID links
-
-> /*
-> +
-> --- a/kernel/entry/common.c
-> +++ b/kernel/entry/common.c
-> @@ -173,6 +173,7 @@ static unsigned long exit_to_user_mode_loop(struct pt_regs *regs,
->
->  		if (ti_work & _TIF_NOTIFY_RESUME) {
->  			tracehook_notify_resume(regs);
-> +			umcg_handle_notify_resume();  /* might sleep */
-
-Please do not use tail comments. They are horrible and disturb the
-reading flow.
-
-Aside of that this 'might sleep' info is not really interesting. All
-functions which are invoked in exit_to_user_mode_loop() can sleep, so
-what's special about this one?
-
-> diff --git a/kernel/exit.c b/kernel/exit.c
-> index fd1c04193e18..fdd4e923cca9 100644
-> --- a/kernel/exit.c
-> +++ b/kernel/exit.c
-> @@ -744,6 +744,8 @@ void __noreturn do_exit(long code)
->  	if (unlikely(!tsk->pid))
->  		panic("Attempted to kill the idle task!");
->
-> +	umcg_handle_exit();
-
-Why is this invoked _before_ the oops fixup? How is that correct in the
-oops case?
-
-> index 12a9d053e724..c9133cf153b9 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -4159,6 +4159,9 @@ static void __sched_fork(unsigned long clone_flags, struct task_struct *p)
->  	p->wake_entry.u_flags = CSD_TYPE_TTWU;
->  	p->migration_pending = NULL;
->  #endif
-> +#ifdef CONFIG_UMCG
-> +	umcg_clear_child(p);
-> +#endif
-
-Can you please provide stub functions for the CONFIG_UMCG=n case instead
-of sprinkling #ifdefs all over the place?
-
->  DEFINE_STATIC_KEY_FALSE(sched_numa_balancing);
-> @@ -6105,10 +6108,14 @@ static inline void sched_submit_work(struct task_struct *tsk)
->  	 * in the possible wakeup of a kworker and because wq_worker_sleeping()
->  	 * requires it.
->  	 */
-> -	if (task_flags & (PF_WQ_WORKER | PF_IO_WORKER)) {
-> +	if (task_flags & (PF_WQ_WORKER | PF_IO_WORKER | PF_UMCG_WORKER)) {
->  		preempt_disable();
->  		if (task_flags & PF_WQ_WORKER)
->  			wq_worker_sleeping(tsk);
-> +#ifdef CONFIG_UMCG
-> +		else if (task_flags & PF_UMCG_WORKER)
-> +			umcg_wq_worker_sleeping(tsk);
-> +#endif
-
-This #ifdeffery can be completely avoided:
-
-#define PF_SWAPWRITE		0x00800000	/* Allowed to write to swap */
-#ifdef CONFIG_UMCG
-# define PF_UMCG_WORKER		0x01000000	/* UMCG worker */
-#else
-# define PF_UMCG_WORKER		0x00000000
-#endif
-
-plus a stub function for umcg_wq_worker_sleeping() and for UMCG=n the whole muck is
-compiled out, the flags test does not care about PF_UMCG_WORKER....
-
-But aside of that, why has umcg_wq_worker_sleeping() to run with
-preemption disabled?
-
-> +/*
-> + * Called by sched_submit_work() for UMCG workers from within preempt_disable()
-> + * context. In the common case, the worker's state changes RUNNING => BLOCKED,
-> + * and its server's state changes IDLE => RUNNING, and the server is ttwu-ed.
-> + *
-> + * Under some conditions (e.g. the worker is "locked", see
-> + * /Documentation/userspace-api/umcg.[txt|rst] for more details), the
-> + * function does nothing.
-> + */
-> +static void __umcg_wq_worker_sleeping(struct task_struct *tsk)
-> +{
-> +	struct umcg_task __user *ut_worker = tsk->umcg_task;
-> +	u32 prev_state, next_state, server_tid;
-> +	bool preempted = false;
-> +	int ret;
-> +
-> +	if (WARN_ONCE((tsk != current) || !ut_worker, "Invalid umcg worker"))
-> +		return;
-> +
-> +	/* Sometimes "locked" workers run without servers. */
-
-Sometimes the sun shines... Can you please add understandable comments?
-What's wrong with:
-
-       /* Nothing to do for workers which are not attached to a server */
-
-or something like that which explains nicely what this is about.
-
-> +	if (unlikely(!tsk->pinned_umcg_server_page))
-
-and the comment is needed because tsk->pinned_umcg_server_page does not
-make it obvious what the test is about while
-
-        if (unlikely(!ut_worker_has_server(tsk)))
-
-or
-
-	if (unlikely(ut_worker_detached(tsk)))
-
-would be self explanatory.
-
-> +		return;
-> +
-> +	smp_mb();  /* The userspace may change the state concurrently. */
-
-No tail comments please.
-
-Also this does not explain why this needs to be a full barrier. All
-barriers have to come with a proper explanation what they are
-serializing against and what the counter part is even if the counter
-part is in user space. And that documentation wants to be in the code
-and not somewhere else.
-
-> +	if (get_user_nosleep(prev_state, &ut_worker->state))
-> +		goto die;  /* EFAULT */
-
-This /* EFAULT */ comment documents the obvious. Can you please document
-the non-obvious things properly?
-
-> +
-> +	if (prev_state & UMCG_TF_LOCKED)
-> +		return;
-> +
-> +	if ((prev_state & UMCG_TASK_STATE_MASK) != UMCG_TASK_RUNNING)
-> +		return;  /* the worker is in umcg_wait */
-
-So if the worker is in umcg_wait() then why is it reaching this place at
-all? The current task surely knows that it comes here from umcg_wait(),
-right?
-
-> +retry_once:
-> +	next_state = prev_state & ~UMCG_TASK_STATE_MASK;
-> +	next_state |= UMCG_TASK_BLOCKED;
-> +	preempted = prev_state & UMCG_TF_PREEMPTED;
-> +
-> +	ret = cmpxchg_user_32_nosleep(&ut_worker->state, &prev_state, next_state);
-> +	if (ret == -EAGAIN) {
-> +		if (preempted)
-> +			goto die;  /* Preemption can only happen once. */
-> +
-> +		if (prev_state != (UMCG_TASK_RUNNING | UMCG_TF_PREEMPTED))
-
-This check falls flat on it's nose when one of the user space bits
-(24-31) is set in prev_state. prev_state is a misnomer anyway. The usual
-convention is to use cur_state because that's what it is up to the point
-where the cmpxchg succeeds.
-
-> +			goto die;  /* Only preemption can happen. */
-> +
-> +		preempted = true;
-
-How is this supposed to do anything? This goes back to retry_once which
-overwrites preempted...
-
-> +		goto retry_once;
-> +	}
-
-> +	if (ret)
-> +		goto die;  /* EFAULT */
-> +
-> +	if (get_user_nosleep(server_tid, &ut_worker->next_tid))
-> +		goto die;  /* EFAULT */
-> +
-> +	if (!server_tid)
-> +		return;  /* Waking a waiting worker leads here. */
-
-I have no idea what that comment is trying to say.
-
-> +	/* The idle server's wait may timeout. */
-> +	/* TODO: make a smarter context switch below when available. */
-
-Neither those make any sense to me. 
-
-> +	if (mark_server_running(server_tid, false))
-> +		umcg_ttwu(server_tid, WF_CURRENT_CPU);
-
-Well, after looking at both functions I can see why this wants to be
-smarter. Doing the vpid lookup twice instead of once is certainly not
-the smartest solution.
-
-> +	return;
-> +
-> +die:
-> +	pr_warn("umcg_wq_worker_sleeping: killing task %d\n", current->pid);
-> +	force_sig(SIGKILL);
-> +}
-> +
-> +/* Called from sched_submit_work() with preempt_disable. */
-> +void umcg_wq_worker_sleeping(struct task_struct *tsk)
-> +{
-> +	__umcg_wq_worker_sleeping(tsk);
-> +	umcg_unpin_pages();
-
-Coming back to my previous question: Why has all of this to run with
-preemption disabled?
-
-There is absolutely no reason to do that and just because you picked a
-place to invoke that with preemption disabled does not count.
-
-In fact none of the existing two functions require to be invoked with
-preemption disabled and I'm going to send out a patch which removes that
-historic leftover.
-
-And if this is not called with preemption disabled then none of these
-misnomed _nosleep() accessors are needed and the code can be simplified.
-
-> + * Try to wake up. May be called with preempt_disable set. May be called
-> + * cross-process.
-> + *
-> + * Note: umcg_ttwu succeeds even if ttwu fails: see wait/wake state
-> + *       ordering logic.
-> + */
-> +static int umcg_ttwu(u32 next_tid, int wake_flags)
-> +{
-> +	struct task_struct *next;
-> +
-> +	rcu_read_lock();
-> +	next = find_task_by_vpid(next_tid);
-> +	if (!next || !(READ_ONCE(next->umcg_task))) {
-> +		rcu_read_unlock();
-> +		return -ESRCH;
-> +	}
-> +
-> +	/* Note: next does not necessarily share mm with current. */
-
-Which is irrelevant, but what's relevant is that there is absolutely no
-sanity check of next_tid. So this just wakes up what ever TID user space
-writes into the user space task memory. Anything copmeing from user
-space cannot be trusted and needs to be validated. find_task_by_vpid()
-is not sufficient for that.
-
-> +	try_to_wake_up(next, TASK_NORMAL, wake_flags);  /* Result ignored. */
-> +	rcu_read_unlock();
-> +
-> +	return 0;
-> +}
-
-
-> +/* Returns true on success, false on _any_ error. */
-> +static bool mark_server_running(u32 server_tid, bool may_sleep)
-> +{
-> +	struct umcg_task __user *ut_server = NULL;
-> +	u32 state = UMCG_TASK_IDLE;
-> +	struct task_struct *tsk;
-> +
-> +	rcu_read_lock();
-> +	tsk = find_task_by_vpid(server_tid);
-> +	if (tsk)
-> +		ut_server = READ_ONCE(tsk->umcg_task);
-> +	rcu_read_unlock();
-> +
-> +	if (!ut_server)
-> +		return false;
-> +
-> +	if (READ_ONCE(current->mm) != READ_ONCE(tsk->mm))
-> +		return false;
-
-This is broken because it's outside the rcu read side critical section
-so @tsk can be gone already. Also this lacks a check whether @tsk is a
-kthread because kthreads can use a user mm temporarily.
-
-Also what's the purpose of these undocumented READ_ONCE() instances?
-
+-- 
 Thanks,
 
-        tglx
+David / dhildenb
+
