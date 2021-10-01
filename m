@@ -2,157 +2,169 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B72441F6EC
-	for <lists+linux-api@lfdr.de>; Fri,  1 Oct 2021 23:29:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C037641F770
+	for <lists+linux-api@lfdr.de>; Sat,  2 Oct 2021 00:33:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230050AbhJAVaz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 1 Oct 2021 17:30:55 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:59858 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229727AbhJAVay (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 1 Oct 2021 17:30:54 -0400
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1633123748;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=xVh65H2Fp5ijtkJEhRPg4UVo19RUyKFUjPzFX2ov0uk=;
-        b=y8YhK2p3xqDnbz3PXfLBx/isyD7z2c/RlgGuOoLzyg077RwbT+p6IINOBUH4bI+nh9tnfx
-        vD1dWiFGoxqhYpBO12KbpPRVUJIvEwj9hfy7lUksnqd3HNIGYkTUbbxr1D+40jpdBL8Wdt
-        ek6MpA1lv5vfxCGJHqjMVjreYEDQO55GDlO5q0cf62L1/uR03gILXZkFj/Rb/0mhUePTVC
-        alts5PtCmS4ZGs1GMqXwynAQc0ZeQ8uNCPvh0Kx9cwU44ySemsmre0aPij/A4ZJrcRHUD/
-        a13iBnIpLXaVWRXOZB6Ob4pVlB5iCBRUDTq8QzHbE7HNb/IzXNwhbuoNyOYCfw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1633123748;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=xVh65H2Fp5ijtkJEhRPg4UVo19RUyKFUjPzFX2ov0uk=;
-        b=XO7TyMsBSh50qLM3BMaabrrwikLWLxoZtkPtuva7JEVZ4/1LK5CdQaUFP/YT1bQ7ZpN6zN
-        GWbMV8jfecxCoeBQ==
-To:     Andy Lutomirski <luto@kernel.org>,
-        Sohil Mehta <sohil.mehta@intel.com>,
-        the arch/x86 maintainers <x86@kernel.org>
-Cc:     Tony Luck <tony.luck@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, Jens Axboe <axboe@kernel.dk>,
-        Christian Brauner <christian@brauner.io>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Shuah Khan <shuah@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Raj Ashok <ashok.raj@intel.com>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Zeng Guang <guang.zeng@intel.com>,
-        "Williams, Dan J" <dan.j.williams@intel.com>,
-        Randy E Witt <randy.e.witt@intel.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        Ramesh Thomas <ramesh.thomas@intel.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [RFC PATCH 11/13] x86/uintr: Introduce uintr_wait() syscall
-In-Reply-To: <0364c572-4bc2-4538-8d65-485dbfa81f0d@www.fastmail.com>
-References: <20210913200132.3396598-1-sohil.mehta@intel.com>
- <20210913200132.3396598-12-sohil.mehta@intel.com>
- <f5a971e4-6b0d-477f-992c-89110a2ceb03@www.fastmail.com>
- <c6e83d0e-6551-4e16-0822-0abbc4d656c4@intel.com>
- <fd54f257-fa02-4ec3-a81b-b5e60f24bf94@www.fastmail.com>
- <877dex7tgj.ffs@tglx>
- <b537a890-4b9f-462e-8c17-5c7aa9b60138@www.fastmail.com>
- <87tui162am.ffs@tglx>
- <25ba1e1f-c05b-4b67-b547-6b5dbc958a2f@www.fastmail.com>
- <87pmsp5aqx.ffs@tglx>
- <0364c572-4bc2-4538-8d65-485dbfa81f0d@www.fastmail.com>
-Date:   Fri, 01 Oct 2021 23:29:07 +0200
-Message-ID: <875yug4eos.ffs@tglx>
+        id S1355890AbhJAWfT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 1 Oct 2021 18:35:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53132 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1355814AbhJAWfR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 1 Oct 2021 18:35:17 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF234C0613E2
+        for <linux-api@vger.kernel.org>; Fri,  1 Oct 2021 15:33:32 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id z184-20020a1c7ec1000000b003065f0bc631so12406977wmc.0
+        for <linux-api@vger.kernel.org>; Fri, 01 Oct 2021 15:33:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8nDTUff3NWAShPXkSJUHpdXF/tre0swCngGs+0ldBuo=;
+        b=iTFcfgD9k1Ew/Q3d85rswksP5KXCDig/JMG7z4OhD2EquHZpCoQt7WZ1Ks7iAxlx5F
+         j79zOLzzrSFIu3t5mp3BdYb8xK+ue+VQpYMOng91ymPADIOBDQXsYPTrI+Y8Pp8Ddl3z
+         VStEoSKYKklC02gxEXkv2MM+BBemjoiJHqs0CPbPJq/xooJxLlrm6IaCkzaW9U0bInzq
+         ssdNVwWQQrjFwmBfEXg3Q4QVKTRZvE6SqrE19ONi7tNV0Uq2cvwjt8FESqH/Y2ij2+56
+         Cw+mRWRH+K+isrtp97UodjIvbXVjfs5bke++3w26zh5lK1BoDhVuHpNnxoSRP5I+eSuS
+         5kCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8nDTUff3NWAShPXkSJUHpdXF/tre0swCngGs+0ldBuo=;
+        b=STDGXAymE+4V9J3eO87YaXwlfJRZ86nKVIyVW4Kop67I4pefHLjGp0aEJeCxhl2Ltn
+         u1aVi8nivpkWJeD+krZL3j02klSEB6PbpTdbHpyu5oDu7/iEy3t0DVCVuFh4zc61fc4W
+         Xb32adTsTofJPe1srbtTmNKlq95trCVlIEzgv2pMJuuNIEPfoZ4GyrWInLI3dMxN613Q
+         FiVffCNGIfRHwnqYeYVAypkPnbTaLQo8Zf9GaQyhWLps9dhILV8hsyiQqfe4omNHHbSF
+         aHu5YLeiFfZ52WJo/SOyNvkBn6bxf79iqVrj1yeiH/4G8xE8+QBmUTJbppkcvQC7/vGV
+         dzEg==
+X-Gm-Message-State: AOAM530RD0JC6wK+yaPO8pI3cCJ1KqJoAdccNyR9S4tt+x4PQTmNbFdm
+        K9BV53zyjH2izJ6NWbSAk0WD3Q==
+X-Google-Smtp-Source: ABdhPJzh1k5pcEzW+6hASRwgn1OJytpkdGERs5wRyy/ZUXwRtlPchpG7YDA1eNuK2SyZAzEIk0QR1A==
+X-Received: by 2002:a05:600c:a45:: with SMTP id c5mr6979189wmq.79.1633127611224;
+        Fri, 01 Oct 2021 15:33:31 -0700 (PDT)
+Received: from localhost.localdomain ([82.142.20.44])
+        by smtp.gmail.com with ESMTPSA id 8sm6921066wmo.47.2021.10.01.15.33.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Oct 2021 15:33:30 -0700 (PDT)
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+To:     rafael@kernel.org
+Cc:     srinivas.pandruvada@linux.intel.com, daniel.lezcano@linaro.org,
+        rui.zhang@intel.com, rkumbako@quicinc.com,
+        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, Amit Kucheria <amitk@kernel.org>
+Subject: [PATCH RESEND] thermal/drivers/netlink: Add the temperature when crossing a trip point
+Date:   Sat,  2 Oct 2021 00:33:23 +0200
+Message-Id: <20211001223323.1836640-1-daniel.lezcano@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Oct 01 2021 at 08:13, Andy Lutomirski wrote:
+The slope of the temperature increase or decrease can be high and when
+the temperature crosses the trip point, there could be a significant
+difference between the trip temperature and the measured temperatures.
 
-> On Fri, Oct 1, 2021, at 2:56 AM, Thomas Gleixner wrote:
->> On Thu, Sep 30 2021 at 21:41, Andy Lutomirski wrote:
->>> On Thu, Sep 30, 2021, at 5:01 PM, Thomas Gleixner wrote:
->>
->>> Now that I read the docs some more, I'm seriously concerned about this
->>> XSAVE design.  XSAVES with UINTR is destructive -- it clears UINV.  If
->>> we actually use this, then the whole last_cpu "preserve the state in
->>> registers" optimization goes out the window.  So does anything that
->>> happens to assume that merely saving the state doesn't destroy it on
->>> respectable modern CPUs XRSTORS will #GP if you XRSTORS twice, which
->>> makes me nervous and would need a serious audit of our XRSTORS paths.
->>
->> I have no idea what you are fantasizing about. You can XRSTORS five
->> times in a row as long as your XSTATE memory image is correct.
->
-> I'm just reading TFM, which is some kind of dystopian fantasy.
->
-> 11.8.2.4 XRSTORS
->
-> Before restoring the user-interrupt state component, XRSTORS verifies
-> that UINV is 0. If it is not, XRSTORS causes a general-protection
-> fault (#GP) before loading any part of the user-interrupt state
-> component. (UINV is IA32_UINTR_MISC[39:32]; XRSTORS does not check the
-> contents of the remainder of that MSR.)
+That forces the userspace to read the temperature back right after
+receiving a trip violation notification.
 
-Duh. I was staring at the SDM and searching for a hint. Stupid me!
+In order to be efficient, give the temperature which resulted in the
+trip violation.
 
-> So if UINV is set in the memory image and you XRSTORS five times in a
-> row, the first one will work assuming UINV was zero.  The second one
-> will #GP.
+Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+---
+ drivers/thermal/thermal_core.c    |  6 ++++--
+ drivers/thermal/thermal_netlink.c | 11 ++++++-----
+ drivers/thermal/thermal_netlink.h |  8 ++++----
+ 3 files changed, 14 insertions(+), 11 deletions(-)
 
-Yes. I can see what you mean now :)
+diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_core.c
+index 51374f4e1cca..9e243d9f929e 100644
+--- a/drivers/thermal/thermal_core.c
++++ b/drivers/thermal/thermal_core.c
+@@ -375,10 +375,12 @@ static void handle_thermal_trip(struct thermal_zone_device *tz, int trip)
+ 	if (tz->last_temperature != THERMAL_TEMP_INVALID) {
+ 		if (tz->last_temperature < trip_temp &&
+ 		    tz->temperature >= trip_temp)
+-			thermal_notify_tz_trip_up(tz->id, trip);
++			thermal_notify_tz_trip_up(tz->id, trip,
++						  tz->temperature);
+ 		if (tz->last_temperature >= trip_temp &&
+ 		    tz->temperature < (trip_temp - hyst))
+-			thermal_notify_tz_trip_down(tz->id, trip);
++			thermal_notify_tz_trip_down(tz->id, trip,
++						    tz->temperature);
+ 	}
+ 
+ 	if (type == THERMAL_TRIP_CRITICAL || type == THERMAL_TRIP_HOT)
+diff --git a/drivers/thermal/thermal_netlink.c b/drivers/thermal/thermal_netlink.c
+index 1234dbe95895..a16dd4d5d710 100644
+--- a/drivers/thermal/thermal_netlink.c
++++ b/drivers/thermal/thermal_netlink.c
+@@ -121,7 +121,8 @@ static int thermal_genl_event_tz(struct param *p)
+ static int thermal_genl_event_tz_trip_up(struct param *p)
+ {
+ 	if (nla_put_u32(p->msg, THERMAL_GENL_ATTR_TZ_ID, p->tz_id) ||
+-	    nla_put_u32(p->msg, THERMAL_GENL_ATTR_TZ_TRIP_ID, p->trip_id))
++	    nla_put_u32(p->msg, THERMAL_GENL_ATTR_TZ_TRIP_ID, p->trip_id) ||
++	    nla_put_u32(p->msg, THERMAL_GENL_ATTR_TZ_TEMP, p->temp))
+ 		return -EMSGSIZE;
+ 
+ 	return 0;
+@@ -285,16 +286,16 @@ int thermal_notify_tz_disable(int tz_id)
+ 	return thermal_genl_send_event(THERMAL_GENL_EVENT_TZ_DISABLE, &p);
+ }
+ 
+-int thermal_notify_tz_trip_down(int tz_id, int trip_id)
++int thermal_notify_tz_trip_down(int tz_id, int trip_id, int temp)
+ {
+-	struct param p = { .tz_id = tz_id, .trip_id = trip_id };
++	struct param p = { .tz_id = tz_id, .trip_id = trip_id, .temp = temp };
+ 
+ 	return thermal_genl_send_event(THERMAL_GENL_EVENT_TZ_TRIP_DOWN, &p);
+ }
+ 
+-int thermal_notify_tz_trip_up(int tz_id, int trip_id)
++int thermal_notify_tz_trip_up(int tz_id, int trip_id, int temp)
+ {
+-	struct param p = { .tz_id = tz_id, .trip_id = trip_id };
++	struct param p = { .tz_id = tz_id, .trip_id = trip_id, .temp = temp };
+ 
+ 	return thermal_genl_send_event(THERMAL_GENL_EVENT_TZ_TRIP_UP, &p);
+ }
+diff --git a/drivers/thermal/thermal_netlink.h b/drivers/thermal/thermal_netlink.h
+index 828d1dddfa98..e554f76291f4 100644
+--- a/drivers/thermal/thermal_netlink.h
++++ b/drivers/thermal/thermal_netlink.h
+@@ -11,8 +11,8 @@ int thermal_notify_tz_create(int tz_id, const char *name);
+ int thermal_notify_tz_delete(int tz_id);
+ int thermal_notify_tz_enable(int tz_id);
+ int thermal_notify_tz_disable(int tz_id);
+-int thermal_notify_tz_trip_down(int tz_id, int id);
+-int thermal_notify_tz_trip_up(int tz_id, int id);
++int thermal_notify_tz_trip_down(int tz_id, int id, int temp);
++int thermal_notify_tz_trip_up(int tz_id, int id, int temp);
+ int thermal_notify_tz_trip_delete(int tz_id, int id);
+ int thermal_notify_tz_trip_add(int tz_id, int id, int type,
+ 			       int temp, int hyst);
+@@ -49,12 +49,12 @@ static inline int thermal_notify_tz_disable(int tz_id)
+ 	return 0;
+ }
+ 
+-static inline int thermal_notify_tz_trip_down(int tz_id, int id)
++static inline int thermal_notify_tz_trip_down(int tz_id, int id, int temp)
+ {
+ 	return 0;
+ }
+ 
+-static inline int thermal_notify_tz_trip_up(int tz_id, int id)
++static inline int thermal_notify_tz_trip_up(int tz_id, int id, int temp)
+ {
+ 	return 0;
+ }
+-- 
+2.25.1
 
-> 11.8.2.3 XSAVES
-> After saving the user-interrupt state component, XSAVES clears UINV. (UINV is IA32_UINTR_MISC[39:32];
-> XSAVES does not modify the remainder of that MSR.)
->
-> So if we're running a UPID-enabled user task and we switch to a kernel
-> thread, we do XSAVES and UINV is cleared.  Then we switch back to the
-> same task and don't do XRSTORS (or otherwise write IA32_UINTR_MISC)
-> and UINV is still clear.
-
-Yes, that has to be mopped up on the way to user space.
-
-> And we had better clear UINV when running a kernel thread because the
-> UPID might get freed or the kernel thread might do some CPL3
-> shenanigans (via EFI, perhaps? I don't know if any firmwares actually
-> do this).
-
-Right. That's what happens already with the current pile.
-
-> So all this seems to put UINV into the "independent" category of
-> feature along with LBR.  And the 512-byte wastes from extra copies of
-> the legacy area and the loss of the XMODIFIED optimization will just
-> be collateral damage.
-
-So we'd end up with two XSAVES on context switch. We can simply do:
-
-        XSAVES();
-        fpu.state.xtsate.uintr.uinv = 0;
-
-which allows to do as many XRSTORS in a row as we want. Only the final
-one on the way to user space will have to restore the real vector if the
-register state is not valid:
-
-       if (fpu_state_valid()) {
-            if (needs_uinv(current)
-               wrmsrl(UINV, vector);
-       } else {
-            if (needs_uinv(current)
-               fpu.state.xtsate.uintr.uinv = vector;
-            XRSTORS();
-       }
-
-Hmm?
-
-Thanks,
-
-        tglx
