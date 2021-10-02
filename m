@@ -2,180 +2,83 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A2E141F803
-	for <lists+linux-api@lfdr.de>; Sat,  2 Oct 2021 01:04:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 569A941FB6A
+	for <lists+linux-api@lfdr.de>; Sat,  2 Oct 2021 14:03:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231245AbhJAXGW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 1 Oct 2021 19:06:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60390 "EHLO
+        id S232942AbhJBMFI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 2 Oct 2021 08:05:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230433AbhJAXGP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 1 Oct 2021 19:06:15 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DD6BC06177F
-        for <linux-api@vger.kernel.org>; Fri,  1 Oct 2021 16:04:30 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id 75so10732164pga.3
-        for <linux-api@vger.kernel.org>; Fri, 01 Oct 2021 16:04:30 -0700 (PDT)
+        with ESMTP id S232938AbhJBMFH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 2 Oct 2021 08:05:07 -0400
+Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B830C0613EC
+        for <linux-api@vger.kernel.org>; Sat,  2 Oct 2021 05:03:22 -0700 (PDT)
+Received: by mail-il1-x133.google.com with SMTP id j15so13333048ila.6
+        for <linux-api@vger.kernel.org>; Sat, 02 Oct 2021 05:03:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=aN3ZAgmq2n3pSx/30jOE16PQorFF/7eTuuFBp43eiXY=;
-        b=IYOscUxVH70MZ++sZ08gw+G5qC2G9A4KaPrK30xx7iUzUYOkrtaWLex6rPowT2oJkM
-         Zs3AdyB7IydSyAi7JHeMI8UIMlGaybdg3gme2syp0Pw0iS8EWOvZwU4UIHN1RhCVp/Pb
-         uDKBfTpbl/2BBoNnH5nRwt5DZPLdF0hSHju+XZbCbvh/ZPIPGFgr5ru+0C4tkB++XXwC
-         wxv6P1o08gPYcbU6IkL9La9335csYmGKevZQeOXjXQSAZQ5FOLMiYB15Nkl0VPCq5ikY
-         U1NiMfvwVphEDGR2OFr7cbEf7c+QmF+wKwFDrBjU7hWZVvskT0wdAGG7nAOnF8qWRlOC
-         558w==
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=nsZbpm1YBoHMpWTnzHLuE/zYZ0yg4jBiKD5Q7oCTPBE=;
+        b=QSSol+8egN85HhcJqAnI2VezdrMd1PNR1ppbz0QW4M3Zof3LxBFBeYAbjn2WaVpEig
+         r0WPizpK0MfsywZPQAxnPqwpepAbOhDDoCigdoa6iuFfvviS7J4MebAIqkB9feTlsA+/
+         eQNjtTjDWI4tfdIjFsn0C7IgbKeo0U3x23KxhNW/DEECFMylZaloZJUsuNVAnW9kY9vG
+         IEqR/1zmfGBWEpO37Qp4GoywnnQP1cmJjEbkqbtOAPIR2L2FVBkzwSKS/UY2iEcpQ21e
+         IH5KL8o1pjvDcuucIFO0T4fGiN52cyXwgsXXtzuMjQrz/QUe5e/MY6r5GKZlcOIQdl95
+         0oAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=aN3ZAgmq2n3pSx/30jOE16PQorFF/7eTuuFBp43eiXY=;
-        b=4Qa8W2ByjCH+rLB7w00WRIX18Sj4pZ6xuBoB4vCgn9qmto4Ez6uVT2DJRrcuqkpbxn
-         ARAbPps6MfSK0lMlx/MGQHl5C/KJWErmfbeApvO9HJx0smweygjUUer0gNfSUX3WLNHK
-         e8h76xoRIGg4xxYQMJQUMDKtfK1bynWUd00EwBSdEdPoYCXQtuLV3A8CHpcKvqF3K8Ea
-         eKxilpHizmWNitq7pMoiMHOKptf7FweNPU/Q2fF0+fHVi5egmhhHiWuSJTHPZJj7wHci
-         4dNYnQCqdvSQ5mkJPMxv/nOXK43VbBnLHo3d3pyGuniDoQyZnrAnfztUPnz7OX0geOGw
-         SWbg==
-X-Gm-Message-State: AOAM533POEzijg/sf/QTzu+w4Gn0ZM2UUiqsB+TLG3v0oVjenXrymxs2
-        1GoPVCnTzHC9wlciGVBv+jrQrw==
-X-Google-Smtp-Source: ABdhPJxL8yNIwuo3JLDLT5vfWMMddN1ZLyW6uqopzbArWmPz3RzI4hnI0N6zXbN/slfHyY3vDWH1SQ==
-X-Received: by 2002:a63:2cce:: with SMTP id s197mr492444pgs.45.1633129469671;
-        Fri, 01 Oct 2021 16:04:29 -0700 (PDT)
-Received: from smtpclient.apple ([2600:1010:b06f:1961:6102:acf1:515f:f327])
-        by smtp.gmail.com with ESMTPSA id w20sm504149pfc.80.2021.10.01.16.04.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Oct 2021 16:04:29 -0700 (PDT)
-Content-Type: text/plain; charset=utf-8
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=nsZbpm1YBoHMpWTnzHLuE/zYZ0yg4jBiKD5Q7oCTPBE=;
+        b=mD4t/mshPjGtuq+KLoPT//dBA6MzSSIcrKKWBLmQdDrLJ44n89BbcpuZSOR2CAJ+ld
+         iVNrWByjndgKaqAHcl/GnWc8WY9rX/ynnZc8lV3AYKpbqFQqG1xU7XddioicZkV/aTD2
+         TYpIGWYSiYjbto4RFFJkv0bPFkJYVerJYQbBOocTTq1Kq1XvPg4aNuTzlt6iaSqtHGVX
+         85rcubSQozVqcDMkqYjt74NXwT2tmaf+QTbzL2+pS1pGIkpNlybrGz2b9jzYF41oJ4my
+         fDvyogEzFz9NbMoSoKqCnGMGq9ATs86mvBejOBKVpegJ3Hco5UUVOga5kNCZmyEJ01AQ
+         oNQg==
+X-Gm-Message-State: AOAM531EjfDncBxmSx3ouqAEdH82Qx+b2f5aTqhI4FZku1F2alpcGMsb
+        fEmaw4QrBDjTXZuVD6t7Aw4CoL/s6bgEgpIdEm4=
+X-Google-Smtp-Source: ABdhPJzn6iCRFw40ODh/JbrTnGZgDZ5rkOp5uAb9S2ra0uoduM4JqkhA5ilCQzFs3rIjDC6eEmN2cAbqlqi9SzrnThg=
+X-Received: by 2002:a05:6e02:2144:: with SMTP id d4mr2485676ilv.316.1633176201534;
+ Sat, 02 Oct 2021 05:03:21 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a4f:f90d:0:0:0:0:0 with HTTP; Sat, 2 Oct 2021 05:03:21 -0700 (PDT)
+Reply-To: unitednnation0@gmail.com
+From:   "U.n" <wadebaye33@gmail.com>
+Date:   Sat, 2 Oct 2021 00:03:21 -1200
+Message-ID: <CACE0T5XS4PeNRB1Te1aysKaY23ocsWJTw6XO54zsqAb9GApn+g@mail.gmail.com>
+Subject: Attention
+To:     unitednnation0@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-From:   Andy Lutomirski <luto@amacapital.net>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [RFC PATCH 11/13] x86/uintr: Introduce uintr_wait() syscall
-Date:   Fri, 1 Oct 2021 16:04:27 -0700
-Message-Id: <266EFCFB-D0B6-4922-8538-AA3D1146C588@amacapital.net>
-References: <875yug4eos.ffs@tglx>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Sohil Mehta <sohil.mehta@intel.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, Jens Axboe <axboe@kernel.dk>,
-        Christian Brauner <christian@brauner.io>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Shuah Khan <shuah@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Raj Ashok <ashok.raj@intel.com>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Zeng Guang <guang.zeng@intel.com>,
-        "Williams, Dan J" <dan.j.williams@intel.com>,
-        Randy E Witt <randy.e.witt@intel.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        Ramesh Thomas <ramesh.thomas@intel.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org
-In-Reply-To: <875yug4eos.ffs@tglx>
-To:     Thomas Gleixner <tglx@linutronix.de>
-X-Mailer: iPhone Mail (19A346)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+--=20
 
 
-> On Oct 1, 2021, at 2:29 PM, Thomas Gleixner <tglx@linutronix.de> wrote:
->=20
-> =EF=BB=BFOn Fri, Oct 01 2021 at 08:13, Andy Lutomirski wrote:
->=20
->>> On Fri, Oct 1, 2021, at 2:56 AM, Thomas Gleixner wrote:
->>> On Thu, Sep 30 2021 at 21:41, Andy Lutomirski wrote:
->>>>> On Thu, Sep 30, 2021, at 5:01 PM, Thomas Gleixner wrote:
->>>=20
->>>> Now that I read the docs some more, I'm seriously concerned about this
->>>> XSAVE design.  XSAVES with UINTR is destructive -- it clears UINV.  If
->>>> we actually use this, then the whole last_cpu "preserve the state in
->>>> registers" optimization goes out the window.  So does anything that
->>>> happens to assume that merely saving the state doesn't destroy it on
->>>> respectable modern CPUs XRSTORS will #GP if you XRSTORS twice, which
->>>> makes me nervous and would need a serious audit of our XRSTORS paths.
->>>=20
->>> I have no idea what you are fantasizing about. You can XRSTORS five
->>> times in a row as long as your XSTATE memory image is correct.
->>=20
->> I'm just reading TFM, which is some kind of dystopian fantasy.
->>=20
->> 11.8.2.4 XRSTORS
->>=20
->> Before restoring the user-interrupt state component, XRSTORS verifies
->> that UINV is 0. If it is not, XRSTORS causes a general-protection
->> fault (#GP) before loading any part of the user-interrupt state
->> component. (UINV is IA32_UINTR_MISC[39:32]; XRSTORS does not check the
->> contents of the remainder of that MSR.)
->=20
-> Duh. I was staring at the SDM and searching for a hint. Stupid me!
->=20
->> So if UINV is set in the memory image and you XRSTORS five times in a
->> row, the first one will work assuming UINV was zero.  The second one
->> will #GP.
->=20
-> Yes. I can see what you mean now :)
->=20
->> 11.8.2.3 XSAVES
->> After saving the user-interrupt state component, XSAVES clears UINV. (UIN=
-V is IA32_UINTR_MISC[39:32];
->> XSAVES does not modify the remainder of that MSR.)
->>=20
->> So if we're running a UPID-enabled user task and we switch to a kernel
->> thread, we do XSAVES and UINV is cleared.  Then we switch back to the
->> same task and don't do XRSTORS (or otherwise write IA32_UINTR_MISC)
->> and UINV is still clear.
->=20
-> Yes, that has to be mopped up on the way to user space.
->=20
->> And we had better clear UINV when running a kernel thread because the
->> UPID might get freed or the kernel thread might do some CPL3
->> shenanigans (via EFI, perhaps? I don't know if any firmwares actually
->> do this).
->=20
-> Right. That's what happens already with the current pile.
->=20
->> So all this seems to put UINV into the "independent" category of
->> feature along with LBR.  And the 512-byte wastes from extra copies of
->> the legacy area and the loss of the XMODIFIED optimization will just
->> be collateral damage.
->=20
-> So we'd end up with two XSAVES on context switch. We can simply do:
->=20
->        XSAVES();
->        fpu.state.xtsate.uintr.uinv =3D 0;
+Attention Sir/Madam
+This is the United Nation (UN). We the United Nations (UN) Globally
+has approved (US$2.500,000)( two Million Five hundred thousand
+dollars) compensation as part of our responsibilities for humanitarian
+Aid for fighting against CoronaVirus and you are among the lucky ones.
 
-Could work. As long as UINV is armed, RR can change at any time (maybe just w=
-hen IF=3D1? The manual is unclear).  But the first XSAVES disarms UINV, so m=
-aybe this won=E2=80=99t confuse any callers.
 
->=20
-> which allows to do as many XRSTORS in a row as we want. Only the final
-> one on the way to user space will have to restore the real vector if the
-> register state is not valid:
->=20
->       if (fpu_state_valid()) {
->            if (needs_uinv(current)
->               wrmsrl(UINV, vector);
->       } else {
->            if (needs_uinv(current)
->               fpu.state.xtsate.uintr.uinv =3D vector;
->            XRSTORS();
->       }
->=20
-> Hmm?
+This compensation is for the most affected countries, communities and
+families across the global. Your funds were deposited with Bank in USA
+to transfer your funds to you via Internet Banking. You have to send
+your full details as state below:with this email Address
+  ( unitednnation0@gmail.com )
+Your full names:
+Address:
+Telephone:
+Occupation:
 
-I like it better than anything else I=E2=80=99ve seen.
 
->=20
-> Thanks,
->=20
->        tglx=20
+
+Yours Sincerely
+Mr. Ant=C3=B3nio Guterres
+United Nations (UN).
