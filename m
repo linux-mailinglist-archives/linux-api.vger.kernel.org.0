@@ -2,202 +2,217 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 54754423D9D
-	for <lists+linux-api@lfdr.de>; Wed,  6 Oct 2021 14:20:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 163434243A7
+	for <lists+linux-api@lfdr.de>; Wed,  6 Oct 2021 19:04:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238211AbhJFMWl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 6 Oct 2021 08:22:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35866 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238192AbhJFMWk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 6 Oct 2021 08:22:40 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BAB2C061755
-        for <linux-api@vger.kernel.org>; Wed,  6 Oct 2021 05:20:48 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id t2so8241524wrb.8
-        for <linux-api@vger.kernel.org>; Wed, 06 Oct 2021 05:20:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Tu1xtgEkYty/PIegA82o+6LZkpUw1A+ZXk3x5u90I1k=;
-        b=LLkpZ7uo3KRMksQIVfJneZVtINq6roEAmndjT3u0BQPu7Us1sKOyan0xM2SlLAtEjC
-         L5ErMwdYyZVMhapuiMM8H5LbgBFOBmwRaFmpHJ1aK9m14jokvwJq6DnqOWZqyxeTTZK6
-         TFnljEXO6dqIfhwJBuigISBVpBFHzxWtlZVDQiOissGFMl0ANQ5HoYk+0HVbg1ChS1XV
-         t9kfc0kcS19gZ6yTu4Qnqpk5LLfZ5dPzeOk0XDq5LT5XGPpWaYuIZWiIWq4vbVp637ng
-         AAkZ6/aPvGhgNHbhyCVu+KuI5UQUUc4jlkWGsK9Usgv2zB7lA2crfzWFtXLYl5mD1LTp
-         ipEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Tu1xtgEkYty/PIegA82o+6LZkpUw1A+ZXk3x5u90I1k=;
-        b=jkqhw49M1jFH+TKKabYpmx1OHKe/fEstJnNQYDD6VRWRw6dUGsf7enGlKtEvEUGQ5d
-         gJekR964qGzbkwowi6W++D0vCFM9HTJfxZ0abxx1laIHWsuXIKTlpOTgDoKHj2PrqC+L
-         nBk8CWjCpdIR0fLGxDA8VQg6QZw0uGJCrvUVXX9q/B7celhGbFtfMLSj8tCidugx7MSw
-         BKZfZYK9O/l01lda8c5m8WpfzWbK7yiVajkcjXRn25sq3PURx98ERkrhpRwrRr3/S1ZM
-         IZRbqwV9e4IFAgt9peG8S3Ia2CViu2Tgx2oDT5hr9svulz0N9EYAB5+5sHUD1dKQjygZ
-         YZKg==
-X-Gm-Message-State: AOAM531kuE4IbvaOibJZaA48jUppw113ePybv/aWC53pVqbEA/+RXI9A
-        8darQfkxXf0oJA+9JsNYNhyVXw==
-X-Google-Smtp-Source: ABdhPJwJegLLCtMVaJCfMDU2HhL4qWXk5XJO3dVZmr5hru0RW/Kow+iRwJ9XRWN/VAm3r2/YcLPq0w==
-X-Received: by 2002:a1c:9d50:: with SMTP id g77mr9356331wme.58.1633522846559;
-        Wed, 06 Oct 2021 05:20:46 -0700 (PDT)
-Received: from ?IPv6:2a01:e34:ed2f:f020:278:1f59:2992:87fe? ([2a01:e34:ed2f:f020:278:1f59:2992:87fe])
-        by smtp.googlemail.com with ESMTPSA id b15sm24606394wru.9.2021.10.06.05.20.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Oct 2021 05:20:45 -0700 (PDT)
-Subject: Re: [PATCH RESEND] thermal/drivers/netlink: Add the temperature when
- crossing a trip point
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        "Zhang, Rui" <rui.zhang@intel.com>, rkumbako@quicinc.com,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Amit Kucheria <amitk@kernel.org>
-References: <20211001223323.1836640-1-daniel.lezcano@linaro.org>
- <CAJZ5v0hcHq2WJ6UkdDbHynnQYv4MukCWXob_rH=Sa=aYDrr7Cw@mail.gmail.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <dfbdfdab-8817-3792-9361-b238dc256219@linaro.org>
-Date:   Wed, 6 Oct 2021 14:20:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S229835AbhJFRGC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 6 Oct 2021 13:06:02 -0400
+Received: from out03.mta.xmission.com ([166.70.13.233]:53144 "EHLO
+        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229548AbhJFRGA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 6 Oct 2021 13:06:00 -0400
+Received: from in02.mta.xmission.com ([166.70.13.52]:36740)
+        by out03.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1mYAKs-002YNJ-SG; Wed, 06 Oct 2021 11:04:06 -0600
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95]:55904 helo=email.xmission.com)
+        by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1mYAKr-003tPS-Jp; Wed, 06 Oct 2021 11:04:06 -0600
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Kees Cook <keescook@chromium.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>, linux-api@vger.kernel.org
+References: <87v92qx2c6.fsf@disp2133> <87y27mvnke.fsf@disp2133>
+        <202109241154.A915C488E2@keescook>
+Date:   Wed, 06 Oct 2021 12:03:59 -0500
+In-Reply-To: <202109241154.A915C488E2@keescook> (Kees Cook's message of "Fri,
+        24 Sep 2021 11:56:00 -0700")
+Message-ID: <87r1cynkzk.fsf@disp2133>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <CAJZ5v0hcHq2WJ6UkdDbHynnQYv4MukCWXob_rH=Sa=aYDrr7Cw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed; boundary="=-=-="
+X-XM-SPF: eid=1mYAKr-003tPS-Jp;;;mid=<87r1cynkzk.fsf@disp2133>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1/73Tt77EGtRCccwo1zaoQiPNBwHgvdS4Y=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa06.xmission.com
+X-Spam-Level: **
+X-Spam-Status: No, score=2.0 required=8.0 tests=ALL_TRUSTED,BAYES_50,
+        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,XMNoVowels,XMSubLong
+        autolearn=disabled version=3.4.2
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  1.5 XMNoVowels Alpha-numberic number with no vowels
+        *  0.7 XMSubLong Long Subject
+        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+        *      [sa06 1397; Body=1 Fuz1=1 Fuz2=1]
+X-Spam-DCC: XMission; sa06 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: **;Kees Cook <keescook@chromium.org>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 619 ms - load_scoreonly_sql: 0.06 (0.0%),
+        signal_user_changed: 11 (1.7%), b_tie_ro: 9 (1.5%), parse: 1.93 (0.3%),
+         extract_message_metadata: 20 (3.2%), get_uri_detail_list: 3.1 (0.5%),
+        tests_pri_-1000: 28 (4.5%), tests_pri_-950: 1.49 (0.2%),
+        tests_pri_-900: 1.13 (0.2%), tests_pri_-90: 159 (25.7%), check_bayes:
+        156 (25.2%), b_tokenize: 10 (1.7%), b_tok_get_all: 12 (1.9%),
+        b_comp_prob: 6 (1.0%), b_tok_touch_all: 121 (19.6%), b_finish: 1.13
+        (0.2%), tests_pri_0: 378 (61.1%), check_dkim_signature: 0.88 (0.1%),
+        check_dkim_adsp: 2.8 (0.4%), poll_dns_idle: 0.69 (0.1%), tests_pri_10:
+        2.2 (0.4%), tests_pri_500: 12 (2.0%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [PATCH 6/6] coredump: Limit coredumps to a single thread group
+X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
+X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 05/10/2021 17:20, Rafael J. Wysocki wrote:
-> On Sat, Oct 2, 2021 at 12:33 AM Daniel Lezcano
-> <daniel.lezcano@linaro.org> wrote:
->>
->> The slope of the temperature increase or decrease can be high and when
->> the temperature crosses the trip point, there could be a significant
->> difference between the trip temperature and the measured temperatures.
->>
->> That forces the userspace to read the temperature back right after
->> receiving a trip violation notification.
->>
->> In order to be efficient, give the temperature which resulted in the
->> trip violation.
->>
->> Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
->> Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> 
-> This looks fine to me too.
-> 
->> ---
->>  drivers/thermal/thermal_core.c    |  6 ++++--
->>  drivers/thermal/thermal_netlink.c | 11 ++++++-----
->>  drivers/thermal/thermal_netlink.h |  8 ++++----
->>  3 files changed, 14 insertions(+), 11 deletions(-)
->>
->> diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_core.c
->> index 51374f4e1cca..9e243d9f929e 100644
->> --- a/drivers/thermal/thermal_core.c
->> +++ b/drivers/thermal/thermal_core.c
->> @@ -375,10 +375,12 @@ static void handle_thermal_trip(struct thermal_zone_device *tz, int trip)
->>         if (tz->last_temperature != THERMAL_TEMP_INVALID) {
->>                 if (tz->last_temperature < trip_temp &&
->>                     tz->temperature >= trip_temp)
->> -                       thermal_notify_tz_trip_up(tz->id, trip);
->> +                       thermal_notify_tz_trip_up(tz->id, trip,
->> +                                                 tz->temperature);
->>                 if (tz->last_temperature >= trip_temp &&
->>                     tz->temperature < (trip_temp - hyst))
->> -                       thermal_notify_tz_trip_down(tz->id, trip);
->> +                       thermal_notify_tz_trip_down(tz->id, trip,
->> +                                                   tz->temperature);
-> 
-> While at it, I'm not sure if all of the additional line breaks due to
-> the line length limit are really necessary.  The code would be easier
-> to follow without them IMV.
+--=-=-=
+Content-Type: text/plain
 
-Ok let me write another patch to wrap those into a single function and
-reduce the indentation.
+Kees Cook <keescook@chromium.org> writes:
 
->>         }
->>
->>         if (type == THERMAL_TRIP_CRITICAL || type == THERMAL_TRIP_HOT)
->> diff --git a/drivers/thermal/thermal_netlink.c b/drivers/thermal/thermal_netlink.c
->> index 1234dbe95895..a16dd4d5d710 100644
->> --- a/drivers/thermal/thermal_netlink.c
->> +++ b/drivers/thermal/thermal_netlink.c
->> @@ -121,7 +121,8 @@ static int thermal_genl_event_tz(struct param *p)
->>  static int thermal_genl_event_tz_trip_up(struct param *p)
->>  {
->>         if (nla_put_u32(p->msg, THERMAL_GENL_ATTR_TZ_ID, p->tz_id) ||
->> -           nla_put_u32(p->msg, THERMAL_GENL_ATTR_TZ_TRIP_ID, p->trip_id))
->> +           nla_put_u32(p->msg, THERMAL_GENL_ATTR_TZ_TRIP_ID, p->trip_id) ||
->> +           nla_put_u32(p->msg, THERMAL_GENL_ATTR_TZ_TEMP, p->temp))
->>                 return -EMSGSIZE;
->>
->>         return 0;
->> @@ -285,16 +286,16 @@ int thermal_notify_tz_disable(int tz_id)
->>         return thermal_genl_send_event(THERMAL_GENL_EVENT_TZ_DISABLE, &p);
->>  }
->>
->> -int thermal_notify_tz_trip_down(int tz_id, int trip_id)
->> +int thermal_notify_tz_trip_down(int tz_id, int trip_id, int temp)
->>  {
->> -       struct param p = { .tz_id = tz_id, .trip_id = trip_id };
->> +       struct param p = { .tz_id = tz_id, .trip_id = trip_id, .temp = temp };
->>
->>         return thermal_genl_send_event(THERMAL_GENL_EVENT_TZ_TRIP_DOWN, &p);
->>  }
->>
->> -int thermal_notify_tz_trip_up(int tz_id, int trip_id)
->> +int thermal_notify_tz_trip_up(int tz_id, int trip_id, int temp)
->>  {
->> -       struct param p = { .tz_id = tz_id, .trip_id = trip_id };
->> +       struct param p = { .tz_id = tz_id, .trip_id = trip_id, .temp = temp };
->>
->>         return thermal_genl_send_event(THERMAL_GENL_EVENT_TZ_TRIP_UP, &p);
->>  }
->> diff --git a/drivers/thermal/thermal_netlink.h b/drivers/thermal/thermal_netlink.h
->> index 828d1dddfa98..e554f76291f4 100644
->> --- a/drivers/thermal/thermal_netlink.h
->> +++ b/drivers/thermal/thermal_netlink.h
->> @@ -11,8 +11,8 @@ int thermal_notify_tz_create(int tz_id, const char *name);
->>  int thermal_notify_tz_delete(int tz_id);
->>  int thermal_notify_tz_enable(int tz_id);
->>  int thermal_notify_tz_disable(int tz_id);
->> -int thermal_notify_tz_trip_down(int tz_id, int id);
->> -int thermal_notify_tz_trip_up(int tz_id, int id);
->> +int thermal_notify_tz_trip_down(int tz_id, int id, int temp);
->> +int thermal_notify_tz_trip_up(int tz_id, int id, int temp);
->>  int thermal_notify_tz_trip_delete(int tz_id, int id);
->>  int thermal_notify_tz_trip_add(int tz_id, int id, int type,
->>                                int temp, int hyst);
->> @@ -49,12 +49,12 @@ static inline int thermal_notify_tz_disable(int tz_id)
->>         return 0;
->>  }
->>
->> -static inline int thermal_notify_tz_trip_down(int tz_id, int id)
->> +static inline int thermal_notify_tz_trip_down(int tz_id, int id, int temp)
->>  {
->>         return 0;
->>  }
->>
->> -static inline int thermal_notify_tz_trip_up(int tz_id, int id)
->> +static inline int thermal_notify_tz_trip_up(int tz_id, int id, int temp)
->>  {
->>         return 0;
->>  }
->> --
->> 2.25.1
->>
+> On Thu, Sep 23, 2021 at 07:12:33PM -0500, Eric W. Biederman wrote:
+>> 
+>> Today when a signal is delivered with a handler of SIG_DFL whose
+>> default behavior is to generate a core dump not only that process but
+>> every process that shares the mm is killed.
+>> 
+>> In the case of vfork this looks like a real world problem.  Consider
+>> the following well defined sequence.
+>> 
+>> 	if (vfork() == 0) {
+>> 		execve(...);
+>> 		_exit(EXIT_FAILURE);
+>> 	}
+>> 
+>> If a signal that generates a core dump is received after vfork but
+>> before the execve changes the mm the process that called vfork will
+>> also be killed (as the mm is shared).
+>> 
+>> Similarly if the execve fails after the point of no return the kernel
+>> delivers SIGSEGV which will kill both the exec'ing process and because
+>> the mm is shared the process that called vfork as well.
+>> 
+>> As far as I can tell this behavior is a violation of people's
+>> reasonable expectations, POSIX, and is unnecessarily fragile when the
+>> system is low on memory.
+>> 
+>> Solve this by making a userspace visible change to only kill a single
+>> process/thread group.  This is possible because Jann Horn recently
+>> modified[1] the coredump code so that the mm can safely be modified
+>> while the coredump is happening.  With LinuxThreads long gone I don't
+>> expect anyone to have a notice this behavior change in practice.
+>> 
+>> To accomplish this move the core_state pointer from mm_struct to
+>> signal_struct, which allows different thread groups to coredump
+>> simultatenously.
+>> 
+>> In zap_threads remove the work to kill anything except for the current
+>> thread group.
+>> 
+>> [1] a07279c9a8cd ("binfmt_elf, binfmt_elf_fdpic: use a VMA list snapshot")
+>> Fixes: d89f3847def4 ("[PATCH] thread-aware coredumps, 2.5.43-C3")
+>> History-tree: git://git.kernel.org/pub/scm/linux/kernel/git/tglx/history.git
+>> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
+>
+> This looks correct to me, but depends on the 5/6 not introducing any
+> races. So, to that end:
+>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+>
+> If you have some local tools you've been using for testing this series,
+> can you toss them into tools/testing/selftests/ptrace/ ? I can help
+> clean them up if want.
+
+I just have a program that goes multi-thread and calls abort, and a
+slight variant of it that calls vfork before calling abort.
+
+It is enough to exercise the code and verify I didn't make any typos.
+
+I have attached the code below.  If you can help make it into a proper
+test that would be great.  I have just been manually running gdb
+and the like to verify the kernel works as expected.
+
+Eric
 
 
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+--=-=-=
+Content-Type: text/x-csrc
+Content-Disposition: inline; filename=threaded-coredump.c
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+#include <stdio.h>
+#include <pthread.h>
+#include <sys/ptrace.h>
+#include <sys/types.h>
+#include <signal.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+
+struct params {
+	int argc;
+	char **argv;
+	char **envp;
+	pthread_t parent;
+	pthread_t sibling[30];
+};
+
+static void *dump_thread(void *arg)
+{
+	struct params *params = arg;
+	void *retval;
+	int i;
+
+	pthread_join(params->parent, &retval);
+	fprintf(stdout, "Waiting for 5s\n");
+	sleep(5);
+	fprintf(stdout, "Dumping\n");
+	abort();
+	fprintf(stdout, "Abort Failed: %d %s\n", errno, strerror(errno));
+	for (i = 0; i <= 29; i++) {
+		pthread_join(params->sibling[i], &retval);
+	}
+	fprintf(stdout, "All Done!\n");
+	_exit(EXIT_FAILURE);
+	return NULL;
+}
+
+static void *idle_thread(void *arg)
+{
+	unsigned long i = (unsigned long)arg;
+	sleep(10);
+	fprintf(stdout, "Done %lu\n", i);
+	fflush(stdout);
+	return NULL;
+}
+
+int main(int argc, char **argv, char **envp)
+{
+	struct params *params;
+	pthread_t pt;
+	unsigned long i;
+
+	params = malloc(sizeof(struct params));
+	params->argc = argc - 1;
+	params->argv = argv = argv + 1;
+	params->envp = envp;
+	params->parent = pthread_self();
+
+	pthread_create(&pt, NULL, dump_thread, params);
+	for (i = 0; i <= 29; i++)
+		pthread_create(&params->sibling[i], NULL, idle_thread, (void *)i);
+	pthread_exit(NULL);
+
+	return 0;
+}
+
+--=-=-=--
