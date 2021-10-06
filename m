@@ -2,150 +2,202 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EEC5423D53
-	for <lists+linux-api@lfdr.de>; Wed,  6 Oct 2021 13:50:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54754423D9D
+	for <lists+linux-api@lfdr.de>; Wed,  6 Oct 2021 14:20:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238201AbhJFLwe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 6 Oct 2021 07:52:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57298 "EHLO
+        id S238211AbhJFMWl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 6 Oct 2021 08:22:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238124AbhJFLwe (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 6 Oct 2021 07:52:34 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43724C061749;
-        Wed,  6 Oct 2021 04:50:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=uOB6uaGNFZT76GA5ScYxNmwIB9Oa1nEIp3TlgjOvyrg=; b=QoUas8fFCbSgdE+QVVYKaiUfYF
-        C0lHBbxvQA7WMFELJMzmxsXqCMvFxQgdNXUts49FQ1kwWnm7I73Vfx8/on5oNFByzgYR2PVO2UxJU
-        Ph98FQRUX8ERud4rWhPN+bzf5VsJj1OFNpLe1jtUQeYW3oiTGIv4Kk4J8TsjPOQ4FP1J8wkmv4Dbr
-        3B2ALj3uAcs1WZZ+Bc+H+fk7u3tsA6h6IvV3aEXeU1IW8G0v0DEdl0B6oFIW/6ARkyzDBtS0VrMP1
-        B4ZGZWVzovVeKS4PQXtyhZ2GTC6YYJ2O5tEdVDBW754AsDsBxPm1K4AkU1AfQGZSVnlJPX10RawKZ
-        5QwmQUHA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mY5RH-008Gls-Vc; Wed, 06 Oct 2021 11:50:24 +0000
-Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 0AD5998623A; Wed,  6 Oct 2021 13:50:23 +0200 (CEST)
-Date:   Wed, 6 Oct 2021 13:50:22 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@collabora.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Darren Hart <dvhart@infradead.org>,
-        linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        kernel@collabora.com, krisman@collabora.com,
-        linux-api@vger.kernel.org, libc-alpha@sourceware.org,
-        mtk.manpages@gmail.com, Davidlohr Bueso <dave@stgolabs.net>,
-        Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH v2 16/22] futex: Implement sys_futex_waitv()
-Message-ID: <20211006115022.GH174703@worktop.programming.kicks-ass.net>
-References: <20210923171111.300673-1-andrealmeid@collabora.com>
- <20210923171111.300673-17-andrealmeid@collabora.com>
+        with ESMTP id S238192AbhJFMWk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 6 Oct 2021 08:22:40 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BAB2C061755
+        for <linux-api@vger.kernel.org>; Wed,  6 Oct 2021 05:20:48 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id t2so8241524wrb.8
+        for <linux-api@vger.kernel.org>; Wed, 06 Oct 2021 05:20:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Tu1xtgEkYty/PIegA82o+6LZkpUw1A+ZXk3x5u90I1k=;
+        b=LLkpZ7uo3KRMksQIVfJneZVtINq6roEAmndjT3u0BQPu7Us1sKOyan0xM2SlLAtEjC
+         L5ErMwdYyZVMhapuiMM8H5LbgBFOBmwRaFmpHJ1aK9m14jokvwJq6DnqOWZqyxeTTZK6
+         TFnljEXO6dqIfhwJBuigISBVpBFHzxWtlZVDQiOissGFMl0ANQ5HoYk+0HVbg1ChS1XV
+         t9kfc0kcS19gZ6yTu4Qnqpk5LLfZ5dPzeOk0XDq5LT5XGPpWaYuIZWiIWq4vbVp637ng
+         AAkZ6/aPvGhgNHbhyCVu+KuI5UQUUc4jlkWGsK9Usgv2zB7lA2crfzWFtXLYl5mD1LTp
+         ipEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Tu1xtgEkYty/PIegA82o+6LZkpUw1A+ZXk3x5u90I1k=;
+        b=jkqhw49M1jFH+TKKabYpmx1OHKe/fEstJnNQYDD6VRWRw6dUGsf7enGlKtEvEUGQ5d
+         gJekR964qGzbkwowi6W++D0vCFM9HTJfxZ0abxx1laIHWsuXIKTlpOTgDoKHj2PrqC+L
+         nBk8CWjCpdIR0fLGxDA8VQg6QZw0uGJCrvUVXX9q/B7celhGbFtfMLSj8tCidugx7MSw
+         BKZfZYK9O/l01lda8c5m8WpfzWbK7yiVajkcjXRn25sq3PURx98ERkrhpRwrRr3/S1ZM
+         IZRbqwV9e4IFAgt9peG8S3Ia2CViu2Tgx2oDT5hr9svulz0N9EYAB5+5sHUD1dKQjygZ
+         YZKg==
+X-Gm-Message-State: AOAM531kuE4IbvaOibJZaA48jUppw113ePybv/aWC53pVqbEA/+RXI9A
+        8darQfkxXf0oJA+9JsNYNhyVXw==
+X-Google-Smtp-Source: ABdhPJwJegLLCtMVaJCfMDU2HhL4qWXk5XJO3dVZmr5hru0RW/Kow+iRwJ9XRWN/VAm3r2/YcLPq0w==
+X-Received: by 2002:a1c:9d50:: with SMTP id g77mr9356331wme.58.1633522846559;
+        Wed, 06 Oct 2021 05:20:46 -0700 (PDT)
+Received: from ?IPv6:2a01:e34:ed2f:f020:278:1f59:2992:87fe? ([2a01:e34:ed2f:f020:278:1f59:2992:87fe])
+        by smtp.googlemail.com with ESMTPSA id b15sm24606394wru.9.2021.10.06.05.20.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Oct 2021 05:20:45 -0700 (PDT)
+Subject: Re: [PATCH RESEND] thermal/drivers/netlink: Add the temperature when
+ crossing a trip point
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        "Zhang, Rui" <rui.zhang@intel.com>, rkumbako@quicinc.com,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Amit Kucheria <amitk@kernel.org>
+References: <20211001223323.1836640-1-daniel.lezcano@linaro.org>
+ <CAJZ5v0hcHq2WJ6UkdDbHynnQYv4MukCWXob_rH=Sa=aYDrr7Cw@mail.gmail.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <dfbdfdab-8817-3792-9361-b238dc256219@linaro.org>
+Date:   Wed, 6 Oct 2021 14:20:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
+In-Reply-To: <CAJZ5v0hcHq2WJ6UkdDbHynnQYv4MukCWXob_rH=Sa=aYDrr7Cw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210923171111.300673-17-andrealmeid@collabora.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 23, 2021 at 02:11:05PM -0300, André Almeida wrote:
-> Returns the array index of one of the awakened futexes. There’s no given
-> information of how many were awakened, or any particular attribute of it
-> (if it’s the first awakened, if it is of the smaller index...).
+On 05/10/2021 17:20, Rafael J. Wysocki wrote:
+> On Sat, Oct 2, 2021 at 12:33 AM Daniel Lezcano
+> <daniel.lezcano@linaro.org> wrote:
+>>
+>> The slope of the temperature increase or decrease can be high and when
+>> the temperature crosses the trip point, there could be a significant
+>> difference between the trip temperature and the measured temperatures.
+>>
+>> That forces the userspace to read the temperature back right after
+>> receiving a trip violation notification.
+>>
+>> In order to be efficient, give the temperature which resulted in the
+>> trip violation.
+>>
+>> Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+>> Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> 
+> This looks fine to me too.
+> 
+>> ---
+>>  drivers/thermal/thermal_core.c    |  6 ++++--
+>>  drivers/thermal/thermal_netlink.c | 11 ++++++-----
+>>  drivers/thermal/thermal_netlink.h |  8 ++++----
+>>  3 files changed, 14 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_core.c
+>> index 51374f4e1cca..9e243d9f929e 100644
+>> --- a/drivers/thermal/thermal_core.c
+>> +++ b/drivers/thermal/thermal_core.c
+>> @@ -375,10 +375,12 @@ static void handle_thermal_trip(struct thermal_zone_device *tz, int trip)
+>>         if (tz->last_temperature != THERMAL_TEMP_INVALID) {
+>>                 if (tz->last_temperature < trip_temp &&
+>>                     tz->temperature >= trip_temp)
+>> -                       thermal_notify_tz_trip_up(tz->id, trip);
+>> +                       thermal_notify_tz_trip_up(tz->id, trip,
+>> +                                                 tz->temperature);
+>>                 if (tz->last_temperature >= trip_temp &&
+>>                     tz->temperature < (trip_temp - hyst))
+>> -                       thermal_notify_tz_trip_down(tz->id, trip);
+>> +                       thermal_notify_tz_trip_down(tz->id, trip,
+>> +                                                   tz->temperature);
+> 
+> While at it, I'm not sure if all of the additional line breaks due to
+> the line length limit are really necessary.  The code would be easier
+> to follow without them IMV.
 
-As per some native speakers on IRC, awaken isn't the right word. I've
-changed it like the below.
+Ok let me write another patch to wrap those into a single function and
+reduce the indentation.
+
+>>         }
+>>
+>>         if (type == THERMAL_TRIP_CRITICAL || type == THERMAL_TRIP_HOT)
+>> diff --git a/drivers/thermal/thermal_netlink.c b/drivers/thermal/thermal_netlink.c
+>> index 1234dbe95895..a16dd4d5d710 100644
+>> --- a/drivers/thermal/thermal_netlink.c
+>> +++ b/drivers/thermal/thermal_netlink.c
+>> @@ -121,7 +121,8 @@ static int thermal_genl_event_tz(struct param *p)
+>>  static int thermal_genl_event_tz_trip_up(struct param *p)
+>>  {
+>>         if (nla_put_u32(p->msg, THERMAL_GENL_ATTR_TZ_ID, p->tz_id) ||
+>> -           nla_put_u32(p->msg, THERMAL_GENL_ATTR_TZ_TRIP_ID, p->trip_id))
+>> +           nla_put_u32(p->msg, THERMAL_GENL_ATTR_TZ_TRIP_ID, p->trip_id) ||
+>> +           nla_put_u32(p->msg, THERMAL_GENL_ATTR_TZ_TEMP, p->temp))
+>>                 return -EMSGSIZE;
+>>
+>>         return 0;
+>> @@ -285,16 +286,16 @@ int thermal_notify_tz_disable(int tz_id)
+>>         return thermal_genl_send_event(THERMAL_GENL_EVENT_TZ_DISABLE, &p);
+>>  }
+>>
+>> -int thermal_notify_tz_trip_down(int tz_id, int trip_id)
+>> +int thermal_notify_tz_trip_down(int tz_id, int trip_id, int temp)
+>>  {
+>> -       struct param p = { .tz_id = tz_id, .trip_id = trip_id };
+>> +       struct param p = { .tz_id = tz_id, .trip_id = trip_id, .temp = temp };
+>>
+>>         return thermal_genl_send_event(THERMAL_GENL_EVENT_TZ_TRIP_DOWN, &p);
+>>  }
+>>
+>> -int thermal_notify_tz_trip_up(int tz_id, int trip_id)
+>> +int thermal_notify_tz_trip_up(int tz_id, int trip_id, int temp)
+>>  {
+>> -       struct param p = { .tz_id = tz_id, .trip_id = trip_id };
+>> +       struct param p = { .tz_id = tz_id, .trip_id = trip_id, .temp = temp };
+>>
+>>         return thermal_genl_send_event(THERMAL_GENL_EVENT_TZ_TRIP_UP, &p);
+>>  }
+>> diff --git a/drivers/thermal/thermal_netlink.h b/drivers/thermal/thermal_netlink.h
+>> index 828d1dddfa98..e554f76291f4 100644
+>> --- a/drivers/thermal/thermal_netlink.h
+>> +++ b/drivers/thermal/thermal_netlink.h
+>> @@ -11,8 +11,8 @@ int thermal_notify_tz_create(int tz_id, const char *name);
+>>  int thermal_notify_tz_delete(int tz_id);
+>>  int thermal_notify_tz_enable(int tz_id);
+>>  int thermal_notify_tz_disable(int tz_id);
+>> -int thermal_notify_tz_trip_down(int tz_id, int id);
+>> -int thermal_notify_tz_trip_up(int tz_id, int id);
+>> +int thermal_notify_tz_trip_down(int tz_id, int id, int temp);
+>> +int thermal_notify_tz_trip_up(int tz_id, int id, int temp);
+>>  int thermal_notify_tz_trip_delete(int tz_id, int id);
+>>  int thermal_notify_tz_trip_add(int tz_id, int id, int type,
+>>                                int temp, int hyst);
+>> @@ -49,12 +49,12 @@ static inline int thermal_notify_tz_disable(int tz_id)
+>>         return 0;
+>>  }
+>>
+>> -static inline int thermal_notify_tz_trip_down(int tz_id, int id)
+>> +static inline int thermal_notify_tz_trip_down(int tz_id, int id, int temp)
+>>  {
+>>         return 0;
+>>  }
+>>
+>> -static inline int thermal_notify_tz_trip_up(int tz_id, int id)
+>> +static inline int thermal_notify_tz_trip_up(int tz_id, int id, int temp)
+>>  {
+>>         return 0;
+>>  }
+>> --
+>> 2.25.1
+>>
 
 
---- a/kernel/futex/syscalls.c
-+++ b/kernel/futex/syscalls.c
-@@ -252,9 +252,9 @@ static int futex_parse_waitv(struct fute
-  * needed. Flags for private futexes, sizes, etc. should be used on the
-  * individual flags of each waiter.
-  *
-- * Returns the array index of one of the awaken futexes. There's no given
-- * information of how many were awakened, or any particular attribute of it (if
-- * it's the first awakened, if it is of the smaller index...).
-+ * Returns the array index of one of the woken futexes. There's no given
-+ * information of how many were woken, or any particular attribute of it (if
-+ * it's the first woken, if it is of the smaller index...).
-  */
- 
- SYSCALL_DEFINE5(futex_waitv, struct futex_waitv __user *, waiters,
---- a/kernel/futex/waitwake.c
-+++ b/kernel/futex/waitwake.c
-@@ -384,7 +384,7 @@ static int unqueue_multiple(struct futex
-  * futex_wait_multiple_setup - Prepare to wait and enqueue multiple futexes
-  * @vs:		The futex list to wait on
-  * @count:	The size of the list
-- * @awaken:	Index of the last awoken futex, if any. Used to notify the
-+ * @woken:	Index of the last woken futex, if any. Used to notify the
-  *		caller that it can return this index to userspace (return parameter)
-  *
-  * Prepare multiple futexes in a single step and enqueue them. This may fail if
-@@ -392,11 +392,11 @@ static int unqueue_multiple(struct futex
-  * task is ready to interruptible sleep.
-  *
-  * Return:
-- *  -  1 - One of the futexes was awaken by another thread
-+ *  -  1 - One of the futexes was woken by another thread
-  *  -  0 - Success
-  *  - <0 - -EFAULT, -EWOULDBLOCK or -EINVAL
-  */
--static int futex_wait_multiple_setup(struct futex_vector *vs, int count, int *awaken)
-+static int futex_wait_multiple_setup(struct futex_vector *vs, int count, int *woken)
- {
- 	struct futex_hash_bucket *hb;
- 	bool retry = false;
-@@ -405,10 +405,10 @@ static int futex_wait_multiple_setup(str
- 
- 	/*
- 	 * Enqueuing multiple futexes is tricky, because we need to enqueue
--	 * each futex in the list before dealing with the next one to avoid
-+	 * each futex on the list before dealing with the next one to avoid
- 	 * deadlocking on the hash bucket. But, before enqueuing, we need to
- 	 * make sure that current->state is TASK_INTERRUPTIBLE, so we don't
--	 * absorb any awake events, which cannot be done before the
-+	 * loose any wake events, which cannot be done before the
- 	 * get_futex_key of the next key, because it calls get_user_pages,
- 	 * which can sleep. Thus, we fetch the list of futexes keys in two
- 	 * steps, by first pinning all the memory keys in the futex key, and
-@@ -455,11 +455,11 @@ static int futex_wait_multiple_setup(str
- 
- 		/*
- 		 * Even if something went wrong, if we find out that a futex
--		 * was awaken, we don't return error and return this index to
-+		 * was woken, we don't return error and return this index to
- 		 * userspace
- 		 */
--		*awaken = unqueue_multiple(vs, i);
--		if (*awaken >= 0)
-+		*woken = unqueue_multiple(vs, i);
-+		if (*woken >= 0)
- 			return 1;
- 
- 		if (ret) {
-@@ -491,7 +491,7 @@ static int futex_wait_multiple_setup(str
-  * @to:    Timeout
-  *
-  * Sleep if and only if the timeout hasn't expired and no futex on the list has
-- * been awaken.
-+ * been woken.
-  */
- static void futex_sleep_multiple(struct futex_vector *vs, unsigned int count,
- 				 struct hrtimer_sleeper *to)
-@@ -533,7 +533,7 @@ int futex_wait_multiple(struct futex_vec
- 		ret = futex_wait_multiple_setup(vs, count, &hint);
- 		if (ret) {
- 			if (ret > 0) {
--				/* A futex was awaken during setup */
-+				/* A futex was woken during setup */
- 				ret = hint;
- 			}
- 			return ret;
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
