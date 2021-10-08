@@ -2,50 +2,50 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F224B4273DF
-	for <lists+linux-api@lfdr.de>; Sat,  9 Oct 2021 00:44:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB2324273E7
+	for <lists+linux-api@lfdr.de>; Sat,  9 Oct 2021 00:47:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231860AbhJHWqs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 8 Oct 2021 18:46:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48656 "EHLO
+        id S243647AbhJHWtg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 8 Oct 2021 18:49:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243574AbhJHWqs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 8 Oct 2021 18:46:48 -0400
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72906C061765
-        for <linux-api@vger.kernel.org>; Fri,  8 Oct 2021 15:44:52 -0700 (PDT)
-Received: by mail-pg1-x530.google.com with SMTP id 66so4422711pgc.9
-        for <linux-api@vger.kernel.org>; Fri, 08 Oct 2021 15:44:52 -0700 (PDT)
+        with ESMTP id S231941AbhJHWtf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 8 Oct 2021 18:49:35 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E86BC061765
+        for <linux-api@vger.kernel.org>; Fri,  8 Oct 2021 15:47:39 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id c29so9361740pfp.2
+        for <linux-api@vger.kernel.org>; Fri, 08 Oct 2021 15:47:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=tZEn/oAYWz3OcPJexi2kL6PvuHBhh8RYYUTzGNKbmSU=;
-        b=DhKhOYtI0pBL6NCNFhLl35WOj9Pbn0YptqtJC1eqqOh1krXIhDiyulLRdDnN09WxhN
-         4ODUUIY2goSTSm/XDlA9aerxN9TrWKJwe4C0uO6BXyJUc/M0Rb4Qo34q+wo1Cs6Kdbrx
-         wM6E7zu705f4gxd7Ly+0oFdjD/mjV9w3i9uaQ=
+        bh=IDL1dGbYQGd5Z4n8MbIk3dyJApzaVNleP7ehAou5XC4=;
+        b=k/DtfYhTXoNzDDeSt76IrPgiHKVbJzl+yCmhiVP/k9h8OwZ+VHDbs2A9FEOSncQ6Nu
+         c0oNPpuSA0nexNb/AGdFb+q1kORF6YZCNXJNkA0aiLO369TZ7sk5ShzhZMZeTnhRLb7A
+         UNQpET4n7Z7KsW9liWrD/WoMIMHK7Ci23ktRY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=tZEn/oAYWz3OcPJexi2kL6PvuHBhh8RYYUTzGNKbmSU=;
-        b=OHQZDNNP5hYNGRWNcm8CDmb2i+a1mqeEaRfVtL2c2GHJAN9qwDkdpRcEI49AvcDZS7
-         NVfpoMFRGda4dzjKAwW8u4SckRboRm/ACtYA737r/OUJJIPDDZ8JmJY0nzMtMloo23Z9
-         VjJMtFndx9jmk/qh9MFo6fWWx73Xt9+ljDZ+5MtZMXZ0kvhcF8tS108xMCmzD7SwT2VN
-         KlwCMTeoWpZRRUlxq+pvP07uA6ugIyX4S0BV5qcqxDLqZe9OhW3suAb8pPGa5Dsx/bDk
-         MIsqLbNPnF5lci4K8JGLmptgKc53uYqhC3S1PAmI5dgc/SxG9B7cC3T7jAmQgM4MkRsq
-         9ugA==
-X-Gm-Message-State: AOAM531QVJfMaJ/73K0fWZhjxzZPPT2l3wH2vU1+mCd6K5b7vfY79XUu
-        waFylmlgapKQbhamrQiVA2+4OQ==
-X-Google-Smtp-Source: ABdhPJzc82UFKnEHL2nXeW/1+UZrI2+VOZcKuFOfe0n0xCQmI8hpLGTGT0H7X/rjlFKvQ2WBHiiUwA==
-X-Received: by 2002:a63:cc48:: with SMTP id q8mr6758353pgi.171.1633733091937;
-        Fri, 08 Oct 2021 15:44:51 -0700 (PDT)
+        bh=IDL1dGbYQGd5Z4n8MbIk3dyJApzaVNleP7ehAou5XC4=;
+        b=8FLh64WxZXD4iuS848upd3DW3TfcYggd1d1hJcNsfpZuDkppP0Jslv3mvb+yzxmsvp
+         oDTw/X9BPqX/4dOtFUWXPbl6yy/u8Q0B4k0PFCv9J1xW/M99YA1Lj9crWAKCa85zILyi
+         YcaRp5xBxBmsedknuB3kXwsdJBQY1mBso4zKpFTH8azsCPar5UffSDiIyIeb+AE0N8ZJ
+         s60TrRJXjeKU7ZLBmiM/Wxf0gUQSqUQTCCQuoXR0tc57XpeUV1eDqIkxvDm2U6klA0b+
+         72GXXJLCwV2Ynz5qyoQpPtB8n+BaNa4mvHD1PY4awX5t+YG3GOpTVjN28jVfYhp7V8/r
+         mYJw==
+X-Gm-Message-State: AOAM530RfG5wED6qjgRa2q/k9hLPv4xXOIM2MvDYG/To1znI8gNnAYS3
+        yj24L6tZME0sB4RUugaiUHJCDw==
+X-Google-Smtp-Source: ABdhPJwvnmLJjnp89CGi8tOitxi5+0+62XoRbPGjNi0V+bAyRDLPPpqmm4mrkramzCbREIT8ipI6YQ==
+X-Received: by 2002:a05:6a00:1944:b0:438:d002:6e35 with SMTP id s4-20020a056a00194400b00438d0026e35mr12543299pfk.20.1633733258954;
+        Fri, 08 Oct 2021 15:47:38 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id k190sm350501pgc.11.2021.10.08.15.44.51
+        by smtp.gmail.com with ESMTPSA id k17sm295225pff.214.2021.10.08.15.47.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Oct 2021 15:44:51 -0700 (PDT)
-Date:   Fri, 8 Oct 2021 15:44:51 -0700
+        Fri, 08 Oct 2021 15:47:38 -0700 (PDT)
+Date:   Fri, 8 Oct 2021 15:47:37 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
 Cc:     Al Viro <viro@zeniv.linux.org.uk>,
@@ -81,40 +81,28 @@ Cc:     Al Viro <viro@zeniv.linux.org.uk>,
         Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
         kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@linux.microsoft.com>
-Subject: Re: [PATCH v14 3/3] selftest/interpreter: Add tests for
- trusted_for(2) policies
-Message-ID: <202110081544.85B7DA3@keescook>
+        linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v14 0/3] Add trusted_for(2) (was O_MAYEXEC)
+Message-ID: <202110081545.8D8C2980@keescook>
 References: <20211008104840.1733385-1-mic@digikod.net>
- <20211008104840.1733385-4-mic@digikod.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211008104840.1733385-4-mic@digikod.net>
+In-Reply-To: <20211008104840.1733385-1-mic@digikod.net>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Oct 08, 2021 at 12:48:40PM +0200, Mickaël Salaün wrote:
-> From: Mickaël Salaün <mic@linux.microsoft.com>
-> 
-> Test that checks performed by trusted_for(2) on file descriptors are
-> consistent with noexec mount points and file execute permissions,
-> according to the policy configured with the fs.trust_policy sysctl.
-> 
-> Cc: Al Viro <viro@zeniv.linux.org.uk>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Shuah Khan <shuah@kernel.org>
-> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
+On Fri, Oct 08, 2021 at 12:48:37PM +0200, Mickaël Salaün wrote:
+> This patch series is mainly a rebase on v5.15-rc4 with some cosmetic
+> changes suggested by Kees Cook.  Andrew, can you please consider to
+> merge this into your tree?
 
-Thanks for the adjustments!
-
-Reviewed-by: Kees Cook <keescook@chromium.org>
+Thanks for staying on this series! This is a good step in the right
+direction for finally plugging the "interpreter" noexec hole. I'm pretty
+sure Chrome OS will immediately use this as they've been carrying
+similar functionality for a long time.
 
 -- 
 Kees Cook
