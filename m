@@ -2,50 +2,50 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8BE94273D8
-	for <lists+linux-api@lfdr.de>; Sat,  9 Oct 2021 00:44:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F224B4273DF
+	for <lists+linux-api@lfdr.de>; Sat,  9 Oct 2021 00:44:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231941AbhJHWqS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 8 Oct 2021 18:46:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48524 "EHLO
+        id S231860AbhJHWqs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 8 Oct 2021 18:46:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231893AbhJHWqR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 8 Oct 2021 18:46:17 -0400
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2ABBCC061764
-        for <linux-api@vger.kernel.org>; Fri,  8 Oct 2021 15:44:22 -0700 (PDT)
-Received: by mail-pg1-x535.google.com with SMTP id r201so4440872pgr.4
-        for <linux-api@vger.kernel.org>; Fri, 08 Oct 2021 15:44:22 -0700 (PDT)
+        with ESMTP id S243574AbhJHWqs (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 8 Oct 2021 18:46:48 -0400
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72906C061765
+        for <linux-api@vger.kernel.org>; Fri,  8 Oct 2021 15:44:52 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id 66so4422711pgc.9
+        for <linux-api@vger.kernel.org>; Fri, 08 Oct 2021 15:44:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=umB4uHDtxas96hN3BYGazDncxiBbCFqWtzPGIWT7LNc=;
-        b=c1dhZkFOhudh2wXNpMdEc1RhSuvtxZ61MbgjOfWirI1dGCwop+oMrikrazWSKtARVC
-         En1rtRySSqXcNiYt5ShEmep6JLQBztsQI2fOfwoUK2FMSMB0/TCaYAhtCuHAYoxM3HyE
-         tmEzHJmoyWeedVttNjcYA9jyYFHoIa3v03c68=
+        bh=tZEn/oAYWz3OcPJexi2kL6PvuHBhh8RYYUTzGNKbmSU=;
+        b=DhKhOYtI0pBL6NCNFhLl35WOj9Pbn0YptqtJC1eqqOh1krXIhDiyulLRdDnN09WxhN
+         4ODUUIY2goSTSm/XDlA9aerxN9TrWKJwe4C0uO6BXyJUc/M0Rb4Qo34q+wo1Cs6Kdbrx
+         wM6E7zu705f4gxd7Ly+0oFdjD/mjV9w3i9uaQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=umB4uHDtxas96hN3BYGazDncxiBbCFqWtzPGIWT7LNc=;
-        b=HB5PCKW5r+bmZ+k3I237RmIekqCWEMahQmG/Kh18Hk3qM/E+Jqhc7dSQ0nu+3qGKr1
-         cb1Xn095Rp0QAozmnpR/TvcipnGAYy/UcOohhF9LY1N3AjxH1EYvtCZy7Zw4IHv0cskj
-         yyECCS9PQGzbbWZ67NYxCcrwCbEcfMfB8wuPCRhA6QSaU32gATVaaUMQKbZ95c3sFBWu
-         sgvf0njm1N/Zfz7y/Au27Z9EOSqruY/Kg9foYKZrNK0J/zd/ONiita5Uggp9qsAHZhcg
-         aaljJ8I3XT6NcpKDU21eDqfphevCNA1CQpvLWcHjEDLqb/jfPzOZpCmK/O0Nwpr/t3s2
-         WoZw==
-X-Gm-Message-State: AOAM5336K66S+t/t8WlA2Nsb4lFFhmjPVg32QRuJwRifbCWpGXV8xq2S
-        G6b/CxmHNTUzL8Dsl/2XQ/6dxw==
-X-Google-Smtp-Source: ABdhPJzCE+sLyU3dUaPPb1F+N9g3sYRtHexnhsIzGXBB0pFPvAIgLQ1uow9VWdB0524+rTctfRRdQA==
-X-Received: by 2002:a62:ed0a:0:b0:44b:3f50:c4d4 with SMTP id u10-20020a62ed0a000000b0044b3f50c4d4mr12467574pfh.33.1633733061403;
-        Fri, 08 Oct 2021 15:44:21 -0700 (PDT)
+        bh=tZEn/oAYWz3OcPJexi2kL6PvuHBhh8RYYUTzGNKbmSU=;
+        b=OHQZDNNP5hYNGRWNcm8CDmb2i+a1mqeEaRfVtL2c2GHJAN9qwDkdpRcEI49AvcDZS7
+         NVfpoMFRGda4dzjKAwW8u4SckRboRm/ACtYA737r/OUJJIPDDZ8JmJY0nzMtMloo23Z9
+         VjJMtFndx9jmk/qh9MFo6fWWx73Xt9+ljDZ+5MtZMXZ0kvhcF8tS108xMCmzD7SwT2VN
+         KlwCMTeoWpZRRUlxq+pvP07uA6ugIyX4S0BV5qcqxDLqZe9OhW3suAb8pPGa5Dsx/bDk
+         MIsqLbNPnF5lci4K8JGLmptgKc53uYqhC3S1PAmI5dgc/SxG9B7cC3T7jAmQgM4MkRsq
+         9ugA==
+X-Gm-Message-State: AOAM531QVJfMaJ/73K0fWZhjxzZPPT2l3wH2vU1+mCd6K5b7vfY79XUu
+        waFylmlgapKQbhamrQiVA2+4OQ==
+X-Google-Smtp-Source: ABdhPJzc82UFKnEHL2nXeW/1+UZrI2+VOZcKuFOfe0n0xCQmI8hpLGTGT0H7X/rjlFKvQ2WBHiiUwA==
+X-Received: by 2002:a63:cc48:: with SMTP id q8mr6758353pgi.171.1633733091937;
+        Fri, 08 Oct 2021 15:44:51 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id z13sm304469pfq.130.2021.10.08.15.44.20
+        by smtp.gmail.com with ESMTPSA id k190sm350501pgc.11.2021.10.08.15.44.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Oct 2021 15:44:21 -0700 (PDT)
-Date:   Fri, 8 Oct 2021 15:44:20 -0700
+        Fri, 08 Oct 2021 15:44:51 -0700 (PDT)
+Date:   Fri, 8 Oct 2021 15:44:51 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
 Cc:     Al Viro <viro@zeniv.linux.org.uk>,
@@ -84,109 +84,37 @@ Cc:     Al Viro <viro@zeniv.linux.org.uk>,
         linux-kernel@vger.kernel.org,
         linux-security-module@vger.kernel.org,
         =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@linux.microsoft.com>
-Subject: Re: [PATCH v13 3/3] selftest/interpreter: Add tests for
+Subject: Re: [PATCH v14 3/3] selftest/interpreter: Add tests for
  trusted_for(2) policies
-Message-ID: <202110081543.1B6BF22@keescook>
-References: <20211007182321.872075-1-mic@digikod.net>
- <20211007182321.872075-4-mic@digikod.net>
- <202110071227.669B5A91C@keescook>
- <b1599775-a061-6c91-03a4-c82734c7f58c@digikod.net>
+Message-ID: <202110081544.85B7DA3@keescook>
+References: <20211008104840.1733385-1-mic@digikod.net>
+ <20211008104840.1733385-4-mic@digikod.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b1599775-a061-6c91-03a4-c82734c7f58c@digikod.net>
+In-Reply-To: <20211008104840.1733385-4-mic@digikod.net>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Oct 08, 2021 at 12:21:12PM +0200, Mickaël Salaün wrote:
+On Fri, Oct 08, 2021 at 12:48:40PM +0200, Mickaël Salaün wrote:
+> From: Mickaël Salaün <mic@linux.microsoft.com>
 > 
-> On 07/10/2021 21:48, Kees Cook wrote:
-> > On Thu, Oct 07, 2021 at 08:23:20PM +0200, Mickaël Salaün wrote:
+> Test that checks performed by trusted_for(2) on file descriptors are
+> consistent with noexec mount points and file execute permissions,
+> according to the policy configured with the fs.trust_policy sysctl.
 > 
-> [...]
-> 
-> >> diff --git a/tools/testing/selftests/interpreter/Makefile b/tools/testing/selftests/interpreter/Makefile
-> >> new file mode 100644
-> >> index 000000000000..1f71a161d40b
-> >> --- /dev/null
-> >> +++ b/tools/testing/selftests/interpreter/Makefile
-> >> @@ -0,0 +1,21 @@
-> >> +# SPDX-License-Identifier: GPL-2.0
-> >> +
-> >> +CFLAGS += -Wall -O2
-> >> +LDLIBS += -lcap
-> >> +
-> >> +src_test := $(wildcard *_test.c)
-> >> +TEST_GEN_PROGS := $(src_test:.c=)
-> >> +
-> >> +KSFT_KHDR_INSTALL := 1
-> >> +include ../lib.mk
-> >> +
-> >> +khdr_dir = $(top_srcdir)/usr/include
-> >> +
-> >> +$(khdr_dir)/asm-generic/unistd.h: khdr
-> >> +	@:
-> >> +
-> >> +$(khdr_dir)/linux/trusted-for.h: khdr
-> >> +	@:
-> >> +
-> >> +$(OUTPUT)/%_test: %_test.c $(khdr_dir)/asm-generic/unistd.h $(khdr_dir)/linux/trusted-for.h ../kselftest_harness.h
-> >> +	$(LINK.c) $< $(LDLIBS) -o $@ -I$(khdr_dir)
-> > 
-> > Is all this really needed?
-> 
-> Yes, all this is needed to be sure that the tests will be rebuild when a
-> dependency change (either one of the header files or a source file).
-> 
-> > 
-> > - CFLAGS and LDLIBS will be used by the default rules
-> 
-> Yes, but it will only run the build command when a source file change,
-> not a header file.
-> 
-> > - khdr is already a pre-dependency when KSFT_KHDR_INSTALL is set
-> 
-> Yes, but it is not enough to rebuild the tests (and check the installed
-> files) when a header file change.
-> 
-> > - kselftest_harness.h is already a build-dep (see LOCAL_HDRS)
-> 
-> Yes, but without an explicit requirement, changing kselftest_harness.h
-> doesn't force a rebuild.
-> 
-> > - TEST_GEN_PROGS's .c files are already build-deps
-> 
-> It is not enough to trigger test rebuilds.
-> 
-> > 
-> > kselftest does, oddly, lack a common -I when KSFT_KHDR_INSTALL is set
-> > (which likely should get fixed, though separately from here).
-> > 
-> > I think you just want:
-> > 
-> > 
-> > src_test := $(wildcard *_test.c)
-> > TEST_GEN_PROGS := $(src_test:.c=)
-> > 
-> > KSFT_KHDR_INSTALL := 1
-> > include ../lib.mk
-> > 
-> > CFLAGS += -Wall -O2 -I$(BUILD)/usr/include
-> > LDLIBS += -lcap
-> > 
-> > $(OUTPUT)/%_test: $(BUILD)/usr/include/linux/trusted-for.h
-> > 
-> > 
-> > (untested)
-> > 
-> Yep, I re-checked and my Makefile is correct. I didn't find a way to
-> make it lighter while correctly handling dependencies.
-> I'll just move the -I to CFLAGS.
+> Cc: Al Viro <viro@zeniv.linux.org.uk>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Shuah Khan <shuah@kernel.org>
+> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
 
-Okay, thanks for double-checking these. I'll try to fix up kselftests to
-DTRT here.
+Thanks for the adjustments!
+
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
 -- 
 Kees Cook
