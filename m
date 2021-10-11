@@ -2,28 +2,26 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 700F74283E2
-	for <lists+linux-api@lfdr.de>; Sun, 10 Oct 2021 23:48:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA6284288B7
+	for <lists+linux-api@lfdr.de>; Mon, 11 Oct 2021 10:26:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232631AbhJJVuR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 10 Oct 2021 17:50:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36062 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231343AbhJJVuR (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sun, 10 Oct 2021 17:50:17 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D8EC460F35;
-        Sun, 10 Oct 2021 21:48:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1633902498;
-        bh=Os1zFWJs35sbezQJoPQtAyMJ89e8Gqc+3V2HYbnUOd8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=NRfM6eiDtLst84XKF8OFuyoJi7MII8++8TItsaxfRYEVT5FNTYbpW8NXcHt0FidGb
-         YGtWJZh5ox9iYKWaAMIiE4QPpu5oeZkcCuzTsWHO6N+/6BNk4c2Rd+yuNQoYKnCogV
-         BlXskGaJeY1nmrgdUi5jl4GaMkBYnbIBQe/G9XRY=
-Date:   Sun, 10 Oct 2021 14:48:14 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     =?ISO-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+        id S235045AbhJKI2N (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 11 Oct 2021 04:28:13 -0400
+Received: from smtp-bc0b.mail.infomaniak.ch ([45.157.188.11]:50877 "EHLO
+        smtp-bc0b.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235029AbhJKI2L (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 11 Oct 2021 04:28:11 -0400
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4HSX1t5y8BzMqJTT;
+        Mon, 11 Oct 2021 10:26:10 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4HSX1q3sgfzlhNx5;
+        Mon, 11 Oct 2021 10:26:07 +0200 (CEST)
+Subject: Re: [PATCH v14 1/3] fs: Add trusted_for(2) syscall implementation and
+ related sysctl
+To:     Florian Weimer <fw@deneb.enyo.de>
 Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Aleksa Sarai <cyphar@cyphar.com>,
         Andy Lutomirski <luto@kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
@@ -34,7 +32,6 @@ Cc:     Al Viro <viro@zeniv.linux.org.uk>,
         Dmitry Vyukov <dvyukov@google.com>,
         Eric Biggers <ebiggers@kernel.org>,
         Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
         Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
@@ -46,7 +43,7 @@ Cc:     Al Viro <viro@zeniv.linux.org.uk>,
         Miklos Szeredi <mszeredi@redhat.com>,
         Mimi Zohar <zohar@linux.ibm.com>,
         Paul Moore <paul@paul-moore.com>,
-        Philippe =?ISO-8859-1?Q?Tr=E9buchet?= 
+        =?UTF-8?Q?Philippe_Tr=c3=a9buchet?= 
         <philippe.trebuchet@ssi.gouv.fr>,
         Scott Shell <scottsh@microsoft.com>,
         Shuah Khan <shuah@kernel.org>,
@@ -56,43 +53,59 @@ Cc:     Al Viro <viro@zeniv.linux.org.uk>,
         Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
         kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v14 0/3] Add trusted_for(2) (was O_MAYEXEC)
-Message-Id: <20211010144814.d9fb99de6b0af65b67dc96cb@linux-foundation.org>
-In-Reply-To: <20211008104840.1733385-1-mic@digikod.net>
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
 References: <20211008104840.1733385-1-mic@digikod.net>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+ <20211008104840.1733385-2-mic@digikod.net> <87tuhpynr4.fsf@mid.deneb.enyo.de>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <334a71c1-b97e-e52e-e772-a9003ec676c3@digikod.net>
+Date:   Mon, 11 Oct 2021 10:26:58 +0200
+User-Agent: 
+MIME-Version: 1.0
+In-Reply-To: <87tuhpynr4.fsf@mid.deneb.enyo.de>
+Content-Type: text/plain; charset=iso-8859-15
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri,  8 Oct 2021 12:48:37 +0200 Micka=EBl Sala=FCn <mic@digikod.net> wro=
-te:
 
-> The final goal of this patch series is to enable the kernel to be a
-> global policy manager by entrusting processes with access control at
-> their level.  To reach this goal, two complementary parts are required:
-> * user space needs to be able to know if it can trust some file
->   descriptor content for a specific usage;
-> * and the kernel needs to make available some part of the policy
->   configured by the system administrator.
+On 10/10/2021 16:10, Florian Weimer wrote:
+> * Mickaël Salaün:
+> 
+>> Being able to restrict execution also enables to protect the kernel by
+>> restricting arbitrary syscalls that an attacker could perform with a
+>> crafted binary or certain script languages.  It also improves multilevel
+>> isolation by reducing the ability of an attacker to use side channels
+>> with specific code.  These restrictions can natively be enforced for ELF
+>> binaries (with the noexec mount option) but require this kernel
+>> extension to properly handle scripts (e.g. Python, Perl).  To get a
+>> consistent execution policy, additional memory restrictions should also
+>> be enforced (e.g. thanks to SELinux).
+> 
+> One example I have come across recently is that code which can be
+> safely loaded as a Perl module is definitely not a no-op as a shell
+> script: it downloads code and executes it, apparently over an
+> untrusted network connection and without signature checking.
+> 
+> Maybe in the IMA world, the expectation is that such ambiguous code
+> would not be signed in the first place, but general-purpose
+> distributions are heading in a different direction with
+> across-the-board signing:
+> 
+>   Signed RPM Contents
+>   <https://fedoraproject.org/wiki/Changes/Signed_RPM_Contents>
+> 
+> So I wonder if we need additional context information for a potential
+> LSM to identify the intended use case.
+> 
 
-Apologies if I missed this...
-
-It would be nice to see a description of the proposed syscall interface
-in these changelogs!  Then a few questions I have will be answered...
-
-long trusted_for(const int fd,
-		 const enum trusted_for_usage usage,
-		 const u32 flags)
-
-- `usage' must be equal to TRUSTED_FOR_EXECUTION, so why does it
-  exist?  Some future modes are planned?  Please expand on this.
-
-- `flags' is unused (must be zero).  So why does it exist?  What are
-  the plans here?
-
-- what values does the syscall return and what do they mean?
+This is an interesting use case. I think such policy enforcement could
+be done either with an existing LSM (e.g. IMA) or a new one (e.g. IPE),
+but it could also partially be enforced by the script interpreter. The
+kernel should have enough context: interpreter process (which could be
+dedicated to a specific usage) and the opened script file, or we could
+add a new usage flag to the trusted_for syscall if that makes sense.
+Either way, this doesn't seem to be an issue for the current patch series.
