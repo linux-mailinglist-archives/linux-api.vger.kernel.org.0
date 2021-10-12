@@ -2,137 +2,132 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC88642AF23
-	for <lists+linux-api@lfdr.de>; Tue, 12 Oct 2021 23:44:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CE2442B017
+	for <lists+linux-api@lfdr.de>; Wed, 13 Oct 2021 01:25:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235622AbhJLVqP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 12 Oct 2021 17:46:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47258 "EHLO
+        id S233456AbhJLX1d (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 12 Oct 2021 19:27:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233953AbhJLVqP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 12 Oct 2021 17:46:15 -0400
-Received: from mail-ua1-x930.google.com (mail-ua1-x930.google.com [IPv6:2607:f8b0:4864:20::930])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0885C061745
-        for <linux-api@vger.kernel.org>; Tue, 12 Oct 2021 14:44:12 -0700 (PDT)
-Received: by mail-ua1-x930.google.com with SMTP id j8so1287574uak.9
-        for <linux-api@vger.kernel.org>; Tue, 12 Oct 2021 14:44:12 -0700 (PDT)
+        with ESMTP id S229588AbhJLX1c (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 12 Oct 2021 19:27:32 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAAE8C061570
+        for <linux-api@vger.kernel.org>; Tue, 12 Oct 2021 16:25:30 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id ls18so781033pjb.3
+        for <linux-api@vger.kernel.org>; Tue, 12 Oct 2021 16:25:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=posk.io; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WgazRr7A2QxPpLaIdzzNVnQx5x0TIqviAZnwgcAY9Pg=;
-        b=bWRrfJh/Uo4JkHTOWSO2RpQy+iTmn2NyxbP00pHrKnicT0HSgoc4618JFZtYGtNjd3
-         cg0/KnupBB0O5qb6pMcGfmQ+r+zZnVWbgz55IrrLMfBzDFGxp2TnTFO0Y9t1Uf7IS8nV
-         I5WEyqW3mOJGCU4A2qwi4EYlk4lAebuoa4jH3/rLTqZh1r/QY0T5P8YJC3hPiL5iOEwc
-         wLlDrwjH3Co0Km+NEYBNoLvBNkA/yVgARCWQ0JMmtVKQEUD5Dwd7yjcH6/AZfOVpVx7R
-         lSr6wktbCK2wQgpyVi+R9WDtIP3hlmJhuZpvlfWtfdB2xeYLyaf8fzIITOX2RwFuYVbB
-         jdng==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+MCbUR+9Em0iYarChlkTpQ1HVke2G/DGf/+kVt506hA=;
+        b=K9rtvqDADOFi/pV5Xt1D0nPncFQCJGbmTgJ6Gh9DcnS3GNIm588XShQ24y6u8kIcAB
+         GmbYJg3UT98mpFJfsSaNTUzmRplRn67F3kZuwMvDNrZq+PENH7D9XR1Wl0+y91tTRCnD
+         bCd4A2n2YUHcESbQsCNiVMQCg0SDCPV1gMYMeg1xO8RwEYoWoCvPqK2AsKDAxuIOzNAv
+         z1BeJuotoWsSKzPV6HyMGPBbdxkbLLSMS0lwPoaLj/FWv/vMZzBzoFNAHRAJqP6t5So6
+         Ay5NNU+Wu84lNQ08vuDl9qk97LMNxXBm9PREA9ck+9zarZYhb4SNrlHrlnwW7aHv+/zq
+         Ws9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WgazRr7A2QxPpLaIdzzNVnQx5x0TIqviAZnwgcAY9Pg=;
-        b=EaVINK0C9+7LMccBhm5+4lDFBOhi4SGgjWJVkM0kg8nIZVBj22ySuW1CgfXDAl6BI9
-         +BcNS+w7SkpQ2PXPOKASWLixYPfCx/zGLwBnynwMA7kREHLdgD8MVMTSI3X4NXqILLwB
-         x7/IATLEXiuH/eOf5NNmF5pYVKgZFd2vt5mLaKV/WPPJBKmsU+/eOgDm9D/GVcQFXch/
-         E+0ayRDjYR3YJtfhLSszdZmMmjkh99scVECEyGiYkRVUBE55dovVCAP4FZ0IFxLlsXtW
-         yPZhJ0m4zPq6o1jacQ5NiHuB0YNTGwlCTmzQ6bG5r8s1M1S+FjD+OgwZJNEa8/DPtdle
-         CNyA==
-X-Gm-Message-State: AOAM530y/IMgoD+SAdHkWBp1unn7lR6recmsMWgUmJL9A/yzYZEMVdGb
-        AGJV3KQgU+ZDsf+zxfZX+VqbAcDSZefb13Zs9A2Q1A==
-X-Google-Smtp-Source: ABdhPJztMGYi+qkGm7giUB/xpqhERMXS/4D4cftklCr5DL+PyCR0mAZ9cTV/61s/96a6eXEwdWl4e9VSMUjamG4Dfns=
-X-Received: by 2002:ab0:16d4:: with SMTP id g20mr25152048uaf.114.1634075052009;
- Tue, 12 Oct 2021 14:44:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210917180323.278250-1-posk@google.com> <20210917180323.278250-6-posk@google.com>
- <12eb2300-4a78-9e93-30a3-8e2ddba4693f@uwaterloo.ca> <CAFTs51W6ZHrGaoXEbXNCkVKLxe7_S2raYcXMBzypC7VUDMrU-w@mail.gmail.com>
- <e162fdea-5323-89d2-49d0-3fe56ba2ec3a@uwaterloo.ca> <CAFTs51X0kQLngHYXD-BxBmm6oRyMk1vy9nzaPu4V46PifO99LQ@mail.gmail.com>
- <40c37212-ab15-01ac-f5c5-e3f53c9b8e4e@uwaterloo.ca>
-In-Reply-To: <40c37212-ab15-01ac-f5c5-e3f53c9b8e4e@uwaterloo.ca>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+MCbUR+9Em0iYarChlkTpQ1HVke2G/DGf/+kVt506hA=;
+        b=prML+nEq4f7lJuVN2d4TOM7ETKwwXLyEWmbzEsnrtm/JxI85iePHGJvU5BGAazn+Y9
+         nz7X0eqPRLQOImUC7ffH9kVWi2vV1Ernb+cU+dfoKRP7F6mOG8LvJtSO6jIcbCkkGMUY
+         IcgG0qHufXwZsR+nCREW/HvU2MKrh5cRqElilg2BD5U6+Sg43vMx1m2qAuHw7JaPmnl+
+         PutirTOGQdt8V0WTEt/RcLun8qYO/mc8KYXJBOWlAWt2gOBlxssIdOk3vbGAU2Au6oIw
+         bStV2GfUH0d162qlvmkpvsqQpw6h2kmyvRfl/GWdYH2tzAoCn7TBVWysJE0dsCv7agpr
+         ySgA==
+X-Gm-Message-State: AOAM533HkkIxqhzty1VFIAora8qRMkZJg2J/qSe8Xm4GGfr8YcaL2RiT
+        br2DhKLX+gP4w8xzRDIZJLLJPg==
+X-Google-Smtp-Source: ABdhPJxjh74j84b81uD2Wn5kWtHXWmrQZ1OVNkdEUMaIHUWxMYB0qGb8Uw91qe1lKFjIKloQRA4B7g==
+X-Received: by 2002:a17:902:db01:b0:13e:d9ac:b8ff with SMTP id m1-20020a170902db0100b0013ed9acb8ffmr33135606plx.46.1634081130322;
+        Tue, 12 Oct 2021 16:25:30 -0700 (PDT)
+Received: from posk-g1.lan (23-118-52-46.lightspeed.sntcca.sbcglobal.net. [23.118.52.46])
+        by smtp.gmail.com with ESMTPSA id v20sm12675026pgc.38.2021.10.12.16.25.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Oct 2021 16:25:29 -0700 (PDT)
 From:   Peter Oskolkov <posk@posk.io>
-Date:   Tue, 12 Oct 2021 14:44:01 -0700
-Message-ID: <CAFTs51XksSW+YW2H2iZk+j0AY+NApr=aBBVgakyx55yX_5AA8A@mail.gmail.com>
-Subject: Re: [PATCH 5/5 v0.6] sched/umcg: add Documentation/userspace-api/umcg.txt
-To:     Thierry Delisle <tdelisle@uwaterloo.ca>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
+X-Google-Original-From: Peter Oskolkov <posk@google.com>
+To:     Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@redhat.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-api@vger.kernel.org, Paul Turner <pjt@google.com>,
-        Ben Segall <bsegall@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Cc:     Paul Turner <pjt@google.com>, Ben Segall <bsegall@google.com>,
         Peter Oskolkov <posk@google.com>,
-        Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Peter Oskolkov <posk@posk.io>,
+        Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
+        Thierry Delisle <tdelisle@uwaterloo.ca>
+Subject: [PATCH v0.7 0/5] sched,mm,x86/uaccess: implement User Managed Concurrency Groups
+Date:   Tue, 12 Oct 2021 16:25:17 -0700
+Message-Id: <20211012232522.714898-1-posk@google.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Thierry!
+User Managed Concurrency Groups (UMCG) is an M:N threading
+subsystem/toolkit that lets user space application developers implement
+in-process user space schedulers.
 
-Again, it seems you are ascribing higher level semantics to lower
-level constructs here, specifically to "idle workers list".
+Key changes from the previous patchset
+https://lore.kernel.org/all/20210917180323.278250-1-posk@google.com/ :
 
-In this patchset, idle workers list is just a mechanism used by the
-kernel to notify the userspace that previously blocked workers are now
-available for scheduling. Maybe a better name would have been
-"unblocked workers list". The true list of idle workers that the
-userspace scheduler can schedule is maintained by the userspace; it
-can be said that if a worker is on the kernel's idle workers list, it
-is NOT on the userspace's idle workers list, and so workers on the
-kernel's idle workers list are not yet fully "idle workers" that can
-be scheduled.
+- userspace atomic helpers moved into mm/
+- UMCG task states are now tagged with timestamps
+- cross-mm interactions (wakeups) are not permitted
+- several smaller fixes and refactorings
 
-On Tue, Oct 12, 2021 at 11:46 AM Thierry Delisle <tdelisle@uwaterloo.ca> wrote:
->
->  >> Just to be clear, sys_umcg_wait supports an operation that, when called
->  >> from a worker, puts the worker to sleep without triggering block
-> detection
->  >> or context-switching back to the server?
->  >
->  > Potentially, yes - when a worker wants to yield (e.g. as part of a
->  > custom UMCG-aware mutex/condvar code), and calls into the userspace
->  > scheduler, it may be faster to skip the server wakeup (e.g. reassign
->  > the server to another sleeping worker and wake this worker). This is
->  > not a supported operation right now, but I see how it could be used to
->  > optimize some things in the future.
->  >
->  > Do you have any concerns here?
->
-> To be honest, I did not realize this was a possibility until your previous
-> email. I'm not sure I buy your example, it just sounds like worker to worker
-> context-switching, but I could imagine "stop the world" cases or some "race
-> to idle" policy using this feature.
->
-> It seems to me the corresponding wake needs to know if it needs to enqueue
-> the worker into the idle workers list or if it should just schedule the
-> worker
-> as it would a server.
->
-> How does the wake know which to do?
+These big things remain to be addressed (in no particular order):
+- support tracing/debugging
+- make context switches faster (see umcg_do_context_switch in umcg.c)
+- support other architectures
+- cleanup and post userspace support in tools/lib/umcg/
+- cleanup and post selftests in tools/testing/selftests/umcg/
+- allow cross-mm wakeups (securely)
 
-If the worker is IDLE, and the userspace knows about it (i.e. the
-worker is NOT on the kernel's idle workers list), the userspace either
-can directly schedule the worker with a server (mark it RUNNING,
-assign a server, etc.), or instruct the kernel to put the worker onto
-the kernel's idle workers list so that it can later be picked up by a
-userspace thread checking the kernel's idle workers list. This last
-operation is provided for cases when for example a server wants to run
-IDLE worker A and knows about IDLE worker B, but for some reason
-cannot properly process worker B at the moment, so by putting worker B
-back into the kernel's idle worker list this server delegates
-processing worker B to another server in the future.
+I'm working on finalizing libumcg and kselftests.
 
-Both of these state transitions are explicitly covered in the documentation.
+Signed-off-by: Peter Oskolkov <posk@google.com>
 
-Again, you appear to be trying to equate kernel UMCG API with higher
-level userspace scheduling notions/facilities, while in reality kernel
-UMCG API is a low level facility that will be _used_ to construct the
-higher level behaviors/semantics you are wondering about.
+Peter Oskolkov (5):
+  sched/umcg: add WF_CURRENT_CPU and externise ttwu
+  mm, x86/uaccess: add userspace atomic helpers
+  sched/umcg: implement UMCG syscalls
+  sched/umcg: add Documentation/userspace-api/umcg.rst
+  sched/umcg: add Documentation/userspace-api/umcg.txt
 
-I suggest you wait until I post the userspace library to ask these
-higher-level semantic questions.
+ Documentation/userspace-api/umcg.rst   | 611 ++++++++++++++++
+ Documentation/userspace-api/umcg.txt   | 594 ++++++++++++++++
+ arch/x86/entry/syscalls/syscall_64.tbl |   2 +
+ arch/x86/include/asm/uaccess_64.h      |  93 +++
+ fs/exec.c                              |   1 +
+ include/linux/sched.h                  |  71 ++
+ include/linux/syscalls.h               |   3 +
+ include/linux/uaccess.h                |  46 ++
+ include/uapi/asm-generic/unistd.h      |   6 +-
+ include/uapi/linux/umcg.h              | 137 ++++
+ init/Kconfig                           |  10 +
+ kernel/entry/common.c                  |   4 +-
+ kernel/exit.c                          |   5 +
+ kernel/sched/Makefile                  |   1 +
+ kernel/sched/core.c                    |  12 +-
+ kernel/sched/fair.c                    |   4 +
+ kernel/sched/sched.h                   |  15 +-
+ kernel/sched/umcg.c                    | 926 +++++++++++++++++++++++++
+ kernel/sys_ni.c                        |   4 +
+ mm/maccess.c                           | 264 +++++++
+ 20 files changed, 2797 insertions(+), 12 deletions(-)
+ create mode 100644 Documentation/userspace-api/umcg.rst
+ create mode 100644 Documentation/userspace-api/umcg.txt
+ create mode 100644 include/uapi/linux/umcg.h
+ create mode 100644 kernel/sched/umcg.c
 
-Thanks,
-Peter
+--
+2.25.1
 
-[...]
