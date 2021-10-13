@@ -2,688 +2,280 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 965DE42B020
-	for <lists+linux-api@lfdr.de>; Wed, 13 Oct 2021 01:26:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CF4142BD65
+	for <lists+linux-api@lfdr.de>; Wed, 13 Oct 2021 12:42:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235950AbhJLX1p (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 12 Oct 2021 19:27:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41334 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235781AbhJLX1l (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 12 Oct 2021 19:27:41 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73F52C06174E
-        for <linux-api@vger.kernel.org>; Tue, 12 Oct 2021 16:25:39 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id t11so542663plq.11
-        for <linux-api@vger.kernel.org>; Tue, 12 Oct 2021 16:25:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=posk.io; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=F0n8SiHa13OtieaI5kRvNgLwe/EX7Rpm0fAa6flb29I=;
-        b=CVbED8HQuhXNgOdURi5w58b8iPtvH0B52JyBA6J08L1qBJ6V+Qk/f/2WOJ3onc7RWZ
-         VPwxuwJA8uDtFt+40P7XKQI+2WtD3FWYftJr3WDlIDjvuBZTnnVZdNeOSDI4GWKzPCs4
-         L8zQq5fAngfScpTmBgJRlDL5PqiTyZu/GaZQiuqbnoOjgK+Z0CAICkmsdbBlenWXzFSI
-         9mqAM0l+WtzwYElpU54zVhh6vzeRMBAN7TDU1S5TyU2qT/zwvnSu/AtgcG2GL/bAVSaL
-         g0QC0HfVCOIZkoG7ShiBBqPUN0NqEQUDE6947xCrMaout4vBWyYw6GKyPdVlSLKtxYFC
-         051A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=F0n8SiHa13OtieaI5kRvNgLwe/EX7Rpm0fAa6flb29I=;
-        b=79U6gcVETUvsEaq6oQ/E8tHcMD8im3EQLnyaSHuo/K7MrYKB7AV9Fph5LSgqVbM94m
-         Do7JmEP6fSRupvoiMKb8CcRWJeauW5bXwl6+wg55T2P7UNQmeGz1eR4zx40jIN1udfZc
-         /Ydt4oDRsi4yt//tHLriBYdkQ2YkWj60nA0+8asWKjwnENkc5qE07dCac3MNwJxWNYut
-         cb4zDOdtoB66/6CHNzdRdCkmxSS+79nnfKW2Tpd1L98C3wygIYoGsiht/vyM4U4cNgkC
-         a2hQdgilbKIhDQ8fUt00YFrqwoZ2H3nsqfdTIdVy9v7itNoUMuG6KLGcYu/NuCG6+jC/
-         qOXw==
-X-Gm-Message-State: AOAM533HYqE/zIfxElZDFFOODJ/LslY5f363RvP4wwc//DIZY0Y/gTIi
-        Megski/Vjl/XbdH+pbsNuUtsSA==
-X-Google-Smtp-Source: ABdhPJwZwwnuyt9W9QflWtDe/MzK1QPcjI1/cE0lg9pXThFq0mUuTaAFBLIJs8i/AGmg4beTpYxO6Q==
-X-Received: by 2002:a17:902:d48a:b0:13f:4411:8ae9 with SMTP id c10-20020a170902d48a00b0013f44118ae9mr11127380plg.86.1634081138627;
-        Tue, 12 Oct 2021 16:25:38 -0700 (PDT)
-Received: from posk-g1.lan (23-118-52-46.lightspeed.sntcca.sbcglobal.net. [23.118.52.46])
-        by smtp.gmail.com with ESMTPSA id v20sm12675026pgc.38.2021.10.12.16.25.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Oct 2021 16:25:38 -0700 (PDT)
-From:   Peter Oskolkov <posk@posk.io>
-X-Google-Original-From: Peter Oskolkov <posk@google.com>
-To:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        id S229723AbhJMKol (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 13 Oct 2021 06:44:41 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:60924 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229750AbhJMKoi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 13 Oct 2021 06:44:38 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id D8FEF222F0;
+        Wed, 13 Oct 2021 10:42:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1634121754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=c1CHTvdF544ivd1Oo7Fv2dEr1vmP+UN6neItO/ose08=;
+        b=NzuqaGhsaCQvdwPYQmX+rtzyb3tRrzPrApQdhGXwjFB26+GMfPdyarjWoP8c0BEgielXJI
+        +v2HGCXgqx2a4c3CrlvZ3SWxgjeOEfQMLbAM0ODw6PAKDBcKqw0deKQhXqrcwnupF0b7At
+        y1z5yxsAmeO/jAxSCiwhHIJGTLIh3Q0=
+Received: from suse.cz (unknown [10.100.201.86])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 22A2DA3B84;
+        Wed, 13 Oct 2021 10:42:34 +0000 (UTC)
+Date:   Wed, 13 Oct 2021 12:42:30 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
+Cc:     linux-mm@kvack.org, akpm@linux-foundation.org,
+        Ben Widawsky <ben.widawsky@intel.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-Cc:     Paul Turner <pjt@google.com>, Ben Segall <bsegall@google.com>,
-        Peter Oskolkov <posk@google.com>,
-        Peter Oskolkov <posk@posk.io>,
-        Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
-        Thierry Delisle <tdelisle@uwaterloo.ca>
-Subject: [PATCH v0.7 5/5] sched/umcg: add Documentation/userspace-api/umcg.txt
-Date:   Tue, 12 Oct 2021 16:25:22 -0700
-Message-Id: <20211012232522.714898-6-posk@google.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211012232522.714898-1-posk@google.com>
-References: <20211012232522.714898-1-posk@google.com>
+        Feng Tang <feng.tang@intel.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Andi Kleen <ak@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Huang Ying <ying.huang@intel.com>, linux-api@vger.kernel.org
+Subject: Re: [RFC PATCH] mm/mempolicy: add MPOL_PREFERRED_STRICT  memory
+ policy
+Message-ID: <YWa4FoicH0VztGTl@dhcp22.suse.cz>
+References: <20211013094539.962357-1-aneesh.kumar@linux.ibm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211013094539.962357-1-aneesh.kumar@linux.ibm.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Document User Managed Concurrency Groups syscalls, data structures,
-state transitions, etc.
+[Cc linux-api]
 
-This is a text version of umcg.rst.
+On Wed 13-10-21 15:15:39, Aneesh Kumar K.V wrote:
+> This mempolicy mode can be used with either the set_mempolicy(2)
+> or mbind(2) interfaces.  Like the MPOL_PREFERRED interface, it
+> allows an application to set a preference node from which the kernel
+> will fulfill memory allocation requests. Unlike the MPOL_PREFERRED mode,
+> it takes a set of nodes. The nodes in the nodemask are used as fallback
+> allocation nodes if memory is not available on the preferred node.
+> Unlike MPOL_PREFERRED_MANY, it will not fall back memory allocations
+> to all nodes in the system. Like the MPOL_BIND interface, it works over a
+> set of nodes and will cause a SIGSEGV or invoke the OOM killer if
+> memory is not available on those preferred nodes.
+> 
+> This patch helps applications to hint a memory allocation preference node
+> and fallback to _only_ a set of nodes if the memory is not available
+> on the preferred node.  Fallback allocation is attempted from the node which is
+> nearest to the preferred node.
+> 
+> This new memory policy helps applications to have explicit control on slow
+> memory allocation and avoids default fallback to slow memory NUMA nodes.
+> The difference with MPOL_BIND is the ability to specify a preferred node
+> which is the first node in the nodemask argument passed.
+> 
+> Cc: Ben Widawsky <ben.widawsky@intel.com>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: Feng Tang <feng.tang@intel.com>
+> Cc: Michal Hocko <mhocko@kernel.org>
+> Cc: Andrea Arcangeli <aarcange@redhat.com>
+> Cc: Mel Gorman <mgorman@techsingularity.net>
+> Cc: Mike Kravetz <mike.kravetz@oracle.com>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Cc: Andi Kleen <ak@linux.intel.com>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Huang Ying <ying.huang@intel.com>b
+> 
+> Signed-off-by: Aneesh Kumar K.V <aneesh.kumar@linux.ibm.com>
+> ---
+>  .../admin-guide/mm/numa_memory_policy.rst     |  7 +++
+>  include/uapi/linux/mempolicy.h                |  1 +
+>  mm/mempolicy.c                                | 43 +++++++++++++++++--
+>  3 files changed, 48 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/mm/numa_memory_policy.rst b/Documentation/admin-guide/mm/numa_memory_policy.rst
+> index 64fd0ba0d057..4dfdcbd22d67 100644
+> --- a/Documentation/admin-guide/mm/numa_memory_policy.rst
+> +++ b/Documentation/admin-guide/mm/numa_memory_policy.rst
+> @@ -252,6 +252,13 @@ MPOL_PREFERRED_MANY
+>  	can fall back to all existing numa nodes. This is effectively
+>  	MPOL_PREFERRED allowed for a mask rather than a single node.
+>  
+> +MPOL_PREFERRED_STRICT
+> +	This mode specifies that the allocation should be attempted
+> +	from the first node specified in the nodemask of the policy.
+> +	If that allocation fails, the kernel will search other nodes
+> +	in the nodemask, in order of increasing distance from the
+> +	preferred node based on information provided by the platform firmware.
+> +
+>  NUMA memory policy supports the following optional mode flags:
+>  
+>  MPOL_F_STATIC_NODES
+> diff --git a/include/uapi/linux/mempolicy.h b/include/uapi/linux/mempolicy.h
+> index 046d0ccba4cd..8aa1d1963235 100644
+> --- a/include/uapi/linux/mempolicy.h
+> +++ b/include/uapi/linux/mempolicy.h
+> @@ -23,6 +23,7 @@ enum {
+>  	MPOL_INTERLEAVE,
+>  	MPOL_LOCAL,
+>  	MPOL_PREFERRED_MANY,
+> +	MPOL_PREFERRED_STRICT,
+>  	MPOL_MAX,	/* always last member of enum */
+>  };
+>  
+> diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+> index 1592b081c58e..59080dd1ea69 100644
+> --- a/mm/mempolicy.c
+> +++ b/mm/mempolicy.c
+> @@ -407,6 +407,10 @@ static const struct mempolicy_operations mpol_ops[MPOL_MAX] = {
+>  		.create = mpol_new_nodemask,
+>  		.rebind = mpol_rebind_preferred,
+>  	},
+> +	[MPOL_PREFERRED_STRICT] = {
+> +		.create = mpol_new_nodemask,
+> +		.rebind = mpol_rebind_preferred,
+> +	},
+>  };
+>  
+>  static int migrate_page_add(struct page *page, struct list_head *pagelist,
+> @@ -900,6 +904,7 @@ static void get_policy_nodemask(struct mempolicy *p, nodemask_t *nodes)
+>  	case MPOL_INTERLEAVE:
+>  	case MPOL_PREFERRED:
+>  	case MPOL_PREFERRED_MANY:
+> +	case MPOL_PREFERRED_STRICT:
+>  		*nodes = p->nodes;
+>  		break;
+>  	case MPOL_LOCAL:
+> @@ -1781,7 +1786,7 @@ nodemask_t *policy_nodemask(gfp_t gfp, struct mempolicy *policy)
+>  		cpuset_nodemask_valid_mems_allowed(&policy->nodes))
+>  		return &policy->nodes;
+>  
+> -	if (mode == MPOL_PREFERRED_MANY)
+> +	if (mode == MPOL_PREFERRED_MANY || mode == MPOL_PREFERRED_STRICT)
+>  		return &policy->nodes;
+>  
+>  	return NULL;
+> @@ -1796,7 +1801,7 @@ nodemask_t *policy_nodemask(gfp_t gfp, struct mempolicy *policy)
+>   */
+>  static int policy_node(gfp_t gfp, struct mempolicy *policy, int nd)
+>  {
+> -	if (policy->mode == MPOL_PREFERRED) {
+> +	if (policy->mode == MPOL_PREFERRED || policy->mode == MPOL_PREFERRED_STRICT) {
+>  		nd = first_node(policy->nodes);
+>  	} else {
+>  		/*
+> @@ -1840,6 +1845,7 @@ unsigned int mempolicy_slab_node(void)
+>  
+>  	switch (policy->mode) {
+>  	case MPOL_PREFERRED:
+> +	case MPOL_PREFERRED_STRICT:
+>  		return first_node(policy->nodes);
+>  
+>  	case MPOL_INTERLEAVE:
+> @@ -1952,7 +1958,8 @@ int huge_node(struct vm_area_struct *vma, unsigned long addr, gfp_t gfp_flags,
+>  					huge_page_shift(hstate_vma(vma)));
+>  	} else {
+>  		nid = policy_node(gfp_flags, *mpol, numa_node_id());
+> -		if (mode == MPOL_BIND || mode == MPOL_PREFERRED_MANY)
+> +		if (mode == MPOL_BIND || mode == MPOL_PREFERRED_MANY ||
+> +			mode == MPOL_PREFERRED_STRICT)
+>  			*nodemask = &(*mpol)->nodes;
+>  	}
+>  	return nid;
+> @@ -1986,6 +1993,7 @@ bool init_nodemask_of_mempolicy(nodemask_t *mask)
+>  	switch (mempolicy->mode) {
+>  	case MPOL_PREFERRED:
+>  	case MPOL_PREFERRED_MANY:
+> +	case MPOL_PREFERRED_STRICT:
+>  	case MPOL_BIND:
+>  	case MPOL_INTERLEAVE:
+>  		*mask = mempolicy->nodes;
+> @@ -2072,6 +2080,23 @@ static struct page *alloc_pages_preferred_many(gfp_t gfp, unsigned int order,
+>  	return page;
+>  }
+>  
+> +static struct page *alloc_pages_preferred_strict(gfp_t gfp, unsigned int order,
+> +						 struct mempolicy *pol)
+> +{
+> +	int nid;
+> +	gfp_t preferred_gfp;
+> +
+> +	/*
+> +	 * With MPOL_PREFERRED_STRICT first node in the policy nodemask
+> +	 * is picked as the preferred node id and the fallback allocation
+> +	 * is still restricted to the preferred nodes in the nodemask.
+> +	 */
+> +	preferred_gfp = gfp | __GFP_NOWARN;
+> +	preferred_gfp &= ~(__GFP_DIRECT_RECLAIM | __GFP_NOFAIL);
+> +	nid = first_node(pol->nodes);
+> +	return __alloc_pages(preferred_gfp, order, nid, &pol->nodes);
+> +}
+> +
+>  /**
+>   * alloc_pages_vma - Allocate a page for a VMA.
+>   * @gfp: GFP flags.
+> @@ -2113,6 +2138,12 @@ struct page *alloc_pages_vma(gfp_t gfp, int order, struct vm_area_struct *vma,
+>  		goto out;
+>  	}
+>  
+> +	if (pol->mode == MPOL_PREFERRED_STRICT) {
+> +		page = alloc_pages_preferred_strict(gfp, order, pol);
+> +		mpol_cond_put(pol);
+> +		goto out;
+> +	}
+> +
+>  	if (unlikely(IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) && hugepage)) {
+>  		int hpage_node = node;
+>  
+> @@ -2193,6 +2224,8 @@ struct page *alloc_pages(gfp_t gfp, unsigned order)
+>  	else if (pol->mode == MPOL_PREFERRED_MANY)
+>  		page = alloc_pages_preferred_many(gfp, order,
+>  				numa_node_id(), pol);
+> +	else if (pol->mode == MPOL_PREFERRED_STRICT)
+> +		page = alloc_pages_preferred_strict(gfp, order, pol);
+>  	else
+>  		page = __alloc_pages(gfp, order,
+>  				policy_node(gfp, pol, numa_node_id()),
+> @@ -2265,6 +2298,7 @@ bool __mpol_equal(struct mempolicy *a, struct mempolicy *b)
+>  	case MPOL_INTERLEAVE:
+>  	case MPOL_PREFERRED:
+>  	case MPOL_PREFERRED_MANY:
+> +	case MPOL_PREFERRED_STRICT:
+>  		return !!nodes_equal(a->nodes, b->nodes);
+>  	case MPOL_LOCAL:
+>  		return true;
+> @@ -2405,6 +2439,7 @@ int mpol_misplaced(struct page *page, struct vm_area_struct *vma, unsigned long
+>  		break;
+>  
+>  	case MPOL_PREFERRED:
+> +	case MPOL_PREFERRED_STRICT:
+>  		if (node_isset(curnid, pol->nodes))
+>  			goto out;
+>  		polnid = first_node(pol->nodes);
+> @@ -2866,6 +2901,7 @@ int mpol_parse_str(char *str, struct mempolicy **mpol)
+>  			err = 0;
+>  		goto out;
+>  	case MPOL_PREFERRED_MANY:
+> +	case MPOL_PREFERRED_STRICT:
+>  	case MPOL_BIND:
+>  		/*
+>  		 * Insist on a nodelist
+> @@ -2953,6 +2989,7 @@ void mpol_to_str(char *buffer, int maxlen, struct mempolicy *pol)
+>  		break;
+>  	case MPOL_PREFERRED:
+>  	case MPOL_PREFERRED_MANY:
+> +	case MPOL_PREFERRED_STRICT:
+>  	case MPOL_BIND:
+>  	case MPOL_INTERLEAVE:
+>  		nodes = pol->nodes;
+> -- 
+> 2.31.1
 
-Signed-off-by: Peter Oskolkov <posk@google.com>
----
- Documentation/userspace-api/umcg.txt | 594 +++++++++++++++++++++++++++
- 1 file changed, 594 insertions(+)
- create mode 100644 Documentation/userspace-api/umcg.txt
-
-diff --git a/Documentation/userspace-api/umcg.txt b/Documentation/userspace-api/umcg.txt
-new file mode 100644
-index 000000000000..cabaa6f4aaad
---- /dev/null
-+++ b/Documentation/userspace-api/umcg.txt
-@@ -0,0 +1,594 @@
-+UMCG USERSPACE API
-+
-+User Managed Concurrency Groups (UMCG) is an M:N threading
-+subsystem/toolkit that lets user space application developers implement
-+in-process user space schedulers.
-+
-+
-+CONTENTS
-+
-+    WHY? HETEROGENEOUS IN-PROCESS WORKLOADS
-+    REQUIREMENTS
-+    UMCG KERNEL API
-+    SERVERS
-+    WORKERS
-+    UMCG TASK STATES
-+    STRUCT UMCG_TASK
-+    SYS_UMCG_CTL()
-+    SYS_UMCG_WAIT()
-+    STATE TRANSITIONS
-+    SERVER-ONLY USE CASES
-+
-+
-+WHY? HETEROGENEOUS IN-PROCESS WORKLOADS
-+
-+Linux kernel's CFS scheduler is designed for the "common" use case, with
-+efficiency/throughput in mind. Work isolation and workloads of different
-+"urgency" are addressed by tools such as cgroups, CPU affinity, priorities,
-+etc., which are difficult or impossible to efficiently use in-process.
-+
-+For example, a single DBMS process may receive tens of thousands requests
-+per second; some of these requests may have strong response latency
-+requirements as they serve live user requests (e.g. login authentication);
-+some of these requests may not care much about latency but must be served
-+within a certain time period (e.g. an hourly aggregate usage report); some
-+of these requests are to be served only on a best-effort basis and can be
-+NACKed under high load (e.g. an exploratory research/hypothesis testing
-+workload).
-+
-+Beyond different work item latency/throughput requirements as outlined
-+above, the DBMS may need to provide certain guarantees to different users;
-+for example, user A may "reserve" 1 CPU for their high-priority/low latency
-+requests, 2 CPUs for mid-level throughput workloads, and be allowed to send
-+as many best-effort requests as possible, which may or may not be served,
-+depending on the DBMS load. Besides, the best-effort work, started when the
-+load was low, may need to be delayed if suddenly a large amount of
-+higher-priority work arrives. With hundreds or thousands of users like
-+this, it is very difficult to guarantee the application's responsiveness
-+using standard Linux tools while maintaining high CPU utilization.
-+
-+Gaming is another use case: some in-process work must be completed before a
-+certain deadline dictated by frame rendering schedule, while other work
-+items can be delayed; some work may need to be cancelled/discarded because
-+the deadline has passed; etc.
-+
-+User Managed Concurrency Groups is an M:N threading toolkit that allows
-+constructing user space schedulers designed to efficiently manage
-+heterogeneous in-process workloads described above while maintaining high
-+CPU utilization (95%+).
-+
-+
-+REQUIREMENTS
-+
-+One relatively established way to design high-efficiency, low-latency
-+systems is to split all work into small on-cpu work items, with
-+asynchronous I/O and continuations, all executed on a thread pool with the
-+number of threads not exceeding the number of available CPUs. Although this
-+approach works, it is quite difficult to develop and maintain such a
-+system, as, for example, small continuations are difficult to piece
-+together when debugging. Besides, such asynchronous callback-based systems
-+tend to be somewhat cache-inefficient, as continuations can get scheduled
-+on any CPU regardless of cache locality.
-+
-+M:N threading and cooperative user space scheduling enables controlled CPU
-+usage (minimal OS preemption), synchronous coding style, and better cache
-+locality.
-+
-+Specifically:
-+
-+* a variable/fluctuating number M of "application" threads should be
-+  "scheduled over" a relatively fixed number N of "kernel" threads, where
-+  N is less than or equal to the number of CPUs available;
-+* only those application threads that are attached to kernel threads are
-+  scheduled "on CPU";
-+* application threads should be able to cooperatively
-+ yield to each other;
-+* when an application thread blocks in kernel (e.g. in I/O), this becomes
-+  a scheduling event ("block") that the userspace scheduler should be able
-+  to efficiently detect, and reassign a waiting application thread to the
-+  freeded "kernel" thread;
-+* when a blocked application thread wakes (e.g. its I/O operation
-+  completes), this even ("wake") should also be detectable by the
-+  userspace scheduler, which should be able to either quickly dispatch the
-+  newly woken thread to an idle "kernel" thread or, if all "kernel"
-+  threads are busy, put it in the waiting queue;
-+* in addition to the above, it would be extremely useful for a separate
-+  in-process "watchdog" facility to be able to monitor the state of each
-+  of the M+N threads, and to intervene in case of runaway workloads
-+  (interrupt/preempt).
-+
-+
-+UMCG KERNEL API
-+
-+Based on the requrements above, UMCG kernel API is build around the
-+following ideas:
-+
-+* UMCG server: a task/thread representing "kernel threads", or CPUs from
-+  the requirements above;
-+* UMCG worker: a task/thread representing "application threads", to be
-+  scheduled over servers;
-+* UMCG task state: (NONE), RUNNING, BLOCKED, IDLE: states a UMCG task (a
-+  server or a worker) can be in;
-+* UMCG task state flag: LOCKED, PREEMPTED: additional state flags that
-+  can be ORed with the task state to communicate additional information to
-+  the kernel;
-+* struct umcg_task: a per-task userspace set of data fields, usually
-+  residing in the TLS, that fully reflects the current task's UMCG state
-+  and controls the way the kernel manages the task;
-+* sys_umcg_ctl(): a syscall used to register the current task/thread as a
-+  server or a worker, or to unregister a UMCG task;
-+* sys_umcg_wait(): a syscall used to put the current task to sleep and/or
-+  wake another task, pontentially context-switching between the two tasks
-+  on-CPU synchronously.
-+
-+
-+SERVERS
-+
-+When a task/thread is registered as a server, it is in RUNNING state and
-+behaves like any other normal task/thread. In addition, servers can
-+interact with other UMCG tasks via sys_umcg_wait():
-+
-+* servers can voluntarily suspend their execution (wait), becoming IDLE;
-+* servers can wake other IDLE servers;
-+* servers can context-switch between each other.
-+
-+Note that if a server blocks in the kernel not via sys_umcg_wait(), it
-+still retains its RUNNING state.
-+
-+
-+WORKERS
-+
-+A worker cannot be RUNNING without having a server associated with it, so
-+when a task is first registered as a worker, it enters the IDLE state.
-+
-+* a worker becomes RUNNING when a server calls sys_umcg_wait to
-+  context-switch into it; the server goes IDLE, and the worker becomes
-+  RUNNING in its place;
-+* when a running worker blocks in the kernel, it becomes BLOCKED, its
-+  associated server becomes RUNNING and the server's sys_umcg_wait() call
-+  from the bullet above returns; this transition is sometimes called
-+  "block detection";
-+* when the syscall on which a BLOCKED worker completes, the worker
-+  becomes IDLE and is added to the list of idle workers; if there is an
-+  idle server waiting, the kernel wakes it; this transition is sometimes
-+  called "wake detection";
-+* running workers can voluntarily suspend their execution (wait),
-+  becoming IDLE; their associated servers are woken;
-+* a RUNNING worker can context-switch with an IDLE worker; the server of
-+  the switched-out worker is transferred to the switched-in worker;
-+* any UMCG task can "wake" an IDLE worker via sys_umcg_wait(); unless
-+  this is a server running the worker as described in the first bullet in
-+  this list, the worker remain IDLE but is added to the idle workers list;
-+  this "wake" operation exists for completeness, to make sure
-+  wait/wake/context-switch operations are available for all UMCG tasks;
-+* the userspace can preempt a RUNNING worker by marking it
-+  RUNNING|PREEMPTED and sending a signal to it; the userspace should have
-+  installed a NOP signal handler for the signal; the kernel will then
-+  transition the worker into IDLE|PREEMPTED state and wake its associated
-+  server.
-+
-+
-+UMCG TASK STATES
-+
-+Important: all state transitions described below involve at least two
-+steps: the change of the state field in struct umcg_task, for example
-+RUNNING to IDLE, and the corresponding change in struct task_struct state,
-+for example a transition between the task running on CPU and being
-+descheduled and removed from the kernel runqueue. The key principle of UMCG
-+API design is that the party initiating the state transition modifies the
-+state variable.
-+
-+For example, a task going IDLE first changes its state from RUNNING to IDLE
-+in the userpace and then calls sys_umcg_wait(), which completes the
-+transition.
-+
-+Note on documentation: in include/uapi/linux/umcg.h, task states have the
-+form UMCG_TASK_RUNNING, UMCG_TASK_BLOCKED, etc. In this document these are
-+usually referred to simply RUNNING and BLOCKED, unless it creates
-+ambiguity. Task state flags, e.g. UMCG_TF_PREEMPTED, are treated similarly.
-+
-+UMCG task states reflect the view from the userspace, rather than from the
-+kernel. There are three fundamental task states:
-+
-+* RUNNING: indicates that the task is schedulable by the kernel; applies
-+  to both servers and workers;
-+* IDLE: indicates that the task is not schedulable by the kernel (see
-+  umcg_idle_loop() in kernel/sched/umcg.c); applies to both servers and
-+  workers;
-+* BLOCKED: indicates that the worker is blocked in the kernel; does not
-+  apply to servers.
-+
-+In addition to the three states above, two state flags help with state
-+transitions:
-+
-+* LOCKED: the userspace is preparing the worker for a state transition
-+  and "locks" the worker until the worker is ready for the kernel to act
-+  on the state transition; used similarly to preempt_disable or
-+  irq_disable in the kernel; applies only to workers in RUNNING or IDLE
-+  state; RUNNING|LOCKED means "this worker is about to become RUNNING,
-+  while IDLE|LOCKED means "this worker is about to become IDLE or
-+  unregister;
-+* PREEMPTED: the userspace indicates it wants the worker to be preempted;
-+  there are no situations when both LOCKED and PREEMPTED flags are set at
-+  the same time.
-+
-+
-+STRUCT UMCG_TASK
-+
-+From include/uapi/linux/umcg.h:
-+
-+struct umcg_task {
-+      uint64_t        state_ts;               /* r/w */
-+      uint32_t        next_tid;               /* r   */
-+      uint32_t        flags;                  /* reserved */
-+      uint64_t        idle_workers_ptr;       /* r/w */
-+      uint64_t        idle_server_tid_ptr;    /* r*  */
-+};
-+
-+Each UMCG task is identified by struct umcg_task, which is provided to the
-+kernel when the task is registered via sys_umcg_ctl().
-+
-+* uint64_t state_ts: the current state of the task this struct
-+  identifies, as described in the previous section, combined with a
-+  unique timestamp indicating when the last state change happened.
-+
-+  Readable/writable by both the kernel and the userspace.
-+
-+    bits  0 -  5: task state (RUNNING, IDLE, BLOCKED);
-+    bits  6 -  7: state flags (LOCKED, PREEMPTED);
-+    bits  8 - 12: reserved; must be zeroes;
-+    bits 13 - 17: for userspace use;
-+    bits 18 - 63: timestamp.
-+
-+   Timestamp: a 46-bit CLOCK_MONOTONIC timestamp, at 16ns resolution.
-+
-+   It is highly benefitical to tag each state change with a unique
-+   timestamp:
-+
-+   - timestamps will naturally provide instrumentation to measure
-+     scheduling delays, both in the kernel and in the userspace;
-+   - uniqueness of timestamps (module overflow) guarantees that state
-+     change races, especially ABA races, are easily detected and avoided.
-+
-+   Each timestamp represents the moment in time the state change happened,
-+   in nanoseconds, with the lower 4 bits and the upper 16 bits stripped.
-+
-+   In this document 'umcg_task.state' is often used to talk about
-+   'umcg_task.state_ts' field, as timestamps do not carry semantic
-+   meaning at the moment.
-+
-+   This is how umcg_task.state_ts is updated in the kernel:
-+
-+    /* kernel side */
-+    /**
-+     * umcg_update_state: atomically update umcg_task.state_ts, set new timestamp.
-+     * @state_ts   - points to the state_ts member of struct umcg_task to update;
-+     * @expected   - the expected value of state_ts, including the timestamp;
-+     * @desired    - the desired value of state_ts, state part only;
-+     * @may_fault  - whether to use normal or _nofault cmpxchg.
-+     *
-+     * The function is basically cmpxchg(state_ts, expected, desired), with extra
-+     * code to set the timestamp in @desired.
-+     */
-+    static int umcg_update_state(u64 __user *state_ts, u64 *expected, u64 desired,
-+                                    bool may_fault)
-+    {
-+            u64 curr_ts = (*expected) >> (64 - UMCG_STATE_TIMESTAMP_BITS);
-+            u64 next_ts = ktime_get_ns() >> UMCG_STATE_TIMESTAMP_GRANULARITY;
-+
-+            /* Cut higher order bits. */
-+            next_ts &= ((1ULL << UMCG_STATE_TIMESTAMP_BITS) - 1);
-+
-+            if (next_ts == curr_ts)
-+                    ++next_ts;
-+
-+            /* Remove an old timestamp, if any. */
-+            desired &= ((1ULL << (64 - UMCG_STATE_TIMESTAMP_BITS)) - 1);
-+
-+            /* Set the new timestamp. */
-+            desired |= (next_ts << (64 - UMCG_STATE_TIMESTAMP_BITS));
-+
-+            if (may_fault)
-+                    return cmpxchg_user_64(state_ts, expected, desired);
-+
-+            return cmpxchg_user_64_nofault(state_ts, expected, desired);
-+    }
-+
-+* uint32_t next_tid: contains the TID of the task to context-switch-into
-+  in sys_umcg_wait(); can be zero; writable by the userspace, readable by
-+  the kernel; if this is a RUNNING worker, this field contains the TID of
-+  the server that should be woken when this worker blocks; see
-+  sys_umcg_wait() for more details;
-+
-+* uint32_t flags: reserved; must be zero.
-+
-+* uint64_t idle_workers_ptr: this field forms a single-linked list of
-+  idle workers: all RUNNING workers have this field set to point to the
-+  head of the list (a pointer variable in the userspace).
-+
-+  When a worker's blocking operation in the kernel completes, the kernel
-+  changes the worker's state from BLOCKED to IDLE and adds the worker to
-+  the top of the list of idle workers using this logic:
-+
-+    /* kernel side */
-+    /**
-+     * enqueue_idle_worker - push an idle worker onto idle_workers_ptr
-+     * list/stack.
-+     *
-+     * Returns true on success, false on a fatal failure.
-+     */
-+    static bool enqueue_idle_worker(struct umcg_task __user *ut_worker)
-+    {
-+        u64 __user *node = &ut_worker->idle_workers_ptr;
-+        u64 __user *head_ptr;
-+        u64 first = (u64)node;
-+        u64 head;
-+
-+        if (get_user_nosleep(head, node) || !head)
-+                return false;
-+
-+        head_ptr = (u64 __user *)head;
-+
-+        if (put_user_nosleep(UMCG_IDLE_NODE_PENDING, node))
-+                return false;
-+
-+        if (xchg_user_64(head_ptr, &first))
-+                return false;
-+
-+        if (put_user_nosleep(first, node))
-+                return false;
-+
-+        return true;
-+    }
-+
-+  In the userspace the list is cleared atomically using this logic:
-+
-+    /* userspace side */
-+    uint64_t *idle_workers = (uint64_t *)*head;
-+
-+    atomic_exchange(&idle_workers, NULL);
-+
-+  The userspace re-points workers' idle_workers_ptr to the list head
-+  variable before the worker is allowed to become RUNNING again.
-+
-+  When processing the idle workers list, the userspace should wait for
-+  workers marked as UMCG_IDLE_NODE_PENDING to have the flag cleared (see
-+  enqueue_idle_worker() above).
-+
-+* uint64_t idle_server_tid_ptr: points to a variable in the userspace
-+  that points to an idle server, i.e. a server in IDLE state waiting in
-+  sys_umcg_wait(); read-only; workers must have this field set; not used
-+  in servers.
-+
-+  When a worker's blocking operation in the kernel completes, the kernel
-+  changes the worker's state from BLOCKED to IDLE, adds the worker to the
-+  list of idle workers, and wakes the idle server if present; the kernel
-+  atomically exchanges (*idle_server_tid_ptr) with 0, thus waking the idle
-+  server, if present, only once. See State transitions below for more
-+  details.
-+
-+
-+SYS_UMCG_CTL()
-+
-+int sys_umcg_ctl(uint32_t flags, struct umcg_task *self) is used to
-+register or unregister the current task as a worker or server. Flags can be
-+one of the following:
-+
-+    UMCG_CTL_REGISTER: register a server;
-+    UMCG_CTL_REGISTER | UMCG_CTL_WORKER: register a worker;
-+    UMCG_CTL_UNREGISTER: unregister the current server or worker.
-+
-+When registering a task, self must point to struct umcg_task describing
-+this server or worker; the pointer must remain valid until the task is
-+unregistered.
-+
-+When registering a server, self->state must be RUNNING; all other fields in
-+self must be zeroes.
-+
-+When registering a worker, self->state must be RUNNING;
-+self->idle_server_tid_ptr and self->idle_workers_ptr must be valid pointers
-+as described in struct umcg_task; self->next_tid must be zero.
-+
-+When unregistering a task, self must be NULL.
-+
-+
-+SYS_UMCG_WAIT()
-+
-+int sys_umcg_wait(uint32_t flags, uint64_t abs_timeout) operates on
-+registered UMCG servers and workers: struct umcg_task *self provided to
-+sys_umcg_ctl() when registering the current task is consulted in addition
-+to flags and abs_timeout parameters.
-+
-+The function can be used to perform one of the three operations:
-+
-+* wait: if self->next_tid is zero, sys_umcg_wait() puts the current
-+  task to sleep;
-+* wake: if self->next_tid is not zero, and flags & UMCG_WAIT_WAKE_ONLY,
-+  the task identified by next_tid is woken;
-+* context switch: if self->next_tid is not zero, and !(flags &
-+  UMCG_WAIT_WAKE_ONLY), the current task is put to sleep and the next task
-+  is woken, synchronously switching between the tasks on the current CPU
-+  on the fast path.
-+
-+Flags can be zero or a combination of the following values:
-+
-+* UMCG_WAIT_WAKE_ONLY: wake the next task, don't put the current task to
-+  sleep;
-+* UMCG_WAIT_WF_CURRENT_CPU: wake the next task on the curent CPU; this
-+  flag has an effect only if UMCG_WAIT_WAKE_ONLY is set: context switching
-+  is always attempted to happen on the curent CPU.
-+
-+The section below provides more details on how servers and workers interact
-+via sys_umcg_wait(), during worker block/wake events, and during worker
-+preemption.
-+
-+
-+STATE TRANSITIONS
-+
-+As mentioned above, the key principle of UMCG state transitions is that the
-+party initiating the state transition modifies the state of affected tasks.
-+
-+Below, "TASK:STATE" indicates a task T, where T can be either W for worker
-+or S for server, in state S, where S can be one of the three states,
-+potentially ORed with a state flag. Each individual state transition is an
-+atomic operation (cmpxchg) unless indicated otherwise. Also note that the
-+order of state transitions is important and is part of the contract between
-+the userspace and the kernel. The kernel is free to kill the task (SIGKILL)
-+if the contract is broken.
-+
-+Some worker state transitions below include adding LOCKED flag to worker
-+state. This is done to indicate to the kernel that the worker is
-+transitioning state and should not participate in the block/wake detection
-+routines, which can happen due to interrupts/pagefaults/signals.
-+
-+IDLE|LOCKED means that a running worker is preparing to sleep, so
-+interrupts should not lead to server wakeup; RUNNING|LOCKED means that an
-+idle worker is going to be "scheduled to run", but may not yet have its
-+server set up properly.
-+
-+Key state transitions:
-+
-+* server to worker context switch ("schedule a worker to run"):
-+  S:RUNNING+W:IDLE => S:IDLE+W:RUNNING:
-+        in the userspace, in the context of the server S running:
-+            S:RUNNING => S:IDLE (mark self as idle)
-+            W:IDLE => W:RUNNING|LOCKED (mark the worker as running)
-+            W.next_tid := S.tid; S.next_tid := W.tid (link the server with
-+                the worker)
-+            W:RUNNING|LOCKED => W:RUNNING (unlock the worker)
-+            S: sys_umcg_wait() (make the syscall)
-+        the kernel context switches from the server to the worker; the
-+        server sleeps until it becomes RUNNING during one of the
-+        transitions below;
-+
-+* worker to server context switch (worker "yields"): S:IDLE+W:RUNNING =>
-+S:RUNNING+W:IDLE:
-+        in the userspace, in the context of the worker W running (note that
-+        a running worker has its next_tid set to point to its server):
-+            W:RUNNING => W:IDLE|LOCKED (mark self as idle)
-+            S:IDLE => S:RUNNING (mark the server as running)
-+            W: sys_umcg_wait() (make the syscall)
-+        the kernel removes the LOCKED flag from the worker's state and
-+        context switches from the worker to the server; the worker sleeps
-+        until it becomes RUNNING;
-+
-+* worker to worker context switch: W1:RUNNING+W2:IDLE =>
-+  W1:IDLE+W2:RUNNING:
-+        in the userspace, in the context of W1 running:
-+            W2:IDLE => W2:RUNNING|LOCKED (mark W2 as running)
-+            W1:RUNNING => W1:IDLE|LOCKED (mark self as idle)
-+            W2.next_tid := W1.next_tid; S.next_tid := W2.tid (transfer the
-+                server W1 => W2)
-+            W1:next_tid := W2.tid (indicate that W1 should context-switch
-+                into W2)
-+            W2:RUNNING|LOCKED => W2:RUNNING (unlock W2)
-+            W1: sys_umcg_wait() (make the syscall)
-+        same as above, the kernel removes the LOCKED flag from the W1's
-+        state and context switches to next_tid;
-+
-+* worker wakeup: W:IDLE => W:RUNNING:
-+        in the userspace, a server S can wake a worker W without "running"
-+               it:
-+            S:next_tid :=W.tid
-+            W:next_tid := 0
-+            W:IDLE => W:RUNNING
-+            sys_umcg_wait(UMCG_WAIT_WAKE_ONLY) (make the syscall)
-+        the kernel will wake the worker W; as the worker does not have a
-+        server assigned, "wake detection" will happen, the worker will be
-+        immediately marked as IDLE and added to idle workers list; an idle
-+        server, if any, will be woken (see 'wake detection' below);
-+
-+        Note: if needed, it is possible for a worker to wake another
-+        worker: the waker marks itself "IDLE|LOCKED", points its next_tid
-+        to the wakee, makes the syscall, restores its server in next_tid,
-+        marks itself as RUNNING.
-+
-+* block detection: worker blocks in the kernel: S:IDLE+W:RUNNING =>
-+  S:RUNNING+W:BLOCKED:
-+        when a worker blocks in the kernel in RUNNING state (not LOCKED),
-+        before descheduling the task from the CPU the kernel performs
-+        these operations:
-+            W:RUNNING => W:BLOCKED
-+            S := W.next_tid
-+            S:IDLE => S:RUNNING
-+            try_to_wake_up(S)
-+        if any of the first three operations above fail, the worker is
-+        killed via SIGKILL. Note that ttwu(S) is not required to succeed,
-+        as the server may still be transitioning to sleep in
-+        sys_umcg_wait(); before actually putting the server to sleep its
-+        UMCG state is checked and, if it is RUNNING, sys_umcg_wait()
-+        returns to the userspace;
-+        if the worker has its LOCKED flag set, block detection does not
-+        trigger, as the worker is assumed to be in the userspace
-+        scheduling code.
-+
-+* wake detection: worker wakes in the kernel: W:BLOCKED => W:IDLE:
-+        all workers' returns to the userspace are intercepted:
-+            start: (a label)
-+            if W:RUNNING & W.next_tid != 0: let the worker exit to the
-+                userspace, as this is a RUNNING worker with a server;
-+            W:* => W:IDLE (previously blocked or woken without servers
-+                workers are not allowed to return to the userspace);
-+            the worker is appended to W.idle_workers_ptr idle workers list;
-+            S := *W.idle_server_tid_ptr; if (S != 0) S:IDLE => S.RUNNING;
-+                ttwu(S)
-+            idle_loop(W): this is the same idle loop that sys_umcg_wait()
-+                uses: it breaks only when the worker becomes RUNNING; when
-+                the idle loop exits, it is assumed that the userspace has
-+                properly removed the worker from the idle workers list
-+                before marking it RUNNING;
-+            goto start; (repeat from the beginning).
-+
-+        the logic above is a bit more complicated in the presence of
-+        LOCKED or PREEMPTED flags, but the main invariants
-+        stay the same:
-+            only RUNNING workers with servers assigned are allowed to run
-+                in the userspace (unless LOCKED);
-+            newly IDLE workers are added to the idle workers list; any
-+                user-initiated state change assumes the userspace
-+                properly removed the worker from the list;
-+            as with wake detection, any "breach of contract" by the
-+                userspace will result in the task termination via SIGKILL.
-+
-+* worker preemption: S:IDLE+W:RUNNING => S:RUNNING+W:IDLE|PREEMPTED:
-+        when the userspace wants to preempt a RUNNING worker, it changes it
-+        state, atomically, RUNNING => RUNNING|PREEMPTED and sends a
-+        signal to the worker via tgkill(); the signal handler, previously
-+        set up by the userspace, can be a NOP (note that only RUNNING
-+        workers can be preempted);
-+
-+        if the worker, at the moment the signal arrived, continued to be
-+        running on-CPU in the userspace, the "wake detection" code will be
-+        triggered that, in addition to what was described above, will
-+        check if the worker is in RUNNING|PREEMPTED state:
-+            W:RUNNING|PREEMPTED => W:IDLE|PREEMPTED
-+            S := W.next_tid
-+            S:IDLE => S:RUNNING
-+            try_to_wakeup(S)
-+
-+        if the signal arrives after the worker blocks in the kernel,
-+        the "block detection" happened as described above, with the
-+        following change:
-+            W:RUNNING|PREEMPTED => W:BLOCKED|PREEMPTED
-+            S := W.next_tid
-+            S:IDLE => S:RUNNING
-+            try_to_wake_up(S)
-+
-+        in any case, the worker's server is woken, with its attached
-+        worker (S.next_tid) either in BLOCKED|PREEMPTED or IDLE|PREEMPTED
-+        state.
-+
-+
-+SERVER-ONLY USE CASES
-+
-+Some workloads/applications may benefit from fast and synchronous on-CPU
-+user-initiated context switches without the need for full userspace
-+scheduling (block/wake detection). These applications can use "standalone"
-+UMCG servers to wait/wake/context-switch. At the moment only in-process
-+operations are allowed. In the future this restriction will be lifted,
-+and wait/wake/context-switch operations between servers in related processes
-+be permitted (when it is safe to do so, e.g. if the processes belong
-+to the same user and/or cgroup).
-+
-+These "worker-less" operations involve trivial RUNNING <==> IDLE state
-+changes, not discussed here for brevity.
---
-2.25.1
-
+-- 
+Michal Hocko
+SUSE Labs
