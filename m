@@ -2,76 +2,105 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64D5E42C313
-	for <lists+linux-api@lfdr.de>; Wed, 13 Oct 2021 16:26:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F3B942C372
+	for <lists+linux-api@lfdr.de>; Wed, 13 Oct 2021 16:35:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235232AbhJMO2d (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 13 Oct 2021 10:28:33 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:45606 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230348AbhJMO2d (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 13 Oct 2021 10:28:33 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 714062195C;
-        Wed, 13 Oct 2021 14:26:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1634135189; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=1A37pVasNYvqmdWZyYR4EfMHZ9CZ5Wa9qMX6GgtqTNo=;
-        b=K1oCyba59Wg7aWWCyLMF3fcKqETHd+3JKg0OFCyRqZfLKr2J1cWATnW82hLBVFh7J59dBo
-        iFBU5yZWIGS58HHqb/iKfMckCQRtkVPaC4g2xTSSjHtxcHvtscTdga94D0bIMtSOFbA91k
-        r3A3YAJRPjOLFecT+8Ws8V8+TyzI/6U=
-Received: from suse.cz (unknown [10.100.201.86])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 9E6AEA3B81;
-        Wed, 13 Oct 2021 14:26:24 +0000 (UTC)
-Date:   Wed, 13 Oct 2021 16:26:28 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
-Cc:     linux-mm@kvack.org, akpm@linux-foundation.org,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Feng Tang <feng.tang@intel.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Andi Kleen <ak@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Huang Ying <ying.huang@intel.com>, linux-api@vger.kernel.org
-Subject: Re: [RFC PATCH] mm/mempolicy: add MPOL_PREFERRED_STRICT memory policy
-Message-ID: <YWbslIALFQIYNM/g@dhcp22.suse.cz>
-References: <20211013094539.962357-1-aneesh.kumar@linux.ibm.com>
- <YWa4FoicH0VztGTl@dhcp22.suse.cz>
- <YWa5geHLIPe2aUxB@dhcp22.suse.cz>
- <4399a215-296f-e880-c5f4-8065ab13d210@linux.ibm.com>
- <YWbWDlpQzQ9GC+B6@dhcp22.suse.cz>
- <9a0baa59-f316-103f-3030-990cd91d1813@linux.ibm.com>
- <291424a2-c962-533e-c755-e4239fd55f5d@linux.ibm.com>
+        id S236050AbhJMOhv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 13 Oct 2021 10:37:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51358 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234081AbhJMOhu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 13 Oct 2021 10:37:50 -0400
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DAC3C061746
+        for <linux-api@vger.kernel.org>; Wed, 13 Oct 2021 07:35:47 -0700 (PDT)
+Received: by mail-pg1-x533.google.com with SMTP id f5so2477416pgc.12
+        for <linux-api@vger.kernel.org>; Wed, 13 Oct 2021 07:35:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=u3UVtloaaMqDkztEGASyWNnbDwu0ymuLbk5cZTT/COQ=;
+        b=iyqGkk0HIKBoCkRrYqyDyUzTSSOsD3lzHkbsap8I//LSNM9PZXPrvP+wj+0+6w5XCj
+         uB+MjTFSjr23QNdX0jTtSmfqOfomN64GAQNgYmLhR6CIwJjQ1TRh7AP5fAZXumajYIBt
+         jt0lkv3v7t7mcmd/HEmmbJPW6EvBfPKhQbfhwzllVtLIkHcJcrjDq6Z/1q2yRPQoGrxg
+         IHr7puQv3DGDf60vu/z4hwJGEOhsxFsEBKxJySlsNveSmIqU25hPsHTs64BMTQgcNRDv
+         WQecTcZ5xOy5pb44q0+9GKRK5Xvm8+JXdihEss9MrgvEaY/rZ0y2UVDQgEMdNMCcKnjO
+         2zPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=u3UVtloaaMqDkztEGASyWNnbDwu0ymuLbk5cZTT/COQ=;
+        b=oVANiwLFShEDkv47CJfY+W0TXK1YdI/sNFHDPD0EZEq+7VGVFwfnmyxwo+dvIy+Y2b
+         2hETYS6vTCZPxkrE4X7Y5kHWT0N5jnlmnpUKE/w2OKquITBc6ghZzKEEvpGMHcaM3FX7
+         WiRwYwac/BLLEbaja5MLLNohn8n0HKikGgoBlD1/CaE6FDynEKbTX9g7WRPqmJjq2duz
+         lUUqJoTsAWlAcnsReGoXKUi8zy18okLuThLBaNHl8AfgbGwbiYUyypHI3HfEpV336jxz
+         NKAuG7oghtxGkn+tX1EIxBTANGcWXS8EqLa8M+zAunBSsD10KyvuMyCnC1RAcBuCVx5/
+         2Hew==
+X-Gm-Message-State: AOAM533+qr9g3o+E5Auez3J3kfqEq6pwjtI2fAd1qZN91zVyjNcbw5t8
+        OXc/DLtstfO/hn1Mc0uMkPCG6hRIskZcB2Cq2CE=
+X-Google-Smtp-Source: ABdhPJwxMVghtWWcyJpsZT/2/nBqiIYAJ5fLjeFqBX+zqNN5YdBNY0alWKAaZcljcJlG4GcThEL1vlk1LCqgytvV2v0=
+X-Received: by 2002:a63:d250:: with SMTP id t16mr28242177pgi.95.1634135746754;
+ Wed, 13 Oct 2021 07:35:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <291424a2-c962-533e-c755-e4239fd55f5d@linux.ibm.com>
+Received: by 2002:a05:6a10:8a56:0:0:0:0 with HTTP; Wed, 13 Oct 2021 07:35:46
+ -0700 (PDT)
+Reply-To: jesspayne72@gmail.com
+From:   Jess Payne <joeladamu2@gmail.com>
+Date:   Wed, 13 Oct 2021 07:35:46 -0700
+Message-ID: <CAO_K9dg82szBP50HiMFNvHeewD5i0gVzR_kvEYqjLE=NorJzNw@mail.gmail.com>
+Subject: =?UTF-8?B?5oiR6ZyA6KaB5L2g55qE5biu5YqpIC8gSSBuZWVkIHlvdXIgYXNzaXN0YW5jZQ==?=
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed 13-10-21 19:27:03, Aneesh Kumar K.V wrote:
-[...]
-> Another option is to keep this mbind(2) specific and overload flags to be
-> the preferred nodeid.
-> 
-> mbind(va, len, MPOL_PREFERRED_STRICT, nodemask, max_node, preferred_node);
-
-First of all I do not think you really want to create a new memory
-policy for this. Not to mention that PREFERRED_STRICT is kinda weird in
-the first place but one could argue that a preference of the first node
-to try is not really specific to BIND/PREFERRED_MANY. Overloading flags
-is a nogo.
-
--- 
-Michal Hocko
-SUSE Labs
+5oiR5piv5p2w6KW/5L2p5oGp5Lit5aOr5aSr5Lq644CCDQoNCuWcqOe+juWbvemZhuWGm+eahOWG
+m+S6i+mDqOmXqOOAgue+juWbve+8jOS4gOWQjeS4reWjq++8jDMyIOWyge+8jOaIkeWNlei6q++8
+jOadpeiHque+juWbveeUsOe6s+ilv+W3nuWFi+WIqeWkq+WFsO+8jOebruWJjempu+aJjuWcqOWI
+qeavlOS6muePreWKoOilv++8jOS4juaBkOaAluS4u+S5ieS9nOaImOOAguaIkeeahOWNleS9jeaY
+r+esrDTmiqTnkIbpmJ/nrKw3ODLml4XmlK/mj7TokKXjgIINCg0K5oiR5piv5LiA5Liq5YWF5ruh
+54ix5b+D44CB6K+a5a6e5ZKM5rex5oOF55qE5Lq677yM5YW35pyJ6Imv5aW955qE5bm96buY5oSf
+77yM5oiR5Zac5qyi57uT6K+G5paw5pyL5Y+L5bm25LqG6Kej5LuW5Lus55qE55Sf5rS75pa55byP
+77yM5oiR5Zac5qyi55yL5Yiw5aSn5rW355qE5rOi5rWq5ZKM5bGx6ISJ55qE576O5Li95Lul5Y+K
+5aSn6Ieq54S25omA5oul5pyJ55qE5LiA5YiH5o+Q5L6b44CC5b6I6auY5YW06IO95pu05aSa5Zyw
+5LqG6Kej5oKo77yM5oiR6K6k5Li65oiR5Lus5Y+v5Lul5bu656uL6Imv5aW955qE5ZWG5Lia5Y+L
+6LCK44CCDQoNCuaIkeS4gOebtOW+iOS4jeW8gOW/g++8jOWboOS4uui/meS6m+W5tOadpeeUn+a0
+u+WvueaIkeS4jeWFrOW5s++8m+aIkeWkseWOu+S6hueItuavje+8jOmCo+W5tOaIkSAyMQ0K5bKB
+44CC5oiR54i25Lqy55qE5ZCN5a2X5piv5biV54m56YeM5pav5L2p5oGp77yM5oiR55qE5q+N5Lqy
+5piv546b5Li95L2p5oGp44CC5rKh5pyJ5Lq65biu5Yqp5oiR77yM5L2G5b6I6auY5YW05oiR57uI
+5LqO5Zyo576O5Yab5Lit5om+5Yiw5LqG6Ieq5bex44CCDQoNCuaIkee7k+WpmueUn+S6huWtqeWt
+kO+8jOS9huS7luatu+S6hu+8jOS4jeS5heaIkeS4iOWkq+W8gOWni+asuumql+aIke+8jOaJgOS7
+peaIkeS4jeW+l+S4jeaUvuW8g+WpmuWnu+OAgg0KDQrmiJHkuZ/lvojlubjov5DvvIzlnKjmiJHn
+moTlm73lrrbnvo7lm73lkozliKnmr5Tkuprnj63liqDopb/ov5nph4zmi6XmnInmiJHnlJ/mtLvk
+uK3miYDpnIDnmoTkuIDliIfvvIzkvYbmsqHmnInkurrkuLrmiJHmj5Dkvpvlu7rorq7jgILmiJHp
+nIDopoHkuIDkuKror5rlrp7nmoTkurrmnaXkv6Hku7vvvIzku5bkuZ/kvJrlsLHlpoLkvZXmipXo
+tYTmiJHnmoTpkrHmj5Dkvpvlu7rorq7jgILlm6DkuLrmiJHmmK/miJHniLbmr43lnKjku5bku6zl
+jrvkuJbliY3nlJ/kuIvnmoTllK/kuIDkuIDkuKrlpbPlranjgIINCg0K5oiR5LiN6K6k6K+G5L2g
+5pys5Lq677yM5L2G5oiR6K6k5Li65pyJ5LiA5Liq5YC85b6X5L+h6LWW55qE5aW95Lq677yM5LuW
+5Y+v5Lul5bu656uL55yf5q2j55qE5L+h5Lu75ZKM6Imv5aW955qE5ZWG5Lia5Y+L6LCK77yM5aaC
+5p6c5L2g55yf55qE5pyJ5LiA5Liq6K+a5a6e55qE5ZCN5a2X77yM5oiR5Lmf5pyJ5LiA5Lqb5Lic
+6KW/6KaB5ZKM5L2g5YiG5Lqr55u45L+h44CC5Zyo5L2g6Lqr5LiK77yM5Zug5Li65oiR6ZyA6KaB
+5L2g55qE5biu5Yqp44CC5oiR5oul5pyJ5oiR5Zyo5Yip5q+U5Lqa54+t5Yqg6KW/6L+Z6YeM6LWa
+5Yiw55qE5oC76aKd77yIMjUwDQrkuIfnvo7lhYPvvInjgILmiJHkvJrlnKjkuIvkuIDlsIHnlLXl
+rZDpgq7ku7bkuK3lkYror4nkvaDmiJHmmK/lpoLkvZXlgZrliLDnmoTvvIzkuI3opoHmg4rmhYzv
+vIzku5bku6zmsqHmnInpo47pmanvvIzogIzkuJTmiJHov5jlnKjkuI4gUmVkDQrmnInogZTns7vn
+moTkurrpgZPkuLvkuYnljLvnlJ/nmoTluK7liqnkuIvlsIbov5nnrJTpkrHlrZjlhaXkuobpk7bo
+oYzjgILmiJHluIzmnJvmgqjlsIboh6rlt7HkvZzkuLrmiJHnmoTlj5fnm4rkurrmnaXmjqXmlLbl
+n7rph5HlubblnKjmiJHlnKjov5nph4zlrozmiJDlkI7noa7kv53lroPnmoTlronlhajlubbojrfl
+vpfmiJHnmoTlhpvkuovpgJrooYzor4Hku6XlnKjmgqjnmoTlm73lrrbkuI7mgqjkvJrpnaLvvJvk
+uI3opoHlrrPmgJXpk7booYzkvJrlsIbotYTph5HlrZjlgqjlnKgNCkFUTSBWSVNBIOWNoeS4re+8
+jOi/meWvueaIkeS7rOadpeivtOaYr+WuieWFqOS4lOW/q+aNt+eahOOAgg0KDQrnrJTorrA75oiR
+5LiN55+l6YGT5oiR5Lus6KaB5Zyo6L+Z6YeM5ZGG5aSa5LmF77yM5oiR55qE5ZG96L+Q77yM5Zug
+5Li65oiR5Zyo6L+Z6YeM5Lik5qyh54K45by56KKt5Ye75Lit5bm45a2Y5LiL5p2l77yM6L+Z5L+D
+5L2/5oiR5a+75om+5LiA5Liq5YC85b6X5L+h6LWW55qE5Lq65p2l5biu5Yqp5oiR5o6l5pS25ZKM
+5oqV6LWE5Z+66YeR77yM5Zug5Li65oiR5bCG5p2l5Yiw5L2g5Lus55qE5Zu95a625Ye66Lqr5oqV
+6LWE77yM5byA5aeL5paw55Sf5rS777yM5LiN5YaN5b2T5YW144CCDQoNCuWmguaenOaCqOaEv+aE
+j+iwqOaFjuWkhOeQhu+8jOivt+WbnuWkjeaIkeOAguaIkeS8muWRiuivieS9oOS4i+S4gOatpeea
+hOa1geeoi++8jOW5tue7meS9oOWPkemAgeabtOWkmuWFs+S6juWfuumHkeWtmOWFpemTtuihjOea
+hOS/oeaBr+OAguS7peWPiumTtuihjOWwhuWmguS9leW4ruWKqeaIkeS7rOmAmui/hyBBVE0gVklT
+QQ0KQ0FSRCDlsIbotYTph5Hovaznp7vliLDmgqjnmoTlm73lrrYv5Zyw5Yy644CC5aaC5p6c5L2g
+5pyJ5YW06Laj77yM6K+35LiO5oiR6IGU57O744CCDQo=
