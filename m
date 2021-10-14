@@ -2,138 +2,209 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C931542E33E
-	for <lists+linux-api@lfdr.de>; Thu, 14 Oct 2021 23:26:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC90742E356
+	for <lists+linux-api@lfdr.de>; Thu, 14 Oct 2021 23:37:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233029AbhJNV2c (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 14 Oct 2021 17:28:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50486 "EHLO
+        id S232214AbhJNVjL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 14 Oct 2021 17:39:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230094AbhJNV2c (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 14 Oct 2021 17:28:32 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E96E4C061570
-        for <linux-api@vger.kernel.org>; Thu, 14 Oct 2021 14:26:26 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id kk10so5747051pjb.1
-        for <linux-api@vger.kernel.org>; Thu, 14 Oct 2021 14:26:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=axtens.net; s=google;
-        h=from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version;
-        bh=CLaFJ0M9ufD0uCBwTkgOwQCLYTA2acJBA4tvaXF3j60=;
-        b=nySJqlSwO+ULk3udlcOszY6Ia0XQFeH789zFbu7K9HOE2rbb+01FRBlzqYTOfLe01Y
-         UjBibChKl+lLjdMq7H2G6UmdoL4DkJBBd2xPkhVd/NnmKnnR8gnnU7EkmSiSJ0GL6yHC
-         xyAObJJcyavoFkvMN+kslHElYwm+54tEYY9dA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=CLaFJ0M9ufD0uCBwTkgOwQCLYTA2acJBA4tvaXF3j60=;
-        b=XNzF+01gD+254vpeVk33QTIjE/cYqXGIbUjD1uEBdFGgNHYmMbmILmG8yIJtEkCdjO
-         IeqrQi7cUO6pCvH4WzKgdF42SrBMRNz3utsy4SQPHnSBfBns6QWY7raWcl+32tPnSNxi
-         XJXzE4TrbilvHaYlwwa7Z6fdn78eERsyVM+tUC6hFqc0JcFrqIPFKf1R0+dC665fjh/t
-         FZNR0WBRLEJilDlbdyFGZEA8ia4TfDpMn19CdEMRPzO1IF83rO2kNXqU+/bMe6BbdGFC
-         SiUMg1PpimGWIdYVcDOp4aOiiWrkEEPryvukdJ0O8rVtDtZDKQMccl9tLeRRUvBlcRN+
-         EcyQ==
-X-Gm-Message-State: AOAM532Pi7BQnBRvbyMmvNlAUZvvPRuz9reHoMnscDTOo4jm2jxjYWy1
-        A2GHvqmHArYmmcERjp3UUo14FAhFNFYyDw==
-X-Google-Smtp-Source: ABdhPJw845LVBzEpWwR4bMZtD/PFJA96pgIe4GSulaOTJBUImwok7XHbH5FT4bUDZgXBEMZc0+GWdQ==
-X-Received: by 2002:a17:90a:6a8f:: with SMTP id u15mr22641531pjj.212.1634246786410;
-        Thu, 14 Oct 2021 14:26:26 -0700 (PDT)
-Received: from localhost ([2001:4479:e300:600:4901:2fb9:ed97:3a3e])
-        by smtp.gmail.com with ESMTPSA id i128sm3261169pfc.47.2021.10.14.14.26.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Oct 2021 14:26:25 -0700 (PDT)
-From:   Daniel Axtens <dja@axtens.net>
-To:     Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>, Arnd Bergmann <arnd@arndb.de>,
-        Kees Cook <keescook@chromium.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-arch@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH v2 01/13] powerpc: Move 'struct ppc64_opd_entry' back
- into asm/elf.h
-In-Reply-To: <42d2a571677e60082c0a5b3e52e855aa58c0b1fc.1634190022.git.christophe.leroy@csgroup.eu>
-References: <cover.1634190022.git.christophe.leroy@csgroup.eu>
- <42d2a571677e60082c0a5b3e52e855aa58c0b1fc.1634190022.git.christophe.leroy@csgroup.eu>
-Date:   Fri, 15 Oct 2021 08:26:22 +1100
-Message-ID: <87czo747sx.fsf@dja-thinkpad.axtens.net>
+        with ESMTP id S232180AbhJNVjL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 14 Oct 2021 17:39:11 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1304C061570;
+        Thu, 14 Oct 2021 14:37:05 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2804:14c:124:8a08::1007])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: krisman)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 57CC61F44F66;
+        Thu, 14 Oct 2021 22:37:03 +0100 (BST)
+From:   Gabriel Krisman Bertazi <krisman@collabora.com>
+To:     jack@suse.com, amir73il@gmail.com
+Cc:     djwong@kernel.org, tytso@mit.edu, dhowells@redhat.com,
+        khazhy@google.com, linux-fsdevel@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-api@vger.kernel.org,
+        repnop@google.com, Gabriel Krisman Bertazi <krisman@collabora.com>,
+        kernel@collabora.com, Dave Chinner <david@fromorbit.com>
+Subject: [PATCH v7 00/28] file system-wide error monitoring
+Date:   Thu, 14 Oct 2021 18:36:18 -0300
+Message-Id: <20211014213646.1139469-1-krisman@collabora.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Christophe,
+Hi,
 
-> 'struct ppc64_opd_entry' doesn't belong to uapi/asm/elf.h
->
-> It was initially in module_64.c and commit 2d291e902791 ("Fix compile
-> failure with non modular builds") moved it into asm/elf.h
->
-> But it was by mistake added outside of __KERNEL__ section,
-> therefore commit c3617f72036c ("UAPI: (Scripted) Disintegrate
-> arch/powerpc/include/asm") moved it to uapi/asm/elf.h
+This attempts to get the ball rolling again for the FAN_FS_ERROR.  This
+version is slightly different from the previous approaches, since it uses
+mempool for memory allocation, as suggested by Jan.  It has the
+advantage of simplifying a lot the enqueue/dequeue, which is now much
+more similar to other event types, but it also means the guarantee that
+an error event will be available is diminished.
 
-As Michael said on v1, I'm a little nervous about moving it out of uAPI
-after so long, although I do take the points of Arnd and Kees that we're
-not breaking compiled binaries, nor should people be using this struct
-to begin with...
+The way we propagate superblock errors also changed. Now we use
+FILEID_ROOT internally, and mangle it prior to copy_to_user.
 
-I've cc:ed the linux-api@ list.
+I am no longer sure how to guarantee that at least one mempoll slot will
+be available for each filesystem.  Since we are now tying the poll to
+the entire group, a stream of errors in a single file system might
+prevent others from emitting an error.  The possibility of this is
+reduced since we merge errors to the same filesystem, but it is still
+possible that they occur during the small window where the event is
+dequeued and before it is freed, in which case another filesystem might
+not be able to obtain a slot.
 
-Kind regards,
-Daniel
+I'm also creating a poll of 32 entries initially to avoid spending too
+much memory.  This means that only 32 filesystems can be watched per
+group with the FAN_FS_ERROR mark, before fanotify_mark starts returning
+ENOMEM.
 
-> Move it back into asm/elf.h, this brings it back in line with
-> IA64 and PARISC architectures.
->
-> Fixes: 2d291e902791 ("Fix compile failure with non modular builds")
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-> ---
->  arch/powerpc/include/asm/elf.h      | 6 ++++++
->  arch/powerpc/include/uapi/asm/elf.h | 8 --------
->  2 files changed, 6 insertions(+), 8 deletions(-)
->
-> diff --git a/arch/powerpc/include/asm/elf.h b/arch/powerpc/include/asm/elf.h
-> index b8425e3cfd81..a4406714c060 100644
-> --- a/arch/powerpc/include/asm/elf.h
-> +++ b/arch/powerpc/include/asm/elf.h
-> @@ -176,4 +176,10 @@ do {									\
->  /* Relocate the kernel image to @final_address */
->  void relocate(unsigned long final_address);
->  
-> +/* There's actually a third entry here, but it's unused */
-> +struct ppc64_opd_entry {
-> +	unsigned long funcaddr;
-> +	unsigned long r2;
-> +};
-> +
->  #endif /* _ASM_POWERPC_ELF_H */
-> diff --git a/arch/powerpc/include/uapi/asm/elf.h b/arch/powerpc/include/uapi/asm/elf.h
-> index 860c59291bfc..308857123a08 100644
-> --- a/arch/powerpc/include/uapi/asm/elf.h
-> +++ b/arch/powerpc/include/uapi/asm/elf.h
-> @@ -289,12 +289,4 @@ typedef elf_fpreg_t elf_vsrreghalf_t32[ELF_NVSRHALFREG];
->  /* Keep this the last entry.  */
->  #define R_PPC64_NUM		253
->  
-> -/* There's actually a third entry here, but it's unused */
-> -struct ppc64_opd_entry
-> -{
-> -	unsigned long funcaddr;
-> -	unsigned long r2;
-> -};
-> -
-> -
->  #endif /* _UAPI_ASM_POWERPC_ELF_H */
-> -- 
-> 2.31.1
+This was tested with LTP for regressions and also using the sample code
+on the last patch, with a corrupted image.  I wrote a new ltp test for
+this feature which is being reviewed and is available at:
+
+  https://gitlab.collabora.com/krisman/ltp  -b fan-fs-error
+
+In addition, I wrote a man-page that can be pulled from:
+
+  https://gitlab.collabora.com/krisman/man-pages.git -b fan-fs-error
+
+And is being reviewed at the list.
+
+I also pushed this full series to:
+
+  https://gitlab.collabora.com/krisman/linux -b fanotify-notifications-single-slot
+
+Thank you
+
+Original cover letter
+---------------------
+Hi,
+
+This series follow up on my previous proposal [1] to support file system
+wide monitoring.  As suggested by Amir, this proposal drops the ring
+buffer in favor of a single slot associated with each mark.  This
+simplifies a bit the implementation, as you can see in the code.
+
+As a reminder, This proposal is limited to an interface for
+administrators to monitor the health of a file system, instead of a
+generic inteface for file errors.  Therefore, this doesn't solve the
+problem of writeback errors or the need to watch a specific subtree.
+
+In comparison to the previous RFC, this implementation also drops the
+per-fs data and location, and leave those as future extensions.
+
+* Implementation
+
+The feature is implemented on top of fanotify, as a new type of fanotify
+mark, FAN_ERROR, which a file system monitoring tool can register to
+receive error notifications.  When an error occurs a new notification is
+generated, in addition followed by this info field:
+
+ - FS generic data: A file system agnostic structure that has a generic
+ error code and identifies the filesystem.  Basically, it let's
+ userspace know something happened on a monitored filesystem.  Since
+ only the first error is recorded since the last read, this also
+ includes a counter of errors that happened since the last read.
+
+* Testing
+
+This was tested by watching notifications flowing from an intentionally
+corrupted filesystem in different places.  In addition, other events
+were watched in an attempt to detect regressions.
+
+Is there a specific testsuite for fanotify I should be running?
+
+* Patches
+
+This patchset is divided as follows: Patch 1 through 5 are refactoring
+to fsnotify/fanotify in preparation for FS_ERROR/FAN_ERROR; patch 6 and
+7 implement the FS_ERROR API for filesystems to report error; patch 8
+add support for FAN_ERROR in fanotify; Patch 9 is an example
+implementation for ext4; patch 10 and 11 provide a sample userspace code
+and documentation.
+
+I also pushed the full series to:
+
+  https://gitlab.collabora.com/krisman/linux -b fanotify-notifications-single-slot
+
+[1] https://lwn.net/Articles/854545/
+[2] https://lwn.net/Articles/856916/
+
+Cc: Darrick J. Wong <djwong@kernel.org>
+Cc: Theodore Ts'o <tytso@mit.edu>
+Cc: Dave Chinner <david@fromorbit.com>
+Cc: jack@suse.com
+To: amir73il@gmail.com
+Cc: dhowells@redhat.com
+Cc: khazhy@google.com
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-ext4@vger.kernel.org
+Cc: linux-api@vger.kernel.org
+Cc: linux-api@vger.kernel.org
+
+Amir Goldstein (3):
+  fsnotify: pass data_type to fsnotify_name()
+  fsnotify: pass dentry instead of inode data
+  fsnotify: clarify contract for create event hooks
+
+Gabriel Krisman Bertazi (25):
+  fsnotify: Don't insert unmergeable events in hashtable
+  fanotify: Fold event size calculation to its own function
+  fanotify: Split fsid check from other fid mode checks
+  inotify: Don't force FS_IN_IGNORED
+  fsnotify: Add helper to detect overflow_event
+  fsnotify: Add wrapper around fsnotify_add_event
+  fsnotify: Retrieve super block from the data field
+  fsnotify: Pass group argument to free_event
+  fanotify: Support null inode event in fanotify_dfid_inode
+  fanotify: Allow file handle encoding for unhashed events
+  fanotify: Encode empty file handle when no inode is provided
+  fanotify: Require fid_mode for any non-fd event
+  fsnotify: Support FS_ERROR event type
+  fanotify: Reserve UAPI bits for FAN_FS_ERROR
+  fanotify: Pre-allocate pool of error events
+  fanotify: Limit number of marks with FAN_FS_ERROR per group
+  fanotify: Support enqueueing of error events
+  fanotify: Support merging of error events
+  fanotify: Report FID entry even for zero-length file_handle
+  fanotify: Report fid info for file related file system errors
+  fanotify: Emit generic error info for error event
+  fanotify: Allow users to request FAN_FS_ERROR events
+  ext4: Send notifications on error
+  samples: Add fs error monitoring example
+  docs: Document the FAN_FS_ERROR event
+
+ .../admin-guide/filesystem-monitoring.rst     |  76 ++++++++
+ Documentation/admin-guide/index.rst           |   1 +
+ fs/ext4/super.c                               |   8 +
+ fs/notify/fanotify/fanotify.c                 | 122 +++++++++++-
+ fs/notify/fanotify/fanotify.h                 |  31 +++-
+ fs/notify/fanotify/fanotify_user.c            | 173 ++++++++++++++----
+ fs/notify/fsnotify.c                          |   7 +-
+ fs/notify/group.c                             |   2 +-
+ fs/notify/inotify/inotify_fsnotify.c          |   5 +-
+ fs/notify/inotify/inotify_user.c              |   6 +-
+ fs/notify/notification.c                      |  14 +-
+ include/linux/fanotify.h                      |   9 +-
+ include/linux/fsnotify.h                      |  58 ++++--
+ include/linux/fsnotify_backend.h              |  96 +++++++++-
+ include/uapi/linux/fanotify.h                 |   8 +
+ kernel/audit_fsnotify.c                       |   3 +-
+ kernel/audit_watch.c                          |   3 +-
+ samples/Kconfig                               |   9 +
+ samples/Makefile                              |   1 +
+ samples/fanotify/Makefile                     |   5 +
+ samples/fanotify/fs-monitor.c                 | 142 ++++++++++++++
+ 21 files changed, 685 insertions(+), 94 deletions(-)
+ create mode 100644 Documentation/admin-guide/filesystem-monitoring.rst
+ create mode 100644 samples/fanotify/Makefile
+ create mode 100644 samples/fanotify/fs-monitor.c
+
+-- 
+2.33.0
+
