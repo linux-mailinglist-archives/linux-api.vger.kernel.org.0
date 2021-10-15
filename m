@@ -2,53 +2,48 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC1B542EFE7
-	for <lists+linux-api@lfdr.de>; Fri, 15 Oct 2021 13:45:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8492542EFEC
+	for <lists+linux-api@lfdr.de>; Fri, 15 Oct 2021 13:46:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238526AbhJOLrz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 15 Oct 2021 07:47:55 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:50018 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235360AbhJOLry (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 15 Oct 2021 07:47:54 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 5026A1FD57;
-        Fri, 15 Oct 2021 11:45:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1634298347; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=fBp8w7xMCDpu9yJTLtMWaL+eb2DX5zEZEsPx6eVJxTs=;
-        b=f8TaSGmexkahjz7nAQws0t8ab/cwV+TXVfJn+rFPp7cDlV7qokh6+Uh44a7PNol8gcQa3G
-        7Ggl6v0Ps/lpHmi3nOrfi6Md4cMPcR1CqU1JbhU8a0G19PQu5Tc6aoKFIcPyEyKG2EF6BL
-        FcumO7Hakhe0Ovg2B9APqfr1pdIl1ko=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0986D13C1B;
-        Fri, 15 Oct 2021 11:45:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id RPFnO+ppaWFqegAAMHmgww
-        (envelope-from <nborisov@suse.com>); Fri, 15 Oct 2021 11:45:46 +0000
-Subject: Re: [PATCH v11 08/14] btrfs: add BTRFS_IOC_ENCODED_READ
-To:     Omar Sandoval <osandov@osandov.com>, linux-btrfs@vger.kernel.org
-Cc:     kernel-team@fb.com, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org
-References: <cover.1630514529.git.osandov@fb.com>
- <c8c9bc3a546359bda7420d92d3d61d1023c1cb96.1630514529.git.osandov@fb.com>
-From:   Nikolay Borisov <nborisov@suse.com>
-Message-ID: <4a64bf3a-b691-1986-80c8-21ddf9e446a0@suse.com>
-Date:   Fri, 15 Oct 2021 14:45:46 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S238509AbhJOLsy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 15 Oct 2021 07:48:54 -0400
+Received: from smtp-bc09.mail.infomaniak.ch ([45.157.188.9]:47943 "EHLO
+        smtp-bc09.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235360AbhJOLsw (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 15 Oct 2021 07:48:52 -0400
+Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4HW4HR0DnrzMqBGg;
+        Fri, 15 Oct 2021 13:46:43 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4HW4HP55gTzlhP4W;
+        Fri, 15 Oct 2021 13:46:41 +0200 (CEST)
+Subject: Re: [PATCH] security/landlock: use square brackets around
+ "landlock-ruleset"
+To:     Linux API <linux-api@vger.kernel.org>,
+        stable <stable@vger.kernel.org>
+Cc:     Paul Moore <paul@paul-moore.com>,
+        Ondrej Mosnacek <omosnace@redhat.com>,
+        Christian Brauner <brauner@kernel.org>,
+        Chris PeBenito <pebenito@ieee.org>,
+        Petr Lautrbach <plautrba@redhat.com>,
+        Linux Security Module list 
+        <linux-security-module@vger.kernel.org>,
+        SElinux list <selinux@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>
+References: <20211011133704.1704369-1-brauner@kernel.org>
+ <06b6f249-06e6-f472-c74c-bb3ff6f4b4ee@digikod.net>
+ <20211012103830.s7kzijrn25ucjasr@wittgenstein>
+ <CAHC9VhSd32Q_tCctwYB0y4EXGCV8_9QajkNkkc96EwjdFsVkJw@mail.gmail.com>
+ <CAFqZXNu7OEFVaS-oJH_JhsCWg3aN67Hajbiw8U8Zd+TSMKatOQ@mail.gmail.com>
+ <CAHC9VhR2kvwaYWZtXrZty7X_uQCr+pHnm6rHFAGzUDrstBpT_g@mail.gmail.com>
+ <cfbb70a1-360f-37e7-f3c5-487e1330a65a@digikod.net>
+ <20211015091010.3ht6lvwoxw5ygkca@wittgenstein>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <d638892e-12fd-ab69-9230-ba0864cf173f@digikod.net>
+Date:   Fri, 15 Oct 2021 13:47:48 +0200
+User-Agent: 
 MIME-Version: 1.0
-In-Reply-To: <c8c9bc3a546359bda7420d92d3d61d1023c1cb96.1630514529.git.osandov@fb.com>
+In-Reply-To: <20211015091010.3ht6lvwoxw5ygkca@wittgenstein>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -56,143 +51,79 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+CCing linux-api and stable to give them a chance to confirm that
+changing proc symlink content is OK.
 
 
-On 1.09.21 г. 20:01, Omar Sandoval wrote:
-> From: Omar Sandoval <osandov@fb.com>
+On 15/10/2021 11:10, Christian Brauner wrote:
+> On Wed, Oct 13, 2021 at 05:47:53PM +0200, Mickaël Salaün wrote:
+>>
+>> On 12/10/2021 23:09, Paul Moore wrote:
+>>> On Tue, Oct 12, 2021 at 4:38 PM Ondrej Mosnacek <omosnace@redhat.com> wrote:
+>>>>
+>>>> On Tue, Oct 12, 2021 at 8:12 PM Paul Moore <paul@paul-moore.com> wrote:
+>>>>> On Tue, Oct 12, 2021 at 6:38 AM Christian Brauner
+>>>>> <christian.brauner@ubuntu.com> wrote:
+>>>>>> On Mon, Oct 11, 2021 at 04:38:55PM +0200, Mickaël Salaün wrote:
+>>>>>>> On 11/10/2021 15:37, Christian Brauner wrote:
+>>>>>>>> From: Christian Brauner <christian.brauner@ubuntu.com>
+>>>>>>>>
+>>>>>>>> Make the name of the anon inode fd "[landlock-ruleset]" instead of
+>>>>>>>> "landlock-ruleset". This is minor but most anon inode fds already
+>>>>>>>> carry square brackets around their name:
+>>>>>>>>
+>>>>>>>>     [eventfd]
+>>>>>>>>     [eventpoll]
+>>>>>>>>     [fanotify]
+>>>>>>>>     [fscontext]
+>>>>>>>>     [io_uring]
+>>>>>>>>     [pidfd]
+>>>>>>>>     [signalfd]
+>>>>>>>>     [timerfd]
+>>>>>>>>     [userfaultfd]
+>>>>>>>>
+>>>>>>>> For the sake of consistency lets do the same for the landlock-ruleset anon
+>>>>>>>> inode fd that comes with landlock. We did the same in
+>>>>>>>> 1cdc415f1083 ("uapi, fsopen: use square brackets around "fscontext" [ver #2]")
+>>>>>>>> for the new mount api.
+>>>>>>>
+>>>>>>> Before creating "landlock-ruleset" FD, I looked at other anonymous FD
+>>>>>>> and saw this kind of inconsistency. I don't get why we need to add extra
+>>>>>>> characters to names, those brackets seem useless. If it should be part
+>>>>>>
+>>>>>> Past inconsistency shouldn't justify future inconsistency. If you have a
+>>>>>> strong opinion about this for landlock I'm not going to push for it.
+>>>>>> Exchanging more than 2-3 email about something like this seems too much.
+>>>>>
+>>>>> [NOTE: adding the SELinux list as well as Chris (SELinux refrence
+>>>>> policy maintainer) and Petr (Fedora/RHEL SELinux)]
+>>>>>
+>>>>> Chris and Petr, do either of you currently have any policy that
+>>>>> references the "landlock-ruleset" anonymous inode?  In other words,
+>>>>> would adding the brackets around the name cause you any problems?
+>>>>
+>>>> AFAIU, the anon_inode transitions (the only mechanism where the "file
+>>>> name" would be exposed to the policy) are done only for inodes created
+>>>> by anon_inode_getfd_secure(), which is currently only used by
+>>>> userfaultfd. So you don't even need to ask that question; at this
+>>>> point it should be safe to change any of the names except
+>>>> "[userfaultfd]" as far as SELinux policy is concerned.
+>>>
+>>> There is also io_uring if you look at selinux/next.
+>>>
+>>> Regardless, thanks, I didn't check to see if landlock was using the
+>>> new anon inode interface, since both Mickaël and Christian were
+>>> concerned about breaking SELinux I had assumed they were using it :)
+>>>
+>>
+>> Ok, thanks Paul and Ondrej.
+>>
+>> Such anonymous inode names seem to be only exposed to proc for now.
+>> Let's change this name then. I think it make sense to backport this
+>> patch down to 5.13 to fix all the inconsistencies.
 > 
-> There are 4 main cases:
+> Thank you. I do appreciate the point about this being annoying that we
+> have this inconsistency and it has bothered me too.
 > 
-> 1. Inline extents: we copy the data straight out of the extent buffer.
-> 2. Hole/preallocated extents: we fill in zeroes.
-> 3. Regular, uncompressed extents: we read the sectors we need directly
->    from disk.
-> 4. Regular, compressed extents: we read the entire compressed extent
->    from disk and indicate what subset of the decompressed extent is in
->    the file.
+> Christian
 > 
-> This initial implementation simplifies a few things that can be improved
-> in the future:
-> 
-> - We hold the inode lock during the operation.
-> - Cases 1, 3, and 4 allocate temporary memory to read into before
->   copying out to userspace.
-> - We don't do read repair, because it turns out that read repair is
->   currently broken for compressed data.
-> 
-> Signed-off-by: Omar Sandoval <osandov@fb.com>
-> ---
->  fs/btrfs/ctree.h |   4 +
->  fs/btrfs/inode.c | 489 +++++++++++++++++++++++++++++++++++++++++++++++
->  fs/btrfs/ioctl.c | 111 +++++++++++
->  3 files changed, 604 insertions(+)
-> 
-> diff --git a/fs/btrfs/ctree.h b/fs/btrfs/ctree.h
-> index b95ec5fb68d5..cbd7e07c1c34 100644
-> --- a/fs/btrfs/ctree.h
-> +++ b/fs/btrfs/ctree.h
-> @@ -3223,6 +3223,10 @@ int btrfs_writepage_cow_fixup(struct page *page);
->  void btrfs_writepage_endio_finish_ordered(struct btrfs_inode *inode,
->  					  struct page *page, u64 start,
->  					  u64 end, bool uptodate);
-> +struct btrfs_ioctl_encoded_io_args;
-> +ssize_t btrfs_encoded_read(struct kiocb *iocb, struct iov_iter *iter,
-> +			   struct btrfs_ioctl_encoded_io_args *encoded);
-> +
->  extern const struct dentry_operations btrfs_dentry_operations;
->  extern const struct iomap_ops btrfs_dio_iomap_ops;
->  extern const struct iomap_dio_ops btrfs_dio_ops;
-> diff --git a/fs/btrfs/inode.c b/fs/btrfs/inode.c
-> index a87a34f56234..1940f22179ba 100644
-> --- a/fs/btrfs/inode.c
-> +++ b/fs/btrfs/inode.c
-> @@ -10500,6 +10500,495 @@ void btrfs_set_range_writeback(struct btrfs_inode *inode, u64 start, u64 end)
->  	}
->  }
->  
-
-<snip>
-
-> +
-> +static blk_status_t btrfs_encoded_read_check_bio(struct btrfs_io_bio *io_bio)
-
-nit: The gist of this function is to check the csum so how about
-renaming it to btrfs_encoded_read_verify_csum
-
-<snip>
-
-> +
-> +static void btrfs_encoded_read_endio(struct bio *bio)
-> +{
-> +	struct btrfs_encoded_read_private *priv = bio->bi_private;
-> +	struct btrfs_io_bio *io_bio = btrfs_io_bio(bio);
-> +	blk_status_t status;
-> +
-> +	status = btrfs_encoded_read_check_bio(io_bio);
-> +	if (status) {
-> +		/*
-> +		 * The memory barrier implied by the atomic_dec_return() here
-> +		 * pairs with the memory barrier implied by the
-> +		 * atomic_dec_return() or io_wait_event() in
-
-nit: I think atomic_dec_return in read_regular_fill_pages is
-inconsequential, what we want to ensure is that when the caller of
-io_wait_event is woken up by this thread it will observe the
-priv->status, which it will, because the atomic-dec_return in this
-function has paired with the general barrier interpolated by wait_event.
-
-So for brevity just leave the text to say "by io_wait_event".
-
-> +		 * btrfs_encoded_read_regular_fill_pages() to ensure that this
-> +		 * write is observed before the load of status in
-> +		 * btrfs_encoded_read_regular_fill_pages().
-> +		 */
-> +		WRITE_ONCE(priv->status, status);
-> +	}
-> +	if (!atomic_dec_return(&priv->pending))
-> +		wake_up(&priv->wait);
-> +	btrfs_io_bio_free_csum(io_bio);
-> +	bio_put(bio);
-> +}
-
-<snip>
-
-> @@ -4824,6 +4841,94 @@ static int _btrfs_ioctl_send(struct file *file, void __user *argp, bool compat)
->  	return ret;
->  }
->  
-
-<snip>
-
-> +	memset((char *)&args + copy_end_kernel, 0,
-> +	       sizeof(args) - copy_end_kernel);
-
-nit: This memset can be eliminated ( in source) by marking args = {};
-and just leaving copy from user above.
-
-> +
-> +	ret = import_iovec(READ, args.iov, args.iovcnt, ARRAY_SIZE(iovstack),
-> +			   &iov, &iter);
-> +	if (ret < 0)
-> +		goto out_acct;
-> +
-> +	if (iov_iter_count(&iter) == 0) {
-> +		ret = 0;
-> +		goto out_iov;
-> +	}
-> +	pos = args.offset;
-> +	ret = rw_verify_area(READ, file, &pos, args.len);
-> +	if (ret < 0)
-> +		goto out_iov;
-> +
-> +	init_sync_kiocb(&kiocb, file);
-> +	ret = kiocb_set_rw_flags(&kiocb, 0);
-
-This call is a noop due to:
-	if (!flags)
-		return 0;
-
-in kiocb_set_rw_flags.
-
-
-<snip>
