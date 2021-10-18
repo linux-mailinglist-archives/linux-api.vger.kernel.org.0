@@ -2,81 +2,173 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4683F431A2F
-	for <lists+linux-api@lfdr.de>; Mon, 18 Oct 2021 14:57:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDF58431F29
+	for <lists+linux-api@lfdr.de>; Mon, 18 Oct 2021 16:15:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231754AbhJRM7c (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 18 Oct 2021 08:59:32 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:60026 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231700AbhJRM7c (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 18 Oct 2021 08:59:32 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        id S232693AbhJRORZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 18 Oct 2021 10:17:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44230 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231918AbhJRORY (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 18 Oct 2021 10:17:24 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3521FC048D0F;
+        Mon, 18 Oct 2021 06:55:13 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2804:14c:124:8a08::1007])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 2472B1FD7A;
-        Mon, 18 Oct 2021 12:57:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1634561840; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=qUSPnlwYX4UmIJ5IFa2QfK7msAcxJ6nERZpTfDeS5AU=;
-        b=kIhKk2UOZA49YMcSVN35V1gCbcZiWvBDV0bKNHC6xOZssD0jieiv4JOlECdVe3WqKFul0Q
-        TFbg9AIa5zOxSR052KtNH94Jxz46lipuAQEdzZCJij8wV81mw4czeoTFFW2/V1YLN5sN9d
-        KinmfdPT2vY0emFQTD/Zb1tML8jQCXU=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D38EC13D41;
-        Mon, 18 Oct 2021 12:57:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id IMIhMS9vbWFzTAAAMHmgww
-        (envelope-from <nborisov@suse.com>); Mon, 18 Oct 2021 12:57:19 +0000
-Subject: Re: [PATCH v11 11/14] btrfs: send: write larger chunks when using
- stream v2
-To:     Omar Sandoval <osandov@osandov.com>, linux-btrfs@vger.kernel.org
-Cc:     kernel-team@fb.com, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org
-References: <cover.1630514529.git.osandov@fb.com>
- <7d62209de1399ce59d84fc3b06ac37d5b336be27.1630514529.git.osandov@fb.com>
-From:   Nikolay Borisov <nborisov@suse.com>
-Message-ID: <627cde76-3876-13ad-209d-990a02691e94@suse.com>
-Date:   Mon, 18 Oct 2021 15:57:19 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        (Authenticated sender: krisman)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 7746F1F42152;
+        Mon, 18 Oct 2021 14:55:11 +0100 (BST)
+From:   Gabriel Krisman Bertazi <krisman@collabora.com>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.com>, "Darrick J. Wong" <djwong@kernel.org>,
+        Theodore Tso <tytso@mit.edu>,
+        David Howells <dhowells@redhat.com>,
+        Khazhismel Kumykov <khazhy@google.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Ext4 <linux-ext4@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Matthew Bobrowski <repnop@google.com>, kernel@collabora.com
+Subject: Re: [PATCH v7 21/28] fanotify: Support merging of error events
+Organization: Collabora
+References: <20211014213646.1139469-1-krisman@collabora.com>
+        <20211014213646.1139469-22-krisman@collabora.com>
+        <CAOQ4uxiOhQjQMruHR-ZM0SNdaRyi7BGsZK=Y_nSh1=361oC81g@mail.gmail.com>
+        <87pms6p6t4.fsf@collabora.com>
+        <CAOQ4uxizDrR=cnPQzSx8C7-b3fUCWujvpKeCrq0kcMK8kw3=mw@mail.gmail.com>
+Date:   Mon, 18 Oct 2021 10:55:06 -0300
+In-Reply-To: <CAOQ4uxizDrR=cnPQzSx8C7-b3fUCWujvpKeCrq0kcMK8kw3=mw@mail.gmail.com>
+        (Amir Goldstein's message of "Fri, 15 Oct 2021 20:52:43 +0300")
+Message-ID: <87ee8iphdx.fsf@collabora.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <7d62209de1399ce59d84fc3b06ac37d5b336be27.1630514529.git.osandov@fb.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Amir Goldstein <amir73il@gmail.com> writes:
+
+> On Fri, Oct 15, 2021 at 7:54 PM Gabriel Krisman Bertazi
+> <krisman@collabora.com> wrote:
+>>
+>> Amir Goldstein <amir73il@gmail.com> writes:
+>>
+>> > On Fri, Oct 15, 2021 at 12:39 AM Gabriel Krisman Bertazi
+>> > <krisman@collabora.com> wrote:
+>> >>
+>> >> Error events (FAN_FS_ERROR) against the same file system can be merged
+>> >> by simply iterating the error count.  The hash is taken from the fsid,
+>> >> without considering the FH.  This means that only the first error object
+>> >> is reported.
+>> >>
+>> >> Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
+>> >> ---
+>> >>  fs/notify/fanotify/fanotify.c | 39 ++++++++++++++++++++++++++++++++---
+>> >>  fs/notify/fanotify/fanotify.h |  4 +++-
+>> >>  2 files changed, 39 insertions(+), 4 deletions(-)
+>> >>
+>> >> diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
+>> >> index 9b970359570a..7032083df62a 100644
+>> >> --- a/fs/notify/fanotify/fanotify.c
+>> >> +++ b/fs/notify/fanotify/fanotify.c
+>> >> @@ -111,6 +111,16 @@ static bool fanotify_name_event_equal(struct fanotify_name_event *fne1,
+>> >>         return fanotify_info_equal(info1, info2);
+>> >>  }
+>> >>
+>> >> +static bool fanotify_error_event_equal(struct fanotify_error_event *fee1,
+>> >> +                                      struct fanotify_error_event *fee2)
+>> >> +{
+>> >> +       /* Error events against the same file system are always merged. */
+>> >> +       if (!fanotify_fsid_equal(&fee1->fsid, &fee2->fsid))
+>> >> +               return false;
+>> >> +
+>> >> +       return true;
+>> >> +}
+>> >> +
+>> >>  static bool fanotify_should_merge(struct fanotify_event *old,
+>> >>                                   struct fanotify_event *new)
+>> >>  {
+>> >> @@ -141,6 +151,9 @@ static bool fanotify_should_merge(struct fanotify_event *old,
+>> >>         case FANOTIFY_EVENT_TYPE_FID_NAME:
+>> >>                 return fanotify_name_event_equal(FANOTIFY_NE(old),
+>> >>                                                  FANOTIFY_NE(new));
+>> >> +       case FANOTIFY_EVENT_TYPE_FS_ERROR:
+>> >> +               return fanotify_error_event_equal(FANOTIFY_EE(old),
+>> >> +                                                 FANOTIFY_EE(new));
+>> >>         default:
+>> >>                 WARN_ON_ONCE(1);
+>> >>         }
+>> >> @@ -148,6 +161,22 @@ static bool fanotify_should_merge(struct fanotify_event *old,
+>> >>         return false;
+>> >>  }
+>> >>
+>> >> +static void fanotify_merge_error_event(struct fanotify_error_event *dest,
+>> >> +                                      struct fanotify_error_event *origin)
+>> >> +{
+>> >> +       dest->err_count++;
+>> >> +}
+>> >> +
+>> >> +static void fanotify_merge_event(struct fanotify_event *dest,
+>> >> +                                struct fanotify_event *origin)
+>> >> +{
+>> >> +       dest->mask |= origin->mask;
+>> >> +
+>> >> +       if (origin->type == FANOTIFY_EVENT_TYPE_FS_ERROR)
+>> >> +               fanotify_merge_error_event(FANOTIFY_EE(dest),
+>> >> +                                          FANOTIFY_EE(origin));
+>> >> +}
+>> >> +
+>> >>  /* Limit event merges to limit CPU overhead per event */
+>> >>  #define FANOTIFY_MAX_MERGE_EVENTS 128
+>> >>
+>> >> @@ -175,7 +204,7 @@ static int fanotify_merge(struct fsnotify_group *group,
+>> >>                 if (++i > FANOTIFY_MAX_MERGE_EVENTS)
+>> >>                         break;
+>> >>                 if (fanotify_should_merge(old, new)) {
+>> >> -                       old->mask |= new->mask;
+>> >> +                       fanotify_merge_event(old, new);
+>> >>                         return 1;
+>> >>                 }
+>> >>         }
+>> >> @@ -577,7 +606,8 @@ static struct fanotify_event *fanotify_alloc_name_event(struct inode *id,
+>> >>  static struct fanotify_event *fanotify_alloc_error_event(
+>> >>                                                 struct fsnotify_group *group,
+>> >>                                                 __kernel_fsid_t *fsid,
+>> >> -                                               const void *data, int data_type)
+>> >> +                                               const void *data, int data_type,
+>> >> +                                               unsigned int *hash)
+>> >>  {
+>> >>         struct fs_error_report *report =
+>> >>                         fsnotify_data_error_report(data, data_type);
+>> >> @@ -591,6 +621,9 @@ static struct fanotify_event *fanotify_alloc_error_event(
+>> >>                 return NULL;
+>> >>
+>> >>         fee->fae.type = FANOTIFY_EVENT_TYPE_FS_ERROR;
+>> >> +       fee->err_count = 1;
+>> >> +
+>> >> +       *hash ^= fanotify_hash_fsid(fsid);
+>> >>
+>> >>         return &fee->fae;
+>> >>  }
+>> >
+>> > Forgot to store fee->fsid?
+>>
+>> Not really. this is part of the FID info record support, which is done
+>> in patch 23.
+>>
+>
+> Sure, it does not really matter for bisection when FS_ERROR is not yet
+> wired, but it is weird to compare event fsid's when they have not been
+> initialized.
+>
+> Logically, storing the fsid in this patch would be better.
+
+Makes sense.  Will do!
+
+Thanks,
 
 
-On 1.09.21 г. 20:01, Omar Sandoval wrote:
-> From: Omar Sandoval <osandov@fb.com>
-> 
-> The length field of the send stream TLV header is 16 bits. This means
-> that the maximum amount of data that can be sent for one write is 64k
-> minus one. However, encoded writes must be able to send the maximum
-> compressed extent (128k) in one command. To support this, send stream
-> version 2 encodes the DATA attribute differently: it has no length
-> field, and the length is implicitly up to the end of containing command
-> (which has a 32-bit length field). Although this is necessary for
-> encoded writes, normal writes can benefit from it, too.
-> 
-> For v2, let's bump up the send buffer to the maximum compressed extent
-> size plus 16k for the other metadata (144k total). Since this will most
-> likely be vmalloc'd (and always will be after the next commit), we round
-> it up to the next page since we might as well use the rest of the page
-> on systems with >16k pages.
-> 
-> Signed-off-by: Omar Sandoval <osandov@fb.com>
-
-Reviewed-by: Nikolay Borisov <nborisov@suse.com>
+-- 
+Gabriel Krisman Bertazi
