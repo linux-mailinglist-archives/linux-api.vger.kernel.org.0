@@ -2,229 +2,113 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 230EE432B18
-	for <lists+linux-api@lfdr.de>; Tue, 19 Oct 2021 02:11:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52D49432D46
+	for <lists+linux-api@lfdr.de>; Tue, 19 Oct 2021 07:34:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229841AbhJSANp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 18 Oct 2021 20:13:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40126 "EHLO
+        id S229649AbhJSFhG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 19 Oct 2021 01:37:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229702AbhJSANp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 18 Oct 2021 20:13:45 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 657AFC061765
-        for <linux-api@vger.kernel.org>; Mon, 18 Oct 2021 17:11:33 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id f5so17702302pgc.12
-        for <linux-api@vger.kernel.org>; Mon, 18 Oct 2021 17:11:33 -0700 (PDT)
+        with ESMTP id S229527AbhJSFhF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 19 Oct 2021 01:37:05 -0400
+Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79817C06161C;
+        Mon, 18 Oct 2021 22:34:53 -0700 (PDT)
+Received: by mail-io1-xd34.google.com with SMTP id z69so15856352iof.9;
+        Mon, 18 Oct 2021 22:34:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=ARK4CV1QCHDnqAC2jNbm2HtT+N4X81UOF1A1BxlVJKw=;
-        b=maB/z56EOiViRmDaFOcRjKQXpDVo9UjXlEHFwOKHKijCm06zqz3YUtJKdTr1Xekdtt
-         aBBjwhHhYYzsbMyq4bhA4QuLOe1aTzjtf9Av5Pe0bRVNZlQp49rfrHbtoHxnIzCk4VaV
-         jpCKQnS0Gm3ypaZDAGgryz5JUO5mJASzSEUaZW2zBdXaOu9GxGHmSSGpYjqoxpm2woaO
-         MFEdY2mQt7RmFBeRQl58MzabrIKrt8sE1LCF5DJN4sJoHmn8zoxs0nIo57uVLYnDKKng
-         RbbLFLzuSC0za6Buhj9BNbGP82sDHcLL/FubB2H3fqOfbwcR9E0CAZB0IIrKhKb3oodb
-         0Mpw==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZaruljHe7kDR6dP+QS54XPWAlkN8SFW2qWKy+H3YQEw=;
+        b=os9Ab4GJHujvQJO7/jacPvhQUobs6+64FPp4pACq91J7nQ2NZlHrRDLwDU1vfKvGUN
+         laXmLIg3f5nOVSQFSd78jQFLvX7YfWSLKhwcipeemY5zWy4UZvhIjHRUJxFhw+AgW0DQ
+         H7nNCSEpHRPDfiTlHfbPPCqg7+TTcWZxx7Jid+J8guq3qrukv/6tHsdKy/C//jyRboQK
+         q/K2Rn/OluHw2tziZjeYi6R70zhJ4x0lmyPm2zqG0xWTKu7mNoZlJGB5razbRA2+n0h0
+         hZ2zXpcf6jMoWdcK8rW3HE/bJn1axswvggFXfTxO9lx9iQ6LqpyzhfmfY/aOf8p3aBJ/
+         fgFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=ARK4CV1QCHDnqAC2jNbm2HtT+N4X81UOF1A1BxlVJKw=;
-        b=PzqDJVDVP7koHzVXEnsXjamzJMbnzO5VBmYutYbmkXOKo6pLybO9xFB2iHjNZk2gjO
-         LwSQ2gX+3Fk+fSl5F5R0TsW9soGrNS+WHm6mV39tSBtBwa2l9mIYVitq2lNGd7P+bvgU
-         EBppIiSG61FZemSMhVx7yHu3w8JkOvi0YyQ81Jjt0BoP9f7GHiptZQ3G+LXc9+hAuUdc
-         q02+jp8p80o1CgKW3xMfu4xo10FrF/2AKifPDm/rZ0KfV4fVCG7z+TduWkWkoH7NRlk4
-         hpbSzCwirjNmpXBuBREWbJQyP1WxxWnZ2TNXIkzdmu527eRPIpJARkulx+cMIdTO4lj6
-         IxdA==
-X-Gm-Message-State: AOAM531dopOUq78kYU3MiQhOgUskZFyqsZVthTjlqgKCTUJ6ox67I0V4
-        l7aB6laLU0nF/+um4slOCzmyfQ==
-X-Google-Smtp-Source: ABdhPJwkq+JbuAPjxkqH5uajHT8uTqmxVG6G07sGmUpGKjrYBt7MEogonkifl446sTBWnU+MPHfaMQ==
-X-Received: by 2002:a63:7119:: with SMTP id m25mr14678645pgc.253.1634602292615;
-        Mon, 18 Oct 2021 17:11:32 -0700 (PDT)
-Received: from relinquished.localdomain ([2620:10d:c090:400::5:b911])
-        by smtp.gmail.com with ESMTPSA id x17sm14004418pfa.209.2021.10.18.17.11.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Oct 2021 17:11:32 -0700 (PDT)
-Date:   Mon, 18 Oct 2021 17:11:30 -0700
-From:   Omar Sandoval <osandov@osandov.com>
-To:     Nikolay Borisov <nborisov@suse.com>
-Cc:     linux-btrfs@vger.kernel.org, kernel-team@fb.com,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH v11 13/14] btrfs: send: send compressed extents with
- encoded writes
-Message-ID: <YW4NMkw0K4uMrckI@relinquished.localdomain>
-References: <cover.1630514529.git.osandov@fb.com>
- <366f92a7ec5a69dc92290dc2cf6e8603f566495c.1630514529.git.osandov@fb.com>
- <58a04b59-a2fb-bd26-606e-6ddf8bd31552@suse.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZaruljHe7kDR6dP+QS54XPWAlkN8SFW2qWKy+H3YQEw=;
+        b=uAh+/IV8CPcKpnDSWhDZqF6G5DgqnLbQcgc3T5oCo+FMTq1BKMzdYlfg2Ns89bhxOe
+         lGOVMX2GWzXLJcOx2txRoHOlJ+Bp3iCShNFXW/BC0rlmeiHoxK/N7/1g741jUwUpR9kQ
+         KL+Q0DHFjzZK6A1xCZDrffU/KtoLxH+LkirFmKVjlQcBEr8pnamBsz7HGxFO748sTwT1
+         GR6QTxP8ugCepm2n2iwVRe6GVEDcDvizfPa4Nx7d8Vb2fVzf2htSik8SJTJILfNb6zwP
+         osOYeS9Uw9+WIL54f9uUe//LKbz0OIRasSymnBrz2INGT3J8+0t/DQJfQIJxH4dfkUgc
+         tglQ==
+X-Gm-Message-State: AOAM5323z4S4kvB/QLPeS51vboZWcaQpae72AfPVqsT2ByflmQU4tNAk
+        8JPzaQbEQFyKietSi5jnutWMJgrY6lgBhzD9tGmzj4feAFk=
+X-Google-Smtp-Source: ABdhPJwny0uw8JY7rG5rh9CKT5QBoFNNuaspDh/YxiyTNTUdY+raBwlA89VMR1Ma4F5VPdZVLjrK3K0Cx4mNqzt6rz8=
+X-Received: by 2002:a6b:b5d8:: with SMTP id e207mr17065356iof.52.1634621692844;
+ Mon, 18 Oct 2021 22:34:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <58a04b59-a2fb-bd26-606e-6ddf8bd31552@suse.com>
+References: <20211019000015.1666608-1-krisman@collabora.com> <20211019000015.1666608-12-krisman@collabora.com>
+In-Reply-To: <20211019000015.1666608-12-krisman@collabora.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Tue, 19 Oct 2021 08:34:41 +0300
+Message-ID: <CAOQ4uxhyW1O6tEKsEvnyV9ovmM=On0KWoe9Oq-HZou7MdR0GaA@mail.gmail.com>
+Subject: Re: [PATCH v8 11/32] fsnotify: Protect fsnotify_handle_inode_event
+ from no-inode events
+To:     Gabriel Krisman Bertazi <krisman@collabora.com>
+Cc:     Jan Kara <jack@suse.com>, "Darrick J. Wong" <djwong@kernel.org>,
+        Theodore Tso <tytso@mit.edu>,
+        Dave Chinner <david@fromorbit.com>,
+        David Howells <dhowells@redhat.com>,
+        Khazhismel Kumykov <khazhy@google.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Ext4 <linux-ext4@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>, kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Oct 18, 2021 at 02:59:08PM +0300, Nikolay Borisov wrote:
-> 
-> 
-> On 1.09.21 г. 20:01, Omar Sandoval wrote:
-> > From: Omar Sandoval <osandov@fb.com>
-> > 
-> > Now that all of the pieces are in place, we can use the ENCODED_WRITE
-> > command to send compressed extents when appropriate.
-> > 
-> > Signed-off-by: Omar Sandoval <osandov@fb.com>
-> 
-> Overall looks sane but consider some of the nits below.
-> 
-> 
-> <snip>
-> 
-> > +static int send_encoded_extent(struct send_ctx *sctx, struct btrfs_path *path,
-> > +			       u64 offset, u64 len)
-> > +{
-> > +	struct btrfs_root *root = sctx->send_root;
-> > +	struct btrfs_fs_info *fs_info = root->fs_info;
-> > +	struct inode *inode;
-> > +	struct fs_path *p;
-> > +	struct extent_buffer *leaf = path->nodes[0];
-> > +	struct btrfs_key key;
-> > +	struct btrfs_file_extent_item *ei;
-> > +	u64 block_start;
-> > +	u64 block_len;
-> > +	u32 data_offset;
-> > +	struct btrfs_cmd_header *hdr;
-> > +	u32 crc;
-> > +	int ret;
-> > +
-> > +	inode = btrfs_iget(fs_info->sb, sctx->cur_ino, root);
-> > +	if (IS_ERR(inode))
-> > +		return PTR_ERR(inode);
-> > +
-> > +	p = fs_path_alloc();
-> > +	if (!p) {
-> > +		ret = -ENOMEM;
-> > +		goto out;
-> > +	}
-> > +
-> > +	ret = begin_cmd(sctx, BTRFS_SEND_C_ENCODED_WRITE);
-> > +	if (ret < 0)
-> > +		goto out;
-> > +
-> > +	ret = get_cur_path(sctx, sctx->cur_ino, sctx->cur_inode_gen, p);
-> > +	if (ret < 0)
-> > +		goto out;
-> > +
-> > +	btrfs_item_key_to_cpu(leaf, &key, path->slots[0]);
-> > +	ei = btrfs_item_ptr(leaf, path->slots[0],
-> > +			    struct btrfs_file_extent_item);
-> > +	block_start = btrfs_file_extent_disk_bytenr(leaf, ei);
-> 
-> block_start is somewhat ambiguous here, this is just the disk bytenr of
-> the extent.
-> 
-> > +	block_len = btrfs_file_extent_disk_num_bytes(leaf, ei);
-> 
-> Why is this called block_len when it's just the size in bytes on-disk?
+On Tue, Oct 19, 2021 at 3:01 AM Gabriel Krisman Bertazi
+<krisman@collabora.com> wrote:
+>
+> FAN_FS_ERROR allows events without inodes - i.e. for file system-wide
+> errors.  Even though fsnotify_handle_inode_event is not currently used
+> by fanotify, this patch protects this path to handle this new case.
+>
+> Suggested-by: Amir Goldstein <amir73il@gmail.com>
+> Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
+> ---
+>  fs/notify/fsnotify.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/fs/notify/fsnotify.c b/fs/notify/fsnotify.c
+> index fde3a1115a17..47f931fb571c 100644
+> --- a/fs/notify/fsnotify.c
+> +++ b/fs/notify/fsnotify.c
+> @@ -252,6 +252,9 @@ static int fsnotify_handle_inode_event(struct fsnotify_group *group,
+>         if (WARN_ON_ONCE(!ops->handle_inode_event))
+>                 return 0;
+>
+> +       if (!inode)
+> +               return 0;
+> +
 
-I copied this naming from extent_map since btrfs_encoded_read() was the
-reference for this code, but I'll change the naming here.
+Sigh.. the plot thickens.
+There are three in-tree backends that implement the ->handle_inode_event()
+interface.
 
-> > +
-> > +	TLV_PUT_PATH(sctx, BTRFS_SEND_A_PATH, p);
-> > +	TLV_PUT_U64(sctx, BTRFS_SEND_A_FILE_OFFSET, offset);
-> > +	TLV_PUT_U64(sctx, BTRFS_SEND_A_UNENCODED_FILE_LEN,
-> > +		    min(key.offset + btrfs_file_extent_num_bytes(leaf, ei) - offset,
-> > +			len));
-> > +	TLV_PUT_U64(sctx, BTRFS_SEND_A_UNENCODED_LEN,
-> > +		    btrfs_file_extent_ram_bytes(leaf, ei));
-> > +	TLV_PUT_U64(sctx, BTRFS_SEND_A_UNENCODED_OFFSET,
-> > +		    offset - key.offset + btrfs_file_extent_offset(leaf, ei));
-> > +	ret = btrfs_encoded_io_compression_from_extent(
-> > +				btrfs_file_extent_compression(leaf, ei));
-> > +	if (ret < 0)
-> > +		goto out;
-> > +	TLV_PUT_U32(sctx, BTRFS_SEND_A_COMPRESSION, ret);
-> > +	TLV_PUT_U32(sctx, BTRFS_SEND_A_ENCRYPTION, 0);
-> > +
-> > +	ret = put_data_header(sctx, block_len);
-> > +	if (ret < 0)
-> > +		goto out;
-> > +
-> > +	data_offset = ALIGN(sctx->send_size, PAGE_SIZE);
-> 
-> nit: The whole data_offset warrants a comment here, since send_buf is
-> now mapped from send_buf_pages, so all the TLV you've put before are
-> actually stored in the beginning of send_buf_pages, so by doing the
-> above you ensure the data write begins on a clean page boundary ...
+inotify and dnotify can take NULL inode and the above will make the CREATE
+events on kernfs vanish, so we cannot do that.
+Sorry for not noticing this earlier when I asked for this change.
 
-Yup, I'll add a comment.
+nfsd_file_fsnotify_handle_event() can most certainly not take NULL inode,
+but nfsd does not watch for CREATE events.
 
-> > +	if (data_offset > sctx->send_max_size ||
-> > +	    sctx->send_max_size - data_offset < block_len) {
-> > +		ret = -EOVERFLOW;
-> > +		goto out;
-> > +	}
-> > +
-> > +	ret = btrfs_encoded_read_regular_fill_pages(inode, block_start,
-> > +						    block_len,
-> > +						    sctx->send_buf_pages +
-> > +						    (data_offset >> PAGE_SHIFT));
-> > +	if (ret)
-> > +		goto out;
-> > +
-> > +	hdr = (struct btrfs_cmd_header *)sctx->send_buf;
-> > +	hdr->len = cpu_to_le32(sctx->send_size + block_len - sizeof(*hdr));
-> > +	hdr->crc = 0;
-> > +	crc = btrfs_crc32c(0, sctx->send_buf, sctx->send_size);
-> > +	crc = btrfs_crc32c(crc, sctx->send_buf + data_offset, block_len);
-> 
-> ... and because of that you can't simply use send_cmd ;(
-> 
-> > +	hdr->crc = cpu_to_le32(crc);
-> > +
-> > +	ret = write_buf(sctx->send_filp, sctx->send_buf, sctx->send_size,
-> > +			&sctx->send_off);
-> > +	if (!ret) {
-> > +		ret = write_buf(sctx->send_filp, sctx->send_buf + data_offset,
-> > +				block_len, &sctx->send_off);
-> > +	}
-> > +	sctx->total_send_size += sctx->send_size + block_len;
-> > +	sctx->cmd_send_size[le16_to_cpu(hdr->cmd)] +=
-> > +		sctx->send_size + block_len;
-> > +	sctx->send_size = 0;
-> > +
-> > +tlv_put_failure:
-> > +out:
-> > +	fs_path_free(p);
-> > +	iput(inode);
-> > +	return ret;
-> > +}
-> > +
-> > +static int send_extent_data(struct send_ctx *sctx, struct btrfs_path *path,
-> > +			    const u64 offset, const u64 len)
-> 
-> nit: Instead of sending around a btrfs_path struct around and
-> "polluting" callees to deal with the oddities of our btree interface i.e
-> btrfs_item_ptr et al. Why not refactor the code so that when we know we
-> are about to send an extent data simply initialize some struct
-> extent_info with all the necessary data items: extent type, compression
-> type, based on the extent type properly initialize a size attribute etc
-> and pass that. Right now you have send_extent_data fiddling with
-> path->nodes[0], then based on that you either call
-> send_encoded_inline_extent or send_encoded_extent, instead pass
-> extent_info to send_extent_data/clone_range and be done with it.
+I think what we need to do is (Jan please correct me if you think otherwise):
+1. Document the handle_inode_event() interface that either inode or dir
+    must be non-NULL
+2. WARN_ON_ONCE(!inode && !dir) instead of just (!inode) above
+3. Add WARN_ON_ONCE(!inode) before trace_nfsd_file_fsnotify_handle_event()
+    in nfsd_file_fsnotify_handle_event()
 
-I don't like this for a few reasons:
+Apologies, Gabriel, for having to cleanup our mess ;-)
 
-* An extra "struct extent_info" layer of abstraction would just be extra
-  cognitive overhead. I hate having to trace back where the fields in
-  some struct came from when it's information that's readily available
-  in more well-known data structures.
-* send_encoded_inline_extent() (called by send_extent_data()) needs the
-  btrfs_path in order to get the inline data anyways.
-* clone_range() also already deals with btrfs_paths, so it's not new.
+Thanks,
+Amir.
