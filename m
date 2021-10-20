@@ -2,102 +2,104 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A566C433CD3
-	for <lists+linux-api@lfdr.de>; Tue, 19 Oct 2021 18:55:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C3D54343B9
+	for <lists+linux-api@lfdr.de>; Wed, 20 Oct 2021 05:11:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229789AbhJSQ5U (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 19 Oct 2021 12:57:20 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:50272 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229774AbhJSQ5T (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 19 Oct 2021 12:57:19 -0400
-Received: from localhost (unknown [IPv6:2804:14c:124:8a08::1007])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: krisman)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 0DF1A1F43774;
-        Tue, 19 Oct 2021 17:55:04 +0100 (BST)
-From:   Gabriel Krisman Bertazi <krisman@collabora.com>
-To:     Jan Kara <jack@suse.cz>
-Cc:     jack@suse.com, amir73il@gmail.com, djwong@kernel.org,
-        tytso@mit.edu, david@fromorbit.com, dhowells@redhat.com,
+        id S229842AbhJTDNn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 19 Oct 2021 23:13:43 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:37608 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S229715AbhJTDNn (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 19 Oct 2021 23:13:43 -0400
+Received: from cwcc.thunk.org (pool-72-74-133-215.bstnma.fios.verizon.net [72.74.133.215])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 19K3BCiq013315
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 19 Oct 2021 23:11:12 -0400
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+        id 00A2415C00CA; Tue, 19 Oct 2021 23:11:11 -0400 (EDT)
+Date:   Tue, 19 Oct 2021 23:11:11 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     Gabriel Krisman Bertazi <krisman@collabora.com>
+Cc:     Jan Kara <jack@suse.cz>, jack@suse.com, amir73il@gmail.com,
+        djwong@kernel.org, david@fromorbit.com, dhowells@redhat.com,
         khazhy@google.com, linux-fsdevel@vger.kernel.org,
         linux-ext4@vger.kernel.org, linux-api@vger.kernel.org,
         kernel@collabora.com
 Subject: Re: [PATCH v8 30/32] ext4: Send notifications on error
-Organization: Collabora
+Message-ID: <YW+Iz82Tug5a2wbL@mit.edu>
 References: <20211019000015.1666608-1-krisman@collabora.com>
-        <20211019000015.1666608-31-krisman@collabora.com>
-        <20211019154426.GR3255@quack2.suse.cz>
-        <20211019160152.GT3255@quack2.suse.cz>
-Date:   Tue, 19 Oct 2021 13:54:59 -0300
-In-Reply-To: <20211019160152.GT3255@quack2.suse.cz> (Jan Kara's message of
-        "Tue, 19 Oct 2021 18:01:52 +0200")
-Message-ID: <87o87lnee4.fsf@collabora.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ <20211019000015.1666608-31-krisman@collabora.com>
+ <20211019154426.GR3255@quack2.suse.cz>
+ <20211019160152.GT3255@quack2.suse.cz>
+ <87o87lnee4.fsf@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87o87lnee4.fsf@collabora.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Jan Kara <jack@suse.cz> writes:
+On Tue, Oct 19, 2021 at 01:54:59PM -0300, Gabriel Krisman Bertazi wrote:
+> >
+> > E.g. here you pass the 'error' to fsnotify. This will be just standard
+> > 'errno' number, not ext4 error code as described in the documentation. Also
+> > note that frequently 'error' will be 0 which gets magically transformed to
+> > EFSCORRUPTED in save_error_info() in the ext4 error handling below. So
+> > there's clearly some more work to do...
+> 
+> The many 0 returns were discussed before, around v3.  You can notice one
+> of my LTP tests is designed to catch that.  We agreed ext4 shouldn't be
+> returning 0, and that we would write a patch to fix it, but I didn't
+> think it belonged as part of this series.
 
-> On Tue 19-10-21 17:44:26, Jan Kara wrote:
->> On Mon 18-10-21 21:00:13, Gabriel Krisman Bertazi wrote:
->> > Send a FS_ERROR message via fsnotify to a userspace monitoring tool
->> > whenever a ext4 error condition is triggered.  This follows the existing
->> > error conditions in ext4, so it is hooked to the ext4_error* functions.
->> > 
->> > It also follows the current dmesg reporting in the format.  The
->> > filesystem message is composed mostly by the string that would be
->> > otherwise printed in dmesg.
->> > 
->> > A new ext4 specific record format is exposed in the uapi, such that a
->> > monitoring tool knows what to expect when listening errors of an ext4
->> > filesystem.
->> > 
->> > Reviewed-by: Amir Goldstein <amir73il@gmail.com>
->> > Reviewed-by: Theodore Ts'o <tytso@mit.edu>
->> > Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
->> 
->> Looks good to me. Feel free to add:
->> 
->> Reviewed-by: Jan Kara <jack@suse.cz>
->
-> Hum, I actually retract this because the code doesn't match what is written
-> in the documentation and I'm not 100% sure what is correct. In particular:
->
->> > @@ -759,6 +760,8 @@ void __ext4_error(struct super_block *sb, const char *function,
->> >  		       sb->s_id, function, line, current->comm, &vaf);
->> >  		va_end(args);
->> >  	}
->> > +	fsnotify_sb_error(sb, NULL, error);
->> > +
->
-> E.g. here you pass the 'error' to fsnotify. This will be just standard
-> 'errno' number, not ext4 error code as described in the documentation. Also
-> note that frequently 'error' will be 0 which gets magically transformed to
-> EFSCORRUPTED in save_error_info() in the ext4 error handling below. So
-> there's clearly some more work to do...
+The fact that ext4 passes 0 into __ext4_error() to mean EFSCORRUPTED
+is an internal implementation detail, and as currently implemented it
+is *not* a bug.  It was just a convenience to minimize the number of
+call sites that needed to be modified when we added the feature of
+storing the error code to be stored in the superblock.
 
-Nice catch.
+So I think this is something that should be addressed in this
+patchset, and it's pretty simple to do so.  It's just a matter of
+doing something like this:
 
-The many 0 returns were discussed before, around v3.  You can notice one
-of my LTP tests is designed to catch that.  We agreed ext4 shouldn't be
-returning 0, and that we would write a patch to fix it, but I didn't
-think it belonged as part of this series.
+      fsnotify_sb_error(sb, NULL, error ? error : EFSCORRUPTED);
 
-You are also right about the EXT4_ vs. errno.  the documentation is
-buggy, since it was brought from the fs-specific descriptor days, which
-no longer exists.  Nevertheless, I think there is a case for always
-returning file system specific errors here, since they are more
-descriptive.
 
-Should we agree to follow the documentation and return FS specific
-errors instead of errno, then?
+> You are also right about the EXT4_ vs. errno.  the documentation is
+> buggy, since it was brought from the fs-specific descriptor days, which
+> no longer exists.  Nevertheless, I think there is a case for always
+> returning file system specific errors here, since they are more
+> descriptive.
 
-Either way, I'm dropping all r-by flags here.
+So the history is that ext4 specific errors were used because we were
+storing them in the superblock --- and so we need an architecture
+independent way of storing the error codes.  (Errno codes are not
+stable across architectures; and consider what might happen if we had
+error codes written on an say, an ARM platform, and then that disk is
+attached to an Alpha, S390, or Power system?)
 
--- 
-Gabriel Krisman Bertazi
+> Should we agree to follow the documentation and return FS specific
+> errors instead of errno, then?
+
+I disagree.  We should use errno's, for a couple of reasons.  First of
+all, users of fsnotify shouldn't need to know which file system to
+interpret the error codes.
+
+Secondly, the reason why ext4 has file system specific error cdoes is
+because those codes are written into the superblock, and errno's are
+not stable across different architectures.  So for ext4, we needed to
+worry what might happen if the error code was written while the file
+system was mounted on say, an ARM-64 system, and then storage device
+might get attached to a S390, Alpha, or PA-RISC system.  This is not a
+problem that the fsnotify API needs to worry about.
+
+Finally, the error codes that we used for the ext4 superblock are
+*not* more descriptive than errno's --- we only have 16 ext4-specific
+error codes, and there are far more errno values.
+
+Cheers,
+
+					- Ted
