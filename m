@@ -2,158 +2,152 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AA00435191
-	for <lists+linux-api@lfdr.de>; Wed, 20 Oct 2021 19:44:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51B0B4352FA
+	for <lists+linux-api@lfdr.de>; Wed, 20 Oct 2021 20:48:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230134AbhJTRqZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 20 Oct 2021 13:46:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40352 "EHLO
+        id S231313AbhJTSuY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 20 Oct 2021 14:50:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229941AbhJTRqY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Oct 2021 13:46:24 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32F4AC06161C
-        for <linux-api@vger.kernel.org>; Wed, 20 Oct 2021 10:44:10 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id s61-20020a17090a69c300b0019f663cfcd1so1089387pjj.1
-        for <linux-api@vger.kernel.org>; Wed, 20 Oct 2021 10:44:10 -0700 (PDT)
+        with ESMTP id S230076AbhJTSuX (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Oct 2021 14:50:23 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E74E8C06161C
+        for <linux-api@vger.kernel.org>; Wed, 20 Oct 2021 11:48:08 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id g5so16796239plg.1
+        for <linux-api@vger.kernel.org>; Wed, 20 Oct 2021 11:48:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=osandov-com.20210112.gappssmtp.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=rZMYnNDu/0rM3owyDyTM/MW8BYIa1O070l4Xazp++so=;
-        b=U5SaYaUo2eX0uNis4u8mZfHAkZVzWf42GMVRAVaziDfgSXIuePi9CpoOiTEZJJbhyX
-         pUjstIcxDcX2LKgtDuzAOop0obSqqu9usBn0VGqGAakm41Ov2VCjvwFDTrjm8oM9OzL3
-         BRiP+fqx68PisOpxrc3UOOfXj6eOYxx4qrIX/22UBl1SwuWg727tCJJXUVB2O2kVaZ1E
-         BygetQ3Pz1vC20sGynPgS+8Dqp2q9C9pn3yISoyAfek3UPzMTPeQeM7OieyXZ5WRVCN6
-         qOusgfopWPRd+slExoufzwdh0j8llrMcyZcMpjTh+VbYTs6/poN/mCSRRC0kaqDizrgw
-         0MlQ==
+        bh=NQ1EuHM5IgMVtLK2y5+wVaFDOFZIiofPZ6eBCmdV3Pg=;
+        b=zhwmnUwjzipb3ftyn4a+qKNhhOY1B27CWv9LoO6StyINljAjpqYWLauCWORB6O0MPv
+         bwsLO3e1ez3dWyoLlXnmgWoKzWZWg3NNoJgV7eT437Ql0WO4e8two+iA1jUWhNoHGCDt
+         Q76AoWPKZyVX/KzpBU4djhaJ0U0FmZ0FznbVPH2UzpWeBx4x+A5MtV9DbErSFLrnczjE
+         36s7GDUAhqZQnz+W7q6YOx+41YXBP/SPM71iuedVT7ibQNySrpewODLJXiiBNSHzajWG
+         cFtFWra0hgaxgdN3GhpU220SlgK5A2H+ZRW13OX9s5A0RBU29j1I1Ok5/e8Re9UIU/iG
+         5E1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=rZMYnNDu/0rM3owyDyTM/MW8BYIa1O070l4Xazp++so=;
-        b=tdSj6fHQuSp4pKrtwGaZ4hZDQDAFd4xSKCWuzjsj8KevS9Xx7kyXyq9xnLvVIB6oXt
-         AbpaG8d9HFMByrJCNMNtRDXXeoAcw+nD0huArdW6clvvarXaixAtJ0No1m4BSCOs1LvJ
-         TNAb16UACZl9Bjx3+aXpEQ5CDCTkgtKTjq+LU3wf8IH89n/u2hCxzZETOsxjyRZVsKPe
-         DqDT44yS9xNw47AvR4r4TSfl43SOGpouxUTT2RT5jqNCdPBdOcYz4E1xXpTAcIyVIOua
-         3vxS/OuEl2W2AY+ezzb+Bh8Yu/zyEMClPOH969FdhbNN81MorOBmDTsu9/8X0gCIt2ly
-         PYCw==
-X-Gm-Message-State: AOAM533oKOWJqbz+M1G+BeZJbawaZkrE7z5gZJHD22ENqsjB2ouqOphj
-        R2ZJVJG+ZmEalSdsJAzKneAKRw==
-X-Google-Smtp-Source: ABdhPJzQ+Ej8QpV04tDuNMK7gYYN4Af2SN3LnIiHhIYgGgqoTlXtXZ9ueAXGlJreogqlKOxEq53t+Q==
-X-Received: by 2002:a17:902:dac2:b0:13e:f73b:6b5d with SMTP id q2-20020a170902dac200b0013ef73b6b5dmr467152plx.49.1634751849573;
-        Wed, 20 Oct 2021 10:44:09 -0700 (PDT)
+        bh=NQ1EuHM5IgMVtLK2y5+wVaFDOFZIiofPZ6eBCmdV3Pg=;
+        b=Gs2w5CqFwNlKwuI1MnK/sE9ZBRo5H6Lx2UQcgKVJgl4d2F08s7/bjKE0nuYhv8f+DA
+         l8OXMXz2jrKWKaS1ZnhZxUhj1BXYt5Hwr5AnCu+oLRVuDoT56F2Tq9yj97NdricxAZvT
+         VU6wMCXYMVSLK9bQhWPHylDtUwEXKjIjMUFIvkt9cJ+eSCHWcjtnilBb5eFWkj7IGK+M
+         nivK2zJ/VxMXGM2USFli4tAEHR7tp4Ogbw2Y1fGurFTJ8NpGpCIjyBL2z/TTGyJlRdip
+         9I5V5/qF/BCaUbio+44yk/6I6onfsdqjNo1E/Kwuz9JCkLOXfmImgAyKmUFFOx59OERa
+         Bu3A==
+X-Gm-Message-State: AOAM530BW4kSm8MIMMibGHpK3Vk1E1szevXWjaphlrDH1NrV24c9K1yv
+        pcg4o8qvju0LBLd6gLnOtcDOWQ==
+X-Google-Smtp-Source: ABdhPJwrQB0DLaQzr2JASowUXfaOc3ZJfTfRTYifLBwS/p/C6efRjvvNoC+XDq2kIkE9L2MGydpFxA==
+X-Received: by 2002:a17:90a:d311:: with SMTP id p17mr659231pju.155.1634755688287;
+        Wed, 20 Oct 2021 11:48:08 -0700 (PDT)
 Received: from relinquished.localdomain ([2620:10d:c090:400::5:be9d])
-        by smtp.gmail.com with ESMTPSA id c9sm2735057pgq.58.2021.10.20.10.44.08
+        by smtp.gmail.com with ESMTPSA id om5sm3225914pjb.36.2021.10.20.11.48.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Oct 2021 10:44:09 -0700 (PDT)
-Date:   Wed, 20 Oct 2021 10:44:08 -0700
+        Wed, 20 Oct 2021 11:48:07 -0700 (PDT)
+Date:   Wed, 20 Oct 2021 11:48:06 -0700
 From:   Omar Sandoval <osandov@osandov.com>
 To:     Nikolay Borisov <nborisov@suse.com>
 Cc:     linux-btrfs@vger.kernel.org, kernel-team@fb.com,
         linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH v11 02/10] btrfs-progs: receive: dynamically allocate
- sctx->read_buf
-Message-ID: <YXBVaLzCGdj3wfkL@relinquished.localdomain>
+Subject: Re: [PATCH v11 01/10] btrfs-progs: receive: support v2 send stream
+ larger tlv_len
+Message-ID: <YXBkZmARzs4jGA92@relinquished.localdomain>
 References: <cover.1630514529.git.osandov@fb.com>
- <01efd9dd3a70c1a765549b16d6aa5c4cec8a67e4.1630515568.git.osandov@fb.com>
- <c30108b4-3001-2f6f-dd01-d3fb31f5d4da@suse.com>
- <dbecc5c2-c451-03f4-1a6f-cff09b934780@suse.com>
+ <8729477d23b83c368a76c4f39b5f73a483a3ad14.1630515568.git.osandov@fb.com>
+ <d628363e-295d-8e84-d6f2-85501ada24ed@suse.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <dbecc5c2-c451-03f4-1a6f-cff09b934780@suse.com>
+In-Reply-To: <d628363e-295d-8e84-d6f2-85501ada24ed@suse.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Oct 20, 2021 at 05:35:42PM +0300, Nikolay Borisov wrote:
+On Wed, Oct 20, 2021 at 04:49:38PM +0300, Nikolay Borisov wrote:
 > 
 > 
-> On 20.10.21 г. 17:09, Nikolay Borisov wrote:
+> On 1.09.21 г. 20:01, Omar Sandoval wrote:
+> > From: Boris Burkov <borisb@fb.com>
 > > 
+> > An encoded extent can be up to 128K in length, which exceeds the largest
+> > value expressible by the current send stream format's 16 bit tlv_len
+> > field. Since encoded writes cannot be split into multiple writes by
+> > btrfs send, the send stream format must change to accommodate encoded
+> > writes.
 > > 
-> > On 1.09.21 г. 20:01, Omar Sandoval wrote:
-> >> From: Boris Burkov <boris@bur.io>
-> >>
-> >> In send stream v2, write commands can now be an arbitrary size. For that
+> > Supporting this changed format requires retooling how we store the
+> > commands we have processed. Since we can no longer use btrfs_tlv_header
+> > to describe every attribute, we define a new struct btrfs_send_attribute
+> > which has a 32 bit length field, and use that to store the attribute
+> > information needed for receive processing. This is transparent to users
+> > of the various TLV_GET macros.
+> > 
+> > Signed-off-by: Boris Burkov <boris@bur.io>
+> > ---
+> >  common/send-stream.c | 34 +++++++++++++++++++++++++---------
+> >  1 file changed, 25 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/common/send-stream.c b/common/send-stream.c
+> > index a0c52f79..cd5aa311 100644
+> > --- a/common/send-stream.c
+> > +++ b/common/send-stream.c
+> > @@ -24,13 +24,23 @@
+> >  #include "crypto/crc32c.h"
+> >  #include "common/utils.h"
+> >  
+> > +struct btrfs_send_attribute {
+> > +	u16 tlv_type;
+> > +	/*
+> > +	 * Note: in btrfs_tlv_header, this is __le16, but we need 32 bits for
+> > +	 * attributes with file data as of version 2 of the send stream format
+> > +	 */
+> > +	u32 tlv_len;
+> > +	char *data;
+> > +};
+> > +
+> >  struct btrfs_send_stream {
+> >  	char read_buf[BTRFS_SEND_BUF_SIZE];
+> >  	int fd;
+> >  
+> >  	int cmd;
+> >  	struct btrfs_cmd_header *cmd_hdr;
+> > -	struct btrfs_tlv_header *cmd_attrs[BTRFS_SEND_A_MAX + 1];
+> > +	struct btrfs_send_attribute cmd_attrs[BTRFS_SEND_A_MAX + 1];
 > 
-> nit: Actually can't commands really be up-to BTRFS_MAX_COMPRESSED + 16K
-> really  or are we going to leave this as an implementation detail? I'm
-> fine either way but looking at the changelog of patch 12 in the kernel
-> series doesn't really mention of arbitrary size, instead it explicitly
-> is talking about sending the max compressed extent size (128K) + some
-> space for metadata (the 16K above).
+> This is subtle and it took me a couple of minutes to get it at first.
+> Currently cmds_attrs holds an array of pointers into the command buffer,
+> with every pointer being the beginning of the tlv_header, whilst with
+> your change cmd_attr now holds actual btrfs_send_attribute structures
+> (52 bytes vs sizeof(uintptr_t)  bytes before). So this increases the
+> overall size of btrfs_send_stream because with  your version of the code
+> you parse the type/length fields and store them directly in the send
+> attribute structure at command parse time rather than just referring to
+> the raw command buffer during read_cmd and referring to them during
+> attribute parsing.
+> 
+> This might seem superficial but this kind of change should really be
+> mentioned explicitly in the changelog to better prepare reviewers what
+> to expect.
+> 
+> 
+> OTOH the code LGTM and actually now it seems less tricky than before so:
+> 
+> Reviewed-by: Nikolay Borisov <nborisov@suse.com>
+> 
+> 
+> David if you deem it necessary adjust the commit message appropriately.
 
-Patch 10 mentions it in the changelog: "It also documents two changes to the
-send stream format in v2: the receiver shouldn't assume a maximum command size,
-and the DATA attribute is encoded differently to allow for writes larger than
-64k".
+I clarified the second paragraph to:
 
-And in send.h:
-
--#define BTRFS_SEND_BUF_SIZE SZ_64K
-+/*
-+ * In send stream v1, no command is larger than 64k. In send stream v2, no limit
-+ * should be assumed.
-+ */
-+#define BTRFS_SEND_BUF_SIZE_V1 SZ_64K
-
-You're correct that right now the limit is BTRFS_MAX_COMPRESSED + 16k,
-but I think it's better if userspace doesn't make any assumptions about
-that in case we want to send larger commands in the future.
-
-> >> reason, we can no longer allocate a fixed array in sctx for read_cmd.
-> >> Instead, read_cmd dynamically allocates sctx->read_buf. To avoid
-> >> needless reallocations, we reuse read_buf between read_cmd calls by also
-> >> keeping track of the size of the allocated buffer in sctx->read_buf_sz.
-> >>
-> >> We do the first allocation of the old default size at the start of
-> >> processing the stream, and we only reallocate if we encounter a command
-> >> that needs a larger buffer.
-> >>
-> >> Signed-off-by: Boris Burkov <boris@bur.io>
-> >> ---
-> >>  common/send-stream.c | 55 ++++++++++++++++++++++++++++----------------
-> >>  send.h               |  2 +-
-> >>  2 files changed, 36 insertions(+), 21 deletions(-)
-> >>
-> > 
-> > <snip>
-> > 
-> >> @@ -124,18 +125,22 @@ static int read_cmd(struct btrfs_send_stream *sctx)
-> >>  		goto out;
-> >>  	}
-> >>  
-> >> -	sctx->cmd_hdr = (struct btrfs_cmd_header *)sctx->read_buf;
-> >> -	cmd = le16_to_cpu(sctx->cmd_hdr->cmd);
-> >> -	cmd_len = le32_to_cpu(sctx->cmd_hdr->len);
-> >> -
-> >> -	if (cmd_len + sizeof(*sctx->cmd_hdr) >= sizeof(sctx->read_buf)) {
-> >> -		ret = -EINVAL;
-> >> -		error("command length %u too big for buffer %zu",
-> >> -				cmd_len, sizeof(sctx->read_buf));
-> >> -		goto out;
-> >> +	cmd_hdr = (struct btrfs_cmd_header *)sctx->read_buf;
-> >> +	cmd_len = le32_to_cpu(cmd_hdr->len);
-> >> +	cmd = le16_to_cpu(cmd_hdr->cmd);
-> >> +	buf_len = sizeof(*cmd_hdr) + cmd_len;
-> >> +	if (sctx->read_buf_sz < buf_len) {
-> >> +		sctx->read_buf = realloc(sctx->read_buf, buf_len);
-> >> +		if (!sctx->read_buf) {
-> > 
-> > nit: This is prone to a memory leak, because according to
-> > https://en.cppreference.com/w/c/memory/realloc
-> > 
-> > If there is not enough memory, the old memory block is not freed and
-> > null pointer is returned.
-> > 
-> > 
-> > This means if realloc fails it will overwrite sctx->read_buf with NULL,
-> > yet the old memory won't be freed which will cause a memory leak. It can
-> > be argued that's not critical since we'll very quickly terminate the
-> > program afterwards but still.
-
-Good catch, I'll fix that.
+Supporting this changed format requires retooling how we store the
+commands we have processed. We currently store pointers to the struct
+btrfs_tlv_headers in the command buffer. This is not sufficient to
+represent the new BTRFS_SEND_A_DATA format. Instead, parse the attribute
+headers and store them in a new struct btrfs_send_attribute which has a
+32-bit length field. This is transparent to users of the various TLV_GET
+macros.
