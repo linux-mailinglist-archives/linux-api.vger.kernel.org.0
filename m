@@ -2,58 +2,58 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B41154347E2
-	for <lists+linux-api@lfdr.de>; Wed, 20 Oct 2021 11:26:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 027B34347E0
+	for <lists+linux-api@lfdr.de>; Wed, 20 Oct 2021 11:25:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229632AbhJTJ2u (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 20 Oct 2021 05:28:50 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:22689 "EHLO
+        id S229864AbhJTJ17 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 20 Oct 2021 05:27:59 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:9766 "EHLO
         mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229686AbhJTJ2t (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Oct 2021 05:28:49 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19K9AfxK015872;
-        Wed, 20 Oct 2021 05:25:24 -0400
+        by vger.kernel.org with ESMTP id S229503AbhJTJ16 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Oct 2021 05:27:58 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19K8lXiJ005787;
+        Wed, 20 Oct 2021 05:25:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=y5icvuJDxqe1KHzqX7MzLISJ3yUKoqBaUuJavwxPWOk=;
- b=DdJg+KoDGqamebhGOqTXCmi7yHCx40XGyg+PJZSVUsCv1RXiUeA+DvW6oxES/ZUfTp3p
- OPvUcCx3q4F97i1+Gc9jdFpOoTpoT3gqAH6l9evg3ru8kc+T+r4RaPQOw/qUYHpaQZV9
- BAEcAU/94bYmF+Pi+/Dg9ZFjBx5s7BuNQdYnwDXhS4LZ+ABGWomAaEvND3TnPewap8MT
- 1qkxCQXrEq4AqJGQm2UsIrPa6k+p9WtLVbZRVNvLw4fuF8nrJiU5XsCtmB9vAmyCsWWl
- Nwx8xs5At/Qd/CbnmhyxWDoNSZv9tAXPGtPLSs9cJGJC+WE2x4qVUoy3P8ZKrerhi5mO sg== 
+ bh=ivlTd8gmszBkC4f/TPN/j4CEOcCU7BtvVjeMYJaGHqs=;
+ b=I7ZBRLgBBkPzvNFni5nKdCEoePXrhDCrCcmyKylrusaG7XptQWCsgzrlWqv9w0ygOhqM
+ HszGngLcEeK+KV/9WNtH3o5CjpBGw9mE3fbhC+R1lHTSYZu3P8iwteoGxShPiDZa4syC
+ 6yI2bXOtZnBM2zGYd53OSNXptg/nTv5HDsB521VOSHK4SbqdSpoB8jT4UH2eK63zRkdO
+ QJWnIVdW9iMiqwyyQxBqCWMe2lWS2QpeALSaUdFojio+Jc4U6WofuYygNMBmavIIyAnZ
+ TOb/LLnDnLIu5XYuTNl7Uy9On89IThkHdQ34WiSYRqIcT1CQF5KZaMS/isPFTxlcXq2J rg== 
 Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3btb2qpqqg-1
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3btfwrrrer-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 20 Oct 2021 05:25:24 -0400
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19K8HqTi008252;
-        Wed, 20 Oct 2021 05:25:23 -0400
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.10])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3btb2qpqq5-1
+        Wed, 20 Oct 2021 05:25:32 -0400
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19K8mLvc013173;
+        Wed, 20 Oct 2021 05:25:31 -0400
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com [169.55.91.170])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3btfwrrref-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 20 Oct 2021 05:25:23 -0400
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
-        by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 19K9HGlR004340;
-        Wed, 20 Oct 2021 09:25:22 GMT
+        Wed, 20 Oct 2021 05:25:31 -0400
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+        by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 19K9HvuJ017185;
+        Wed, 20 Oct 2021 09:25:30 GMT
 Received: from b03cxnp07029.gho.boulder.ibm.com (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
-        by ppma02dal.us.ibm.com with ESMTP id 3bqpcc2vaj-1
+        by ppma02wdc.us.ibm.com with ESMTP id 3bqpcbhd3f-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 20 Oct 2021 09:25:22 +0000
+        Wed, 20 Oct 2021 09:25:30 +0000
 Received: from b03ledav005.gho.boulder.ibm.com (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
-        by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 19K9PLCo44564862
+        by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 19K9PSmb16449896
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 20 Oct 2021 09:25:21 GMT
+        Wed, 20 Oct 2021 09:25:29 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 24A21BE061;
+        by IMSVA (Postfix) with ESMTP id 9AFC0BE059;
+        Wed, 20 Oct 2021 09:25:28 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C2E20BE058;
         Wed, 20 Oct 2021 09:25:21 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E71DBBE062;
-        Wed, 20 Oct 2021 09:25:14 +0000 (GMT)
 Received: from skywalker.ibmuc.com (unknown [9.43.103.88])
         by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Wed, 20 Oct 2021 09:25:14 +0000 (GMT)
+        Wed, 20 Oct 2021 09:25:21 +0000 (GMT)
 From:   "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
 To:     linux-mm@kvack.org
 Cc:     akpm@linux-foundation.org,
@@ -70,80 +70,28 @@ Cc:     akpm@linux-foundation.org,
         Andi Kleen <ak@linux.intel.com>,
         Dan Williams <dan.j.williams@intel.com>,
         Huang Ying <ying.huang@intel.com>, linux-api@vger.kernel.org
-Subject: [RFC PATCH v2 2/3] mm/mempolicy: add set_mempolicy_home_node syscall
-Date:   Wed, 20 Oct 2021 14:54:52 +0530
-Message-Id: <20211020092453.179929-2-aneesh.kumar@linux.ibm.com>
+Subject: [RFC PATCH v2 3/3] mm/mempolicy: wire up syscall set_mempolicy_home_node
+Date:   Wed, 20 Oct 2021 14:54:53 +0530
+Message-Id: <20211020092453.179929-3-aneesh.kumar@linux.ibm.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211020092453.179929-1-aneesh.kumar@linux.ibm.com>
 References: <20211020092453.179929-1-aneesh.kumar@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: X_iK_dfLN6zJikmL3goYIv5nDJDNUHbp
-X-Proofpoint-ORIG-GUID: 3FJUwBBg7f1UZMwuFlXLekubag6za-jf
+X-Proofpoint-ORIG-GUID: 6hqSHGkmAq7Ir8jLsZh2aHy6YnPMiYWP
+X-Proofpoint-GUID: oCSAHFaWHX0LvCLLT7KPpmLVCkupW1Rt
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
  definitions=2021-10-20_04,2021-10-19_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
- mlxlogscore=999 clxscore=1015 lowpriorityscore=0 suspectscore=0
- bulkscore=0 adultscore=0 impostorscore=0 spamscore=0 priorityscore=1501
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 bulkscore=0
+ phishscore=0 priorityscore=1501 mlxscore=0 clxscore=1015 suspectscore=0
+ spamscore=0 impostorscore=0 malwarescore=0 mlxlogscore=999
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2109230001 definitions=main-2110200051
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
-
-This syscall can be used to set a home node for the MPOL_BIND
-and MPOL_PREFERRED_MANY memory policy. Users should use this
-syscall after setting up a memory policy for the specified range
-as shown below.
-
-mbind(p, nr_pages * page_size, MPOL_BIND, new_nodes->maskp,
-	    new_nodes->size + 1, 0);
-sys_set_mempolicy_home_node((unsigned long)p, nr_pages * page_size,
-				  home_node, 0);
-
-The syscall allows specifying a home node/preferred node from which kernel
-will fulfill memory allocation requests first.
-
-For address range with MPOL_BIND memory policy, if nodemask specifies more
-than one node, page allocations will come from the node in the nodemask
-with sufficient free memory that is closest to the home node/preferred node.
-
-For MPOL_PREFERRED_MANY if the nodemask specifies more than one node,
-page allocation will come from the node in the nodemask with sufficient
-free memory that is closest to the home node/preferred node. If there is
-not enough memory in all the nodes specified in the nodemask, the allocation
-will be attempted from the closest numa node to the home node in the system.
-
-This helps applications to hint at a memory allocation preference node
-and fallback to _only_ a set of nodes if the memory is not available
-on the preferred node.  Fallback allocation is attempted from the node which is
-nearest to the preferred node.
-
-This helps applications to have control on memory allocation numa nodes and
-avoids default fallback to slow memory NUMA nodes. For example a system with
-NUMA nodes 1,2 and 3 with DRAM memory and 10, 11 and 12 of slow memory
-
- new_nodes = numa_bitmask_alloc(nr_nodes);
-
- numa_bitmask_setbit(new_nodes, 1);
- numa_bitmask_setbit(new_nodes, 2);
- numa_bitmask_setbit(new_nodes, 3);
-
- p = mmap(NULL, nr_pages * page_size, protflag, mapflag, -1, 0);
- mbind(p, nr_pages * page_size, MPOL_BIND, new_nodes->maskp,  new_nodes->size + 1, 0);
-
- sys_set_mempolicy_home_node(p, nr_pages * page_size, 2, 0);
-
-This will allocate from nodes closer to node 2 and will make sure kernel will
-only allocate from nodes 1, 2 and3. Memory will not be allocated from slow memory
-nodes 10, 11 and 12
-
-With MPOL_PREFERRED_MANY on the other hand will first try to allocate from the
-closest node to node 2 from the node list 1, 2 and 3. If those nodes don't have
-enough memory, kernel will allocate from slow memory node 10, 11 and 12 which
-ever is closer to node 2.
 
 Cc: Ben Widawsky <ben.widawsky@intel.com>
 Cc: Dave Hansen <dave.hansen@linux.intel.com>
@@ -160,108 +108,245 @@ Cc: Huang Ying <ying.huang@intel.com>
 Cc: linux-api@vger.kernel.org
 Signed-off-by: Aneesh Kumar K.V <aneesh.kumar@linux.ibm.com>
 ---
- include/linux/mempolicy.h |  1 +
- mm/mempolicy.c            | 54 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 55 insertions(+)
+ arch/alpha/kernel/syscalls/syscall.tbl      | 1 +
+ arch/arm/tools/syscall.tbl                  | 1 +
+ arch/arm64/include/asm/unistd.h             | 2 +-
+ arch/arm64/include/asm/unistd32.h           | 2 ++
+ arch/ia64/kernel/syscalls/syscall.tbl       | 1 +
+ arch/m68k/kernel/syscalls/syscall.tbl       | 1 +
+ arch/microblaze/kernel/syscalls/syscall.tbl | 1 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl   | 1 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl   | 1 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl   | 1 +
+ arch/parisc/kernel/syscalls/syscall.tbl     | 1 +
+ arch/powerpc/kernel/syscalls/syscall.tbl    | 1 +
+ arch/s390/kernel/syscalls/syscall.tbl       | 1 +
+ arch/sh/kernel/syscalls/syscall.tbl         | 1 +
+ arch/sparc/kernel/syscalls/syscall.tbl      | 1 +
+ arch/x86/entry/syscalls/syscall_32.tbl      | 1 +
+ arch/x86/entry/syscalls/syscall_64.tbl      | 1 +
+ arch/xtensa/kernel/syscalls/syscall.tbl     | 1 +
+ include/linux/syscalls.h                    | 3 +++
+ include/uapi/asm-generic/unistd.h           | 4 +++-
+ kernel/sys_ni.c                             | 1 +
+ 21 files changed, 26 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/mempolicy.h b/include/linux/mempolicy.h
-index 4091692bed8c..7a224d11bdd0 100644
---- a/include/linux/mempolicy.h
-+++ b/include/linux/mempolicy.h
-@@ -47,6 +47,7 @@ struct mempolicy {
- 	unsigned short mode; 	/* See MPOL_* above */
- 	unsigned short flags;	/* See set_mempolicy() MPOL_F_* above */
- 	nodemask_t nodes;	/* interleave/bind/perfer */
-+	int home_node;		/* Home node to use for MPOL_BIND and MPOL_PREFERRED_MANY */
+diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
+index e4a041cd5715..62b01f28ca3e 100644
+--- a/arch/alpha/kernel/syscalls/syscall.tbl
++++ b/arch/alpha/kernel/syscalls/syscall.tbl
+@@ -488,3 +488,4 @@
+ 556	common	landlock_restrict_self		sys_landlock_restrict_self
+ # 557 reserved for memfd_secret
+ 558	common	process_mrelease		sys_process_mrelease
++559	common	set_mempolicy_home_node		sys_ni_syscall
+diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
+index e842209e135d..654d36611510 100644
+--- a/arch/arm/tools/syscall.tbl
++++ b/arch/arm/tools/syscall.tbl
+@@ -462,3 +462,4 @@
+ 446	common	landlock_restrict_self		sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448	common	process_mrelease		sys_process_mrelease
++449	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
+diff --git a/arch/arm64/include/asm/unistd.h b/arch/arm64/include/asm/unistd.h
+index 3cb206aea3db..6bdb5f5db438 100644
+--- a/arch/arm64/include/asm/unistd.h
++++ b/arch/arm64/include/asm/unistd.h
+@@ -38,7 +38,7 @@
+ #define __ARM_NR_compat_set_tls		(__ARM_NR_COMPAT_BASE + 5)
+ #define __ARM_NR_COMPAT_END		(__ARM_NR_COMPAT_BASE + 0x800)
  
- 	union {
- 		nodemask_t cpuset_mems_allowed;	/* relative to these nodes */
-diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index 6f0f607cd070..20415c9347e0 100644
---- a/mm/mempolicy.c
-+++ b/mm/mempolicy.c
-@@ -296,6 +296,7 @@ static struct mempolicy *mpol_new(unsigned short mode, unsigned short flags,
- 	atomic_set(&policy->refcnt, 1);
- 	policy->mode = mode;
- 	policy->flags = flags;
-+	policy->home_node = NUMA_NO_NODE;
+-#define __NR_compat_syscalls		449
++#define __NR_compat_syscalls		450
+ #endif
  
- 	return policy;
- }
-@@ -1483,6 +1484,52 @@ static long kernel_mbind(unsigned long start, unsigned long len,
- 	return do_mbind(start, len, lmode, mode_flags, &nodes, flags);
- }
+ #define __ARCH_WANT_SYS_CLONE
+diff --git a/arch/arm64/include/asm/unistd32.h b/arch/arm64/include/asm/unistd32.h
+index 844f6ae58662..83dc8cc5040c 100644
+--- a/arch/arm64/include/asm/unistd32.h
++++ b/arch/arm64/include/asm/unistd32.h
+@@ -903,6 +903,8 @@ __SYSCALL(__NR_landlock_add_rule, sys_landlock_add_rule)
+ __SYSCALL(__NR_landlock_restrict_self, sys_landlock_restrict_self)
+ #define __NR_process_mrelease 448
+ __SYSCALL(__NR_process_mrelease, sys_process_mrelease)
++#define __NR_set_mempolicy_home_node 449
++__SYSCALL(__NR_set_mempolicy_home_node, sys_set_mempolicy_home_node)
  
-+SYSCALL_DEFINE4(set_mempolicy_home_node, unsigned long, start, unsigned long, len,
-+		unsigned long, home_node, unsigned long, flags)
-+{
-+	struct mm_struct *mm = current->mm;
-+	struct vm_area_struct *vma;
-+	struct mempolicy *new;
-+	unsigned long vmstart;
-+	unsigned long vmend;
-+	unsigned long end;
-+	int err = -ENOENT;
-+
-+	if (start & ~PAGE_MASK)
-+		return -EINVAL;
-+
-+	len = (len + PAGE_SIZE - 1) & PAGE_MASK;
-+	end = start + len;
-+
-+	if (end < start)
-+		return -EINVAL;
-+	if (end == start)
-+		return 0;
-+	mmap_write_lock(mm);
-+	vma = find_vma(mm, start);
-+	for (; vma && vma->vm_start < end;  vma = vma->vm_next) {
-+
-+		vmstart = max(start, vma->vm_start);
-+		vmend   = min(end, vma->vm_end);
-+		new = mpol_dup(vma_policy(vma));
-+		if (IS_ERR(new)) {
-+			err = PTR_ERR(new);
-+			break;
-+		}
-+		/*
-+		 * Only update home node if there is an existing vma policy
-+		 */
-+		if (!new)
-+			continue;
-+		new->home_node = home_node;
-+		err = mbind_range(mm, vmstart, vmend, new);
-+		if (err)
-+			break;
-+	}
-+	mmap_write_unlock(mm);
-+	return err;
-+}
-+
- SYSCALL_DEFINE6(mbind, unsigned long, start, unsigned long, len,
- 		unsigned long, mode, const unsigned long __user *, nmask,
- 		unsigned long, maxnode, unsigned int, flags)
-@@ -1807,6 +1854,11 @@ static int policy_node(gfp_t gfp, struct mempolicy *policy, int nd)
- 		WARN_ON_ONCE(policy->mode == MPOL_BIND && (gfp & __GFP_THISNODE));
- 	}
+ /*
+  * Please add new compat syscalls above this comment and update
+diff --git a/arch/ia64/kernel/syscalls/syscall.tbl b/arch/ia64/kernel/syscalls/syscall.tbl
+index 6fea1844fb95..c283e041ac2f 100644
+--- a/arch/ia64/kernel/syscalls/syscall.tbl
++++ b/arch/ia64/kernel/syscalls/syscall.tbl
+@@ -369,3 +369,4 @@
+ 446	common	landlock_restrict_self		sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448	common	process_mrelease		sys_process_mrelease
++449	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
+diff --git a/arch/m68k/kernel/syscalls/syscall.tbl b/arch/m68k/kernel/syscalls/syscall.tbl
+index 7976dff8f879..1306b416ab7f 100644
+--- a/arch/m68k/kernel/syscalls/syscall.tbl
++++ b/arch/m68k/kernel/syscalls/syscall.tbl
+@@ -448,3 +448,4 @@
+ 446	common	landlock_restrict_self		sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448	common	process_mrelease		sys_process_mrelease
++449	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
+diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
+index 6b0e11362bd2..013c5c84f90c 100644
+--- a/arch/microblaze/kernel/syscalls/syscall.tbl
++++ b/arch/microblaze/kernel/syscalls/syscall.tbl
+@@ -454,3 +454,4 @@
+ 446	common	landlock_restrict_self		sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448	common	process_mrelease		sys_process_mrelease
++449	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
+diff --git a/arch/mips/kernel/syscalls/syscall_n32.tbl b/arch/mips/kernel/syscalls/syscall_n32.tbl
+index 70e32de2bcaa..fa8fe5553c66 100644
+--- a/arch/mips/kernel/syscalls/syscall_n32.tbl
++++ b/arch/mips/kernel/syscalls/syscall_n32.tbl
+@@ -387,3 +387,4 @@
+ 446	n32	landlock_restrict_self		sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448	n32	process_mrelease		sys_process_mrelease
++449	n32	set_mempolicy_home_node		sys_set_mempolicy_home_node
+diff --git a/arch/mips/kernel/syscalls/syscall_n64.tbl b/arch/mips/kernel/syscalls/syscall_n64.tbl
+index 1ca7bc337932..3d9826dad90f 100644
+--- a/arch/mips/kernel/syscalls/syscall_n64.tbl
++++ b/arch/mips/kernel/syscalls/syscall_n64.tbl
+@@ -363,3 +363,4 @@
+ 446	n64	landlock_restrict_self		sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448	n64	process_mrelease		sys_process_mrelease
++449	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
+diff --git a/arch/mips/kernel/syscalls/syscall_o32.tbl b/arch/mips/kernel/syscalls/syscall_o32.tbl
+index a61c35edaa74..132bb673960a 100644
+--- a/arch/mips/kernel/syscalls/syscall_o32.tbl
++++ b/arch/mips/kernel/syscalls/syscall_o32.tbl
+@@ -436,3 +436,4 @@
+ 446	o32	landlock_restrict_self		sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448	o32	process_mrelease		sys_process_mrelease
++449	o32	set_mempolicy_home_node		sys_set_mempolicy_home_node
+diff --git a/arch/parisc/kernel/syscalls/syscall.tbl b/arch/parisc/kernel/syscalls/syscall.tbl
+index bf751e0732b7..25732a07f29f 100644
+--- a/arch/parisc/kernel/syscalls/syscall.tbl
++++ b/arch/parisc/kernel/syscalls/syscall.tbl
+@@ -446,3 +446,4 @@
+ 446	common	landlock_restrict_self		sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448	common	process_mrelease		sys_process_mrelease
++449	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
+diff --git a/arch/powerpc/kernel/syscalls/syscall.tbl b/arch/powerpc/kernel/syscalls/syscall.tbl
+index 7bef917cc84e..6b95e0371812 100644
+--- a/arch/powerpc/kernel/syscalls/syscall.tbl
++++ b/arch/powerpc/kernel/syscalls/syscall.tbl
+@@ -528,3 +528,4 @@
+ 446	common	landlock_restrict_self		sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448	common	process_mrelease		sys_process_mrelease
++449 	nospu	set_mempolicy_home_node		sys_set_mempolicy_home_node
+diff --git a/arch/s390/kernel/syscalls/syscall.tbl b/arch/s390/kernel/syscalls/syscall.tbl
+index df5261e5cfe1..691932966499 100644
+--- a/arch/s390/kernel/syscalls/syscall.tbl
++++ b/arch/s390/kernel/syscalls/syscall.tbl
+@@ -451,3 +451,4 @@
+ 446  common	landlock_restrict_self	sys_landlock_restrict_self	sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448  common	process_mrelease	sys_process_mrelease		sys_process_mrelease
++449  common	set_mempolicy_home_node	sys_set_mempolicy_home_node	sys_set_mempolicy_home_node
+diff --git a/arch/sh/kernel/syscalls/syscall.tbl b/arch/sh/kernel/syscalls/syscall.tbl
+index 208f131659c5..9cdc7e105e5d 100644
+--- a/arch/sh/kernel/syscalls/syscall.tbl
++++ b/arch/sh/kernel/syscalls/syscall.tbl
+@@ -451,3 +451,4 @@
+ 446	common	landlock_restrict_self		sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448	common	process_mrelease		sys_process_mrelease
++449	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
+diff --git a/arch/sparc/kernel/syscalls/syscall.tbl b/arch/sparc/kernel/syscalls/syscall.tbl
+index c37764dc764d..d3667c058e51 100644
+--- a/arch/sparc/kernel/syscalls/syscall.tbl
++++ b/arch/sparc/kernel/syscalls/syscall.tbl
+@@ -494,3 +494,4 @@
+ 446	common	landlock_restrict_self		sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448	common	process_mrelease		sys_process_mrelease
++449	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
+diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
+index 960a021d543e..85274bd56756 100644
+--- a/arch/x86/entry/syscalls/syscall_32.tbl
++++ b/arch/x86/entry/syscalls/syscall_32.tbl
+@@ -453,3 +453,4 @@
+ 446	i386	landlock_restrict_self	sys_landlock_restrict_self
+ 447	i386	memfd_secret		sys_memfd_secret
+ 448	i386	process_mrelease	sys_process_mrelease
++449	i386	set_mempolicy_home_node		sys_set_mempolicy_home_node
+diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+index 18b5500ea8bf..b20f43fd95bc 100644
+--- a/arch/x86/entry/syscalls/syscall_64.tbl
++++ b/arch/x86/entry/syscalls/syscall_64.tbl
+@@ -370,6 +370,7 @@
+ 446	common	landlock_restrict_self	sys_landlock_restrict_self
+ 447	common	memfd_secret		sys_memfd_secret
+ 448	common	process_mrelease	sys_process_mrelease
++449	common	set_mempolicy_home_node	sys_set_mempolicy_home_node
  
-+	if ((policy->mode == MPOL_BIND ||
-+	     policy->mode == MPOL_PREFERRED_MANY) &&
-+	    policy->home_node != NUMA_NO_NODE)
-+		return policy->home_node;
-+
- 	return nd;
- }
+ #
+ # Due to a historical design error, certain syscalls are numbered differently
+diff --git a/arch/xtensa/kernel/syscalls/syscall.tbl b/arch/xtensa/kernel/syscalls/syscall.tbl
+index 104b327f8ac9..6879ff2c9c27 100644
+--- a/arch/xtensa/kernel/syscalls/syscall.tbl
++++ b/arch/xtensa/kernel/syscalls/syscall.tbl
+@@ -419,3 +419,4 @@
+ 446	common	landlock_restrict_self		sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448	common	process_mrelease		sys_process_mrelease
++449	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index 252243c7783d..e64d7213d281 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -1052,6 +1052,9 @@ asmlinkage long sys_landlock_add_rule(int ruleset_fd, enum landlock_rule_type ru
+ 		const void __user *rule_attr, __u32 flags);
+ asmlinkage long sys_landlock_restrict_self(int ruleset_fd, __u32 flags);
+ asmlinkage long sys_memfd_secret(unsigned int flags);
++asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long len,
++					    unsigned long home_node,
++					    unsigned long flags);
  
-@@ -2257,6 +2309,8 @@ bool __mpol_equal(struct mempolicy *a, struct mempolicy *b)
- 		return false;
- 	if (a->flags != b->flags)
- 		return false;
-+	if (a->home_node != b->home_node)
-+		return false;
- 	if (mpol_store_user_nodemask(a))
- 		if (!nodes_equal(a->w.user_nodemask, b->w.user_nodemask))
- 			return false;
+ /*
+  * Architecture-specific system calls
+diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+index 1c5fb86d455a..c5dd43db8cef 100644
+--- a/include/uapi/asm-generic/unistd.h
++++ b/include/uapi/asm-generic/unistd.h
+@@ -879,9 +879,11 @@ __SYSCALL(__NR_memfd_secret, sys_memfd_secret)
+ #endif
+ #define __NR_process_mrelease 448
+ __SYSCALL(__NR_process_mrelease, sys_process_mrelease)
++#define __NR_set_mempolicy_home_node 449
++__SYSCALL(__NR_process_mrelease, sys_process_mrelease)
+ 
+ #undef __NR_syscalls
+-#define __NR_syscalls 449
++#define __NR_syscalls 450
+ 
+ /*
+  * 32 bit systems traditionally used different
+diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
+index f43d89d92860..3640d432472c 100644
+--- a/kernel/sys_ni.c
++++ b/kernel/sys_ni.c
+@@ -296,6 +296,7 @@ COND_SYSCALL(get_mempolicy);
+ COND_SYSCALL(set_mempolicy);
+ COND_SYSCALL(migrate_pages);
+ COND_SYSCALL(move_pages);
++COND_SYSCALL(set_mempolicy_home_node);
+ 
+ COND_SYSCALL(perf_event_open);
+ COND_SYSCALL(accept4);
 -- 
 2.31.1
 
