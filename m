@@ -2,198 +2,118 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DACD6435AE8
-	for <lists+linux-api@lfdr.de>; Thu, 21 Oct 2021 08:31:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DFBC435BC5
+	for <lists+linux-api@lfdr.de>; Thu, 21 Oct 2021 09:32:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231268AbhJUGda (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 21 Oct 2021 02:33:30 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:47525 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231202AbhJUGd3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Oct 2021 02:33:29 -0400
-Received: from mail-wm1-f43.google.com ([209.85.128.43]) by
- mrelayeu.kundenserver.de (mreue011 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1M4rkF-1mepBW0OqF-001xSh; Thu, 21 Oct 2021 08:31:13 +0200
-Received: by mail-wm1-f43.google.com with SMTP id z11-20020a1c7e0b000000b0030db7b70b6bso5526660wmc.1;
-        Wed, 20 Oct 2021 23:31:12 -0700 (PDT)
-X-Gm-Message-State: AOAM531RgG0997VKyEVdERr1NwKqmMAUneKQT0+Cw2UVS7YCPQ88f8Yl
-        xd47ZnUN2KfYUeeKqdy9kzwOWvBMj7/LdLtVsX8=
-X-Google-Smtp-Source: ABdhPJzDOUBrLJ7Gqa9iBZ0rDMl8wwQc5eUNmn1QOvGMK2ala3SswXlgCkft6lFYRMtx6XR7DoEky//ysghrPWSf88A=
-X-Received: by 2002:a05:600c:1548:: with SMTP id f8mr4478087wmg.35.1634797872724;
- Wed, 20 Oct 2021 23:31:12 -0700 (PDT)
+        id S231336AbhJUHfK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 21 Oct 2021 03:35:10 -0400
+Received: from mga02.intel.com ([134.134.136.20]:3929 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231433AbhJUHfI (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 21 Oct 2021 03:35:08 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10143"; a="216131263"
+X-IronPort-AV: E=Sophos;i="5.87,169,1631602800"; 
+   d="scan'208";a="216131263"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2021 00:32:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,169,1631602800"; 
+   d="scan'208";a="444682526"
+Received: from shbuild999.sh.intel.com (HELO localhost) ([10.239.146.189])
+  by orsmga006.jf.intel.com with ESMTP; 21 Oct 2021 00:32:07 -0700
+Date:   Thu, 21 Oct 2021 15:32:06 +0800
+From:   Feng Tang <feng.tang@intel.com>
+To:     "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
+Cc:     linux-mm@kvack.org, akpm@linux-foundation.org,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Andi Kleen <ak@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Huang Ying <ying.huang@intel.com>, linux-api@vger.kernel.org
+Subject: Re: [RFC PATCH v2 2/3] mm/mempolicy: add set_mempolicy_home_node
+ syscall
+Message-ID: <20211021073206.GA20861@shbuild999.sh.intel.com>
+References: <20211020092453.179929-1-aneesh.kumar@linux.ibm.com>
+ <20211020092453.179929-2-aneesh.kumar@linux.ibm.com>
 MIME-Version: 1.0
-References: <20211021055408.4006408-1-alistair.francis@opensource.wdc.com>
-In-Reply-To: <20211021055408.4006408-1-alistair.francis@opensource.wdc.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 21 Oct 2021 08:30:56 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3t8TLiXtp38=nYanwJyDNtX4=ANU8FXx8cr5w-W3hPRQ@mail.gmail.com>
-Message-ID: <CAK8P3a3t8TLiXtp38=nYanwJyDNtX4=ANU8FXx8cr5w-W3hPRQ@mail.gmail.com>
-Subject: Re: [PATCH v2] uapi: futex: Add a futex syscall
-To:     Alistair Francis <alistair.francis@opensource.wdc.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Alistair Francis <alistair23@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Alistair Francis <alistair.francis@wdc.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:FQR2wHZ5CYBWUYrZcsTkgopR5LtrVILVdN0WbvQu99MssCRgTkG
- FYMCBr8ZrtNrmobuvzlaoHV68g/YGqWDg1sB+yF2OCALn/esAVrjfQ8YPEZbSWgq1t+oG+v
- caURLEg/d0hFNNc4lzLgP0V1VGyl3Hcp32vwUFn0mrGQR2MGZQE3HKX15L7F7fGANcs/tNz
- MWToiDcBrcVQHPXiTc0Jg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zncAV0bsKhI=:b4kKF0qh5OlJLVCuseV8qx
- Lhxv5z6wlR66DNOlK783ynPsMTNIGfkq9gs0IrFI3qyndDdsDSSa50ZE30vgeY8A62P4aK01D
- 0TsCe8baCcFZt/4I1oMOniPKfh3mPOLVyHWGVJlC9+YWT14Yk/h4WxmyGspjPumnIpNdcD04Q
- TZCj2EKzZAbemrRIQ+wmKBIfa6xrIJRPJcpxlL7B/geiHdeaov4PIZSYLKXksVK2VYAiHXupw
- DzCqWJLV79X9uEp2sov/SwtN2MlAumJul2EiZjgNTdtOJOTTIe4lFjzKRHzzqgiR3g7pbb3Dr
- KL8acDXNSHW9/IZQXePKuJQxX/UxdoxGrEx6omvFmbbfHpuHh1qfGwshwqj3dWhPYv6GDU8Sg
- VxBgw3qXSbFhAoVF9vH1xDNmgBvLUU6kVeRuHoxx9smUsxI3vgjiIbx+SntPgDNzdVpqE0ktF
- tDI3yn07rkCcVxn2MIlyyT5MiKs+GoKkoy0vGV2nkjxHaHW2ekzgTY3nR4FGdbHqV3e6ckJ7Y
- cNech9m4FybakH3xlFpo6b475IKf9DAx4mIfzJiB6FH21TWxg0DZ4Ifa7jst9JbnqhsB+v4hw
- lsl7tawHWTswyhyrOdBBoApwyeafEVgIhlX463xrfJuu1o52NILZcl+BfkGmwSbyihk62LyFa
- BeaBzVjlPW0SXVW70ETx3eVdXrAwjkSLYdERPmtnJvum6D99bb+sd4DqWpIyOjuRPdh+5OuNo
- F9HTh0CMpR6muiaJFGWAp2N+0qzComY9whcYnboX7wbMnR6CEJECZa0WZsTBHYkK8KpQQ9L49
- yDCd9kEhCq7iTZDQTyjdd3TICokvAI+DkRvZTsYWEWwLWohUzQ=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211020092453.179929-2-aneesh.kumar@linux.ibm.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Oct 21, 2021 at 7:54 AM Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
->
-> From: Alistair Francis <alistair.francis@wdc.com>
->
-> This commit adds two futex syscall wrappers that are exposed to
-> userspace.
->
-> Neither the kernel or glibc currently expose a futex wrapper, so
-> userspace is left performing raw syscalls. This has mostly been becuase
-> the overloading of one of the arguments makes it impossible to provide a
-> single type safe function.
->
-> Until recently the single syscall has worked fine. With the introduction
-> of a 64-bit time_t futex call on 32-bit architectures, this has become
-> more complex. The logic of handling the two possible futex syscalls is
-> complex and often implemented incorrectly.
->
-> This patch adds two futux syscall functions that correctly handle the
-> time_t complexity for userspace.
->
-> This idea is based on previous discussions: https://lkml.org/lkml/2021/9/21/143
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Hi Aneesh,
 
-This looks good to me, it addresses my earlier feedback, but I think we
-need others to look into the question of whether we want this to be a
-single function (as I suggested last time) or a pair of them (as you did).
+On Wed, Oct 20, 2021 at 02:54:52PM +0530, Aneesh Kumar K.V wrote:
+> This syscall can be used to set a home node for the MPOL_BIND
+> and MPOL_PREFERRED_MANY memory policy. Users should use this
+> syscall after setting up a memory policy for the specified range
+> as shown below.
+> 
+> mbind(p, nr_pages * page_size, MPOL_BIND, new_nodes->maskp,
+> 	    new_nodes->size + 1, 0);
+> sys_set_mempolicy_home_node((unsigned long)p, nr_pages * page_size,
+> 				  home_node, 0);
+> 
+> The syscall allows specifying a home node/preferred node from which kernel
+> will fulfill memory allocation requests first.
+> 
+> For address range with MPOL_BIND memory policy, if nodemask specifies more
+> than one node, page allocations will come from the node in the nodemask
+> with sufficient free memory that is closest to the home node/preferred node.
+> 
+> For MPOL_PREFERRED_MANY if the nodemask specifies more than one node,
+> page allocation will come from the node in the nodemask with sufficient
+> free memory that is closest to the home node/preferred node. If there is
+> not enough memory in all the nodes specified in the nodemask, the allocation
+> will be attempted from the closest numa node to the home node in the system.
 
-I just replied to your email about this at
-https://lore.kernel.org/lkml/CAK8P3a1CxFfHze6id1sQbQXV-x8DXkEdfqh51MwabzwhKAoTdQ@mail.gmail.com/
+I can understand the requirement for MPOL_BIND, and for MPOL_PREFERRED_MANY,
+it provides 3 levels of preference:
+  home node --> preferred nodes --> all nodes
+Any real usage cases for this? For a platform which may have 3 types of
+memory (HBM, DRAM, PMEM), this may be useful.   
 
-I added the futex maintainers and the linux-api list to Cc for them to
-reply. Full patch quoted below, no further comments from me.
+> This helps applications to hint at a memory allocation preference node
+> and fallback to _only_ a set of nodes if the memory is not available
+> on the preferred node.  Fallback allocation is attempted from the node which is
+> nearest to the preferred node.
+> 
+> This helps applications to have control on memory allocation numa nodes and
+> avoids default fallback to slow memory NUMA nodes. For example a system with
+> NUMA nodes 1,2 and 3 with DRAM memory and 10, 11 and 12 of slow memory
+> 
+>  new_nodes = numa_bitmask_alloc(nr_nodes);
+> 
+>  numa_bitmask_setbit(new_nodes, 1);
+>  numa_bitmask_setbit(new_nodes, 2);
+>  numa_bitmask_setbit(new_nodes, 3);
+> 
+>  p = mmap(NULL, nr_pages * page_size, protflag, mapflag, -1, 0);
+>  mbind(p, nr_pages * page_size, MPOL_BIND, new_nodes->maskp,  new_nodes->size + 1, 0);
+> 
+>  sys_set_mempolicy_home_node(p, nr_pages * page_size, 2, 0);
+ 
+For this example, it's 'mbind + sys_set_mempolicy_home_node', will case
+'set_mempolicy + sys_set_mempolicy_home_node' be also supported? 
 
-        Arnd
+Thanks,
+Feng
 
-> ---
->  include/uapi/linux/futex_syscall.h | 81 ++++++++++++++++++++++++++++++
->  1 file changed, 81 insertions(+)
->  create mode 100644 include/uapi/linux/futex_syscall.h
->
-> diff --git a/include/uapi/linux/futex_syscall.h b/include/uapi/linux/futex_syscall.h
-> new file mode 100644
-> index 0000000000000..f84a0c68baf78
-> --- /dev/null
-> +++ b/include/uapi/linux/futex_syscall.h
-> @@ -0,0 +1,81 @@
-> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> +#ifndef _UAPI_LINUX_FUTEX_SYSCALL_H
-> +#define _UAPI_LINUX_FUTEX_SYSCALL_H
-> +
-> +#include <asm/unistd.h>
-> +#include <errno.h>
-> +#include <linux/types.h>
-> +#include <linux/time_types.h>
-> +#include <sys/syscall.h>
-> +
-> +/**
-> + * futex_syscall_timeout() - __NR_futex/__NR_futex_time64 syscall wrapper
-> + * @uaddr:  address of first futex
-> + * @op:   futex op code
-> + * @val:  typically expected value of uaddr, but varies by op
-> + * @timeout:  an absolute struct timespec
-> + * @uaddr2: address of second futex for some ops
-> + * @val3: varies by op
-> + */
-> +static inline int
-> +__kernel_futex_syscall_timeout(volatile u_int32_t *uaddr, int op, u_int32_t val,
-> +                     struct timespec *timeout, volatile u_int32_t *uaddr2, int val3)
-> +{
-> +#if defined(__NR_futex_time64)
-> +       if (sizeof(*timeout) != sizeof(struct __kernel_old_timespec)) {
-> +               int ret =  syscall(__NR_futex_time64, uaddr, op, val, timeout, uaddr2, val3);
-> +
-> +               if (ret == 0 || errno != ENOSYS)
-> +                       return ret;
-> +       }
-> +#endif
-> +
-> +#if defined(__NR_futex)
-> +       if (sizeof(*timeout) == sizeof(struct __kernel_old_timespec))
-> +               return syscall(__NR_futex, uaddr, op, val, timeout, uaddr2, val3);
-> +
-> +       if (timeout && timeout->tv_sec == (long)timeout->tv_sec) {
-> +               struct __kernel_old_timespec ts32;
-> +
-> +               ts32.tv_sec = (__kernel_long_t) timeout->tv_sec;
-> +               ts32.tv_nsec = (__kernel_long_t) timeout->tv_nsec;
-> +
-> +               return syscall(__NR_futex, uaddr, op, val, &ts32, uaddr2, val3);
-> +       } else if (!timeout) {
-> +               return syscall(__NR_futex, uaddr, op, val, NULL, uaddr2, val3);
-> +       }
-> +#endif
-> +
-> +       errno = ENOSYS;
-> +       return -1;
-> +}
-> +
-> +/**
-> + * futex_syscall_nr_requeue() - __NR_futex/__NR_futex_time64 syscall wrapper
-> + * @uaddr:  address of first futex
-> + * @op:   futex op code
-> + * @val:  typically expected value of uaddr, but varies by op
-> + * @nr_requeue:  an op specific meaning
-> + * @uaddr2: address of second futex for some ops
-> + * @val3: varies by op
-> + */
-> +static inline int
-> +__kernel_futex_syscall_nr_requeue(volatile u_int32_t *uaddr, int op, u_int32_t val,
-> +                        u_int32_t nr_requeue, volatile u_int32_t *uaddr2, int val3)
-> +{
-> +#if defined(__NR_futex_time64)
-> +       int ret =  syscall(__NR_futex_time64, uaddr, op, val, nr_requeue, uaddr2, val3);
-> +
-> +       if (ret == 0 || errno != ENOSYS)
-> +               return ret;
-> +#endif
-> +
-> +#if defined(__NR_futex)
-> +       return syscall(__NR_futex, uaddr, op, val, nr_requeue, uaddr2, val3);
-> +#endif
-> +
-> +       errno = ENOSYS;
-> +       return -1;
-> +}
-> +
-> +#endif /* _UAPI_LINUX_FUTEX_SYSCALL_H */
-> --
-> 2.31.1
->
+> This will allocate from nodes closer to node 2 and will make sure kernel will
+> only allocate from nodes 1, 2 and3. Memory will not be allocated from slow memory
+> nodes 10, 11 and 12
+> 
+> With MPOL_PREFERRED_MANY on the other hand will first try to allocate from the
+> closest node to node 2 from the node list 1, 2 and 3. If those nodes don't have
+> enough memory, kernel will allocate from slow memory node 10, 11 and 12 which
+> ever is closer to node 2.
+
+[SNIP]
