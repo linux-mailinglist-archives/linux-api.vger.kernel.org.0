@@ -2,152 +2,198 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 51B0B4352FA
-	for <lists+linux-api@lfdr.de>; Wed, 20 Oct 2021 20:48:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DACD6435AE8
+	for <lists+linux-api@lfdr.de>; Thu, 21 Oct 2021 08:31:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231313AbhJTSuY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 20 Oct 2021 14:50:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55314 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230076AbhJTSuX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Oct 2021 14:50:23 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E74E8C06161C
-        for <linux-api@vger.kernel.org>; Wed, 20 Oct 2021 11:48:08 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id g5so16796239plg.1
-        for <linux-api@vger.kernel.org>; Wed, 20 Oct 2021 11:48:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=NQ1EuHM5IgMVtLK2y5+wVaFDOFZIiofPZ6eBCmdV3Pg=;
-        b=zhwmnUwjzipb3ftyn4a+qKNhhOY1B27CWv9LoO6StyINljAjpqYWLauCWORB6O0MPv
-         bwsLO3e1ez3dWyoLlXnmgWoKzWZWg3NNoJgV7eT437Ql0WO4e8two+iA1jUWhNoHGCDt
-         Q76AoWPKZyVX/KzpBU4djhaJ0U0FmZ0FznbVPH2UzpWeBx4x+A5MtV9DbErSFLrnczjE
-         36s7GDUAhqZQnz+W7q6YOx+41YXBP/SPM71iuedVT7ibQNySrpewODLJXiiBNSHzajWG
-         cFtFWra0hgaxgdN3GhpU220SlgK5A2H+ZRW13OX9s5A0RBU29j1I1Ok5/e8Re9UIU/iG
-         5E1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=NQ1EuHM5IgMVtLK2y5+wVaFDOFZIiofPZ6eBCmdV3Pg=;
-        b=Gs2w5CqFwNlKwuI1MnK/sE9ZBRo5H6Lx2UQcgKVJgl4d2F08s7/bjKE0nuYhv8f+DA
-         l8OXMXz2jrKWKaS1ZnhZxUhj1BXYt5Hwr5AnCu+oLRVuDoT56F2Tq9yj97NdricxAZvT
-         VU6wMCXYMVSLK9bQhWPHylDtUwEXKjIjMUFIvkt9cJ+eSCHWcjtnilBb5eFWkj7IGK+M
-         nivK2zJ/VxMXGM2USFli4tAEHR7tp4Ogbw2Y1fGurFTJ8NpGpCIjyBL2z/TTGyJlRdip
-         9I5V5/qF/BCaUbio+44yk/6I6onfsdqjNo1E/Kwuz9JCkLOXfmImgAyKmUFFOx59OERa
-         Bu3A==
-X-Gm-Message-State: AOAM530BW4kSm8MIMMibGHpK3Vk1E1szevXWjaphlrDH1NrV24c9K1yv
-        pcg4o8qvju0LBLd6gLnOtcDOWQ==
-X-Google-Smtp-Source: ABdhPJwrQB0DLaQzr2JASowUXfaOc3ZJfTfRTYifLBwS/p/C6efRjvvNoC+XDq2kIkE9L2MGydpFxA==
-X-Received: by 2002:a17:90a:d311:: with SMTP id p17mr659231pju.155.1634755688287;
-        Wed, 20 Oct 2021 11:48:08 -0700 (PDT)
-Received: from relinquished.localdomain ([2620:10d:c090:400::5:be9d])
-        by smtp.gmail.com with ESMTPSA id om5sm3225914pjb.36.2021.10.20.11.48.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Oct 2021 11:48:07 -0700 (PDT)
-Date:   Wed, 20 Oct 2021 11:48:06 -0700
-From:   Omar Sandoval <osandov@osandov.com>
-To:     Nikolay Borisov <nborisov@suse.com>
-Cc:     linux-btrfs@vger.kernel.org, kernel-team@fb.com,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH v11 01/10] btrfs-progs: receive: support v2 send stream
- larger tlv_len
-Message-ID: <YXBkZmARzs4jGA92@relinquished.localdomain>
-References: <cover.1630514529.git.osandov@fb.com>
- <8729477d23b83c368a76c4f39b5f73a483a3ad14.1630515568.git.osandov@fb.com>
- <d628363e-295d-8e84-d6f2-85501ada24ed@suse.com>
+        id S231268AbhJUGda (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 21 Oct 2021 02:33:30 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:47525 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231202AbhJUGd3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Oct 2021 02:33:29 -0400
+Received: from mail-wm1-f43.google.com ([209.85.128.43]) by
+ mrelayeu.kundenserver.de (mreue011 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1M4rkF-1mepBW0OqF-001xSh; Thu, 21 Oct 2021 08:31:13 +0200
+Received: by mail-wm1-f43.google.com with SMTP id z11-20020a1c7e0b000000b0030db7b70b6bso5526660wmc.1;
+        Wed, 20 Oct 2021 23:31:12 -0700 (PDT)
+X-Gm-Message-State: AOAM531RgG0997VKyEVdERr1NwKqmMAUneKQT0+Cw2UVS7YCPQ88f8Yl
+        xd47ZnUN2KfYUeeKqdy9kzwOWvBMj7/LdLtVsX8=
+X-Google-Smtp-Source: ABdhPJzDOUBrLJ7Gqa9iBZ0rDMl8wwQc5eUNmn1QOvGMK2ala3SswXlgCkft6lFYRMtx6XR7DoEky//ysghrPWSf88A=
+X-Received: by 2002:a05:600c:1548:: with SMTP id f8mr4478087wmg.35.1634797872724;
+ Wed, 20 Oct 2021 23:31:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d628363e-295d-8e84-d6f2-85501ada24ed@suse.com>
+References: <20211021055408.4006408-1-alistair.francis@opensource.wdc.com>
+In-Reply-To: <20211021055408.4006408-1-alistair.francis@opensource.wdc.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 21 Oct 2021 08:30:56 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3t8TLiXtp38=nYanwJyDNtX4=ANU8FXx8cr5w-W3hPRQ@mail.gmail.com>
+Message-ID: <CAK8P3a3t8TLiXtp38=nYanwJyDNtX4=ANU8FXx8cr5w-W3hPRQ@mail.gmail.com>
+Subject: Re: [PATCH v2] uapi: futex: Add a futex syscall
+To:     Alistair Francis <alistair.francis@opensource.wdc.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Alistair Francis <alistair23@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Alistair Francis <alistair.francis@wdc.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:FQR2wHZ5CYBWUYrZcsTkgopR5LtrVILVdN0WbvQu99MssCRgTkG
+ FYMCBr8ZrtNrmobuvzlaoHV68g/YGqWDg1sB+yF2OCALn/esAVrjfQ8YPEZbSWgq1t+oG+v
+ caURLEg/d0hFNNc4lzLgP0V1VGyl3Hcp32vwUFn0mrGQR2MGZQE3HKX15L7F7fGANcs/tNz
+ MWToiDcBrcVQHPXiTc0Jg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zncAV0bsKhI=:b4kKF0qh5OlJLVCuseV8qx
+ Lhxv5z6wlR66DNOlK783ynPsMTNIGfkq9gs0IrFI3qyndDdsDSSa50ZE30vgeY8A62P4aK01D
+ 0TsCe8baCcFZt/4I1oMOniPKfh3mPOLVyHWGVJlC9+YWT14Yk/h4WxmyGspjPumnIpNdcD04Q
+ TZCj2EKzZAbemrRIQ+wmKBIfa6xrIJRPJcpxlL7B/geiHdeaov4PIZSYLKXksVK2VYAiHXupw
+ DzCqWJLV79X9uEp2sov/SwtN2MlAumJul2EiZjgNTdtOJOTTIe4lFjzKRHzzqgiR3g7pbb3Dr
+ KL8acDXNSHW9/IZQXePKuJQxX/UxdoxGrEx6omvFmbbfHpuHh1qfGwshwqj3dWhPYv6GDU8Sg
+ VxBgw3qXSbFhAoVF9vH1xDNmgBvLUU6kVeRuHoxx9smUsxI3vgjiIbx+SntPgDNzdVpqE0ktF
+ tDI3yn07rkCcVxn2MIlyyT5MiKs+GoKkoy0vGV2nkjxHaHW2ekzgTY3nR4FGdbHqV3e6ckJ7Y
+ cNech9m4FybakH3xlFpo6b475IKf9DAx4mIfzJiB6FH21TWxg0DZ4Ifa7jst9JbnqhsB+v4hw
+ lsl7tawHWTswyhyrOdBBoApwyeafEVgIhlX463xrfJuu1o52NILZcl+BfkGmwSbyihk62LyFa
+ BeaBzVjlPW0SXVW70ETx3eVdXrAwjkSLYdERPmtnJvum6D99bb+sd4DqWpIyOjuRPdh+5OuNo
+ F9HTh0CMpR6muiaJFGWAp2N+0qzComY9whcYnboX7wbMnR6CEJECZa0WZsTBHYkK8KpQQ9L49
+ yDCd9kEhCq7iTZDQTyjdd3TICokvAI+DkRvZTsYWEWwLWohUzQ=
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Oct 20, 2021 at 04:49:38PM +0300, Nikolay Borisov wrote:
-> 
-> 
-> On 1.09.21 г. 20:01, Omar Sandoval wrote:
-> > From: Boris Burkov <borisb@fb.com>
-> > 
-> > An encoded extent can be up to 128K in length, which exceeds the largest
-> > value expressible by the current send stream format's 16 bit tlv_len
-> > field. Since encoded writes cannot be split into multiple writes by
-> > btrfs send, the send stream format must change to accommodate encoded
-> > writes.
-> > 
-> > Supporting this changed format requires retooling how we store the
-> > commands we have processed. Since we can no longer use btrfs_tlv_header
-> > to describe every attribute, we define a new struct btrfs_send_attribute
-> > which has a 32 bit length field, and use that to store the attribute
-> > information needed for receive processing. This is transparent to users
-> > of the various TLV_GET macros.
-> > 
-> > Signed-off-by: Boris Burkov <boris@bur.io>
-> > ---
-> >  common/send-stream.c | 34 +++++++++++++++++++++++++---------
-> >  1 file changed, 25 insertions(+), 9 deletions(-)
-> > 
-> > diff --git a/common/send-stream.c b/common/send-stream.c
-> > index a0c52f79..cd5aa311 100644
-> > --- a/common/send-stream.c
-> > +++ b/common/send-stream.c
-> > @@ -24,13 +24,23 @@
-> >  #include "crypto/crc32c.h"
-> >  #include "common/utils.h"
-> >  
-> > +struct btrfs_send_attribute {
-> > +	u16 tlv_type;
-> > +	/*
-> > +	 * Note: in btrfs_tlv_header, this is __le16, but we need 32 bits for
-> > +	 * attributes with file data as of version 2 of the send stream format
-> > +	 */
-> > +	u32 tlv_len;
-> > +	char *data;
-> > +};
-> > +
-> >  struct btrfs_send_stream {
-> >  	char read_buf[BTRFS_SEND_BUF_SIZE];
-> >  	int fd;
-> >  
-> >  	int cmd;
-> >  	struct btrfs_cmd_header *cmd_hdr;
-> > -	struct btrfs_tlv_header *cmd_attrs[BTRFS_SEND_A_MAX + 1];
-> > +	struct btrfs_send_attribute cmd_attrs[BTRFS_SEND_A_MAX + 1];
-> 
-> This is subtle and it took me a couple of minutes to get it at first.
-> Currently cmds_attrs holds an array of pointers into the command buffer,
-> with every pointer being the beginning of the tlv_header, whilst with
-> your change cmd_attr now holds actual btrfs_send_attribute structures
-> (52 bytes vs sizeof(uintptr_t)  bytes before). So this increases the
-> overall size of btrfs_send_stream because with  your version of the code
-> you parse the type/length fields and store them directly in the send
-> attribute structure at command parse time rather than just referring to
-> the raw command buffer during read_cmd and referring to them during
-> attribute parsing.
-> 
-> This might seem superficial but this kind of change should really be
-> mentioned explicitly in the changelog to better prepare reviewers what
-> to expect.
-> 
-> 
-> OTOH the code LGTM and actually now it seems less tricky than before so:
-> 
-> Reviewed-by: Nikolay Borisov <nborisov@suse.com>
-> 
-> 
-> David if you deem it necessary adjust the commit message appropriately.
+On Thu, Oct 21, 2021 at 7:54 AM Alistair Francis
+<alistair.francis@opensource.wdc.com> wrote:
+>
+> From: Alistair Francis <alistair.francis@wdc.com>
+>
+> This commit adds two futex syscall wrappers that are exposed to
+> userspace.
+>
+> Neither the kernel or glibc currently expose a futex wrapper, so
+> userspace is left performing raw syscalls. This has mostly been becuase
+> the overloading of one of the arguments makes it impossible to provide a
+> single type safe function.
+>
+> Until recently the single syscall has worked fine. With the introduction
+> of a 64-bit time_t futex call on 32-bit architectures, this has become
+> more complex. The logic of handling the two possible futex syscalls is
+> complex and often implemented incorrectly.
+>
+> This patch adds two futux syscall functions that correctly handle the
+> time_t complexity for userspace.
+>
+> This idea is based on previous discussions: https://lkml.org/lkml/2021/9/21/143
+>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 
-I clarified the second paragraph to:
+This looks good to me, it addresses my earlier feedback, but I think we
+need others to look into the question of whether we want this to be a
+single function (as I suggested last time) or a pair of them (as you did).
 
-Supporting this changed format requires retooling how we store the
-commands we have processed. We currently store pointers to the struct
-btrfs_tlv_headers in the command buffer. This is not sufficient to
-represent the new BTRFS_SEND_A_DATA format. Instead, parse the attribute
-headers and store them in a new struct btrfs_send_attribute which has a
-32-bit length field. This is transparent to users of the various TLV_GET
-macros.
+I just replied to your email about this at
+https://lore.kernel.org/lkml/CAK8P3a1CxFfHze6id1sQbQXV-x8DXkEdfqh51MwabzwhKAoTdQ@mail.gmail.com/
+
+I added the futex maintainers and the linux-api list to Cc for them to
+reply. Full patch quoted below, no further comments from me.
+
+        Arnd
+
+> ---
+>  include/uapi/linux/futex_syscall.h | 81 ++++++++++++++++++++++++++++++
+>  1 file changed, 81 insertions(+)
+>  create mode 100644 include/uapi/linux/futex_syscall.h
+>
+> diff --git a/include/uapi/linux/futex_syscall.h b/include/uapi/linux/futex_syscall.h
+> new file mode 100644
+> index 0000000000000..f84a0c68baf78
+> --- /dev/null
+> +++ b/include/uapi/linux/futex_syscall.h
+> @@ -0,0 +1,81 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +#ifndef _UAPI_LINUX_FUTEX_SYSCALL_H
+> +#define _UAPI_LINUX_FUTEX_SYSCALL_H
+> +
+> +#include <asm/unistd.h>
+> +#include <errno.h>
+> +#include <linux/types.h>
+> +#include <linux/time_types.h>
+> +#include <sys/syscall.h>
+> +
+> +/**
+> + * futex_syscall_timeout() - __NR_futex/__NR_futex_time64 syscall wrapper
+> + * @uaddr:  address of first futex
+> + * @op:   futex op code
+> + * @val:  typically expected value of uaddr, but varies by op
+> + * @timeout:  an absolute struct timespec
+> + * @uaddr2: address of second futex for some ops
+> + * @val3: varies by op
+> + */
+> +static inline int
+> +__kernel_futex_syscall_timeout(volatile u_int32_t *uaddr, int op, u_int32_t val,
+> +                     struct timespec *timeout, volatile u_int32_t *uaddr2, int val3)
+> +{
+> +#if defined(__NR_futex_time64)
+> +       if (sizeof(*timeout) != sizeof(struct __kernel_old_timespec)) {
+> +               int ret =  syscall(__NR_futex_time64, uaddr, op, val, timeout, uaddr2, val3);
+> +
+> +               if (ret == 0 || errno != ENOSYS)
+> +                       return ret;
+> +       }
+> +#endif
+> +
+> +#if defined(__NR_futex)
+> +       if (sizeof(*timeout) == sizeof(struct __kernel_old_timespec))
+> +               return syscall(__NR_futex, uaddr, op, val, timeout, uaddr2, val3);
+> +
+> +       if (timeout && timeout->tv_sec == (long)timeout->tv_sec) {
+> +               struct __kernel_old_timespec ts32;
+> +
+> +               ts32.tv_sec = (__kernel_long_t) timeout->tv_sec;
+> +               ts32.tv_nsec = (__kernel_long_t) timeout->tv_nsec;
+> +
+> +               return syscall(__NR_futex, uaddr, op, val, &ts32, uaddr2, val3);
+> +       } else if (!timeout) {
+> +               return syscall(__NR_futex, uaddr, op, val, NULL, uaddr2, val3);
+> +       }
+> +#endif
+> +
+> +       errno = ENOSYS;
+> +       return -1;
+> +}
+> +
+> +/**
+> + * futex_syscall_nr_requeue() - __NR_futex/__NR_futex_time64 syscall wrapper
+> + * @uaddr:  address of first futex
+> + * @op:   futex op code
+> + * @val:  typically expected value of uaddr, but varies by op
+> + * @nr_requeue:  an op specific meaning
+> + * @uaddr2: address of second futex for some ops
+> + * @val3: varies by op
+> + */
+> +static inline int
+> +__kernel_futex_syscall_nr_requeue(volatile u_int32_t *uaddr, int op, u_int32_t val,
+> +                        u_int32_t nr_requeue, volatile u_int32_t *uaddr2, int val3)
+> +{
+> +#if defined(__NR_futex_time64)
+> +       int ret =  syscall(__NR_futex_time64, uaddr, op, val, nr_requeue, uaddr2, val3);
+> +
+> +       if (ret == 0 || errno != ENOSYS)
+> +               return ret;
+> +#endif
+> +
+> +#if defined(__NR_futex)
+> +       return syscall(__NR_futex, uaddr, op, val, nr_requeue, uaddr2, val3);
+> +#endif
+> +
+> +       errno = ENOSYS;
+> +       return -1;
+> +}
+> +
+> +#endif /* _UAPI_LINUX_FUTEX_SYSCALL_H */
+> --
+> 2.31.1
+>
