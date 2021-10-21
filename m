@@ -2,95 +2,146 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0015436901
-	for <lists+linux-api@lfdr.de>; Thu, 21 Oct 2021 19:28:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AFCD436A5F
+	for <lists+linux-api@lfdr.de>; Thu, 21 Oct 2021 20:17:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231582AbhJURag (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 21 Oct 2021 13:30:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53750 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229567AbhJURaf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Oct 2021 13:30:35 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C3A0C061764
-        for <linux-api@vger.kernel.org>; Thu, 21 Oct 2021 10:28:19 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id d5so1286022pfu.1
-        for <linux-api@vger.kernel.org>; Thu, 21 Oct 2021 10:28:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=Jw6LKql3NUw2u4o7aWds/hZbQcszi/va4tTrQVLBaIU=;
-        b=bNmvFWV5nHs3pTNQfhHOJwnSUoMmV05Q1cz49l+OtmuhM97PMyu8IrsNszYyD+2c8X
-         75D7Q+71Apghaa5Stua51Xu7rDpPMVFZJLhMmuKvz70Zr8mEqY1pRRciJNASZTRkyLtQ
-         AoyQ4hKI38HDcXlxv7mQcJ7/ZT6sqU10vfoy8J5YSLfOHeUZrOoKb158Tm+2m7zEPqf+
-         NrJ3kQXpnXWZt/C2CfMOXt64Oz6A5EOIrZZKNd6hqpFmIGy5l7Q4F+kROOjdsU/ygUj0
-         q2zvCwA1IFcyhXz11fxmCNEYWJ7TDEMdKjTTt4bX4yrjLkDIXKpYjjayfiTRiv/IMBd5
-         mNiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=Jw6LKql3NUw2u4o7aWds/hZbQcszi/va4tTrQVLBaIU=;
-        b=MEmVDNFi6Oi0lDRHazrfzIKCjmKfjV4N3YMWuwwUp4UCNFlrqzHpHzH194C4k6MDSD
-         7ggWBZ8F4flnhCJJP3xm8cVME3C7HS+IIHRgo5JIgF2YgHEEQpzKnvTo0dYIzOeZPEVf
-         to7fyg0K8WrHFI1YYs44/atonG9bdn7/jp0FbwPhclxsQG+2k/NWeVJommMnenj0ZXMB
-         YHtVX5WOuufqioeL1uOwEzs9qNkFoixYpDaUr2rnEeDkjHwdBMX1mRMwEErXbcYnJ79n
-         Ggmc6QAtHJZhb/AJWopMGufY38e5IsrpohAvAryCFKTzgwRkFDDgPWpQaUCqQ5t1xt7v
-         3QKw==
-X-Gm-Message-State: AOAM533RsFU7nEGPyba0vZY+jsaOC3xxMONX07GS0/UPFdm/sxOEpwvK
-        PE5fHTR7soIyhVtyIu20XxjaYg==
-X-Google-Smtp-Source: ABdhPJzdDXbCsN0QEHOlVONvGsKGhyUoMLSrqbI2YB4z6t7D2h5QW4dG2n9pkYpggC6f6baMm65Lxw==
-X-Received: by 2002:a63:8042:: with SMTP id j63mr5429283pgd.120.1634837298543;
-        Thu, 21 Oct 2021 10:28:18 -0700 (PDT)
-Received: from relinquished.localdomain ([2601:602:8b80:8e0::381])
-        by smtp.gmail.com with ESMTPSA id s8sm6571398pfh.186.2021.10.21.10.28.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Oct 2021 10:28:18 -0700 (PDT)
-Date:   Thu, 21 Oct 2021 10:28:16 -0700
-From:   Omar Sandoval <osandov@osandov.com>
-To:     Nikolay Borisov <nborisov@suse.com>
-Cc:     linux-btrfs@vger.kernel.org, kernel-team@fb.com,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH v11 07/10] btrfs-progs: receive: process fallocate
- commands
-Message-ID: <YXGjMIcUyzzKtHBi@relinquished.localdomain>
-References: <cover.1630514529.git.osandov@fb.com>
- <d37fc365eda31317abe6ef89be534d6b5effc0b7.1630515568.git.osandov@fb.com>
- <6f428f1f-a6da-1b82-a0ba-5ceb38b3b16a@suse.com>
+        id S230331AbhJUST4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 21 Oct 2021 14:19:56 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:47330 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230020AbhJUST4 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Oct 2021 14:19:56 -0400
+Received: from localhost (unknown [IPv6:2804:14c:124:8a08::1002])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: krisman)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 707911F44DA7;
+        Thu, 21 Oct 2021 19:17:38 +0100 (BST)
+From:   Gabriel Krisman Bertazi <krisman@collabora.com>
+To:     Jan Kara <jack@suse.cz>
+Cc:     Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.com>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Theodore Tso <tytso@mit.edu>,
+        Dave Chinner <david@fromorbit.com>,
+        David Howells <dhowells@redhat.com>,
+        Khazhismel Kumykov <khazhy@google.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Ext4 <linux-ext4@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>, kernel@collabora.com
+Subject: Re: [PATCH v8 20/32] fanotify: Dynamically resize the FAN_FS_ERROR
+ pool
+Organization: Collabora
+References: <20211019000015.1666608-1-krisman@collabora.com>
+        <20211019000015.1666608-21-krisman@collabora.com>
+        <CAOQ4uxi3C7MQxGPc1fD8ZyRTkyJZQac3_M-0aGYzPKbJ6AK8Jg@mail.gmail.com>
+        <20211019120316.GI3255@quack2.suse.cz>
+Date:   Thu, 21 Oct 2021 15:17:33 -0300
+In-Reply-To: <20211019120316.GI3255@quack2.suse.cz> (Jan Kara's message of
+        "Tue, 19 Oct 2021 14:03:16 +0200")
+Message-ID: <871r4e1buq.fsf@collabora.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6f428f1f-a6da-1b82-a0ba-5ceb38b3b16a@suse.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Oct 21, 2021 at 05:21:00PM +0300, Nikolay Borisov wrote:
-> 
-> 
-> On 1.09.21 г. 20:01, Omar Sandoval wrote:
-> > From: Boris Burkov <boris@bur.io>
-> > 
-> > Send stream v2 can emit fallocate commands, so receive must support them
-> > as well. The implementation simply passes along the arguments to the
-> > syscall. Note that mode is encoded as a u32 in send stream but fallocate
-> > takes an int, so there is a unsigned->signed conversion there.
-> > 
-> > Signed-off-by: Boris Burkov <boris@bur.io>
-> 
-> Reviewed-by: Nikolay Borisov <nborisov@suse.com>
-> 
-> However, kernel support for this hasn't landed, the kernel counterpart
-> patches add definitions but don't actually implement the code. BY the
-> looks of it it would seem that the proper send stream versioning could
-> be added first before any of this code lands. In this case we can simply
-> have the encoded writes stuff as protocol version 2 and leave the rest
-> of the commands for v3 for example.
+Jan Kara <jack@suse.cz> writes:
 
-The original idea for this was to minimize protocol revisions. This way,
-when we get around to implementing fallocate on the send side, we
-wouldn't need another update on the receive side. I still like that idea
-since the receive side is so trivial.
+> On Tue 19-10-21 08:50:23, Amir Goldstein wrote:
+>> On Tue, Oct 19, 2021 at 3:03 AM Gabriel Krisman Bertazi
+>> <krisman@collabora.com> wrote:
+>> >
+>> > Allow the FAN_FS_ERROR group mempool to grow up to an upper limit
+>> > dynamically, instead of starting already at the limit.  This doesn't
+>> > bother resizing on mark removal, but next time a mark is added, the slot
+>> > will be either reused or resized.  Also, if several marks are being
+>> > removed at once, most likely the group is going away anyway.
+>> >
+>> > Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
+>> > ---
+>> >  fs/notify/fanotify/fanotify_user.c | 26 +++++++++++++++++++++-----
+>> >  include/linux/fsnotify_backend.h   |  1 +
+>> >  2 files changed, 22 insertions(+), 5 deletions(-)
+>> >
+>> > diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
+>> > index f77581c5b97f..a860c286e885 100644
+>> > --- a/fs/notify/fanotify/fanotify_user.c
+>> > +++ b/fs/notify/fanotify/fanotify_user.c
+>> > @@ -959,6 +959,10 @@ static int fanotify_remove_mark(struct fsnotify_group *group,
+>> >
+>> >         removed = fanotify_mark_remove_from_mask(fsn_mark, mask, flags,
+>> >                                                  umask, &destroy_mark);
+>> > +
+>> > +       if (removed & FAN_FS_ERROR)
+>> > +               group->fanotify_data.error_event_marks--;
+>> > +
+>> >         if (removed & fsnotify_conn_mask(fsn_mark->connector))
+>> >                 fsnotify_recalc_mask(fsn_mark->connector);
+>> >         if (destroy_mark)
+>> > @@ -1057,12 +1061,24 @@ static struct fsnotify_mark *fanotify_add_new_mark(struct fsnotify_group *group,
+>> >
+>> >  static int fanotify_group_init_error_pool(struct fsnotify_group *group)
+>> >  {
+>> > -       if (mempool_initialized(&group->fanotify_data.error_events_pool))
+>> > -               return 0;
+>> > +       int ret;
+>> > +
+>> > +       if (group->fanotify_data.error_event_marks >=
+>> > +           FANOTIFY_DEFAULT_MAX_FEE_POOL)
+>> > +               return -ENOMEM;
+>> >
+>> > -       return mempool_init_kmalloc_pool(&group->fanotify_data.error_events_pool,
+>> > -                                        FANOTIFY_DEFAULT_MAX_FEE_POOL,
+>> > -                                        sizeof(struct fanotify_error_event));
+>> > +       if (!mempool_initialized(&group->fanotify_data.error_events_pool))
+>> > +               ret = mempool_init_kmalloc_pool(
+>> > +                               &group->fanotify_data.error_events_pool,
+>> > +                                1, sizeof(struct fanotify_error_event));
+>> > +       else
+>> > +               ret = mempool_resize(&group->fanotify_data.error_events_pool,
+>> > +                                    group->fanotify_data.error_event_marks + 1);
+>> > +
+>> > +       if (!ret)
+>> > +               group->fanotify_data.error_event_marks++;
+>> > +
+>> > +       return ret;
+>> >  }
+>> 
+>> This is not what I had in mind.
+>> I was thinking start with ~32 and double each time limit is reached.
+>
+> Do you mean when number of FS_ERROR marks reaches the number of preallocated
+> events? We could do that but note that due to mempool implementation limits
+> there cannot be more than 255 preallocated events, also mempool_resize()
+> will only update number of slots for preallocated events but these slots
+> will be empty. You have to manually allocate and free events to fill these
+> slots with preallocated events.
+>
+>> And also, this code grows the pool to infinity with add/remove mark loop.
+>
+> I see a cap at FANOTIFY_DEFAULT_MAX_FEE_POOL in the code there. But I don't
+> think there's a good enough reason to hard-limit number of FS_ERROR marks
+> at 128. As I explained in the previous version of the series, in vast
+> majority of cases we will not use even a single preallocated event...
+>
+>> Anyway, since I clearly did not understand how mempool works and
+>> Jan had some different ideas I would leave it to Jan to explain
+>> how he wants the mempool init limit and resize to be implemented.
+>
+> Honestly, I'm for keeping it simple for now. Just 32 preallocated events
+> and try to come up with something more clever only if someone actually
+> complains.
+
+So, If I understand correctly the conclusion, you are fine if I revert to
+the version I had in v7: 32 fields pre-allocated, no dynamic growth and
+just limit the number of FAN_FS_ERROR marks to <= 32?  In the future, if
+this ever becomes a problem, we look into dynamic resizing/increasing
+the limit?
+
+I think either option is fine by me.  I thought that growing 1 by 1 like
+I did here would be ugly, but before sending the patch, I checked and I
+was quite satisfied with how simple mempool_resize actually is.
+
+-- 
+Gabriel Krisman Bertazi
