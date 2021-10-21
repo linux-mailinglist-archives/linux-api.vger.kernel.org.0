@@ -2,73 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E0A8436404
-	for <lists+linux-api@lfdr.de>; Thu, 21 Oct 2021 16:22:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0212436860
+	for <lists+linux-api@lfdr.de>; Thu, 21 Oct 2021 18:53:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230072AbhJUOYl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 21 Oct 2021 10:24:41 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:41684 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230283AbhJUOYj (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Oct 2021 10:24:39 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 1E992217BA;
-        Thu, 21 Oct 2021 14:22:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1634826142; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Bl/iAuk9CGzA31xtE/NzBKo8caNqQsbcfKX2R8KPqrk=;
-        b=PQfIAHOZXyJ4BvF0ZGUm/9HYP/HSBP9/GzZ5YS86GpGdgoJvmW7rFfw8Bn/DFrXU8JMf5A
-        0BXWUeodFqBY2Dc3APLI5T5ZMQGTt3n8+d4Aw0rM0J3Dkz/6VF8mr1095kUzxbeWr168Br
-        gdtSTgE2aFglHfbr3QJd03ShMzSMIkA=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CEB3913ACC;
-        Thu, 21 Oct 2021 14:22:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id OW33L513cWE4OgAAMHmgww
-        (envelope-from <nborisov@suse.com>); Thu, 21 Oct 2021 14:22:21 +0000
-Subject: Re: [PATCH v11 08/10] btrfs-progs: receive: process setflags ioctl
+        id S232059AbhJUQzP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 21 Oct 2021 12:55:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45552 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229702AbhJUQzP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Oct 2021 12:55:15 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC644C0613B9
+        for <linux-api@vger.kernel.org>; Thu, 21 Oct 2021 09:52:58 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id c29so1194917pfp.2
+        for <linux-api@vger.kernel.org>; Thu, 21 Oct 2021 09:52:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=osandov-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=IcgK3jqVdAfaeLFQJYqlQnHUd7xPkY+EUw9K+n+kqs8=;
+        b=NxX5zcQUO+fne7dKWR46fV4PfZld2HLI49rRywG0foVkSd+cBb+s1hZ40e+nH5onfn
+         kBsEQ3w9oie1KHcQr7FmveD1vCIgEOMIhNzr4IPD+8IFTd7FvWajZC3kIb+OG6OZl7FM
+         V9i2a0bXHzZCPJnk5cFtALFaewEnD0eEm7l3E3fjrX4rZD8Azo7znuj6s+XI6TRo0LEq
+         JhI7rhLSJqOcHFz+QoCPrIW8GTUypGTBPb7DV/uIsFP2z41xHu5DDxIKY1e2FOCWB6Jn
+         9T+VkHm+RKcUZ9P/bDxXDqUgIrGyUCR8dCoWxYYhywAbHUkEBDurwoUVbXsSOf4hPbBs
+         x8BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=IcgK3jqVdAfaeLFQJYqlQnHUd7xPkY+EUw9K+n+kqs8=;
+        b=JdMzsVR6vFRdv+VOUg7hVzYk5441JXHliLXSmO1rYuvu9LRXfQypekEnijthxXfXFD
+         +icgvz8oZuBWC11N8CHKvmfSGJG6sXf97D0sepmsnwRnc4iwSjGzDORhQ0dcsPvi+TcV
+         +6/dVtdGok4iFCBWy3AghMBFlFlt6/IlOyzg0pGJ4v/fmRnZqpnNddWtkgZOZOq8johH
+         +U2I7uxDsmpjVJor8owwNpFbV+r0M932b4ThY9RM41nkdHrCFY8Acv3pMPs1PMGwSXOM
+         NsCwQCqbjQlz6zsUYlNSuZZ909y3bXkATrY7dd0nfbVtI3d+tZ4/EdG/9MuziKJlLL/Z
+         ZMDA==
+X-Gm-Message-State: AOAM530nAsUbAE9hoO57GQz44eSX6hPW1jm3AXDJgA8Rbdbm1O9jw8mG
+        /wBTsEZmnpUxoUiZyFWGFKoGPA==
+X-Google-Smtp-Source: ABdhPJwnRX/13QCgPfeN04lkAFNZK/zCphybLsqgGISYluyjPOdd7zMQGUBgzQJecMMoMzKX5MKdkg==
+X-Received: by 2002:a63:b203:: with SMTP id x3mr5321714pge.239.1634835178331;
+        Thu, 21 Oct 2021 09:52:58 -0700 (PDT)
+Received: from relinquished.localdomain ([2601:602:8b80:8e0::381])
+        by smtp.gmail.com with ESMTPSA id rm6sm6602236pjb.18.2021.10.21.09.52.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Oct 2021 09:52:57 -0700 (PDT)
+Date:   Thu, 21 Oct 2021 09:52:56 -0700
+From:   Omar Sandoval <osandov@osandov.com>
+To:     Nikolay Borisov <nborisov@suse.com>
+Cc:     linux-btrfs@vger.kernel.org, kernel-team@fb.com,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH v11 05/10] btrfs-progs: receive: process encoded_write
  commands
-To:     Omar Sandoval <osandov@osandov.com>, linux-btrfs@vger.kernel.org
-Cc:     kernel-team@fb.com, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org
+Message-ID: <YXGa6LWMwRVCnIz8@relinquished.localdomain>
 References: <cover.1630514529.git.osandov@fb.com>
- <45b2c23b6ed4fb3d6e9e9f3fbe4d6a245df3a612.1630515568.git.osandov@fb.com>
-From:   Nikolay Borisov <nborisov@suse.com>
-Message-ID: <8db5b80b-2f87-51a0-8718-697fb031e0b6@suse.com>
-Date:   Thu, 21 Oct 2021 17:22:21 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ <a06e83a401e0f66725975016bf6e6a23d5c8ea3d.1630515568.git.osandov@fb.com>
+ <dff53e1a-9717-4b92-09c3-36127ed966d9@suse.com>
 MIME-Version: 1.0
-In-Reply-To: <45b2c23b6ed4fb3d6e9e9f3fbe4d6a245df3a612.1630515568.git.osandov@fb.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <dff53e1a-9717-4b92-09c3-36127ed966d9@suse.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-
-
-On 1.09.21 г. 20:01, Omar Sandoval wrote:
-> From: Boris Burkov <boris@bur.io>
+On Thu, Oct 21, 2021 at 04:33:00PM +0300, Nikolay Borisov wrote:
 > 
-> In send stream v2, send can emit a command for setting inode flags via
-> the setflags ioctl. Pass the flags attribute through to the ioctl call
-> in receive.
 > 
-> Signed-off-by: Boris Burkov <boris@bur.io>
+> On 1.09.21 г. 20:01, Omar Sandoval wrote:
+> > From: Boris Burkov <borisb@fb.com>
+> > 
+> <snip>
+> 
+> > +/* Data is not compressed. */
+> > +#define BTRFS_ENCODED_IO_COMPRESSION_NONE 0
+> > +/* Data is compressed as a single zlib stream. */
+> > +#define BTRFS_ENCODED_IO_COMPRESSION_ZLIB 1
+> > +/*
+> > + * Data is compressed as a single zstd frame with the windowLog compression
+> > + * parameter set to no more than 17.
+> > + */
+> > +#define BTRFS_ENCODED_IO_COMPRESSION_ZSTD 2
+> > +/*
+> > + * Data is compressed page by page (using the page size indicated by the name of
+> > + * the constant) with LZO1X and wrapped in the format documented in
+> > + * fs/btrfs/lzo.c. For writes, the compression page size must match the
+> > + * filesystem page size.
+> > + */
+> > +#define BTRFS_ENCODED_IO_COMPRESSION_LZO_4K 3
+> > +#define BTRFS_ENCODED_IO_COMPRESSION_LZO_8K 4
+> > +#define BTRFS_ENCODED_IO_COMPRESSION_LZO_16K 5
+> > +#define BTRFS_ENCODED_IO_COMPRESSION_LZO_32K 6
+> > +#define BTRFS_ENCODED_IO_COMPRESSION_LZO_64K 7
+> > +#define BTRFS_ENCODED_IO_COMPRESSION_TYPES 8
+> 
+> nit: Make those an enum ? Same applies for the kernel counterpart patch.
 
-
-Revewed-by: Nikolay Borisov <nborisov@suse.com>
-
-Same remark about the missing kernel implementation.
+I responded to this before:
+https://lore.kernel.org/linux-btrfs/YR%2Fq69Tiz6PFqFJN@relinquished.localdomain/
