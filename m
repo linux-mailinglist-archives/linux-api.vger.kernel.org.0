@@ -2,103 +2,89 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CCA4F43765B
-	for <lists+linux-api@lfdr.de>; Fri, 22 Oct 2021 14:04:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63E944376DC
+	for <lists+linux-api@lfdr.de>; Fri, 22 Oct 2021 14:22:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229842AbhJVMGs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 22 Oct 2021 08:06:48 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:50248 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229815AbhJVMGr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 22 Oct 2021 08:06:47 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id D8F9C21983;
-        Fri, 22 Oct 2021 12:04:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1634904268; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=h9x+TRkgC4tzH4TgjCK7sVhgC5F3Aew81sGEOoXA6tA=;
-        b=eZzyWW/49xz88I+SIQPEwgELpiQoeI9/I+zOzwBJVBEH/J14rcGLCeXWMYvCMY8J/TqlWX
-        h5ip56Oqg9Y/ke4gBsG6qvzh4Ip9YH5+aFC0Ga0PC9rAK5PEIa6bVV9Cgmtk0PwFd1nB10
-        Cxh/zeJeWu4BYF6jGD9MnYbgCMMwGRc=
-Received: from suse.cz (unknown [10.100.201.86])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 769ACA3B81;
-        Fri, 22 Oct 2021 12:04:27 +0000 (UTC)
-Date:   Fri, 22 Oct 2021 14:04:24 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
-        rientjes@google.com, hannes@cmpxchg.org, guro@fb.com,
-        riel@surriel.com, minchan@kernel.org, christian@brauner.io,
-        hch@infradead.org, oleg@redhat.com, david@redhat.com,
-        jannh@google.com, shakeelb@google.com, luto@kernel.org,
-        christian.brauner@ubuntu.com, fweimer@redhat.com, jengelh@inai.de,
-        linux-api@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH 1/1] mm: prevent a race between process_mrelease and
- exit_mmap
-Message-ID: <YXKoyAKe7xCqk7gW@dhcp22.suse.cz>
-References: <20211022014658.263508-1-surenb@google.com>
- <YXJwUUPjfg9wV6MQ@dhcp22.suse.cz>
- <YXKhOKIIngIuJaYi@casper.infradead.org>
+        id S231597AbhJVMYN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 22 Oct 2021 08:24:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53610 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231586AbhJVMYK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 22 Oct 2021 08:24:10 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62625C061229
+        for <linux-api@vger.kernel.org>; Fri, 22 Oct 2021 05:21:52 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id 5so1701267edw.7
+        for <linux-api@vger.kernel.org>; Fri, 22 Oct 2021 05:21:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=EabbjzyBCsHP1Pqryzjhoy0dM3xlyxLmmpO8ACgMTo8=;
+        b=opUIgqVWyZcHOIldu+LgQVfQLu2JLSm4eq0yRYoR8X3EkJ0jJdtgK1LJrEC4fAYG/u
+         x5QndCavFk6KrgrLKL2M04eWhmo9Ht5gsCUOTzm6BFmYlOhPKCnfQmAWRcGWJ3Kgd+Po
+         dxnzE1GzD0Fe/zdoRYGanqsnNZ7HZwcDd5jvb2P53Z7ySB2eUUW5eKcCwJjvHcLwQW3D
+         hmZMQ0WQ67mADARNZlQPTMDFACAa1pT2f55C5E+z5xU/0SGGI05AA1ys/nk/8Z7QRecx
+         rbFLK51ODld/urTp+hjZ3tCNNEiv03NL8R5n8H4ZVv1sIR3Pcfr4FSd/aUugOrtvCJBK
+         4QUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=EabbjzyBCsHP1Pqryzjhoy0dM3xlyxLmmpO8ACgMTo8=;
+        b=cA1cxmpF45pPITLJRgn+F6iQYRPhkitF5NZLMrHlPWslasg5UK7LwbHVlTZd8qcbi0
+         DvaCtJADrr6UpzAVMwyuU0GcaDE/2I8jtKqsGACbS0MuxOO4z+fi8v/0l1DGPbYHdwCL
+         gMCPboNLxO3hmO1MQ3zx4Ux9Gifnt81VnWLNPOP05oAv8sPPPctk9DNCGyYxP40E8DP9
+         qArP8ppNH5Q9SZXwL1o+lmWKZ6atWA41Ql4JFAsMILbg/QaEcXeLJ5Hb7zWwdoEKGqLj
+         lgb5uuXLgap6B3t76RY1nZ4ytlzyuQZGMH+Ent3k0TlKrgxQIf7KMvCmK0Gr3gxupb9r
+         9Brw==
+X-Gm-Message-State: AOAM531N0t0XdPbPASU60UjFzXCE7pPXRP/p+OzldgbBRxn/BFcTDcZI
+        sgCPrlYOIMC3seZ6J94lvbe8IgPge2ODDfl2a2I=
+X-Google-Smtp-Source: ABdhPJy2Z+mCK6UsBedDHfuHLqHjOelryE6bx9xZ/OavTEghlxY+bPID2uQBe/oD5nVNF4jHf9BZTkpf3h9vpVXzB08=
+X-Received: by 2002:a17:907:1b0a:: with SMTP id mp10mr15488909ejc.29.1634905309828;
+ Fri, 22 Oct 2021 05:21:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YXKhOKIIngIuJaYi@casper.infradead.org>
+Received: by 2002:a17:907:7fa7:0:0:0:0 with HTTP; Fri, 22 Oct 2021 05:21:48
+ -0700 (PDT)
+Reply-To: bahadur.rayanby@gmail.com
+From:   Ryan Bahadur <dr.philposman7@gmail.com>
+Date:   Fri, 22 Oct 2021 05:21:48 -0700
+Message-ID: <CAMOT=VQ19xGMh1Soq8rNHNKaBCqZh03d0u+Nrf_Ou9bAtd-seQ@mail.gmail.com>
+Subject: CAN I TRUST YOU
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri 22-10-21 12:32:08, Matthew Wilcox wrote:
-> On Fri, Oct 22, 2021 at 10:03:29AM +0200, Michal Hocko wrote:
-> > On Thu 21-10-21 18:46:58, Suren Baghdasaryan wrote:
-> > > Race between process_mrelease and exit_mmap, where free_pgtables is
-> > > called while __oom_reap_task_mm is in progress, leads to kernel crash
-> > > during pte_offset_map_lock call. oom-reaper avoids this race by setting
-> > > MMF_OOM_VICTIM flag and causing exit_mmap to take and release
-> > > mmap_write_lock, blocking it until oom-reaper releases mmap_read_lock.
-> > > Reusing MMF_OOM_VICTIM for process_mrelease would be the simplest way to
-> > > fix this race, however that would be considered a hack. Fix this race
-> > > by elevating mm->mm_users and preventing exit_mmap from executing until
-> > > process_mrelease is finished. Patch slightly refactors the code to adapt
-> > > for a possible mmget_not_zero failure.
-> > > This fix has considerable negative impact on process_mrelease performance
-> > > and will likely need later optimization.
-> > 
-> > I am not sure there is any promise that process_mrelease will run in
-> > parallel with the exiting process. In fact the primary purpose of this
-> > syscall is to provide a reliable way to oom kill from user space. If you
-> > want to optimize process exit resp. its exit_mmap part then you should
-> > be using other means. So I would be careful calling this a regression.
-> > 
-> > I do agree that taking the reference count is the right approach here. I
-> > was wrong previously [1] when saying that pinning the mm struct is
-> > sufficient. I have completely forgot about the subtle sync in exit_mmap.
-> > One way we can approach that would be to take exclusive mmap_sem
-> > throughout the exit_mmap unconditionally. There was a push back against
-> > that though so arguments would have to be re-evaluated.
-> 
-> I have another reason for wanting to take the mmap_sem throughout
-> exit_mmap.  Liam and I are working on using the Maple tree to replace
-> the rbtree & vma linked list.  It uses lockdep to check that you haven't
-> forgotten to take a lock (as of two days ago, that mean the mmap_sem
-> or the RCU read lock) when walking the tree.
-> 
-> So I'd like to hold it over:
-> 
->  - unlock_range()
->  - unmap_vmas()
->  - free_pgtables()
->  - while (vma) remove_vma()
-> 
-> Which is basically the whole of exit_mmap().  I'd like to know more
-> about why there was pushback on holding the mmap_lock across this
-> -- we're exiting, so nobody else should have a reference to the mm?
-
-https://lore.kernel.org/all/20170724072332.31903-1-mhocko@kernel.org/
 -- 
-Michal Hocko
-SUSE Labs
+Greetings,
+
+Firstly, I apologize for encroaching into your privacy in this manner
+as it may seem unethical though it is a matter of great importance.
+
+I am Mr.Ryan Bahadur, I work with Cayman National Bank (Cayman Islands).
+
+I am contacting you because my status would not permit me to do this
+alone as it is concerning our customer and an investment placed under
+our bank's management over 5 years ago.
+
+I have a proposal I would love to discuss with you which will be very
+beneficial to both of us. It's regarding my late client who has a huge
+deposit with my bank.
+
+He is from your country and shares the same last name with you.
+
+I want to seek your consent to present you as the next of kin to my
+late client who died and left a huge deposit with my bank.
+
+I would respectfully request that you keep the contents of this mail
+confidential and respect the integrity of the information you come by
+as a result of this mail.
+
+Please kindly get back to me for more details if I can TRUST YOU.{
+bahadur.rayanby@gmail.com}
+
+Regards
+Mr.Ryan Bahadur
+Treasury and Deposit Management,
+Cayman National Bank Cayman Islands.
