@@ -2,160 +2,145 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A36744371D2
-	for <lists+linux-api@lfdr.de>; Fri, 22 Oct 2021 08:35:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6699843736D
+	for <lists+linux-api@lfdr.de>; Fri, 22 Oct 2021 10:03:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229944AbhJVGh4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 22 Oct 2021 02:37:56 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:44434 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229545AbhJVGh4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 22 Oct 2021 02:37:56 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 1FD871FD59;
-        Fri, 22 Oct 2021 06:35:38 +0000 (UTC)
+        id S232047AbhJVIFt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 22 Oct 2021 04:05:49 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:34640 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231984AbhJVIFs (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 22 Oct 2021 04:05:48 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 37FE92197F;
+        Fri, 22 Oct 2021 08:03:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1634884538; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1634889810; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=aU+GGUZR+JbcOgvKpGdMDYJHC4yv0Y07Dxz9R6inlGk=;
-        b=tiUe1Qbm0QmYXsnY+Snk0m0N8HGHNf5bIAmMrI35wfggei9LDLwkIN2/A5vqVkeZjT2oNp
-        Y20oc2VjBOSa2XdzWVFaNYEZ8QqXyRsKaqXU1W60gcjVjnIsfYgjSSSmYR30A18t4hxwk3
-        UAMnByeuPg3gDhBadw4q8Ipp1QKu3Bw=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        bh=HvhUhgJHwAx55o4YokA22XdtEWzDOauJw0wkGsftkJE=;
+        b=Ci7jMbyro7pQNwCkLt8dItkEIHsVqVyHs4jNAWucpPnB3LJ58r81yzRR7DWgn/zlVOC4th
+        lDfyRSuTDVMiwda1ZAD2UfB+0cbM9uVlafVhIiS9fyXrogMf4tGdQqLERlYFSXliPOhe5f
+        xC3Yg1khDW6b0OvksM2FGzhz0Nap7IE=
+Received: from suse.cz (unknown [10.100.201.86])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CD1C913A17;
-        Fri, 22 Oct 2021 06:35:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id 9VpzL7lbcmHZDAAAMHmgww
-        (envelope-from <nborisov@suse.com>); Fri, 22 Oct 2021 06:35:37 +0000
-Subject: Re: [PATCH v11 09/10] btrfs-progs: send: stream v2 ioctl flags
-To:     Omar Sandoval <osandov@osandov.com>, linux-btrfs@vger.kernel.org
-Cc:     kernel-team@fb.com, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org
-References: <cover.1630514529.git.osandov@fb.com>
- <9228a836d43b1d721fbdbd662e1c8558cb27be67.1630515568.git.osandov@fb.com>
-From:   Nikolay Borisov <nborisov@suse.com>
-Message-ID: <b5f0cc44-6900-8cb8-a21e-4289102dbe23@suse.com>
-Date:   Fri, 22 Oct 2021 09:35:37 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        by relay2.suse.de (Postfix) with ESMTPS id 845CCA3B83;
+        Fri, 22 Oct 2021 08:03:29 +0000 (UTC)
+Date:   Fri, 22 Oct 2021 10:03:29 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     akpm@linux-foundation.org, rientjes@google.com,
+        willy@infradead.org, hannes@cmpxchg.org, guro@fb.com,
+        riel@surriel.com, minchan@kernel.org, christian@brauner.io,
+        hch@infradead.org, oleg@redhat.com, david@redhat.com,
+        jannh@google.com, shakeelb@google.com, luto@kernel.org,
+        christian.brauner@ubuntu.com, fweimer@redhat.com, jengelh@inai.de,
+        linux-api@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, kernel-team@android.com
+Subject: Re: [PATCH 1/1] mm: prevent a race between process_mrelease and
+ exit_mmap
+Message-ID: <YXJwUUPjfg9wV6MQ@dhcp22.suse.cz>
+References: <20211022014658.263508-1-surenb@google.com>
 MIME-Version: 1.0
-In-Reply-To: <9228a836d43b1d721fbdbd662e1c8558cb27be67.1630515568.git.osandov@fb.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211022014658.263508-1-surenb@google.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Thu 21-10-21 18:46:58, Suren Baghdasaryan wrote:
+> Race between process_mrelease and exit_mmap, where free_pgtables is
+> called while __oom_reap_task_mm is in progress, leads to kernel crash
+> during pte_offset_map_lock call. oom-reaper avoids this race by setting
+> MMF_OOM_VICTIM flag and causing exit_mmap to take and release
+> mmap_write_lock, blocking it until oom-reaper releases mmap_read_lock.
+> Reusing MMF_OOM_VICTIM for process_mrelease would be the simplest way to
+> fix this race, however that would be considered a hack. Fix this race
+> by elevating mm->mm_users and preventing exit_mmap from executing until
+> process_mrelease is finished. Patch slightly refactors the code to adapt
+> for a possible mmget_not_zero failure.
+> This fix has considerable negative impact on process_mrelease performance
+> and will likely need later optimization.
 
+I am not sure there is any promise that process_mrelease will run in
+parallel with the exiting process. In fact the primary purpose of this
+syscall is to provide a reliable way to oom kill from user space. If you
+want to optimize process exit resp. its exit_mmap part then you should
+be using other means. So I would be careful calling this a regression.
 
-On 1.09.21 г. 20:01, Omar Sandoval wrote:
-> From: Boris Burkov <boris@bur.io>
-> 
-> To make the btrfs send ioctl use the stream v2 format requires passing
-> BTRFS_SEND_FLAG_STREAM_V2 in flags. Further, to cause the ioctl to emit
-> encoded_write commands for encoded extents, we must set that flag as
-> well as BTRFS_SEND_FLAG_COMPRESSED. Finally, we bump up the version in
-> send.h as well, since we are now fully compatible with v2.
-> 
-> Add two command line arguments to btrfs send: --stream-version and
-> --compressed-data. --stream-version requires an argument which it parses
-> as an integer and sets STREAM_V2 if the argument is 2. --compressed-data
-> does not require an argument and automatically implies STREAM_V2 as well
-> (COMPRESSED alone causes the ioctl to error out).
-> 
-> Some examples to illustrate edge cases:
-> 
-> // v1, old format and no encoded_writes
-> btrfs send subvol
-> btrfs send --stream-version 1 subvol
-> 
-> // v2 and compressed, we will see encoded_writes
-> btrfs send --compressed-data subvol
-> btrfs send --compressed-data --stream-version 2 subvol
-> 
-> // v2 only, new format but no encoded_writes
-> btrfs send --stream-version 2 subvol
-> 
-> // error: compressed needs version >= 2
-> btrfs send --compressed-data --stream-version 1 subvol
-> 
-> // error: invalid version (not 1 or 2)
-> btrfs send --stream-version 3 subvol
-> btrfs send --compressed-data --stream-version 0 subvol
-> btrfs send --compressed-data --stream-version 10 subvol
+I do agree that taking the reference count is the right approach here. I
+was wrong previously [1] when saying that pinning the mm struct is
+sufficient. I have completely forgot about the subtle sync in exit_mmap.
+One way we can approach that would be to take exclusive mmap_sem
+throughout the exit_mmap unconditionally. There was a push back against
+that though so arguments would have to be re-evaluated.
 
+[1] http://lkml.kernel.org/r/YQzZqFwDP7eUxwcn@dhcp22.suse.cz
 
-Why would we want to predicate the compressed writes usage on anything
-other than the stream version?
+That being said
+Acked-by: Michal Hocko <mhocko@suse.com>
 
-> 
-> Signed-off-by: Boris Burkov <boris@bur.io>
+Thanks!
+
+> Fixes: 884a7e5964e0 ("mm: introduce process_mrelease system call")
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 > ---
->  Documentation/btrfs-send.asciidoc | 16 ++++++++-
->  cmds/send.c                       | 54 ++++++++++++++++++++++++++++++-
->  ioctl.h                           | 17 +++++++++-
->  libbtrfsutil/btrfs.h              | 17 +++++++++-
->  send.h                            |  2 +-
->  5 files changed, 101 insertions(+), 5 deletions(-)
+>  mm/oom_kill.c | 23 ++++++++++++-----------
+>  1 file changed, 12 insertions(+), 11 deletions(-)
 > 
-> diff --git a/Documentation/btrfs-send.asciidoc b/Documentation/btrfs-send.asciidoc
-> index c4a05672..202bcd97 100644
-> --- a/Documentation/btrfs-send.asciidoc
-> +++ b/Documentation/btrfs-send.asciidoc
-> @@ -55,7 +55,21 @@ send in 'NO_FILE_DATA' mode
->  The output stream does not contain any file
->  data and thus cannot be used to transfer changes. This mode is faster and
->  is useful to show the differences in metadata.
-> --q|--quiet::::
-> +
-> +--stream-version <1|2>::
-> +Use the given send stream version. The default is 1. Version 2 encodes file
-> +data slightly more efficiently; it is also required for sending compressed data
-> +directly (see '--compressed-data'). Version 2 requires at least btrfs-progs
-> +5.12 on both the sender and receiver and at least Linux 5.12 on the sender.
-> +
+> diff --git a/mm/oom_kill.c b/mm/oom_kill.c
+> index 831340e7ad8b..989f35a2bbb1 100644
+> --- a/mm/oom_kill.c
+> +++ b/mm/oom_kill.c
+> @@ -1150,7 +1150,7 @@ SYSCALL_DEFINE2(process_mrelease, int, pidfd, unsigned int, flags)
+>  	struct task_struct *task;
+>  	struct task_struct *p;
+>  	unsigned int f_flags;
+> -	bool reap = true;
+> +	bool reap = false;
+>  	struct pid *pid;
+>  	long ret = 0;
+>  
+> @@ -1177,15 +1177,15 @@ SYSCALL_DEFINE2(process_mrelease, int, pidfd, unsigned int, flags)
+>  		goto put_task;
+>  	}
+>  
+> -	mm = p->mm;
+> -	mmgrab(mm);
+> -
+> -	/* If the work has been done already, just exit with success */
+> -	if (test_bit(MMF_OOM_SKIP, &mm->flags))
+> -		reap = false;
+> -	else if (!task_will_free_mem(p)) {
+> -		reap = false;
+> -		ret = -EINVAL;
+> +	if (mmget_not_zero(p->mm)) {
+> +		mm = p->mm;
+> +		if (task_will_free_mem(p))
+> +			reap = true;
+> +		else {
+> +			/* Error only if the work has not been done already */
+> +			if (!test_bit(MMF_OOM_SKIP, &mm->flags))
+> +				ret = -EINVAL;
+> +		}
+>  	}
+>  	task_unlock(p);
+>  
+> @@ -1201,7 +1201,8 @@ SYSCALL_DEFINE2(process_mrelease, int, pidfd, unsigned int, flags)
+>  	mmap_read_unlock(mm);
+>  
+>  drop_mm:
+> -	mmdrop(mm);
+> +	if (mm)
+> +		mmput(mm);
+>  put_task:
+>  	put_task_struct(task);
+>  put_pid:
+> -- 
+> 2.33.0.1079.g6e70778dc9-goog
 
-The version of progs needs to be adjusted but I assume this will be done
-by David when this patchset is merged as we don't have a target ATM.
-
-> +--compressed-data::
-> +Send data that is compressed on the filesystem directly without decompressing
-> +it. If the receiver supports encoded I/O (see `encoded_io`(7)), it can also
-> +write it directly without decompressing it. Otherwise, the receiver will fall
-> +back to decompressing it and writing it normally. This implies
-> +'--stream-version 2'.
-> +
-> +-q|--quiet::
->  (deprecated) alias for global '-q' option
->  -v|--verbose::
->  (deprecated) alias for global '-v' option
-> diff --git a/cmds/send.c b/cmds/send.c
-> index 3bfc69f5..80eb2510 100644
-> --- a/cmds/send.c
-> +++ b/cmds/send.c
-> @@ -452,6 +452,21 @@ static const char * const cmd_send_usage[] = {
->  	"                 does not contain any file data and thus cannot be used",
->  	"                 to transfer changes. This mode is faster and useful to",
->  	"                 show the differences in metadata.",
-> +	"--stream-version <1|2>",
-> +	"                 Use the given send stream version. The default is",
-> +	"                 1. Version 2 encodes file data slightly more",
-> +	"                 efficiently; it is also required for sending",
-> +	"                 compressed data directly (see --compressed-data).",
-> +	"                 Version 2 requires at least btrfs-progs 5.12 on both",
-> +	"                 the sender and receiver and at least Linux 5.12 on the",
-> +	"                 sender.",
-
-Ditto
-
-<snip>
+-- 
+Michal Hocko
+SUSE Labs
