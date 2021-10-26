@@ -2,91 +2,132 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4BE043AEC3
-	for <lists+linux-api@lfdr.de>; Tue, 26 Oct 2021 11:12:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4E9C43B17C
+	for <lists+linux-api@lfdr.de>; Tue, 26 Oct 2021 13:47:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233058AbhJZJPN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 26 Oct 2021 05:15:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39630 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233049AbhJZJPN (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 26 Oct 2021 05:15:13 -0400
-Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7658C061745;
-        Tue, 26 Oct 2021 02:12:49 -0700 (PDT)
-Received: by mail-il1-x132.google.com with SMTP id w15so14761723ilv.5;
-        Tue, 26 Oct 2021 02:12:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3Oai2wOe1AGF3iqBwEe9CYczT8VlXBX5xUWDEgUl+WU=;
-        b=AzWxt5tq5ZsIATWTLUCIn4b5/fazx53yfLIPZ09A3YI847pBnaRNmu02JJ38Zs8QHG
-         tNkvMw/uqh/OJMUcvJREa7YgyAjpxTXsAKnFvieyn9rb7QfKckt6fRmq/+IGscR9f44e
-         RTsRQCgwXlz3FSpWrS5iwC2nXjrxcrRjmh7vFZ3eFaCL3hONHeV4t57YA+dKBrEjNIab
-         qDBsQah5V8ann5/1Uo08y+8uXal6kMONy4XuEWXb9Wxq2xf8GnH/UAiMz1rTYfWKHcDr
-         TUt6jvXOUot6BkJBdGSAwB9rxBdVuBs1cbKmmw73ReWdCWF+kPuCh2To9+xK3UZTSF/t
-         AXsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3Oai2wOe1AGF3iqBwEe9CYczT8VlXBX5xUWDEgUl+WU=;
-        b=5X2VA8PMMt1g8X++N4Uw859RIov9b8spJAtWeK5svubNaP4UNU1MzflSsDhCrLxbtg
-         hsh+duqmuX0hhF4Uh1LCuWe3jyOekcyypy9gF+gzJIhgJOsLdERHgSrfRjDx5CxZ445x
-         sudZ7DzrsgStPXC81HSYJ9/pseFR8dMdQGwDmTGGoKxdxcFYfyr3Tt1OOlGn0BD2JfYi
-         7K3CCIhvq7emFbFIfeQcrLdlGheuQqCbCva+CS+8J53R4L/WGknxStySgfFOgqL/Xpxx
-         +xo1Z7q4WVXd17ZjqlrQgjID39vMc4dundA2lAt7DM7UE8P8gGskOdGzqjYl0CtfZvGa
-         ys0w==
-X-Gm-Message-State: AOAM530BDamwT5ht3AOBBPX5ITyvGpsV79hSri1BPYkB9rZHpAkSE7Ay
-        ec54jE0fSOULj7Kg2JfZRK8cfzWJVNvOOK4QzfeB26jF
-X-Google-Smtp-Source: ABdhPJwI9lOb7TOZOUBOkXMFcKopjIZYsIcX/wDirhRejQsS5GabWJAM3hXduUtpJmnm+hq4gZAzBmcKZfz0zw/Aj0U=
-X-Received: by 2002:a05:6e02:18cf:: with SMTP id s15mr8854138ilu.198.1635239569184;
- Tue, 26 Oct 2021 02:12:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211025192746.66445-1-krisman@collabora.com>
-In-Reply-To: <20211025192746.66445-1-krisman@collabora.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Tue, 26 Oct 2021 12:12:38 +0300
-Message-ID: <CAOQ4uxhth8NP4hS53rhLppK9_8ET41yrAx5d98s1uhSqrSzVHg@mail.gmail.com>
-Subject: Re: [PATCH v9 00/31] file system-wide error monitoring
+        id S234900AbhJZLuF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 26 Oct 2021 07:50:05 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:59946 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233543AbhJZLuF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 26 Oct 2021 07:50:05 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 53A5021155;
+        Tue, 26 Oct 2021 11:47:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1635248860; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=PGE0snSaCarKzqGQiZVI+d/WqBBBgakc9up3nBxmlvE=;
+        b=rrIOS5yvo7D2mmma9GOesa85R2mkJ7jxrsojk1nEjBjq4bRHb/SipoLqxKZG1y+XvUBrae
+        0RuvnMKjTqQM63ctKw+UYUhX0OdPUpeJGFiljuNO1HMpmCXrRr+oFPWMi+DXjv3cuY0C+C
+        9DBMTdW5z6AqoiU5EEBEcpevznkDZ9c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1635248860;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=PGE0snSaCarKzqGQiZVI+d/WqBBBgakc9up3nBxmlvE=;
+        b=RHGQAn1DAtLVjI4+BV6bMlZ/jKZPTCAvEen2rbDk1YMX1ahGy/OrQ/thyTAhKO8bfO3uvN
+        jdqXIYMin3csD/Bg==
+Received: from quack2.suse.cz (unknown [10.100.224.230])
+        by relay2.suse.de (Postfix) with ESMTP id 2F55AA3B81;
+        Tue, 26 Oct 2021 11:47:40 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id F03A31F2C66; Tue, 26 Oct 2021 13:47:36 +0200 (CEST)
+Date:   Tue, 26 Oct 2021 13:47:36 +0200
+From:   Jan Kara <jack@suse.cz>
 To:     Gabriel Krisman Bertazi <krisman@collabora.com>
-Cc:     Jan Kara <jack@suse.com>, "Darrick J. Wong" <djwong@kernel.org>,
-        Theodore Tso <tytso@mit.edu>,
-        Dave Chinner <david@fromorbit.com>,
-        David Howells <dhowells@redhat.com>,
-        Khazhismel Kumykov <khazhy@google.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Ext4 <linux-ext4@vger.kernel.org>, kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
+Cc:     amir73il@gmail.com, jack@suse.com, djwong@kernel.org,
+        tytso@mit.edu, david@fromorbit.com, dhowells@redhat.com,
+        khazhy@google.com, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-ext4@vger.kernel.org,
+        kernel@collabora.com
+Subject: Re: [PATCH v9 11/31] fsnotify: Protect fsnotify_handle_inode_event
+ from no-inode events
+Message-ID: <20211026114736.GC21228@quack2.suse.cz>
+References: <20211025192746.66445-1-krisman@collabora.com>
+ <20211025192746.66445-12-krisman@collabora.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211025192746.66445-12-krisman@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Oct 25, 2021 at 10:27 PM Gabriel Krisman Bertazi
-<krisman@collabora.com> wrote:
->
-> Hi,
->
-> This is the 9th version of this patch series.  Thank you, Amir, Jan and
-> Ted, for the feedback in the previous versions.
->
-> The main difference in this version is that the pool is no longer
-> resizeable nor limited in number of marks, even though we only
-> pre-allocate 32 slots.  In addition, ext4 was modified to always return
-> non-zero errno, and the documentation was fixed accordingly (No longer
-> suggests we return EXT4_ERR* values.
->
-> I also droped the Reviewed-by tags from the ext4 patch, due to the
-> changes above.
->
-> Please let me know what you think.
->
+On Mon 25-10-21 16:27:26, Gabriel Krisman Bertazi wrote:
+> FAN_FS_ERROR allows events without inodes - i.e. for file system-wide
+> errors.  Even though fsnotify_handle_inode_event is not currently used
+> by fanotify, this patch protects other backends from cases where neither
+> inode or dir are provided.  Also document the constraints of the
+> interface (inode and dir cannot be both NULL).
+> 
+> Suggested-by: Amir Goldstein <amir73il@gmail.com>
+> Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
 
-All good on my end.
-I've made a couple of minor comments that
-could be addressed on commit if no other issues are found.
+Looks good. Feel free to add:
 
-Thanks,
-Amir.
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> 
+> ---
+> Changes since v8:
+>   - Convert verifications to WARN_ON
+>   - Require either inode or dir
+>   - Protect nfsd backend from !inode.
+> ---
+>  fs/nfsd/filecache.c              | 3 +++
+>  fs/notify/fsnotify.c             | 3 +++
+>  include/linux/fsnotify_backend.h | 1 +
+>  3 files changed, 7 insertions(+)
+> 
+> diff --git a/fs/nfsd/filecache.c b/fs/nfsd/filecache.c
+> index be3c1aad50ea..fdf89fcf1a0c 100644
+> --- a/fs/nfsd/filecache.c
+> +++ b/fs/nfsd/filecache.c
+> @@ -602,6 +602,9 @@ nfsd_file_fsnotify_handle_event(struct fsnotify_mark *mark, u32 mask,
+>  				struct inode *inode, struct inode *dir,
+>  				const struct qstr *name, u32 cookie)
+>  {
+> +	if (WARN_ON_ONCE(!inode))
+> +		return 0;
+> +
+>  	trace_nfsd_file_fsnotify_handle_event(inode, mask);
+>  
+>  	/* Should be no marks on non-regular files */
+> diff --git a/fs/notify/fsnotify.c b/fs/notify/fsnotify.c
+> index fde3a1115a17..4034ca566f95 100644
+> --- a/fs/notify/fsnotify.c
+> +++ b/fs/notify/fsnotify.c
+> @@ -252,6 +252,9 @@ static int fsnotify_handle_inode_event(struct fsnotify_group *group,
+>  	if (WARN_ON_ONCE(!ops->handle_inode_event))
+>  		return 0;
+>  
+> +	if (WARN_ON_ONCE(!inode && !dir))
+> +		return 0;
+> +
+>  	if ((inode_mark->mask & FS_EXCL_UNLINK) &&
+>  	    path && d_unlinked(path->dentry))
+>  		return 0;
+> diff --git a/include/linux/fsnotify_backend.h b/include/linux/fsnotify_backend.h
+> index 035438fe4a43..b71dc788018e 100644
+> --- a/include/linux/fsnotify_backend.h
+> +++ b/include/linux/fsnotify_backend.h
+> @@ -136,6 +136,7 @@ struct mem_cgroup;
+>   * @dir:	optional directory associated with event -
+>   *		if @file_name is not NULL, this is the directory that
+>   *		@file_name is relative to.
+> + *		Either @inode or @dir must be non-NULL.
+>   * @file_name:	optional file name associated with event
+>   * @cookie:	inotify rename cookie
+>   *
+> -- 
+> 2.33.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
