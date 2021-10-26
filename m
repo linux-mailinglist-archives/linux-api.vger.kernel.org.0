@@ -2,105 +2,92 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 020CA43B1E2
-	for <lists+linux-api@lfdr.de>; Tue, 26 Oct 2021 14:06:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32B5543B205
+	for <lists+linux-api@lfdr.de>; Tue, 26 Oct 2021 14:11:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235728AbhJZMJI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 26 Oct 2021 08:09:08 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:60970 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235738AbhJZMJC (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 26 Oct 2021 08:09:02 -0400
+        id S235152AbhJZMN2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 26 Oct 2021 08:13:28 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:52868 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232378AbhJZMN1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 26 Oct 2021 08:13:27 -0400
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 098572193C;
-        Tue, 26 Oct 2021 12:06:38 +0000 (UTC)
+        by smtp-out2.suse.de (Postfix) with ESMTP id A949D1FD4C;
+        Tue, 26 Oct 2021 12:11:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1635249998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1635250262; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=RyjRbs13Q6FC77TliUQSlFXG3BjAyQNOL98Zw53Q71o=;
-        b=my+j0d0t9CwC5WyZ+iqBY32+ynYT3vWd3h4rmhlfK4G8n3u2BgTVaLyhZyZdiAEMoByh9K
-        RboCe2Q5TpWcaC+dd/w+EuW71LbMqicm1ZTeunStGV972K/LANs6UNs+eDbtMUkvTfapzg
-        23/lFqtZoXeaYWYQGx/vhwiWvRXPBGk=
+        bh=ojnLx7/RIPq4iLl5wUuKWkanLu0q3xCOsIU9XDzqvY4=;
+        b=BNDGiE9wHedUBDWKa2YdCeJPriH2RvhBHaRQDba/kAlOrix2TSm1O9guquXcIGjEUJr4G2
+        QKYiGovgF/6F+K4l6CLSdnGGuwBhJt4Da6WCt3i+Qv9GpcEq/RZ92IOBb9JlotzUhdyzgh
+        Age/+0fXLPf91OIRTyBVPAbkaoN44eQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1635249998;
+        s=susede2_ed25519; t=1635250262;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=RyjRbs13Q6FC77TliUQSlFXG3BjAyQNOL98Zw53Q71o=;
-        b=GZUQd92EQNYMhBz+cBvVS5up9G9ce2xHX9rW+5OZc6O+MFp4n4XLfBA4q+fzIBcv77BAdU
-        XYjuTLyvfyelYgDg==
+        bh=ojnLx7/RIPq4iLl5wUuKWkanLu0q3xCOsIU9XDzqvY4=;
+        b=TK6oUzD0s0/LhxE4GT1Lm+hUJpwp48s+zfQGWAd0RLQBM+VmiH+wFOYwsK2C9/C3r8A0aC
+        noPqPZj1g3PLiLCg==
 Received: from quack2.suse.cz (unknown [10.100.224.230])
-        by relay2.suse.de (Postfix) with ESMTP id E6B8FA3B8C;
-        Tue, 26 Oct 2021 12:06:37 +0000 (UTC)
+        by relay2.suse.de (Postfix) with ESMTP id 92A93A3B81;
+        Tue, 26 Oct 2021 12:11:02 +0000 (UTC)
 Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id C34BC1F2C66; Tue, 26 Oct 2021 14:06:37 +0200 (CEST)
-Date:   Tue, 26 Oct 2021 14:06:37 +0200
+        id 122CA1F2C66; Tue, 26 Oct 2021 14:11:02 +0200 (CEST)
+Date:   Tue, 26 Oct 2021 14:11:02 +0200
 From:   Jan Kara <jack@suse.cz>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Gabriel Krisman Bertazi <krisman@collabora.com>,
-        Jan Kara <jack@suse.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Theodore Tso <tytso@mit.edu>,
-        Dave Chinner <david@fromorbit.com>,
-        David Howells <dhowells@redhat.com>,
-        Khazhismel Kumykov <khazhy@google.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Ext4 <linux-ext4@vger.kernel.org>, kernel@collabora.com,
-        Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH v9 24/31] fanotify: Report fid entry even for zero-length
- file_handle
-Message-ID: <20211026120637.GD21228@quack2.suse.cz>
+To:     Gabriel Krisman Bertazi <krisman@collabora.com>
+Cc:     amir73il@gmail.com, jack@suse.com, djwong@kernel.org,
+        tytso@mit.edu, david@fromorbit.com, dhowells@redhat.com,
+        khazhy@google.com, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-ext4@vger.kernel.org,
+        kernel@collabora.com, Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH v9 27/31] fanotify: Emit generic error info for error
+ event
+Message-ID: <20211026121102.GE21228@quack2.suse.cz>
 References: <20211025192746.66445-1-krisman@collabora.com>
- <20211025192746.66445-25-krisman@collabora.com>
- <CAOQ4uxhCsCPNN=Xb6Xo9VpW+rYCkMUy-1zEXO41d1D4vN74GcA@mail.gmail.com>
+ <20211025192746.66445-28-krisman@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAOQ4uxhCsCPNN=Xb6Xo9VpW+rYCkMUy-1zEXO41d1D4vN74GcA@mail.gmail.com>
+In-Reply-To: <20211025192746.66445-28-krisman@collabora.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue 26-10-21 12:09:19, Amir Goldstein wrote:
-> On Mon, Oct 25, 2021 at 10:30 PM Gabriel Krisman Bertazi
-> <krisman@collabora.com> wrote:
-> >
-> > Non-inode errors will reported with an empty file_handle.  In
-> > preparation for that, allow some events to print the FID record even if
-> > there isn't any file_handle encoded
-> >
-> > Even though FILEID_ROOT is used internally, make zero-length file
-> > handles be reported as FILEID_INVALID.
-> >
-> > Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-> > Reviewed-by: Jan Kara <jack@suse.cz>
-> > Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
-> >
-> > ---
-> > Changes since v8:
-> >   - Move fanotify_event_has_object_fh check here (jan)
+On Mon 25-10-21 16:27:42, Gabriel Krisman Bertazi wrote:
+> The error info is a record sent to users on FAN_FS_ERROR events
+> documenting the type of error.  It also carries an error count,
+> documenting how many errors were observed since the last reporting.
 > 
-> Logically, this move is wrong, because after this patch,
-> copy_fid_info_to_user() can theoretically be called with NULL fh in the
-> existing construct of:
->   if (fanotify_event_has_object_fh(event)) {
->   ...
->     ret = copy_fid_info_to_user(fanotify_event_fsid(event),
-> 
-> fanotify_event_object_fh(event),
-> 
-> The thing that prevents this case in effect is that FAN_FS_ERROR
-> is not yet wired, but I am not sure if leaving this theoretic bisect
-> issue is a good idea.
-> 
-> Anyway, that's a very minor theoretic issue and I am sure Jan can
-> decide whether to deal with it and how (no need to post v10 IMO).
+> Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+> Reviewed-by: Jan Kara <jack@suse.cz>
+> Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
 
-Hum, correct. I guess I'll just fold this patch into patch 26. Logically
-they are very close anyway.
+...
+
+> @@ -530,6 +557,14 @@ static int copy_info_records_to_user(struct fanotify_event *event,
+>  		total_bytes += ret;
+>  	}
+>  
+> +	if (fanotify_is_error_event(event->mask)) {
+> +		ret = copy_error_info_to_user(event, buf, count);
+> +		if (ret < 0)
+> +			return ret;
+> +		buf += ret;
+> +		count -= ret;
+> +	}
+> +
+>  	return total_bytes;
+>  }
+
+This is currently harmless but we should add
+
+total_bytes += ret;
+
+here as well.
 
 								Honza
 -- 
