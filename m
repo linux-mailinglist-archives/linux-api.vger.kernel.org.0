@@ -2,59 +2,37 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 87E7943CE4F
-	for <lists+linux-api@lfdr.de>; Wed, 27 Oct 2021 18:08:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A830E43CFDC
+	for <lists+linux-api@lfdr.de>; Wed, 27 Oct 2021 19:37:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238641AbhJ0QLA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 27 Oct 2021 12:11:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38932 "EHLO
+        id S236251AbhJ0RkB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 27 Oct 2021 13:40:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242912AbhJ0QK7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 27 Oct 2021 12:10:59 -0400
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A567CC061570
-        for <linux-api@vger.kernel.org>; Wed, 27 Oct 2021 09:08:33 -0700 (PDT)
-Received: by mail-yb1-xb30.google.com with SMTP id v64so1156448ybi.5
-        for <linux-api@vger.kernel.org>; Wed, 27 Oct 2021 09:08:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+7yM+AHVg6/RWwPVXoUMFU+BAoYxNZ6FELdoFv8vPVY=;
-        b=jam13Ei0ZH0rmnEJQGz2oG7g5UJE6hddfGqNF9ht5JQ+AMTvawIvs2IlZEP15mrB8I
-         4Vb2WELl2sb+a8KiVkJxo21BQb8RmLmCXaAG3RZVsaWXnfLYRZBgE+NYnDb7fylVrVW+
-         aVveT6W+Z5ExMRWMYTo1j2GEkQK+b6zBHkgEzEB6XwHBRw98PDkazY5vkMfnt/uKBgJ+
-         k+ZG/MFiLjtd8w4m1+CBAn413mqp2pPJrigcXqzuwjTfe1S0J8GMx5VqnQWaMknlleuX
-         pTHNvzis3he35IfamTHEUyzyNdSqAOGalCHjxrvlRJ2iQ6AaYVWgIBi7JdokemJnsocR
-         h6dA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+7yM+AHVg6/RWwPVXoUMFU+BAoYxNZ6FELdoFv8vPVY=;
-        b=WfMLgbx3GI4Km+OunGn/sKq/TFr2Ik5G/s9ljGbpaM3UbdHA6Ya/4ejWhGcjVdGqxV
-         QbAHDHl0OQ24HLe3GDjNAo7tBrzCGo5Qwx7mHa0HVs3w46lHaZQyphAb36Dgw4Eg5H+S
-         Hr7J1QhflL34snkXA4cZta5nG5jFeRxIqElV+iQoJIXgDoQHdEFfI/l5R76T+g2F8amk
-         aV9BcKDyG7EaZXoSxlhzP/ROSOwKkncXZ4rOmHAKmuFqswuaBpUN0IH6K8g1oWr4PmQt
-         aSJmnifn1hPuwV+zs7mWRbqzlrHRyOZoLC9zSCB2oTRQtT5OroDTfQtX6ZAON3cDlQXO
-         yLmQ==
-X-Gm-Message-State: AOAM5330g9K2pYpsTr/iDT4SpbEHjFsX84FS4VlwXFtPQa/CCpxkyJyo
-        mgSyo+bk493hKw3WDqVZAYlIQw4xzOXUz+QU9JrfXA==
-X-Google-Smtp-Source: ABdhPJw/n7XwHkFkI9fOQmbZIV5nvoItVjlZ5jw4xeYJ3ZltRS5KLuUCkRrnZKnwCUWhrxfvAaiFxm6E/iWN3dKdn7k=
-X-Received: by 2002:a25:8411:: with SMTP id u17mr33162493ybk.376.1635350912546;
- Wed, 27 Oct 2021 09:08:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211022014658.263508-1-surenb@google.com> <YXJwUUPjfg9wV6MQ@dhcp22.suse.cz>
- <CAJuCfpEcSbK8WrufZjDj-7iUxiQtrmVTqHOxFUOvLhYGz6_ttQ@mail.gmail.com>
-In-Reply-To: <CAJuCfpEcSbK8WrufZjDj-7iUxiQtrmVTqHOxFUOvLhYGz6_ttQ@mail.gmail.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Wed, 27 Oct 2021 09:08:21 -0700
-Message-ID: <CAJuCfpFccBJHHqfOKixJvLr7Xta_ojkdHGfGomwTDNKffzziRQ@mail.gmail.com>
-Subject: Re: [PATCH 1/1] mm: prevent a race between process_mrelease and exit_mmap
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        with ESMTP id S239649AbhJ0Rjt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 27 Oct 2021 13:39:49 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C613C061570;
+        Wed, 27 Oct 2021 10:37:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=+U+TxjmDEPvzkPUOSLMih1c9b9tYKtaDNEtCOsPckX4=; b=MhNVFNLpDRUsAk22yqxGXf2hdN
+        S+E7PX+d59PXSbymwpHFeoR/6YXdjXE6dyecvEb5G2dVwEjO9M4rzQPW4iSLyq32W1wH8r14eXg1/
+        utcx3tWj/odhlV/L34rMy7ava45qwnqx4zgA1hLR1fiuNTFWyxlcje2uFfufHoTKXZNuSYHFi8203
+        51Wxv+WGijDzds9e576R8w59ZgYby09WMoBY/Z1Bquov2zNljEy5iC6wHcV4OGJorLlaxYTRPcsrL
+        fbKHbG9vctPJj8tfH+jrvaTd60x2Ac7lNnH1YVtOUrulHEoVa7RW0U1cz20HVzsFKDO2GdLEo4m0K
+        hz0o1tkQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mfmnq-000D7i-Lv; Wed, 27 Oct 2021 17:33:45 +0000
+Date:   Wed, 27 Oct 2021 18:33:30 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
         David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
         Minchan Kim <minchan@kernel.org>,
@@ -74,148 +52,204 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         kernel-team <kernel-team@android.com>,
         "Kirill A. Shutemov" <kirill@shutemov.name>,
         Andrea Arcangeli <aarcange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 1/1] mm: prevent a race between process_mrelease and
+ exit_mmap
+Message-ID: <YXmNaoV4dBTOJ3+w@casper.infradead.org>
+References: <20211022014658.263508-1-surenb@google.com>
+ <YXJwUUPjfg9wV6MQ@dhcp22.suse.cz>
+ <CAJuCfpEcSbK8WrufZjDj-7iUxiQtrmVTqHOxFUOvLhYGz6_ttQ@mail.gmail.com>
+ <CAJuCfpFccBJHHqfOKixJvLr7Xta_ojkdHGfGomwTDNKffzziRQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJuCfpFccBJHHqfOKixJvLr7Xta_ojkdHGfGomwTDNKffzziRQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Oct 22, 2021 at 10:38 AM Suren Baghdasaryan <surenb@google.com> wrote:
->
-> On Fri, Oct 22, 2021 at 1:03 AM Michal Hocko <mhocko@suse.com> wrote:
-> >
-> > On Thu 21-10-21 18:46:58, Suren Baghdasaryan wrote:
-> > > Race between process_mrelease and exit_mmap, where free_pgtables is
-> > > called while __oom_reap_task_mm is in progress, leads to kernel crash
-> > > during pte_offset_map_lock call. oom-reaper avoids this race by setting
-> > > MMF_OOM_VICTIM flag and causing exit_mmap to take and release
-> > > mmap_write_lock, blocking it until oom-reaper releases mmap_read_lock.
-> > > Reusing MMF_OOM_VICTIM for process_mrelease would be the simplest way to
-> > > fix this race, however that would be considered a hack. Fix this race
-> > > by elevating mm->mm_users and preventing exit_mmap from executing until
-> > > process_mrelease is finished. Patch slightly refactors the code to adapt
-> > > for a possible mmget_not_zero failure.
-> > > This fix has considerable negative impact on process_mrelease performance
-> > > and will likely need later optimization.
-> >
-> > I am not sure there is any promise that process_mrelease will run in
-> > parallel with the exiting process. In fact the primary purpose of this
-> > syscall is to provide a reliable way to oom kill from user space. If you
-> > want to optimize process exit resp. its exit_mmap part then you should
-> > be using other means. So I would be careful calling this a regression.
-> >
-> > I do agree that taking the reference count is the right approach here. I
-> > was wrong previously [1] when saying that pinning the mm struct is
-> > sufficient. I have completely forgot about the subtle sync in exit_mmap.
-> > One way we can approach that would be to take exclusive mmap_sem
-> > throughout the exit_mmap unconditionally.
->
-> I agree, that would probably be the cleanest way.
->
-> > There was a push back against
-> > that though so arguments would have to be re-evaluated.
->
-> I'll review that discussion to better understand the reasons for the
-> push back. Thanks for the link.
+On Wed, Oct 27, 2021 at 09:08:21AM -0700, Suren Baghdasaryan wrote:
+> Unconditional mmap_write_lock around free_pgtables in exit_mmap seems
+> to me the most semantically correct way forward and the pushback is on
+> the basis of regressing performance of the exit path. I would like to
+> measure that regression to confirm this. I don't have access to a big
+> machine but will ask someone in another Google team to try the test
+> Michal wrote here
+> https://lore.kernel.org/all/20170725142626.GJ26723@dhcp22.suse.cz/ on
+> a server with and without a custom patch.
 
-Adding Kirill and Andrea.
+Sorry to hijack this, but could you ask that team to also test this
+patch?  I think there's probably a good-sized win here, but I have no
+profiles to share at this point.  I've only done light testing, and
+it may have bugs.
 
-I had some time to dig some more. The latency increase is definitely
-coming due to process_mrelease calling the last mmput and exit_aio is
-especially problematic. So, currently process_mrelease not only
-releases memory but does more, including waiting for io to finish.
+NB: I only did the exit() path here.  fork() conversion is left as an
+exercise for the reader^W^W Liam.
 
-Unconditional mmap_write_lock around free_pgtables in exit_mmap seems
-to me the most semantically correct way forward and the pushback is on
-the basis of regressing performance of the exit path. I would like to
-measure that regression to confirm this. I don't have access to a big
-machine but will ask someone in another Google team to try the test
-Michal wrote here
-https://lore.kernel.org/all/20170725142626.GJ26723@dhcp22.suse.cz/ on
-a server with and without a custom patch.
-If the regression is real, then I think we could keep the "if
-(unlikely(mm_is_oom_victim(mm)))" condition but wrap free_pgtables
-with conditional mmap_write_lock. To me this is cleaner because it
-clearly shows that we are trying to prevent free_pgtables from racing
-with any mm readers (current mmap_write_lock(); mmap_write_unlock()
-sequence needs a comment section to explain why this is needed). In
-that case I would need to reuse MMF_OOM_VICTIM in process_mrelease to
-avoid postponing the exit_mmap, like oom-reaper does. Maybe we could
-rename MMF_OOM_VICTIM / MMF_OOM_SKIP to something like MMF_RELEASING /
-MMF_RELEASED to make them more generic and allow their use outside of
-oom-killer? Again, this is a fallback plan in case unconditional
-mmap_write_lock indeed regresses the exit path.
-Any comments/suggestions?
+From 5f9daa14a5e58c86a73eccf59abe23d131004926 Mon Sep 17 00:00:00 2001
+From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Date: Wed, 27 Oct 2021 13:28:35 -0400
+Subject: [PATCH] mm: Add vmavec
 
+The vmavec lets us allocate and free batches of VMAs instead of
+one at a time.  Should improve fork() and exit() performance.
 
->
-> >
-> > [1] http://lkml.kernel.org/r/YQzZqFwDP7eUxwcn@dhcp22.suse.cz
-> >
-> > That being said
-> > Acked-by: Michal Hocko <mhocko@suse.com>
->
-> Thanks!
->
-> >
-> > Thanks!
-> >
-> > > Fixes: 884a7e5964e0 ("mm: introduce process_mrelease system call")
-> > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > > ---
-> > >  mm/oom_kill.c | 23 ++++++++++++-----------
-> > >  1 file changed, 12 insertions(+), 11 deletions(-)
-> > >
-> > > diff --git a/mm/oom_kill.c b/mm/oom_kill.c
-> > > index 831340e7ad8b..989f35a2bbb1 100644
-> > > --- a/mm/oom_kill.c
-> > > +++ b/mm/oom_kill.c
-> > > @@ -1150,7 +1150,7 @@ SYSCALL_DEFINE2(process_mrelease, int, pidfd, unsigned int, flags)
-> > >       struct task_struct *task;
-> > >       struct task_struct *p;
-> > >       unsigned int f_flags;
-> > > -     bool reap = true;
-> > > +     bool reap = false;
-> > >       struct pid *pid;
-> > >       long ret = 0;
-> > >
-> > > @@ -1177,15 +1177,15 @@ SYSCALL_DEFINE2(process_mrelease, int, pidfd, unsigned int, flags)
-> > >               goto put_task;
-> > >       }
-> > >
-> > > -     mm = p->mm;
-> > > -     mmgrab(mm);
-> > > -
-> > > -     /* If the work has been done already, just exit with success */
-> > > -     if (test_bit(MMF_OOM_SKIP, &mm->flags))
-> > > -             reap = false;
-> > > -     else if (!task_will_free_mem(p)) {
-> > > -             reap = false;
-> > > -             ret = -EINVAL;
-> > > +     if (mmget_not_zero(p->mm)) {
-> > > +             mm = p->mm;
-> > > +             if (task_will_free_mem(p))
-> > > +                     reap = true;
-> > > +             else {
-> > > +                     /* Error only if the work has not been done already */
-> > > +                     if (!test_bit(MMF_OOM_SKIP, &mm->flags))
-> > > +                             ret = -EINVAL;
-> > > +             }
-> > >       }
-> > >       task_unlock(p);
-> > >
-> > > @@ -1201,7 +1201,8 @@ SYSCALL_DEFINE2(process_mrelease, int, pidfd, unsigned int, flags)
-> > >       mmap_read_unlock(mm);
-> > >
-> > >  drop_mm:
-> > > -     mmdrop(mm);
-> > > +     if (mm)
-> > > +             mmput(mm);
-> > >  put_task:
-> > >       put_task_struct(task);
-> > >  put_pid:
-> > > --
-> > > 2.33.0.1079.g6e70778dc9-goog
-> >
-> > --
-> > Michal Hocko
-> > SUSE Labs
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+---
+ include/linux/vmavec.h | 38 ++++++++++++++++++++++++++++++++++++++
+ kernel/fork.c          | 17 +++++++++++++++++
+ mm/mmap.c              | 30 ++++++++++++++++++++++--------
+ 3 files changed, 77 insertions(+), 8 deletions(-)
+ create mode 100644 include/linux/vmavec.h
+
+diff --git a/include/linux/vmavec.h b/include/linux/vmavec.h
+new file mode 100644
+index 000000000000..8a324e2e1258
+--- /dev/null
++++ b/include/linux/vmavec.h
+@@ -0,0 +1,38 @@
++/*
++ * A vma vector is an array of vm_area_structs, with a counter.
++ */
++
++struct vm_area_struct;
++
++#define VMAVEC_SIZE	15
++
++struct vmavec {
++	unsigned char nr;
++	void *vmas[VMAVEC_SIZE];
++};
++
++#define VMAVEC(name)	struct vmavec name = { }
++
++static inline bool vmavec_full(struct vmavec *vmavec)
++{
++	return vmavec->nr == VMAVEC_SIZE;
++}
++
++static inline bool vmavec_empty(struct vmavec *vmavec)
++{
++	return vmavec->nr == 0;
++}
++
++static inline
++void vmavec_push(struct vmavec *vmavec, struct vm_area_struct *vma)
++{
++	vmavec->vmas[vmavec->nr++] = vma;
++}
++
++static inline struct vm_area_struct *vmavec_pop(struct vmavec *vmavec)
++{
++	return vmavec->vmas[--vmavec->nr];
++}
++
++void vm_area_free_vec(struct vmavec *vmavec);
++void vm_area_alloc_vec(struct mm_struct *mm, struct vmavec *vmavec);
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 38681ad44c76..ea7e8bd00be8 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -97,6 +97,7 @@
+ #include <linux/scs.h>
+ #include <linux/io_uring.h>
+ #include <linux/bpf.h>
++#include <linux/vmavec.h>
+ 
+ #include <asm/pgalloc.h>
+ #include <linux/uaccess.h>
+@@ -375,6 +376,22 @@ void vm_area_free(struct vm_area_struct *vma)
+ 	kmem_cache_free(vm_area_cachep, vma);
+ }
+ 
++void vm_area_alloc_vec(struct mm_struct *mm, struct vmavec *vmavec)
++{
++	int i;
++
++	vmavec->nr = kmem_cache_alloc_bulk(vm_area_cachep, GFP_KERNEL,
++				VMAVEC_SIZE, vmavec->vmas);
++	for (i = 0; i < vmavec->nr; i++)
++		vma_init(vmavec->vmas[i], mm);
++}
++
++void vm_area_free_vec(struct vmavec *vmavec)
++{
++	kmem_cache_free_bulk(vm_area_cachep, vmavec->nr, vmavec->vmas);
++	vmavec->nr = 0;
++}
++
+ static void account_kernel_stack(struct task_struct *tsk, int account)
+ {
+ 	void *stack = task_stack_page(tsk);
+diff --git a/mm/mmap.c b/mm/mmap.c
+index 88dcc5c25225..bff4e94eec8c 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
+@@ -47,6 +47,7 @@
+ #include <linux/pkeys.h>
+ #include <linux/oom.h>
+ #include <linux/sched/mm.h>
++#include <linux/vmavec.h>
+ 
+ #include <linux/uaccess.h>
+ #include <asm/cacheflush.h>
+@@ -172,19 +173,24 @@ void unlink_file_vma(struct vm_area_struct *vma)
+ 	}
+ }
+ 
+-/*
+- * Close a vm structure and free it, returning the next.
+- */
+-static struct vm_area_struct *remove_vma(struct vm_area_struct *vma)
++static void __remove_vma(struct vm_area_struct *vma)
+ {
+-	struct vm_area_struct *next = vma->vm_next;
+-
+ 	might_sleep();
+ 	if (vma->vm_ops && vma->vm_ops->close)
+ 		vma->vm_ops->close(vma);
+ 	if (vma->vm_file)
+ 		fput(vma->vm_file);
+ 	mpol_put(vma_policy(vma));
++}
++
++/*
++ * Close a vm structure and free it, returning the next.
++ */
++static struct vm_area_struct *remove_vma(struct vm_area_struct *vma)
++{
++	struct vm_area_struct *next = vma->vm_next;
++
++	__remove_vma(vma);
+ 	vm_area_free(vma);
+ 	return next;
+ }
+@@ -3125,6 +3131,7 @@ void exit_mmap(struct mm_struct *mm)
+ {
+ 	struct mmu_gather tlb;
+ 	struct vm_area_struct *vma;
++	VMAVEC(vmavec);
+ 	unsigned long nr_accounted = 0;
+ 
+ 	/* mm's last user has gone, and its about to be pulled down */
+@@ -3179,9 +3186,16 @@ void exit_mmap(struct mm_struct *mm)
+ 	while (vma) {
+ 		if (vma->vm_flags & VM_ACCOUNT)
+ 			nr_accounted += vma_pages(vma);
+-		vma = remove_vma(vma);
+-		cond_resched();
++		__remove_vma(vma);
++		vmavec_push(&vmavec, vma);
++		vma = vma->vm_next;
++		if (vmavec_full(&vmavec)) {
++			vm_area_free_vec(&vmavec);
++			cond_resched();
++		}
+ 	}
++	if (!vmavec_empty(&vmavec))
++		vm_area_free_vec(&vmavec);
+ 	vm_unacct_memory(nr_accounted);
+ }
+ 
+-- 
+2.33.0
+
