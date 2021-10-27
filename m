@@ -2,114 +2,99 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACF9643BDC4
-	for <lists+linux-api@lfdr.de>; Wed, 27 Oct 2021 01:22:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8325B43C87A
+	for <lists+linux-api@lfdr.de>; Wed, 27 Oct 2021 13:22:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236366AbhJZXYc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 26 Oct 2021 19:24:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36638 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236051AbhJZXYc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 26 Oct 2021 19:24:32 -0400
-Received: from mail-ua1-x935.google.com (mail-ua1-x935.google.com [IPv6:2607:f8b0:4864:20::935])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AF4AC061745
-        for <linux-api@vger.kernel.org>; Tue, 26 Oct 2021 16:22:07 -0700 (PDT)
-Received: by mail-ua1-x935.google.com with SMTP id q13so1508826uaq.2
-        for <linux-api@vger.kernel.org>; Tue, 26 Oct 2021 16:22:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=posk.io; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=J18QttHAkFDS7yxz+1rjMOa4CC6r6s8T6z90wWDtKnM=;
-        b=UUgvFrR+HKKFK8Xbmv5tdHLBTz2c3Jxe83/yQSjGWL6ZMTBERVPLz7HGzOIDZXMIiL
-         oU8t/tK18coPzNBChNmQzno0N8loKXyMzVuRFnKRhwgM9QFIyGXbDmlDLaeTeh8J4nGL
-         8WDCBTmwIV66qqkK86dTyaPoQ3AVkvOzdsjsHvtMZUSWtDm0S13xq+amg2QnNYZm5iOE
-         PRa4JObjkF5GrYCEDpzhtOZ0CRS2e9Lb73wscC2FvigHJvezGsaypJTHUOf0tmFb1P1K
-         AW2uVYzq302wtU2mpagTftZpxA3IbcUul8PUgDWiNDkymaNMll/Dc7acJm7mdb9JYP0b
-         V+Vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=J18QttHAkFDS7yxz+1rjMOa4CC6r6s8T6z90wWDtKnM=;
-        b=LYpjXoPdkdh1AvQQPxWbO8qZzGnV7jGW2JGNNjGsaRVh55PLlPk9E2ZfkH3rjxsAF6
-         fOZJ2LAfINfZoUysaBdweXuuo3muSU+7+MUSFq2FQVnZmDehDA77e2smynLacFFh8xxO
-         1pcYvPhzNBzuZCezv6nW584WPDHBUPM4td1SXFlviLXpo1hPVgHnRoajteIdfz5bX6gw
-         a1RrN26vh+zYyhnXFJhfgq+AagdR7k5uocEuaFwAsRi7vjY/7QrperSmJp79562o65hh
-         442lzsdfAEGsUTmfy3mGiJINtGbDYRn5ibmXWF53grBmf+WMVrMEB49dio8Ol4SBsiqG
-         Uffg==
-X-Gm-Message-State: AOAM5313xYH25R6lwNcF3n9SFPCMBANVy2ewm1QmwwdLbC0+fKvuDQL5
-        SgmsAJ+p2I2UmKLJvqFiXle6x4rihUpB1PaxhaozfQ==
-X-Google-Smtp-Source: ABdhPJx4lFsGHDL8KFwKlcXqK7O+w6Mif7FDdqlZ4s4k6X+hEkLS2rBkYwW9nhpkzDj/TM6EYqIvqhMo6ezpRoK8x5g=
-X-Received: by 2002:a05:6102:11f0:: with SMTP id e16mr17418235vsg.21.1635290526524;
- Tue, 26 Oct 2021 16:22:06 -0700 (PDT)
+        id S241630AbhJ0LZL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 27 Oct 2021 07:25:11 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:42786 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234141AbhJ0LZK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 27 Oct 2021 07:25:10 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id CE3071FD3B;
+        Wed, 27 Oct 2021 11:22:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1635333763; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Xeo4tWojXaRyeV9lNeOTLkKRkzGCZZeeM1nu6FtoDMo=;
+        b=GQH+bPd8mvMYWZUyrwYSJCHciPFVXkGCAGocBuVci9kLQ6yVUawaBnorhWIKXTbrr49QBn
+        xgq+dy8+SSVpp/14yOxXg8ZDU7PsxvKw+e1Ci3nOP16ZGS8OxQycO40Me/EI2UfKfV2bkp
+        BdzhAs7xpVlqH0mdHR7AgnWdTEwyDqc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1635333763;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Xeo4tWojXaRyeV9lNeOTLkKRkzGCZZeeM1nu6FtoDMo=;
+        b=+mPJrTFfhPKbdqDrBGxBaIrno+dpiT8rN3/njrhK85pDR05IwGconbjzv8lVhYuXteIWjd
+        RBcFjYwA3Y1XASAA==
+Received: from quack2.suse.cz (unknown [10.100.224.230])
+        by relay2.suse.de (Postfix) with ESMTP id B63A3A3B83;
+        Wed, 27 Oct 2021 11:22:43 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 917271F2C66; Wed, 27 Oct 2021 13:22:43 +0200 (CEST)
+Date:   Wed, 27 Oct 2021 13:22:43 +0200
+From:   Jan Kara <jack@suse.cz>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Gabriel Krisman Bertazi <krisman@collabora.com>,
+        Jan Kara <jack@suse.com>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Theodore Tso <tytso@mit.edu>,
+        Dave Chinner <david@fromorbit.com>,
+        David Howells <dhowells@redhat.com>,
+        Khazhismel Kumykov <khazhy@google.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Ext4 <linux-ext4@vger.kernel.org>, kernel@collabora.com
+Subject: Re: [PATCH v9 00/31] file system-wide error monitoring
+Message-ID: <20211027112243.GE28650@quack2.suse.cz>
+References: <20211025192746.66445-1-krisman@collabora.com>
+ <CAOQ4uxhth8NP4hS53rhLppK9_8ET41yrAx5d98s1uhSqrSzVHg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20211012232522.714898-1-posk@google.com> <20211012232522.714898-3-posk@google.com>
-In-Reply-To: <20211012232522.714898-3-posk@google.com>
-From:   Peter Oskolkov <posk@posk.io>
-Date:   Tue, 26 Oct 2021 16:21:55 -0700
-Message-ID: <CAFTs51V8c3vuw-hFHWuxJDnvr2t-tNs8SC7syFOVvVSm8JdKKQ@mail.gmail.com>
-Subject: Re: [PATCH v0.7 2/5] mm, x86/uaccess: add userspace atomic helpers
-To:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>, linux-mm@kvack.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-api@vger.kernel.org
-Cc:     Paul Turner <pjt@google.com>, Ben Segall <bsegall@google.com>,
-        Peter Oskolkov <posk@google.com>,
-        Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
-        Thierry Delisle <tdelisle@uwaterloo.ca>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOQ4uxhth8NP4hS53rhLppK9_8ET41yrAx5d98s1uhSqrSzVHg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Oct 12, 2021 at 4:25 PM Peter Oskolkov <posk@posk.io> wrote:
+On Tue 26-10-21 12:12:38, Amir Goldstein wrote:
+> On Mon, Oct 25, 2021 at 10:27 PM Gabriel Krisman Bertazi
+> <krisman@collabora.com> wrote:
+> >
+> > Hi,
+> >
+> > This is the 9th version of this patch series.  Thank you, Amir, Jan and
+> > Ted, for the feedback in the previous versions.
+> >
+> > The main difference in this version is that the pool is no longer
+> > resizeable nor limited in number of marks, even though we only
+> > pre-allocate 32 slots.  In addition, ext4 was modified to always return
+> > non-zero errno, and the documentation was fixed accordingly (No longer
+> > suggests we return EXT4_ERR* values.
+> >
+> > I also droped the Reviewed-by tags from the ext4 patch, due to the
+> > changes above.
+> >
+> > Please let me know what you think.
+> >
+> 
+> All good on my end.
+> I've made a couple of minor comments that
+> could be addressed on commit if no other issues are found.
 
-[...]
+All good on my end as well. I've applied all the minor updates, tested the
+result and pushed it out to fsnotify branch of my tree. WRT to your new
+FS_ERROR LTP tests, I've noticed that the testcases 1 and 3 from test
+fanotify20 fail for me. After a bit of debugging this seems to be a bug in
+ext4 where it calls ext4_abort() with EXT4_ERR_ESHUTDOWN instead of plain
+ESHUTDOWN. Not sure if you have that fixed or how come the tests passed for
+you. After fixing that ext4 bug everything passes for me.
 
-> +static inline int __try_xchg_user_32(u32 *oval, u32 __user *uaddr, u32 newval)
-> +{
-> +       u32 oldval = 0;
-> +       int ret = 0;
-> +
-> +       asm volatile("\n"
-> +               "1:\txchgl %0, %2\n"
-> +               "2:\n"
-> +               "\t.section .fixup, \"ax\"\n"
-> +               "3:\tmov     %3, %0\n"
-
-I believe the line above should be "mov %3, %1", not "mov %3, %0".
-I'll fix this in the next patchset mailing.
-
-> +               "\tjmp     2b\n"
-> +               "\t.previous\n"
-> +               _ASM_EXTABLE_UA(1b, 3b)
-> +               : "=r" (oldval), "=r" (ret), "+m" (*uaddr)
-> +               : "i" (-EFAULT), "0" (newval), "1" (0)
-> +       );
-> +
-> +       if (ret)
-> +               return ret;
-> +
-> +       *oval = oldval;
-> +       return 0;
-> +}
-> +
-> +static inline int __try_xchg_user_64(u64 *oval, u64 __user *uaddr, u64 newval)
-> +{> +> +
-> +       u64 oldval = 0;
-> +       int ret = 0;
-> +
-> +       asm volatile("\n"
-> +               "1:\txchgq %0, %2\n"
-> +               "2:\n"
-> +               "\t.section .fixup, \"ax\"\n"
-> +               "3:\tmov     %3, %0\n"
-
-Same here.
-
-[...]
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
