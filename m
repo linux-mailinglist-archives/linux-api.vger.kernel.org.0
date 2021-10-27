@@ -2,42 +2,56 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8325B43C87A
-	for <lists+linux-api@lfdr.de>; Wed, 27 Oct 2021 13:22:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62FC343C9CB
+	for <lists+linux-api@lfdr.de>; Wed, 27 Oct 2021 14:36:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241630AbhJ0LZL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 27 Oct 2021 07:25:11 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:42786 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234141AbhJ0LZK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 27 Oct 2021 07:25:10 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id CE3071FD3B;
-        Wed, 27 Oct 2021 11:22:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1635333763; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Xeo4tWojXaRyeV9lNeOTLkKRkzGCZZeeM1nu6FtoDMo=;
-        b=GQH+bPd8mvMYWZUyrwYSJCHciPFVXkGCAGocBuVci9kLQ6yVUawaBnorhWIKXTbrr49QBn
-        xgq+dy8+SSVpp/14yOxXg8ZDU7PsxvKw+e1Ci3nOP16ZGS8OxQycO40Me/EI2UfKfV2bkp
-        BdzhAs7xpVlqH0mdHR7AgnWdTEwyDqc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1635333763;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Xeo4tWojXaRyeV9lNeOTLkKRkzGCZZeeM1nu6FtoDMo=;
-        b=+mPJrTFfhPKbdqDrBGxBaIrno+dpiT8rN3/njrhK85pDR05IwGconbjzv8lVhYuXteIWjd
-        RBcFjYwA3Y1XASAA==
-Received: from quack2.suse.cz (unknown [10.100.224.230])
-        by relay2.suse.de (Postfix) with ESMTP id B63A3A3B83;
-        Wed, 27 Oct 2021 11:22:43 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 917271F2C66; Wed, 27 Oct 2021 13:22:43 +0200 (CEST)
-Date:   Wed, 27 Oct 2021 13:22:43 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     Amir Goldstein <amir73il@gmail.com>
+        id S240026AbhJ0MjP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 27 Oct 2021 08:39:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46060 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236394AbhJ0MjP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 27 Oct 2021 08:39:15 -0400
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4533C061570;
+        Wed, 27 Oct 2021 05:36:49 -0700 (PDT)
+Received: by mail-io1-xd31.google.com with SMTP id f9so3362716ioo.11;
+        Wed, 27 Oct 2021 05:36:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=pEi/weRXqa/dLpw7OFj8SFTr2thtNGQq1YHdMTA3K9Y=;
+        b=iEgrj1H4tmUFkSIc5lW8onL+locWOXWwm0mdp0J7IRnscMPbNqmYkwz9wzRRkFsvdj
+         UGcjiKfxjlVNlq/0ZMPLw9Hh1gpeBqaFBnacsoS3Z0qhIGd4MYbNCsCZBy/F19M4eFwg
+         NLetr78IPP57+EwL0KNWNeK5rCSU6frSp45njcJk/ajTpwZ9tJAVoZCoXd5A0jsAdFTu
+         rg4sL7/9961XGGrR6EZUPgsKET3JepjzbXb6r4qvZxuCHqtK0hJQsKFMa7MpnQwNslOL
+         fO3rX7E9XJAxgnluBZitp71LYWd0TCdvvyYWvPWO94SoqGr64h1gnjlE2tCUOm2PDyLh
+         uHcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pEi/weRXqa/dLpw7OFj8SFTr2thtNGQq1YHdMTA3K9Y=;
+        b=6EwCoT1CRr5471L6PBzYFTSfpjTmAoeVK2x19bUCz+bU6xtZD4HcKBLhxCHDHloQ8j
+         ClFelJl5Sl52RF1SQ1/Wp4dWfFXy7xmwXoghs363cRj0XyXNcATrM2O0G5r1/CxqstM4
+         p9+UQCwnFOUKvEkLdCs/N+98q+xrCtlRvgRUR73sRUCUEacy+yukCTnTLkai6CovttRw
+         5f2+u3BrYGHc/0tk+ZpD2du0pNa2AMcl03zpb3HvyE2c7/NgzUM/qv7cmX8HaVjUafZT
+         96nVJYrN8XDIzvPxmxWAV6lEKcE/aRQ/ndGl1VA2q52YPDzyp3qh3/VtPYX1EzilaJK8
+         jaDQ==
+X-Gm-Message-State: AOAM532nVIk+LzDB91Z1U6bvKmXnBNYIupP1dcqtF4zRwofeNsDE/BjT
+        ebV5y31uqGKiCOmkm+eqgm+v/dNgAnGY8hCFA58=
+X-Google-Smtp-Source: ABdhPJzAkEVaRxSQwVqUsmVQ9WgpfAq6n+K7EmNe5gAO/ucmzfo2JBgvsvGHV2BdtV4grUAMFpk1rJB8BpRjFGo/N/0=
+X-Received: by 2002:a05:6638:2607:: with SMTP id m7mr13595231jat.136.1635338209387;
+ Wed, 27 Oct 2021 05:36:49 -0700 (PDT)
+MIME-Version: 1.0
+References: <20211025192746.66445-1-krisman@collabora.com> <CAOQ4uxhth8NP4hS53rhLppK9_8ET41yrAx5d98s1uhSqrSzVHg@mail.gmail.com>
+ <20211027112243.GE28650@quack2.suse.cz>
+In-Reply-To: <20211027112243.GE28650@quack2.suse.cz>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Wed, 27 Oct 2021 15:36:38 +0300
+Message-ID: <CAOQ4uxgUdvAx6rWTYMROFDX8UOd8eVzKhDcpB0Qne1Uk9oOMAw@mail.gmail.com>
+Subject: Re: [PATCH v9 00/31] file system-wide error monitoring
+To:     Jan Kara <jack@suse.cz>
 Cc:     Gabriel Krisman Bertazi <krisman@collabora.com>,
         Jan Kara <jack@suse.com>,
         "Darrick J. Wong" <djwong@kernel.org>,
@@ -48,53 +62,49 @@ Cc:     Gabriel Krisman Bertazi <krisman@collabora.com>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
         Ext4 <linux-ext4@vger.kernel.org>, kernel@collabora.com
-Subject: Re: [PATCH v9 00/31] file system-wide error monitoring
-Message-ID: <20211027112243.GE28650@quack2.suse.cz>
-References: <20211025192746.66445-1-krisman@collabora.com>
- <CAOQ4uxhth8NP4hS53rhLppK9_8ET41yrAx5d98s1uhSqrSzVHg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOQ4uxhth8NP4hS53rhLppK9_8ET41yrAx5d98s1uhSqrSzVHg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue 26-10-21 12:12:38, Amir Goldstein wrote:
-> On Mon, Oct 25, 2021 at 10:27 PM Gabriel Krisman Bertazi
-> <krisman@collabora.com> wrote:
+On Wed, Oct 27, 2021 at 2:22 PM Jan Kara <jack@suse.cz> wrote:
+>
+> On Tue 26-10-21 12:12:38, Amir Goldstein wrote:
+> > On Mon, Oct 25, 2021 at 10:27 PM Gabriel Krisman Bertazi
+> > <krisman@collabora.com> wrote:
+> > >
+> > > Hi,
+> > >
+> > > This is the 9th version of this patch series.  Thank you, Amir, Jan and
+> > > Ted, for the feedback in the previous versions.
+> > >
+> > > The main difference in this version is that the pool is no longer
+> > > resizeable nor limited in number of marks, even though we only
+> > > pre-allocate 32 slots.  In addition, ext4 was modified to always return
+> > > non-zero errno, and the documentation was fixed accordingly (No longer
+> > > suggests we return EXT4_ERR* values.
+> > >
+> > > I also droped the Reviewed-by tags from the ext4 patch, due to the
+> > > changes above.
+> > >
+> > > Please let me know what you think.
+> > >
 > >
-> > Hi,
-> >
-> > This is the 9th version of this patch series.  Thank you, Amir, Jan and
-> > Ted, for the feedback in the previous versions.
-> >
-> > The main difference in this version is that the pool is no longer
-> > resizeable nor limited in number of marks, even though we only
-> > pre-allocate 32 slots.  In addition, ext4 was modified to always return
-> > non-zero errno, and the documentation was fixed accordingly (No longer
-> > suggests we return EXT4_ERR* values.
-> >
-> > I also droped the Reviewed-by tags from the ext4 patch, due to the
-> > changes above.
-> >
-> > Please let me know what you think.
-> >
-> 
-> All good on my end.
-> I've made a couple of minor comments that
-> could be addressed on commit if no other issues are found.
+> > All good on my end.
+> > I've made a couple of minor comments that
+> > could be addressed on commit if no other issues are found.
+>
+> All good on my end as well. I've applied all the minor updates, tested the
+> result and pushed it out to fsnotify branch of my tree. WRT to your new
+> FS_ERROR LTP tests, I've noticed that the testcases 1 and 3 from test
+> fanotify20 fail for me. After a bit of debugging this seems to be a bug in
+> ext4 where it calls ext4_abort() with EXT4_ERR_ESHUTDOWN instead of plain
+> ESHUTDOWN. Not sure if you have that fixed or how come the tests passed for
+> you. After fixing that ext4 bug everything passes for me.
+>
 
-All good on my end as well. I've applied all the minor updates, tested the
-result and pushed it out to fsnotify branch of my tree. WRT to your new
-FS_ERROR LTP tests, I've noticed that the testcases 1 and 3 from test
-fanotify20 fail for me. After a bit of debugging this seems to be a bug in
-ext4 where it calls ext4_abort() with EXT4_ERR_ESHUTDOWN instead of plain
-ESHUTDOWN. Not sure if you have that fixed or how come the tests passed for
-you. After fixing that ext4 bug everything passes for me.
+Gabriel mentioned that bug in the cover letter of the LTP series :-)
+https://lore.kernel.org/linux-ext4/20211026173302.84000-1-krisman@collabora.com/T/#u
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Thanks,
+Amir.
