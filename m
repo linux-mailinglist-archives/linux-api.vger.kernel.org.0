@@ -2,299 +2,220 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CE65043CA9C
-	for <lists+linux-api@lfdr.de>; Wed, 27 Oct 2021 15:27:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87E7943CE4F
+	for <lists+linux-api@lfdr.de>; Wed, 27 Oct 2021 18:08:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237433AbhJ0NaT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 27 Oct 2021 09:30:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57798 "EHLO
+        id S238641AbhJ0QLA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 27 Oct 2021 12:11:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231607AbhJ0NaT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 27 Oct 2021 09:30:19 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1594C061745
-        for <linux-api@vger.kernel.org>; Wed, 27 Oct 2021 06:27:53 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id v10so1464611pjr.3
-        for <linux-api@vger.kernel.org>; Wed, 27 Oct 2021 06:27:53 -0700 (PDT)
+        with ESMTP id S242912AbhJ0QK7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 27 Oct 2021 12:10:59 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A567CC061570
+        for <linux-api@vger.kernel.org>; Wed, 27 Oct 2021 09:08:33 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id v64so1156448ybi.5
+        for <linux-api@vger.kernel.org>; Wed, 27 Oct 2021 09:08:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mMTYfUAieT+j45utArwmCgwSnPvdUmVngk1m2ncyYNQ=;
-        b=7cqpGt8Lls+iYEeorZAHPAVdKc4KbpOpUodPPU6cdXwGpVU6+CO2hXT3uDRAQyGgbv
-         tCVIKK9ce+ESqLCFtFxMYhU+9uBEFolC4HII082zP14b4vfU6+6JHGjFVMxrjfxnhqW1
-         BXZBHvQ82hTh3xLIQaP56VvP/r4dNk8+Qwp8JSwDadxSsXubCY0LQFNiZaUGsjf8AuIf
-         8QuK2g7YEyZc962n373SG/hLPb1viB+t0CeLih7za0uXCRWkL1FyfKocuEZGkAfOqb2a
-         PZfiXKjPR0oMaCqQn71GDAW2XPfZ6xzjzJ4Mr+xNv/cgPjgS6fduDZuP460AhoNCXcnC
-         bqQw==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+7yM+AHVg6/RWwPVXoUMFU+BAoYxNZ6FELdoFv8vPVY=;
+        b=jam13Ei0ZH0rmnEJQGz2oG7g5UJE6hddfGqNF9ht5JQ+AMTvawIvs2IlZEP15mrB8I
+         4Vb2WELl2sb+a8KiVkJxo21BQb8RmLmCXaAG3RZVsaWXnfLYRZBgE+NYnDb7fylVrVW+
+         aVveT6W+Z5ExMRWMYTo1j2GEkQK+b6zBHkgEzEB6XwHBRw98PDkazY5vkMfnt/uKBgJ+
+         k+ZG/MFiLjtd8w4m1+CBAn413mqp2pPJrigcXqzuwjTfe1S0J8GMx5VqnQWaMknlleuX
+         pTHNvzis3he35IfamTHEUyzyNdSqAOGalCHjxrvlRJ2iQ6AaYVWgIBi7JdokemJnsocR
+         h6dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mMTYfUAieT+j45utArwmCgwSnPvdUmVngk1m2ncyYNQ=;
-        b=wn+qUhpiLt68ST9jJ6wzhDWPNxoP7qgyj3RAJ5yNl/HnoZRm1C58LlKk7oAxQUHyi3
-         lJtdd6bJ4e8r7XALUDThCgwHMAxe0hudhegIZ7+ynaIBuiaqPBfpXeyNthKlSQxthPTh
-         qSj4YDC1FMch87VTWnNMmjgeV/kg2Faf66B8yfUDFV70L8ksLDBAL5gknE3isYh+c0gV
-         jTybjpvU42l5wnoUHdEUpvOAeiIh+GsSsUXJRyTcWqM9LrKyTdf/xqV3fZyHsMnu1MUc
-         CbaB8kqQo30q9UDYETDNYPaeHji/iPjQAkT+geyekaGXj81qeOquXojnLgxUBR4+2Gg4
-         jH7Q==
-X-Gm-Message-State: AOAM531glNf3V0AZAwuOJTII6eslkpkq/2XGtvPZxIXDOc+5mDT2JEh3
-        SegP9KQYRVPU13S9R76E4Qf3pA==
-X-Google-Smtp-Source: ABdhPJxGhWPtBUXwOEsxmksTU3SoTP9Fqmn13HzsOUHEh2xqq3vl5E6G1p/t/P/wcFeZpUNQg/WDhQ==
-X-Received: by 2002:a17:902:c60b:b0:13f:59f9:db90 with SMTP id r11-20020a170902c60b00b0013f59f9db90mr27597972plr.37.1635341273338;
-        Wed, 27 Oct 2021 06:27:53 -0700 (PDT)
-Received: from C02FT5A6MD6R.bytedance.net ([61.120.150.76])
-        by smtp.gmail.com with ESMTPSA id v19sm24910376pfu.179.2021.10.27.06.27.47
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 27 Oct 2021 06:27:52 -0700 (PDT)
-From:   Gang Li <ligang.bdlg@bytedance.com>
-To:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>
-Cc:     linux-api@vger.kernel.org, Gang Li <ligang.bdlg@bytedance.com>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v1] sched/numa: add per-process numa_balancing
-Date:   Wed, 27 Oct 2021 21:26:32 +0800
-Message-Id: <20211027132633.86653-1-ligang.bdlg@bytedance.com>
-X-Mailer: git-send-email 2.30.1 (Apple Git-130)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+7yM+AHVg6/RWwPVXoUMFU+BAoYxNZ6FELdoFv8vPVY=;
+        b=WfMLgbx3GI4Km+OunGn/sKq/TFr2Ik5G/s9ljGbpaM3UbdHA6Ya/4ejWhGcjVdGqxV
+         QbAHDHl0OQ24HLe3GDjNAo7tBrzCGo5Qwx7mHa0HVs3w46lHaZQyphAb36Dgw4Eg5H+S
+         Hr7J1QhflL34snkXA4cZta5nG5jFeRxIqElV+iQoJIXgDoQHdEFfI/l5R76T+g2F8amk
+         aV9BcKDyG7EaZXoSxlhzP/ROSOwKkncXZ4rOmHAKmuFqswuaBpUN0IH6K8g1oWr4PmQt
+         aSJmnifn1hPuwV+zs7mWRbqzlrHRyOZoLC9zSCB2oTRQtT5OroDTfQtX6ZAON3cDlQXO
+         yLmQ==
+X-Gm-Message-State: AOAM5330g9K2pYpsTr/iDT4SpbEHjFsX84FS4VlwXFtPQa/CCpxkyJyo
+        mgSyo+bk493hKw3WDqVZAYlIQw4xzOXUz+QU9JrfXA==
+X-Google-Smtp-Source: ABdhPJw/n7XwHkFkI9fOQmbZIV5nvoItVjlZ5jw4xeYJ3ZltRS5KLuUCkRrnZKnwCUWhrxfvAaiFxm6E/iWN3dKdn7k=
+X-Received: by 2002:a25:8411:: with SMTP id u17mr33162493ybk.376.1635350912546;
+ Wed, 27 Oct 2021 09:08:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211022014658.263508-1-surenb@google.com> <YXJwUUPjfg9wV6MQ@dhcp22.suse.cz>
+ <CAJuCfpEcSbK8WrufZjDj-7iUxiQtrmVTqHOxFUOvLhYGz6_ttQ@mail.gmail.com>
+In-Reply-To: <CAJuCfpEcSbK8WrufZjDj-7iUxiQtrmVTqHOxFUOvLhYGz6_ttQ@mail.gmail.com>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Wed, 27 Oct 2021 09:08:21 -0700
+Message-ID: <CAJuCfpFccBJHHqfOKixJvLr7Xta_ojkdHGfGomwTDNKffzziRQ@mail.gmail.com>
+Subject: Re: [PATCH 1/1] mm: prevent a race between process_mrelease and exit_mmap
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        Christoph Hellwig <hch@infradead.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Jann Horn <jannh@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Jan Engelhardt <jengelh@inai.de>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Andrea Arcangeli <aarcange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This patch add a new api PR_NUMA_BALANCING in prctl.
+On Fri, Oct 22, 2021 at 10:38 AM Suren Baghdasaryan <surenb@google.com> wrote:
+>
+> On Fri, Oct 22, 2021 at 1:03 AM Michal Hocko <mhocko@suse.com> wrote:
+> >
+> > On Thu 21-10-21 18:46:58, Suren Baghdasaryan wrote:
+> > > Race between process_mrelease and exit_mmap, where free_pgtables is
+> > > called while __oom_reap_task_mm is in progress, leads to kernel crash
+> > > during pte_offset_map_lock call. oom-reaper avoids this race by setting
+> > > MMF_OOM_VICTIM flag and causing exit_mmap to take and release
+> > > mmap_write_lock, blocking it until oom-reaper releases mmap_read_lock.
+> > > Reusing MMF_OOM_VICTIM for process_mrelease would be the simplest way to
+> > > fix this race, however that would be considered a hack. Fix this race
+> > > by elevating mm->mm_users and preventing exit_mmap from executing until
+> > > process_mrelease is finished. Patch slightly refactors the code to adapt
+> > > for a possible mmget_not_zero failure.
+> > > This fix has considerable negative impact on process_mrelease performance
+> > > and will likely need later optimization.
+> >
+> > I am not sure there is any promise that process_mrelease will run in
+> > parallel with the exiting process. In fact the primary purpose of this
+> > syscall is to provide a reliable way to oom kill from user space. If you
+> > want to optimize process exit resp. its exit_mmap part then you should
+> > be using other means. So I would be careful calling this a regression.
+> >
+> > I do agree that taking the reference count is the right approach here. I
+> > was wrong previously [1] when saying that pinning the mm struct is
+> > sufficient. I have completely forgot about the subtle sync in exit_mmap.
+> > One way we can approach that would be to take exclusive mmap_sem
+> > throughout the exit_mmap unconditionally.
+>
+> I agree, that would probably be the cleanest way.
+>
+> > There was a push back against
+> > that though so arguments would have to be re-evaluated.
+>
+> I'll review that discussion to better understand the reasons for the
+> push back. Thanks for the link.
 
-A large number of page faults will cause performance loss when numa balancing
-is performing. Thus those processes which care about worst-case performance
-need numa balancing disabled. Others, on the contrary, allow a temporary
-performance loss in exchange for higher average performance, so enable numa
-balancing is better for them.
+Adding Kirill and Andrea.
 
-Numa balancing can only be controlled globally by /proc/sys/kernel/numa_balancing.
-Due to the above case, we want to disable/enable numa_balancing per-process
-instead.
+I had some time to dig some more. The latency increase is definitely
+coming due to process_mrelease calling the last mmput and exit_aio is
+especially problematic. So, currently process_mrelease not only
+releases memory but does more, including waiting for io to finish.
 
-Add numa_balancing under mm_struct. Then use it in task_tick_numa.
+Unconditional mmap_write_lock around free_pgtables in exit_mmap seems
+to me the most semantically correct way forward and the pushback is on
+the basis of regressing performance of the exit path. I would like to
+measure that regression to confirm this. I don't have access to a big
+machine but will ask someone in another Google team to try the test
+Michal wrote here
+https://lore.kernel.org/all/20170725142626.GJ26723@dhcp22.suse.cz/ on
+a server with and without a custom patch.
+If the regression is real, then I think we could keep the "if
+(unlikely(mm_is_oom_victim(mm)))" condition but wrap free_pgtables
+with conditional mmap_write_lock. To me this is cleaner because it
+clearly shows that we are trying to prevent free_pgtables from racing
+with any mm readers (current mmap_write_lock(); mmap_write_unlock()
+sequence needs a comment section to explain why this is needed). In
+that case I would need to reuse MMF_OOM_VICTIM in process_mrelease to
+avoid postponing the exit_mmap, like oom-reaper does. Maybe we could
+rename MMF_OOM_VICTIM / MMF_OOM_SKIP to something like MMF_RELEASING /
+MMF_RELEASED to make them more generic and allow their use outside of
+oom-killer? Again, this is a fallback plan in case unconditional
+mmap_write_lock indeed regresses the exit path.
+Any comments/suggestions?
 
-Disable/enable per-process numa balancing:
-	prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING, 0/1);
-Get numa_balancing state:
-	prctl(PR_NUMA_BALANCING, PR_GET_NUMA_BALANCING, &ret);
-	cat /proc/<pid>/status | grep NumaBalancing_enabled
 
-mm->numa_balancing only works when global numa_balancing is enabled.
-When the global numa_balancing is diabled, mm->numa_blancing will not
-change, but you will always get 0 while you want to get process
-numa_balancing state and kernel will return err when you use prctl set
-it.
-
-Signed-off-by: Gang Li <ligang.bdlg@bytedance.com>
----
- Documentation/filesystems/proc.rst |  2 ++
- fs/proc/task_mmu.c                 | 16 ++++++++++++
- include/linux/mm_types.h           |  3 +++
- include/uapi/linux/prctl.h         |  5 ++++
- kernel/fork.c                      |  3 +++
- kernel/sched/fair.c                |  3 +++
- kernel/sys.c                       | 39 ++++++++++++++++++++++++++++++
- 7 files changed, 71 insertions(+)
-
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 8d7f141c6fc7..b90f43ed0668 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -192,6 +192,7 @@ read the file /proc/PID/status::
-   VmLib:      1412 kB
-   VmPTE:        20 kb
-   VmSwap:        0 kB
-+  NumaBalancing_enabled:  1
-   HugetlbPages:          0 kB
-   CoreDumping:    0
-   THP_enabled:	  1
-@@ -273,6 +274,7 @@ It's slow but very precise.
-  VmPTE                       size of page table entries
-  VmSwap                      amount of swap used by anonymous private data
-                              (shmem swap usage is not included)
-+ NumaBalancing_enabled       numa balancing state, use prctl(PR_NUMA_BALANCING, ...)
-  HugetlbPages                size of hugetlb memory portions
-  CoreDumping                 process's memory is currently being dumped
-                              (killing the process may lead to a corrupted core)
-diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-index ad667dbc96f5..161295e027d2 100644
---- a/fs/proc/task_mmu.c
-+++ b/fs/proc/task_mmu.c
-@@ -19,6 +19,7 @@
- #include <linux/shmem_fs.h>
- #include <linux/uaccess.h>
- #include <linux/pkeys.h>
-+#include <linux/sched/numa_balancing.h>
- 
- #include <asm/elf.h>
- #include <asm/tlb.h>
-@@ -27,14 +28,23 @@
- 
- #define SEQ_PUT_DEC(str, val) \
- 		seq_put_decimal_ull_width(m, str, (val) << (PAGE_SHIFT-10), 8)
-+
-+DECLARE_STATIC_KEY_FALSE(sched_numa_balancing);
-+
- void task_mem(struct seq_file *m, struct mm_struct *mm)
- {
- 	unsigned long text, lib, swap, anon, file, shmem;
- 	unsigned long hiwater_vm, total_vm, hiwater_rss, total_rss;
-+#ifdef CONFIG_NUMA_BALANCING
-+	int numa_balancing;
-+#endif
- 
- 	anon = get_mm_counter(mm, MM_ANONPAGES);
- 	file = get_mm_counter(mm, MM_FILEPAGES);
- 	shmem = get_mm_counter(mm, MM_SHMEMPAGES);
-+#ifdef CONFIG_NUMA_BALANCING
-+	numa_balancing = READ_ONCE(mm->numa_balancing);
-+#endif
- 
- 	/*
- 	 * Note: to minimize their overhead, mm maintains hiwater_vm and
-@@ -75,6 +85,12 @@ void task_mem(struct seq_file *m, struct mm_struct *mm)
- 		    " kB\nVmPTE:\t", mm_pgtables_bytes(mm) >> 10, 8);
- 	SEQ_PUT_DEC(" kB\nVmSwap:\t", swap);
- 	seq_puts(m, " kB\n");
-+#ifdef CONFIG_NUMA_BALANCING
-+	if (!static_branch_unlikely(&sched_numa_balancing))
-+		numa_balancing = 0;
-+
-+	seq_printf(m, "NumaBalancing_enabled:\t%d\n", numa_balancing);
-+#endif
- 	hugetlb_report_usage(m, mm);
- }
- #undef SEQ_PUT_DEC
-diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index bb8c6f5f19bc..feeb6f639f87 100644
---- a/include/linux/mm_types.h
-+++ b/include/linux/mm_types.h
-@@ -612,6 +612,9 @@ struct mm_struct {
- 
- 		/* numa_scan_seq prevents two threads setting pte_numa */
- 		int numa_scan_seq;
-+
-+		/* numa_balancing control the numa balancing of this mm */
-+		int numa_balancing;
- #endif
- 		/*
- 		 * An operation with batched TLB flushing is going on. Anything
-diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
-index b2e4dc1449b9..2235b75efd30 100644
---- a/include/uapi/linux/prctl.h
-+++ b/include/uapi/linux/prctl.h
-@@ -272,4 +272,9 @@ struct prctl_mm_map {
- # define PR_SCHED_CORE_SCOPE_THREAD_GROUP	1
- # define PR_SCHED_CORE_SCOPE_PROCESS_GROUP	2
- 
-+/* Set/get enabled per-process numa_balancing */
-+#define PR_NUMA_BALANCING		63
-+# define PR_SET_NUMA_BALANCING		0
-+# define PR_GET_NUMA_BALANCING		1
-+
- #endif /* _LINUX_PRCTL_H */
-diff --git a/kernel/fork.c b/kernel/fork.c
-index 2079f1ebfe63..39e9d5daf00a 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -1110,6 +1110,9 @@ static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
- 	init_tlb_flush_pending(mm);
- #if defined(CONFIG_TRANSPARENT_HUGEPAGE) && !USE_SPLIT_PMD_PTLOCKS
- 	mm->pmd_huge_pte = NULL;
-+#endif
-+#ifdef CONFIG_NUMA_BALANCING
-+	mm->numa_balancing = 1;
- #endif
- 	mm_init_uprobes_state(mm);
- 	hugetlb_count_init(mm);
-diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index 87db481e8a56..1325253e3613 100644
---- a/kernel/sched/fair.c
-+++ b/kernel/sched/fair.c
-@@ -2866,6 +2866,9 @@ static void task_tick_numa(struct rq *rq, struct task_struct *curr)
- 	if ((curr->flags & (PF_EXITING | PF_KTHREAD)) || work->next != work)
- 		return;
- 
-+	if (!READ_ONCE(curr->mm->numa_balancing))
-+		return;
-+
- 	/*
- 	 * Using runtime rather than walltime has the dual advantage that
- 	 * we (mostly) drive the selection from busy threads and that the
-diff --git a/kernel/sys.c b/kernel/sys.c
-index 8fdac0d90504..64aee3d63ea8 100644
---- a/kernel/sys.c
-+++ b/kernel/sys.c
-@@ -154,6 +154,8 @@ int fs_overflowgid = DEFAULT_FS_OVERFLOWGID;
- EXPORT_SYMBOL(fs_overflowuid);
- EXPORT_SYMBOL(fs_overflowgid);
- 
-+DECLARE_STATIC_KEY_FALSE(sched_numa_balancing);
-+
- /*
-  * Returns true if current's euid is same as p's uid or euid,
-  * or has CAP_SYS_NICE to p's user_ns.
-@@ -2081,6 +2083,28 @@ static int prctl_set_auxv(struct mm_struct *mm, unsigned long addr,
- 	return 0;
- }
- 
-+#ifdef CONFIG_NUMA_BALANCING
-+static int prctl_pid_numa_balancing_write(int numa_balancing)
-+{
-+	if (!static_branch_unlikely(&sched_numa_balancing))
-+		return -EPERM;
-+
-+	if (numa_balancing != 0 && numa_balancing != 1)
-+		return -EINVAL;
-+
-+	WRITE_ONCE(current->mm->numa_balancing, numa_balancing);
-+	return 0;
-+}
-+
-+static int prctl_pid_numa_balancing_read(void)
-+{
-+	if (!static_branch_unlikely(&sched_numa_balancing))
-+		return 0;
-+	else
-+		return READ_ONCE(current->mm->numa_balancing);
-+}
-+#endif
-+
- static int prctl_set_mm(int opt, unsigned long addr,
- 			unsigned long arg4, unsigned long arg5)
- {
-@@ -2525,6 +2549,21 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
- 		error = set_syscall_user_dispatch(arg2, arg3, arg4,
- 						  (char __user *) arg5);
- 		break;
-+#ifdef CONFIG_NUMA_BALANCING
-+	case PR_NUMA_BALANCING:
-+		switch (arg2) {
-+		case PR_SET_NUMA_BALANCING:
-+			error = prctl_pid_numa_balancing_write((int)arg3);
-+			break;
-+		case PR_GET_NUMA_BALANCING:
-+			put_user(prctl_pid_numa_balancing_read(), (int __user *)arg3);
-+			break;
-+		default:
-+			error = -EINVAL;
-+			break;
-+		}
-+		break;
-+#endif
- #ifdef CONFIG_SCHED_CORE
- 	case PR_SCHED_CORE:
- 		error = sched_core_share_pid(arg2, arg3, arg4, arg5);
--- 
-2.20.1
-
+>
+> >
+> > [1] http://lkml.kernel.org/r/YQzZqFwDP7eUxwcn@dhcp22.suse.cz
+> >
+> > That being said
+> > Acked-by: Michal Hocko <mhocko@suse.com>
+>
+> Thanks!
+>
+> >
+> > Thanks!
+> >
+> > > Fixes: 884a7e5964e0 ("mm: introduce process_mrelease system call")
+> > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > > ---
+> > >  mm/oom_kill.c | 23 ++++++++++++-----------
+> > >  1 file changed, 12 insertions(+), 11 deletions(-)
+> > >
+> > > diff --git a/mm/oom_kill.c b/mm/oom_kill.c
+> > > index 831340e7ad8b..989f35a2bbb1 100644
+> > > --- a/mm/oom_kill.c
+> > > +++ b/mm/oom_kill.c
+> > > @@ -1150,7 +1150,7 @@ SYSCALL_DEFINE2(process_mrelease, int, pidfd, unsigned int, flags)
+> > >       struct task_struct *task;
+> > >       struct task_struct *p;
+> > >       unsigned int f_flags;
+> > > -     bool reap = true;
+> > > +     bool reap = false;
+> > >       struct pid *pid;
+> > >       long ret = 0;
+> > >
+> > > @@ -1177,15 +1177,15 @@ SYSCALL_DEFINE2(process_mrelease, int, pidfd, unsigned int, flags)
+> > >               goto put_task;
+> > >       }
+> > >
+> > > -     mm = p->mm;
+> > > -     mmgrab(mm);
+> > > -
+> > > -     /* If the work has been done already, just exit with success */
+> > > -     if (test_bit(MMF_OOM_SKIP, &mm->flags))
+> > > -             reap = false;
+> > > -     else if (!task_will_free_mem(p)) {
+> > > -             reap = false;
+> > > -             ret = -EINVAL;
+> > > +     if (mmget_not_zero(p->mm)) {
+> > > +             mm = p->mm;
+> > > +             if (task_will_free_mem(p))
+> > > +                     reap = true;
+> > > +             else {
+> > > +                     /* Error only if the work has not been done already */
+> > > +                     if (!test_bit(MMF_OOM_SKIP, &mm->flags))
+> > > +                             ret = -EINVAL;
+> > > +             }
+> > >       }
+> > >       task_unlock(p);
+> > >
+> > > @@ -1201,7 +1201,8 @@ SYSCALL_DEFINE2(process_mrelease, int, pidfd, unsigned int, flags)
+> > >       mmap_read_unlock(mm);
+> > >
+> > >  drop_mm:
+> > > -     mmdrop(mm);
+> > > +     if (mm)
+> > > +             mmput(mm);
+> > >  put_task:
+> > >       put_task_struct(task);
+> > >  put_pid:
+> > > --
+> > > 2.33.0.1079.g6e70778dc9-goog
+> >
+> > --
+> > Michal Hocko
+> > SUSE Labs
