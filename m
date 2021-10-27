@@ -2,33 +2,59 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 63FAF43D025
-	for <lists+linux-api@lfdr.de>; Wed, 27 Oct 2021 19:54:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4158543D039
+	for <lists+linux-api@lfdr.de>; Wed, 27 Oct 2021 20:00:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240010AbhJ0R5D (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 27 Oct 2021 13:57:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35248 "EHLO
+        id S235910AbhJ0SDT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 27 Oct 2021 14:03:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236956AbhJ0R5D (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 27 Oct 2021 13:57:03 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0A29C061570;
-        Wed, 27 Oct 2021 10:54:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=9nZeTw3uA8X+QDH9NcO9I7ui/+gpNaoqSNDmb15VGLI=; b=DiUG8whq1N5A1oFfdH/3I4Js1A
-        GqQboUMp3hTNNH2O3vSWk2lJqtNEwa0qrBE8ZebivmZjaHiV8Zv8JrtZPjloYnXsUsmQ2qJLs+3+e
-        RKsnu0tshRQCJxG0fos02IZrSMW3sMYvRlFzYiPxCp0tl0QHQdBK+AbeXBoRNazuFM3orw68f8qBy
-        Bx+ZTAyuOkZd8oH/sFog5zbh+crCXqHFV5CXOVhKlohsoGA17Xf7alQid2lkUBggu6XdNN1dq8Grg
-        cyZxaBw7RNyuGh6BXBvBuubcu71M8mJViSatdxxJhOq3EDuU8ATisnjgrNV4xPv4zxIlsegSF+s+Z
-        Uqe7aNsA==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mfn5P-000Dnx-WF; Wed, 27 Oct 2021 17:51:51 +0000
-Date:   Wed, 27 Oct 2021 18:51:39 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Suren Baghdasaryan <surenb@google.com>
+        with ESMTP id S243421AbhJ0SDS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 27 Oct 2021 14:03:18 -0400
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5775EC061570
+        for <linux-api@vger.kernel.org>; Wed, 27 Oct 2021 11:00:52 -0700 (PDT)
+Received: by mail-yb1-xb34.google.com with SMTP id o12so8490816ybk.1
+        for <linux-api@vger.kernel.org>; Wed, 27 Oct 2021 11:00:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=clXqNUS4aH+lp7CvysKQZD0qyG4h3WcOXjDUltwQb6U=;
+        b=spy08q38upaQmQzNFn22bVmpGqRkZpMLppZP19FX208LVS7bKM4p1WeH7C/kIK3w8B
+         mQjpjthV9ux54iJ7m72QuqrZ2q7MKOh9YIrboIp9GiJltpaPe7MBwGGrf10K9a/9DmUE
+         A3akdddQnK5CYb/RP1LTJfQe5TEW6vgiDIMts94pHTBPOcibp/cS97WEFH6/ohUaz6ss
+         YICJ8xcA8zSlf01Do5w8utuY32NLGysFmBGVLnBVxxenTlWqaIG6YkyD0Aa72ZpGcJX9
+         bRYc0omYodEAYDs8ROqb9T8mg+BmVfQBJUXQmV6cg/vxpBr6fmbtKjoIExWK+oJlhc8t
+         sn0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=clXqNUS4aH+lp7CvysKQZD0qyG4h3WcOXjDUltwQb6U=;
+        b=vczvOolC++zY7aOr15tbR1LkIXwjE+tzD3R46+quWfM/26Izfz7v4h/5tlCN1FpQ34
+         arypb8FL50LbBW0TIc2kJG+C3bbBvgDH+hKzDES7VwFR7DHamQnsKrhwCJBiVD62klLr
+         cnd3GPZVCJ5h4XdqZ6shMBqixLgv2a/Wk5zy5XcMKg3DjAJ+xFcDo0aRWALC3kJ7SwjG
+         yGTJnHpr//QZq0kwkADg5Ws87lRubxk/W9s6Evzd02BzjX6Yu6BhA+WKc+t/Ib5utxEa
+         sc14LJKBbDgHG0uQhTyUg4Qm6eifZw+PtlhGADyIXYWa0L/LoqqecXMuaR/H3War3MIb
+         8O2Q==
+X-Gm-Message-State: AOAM5317OUdSeiLatwHft3mEyD6e3Q6yhFoQTkicMQS0pxYhaQgLYoBa
+        FuaolhspSIaijmC0dQZb1VUa7um3JHnJRQBAYPNFYQ==
+X-Google-Smtp-Source: ABdhPJw+b4ieaS+XkelygwszTNfA8iUxOPZ3IyD0AyktmJLzezrD+qqN5C7+sdyzIu3rekl+DE5Hn023AAKjGGWtu0w=
+X-Received: by 2002:a25:2f48:: with SMTP id v69mr11873590ybv.487.1635357649502;
+ Wed, 27 Oct 2021 11:00:49 -0700 (PDT)
+MIME-Version: 1.0
+References: <20211022014658.263508-1-surenb@google.com> <YXJwUUPjfg9wV6MQ@dhcp22.suse.cz>
+ <CAJuCfpEcSbK8WrufZjDj-7iUxiQtrmVTqHOxFUOvLhYGz6_ttQ@mail.gmail.com>
+ <CAJuCfpFccBJHHqfOKixJvLr7Xta_ojkdHGfGomwTDNKffzziRQ@mail.gmail.com>
+ <YXmNaoV4dBTOJ3+w@casper.infradead.org> <CAJuCfpFP-57JkWhDAN4T6VtPboSV4LGqipHMU4j+wJKU45yjYg@mail.gmail.com>
+ <YXmRq5d86Umzrxs+@casper.infradead.org>
+In-Reply-To: <YXmRq5d86Umzrxs+@casper.infradead.org>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Wed, 27 Oct 2021 11:00:38 -0700
+Message-ID: <CAJuCfpH6ZGc9qaG6cNsJhHTaKdf_EXQgX7iRRcqXF6GiL-Mj8Q@mail.gmail.com>
+Subject: Re: [PATCH 1/1] mm: prevent a race between process_mrelease and exit_mmap
+To:     Matthew Wilcox <willy@infradead.org>
 Cc:     "Liam R. Howlett" <liam.howlett@oracle.com>,
         Michal Hocko <mhocko@suse.com>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -52,53 +78,46 @@ Cc:     "Liam R. Howlett" <liam.howlett@oracle.com>,
         kernel-team <kernel-team@android.com>,
         "Kirill A. Shutemov" <kirill@shutemov.name>,
         Andrea Arcangeli <aarcange@redhat.com>
-Subject: Re: [PATCH 1/1] mm: prevent a race between process_mrelease and
- exit_mmap
-Message-ID: <YXmRq5d86Umzrxs+@casper.infradead.org>
-References: <20211022014658.263508-1-surenb@google.com>
- <YXJwUUPjfg9wV6MQ@dhcp22.suse.cz>
- <CAJuCfpEcSbK8WrufZjDj-7iUxiQtrmVTqHOxFUOvLhYGz6_ttQ@mail.gmail.com>
- <CAJuCfpFccBJHHqfOKixJvLr7Xta_ojkdHGfGomwTDNKffzziRQ@mail.gmail.com>
- <YXmNaoV4dBTOJ3+w@casper.infradead.org>
- <CAJuCfpFP-57JkWhDAN4T6VtPboSV4LGqipHMU4j+wJKU45yjYg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJuCfpFP-57JkWhDAN4T6VtPboSV4LGqipHMU4j+wJKU45yjYg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Oct 27, 2021 at 10:42:29AM -0700, Suren Baghdasaryan wrote:
-> On Wed, Oct 27, 2021 at 10:35 AM Matthew Wilcox <willy@infradead.org> wrote:
+On Wed, Oct 27, 2021 at 10:52 AM Matthew Wilcox <willy@infradead.org> wrote:
+>
+> On Wed, Oct 27, 2021 at 10:42:29AM -0700, Suren Baghdasaryan wrote:
+> > On Wed, Oct 27, 2021 at 10:35 AM Matthew Wilcox <willy@infradead.org> wrote:
+> > >
+> > > On Wed, Oct 27, 2021 at 09:08:21AM -0700, Suren Baghdasaryan wrote:
+> > > > Unconditional mmap_write_lock around free_pgtables in exit_mmap seems
+> > > > to me the most semantically correct way forward and the pushback is on
+> > > > the basis of regressing performance of the exit path. I would like to
+> > > > measure that regression to confirm this. I don't have access to a big
+> > > > machine but will ask someone in another Google team to try the test
+> > > > Michal wrote here
+> > > > https://lore.kernel.org/all/20170725142626.GJ26723@dhcp22.suse.cz/ on
+> > > > a server with and without a custom patch.
+> > >
+> > > Sorry to hijack this, but could you ask that team to also test this
+> > > patch?  I think there's probably a good-sized win here, but I have no
+> > > profiles to share at this point.  I've only done light testing, and
+> > > it may have bugs.
+> > >
+> > > NB: I only did the exit() path here.  fork() conversion is left as an
+> > > exercise for the reader^W^W Liam.
 > >
-> > On Wed, Oct 27, 2021 at 09:08:21AM -0700, Suren Baghdasaryan wrote:
-> > > Unconditional mmap_write_lock around free_pgtables in exit_mmap seems
-> > > to me the most semantically correct way forward and the pushback is on
-> > > the basis of regressing performance of the exit path. I would like to
-> > > measure that regression to confirm this. I don't have access to a big
-> > > machine but will ask someone in another Google team to try the test
-> > > Michal wrote here
-> > > https://lore.kernel.org/all/20170725142626.GJ26723@dhcp22.suse.cz/ on
-> > > a server with and without a custom patch.
-> >
-> > Sorry to hijack this, but could you ask that team to also test this
-> > patch?  I think there's probably a good-sized win here, but I have no
-> > profiles to share at this point.  I've only done light testing, and
-> > it may have bugs.
-> >
-> > NB: I only did the exit() path here.  fork() conversion is left as an
-> > exercise for the reader^W^W Liam.
-> 
-> To clarify, this patch does not change the mmap_write_lock portion of
-> exit_mmap. Do you want to test it in isolation or with the locking
-> changes in exit_mmap I mentioned?
+> > To clarify, this patch does not change the mmap_write_lock portion of
+> > exit_mmap. Do you want to test it in isolation or with the locking
+> > changes in exit_mmap I mentioned?
+>
+> Correct, it does not.  I think it's interesting to test it in isolation,
+> but if you want to test it in in combination, that could also be
+> interesting (see if we regain some of the expected performance loss).
+> I just don't have a NUMA box of my own to test on, so I'm hoping to
+> exploit your test infrastructure ;-)
+>
+> By the way, my vmavec patch should also be helpful on small systems
+> like phones ... ;-)
 
-Correct, it does not.  I think it's interesting to test it in isolation,
-but if you want to test it in in combination, that could also be
-interesting (see if we regain some of the expected performance loss).
-I just don't have a NUMA box of my own to test on, so I'm hoping to
-exploit your test infrastructure ;-)
-
-By the way, my vmavec patch should also be helpful on small systems
-like phones ... ;-)
+Sounds good. I'll try to queue up the patches so that it's easy to
+test them both in isolation and together.
