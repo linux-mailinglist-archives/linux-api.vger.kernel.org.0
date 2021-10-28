@@ -2,122 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4158543D039
-	for <lists+linux-api@lfdr.de>; Wed, 27 Oct 2021 20:00:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D428F43DAE8
+	for <lists+linux-api@lfdr.de>; Thu, 28 Oct 2021 07:55:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235910AbhJ0SDT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 27 Oct 2021 14:03:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36680 "EHLO
+        id S229694AbhJ1F5k (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 28 Oct 2021 01:57:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243421AbhJ0SDS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 27 Oct 2021 14:03:18 -0400
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5775EC061570
-        for <linux-api@vger.kernel.org>; Wed, 27 Oct 2021 11:00:52 -0700 (PDT)
-Received: by mail-yb1-xb34.google.com with SMTP id o12so8490816ybk.1
-        for <linux-api@vger.kernel.org>; Wed, 27 Oct 2021 11:00:52 -0700 (PDT)
+        with ESMTP id S229586AbhJ1F5j (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Oct 2021 01:57:39 -0400
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F7CAC061570;
+        Wed, 27 Oct 2021 22:55:13 -0700 (PDT)
+Received: by mail-io1-xd31.google.com with SMTP id e144so6645884iof.3;
+        Wed, 27 Oct 2021 22:55:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=clXqNUS4aH+lp7CvysKQZD0qyG4h3WcOXjDUltwQb6U=;
-        b=spy08q38upaQmQzNFn22bVmpGqRkZpMLppZP19FX208LVS7bKM4p1WeH7C/kIK3w8B
-         mQjpjthV9ux54iJ7m72QuqrZ2q7MKOh9YIrboIp9GiJltpaPe7MBwGGrf10K9a/9DmUE
-         A3akdddQnK5CYb/RP1LTJfQe5TEW6vgiDIMts94pHTBPOcibp/cS97WEFH6/ohUaz6ss
-         YICJ8xcA8zSlf01Do5w8utuY32NLGysFmBGVLnBVxxenTlWqaIG6YkyD0Aa72ZpGcJX9
-         bRYc0omYodEAYDs8ROqb9T8mg+BmVfQBJUXQmV6cg/vxpBr6fmbtKjoIExWK+oJlhc8t
-         sn0A==
+        bh=j1Qv5Ha/AVr8z6tBWvM7R8PNlhV8VsJhutwgW5hkM1A=;
+        b=n1lrrBCc1IRjgSOk59tL/gJd4rZ08V8t5u771YjfQQUwLLprd5tUdUM4RzuScv8TWv
+         xKmIQJPs8mhSM9/7E+0Vo1xxpM2Yrzh9hiaBWDTegfiwKHaYmZDxV/Z+njCKPbb+Od2E
+         ZqodtrNd+xCI0xrJg0uLSkd89abRtmJbeLIoeOjgEYCuip3swTFDlVQlFSTQAHicDO6W
+         ppfQW0EiFU7c0K1EXeSE4S8xsY/SLeNNN9wOUcAGfQf/xfar4OtdllZkmqULaxEgIzYY
+         S25v65TY0x2ycd+Sd7trkQaFC9NM5Q+vilLlAqRCdX4zEu5P/SX2EtiQW3dM7rlxQbPf
+         Vzog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=clXqNUS4aH+lp7CvysKQZD0qyG4h3WcOXjDUltwQb6U=;
-        b=vczvOolC++zY7aOr15tbR1LkIXwjE+tzD3R46+quWfM/26Izfz7v4h/5tlCN1FpQ34
-         arypb8FL50LbBW0TIc2kJG+C3bbBvgDH+hKzDES7VwFR7DHamQnsKrhwCJBiVD62klLr
-         cnd3GPZVCJ5h4XdqZ6shMBqixLgv2a/Wk5zy5XcMKg3DjAJ+xFcDo0aRWALC3kJ7SwjG
-         yGTJnHpr//QZq0kwkADg5Ws87lRubxk/W9s6Evzd02BzjX6Yu6BhA+WKc+t/Ib5utxEa
-         sc14LJKBbDgHG0uQhTyUg4Qm6eifZw+PtlhGADyIXYWa0L/LoqqecXMuaR/H3War3MIb
-         8O2Q==
-X-Gm-Message-State: AOAM5317OUdSeiLatwHft3mEyD6e3Q6yhFoQTkicMQS0pxYhaQgLYoBa
-        FuaolhspSIaijmC0dQZb1VUa7um3JHnJRQBAYPNFYQ==
-X-Google-Smtp-Source: ABdhPJw+b4ieaS+XkelygwszTNfA8iUxOPZ3IyD0AyktmJLzezrD+qqN5C7+sdyzIu3rekl+DE5Hn023AAKjGGWtu0w=
-X-Received: by 2002:a25:2f48:: with SMTP id v69mr11873590ybv.487.1635357649502;
- Wed, 27 Oct 2021 11:00:49 -0700 (PDT)
+        bh=j1Qv5Ha/AVr8z6tBWvM7R8PNlhV8VsJhutwgW5hkM1A=;
+        b=lIIXwQqqEI0elSbyWvcKDpWlXD+TY/f2xv1sHcEsijxLW8FP8ARr9euSd0oHLeIkeT
+         YW8rKVtJoKeAPwColeoIp4JrG3UbAEv26Xcg+BNV9GiuvuUmfekzevb7SKkFVQdjjBgL
+         smyvDb7z0HPwuCYeUWjeRQnZ1JTExWOgsVWR2hqOQSJINZTacIB1kq2jq3FUQXn1Trp4
+         gmq/H2nc691M+xb7o2PZ+awyzrCYhd5vmZ1w/EWtkKRgzC0DyqLnZ3f7uTYjvsDo5y3p
+         1hBzpU5lCzVAn4dJQkA/ONVHfL7bC6C6GdcAqGROrHUodOiGsUF2uHxNSX09z1JLVqCo
+         bgww==
+X-Gm-Message-State: AOAM531OR4jVH/3l0LoyjNvUEElUmpInfNN85/kzylyyOBwR3hwdx/E/
+        q7b6d8g3ApNGm1yBk9RvEvqisE8atJ4K0fSs6W0=
+X-Google-Smtp-Source: ABdhPJyplMOilQsE8HyKh893i0jitWtdeaj+DNxYBV50selVLA8y7/+hpIp4lY8Gw6bdZcwCiaE/XS7REwgegs/djp0=
+X-Received: by 2002:a02:270c:: with SMTP id g12mr1668623jaa.75.1635400512787;
+ Wed, 27 Oct 2021 22:55:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211022014658.263508-1-surenb@google.com> <YXJwUUPjfg9wV6MQ@dhcp22.suse.cz>
- <CAJuCfpEcSbK8WrufZjDj-7iUxiQtrmVTqHOxFUOvLhYGz6_ttQ@mail.gmail.com>
- <CAJuCfpFccBJHHqfOKixJvLr7Xta_ojkdHGfGomwTDNKffzziRQ@mail.gmail.com>
- <YXmNaoV4dBTOJ3+w@casper.infradead.org> <CAJuCfpFP-57JkWhDAN4T6VtPboSV4LGqipHMU4j+wJKU45yjYg@mail.gmail.com>
- <YXmRq5d86Umzrxs+@casper.infradead.org>
-In-Reply-To: <YXmRq5d86Umzrxs+@casper.infradead.org>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Wed, 27 Oct 2021 11:00:38 -0700
-Message-ID: <CAJuCfpH6ZGc9qaG6cNsJhHTaKdf_EXQgX7iRRcqXF6GiL-Mj8Q@mail.gmail.com>
-Subject: Re: [PATCH 1/1] mm: prevent a race between process_mrelease and exit_mmap
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     "Liam R. Howlett" <liam.howlett@oracle.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Christian Brauner <christian@brauner.io>,
-        Christoph Hellwig <hch@infradead.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jann Horn <jannh@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Jan Engelhardt <jengelh@inai.de>,
+References: <20211025192746.66445-1-krisman@collabora.com> <CAOQ4uxhth8NP4hS53rhLppK9_8ET41yrAx5d98s1uhSqrSzVHg@mail.gmail.com>
+ <20211027112243.GE28650@quack2.suse.cz> <CAOQ4uxgUdvAx6rWTYMROFDX8UOd8eVzKhDcpB0Qne1Uk9oOMAw@mail.gmail.com>
+ <87y26ed3hq.fsf@collabora.com>
+In-Reply-To: <87y26ed3hq.fsf@collabora.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Thu, 28 Oct 2021 08:55:02 +0300
+Message-ID: <CAOQ4uxh4ikTUHM6=s09+bq=VAjBsZeU9UXPv8K1XpvxwVU6tMw@mail.gmail.com>
+Subject: Re: [PATCH v9 00/31] file system-wide error monitoring
+To:     Gabriel Krisman Bertazi <krisman@collabora.com>
+Cc:     Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Theodore Tso <tytso@mit.edu>,
+        Dave Chinner <david@fromorbit.com>,
+        David Howells <dhowells@redhat.com>,
+        Khazhismel Kumykov <khazhy@google.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kernel-team <kernel-team@android.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Andrea Arcangeli <aarcange@redhat.com>
+        Ext4 <linux-ext4@vger.kernel.org>, kernel@collabora.com,
+        Jeff Layton <jlayton@kernel.org>, andres@anarazel.de
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Oct 27, 2021 at 10:52 AM Matthew Wilcox <willy@infradead.org> wrote:
+> Also, thank you both for the extensive review and ideas during the
+> development of this series.  It was really appreciated!
 >
-> On Wed, Oct 27, 2021 at 10:42:29AM -0700, Suren Baghdasaryan wrote:
-> > On Wed, Oct 27, 2021 at 10:35 AM Matthew Wilcox <willy@infradead.org> wrote:
-> > >
-> > > On Wed, Oct 27, 2021 at 09:08:21AM -0700, Suren Baghdasaryan wrote:
-> > > > Unconditional mmap_write_lock around free_pgtables in exit_mmap seems
-> > > > to me the most semantically correct way forward and the pushback is on
-> > > > the basis of regressing performance of the exit path. I would like to
-> > > > measure that regression to confirm this. I don't have access to a big
-> > > > machine but will ask someone in another Google team to try the test
-> > > > Michal wrote here
-> > > > https://lore.kernel.org/all/20170725142626.GJ26723@dhcp22.suse.cz/ on
-> > > > a server with and without a custom patch.
-> > >
-> > > Sorry to hijack this, but could you ask that team to also test this
-> > > patch?  I think there's probably a good-sized win here, but I have no
-> > > profiles to share at this point.  I've only done light testing, and
-> > > it may have bugs.
-> > >
-> > > NB: I only did the exit() path here.  fork() conversion is left as an
-> > > exercise for the reader^W^W Liam.
-> >
-> > To clarify, this patch does not change the mmap_write_lock portion of
-> > exit_mmap. Do you want to test it in isolation or with the locking
-> > changes in exit_mmap I mentioned?
->
-> Correct, it does not.  I think it's interesting to test it in isolation,
-> but if you want to test it in in combination, that could also be
-> interesting (see if we regain some of the expected performance loss).
-> I just don't have a NUMA box of my own to test on, so I'm hoping to
-> exploit your test infrastructure ;-)
->
-> By the way, my vmavec patch should also be helpful on small systems
-> like phones ... ;-)
 
-Sounds good. I'll try to queue up the patches so that it's easy to
-test them both in isolation and together.
+Thank you for your appreciated effort!
+It was a wild journey through some interesting experiments, but
+you survived it well ;-)
+
+Would you be interested in pursuing FAN_WB_ERROR after a due rest
+and after all the dust on FAN_FS_ERROR has settled?
+
+FAN_WB_ERROR can use the same info record and same internal
+error event struct as FAN_FS_ERROR.
+
+A call to fsnotify_wb_error(sb, inode, err) can be placed inside
+mapping_set_error() and maybe for other sporadic callers of errseq_set().
+
+For wb error, we can consider storing a snapshot of errseq of the sb/inode
+in the sb/inode mark and compute error_count from the errseq diff
+instead of counting it when merging events. This will keep a more accurate
+report even when error reports are dropped due to allocation failure or event
+queue overflow.
+
+I have a feeling that the Postgres project would find this
+functionality useful (?).
+
+Thanks,
+Amir.
