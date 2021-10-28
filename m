@@ -2,109 +2,136 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C92143E841
-	for <lists+linux-api@lfdr.de>; Thu, 28 Oct 2021 20:22:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFEAA43E8AC
+	for <lists+linux-api@lfdr.de>; Thu, 28 Oct 2021 20:56:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230329AbhJ1SZV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 28 Oct 2021 14:25:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57410 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230325AbhJ1SZT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Oct 2021 14:25:19 -0400
-Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8C87C061745
-        for <linux-api@vger.kernel.org>; Thu, 28 Oct 2021 11:22:51 -0700 (PDT)
-Received: by mail-il1-x12f.google.com with SMTP id i12so1734625ila.12
-        for <linux-api@vger.kernel.org>; Thu, 28 Oct 2021 11:22:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=/dQjBtihCGzCzk4sWaJtlIxEMe6bvTILkJmUOOEk/+A=;
-        b=qQzgyM9+6/Neq0qzf0bVuG0UN3cPEidy2yx2e9I4UAfTT415rHOjLkEeBU4uxzGJyW
-         4lBvp86JQ+Re95L4OjhFw+rwdVa5VffUPZoydRoDMb1YCYKGD/wD1WEc9HwpJLOozU6V
-         Nx4Cy+Y9QW5SM6Pkh/MXtnfd5y5/nuqnITavsYamlBjXNixn1cq5wr0ulM++CUxyTjN9
-         AHUk2x9z1XNq0rQb4Qo+ZSLvQmU0EuhyqRiaLqjZXQK1PKmLCGtq6ob5y+TN6rKBYQhC
-         XkzTwtOMV6R/mc0Vh5qDLSec3zQzr++aP/MbdB+nYC0B4CIpXHVLBCdWZrA9SpXKmN2v
-         etQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=/dQjBtihCGzCzk4sWaJtlIxEMe6bvTILkJmUOOEk/+A=;
-        b=ThmT7GAPCNxRqHdKeCvL1B6q4smA8qygeiBtCYzm8FzJLYfoWLOZGHqUnB66PGVe5S
-         VbLcReVIPMMwlBIqr9tCGodkJ5GfYtoI0JJkDctk8VCzmUvjn/IZoQVcYOvo0jlIShAE
-         Aovo7cFBksrsZdbfl+fYcFVLxF3NoBRdHRr5J3B46K7miOXSSfckJ7M9P0QWvGTCCg+I
-         vqUpYwGHIYBQumsuxPBMIXKUAyYmSnkrTP+sUQseztD+cfc1SKwvQxqlPXN67GeVcBE/
-         II/zz5+/84VduO7GSq9P4iYzrmL98STG1l32GHL2Heh4RcEDIbpOSQhK6qXeRmHFhjpj
-         m0Hw==
-X-Gm-Message-State: AOAM530j4GqXOnvAd8WYSXXW6g5UPRMcJQl6hvEDIaJ7ki3vIcXBSg5k
-        zZXU+21VZ62f+mAKm94MW7sFJ35+qT6psQ==
-X-Google-Smtp-Source: ABdhPJy5ZX9WH7HWNVyq3m+BRT5/jF7ABlJbV1IBddR0A15cliuEljTJ94llIqo/aZkHQr+VIOEZQA==
-X-Received: by 2002:a92:8751:: with SMTP id d17mr1755422ilm.104.1635445371144;
-        Thu, 28 Oct 2021 11:22:51 -0700 (PDT)
-Received: from [192.168.1.30] ([207.135.234.126])
-        by smtp.gmail.com with ESMTPSA id m7sm1890990iov.30.2021.10.28.11.22.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Oct 2021 11:22:50 -0700 (PDT)
-Subject: Re: [PATCH] Increase default MLOCK_LIMIT to 8 MiB
-To:     Drew DeVault <sir@cmpwn.com>, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, io-uring@vger.kernel.org
-Cc:     Pavel Begunkov <asml.silence@gmail.com>
-References: <20211028080813.15966-1-sir@cmpwn.com>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <cc3d7fac-62e9-fe11-0cf1-3d9528d191a0@kernel.dk>
-Date:   Thu, 28 Oct 2021 12:22:50 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S230384AbhJ1S7F (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 28 Oct 2021 14:59:05 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:45368 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229645AbhJ1S7F (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Oct 2021 14:59:05 -0400
+Received: from localhost (unknown [IPv6:2804:14c:124:8a08::1002])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: krisman)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 083D11F454BA;
+        Thu, 28 Oct 2021 19:56:35 +0100 (BST)
+From:   Gabriel Krisman Bertazi <krisman@collabora.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     jack@suse.com, amir73il@gmail.com, djwong@kernel.org,
+        tytso@mit.edu, david@fromorbit.com, dhowells@redhat.com,
+        khazhy@google.com, linux-fsdevel@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-api@vger.kernel.org,
+        kernel@collabora.com
+Subject: Re: [PATCH v8 31/32] samples: Add fs error monitoring example
+Organization: Collabora
+References: <20211019000015.1666608-1-krisman@collabora.com>
+        <20211019000015.1666608-32-krisman@collabora.com>
+        <20211028151834.GA423440@roeck-us.net>
+Date:   Thu, 28 Oct 2021 15:56:28 -0300
+In-Reply-To: <20211028151834.GA423440@roeck-us.net> (Guenter Roeck's message
+        of "Thu, 28 Oct 2021 08:18:34 -0700")
+Message-ID: <87fsslasgz.fsf@collabora.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20211028080813.15966-1-sir@cmpwn.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 10/28/21 2:08 AM, Drew DeVault wrote:
-> This limit has not been updated since 2008, when it was increased to 64
-> KiB at the request of GnuPG. Until recently, the main use-cases for this
-> feature were (1) preventing sensitive memory from being swapped, as in
-> GnuPG's use-case; and (2) real-time use-cases. In the first case, little
-> memory is called for, and in the second case, the user is generally in a
-> position to increase it if they need more.
-> 
-> The introduction of IOURING_REGISTER_BUFFERS adds a third use-case:
-> preparing fixed buffers for high-performance I/O. This use-case will
-> take as much of this memory as it can get, but is still limited to 64
-> KiB by default, which is very little. This increases the limit to 8 MB,
-> which was chosen fairly arbitrarily as a more generous, but still
-> conservative, default value.
-> ---
-> It is also possible to raise this limit in userspace. This is easily
-> done, for example, in the use-case of a network daemon: systemd, for
-> instance, provides for this via LimitMEMLOCK in the service file; OpenRC
-> via the rc_ulimit variables. However, there is no established userspace
-> facility for configuring this outside of daemons: end-user applications
-> do not presently have access to a convenient means of raising their
-> limits.
-> 
-> The buck, as it were, stops with the kernel. It's much easier to address
-> it here than it is to bring it to hundreds of distributions, and it can
-> only realistically be relied upon to be high-enough by end-user software
-> if it is more-or-less ubiquitous. Most distros don't change this
-> particular rlimit from the kernel-supplied default value, so a change
-> here will easily provide that ubiquity.
+Guenter Roeck <linux@roeck-us.net> writes:
 
-Agree with raising this limit, it is ridiculously low and we often get
-reports from people that can't even do basic rings with it. Particularly
-when bpf is involved as well, as it also dips into this pool.
+> On Mon, Oct 18, 2021 at 09:00:14PM -0300, Gabriel Krisman Bertazi wrote:
+>> Introduce an example of a FAN_FS_ERROR fanotify user to track filesystem
+>> errors.
+>> 
+>> Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+>> Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
+>> Reviewed-by: Jan Kara <jack@suse.cz>
+>> ---
+>> Changes since v4:
+>>   - Protect file_handle defines with ifdef guards
+>> 
+>> Changes since v1:
+>>   - minor fixes
+>> ---
+>>  samples/Kconfig               |   9 +++
+>>  samples/Makefile              |   1 +
+>>  samples/fanotify/Makefile     |   5 ++
+>>  samples/fanotify/fs-monitor.c | 142 ++++++++++++++++++++++++++++++++++
+>>  4 files changed, 157 insertions(+)
+>>  create mode 100644 samples/fanotify/Makefile
+>>  create mode 100644 samples/fanotify/fs-monitor.c
+>> 
+>> diff --git a/samples/Kconfig b/samples/Kconfig
+>> index b0503ef058d3..88353b8eac0b 100644
+>> --- a/samples/Kconfig
+>> +++ b/samples/Kconfig
+>> @@ -120,6 +120,15 @@ config SAMPLE_CONNECTOR
+>>  	  with it.
+>>  	  See also Documentation/driver-api/connector.rst
+>>  
+>> +config SAMPLE_FANOTIFY_ERROR
+>> +	bool "Build fanotify error monitoring sample"
+>> +	depends on FANOTIFY
+>
+> This needs something like
+> 	depends on CC_CAN_LINK
+> or possibly even
+> 	depends on CC_CAN_LINK && HEADERS_INSTALL
+> to avoid compilation errors such as
+>
+> samples/fanotify/fs-monitor.c:7:10: fatal error: errno.h: No such file or directory
+>     7 | #include <errno.h>
+>       |          ^~~~~~~~~
+> compilation terminated.
+>
+> when using a toolchain without C library support, such as those provided
+> on kernel.org.
 
-On the production side at facebook, we do raise this limit as well.
+Thank you, Guenter.
 
-Acked-by: Jens Axboe <axboe@kernel.dk>
+We discussed this, but I wasn't sure how to silence the error and it
+didn't trigger in the past versions.
 
+The original patch is already in Jan's tree.  Jan, would you pick the
+pack below to address it?  Feel free to squash it into the original
+commit, if you think it is saner..
+
+Thanks,
+
+-- >8 --
+From: Gabriel Krisman Bertazi <krisman@collabora.com>
+Date: Thu, 28 Oct 2021 15:34:46 -0300
+Subject: [PATCH] samples: Make fs-monitor depend on libc and headers
+
+Prevent build errors when headers or libc are not available, such as on
+kernel build bots, like the below:
+
+samples/fanotify/fs-monitor.c:7:10: fatal error: errno.h: No such file
+or directory
+  7 | #include <errno.h>
+    |          ^~~~~~~~~
+
+Suggested-by: Guenter Roeck <linux@roeck-us.net>
+Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
+---
+ samples/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/samples/Kconfig b/samples/Kconfig
+index 88353b8eac0b..56539b21f2c7 100644
+--- a/samples/Kconfig
++++ b/samples/Kconfig
+@@ -122,7 +122,7 @@ config SAMPLE_CONNECTOR
+ 
+ config SAMPLE_FANOTIFY_ERROR
+ 	bool "Build fanotify error monitoring sample"
+-	depends on FANOTIFY
++	depends on FANOTIFY && CC_CAN_LINK && HEADERS_INSTALL
+ 	help
+ 	  When enabled, this builds an example code that uses the
+ 	  FAN_FS_ERROR fanotify mechanism to monitor filesystem
 -- 
-Jens Axboe
-
+2.33.0
