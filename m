@@ -2,97 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D428F43DAE8
-	for <lists+linux-api@lfdr.de>; Thu, 28 Oct 2021 07:55:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98EFA43DCA9
+	for <lists+linux-api@lfdr.de>; Thu, 28 Oct 2021 10:08:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229694AbhJ1F5k (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 28 Oct 2021 01:57:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55196 "EHLO
+        id S229835AbhJ1IKz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 28 Oct 2021 04:10:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229586AbhJ1F5j (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Oct 2021 01:57:39 -0400
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F7CAC061570;
-        Wed, 27 Oct 2021 22:55:13 -0700 (PDT)
-Received: by mail-io1-xd31.google.com with SMTP id e144so6645884iof.3;
-        Wed, 27 Oct 2021 22:55:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=j1Qv5Ha/AVr8z6tBWvM7R8PNlhV8VsJhutwgW5hkM1A=;
-        b=n1lrrBCc1IRjgSOk59tL/gJd4rZ08V8t5u771YjfQQUwLLprd5tUdUM4RzuScv8TWv
-         xKmIQJPs8mhSM9/7E+0Vo1xxpM2Yrzh9hiaBWDTegfiwKHaYmZDxV/Z+njCKPbb+Od2E
-         ZqodtrNd+xCI0xrJg0uLSkd89abRtmJbeLIoeOjgEYCuip3swTFDlVQlFSTQAHicDO6W
-         ppfQW0EiFU7c0K1EXeSE4S8xsY/SLeNNN9wOUcAGfQf/xfar4OtdllZkmqULaxEgIzYY
-         S25v65TY0x2ycd+Sd7trkQaFC9NM5Q+vilLlAqRCdX4zEu5P/SX2EtiQW3dM7rlxQbPf
-         Vzog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=j1Qv5Ha/AVr8z6tBWvM7R8PNlhV8VsJhutwgW5hkM1A=;
-        b=lIIXwQqqEI0elSbyWvcKDpWlXD+TY/f2xv1sHcEsijxLW8FP8ARr9euSd0oHLeIkeT
-         YW8rKVtJoKeAPwColeoIp4JrG3UbAEv26Xcg+BNV9GiuvuUmfekzevb7SKkFVQdjjBgL
-         smyvDb7z0HPwuCYeUWjeRQnZ1JTExWOgsVWR2hqOQSJINZTacIB1kq2jq3FUQXn1Trp4
-         gmq/H2nc691M+xb7o2PZ+awyzrCYhd5vmZ1w/EWtkKRgzC0DyqLnZ3f7uTYjvsDo5y3p
-         1hBzpU5lCzVAn4dJQkA/ONVHfL7bC6C6GdcAqGROrHUodOiGsUF2uHxNSX09z1JLVqCo
-         bgww==
-X-Gm-Message-State: AOAM531OR4jVH/3l0LoyjNvUEElUmpInfNN85/kzylyyOBwR3hwdx/E/
-        q7b6d8g3ApNGm1yBk9RvEvqisE8atJ4K0fSs6W0=
-X-Google-Smtp-Source: ABdhPJyplMOilQsE8HyKh893i0jitWtdeaj+DNxYBV50selVLA8y7/+hpIp4lY8Gw6bdZcwCiaE/XS7REwgegs/djp0=
-X-Received: by 2002:a02:270c:: with SMTP id g12mr1668623jaa.75.1635400512787;
- Wed, 27 Oct 2021 22:55:12 -0700 (PDT)
+        with ESMTP id S229626AbhJ1IKz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Oct 2021 04:10:55 -0400
+Received: from out10.migadu.com (out10.migadu.com [IPv6:2001:41d0:2:e8e3::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D081DC061570;
+        Thu, 28 Oct 2021 01:08:20 -0700 (PDT)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cmpwn.com; s=key1;
+        t=1635408499;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=ZvZCJVuHX1kdtjJ4rxf8UDdnwoMvm6VexH1bwaTv270=;
+        b=QfaZMLJyeQRs44fTwoBALQer/jqyU/AAhwcF4IkLbIRHlBopkYQMZYx10tkG/6+zvcI0Xa
+        j+fqD6jtlr/AmsYJ39VvsSC+DOvs+VB/hIzxel7ABaGbk1+JFYQVv5R9wt7TsDIYscA0Yc
+        q3vEJsbMKeGN0ItGaVuN/TE3ZJwHzgDpsC2F/DerxctjxatFoRQYOeYNFdjsceeyT8zSmI
+        5CH86ZLa93U8kgmF0sEn0htGncZihQkK8ChPzqP/V8D5sqKgntwhHcTjx023RMKTilcPv0
+        RkYbjLgO16uy9K/L91MHu+0I89daD0lZOiqrBHHf9jQVVZpEUByjxQkSnkFDNA==
+From:   Drew DeVault <sir@cmpwn.com>
+To:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        io-uring@vger.kernel.org
+Cc:     Drew DeVault <sir@cmpwn.com>, Jens Axboe <axboe@kernel.dk>,
+        Pavel Begunkov <asml.silence@gmail.com>
+Subject: [PATCH] Increase default MLOCK_LIMIT to 8 MiB
+Date:   Thu, 28 Oct 2021 10:08:13 +0200
+Message-Id: <20211028080813.15966-1-sir@cmpwn.com>
 MIME-Version: 1.0
-References: <20211025192746.66445-1-krisman@collabora.com> <CAOQ4uxhth8NP4hS53rhLppK9_8ET41yrAx5d98s1uhSqrSzVHg@mail.gmail.com>
- <20211027112243.GE28650@quack2.suse.cz> <CAOQ4uxgUdvAx6rWTYMROFDX8UOd8eVzKhDcpB0Qne1Uk9oOMAw@mail.gmail.com>
- <87y26ed3hq.fsf@collabora.com>
-In-Reply-To: <87y26ed3hq.fsf@collabora.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Thu, 28 Oct 2021 08:55:02 +0300
-Message-ID: <CAOQ4uxh4ikTUHM6=s09+bq=VAjBsZeU9UXPv8K1XpvxwVU6tMw@mail.gmail.com>
-Subject: Re: [PATCH v9 00/31] file system-wide error monitoring
-To:     Gabriel Krisman Bertazi <krisman@collabora.com>
-Cc:     Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Theodore Tso <tytso@mit.edu>,
-        Dave Chinner <david@fromorbit.com>,
-        David Howells <dhowells@redhat.com>,
-        Khazhismel Kumykov <khazhy@google.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Ext4 <linux-ext4@vger.kernel.org>, kernel@collabora.com,
-        Jeff Layton <jlayton@kernel.org>, andres@anarazel.de
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: sir@cmpwn.com
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-> Also, thank you both for the extensive review and ideas during the
-> development of this series.  It was really appreciated!
->
+This limit has not been updated since 2008, when it was increased to 64
+KiB at the request of GnuPG. Until recently, the main use-cases for this
+feature were (1) preventing sensitive memory from being swapped, as in
+GnuPG's use-case; and (2) real-time use-cases. In the first case, little
+memory is called for, and in the second case, the user is generally in a
+position to increase it if they need more.
 
-Thank you for your appreciated effort!
-It was a wild journey through some interesting experiments, but
-you survived it well ;-)
+The introduction of IOURING_REGISTER_BUFFERS adds a third use-case:
+preparing fixed buffers for high-performance I/O. This use-case will
+take as much of this memory as it can get, but is still limited to 64
+KiB by default, which is very little. This increases the limit to 8 MB,
+which was chosen fairly arbitrarily as a more generous, but still
+conservative, default value.
+---
+It is also possible to raise this limit in userspace. This is easily
+done, for example, in the use-case of a network daemon: systemd, for
+instance, provides for this via LimitMEMLOCK in the service file; OpenRC
+via the rc_ulimit variables. However, there is no established userspace
+facility for configuring this outside of daemons: end-user applications
+do not presently have access to a convenient means of raising their
+limits.
 
-Would you be interested in pursuing FAN_WB_ERROR after a due rest
-and after all the dust on FAN_FS_ERROR has settled?
+The buck, as it were, stops with the kernel. It's much easier to address
+it here than it is to bring it to hundreds of distributions, and it can
+only realistically be relied upon to be high-enough by end-user software
+if it is more-or-less ubiquitous. Most distros don't change this
+particular rlimit from the kernel-supplied default value, so a change
+here will easily provide that ubiquity.
 
-FAN_WB_ERROR can use the same info record and same internal
-error event struct as FAN_FS_ERROR.
+ include/uapi/linux/resource.h | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-A call to fsnotify_wb_error(sb, inode, err) can be placed inside
-mapping_set_error() and maybe for other sporadic callers of errseq_set().
+diff --git a/include/uapi/linux/resource.h b/include/uapi/linux/resource.h
+index 74ef57b38f9f..c858c3c85fae 100644
+--- a/include/uapi/linux/resource.h
++++ b/include/uapi/linux/resource.h
+@@ -66,10 +66,17 @@ struct rlimit64 {
+ #define _STK_LIM	(8*1024*1024)
+ 
+ /*
+- * GPG2 wants 64kB of mlocked memory, to make sure pass phrases
+- * and other sensitive information are never written to disk.
++ * Limit the amount of locked memory by some sane default:
++ * root can always increase this limit if needed.
++ *
++ * The main use-cases are (1) preventing sensitive memory
++ * from being swapped; (2) real-time operations; (3) via
++ * IOURING_REGISTER_BUFFERS.
++ *
++ * The first two don't need much. The latter will take as
++ * much as it can get. 8MB is a reasonably sane default.
+  */
+-#define MLOCK_LIMIT	((PAGE_SIZE > 64*1024) ? PAGE_SIZE : 64*1024)
++#define MLOCK_LIMIT	((PAGE_SIZE > 8*1024*1024) ? PAGE_SIZE : 8*1024*1024)
+ 
+ /*
+  * Due to binary compatibility, the actual resource numbers
+-- 
+2.33.1
 
-For wb error, we can consider storing a snapshot of errseq of the sb/inode
-in the sb/inode mark and compute error_count from the errseq diff
-instead of counting it when merging events. This will keep a more accurate
-report even when error reports are dropped due to allocation failure or event
-queue overflow.
-
-I have a feeling that the Postgres project would find this
-functionality useful (?).
-
-Thanks,
-Amir.
