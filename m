@@ -2,170 +2,116 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D42A43E922
-	for <lists+linux-api@lfdr.de>; Thu, 28 Oct 2021 21:56:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAE0443F704
+	for <lists+linux-api@lfdr.de>; Fri, 29 Oct 2021 08:12:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230380AbhJ1T7R (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 28 Oct 2021 15:59:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50284 "EHLO
+        id S231995AbhJ2GPF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 29 Oct 2021 02:15:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230104AbhJ1T7R (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 28 Oct 2021 15:59:17 -0400
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD5B3C061570;
-        Thu, 28 Oct 2021 12:56:49 -0700 (PDT)
-Received: by mail-ot1-x329.google.com with SMTP id x16-20020a9d7050000000b00553d5d169f7so8519872otj.6;
-        Thu, 28 Oct 2021 12:56:49 -0700 (PDT)
+        with ESMTP id S231948AbhJ2GPE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 29 Oct 2021 02:15:04 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 651A7C061714
+        for <linux-api@vger.kernel.org>; Thu, 28 Oct 2021 23:12:36 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id n11-20020a17090a2bcb00b001a1e7a0a6a6so9835924pje.0
+        for <linux-api@vger.kernel.org>; Thu, 28 Oct 2021 23:12:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Aak0WtxCK0j+PLN6qPbUpAPMN8pjL5YEDqdesj0sHso=;
-        b=qqd0wZoN+xBz8fE9Rh+h0/0svB4rXHug2LFk6wlbgDpdf7UrBYzsrCNgaLQurlp+n3
-         NOozGrA+LIIBA6U9mzzlg3HxbiZGIzP9IcIk1Z17gvlE5Td3Bwj8tZpG4+8lO55K/Tis
-         xcc3A2m470Te5QqzVty56GqosmqDH9m2tUYjHisV/QxMzm9uvfbDjHP4paKByROkFvtz
-         onyrDq8vG4sDalfVqva/ddI5rHXvBChv0d+rCF56M0HPOUgnRT4ZfmfIHw2WOiqSWg94
-         +wmkQHt+8Dy/gbiHTarKPjmXRbZKHmoxbVO9GfJTPPcrhhXPQawKN3qeJ4BiH1XPLXZA
-         prBw==
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=GmBAManK6+5n92cYCAjM0Y2324rUvA8onYfURui5swg=;
+        b=FzRfo54vrj1x+VLw9hZRhsWcpjKLGH17K667QXoIO36SpX9iUX4FFkZJEEPXUpJGsV
+         EtmWWVbnaZKVDy8mKtra/0rlwBqNkvmRWqC00/6xN4ZoC9Fmg2VPISK13AgHJGdZEVLD
+         dp2KqjrXbrOmMPeP1SXzkQSSIjmjMtjiIQmXJ9O/tSdqZKGjRhMplffWWzbbkfLc1aDZ
+         MdoBLJKytMXXpcG2Q10pe40fSIxz/RXnZZXA6zESGj3MoScrAUky4Qbt7DDQoV+wZYEG
+         pBdAf8H4oQ2xhC2jqtcYR9YAfqfZeYZQEhwgn0plZ7GRCU3BPi2QryAOfRpj9Nwrnyi2
+         TthA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=Aak0WtxCK0j+PLN6qPbUpAPMN8pjL5YEDqdesj0sHso=;
-        b=Low7IXm04EbSj/C4NxAfj51HveOQazh3l++5gVWPa0lmV/qrxf5SY1LWbqz1euT+6T
-         XmZISUokp6U3tAMvbQ7Lre45jBC318rPlqRfh7jHky4K14eQOM3hRNqnB5lSEMpL/ytm
-         bXPA1o8VQqLIBMoA8JNfkSFABitehsIrBC87XOZ25wge/RB7v7lwySA/MowkHZXlBpTD
-         vR7hvqnMIhE6p3LinahUzPz9eebPbiLxqmxAlK4H8Hsii6g8yxXfTgvki41exv5EmMPR
-         BdBYE29AQnI6/RZQ6Bqg1nU3XbfW7zvoLuWK0SvtKPqjGnUT4PoR9R6ZO+IaP6vxFoom
-         7jwg==
-X-Gm-Message-State: AOAM531PMNyb0B5G7dUWRD5gnvVd3JpXf52xHzchP4JgkYWZDvozHQpg
-        FWU/SoMYb1Rdw9KvHHUMy+RD3AJB2T0=
-X-Google-Smtp-Source: ABdhPJxWjVYYNRZ4pv4iZvJGtxrZ/WoQ/oKbP8OY0Mtjc97K6COsubBavvYW4gCK/fVfeujMEdcARQ==
-X-Received: by 2002:a9d:ba5:: with SMTP id 34mr5073772oth.108.1635451009303;
-        Thu, 28 Oct 2021 12:56:49 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id i15sm1270940otu.67.2021.10.28.12.56.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Oct 2021 12:56:48 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Thu, 28 Oct 2021 12:56:47 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Gabriel Krisman Bertazi <krisman@collabora.com>
-Cc:     jack@suse.com, amir73il@gmail.com, djwong@kernel.org,
-        tytso@mit.edu, david@fromorbit.com, dhowells@redhat.com,
-        khazhy@google.com, linux-fsdevel@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-api@vger.kernel.org,
-        kernel@collabora.com
-Subject: Re: [PATCH v8 31/32] samples: Add fs error monitoring example
-Message-ID: <20211028195647.GB739110@roeck-us.net>
-References: <20211019000015.1666608-1-krisman@collabora.com>
- <20211019000015.1666608-32-krisman@collabora.com>
- <20211028151834.GA423440@roeck-us.net>
- <87fsslasgz.fsf@collabora.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=GmBAManK6+5n92cYCAjM0Y2324rUvA8onYfURui5swg=;
+        b=Vtp//hkJCzDf3FLG/Y6XYgDsouJMFtaHYVVQFzSwf33lTxy+E14apyizIxZX9pcaZl
+         lzdEM8XHwf8nKy+RAWi3nA+VJNU1l4hODL99SdSwXzWbUgF3YwwgiIDIFzR8TfLoHOua
+         8tXiFhKarWCby01tnnkBc2lOJiBnqy8iinJ2oJC9ZKoeESFtzCNCPToiXgIeZPeXtxsF
+         dZAkW4m3ugQF25526jzEk+SfU8ji9QaxdFCRBhZxLRQtDJXeuFk83/7WJDV/SUyRPdK2
+         Bsn5BB+6op0R8qMZzrwSF5RekcaRb12BLYieJmLjbtDq8VumsRPoFP+Um7QjFzh7SuX1
+         xiNA==
+X-Gm-Message-State: AOAM533msPlfFGsPSbd0i/ftvbPMKuNTkRL5Zg4p4bEkJes/xbczKiiI
+        QuBTUHdArdenNApD2Tj15Dj6/g==
+X-Google-Smtp-Source: ABdhPJztBy0zM++I5AqHWJadlwUlf5T5u9UumL7kPyW5tAyH1YoVZN1zbsrrfFHD91xN+LsQ2NyLjQ==
+X-Received: by 2002:a17:902:f546:b0:141:b70e:1dd with SMTP id h6-20020a170902f54600b00141b70e01ddmr181519plf.30.1635487955947;
+        Thu, 28 Oct 2021 23:12:35 -0700 (PDT)
+Received: from [10.76.43.192] ([61.120.150.76])
+        by smtp.gmail.com with ESMTPSA id h6sm4796507pfi.174.2021.10.28.23.12.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Oct 2021 23:12:35 -0700 (PDT)
+Subject: Re: Re: [PATCH v1] sched/numa: add per-process numa_balancing
+To:     Mel Gorman <mgorman@suse.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20211027132633.86653-1-ligang.bdlg@bytedance.com>
+ <20211028153028.GP3891@suse.de>
+From:   Gang Li <ligang.bdlg@bytedance.com>
+Message-ID: <b884ad7d-48d3-fcc8-d199-9e7643552a9a@bytedance.com>
+Date:   Fri, 29 Oct 2021 14:12:28 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87fsslasgz.fsf@collabora.com>
+In-Reply-To: <20211028153028.GP3891@suse.de>
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Oct 28, 2021 at 03:56:28PM -0300, Gabriel Krisman Bertazi wrote:
-> Guenter Roeck <linux@roeck-us.net> writes:
+On 10/28/21 11:30 PM, Mel Gorman wrote:
 > 
-> > On Mon, Oct 18, 2021 at 09:00:14PM -0300, Gabriel Krisman Bertazi wrote:
-> >> Introduce an example of a FAN_FS_ERROR fanotify user to track filesystem
-> >> errors.
-> >> 
-> >> Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-> >> Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
-> >> Reviewed-by: Jan Kara <jack@suse.cz>
-> >> ---
-> >> Changes since v4:
-> >>   - Protect file_handle defines with ifdef guards
-> >> 
-> >> Changes since v1:
-> >>   - minor fixes
-> >> ---
-> >>  samples/Kconfig               |   9 +++
-> >>  samples/Makefile              |   1 +
-> >>  samples/fanotify/Makefile     |   5 ++
-> >>  samples/fanotify/fs-monitor.c | 142 ++++++++++++++++++++++++++++++++++
-> >>  4 files changed, 157 insertions(+)
-> >>  create mode 100644 samples/fanotify/Makefile
-> >>  create mode 100644 samples/fanotify/fs-monitor.c
-> >> 
-> >> diff --git a/samples/Kconfig b/samples/Kconfig
-> >> index b0503ef058d3..88353b8eac0b 100644
-> >> --- a/samples/Kconfig
-> >> +++ b/samples/Kconfig
-> >> @@ -120,6 +120,15 @@ config SAMPLE_CONNECTOR
-> >>  	  with it.
-> >>  	  See also Documentation/driver-api/connector.rst
-> >>  
-> >> +config SAMPLE_FANOTIFY_ERROR
-> >> +	bool "Build fanotify error monitoring sample"
-> >> +	depends on FANOTIFY
-> >
-> > This needs something like
-> > 	depends on CC_CAN_LINK
-> > or possibly even
-> > 	depends on CC_CAN_LINK && HEADERS_INSTALL
-> > to avoid compilation errors such as
-> >
-> > samples/fanotify/fs-monitor.c:7:10: fatal error: errno.h: No such file or directory
-> >     7 | #include <errno.h>
-> >       |          ^~~~~~~~~
-> > compilation terminated.
-> >
-> > when using a toolchain without C library support, such as those provided
-> > on kernel.org.
-> 
-> Thank you, Guenter.
-> 
-> We discussed this, but I wasn't sure how to silence the error and it
-> didn't trigger in the past versions.
-> 
-> The original patch is already in Jan's tree.  Jan, would you pick the
-> pack below to address it?  Feel free to squash it into the original
-> commit, if you think it is saner..
-> 
-> Thanks,
-> 
-> -- >8 --
-> From: Gabriel Krisman Bertazi <krisman@collabora.com>
-> Date: Thu, 28 Oct 2021 15:34:46 -0300
-> Subject: [PATCH] samples: Make fs-monitor depend on libc and headers
-> 
-> Prevent build errors when headers or libc are not available, such as on
-> kernel build bots, like the below:
-> 
-> samples/fanotify/fs-monitor.c:7:10: fatal error: errno.h: No such file
-> or directory
->   7 | #include <errno.h>
->     |          ^~~~~~~~~
-> 
-> Suggested-by: Guenter Roeck <linux@roeck-us.net>
-> Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
+> That aside though, the configuration space could be better. It's possible
+> to selectively disable NUMA balance but not selectively enable because
+> prctl is disabled if global NUMA balancing is disabled. That could be
+> somewhat achieved by having a default value for mm->numa_balancing based on
+> whether the global numa balancing is disabled via command line or sysctl
+> and enabling the static branch if prctl is used with an informational
+> message. This is not the only potential solution but as it stands,
+> there are odd semantic corner cases. For example, explicit enabling
+> of NUMA balancing by prctl gets silently revoked if numa balancing is
+> disabled via sysctl and prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING,
+> 1) means nothing.
+>
+static void task_tick_fair(struct rq *rq, struct task_struct *curr, int 
+queued)
+{
+	...
+	if (static_branch_unlikely(&sched_numa_balancing))
+		task_tick_numa(rq, curr);
+	...
+}
 
-Tested-by: Guenter Roeck <linux@roeck-us.net>
+static void task_tick_numa(struct rq *rq, struct task_struct *curr)
+{
+	...
+	if (!READ_ONCE(curr->mm->numa_balancing))
+		return;
+	...
+}
 
-> ---
->  samples/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/samples/Kconfig b/samples/Kconfig
-> index 88353b8eac0b..56539b21f2c7 100644
-> --- a/samples/Kconfig
-> +++ b/samples/Kconfig
-> @@ -122,7 +122,7 @@ config SAMPLE_CONNECTOR
->  
->  config SAMPLE_FANOTIFY_ERROR
->  	bool "Build fanotify error monitoring sample"
-> -	depends on FANOTIFY
-> +	depends on FANOTIFY && CC_CAN_LINK && HEADERS_INSTALL
->  	help
->  	  When enabled, this builds an example code that uses the
->  	  FAN_FS_ERROR fanotify mechanism to monitor filesystem
-> -- 
-> 2.33.0
+When global numa_balancing is disabled, mm->numa_balancing is useless. 
+So I think prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING,0/1) should 
+return error instead of modify mm->numa_balancing.
+
+Is it reasonable that prctl(PR_NUMA_BALANCING,PR_SET_NUMA_BALANCING,0/1)
+can still change the value of mm->numa_balancing when global 
+numa_balancing is disabled?
+
