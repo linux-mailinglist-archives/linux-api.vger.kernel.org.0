@@ -2,135 +2,149 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C9D534407C3
-	for <lists+linux-api@lfdr.de>; Sat, 30 Oct 2021 08:53:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92FB34412D8
+	for <lists+linux-api@lfdr.de>; Mon,  1 Nov 2021 06:02:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231203AbhJ3Gzy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 30 Oct 2021 02:55:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37694 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229801AbhJ3Gzy (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 30 Oct 2021 02:55:54 -0400
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BE78C061570;
-        Fri, 29 Oct 2021 23:53:24 -0700 (PDT)
-Received: by mail-io1-xd2c.google.com with SMTP id f9so15147318ioo.11;
-        Fri, 29 Oct 2021 23:53:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9DLFjFHWATsITDnmuok3ifT9gh+RmIc4iBUCeUP+Fuw=;
-        b=kGCCoGhqNLCCfUvzA3j0IX6B0QZExWMttN2ijaNEVKLLXXlpUiUEfJxI4HFIcoiCGW
-         xFZ8bpdvrHy70BB8nUCpwMPeAnxoDB23ndIVoZUlEpgh/9gL3T5yHCB9wwzIi5lWr0MQ
-         WGCwnaEI6YnmnJPFwmVSJSa4P9/b0FuzQlIxy+4SRuZAnGqMYXqkKllJ1hHrIBlk8zNk
-         1TaE7w6iNHy4IlMe5U+naKU+b44TXxp62GxLT6OSYPBeueAxy/U7xycf9YbfGUgEvo8Q
-         euB6tZBpO9l00SMPDauzGqiXtENh/k4+Ld011xYzP+6TNhehXnWvnbRmi8IlP2+Lf/CY
-         sOfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9DLFjFHWATsITDnmuok3ifT9gh+RmIc4iBUCeUP+Fuw=;
-        b=wYv6YP4ZIFMuFQsKsgFMUfF4xXYFLj7d4LoSxJ4mEcO8dq96FMMSFQM3iEscIewDx4
-         XcofW3deCw6ggHHvS1/Mk/OGZ3XZwKyIG82lF8AdsQGYwJcx182HK26thLsH3oGb8peD
-         +Zl9r1DMZmdSykshk6W5qPiHHIP1zg62fVNOcBAPOg+lyk0XPgo4C1zg6JDYUZIn3RoI
-         okvvSSn3itNK+muynSCYBIK73SCGAvp2aCA5uoY3hfC+jO8K+/ycd0wJT1WY03qaE00G
-         kgp/nCUk+XSccuO5/mEFD9LoDpVyfh3Vi/k3WciDTJtJykCzZSeQWUOxuYlweLkpODxs
-         nZxA==
-X-Gm-Message-State: AOAM5305QVxrMYAml4Vpji5DuFbx6GMKeCobDzvaTRA69dQluIhKX+vr
-        hlsZPwyOLlss71E7gbtUQoUfKJh1VUXCs2cjxxc=
-X-Google-Smtp-Source: ABdhPJxW9rfudOkuXU/Yx6uClLSO2PSUG3+/SrYKj3EUJ/bjIWgX7+6F3I8gwitR7Mt2e8ukxp2bMkJDCPA936yQe9E=
-X-Received: by 2002:a02:880a:: with SMTP id r10mr11165186jai.40.1635576803946;
- Fri, 29 Oct 2021 23:53:23 -0700 (PDT)
+        id S229506AbhKAFFO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 1 Nov 2021 01:05:14 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46190 "EHLO
+        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229468AbhKAFFN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 1 Nov 2021 01:05:13 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A14NUvV008308;
+        Mon, 1 Nov 2021 05:02:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=yzP1sRl2XHUwlMcaDx2oXZtZvjVgXg6KwtPNJGUlscM=;
+ b=jNw49hJXAvIr/Qx7LjQlQ8c1FfGeJJ+P7noldimyU4rlYhN0ERchosF8LBLqLQC0nmXa
+ rvAPdw3i/N9dSV4QwYxct8UEglh5XFi+7mP9nv2WqUeP4y7c4Ihs3nY2Im9jPx8ItTzT
+ gIdav8nzK1cb8TJHB2JREy0kinouENLk3W5MPM8RfKXtrLU0gEjE0HztbT96kAXMJxoY
+ 87HKqKSQcwWMjyzm7yi2U8EYQAVfR6iGcdose4g1R/cxgNp1UOcAPwREn8moMVX2pOxb
+ hXUVcHjYLst2sogUgaCpiqJpfdtBV9HcP3pCZgepkmGkHfwi+UlYS8Wj6bozdnH9i/OV ng== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3c295y8h7c-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 01 Nov 2021 05:02:24 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1A1512VY023429;
+        Mon, 1 Nov 2021 05:02:23 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com [169.53.41.122])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3c295y8h71-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 01 Nov 2021 05:02:23 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+        by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1A14vG19018688;
+        Mon, 1 Nov 2021 05:02:22 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+        by ppma04dal.us.ibm.com with ESMTP id 3c0wpa3yeh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 01 Nov 2021 05:02:22 +0000
+Received: from b03ledav002.gho.boulder.ibm.com (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
+        by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 1A152L0i18874980
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 1 Nov 2021 05:02:21 GMT
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id F2DC7136059;
+        Mon,  1 Nov 2021 05:02:20 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 3F88613605E;
+        Mon,  1 Nov 2021 05:02:15 +0000 (GMT)
+Received: from skywalker.ibmuc.com (unknown [9.43.68.139])
+        by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
+        Mon,  1 Nov 2021 05:02:14 +0000 (GMT)
+From:   "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
+To:     linux-mm@kvack.org
+Cc:     akpm@linux-foundation.org,
+        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Feng Tang <feng.tang@intel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Andi Kleen <ak@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Huang Ying <ying.huang@intel.com>, linux-api@vger.kernel.org
+Subject: [PATCH v4 1/3] mm/mempolicy: use policy_node helper with MPOL_PREFERRED_MANY
+Date:   Mon,  1 Nov 2021 10:32:04 +0530
+Message-Id: <20211101050206.549050-2-aneesh.kumar@linux.ibm.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211101050206.549050-1-aneesh.kumar@linux.ibm.com>
+References: <20211101050206.549050-1-aneesh.kumar@linux.ibm.com>
 MIME-Version: 1.0
-References: <20211025192746.66445-1-krisman@collabora.com> <CAOQ4uxhth8NP4hS53rhLppK9_8ET41yrAx5d98s1uhSqrSzVHg@mail.gmail.com>
- <20211027112243.GE28650@quack2.suse.cz> <CAOQ4uxgUdvAx6rWTYMROFDX8UOd8eVzKhDcpB0Qne1Uk9oOMAw@mail.gmail.com>
- <87y26ed3hq.fsf@collabora.com> <CAOQ4uxh4ikTUHM6=s09+bq=VAjBsZeU9UXPv8K1XpvxwVU6tMw@mail.gmail.com>
- <8735oja2ro.fsf@collabora.com>
-In-Reply-To: <8735oja2ro.fsf@collabora.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Sat, 30 Oct 2021 09:53:12 +0300
-Message-ID: <CAOQ4uxj8gPReemQ3z3gJo21E-+NE6F=xtK-EANfEJFEBKVFuxg@mail.gmail.com>
-Subject: Re: [PATCH v9 00/31] file system-wide error monitoring
-To:     Gabriel Krisman Bertazi <krisman@collabora.com>
-Cc:     Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Theodore Tso <tytso@mit.edu>,
-        Dave Chinner <david@fromorbit.com>,
-        David Howells <dhowells@redhat.com>,
-        Khazhismel Kumykov <khazhy@google.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Ext4 <linux-ext4@vger.kernel.org>, kernel@collabora.com,
-        Jeff Layton <jlayton@kernel.org>, andres@anarazel.de
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: cVh7F7emsUtpr637JFJE6P7uAR-rtcGJ
+X-Proofpoint-ORIG-GUID: 7iAPdD3tqow-lhq1rKsbtGK9JmOI56mk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-01_01,2021-10-29_03,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 adultscore=0
+ lowpriorityscore=0 impostorscore=0 suspectscore=0 mlxlogscore=999
+ spamscore=0 malwarescore=0 priorityscore=1501 clxscore=1015 mlxscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2111010027
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Oct 30, 2021 at 1:24 AM Gabriel Krisman Bertazi
-<krisman@collabora.com> wrote:
->
-> Amir Goldstein <amir73il@gmail.com> writes:
->
-> >> Also, thank you both for the extensive review and ideas during the
-> >> development of this series.  It was really appreciated!
-> >>
-> >
-> > Thank you for your appreciated effort!
-> > It was a wild journey through some interesting experiments, but
-> > you survived it well ;-)
-> >
-> > Would you be interested in pursuing FAN_WB_ERROR after a due rest
-> > and after all the dust on FAN_FS_ERROR has settled?
->
-> I think it would make sense for me to continue working on it, yes.  But,
-> before that, I think I still have some support to add to FAN_FS_ERROR,
-> like a detailed, fs-specific, info record, and an error location info
-> record, which has a use-case in Google Cloud environments.  I have to
-> discuss priorities internally, but we (collabora) do have an interest in
-> supporting WB_ERROR too.
->
-> For the detailed error report, fanotify could have a new info record
-> that carries a structure sent out by the file system.  fanotify could
-> handle the lifetime of this object, by keeping a larger mempool, or
-> delegate its allocation/destruction to the filesystem.
->
+A followup patch will enable setting a home node with MPOL_PREFERRED_MANY
+memory policy. To facilitate that switch to using policy_node helper.
+There is no functional change in this patch.
 
-Before you try anything radical, please check the size of prospect
-fs-specific data.
-My hunch says that in most cases fs-specific data could fit cozy along side the
-file handle within MAX_HANDLE_SZ and if this is true, then we do not need to
-worry about extreme cases right now.
-If there comes a time when we have a justified case of a filesystem that needs
-to report much bigger fs-specific data, we can consider it then.
-Until that time, we simply drop the over sized fs-specific data same as we do
-if filesystem passed in a file handle larger than MAX_HANDLE_SZ.
+Cc: Ben Widawsky <ben.widawsky@intel.com>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Feng Tang <feng.tang@intel.com>
+Cc: Michal Hocko <mhocko@kernel.org>
+Cc: Andrea Arcangeli <aarcange@redhat.com>
+Cc: Mel Gorman <mgorman@techsingularity.net>
+Cc: Mike Kravetz <mike.kravetz@oracle.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: Andi Kleen <ak@linux.intel.com>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: Huang Ying <ying.huang@intel.com>
+Cc: linux-api@vger.kernel.org
+Signed-off-by: Aneesh Kumar K.V <aneesh.kumar@linux.ibm.com>
+---
+ mm/mempolicy.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-> Like I proposed in an earlier version of FAN_FS_ERROR, the format could
-> be as simple as:
->
-> struct fanotify_error_data_info {
->    struct fanotify_event_info_header hdr;
->    char data[];
-> }
->
+diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+index d12e0608fced..35a0e72c74a3 100644
+--- a/mm/mempolicy.c
++++ b/mm/mempolicy.c
+@@ -2061,7 +2061,7 @@ static struct page *alloc_pages_preferred_many(gfp_t gfp, unsigned int order,
+ 	preferred_gfp &= ~(__GFP_DIRECT_RECLAIM | __GFP_NOFAIL);
+ 	page = __alloc_pages(preferred_gfp, order, nid, &pol->nodes);
+ 	if (!page)
+-		page = __alloc_pages(gfp, order, numa_node_id(), NULL);
++		page = __alloc_pages(gfp, order, nid, NULL);
+ 
+ 	return page;
+ }
+@@ -2102,6 +2102,7 @@ struct page *alloc_pages_vma(gfp_t gfp, int order, struct vm_area_struct *vma,
+ 	}
+ 
+ 	if (pol->mode == MPOL_PREFERRED_MANY) {
++		node = policy_node(gfp, pol, node);
+ 		page = alloc_pages_preferred_many(gfp, order, node, pol);
+ 		mpol_cond_put(pol);
+ 		goto out;
+@@ -2186,7 +2187,7 @@ struct page *alloc_pages(gfp_t gfp, unsigned order)
+ 		page = alloc_page_interleave(gfp, order, interleave_nodes(pol));
+ 	else if (pol->mode == MPOL_PREFERRED_MANY)
+ 		page = alloc_pages_preferred_many(gfp, order,
+-				numa_node_id(), pol);
++				  policy_node(gfp, pol, numa_node_id()), pol);
+ 	else
+ 		page = __alloc_pages(gfp, order,
+ 				policy_node(gfp, pol, numa_node_id()),
+-- 
+2.31.1
 
-We can add char data[] field to the end of struct fanotify_event_info_error.
-It does not change the layout nor size of the structure and the info record
-is variable size per definition anyway.
-
-I know Jan didn't like this so much at the time and contemplated a
-separate info record for filename, but eventually, fanotify_event_info_fid
-also has an optional name following the unsigned char handle[].
-
-> I think xfs, at least, would be able to make good use of this record with
-> xfs_scrub, as the xfs maintainers mentioned.
-
-I am not sure if that was the final conclusion.
-xfs_scrub is proactive and should have no problem reporting its own findings,
-but I have no objections to fs-specific details in FS_ERROR event.
-
-Thanks,
-Amir.
