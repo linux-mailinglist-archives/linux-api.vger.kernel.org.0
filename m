@@ -2,163 +2,163 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A249441ACC
-	for <lists+linux-api@lfdr.de>; Mon,  1 Nov 2021 12:42:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A4EC5441D8E
+	for <lists+linux-api@lfdr.de>; Mon,  1 Nov 2021 16:45:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232333AbhKALpA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 1 Nov 2021 07:45:00 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:43496 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232365AbhKALo5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 1 Nov 2021 07:44:57 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 487171FD6F;
-        Mon,  1 Nov 2021 11:42:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1635766943; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=5+UZ2j8LT45fgqOAv0Vr6ez6FSL6G50V8K6dC/keqBw=;
-        b=TpxQF6XkaQ4sHXFLHRKTujdwKdEcQ3Wxqz7N2HhNThXxseVCuEiHp/GrSyujTn3z92eWSl
-        brvTK7RPJ7Xy2uvk0OCSjQK5b08Qgfptl+vYiz2luwB2noLA0pde8QTx3Zo1IMAhFhxSP5
-        a+7SnrlVcp9uVdLb9Q6fDXrA1IM8a1Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1635766943;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=5+UZ2j8LT45fgqOAv0Vr6ez6FSL6G50V8K6dC/keqBw=;
-        b=VcmHWF5BTXOtCHI147RmuzHfL1k+o+u55tYqmccO0oz5vdCGgnb/5ZDnos6+N/oy+b+Sh5
-        75W1t868sxM6+bAQ==
-Received: from quack2.suse.cz (unknown [10.163.28.18])
-        by relay2.suse.de (Postfix) with ESMTP id 0709AA3B81;
-        Mon,  1 Nov 2021 11:42:22 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id CD7281E0922; Mon,  1 Nov 2021 12:42:22 +0100 (CET)
-Date:   Mon, 1 Nov 2021 12:42:22 +0100
-From:   Jan Kara <jack@suse.cz>
-To:     Gabriel Krisman Bertazi <krisman@collabora.com>
-Cc:     Guenter Roeck <linux@roeck-us.net>, jack@suse.com,
-        amir73il@gmail.com, djwong@kernel.org, tytso@mit.edu,
-        david@fromorbit.com, dhowells@redhat.com, khazhy@google.com,
-        linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-api@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH v8 31/32] samples: Add fs error monitoring example
-Message-ID: <20211101114222.GA21679@quack2.suse.cz>
-References: <20211019000015.1666608-1-krisman@collabora.com>
- <20211019000015.1666608-32-krisman@collabora.com>
- <20211028151834.GA423440@roeck-us.net>
- <87fsslasgz.fsf@collabora.com>
+        id S232631AbhKAPru (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 1 Nov 2021 11:47:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45718 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230261AbhKAPru (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 1 Nov 2021 11:47:50 -0400
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C40FBC061766
+        for <linux-api@vger.kernel.org>; Mon,  1 Nov 2021 08:45:16 -0700 (PDT)
+Received: by mail-yb1-xb35.google.com with SMTP id 131so34101150ybc.7
+        for <linux-api@vger.kernel.org>; Mon, 01 Nov 2021 08:45:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZolZYi1Z2qAq+BdRoisdf3B03ivIqQVmB8Zw09nzu/A=;
+        b=QO56lhV56aUSXb5cp5vwYlnjJuQqx0rZxic/SzMXvbF1nWztHVKxodvJXVy1AoROHk
+         Cl3ep7m2UwaJ39Y/IGbfUJ2gor11hX8Ilimaw+ly07DUufwbpsjfOE0K9eD+wGMUU7mJ
+         BXfB52ihVoEKPyX8MuJrHcP6tdepZkqFE9yQY9WAY8t3j5oRhJCWfRVxFF0qRVAAe9gI
+         c/2ht1FMS+3Be+6eun16zvnn5nBp50PwzTMkvfs1yOGGs2QbT9tegBC/KR/rmLis0XMI
+         NJHEuMO9SSgfacSyYAz860rC+vlmp/hG4MkOXligVzYPPz6yYxIarv9WgjmZf52HqW/W
+         zLzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZolZYi1Z2qAq+BdRoisdf3B03ivIqQVmB8Zw09nzu/A=;
+        b=mf4jrVC0Y3aEQTZ+4fHZGnfvrd2wbC5zFxQ9Ddm3qSqOfBETmX3VhhilKtoGcivosG
+         KFCDYN3lFgNGUpgrnmdWROuT2zwzgOLJGM9nYGMrKIYnJP9VqSm/9YJWtu7mWuOcDN3d
+         yYXEnWZ4/a/UO2A5e276MF3roOWxy3vP+NL8bIQoxmcJ24Hx3hhiDlDSj2uAEhCBZ6J7
+         anDtRAUv/c3VLlKYAFls/B7NOxSecDQBInCsXO78LvRIga3Oaha0CDMV26TGuS/3s5ei
+         2gKTiKMSLHZBYWPK2m609rBLPUCEdi7+ivuwl9q3DnRyXGm2KIydFrsvyztRx8a6IU/b
+         TOoQ==
+X-Gm-Message-State: AOAM530Gh2H9k1gxfNOvsmoeCw2Mg0CgR76ZItFVdM70vd0VhjwysrMy
+        Y67DZLGgMy5xnLAwdIj3X7b5BW+tDj8u9Df3OYV/qw==
+X-Google-Smtp-Source: ABdhPJy7Y2xviMqGlKunRSE1bYGIzhMjrRr9qPYvk8vGlzZTFvMRzKzHep+EnxjFd74GwRZBeyfOPrds+hz4ErGZTUE=
+X-Received: by 2002:a25:ae12:: with SMTP id a18mr10895832ybj.412.1635781510066;
+ Mon, 01 Nov 2021 08:45:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87fsslasgz.fsf@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20211022014658.263508-1-surenb@google.com> <YXJwUUPjfg9wV6MQ@dhcp22.suse.cz>
+ <CAJuCfpEcSbK8WrufZjDj-7iUxiQtrmVTqHOxFUOvLhYGz6_ttQ@mail.gmail.com>
+ <CAJuCfpFccBJHHqfOKixJvLr7Xta_ojkdHGfGomwTDNKffzziRQ@mail.gmail.com>
+ <YXvxBSzA2YIxbwVC@dhcp22.suse.cz> <CAJuCfpHBoMGPOUvB2ZWQ=TxbFuWBRF++UaKJZDCrQV4mzb5kMA@mail.gmail.com>
+ <YX+nYGlZBOAljoeF@dhcp22.suse.cz>
+In-Reply-To: <YX+nYGlZBOAljoeF@dhcp22.suse.cz>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Mon, 1 Nov 2021 08:44:58 -0700
+Message-ID: <CAJuCfpGC9-c9P40x7oy=jy5SphMcd0o0G_6U1-+JAziGKG6dGA@mail.gmail.com>
+Subject: Re: [PATCH 1/1] mm: prevent a race between process_mrelease and exit_mmap
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        Christoph Hellwig <hch@infradead.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Jann Horn <jannh@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Jan Engelhardt <jengelh@inai.de>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Andrea Arcangeli <aarcange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu 28-10-21 15:56:28, Gabriel Krisman Bertazi wrote:
-> Guenter Roeck <linux@roeck-us.net> writes:
-> 
-> > On Mon, Oct 18, 2021 at 09:00:14PM -0300, Gabriel Krisman Bertazi wrote:
-> >> Introduce an example of a FAN_FS_ERROR fanotify user to track filesystem
-> >> errors.
-> >> 
-> >> Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-> >> Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
-> >> Reviewed-by: Jan Kara <jack@suse.cz>
-> >> ---
-> >> Changes since v4:
-> >>   - Protect file_handle defines with ifdef guards
-> >> 
-> >> Changes since v1:
-> >>   - minor fixes
-> >> ---
-> >>  samples/Kconfig               |   9 +++
-> >>  samples/Makefile              |   1 +
-> >>  samples/fanotify/Makefile     |   5 ++
-> >>  samples/fanotify/fs-monitor.c | 142 ++++++++++++++++++++++++++++++++++
-> >>  4 files changed, 157 insertions(+)
-> >>  create mode 100644 samples/fanotify/Makefile
-> >>  create mode 100644 samples/fanotify/fs-monitor.c
-> >> 
-> >> diff --git a/samples/Kconfig b/samples/Kconfig
-> >> index b0503ef058d3..88353b8eac0b 100644
-> >> --- a/samples/Kconfig
-> >> +++ b/samples/Kconfig
-> >> @@ -120,6 +120,15 @@ config SAMPLE_CONNECTOR
-> >>  	  with it.
-> >>  	  See also Documentation/driver-api/connector.rst
-> >>  
-> >> +config SAMPLE_FANOTIFY_ERROR
-> >> +	bool "Build fanotify error monitoring sample"
-> >> +	depends on FANOTIFY
+On Mon, Nov 1, 2021 at 1:37 AM Michal Hocko <mhocko@suse.com> wrote:
+>
+> On Fri 29-10-21 09:07:39, Suren Baghdasaryan wrote:
+> > On Fri, Oct 29, 2021 at 6:03 AM Michal Hocko <mhocko@suse.com> wrote:
+> [...]
+> > > Well, I still do not see why that is a problem. This syscall is meant to
+> > > release the address space not to do it fast.
 > >
-> > This needs something like
-> > 	depends on CC_CAN_LINK
-> > or possibly even
-> > 	depends on CC_CAN_LINK && HEADERS_INSTALL
-> > to avoid compilation errors such as
+> > It's the same problem for a userspace memory reaper as for the
+> > oom-reaper. The goal is to release the memory of the victim and to
+> > quickly move on to the next one if needed.
+>
+> The purpose of the oom_reaper is to _guarantee_ a forward progress. It
+> doesn't have to be quick or optimized for speed.
+
+Fair enough. Then the same guarantees should apply to userspace memory
+reapers. I think you clarified that well in your replies in
+https://lore.kernel.org/all/20170725154514.GN26723@dhcp22.suse.cz:
+
+Because there is no _guarantee_ that the final __mmput will release
+the memory in finite time. And we cannot guarantee that longterm.
+...
+__mmput calls into exit_aio and that can wait for completion and there
+is no way to guarantee this will finish in finite time.
+
+>
+> [...]
+>
+> > > Btw. the above code will not really tell you much on a larger machine
+> > > unless you manage to trigger mmap_sem contection. Otherwise you are
+> > > measuring the mmap_sem writelock fast path and that should be really
+> > > within a noise comparing to the whole address space destruction time. If
+> > > that is not the case then we have a real problem with the locking...
 > >
-> > samples/fanotify/fs-monitor.c:7:10: fatal error: errno.h: No such file or directory
-> >     7 | #include <errno.h>
-> >       |          ^~~~~~~~~
-> > compilation terminated.
-> >
-> > when using a toolchain without C library support, such as those provided
-> > on kernel.org.
-> 
-> Thank you, Guenter.
-> 
-> We discussed this, but I wasn't sure how to silence the error and it
-> didn't trigger in the past versions.
-> 
-> The original patch is already in Jan's tree.  Jan, would you pick the
-> pack below to address it?  Feel free to squash it into the original
-> commit, if you think it is saner..
+> > My understanding of that discussion is that the concern was that even
+> > taking uncontended mmap_sem writelock would regress the exit path.
+> > That was what I wanted to confirm. Am I misreading it?
+>
+> No, your reading match my recollection. I just think that code
+> robustness in exchange of a rw semaphore write lock fast path is a
+> reasonable price to pay even if that has some effect on micro
+> benchmarks.
 
-Thanks guys, I've added the patch to my tree. If we had more time, I'd
-probably squash it but given I'd like to send Linus a pull request at the
-end of the week I don't want to touch commits that are already in next.
+I'm with you on this one, that's why I wanted to measure the price we
+would pay. Below are the test results:
 
-								Honza
+Test: https://lore.kernel.org/all/20170725142626.GJ26723@dhcp22.suse.cz/
+Compiled: gcc -O2 -static test.c -o test
+Test machine: 128 core / 256 thread 2x AMD EPYC 7B12 64-Core Processor
+(family 17h)
 
-> -- >8 --
-> From: Gabriel Krisman Bertazi <krisman@collabora.com>
-> Date: Thu, 28 Oct 2021 15:34:46 -0300
-> Subject: [PATCH] samples: Make fs-monitor depend on libc and headers
-> 
-> Prevent build errors when headers or libc are not available, such as on
-> kernel build bots, like the below:
-> 
-> samples/fanotify/fs-monitor.c:7:10: fatal error: errno.h: No such file
-> or directory
->   7 | #include <errno.h>
->     |          ^~~~~~~~~
-> 
-> Suggested-by: Guenter Roeck <linux@roeck-us.net>
-> Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
-> ---
->  samples/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/samples/Kconfig b/samples/Kconfig
-> index 88353b8eac0b..56539b21f2c7 100644
-> --- a/samples/Kconfig
-> +++ b/samples/Kconfig
-> @@ -122,7 +122,7 @@ config SAMPLE_CONNECTOR
->  
->  config SAMPLE_FANOTIFY_ERROR
->  	bool "Build fanotify error monitoring sample"
-> -	depends on FANOTIFY
-> +	depends on FANOTIFY && CC_CAN_LINK && HEADERS_INSTALL
->  	help
->  	  When enabled, this builds an example code that uses the
->  	  FAN_FS_ERROR fanotify mechanism to monitor filesystem
-> -- 
-> 2.33.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+baseline (Linus master, f31531e55495ca3746fb895ffdf73586be8259fa)
+p50 (median)   87412
+p95                  168210
+p99                  190058
+average           97843.8
+stdev               29.85%
+
+unconditional mmap_write_lock in exit_mmap (last column is the change
+from the baseline)
+p50 (median)   88312     +1.03%
+p95                  170797   +1.54%
+p99                  191813   +0.92%
+average           97659.5  -0.19%
+stdev               32.41%
+
+unconditional mmap_write_lock in exit_mmap + Matthew's patch (last
+column is the change from the baseline)
+p50 (median)   88807      +1.60%
+p95                  167783     -0.25%
+p99                  187853     -1.16%
+average           97491.4    -0.36%
+stdev               30.61%
+
+stdev is quite high in all cases, so the test is very noisy.
+The impact seems quite low IMHO. WDYT?
+
+> --
+> Michal Hocko
+> SUSE Labs
