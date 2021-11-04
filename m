@@ -2,86 +2,106 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39F73444907
-	for <lists+linux-api@lfdr.de>; Wed,  3 Nov 2021 20:35:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E14044554A
+	for <lists+linux-api@lfdr.de>; Thu,  4 Nov 2021 15:27:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231381AbhKCThm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 3 Nov 2021 15:37:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44008 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231328AbhKCThl (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 3 Nov 2021 15:37:41 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8431AC061203
-        for <linux-api@vger.kernel.org>; Wed,  3 Nov 2021 12:35:04 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id y26so7251540lfa.11
-        for <linux-api@vger.kernel.org>; Wed, 03 Nov 2021 12:35:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=n9W4p+e3FH13k+KxnPIh2RI8UTA5IO2e2jpCzQxdx0A=;
-        b=eiyfzbYMFqirulY9rvWU7fsfoRUFXGSyEstBw14iMFoIy7KSRFRIta/HFInm1amwID
-         cgmAFIXZSS+HJMKrAPq9Ck8YWIREjD435tabu6Yy4rUbcEWyTlNPNS4DYqQIyu1587KY
-         xg8i8IBgEqe4OUakIFzPsMUJb8wLGD6BO1sS0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=n9W4p+e3FH13k+KxnPIh2RI8UTA5IO2e2jpCzQxdx0A=;
-        b=nsZpv1zzHKGOfVwoNTV9BtRnEYjfO88eG8jzgw7XxCA2mu7iHO1DaF5+Bssvg4XV6f
-         w7h6cZ9XVfghBsNYwAHzweSh9PKbTTz2MrQgz11D9fSrz6Qw/aCqC8TIJ8YXzh4aAEXo
-         cLQCWs/4lY0Flt5OD6fGh2ReYAJ+HLl23AztAwGFINFTo6cTqYfcH+LvOK+KVOaaD66q
-         Xg2Hq5TlWZ3lB5bFDMW1DLUAaH2tplkY9g/4dzY92MqvrB9O6vb0sLACjE1W0/lIn5gJ
-         gr3gYp6rZsFaNB0Ii+RlIdpuzC2fbzRNe9v6/zgf1rkm1grGSqUC6EWnLxCRyfwKVeC1
-         lFTQ==
-X-Gm-Message-State: AOAM533r2Z5lTTJRRgS7FsPsHEphyGLSFL06PB8Nu6Smu4miW26HWID5
-        HTC844yI85eWJMifjyizDy/qh4MqzqwktWhT
-X-Google-Smtp-Source: ABdhPJxRHS2iqOnO5O9gjEIsoIvBxJKP5Vp67ptAhJSwaLWUb00XTjsgftFLIGTWyha0aJzXAMS9Nw==
-X-Received: by 2002:a05:6512:44a:: with SMTP id y10mr235292lfk.9.1635968102661;
-        Wed, 03 Nov 2021 12:35:02 -0700 (PDT)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
-        by smtp.gmail.com with ESMTPSA id e5sm269769ljj.61.2021.11.03.12.35.01
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Nov 2021 12:35:01 -0700 (PDT)
-Received: by mail-lf1-f44.google.com with SMTP id br12so5442653lfb.8
-        for <linux-api@vger.kernel.org>; Wed, 03 Nov 2021 12:35:01 -0700 (PDT)
-X-Received: by 2002:ac2:544a:: with SMTP id d10mr28557820lfn.141.1635968100697;
- Wed, 03 Nov 2021 12:35:00 -0700 (PDT)
+        id S230511AbhKDOaV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 4 Nov 2021 10:30:21 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:56400 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230409AbhKDOaV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Nov 2021 10:30:21 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id EE26E212C0;
+        Thu,  4 Nov 2021 14:27:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1636036061; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=AthaTNwsWhomj4CQfeFfXNvryAZHBE+ttAigqWJELZ8=;
+        b=Zpi2sSr3zc7coy+kFgUoMlTkQCgsnC715jzM/5jmMXYG/Sq82yypiXPgvIjaOQkCJ91dqX
+        P3tGUZOAmlrKHUTArkOSrYFmQ64/XFKgOmm3cq6x03HeaLFtdisFXs+wPiN1HS+F/t7UEP
+        JLMQ37GxOac31JZeHY8cTQgsVWmrUyk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1636036061;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=AthaTNwsWhomj4CQfeFfXNvryAZHBE+ttAigqWJELZ8=;
+        b=NhFnKZZJtHkXF4aRTfwvipQQhUoWn5TpVEhK/YVKeBNP28C1AONZvzrOitda6nYc+EQCp+
+        2x+3Uodke2J2E1Cg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DAEF613BD9;
+        Thu,  4 Nov 2021 14:27:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 7QWcM93tg2EbUAAAMHmgww
+        (envelope-from <chrubis@suse.cz>); Thu, 04 Nov 2021 14:27:41 +0000
+Date:   Thu, 4 Nov 2021 15:27:32 +0100
+From:   Cyril Hrubis <chrubis@suse.cz>
+To:     Jens Axboe <axboe@kernel.dk>
+Cc:     Drew DeVault <sir@cmpwn.com>, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, io-uring@vger.kernel.org,
+        Pavel Begunkov <asml.silence@gmail.com>
+Subject: Re: [PATCH] Increase default MLOCK_LIMIT to 8 MiB
+Message-ID: <YYPt1PaGtiSLvyKw@rei>
+References: <20211028080813.15966-1-sir@cmpwn.com>
+ <cc3d7fac-62e9-fe11-0cf1-3d9528d191a0@kernel.dk>
 MIME-Version: 1.0
-References: <878ry512iv.fsf@disp2133>
-In-Reply-To: <878ry512iv.fsf@disp2133>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 3 Nov 2021 12:34:44 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wivLcb3ELGSf=fM0u=PxP5m1=jRrVXDOr0+QJZRZggaHg@mail.gmail.com>
-Message-ID: <CAHk-=wivLcb3ELGSf=fM0u=PxP5m1=jRrVXDOr0+QJZRZggaHg@mail.gmail.com>
-Subject: Re: [GIT PULL] per signal_struct coredumps
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Kees Cook <keescook@chromium.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cc3d7fac-62e9-fe11-0cf1-3d9528d191a0@kernel.dk>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Nov 3, 2021 at 12:07 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
->
-> Please pull the per_signal_struct_coredumps-for-v5.16 branch
+Hi!
+> > This limit has not been updated since 2008, when it was increased to 64
+> > KiB at the request of GnuPG. Until recently, the main use-cases for this
+> > feature were (1) preventing sensitive memory from being swapped, as in
+> > GnuPG's use-case; and (2) real-time use-cases. In the first case, little
+> > memory is called for, and in the second case, the user is generally in a
+> > position to increase it if they need more.
+> > 
+> > The introduction of IOURING_REGISTER_BUFFERS adds a third use-case:
+> > preparing fixed buffers for high-performance I/O. This use-case will
+> > take as much of this memory as it can get, but is still limited to 64
+> > KiB by default, which is very little. This increases the limit to 8 MB,
+> > which was chosen fairly arbitrarily as a more generous, but still
+> > conservative, default value.
+> > ---
+> > It is also possible to raise this limit in userspace. This is easily
+> > done, for example, in the use-case of a network daemon: systemd, for
+> > instance, provides for this via LimitMEMLOCK in the service file; OpenRC
+> > via the rc_ulimit variables. However, there is no established userspace
+> > facility for configuring this outside of daemons: end-user applications
+> > do not presently have access to a convenient means of raising their
+> > limits.
+> > 
+> > The buck, as it were, stops with the kernel. It's much easier to address
+> > it here than it is to bring it to hundreds of distributions, and it can
+> > only realistically be relied upon to be high-enough by end-user software
+> > if it is more-or-less ubiquitous. Most distros don't change this
+> > particular rlimit from the kernel-supplied default value, so a change
+> > here will easily provide that ubiquity.
+> 
+> Agree with raising this limit, it is ridiculously low and we often get
+> reports from people that can't even do basic rings with it. Particularly
+> when bpf is involved as well, as it also dips into this pool.
+> 
+> On the production side at facebook, we do raise this limit as well.
 
-I've pulled it, but I'm not convinced about that odd extra merge
-commit that contains the commentary.
+We are raising this limit to 2MB for LTP testcases as well, otherwise we
+get failures when we run a few bpf tests in quick succession.
 
-That's what signed tags are for, and they have that explanation that
-then makes it into the merge - plus they have the crypto signature to
-show it all comes from you.
+Acked-by: Cyril Hrubis <chrubis@suse.cz>
 
-So that would have been the much better model than a fake extra merge.
-
-But at least that extra merge did have explanations, so at least it
-doesn't trigger me on _that_ level.
-
-               Linus
+-- 
+Cyril Hrubis
+chrubis@suse.cz
