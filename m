@@ -2,141 +2,89 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E5C3C446B58
-	for <lists+linux-api@lfdr.de>; Sat,  6 Nov 2021 00:48:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C5152446C16
+	for <lists+linux-api@lfdr.de>; Sat,  6 Nov 2021 03:41:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233155AbhKEXvH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 5 Nov 2021 19:51:07 -0400
-Received: from esa.hc503-62.ca.iphmx.com ([216.71.131.47]:15715 "EHLO
-        esa.hc503-62.ca.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233175AbhKEXvG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 5 Nov 2021 19:51:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=uwaterloo.ca; i=@uwaterloo.ca; q=dns/txt; s=default;
-  t=1636156106; x=1667692106;
-  h=subject:to:cc:references:in-reply-to:from:message-id:
-   date:mime-version:content-transfer-encoding;
-  bh=0czp8HPimoHrpAqsPvqIllMPMs8etJtDQEcHMcp5MUU=;
-  b=+djJ3CYv3sf/LJ+uLrsxAT5W6tiHdeFB/AVX0scsUkZ2QvGOm/HP/QHo
-   M9zPqTF8/mFuA3tbpGDFzio2bY2IUr3xp7N1txafJwdy4iXfxcgoPhUP0
-   gdbdBitSkbFy3qk4RIu4TtslKRN6iJVlu9QDc9khmI3Jm51I+T1+lYFTH
-   w=;
-IronPort-Data: A9a23:bpprgq8fh9aiqbfFR6w0DrUDO3+TJUtcMsCJ2f8bNWPcYEJGY0x3z
- mofDDzQaPyPZ2GmKdpybovlpElTsMfXxocxSgo5/HhEQiMRo6IpJzg4wmQcnc+2BpeeJK6yx
- 5xGMrEsCuhqFieEzvuKGue99iYUOZllwtMQMcacUsxLbVYMpBwJ1FQzxIbVvqYy2YLgWlrV5
- IupyyHiEAbNNwBcYzN8B52r9UsHUMTa4Fv0aXRnOJinFHeH/5UkJMp3yZOZdhMUcaEIdgKOf
- Nsv+Znilo/vE7XBPfv++lrzWhVirrc/pmFigFIOM0SpqkAqSiDfTs/XnRfTAKtao2zhojx/9
- DlCnYyNFxoyALTUouFDUxZfHw09ErcB24aSdBBTseTLp6HHW3DrxfNuCRlqe4Yf/OB6Cn0I6
- OMRND0XaheEwem/qF65YrA214Jyc4+xZNNZ5ioIITLxVJ7KRbjfT6jO5MRc0R8tmclSEOzaY
- M1fYjMHgBHoOUcQYgxMWcNWcOGAxST1Ug9foVCsnbM6/mbhyjZB06jUGY+AEjCNbYAP9qqCn
- UrE9mL/AjkVM9uQzTfD+XWp7sfGgyr0WYQ6G7q/+fpnxlaUwwQ7EBoNVnO0pv62jkP4UNVaQ
- 2Qe4SchpKw23EOsSdb5Uluzp3vslgYeR/JfFOo17AzLwa3Riy6dB24ZXntIcN0OqsA7X3op2
- 0WPktevAiZg2JWRSHSA5vKXoCm0NCw9M2APf2kHQBED7t2lp5s85jrLT9B+AOuwi/X2Bzj7w
- HaNtidWr7EOkckj1Kih+13DxTW2qfDhQgcr60PXV2S+4wVRYI+jepzu6F7H4PIGJ4GcJnGIv
- 2ABs8yf6v0eSJ+KiSqBSfkMG7fv4OyKWBXAjlp/N50g8Smx4XmlfJAW7DwWDEJoNMkDUSXkb
- E/apUVa45o7FGOncaJtcaqwDcowxKTtHNijUerbBvJWZYNyXBeA5yIoZEn44oz2uEMrl6cyM
- ovdbNmlEXsADaNgijG/LwsA7YIWKukF7Tu7bfjGI96PiNJyuFb9pW85DWaz
-Received: from connect.uwaterloo.ca (HELO connhm04.connect.uwaterloo.ca) ([129.97.208.43])
-  by ob1.hc503-62.ca.iphmx.com with ESMTP/TLS/AES256-GCM-SHA384; 05 Nov 2021 19:48:22 -0400
-Received: from [10.42.0.123] (10.32.137.240) by connhm04.connect.uwaterloo.ca
- (172.16.137.68) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Fri, 5
- Nov 2021 19:48:21 -0400
-Subject: Re: [PATCH v0.8 3/6] sched/umcg: implement UMCG syscalls
-To:     Peter Oskolkov <posk@posk.io>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>, <linux-mm@kvack.org>,
-        <linux-kernel@vger.kernel.org>, <linux-api@vger.kernel.org>
-CC:     Paul Turner <pjt@google.com>, Ben Segall <bsegall@google.com>,
-        Peter Oskolkov <posk@google.com>,
-        Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>
-References: <20211104195804.83240-1-posk@google.com>
- <20211104195804.83240-4-posk@google.com>
-In-Reply-To: <20211104195804.83240-4-posk@google.com>
-From:   Thierry Delisle <tdelisle@uwaterloo.ca>
-Message-ID: <ec84f37d-da30-8f03-3864-0c94078f6e21@uwaterloo.ca>
-Date:   Fri, 5 Nov 2021 19:48:21 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S232513AbhKFCoE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 5 Nov 2021 22:44:04 -0400
+Received: from [103.31.38.59] ([103.31.38.59]:52178 "EHLO gnuweeb.org"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229728AbhKFCoE (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Fri, 5 Nov 2021 22:44:04 -0400
+X-Greylist: delayed 469 seconds by postgrey-1.27 at vger.kernel.org; Fri, 05 Nov 2021 22:44:03 EDT
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+        by gnuweeb.org (Postfix) with ESMTPSA id 5CB99C16F9;
+        Sat,  6 Nov 2021 02:33:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=gnuweeb.org;
+        s=default; t=1636166011;
+        bh=k0/6s4y+RBoxmpT5WkQ6jb4QqMqTeCNGaGkp8JX8AVY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=TqtjXN3JOi9xmIKPm9AqtMyYDlpNl9NeW6O3XA3lEt44lDGFzdwDVQSQNcFgbl/TN
+         8pkzqXU8aAzSEbsDgAQ2dE5wyEE16dWIid1NO10Zb/8JFVmqLhyepecDBOjdJMdvou
+         MrSM+mQr+v9oeLbZm5/eQ7rimyDbPv4VliqyttXpkg4DnTSalP9RlNadu8WD4kPNsK
+         NZMLcKvUZl0UvHg9yqKS/eKMySfr+38Dnhb0p+Oa/AVFo9sQmKzPxHCJn8Pax0QrDb
+         MbKOyhCnPhRvLUpbGS76N+ujtm9x33IUYddWDZ3T7Wd/PupKvy82409BGflPI8cy3A
+         nFTtartUT0piA==
+Received: by mail-ed1-f48.google.com with SMTP id x15so7987989edv.1;
+        Fri, 05 Nov 2021 19:33:31 -0700 (PDT)
+X-Gm-Message-State: AOAM5331RX7iQEIDZAOjNTbWPFGheklCNWlm6bLOsyAYJrvJwy0HhKGa
+        s1bHJ1sq3/jvAh40Q/o3wMYf2HrNhdK62eC70PM=
+X-Google-Smtp-Source: ABdhPJxtkbOsW/2Ug/FYaW6pK+5ujBYgjiTikPPgmCbAXXN3OwUzEHzyARJwHiTezHlXA3PVCUKqTbA4VIyigKwKhuc=
+X-Received: by 2002:aa7:c391:: with SMTP id k17mr60290762edq.263.1636166008005;
+ Fri, 05 Nov 2021 19:33:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.32.137.240]
-X-ClientProxiedBy: connhm02.connect.uwaterloo.ca (172.16.137.66) To
- connhm04.connect.uwaterloo.ca (172.16.137.68)
+References: <20211028080813.15966-1-sir@cmpwn.com>
+In-Reply-To: <20211028080813.15966-1-sir@cmpwn.com>
+From:   Ammar Faizi <ammarfaizi2@gnuweeb.org>
+Date:   Sat, 6 Nov 2021 09:33:10 +0700
+X-Gmail-Original-Message-ID: <CAFBCWQ+=2T4U7iNQz_vsBsGVQ72s+QiECndy_3AMFV98bMOLow@mail.gmail.com>
+Message-ID: <CAFBCWQ+=2T4U7iNQz_vsBsGVQ72s+QiECndy_3AMFV98bMOLow@mail.gmail.com>
+Subject: Re: [PATCH] Increase default MLOCK_LIMIT to 8 MiB
+To:     Drew DeVault <sir@cmpwn.com>
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        io_uring Mailing List <io-uring@vger.kernel.org>,
+        Jens Axboe <axboe@kernel.dk>,
+        Pavel Begunkov <asml.silence@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 2021-11-04 3:58 p.m., Peter Oskolkov wrote:
- > +/*
- > + * Try to wake up. May be called with preempt_disable set. May be called
- > + * cross-process.
- > + *
- > + * Note: umcg_ttwu succeeds even if ttwu fails: see wait/wake state
- > + *       ordering logic.
- > + */
- > +static int umcg_ttwu(u32 next_tid, int wake_flags)
- > +{
- > +    struct task_struct *next;
- > +
- > +    rcu_read_lock();
- > +    next = find_task_by_vpid(next_tid);
- > +    if (!next || !umcg_wakeup_allowed(next)) {
- > +        rcu_read_unlock();
- > +        return -ESRCH;
- > +    }
- > +
- > +    /* The result of ttwu below is ignored. */
- > +    try_to_wake_up(next, TASK_NORMAL, wake_flags);
- > +    rcu_read_unlock();
- > +
- > +    return 0;
- > +}
+On Thu, Oct 28, 2021 at 3:08 PM Drew DeVault wrote:
+>
+> This limit has not been updated since 2008, when it was increased to 64
+> KiB at the request of GnuPG. Until recently, the main use-cases for this
+> feature were (1) preventing sensitive memory from being swapped, as in
+> GnuPG's use-case; and (2) real-time use-cases. In the first case, little
+> memory is called for, and in the second case, the user is generally in a
+> position to increase it if they need more.
+>
+> The introduction of IOURING_REGISTER_BUFFERS adds a third use-case:
+> preparing fixed buffers for high-performance I/O. This use-case will
+> take as much of this memory as it can get, but is still limited to 64
+> KiB by default, which is very little. This increases the limit to 8 MB,
+> which was chosen fairly arbitrarily as a more generous, but still
+> conservative, default value.
+> ---
+> It is also possible to raise this limit in userspace. This is easily
+> done, for example, in the use-case of a network daemon: systemd, for
+> instance, provides for this via LimitMEMLOCK in the service file; OpenRC
+> via the rc_ulimit variables. However, there is no established userspace
+> facility for configuring this outside of daemons: end-user applications
+> do not presently have access to a convenient means of raising their
+> limits.
+>
+> The buck, as it were, stops with the kernel. It's much easier to address
+> it here than it is to bring it to hundreds of distributions, and it can
+> only realistically be relied upon to be high-enough by end-user software
+> if it is more-or-less ubiquitous. Most distros don't change this
+> particular rlimit from the kernel-supplied default value, so a change
+> here will easily provide that ubiquity.
+>
+>  include/uapi/linux/resource.h | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
 
-Doesn't try_to_wake_up return different values based on whether or not a 
-task
-was woken up? I think it could be useful to propagate that result instead of
-always returning zero. Even if it only helps for debugging.
+Forgot to add Signed-off-by tag from the author?
 
-
-
- > +static bool enqueue_idle_worker(struct umcg_task __user *ut_worker)
- > +{
- > +    u64 __user *node = &ut_worker->idle_workers_ptr;
- > +    u64 __user *head_ptr;
- > +    u64 first = (u64)node;
- > +    u64 head;
- > +
- > +    if (get_user(head, node) || !head)
- > +        return false;
- > +
- > +    head_ptr = (u64 __user *)head;
- > +
- > +    /* Mark the worker as pending. */
- > +    if (put_user(UMCG_IDLE_NODE_PENDING, node))
- > +        return false;
- > +
- > +    /* Make the head point to the worker. */
- > +    if (xchg_user_64(head_ptr, &first))
- > +        return false;
- > +
- > +    /* Make the worker point to the previous head. */
- > +    if (put_user(first, node))
- > +        return false;
- > +
- > +    return true;
- > +}
-
-If the last two operation return false, whichever task tries to consume the
-list could deadlock, depending on whether or not the ensuing
-force_sig(SIGKILL); reaches the consuming task. Does the force_sig kill
-the task or the entire process. Is it possible to consume this list from a
-different process that shares the memory? I'm wondering if the last
-two "return false" should attempt to retract the
-UMCG_IDLE_NODE_PENDING.
+-- 
+Ammar Faizi
