@@ -2,56 +2,28 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 67CEF447920
-	for <lists+linux-api@lfdr.de>; Mon,  8 Nov 2021 05:09:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B2ABC447AA0
+	for <lists+linux-api@lfdr.de>; Mon,  8 Nov 2021 07:56:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237344AbhKHEL7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 7 Nov 2021 23:11:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42278 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236468AbhKHEL7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 7 Nov 2021 23:11:59 -0500
-Received: from mail-ua1-x929.google.com (mail-ua1-x929.google.com [IPv6:2607:f8b0:4864:20::929])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB519C061714
-        for <linux-api@vger.kernel.org>; Sun,  7 Nov 2021 20:09:15 -0800 (PST)
-Received: by mail-ua1-x929.google.com with SMTP id b17so29057973uas.0
-        for <linux-api@vger.kernel.org>; Sun, 07 Nov 2021 20:09:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=posk.io; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ht1a7BHorlhsE8dC2GuUzDtj79AIkNJ784TbJlxLVrc=;
-        b=hEpZGtyPHSeODH2+z3tM2pL2kZdsRw6MkBcSLD1h50yio+oDm2Cwoy97zfiHNmYEvk
-         haP5bd0VlBqkKPQmgtpp2mgMPdM+Jh3dmFSmMXCh9tLXao5vu1BLa++B77FnkohwBEQk
-         E3y5nsN70+m2w0lTYZzaUPYlxC1UkkkqMMnow0D+fvRi6tuR47ETSDJXJWME4zBbAwGn
-         /fX14irruZ9MzIUm5GRhmTV7tCdw+3/x6FkdtXUa8+CT8ZXyRg+InwsNdQTAKAxpM4ao
-         CLdAbav/wyHeHVbQswqb0lLCH7XMaMFbhkM2DC1u9dde7S1o3VKm8CHYCzdj9ijM0JN1
-         TUjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ht1a7BHorlhsE8dC2GuUzDtj79AIkNJ784TbJlxLVrc=;
-        b=ol9MCu+JYk/N/ChXLaH+SDtV3JXNesq9JSaN+5YbRpmjGTt8B8rjYtanN2G7I4JhVz
-         tEJQbCKTjhWmKuKLxj8wqq7kdnAesbQsdISHVOeVAbpDPtnDrWbUX6DGTPNFmGnC35vK
-         wJa8KfXplp4XRERFUvtYyzW345Df9LYw+CLYQrMtm082BD8j9GWG2X9LguyDltS011RU
-         LBl8xDFCYYluR9zC/B1VjDGDZrmJyRX7wfIIXTdPaEI1DujvfivPnttCDsC9XWwfjjU2
-         TOOKqFKh7X5dBUp7k6gxswLrTkzIwWKbyXlQU2XnWz9678zLPJZdkGSJqgGFyATNxnU8
-         2LZA==
-X-Gm-Message-State: AOAM531y33jNAOqJJRUwnDp6Qe/C2kCXgyhU85a/K9sDNU/fig6hpUiK
-        sjQxOho853wMRUioFlcEeezYZsXuFFPZXSH+H4sBmw==
-X-Google-Smtp-Source: ABdhPJy4sFP5Rd4WqLzOYU+KqsxywfbN2kHNY7KPnD9rSyvbVDu+X+nYjpnPfnRxztF3BGa/RKHiuhaerSgi0/5fPBI=
-X-Received: by 2002:a05:6102:dce:: with SMTP id e14mr48258555vst.21.1636344554818;
- Sun, 07 Nov 2021 20:09:14 -0800 (PST)
-MIME-Version: 1.0
-References: <20211104195804.83240-1-posk@google.com> <20211104195804.83240-4-posk@google.com>
- <ec84f37d-da30-8f03-3864-0c94078f6e21@uwaterloo.ca>
-In-Reply-To: <ec84f37d-da30-8f03-3864-0c94078f6e21@uwaterloo.ca>
-From:   Peter Oskolkov <posk@posk.io>
-Date:   Sun, 7 Nov 2021 20:09:04 -0800
-Message-ID: <CAFTs51XU1rKqSscdFK69RUCtaKrLJ1r5pdXSBJ1qc3=ZMNorBw@mail.gmail.com>
-Subject: Re: [PATCH v0.8 3/6] sched/umcg: implement UMCG syscalls
-To:     Thierry Delisle <tdelisle@uwaterloo.ca>
+        id S236475AbhKHG7j (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 8 Nov 2021 01:59:39 -0500
+Received: from out2.migadu.com ([188.165.223.204]:17132 "EHLO out2.migadu.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236168AbhKHG7i (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Mon, 8 Nov 2021 01:59:38 -0500
+Date:   Mon, 8 Nov 2021 14:57:10 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1636354613;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=WQbmR1jcqvCuL03TSf5CWqZohB7XsDdyWdjXB2Dny1k=;
+        b=lO14FLeKWK5O+gFiCixgy4SySNPk9B8XwXXOceG7THtu3vjx2BmuTRi7nchx/FqCG4fpDQ
+        X10Yr/NceMn0Hg6CKyUg5Gt1aQaWifadewGQ8dKCJqS2/SBgK6V+RW8z5z1CN4NYdyBPCu
+        VWww6e4Nif4FMD+FHsF7vLCkH0EejS0=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Tao Zhou <tao.zhou@linux.dev>
+To:     Peter Oskolkov <posk@posk.io>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@redhat.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -62,91 +34,187 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         linux-api@vger.kernel.org, Paul Turner <pjt@google.com>,
         Ben Segall <bsegall@google.com>,
         Peter Oskolkov <posk@google.com>,
-        Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
+        Thierry Delisle <tdelisle@uwaterloo.ca>,
+        Tao Zhou <tao.zhou@linux.dev>
+Subject: Re: [PATCH v0.8 3/6] sched/umcg: implement UMCG syscalls
+Message-ID: <YYjJ4m8WvHwKCCTx@geo.homenetwork>
+References: <20211104195804.83240-1-posk@google.com>
+ <20211104195804.83240-4-posk@google.com>
+ <YYa5WjXTrhYKmoze@geo.homenetwork>
+ <CAFTs51UD_gCFRWe8+14WG3nALQNRdoa322Wcr=RUPbSOpOf6qQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFTs51UD_gCFRWe8+14WG3nALQNRdoa322Wcr=RUPbSOpOf6qQ@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: tao.zhou@linux.dev
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Nov 5, 2021 at 4:48 PM Thierry Delisle <tdelisle@uwaterloo.ca> wrote:
->
-> On 2021-11-04 3:58 p.m., Peter Oskolkov wrote:
->  > +/*
->  > + * Try to wake up. May be called with preempt_disable set. May be called
->  > + * cross-process.
->  > + *
->  > + * Note: umcg_ttwu succeeds even if ttwu fails: see wait/wake state
->  > + *       ordering logic.
->  > + */
->  > +static int umcg_ttwu(u32 next_tid, int wake_flags)
->  > +{
->  > +    struct task_struct *next;
->  > +
->  > +    rcu_read_lock();
->  > +    next = find_task_by_vpid(next_tid);
->  > +    if (!next || !umcg_wakeup_allowed(next)) {
->  > +        rcu_read_unlock();
->  > +        return -ESRCH;
->  > +    }
->  > +
->  > +    /* The result of ttwu below is ignored. */
->  > +    try_to_wake_up(next, TASK_NORMAL, wake_flags);
->  > +    rcu_read_unlock();
->  > +
->  > +    return 0;
->  > +}
->
-> Doesn't try_to_wake_up return different values based on whether or not a
-> task
-> was woken up? I think it could be useful to propagate that result instead of
-> always returning zero. Even if it only helps for debugging.
->
+On Sun, Nov 07, 2021 at 10:26:34AM -0800, Peter Oskolkov wrote:
 
-The protocol is to mark the wakee as UMCG_TASK_RUNNING and call ttwu;
-if you look at umcg_idle_loop(), you will see that the ordering is set
-so that the wakee will indeed either wake or not go to sleep at all,
-regardless of whether ttwu succeeds. So in terms of correctness we do
-not need to check ttwu result; returning anything different here "for
-debugging"? Maybe. If/when this is merged, feel free to send a patch.
-Or maybe I'll add this in a next patchset version...
+> On Sat, Nov 6, 2021 at 10:19 AM Tao Zhou <tao.zhou@linux.dev> wrote:
+> >
+> > Hi Peter,
+> >
+> > On Thu, Nov 04, 2021 at 12:58:01PM -0700, Peter Oskolkov wrote:
+> >
+> > > +/**
+> > > + * umcg_update_state: atomically update umcg_task.state_ts, set new timestamp.
+> > > + * @state_ts   - points to the state_ts member of struct umcg_task to update;
+> > > + * @expected   - the expected value of state_ts, including the timestamp;
+> > > + * @desired    - the desired value of state_ts, state part only;
+> > > + * @may_fault  - whether to use normal or _nofault cmpxchg.
+> > > + *
+> > > + * The function is basically cmpxchg(state_ts, expected, desired), with extra
+> > > + * code to set the timestamp in @desired.
+> > > + */
+> > > +static int umcg_update_state(u64 __user *state_ts, u64 *expected, u64 desired,
+> > > +                             bool may_fault)
+> > > +{
+> > > +     u64 curr_ts = (*expected) >> (64 - UMCG_STATE_TIMESTAMP_BITS);
+> > > +     u64 next_ts = ktime_get_ns() >> UMCG_STATE_TIMESTAMP_GRANULARITY;
+> > > +
+> > > +     /* Cut higher order bits. */
+> > > +     next_ts &= UMCG_TASK_STATE_MASK_FULL;
+> >
+> > next_ts &= (1 << UMCG_STATE_TIMESTAMP_BITS) - 1; or am I wrong.
+> 
+> Right, thanks. I'll fix it in the next patchset version, if any. But
+> at the moment I don't think this is bad enough to prevent merging, if
+> the maintainers feel like it - basically, the condition below will
+> always be false, so if the state is updated within 16 nanoseconds, the
+> timestamps may sometimes match. For this to be an issue, this should
+> result in ABA updates, so two state changes should happen in 16
+> nanoseconds, which is extremely unlikely (impossible?), as most state
 
->
->
->  > +static bool enqueue_idle_worker(struct umcg_task __user *ut_worker)
->  > +{
->  > +    u64 __user *node = &ut_worker->idle_workers_ptr;
->  > +    u64 __user *head_ptr;
->  > +    u64 first = (u64)node;
->  > +    u64 head;
->  > +
->  > +    if (get_user(head, node) || !head)
->  > +        return false;
->  > +
->  > +    head_ptr = (u64 __user *)head;
->  > +
->  > +    /* Mark the worker as pending. */
->  > +    if (put_user(UMCG_IDLE_NODE_PENDING, node))
->  > +        return false;
->  > +
->  > +    /* Make the head point to the worker. */
->  > +    if (xchg_user_64(head_ptr, &first))
->  > +        return false;
->  > +
->  > +    /* Make the worker point to the previous head. */
->  > +    if (put_user(first, node))
->  > +        return false;
->  > +
->  > +    return true;
->  > +}
->
-> If the last two operation return false, whichever task tries to consume the
-> list could deadlock, depending on whether or not the ensuing
-> force_sig(SIGKILL); reaches the consuming task. Does the force_sig kill
-> the task or the entire process. Is it possible to consume this list from a
-> different process that shares the memory? I'm wondering if the last
-> two "return false" should attempt to retract the
-> UMCG_IDLE_NODE_PENDING.
+The task state occupy 0-5 bits and use 2 bits(00, 01, 10, 11) to denote
+NONE, RUNNING, IDLE, BLOCK. Is it possible to grasp 4 bits from here to 
+used to extend the timestamp resolution.
 
-The function will return false only on a memory access error, and the
-whole process will be killed as a result. At least this is the
-intention. Do you think the code does anything different?
+> changes are accompanied by other atomic ops.
+> 
+> >
+> > > +     if (next_ts == curr_ts)
+> > > +             ++next_ts;
+> > > +
+> > > +     /* Remove an old timestamp, if any. */
+> > > +     desired &= UMCG_TASK_STATE_MASK_FULL;
+> > > +
+> > > +     /* Set the new timestamp. */
+> > > +     desired |= (next_ts << (64 - UMCG_STATE_TIMESTAMP_BITS));
+> > > +
+> > > +     if (may_fault)
+> > > +             return cmpxchg_user_64(state_ts, expected, desired);
+> > > +
+> > > +     return cmpxchg_user_64_nofault(state_ts, expected, desired);
+> > > +}
+> > > +
+> > > +/**
+> > > + * sys_umcg_ctl: (un)register the current task as a UMCG task.
+> > > + * @flags:       ORed values from enum umcg_ctl_flag; see below;
+> > > + * @self:        a pointer to struct umcg_task that describes this
+> > > + *               task and governs the behavior of sys_umcg_wait if
+> > > + *               registering; must be NULL if unregistering.
+> > > + *
+> > > + * @flags & UMCG_CTL_REGISTER: register a UMCG task:
+> > > + *         UMCG workers:
+> > > + *              - @flags & UMCG_CTL_WORKER
+> > > + *              - self->state must be UMCG_TASK_BLOCKED
+> > > + *         UMCG servers:
+> > > + *              - !(@flags & UMCG_CTL_WORKER)
+> > > + *              - self->state must be UMCG_TASK_RUNNING
+> > > + *
+> > > + *         All tasks:
+> > > + *              - self->next_tid must be zero
+> > > + *
+> > > + *         If the conditions above are met, sys_umcg_ctl() immediately returns
+> > > + *         if the registered task is a server; a worker will be added to
+> > > + *         idle_workers_ptr, and the worker put to sleep; an idle server
+> > > + *         from idle_server_tid_ptr will be woken, if present.
+> > > + *
+> > > + * @flags == UMCG_CTL_UNREGISTER: unregister a UMCG task. If the current task
+> > > + *           is a UMCG worker, the userspace is responsible for waking its
+> > > + *           server (before or after calling sys_umcg_ctl).
+> > > + *
+> > > + * Return:
+> > > + * 0                - success
+> > > + * -EFAULT          - failed to read @self
+> > > + * -EINVAL          - some other error occurred
+> > > + */
+> > > +SYSCALL_DEFINE2(umcg_ctl, u32, flags, struct umcg_task __user *, self)
+> > > +{
+> > > +     struct umcg_task ut;
+> > > +
+> > > +     if (flags == UMCG_CTL_UNREGISTER) {
+> > > +             if (self || !current->umcg_task)
+> > > +                     return -EINVAL;
+> > > +
+> > > +             if (current->flags & PF_UMCG_WORKER)
+> > > +                     umcg_handle_exiting_worker();
+> > > +             else
+> > > +                     umcg_clear_task(current);
+> > > +
+> > > +             return 0;
+> > > +     }
+> > > +
+> > > +     if (!(flags & UMCG_CTL_REGISTER))
+> > > +             return -EINVAL;
+> > > +
+> > > +     flags &= ~UMCG_CTL_REGISTER;
+> > > +     if (flags && flags != UMCG_CTL_WORKER)
+> > > +             return -EINVAL;
+> > > +
+> > > +     if (current->umcg_task || !self)
+> > > +             return -EINVAL;
+> > > +
+> > > +     if (copy_from_user(&ut, self, sizeof(ut)))
+> > > +             return -EFAULT;
+> > > +
+> > > +     if (ut.next_tid)
+> > > +             return -EINVAL;
+> > > +
+> > > +     if (flags == UMCG_CTL_WORKER) {
+> > > +             if ((ut.state_ts & UMCG_TASK_STATE_MASK_FULL) != UMCG_TASK_BLOCKED)
+> >
+> > Or use UMCG_TASK_STATE_MASK that is enough.
+> 
+> Do you have a use case for this (i.e. when state flags can be
+> legitimately set here)? At the moment I can't think of it, and I'd
+> rather keep things more strict to avoid dealing with unexpected use
+> cases in the future.
+
+When read through  this  thread, I am not realize that this time the
+state flags should not be set. But I need to go other round to be more
+clear like I'm now reading the doc again..
+
+> > > +                     return -EINVAL;
+> > > +
+> > > +             WRITE_ONCE(current->umcg_task, self);
+> > > +             current->flags |= PF_UMCG_WORKER;
+> > > +
+> > > +             /* Trigger umcg_handle_resuming_worker() */
+> > > +             set_tsk_thread_flag(current, TIF_NOTIFY_RESUME);
+> > > +     } else {
+> > > +             if ((ut.state_ts & UMCG_TASK_STATE_MASK_FULL) != UMCG_TASK_RUNNING)
+> >
+> > The same here.
+> 
+> Yes, the same here - why do you think task state flags should be allowed here?
+> 
+> 
+> >
+> > > +                     return -EINVAL;
+> > > +
+> > > +             WRITE_ONCE(current->umcg_task, self);
+> > > +     }
+> > > +
+> > > +     return 0;
+> > > +}
+> > > +
+> >
+> >
+> > Thanks,
+> > Tao
