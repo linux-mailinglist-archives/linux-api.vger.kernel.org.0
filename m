@@ -2,96 +2,147 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CA9244A850
-	for <lists+linux-api@lfdr.de>; Tue,  9 Nov 2021 09:28:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EF7744A9C4
+	for <lists+linux-api@lfdr.de>; Tue,  9 Nov 2021 09:56:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238027AbhKIIb1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 9 Nov 2021 03:31:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58736 "EHLO
+        id S238899AbhKII6o (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 9 Nov 2021 03:58:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236797AbhKIIb1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 9 Nov 2021 03:31:27 -0500
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A095C061766
-        for <linux-api@vger.kernel.org>; Tue,  9 Nov 2021 00:28:41 -0800 (PST)
-Received: by mail-ed1-x532.google.com with SMTP id z21so28215471edb.5
-        for <linux-api@vger.kernel.org>; Tue, 09 Nov 2021 00:28:41 -0800 (PST)
+        with ESMTP id S236483AbhKII6o (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 9 Nov 2021 03:58:44 -0500
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75A95C061764;
+        Tue,  9 Nov 2021 00:55:58 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id ee33so74086486edb.8;
+        Tue, 09 Nov 2021 00:55:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=AYfmttMzhsd8uEz1aHBUrg2dnF3audYy8hGqqui2EpI=;
-        b=H4a4IucMj8HDXTeG6u/Oz0ceqJbOqvSSg1DGCicM5zW8caqvUxA8hwZwgnomWSI2ju
-         jx9JawN0XSBy/yqwpwZ9Zh81+Fuo/fUQs/OxpGJUzrdHzmFxk15hlK/0iwwrXWslsuU6
-         7wBOt5AIcO4LZEe0egpWgofjLRMJxj93X5VzXOjX/SpKWhk2YBS1Y6vMA/16dUGWHzun
-         Iyl/fitIbpsVL/RWKjRNbCrsDPP65wzA3pwhqy2cyTYX/72Thm/8MkVJLN0Dm5lvdzU9
-         7H9byrChhb3YL7hLSKt3jIMjc6Cmj3XrWrUxwfmyhrS/jDWjCj02eHzhs0sTa0aeFfC+
-         SU9Q==
+        bh=YF0nJGr2F3cAY4yWpx0AziwiF6WyFVyJ2P8U7ZMBQ2k=;
+        b=Rd9tJkCsqFqsA1uFdxPhnYdcOJssqFpCCo9AOZ2RpFr6zA3rc+Lr+XL6yoYY0J+x/l
+         10K/j3jaHl4yd4Fi9YsIdkVK5lKvicLxe4z2YsnzWkIu4u375S0qlOvqb9m36w1gq9PT
+         c4T6dZFiGrGyrsl4Ttx2SVax4CIbUEK8otiLMZnAFVCLYJy7wDduhp9egcd/VK5qEFqm
+         XbJwq5hhMRkZdF4kfabHK+a4q+CGVh8pXVOgXH6pzPRKoBJZtjMWLQDmtoE9eWn/zoui
+         52UYC9rOIQqaWVchhIbtvjSyxAddEiacXS8hX7cSLMrXbqQmR8N+2oZBy8qotC7pBIJb
+         J2tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=AYfmttMzhsd8uEz1aHBUrg2dnF3audYy8hGqqui2EpI=;
-        b=lwVV1Tdq3g1pvTOgJeUOAqu2nUv7tzsyZudQ2lTUihMeEzNUvGh8viKR3yznVblBJd
-         bGiwrFRYGk0xW9I39SqOV++VJfMy6N2/3wTloTnWmgCrIlu8ZBzX9uVM/qNtAn4X+fcB
-         u7cOikL1kRhmnFO32mRLqdtP7pmIg2vzauBh+y824BcDiG2jkT9SDdq2fGrxHU7nFa9a
-         UHmuSbuD1vj/Wx4XEKQBGncs3AHaXFdJBahHWsgR4kI3Z8TFmCUPc/afKdGTv0mAqG2z
-         zBfnC6t385RGMBFKS0nQiovMCAcTo1acE0tZQVodRa15NJHJGeRCh0FmKAF5iieWSCkK
-         4XzQ==
-X-Gm-Message-State: AOAM532T2Y/6RMAekR9CY/wcQyvw1VP339jjiuPgRNYDn0mM6hMfpR40
-        KeagB/xKJ6CERvATp2vfdM70leQrZx9XdhhlB1ekwA==
-X-Google-Smtp-Source: ABdhPJxB/jw6V3td6QOKuKigva5CtXSzFp342x2xvFZDOKc4h+0SujvGiXQJ/XxNHUutJyV2Co4XVI+hSOLUiArgPVU=
-X-Received: by 2002:a17:906:38ce:: with SMTP id r14mr7278587ejd.268.1636446520068;
- Tue, 09 Nov 2021 00:28:40 -0800 (PST)
+        bh=YF0nJGr2F3cAY4yWpx0AziwiF6WyFVyJ2P8U7ZMBQ2k=;
+        b=VG912Y+pR3rfgyTJvUwPZdWMv0ly7BPK0NOLBHfbgvQvOPnhJqVEL2m9bctkodvbU3
+         fxzzaETPPyYn1TK+T7zqR07FUK0m+1wL0i6iF3EeI2ess5G1vaVVlnmm/pJmSGrkrBUb
+         jOyauIRXbHD/k6sZPMfX/1u2xEhnQkzmao/krZJPiPvMezdSYsBMJHP46Y5Aal8QD+Vq
+         uOUW/n/woxDnNNN/38uw/r/IlyoKIhO6Ctm8+B4GSu31zXhFp0EfdOFKW3uRn8BZ6R6f
+         gVdElxMzbNb7f/+pnzgVdiCGWERdFwaNSWtVFYzZDsGtjDduDbms3tOhILeo3KWSxHYt
+         T0Ig==
+X-Gm-Message-State: AOAM533vztPyZ3czkQvczESNtWS738trQUhv7kapMD6+cOZuaVIBJHwV
+        8Ht6AYgepS/gE8Pkkaf7504JD3v7HV1jZPBEZi0=
+X-Google-Smtp-Source: ABdhPJxUXsDlKLE4/vBP0zD1S+wpZ+CiVLOikj2CtG05js/EKJ0IaEtzXPWZAceSn8Lj9ydytAspFmr6LW1xwJj8ugg=
+X-Received: by 2002:a17:907:6e0b:: with SMTP id sd11mr7258908ejc.134.1636448157072;
+ Tue, 09 Nov 2021 00:55:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20211027132633.86653-1-ligang.bdlg@bytedance.com>
- <20211028153028.GP3891@suse.de> <b884ad7d-48d3-fcc8-d199-9e7643552a9a@bytedance.com>
- <20211029083751.GR3891@suse.de>
-In-Reply-To: <20211029083751.GR3891@suse.de>
-From:   =?UTF-8?B?5p2O5riv?= <ligang.bdlg@bytedance.com>
-Date:   Tue, 9 Nov 2021 16:28:28 +0800
-Message-ID: <CAMx52ARF1fVH9=YLQMjE=8ckKJ=q3X2-ovtKuQcoTyo564mQnQ@mail.gmail.com>
-Subject: Re: Re: Re: [PATCH v1] sched/numa: add per-process numa_balancing
-To:     Mel Gorman <mgorman@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        linux-api@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20211104195804.83240-1-posk@google.com>
+In-Reply-To: <20211104195804.83240-1-posk@google.com>
+From:   Barry Song <21cnbao@gmail.com>
+Date:   Tue, 9 Nov 2021 21:55:45 +1300
+Message-ID: <CAGsJ_4xRcu1P9EV0-9GF00n7Cg0=0=NRQ8dj1EAe4OZotWWfbQ@mail.gmail.com>
+Subject: Re: [PATCH v0.8 0/6] sched,mm,x86/uaccess: implement User Managed
+ Concurrency Groups
+To:     posk@posk.io
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-api@vger.kernel.org,
+        Paul Turner <pjt@google.com>, Ben Segall <bsegall@google.com>,
+        Peter Oskolkov <posk@google.com>,
+        Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
+        Thierry Delisle <tdelisle@uwaterloo.ca>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi, sorry for the late reply.
-
-On Fri, Oct 29, 2021 at 4:37 PM Mel Gorman <mgorman@suse.de> wrote:
+On Fri, Nov 5, 2021 at 8:58 AM Peter Oskolkov <posk@posk.io> wrote:
 >
-> My point is that as it stands,
-> prctl(PR_NUMA_BALANCING,PR_SET_NUMA_BALANCING,1) either does nothing or
-> fails. If per-process numa balancing is to be introduced, it should have
-> meaning with the global tuning affecting default behaviour and the prctl
-> affecting specific behaviour.
+> User Managed Concurrency Groups (UMCG) is an M:N threading
+> subsystem/toolkit that lets user space application developers implement
+> in-process user space schedulers.
+>
+> Key changes from the previous patchset
+> https://lore.kernel.org/all/20211012232522.714898-1-posk@google.com/:
+>
+> - added libumcg tools/lib/umcg;
+> - worker "wakeup" is reworked so that it is now purely a userspace op,
+>   instead of waking the thread in order for it to block on return
+>   to the userspace immediately;
+> - a couple of minor fixes and refactorings.
+>
+> These big things remain to be addressed (in no particular order):
+> - support tracing/debugging
+> - make context switches faster (see umcg_do_context_switch in umcg.c)
+> - support other architectures
+> - cleanup and post selftests in tools/testing/selftests/umcg/
+> - allow cross-mm wakeups (securely)
+>
+>
+> Peter Oskolkov (6):
+>   sched/umcg: add WF_CURRENT_CPU and externise ttwu
+>   mm, x86/uaccess: add userspace atomic helpers
+>   sched/umcg: implement UMCG syscalls
+>   sched/umcg, lib/umcg: implement libumcg
+>   sched/umcg: add Documentation/userspace-api/umcg.txt
+>   sched/umcg, lib/umcg: add tools/lib/umcg/libumcg.txt
+
+Hi Peter,
+Do you have a real workload or an example application using UMCG?
+
+>
+>  Documentation/userspace-api/umcg.txt   |  598 ++++++++++++
+>  arch/x86/entry/syscalls/syscall_64.tbl |    2 +
+>  arch/x86/include/asm/uaccess_64.h      |   93 ++
+>  fs/exec.c                              |    1 +
+>  include/linux/sched.h                  |   71 ++
+>  include/linux/syscalls.h               |    3 +
+>  include/linux/uaccess.h                |   46 +
+>  include/uapi/asm-generic/unistd.h      |    6 +-
+>  include/uapi/linux/umcg.h              |  137 +++
+>  init/Kconfig                           |   10 +
+>  kernel/entry/common.c                  |    4 +-
+>  kernel/exit.c                          |    5 +
+>  kernel/sched/Makefile                  |    1 +
+>  kernel/sched/core.c                    |   12 +-
+>  kernel/sched/fair.c                    |    4 +
+>  kernel/sched/sched.h                   |   15 +-
+>  kernel/sched/umcg.c                    |  949 +++++++++++++++++++
+>  kernel/sys_ni.c                        |    4 +
+>  mm/maccess.c                           |  264 ++++++
+>  tools/lib/umcg/.gitignore              |    4 +
+>  tools/lib/umcg/Makefile                |   11 +
+>  tools/lib/umcg/libumcg.c               | 1201 ++++++++++++++++++++++++
+>  tools/lib/umcg/libumcg.h               |  299 ++++++
+>  tools/lib/umcg/libumcg.txt             |  438 +++++++++
+>  24 files changed, 4166 insertions(+), 12 deletions(-)
+>  create mode 100644 Documentation/userspace-api/umcg.txt
+>  create mode 100644 include/uapi/linux/umcg.h
+>  create mode 100644 kernel/sched/umcg.c
+>  create mode 100644 tools/lib/umcg/.gitignore
+>  create mode 100644 tools/lib/umcg/Makefile
+>  create mode 100644 tools/lib/umcg/libumcg.c
+>  create mode 100644 tools/lib/umcg/libumcg.h
+>  create mode 100644 tools/lib/umcg/libumcg.txt
+>
+>
+> base-commit: 8ea9183db4ad8afbcb7089a77c23eaf965b0cacd
+> --
+> 2.25.1
 >
 
-If the global tuning affects default behaviour and the prctl
-affects specific behaviour.  Then when prctl specifies
-numa_balancing for a process, there is no way for the
-global tuning to affect that process. In other words, global tuning
-become a default value, not a switch for global numa_balancing.
-
-My idea is that the global numa_balancning still has absolute control, and prctl
-can only optionally turn off numa_balancing for process when the global is on.
-After all, It is more common to enable global numa_balancing and disable it in
-several processes than to disable global numa_balancing and enable it in
-several processes.
-
-This is my personal opinion, what do you think.
-:-)
-
-Do we need the global to be a switch, or a default value?
+Thanks
+Barry
