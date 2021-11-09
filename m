@@ -2,147 +2,114 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EF7744A9C4
-	for <lists+linux-api@lfdr.de>; Tue,  9 Nov 2021 09:56:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7620544AA75
+	for <lists+linux-api@lfdr.de>; Tue,  9 Nov 2021 10:19:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238899AbhKII6o (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 9 Nov 2021 03:58:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37038 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236483AbhKII6o (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 9 Nov 2021 03:58:44 -0500
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75A95C061764;
-        Tue,  9 Nov 2021 00:55:58 -0800 (PST)
-Received: by mail-ed1-x52f.google.com with SMTP id ee33so74086486edb.8;
-        Tue, 09 Nov 2021 00:55:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YF0nJGr2F3cAY4yWpx0AziwiF6WyFVyJ2P8U7ZMBQ2k=;
-        b=Rd9tJkCsqFqsA1uFdxPhnYdcOJssqFpCCo9AOZ2RpFr6zA3rc+Lr+XL6yoYY0J+x/l
-         10K/j3jaHl4yd4Fi9YsIdkVK5lKvicLxe4z2YsnzWkIu4u375S0qlOvqb9m36w1gq9PT
-         c4T6dZFiGrGyrsl4Ttx2SVax4CIbUEK8otiLMZnAFVCLYJy7wDduhp9egcd/VK5qEFqm
-         XbJwq5hhMRkZdF4kfabHK+a4q+CGVh8pXVOgXH6pzPRKoBJZtjMWLQDmtoE9eWn/zoui
-         52UYC9rOIQqaWVchhIbtvjSyxAddEiacXS8hX7cSLMrXbqQmR8N+2oZBy8qotC7pBIJb
-         J2tA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YF0nJGr2F3cAY4yWpx0AziwiF6WyFVyJ2P8U7ZMBQ2k=;
-        b=VG912Y+pR3rfgyTJvUwPZdWMv0ly7BPK0NOLBHfbgvQvOPnhJqVEL2m9bctkodvbU3
-         fxzzaETPPyYn1TK+T7zqR07FUK0m+1wL0i6iF3EeI2ess5G1vaVVlnmm/pJmSGrkrBUb
-         jOyauIRXbHD/k6sZPMfX/1u2xEhnQkzmao/krZJPiPvMezdSYsBMJHP46Y5Aal8QD+Vq
-         uOUW/n/woxDnNNN/38uw/r/IlyoKIhO6Ctm8+B4GSu31zXhFp0EfdOFKW3uRn8BZ6R6f
-         gVdElxMzbNb7f/+pnzgVdiCGWERdFwaNSWtVFYzZDsGtjDduDbms3tOhILeo3KWSxHYt
-         T0Ig==
-X-Gm-Message-State: AOAM533vztPyZ3czkQvczESNtWS738trQUhv7kapMD6+cOZuaVIBJHwV
-        8Ht6AYgepS/gE8Pkkaf7504JD3v7HV1jZPBEZi0=
-X-Google-Smtp-Source: ABdhPJxUXsDlKLE4/vBP0zD1S+wpZ+CiVLOikj2CtG05js/EKJ0IaEtzXPWZAceSn8Lj9ydytAspFmr6LW1xwJj8ugg=
-X-Received: by 2002:a17:907:6e0b:: with SMTP id sd11mr7258908ejc.134.1636448157072;
- Tue, 09 Nov 2021 00:55:57 -0800 (PST)
+        id S243418AbhKIJWn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 9 Nov 2021 04:22:43 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:38126 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237882AbhKIJWm (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 9 Nov 2021 04:22:42 -0500
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id AA69221B00;
+        Tue,  9 Nov 2021 09:19:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1636449595; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=VoQShqrcwMMqCYR87MExPor8l+jSneq67M2Mu0n4wrs=;
+        b=brU2ckUAzDP9fY6EgbYi7+Z8zMVdlLDMoZeLW418r0Rdhxtdsb5rHDuAeCtLPyuvpn0gdu
+        PZ8VU4wtHr3JCzG1w/1pBMDvC0zZwApT0yVg/NCzIms3zyYyAM44zzQCY7FooAClUkuJhx
+        Zs04Dgo8H+MRYyAo32fpGragKOMGV6M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1636449595;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=VoQShqrcwMMqCYR87MExPor8l+jSneq67M2Mu0n4wrs=;
+        b=nA9UNAuEOKWz7kpODy4vpSFxr1zRLBEmxm7gjQjkFzPXkOVXgfAIKsZHX0gglsSOkKTI/4
+        0vssiUI+Brc7NeDA==
+Received: from suse.de (unknown [10.163.32.246])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 0AF12A3B85;
+        Tue,  9 Nov 2021 09:19:53 +0000 (UTC)
+Date:   Tue, 9 Nov 2021 09:19:51 +0000
+From:   Mel Gorman <mgorman@suse.de>
+To:     ?????? <ligang.bdlg@bytedance.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        linux-api@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: Re: Re: [PATCH v1] sched/numa: add per-process numa_balancing
+Message-ID: <20211109091951.GW3891@suse.de>
+References: <20211027132633.86653-1-ligang.bdlg@bytedance.com>
+ <20211028153028.GP3891@suse.de>
+ <b884ad7d-48d3-fcc8-d199-9e7643552a9a@bytedance.com>
+ <20211029083751.GR3891@suse.de>
+ <CAMx52ARF1fVH9=YLQMjE=8ckKJ=q3X2-ovtKuQcoTyo564mQnQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20211104195804.83240-1-posk@google.com>
-In-Reply-To: <20211104195804.83240-1-posk@google.com>
-From:   Barry Song <21cnbao@gmail.com>
-Date:   Tue, 9 Nov 2021 21:55:45 +1300
-Message-ID: <CAGsJ_4xRcu1P9EV0-9GF00n7Cg0=0=NRQ8dj1EAe4OZotWWfbQ@mail.gmail.com>
-Subject: Re: [PATCH v0.8 0/6] sched,mm,x86/uaccess: implement User Managed
- Concurrency Groups
-To:     posk@posk.io
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-api@vger.kernel.org,
-        Paul Turner <pjt@google.com>, Ben Segall <bsegall@google.com>,
-        Peter Oskolkov <posk@google.com>,
-        Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
-        Thierry Delisle <tdelisle@uwaterloo.ca>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+In-Reply-To: <CAMx52ARF1fVH9=YLQMjE=8ckKJ=q3X2-ovtKuQcoTyo564mQnQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Nov 5, 2021 at 8:58 AM Peter Oskolkov <posk@posk.io> wrote:
->
-> User Managed Concurrency Groups (UMCG) is an M:N threading
-> subsystem/toolkit that lets user space application developers implement
-> in-process user space schedulers.
->
-> Key changes from the previous patchset
-> https://lore.kernel.org/all/20211012232522.714898-1-posk@google.com/:
->
-> - added libumcg tools/lib/umcg;
-> - worker "wakeup" is reworked so that it is now purely a userspace op,
->   instead of waking the thread in order for it to block on return
->   to the userspace immediately;
-> - a couple of minor fixes and refactorings.
->
-> These big things remain to be addressed (in no particular order):
-> - support tracing/debugging
-> - make context switches faster (see umcg_do_context_switch in umcg.c)
-> - support other architectures
-> - cleanup and post selftests in tools/testing/selftests/umcg/
-> - allow cross-mm wakeups (securely)
->
->
-> Peter Oskolkov (6):
->   sched/umcg: add WF_CURRENT_CPU and externise ttwu
->   mm, x86/uaccess: add userspace atomic helpers
->   sched/umcg: implement UMCG syscalls
->   sched/umcg, lib/umcg: implement libumcg
->   sched/umcg: add Documentation/userspace-api/umcg.txt
->   sched/umcg, lib/umcg: add tools/lib/umcg/libumcg.txt
+On Tue, Nov 09, 2021 at 04:28:28PM +0800, ?????? wrote:
+> Hi, sorry for the late reply.
+> 
+> On Fri, Oct 29, 2021 at 4:37 PM Mel Gorman <mgorman@suse.de> wrote:
+> >
+> > My point is that as it stands,
+> > prctl(PR_NUMA_BALANCING,PR_SET_NUMA_BALANCING,1) either does nothing or
+> > fails. If per-process numa balancing is to be introduced, it should have
+> > meaning with the global tuning affecting default behaviour and the prctl
+> > affecting specific behaviour.
+> >
+> 
+> If the global tuning affects default behaviour and the prctl
+> affects specific behaviour.  Then when prctl specifies
+> numa_balancing for a process, there is no way for the
+> global tuning to affect that process.
 
-Hi Peter,
-Do you have a real workload or an example application using UMCG?
+Yes.
 
->
->  Documentation/userspace-api/umcg.txt   |  598 ++++++++++++
->  arch/x86/entry/syscalls/syscall_64.tbl |    2 +
->  arch/x86/include/asm/uaccess_64.h      |   93 ++
->  fs/exec.c                              |    1 +
->  include/linux/sched.h                  |   71 ++
->  include/linux/syscalls.h               |    3 +
->  include/linux/uaccess.h                |   46 +
->  include/uapi/asm-generic/unistd.h      |    6 +-
->  include/uapi/linux/umcg.h              |  137 +++
->  init/Kconfig                           |   10 +
->  kernel/entry/common.c                  |    4 +-
->  kernel/exit.c                          |    5 +
->  kernel/sched/Makefile                  |    1 +
->  kernel/sched/core.c                    |   12 +-
->  kernel/sched/fair.c                    |    4 +
->  kernel/sched/sched.h                   |   15 +-
->  kernel/sched/umcg.c                    |  949 +++++++++++++++++++
->  kernel/sys_ni.c                        |    4 +
->  mm/maccess.c                           |  264 ++++++
->  tools/lib/umcg/.gitignore              |    4 +
->  tools/lib/umcg/Makefile                |   11 +
->  tools/lib/umcg/libumcg.c               | 1201 ++++++++++++++++++++++++
->  tools/lib/umcg/libumcg.h               |  299 ++++++
->  tools/lib/umcg/libumcg.txt             |  438 +++++++++
->  24 files changed, 4166 insertions(+), 12 deletions(-)
->  create mode 100644 Documentation/userspace-api/umcg.txt
->  create mode 100644 include/uapi/linux/umcg.h
->  create mode 100644 kernel/sched/umcg.c
->  create mode 100644 tools/lib/umcg/.gitignore
->  create mode 100644 tools/lib/umcg/Makefile
->  create mode 100644 tools/lib/umcg/libumcg.c
->  create mode 100644 tools/lib/umcg/libumcg.h
->  create mode 100644 tools/lib/umcg/libumcg.txt
->
->
-> base-commit: 8ea9183db4ad8afbcb7089a77c23eaf965b0cacd
-> --
-> 2.25.1
->
+> In other words, global tuning
+> become a default value, not a switch for global numa_balancing.
+> 
 
-Thanks
-Barry
+Also yes. The global tuning becomes "all processes default to using NUMA
+balancing unless overridden by prctl".
+
+The main difficulty is that one task using prctl to enable NUMA balancing
+needs to enable the static branch so there is a small global hit.
+
+> My idea is that the global numa_balancning still has absolute control, and prctl
+> can only optionally turn off numa_balancing for process when the global is on.
+> After all, It is more common to enable global numa_balancing and disable it in
+> several processes than to disable global numa_balancing and enable it in
+> several processes.
+
+Then this comment would still apply
+
+ My point is that as it stands,
+ prctl(PR_NUMA_BALANCING,PR_SET_NUMA_BALANCING,1) either does nothing
+ or fails.
+
+While I think it's very likely that the common case will be to disable
+NUMA balancing for specific processes,
+prctl(PR_NUMA_BALANCING,PR_SET_NUMA_BALANCING,1) should still be
+meaningful.
+
+-- 
+Mel Gorman
+SUSE Labs
