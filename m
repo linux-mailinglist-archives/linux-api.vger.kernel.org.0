@@ -2,124 +2,112 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0EF844AE51
-	for <lists+linux-api@lfdr.de>; Tue,  9 Nov 2021 14:01:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2166544AE6B
+	for <lists+linux-api@lfdr.de>; Tue,  9 Nov 2021 14:05:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232970AbhKINDw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 9 Nov 2021 08:03:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37050 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230114AbhKINDv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 9 Nov 2021 08:03:51 -0500
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BE21C061766
-        for <linux-api@vger.kernel.org>; Tue,  9 Nov 2021 05:01:05 -0800 (PST)
-Received: by mail-ot1-x335.google.com with SMTP id h12-20020a056830034c00b0055c8458126fso11765476ote.0
-        for <linux-api@vger.kernel.org>; Tue, 09 Nov 2021 05:01:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=AVhXRNXWoG4nz7o/lke7pJRtR8Em/wWLZScBAGeMu9g=;
-        b=DHB7jYMFAcf8uxuqEmaiXy/5GRLxtMMekfIqso1iCTmp49IW45L24FBjFGGyKSePCZ
-         qY6TQM+giMtQYL0ICAQKCYzLN4kuPSiXtj1WSea1exnmC90E++Md7V0pTVfE0DSR30Fe
-         8fKImM9RXY0OtuOzlSR/p3uS1EPkkQbduaj1mm5X49vUJZ6X/ONFsD2PAjwtTSt6FdwD
-         RhoXS+mKWoSldUI1y+1oGRVnSuEyMBjfuI0vEy5jXkMyF9H6n9Ckm4GIq2DHgmXdalCU
-         kElObxXXD2ZibSav2qWgG2MVwoQ1v0ddtNFrhBJSrSua+HFjdIX98ozfHy96fMopSvCT
-         1i4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=AVhXRNXWoG4nz7o/lke7pJRtR8Em/wWLZScBAGeMu9g=;
-        b=lFWbTowE8oLqeW3I6xgCvQRLZ+rmunY4xazD94GHOe18KcuFJgl9pgW3rEXAgeQ/YS
-         b7cx1EVp8hvd5pUHE/5hV5bQNb2ATavBUtLlQlc0lQvkD90RyHctrtGD7bu10nN6B7au
-         Y4lisgvvDh4DPQguabTgWhXX5gBXVRUuLOG9WpX+DQ+0VF6XL72WivaToD8tvoWInYhW
-         I6SrgBV6Wl+ZfZ8t2UhIYa+/BNVR+6bfBeivgsmoW6nj89SObVOPPbjGNi8I0iSGcHwM
-         6WP8KB3pVVCxdzQ+H9cpSPGGuBZfWh6NGPEu5YGKQKz2L+qo7piLjLBhvivFCct9n8cu
-         HnMw==
-X-Gm-Message-State: AOAM530NSenS6sz/ktdf4y0DDkXT8OQEwTGwHvcJF37teNv/iWBW7Me/
-        IBIvokjMUg5DkneGuamQgZv00w==
-X-Google-Smtp-Source: ABdhPJzjmloI4njSsXKqibqtacip31c9IiXov8uX5GuzDD0N97lf9hVYIhmu6EH7+gsKEYFgDSL7Rw==
-X-Received: by 2002:a9d:f4a:: with SMTP id 68mr215156ott.327.1636462864405;
-        Tue, 09 Nov 2021 05:01:04 -0800 (PST)
-Received: from ?IPV6:2804:431:c7cb:55a:94d0:2630:9b29:e621? ([2804:431:c7cb:55a:94d0:2630:9b29:e621])
-        by smtp.gmail.com with ESMTPSA id k4sm7088764oic.48.2021.11.09.05.01.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Nov 2021 05:01:04 -0800 (PST)
-Message-ID: <e73b9309-b575-37b4-519c-d326b764cf38@linaro.org>
-Date:   Tue, 9 Nov 2021 10:00:59 -0300
+        id S240101AbhKINIY convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Tue, 9 Nov 2021 08:08:24 -0500
+Received: from mout.kundenserver.de ([212.227.126.135]:42413 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240104AbhKINIQ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 9 Nov 2021 08:08:16 -0500
+Received: from mail-wr1-f53.google.com ([209.85.221.53]) by
+ mrelayeu.kundenserver.de (mreue012 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1MYcy3-1nEpjv0UKZ-00VgZ9; Tue, 09 Nov 2021 14:05:28 +0100
+Received: by mail-wr1-f53.google.com with SMTP id s13so32913754wrb.3;
+        Tue, 09 Nov 2021 05:05:27 -0800 (PST)
+X-Gm-Message-State: AOAM531obU9zQxZLci0HZGouM7eA/pZPEgynIlxejLNVY4k9ZiZC3ZyY
+        B+XkAhvccXZzszj0gQGHtZNUEBxE73dF2XLXxJw=
+X-Google-Smtp-Source: ABdhPJw59Rmr+DMXszKBukNsUqZ3FsgOiqKQbSlqF8XuY+XgF6EW4Cq5VhV2Y1l1S7CXitxZ6DpXsOJS8z6kaIvCVpE=
+X-Received: by 2002:adf:df89:: with SMTP id z9mr8974988wrl.336.1636463127622;
+ Tue, 09 Nov 2021 05:05:27 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.1
-Subject: Re: [PATCH v2 20/22] selftests: futex: Test sys_futex_waitv() timeout
-Content-Language: en-US
-To:     =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>,
-        Vasily Gorbik <gor@linux.ibm.com>
-Cc:     Davidlohr Bueso <dave@stgolabs.net>, libc-alpha@sourceware.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        linux-api@vger.kernel.org,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>, mtk.manpages@gmail.com,
-        Darren Hart <dvhart@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>, kernel@collabora.com,
-        krisman@collabora.com
 References: <20210923171111.300673-1-andrealmeid@collabora.com>
- <20210923171111.300673-21-andrealmeid@collabora.com>
- <your-ad-here.call-01636456701-ext-5362@work.hours>
+ <20210923171111.300673-21-andrealmeid@collabora.com> <your-ad-here.call-01636456701-ext-5362@work.hours>
  <51bbfe74-33f6-bb92-3ce8-a22e4185820b@collabora.com>
-From:   Adhemerval Zanella <adhemerval.zanella@linaro.org>
 In-Reply-To: <51bbfe74-33f6-bb92-3ce8-a22e4185820b@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Tue, 9 Nov 2021 14:05:11 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a3T4qmZvags28bibibsyLBBLjsRQTGJqanLdcergxQTXQ@mail.gmail.com>
+Message-ID: <CAK8P3a3T4qmZvags28bibibsyLBBLjsRQTGJqanLdcergxQTXQ@mail.gmail.com>
+Subject: Re: [PATCH v2 20/22] selftests: futex: Test sys_futex_waitv() timeout
+To:     =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@collabora.com>
+Cc:     Vasily Gorbik <gor@linux.ibm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Collabora kernel ML <kernel@collabora.com>,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        GNU C Library <libc-alpha@sourceware.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Provags-ID: V03:K1:j1y24ZLQaCxUnwIlX4UkGzpcQwqR0k9vJ7BzTd4TvS4BhotMlOC
+ dLh9ehv+pKrnceNqMg4UWmtbtGXGXBMlUoXMErYIKABldKOPM08rnx4R7jZufLwY1NaodP3
+ d1rsCDC0rjd5JmgydQKTeIjOaqPgtcqpqGudAdmwtdfeI03ZZ8ixBoY+eJQWoQa4X3Xds1G
+ kEC9WKv/46/Ow+Xv0fVog==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:eFU4pS+yBGA=:0DD8DEJVG7L4LNan7gz6Od
+ ZeJFhjshpJTNml5IVCZj1pXCUd2FCWg0i2N7+OszY5zX8aaOfFLLOfgw4PKfD0s84VXtFTWMQ
+ DR8p2yuD+tTVIxGy4YMslHVXE78O81JeuqePSSlYCztLAQLdFmFApRSwJq1yN7AMjqcl8sP7D
+ SG0OwWyqtUtTp1Vz5+BWgGIXsJwsZhKAH8kxh4KGY3plFo0iQb5YmuqM+hzJpqWGu3gsR/io/
+ g+nsdwbWrZ8dH0D8pLa0hCwJpWdd31H9PmGEqxXt1bxL6kvaa9uWkA8zVzZyYGWNouxAgHG8b
+ MtU8N4khoWL/glgUGJpqdOQaBHy5C/Y/XSayLKtsq/lU8nz6y/ZUYxa6MdKPiInBUJ+99j+sA
+ U/3fZXBpIo4+UGUFy5fL9H6PNwyaTaArUn0Q9X+zGjuz6TdU52mDyGmmxiUB6XjWW0lP3SzJe
+ fovHV/j0ZXR6XBFGOIeioTgNqXcRfR/SRbB/Ko7WU92N8rRwn642876pgwnRIpGveOAW5JOb4
+ j8yp0v5spJHyd/OGiTM4IaKsatXjTwESOA9tr/y4ukzUQaaxZkdsfFhDXw/jbmu8YIZe8MjJl
+ XXnGdXYv8D1gUWG5NrwJ1qibQnC+cFkKBCLbeVooG94/++1Ktea5sv+RQOPXjm43K8F84qGf4
+ zxBJmcG1K0AHBHRKZRuCJeEBorcFifDFVxjJHC99fFnHB7nM5uSoWHGqpc/ffRPWqlXRGUeEH
+ HSkSsJSmgNXGhPmXi8BQ3WhKqcPx06bEIcj4u3oTGgPFbaXhR6uupZCEKVHfatIsw0cqx6wjt
+ 7NGBvT5LOxtG1vm72lV4p5c4SA21EtQHveIg/lAwPWkj/OkCYM=
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-
-
-On 09/11/2021 09:52, André Almeida via Libc-alpha wrote:
-> Hi Vasily,
-> 
+On Tue, Nov 9, 2021 at 1:52 PM André Almeida <andrealmeid@collabora.com> wrote:
 > Às 08:18 de 09/11/21, Vasily Gorbik escreveu:
->> On Thu, Sep 23, 2021 at 02:11:09PM -0300, André Almeida wrote:
->>> Test if the futex_waitv timeout is working as expected, using the
->>> supported clockid options.
->>
->>> +	/* futex_waitv with CLOCK_MONOTONIC */
->>> +	if (futex_get_abs_timeout(CLOCK_MONOTONIC, &to, timeout_ns))
->>> +		return RET_FAIL;
->>> +	res = futex_waitv(&waitv, 1, 0, &to, CLOCK_MONOTONIC);
->>> +	test_timeout(res, &ret, "futex_waitv monotonic", ETIMEDOUT);
->>> +
->>> +	/* futex_waitv with CLOCK_REALTIME */
->>> +	if (futex_get_abs_timeout(CLOCK_REALTIME, &to, timeout_ns))
->>> +		return RET_FAIL;
->>> +	res = futex_waitv(&waitv, 1, 0, &to, CLOCK_REALTIME);
->>> +	test_timeout(res, &ret, "futex_waitv realtime", ETIMEDOUT);
->>
->> Hi André,
->>
->> when built with -m32 and run as compat this two futex_waitv calls hang
->> on x86 and s390 (noticed while wiring up futex_waitv). The rest of the
->> futex selftests pass. This suggests some common compat issue? Any ideas?
-> 
+> > On Thu, Sep 23, 2021 at 02:11:09PM -0300, André Almeida wrote:
+> >> Test if the futex_waitv timeout is working as expected, using the
+> >> supported clockid options.
+> >
+> >> +    /* futex_waitv with CLOCK_MONOTONIC */
+> >> +    if (futex_get_abs_timeout(CLOCK_MONOTONIC, &to, timeout_ns))
+> >> +            return RET_FAIL;
+> >> +    res = futex_waitv(&waitv, 1, 0, &to, CLOCK_MONOTONIC);
+> >> +    test_timeout(res, &ret, "futex_waitv monotonic", ETIMEDOUT);
+> >> +
+> >> +    /* futex_waitv with CLOCK_REALTIME */
+> >> +    if (futex_get_abs_timeout(CLOCK_REALTIME, &to, timeout_ns))
+> >> +            return RET_FAIL;
+> >> +    res = futex_waitv(&waitv, 1, 0, &to, CLOCK_REALTIME);
+> >> +    test_timeout(res, &ret, "futex_waitv realtime", ETIMEDOUT);
+> >
+> > Hi André,
+> >
+> > when built with -m32 and run as compat this two futex_waitv calls hang
+> > on x86 and s390 (noticed while wiring up futex_waitv). The rest of the
+> > futex selftests pass. This suggests some common compat issue? Any ideas?
+>
 > The issue is that futex_waitv() only accepts struct timespec that uses
 > 64bit members. When using -m32, glibc will give you a 32bit timespec,
 > thus the timeout won't wort. Someday glibc will provide 64bit timespec
 > to 32bit userspace, given that this is affected by y2038 bug.
 
-We do since glibc 2.34, but you need to opt-in by defining -D_TIME_SIZE=64.
-The default might change in a future release, so hopefully we will have
-both LFS and 64-bit as the default ABI.
+I think in the latest glibc you should be able to pass -D_TIME_BITS=64 to
+the compiler to get the correct definition. Unfortunately, this only works
+for simple test cases, but breaks if you call any interfaces from another
+(non-glibc) library that depend on a particular time_t definition.
 
-> 
-> In previous submissions I added a workaround for that in the
-> selftest[0]. Search for "Y2038 section for 32-bit applications" in that
-> link. I'll submit something like that for futex_waitv() timeout test.
-> 
-> [0]
-> https://lore.kernel.org/lkml/20210709001328.329716-6-andrealmeid@collabora.com/
-> 
+Alistair Francis also recently posted a set of helpers for the old futex()
+call to make that easier to use from applications regardless of the libc
+interface. I think it would be good to have this for futex_waitv() as well.
+
+       Arnd
