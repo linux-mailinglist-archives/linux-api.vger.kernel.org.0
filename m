@@ -2,112 +2,140 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2166544AE6B
-	for <lists+linux-api@lfdr.de>; Tue,  9 Nov 2021 14:05:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 187DF44AF1A
+	for <lists+linux-api@lfdr.de>; Tue,  9 Nov 2021 14:58:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240101AbhKINIY convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Tue, 9 Nov 2021 08:08:24 -0500
-Received: from mout.kundenserver.de ([212.227.126.135]:42413 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240104AbhKINIQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 9 Nov 2021 08:08:16 -0500
-Received: from mail-wr1-f53.google.com ([209.85.221.53]) by
- mrelayeu.kundenserver.de (mreue012 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MYcy3-1nEpjv0UKZ-00VgZ9; Tue, 09 Nov 2021 14:05:28 +0100
-Received: by mail-wr1-f53.google.com with SMTP id s13so32913754wrb.3;
-        Tue, 09 Nov 2021 05:05:27 -0800 (PST)
-X-Gm-Message-State: AOAM531obU9zQxZLci0HZGouM7eA/pZPEgynIlxejLNVY4k9ZiZC3ZyY
-        B+XkAhvccXZzszj0gQGHtZNUEBxE73dF2XLXxJw=
-X-Google-Smtp-Source: ABdhPJw59Rmr+DMXszKBukNsUqZ3FsgOiqKQbSlqF8XuY+XgF6EW4Cq5VhV2Y1l1S7CXitxZ6DpXsOJS8z6kaIvCVpE=
-X-Received: by 2002:adf:df89:: with SMTP id z9mr8974988wrl.336.1636463127622;
- Tue, 09 Nov 2021 05:05:27 -0800 (PST)
-MIME-Version: 1.0
-References: <20210923171111.300673-1-andrealmeid@collabora.com>
- <20210923171111.300673-21-andrealmeid@collabora.com> <your-ad-here.call-01636456701-ext-5362@work.hours>
- <51bbfe74-33f6-bb92-3ce8-a22e4185820b@collabora.com>
-In-Reply-To: <51bbfe74-33f6-bb92-3ce8-a22e4185820b@collabora.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Tue, 9 Nov 2021 14:05:11 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a3T4qmZvags28bibibsyLBBLjsRQTGJqanLdcergxQTXQ@mail.gmail.com>
-Message-ID: <CAK8P3a3T4qmZvags28bibibsyLBBLjsRQTGJqanLdcergxQTXQ@mail.gmail.com>
-Subject: Re: [PATCH v2 20/22] selftests: futex: Test sys_futex_waitv() timeout
-To:     =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@collabora.com>
-Cc:     Vasily Gorbik <gor@linux.ibm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
+        id S236757AbhKIOB2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 9 Nov 2021 09:01:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50052 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236631AbhKIOB1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 9 Nov 2021 09:01:27 -0500
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A029EC061766
+        for <linux-api@vger.kernel.org>; Tue,  9 Nov 2021 05:58:41 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id g19so13580406pfb.8
+        for <linux-api@vger.kernel.org>; Tue, 09 Nov 2021 05:58:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=from:subject:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Y30tES1mRbobBQ+m/yFfcYggfkhOFouTPN0eCLqdkac=;
+        b=Uxmdf4znCpTXGzwMRB/AMMCqss7/LZk+9jxusKZRrq3r5+Tb+7PwY3/Uz+yuixUuTc
+         a7KF+nrZAsxO0ezbYvMvahzD9nRoKh1K1Y1fhWIYzbjkVQNwkF1Ldmtg7D7xKs02Bx1I
+         +2Qzciv5ZLtEFIgXWj5hLSZStRi/GVrOhKefP5n/45RUXE4BVstirUAKlQSzaIJXE8Mq
+         vOrCFmoZzUJaJnuqw3nYonp0nWKmW4aN55IH3I6CW3GGxxPXkU8syNSvsXMgoAqw69r5
+         efJwpH4k6IteCT9DfyhNnHVnPdsfftpuObaExxMpZ/URQma3NEkYdYudn92CR7TZgE7B
+         hKqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Y30tES1mRbobBQ+m/yFfcYggfkhOFouTPN0eCLqdkac=;
+        b=BeCyHP1XFZFyKHxksPJDhcjmPetQUClePiOaEVwOKpiXttXtWktiayxEwsD/t1g3KP
+         WNimtAbGQ/9o05Wtt38MjGb8ehsfelE3ZubgqYiqoDRhl9ozuCVWFOjYL4Q3bqZ3FNmE
+         zqxIK7rG5J3u7JjGOP2bC8pPD9uL90JW8zh9+YVljNnzqywApyr5pEE8M75iw4xQcxl4
+         Ogm+dv2YEJMsiTCqi9dUqi9CGtT8qJ+n80gThyDreOk4nGPkWja4VQ9OHgGRAqpCFCJv
+         sEok37y2rGnmKNgZ/2AVLbBjQM1stBuCUuIpHxVeOY/n7JQyR5Sk+7uYm6ubaV3Ca1W0
+         BZiQ==
+X-Gm-Message-State: AOAM532qLln9CPCNAFQY6vXEWcRYH/+6Bfq71J37xnc2xRikSYJJuqX+
+        dGNRDgeM5CuLcxwDUGPP6rfEiA==
+X-Google-Smtp-Source: ABdhPJzWFlZcFbzZsn65SN5dY7OVkgY7rcUmnQO3V4I/9mqB60l/OLip0qZ0tcw0tPBNnSncs09/Uw==
+X-Received: by 2002:a63:9042:: with SMTP id a63mr5939760pge.345.1636466321161;
+        Tue, 09 Nov 2021 05:58:41 -0800 (PST)
+Received: from [10.254.105.98] ([139.177.225.240])
+        by smtp.gmail.com with ESMTPSA id p3sm18854221pfb.205.2021.11.09.05.58.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Nov 2021 05:58:40 -0800 (PST)
+From:   Gang Li <ligang.bdlg@bytedance.com>
+Subject: Re: Re: Re: Re: Re: [PATCH v1] sched/numa: add per-process
+ numa_balancing
+To:     Mel Gorman <mgorman@suse.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
         Steven Rostedt <rostedt@goodmis.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Collabora kernel ML <kernel@collabora.com>,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        GNU C Library <libc-alpha@sourceware.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Provags-ID: V03:K1:j1y24ZLQaCxUnwIlX4UkGzpcQwqR0k9vJ7BzTd4TvS4BhotMlOC
- dLh9ehv+pKrnceNqMg4UWmtbtGXGXBMlUoXMErYIKABldKOPM08rnx4R7jZufLwY1NaodP3
- d1rsCDC0rjd5JmgydQKTeIjOaqPgtcqpqGudAdmwtdfeI03ZZ8ixBoY+eJQWoQa4X3Xds1G
- kEC9WKv/46/Ow+Xv0fVog==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:eFU4pS+yBGA=:0DD8DEJVG7L4LNan7gz6Od
- ZeJFhjshpJTNml5IVCZj1pXCUd2FCWg0i2N7+OszY5zX8aaOfFLLOfgw4PKfD0s84VXtFTWMQ
- DR8p2yuD+tTVIxGy4YMslHVXE78O81JeuqePSSlYCztLAQLdFmFApRSwJq1yN7AMjqcl8sP7D
- SG0OwWyqtUtTp1Vz5+BWgGIXsJwsZhKAH8kxh4KGY3plFo0iQb5YmuqM+hzJpqWGu3gsR/io/
- g+nsdwbWrZ8dH0D8pLa0hCwJpWdd31H9PmGEqxXt1bxL6kvaa9uWkA8zVzZyYGWNouxAgHG8b
- MtU8N4khoWL/glgUGJpqdOQaBHy5C/Y/XSayLKtsq/lU8nz6y/ZUYxa6MdKPiInBUJ+99j+sA
- U/3fZXBpIo4+UGUFy5fL9H6PNwyaTaArUn0Q9X+zGjuz6TdU52mDyGmmxiUB6XjWW0lP3SzJe
- fovHV/j0ZXR6XBFGOIeioTgNqXcRfR/SRbB/Ko7WU92N8rRwn642876pgwnRIpGveOAW5JOb4
- j8yp0v5spJHyd/OGiTM4IaKsatXjTwESOA9tr/y4ukzUQaaxZkdsfFhDXw/jbmu8YIZe8MjJl
- XXnGdXYv8D1gUWG5NrwJ1qibQnC+cFkKBCLbeVooG94/++1Ktea5sv+RQOPXjm43K8F84qGf4
- zxBJmcG1K0AHBHRKZRuCJeEBorcFifDFVxjJHC99fFnHB7nM5uSoWHGqpc/ffRPWqlXRGUeEH
- HSkSsJSmgNXGhPmXi8BQ3WhKqcPx06bEIcj4u3oTGgPFbaXhR6uupZCEKVHfatIsw0cqx6wjt
- 7NGBvT5LOxtG1vm72lV4p5c4SA21EtQHveIg/lAwPWkj/OkCYM=
+        Ben Segall <bsegall@google.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        linux-api@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20211027132633.86653-1-ligang.bdlg@bytedance.com>
+ <20211028153028.GP3891@suse.de>
+ <b884ad7d-48d3-fcc8-d199-9e7643552a9a@bytedance.com>
+ <20211029083751.GR3891@suse.de>
+ <CAMx52ARF1fVH9=YLQMjE=8ckKJ=q3X2-ovtKuQcoTyo564mQnQ@mail.gmail.com>
+ <20211109091951.GW3891@suse.de>
+ <7de25e1b-e548-b8b5-dda5-6a2e001f3c1a@bytedance.com>
+ <20211109121222.GX3891@suse.de>
+Message-ID: <117d5b88-b62b-f50b-32ff-1a9fe35b9e2e@bytedance.com>
+Date:   Tue, 9 Nov 2021 21:58:34 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <20211109121222.GX3891@suse.de>
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Nov 9, 2021 at 1:52 PM André Almeida <andrealmeid@collabora.com> wrote:
-> Às 08:18 de 09/11/21, Vasily Gorbik escreveu:
-> > On Thu, Sep 23, 2021 at 02:11:09PM -0300, André Almeida wrote:
-> >> Test if the futex_waitv timeout is working as expected, using the
-> >> supported clockid options.
-> >
-> >> +    /* futex_waitv with CLOCK_MONOTONIC */
-> >> +    if (futex_get_abs_timeout(CLOCK_MONOTONIC, &to, timeout_ns))
-> >> +            return RET_FAIL;
-> >> +    res = futex_waitv(&waitv, 1, 0, &to, CLOCK_MONOTONIC);
-> >> +    test_timeout(res, &ret, "futex_waitv monotonic", ETIMEDOUT);
-> >> +
-> >> +    /* futex_waitv with CLOCK_REALTIME */
-> >> +    if (futex_get_abs_timeout(CLOCK_REALTIME, &to, timeout_ns))
-> >> +            return RET_FAIL;
-> >> +    res = futex_waitv(&waitv, 1, 0, &to, CLOCK_REALTIME);
-> >> +    test_timeout(res, &ret, "futex_waitv realtime", ETIMEDOUT);
-> >
-> > Hi André,
-> >
-> > when built with -m32 and run as compat this two futex_waitv calls hang
-> > on x86 and s390 (noticed while wiring up futex_waitv). The rest of the
-> > futex selftests pass. This suggests some common compat issue? Any ideas?
->
-> The issue is that futex_waitv() only accepts struct timespec that uses
-> 64bit members. When using -m32, glibc will give you a 32bit timespec,
-> thus the timeout won't wort. Someday glibc will provide 64bit timespec
-> to 32bit userspace, given that this is affected by y2038 bug.
+On 11/9/21 8:12 PM, Mel Gorman wrote:
+> 
+> That would be a policy decision on how existing tasks should be tuned
+> if NUMA balancing is enabled at runtime after being disabled at boot
+> (or some arbitrary time in the past). Introducing the prctl does mean
+> that there is a semantic change for the runtime enabling/disabling
+> of NUMA balancing because previously, enabling global balancing affects
+> existing tasks and with prctl, it affects only future tasks. It could
+> be handled in the sysctl to some exist
+> 
+> 0. Disable for all but prctl specifications
+> 1. Enable for all tasks unless disabled by prctl
+> 2. Ignore all existing tasks, enable for future tasks
+> 
+> While this is more legwork, it makes more sense as an interface than
+> prctl(PR_NUMA_BALANCING,PR_SET_NUMA_BALANCING,1) failing if global
+> NUMA balancing is disabled.
+> 
 
-I think in the latest glibc you should be able to pass -D_TIME_BITS=64 to
-the compiler to get the correct definition. Unfortunately, this only works
-for simple test cases, but breaks if you call any interfaces from another
-(non-glibc) library that depend on a particular time_t definition.
+Why prctl(PR_NUMA_BALANCING,PR_SET_NUMA_BALANCING,1) must work while 
+global numa_balancing is disabled? No offense, I think that is a bit 
+redundant. And it's complicated to implement.
 
-Alistair Francis also recently posted a set of helpers for the old futex()
-call to make that easier to use from applications regardless of the libc
-interface. I think it would be good to have this for futex_waitv() as well.
+It's hard for me to understand the whole vision of your idea. I'm very 
+sorry. Can you explain your full thoughts more specifically?
 
-       Arnd
+----------------------------------------------------
+
+Also in case of misunderstanding, let me re-explain my patch using 
+circuit diagram.
+
+Before my patch, there is only one switch to control numa_balancing.
+
+             ______process1_
+...____/ __|______process2_|__...
+            |______process3_|
+
+        |
+     global numa_balancing
+
+After my patch, we can selectively disable numa_balancing for processes.
+And global switch has a high priority.
+
+             __/ __process1_
+...____/ __|__/ __process2_|__...
+            |__/ __process3_|
+
+        |       |
+     global  per-process
+
+Why global numa_balancing has high priority? There are two reasons:
+1. numa_balancing is useful to most processes, so there is no need to 
+consider how to enable numa_balancing for a few processes while 
+disabling it globally.
+2. It is easy to implement. The more we think, the more complex the code 
+becomes.
