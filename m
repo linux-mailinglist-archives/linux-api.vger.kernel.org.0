@@ -2,59 +2,96 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6203244D122
-	for <lists+linux-api@lfdr.de>; Thu, 11 Nov 2021 06:06:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8750A44D3EE
+	for <lists+linux-api@lfdr.de>; Thu, 11 Nov 2021 10:20:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229779AbhKKFJ3 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Thu, 11 Nov 2021 00:09:29 -0500
-Received: from host-200-90-157-143.netpc.ec ([200.90.157.143]:52258 "EHLO
-        mail.gruponetpc.com" rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org
-        with ESMTP id S229637AbhKKFJ3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 11 Nov 2021 00:09:29 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by mail.gruponetpc.com (Postfix) with ESMTP id 717F0E0FE46;
-        Wed, 10 Nov 2021 08:37:24 -0500 (-05)
-Received: from mail.gruponetpc.com ([127.0.0.1])
-        by localhost (mail.gruponetpc.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id OJ7LEOsquelg; Wed, 10 Nov 2021 08:37:23 -0500 (-05)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.gruponetpc.com (Postfix) with ESMTP id 99D17866AD8;
-        Tue,  9 Nov 2021 22:22:05 -0500 (-05)
-X-Virus-Scanned: amavisd-new at gruponetpc.com
-Received: from mail.gruponetpc.com ([127.0.0.1])
-        by localhost (mail.gruponetpc.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 04PNi1RaVwBz; Tue,  9 Nov 2021 22:22:04 -0500 (-05)
-Received: from [192.168.0.108] (unknown [93.182.105.113])
-        by mail.gruponetpc.com (Postfix) with ESMTPSA id 5E199866AC4;
-        Tue,  9 Nov 2021 15:25:17 -0500 (-05)
-Content-Type: text/plain; charset="utf-8"
+        id S232431AbhKKJX2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 11 Nov 2021 04:23:28 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:39030 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231576AbhKKJX1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 11 Nov 2021 04:23:27 -0500
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 553FD21B35;
+        Thu, 11 Nov 2021 09:20:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1636622437; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=VKcDr2fKCQCckd3lBGavIW/Vf9CpVRyHsHkDbRYBxl4=;
+        b=KPkrH2PbhZsBvSh275iz8ij3LnsQNcUkX8VhPI9+7SbFZKgx6+tXzz6Zv1yL7Qj80WxH0M
+        +vuuVBq75iQHbByg/cH50cnIwEBFMEaWmCIBiaXhbpt7IUFlYUZR8N1cRqdHf5YJt0en0s
+        mrodPCnwLfpm4N6p1p1ACTlkJsY7B+k=
+Received: from suse.cz (unknown [10.100.201.86])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 03AABA3BF2;
+        Thu, 11 Nov 2021 09:20:36 +0000 (UTC)
+Date:   Thu, 11 Nov 2021 10:20:36 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Christian Brauner <christian@brauner.io>,
+        Christoph Hellwig <hch@infradead.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Jann Horn <jannh@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Jan Engelhardt <jengelh@inai.de>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Andrea Arcangeli <aarcange@redhat.com>
+Subject: Re: [PATCH 1/1] mm: prevent a race between process_mrelease and
+ exit_mmap
+Message-ID: <YYzgZARxi8csprIx@dhcp22.suse.cz>
+References: <YYDvm9c/7cGtBvw6@dhcp22.suse.cz>
+ <CAJuCfpFX8FRynoK29h8tpRXRT-Kk+sHboiBnc7N-8MY6AAqVLw@mail.gmail.com>
+ <CAJuCfpFOOgs9uZSW2Tp6uBW23rLHFeSA8o5WYQ_D_ykUcKL64Q@mail.gmail.com>
+ <YYrLe2u2zbmu4LfL@dhcp22.suse.cz>
+ <CAJuCfpG0d34yRhuvOj9NX9zMp=6jWLqFPfUGV0sOO6OrwNC89A@mail.gmail.com>
+ <YYrQ/hENQPn6Mk3v@dhcp22.suse.cz>
+ <CAJuCfpFT4-mdHHZ2i43hyJQ4dRKb7sRwnAL8GfRnZu3ecE26Ew@mail.gmail.com>
+ <YYrVmi2xdo1Gr2Bb@dhcp22.suse.cz>
+ <CAJuCfpGrYa2Ws4GrVp_nRqVEw8j_cGXk+gprLYUx7NWUOC-uRQ@mail.gmail.com>
+ <CAJuCfpHJnVG7PMhKW-Snz38az-Bv=QCFXa7DxD=KgEMbHJOi6A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: donation
-To:     Recipients <ecouso@mail.gruponetpc.com>
-From:   ecouso@mail.gruponetpc.com
-Date:   Tue, 09 Nov 2021 20:24:44 +0000
-Reply-To: stefanopessina35@gmail.com
-Message-Id: <20211109202517.5E199866AC4@mail.gruponetpc.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJuCfpHJnVG7PMhKW-Snz38az-Bv=QCFXa7DxD=KgEMbHJOi6A@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Wed 10-11-21 17:49:37, Suren Baghdasaryan wrote:
+> On Tue, Nov 9, 2021 at 1:10 PM Suren Baghdasaryan <surenb@google.com> wrote:
+> >
+> > On Tue, Nov 9, 2021 at 12:10 PM Michal Hocko <mhocko@suse.com> wrote:
+[...]
+> > > Yes, those can run concurrently. One thing I completely forgot about is
+> > > 27ae357fa82b ("mm, oom: fix concurrent munlock and oom reaper unmap, v3")
+> > > which is about interaction with the munlock.
+> 
+> Agrh! This interaction with the munlock you mentioned requires us to
+> take mmap_write_lock before munlock_vma_pages_all and that prevents
+> __oom_reap_task_mm from running concurrently with unmap_vmas. The
+> reapers would not be as effective as they are now after such a change
+> :(
 
+__oom_reap_task_mm will not run concurrently with unmap_vmas even
+with the current code. The mmap_sem barrier right before munlock code
+prevents that.
 
-Hallo,
-
-Ich bin STEFANO PESSINA. Ich bin ein italienisch-monegassischer Milliardär und stellvertretender Vorsitzender, Chief Executive Officer (CEO) und größter Einzelaktionär der Walgreens Boots Alliance. Au   fgrund dieser aktuellen Situation (Corona-Virus), die sich auf der ganzen Welt ausbreitet, spenden ich selbst und andere 19 italienische Milliardäre mehr als 45 Millionen US-Dollar, um das Coronavirus in Italien zu bekämpfen. Ich habe auch zugesagt, 1.500.000,00 € an Einzelpersonen, Kirchen und Waisenhäuser usw. zu spenden. Ich habe mich entschieden, Ihnen 1.500.000,00 € zu spenden, da Ihre E-Mail-Adresse zu den glücklichen Gewinnern gehört. Wenn Sie an meiner Spende interessiert sind, kontaktieren Sie mich für weitere Informationen. Du kannst auch über den untenstehenden Link mehr über mich lesen
-
-https://en.wikipedia.org/wiki/Stefano_Pessina
-
-Herzlicher Gruss
-Stellvertretender Vorsitzender und Geschäftsführer,
-Walgreens Boots-Allianz.
-Stefano Pessina
-
-E-Mail: stefanopessina35@gmail.com
-
-
-
+-- 
+Michal Hocko
+SUSE Labs
