@@ -2,131 +2,116 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5215844EAEC
-	for <lists+linux-api@lfdr.de>; Fri, 12 Nov 2021 17:00:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD0AF44EB85
+	for <lists+linux-api@lfdr.de>; Fri, 12 Nov 2021 17:39:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234525AbhKLQDH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 12 Nov 2021 11:03:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34262 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234511AbhKLQDH (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 12 Nov 2021 11:03:07 -0500
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B1FCC061767
-        for <linux-api@vger.kernel.org>; Fri, 12 Nov 2021 08:00:16 -0800 (PST)
-Received: by mail-yb1-xb36.google.com with SMTP id u60so24790443ybi.9
-        for <linux-api@vger.kernel.org>; Fri, 12 Nov 2021 08:00:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MBw7nAjDOpIx54PL6CtGwWGYEgjR+E9SaAUwBkpc0jU=;
-        b=WSQXrHTUecwEOSkMbrwVBr1/kG09TKAuuO8JuMhKDKK/fO1ZcBuQh+ygHQrscvvgJH
-         tcjgPqYIkW/IqWlXpwfZrQ+F3IylFOhypk/ImwK439XxfSH3ffIWDNiGnxvhXsskudzh
-         KpRPaNZecMQ+yI27VP+/1X0ar1tcVjyz0z8ptzTwAFRoFRNjwI6Gp2c7MQBQBc/GOQ03
-         NkVdXim3hlPeXY/MOWeWfoez8vYrpjGorH9Ol0mW6lGuDCoOOpttS0lJztrD0ijaTD3d
-         Iyzqhr6Q1SSs13vbRIUsCxyxlRXVobBrLnau+h6RiAC4oveffTcsPOiiuzX0/IEkYdur
-         ygDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MBw7nAjDOpIx54PL6CtGwWGYEgjR+E9SaAUwBkpc0jU=;
-        b=dswymQrmGe6CaHNHHAv3G6R5kS0byH4bo05Z/bpafK3nmMmnCeyp4qLJO1wvLLw//c
-         PqA+7dSAeMZmHajH3KgfvvG6/mC55++BcLt+e3RhGaSsMxkvyEKM4zghDCV+CF+T+PHY
-         KXfkax1k1s2PpB7VDNV7hPMZN24lTct92Cy8IBXdI/RP2qC5VRXK6k9JQTessan0iKVx
-         q1koVe+Z7LzO10mThZL9dDv52L/MLABgSEti6DWNkJz7JJMRTUz+NuXJ1SgTL1/Qc7ek
-         YwUJc1eWUljVCvWLL+IwiyEeuSNRuRtyKSJo7UwFt9dqu/fi6FYcCVZ0OqqXkpRG2M2D
-         qXjA==
-X-Gm-Message-State: AOAM532xAfGPF3w4F+1zxeHKnnBuA6IZrw+7b2tkZnsfOuy7PlTEnDPU
-        sRZ55t8z8m2efxg7BsT27teH3i8kZtqli7Jtx4pmlQ==
-X-Google-Smtp-Source: ABdhPJwHn8mpOswus43mfCk29R4fAdhIqXVj+xv1CqLJYRPCfc06/HRFtJmqn2nab1RhER4AK8hBOKWBSACFO0H4H18=
-X-Received: by 2002:a05:6902:134b:: with SMTP id g11mr17195784ybu.202.1636732815170;
- Fri, 12 Nov 2021 08:00:15 -0800 (PST)
+        id S235426AbhKLQms (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 12 Nov 2021 11:42:48 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:59930 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235425AbhKLQmr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 12 Nov 2021 11:42:47 -0500
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 061F021993;
+        Fri, 12 Nov 2021 16:39:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1636735196; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=fxrhWhPawS2yJnmoJ2Pux/F/vJA8x038Rc3ibWHDJl0=;
+        b=oSDb5b4SNoRhR4osVSHBsVCBpRqQy2AOa40kSB+6x4Ny/Ee6N/ChHlCK50WuiOxzypsleR
+        s69SQ5fYx/x/9LTPTUqqMpsdK7sUSrDaVns3TH38hdS7iGL7swtJJNgSCb49YgAWijHVNq
+        unDb/CAShKkTba563ERtYAYF4zPv3J0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1636735196;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=fxrhWhPawS2yJnmoJ2Pux/F/vJA8x038Rc3ibWHDJl0=;
+        b=Wp1C0P6ZU6ckPnR5Q/kwY64a/fbFt3L3E4gkQNY/rGPWkbOqJyDDzD57A2K9OoHm0YSjIC
+        xS6GFgprCPiqlYBg==
+Received: from quack2.suse.cz (unknown [10.100.200.198])
+        by relay2.suse.de (Postfix) with ESMTP id E8792A3B8D;
+        Fri, 12 Nov 2021 16:39:55 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id C11D61F2B50; Fri, 12 Nov 2021 17:39:55 +0100 (CET)
+Date:   Fri, 12 Nov 2021 17:39:55 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>,
+        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH 0/7] Report more information in fanotify dirent events
+Message-ID: <20211112163955.GA30295@quack2.suse.cz>
+References: <20211029114028.569755-1-amir73il@gmail.com>
+ <CAOQ4uxjazEx=bL6ZfLaGCfH6pii=OatQDoeWc+74AthaaUC49g@mail.gmail.com>
 MIME-Version: 1.0
-References: <CAJuCfpFOOgs9uZSW2Tp6uBW23rLHFeSA8o5WYQ_D_ykUcKL64Q@mail.gmail.com>
- <YYrLe2u2zbmu4LfL@dhcp22.suse.cz> <CAJuCfpG0d34yRhuvOj9NX9zMp=6jWLqFPfUGV0sOO6OrwNC89A@mail.gmail.com>
- <YYrQ/hENQPn6Mk3v@dhcp22.suse.cz> <CAJuCfpFT4-mdHHZ2i43hyJQ4dRKb7sRwnAL8GfRnZu3ecE26Ew@mail.gmail.com>
- <YYrVmi2xdo1Gr2Bb@dhcp22.suse.cz> <CAJuCfpGrYa2Ws4GrVp_nRqVEw8j_cGXk+gprLYUx7NWUOC-uRQ@mail.gmail.com>
- <CAJuCfpHJnVG7PMhKW-Snz38az-Bv=QCFXa7DxD=KgEMbHJOi6A@mail.gmail.com>
- <YYzgZARxi8csprIx@dhcp22.suse.cz> <CAJuCfpEK+yruF8D9rzS44N3n6OLASL7nK2dfNj9daWpk-BguwQ@mail.gmail.com>
- <YY4snVzZZZYhbigV@dhcp22.suse.cz>
-In-Reply-To: <YY4snVzZZZYhbigV@dhcp22.suse.cz>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Fri, 12 Nov 2021 08:00:04 -0800
-Message-ID: <CAJuCfpHXZvCCi=DW53i9qbmcjY48CmSVBCaYqbSyyBmmp9JqaQ@mail.gmail.com>
-Subject: Re: [PATCH 1/1] mm: prevent a race between process_mrelease and exit_mmap
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Roman Gushchin <guro@fb.com>, Rik van Riel <riel@surriel.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Christian Brauner <christian@brauner.io>,
-        Christoph Hellwig <hch@infradead.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jann Horn <jannh@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Jan Engelhardt <jengelh@inai.de>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kernel-team <kernel-team@android.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Andrea Arcangeli <aarcange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOQ4uxjazEx=bL6ZfLaGCfH6pii=OatQDoeWc+74AthaaUC49g@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Nov 12, 2021 at 12:58 AM 'Michal Hocko' via kernel-team
-<kernel-team@android.com> wrote:
->
-> On Thu 11-11-21 07:02:42, Suren Baghdasaryan wrote:
-> > On Thu, Nov 11, 2021 at 1:20 AM Michal Hocko <mhocko@suse.com> wrote:
-> > >
-> > > On Wed 10-11-21 17:49:37, Suren Baghdasaryan wrote:
-> > > > On Tue, Nov 9, 2021 at 1:10 PM Suren Baghdasaryan <surenb@google.com> wrote:
-> > > > >
-> > > > > On Tue, Nov 9, 2021 at 12:10 PM Michal Hocko <mhocko@suse.com> wrote:
-> > > [...]
-> > > > > > Yes, those can run concurrently. One thing I completely forgot about is
-> > > > > > 27ae357fa82b ("mm, oom: fix concurrent munlock and oom reaper unmap, v3")
-> > > > > > which is about interaction with the munlock.
-> > > >
-> > > > Agrh! This interaction with the munlock you mentioned requires us to
-> > > > take mmap_write_lock before munlock_vma_pages_all and that prevents
-> > > > __oom_reap_task_mm from running concurrently with unmap_vmas. The
-> > > > reapers would not be as effective as they are now after such a change
-> > > > :(
-> > >
-> > > __oom_reap_task_mm will not run concurrently with unmap_vmas even
-> > > with the current code. The mmap_sem barrier right before munlock code
-> > > prevents that.
+Hi Amir!
+
+On Sat 06-11-21 18:29:39, Amir Goldstein wrote:
+> On Fri, Oct 29, 2021 at 2:40 PM Amir Goldstein <amir73il@gmail.com> wrote:
+> > This patch set follows up on the discussion on FAN_REPORT_TARGET_FID [1]
+> > from 3 months ago.
 > >
-> > You are right, it will run concurrently with another
-> > __oom_reap_task_mm in the exit_mmap. But I thought we wanted to get
-> > rid of that call to __oom_reap_task_mm in exit_mmap or did I
-> > misunderstand?
->
-> I do not remember this to be objective or the motivation. IIRC we wanted
-> to make the locking more robust which would help your process_mrelease
-> use case. This one currently suffers from a much heavier cost if it
-> turns out to be the last holder of the reference count on the address
-> space.
+> > With FAN_REPORT_PIDFD in 5.15 and FAN_FS_ERROR on its way to 5.16,
+> > I figured we could get an early (re)start of the discussion on
+> > FAN_REPORT_TARGET_FID towards 5.17.
+> >
+> > The added information in dirent events solves problems for my use case -
+> > It helps getting the following information in a race free manner:
+> > 1. fid of a created directory on mkdir
+> > 2. from/to path information on rename of non-dir
+> >
+> > I realize those are two different API traits, but they are close enough
+> > so I preferred not to clutter the REPORT flags space any further than it
+> > already is. The single added flag FAN_REPORT_TARGET_FID adds:
+> > 1. child fid info to CREATE/DELETE/MOVED_* events
+> > 2. new parent+name info to MOVED_FROM event
+> >
+> > Instead of going the "inotify way" and trying to join the MOVED_FROM/
+> > MOVED_TO events using a cookie, I chose to incorporate the new
+> > parent+name intomation only in the MOVED_FROM event.
+> > I made this choice for several reasons:
+> > 1. Availability of the moved dentry in the hook and event data
+> > 2. First info record is the old parent+name, like FAN_REPORT_DFID_NAME
+> > 3. Unlike, MOVED_TO, MOVED_FROM was useless for applications that use
+> >    DFID_NAME info to statat(2) the object as we suggested
+> >
+> > I chose to reduce testing complexity and require all other FID
+> > flags with FAN_REPORT_TARGET_FID and there is a convenience
+> > macro FAN_REPORT_ALL_FIDS that application can use.
+> 
+> Self comment - Don't use ALL_ for macro names in uapi...
+> There are 3 comment of "Deprecated ..."  for ALL flags in fanotify.h alone...
 
-Ok, I wrongly assumed the mmap_lock cleanup should be deeper. Will
-keep pounding on it. Thanks!
+Yeah, probably the ALL_FIDS is not worth the possible confusion when we add
+another FID flag later ;)
 
-> --
-> Michal Hocko
-> SUSE Labs
->
-> --
-> To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
->
+> BTW, I did not mention the FAN_RENAME event alternative proposal in this posting
+> not because I object to FAN_RENAME, just because it was simpler to implement
+> the MOVED_FROM alternative, so I thought I'll start with this proposal
+> and see how
+> it goes.
+
+I've read through all the patches and I didn't find anything wrong.
+Thinking about FAN_RENAME proposal - essentially fsnotify_move() would call
+fsnotify_name() once more with FS_RENAME event and we'd gate addition of
+second dir+name info just by FS_RENAME instead of FS_MOVED_FROM &&
+FAN_REPORT_TARGET_FID. Otherwise everything would be the same as in the
+current patch set, wouldn't it? IMHO it looks like a bit cleaner API so I'd
+lean a bit more towards that.
+
+								Honza
+
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
