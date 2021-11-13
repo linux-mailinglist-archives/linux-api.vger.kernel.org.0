@@ -2,168 +2,241 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A435E44F4E1
-	for <lists+linux-api@lfdr.de>; Sat, 13 Nov 2021 20:31:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E7EC44F51A
+	for <lists+linux-api@lfdr.de>; Sat, 13 Nov 2021 20:56:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235921AbhKMTe3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 13 Nov 2021 14:34:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57290 "EHLO
+        id S234129AbhKMT7I (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 13 Nov 2021 14:59:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233692AbhKMTe3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 13 Nov 2021 14:34:29 -0500
-Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D56D4C061766;
-        Sat, 13 Nov 2021 11:31:36 -0800 (PST)
-Received: by mail-io1-xd36.google.com with SMTP id k21so15672474ioh.4;
-        Sat, 13 Nov 2021 11:31:36 -0800 (PST)
+        with ESMTP id S233692AbhKMT7H (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 13 Nov 2021 14:59:07 -0500
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BADB3C061766;
+        Sat, 13 Nov 2021 11:56:14 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id p18so1160036wmq.5;
+        Sat, 13 Nov 2021 11:56:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xH62f6N2D8MonslPnSeuS7XSOFofmR4zUAjLEMIWzxY=;
-        b=XmzoHW6n2tleI5VnZDz7pdwSYkCZ2BcInlwaYbhAhprgBkDpyYC8Vl59IcZYlv8Z+/
-         z4VdqbBE4kdnwAhyO1pDK+oLhRNP68/hhdGkfB+C6HOygEhsHrSWLlEBJi2I2dAyolm5
-         DJCwnWePpiHWM0kcKgdqUrSq5Pu8Pqqj8eGtBCeprUaTzgUEWQZALGVf2bUz3kykhPVX
-         T8kzw32Yq6ukTLDCtRflzfkcG16DBGISt3+lGGCcFsQBJ3oDjeXmn1cRiJieNC/y1HzQ
-         coTmfj3KsbhnCWTdhyue5pLqgV766vk1RuZWmxhubVXlam6GKp4/x86JMsJIt/+3xGJ1
-         rySQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=va+QXChIb6mUqaS7Hvl+13iHU9HTHiGu0D2Aym2Vkj8=;
+        b=ESVoVEtpkOjqVDc3AC7Th7BTC//byih1n09Za+kFJaxGOPNts1YOaSas39PmKfmfO4
+         eVbIzS9Cqz82jWnVdGpWFRgOehqG3e3gL8PtbedmO8D69mBAuVR4cZyspVuUvIVZW2fH
+         4z0CRba7kIglqkdye73s0jJhg9Qi+lP9UdvG4P4J+qz8e0sEfttBgogM5hX4oRhPktY0
+         1UGIswE/8/+HHXIlrw2Vk9zOWPyu7rQ4TOhKEKYXS2YWHhwoZwfqqWeZzTAYoyDoR3NJ
+         BWvVFNaoj+x74+Ep0tL4ou+y0dFhTjENd9dN30DVQRoUvxXqjXXmb7GHQ/xy5fpbMivc
+         YEUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xH62f6N2D8MonslPnSeuS7XSOFofmR4zUAjLEMIWzxY=;
-        b=arYlGPpeTj7TYTL3i8vcK0ztwd2Z0qmui/G+eTPB/mmZONAY9KVTW63kOGQcAdSTfE
-         2IZges9229vhI2hMbnXt3AQ9OYyn+OSxM1OIHfR80dWZc5RbFI0qIg/8Rt7xJWX0+oUi
-         P5OqGgTmZ4xXXHyiAvotrOUjbM7dF5AvPuMnlNq3us7S2is0KgzsiCUA6ovjveB9tyah
-         0liYzXOJ7oQKmzkPBvGiPPHf7MF10QtcYJwrLzhUFEPDx+qfadfiSbtpKt4vrRMpm4gW
-         3H5LKkgv8L9Kt1a5xjY0wxctav/tw83mzZja+olwMLV6f7XLDZ+CEr47ZDNTB9eP0HHG
-         CWXQ==
-X-Gm-Message-State: AOAM532mTG3SjSfVRLq+Tqr21nXZa1IznYpzhDGS5CHNJ8Au7//3WKYf
-        81kNcGSqsltN1w5kfBPiXmacI6XjUF61SZIchaw=
-X-Google-Smtp-Source: ABdhPJwCCxWrlqLr+p42WVnVD69hoNuLmGFq0CFW3SNr8C2GYvfUOqSxtqzaX3WGwsznMYPJRAKBQHi8rQb81rbau78=
-X-Received: by 2002:a02:a489:: with SMTP id d9mr19474322jam.47.1636831896258;
- Sat, 13 Nov 2021 11:31:36 -0800 (PST)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=va+QXChIb6mUqaS7Hvl+13iHU9HTHiGu0D2Aym2Vkj8=;
+        b=trL9o7IAi0Pk4OXOjrC3hEyMye6oQKvyrTjvNm2JyZpZXOhgWtSe5wtm5k34Q3wDYc
+         Jy4FeZ7xfFGfxzbUWSLIJNioEvC4n4VagtlxLJd7SqVzLa5Q21+AQPsjK4E05EX6R4kt
+         AdfEbzuB+EaZe4oEadFsgYuxWC57f5v7SsqvGnP16sprfhw7yliGlVWS5PonzVYPi3Cg
+         F+O5jI80uxH3v1f58ivomwy7u4jzUX8KunXZ5jzZbXqwxYB1Sa2poI5OuyqjYzHwPaT9
+         glNIEyXXIg9QfGQlythhzo2sAOpVyYTX2R/7yoV4IWV4LxstNchx2g46jN6RPBLaOp9s
+         i/Tw==
+X-Gm-Message-State: AOAM532wHZ2pgEmz47eMXMwoJDlYJb8fgVilUA+GVFfXmWAulDKoKJQZ
+        loHQD4t2lo664WraqauCc+w=
+X-Google-Smtp-Source: ABdhPJyrBCFSZIvE6ESCe8fzt5Ofuhbfmh9PY2vocqyNsRvUvnN2UIdr5lyr75/R2K3Cs0qqD9GUAQ==
+X-Received: by 2002:a1c:488:: with SMTP id 130mr28638161wme.157.1636833372652;
+        Sat, 13 Nov 2021 11:56:12 -0800 (PST)
+Received: from [10.168.10.170] ([170.253.36.171])
+        by smtp.gmail.com with ESMTPSA id a10sm11455309wmq.27.2021.11.13.11.56.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 13 Nov 2021 11:56:12 -0800 (PST)
+Message-ID: <34779736-e875-c3e0-75d5-0f0a55d729aa@gmail.com>
+Date:   Sat, 13 Nov 2021 20:56:09 +0100
 MIME-Version: 1.0
-References: <20211029114028.569755-1-amir73il@gmail.com> <CAOQ4uxjazEx=bL6ZfLaGCfH6pii=OatQDoeWc+74AthaaUC49g@mail.gmail.com>
- <20211112163955.GA30295@quack2.suse.cz> <CAOQ4uxgT5a7UFUrb5LCcXo77Uda4t5c+1rw+BFDfTAx8szp+HQ@mail.gmail.com>
-In-Reply-To: <CAOQ4uxgT5a7UFUrb5LCcXo77Uda4t5c+1rw+BFDfTAx8szp+HQ@mail.gmail.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Sat, 13 Nov 2021 21:31:25 +0200
-Message-ID: <CAOQ4uxgEbjkMMF-xVTdfWcLi4y8DGNit5Eeq=evby2nWCuiDVw@mail.gmail.com>
-Subject: Re: [PATCH 0/7] Report more information in fanotify dirent events
-To:     Jan Kara <jack@suse.cz>
-Cc:     Matthew Bobrowski <mbobrowski@mbobrowski.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v16 1/3] fs: Add trusted_for(2) syscall implementation and
+ related sysctl
+Content-Language: en-US
+To:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Aleksa Sarai <cyphar@cyphar.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Christian Heimes <christian@python.org>,
+        Deven Bowers <deven.desai@linux.microsoft.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Eric Chiang <ericchiang@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
+        "Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
+        Matthew Garrett <mjg59@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Paul Moore <paul@paul-moore.com>,
+        =?UTF-8?Q?Philippe_Tr=c3=a9buchet?= 
+        <philippe.trebuchet@ssi.gouv.fr>,
+        Scott Shell <scottsh@microsoft.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Steve Dower <steve.dower@python.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        Yin Fengwei <fengwei.yin@intel.com>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
+References: <20211110190626.257017-1-mic@digikod.net>
+ <20211110190626.257017-2-mic@digikod.net>
+ <8a22a3c2-468c-e96c-6516-22a0f029aa34@gmail.com>
+ <5312f022-96ea-5555-8d17-4e60a33cf8f8@digikod.net>
+From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+In-Reply-To: <5312f022-96ea-5555-8d17-4e60a33cf8f8@digikod.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Nov 13, 2021 at 11:49 AM Amir Goldstein <amir73il@gmail.com> wrote:
->
-> On Fri, Nov 12, 2021 at 6:39 PM Jan Kara <jack@suse.cz> wrote:
-> >
-> > Hi Amir!
-> >
-> > On Sat 06-11-21 18:29:39, Amir Goldstein wrote:
-> > > On Fri, Oct 29, 2021 at 2:40 PM Amir Goldstein <amir73il@gmail.com> wrote:
-> > > > This patch set follows up on the discussion on FAN_REPORT_TARGET_FID [1]
-> > > > from 3 months ago.
-> > > >
-> > > > With FAN_REPORT_PIDFD in 5.15 and FAN_FS_ERROR on its way to 5.16,
-> > > > I figured we could get an early (re)start of the discussion on
-> > > > FAN_REPORT_TARGET_FID towards 5.17.
-> > > >
-> > > > The added information in dirent events solves problems for my use case -
-> > > > It helps getting the following information in a race free manner:
-> > > > 1. fid of a created directory on mkdir
-> > > > 2. from/to path information on rename of non-dir
-> > > >
-> > > > I realize those are two different API traits, but they are close enough
-> > > > so I preferred not to clutter the REPORT flags space any further than it
-> > > > already is. The single added flag FAN_REPORT_TARGET_FID adds:
-> > > > 1. child fid info to CREATE/DELETE/MOVED_* events
-> > > > 2. new parent+name info to MOVED_FROM event
-> > > >
-> > > > Instead of going the "inotify way" and trying to join the MOVED_FROM/
-> > > > MOVED_TO events using a cookie, I chose to incorporate the new
-> > > > parent+name intomation only in the MOVED_FROM event.
-> > > > I made this choice for several reasons:
-> > > > 1. Availability of the moved dentry in the hook and event data
-> > > > 2. First info record is the old parent+name, like FAN_REPORT_DFID_NAME
-> > > > 3. Unlike, MOVED_TO, MOVED_FROM was useless for applications that use
-> > > >    DFID_NAME info to statat(2) the object as we suggested
-> > > >
-> > > > I chose to reduce testing complexity and require all other FID
-> > > > flags with FAN_REPORT_TARGET_FID and there is a convenience
-> > > > macro FAN_REPORT_ALL_FIDS that application can use.
-> > >
-> > > Self comment - Don't use ALL_ for macro names in uapi...
-> > > There are 3 comment of "Deprecated ..."  for ALL flags in fanotify.h alone...
-> >
-> > Yeah, probably the ALL_FIDS is not worth the possible confusion when we add
-> > another FID flag later ;)
-> >
-> > > BTW, I did not mention the FAN_RENAME event alternative proposal in this posting
-> > > not because I object to FAN_RENAME, just because it was simpler to implement
-> > > the MOVED_FROM alternative, so I thought I'll start with this proposal
-> > > and see how
-> > > it goes.
-> >
-> > I've read through all the patches and I didn't find anything wrong.
-> > Thinking about FAN_RENAME proposal - essentially fsnotify_move() would call
-> > fsnotify_name() once more with FS_RENAME event and we'd gate addition of
-> > second dir+name info just by FS_RENAME instead of FS_MOVED_FROM &&
-> > FAN_REPORT_TARGET_FID. Otherwise everything would be the same as in the
-> > current patch set, wouldn't it? IMHO it looks like a bit cleaner API so I'd
-> > lean a bit more towards that.
->
-> I grew to like FAN_RENAME better myself as well.
-> To make sure we are talking about the same thing:
-> 1. FAN_RENAME always reports 2*(dirfid+name)
-> 2. FAN_REPORT_TARGET_FID adds optional child fid record to
->     CREATE/DELETE/RENAME/MOVED_TO/FROM
->
+Hi Mickaël,
 
-Err, I tried the FAN_RENAME approach and hit a semantic issue:
-Users can watch a directory inode and get only MOVED_FROM
-when entries are moved from this directory. Same for MOVED_TO.
-How would FAN_RENAME behave when setting FAN_RENAME on a
-directory inode? Should listeners get events on files renamed in and out of that
-directory?
+On 11/13/21 14:02, Mickaël Salaün wrote:
+>> TL;DR:
+>>
+>> ISO C specifies that for the following code:
+>>
+>>      enum foo {BAR};
+>>
+>>      enum foo foobar;
+>>
+>> typeof(foo)    shall be int
+>> typeof(foobar) is implementation-defined
+> 
+> I tested with some version of GCC (from 4.9 to 11) and clang (10 and 11)
+> with different optimizations and the related sizes are at least the same
+> as for the int type.
 
-I see several options:
-1. Go back to FAN_MOVED_FROM as in this patch set, where semantics are clear
-2. Report FAN_RENAME if either old or new dir is watched (or mount/sb)
-3. Report FAN_RENAME only if both old and new dirs are watched (or mount/sb)
+GCC has -fshort-enums to make enum types be as short as possible.  I 
+expected -Os to turn this on, since it saves space, but it doesn't.
 
-For option 2, we may need to hide information records, For example, because an
-unprivileged listener may not have access to old or new directory.
+Still, not relying on enum == int is better, IMO.
 
-A variant of option 3, is that FAN_RENAME will be an event mask flag
-that can be added to FAN_MOVE events, to request that if both FROM/TO events
-are going to be reported, then a single joint event will be reported
-instead, e.g:
+> 
+>>
+>> Since foobar = BAR; assigns an int, the best thing to do to avoid
+>> implementation-defined behavior, is to declare foobar as int too.
+> 
+> OK, so it should be enough to change the syscall argument type from enum
+> trusted_for_usage to int, but we can keep the UAPI with the enum (i.e.
+> we don't need to change the value to #define TRUSTED_FOR_EXECUTION 1) right?
 
-#define FAN_MOVE (FAN_MOVED_FROM | FAN_MOVED_TO)
-#define FAN_RENAME (FAN_MOVE | __FAN_MOVE_JOIN)
+Correct.  The enumerations are guaranteed to be int (except in case of 
+UB, see below), so they'll be (almost) the same as a #define after the 
+preprocessor.
 
-Instead of generating an extra FS_RENAME event in fsnotify_move(),
-fsnotify() will search for matching marks on the moved->d_parent->d_inode
-of MOVED_FROM event add the mark as the FSNOTIFY_OBJ_TYPE_PARENT
-mark iterator type and then fanotify_group_event_mask() will be able
-to tell if the
-event should be reported as FAN_MOVED_FROM, FAN_MOVED_TO or a joint
-FAN_RENAME.
 
-If a group has the FAN_RENAME mask on the new parent dir, then
-FS_MOVED_TO events can be dropped, because the event was already
-reported as FAN_MOVED_TO or FAN_RENAME with the FS_MOVED_FROM
-event.
+If you do
 
-Am I over complicating this?
-Do you have a better and clearer semantics to propose?
+enum foo {
+	FOO = 1L << INT_WIDTH
+};
 
-Thanks,
-Amir.
+since that doesn't fit in either int or unsigned int,
+it is Undefined Behavior,
+and here GCC decides to use long for FOO.
+
++++++++++ UB example ++++++++++++++
+
+$ cat foo.c
+	#include <limits.h>
+	#include <stdio.h>
+
+
+	enum foo {
+		FOO = 1L << UINT_WIDTH
+	};
+
+	int main(void)
+	{
+		printf("\tsizeof(enum foo) = %zu\n", sizeof(enum foo));
+		printf("\tsizeof(FOO)      = %zu\n", sizeof(FOO));
+	}
+
+$ cc foo.c -Wall -Wextra -Werror -Wpedantic -pedantic-errors -std=c2x
+foo.c:6:23: error: ISO C restricts enumerator values to range of 'int' 
+[-Wpedantic]
+     6 |                 FOO = 1L << UINT_WIDTH
+       |                       ^~
+$ cc foo.c -Wall -Wextra -Werror -std=c2x
+$ ./a.out
+	sizeof(enum foo) = 8
+	sizeof(FOO)      = 8
+
++++++++++++++ -fshort-enums example +++++++++++++++
+
+$ cat foo.c
+	#include <stdio.h>
+
+
+	enum foo {
+		FOO = 1
+	};
+
+	int main(void)
+	{
+		printf("\tsizeof(enum foo) = %zu\n", sizeof(enum foo));
+		printf("\tsizeof(FOO)      = %zu\n", sizeof(FOO));
+	}
+
+$ cc foo.c -Wall -Wextra -Werror -Wpedantic -pedantic-errors -fshort-enums
+$ ./a.out
+	sizeof(enum foo) = 1
+	sizeof(FOO)      = 4
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Cheers,
+Alex
+
+
+> 
+>>
+>>
+>>> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+>>> index 528a478dbda8..c535e0e43cc8 100644
+>>> --- a/include/linux/syscalls.h
+>>> +++ b/include/linux/syscalls.h
+>>> @@ -462,6 +463,7 @@ asmlinkage long sys_fallocate(int fd, int mode,
+>>> loff_t offset, loff_t len);
+>>>    asmlinkage long sys_faccessat(int dfd, const char __user *filename,
+>>> int mode);
+>>>    asmlinkage long sys_faccessat2(int dfd, const char __user *filename,
+>>> int mode,
+>>>                       int flags);
+>>> +asmlinkage long sys_trusted_for(int fd, enum trusted_for_usage usage,
+>>> u32 flags);
+>>
+>> Same here.
+>>
+>>>    asmlinkage long sys_chdir(const char __user *filename);
+>>>    asmlinkage long sys_fchdir(unsigned int fd);
+>>>    asmlinkage long sys_chroot(const char __user *filename);
+>>
+>> Thanks,
+>> Alex
+>>
+>>
+
+-- 
+Alejandro Colomar
+Linux man-pages comaintainer; http://www.kernel.org/doc/man-pages/
+http://www.alejandro-colomar.es/
