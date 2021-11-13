@@ -2,142 +2,168 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BB7544F4C4
-	for <lists+linux-api@lfdr.de>; Sat, 13 Nov 2021 20:14:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A435E44F4E1
+	for <lists+linux-api@lfdr.de>; Sat, 13 Nov 2021 20:31:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236034AbhKMTRl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 13 Nov 2021 14:17:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53584 "EHLO
+        id S235921AbhKMTe3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 13 Nov 2021 14:34:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235988AbhKMTRk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 13 Nov 2021 14:17:40 -0500
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2062EC061766
-        for <linux-api@vger.kernel.org>; Sat, 13 Nov 2021 11:14:48 -0800 (PST)
-Received: by mail-ed1-x532.google.com with SMTP id g14so52191510edz.2
-        for <linux-api@vger.kernel.org>; Sat, 13 Nov 2021 11:14:48 -0800 (PST)
+        with ESMTP id S233692AbhKMTe3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 13 Nov 2021 14:34:29 -0500
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D56D4C061766;
+        Sat, 13 Nov 2021 11:31:36 -0800 (PST)
+Received: by mail-io1-xd36.google.com with SMTP id k21so15672474ioh.4;
+        Sat, 13 Nov 2021 11:31:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Th5b5uEbVAClqQZKB40iBYxSoIX0RninCCu9L6PZkvQ=;
-        b=gdORQZNcyLnT5FHqxDVdbiV0XvJnzs/yQjphexWwwHRnM6VsmOsWJbJaGu4crX3tAt
-         yEdJa4ORZvokpeqdvTIKG8LRau7lS8+MGz95jq6CCczv6kkVN+X3dMobk5wZQyufTPiU
-         0aXFtHYalFTxPnbb1riVAdfQyuXm6RcCJLeoc=
+        bh=xH62f6N2D8MonslPnSeuS7XSOFofmR4zUAjLEMIWzxY=;
+        b=XmzoHW6n2tleI5VnZDz7pdwSYkCZ2BcInlwaYbhAhprgBkDpyYC8Vl59IcZYlv8Z+/
+         z4VdqbBE4kdnwAhyO1pDK+oLhRNP68/hhdGkfB+C6HOygEhsHrSWLlEBJi2I2dAyolm5
+         DJCwnWePpiHWM0kcKgdqUrSq5Pu8Pqqj8eGtBCeprUaTzgUEWQZALGVf2bUz3kykhPVX
+         T8kzw32Yq6ukTLDCtRflzfkcG16DBGISt3+lGGCcFsQBJ3oDjeXmn1cRiJieNC/y1HzQ
+         coTmfj3KsbhnCWTdhyue5pLqgV766vk1RuZWmxhubVXlam6GKp4/x86JMsJIt/+3xGJ1
+         rySQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Th5b5uEbVAClqQZKB40iBYxSoIX0RninCCu9L6PZkvQ=;
-        b=xV7hH/+AsjiHKQp6jUwxdutLrGij+jy8olb1KNeaYwH34zANjaka5UJ/Z0RaYz794a
-         SwV/KfCAOki6HNCSv5/P+9GxyCgP4CSmMvbLhHb+o7f7J6vYN8NA7JKDbe87HNyYA9vf
-         8LlT3nosKJmq2Nrve/Kgu0Tq4G63YEq+TTmZtuyng7D245yPjUa6C1/o3RaxKslILf8g
-         LvjuY39i3ZBHSWDNfsJTWDuSA7MP5aPSTPUcl7Z7KUhfYR55y8eXuBRlwX+6N5gwQMV5
-         aHqODBUbTT/EGDVR559gbmLUm/PmbxHrKI/NFoyCW24OH1ptwBxCBLsswjpD3natjkr+
-         oSIw==
-X-Gm-Message-State: AOAM531Tyewud8RHacwqkLcJdQwC1bhzGLZIJjaaijutKeMNjajDhYFy
-        lSVqPv4UFTjUlwnDbTfB/R1VSRwdSbzTD9WNGE4=
-X-Google-Smtp-Source: ABdhPJxIcUQamhen7p3NBFyqG3T6xAFgccszd9gHmLQVLWsD1u2YMUz1BNqyZbJSjVqtnTQPtymIig==
-X-Received: by 2002:a05:6402:3588:: with SMTP id y8mr35453857edc.328.1636830886461;
-        Sat, 13 Nov 2021 11:14:46 -0800 (PST)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com. [209.85.128.46])
-        by smtp.gmail.com with ESMTPSA id cw20sm4034943ejc.32.2021.11.13.11.14.45
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 13 Nov 2021 11:14:45 -0800 (PST)
-Received: by mail-wm1-f46.google.com with SMTP id p18so1116007wmq.5
-        for <linux-api@vger.kernel.org>; Sat, 13 Nov 2021 11:14:45 -0800 (PST)
-X-Received: by 2002:a05:600c:1d97:: with SMTP id p23mr28153806wms.144.1636830885325;
- Sat, 13 Nov 2021 11:14:45 -0800 (PST)
+        bh=xH62f6N2D8MonslPnSeuS7XSOFofmR4zUAjLEMIWzxY=;
+        b=arYlGPpeTj7TYTL3i8vcK0ztwd2Z0qmui/G+eTPB/mmZONAY9KVTW63kOGQcAdSTfE
+         2IZges9229vhI2hMbnXt3AQ9OYyn+OSxM1OIHfR80dWZc5RbFI0qIg/8Rt7xJWX0+oUi
+         P5OqGgTmZ4xXXHyiAvotrOUjbM7dF5AvPuMnlNq3us7S2is0KgzsiCUA6ovjveB9tyah
+         0liYzXOJ7oQKmzkPBvGiPPHf7MF10QtcYJwrLzhUFEPDx+qfadfiSbtpKt4vrRMpm4gW
+         3H5LKkgv8L9Kt1a5xjY0wxctav/tw83mzZja+olwMLV6f7XLDZ+CEr47ZDNTB9eP0HHG
+         CWXQ==
+X-Gm-Message-State: AOAM532mTG3SjSfVRLq+Tqr21nXZa1IznYpzhDGS5CHNJ8Au7//3WKYf
+        81kNcGSqsltN1w5kfBPiXmacI6XjUF61SZIchaw=
+X-Google-Smtp-Source: ABdhPJwCCxWrlqLr+p42WVnVD69hoNuLmGFq0CFW3SNr8C2GYvfUOqSxtqzaX3WGwsznMYPJRAKBQHi8rQb81rbau78=
+X-Received: by 2002:a02:a489:: with SMTP id d9mr19474322jam.47.1636831896258;
+ Sat, 13 Nov 2021 11:31:36 -0800 (PST)
 MIME-Version: 1.0
-References: <878ry512iv.fsf@disp2133> <CAHk-=wivLcb3ELGSf=fM0u=PxP5m1=jRrVXDOr0+QJZRZggaHg@mail.gmail.com>
- <871r3uy2vw.fsf@disp2133>
-In-Reply-To: <871r3uy2vw.fsf@disp2133>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sat, 13 Nov 2021 11:14:28 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wh8v4OC=9rjFs-QH0evVrGQu+wCVL5gE8Y-uTvqh42XNA@mail.gmail.com>
-Message-ID: <CAHk-=wh8v4OC=9rjFs-QH0evVrGQu+wCVL5gE8Y-uTvqh42XNA@mail.gmail.com>
-Subject: Re: [GIT PULL] per signal_struct coredumps
-To:     "Eric W. Biederman" <ebiederm@xmission.com>,
-        Git List Mailing <git@vger.kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Kees Cook <keescook@chromium.org>,
+References: <20211029114028.569755-1-amir73il@gmail.com> <CAOQ4uxjazEx=bL6ZfLaGCfH6pii=OatQDoeWc+74AthaaUC49g@mail.gmail.com>
+ <20211112163955.GA30295@quack2.suse.cz> <CAOQ4uxgT5a7UFUrb5LCcXo77Uda4t5c+1rw+BFDfTAx8szp+HQ@mail.gmail.com>
+In-Reply-To: <CAOQ4uxgT5a7UFUrb5LCcXo77Uda4t5c+1rw+BFDfTAx8szp+HQ@mail.gmail.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Sat, 13 Nov 2021 21:31:25 +0200
+Message-ID: <CAOQ4uxgEbjkMMF-xVTdfWcLi4y8DGNit5Eeq=evby2nWCuiDVw@mail.gmail.com>
+Subject: Re: [PATCH 0/7] Report more information in fanotify dirent events
+To:     Jan Kara <jack@suse.cz>
+Cc:     Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[ Coming back to this email because I'm starting to see the light at
-the end of the merge window tunnel .. ]
-
-Adding the git list to see if somebody has suggestions, and
-top-posting because the email from Eric is more of "explanation for
-the issue" than anything else, so I'm quoting it at the end for
-context.
-
-The basic issue is how to sanely keep track of a cover letter when you
-have a branch that you haven't sent out yet, but will ask somebody to
-pull. It may still be seeing more testing and development before that
-pull happens, though.
-
-This very much smells of what the "branch description" is all about, but
-
- (a) I suspect "git branch --edit-description" is not very well known
-
- (b) it works well with "git request-pull", but not so much some other
-things (like copying it into a signed tag)
-
- (c) it makes an unholy mess of your config file if you actually use
-it for extensive explanations (branch descriptions _work_ for
-multi-line messages, but it really was designed as a one-liner thing).
-
- (d) it doesn't work across repositories (ie multiple developers or
-even just a single developer on multiple machines).
-
-IOW, the "branch description" is _kind_ of the right thing, but not really.
-
-The fake merge _does_ solve all these issues, it just then ends up
-leaving that turd around in the history.
-
-An empty commit would do it as well, but an empty commit very easily
-gets lost (git rebase etc). The fake merge does have similar issues.
-
-Both a fake merge, and an empty commit have the advantage that they
-are easy to see and work with (ie "git log" and all the other git
-workflows work very naturally).
-
-Comments from git people?
-
-                Linus
-
-On Fri, Nov 5, 2021 at 9:38 AM Eric W. Biederman <ebiederm@xmission.com> wrote:
+On Sat, Nov 13, 2021 at 11:49 AM Amir Goldstein <amir73il@gmail.com> wrote:
 >
-> Linus Torvalds <torvalds@linux-foundation.org> writes:
->
-> > On Wed, Nov 3, 2021 at 12:07 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
+> On Fri, Nov 12, 2021 at 6:39 PM Jan Kara <jack@suse.cz> wrote:
 > >
-> > I've pulled it, but I'm not convinced about that odd extra merge
-> > commit that contains the commentary.
+> > Hi Amir!
 > >
-> > That's what signed tags are for, and they have that explanation that
-> > then makes it into the merge - plus they have the crypto signature to
-> > show it all comes from you.
+> > On Sat 06-11-21 18:29:39, Amir Goldstein wrote:
+> > > On Fri, Oct 29, 2021 at 2:40 PM Amir Goldstein <amir73il@gmail.com> wrote:
+> > > > This patch set follows up on the discussion on FAN_REPORT_TARGET_FID [1]
+> > > > from 3 months ago.
+> > > >
+> > > > With FAN_REPORT_PIDFD in 5.15 and FAN_FS_ERROR on its way to 5.16,
+> > > > I figured we could get an early (re)start of the discussion on
+> > > > FAN_REPORT_TARGET_FID towards 5.17.
+> > > >
+> > > > The added information in dirent events solves problems for my use case -
+> > > > It helps getting the following information in a race free manner:
+> > > > 1. fid of a created directory on mkdir
+> > > > 2. from/to path information on rename of non-dir
+> > > >
+> > > > I realize those are two different API traits, but they are close enough
+> > > > so I preferred not to clutter the REPORT flags space any further than it
+> > > > already is. The single added flag FAN_REPORT_TARGET_FID adds:
+> > > > 1. child fid info to CREATE/DELETE/MOVED_* events
+> > > > 2. new parent+name info to MOVED_FROM event
+> > > >
+> > > > Instead of going the "inotify way" and trying to join the MOVED_FROM/
+> > > > MOVED_TO events using a cookie, I chose to incorporate the new
+> > > > parent+name intomation only in the MOVED_FROM event.
+> > > > I made this choice for several reasons:
+> > > > 1. Availability of the moved dentry in the hook and event data
+> > > > 2. First info record is the old parent+name, like FAN_REPORT_DFID_NAME
+> > > > 3. Unlike, MOVED_TO, MOVED_FROM was useless for applications that use
+> > > >    DFID_NAME info to statat(2) the object as we suggested
+> > > >
+> > > > I chose to reduce testing complexity and require all other FID
+> > > > flags with FAN_REPORT_TARGET_FID and there is a convenience
+> > > > macro FAN_REPORT_ALL_FIDS that application can use.
+> > >
+> > > Self comment - Don't use ALL_ for macro names in uapi...
+> > > There are 3 comment of "Deprecated ..."  for ALL flags in fanotify.h alone...
 > >
-> > So that would have been the much better model than a fake extra merge.
+> > Yeah, probably the ALL_FIDS is not worth the possible confusion when we add
+> > another FID flag later ;)
 > >
-> > But at least that extra merge did have explanations, so at least it
-> > doesn't trigger me on _that_ level.
+> > > BTW, I did not mention the FAN_RENAME event alternative proposal in this posting
+> > > not because I object to FAN_RENAME, just because it was simpler to implement
+> > > the MOVED_FROM alternative, so I thought I'll start with this proposal
+> > > and see how
+> > > it goes.
+> >
+> > I've read through all the patches and I didn't find anything wrong.
+> > Thinking about FAN_RENAME proposal - essentially fsnotify_move() would call
+> > fsnotify_name() once more with FS_RENAME event and we'd gate addition of
+> > second dir+name info just by FS_RENAME instead of FS_MOVED_FROM &&
+> > FAN_REPORT_TARGET_FID. Otherwise everything would be the same as in the
+> > current patch set, wouldn't it? IMHO it looks like a bit cleaner API so I'd
+> > lean a bit more towards that.
 >
-> I have been creating those when I place a patchset with an interesting
-> cover letter in a branch.  Now with the entire branch being just that
-> patchset, it doesn't make a lot of sense (except as somewhere to store
-> that cover letter so I don't loose it).  At other times when there are
-> multiple sets of changes on a single branch I think it makes more sense.
+> I grew to like FAN_RENAME better myself as well.
+> To make sure we are talking about the same thing:
+> 1. FAN_RENAME always reports 2*(dirfid+name)
+> 2. FAN_REPORT_TARGET_FID adds optional child fid record to
+>     CREATE/DELETE/RENAME/MOVED_TO/FROM
 >
-> Am I missing a better way to preserve the cover letter for the
-> changes when multiple sets of changes land in a single branch?
->
-> Eric
+
+Err, I tried the FAN_RENAME approach and hit a semantic issue:
+Users can watch a directory inode and get only MOVED_FROM
+when entries are moved from this directory. Same for MOVED_TO.
+How would FAN_RENAME behave when setting FAN_RENAME on a
+directory inode? Should listeners get events on files renamed in and out of that
+directory?
+
+I see several options:
+1. Go back to FAN_MOVED_FROM as in this patch set, where semantics are clear
+2. Report FAN_RENAME if either old or new dir is watched (or mount/sb)
+3. Report FAN_RENAME only if both old and new dirs are watched (or mount/sb)
+
+For option 2, we may need to hide information records, For example, because an
+unprivileged listener may not have access to old or new directory.
+
+A variant of option 3, is that FAN_RENAME will be an event mask flag
+that can be added to FAN_MOVE events, to request that if both FROM/TO events
+are going to be reported, then a single joint event will be reported
+instead, e.g:
+
+#define FAN_MOVE (FAN_MOVED_FROM | FAN_MOVED_TO)
+#define FAN_RENAME (FAN_MOVE | __FAN_MOVE_JOIN)
+
+Instead of generating an extra FS_RENAME event in fsnotify_move(),
+fsnotify() will search for matching marks on the moved->d_parent->d_inode
+of MOVED_FROM event add the mark as the FSNOTIFY_OBJ_TYPE_PARENT
+mark iterator type and then fanotify_group_event_mask() will be able
+to tell if the
+event should be reported as FAN_MOVED_FROM, FAN_MOVED_TO or a joint
+FAN_RENAME.
+
+If a group has the FAN_RENAME mask on the new parent dir, then
+FS_MOVED_TO events can be dropped, because the event was already
+reported as FAN_MOVED_TO or FAN_RENAME with the FS_MOVED_FROM
+event.
+
+Am I over complicating this?
+Do you have a better and clearer semantics to propose?
+
+Thanks,
+Amir.
