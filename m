@@ -2,171 +2,257 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D3A5444F8CA
-	for <lists+linux-api@lfdr.de>; Sun, 14 Nov 2021 16:45:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD75C44F9BC
+	for <lists+linux-api@lfdr.de>; Sun, 14 Nov 2021 18:17:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234744AbhKNPsZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 14 Nov 2021 10:48:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35594 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234393AbhKNPsV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 14 Nov 2021 10:48:21 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85D37C061746;
-        Sun, 14 Nov 2021 07:45:22 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id i8-20020a7bc948000000b0030db7b70b6bso13776917wml.1;
-        Sun, 14 Nov 2021 07:45:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=1fqt4RZHpU7qFJuzFqI1H78E6IxKKO9+0LC3as8rskQ=;
-        b=QLyrd50D2+gddfO/MdBmL6WEqXJM7fq+YotiW1DPonEzTrWt/IxdkOFdbX4AV4uNMw
-         Zv+MBHT8wDJJwlmG0e7z0S+FOku9Gj7lrvq8Zcn2plROXeAJTXIGZ8M9tL3C3+mWVHmC
-         HSFZ1xCytx56w+Z+Doo13FhtRFhAtoPyX077AUv77/hK/7Pp9tSE1yGw0A2VJ0m0xKMD
-         M1CbBOPlqajk49cvrolZQXOx9jkPP0ovJK3y3FJ6NlKfINCCyNFXDa1hNCVW/JsY5HBn
-         PtcuM41BThONaap82BWpmhAPXP8t/d5v7eRqjM5uF37ucRwKu3sGi78GhaRqETKmyaYo
-         rufA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=1fqt4RZHpU7qFJuzFqI1H78E6IxKKO9+0LC3as8rskQ=;
-        b=KTMB+QQUWzUg6yeQtsQS0VeNLDzaU1f9sxm01OiiUUWf5MLK95biYaUL/hHN6EtIpl
-         iJ2Z9niT9Bd3V3KXoG5l+PxQhDb63kxCpiszrKPWe+MZuodZQFq3ivH4/eGfKbM3tF+Y
-         5A+r+zofgE2kCZbUAW+Tllphzm5GGvSYKqYLx5GLjX6NBwwRf2xAJ7bLr4KmwrbYpHjl
-         LqRh08/CM/0ZeovoxwZllOTrHFUToxIFktVnIITcOAwNym0GcFJX8iMRvFeu3FsUNKih
-         87KaaVxiuWWMR/XxemqE0KmMVgeNLAsxsj4MzSgMxLLhRZod29P49nZwJtQxDF8HGDfb
-         CR3Q==
-X-Gm-Message-State: AOAM533VwXCo/7DJ8KZEtIRBhZ5urS1OasSk5NZ7AxzaChf/52oYW5oD
-        lRGDj1e3yRBoCGoUdT0oYaQ=
-X-Google-Smtp-Source: ABdhPJzpK+Kweyt++e3ASXD/8ASda3oraQCNNMZRWMfw5g1bpbfyyMdlIBznIU8unhQD5grLbIISGA==
-X-Received: by 2002:a05:600c:3788:: with SMTP id o8mr29757561wmr.82.1636904721156;
-        Sun, 14 Nov 2021 07:45:21 -0800 (PST)
-Received: from [10.168.10.170] ([170.253.36.171])
-        by smtp.gmail.com with ESMTPSA id l5sm18152582wms.16.2021.11.14.07.45.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 14 Nov 2021 07:45:20 -0800 (PST)
-Message-ID: <03ddd6e6-55ff-fff4-95f3-8c0b008443f8@gmail.com>
-Date:   Sun, 14 Nov 2021 16:45:17 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v16 1/3] fs: Add trusted_for(2) syscall implementation and
- related sysctl
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Christian Heimes <christian@python.org>,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        "Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Paul Moore <paul@paul-moore.com>,
-        =?UTF-8?Q?Philippe_Tr=c3=a9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        Yin Fengwei <fengwei.yin@intel.com>,
-        kernel-hardening@lists.openwall.com,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
+        id S231888AbhKNRUX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 14 Nov 2021 12:20:23 -0500
+Received: from out03.mta.xmission.com ([166.70.13.233]:33582 "EHLO
+        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229725AbhKNRUS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 14 Nov 2021 12:20:18 -0500
+Received: from in01.mta.xmission.com ([166.70.13.51]:45458)
+        by out03.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1mmJ85-007fOg-O3; Sun, 14 Nov 2021 10:17:21 -0700
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95]:44736 helo=email.froward.int.ebiederm.org.xmission.com)
+        by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1mmJ84-008yaG-Ei; Sun, 14 Nov 2021 10:17:21 -0700
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Junio C Hamano <gitster@pobox.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Git List Mailing <git@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
-References: <20211110190626.257017-1-mic@digikod.net>
- <20211110190626.257017-2-mic@digikod.net>
- <8a22a3c2-468c-e96c-6516-22a0f029aa34@gmail.com>
- <5312f022-96ea-5555-8d17-4e60a33cf8f8@digikod.net>
- <34779736-e875-c3e0-75d5-0f0a55d729aa@gmail.com>
- <CAMuHMdXj8fHDq-eFd41GJ4oNwGD5sxhPx82izNwKxE_=x8dqEA@mail.gmail.com>
-From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-In-Reply-To: <CAMuHMdXj8fHDq-eFd41GJ4oNwGD5sxhPx82izNwKxE_=x8dqEA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        Oleg Nesterov <oleg@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Kees Cook <keescook@chromium.org>,
+        Linux API <linux-api@vger.kernel.org>
+References: <878ry512iv.fsf@disp2133>
+        <CAHk-=wivLcb3ELGSf=fM0u=PxP5m1=jRrVXDOr0+QJZRZggaHg@mail.gmail.com>
+        <871r3uy2vw.fsf@disp2133>
+        <CAHk-=wh8v4OC=9rjFs-QH0evVrGQu+wCVL5gE8Y-uTvqh42XNA@mail.gmail.com>
+        <xmqqbl2nmemx.fsf@gitster.g>
+Date:   Sun, 14 Nov 2021 11:16:32 -0600
+In-Reply-To: <xmqqbl2nmemx.fsf@gitster.g> (Junio C. Hamano's message of "Sat,
+        13 Nov 2021 22:32:06 -0800")
+Message-ID: <87pmr2k68f.fsf@email.froward.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-XM-SPF: eid=1mmJ84-008yaG-Ei;;;mid=<87pmr2k68f.fsf@email.froward.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1+gE1TiU4PxLTZNvixOtm/bc/InDopdMBY=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa05.xmission.com
+X-Spam-Level: **
+X-Spam-Status: No, score=2.1 required=8.0 tests=ALL_TRUSTED,BAYES_50,
+        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,XMSubMetaSxObfu_03,
+        XMSubMetaSx_00 autolearn=disabled version=3.4.2
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+        *      [sa05 1397; Body=1 Fuz1=1 Fuz2=1]
+        *  1.2 XMSubMetaSxObfu_03 Obfuscated Sexy Noun-People
+        *  1.0 XMSubMetaSx_00 1+ Sexy Words
+X-Spam-DCC: XMission; sa05 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: **;Junio C Hamano <gitster@pobox.com>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 725 ms - load_scoreonly_sql: 0.13 (0.0%),
+        signal_user_changed: 14 (1.9%), b_tie_ro: 12 (1.6%), parse: 1.96
+        (0.3%), extract_message_metadata: 28 (3.9%), get_uri_detail_list: 7
+        (1.0%), tests_pri_-1000: 10 (1.4%), tests_pri_-950: 1.71 (0.2%),
+        tests_pri_-900: 1.40 (0.2%), tests_pri_-90: 128 (17.6%), check_bayes:
+        90 (12.5%), b_tokenize: 17 (2.3%), b_tok_get_all: 15 (2.0%),
+        b_comp_prob: 5 (0.7%), b_tok_touch_all: 49 (6.8%), b_finish: 1.20
+        (0.2%), tests_pri_0: 520 (71.7%), check_dkim_signature: 0.85 (0.1%),
+        check_dkim_adsp: 3.0 (0.4%), poll_dns_idle: 0.85 (0.1%), tests_pri_10:
+        3.9 (0.5%), tests_pri_500: 10 (1.4%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [GIT PULL] per signal_struct coredumps
+X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Geert,
+Junio C Hamano <gitster@pobox.com> writes:
 
-On 11/14/21 16:32, Geert Uytterhoeven wrote:
-> Hi Alejandro,
-> 
-> On Sat, Nov 13, 2021 at 8:56 PM Alejandro Colomar (man-pages)
-> <alx.manpages@gmail.com> wrote:
->> On 11/13/21 14:02, Mickaël Salaün wrote:
->>>> TL;DR:
->>>>
->>>> ISO C specifies that for the following code:
->>>>
->>>>       enum foo {BAR};
->>>>
->>>>       enum foo foobar;
->>>>
->>>> typeof(foo)    shall be int
->>>> typeof(foobar) is implementation-defined
->>>
->>> I tested with some version of GCC (from 4.9 to 11) and clang (10 and 11)
->>> with different optimizations and the related sizes are at least the same
->>> as for the int type.
+> Linus Torvalds <torvalds@linux-foundation.org> writes:
+>
+>> The basic issue is how to sanely keep track of a cover letter when you
+>> have a branch that you haven't sent out yet, but will ask somebody to
+>> pull. It may still be seeing more testing and development before that
+>> pull happens, though.
 >>
->> GCC has -fshort-enums to make enum types be as short as possible.  I
->> expected -Os to turn this on, since it saves space, but it doesn't.
-> 
-> Changing optimization level must not change the ABI, else debugging
-> would become even more of a nightmare.
+>> This very much smells of what the "branch description" is all about, but
+>>
+>>  (a) I suspect "git branch --edit-description" is not very well known
+>
+> True.
+>
+>
+>>  (b) it works well with "git request-pull", but not so much some other
+>> things (like copying it into a signed tag)
+>
+> I think that is just a matter of programming ;-)
+>
+>>  (c) it makes an unholy mess of your config file if you actually use
+>> it for extensive explanations (branch descriptions _work_ for
+>> multi-line messages, but it really was designed as a one-liner thing).
+>
+> Not, really.
+>
+> The "-m" option similar to "commit/tag" is deliberately omitted and
+> use of editor is forced, to encourage better than one-liner
+> information.  cf. b7200e83 (branch: teach --edit-description option,
+> 2011-09-20).
+>
+> The unholy mess is true if you are in the habit of editing .git/config
+> in your editor, but that is to be expected if you are storing multi
+> paragraph description as a value of a configuration variable.
+>
+>>  (d) it doesn't work across repositories (ie multiple developers or
+>> even just a single developer on multiple machines).
+>
+> This is the biggest issue.
+>
+>> IOW, the "branch description" is _kind_ of the right thing, but not really.
+>
+> Having said all that, quite honestly, as the inventor of the
+> "--edit-description", I did it as sort of a joke, and not a serious
+> "feature".
+>
+>> An empty commit would do it as well, but an empty commit very easily
+>> gets lost (git rebase etc). The fake merge does have similar issues.
+>
+> These days, I think rebase distinguishes between "an empty commit
+> that is deliberately empty from the beginning" and "a commit that
+> was not empty, but because we are applying on a new base, it has
+> become unnecessary and empty", and we can tell the command to drop
+> the latter while keeping the former.  So if I were to design a
+> recommended workflow (and add any missing workflow elements), it
+> would be:
+>
+>  - You develop your N-patch series on a branch;
+>
+>  - You conclude with an empty commit that records your cover letter
+>    material.
+>
+>  - "git commit" may want to learn a new option that automatically
+>    prepares summary of the last N patches in the commit log
+>    editor, and the option should imply the "--allow-empty" option.
+>    That would help when editing such an empty commit that will
+>    become the cover letter.
+>
+>  - You repeatedly "rebase -i", "cherry-pick", etc. to whip your
+>    branch into shape.
+>
+>  - You can push and fetch such a branch among your machines and your
+>    group.
+>
+>  - "git format-patch" may want to recognize that the topmost commit
+>    is an empty commit, and use that as the seed material for the
+>    cover letter.
+>
+>  - If your project's pull request requires a signed tag with cover
+>    letter material, "git tag -s" may want to learn a new option to
+>    be fed such a branch with N-patch plus the topmost empty commit,
+>    and tag the last real commit in the topic (i.e. the parent of the
+>    topmost empty commit) with material taken from the topmost empty
+>    commit.
 
-I agree, but if you invoke implementation-defined,
-then it's not (only) the compiler's fault.
-
-Instead of not allowing GCC to enable -fshort-enums ever,
-one can write ISO C-complying code in the parts that
-will be exposed as an interface,
-by just using int.
-
-That allows using -fshort-enums
-for whatever reasons it might be good.
-
-Not saying that the kernel wants to enable it,
-but it costs nothing to write non-implementation-defined code
-that doesn't forbid it.
+I think an empty commit at the top of a development branch sounds
+like a nice place to store the cover letter for a set of changes.
+That is a related problem but that is not the problem that inspired
+the no-op merge commits.
 
 
-It's comparable to passing a struct (not a pointer to it)
-to a function.
-If you change the size of the struct,
-you screw the interface.
-Better pass pointers, or standard types.
+
+I have not seen addressed the workflow that actually inspired this
+odd thing I am doing.  So let me see if I can describe the problem
+that inspired the merge commit more clearly.
+
+Before the merge window for v5.17 I expect to be working on
+a topic I will loosely call "do_exit_coredumps_and_signals".
+
+There are going to be several changesets (something like):
+"Move coredumps rendezvous into get_signal"
+"Use the same exit code in all implementations of die"
+"Use signal short circuit delivery for coredumps"
+"Use signal short circuit delivery whenever possible"
+"Replace do_exit with a different helper for use by die"
+
+Each of those will consist of 5-10 patches and need to be individually
+reviewed and depend upon each other.  In the roughly 2 months of
+development time before v5.17 I can expect to get several of those
+changesets.  Each changeset will depend upon the work of the changeset
+before.
+
+As each changeset is reviewed and finalized I expect I will put it on
+the topic branch with a merge commit containing the description letter.
+That merge commit will contain a "Link:" tag to the posting on the
+mailing list so that people can find the full description.
+
+When put into the topic branch after review the commits are frozen
+and ready to be sent to Linus for merging, when the next merge window
+opens.
 
 
-Cheers,
-Alex
 
--- 
-Alejandro Colomar
-Linux man-pages comaintainer; http://www.kernel.org/doc/man-pages/
-http://www.alejandro-colomar.es/
+
+When the development window closes and the merge window opens I will run
+"git shortlog" see what is there and write up a description for the
+entire topic branch.  Ideally I will put that into a signed tag etc
+before I send it to Linus.
+
+In the case that triggered this conversation I happened to only have a
+single changeset with a single merge commit in the topic branch which
+looks very odd, but that is mot definitely not the case I want to
+optimize for.
+
+
+The changes I am making are digging through some old grotty areas of the
+kernel.  It isn't uncommon for me to be fixing issues that predate git.
+So it takes some sleuthing and description so that other people can see
+what is going on in each of those changes.  So I want to preserve the
+description of what and what is going on with those changesets as
+much as possible.
+
+A big rollup into a single description for Linus of the entire topic
+branch is necessary, but will generally not contain all of the detail of
+the cover letters for the patch sets.
+
+I need something like a merge commit rather than an empty commit so
+that both the start and the end of the series of changes is shown.
+
+Notes probably don't work because I want the description of what is
+going to persist and be available to "git log".  So that the next poor
+sucker who touches the code can have a change of figuring out what
+I was thinking.
+
+If I have just one fake-merge I would not mind if request-pull or
+something incorporated it, but with several I am most definitely going
+to need to edit the message so it is at the 10,000 foot view of the
+entire topic branch, and not at the nitty gritty view of a single patch
+set.
+
+
+There was only a single changeset in the branch that caused this because
+I am making what is remotely possibly a breaking change and I need to
+get it into a released code base to verify that I am not breaking
+anyone.  If I don't need to revert that change then there are very
+substantial cleanups I can make in the kernel.   So all of the
+additional changesets have to wait until v5.16 is released before I can
+ask Linus to pull them.
+
+Which meant during this one development cycle I was not able to build
+one changeset on top of another changeset because one of the changes is
+something of a risk.  That is a degenerate case of my normal expected
+work-flow.
+
+
+Eric
