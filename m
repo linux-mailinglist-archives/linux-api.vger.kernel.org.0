@@ -2,218 +2,213 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E8AE44F75B
-	for <lists+linux-api@lfdr.de>; Sun, 14 Nov 2021 10:50:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 815EC44F7C2
+	for <lists+linux-api@lfdr.de>; Sun, 14 Nov 2021 13:09:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230193AbhKNJxP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 14 Nov 2021 04:53:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43614 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229908AbhKNJxO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 14 Nov 2021 04:53:14 -0500
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 537E7C061746;
-        Sun, 14 Nov 2021 01:50:19 -0800 (PST)
-Received: by mail-ed1-x530.google.com with SMTP id z10so31064990edc.11;
-        Sun, 14 Nov 2021 01:50:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:references:user-agent:in-reply-to
-         :message-id:mime-version;
-        bh=ZcER0Y3soiBByBb1oP0mC67a0nYeoNNrkpjoobg25YA=;
-        b=JcHkXkQNuJ5kTKKpfJF9VJSWpdJ+CBrHIGby851n60bLf6nD0mFIlT/WvS768L99aa
-         JyXmTaS5mQL2coZkHZpVhllSj8iA2Y6A0m76Ecg1NfxtpmPucR8o6cq36qGZuRmXsIm1
-         yEmDBC9HLeRaMFcm8Mpny87kTKxtWOaPi0CuTdWC5hwWw3iaPNDcBbCXyKvzgqIayhVd
-         5eS32Qrw7nzwbsPPahpNGeNdJjEIZx8Dz4eVhA+++KfwV/hZixzR3pX+mu0uRSKWVcOo
-         R3H0ebIZi1ncYamN+Ge45MCvEWSQ335qXj9lcGoimuTeY0oG4oQ4YwU6FSEgRtmUloa4
-         Xr5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:references:user-agent
-         :in-reply-to:message-id:mime-version;
-        bh=ZcER0Y3soiBByBb1oP0mC67a0nYeoNNrkpjoobg25YA=;
-        b=HT8Sf6NoQhn/5UMQ5FYPSavzF7FDfULN/0eTFU/IiONXC0y9TVK1Gn20zElYL5ZwgB
-         EkjFBHg7MdrYy7cJdp5F+FA3Bi00+NCBwAKt+5oPFAKaAKzCkAXNCKpmPxJSh9aRZmdS
-         sF6Nhb1xLDNH/CzGIMf5FZY0teOyk6KLJh+Gw0qdw6Pmh8nTrHL3qlWVi7xPO1+e5LDH
-         0p+NhWqp0pI+EOIdnyqJIEcJRK5xjDdC4aazzG64mxik91f1i8VvhGYZG6VIJ5QmvZJN
-         w9MREjNTPlBdT0n5z5gbn5OqkehMT00X14GtNLuxWdpUQ1BqvJWRmB2tfE0aMGdUEXsf
-         T/mA==
-X-Gm-Message-State: AOAM530Ea1JJAcYdW/XcQ5gf0u++pntA5hrzlY+qxgUQDy0oPyXH97E2
-        SHb4ag1WJ0KolyDlLzq10uk=
-X-Google-Smtp-Source: ABdhPJxi/eNzbiZ3GaaMvCzhBmZG51tbdy+pIDK//xvTqV8FT646cF8P4uNewLvW9g1p+pbY8ykYbA==
-X-Received: by 2002:a05:6402:270e:: with SMTP id y14mr41510837edd.140.1636883417703;
-        Sun, 14 Nov 2021 01:50:17 -0800 (PST)
-Received: from gmgdl (j120189.upc-j.chello.nl. [24.132.120.189])
-        by smtp.gmail.com with ESMTPSA id nd22sm4881588ejc.98.2021.11.14.01.50.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Nov 2021 01:50:16 -0800 (PST)
-Received: from avar by gmgdl with local (Exim 4.95)
-        (envelope-from <avarab@gmail.com>)
-        id 1mmC9Q-000h4Z-9R;
-        Sun, 14 Nov 2021 10:50:16 +0100
-From:   =?utf-8?B?w4Z2YXIgQXJuZmrDtnLDsA==?= Bjarmason <avarab@gmail.com>
-To:     Junio C Hamano <gitster@pobox.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Git List Mailing <git@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>,
+        id S234477AbhKNMMB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 14 Nov 2021 07:12:01 -0500
+Received: from smtp-190e.mail.infomaniak.ch ([185.125.25.14]:41969 "EHLO
+        smtp-190e.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229563AbhKNML7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 14 Nov 2021 07:11:59 -0500
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4HsWMM73kGzMpvZb;
+        Sun, 14 Nov 2021 13:09:03 +0100 (CET)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4HsWMH5cBRzlh8Tl;
+        Sun, 14 Nov 2021 13:08:59 +0100 (CET)
+Subject: Re: [PATCH v16 1/3] fs: Add trusted_for(2) syscall implementation and
+ related sysctl
+To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>,
         Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Aleksa Sarai <cyphar@cyphar.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Christian Heimes <christian@python.org>,
+        Deven Bowers <deven.desai@linux.microsoft.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Eric Chiang <ericchiang@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [GIT PULL] per signal_struct coredumps
-Date:   Sun, 14 Nov 2021 10:36:46 +0100
-References: <878ry512iv.fsf@disp2133>
- <CAHk-=wivLcb3ELGSf=fM0u=PxP5m1=jRrVXDOr0+QJZRZggaHg@mail.gmail.com>
- <871r3uy2vw.fsf@disp2133>
- <CAHk-=wh8v4OC=9rjFs-QH0evVrGQu+wCVL5gE8Y-uTvqh42XNA@mail.gmail.com>
- <xmqqbl2nmemx.fsf@gitster.g>
-User-agent: Debian GNU/Linux bookworm/sid; Emacs 27.1; mu4e 1.6.9
-In-reply-to: <xmqqbl2nmemx.fsf@gitster.g>
-Message-ID: <211114.86h7cft6av.gmgdl@evledraar.gmail.com>
+        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
+        "Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
+        Matthew Garrett <mjg59@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Paul Moore <paul@paul-moore.com>,
+        =?UTF-8?Q?Philippe_Tr=c3=a9buchet?= 
+        <philippe.trebuchet@ssi.gouv.fr>,
+        Scott Shell <scottsh@microsoft.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Steve Dower <steve.dower@python.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        Yin Fengwei <fengwei.yin@intel.com>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
+References: <20211110190626.257017-1-mic@digikod.net>
+ <20211110190626.257017-2-mic@digikod.net>
+ <8a22a3c2-468c-e96c-6516-22a0f029aa34@gmail.com>
+ <5312f022-96ea-5555-8d17-4e60a33cf8f8@digikod.net>
+ <34779736-e875-c3e0-75d5-0f0a55d729aa@gmail.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <ebaba192-1f0b-eb5e-0914-a0c885afdac6@digikod.net>
+Date:   Sun, 14 Nov 2021 13:09:06 +0100
+User-Agent: 
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <34779736-e875-c3e0-75d5-0f0a55d729aa@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 
-On Sat, Nov 13 2021, Junio C Hamano wrote:
-
-> Linus Torvalds <torvalds@linux-foundation.org> writes:
->
->> The basic issue is how to sanely keep track of a cover letter when you
->> have a branch that you haven't sent out yet, but will ask somebody to
->> pull. It may still be seeing more testing and development before that
->> pull happens, though.
+On 13/11/2021 20:56, Alejandro Colomar (man-pages) wrote:
+> Hi Mickaël,
+> 
+> On 11/13/21 14:02, Mickaël Salaün wrote:
+>>> TL;DR:
+>>>
+>>> ISO C specifies that for the following code:
+>>>
+>>>      enum foo {BAR};
+>>>
+>>>      enum foo foobar;
+>>>
+>>> typeof(foo)    shall be int
+>>> typeof(foobar) is implementation-defined
 >>
->> This very much smells of what the "branch description" is all about, but
+>> I tested with some version of GCC (from 4.9 to 11) and clang (10 and 11)
+>> with different optimizations and the related sizes are at least the same
+>> as for the int type.
+> 
+> GCC has -fshort-enums to make enum types be as short as possible.  I
+> expected -Os to turn this on, since it saves space, but it doesn't.
+> 
+> Still, not relying on enum == int is better, IMO.
+> 
 >>
->>  (a) I suspect "git branch --edit-description" is not very well known
->
-> True.
->
->
->>  (b) it works well with "git request-pull", but not so much some other
->> things (like copying it into a signed tag)
->
-> I think that is just a matter of programming ;-)
->
->>  (c) it makes an unholy mess of your config file if you actually use
->> it for extensive explanations (branch descriptions _work_ for
->> multi-line messages, but it really was designed as a one-liner thing).
->
-> Not, really.
->
-> The "-m" option similar to "commit/tag" is deliberately omitted and
-> use of editor is forced, to encourage better than one-liner
-> information.  cf. b7200e83 (branch: teach --edit-description option,
-> 2011-09-20).
->
-> The unholy mess is true if you are in the habit of editing .git/config
-> in your editor, but that is to be expected if you are storing multi
-> paragraph description as a value of a configuration variable.
->
->>  (d) it doesn't work across repositories (ie multiple developers or
->> even just a single developer on multiple machines).
->
-> This is the biggest issue.
->
->> IOW, the "branch description" is _kind_ of the right thing, but not really.
->
-> Having said all that, quite honestly, as the inventor of the
-> "--edit-description", I did it as sort of a joke, and not a serious
-> "feature".
->
->> An empty commit would do it as well, but an empty commit very easily
->> gets lost (git rebase etc). The fake merge does have similar issues.
->
-> These days, I think rebase distinguishes between "an empty commit
-> that is deliberately empty from the beginning" and "a commit that
-> was not empty, but because we are applying on a new base, it has
-> become unnecessary and empty", and we can tell the command to drop
-> the latter while keeping the former.  So if I were to design a
-> recommended workflow (and add any missing workflow elements), it
-> would be:
->
->  - You develop your N-patch series on a branch;
->
->  - You conclude with an empty commit that records your cover letter
->    material.
->
->  - "git commit" may want to learn a new option that automatically
->    prepares summary of the last N patches in the commit log
->    editor, and the option should imply the "--allow-empty" option.
->    That would help when editing such an empty commit that will
->    become the cover letter.
->
->  - You repeatedly "rebase -i", "cherry-pick", etc. to whip your
->    branch into shape.
->
->  - You can push and fetch such a branch among your machines and your
->    group.
->
->  - "git format-patch" may want to recognize that the topmost commit
->    is an empty commit, and use that as the seed material for the
->    cover letter.
->
->  - If your project's pull request requires a signed tag with cover
->    letter material, "git tag -s" may want to learn a new option to
->    be fed such a branch with N-patch plus the topmost empty commit,
->    and tag the last real commit in the topic (i.e. the parent of the
->    topmost empty commit) with material taken from the topmost empty
->    commit.
->
->> Both a fake merge, and an empty commit have the advantage that they
->> are easy to see and work with (ie "git log" and all the other git
->> workflows work very naturally).
+>>>
+>>> Since foobar = BAR; assigns an int, the best thing to do to avoid
+>>> implementation-defined behavior, is to declare foobar as int too.
 >>
->> Comments from git people?
+>> OK, so it should be enough to change the syscall argument type from enum
+>> trusted_for_usage to int, but we can keep the UAPI with the enum (i.e.
+>> we don't need to change the value to #define TRUSTED_FOR_EXECUTION 1)
+>> right?
+> 
+> Correct.  The enumerations are guaranteed to be int (except in case of
+> UB, see below), so they'll be (almost) the same as a #define after the
+> preprocessor.
+
+Thanks for the detailed explanation! I'll send a new patch taking into
+account your suggestion.
+
+> 
+> 
+> If you do
+> 
+> enum foo {
+>     FOO = 1L << INT_WIDTH
+> };
+> 
+> since that doesn't fit in either int or unsigned int,
+> it is Undefined Behavior,
+> and here GCC decides to use long for FOO.
+> 
+> +++++++++ UB example ++++++++++++++
+> 
+> $ cat foo.c
+>     #include <limits.h>
+>     #include <stdio.h>
+> 
+> 
+>     enum foo {
+>         FOO = 1L << UINT_WIDTH
+>     };
+> 
+>     int main(void)
+>     {
+>         printf("\tsizeof(enum foo) = %zu\n", sizeof(enum foo));
+>         printf("\tsizeof(FOO)      = %zu\n", sizeof(FOO));
+>     }
+> 
+> $ cc foo.c -Wall -Wextra -Werror -Wpedantic -pedantic-errors -std=c2x
+> foo.c:6:23: error: ISO C restricts enumerator values to range of 'int'
+> [-Wpedantic]
+>     6 |                 FOO = 1L << UINT_WIDTH
+>       |                       ^~
+> $ cc foo.c -Wall -Wextra -Werror -std=c2x
+> $ ./a.out
+>     sizeof(enum foo) = 8
+>     sizeof(FOO)      = 8
+> 
+> +++++++++++++ -fshort-enums example +++++++++++++++
+> 
+> $ cat foo.c
+>     #include <stdio.h>
+> 
+> 
+>     enum foo {
+>         FOO = 1
+>     };
+> 
+>     int main(void)
+>     {
+>         printf("\tsizeof(enum foo) = %zu\n", sizeof(enum foo));
+>         printf("\tsizeof(FOO)      = %zu\n", sizeof(FOO));
+>     }
+> 
+> $ cc foo.c -Wall -Wextra -Werror -Wpedantic -pedantic-errors -fshort-enums
+> $ ./a.out
+>     sizeof(enum foo) = 1
+>     sizeof(FOO)      = 4
+> 
+> ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> 
+> Cheers,
+> Alex
+> 
+> 
 >>
->>                 Linus
->
-> I can see how the above outline would work.  I do not know if it
-> would work well for your project, or there are other workflows for
-> which the above outline would be insufficient.
-
-There's a more general question to be considered here which is how the
-object model is supposed to keep track of this sort of thing, if at all.
-
-One solution is (dare I say?) "git notes". I.e. if you're keeping a
-notes/CL about a set of commits you could publish a notes branch where
-the CL is by convention on the tip of that commit. Now when someone else
-"takes over" your branch they'll "git fetch" your notes, have set up
-approprite core.{notes,display}Ref, copy your notes into their own note,
-then edit/amend/publish/push.
-
-Setting that up should be small matter of scripting around existing
-commands, and should be an improvement on having to manually share or
-extract what's now stored in branch descriptions.
-
-On the other hand that information is rather unwieldy to deal with, and
-"notes" support isn't very widespread on e.g. git hosting sites
-(althougt that's also a chicken & egg problem).
-
-Another solution that fits nicely into the data model is to consider
-this the same "problem" as PGP signed commits. I.e. an an
-"x-metadata-cover-letter" header could be added to the tip commit object
-itself, either an --allow-empty --allow-empty-message commit, or "git
-merge --no-ff" in case the range that CL covers is ambiguous (which in
-that case would start with the merge base of the two parents).
-
-If git's going to have some native-ish solution to this problem it
-should also be considered that what E-Mail based workflows want to do
-with CL's is analogous to what popular hosting sites are doing with the
-text field for a PR/MR. I.e. ideally such a cover letter could be
-stored/structured in such a way that if you pushed a branch to open such
-a PR/MR the "cover letter" could be extracted.
-
-Which also gets into questions of if that data should be stored
-permanently. I.e. it's a merge commit as described above would the
-person merging it expect to merge down the parent (i.e. sans
-coverletter), or if it's stored in the commit object rewrite the commit?
-
-And for some text-only cover letters might suffice, but git users in
-general observably upload attachments to explain their commits (say a
-screenshot of performance numbers). So a design that combined the above
-with the ability to point at a tree might be preferred.
+>>>
+>>>
+>>>> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+>>>> index 528a478dbda8..c535e0e43cc8 100644
+>>>> --- a/include/linux/syscalls.h
+>>>> +++ b/include/linux/syscalls.h
+>>>> @@ -462,6 +463,7 @@ asmlinkage long sys_fallocate(int fd, int mode,
+>>>> loff_t offset, loff_t len);
+>>>>    asmlinkage long sys_faccessat(int dfd, const char __user *filename,
+>>>> int mode);
+>>>>    asmlinkage long sys_faccessat2(int dfd, const char __user *filename,
+>>>> int mode,
+>>>>                       int flags);
+>>>> +asmlinkage long sys_trusted_for(int fd, enum trusted_for_usage usage,
+>>>> u32 flags);
+>>>
+>>> Same here.
+>>>
+>>>>    asmlinkage long sys_chdir(const char __user *filename);
+>>>>    asmlinkage long sys_fchdir(unsigned int fd);
+>>>>    asmlinkage long sys_chroot(const char __user *filename);
+>>>
+>>> Thanks,
+>>> Alex
+>>>
+>>>
+> 
