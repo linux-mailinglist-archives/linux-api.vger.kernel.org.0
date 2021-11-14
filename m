@@ -2,241 +2,154 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E7EC44F51A
-	for <lists+linux-api@lfdr.de>; Sat, 13 Nov 2021 20:56:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 338BE44F70B
+	for <lists+linux-api@lfdr.de>; Sun, 14 Nov 2021 07:32:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234129AbhKMT7I (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 13 Nov 2021 14:59:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34418 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233692AbhKMT7H (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 13 Nov 2021 14:59:07 -0500
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BADB3C061766;
-        Sat, 13 Nov 2021 11:56:14 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id p18so1160036wmq.5;
-        Sat, 13 Nov 2021 11:56:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=va+QXChIb6mUqaS7Hvl+13iHU9HTHiGu0D2Aym2Vkj8=;
-        b=ESVoVEtpkOjqVDc3AC7Th7BTC//byih1n09Za+kFJaxGOPNts1YOaSas39PmKfmfO4
-         eVbIzS9Cqz82jWnVdGpWFRgOehqG3e3gL8PtbedmO8D69mBAuVR4cZyspVuUvIVZW2fH
-         4z0CRba7kIglqkdye73s0jJhg9Qi+lP9UdvG4P4J+qz8e0sEfttBgogM5hX4oRhPktY0
-         1UGIswE/8/+HHXIlrw2Vk9zOWPyu7rQ4TOhKEKYXS2YWHhwoZwfqqWeZzTAYoyDoR3NJ
-         BWvVFNaoj+x74+Ep0tL4ou+y0dFhTjENd9dN30DVQRoUvxXqjXXmb7GHQ/xy5fpbMivc
-         YEUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=va+QXChIb6mUqaS7Hvl+13iHU9HTHiGu0D2Aym2Vkj8=;
-        b=trL9o7IAi0Pk4OXOjrC3hEyMye6oQKvyrTjvNm2JyZpZXOhgWtSe5wtm5k34Q3wDYc
-         Jy4FeZ7xfFGfxzbUWSLIJNioEvC4n4VagtlxLJd7SqVzLa5Q21+AQPsjK4E05EX6R4kt
-         AdfEbzuB+EaZe4oEadFsgYuxWC57f5v7SsqvGnP16sprfhw7yliGlVWS5PonzVYPi3Cg
-         F+O5jI80uxH3v1f58ivomwy7u4jzUX8KunXZ5jzZbXqwxYB1Sa2poI5OuyqjYzHwPaT9
-         glNIEyXXIg9QfGQlythhzo2sAOpVyYTX2R/7yoV4IWV4LxstNchx2g46jN6RPBLaOp9s
-         i/Tw==
-X-Gm-Message-State: AOAM532wHZ2pgEmz47eMXMwoJDlYJb8fgVilUA+GVFfXmWAulDKoKJQZ
-        loHQD4t2lo664WraqauCc+w=
-X-Google-Smtp-Source: ABdhPJyrBCFSZIvE6ESCe8fzt5Ofuhbfmh9PY2vocqyNsRvUvnN2UIdr5lyr75/R2K3Cs0qqD9GUAQ==
-X-Received: by 2002:a1c:488:: with SMTP id 130mr28638161wme.157.1636833372652;
-        Sat, 13 Nov 2021 11:56:12 -0800 (PST)
-Received: from [10.168.10.170] ([170.253.36.171])
-        by smtp.gmail.com with ESMTPSA id a10sm11455309wmq.27.2021.11.13.11.56.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 13 Nov 2021 11:56:12 -0800 (PST)
-Message-ID: <34779736-e875-c3e0-75d5-0f0a55d729aa@gmail.com>
-Date:   Sat, 13 Nov 2021 20:56:09 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v16 1/3] fs: Add trusted_for(2) syscall implementation and
- related sysctl
-Content-Language: en-US
-To:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
+        id S229534AbhKNGfC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 14 Nov 2021 01:35:02 -0500
+Received: from pb-smtp1.pobox.com ([64.147.108.70]:61851 "EHLO
+        pb-smtp1.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229469AbhKNGfC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 14 Nov 2021 01:35:02 -0500
+Received: from pb-smtp1.pobox.com (unknown [127.0.0.1])
+        by pb-smtp1.pobox.com (Postfix) with ESMTP id 4DD12F7C80;
+        Sun, 14 Nov 2021 01:32:08 -0500 (EST)
+        (envelope-from junio@pobox.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=from:to:cc
+        :subject:references:date:in-reply-to:message-id:mime-version
+        :content-type; s=sasl; bh=tafw3uBOXL4iPTkK69dWq2I/aXFIYCf0fRfMUs
+        Jlg0U=; b=obQWEpmMXLDkmBHYWnaBuilriw+FAKrdizGYGAcrWRu6ozk8UoEHM+
+        JlAdfyyxza4QQSxRk+jwmJsEAvLTERy9hLVFZ4h76kJy1mWDAmmR3dXMO2B/cfRM
+        FWEqQxEX3yok2Rk96OJNlwK/+pPUomlht3lbr0c4VLgKzJoL11i+k=
+Received: from pb-smtp1.nyi.icgroup.com (unknown [127.0.0.1])
+        by pb-smtp1.pobox.com (Postfix) with ESMTP id 32A53F7C7F;
+        Sun, 14 Nov 2021 01:32:08 -0500 (EST)
+        (envelope-from junio@pobox.com)
+Received: from pobox.com (unknown [104.133.2.91])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by pb-smtp1.pobox.com (Postfix) with ESMTPSA id 76A05F7C7E;
+        Sun, 14 Nov 2021 01:32:07 -0500 (EST)
+        (envelope-from junio@pobox.com)
+From:   Junio C Hamano <gitster@pobox.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
+        Git List Mailing <git@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Oleg Nesterov <oleg@redhat.com>,
         Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Aleksa Sarai <cyphar@cyphar.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Christian Heimes <christian@python.org>,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        "Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Paul Moore <paul@paul-moore.com>,
-        =?UTF-8?Q?Philippe_Tr=c3=a9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        Yin Fengwei <fengwei.yin@intel.com>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
-References: <20211110190626.257017-1-mic@digikod.net>
- <20211110190626.257017-2-mic@digikod.net>
- <8a22a3c2-468c-e96c-6516-22a0f029aa34@gmail.com>
- <5312f022-96ea-5555-8d17-4e60a33cf8f8@digikod.net>
-From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-In-Reply-To: <5312f022-96ea-5555-8d17-4e60a33cf8f8@digikod.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [GIT PULL] per signal_struct coredumps
+References: <878ry512iv.fsf@disp2133>
+        <CAHk-=wivLcb3ELGSf=fM0u=PxP5m1=jRrVXDOr0+QJZRZggaHg@mail.gmail.com>
+        <871r3uy2vw.fsf@disp2133>
+        <CAHk-=wh8v4OC=9rjFs-QH0evVrGQu+wCVL5gE8Y-uTvqh42XNA@mail.gmail.com>
+Date:   Sat, 13 Nov 2021 22:32:06 -0800
+In-Reply-To: <CAHk-=wh8v4OC=9rjFs-QH0evVrGQu+wCVL5gE8Y-uTvqh42XNA@mail.gmail.com>
+        (Linus Torvalds's message of "Sat, 13 Nov 2021 11:14:28 -0800")
+Message-ID: <xmqqbl2nmemx.fsf@gitster.g>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Pobox-Relay-ID: 96E7923E-4514-11EC-B0F8-62A2C8D8090B-77302942!pb-smtp1.pobox.com
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Mickaël,
+Linus Torvalds <torvalds@linux-foundation.org> writes:
 
-On 11/13/21 14:02, Mickaël Salaün wrote:
->> TL;DR:
->>
->> ISO C specifies that for the following code:
->>
->>      enum foo {BAR};
->>
->>      enum foo foobar;
->>
->> typeof(foo)    shall be int
->> typeof(foobar) is implementation-defined
-> 
-> I tested with some version of GCC (from 4.9 to 11) and clang (10 and 11)
-> with different optimizations and the related sizes are at least the same
-> as for the int type.
+> The basic issue is how to sanely keep track of a cover letter when you
+> have a branch that you haven't sent out yet, but will ask somebody to
+> pull. It may still be seeing more testing and development before that
+> pull happens, though.
+>
+> This very much smells of what the "branch description" is all about, but
+>
+>  (a) I suspect "git branch --edit-description" is not very well known
 
-GCC has -fshort-enums to make enum types be as short as possible.  I 
-expected -Os to turn this on, since it saves space, but it doesn't.
-
-Still, not relying on enum == int is better, IMO.
-
-> 
->>
->> Since foobar = BAR; assigns an int, the best thing to do to avoid
->> implementation-defined behavior, is to declare foobar as int too.
-> 
-> OK, so it should be enough to change the syscall argument type from enum
-> trusted_for_usage to int, but we can keep the UAPI with the enum (i.e.
-> we don't need to change the value to #define TRUSTED_FOR_EXECUTION 1) right?
-
-Correct.  The enumerations are guaranteed to be int (except in case of 
-UB, see below), so they'll be (almost) the same as a #define after the 
-preprocessor.
+True.
 
 
-If you do
+>  (b) it works well with "git request-pull", but not so much some other
+> things (like copying it into a signed tag)
 
-enum foo {
-	FOO = 1L << INT_WIDTH
-};
+I think that is just a matter of programming ;-)
 
-since that doesn't fit in either int or unsigned int,
-it is Undefined Behavior,
-and here GCC decides to use long for FOO.
+>  (c) it makes an unholy mess of your config file if you actually use
+> it for extensive explanations (branch descriptions _work_ for
+> multi-line messages, but it really was designed as a one-liner thing).
 
-+++++++++ UB example ++++++++++++++
+Not, really.
 
-$ cat foo.c
-	#include <limits.h>
-	#include <stdio.h>
+The "-m" option similar to "commit/tag" is deliberately omitted and
+use of editor is forced, to encourage better than one-liner
+information.  cf. b7200e83 (branch: teach --edit-description option,
+2011-09-20).
 
+The unholy mess is true if you are in the habit of editing .git/config
+in your editor, but that is to be expected if you are storing multi
+paragraph description as a value of a configuration variable.
 
-	enum foo {
-		FOO = 1L << UINT_WIDTH
-	};
+>  (d) it doesn't work across repositories (ie multiple developers or
+> even just a single developer on multiple machines).
 
-	int main(void)
-	{
-		printf("\tsizeof(enum foo) = %zu\n", sizeof(enum foo));
-		printf("\tsizeof(FOO)      = %zu\n", sizeof(FOO));
-	}
+This is the biggest issue.
 
-$ cc foo.c -Wall -Wextra -Werror -Wpedantic -pedantic-errors -std=c2x
-foo.c:6:23: error: ISO C restricts enumerator values to range of 'int' 
-[-Wpedantic]
-     6 |                 FOO = 1L << UINT_WIDTH
-       |                       ^~
-$ cc foo.c -Wall -Wextra -Werror -std=c2x
-$ ./a.out
-	sizeof(enum foo) = 8
-	sizeof(FOO)      = 8
+> IOW, the "branch description" is _kind_ of the right thing, but not really.
 
-+++++++++++++ -fshort-enums example +++++++++++++++
+Having said all that, quite honestly, as the inventor of the
+"--edit-description", I did it as sort of a joke, and not a serious
+"feature".
 
-$ cat foo.c
-	#include <stdio.h>
+> An empty commit would do it as well, but an empty commit very easily
+> gets lost (git rebase etc). The fake merge does have similar issues.
 
+These days, I think rebase distinguishes between "an empty commit
+that is deliberately empty from the beginning" and "a commit that
+was not empty, but because we are applying on a new base, it has
+become unnecessary and empty", and we can tell the command to drop
+the latter while keeping the former.  So if I were to design a
+recommended workflow (and add any missing workflow elements), it
+would be:
 
-	enum foo {
-		FOO = 1
-	};
+ - You develop your N-patch series on a branch;
 
-	int main(void)
-	{
-		printf("\tsizeof(enum foo) = %zu\n", sizeof(enum foo));
-		printf("\tsizeof(FOO)      = %zu\n", sizeof(FOO));
-	}
+ - You conclude with an empty commit that records your cover letter
+   material.
 
-$ cc foo.c -Wall -Wextra -Werror -Wpedantic -pedantic-errors -fshort-enums
-$ ./a.out
-	sizeof(enum foo) = 1
-	sizeof(FOO)      = 4
+ - "git commit" may want to learn a new option that automatically
+   prepares summary of the last N patches in the commit log
+   editor, and the option should imply the "--allow-empty" option.
+   That would help when editing such an empty commit that will
+   become the cover letter.
 
-++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ - You repeatedly "rebase -i", "cherry-pick", etc. to whip your
+   branch into shape.
 
-Cheers,
-Alex
+ - You can push and fetch such a branch among your machines and your
+   group.
 
+ - "git format-patch" may want to recognize that the topmost commit
+   is an empty commit, and use that as the seed material for the
+   cover letter.
 
-> 
->>
->>
->>> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
->>> index 528a478dbda8..c535e0e43cc8 100644
->>> --- a/include/linux/syscalls.h
->>> +++ b/include/linux/syscalls.h
->>> @@ -462,6 +463,7 @@ asmlinkage long sys_fallocate(int fd, int mode,
->>> loff_t offset, loff_t len);
->>>    asmlinkage long sys_faccessat(int dfd, const char __user *filename,
->>> int mode);
->>>    asmlinkage long sys_faccessat2(int dfd, const char __user *filename,
->>> int mode,
->>>                       int flags);
->>> +asmlinkage long sys_trusted_for(int fd, enum trusted_for_usage usage,
->>> u32 flags);
->>
->> Same here.
->>
->>>    asmlinkage long sys_chdir(const char __user *filename);
->>>    asmlinkage long sys_fchdir(unsigned int fd);
->>>    asmlinkage long sys_chroot(const char __user *filename);
->>
->> Thanks,
->> Alex
->>
->>
+ - If your project's pull request requires a signed tag with cover
+   letter material, "git tag -s" may want to learn a new option to
+   be fed such a branch with N-patch plus the topmost empty commit,
+   and tag the last real commit in the topic (i.e. the parent of the
+   topmost empty commit) with material taken from the topmost empty
+   commit.
 
--- 
-Alejandro Colomar
-Linux man-pages comaintainer; http://www.kernel.org/doc/man-pages/
-http://www.alejandro-colomar.es/
+> Both a fake merge, and an empty commit have the advantage that they
+> are easy to see and work with (ie "git log" and all the other git
+> workflows work very naturally).
+>
+> Comments from git people?
+>
+>                 Linus
+
+I can see how the above outline would work.  I do not know if it
+would work well for your project, or there are other workflows for
+which the above outline would be insufficient.
+
