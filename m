@@ -2,169 +2,340 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2418645073C
-	for <lists+linux-api@lfdr.de>; Mon, 15 Nov 2021 15:39:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BB5F4515BA
+	for <lists+linux-api@lfdr.de>; Mon, 15 Nov 2021 21:48:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236472AbhKOOlw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 15 Nov 2021 09:41:52 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:34180 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232178AbhKOOk7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Nov 2021 09:40:59 -0500
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id BA9C11FD69;
-        Mon, 15 Nov 2021 14:37:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1636987072; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=h5MbPxtJGshaYfzYcqfDRNTlvt/LRhOEKlRQlOIkG4k=;
-        b=TCC+JauX9OsG+8KKKUXv1ZGjkuiaVYZQ+tVbhMeYwpmPVtdjcJZY6zuch1cCICgGAc0Re3
-        fgves/v8LaCguew3mUmdHp/5WQsm1I9K4a7FckPzqo2OIMUVp1dTJ/FNrriOP4TE39wRhY
-        NzYV13pjS/OQ6fiCW98RR4c7cngayX0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1636987072;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=h5MbPxtJGshaYfzYcqfDRNTlvt/LRhOEKlRQlOIkG4k=;
-        b=Zc2Ry2/GdHvXf9NVXJcwojJ4pGr378scYQj6tBkPLx9QL2diQtF9/QFkYiuEQw42R/dxLl
-        cbCJL6apNwYIKLBw==
-Received: from quack2.suse.cz (unknown [10.100.200.198])
-        by relay2.suse.de (Postfix) with ESMTP id A8106A3B9A;
-        Mon, 15 Nov 2021 14:37:52 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 14DE61E11F3; Mon, 15 Nov 2021 15:37:50 +0100 (CET)
-Date:   Mon, 15 Nov 2021 15:37:50 +0100
-From:   Jan Kara <jack@suse.cz>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Jan Kara <jack@suse.cz>,
-        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH 0/7] Report more information in fanotify dirent events
-Message-ID: <20211115143750.GE23412@quack2.suse.cz>
-References: <20211029114028.569755-1-amir73il@gmail.com>
- <CAOQ4uxjazEx=bL6ZfLaGCfH6pii=OatQDoeWc+74AthaaUC49g@mail.gmail.com>
- <20211112163955.GA30295@quack2.suse.cz>
- <CAOQ4uxgT5a7UFUrb5LCcXo77Uda4t5c+1rw+BFDfTAx8szp+HQ@mail.gmail.com>
- <CAOQ4uxgEbjkMMF-xVTdfWcLi4y8DGNit5Eeq=evby2nWCuiDVw@mail.gmail.com>
- <20211115102330.GC23412@quack2.suse.cz>
- <CAOQ4uxiBFkkbKU=yimLXoYKHFWOoUYrXfg4Kw_CkF=hcSGOm3A@mail.gmail.com>
+        id S232166AbhKOUt7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 15 Nov 2021 15:49:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37430 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1345443AbhKOT22 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Nov 2021 14:28:28 -0500
+Received: from smtp-8faa.mail.infomaniak.ch (smtp-8faa.mail.infomaniak.ch [IPv6:2001:1600:4:17::8faa])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ED6BC0AD657
+        for <linux-api@vger.kernel.org>; Mon, 15 Nov 2021 10:53:15 -0800 (PST)
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4HtJHF3m9yzMpnSf;
+        Mon, 15 Nov 2021 19:53:13 +0100 (CET)
+Received: from localhost (unknown [23.97.221.149])
+        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4HtJHF0bgczlh8Tx;
+        Mon, 15 Nov 2021 19:53:13 +0100 (CET)
+From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
+To:     Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+        Alejandro Colomar <alx.manpages@gmail.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Christian Heimes <christian@python.org>,
+        Deven Bowers <deven.desai@linux.microsoft.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Eric Chiang <ericchiang@google.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
+        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
+        "Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
+        Matthew Garrett <mjg59@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Paul Moore <paul@paul-moore.com>,
+        =?UTF-8?q?Philippe=20Tr=C3=A9buchet?= 
+        <philippe.trebuchet@ssi.gouv.fr>,
+        Scott Shell <scottsh@microsoft.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Steve Dower <steve.dower@python.org>,
+        Steve Grubb <sgrubb@redhat.com>,
+        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
+        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
+        Yin Fengwei <fengwei.yin@intel.com>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@linux.microsoft.com>
+Subject: [PATCH v17 2/3] arch: Wire up trusted_for(2)
+Date:   Mon, 15 Nov 2021 19:53:03 +0100
+Message-Id: <20211115185304.198460-3-mic@digikod.net>
+X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211115185304.198460-1-mic@digikod.net>
+References: <20211115185304.198460-1-mic@digikod.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOQ4uxiBFkkbKU=yimLXoYKHFWOoUYrXfg4Kw_CkF=hcSGOm3A@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon 15-11-21 14:22:49, Amir Goldstein wrote:
-> > > A variant of option 3, is that FAN_RENAME will be an event mask flag
-> > > that can be added to FAN_MOVE events, to request that if both FROM/TO events
-> > > are going to be reported, then a single joint event will be reported
-> > > instead, e.g:
-> > >
-> > > #define FAN_MOVE (FAN_MOVED_FROM | FAN_MOVED_TO)
-> > > #define FAN_RENAME (FAN_MOVE | __FAN_MOVE_JOIN)
-> > >
-> > > Instead of generating an extra FS_RENAME event in fsnotify_move(),
-> > > fsnotify() will search for matching marks on the moved->d_parent->d_inode
-> > > of MOVED_FROM event add the mark as the FSNOTIFY_OBJ_TYPE_PARENT
-> > > mark iterator type and then fanotify_group_event_mask() will be able
-> > > to tell if the
-> > > event should be reported as FAN_MOVED_FROM, FAN_MOVED_TO or a joint
-> > > FAN_RENAME.
-> > >
-> > > If a group has the FAN_RENAME mask on the new parent dir, then
-> > > FS_MOVED_TO events can be dropped, because the event was already
-> > > reported as FAN_MOVED_TO or FAN_RENAME with the FS_MOVED_FROM
-> > > event.
-> > >
-> > > Am I over complicating this?
-> > > Do you have a better and clearer semantics to propose?
-> >
-> > So from API POV I like most keeping FAN_RENAME separate from FAN_MOVED_TO &
-> > FAN_MOVED_FROM. It would be generated whenever source or target is tagged
-> > with FAN_RENAME, source info is provided if source is tagged, target info
-> > is provided when target is tagged (both are provides when both are tagged).
-> > So it is kind of like FAN_MOVED_FROM | FAN_MOVED_TO but with guaranteed
-> > merging. This looks like a clean enough and simple to explain API. Sure it
-> > duplicates FAN_MOVED_FROM & FAN_MOVED_TO a lot but I think the simplicity
-> > of the API outweights the duplication. Basically FAN_MOVED_FROM &
-> > FAN_MOVED_TO could be deprecated with this semantics of FAN_RENAME although
-> > I don't think we want to do it for compatibility reasons.
-> 
-> Well, not only for compatibility.
-> The ability to request events for files moved into directory ~/inbox/ and files
-> moved out of directory ~/outbox/ cannot be expressed with FAN_RENAME
-> alone...
+From: Mickaël Salaün <mic@linux.microsoft.com>
 
-If you ask for FAN_RENAME on ~/inbox, you can then filter out the "move
-out" events based on the information coming with the event to userspace.
-But I agree it requires more work in userspace to simulate FAN_MOVED_FROM.
+Wire up trusted_for(2) for all architectures.
 
-> > Implementation-wise we have couple of options. Currently the simplest I can
-> > see is that fsnotify() would iterate marks on both source & target dirs
-> > (like we already do for inode & parent) when it handles FS_RENAME event. In
-> 
-> Yes. I already have a WIP branch (fan_reanme) using
-> FSNOTIFY_OBJ_TYPE_PARENT for the target dir mark.
-> 
-> Heads up: I intend to repurpose FS_DN_RENAME, by sending FS_RENAME
-> to ->handle_inode_event() backends only if (parent_mark == inode_mark).
-> Duplicating FS_MOVED_FROM I can cope with, but wasting 3 flags for
-> the same event is too much for me to bare ;-)
+Cc: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Kees Cook <keescook@chromium.org>
+Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
+Reviewed-by: Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Reviewed-by: Kees Cook <keescook@chromium.org>
+Link: https://lore.kernel.org/r/20211115185304.198460-3-mic@digikod.net
+---
 
-:)
+Changes since v15:
+* Update syscall IDs to align with the new futex_waitv.
 
-> > fanotify_handle_event() we will decide which info to report with FAN_RENAME
-> > event based on which marks in iter_info have FS_RENAME set (luckily mount
-> > marks are out of question for rename events so it will be relatively
-> > simple). What do you think?
-> 
-> I like it. However,
-> If FAN_RENAME can have any combination of old,new,old+new info
-> we cannot get any with a single new into type
-> FAN_EVENT_INFO_TYPE_DFID_NAME2
-> 
-> (as in this posting)
+Changes since v13:
+* Add Reviewed-by Kees Cook.
 
-We could define only DFID2 and DFID_NAME2 but I agree it would be somewhat
-weird to have DFID_NAME2 in an event and not DFID_NAME.
+Changes since v12:
+* Update syscall IDs to align with the new ones.
 
-> We can go with:
-> #define FAN_EVENT_INFO_TYPE_OLD_DFID_NAME   6
-> #define FAN_EVENT_INFO_TYPE_NEW_DFID_NAME  7
-> #define FAN_EVENT_INFO_TYPE_OLD_DFID               8
-> #define FAN_EVENT_INFO_TYPE_NEW_DFID              9
-> 
-> Or we can go with:
-> /* Sub-types common to all three fid info types */
-> #define FAN_EVENT_INFO_FID_OF_OLD_DIR     1
-> #define FAN_EVENT_INFO_FID_OF_NEW_DIR    2
-> 
-> struct fanotify_event_info_header {
->        __u8 info_type;
->        __u8 sub_type;
->        __u16 len;
-> };
-> 
-> (as in my wip branch fanotify_fid_of)
+Changes since v11:
+* Add Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+* Rebase and leave space for watch_mount(2) and epoll_pwait2(2) from
+  -next.
 
-When we went the way of having different types for FID and DFID, I'd
-continue with OLD_DFID_NAME, NEW_DFID_NAME, ... and keep the padding byte
-free for now (just in case there's some extension which would urgently need
-it).
+Changes since v9:
+* Rename introspect_access(2) to trusted_for(2).
+* Increase syscall number to leave space for memfd_secret(2) in -next.
+
+Changes since v7:
+* New patch for the new syscall.
+* Increase syscall numbers by 2 to leave space for new ones (in
+  linux-next): watch_mount(2) and process_madvise(2).
+---
+ arch/alpha/kernel/syscalls/syscall.tbl      | 2 ++
+ arch/arm/tools/syscall.tbl                  | 1 +
+ arch/arm64/include/asm/unistd.h             | 2 +-
+ arch/arm64/include/asm/unistd32.h           | 2 ++
+ arch/ia64/kernel/syscalls/syscall.tbl       | 2 ++
+ arch/m68k/kernel/syscalls/syscall.tbl       | 2 ++
+ arch/microblaze/kernel/syscalls/syscall.tbl | 2 ++
+ arch/mips/kernel/syscalls/syscall_n32.tbl   | 2 ++
+ arch/mips/kernel/syscalls/syscall_n64.tbl   | 2 ++
+ arch/mips/kernel/syscalls/syscall_o32.tbl   | 2 ++
+ arch/parisc/kernel/syscalls/syscall.tbl     | 2 ++
+ arch/powerpc/kernel/syscalls/syscall.tbl    | 2 ++
+ arch/s390/kernel/syscalls/syscall.tbl       | 2 ++
+ arch/sh/kernel/syscalls/syscall.tbl         | 2 ++
+ arch/sparc/kernel/syscalls/syscall.tbl      | 2 ++
+ arch/x86/entry/syscalls/syscall_32.tbl      | 1 +
+ arch/x86/entry/syscalls/syscall_64.tbl      | 1 +
+ arch/xtensa/kernel/syscalls/syscall.tbl     | 2 ++
+ include/uapi/asm-generic/unistd.h           | 4 +++-
+ 19 files changed, 35 insertions(+), 2 deletions(-)
+
+diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
+index e4a041cd5715..7943ed6455a2 100644
+--- a/arch/alpha/kernel/syscalls/syscall.tbl
++++ b/arch/alpha/kernel/syscalls/syscall.tbl
+@@ -488,3 +488,5 @@
+ 556	common	landlock_restrict_self		sys_landlock_restrict_self
+ # 557 reserved for memfd_secret
+ 558	common	process_mrelease		sys_process_mrelease
++# 559 reserved for futex_waitv
++560	common	trusted_for			sys_trusted_for
+diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
+index 543100151f2b..ccfd831bcb96 100644
+--- a/arch/arm/tools/syscall.tbl
++++ b/arch/arm/tools/syscall.tbl
+@@ -463,3 +463,4 @@
+ # 447 reserved for memfd_secret
+ 448	common	process_mrelease		sys_process_mrelease
+ 449	common	futex_waitv			sys_futex_waitv
++450	common	trusted_for			sys_trusted_for
+diff --git a/arch/arm64/include/asm/unistd.h b/arch/arm64/include/asm/unistd.h
+index 6bdb5f5db438..4e65da3445c7 100644
+--- a/arch/arm64/include/asm/unistd.h
++++ b/arch/arm64/include/asm/unistd.h
+@@ -38,7 +38,7 @@
+ #define __ARM_NR_compat_set_tls		(__ARM_NR_COMPAT_BASE + 5)
+ #define __ARM_NR_COMPAT_END		(__ARM_NR_COMPAT_BASE + 0x800)
  
-> We could also have FAN_RENAME require FAN_REPORT_NAME
-> that would limit the number of info types, but I cannot find a good
-> justification for this requirement.
-
-Yeah, I would not force that.
-
-								Honza
+-#define __NR_compat_syscalls		450
++#define __NR_compat_syscalls		451
+ #endif
+ 
+ #define __ARCH_WANT_SYS_CLONE
+diff --git a/arch/arm64/include/asm/unistd32.h b/arch/arm64/include/asm/unistd32.h
+index 41ea1195e44b..0e69743609ff 100644
+--- a/arch/arm64/include/asm/unistd32.h
++++ b/arch/arm64/include/asm/unistd32.h
+@@ -905,6 +905,8 @@ __SYSCALL(__NR_landlock_restrict_self, sys_landlock_restrict_self)
+ __SYSCALL(__NR_process_mrelease, sys_process_mrelease)
+ #define __NR_futex_waitv 449
+ __SYSCALL(__NR_futex_waitv, sys_futex_waitv)
++#define __NR_trusted_for 450
++__SYSCALL(__NR_trusted_for, sys_trusted_for)
+ 
+ /*
+  * Please add new compat syscalls above this comment and update
+diff --git a/arch/ia64/kernel/syscalls/syscall.tbl b/arch/ia64/kernel/syscalls/syscall.tbl
+index 6fea1844fb95..362c1e837bd6 100644
+--- a/arch/ia64/kernel/syscalls/syscall.tbl
++++ b/arch/ia64/kernel/syscalls/syscall.tbl
+@@ -369,3 +369,5 @@
+ 446	common	landlock_restrict_self		sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448	common	process_mrelease		sys_process_mrelease
++# 449 reserved for futex_waitv
++450	common	trusted_for			sys_trusted_for
+diff --git a/arch/m68k/kernel/syscalls/syscall.tbl b/arch/m68k/kernel/syscalls/syscall.tbl
+index 7976dff8f879..90306947817d 100644
+--- a/arch/m68k/kernel/syscalls/syscall.tbl
++++ b/arch/m68k/kernel/syscalls/syscall.tbl
+@@ -448,3 +448,5 @@
+ 446	common	landlock_restrict_self		sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448	common	process_mrelease		sys_process_mrelease
++# 449 reserved for futex_waitv
++450	common	trusted_for			sys_trusted_for
+diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
+index 6b0e11362bd2..8b19bbdaaf70 100644
+--- a/arch/microblaze/kernel/syscalls/syscall.tbl
++++ b/arch/microblaze/kernel/syscalls/syscall.tbl
+@@ -454,3 +454,5 @@
+ 446	common	landlock_restrict_self		sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448	common	process_mrelease		sys_process_mrelease
++# 449 reserved for futex_waitv
++450	common	trusted_for			sys_trusted_for
+diff --git a/arch/mips/kernel/syscalls/syscall_n32.tbl b/arch/mips/kernel/syscalls/syscall_n32.tbl
+index 70e32de2bcaa..1a84e8d1c776 100644
+--- a/arch/mips/kernel/syscalls/syscall_n32.tbl
++++ b/arch/mips/kernel/syscalls/syscall_n32.tbl
+@@ -387,3 +387,5 @@
+ 446	n32	landlock_restrict_self		sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448	n32	process_mrelease		sys_process_mrelease
++# 449 reserved for futex_waitv
++450	n32	trusted_for			sys_trusted_for
+diff --git a/arch/mips/kernel/syscalls/syscall_n64.tbl b/arch/mips/kernel/syscalls/syscall_n64.tbl
+index 1ca7bc337932..ced3db574de3 100644
+--- a/arch/mips/kernel/syscalls/syscall_n64.tbl
++++ b/arch/mips/kernel/syscalls/syscall_n64.tbl
+@@ -363,3 +363,5 @@
+ 446	n64	landlock_restrict_self		sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448	n64	process_mrelease		sys_process_mrelease
++# 449 reserved for futex_waitv
++450	n64	trusted_for			sys_trusted_for
+diff --git a/arch/mips/kernel/syscalls/syscall_o32.tbl b/arch/mips/kernel/syscalls/syscall_o32.tbl
+index a61c35edaa74..94b77adc6165 100644
+--- a/arch/mips/kernel/syscalls/syscall_o32.tbl
++++ b/arch/mips/kernel/syscalls/syscall_o32.tbl
+@@ -436,3 +436,5 @@
+ 446	o32	landlock_restrict_self		sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448	o32	process_mrelease		sys_process_mrelease
++# 449 reserved for futex_waitv
++450	o32	trusted_for			sys_trusted_for
+diff --git a/arch/parisc/kernel/syscalls/syscall.tbl b/arch/parisc/kernel/syscalls/syscall.tbl
+index bf751e0732b7..11de0c191a0e 100644
+--- a/arch/parisc/kernel/syscalls/syscall.tbl
++++ b/arch/parisc/kernel/syscalls/syscall.tbl
+@@ -446,3 +446,5 @@
+ 446	common	landlock_restrict_self		sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448	common	process_mrelease		sys_process_mrelease
++# 449 reserved for futex_waitv
++450	common	trusted_for			sys_trusted_for
+diff --git a/arch/powerpc/kernel/syscalls/syscall.tbl b/arch/powerpc/kernel/syscalls/syscall.tbl
+index 7bef917cc84e..b7337d3843a7 100644
+--- a/arch/powerpc/kernel/syscalls/syscall.tbl
++++ b/arch/powerpc/kernel/syscalls/syscall.tbl
+@@ -528,3 +528,5 @@
+ 446	common	landlock_restrict_self		sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448	common	process_mrelease		sys_process_mrelease
++# 449 reserved for futex_waitv
++450	common	trusted_for			sys_trusted_for
+diff --git a/arch/s390/kernel/syscalls/syscall.tbl b/arch/s390/kernel/syscalls/syscall.tbl
+index df5261e5cfe1..98bab648cda6 100644
+--- a/arch/s390/kernel/syscalls/syscall.tbl
++++ b/arch/s390/kernel/syscalls/syscall.tbl
+@@ -451,3 +451,5 @@
+ 446  common	landlock_restrict_self	sys_landlock_restrict_self	sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448  common	process_mrelease	sys_process_mrelease		sys_process_mrelease
++# 449 reserved for futex_waitv
++450  common	trusted_for		sys_trusted_for			sys_trusted_for
+diff --git a/arch/sh/kernel/syscalls/syscall.tbl b/arch/sh/kernel/syscalls/syscall.tbl
+index 208f131659c5..88c6cb3de23b 100644
+--- a/arch/sh/kernel/syscalls/syscall.tbl
++++ b/arch/sh/kernel/syscalls/syscall.tbl
+@@ -451,3 +451,5 @@
+ 446	common	landlock_restrict_self		sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448	common	process_mrelease		sys_process_mrelease
++# 449 reserved for futex_waitv
++450	common	trusted_for			sys_trusted_for
+diff --git a/arch/sparc/kernel/syscalls/syscall.tbl b/arch/sparc/kernel/syscalls/syscall.tbl
+index c37764dc764d..b0db960c5897 100644
+--- a/arch/sparc/kernel/syscalls/syscall.tbl
++++ b/arch/sparc/kernel/syscalls/syscall.tbl
+@@ -494,3 +494,5 @@
+ 446	common	landlock_restrict_self		sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448	common	process_mrelease		sys_process_mrelease
++# 449 reserved for futex_waitv
++450	common	trusted_for			sys_trusted_for
+diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
+index 7e25543693de..2f230c04f8a7 100644
+--- a/arch/x86/entry/syscalls/syscall_32.tbl
++++ b/arch/x86/entry/syscalls/syscall_32.tbl
+@@ -454,3 +454,4 @@
+ 447	i386	memfd_secret		sys_memfd_secret
+ 448	i386	process_mrelease	sys_process_mrelease
+ 449	i386	futex_waitv		sys_futex_waitv
++450	i386	trusted_for		sys_trusted_for
+diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+index fe8f8dd157b4..678ab13ee1c1 100644
+--- a/arch/x86/entry/syscalls/syscall_64.tbl
++++ b/arch/x86/entry/syscalls/syscall_64.tbl
+@@ -371,6 +371,7 @@
+ 447	common	memfd_secret		sys_memfd_secret
+ 448	common	process_mrelease	sys_process_mrelease
+ 449	common	futex_waitv		sys_futex_waitv
++450	common	trusted_for		sys_trusted_for
+ 
+ #
+ # Due to a historical design error, certain syscalls are numbered differently
+diff --git a/arch/xtensa/kernel/syscalls/syscall.tbl b/arch/xtensa/kernel/syscalls/syscall.tbl
+index 104b327f8ac9..9dab1dfffc95 100644
+--- a/arch/xtensa/kernel/syscalls/syscall.tbl
++++ b/arch/xtensa/kernel/syscalls/syscall.tbl
+@@ -419,3 +419,5 @@
+ 446	common	landlock_restrict_self		sys_landlock_restrict_self
+ # 447 reserved for memfd_secret
+ 448	common	process_mrelease		sys_process_mrelease
++# 449 reserved for futex_waitv
++450	common	trusted_for			sys_trusted_for
+diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+index 4557a8b6086f..ded7a49616f2 100644
+--- a/include/uapi/asm-generic/unistd.h
++++ b/include/uapi/asm-generic/unistd.h
+@@ -882,9 +882,11 @@ __SYSCALL(__NR_process_mrelease, sys_process_mrelease)
+ 
+ #define __NR_futex_waitv 449
+ __SYSCALL(__NR_futex_waitv, sys_futex_waitv)
++#define __NR_trusted_for 450
++__SYSCALL(__NR_trusted_for, sys_trusted_for)
+ 
+ #undef __NR_syscalls
+-#define __NR_syscalls 450
++#define __NR_syscalls 451
+ 
+ /*
+  * 32 bit systems traditionally used different
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.33.1
+
