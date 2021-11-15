@@ -2,257 +2,198 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD75C44F9BC
-	for <lists+linux-api@lfdr.de>; Sun, 14 Nov 2021 18:17:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61AD5450258
+	for <lists+linux-api@lfdr.de>; Mon, 15 Nov 2021 11:23:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231888AbhKNRUX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 14 Nov 2021 12:20:23 -0500
-Received: from out03.mta.xmission.com ([166.70.13.233]:33582 "EHLO
-        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229725AbhKNRUS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 14 Nov 2021 12:20:18 -0500
-Received: from in01.mta.xmission.com ([166.70.13.51]:45458)
-        by out03.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1mmJ85-007fOg-O3; Sun, 14 Nov 2021 10:17:21 -0700
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95]:44736 helo=email.froward.int.ebiederm.org.xmission.com)
-        by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1mmJ84-008yaG-Ei; Sun, 14 Nov 2021 10:17:21 -0700
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Junio C Hamano <gitster@pobox.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Git List Mailing <git@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Kees Cook <keescook@chromium.org>,
+        id S230516AbhKOK0f (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 15 Nov 2021 05:26:35 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:44062 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230432AbhKOK0b (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Nov 2021 05:26:31 -0500
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id CC7B71FD66;
+        Mon, 15 Nov 2021 10:23:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1636971814; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=hPUumuPVustUG2HDLbAv8GjadAS91qycCHNjWd9B11g=;
+        b=YJvS76exNWyEE2EpdzzPd5Htv0q2IHn52LB2gGLxg99UseYLFhtTWHNfzBHJ1o3sxh/jmk
+        a8X0Tj8KP46KQxFIIf181JMu4soBAeaYSptxYLiFqvPvdr5YMAkCm0B9X6QyqdfUg8vdDM
+        hWT+2ZxpZ/a8clJF0lNfoy7WQEqOyIk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1636971814;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=hPUumuPVustUG2HDLbAv8GjadAS91qycCHNjWd9B11g=;
+        b=y79pZQVc6NwH+NPJEpT/2JF8Xu3jLwbVizqIpK988FO/o4etkqEfg5Y5U68DojS0djyRue
+        Rv4WvqtrTu8JsCDw==
+Received: from quack2.suse.cz (unknown [10.100.200.198])
+        by relay2.suse.de (Postfix) with ESMTP id ADF2AA3B87;
+        Mon, 15 Nov 2021 10:23:34 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 36E851E0C01; Mon, 15 Nov 2021 11:23:30 +0100 (CET)
+Date:   Mon, 15 Nov 2021 11:23:30 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>,
+        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>
-References: <878ry512iv.fsf@disp2133>
-        <CAHk-=wivLcb3ELGSf=fM0u=PxP5m1=jRrVXDOr0+QJZRZggaHg@mail.gmail.com>
-        <871r3uy2vw.fsf@disp2133>
-        <CAHk-=wh8v4OC=9rjFs-QH0evVrGQu+wCVL5gE8Y-uTvqh42XNA@mail.gmail.com>
-        <xmqqbl2nmemx.fsf@gitster.g>
-Date:   Sun, 14 Nov 2021 11:16:32 -0600
-In-Reply-To: <xmqqbl2nmemx.fsf@gitster.g> (Junio C. Hamano's message of "Sat,
-        13 Nov 2021 22:32:06 -0800")
-Message-ID: <87pmr2k68f.fsf@email.froward.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+Subject: Re: [PATCH 0/7] Report more information in fanotify dirent events
+Message-ID: <20211115102330.GC23412@quack2.suse.cz>
+References: <20211029114028.569755-1-amir73il@gmail.com>
+ <CAOQ4uxjazEx=bL6ZfLaGCfH6pii=OatQDoeWc+74AthaaUC49g@mail.gmail.com>
+ <20211112163955.GA30295@quack2.suse.cz>
+ <CAOQ4uxgT5a7UFUrb5LCcXo77Uda4t5c+1rw+BFDfTAx8szp+HQ@mail.gmail.com>
+ <CAOQ4uxgEbjkMMF-xVTdfWcLi4y8DGNit5Eeq=evby2nWCuiDVw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1mmJ84-008yaG-Ei;;;mid=<87pmr2k68f.fsf@email.froward.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX1+gE1TiU4PxLTZNvixOtm/bc/InDopdMBY=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa05.xmission.com
-X-Spam-Level: **
-X-Spam-Status: No, score=2.1 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,XMSubMetaSxObfu_03,
-        XMSubMetaSx_00 autolearn=disabled version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa05 1397; Body=1 Fuz1=1 Fuz2=1]
-        *  1.2 XMSubMetaSxObfu_03 Obfuscated Sexy Noun-People
-        *  1.0 XMSubMetaSx_00 1+ Sexy Words
-X-Spam-DCC: XMission; sa05 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: **;Junio C Hamano <gitster@pobox.com>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 725 ms - load_scoreonly_sql: 0.13 (0.0%),
-        signal_user_changed: 14 (1.9%), b_tie_ro: 12 (1.6%), parse: 1.96
-        (0.3%), extract_message_metadata: 28 (3.9%), get_uri_detail_list: 7
-        (1.0%), tests_pri_-1000: 10 (1.4%), tests_pri_-950: 1.71 (0.2%),
-        tests_pri_-900: 1.40 (0.2%), tests_pri_-90: 128 (17.6%), check_bayes:
-        90 (12.5%), b_tokenize: 17 (2.3%), b_tok_get_all: 15 (2.0%),
-        b_comp_prob: 5 (0.7%), b_tok_touch_all: 49 (6.8%), b_finish: 1.20
-        (0.2%), tests_pri_0: 520 (71.7%), check_dkim_signature: 0.85 (0.1%),
-        check_dkim_adsp: 3.0 (0.4%), poll_dns_idle: 0.85 (0.1%), tests_pri_10:
-        3.9 (0.5%), tests_pri_500: 10 (1.4%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [GIT PULL] per signal_struct coredumps
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOQ4uxgEbjkMMF-xVTdfWcLi4y8DGNit5Eeq=evby2nWCuiDVw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Junio C Hamano <gitster@pobox.com> writes:
+On Sat 13-11-21 21:31:25, Amir Goldstein wrote:
+> On Sat, Nov 13, 2021 at 11:49 AM Amir Goldstein <amir73il@gmail.com> wrote:
+> >
+> > On Fri, Nov 12, 2021 at 6:39 PM Jan Kara <jack@suse.cz> wrote:
+> > >
+> > > Hi Amir!
+> > >
+> > > On Sat 06-11-21 18:29:39, Amir Goldstein wrote:
+> > > > On Fri, Oct 29, 2021 at 2:40 PM Amir Goldstein <amir73il@gmail.com> wrote:
+> > > > > This patch set follows up on the discussion on FAN_REPORT_TARGET_FID [1]
+> > > > > from 3 months ago.
+> > > > >
+> > > > > With FAN_REPORT_PIDFD in 5.15 and FAN_FS_ERROR on its way to 5.16,
+> > > > > I figured we could get an early (re)start of the discussion on
+> > > > > FAN_REPORT_TARGET_FID towards 5.17.
+> > > > >
+> > > > > The added information in dirent events solves problems for my use case -
+> > > > > It helps getting the following information in a race free manner:
+> > > > > 1. fid of a created directory on mkdir
+> > > > > 2. from/to path information on rename of non-dir
+> > > > >
+> > > > > I realize those are two different API traits, but they are close enough
+> > > > > so I preferred not to clutter the REPORT flags space any further than it
+> > > > > already is. The single added flag FAN_REPORT_TARGET_FID adds:
+> > > > > 1. child fid info to CREATE/DELETE/MOVED_* events
+> > > > > 2. new parent+name info to MOVED_FROM event
+> > > > >
+> > > > > Instead of going the "inotify way" and trying to join the MOVED_FROM/
+> > > > > MOVED_TO events using a cookie, I chose to incorporate the new
+> > > > > parent+name intomation only in the MOVED_FROM event.
+> > > > > I made this choice for several reasons:
+> > > > > 1. Availability of the moved dentry in the hook and event data
+> > > > > 2. First info record is the old parent+name, like FAN_REPORT_DFID_NAME
+> > > > > 3. Unlike, MOVED_TO, MOVED_FROM was useless for applications that use
+> > > > >    DFID_NAME info to statat(2) the object as we suggested
+> > > > >
+> > > > > I chose to reduce testing complexity and require all other FID
+> > > > > flags with FAN_REPORT_TARGET_FID and there is a convenience
+> > > > > macro FAN_REPORT_ALL_FIDS that application can use.
+> > > >
+> > > > Self comment - Don't use ALL_ for macro names in uapi...
+> > > > There are 3 comment of "Deprecated ..."  for ALL flags in fanotify.h alone...
+> > >
+> > > Yeah, probably the ALL_FIDS is not worth the possible confusion when we add
+> > > another FID flag later ;)
+> > >
+> > > > BTW, I did not mention the FAN_RENAME event alternative proposal in this posting
+> > > > not because I object to FAN_RENAME, just because it was simpler to implement
+> > > > the MOVED_FROM alternative, so I thought I'll start with this proposal
+> > > > and see how
+> > > > it goes.
+> > >
+> > > I've read through all the patches and I didn't find anything wrong.
+> > > Thinking about FAN_RENAME proposal - essentially fsnotify_move() would call
+> > > fsnotify_name() once more with FS_RENAME event and we'd gate addition of
+> > > second dir+name info just by FS_RENAME instead of FS_MOVED_FROM &&
+> > > FAN_REPORT_TARGET_FID. Otherwise everything would be the same as in the
+> > > current patch set, wouldn't it? IMHO it looks like a bit cleaner API so I'd
+> > > lean a bit more towards that.
+> >
+> > I grew to like FAN_RENAME better myself as well.
+> > To make sure we are talking about the same thing:
+> > 1. FAN_RENAME always reports 2*(dirfid+name)
+> > 2. FAN_REPORT_TARGET_FID adds optional child fid record to
+> >     CREATE/DELETE/RENAME/MOVED_TO/FROM
+> >
 
-> Linus Torvalds <torvalds@linux-foundation.org> writes:
->
->> The basic issue is how to sanely keep track of a cover letter when you
->> have a branch that you haven't sent out yet, but will ask somebody to
->> pull. It may still be seeing more testing and development before that
->> pull happens, though.
->>
->> This very much smells of what the "branch description" is all about, but
->>
->>  (a) I suspect "git branch --edit-description" is not very well known
->
-> True.
->
->
->>  (b) it works well with "git request-pull", but not so much some other
->> things (like copying it into a signed tag)
->
-> I think that is just a matter of programming ;-)
->
->>  (c) it makes an unholy mess of your config file if you actually use
->> it for extensive explanations (branch descriptions _work_ for
->> multi-line messages, but it really was designed as a one-liner thing).
->
-> Not, really.
->
-> The "-m" option similar to "commit/tag" is deliberately omitted and
-> use of editor is forced, to encourage better than one-liner
-> information.  cf. b7200e83 (branch: teach --edit-description option,
-> 2011-09-20).
->
-> The unholy mess is true if you are in the habit of editing .git/config
-> in your editor, but that is to be expected if you are storing multi
-> paragraph description as a value of a configuration variable.
->
->>  (d) it doesn't work across repositories (ie multiple developers or
->> even just a single developer on multiple machines).
->
-> This is the biggest issue.
->
->> IOW, the "branch description" is _kind_ of the right thing, but not really.
->
-> Having said all that, quite honestly, as the inventor of the
-> "--edit-description", I did it as sort of a joke, and not a serious
-> "feature".
->
->> An empty commit would do it as well, but an empty commit very easily
->> gets lost (git rebase etc). The fake merge does have similar issues.
->
-> These days, I think rebase distinguishes between "an empty commit
-> that is deliberately empty from the beginning" and "a commit that
-> was not empty, but because we are applying on a new base, it has
-> become unnecessary and empty", and we can tell the command to drop
-> the latter while keeping the former.  So if I were to design a
-> recommended workflow (and add any missing workflow elements), it
-> would be:
->
->  - You develop your N-patch series on a branch;
->
->  - You conclude with an empty commit that records your cover letter
->    material.
->
->  - "git commit" may want to learn a new option that automatically
->    prepares summary of the last N patches in the commit log
->    editor, and the option should imply the "--allow-empty" option.
->    That would help when editing such an empty commit that will
->    become the cover letter.
->
->  - You repeatedly "rebase -i", "cherry-pick", etc. to whip your
->    branch into shape.
->
->  - You can push and fetch such a branch among your machines and your
->    group.
->
->  - "git format-patch" may want to recognize that the topmost commit
->    is an empty commit, and use that as the seed material for the
->    cover letter.
->
->  - If your project's pull request requires a signed tag with cover
->    letter material, "git tag -s" may want to learn a new option to
->    be fed such a branch with N-patch plus the topmost empty commit,
->    and tag the last real commit in the topic (i.e. the parent of the
->    topmost empty commit) with material taken from the topmost empty
->    commit.
+Correct, that's what I meant.
 
-I think an empty commit at the top of a development branch sounds
-like a nice place to store the cover letter for a set of changes.
-That is a related problem but that is not the problem that inspired
-the no-op merge commits.
+> Err, I tried the FAN_RENAME approach and hit a semantic issue:
+> Users can watch a directory inode and get only MOVED_FROM
+> when entries are moved from this directory. Same for MOVED_TO.
+> How would FAN_RENAME behave when setting FAN_RENAME on a directory inode?
+> Should listeners get events on files renamed in and out of that
+> directory?
+> 
+> I see several options:
+> 1. Go back to FAN_MOVED_FROM as in this patch set, where semantics are clear
 
+Well, semantics are clear but in principle user does not have access to
+target dir either so the permission problems are the same as with option 2,
+aren't they?
 
+> 2. Report FAN_RENAME if either old or new dir is watched (or mount/sb)
+> 3. Report FAN_RENAME only if both old and new dirs are watched (or mount/sb)
+> 
+> For option 2, we may need to hide information records, For example,
+> because an unprivileged listener may not have access to old or new
+> directory.
 
-I have not seen addressed the workflow that actually inspired this
-odd thing I am doing.  So let me see if I can describe the problem
-that inspired the merge commit more clearly.
+Good spotting. That can indeed be a problem.
 
-Before the merge window for v5.17 I expect to be working on
-a topic I will loosely call "do_exit_coredumps_and_signals".
+> A variant of option 3, is that FAN_RENAME will be an event mask flag
+> that can be added to FAN_MOVE events, to request that if both FROM/TO events
+> are going to be reported, then a single joint event will be reported
+> instead, e.g:
+> 
+> #define FAN_MOVE (FAN_MOVED_FROM | FAN_MOVED_TO)
+> #define FAN_RENAME (FAN_MOVE | __FAN_MOVE_JOIN)
+> 
+> Instead of generating an extra FS_RENAME event in fsnotify_move(),
+> fsnotify() will search for matching marks on the moved->d_parent->d_inode
+> of MOVED_FROM event add the mark as the FSNOTIFY_OBJ_TYPE_PARENT
+> mark iterator type and then fanotify_group_event_mask() will be able
+> to tell if the
+> event should be reported as FAN_MOVED_FROM, FAN_MOVED_TO or a joint
+> FAN_RENAME.
+> 
+> If a group has the FAN_RENAME mask on the new parent dir, then
+> FS_MOVED_TO events can be dropped, because the event was already
+> reported as FAN_MOVED_TO or FAN_RENAME with the FS_MOVED_FROM
+> event.
+> 
+> Am I over complicating this?
+> Do you have a better and clearer semantics to propose?
 
-There are going to be several changesets (something like):
-"Move coredumps rendezvous into get_signal"
-"Use the same exit code in all implementations of die"
-"Use signal short circuit delivery for coredumps"
-"Use signal short circuit delivery whenever possible"
-"Replace do_exit with a different helper for use by die"
+So from API POV I like most keeping FAN_RENAME separate from FAN_MOVED_TO &
+FAN_MOVED_FROM. It would be generated whenever source or target is tagged
+with FAN_RENAME, source info is provided if source is tagged, target info
+is provided when target is tagged (both are provides when both are tagged).
+So it is kind of like FAN_MOVED_FROM | FAN_MOVED_TO but with guaranteed
+merging. This looks like a clean enough and simple to explain API. Sure it
+duplicates FAN_MOVED_FROM & FAN_MOVED_TO a lot but I think the simplicity
+of the API outweights the duplication. Basically FAN_MOVED_FROM &
+FAN_MOVED_TO could be deprecated with this semantics of FAN_RENAME although
+I don't think we want to do it for compatibility reasons.
 
-Each of those will consist of 5-10 patches and need to be individually
-reviewed and depend upon each other.  In the roughly 2 months of
-development time before v5.17 I can expect to get several of those
-changesets.  Each changeset will depend upon the work of the changeset
-before.
+Implementation-wise we have couple of options. Currently the simplest I can
+see is that fsnotify() would iterate marks on both source & target dirs
+(like we already do for inode & parent) when it handles FS_RENAME event. In
+fanotify_handle_event() we will decide which info to report with FAN_RENAME
+event based on which marks in iter_info have FS_RENAME set (luckily mount
+marks are out of question for rename events so it will be relatively
+simple). What do you think?
 
-As each changeset is reviewed and finalized I expect I will put it on
-the topic branch with a merge commit containing the description letter.
-That merge commit will contain a "Link:" tag to the posting on the
-mailing list so that people can find the full description.
-
-When put into the topic branch after review the commits are frozen
-and ready to be sent to Linus for merging, when the next merge window
-opens.
-
-
-
-
-When the development window closes and the merge window opens I will run
-"git shortlog" see what is there and write up a description for the
-entire topic branch.  Ideally I will put that into a signed tag etc
-before I send it to Linus.
-
-In the case that triggered this conversation I happened to only have a
-single changeset with a single merge commit in the topic branch which
-looks very odd, but that is mot definitely not the case I want to
-optimize for.
-
-
-The changes I am making are digging through some old grotty areas of the
-kernel.  It isn't uncommon for me to be fixing issues that predate git.
-So it takes some sleuthing and description so that other people can see
-what is going on in each of those changes.  So I want to preserve the
-description of what and what is going on with those changesets as
-much as possible.
-
-A big rollup into a single description for Linus of the entire topic
-branch is necessary, but will generally not contain all of the detail of
-the cover letters for the patch sets.
-
-I need something like a merge commit rather than an empty commit so
-that both the start and the end of the series of changes is shown.
-
-Notes probably don't work because I want the description of what is
-going to persist and be available to "git log".  So that the next poor
-sucker who touches the code can have a change of figuring out what
-I was thinking.
-
-If I have just one fake-merge I would not mind if request-pull or
-something incorporated it, but with several I am most definitely going
-to need to edit the message so it is at the 10,000 foot view of the
-entire topic branch, and not at the nitty gritty view of a single patch
-set.
-
-
-There was only a single changeset in the branch that caused this because
-I am making what is remotely possibly a breaking change and I need to
-get it into a released code base to verify that I am not breaking
-anyone.  If I don't need to revert that change then there are very
-substantial cleanups I can make in the kernel.   So all of the
-additional changesets have to wait until v5.16 is released before I can
-ask Linus to pull them.
-
-Which meant during this one development cycle I was not able to build
-one changeset on top of another changeset because one of the changes is
-something of a risk.  That is a degenerate case of my normal expected
-work-flow.
-
-
-Eric
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
