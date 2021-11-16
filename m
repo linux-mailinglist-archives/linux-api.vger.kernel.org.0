@@ -2,169 +2,139 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A929C452B2F
-	for <lists+linux-api@lfdr.de>; Tue, 16 Nov 2021 07:49:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F4DF452B40
+	for <lists+linux-api@lfdr.de>; Tue, 16 Nov 2021 07:59:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229836AbhKPGwO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 16 Nov 2021 01:52:14 -0500
-Received: from pb-smtp20.pobox.com ([173.228.157.52]:65366 "EHLO
-        pb-smtp20.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229649AbhKPGwK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Nov 2021 01:52:10 -0500
-Received: from pb-smtp20.pobox.com (unknown [127.0.0.1])
-        by pb-smtp20.pobox.com (Postfix) with ESMTP id 641E415BBFD;
-        Tue, 16 Nov 2021 01:49:12 -0500 (EST)
-        (envelope-from junio@pobox.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=from:to:cc
-        :subject:references:date:message-id:mime-version:content-type;
-         s=sasl; bh=hRkqK3Gr7UO/LSsBzFTI/CcUAkG0/clOqEED+d9rh94=; b=NlXE
-        ic92vOP753V5Qsnk4LVoo0w28oTvHMaFEieRe+hUIRk7lTcCIpXGXcEp+9NzX2qd
-        JiIArueqRytUuNIveeCRTNpkByWbr5LIpC+57HWixhHDMPAAx8fcmtRyeEeqZiAX
-        jr+x/QGFaK5cbyFezlhkRMladV97oA+vM4FF4Dg=
-Received: from pb-smtp20.sea.icgroup.com (unknown [127.0.0.1])
-        by pb-smtp20.pobox.com (Postfix) with ESMTP id 5BF0E15BBFC;
-        Tue, 16 Nov 2021 01:49:12 -0500 (EST)
-        (envelope-from junio@pobox.com)
-Received: from pobox.com (unknown [104.133.2.91])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by pb-smtp20.pobox.com (Postfix) with ESMTPSA id BE50315BBFA;
-        Tue, 16 Nov 2021 01:49:09 -0500 (EST)
-        (envelope-from junio@pobox.com)
-From:   Junio C Hamano <gitster@pobox.com>
-To:     ebiederm@xmission.com (Eric W. Biederman)
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Git List Mailing <git@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Kees Cook <keescook@chromium.org>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [GIT PULL] per signal_struct coredumps
-References: <878ry512iv.fsf@disp2133>
-        <CAHk-=wivLcb3ELGSf=fM0u=PxP5m1=jRrVXDOr0+QJZRZggaHg@mail.gmail.com>
-        <871r3uy2vw.fsf@disp2133>
-        <CAHk-=wh8v4OC=9rjFs-QH0evVrGQu+wCVL5gE8Y-uTvqh42XNA@mail.gmail.com>
-        <xmqqbl2nmemx.fsf@gitster.g>
-        <87pmr2k68f.fsf@email.froward.int.ebiederm.org>
-Date:   Mon, 15 Nov 2021 22:49:08 -0800
-Message-ID: <xmqqk0h8bnob.fsf@gitster.g>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+        id S229556AbhKPHCk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Nov 2021 02:02:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49520 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229508AbhKPHCh (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Nov 2021 02:02:37 -0500
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D31BC061570;
+        Mon, 15 Nov 2021 22:59:41 -0800 (PST)
+Received: by mail-io1-xd32.google.com with SMTP id m9so24850708iop.0;
+        Mon, 15 Nov 2021 22:59:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ghYIh+h47ig7bjCiUjKIag3PhJ4kq9KCEqUuH4m0J4M=;
+        b=Lb1Rt+4KnfxAuQqfBXlhNddJE8naBa35bev69ZjMWsKbwfSPJMpBqB2wXK/uCsv4EQ
+         f83CjcL9sV/TjV7Ijgq1chxFk8s7g5bwMNY2/4vKc442c2BvYhVI3Bce3r1p1j+WoePh
+         huk0s6dZcIHn6gFCrv8NzlQlgI6VrfLUm27Eah/T26FwTP9PoHuP2Il/V9gUKEImB7Mo
+         8iabqwyXWvbK88CLkX3PPj0tje9dtmDZ+9O7CoRms36ZH06Jg/y1kph/RNPxh+Tnv9/s
+         i73vDNYVdiuIAUApll3FZW0fLVGXhKK6t065nuhaNHLtTflMquWXtM2LDF818K14ZIT7
+         CWCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ghYIh+h47ig7bjCiUjKIag3PhJ4kq9KCEqUuH4m0J4M=;
+        b=Ia4S4JMTW9DqhD4adI3sqmoZR9aN/5vN61v+pM0iKZGXkUIadQxsTuZhRspFIXLlvt
+         PwUjFX/7xrWTtLYP9atZmmqw+/50L46ZFsJ8lMu2UB6kTc0YR0oNSydTpixsNncJZoxG
+         ith2mhaqLNK2oe/39kpd0jMZend+p2DivKsOUI93OvWNOOqSRXrvtQ1SJL/tPJAUvfR5
+         gv9N130kekwstLvV52gmzO4B7SaWvWke8jOATIQrhW9ec75/KZRclV6qBLoHdxjkaEe4
+         0HziTxA25yjJZCIXfMceGOvLSutND1CJFQ9zpVNEzR+tC2bjawqiyz8bsDWZiP+e8PD0
+         8cfg==
+X-Gm-Message-State: AOAM53314CwFkthZF0rvbYOpZP5kcvMKRZzq0upde4rEb7+slYX34W1r
+        ySHkfT6gH4SKLH1xvlF+W1OoNg+c1h9tX5XjdJlN80cjLRA=
+X-Google-Smtp-Source: ABdhPJxQdaSvWFYGQH44iXAw6fQWHIzTMXfz/hWNy5Xq2l9qkv2Bs/GOaVwp+0HsX4hRbhEMwx8N3QO7qkf4NrG0C3c=
+X-Received: by 2002:a05:6602:2d81:: with SMTP id k1mr3472767iow.112.1637045980786;
+ Mon, 15 Nov 2021 22:59:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Pobox-Relay-ID: 4D1068A2-46A9-11EC-B029-F327CE9DA9D6-77302942!pb-smtp20.pobox.com
+References: <20211029114028.569755-1-amir73il@gmail.com> <CAOQ4uxjazEx=bL6ZfLaGCfH6pii=OatQDoeWc+74AthaaUC49g@mail.gmail.com>
+ <20211112163955.GA30295@quack2.suse.cz> <CAOQ4uxgT5a7UFUrb5LCcXo77Uda4t5c+1rw+BFDfTAx8szp+HQ@mail.gmail.com>
+ <CAOQ4uxgEbjkMMF-xVTdfWcLi4y8DGNit5Eeq=evby2nWCuiDVw@mail.gmail.com>
+ <20211115102330.GC23412@quack2.suse.cz> <CAOQ4uxiBFkkbKU=yimLXoYKHFWOoUYrXfg4Kw_CkF=hcSGOm3A@mail.gmail.com>
+ <20211115143750.GE23412@quack2.suse.cz>
+In-Reply-To: <20211115143750.GE23412@quack2.suse.cz>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Tue, 16 Nov 2021 08:59:29 +0200
+Message-ID: <CAOQ4uxgBncZjuTo-K+vxRovd36AuaEKUfBDQwgU86B9qwWWNVw@mail.gmail.com>
+Subject: Re: [PATCH 0/7] Report more information in fanotify dirent events
+To:     Jan Kara <jack@suse.cz>
+Cc:     Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-ebiederm@xmission.com (Eric W. Biederman) writes:
-
-> I have not seen addressed the workflow that actually inspired this
-> odd thing I am doing.  So let me see if I can describe the problem
-> that inspired the merge commit more clearly.
-
-Where can I learn more about the "fake" merge commit (assume I do
-not know anything more than what Linus wrote in the message to the
-git mailing list)?  Even after re-reading your description twice,
-I get that you are using an extra merge commit as a place to store
-the cover letter material, I am guessing that one of the parents
-(which one???) is the tip of the finished "changeset" (I take the
-word to mean "one of more commits on the same theme, in a single
-strand of pearls"), but I am not sure what the other parent is to
-make that a "merge".  If it is "fake", I guess that any random point
-in Linus's history would do, but I can understand that the maintainer
-would complain about such a seemingly unnecessary (back) merge.
-
-> Before the merge window for v5.17 I expect to be working on
-> a topic I will loosely call "do_exit_coredumps_and_signals".
+> > I like it. However,
+> > If FAN_RENAME can have any combination of old,new,old+new info
+> > we cannot get any with a single new into type
+> > FAN_EVENT_INFO_TYPE_DFID_NAME2
+> >
+> > (as in this posting)
 >
-> There are going to be several changesets (something like):
-> "Move coredumps rendezvous into get_signal"
-> "Use the same exit code in all implementations of die"
-> "Use signal short circuit delivery for coredumps"
-> "Use signal short circuit delivery whenever possible"
-> "Replace do_exit with a different helper for use by die"
+> We could define only DFID2 and DFID_NAME2 but I agree it would be somewhat
+> weird to have DFID_NAME2 in an event and not DFID_NAME.
 >
-> Each of those will consist of 5-10 patches and need to be individually
-> reviewed and depend upon each other.  In the roughly 2 months of
-> development time before v5.17 I can expect to get several of those
-> changesets.  Each changeset will depend upon the work of the changeset
-> before.
-
-Up to this point, I think I get what is going on.  You've worked
-together with your reviewer and came up several patches to achieve
-the "Move coredumps rendezvous into get_signal" task, so now you
-have one topic branch that forks from some point in Linus's history
-and houses these patches.  If "Use the same exit code" topic builds
-on the "Move coredumps" one, the topic branch for the former may
-fork from the tip of the latter.
-
-> As each changeset is reviewed and finalized I expect I will put it on
-> the topic branch with a merge commit containing the description letter.
-
-This part I do not understand.  What is merged into what?  The tip
-of the "Move coredumps" series of commits gets merged into the
-previous stable release from Linus or some appropriate point inhis
-history, and the topic branch points at that merge?
-
-> That merge commit will contain a "Link:" tag to the posting on the
-> mailing list so that people can find the full description.
-
-If a signed tag were used to store that description and Link,
-wouldn't that be sufficient?  Then Linus would pull that signed tag
-to see it is from you, the merge would show which tag was merged and
-what the tag said.  And we do not see the fake merge---I think the
-maintainer's complaint and the problem the fake merge brings into
-the history is that, while one of its parents, namely, the tip of
-the "Move coredumps" series of commits, does have meaning, the other
-parent does not.  It can be any ancient commit.
-
-It _might_ make it a bit more palatable to Linus if the merit of
-using a merge includes that the other parent can record the fork
-point of the main series of commits (i.e. the merge will have to be
-created with "merge --no-ff"), but I still feel that the argument is
-weak, when a signed tag would work better (and I probably am missing
-the use cases in which fake merges work better than signed tags).
-
-> When put into the topic branch after review the commits are frozen
-> and ready to be sent to Linus for merging, when the next merge window
-> opens.
+> > We can go with:
+> > #define FAN_EVENT_INFO_TYPE_OLD_DFID_NAME   6
+> > #define FAN_EVENT_INFO_TYPE_NEW_DFID_NAME  7
+> > #define FAN_EVENT_INFO_TYPE_OLD_DFID               8
+> > #define FAN_EVENT_INFO_TYPE_NEW_DFID              9
+> >
+> > Or we can go with:
+> > /* Sub-types common to all three fid info types */
+> > #define FAN_EVENT_INFO_FID_OF_OLD_DIR     1
+> > #define FAN_EVENT_INFO_FID_OF_NEW_DIR    2
+> >
+> > struct fanotify_event_info_header {
+> >        __u8 info_type;
+> >        __u8 sub_type;
+> >        __u16 len;
+> > };
+> >
+> > (as in my wip branch fanotify_fid_of)
 >
-> When the development window closes and the merge window opens I will run
-> "git shortlog" see what is there and write up a description for the
-> entire topic branch.  Ideally I will put that into a signed tag etc
-> before I send it to Linus.
+> When we went the way of having different types for FID and DFID, I'd
+> continue with OLD_DFID_NAME, NEW_DFID_NAME, ... and keep the padding byte
+> free for now (just in case there's some extension which would urgently need
+> it).
+>
+> > We could also have FAN_RENAME require FAN_REPORT_NAME
+> > that would limit the number of info types, but I cannot find a good
+> > justification for this requirement.
+>
+> Yeah, I would not force that.
+>
 
-Here, what do you exactly mean by "the entire topic branch"?  For a
-single "changeset" like "Move coredumps", or all of the changesets?
+On second thought and after trying to write a mental man page
+and realizing how ugly it gets, I feel strongly in favor of requiring
+FAN_REPORT_NAME for the FAN_RENAME event.
 
-Assuming that the answer is the former, and assuming that the "topic
-branch" for "Move coredumps" look like:
+My arguments are:
+1. What is the benefit of FAN_RENAME without names?
+    Is the knowledge that *something* was moved from dir A to dir B
+    that important that it qualifies for the extra man page noise and
+    application developer headache?
+2. My declared motivation for this patch set was to close the last (?)
+    functional gap between inotify and fanotify, that is, being able to
+    reliably join MOVED_FROM and MOVED_TO events.
+    Requiring FAN_REPORT_NAME still meets that goal.
+3. In this patch set, FAN_REPORT_NAME is required (for now) for
+    FAN_REPORT_TARGET_FID to reduce implementation and test
+    matrix complexity (you did not object, so I wasn't planning on
+    changing this requirement).
+    The same argument holds for FAN_RENAME
 
- a. it forks from some point in the upstream history;
+So let's say this - we can add support for OLD_DFID, NEW_DFID types
+later if we think they may serve a purpose, but at this time, I see no
+reason to complicate the UAPI anymore than it already is and I would
+rather implement only:
 
- b. it build one or more commits on it, a single strand of pearls;
+/* Info types for FAN_RENAME */
+#define FAN_EVENT_INFO_TYPE_OLD_DFID_NAME       10
+/* Reserved for FAN_EVENT_INFO_TYPE_OLD_DFID    11 */
+#define FAN_EVENT_INFO_TYPE_NEW_DFID_NAME       12
+/* Reserved for FAN_EVENT_INFO_TYPE_NEW_DFID    13 */
 
- c. it is capped with a (fake) merge to merge the above into some
-    point in the upstream history;
+Do you agree?
 
-what is missing from the Git toolset to turn the above two into a
-signed tag that points at the tip of b. (i.e. without the fake
-merge)?  Ideally, after b. is made, don't you want to go directly to
-a signed tag, instead of a (fake) merge?
-
-> In the case that triggered this conversation I happened to only have a
-> single changeset with a single merge commit in the topic branch which
-> looks very odd, but that is mot definitely not the case I want to
-> optimize for.
-
-It is unclear to me why the number of commits in the b. part
-matters.  Be it one or 40, the (fake) merge at the tip seems
-unnecessary, when the whole thing is merged into the upstream
-history.
-
-I seriously doubt that I am getting the whole requirement, as it
-seems that "develop a series of commits on a branch, that may or may
-not be dependent with each other, and ask the branch to be pulled by
-giving the description in a signed tag that points at the tip of the
-work" should work OK?
+Thanks,
+Amir.
