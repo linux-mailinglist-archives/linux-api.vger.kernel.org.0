@@ -2,139 +2,138 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F4DF452B40
-	for <lists+linux-api@lfdr.de>; Tue, 16 Nov 2021 07:59:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D00D452CC8
+	for <lists+linux-api@lfdr.de>; Tue, 16 Nov 2021 09:29:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229556AbhKPHCk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 16 Nov 2021 02:02:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49520 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbhKPHCh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Nov 2021 02:02:37 -0500
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D31BC061570;
-        Mon, 15 Nov 2021 22:59:41 -0800 (PST)
-Received: by mail-io1-xd32.google.com with SMTP id m9so24850708iop.0;
-        Mon, 15 Nov 2021 22:59:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ghYIh+h47ig7bjCiUjKIag3PhJ4kq9KCEqUuH4m0J4M=;
-        b=Lb1Rt+4KnfxAuQqfBXlhNddJE8naBa35bev69ZjMWsKbwfSPJMpBqB2wXK/uCsv4EQ
-         f83CjcL9sV/TjV7Ijgq1chxFk8s7g5bwMNY2/4vKc442c2BvYhVI3Bce3r1p1j+WoePh
-         huk0s6dZcIHn6gFCrv8NzlQlgI6VrfLUm27Eah/T26FwTP9PoHuP2Il/V9gUKEImB7Mo
-         8iabqwyXWvbK88CLkX3PPj0tje9dtmDZ+9O7CoRms36ZH06Jg/y1kph/RNPxh+Tnv9/s
-         i73vDNYVdiuIAUApll3FZW0fLVGXhKK6t065nuhaNHLtTflMquWXtM2LDF818K14ZIT7
-         CWCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ghYIh+h47ig7bjCiUjKIag3PhJ4kq9KCEqUuH4m0J4M=;
-        b=Ia4S4JMTW9DqhD4adI3sqmoZR9aN/5vN61v+pM0iKZGXkUIadQxsTuZhRspFIXLlvt
-         PwUjFX/7xrWTtLYP9atZmmqw+/50L46ZFsJ8lMu2UB6kTc0YR0oNSydTpixsNncJZoxG
-         ith2mhaqLNK2oe/39kpd0jMZend+p2DivKsOUI93OvWNOOqSRXrvtQ1SJL/tPJAUvfR5
-         gv9N130kekwstLvV52gmzO4B7SaWvWke8jOATIQrhW9ec75/KZRclV6qBLoHdxjkaEe4
-         0HziTxA25yjJZCIXfMceGOvLSutND1CJFQ9zpVNEzR+tC2bjawqiyz8bsDWZiP+e8PD0
-         8cfg==
-X-Gm-Message-State: AOAM53314CwFkthZF0rvbYOpZP5kcvMKRZzq0upde4rEb7+slYX34W1r
-        ySHkfT6gH4SKLH1xvlF+W1OoNg+c1h9tX5XjdJlN80cjLRA=
-X-Google-Smtp-Source: ABdhPJxQdaSvWFYGQH44iXAw6fQWHIzTMXfz/hWNy5Xq2l9qkv2Bs/GOaVwp+0HsX4hRbhEMwx8N3QO7qkf4NrG0C3c=
-X-Received: by 2002:a05:6602:2d81:: with SMTP id k1mr3472767iow.112.1637045980786;
- Mon, 15 Nov 2021 22:59:40 -0800 (PST)
-MIME-Version: 1.0
-References: <20211029114028.569755-1-amir73il@gmail.com> <CAOQ4uxjazEx=bL6ZfLaGCfH6pii=OatQDoeWc+74AthaaUC49g@mail.gmail.com>
- <20211112163955.GA30295@quack2.suse.cz> <CAOQ4uxgT5a7UFUrb5LCcXo77Uda4t5c+1rw+BFDfTAx8szp+HQ@mail.gmail.com>
- <CAOQ4uxgEbjkMMF-xVTdfWcLi4y8DGNit5Eeq=evby2nWCuiDVw@mail.gmail.com>
- <20211115102330.GC23412@quack2.suse.cz> <CAOQ4uxiBFkkbKU=yimLXoYKHFWOoUYrXfg4Kw_CkF=hcSGOm3A@mail.gmail.com>
- <20211115143750.GE23412@quack2.suse.cz>
-In-Reply-To: <20211115143750.GE23412@quack2.suse.cz>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Tue, 16 Nov 2021 08:59:29 +0200
-Message-ID: <CAOQ4uxgBncZjuTo-K+vxRovd36AuaEKUfBDQwgU86B9qwWWNVw@mail.gmail.com>
-Subject: Re: [PATCH 0/7] Report more information in fanotify dirent events
-To:     Jan Kara <jack@suse.cz>
-Cc:     Matthew Bobrowski <mbobrowski@mbobrowski.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        id S232138AbhKPIc3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Nov 2021 03:32:29 -0500
+Received: from pb-smtp20.pobox.com ([173.228.157.52]:55736 "EHLO
+        pb-smtp20.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232119AbhKPIcQ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Nov 2021 03:32:16 -0500
+Received: from pb-smtp20.pobox.com (unknown [127.0.0.1])
+        by pb-smtp20.pobox.com (Postfix) with ESMTP id 5F7FC15C55A;
+        Tue, 16 Nov 2021 03:29:15 -0500 (EST)
+        (envelope-from junio@pobox.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=from:to:cc
+        :subject:references:date:message-id:mime-version:content-type;
+         s=sasl; bh=dGeS3cVCTENE4wFL9/QynyxpEZSx6uUMhNeptznD/80=; b=V3CI
+        3a7Z8a94Tdmag8c+XVtl5M9zwgXL4M0V0eoQ04OOvOSEoGWmZvdmHdQuMV03zEKb
+        OgQWYyodOYeB5UWYsx8MOmw1f5YMRoBElApihDN4wSC7K0ug2mP5PXHJn0uKevvQ
+        9onnkYPivMemQiL/dShxZzWB/XB/iOiY2C1SK/Q=
+Received: from pb-smtp20.sea.icgroup.com (unknown [127.0.0.1])
+        by pb-smtp20.pobox.com (Postfix) with ESMTP id 4A85D15C559;
+        Tue, 16 Nov 2021 03:29:15 -0500 (EST)
+        (envelope-from junio@pobox.com)
+Received: from pobox.com (unknown [104.133.2.91])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by pb-smtp20.pobox.com (Postfix) with ESMTPSA id 9BA1715C557;
+        Tue, 16 Nov 2021 03:29:12 -0500 (EST)
+        (envelope-from junio@pobox.com)
+From:   Junio C Hamano <junio@pobox.com>
+To:     ebiederm@xmission.com (Eric W. Biederman)
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Git List Mailing <git@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Kees Cook <keescook@chromium.org>,
         Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [GIT PULL] per signal_struct coredumps
+References: <878ry512iv.fsf@disp2133>
+        <CAHk-=wivLcb3ELGSf=fM0u=PxP5m1=jRrVXDOr0+QJZRZggaHg@mail.gmail.com>
+        <871r3uy2vw.fsf@disp2133>
+        <CAHk-=wh8v4OC=9rjFs-QH0evVrGQu+wCVL5gE8Y-uTvqh42XNA@mail.gmail.com>
+        <xmqqbl2nmemx.fsf@gitster.g>
+        <87pmr2k68f.fsf@email.froward.int.ebiederm.org>
+Date:   Tue, 16 Nov 2021 00:29:11 -0800
+Message-ID: <xmqq8rxobj1k.fsf@gitster.g>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Pobox-Relay-ID: 470BB1C4-46B7-11EC-BFA5-F327CE9DA9D6-77302942!pb-smtp20.pobox.com
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-> > I like it. However,
-> > If FAN_RENAME can have any combination of old,new,old+new info
-> > we cannot get any with a single new into type
-> > FAN_EVENT_INFO_TYPE_DFID_NAME2
-> >
-> > (as in this posting)
->
-> We could define only DFID2 and DFID_NAME2 but I agree it would be somewhat
-> weird to have DFID_NAME2 in an event and not DFID_NAME.
->
-> > We can go with:
-> > #define FAN_EVENT_INFO_TYPE_OLD_DFID_NAME   6
-> > #define FAN_EVENT_INFO_TYPE_NEW_DFID_NAME  7
-> > #define FAN_EVENT_INFO_TYPE_OLD_DFID               8
-> > #define FAN_EVENT_INFO_TYPE_NEW_DFID              9
-> >
-> > Or we can go with:
-> > /* Sub-types common to all three fid info types */
-> > #define FAN_EVENT_INFO_FID_OF_OLD_DIR     1
-> > #define FAN_EVENT_INFO_FID_OF_NEW_DIR    2
-> >
-> > struct fanotify_event_info_header {
-> >        __u8 info_type;
-> >        __u8 sub_type;
-> >        __u16 len;
-> > };
-> >
-> > (as in my wip branch fanotify_fid_of)
->
-> When we went the way of having different types for FID and DFID, I'd
-> continue with OLD_DFID_NAME, NEW_DFID_NAME, ... and keep the padding byte
-> free for now (just in case there's some extension which would urgently need
-> it).
->
-> > We could also have FAN_RENAME require FAN_REPORT_NAME
-> > that would limit the number of info types, but I cannot find a good
-> > justification for this requirement.
->
-> Yeah, I would not force that.
->
+Junio C Hamano <gitster@pobox.com> writes:
 
-On second thought and after trying to write a mental man page
-and realizing how ugly it gets, I feel strongly in favor of requiring
-FAN_REPORT_NAME for the FAN_RENAME event.
+> make that a "merge".  If it is "fake", I guess that any random point
+> in Linus's history would do, but I can understand that the maintainer
+> would complain about such a seemingly unnecessary (back) merge.
 
-My arguments are:
-1. What is the benefit of FAN_RENAME without names?
-    Is the knowledge that *something* was moved from dir A to dir B
-    that important that it qualifies for the extra man page noise and
-    application developer headache?
-2. My declared motivation for this patch set was to close the last (?)
-    functional gap between inotify and fanotify, that is, being able to
-    reliably join MOVED_FROM and MOVED_TO events.
-    Requiring FAN_REPORT_NAME still meets that goal.
-3. In this patch set, FAN_REPORT_NAME is required (for now) for
-    FAN_REPORT_TARGET_FID to reduce implementation and test
-    matrix complexity (you did not object, so I wasn't planning on
-    changing this requirement).
-    The same argument holds for FAN_RENAME
+Having thought about it a bit more, I am not sure if these merges
+are truly "fake", or just a normal part of distributed development.
 
-So let's say this - we can add support for OLD_DFID, NEW_DFID types
-later if we think they may serve a purpose, but at this time, I see no
-reason to complicate the UAPI anymore than it already is and I would
-rather implement only:
+As a degenerated case, first I'd imagine you have a patch series
+that focuses on a single "theme".  You perfect the patches, you fork
+a topic branch from an appropriate "public" commit of your upstream
+(e.g. the last stable release from Linus), you add a signed tag at
+the tip of that topic branch, and you ask a (subsystem) maintainer
+to pull from you.  The subsystem maintainer's tree will have series
+of merges to collect work from other people working in the subsystem
+('x'), and the pull from you will create a merge whose first parent
+is one of these 'x' (i.e. the work by the maintainer so far), and
+the second parent of it is the tip of your work.  The merge commit M
+gives a detailed description of what happend on the side branch and
+its mergetag header carries the contents of the tag you created for
+the pull request.
 
-/* Info types for FAN_RENAME */
-#define FAN_EVENT_INFO_TYPE_OLD_DFID_NAME       10
-/* Reserved for FAN_EVENT_INFO_TYPE_OLD_DFID    11 */
-#define FAN_EVENT_INFO_TYPE_NEW_DFID_NAME       12
-/* Reserved for FAN_EVENT_INFO_TYPE_NEW_DFID    13 */
+      \   \
+    ---x---x---M
+              / Subsystem maintainer pulls from you
+             /
+  ...---o---o (your work)
 
-Do you agree?
+Your next topic, which is a chunk of the same larger theme, may
+depend on what you did in the commits in this initial series 'o'.
 
-Thanks,
-Amir.
+
+      \   \       \   \
+    ---x---x---M---x---x---N
+              /           / Subsystem maintainer pulls from you again
+             /           /
+  ...---o---o---p---p---p (your second batch)
+
+
+Eventually, this will be pulled into Linus's tree when the subsystem
+maintainer is ready to send the whole thing.
+
+                              Y--- (Linus's tree)
+                             / Linus pulls from subsystem maintainer
+      \   \       \   \     /
+    ---x---x---M---x---x---N (Subsystem maintainer's tree)
+              /           /
+             /           /
+  ...---o---o---p---p---p (Your tree)
+
+The above picture only depicts two topics, one directly building on
+top of the other, from you, but that is simplified merely for
+illustration purposes.  The real history may have more topics, some
+are dependent on others, while some are independent.
+
+Now, if you have many related but more or less independent topic
+branches that will support a larger theme, it would be quite natural
+if you acted as your own "subsystem" maintainer, in other words, in
+the above picture:
+
+ . you are in control of not just the bottom line, but in the middle
+   line of development;
+
+ . you do not have 'x' that merges from other people;
+
+ . but you do have M and N, and use these merges just like a
+   subsystem maintainer would use to describe the work done in the
+   side branches.
+
+and offer 'N' as the tip of a "larger" topic that has internal
+structure, not just a single strand of pearls, by adding a signed
+tag on 'N' and throwing a pull request at Linus (or whoever is
+immediately above your level).
+
+Is that what happened (as I said, I lack context)?  If so, I do not
+see much problem in the situation.  But this assumes that these so
+called "fake" merges are merging into right first parents.
+
+
