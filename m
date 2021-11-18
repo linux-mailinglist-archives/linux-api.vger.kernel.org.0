@@ -2,101 +2,100 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FF83455847
-	for <lists+linux-api@lfdr.de>; Thu, 18 Nov 2021 10:50:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E1A8F4558D6
+	for <lists+linux-api@lfdr.de>; Thu, 18 Nov 2021 11:18:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245267AbhKRJxb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 18 Nov 2021 04:53:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36630 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245295AbhKRJxG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Nov 2021 04:53:06 -0500
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AD50C061767
-        for <linux-api@vger.kernel.org>; Thu, 18 Nov 2021 01:50:04 -0800 (PST)
-Received: by mail-pf1-x42d.google.com with SMTP id n85so5408296pfd.10
-        for <linux-api@vger.kernel.org>; Thu, 18 Nov 2021 01:50:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=3HQ5IYVEiqW+9JbVKAMAdi66pgrzu4Y9QOo0iHu1JDU=;
-        b=PtudUEDeYjc1lbFt/YcrJoXefINi2/DLtR2e3eV0uycMEN4jzjuk5iUdoe/5/twlA4
-         EyZLMpRyfY1Wx3XBAseVofCGj3X0uV35THwhEG4J+FmPiLq8RqBhe3ZXXSrJxN+PbiZj
-         39sJKyzvjDyo/xjvs53RR9FQ5TKO1PA0MWlSs84Y7TnxR81S4omEkGxLB69WVR9b+bu8
-         TPgFlQjYqbr927M1DOcTw1uO7Z/ZVRxh8423WyH2a5F+ORKcJIASeR+bmH24NnXtnb7f
-         1f1xVdqxNLCBr9sXm+LDUA9OvDZ3YJPVo1MxfUq9WetnTlb+L6YawBu6nqo4iI0ZTMZ3
-         MdLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=3HQ5IYVEiqW+9JbVKAMAdi66pgrzu4Y9QOo0iHu1JDU=;
-        b=aDCtP3Dut4guGa6IvTu5S8uwgHe3geNscq7bILIKgDUmp9qrzjhsDBMvU/2JNumJHk
-         xYIWHL9rkQu0zNZsTZDCWmGkqZb41ype/0lncd7CoELE0X5nDyYgCHvlF2m1frQyusoI
-         m2z8sgIi2jI8HvOgxrhWY/T+p38Fxh96Qu0bchwrEWfsIHqlv8rmNxkNUcxjMz6tLAiC
-         FcWRXUgxQDjieYhG742qh/3AhOQ4/SLwMix2Zg4M0YjXGHs3QBF2y3wQdFy4iDqv0PrP
-         oPhRvVUSkv2jKwz0edVwEELwfzfoURfaTn1aeUTRyxqzqIua5T/aRAqZ4MqgMDvcD2uV
-         DA0w==
-X-Gm-Message-State: AOAM530br+PhXmgoSIvt0ovxgAWPmItPUu6l2fBk5JMu9LASj7dp1jF4
-        RiwG+lEQt98QeYD3laxojwxzIw==
-X-Google-Smtp-Source: ABdhPJx4EMKtBe0WnpdPtMWMcYIpYkXHpyKXoHzrcv2OhxF2rykg5u9Y7Q+XOCzGlPXHjnutDYHJWQ==
-X-Received: by 2002:aa7:88d3:0:b0:49f:baac:9b51 with SMTP id k19-20020aa788d3000000b0049fbaac9b51mr13931939pff.44.1637229003752;
-        Thu, 18 Nov 2021 01:50:03 -0800 (PST)
-Received: from [10.76.43.192] ([61.120.150.76])
-        by smtp.gmail.com with ESMTPSA id e14sm2903051pfv.18.2021.11.18.01.49.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Nov 2021 01:50:03 -0800 (PST)
-Message-ID: <1d04e306-064e-b9eb-8846-2d12458988a9@bytedance.com>
-Date:   Thu, 18 Nov 2021 17:49:56 +0800
+        id S244690AbhKRKVh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 18 Nov 2021 05:21:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53757 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S245591AbhKRKUu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Nov 2021 05:20:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1637230667;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+        bh=8eqRZecyj/j5XPB6t4e5kN3QtTyfvI/6epjyriZieOU=;
+        b=CxpElZLpqm3xNZiOlkDgGyisjLBAhxGNnSY9ADO0MH7KWXe9f977qxfr0OPBCDQyU71AP2
+        qD6t9O5ZkVRVW9/Mg+eYX1VSBiYGobIS2Lp4jEP6mkmKhQEznzS+WgFhs0TbofaLHNwT1a
+        8TJRq6q+YXD5uIEu7jAn8MLHyAu+YKA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-481-3ppug3E_MZ2FwhzM-8fOEw-1; Thu, 18 Nov 2021 05:17:42 -0500
+X-MC-Unique: 3ppug3E_MZ2FwhzM-8fOEw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F45F1808309;
+        Thu, 18 Nov 2021 10:17:41 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.39.192.131])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 3430A5C1D0;
+        Thu, 18 Nov 2021 10:17:38 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     libc-alpha@sourceware.org
+Cc:     linux-api@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Jeremy Linton <jeremy.linton@arm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Rich Felker <dalias@libc.org>
+Subject: Bringing rseq back into glibc
+Date:   Thu, 18 Nov 2021 11:17:36 +0100
+Message-ID: <87wnl5u5rz.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.3.1
-Subject: Re: Re: Re: Re: Re: Re: Re: Re: Re: [PATCH v1] sched/numa: add
- per-process numa_balancing
-Content-Language: en-US
-To:     Mel Gorman <mgorman@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        linux-api@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20211109091951.GW3891@suse.de>
- <7de25e1b-e548-b8b5-dda5-6a2e001f3c1a@bytedance.com>
- <20211109121222.GX3891@suse.de>
- <117d5b88-b62b-f50b-32ff-1a9fe35b9e2e@bytedance.com>
- <20211109162647.GY3891@suse.de>
- <08e95d68-7ba9-44d0-da85-41dc244b4c99@bytedance.com>
- <20211117082952.GA3301@suse.de>
- <816cb511-446d-11eb-ae4a-583c5a7102c4@bytedance.com>
- <20211117101008.GB3301@suse.de>
- <f0193837-2f2c-b55f-cd79-b80d931e7931@bytedance.com>
- <20211118085819.GD3301@suse.de>
-From:   Gang Li <ligang.bdlg@bytedance.com>
-In-Reply-To: <20211118085819.GD3301@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 11/18/21 4:58 PM, Mel Gorman wrote:
-> On Thu, Nov 18, 2021 at 11:26:30AM +0800, Gang Li wrote:
->> 3. prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_ENABLE);  //enable
-> 
-> If PR_SET_NUMAB_ENABLE enables numa balancing for a task when
-> kernel.numa_balancing == 0 instead of returning an error then sure.
+I would like to bring back rseq for glibc 2.35.  I propose the following
+steps:
 
-Of course.
+1. Enable rseq registration in glibc, for internal use only.  This time,
+   put the rseq area into struct pthread, not into a initial-exec TLS
+   symbol.  (This helps to avoid with initial-exec TLS bloat with dlopen
+   and simplifies initialization somewhat.)
 
-I'll send patch v2 soon.
--- 
+2. Add a tunable to disable rseq registration in glibc.  This way, if
+   there is already an rseq user, it can be made to work again by
+   setting the tunable.
+
+3. Implement sched_getcpu on top of rseq.
+
+4. Add public symbols __rseq_abi_offset, __rseq_abi_size (currently 32
+   or 0), __rseq_abi_flags (currently 0).  __rseq_abi_offset is the
+   offset to add to the thread pointer (see __builtin_thread_pointer) to
+   get to the rseq area.  They will be public ABI symbols.  These
+   variables are initialized before user code runs, and changing the
+   results in undefined behavior.
+
+Under this model, the rseq area offset is clearly constant across all
+threads.  (This was previously implied by using initial-exec TLS
+memory.)  rseq registration failure is indicated by __rseq_abi_size ==
+0.  If the size is non-zero, rseq will be registered on all threads
+created by glibc, and all the time as far as user code is concernes.
+(This assumes that if rseq registration succeeds on the main thread, it
+will succeed on all other threads.  We will terminate the process if
+not.)  For example, if a JIT compiler sees __rseq_abi_size >= 32, in
+generated code, it can inline a version of sched_getcpu that
+materializes the thread pointer and loads the cpu_id field from the rseq
+area, without further checks.  Under the old TLS-based model, it was
+less clear that this was a valid optimization.
+
+Furthermore, I believe this approach will be more compatible with
+potential future kernel changes in this area.  If the kernel tells us
+some day through the auxiliary vector that we should register a 128-byte
+rseq area with 64-byte alignment, we can make that happen and change
+__rseq_abi_offset and __rseq_abi_size accordingly.
+
+Steps 1 to 3 are backportable to previous glibc version, especially to
+2.34 with its integrated libpthread.
+
+Comments?  As I said, I'd like to bring these changes into glibc 2.35,
+hopefully in early December.
+
 Thanks,
-Gang Li
+Florian
 
