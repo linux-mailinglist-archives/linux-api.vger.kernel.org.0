@@ -2,114 +2,99 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B0AA45577F
-	for <lists+linux-api@lfdr.de>; Thu, 18 Nov 2021 09:58:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A5B61455800
+	for <lists+linux-api@lfdr.de>; Thu, 18 Nov 2021 10:29:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244914AbhKRJBg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 18 Nov 2021 04:01:36 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28]:49728 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244873AbhKRJB3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Nov 2021 04:01:29 -0500
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id A9C7D21763;
-        Thu, 18 Nov 2021 08:58:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1637225908; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=DMSRHZltUhfnD0xcd/VgVm+c9gvquxAWnELVPwEVRpw=;
-        b=eTz3wXhLogtPJE0sEp1EBos0JswRTRYCM3P//c7jP4riflnr5fp5rUumfYbNWB9PowoDmV
-        1qFU8cKyDzO/A2MI5ce/ZebRzPs3Hn+45hmeHmeiES2zw1+sGmCOszTyX+6YPUvtaCfQkG
-        V1pmGP51FZBwNQ0W8aqxacp7p/Et9AM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1637225908;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=DMSRHZltUhfnD0xcd/VgVm+c9gvquxAWnELVPwEVRpw=;
-        b=yxI91LKMw5KKkwWK2zjWhuX8YRPzaYM8osTHT88mweOattB1kdAk+j+LPfU9xiTjfEm+y3
-        LQ+9rRggHIeCX6BQ==
-Received: from suse.de (unknown [10.163.43.106])
+        id S243335AbhKRJcQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 18 Nov 2021 04:32:16 -0500
+Received: from pb-smtp2.pobox.com ([64.147.108.71]:50285 "EHLO
+        pb-smtp2.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243399AbhKRJcN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Nov 2021 04:32:13 -0500
+Received: from pb-smtp2.pobox.com (unknown [127.0.0.1])
+        by pb-smtp2.pobox.com (Postfix) with ESMTP id 5ECC5E37D5;
+        Thu, 18 Nov 2021 04:29:10 -0500 (EST)
+        (envelope-from junio@pobox.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=from:to:cc
+        :subject:references:date:message-id:mime-version:content-type;
+         s=sasl; bh=exI/1ugmxEt/wLAdPQWIdrFr6D/v0f9nL2+zvqhIL+0=; b=tbOg
+        X71B8iFyIt+vyb2N3RWP8Ewpz+KEcx/0/VF9ShQh7jRVE23+NXx95EME5N6z4gEr
+        CNfS+1rAJQ9xco3V33+RCxPwcDFxscbfpDuGHNMCzgyG22YYcCoj1qCCjc9gfQON
+        zDmr2OJ6hwqWMlSRKHSc/PVAnEWGs+xyKC2a3Zk=
+Received: from pb-smtp2.nyi.icgroup.com (unknown [127.0.0.1])
+        by pb-smtp2.pobox.com (Postfix) with ESMTP id 559E3E37D4;
+        Thu, 18 Nov 2021 04:29:10 -0500 (EST)
+        (envelope-from junio@pobox.com)
+Received: from pobox.com (unknown [104.133.2.91])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 523D2A3B84;
-        Thu, 18 Nov 2021 08:58:27 +0000 (UTC)
-Date:   Thu, 18 Nov 2021 08:58:20 +0000
-From:   Mel Gorman <mgorman@suse.de>
-To:     Gang Li <ligang.bdlg@bytedance.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        linux-api@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: Re: Re: Re: Re: Re: Re: Re: [PATCH v1] sched/numa: add
- per-process numa_balancing
-Message-ID: <20211118085819.GD3301@suse.de>
-References: <20211109091951.GW3891@suse.de>
- <7de25e1b-e548-b8b5-dda5-6a2e001f3c1a@bytedance.com>
- <20211109121222.GX3891@suse.de>
- <117d5b88-b62b-f50b-32ff-1a9fe35b9e2e@bytedance.com>
- <20211109162647.GY3891@suse.de>
- <08e95d68-7ba9-44d0-da85-41dc244b4c99@bytedance.com>
- <20211117082952.GA3301@suse.de>
- <816cb511-446d-11eb-ae4a-583c5a7102c4@bytedance.com>
- <20211117101008.GB3301@suse.de>
- <f0193837-2f2c-b55f-cd79-b80d931e7931@bytedance.com>
+        by pb-smtp2.pobox.com (Postfix) with ESMTPSA id C051AE37D2;
+        Thu, 18 Nov 2021 04:29:09 -0500 (EST)
+        (envelope-from junio@pobox.com)
+From:   Junio C Hamano <gitster@pobox.com>
+To:     Junio C Hamano <junio@pobox.com>
+Cc:     ebiederm@xmission.com (Eric W. Biederman),
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Git List Mailing <git@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Kees Cook <keescook@chromium.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [GIT PULL] per signal_struct coredumps
+References: <878ry512iv.fsf@disp2133>
+        <CAHk-=wivLcb3ELGSf=fM0u=PxP5m1=jRrVXDOr0+QJZRZggaHg@mail.gmail.com>
+        <871r3uy2vw.fsf@disp2133>
+        <CAHk-=wh8v4OC=9rjFs-QH0evVrGQu+wCVL5gE8Y-uTvqh42XNA@mail.gmail.com>
+        <xmqqbl2nmemx.fsf@gitster.g>
+        <87pmr2k68f.fsf@email.froward.int.ebiederm.org>
+        <xmqq8rxobj1k.fsf@gitster.g>
+Date:   Thu, 18 Nov 2021 01:29:08 -0800
+Message-ID: <xmqqk0h5yfq3.fsf@gitster.g>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
-In-Reply-To: <f0193837-2f2c-b55f-cd79-b80d931e7931@bytedance.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+X-Pobox-Relay-ID: FBF0C9C6-4851-11EC-A9CB-CD991BBA3BAF-77302942!pb-smtp2.pobox.com
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Nov 18, 2021 at 11:26:30AM +0800, Gang Li wrote:
-> On 11/17/21 6:10 PM, Mel Gorman wrote:
-> > On Wed, Nov 17, 2021 at 05:38:28PM +0800, Gang Li wrote:
-> > > If those APIs are ok with you, I will send v2 soon.
-> > > 
-> > > 1. prctl(PR_NUMA_BALANCING, PR_SET_THP_DISABLE);
-> > 
-> > It would be (PR_SET_NUMAB_DISABLE, 1)
-> > 
-> > > 2. prctl(PR_NUMA_BALANCING, PR_SET_THP_ENABLE);
-> > 
-> > An enable prctl will have the same problems as
-> > prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING, 0/1) -- it should have
-> > meaning if the numa_balancing sysctl is disabled.
-> > 
-> > > 3. prctl(PR_NUMA_BALANCING, PR_GET_THP);
-> > > 
-> > 
-> > PR_GET_NUMAB_DISABLE
-> > 
-> 
-> How about this:
-> 
-> 1. prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DEFAULT); //follow global
-> 2. prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DISABLE); //disable
-> 3. prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_ENABLE);  //enable
+Junio C Hamano <junio@pobox.com> writes:
 
-If PR_SET_NUMAB_ENABLE enables numa balancing for a task when
-kernel.numa_balancing == 0 instead of returning an error then sure.
+>                               Y--- (Linus's tree)
+>                              / Linus pulls from subsystem maintainer
+>       \   \       \   \     /
+>     ---x---x---M---x---x---N (Subsystem maintainer's tree)
+>               /           /
+>              /           /
+>   ...---o---o---p---p---p (Your tree)
+>
+> The above picture only depicts two topics, one directly building on
+> top of the other, from you, but that is simplified merely for
+> illustration purposes.  The real history may have more topics, some
+> are dependent on others, while some are independent.
+>
+> Now, if you have many related but more or less independent topic
+> branches that will support a larger theme, it would be quite natural
+> if you acted as your own "subsystem" maintainer, in other words, in
+> ...
+> and offer 'N' as the tip of a "larger" topic that has internal
+> structure, not just a single strand of pearls, by adding a signed
+> tag on 'N' and throwing a pull request at Linus (or whoever is
+> immediately above your level).
+> 
+> Is that what happened (as I said, I lack context)?  If so, I do not
+> see much problem in the situation.  But this assumes that these so
+> called "fake" merges are merging into right first parents.
 
-> 4. prctl(PR_NUMA_BALANCING, PR_GET_NUMAB);
-> 
-> PR_SET_NUMAB_DISABLE/ENABLE can always have meaning whether the
-> numa_balancing sysctl is disabled or not,
-> 
-> -- 
-> Thanks,
-> Gang Li
-> 
+Addendum.
 
--- 
-Mel Gorman
-SUSE Labs
+If you have only one topic (i.e. you do not have o-o and p-p-p in
+the above picture, but just o-o), then it would be quite strange to
+create M and offer it to the upstream, as M's first parent, as well
+as the bottom of the o-o chain, would be something the upstream has
+and the merge would look redundant from upstream's point of view, as
+they will be creating another merge of their tip and M, at which
+point they'd rather merge the topmost commit in the o-o chain
+directly without having to deal with M.
+
