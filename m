@@ -2,127 +2,150 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 289914560D8
-	for <lists+linux-api@lfdr.de>; Thu, 18 Nov 2021 17:43:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D8EB24560F9
+	for <lists+linux-api@lfdr.de>; Thu, 18 Nov 2021 17:54:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233669AbhKRQqp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 18 Nov 2021 11:46:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47190 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233652AbhKRQqo (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Nov 2021 11:46:44 -0500
-Received: from mail-il1-x129.google.com (mail-il1-x129.google.com [IPv6:2607:f8b0:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF8C1C061574;
-        Thu, 18 Nov 2021 08:43:44 -0800 (PST)
-Received: by mail-il1-x129.google.com with SMTP id e8so7109575ilu.9;
-        Thu, 18 Nov 2021 08:43:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nHXYrpkfWzexMQu3rjZVVnAQq/u99wN5y+Cu0SZwxoU=;
-        b=OOw0SvzNbjSwHaFUynoJ35TZjNaEDyaD6GNLs3ZFGrmHyCm5gkCo6xVabRL4osIpp6
-         /gN2TrbN3bF974KwXPkm8SoCUpMphUP7mBR9p64/ztfOoo22C302i5iLS3RbtBmvpFNf
-         jSaU5EjYmsd5xL+NTcxKwbynTg/7OAS6keXTN2OizcAXM3S5Za7Gju2eLmWFBPhpMJmU
-         KWyIFly+rGvyPAeZ5aPtb5Tcd/9KqHdZJiU0+hytYnEeboociU8ULeWZ46mSVcE+gnQA
-         NwWccjlC1xeZrwwaCxexi/TxMAbnasdYQH+aZ5yi+F8M9M3bkmUfjLvEO2zppKvpw3ak
-         W4XA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nHXYrpkfWzexMQu3rjZVVnAQq/u99wN5y+Cu0SZwxoU=;
-        b=i2xMfh+iE6Bz8WdzeSQVlYADwBRJ+dwT1xCys8sWo4fBH0T6RAU+8KBsn8uPQFrl2Z
-         DCmekxv5DZQVaE6oMZY4nQRgCm60BqlzG4aUpHwiUnq7uA3ktAfDm1lF7XUMJN2XO6o/
-         yTVF9bfQQbcM8Whp9D4dmdvKK9sBLaVUNsxy3mKuwsPHumQ+qMscwQ26BGvAsIIRJ6eL
-         cTuw50HOrR30xr7auFJ8dg5QhO4Oq9rxyfBdl5ILFDDLQclczUT0B3bcfJYlPq+18MM2
-         DFscRhVdVZjg4jdObdAEqvlwg5r7axBp8wcUKxjVRD2dqntaRlucrNvbGvevwNNItVFi
-         ivBA==
-X-Gm-Message-State: AOAM530l8cJUuFXscL4ygbUzm0TyWk97p4NFepDfYpAfxsZtVAuryBA7
-        +NF6Ybqq1+4pVBu3lT3je1GKl4YEcX7RLA/H9hQ=
-X-Google-Smtp-Source: ABdhPJxjKNwJrg/M6Z5DGIQ4/UeNDAyDvU5YATU7TtjHWaslW4jqFsLnGKfpKU29Va7D3vafF1SyJhikVNhSWUrPtbY=
-X-Received: by 2002:a05:6e02:ea4:: with SMTP id u4mr283953ilj.319.1637253824165;
- Thu, 18 Nov 2021 08:43:44 -0800 (PST)
+        id S233694AbhKRQ5y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 18 Nov 2021 11:57:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38386 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229554AbhKRQ5y (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Nov 2021 11:57:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1637254493;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=R8TCilPmYUvQEj/36GfpyyLXNZ9Xg267LRKKj5hppHs=;
+        b=XxYvC1pQW3/BYvKkF1wZ50RTb3mkgrTDvNOBcB0jDOf8Cxnys2lf3HBlArqOpWK9Df5EnL
+        HlFuF4DBgHTO4RR7s8k6y2Hfq2GTaQkT/OSl3F5I2mu0pi3RMBXVYWe61m7pB/PKCDpTOx
+        K4IFjvzo7n3LYiLF+NYgKUqlIDxyPQQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-422-CVGxMyYvOLWI2w1SNTrqEw-1; Thu, 18 Nov 2021 11:54:49 -0500
+X-MC-Unique: CVGxMyYvOLWI2w1SNTrqEw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F305283DC10;
+        Thu, 18 Nov 2021 16:54:47 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.39.192.131])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 327AB5F4F4;
+        Thu, 18 Nov 2021 16:54:44 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     libc-alpha <libc-alpha@sourceware.org>,
+        linux-api <linux-api@vger.kernel.org>,
+        Jeremy Linton <jeremy.linton@arm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Rich Felker <dalias@libc.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        paulmck <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>
+Subject: Re: Bringing rseq back into glibc
+References: <87wnl5u5rz.fsf@oldenburg.str.redhat.com>
+        <233151767.18864.1637253179376.JavaMail.zimbra@efficios.com>
+Date:   Thu, 18 Nov 2021 17:54:43 +0100
+In-Reply-To: <233151767.18864.1637253179376.JavaMail.zimbra@efficios.com>
+        (Mathieu Desnoyers's message of "Thu, 18 Nov 2021 11:32:59 -0500
+        (EST)")
+Message-ID: <87fsrtflpo.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <CAOQ4uxjazEx=bL6ZfLaGCfH6pii=OatQDoeWc+74AthaaUC49g@mail.gmail.com>
- <20211112163955.GA30295@quack2.suse.cz> <CAOQ4uxgT5a7UFUrb5LCcXo77Uda4t5c+1rw+BFDfTAx8szp+HQ@mail.gmail.com>
- <CAOQ4uxgEbjkMMF-xVTdfWcLi4y8DGNit5Eeq=evby2nWCuiDVw@mail.gmail.com>
- <20211115102330.GC23412@quack2.suse.cz> <CAOQ4uxiBFkkbKU=yimLXoYKHFWOoUYrXfg4Kw_CkF=hcSGOm3A@mail.gmail.com>
- <20211115143750.GE23412@quack2.suse.cz> <CAOQ4uxgBncZjuTo-K+vxRovd36AuaEKUfBDQwgU86B9qwWWNVw@mail.gmail.com>
- <20211116101232.GA23464@quack2.suse.cz> <CAOQ4uxgfCmWCt=NNxj53+eKtVE-FMWBDNgFuQpGiFooZpne6zw@mail.gmail.com>
- <20211118162956.GA8267@quack2.suse.cz>
-In-Reply-To: <20211118162956.GA8267@quack2.suse.cz>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Thu, 18 Nov 2021 18:43:33 +0200
-Message-ID: <CAOQ4uxhGt4ghy4sqoWN28akOi9B=brT6rGzE9ffOaLTHWJDJ9w@mail.gmail.com>
-Subject: Re: [PATCH 0/7] Report more information in fanotify dirent events
-To:     Jan Kara <jack@suse.cz>
-Cc:     Matthew Bobrowski <mbobrowski@mbobrowski.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Nov 18, 2021 at 6:29 PM Jan Kara <jack@suse.cz> wrote:
+* Mathieu Desnoyers:
+
+> ----- On Nov 18, 2021, at 5:17 AM, Florian Weimer fweimer@redhat.com wrote:
 >
-> On Thu 18-11-21 14:47:18, Amir Goldstein wrote:
-> > > > So let's say this - we can add support for OLD_DFID, NEW_DFID types
-> > > > later if we think they may serve a purpose, but at this time, I see no
-> > > > reason to complicate the UAPI anymore than it already is and I would
-> > > > rather implement only:
-> > > >
-> > > > /* Info types for FAN_RENAME */
-> > > > #define FAN_EVENT_INFO_TYPE_OLD_DFID_NAME       10
-> > > > /* Reserved for FAN_EVENT_INFO_TYPE_OLD_DFID    11 */
-> > > > #define FAN_EVENT_INFO_TYPE_NEW_DFID_NAME       12
-> > > > /* Reserved for FAN_EVENT_INFO_TYPE_NEW_DFID    13 */
-> > > >
-> > > > Do you agree?
-> > >
-> > > I agree the utility of FAN_RENAME without FAN_REPORT_NAME is very limited
-> > > so I'm OK with not implementing that at least for now.
-> >
-> > OK. The patches are staged at [1], but I ran into one more UAPI question
-> > that I wanted to run by you before posting the patches.
-> >
-> > The question may be best described by the last commit on the tests branch [2]:
-> >
-> >     syscalls/fanotify16: Test FAN_RENAME with ignored mask
-> >
-> >     When a file is moved between two directories and only one of them is
-> >     watching for FAN_RENAME events, the FAN_RENAME event will include only
-> >     the information about the entry in the watched directory.
-> >
-> >     When one of the directories is watching FAN_RENAME, but the other is
-> >     ignoring FAN_RENAME events, the FAN_RENAME event will not be reported
-> >     at all.
-> >
-> >     This is not the same behavior as MOVED_FROM/TO events. User cannot
-> >     request to ignore MOVED_FROM events according to destination directory
-> >     nor MOVED_TO events according to source directory.
-> >
-> > I chose this behavior because I found it to be useful and consistent with
-> > other behaviors involving ignored masks. Maybe "chose" is a strong word
-> > here - I did not do anything to implement this specific behavior - it is just
-> > how the code in fanotify_group_event_mask() works for merging masks
-> > and ignored masks of different marks.
-> >
-> > Let me know if you approve of those ignored FAN_RENAME semantics
-> > and I will post the patches for review.
+>> I would like to bring back rseq for glibc 2.35.
 >
-> Yeah, I guess ignore masks with FAN_RENAME are going to be a bit
-> non-intuitive either way and what you suggest makes sense. I suppose when
-> SB has FAN_RENAME mark and either source or target have FAN_RENAME in the
-> ignore mask, nothing will get reported as well, do it? If we are consistent
-> like this, I guess fine by me.
+> That's excellent news ! Thanks for looking into this.
+>
+>> I propose the following steps:
+>> 
+>> 1. Enable rseq registration in glibc, for internal use only.  This time,
+>>   put the rseq area into struct pthread, not into a initial-exec TLS
+>>   symbol.  (This helps to avoid with initial-exec TLS bloat with dlopen
+>>   and simplifies initialization somewhat.)
+>
+> That works for me.
+>
+>> 
+>> 2. Add a tunable to disable rseq registration in glibc.  This way, if
+>>   there is already an rseq user, it can be made to work again by
+>>   setting the tunable.
+>
+> Out of curiosity, how is the glibc tunable exposed ? Can it be called
+> from the application, or is it an environment variable which needs to
+> be set before running the application ?
 
-Yes, that is correct, because the join of combined masks and combined
-ignored_masks is done at the very end, if an event is in ignored mask of
-any related mark, it will cause the drop of the event.
+Today, it's an environment variable.
 
-I will post patches soon.
+>> 3. Implement sched_getcpu on top of rseq.
+>> 
+>> 4. Add public symbols __rseq_abi_offset, __rseq_abi_size (currently 32
+>>   or 0), __rseq_abi_flags (currently 0).  __rseq_abi_offset is the
+>>   offset to add to the thread pointer (see __builtin_thread_pointer) to
+>>   get to the rseq area.  They will be public ABI symbols.  These
+>>   variables are initialized before user code runs, and changing the
+>>   results in undefined behavior.
+>
+> Works for me. So if the Linux kernel eventually implements something along
+> the lines of an extensible kTLS, we can could use that underneath.
+>
+> Small bike-shedding comment: I wonder if we want those public glibc
+> symbols to be called "__rseq_abi_{offset,size,flags}", or if a name like
+> "__ktls_{offset,size,flags}" might be more appropriate and future-proof
+> from a glibc ABI standpoint ?
 
-Thanks,
-Amir.
+No, if the kTLS stuff arrives, it might have different sizes and
+offsets, and the rseq area is just a slice of that.  So the numbers
+could be different.  We could do things as you propose if rseq is
+guaranteed to be at the start of the kernel area, always, but do we know
+that yet?
+
+Also, kTLS wille likely be called something else to avoid confusion with
+Kernel Transport Layer Security.  That's another reason to stick with
+__rseq_.
+
+>> Steps 1 to 3 are backportable to previous glibc version, especially to
+>> 2.34 with its integrated libpthread.
+>
+> So if we have an application or library already using rseq directly through
+> the system call, upgrading glibc may cause it to fail. Arguably, no new
+> symbol are exposed, so I guess it's OK with the backport guide-lines.
+> My question here is: is it OK for a backported patch to break an
+> application which uses the Linux kernel system calls directly ?
+
+It depends. 8-)
+
+I think we can get away with it because shipping software for deployment
+on other people's system must have a fallback path for non-rseq mode
+outside of specialized environments.  For the (hopefully) rare
+exceptions, we'll provide the tunable setting.
+
+We must have done it before with similar system calls (set_tid_address,
+set_robust_list).  But system call design tends to avoid creating new
+examples.  rseq is similar to set_tid_address and set_robust_list in
+that more or less has to be this way, with the single-user property.
+(Supporting multiple users is undesirable from a performance/complexity
+perspective.)
+
+>> Comments?  As I said, I'd like to bring these changes into glibc 2.35,
+>> hopefully in early December.
+>
+> I won't have time to do the implementation effort myself this time due to
+> other commitments, but I will try to free up some time for review. Feel
+> free to grab whatever code you feel is useful from my earlier rseq
+> integration patches (if any).
+
+I plan to reuse the architecture-specific marker constants from your
+version at least.  That's already going to save a lot of work.  Thanks.
+
+Florian
+
