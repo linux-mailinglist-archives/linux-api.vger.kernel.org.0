@@ -2,101 +2,125 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB4EC457E8D
-	for <lists+linux-api@lfdr.de>; Sat, 20 Nov 2021 13:59:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B1C345866B
+	for <lists+linux-api@lfdr.de>; Sun, 21 Nov 2021 22:09:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237176AbhKTNCd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 20 Nov 2021 08:02:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48266 "EHLO
+        id S229618AbhKUVMB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 21 Nov 2021 16:12:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229794AbhKTNCd (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 20 Nov 2021 08:02:33 -0500
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C66EC061574;
-        Sat, 20 Nov 2021 04:59:30 -0800 (PST)
-Received: by mail-io1-xd2d.google.com with SMTP id z26so16479558iod.10;
-        Sat, 20 Nov 2021 04:59:30 -0800 (PST)
+        with ESMTP id S229456AbhKUVMB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 21 Nov 2021 16:12:01 -0500
+Received: from mail-ua1-x933.google.com (mail-ua1-x933.google.com [IPv6:2607:f8b0:4864:20::933])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35769C061574
+        for <linux-api@vger.kernel.org>; Sun, 21 Nov 2021 13:08:56 -0800 (PST)
+Received: by mail-ua1-x933.google.com with SMTP id l24so32635809uak.2
+        for <linux-api@vger.kernel.org>; Sun, 21 Nov 2021 13:08:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=posk.io; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=pqj1rXbXhvpm+wn7g12M1++4UGTsLe43CX7Eb8nvKZ4=;
-        b=hH7KAHwUCAkSUoYDCm9chTdaGIoaaQ6X37AqsJltTYzQVEX4myjJ9G1fC+WME+MI51
-         jtcazbVIadOk4SuFdY4IKkgYqvOm6wh34EJ7nbORDBZ/Ftk81iNMFhlsxOVsMHx8px8h
-         3C1L+lS5WWdoqpgWVuLmZbkUhag74lbXncBeR4RVNHgsQDERIj34cIesUo2bbfTsLjbs
-         3l91E2jIg89jMbu8bLQINjg8P6Q3CgeevE0CyjpS2wdoHgy6B/5lKLQOyrMSdy2tOLJ1
-         v8D4T8v3aS6X2edkyVPEYAkCd2TaOjZhLr99cskKUJXh04wKhkgf4wMU+iQ38SGdDCLR
-         P7ig==
+        bh=E3RG2vReGUIVq+WNNt5JWAHps80g21M6WWVDlgLB+xM=;
+        b=YxiA8N/7/sjAkelyk35enzFTfyAW6EdOfmwrteLYipmIZUnFGhOJ9Oh0CYuWsfEILw
+         rxmkvCtT+888/8k2PvC/zWpH4Tm2JL5B43SN18AFT4LDMiHF25skzWMzgkXiL0EdsQqU
+         JgECz0t3Ia/biABswrAEHNKVEqq8D7p2aXKMDHwV4I01I3eaqaw4j3AJo1UQ6b2BWpEG
+         faqJAMu6O6VxeSMLRMir/Z3dT+5e7njOGti79S+iqjTmTnT6R7VsFATWkhSSwyZUnIXF
+         WNCu+Cmw/o+/VjWKiYpd2iYn10kSZKka0acSCPmrrOmq1GfTZP+RFVGFUjjIyRzq6060
+         FLIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=pqj1rXbXhvpm+wn7g12M1++4UGTsLe43CX7Eb8nvKZ4=;
-        b=lK0pkTx+aG1L+UBdpn4ZdJlJm1wJLbEE+F4sT44YEK/Dhde1PLmIIYu93OnQBqBVGV
-         yTVSLrAwI22zPdwk47NJtMl6vdh28XKaYA6JTEyEWB6SMSN8dIy4K63kV0+9nnd9TPt0
-         YWGga/5rxWNGTUlJPnwYn+uHFaKzY7m/tG5pA+vvR9EVEApKoH5AmwVU+7I5xRwNvAHU
-         4VIYZ67cflfej9qz1MwEItTefK5Si/TJC3ynqGuIWL7HXORaOQTKiFQLCywVwxLh5pok
-         O+GiPEg18aoseY4Ori7ZFLreSj6q4qeZUaMwDTvYzelYx+Hdd/Z2QgeGBXdFWBjZJ6PI
-         B8lw==
-X-Gm-Message-State: AOAM532phukTd7NPeRWq05PAi33akVhkkBXdei/d5G5K+q+k8MZolknL
-        Ca0KVYCDQl6R3MxKrm9c2yVQmuX5xJEA+rQHn/Ik+K3J9BQ=
-X-Google-Smtp-Source: ABdhPJyE1Zn8zVqdyNwfVcZ15GTsoJGhlmUzVVAzG+G+OC/J91F4DbBR4tRPL4vKrrNknL+Y+iRU+Pm58cRBlAIZ2Gg=
-X-Received: by 2002:a6b:d904:: with SMTP id r4mr10965131ioc.52.1637413169580;
- Sat, 20 Nov 2021 04:59:29 -0800 (PST)
+        bh=E3RG2vReGUIVq+WNNt5JWAHps80g21M6WWVDlgLB+xM=;
+        b=1D5PaLzhmeXrIkJfJClKWbDeqIy80phAm3gWkYPqhA4zeuOLXWLyN140knTKbKF9KS
+         JGFUyJkJACMpieiMeQTI/i745IlKBCXvcRKwLMmZIY0T5DCGDSn2Yfx1Mm0/NjjSTx49
+         VhVUZGaScA5TuGLQxj0MWpaLBsolelxTSi4F2nN7I2OJvEFw+ZOBK4EYzMb8esm98Em2
+         vEtd55EqwnmwfRBEdlS7GAUMqgQgzWf0OjKEUn9C6aB3xDpe6xclmSBhFl9uvm0ddWwz
+         S86kOzqX468Rbz2CSyReoLa+AKey4bB8mga7lXmgPvZVt5dvhRURtidliRRAWPTGvyqb
+         VcGw==
+X-Gm-Message-State: AOAM532ldsKCxcYl4mhnn0PQl875GVDt9xqHlR47v0vdQxUro0rCy6pB
+        186g2VRCqwn9ZOUQR07Hrv/KzMJPsybTaCZHRy3BdQ==
+X-Google-Smtp-Source: ABdhPJw/qx9alSo1fxC94rpmGEce3mXe/rYpa9MHb1r3NsJwXYJjx3Fxup49rxNpgdrig2M4LBkQk0m+LqyiDyAbFwI=
+X-Received: by 2002:a05:6102:94b:: with SMTP id a11mr126647964vsi.39.1637528935155;
+ Sun, 21 Nov 2021 13:08:55 -0800 (PST)
 MIME-Version: 1.0
-References: <20211119071738.1348957-1-amir73il@gmail.com>
-In-Reply-To: <20211119071738.1348957-1-amir73il@gmail.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Sat, 20 Nov 2021 14:59:18 +0200
-Message-ID: <CAOQ4uxgHHF-sY+NSGQhc=vkrEg34k7tNuPZvQy3NYU-0yZPQ3A@mail.gmail.com>
-Subject: Re: [PATCH v2 0/9] Extend fanotify dirent events
-To:     Jan Kara <jack@suse.cz>
-Cc:     Matthew Bobrowski <mbobrowski@mbobrowski.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
+References: <20211104195804.83240-4-posk@google.com> <202111160425.fea03oXq-lkp@intel.com>
+In-Reply-To: <202111160425.fea03oXq-lkp@intel.com>
+From:   Peter Oskolkov <posk@posk.io>
+Date:   Sun, 21 Nov 2021 13:08:44 -0800
+Message-ID: <CAFTs51UYjU_=b0SccT=LCetTTZPbMG8b=JaWf=YR6zVtK-oYew@mail.gmail.com>
+Subject: Re: [PATCH v0.8 3/6] sched/umcg: implement UMCG syscalls
+To:     kernel test robot <lkp@intel.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-api@vger.kernel.org, kbuild-all@lists.01.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Paul Turner <pjt@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Nov 19, 2021 at 9:17 AM Amir Goldstein <amir73il@gmail.com> wrote:
+On Mon, Nov 15, 2021 at 12:12 PM kernel test robot <lkp@intel.com> wrote:
 >
-> Jan,
+> Hi Peter,
 >
-> This is the 2nd version of FAN_REPORT_TARGET_FID patches [1].
+> Thank you for the patch! Yet something to improve:
 >
-> In the first version, extra info records about new and old parent+name
-> were added to FAN_MOVED_FROM event.  This version uses a new event
-> FAN_RENAME instead, to report those extra info records.
-> The new FAN_RENAME event was designed as a replacement for the
-> "inotify way" of joining the MOVED_FROM/MOVED_TO events using a cookie.
+> [auto build test ERROR on 8ea9183db4ad8afbcb7089a77c23eaf965b0cacd]
 >
-> FAN_RENAME event differs from MOVED_FROM/MOVED_TO events in several ways:
-> 1) The information about old/new names is provided in a single event
-> 2) When added to the ignored mask of a directory, FAN_RENAME is not
->    reported for renames to and from that directory
+> url:    https://github.com/0day-ci/linux/commits/Peter-Oskolkov/sched-mm-x86-uaccess-implement-User-Managed-Concurrency-Groups/20211105-035945
+> base:   8ea9183db4ad8afbcb7089a77c23eaf965b0cacd
+> config: i386-allyesconfig (attached as .config)
+> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+> reproduce (this is a W=1 build):
+>         # https://github.com/0day-ci/linux/commit/93e6110356346b226e3a41044aafe3d3b0906d10
+>         git remote add linux-review https://github.com/0day-ci/linux
+>         git fetch --no-tags linux-review Peter-Oskolkov/sched-mm-x86-uaccess-implement-User-Managed-Concurrency-Groups/20211105-035945
+>         git checkout 93e6110356346b226e3a41044aafe3d3b0906d10
+>         # save the attached .config to linux build tree
+>         mkdir build_dir
+>         make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 >
-> The group flag FAN_REPORT_TARGET_FID adds an extra info record of
-> the child fid to all the dirent events, including FAN_REANME.
-> It is independent of the FAN_RENAME changes and implemented in the
-> first patch, so it can be picked regardless of the FAN_RENAME patches.
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
 >
-> Patches [2] and LTP test [3] are available on my github.
-> A man page draft will be provided later on.
->
-> Thanks,
-> Amir.
->
-> [1] https://lore.kernel.org/linux-fsdevel/20211029114028.569755-1-amir73il@gmail.com/
-> [2] https://github.com/amir73il/linux/commits/fan_rename
-> [3] https://github.com/amir73il/ltp/commits/fan_rename
+> All errors (new ones prefixed by >>):
 
-Here is a first man page draft [4].
-It based on top of both FAN_REPORT_PIDFD and FAN_FS_ERROR patches.
-I did not elaborate about the new info types yet in fanotify.7, because Matthew
-was going to rephrase the entire section about fanotify_event_info_header.
+I cannot reproduce this. Both in my tree on top of tip, and the one
+referenced above, I can compile i386 ok:
 
-Thanks,
-Amir.
+$ make ARCH=i386 allyesconfig
+$ make ARCH=i386 -j16
 
-[4] https://github.com/amir73il/man-pages/commits/fan_rename
+succeeds.
+
+$ gcc --version
+gcc (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
+
+>
+>    In file included from <command-line>:32:
+> >> ./usr/include/linux/umcg.h:80:2: error: unknown type name 'u64'
+>       80 |  u64 state_ts;  /* r/w */
+>          |  ^~~
+> >> ./usr/include/linux/umcg.h:91:2: error: unknown type name 'u32'
+>       91 |  u32 next_tid;  /* r   */
+>          |  ^~~
+>    ./usr/include/linux/umcg.h:93:2: error: unknown type name 'u32'
+>       93 |  u32 flags;   /* Reserved; must be zero. */
+>          |  ^~~
+>    ./usr/include/linux/umcg.h:101:2: error: unknown type name 'u64'
+>      101 |  u64 idle_workers_ptr; /* r/w */
+>          |  ^~~
+>    ./usr/include/linux/umcg.h:107:2: error: unknown type name 'u64'
+>      107 |  u64 idle_server_tid_ptr; /* r   */
+>          |  ^~~
+>
+> ---
+> 0-DAY CI Kernel Test Service, Intel Corporation
+> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
