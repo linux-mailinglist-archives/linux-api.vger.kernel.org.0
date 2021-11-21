@@ -2,51 +2,51 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACE1145868E
-	for <lists+linux-api@lfdr.de>; Sun, 21 Nov 2021 22:21:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11FFB458691
+	for <lists+linux-api@lfdr.de>; Sun, 21 Nov 2021 22:21:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233786AbhKUVYB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 21 Nov 2021 16:24:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44100 "EHLO
+        id S231952AbhKUVYF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 21 Nov 2021 16:24:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231952AbhKUVXz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 21 Nov 2021 16:23:55 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3E86C061714
-        for <linux-api@vger.kernel.org>; Sun, 21 Nov 2021 13:20:50 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id v23so12174061pjr.5
-        for <linux-api@vger.kernel.org>; Sun, 21 Nov 2021 13:20:50 -0800 (PST)
+        with ESMTP id S231965AbhKUVX5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 21 Nov 2021 16:23:57 -0500
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8CACC061574
+        for <linux-api@vger.kernel.org>; Sun, 21 Nov 2021 13:20:51 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id nh10-20020a17090b364a00b001a69adad5ebso13524683pjb.2
+        for <linux-api@vger.kernel.org>; Sun, 21 Nov 2021 13:20:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=posk.io; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=oKSb/V9pWPXfIUxuyorKDioL/30MA/sUKKbzmiv6cug=;
-        b=FBx4ces6pgRQfxR7MdGqi+/iqyZflIWP1RE7/85bv7qRrtGQ6bEWx6ID4RW2Z+46jI
-         4HVwPPRIuCwDnhCQNVsgO/vKlD5y14yC9DBnsA4XiykMiShJ9pRziOHLVxJO2zMan20d
-         TFHx3HWNyg8goMdIaGwDYGQho+r4gpwsQXrK5/2+mH3NrcukOJJck48/T+2DZxftJB9w
-         IW48VdXgS+RO1ZNkaRN0Au496gYKvYtCOGEJ35ZZdGz2Ec0dX3NxDzcJkJCcu6qUwl7S
-         2m/MVMMI8KFi2NcXxxklaV4S7gesR/7TnJIXj7AZ156lklB3lKN34+gx9l+a52Pm19+K
-         TlvQ==
+        bh=B00tJn5rnYuWYSpk3zTcunA3N+4r514ND/7t0xIcXv8=;
+        b=hAUGZAkecdJy36k9sN9KoMAzCmdHEc36JnRSpCpwQAkexWrtZ0YnSaBh3mlhBjGazH
+         OIKAoyMOlvpQF5Q4XcToMKVx+J8kZiC5+nM9eaezaXFWa0p2nv5fH3oE7HZRSstsa4Ft
+         0IlTLZb/ueYspTiP69z0rdiDZt97dnCEx7REA56cb9dGJkMPkDh0UofMFLQceBU8w5iM
+         7nStrlDtwZd2Iju4bUjC6vsmSdTSlhPVf22AfWpvmOtWMBYbykjQSYdtTsl9iTii1byU
+         KOA/zfHleTszM751UED0FGgOBaXk016cfROIAbRziAnJBqfx2s1S1RSY3pYCkckxGTBJ
+         4P0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=oKSb/V9pWPXfIUxuyorKDioL/30MA/sUKKbzmiv6cug=;
-        b=TTWBiO8gBY5dg0BMGg65yfJ9klOBsVrJQUyWasP7SAZ2/ikXvMLcsXmF783fvNPOPQ
-         orFyRuYmvwpLu2kXNNzJmxR3ysEVUClT+pY0Uogi0kxY53Qg27rnitxVdgXD5eqnETEb
-         sO5D5q+GlPMLUtjzHe+51OLq7b+HddgbryGi8ksjtSiL4M2Vfud7CEyvVPwPhsiSxG40
-         iGXVIUz70DP/O979n+2TgBRIYhw0ffQ5ffLjwg/LwZ4nnsgTF1KdIOZu5khQ9Lr4QDTX
-         tUeiqWw10ZwHSfURVimdSCqgCSJUBzRKx+I9QGGhP8xK4uTdgYY5cvU1vnx04+m2ksAU
-         wOQw==
-X-Gm-Message-State: AOAM532MAJCngKebeTkb75P++pqs5tzSADvFrTzuErunmLPYSKDlgXpy
-        x4aNIJkTovOIYokjCO+JHCV/nw==
-X-Google-Smtp-Source: ABdhPJwlOCJU2tOHGk6qbzvyQRuoqHga6jcnnw/D49a7f4SSS318PtqIHkrHbk7ZJrXgMpMXAm2SiA==
-X-Received: by 2002:a17:902:c202:b0:142:2441:aa25 with SMTP id 2-20020a170902c20200b001422441aa25mr101095996pll.68.1637529649849;
-        Sun, 21 Nov 2021 13:20:49 -0800 (PST)
+        bh=B00tJn5rnYuWYSpk3zTcunA3N+4r514ND/7t0xIcXv8=;
+        b=knm4MrjOnHjS1SCZWJhslDs4tu1JavyfuJ5cj1vaf+3IfWgbKIc0W6QJF/mZ++c1U3
+         zWcsISr3u2LmzfpCSNnGW5uRLYhD80rG3+8W3uaNtulbIURd3PbEwpJu+Sy3He1L3C4J
+         Nill7F0m9x/jAs5T2xPqEseXqODyz9pZhGS1OZ14xqtz1YIb7j9VlI7lRDjoGMbMnrWm
+         wgokSOyji0sQb+5VJjgajYTX+xlomAHgQ+0GBDc3J0LzbC1QDQCuK6nYGvXsT51twz/v
+         kk97tbYU392d8ytlhOlJeFDo3JnPUXVV3gQM70tRnWGyLXZBwF21ZF4SlNujSw1B7nJM
+         Sp0A==
+X-Gm-Message-State: AOAM533O81B5urLFJRvgCPZnxzHa5oURy1TeHVnxVFKGCSiv0A8Rh8Xc
+        IH3icZ6SyC5p7h0GiOkgdfUaAOYyZOiUlA==
+X-Google-Smtp-Source: ABdhPJy2JNkkge0i57TNUZBlu99WACVnMnpaLyoEWYO3xubRJLBQRyKGiJXu+K4ZWB1pl9GeoZaUQQ==
+X-Received: by 2002:a17:90b:4a43:: with SMTP id lb3mr24617763pjb.222.1637529651048;
+        Sun, 21 Nov 2021 13:20:51 -0800 (PST)
 Received: from posk-p1g4.localdomain (23-118-52-46.lightspeed.sntcca.sbcglobal.net. [23.118.52.46])
-        by smtp.gmail.com with ESMTPSA id k8sm6207924pfu.75.2021.11.21.13.20.48
+        by smtp.gmail.com with ESMTPSA id k8sm6207924pfu.75.2021.11.21.13.20.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Nov 2021 13:20:49 -0800 (PST)
+        Sun, 21 Nov 2021 13:20:50 -0800 (PST)
 From:   Peter Oskolkov <posk@posk.io>
 X-Google-Original-From: Peter Oskolkov <posk@google.com>
 To:     Peter Zijlstra <peterz@infradead.org>,
@@ -61,9 +61,9 @@ Cc:     Paul Turner <pjt@google.com>, Ben Segall <bsegall@google.com>,
         Peter Oskolkov <posk@posk.io>,
         Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
         Thierry Delisle <tdelisle@uwaterloo.ca>
-Subject: [PATCH v0.9 5/6] sched/umcg: add Documentation/userspace-api/umcg.txt
-Date:   Sun, 21 Nov 2021 13:20:39 -0800
-Message-Id: <20211121212040.8649-6-posk@google.com>
+Subject: [PATCH v0.9 6/6] sched/umcg, lib/umcg: add tools/lib/umcg/libumcg.txt
+Date:   Sun, 21 Nov 2021 13:20:40 -0800
+Message-Id: <20211121212040.8649-7-posk@google.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211121212040.8649-1-posk@google.com>
 References: <20211121212040.8649-1-posk@google.com>
@@ -73,45 +73,61 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Document User Managed Concurrency Groups syscalls, data structures,
-state transitions, etc. in UMGG kernel API.
+Document libumcg.
 
 Signed-off-by: Peter Oskolkov <posk@google.com>
 ---
- Documentation/userspace-api/umcg.txt | 598 +++++++++++++++++++++++++++
- 1 file changed, 598 insertions(+)
- create mode 100644 Documentation/userspace-api/umcg.txt
+ tools/lib/umcg/libumcg.txt | 438 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 438 insertions(+)
+ create mode 100644 tools/lib/umcg/libumcg.txt
 
-diff --git a/Documentation/userspace-api/umcg.txt b/Documentation/userspace-api/umcg.txt
+diff --git a/tools/lib/umcg/libumcg.txt b/tools/lib/umcg/libumcg.txt
 new file mode 100644
-index 000000000000..539b7c6a8962
+index 000000000000..06f509bf5341
 --- /dev/null
-+++ b/Documentation/userspace-api/umcg.txt
-@@ -0,0 +1,598 @@
-+UMCG API (KERNEL)
++++ b/tools/lib/umcg/libumcg.txt
+@@ -0,0 +1,438 @@
++LIBUMCG API (USERSPACE)
 +
 +User Managed Concurrency Groups (UMCG) is an M:N threading
 +subsystem/toolkit that lets user space application developers implement
 +in-process user space schedulers.
 +
-+See tools/lib/umcg/umcg.txt for LIBUMCG API, as opposed to UMCG API (kernel)
-+described here. The first three subsections are the same in both documents.
++See Documentation/userspace-api/umcg.txt for UMCG API (kernel), as opposed
++to LIBUMCG API described here. The first three subsections are the
++same in both documents.
 +
 +
 +CONTENTS
 +
 +    WHY? HETEROGENEOUS IN-PROCESS WORKLOADS
 +    REQUIREMENTS
-+    WHY TWO APIS: UMCG (KERNEL) AND LIBUMCG (USERSPACE)?
-+    UMCG API (KERNEL)
-+    SERVERS
-+    WORKERS
-+    UMCG TASK STATES
-+    STRUCT UMCG_TASK
-+    SYS_UMCG_CTL()
-+    SYS_UMCG_WAIT()
-+    STATE TRANSITIONS
-+    SERVER-ONLY USE CASES
++    WHY THE TWO APIS: UMCG (KERNEL) AND LIBUMCG (USERSPACE)?
++    LIBUMCG API (USERSPACE)
++        SERVERS
++        WORKERS
++        BASIC UMCG TASKS
++    LIBUMCG API
++        umcg_t
++        umcg_tid
++        UMCG_NONE
++        umcg_enabled()
++        umcg_get_utid()
++        umcg_set_task_tag()
++        umcg_get_task_tag()
++        umcg_create_group()
++        umcg_destroy_group()
++        umcg_register_basic_task()
++        umcg_register_worker()
++        umcg_register_server()
++        umcg_unregister_task()
++        umcg_wait()
++        umcg_wake()
++        umcg_swap()
++        umcg_get_idle_worker()
++        umcg_run_worker()
++        umcg_preempt_worker()
++        umcg_get_time_ns()
 +
 +
 +WHY? HETEROGENEOUS IN-PROCESS WORKLOADS
@@ -198,494 +214,317 @@ index 000000000000..539b7c6a8962
 +on the other hand, is designed to expose the key abstractions to users
 +in a much more usable, higher-level way.
 +
-+See tools/lib/umcg/libumcg.txt for more details on LIBUMCG API.
++See Documentation/userspace-api/umcg.txt for more details on
++UMCG API (kernel).
++
++Please note that LIBUMCG API is itself a rather low-level API intended
++to be used to construct higher-level userspace schedulers.
++
++Note: to avoid confusion, in this document "UMCG servers/workers" refer
++UMCG tasks when considered in the context of the kernel UMCG API (syscalls),
++while "LIBUMCG servers/workers" refer to the same tasks when considered
++in the context of the userspace LIBUMC API outlined below. When the
++distinction is not important, "UMCG servers/workers" is used generically.
 +
 +
-+UMCG API (KERNEL)
++LIBUMCG API (USERSPACE)
 +
-+Based on the requrements above, UMCG API (kernel) is build around the
++Based on the requrements above, LIBUMCG API (userspace) is build around the
 +following ideas:
 +
-+* UMCG server: a task/thread representing "kernel threads", or CPUs from
++* UMCG server: a thread representing "kernel threads", or CPUs from
 +  the requirements above;
-+* UMCG worker: a task/thread representing "application threads", to be
++* UMCG worker: a thread representing "application threads", to be
 +  scheduled over servers;
-+* UMCG task state: (NONE), RUNNING, BLOCKED, IDLE: states a UMCG task (a
-+  server or a worker) can be in;
-+* UMCG task state flag: LOCKED, PREEMPTED: additional state flags that
-+  can be ORed with the task state to communicate additional information to
-+  the kernel;
-+* struct umcg_task: a per-task userspace set of data fields, usually
-+  residing in the TLS, that fully reflects the current task's UMCG state
-+  and controls the way the kernel manages the task;
-+* sys_umcg_ctl(): a syscall used to register the current task/thread as a
-+  server or a worker, or to unregister a UMCG task;
-+* sys_umcg_wait(): a syscall used to put the current task to sleep and/or
-+  wake another task, pontentially context-switching between the two tasks
-+  on-CPU synchronously.
-+
-+
-+SERVERS
-+
-+When a task/thread is registered as a server, it is in RUNNING state and
-+behaves like any other normal task/thread. In addition, servers can
-+interact with other UMCG tasks via sys_umcg_wait():
-+
-+* servers can voluntarily suspend their execution (wait), becoming IDLE;
-+* servers can wake other IDLE servers;
-+* servers can context-switch between each other.
-+
-+Note that if a server blocks in the kernel not via sys_umcg_wait(), it
-+still retains its RUNNING state.
-+
-+
-+WORKERS
-+
-+A worker cannot be RUNNING without having a server associated with it, so
-+when a task is first registered as a worker, it enters the IDLE state.
-+
-+* a worker becomes RUNNING when a server calls sys_umcg_wait to
-+  context-switch into it; the server goes IDLE, and the worker becomes
-+  RUNNING in its place;
-+* when a RUNNING worker blocks in the kernel, it becomes BLOCKED, its
-+  associated server becomes RUNNING and the server's sys_umcg_wait() call
-+  from the bullet above returns; this transition is sometimes called
-+  "block detection";
-+* when the syscall on which a BLOCKED worker completes, the worker
-+  becomes IDLE and is added to the list of idle workers; if there is an
-+  idle server waiting, the kernel wakes it; this transition is sometimes
-+  called "wake detection";
-+* RUNNING workers can voluntarily suspend their execution (wait),
-+  becoming IDLE; their associated servers are woken;
-+* a RUNNING worker can context-switch with an IDLE worker; the server of
-+  the switched-out worker is transferred to the switched-in worker;
-+* any UMCG task can "wake" an IDLE worker via sys_umcg_wait(); unless
-+  this is a server running the worker as described in the first bullet in
-+  this list, the worker remain IDLE but is added to the idle workers list;
-+  this "wake" operation exists for completeness, to make sure
-+  wait/wake/context-switch operations are available for all UMCG tasks;
-+* the userspace can preempt a RUNNING worker by marking it
-+  RUNNING|PREEMPTED and sending a signal to it; the userspace should have
-+  installed a NOP signal handler for the signal; the kernel will then
-+  transition the worker into IDLE|PREEMPTED state and wake its associated
-+  server.
-+
-+
-+UMCG TASK STATES
-+
-+Important: all state transitions described below involve at least two
-+steps: the change of the state field in struct umcg_task, for example
-+RUNNING to IDLE, and the corresponding change in struct task_struct state,
-+for example a transition between the task running on CPU and being
-+descheduled and removed from the kernel runqueue. The key principle of UMCG
-+API design is that the party initiating the state transition modifies the
-+state variable.
-+
-+For example, a task going IDLE first changes its state from RUNNING to IDLE
-+in the userpace and then calls sys_umcg_wait(), which completes the
-+transition.
-+
-+Note on documentation: in include/uapi/linux/umcg.h, task states have the
-+form UMCG_TASK_RUNNING, UMCG_TASK_BLOCKED, etc. In this document these are
-+usually referred to simply RUNNING and BLOCKED, unless it creates
-+ambiguity. Task state flags, e.g. UMCG_TF_PREEMPTED, are treated similarly.
-+
-+UMCG task states reflect the view from the userspace, rather than from the
-+kernel. There are three fundamental task states:
-+
-+* RUNNING: indicates that the task is schedulable by the kernel; applies
-+  to both servers and workers;
-+* IDLE: indicates that the task is not schedulable by the kernel (see
-+  umcg_idle_loop() in kernel/sched/umcg.c); applies to both servers and
-+  workers;
-+* BLOCKED: indicates that the worker is blocked in the kernel; does not
-+  apply to servers.
-+
-+In addition to the three states above, two state flags help with state
-+transitions:
-+
-+* LOCKED: the userspace is preparing the worker for a state transition
-+  and "locks" the worker until the worker is ready for the kernel to act
-+  on the state transition; used similarly to preempt_disable or
-+  irq_disable in the kernel; applies only to workers in RUNNING or IDLE
-+  state; RUNNING|LOCKED means "this worker is about to become RUNNING,
-+  while IDLE|LOCKED means "this worker is about to become IDLE or
-+  unregister;
-+* PREEMPTED: the userspace indicates it wants the worker to be preempted;
-+  there are no situations when both LOCKED and PREEMPTED flags are set at
-+  the same time.
++* UMCG group: a collection of servers and workers that can interact with
++  each other; a single process may contain several UMCG groups (e.g. a
++  group per NUMA node);
++* a set of functions (API) that allows workers to be "scheduled" over
++  servers and to interact with one another cooperatively.
 +
-+
-+STRUCT UMCG_TASK
-+
-+From include/uapi/linux/umcg.h:
-+
-+struct umcg_task {
-+      uint64_t        state_ts;               /* r/w */
-+      uint32_t        next_tid;               /* r   */
-+      uint32_t        flags;                  /* reserved */
-+      uint64_t        idle_workers_ptr;       /* r/w */
-+      uint64_t        idle_server_tid_ptr;    /* r*  */
-+};
-+
-+Each UMCG task is identified by struct umcg_task, which is provided to the
-+kernel when the task is registered via sys_umcg_ctl().
-+
-+* uint64_t state_ts: the current state of the task this struct
-+  identifies, as described in the previous section, combined with a
-+  unique timestamp indicating when the last state change happened.
-+
-+  Readable/writable by both the kernel and the userspace.
-+
-+    bits  0 -  5: task state (RUNNING, IDLE, BLOCKED);
-+    bits  6 -  7: state flags (LOCKED, PREEMPTED);
-+    bits  8 - 12: reserved; must be zeroes;
-+    bits 13 - 17: for userspace use;
-+    bits 18 - 63: timestamp.
-+
-+   Timestamp: a 46-bit CLOCK_MONOTONIC timestamp, at 16ns resolution.
-+
-+   It is highly benefitical to tag each state change with a unique
-+   timestamp:
-+
-+   - timestamps will naturally provide instrumentation to measure
-+     scheduling delays, both in the kernel and in the userspace;
-+   - uniqueness of timestamps (module overflow) guarantees that state
-+     change races, especially ABA races, are easily detected and avoided.
 +
-+   Each timestamp represents the moment in time the state change happened,
-+   in nanoseconds, with the lower 4 bits and the upper 16 bits stripped.
++LIBUMCG SERVERS
 +
-+   In this document 'umcg_task.state' is often used to talk about
-+   'umcg_task.state_ts' field, as timestamps do not carry semantic
-+   meaning at the moment.
++When a thread is registered as a server, it behaves like any other normal
++thread.
 +
-+   This is how umcg_task.state_ts is updated in the kernel:
++Servers can interact with other servers in the same UMCG group:
 +
-+    /* kernel side */
-+    /**
-+     * umcg_update_state: atomically update umcg_task.state_ts, set new timestamp.
-+     * @state_ts   - points to the state_ts member of struct umcg_task to update;
-+     * @expected   - the expected value of state_ts, including the timestamp;
-+     * @desired    - the desired value of state_ts, state part only;
-+     * @may_fault  - whether to use normal or _nofault cmpxchg.
-+     *
-+     * The function is basically cmpxchg(state_ts, expected, desired), with extra
-+     * code to set the timestamp in @desired.
-+     */
-+    static int umcg_update_state(u64 __user *state_ts, u64 *expected, u64 desired,
-+                                    bool may_fault)
-+    {
-+            u64 curr_ts = (*expected) >> (64 - UMCG_STATE_TIMESTAMP_BITS);
-+            u64 next_ts = ktime_get_ns() >> UMCG_STATE_TIMESTAMP_GRANULARITY;
++* servers can voluntarily suspend their execution by calling umcg_wait();
++* servers can wake other servers by calling umcg_wake();
++* servers can context-switch between each other by calling umcg_swap().
 +
-+            /* Cut higher order bits. */
-+            next_ts &= ((1ULL << UMCG_STATE_TIMESTAMP_BITS) - 1);
++Servers can also interact with workers in their UMCG group:
 +
-+            if (next_ts == curr_ts)
-+                    ++next_ts;
++* servers can schedule ("run") workers in their place by calling
++  umcg_run_worker(); when the worker blocks, the function returns;
++* servers can query for workers that finished their blocking operations
++  by calling umcg_get_idle_worker();
++* servers can force running workers into idle state and have the
++  servers running those workers to wakeup by calling umcg_preempt_worker().
 +
-+            /* Remove an old timestamp, if any. */
-+            desired &= ((1ULL << (64 - UMCG_STATE_TIMESTAMP_BITS)) - 1);
 +
-+            /* Set the new timestamp. */
-+            desired |= (next_ts << (64 - UMCG_STATE_TIMESTAMP_BITS));
++LIBUMCG WORKERS
 +
-+            if (may_fault)
-+                    return cmpxchg_user_64(state_ts, expected, desired);
++A worker cannot be running without having a server associated with it, so
++when a task is first registered as a worker, it is blocked until a server
++"runs" it (new workers are added to the idle worker list).
 +
-+            return cmpxchg_user_64_nofault(state_ts, expected, desired);
-+    }
++Workers can interact with other workers in their UMCG group:
 +
-+* uint32_t next_tid: contains the TID of the task to context-switch-into
-+  in sys_umcg_wait(); can be zero; writable by the userspace, readable by
-+  the kernel; if this is a RUNNING worker, this field contains the TID of
-+  the server that should be woken when this worker blocks; see
-+  sys_umcg_wait() for more details;
++* workers can voluntarily suspend their execution by calling umcg_wait();
++* workers can wake other workers by calling umcg_wake();
++* workers can context-switch between each other by calling umcg_swap().
 +
-+* uint32_t flags: reserved; must be zero.
 +
-+* uint64_t idle_workers_ptr: this field forms a single-linked list of
-+  idle workers: all RUNNING workers have this field set to point to the
-+  head of the list (a pointer variable in the userspace).
++LIBUMCG BASIC UMCG TASKS
 +
-+  When a worker's blocking operation in the kernel completes, the kernel
-+  changes the worker's state from BLOCKED to IDLE and adds the worker to
-+  the top of the list of idle workers using this logic:
++If the application is only interested in server-to-server interactions,
++it does not need to create a UMCG group and may register a server as a
++"basic UMCG task". Same umcg_[wait|wake|swap] functions are available.
 +
-+    /* kernel side */
-+    /**
-+     * enqueue_idle_worker - push an idle worker onto idle_workers_ptr
-+     * list/stack.
-+     *
-+     * Returns true on success, false on a fatal failure.
-+     */
-+    static bool enqueue_idle_worker(struct umcg_task __user *ut_worker)
-+    {
-+        u64 __user *node = &ut_worker->idle_workers_ptr;
-+        u64 __user *head_ptr;
-+        u64 first = (u64)node;
-+        u64 head;
 +
-+        if (get_user_nosleep(head, node) || !head)
-+                return false;
++LIBUMCG API: umcg_t
 +
-+        head_ptr = (u64 __user *)head;
++umcg_t is an opaque pointer indicating a UMCG group.
 +
-+        if (put_user_nosleep(UMCG_IDLE_NODE_PENDING, node))
-+                return false;
 +
-+        if (xchg_user_64(head_ptr, &first))
-+                return false;
++LIBUMCG API: umcg_tid
 +
-+        if (put_user_nosleep(first, node))
-+                return false;
++umcg_tid is an opaque pointer indicating a UMCG task (a basic task,
++a server, or a worker).
 +
-+        return true;
-+    }
 +
-+  In the userspace the list is cleared atomically using this logic:
++LIBUMCG API: UMCG_NONE
 +
-+    /* userspace side */
-+    uint64_t *idle_workers = (uint64_t *)*head;
++UMCG_NONE holds a NULL value for variables of type umcg_t or umcg_tid.
 +
-+    atomic_exchange(&idle_workers, NULL);
 +
-+  The userspace re-points workers' idle_workers_ptr to the list head
-+  variable before the worker is allowed to become RUNNING again.
++LIBUMCG API: umcg_enabled()
 +
-+  When processing the idle workers list, the userspace should wait for
-+  workers marked as UMCG_IDLE_NODE_PENDING to have the flag cleared (see
-+  enqueue_idle_worker() above).
++bool umcg_enabled(void) - returns true if the running kernel exposes
++                          UMCG kernel API (sys_umcg_ctl and sys_umcg_wait).
 +
-+* uint64_t idle_server_tid_ptr: points to a variable in the userspace
-+  that points to an idle server, i.e. a server in IDLE state waiting in
-+  sys_umcg_wait(); read-only; workers must have this field set; not used
-+  in servers.
 +
-+  When a worker's blocking operation in the kernel completes, the kernel
-+  changes the worker's state from BLOCKED to IDLE, adds the worker to the
-+  list of idle workers, and wakes the idle server if present; the kernel
-+  atomically exchanges (*idle_server_tid_ptr) with 0, thus waking the idle
-+  server, if present, only once. See State transitions below for more
-+  details.
++LIBUMCG API: umcg_get_utid
 +
++umcg_tid umcg_get_utid(void) - returns the umcg_tid value identifying
++                               the current thread as a UMCG task. The value
++                               is guaranteed to be stable over the life
++                               of the thread, but may be reused between
++                               different threads (it is a pointer to a TLS
++                               variable).
 +
-+SYS_UMCG_CTL()
-+
-+int sys_umcg_ctl(uint32_t flags, struct umcg_task *self) is used to
-+register or unregister the current task as a worker or server. Flags can be
-+one of the following:
-+
-+    UMCG_CTL_REGISTER: register a server;
-+    UMCG_CTL_REGISTER | UMCG_CTL_WORKER: register a worker;
-+    UMCG_CTL_UNREGISTER: unregister the current server or worker.
-+
-+When registering a task, self must point to struct umcg_task describing
-+this server or worker; the pointer must remain valid until the task is
-+unregistered.
-+
-+When registering a server, self->state must be RUNNING; all other fields in
-+self must be zeroes.
-+
-+When registering a worker, self->state must be BLOCKED;
-+self->idle_server_tid_ptr and self->idle_workers_ptr must be valid pointers
-+as described in struct umcg_task; self->next_tid must be zero.
-+
-+When unregistering a task, self must be NULL.
-+
-+
-+SYS_UMCG_WAIT()
-+
-+int sys_umcg_wait(uint32_t flags, uint64_t abs_timeout) operates on
-+registered UMCG servers and workers: struct umcg_task *self provided to
-+sys_umcg_ctl() when registering the current task is consulted in addition
-+to flags and abs_timeout parameters.
-+
-+The function can be used to perform one of the three operations:
-+
-+* wait: if self->next_tid is zero, sys_umcg_wait() puts the current
-+  task to sleep;
-+* wake: if self->next_tid is not zero, and flags & UMCG_WAIT_WAKE_ONLY,
-+  the task identified by next_tid is woken;
-+* context switch: if self->next_tid is not zero, and !(flags &
-+  UMCG_WAIT_WAKE_ONLY), the current task is put to sleep and the next task
-+  is woken, synchronously switching between the tasks on the current CPU
-+  on the fast path.
-+
-+Flags can be zero or a combination of the following values:
-+
-+* UMCG_WAIT_WAKE_ONLY: wake the next task, don't put the current task to
-+  sleep;
-+* UMCG_WAIT_WF_CURRENT_CPU: wake the next task on the curent CPU; this
-+  flag has an effect only if UMCG_WAIT_WAKE_ONLY is set: context switching
-+  is always attempted to happen on the curent CPU.
-+
-+The section below provides more details on how servers and workers interact
-+via sys_umcg_wait(), during worker block/wake events, and during worker
-+preemption.
-+
-+
-+STATE TRANSITIONS
-+
-+As mentioned above, the key principle of UMCG state transitions is that the
-+party initiating the state transition modifies the state of affected tasks.
-+
-+Below, "TASK:STATE" indicates a task T, where T can be either W for worker
-+or S for server, in state S, where S can be one of the three states,
-+potentially ORed with a state flag. Each individual state transition is an
-+atomic operation (cmpxchg) unless indicated otherwise. Also note that the
-+order of state transitions is important and is part of the contract between
-+the userspace and the kernel. The kernel is free to kill the task (SIGKILL)
-+if the contract is broken.
-+
-+Some worker state transitions below include adding LOCKED flag to worker
-+state. This is done to indicate to the kernel that the worker is
-+transitioning state and should not participate in the block/wake detection
-+routines, which can happen due to interrupts/pagefaults/signals.
-+
-+IDLE|LOCKED means that a running worker is preparing to sleep, so
-+interrupts should not lead to server wakeup; RUNNING|LOCKED means that an
-+idle worker is going to be "scheduled to run", but may not yet have its
-+server set up properly.
-+
-+The key invariant: a RUNNING worker (not LOCKED) must have a server
-+assigned to it.
-+
-+Key state transitions:
-+
-+* server to worker context switch ("schedule a worker to run"):
-+  S:RUNNING+W:IDLE => S:IDLE+W:RUNNING:
-+        in the userspace, in the context of the server S running:
-+            S:RUNNING => S:IDLE (mark self as idle)
-+            W:IDLE => W:RUNNING|LOCKED (mark the worker as running)
-+            W.next_tid := S.tid; S.next_tid := W.tid (link the server with
-+                the worker)
-+            W:RUNNING|LOCKED => W:RUNNING (unlock the worker)
-+            S: sys_umcg_wait() (make the syscall)
-+        the kernel context switches from the server to the worker; the
-+        server sleeps until it becomes RUNNING during one of the
-+        transitions below;
-+
-+* worker to server context switch (worker "yields"): S:IDLE+W:RUNNING =>
-+S:RUNNING+W:IDLE:
-+        in the userspace, in the context of the worker W running (note that
-+        a running worker has its next_tid set to point to its server):
-+            W:RUNNING => W:IDLE|LOCKED (mark self as idle)
-+            S:IDLE => S:RUNNING (mark the server as running)
-+            W: sys_umcg_wait() (make the syscall)
-+        the kernel removes the LOCKED flag from the worker's state and
-+        context switches from the worker to the server; the worker sleeps
-+        until it becomes RUNNING;
-+
-+* worker to worker context switch: W1:RUNNING+W2:IDLE =>
-+  W1:IDLE+W2:RUNNING:
-+        in the userspace, in the context of W1 running:
-+            W2:IDLE => W2:RUNNING|LOCKED (mark W2 as running)
-+            W1:RUNNING => W1:IDLE|LOCKED (mark self as idle)
-+            W2.next_tid := W1.next_tid; S.next_tid := W2.tid (transfer the
-+                server W1 => W2)
-+            W1:next_tid := W2.tid (indicate that W1 should context-switch
-+                into W2)
-+            W2:RUNNING|LOCKED => W2:RUNNING (unlock W2)
-+            W1: sys_umcg_wait() (make the syscall)
-+        same as above, the kernel removes the LOCKED flag from the W1's
-+        state and context switches to next_tid;
-+
-+* worker wakeup: W:IDLE => W:IDLE, W queued into the idle worker list:
-+        in the userspace, a server S can wake a worker W sleeping in
-+        sys_umcg_wait() without "running" it. This is a purely
-+        userspace operation that adds the worker to the idle worker list.
-+
-+* block detection: worker blocks in the kernel: S:IDLE+W:RUNNING =>
-+  S:RUNNING+W:BLOCKED:
-+        when a worker blocks in the kernel in RUNNING state (not LOCKED),
-+        before descheduling the task from the CPU the kernel performs
-+        these operations:
-+            W:RUNNING => W:BLOCKED
-+            S := W.next_tid
-+            S:IDLE => S:RUNNING
-+            try_to_wake_up(S)
-+        if any of the first three operations above fail, the worker is
-+        killed via SIGKILL. Note that ttwu(S) is not required to succeed,
-+        as the server may still be transitioning to sleep in
-+        sys_umcg_wait(); before actually putting the server to sleep its
-+        UMCG state is checked and, if it is RUNNING, sys_umcg_wait()
-+        returns to the userspace;
-+        if the worker has its LOCKED flag set, block detection does not
-+        trigger, as the worker is assumed to be in the userspace
-+        scheduling code.
-+
-+* wake detection: worker wakes in the kernel: W:BLOCKED => W:IDLE:
-+        all workers' returns to the userspace are intercepted:
-+            start: (a label)
-+            if W:RUNNING & W.next_tid != 0: let the worker exit to the
-+                userspace, as this is a RUNNING worker with a server;
-+            W:* => W:IDLE (previously blocked or woken without servers
-+                workers are not allowed to return to the userspace);
-+            the worker is appended to W.idle_workers_ptr idle workers list;
-+            S := *W.idle_server_tid_ptr; if (S != 0) S:IDLE => S.RUNNING;
-+                ttwu(S)
-+            idle_loop(W): this is the same idle loop that sys_umcg_wait()
-+                uses: it breaks only when the worker becomes RUNNING; when
-+                the idle loop exits, it is assumed that the userspace has
-+                properly removed the worker from the idle workers list
-+                before marking it RUNNING;
-+            goto start; (repeat from the beginning).
-+
-+        the logic above is a bit more complicated in the presence of
-+        LOCKED or PREEMPTED flags, but the main invariants
-+        stay the same:
-+            only RUNNING workers with servers assigned are allowed to run
-+                in the userspace (unless LOCKED);
-+            newly IDLE workers are added to the idle workers list; any
-+                user-initiated state change assumes the userspace
-+                properly removed the worker from the list;
-+            as with wake detection, any "breach of contract" by the
-+                userspace will result in the task termination via SIGKILL.
-+
-+* worker preemption: S:IDLE+W:RUNNING => S:RUNNING+W:IDLE|PREEMPTED:
-+        when the userspace wants to preempt a RUNNING worker, it changes it
-+        state, atomically, RUNNING => RUNNING|PREEMPTED and sends a
-+        signal to the worker via tgkill(); the signal handler, previously
-+        set up by the userspace, can be a NOP (note that only RUNNING
-+        workers can be preempted);
-+
-+        if the worker, at the moment the signal arrived, continued to be
-+        running on-CPU in the userspace, the "wake detection" code will be
-+        triggered that, in addition to what was described above, will
-+        check if the worker is in RUNNING|PREEMPTED state:
-+            W:RUNNING|PREEMPTED => W:IDLE|PREEMPTED
-+            S := W.next_tid
-+            S:IDLE => S:RUNNING
-+            try_to_wakeup(S)
-+
-+        if the signal arrives after the worker blocks in the kernel,
-+        the "block detection" happened as described above, with the
-+        following change:
-+            W:RUNNING|PREEMPTED => W:BLOCKED|PREEMPTED
-+            S := W.next_tid
-+            S:IDLE => S:RUNNING
-+            try_to_wake_up(S)
-+
-+        in any case, the worker's server is woken, with its attached
-+        worker (S.next_tid) either in BLOCKED|PREEMPTED or IDLE|PREEMPTED
-+        state.
-+
-+
-+SERVER-ONLY USE CASES
-+
-+Some workloads/applications may benefit from fast and synchronous on-CPU
-+user-initiated context switches without the need for full userspace
-+scheduling (block/wake detection). These applications can use "standalone"
-+UMCG servers to wait/wake/context-switch. At the moment only in-process
-+operations are allowed. In the future this restriction will be lifted,
-+and wait/wake/context-switch operations between servers in related processes
-+be permitted (when it is safe to do so, e.g. if the processes belong
-+to the same user and/or cgroup).
-+
-+These "worker-less" operations involve trivial RUNNING <==> IDLE state
-+changes, not discussed here for brevity.
++
++LIBUMCG API: umg_set_task_tag()
++
++void umcg_set_task_tag(umcg_tid utid, intptr_t tag) - a helper function
++                       used to associate an arbitrary user-provided value
++                       with a umcg task/thread.
++
++
++LIBUMCG API: umcg_get_task_tag()
++
++intptr_t umcg_get_task_tag(umcg_tid utid) - returns a previously set
++                           task tag, or zero.
++
++
++LIBUMCG API: umcg_create_group()
++
++umcg_t umcg_create_group(uint32_t flags) - create a UMCG group.
++
++    UMCG servers and workers at LIBUMCG level must belong to the same UMCG
++    group to interact; note that this is different from UMCG kernel API,
++    where servers and workers can all interact within the same process.
++
++    UMCG groups are used to partition UMCG tasks (servers and workers) within
++    a process, e.g. to allow NUMA-aware scheduling.
++
++
++LIBUMCG API: umcg_destroy_group()
++
++int umcg_destroy_group(umcg_t umcg) - destroy a UMCG group. The group must
++                       be empty, i.e. all its servers and workers must have
++                       unregistered.
++
++
++LIBUMCG API: umcg_register_basic_task()
++
++umcg_tid umcg_register_basic_task(intptr_t tag) - register the current
++                                  thread as a basic LIBUMCG task.
++
++    Basic LIBUMCG tasks do not belong to UMCG groups, and thus cannot
++    interact with LIBUMCG workers.
++
++    At the kernel level basic LIBUMCG tasks are servers.
++
++
++LIBUMCG API: umcg_register_worker()
++
++umcg_tid umcg_register_worker(umcg_t group_id, intptr_t tag) - register
++                              the current thread as a LIBUMCG worker in a group.
++
++    LIBUMCG workers, once registered, can forget about being UMCG workers,
++    as the only difference vs "normal" threads is that now workers are
++    scheduled not by the kernel, but by servers in their UMCG group, which
++    happens "transparently" to UMCG workers.
++
++    LIBUMCG workers may call umcg_[wait|wake|swap] to cooperatively share
++    workload with other LIBUMCG workers in the same group.
++
++    Note: at the moment UMCG workers, once registered, cannnot receive
++    non-fatal signals.
++
++
++LIBUMCG API: umcg_register_server()
++
++umcg_tid umcg_register_server(umcg_t group_id, intptr_t tag) - register
++                              the current thread as a LIBUMCG server in a group.
++
++    LIBUMCG servers schedule LIBUMCG workers in the same group via
++        umcg_get_idle_worker(), umcg_run_worker(), and umcg_preempt_worker().
++        See descriptions of these functions below for more details.
++
++
++LIBUMCG API: umcg_unregister_task()
++
++int umcg_unregister_task(void) - unregister the current thread as a UMCG task.
++
++   A thread can be only one type of a UMCG task at a time. Once unregistered,
++   a thread can register again as a different UMCG task type, in the same
++   or a different group.
++
++
++LIBUMCG API: umcg_wait()
++
++int umcg_wait(uint64_t timeout) - block the current UMCG task until
++              the timeout expires or it is woken via umcg_wake() or umcg_swap().
++
++    All UMCG task types can call umcg_wait().
++
++
++LIBUMCG API: umcg_wake()
++
++int umcg_wake(umcg_tid next, bool wf_current_cpu) - wake a UMCG task.
++
++    Wake a umcg task if it is blocked as a result of calling umcg_wait() or
++    umcg_swap(). If @next is NOT blocked in umcg_wait() or umcg_swap(),
++    it will be marked as "wakeup queued"; when @next calls umcg_wait() or
++    umcg_swap() later, the "wakeup queued" flag will be removed and
++    the function will not block.
++
++    Only one wakeup can be queued per task, so calling umcg_wake for
++    a task with a wakeup queued will spin (in the userspace) until the
++    wakeup flag is cleared.
++
++    If @next is a worker blocked in umcg_wait(), the worker is added
++    to the idle workers list so that it will the be picked up by
++    umcg_get_idle_worker().
++
++    Note that "wakeup queued" is a purely LIBUMCG (userspace) concept:
++    the kernel (UMCG kernel API) is unaware of it.
++
++
++LIBUMCG API: umcg_swap()
++
++int umcg_swap(umcg_tid next, u64 timeout) - block the current task; wake @next.
++
++    umcg_swap() can be used for server-to-server or worker-to-worker
++    context switches, but NOT server-to-worker or worker-to-server.
++    If a server wants to context switch with a worker, the server
++    should call umcg_run_worker(). If a worker wants to context switch
++    to its server, it should call umcg_wait().
++
++    In server-to-server context switches, the switching-out server
++    is RUNNING; the switching-in server can either be IDLE or RUNNING.
++    If the switching-in server is running, it will have a wakeup queued.
++    If the switching-out server has a wakeup queued, umcg_swap() will
++    consume the wakeup.
++
++    In worker-to-worker context switches, the "normal" behavior is that
++    the RUNNING switching-out worker becomes IDLE, its server is
++    transferred to the IDLE switching-in worker, and the switching-in
++    worker becomes RUNNING.
++
++    The switching-in worker MUST NOT be in the idle worker list: it
++    can either be in umcg_wait(), or pulled out of the idle worker list
++    previously.
++
++    Same wakeup-queued rules apply to swapping workers as they apply
++    to swapping servers.
++
++    Note that while with servers umcg_swap() is technically equivalent
++    to { umcg_wake(); umcg_wait(); }, with possible on-cpu optimizations,
++    with workers there is a difference, as umcg_swap() will RUN an
++    idle worker, while umcg_wake() will add it to the idle worker list.
++
++    This difference, however, is transparent for workers: workers
++    engaging is cooperative scheduling via wait/wake/swap will observe
++    exactly the same behavior as if they were servers or basic UMCG tasks.
++
++
++LIBUMCG API: umcg_get_idle_worker()
++
++umcg_tid umcg_get_idle_worker(bool wait) - get an idle worker from
++                                           the idle worker list.
++
++    Servers can query for unblocked workers by calling umcg_get_idle_worker().
++
++    There are two idle worker lists per UMCG group; the kernel-side list,
++    as described in Documentation/userspace-api/umcg.txt, and the
++    userspace-side list. umcg_get_idle_worker() first checks the userspace
++    list and, if it is not empty, returns the first available idle worker,
++    removing it from the list.
++
++    If the userspace list is empty, the function swaps it with the kernel-side
++    list of empty workers, and then checks the userspace list again.
++
++    If @wait is true, the function blocks if there are no idle workers
++    available. The server will be added to the group's idle server list.
++    The server may also be pointed at by struct umcg_task.idle_server_tid_ptr.
++
++    It is safe to call umcg_get_idle_worker() concurrently.
++
++
++LIBUMCG API: umcg_run_worker()
++
++umcg_tid umcg_run_worker(umcg_tid worker) - run the worker.
++
++    Servers "run" workers by calling umcg_run_worker(). @worker must be
++    IDLE, and must NOT be in the idle worker list. I.e. a server may
++    run a worker that is blocked in umcg_wait() either if umcg_wake()
++    has NOT been called on the @worker, or if umcg_wake() HAD been
++    called, and the worker then was returned via umcg_get_idle_worker().
++
++    umcg_run_worker() will block; if the worker the server is running
++    swaps with another worker, the server will get reassigned to that
++    new worker.
++
++    When the worker the server is running blocks, umcg_run_worker returns
++    the worker's umcg_tid, or UMCG_NONE if the worker unregisters.
++
++
++LIBUMCG API: umcg_preempt_worker()
++
++int umcg_preempt_worker(umcg_tid worker) - preempt a RUNNING worker.
++
++    The function interrupgs a RUNNING worker and wakes its server. If
++    the worker is not RUNNING (i.e. BLOCKED or IDLE), the function
++    returns an error with errno set to EAGAIN.
++
++    The group the worker belongs to must be created with
++    UMCG_GROUP_ENABLE_PREEMPTION flag set.
++
++    The function may be called from any thread in the process that
++    @worker belongs to.
++
++
++LIBUMCG API: umcg_get_time_ns()
++
++uint64_t umcg_get_time_ns(void) - return the current absolute time.
++
++    This function can be used to calculate the absolute timeouts passed
++    to umcg_wait() and umcg_swap().
 --
 2.25.1
 
