@@ -2,84 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83CE645ACD8
-	for <lists+linux-api@lfdr.de>; Tue, 23 Nov 2021 20:50:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CF6645AED4
+	for <lists+linux-api@lfdr.de>; Tue, 23 Nov 2021 23:05:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238984AbhKWTxu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 23 Nov 2021 14:53:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52386 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232735AbhKWTxr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Nov 2021 14:53:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1637697038;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=4KI1H93I3xG9XwZuvC9rCCKf5tSl7Lx4nyuD6OnlcLQ=;
-        b=SC0Nl56suZd0tKwZ0eNEvk8VsI6u2dmuaZL+JdIDqnz6ygZAYCZTRNUbyeDqvDzvOIwGAj
-        G0drN9wAU+GOFOfinM9iZVec99hr4a69hlC1nacOWCxUBsdDt40MmQ6CvociHx55hEKxUo
-        T4dnZ8QVaj7UOMWNoIrIsmxHWJzFO1U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-263-g8GUzCcIP7q9i3fnOHSj_A-1; Tue, 23 Nov 2021 14:50:37 -0500
-X-MC-Unique: g8GUzCcIP7q9i3fnOHSj_A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S231250AbhKWWIL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 23 Nov 2021 17:08:11 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:34030 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239030AbhKWWIK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Nov 2021 17:08:10 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D29818125C1;
-        Tue, 23 Nov 2021 19:50:35 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.39.192.29])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 9DEBB60CC3;
-        Tue, 23 Nov 2021 19:50:33 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Cyril Hrubis <chrubis@suse.cz>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        LTP List <ltp@lists.linux.it>,
-        GNU C Library <libc-alpha@sourceware.org>,
-        linux-arch <linux-arch@vger.kernel.org>
-Subject: Re: [PATCH] uapi: Make __{u,s}64 match {u,}int64_t in userspace
-References: <YZvIlz7J6vOEY+Xu@yuki>
-        <CAK8P3a0x5Bw7=0ng-s+KsUywqJYa0tk9cSWmZhx+cZRBOR87ZA@mail.gmail.com>
-        <YZyw56flmdQnBIuh@yuki>
-Date:   Tue, 23 Nov 2021 20:50:31 +0100
-In-Reply-To: <YZyw56flmdQnBIuh@yuki> (Cyril Hrubis's message of "Tue, 23 Nov
-        2021 10:14:15 +0100")
-Message-ID: <87a6hups6w.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id D9D42218EF;
+        Tue, 23 Nov 2021 22:05:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1637705100; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=dei+76XU0vXn64vupOE9tVZC/VdvbBWJIZHcNjPkBQY=;
+        b=XDpIRqPjJnI2Muw4SRGLLb2ino0hU/9+YjM77u7D4J5vbmv5SCXUJf7AAE7HamjRv4vRpu
+        1Q3E0mM7AYyu9GuuQpKOcfy9vcj95Tt1N12I4VlCPQRRKVNEIZujQQZCmE4h4z4ZDvwPxn
+        ZjLR55lEMGEGcGDpENBFCL9eYg7jF1U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1637705100;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=dei+76XU0vXn64vupOE9tVZC/VdvbBWJIZHcNjPkBQY=;
+        b=s7BpvJPogmBBM2B6QkJt4q4GhnXnKCAh40sDHC44tlNSONf8ki14mpBa+el5l7a6XO5qPp
+        fQpOSoRsik9eCWBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A0DC213E78;
+        Tue, 23 Nov 2021 22:05:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id Skn6JYxlnWHcXgAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Tue, 23 Nov 2021 22:05:00 +0000
+Message-ID: <dd92a69a-6d09-93a1-4f50-5020f5cc59d0@suse.cz>
+Date:   Tue, 23 Nov 2021 23:04:04 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] Increase default MLOCK_LIMIT to 8 MiB
+Content-Language: en-US
+To:     Jason Gunthorpe <jgg@ziepe.ca>,
+        David Hildenbrand <david@redhat.com>
+Cc:     Jens Axboe <axboe@kernel.dk>,
+        Andrew Dona-Couch <andrew@donacou.ch>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Drew DeVault <sir@cmpwn.com>,
+        Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        io_uring Mailing List <io-uring@vger.kernel.org>,
+        Pavel Begunkov <asml.silence@gmail.com>, linux-mm@kvack.org
+References: <20211116133750.0f625f73a1e4843daf13b8f7@linux-foundation.org>
+ <b84bc345-d4ea-96de-0076-12ff245c5e29@redhat.com>
+ <8f219a64-a39f-45f0-a7ad-708a33888a3b@www.fastmail.com>
+ <333cb52b-5b02-648e-af7a-090e23261801@redhat.com>
+ <ca96bb88-295c-ccad-ed2f-abc585cb4904@kernel.dk>
+ <5f998bb7-7b5d-9253-2337-b1d9ea59c796@redhat.com>
+ <20211123132523.GA5112@ziepe.ca>
+ <10ccf01b-f13a-d626-beba-cbee70770cf1@redhat.com>
+ <20211123140709.GB5112@ziepe.ca>
+ <e4d7d211-5d62-df89-8f94-e49385286f1f@redhat.com>
+ <20211123170056.GC5112@ziepe.ca>
+From:   Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20211123170056.GC5112@ziepe.ca>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Cyril Hrubis:
+On 11/23/21 18:00, Jason Gunthorpe wrote:
+> 
+>> believe what you say and I trust your experience :) So could as well be
+>> that on such a "special" (or not so special) systems there should be a
+>> way to restrict it to privileged users only.
+> 
+> At this point RDMA is about as "special" as people running large
+> ZONE_MOVABLE systems, and the two are going to start colliding
+> heavily. The RDMA VFIO migration driver should be merged soon which
+> makes VMs using this stuff finally practical.
 
-> As far as I can tell the userspace bits/types.h does exactly the same
-> check in order to define uint64_t and int64_t, i.e.:
->
-> #if __WORDSIZE == 64
-> typedef signed long int __int64_t;
-> typedef unsigned long int __uint64_t;
-> #else
-> __extension__ typedef signed long long int __int64_t;
-> __extension__ typedef unsigned long long int __uint64_t;
-> #endif
->
-> The macro __WORDSIZE is defined per architecture, and it looks like the
-> defintions in glibc sources in bits/wordsize.h match the uapi
-> asm/bitsperlong.h. But I may have missed something, the code in glibc is
-> not exactly easy to read.
+How does that work, I see the word migration, so does it cause pages to
+be migrated out of ZONE_MOVABLE before they are pinned?
+Similarly for io-uring we could be migrating pages to be pinned so that
+the end up consolidated close together, and prevent pathologic
+situations like in David's reproducer. IIRC that was a idea to do for
+long-term pins in general.
 
-__WORDSIZE isn't exactly a standard libc macro.
-
-On musl, x86-64 x32 has __WORDSIZE == 64 depending on header-inclusion
-order, but that's probably just a bug.
-
-Thanks,
-Florian
+> Jason
+> 
 
