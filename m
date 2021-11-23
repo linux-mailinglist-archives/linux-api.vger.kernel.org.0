@@ -2,100 +2,109 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F14545A461
-	for <lists+linux-api@lfdr.de>; Tue, 23 Nov 2021 15:07:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0419B45A524
+	for <lists+linux-api@lfdr.de>; Tue, 23 Nov 2021 15:19:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229898AbhKWOKV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 23 Nov 2021 09:10:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57590 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229786AbhKWOKU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Nov 2021 09:10:20 -0500
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CA12C061574
-        for <linux-api@vger.kernel.org>; Tue, 23 Nov 2021 06:07:12 -0800 (PST)
-Received: by mail-qt1-x833.google.com with SMTP id 8so19937908qtx.5
-        for <linux-api@vger.kernel.org>; Tue, 23 Nov 2021 06:07:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=1B+wsbZ88hl5UgUalYciMdsusbfEhIih8FbzaStZm40=;
-        b=IzeKHci6gF3mobwFwKv1NX/I1NyoxlO2bMeYdaH4G9o6BJr4jOO/pBzkp7IuO4Fk9C
-         hkEKAA3PbYrH9zGGxLiY0X4EICGZEhTOzN7sLv7XYN/E0IohlR/A5ZLHgGK3Ri8r4UR8
-         potxB9X/8HtUoWr6OhpR9BKARS/+I3jhhA4RogoI24Mg0MtaPiAMi1nlTEGdiioOH8AN
-         +cVLMAajLihca7m7Eo8D0Y7B7hDEX4OHsR96G+mZTvqtIc6DnY6p9U9FXAar/t0VgZxj
-         J3rdGhcjR7/ebBkoqhGuUW9qd4iVO0MvYk8hWzB+YP4VTpt4kCiqWGZolndHV3hfv0Dz
-         sBTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=1B+wsbZ88hl5UgUalYciMdsusbfEhIih8FbzaStZm40=;
-        b=u5Ltzr5xoADGqFLnVfSYo8/X9pg9ZCYHSDNkJZQg2cXyHDYL0N1u6XvkzgjhGBZHdl
-         65izrKCpJQJ0sNsQADBtzfSKZ3gxRAsIsQl3z0lOe1gnxebi9mgFrab2XfpTqN09pNIk
-         seVzKnXT50x0XbQKARNVCQ+pF36X6RJC8iNVsqoO7sNWqS7Ewe7v65+xTFscUiXekwST
-         FFUWMZ6o/A6AKldfM6A+Xs6zQeTZa+c1goU/Wjt1YI8Y2oswB9PCnSJNKJgQERxMenfE
-         Xd7irbvAurE8yYYbH7nHNHm+1lq/lb10RBSzNDSd6nfeOQmQnZQRTSYyOFTBtDEuAJzp
-         HhBg==
-X-Gm-Message-State: AOAM532Pi76V1kudzCSXtlLmfBxEdgNDKeHWGCqDsaMKRKBnMTsjBk6o
-        n0n6aj/ykJ4ygrm+czKwtRlAIgpjEKfkng==
-X-Google-Smtp-Source: ABdhPJyYjMxOOBpH9i7fCBP2AlMxvvkQbKWd4gm91pcvwoSnMC1ssx3hbE+zkZc6xu0EZxoKnzsH1g==
-X-Received: by 2002:a05:622a:18e:: with SMTP id s14mr6882801qtw.203.1637676431388;
-        Tue, 23 Nov 2021 06:07:11 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
-        by smtp.gmail.com with ESMTPSA id s2sm6142705qtw.22.2021.11.23.06.07.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Nov 2021 06:07:10 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1mpWRx-000B12-PB; Tue, 23 Nov 2021 10:07:09 -0400
-Date:   Tue, 23 Nov 2021 10:07:09 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Jens Axboe <axboe@kernel.dk>,
-        Andrew Dona-Couch <andrew@donacou.ch>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Drew DeVault <sir@cmpwn.com>,
-        Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        io_uring Mailing List <io-uring@vger.kernel.org>,
-        Pavel Begunkov <asml.silence@gmail.com>, linux-mm@kvack.org
-Subject: Re: [PATCH] Increase default MLOCK_LIMIT to 8 MiB
-Message-ID: <20211123140709.GB5112@ziepe.ca>
-References: <20211116114727.601021d0763be1f1efe2a6f9@linux-foundation.org>
- <CFRGQ58D9IFX.PEH1JI9FGHV4@taiga>
- <20211116133750.0f625f73a1e4843daf13b8f7@linux-foundation.org>
- <b84bc345-d4ea-96de-0076-12ff245c5e29@redhat.com>
- <8f219a64-a39f-45f0-a7ad-708a33888a3b@www.fastmail.com>
- <333cb52b-5b02-648e-af7a-090e23261801@redhat.com>
- <ca96bb88-295c-ccad-ed2f-abc585cb4904@kernel.dk>
- <5f998bb7-7b5d-9253-2337-b1d9ea59c796@redhat.com>
- <20211123132523.GA5112@ziepe.ca>
- <10ccf01b-f13a-d626-beba-cbee70770cf1@redhat.com>
+        id S232333AbhKWOWI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 23 Nov 2021 09:22:08 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:48879 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229786AbhKWOWG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Nov 2021 09:22:06 -0500
+Received: from mail-wm1-f41.google.com ([209.85.128.41]) by
+ mrelayeu.kundenserver.de (mreue009 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1M2wCi-1mmDme1RqG-003NAJ; Tue, 23 Nov 2021 15:18:56 +0100
+Received: by mail-wm1-f41.google.com with SMTP id i12so18887463wmq.4;
+        Tue, 23 Nov 2021 06:18:56 -0800 (PST)
+X-Gm-Message-State: AOAM533DbjJmQm6ZctWC9Z6vivsKKJQSC1ixiSVsOZnqMFzcTFxkxc9J
+        JHHJ/EEQ4wR46bz4vsB8Yq2xf8NtnO5VqTTg06Q=
+X-Google-Smtp-Source: ABdhPJy/iu+HUeUW5MAS4aoS4UPs9O0+2rPHcGIO3sxNnrXnPW2hntwc4AmghGSopXx9bjgxeEGyK0ovTBLVT2Rzyac=
+X-Received: by 2002:a1c:770e:: with SMTP id t14mr3353750wmi.173.1637677135896;
+ Tue, 23 Nov 2021 06:18:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <10ccf01b-f13a-d626-beba-cbee70770cf1@redhat.com>
+References: <YZvIlz7J6vOEY+Xu@yuki> <CAK8P3a0x5Bw7=0ng-s+KsUywqJYa0tk9cSWmZhx+cZRBOR87ZA@mail.gmail.com>
+ <YZyw56flmdQnBIuh@yuki>
+In-Reply-To: <YZyw56flmdQnBIuh@yuki>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Tue, 23 Nov 2021 15:18:39 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a2RU8XJp_hS0JkO9mPJctAHHKBobV97gced6pMXcwzWow@mail.gmail.com>
+Message-ID: <CAK8P3a2RU8XJp_hS0JkO9mPJctAHHKBobV97gced6pMXcwzWow@mail.gmail.com>
+Subject: Re: [PATCH] uapi: Make __{u,s}64 match {u,}int64_t in userspace
+To:     Cyril Hrubis <chrubis@suse.cz>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        LTP List <ltp@lists.linux.it>,
+        GNU C Library <libc-alpha@sourceware.org>,
+        linux-arch <linux-arch@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:bW/f+VphpYkHIEZZBN8KslsMylIIeO6hr9nhozV0Rpy1x/6iRJ/
+ D5V2hQDN5Iw4Qx5QaI8XAYNRGbOKDpmz4c7XoGqT962Ml9pgIjsqy4KR1/34Qy0Z9KGsSy0
+ Kfh97NTo/tptA2fCxjHK/ipOBEIuYXQaY9bBfIWOHpB44OJOwMopw8bbUeDUVXQj+1+AGIv
+ b4tuX9DdRXcE+FjxYvsBw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:b1UT8YbWGQo=:zuceAjNY5IVb8nU1C/i4Db
+ /kAN4NcdmfV9Tdj5fcnhuwJp5+csQM4jFibACODlF7MHkKptbWPa0o7VkrkHl2Id0IhocCURT
+ sEr1tBNvJlVzMoj8kcZCyTfzQXYmag535wcln5X0eNC66qcOh3oFWonpNsp873P6nFXKgtMPP
+ n178UljVLBdSbcUKlfJ6YULIvv5wkqQaH9iVu7Pp1ekyNytARJvt0tMOx/hZvGlvIlWkiC1l0
+ LOE4QefVE+CDzmGiXfDk6mXeDPruL0En4EkS3tjqBIo0X8b1GuC6JBjF9qJtvOXHEn9lFMQH3
+ dEGWRQVkJyHMWLjj5+nQdTrN5pen+Hxf7Tg2ZlOqx9H7j7iIj1b39y8DZ8rv2upryR0rX8fPH
+ +bkVe6R8NqnwjQw//DDAZmYHr7voPAY0F06tKhxIcZFwAXOnLWlkYK5di/3gBrsalkcDcJGb7
+ fqWIqIyovq/+qBm5Yoge6SAFkNcim2E6eC4QmlM7JGENctpeqOjopK1oSL1ozs/pV/2UYhnD+
+ xpWAx27d9ri/NQrzJcMZfncbKYdt8lgAE4ik0pkZlH38CxIACjefea4I4AfsmrrQ6omeu8c7v
+ 07d+qthZDKs4+Qh1MdobtSqCPNZ6J61sAACKBcs6pktbha4XXFaLbN/H1EycuA2Ow076Xg90h
+ kOuDgFCgXI9Wp+9CMSXGBM+ijvvGhcHQ1pJKAD/CrqrIGdLrumyxdK1jGYIHE1PXIVWCDIv7e
+ x7How1t8ioRzMsIGwxtb22l+A6Dw+a5sQ18hsD0FyZXoewYWTy7N7MdAc84Aa6xiOP9Nyl6/E
+ kmVUxvOniABpqgcw6j5tT8YdzTXDzushHbWCCJ6A2cElaHZRZs=
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Nov 23, 2021 at 02:39:19PM +0100, David Hildenbrand wrote:
-> > 
-> >> 2) Could be provide a mmu variant to ordinary users that's just good
-> >> enough but maybe not as fast as what we have today? And limit
-> >> FOLL_LONGTERM to special, privileged users?
-> > 
-> > rdma has never been privileged
-> 
-> Feel free to correct me if I'm wrong: it requires special networking
-> hardware and the admin/kernel has to prepare the system in a way such
-> that it can be used.
+On Tue, Nov 23, 2021 at 10:14 AM Cyril Hrubis <chrubis@suse.cz> wrote:
+> > I don't think this is correct on all 64-bit architectures, as far as I
+> > remember the
+> > definition can use either 'long' or 'long long' depending on the user space
+> > toolchain.
+>
+> As far as I can tell the userspace bits/types.h does exactly the same
+> check in order to define uint64_t and int64_t, i.e.:
+>
+> #if __WORDSIZE == 64
+> typedef signed long int __int64_t;
+> typedef unsigned long int __uint64_t;
+> #else
+> __extension__ typedef signed long long int __int64_t;
+> __extension__ typedef unsigned long long int __uint64_t;
+> #endif
+>
+> The macro __WORDSIZE is defined per architecture, and it looks like the
+> defintions in glibc sources in bits/wordsize.h match the uapi
+> asm/bitsperlong.h. But I may have missed something, the code in glibc is
+> not exactly easy to read.
 
-Not really, plug in the right PCI card and it works
+It's possible that the only difference between the two files was the
+'__u32'/'__s32' definition, which could be either 'int' or 'long'. We used
+to try matching the user space types for these, but not use 'int'
+everywhere in the kernel.
 
-"special" is a bit of a reach since almost every NIC sold in the > 100GB
-segment supports some RDMA.
+> > Out of the ten supported 64-bit architectures, there are four that already
+> > use asm-generic/int-l64.h conditionally, and six that don't, and I
+> > think at least
+> > some of those are intentional.
+> >
+> > I think it would be safer to do this one architecture at a time to make
+> > sure this doesn't regress on those that require the int-ll64.h version.
+>
+> I'm still trying to understand what exactly can go wrong here. As long
+> as __BITS_PER_LONG is correctly defined the __u64 and __s64 will be
+> correctly sized as well. The only visible change is that one 'long' is
+> dropped from the type when it's not needed.
 
-Jason
+Correct, I'm not worried about getting incorrectly-sized types here,
+but using the wrong type can cause compile-time warnings when
+they are mismatched against format strings or assigning pointers
+to the wrong types. With the kernel types, one would always use
+%d for __u32 and %lld for __u64, while with the user space types,
+one has to resort to using macros.
+
+       Arnd
