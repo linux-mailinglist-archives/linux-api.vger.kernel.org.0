@@ -2,103 +2,126 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2057445A972
-	for <lists+linux-api@lfdr.de>; Tue, 23 Nov 2021 17:59:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F376045A985
+	for <lists+linux-api@lfdr.de>; Tue, 23 Nov 2021 18:00:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237092AbhKWRCr convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Tue, 23 Nov 2021 12:02:47 -0500
-Received: from eu-smtp-delivery-151.mimecast.com ([185.58.85.151]:51891 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237047AbhKWRCp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Nov 2021 12:02:45 -0500
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mtapsc-8-dyIDGajdPWOdiVq8f9AjNQ-1; Tue, 23 Nov 2021 16:58:31 +0000
-X-MC-Unique: dyIDGajdPWOdiVq8f9AjNQ-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.26; Tue, 23 Nov 2021 16:58:31 +0000
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.026; Tue, 23 Nov 2021 16:58:30 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'David Howells' <dhowells@redhat.com>,
-        Cyril Hrubis <chrubis@suse.cz>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "ltp@lists.linux.it" <ltp@lists.linux.it>,
-        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>
-Subject: RE: [PATCH] uapi: Make __{u,s}64 match {u,}int64_t in userspace
-Thread-Topic: [PATCH] uapi: Make __{u,s}64 match {u,}int64_t in userspace
-Thread-Index: AQHX4InVzhztkrNZME2rQ+mb6OtfjawRUyrg
-Date:   Tue, 23 Nov 2021 16:58:30 +0000
-Message-ID: <ff8fc4470c8f45678e546cafe9980eff@AcuMS.aculab.com>
-References: <YZvIlz7J6vOEY+Xu@yuki>
- <1618289.1637686052@warthog.procyon.org.uk>
-In-Reply-To: <1618289.1637686052@warthog.procyon.org.uk>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        id S236033AbhKWREH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 23 Nov 2021 12:04:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42482 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236169AbhKWREH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Nov 2021 12:04:07 -0500
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D149BC061574
+        for <linux-api@vger.kernel.org>; Tue, 23 Nov 2021 09:00:58 -0800 (PST)
+Received: by mail-qk1-x729.google.com with SMTP id i9so22548021qki.3
+        for <linux-api@vger.kernel.org>; Tue, 23 Nov 2021 09:00:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=CFoLHMr/Z5LPCRYETT9tnpkqBCibUyTd4qK2BHV8DYk=;
+        b=nsTjfm6OvGB4aoB+P4zzFpoqRZc3fzSiLrwe7bKf9EdkEG0SLPsMrmMS6ZjUURyCs3
+         RxG6LDALb0mczy36TEMfAQizjbQjSmNM8TDLDrr2PHheidsM/LJ7jreKQ7FPQrSkIwd9
+         bQkQhZ8K8s4FOG9Wysbdf6aDQOohs78VY/ASSL/i5NoBuVVK4I5NGTSV/ap+e1DfZ++x
+         2zligQ2hDJMjp8KKaESDPSxfJqaM2DAj9xa0dXU4Ms59fPVMQhLcgT26gsWkwWKQk9Ve
+         xuU0hiF5d/iAnyCa6OrGGGGehHz9gSJLW1GdYm3YqlYvOEHwNIez3YoMJpI24eW2JjLG
+         w6tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=CFoLHMr/Z5LPCRYETT9tnpkqBCibUyTd4qK2BHV8DYk=;
+        b=Yzla9UebE/4TAT2yamfFFgh7PUxayp3h6c5s0sV3YYzY6rOEfb1hSOkIlxAqO7slPH
+         u/jsaCezkpNqaLj4el+ASrnROaWaxTJPKoCKl9acul5ZbRtCzQc3XJKxyuE8c9ag/qmU
+         yb23Xgxgn9QJE7dmdERy2ZSmuqzSKQzEH/4Wkp+MlZB53TtGkzz0GE3nxRnunPUr0Xso
+         ytPmucDPDdPGm/zZFVRi81a+ZP1p5PlVIbQGr2E685JPbpkRA7BQ5u8vWvDGKBNNTbuC
+         sKrkPuHs73EG7CAgvCCFXENcr3vfb8htv9tdCoYsblUZHnc+JMbelZ2fTRecOQspoWY6
+         1Eig==
+X-Gm-Message-State: AOAM5305KFgYl+X96rdFVG3TxrkjTPSSzcDVN4gy+sDLxVmnZAiyZwds
+        bg00D4V9uQ3OKFeHPQ+Hv/haUQ==
+X-Google-Smtp-Source: ABdhPJyCfsuzW9aNgeEoX01aT+J8AVygOW5MKRGQDmf+YbVxdYXAAzkQAco6yirK4ymbFWhPkmfgWg==
+X-Received: by 2002:a05:620a:288c:: with SMTP id j12mr6002351qkp.103.1637686858082;
+        Tue, 23 Nov 2021 09:00:58 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
+        by smtp.gmail.com with ESMTPSA id q20sm6629100qkl.53.2021.11.23.09.00.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Nov 2021 09:00:57 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1mpZA8-000DRS-L5; Tue, 23 Nov 2021 13:00:56 -0400
+Date:   Tue, 23 Nov 2021 13:00:56 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Jens Axboe <axboe@kernel.dk>,
+        Andrew Dona-Couch <andrew@donacou.ch>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Drew DeVault <sir@cmpwn.com>,
+        Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        io_uring Mailing List <io-uring@vger.kernel.org>,
+        Pavel Begunkov <asml.silence@gmail.com>, linux-mm@kvack.org
+Subject: Re: [PATCH] Increase default MLOCK_LIMIT to 8 MiB
+Message-ID: <20211123170056.GC5112@ziepe.ca>
+References: <20211116133750.0f625f73a1e4843daf13b8f7@linux-foundation.org>
+ <b84bc345-d4ea-96de-0076-12ff245c5e29@redhat.com>
+ <8f219a64-a39f-45f0-a7ad-708a33888a3b@www.fastmail.com>
+ <333cb52b-5b02-648e-af7a-090e23261801@redhat.com>
+ <ca96bb88-295c-ccad-ed2f-abc585cb4904@kernel.dk>
+ <5f998bb7-7b5d-9253-2337-b1d9ea59c796@redhat.com>
+ <20211123132523.GA5112@ziepe.ca>
+ <10ccf01b-f13a-d626-beba-cbee70770cf1@redhat.com>
+ <20211123140709.GB5112@ziepe.ca>
+ <e4d7d211-5d62-df89-8f94-e49385286f1f@redhat.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e4d7d211-5d62-df89-8f94-e49385286f1f@redhat.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: David Howells
-> Sent: 23 November 2021 16:48
+On Tue, Nov 23, 2021 at 03:44:03PM +0100, David Hildenbrand wrote:
+> On 23.11.21 15:07, Jason Gunthorpe wrote:
+> > On Tue, Nov 23, 2021 at 02:39:19PM +0100, David Hildenbrand wrote:
+> >>>
+> >>>> 2) Could be provide a mmu variant to ordinary users that's just good
+> >>>> enough but maybe not as fast as what we have today? And limit
+> >>>> FOLL_LONGTERM to special, privileged users?
+> >>>
+> >>> rdma has never been privileged
+> >>
+> >> Feel free to correct me if I'm wrong: it requires special networking
+> >> hardware and the admin/kernel has to prepare the system in a way such
+> >> that it can be used.
+> > 
+> > Not really, plug in the right PCI card and it works
 > 
-> Cyril Hrubis <chrubis@suse.cz> wrote:
-> 
-> > This changes the __u64 and __s64 in userspace on 64bit platforms from
-> > long long (unsigned) int to just long (unsigned) int in order to match
-> > the uint64_t and int64_t size in userspace.
+> Naive me would have assumed that the right modules have to be loaded
+> (and not blacklisted), that there has to be an rdma service installed
+> and running, that the NIC has to be configured in some way, and that
+> there is some kind of access control which user can actually use which
+> NIC.
 
-That is a massive UAPI change you can't do.
+Not really, we've worked hard that it works as well as any other HW
+device. Plug it in and it works.
 
-> Can you guarantee this won't break anything in userspace?  Granted the types
-> *ought* to be the same size, but anyone who's written code on the basis that
-> these are "(unsigned) long long int" may suddenly get a bunch of warnings
-> where they didn't before from the C compiler.  Anyone using C++, say, may find
-> their code no longer compiles because overloaded function matching no longer
-> finds a correct match.
+There is no systemd service, or special mandatory configuration, for
+instance.
 
-Indeed
+> For example, I would have assume from inside a container it usually
+> wouldn't just work.
 
-> Also, whilst your point about PRIu64 and PRId64 modifiers in printf() is a
-> good one, it doesn't help someone whose compiler doesn't support that (I don't
-> know if anyone's likely to encounter such these days).  At the moment, I think
-> a user can assume that %llu will work correctly both on 32-bit and 64-bit on
-> all arches, but you're definitely breaking that assumption.
+Nope, RDMA follows the net namespaces of its ethernet port, so it just
+works in containers too.
 
-PRIu64 (etc) don't require compiler support, just the correct header file.
+> believe what you say and I trust your experience :) So could as well be
+> that on such a "special" (or not so special) systems there should be a
+> way to restrict it to privileged users only.
 
-I'm pretty sure that portable user code needs to allow for int64_t being
-either 'long' or 'long long' on 64bit architectures.
-(Indeed 'long' may not even be 64bit.)
+At this point RDMA is about as "special" as people running large
+ZONE_MOVABLE systems, and the two are going to start colliding
+heavily. The RDMA VFIO migration driver should be merged soon which
+makes VMs using this stuff finally practical.
 
-On 32bit int32_t can definitely be either 'int' of 'long' at whim.
-
-I'm not sure anyone has tried a 64bit long with a 128bit long-long.
-But the C language might lead you to do that.
-
-Of course, fully portable code has to allow for char, short, int and long
-all being the same size!
-
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
-
+Jason
