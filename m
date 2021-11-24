@@ -2,106 +2,111 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DB3545B832
-	for <lists+linux-api@lfdr.de>; Wed, 24 Nov 2021 11:17:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EDA345C775
+	for <lists+linux-api@lfdr.de>; Wed, 24 Nov 2021 15:33:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240800AbhKXKUl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 24 Nov 2021 05:20:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49046 "EHLO
+        id S1355878AbhKXOgM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 24 Nov 2021 09:36:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240105AbhKXKUk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Nov 2021 05:20:40 -0500
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33C41C061574;
-        Wed, 24 Nov 2021 02:17:31 -0800 (PST)
-Received: by mail-wr1-x436.google.com with SMTP id r8so3215216wra.7;
-        Wed, 24 Nov 2021 02:17:31 -0800 (PST)
+        with ESMTP id S1355902AbhKXOgI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Nov 2021 09:36:08 -0500
+Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFA92C1A3ADA
+        for <linux-api@vger.kernel.org>; Wed, 24 Nov 2021 05:23:55 -0800 (PST)
+Received: by mail-qv1-xf2e.google.com with SMTP id g1so1746017qvd.2
+        for <linux-api@vger.kernel.org>; Wed, 24 Nov 2021 05:23:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=70LFuvA9BwzW8zf1KTQCL6giarK0Nl0WBEKJHk+tQGg=;
-        b=lNcgdtvnOSWnBcldpNHr35YPikZfWlGARERZnGXQJam6dJ5VuAYn81zn2TkK5XVcV3
-         yqIvxkjQ8EU+s+Hw4acAiBGGsJ/77nrR0Q9SbxrGA+upRT3a7gRWOIF/20QDjVw8QnW2
-         /ne0b4ikIg0rXeJWo+VyBmh9PcBn64RGEr5xoiS1OqEoyQFr3F7AJHnC6D30e7r4I1KE
-         fJ0oCb7xsyxiFsIUZVz71NEStgnCPdvbP9WA2OIKflWMvB3qHnD9enJrCJz3SNppTx4I
-         8o38STuhK0/vLPmlo27lgUx1VPAk7JL4HIMU6xTJfsrCBjni+uW/dC5W9nSDezkCwZam
-         m9tQ==
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=vR5X7aTiFOOVGN8Rdr9twInRzNQE68Jn7eaS79KF5JI=;
+        b=Ql2jamGTDoo7tRUYmapHPNuQGI2EBH53GGT10ws9BRT9mp46w8Q3WwC3bQcPjeyJUb
+         bDlBo8Chiuh50ahwDix4xn/QkQqNYaECP7iHe7aFuqQ+GnbXtLePsHEQYi8iJLbO8jqG
+         NeYdwLTquLM5mylQwGgCeaeQkp0LBt1Yn1Rqo+zq6gwOGYUG9Po4+HaTCnO+dQNQOo9u
+         /H7S4tZq/gdk39EiB3cmL6+u0dGvJcgyz0lJGS50HCetT00czUmh7PpLQWvPGx6Qxi6k
+         OC/IM/Z8a6CY0jkeVQY6DjARa3DtW+KgCl9Ll6TBgitPiQ0pysSPg1B/wYFjftVk3MfZ
+         N+lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=70LFuvA9BwzW8zf1KTQCL6giarK0Nl0WBEKJHk+tQGg=;
-        b=DPnFmowZGmDNrgWPQ4SxKMj9Y0Pu8Qv71EKcS0WLVmLgpxQRvbv8muULhs6G3TGu3B
-         qCI+XJBlfsBCF0Fnfzykh6rN8lAK9OgDyu2T1ZF9l50JYoUoa/vy/lDdXeY61+dmEC12
-         88YRaUbdGAgb5uZrPCsrP1p5hhpQsfC894lzVJQ/ZQGUNtFlD8xnI0Bvw5pU0oNqw6oR
-         HQfXvTrFIVBaDp81iw4C8cJ+VvBB6nl3neWqJhOT/liu/HZGronZTuk64Jr+FGRJ36Dn
-         k/mwtq8v4LPE8yQSMPwkZ3t8FqAdnIJ0ajOIedbA1vyF2GUAzEvQyRqzKFb94iAkl9QP
-         nWig==
-X-Gm-Message-State: AOAM5328Z0QWQHHYiiwLPa/koTaBpNq2o5dk2mVlOCQXHqQPgpvcVVlu
-        ZbCUXovtuhnytPL22GFoM/k=
-X-Google-Smtp-Source: ABdhPJw6qAm068rM9uv6H9YayQc+b8C9roADbIZnGBi3P3kdRFDA9zzgTdiUq3RKZXFYZkChf7L40A==
-X-Received: by 2002:a05:6000:15c8:: with SMTP id y8mr17887347wry.101.1637749049690;
-        Wed, 24 Nov 2021 02:17:29 -0800 (PST)
-Received: from [10.168.10.11] ([170.253.36.171])
-        by smtp.gmail.com with ESMTPSA id n15sm4445528wmq.38.2021.11.24.02.17.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Nov 2021 02:17:29 -0800 (PST)
-Sender: Alejandro Colomar <alx.mailinglists@gmail.com>
-Message-ID: <fb57172d-9268-6aaf-1ba1-fa42a2a47c03@gmail.com>
-Date:   Wed, 24 Nov 2021 11:17:28 +0100
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=vR5X7aTiFOOVGN8Rdr9twInRzNQE68Jn7eaS79KF5JI=;
+        b=1UAZjTum3Khl1/Hx1jhbT3UV/X/VvwcsjxjmEX2QvhzN7oQ+6DFao6Z7h7rM3k6Fl5
+         GAt9hhiY9KVUqVLqZkw8CET1Mmrece0PtcsvIPuKE5m30IBpCA5nedq9HB9iBoP6t+M+
+         4qELeAZ09g+iuxHoaMKAhVT8S7RhMjMFCFjABSM8u8H2GZUofzMyrUpdlcKQgDCnEEOv
+         9lLW7Qglu8CUJ+Y5wLHzc85eIuBcDW0Xl2IJ4cJuZ5xYk0lI/GlS8ZBplHTKdhjAmdkr
+         XBPfHwyAYJ/M77QM4pG7tTEOdfV4lFJcTHqEZQ/cu0/hgb1uSP/mUksM6Pm9rPixsRm4
+         wBWA==
+X-Gm-Message-State: AOAM531PxPOeDiAiCzGzyUDwKohmntULXd6oORoZyXEA7r7rySscxCmg
+        +mCMhA4Fc2yR/f+tRXXpzVJqOA==
+X-Google-Smtp-Source: ABdhPJwIkO/hSHdrvxMNPMQTiV33oMboBFQ2VKpVaquqdmUVNR+JyQZWlHq5jUxy9L7WR3iB7jccJg==
+X-Received: by 2002:ad4:576a:: with SMTP id r10mr7232232qvx.5.1637760234949;
+        Wed, 24 Nov 2021 05:23:54 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
+        by smtp.gmail.com with ESMTPSA id u7sm8522541qkp.17.2021.11.24.05.23.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Nov 2021 05:23:54 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1mpsFd-0011Ar-RE; Wed, 24 Nov 2021 09:23:53 -0400
+Date:   Wed, 24 Nov 2021 09:23:53 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Vlastimil Babka <vbabka@suse.cz>, Jens Axboe <axboe@kernel.dk>,
+        Andrew Dona-Couch <andrew@donacou.ch>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Drew DeVault <sir@cmpwn.com>,
+        Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        io_uring Mailing List <io-uring@vger.kernel.org>,
+        Pavel Begunkov <asml.silence@gmail.com>, linux-mm@kvack.org
+Subject: Re: [PATCH] Increase default MLOCK_LIMIT to 8 MiB
+Message-ID: <20211124132353.GG5112@ziepe.ca>
+References: <ca96bb88-295c-ccad-ed2f-abc585cb4904@kernel.dk>
+ <5f998bb7-7b5d-9253-2337-b1d9ea59c796@redhat.com>
+ <20211123132523.GA5112@ziepe.ca>
+ <10ccf01b-f13a-d626-beba-cbee70770cf1@redhat.com>
+ <20211123140709.GB5112@ziepe.ca>
+ <e4d7d211-5d62-df89-8f94-e49385286f1f@redhat.com>
+ <20211123170056.GC5112@ziepe.ca>
+ <dd92a69a-6d09-93a1-4f50-5020f5cc59d0@suse.cz>
+ <20211123235953.GF5112@ziepe.ca>
+ <2adca04f-92e1-5f99-6094-5fac66a22a77@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] uapi: Make __{u,s}64 match {u,}int64_t in userspace
-Content-Language: en-US
-To:     Florian Weimer <fweimer@redhat.com>, Cyril Hrubis <chrubis@suse.cz>
-Cc:     linux-arch <linux-arch@vger.kernel.org>,
-        GNU C Library <libc-alpha@sourceware.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        LTP List <ltp@lists.linux.it>
-References: <YZvIlz7J6vOEY+Xu@yuki>
- <CAK8P3a0x5Bw7=0ng-s+KsUywqJYa0tk9cSWmZhx+cZRBOR87ZA@mail.gmail.com>
- <YZyw56flmdQnBIuh@yuki> <87a6hups6w.fsf@oldenburg.str.redhat.com>
-From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-In-Reply-To: <87a6hups6w.fsf@oldenburg.str.redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2adca04f-92e1-5f99-6094-5fac66a22a77@redhat.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 11/23/21 20:50, Florian Weimer via Libc-alpha wrote:
-> * Cyril Hrubis:
-> 
->> As far as I can tell the userspace bits/types.h does exactly the same
->> check in order to define uint64_t and int64_t, i.e.:
->>
->> #if __WORDSIZE == 64
->> typedef signed long int __int64_t;
->> typedef unsigned long int __uint64_t;
->> #else
->> __extension__ typedef signed long long int __int64_t;
->> __extension__ typedef unsigned long long int __uint64_t;
->> #endif
->>
->> The macro __WORDSIZE is defined per architecture, and it looks like the
->> defintions in glibc sources in bits/wordsize.h match the uapi
->> asm/bitsperlong.h. But I may have missed something, the code in glibc is
->> not exactly easy to read.
-> 
-> __WORDSIZE isn't exactly a standard libc macro.
+On Wed, Nov 24, 2021 at 09:57:32AM +0100, David Hildenbrand wrote:
 
-The (to-be) standard libc macro would be LONG_WIDTH (although it has a 
-slightly different meaning, but it can be used for this, but then the 
-code also needs to expose <limits.h>), rigth?
+> Unfortunately it will only be a band aid AFAIU. I can rewrite my
+> reproducer fairly easily to pin the whole 2M range first, pin a second
+> time only a single page, and then unpin the 2M range, resulting in the
+> very same way to block THP. (I can block some THP less because I always
+> need the possibility to memlock 2M first, though).
 
-Regards,
-Alex
+Oh!
 
--- 
-Alejandro Colomar
-Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
+The issue is GUP always pins an entire compound, no matter how little
+the user requests.
+
+However, when all the GUP callers do mlock accounting they have no
+idea how much memory GUP actually pinned and only account mlock on 4K
+chunks.
+
+This is the bug your test is showing - using this accounting error the
+user can significantly blow past their mlock limit by having GUP pin
+2M chunks and then mlock accounting for only 4k chunks.
+
+It is a super obnoxious bug to fix, but still just a bug and not some
+inherent defect in FOLL_LONGTERM.
+
+It also says the MLOCK_LIMIT really needs to always be > 1 THP
+otherwise even a single 4K page may be unpinnable with correct
+accounting.
+
+Jason
