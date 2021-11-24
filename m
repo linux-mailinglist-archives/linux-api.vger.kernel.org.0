@@ -2,107 +2,128 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 829A945C8C4
-	for <lists+linux-api@lfdr.de>; Wed, 24 Nov 2021 16:34:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C0EA745CA05
+	for <lists+linux-api@lfdr.de>; Wed, 24 Nov 2021 17:28:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233880AbhKXPhU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 24 Nov 2021 10:37:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35082 "EHLO
+        id S241706AbhKXQcF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 24 Nov 2021 11:32:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241228AbhKXPhU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Nov 2021 10:37:20 -0500
-Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C31B6C06173E
-        for <linux-api@vger.kernel.org>; Wed, 24 Nov 2021 07:34:10 -0800 (PST)
-Received: by mail-qv1-xf2c.google.com with SMTP id v2so2005253qve.11
-        for <linux-api@vger.kernel.org>; Wed, 24 Nov 2021 07:34:10 -0800 (PST)
+        with ESMTP id S242386AbhKXQcE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Nov 2021 11:32:04 -0500
+Received: from mail-ua1-x933.google.com (mail-ua1-x933.google.com [IPv6:2607:f8b0:4864:20::933])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6F75C061714
+        for <linux-api@vger.kernel.org>; Wed, 24 Nov 2021 08:28:54 -0800 (PST)
+Received: by mail-ua1-x933.google.com with SMTP id i6so6282959uae.6
+        for <linux-api@vger.kernel.org>; Wed, 24 Nov 2021 08:28:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=jewS1/U+Uwx2MsMSvVTsbDbxDhtWEO2xK/fTTXK8uck=;
-        b=WzvFRKZ061/KNaexoESH+Gbb4RgMMBXdqHhbtVDCJUWaGKS0bnX4c6P4VO4hkjahGS
-         /3zHBhDb+rJ4bQfUU/5o0p7g5Oq4oHvasOY5UeFTNeegJ14CkGmQ0rO3rB12VPpaJpFR
-         gChu8p5mtj04YG1x5v/Js2Wxkzh4Wbj7B3fohbz2UoOYCEyU/TDOBZLuXavFMULGkfTJ
-         GjZzuFZNy3a1tQgtuifVOgbMoqA9TPXpZeM+Et1sowb/lyMJrVJ9CxBCNCSSNl79GP0A
-         zTttDgOQkS2aqHt73ydZLqX6ZPRNdxo6YgMiQtSBwlqc06vXom0vpQ6CnRifIvQ6aw7l
-         EeRQ==
+        d=posk.io; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0yN6Nmt9ug88Fg5aU4VU/Ivh+jZZugsPIfs+d6Xfs88=;
+        b=EayTDztFxh4IJrHx8ZTsUNpB2t76+XRcpJ+eZ79qHHu2VYAaYmINaxyFWi5TAuKmfr
+         zWLA2FQa0AU2MjDGeXZ1tkNMPsFTUsLe0tDKl1LjBNoZNa98l4niwDPyQ+DubuUbiqmZ
+         k7Hzf9Wm5zCuIiWyUzBw1rHl3FbizNHt0p42jq+XHl4To2a+mg/rixpCf4dllHJ0Ybr5
+         C3D4sx8sMCV67YOoMw1v4xMjT5RShJmZTO4QjyJlmK0DZsk+poGGA+2GppsqIYGrDpQX
+         lQhBMAwXNEYiWKM59R/0GfmGRBekvYUyRZZWmkgbSPOUrD6p0dI+MHrt0pn0edI77fU7
+         BQlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=jewS1/U+Uwx2MsMSvVTsbDbxDhtWEO2xK/fTTXK8uck=;
-        b=RJM5/TFktsVrB7rNs4rCL35j3sWoabo9Diev5FQr1wWgi0wS9PdQxjWeDe3EEvzFIr
-         ziCpNs7t2tPx5hsi9Dqzrr1Vo7QHxJOjsVQ5vQtCfJGfuEr4bQORtiu/+APaOyOax51B
-         5N0iLEh2vtdmbrBbZjTQxFD6C9GxLq85Hlafs2ibxfyC/nb/7qWXQvRKNY7LW4ANaW3g
-         0YO5uwB6CSoIzksqmU+rBwPPFbalrYGigGlywzQyP8eBGOlgy92okGulKmJIR0AM9qYw
-         lXN7W7p5mso6j1oaWk92YH3mUjfUNLjblpRoW0Rn6uV3YIEcPBkkRSNjGFGRodWfAnbU
-         f77w==
-X-Gm-Message-State: AOAM530cidb9sd7rgP1w9iyNSHm6tdrVaVImaOcSAj5NCAMHeMEl33+O
-        b0XATZl3S7MZ7SV9RA32zSSH8iC+TzFjDg==
-X-Google-Smtp-Source: ABdhPJxZDhSiT7D5AMdmLtkaSczYkt5IgUp2uFeWHEYmNkWlb9JcYltzAKN/FqypiDM3IlbZxasu5A==
-X-Received: by 2002:ad4:5dea:: with SMTP id jn10mr8349179qvb.17.1637768049952;
-        Wed, 24 Nov 2021 07:34:09 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
-        by smtp.gmail.com with ESMTPSA id l22sm42040qtj.68.2021.11.24.07.34.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Nov 2021 07:34:06 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1mpuHd-0013L9-Or; Wed, 24 Nov 2021 11:34:05 -0400
-Date:   Wed, 24 Nov 2021 11:34:05 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Vlastimil Babka <vbabka@suse.cz>, Jens Axboe <axboe@kernel.dk>,
-        Andrew Dona-Couch <andrew@donacou.ch>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Drew DeVault <sir@cmpwn.com>,
-        Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        io_uring Mailing List <io-uring@vger.kernel.org>,
-        Pavel Begunkov <asml.silence@gmail.com>, linux-mm@kvack.org
-Subject: Re: [PATCH] Increase default MLOCK_LIMIT to 8 MiB
-Message-ID: <20211124153405.GJ5112@ziepe.ca>
-References: <20211123170056.GC5112@ziepe.ca>
- <dd92a69a-6d09-93a1-4f50-5020f5cc59d0@suse.cz>
- <20211123235953.GF5112@ziepe.ca>
- <2adca04f-92e1-5f99-6094-5fac66a22a77@redhat.com>
- <20211124132353.GG5112@ziepe.ca>
- <cca0229e-e53e-bceb-e215-327b6401f256@redhat.com>
- <20211124132842.GH5112@ziepe.ca>
- <eab5aeba-e064-9f3e-fbc3-f73cd299de83@redhat.com>
- <20211124134812.GI5112@ziepe.ca>
- <2cdbebb9-4c57-7839-71ab-166cae168c74@redhat.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0yN6Nmt9ug88Fg5aU4VU/Ivh+jZZugsPIfs+d6Xfs88=;
+        b=dUQbIy7/Rb888Ivv0tZetMPZccQHg7SrmMch7whzZSFiGc6arZAATzZzfQe/2TBN4Q
+         vwVI+C3WE7P4k3Ho8nDnKD2Ro9WUuhAoQ0IGfbmidkW2mzz4Aj7uZ4kJL0Bno8XP/1HB
+         gxOoFxuVWIRYMXR5paytEOT/+9q1MvyjQygvldRyOuDMn9NtC9ugy+q2n2VWNwG29OGd
+         FTem5p7d3ahU1vMHnoIqWUNxKXo4KKUbV5tlBe/qqXqgsNVR8TwRKz18lsByd+ZGeU1H
+         0ErqmEauoIXmp0zR6Gw0QY3I8Ly399tRRoVVzFDKme+dEpATjfsdrouShePoQoShjIda
+         pzKQ==
+X-Gm-Message-State: AOAM531HoquMSz292j3RlGDPqWrMh/gNkAgaDZD2J0siBpjRwXm8+LiO
+        RxhBPFVDSMlkFE6ic5f5jGRxRF2LUpFBciw+NUG+uNLiI9s=
+X-Google-Smtp-Source: ABdhPJxZZQgEDWCNTylmZHsM0ICOHv3PAjc+H6pgfOuNvz+aCpOvcr1mwhE1Q3TeVLPXP0qYqOvxn7gLBVAICpNHPN8=
+X-Received: by 2002:a9f:2431:: with SMTP id 46mr12240607uaq.114.1637771333863;
+ Wed, 24 Nov 2021 08:28:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2cdbebb9-4c57-7839-71ab-166cae168c74@redhat.com>
+References: <20211122211327.5931-1-posk@google.com> <YZ5G7gO5Gc1zu/Cm@hirez.programming.kicks-ass.net>
+In-Reply-To: <YZ5G7gO5Gc1zu/Cm@hirez.programming.kicks-ass.net>
+From:   Peter Oskolkov <posk@posk.io>
+Date:   Wed, 24 Nov 2021 08:28:43 -0800
+Message-ID: <CAFTs51Vp=hfiDkSHVysHLh9QOqpUXUksF-SW86GOd5ih-=7JPQ@mail.gmail.com>
+Subject: Re: [PATCH v0.9.1 0/6] sched,mm,x86/uaccess: implement User Managed
+ Concurrency Groups
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-api@vger.kernel.org, Paul Turner <pjt@google.com>,
+        Ben Segall <bsegall@google.com>,
+        Peter Oskolkov <posk@google.com>,
+        Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
+        Thierry Delisle <tdelisle@uwaterloo.ca>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Nov 24, 2021 at 03:14:00PM +0100, David Hildenbrand wrote:
+On Wed, Nov 24, 2021 at 6:06 AM Peter Zijlstra <peterz@infradead.org> wrote:
+>
+> On Mon, Nov 22, 2021 at 01:13:21PM -0800, Peter Oskolkov wrote:
+> > User Managed Concurrency Groups (UMCG) is an M:N threading
+> > subsystem/toolkit that lets user space application developers implement
+> > in-process user space schedulers.
+> >
+> > This v0.9.1 patchset is the same as v0.9, where u32/u64 in
+> > uapi/linux/umcg.h are replaced with __u32/__u64, as test robot/lkp
+> > does not recognize u32/u64 for some reason.
+> >
+> > v0.9 is v0.8 rebased on top of the current tip/sched/core,
+> > with a fix in umcg_update_state of an issue reported by Tao Zhou.
+> >
+> > Key changes from patchset v0.7:
+> > https://lore.kernel.org/all/20211012232522.714898-1-posk@google.com/:
+> >
+> > - added libumcg tools/lib/umcg;
+> > - worker "wakeup" is reworked so that it is now purely a userspace op,
+> >   instead of waking the thread in order for it to block on return
+> >   to the userspace immediately;
+> > - a couple of minor fixes and refactorings.
+> >
+> > These big things remain to be addressed (in no particular order):
+> > - support tracing/debugging
+> > - make context switches faster (see umcg_do_context_switch in umcg.c)
+> > - support other architectures
+> > - cleanup and post selftests in tools/testing/selftests/umcg/
+> > - allow cross-mm wakeups (securely)
+>
+> *groan*... so these patches do *NOT* support the very thing this all
+> started with, namely block + wakeup notifications. I'm really not sure
+> how that happened, as that was the sole purpose of the exercise.
 
-> I'm not aware of any where you can fragment 50% of all pageblocks in the
-> system as an unprivileged user essentially consuming almost no memory
-> and essentially staying inside well-defined memlock limits. But sure if
-> there are "many" people will be able to come up with at least one
-> comparable thing. I'll be happy to learn.
+I'm not sure why you say this - in-process block/wakeup is very much
+supported - please see the third patch. Cross-process (cross-mm)
+wakeups are not supported at the moment, as the security story has to
+be fleshed out.
 
-If the concern is that THP's can be DOS'd then any avenue that renders
-the system out of THPs is a DOS attack vector. Including all the
-normal workloads that people run and already complain that THPs get
-exhausted.
+>
+> Aside of that, the whole uaccess stuff is horrific :-( I'll reply to
+> that email separately, but the alternative is also included in the
+> random hackery below.
 
-A hostile userspace can only quicken this process.
+Thanks - I'll try to make uaccess more to your liking, unless you say
+the whole thing is a no-go.
 
-> My position that FOLL_LONGTERM for unprivileged users is a strong no-go
-> stands as it is.
+>
+> I'm still trying to make sense of it all, but I'm really not seeing how
+> any of this satisfies the initial goals, also it is once again 100% new
+> code :/
 
-As this basically excludes long standing pre-existing things like
-RDMA, XDP, io_uring, and more I don't think this can be the general
-answer for mm, sorry.
+I believe the initial goals of in-process block/wakeup detection,
+on-cpu context switching, etc. are all achieved here. Re: new code:
+the code in the third patch evolved into what it is today based on
+feedback/discussions in this list.
 
-Sure, lets stop now since I don't think we can agree.
-
-Jason
+[...]
