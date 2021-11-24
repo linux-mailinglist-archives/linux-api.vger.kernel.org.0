@@ -2,161 +2,302 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8853245CC29
-	for <lists+linux-api@lfdr.de>; Wed, 24 Nov 2021 19:35:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B13D45CC38
+	for <lists+linux-api@lfdr.de>; Wed, 24 Nov 2021 19:37:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244587AbhKXSi5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 24 Nov 2021 13:38:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49066 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239882AbhKXSi5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Nov 2021 13:38:57 -0500
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B5E2C06173E
-        for <linux-api@vger.kernel.org>; Wed, 24 Nov 2021 10:35:47 -0800 (PST)
-Received: by mail-qt1-x82c.google.com with SMTP id t34so3621731qtc.7
-        for <linux-api@vger.kernel.org>; Wed, 24 Nov 2021 10:35:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=in/DjmJsre7pZyqPLOE83SpCPGvaY4gyM0Go0TFST48=;
-        b=ZJk1hn0TiTzgrW0oCVvnxHvUxUqepWkj4oQosBQDtyqCJ+i0CnZt1Hoouaohjvn42z
-         af0h57GBiTyB6s5gN5vRpkHZfkdnid+LSE4pkZD06IGyPV+/EqMV4neaZw62JBzXoTwT
-         eF/cgrracdsnMvrximIZT2KxhMI7J5yA06rXDQ7Kcn8gyV/nbLAp5d3nJuuGbTu2j7E6
-         +8XjjgEYS1ylvwmrB13ZS/ZBfHcbn/v9UGLpQgmMDQpfTQQBEw5nlefq1kn1gGSR2R1b
-         HPk+c6n87wUSW9pcj7NHouTqRKapZ/JMY9kkxtdOUivE+HSmbjijQL4VzTfCyaNwPYjm
-         K4ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=in/DjmJsre7pZyqPLOE83SpCPGvaY4gyM0Go0TFST48=;
-        b=fmIiWSt6c234HSXHyVhQigFiZWj9NXciL7b5kbOc62giagHa+HwDQpBLwT/bZKv/ON
-         SPgg2p+9QXzbY12ZNdLrHzLFbaw9V/L6AMjLj635Ow8nfobeu7Ppdh8XSExhalaf2wAR
-         fvZTId5+kDtTl0eR9HBvSzORENIqj0jcXCMgY8lAR8BwHHlCiq6F6tbuNx3dN8uC8aPJ
-         c56uW9+Ao5I6SlJTHBixw/mivZydnizct307SUoul12NZMX8LUIS7yJJzG+CoQOuI7Fp
-         y1NjijSeHjMz9hYPLiL/jK1SoaFr6r1V3piRqUQtQByiInxaMgt79odOIOltmZxu6hg6
-         HM5w==
-X-Gm-Message-State: AOAM532O2wLeVNBGLjVL449h1Qtz5fkQlkaC0yYxQaVyVHrN7skqouNs
-        PHYx3tOEL3GPX3idwf2Wu0uHxg==
-X-Google-Smtp-Source: ABdhPJxMtwGVMMEdlpVrmIIAbhGenBFljfqHsGqDIvds+y9qgA6BJreGhRTg9VgHV56aoXmE8yqtDg==
-X-Received: by 2002:a05:622a:14:: with SMTP id x20mr9786392qtw.1.1637778946611;
-        Wed, 24 Nov 2021 10:35:46 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
-        by smtp.gmail.com with ESMTPSA id g5sm251023qko.12.2021.11.24.10.35.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Nov 2021 10:35:45 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1mpx7Q-0016Qq-NT; Wed, 24 Nov 2021 14:35:44 -0400
-Date:   Wed, 24 Nov 2021 14:35:44 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Vlastimil Babka <vbabka@suse.cz>, Jens Axboe <axboe@kernel.dk>,
-        Andrew Dona-Couch <andrew@donacou.ch>,
+        id S239871AbhKXSlG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 24 Nov 2021 13:41:06 -0500
+Received: from mga11.intel.com ([192.55.52.93]:36449 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1350749AbhKXSlC (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 24 Nov 2021 13:41:02 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10178"; a="232839548"
+X-IronPort-AV: E=Sophos;i="5.87,261,1631602800"; 
+   d="scan'208";a="232839548"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2021 10:37:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,261,1631602800"; 
+   d="scan'208";a="554336169"
+Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 24 Nov 2021 10:36:59 -0800
+Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1mpx8c-0005CQ-Is; Wed, 24 Nov 2021 18:36:58 +0000
+Date:   Thu, 25 Nov 2021 02:36:36 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Peter Oskolkov <posk@posk.io>, Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Drew DeVault <sir@cmpwn.com>,
-        Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        io_uring Mailing List <io-uring@vger.kernel.org>,
-        Pavel Begunkov <asml.silence@gmail.com>, linux-mm@kvack.org
-Subject: Re: [PATCH] Increase default MLOCK_LIMIT to 8 MiB
-Message-ID: <20211124183544.GL5112@ziepe.ca>
-References: <20211123235953.GF5112@ziepe.ca>
- <2adca04f-92e1-5f99-6094-5fac66a22a77@redhat.com>
- <20211124132353.GG5112@ziepe.ca>
- <cca0229e-e53e-bceb-e215-327b6401f256@redhat.com>
- <20211124132842.GH5112@ziepe.ca>
- <eab5aeba-e064-9f3e-fbc3-f73cd299de83@redhat.com>
- <20211124134812.GI5112@ziepe.ca>
- <2cdbebb9-4c57-7839-71ab-166cae168c74@redhat.com>
- <20211124153405.GJ5112@ziepe.ca>
- <63294e63-cf82-1f59-5ea8-e996662e6393@redhat.com>
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Paul Turner <pjt@google.com>
+Subject: Re: [PATCH v0.9.1 3/6] sched/umcg: implement UMCG syscalls
+Message-ID: <202111250209.9dBNZjdP-lkp@intel.com>
+References: <20211122211327.5931-4-posk@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <63294e63-cf82-1f59-5ea8-e996662e6393@redhat.com>
+In-Reply-To: <20211122211327.5931-4-posk@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Nov 24, 2021 at 05:43:58PM +0100, David Hildenbrand wrote:
-> On 24.11.21 16:34, Jason Gunthorpe wrote:
-> > On Wed, Nov 24, 2021 at 03:14:00PM +0100, David Hildenbrand wrote:
-> > 
-> >> I'm not aware of any where you can fragment 50% of all pageblocks in the
-> >> system as an unprivileged user essentially consuming almost no memory
-> >> and essentially staying inside well-defined memlock limits. But sure if
-> >> there are "many" people will be able to come up with at least one
-> >> comparable thing. I'll be happy to learn.
-> > 
-> > If the concern is that THP's can be DOS'd then any avenue that renders
-> > the system out of THPs is a DOS attack vector. Including all the
-> > normal workloads that people run and already complain that THPs get
-> > exhausted.
-> > 
-> > A hostile userspace can only quicken this process.
-> 
-> We can not only fragment THP but also easily smaller compound pages,
-> with less impact though (well, as long as people want more than 0.1% per
-> user ...).
+Hi Peter,
 
-My point is as long as userspace can drive this fragmentation, by any
-means, we can never have DOS proof higher order pages, so lets not
-worry so much about one of many ways to create fragmentation.
+Thank you for the patch! Perhaps something to improve:
 
-> >> My position that FOLL_LONGTERM for unprivileged users is a strong no-go
-> >> stands as it is.
-> > 
-> > As this basically excludes long standing pre-existing things like
-> > RDMA, XDP, io_uring, and more I don't think this can be the general
-> > answer for mm, sorry.
-> 
-> Let's think about options to restrict FOLL_LONGTERM usage:
+[auto build test WARNING on cb0e52b7748737b2cf6481fdd9b920ce7e1ebbdf]
 
-Which gives me the view that we should be talking about how to make
-high order pages completely DOS proof, not about FOLL_LONGTERM.
+url:    https://github.com/0day-ci/linux/commits/Peter-Oskolkov/sched-mm-x86-uaccess-implement-User-Managed-Concurrency-Groups/20211123-051525
+base:   cb0e52b7748737b2cf6481fdd9b920ce7e1ebbdf
+config: arm64-randconfig-r031-20211124 (https://download.01.org/0day-ci/archive/20211125/202111250209.9dBNZjdP-lkp@intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 67a1c45def8a75061203461ab0060c75c864df1c)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/0day-ci/linux/commit/942655474fa2cd59ea3d11a1cc03775dd79a508e
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Peter-Oskolkov/sched-mm-x86-uaccess-implement-User-Managed-Concurrency-Groups/20211123-051525
+        git checkout 942655474fa2cd59ea3d11a1cc03775dd79a508e
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 ARCH=arm64 
 
-To me that is exactly what ZONE_MOVABLE strives to achieve, and I
-think anyone who cares about QOS around THP must include ZONE_MOVABLE
-in their solution.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-In all of this I am thinking back to the discussion about the 1GB THP
-proposal which was resoundly shot down on the grounds that 2MB THP
-*doesn't work* today due to the existing fragmentation problems.
+All warnings (new ones prefixed by >>):
 
-> Another option would be not accounting FOLL_LONGTERM as RLIMIT_MEMLOCK,
-> but instead as something that explicitly matches the differing
-> semantics. 
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                                  ^
+   <scratch space>:34:1: note: expanded from here
+   __arm64_sys_recvmsg
+   ^
+   kernel/sys_ni.c:257:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/syscall_wrapper.h:76:13: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                      ^
+   kernel/sys_ni.c:263:1: warning: no previous prototype for function '__arm64_sys_mremap' [-Wmissing-prototypes]
+   COND_SYSCALL(mremap);
+   ^
+   arch/arm64/include/asm/syscall_wrapper.h:76:25: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                                  ^
+   <scratch space>:39:1: note: expanded from here
+   __arm64_sys_mremap
+   ^
+   kernel/sys_ni.c:263:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/syscall_wrapper.h:76:13: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                      ^
+   kernel/sys_ni.c:266:1: warning: no previous prototype for function '__arm64_sys_add_key' [-Wmissing-prototypes]
+   COND_SYSCALL(add_key);
+   ^
+   arch/arm64/include/asm/syscall_wrapper.h:76:25: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                                  ^
+   <scratch space>:40:1: note: expanded from here
+   __arm64_sys_add_key
+   ^
+   kernel/sys_ni.c:266:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/syscall_wrapper.h:76:13: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                      ^
+   kernel/sys_ni.c:267:1: warning: no previous prototype for function '__arm64_sys_request_key' [-Wmissing-prototypes]
+   COND_SYSCALL(request_key);
+   ^
+   arch/arm64/include/asm/syscall_wrapper.h:76:25: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                                  ^
+   <scratch space>:41:1: note: expanded from here
+   __arm64_sys_request_key
+   ^
+   kernel/sys_ni.c:267:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/syscall_wrapper.h:76:13: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                      ^
+   kernel/sys_ni.c:268:1: warning: no previous prototype for function '__arm64_sys_keyctl' [-Wmissing-prototypes]
+   COND_SYSCALL(keyctl);
+   ^
+   arch/arm64/include/asm/syscall_wrapper.h:76:25: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                                  ^
+   <scratch space>:42:1: note: expanded from here
+   __arm64_sys_keyctl
+   ^
+   kernel/sys_ni.c:268:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/syscall_wrapper.h:76:13: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                      ^
+   kernel/sys_ni.c:272:1: warning: no previous prototype for function '__arm64_sys_landlock_create_ruleset' [-Wmissing-prototypes]
+   COND_SYSCALL(landlock_create_ruleset);
+   ^
+   arch/arm64/include/asm/syscall_wrapper.h:76:25: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                                  ^
+   <scratch space>:47:1: note: expanded from here
+   __arm64_sys_landlock_create_ruleset
+   ^
+   kernel/sys_ni.c:272:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/syscall_wrapper.h:76:13: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                      ^
+   kernel/sys_ni.c:273:1: warning: no previous prototype for function '__arm64_sys_landlock_add_rule' [-Wmissing-prototypes]
+   COND_SYSCALL(landlock_add_rule);
+   ^
+   arch/arm64/include/asm/syscall_wrapper.h:76:25: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                                  ^
+   <scratch space>:48:1: note: expanded from here
+   __arm64_sys_landlock_add_rule
+   ^
+   kernel/sys_ni.c:273:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/syscall_wrapper.h:76:13: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                      ^
+   kernel/sys_ni.c:274:1: warning: no previous prototype for function '__arm64_sys_landlock_restrict_self' [-Wmissing-prototypes]
+   COND_SYSCALL(landlock_restrict_self);
+   ^
+   arch/arm64/include/asm/syscall_wrapper.h:76:25: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                                  ^
+   <scratch space>:49:1: note: expanded from here
+   __arm64_sys_landlock_restrict_self
+   ^
+   kernel/sys_ni.c:274:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/syscall_wrapper.h:76:13: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                      ^
+>> kernel/sys_ni.c:277:1: warning: no previous prototype for function '__arm64_sys_umcg_ctl' [-Wmissing-prototypes]
+   COND_SYSCALL(umcg_ctl);
+   ^
+   arch/arm64/include/asm/syscall_wrapper.h:76:25: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                                  ^
+   <scratch space>:50:1: note: expanded from here
+   __arm64_sys_umcg_ctl
+   ^
+   kernel/sys_ni.c:277:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/syscall_wrapper.h:76:13: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                      ^
+>> kernel/sys_ni.c:278:1: warning: no previous prototype for function '__arm64_sys_umcg_wait' [-Wmissing-prototypes]
+   COND_SYSCALL(umcg_wait);
+   ^
+   arch/arm64/include/asm/syscall_wrapper.h:76:25: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                                  ^
+   <scratch space>:51:1: note: expanded from here
+   __arm64_sys_umcg_wait
+   ^
+   kernel/sys_ni.c:278:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/syscall_wrapper.h:76:13: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                      ^
+   kernel/sys_ni.c:283:1: warning: no previous prototype for function '__arm64_sys_fadvise64_64' [-Wmissing-prototypes]
+   COND_SYSCALL(fadvise64_64);
+   ^
+   arch/arm64/include/asm/syscall_wrapper.h:76:25: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                                  ^
+   <scratch space>:52:1: note: expanded from here
+   __arm64_sys_fadvise64_64
+   ^
+   kernel/sys_ni.c:283:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/syscall_wrapper.h:76:13: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                      ^
+   kernel/sys_ni.c:286:1: warning: no previous prototype for function '__arm64_sys_swapon' [-Wmissing-prototypes]
+   COND_SYSCALL(swapon);
+   ^
+   arch/arm64/include/asm/syscall_wrapper.h:76:25: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                                  ^
+   <scratch space>:53:1: note: expanded from here
+   __arm64_sys_swapon
+   ^
+   kernel/sys_ni.c:286:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/syscall_wrapper.h:76:13: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                      ^
+   kernel/sys_ni.c:287:1: warning: no previous prototype for function '__arm64_sys_swapoff' [-Wmissing-prototypes]
+   COND_SYSCALL(swapoff);
+   ^
+   arch/arm64/include/asm/syscall_wrapper.h:76:25: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                                  ^
+   <scratch space>:54:1: note: expanded from here
+   __arm64_sys_swapoff
+   ^
+   kernel/sys_ni.c:287:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/syscall_wrapper.h:76:13: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                      ^
+   kernel/sys_ni.c:288:1: warning: no previous prototype for function '__arm64_sys_mprotect' [-Wmissing-prototypes]
+   COND_SYSCALL(mprotect);
+   ^
+   arch/arm64/include/asm/syscall_wrapper.h:76:25: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                                  ^
+   <scratch space>:55:1: note: expanded from here
+   __arm64_sys_mprotect
+   ^
+   kernel/sys_ni.c:288:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/syscall_wrapper.h:76:13: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                      ^
+   kernel/sys_ni.c:289:1: warning: no previous prototype for function '__arm64_sys_msync' [-Wmissing-prototypes]
+   COND_SYSCALL(msync);
+   ^
+   arch/arm64/include/asm/syscall_wrapper.h:76:25: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                                  ^
+   <scratch space>:56:1: note: expanded from here
+   __arm64_sys_msync
+   ^
+   kernel/sys_ni.c:289:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/syscall_wrapper.h:76:13: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                      ^
+   kernel/sys_ni.c:290:1: warning: no previous prototype for function '__arm64_sys_mlock' [-Wmissing-prototypes]
+   COND_SYSCALL(mlock);
+   ^
+   arch/arm64/include/asm/syscall_wrapper.h:76:25: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                                  ^
+   <scratch space>:57:1: note: expanded from here
+   __arm64_sys_mlock
+   ^
+   kernel/sys_ni.c:290:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   arch/arm64/include/asm/syscall_wrapper.h:76:13: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                      ^
+   kernel/sys_ni.c:291:1: warning: no previous prototype for function '__arm64_sys_munlock' [-Wmissing-prototypes]
+   COND_SYSCALL(munlock);
+   ^
+   arch/arm64/include/asm/syscall_wrapper.h:76:25: note: expanded from macro 'COND_SYSCALL'
+           asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
+                                  ^
+   <scratch space>:58:1: note: expanded from here
+   __arm64_sys_munlock
+   ^
+   kernel/sys_ni.c:291:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
 
-Also a good idea, someone who cares about this should really put
-pinned pages into the cgroup machinery (with correct accounting!)
 
-> At the same time, eventually work on proper alternatives with mmu
-> notifiers (and possibly without the any such limits) where possible
-> and required.
+vim +/__arm64_sys_umcg_ctl +277 kernel/sys_ni.c
 
-mmu_notifiers is also bad, it just offends a different group of MM
-concerns :)
+   275	
+   276	/* kernel/sched/umcg.c */
+ > 277	COND_SYSCALL(umcg_ctl);
+ > 278	COND_SYSCALL(umcg_wait);
+   279	
 
-Something like io_ring is registering a bulk amount of memory and then
-doing some potentially long operations against it.
-
-So to use a mmu_notifier scheme you'd have to block the mmu_notifier
-invalidate_range_start until all the operations touching the memory
-finish (and suspend new operations at the same time!).
-
-Blocking the notifier like this locks up the migration/etc threads
-completely, and is destructive to the OOM reclaim.
-
-At least with a pinned page those threads don't even try to touch it
-instead of getting stuck up.
-
-> Don't get me wrong, I really should be working on other stuff, so I have
-> limited brain capacity and time :) OTOH I'm willing to help at least
-> discuss alternatives.
-
-Haha, me too..
-
-Jason
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
