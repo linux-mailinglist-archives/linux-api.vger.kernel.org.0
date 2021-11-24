@@ -2,233 +2,133 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C8F945B434
-	for <lists+linux-api@lfdr.de>; Wed, 24 Nov 2021 07:10:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44CDF45B6FF
+	for <lists+linux-api@lfdr.de>; Wed, 24 Nov 2021 09:57:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233647AbhKXGNm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 24 Nov 2021 01:13:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50584 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229825AbhKXGNm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Nov 2021 01:13:42 -0500
-Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62993C061574;
-        Tue, 23 Nov 2021 22:10:33 -0800 (PST)
-Received: by mail-il1-x135.google.com with SMTP id k1so1425352ilo.7;
-        Tue, 23 Nov 2021 22:10:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=mpaq/sbQwlhNhkvf2MHPSr/3GWUoeeBjSlnS29gm85I=;
-        b=Slo8QFI/AvSbg8d04rSBmxsiWDfhI3z2cIMHBAWUg/ogyROniT1vPZDQU+590QiTW9
-         qJHfhJ66pHUndB/QI4FN/S7beF6bjQew3tK+9NM2nn/KLL6sNcRhBYsv4sH9/TO/QhJX
-         7FNe4aX603+PiXvbeGk9mie9XtLzHLd5srFO4cg8LgTukk04zqc7VyvvUzqc4VghcTjA
-         Ca1bQcVUZ99KHDq6Gc02VF+9dqI1f00GmsN+msGIFMx+vHj6euu9014fFHbCEnY29tXQ
-         U+Ts5byeREBz3vKH+bCaLvs1+l4hdtYxJUY7sJODWOFUwITGGgeOujG3wum9NUpbOBHO
-         DwMA==
+        id S236204AbhKXJAs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 24 Nov 2021 04:00:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34561 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235991AbhKXJAp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Nov 2021 04:00:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1637744256;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=TVGzFQPQlGn5U1mE3m4XSY5JB0lBn/n06rnEA04Gx5Y=;
+        b=gp3NpgcF9BX569zdb3LR4wq6oIr8J6zj1IbfgRYKumbiprx0rFbld7PpvQ+Dq2/SxE1gm4
+        bixEsHX8cRD1B5g7QWpxxYdiEvmdI9nAoLqTm5mZjEp99zMvZI0cLbiiSZSIzOtza4a8v/
+        Tnse7MSPsVl5y1V4iJH0oAP2j2c1mlY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-203-z9op4qGpNyCUwYJm7jPZpg-1; Wed, 24 Nov 2021 03:57:34 -0500
+X-MC-Unique: z9op4qGpNyCUwYJm7jPZpg-1
+Received: by mail-wm1-f69.google.com with SMTP id 144-20020a1c0496000000b003305ac0e03aso2631518wme.8
+        for <linux-api@vger.kernel.org>; Wed, 24 Nov 2021 00:57:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=mpaq/sbQwlhNhkvf2MHPSr/3GWUoeeBjSlnS29gm85I=;
-        b=g2sLST/rlLi10u+LlT89p2/TTkJ0L/k+rsVQjYwsdyjeXni7x7oVJcNXb30jiNPaLl
-         DWNZdI9Mbh9I5jIYN/dUv2zS866F42xIgSTOFcAchlyenHeDcCfM7WMb4UMyoIdPv7EW
-         XlsFGrwfA1UnmnF5gtcEVUIMl8qJiABxlwOulQ+LWH3+oajnwuO2uPPUCeJ4CDSjeWAZ
-         a7hX84Whzmij0k0wynwqXDJ735ANKBpNO9esha/FntNNOsG4BP9GCQXJOYNFYBse/zUj
-         KiW5A84PhP3O20rRGB8WJy+F7mymC317mQWmZdz5lsEknxOHrn5exm5BPvtdFoacynPg
-         6mcg==
-X-Gm-Message-State: AOAM531NW/DKQQrXtCIs79bAxh0KARkqYcMufpdG+bTG5Nfr4ZFPFZFp
-        6Nzu7BFc4r9+jwRi8Kj5UQZn2087jFcoucSxifXn4pEeHuvo8f2M+So=
-X-Google-Smtp-Source: ABdhPJz47YZiSwEk1vmyTxhrUOX2ZRfJSvcphYE/Bk5RSBxbhD0idqhm7X5BkAc7Xs9BrsIhdQarc14/6iDjjyuqklg=
-X-Received: by 2002:a05:6e02:1e02:: with SMTP id g2mr10649428ila.290.1637734232771;
- Tue, 23 Nov 2021 22:10:32 -0800 (PST)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=TVGzFQPQlGn5U1mE3m4XSY5JB0lBn/n06rnEA04Gx5Y=;
+        b=qmgpIOJfb3xb067f/ObO0QI+d8tPRoPg6dwhYSHbzpm5qPxceGDyjQm7FBp8AdWjpS
+         eKeFoGrhIjL/xYaUx1pGmK0hqS4Z8BUlYduh7Uce4sfY70GHpbm6lPebpa0irzLodNRi
+         TP/4fOY2tYvlQ6LOFoIUeB8MQfltwI+ZbngguBFtoDe4KUEiAvWoFIUDUxdPkJGMV2Iw
+         t7dYIyA8ZTpsf5jowi/OCdBNCxKCvt8NVdb9/UEhxP2QGk8jwjBON80zQ0XpPS4zGnUr
+         f3sRqSGwWiP86jtrijU7FjRJBPJZGQMJzngAFB5/D0qMcJk/O9KSzXIE4t7TYKDWJAUo
+         Khkg==
+X-Gm-Message-State: AOAM530+FNa0GxfOj9+6tspBxDDojjWiBJ9reD3tYFiXpSjOpoeA2GjW
+        11+phTUe5Nu4Oj0F4qYsw7xcADT2gV11V/lO6rn22DJtL6QPQvcksmbJzgspH4pRJlOxd7FZZBi
+        wv0MF434DgX3j3FXC62US
+X-Received: by 2002:adf:ea0a:: with SMTP id q10mr16624872wrm.1.1637744253639;
+        Wed, 24 Nov 2021 00:57:33 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzyi+zQkpv4TT2GNLv4kRZkNnRXzh1SkmiJ1oViYiQs5PhmxYxCZmXd1XJr0v4EH3FZy65rjw==
+X-Received: by 2002:adf:ea0a:: with SMTP id q10mr16624845wrm.1.1637744253433;
+        Wed, 24 Nov 2021 00:57:33 -0800 (PST)
+Received: from [192.168.3.132] (p5b0c6380.dip0.t-ipconnect.de. [91.12.99.128])
+        by smtp.gmail.com with ESMTPSA id u15sm4422950wmq.13.2021.11.24.00.57.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Nov 2021 00:57:32 -0800 (PST)
+Message-ID: <2adca04f-92e1-5f99-6094-5fac66a22a77@redhat.com>
+Date:   Wed, 24 Nov 2021 09:57:32 +0100
 MIME-Version: 1.0
-References: <20211021055408.4006408-1-alistair.francis@opensource.wdc.com> <1e24268a-fd6a-10cd-cb1d-c479bb2f930f@collabora.com>
-In-Reply-To: <1e24268a-fd6a-10cd-cb1d-c479bb2f930f@collabora.com>
-From:   Alistair Francis <alistair23@gmail.com>
-Date:   Wed, 24 Nov 2021 16:10:06 +1000
-Message-ID: <CAKmqyKP644V16Q-XKWKLudAVueQxYyZvwGrbe9XP9573p_cDoA@mail.gmail.com>
-Subject: Re: [PATCH v2] uapi: futex: Add a futex syscall
-To:     =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@collabora.com>
-Cc:     Alistair Francis <alistair.francis@opensource.wdc.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Alistair Francis <alistair.francis@wdc.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Ingo Molnar <mingo@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] Increase default MLOCK_LIMIT to 8 MiB
+Content-Language: en-US
+To:     Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@suse.cz>
+Cc:     Jens Axboe <axboe@kernel.dk>,
+        Andrew Dona-Couch <andrew@donacou.ch>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Drew DeVault <sir@cmpwn.com>,
+        Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        io_uring Mailing List <io-uring@vger.kernel.org>,
+        Pavel Begunkov <asml.silence@gmail.com>, linux-mm@kvack.org
+References: <8f219a64-a39f-45f0-a7ad-708a33888a3b@www.fastmail.com>
+ <333cb52b-5b02-648e-af7a-090e23261801@redhat.com>
+ <ca96bb88-295c-ccad-ed2f-abc585cb4904@kernel.dk>
+ <5f998bb7-7b5d-9253-2337-b1d9ea59c796@redhat.com>
+ <20211123132523.GA5112@ziepe.ca>
+ <10ccf01b-f13a-d626-beba-cbee70770cf1@redhat.com>
+ <20211123140709.GB5112@ziepe.ca>
+ <e4d7d211-5d62-df89-8f94-e49385286f1f@redhat.com>
+ <20211123170056.GC5112@ziepe.ca>
+ <dd92a69a-6d09-93a1-4f50-5020f5cc59d0@suse.cz>
+ <20211123235953.GF5112@ziepe.ca>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20211123235953.GF5112@ziepe.ca>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Oct 26, 2021 at 2:34 AM Andr=C3=A9 Almeida <andrealmeid@collabora.c=
-om> wrote:
->
-> Hi Alistair,
->
-> =C3=80s 02:54 de 21/10/21, Alistair Francis escreveu:
-> > From: Alistair Francis <alistair.francis@wdc.com>
-> >
-> > This commit adds two futex syscall wrappers that are exposed to
-> > userspace.
-> >
-> > Neither the kernel or glibc currently expose a futex wrapper, so
-> > userspace is left performing raw syscalls. This has mostly been becuase
->
->                                                                   because
->
-> > the overloading of one of the arguments makes it impossible to provide =
-a
-> > single type safe function.
-> >
-> > Until recently the single syscall has worked fine. With the introductio=
-n
-> > of a 64-bit time_t futex call on 32-bit architectures, this has become
-> > more complex. The logic of handling the two possible futex syscalls is
-> > complex and often implemented incorrectly.
-> >
-> > This patch adds two futux syscall functions that correctly handle the
-> > time_t complexity for userspace.
-> >
-> > This idea is based on previous discussions: https://lkml.org/lkml/2021/=
-9/21/143
->
-> I would use lore
-> https://lore.kernel.org/lkml/CAK8P3a3x_EyCiPDpMK54y=3DRtm-Wb08ym2TNiuAZgX=
-hYrThcWTw@mail.gmail.com/
->
-> >
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
->
-> Thanks for working on that :)
->
-> > ---
-> >  include/uapi/linux/futex_syscall.h | 81 ++++++++++++++++++++++++++++++
-> >  1 file changed, 81 insertions(+)
-> >  create mode 100644 include/uapi/linux/futex_syscall.h
-> >
-> > diff --git a/include/uapi/linux/futex_syscall.h b/include/uapi/linux/fu=
-tex_syscall.h
-> > new file mode 100644
-> > index 0000000000000..f84a0c68baf78
-> > --- /dev/null
-> > +++ b/include/uapi/linux/futex_syscall.h
-> > @@ -0,0 +1,81 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> > +#ifndef _UAPI_LINUX_FUTEX_SYSCALL_H
-> > +#define _UAPI_LINUX_FUTEX_SYSCALL_H
-> > +
-> > +#include <asm/unistd.h>
-> > +#include <errno.h>
-> > +#include <linux/types.h>
-> > +#include <linux/time_types.h>
-> > +#include <sys/syscall.h>
-> > +
-> > +/**
-> > + * futex_syscall_timeout() - __NR_futex/__NR_futex_time64 syscall wrap=
-per
-> > + * @uaddr:  address of first futex
-> > + * @op:   futex op code
-> > + * @val:  typically expected value of uaddr, but varies by op
-> > + * @timeout:  an absolute struct timespec
-> > + * @uaddr2: address of second futex for some ops
-> > + * @val3: varies by op
-> > + */
-> > +static inline int
-> > +__kernel_futex_syscall_timeout(volatile u_int32_t *uaddr, int op, u_in=
-t32_t val,
-> > +                   struct timespec *timeout, volatile u_int32_t *uaddr=
-2, int val3)
->
-> I tried to write an example[0] that uses this header, but I can't
-> compile given that u_int32_t isn't defined. Maybe change to uint32_t and
-> include <stdint.h>?
->
-> Also, I got some invalid use of undefined type 'struct timespec', and
-> #include <time.h> solved.
->
-> [0] https://paste.debian.net/1216834/
->
-> > +{
-> > +#if defined(__NR_futex_time64)
-> > +     if (sizeof(*timeout) !=3D sizeof(struct __kernel_old_timespec)) {
-> > +             int ret =3D  syscall(__NR_futex_time64, uaddr, op, val, t=
-imeout, uaddr2, val3);
-> > +
-> > +             if (ret =3D=3D 0 || errno !=3D ENOSYS)
-> > +                     return ret;
-> > +     }
-> > +#endif
-> > +
-> > +#if defined(__NR_futex)
-> > +     if (sizeof(*timeout) =3D=3D sizeof(struct __kernel_old_timespec))
-> > +             return syscall(__NR_futex, uaddr, op, val, timeout, uaddr=
-2, val3);
-> > +
-> > +     if (timeout && timeout->tv_sec =3D=3D (long)timeout->tv_sec) {
-> > +             struct __kernel_old_timespec ts32;
-> > +
-> > +             ts32.tv_sec =3D (__kernel_long_t) timeout->tv_sec;> +    =
-         ts32.tv_nsec =3D (__kernel_long_t) timeout->tv_nsec;
-> > +
-> > +             return syscall(__NR_futex, uaddr, op, val, &ts32, uaddr2,=
- val3);
-> > +     } else if (!timeout) {
-> > +             return syscall(__NR_futex, uaddr, op, val, NULL, uaddr2, =
-val3);
-> > +     }
-> > +#endif
->
-> If I read this part right, you will always use ts32 for __NR_futex. I
-> know that it can be misleading, but __NR_futex uses ts64 in 64-bit
-> archs, so they shouldn't be converted to ts32 in those cases.
->
-> Just to make it clear, there's no __NR_futex_time64 at 64-bit archs.
->
-> > +
-> > +     errno =3D ENOSYS;
-> > +     return -1;
-> > +}
-> > +
-> > +/**
-> > + * futex_syscall_nr_requeue() - __NR_futex/__NR_futex_time64 syscall w=
-rapper
-> > + * @uaddr:  address of first futex
-> > + * @op:   futex op code
-> > + * @val:  typically expected value of uaddr, but varies by op
-> > + * @nr_requeue:  an op specific meaning
-> > + * @uaddr2: address of second futex for some ops
-> > + * @val3: varies by op
-> > + */
-> > +static inline int
-> > +__kernel_futex_syscall_nr_requeue(volatile u_int32_t *uaddr, int op, u=
-_int32_t val,
-> > +                      u_int32_t nr_requeue, volatile u_int32_t *uaddr2=
-, int val3)
->
-> I would always assume that op is FUTEX_CMP_REQUEUE, given that
-> FUTEX_REQUEUE is racy. From `man futex`:
+On 24.11.21 00:59, Jason Gunthorpe wrote:
+> On Tue, Nov 23, 2021 at 11:04:04PM +0100, Vlastimil Babka wrote:
+>> On 11/23/21 18:00, Jason Gunthorpe wrote:
+>>>
+>>>> believe what you say and I trust your experience :) So could as well be
+>>>> that on such a "special" (or not so special) systems there should be a
+>>>> way to restrict it to privileged users only.
+>>>
+>>> At this point RDMA is about as "special" as people running large
+>>> ZONE_MOVABLE systems, and the two are going to start colliding
+>>> heavily. The RDMA VFIO migration driver should be merged soon which
+>>> makes VMs using this stuff finally practical.
+>>
+>> How does that work, I see the word migration, so does it cause pages to
+> 
+> Sorry I mean what is often called "VM live migration". Typically that
+> cannot be done if a PCI device is assigned to the VM as suspending and
+> the migrating a PCI device to another server is complicated. With
+> forthcoming hardware mlx5 can do this and thus the entire RDMA stack
+> becomes practically usable and performant within a VM.
+> 
+>> be migrated out of ZONE_MOVABLE before they are pinned?
+> 
+> GUP already does this automatically for FOLL_LONGTERM.
+> 
+>> Similarly for io-uring we could be migrating pages to be pinned so that
+>> the end up consolidated close together, and prevent pathologic
+>> situations like in David's reproducer. 
+> 
+> It is an interesting idea to have GUP do some kind of THP preserving
+> migration.
 
-There are other ops that this could be though. From just the kernel
-futex self tests it could be FUTEX_WAKE_OP, FUTEX_WAIT_REQUEUE_PI or
-FUTEX_CMP_REQUEUE_PI
 
-Alistair
+Unfortunately it will only be a band aid AFAIU. I can rewrite my
+reproducer fairly easily to pin the whole 2M range first, pin a second
+time only a single page, and then unpin the 2M range, resulting in the
+very same way to block THP. (I can block some THP less because I always
+need the possibility to memlock 2M first, though).
 
->
-> The  FUTEX_CMP_REQUEUE operation was added as a replacement for the
-> earlier FUTEX_REQUEUE.  The difference is that the check of the value at
-> uaddr can be used to ensure that requeueing happens only under certain
-> conditions, which allows race conditions to be avoided in certain use cas=
-es.
->
-> And then we can drop `int op` from the args and give defined
-> descriptions for the args.
->
+-- 
+Thanks,
+
+David / dhildenb
+
