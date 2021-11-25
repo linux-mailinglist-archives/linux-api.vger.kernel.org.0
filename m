@@ -2,144 +2,126 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75F6245D0E1
-	for <lists+linux-api@lfdr.de>; Thu, 25 Nov 2021 00:11:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ABB5145D863
+	for <lists+linux-api@lfdr.de>; Thu, 25 Nov 2021 11:44:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344016AbhKXXOq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 24 Nov 2021 18:14:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55628 "EHLO
+        id S1354715AbhKYKrl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 25 Nov 2021 05:47:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343883AbhKXXOp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Nov 2021 18:14:45 -0500
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A082C06173E
-        for <linux-api@vger.kernel.org>; Wed, 24 Nov 2021 15:11:35 -0800 (PST)
-Received: by mail-qv1-xf30.google.com with SMTP id u16so2804344qvk.4
-        for <linux-api@vger.kernel.org>; Wed, 24 Nov 2021 15:11:35 -0800 (PST)
+        with ESMTP id S1354362AbhKYKpk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 25 Nov 2021 05:45:40 -0500
+Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 669CEC061759
+        for <linux-api@vger.kernel.org>; Thu, 25 Nov 2021 02:42:02 -0800 (PST)
+Received: by mail-il1-x143.google.com with SMTP id h16so4569081ila.4
+        for <linux-api@vger.kernel.org>; Thu, 25 Nov 2021 02:42:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=j4DAkTLRTUTn6M8l4sKe/Kwq0t663JKEGap3Rg8k/6A=;
-        b=B31+pIz/iV9fCE8l7Mvr9RRg9S4GUC7soBlMgxNXXxYvURePVUwIyJnxpLiDKb+oSb
-         lxlp+J2bLfG9s1gnIxtjhMUCf6Z0GNSTICrpKZtYBPyqKr1C3Fdal6kb3iwUpamRHoXz
-         GHdq2YmqycyjDdWUZ3sgUCUF3z61+VhXkTVkgAnSAgH++MCGjQmFosRbOO0chlfKkNH8
-         fOMrZeKC/XlkO+GqjornkApRcW0V06/KYahFW7EXF8FlPGhtYBvFK1DWUzB13Zb4GnZ0
-         3cvkhAbivwMRA64jWd1z0AsMlmzGUlP8vg/iH+Epq+3Mfx06gIbCZDEQ09cPjjvpKWOb
-         dhkA==
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=eibhgHyEnDty6prD7kw2qZTGk1uH223Sz/QXKL+fHLw=;
+        b=m0XmF1A+mw0vuU+wK+Ozngp2PLx3V1dDBzYNun6NvJS65pF3hW6Sw8IeAYhDZsaa0b
+         ogl/P3M3dT9bQKKmN74R3+slhbIStx2NTacU8JL8/Vz3ZXWem7Vw9p1idqjrneEyeW42
+         2NmZNMzln9RVLF4W8D9/UwRlGXnW67sQjj8pWaQ3PGAfLBHP3eUaBiU3wuqPgAngFLdh
+         hSa0lUyvDQrUpIZbrXk5HwVrUVMoxm+NggihByMxIxrcY6JnB3xXCbusjaqYBfzGUB88
+         RG7K8wAjYxsXfQQLK5PVfhjbfpyfAD1zKMoleExkxKMpU8lVjavwTQrev9f7oTObGbMa
+         kLyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=j4DAkTLRTUTn6M8l4sKe/Kwq0t663JKEGap3Rg8k/6A=;
-        b=6EfhYYc2miXRUBdyBgkFP7gTccAmHZN2HAuNplWH2gzpR1LH1iN6JB54AInQIIDMuY
-         rhCkfDsbIdbypBOeWsEaZOc2nEueB8EakRxZgCHM+9VXr6N4oN0Jr4EkMl0L+QEoI8o9
-         VF1ENHZ9uP57kovw5T8Sh2sbT1fUgkdKOrZtJyU9DfUy3it05li0fl74GtVXjw27cKrd
-         OkyfKCvMeImm694B9rcNUQydONSvV9LaF5pqT4/gmTA4CWECtjcPj9lH2rqnc6LOwxYK
-         De43/M6b/YPXTpi672IAapQg1cWFrsU+EfaEPIOsjVdsIhekXizO1b2p3TOUl22z4dF2
-         3oAw==
-X-Gm-Message-State: AOAM530ehbC3ZEZWLkpWVcJaavUg8ZcvvIlHS6g3M6Pa4xTG6S4GdOan
-        ekBsAINk75stffU9WbVFgVfx9w==
-X-Google-Smtp-Source: ABdhPJyJEaleOzcdEx/cNWyWjJvi7icetXaIFP/UFdi2V0cpZc8qe2bqd+h8H9Mz/Yok6T+eDloKYQ==
-X-Received: by 2002:a0c:8031:: with SMTP id 46mr99661qva.126.1637795494565;
-        Wed, 24 Nov 2021 15:11:34 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
-        by smtp.gmail.com with ESMTPSA id h2sm606488qkn.136.2021.11.24.15.11.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Nov 2021 15:11:33 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1mq1QL-001RrF-AF; Wed, 24 Nov 2021 19:11:33 -0400
-Date:   Wed, 24 Nov 2021 19:11:33 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Vlastimil Babka <vbabka@suse.cz>, Jens Axboe <axboe@kernel.dk>,
-        Andrew Dona-Couch <andrew@donacou.ch>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Drew DeVault <sir@cmpwn.com>,
-        Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        io_uring Mailing List <io-uring@vger.kernel.org>,
-        Pavel Begunkov <asml.silence@gmail.com>, linux-mm@kvack.org
-Subject: Re: [PATCH] Increase default MLOCK_LIMIT to 8 MiB
-Message-ID: <20211124231133.GM5112@ziepe.ca>
-References: <20211124132353.GG5112@ziepe.ca>
- <cca0229e-e53e-bceb-e215-327b6401f256@redhat.com>
- <20211124132842.GH5112@ziepe.ca>
- <eab5aeba-e064-9f3e-fbc3-f73cd299de83@redhat.com>
- <20211124134812.GI5112@ziepe.ca>
- <2cdbebb9-4c57-7839-71ab-166cae168c74@redhat.com>
- <20211124153405.GJ5112@ziepe.ca>
- <63294e63-cf82-1f59-5ea8-e996662e6393@redhat.com>
- <20211124183544.GL5112@ziepe.ca>
- <cc9d3f3e-2fe1-0df0-06b2-c54e020161da@redhat.com>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=eibhgHyEnDty6prD7kw2qZTGk1uH223Sz/QXKL+fHLw=;
+        b=dk3MH0G5wY5ZC6acxeDo/tSw/j/QOZ+rNDjqmbSGBcOt49T20PtxJJliztbKauwzAB
+         V1b9CUnHJxBa5AKXmcxdir3u/noyHmGik2NrZoy6kGUXLWfySNB7WVRMx8hY1hH+YM7F
+         gQwJ1rcsvKRaYbkfG0ahk8YEt0MDb6bp2e/Y96jFB51Y5djZbQQk/N2oyuxdtJ7+Dsad
+         88Mq7TE3iL9/LRyhQcSXpTma+Zn3dy2FRZkhJ8gLwrBDwunQegE7g0xmLXAuwWYdocpn
+         fYgsR5pwzjcs/yWnu+u2ecggpCL4fgClpx6GSWruib6E3hFnBLmBw/XZ8sUoKmG8d1BS
+         5DXw==
+X-Gm-Message-State: AOAM531WZQ0cKhfCMVLZTeHdL6MIgcHP3P+YWsEhGplar1DZTQ1Zm48g
+        JBlp3fD5bFH4Xu49qEZI46UI8IKbeG0H+eYnIc4=
+X-Google-Smtp-Source: ABdhPJwLxC4WQHU6CvVdAdGAoTvusXfYSB5fE7bFJhzXxhKlE00/4Pf5BaXQ8jfmXAj40kS0a1OLWoucouDVPdBvOFM=
+X-Received: by 2002:a92:da91:: with SMTP id u17mr12593476iln.69.1637836921774;
+ Thu, 25 Nov 2021 02:42:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cc9d3f3e-2fe1-0df0-06b2-c54e020161da@redhat.com>
+Received: by 2002:a05:6602:2f03:0:0:0:0 with HTTP; Thu, 25 Nov 2021 02:42:01
+ -0800 (PST)
+Reply-To: msbelinaya892@gmail.com
+From:   msbelinaya <raymondmicheal919@gmail.com>
+Date:   Thu, 25 Nov 2021 10:42:01 +0000
+Message-ID: <CAM6ZuAMtaXV3DvrjWxhA_0KY9EypW1XjSUT=X6FXm6vm3j-yEA@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Nov 24, 2021 at 08:09:42PM +0100, David Hildenbrand wrote:
+Ich biete meine Freundschaft an und glaube, dass Sie mich mit gutem
+Herzen akzeptieren werden. Ich wurde gedr=C3=A4ngt, Sie zu kontaktieren und
+zu sehen, wie wir einander am besten unterst=C3=BCtzen k=C3=B6nnen. Ich bin=
+ Frau
+Kodjovi Hegbor aus der T=C3=BCrkei und arbeite als Divisionsleiterin f=C3=
+=BCr
+Operationen bei der StandardBNP bank limited Turkey . Ich glaube, es
+ist der Wille Gottes, dass ich Ihnen jetzt begegnen werde. Ich habe
+ein wichtiges gesch=C3=A4ftliches Gespr=C3=A4ch, das ich mit Ihnen teilen
+m=C3=B6chte, von dem ich glaube, dass es Sie interessiert, da es mit Ihrem
+Nachnamen in Verbindung steht und Sie davon profitieren werden.
 
-> That would be giving up on compound pages (hugetlbfs, THP, ...) on any
-> current Linux system that does not use ZONE_MOVABLE -- which is not
-> something I am not willing to buy into, just like our customers ;)
+ Im Jahr 2006 hat ein B=C3=BCrger Ihres Landes ein Nicht-Residentenkonto
+f=C3=BCr 36 Monate des Kalenders im Wert von =C2=A38.400.000,00 bei meiner =
+Bank
+eingerichtet. Das Ablaufdatum f=C3=BCr diesen Einlagenvertrag war der 16.
+Januar 2009. Leider starb er w=C3=A4hrend einer Gesch=C3=A4ftsreise bei ein=
+em
+t=C3=B6dlichen Erdbeben am 12. Mai 2008 in Sichuan, China, bei dem
+mindestens 68.000 Menschen ums Leben kamen.
 
-So we have ZONE_MOVABLE but users won't use it?
+Das Management meiner Bank hat noch nichts von seinem Tod erfahren,
+ich wusste davon, weil er mein Freund war und ich sein Kontof=C3=BChrer
+war, als das Konto vor meiner Bef=C3=B6rderung er=C3=B6ffnet wurde. Jedoch =
+Herr
+ erw=C3=A4hnte bei der Kontoer=C3=B6ffnung keine n=C3=A4chsten Verwandten/E=
+rben, und
+er war nicht verheiratet und hatte keine Kinder. Letzte Woche hat
+meine Bankdirektion mich gebeten, Anweisungen zu geben, was mit seinen
+Geldern zu tun ist, wenn der Vertrag verl=C3=A4ngert werden soll.
 
-Then why is the solution to push the same kinds of restrictions as
-ZONE_MOVABLE on to ZONE_NORMAL?
- 
-> See my other mail, the upstream version of my reproducer essentially
-> shows what FOLL_LONGTERM is currently doing wrong with pageblocks. And
-> at least to me that's an interesting insight :)
+Ich wei=C3=9F, dass dies passieren wird, und deshalb habe ich nach einem
+Mittel gesucht, um mit der Situation umzugehen, denn wenn meine
+Bankdirektoren wissen, dass sie tot sind und keinen Erben haben,
+werden sie das Geld f=C3=BCr ihren pers=C3=B6nlichen Gebrauch nehmen, also =
+Ich
+m=C3=B6chte nicht, dass so etwas passiert. Das war, als ich Ihren Nachnamen
+sah, ich war gl=C3=BCcklich und suche jetzt Ihre Mitarbeit, um Sie als Next
+of Kin/Erbe des Kontos zu pr=C3=A4sentieren, da Sie den gleichen Nachnamen
+wie er haben und meine Bankzentrale das Konto freigeben wird f=C3=BCr dich.
+Es besteht kein Risiko; die Transaktion wird im Rahmen einer legitimen
+Vereinbarung ausgef=C3=BChrt, die Sie vor Rechtsverletzungen sch=C3=BCtzt.
 
-Hmm. To your reproducer it would be nice if we could cgroup control
-the # of page blocks a cgroup has pinned. Focusing on # pages pinned
-is clearly the wrong metric, I suggested the whole compound earlier,
-but your point about the entire page block being ruined makes sense
-too.
+Es ist besser, dass wir das Geld beanspruchen, als es den
+Bankdirektoren zu erlauben, es zu nehmen, sie sind bereits reich. Ich
+bin kein gieriger Mensch, daher schlage ich vor, dass wir das Geld zu
+gleichen Teilen teilen, 50/50% auf beide Parteien. Mein Anteil wird
+mir helfen, mein eigenes Unternehmen zu gr=C3=BCnden und den Erl=C3=B6s f=
+=C3=BCr
+wohlt=C3=A4tige Zwecke zu verwenden, was mein Traum war.
 
-It means pinned pages will have be migrated to already ruined page
-blocks the cgroup owns, which is a more controlled version of the
-FOLL_LONGTERM migration you have been thinking about.
-
-This would effectively limit the fragmentation a hostile process group
-can create. If we further treated unmovable cgroup charged kernel
-allocations as 'pinned' and routed them to the pinned page blocks it
-start to look really interesting. Kill the cgroup, get all your THPs
-back? Fragmentation cannot extend past the cgroup?
-
-ie there are lots of batch workloads that could be interesting there -
-wrap the batch in a cgroup, run it, then kill everything and since the
-cgroup gives some lifetime clustering to the allocator you get a lot
-less fragmentation when the batch is finished, so the next batch gets
-more THPs, etc.
-
-There is also sort of an interesting optimization opportunity - many
-FOLL_LONGTERM users would be happy to spend more time pinning to get
-nice contiguous memory ranges. Might help convince people that the
-extra pin time for migrations is worthwhile.
-
-> > Something like io_ring is registering a bulk amount of memory and then
-> > doing some potentially long operations against it.
-> 
-> The individual operations it performs are comparable to O_DIRECT I think
-
-Yes, and O_DIRECT can take 10s's of seconds in troubled cases with IO
-timeouts and things.
-
-Plus io_uring is worse as the buffer is potentially shared by many in
-fight ops and you'd have to block new ops of the buffer and flush all
-running ops before any mapping change can happen, all while holding up
-a mmu notifier.
-
-Not only is it bad for mm subsystem operations, but would
-significantly harm io_uring performance if a migration hits.
-
-So, I really don't like abusing mmu notifiers for stuff like this. I
-didn't like it in virtio either :)
-
-Jason
+Teilen Sie mir Ihre Meinung zu meinem Vorschlag mit, bitte ich brauche
+wirklich Ihre Hilfe bei dieser Transaktion. Ich habe Sie ausgew=C3=A4hlt,
+um mir zu helfen, nicht durch mein eigenes Tun, meine Liebe, sondern
+durch Gott wollte ich, dass Sie wissen, dass ich mir Zeit zum Beten
+genommen habe =C3=BCber diese Mitteilung, bevor ich Sie jemals kontaktiert
+habe, teilen Sie mir Ihre Meinung dazu mit und behandeln Sie diese
+Informationen bitte als STRENG GEHEIM. Nach Erhalt Ihrer Antwort,
+ausschlie=C3=9Flich =C3=BCber meine pers=C3=B6nliche E-Mail-Adresse,
+msbelinaya892@gmail.com
+gibt Ihnen Details zur Transaktion. Und eine Kopie der
+Einlagenbescheinigung des Fonds sowie die Gr=C3=BCndungsurkunde der
+Gesellschaft, die den Fonds erstellt hat.
+Gott segne, in Erwartung Ihrer dringenden Antwort
+Mit freundlichen Gr=C3=BC=C3=9Fen
+Frau Kodjovi Hegbor
+msbelinaya892@gmail.com
