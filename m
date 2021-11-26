@@ -2,78 +2,71 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83E7D45F62C
-	for <lists+linux-api@lfdr.de>; Fri, 26 Nov 2021 22:13:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C8F645F662
+	for <lists+linux-api@lfdr.de>; Fri, 26 Nov 2021 22:28:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238620AbhKZVQd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 26 Nov 2021 16:16:33 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:33594 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239971AbhKZVOc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 26 Nov 2021 16:14:32 -0500
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1637961078;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=5gCM9kEhWoUkGOuKC2Aj4uPDGmWdwYkbfbhcTqi7DsY=;
-        b=me44102yT0NMUViVyLMC06slnSGgufjN36cbpUgHj6rkyn+3p009+lPwTqrGdqulrdfRA+
-        9h1//zwZq9b1+o+L5w6kVvA3r2r3+3yFg8IcSCNDJEo6AOcegcys7W9UGjGODXxywi/a9z
-        afu31jyItoNBrE0HQg5EfoYyVSFNfu0gRGHsOT8vccyRwPkX6tAfduaKXkvWA6apkMEEc0
-        CsioqYu+xcIA64n2xmjRRvsTJsfQJmLnLxyHQcFE7D7WAUdf8W0kJrQPM7x2ymYsLPU7qo
-        Gr1zuy5UOQtvPDiVFoVsd+LuR48wn+0l5pbnzujo4aAqJNDipDHo9QSSI/u9IA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1637961078;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=5gCM9kEhWoUkGOuKC2Aj4uPDGmWdwYkbfbhcTqi7DsY=;
-        b=RcHGvoHf5TfyyVW+fZX/Y4s635PSzKqB8O4YXbPhwUGL6QkOYegpmZfdJDuExMRuk1KW1Y
-        SV/ifilsxWdczVCw==
-To:     Peter Zijlstra <peterz@infradead.org>,
-        Peter Oskolkov <posk@posk.io>
-Cc:     Ingo Molnar <mingo@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        Paul Turner <pjt@google.com>, Ben Segall <bsegall@google.com>,
-        Peter Oskolkov <posk@google.com>,
-        Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
-        Thierry Delisle <tdelisle@uwaterloo.ca>
-Subject: Re: [PATCH v0.9.1 3/6] sched/umcg: implement UMCG syscalls
-In-Reply-To: <20211124211927.GG721624@worktop.programming.kicks-ass.net>
-References: <20211122211327.5931-1-posk@google.com>
- <20211122211327.5931-4-posk@google.com>
- <20211124211927.GG721624@worktop.programming.kicks-ass.net>
-Date:   Fri, 26 Nov 2021 22:11:17 +0100
-Message-ID: <877dcuhbbe.ffs@tglx>
+        id S243934AbhKZVbw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 26 Nov 2021 16:31:52 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:54162 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237037AbhKZV3u (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 26 Nov 2021 16:29:50 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id ED9E2B82808;
+        Fri, 26 Nov 2021 21:26:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49323C004E1;
+        Fri, 26 Nov 2021 21:26:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637961994;
+        bh=ZQkH4mGansjnXBo02i2YweNtoWlzieOlKca4U14fVNk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=MwZ09k7IgJ6L2Lry0RXCndm8k0dD6y7AcsBY05RhNtRYhjUGL/iVDIMHvcf+qg7vl
+         eebwDiEmjkUa7aqnsx3152FtIf9tsV4mzSntiu7gKamW5vT/5L5LpbtRUeBWFbFHxm
+         cTOPWnN73B7n9GcM3Pe6nb11OjihRuDAqCEYnURWPL5BesfGaKXCGoFcObQM0hBPFp
+         7mb8mzVLlJoQclX333NCTBIDFDm1ejKBufqvSanqYlgsQYUNnd4QWMJ8616dJ7jKPm
+         POHoPh4zIMmeYbdfFK9MzxLr73XReYGOb0nqR07wAsWSmVwSRhQyI2rb8c21Y2/dVt
+         n4ohlXIMwa9aQ==
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     linux-block@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-mmc@vger.kernel.org
+Subject: [PATCH 0/3] block: show crypto capabilities in sysfs
+Date:   Fri, 26 Nov 2021 13:25:11 -0800
+Message-Id: <20211126212514.173334-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Nov 24 2021 at 22:19, Peter Zijlstra wrote:
-> On Mon, Nov 22, 2021 at 01:13:24PM -0800, Peter Oskolkov wrote:
->
->> +	 * Timestamp: a 46-bit CLOCK_MONOTONIC timestamp, at 16ns resolution.
->
->> +static int umcg_update_state(u64 __user *state_ts, u64 *expected, u64 desired,
->> +				bool may_fault)
->> +{
->> +	u64 curr_ts = (*expected) >> (64 - UMCG_STATE_TIMESTAMP_BITS);
->> +	u64 next_ts = ktime_get_ns() >> UMCG_STATE_TIMESTAMP_GRANULARITY;
->
-> I'm still very hesitant to use ktime (fear the HPET); but I suppose it
-> makes sense to use a time base that's accessible to userspace. Was
-> MONOTONIC_RAW considered?
+This series adds sysfs files that expose the inline encryption
+capabilities of request queues.
 
-MONOTONIC_RAW is not really useful as you can't sleep on it and it won't
-solve the HPET crap either.
+Patches 1 and 2 are some related cleanups for existing blk-sysfs code.
+Patch 3 is the real change; see there for more details.
 
-Thanks,
+This applies to linux-block/for-next.
 
-        tglx
+Eric Biggers (3):
+  block: simplify calling convention of elv_unregister_queue()
+  block: don't delete queue kobject before its children
+  blk-crypto: show crypto capabilities in sysfs
+
+ Documentation/block/queue-sysfs.rst |  30 +++++
+ block/Makefile                      |   3 +-
+ block/blk-crypto-internal.h         |  12 ++
+ block/blk-crypto-sysfs.c            | 177 ++++++++++++++++++++++++++++
+ block/blk-crypto.c                  |   3 +
+ block/blk-sysfs.c                   |  17 ++-
+ block/elevator.c                    |   8 +-
+ include/linux/blkdev.h              |   1 +
+ 8 files changed, 241 insertions(+), 10 deletions(-)
+ create mode 100644 block/blk-crypto-sysfs.c
+
+base-commit: 4d162e24e9979dcb3d7825229982c172ca4bde54
+-- 
+2.34.1
 
