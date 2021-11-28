@@ -2,149 +2,226 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A1DA460180
-	for <lists+linux-api@lfdr.de>; Sat, 27 Nov 2021 21:49:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B77EA46040B
+	for <lists+linux-api@lfdr.de>; Sun, 28 Nov 2021 05:47:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356188AbhK0Uwc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 27 Nov 2021 15:52:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34248 "EHLO
+        id S233465AbhK1EvG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 27 Nov 2021 23:51:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356189AbhK0Uuc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 27 Nov 2021 15:50:32 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 957DAC06173E;
-        Sat, 27 Nov 2021 12:47:17 -0800 (PST)
+        with ESMTP id S233754AbhK1EtE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 27 Nov 2021 23:49:04 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FB05C061746;
+        Sat, 27 Nov 2021 20:45:49 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2023F60EBA;
-        Sat, 27 Nov 2021 20:47:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5151AC53FBF;
-        Sat, 27 Nov 2021 20:47:16 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 137BCB80AF9;
+        Sun, 28 Nov 2021 04:45:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2542EC53FCE;
+        Sun, 28 Nov 2021 04:45:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638046036;
-        bh=O4AOA3hg7SG1Jg74rGGBd8CqOtGpbieu02r8pImJFdI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uK4xCSwIbwrQGTBi31USheI5kl20x0nVkVULMI4oObB7oTTQ5V43Ywh2ARwQS6aiM
-         j75zETBU7LNKTwwd936o5Y7WlY0ecXvW15CEjOjFBtadzt++x0uDbjD3ojo2vs+qhL
-         svu60MJeCrMDE2b927nl0xcL8uqKTq3WiRcu9Q3Tdk+JQvS5z/mkJzu1Lr4bjNHbCY
-         fYaqnCWEBDrbRMAwQBCqa9iGulNlebclTWFwIX6RXu5yXh/bHmZ/eYwFY3eXK/sBPK
-         8yc0Okuvs3WkIi6lNezRp+77StTzbT4q31aONLkabHNtAOHhwEYP7YqO4Tc0cI6T+2
-         gp0tq8EmanVyQ==
-Date:   Sat, 27 Nov 2021 12:47:14 -0800
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-mmc@vger.kernel.org
-Subject: Re: [PATCH 3/3] blk-crypto: show crypto capabilities in sysfs
-Message-ID: <YaKZUu0tQc8bblmI@sol.localdomain>
-References: <20211126212514.173334-1-ebiggers@kernel.org>
- <20211126212514.173334-4-ebiggers@kernel.org>
- <YaH1CmHClx5WvDWD@kroah.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YaH1CmHClx5WvDWD@kroah.com>
+        s=k20201202; t=1638074746;
+        bh=ZbpWTxb1aglqpSe8DgXusNYOrzGJ91cJat6TKWD0/NE=;
+        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+        b=NGe39pbvod0+dozPTBXxyZJPAAeNv8x7bgwkG49fg3LrNNdH/mTZ0q+U/huSYLz9s
+         FsudwDjJV8S+AkHZKuQ4jrLb9PLnbMrO+z6p1nFWQ2QfBgK4NorbAfEqdXWRBRIaQT
+         1PRvVPnJa5EIWdqo+w9JYLcYPfTUBwVqBpa9s7KyoXeZIPeFVm/xpl9lZeG+l0jneC
+         4HfY2CSCD4/U6Jrlp0STeIKZWPxNTh9JKfQ00lGZInUs0/XOYjnv8SlYpk0UZSjr8H
+         S3T6WxrRuG1CvqO6Ipjrr1N46VbJiAylX0Pjf7zOeiv1w/RzCr7PbCkICM+zGAapoc
+         IvA5W60dakV9g==
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailauth.nyi.internal (Postfix) with ESMTP id D07C227C0054;
+        Sat, 27 Nov 2021 23:45:44 -0500 (EST)
+Received: from imap48 ([10.202.2.98])
+  by compute6.internal (MEProxy); Sat, 27 Nov 2021 23:45:44 -0500
+X-ME-Sender: <xms:eAmjYQEdZ0-o8ofYtWheoLhWdYUeBi4cq039QwwgyP_-ZAgt1q9dTA>
+    <xme:eAmjYZVb2FWUhFJgsw1zl5aj2GWzwrYDC3rAIsJuI93CIJ7ZAzK3u8n63vqMiSOyC
+    g8_NAQwgMrnVjLF0S4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrheehgdejiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvufgtgfesthhqredtreerjeenucfhrhhomhepfdetnhgu
+    hicunfhuthhomhhirhhskhhifdcuoehluhhtoheskhgvrhhnvghlrdhorhhgqeenucggtf
+    frrghtthgvrhhnpeeugfeufeevkeehvddtfffgkeelhefgkeehveetgeeikeegheeivdff
+    gfejteduhfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuih
+    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghnugihodhmvghsmhhtphgruhht
+    hhhpvghrshhonhgrlhhithihqdduudeiudekheeifedvqddvieefudeiiedtkedqlhhuth
+    hopeepkhgvrhhnvghlrdhorhhgsehlihhnuhigrdhluhhtohdruhhs
+X-ME-Proxy: <xmx:eAmjYaI0I4rs5rHbyRnLI8xGlIJZtM1Jy8NGBM26prCVaHB4S3Nd7Q>
+    <xmx:eAmjYSFhgrh2rmnQ0HRXd68c3SsZGgmCH9KSoaJuslBn4LNrGh7agw>
+    <xmx:eAmjYWXFdhcSg2Wm4m1tOQHwgJuXERTCWl6GtFCd4J3hcfhKsln7pw>
+    <xmx:eAmjYSQM5l3EmkmIFlvUYUtMCRrICQpynBAFeH3pchZosN1KSbpW08jN6Mg>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 2857421E006E; Sat, 27 Nov 2021 23:45:44 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-1371-g2296cc3491-fm-20211109.003-g2296cc34
+Mime-Version: 1.0
+Message-Id: <3b5fb404-7228-48d6-a290-9dd1d6095325@www.fastmail.com>
+In-Reply-To: <878rxaik09.fsf@oldenburg.str.redhat.com>
+References: <87h7bzjaer.fsf@oldenburg.str.redhat.com>
+ <4728eeae-8f1b-4541-b05a-4a0f35a459f7@www.fastmail.com>
+ <87lf1ais27.fsf@oldenburg.str.redhat.com>
+ <9641b76e-9ae0-4c26-97b6-76ecde34f0ef@www.fastmail.com>
+ <878rxaik09.fsf@oldenburg.str.redhat.com>
+Date:   Sat, 27 Nov 2021 20:45:23 -0800
+From:   "Andy Lutomirski" <luto@kernel.org>
+To:     "Florian Weimer" <fweimer@redhat.com>
+Cc:     linux-arch@vger.kernel.org,
+        "Linux API" <linux-api@vger.kernel.org>,
+        linux-x86_64@vger.kernel.org, kernel-hardening@lists.openwall.com,
+        linux-mm@kvack.org, "the arch/x86 maintainers" <x86@kernel.org>,
+        musl@lists.openwall.com,
+        "Dave Hansen via Libc-alpha" <libc-alpha@sourceware.org>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        "Dave Hansen" <dave.hansen@intel.com>,
+        "Kees Cook" <keescook@chromium.org>
+Subject: Re: [PATCH] x86: Implement arch_prctl(ARCH_VSYSCALL_LOCKOUT) to disable
+ vsyscall
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Greg, thanks for the review!
+On Fri, Nov 26, 2021, at 3:18 PM, Florian Weimer wrote:
+> * Andy Lutomirski:
+>
+>> On Fri, Nov 26, 2021, at 12:24 PM, Florian Weimer wrote:
+>>> * Andy Lutomirski:
+>>>
+>>>> On Fri, Nov 26, 2021, at 5:47 AM, Florian Weimer wrote:
+>>>>> Distributions struggle with changing the default for vsyscall
+>>>>> emulation because it is a clear break of userspace ABI, something
+>>>>> that should not happen.
+>>>>>
+>>>>> The legacy vsyscall interface is supposed to be used by libcs only,
+>>>>> not by applications.  This commit adds a new arch_prctl request,
+>>>>> ARCH_VSYSCALL_LOCKOUT.  Newer libcs can adopt this request to sign=
+al
+>>>>> to the kernel that the process does not need vsyscall emulation.
+>>>>> The kernel can then disable it for the remaining lifetime of the
+>>>>> process.  Legacy libcs do not perform this call, so vsyscall remai=
+ns
+>>>>> enabled for them.  This approach should achieves backwards
+>>>>> compatibility (perfect compatibility if the assumption that only l=
+ibcs
+>>>>> use vsyscall is accurate), and it provides full hardening for new
+>>>>> binaries.
+>>>>
+>>>> Why is a lockout needed instead of just a toggle?  By the time an
+>>>> attacker can issue prctls, an emulated vsyscall seems like a pretty
+>>>> minor exploit technique.  And programs that load legacy modules or
+>>>> instrument other programs might need to re-enable them.
+>>>
+>>> For glibc, I plan to add an environment variable to disable the lock=
+out.
+>>> There's no ELF markup that would allow us to do this during dlopen.
+>>> (And after this change, you can run an old distribution in a chroot
+>>> for legacy software, something that the userspace ABI break prevents=
+.)
+>>>
+>>> If it can be disabled, people will definitely say, =E2=80=9Cwe get m=
+ore complete
+>>> hardening if we break old userspace=E2=80=9D.  I want to avoid that.=
+  (People
+>>> will say that anyway because there's this fairly large window of lib=
+cs
+>>> that don't use vsyscalls anymore, but have not been patched yet to do
+>>> the lockout.)
+>>
+>> I=E2=80=99m having trouble following the logic. What I mean is that I=
+ think it
+>> should be possible to do the arch_prctl again to turn vsyscalls back
+>> on.
+>
+> The =E2=80=9CBy the time an attacker can issue prctls=E2=80=9D argumen=
+t does resonate
+> with me, but I'm not the one who needs convincing.
 
-On Sat, Nov 27, 2021 at 10:06:18AM +0100, Greg KH wrote:
-> > diff --git a/Documentation/block/queue-sysfs.rst b/Documentation/block/queue-sysfs.rst
-> > index 3f569d5324857..252939f340459 100644
-> > --- a/Documentation/block/queue-sysfs.rst
-> > +++ b/Documentation/block/queue-sysfs.rst
-> 
-> Why is all of this information not in Documentation/ABI/ like the rest
-> of the kernel's sysfs information?  When it is there it can be
-> automatically tested as well.
-> 
-> Please don't add new entries to the wrong place if at all possible.
+Who else needs convincing?  It's your patch.
 
-Some of the block queue attributes are documented in
-Documentation/ABI/testing/sysfs-block, but Documentation/block/queue-sysfs.rst
-seems to be the authoritative source in practice.  I checked all QUEUE_*_ENTRY
-in block/blk-sysfs.c, and I got:
+This could possibly be much more generic: have a mask of legacy features=
+ to disable and a separate mask of lock bits.
 
-- 16 attributes are documented in both places
-- 23 attributes are documented in Documentation/block/ only
-- 0 attributes are documented in Documentation/ABI/ only
-- 2 attributes ("virt_boundary_mask" and "stable_writes") not documented in
-  either place
+>
+> I can turn this into a toggle, and we could probably default our builds
+> to vsyscalls=3Dxonly.  Given the userspace ABI impact, we'd still have=
+ to
+> upstream the toggle.  Do you see a chance of a patch a long these lines
+> going in at all, given that it's an incomplete solution for
+> vsyscall=3Demulate?
 
-So most block queue attributes are documented only in Documentation/block/.  And
-if I added my new attributes to Documentation/ABI/ only, as you're requesting,
-they would be the only block queue attributes that would be documented in only
-that place.  I think that would make things worse, as then there would be no
-authoritative source anymore.
+There is basically no reason for anyone to use vsyscall=3Demulate any mo=
+re.  I'm aware of exactly one use case, and it's quite bizarre and invol=
+ves instrumenting an outdated binary with an outdated instrumentation to=
+ol.  If either one is recent (last few years), vsyscall=3Dxonly is fine.
 
-If both you and the block people agree that *all* block queue attributes should
-be documented in Documentation/ABI/ only, I'd be glad to send a separate patch
-that adds anything missing to Documentation/ABI/testing/sysfs-block, then
-removes Documentation/block/queue-sysfs.rst.  (BTW, shouldn't it really be in
-Documentation/ABI/stable/?  This ABI has been around a long time, so surely
-users are relying on it.)  But it doesn't seem fair to block this patch on that.
+>
+>>> Maybe the lockout also simplifies the implementation?
+>>>
+>>>> Also, the interaction with emulate mode is somewhat complex. For no=
+w,
+>>>> let=E2=80=99s support this in xonly mode only. A complete implement=
+ation will
+>>>> require nontrivial mm work.  I had that implemented pre-KPTI, but K=
+PTI
+>>>> made it more complicated.
+>>>
+>>> I admit I only looked at the code in emulate_vsyscall.  It has code =
+that
+>>> seems to deal with faults not due to instruction fetch, and also che=
+cks
+>>> for vsyscall=3Demulate mode.  But it seems that we don't get to this=
+ point
+>>> for reads in vsyscall=3Demulate mode, presumably because the page is
+>>> already mapped?
+>>
+>> Yes, and, with KPTI off, it=E2=80=99s nontrivial to unmap it. I have =
+code for
+>> this, but I=E2=80=99m not sure the complexity is worthwhile.
+>
+> Huh.  KPTI is the new thing, right?  Does it make things harder or not?
+> I'm confused.
+>
+> If we knew at execve time that the new process image doesn't have
+> vsyscall, would that be easier to set up?  vsyscall opt-out could be
+> triggered by an ELF NOTE segment on the program interpreter (or main
+> program if there isn't one).
 
-> > +static ssize_t blk_crypto_max_dun_bits_show(struct blk_crypto_profile *profile,
-> > +					    struct blk_crypto_attr *attr,
-> > +					    char *page)
-> > +{
-> > +	return sprintf(page, "%u\n", 8 * profile->max_dun_bytes_supported);
-> 
-> sysfs_emit() please, for this, and all other show functions.
+Nah, it's a different issue.  The vsyscall mapping isn't a normal mappin=
+g at all.  It's in the *kernel* address range, so it's not in the user p=
+ortion of the page tables.  This means that, per mm, there is only the p=
+gd entry that can be changed.  With kpti off, it can be fudged using the=
+ U bit (hah!).  With kpti on, the same trick would work, but the whole p=
+agetable arrangement is different, and the patch would need updating.
 
-Sure.  Note that in .show() functions kernel-wide, it appears that sprintf() is
-much more commonly used than sysfs_emit().  Is there any plan to convert these?
-As-is, if people use existing code as a reference, it will be "wrong" most of
-the time, which is unfortunate.
+The patch looks a bit like this:
 
-> > +}
-> > +
-> > +static ssize_t blk_crypto_num_keyslots_show(struct blk_crypto_profile *profile,
-> > +					    struct blk_crypto_attr *attr,
-> > +					    char *page)
-> > +{
-> > +	return sprintf(page, "%u\n", profile->num_slots);
-> > +}
-> > +
-> > +#define BLK_CRYPTO_RO_ATTR(_name)			\
-> > +static struct blk_crypto_attr blk_crypto_##_name = {	\
-> > +	.attr	= { .name = #_name, .mode = 0444 },	\
-> 
-> __ATTR_RO()?
+https://git.kernel.org/pub/scm/linux/kernel/git/luto/linux.git/commit/?h=
+=3Dx86/vdso_permm&id=3D18432aa9942e8c36c3ba008d2908c246127d135c
 
-Sure.  This would require removing the "blk_crypto_" prefix from the .show()
-functions, which I'd prefer to have, but it doesn't really matter.
+except I screwed up and there's a bunch of irrelevant stuff in there. Bu=
+t the patch would need updating for new kernels.  In any event, none of =
+this is needed in xonly mode.
 
-> > +static const struct attribute_group *blk_crypto_attr_groups[] = {
-> > +	&blk_crypto_attr_group,
-> > +	&blk_crypto_modes_attr_group,
-> > +	NULL,
-> > +};
-> 
-> ATTRIBUTE_GROUP()?
-> 
-> Hm, maybe not, but I think it could be used here.
+>
+>>>> Finally, /proc/self/maps should be wired up via the gate_area code.
+>>>
+>>> Should the "[vsyscall]" string change to something else if execution=
+ is
+>>> disabled?
+>>
+>> I think the line should disappear entirely, just like booting with
+>> vsyscall=3Dnone.
+>
+> Hmm.  But only for vsyscall=3Dxonly, right?  With vsyscall=3Demulate,
+> reading at those addresses will still succeed.
 
-ATTRIBUTE_GROUP() doesn't exist; probably you're referring to
-ATTRIBUTE_GROUPS()?  ATTRIBUTE_GROUPS() is only usable when there is only one
-attribute group.  In this case, there are two attribute groups.
+IMO if vsyscall is disabled for a process, reads and executes should bot=
+h fail.  This is trivial in xonly mode.
 
-> > +static int __init blk_crypto_sysfs_init(void)
-> > +{
-> > +	int i;
-> > +
-> > +	BUILD_BUG_ON(BLK_ENCRYPTION_MODE_INVALID != 0);
-> > +	for (i = 1; i < BLK_ENCRYPTION_MODE_MAX; i++) {
-> > +		struct blk_crypto_attr *attr = &__blk_crypto_mode_attrs[i];
-> 
-> sysfs_attr_init() might be needed here, have you run with lockdep
-> enabled?
-
-It's not needed because __blk_crypto_mode_attrs isn't dynamically allocated
-memory.  Yes, I've run with lockdep enabled.
-
-- Eric
+>
+> Thanks,
+> Florian
