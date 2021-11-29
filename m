@@ -2,148 +2,200 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74F7B4617D0
-	for <lists+linux-api@lfdr.de>; Mon, 29 Nov 2021 15:16:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 32089461700
+	for <lists+linux-api@lfdr.de>; Mon, 29 Nov 2021 14:49:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242975AbhK2OUP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Nov 2021 09:20:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35318 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243561AbhK2OSP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Nov 2021 09:18:15 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D998FC08EAF1;
-        Mon, 29 Nov 2021 04:55:36 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A474CB810A1;
-        Mon, 29 Nov 2021 12:55:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5832C004E1;
-        Mon, 29 Nov 2021 12:55:30 +0000 (UTC)
-Date:   Mon, 29 Nov 2021 13:55:27 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     "Serge E. Hallyn" <serge@hallyn.com>
-Cc:     Christian Brauner <brauner@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@lst.de>,
-        Kees Cook <keescook@chromium.org>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Jann Horn <jannh@google.com>,
-        Henning Schild <henning.schild@siemens.com>,
-        Andrei Vagin <avagin@gmail.com>,
-        Laurent Vivier <laurent@vivier.eu>,
-        Matthew Bobrowski <repnop@google.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, containers@lists.linux.dev
-Subject: Re: [PATCH 2/2] binfmt_misc: enable sandboxed mounts
-Message-ID: <20211129125527.fcljhmg4hfpdnseu@wittgenstein>
-References: <20211028103114.2849140-1-brauner@kernel.org>
- <20211028103114.2849140-2-brauner@kernel.org>
- <20211105043000.GA25244@mail.hallyn.com>
+        id S239848AbhK2Nwv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Nov 2021 08:52:51 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:39434 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S241424AbhK2Nuv (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Nov 2021 08:50:51 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1ATDkWYE016303;
+        Mon, 29 Nov 2021 13:47:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=Ahzwc80kop1+lL4IXn616uFAorDZ5jdxqXCW6i2Hs1s=;
+ b=NOlw6u3CxFaxSTDQ71ehsdBFGYUR/OiHHWloETBrE6fVk/k8qdVIRi85KlvRpNOrgUPX
+ Zd4L/QYmSOZSJrIauoUhxcQGXSCwTGNkxaE1qu26d9omf/XxHLP3gVHU5ogFyA4ES5Ho
+ /3raKY/RbhYoS2jwdvIY69MN320uQ4CkScbQK5YA/pNSNrkifMljPGE+K6BbfiGJWEb2
+ YLlSEY3+IZBRT9um5QEWcYkNJgf05V55Fvu3dTcfLQ9silC1c36CIzs4mgqJz3dqRNq7
+ m/s9IOeCqtFoHCTJqfSvWsLXOlnoD35nu/mhOyMq6F2ho9soH9ZZM9PbSykMinRVWJ2Q BQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3cn01w80df-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 29 Nov 2021 13:47:18 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1ATDkk02019696;
+        Mon, 29 Nov 2021 13:47:18 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com [169.47.144.27])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3cn01w80d4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 29 Nov 2021 13:47:17 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+        by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1ATDg55m031793;
+        Mon, 29 Nov 2021 13:47:16 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com [9.57.198.27])
+        by ppma05wdc.us.ibm.com with ESMTP id 3ckcaa23u0-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 29 Nov 2021 13:47:16 +0000
+Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com [9.57.199.107])
+        by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 1ATDlFG763177168
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 29 Nov 2021 13:47:15 GMT
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 7357212405E;
+        Mon, 29 Nov 2021 13:47:15 +0000 (GMT)
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 2DE66124058;
+        Mon, 29 Nov 2021 13:47:09 +0000 (GMT)
+Received: from skywalker.linux.ibm.com (unknown [9.43.15.168])
+        by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
+        Mon, 29 Nov 2021 13:47:08 +0000 (GMT)
+X-Mailer: emacs 28.0.50 (via feedmail 11-beta-1 I)
+From:   "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     linux-mm@kvack.org, akpm@linux-foundation.org,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Feng Tang <feng.tang@intel.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Andi Kleen <ak@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Huang Ying <ying.huang@intel.com>, linux-api@vger.kernel.org
+Subject: Re: [PATCH v5 2/3] mm/mempolicy: add set_mempolicy_home_node syscall
+In-Reply-To: <YaTLVCKl9t5RCfQR@dhcp22.suse.cz>
+References: <20211116064238.727454-1-aneesh.kumar@linux.ibm.com>
+ <20211116064238.727454-3-aneesh.kumar@linux.ibm.com>
+ <YaSsR0z6GN07qyH7@dhcp22.suse.cz> <87fsrf1bpu.fsf@linux.ibm.com>
+ <YaTLVCKl9t5RCfQR@dhcp22.suse.cz>
+Date:   Mon, 29 Nov 2021 19:17:06 +0530
+Message-ID: <8735nfcbvp.fsf@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211105043000.GA25244@mail.hallyn.com>
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Q_vXlqoE_1qF_fJ3eqIiq6Tq9VRQHn1Q
+X-Proofpoint-GUID: 0uqYTpn9--5nb4xZNrIInWlZZvlRqwCi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-29_08,2021-11-28_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ impostorscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0
+ suspectscore=0 adultscore=0 bulkscore=0 clxscore=1015 spamscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2111290068
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Nov 04, 2021 at 11:30:00PM -0500, Serge Hallyn wrote:
-> On Thu, Oct 28, 2021 at 12:31:14PM +0200, Christian Brauner wrote:
-> > From: Laurent Vivier <laurent@vivier.eu>
-> > 
-> > Enable unprivileged sandboxes to create their own binfmt_misc mounts.
-> > This is based on Laurent's work in [1] but has been significantly
-> > reworked to fix various issues we identified in earlier versions.
-> > 
-> > While binfmt_misc can currently only be mounted in the initial user
-> > namespace, binary types registered in this binfmt_misc instance are
-> > available to all sandboxes (Either by having them installed in the
-> > sandbox or by registering the binary type with the F flag causing the
-> > interpreter to be opened right away). So binfmt_misc binary types are
-> > already delegated to sandboxes implicitly.
-> > 
-> > However, while a sandbox has access to all registered binary types in
-> > binfmt_misc a sandbox cannot currently register its own binary types
-> > in binfmt_misc. This has prevented various use-cases some of which were
-> > already outlined in [1] but we have a range of issues associated with
-> > this (cf. [3]-[5] below which are just a small sample).
-> > 
-> > Extend binfmt_misc to be mountable in non-initial user namespaces.
-> > Similar to other filesystem such as nfsd, mqueue, and sunrpc we use
-> > keyed superblock management. The key determines whether we need to
-> > create a new superblock or can reuse an already existing one. We use the
-> > user namespace of the mount as key. This means a new binfmt_misc
-> > superblock is created once per user namespace creation. Subsequent
-> > mounts of binfmt_misc in the same user namespace will mount the same
-> > binfmt_misc instance. We explicitly do not create a new binfmt_misc
-> > superblock on every binfmt_misc mount as the semantics for
-> > load_misc_binary() line up with the keying model. This also allows us to
-> > retrieve the relevant binfmt_misc instance based on the caller's user
-> > namespace which can be done in a simple (bounded to 32 levels) loop.
-> > 
-> > Similar to the current binfmt_misc semantics allowing access to the
-> > binary types in the initial binfmt_misc instance we do allow sandboxes
-> > access to their parent's binfmt_misc mounts if they do not have created
-> > a separate binfmt_misc instance.
-> > 
-> > Overall, this will unblock the use-cases mentioned below and in general
-> > will also allow to support and harden execution of another
-> > architecture's binaries in tight sandboxes. For instance, using the
-> > unshare binary it possible to start a chroot of another architecture and
-> > configure the binfmt_misc interpreter without being root to run the
-> > binaries in this chroot and without requiring the host to modify its
-> > binary type handlers.
-> > 
-> > Henning had already posted a few experiments in the cover letter at [1].
-> > But here's an additional example where an unprivileged container
-> > registers qemu-user-static binary handlers for various binary types in
-> > its separate binfmt_misc mount and is then seamlessly able to start
-> > containers with a different architecture without affecting the host:
-> > 
-> > [lxc monitor] /var/lib/lxc imp2
-> >  \_ /sbin/init
-> >      \_ /lib/systemd/systemd-journald
-> >      \_ /lib/systemd/systemd-udevd
-> >      \_ /lib/systemd/systemd-networkd
-> >      \_ /usr/sbin/cron -f -P
-> >      \_ @dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
-> >      \_ /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
-> >      \_ /usr/sbin/rsyslogd -n -iNONE
-> >      \_ /lib/systemd/systemd-logind
-> >      \_ /lib/systemd/systemd-resolved
-> >      \_ dnsmasq --conf-file=/dev/null -u lxc-dnsmasq --strict-order --bind-interfaces --pid-file=/run/lxc/dnsmasq.pid --liste
-> >      \_ /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 vt220
-> >      \_ /sbin/agetty -o -p -- \u --noclear --keep-baud pts/0 115200,38400,9600 vt220
-> >      \_ /sbin/agetty -o -p -- \u --noclear --keep-baud pts/1 115200,38400,9600 vt220
-> >      \_ /sbin/agetty -o -p -- \u --noclear --keep-baud pts/2 115200,38400,9600 vt220
-> >      \_ /sbin/agetty -o -p -- \u --noclear --keep-baud pts/3 115200,38400,9600 vt220
-> >      \_ [lxc monitor] /var/lib/lxc alp1
-> >          \_ /usr/libexec/qemu-binfmt/ppc64le-binfmt-P /sbin/init /sbin/init
-> >              \_ /usr/libexec/qemu-binfmt/ppc64le-binfmt-P /lib/systemd/systemd-journald /lib/systemd/systemd-journald
-> >              \_ /usr/libexec/qemu-binfmt/ppc64le-binfmt-P /lib/systemd/systemd-udevd /lib/systemd/systemd-udevd
-> >              \_ /usr/libexec/qemu-binfmt/ppc64le-binfmt-P /usr/sbin/cron /usr/sbin/cron -f -P
-> >              \_ /usr/libexec/qemu-binfmt/ppc64le-binfmt-P /lib/systemd/systemd-resolved /lib/systemd/systemd-resolved
-> >              \_ /usr/libexec/qemu-binfmt/ppc64le-binfmt-P /lib/systemd/systemd-logind /lib/systemd/systemd-logind
-> > 
-> > Link: https://lore.kernel.org/r/20191216091220.465626-2-laurent@vivier.eu
-> > [1]: https://lore.kernel.org/all/20191216091220.465626-1-laurent@vivier.eu
-> > [2]: https://discuss.linuxcontainers.org/t/binfmt-misc-permission-denied
-> > [3]: https://discuss.linuxcontainers.org/t/lxd-binfmt-support-for-qemu-static-interpreters
-> > [4]: https://discuss.linuxcontainers.org/t/3-1-0-binfmt-support-service-in-unprivileged-guest-requires-write-access-on-hosts-proc-sys-fs-binfmt-misc
-> > [5]: https://discuss.linuxcontainers.org/t/qemu-user-static-not-working-4-11
-> > Cc: Sargun Dhillon <sargun@sargun.me>
-> > Cc: Serge Hallyn <serge@hallyn.com>
-> 
-> I *think* this is ok.  I'm still trying to convince myself that there is
-> no way for evict_inode() to run after the kfree(ns->binfmt_misc), but
-> it doesn't look like there is.
-> 
-> Does this memory (as the number of register entries grows) need to be
-> accounted for and/or limited ?
+Michal Hocko <mhocko@suse.com> writes:
 
-Good point. We should pass GFP_KERNEL_ACCOUNT andor use a cache with
-SLAB_ACCOUNT. I'll fix that up.
+> On Mon 29-11-21 16:16:05, Aneesh Kumar K.V wrote:
+>> Michal Hocko <mhocko@suse.com> writes:
+>> 
+>> > On Tue 16-11-21 12:12:37, Aneesh Kumar K.V wrote:
+> [...]
+>> >> +SYSCALL_DEFINE4(set_mempolicy_home_node, unsigned long, start, unsigned long, len,
+>> >> +		unsigned long, home_node, unsigned long, flags)
+>> >> +{
+>> >> +	struct mm_struct *mm = current->mm;
+>> >> +	struct vm_area_struct *vma;
+>> >> +	struct mempolicy *new;
+>> >> +	unsigned long vmstart;
+>> >> +	unsigned long vmend;
+>> >> +	unsigned long end;
+>> >> +	int err = -ENOENT;
+>> >> +
+>> >> +	if (start & ~PAGE_MASK)
+>> >> +		return -EINVAL;
+>> >> +	/*
+>> >> +	 * flags is used for future extension if any.
+>> >> +	 */
+>> >> +	if (flags != 0)
+>> >> +		return -EINVAL;
+>> >> +
+>> >> +	if (!node_online(home_node))
+>> >> +		return -EINVAL;
+>> >
+>> > You really want to check the home_node before dereferencing the mask.
+>> >
+>> 
+>> Any reason why we want to check for home node first?
+>
+> Because the given node is an index to node_states[N_ONLINE] bitmap. I do
+> not think we do range checking there.
 
-Christian
+Will add this
+
+	if (home_node >= MAX_NUMNODES || !node_online(home_node))
+		return -EINVAL;
+
+
+
+>
+>> >> +	len = (len + PAGE_SIZE - 1) & PAGE_MASK;
+>> >> +	end = start + len;
+>> >> +
+>> >> +	if (end < start)
+>> >> +		return -EINVAL;
+>> >> +	if (end == start)
+>> >> +		return 0;
+>> >> +	mmap_write_lock(mm);
+>> >> +	vma = find_vma(mm, start);
+>> >> +	for (; vma && vma->vm_start < end;  vma = vma->vm_next) {
+>> >> +
+>> >> +		vmstart = max(start, vma->vm_start);
+>> >> +		vmend   = min(end, vma->vm_end);
+>> >> +		new = mpol_dup(vma_policy(vma));
+>> >> +		if (IS_ERR(new)) {
+>> >> +			err = PTR_ERR(new);
+>> >> +			break;
+>> >> +		}
+>> >> +		/*
+>> >> +		 * Only update home node if there is an existing vma policy
+>> >> +		 */
+>> >> +		if (!new)
+>> >> +			continue;
+>> >
+>> > Your changelog only mentions MPOL_BIND and MPOL_PREFERRED_MANY as
+>> > supported but you seem to be applying the home node to all existing
+>> > policieso
+>> 
+>> 
+>> The restriction is done in policy_node. 
+>> 
+>> @@ -1801,6 +1856,11 @@ static int policy_node(gfp_t gfp, struct mempolicy *policy, int nd)
+>> 		WARN_ON_ONCE(policy->mode == MPOL_BIND && (gfp & __GFP_THISNODE));
+>> 	}
+>> 
+>> +	if ((policy->mode == MPOL_BIND ||
+>> +	     policy->mode == MPOL_PREFERRED_MANY) &&
+>> +	    policy->home_node != NUMA_NO_NODE)
+>> +		return policy->home_node;
+>> +
+>> 	return nd;
+>>  }
+>
+> But you do allow to set the home node also for other policies and that
+> means that a default MPOL_INTERLEAVE would be different from the one
+> with home_node set up even though they behave exactly the same.
+
+I agree that there is no error returned if we try to set the home_node
+for other memory policies. But there should not be any behaviour
+differences. We ignore home_node for policies other than BIND and
+PREFERRED_MANY.
+
+The reason I avoided erroring out for other policies was to simplify the
+error handling. For example, for a range of addr with a mix of memory
+policy MPOLD_BIND and MPOL_INTERLEAVE what should be the state after the
+above system call? We could say, we ignore setting home_node for vma
+with policy MPOL_INTERLEAVE and leave the home node set for vma with
+policy MPOL_BIND. Or should we make the system call return error also
+undoing the changes done for vmas for which we have set the home_node?
+
+-aneesh
