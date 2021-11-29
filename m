@@ -2,148 +2,101 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7533946218B
-	for <lists+linux-api@lfdr.de>; Mon, 29 Nov 2021 21:06:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA3F3462484
+	for <lists+linux-api@lfdr.de>; Mon, 29 Nov 2021 23:19:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352388AbhK2UKN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Nov 2021 15:10:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55342 "EHLO
+        id S234170AbhK2WUH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Nov 2021 17:20:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353754AbhK2UIM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Nov 2021 15:08:12 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E988DC08EB3F;
-        Mon, 29 Nov 2021 08:41:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=eKkC6UpK6/i7D2lpHs7XjnCCf7VNK2fmwFzMjXdfzOg=; b=EvbI7SflETvKwufLzieMY/7xfL
-        yJtGckfqPeJBLcrSvfQAOee1z5IdIfs/PBBSJxjRdD9uGwaP0LW1L5Win9jipF+NC4CZuvxjFMtC+
-        Jet1S67q5LZYYXYsR0MTmKdEVgyhD5D/YBoaxcOiyod45/vbdoxVZ+8pA8vxmqYcs778bJ6pqgFW/
-        TSBDefx/HG04bFTu7ERo0YVwYhGPXLSSWN9WHbLZXsgo8x3uLyCzpOhjlLIjbuoxbJYReJj1w9THY
-        o50XNOFd3t2t7HE9EbKY/I8/QTa0OU7nr/qwRrgJJzVmMu0ZAKEjjQfbpPdmraGj9uE5EQB/HnCj+
-        QWLWHW2A==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mrjiE-008Lwz-7E; Mon, 29 Nov 2021 16:41:07 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 94810300235;
-        Mon, 29 Nov 2021 17:41:05 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 779342B2FEA16; Mon, 29 Nov 2021 17:41:05 +0100 (CET)
-Date:   Mon, 29 Nov 2021 17:41:05 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Peter Oskolkov <posk@posk.io>
-Cc:     Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-api@vger.kernel.org, Paul Turner <pjt@google.com>,
-        Ben Segall <bsegall@google.com>,
-        Peter Oskolkov <posk@google.com>,
-        Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
-        Thierry Delisle <tdelisle@uwaterloo.ca>
-Subject: Re: [PATCH v0.9.1 3/6] sched/umcg: implement UMCG syscalls
-Message-ID: <YaUCoe07Wl9Stlch@hirez.programming.kicks-ass.net>
-References: <20211122211327.5931-1-posk@google.com>
- <20211122211327.5931-4-posk@google.com>
- <20211124200822.GF721624@worktop.programming.kicks-ass.net>
- <CAFTs51Uka8VRCHuGidw7mRwATufp87U6S8SWUVod_kU-h6T3ew@mail.gmail.com>
- <YaEUts3RbOLyvAjl@hirez.programming.kicks-ass.net>
- <CAFTs51XnN+N74i1XHvRUAUWd04-Fs9uV6ouXo=CQSQs8MaEM5A@mail.gmail.com>
+        with ESMTP id S234200AbhK2WSI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Nov 2021 17:18:08 -0500
+Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2AAFC052933;
+        Mon, 29 Nov 2021 11:12:29 -0800 (PST)
+Received: by mail-il1-x135.google.com with SMTP id m5so18516666ilh.11;
+        Mon, 29 Nov 2021 11:12:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4a7oBUxp83d4F7/GXAe9SjMLAHoJcQKmu6hyXTlCwds=;
+        b=a4LrfTUVENBGyIlKt1CrHgX8udUHuoaGeZsZu5z3AdXh8gWn1zJwoemtgQ6731Z86V
+         n1xxEz4rDEqXvojdf2Tsv7JnDexj9WQYvKXX+xsckI8xY0HAdT94/GM0xoqCz1CNiX6C
+         zihDbv3VtjSVX3EqXRTfDaccWhZujitGZz4BeapUMje9yLqHITthqJPbfx4TF0pdSBum
+         ZOGm+7V7Q1GK45ijP33f7klQyO8TtN16hYZPAQuc9K0EPqP2sSsiUXVh1si2jHIIYoWx
+         15ltGlZ9XRhOA0Mu0JvI3WXGAuctF+dnSzFNKg2GJ59miUnXTn1DlIvK7TvsNf8SI1+U
+         LS3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4a7oBUxp83d4F7/GXAe9SjMLAHoJcQKmu6hyXTlCwds=;
+        b=0Yi72pUu+y3WTNljyCo3+v3ho5pRf2X9JmQuYC3IrwixlQOAKBUpHlAhdg6jg8n+od
+         PZuziD/ZE756GT4Fqqh/mXKONvuuouXl2uvLm84EmShok2d4PoSToMtG2HQAC0zu9Q3j
+         i70U2WMOGzU78ShLYVCiPXJnwVEP6uSRvcCJxIcwm0oeIejtJtVkPF6Hmqo9w4x3KIoX
+         1kbKaHsiavM6fNJCuLBz9PJf3NndoNyhfldKwW30TSizO2FNElE2XX2yOd14q6mMpdfg
+         N+9OlWA6UcdQzqjfuoJE0J5/lAsQcm+Jq6yhtoyWraq5MP1YZmdpBTNfJTIJklirZKxA
+         U1cw==
+X-Gm-Message-State: AOAM5319VvF9IuepcJoZ4Odh8KnwSbuAbbUnVPsLESK3u+bnHgwRqK9w
+        wEh5367/7sL7WFkjUKdyrW8htoXD9vSlVhsrB//+LD0u
+X-Google-Smtp-Source: ABdhPJwGjkUK27Bmivk+PeedOlQhOHceK/+iW2ainthRulbC4BrWnAb5YItstXAk0fKNuwyJD0npw2/QgN/xcYYm/sw=
+X-Received: by 2002:a05:6e02:1ba8:: with SMTP id n8mr48485335ili.254.1638213149275;
+ Mon, 29 Nov 2021 11:12:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFTs51XnN+N74i1XHvRUAUWd04-Fs9uV6ouXo=CQSQs8MaEM5A@mail.gmail.com>
+References: <20211119071738.1348957-1-amir73il@gmail.com> <20211126152841.GK13004@quack2.suse.cz>
+In-Reply-To: <20211126152841.GK13004@quack2.suse.cz>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Mon, 29 Nov 2021 21:12:17 +0200
+Message-ID: <CAOQ4uxhRv=2q3K89QG3T=Xne4PLUpN_sh8R=+PZETUa9GEJt-A@mail.gmail.com>
+Subject: Re: [PATCH v2 0/9] Extend fanotify dirent events
+To:     Jan Kara <jack@suse.cz>
+Cc:     Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Nov 28, 2021 at 04:29:11PM -0800, Peter Oskolkov wrote:
+On Fri, Nov 26, 2021 at 5:28 PM Jan Kara <jack@suse.cz> wrote:
+>
+> Hi Amir!
+>
+> On Fri 19-11-21 09:17:29, Amir Goldstein wrote:
+> > This is the 2nd version of FAN_REPORT_TARGET_FID patches [1].
+> >
+> > In the first version, extra info records about new and old parent+name
+> > were added to FAN_MOVED_FROM event.  This version uses a new event
+> > FAN_RENAME instead, to report those extra info records.
+> > The new FAN_RENAME event was designed as a replacement for the
+> > "inotify way" of joining the MOVED_FROM/MOVED_TO events using a cookie.
+> >
+> > FAN_RENAME event differs from MOVED_FROM/MOVED_TO events in several ways:
+> > 1) The information about old/new names is provided in a single event
+> > 2) When added to the ignored mask of a directory, FAN_RENAME is not
+> >    reported for renames to and from that directory
+> >
+> > The group flag FAN_REPORT_TARGET_FID adds an extra info record of
+> > the child fid to all the dirent events, including FAN_REANME.
+> > It is independent of the FAN_RENAME changes and implemented in the
+> > first patch, so it can be picked regardless of the FAN_RENAME patches.
+> >
+> > Patches [2] and LTP test [3] are available on my github.
+> > A man page draft will be provided later on.
+>
+> I've read through the series and I had just two small comments. I was also
+> slightly wondering whether instead of feeding the two directories for
+> FS_RENAME into OBJ_TYPE_PARENT and OBJ_TYPE_INODE we should not create
+> another iter_info type OBJ_TYPE_INODE2 as using OBJ_TYPE_PARENT is somewhat
+> error prone (you have to get the ordering of conditions right so that you
+> catch FS_RENAME e.g. before some code decides event should be discarded
+> because it is parent event without child watching). But I have not fully
+> decided whether the result is going to be worth it so I'm just mentioning
+> it as a possible future cleanup.
 
-> wait_wake_only is not needed if you have both next_tid and server_tid,
-> as your patch has. In my version of the patch, next_tid is the same as
-> server_tid, so the flag is needed to indicate to the kernel that
-> next_tid is the wakee, not the server.
+I managed to use ITER_TYPE_INODE2 pretty easily after a cleanup that
+splits OBJ_TYPE enum from ITER_TYPE enum.
 
-Ah, okay.
-
-> re: (idle_)server_tid_ptr: it seems that you assume that blocked
-> workers keep their servers, while in my patch they "lose them" once
-> they block, and so there should be a global idle server pointer to
-> wake the server in my scheme (if there is an idle one). The main
-> difference is that in my approach a server has only a single, running,
-> worker assigned to it, while in your approach it can have a number of
-> blocked/idle workers to take care of as well.
-
-Correct; I've been thinking in analogues of the way we schedule CPUs.
-Each CPU has a ready/run queue along with the current task.
-fundamentally the RUNNABLE tasks need to go somewhere when all servers
-are busy. So at that point the previous server is as good a place as
-any.
-
-Now, I sympathise with a blocked task not having a relation; I often
-argue this same, since we have wakeup balancing etc. And I've not really
-thought about how to best do wakeup-balancing, also see below.
-
-> The main difference between our approaches, as I see it: in my
-> approach if a worker is running, its server is sleeping, period. If we
-> have N servers, and N running workers, there are no servers to wake
-> when a previously blocked worker finishes its blocking op. In your
-> approach, it seems that N servers have each a bunch of workers
-> pointing at them, and a single worker running. If a previously blocked
-> worker wakes up, it wakes the server it was assigned to previously,
-
-Right; it does that. It can check the ::state of it's current task,
-possibly set TF_PREEMPT or just go back to sleep.
-
-> and so now we have more than N physical tasks/threads running: N
-> workers and the woken server. This is not ideal: if the process is
-> affined to only N CPUs, that means a worker will be preempted to let
-> the woken server run, which is somewhat against the goal of letting
-> the workers run more or less uninterrupted. This is not deal breaking,
-> but maybe something to keep in mind.
-
-I suppose it's easy enough to make this behaviour configurable though;
-simply enqueue and not wake.... Hmm.. how would this worker know if the
-server was 'busy' or not? The whole 'current' thing is a user-space
-construct. I suppose that's what your pointer was for? Puts an actual
-idle server in there, if there is one. Let me ponder that a bit.
-
-However, do note this whole scheme fundamentally has some of that, the
-moment the syscall unblocks until sys_exit is 'unmanaged' runtime for
-all tasks, they can consume however much time the syscall needs there.
-
-Also, timeout on sys_umcg_wait() gets you the exact same situation (or
-worse, multiple running workers).
-
-> Another big concern I have is that you removed UMCG_TF_LOCKED. I
-
-OOh yes, I forgot to mention that. I couldn't figure out what it was
-supposed to do.
-
-> definitely needed it to guard workers during "sched work" in the
-> userspace in my approach. I'm not sure if the flag is absolutely
-> needed with your approach, but most likely it is - the kernel-side
-> scheduler does lock tasks and runqueues and disables interrupts and
-> migrations and other things so that the scheduling logic is not
-> hijacked by concurrent stuff. Why do you assume that the userspace
-> scheduling code does not need similar protections?
-
-I've not yet come across a case where this is needed. Migration for
-instance is possible when RUNNABLE, simply write ::server_tid before
-::state. Userspace just needs to make sure who actually owns the task,
-but it can do that outside of this state.
-
-But like I said; I've not yet done the userspace part (and I lost most
-of today trying to install a new machine), so perhaps I'll run into it
-soon enough.
-
-
+Thanks,
+Amir.
