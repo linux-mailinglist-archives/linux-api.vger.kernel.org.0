@@ -2,36 +2,57 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 656784627C1
-	for <lists+linux-api@lfdr.de>; Tue, 30 Nov 2021 00:07:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D495B462874
+	for <lists+linux-api@lfdr.de>; Tue, 30 Nov 2021 00:39:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236870AbhK2XJz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Nov 2021 18:09:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41488 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237336AbhK2XJO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Nov 2021 18:09:14 -0500
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B423DC0F74CF;
-        Mon, 29 Nov 2021 13:09:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=NYI5KVFPjbS12X0GrBf9xRuRMianhfD+CgDt6QrOv0E=; b=McA148pZHAp5/mjW/omCEMbH0K
-        RAkY7+fT91qeOFoxWPXkglDWlpeZzEUXfC/4Qa9fLRdABt0LkvBXTDnTZjeNMRnGW7P81l4h1GGCl
-        A/x5vjUaU2w08Wi9vED9vR76Cm8/Lnl8ZWLbiMekLvZy5pokjjjRih5/rmfNVLsP0t2RvZcneF/iR
-        L2yYDxRXwrK05gly7G1WfB0irOX3P/PCwNMug5YGGcrH/FnqQ1dFLYx4Fuyc7s4TcZ/wgQARy9PV2
-        05p/obCpKLQKoA4SNFP35QcmzhlF3lwv8+3XmIrYSzUhOSRfbHmwJTk7N6m7QyIQuBJ+Mw/Su4Pq3
-        EuXpa6uQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mrntC-001Jpl-Tt; Mon, 29 Nov 2021 21:08:43 +0000
-Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 7370B98675D; Mon, 29 Nov 2021 22:08:41 +0100 (CET)
-Date:   Mon, 29 Nov 2021 22:08:41 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Peter Oskolkov <posk@posk.io>
+        id S230395AbhK2XnH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Nov 2021 18:43:07 -0500
+Received: from mail-ua1-f43.google.com ([209.85.222.43]:37817 "EHLO
+        mail-ua1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229794AbhK2XnG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Nov 2021 18:43:06 -0500
+Received: by mail-ua1-f43.google.com with SMTP id o1so37641945uap.4
+        for <linux-api@vger.kernel.org>; Mon, 29 Nov 2021 15:39:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=posk.io; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=c7M8bjVkZS4Crx9n4ZGGz1oMJSYLhjEhdQ0JNSPjlt8=;
+        b=V35tdCUBBDMXJ7fCiyIuqsXXPU6QrRaT/GWOg2xVg1xzv9E5BFQ9W2UkyjwlXj2KaF
+         9XkB2/ifBLIKQUxvo4amGtjsEPf6PcquFjfc2/JGz/0Qgawp9Sh6ArGxEZP/v8fX1dbx
+         NghpiQwCtWy/9xielIZZzVDQxmEpglv71V4Rmy99Al84IfweaGcbTjztI6rz3ObcRPqS
+         nbCpI/ai5Ewqm6hXwvWFy7quXey5FxlQCjOQZGWm6l89751vvnW4xp0VivyHXIo3mCcQ
+         MCZtlRJQIATPZXw8FG4Q+fMEtxyP8IswiZlyChOMOMiFNLul2jtLwfedipIcZBH5OvP4
+         Iqlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=c7M8bjVkZS4Crx9n4ZGGz1oMJSYLhjEhdQ0JNSPjlt8=;
+        b=Cty5iEKgX1O+wMxS6PNol8zO3GhVAl5kV7XU91Xtw+4R2rHzvzwV7Ftqh2HMSuyqhP
+         ayQvawTvo0C69R48AyGu4Op4Gh2FdD1v10qyfEt0hKW42mx9R5LyrkGKxvhjF537RLo+
+         pcQh4zWKtsz0HE3XGFpZfVvIQ6xhA8gJNndnT4fDFRgjEnFpdXL2NJZNZUou/hbQqMTZ
+         oBOLZDTIoDGltqJ8riU8US0NECmDkXgmJ8bFNfsva/sIaBq1WVRSjyeJZjVdNgk378jm
+         UF6UE6J79i77v1iEQxsfzbok8r8JYIIMRlSdItxXzaWqA+7aSx+xBUqOwCNBp+DqdQ/r
+         q+3g==
+X-Gm-Message-State: AOAM531y1CReEDqttCSAlZOCdDFYUaVu+6K3BbEYP0pzRlWaAy0Gencb
+        Gb+aUqN9dkkO9aF7oln/K6lsSSlj8UuFCqCREFURbA==
+X-Google-Smtp-Source: ABdhPJyQvp4x5bByQwLpBEygbxk1oCfNM99yBAAEpPNfSg1xfZNjK+9yDN/dWx3ThizfuvtRLx8gzzf2dPwNKXRRRVI=
+X-Received: by 2002:a9f:218c:: with SMTP id 12mr51476140uac.71.1638229128058;
+ Mon, 29 Nov 2021 15:38:48 -0800 (PST)
+MIME-Version: 1.0
+References: <20211122211327.5931-1-posk@google.com> <20211122211327.5931-4-posk@google.com>
+ <20211124200822.GF721624@worktop.programming.kicks-ass.net>
+ <CAFTs51Uka8VRCHuGidw7mRwATufp87U6S8SWUVod_kU-h6T3ew@mail.gmail.com>
+ <YaEUts3RbOLyvAjl@hirez.programming.kicks-ass.net> <CAFTs51XnN+N74i1XHvRUAUWd04-Fs9uV6ouXo=CQSQs8MaEM5A@mail.gmail.com>
+ <YaUCoe07Wl9Stlch@hirez.programming.kicks-ass.net> <CAFTs51UzR=m6+vcjTCNOGwGu3ZwB5GMrg+cSQy2ecvCWxhZvEQ@mail.gmail.com>
+ <20211129210841.GO721624@worktop.programming.kicks-ass.net>
+In-Reply-To: <20211129210841.GO721624@worktop.programming.kicks-ass.net>
+From:   Peter Oskolkov <posk@posk.io>
+Date:   Mon, 29 Nov 2021 15:38:38 -0800
+Message-ID: <CAFTs51XyGDNj89+FCn4HZqMHuenjQu2wqTOW8ow4hSUbdGrGhw@mail.gmail.com>
+Subject: Re: [PATCH v0.9.1 3/6] sched/umcg: implement UMCG syscalls
+To:     Peter Zijlstra <peterz@infradead.org>
 Cc:     Ingo Molnar <mingo@redhat.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -44,152 +65,68 @@ Cc:     Ingo Molnar <mingo@redhat.com>,
         Peter Oskolkov <posk@google.com>,
         Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
         Thierry Delisle <tdelisle@uwaterloo.ca>
-Subject: Re: [PATCH v0.9.1 3/6] sched/umcg: implement UMCG syscalls
-Message-ID: <20211129210841.GO721624@worktop.programming.kicks-ass.net>
-References: <20211122211327.5931-1-posk@google.com>
- <20211122211327.5931-4-posk@google.com>
- <20211124200822.GF721624@worktop.programming.kicks-ass.net>
- <CAFTs51Uka8VRCHuGidw7mRwATufp87U6S8SWUVod_kU-h6T3ew@mail.gmail.com>
- <YaEUts3RbOLyvAjl@hirez.programming.kicks-ass.net>
- <CAFTs51XnN+N74i1XHvRUAUWd04-Fs9uV6ouXo=CQSQs8MaEM5A@mail.gmail.com>
- <YaUCoe07Wl9Stlch@hirez.programming.kicks-ass.net>
- <CAFTs51UzR=m6+vcjTCNOGwGu3ZwB5GMrg+cSQy2ecvCWxhZvEQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFTs51UzR=m6+vcjTCNOGwGu3ZwB5GMrg+cSQy2ecvCWxhZvEQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Nov 29, 2021 at 09:34:49AM -0800, Peter Oskolkov wrote:
-> On Mon, Nov 29, 2021 at 8:41 AM Peter Zijlstra <peterz@infradead.org> wrote:
+On Mon, Nov 29, 2021 at 1:08 PM Peter Zijlstra <peterz@infradead.org> wrote:
+[...]
+> > > > Another big concern I have is that you removed UMCG_TF_LOCKED. I
+> > >
+> > > OOh yes, I forgot to mention that. I couldn't figure out what it was
+> > > supposed to do.
+[...]
+>
+> So then A does:
+>
+>         A::next_tid = C.tid;
+>         sys_umcg_wait();
+>
+> Which will:
+>
+>         pin(A);
+>         pin(S0);
+>
+>         cmpxchg(A::state, RUNNING, RUNNABLE);
 
-> > However, do note this whole scheme fundamentally has some of that, the
-> > moment the syscall unblocks until sys_exit is 'unmanaged' runtime for
-> > all tasks, they can consume however much time the syscall needs there.
-> >
-> > Also, timeout on sys_umcg_wait() gets you the exact same situation (or
-> > worse, multiple running workers).
-> 
-> It should not. Timed out workers should be added to the runnable list
-> and not become running unless a server chooses so. So sys_umcg_wait()
-> with a timeout should behave similarly to a normal sleep, in that the
-> server is woken upon the worker blocking, and upon the worker wakeup
-> the worker is added to the woken workers list and waits for a server
-> to run it. The only difference is that in a sleep the worker becomes
-> BLOCKED, while in sys_umcg_wait() the worker is RUNNABLE the whole
-> time.
+Hmm.... That's another difference between your patch and mine: my
+approach was "the side that initiates the change updates the state".
+So in my code the userspace changes the current task's state RUNNING
+=> RUNNABLE and the next task's state, or the server's state, RUNNABLE
+=> RUNNING before calling sys_umcg_wait(). The kernel changed worker
+states to BLOCKED/RUNNABLE during block/wake detection, and marked
+servers RUNNING when waking them during block/wake detection; but all
+applicable state changes for sys_umcg_wait() happen in the userspace.
 
-OK, that's somewhat subtle and I hadn't gotten that either.
+The reasoning behind this approach was:
+- do in kernel only that which cannot be done in the userspace, to
+make the kernel code smaller/simpler
+- similar to how futexes work: futex_wait does not change the futex
+value to the desired value, but just checks whether the futex value
+matches the desired value
+- similar to how futexes work, concurrent state changes can happen in
+the userspace without calling into the kernel at all
+    for example:
+        - (a): worker A goes to sleep into sys_umcg_wait()
+        - (b): worker B wants to context switch into worker A "a moment" later
+        - due to preemption/interrupts/pagefaults/whatnot, (b) happens
+in reality before (a)
+    in my patchset, the situation above happily resolves in the
+userspace so that worker A keeps running without ever calling
+sys_umcg_wait().
 
-Currently it return -ETIMEDOUT in RUNNING state for both server and
-worker callers.
+Again, I don't think this is deal breaking, and your approach will
+work, just a bit less efficiently in some cases :)
 
-Let me go fix that then.
+I'm still not sure we can live without UMCG_TF_LOCKED. What if worker
+A transfers its server to worker B that A intends to context switch
+into, and then worker A pagefaults or gets interrupted before calling
+sys_umcg_wait()? The server will be woken up and will see that it is
+assigned to worker B; now what? If worker A is "locked" before the
+whole thing starts, the pagefault/interrupt will not trigger
+block/wake detection, worker A will keep RUNNING for all intended
+purposes, and eventually will call sys_umcg_wait() as it had
+intended...
 
-> > > Another big concern I have is that you removed UMCG_TF_LOCKED. I
-> >
-> > OOh yes, I forgot to mention that. I couldn't figure out what it was
-> > supposed to do.
-> >
-> > > definitely needed it to guard workers during "sched work" in the
-> > > userspace in my approach. I'm not sure if the flag is absolutely
-> > > needed with your approach, but most likely it is - the kernel-side
-> > > scheduler does lock tasks and runqueues and disables interrupts and
-> > > migrations and other things so that the scheduling logic is not
-> > > hijacked by concurrent stuff. Why do you assume that the userspace
-> > > scheduling code does not need similar protections?
-> >
-> > I've not yet come across a case where this is needed. Migration for
-> > instance is possible when RUNNABLE, simply write ::server_tid before
-> > ::state. Userspace just needs to make sure who actually owns the task,
-> > but it can do that outside of this state.
-> >
-> > But like I said; I've not yet done the userspace part (and I lost most
-> > of today trying to install a new machine), so perhaps I'll run into it
-> > soon enough.
-> 
-> The most obvious scenario where I needed locking is when worker A
-> wants to context switch into worker B, while another worker C wants to
-> context switch into worker A, and worker A pagefaults. This involves:
-> 
-> worker A context: worker A context switches into worker B:
-> 
-> - worker B::server_tid = worker A::server_tid
-> - worker A::server_tid = none
-> - worker A::state = runnable
-> - worker B::state = running
-> - worker A::next_tid = worker B
-> - worker A calls sys_umcg_wait()
-> 
-> worker B context: before the above completes, worker C wants to
-> context switch into worker A, with similar steps.
-> 
-> "interrupt context": in the middle of the mess above, worker A pagefaults
-> 
-> Too many moving parts. UMCG_TF_LOCKED helped me make this mess
-> manageable. Maybe without pagefaults clever ordering of the operations
-> listed above could make things work, but pagefaults mess things badly,
-> so some kind of "preempt_disable()" for the userspace scheduling code
-> was needed, and UMCG_TF_LOCKED was the solution I had.
-
-I'm not sure I'm following. For this to be true A and C must be running
-on a different server right?
-
-So we have something like:
-
-	S0 running A			S1 running B
-
-Therefore:
-
-	S0::state == RUNNABLE		S1::state == RUNNABLE
-	A::server_tid == S0.tid		B::server_tid == S1.tid
-	A::state == RUNNING		B::state == RUNNING
-
-Now, you want A to switch to C, therefore C had better be with S0, eg we
-have:
-
-	C::server_tid == S0.tid
-	C::state == RUNNABLE
-
-So then A does:
-
-	A::next_tid = C.tid;
-	sys_umcg_wait();
-
-Which will:
-
-	pin(A);
-	pin(S0);
-
-	cmpxchg(A::state, RUNNING, RUNNABLE);
-
-	next_tid = A::next_tid; // C
-
-	enqueue(S0::runnable, A);
-
-At which point B steals S0's runnable queue, and tries to make A go.
-
-					runnable = xchg(S0::runnable_list_ptr, NULL); // == A
-					A::server_tid = S1.tid;
-					B::next_tid = A.tid;
-					sys_umcg_wait();
-
-	wake(C)
-	  cmpxchg(C::state, RUNNABLE, RUNNING); <-- *fault*
-
-
-Something like that, right?
-
-What currently happens is that S0 goes back to S0 and S1 ends up in A.
-That is, if, for any reason we fail to wake next_tid, we'll wake
-server_tid.
-
-So then S0 wakes up and gets to re-evaluate life. If it has another
-worker it can go run that, otherwise it can try and steal a worker
-somewhere or just idle out.
-
-Now arguably, the only reason A->C can fault is because C is garbage, at
-which point your program is malformed and it doesn't matter what
-happens one way or the other.
+[...]
