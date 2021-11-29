@@ -2,80 +2,96 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D7DF461996
-	for <lists+linux-api@lfdr.de>; Mon, 29 Nov 2021 15:36:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA5D3461A69
+	for <lists+linux-api@lfdr.de>; Mon, 29 Nov 2021 15:54:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378388AbhK2Oj5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Nov 2021 09:39:57 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:40499 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241965AbhK2Oh5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Nov 2021 09:37:57 -0500
-Received: from mail-wr1-f47.google.com ([209.85.221.47]) by
- mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1M5gAG-1mysjf29CU-007Gsm; Mon, 29 Nov 2021 15:34:37 +0100
-Received: by mail-wr1-f47.google.com with SMTP id o13so37156719wrs.12;
-        Mon, 29 Nov 2021 06:34:37 -0800 (PST)
-X-Gm-Message-State: AOAM533YO9pcAlCOuiri8drEfW4cYQrrLb39W8tVOdYEHYzEv7a6bSes
-        6IebKL4KaiG9qEAurNUb4TDGnAwjmp+7rDMH6J4=
-X-Google-Smtp-Source: ABdhPJyXREqU8kKGWYixStrxiAg8L4JSL6SJLG6LnHyFXcHPbgouHOXEYlIbqnHI43DcIJk+Fnqff7ZB74EzR6XRxRY=
-X-Received: by 2002:a5d:4107:: with SMTP id l7mr34125698wrp.209.1638196477109;
- Mon, 29 Nov 2021 06:34:37 -0800 (PST)
+        id S231614AbhK2O56 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Nov 2021 09:57:58 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:47152 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240661AbhK2Oz6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Nov 2021 09:55:58 -0500
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 106A31FCA1;
+        Mon, 29 Nov 2021 14:52:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1638197560; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=xk+/JA55liCLv4d19qz9e66FIlqnWY1CUoqi7236x1w=;
+        b=JEykp9pcS6E08UnuXcxb+tOWyM3cLj7EAwbOzpP7NlWAv7IqOAxTyd5qSs8XMWqYNbP1KD
+        oADWkaQLFf9ZtQtg7ZQp6dq4Im2zvhJPauVodSfYPmrMCYEPKdCb/vrGhzVVveTwu31SN+
+        b0D209kb0hftJYhMPnc9vkKYs9648N0=
+Received: from suse.cz (unknown [10.100.201.86])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id C2B52A3B88;
+        Mon, 29 Nov 2021 14:52:39 +0000 (UTC)
+Date:   Mon, 29 Nov 2021 15:52:36 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
+Cc:     linux-mm@kvack.org, akpm@linux-foundation.org,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Feng Tang <feng.tang@intel.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Andi Kleen <ak@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Huang Ying <ying.huang@intel.com>, linux-api@vger.kernel.org
+Subject: Re: [PATCH v5 2/3] mm/mempolicy: add set_mempolicy_home_node syscall
+Message-ID: <YaTpNJep2OXBkRLe@dhcp22.suse.cz>
+References: <20211116064238.727454-1-aneesh.kumar@linux.ibm.com>
+ <20211116064238.727454-3-aneesh.kumar@linux.ibm.com>
+ <YaSsR0z6GN07qyH7@dhcp22.suse.cz>
+ <87fsrf1bpu.fsf@linux.ibm.com>
+ <YaTLVCKl9t5RCfQR@dhcp22.suse.cz>
+ <8735nfcbvp.fsf@linux.ibm.com>
 MIME-Version: 1.0
-References: <YZvIlz7J6vOEY+Xu@yuki> <1618289.1637686052@warthog.procyon.org.uk>
- <ff8fc4470c8f45678e546cafe9980eff@AcuMS.aculab.com> <YaTAffbvzxGGsVIv@yuki>
-In-Reply-To: <YaTAffbvzxGGsVIv@yuki>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Mon, 29 Nov 2021 15:34:22 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a1Rvf_+qmQ5pyDeKweVOFM_GoOKnG4HA3Ffs6LeVuoDhA@mail.gmail.com>
-Message-ID: <CAK8P3a1Rvf_+qmQ5pyDeKweVOFM_GoOKnG4HA3Ffs6LeVuoDhA@mail.gmail.com>
-Subject: Re: [PATCH] uapi: Make __{u,s}64 match {u,}int64_t in userspace
-To:     Cyril Hrubis <chrubis@suse.cz>
-Cc:     David Laight <David.Laight@aculab.com>,
-        David Howells <dhowells@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "ltp@lists.linux.it" <ltp@lists.linux.it>,
-        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:FKTMbfOX7sEgcBPHAVuFovuPo3UmeiJ8He2f4ltEjxhbfD3LMXb
- sRpyke8vrnDz50IJGGrfjU8IH6qREcbah4K6SEmCSbJUKKIYOv46gIIW9lcoLOKyv9VDdq4
- 00zrjVApJe/7XBHsFyEqoceKA1tv9CLDrrZOPeGudBIoO0sAufYNJTzSKUY3gZq6Tf996lP
- okJFxLO1xYysSSvhj3Wdw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:MSRBOd1hb+s=:UaAflMWgcfWMgbg2zzFpwJ
- I5Qu4PmcHrjNaaadsp9j4X6S63sJGfzHMZdcbfyt3ve2wfYylsLOpEpYSY52pNMB/dkgT9TQz
- tnSNIL8WKecurf5TFZokc9vzNHTGpjPaYn4/8VZUBaIk0hyu622pzq3lF9Za/h7fJu0zLwnJI
- qRcQeG/R0C8VYaqxVJZaUpOyYeDuv04PMiDIth/wNloaLXEke/4qhhx7MmPZ6KeIVyxSiobF+
- GuSHcqo7nT/bCQbp0eorVUa5TUDYIUJBrVMgYfRCwpf1B/NQHVrWCPre2fldjN1NGL1Jfd4a3
- sB7RX7uHZ1cUh7LDcFek97Ebb3u4Xad0sDqQX6/SXAgD1xzNVxumfG0ffzsw0gfn9uLCkKQJp
- I9oyj+Y5gnvH+u4oWN+hIGm/dC1HnfgJWkFEg86Bfo0AmniYek5CH4aYMlfXCOaV8zDOSa7/K
- grjRae83mPGFnGl5H78IpjamDCwzzF1sAMH94qT8f368Z1GrF5pqpGS4MxkKOSSSOQNGF9tl2
- JJmZASArR5cryW4rpqh0xq/Gk/ii8WuwV90zpz6QB/syoNC0oz4Dmg2Cm9uKaWV5mi09M/4Xx
- leV3rcVk86IAyPyP22YtLS6JPdqVYidsvgalYKIUSW04HH1HbgyLzsbJZ0UtBrHSI9a/X/SaZ
- 0cJ97yBoLW3ZlcezJgNrL6zZfvwQ8k+2PXstHl+ynJZ4BaqliO3bnWWgP50UoCWyWR5s=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8735nfcbvp.fsf@linux.ibm.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Nov 29, 2021 at 12:58 PM Cyril Hrubis <chrubis@suse.cz> wrote:
->
-> What about guarding the change with __STDINT_COMPATIBLE_TYPES__ as:
->
-> #if defined(__STDINT_COMPATIBLE_TYPES__)
-> # include <stdint.h>
->
-> typedef __u64 uint64_t;
-> ...
+On Mon 29-11-21 19:17:06, Aneesh Kumar K.V wrote:
+> Michal Hocko <mhocko@suse.com> writes:
+[...]
+> > But you do allow to set the home node also for other policies and that
+> > means that a default MPOL_INTERLEAVE would be different from the one
+> > with home_node set up even though they behave exactly the same.
+> 
+> I agree that there is no error returned if we try to set the home_node
+> for other memory policies. But there should not be any behaviour
+> differences. We ignore home_node for policies other than BIND and
+> PREFERRED_MANY.
+> 
+> The reason I avoided erroring out for other policies was to simplify the
+> error handling.
 
-I don't think we can include stdint.h here, the entire point of the custom
-kernel types is to ensure the other kernel headers can use these types
-without relying on libc headers.
+But this leads to a future extensions problems. How do you tell whether
+a specific policy has a support for home node?
 
-While some of driver specific kernel headers have libc dependencies
-in them, the general rule is to keep the kernel headers as standalone
-usable.
+> For example, for a range of addr with a mix of memory
+> policy MPOLD_BIND and MPOL_INTERLEAVE what should be the state after the
+> above system call?
 
-       Arnd
+Do we even allow to combinate different memory policies?
+
+> We could say, we ignore setting home_node for vma
+> with policy MPOL_INTERLEAVE and leave the home node set for vma with
+> policy MPOL_BIND. Or should we make the system call return error also
+> undoing the changes done for vmas for which we have set the home_node?
+
+The error behavior is really nasty with the existing behavior. The
+caller has no way to tell which vmas have been updated. The only way is
+to query the state. So if we return an error because of an incompatible
+mempolicy in place we are not much worse than now. If the "error" is
+silent then we establish a dependency on the specific implementation.
+-- 
+Michal Hocko
+SUSE Labs
