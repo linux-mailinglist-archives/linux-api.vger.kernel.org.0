@@ -2,114 +2,142 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E15C34624E3
-	for <lists+linux-api@lfdr.de>; Mon, 29 Nov 2021 23:29:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 42EC84625EB
+	for <lists+linux-api@lfdr.de>; Mon, 29 Nov 2021 23:42:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231209AbhK2Wc7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Nov 2021 17:32:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60738 "EHLO
+        id S234736AbhK2Woe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Nov 2021 17:44:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231562AbhK2Wcu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Nov 2021 17:32:50 -0500
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2A1AC06FD44;
-        Mon, 29 Nov 2021 12:15:41 -0800 (PST)
-Received: by mail-wr1-x430.google.com with SMTP id c4so39386255wrd.9;
-        Mon, 29 Nov 2021 12:15:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=AUyW9/bu808KughF8jMY+xgu/5CCJPBOxJx/5UdnFQU=;
-        b=K2z+8261JxjPHqFAkOmRN0j0FdyCPUSiJCUVsRsymL2kYzmr9Yask0TMrCIFWnfgUi
-         58CqxJED0ch+/kVyn1vxCtUSL3CAYhYucVLTSS/CXhmdZZlSX2NB8ZPM85ErG86GAr/3
-         wPdA00828OqtqsiTy0We4U2gxxhmlNDmY6TFDXRLsJmWIZXp8i9pcJNLV4zAGHeC/S18
-         fLTn31mvE5fE+4yV6T/QfZZ/1/QwOSjReGa/xHMwyAjkor+u9VEJYMnMwM1e3nK444Gz
-         hPKiST+v22nEYGm3hNQP1TGH0sOpL57Yasp9dnCXymOM7OsoP1d/oX+xlRYfAIKCy5Je
-         M/Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=AUyW9/bu808KughF8jMY+xgu/5CCJPBOxJx/5UdnFQU=;
-        b=q6uWfy36SdolaxtMVQpFwdtA3kgw9SeWn1yKXMlbjIqjdanWqGle+YkoNeW1oYJW8L
-         vLrUS07OOAIsNE7CR0t4p1iduoqMiHZESDDwya4GliOT5cGXthgEYdhiRNe2KBcORtx2
-         maMn1r6fF16MFGarS5TVLK5GoYY3SPSNZEZaEQ1ZvWNEHdxU7rapzs10s2X7WskbRebU
-         NEnV8XWCKQsgftjeMbsdywNrx+0dQuCcziYBmXcgZA08iC1baeLuQp6rZE8IhMA6aLAj
-         1s+W5Cb5VmaGrgK7l57Is9d6iAGXkICcKDjCzhbQx4oL5r3lAAaadJPraoHAuIN84QaG
-         U42A==
-X-Gm-Message-State: AOAM532noFB+zI9EuaZ6LEsHuvlSx3TIp33mzjCS2xQAB+ZZsV5iXzI9
-        jFolS13v2jyv4sSeDDtVUVc=
-X-Google-Smtp-Source: ABdhPJxZ2XN8R27xeLEJD+fBlb83DwJg2jEoZGuojOJWyPaArj18t0RXp5sEmO5wsbEPJtH0sBCovg==
-X-Received: by 2002:a5d:54cf:: with SMTP id x15mr37985959wrv.30.1638216940391;
-        Mon, 29 Nov 2021 12:15:40 -0800 (PST)
-Received: from localhost.localdomain ([82.114.45.86])
-        by smtp.gmail.com with ESMTPSA id m14sm19791830wrp.28.2021.11.29.12.15.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Nov 2021 12:15:39 -0800 (PST)
-From:   Amir Goldstein <amir73il@gmail.com>
-To:     Jan Kara <jack@suse.cz>
-Cc:     Matthew Bobrowski <mbobrowski@mbobrowski.org>,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: [PATCH v3 00/11] Extend fanotify dirent events
-Date:   Mon, 29 Nov 2021 22:15:26 +0200
-Message-Id: <20211129201537.1932819-1-amir73il@gmail.com>
-X-Mailer: git-send-email 2.33.1
+        with ESMTP id S234778AbhK2WoL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Nov 2021 17:44:11 -0500
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB1FAC0E2EF9;
+        Mon, 29 Nov 2021 13:29:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=mNNnNSgP+EBjbzupf8GX/TTblcO8OUlVrj78b2lxKRM=; b=q6c69S5F9T0dEuf9G/zyLkVOsq
+        GE6UIpmwFVrmijiXV61pxE26LYHxxG/7gkk2iDI0SluinqDG4hRJE6B+kaw3oQVcvGQFmoHUfkzjV
+        v6D9ZoZY4cMmBuPVHxSmf398pU32ECtOETmor58MP70gAFe4GxoTHG3EwxH0430X6WBlf0mRnoGFr
+        PX+TVeTx/Fe9njw9urxkYJQnXpJN6I/lQUe5yzqx+E4d5ixwYFaX7qq+EPRZpBRaBFq75XUoE7ary
+        Kr9tVZMdHFFmuRWL7VuSsNmsrRDNm/U9GIjo60wM4iH++B/sxc8ECctrg7pETJs1iijGd1JxReh13
+        isIpEMow==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mroDV-001JyW-S3; Mon, 29 Nov 2021 21:29:42 +0000
+Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 988E798675D; Mon, 29 Nov 2021 22:29:41 +0100 (CET)
+Date:   Mon, 29 Nov 2021 22:29:41 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Peter Oskolkov <posk@posk.io>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-api@vger.kernel.org, Paul Turner <pjt@google.com>,
+        Ben Segall <bsegall@google.com>,
+        Peter Oskolkov <posk@google.com>,
+        Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
+        Thierry Delisle <tdelisle@uwaterloo.ca>
+Subject: Re: [PATCH v0.9.1 3/6] sched/umcg: implement UMCG syscalls
+Message-ID: <20211129212941.GD735260@worktop.programming.kicks-ass.net>
+References: <20211122211327.5931-1-posk@google.com>
+ <20211122211327.5931-4-posk@google.com>
+ <20211124200822.GF721624@worktop.programming.kicks-ass.net>
+ <CAFTs51Uka8VRCHuGidw7mRwATufp87U6S8SWUVod_kU-h6T3ew@mail.gmail.com>
+ <YaEUts3RbOLyvAjl@hirez.programming.kicks-ass.net>
+ <CAFTs51XnN+N74i1XHvRUAUWd04-Fs9uV6ouXo=CQSQs8MaEM5A@mail.gmail.com>
+ <YaUCoe07Wl9Stlch@hirez.programming.kicks-ass.net>
+ <CAFTs51UzR=m6+vcjTCNOGwGu3ZwB5GMrg+cSQy2ecvCWxhZvEQ@mail.gmail.com>
+ <20211129210841.GO721624@worktop.programming.kicks-ass.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211129210841.GO721624@worktop.programming.kicks-ass.net>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Jan,
+On Mon, Nov 29, 2021 at 10:08:41PM +0100, Peter Zijlstra wrote:
+> I'm not sure I'm following. For this to be true A and C must be running
+> on a different server right?
+> 
+> So we have something like:
+> 
+> 	S0 running A			S1 running B
+> 
+> Therefore:
+> 
+> 	S0::state == RUNNABLE		S1::state == RUNNABLE
+> 	A::server_tid == S0.tid		B::server_tid == S1.tid
+> 	A::state == RUNNING		B::state == RUNNING
+> 
+> Now, you want A to switch to C, therefore C had better be with S0, eg we
+> have:
+> 
+> 	C::server_tid == S0.tid
+> 	C::state == RUNNABLE
+> 
+> So then A does:
+> 
+> 	A::next_tid = C.tid;
+> 	sys_umcg_wait();
+> 
+> Which will:
+> 
+> 	pin(A);
+> 	pin(S0);
+> 
+> 	cmpxchg(A::state, RUNNING, RUNNABLE);
+> 
+> 	next_tid = A::next_tid; // C
+> 
+> 	enqueue(S0::runnable, A);
+> 
+> At which point B steals S0's runnable queue, and tries to make A go.
+> 
+> 					runnable = xchg(S0::runnable_list_ptr, NULL); // == A
+> 					A::server_tid = S1.tid;
+> 					B::next_tid = A.tid;
+> 					sys_umcg_wait();
+> 
+> 	wake(C)
+> 	  cmpxchg(C::state, RUNNABLE, RUNNING); <-- *fault*
+> 
+> 
+> Something like that, right?
 
-This is the 3rd version of patches to add FAN_REPORT_TARGET_FID group
-flag and FAN_RENAME event.
+And note that there's an XXX in the code about exactly this case; it has
+a question whether we want to add pin(next) to umcg_pin_pages().
 
-Patches [1] LTP test [2] and man page draft [3] are available on my
-github.
+That would not in fact help here, because sys_umcg_wait() is faultable
+and the only reason it'll return -EFAULT is because, as stated below, C
+is garbage. But it does make a difference for when we do something like:
 
-Thanks,
-Amir.
+	self->next_tid = someone;
+	sys_something_we_expect_to_block();
+	// handle not blocking
 
-[1] https://github.com/amir73il/linux/commits/fan_rename-v3
-[2] https://github.com/amir73il/ltp/commits/fan_rename
-[2] https://github.com/amir73il/man-pages/commits/fan_rename
+Because in that case userspace must have taken 'someone' from the
+runnable queue and made it 'next', but then we'll not wake next but the
+server, which then needs to figure out something went sideways.
 
-Changes since v2:
-- Rebase on v5.16-rc3
-- Separate mark iterator type from object type enum
-- Use dedicated iter type for 2nd dir
-- Use iter type report mask to indicate if old and/or new
-  dir are watching FAN_RENAME
+So I'm tempted to add that optional 3rd pin, simply to reduce the
+failure cases.
 
-Amir Goldstein (11):
-  fsnotify: clarify object type argument
-  fsnotify: separate mark iterator type from object type enum
-  fanotify: introduce group flag FAN_REPORT_TARGET_FID
-  fsnotify: generate FS_RENAME event with rich information
-  fanotify: use macros to get the offset to fanotify_info buffer
-  fanotify: use helpers to parcel fanotify_info buffer
-  fanotify: support secondary dir fh and name in fanotify_info
-  fanotify: record old and new parent and name in FAN_RENAME event
-  fanotify: record either old name new name or both for FAN_RENAME
-  fanotify: report old and/or new parent+name in FAN_RENAME event
-  fanotify: wire up FAN_RENAME event
-
- fs/notify/dnotify/dnotify.c        |   2 +-
- fs/notify/fanotify/fanotify.c      | 213 ++++++++++++++++++++++-------
- fs/notify/fanotify/fanotify.h      | 142 +++++++++++++++++--
- fs/notify/fanotify/fanotify_user.c |  82 +++++++++--
- fs/notify/fsnotify.c               |  53 ++++---
- fs/notify/group.c                  |   2 +-
- fs/notify/mark.c                   |  31 +++--
- include/linux/dnotify.h            |   2 +-
- include/linux/fanotify.h           |   5 +-
- include/linux/fsnotify.h           |   9 +-
- include/linux/fsnotify_backend.h   |  74 +++++-----
- include/uapi/linux/fanotify.h      |  12 ++
- 12 files changed, 485 insertions(+), 142 deletions(-)
-
--- 
-2.33.1
-
+> What currently happens is that S0 goes back to S0 and S1 ends up in A.
+> That is, if, for any reason we fail to wake next_tid, we'll wake
+> server_tid.
+> 
+> So then S0 wakes up and gets to re-evaluate life. If it has another
+> worker it can go run that, otherwise it can try and steal a worker
+> somewhere or just idle out.
+> 
+> Now arguably, the only reason A->C can fault is because C is garbage, at
+> which point your program is malformed and it doesn't matter what
+> happens one way or the other.
