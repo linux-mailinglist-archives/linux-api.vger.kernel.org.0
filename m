@@ -2,68 +2,65 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 464C3462D81
-	for <lists+linux-api@lfdr.de>; Tue, 30 Nov 2021 08:31:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 138E7462DA7
+	for <lists+linux-api@lfdr.de>; Tue, 30 Nov 2021 08:40:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233691AbhK3Hej (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 30 Nov 2021 02:34:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42278 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232892AbhK3Hej (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 30 Nov 2021 02:34:39 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8943C061574;
-        Mon, 29 Nov 2021 23:31:20 -0800 (PST)
+        id S239072AbhK3Hnj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 30 Nov 2021 02:43:39 -0500
+Received: from sin.source.kernel.org ([145.40.73.55]:35616 "EHLO
+        sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234567AbhK3Hni (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 30 Nov 2021 02:43:38 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 58549B80945;
-        Tue, 30 Nov 2021 07:31:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC3E6C53FC1;
-        Tue, 30 Nov 2021 07:31:17 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 5D73DCE1805;
+        Tue, 30 Nov 2021 07:40:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E728C53FC7;
+        Tue, 30 Nov 2021 07:40:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638257478;
-        bh=Dzz5UOtIm6Dh1nxD0GKk8TkTHLgg6OhYd8STS3fq+aM=;
+        s=k20201202; t=1638258015;
+        bh=8wHaU3NHGbY/iJw1XdoqJNIjIYIPqE1uNtdpLBq7lZA=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fHiU5guF8Vbl2DYexIdx8KdPWiEMIxuNY7iUY3yuapb3+PRkvWwC3Ow1w7sKpPoIA
-         3Uwdc3jF3iiai4HeDIK8Iaj7CCCSl8x3KDCsnaC2AowI8/ubXxqfx8KBLlR4Jje9UK
-         jB7zMtZcp+Zsjutze0RrRAyEtvzAHNhnE1+KhGkaYSpy6Bosv6nDS8FTvZpfQ10vuJ
-         +/f3or2gvLtjC5ccNYsopoN+oP4h8VFbg/5FXOJaSYclKf0lcwYFGJz2mQdhK1U2Hk
-         lOiQLrxCRfP16szJwZsV8lpdrx9e07C4D6earwfi/r9vvZ4hozlOxDAeur1u9alYv5
-         OgOOOrP1s+Ifw==
-Date:   Mon, 29 Nov 2021 23:31:16 -0800
+        b=S7aIryWTg2VKm7DFY10PkVCnbWl2pWL06C32W6i0wOuJGyLfioy46rnZyBHd48U8C
+         tVfm3Iq2TmxEOUz8xCaGUGKHgDmrEYLhGeGDHdEaEU/YNrZpKaeCL0NI65FM2SxCzq
+         FDMsDfa8kp9N2fD8B3FmuOG5ZJd1VHbf3VojyOf5BaOMJygnYi576xjq70fu7YZOLL
+         IiJDbuJpURfiGakdXXxy/DzI1BlRDWNBu6MfjmVW53vaWToH+yWUa+hn+wPZe2Mm/R
+         40SPmFHryI3/FMGl3GAsXllhmUHOHFygjXMGMD5JzOQ59zWk5srOahAsmOM+kxl/zp
+         +CnvY7HzlrDhg==
+Date:   Mon, 29 Nov 2021 23:40:13 -0800
 From:   Eric Biggers <ebiggers@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Hannes Reinecke <hare@suse.de>
 Cc:     linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-api@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-mmc@vger.kernel.org, Bart Van Assche <bvanassche@acm.org>
+        linux-mmc@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bart Van Assche <bvanassche@acm.org>
 Subject: Re: [PATCH v2 3/3] blk-crypto: show crypto capabilities in sysfs
-Message-ID: <YaXTRJO9Wbsh8n05@sol.localdomain>
+Message-ID: <YaXVXU77yvKUyVwg@sol.localdomain>
 References: <20211130040306.148925-1-ebiggers@kernel.org>
  <20211130040306.148925-4-ebiggers@kernel.org>
- <YaXPIYHg8Xnk1Lbh@kroah.com>
+ <8745aed7-d4b6-eb8d-60ad-f4d768d62a62@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YaXPIYHg8Xnk1Lbh@kroah.com>
+In-Reply-To: <8745aed7-d4b6-eb8d-60ad-f4d768d62a62@suse.de>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Nov 30, 2021 at 08:13:37AM +0100, Greg Kroah-Hartman wrote:
-> >  Documentation/block/queue-sysfs.rst |  30 +++++
-> 
-> Same objection as before.  Please add these to Documentation/ABI/
+On Tue, Nov 30, 2021 at 07:49:54AM +0100, Hannes Reinecke wrote:
+> >    - "modes" is a sub-subdirectory, since there may be multiple supported
+> >      crypto modes, and sysfs is supposed to have one value per file.
+> > 
+> Why do you have a sub-directory here?
+> From what I can see, that subdirectory just contains the supported modes, so
+> wouldn't it be easier to create individual files like 'mode_<modename>'
+> instead of a subdirectory?
 
-As I said before, this is where all the blk-sysfs stuff is documented currently.
-If you consider this a hard requirement, then I'll get started on a patch that
-moves all of queue-sysfs.rst into Documentation/ABI/, as it's silly to change it
-for just this one and not the 23 other blk-sysfs attributes with exactly the
-same issue.
-
-> otherwise when running 'scripts/get_abi undefined' will show these new
-> sysfs files you are adding as having no documentation :(
-
-Perhaps this should be part of checkpatch?
+It is a group of attributes, so it makes sense to group them together rather
+than put them all in the parent directory alongside other attributes.  It also
+allows the use of proper names like "AES-256-XTS" rather than weird names like
+"mode_AES-256-XTS" or "mode_aes_256_xts".
 
 - Eric
