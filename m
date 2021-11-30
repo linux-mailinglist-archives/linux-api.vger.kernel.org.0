@@ -2,271 +2,199 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E192246310E
-	for <lists+linux-api@lfdr.de>; Tue, 30 Nov 2021 11:33:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18BE4463AA0
+	for <lists+linux-api@lfdr.de>; Tue, 30 Nov 2021 16:53:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233150AbhK3KhH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 30 Nov 2021 05:37:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56424 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233106AbhK3KhG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 30 Nov 2021 05:37:06 -0500
-Received: from smtp-bc0a.mail.infomaniak.ch (smtp-bc0a.mail.infomaniak.ch [IPv6:2001:1600:4:17::bc0a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CC52C061746
-        for <linux-api@vger.kernel.org>; Tue, 30 Nov 2021 02:33:44 -0800 (PST)
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4J3JTx0DbszMq2FX;
-        Tue, 30 Nov 2021 11:33:41 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4J3JTr6kV7zlhNx2;
-        Tue, 30 Nov 2021 11:33:35 +0100 (CET)
-Message-ID: <86c3fdf8-bc00-8868-1ff1-96e6e1ca9203@digikod.net>
-Date:   Tue, 30 Nov 2021 11:35:00 +0100
+        id S241314AbhK3P4a (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 30 Nov 2021 10:56:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43959 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S243240AbhK3P4B (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 30 Nov 2021 10:56:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1638287559;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=jH9EXfZHYnVVr/gc0bkKyv6b3sFlfwoXqOh2jbmFu5w=;
+        b=fxevny+oozzIi/iZAcyeadKxwRCIlfdW/780GVYLy5hYwUWYpVtEzW3Xoi4gFuykQZOY3d
+        bxOJy/dbK7qp2htoJjEg57sLqWBWrMazBd8Sy+HoMrf0+q2s58mOersoLxzfKiW1xVW0Jx
+        +l7HO2Yd3ZbFazR2VoqIweLM5kT59Tk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-602-EVh_SZNjNbiZ5p2TVAYaWw-1; Tue, 30 Nov 2021 10:52:37 -0500
+X-MC-Unique: EVh_SZNjNbiZ5p2TVAYaWw-1
+Received: by mail-wm1-f71.google.com with SMTP id l6-20020a05600c4f0600b0033321934a39so13120119wmq.9
+        for <linux-api@vger.kernel.org>; Tue, 30 Nov 2021 07:52:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:cc:references:from:organization:subject
+         :in-reply-to:content-transfer-encoding;
+        bh=jH9EXfZHYnVVr/gc0bkKyv6b3sFlfwoXqOh2jbmFu5w=;
+        b=Tjr4WKebsdJFcrVPNtuzw7hD7GwiUkPjbV+b+4jCXfb79/MycR7YcJoefn7KmBYwYB
+         nGjSNrDnasVNUcAG/HCUe9biWsVYY3yQDwns+R++qeS3NVeGBvKO6L2KHpkXW7Bw4e7+
+         SqA5/yaLw/AzUFQSv/70cHsPNCYG6bcLsrQaGvjdfox6n05YA98vZI4ZW1ksW9RZywKL
+         cR8b/KMcCAUtDCYdquGOm+z+9fYhDQoSYgLD0kQ3ZHOjYg9zCQocCUvmSykDAfQVoNns
+         ECUGEipOMkbQM0SdPls2Wj+siDkoAhyIZa2Ww1xf0BpLyosPAaVcrFz61w3NPUWJDIgo
+         DvSw==
+X-Gm-Message-State: AOAM530I4FBiRHwZwgoEVSEtee3x7iOhqJxGT/8rV7o2pYl8pftgUJNt
+        udQmG5MtN16aFiTs0rAgCt0ovDFs0KbDpqkTFBIdrAJdlZv46oM8DAHwqGl+LKwdo7giduFq7vT
+        iOLXJ/evtfFx+8fmrp/xY
+X-Received: by 2002:a5d:4ed1:: with SMTP id s17mr43275364wrv.310.1638287556323;
+        Tue, 30 Nov 2021 07:52:36 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyCk0Kh25FxWu333V+ypoDmQYiIbGoNO0Q+dLf07zWjEGO0dC+mlmyLLG91wlwVMItlU6Av5Q==
+X-Received: by 2002:a5d:4ed1:: with SMTP id s17mr43275336wrv.310.1638287556029;
+        Tue, 30 Nov 2021 07:52:36 -0800 (PST)
+Received: from [192.168.3.132] (p5b0c68ec.dip0.t-ipconnect.de. [91.12.104.236])
+        by smtp.gmail.com with ESMTPSA id t8sm3227398wmq.32.2021.11.30.07.52.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Nov 2021 07:52:35 -0800 (PST)
+Message-ID: <8f82eacb-c6ad-807c-7e13-cd369e91a43d@redhat.com>
+Date:   Tue, 30 Nov 2021 16:52:34 +0100
 MIME-Version: 1.0
-User-Agent: 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
 Content-Language: en-US
-To:     Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Christian Heimes <christian@python.org>,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        "Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Paul Moore <paul@paul-moore.com>,
-        =?UTF-8?Q?Philippe_Tr=c3=a9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        Yin Fengwei <fengwei.yin@intel.com>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
-References: <20211115185304.198460-1-mic@digikod.net>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Subject: Re: [PATCH v17 0/3] Add trusted_for(2) (was O_MAYEXEC)
-In-Reply-To: <20211115185304.198460-1-mic@digikod.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Vlastimil Babka <vbabka@suse.cz>, Jens Axboe <axboe@kernel.dk>,
+        Andrew Dona-Couch <andrew@donacou.ch>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Drew DeVault <sir@cmpwn.com>,
+        Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        io_uring Mailing List <io-uring@vger.kernel.org>,
+        Pavel Begunkov <asml.silence@gmail.com>, linux-mm@kvack.org
+References: <20211124132353.GG5112@ziepe.ca>
+ <cca0229e-e53e-bceb-e215-327b6401f256@redhat.com>
+ <20211124132842.GH5112@ziepe.ca>
+ <eab5aeba-e064-9f3e-fbc3-f73cd299de83@redhat.com>
+ <20211124134812.GI5112@ziepe.ca>
+ <2cdbebb9-4c57-7839-71ab-166cae168c74@redhat.com>
+ <20211124153405.GJ5112@ziepe.ca>
+ <63294e63-cf82-1f59-5ea8-e996662e6393@redhat.com>
+ <20211124183544.GL5112@ziepe.ca>
+ <cc9d3f3e-2fe1-0df0-06b2-c54e020161da@redhat.com>
+ <20211124231133.GM5112@ziepe.ca>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH] Increase default MLOCK_LIMIT to 8 MiB
+In-Reply-To: <20211124231133.GM5112@ziepe.ca>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello Al,
+(sorry, was busy working on other stuff)
 
-I think there is no more comment on this series, everything has been 
-addressed. Could you please consider to merge this into your tree or 
-push it to linux-next?
+>> That would be giving up on compound pages (hugetlbfs, THP, ...) on any
+>> current Linux system that does not use ZONE_MOVABLE -- which is not
+>> something I am not willing to buy into, just like our customers ;)
+> 
+> So we have ZONE_MOVABLE but users won't use it?
 
-Regards,
-  Mickaël
+It's mostly used in the memory hot(un)plug context and we'll see growing
+usage there in the near future (mostly due to dax/kmem, virtio-mem).
+
+One has to be very careful how to size ZONE_MOVABLE, though, and it's
+incompatible with various use cases (even huge pages on some
+architectures are not movable and cannot be placed on ZONE_MOVABLE ...).
+That's why we barely see it getting used automatically outside of memory
+hot(un)plug context or when explicitly setup by the admin for a well
+fine-tuned system.
+
+> 
+> Then why is the solution to push the same kinds of restrictions as
+> ZONE_MOVABLE on to ZONE_NORMAL?
+
+On any zone except ZONE_DEVICE to be precise. Defragmentation is one of
+the main reasons we have pageblocks after all -- besides CMA and page
+isolation. If we don't care about de-fragmentation we could just squash
+MIGRATE_MOVABLE, MIGRATE_UNMOVABLE, MIGRATE_RECLAIMABLE into a single
+type. But after all that's the only thing that provides us with THP in
+most setups out there.
+
+Note that some people (IIRC Mel) even proposed to remove ZONE_MOVABLE
+and instead have "sticky" MIGRATE_MOVABLE pageblocks, meaning
+MIGRATE_MOVABLE pageblocks that cannot be converted to a different type
+or stolen from -- which would mimic the same thing as the pageblocks we
+essentially have in ZONE_MOVABLE.
+
+>  
+>> See my other mail, the upstream version of my reproducer essentially
+>> shows what FOLL_LONGTERM is currently doing wrong with pageblocks. And
+>> at least to me that's an interesting insight :)
+> 
+> Hmm. To your reproducer it would be nice if we could cgroup control
+> the # of page blocks a cgroup has pinned. Focusing on # pages pinned
+> is clearly the wrong metric, I suggested the whole compound earlier,
+> but your point about the entire page block being ruined makes sense
+> too.
+
+# pages pinned is part of the story, but yes, "pinned something inside a
+pageblocks" is a better metric.
+
+I would think that this might be complicated to track, though ...
+especially once we have multiple cgroups pinning inside a single
+pageblock. Hm ...
+
+> 
+> It means pinned pages will have be migrated to already ruined page
+> blocks the cgroup owns, which is a more controlled version of the
+> FOLL_LONGTERM migration you have been thinking about.
+
+MIGRATE_UNMOVABLE pageblocks are already ruined. But we'd need some way
+to manage/charge pageblocks per cgroup I guess? that sounds very
+interesting.
+
+> 
+> This would effectively limit the fragmentation a hostile process group
+> can create. If we further treated unmovable cgroup charged kernel
+> allocations as 'pinned' and routed them to the pinned page blocks it
+> start to look really interesting. Kill the cgroup, get all your THPs
+> back? Fragmentation cannot extend past the cgroup?
+
+So essentially any accounted unmovable kernel allocation (e.g., page
+tables, secretmem, ... ) would try to be placed on a MIGRATE_UNMOVABLE
+pageblock "charged" to the respective cgroup?
+
+> 
+> ie there are lots of batch workloads that could be interesting there -
+> wrap the batch in a cgroup, run it, then kill everything and since the
+> cgroup gives some lifetime clustering to the allocator you get a lot
+> less fragmentation when the batch is finished, so the next batch gets
+> more THPs, etc.
+> 
+> There is also sort of an interesting optimization opportunity - many
+> FOLL_LONGTERM users would be happy to spend more time pinning to get
+> nice contiguous memory ranges. Might help convince people that the
+> extra pin time for migrations is worthwhile.
+
+Indeed. And fortunately, huge page users (heavily used in vfio context
+and for VMs) wouldn't be affected because they only pin huge pages and
+there is nothing to migrate then (well, excluding MIGRATE_CMA and
+ZONE_MOVABLE what we have already, of course).
+
+> 
+>>> Something like io_ring is registering a bulk amount of memory and then
+>>> doing some potentially long operations against it.
+>>
+>> The individual operations it performs are comparable to O_DIRECT I think
+> 
+> Yes, and O_DIRECT can take 10s's of seconds in troubled cases with IO
+> timeouts and things.
+> 
+
+I might be wrong about O_DIRECT semantics, though. Staring at
+fs/io_uring.c I don't really have a clue how they are getting used. I
+assume they are getting used for DMA directly.
 
 
-On 15/11/2021 19:53, Mickaël Salaün wrote:
-> Hi,
-> 
-> This new patch series fix the syscall signature as suggested by
-> Alejandro Colomar.  It applies on Linus's master branch (v5.16-rc1) and
-> next-20211115.
-> 
-> Andrew, can you please consider to merge this into your tree?
-> 
-> Overview
-> ========
-> 
-> The final goal of this patch series is to enable the kernel to be a
-> global policy manager by entrusting processes with access control at
-> their level.  To reach this goal, two complementary parts are required:
-> * user space needs to be able to know if it can trust some file
->    descriptor content for a specific usage;
-> * and the kernel needs to make available some part of the policy
->    configured by the system administrator.
-> 
-> Primary goal of trusted_for(2)
-> ==============================
-> 
-> This new syscall enables user space to ask the kernel: is this file
-> descriptor's content trusted to be used for this purpose?  The set of
-> usage currently only contains execution, but other may follow (e.g.
-> configuration, sensitive data).  If the kernel identifies the file
-> descriptor as trustworthy for this usage, user space should then take
-> this information into account.  The "execution" usage means that the
-> content of the file descriptor is trusted according to the system policy
-> to be executed by user space, which means that it interprets the content
-> or (try to) maps it as executable memory.
-> 
-> A simple system-wide security policy can be set by the system
-> administrator through a sysctl configuration consistent with the mount
-> points or the file access rights.  The documentation explains the
-> prerequisites.
-> 
-> It is important to note that this can only enable to extend access
-> control managed by the kernel.  Hence it enables current access control
-> mechanism to be extended and become a superset of what they can
-> currently control.  Indeed, the security policy could also be delegated
-> to an LSM, either a MAC system or an integrity system.  For instance,
-> this is required to close a major IMA measurement/appraisal interpreter
-> integrity gap by bringing the ability to check the use of scripts [1].
-> Other uses are expected, such as for magic-links [2], SGX integration
-> [3], bpffs [4].
-> 
-> Complementary W^X protections can be brought by SELinux, IPE [5] and
-> trampfd [6].
-> 
-> System call description
-> =======================
-> 
-> trusted_for(int fd, enum trusted_for_usage usage, u32 flags);
-> 
-> @fd is the file descriptor to check.
-> 
-> @usage identifies the user space usage intended for @fd: only
-> TRUSTED_FOR_EXECUTION for now, but trusted_for_usage could be extended
-> to identify other usages (e.g. configuration, sensitive data).
-> 
-> @flags must be 0 for now but it could be used in the future to do
-> complementary checks (e.g. signature or integrity requirements, origin
-> of the file).
-> 
-> This system call returns 0 on success, or -EACCES if the kernel policy
-> denies the specified usage (which should be enforced by the caller).
-> 
-> The first patch contains the full syscall and sysctl documentation.
-> 
-> Prerequisite of its use
-> =======================
-> 
-> User space needs to adapt to take advantage of this new feature.  For
-> example, the PEP 578 [7] (Runtime Audit Hooks) enables Python 3.8 to be
-> extended with policy enforcement points related to code interpretation,
-> which can be used to align with the PowerShell audit features.
-> Additional Python security improvements (e.g. a limited interpreter
-> without -c, stdin piping of code) are on their way [8].
-> 
-> Examples
-> ========
-> 
-> The initial idea comes from CLIP OS 4 and the original implementation
-> has been used for more than 13 years:
-> https://github.com/clipos-archive/clipos4_doc
-> Chrome OS has a similar approach:
-> https://chromium.googlesource.com/chromiumos/docs/+/master/security/noexec_shell_scripts.md
-> 
-> Userland patches can be found here:
-> https://github.com/clipos-archive/clipos4_portage-overlay/search?q=O_MAYEXEC
-> Actually, there is more than the O_MAYEXEC changes (which matches this search)
-> e.g., to prevent Python interactive execution. There are patches for
-> Bash, Wine, Java (Icedtea), Busybox's ash, Perl and Python. There are
-> also some related patches which do not directly rely on O_MAYEXEC but
-> which restrict the use of browser plugins and extensions, which may be
-> seen as scripts too:
-> https://github.com/clipos-archive/clipos4_portage-overlay/tree/master/www-client
-> 
-> An introduction to O_MAYEXEC was given at the Linux Security Summit
-> Europe 2018 - Linux Kernel Security Contributions by ANSSI:
-> https://www.youtube.com/watch?v=chNjCRtPKQY&t=17m15s
-> The "write xor execute" principle was explained at Kernel Recipes 2018 -
-> CLIP OS: a defense-in-depth OS:
-> https://www.youtube.com/watch?v=PjRE0uBtkHU&t=11m14s
-> See also a first LWN article about O_MAYEXEC and a new one about
-> trusted_for(2) and its background:
-> * https://lwn.net/Articles/820000/
-> * https://lwn.net/Articles/832959/
-> 
-> This can be tested with CONFIG_SYSCTL.  I would really appreciate
-> constructive comments on this patch series.
-> 
-> [1] https://lore.kernel.org/lkml/20211014130125.6991-1-zohar@linux.ibm.com/
-> [2] https://lore.kernel.org/lkml/20190904201933.10736-6-cyphar@cyphar.com/
-> [3] https://lore.kernel.org/lkml/CALCETrVovr8XNZSroey7pHF46O=kj_c5D9K8h=z2T_cNrpvMig@mail.gmail.com/
-> [4] https://lore.kernel.org/lkml/CALCETrVeZ0eufFXwfhtaG_j+AdvbzEWE0M3wjXMWVEO7pj+xkw@mail.gmail.com/
-> [5] https://lore.kernel.org/lkml/20200406221439.1469862-12-deven.desai@linux.microsoft.com/
-> [6] https://lore.kernel.org/lkml/20200922215326.4603-1-madvenka@linux.microsoft.com/
-> [7] https://www.python.org/dev/peps/pep-0578/
-> [8] https://lore.kernel.org/lkml/0c70debd-e79e-d514-06c6-4cd1e021fa8b@python.org/
-> 
-> Previous versions:
-> v16: https://lore.kernel.org/r/20211110190626.257017-1-mic@digikod.net/
-> v15: https://lore.kernel.org/r/20211012192410.2356090-1-mic@digikod.net/
-> v14: https://lore.kernel.org/r/20211008104840.1733385-1-mic@digikod.net/
-> v13: https://lore.kernel.org/r/20211007182321.872075-1-mic@digikod.net/
-> v12: https://lore.kernel.org/r/20201203173118.379271-1-mic@digikod.net/
-> v11: https://lore.kernel.org/r/20201019164932.1430614-1-mic@digikod.net/
-> v10: https://lore.kernel.org/r/20200924153228.387737-1-mic@digikod.net/
-> v9: https://lore.kernel.org/r/20200910164612.114215-1-mic@digikod.net/
-> v8: https://lore.kernel.org/r/20200908075956.1069018-1-mic@digikod.net/
-> v7: https://lore.kernel.org/r/20200723171227.446711-1-mic@digikod.net/
-> v6: https://lore.kernel.org/r/20200714181638.45751-1-mic@digikod.net/
-> v5: https://lore.kernel.org/r/20200505153156.925111-1-mic@digikod.net/
-> v4: https://lore.kernel.org/r/20200430132320.699508-1-mic@digikod.net/
-> v3: https://lore.kernel.org/r/20200428175129.634352-1-mic@digikod.net/
-> v2: https://lore.kernel.org/r/20190906152455.22757-1-mic@digikod.net/
-> v1: https://lore.kernel.org/r/20181212081712.32347-1-mic@digikod.net/
-> 
-> Regards,
-> 
-> Mickaël Salaün (3):
->    fs: Add trusted_for(2) syscall implementation and related sysctl
->    arch: Wire up trusted_for(2)
->    selftest/interpreter: Add tests for trusted_for(2) policies
-> 
->   Documentation/admin-guide/sysctl/fs.rst       |  50 +++
->   arch/alpha/kernel/syscalls/syscall.tbl        |   2 +
->   arch/arm/tools/syscall.tbl                    |   1 +
->   arch/arm64/include/asm/unistd.h               |   2 +-
->   arch/arm64/include/asm/unistd32.h             |   2 +
->   arch/ia64/kernel/syscalls/syscall.tbl         |   2 +
->   arch/m68k/kernel/syscalls/syscall.tbl         |   2 +
->   arch/microblaze/kernel/syscalls/syscall.tbl   |   2 +
->   arch/mips/kernel/syscalls/syscall_n32.tbl     |   2 +
->   arch/mips/kernel/syscalls/syscall_n64.tbl     |   2 +
->   arch/mips/kernel/syscalls/syscall_o32.tbl     |   2 +
->   arch/parisc/kernel/syscalls/syscall.tbl       |   2 +
->   arch/powerpc/kernel/syscalls/syscall.tbl      |   2 +
->   arch/s390/kernel/syscalls/syscall.tbl         |   2 +
->   arch/sh/kernel/syscalls/syscall.tbl           |   2 +
->   arch/sparc/kernel/syscalls/syscall.tbl        |   2 +
->   arch/x86/entry/syscalls/syscall_32.tbl        |   1 +
->   arch/x86/entry/syscalls/syscall_64.tbl        |   1 +
->   arch/xtensa/kernel/syscalls/syscall.tbl       |   2 +
->   fs/open.c                                     | 111 ++++++
->   include/linux/fs.h                            |   1 +
->   include/linux/syscalls.h                      |   1 +
->   include/uapi/asm-generic/unistd.h             |   4 +-
->   include/uapi/linux/trusted-for.h              |  18 +
->   kernel/sysctl.c                               |  12 +-
->   tools/testing/selftests/Makefile              |   1 +
->   .../testing/selftests/interpreter/.gitignore  |   2 +
->   tools/testing/selftests/interpreter/Makefile  |  21 +
->   tools/testing/selftests/interpreter/config    |   1 +
->   .../selftests/interpreter/trust_policy_test.c | 362 ++++++++++++++++++
->   30 files changed, 613 insertions(+), 4 deletions(-)
->   create mode 100644 include/uapi/linux/trusted-for.h
->   create mode 100644 tools/testing/selftests/interpreter/.gitignore
->   create mode 100644 tools/testing/selftests/interpreter/Makefile
->   create mode 100644 tools/testing/selftests/interpreter/config
->   create mode 100644 tools/testing/selftests/interpreter/trust_policy_test.c
-> 
-> 
-> base-commit: 8ab774587903771821b59471cc723bba6d893942
-> 
+-- 
+Thanks,
+
+David / dhildenb
+
