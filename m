@@ -2,123 +2,98 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C999464720
-	for <lists+linux-api@lfdr.de>; Wed,  1 Dec 2021 07:22:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D264B464754
+	for <lists+linux-api@lfdr.de>; Wed,  1 Dec 2021 07:45:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232134AbhLAGZw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 1 Dec 2021 01:25:52 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:16266 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231871AbhLAGZv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 1 Dec 2021 01:25:51 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B15cIAX002218;
-        Wed, 1 Dec 2021 06:22:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=60VzF9r60QMTqaKczXpfroOZx9CoVrufBeApKEeEhdE=;
- b=CL4fIp146CgvqdH99mh25BGxxFOSfJ3fIF1XHFSgOqv1lCoPSjYzJ+/pR0ueh017vi4a
- hbzfuxpkxjmQK+uEa6Rb40XK+ebbivqHAOuWsJXgXGaNvVnA1/ET67pEu6IyKr5YCXP/
- NFVjfyttjd92Vkks8ZihLNhvXQJDi6fURSoWB+HD3vcfv/x0yUWygwtziZQmUN+beNh7
- y4sFW41qaTHl8iOrDhgYo7rFvnKnOMjIPFGUNCXjzFQwICqiUFoGHsIyiyluELVhTi88
- IzxtFK3doxDsdCeUrxRzMD6szdfcydlzqf6q7O3W8eDUTfuzroM9npqgkfJehK1kkDoD gg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3cp2sprwv1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 01 Dec 2021 06:22:18 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B16IRMv007562;
-        Wed, 1 Dec 2021 06:22:17 GMT
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com [169.55.85.253])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3cp2sprwuk-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 01 Dec 2021 06:22:17 +0000
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
-        by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B16Ld2T003867;
-        Wed, 1 Dec 2021 06:22:16 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
-        by ppma01wdc.us.ibm.com with ESMTP id 3ckcabdegp-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 01 Dec 2021 06:22:16 +0000
-Received: from b03ledav001.gho.boulder.ibm.com (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
-        by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 1B16MFG553936436
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 1 Dec 2021 06:22:15 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9A7DB6E054;
-        Wed,  1 Dec 2021 06:22:15 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 6C9A16E052;
-        Wed,  1 Dec 2021 06:22:10 +0000 (GMT)
-Received: from skywalker.linux.ibm.com (unknown [9.43.38.73])
-        by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Wed,  1 Dec 2021 06:22:09 +0000 (GMT)
-X-Mailer: emacs 28.0.50 (via feedmail 11-beta-1 I)
-From:   "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-mm@kvack.org, Ben Widawsky <ben.widawsky@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Feng Tang <feng.tang@intel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Andi Kleen <ak@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Huang Ying <ying.huang@intel.com>, linux-api@vger.kernel.org
-Subject: Re: [PATCH v5 2/3] mm/mempolicy: add set_mempolicy_home_node syscall
-In-Reply-To: <20211130190028.6644054bc7142af36ef5c648@linux-foundation.org>
-References: <20211116064238.727454-1-aneesh.kumar@linux.ibm.com>
- <20211116064238.727454-3-aneesh.kumar@linux.ibm.com>
- <20211129140215.11b7cf9f1034a7fe7017768c@linux-foundation.org>
- <87wnkqaujt.fsf@linux.ibm.com>
- <20211130190028.6644054bc7142af36ef5c648@linux-foundation.org>
-Date:   Wed, 01 Dec 2021 11:52:08 +0530
-Message-ID: <87r1awc0a7.fsf@linux.ibm.com>
+        id S239599AbhLAGsi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 1 Dec 2021 01:48:38 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:40362 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229492AbhLAGsi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 1 Dec 2021 01:48:38 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 964151FD58;
+        Wed,  1 Dec 2021 06:45:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1638341116; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=tMhHLjMDal40aoJPgixW4AZWOZicKmK6zULWZcT34w0=;
+        b=bR1Haya9j6KKtmezsJOqIuJOv84iymar9dU0waJJV++gGLOprPsuiEZzQkfA/07SyDIk1G
+        NDmy8nfp5NJFHkrfbP6QNJiCptL9hEqNHH6/2pe+04PXFZryo15STKTPApf9hmB0j2LZfc
+        srNqY2A/nVCapYP/9l6IpXvmL6RucmI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1638341116;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=tMhHLjMDal40aoJPgixW4AZWOZicKmK6zULWZcT34w0=;
+        b=Zyy9lQ9v6ZSkldI9XKKBzbi46QYKGNM+XzDlCooLFbF0YzO2PDR/jOk88xwrCz67eyyV+L
+        gW5/wwlPC9nK4TDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6977113425;
+        Wed,  1 Dec 2021 06:45:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id dzxkGPwZp2F4CAAAMHmgww
+        (envelope-from <hare@suse.de>); Wed, 01 Dec 2021 06:45:16 +0000
+Subject: Re: [PATCH v2 3/3] blk-crypto: show crypto capabilities in sysfs
+To:     Eric Biggers <ebiggers@kernel.org>
+Cc:     linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-mmc@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bart Van Assche <bvanassche@acm.org>
+References: <20211130040306.148925-1-ebiggers@kernel.org>
+ <20211130040306.148925-4-ebiggers@kernel.org>
+ <8745aed7-d4b6-eb8d-60ad-f4d768d62a62@suse.de>
+ <YaXVXU77yvKUyVwg@sol.localdomain>
+From:   Hannes Reinecke <hare@suse.de>
+Message-ID: <ea5db68e-8d2b-b242-bf81-9fce29cdde83@suse.de>
+Date:   Wed, 1 Dec 2021 07:45:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: UcOHq32OOeGqmNWdexe8uvVDdw-l_AHv
-X-Proofpoint-GUID: BHEz3vFUC4OE8XTXBNGuBLyD2SuxBoIu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-30_10,2021-11-28_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 mlxlogscore=999
- priorityscore=1501 impostorscore=0 lowpriorityscore=0 adultscore=0
- spamscore=0 malwarescore=0 suspectscore=0 bulkscore=0 phishscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112010034
+In-Reply-To: <YaXVXU77yvKUyVwg@sol.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Andrew Morton <akpm@linux-foundation.org> writes:
+On 11/30/21 8:40 AM, Eric Biggers wrote:
+> On Tue, Nov 30, 2021 at 07:49:54AM +0100, Hannes Reinecke wrote:
+>>>     - "modes" is a sub-subdirectory, since there may be multiple supported
+>>>       crypto modes, and sysfs is supposed to have one value per file.
+>>>
+>> Why do you have a sub-directory here?
+>>  From what I can see, that subdirectory just contains the supported modes, so
+>> wouldn't it be easier to create individual files like 'mode_<modename>'
+>> instead of a subdirectory?
+> 
+> It is a group of attributes, so it makes sense to group them together rather
+> than put them all in the parent directory alongside other attributes.  It also
+> allows the use of proper names like "AES-256-XTS" rather than weird names like
+> "mode_AES-256-XTS" or "mode_aes_256_xts".
+> 
+Right.
 
-> On Tue, 30 Nov 2021 14:29:02 +0530 "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com> wrote:
->
->> > What's the thinking here?  The node can later be offlined and the
->> > kernel takes no action to reset home nodes, so why not permit setting a
->> > presently-offline node as the home node?  Checking here seems rather
->> > arbitrary?
->> 
->> The node online check was needed to avoid accessing 
->> uninitialised pgdat structure. Such an access can result in
->> below crash
->
-> Oh.  This is unobvious from reading the code.  Which calls for a
-> comment, no?
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-updated
+Cheers,
 
-@@ -1497,6 +1498,10 @@ SYSCALL_DEFINE4(set_mempolicy_home_node, unsigned long, start, unsigned long, le
- 	if (flags != 0)
- 		return -EINVAL;
- 
-+	/*
-+	 * Check home_node is online to avoid accessing uninitialized
-+	 * NODE_DATA.
-+	 */
- 	if (home_node >= MAX_NUMNODES || !node_online(home_node))
- 		return -EINVAL;
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Felix Imendörffer
