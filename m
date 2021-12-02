@@ -2,90 +2,137 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F7C2466B28
-	for <lists+linux-api@lfdr.de>; Thu,  2 Dec 2021 21:48:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 328DE466D53
+	for <lists+linux-api@lfdr.de>; Thu,  2 Dec 2021 23:55:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349007AbhLBUwN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 2 Dec 2021 15:52:13 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:48249 "EHLO
-        out4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S238643AbhLBUwN (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Dec 2021 15:52:13 -0500
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id 844045C01E1;
-        Thu,  2 Dec 2021 15:48:49 -0500 (EST)
-Received: from imap45 ([10.202.2.95])
-  by compute5.internal (MEProxy); Thu, 02 Dec 2021 15:48:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=owlfolio.org; h=
-        mime-version:message-id:in-reply-to:references:date:from:to:cc
-        :subject:content-type; s=fm2; bh=V+oY0lvpRQ6EWyHSpKOwdyQZHvigeH/
-        DqFU+688VfMY=; b=nb/nkksHB3a3v4m7IZp4fqN9v2xH5hSYXlFYTlHB+UWrVyH
-        zTDvXiG5u/13oPUWZiI6qmf0PYrvqXZEvdl2SqEr4Y6QawYYzmnseHuysVT/lFIq
-        V8MNlx4x00WGzc5fNSo+1GgM1UOD3mwX1IZ4Vp/T5pQc7VzQb6gZ6u0KrdEmDK9N
-        xbsHXGFoSCie3plt1DgqtjMNV06JXlML19Zz0H/vf5Bq/klVz+0M1ohEHRNYDPeo
-        IL7Cg8Y5P3pHdGfvgdXBSkSfMVKquO9L+7h7bg4QA3Zrg76+DszVT13+n7r5KNlb
-        iriUINGYx8Ze31uCpxdzOO2Gv0t1NknSTRbPfHA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=V+oY0l
-        vpRQ6EWyHSpKOwdyQZHvigeH/DqFU+688VfMY=; b=NQm5/SdfzT+EZ/AqkRR47a
-        QX4yiM4sJjwLX4m6PvlVoMNjX+Uns4jeRpZTM7mMBWBlh3l8ufG/VWwDtu2brul0
-        bRGYNECR1HwGvbO5xZYs5c8IJ5eyUpagJdfeekv2EHQbHJ1uDSHRjFbaXx/dDfwt
-        TrV6iAZ8rAPqjZv3bVNtCx2Y9+EDrV11Ss/gUVNwcT5D6gla9+H9PwBjnLpL4vc6
-        aljzCB68dMyH3Hg1PxjcBiJ85Eu61QapWuAGoJRsT1MRbqrh6ogBoZt7d6C6bmPS
-        /VXkBMhkDj89rsmYNou+/aiC93ISbgkOKnA1tsiLHlqP3HuH8g2CZKkomwPlG1Qw
-        ==
-X-ME-Sender: <xms:MTGpYeEJPYWp_rHkqEacZFxYHsJd67PCuWde_SH5dYWqrSmdLSvCdg>
-    <xme:MTGpYfV2PxMAfwkf12Wcl41xCYCZ32GQT7M7kVl9ac2lG76oEqZspgMjV4iJ4GJGN
-    klk3u_Gtl_dcYLK3ss>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrieehgddugeduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdgkrggt
-    khcuhggvihhnsggvrhhgfdcuoeiirggtkhesohiflhhfohhlihhordhorhhgqeenucggtf
-    frrghtthgvrhhnpefhuefhveeuffetfffgjeetgfekkeehfedtfeelgfehffffveehkeel
-    fefgheffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpeiirggtkhesohiflhhfohhlihhordhorhhg
-X-ME-Proxy: <xmx:MTGpYYIcIk60IcYhPJipH82rcWZ_npxTlANWG_CTbh882idWQplhiQ>
-    <xmx:MTGpYYFb3jITNU2wroc500kVkUXgtwzYSAT-u9F-RsjShajDz8ZIKQ>
-    <xmx:MTGpYUWgEuT3sqp06vd3CA8jMwj1erEyitWGrie6-G1qgQ3qvVyqUQ>
-    <xmx:MTGpYSyEIzBfPUqfSA9f-BvYW2l9jShFn38Fz-o3hMBGYUTAl4VOIg>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 11E5C24A0077; Thu,  2 Dec 2021 15:48:48 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-4458-g51a91c06b2-fm-20211130.004-g51a91c06
-Mime-Version: 1.0
-Message-Id: <1e3867cd-2c8b-4fe1-93a6-c6ae34120f6b@www.fastmail.com>
-In-Reply-To: <913509.1638457313@warthog.procyon.org.uk>
-References: <b8d6f890-e5aa-44bf-8a55-5998efa05967@www.fastmail.com>
- <YZvIlz7J6vOEY+Xu@yuki> <1618289.1637686052@warthog.procyon.org.uk>
- <ff8fc4470c8f45678e546cafe9980eff@AcuMS.aculab.com> <YaTAffbvzxGGsVIv@yuki>
- <CAK8P3a1Rvf_+qmQ5pyDeKweVOFM_GoOKnG4HA3Ffs6LeVuoDhA@mail.gmail.com>
- <913509.1638457313@warthog.procyon.org.uk>
-Date:   Thu, 02 Dec 2021 15:48:21 -0500
-From:   "Zack Weinberg" <zack@owlfolio.org>
-To:     "David Howells" <dhowells@redhat.com>
-Cc:     "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "Florian Weimer" <libc-alpha@sourceware.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "David Laight" <David.Laight@aculab.com>,
-        "ltp@lists.linux.it" <ltp@lists.linux.it>
-Subject: Re: [PATCH] uapi: Make __{u,s}64 match {u,}int64_t in userspace
-Content-Type: text/plain
+        id S245019AbhLBW7D (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 2 Dec 2021 17:59:03 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:58188 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232678AbhLBW7D (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Dec 2021 17:59:03 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 394B2B8250A;
+        Thu,  2 Dec 2021 22:55:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73D48C53FD0;
+        Thu,  2 Dec 2021 22:55:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1638485738;
+        bh=9JPXS6JB0sszCChpApl20tAYZRWpKBl+/3D7oa9tIZg=;
+        h=Date:From:To:Subject:From;
+        b=Ylk38iFza4s1DWD43kT/ThbYS2iIUiJj93pv86xJImFolxWkZ9WY+ns+mjEMQ90DG
+         P5MKeoZCsZJ//+08aZNO8ri1fVIEH6l1tDU7ZC8dSeLWAdiUzk4s+5yyZplxSpUF5X
+         JnGH6r0MSjhcUWTJODD4gFs1zCalVjOH98vlb9u8=
+Date:   Thu, 02 Dec 2021 14:55:36 -0800
+From:   akpm@linux-foundation.org
+To:     aarcange@redhat.com, ak@linux.intel.com,
+        aneesh.kumar@linux.ibm.com, ben.widawsky@intel.com,
+        dan.j.williams@intel.com, dave.hansen@linux.intel.com,
+        feng.tang@intel.com, linux-api@vger.kernel.org,
+        mgorman@techsingularity.net, mhocko@suse.com,
+        mike.kravetz@oracle.com, mm-commits@vger.kernel.org,
+        rdunlap@infradead.org, vbabka@suse.cz, ying.huang@intel.com
+Subject:  +
+ mm-mempolicy-use-policy_node-helper-with-mpol_preferred_many.patch added to
+ -mm tree
+Message-ID: <20211202225536.ARhuPP9Qk%akpm@linux-foundation.org>
+User-Agent: s-nail v14.8.16
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Dec 2, 2021, at 10:01 AM, David Howells via Libc-alpha wrote:
-> Zack Weinberg <zack@owlfolio.org> wrote:
->> I could be persuaded otherwise with an example of a program for which
->> changing __s64 from 'long long' to 'long' would break *binary* backward
->> compatibility, or similarly for __u64.
->
-> C++ could break.
 
-That's too hypothetical to be actionable.  I would like to see a _specific program_, and I would like it to be one that already exists in the world and was not written as a test case for this hypothetical ABI break.
+The patch titled
+     Subject: mm/mempolicy: use policy_node helper with MPOL_PREFERRED_MANY
+has been added to the -mm tree.  Its filename is
+     mm-mempolicy-use-policy_node-helper-with-mpol_preferred_many.patch
 
-zw
+This patch should soon appear at
+    https://ozlabs.org/~akpm/mmots/broken-out/mm-mempolicy-use-policy_node-helper-with-mpol_preferred_many.patch
+and later at
+    https://ozlabs.org/~akpm/mmotm/broken-out/mm-mempolicy-use-policy_node-helper-with-mpol_preferred_many.patch
+
+Before you just go and hit "reply", please:
+   a) Consider who else should be cc'ed
+   b) Prefer to cc a suitable mailing list as well
+   c) Ideally: find the original patch on the mailing list and do a
+      reply-to-all to that, adding suitable additional cc's
+
+*** Remember to use Documentation/process/submit-checklist.rst when testing your code ***
+
+The -mm tree is included into linux-next and is updated
+there every 3-4 working days
+
+------------------------------------------------------
+From: "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
+Subject: mm/mempolicy: use policy_node helper with MPOL_PREFERRED_MANY
+
+Patch series "mm: add new syscall set_mempolicy_home_node", v6.
+
+
+This patch (of 3):
+
+A followup patch will enable setting a home node with MPOL_PREFERRED_MANY
+memory policy.  To facilitate that switch to using policy_node helper. 
+There is no functional change in this patch.
+
+Link: https://lkml.kernel.org/r/20211202123810.267175-1-aneesh.kumar@linux.ibm.com
+Link: https://lkml.kernel.org/r/20211202123810.267175-2-aneesh.kumar@linux.ibm.com
+Signed-off-by: Aneesh Kumar K.V <aneesh.kumar@linux.ibm.com>
+Acked-by: Michal Hocko <mhocko@suse.com>
+Cc: Ben Widawsky <ben.widawsky@intel.com>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Feng Tang <feng.tang@intel.com>
+Cc: Andrea Arcangeli <aarcange@redhat.com>
+Cc: Mel Gorman <mgorman@techsingularity.net>
+Cc: Mike Kravetz <mike.kravetz@oracle.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: Andi Kleen <ak@linux.intel.com>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: Huang Ying <ying.huang@intel.com>
+Cc: <linux-api@vger.kernel.org>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+---
+
+ mm/mempolicy.c |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+--- a/mm/mempolicy.c~mm-mempolicy-use-policy_node-helper-with-mpol_preferred_many
++++ a/mm/mempolicy.c
+@@ -2062,7 +2062,7 @@ static struct page *alloc_pages_preferre
+ 	preferred_gfp &= ~(__GFP_DIRECT_RECLAIM | __GFP_NOFAIL);
+ 	page = __alloc_pages(preferred_gfp, order, nid, &pol->nodes);
+ 	if (!page)
+-		page = __alloc_pages(gfp, order, numa_node_id(), NULL);
++		page = __alloc_pages(gfp, order, nid, NULL);
+ 
+ 	return page;
+ }
+@@ -2104,6 +2104,7 @@ struct page *alloc_pages_vma(gfp_t gfp,
+ 	}
+ 
+ 	if (pol->mode == MPOL_PREFERRED_MANY) {
++		node = policy_node(gfp, pol, node);
+ 		page = alloc_pages_preferred_many(gfp, order, node, pol);
+ 		mpol_cond_put(pol);
+ 		goto out;
+@@ -2188,7 +2189,7 @@ struct page *alloc_pages(gfp_t gfp, unsi
+ 		page = alloc_page_interleave(gfp, order, interleave_nodes(pol));
+ 	else if (pol->mode == MPOL_PREFERRED_MANY)
+ 		page = alloc_pages_preferred_many(gfp, order,
+-				numa_node_id(), pol);
++				  policy_node(gfp, pol, numa_node_id()), pol);
+ 	else
+ 		page = __alloc_pages(gfp, order,
+ 				policy_node(gfp, pol, numa_node_id()),
+_
+
+Patches currently in -mm which might be from aneesh.kumar@linux.ibm.com are
+
+mm-mempolicy-use-policy_node-helper-with-mpol_preferred_many.patch
+mm-mempolicy-add-set_mempolicy_home_node-syscall.patch
+mm-mempolicy-wire-up-syscall-set_mempolicy_home_node.patch
+
