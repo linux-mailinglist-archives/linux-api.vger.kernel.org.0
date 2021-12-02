@@ -2,133 +2,102 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B9A1466442
-	for <lists+linux-api@lfdr.de>; Thu,  2 Dec 2021 14:07:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 331924665E4
+	for <lists+linux-api@lfdr.de>; Thu,  2 Dec 2021 15:55:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346662AbhLBNK7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 2 Dec 2021 08:10:59 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28]:59788 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235891AbhLBNK6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Dec 2021 08:10:58 -0500
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 2A52F212BA;
-        Thu,  2 Dec 2021 13:07:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1638450455; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=fBEPWl3ouXPLdPayqv4809Ve4tC+0uurHMYlgkDtXWw=;
-        b=JEFvhKkP1Oxhj4jZd8VjXF8roUnreaKsvkNUiP6ptWxUbuT4EHqDE/oXWp6L5thcx3i/aj
-        tZRc64hyZhHEYD/RcV1O6mbk0rR6mD/DKo3/BoU0kI2nMUj7PbBeypgEZ1xU6+Qdr2Aya/
-        Z33zm6xobygJRsaE6kOBvdx8fzTvp7M=
-Received: from suse.cz (unknown [10.100.201.86])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 09B78A3C2B;
-        Thu,  2 Dec 2021 13:07:34 +0000 (UTC)
-Date:   Thu, 2 Dec 2021 14:07:34 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
-Cc:     linux-mm@kvack.org, akpm@linux-foundation.org,
-        daniel.m.jordan@oracle.com, Ben Widawsky <ben.widawsky@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Feng Tang <feng.tang@intel.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Andi Kleen <ak@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Huang Ying <ying.huang@intel.com>, linux-api@vger.kernel.org
-Subject: Re: [PATCH v6 2/3] mm/mempolicy: add set_mempolicy_home_node syscall
-Message-ID: <YajFFk5bKmNBnAdh@dhcp22.suse.cz>
-References: <20211202123810.267175-1-aneesh.kumar@linux.ibm.com>
- <20211202123810.267175-3-aneesh.kumar@linux.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211202123810.267175-3-aneesh.kumar@linux.ibm.com>
+        id S1358822AbhLBO7J (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 2 Dec 2021 09:59:09 -0500
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:44077 "EHLO
+        wout5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1358808AbhLBO7H (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Dec 2021 09:59:07 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.west.internal (Postfix) with ESMTP id 526943201E78;
+        Thu,  2 Dec 2021 09:55:42 -0500 (EST)
+Received: from imap45 ([10.202.2.95])
+  by compute5.internal (MEProxy); Thu, 02 Dec 2021 09:55:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=owlfolio.org; h=
+        mime-version:message-id:in-reply-to:references:date:from:to:cc
+        :subject:content-type; s=fm2; bh=+NUeMvGno9VoUYgWj62BzbUCTMF03jM
+        8iOcYMnHe6Jo=; b=fXW8aaVpmBW0/bI+IK7QhkiXw/PwfyVTQvdrQUgpwb8rtxt
+        Bhj3LCCwa7h7WivXSanhF7lS3+yEHhQAPfAkkYHgounXWqC9/jjsYzyFbt6OkHXJ
+        MY+6HDtAplln7oTeDwS3Z5nnSpBXGTH/1I1ki1LKkcLHdFJ7oMNy+O1QkntaqCVu
+        I0e0wY0KtziawAx2fVgJnOfiPnawqPdhhg9A+EXR82D56bI5YQ5qwd2zjpeQAxgf
+        azmL84TDqhKIa6oCbgDc3jWKUOB+KvQx2Upd9UfjxdwU6xaQgakjg754Ckqky/lc
+        GnswU5ksKRovwMGoC28I22pNdNvhQdMJdG3v0uQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=+NUeMv
+        Gno9VoUYgWj62BzbUCTMF03jM8iOcYMnHe6Jo=; b=N1vMm3qGdST4hCH7kL3RNl
+        /GCF4UHXQUizEdUMjbVZhouOWFOooNfpT+sKg34sGMAm+npWbXBcnYpjEVmp11rZ
+        MXsCs5vmcvCpEdzqm2VbENyZwVCamSbugXGI+ujFR75dSnaRJCrqrwDwyjgb0+FC
+        OZXtbVcVRvqKngu/s5xe5plh6YHbXgqU16mumDwUmYCwHJnneMszqEsP2I/zFGLL
+        WDURx63NSU4j9w7GlDUZZSZNlAufvNqH7OKHPPvvLKAyvFfnTOy9gEY43s6x4hmr
+        +n5OKiWAUOS4N/uIh8tFV8cfSUEXoMUsu+A6gLHmp9lmRloVh7Hopr8ic3HXbSPA
+        ==
+X-ME-Sender: <xms:bd6oYTJIRs7SIavIDblVThWXtpVtILcxZaWGLjtG4V1ShjldXreNqw>
+    <xme:bd6oYXLF1yriDEudSSU78SL6SmCNDjygbBHIezocgYR1D3yII4Vma4wksrQYngoI_
+    Y7q2Gxr8Ua54ouaM1E>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrieehgdeilecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedfkggrtghk
+    ucghvghinhgsvghrghdfuceoiigrtghksehofihlfhholhhiohdrohhrgheqnecuggftrf
+    grthhtvghrnhephfeuhfevueffteffgfejtefgkeekheeftdeflefgheffffevheekleef
+    gfehffdunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epiigrtghksehofihlfhholhhiohdrohhrgh
+X-ME-Proxy: <xmx:bd6oYbvVu_Et3kkzuONhU23glxmXwesHDbn4RiGBk-QOAcNMIVMuvQ>
+    <xmx:bd6oYcZuRyYC_eXeJJMCbIL7JTc2-aBPFynrjafJO5y_IcIvtyZ95A>
+    <xmx:bd6oYabSu4i0RvdCrUTgNhJH4SeS9WZzBTty8aVM1k6OXFfG1ya-qQ>
+    <xmx:bd6oYfMdfg56CVuu2VY762Pef75SJbhFPFwUpW4anNknuL3vF7OiAQ>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 13EC024A0074; Thu,  2 Dec 2021 09:55:41 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-4458-g51a91c06b2-fm-20211130.004-g51a91c06
+Mime-Version: 1.0
+Message-Id: <b8d6f890-e5aa-44bf-8a55-5998efa05967@www.fastmail.com>
+In-Reply-To: <CAK8P3a1Rvf_+qmQ5pyDeKweVOFM_GoOKnG4HA3Ffs6LeVuoDhA@mail.gmail.com>
+References: <YZvIlz7J6vOEY+Xu@yuki>
+ <1618289.1637686052@warthog.procyon.org.uk>
+ <ff8fc4470c8f45678e546cafe9980eff@AcuMS.aculab.com> <YaTAffbvzxGGsVIv@yuki>
+ <CAK8P3a1Rvf_+qmQ5pyDeKweVOFM_GoOKnG4HA3Ffs6LeVuoDhA@mail.gmail.com>
+Date:   Thu, 02 Dec 2021 09:55:20 -0500
+From:   "Zack Weinberg" <zack@owlfolio.org>
+To:     "Arnd Bergmann" <arnd@arndb.de>, "Cyril Hrubis" <chrubis@suse.cz>
+Cc:     "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        libc-alpha@sourceware.org,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "David Howells" <dhowells@redhat.com>,
+        "David Laight" <David.Laight@aculab.com>,
+        "ltp@lists.linux.it" <ltp@lists.linux.it>
+Subject: Re: [PATCH] uapi: Make __{u,s}64 match {u,}int64_t in userspace
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu 02-12-21 18:08:09, Aneesh Kumar K.V wrote:
-> This syscall can be used to set a home node for the MPOL_BIND
-> and MPOL_PREFERRED_MANY memory policy. Users should use this
-> syscall after setting up a memory policy for the specified range
-> as shown below.
-> 
-> mbind(p, nr_pages * page_size, MPOL_BIND, new_nodes->maskp,
-> 	    new_nodes->size + 1, 0);
-> sys_set_mempolicy_home_node((unsigned long)p, nr_pages * page_size,
-> 				  home_node, 0);
-> 
-> The syscall allows specifying a home node/preferred node from which kernel
-> will fulfill memory allocation requests first.
-> 
-> For address range with MPOL_BIND memory policy, if nodemask specifies more
-> than one node, page allocations will come from the node in the nodemask
-> with sufficient free memory that is closest to the home node/preferred node.
-> 
-> For MPOL_PREFERRED_MANY if the nodemask specifies more than one node,
-> page allocation will come from the node in the nodemask with sufficient
-> free memory that is closest to the home node/preferred node. If there is
-> not enough memory in all the nodes specified in the nodemask, the allocation
-> will be attempted from the closest numa node to the home node in the system.
-> 
-> This helps applications to hint at a memory allocation preference node
-> and fallback to _only_ a set of nodes if the memory is not available
-> on the preferred node.  Fallback allocation is attempted from the node which is
-> nearest to the preferred node.
-> 
-> This helps applications to have control on memory allocation numa nodes and
-> avoids default fallback to slow memory NUMA nodes. For example a system with
-> NUMA nodes 1,2 and 3 with DRAM memory and 10, 11 and 12 of slow memory
-> 
->  new_nodes = numa_bitmask_alloc(nr_nodes);
-> 
->  numa_bitmask_setbit(new_nodes, 1);
->  numa_bitmask_setbit(new_nodes, 2);
->  numa_bitmask_setbit(new_nodes, 3);
-> 
->  p = mmap(NULL, nr_pages * page_size, protflag, mapflag, -1, 0);
->  mbind(p, nr_pages * page_size, MPOL_BIND, new_nodes->maskp,  new_nodes->size + 1, 0);
-> 
->  sys_set_mempolicy_home_node(p, nr_pages * page_size, 2, 0);
-> 
-> This will allocate from nodes closer to node 2 and will make sure the kernel will
-> only allocate from nodes 1, 2, and 3. Memory will not be allocated from slow memory
-> nodes 10, 11, and 12. This differs from default MPOL_BIND behavior in that with
-> default MPOL_BIND the allocation will be attempted from node closer to the local node.
-> One of the reasons to specify a home node is to allow allocations from cpu less
-> NUMA node and its nearby NUMA nodes.
-> 
-> With MPOL_PREFERRED_MANY on the other hand will first try to allocate from the
-> closest node to node 2 from the node list 1, 2 and 3. If those nodes don't have
-> enough memory, kernel will allocate from slow memory node 10, 11 and 12 which
-> ever is closer to node 2.
-> 
-> Cc: Ben Widawsky <ben.widawsky@intel.com>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: Feng Tang <feng.tang@intel.com>
-> Cc: Michal Hocko <mhocko@kernel.org>
-> Cc: Andrea Arcangeli <aarcange@redhat.com>
-> Cc: Mel Gorman <mgorman@techsingularity.net>
-> Cc: Mike Kravetz <mike.kravetz@oracle.com>
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Vlastimil Babka <vbabka@suse.cz>
-> Cc: Andi Kleen <ak@linux.intel.com>
-> Cc: Dan Williams <dan.j.williams@intel.com>
-> Cc: Huang Ying <ying.huang@intel.com>
-> Cc: linux-api@vger.kernel.org
-> Signed-off-by: Aneesh Kumar K.V <aneesh.kumar@linux.ibm.com>
+On Mon, Nov 29, 2021, at 9:34 AM, Arnd Bergmann wrote:
+> On Mon, Nov 29, 2021 at 12:58 PM Cyril Hrubis <chrubis@suse.cz> wrote:
+>>
+>> What about guarding the change with __STDINT_COMPATIBLE_TYPES__
 
-LGTM
-Acked-by: Michal Hocko <mhocko@suse.com>
+In user space, I don't see a compelling need for backward compatibility?  User space's expectation is that the types are *already* the same and we (glibc) regularly get bug reports because they aren't.
 
-Thanks!
--- 
-Michal Hocko
-SUSE Labs
+I could be persuaded otherwise with an example of a program for which changing
+__s64 from 'long long' to 'long' would break *binary* backward compatibility, or
+similarly for __u64.
+
+> I don't think we can include stdint.h here, the entire point of the custom
+> kernel types is to ensure the other kernel headers can use these types
+> without relying on libc headers.
+
+If __KERNEL__ is not defined, though, there should be no issue, right?
+
+From user space's perspective, it's an ongoing source of problems whenever __uN isn't exactly the same "underlying type" as uintN_t, same for __sN and intN_t.  We would really like it if the uapi headers, when included from user space, deferred to the C library for the definitions of these types.
+
+<stdint.h> does define a lot of things beyond just the fixed-width types, and it defines names in the application namespace (i.e. with no __ prefix).  Perhaps we could come to some agreement on a private header, provided by libcs, that *only* defined __{u,}int{8,16,32,64}_t.  glibc already has <bits/types.h> which promises
+to define only __-prefix names, but it defines a lot of other types as well (__dev_t, __uid_t, __pid_t, __time_t, etc etc etc).
+
+zw
