@@ -2,69 +2,61 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 56AEE4684E0
-	for <lists+linux-api@lfdr.de>; Sat,  4 Dec 2021 13:46:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87D4C468D56
+	for <lists+linux-api@lfdr.de>; Sun,  5 Dec 2021 21:44:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1384952AbhLDMuC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 4 Dec 2021 07:50:02 -0500
-Received: from sv6073.xserver.jp ([183.181.98.74]:58636 "EHLO
-        sv6073.xserver.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233028AbhLDMuC (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 4 Dec 2021 07:50:02 -0500
-X-Greylist: delayed 452 seconds by postgrey-1.27 at vger.kernel.org; Sat, 04 Dec 2021 07:50:02 EST
-Received: from virusgw6001.xserver.jp (virusgw6001.xserver.jp [183.181.98.243])
-        by sv6073.xserver.jp (Postfix) with ESMTP id 9E5DF8A01229B
-        for <linux-api@vger.kernel.org>; Sat,  4 Dec 2021 21:39:04 +0900 (JST)
-Received: from sv6073.xserver.jp (183.181.98.74)
- by virusgw6001.xserver.jp (F-Secure/fsigk_smtp/521/virusgw6001.xserver.jp);
- Sat, 04 Dec 2021 21:39:04 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/521/virusgw6001.xserver.jp)
-Received: by sv6073.xserver.jp (Postfix, from userid 20095)
-        id 9B1C88A012289; Sat,  4 Dec 2021 21:39:04 +0900 (JST)
+        id S238416AbhLEUsM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 5 Dec 2021 15:48:12 -0500
+Received: from mailgw33-112.conoha.ne.jp ([118.27.100.112]:25907 "EHLO
+        mailgw33.conoha.ne.jp" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S238373AbhLEUsM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 5 Dec 2021 15:48:12 -0500
+X-Greylist: delayed 543 seconds by postgrey-1.27 at vger.kernel.org; Sun, 05 Dec 2021 15:48:12 EST
+Received: from www163.conoha.ne.jp (unknown [172.16.43.73])
+        by mailgw33.conoha.ne.jp (Postfix) with ESMTP id 2FB5318005BDAB
+        for <linux-api@vger.kernel.org>; Mon,  6 Dec 2021 05:35:41 +0900 (JST)
+Received: by www163.conoha.ne.jp (Postfix, from userid 10099)
+        id 2F2C330418923; Mon,  6 Dec 2021 05:35:41 +0900 (JST)
 To:     linux-api@vger.kernel.org
-Subject: =?UTF-8?B?44CQ6Ieq5YuV6L+U5L+h44CR44GK5ZWP44GE5ZCI44KP44Gb44GC44KK44GM?=  =?UTF-8?B?44Go44GG44GU44GW44GE44G+44GZ44CC?=
-Date:   Sat, 4 Dec 2021 12:39:04 +0000
-From:   =?UTF-8?B?44Od44Kk5rS7TGlmZQ==?= <info@point-activity-life.com>
-Message-ID: <FzCaeT4K19R4JSHDemrQ8eUETQh0USYMrx2JeDtHk@point-activity-life.com>
-X-Mailer: PHPMailer 6.2.0 (https://github.com/PHPMailer/PHPMailer)
+Subject: =?ISO-2022-JP?B?GyRCJCpMZCQkOWckbyQ7PHUbKEI=?=
+ =?ISO-2022-JP?B?GyRCSVUkTiQqQ04kaSQ7GyhC?=
+X-PHP-Script: bonomacaroni-inc.com/index.php for 54.39.209.228
+X-PHP-Filename: /home/c3126122/public_html/bonomacaroni-inc.com/index.php REMOTE_ADDR: 54.39.209.228
+From:   =?UTF-8?B?55S75YOP77yR5p6a44GL44KJ44Gu5qC85a6J5YuV55S75Yi25L2c44Gq44KJ?=
+         =?UTF-8?B?LeODnOODjuODnuOCq+ODreODi+WItuS9nA==?= <bonobox@live.jp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=ISO-2022-JP
+Content-Transfer-Encoding: 7bit
+Message-Id: <20211205203541.2F2C330418923@www163.conoha.ne.jp>
+Date:   Mon,  6 Dec 2021 05:35:41 +0900 (JST)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-❤️ Alice want to meet you! Click Here: http://bit.do/fSMvk?jvd ❤️　様
 
-お問い合わせいただきましてありがとうございます。
+?? Megan liked you! Click Here: http://bit.do/fSMVS?koe50 ?? $BMM(B 
 
-以下の内容にて承りました。
+$B2hA|#1Kg$+$i$N3J0BF02h@):n$J$i(B-$B%\%N%^%+%m%K@):n(B $B$X$*Ld$$9g$o$;$$$?$@$-!"@?$K$"$j$,$H$&$4$6$$$^$9!#(B
 
-内容を確認後、専属のサポートにてご返信いたします。
-
-通常、３営業日前後にてご返信しておりますので
-今しばらくお待ちいただきますようお願いいたします。
-
-
-【お問い合わせ内容】
-差出人: ❤️ Alice want to meet you! Click Here: http://bit.do/fSMvk?jvd ❤️　様
-メールアドレス：linux-api@vger.kernel.org
-題名：w2b9uf
-
-メッセージ本文:
-x92jf3
+$B2~$a$FC4Ev<T$h$j$4O"MmCW$7$^$9$N$G!":#$7$P$i$/$*BT$A$/$@$5$$!#(B 
 
 
 
-※このメールは送信専用です。
-こちらに返信いただいても返信できませんのでご了承ください。
+-------------------------------------------------
 
-お問い合わせ
-https://point-activity-life.com/contact/
+$B"#$*L>A0(B:
+?? Megan liked you! Click Here: http://bit.do/fSMVS?koe50 ?? 
 
 
-━━━━━━━━━━━━━━━━━━
-　ポイ活Life
-【発行責任者】　ポイ活Life運営事務局
-━━━━━━━━━━━━━━━━━━
+$B"#%a!<%k%"%I%l%9(B:
+linux-api@vger.kernel.org 
 
+
+$B"#BjL>(B:
+dlyqih 
+
+
+$B"#$*Ld$$9g$o$;FbMF(B:
+evuymvc 
+
+-------------------------------------------------
