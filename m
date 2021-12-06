@@ -2,40 +2,40 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 283FB469510
-	for <lists+linux-api@lfdr.de>; Mon,  6 Dec 2021 12:33:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA77F469539
+	for <lists+linux-api@lfdr.de>; Mon,  6 Dec 2021 12:47:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242559AbhLFLg3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 6 Dec 2021 06:36:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60104 "EHLO
+        id S237407AbhLFLvL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 6 Dec 2021 06:51:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242494AbhLFLgL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Dec 2021 06:36:11 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7253CC061359;
-        Mon,  6 Dec 2021 03:32:42 -0800 (PST)
+        with ESMTP id S237397AbhLFLvL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Dec 2021 06:51:11 -0500
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE8BDC061746;
+        Mon,  6 Dec 2021 03:47:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=bbPon1x1Cb+zVlWyG5Z9rwl6b0rpya4JWPKDzhX3GGU=; b=slQSxZZ0VZCUUEAGC0vtDR2sDH
-        U+NTHEXwuB+ok1uaEzNUl3w52lNSWZCB1uQhfYnK/RuUHzvOiqDxEW1TnGsVEk/88b5qXl3yANpEs
-        BWIK+ZnfRY/xehsgUWEpuSYF2qtj7vuI0ld/9IXEGANRvm/lALukgKS4IKUj7bAels1mXx2R28gi0
-        fmsoqlYhgmVCq7UNfT+R7pZdGZKTepKyKmte8oiYifBFLBFg+oFe11FLtFtAzcaKFVMX6Gu4JPI/0
-        R4c4VIubeVXOiQGIOyFsb0U6PSF/uM7GH6tlipCscYbok8t9VTglxIdkNpnEWfxxYlE04NZKfRh9A
-        Ck/GVhLQ==;
+        bh=BIruuCdmTRV7u236FmMymK/LvvK7SoVKqYX/tWqVHLY=; b=qkClHPsshzGqwFN3chZaQTVnPF
+        8zNfB/Tei7qSQkKcJSsrcGOAJOrOoEXAtALI5FEpsMkr+Ei7QUUhSREmUC8bTVgzJi2FF7z1VwLAu
+        fYA1mDkDmCVSfopOgJhP7FH97GeJ3W9YHrrK491GPiDPteoEFN6r4FrWQ+zgxOFdEYJKuBU+JrPcn
+        4B4R9zCHa9W+u8Q8FFFuuPi0g4heGcgHtwJarHdBGffBcjzQZFe3KTFtoPbyxzKPxkPbjUHJ5XxvO
+        hAOHzZx0nCBmNE0U2Nn1YeYiiQkPhvsEBngDzRBKFKuiAMwdYZgKBIRzvaZ2WLkb2DeG16wI5mlPx
+        0StL5Nng==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1muCEJ-004GN4-0N; Mon, 06 Dec 2021 11:32:23 +0000
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1muCSq-002YJP-Uk; Mon, 06 Dec 2021 11:47:25 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 508133002DB;
-        Mon,  6 Dec 2021 12:32:22 +0100 (CET)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id AAB783002DB;
+        Mon,  6 Dec 2021 12:47:23 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 35C57202CABA2; Mon,  6 Dec 2021 12:32:22 +0100 (CET)
-Date:   Mon, 6 Dec 2021 12:32:22 +0100
+        id 8D347202CABA2; Mon,  6 Dec 2021 12:47:23 +0100 (CET)
+Date:   Mon, 6 Dec 2021 12:47:23 +0100
 From:   Peter Zijlstra <peterz@infradead.org>
 To:     Peter Oskolkov <posk@posk.io>
 Cc:     Ingo Molnar <mingo@redhat.com>,
@@ -51,7 +51,7 @@ Cc:     Ingo Molnar <mingo@redhat.com>,
         Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
         Thierry Delisle <tdelisle@uwaterloo.ca>
 Subject: Re: [PATCH v0.9.1 3/6] sched/umcg: implement UMCG syscalls
-Message-ID: <Ya30xsrQnwyT/R92@hirez.programming.kicks-ass.net>
+Message-ID: <Ya34S2JCQg+81h4t@hirez.programming.kicks-ass.net>
 References: <20211122211327.5931-1-posk@google.com>
  <20211122211327.5931-4-posk@google.com>
  <20211124200822.GF721624@worktop.programming.kicks-ass.net>
@@ -60,147 +60,65 @@ References: <20211122211327.5931-1-posk@google.com>
  <CAFTs51XnN+N74i1XHvRUAUWd04-Fs9uV6ouXo=CQSQs8MaEM5A@mail.gmail.com>
  <YaUCoe07Wl9Stlch@hirez.programming.kicks-ass.net>
  <CAFTs51UzR=m6+vcjTCNOGwGu3ZwB5GMrg+cSQy2ecvCWxhZvEQ@mail.gmail.com>
- <20211129210841.GO721624@worktop.programming.kicks-ass.net>
- <CAFTs51XyGDNj89+FCn4HZqMHuenjQu2wqTOW8ow4hSUbdGrGhw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFTs51XyGDNj89+FCn4HZqMHuenjQu2wqTOW8ow4hSUbdGrGhw@mail.gmail.com>
+In-Reply-To: <CAFTs51UzR=m6+vcjTCNOGwGu3ZwB5GMrg+cSQy2ecvCWxhZvEQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Mon, Nov 29, 2021 at 09:34:49AM -0800, Peter Oskolkov wrote:
+> On Mon, Nov 29, 2021 at 8:41 AM Peter Zijlstra <peterz@infradead.org> wrote:
 
-Sorry, I haven't been feeling too well and as such procastinated on this
-because thinking is required :/ Trying to pick up the bits.
-
-On Mon, Nov 29, 2021 at 03:38:38PM -0800, Peter Oskolkov wrote:
-> On Mon, Nov 29, 2021 at 1:08 PM Peter Zijlstra <peterz@infradead.org> wrote:
-> [...]
-> > > > > Another big concern I have is that you removed UMCG_TF_LOCKED. I
-> > > >
-> > > > OOh yes, I forgot to mention that. I couldn't figure out what it was
-> > > > supposed to do.
-> [...]
-> >
-> > So then A does:
-> >
-> >         A::next_tid = C.tid;
-> >         sys_umcg_wait();
-> >
-> > Which will:
-> >
-> >         pin(A);
-> >         pin(S0);
-> >
-> >         cmpxchg(A::state, RUNNING, RUNNABLE);
+> > Also, timeout on sys_umcg_wait() gets you the exact same situation (or
+> > worse, multiple running workers).
 > 
-> Hmm.... That's another difference between your patch and mine: my
-> approach was "the side that initiates the change updates the state".
-> So in my code the userspace changes the current task's state RUNNING
-> => RUNNABLE and the next task's state,
+> It should not. Timed out workers should be added to the runnable list
+> and not become running unless a server chooses so. So sys_umcg_wait()
+> with a timeout should behave similarly to a normal sleep, in that the
+> server is woken upon the worker blocking, and upon the worker wakeup
+> the worker is added to the woken workers list and waits for a server
+> to run it. The only difference is that in a sleep the worker becomes
+> BLOCKED, while in sys_umcg_wait() the worker is RUNNABLE the whole
+> time.
+> 
+> Why then have sys_umcg_wait() with a timeout at all, instead of
+> calling nanosleep()? Because the worker in sys_umcg_wait() can be
+> context-switched into by another worker, or made running by a server;
+> if the worker is in nanosleep(), it just sleeps.
 
-I couldn't make that work for wakeups; when a thread blocks in a
-random syscall there is no userspace to wake the next thread. And since
-it seems required in this case, it's easier and more consistent to
-always do it.
+I've been trying to figure out the semantics of that timeout thing, and
+I can't seem to make sense of it.
 
-> or the server's state, RUNNABLE
-> => RUNNING before calling sys_umcg_wait().
+Consider two workers:
 
-Yes, this is indeed required; I've found the same when trying to build
-the userspace server loop. And yes, I'm starting to see where you're
-coming from.
+	S0 running A				S1 running B
 
-> I'm still not sure we can live without UMCG_TF_LOCKED. What if worker
-> A transfers its server to worker B that A intends to context switch
+therefore:
 
-	S0 running A
+	S0::state == RUNNABLE			S1::state == RUNNABLE
+	A::server_tid == S0.tid			B::server_tid = S1.tid
+	A::state == RUNNING			B::state == RUNNING
 
-Therefore:
+Doing:
 
-	S0::state == RUNNABLE
-	A::server_tid = S0.tid
-	A::state == RUNNING
+	self->state = RUNNABLE;			self->state = RUNNABLE;
+	sys_umcg_wait(0);			sys_umcg_wait(10);
+	  umcg_enqueue_runnable()		  umcg_enqueue_runnable()
+	  umcg_wake()				  umcg_wake()
+	  umcg_wait()				  umcg_wait()
+						    hrtimer_start()
 
-you want A to switch to B, therefore:
+In both cases we get the exact same outcome:
 
-	B::state == RUNNABLE
-
-if B is not yet on S0 then:
-
-	B::server_tid = S0.tid;
-
-finally:
-
-0:
-	A::next_tid = B.tid;
-1:
-	A::state = RUNNABLE:
-2:
-	sys_umcg_wait();
-3:
-
-> into, and then worker A pagefaults or gets interrupted before calling
-> sys_umcg_wait()?
-
-So the problem is tripping umcg_notify_resume() on the labels 1 and 2,
-right? tripping it on 0 and 3 is trivially correct.
-
-If we trip it on 1 and !(A::state & TG_PREEMPT), then nothing, since
-::state == RUNNING we'll just continue onwards and all is well. That is,
-nothing has happened yet.
-
-However, if we trip it on 2: we're screwed. Because at that point
-::state is scribbled.
-
-> The server will be woken up and will see that it is
-> assigned to worker B; now what? If worker A is "locked" before the
-> whole thing starts, the pagefault/interrupt will not trigger
-> block/wake detection, worker A will keep RUNNING for all intended
-> purposes, and eventually will call sys_umcg_wait() as it had
-> intended...
-
-No, the failure case is different; umcg_notify_resume() will simply
-block A until someone sets A::state == RUNNING and kicks it, which will
-be no-one.
-
-Now, the above situation is actually simple to fix, but it gets more
-interesting when we're using sys_umcg_wait() to build wait primitives.
-Because in that case we get stuff like:
-
-	for (;;) {
-		self->state = RUNNABLE;
-		smp_mb();
-		if (cond)
-			break;
-		sys_umcg_wait();
-	}
-	self->state = RUNNING;
-
-And we really need to not block and also not do sys_umcg_wait() early.
-
-So yes, I agree that we need a special case here that ensures
-umcg_notify_resume() doesn't block. Let me ponder naming and comments.
-Either a TF_COND_WAIT or a whole new state. I can't decide yet.
-
-Now, obviously if you do a random syscall anywhere around here, you get
-to keep the pieces :-)
+	A::state == RUNNABLE			B::state == RUNNABLE
+	S0::state == RUNNING			S1::state == RUNNING
+	S0::runnable_ptr == &A			S1::runnable_ptr = &B
 
 
+Which is, AFAICT, the exact state you wanted to achieve, except B now
+has an active timer, but what do you want it to do when that goes?
 
-I've also added ::next_tid to the whole umcg_pin_pages() thing, and made
-it so that ::next_tid gets cleared when it's been used. That way things
-like:
-
-	self->next_tid = pick_from_runqueue();
-	sys_that_is_expected_to_sleep();
-	if (self->next_tid) {
-		return_to_runqueue(self->next_tid);
-		self->next_tid = 0;
-	}
-
-Are much simpler to manage. Either it did sleep and ::next_tid is
-consumed, or it didn't sleep and it needs to be returned to the
-runqueue.
-
+I'm tempted to say workers cannot have timeout, and servers can use it
+to wake themselves.
