@@ -2,154 +2,205 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E86746905A
-	for <lists+linux-api@lfdr.de>; Mon,  6 Dec 2021 07:14:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 283FB469510
+	for <lists+linux-api@lfdr.de>; Mon,  6 Dec 2021 12:33:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237684AbhLFGSR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 6 Dec 2021 01:18:17 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46662 "EHLO
-        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236571AbhLFGSQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Dec 2021 01:18:16 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B64I2TH028793;
-        Mon, 6 Dec 2021 06:14:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : in-reply-to : references : date : message-id : content-type :
- mime-version; s=pp1; bh=K/Paca94JaAFzf+FMtTON0EOr2JuJkoWvhRnGgBo5wQ=;
- b=AWY9s22GWrJ7pQPvmxHRqajnvsEu0NoI+XXBq3GtyWITFiSbYv+ZN6KKMbM0STo72QIP
- pSyXHTJlfNUJDBwRc8C8njhytsHfonMsEKFr5ekDJQYVDSLcWRqY/5dv6AEyl7DCeeMh
- WkmGDqwoCpbNez933cEcojKDYfym6WtFDiySAXlMl3uVgwmXk2NAdtI7NWyPW1zMynwm
- Rxj7QeHAIN5g+o79PmWaW4PU3L8nh9RtxoLIXI99i8ha4c4ZTY3X/UwCH969lIMc4Yw1
- BFKZFqyOWB2kmQHUwyP3m01M95Oa1cvnCl/qwhE5Tnb+nZ6a4HYY18jXXGpc6++loDZf 7g== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3csbc51jr8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 06 Dec 2021 06:14:37 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1B66BHdC030312;
-        Mon, 6 Dec 2021 06:14:36 GMT
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com [169.55.91.170])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3csbc51jr4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 06 Dec 2021 06:14:36 +0000
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
-        by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1B66Dfn3005019;
-        Mon, 6 Dec 2021 06:14:35 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com [9.57.198.29])
-        by ppma02wdc.us.ibm.com with ESMTP id 3cqyy9e3f3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 06 Dec 2021 06:14:35 +0000
-Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com [9.57.199.106])
-        by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 1B66EZQj55509250
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 6 Dec 2021 06:14:35 GMT
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 5D60028067;
-        Mon,  6 Dec 2021 06:14:35 +0000 (GMT)
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id AA3F028066;
-        Mon,  6 Dec 2021 06:14:30 +0000 (GMT)
-Received: from skywalker.linux.ibm.com (unknown [9.43.89.70])
-        by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
-        Mon,  6 Dec 2021 06:14:30 +0000 (GMT)
-X-Mailer: emacs 28.0.50 (via feedmail 11-beta-1 I)
-From:   "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
-To:     kernel test robot <lkp@intel.com>, akpm@linux-foundation.org,
-        aarcange@redhat.com, ak@linux.intel.com, ben.widawsky@intel.com,
-        dan.j.williams@intel.com, dave.hansen@linux.intel.com,
-        feng.tang@intel.com, linux-api@vger.kernel.org,
-        mgorman@techsingularity.net, mhocko@kernel.org
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org
-Subject: Re: + mm-mempolicy-wire-up-syscall-set_mempolicy_home_node.patch
- added to -mm tree
-In-Reply-To: <202112060718.JbZsyJcP-lkp@intel.com>
-References: <20211202225542.A2LkS8Bho%akpm@linux-foundation.org>
- <202112060718.JbZsyJcP-lkp@intel.com>
-Date:   Mon, 06 Dec 2021 11:44:28 +0530
-Message-ID: <87o85ub6pn.fsf@linux.ibm.com>
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: qY71JCU_pS3T8Xyoe668lhYBq_p4H-sO
-X-Proofpoint-GUID: yad0agPixeWI7UGnr3SVN8RK6pT2MMY8
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        id S242559AbhLFLg3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 6 Dec 2021 06:36:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60104 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242494AbhLFLgL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 6 Dec 2021 06:36:11 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7253CC061359;
+        Mon,  6 Dec 2021 03:32:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=bbPon1x1Cb+zVlWyG5Z9rwl6b0rpya4JWPKDzhX3GGU=; b=slQSxZZ0VZCUUEAGC0vtDR2sDH
+        U+NTHEXwuB+ok1uaEzNUl3w52lNSWZCB1uQhfYnK/RuUHzvOiqDxEW1TnGsVEk/88b5qXl3yANpEs
+        BWIK+ZnfRY/xehsgUWEpuSYF2qtj7vuI0ld/9IXEGANRvm/lALukgKS4IKUj7bAels1mXx2R28gi0
+        fmsoqlYhgmVCq7UNfT+R7pZdGZKTepKyKmte8oiYifBFLBFg+oFe11FLtFtAzcaKFVMX6Gu4JPI/0
+        R4c4VIubeVXOiQGIOyFsb0U6PSF/uM7GH6tlipCscYbok8t9VTglxIdkNpnEWfxxYlE04NZKfRh9A
+        Ck/GVhLQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1muCEJ-004GN4-0N; Mon, 06 Dec 2021 11:32:23 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 508133002DB;
+        Mon,  6 Dec 2021 12:32:22 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 35C57202CABA2; Mon,  6 Dec 2021 12:32:22 +0100 (CET)
+Date:   Mon, 6 Dec 2021 12:32:22 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Peter Oskolkov <posk@posk.io>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-api@vger.kernel.org, Paul Turner <pjt@google.com>,
+        Ben Segall <bsegall@google.com>,
+        Peter Oskolkov <posk@google.com>,
+        Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
+        Thierry Delisle <tdelisle@uwaterloo.ca>
+Subject: Re: [PATCH v0.9.1 3/6] sched/umcg: implement UMCG syscalls
+Message-ID: <Ya30xsrQnwyT/R92@hirez.programming.kicks-ass.net>
+References: <20211122211327.5931-1-posk@google.com>
+ <20211122211327.5931-4-posk@google.com>
+ <20211124200822.GF721624@worktop.programming.kicks-ass.net>
+ <CAFTs51Uka8VRCHuGidw7mRwATufp87U6S8SWUVod_kU-h6T3ew@mail.gmail.com>
+ <YaEUts3RbOLyvAjl@hirez.programming.kicks-ass.net>
+ <CAFTs51XnN+N74i1XHvRUAUWd04-Fs9uV6ouXo=CQSQs8MaEM5A@mail.gmail.com>
+ <YaUCoe07Wl9Stlch@hirez.programming.kicks-ass.net>
+ <CAFTs51UzR=m6+vcjTCNOGwGu3ZwB5GMrg+cSQy2ecvCWxhZvEQ@mail.gmail.com>
+ <20211129210841.GO721624@worktop.programming.kicks-ass.net>
+ <CAFTs51XyGDNj89+FCn4HZqMHuenjQu2wqTOW8ow4hSUbdGrGhw@mail.gmail.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-06_02,2021-12-06_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- malwarescore=0 clxscore=1011 priorityscore=1501 suspectscore=0 spamscore=0
- impostorscore=0 mlxscore=0 bulkscore=0 adultscore=0 phishscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112060037
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFTs51XyGDNj89+FCn4HZqMHuenjQu2wqTOW8ow4hSUbdGrGhw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-kernel test robot <lkp@intel.com> writes:
 
-> Hi,
->
-> I love your patch! Perhaps something to improve:
->
-> [auto build test WARNING on arm64/for-next/core]
-> [also build test WARNING on deller-parisc/for-next linus/master v5.16-rc3]
-> [cannot apply to geert-m68k/for-next powerpc/next s390/features arnd-asm-generic/master tip/x86/asm davem-sparc/master next-20211203]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch]
->
-> url:    https://github.com/0day-ci/linux/commits/akpm-linux-foundation-org/mm-mempolicy-wire-up-syscall-set_mempolicy_home_node-patch-added-to-mm-tree/20211203-065847
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-> config: arm64-randconfig-r025-20211203 (https://download.01.org/0day-ci/archive/20211206/202112060718.JbZsyJcP-lkp@intel.com/config)
-> compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 1e328b06c15273edf4a40a27ca24931b5efb3a87)
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install arm64 cross compiling tool for clang build
->         # apt-get install binutils-aarch64-linux-gnu
->         # https://github.com/0day-ci/linux/commit/d7bb34dec7840474ed1ad87136b47eb1ea0c8bee
->         git remote add linux-review https://github.com/0day-ci/linux
->         git fetch --no-tags linux-review akpm-linux-foundation-org/mm-mempolicy-wire-up-syscall-set_mempolicy_home_node-patch-added-to-mm-tree/20211203-065847
->         git checkout d7bb34dec7840474ed1ad87136b47eb1ea0c8bee
->         # save the config file to linux build tree
->         mkdir build_dir
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
->
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
->
-> All warnings (new ones prefixed by >>):
->
->            asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
->                                   ^
->    <scratch space>:161:1: note: expanded from here
->    __arm64_sys_process_madvise
->    ^
->    kernel/sys_ni.c:292:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
->    arch/arm64/include/asm/syscall_wrapper.h:76:13: note: expanded from macro 'COND_SYSCALL'
->            asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
->                       ^
->    kernel/sys_ni.c:293:1: warning: no previous prototype for function '__arm64_sys_process_mrelease' [-Wmissing-prototypes]
->    COND_SYSCALL(process_mrelease);
->    ^
->    arch/arm64/include/asm/syscall_wrapper.h:76:25: note: expanded from macro 'COND_SYSCALL'
->            asmlinkage long __weak __arm64_sys_##name(const struct pt_regs *regs)   \
->                                   ^
->    <scratch space>:162:1: note: expanded from here
->    __arm64_sys_process_mrelease
+Sorry, I haven't been feeling too well and as such procastinated on this
+because thinking is required :/ Trying to pick up the bits.
 
-These build warnings with W=1 are related to arm header includes. arm64
-expand syscall macro such that '__arm64_' is added to the syscall
-handler name. Hence the include  linux/syscall.h that have below
-prototype is not sufficient.   
-asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long len,
-					    unsigned long home_node,
-					    unsigned long flags);
+On Mon, Nov 29, 2021 at 03:38:38PM -0800, Peter Oskolkov wrote:
+> On Mon, Nov 29, 2021 at 1:08 PM Peter Zijlstra <peterz@infradead.org> wrote:
+> [...]
+> > > > > Another big concern I have is that you removed UMCG_TF_LOCKED. I
+> > > >
+> > > > OOh yes, I forgot to mention that. I couldn't figure out what it was
+> > > > supposed to do.
+> [...]
+> >
+> > So then A does:
+> >
+> >         A::next_tid = C.tid;
+> >         sys_umcg_wait();
+> >
+> > Which will:
+> >
+> >         pin(A);
+> >         pin(S0);
+> >
+> >         cmpxchg(A::state, RUNNING, RUNNABLE);
+> 
+> Hmm.... That's another difference between your patch and mine: my
+> approach was "the side that initiates the change updates the state".
+> So in my code the userspace changes the current task's state RUNNING
+> => RUNNABLE and the next task's state,
+
+I couldn't make that work for wakeups; when a thread blocks in a
+random syscall there is no userspace to wake the next thread. And since
+it seems required in this case, it's easier and more consistent to
+always do it.
+
+> or the server's state, RUNNABLE
+> => RUNNING before calling sys_umcg_wait().
+
+Yes, this is indeed required; I've found the same when trying to build
+the userspace server loop. And yes, I'm starting to see where you're
+coming from.
+
+> I'm still not sure we can live without UMCG_TF_LOCKED. What if worker
+> A transfers its server to worker B that A intends to context switch
+
+	S0 running A
+
+Therefore:
+
+	S0::state == RUNNABLE
+	A::server_tid = S0.tid
+	A::state == RUNNING
+
+you want A to switch to B, therefore:
+
+	B::state == RUNNABLE
+
+if B is not yet on S0 then:
+
+	B::server_tid = S0.tid;
+
+finally:
+
+0:
+	A::next_tid = B.tid;
+1:
+	A::state = RUNNABLE:
+2:
+	sys_umcg_wait();
+3:
+
+> into, and then worker A pagefaults or gets interrupted before calling
+> sys_umcg_wait()?
+
+So the problem is tripping umcg_notify_resume() on the labels 1 and 2,
+right? tripping it on 0 and 3 is trivially correct.
+
+If we trip it on 1 and !(A::state & TG_PREEMPT), then nothing, since
+::state == RUNNING we'll just continue onwards and all is well. That is,
+nothing has happened yet.
+
+However, if we trip it on 2: we're screwed. Because at that point
+::state is scribbled.
+
+> The server will be woken up and will see that it is
+> assigned to worker B; now what? If worker A is "locked" before the
+> whole thing starts, the pagefault/interrupt will not trigger
+> block/wake detection, worker A will keep RUNNING for all intended
+> purposes, and eventually will call sys_umcg_wait() as it had
+> intended...
+
+No, the failure case is different; umcg_notify_resume() will simply
+block A until someone sets A::state == RUNNING and kicks it, which will
+be no-one.
+
+Now, the above situation is actually simple to fix, but it gets more
+interesting when we're using sys_umcg_wait() to build wait primitives.
+Because in that case we get stuff like:
+
+	for (;;) {
+		self->state = RUNNABLE;
+		smp_mb();
+		if (cond)
+			break;
+		sys_umcg_wait();
+	}
+	self->state = RUNNING;
+
+And we really need to not block and also not do sys_umcg_wait() early.
+
+So yes, I agree that we need a special case here that ensures
+umcg_notify_resume() doesn't block. Let me ponder naming and comments.
+Either a TF_COND_WAIT or a whole new state. I can't decide yet.
+
+Now, obviously if you do a random syscall anywhere around here, you get
+to keep the pieces :-)
 
 
-That should be fixed outside this series.
 
--aneesh
+I've also added ::next_tid to the whole umcg_pin_pages() thing, and made
+it so that ::next_tid gets cleared when it's been used. That way things
+like:
 
+	self->next_tid = pick_from_runqueue();
+	sys_that_is_expected_to_sleep();
+	if (self->next_tid) {
+		return_to_runqueue(self->next_tid);
+		self->next_tid = 0;
+	}
+
+Are much simpler to manage. Either it did sleep and ::next_tid is
+consumed, or it didn't sleep and it needs to be returned to the
+runqueue.
 
