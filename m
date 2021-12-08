@@ -2,92 +2,90 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AFA5146CBFA
-	for <lists+linux-api@lfdr.de>; Wed,  8 Dec 2021 05:08:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BEE246D705
+	for <lists+linux-api@lfdr.de>; Wed,  8 Dec 2021 16:32:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239795AbhLHELl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 7 Dec 2021 23:11:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40082 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235416AbhLHELk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Dec 2021 23:11:40 -0500
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95C73C061746
-        for <linux-api@vger.kernel.org>; Tue,  7 Dec 2021 20:08:09 -0800 (PST)
-Received: by mail-io1-xd44.google.com with SMTP id 14so1482105ioe.2
-        for <linux-api@vger.kernel.org>; Tue, 07 Dec 2021 20:08:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=w0n14T57zPuvlg1YaFYy3gRfrUPFN1bDHGIrct+fXgc=;
-        b=WAfVy60s9+/0tSqV9K0yinvMPkS6cit0ofg9cxD6kzeAP6cUltXq6JbTU4YZsPBBmE
-         1KBG+7gOqLergY14b53arn5kJ8ejV3I7ocJb9rTA8zKznOtSPWyjgo7PABVmaB6YmQc5
-         1j9e7ZE1Zorjjr1JPQChgQ+cOEBXcRSg7/Cqpx0Kuh756IaI83RLOdTaTqxaaBqPacQj
-         ZT8A6FNNBvsDiNZUVM6yNg+WYzxgcV0hcZuZBs8PB0yKqFnAbq78sWTbtWEEyZigwjAe
-         q15/xV9884uA+KZHdGxa4XUoyP/gZHIgxdJ8c0DBUv9StrsDIUqwnasHWrkugRuv8Pgq
-         t/Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=w0n14T57zPuvlg1YaFYy3gRfrUPFN1bDHGIrct+fXgc=;
-        b=Ry9LfiscXeyJp/ww3svAILUx9lgMDsRdmfuCLGUzNHBlJm80CnkvAuoo40gE2D5mps
-         Jxjr/ypOriceOa6Pn8zpCX6w8G5V29/JE/dcXYmva1lzVPKx0nW9YOQPe/Zjd8A7+zvi
-         w9TjRWnKnCHzxzIscYp71VjXhqrvMfOD+kzBPCq9Okbidv3Ba1H81XWJ/s3ZMsw1ZAKK
-         koEZNDBScisnLCZlpGs+QGmXIyWWBPI6UbFGN/uFQ+sgh+JfXsRnl8IkYLUKXY3jCcgx
-         /2cr51rx4QnU7+bKuQO/CeC+nn6kSBpXbtPYdidLG9wOLrFgQHToxBHBEUbi4A2LE1yX
-         RBkg==
-X-Gm-Message-State: AOAM5333/Dlw39Cns/R0jOlnMRUL9BCHV7fliUCCjB0b/aHP8ytYrWd6
-        6ViQ0pbdxBfL0w5fiRL+eKbLY0qUUrSohlIwh2Y=
-X-Google-Smtp-Source: ABdhPJwY2DAivOMYvvjSAmt0SePTsCC9VtjqUditATxapLI2+FwFZbSlZ1hVtfcgRiJzG5YjrqctFl1h9xCh+BrIA0I=
-X-Received: by 2002:a6b:740b:: with SMTP id s11mr3995221iog.120.1638936488744;
- Tue, 07 Dec 2021 20:08:08 -0800 (PST)
+        id S233452AbhLHPgD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 8 Dec 2021 10:36:03 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:60126 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233264AbhLHPgD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 8 Dec 2021 10:36:03 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id CBB8E1FD2A;
+        Wed,  8 Dec 2021 15:32:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1638977549; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=6VNz+rbMG4FKJ01MyWRZjmX8ICbIRHGfA3fPOOQX6vk=;
+        b=lQmxOHPqIImGvYgUFoj/iKM+12qOie5JvMtoB4akJ2qZmCHmYbpTXL1pvnWqKwkORVb1aC
+        iybWxH9xZOdHCV+A18n0UDr++hxRn356Fzb1GqFlIPDcphqBBuHc+IbeowMYndmGnjy+zO
+        VXh4Y/0OKAdpEJBC2Q0SYA38L3Jw06s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1638977549;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=6VNz+rbMG4FKJ01MyWRZjmX8ICbIRHGfA3fPOOQX6vk=;
+        b=WT1UpZk6WMHwKNVbBEX+hLKKuM7l5DRaCdSSlLONT9RxyDh2ke5UNv4X9z6Hk6yl5we44/
+        fPRHxkB4QtYWO5Aw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6619913F90;
+        Wed,  8 Dec 2021 15:32:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id quQdFw3QsGE3VAAAMHmgww
+        (envelope-from <chrubis@suse.cz>); Wed, 08 Dec 2021 15:32:29 +0000
+Date:   Wed, 8 Dec 2021 16:33:47 +0100
+From:   Cyril Hrubis <chrubis@suse.cz>
+To:     David Howells <dhowells@redhat.com>
+Cc:     Zack Weinberg <zack@owlfolio.org>, Arnd Bergmann <arnd@arndb.de>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        libc-alpha@sourceware.org,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        David Laight <David.Laight@aculab.com>,
+        "ltp@lists.linux.it" <ltp@lists.linux.it>
+Subject: Re: [PATCH] uapi: Make __{u,s}64 match {u,}int64_t in userspace
+Message-ID: <YbDQW6uakG3XD8jV@yuki>
+References: <b8d6f890-e5aa-44bf-8a55-5998efa05967@www.fastmail.com>
+ <YZvIlz7J6vOEY+Xu@yuki>
+ <1618289.1637686052@warthog.procyon.org.uk>
+ <ff8fc4470c8f45678e546cafe9980eff@AcuMS.aculab.com>
+ <YaTAffbvzxGGsVIv@yuki>
+ <CAK8P3a1Rvf_+qmQ5pyDeKweVOFM_GoOKnG4HA3Ffs6LeVuoDhA@mail.gmail.com>
+ <913509.1638457313@warthog.procyon.org.uk>
 MIME-Version: 1.0
-Received: by 2002:a05:6e02:1a07:0:0:0:0 with HTTP; Tue, 7 Dec 2021 20:08:08
- -0800 (PST)
-Reply-To: dj0015639@gmail.com
-From:   David Jackson <enkenpaul@gmail.com>
-Date:   Wed, 8 Dec 2021 05:08:08 +0100
-Message-ID: <CAG7-cQ-VWzj2QD5t0sN=_WC-OvG=bWEqPGmLorQyHQSgxJ9y9w@mail.gmail.com>
-Subject: FEDERAL BUREAU OF INVESTIGATION
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <913509.1638457313@warthog.procyon.org.uk>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Our Ref: RTB /SNT/STB
-To: Beneficiary
+Hi!
+> > I could be persuaded otherwise with an example of a program for which
+> > changing __s64 from 'long long' to 'long' would break *binary* backward
+> > compatibility, or similarly for __u64.
+> 
+> C++ could break.
 
-This is FBI special agents, David Jackson. I was delegated along side
-others by the United Nations to investigate scammers who has been in
-the business of swindling foreigners especially those that has one
-form of transaction/contracts and another. Please be informed that in
-the course of our investigation, we detected that your name and
-details in our Scammed Monitoring Network. We also found out that you
-were scammed of a huge sum of money by scammers via Western union and
-MoneyGram. Be informed here that in a bid to alleviate the suffering
-of scammed victims, the United Nations initiated this compensation
-program and therefore, you are entitled to the sum of Five Million Two
-Hundred Thousand United States Dollars ($5,200,000.00 USD) for being a
-victim.
+Thinking of this again we can detect C++ as well so it can be safely
+enabled just for C with:
 
-Note that the said fund will be transfer to you via the Citibank being
-the paying bank mandated by the United Nations officials.
+#if !defined(__KERNEL__) && !defined(__cplusplus) && __BITSPERLONG == 64
+# include <asm-generic/int-l64.h>
+#else
+# include <asm-generic/int-ll64.h>
+#endif
 
-However, we have to inform you that we have been able to arrest some
-of the swindlers who has been in this illicit business and will all be
-prosecuted accordingly. Be informed as well that we have limited time
-to stay back here, so we will advice that you urgently respond to this
-message ASAP. And do not inform any of the people that collected money
-from you before now about this new development to avoid jeopardizing
-our investigation. All you need to do is to follow our instruction and
-receive your compensation accordingly as directed by the United
-Nations.
-
-We urgently wait to receive your response.
-
-Regards,
-DAVID JACKSON
-FEDERAL BUREAU OF INVESTIGATION
-INVESTIGATION ON ALL ONLINE WIRE TRANSFER
+-- 
+Cyril Hrubis
+chrubis@suse.cz
