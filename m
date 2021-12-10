@@ -2,75 +2,65 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5224C47072F
-	for <lists+linux-api@lfdr.de>; Fri, 10 Dec 2021 18:29:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 781D2470794
+	for <lists+linux-api@lfdr.de>; Fri, 10 Dec 2021 18:45:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238148AbhLJRdU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 10 Dec 2021 12:33:20 -0500
-Received: from mail-pf1-f178.google.com ([209.85.210.178]:44975 "EHLO
-        mail-pf1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237989AbhLJRdT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 10 Dec 2021 12:33:19 -0500
-Received: by mail-pf1-f178.google.com with SMTP id k64so9019740pfd.11;
-        Fri, 10 Dec 2021 09:29:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=C29RQmhBlCkkPpuJ/eOeU2rF+9gMdwncIV/icJVqVFM=;
-        b=xTnMw339uMefKqhiBXs0Qbm3Kd3pv1pRZKdlLMegA7b4eEYwG3cJs8aFi/bv4/F6+L
-         Oq0m80eB+ewsVeisNImKuVlZrvrGaOC5+raxl9xmnOT4vUmAQAV5O2IoLrgKUV0Jg+W6
-         zgtY9L5sbMqJg3W82kj4zpwDUCoXSNoTf+CXJ8KO1Qi0eh8jABUJtuntITmh53t2INpI
-         8wFJKxpkSpw4r73k4azz7ENLHftM2IYwpQ7nQGtb08GIYk41uXidVOcHwJLxlorrOpui
-         NwFsvdbf0TUiaBxzJuSBipMfCG/JyMmn1NMUMH0PRHrnMN+Kx7uA8Op2Il2Xt68485A2
-         tn8w==
-X-Gm-Message-State: AOAM533/MRJEJ7V4lGMysqLyb+auggbAG8h+wktGpcXpQl20JdmiJZd/
-        VEVucS80rysxVOfs+tmY5x8=
-X-Google-Smtp-Source: ABdhPJxnPaA1x86sHWiX3QwNKGliVcR0m6wJyrK4PSHjfL6CnHM332Nci95Wz2p6qphK0zmUz2YIAw==
-X-Received: by 2002:a63:5c5f:: with SMTP id n31mr40214965pgm.348.1639157383889;
-        Fri, 10 Dec 2021 09:29:43 -0800 (PST)
-Received: from ?IPv6:2620:0:1000:2514:85ed:ea0b:339:7b11? ([2620:0:1000:2514:85ed:ea0b:339:7b11])
-        by smtp.gmail.com with ESMTPSA id c3sm3926878pfv.67.2021.12.10.09.29.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Dec 2021 09:29:43 -0800 (PST)
-Subject: Re: [PATCH v3 3/3] blk-crypto: show crypto capabilities in sysfs
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Eric Biggers <ebiggers@kernel.org>
-Cc:     linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        id S244646AbhLJRs6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 10 Dec 2021 12:48:58 -0500
+Received: from sin.source.kernel.org ([145.40.73.55]:52386 "EHLO
+        sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240884AbhLJRs5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 10 Dec 2021 12:48:57 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 6BC45CE2C34;
+        Fri, 10 Dec 2021 17:45:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EF9DC00446;
+        Fri, 10 Dec 2021 17:45:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1639158318;
+        bh=h2+tsYbJOupsl375+icjqBHrs1cW+BMfkxLDD2UUNjc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PREYSS3TNe1zdeN12rSffhatLuWwieDm/d6zoldD+m6/eJKQUOmMQyMOlmpDi2eXr
+         S4qKoLFiIro1Cqh/SUVwQMR/+Y7USkq6r4/20tv8hmMY1s4OqntEeTXQUgEu1V75P9
+         kmGVRc2Jnt+J19PE3547Tt1XR5PMTMzqR1+kr3T0+f3aZSnQnMMNFQxbwTyI25BG54
+         HurnMHdeP/AJWMIOtrINJJ6TssmfEI6hSsP+vceGE/rX87Kl4lsjIT/SDpG5LQBOAO
+         xVdjd4I71vg8kO8qc/nsu2TLDpcjefIBLkkGt1ag3SIHHzt0ALntatttaKK27+NZYO
+         I+LqcuN0mcZrw==
+Date:   Fri, 10 Dec 2021 09:45:16 -0800
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Bart Van Assche <bvanassche@acm.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-api@vger.kernel.org, linux-scsi@vger.kernel.org,
         linux-mmc@vger.kernel.org, Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH v3 3/3] blk-crypto: show crypto capabilities in sysfs
+Message-ID: <YbOSLC9SNelqwD+g@sol.localdomain>
 References: <20211208013534.136590-1-ebiggers@kernel.org>
  <20211208013534.136590-4-ebiggers@kernel.org>
  <6ff4d074-7508-4f4c-de06-f36899668168@acm.org>
- <YbKT/lcp6iZ+lD4n@sol.localdomain> <YbL2uUqV0GWFOitE@kroah.com>
-From:   Bart Van Assche <bvanassche@acm.org>
-Message-ID: <cb29756b-8b21-5b4d-f107-b5573945d7ab@acm.org>
-Date:   Fri, 10 Dec 2021 09:29:41 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ <YbKT/lcp6iZ+lD4n@sol.localdomain>
+ <YbL2uUqV0GWFOitE@kroah.com>
+ <cb29756b-8b21-5b4d-f107-b5573945d7ab@acm.org>
 MIME-Version: 1.0
-In-Reply-To: <YbL2uUqV0GWFOitE@kroah.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cb29756b-8b21-5b4d-f107-b5573945d7ab@acm.org>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 12/9/21 10:42 PM, Greg Kroah-Hartman wrote:
-> A single hex value makes sense to me.
+On Fri, Dec 10, 2021 at 09:29:41AM -0800, Bart Van Assche wrote:
+> (c) This encoding enforces the restriction that data unit sizes are a power of
+>     two. Is there anything fundamental in encryption that restricts data unit
+>     sizes to a power of two? I don't know the answer myself.
 
-Hi Greg,
+Well, the data unit size has to evenly divide the size of the request (for
+requests that have an encryption context which specifies that data unit size).
+So if the data unit size was, say, 1536 bytes, then all requests would have to
+be multiples of 1536 bytes.  That has a factor of 3 in it, so it would be
+impossible to make any power-of-2 size request.  That sounds pretty impractical;
+it's hard to see how and why we would ever support such a thing.
 
-I'm not enthusiast about this approach because:
-(a) A single hex value can be confused with a number. Reporting a bitfield in
-     hex format is not sufficient to prevent confusion with a number.
-(b) No other block layer sysfs attribute follows this encoding scheme.
-(c) This encoding enforces the restriction that data unit sizes are a power of
-     two. Is there anything fundamental in encryption that restricts data unit
-     sizes to a power of two? I don't know the answer myself.
-
-Thanks,
-
-Bart.
+- Eric
