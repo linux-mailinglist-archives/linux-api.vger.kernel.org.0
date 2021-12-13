@@ -2,87 +2,101 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C19444734FA
-	for <lists+linux-api@lfdr.de>; Mon, 13 Dec 2021 20:30:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3634473504
+	for <lists+linux-api@lfdr.de>; Mon, 13 Dec 2021 20:31:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242344AbhLMTaI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 13 Dec 2021 14:30:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34262 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S242232AbhLMTaD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Dec 2021 14:30:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1639423802;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=l3/Ksz/+rMbZTa7dn+INhZ/hCEUhknY7SkJcQlX+fiQ=;
-        b=bMPW9VA16IxpAce1sA1d4ljHl6s1HnrpvgU28R3lw0t64U0fsmjj7g9lEVh9Twg84pGB8p
-        b5a5YrcX4pbaka6vYCAnvijuF27fUFTm0epQ3AEji5xJe0e2dYzLtTeIVXk0vS3WzLkU67
-        AfZc1iQE3+3RQ+ttHVQO7WyvZ7d7Thg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-542-I2mLPfDnPhWeQxlvw16c-w-1; Mon, 13 Dec 2021 14:29:57 -0500
-X-MC-Unique: I2mLPfDnPhWeQxlvw16c-w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C518164146;
-        Mon, 13 Dec 2021 19:29:55 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.2.17.223])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id CD8E413AB3;
-        Mon, 13 Dec 2021 19:29:53 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+        id S237654AbhLMTbq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 13 Dec 2021 14:31:46 -0500
+Received: from mail.efficios.com ([167.114.26.124]:51906 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235571AbhLMTbq (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Dec 2021 14:31:46 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 8EE2031D397;
+        Mon, 13 Dec 2021 14:31:45 -0500 (EST)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id Vx688B5sG2AB; Mon, 13 Dec 2021 14:31:45 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 195E931D0F1;
+        Mon, 13 Dec 2021 14:31:45 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 195E931D0F1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1639423905;
+        bh=lhsuKSa7uFDYjkKzyCgc6+zvVr5G3fViFg4bRPGc7E8=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=NlFWgXwNtMhYWcI7BriozzSXVdpMT9iEDRdcOorrjsz9ReYxh8lm+FpNre2G262f8
+         vvexYVaaehsRsqkrO2bkK2LTx1b5roP2abW+ZyjXtHBq+ASLYASoouYpH2wK/rvLfm
+         NWQF//x7LxNDL4qWdZM6ttOLwkAJ0gzrcy5DDxmm7z1nkiVinX+nanT7ToU94peNlZ
+         K6+3TqGagrifU84Kz+4D10nIpEwQUdNWWrGkY3OMLSVOPfLijK9PtxMBEzI/gmkYY/
+         +4qd4vfk9vRzJUtMfHxLGiG+oRA3KI6u4R+ya2mPPxkRXvamkc1Ito4KDHR0Z7kMkd
+         fjYhAEMYvNwdQ==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id WJ3mIoYh2Mtg; Mon, 13 Dec 2021 14:31:45 -0500 (EST)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id 0DA8A31D396;
+        Mon, 13 Dec 2021 14:31:45 -0500 (EST)
+Date:   Mon, 13 Dec 2021 14:31:44 -0500 (EST)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Florian Weimer <fweimer@redhat.com>
 Cc:     linux-api <linux-api@vger.kernel.org>,
         Jann Horn <jannh@google.com>,
         libc-alpha <libc-alpha@sourceware.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        paulmck <paulmck@kernel.org>
-Subject: Re: rseq + membarrier programming model
+        linux-kernel <linux-kernel@vger.kernel.org>
+Message-ID: <1221393005.30508.1639423904918.JavaMail.zimbra@efficios.com>
+In-Reply-To: <87tufctk82.fsf@oldenburg.str.redhat.com>
 References: <87tufctk82.fsf@oldenburg.str.redhat.com>
-        <697825714.30478.1639423180784.JavaMail.zimbra@efficios.com>
-Date:   Mon, 13 Dec 2021 20:29:50 +0100
-In-Reply-To: <697825714.30478.1639423180784.JavaMail.zimbra@efficios.com>
-        (Mathieu Desnoyers's message of "Mon, 13 Dec 2021 14:19:40 -0500
-        (EST)")
-Message-ID: <87ilvstia9.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Subject: Re: rseq + membarrier programming model
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_4173 (ZimbraWebClient - FF94 (Linux)/8.8.15_GA_4177)
+Thread-Topic: rseq + membarrier programming model
+Thread-Index: v0eIsRH+7RemK1/WkGhyw7fSg5yOMw==
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Mathieu Desnoyers:
+----- On Dec 13, 2021, at 1:47 PM, Florian Weimer fweimer@redhat.com wrote:
 
->> Could it fall back to
->> MEMBARRIER_CMD_GLOBAL instead?
->
-> No. CMD_GLOBAL does not issue the required rseq fence used by the
-> algorithm discussed. Also, CMD_GLOBAL has quite a few other shortcomings:
-> it takes a while to execute, and is incompatible with nohz_full kernels.
+> I've been studying Jann Horn's biased locking example:
+> 
+>  Re: [PATCH 0/4 POC] Allow executing code and syscalls in another address space
+>  <https://lore.kernel.org/linux-api/CAG48ez02UDn_yeLuLF4c=kX0=h2Qq8Fdb0cer1yN8atbXSNjkQ@mail.gmail.com/>
+> 
+> It uses MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ as part of the biased lock
+> revocation.
 
-What about using sched_setcpu to move the current thread to the same CPU
-(and move it back afterwards)?  Surely that implies the required sort of
-rseq barrier that MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ with
-MEMBARRIER_CMD_FLAG_CPU performs?
+By the way, there might be something good to salvage from this prototype I did a
+while back:
 
-That is possible even without membarrier, so I wonder why registration
-of intent is needed for MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ.
+https://github.com/compudj/rseq-test/blob/adapt-lock/test-rseq-adaptative-lock.c
 
-> In order to make sure the programming model is the same for expedited
-> private/global plain/sync-core/rseq membarrier commands, we require that
-> each process perform a registration beforehand.
+The neat trick there is to use a combination of the Zero Flag and rbx==0/1 to detect
+whether the rseq critical section was aborted before or after successful execution
+of the CAS. This allows the rseq c.s. to cover an entire loop, which contains a CAS
+instruction, without requiring that the critical section ends with a "commit"
+instruction.
 
-Hmm.  At least it's not possible to unregister again.
+Some characteristics of this prototype:
 
-But I think it would be really useful to have some of these barriers
-available without registration, possibly in a more expensive form.
+- Don't busy-wait in user-space if the lock owner belongs to the same CPU where the
+  waiter executes. Immediately use futex.
+- Adaptative busy-wait delay (per-lock).
+- If busy-spinning is preempted, it jumps to abort immediately when resumed. Therefore,
+  the loop count for adaptative busy-spinning is very precise.
+
+Of course, much more work would be needed, but I suspect a few ideas there can be
+useful.
 
 Thanks,
-Florian
 
+Mathieu
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
