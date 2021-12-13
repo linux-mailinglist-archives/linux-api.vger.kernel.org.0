@@ -2,161 +2,153 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DFC174734D4
-	for <lists+linux-api@lfdr.de>; Mon, 13 Dec 2021 20:19:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD4F74734F1
+	for <lists+linux-api@lfdr.de>; Mon, 13 Dec 2021 20:28:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235389AbhLMTTm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 13 Dec 2021 14:19:42 -0500
-Received: from mail.efficios.com ([167.114.26.124]:47906 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234461AbhLMTTm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Dec 2021 14:19:42 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id C5D8931CEC2;
-        Mon, 13 Dec 2021 14:19:41 -0500 (EST)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id batosGk9nsmz; Mon, 13 Dec 2021 14:19:41 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 0331B31CF38;
-        Mon, 13 Dec 2021 14:19:41 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 0331B31CF38
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1639423181;
-        bh=6IJ768Q+9Et3bA7CRGWla9iClFZ1ud4C606P/yp0cMQ=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=E7EIcnzHexB40Oyf/Hdh4Y9EJRqZaGx1l8tKcCVe7Yw4xragAeBvn91oPBmjma+xA
-         2Tf3znBAfXv2wBbaS2R07c8HVll6oMhuhEDbPRbHLPcE9CRVW6skR0DtUNWPwBJ3h/
-         VNKfRwtOaJPfVGYV3MYLezON+hF69nHOh7ZV5Eg/tvkPFXjg+DdSwKhBiMR/VUq2Py
-         kSwLhp5+68j1IR2jvCcJinO2kqJ/GwMxXEvpQ3QHH4JMLY0UMUoYWEYZK7wYgwDACi
-         L8NNvggWN6NernQyRsRMAgZxeS5R9FfO6+CPxvwicfqwYwy/6qcUJ2nGEbBxE2FcDs
-         k7Dfp5yy4JpqA==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id MZIzfRKoEqo1; Mon, 13 Dec 2021 14:19:40 -0500 (EST)
-Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id E57DA31CD70;
-        Mon, 13 Dec 2021 14:19:40 -0500 (EST)
-Date:   Mon, 13 Dec 2021 14:19:40 -0500 (EST)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     linux-api <linux-api@vger.kernel.org>,
-        Jann Horn <jannh@google.com>,
-        libc-alpha <libc-alpha@sourceware.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        paulmck <paulmck@kernel.org>
-Message-ID: <697825714.30478.1639423180784.JavaMail.zimbra@efficios.com>
-In-Reply-To: <87tufctk82.fsf@oldenburg.str.redhat.com>
-References: <87tufctk82.fsf@oldenburg.str.redhat.com>
-Subject: Re: rseq + membarrier programming model
+        id S236583AbhLMT2K (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 13 Dec 2021 14:28:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54558 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230475AbhLMT2K (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Dec 2021 14:28:10 -0500
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B6B4C06173F
+        for <linux-api@vger.kernel.org>; Mon, 13 Dec 2021 11:28:09 -0800 (PST)
+Received: by mail-lj1-x236.google.com with SMTP id bn20so25216693ljb.8
+        for <linux-api@vger.kernel.org>; Mon, 13 Dec 2021 11:28:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=wuhs1uu3xd+DAtVvYo8LfoJq6FMmwCoLXFe+b3mQ9lk=;
+        b=nY0y16AgC9FhPUVjSZBirXeR/6JmySF+N7Y7VNIwzImpGwEqs9HTAgVslXfdAKbw7p
+         h5VDPnoBy218LhjZDpzpSrgOGo9Xt4p4YihSMqTQVdP4YrsaWYmoy9hERj1nCuhrU4JO
+         vH9NnzJm9SNXhfnTlWVWaMzGS6iAXl82NNy2Mz/5bg95gNmIllIjfB0cWaV/zaDmssUy
+         wOaxO1Sd6GAdpR1hgMBCrKl2N7TAIvKmJKr44TNy9YxuSEBHcu7SEYNzlRjaTDiU3Y61
+         PZ4lA26NMuPTxG/HJAzM1/oO2Ee2I+FXbotTMIiWRHzj+G9nv1FCirF/4FMqxPXFsRL+
+         W9ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wuhs1uu3xd+DAtVvYo8LfoJq6FMmwCoLXFe+b3mQ9lk=;
+        b=0sZn0O/WfRZqoae8W2tS4rs0VXiAQTgJ6I9k1HFI8WdDbDo4Qrt1Afec0+vEiZbH+z
+         rcR1lghg8lxymkBmZpJFkll9whUPxkDmrFiAcVVW2PNnyq4kuh8MGGjLJTCDmi0dZKIp
+         X0VEBVHkdUUR6zP8LduLdXDSPFgADMO35c/Tn2mVCyDmSMITFjqjU1hv3Da4SEau6JQW
+         Uqkx3tddSwpBmczjpfDYRzRxAzxrvaRmdyzGCYwv7AGiIz8YMHw7cCTMgiyNNEjjvS8G
+         7qbZsf3954ElJE+gchm7zvlIOfIeld/X1Km3xmxVTB3CNfyWug5vg3i+N3nVqqRAkJv5
+         QJdQ==
+X-Gm-Message-State: AOAM533Sayn1qZsRbMDIxWyWU8sjjj2E8i4xbtV344jivcKzMzMuOgaX
+        VUbf7HtbtYe3eHWtgnbPMk7lkJWgM4c2hUeButsL4Q==
+X-Google-Smtp-Source: ABdhPJxqWHONSnBCMMMMigrcQTyIdrM1feHJHhhHJ+AuRFOFD/oPpUM/4g0Ux0zeJp2mf9xcOHyDILt1fheukMheXoQ=
+X-Received: by 2002:a05:651c:324:: with SMTP id b4mr493697ljp.188.1639423687564;
+ Mon, 13 Dec 2021 11:28:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [167.114.26.124]
-X-Mailer: Zimbra 8.8.15_GA_4173 (ZimbraWebClient - FF94 (Linux)/8.8.15_GA_4177)
-Thread-Topic: rseq + membarrier programming model
-Thread-Index: Jeg44R6PVmLUvL/g/E9uUG22JuKmYg==
+References: <87tufctk82.fsf@oldenburg.str.redhat.com>
+In-Reply-To: <87tufctk82.fsf@oldenburg.str.redhat.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Mon, 13 Dec 2021 20:27:41 +0100
+Message-ID: <CAG48ez2oNKbSvNavKLEe2iYm1Cj+OaaaF45FA8cqkY+-7DuJTw@mail.gmail.com>
+Subject: Re: rseq + membarrier programming model
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     linux-api@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        libc-alpha@sourceware.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On Dec 13, 2021, at 1:47 PM, Florian Weimer fweimer@redhat.com wrote:
-
+On Mon, Dec 13, 2021 at 7:48 PM Florian Weimer <fweimer@redhat.com> wrote:
 > I've been studying Jann Horn's biased locking example:
-> 
->  Re: [PATCH 0/4 POC] Allow executing code and syscalls in another address space
->  <https://lore.kernel.org/linux-api/CAG48ez02UDn_yeLuLF4c=kX0=h2Qq8Fdb0cer1yN8atbXSNjkQ@mail.gmail.com/>
-> 
+>
+>   Re: [PATCH 0/4 POC] Allow executing code and syscalls in another address space
+>   <https://lore.kernel.org/linux-api/CAG48ez02UDn_yeLuLF4c=kX0=h2Qq8Fdb0cer1yN8atbXSNjkQ@mail.gmail.com/>
+>
 > It uses MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ as part of the biased lock
 > revocation.
-> 
+>
 > How does the this code know that the process has called
-> MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED_RSEQ?
-
-I won't speak for this code snippet in particular, but in general
-issuing MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ from a thread which
-belongs to a process which has not performed
-MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED_RSEQ will result in
-membarrier returning -EPERM. If the kernel is built without CONFIG_RSEQ
-support, it will return -EINVAL:
-
-membarrier_private_expedited():
-
-        } else if (flags == MEMBARRIER_FLAG_RSEQ) {
-                if (!IS_ENABLED(CONFIG_RSEQ))
-                        return -EINVAL;
-                if (!(atomic_read(&mm->membarrier_state) &
-                      MEMBARRIER_STATE_PRIVATE_EXPEDITED_RSEQ_READY))
-                        return -EPERM;
-
-If you want to create code which optionally depends on availability
-of EXPEDITED_RSEQ membarrier, I suspect you will want to perform
-registration from a library constructor, and keep track of registration
-success/failure in a static variable within the library.
-
-> Could it fall back to
+> MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED_RSEQ?  Could it fall back to
 > MEMBARRIER_CMD_GLOBAL instead?
 
-No. CMD_GLOBAL does not issue the required rseq fence used by the
-algorithm discussed. Also, CMD_GLOBAL has quite a few other shortcomings:
-it takes a while to execute, and is incompatible with nohz_full kernels.
+AFAIK no - MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED_RSEQ specifically
+forces targeted processes to go through an RSEQ preemption. That only
+happens when this special membarrier command is used and when an
+actual task switch happens; other membarrier flavors don't guarantee
+that.
 
-> Why is it that MEMBARRIER_CMD_GLOBAL
-> does not require registration (the broader/more expensive barrier), but
-> the more restricted versions do?
 
-The more restricted versions (which require explicit registration) have a
-close integration with the Linux scheduler, and in some cases require
-additional code to be executed when scheduling between threads which
-belong to different processes, for instance the for "SYNC_CORE" membarrier,
-which is useful for JITs:
+Also, MEMBARRIER_CMD_GLOBAL can take really long in terms of wall
+clock time - it's basically just synchronize_rcu(), and as the
+documentation at
+https://www.kernel.org/doc/html/latest/RCU/Design/Requirements/Requirements.html
+says:
 
-static inline void membarrier_mm_sync_core_before_usermode(struct mm_struct *mm)
-{
-        if (current->mm != mm)
-                return;
-        if (likely(!(atomic_read(&mm->membarrier_state) &
-                     MEMBARRIER_STATE_PRIVATE_EXPEDITED_SYNC_CORE)))
-                return;
-        sync_core_before_usermode();
+"The synchronize_rcu() grace-period-wait primitive is optimized for
+throughput. It may therefore incur several milliseconds of latency in
+addition to the duration of the longest RCU read-side critical
+section."
+
+
+You can see that synchronize_rcu() indeed takes quite long in terms of
+wall clock time (but not in terms of CPU time - as the documentation
+says, it's optimized for throughput in a parallel context) with a
+simple test program:
+
+jannh@laptop:~/test/rcu$ cat rcu_membarrier.c
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <linux/membarrier.h>
+#include <sys/syscall.h>
+#include <unistd.h>
+#include <time.h>
+#include <err.h>
+
+int main(void) {
+  for (int i=0; i<20; i++) {
+    struct timespec ts1;
+    if (clock_gettime(CLOCK_MONOTONIC, &ts1))
+      err(1, "time");
+
+    if (syscall(__NR_membarrier, MEMBARRIER_CMD_GLOBAL, 0, 0))
+      err(1, "membarrier");
+
+    struct timespec ts2;
+    if (clock_gettime(CLOCK_MONOTONIC, &ts2))
+      err(1, "time");
+
+    unsigned long delta_ns = (ts2.tv_nsec - ts1.tv_nsec) +
+(1000UL*1000*1000) * (ts2.tv_sec - ts1.tv_sec);
+    printf("MEMBARRIER_CMD_GLOBAL took %lu nanoseconds\n", delta_ns);
+  }
 }
+jannh@laptop:~/test/rcu$ gcc -o rcu_membarrier rcu_membarrier.c -Wall
+jannh@laptop:~/test/rcu$ time ./rcu_membarrier
+MEMBARRIER_CMD_GLOBAL took 17155142 nanoseconds
+MEMBARRIER_CMD_GLOBAL took 19207001 nanoseconds
+MEMBARRIER_CMD_GLOBAL took 16087350 nanoseconds
+MEMBARRIER_CMD_GLOBAL took 15963711 nanoseconds
+MEMBARRIER_CMD_GLOBAL took 16336149 nanoseconds
+MEMBARRIER_CMD_GLOBAL took 15931331 nanoseconds
+MEMBARRIER_CMD_GLOBAL took 16020315 nanoseconds
+MEMBARRIER_CMD_GLOBAL took 15873814 nanoseconds
+MEMBARRIER_CMD_GLOBAL took 15945667 nanoseconds
+MEMBARRIER_CMD_GLOBAL took 23815452 nanoseconds
+MEMBARRIER_CMD_GLOBAL took 23626444 nanoseconds
+MEMBARRIER_CMD_GLOBAL took 19911435 nanoseconds
+MEMBARRIER_CMD_GLOBAL took 23967343 nanoseconds
+MEMBARRIER_CMD_GLOBAL took 15943147 nanoseconds
+MEMBARRIER_CMD_GLOBAL took 23914809 nanoseconds
+MEMBARRIER_CMD_GLOBAL took 32498986 nanoseconds
+MEMBARRIER_CMD_GLOBAL took 19450932 nanoseconds
+MEMBARRIER_CMD_GLOBAL took 16281308 nanoseconds
+MEMBARRIER_CMD_GLOBAL took 24045168 nanoseconds
+MEMBARRIER_CMD_GLOBAL took 15406698 nanoseconds
 
-Also, for the "global-expedited" commands, these can generate IPIs which will
-interrupt the flow of threads running on behalf of a registered process.
-Therefore, in order to make sure we do not add delays to real-time sensitive
-applications, we made this registration "opt-in".
+real 0m0.458s
+user 0m0.058s
+sys 0m0.031s
+jannh@laptop:~/test/rcu$
 
-In order to make sure the programming model is the same for expedited
-private/global plain/sync-core/rseq membarrier commands, we require that
-each process perform a registration beforehand.
-
-> 
-> Or put differently, why wouldn't we request
-> MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED_RSEQ unconditionally at
-> process start in glibc, once we start biased locking in a few places?
-
-The registration of membarrier expedited can be either performed immediately
-when the process starts, or later, possibly when there are other threads
-running concurrently. Note however that the registration scheme has been
-optimized for the scenario where it is called when a single thread is
-running in the process (see sync_runqueues_membarrier_state()). Otherwise
-we need to use the more heavyweight synchronize_rcu(). So my advice would
-be to perform the membarrier expedited registration while the process
-is still single-threaded if possible, rather than postpone this and
-do it entirely lazily on first use, which may happen while other
-threads are already running.
-
-Thanks,
-
-Mathieu
-
-> 
-> Thanks,
-> Florian
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
+Every invocation of MEMBARRIER_CMD_GLOBAL on my laptop took >10 ms.
