@@ -2,52 +2,54 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D3634473504
-	for <lists+linux-api@lfdr.de>; Mon, 13 Dec 2021 20:31:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0819A47355F
+	for <lists+linux-api@lfdr.de>; Mon, 13 Dec 2021 20:57:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237654AbhLMTbq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 13 Dec 2021 14:31:46 -0500
-Received: from mail.efficios.com ([167.114.26.124]:51906 "EHLO
+        id S241483AbhLMT5D (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 13 Dec 2021 14:57:03 -0500
+Received: from mail.efficios.com ([167.114.26.124]:60324 "EHLO
         mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235571AbhLMTbq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Dec 2021 14:31:46 -0500
+        with ESMTP id S242614AbhLMT4z (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Dec 2021 14:56:55 -0500
 Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 8EE2031D397;
-        Mon, 13 Dec 2021 14:31:45 -0500 (EST)
+        by mail.efficios.com (Postfix) with ESMTP id AA6C031D36B;
+        Mon, 13 Dec 2021 14:56:54 -0500 (EST)
 Received: from mail.efficios.com ([127.0.0.1])
         by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id Vx688B5sG2AB; Mon, 13 Dec 2021 14:31:45 -0500 (EST)
+        with ESMTP id IMuzMolWCzAa; Mon, 13 Dec 2021 14:56:54 -0500 (EST)
 Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 195E931D0F1;
-        Mon, 13 Dec 2021 14:31:45 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 195E931D0F1
+        by mail.efficios.com (Postfix) with ESMTP id 5ED9C31D36A;
+        Mon, 13 Dec 2021 14:56:54 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 5ED9C31D36A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1639423905;
-        bh=lhsuKSa7uFDYjkKzyCgc6+zvVr5G3fViFg4bRPGc7E8=;
+        s=default; t=1639425414;
+        bh=0WsXqAeaT7G+gn3g5kX7pvAiaX8+LtEOV9YE2p3nhS4=;
         h=Date:From:To:Message-ID:MIME-Version;
-        b=NlFWgXwNtMhYWcI7BriozzSXVdpMT9iEDRdcOorrjsz9ReYxh8lm+FpNre2G262f8
-         vvexYVaaehsRsqkrO2bkK2LTx1b5roP2abW+ZyjXtHBq+ASLYASoouYpH2wK/rvLfm
-         NWQF//x7LxNDL4qWdZM6ttOLwkAJ0gzrcy5DDxmm7z1nkiVinX+nanT7ToU94peNlZ
-         K6+3TqGagrifU84Kz+4D10nIpEwQUdNWWrGkY3OMLSVOPfLijK9PtxMBEzI/gmkYY/
-         +4qd4vfk9vRzJUtMfHxLGiG+oRA3KI6u4R+ya2mPPxkRXvamkc1Ito4KDHR0Z7kMkd
-         fjYhAEMYvNwdQ==
+        b=EJKuywryqnEXCYiTn5azK3eyGpAaMCoIAnVz3GRao3Rm86NetxL6a9dzia4Sq90r3
+         iefHL1nXevjyeb6XA3gNf6ENsOONrEZc57MCK5qpJms4nV+6BrqXJjFjUN/mCTMUIt
+         6iiaiPQR3zRgxS18LIcyfqJfN9gTccnk2ozZws5fAGOvxq/iP/71sR2HI72TdomG6/
+         J5DVfZwFwTWxHac0Y4+MsDwzgm1mG38XD1d288G8k4qvimaX2HMhh4yowtN49tGtc/
+         uF4O636LuXC2nu4eu0XcBJJtyjx2dUAM3w+hUC7y1XTWU0JGKjeHBHw/M41LxdVq85
+         CbEyNy5+JURLw==
 X-Virus-Scanned: amavisd-new at efficios.com
 Received: from mail.efficios.com ([127.0.0.1])
         by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id WJ3mIoYh2Mtg; Mon, 13 Dec 2021 14:31:45 -0500 (EST)
+        with ESMTP id 861ojEOUOcXI; Mon, 13 Dec 2021 14:56:54 -0500 (EST)
 Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id 0DA8A31D396;
-        Mon, 13 Dec 2021 14:31:45 -0500 (EST)
-Date:   Mon, 13 Dec 2021 14:31:44 -0500 (EST)
+        by mail.efficios.com (Postfix) with ESMTP id 4C0BE31D627;
+        Mon, 13 Dec 2021 14:56:54 -0500 (EST)
+Date:   Mon, 13 Dec 2021 14:56:54 -0500 (EST)
 From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To:     Florian Weimer <fweimer@redhat.com>
 Cc:     linux-api <linux-api@vger.kernel.org>,
         Jann Horn <jannh@google.com>,
         libc-alpha <libc-alpha@sourceware.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Message-ID: <1221393005.30508.1639423904918.JavaMail.zimbra@efficios.com>
-In-Reply-To: <87tufctk82.fsf@oldenburg.str.redhat.com>
-References: <87tufctk82.fsf@oldenburg.str.redhat.com>
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        paulmck <paulmck@kernel.org>
+Message-ID: <1424606270.30586.1639425414221.JavaMail.zimbra@efficios.com>
+In-Reply-To: <87ilvstia9.fsf@oldenburg.str.redhat.com>
+References: <87tufctk82.fsf@oldenburg.str.redhat.com> <697825714.30478.1639423180784.JavaMail.zimbra@efficios.com> <87ilvstia9.fsf@oldenburg.str.redhat.com>
 Subject: Re: rseq + membarrier programming model
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -55,46 +57,79 @@ Content-Transfer-Encoding: 7bit
 X-Originating-IP: [167.114.26.124]
 X-Mailer: Zimbra 8.8.15_GA_4173 (ZimbraWebClient - FF94 (Linux)/8.8.15_GA_4177)
 Thread-Topic: rseq + membarrier programming model
-Thread-Index: v0eIsRH+7RemK1/WkGhyw7fSg5yOMw==
+Thread-Index: nLdOx+5PjIXZKj0fT2igMxPWoDeoRA==
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On Dec 13, 2021, at 1:47 PM, Florian Weimer fweimer@redhat.com wrote:
+----- On Dec 13, 2021, at 2:29 PM, Florian Weimer fweimer@redhat.com wrote:
 
-> I've been studying Jann Horn's biased locking example:
+> * Mathieu Desnoyers:
 > 
->  Re: [PATCH 0/4 POC] Allow executing code and syscalls in another address space
->  <https://lore.kernel.org/linux-api/CAG48ez02UDn_yeLuLF4c=kX0=h2Qq8Fdb0cer1yN8atbXSNjkQ@mail.gmail.com/>
+>>> Could it fall back to
+>>> MEMBARRIER_CMD_GLOBAL instead?
+>>
+>> No. CMD_GLOBAL does not issue the required rseq fence used by the
+>> algorithm discussed. Also, CMD_GLOBAL has quite a few other shortcomings:
+>> it takes a while to execute, and is incompatible with nohz_full kernels.
 > 
-> It uses MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ as part of the biased lock
-> revocation.
+> What about using sched_setcpu to move the current thread to the same CPU
+> (and move it back afterwards)?  Surely that implies the required sort of
+> rseq barrier that MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ with
+> MEMBARRIER_CMD_FLAG_CPU performs?
 
-By the way, there might be something good to salvage from this prototype I did a
-while back:
+I guess you refer to using sched_setaffinity(2) there ? There are various
+reasons why this may fail. For one, the affinity mask is a shared global
+resource which can be changed by external applications. Also, setting
+the affinity is really just a hint. In the presence of cpu hotplug and
+or cgroup cpuset, it is known to lead to situations where the kernel
+just gives up and provides an affinity mask including all CPUs.
+Therefore, using sched_setaffinity() and expecting to be pinned to
+a specific CPU for correctness purposes seems brittle.
 
-https://github.com/compudj/rseq-test/blob/adapt-lock/test-rseq-adaptative-lock.c
+But _if_ we'd have something like a sched_setaffinity which we can
+trust, yes, temporarily migrating to the target CPU, and observing that
+we indeed run there, would AFAIU provide the same guarantee as the rseq
+fence provided by membarrier. It would have a higher overhead than
+membarrier as well.
 
-The neat trick there is to use a combination of the Zero Flag and rbx==0/1 to detect
-whether the rseq critical section was aborted before or after successful execution
-of the CAS. This allows the rseq c.s. to cover an entire loop, which contains a CAS
-instruction, without requiring that the critical section ends with a "commit"
-instruction.
+> 
+> That is possible even without membarrier, so I wonder why registration
+> of intent is needed for MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ.
 
-Some characteristics of this prototype:
+I would answer that it is not possible to do this _reliably_ today
+without membarrier (see above discussion of cpu hotplug, cgroups, and
+modification of cpu affinity by external processes).
 
-- Don't busy-wait in user-space if the lock owner belongs to the same CPU where the
-  waiter executes. Immediately use futex.
-- Adaptative busy-wait delay (per-lock).
-- If busy-spinning is preempted, it jumps to abort immediately when resumed. Therefore,
-  the loop count for adaptative busy-spinning is very precise.
+AFAIR, registration of intent for MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ
+is mainly there to provide a programming model similar to private expedited
+plain and core-sync cmds.
 
-Of course, much more work would be needed, but I suspect a few ideas there can be
-useful.
+The registration of intent allows the kernel to further tweak what is
+done internally and make tradeoffs which only impact applications
+performing the registration.
+
+> 
+>> In order to make sure the programming model is the same for expedited
+>> private/global plain/sync-core/rseq membarrier commands, we require that
+>> each process perform a registration beforehand.
+> 
+> Hmm.  At least it's not possible to unregister again.
+> 
+> But I think it would be really useful to have some of these barriers
+> available without registration, possibly in a more expensive form.
+
+What would be wrong with doing a membarrier private-expedited-rseq registration
+on libc startup, and exposing a glibc tunable to allow disabling this ?
 
 Thanks,
 
 Mathieu
+
+
+> 
+> Thanks,
+> Florian
 
 -- 
 Mathieu Desnoyers
