@@ -2,153 +2,87 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD4F74734F1
-	for <lists+linux-api@lfdr.de>; Mon, 13 Dec 2021 20:28:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C19444734FA
+	for <lists+linux-api@lfdr.de>; Mon, 13 Dec 2021 20:30:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236583AbhLMT2K (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 13 Dec 2021 14:28:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54558 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230475AbhLMT2K (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Dec 2021 14:28:10 -0500
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B6B4C06173F
-        for <linux-api@vger.kernel.org>; Mon, 13 Dec 2021 11:28:09 -0800 (PST)
-Received: by mail-lj1-x236.google.com with SMTP id bn20so25216693ljb.8
-        for <linux-api@vger.kernel.org>; Mon, 13 Dec 2021 11:28:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wuhs1uu3xd+DAtVvYo8LfoJq6FMmwCoLXFe+b3mQ9lk=;
-        b=nY0y16AgC9FhPUVjSZBirXeR/6JmySF+N7Y7VNIwzImpGwEqs9HTAgVslXfdAKbw7p
-         h5VDPnoBy218LhjZDpzpSrgOGo9Xt4p4YihSMqTQVdP4YrsaWYmoy9hERj1nCuhrU4JO
-         vH9NnzJm9SNXhfnTlWVWaMzGS6iAXl82NNy2Mz/5bg95gNmIllIjfB0cWaV/zaDmssUy
-         wOaxO1Sd6GAdpR1hgMBCrKl2N7TAIvKmJKr44TNy9YxuSEBHcu7SEYNzlRjaTDiU3Y61
-         PZ4lA26NMuPTxG/HJAzM1/oO2Ee2I+FXbotTMIiWRHzj+G9nv1FCirF/4FMqxPXFsRL+
-         W9ZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wuhs1uu3xd+DAtVvYo8LfoJq6FMmwCoLXFe+b3mQ9lk=;
-        b=0sZn0O/WfRZqoae8W2tS4rs0VXiAQTgJ6I9k1HFI8WdDbDo4Qrt1Afec0+vEiZbH+z
-         rcR1lghg8lxymkBmZpJFkll9whUPxkDmrFiAcVVW2PNnyq4kuh8MGGjLJTCDmi0dZKIp
-         X0VEBVHkdUUR6zP8LduLdXDSPFgADMO35c/Tn2mVCyDmSMITFjqjU1hv3Da4SEau6JQW
-         Uqkx3tddSwpBmczjpfDYRzRxAzxrvaRmdyzGCYwv7AGiIz8YMHw7cCTMgiyNNEjjvS8G
-         7qbZsf3954ElJE+gchm7zvlIOfIeld/X1Km3xmxVTB3CNfyWug5vg3i+N3nVqqRAkJv5
-         QJdQ==
-X-Gm-Message-State: AOAM533Sayn1qZsRbMDIxWyWU8sjjj2E8i4xbtV344jivcKzMzMuOgaX
-        VUbf7HtbtYe3eHWtgnbPMk7lkJWgM4c2hUeButsL4Q==
-X-Google-Smtp-Source: ABdhPJxqWHONSnBCMMMMigrcQTyIdrM1feHJHhhHJ+AuRFOFD/oPpUM/4g0Ux0zeJp2mf9xcOHyDILt1fheukMheXoQ=
-X-Received: by 2002:a05:651c:324:: with SMTP id b4mr493697ljp.188.1639423687564;
- Mon, 13 Dec 2021 11:28:07 -0800 (PST)
-MIME-Version: 1.0
-References: <87tufctk82.fsf@oldenburg.str.redhat.com>
-In-Reply-To: <87tufctk82.fsf@oldenburg.str.redhat.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Mon, 13 Dec 2021 20:27:41 +0100
-Message-ID: <CAG48ez2oNKbSvNavKLEe2iYm1Cj+OaaaF45FA8cqkY+-7DuJTw@mail.gmail.com>
+        id S242344AbhLMTaI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 13 Dec 2021 14:30:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34262 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S242232AbhLMTaD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 13 Dec 2021 14:30:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1639423802;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=l3/Ksz/+rMbZTa7dn+INhZ/hCEUhknY7SkJcQlX+fiQ=;
+        b=bMPW9VA16IxpAce1sA1d4ljHl6s1HnrpvgU28R3lw0t64U0fsmjj7g9lEVh9Twg84pGB8p
+        b5a5YrcX4pbaka6vYCAnvijuF27fUFTm0epQ3AEji5xJe0e2dYzLtTeIVXk0vS3WzLkU67
+        AfZc1iQE3+3RQ+ttHVQO7WyvZ7d7Thg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-542-I2mLPfDnPhWeQxlvw16c-w-1; Mon, 13 Dec 2021 14:29:57 -0500
+X-MC-Unique: I2mLPfDnPhWeQxlvw16c-w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C518164146;
+        Mon, 13 Dec 2021 19:29:55 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.2.17.223])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id CD8E413AB3;
+        Mon, 13 Dec 2021 19:29:53 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     linux-api <linux-api@vger.kernel.org>,
+        Jann Horn <jannh@google.com>,
+        libc-alpha <libc-alpha@sourceware.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        paulmck <paulmck@kernel.org>
 Subject: Re: rseq + membarrier programming model
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     linux-api@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        libc-alpha@sourceware.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+References: <87tufctk82.fsf@oldenburg.str.redhat.com>
+        <697825714.30478.1639423180784.JavaMail.zimbra@efficios.com>
+Date:   Mon, 13 Dec 2021 20:29:50 +0100
+In-Reply-To: <697825714.30478.1639423180784.JavaMail.zimbra@efficios.com>
+        (Mathieu Desnoyers's message of "Mon, 13 Dec 2021 14:19:40 -0500
+        (EST)")
+Message-ID: <87ilvstia9.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Dec 13, 2021 at 7:48 PM Florian Weimer <fweimer@redhat.com> wrote:
-> I've been studying Jann Horn's biased locking example:
+* Mathieu Desnoyers:
+
+>> Could it fall back to
+>> MEMBARRIER_CMD_GLOBAL instead?
 >
->   Re: [PATCH 0/4 POC] Allow executing code and syscalls in another address space
->   <https://lore.kernel.org/linux-api/CAG48ez02UDn_yeLuLF4c=kX0=h2Qq8Fdb0cer1yN8atbXSNjkQ@mail.gmail.com/>
->
-> It uses MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ as part of the biased lock
-> revocation.
->
-> How does the this code know that the process has called
-> MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED_RSEQ?  Could it fall back to
-> MEMBARRIER_CMD_GLOBAL instead?
+> No. CMD_GLOBAL does not issue the required rseq fence used by the
+> algorithm discussed. Also, CMD_GLOBAL has quite a few other shortcomings:
+> it takes a while to execute, and is incompatible with nohz_full kernels.
 
-AFAIK no - MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED_RSEQ specifically
-forces targeted processes to go through an RSEQ preemption. That only
-happens when this special membarrier command is used and when an
-actual task switch happens; other membarrier flavors don't guarantee
-that.
+What about using sched_setcpu to move the current thread to the same CPU
+(and move it back afterwards)?  Surely that implies the required sort of
+rseq barrier that MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ with
+MEMBARRIER_CMD_FLAG_CPU performs?
 
+That is possible even without membarrier, so I wonder why registration
+of intent is needed for MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ.
 
-Also, MEMBARRIER_CMD_GLOBAL can take really long in terms of wall
-clock time - it's basically just synchronize_rcu(), and as the
-documentation at
-https://www.kernel.org/doc/html/latest/RCU/Design/Requirements/Requirements.html
-says:
+> In order to make sure the programming model is the same for expedited
+> private/global plain/sync-core/rseq membarrier commands, we require that
+> each process perform a registration beforehand.
 
-"The synchronize_rcu() grace-period-wait primitive is optimized for
-throughput. It may therefore incur several milliseconds of latency in
-addition to the duration of the longest RCU read-side critical
-section."
+Hmm.  At least it's not possible to unregister again.
 
+But I think it would be really useful to have some of these barriers
+available without registration, possibly in a more expensive form.
 
-You can see that synchronize_rcu() indeed takes quite long in terms of
-wall clock time (but not in terms of CPU time - as the documentation
-says, it's optimized for throughput in a parallel context) with a
-simple test program:
+Thanks,
+Florian
 
-jannh@laptop:~/test/rcu$ cat rcu_membarrier.c
-#define _GNU_SOURCE
-#include <stdio.h>
-#include <linux/membarrier.h>
-#include <sys/syscall.h>
-#include <unistd.h>
-#include <time.h>
-#include <err.h>
-
-int main(void) {
-  for (int i=0; i<20; i++) {
-    struct timespec ts1;
-    if (clock_gettime(CLOCK_MONOTONIC, &ts1))
-      err(1, "time");
-
-    if (syscall(__NR_membarrier, MEMBARRIER_CMD_GLOBAL, 0, 0))
-      err(1, "membarrier");
-
-    struct timespec ts2;
-    if (clock_gettime(CLOCK_MONOTONIC, &ts2))
-      err(1, "time");
-
-    unsigned long delta_ns = (ts2.tv_nsec - ts1.tv_nsec) +
-(1000UL*1000*1000) * (ts2.tv_sec - ts1.tv_sec);
-    printf("MEMBARRIER_CMD_GLOBAL took %lu nanoseconds\n", delta_ns);
-  }
-}
-jannh@laptop:~/test/rcu$ gcc -o rcu_membarrier rcu_membarrier.c -Wall
-jannh@laptop:~/test/rcu$ time ./rcu_membarrier
-MEMBARRIER_CMD_GLOBAL took 17155142 nanoseconds
-MEMBARRIER_CMD_GLOBAL took 19207001 nanoseconds
-MEMBARRIER_CMD_GLOBAL took 16087350 nanoseconds
-MEMBARRIER_CMD_GLOBAL took 15963711 nanoseconds
-MEMBARRIER_CMD_GLOBAL took 16336149 nanoseconds
-MEMBARRIER_CMD_GLOBAL took 15931331 nanoseconds
-MEMBARRIER_CMD_GLOBAL took 16020315 nanoseconds
-MEMBARRIER_CMD_GLOBAL took 15873814 nanoseconds
-MEMBARRIER_CMD_GLOBAL took 15945667 nanoseconds
-MEMBARRIER_CMD_GLOBAL took 23815452 nanoseconds
-MEMBARRIER_CMD_GLOBAL took 23626444 nanoseconds
-MEMBARRIER_CMD_GLOBAL took 19911435 nanoseconds
-MEMBARRIER_CMD_GLOBAL took 23967343 nanoseconds
-MEMBARRIER_CMD_GLOBAL took 15943147 nanoseconds
-MEMBARRIER_CMD_GLOBAL took 23914809 nanoseconds
-MEMBARRIER_CMD_GLOBAL took 32498986 nanoseconds
-MEMBARRIER_CMD_GLOBAL took 19450932 nanoseconds
-MEMBARRIER_CMD_GLOBAL took 16281308 nanoseconds
-MEMBARRIER_CMD_GLOBAL took 24045168 nanoseconds
-MEMBARRIER_CMD_GLOBAL took 15406698 nanoseconds
-
-real 0m0.458s
-user 0m0.058s
-sys 0m0.031s
-jannh@laptop:~/test/rcu$
-
-Every invocation of MEMBARRIER_CMD_GLOBAL on my laptop took >10 ms.
