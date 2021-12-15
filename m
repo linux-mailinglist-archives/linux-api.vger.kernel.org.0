@@ -2,40 +2,40 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECECD4755CE
-	for <lists+linux-api@lfdr.de>; Wed, 15 Dec 2021 11:06:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E19C4756C9
+	for <lists+linux-api@lfdr.de>; Wed, 15 Dec 2021 11:45:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236515AbhLOKGx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Dec 2021 05:06:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46120 "EHLO
+        id S236678AbhLOKpQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Dec 2021 05:45:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231906AbhLOKGw (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Dec 2021 05:06:52 -0500
+        with ESMTP id S231962AbhLOKpP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Dec 2021 05:45:15 -0500
 Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61456C061574;
-        Wed, 15 Dec 2021 02:06:52 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5494CC061574;
+        Wed, 15 Dec 2021 02:45:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=XslM5Epa55RD20L1OCQ/Q6wYtb1kDkeTAifuHVHDDiI=; b=SK3bCDDO0/043JGqNkXclAWkHm
-        OtNTKVeBzQp6/E2F3GVkdyman/ujNkVnuj0oQuYnbAmHiG68dXA4/JWdzHGYTZAG5CXE5bPNPw8KA
-        SmPiHdpVwyvdkEtEVqd+FMubO4ME5O0d/QmiOlcaSEuTv5GlyNy7xy2hvftHfeRybdsQetrXGpsMK
-        xKUNEp6FEFgFDXS2ucVehXGZ8WQbjNWvAnDkF9u/eeyTLdzzS8YQ/A5n2qQjFwVPy0j0f12PcMvib
-        +yeESzexCnIvQaJvgIfW0UAMW4TBkR+AvL1iDV8IRXs0QoKTIJOLv72ytUvzBEUT73NuTAMOSl2Vm
-        VsAAeoxg==;
+        bh=ri+zdawudXgxAzscU1cRqkMc+UJ/ZceDl69E/eAootg=; b=bF1U3XaTIPTP8OzTZo/py3pL1n
+        HeIi5p+wrTocF4lUzT4+WF7Uq5b49yYOANErk8pFisKWn0r1Y0PzUVZP1UWlzn5CKIlUfPNRyy/A5
+        dFQG8x3mpfmuh8FCl2fO0mlZQwzLHD5nPoweoGFYryCLvxhf+hDUkz0CCiz4DoPEdxkwHeZbbjyOb
+        PNu/hP9gyONi03R84gugzTBWGA5DpC6rY/n86zDWnjHhUrG/mrEarrCnj+S2jh3jccKmuW0kF0EuL
+        pa75hefUOMCP/on2MW9l3iEjSbiyXfU57TwSITSmJH1ZWAVa9FXXuoe6FF/k+rYgOYRWbx0H3o9md
+        5sYHl95g==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
         by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mxRB0-001U8u-9e; Wed, 15 Dec 2021 10:06:22 +0000
+        id 1mxRmE-001URT-C3; Wed, 15 Dec 2021 10:44:50 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 4252C300056;
-        Wed, 15 Dec 2021 11:06:20 +0100 (CET)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 6497330003C;
+        Wed, 15 Dec 2021 11:44:49 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 24F602B3206E1; Wed, 15 Dec 2021 11:06:20 +0100 (CET)
-Date:   Wed, 15 Dec 2021 11:06:20 +0100
+        id 0B9EC2B3206F8; Wed, 15 Dec 2021 11:44:49 +0100 (CET)
+Date:   Wed, 15 Dec 2021 11:44:49 +0100
 From:   Peter Zijlstra <peterz@infradead.org>
 To:     Peter Oskolkov <posk@posk.io>
 Cc:     Ingo Molnar <mingo@redhat.com>,
@@ -51,7 +51,7 @@ Cc:     Ingo Molnar <mingo@redhat.com>,
         Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
         Thierry Delisle <tdelisle@uwaterloo.ca>
 Subject: Re: [RFC][PATCH 0/3] sched: User Managed Concurrency Groups
-Message-ID: <Ybm+HJzkO/0BB4Va@hirez.programming.kicks-ass.net>
+Message-ID: <YbnHIRdv/8bjZxX/@hirez.programming.kicks-ass.net>
 References: <20211214204445.665580974@infradead.org>
  <CAFTs51XRJj1pwF6q5hwdGP0jtXmY81QQmTzyuA26fHMH0zCymw@mail.gmail.com>
 MIME-Version: 1.0
@@ -63,185 +63,31 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 On Tue, Dec 14, 2021 at 07:46:25PM -0800, Peter Oskolkov wrote:
-> On Tue, Dec 14, 2021 at 12:55 PM Peter Zijlstra <peterz@infradead.org> wrote:
-> >
-> > Hi,
-> >
-> > This is actually tested code; but still missing the SMP wake-to-idle machinery.
-> > I still need to think about that.
-> 
-> Thanks, Peter!
-> 
-> At a first glance, your main patch does not look much smaller than
-> mine, and I thought the whole point of re-doing it was to throw away
-> extra features and make things smaller/simpler...
 
-Well, simpler was the goal. I didn't really focus on size much. It isn't
-really big to begin with.
+> Anyway, I'll test your patchset over the next week or so and let you
+> know if anything really needed is missing (other than waking an idle
+> server if there is one on a worker wakeup; this piece is definitely
+> needed).
 
-But yes, it has 5 hooks now, 3 syscalls and lots of comments and all
-that under 900 lines, not bad I'd say.
+Right, so the problem I'm having is that a single idle server ptr like
+before can trivially miss waking annother idle server.
 
-Also I think you wanted something like this? I'm not sure of the LAZY
-name, but I can't seem to come up with anything saner atm.
+Suppose:
 
+	umcg::idle_server_tid_ptr
 
----
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -1297,6 +1297,7 @@ struct task_struct {
- 
- #ifdef CONFIG_UMCG
- 	/* setup by sys_umcg_ctrl() */
-+	u32			umcg_flags;
- 	clockid_t		umcg_clock;
- 	struct umcg_task __user	*umcg_task;
- 
---- a/include/uapi/linux/umcg.h
-+++ b/include/uapi/linux/umcg.h
-@@ -133,11 +133,13 @@ struct umcg_task {
-  * @UMCG_CTL_REGISTER:   register the current task as a UMCG task
-  * @UMCG_CTL_UNREGISTER: unregister the current task as a UMCG task
-  * @UMCG_CTL_WORKER:     register the current task as a UMCG worker
-+ * @UMCG_CTL_LAZY:	 don't wake server on runnable enqueue
-  */
- enum umcg_ctl_flag {
- 	UMCG_CTL_REGISTER	= 0x00001,
- 	UMCG_CTL_UNREGISTER	= 0x00002,
- 	UMCG_CTL_WORKER		= 0x10000,
-+	UMCG_CTL_LAZY		= 0x20000,
- };
- 
- #endif /* _UAPI_LINUX_UMCG_H */
---- a/kernel/sched/umcg.c
-+++ b/kernel/sched/umcg.c
-@@ -416,6 +416,27 @@ static int umcg_enqueue_runnable(struct
- }
- 
- /*
-+ * Enqueue tsk to it's server's runnable list and wake the server for pickup if
-+ * so desired. Notable LAZY workers will not wake the server and rely on the
-+ * server to do pickup whenever it naturally runs next.
-+ *
-+ * Returns:
-+ * 0:	success
-+ * -EFAULT
-+ */
-+static int umcg_enqueue_and_wake(struct task_struct *tsk, bool force)
-+{
-+	int ret = umcg_enqueue_runnable(tsk);
-+	if (ret)
-+		return ret;
-+
-+	if (force || !(tsk->umcg_flags & UMCG_CTL_LAZY))
-+		ret = umcg_wake_server(tsk);
-+
-+	return ret;
-+}
-+
-+/*
-  * umcg_wait: Wait for ->state to become RUNNING
-  *
-  * Returns:
-@@ -522,12 +543,8 @@ void umcg_sys_exit(struct pt_regs *regs)
- 	if (umcg_update_state(tsk, self, UMCG_TASK_BLOCKED, UMCG_TASK_RUNNABLE))
- 		UMCG_DIE_UNPIN("state");
- 
--	if (umcg_enqueue_runnable(tsk))
--		UMCG_DIE_UNPIN("enqueue");
--
--	/* Server might not be RUNNABLE, means it's already running */
--	if (umcg_wake_server(tsk))
--		UMCG_DIE_UNPIN("wake-server");
-+	if (umcg_enqueue_and_wake(tsk, false))
-+		UMCG_DIE_UNPIN("enqueue-and-wake");
- 
- 	umcg_unpin_pages();
- 
-@@ -582,15 +599,11 @@ void umcg_notify_resume(struct pt_regs *
- 				      UMCG_TASK_RUNNABLE))
- 			UMCG_DIE_UNPIN("state");
- 
--		if (umcg_enqueue_runnable(tsk))
--			UMCG_DIE_UNPIN("enqueue");
--
- 		/*
--		 * XXX do we want a preemption consuming ::next_tid ?
--		 * I'm currently leaning towards no.
-+		 * Preemption relies on waking the server on enqueue.
- 		 */
--		if (umcg_wake_server(tsk))
--			UMCG_DIE_UNPIN("wake-server");
-+		if (umcg_enqueue_and_wake(tsk, true))
-+			UMCG_DIE_UNPIN("enqueue-and-wake");
- 
- 		umcg_unpin_pages();
- 	}
-@@ -686,23 +699,15 @@ SYSCALL_DEFINE2(umcg_wait, u32, flags, u
- 		goto unpin;
- 
- 	if (worker) {
--		ret = umcg_enqueue_runnable(tsk);
-+		ret = umcg_enqueue_and_wake(tsk, !tsk->umcg_next);
- 		if (ret)
- 			goto unpin;
- 	}
- 
--	if (worker)
--		ret = umcg_wake(tsk);
--	else if (tsk->umcg_next)
-+	if (tsk->umcg_next) {
- 		ret = umcg_wake_next(tsk);
--
--	if (ret) {
--		/*
--		 * XXX already enqueued ourself on ::server_tid; failing now
--		 * leaves the lot in an inconsistent state since it'll also
--		 * unblock self in order to return the error. !?!?
--		 */
--		goto unpin;
-+		if (ret)
-+			goto unpin;
- 	}
- 
- 	umcg_unpin_pages();
-@@ -783,7 +788,8 @@ SYSCALL_DEFINE3(umcg_ctl, u32, flags, st
- 
- 	if (flags & ~(UMCG_CTL_REGISTER |
- 		      UMCG_CTL_UNREGISTER |
--		      UMCG_CTL_WORKER))
-+		      UMCG_CTL_WORKER |
-+		      UMCG_CTL_LAZY))
- 		return -EINVAL;
- 
- 	if (flags == UMCG_CTL_UNREGISTER) {
-@@ -827,7 +833,7 @@ SYSCALL_DEFINE3(umcg_ctl, u32, flags, st
- 	rcu_read_lock();
- 	server = find_task_by_vpid(ut.server_tid);
- 	if (server && server->mm == current->mm) {
--		if (flags == UMCG_CTL_WORKER) {
-+		if (flags & UMCG_CTL_WORKER) {
- 			if (!server->umcg_task ||
- 			    (server->flags & PF_UMCG_WORKER))
- 				server = NULL;
-@@ -843,10 +849,11 @@ SYSCALL_DEFINE3(umcg_ctl, u32, flags, st
- 	if (!server)
- 		return -ESRCH;
- 
--	if (flags == UMCG_CTL_WORKER) {
-+	if (flags & UMCG_CTL_WORKER) {
- 		if ((ut.state & (UMCG_TASK_MASK | UMCG_TF_MASK)) != UMCG_TASK_BLOCKED)
- 			return -EINVAL;
- 
-+		current->umcg_flags = flags & UMCG_CTL_LAZY;
- 		WRITE_ONCE(current->umcg_task, self);
- 		current->flags |= PF_UMCG_WORKER;	/* hook schedule() */
- 		set_syscall_work(SYSCALL_UMCG);		/* hook syscall */
-@@ -858,6 +865,7 @@ SYSCALL_DEFINE3(umcg_ctl, u32, flags, st
- 		if ((ut.state & (UMCG_TASK_MASK | UMCG_TF_MASK)) != UMCG_TASK_RUNNING)
- 			return -EINVAL;
- 
-+		current->umcg_flags = 0;
- 		WRITE_ONCE(current->umcg_task, self);
- 		set_thread_flag(TIF_UMCG);		/* hook return-to-user */
- 
+Then the enqueue_and_wake() thing from the last patch would:
+
+	idle_server_tid = xchg((pid_t __user *)self->idle_server_tid_ptr, 0);
+
+to consume the tid, and then use that to enqueue and wake. But what if a
+second wakeup happens right after that? There might be a second idle
+server, but we'll never find it, because userspace hasn't had time to
+update the field again.
+
+Alternatively, we do a linked list of servers, but then every such
+wakeup needs to iterate the whole list, looking for one that has
+UMCG_TF_IDLE set, or something like that, but that lookup is bad for
+performance.
+
+So I'm really not sure what way to go yet.
