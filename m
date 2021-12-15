@@ -2,40 +2,40 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 62ABC476090
-	for <lists+linux-api@lfdr.de>; Wed, 15 Dec 2021 19:20:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B3ED4760A9
+	for <lists+linux-api@lfdr.de>; Wed, 15 Dec 2021 19:26:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343696AbhLOSTU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Dec 2021 13:19:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48770 "EHLO
+        id S1343758AbhLOSZc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Dec 2021 13:25:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343692AbhLOSTS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Dec 2021 13:19:18 -0500
+        with ESMTP id S245460AbhLOSZa (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Dec 2021 13:25:30 -0500
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73D4CC061574;
-        Wed, 15 Dec 2021 10:19:18 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FED4C061574;
+        Wed, 15 Dec 2021 10:25:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=zmFY3Gs53FyRCPoRjth8UcDlb/32jRwmwTYyj2vOBUo=; b=LRIKOnjS723sZGnU7NLgsxvD1U
-        4y4Xc1ywEcIKnMpZ2HnWPWW8h4WLF5TFDB5CmkQmN5YOiC60be9chJ+t4lvcbSZ949lwXZhJHK7N4
-        rdQvnwNQJmze7vGC8ymwTTxhiMW1ZkP0MdSBcKuywW08pWSV/QOJN4T8+13Yvd8bAWAMjw33YDVDZ
-        PNyme0HTyDKFO44pT8Heo9E34DnYK3q7MoP+j2eNGRaDzfaxtmq7Y8wM353OSK4+GyGSzdIWbCYjA
-        SuQjvgM9s31JXx7cantn7hj4TbBZWP6PLyndtgf93g4rNWFJ43+MUtSqrQTmkmmh+GR9eAwFUFMXO
-        AK5Srjow==;
+        bh=uE77z3J6ZV69h4+deFWZnKMlHZLBoYzkSsmW+InoK1k=; b=vZK61Q99j7721uKoBWpx6d4OUk
+        gLX1J2af+N/q57W/SujcYDSIsvWG/iMFYBFNShD0zOAUyRQcczBiapN9R13qHgC4h3F0rZ1yntXVC
+        xE2+ArtKMX8zFGXnuo+Ad29iz/Lmcog3eeSyaJl2xiFVcDSE3U/waBlN/Kqh1U0dk84+k6A2D5Q80
+        2zIDuN1+GR+EokKZfbPrBtrOtANEzh4tZ/UKREWd6uyVfVfqKakugoVknRVBB/9jzkEgVb3Rpmm0O
+        Wpq01OooCsl95AulbRnU8l6+dThDaGuNu5B01qs+XXUy28vs0fbHryS4sF+IxcN0zvZfuOSCKDXA6
+        og8XD9DA==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
         by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mxYre-00Etns-4Q; Wed, 15 Dec 2021 18:18:55 +0000
+        id 1mxYxh-00EuBG-JW; Wed, 15 Dec 2021 18:25:10 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 29DA6300348;
-        Wed, 15 Dec 2021 19:18:53 +0100 (CET)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 8EE4C3001C0;
+        Wed, 15 Dec 2021 19:25:09 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 0C1A2200C2286; Wed, 15 Dec 2021 19:18:53 +0100 (CET)
-Date:   Wed, 15 Dec 2021 19:18:53 +0100
+        id 4D154200C2286; Wed, 15 Dec 2021 19:25:09 +0100 (CET)
+Date:   Wed, 15 Dec 2021 19:25:09 +0100
 From:   Peter Zijlstra <peterz@infradead.org>
 To:     Peter Oskolkov <posk@posk.io>
 Cc:     Ingo Molnar <mingo@redhat.com>,
@@ -51,7 +51,7 @@ Cc:     Ingo Molnar <mingo@redhat.com>,
         Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
         Thierry Delisle <tdelisle@uwaterloo.ca>
 Subject: Re: [RFC][PATCH 0/3] sched: User Managed Concurrency Groups
-Message-ID: <YboxjUM+D9Kg52mO@hirez.programming.kicks-ass.net>
+Message-ID: <YbozBSLk4PytGp0J@hirez.programming.kicks-ass.net>
 References: <20211214204445.665580974@infradead.org>
  <CAFTs51XRJj1pwF6q5hwdGP0jtXmY81QQmTzyuA26fHMH0zCymw@mail.gmail.com>
  <Ybm+HJzkO/0BB4Va@hirez.programming.kicks-ass.net>
@@ -65,34 +65,23 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 On Wed, Dec 15, 2021 at 09:56:06AM -0800, Peter Oskolkov wrote:
-
-> > Right, so the problem I'm having is that a single idle server ptr like
-> > before can trivially miss waking annother idle server.
+> On Wed, Dec 15, 2021 at 2:06 AM Peter Zijlstra <peterz@infradead.org> wrote:
+> >  /*
+> > + * Enqueue tsk to it's server's runnable list and wake the server for pickup if
+> > + * so desired. Notable LAZY workers will not wake the server and rely on the
+> > + * server to do pickup whenever it naturally runs next.
 > 
-> I believe the approach I used in my patchset, suggested by Thierry
-> Delisle, works.
-> 
-> In short, there is a single idle server ptr for the kernel to work
-> with. The userspace maintains a list of idle servers. If the ptr is
-> NULL, the list is empty. When the kernel wakes the idle server it
-> sees, the server reaps the runnable worker list and wakes another idle
-> server from the userspace list, if available. This newly woken idle
-> server repoints the ptr to itself, checks the runnable worker list, to
-> avoid missing a woken worker, then goes to sleep.
-> 
-> Why do you think this approach is not OK?
+> No, I never suggested we needed per-server runnable queues: in all my
+> patchsets I had a single list of idle (runnable) workers.
 
-Suppose at least 4 servers, 2 idle, 2 working.
+This is not about the idle servers..
 
-Now, the first of the working servers (lets call it S0) gets a wakeup
-(say Ta), it finds the idle server (say S3) and consumes it, sticking Ta
-on S3 and kicking it alive.
+So without the LAZY thing on, a previously blocked task hitting sys_exit
+will enqueue itself on the runnable list and wake the server for pickup.
 
-Concurrently and loosing the race the other working server (S1) gets a
-wake-up from Tb, like said, it lost, no idle server, so Tb goes on the
-queue of S1.
+IIRC you didn't like the server waking while it was still running
+another task, but instead preferred to have it pick up the newly
+enqueued task when next it ran.
 
-So then S3 wakes, finds Ta and they live happily ever after.
-
-While S2 and Tb fail to meet one another and both linger in sadness.
-
+LAZY enables that.. *however* it does need to wake the server when it is
+idle, otherwise they'll all sit there waiting for one another.
