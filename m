@@ -2,407 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 11ABE474CE9
-	for <lists+linux-api@lfdr.de>; Tue, 14 Dec 2021 22:00:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 044FF475179
+	for <lists+linux-api@lfdr.de>; Wed, 15 Dec 2021 04:46:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237729AbhLNVAj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 14 Dec 2021 16:00:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39342 "EHLO
+        id S239622AbhLODqi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 14 Dec 2021 22:46:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230382AbhLNVAi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Dec 2021 16:00:38 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DCA3C061574;
-        Tue, 14 Dec 2021 13:00:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=02vHHiKz0gT5jyRJmlmc/3dByU2JhzQMiKH2ELlSE50=; b=MyP+dV0kBQGp26VdnA1YyssEtT
-        zXH1KQmM6Ki+ffqbOhL5XZA4qBND4++sGgq00SEyxTxV0GmJDOvZKdjawkanhCRNZkX5Y0p4LgT8r
-        D9qRNVc3o110ds3GIljIdxpEGPxczxnOKElc1Z/nCuFj8ExYduRc0GgFTCWmjj4jIRnpEmg1nq1wv
-        SM9CnqNe08EBJjuwyTETVYdoPil5VNUz7/QQxn44FLCkXoSfI1g6YIzVpZuQw6adzo7uU+21zlnDo
-        HuzQPtlElaDW9/hRGa9IiD6Mh67hh3A42RGxhC1UlYYspJrdWxt/CUnwS1zd8OYbn+3hrxL6G+aP0
-        oxAxacvA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mxEuH-00E4cB-7j; Tue, 14 Dec 2021 21:00:18 +0000
-Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 0BA11984C61; Tue, 14 Dec 2021 22:00:17 +0100 (CET)
-Date:   Tue, 14 Dec 2021 22:00:16 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-api@vger.kernel.org, x86@kernel.org, pjt@google.com,
-        posk@google.com, avagin@google.com, jannh@google.com,
-        tdelisle@uwaterloo.ca, posk@posk.io
-Subject: Re: [RFC][PATCH 0/3] sched: User Managed Concurrency Groups
-Message-ID: <20211214210016.GD16608@worktop.programming.kicks-ass.net>
-References: <20211214204445.665580974@infradead.org>
+        with ESMTP id S239610AbhLODqh (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Dec 2021 22:46:37 -0500
+Received: from mail-vk1-xa35.google.com (mail-vk1-xa35.google.com [IPv6:2607:f8b0:4864:20::a35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 258EEC06173E
+        for <linux-api@vger.kernel.org>; Tue, 14 Dec 2021 19:46:37 -0800 (PST)
+Received: by mail-vk1-xa35.google.com with SMTP id e27so13841508vkd.4
+        for <linux-api@vger.kernel.org>; Tue, 14 Dec 2021 19:46:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=posk.io; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6TekgYXvLI9+PhAB10t1a5FqyPcohZFo1S/h5MUzllc=;
+        b=BFsYMu+UZJj1SArv/r1ASXkdEhkDV6ze8dTrFKXh3BqRPxE59I75lLftewi2N6Gdp/
+         hVHKuBSEEOKvlfo92eHsingxtFZVif9P2kEl6cecf9Wk9hgAZt3SwH61VWQ5b7m3J709
+         IoSEdRybiuRcZB9Tc8r+YKx7thHVGC2NJjigGfuhZ8jYYnD9Hpweg6EIeb/5PtEUWuvu
+         kyEP1L9s9nZcncRMdGj7SPlQOUtLRYUv61wDX+vOEyJAa1M6B4sbg9XU/AZqbfSyq23I
+         d6/QxcitDHYWCTs0pWw+Zuc6i5WaCwCgQSyJJ8IwrdQmpo/1vzgd4eMJBefEbUP2/lW2
+         GgNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6TekgYXvLI9+PhAB10t1a5FqyPcohZFo1S/h5MUzllc=;
+        b=jVU7eV7qS07uqzDBHoBK783mlSfHf7YZbo8vDvMKhhaCY2NgvJ/SdhO0Lpooqjn9rU
+         peLaGM2klnqJE6dlvE4vMzrk4XnVVUVA6viHjRB9H+Ajh79+j1+j9KdfrzR5oL5e24e1
+         798CMUYUMJswHGudbqbbK1SMsbo58u94yAkxT4CphKRsaleg3E7T97dPaJk4+OQTHNmJ
+         DLt3btqWNSp6boPTDR5TIkkkATPLydw/ExizWfcgTZUiy8Apb5s+cCsuB9fbhC7c7FnA
+         RnRM7cBv/x6dHaomNs4eBtT53N4MSiUpFKVmeaEd8HDi58o8aJHONglkoBYjj7cktS+x
+         sCLg==
+X-Gm-Message-State: AOAM532x9RFTr0End65IBinudC2yqBI1RC9qOgUeu00ZVmA+LzWr2S60
+        BqsrqG5Ta+1Lf0i0LCuTLkxMZolAivlbMc50HhGJcg==
+X-Google-Smtp-Source: ABdhPJwT1P/z+guQQbhBVQaBckIuopJw6LK6HpQeJEPxLY8JvjeQl8Z+vJL49XKvD80YtUUcd36/oxeIFPPgqM4AECg=
+X-Received: by 2002:a05:6122:221c:: with SMTP id bb28mr2417373vkb.27.1639539996199;
+ Tue, 14 Dec 2021 19:46:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20211214204445.665580974@infradead.org>
 In-Reply-To: <20211214204445.665580974@infradead.org>
+From:   Peter Oskolkov <posk@posk.io>
+Date:   Tue, 14 Dec 2021 19:46:25 -0800
+Message-ID: <CAFTs51XRJj1pwF6q5hwdGP0jtXmY81QQmTzyuA26fHMH0zCymw@mail.gmail.com>
+Subject: Re: [RFC][PATCH 0/3] sched: User Managed Concurrency Groups
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>, juri.lelli@redhat.com,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        dietmar.eggemann@arm.com, Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, mgorman@suse.de,
+        bristot@redhat.com,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-api@vger.kernel.org, x86@kernel.org,
+        Paul Turner <pjt@google.com>, Peter Oskolkov <posk@google.com>,
+        Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
+        Thierry Delisle <tdelisle@uwaterloo.ca>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Dec 14, 2021 at 09:44:45PM +0100, Peter Zijlstra wrote:
+On Tue, Dec 14, 2021 at 12:55 PM Peter Zijlstra <peterz@infradead.org> wrote:
+>
+> Hi,
+>
+> This is actually tested code; but still missing the SMP wake-to-idle machinery.
+> I still need to think about that.
+
+Thanks, Peter!
+
+At a first glance, your main patch does not look much smaller than
+mine, and I thought the whole point of re-doing it was to throw away
+extra features and make things smaller/simpler...
+
+Anyway, I'll test your patchset over the next week or so and let you
+know if anything really needed is missing (other than waking an idle
+server if there is one on a worker wakeup; this piece is definitely
+needed).
+
+>
 > I'll post my test-hack as a reply, but basically it does co-operative and
 > preemptive UP-like user scheduling.
-
-It's pretty rough, but seems to work. Defaults to co-operative and
-switches to preemptive when ran with an (any!) argument.
-
----
-// gcc -Itools/include/ -o umcg umcg.c -lpthread
-
-#define _GNU_SOURCE
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/syscall.h>
-#include <pthread.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <errno.h>
-
-#ifndef __NR_umcg_ctl
-#define __NR_umcg_ctl  450
-#define __NR_umcg_wait 451
-#define __NR_umcg_kick 452
-#endif
-
-#include <linux/list.h>
-#include "include/uapi/linux/umcg.h"
-
-/* syscall wrappers */
-
-static inline int
-sys_umcg_ctl(u32 flags, struct umcg_task *self, clockid_t which_clock)
-{
-	return syscall(__NR_umcg_ctl, flags, self, which_clock);
-}
-
-static inline int
-sys_umcg_wait(u32 flags, u64 timo)
-{
-	return syscall(__NR_umcg_wait, flags, timo);
-}
-
-static inline int
-sys_umcg_kick(u32 flags, pid_t tid)
-{
-	return syscall(__NR_umcg_kick, flags, tid);
-}
-
-/* the 'foo' scheduler */
-
-struct foo_task {
-	struct umcg_task	task;
-	struct list_head	node;
-	pid_t			tid;
-};
-
-struct foo_server {
-	struct umcg_task	task;
-	struct list_head	node;
-	pid_t			tid;
-	struct foo_task		*cur;
-};
-
-void foo_add(struct foo_server *server, struct umcg_task *t)
-{
-	struct foo_task *foo = container_of(t, struct foo_task, task);
-
-	t->runnable_workers_ptr = 0ULL;
-	list_add_tail(&foo->node, &server->node);
-}
-
-struct foo_task *foo_pick_next(struct foo_server *server)
-{
-	struct foo_task *first = NULL;
-
-	if (list_empty(&server->node))
-		return first;
-
-	first = list_first_entry(&server->node, struct foo_task, node);
-	list_del(&first->node);
-	return first;
-}
-
-#define NSEC_PER_SEC 1000000000ULL
-
-u64 foo_time(void)
-{
-	struct timespec ts;
-	clock_gettime(CLOCK_MONOTONIC, &ts);
-	return (unsigned long long)ts.tv_sec * NSEC_PER_SEC + ts.tv_nsec;
-}
-
-void foo_yield(struct umcg_task *self)
-{
-	self->state = UMCG_TASK_RUNNABLE | UMCG_TF_COND_WAIT;
-	sys_umcg_wait(0, 0);
-}
-
-#define TICK_NSEC NSEC_PER_SEC
-
-volatile bool foo_preemptible = false;
-
-/* our workers */
-
-/* always running worker */
-void *worker_fn0(void *arg)
-{
-	struct foo_server *server = arg;
-	struct foo_task task = { };
-	unsigned long i;
-	int ret;
-
-	task.tid = gettid();
-	task.task.server_tid = server->tid;
-	task.task.state = UMCG_TASK_BLOCKED;
-
-	printf("A == %d\n", gettid());
-
-	ret = sys_umcg_ctl(UMCG_CTL_REGISTER|UMCG_CTL_WORKER, &task.task, CLOCK_MONOTONIC);
-	if (ret) {
-		perror("umcg_ctl(A): ");
-		exit(-1);
-	}
-
-	for (;;) {
-		int x = i++;
-
-		if (!(x % 1000000)) {
-			putchar('.');
-			fflush(stdout);
-		}
-
-		/* co-operative or preemptible */
-		if (!foo_preemptible && !(x % 10000000))
-			foo_yield(&task.task);
-	}
-
-	return NULL;
-}
-
-/* event driven worker */
-void *worker_fn1(void *arg)
-{
-	struct foo_server *server = arg;
-	struct foo_task task = { };
-	int ret;
-
-	task.tid = gettid();
-	task.task.server_tid = server->tid;
-	task.task.state = UMCG_TASK_BLOCKED;
-
-	printf("B == %d\n", gettid());
-
-	ret = sys_umcg_ctl(UMCG_CTL_REGISTER|UMCG_CTL_WORKER, &task.task, CLOCK_MONOTONIC);
-	if (ret) {
-		perror("umcg_ctl(B): ");
-		exit(-1);
-	}
-
-	for (;;) {
-		printf("B\n");
-		fflush(stdout);
-
-		sleep(2);
-	}
-
-	return NULL;
-}
-
-void *worker_fn2(void *arg)
-{
-	struct foo_server *server = arg;
-	struct foo_task task = { };
-	int ret;
-
-	task.tid = gettid();
-	task.task.server_tid = server->tid;
-	task.task.state = UMCG_TASK_BLOCKED;
-
-	printf("C == %d\n", gettid());
-
-	ret = sys_umcg_ctl(UMCG_CTL_REGISTER|UMCG_CTL_WORKER, &task.task, CLOCK_MONOTONIC);
-	if (ret) {
-		perror("umcg_ctl(C): ");
-		exit(-1);
-	}
-
-	for (;;) {
-		printf("C\n");
-		fflush(stdout);
-
-		sleep(3);
-	}
-
-	return NULL;
-}
-
-/* the server */
-
-int main(int argc, char **argv)
-{
-	struct umcg_task *runnable_ptr, *next;
-	struct foo_server server = { };
-	pthread_t worker[3];
-	u64 timeout = 0;
-	int ret;
-
-	printf("server == %d\n", gettid());
-	fflush(stdout);
-
-	server.tid = gettid();
-	INIT_LIST_HEAD(&server.node);
-	server.task.server_tid = gettid();
-	server.task.state = UMCG_TASK_RUNNING;
-
-	ret = sys_umcg_ctl(UMCG_CTL_REGISTER, &server.task, CLOCK_MONOTONIC);
-	if (ret) {
-		perror("umcg_ctl: ");
-		exit(-1);
-	}
-
-	pthread_create(&worker[0], NULL, worker_fn0, &server);
-	pthread_create(&worker[1], NULL, worker_fn1, &server);
-	pthread_create(&worker[2], NULL, worker_fn2, &server);
-
-	if (argc > 1) {
-		foo_preemptible = true;
-		/*
-		 * setup preemption tick
-		 */
-		timeout = foo_time() + TICK_NSEC;
-	}
-
-	for (;;) {
-		/*
-		 * Mark the server as runnable first, so we can detect
-		 * additions to the runnable list after we read it.
-		 */
-		server.task.state = UMCG_TASK_RUNNABLE | UMCG_TF_COND_WAIT;
-
-		/*
-		 * comsume the runnable notification list and add
-		 * the tasks to our local runqueue.
-		 */
-		runnable_ptr = (void*)__atomic_exchange_n(&server.task.runnable_workers_ptr,
-						   NULL, __ATOMIC_SEQ_CST);
-		while (runnable_ptr) {
-			next = (void *)runnable_ptr->runnable_workers_ptr;
-			foo_add(&server, runnable_ptr);
-			runnable_ptr = next;
-		}
-
-		/*
-		 * If we've got a current running task, the server might have
-		 * gotten a 'spurious' wakeup to pick up new runnable tasks.
-		 *
-		 * In this case, don't pick a new task (possible
-		 * wakeup-preemption point, not implemented here).
-		 *
-		 * Note: even tough this RUNNING test is racy, if it blocks
-		 * after we'll get a RUNNABLE notification which will clear our
-		 * RUNNABLE state and sys_umcg_wait() will -EAGAIN.
-		 */
-		if (server.cur && server.cur->task.state == UMCG_TASK_RUNNING) {
-			/*
-			 * Assert ::next_tid is clear, it should have been
-			 * consumed.
-			 */
-			if (server.task.next_tid) {
-				printf("current running, but still have next_tid\n");
-				exit(-1);
-			}
-
-			putchar('x');
-			fflush(stdout);
-		} else {
-			/*
-			 * Pick the next task...
-			 */
-			server.cur = foo_pick_next(&server);
-			server.task.next_tid = server.cur ? server.cur->tid : 0;
-
-			printf("pick: %d\n", server.task.next_tid);
-			fflush(stdout);
-		}
-
-		/*
-		 * And switch...
-		 */
-		ret = sys_umcg_wait(0, timeout);
-
-		/*
-		 * If we did set ::next_tid but it hasn't been consumed by the
-		 * syscall due to failure, make sure to put the task back on
-		 * the runqueue, lest we leak it.
-		 */
-		if (server.task.next_tid) {
-			foo_add(&server, &server.cur->task);
-			server.cur = NULL;
-			server.task.next_tid = 0;
-		}
-
-		if (!ret)
-			continue;
-
-		switch (errno) {
-			case EAGAIN:
-				/*
-				 * Got a wakeup, try again.
-				 */
-				continue;
-
-			case ETIMEDOUT:
-				/*
-				 * timeout: drive preemption
-				 */
-				putchar('t');
-				fflush(stdout);
-
-				/*
-				 * Next tick..
-				 */
-				timeout += TICK_NSEC;
-
-				/*
-				 * If we have a current, cmpxchg set TF_PREEMPT and on success
-				 * send it a signal to kick it into the kernel such that
-				 * it might re-report itself runnable.
-				 */
-				if (server.cur) {
-					struct foo_task *t = server.cur;
-					u32 val = UMCG_TASK_RUNNING;
-					u32 new = UMCG_TASK_RUNNING | UMCG_TF_PREEMPT;
-
-					if (__atomic_compare_exchange_n(&t->task.state, &val, new,
-								false, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST)) {
-						sys_umcg_kick(0, t->tid);
-					}
-				}
-				/*
-				 * Either way around, if the cmpxchg
-				 * failed the task will have blocked
-				 * and we should re-start the loop.
-				 */
-				continue;
-
-			default:
-				printf("errno: %d\n", errno);
-				perror("wait:");
-				exit(-1);
-		}
-	}
-
-	return 0;
-}
-
+>
+> Patches go on top of tip/master as they rely on the .fixup removal
+> recently merged in tip/x86/core.
+>
+> Also, I still need to audit a bunch of mm code, because I'm not sure things are
+> actually as well behaved as this code supposes they are.
+>
