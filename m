@@ -2,43 +2,34 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C7244475947
-	for <lists+linux-api@lfdr.de>; Wed, 15 Dec 2021 14:04:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4E244759EB
+	for <lists+linux-api@lfdr.de>; Wed, 15 Dec 2021 14:49:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234505AbhLONEX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Dec 2021 08:04:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58828 "EHLO
+        id S242983AbhLONtw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Dec 2021 08:49:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230307AbhLONEX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Dec 2021 08:04:23 -0500
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 211E4C061574;
-        Wed, 15 Dec 2021 05:04:23 -0800 (PST)
+        with ESMTP id S237523AbhLONtv (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Dec 2021 08:49:51 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21969C061574;
+        Wed, 15 Dec 2021 05:49:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=gIifIyPg8CLByWd1i0OMSF1sa+Vo0B9xYqpV36mSTFM=; b=h0EhRqQeNDTk7ndsoAUJvE2YPS
-        Xxc6KIOndvro3Qwhv3FDBt8cXpCSWlqbwD6/cFoFOa7Sz+z6JR25dvpwdjxCkqgYaFYcrvoR0Jx75
-        SVZtfD6MdNFhJt5Ze68+H5d/3jIV9ZzhuCYyLzlowA6DMsXdwTnTSYRXknujnVNx4LjlD/GaU6yWz
-        AEs7yx4WRJydptDq5JiRyVTXPiAYp7jzVMWoVlHGdrxk77ojBQSQxa9cuHWXmaYOY2eABP4R/iQuj
-        465JXjK9hKvnzbj4XU755ZMWUqEHQulcQhpvX7dAhUOZ1qL/uhodUCr5zQrXw7WcI52XBsGCz+AhL
-        DjSsoJjw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mxTwZ-001VUZ-Oq; Wed, 15 Dec 2021 13:03:40 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id F33F4300348;
-        Wed, 15 Dec 2021 14:03:37 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id AA61F2B324D1C; Wed, 15 Dec 2021 14:03:37 +0100 (CET)
-Date:   Wed, 15 Dec 2021 14:03:37 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Peter Oskolkov <posk@posk.io>
-Cc:     Ingo Molnar <mingo@redhat.com>,
+        bh=iuaYJqma/ERiefenupmDJPzfD80YKiUtXtqKwSolbeo=; b=hTExRdHTxiLn75Zknoq0y9o5H4
+        0zxG/+VZG7PMMXpqiyFOmW2MRru8Q92pkg5yQN4hi0PINVrOPRM7va6jxuocFrvlgOo+R2nZZVRoE
+        wwgCQ5qNOSg7SlU7AcpdvnqZtAgpapgMzF8fsgA6tNkYUEUv2OXadB7P/S/33fiByodoVVEg4Jipu
+        McjTELM2qMPw0e29FDbPq4YcoXpmVG9/0e6YCci1lSCeWsxxHZLgw7eVjIadOZ/QiOZlki/sl8Fxc
+        vEg5T8WitZbroosREJ24YG2W6Vyhz3f7U6wMbbTVPtRNoiQp8XRJSxw1DY06m8Hoc0tm4reezKvX5
+        ViIrurtg==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mxUeu-00Eh0z-GE; Wed, 15 Dec 2021 13:49:28 +0000
+Date:   Wed, 15 Dec 2021 13:49:28 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Peter Oskolkov <posk@posk.io>, Ingo Molnar <mingo@redhat.com>,
         Thomas Gleixner <tglx@linutronix.de>, juri.lelli@redhat.com,
         Vincent Guittot <vincent.guittot@linaro.org>,
         dietmar.eggemann@arm.com, Steven Rostedt <rostedt@goodmis.org>,
@@ -51,96 +42,61 @@ Cc:     Ingo Molnar <mingo@redhat.com>,
         Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
         Thierry Delisle <tdelisle@uwaterloo.ca>
 Subject: Re: [RFC][PATCH 0/3] sched: User Managed Concurrency Groups
-Message-ID: <Ybnnqd6I+CCGSSJa@hirez.programming.kicks-ass.net>
+Message-ID: <YbnyaCT4wh0II/Ew@casper.infradead.org>
 References: <20211214204445.665580974@infradead.org>
  <CAFTs51XRJj1pwF6q5hwdGP0jtXmY81QQmTzyuA26fHMH0zCymw@mail.gmail.com>
- <Ybm+HJzkO/0BB4Va@hirez.programming.kicks-ass.net>
+ <YbnHIRdv/8bjZxX/@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Ybm+HJzkO/0BB4Va@hirez.programming.kicks-ass.net>
+In-Reply-To: <YbnHIRdv/8bjZxX/@hirez.programming.kicks-ass.net>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Dec 15, 2021 at 11:06:20AM +0100, Peter Zijlstra wrote:
+On Wed, Dec 15, 2021 at 11:44:49AM +0100, Peter Zijlstra wrote:
 > On Tue, Dec 14, 2021 at 07:46:25PM -0800, Peter Oskolkov wrote:
-> > On Tue, Dec 14, 2021 at 12:55 PM Peter Zijlstra <peterz@infradead.org> wrote:
-> > >
-> > > Hi,
-> > >
-> > > This is actually tested code; but still missing the SMP wake-to-idle machinery.
-> > > I still need to think about that.
-> > 
-> > Thanks, Peter!
-> > 
-> > At a first glance, your main patch does not look much smaller than
-> > mine, and I thought the whole point of re-doing it was to throw away
-> > extra features and make things smaller/simpler...
 > 
-> Well, simpler was the goal. I didn't really focus on size much. It isn't
-> really big to begin with.
+> > Anyway, I'll test your patchset over the next week or so and let you
+> > know if anything really needed is missing (other than waking an idle
+> > server if there is one on a worker wakeup; this piece is definitely
+> > needed).
 > 
-> But yes, it has 5 hooks now, 3 syscalls and lots of comments and all
-> that under 900 lines, not bad I'd say.
+> Right, so the problem I'm having is that a single idle server ptr like
+> before can trivially miss waking annother idle server.
 > 
-> Also I think you wanted something like this? I'm not sure of the LAZY
-> name, but I can't seem to come up with anything saner atm.
+> Suppose:
 > 
+> 	umcg::idle_server_tid_ptr
 > 
-> ---
-> --- a/include/linux/sched.h
-> +++ b/include/linux/sched.h
-> @@ -1297,6 +1297,7 @@ struct task_struct {
->  
->  #ifdef CONFIG_UMCG
->  	/* setup by sys_umcg_ctrl() */
-> +	u32			umcg_flags;
->  	clockid_t		umcg_clock;
->  	struct umcg_task __user	*umcg_task;
->  
-> --- a/include/uapi/linux/umcg.h
-> +++ b/include/uapi/linux/umcg.h
-> @@ -133,11 +133,13 @@ struct umcg_task {
->   * @UMCG_CTL_REGISTER:   register the current task as a UMCG task
->   * @UMCG_CTL_UNREGISTER: unregister the current task as a UMCG task
->   * @UMCG_CTL_WORKER:     register the current task as a UMCG worker
-> + * @UMCG_CTL_LAZY:	 don't wake server on runnable enqueue
->   */
->  enum umcg_ctl_flag {
->  	UMCG_CTL_REGISTER	= 0x00001,
->  	UMCG_CTL_UNREGISTER	= 0x00002,
->  	UMCG_CTL_WORKER		= 0x10000,
-> +	UMCG_CTL_LAZY		= 0x20000,
->  };
->  
->  #endif /* _UAPI_LINUX_UMCG_H */
-> --- a/kernel/sched/umcg.c
-> +++ b/kernel/sched/umcg.c
-> @@ -416,6 +416,27 @@ static int umcg_enqueue_runnable(struct
->  }
->  
->  /*
-> + * Enqueue tsk to it's server's runnable list and wake the server for pickup if
-> + * so desired. Notable LAZY workers will not wake the server and rely on the
-> + * server to do pickup whenever it naturally runs next.
-> + *
-> + * Returns:
-> + * 0:	success
-> + * -EFAULT
-> + */
-> +static int umcg_enqueue_and_wake(struct task_struct *tsk, bool force)
-> +{
-> +	int ret = umcg_enqueue_runnable(tsk);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (force || !(tsk->umcg_flags & UMCG_CTL_LAZY))
-> +		ret = umcg_wake_server(tsk);
-> +
-> +	return ret;
-> +}
+> Then the enqueue_and_wake() thing from the last patch would:
+> 
+> 	idle_server_tid = xchg((pid_t __user *)self->idle_server_tid_ptr, 0);
+> 
+> to consume the tid, and then use that to enqueue and wake. But what if a
+> second wakeup happens right after that? There might be a second idle
+> server, but we'll never find it, because userspace hasn't had time to
+> update the field again.
+> 
+> Alternatively, we do a linked list of servers, but then every such
+> wakeup needs to iterate the whole list, looking for one that has
+> UMCG_TF_IDLE set, or something like that, but that lookup is bad for
+> performance.
+> 
+> So I'm really not sure what way to go yet.
 
-Aah, this has a problem when the server is otherwise idle. I think we
-need that TF_IDLE thing for this too. Let me go write a test-case for
-all this.
+1. Linked lists are fugly and bad for the CPU.
+
+2. I'm not sure how big the 'N' in 'M:N' is supposed to be.  Might be
+one per hardware thread?  So it could be hundreds-to-thousands,
+depending on the scale of system.
+
+3. The interface between user-kernel could be an array of idle tids,
+maybe 16 entries long (16 * 4 = 64 bytes, just one cacheline).  As a
+server finishes work, it looks for a 0 tid in the batch and stores
+its tid in the slot (cmpxchg, I guess, since the array will be shared
+between processes).  If there are no free slots in the array, then we
+definitely have 16 threads already waiting for work, so it can park itself
+in whatever data structure userspace wants to use to manage idle servers.
+It's up to userspace to decide when to repopulate the array of available
+servers from its data structure of idle servers.
