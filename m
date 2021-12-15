@@ -2,56 +2,42 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 138D7475FFD
-	for <lists+linux-api@lfdr.de>; Wed, 15 Dec 2021 18:57:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 62ABC476090
+	for <lists+linux-api@lfdr.de>; Wed, 15 Dec 2021 19:20:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239324AbhLOR4S (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Dec 2021 12:56:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43410 "EHLO
+        id S1343696AbhLOSTU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Dec 2021 13:19:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233317AbhLOR4S (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Dec 2021 12:56:18 -0500
-Received: from mail-ua1-x92d.google.com (mail-ua1-x92d.google.com [IPv6:2607:f8b0:4864:20::92d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20BD6C06173E
-        for <linux-api@vger.kernel.org>; Wed, 15 Dec 2021 09:56:18 -0800 (PST)
-Received: by mail-ua1-x92d.google.com with SMTP id u40so9238037uad.1
-        for <linux-api@vger.kernel.org>; Wed, 15 Dec 2021 09:56:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=posk.io; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Ys3rZNuX7+z7pA4D/KdILKC/mW3vMwpvwDb3wE/01Rk=;
-        b=WW/hDoEwCR1rjxM+F7Yqu7cbwjS2D1bqvjEDmHgeoNa4PpqzkK/Wtz52xdZLCWaYoc
-         6Pn5GlBJr1vQSqOPG7HIqznF6eHy8RNiaB8KcPFORAnkybihRPqcWot4wmmdx/Sn7giF
-         6ksUoQLeqZS/6NQfhsRKADgceL1NH3EXpvitsHQ11ncUc0WYkenrnitfsLgT+xhwx0EQ
-         QIifb4vEkoZCZJk1L8dL5YNogD1RSRGVUVAizVq+NA4A9xM0nkT9E2qmYtgGtDazpxWK
-         2K0Fb65gE2iQADFX90bH5+pnqPBE9urVbakB+se5A8QEswecS3Mhbr29o5Nd67CNKEqq
-         wbXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ys3rZNuX7+z7pA4D/KdILKC/mW3vMwpvwDb3wE/01Rk=;
-        b=7hYQ5YxShE+PtAiduzmyET4ArYNsoAS6ND2OKmoIpKotpJMOWTBLlay2fdUtgfDBUF
-         gFm/HUDMCCetX+fhcer9u3Th6TOGlPIo4yjS2vmqabCC95EDHdXjC7XxMMDV2WtDUpb5
-         PAyqp7nD457d9PhefYkB+AB7a4GBknf+IJv+ANNhdtQwJQJe4DXmzmtJyGhyRQ1dp/NI
-         9eLDM2m7osERVpMbg1HCL3sr8OFOZ95PL/Y5pfr8aEvRCCgfFcUL2izVrOX6zosfbz9c
-         zr4M+pm87DUWq+E/vFtv89ccSC8Hzr3vaNfxlYo+QpGt1Qravc9OMkK9T4mCTAvoe+Zf
-         jNHg==
-X-Gm-Message-State: AOAM533TG1F8y1ZnQLIYdzSOS4w3GEFn2S1QUqTkzg8HOfLlnth6XUi/
-        9ZXr9AbsY4/CgypesgjpSRkPeEIpK+S//1xVhp/QIg==
-X-Google-Smtp-Source: ABdhPJy+0ibS31bqjUgXJDh5pEyKbSWrcOOg1QLNTZcvBmNYNGL0ZuDRxO8hqcH3gGNI1DLlIUcWmmw2XfEKcGTSo/Q=
-X-Received: by 2002:a9f:218c:: with SMTP id 12mr10203394uac.71.1639590977230;
- Wed, 15 Dec 2021 09:56:17 -0800 (PST)
-MIME-Version: 1.0
-References: <20211214204445.665580974@infradead.org> <CAFTs51XRJj1pwF6q5hwdGP0jtXmY81QQmTzyuA26fHMH0zCymw@mail.gmail.com>
- <Ybm+HJzkO/0BB4Va@hirez.programming.kicks-ass.net>
-In-Reply-To: <Ybm+HJzkO/0BB4Va@hirez.programming.kicks-ass.net>
-From:   Peter Oskolkov <posk@posk.io>
-Date:   Wed, 15 Dec 2021 09:56:06 -0800
-Message-ID: <CAFTs51Xb6m=htpWsVk577n-h_pRCpqRcBg6-OhBav8OadikHkw@mail.gmail.com>
-Subject: Re: [RFC][PATCH 0/3] sched: User Managed Concurrency Groups
-To:     Peter Zijlstra <peterz@infradead.org>
+        with ESMTP id S1343692AbhLOSTS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Dec 2021 13:19:18 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73D4CC061574;
+        Wed, 15 Dec 2021 10:19:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=zmFY3Gs53FyRCPoRjth8UcDlb/32jRwmwTYyj2vOBUo=; b=LRIKOnjS723sZGnU7NLgsxvD1U
+        4y4Xc1ywEcIKnMpZ2HnWPWW8h4WLF5TFDB5CmkQmN5YOiC60be9chJ+t4lvcbSZ949lwXZhJHK7N4
+        rdQvnwNQJmze7vGC8ymwTTxhiMW1ZkP0MdSBcKuywW08pWSV/QOJN4T8+13Yvd8bAWAMjw33YDVDZ
+        PNyme0HTyDKFO44pT8Heo9E34DnYK3q7MoP+j2eNGRaDzfaxtmq7Y8wM353OSK4+GyGSzdIWbCYjA
+        SuQjvgM9s31JXx7cantn7hj4TbBZWP6PLyndtgf93g4rNWFJ43+MUtSqrQTmkmmh+GR9eAwFUFMXO
+        AK5Srjow==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mxYre-00Etns-4Q; Wed, 15 Dec 2021 18:18:55 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 29DA6300348;
+        Wed, 15 Dec 2021 19:18:53 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 0C1A2200C2286; Wed, 15 Dec 2021 19:18:53 +0100 (CET)
+Date:   Wed, 15 Dec 2021 19:18:53 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Peter Oskolkov <posk@posk.io>
 Cc:     Ingo Molnar <mingo@redhat.com>,
         Thomas Gleixner <tglx@linutronix.de>, juri.lelli@redhat.com,
         Vincent Guittot <vincent.guittot@linaro.org>,
@@ -64,75 +50,49 @@ Cc:     Ingo Molnar <mingo@redhat.com>,
         Paul Turner <pjt@google.com>, Peter Oskolkov <posk@google.com>,
         Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
         Thierry Delisle <tdelisle@uwaterloo.ca>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [RFC][PATCH 0/3] sched: User Managed Concurrency Groups
+Message-ID: <YboxjUM+D9Kg52mO@hirez.programming.kicks-ass.net>
+References: <20211214204445.665580974@infradead.org>
+ <CAFTs51XRJj1pwF6q5hwdGP0jtXmY81QQmTzyuA26fHMH0zCymw@mail.gmail.com>
+ <Ybm+HJzkO/0BB4Va@hirez.programming.kicks-ass.net>
+ <CAFTs51Xb6m=htpWsVk577n-h_pRCpqRcBg6-OhBav8OadikHkw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFTs51Xb6m=htpWsVk577n-h_pRCpqRcBg6-OhBav8OadikHkw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Dec 15, 2021 at 2:06 AM Peter Zijlstra <peterz@infradead.org> wrote:
->
-> On Tue, Dec 14, 2021 at 07:46:25PM -0800, Peter Oskolkov wrote:
-> > On Tue, Dec 14, 2021 at 12:55 PM Peter Zijlstra <peterz@infradead.org> wrote:
-> > >
-> > > Hi,
-> > >
-> > > This is actually tested code; but still missing the SMP wake-to-idle machinery.
-> > > I still need to think about that.
-> >
-> > Thanks, Peter!
-> >
-> > At a first glance, your main patch does not look much smaller than
-> > mine, and I thought the whole point of re-doing it was to throw away
-> > extra features and make things smaller/simpler...
->
-> Well, simpler was the goal. I didn't really focus on size much. It isn't
-> really big to begin with.
->
-> But yes, it has 5 hooks now, 3 syscalls and lots of comments and all
-> that under 900 lines, not bad I'd say.
+On Wed, Dec 15, 2021 at 09:56:06AM -0800, Peter Oskolkov wrote:
 
-My patchset had three hooks and two syscalls, and fewer new fields
-added to task_struct... And similarly around 900 lines on the kernel
-side in the main patch. So I am not sure why you believe that your
-approach is simpler, unless there was something fundamentally wrong
-with my approach. But tglx@ looked into it, and his remarks were more
-about comments and the commit message and smaller things at a function
-level, like an unneeded goto, than about the overall design...
+> > Right, so the problem I'm having is that a single idle server ptr like
+> > before can trivially miss waking annother idle server.
+> 
+> I believe the approach I used in my patchset, suggested by Thierry
+> Delisle, works.
+> 
+> In short, there is a single idle server ptr for the kernel to work
+> with. The userspace maintains a list of idle servers. If the ptr is
+> NULL, the list is empty. When the kernel wakes the idle server it
+> sees, the server reaps the runnable worker list and wakes another idle
+> server from the userspace list, if available. This newly woken idle
+> server repoints the ptr to itself, checks the runnable worker list, to
+> avoid missing a woken worker, then goes to sleep.
+> 
+> Why do you think this approach is not OK?
 
->
-> Also I think you wanted something like this? I'm not sure of the LAZY
-> name, but I can't seem to come up with anything saner atm.
->
-[...]
->  /*
-> + * Enqueue tsk to it's server's runnable list and wake the server for pickup if
-> + * so desired. Notable LAZY workers will not wake the server and rely on the
-> + * server to do pickup whenever it naturally runs next.
+Suppose at least 4 servers, 2 idle, 2 working.
 
-No, I never suggested we needed per-server runnable queues: in all my
-patchsets I had a single list of idle (runnable) workers.
+Now, the first of the working servers (lets call it S0) gets a wakeup
+(say Ta), it finds the idle server (say S3) and consumes it, sticking Ta
+on S3 and kicking it alive.
 
-[...]
+Concurrently and loosing the race the other working server (S1) gets a
+wake-up from Tb, like said, it lost, no idle server, so Tb goes on the
+queue of S1.
 
-From another message:
+So then S3 wakes, finds Ta and they live happily ever after.
 
->> Anyway, I'll test your patchset over the next week or so and let you
->> know if anything really needed is missing (other than waking an idle
->> server if there is one on a worker wakeup; this piece is definitely
-> needed).
+While S2 and Tb fail to meet one another and both linger in sadness.
 
-> Right, so the problem I'm having is that a single idle server ptr like
-> before can trivially miss waking annother idle server.
-
-I believe the approach I used in my patchset, suggested by Thierry
-Delisle, works.
-
-In short, there is a single idle server ptr for the kernel to work
-with. The userspace maintains a list of idle servers. If the ptr is
-NULL, the list is empty. When the kernel wakes the idle server it
-sees, the server reaps the runnable worker list and wakes another idle
-server from the userspace list, if available. This newly woken idle
-server repoints the ptr to itself, checks the runnable worker list, to
-avoid missing a woken worker, then goes to sleep.
-
-Why do you think this approach is not OK?
