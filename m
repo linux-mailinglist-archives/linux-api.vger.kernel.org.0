@@ -2,99 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D640847730D
-	for <lists+linux-api@lfdr.de>; Thu, 16 Dec 2021 14:23:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C2F00477B88
+	for <lists+linux-api@lfdr.de>; Thu, 16 Dec 2021 19:31:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237103AbhLPNXi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 16 Dec 2021 08:23:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56066 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232110AbhLPNXi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Dec 2021 08:23:38 -0500
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12246C061574;
-        Thu, 16 Dec 2021 05:23:38 -0800 (PST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1639661016;
+        id S236144AbhLPSbb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 16 Dec 2021 13:31:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35982 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231582AbhLPSba (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Dec 2021 13:31:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1639679489;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=uHDlt/HgQV9SB/CETbsCPHdj+DyjQBUg5mN4biUJiq0=;
-        b=uS8VK2zstKjBJALe5V5SLqq17N7d8WeWhQ31xBbSrV6xW9TiccgvBu0RtOepEIhr8VYNoj
-        TO35K1pXGBFr8rwTNvCZKzJRvWC2FIvOaLeTlkltwMe5PKrUiGbwGRc9G8Uoa3zrGTiKFz
-        pdLDXRvC8Vo5xii75fR5IsqbjlD5WgBGSMS7MRmS7MB+7QXlROkfV0BVl5PA4BHARARdp+
-        C6ewhfJNGGkkb06EGhxNPFxJQ3Xi1EmOdpCOuKiy67nak5d131yHh9lrmmi8il95Qpyr1o
-        WCsWZ96VfNK/ozy+2Np2cYyQBRqytABHImgOjuvuOSyXLFsIfXpjkIr+kUAUYQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1639661016;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=uHDlt/HgQV9SB/CETbsCPHdj+DyjQBUg5mN4biUJiq0=;
-        b=lTbaVuGdSjicH5fAaadv8EWyCHPRMVu8kQRTNDafztc59q4IXBgfpI4G4ChcA6TolZv42L
-        KF8M5eVZp7cGuzAQ==
-To:     Peter Oskolkov <posk@google.com>,
-        Peter Zijlstra <peterz@infradead.org>
-Cc:     Peter Oskolkov <posk@posk.io>, Ingo Molnar <mingo@redhat.com>,
-        juri.lelli@redhat.com,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        dietmar.eggemann@arm.com, Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, mgorman@suse.de,
-        bristot@redhat.com,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-api@vger.kernel.org, x86@kernel.org,
-        Paul Turner <pjt@google.com>, Andrei Vagin <avagin@google.com>,
-        Jann Horn <jannh@google.com>,
-        Thierry Delisle <tdelisle@uwaterloo.ca>
-Subject: Re: [RFC][PATCH 0/3] sched: User Managed Concurrency Groups
-In-Reply-To: <CAPNVh5cfoehYpOu2PE59L3_yxmZaXgJ6oC1eg923rmaiK4f87A@mail.gmail.com>
-References: <20211214204445.665580974@infradead.org>
- <CAFTs51XRJj1pwF6q5hwdGP0jtXmY81QQmTzyuA26fHMH0zCymw@mail.gmail.com>
- <Ybm+HJzkO/0BB4Va@hirez.programming.kicks-ass.net>
- <CAFTs51Xb6m=htpWsVk577n-h_pRCpqRcBg6-OhBav8OadikHkw@mail.gmail.com>
- <YboxjUM+D9Kg52mO@hirez.programming.kicks-ass.net>
- <CAPNVh5cJy2y+sTx0cPA1BPSAg=GjXC8XGT7fLzHwzvXH2=xjmw@mail.gmail.com>
- <20211215222524.GH16608@worktop.programming.kicks-ass.net>
- <CAPNVh5cfoehYpOu2PE59L3_yxmZaXgJ6oC1eg923rmaiK4f87A@mail.gmail.com>
-Date:   Thu, 16 Dec 2021 14:23:36 +0100
-Message-ID: <875yrolm3r.ffs@tglx>
+        bh=n1bFBT5IB/gpnuuiEdK1jZq3mJoWjFnaUGhMpk4YpP0=;
+        b=hvRZRBQn7vNF5TuFtEIVaTeygl09sHfIlhtrsR2G6vK04OxIc2JTduR7ha6JuE9Gk+Q+ta
+        0zK1PZss1p1bsbWb7Vn8dbOH4iaoUxk2gvq3pvOZHfmq0Zgl8wjE78SNGzvLVFaEBscdJ+
+        ABQH7U5F/K923TP8XFad+1bugGvD+yI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-80-EqnyuIOYP4Ku2VG9jSpmOA-1; Thu, 16 Dec 2021 13:31:26 -0500
+X-MC-Unique: EqnyuIOYP4Ku2VG9jSpmOA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B26D4801B0C;
+        Thu, 16 Dec 2021 18:31:24 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.2.17.223])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 509D7E2C6;
+        Thu, 16 Dec 2021 18:31:21 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     "Andy Lutomirski" <luto@kernel.org>
+Cc:     linux-arch@vger.kernel.org,
+        "Linux API" <linux-api@vger.kernel.org>,
+        linux-x86_64@vger.kernel.org, kernel-hardening@lists.openwall.com,
+        linux-mm@kvack.org, "the arch/x86 maintainers" <x86@kernel.org>,
+        musl@lists.openwall.com,
+        "Dave Hansen via Libc-alpha" <libc-alpha@sourceware.org>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        "Dave Hansen" <dave.hansen@intel.com>,
+        "Kees Cook" <keescook@chromium.org>
+Subject: Re: [PATCH] x86: Implement arch_prctl(ARCH_VSYSCALL_LOCKOUT) to
+ disable vsyscall
+References: <87h7bzjaer.fsf@oldenburg.str.redhat.com>
+        <4728eeae-8f1b-4541-b05a-4a0f35a459f7@www.fastmail.com>
+        <87lf1ais27.fsf@oldenburg.str.redhat.com>
+        <9641b76e-9ae0-4c26-97b6-76ecde34f0ef@www.fastmail.com>
+        <878rxaik09.fsf@oldenburg.str.redhat.com>
+        <3b5fb404-7228-48d6-a290-9dd1d6095325@www.fastmail.com>
+Date:   Thu, 16 Dec 2021 19:31:19 +0100
+In-Reply-To: <3b5fb404-7228-48d6-a290-9dd1d6095325@www.fastmail.com> (Andy
+        Lutomirski's message of "Sat, 27 Nov 2021 20:45:23 -0800")
+Message-ID: <87czlwieq0.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Peter,
+* Andy Lutomirski:
 
-On Wed, Dec 15 2021 at 15:26, Peter Oskolkov wrote:
-> On Wed, Dec 15, 2021 at 2:25 PM Peter Zijlstra <peterz@infradead.org> wrote:
->> > - take a userspace (spin) lock (so the steps below are all within a
->> > single critical section):
->>
->> Don't ever suggest userspace spinlocks, they're horrible crap.
+> This could possibly be much more generic: have a mask of legacy
+> features to disable and a separate mask of lock bits.
+
+Is that really necessary?  Adding additional ARCH_* constants does not
+seem to be particularly onerous and helps with detection of kernel
+support.
+
+>> I can turn this into a toggle, and we could probably default our builds
+>> to vsyscalls=xonly.  Given the userspace ABI impact, we'd still have to
+>> upstream the toggle.  Do you see a chance of a patch a long these lines
+>> going in at all, given that it's an incomplete solution for
+>> vsyscall=emulate?
 >
-> This can easily be a mutex, not really important (although for very
-> short critical sections with only memory reads/writes, like here, spin
-> locks often perform better, in our experience).
+> There is basically no reason for anyone to use vsyscall=emulate any
+> more.  I'm aware of exactly one use case, and it's quite bizarre and
+> involves instrumenting an outdated binary with an outdated
+> instrumentation tool.  If either one is recent (last few years),
+> vsyscall=xonly is fine.
 
-Performance may be better, but user space spinlocks have a fundamental
-problem: They are prone to live locks.
+Yeah, we plan to stick to vsyscall=xonly.  This means that the toggle is
+easier to implement, of course.
 
-That's completely independent of the length of the critical section, it
-even can be empty.
+>> Hmm.  But only for vsyscall=xonly, right?  With vsyscall=emulate,
+>> reading at those addresses will still succeed.
+>
+> IMO if vsyscall is disabled for a process, reads and executes should
+> both fail.  This is trivial in xonly mode.
 
-There are ways to avoid that, but that needs a very careful design on
-the application/library level and at the system configuration level
-(priorities, affinities ...). And even then, there are trival ways to
-break that, e.g. via CPU hotplug.
+Right, I'll document this as a glitch for now.
 
-So no, for something of general use, they are a complete NONO. People
-who think they know what they are doing have the source and can replace
-them if they feel the need to do so.
+I've got a v2 (with the toggle rather than pure lockout) and will sent
+it out shortly.
 
 Thanks,
-
-        tglx
+Florian
 
