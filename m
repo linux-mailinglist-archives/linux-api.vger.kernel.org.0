@@ -2,1734 +2,779 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64AB947C4D8
-	for <lists+linux-api@lfdr.de>; Tue, 21 Dec 2021 18:19:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB48647D502
+	for <lists+linux-api@lfdr.de>; Wed, 22 Dec 2021 17:17:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240310AbhLURTP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 21 Dec 2021 12:19:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57746 "EHLO
+        id S241583AbhLVQRs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 22 Dec 2021 11:17:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240270AbhLURTG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 21 Dec 2021 12:19:06 -0500
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2F56C06173F
-        for <linux-api@vger.kernel.org>; Tue, 21 Dec 2021 09:19:05 -0800 (PST)
-Received: by mail-pg1-x52a.google.com with SMTP id g22so1146228pgn.1
-        for <linux-api@vger.kernel.org>; Tue, 21 Dec 2021 09:19:05 -0800 (PST)
+        with ESMTP id S238733AbhLVQRr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 22 Dec 2021 11:17:47 -0500
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 830DFC061746
+        for <linux-api@vger.kernel.org>; Wed, 22 Dec 2021 08:17:47 -0800 (PST)
+Received: by mail-qk1-x72b.google.com with SMTP id m2so1149140qkd.8
+        for <linux-api@vger.kernel.org>; Wed, 22 Dec 2021 08:17:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=posk.io; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=zTIrZVQuK5cq7l5XWohRdGzKzevOrC9CMFK3QZ80C2Y=;
-        b=NY9U8XnnxquPOA7AnY52OP1zWCJajrJ/SDhjAK2IBciTyQHnSZKVEgwo/nKlbHa0Pe
-         qgLKPumevjw+Wck3mT08SswD/bKE7Q8j0LDlnLIwgUnmoS/ZeXXnCrOtS0k0sZm7/PGu
-         sIqUvc0cZU4TJU1Dladqy1YvpIiZa/UbNXOkw8LGuqm87SsHXR+RIyvwxeyIEixiDaZ/
-         XoZUe88L/hvhWmt8IonTCV//mqWwC5Rrb5CKF1GippwJENDfI37ee5hIeOMn9h4DUuTz
-         mcQkUyFngl6gVnz2JFYdqD8LCWsxXoaP7iWKrT2dvEO5hDgdaRW4Pgn/0qxQIxo0Ihii
-         rHdg==
+        d=andrew.cmu.edu; s=google-2021;
+        h=from:subject:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=mnXk95uBakRb4EU1/OymnSvMTCOVSvUuXAwdVRaWu8U=;
+        b=fgsgC1iMMnP7QRwbhyF0hB1XUIG7rTC44aNBz9NUriaef+nXgxsrbhPIVWH7GvqX9D
+         lGNL+Jy+akd3WVX4bVc6yaAAR/FRv7IQ/DX/IAadWnNIGxhiHlNLLJBC6y/mdPhl8Tpb
+         G734TaupRA0VlADlOJthxA7c8PW1F4o1nmP56OdqCnECkfVuQ4EoLj4LRE41bxheGixl
+         WTBrdbW3yS9aRO/sU+TK/i8XSotVXtqgh1K04C/1tCA4Rdh4E6su+H9DrjEbF8Csb9ya
+         s5XNTis8Uj9Q1kwDiE8X8hBF+DODYexW+omBKLx68HMmJ1yGyT1me+ziW1FAz18+wKrI
+         Dy5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=zTIrZVQuK5cq7l5XWohRdGzKzevOrC9CMFK3QZ80C2Y=;
-        b=Kz8X8Nv/+QHUAu8nJQoyC/px9TJy+Qfs7zbWlxeObjd7w4NEt8B8SHF0wIygCEZM+3
-         aCiMsDfTKKpy727x+cC9kmz8Mg/SJcu1afmFowrKSdPB7Bks7FudPSIh+4RQVphxU7GO
-         bTv4MEiTGUPoTX3pkqZdXUThTh45PGph2myqXF1kaXKRQq1xti9WtTNvJeFwP+crDJ7/
-         ifEY5WIrc+L1U2NZ1YyixXWBXtAVaSns+VremlUn66RfWoVcriWKqGdYYC+acTx/pC/7
-         UCOKSHcHo1iKEbLXn3YWTg5ILE+F8dv6Ub/Gw3tKItwpIIASIwg9ZCO0+BMtgYj/A32x
-         dliA==
-X-Gm-Message-State: AOAM532dgoPRisVAoAMKQZP/g72db7Z9YL5NGpZzzeknkzmbx0z8o6w8
-        9ENjoYjPVzwK3dhPrtWyq/+hwA==
-X-Google-Smtp-Source: ABdhPJwBZMRXC57BfCml06eR8FncjckHKfb3Ue7niWkp5ibXP8v9NT5QpGWD4RyA7S78hU1v8VsV+Q==
-X-Received: by 2002:a63:4c50:: with SMTP id m16mr3848510pgl.508.1640107144425;
-        Tue, 21 Dec 2021 09:19:04 -0800 (PST)
-Received: from dev-hv (23-118-52-46.lightspeed.sntcca.sbcglobal.net. [23.118.52.46])
-        by smtp.gmail.com with ESMTPSA id f19sm22499753pfv.76.2021.12.21.09.19.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Dec 2021 09:19:03 -0800 (PST)
-Date:   Tue, 21 Dec 2021 17:19:00 +0000
-From:   Peter Oskolkov <posk@posk.io>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-api@vger.kernel.org, x86@kernel.org,
-        pjt@google.com, posk@google.com, avagin@google.com,
-        jannh@google.com, tdelisle@uwaterloo.ca
-Subject: Re: [RFC][PATCH 3/3] sched: User Mode Concurency Groups
-Message-ID: <20211221171900.GA580323@dev-hv>
-References: <20211214204445.665580974@infradead.org>
- <20211214205358.701701555@infradead.org>
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=mnXk95uBakRb4EU1/OymnSvMTCOVSvUuXAwdVRaWu8U=;
+        b=WHwMtQquV2OyOXyAW/q9TJRFXe4mgwc17OLn4TUUcRCdBcEWDHLHyzmhdhC9RYhUdS
+         Dfpcy+2L2ZTczf8Ts/X00ly84nwrg5prhsbAsWUjWzN0/7QRxaXwDe8+Rmpxe6OHjzRv
+         buuFkDJkh1KrlfaPtlEj7JJxW87ZAQMwFCG7d/SYLmSRUCGcPKGDTzHDrRjPPQqARvxo
+         w2X3vBrqU6rSmvo5PXj4zYZ+U6WbcRiuCSRwoV4i0taQJF/PzHpOvZjUGytYMF7QnMMI
+         BWEpL02K4rE8FdxAv2GcT6vdKpKS8/uwJhkw6niPc/o2RUwJygLikQGnq8LXUIJ17Fry
+         ADeg==
+X-Gm-Message-State: AOAM530xkpZKSRDt6l3Df8+lJoquZR/G734AHt2pG11dNb5VEit41b2x
+        zqE7LfN/sJ6us4Z8fAnmjz0nEw==
+X-Google-Smtp-Source: ABdhPJzCZHpvB1YySILVUagAeszWKlq2MnrtcqTwlcdCnITJOL0jTCP4U/nBHbtwtadxSRq+fNtbkA==
+X-Received: by 2002:a37:42d0:: with SMTP id p199mr2467284qka.523.1640189865965;
+        Wed, 22 Dec 2021 08:17:45 -0800 (PST)
+Received: from ?IPv6:2601:547:900:1070:2884:a8a1:1486:3664? ([2601:547:900:1070:2884:a8a1:1486:3664])
+        by smtp.gmail.com with ESMTPSA id o9sm2040225qtk.81.2021.12.22.08.17.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Dec 2021 08:17:45 -0800 (PST)
+From:   Chrisma Pakha <cpakha@andrew.cmu.edu>
+Subject: Re: [RFC PATCH 00/13] x86 User Interrupts support
+To:     Sohil Mehta <sohil.mehta@intel.com>, x86@kernel.org
+Cc:     Tony Luck <tony.luck@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jens Axboe <axboe@kernel.dk>,
+        Christian Brauner <christian@brauner.io>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Shuah Khan <shuah@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ashok Raj <ashok.raj@intel.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        Zeng Guang <guang.zeng@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Randy E Witt <randy.e.witt@intel.com>,
+        Ravi V Shankar <ravi.v.shankar@intel.com>,
+        Ramesh Thomas <ramesh.thomas@intel.com>,
+        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        seth@cmu.edu
+References: <20210913200132.3396598-1-sohil.mehta@intel.com>
+Message-ID: <9b5a8cf9-5ce6-c6ba-951f-757135d74492@andrew.cmu.edu>
+Date:   Wed, 22 Dec 2021 11:17:44 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211214205358.701701555@infradead.org>
+In-Reply-To: <20210913200132.3396598-1-sohil.mehta@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Dec 14, 2021 at 09:44:48PM +0100, Peter Zijlstra wrote:
-
-I have looked at the code now in relative detail, and I have some comments
-below. They are relatively minor, so I'm not against having
-this merged, assuming we can work on remaining issues later.
-
-And, of course, the higher-level question re: waking servers
-on worker wakeup remains. The main concern, as I mention below,
-is that my version of this ensures that no more than one worker
-can be RUNNING per server, while this API essentially lets the
-server spawn a new worker on each unblock event, resulting in many
-workers running per single server. But we can wave this away as
-the userspace problem/error, I guess.
-
-I do need to test this patch(set) on a (semi)real workload to see
-if all use cases are covered properly, so what I'll do next is
-I'll hook this up to our userspace scheduling code and do extensive
-testing (with appropriate tweaks to the kernel code). Due to the sheer
-amount of userspace work this will entail, and the holidays, this will
-take at least several weeks.
-
-> User Managed Concurrency Groups is an M:N threading toolkit that allows
-> constructing user space schedulers designed to efficiently manage
-> heterogeneous in-process workloads while maintaining high CPU
-> utilization (95%+).
+On 9/13/21 4:01 PM, Sohil Mehta wrote:
+> User Interrupts Introduction
+> ============================
 >
-> XXX moar changelog explaining how this is moar awesome than
-> traditional user-space threading.
+> User Interrupts (Uintr) is a hardware technology that enables delivering
+> interrupts directly to user space.
 >
-> The big thing that's missing is the SMP wake-to-remote-idle.
-
-I think the SMP remote-wake can be easily emulated in the userspace:
-when a server detects a wakeup due to a worker becoming
-RUNNABLE, rather than the current worker becoming BLOCKED,
-the server can do the wake-to-remote-idle thing in the userspace.
-
-Yes, this will be slower than what I have in my version of the
-patchset, but we can live with it for now, and do something later
-if a benchmark shows something really compelling.
-
+> Today, virtually all communication across privilege boundaries happens by going
+> through the kernel. These include signals, pipes, remote procedure calls and
+> hardware interrupt based notifications. User interrupts provide the foundation
+> for more efficient (low latency and low CPU utilization) versions of these
+> common operations by avoiding transitions through the kernel.
 >
-> The big assumption this whole thing is build on is that
-> pin_user_pages() preserves user mappings in so far that
-> pagefault_disable() will never generate EFAULT (unless the user does
-> munmap() in which case it can keep the pieces).
+> In the User Interrupts hardware architecture, a receiver is always expected to
+> be a user space task. However, a user interrupt can be sent by another user
+> space task, kernel or an external source (like a device).
 >
-> shrink_page_list() does page_maybe_dma_pinned() before try_to_unmap()
-> and as such seems to respect this constraint.
+> In addition to the general infrastructure to receive user interrupts, this
+> series introduces a single source: interrupts from another user task.  These
+> are referred to as User IPIs.
 >
-> unmap_and_move() however seems willing to unmap otherwise pinned (and
-> hence unmigratable) pages. This might need fixing.
+> The first implementation of User IPIs will be in the Intel processor code-named
+> Sapphire Rapids. Refer Chapter 11 of the Intel Architecture instruction set
+> extensions for details of the hardware architecture [1].
 >
-> Originally-by: Peter Oskolkov <posk@google.com>
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> ---
->  arch/x86/Kconfig                       |    1
->  arch/x86/entry/syscalls/syscall_64.tbl |    3
->  arch/x86/include/asm/thread_info.h     |    2
->  fs/exec.c                              |    1
->  include/linux/entry-common.h           |    6
->  include/linux/sched.h                  |   86 +++
->  include/linux/syscalls.h               |    4
->  include/linux/thread_info.h            |    2
->  include/uapi/asm-generic/unistd.h      |    9
->  include/uapi/linux/umcg.h              |  143 +++++
->  init/Kconfig                           |   15
->  kernel/entry/common.c                  |   18
->  kernel/exit.c                          |    5
->  kernel/sched/Makefile                  |    1
->  kernel/sched/core.c                    |    9
->  kernel/sched/umcg.c                    |  868 +++++++++++++++++++++++++++++++++
->  kernel/sys_ni.c                        |    5
->  17 files changed, 1171 insertions(+), 7 deletions(-)
+> Series-reviewed-by: Tony Luck<tony.luck@intel.com>
 >
-> --- a/arch/x86/Kconfig
-> +++ b/arch/x86/Kconfig
-> @@ -248,6 +248,7 @@ config X86
->	select HAVE_RSEQ
->	select HAVE_SYSCALL_TRACEPOINTS
->	select HAVE_UNSTABLE_SCHED_CLOCK
-> +	select HAVE_UMCG			if X86_64
->	select HAVE_USER_RETURN_NOTIFIER
->	select HAVE_GENERIC_VDSO
->	select HOTPLUG_SMT			if SMP
-> --- a/arch/x86/entry/syscalls/syscall_64.tbl
-> +++ b/arch/x86/entry/syscalls/syscall_64.tbl
-> @@ -371,6 +371,9 @@
->  447	common	memfd_secret		sys_memfd_secret
->  448	common	process_mrelease	sys_process_mrelease
->  449	common	futex_waitv		sys_futex_waitv
-> +450	common	umcg_ctl		sys_umcg_ctl
-> +451	common	umcg_wait		sys_umcg_wait
-> +452	common	umcg_kick		sys_umcg_kick
+> Main goals of this RFC
+> ======================
+> - Introduce this upcoming technology to the community.
+> This cover letter includes a hardware architecture summary along with the
+> software architecture and kernel design choices. This post is a bit long as a
+> result. Hopefully, it helps answer more questions than it creates :) I am also
+> planning to talk about User Interrupts next week at the LPC Kernel summit.
 >
->  #
->  # Due to a historical design error, certain syscalls are numbered differently
-> --- a/arch/x86/include/asm/thread_info.h
-> +++ b/arch/x86/include/asm/thread_info.h
-> @@ -83,6 +83,7 @@ struct thread_info {
->  #define TIF_NEED_RESCHED	3	/* rescheduling necessary */
->  #define TIF_SINGLESTEP		4	/* reenable singlestep on user return*/
->  #define TIF_SSBD		5	/* Speculative store bypass disable */
-> +#define TIF_UMCG		6	/* UMCG return to user hook */
->  #define TIF_SPEC_IB		9	/* Indirect branch speculation mitigation */
->  #define TIF_SPEC_L1D_FLUSH	10	/* Flush L1D on mm switches (processes) */
->  #define TIF_USER_RETURN_NOTIFY	11	/* notify kernel of userspace return */
-> @@ -107,6 +108,7 @@ struct thread_info {
->  #define _TIF_NEED_RESCHED	(1 << TIF_NEED_RESCHED)
->  #define _TIF_SINGLESTEP		(1 << TIF_SINGLESTEP)
->  #define _TIF_SSBD		(1 << TIF_SSBD)
-> +#define _TIF_UMCG		(1 << TIF_UMCG)
->  #define _TIF_SPEC_IB		(1 << TIF_SPEC_IB)
->  #define _TIF_SPEC_L1D_FLUSH	(1 << TIF_SPEC_L1D_FLUSH)
->  #define _TIF_USER_RETURN_NOTIFY	(1 << TIF_USER_RETURN_NOTIFY)
-> --- a/fs/exec.c
-> +++ b/fs/exec.c
-> @@ -1838,6 +1838,7 @@ static int bprm_execve(struct linux_binp
->	current->fs->in_exec = 0;
->	current->in_execve = 0;
->	rseq_execve(current);
-> +	umcg_execve(current);
->	acct_update_integrals(current);
->	task_numa_free(current, false);
->	return retval;
-> --- a/include/linux/entry-common.h
-> +++ b/include/linux/entry-common.h
-> @@ -22,6 +22,10 @@
->  # define _TIF_UPROBE			(0)
->  #endif
+> - Discuss potential use cases.
+> We are starting to look at actual usages and libraries (like libevent[2] and
+> liburing[3]) that can take advantage of this technology. Unfortunately, we
+> don't have much to share on this right now. We need some help from the
+> community to identify usages that can benefit from this. We would like to make
+> sure the proposed APIs work for the eventual consumers.
 >
-> +#ifndef _TIF_UMCG
-> +# define _TIF_UMCG			(0)
-> +#endif
-> +
->  /*
->   * SYSCALL_WORK flags handled in syscall_enter_from_user_mode()
->   */
-> @@ -42,11 +46,13 @@
->				 SYSCALL_WORK_SYSCALL_EMU |		\
->				 SYSCALL_WORK_SYSCALL_AUDIT |		\
->				 SYSCALL_WORK_SYSCALL_USER_DISPATCH |	\
-> +				 SYSCALL_WORK_SYSCALL_UMCG |		\
->				 ARCH_SYSCALL_WORK_ENTER)
->  #define SYSCALL_WORK_EXIT	(SYSCALL_WORK_SYSCALL_TRACEPOINT |	\
->				 SYSCALL_WORK_SYSCALL_TRACE |		\
->				 SYSCALL_WORK_SYSCALL_AUDIT |		\
->				 SYSCALL_WORK_SYSCALL_USER_DISPATCH |	\
-> +				 SYSCALL_WORK_SYSCALL_UMCG |		\
->				 SYSCALL_WORK_SYSCALL_EXIT_TRAP	|	\
->				 ARCH_SYSCALL_WORK_EXIT)
+> - Get early feedback on the software architecture.
+> We are hoping to get some feedback on the direction of overall software
+> architecture - starting with User IPI, extending it for kernel-to-user
+> interrupt notifications and external interrupts in the future.
 >
-> --- a/include/linux/sched.h
-> +++ b/include/linux/sched.h
-> @@ -67,6 +67,7 @@ struct sighand_struct;
->  struct signal_struct;
->  struct task_delay_info;
->  struct task_group;
-> +struct umcg_task;
+> - Discuss some of the main architecture opens.
+> There is lot of work that still needs to happen to enable this technology. We
+> are looking for some input on future patches that would be of interest. Here
+> are some of the big opens that we are looking to resolve.
+> * Should Uintr interrupt all blocking system calls like sleep(), read(),
+>    poll(), etc? If so, should we implement an SA_RESTART type of mechanism
+>    similar to signals? - Refer Blocking for interrupts section below.
 >
->  /*
->   * Task state bitmask. NOTE! These bits are also
-> @@ -1294,6 +1295,23 @@ struct task_struct {
->	unsigned long rseq_event_mask;
->  #endif
+> * Should the User Interrupt Target table (UITT) be shared between threads of a
+>    multi-threaded application or maybe even across processes? - Refer Sharing
+>    the UITT section below.
 >
-> +#ifdef CONFIG_UMCG
-> +	/* setup by sys_umcg_ctrl() */
-> +	clockid_t		umcg_clock;
-> +	struct umcg_task __user	*umcg_task;
-> +
-> +	/* setup by umcg_pin_enter() */
-> +	struct page		*umcg_worker_page;
-> +
-> +	struct task_struct	*umcg_server;
-> +	struct umcg_task __user *umcg_server_task;
-> +	struct page		*umcg_server_page;
-> +
-> +	struct task_struct	*umcg_next;
-> +	struct umcg_task __user	*umcg_next_task;
-> +	struct page		*umcg_next_page;
-> +#endif
-> +
->	struct tlbflush_unmap_batch	tlb_ubc;
+> Why care about this? - Micro benchmark performance
+> ==================================================
+> There is a ~9x or higher performance improvement using User IPI over other IPC
+> mechanisms for event signaling.
 >
->	union {
-> @@ -1687,6 +1705,13 @@ extern struct pid *cad_pid;
->  #define PF_KTHREAD		0x00200000	/* I am a kernel thread */
->  #define PF_RANDOMIZE		0x00400000	/* Randomize virtual address space */
->  #define PF_SWAPWRITE		0x00800000	/* Allowed to write to swap */
-> +
-> +#ifdef CONFIG_UMCG
-> +#define PF_UMCG_WORKER		0x01000000	/* UMCG worker */
-> +#else
-> +#define PF_UMCG_WORKER		0x00000000
-> +#endif
-> +
->  #define PF_NO_SETAFFINITY	0x04000000	/* Userland is not allowed to meddle with cpus_mask */
->  #define PF_MCE_EARLY		0x08000000      /* Early kill for mce process policy */
->  #define PF_MEMALLOC_PIN		0x10000000	/* Allocation context constrained to zones which allow long term pinning. */
-> @@ -2294,6 +2319,67 @@ static inline void rseq_execve(struct ta
->  {
->  }
+> Below is the average normalized latency for a 1M ping-pong IPC notifications
+> with message size=1.
 >
-> +#endif
-> +
-> +#ifdef CONFIG_UMCG
-> +
-> +extern void umcg_sys_enter(struct pt_regs *regs, long syscall);
-> +extern void umcg_sys_exit(struct pt_regs *regs);
-> +extern void umcg_notify_resume(struct pt_regs *regs);
-> +extern void umcg_worker_exit(void);
-> +extern void umcg_clear_child(struct task_struct *tsk);
-> +
-> +/* Called by bprm_execve() in fs/exec.c. */
-> +static inline void umcg_execve(struct task_struct *tsk)
-> +{
-> +	if (tsk->umcg_task)
-> +		umcg_clear_child(tsk);
-> +}
-> +
-> +/* Called by do_exit() in kernel/exit.c. */
-> +static inline void umcg_handle_exit(void)
-> +{
-> +	if (current->flags & PF_UMCG_WORKER)
-> +		umcg_worker_exit();
-> +}
-> +
-> +/*
-> + * umcg_wq_worker_[sleeping|running] are called in core.c by
-> + * sched_submit_work() and sched_update_worker().
-> + */
-> +extern void umcg_wq_worker_sleeping(struct task_struct *tsk);
-> +extern void umcg_wq_worker_running(struct task_struct *tsk);
-> +
-> +#else  /* CONFIG_UMCG */
-> +
-> +static inline void umcg_sys_enter(struct pt_regs *regs, long syscall)
-> +{
-> +}
-> +
-> +static inline void umcg_sys_exit(struct pt_regs *regs)
-> +{
-> +}
-> +
-> +static inline void umcg_notify_resume(struct pt_regs *regs)
-> +{
-> +}
-> +
-> +static inline void umcg_clear_child(struct task_struct *tsk)
-> +{
-> +}
-> +static inline void umcg_execve(struct task_struct *tsk)
-> +{
-> +}
-> +static inline void umcg_handle_exit(void)
-> +{
-> +}
-> +static inline void umcg_wq_worker_sleeping(struct task_struct *tsk)
-> +{
-> +}
-> +static inline void umcg_wq_worker_running(struct task_struct *tsk)
-> +{
-> +}
-> +
->  #endif
+> +------------+-------------------------+
+> | IPC type   |   Relative Latency      |
+> |            |(normalized to User IPI) |
+> +------------+-------------------------+
+> | User IPI   |                     1.0 |
+> | Signal     |                    14.8 |
+> | Eventfd    |                     9.7 |
+> | Pipe       |                    16.3 |
+> | Domain     |                    17.3 |
+> +------------+-------------------------+
 >
->  #ifdef CONFIG_DEBUG_RSEQ
-> --- a/include/linux/syscalls.h
-> +++ b/include/linux/syscalls.h
-> @@ -72,6 +72,7 @@ struct open_how;
->  struct mount_attr;
->  struct landlock_ruleset_attr;
->  enum landlock_rule_type;
-> +struct umcg_task;
+> Results have been estimated based on tests on internal hardware with Linux
+> v5.14 + User IPI patches.
 >
->  #include <linux/types.h>
->  #include <linux/aio_abi.h>
-> @@ -1057,6 +1058,9 @@ asmlinkage long sys_landlock_add_rule(in
->		const void __user *rule_attr, __u32 flags);
->  asmlinkage long sys_landlock_restrict_self(int ruleset_fd, __u32 flags);
->  asmlinkage long sys_memfd_secret(unsigned int flags);
-> +asmlinkage long sys_umcg_ctl(u32 flags, struct umcg_task __user *self, clockid_t which_clock);
-> +asmlinkage long sys_umcg_wait(u32 flags, u64 abs_timeout);
-> +asmlinkage long sys_umcg_kick(u32 flags, pid_t tid);
+> Original benchmark:https://github.com/goldsborough/ipc-bench
+> Updated benchmark:https://github.com/intel/uintr-ipc-bench/tree/linux-rfc-v1
 >
->  /*
->   * Architecture-specific system calls
-> --- a/include/linux/thread_info.h
-> +++ b/include/linux/thread_info.h
-> @@ -46,6 +46,7 @@ enum syscall_work_bit {
->	SYSCALL_WORK_BIT_SYSCALL_AUDIT,
->	SYSCALL_WORK_BIT_SYSCALL_USER_DISPATCH,
->	SYSCALL_WORK_BIT_SYSCALL_EXIT_TRAP,
-> +	SYSCALL_WORK_BIT_SYSCALL_UMCG,
->  };
+> *Performance varies by use, configuration and other factors.
 >
->  #define SYSCALL_WORK_SECCOMP		BIT(SYSCALL_WORK_BIT_SECCOMP)
-> @@ -55,6 +56,7 @@ enum syscall_work_bit {
->  #define SYSCALL_WORK_SYSCALL_AUDIT	BIT(SYSCALL_WORK_BIT_SYSCALL_AUDIT)
->  #define SYSCALL_WORK_SYSCALL_USER_DISPATCH BIT(SYSCALL_WORK_BIT_SYSCALL_USER_DISPATCH)
->  #define SYSCALL_WORK_SYSCALL_EXIT_TRAP	BIT(SYSCALL_WORK_BIT_SYSCALL_EXIT_TRAP)
-> +#define SYSCALL_WORK_SYSCALL_UMCG	BIT(SYSCALL_WORK_BIT_SYSCALL_UMCG)
->  #endif
+> How it works underneath? - Hardware Summary
+> ===========================================
+> User Interrupts is a posted interrupt delivery mechanism. The interrupts are
+> first posted to a memory location and then delivered to the receiver when they
+> are running with CPL=3.
 >
->  #include <asm/thread_info.h>
-> --- a/include/uapi/asm-generic/unistd.h
-> +++ b/include/uapi/asm-generic/unistd.h
-> @@ -883,8 +883,15 @@ __SYSCALL(__NR_process_mrelease, sys_pro
->  #define __NR_futex_waitv 449
->  __SYSCALL(__NR_futex_waitv, sys_futex_waitv)
+> Kernel managed architectural data structures
+> --------------------------------------------
+> UPID: User Posted Interrupt Descriptor - Holds receiver interrupt vector
+> information and notification state (like an ongoing notification, suppressed
+> notifications).
 >
-> +#define __NR_umcg_ctl 450
-> +__SYSCALL(__NR_umcg_ctl, sys_umcg_ctl)
-> +#define __NR_umcg_wait 451
-> +__SYSCALL(__NR_umcg_wait, sys_umcg_wait)
-> +#define __NR_umcg_kick 452
-> +__SYSCALL(__NR_umcg_kick, sys_umcg_kick)
-> +
->  #undef __NR_syscalls
-> -#define __NR_syscalls 450
-> +#define __NR_syscalls 453
+> UITT: User Interrupt Target Table - Stores UPID pointer and vector information
+> for interrupt routing on the sender side. Referred by the senduipi instruction.
 >
->  /*
->   * 32 bit systems traditionally used different
-> --- /dev/null
-> +++ b/include/uapi/linux/umcg.h
-> @@ -0,0 +1,143 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ WITH Linux-syscall-note */
-> +#ifndef _UAPI_LINUX_UMCG_H
-> +#define _UAPI_LINUX_UMCG_H
-> +
-> +#include <linux/types.h>
-> +
-> +/*
-> + * UMCG: User Managed Concurrency Groups.
-> + *
-> + * Syscalls (see kernel/sched/umcg.c):
-> + *      sys_umcg_ctl()  - register/unregister UMCG tasks;
-> + *      sys_umcg_wait() - wait/wake/context-switch.
-> + *      sys_umcg_kick() - prod a UMCG task
-> + *
-> + * struct umcg_task (below): controls the state of UMCG tasks.
-> + */
-> +
-> +/*
-> + * UMCG task states, the first 6 bits of struct umcg_task.state_ts.
-> + * The states represent the user space point of view.
-> + *
-> + *   ,--------(TF_PREEMPT + notify_resume)-------. ,------------.
-> + *   |                                           v |            |
-> + * RUNNING -(schedule)-> BLOCKED -(sys_exit)-> RUNNABLE  (signal + notify_resume)
-> + *   ^                                           | ^            |
-> + *   `--------------(sys_umcg_wait)--------------' `------------'
-> + *
-> + */
-> +#define UMCG_TASK_NONE			0x0000U
-> +#define UMCG_TASK_RUNNING		0x0001U
-> +#define UMCG_TASK_RUNNABLE		0x0002U
-> +#define UMCG_TASK_BLOCKED		0x0003U
-> +
-> +#define UMCG_TASK_MASK			0x00ffU
-> +
-> +/*
-> + * UMCG_TF_PREEMPT: userspace indicates the worker should be preempted.
-> + *
-> + * Must only be set on UMCG_TASK_RUNNING; once set, any subsequent
-> + * return-to-user (eg sys_umcg_kick()) will perform the equivalent of
-> + * sys_umcg_wait() on it. That is, it will wake next_tid/server_tid, transfer
-> + * to RUNNABLE and enqueue on the server's runnable list.
-> + */
-> +#define UMCG_TF_PREEMPT			0x0100U
-> +/*
-> + * UMCG_TF_COND_WAIT: indicate the task *will* call sys_umcg_wait()
-> + *
-> + * Enables server loops like (vs umcg_sys_exit()):
-> + *
-> + *   for(;;) {
-> + *	self->status = UMCG_TASK_RUNNABLE | UMCG_TF_COND_WAIT;
-> + *	// smp_mb() implied by xchg()
-> + *
-> + *	runnable_ptr = xchg(self->runnable_workers_ptr, NULL);
-> + *	while (runnable_ptr) {
-> + *		next = runnable_ptr->runnable_workers_ptr;
-> + *
-> + *		umcg_server_add_runnable(self, runnable_ptr);
-> + *
-> + *		runnable_ptr = next;
-> + *	}
-> + *
-> + *	self->next = umcg_server_pick_next(self);
-> + *	sys_umcg_wait(0, 0);
-> + *   }
-> + *
-> + * without a signal or interrupt in between setting umcg_task::state and
-> + * sys_umcg_wait() resulting in an infinite wait in umcg_notify_resume().
-> + */
-> +#define UMCG_TF_COND_WAIT		0x0200U
-> +
-> +#define UMCG_TF_MASK			0xff00U
-> +
-> +#define UMCG_TASK_ALIGN			64
-> +
-> +/**
-> + * struct umcg_task - controls the state of UMCG tasks.
-> + *
-> + * The struct is aligned at 64 bytes to ensure that it fits into
-> + * a single cache line.
-> + */
-> +struct umcg_task {
-> +	/**
-> +	 * @state_ts: the current state of the UMCG task described by
-> +	 *            this struct, with a unique timestamp indicating
-> +	 *            when the last state change happened.
-> +	 *
-> +	 * Readable/writable by both the kernel and the userspace.
-> +	 *
-> +	 * UMCG task state:
-> +	 *   bits  0 -  7: task state;
-> +	 *   bits  8 - 15: state flags;
-> +	 *   bits 16 - 31: for userspace use;
-> +	 */
-> +	__u32	state;				/* r/w */
-> +
-> +	/**
-> +	 * @next_tid: the TID of the UMCG task that should be context-switched
-> +	 *            into in sys_umcg_wait(). Can be zero, in which case
-> +	 *            it'll switch to server_tid.
-> +	 *
-> +	 * @server_tid: the TID of the UMCG server that hosts this task,
-> +	 *		when RUNNABLE this task will get added to it's
-> +	 *		runnable_workers_ptr list.
-> +	 *
-> +	 * Read-only for the kernel, read/write for the userspace.
-> +	 */
-> +	__u32	next_tid;			/* r   */
-> +	__u32	server_tid;			/* r   */
-> +
-> +	__u32	__hole[1];
-> +
-> +	/*
-> +	 * Timestamps for when last we became BLOCKED, RUNNABLE, in CLOCK_MONOTONIC.
-> +	 */
-> +	__u64	blocked_ts;			/*   w */
-> +	__u64   runnable_ts;			/*   w */
-> +
-> +	/**
-> +	 * @runnable_workers_ptr: a single-linked list of runnable workers.
-> +	 *
-> +	 * Readable/writable by both the kernel and the userspace: the
-> +	 * kernel adds items to the list, userspace removes them.
-> +	 */
-> +	__u64	runnable_workers_ptr;		/* r/w */
-> +
-> +	__u64	__zero[3];
-> +
-> +} __attribute__((packed, aligned(UMCG_TASK_ALIGN)));
-> +
-> +/**
-> + * enum umcg_ctl_flag - flags to pass to sys_umcg_ctl
-> + * @UMCG_CTL_REGISTER:   register the current task as a UMCG task
-> + * @UMCG_CTL_UNREGISTER: unregister the current task as a UMCG task
-> + * @UMCG_CTL_WORKER:     register the current task as a UMCG worker
-> + */
-> +enum umcg_ctl_flag {
-> +	UMCG_CTL_REGISTER	= 0x00001,
-> +	UMCG_CTL_UNREGISTER	= 0x00002,
-> +	UMCG_CTL_WORKER		= 0x10000,
-> +};
-> +
-> +#endif /* _UAPI_LINUX_UMCG_H */
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -1686,6 +1686,21 @@ config MEMBARRIER
+> The interrupt state of each task is referenced via MSRs which are saved and
+> restored by the kernel during context switch.
 >
->	  If unsure, say Y.
+> Instructions
+> ------------
+> senduipi <index> - send a user IPI to a target task based on the UITT index.
 >
-> +config HAVE_UMCG
-> +	bool
-> +
-> +config UMCG
-> +	bool "Enable User Managed Concurrency Groups API"
-> +	depends on 64BIT
-> +	depends on GENERIC_ENTRY
-> +	depends on HAVE_UMCG
-> +	default n
-> +	help
-> +	  Enable User Managed Concurrency Groups API, which form the basis
-> +	  for an in-process M:N userspace scheduling framework.
-> +	  At the moment this is an experimental/RFC feature that is not
-> +	  guaranteed to be backward-compatible.
-> +
->  config KALLSYMS
->	bool "Load all symbols for debugging/ksymoops" if EXPERT
->	default y
-> --- a/kernel/entry/common.c
-> +++ b/kernel/entry/common.c
-> @@ -6,6 +6,7 @@
->  #include <linux/livepatch.h>
->  #include <linux/audit.h>
->  #include <linux/tick.h>
-> +#include <linux/sched.h>
+> clui - Mask user interrupts by clearing UIF (User Interrupt Flag).
 >
->  #include "common.h"
+> stui - Unmask user interrupts by setting UIF.
 >
-> @@ -76,6 +77,9 @@ static long syscall_trace_enter(struct p
->	if (unlikely(work & SYSCALL_WORK_SYSCALL_TRACEPOINT))
->		trace_sys_enter(regs, syscall);
+> testui - Test current value of UIF.
 >
-> +	if (work & SYSCALL_WORK_SYSCALL_UMCG)
-> +		umcg_sys_enter(regs, syscall);
-> +
->	syscall_enter_audit(regs, syscall);
+> uiret - return from a user interrupt handler.
 >
->	return ret ? : syscall;
-> @@ -155,8 +159,7 @@ static unsigned long exit_to_user_mode_l
->	 * Before returning to user space ensure that all pending work
->	 * items have been completed.
->	 */
-> -	while (ti_work & EXIT_TO_USER_MODE_WORK) {
-> -
-> +	do {
->		local_irq_enable_exit_to_user(ti_work);
+> User IPI
+> --------
+> When a User IPI sender executes 'senduipi <index>', the hardware refers the
+> UITT table entry pointed by the index and posts the interrupt vector (63-0)
+> into the receiver's UPID.
 >
->		if (ti_work & _TIF_NEED_RESCHED)
-> @@ -168,6 +171,10 @@ static unsigned long exit_to_user_mode_l
->		if (ti_work & _TIF_PATCH_PENDING)
->			klp_update_patch_state(current);
+> If the receiver is running (CPL=3), the sender cpu would send a physical IPI to
+> the receiver's cpu. On the receiver side this IPI is detected as a User
+> Interrupt. The User Interrupt handler for the receiver is invoked and the
+> vector number (63-0) is pushed onto the stack.
 >
-> +		/* must be before handle_signal_work(); terminates on sigpending */
-> +		if (ti_work & _TIF_UMCG)
-> +			umcg_notify_resume(regs);
-> +
->		if (ti_work & (_TIF_SIGPENDING | _TIF_NOTIFY_SIGNAL))
->			handle_signal_work(regs, ti_work);
+> Upon execution of 'uiret' in the interrupt handler, the control is transferred
+> back to instruction that was interrupted.
 >
-> @@ -188,7 +195,7 @@ static unsigned long exit_to_user_mode_l
->		tick_nohz_user_enter_prepare();
+> Refer Chapter 11 of the Intel Architecture instruction set extensions [1] for
+> more details.
 >
->		ti_work = read_thread_flags();
-> -	}
-> +	} while (ti_work & EXIT_TO_USER_MODE_WORK);
+> Application interface - Software Architecture
+> =============================================
+> User Interrupts (Uintr) is an opt-in feature (unlike signals). Applications
+> wanting to use Uintr are expected to register themselves with the kernel using
+> the Uintr related system calls. A Uintr receiver is always a userspace task. A
+> Uintr sender can be another userspace task, kernel or a device.
 >
->	/* Return the latest work state for arch_exit_to_user_mode() */
->	return ti_work;
-> @@ -203,7 +210,7 @@ static void exit_to_user_mode_prepare(st
->	/* Flush pending rcuog wakeup before the last need_resched() check */
->	tick_nohz_user_enter_prepare();
+> 1) A receiver can register/unregister an interrupt handler using the Uintr
+> receiver related syscalls.
+> 		uintr_register_handler(handler, flags)
+> 		uintr_unregister_handler(flags)
 >
-> -	if (unlikely(ti_work & EXIT_TO_USER_MODE_WORK))
-> +	if (unlikely(ti_work & (EXIT_TO_USER_MODE_WORK | _TIF_UMCG)))
->		ti_work = exit_to_user_mode_loop(regs, ti_work);
+> 2) A syscall also allows a receiver to register a vector and create a user
+> interrupt file descriptor - uintr_fd.
+> 		uintr_fd = uintr_create_fd(vector, flags)
 >
->	arch_exit_to_user_mode_prepare(regs, ti_work);
-> @@ -253,6 +260,9 @@ static void syscall_exit_work(struct pt_
->	step = report_single_step(work);
->	if (step || work & SYSCALL_WORK_SYSCALL_TRACE)
->		arch_syscall_exit_tracehook(regs, step);
-> +
-> +	if (work & SYSCALL_WORK_SYSCALL_UMCG)
-> +		umcg_sys_exit(regs);
->  }
+> Uintr can be useful in some of the usages where eventfd or signals are used for
+> frequent userspace event notifications. The semantics of uintr_fd are somewhat
+> similar to an eventfd() or the write end of a pipe.
 >
->  /*
-> --- a/kernel/exit.c
-> +++ b/kernel/exit.c
-> @@ -749,6 +749,10 @@ void __noreturn do_exit(long code)
->	if (unlikely(!tsk->pid))
->		panic("Attempted to kill the idle task!");
+> 3) Any sender with access to uintr_fd can use it to deliver events (in this
+> case - interrupts) to a receiver. A sender task can manage its connection with
+> the receiver using the sender related syscalls based on uintr_fd.
+> 		uipi_index = uintr_register_sender(uintr_fd, flags)
 >
-> +	/* Turn off UMCG sched hooks. */
-> +	if (unlikely(tsk->flags & PF_UMCG_WORKER))
-> +		tsk->flags &= ~PF_UMCG_WORKER;
-> +
->	/*
->	 * If do_exit is called because this processes oopsed, it's possible
->	 * that get_fs() was left as KERNEL_DS, so reset it to USER_DS before
-> @@ -786,6 +790,7 @@ void __noreturn do_exit(long code)
+> Using an FD abstraction provides a secure mechanism to connect with a receiver.
+> The FD sharing and isolation mechanisms put in place by the kernel would extend
+> to Uintr as well.
 >
->	io_uring_files_cancel();
->	exit_signals(tsk);  /* sets PF_EXITING */
-> +	umcg_handle_exit();
+> 4a) After the initial setup, a sender task can use the SENDUIPI instruction
+> along with the uipi_index to generate user IPIs without any kernel
+> intervention.
+> 		SENDUIPI <uipi_index>
 >
->	/* sync mm's RSS info before statistics gathering */
->	if (tsk->mm)
-> --- a/kernel/sched/Makefile
-> +++ b/kernel/sched/Makefile
-> @@ -41,3 +41,4 @@ obj-$(CONFIG_MEMBARRIER) += membarrier.o
->  obj-$(CONFIG_CPU_ISOLATION) += isolation.o
->  obj-$(CONFIG_PSI) += psi.o
->  obj-$(CONFIG_SCHED_CORE) += core_sched.o
-> +obj-$(CONFIG_UMCG) += umcg.o
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -4272,6 +4272,7 @@ static void __sched_fork(unsigned long c
->	p->wake_entry.u_flags = CSD_TYPE_TTWU;
->	p->migration_pending = NULL;
->  #endif
-> +	umcg_clear_child(p);
->  }
+> If the receiver is running (CPL=3), then the user interrupt is delivered
+> directly without a kernel transition. If the receiver isn't running the
+> interrupt is delivered when the receiver gets context switched back. If the
+> receiver is blocked in the kernel, the user interrupt is delivered to the
+> kernel which then unblocks the intended receiver to deliver the interrupt.
 >
->  DEFINE_STATIC_KEY_FALSE(sched_numa_balancing);
-> @@ -6330,9 +6331,11 @@ static inline void sched_submit_work(str
->	 * If a worker goes to sleep, notify and ask workqueue whether it
->	 * wants to wake up a task to maintain concurrency.
->	 */
-> -	if (task_flags & (PF_WQ_WORKER | PF_IO_WORKER)) {
-> +	if (task_flags & (PF_WQ_WORKER | PF_IO_WORKER | PF_UMCG_WORKER)) {
->		if (task_flags & PF_WQ_WORKER)
->			wq_worker_sleeping(tsk);
-> +		else if (task_flags & PF_UMCG_WORKER)
-> +			umcg_wq_worker_sleeping(tsk);
->		else
->			io_wq_worker_sleeping(tsk);
->	}
-> @@ -6350,9 +6353,11 @@ static inline void sched_submit_work(str
+> 4b) If the sender is the kernel or a device, the uintr_fd can be passed onto
+> the related kernel entity to allow them to setup a connection and then generate
+> a user interrupt for event delivery. <The exact details of this API are still
+> being worked upon.>
 >
->  static void sched_update_worker(struct task_struct *tsk)
->  {
-> -	if (tsk->flags & (PF_WQ_WORKER | PF_IO_WORKER)) {
-> +	if (tsk->flags & (PF_WQ_WORKER | PF_IO_WORKER | PF_UMCG_WORKER)) {
->		if (tsk->flags & PF_WQ_WORKER)
->			wq_worker_running(tsk);
-> +		else if (tsk->flags & PF_UMCG_WORKER)
-> +			umcg_wq_worker_running(tsk);
->		else
->			io_wq_worker_running(tsk);
->	}
-> --- /dev/null
-> +++ b/kernel/sched/umcg.c
-> @@ -0,0 +1,868 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +/*
-> + * User Managed Concurrency Groups (UMCG).
-> + *
-> + */
-> +
-> +#include <linux/syscalls.h>
-> +#include <linux/types.h>
-> +#include <linux/uaccess.h>
-> +#include <linux/umcg.h>
-> +
-> +#include <asm/syscall.h>
-> +
-> +#include "sched.h"
-> +
-> +static struct task_struct *umcg_get_task(u32 tid)
-> +{
-> +	struct task_struct *tsk = NULL;
-> +
-> +	if (tid) {
-> +		rcu_read_lock();
-> +		tsk = find_task_by_vpid(tid);
-> +		if (tsk && current->mm == tsk->mm && tsk->umcg_task)
-
-This essentially limits all operations to a single mm/process.
-Fine for now, but a fast remote context switch is also a valid use
-case. It is not directly related to userspace scheduling, so I'm
-just mentioning it here. Maybe server-to-server cross-process
-context switches should be allowed for the same user/cgroup? (Again,
-this is for later to consider).
-
-> +			get_task_struct(tsk);
-> +		else
-> +			tsk = NULL;
-> +		rcu_read_unlock();
-> +	}
-> +
-> +	return tsk;
-> +}
-> +
-> +/**
-> + * umcg_pin_pages: pin pages containing struct umcg_task of
-> + *		   this task, its server (possibly this task again)
-> + *		   and the next (possibly NULL).
-> + */
-> +static int umcg_pin_pages(void)
-> +{
-> +	struct task_struct *server = NULL, *next = NULL, *tsk = current;
-> +	struct umcg_task __user *self = READ_ONCE(tsk->umcg_task);
-> +	int server_tid, next_tid;
-> +	int ret;
-> +
-> +	/* must not have stale state */
-> +	if (WARN_ON_ONCE(tsk->umcg_worker_page ||
-> +			 tsk->umcg_server_page ||
-> +			 tsk->umcg_next_page   ||
-> +			 tsk->umcg_server_task ||
-> +			 tsk->umcg_next_task   ||
-> +			 tsk->umcg_server      ||
-> +			 tsk->umcg_next))
-> +		return -EBUSY;
-> +
-> +	ret = -EFAULT;
-> +	if (pin_user_pages_fast((unsigned long)self, 1, 0,
-> +				&tsk->umcg_worker_page) != 1)
-> +		goto clear_self;
-> +
-> +	if (get_user(server_tid, &self->server_tid))
-> +		goto unpin_self;
-> +
-> +	ret = -ESRCH;
-> +	server = umcg_get_task(server_tid);
-> +	if (!server)
-> +		goto unpin_self;
-> +
-> +	ret = -EFAULT;
-> +	/* must cache due to possible concurrent change vs access_ok() */
-> +	tsk->umcg_server_task = READ_ONCE(server->umcg_task);
-> +	if (pin_user_pages_fast((unsigned long)tsk->umcg_server_task, 1, 0,
-> +				&tsk->umcg_server_page) != 1)
-> +		goto clear_server;
-> +
-> +	tsk->umcg_server = server;
-> +
-> +	if (get_user(next_tid, &self->next_tid))
-> +		goto unpin_server;
-> +
-> +	if (!next_tid)
-> +		goto done;
-> +
-> +	ret = -ESRCH;
-> +	next = umcg_get_task(next_tid);
-> +	if (!next)
-> +		goto unpin_server;
-> +
-> +	ret = -EFAULT;
-> +	tsk->umcg_next_task = READ_ONCE(next->umcg_task);
-> +	if (pin_user_pages_fast((unsigned long)tsk->umcg_next_task, 1, 0,
-> +				&tsk->umcg_next_page) != 1)
-> +		goto clear_next;
-> +
-> +	tsk->umcg_next = next;
-> +
-> +done:
-> +	return 0;
-> +
-> +clear_next:
-> +	tsk->umcg_next_task = NULL;
-> +	tsk->umcg_next_page = NULL;
-> +
-> +unpin_server:
-> +	unpin_user_page(tsk->umcg_server_page);
-> +
-> +clear_server:
-> +	tsk->umcg_server_task = NULL;
-> +	tsk->umcg_server_page = NULL;
-> +
-> +unpin_self:
-> +	unpin_user_page(tsk->umcg_worker_page);
-> +clear_self:
-> +	tsk->umcg_worker_page = NULL;
-> +
-> +	return ret;
-> +}
-> +
-> +static void umcg_unpin_pages(void)
-> +{
-> +	struct task_struct *tsk = current;
-> +
-> +	if (tsk->umcg_server) {
-> +		unpin_user_page(tsk->umcg_worker_page);
-> +		tsk->umcg_worker_page = NULL;
-> +
-> +		unpin_user_page(tsk->umcg_server_page);
-> +		tsk->umcg_server_page = NULL;
-> +		tsk->umcg_server_task = NULL;
-> +
-> +		put_task_struct(tsk->umcg_server);
-> +		tsk->umcg_server = NULL;
-> +
-> +		if (tsk->umcg_next) {
-> +			unpin_user_page(tsk->umcg_next_page);
-> +			tsk->umcg_next_page = NULL;
-> +			tsk->umcg_next_task = NULL;
-> +
-> +			put_task_struct(tsk->umcg_next);
-> +			tsk->umcg_next = NULL;
-> +		}
-> +	}
-> +}
-> +
-> +static void umcg_clear_task(struct task_struct *tsk)
-> +{
-> +	/*
-> +	 * This is either called for the current task, or for a newly forked
-> +	 * task that is not yet running, so we don't need strict atomicity
-> +	 * below.
-> +	 */
-> +	if (tsk->umcg_task) {
-> +		WRITE_ONCE(tsk->umcg_task, NULL);
-> +		tsk->umcg_worker_page = NULL;
-> +
-> +		tsk->umcg_server = NULL;
-> +		tsk->umcg_server_page = NULL;
-> +		tsk->umcg_server_task = NULL;
-> +
-> +		tsk->umcg_next = NULL;
-> +		tsk->umcg_next_page = NULL;
-> +		tsk->umcg_next_task = NULL;
-> +
-> +		tsk->flags &= ~PF_UMCG_WORKER;
-> +		clear_task_syscall_work(tsk, SYSCALL_UMCG);
-> +		clear_tsk_thread_flag(tsk, TIF_UMCG);
-> +	}
-> +}
-> +
-> +/* Called for a forked or execve-ed child. */
-> +void umcg_clear_child(struct task_struct *tsk)
-> +{
-> +	umcg_clear_task(tsk);
-> +}
-> +
-> +/* Called both by normally (unregister) and abnormally exiting workers. */
-> +void umcg_worker_exit(void)
-> +{
-> +	umcg_unpin_pages();
-> +	umcg_clear_task(current);
-> +}
-> +
-> +/*
-> + * Do a state transition: @from -> @to.
-> + *
-> + * Will clear UMCG_TF_PREEMPT, UMCG_TF_COND_WAIT.
-> + *
-> + * When @to == {BLOCKED,RUNNABLE}, update timestamps.
-> + *
-> + * Returns:
-> + *   0: success
-> + *   -EAGAIN: when self->state != @from
-> + *   -EFAULT
-> + */
-> +static int umcg_update_state(struct task_struct *tsk,
-> +			     struct umcg_task __user *self,
-> +			     u32 from, u32 to)
-> +{
-> +	u32 old, new;
-> +	u64 now;
-> +
-> +	if (to >= UMCG_TASK_RUNNABLE) {
-> +		switch (tsk->umcg_clock) {
-> +		case CLOCK_REALTIME:      now = ktime_get_real_ns();     break;
-> +		case CLOCK_MONOTONIC:     now = ktime_get_ns();          break;
-> +		case CLOCK_BOOTTIME:      now = ktime_get_boottime_ns(); break;
-> +		case CLOCK_TAI:           now = ktime_get_clocktai_ns(); break;
-> +		}
-> +	}
-> +
-> +	if (!user_access_begin(self, sizeof(*self)))
-> +		return -EFAULT;
-> +
-> +	unsafe_get_user(old, &self->state, Efault);
-> +	do {
-> +		if ((old & UMCG_TASK_MASK) != from)
-> +			goto fail;
-> +
-> +		new = old & ~(UMCG_TASK_MASK |
-> +			      UMCG_TF_PREEMPT | UMCG_TF_COND_WAIT);
-> +		new |= to & UMCG_TASK_MASK;
-> +
-> +	} while (!unsafe_try_cmpxchg_user(&self->state, &old, new, Efault));
-> +
-> +	if (to == UMCG_TASK_BLOCKED)
-> +		unsafe_put_user(now, &self->blocked_ts, Efault);
-> +	if (to == UMCG_TASK_RUNNABLE)
-> +		unsafe_put_user(now, &self->runnable_ts, Efault);
-> +
-> +	user_access_end();
-> +	return 0;
-> +
-> +fail:
-> +	user_access_end();
-> +	return -EAGAIN;
-> +
-> +Efault:
-> +	user_access_end();
-> +	return -EFAULT;
-> +}
-> +
-> +#define __UMCG_DIE(stmt, reason)	do {				\
-> +	stmt;								\
-> +	pr_warn_ratelimited("%s: killing task %s/%d because: " reason "\n",\
-> +			    __func__, current->comm, current->pid);	\
-> +	force_sig(SIGKILL);						\
-> +	return;								\
-> +} while (0)
-> +
-> +#define UMCG_DIE(reason)	__UMCG_DIE(,reason)
-> +#define UMCG_DIE_PF(reason)	__UMCG_DIE(pagefault_enable(), reason)
-> +#define UMCG_DIE_UNPIN(reason)	__UMCG_DIE(umcg_unpin_pages(), reason)
-> +
-> +/* Called from syscall enter path */
-> +void umcg_sys_enter(struct pt_regs *regs, long syscall)
-> +{
-> +	/* avoid recursion vs our own syscalls */
-> +	if (syscall == __NR_umcg_wait ||
-> +	    syscall == __NR_umcg_ctl)
-> +		return;
-> +
-> +	/* avoid recursion vs schedule() */
-> +	current->flags &= ~PF_UMCG_WORKER;
-> +
-> +	/*
-> +	 * Pin all the state on sys_enter() such that we can rely on it
-> +	 * from dodgy contexts. It is either unpinned from pre-schedule()
-> +	 * or sys_exit(), whichever comes first, thereby ensuring the pin
-> +	 * is temporary.
-> +	 */
-> +	if (umcg_pin_pages())
-> +		UMCG_DIE("pin");
-> +
-> +	current->flags |= PF_UMCG_WORKER;
-> +}
-> +
-> +static int umcg_wake_task(struct task_struct *tsk, struct umcg_task __user *self)
-> +{
-> +	int ret = umcg_update_state(tsk, self, UMCG_TASK_RUNNABLE, UMCG_TASK_RUNNING);
-> +	if (ret)
-> +		return ret;
-> +
-> +	try_to_wake_up(tsk, TASK_NORMAL, WF_CURRENT_CPU);
-> +	return 0;
-> +}
-> +
-> +static int umcg_wake_next(struct task_struct *tsk)
-> +{
-> +	int ret = umcg_wake_task(tsk->umcg_next, tsk->umcg_next_task);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/*
-> +	 * If userspace sets umcg_task::next_tid, it needs to remove
-> +	 * that task from the ready-queue to avoid another server
-> +	 * selecting it. However, that also means it needs to put it
-> +	 * back in case it went unused.
-> +	 *
-> +	 * By clearing the field on use, userspace can detect this case
-> +	 * and DTRT.
-> +	 */
-> +	if (put_user(0u, &tsk->umcg_task->next_tid))
-> +		return -EFAULT;
-> +
-> +	return 0;
-> +}
-> +
-> +static int umcg_wake_server(struct task_struct *tsk)
-> +{
-> +	int ret = umcg_wake_task(tsk->umcg_server, tsk->umcg_server_task);
-> +	switch (ret) {
-> +	case 0:
-> +	case -EAGAIN:
-> +		/*
-> +		 * Server could have timed-out or already be running
-> +		 * due to a runnable enqueue. See umcg_sys_exit().
-> +		 */
-> +		break;
-> +
-> +	default:
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/*
-> + * Wake ::next_tid or ::server_tid.
-> + *
-> + * Must be called in umcg_pin_pages() context, relies on
-> + * tsk->umcg_{server,next}.
-> + *
-> + * Returns:
-> + *   0: success
-> + *   -EAGAIN
-> + *   -EFAULT
-> + */
-> +static int umcg_wake(struct task_struct *tsk)
-> +{
-> +	if (tsk->umcg_next)
-> +		return umcg_wake_next(tsk);
-> +
-> +	return umcg_wake_server(tsk);
-> +}
-> +
-> +/* pre-schedule() */
-> +void umcg_wq_worker_sleeping(struct task_struct *tsk)
-> +{
-> +	struct umcg_task __user *self = READ_ONCE(tsk->umcg_task);
-> +
-> +	/* Must not fault, mmap_sem might be held. */
-> +	pagefault_disable();
-> +
-> +	if (WARN_ON_ONCE(!tsk->umcg_server))
-> +		UMCG_DIE_PF("no server");
-
-We can get here if a running worker (no pinned pages) gets a pagefault
-in the userspace. Is umcg_sys_enter() called for pagefaults? If not,
-we should not kill the worker; also the userspace won't be able to
-detect this worker blocking on a pagefault...
-
-Why don't you like my approach of pinning pages on exit_to_userspace
-and unpinning on going to sleep? Yes, the pins will last longer,
-but only for scheduled on CPU tasks, so bounded both by time and number
-(of course, if umcg_sys_enter() is called on pagefaults/signals/other
-interrupts, pinning in umcg_sys_enter() is better).
-
-On the other hand, doing nothing on pagefaults and similar, and having
-to only worry about blocking in syscalls, does make things much simpler
-(no unexpected concurrency and such). I think most of the things
-you found complicated in my patchset, other than the SMP remote-idle wakeup,
-were driven by making sure spurious pagefaults are properly handled.
-
-I can't tell now whether keeping workers RUNNING during pagefaults
-vs waking their servers to run pending workers is a net gain or loss
-re: performance. I'll have to benchmark this when my large test is ready.
-
-> +
-> +	if (umcg_update_state(tsk, self, UMCG_TASK_RUNNING, UMCG_TASK_BLOCKED))
-> +		UMCG_DIE_PF("state");
-> +
-> +	if (umcg_wake(tsk))
-> +		UMCG_DIE_PF("wake");
-
-So this works _if_ pagefaults do not go here, as a task switching to
-next will do so in sys_umcg_wait and thus elide this code. But if pagefaults
-do trigger this code, this is wrong, as the server should be woken
-on a pagefault, not next: the worker setting next_tid will then
-call sys_umcg_wait(), expecting to context-switch.
-
-So: if pagefaults lead here via umcg_sys_enter(), we should wake the
-server here, not next. If pagefaults do not trigger umcg_sys_enter(),
-then we should not kill the task above with "no server".
-
-> +
-> +	pagefault_enable();
-> +
-> +	/*
-> +	 * We're going to sleep, make sure to unpin the pages, this ensures
-> +	 * the pins are temporary. Also see umcg_sys_exit().
-> +	 */
-> +	umcg_unpin_pages();
-> +}
-> +
-> +/* post-schedule() */
-> +void umcg_wq_worker_running(struct task_struct *tsk)
-> +{
-> +	/* nothing here, see umcg_sys_exit() */
-> +}
-> +
-> +/*
-> + * Enqueue @tsk on it's server's runnable list
-> + *
-> + * Must be called in umcg_pin_pages() context, relies on tsk->umcg_server.
-> + *
-> + * cmpxchg based single linked list add such that list integrity is never
-> + * violated.  Userspace *MUST* remove it from the list before changing ->state.
-> + * As such, we must change state to RUNNABLE before enqueue.
-> + *
-> + * Returns:
-> + *   0: success
-> + *   -EFAULT
-> + */
-> +static int umcg_enqueue_runnable(struct task_struct *tsk)
-> +{
-> +	struct umcg_task __user *server = tsk->umcg_server_task;
-> +	struct umcg_task __user *self = tsk->umcg_task;
-> +	u64 self_ptr = (unsigned long)self;
-> +	u64 first_ptr;
-> +
-> +	/*
-> +	 * umcg_pin_pages() did access_ok() on both pointers, use self here
-> +	 * only because __user_access_begin() isn't available in generic code.
-> +	 */
-> +	if (!user_access_begin(self, sizeof(*self)))
-> +		return -EFAULT;
-> +
-> +	unsafe_get_user(first_ptr, &server->runnable_workers_ptr, Efault);
-> +	do {
-> +		unsafe_put_user(first_ptr, &self->runnable_workers_ptr, Efault);
-> +	} while (!unsafe_try_cmpxchg_user(&server->runnable_workers_ptr, &first_ptr, self_ptr, Efault));
-> +
-> +	user_access_end();
-> +	return 0;
-> +
-> +Efault:
-> +	user_access_end();
-> +	return -EFAULT;
-> +}
-> +
-> +/*
-> + * umcg_wait: Wait for ->state to become RUNNING
-> + *
-> + * Returns:
-> + * 0		- success
-> + * -EINTR	- pending signal
-> + * -EINVAL	- ::state is not {RUNNABLE,RUNNING}
-> + * -ETIMEDOUT
-> + * -EFAULT
-> + */
-> +int umcg_wait(u64 timo)
-> +{
-> +	struct task_struct *tsk = current;
-> +	struct umcg_task __user *self = tsk->umcg_task;
-> +	struct page *page = NULL;
-> +	u32 state;
-> +	int ret;
-> +
-> +	for (;;) {
-> +		set_current_state(TASK_INTERRUPTIBLE);
-> +
-> +		ret = -EINTR;
-> +		if (signal_pending(current))
-> +			break;
-> +
-> +		/*
-> +		 * Faults can block and scribble our wait state.
-> +		 */
-> +		pagefault_disable();
-> +		if (get_user(state, &self->state)) {
-> +			pagefault_enable();
-> +
-> +			ret = -EFAULT;
-> +			if (page) {
-> +				unpin_user_page(page);
-> +				page = NULL;
-> +				break;
-> +			}
-> +
-> +			if (pin_user_pages_fast((unsigned long)self, 1, 0, &page) != 1) {
-
-I believe that the task should not be TASK_INTERRUPTIBLE here,
-as pin_user_pages_fast may fault, and might_fault complains via __might_sleep.
-
-> +				page = NULL;
-> +				break;
-> +			}
-> +
-> +			continue;
-> +		}
-> +
-> +		if (page) {
-> +			unpin_user_page(page);
-> +			page = NULL;
-> +		}
-> +		pagefault_enable();
-> +
-> +		state &= UMCG_TASK_MASK;
-> +		if (state != UMCG_TASK_RUNNABLE) {
-> +			ret = 0;
-> +			if (state == UMCG_TASK_RUNNING)
-> +				break;
-> +
-> +			ret = -EINVAL;
-> +			break;
-> +		}
-> +
-> +		if (!schedule_hrtimeout_range_clock(timo ? &timo : NULL,
-> +						    tsk->timer_slack_ns,
-> +						    HRTIMER_MODE_ABS,
-> +						    tsk->umcg_clock)) {
-> +			ret = -ETIMEDOUT;
-> +			break;
-> +		}
-> +	}
-> +	__set_current_state(TASK_RUNNING);
-> +
-> +	return ret;
-> +}
-> +
-> +void umcg_sys_exit(struct pt_regs *regs)
-> +{
-> +	struct task_struct *tsk = current;
-> +	struct umcg_task __user *self = READ_ONCE(tsk->umcg_task);
-> +	long syscall = syscall_get_nr(tsk, regs);
-> +
-> +	if (syscall == __NR_umcg_wait)
-> +		return;
-> +
-> +	/*
-> +	 * sys_umcg_ctl() will get here without having called umcg_sys_enter()
-> +	 * as such it will look like a syscall that blocked.
-> +	 */
-> +
-> +	if (tsk->umcg_server) {
-> +		/*
-> +		 * Didn't block, we done.
-> +		 */
-> +		umcg_unpin_pages();
-> +		return;
-> +	}
-> +
-> +	/* avoid recursion vs schedule() */
-> +	current->flags &= ~PF_UMCG_WORKER;
-> +
-> +	if (umcg_pin_pages())
-> +		UMCG_DIE("pin");
-> +
-> +	if (umcg_update_state(tsk, self, UMCG_TASK_BLOCKED, UMCG_TASK_RUNNABLE))
-> +		UMCG_DIE_UNPIN("state");
-> +
-> +	if (umcg_enqueue_runnable(tsk))
-> +		UMCG_DIE_UNPIN("enqueue");
-> +
-> +	/* Server might not be RUNNABLE, means it's already running */
-> +	if (umcg_wake_server(tsk))
-> +		UMCG_DIE_UNPIN("wake-server");
-
-So this here breaks the assumption that servers+workers never run
-on more CPUs than the number of servers, which I've gone through
-a lot of pain to ensure in my patchset.
-
-I think the assumption is based on the idea that a process
-using UMCG will get affined to N CPUs, will have N servers and
-a number of workers, and they will all happily cooperate and not
-get any extra threads running.
-
-Of course the pretty picture was not completely true, as the unblocked
-tasks do consume extra threads in the kernel, though never in the
-userspace.
-
-So this patch may result in all servers running due to wakeups
-in umcg_sys_exit(), with also their currently designated workers
-running as well, so the userspace may see N+N running threads.
-
-For now I think this may be OK, but as I mentioned above, I need to
-run a larger test with a real workload to see if anything is missing.
-
-What does worry me is that in this wakeup the server calls sys_umcg_wait()
-with another worker in next_tid, so now the server will have two
-workers running: the current kernel API seems to allow this to happen.
-In my patchset the invariant that no more than one worker running
-per server was enforced by the kernel.
-
-> +
-> +	umcg_unpin_pages();
-> +
-> +	switch (umcg_wait(0)) {
-> +	case -EFAULT:
-> +	case -EINVAL:
-> +	case -ETIMEDOUT: /* how!?! */
-> +	default:
-
-This "default" coming before "case 0" below feels weird... can we do
-
-	switch (umcg_wait()) {
-	case 0:
-	case -EINTR:
-		/* ... */
-		break;
-	default:
-		UMCG_DIE("wait");
-	}
-
-> +		UMCG_DIE("wait");
-> +
-> +	case 0:
-> +	case -EINTR:
-> +		/* notify_resume will continue the wait after the signal */
-> +		break;
-> +	}
-> +
-> +	current->flags |= PF_UMCG_WORKER;
-> +}
-> +
-> +void umcg_notify_resume(struct pt_regs *regs)
-> +{
-> +	struct task_struct *tsk = current;
-> +	struct umcg_task __user *self = tsk->umcg_task;
-> +	bool worker = tsk->flags & PF_UMCG_WORKER;
-> +	u32 state;
-> +
-> +	/* avoid recursion vs schedule() */
-> +	if (worker)
-> +		current->flags &= ~PF_UMCG_WORKER;
-> +
-> +	if (get_user(state, &self->state))
-> +		UMCG_DIE("get-state");
-> +
-> +	state &= UMCG_TASK_MASK | UMCG_TF_MASK;
-> +	if (state == UMCG_TASK_RUNNING)
-> +		goto done;
-> +
-> +	/*
-> +	 * See comment at UMCG_TF_COND_WAIT; TL;DR: user *will* call
-> +	 * sys_umcg_wait() and signals/interrupts shouldn't block
-> +	 * return-to-user.
-> +	 */
-> +	if (state == (UMCG_TASK_RUNNABLE | UMCG_TF_COND_WAIT))
-> +		goto done;
-> +
-> +	if (state & UMCG_TF_PREEMPT) {
-> +		if (umcg_pin_pages())
-> +			UMCG_DIE("pin");
-> +
-> +		if (umcg_update_state(tsk, self,
-> +				      UMCG_TASK_RUNNING,
-> +				      UMCG_TASK_RUNNABLE))
-> +			UMCG_DIE_UNPIN("state");
-> +
-> +		if (umcg_enqueue_runnable(tsk))
-> +			UMCG_DIE_UNPIN("enqueue");
-> +
-> +		/*
-> +		 * XXX do we want a preemption consuming ::next_tid ?
-> +		 * I'm currently leaning towards no.
-
-I don't think so: preemption is a sched-type event, so a server
-should handle it; next_tid has nothing to do with it.
-
-> +		 */
-> +		if (umcg_wake_server(tsk))
-> +			UMCG_DIE_UNPIN("wake-server");
-> +
-> +		umcg_unpin_pages();
-> +	}
-> +
-> +	switch (umcg_wait(0)) {
-> +	case -EFAULT:
-> +	case -EINVAL:
-> +	case -ETIMEDOUT: /* how!?! */
-> +	default:
-> +		UMCG_DIE("wait");
-
-Same suggestion re: putting case 0/-EINTR first.
-
-> +
-> +	case 0:
-> +	case -EINTR:
-> +		/* we'll will resume the wait after the signal */
-> +		break;
-> +	}
-> +
-> +done:
-> +	if (worker)
-> +		current->flags |= PF_UMCG_WORKER;
-> +}
-> +
-> +/**
-> + * sys_umcg_kick: makes a UMCG task cycle through umcg_notify_resume()
-> + *
-> + * Returns:
-> + * 0		- Ok;
-> + * -ESRCH	- not a related UMCG task
-> + * -EINVAL	- another error happened (unknown flags, etc..)
-> + */
-> +SYSCALL_DEFINE2(umcg_kick, u32, flags, pid_t, tid)
-> +{
-> +	struct task_struct *task = umcg_get_task(tid);
-> +	if (!task)
-> +		return -ESRCH;
-> +
-> +	if (flags)
-> +		return -EINVAL;
-> +
-> +#ifdef CONFIG_SMP
-> +	smp_send_reschedule(task_cpu(task));
-> +#endif
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * sys_umcg_wait: transfer running context
-> + *
-> + * Block until RUNNING. Userspace must already set RUNNABLE to deal with the
-> + * sleep condition races (see TF_COND_WAIT).
-> + *
-> + * Will wake either ::next_tid or ::server_tid to take our place. If this is a
-> + * server then not setting ::next_tid will wake self.
-> + *
-> + * Returns:
-> + * 0		- OK;
-> + * -ETIMEDOUT	- the timeout expired;
-> + * -ERANGE	- the timeout is out of range (worker);
-> + * -EAGAIN	- ::state wasn't RUNNABLE, concurrent wakeup;
-> + * -EFAULT	- failed accessing struct umcg_task __user of the current
-> + *		  task, the server or next;
-> + * -ESRCH	- the task to wake not found or not a UMCG task;
-> + * -EINVAL	- another error happened (e.g. the current task is not a
-> + *		  UMCG task, etc.)
-> + */
-> +SYSCALL_DEFINE2(umcg_wait, u32, flags, u64, timo)
-> +{
-> +	struct task_struct *tsk = current;
-> +	struct umcg_task __user *self = READ_ONCE(tsk->umcg_task);
-> +	bool worker = tsk->flags & PF_UMCG_WORKER;
-> +	int ret;
-> +
-> +	if (!self || flags)
-> +		return -EINVAL;
-> +
-> +	if (worker) {
-> +		tsk->flags &= ~PF_UMCG_WORKER;
-> +		if (timo)
-> +			return -ERANGE;
-
-Worker sleeps timing out is a valid and a real use case. Similar
-to futex timeouts, mutex timeouts, condvar timeouts. I do not believe
-there is a fundamental problem here, so I'll add worker timeout
-handling in my larger test.
-
-In addition, shouldn't we NOT clear PF_UMCG_WORKER flag if we
-return an error?
-
-> +	}
-> +
-> +	/* see umcg_sys_{enter,exit}() syscall exceptions */
-> +	ret = umcg_pin_pages();
-
-I do not think we need to pin pages for servers, only for workers. Yes,
-this makes things easier/simpler, so ok for now, but maybe later we will
-need to be a bit more fine-grained here.
-
-> +	if (ret)
-> +		goto unblock;
-> +
-> +	/*
-> +	 * Clear UMCG_TF_COND_WAIT *and* check state == RUNNABLE.
-> +	 */
-> +	ret = umcg_update_state(tsk, self, UMCG_TASK_RUNNABLE, UMCG_TASK_RUNNABLE);
-> +	if (ret)
-> +		goto unpin;
-> +
-> +	if (worker) {
-> +		ret = umcg_enqueue_runnable(tsk);
-> +		if (ret)
-> +			goto unpin;
-> +	}
-> +
-> +	if (worker)
-
-Should this "if" be merged with the one above?
-
-> +		ret = umcg_wake(tsk);
-> +	else if (tsk->umcg_next)
-> +		ret = umcg_wake_next(tsk);
-> +
-> +	if (ret) {
-> +		/*
-> +		 * XXX already enqueued ourself on ::server_tid; failing now
-> +		 * leaves the lot in an inconsistent state since it'll also
-> +		 * unblock self in order to return the error. !?!?
-> +		 */
-
-It looks like only EFAULT can be here. I'd ensure that, and then just DIE.
-
-> +		goto unpin;
-> +	}
-> +
-> +	umcg_unpin_pages();
-> +
-> +	ret = umcg_wait(timo);
-> +	switch (ret) {
-> +	case 0:		/* all done */
-> +	case -EINTR:	/* umcg_notify_resume() will continue the wait */
-> +		ret = 0;
-> +		break;
-
-Why not let workers have timeouts, and keep -ETIMEDOUT here? Just set
-UMCG_TF_PREEMPT, or another flag with similar behavior, and
-umcg_notify_resume will properly wake the server?
-
-> +
-> +	default:
-> +		goto unblock;
-> +	}
-> +out:
-> +	if (worker)
-> +		tsk->flags |= PF_UMCG_WORKER;
-> +	return ret;
-> +
-> +unpin:
-> +	umcg_unpin_pages();
-> +unblock:
-> +	/*
-> +	 * Workers will still block in umcg_notify_resume() before they can
-> +	 * consume their error, servers however need to get the error asap.
-> +	 *
-> +	 * Still, things might be unrecoverably screwy after this. Not our
-> +	 * problem.
-
-I think we should explicitly document the unrecoverable screwiness
-of errors here, so that the userspace proactively kills itself
-to avoid badness. The only reason that returning an error here is
-mildly preferable to just killing the task (we already do that
-in other places) is to give the userspace an opportunity to
-log an error, with more state/info than we can do here.
-
-> +	 */
-> +	if (!worker)
-> +		umcg_update_state(tsk, self, UMCG_TASK_RUNNABLE, UMCG_TASK_RUNNING);
-> +	goto out;
-> +}
-> +
-> +/**
-> + * sys_umcg_ctl: (un)register the current task as a UMCG task.
-> + * @flags:       ORed values from enum umcg_ctl_flag; see below;
-> + * @self:        a pointer to struct umcg_task that describes this
-> + *               task and governs the behavior of sys_umcg_wait if
-> + *               registering; must be NULL if unregistering.
-
-@which_clock is not documented. Why do we need the option in the first
-place?
-
-> + *
-> + * @flags & UMCG_CTL_REGISTER: register a UMCG task:
-> + *
-> + *         UMCG workers:
-> + *              - @flags & UMCG_CTL_WORKER
-> + *              - self->state must be UMCG_TASK_BLOCKED
-> + *
-> + *         UMCG servers:
-> + *              - !(@flags & UMCG_CTL_WORKER)
-> + *              - self->state must be UMCG_TASK_RUNNING
-> + *
-> + *         All tasks:
-> + *              - self->server_tid must be a valid server
-> + *              - self->next_tid must be zero
-> + *
-> + *         If the conditions above are met, sys_umcg_ctl() immediately returns
-> + *         if the registered task is a server. If the registered task is a
-> + *         worker it will be added to it's server's runnable_workers_ptr list
-> + *         and the server will be woken.
-> + *
-> + * @flags == UMCG_CTL_UNREGISTER: unregister a UMCG task. If the current task
-> + *           is a UMCG worker, the userspace is responsible for waking its
-> + *           server (before or after calling sys_umcg_ctl).
-> + *
-> + * Return:
-> + * 0		- success
-> + * -EFAULT	- failed to read @self
-> + * -EINVAL	- some other error occurred
-> + * -ESRCH	- no such server_tid
-> + */
-> +SYSCALL_DEFINE3(umcg_ctl, u32, flags, struct umcg_task __user *, self, clockid_t, which_clock)
-> +{
-> +	struct task_struct *server;
-> +	struct umcg_task ut;
-> +
-> +	if ((unsigned long)self % UMCG_TASK_ALIGN)
-> +		return -EINVAL;
-> +
-> +	if (flags & ~(UMCG_CTL_REGISTER |
-> +		      UMCG_CTL_UNREGISTER |
-> +		      UMCG_CTL_WORKER))
-> +		return -EINVAL;
-> +
-> +	if (flags == UMCG_CTL_UNREGISTER) {
-> +		if (self || !current->umcg_task)
-> +			return -EINVAL;
-> +
-> +		if (current->flags & PF_UMCG_WORKER)
-> +			umcg_worker_exit();
-
-The server should be woken here. Imagine: one server, one worker.
-The server is sleeping, the worker is running. The worker unregisters,
-the server keeps sleeping forever?
-
-I'm OK re: NOT waking the server if the worker thread exits without
-unregistering, as this is the userspace breaking the contract/protocol.
-But here we do need to notify the server. At the minimum so that the
-server can schedule a worker to run in its place.
-
-(Why is this important? Worker count can fluctuate considerably:
-on load spikes many new workers may be created, and later in
-quiet times they exit to free resources.)
-
-> +		else
-> +			umcg_clear_task(current);
-> +
-> +		return 0;
-> +	}
-> +
-> +	if (!(flags & UMCG_CTL_REGISTER))
-> +		return -EINVAL;
-> +
-> +	flags &= ~UMCG_CTL_REGISTER;
-> +
-> +	switch (which_clock) {
-> +	case CLOCK_REALTIME:
-> +	case CLOCK_MONOTONIC:
-> +	case CLOCK_BOOTTIME:
-> +	case CLOCK_TAI:
-> +		current->umcg_clock = which_clock;
-> +		break;
-> +
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (current->umcg_task || !self)
-> +		return -EINVAL;
-> +
-> +	if (copy_from_user(&ut, self, sizeof(ut)))
-> +		return -EFAULT;
-> +
-> +	if (ut.next_tid || ut.__hole[0] || ut.__zero[0] || ut.__zero[1] || ut.__zero[2])
-> +		return -EINVAL;
-> +
-> +	rcu_read_lock();
-> +	server = find_task_by_vpid(ut.server_tid);
-> +	if (server && server->mm == current->mm) {
-> +		if (flags == UMCG_CTL_WORKER) {
-> +			if (!server->umcg_task ||
-> +			    (server->flags & PF_UMCG_WORKER))
-> +				server = NULL;
-> +		} else {
-> +			if (server != current)
-> +				server = NULL;
-> +		}
-> +	} else {
-> +		server = NULL;
-> +	}
-> +	rcu_read_unlock();
-> +
-> +	if (!server)
-> +		return -ESRCH;
-> +
-> +	if (flags == UMCG_CTL_WORKER) {
-> +		if ((ut.state & (UMCG_TASK_MASK | UMCG_TF_MASK)) != UMCG_TASK_BLOCKED)
-> +			return -EINVAL;
-> +
-> +		WRITE_ONCE(current->umcg_task, self);
-> +		current->flags |= PF_UMCG_WORKER;	/* hook schedule() */
-> +		set_syscall_work(SYSCALL_UMCG);		/* hook syscall */
-> +		set_thread_flag(TIF_UMCG);		/* hook return-to-user */
-
-Too many flags, I'd say. Not a big deal, just a mild preference:
-I have only a single flag.
-
-> +
-> +		/* umcg_sys_exit() will transition to RUNNABLE and wait */
-> +
-> +	} else {
-> +		if ((ut.state & (UMCG_TASK_MASK | UMCG_TF_MASK)) != UMCG_TASK_RUNNING)
-> +			return -EINVAL;
-> +
-> +		WRITE_ONCE(current->umcg_task, self);
-> +		set_thread_flag(TIF_UMCG);		/* hook return-to-user */
-
-Why do we need to hook server's return to user? I did not need it in my
-version.
-
-> +
-> +		/* umcg_notify_resume() would block if not RUNNING */
-> +	}
-> +
-> +	return 0;
-> +}
-> --- a/kernel/sys_ni.c
-> +++ b/kernel/sys_ni.c
-> @@ -273,6 +273,11 @@ COND_SYSCALL(landlock_create_ruleset);
->  COND_SYSCALL(landlock_add_rule);
->  COND_SYSCALL(landlock_restrict_self);
+> For details of the user interface and associated system calls refer the Uintr
+> man-pages draft:
+> https://github.com/intel/uintr-linux-kernel/tree/rfc-v1/tools/uintr/manpages.
+> We have also included the same content as patch 1 of this series to make it
+> easier to review.
 >
-> +/* kernel/sched/umcg.c */
-> +COND_SYSCALL(umcg_ctl);
-> +COND_SYSCALL(umcg_wait);
-> +COND_SYSCALL(umcg_kick);
-> +
->  /* arch/example/kernel/sys_example.c */
+> Refer the Uintr compiler programming guide [4] for details on Uintr integration
+> with GCC and Binutils.
 >
->  /* mm/fadvise.c */
+> Kernel design choices
+> =====================
+> Here are some of the reasons and trade-offs for the current design of the APIs.
+>
+> System call interface
+> ---------------------
+> Why a system call interface?: The 2 options we considered are using a char
+> device at /dev or use system calls (current approach). A syscall approach
+> avoids exposing a core cpu feature through a driver model. Also, we want to
+> have a user interrupt FD per vector and share a single common interrupt handler
+> among all vectors. This seems easier for the kernel and userspace to accomplish
+> using a syscall based approach.
+>
+> Data sharing using user interrupts: Uintr doesn't include a mechanism to
+> share/transmit data. The expectation is applications use existing data sharing
+> mechanisms to share data and use Uintr only for signaling.
+>
+> An FD for each vector: A uintr_fd is assigned to each vector to allow fine
+> grained priority and event management by the receiver. The alternative we
+> considered was to allocate an FD to the interrupt handler and having that
+> shared with the sender. However, that approach relies on the sender selecting
+> the vector and moves the vector priority management to the sender. Also, if
+> multiple senders want to send unique user interrupts they would need to
+> coordinate the vector selection amongst them.
+>
+> Extending the APIs: Currently, the system calls are only extendable using the
+> flags argument. We can add a variable size struct to some of the syscalls if
+> needed.
+>
+> Extending existing mechanisms
+> -----------------------------
+> Uintr can be beneficial in some of the usages where eventfd() or signals are
+> used. Since Uintr is hardware-dependent, thread-specific and bypasses the
+> kernel in the fast path, it makes extending existing mechanisms harder.
+>
+> Main issues with extending signals:
+> Signal handlers are defined significantly differently than a User interrupt
+> handler. An application needs to save/restore registers in a user interrupt
+> handler and call uiret to return from it. Also, signals can be process directed
+> (or thread directed) but user interrupts are always thread directed.
+>
+> Comparison of signals with User Interrupts:
+> +=====================+===========================+===========================+
+> |                     | Signals                   | User Interrupts           |
+> +=====================+===========================+===========================+
+> | Stacks              | Has alt stacks            | Uses application stack    |
+> |                     |                           | (alternate stack option   |
+> |                     |                           | not yet enabled)          |
+> +---------------------+---------------------------+---------------------------+
+> | Registers state     | Kernel manages incl.      | App responsible (Use GCC  |
+> |                     | FPU/XSTATE area           | 'interrupt' attribute for |
+> |                     |                           | general purpose registers)|
+> +---------------------+---------------------------+---------------------------+
+> | Blocking/Masking    | sigprocmask(2)/sa_mask    | CLUI instruction (No per  |
+> |                     |                           | vector masking)           |
+> +---------------------+---------------------------+---------------------------+
+> | Direction           | Uni-directional           | Uni-directional           |
+> +---------------------+---------------------------+---------------------------+
+> | Post event          | kill(), signal(),         | SENDUIPI <index> - index  |
+> |                     | sigqueue(), etc.          | derived from uintr_fd     |
+> +---------------------+---------------------------+---------------------------+
+> | Target              | Process-directed or       | Thread-directed           |
+> |                     | thread-directed           |                           |
+> +---------------------+---------------------------+---------------------------+
+> | Fork/inheritance    | Empty signal set          | Nothing is inherited      |
+> +---------------------+---------------------------+---------------------------+
+> | Execv               | Pending signals preserved | Nothing is inherited      |
+> +---------------------+---------------------------+---------------------------+
+> | Order of delivery   | Undetermined              | High to low vector numbers|
+> | for multiple signals|                           |                           |
+> +---------------------+---------------------------+---------------------------+
+> | Handler re-entry    | All signals except the    | No interrupts can cause   |
+> |                     | one being handled         | handler re-entry.         |
+> +---------------------+---------------------------+---------------------------+
+> | Delivery feedback   | 0 or -1 based on whether  | No feedback on whether the|
+> |                     | the signal was sent       | interrupt was sent or     |
+> |                     |                           | received.                 |
+> +---------------------+---------------------------+---------------------------+
+>
+> Main issues with extending eventfd():
+> eventfd() has a counter value that is core to the API. User interrupts can't
+> have an associated counter since the signaling happens at the user level and
+> the hardware doesn't have a memory counter mechanism. Also, eventfd can be used
+> for bi-directional signaling where as uintr_fd is uni-directional.
+>
+> Comparison of eventfd with uintr_fd:
+> +====================+======================+==============================+
+> |                    | Eventfd              | uintr_fd (User Interrupt FD) |
+> +====================+======================+==============================+
+> | Object             | Counter - uint64     | Receiver vector information  |
+> +--------------------+----------------------+------------------------------+
+> | Post event         | write() to eventfd   | SENDUIPI <index> - index     |
+> |                    |                      | derived from uintr_fd        |
+> +--------------------+----------------------+------------------------------+
+> | Receive event      | read() on eventfd    | Implicit - Handler is        |
+> |                    |                      | invoked with associated      |
+> |                    |                      | vector.                      |
+> +--------------------+----------------------+------------------------------+
+> | Direction          | Bi-directional       | Uni-directional              |
+> +--------------------+----------------------+------------------------------+
+> | Data transmitted   | Counter - uint64     | None                         |
+> +--------------------+----------------------+------------------------------+
+> | Waiting for events | Poll() family of     | No per vector wait.          |
+> |                    | syscalls             | uintr_wait() allows waiting  |
+> |                    |                      | for all user interrupts      |
+> +--------------------+----------------------+------------------------------+
+>
+> Security Model
+> ==============
+> User Interrupts is designed as an opt-in feature (unlike signals). The security
+> model for user interrupts is intended to be similar to eventfd(). The general
+> idea is that any sender with access to uintr_fd would be able to generate the
+> associated interrupt vector for the receiver task that created the fd.
+>
+> Untrusted processes
+> -------------------
+> The current implementation expects only trusted and cooperating processes to
+> communicate using user interrupts. Coordination is expected between processes
+> for a connection teardown. In situations where coordination doesn't happen
+> (say, due to abrupt process exit), the kernel would end up keeping shared
+> resources (like UPID) allocated to avoid faults.
+>
+> Currently, a sender can easily cause a denial of service for the receiver by
+> generating a storm of user interrupts. A user interrupt handler is invoked with
+> interrupts disabled, but upon execution of uiret, interrupts get enabled again
+> by the hardware. This can lead to the handler being invoked again before normal
+> execution can resume. There isn't a hardware mechanism to mask specific
+> interrupt vectors.
+>
+> To enable untrusted processes to communicate, we need to add a per-vector
+> masking option through another syscall (or maybe IOCTL). However, this can add
+> some complexity to the kernel code. A vector can only be masked by modifying
+> the UITT entries at the source. We need to be careful about races while
+> removing and restoring the UPID from the UITT.
+>
+> Resource limits
+> ---------------
+> The maximum number of receiver-sender connections would be limited by the
+> maximum number of open file descriptors and the size of the UITT.
+>
+> The UITT size is chosen as 4kB fixed size arbitrarily right now. We plan to
+> make it dynamic and configurable in size. RLIMIT_MEMLOCK or ENOMEM should be
+> triggered when the size limits have been hit.
+>
+> Main Opens
+> ==========
+>
+> Blocking for interrupts
+> -----------------------
+> User interrupts are delivered to applications immediately if they are running
+> in userspace. If a receiver task has blocked in the kernel using the placeholder
+> uintr_wait() syscall, the task would be woken up to deliver the user interrupt.
+> However, if the task is blocked due to any other blocking calls like read(),
+> sleep(), etc; the interrupt will only get delivered when the application gets
+> scheduled again. We need to consider if applications need to receive User
+> Interrupts as soon as they are posted (similar to signals) when they are
+> blocked due to some other reason. Adding this capability would likely make the
+> kernel implementation more complex.
+>
+> Interrupting system calls using User Interrupts would also mean we need to
+> consider an SA_RESTART type of mechanism. We also need to evaluate if some of
+> the signal handler related semantics in the kernel can be reused for User
+> Interrupts.
+>
+> Sharing the User Interrupt Target Table (UITT)
+> ----------------------------------------------
+> The current implementation assigns a unique UITT to each task. This assumes
+> that User interrupts are used for point-to-point communication between 2 tasks.
+> Also, this keeps the kernel implementation relatively simple.
+>
+> However, there are of benefits to sharing the UITT between threads of a
+> multi-threaded application. One, they would see a consistent view of the UITT.
+> i.e. SENDUIPI <index> would mean the same on all threads of the application.
+> Also, each thread doesn't have to register itself using the common uintr_fd.
+> This would simplify the userspace setup and make efficient use of kernel
+> memory. The potential downside is that the kernel implementation to allocate,
+> modify, expand and free the UITT would be more complex.
+>
+> A similar argument can be made for a set of processes that do a lot of IPC
+> amongst them. They would prefer to have a shared UITT that lets them target any
+> process from any process. With the current file descriptor based approach, the
+> connection setup can be time consuming and somewhat cumbersome. We need to
+> evaluate if this can be made simpler as well.
+>
+> Kernel page table isolation (KPTI)
+> ----------------------------------
+> SENDUIPI is a special ring-3 instruction that makes a supervisor mode memory
+> access to the UPID and UITT memory. The current patches need KPTI to be
+> disabled for User IPIs to work. To make User IPI work with KPTI, we need to
+> allocate these structures from a special memory region that has supervisor
+> access but it is mapped into userspace. The plan is to implement a mechanism
+> similar to LDT.
+>
+> Processors that support user interrupts are not affected by Meltdown so the
+> auto mode of KPTI will default to off. Users who want to force enable KPTI will
+> need to wait for a later version of this patch series to use user interrupts.
+> Please let us know if you want the development of these patches to be
+> prioritized (or deprioritized).
+>
+> FAQs
+> ====
+> Q: What happens if a process is "surprised" by a user interrupt?
+> A: For tasks that haven't registered with the kernel and requested for user
+> interrupts aren't expected or able to receive to user interrupts.
+>
+> Q: Do user interrupts affect kernel scheduling?
+> A: No. If a task is blocked waiting for user interrupts, when the kernel
+> receives a notification on behalf of that task we only put it back on the
+> runqueue. Delivery of a user interrupt in no way changes the scheduling
+> priorities of a task.
+>
+> Q: Does the sender get to know if the interrupt was delivered?
+> A: No. User interrupts only provides a posted interrupt delivery mechanism. If
+> applications need to rely on whether the interrupt was delivered they should
+> consider a userspace mechanism for feedback (like a shared memory counter or a
+> user interrupt back to the sender).
+>
+> Q: Why is there no feedback on interrupt delivery?
+> A: Being a posted interrupt delivery mechanism, the interrupt delivery
+> happens in 2 steps:
+> 1) The interrupt information is stored in a memory location (UPID).
+> 2) The physical interrupt is delivered to the interrupt receiver.
+>
+> The 2nd step could happen immediately, after an extended period, or it might
+> never happen based on the state of the receiver after step 1. (The receiver
+> could have disabled interrupts, have been context switched out or it might have
+> crashed during that time.) This makes it very hard for the hardware to reliably
+> provide feedback upon execution of SENDUIPI.
+>
+> Q: Can user interrupts be nested?
+> A: Yes. Using STUI instruction in the interrupt handler would allow new user
+> interrupts to be delivered. However, there no TPR(thread priority register)
+> like mechanism to allow only higher priority interrupts. Any user interrupt can
+> be taken when nesting is enabled.
+>
+> Q: Can a task receive all pending user interrupts in one go?
+> A: No. The hardware allows only one vector to be processed at a time. If a task
+> is interested in knowing all the interrupts that are pending then we could add
+> a syscall that provides the pending interrupts information.
+>
+> Q: Do the processes need to be pinned to a cpu?
+> A: No. User interrupts will be routed correctly to whichever cpu the receiver
+> is running on. The kernel updates the cpu information in the UPID during
+> context switch.
+>
+> Q: Why are UPID and UITT allocated by the kernel?
+> A: If allocated by user space, applications could misuse the UPID and UITT to
+> write to unauthorized memory and generate interrupts on any cpu. The UPID and
+> UITT are allocated by the kernel and accessed by the hardware with supervisor
+> privilege.
+>
+> Patch structure for this series
+> ===============================
+> - Man-pages and Kernel documentation (patch 1,2)
+> - Hardware enumeration (patch 3, 4)
+> - User IPI kernel vector reservation (patch 5)
+> - Syscall interface for interrupt receiver, sender and vector
+>    management(uintr_fd) (patch 6-12)
+> - Basic selftests (patch 13)
+>
+> Along with the patches in this RFC, there are additional tests and samples that
+> are available at:
+> https://github.com/intel/uintr-linux-kernel/tree/rfc-v1
+>
+> Links
+> =====
+> [1]:https://software.intel.com/content/www/us/en/develop/download/intel-architecture-instruction-set-extensions-programming-reference.html
+> [2]:https://libevent.org/
+> [3]:https://github.com/axboe/liburing
+> [4]:https://github.com/intel/uintr-compiler-guide/blob/uintr-gcc-11.1/UINTR-compiler-guide.pdf
+>
+> Sohil Mehta (13):
+>    x86/uintr/man-page: Include man pages draft for reference
+>    Documentation/x86: Add documentation for User Interrupts
+>    x86/cpu: Enumerate User Interrupts support
+>    x86/fpu/xstate: Enumerate User Interrupts supervisor state
+>    x86/irq: Reserve a user IPI notification vector
+>    x86/uintr: Introduce uintr receiver syscalls
+>    x86/process/64: Add uintr task context switch support
+>    x86/process/64: Clean up uintr task fork and exit paths
+>    x86/uintr: Introduce vector registration and uintr_fd syscall
+>    x86/uintr: Introduce user IPI sender syscalls
+>    x86/uintr: Introduce uintr_wait() syscall
+>    x86/uintr: Wire up the user interrupt syscalls
+>    selftests/x86: Add basic tests for User IPI
+>
+>   .../admin-guide/kernel-parameters.txt         |   2 +
+>   Documentation/x86/index.rst                   |   1 +
+>   Documentation/x86/user-interrupts.rst         | 107 +++
+>   arch/x86/Kconfig                              |  12 +
+>   arch/x86/entry/syscalls/syscall_32.tbl        |   6 +
+>   arch/x86/entry/syscalls/syscall_64.tbl        |   6 +
+>   arch/x86/include/asm/cpufeatures.h            |   1 +
+>   arch/x86/include/asm/disabled-features.h      |   8 +-
+>   arch/x86/include/asm/entry-common.h           |   4 +
+>   arch/x86/include/asm/fpu/types.h              |  20 +-
+>   arch/x86/include/asm/fpu/xstate.h             |   3 +-
+>   arch/x86/include/asm/hardirq.h                |   4 +
+>   arch/x86/include/asm/idtentry.h               |   5 +
+>   arch/x86/include/asm/irq_vectors.h            |   6 +-
+>   arch/x86/include/asm/msr-index.h              |   8 +
+>   arch/x86/include/asm/processor.h              |   8 +
+>   arch/x86/include/asm/uintr.h                  |  76 ++
+>   arch/x86/include/uapi/asm/processor-flags.h   |   2 +
+>   arch/x86/kernel/Makefile                      |   1 +
+>   arch/x86/kernel/cpu/common.c                  |  61 ++
+>   arch/x86/kernel/cpu/cpuid-deps.c              |   1 +
+>   arch/x86/kernel/fpu/core.c                    |  17 +
+>   arch/x86/kernel/fpu/xstate.c                  |  20 +-
+>   arch/x86/kernel/idt.c                         |   4 +
+>   arch/x86/kernel/irq.c                         |  51 +
+>   arch/x86/kernel/process.c                     |  10 +
+>   arch/x86/kernel/process_64.c                  |   4 +
+>   arch/x86/kernel/uintr_core.c                  | 880 ++++++++++++++++++
+>   arch/x86/kernel/uintr_fd.c                    | 300 ++++++
+>   include/linux/syscalls.h                      |   8 +
+>   include/uapi/asm-generic/unistd.h             |  15 +-
+>   kernel/sys_ni.c                               |   8 +
+>   scripts/checksyscalls.sh                      |   6 +
+>   tools/testing/selftests/x86/Makefile          |  10 +
+>   tools/testing/selftests/x86/uintr.c           | 147 +++
+>   tools/uintr/manpages/0_overview.txt           | 265 ++++++
+>   tools/uintr/manpages/1_register_receiver.txt  | 122 +++
+>   .../uintr/manpages/2_unregister_receiver.txt  |  62 ++
+>   tools/uintr/manpages/3_create_fd.txt          | 104 +++
+>   tools/uintr/manpages/4_register_sender.txt    | 121 +++
+>   tools/uintr/manpages/5_unregister_sender.txt  |  79 ++
+>   tools/uintr/manpages/6_wait.txt               |  59 ++
+>   42 files changed, 2626 insertions(+), 8 deletions(-)
+>   create mode 100644 Documentation/x86/user-interrupts.rst
+>   create mode 100644 arch/x86/include/asm/uintr.h
+>   create mode 100644 arch/x86/kernel/uintr_core.c
+>   create mode 100644 arch/x86/kernel/uintr_fd.c
+>   create mode 100644 tools/testing/selftests/x86/uintr.c
+>   create mode 100644 tools/uintr/manpages/0_overview.txt
+>   create mode 100644 tools/uintr/manpages/1_register_receiver.txt
+>   create mode 100644 tools/uintr/manpages/2_unregister_receiver.txt
+>   create mode 100644 tools/uintr/manpages/3_create_fd.txt
+>   create mode 100644 tools/uintr/manpages/4_register_sender.txt
+>   create mode 100644 tools/uintr/manpages/5_unregister_sender.txt
+>   create mode 100644 tools/uintr/manpages/6_wait.txt
 >
 >
+> base-commit: 6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f
+
+Hi All,
+My apologies if this email was sent twice.
+I was not sure if my previous email followed the proper reply instruction.
+I resent this email using the first reply method (Saving the mbox file, 
+importing it into my mail client, and using reply-to-all from there).
+The following is our understanding of the proposed User Interrupt.
+
+----------------------------------------------------------------------------------------
+
+We have been exploring how user-level interrupts (UIs) can be used to
+improve performance and programmability in several different areas:
+e.g., parallel programming, memory management, I/O, and floating-point
+libraries.  Before we venture into the discussion here, we want to
+make sure we understand the proposed model. We describe our
+understanding below in four sections:
+
+1. Current target use cases
+2. Preparing for future use cases
+3. Basic Understanding
+4. Multi-threaded parallel programming example
+
+If people on this thread could either confirm or point out our
+misunderstandings, we would appreciate it.
+
+# Current Use Cases
+
+The Current RFC is focused on sending an interrupt from one user-space
+thread (UST) to another user-space thread (UST2UST).  These threads
+could be in different processes, as long as the sender has access to
+the receiver's User Interrupt File Descriptor (uifd).  Based on our
+understanding, UIs are currently targeted as a low overhead
+alternative for the current IPC mechanisms.
+
+# Preparing for future use cases
+
+Based on the RFC, we are aware that allowing a device and the kernel
+to send a UI is still in development.  Both these cases would support
+imprecise interrupts.  We can see a clear use case for the Device to
+user-space thread (D2UST) UI, for example, supporting a fast way for a
+GPU to inform a thread that it has finished executing a particular
+kernel. If someone could point out an example for Kernel to
+user-space thread (K2UST) UI, we would appreciate it.
+
+In our work, we have also been exploring precise UIs from the
+currently running thread.  We call these CPU to UST (CPU2UST) UIs.
+For example, a SIGSEGV generated by writing to a read-only page, a
+SIGFPE generated by dividing a number by zero.
+
+- QUESTION: Is there is a rough draft/plan that we can refer to that 
+describes the
+current thinking on these three cases.
+
+- QUESTION: Are there use cases for K2UST, or is K2UST the same as CPU2UST?
+
+# Basic Understanding
+
+First, we would like to make sure that our understanding of the 
+terminology and the data structures is correct.
+
+- User Interrupt Vector (UIV): The identity of the user interrupt.
+- User Interrupt Target Table (UITT):
+   This allows the sender to locate the "address" of the receiver 
+through the uifd.
+- ui_frame: Argument passed to the UI handler. It contains a stack 
+pointer, saved flags, and an instruction pointer.
+- Sender: The thread that issues the `_senduipi`.
+- Receiver: The thread that receives the UI from the sender.
+
+Below outlines our understanding of the current API for UIs.
+
+- Each thread that can receive UIs has exactly one handler
+   registered with `uintr_register_handler` (a syscall).
+- Each thread that registers a handler calls `uintr_create_fd` for
+   every user-level interrupt vector (UIV) that they expect to receive.
+- The only information delivered to the handler is the UIV.
+- There are 64 UIVs that can be used per thread.
+- A thread that wants to send a UI must register the receiver's uifd 
+with `uintr_register_sender`  (a syscall).
+   This returns an index the sender uses to locate the receiver.
+- `_senduipi(index)` sends a user interrupt to a particular destination.
+   The sender's UITT and index determine the destination.
+- A thread uses `_stui` (and `_clui`) to enable (and disable) the 
+reception of UIs.
+- As for now, there is no mechanism to mask a particular UIV.
+- A UI is delivered to the receiver immediately only if it is currently 
+running.
+- If a thread executes the `uintr_wait()`, it will be scheduled only 
+after receiving a UI.
+   There is no guarantee on the delay between the processor receiving 
+the UI and when the thread is scheduled.
+- If a thread is the target of a UI and another thread is running, or 
+the target thread is blocked in the kernel,
+   then the target thread will handle the UI when it is next scheduled.
+- Ordinary interrupts (interrupt delivered with CPL=0) have a higher 
+priority over user interrupts.
+- UI handler only saves general-purpose registers (e.g., do not save 
+floating-point registers).
+- User Interrupts with higher UIV are given a higher priority than those 
+with smaller UIV.
+
+## Private UITT
+
+The Current RFC focuses on a private UITT where each thread has its own
+UITT.  Thus, different threads executing `_senduipi(index1)` with the
+same `index1` may cause different receiver threads to be interrupted.
+
+In many cases, the receiver of an interrupt needs to know which thread
+sent the interrupt. If we understand the proposal correctly, there are
+only 64 user-level interrupt vectors (UIVs), and the UIV is the only
+information transmitted to the receiver. The UIV itself allows the
+receiver to distinguish different senders through careful management
+of the receiver's UIV.
+
+- QUESTION: Given the code below where the same UIV is registered twice:
+```c
+   uintr_fd1 = uintr_create_fd(vector1, flags)
+   uintr_fd2 = uintr_create_fd(vector1, flags)
+```
+Would `uintr_fd1` be the same as `uintr_fd2`, or would it be registered 
+with a different index in the UITT table?
+
+- QUESTION: If it is registered in a different index, would the
+   receiver be able to distinguish the sender if `uintr_fd1` and
+   `uintr_fd2` are used from two different threads?
+
+- QUESTION: What is the intended future use of the `flags` argument?
+
+## Shared UITT
+
+In the case of the shared UITT model, all the threads share the same
+UITT and thus, if two different threads execute `_senduipi(index)`
+with the same index, they would both cause an interrupt in the
+same destination/receiver.
+
+- QUESTION: Since both threads use the same entry (same
+   destination/receiver), does this mean that the receiver will not be
+   able to distinguish the sender of the interrupt?
+
+# Multi-threaded parallel programming example
+
+One of the uses for UIs that we have been exploring is combining the
+message-passing and shared memory models for parallel programming.  In
+our approach, message-passing is used for synchronization and shared
+memory for data sharing.  The message passing part of the programming
+pattern is based loosely on Active Messages (See ISCA92), where a
+particular thread can turn off/on interrupts to ignore incoming
+messages so they can execute critical sections without having to
+notify any other threads in the system.
+
+- QUESTION: Is there any data on the performance impact of `_stui` and 
+`_clui`?
+
+----------------------------------------------------------------------------------------
+
+
+Thank you.
+Best regards,
+Chrisma
+
