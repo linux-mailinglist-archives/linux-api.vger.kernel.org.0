@@ -2,96 +2,52 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39FC54802E0
-	for <lists+linux-api@lfdr.de>; Mon, 27 Dec 2021 18:40:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 63CAE481ACE
+	for <lists+linux-api@lfdr.de>; Thu, 30 Dec 2021 09:45:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230410AbhL0Rkw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 27 Dec 2021 12:40:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39897 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230405AbhL0Rkv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 27 Dec 2021 12:40:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1640626851;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=YAHdEgA4vBfChhqcXFr18t3cp4WP7TtGCi10QnGN9O0=;
-        b=GUas0yw6GFfw8OeL62q1eucxiwNMdorPJzKLuvgroxDdoh8TytFtMwDDcLs9WfRAKevfpI
-        CSAl2Cu2UHfURezSsnYXZiANYERVfD556HJYcz9JoNIMDkge75CLfuyychdqjAcJx1Et9H
-        SAGh7j+bKXEJe7Ye4xRlvdGWgg51+Cc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-664-N8MuQBfBMpGw50_ypxFLLA-1; Mon, 27 Dec 2021 12:40:45 -0500
-X-MC-Unique: N8MuQBfBMpGw50_ypxFLLA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 121B0801B2F;
-        Mon, 27 Dec 2021 17:40:44 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.39.192.44])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5800D8CB24;
-        Mon, 27 Dec 2021 17:40:40 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Andrei Vagin <avagin@gmail.com>
-Cc:     Andy Lutomirski <luto@kernel.org>, linux-arch@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-x86_64@vger.kernel.org, kernel-hardening@lists.openwall.com,
-        linux-mm@kvack.org, "the arch/x86 maintainers" <x86@kernel.org>,
-        musl@lists.openwall.com, libc-alpha@sourceware.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Kees Cook <keescook@chromium.org>
-Subject: Re: [PATCH v2] x86: Implement arch_prctl(ARCH_VSYSCALL_CONTROL) to
- disable vsyscall
-References: <878rwkidtf.fsf@oldenburg.str.redhat.com>
-        <CANaxB-xpQr1mUUvWK5a53q49VK_HvR4Pws_NGKGa8-jihxkc_A@mail.gmail.com>
-Date:   Mon, 27 Dec 2021 18:40:38 +0100
-In-Reply-To: <CANaxB-xpQr1mUUvWK5a53q49VK_HvR4Pws_NGKGa8-jihxkc_A@mail.gmail.com>
-        (Andrei Vagin's message of "Mon, 27 Dec 2021 08:49:38 -0800")
-Message-ID: <87o8520wvd.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+        id S237836AbhL3Ipl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 Dec 2021 03:45:41 -0500
+Received: from mail.portyid.pl ([192.36.61.58]:42558 "EHLO mail.portyid.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230472AbhL3Ipl (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Thu, 30 Dec 2021 03:45:41 -0500
+Received: by mail.portyid.pl (Postfix, from userid 1001)
+        id D1F3A41248; Thu, 30 Dec 2021 09:45:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=portyid.pl; s=mail;
+        t=1640853939; bh=RZjfFpT9KGSFHXuIOzTjcb+Gwkun4EXriv7y2I0PG0A=;
+        h=Date:From:To:Subject:From;
+        b=r1YJg2eourYv3Zn1M0140xGZCpEPG3RRx82VEOYJDysgPpjztLI2TFU9NtTzGPcSa
+         qJVowHXsv6UhWZiyNSoJKp/JeuxAEuNmN4KXWHT/jNZP1mKNwEFUoIkIuvBkdXGoQB
+         udkZR5CN2GtdjqFs8mcDZo4/yUV0o8V1rYCu1uCO5GYsIMQkEll/HfTSxrosFYSAh8
+         +Pd+FaXmftL3qs0YAfklChyjlbaLR0NQFy4tmShtNPFd6Yp+02di9oRP7hyB4g5ev6
+         K17mSDnmuQyYljQLjX1WypvRU94a472bXoWH2y0PyZz5gs6wHl7Hsj1Z7iVjfImWLC
+         ymC6bdgFywIVQ==
+Received: by mail.portyid.pl for <linux-api@vger.kernel.org>; Thu, 30 Dec 2021 08:45:17 GMT
+Message-ID: <20211230084500-0.1.x.309e.0.kdfgd2hepe@portyid.pl>
+Date:   Thu, 30 Dec 2021 08:45:17 GMT
+From:   =?UTF-8?Q? "Pawe=C5=82_Jasi=C5=84ski" ?= 
+        <pawel.jasinski@portyid.pl>
+To:     <linux-api@vger.kernel.org>
+Subject: Wycena paneli fotowoltaicznych
+X-Mailer: mail.portyid.pl
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Andrei Vagin:
+Dzie=C5=84 dobry,
 
->> diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c b/arch/x86/entry/vsyscall/vsyscall_64.c
->> index fd2ee9408e91..8eb3bcf2cedf 100644
->> --- a/arch/x86/entry/vsyscall/vsyscall_64.c
->> +++ b/arch/x86/entry/vsyscall/vsyscall_64.c
->> @@ -174,6 +174,12 @@ bool emulate_vsyscall(unsigned long error_code,
->>
->>         tsk = current;
->>
->> +       if (tsk->mm->context.vsyscall_disabled) {
->> +               warn_bad_vsyscall(KERN_WARNING, regs,
->> +                                 "vsyscall after lockout (exploit attempt?)");
->
-> I don't think that we need this warning message. If we disable
-> vsyscall, its address range is not differ from other addresses around
-> and has to be handled the same way. For example, gVisor or any other
-> sandbox engines may want to emulate vsyscall, but the kernel log will
-> be full of such messages.
+dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
+irm=C4=85.
 
-But with vsyscall=none, such messages are already printed.  That's why I
-added the warning for the lockout case as well.
+=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
+ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
 
->> diff --git a/tools/testing/selftests/x86/vsyscall_control.c b/tools/testing/selftests/x86/vsyscall_control.c
->> new file mode 100644
->> index 000000000000..ee966f936c89
->> --- /dev/null
->> +++ b/tools/testing/selftests/x86/vsyscall_control.c
->
-> I would move the test in a separate patch...
+Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
+ropozycji?
 
-I can do that if it simplifies matters.
 
-Thanks,
-Florian
-
+Pozdrawiam
+Pawe=C5=82 Jasi=C5=84ski
