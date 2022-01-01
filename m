@@ -2,54 +2,54 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C2FB48274F
-	for <lists+linux-api@lfdr.de>; Sat,  1 Jan 2022 11:40:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6504048278A
+	for <lists+linux-api@lfdr.de>; Sat,  1 Jan 2022 13:15:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232252AbiAAKkp (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 1 Jan 2022 05:40:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47552 "EHLO
+        id S230022AbiAAMPK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 1 Jan 2022 07:15:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229624AbiAAKko (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 1 Jan 2022 05:40:44 -0500
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2E73C061574
-        for <linux-api@vger.kernel.org>; Sat,  1 Jan 2022 02:40:44 -0800 (PST)
-Received: by mail-pf1-x444.google.com with SMTP id m1so25419636pfk.8
-        for <linux-api@vger.kernel.org>; Sat, 01 Jan 2022 02:40:44 -0800 (PST)
+        with ESMTP id S229549AbiAAMPJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 1 Jan 2022 07:15:09 -0500
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3648C061574
+        for <linux-api@vger.kernel.org>; Sat,  1 Jan 2022 04:15:09 -0800 (PST)
+Received: by mail-pj1-x1043.google.com with SMTP id l10-20020a17090a384a00b001b22190e075so27684684pjf.3
+        for <linux-api@vger.kernel.org>; Sat, 01 Jan 2022 04:15:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:from:mime-version:content-transfer-encoding
          :content-description:subject:to:date:reply-to;
         bh=dhFaFNGf9P/hgzfpigNOAcNefTeR7Csml9+Bh/hdy/w=;
-        b=eErm+18yfxwTPIUmTwYMMT8ATWREthcRzotlFuOSV/EN4r9L94K2acnJCLxg4OIsiR
-         rlptxrJH+EoTNFenj7RCxx1gaZJugAam3O1Xhd+llUpllQr9zEZBJw9S4z0dbC7kA5/2
-         PENlqE91/kDgKyB1uY8k5O3/G1p69s9HFVNuvJXlbjjvKxVWfEZ8S3qx67uYR9lVnigh
-         cJ4iGLRkFssownl/3enWrXHLb452trQTPKETPIyofi2pbjlMhYTXS4YdrA3iLB1liGlb
-         g6N5PhqQ5zQwR1knW0WyERRICuhhTdsaHmqi1FBjPI4i5d3AzLC7+WJIjiM8YlOL2BCm
-         MUbA==
+        b=V0EbcLoZm7Ys/c6ubAuDti/pwo2Ez9qJoAOEiQXtKtwKoOFLbGW0KyI0Oq2eOBlQv4
+         ++WJwMycb123HOJAHSUv6viO4IFY8ao6kZmFMbEQE7UEXKA427ypJxgSaTmJ54CyqP5q
+         pgruHCeSIJrxRE6s4Gi0X+Z9G0o5TlJiBSR2k/eNE3AiOBNiYO40XxEkXdRJiJWEa8xo
+         NC5WzdB4qDP/Dm6Y516+Som4biAmgh9rJRecyhw6quey44ME1tOjn9dQWENwraBMoRtB
+         17pTkUKuMb0ZcUatn0uzotyfJUAe9c7wj6eUEJdNCwGn8aN1zZqMy/fL6YpyZXQVMhAm
+         PhEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:from:mime-version
          :content-transfer-encoding:content-description:subject:to:date
          :reply-to;
         bh=dhFaFNGf9P/hgzfpigNOAcNefTeR7Csml9+Bh/hdy/w=;
-        b=DwrUlCRAVnV61wK3X4umCS5mec6HnZowNPHLOSspJKcn3nx+Bk8Muv1O7oXH2dJue0
-         1h06aB8bHTaYYz/YL6GHrDASlhY0zekeF4gCHXocpJiy3htW5Ur9hQYZoUKGvMwYSq9B
-         UBHl5Z5TWUaWGuDZ29Og2JQNoVvRSX3xF9eiRwbLTgPTikqizPL6hvarM7F/ecImPeqo
-         j8dzyudHwZ2TU0jBcFtflRbJ+8ZGFZ7pY4n+ZIl4nJl3n93D6HfwUUsxOGajHnW+i53L
-         nB/S/ZGdwtgSm5LC7qMRk+vx5eFoTAF5S6OY6vEnZDvvcPvqMMX0j0ka2uTxpzJxMNC+
-         UJ4Q==
-X-Gm-Message-State: AOAM532mxeIlTXlBTDAHP4jVOlOzikm/6QYfF2oOipkb7axVCxWxwIUb
-        bmaXb+1dmMJ3AHb3OWC7ozg=
-X-Google-Smtp-Source: ABdhPJxxg8FwE2oMuJcg14r7ejgXQXDkZJh45vp2NJ/8PlXFi4cQxRyD9vYUF1qUqH06oCww215UcA==
-X-Received: by 2002:a05:6a00:2316:b0:4bb:231c:1b92 with SMTP id h22-20020a056a00231600b004bb231c1b92mr38958641pfh.27.1641033644313;
-        Sat, 01 Jan 2022 02:40:44 -0800 (PST)
+        b=a6udInb4RUxNkr1r62foAXY1W8NELO7cUVeQCHEr3/ihSVo2IePwg4HoQY7kd6M639
+         9t/sHuW2ZAB/9hPnQ6zEdleIJk2PCdVZVQ78nSAD3JvYyTmRZwEjzDU6kg6s4vI1yDYq
+         PPcy2zsL/egqskffpwQuC6lZwtka8Ic8EaxpIalMAkBFvF/dqRi5yMgL+T8a+Pl9lLXy
+         vxhvKDzzDnQwVysTqk4xOGeU53Ji3LuBJLRRwKrOYAogrC2tQH5LvmSGDUjYkt8nmOAJ
+         Gpi+YKRcWBHlH0/Q4rC+FclIsQmx6jwGSJtMpmcxzumr5poTvLR+hHX6moHXL2f7UVNc
+         cGMg==
+X-Gm-Message-State: AOAM531C0dIgJGLW6vVgjXWjTXR62J3c+ZolSQO+hjDV2Fz44RWd6Fif
+        jvKlf6N2wmoNoYvEZv8YJNY=
+X-Google-Smtp-Source: ABdhPJySdv+gSpO7KnbG+mXel4s6aFFGRP+6upxzrpnmdXOnBezmczn3k9V7O+K/swa/g6WeA6ZK1w==
+X-Received: by 2002:a17:902:e8c9:b0:149:b88d:5980 with SMTP id v9-20020a170902e8c900b00149b88d5980mr964574plg.171.1641039309402;
+        Sat, 01 Jan 2022 04:15:09 -0800 (PST)
 Received: from [192.168.0.153] ([143.244.48.136])
-        by smtp.gmail.com with ESMTPSA id s35sm26832835pfw.193.2022.01.01.02.40.36
+        by smtp.gmail.com with ESMTPSA id c7sm33483169pjs.17.2022.01.01.04.15.01
         (version=TLS1 cipher=AES128-SHA bits=128/128);
-        Sat, 01 Jan 2022 02:40:44 -0800 (PST)
-Message-ID: <61d02fac.1c69fb81.dee2a.a93a@mx.google.com>
-From:   hyaibe56@gmail.com
+        Sat, 01 Jan 2022 04:15:08 -0800 (PST)
+Message-ID: <61d045cc.1c69fb81.5385d.d706@mx.google.com>
+From:   yalaiibrahim818@gmail.com
 X-Google-Original-From: suport.prilend@gmail.com
 Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
@@ -57,7 +57,7 @@ Content-Transfer-Encoding: quoted-printable
 Content-Description: Mail message body
 Subject: RE:
 To:     Recipients <suport.prilend@gmail.com>
-Date:   Sat, 01 Jan 2022 12:40:29 +0200
+Date:   Sat, 01 Jan 2022 14:14:52 +0200
 Reply-To: andres.stemmet1@gmail.com
 X-Mailer: TurboMailer 2
 Precedence: bulk
