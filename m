@@ -2,596 +2,207 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC5BE484574
-	for <lists+linux-api@lfdr.de>; Tue,  4 Jan 2022 16:55:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 417CD4845E0
+	for <lists+linux-api@lfdr.de>; Tue,  4 Jan 2022 17:18:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235159AbiADPzA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 4 Jan 2022 10:55:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46580 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235183AbiADPyv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Jan 2022 10:54:51 -0500
-Received: from smtp-42ab.mail.infomaniak.ch (smtp-42ab.mail.infomaniak.ch [IPv6:2001:1600:3:17::42ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F9A5C0617A1
-        for <linux-api@vger.kernel.org>; Tue,  4 Jan 2022 07:54:50 -0800 (PST)
-Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4JSxlH2fdczMqpZM;
-        Tue,  4 Jan 2022 16:45:15 +0100 (CET)
-Received: from localhost (unknown [23.97.221.149])
-        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4JSxlG75nJzlhMBq;
-        Tue,  4 Jan 2022 16:45:14 +0100 (CET)
-From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To:     Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-        Alejandro Colomar <alx.manpages@gmail.com>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Christian Heimes <christian@python.org>,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Eric Chiang <ericchiang@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        James Morris <jmorris@namei.org>, Jan Kara <jack@suse.cz>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        id S233825AbiADQSq convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Tue, 4 Jan 2022 11:18:46 -0500
+Received: from out03.mta.xmission.com ([166.70.13.233]:55430 "EHLO
+        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229956AbiADQSq (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 4 Jan 2022 11:18:46 -0500
+Received: from in01.mta.xmission.com ([166.70.13.51]:52726)
+        by out03.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1n4mWL-00Fnpu-5s; Tue, 04 Jan 2022 09:18:45 -0700
+Received: from ip68-110-24-146.om.om.cox.net ([68.110.24.146]:58676 helo=email.froward.int.ebiederm.org.xmission.com)
+        by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1n4mWJ-005z9S-KR; Tue, 04 Jan 2022 09:18:44 -0700
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Alexey Gladkov <legion@kernel.org>,
+        Kyle Huey <me@kylehuey.com>, Oleg Nesterov <oleg@redhat.com>,
         Kees Cook <keescook@chromium.org>,
-        Lakshmi Ramasubramanian <nramas@linux.microsoft.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        "Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Paul Moore <paul@paul-moore.com>,
-        =?UTF-8?q?Philippe=20Tr=C3=A9buchet?= 
-        <philippe.trebuchet@ssi.gouv.fr>,
-        Scott Shell <scottsh@microsoft.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Steve Dower <steve.dower@python.org>,
-        Steve Grubb <sgrubb@redhat.com>,
-        Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>,
-        Vincent Strubel <vincent.strubel@ssi.gouv.fr>,
-        Xiaoming Ni <nixiaoming@huawei.com>,
-        Yin Fengwei <fengwei.yin@intel.com>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@linux.microsoft.com>
-Subject: [PATCH v18 4/4] selftest/interpreter: Add tests for trusted_for(2) policies
-Date:   Tue,  4 Jan 2022 16:50:24 +0100
-Message-Id: <20220104155024.48023-5-mic@digikod.net>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220104155024.48023-1-mic@digikod.net>
-References: <20220104155024.48023-1-mic@digikod.net>
+        Al Viro <viro@ZenIV.linux.org.uk>
+References: <87a6ha4zsd.fsf@email.froward.int.ebiederm.org>
+        <20211213225350.27481-1-ebiederm@xmission.com>
+        <9363765f-9883-75ee-70f1-a1a8e9841812@gmail.com>
+Date:   Tue, 04 Jan 2022 10:18:01 -0600
+In-Reply-To: <9363765f-9883-75ee-70f1-a1a8e9841812@gmail.com> (Dmitry
+        Osipenko's message of "Tue, 4 Jan 2022 09:30:45 +0300")
+Message-ID: <877dbfmq4m.fsf@email.froward.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+X-XM-SPF: eid=1n4mWJ-005z9S-KR;;;mid=<877dbfmq4m.fsf@email.froward.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.110.24.146;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX18wdeeI7dN0yrlO0fUNDYcdfhDQ9Xigdg0=
+X-SA-Exim-Connect-IP: 68.110.24.146
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa02.xmission.com
+X-Spam-Level: **
+X-Spam-Status: No, score=2.0 required=8.0 tests=ALL_TRUSTED,BAYES_50,
+        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,XMNoVowels,XMSubLong,
+        XM_B_Unicode autolearn=disabled version=3.4.2
+X-Spam-Virus: No
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  1.5 XMNoVowels Alpha-numberic number with no vowels
+        *  0.7 XMSubLong Long Subject
+        *  0.0 XM_B_Unicode BODY: Testing for specific types of unicode
+        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+        *      [sa02 1397; Body=1 Fuz1=1 Fuz2=1]
+X-Spam-DCC: XMission; sa02 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: **;Dmitry Osipenko <digetx@gmail.com>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 798 ms - load_scoreonly_sql: 0.04 (0.0%),
+        signal_user_changed: 3.3 (0.4%), b_tie_ro: 2.2 (0.3%), parse: 1.28
+        (0.2%), extract_message_metadata: 15 (1.9%), get_uri_detail_list: 4.1
+        (0.5%), tests_pri_-1000: 15 (1.9%), tests_pri_-950: 1.50 (0.2%),
+        tests_pri_-900: 1.09 (0.1%), tests_pri_-90: 295 (37.0%), check_bayes:
+        293 (36.7%), b_tokenize: 10 (1.2%), b_tok_get_all: 9 (1.1%),
+        b_comp_prob: 3.5 (0.4%), b_tok_touch_all: 268 (33.6%), b_finish: 0.79
+        (0.1%), tests_pri_0: 454 (56.8%), check_dkim_signature: 0.44 (0.1%),
+        check_dkim_adsp: 2.7 (0.3%), poll_dns_idle: 1.24 (0.2%), tests_pri_10:
+        2.3 (0.3%), tests_pri_500: 7 (0.8%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [PATCH 1/8] signal: Make SIGKILL during coredumps an explicit special case
+X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Mickaël Salaün <mic@linux.microsoft.com>
+Dmitry Osipenko <digetx@gmail.com> writes:
 
-Test that checks performed by trusted_for(2) on file descriptors are
-consistent with noexec mount points and file execute permissions,
-according to the policy configured with the fs.trust_policy sysctl.
+> 14.12.2021 01:53, Eric W. Biederman пишет:
+>> Simplify the code that allows SIGKILL during coredumps to terminate
+>> the coredump.  As far as I can tell I have avoided breaking it
+>> by dumb luck.
+>> 
+>> Historically with all of the other threads stopping in exit_mm the
+>> wants_signal loop in complete_signal would find the dumper task and
+>> then complete_signal would wake the dumper task with signal_wake_up.
+>> 
+>> After moving the coredump_task_exit above the setting of PF_EXITING in
+>> commit 92307383082d ("coredump: Don't perform any cleanups before
+>> dumping core") wants_signal will consider all of the threads in a
+>> multi-threaded process for waking up, not just the core dumping task.
+>> 
+>> Luckily complete_signal short circuits SIGKILL during a coredump marks
+>> every thread with SIGKILL and signal_wake_up.  This code is arguably
+>> buggy however as it tries to skip creating a group exit when is already
+>> present, and it fails that a coredump is in progress.
+>> 
+>> Ever since commit 06af8679449d ("coredump: Limit what can interrupt
+>> coredumps") was added dump_interrupted needs not just TIF_SIGPENDING
+>> set on the dumper task but also SIGKILL set in it's pending bitmap.
+>> This means that if the code is ever fixed not to short-circuit and
+>> kill a process after it has already been killed the special case
+>> for SIGKILL during a coredump will be broken.
+>> 
+>> Sort all of this out by making the coredump special case more special,
+>> and perform all of the work in prepare_signal and leave the rest of
+>> the signal delivery path out of it.
+>> 
+>> In prepare_signal when the process coredumping is sent SIGKILL find
+>> the task performing the coredump and use sigaddset and signal_wake_up
+>> to ensure that task reports fatal_signal_pending.
+>> 
+>> Return false from prepare_signal to tell the rest of the signal
+>> delivery path to ignore the signal.
+>> 
+>> Update wait_for_dump_helpers to perform a wait_event_killable wait
+>> so that if signal_pending gets set spuriously the wait will not
+>> be interrupted unless fatal_signal_pending is true.
+>> 
+>> I have tested this and verified I did not break SIGKILL during
+>> coredumps by accident (before or after this change).  I actually
+>> thought I had and I had to figure out what I had misread that kept
+>> SIGKILL during coredumps working.
+>> 
+>> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
+>> ---
+>>  fs/coredump.c   |  4 ++--
+>>  kernel/signal.c | 11 +++++++++--
+>>  2 files changed, 11 insertions(+), 4 deletions(-)
+>> 
+>> diff --git a/fs/coredump.c b/fs/coredump.c
+>> index a6b3c196cdef..7b91fb32dbb8 100644
+>> --- a/fs/coredump.c
+>> +++ b/fs/coredump.c
+>> @@ -448,7 +448,7 @@ static void coredump_finish(bool core_dumped)
+>>  static bool dump_interrupted(void)
+>>  {
+>>  	/*
+>> -	 * SIGKILL or freezing() interrupt the coredumping. Perhaps we
+>> +	 * SIGKILL or freezing() interrupted the coredumping. Perhaps we
+>>  	 * can do try_to_freeze() and check __fatal_signal_pending(),
+>>  	 * but then we need to teach dump_write() to restart and clear
+>>  	 * TIF_SIGPENDING.
+>> @@ -471,7 +471,7 @@ static void wait_for_dump_helpers(struct file *file)
+>>  	 * We actually want wait_event_freezable() but then we need
+>>  	 * to clear TIF_SIGPENDING and improve dump_interrupted().
+>>  	 */
+>> -	wait_event_interruptible(pipe->rd_wait, pipe->readers == 1);
+>> +	wait_event_killable(pipe->rd_wait, pipe->readers == 1);
+>>  
+>>  	pipe_lock(pipe);
+>>  	pipe->readers--;
+>> diff --git a/kernel/signal.c b/kernel/signal.c
+>> index 8272cac5f429..7e305a8ec7c2 100644
+>> --- a/kernel/signal.c
+>> +++ b/kernel/signal.c
+>> @@ -907,8 +907,15 @@ static bool prepare_signal(int sig, struct task_struct *p, bool force)
+>>  	sigset_t flush;
+>>  
+>>  	if (signal->flags & (SIGNAL_GROUP_EXIT | SIGNAL_GROUP_COREDUMP)) {
+>> -		if (!(signal->flags & SIGNAL_GROUP_EXIT))
+>> -			return sig == SIGKILL;
+>> +		struct core_state *core_state = signal->core_state;
+>> +		if (core_state) {
+>> +			if (sig == SIGKILL) {
+>> +				struct task_struct *dumper = core_state->dumper.task;
+>> +				sigaddset(&dumper->pending.signal, SIGKILL);
+>> +				signal_wake_up(dumper, 1);
+>> +			}
+>> +			return false;
+>> +		}
+>>  		/*
+>>  		 * The process is in the middle of dying, nothing to do.
+>>  		 */
+>> 
+>
+> Hi,
+>
+> This patch breaks userspace, in particular it breaks gst-plugin-scanner
+> of GStreamer which hangs now on next-20211224. IIUC, this tool builds a
+> registry of good/working GStreamer plugins by loading them and
+> blacklisting those that don't work (crash). Before the hang I see
+> systemd-coredump process running, taking snapshot of gst-plugin-scanner
+> and then gst-plugin-scanner gets stuck.
+>
+> Bisection points at this patch, reverting it restores
+> gst-plugin-scanner. Systemd-coredump still running, but there is no hang
+> anymore and everything works properly as before.
+>
+> I'm seeing this problem on ARM32 and haven't checked other arches.
+> Please fix, thanks in advance.
 
-Cc: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Shuah Khan <shuah@kernel.org>
-Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
-Reviewed-by: Thibaut Sautereau <thibaut.sautereau@ssi.gouv.fr>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Link: https://lore.kernel.org/r/20220104155024.48023-5-mic@digikod.net
----
+That is weird.
 
-Changes since v14:
-* Add Reviewed-by Kees Cook.
+Doubly weird really because this should only change the case where
+coredumps are interrupted by SIGKILL.
 
-Changes since v13:
-* Move -I to CFLAGS (suggested by Kees Cook).
-* Update sysctl name.
+What distro are you running?  I would like to match things as closely
+as I can.  So I can reproduce the issue so I can figure out what
+is wrong so I can fix it.
 
-Changes since v12:
-* Fix Makefile's license.
-
-Changes since v10:
-* Update selftest Makefile.
-
-Changes since v9:
-* Rename the syscall and the sysctl.
-* Update tests for enum trusted_for_usage
-
-Changes since v8:
-* Update with the dedicated syscall introspect_access(2) and the renamed
-  fs.introspection_policy sysctl.
-* Remove check symlink which can't be use as is anymore.
-* Use socketpair(2) to test UNIX socket.
-
-Changes since v7:
-* Update tests with faccessat2/AT_INTERPRETED, including new ones to
-  check that setting R_OK or W_OK returns EINVAL.
-* Add tests for memfd, pipefs and nsfs.
-* Rename and move back tests to a standalone directory.
-
-Changes since v6:
-* Add full combination tests for all file types, including block
-  devices, character devices, fifos, sockets and symlinks.
-* Properly save and restore initial sysctl value for all tests.
-
-Changes since v5:
-* Refactor with FIXTURE_VARIANT, which make the tests much more easy to
-  read and maintain.
-* Save and restore initial sysctl value (suggested by Kees Cook).
-* Test with a sysctl value of 0.
-* Check errno in sysctl_access_write test.
-* Update tests for the CAP_SYS_ADMIN switch.
-* Update tests to check -EISDIR (replacing -EACCES).
-* Replace FIXTURE_DATA() with FIXTURE() (spotted by Kees Cook).
-* Use global const strings.
-
-Changes since v3:
-* Replace RESOLVE_MAYEXEC with O_MAYEXEC.
-* Add tests to check that O_MAYEXEC is ignored by open(2) and openat(2).
-
-Changes since v2:
-* Move tests from exec/ to openat2/ .
-* Replace O_MAYEXEC with RESOLVE_MAYEXEC from openat2(2).
-* Cleanup tests.
-
-Changes since v1:
-* Move tests from yama/ to exec/ .
-* Fix _GNU_SOURCE in kselftest_harness.h .
-* Add a new test sysctl_access_write to check if CAP_MAC_ADMIN is taken
-  into account.
-* Test directory execution which is always forbidden since commit
-  73601ea5b7b1 ("fs/open.c: allow opening only regular files during
-  execve()"), and also check that even the root user can not bypass file
-  execution checks.
-* Make sure delete_workspace() always as enough right to succeed.
-* Cosmetic cleanup.
----
- tools/testing/selftests/Makefile              |   1 +
- .../testing/selftests/interpreter/.gitignore  |   2 +
- tools/testing/selftests/interpreter/Makefile  |  21 +
- tools/testing/selftests/interpreter/config    |   1 +
- .../selftests/interpreter/trust_policy_test.c | 362 ++++++++++++++++++
- 5 files changed, 387 insertions(+)
- create mode 100644 tools/testing/selftests/interpreter/.gitignore
- create mode 100644 tools/testing/selftests/interpreter/Makefile
- create mode 100644 tools/testing/selftests/interpreter/config
- create mode 100644 tools/testing/selftests/interpreter/trust_policy_test.c
-
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index d08fe4cfe811..d6a54a1d9d3a 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -21,6 +21,7 @@ TARGETS += ftrace
- TARGETS += futex
- TARGETS += gpio
- TARGETS += intel_pstate
-+TARGETS += interpreter
- TARGETS += ipc
- TARGETS += ir
- TARGETS += kcmp
-diff --git a/tools/testing/selftests/interpreter/.gitignore b/tools/testing/selftests/interpreter/.gitignore
-new file mode 100644
-index 000000000000..82a4846cbc4b
---- /dev/null
-+++ b/tools/testing/selftests/interpreter/.gitignore
-@@ -0,0 +1,2 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+/*_test
-diff --git a/tools/testing/selftests/interpreter/Makefile b/tools/testing/selftests/interpreter/Makefile
-new file mode 100644
-index 000000000000..7402fdb6533f
---- /dev/null
-+++ b/tools/testing/selftests/interpreter/Makefile
-@@ -0,0 +1,21 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+CFLAGS += -Wall -O2 -I$(khdr_dir)
-+LDLIBS += -lcap
-+
-+src_test := $(wildcard *_test.c)
-+TEST_GEN_PROGS := $(src_test:.c=)
-+
-+KSFT_KHDR_INSTALL := 1
-+include ../lib.mk
-+
-+khdr_dir = $(top_srcdir)/usr/include
-+
-+$(khdr_dir)/asm-generic/unistd.h: khdr
-+	@:
-+
-+$(khdr_dir)/linux/trusted-for.h: khdr
-+	@:
-+
-+$(OUTPUT)/%_test: %_test.c $(khdr_dir)/asm-generic/unistd.h $(khdr_dir)/linux/trusted-for.h ../kselftest_harness.h
-+	$(LINK.c) $< $(LDLIBS) -o $@
-diff --git a/tools/testing/selftests/interpreter/config b/tools/testing/selftests/interpreter/config
-new file mode 100644
-index 000000000000..dd53c266bf52
---- /dev/null
-+++ b/tools/testing/selftests/interpreter/config
-@@ -0,0 +1 @@
-+CONFIG_SYSCTL=y
-diff --git a/tools/testing/selftests/interpreter/trust_policy_test.c b/tools/testing/selftests/interpreter/trust_policy_test.c
-new file mode 100644
-index 000000000000..b59f07f537ad
---- /dev/null
-+++ b/tools/testing/selftests/interpreter/trust_policy_test.c
-@@ -0,0 +1,362 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Test trusted_for(2) with fs.trusted_for_policy sysctl
-+ *
-+ * Copyright © 2018-2020 ANSSI
-+ *
-+ * Author: Mickaël Salaün <mic@digikod.net>
-+ */
-+
-+#define _GNU_SOURCE
-+#include <asm-generic/unistd.h>
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <linux/trusted-for.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <sys/capability.h>
-+#include <sys/mman.h>
-+#include <sys/mount.h>
-+#include <sys/socket.h>
-+#include <sys/stat.h>
-+#include <sys/syscall.h>
-+#include <sys/sysmacros.h>
-+#include <sys/types.h>
-+#include <unistd.h>
-+
-+#include "../kselftest_harness.h"
-+
-+#ifndef trusted_for
-+static int trusted_for(const int fd, const enum trusted_for_usage usage,
-+		const __u32 flags)
-+{
-+	errno = 0;
-+	return syscall(__NR_trusted_for, fd, usage, flags);
-+}
-+#endif
-+
-+static const char sysctl_path[] = "/proc/sys/fs/trusted_for_policy";
-+
-+static const char workdir_path[] = "./test-mount";
-+static const char reg_file_path[] = "./test-mount/regular_file";
-+static const char dir_path[] = "./test-mount/directory";
-+static const char block_dev_path[] = "./test-mount/block_device";
-+static const char char_dev_path[] = "./test-mount/character_device";
-+static const char fifo_path[] = "./test-mount/fifo";
-+
-+static void ignore_dac(struct __test_metadata *_metadata, int override)
-+{
-+	cap_t caps;
-+	const cap_value_t cap_val[2] = {
-+		CAP_DAC_OVERRIDE,
-+		CAP_DAC_READ_SEARCH,
-+	};
-+
-+	caps = cap_get_proc();
-+	ASSERT_NE(NULL, caps);
-+	ASSERT_EQ(0, cap_set_flag(caps, CAP_EFFECTIVE, 2, cap_val,
-+				override ? CAP_SET : CAP_CLEAR));
-+	ASSERT_EQ(0, cap_set_proc(caps));
-+	EXPECT_EQ(0, cap_free(caps));
-+}
-+
-+static void ignore_sys_admin(struct __test_metadata *_metadata, int override)
-+{
-+	cap_t caps;
-+	const cap_value_t cap_val[1] = {
-+		CAP_SYS_ADMIN,
-+	};
-+
-+	caps = cap_get_proc();
-+	ASSERT_NE(NULL, caps);
-+	ASSERT_EQ(0, cap_set_flag(caps, CAP_EFFECTIVE, 1, cap_val,
-+				override ? CAP_SET : CAP_CLEAR));
-+	ASSERT_EQ(0, cap_set_proc(caps));
-+	EXPECT_EQ(0, cap_free(caps));
-+}
-+
-+static void test_omx(struct __test_metadata *_metadata,
-+		const char *const path, const int err_access)
-+{
-+	int flags = O_RDONLY | O_CLOEXEC;
-+	int fd, access_ret, access_errno;
-+
-+	/* Do not block on pipes. */
-+	if (path == fifo_path)
-+		flags |= O_NONBLOCK;
-+
-+	fd = open(path, flags);
-+	ASSERT_LE(0, fd) {
-+		TH_LOG("Failed to open %s: %s", path, strerror(errno));
-+	}
-+	access_ret = trusted_for(fd, TRUSTED_FOR_EXECUTION, 0);
-+	access_errno = errno;
-+	if (err_access) {
-+		ASSERT_EQ(err_access, access_errno) {
-+			TH_LOG("Wrong error for trusted_for(2) with %s: %s",
-+					path, strerror(access_errno));
-+		}
-+		ASSERT_EQ(-1, access_ret);
-+	} else {
-+		ASSERT_EQ(0, access_ret) {
-+			TH_LOG("Access denied for %s: %s", path, strerror(access_errno));
-+		}
-+	}
-+
-+	/* Tests unsupported trusted usage. */
-+	access_ret = trusted_for(fd, 0, 0);
-+	ASSERT_EQ(-1, access_ret);
-+	ASSERT_EQ(EINVAL, errno);
-+
-+	access_ret = trusted_for(fd, 2, 0);
-+	ASSERT_EQ(-1, access_ret);
-+	ASSERT_EQ(EINVAL, errno);
-+
-+	EXPECT_EQ(0, close(fd));
-+}
-+
-+static void test_policy_fd(struct __test_metadata *_metadata, const int fd,
-+		const bool has_policy)
-+{
-+	const int ret = trusted_for(fd, TRUSTED_FOR_EXECUTION, 0);
-+
-+	if (has_policy) {
-+		ASSERT_EQ(-1, ret);
-+		ASSERT_EQ(EACCES, errno) {
-+			TH_LOG("Wrong error for trusted_for(2) with FD: %s", strerror(errno));
-+		}
-+	} else {
-+		ASSERT_EQ(0, ret) {
-+			TH_LOG("Access denied for FD: %s", strerror(errno));
-+		}
-+	}
-+}
-+
-+FIXTURE(access) {
-+	char initial_sysctl_value;
-+	int memfd, pipefd;
-+	int pipe_fds[2], socket_fds[2];
-+};
-+
-+static void test_file_types(struct __test_metadata *_metadata, FIXTURE_DATA(access) *self,
-+		const int err_code, const bool has_policy)
-+{
-+	/* Tests are performed on a tmpfs mount point. */
-+	test_omx(_metadata, reg_file_path, err_code);
-+	test_omx(_metadata, dir_path, has_policy ? EACCES : 0);
-+	test_omx(_metadata, block_dev_path, has_policy ? EACCES : 0);
-+	test_omx(_metadata, char_dev_path, has_policy ? EACCES : 0);
-+	test_omx(_metadata, fifo_path, has_policy ? EACCES : 0);
-+
-+	/* Checks that exec is denied for any socket FD. */
-+	test_policy_fd(_metadata, self->socket_fds[0], has_policy);
-+
-+	/* Checks that exec is denied for any memfd. */
-+	test_policy_fd(_metadata, self->memfd, has_policy);
-+
-+	/* Checks that exec is denied for any pipefs FD. */
-+	test_policy_fd(_metadata, self->pipefd, has_policy);
-+}
-+
-+static void test_files(struct __test_metadata *_metadata, FIXTURE_DATA(access) *self,
-+		const int err_code, const bool has_policy)
-+{
-+	/* Tests as root. */
-+	ignore_dac(_metadata, 1);
-+	test_file_types(_metadata, self, err_code, has_policy);
-+
-+	/* Tests without bypass. */
-+	ignore_dac(_metadata, 0);
-+	test_file_types(_metadata, self, err_code, has_policy);
-+}
-+
-+static void sysctl_write_char(struct __test_metadata *_metadata, const char value)
-+{
-+	int fd;
-+
-+	fd = open(sysctl_path, O_WRONLY | O_CLOEXEC);
-+	ASSERT_LE(0, fd);
-+	ASSERT_EQ(1, write(fd, &value, 1));
-+	EXPECT_EQ(0, close(fd));
-+}
-+
-+static char sysctl_read_char(struct __test_metadata *_metadata)
-+{
-+	int fd;
-+	char sysctl_value;
-+
-+	fd = open(sysctl_path, O_RDONLY | O_CLOEXEC);
-+	ASSERT_LE(0, fd);
-+	ASSERT_EQ(1, read(fd, &sysctl_value, 1));
-+	EXPECT_EQ(0, close(fd));
-+	return sysctl_value;
-+}
-+
-+FIXTURE_VARIANT(access) {
-+	const bool mount_exec;
-+	const bool file_exec;
-+	const int sysctl_err_code[3];
-+};
-+
-+FIXTURE_VARIANT_ADD(access, mount_exec_file_exec) {
-+	.mount_exec = true,
-+	.file_exec = true,
-+	.sysctl_err_code = {0, 0, 0},
-+};
-+
-+FIXTURE_VARIANT_ADD(access, mount_exec_file_noexec)
-+{
-+	.mount_exec = true,
-+	.file_exec = false,
-+	.sysctl_err_code = {0, EACCES, EACCES},
-+};
-+
-+FIXTURE_VARIANT_ADD(access, mount_noexec_file_exec)
-+{
-+	.mount_exec = false,
-+	.file_exec = true,
-+	.sysctl_err_code = {EACCES, 0, EACCES},
-+};
-+
-+FIXTURE_VARIANT_ADD(access, mount_noexec_file_noexec)
-+{
-+	.mount_exec = false,
-+	.file_exec = false,
-+	.sysctl_err_code = {EACCES, EACCES, EACCES},
-+};
-+
-+FIXTURE_SETUP(access)
-+{
-+	int procfd_path_size;
-+	static const char path_template[] = "/proc/self/fd/%d";
-+	char procfd_path[sizeof(path_template) + 10];
-+
-+	/*
-+	 * Cleans previous workspace if any error previously happened (don't
-+	 * check errors).
-+	 */
-+	umount(workdir_path);
-+	rmdir(workdir_path);
-+
-+	/* Creates a clean mount point. */
-+	ASSERT_EQ(0, mkdir(workdir_path, 00700));
-+	ASSERT_EQ(0, mount("test", workdir_path, "tmpfs", MS_MGC_VAL |
-+				(variant->mount_exec ? 0 : MS_NOEXEC),
-+				"mode=0700,size=4k"));
-+
-+	/* Creates a regular file. */
-+	ASSERT_EQ(0, mknod(reg_file_path, S_IFREG | (variant->file_exec ? 0500 : 0400), 0));
-+	/* Creates a directory. */
-+	ASSERT_EQ(0, mkdir(dir_path, variant->file_exec ? 0500 : 0400));
-+	/* Creates a character device: /dev/null. */
-+	ASSERT_EQ(0, mknod(char_dev_path, S_IFCHR | 0400, makedev(1, 3)));
-+	/* Creates a block device: /dev/loop0 */
-+	ASSERT_EQ(0, mknod(block_dev_path, S_IFBLK | 0400, makedev(7, 0)));
-+	/* Creates a fifo. */
-+	ASSERT_EQ(0, mknod(fifo_path, S_IFIFO | 0400, 0));
-+
-+	/* Creates a regular file without user mount point. */
-+	self->memfd = memfd_create("test-interpreted", MFD_CLOEXEC);
-+	ASSERT_LE(0, self->memfd);
-+	/* Sets mode, which must be ignored by the exec check. */
-+	ASSERT_EQ(0, fchmod(self->memfd, variant->file_exec ? 0500 : 0400));
-+
-+	/* Creates a pipefs file descriptor. */
-+	ASSERT_EQ(0, pipe(self->pipe_fds));
-+	procfd_path_size = snprintf(procfd_path, sizeof(procfd_path),
-+			path_template, self->pipe_fds[0]);
-+	ASSERT_LT(procfd_path_size, sizeof(procfd_path));
-+	self->pipefd = open(procfd_path, O_RDONLY | O_CLOEXEC);
-+	ASSERT_LE(0, self->pipefd);
-+	ASSERT_EQ(0, fchmod(self->pipefd, variant->file_exec ? 0500 : 0400));
-+
-+	/* Creates a socket file descriptor. */
-+	ASSERT_EQ(0, socketpair(AF_UNIX, SOCK_DGRAM | SOCK_CLOEXEC, 0, self->socket_fds));
-+
-+	/* Saves initial sysctl value. */
-+	self->initial_sysctl_value = sysctl_read_char(_metadata);
-+
-+	/* Prepares for sysctl writes. */
-+	ignore_sys_admin(_metadata, 1);
-+}
-+
-+FIXTURE_TEARDOWN(access)
-+{
-+	EXPECT_EQ(0, close(self->memfd));
-+	EXPECT_EQ(0, close(self->pipefd));
-+	EXPECT_EQ(0, close(self->pipe_fds[0]));
-+	EXPECT_EQ(0, close(self->pipe_fds[1]));
-+	EXPECT_EQ(0, close(self->socket_fds[0]));
-+	EXPECT_EQ(0, close(self->socket_fds[1]));
-+
-+	/* Restores initial sysctl value. */
-+	sysctl_write_char(_metadata, self->initial_sysctl_value);
-+
-+	/* There is no need to unlink the test files. */
-+	ASSERT_EQ(0, umount(workdir_path));
-+	ASSERT_EQ(0, rmdir(workdir_path));
-+}
-+
-+TEST_F(access, sysctl_0)
-+{
-+	/* Do not enforce anything. */
-+	sysctl_write_char(_metadata, '0');
-+	test_files(_metadata, self, 0, false);
-+}
-+
-+TEST_F(access, sysctl_1)
-+{
-+	/* Enforces mount exec check. */
-+	sysctl_write_char(_metadata, '1');
-+	test_files(_metadata, self, variant->sysctl_err_code[0], true);
-+}
-+
-+TEST_F(access, sysctl_2)
-+{
-+	/* Enforces file exec check. */
-+	sysctl_write_char(_metadata, '2');
-+	test_files(_metadata, self, variant->sysctl_err_code[1], true);
-+}
-+
-+TEST_F(access, sysctl_3)
-+{
-+	/* Enforces mount and file exec check. */
-+	sysctl_write_char(_metadata, '3');
-+	test_files(_metadata, self, variant->sysctl_err_code[2], true);
-+}
-+
-+FIXTURE(cleanup) {
-+	char initial_sysctl_value;
-+};
-+
-+FIXTURE_SETUP(cleanup)
-+{
-+	/* Saves initial sysctl value. */
-+	self->initial_sysctl_value = sysctl_read_char(_metadata);
-+}
-+
-+FIXTURE_TEARDOWN(cleanup)
-+{
-+	/* Restores initial sysctl value. */
-+	ignore_sys_admin(_metadata, 1);
-+	sysctl_write_char(_metadata, self->initial_sysctl_value);
-+}
-+
-+TEST_F(cleanup, sysctl_access_write)
-+{
-+	int fd;
-+	ssize_t ret;
-+
-+	ignore_sys_admin(_metadata, 1);
-+	sysctl_write_char(_metadata, '0');
-+
-+	ignore_sys_admin(_metadata, 0);
-+	fd = open(sysctl_path, O_WRONLY | O_CLOEXEC);
-+	ASSERT_LE(0, fd);
-+	ret = write(fd, "0", 1);
-+	ASSERT_EQ(-1, ret);
-+	ASSERT_EQ(EPERM, errno);
-+	EXPECT_EQ(0, close(fd));
-+}
-+
-+TEST_HARNESS_MAIN
--- 
-2.34.1
-
+Eric
