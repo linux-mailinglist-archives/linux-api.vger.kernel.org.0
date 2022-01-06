@@ -2,206 +2,112 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2C55485AD5
-	for <lists+linux-api@lfdr.de>; Wed,  5 Jan 2022 22:39:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D8318486141
+	for <lists+linux-api@lfdr.de>; Thu,  6 Jan 2022 09:08:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244519AbiAEVjO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 5 Jan 2022 16:39:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55788 "EHLO
+        id S236387AbiAFIIo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 6 Jan 2022 03:08:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231801AbiAEVjN (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 5 Jan 2022 16:39:13 -0500
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 342D2C061245;
-        Wed,  5 Jan 2022 13:39:13 -0800 (PST)
-Received: by mail-lf1-x12b.google.com with SMTP id bp20so809894lfb.6;
-        Wed, 05 Jan 2022 13:39:13 -0800 (PST)
+        with ESMTP id S236315AbiAFIIl (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 6 Jan 2022 03:08:41 -0500
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD6BBC061245
+        for <linux-api@vger.kernel.org>; Thu,  6 Jan 2022 00:08:41 -0800 (PST)
+Received: by mail-pf1-x42d.google.com with SMTP id t187so1866311pfb.11
+        for <linux-api@vger.kernel.org>; Thu, 06 Jan 2022 00:08:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=XuAC60vVYARHTmBQJSyU80swuj8yQQGqnPy63JB/4RI=;
-        b=p1j57YfnfABEqA3UGD+r81Zd9v/l8KYHviC0kssp6kkUZEvyGmwU6vObMH2xq+phy/
-         ghFT4kZhynEYMxAuw6WNTVYEsstZ8NkkUzjOIO3duvlxrKnX8C+XpwE+ccpLcaiq4WsZ
-         Q1WOcEQTH9gQw3CEHin6g8PCjUG9MNwHJrMstHp7MgaiuV28KNaoqjNX6UzFKzAcmGAg
-         WOOU5RXXBLjNmBSAlp0JrZ7MFK2JgRjWSVko949ImH6OscKRBddnU0hO6kMFBQf17cya
-         V+CTM9AzVR+xv6lUyntLwUK4WezuxZLYC1u0Hl/j+IcTz3tkGRS70Dqkx3Zc563PdHzX
-         ZrGA==
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=BgQn8eJjH64JPbz4yLqo05eN+vssmbVyS+BB98Rvfwk=;
+        b=nEUnRUEAUbbNxDaoGbEcLd6j1UEhajs5aNy8yaI877EFRCdgpIaqWwjWHf1KchkmrT
+         ORFp7BoIouFXs69HbjUyvbKprgr5yhFJZBXIH/jVB0arINh9Av96mJYN6ofd61iQ22TN
+         3/MJvyTJ0MvKMP7h9iVF3DJ4ZCgEQpMOz0QnqrRmcol6534zHOZBSTqamqp4uyLpF7qG
+         YInUlFno/2Aeufeu50mv1Ad3Z9sRtP/pTx6xsmLattLWxjYZ6NjAMZWJMiUucYlpnEqN
+         Z83yzVt+qAUlNghopLf0MJuwAzPqj+KudSw2db7CrTY3XZ/24l5ShSW1WwwG0eiFeH0G
+         LLhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=XuAC60vVYARHTmBQJSyU80swuj8yQQGqnPy63JB/4RI=;
-        b=pUCvbPd0dKmJi5c/fnowQTxIbz6e8V7v4dh/cGTQVHuX0z0B7/WIz3qgLL9uIhyMmN
-         5QiEaKCr5ZEQ3mMiVnlAGjwzhiJx4Xl+s3T3I6pXmF3nZC1ASNDIyiJOVVr4DoFZp8Hv
-         Ht9cbteM+S+kWKi1mGLsX8BXAjLzSqCZ0mRJ4E5U5FYu1h5hTGO15CuLYLqt7oz2MmIs
-         vuuEqoFRjgn1YmBJCKCtf6YUFG+0YchCAZncePFp7EFiUdNGFkbmlEyIjN29laS3bGm/
-         8NaxK1XXjwFEkTHqdpUWe9UjlbKGCGfZu+nSRUvcTCbMMe/XUgddfdPvARrOJwKq39wh
-         hdqg==
-X-Gm-Message-State: AOAM532QKrgJT90qNRohj28WLprhrFSy1EYzfjYjHOTMRV+DX4uUsv3f
-        xHvZpWXQiV8bklvZWzSYQvw=
-X-Google-Smtp-Source: ABdhPJzAB30CbXefi7QC7PUQFz6TqfeC7L472wXrX4EbPudT+VP8+dRCCogpNuX4ME/1y3AE6rclmA==
-X-Received: by 2002:ac2:5109:: with SMTP id q9mr49792866lfb.146.1641418751388;
-        Wed, 05 Jan 2022 13:39:11 -0800 (PST)
-Received: from [192.168.2.145] (94-29-46-141.dynamic.spd-mgts.ru. [94.29.46.141])
-        by smtp.googlemail.com with ESMTPSA id y10sm6213ljp.82.2022.01.05.13.39.10
+        bh=BgQn8eJjH64JPbz4yLqo05eN+vssmbVyS+BB98Rvfwk=;
+        b=P9GY04kOguOPUr4Nq9j0y3SUZirr3pLRH1Yr2OjQiJM/OYX9EEaH5iVJIYvyYeWvGQ
+         Y0dewOdtC8z+u3beGUIa5QQU7ypbiFAsZrwDv5vj8L98tc7GMKAjAHbYsBM+14Nf8nyq
+         sNZyZiaU0iDUJn5TXZwOA9Y0xBTpq4E62QWGZi2J8M+V2B8JQjLIRsfvIX6I85oeT/ou
+         FG+7423c7M42uLN3827c6fULUcotRg18IMazB1DducLXNcClhTJbjq9LqEneJKbX44eC
+         U0vP/DPtT0J5VGIR5EHGHk9DFPc6bCSSgZ9lDnqFzoMdT+9uxMr+reEFCDPbuuuWPZW9
+         bIBA==
+X-Gm-Message-State: AOAM532FLxQP4LeRNTAHz+I+z7mdjnTWr9VbteKvBbLKTZc2uDK7TD7h
+        a1Kg2ggq1t4rnQ0tDmK/El62Xg==
+X-Google-Smtp-Source: ABdhPJzQkMM/MKNQVkT5Sz2qk9lHKabp/ZITvKam3lnONUYRDj+7fr0JQRHbWj1FisObXtGzSL69lA==
+X-Received: by 2002:a63:81c1:: with SMTP id t184mr51078790pgd.481.1641456520298;
+        Thu, 06 Jan 2022 00:08:40 -0800 (PST)
+Received: from [10.254.5.219] ([139.177.225.246])
+        by smtp.gmail.com with ESMTPSA id j11sm1367504pfn.199.2022.01.06.00.08.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Jan 2022 13:39:11 -0800 (PST)
-Subject: Re: [PATCH 1/8] signal: Make SIGKILL during coredumps an explicit
- special case
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Alexey Gladkov <legion@kernel.org>,
-        Kyle Huey <me@kylehuey.com>, Oleg Nesterov <oleg@redhat.com>,
-        Kees Cook <keescook@chromium.org>,
-        Al Viro <viro@ZenIV.linux.org.uk>
-References: <87a6ha4zsd.fsf@email.froward.int.ebiederm.org>
- <20211213225350.27481-1-ebiederm@xmission.com>
- <9363765f-9883-75ee-70f1-a1a8e9841812@gmail.com>
- <87pmp67y4r.fsf@email.froward.int.ebiederm.org>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <5bbb54c4-7504-cd28-5dde-4e5965496625@gmail.com>
-Date:   Thu, 6 Jan 2022 00:39:10 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Thu, 06 Jan 2022 00:08:39 -0800 (PST)
+Message-ID: <cf52d7d3-e7f8-2b4e-a752-8be8d95b31fb@bytedance.com>
+Date:   Thu, 6 Jan 2022 16:08:35 +0800
 MIME-Version: 1.0
-In-Reply-To: <87pmp67y4r.fsf@email.froward.int.ebiederm.org>
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.4.1
+Subject: Re: [PATCH v3] sched/numa: add per-process numa_balancing
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+To:     Mel Gorman <mgorman@suse.de>
+Cc:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        songmuchun@bytedance.com, zhengqi.arch@bytedance.com
+References: <20211206024530.11336-1-ligang.bdlg@bytedance.com>
+From:   Gang Li <ligang.bdlg@bytedance.com>
+In-Reply-To: <20211206024530.11336-1-ligang.bdlg@bytedance.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-05.01.2022 22:58, Eric W. Biederman пишет:
-> Dmitry Osipenko <digetx@gmail.com> writes:
-> 
->> 14.12.2021 01:53, Eric W. Biederman пишет:
->>> Simplify the code that allows SIGKILL during coredumps to terminate
->>> the coredump.  As far as I can tell I have avoided breaking it
->>> by dumb luck.
->>>
->>> Historically with all of the other threads stopping in exit_mm the
->>> wants_signal loop in complete_signal would find the dumper task and
->>> then complete_signal would wake the dumper task with signal_wake_up.
->>>
->>> After moving the coredump_task_exit above the setting of PF_EXITING in
->>> commit 92307383082d ("coredump: Don't perform any cleanups before
->>> dumping core") wants_signal will consider all of the threads in a
->>> multi-threaded process for waking up, not just the core dumping task.
->>>
->>> Luckily complete_signal short circuits SIGKILL during a coredump marks
->>> every thread with SIGKILL and signal_wake_up.  This code is arguably
->>> buggy however as it tries to skip creating a group exit when is already
->>> present, and it fails that a coredump is in progress.
->>>
->>> Ever since commit 06af8679449d ("coredump: Limit what can interrupt
->>> coredumps") was added dump_interrupted needs not just TIF_SIGPENDING
->>> set on the dumper task but also SIGKILL set in it's pending bitmap.
->>> This means that if the code is ever fixed not to short-circuit and
->>> kill a process after it has already been killed the special case
->>> for SIGKILL during a coredump will be broken.
->>>
->>> Sort all of this out by making the coredump special case more special,
->>> and perform all of the work in prepare_signal and leave the rest of
->>> the signal delivery path out of it.
->>>
->>> In prepare_signal when the process coredumping is sent SIGKILL find
->>> the task performing the coredump and use sigaddset and signal_wake_up
->>> to ensure that task reports fatal_signal_pending.
->>>
->>> Return false from prepare_signal to tell the rest of the signal
->>> delivery path to ignore the signal.
->>>
->>> Update wait_for_dump_helpers to perform a wait_event_killable wait
->>> so that if signal_pending gets set spuriously the wait will not
->>> be interrupted unless fatal_signal_pending is true.
->>>
->>> I have tested this and verified I did not break SIGKILL during
->>> coredumps by accident (before or after this change).  I actually
->>> thought I had and I had to figure out what I had misread that kept
->>> SIGKILL during coredumps working.
->>>
->>> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
->>> ---
->>>  fs/coredump.c   |  4 ++--
->>>  kernel/signal.c | 11 +++++++++--
->>>  2 files changed, 11 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/fs/coredump.c b/fs/coredump.c
->>> index a6b3c196cdef..7b91fb32dbb8 100644
->>> --- a/fs/coredump.c
->>> +++ b/fs/coredump.c
->>> @@ -448,7 +448,7 @@ static void coredump_finish(bool core_dumped)
->>>  static bool dump_interrupted(void)
->>>  {
->>>  	/*
->>> -	 * SIGKILL or freezing() interrupt the coredumping. Perhaps we
->>> +	 * SIGKILL or freezing() interrupted the coredumping. Perhaps we
->>>  	 * can do try_to_freeze() and check __fatal_signal_pending(),
->>>  	 * but then we need to teach dump_write() to restart and clear
->>>  	 * TIF_SIGPENDING.
->>> @@ -471,7 +471,7 @@ static void wait_for_dump_helpers(struct file *file)
->>>  	 * We actually want wait_event_freezable() but then we need
->>>  	 * to clear TIF_SIGPENDING and improve dump_interrupted().
->>>  	 */
->>> -	wait_event_interruptible(pipe->rd_wait, pipe->readers == 1);
->>> +	wait_event_killable(pipe->rd_wait, pipe->readers == 1);
->>>  
->>>  	pipe_lock(pipe);
->>>  	pipe->readers--;
->>> diff --git a/kernel/signal.c b/kernel/signal.c
->>> index 8272cac5f429..7e305a8ec7c2 100644
->>> --- a/kernel/signal.c
->>> +++ b/kernel/signal.c
->>> @@ -907,8 +907,15 @@ static bool prepare_signal(int sig, struct task_struct *p, bool force)
->>>  	sigset_t flush;
->>>  
->>>  	if (signal->flags & (SIGNAL_GROUP_EXIT | SIGNAL_GROUP_COREDUMP)) {
->>> -		if (!(signal->flags & SIGNAL_GROUP_EXIT))
->>> -			return sig == SIGKILL;
->>> +		struct core_state *core_state = signal->core_state;
->>> +		if (core_state) {
->>> +			if (sig == SIGKILL) {
->>> +				struct task_struct *dumper = core_state->dumper.task;
->>> +				sigaddset(&dumper->pending.signal, SIGKILL);
->>> +				signal_wake_up(dumper, 1);
->>> +			}
->>> +			return false;
->>> +		}
->>>  		/*
->>>  		 * The process is in the middle of dying, nothing to do.
->>>  		 */
->>>
->>
->> Hi,
->>
->> This patch breaks userspace, in particular it breaks gst-plugin-scanner
->> of GStreamer which hangs now on next-20211224. IIUC, this tool builds a
->> registry of good/working GStreamer plugins by loading them and
->> blacklisting those that don't work (crash). Before the hang I see
->> systemd-coredump process running, taking snapshot of gst-plugin-scanner
->> and then gst-plugin-scanner gets stuck.
->>
->> Bisection points at this patch, reverting it restores
->> gst-plugin-scanner. Systemd-coredump still running, but there is no hang
->> anymore and everything works properly as before.
->>
->> I'm seeing this problem on ARM32 and haven't checked other arches.
->> Please fix, thanks in advance.
-> 
-> 
-> I have not yet been able to figure out how to run gst-pluggin-scanner in
-> a way that triggers this yet.  In truth I can't figure out how to
-> run gst-pluggin-scanner in a useful way.
-> 
-> I am going to set up some unit tests and see if I can reproduce your
-> hang another way, but if you could give me some more information on what
-> you are doing to trigger this I would appreciate it.
+Hi,
+Any comments please?
 
-Thanks, Eric. The distro is Arch Linux, but it's a development
-environment where I'm running latest GStreamer from git master. I'll try
-to figure out the reproduction steps and get back to you.
+;)
+
+On 2021/12/6 10:45, Gang Li wrote:
+> This patch add a new api PR_NUMA_BALANCING in prctl.
+> 
+> A large number of page faults will cause performance loss when numa
+> balancing is performing. Thus those processes which care about worst-case
+> performance need numa balancing disabled. Others, on the contrary, allow a
+> temporary performance loss in exchange for higher average performance, so
+> enable numa balancing is better for them.
+> 
+> Numa balancing can only be controlled globally by
+> /proc/sys/kernel/numa_balancing. Due to the above case, we want to
+> disable/enable numa_balancing per-process instead.
+> 
+> Add numa_balancing under mm_struct. Then use it in task_tick_fair.
+> 
+> Set per-process numa balancing:
+> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DISABLE); //disable
+> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_ENABLE);  //enable
+> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DEFAULT); //follow global
+> Get numa_balancing state:
+> 	prctl(PR_NUMA_BALANCING, PR_GET_NUMAB, &ret);
+> 	cat /proc/<pid>/status | grep NumaB_enabled
+> 
+> Cc: linux-api@vger.kernel.org
+> Signed-off-by: Gang Li <ligang.bdlg@bytedance.com>
+> ---
+> 
+> Changes in v3:
+> - Fix compile error.
+> 
+> Changes in v2:
+> - Now PR_NUMA_BALANCING support three states: enabled, disabled, default.
+>    enabled and disabled will ignore global setting, and default will follow
+>    global setting.
+-- 
+Thanks
+Gang Li
+
