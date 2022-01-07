@@ -2,247 +2,117 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 61B6F4871AF
-	for <lists+linux-api@lfdr.de>; Fri,  7 Jan 2022 05:10:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB09D48769D
+	for <lists+linux-api@lfdr.de>; Fri,  7 Jan 2022 12:37:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231960AbiAGEKK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 6 Jan 2022 23:10:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46912 "EHLO
+        id S1347142AbiAGLhY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 7 Jan 2022 06:37:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231232AbiAGEKK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 6 Jan 2022 23:10:10 -0500
-X-Greylist: delayed 1310 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 06 Jan 2022 20:10:09 PST
-Received: from zeniv-ca.linux.org.uk (zeniv-ca.linux.org.uk [IPv6:2607:5300:60:148a::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96A17C061245
-        for <linux-api@vger.kernel.org>; Thu,  6 Jan 2022 20:10:09 -0800 (PST)
-Received: from viro by zeniv-ca.linux.org.uk with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1n5gEj-000GL6-71; Fri, 07 Jan 2022 03:48:17 +0000
-Date:   Fri, 7 Jan 2022 03:48:17 +0000
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Kees Cook <keescook@chromium.org>, linux-api@vger.kernel.org
-Subject: Re: [PATCH 01/17] exit: Remove profile_task_exit & profile_munmap
-Message-ID: <Yde4AcAxTziaVies@zeniv-ca.linux.org.uk>
-References: <87r19opkx1.fsf_-_@email.froward.int.ebiederm.org>
- <20220103213312.9144-1-ebiederm@xmission.com>
+        with ESMTP id S237987AbiAGLhX (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 7 Jan 2022 06:37:23 -0500
+Received: from mail-vk1-xa33.google.com (mail-vk1-xa33.google.com [IPv6:2607:f8b0:4864:20::a33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ACA1C061212
+        for <linux-api@vger.kernel.org>; Fri,  7 Jan 2022 03:37:23 -0800 (PST)
+Received: by mail-vk1-xa33.google.com with SMTP id h5so3502960vkp.5
+        for <linux-api@vger.kernel.org>; Fri, 07 Jan 2022 03:37:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=IUJi736R0fM5QA8g0ZKaoRCbopQfasktyrrBv4+8QM0=;
+        b=ArtkHmHS3sjdrR5xR5owDb9E7e/NgSHbaFg2qtDGKfOY3H93jCtKV/wcMP/R0Vn9wA
+         zp8z5CaaM21E9sDAHy5Ik1DZmh2HwznhD/BMjQZ+jjm2RO0+G2vB6jg6Omhhxj04G2q6
+         4MUpwb93GWHcFXfu5HQoXwccVMuQm+HX4ZUPrr35BVEcLuRRHp6X1ULa5JKVkfCl5CCH
+         TdHqZ9yj1Sw2ub7wl0VbNziuLWCLaqm+iuYQSZBJQP3m4SGPbZEUPX4MCkbgdDZP/y1u
+         fT9aXGQFrg+jIucHxNg2XR64xYtTbHvHczLeaw5hocZ0MRSA+ooeajPX/s8Po99Lv3PO
+         DQvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=IUJi736R0fM5QA8g0ZKaoRCbopQfasktyrrBv4+8QM0=;
+        b=E5UE3ymSd7zaYphy6uFB6N2HchTnbVVgRBm2JcHYZmdvfN4abyeAti/iyDLdvqT5+K
+         4i+PUkz4kZ4Lg0TdiztgN4QGO2kaAe5BoZGjPqzUXgna3DjJ8skFD7GV1BpBvL8A0bD/
+         yl6etKRcIlRX9r8B1emdhE9TBNeLbc29SImScGK5ACcnIE+a8s5PRcjVpgQTuOmz5qK9
+         uYjD4G1AH1nAWuxbEEHaDhy5Ms46aELN46HCLg7MxOic4/bNL9zE1InVDuKnMST/ufA4
+         sJml30f86KcvL+C+tc4PS594GpGdfCZItF/KjuWWwHKLtN4EmKFcle2bo1JhmFhjPmSg
+         vj2g==
+X-Gm-Message-State: AOAM531v4kR8SMghsw0EFLvkL7iQXJHyfNek97YUKGLV+C489M8FYn+F
+        KxA5DS2RkRpch/A/2FVm+dyB63kp+jZHQlrIZNI=
+X-Google-Smtp-Source: ABdhPJwWqHsOmArASXlQUF3OWj0Vpm5oPnIlVdZpZclcwPMXHVhBCEKnMiURDrMH31o+nDhGHPdIJFWq2/USq8WOFTQ=
+X-Received: by 2002:a1f:2bc7:: with SMTP id r190mr4254586vkr.0.1641555442712;
+ Fri, 07 Jan 2022 03:37:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220103213312.9144-1-ebiederm@xmission.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+Received: by 2002:a67:e8ce:0:0:0:0:0 with HTTP; Fri, 7 Jan 2022 03:37:22 -0800 (PST)
+Reply-To: kodjikokou09@gmail.com
+From:   kodji kokou <abrahammusa31@gmail.com>
+Date:   Fri, 7 Jan 2022 11:37:22 +0000
+Message-ID: <CADKVqRvfyQ2TxgOD+GwEqSkxDs5WdEwxw3YP3Rd+5084eii-4A@mail.gmail.com>
+Subject: Re
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jan 03, 2022 at 03:32:56PM -0600, Eric W. Biederman wrote:
-> When I say remove I mean remove.  All profile_task_exit and
-> profile_munmap do is call a blocking notifier chain.  The helpers
-> profile_task_register and profile_task_unregister are not called
-> anywhere in the tree.  Which means this is all dead code.
-> 
-> So remove the dead code and make it easier to read do_exit.
+Szanowny Beneficjentu,
 
-How about doing the same to profile_handoff_task() and
-task_handoff_register()/task_handoff_unregister(),
-while we are at it?  Combined diff would be this:
 
-diff --git a/include/linux/profile.h b/include/linux/profile.h
-index fd18ca96f5574..6aa64730298a0 100644
---- a/include/linux/profile.h
-+++ b/include/linux/profile.h
-@@ -31,11 +31,6 @@ static inline int create_proc_profile(void)
- }
- #endif
- 
--enum profile_type {
--	PROFILE_TASK_EXIT,
--	PROFILE_MUNMAP
--};
--
- #ifdef CONFIG_PROFILING
- 
- extern int prof_on __read_mostly;
-@@ -63,26 +58,6 @@ static inline void profile_hit(int type, void *ip)
- 		profile_hits(type, ip, 1);
- }
- 
--struct task_struct;
--struct mm_struct;
--
--/* task is in do_exit() */
--void profile_task_exit(struct task_struct * task);
--
--/* task is dead, free task struct ? Returns 1 if
-- * the task was taken, 0 if the task should be freed.
-- */
--int profile_handoff_task(struct task_struct * task);
--
--/* sys_munmap */
--void profile_munmap(unsigned long addr);
--
--int task_handoff_register(struct notifier_block * n);
--int task_handoff_unregister(struct notifier_block * n);
--
--int profile_event_register(enum profile_type, struct notifier_block * n);
--int profile_event_unregister(enum profile_type, struct notifier_block * n);
--
- #else
- 
- #define prof_on 0
-@@ -107,30 +82,6 @@ static inline void profile_hit(int type, void *ip)
- 	return;
- }
- 
--static inline int task_handoff_register(struct notifier_block * n)
--{
--	return -ENOSYS;
--}
--
--static inline int task_handoff_unregister(struct notifier_block * n)
--{
--	return -ENOSYS;
--}
--
--static inline int profile_event_register(enum profile_type t, struct notifier_block * n)
--{
--	return -ENOSYS;
--}
--
--static inline int profile_event_unregister(enum profile_type t, struct notifier_block * n)
--{
--	return -ENOSYS;
--}
--
--#define profile_task_exit(a) do { } while (0)
--#define profile_handoff_task(a) (0)
--#define profile_munmap(a) do { } while (0)
--
- #endif /* CONFIG_PROFILING */
- 
- #endif /* _LINUX_PROFILE_H */
-diff --git a/kernel/exit.c b/kernel/exit.c
-index f702a6a63686e..5086a5e9d02de 100644
---- a/kernel/exit.c
-+++ b/kernel/exit.c
-@@ -765,7 +765,6 @@ void __noreturn do_exit(long code)
- 		preempt_count_set(PREEMPT_ENABLED);
- 	}
- 
--	profile_task_exit(tsk);
- 	kcov_task_exit(tsk);
- 
- 	coredump_task_exit(tsk);
-diff --git a/kernel/fork.c b/kernel/fork.c
-index 3244cc56b697d..496c0b6c8cb83 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -754,9 +754,7 @@ void __put_task_struct(struct task_struct *tsk)
- 	delayacct_tsk_free(tsk);
- 	put_signal_struct(tsk->signal);
- 	sched_core_free(tsk);
--
--	if (!profile_handoff_task(tsk))
--		free_task(tsk);
-+	free_task(tsk);
- }
- EXPORT_SYMBOL_GPL(__put_task_struct);
- 
-diff --git a/kernel/profile.c b/kernel/profile.c
-index eb9c7f0f5ac52..37640a0bd8a3c 100644
---- a/kernel/profile.c
-+++ b/kernel/profile.c
-@@ -133,79 +133,6 @@ int __ref profile_init(void)
- 	return -ENOMEM;
- }
- 
--/* Profile event notifications */
--
--static BLOCKING_NOTIFIER_HEAD(task_exit_notifier);
--static ATOMIC_NOTIFIER_HEAD(task_free_notifier);
--static BLOCKING_NOTIFIER_HEAD(munmap_notifier);
--
--void profile_task_exit(struct task_struct *task)
--{
--	blocking_notifier_call_chain(&task_exit_notifier, 0, task);
--}
--
--int profile_handoff_task(struct task_struct *task)
--{
--	int ret;
--	ret = atomic_notifier_call_chain(&task_free_notifier, 0, task);
--	return (ret == NOTIFY_OK) ? 1 : 0;
--}
--
--void profile_munmap(unsigned long addr)
--{
--	blocking_notifier_call_chain(&munmap_notifier, 0, (void *)addr);
--}
--
--int task_handoff_register(struct notifier_block *n)
--{
--	return atomic_notifier_chain_register(&task_free_notifier, n);
--}
--EXPORT_SYMBOL_GPL(task_handoff_register);
--
--int task_handoff_unregister(struct notifier_block *n)
--{
--	return atomic_notifier_chain_unregister(&task_free_notifier, n);
--}
--EXPORT_SYMBOL_GPL(task_handoff_unregister);
--
--int profile_event_register(enum profile_type type, struct notifier_block *n)
--{
--	int err = -EINVAL;
--
--	switch (type) {
--	case PROFILE_TASK_EXIT:
--		err = blocking_notifier_chain_register(
--				&task_exit_notifier, n);
--		break;
--	case PROFILE_MUNMAP:
--		err = blocking_notifier_chain_register(
--				&munmap_notifier, n);
--		break;
--	}
--
--	return err;
--}
--EXPORT_SYMBOL_GPL(profile_event_register);
--
--int profile_event_unregister(enum profile_type type, struct notifier_block *n)
--{
--	int err = -EINVAL;
--
--	switch (type) {
--	case PROFILE_TASK_EXIT:
--		err = blocking_notifier_chain_unregister(
--				&task_exit_notifier, n);
--		break;
--	case PROFILE_MUNMAP:
--		err = blocking_notifier_chain_unregister(
--				&munmap_notifier, n);
--		break;
--	}
--
--	return err;
--}
--EXPORT_SYMBOL_GPL(profile_event_unregister);
--
- #if defined(CONFIG_SMP) && defined(CONFIG_PROC_FS)
- /*
-  * Each cpu has a pair of open-addressed hashtables for pending
-diff --git a/mm/mmap.c b/mm/mmap.c
-index bfb0ea164a90a..70318c2a47c39 100644
---- a/mm/mmap.c
-+++ b/mm/mmap.c
-@@ -2928,7 +2928,6 @@ EXPORT_SYMBOL(vm_munmap);
- SYSCALL_DEFINE2(munmap, unsigned long, addr, size_t, len)
- {
- 	addr = untagged_addr(addr);
--	profile_munmap(addr);
- 	return __vm_munmap(addr, len, true);
- }
- 
+We wsp=C3=B3=C5=82pracy z mi=C4=99dzynarodowym funduszem walutowym, fundusz=
+em Union
+Togolaise de Banque & Kuwait na rzecz rozwoju gospodarczego kraj=C3=B3w
+arabskich oraz organizacj=C4=85 Narod=C3=B3w Zjednoczonych (ONZ) Katar Char=
+ity,
+niniejszym oficjalnie powiadamiamy Pa=C5=84stwa o wyp=C5=82acie spadku.
+
+Otrzymujesz nagrod=C4=99 i prawo do otrzymania kwoty (350 000 USD) z
+funduszu Kuwejtu na rzecz rozwoju gospodarczego kraj=C3=B3w arabskich i
+organizacji charytatywnej Qatar Charity we wsp=C3=B3=C5=82pracy z Union
+Togolaise de Banque.
+
+Po dok=C5=82adnych badaniach i =C5=9Bledztwach dotycz=C4=85cych os=C3=B3b, =
+kt=C3=B3re maj=C4=85
+otrzyma=C4=87 spadek z programu Kuwejcki Fundusz na rzecz Arabskiego
+Rozwoju Gospodarczego, odkryli=C5=9Bmy, =C5=BCe jeste=C5=9B w to zaanga=C5=
+=BCowany, a Tw=C3=B3j
+adres e-mail zosta=C5=82 wybrany spo=C5=9Br=C3=B3d tych, kt=C3=B3rzy nie ot=
+rzymali jeszcze
+p=C5=82atno=C5=9Bci spadkowej.
+
+Dlatego w=C5=82a=C5=9Bnie teraz korzystamy z tej okazji, aby oficjalnie
+poinformowa=C4=87 Ci=C4=99, =C5=BCe Twoja p=C5=82atno=C5=9B=C4=87/=C5=9Brod=
+ek o warto=C5=9Bci (350 000 USD)
+zosta=C5=82 zatwierdzony, podpisany i zwolniony do natychmiastowego
+przelewu.
+
+Ten fundusz/p=C5=82atno=C5=9B=C4=87 jest dla Ciebie dziedzictwem za bycie w=
+=C5=9Br=C3=B3d beneficjent=C3=B3w.
+
+Jest sponsorowany i inicjowany przez Qatar Charity, MFW i Kuwait Fund
+for Arab Economic Development oraz Bank =C5=9Awiatowy i Union Togolaise de
+Banque. Stan Kuwejtu utrzymuje r=C3=B3wnie=C5=BC swoje wsparcie i wk=C5=82a=
+d do
+zasob=C3=B3w innych mi=C4=99dzynarodowych instytucji rozwojowych, takich ja=
+k
+Arab Fundusz na rzecz rozwoju gospodarczego i spo=C5=82ecznego, afryka=C5=
+=84ski
+bank rozwoju, mi=C4=99dzynarodowy fundusz Qatar Charity oraz mi=C4=99dzynar=
+odowe
+stowarzyszenie na rzecz rozwoju za po=C5=9Brednictwem funduszu kuwejckiego.
+
+
+Kiedy odkryjemy i zauwa=C5=BCymy, =C5=BCe nie otrzyma=C5=82e=C5=9B jeszcze =
+swojego
+funduszu spadkowego, zalecamy skontaktowanie si=C4=99 z nami w sprawie
+p=C5=82atno=C5=9Bci w celu natychmiastowego =C5=BC=C4=85dania p=C5=82atno=
+=C5=9Bci.
+
+skontaktuj si=C4=99 ze mn=C4=85 na ten e-mail (kodjikokou09@gmail.com)
+
+
+Z powa=C5=BCaniem,
+Z powa=C5=BCaniem,
+kodji kokou
+Union Togolaise de Banque
