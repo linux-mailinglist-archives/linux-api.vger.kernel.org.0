@@ -2,117 +2,200 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB09D48769D
-	for <lists+linux-api@lfdr.de>; Fri,  7 Jan 2022 12:37:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1917487AD5
+	for <lists+linux-api@lfdr.de>; Fri,  7 Jan 2022 17:58:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347142AbiAGLhY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 7 Jan 2022 06:37:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33586 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237987AbiAGLhX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 7 Jan 2022 06:37:23 -0500
-Received: from mail-vk1-xa33.google.com (mail-vk1-xa33.google.com [IPv6:2607:f8b0:4864:20::a33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ACA1C061212
-        for <linux-api@vger.kernel.org>; Fri,  7 Jan 2022 03:37:23 -0800 (PST)
-Received: by mail-vk1-xa33.google.com with SMTP id h5so3502960vkp.5
-        for <linux-api@vger.kernel.org>; Fri, 07 Jan 2022 03:37:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=IUJi736R0fM5QA8g0ZKaoRCbopQfasktyrrBv4+8QM0=;
-        b=ArtkHmHS3sjdrR5xR5owDb9E7e/NgSHbaFg2qtDGKfOY3H93jCtKV/wcMP/R0Vn9wA
-         zp8z5CaaM21E9sDAHy5Ik1DZmh2HwznhD/BMjQZ+jjm2RO0+G2vB6jg6Omhhxj04G2q6
-         4MUpwb93GWHcFXfu5HQoXwccVMuQm+HX4ZUPrr35BVEcLuRRHp6X1ULa5JKVkfCl5CCH
-         TdHqZ9yj1Sw2ub7wl0VbNziuLWCLaqm+iuYQSZBJQP3m4SGPbZEUPX4MCkbgdDZP/y1u
-         fT9aXGQFrg+jIucHxNg2XR64xYtTbHvHczLeaw5hocZ0MRSA+ooeajPX/s8Po99Lv3PO
-         DQvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=IUJi736R0fM5QA8g0ZKaoRCbopQfasktyrrBv4+8QM0=;
-        b=E5UE3ymSd7zaYphy6uFB6N2HchTnbVVgRBm2JcHYZmdvfN4abyeAti/iyDLdvqT5+K
-         4i+PUkz4kZ4Lg0TdiztgN4QGO2kaAe5BoZGjPqzUXgna3DjJ8skFD7GV1BpBvL8A0bD/
-         yl6etKRcIlRX9r8B1emdhE9TBNeLbc29SImScGK5ACcnIE+a8s5PRcjVpgQTuOmz5qK9
-         uYjD4G1AH1nAWuxbEEHaDhy5Ms46aELN46HCLg7MxOic4/bNL9zE1InVDuKnMST/ufA4
-         sJml30f86KcvL+C+tc4PS594GpGdfCZItF/KjuWWwHKLtN4EmKFcle2bo1JhmFhjPmSg
-         vj2g==
-X-Gm-Message-State: AOAM531v4kR8SMghsw0EFLvkL7iQXJHyfNek97YUKGLV+C489M8FYn+F
-        KxA5DS2RkRpch/A/2FVm+dyB63kp+jZHQlrIZNI=
-X-Google-Smtp-Source: ABdhPJwWqHsOmArASXlQUF3OWj0Vpm5oPnIlVdZpZclcwPMXHVhBCEKnMiURDrMH31o+nDhGHPdIJFWq2/USq8WOFTQ=
-X-Received: by 2002:a1f:2bc7:: with SMTP id r190mr4254586vkr.0.1641555442712;
- Fri, 07 Jan 2022 03:37:22 -0800 (PST)
+        id S240055AbiAGQ61 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 7 Jan 2022 11:58:27 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:42218 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240182AbiAGQ60 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 7 Jan 2022 11:58:26 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id CD55A212C9;
+        Fri,  7 Jan 2022 16:58:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1641574704; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=H8FQTxCSaXobv79wKMviWdxMIyZK3K1KzS8f/6eUeio=;
+        b=Vj7Pn1v9b6e2yk3AO2G3XAA6rYAbLOJ1TtblVWH0NW18+yh5L4oafKVVCpbNmuEH+KaABF
+        89jEE4DtBwthjOsXBSQ+y/JA1dLCARXSW29swHQxGyj9x/++TcF+mWu4BM9fN7zwTZkpfg
+        bha1DVjmRMGw3kc4ZxOqwzyj33acxWE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1641574704;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=H8FQTxCSaXobv79wKMviWdxMIyZK3K1KzS8f/6eUeio=;
+        b=eHP7GlMOpEhfkAKy7wMaJH0n0Stew7ZEGmsS2l1i1rHiGX54sBR/6qZuGRMSjevRWVAlTG
+        ZXQuxaHReWWa6KAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8CC9713D21;
+        Fri,  7 Jan 2022 16:58:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id mfKfITBx2GECOwAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Fri, 07 Jan 2022 16:58:24 +0000
+Message-ID: <91d662f1-baf6-1114-f237-a66ebc164009@suse.cz>
+Date:   Fri, 7 Jan 2022 17:58:24 +0100
 MIME-Version: 1.0
-Received: by 2002:a67:e8ce:0:0:0:0:0 with HTTP; Fri, 7 Jan 2022 03:37:22 -0800 (PST)
-Reply-To: kodjikokou09@gmail.com
-From:   kodji kokou <abrahammusa31@gmail.com>
-Date:   Fri, 7 Jan 2022 11:37:22 +0000
-Message-ID: <CADKVqRvfyQ2TxgOD+GwEqSkxDs5WdEwxw3YP3Rd+5084eii-4A@mail.gmail.com>
-Subject: Re
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH] sysinfo: include availram field in sysinfo struct
+Content-Language: en-US
+To:     Pintu Agarwal <pintu.ping@gmail.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Cyrill Gorcunov <gorcunov@gmail.com>,
+        Pintu Kumar <quic_pintu@quicinc.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-mm <linux-mm@kvack.org>, ebiederm@xmission.com,
+        sfr@canb.auug.org.au, legion@kernel.org, sashal@kernel.org,
+        chris.hyser@oracle.com, ccross@google.com, pcc@google.com,
+        dave@stgolabs.net, caoxiaofeng@yulong.com, david@redhat.com,
+        Linux API <linux-api@vger.kernel.org>
+References: <1641483250-18839-1-git-send-email-quic_pintu@quicinc.com>
+ <YdcUttZWaqYQpR1K@grain>
+ <CAOuPNLifYFPU4Gt2+1sOSsYNNLQq7U2aGVaYknrhaMc-CVx8vg@mail.gmail.com>
+ <Ydcmk+WaBWKlLkAw@grain> <20220107120451.z2eqru2tm5mlhla3@wittgenstein>
+ <CAOuPNLiJZu_HJQ+Hf5BJOgmT+v7DT96VLkiXrfx0MJQrkD3rSw@mail.gmail.com>
+From:   Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <CAOuPNLiJZu_HJQ+Hf5BJOgmT+v7DT96VLkiXrfx0MJQrkD3rSw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Szanowny Beneficjentu,
+CC linux-api
 
+On 1/7/22 14:44, Pintu Agarwal wrote:
+> On Fri, 7 Jan 2022 at 17:35, Christian Brauner
+> <christian.brauner@ubuntu.com> wrote:
+>>
+>> On Thu, Jan 06, 2022 at 08:27:47PM +0300, Cyrill Gorcunov wrote:
+>> > On Thu, Jan 06, 2022 at 10:19:55PM +0530, Pintu Agarwal wrote:
+>> > > > > diff --git a/include/uapi/linux/sysinfo.h b/include/uapi/linux/sysinfo.h
+>> > > > > index 435d5c2..6e77e90 100644
+>> > > > > --- a/include/uapi/linux/sysinfo.h
+>> > > > > +++ b/include/uapi/linux/sysinfo.h
+>> > > > > @@ -12,6 +12,7 @@ struct sysinfo {
+>> > > > >       __kernel_ulong_t freeram;       /* Available memory size */
+>> > > > >       __kernel_ulong_t sharedram;     /* Amount of shared memory */
+>> > > > >       __kernel_ulong_t bufferram;     /* Memory used by buffers */
+>> > > > > +     __kernel_ulong_t availram;      /* Memory available for allocation */
+>> > > > >       __kernel_ulong_t totalswap;     /* Total swap space size */
+>> > > > >       __kernel_ulong_t freeswap;      /* swap space still available */
+>> > > > >       __u16 procs;                    /* Number of current processes */
+>> > > >
+>> > > > Hi! Sorry, but I don't understand -- the sysinfo structure seems to
+>> > > > be part of user API, no? Don't we break it up here?
+>> > >
+>> > > Yes, the corresponding user space header /usr/include/linux/sysinfo.h
+>> > > also needs to be updated.
+>> > > When we generate the kernel header it will be updated automatically.
+>> >
+>> > Wait. The userspace may pass old structure here, and in result we
+>> > return incorrect layout which won't match old one, no? Old binary
+>> > code has no clue about this header update.
+>>
+>> Yes, that won't work as done.
+>>
+>> If we want to do this it needs to be done at the end of the struct right
+>> before the padding field and the newly added field substracted from the
+>> padding. (Not the preferred way to do it these days for new structs.)
+>>
+>> A new kernel can then pass in the struct with the newly added field and
+>> an old kernel can just fill the struct in as usual. New kernel will
+>> update the field with the correct value.
+>>
+>> But there's a catch depending on the type of value.
+>> The problem with these types of extensions is that you'll often need
+>> indicators to and from the kernel whether the extension is supported.
+>>
+>> Consider an extension where 0 is a valid value meaning "this resource is
+>> completely used". Since the kernel and userspace always agree on the
+>> size of the struct the kernel will zero the whole struct. So if in your
+>> newly added field 0 is a valid value you can't differentiate between 0
+>> as a valid value indicating that your resource isn't available and 0 as
+>> the kernel not supporting your extension.
+>>
+>> Other APIs solve this and similar problems by having a request mask and
+>> a return mask.  Userspace fills in what values it wants reported in the
+>> request mask and kernel sets the supported flags in the return mask.
+>> This way you can differentiate between the two (see statx).
+>>
+>> If the 0 example is not a concern or acceptable for userspace it's
+>> probably fine. But you need to document that having 0 returned can mean
+>> both things.
+>>
+>> Or, you select a value different from 0 (-1?) that you can use to
+>> indicate to userspace that the resource is used up so 0 can just mean
+>> "kernel doesn't support this extension".
+> 
+> Thanks all for your inputs.
+> As Eric suggested in other thread (pasting here for reference):
+> {
+>> Before the padding and you should reduce the size of the padding by the
+>> size of your new field.
+> 
+>>> Also, I could not understand what this is for ?
+>>> Do we need to update this since sture is changed ?
+> 
+>> In general padding like that is so new fields can be added.  The
+>> comment about libc5 makes me a wonder a bit, but I expect libc5 just
+>> added the padding in it's copy of the structure that it exported to
+>> userspace many many years ago so that new fields could be added.
+> 
+>> Eric
+> }
+> 
+> I made the changes like below and this seems to work even with older user space.
+> I mean earlier, when I ran "free" command it was giving "stack
+> smashing..." error,
+> but now the "free" command (which comes as part of busybox) works fine
+> even without recompiling with the updated header.
+> 
+> These are the header changes for quick look:
+> {{{
+> diff --git a/include/uapi/linux/sysinfo.h b/include/uapi/linux/sysinfo.h
+> index 6e77e90..fe84c6a 100644
+> --- a/include/uapi/linux/sysinfo.h
+> +++ b/include/uapi/linux/sysinfo.h
+> @@ -12,7 +12,6 @@ struct sysinfo {
+>         __kernel_ulong_t freeram;       /* Available memory size */
+>         __kernel_ulong_t sharedram;     /* Amount of shared memory */
+>         __kernel_ulong_t bufferram;     /* Memory used by buffers */
+> -       __kernel_ulong_t availram;      /* Memory available for allocation */
+>         __kernel_ulong_t totalswap;     /* Total swap space size */
+>         __kernel_ulong_t freeswap;      /* swap space still available */
+>         __u16 procs;                    /* Number of current processes */
+> @@ -20,7 +19,8 @@ struct sysinfo {
+>         __kernel_ulong_t totalhigh;     /* Total high memory size */
+>         __kernel_ulong_t freehigh;      /* Available high memory size */
+>         __u32 mem_unit;                 /* Memory unit size in bytes */
+> -       char _f[20-2*sizeof(__kernel_ulong_t)-sizeof(__u32)];   /*
+> Padding: libc5 uses this.. */
+> +       __kernel_ulong_t availram;      /* Memory available for allocation */
+> +       char _f[20-3*sizeof(__kernel_ulong_t)-sizeof(__u32)];   /*
+> Padding: libc5 uses this.. */
+>  };
+> }}}
+> 
+> If this is fine, I will push the new patch set.
 
-We wsp=C3=B3=C5=82pracy z mi=C4=99dzynarodowym funduszem walutowym, fundusz=
-em Union
-Togolaise de Banque & Kuwait na rzecz rozwoju gospodarczego kraj=C3=B3w
-arabskich oraz organizacj=C4=85 Narod=C3=B3w Zjednoczonych (ONZ) Katar Char=
-ity,
-niniejszym oficjalnie powiadamiamy Pa=C5=84stwa o wyp=C5=82acie spadku.
+Please CC linux-api@vger.kernel.org on the new posting.
 
-Otrzymujesz nagrod=C4=99 i prawo do otrzymania kwoty (350 000 USD) z
-funduszu Kuwejtu na rzecz rozwoju gospodarczego kraj=C3=B3w arabskich i
-organizacji charytatywnej Qatar Charity we wsp=C3=B3=C5=82pracy z Union
-Togolaise de Banque.
+> Thanks,
+> Pintu
+> 
 
-Po dok=C5=82adnych badaniach i =C5=9Bledztwach dotycz=C4=85cych os=C3=B3b, =
-kt=C3=B3re maj=C4=85
-otrzyma=C4=87 spadek z programu Kuwejcki Fundusz na rzecz Arabskiego
-Rozwoju Gospodarczego, odkryli=C5=9Bmy, =C5=BCe jeste=C5=9B w to zaanga=C5=
-=BCowany, a Tw=C3=B3j
-adres e-mail zosta=C5=82 wybrany spo=C5=9Br=C3=B3d tych, kt=C3=B3rzy nie ot=
-rzymali jeszcze
-p=C5=82atno=C5=9Bci spadkowej.
-
-Dlatego w=C5=82a=C5=9Bnie teraz korzystamy z tej okazji, aby oficjalnie
-poinformowa=C4=87 Ci=C4=99, =C5=BCe Twoja p=C5=82atno=C5=9B=C4=87/=C5=9Brod=
-ek o warto=C5=9Bci (350 000 USD)
-zosta=C5=82 zatwierdzony, podpisany i zwolniony do natychmiastowego
-przelewu.
-
-Ten fundusz/p=C5=82atno=C5=9B=C4=87 jest dla Ciebie dziedzictwem za bycie w=
-=C5=9Br=C3=B3d beneficjent=C3=B3w.
-
-Jest sponsorowany i inicjowany przez Qatar Charity, MFW i Kuwait Fund
-for Arab Economic Development oraz Bank =C5=9Awiatowy i Union Togolaise de
-Banque. Stan Kuwejtu utrzymuje r=C3=B3wnie=C5=BC swoje wsparcie i wk=C5=82a=
-d do
-zasob=C3=B3w innych mi=C4=99dzynarodowych instytucji rozwojowych, takich ja=
-k
-Arab Fundusz na rzecz rozwoju gospodarczego i spo=C5=82ecznego, afryka=C5=
-=84ski
-bank rozwoju, mi=C4=99dzynarodowy fundusz Qatar Charity oraz mi=C4=99dzynar=
-odowe
-stowarzyszenie na rzecz rozwoju za po=C5=9Brednictwem funduszu kuwejckiego.
-
-
-Kiedy odkryjemy i zauwa=C5=BCymy, =C5=BCe nie otrzyma=C5=82e=C5=9B jeszcze =
-swojego
-funduszu spadkowego, zalecamy skontaktowanie si=C4=99 z nami w sprawie
-p=C5=82atno=C5=9Bci w celu natychmiastowego =C5=BC=C4=85dania p=C5=82atno=
-=C5=9Bci.
-
-skontaktuj si=C4=99 ze mn=C4=85 na ten e-mail (kodjikokou09@gmail.com)
-
-
-Z powa=C5=BCaniem,
-Z powa=C5=BCaniem,
-kodji kokou
-Union Togolaise de Banque
