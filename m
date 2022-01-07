@@ -2,143 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CCC2487E41
-	for <lists+linux-api@lfdr.de>; Fri,  7 Jan 2022 22:27:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04128487EE0
+	for <lists+linux-api@lfdr.de>; Fri,  7 Jan 2022 23:18:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229932AbiAGV1s (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 7 Jan 2022 16:27:48 -0500
-Received: from mail.efficios.com ([167.114.26.124]:34252 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229879AbiAGV1s (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 7 Jan 2022 16:27:48 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id BD2EF37BD41;
-        Fri,  7 Jan 2022 16:27:47 -0500 (EST)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id P420h2c_cXgU; Fri,  7 Jan 2022 16:27:47 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 39E0C37BB66;
-        Fri,  7 Jan 2022 16:27:47 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 39E0C37BB66
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1641590867;
-        bh=wfuaRpCRpCY8Tb4bfdjUHAUsYLMAX74Njj1pgAYmeo8=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=Nmq3CLL2jM9SJv9IH9Y/vERTJdgIsEwbiTazLqpKWqLkANv4331AJVHFBzXUjrR4P
-         t1OjzL8gZbnseZaGF2FcYXeifcBotv+Ji/sMi9peElzoqGcRniPijX+J5XDEnhg8hP
-         SPG9lPnMUk7FoK1TpPWWCJ0JhXYm3DCq/HzrYIGp+g5cWT6ueKmCSDWHoHZmCHSFLy
-         48ezOrKSbMgoiVbS9RSsqVVDa8ae/BQHu0ZbomX4sz9+S9Jm04lE7h4JrR03v67+Bi
-         Lo8e5K7XvARYIAfEwG7uE17LW8BuogqH6u8tn5P7KXnj+jDUSgPTBZxA7nGxg8mOsc
-         NBUTZ0DnLIOTA==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id Z5vwNaqddgDm; Fri,  7 Jan 2022 16:27:47 -0500 (EST)
-Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id 27EEC37BCE0;
-        Fri,  7 Jan 2022 16:27:47 -0500 (EST)
-Date:   Fri, 7 Jan 2022 16:27:47 -0500 (EST)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Florian Weimer <fw@deneb.enyo.de>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        paulmck <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api <linux-api@vger.kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        carlos <carlos@redhat.com>
-Message-ID: <1300078200.13848.1641590867024.JavaMail.zimbra@efficios.com>
-In-Reply-To: <1968088162.13310.1641584935813.JavaMail.zimbra@efficios.com>
-References: <20220107170302.8325-1-mathieu.desnoyers@efficios.com> <87a6g7ny0j.fsf@mid.deneb.enyo.de> <1968088162.13310.1641584935813.JavaMail.zimbra@efficios.com>
-Subject: Re: [RFC PATCH] rseq: x86: implement abort-at-ip extension
+        id S231129AbiAGWSf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 7 Jan 2022 17:18:35 -0500
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:47201 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230393AbiAGWSe (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 7 Jan 2022 17:18:34 -0500
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-309-9B2oZdVrNoiElpUy5pZb3A-1; Fri, 07 Jan 2022 22:18:31 +0000
+X-MC-Unique: 9B2oZdVrNoiElpUy5pZb3A-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.26; Fri, 7 Jan 2022 22:18:30 +0000
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.026; Fri, 7 Jan 2022 22:18:30 +0000
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Vlastimil Babka' <vbabka@suse.cz>,
+        Pintu Agarwal <pintu.ping@gmail.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>
+CC:     Cyrill Gorcunov <gorcunov@gmail.com>,
+        Pintu Kumar <quic_pintu@quicinc.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        linux-mm <linux-mm@kvack.org>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
+        "legion@kernel.org" <legion@kernel.org>,
+        "sashal@kernel.org" <sashal@kernel.org>,
+        "chris.hyser@oracle.com" <chris.hyser@oracle.com>,
+        "ccross@google.com" <ccross@google.com>,
+        "pcc@google.com" <pcc@google.com>,
+        "dave@stgolabs.net" <dave@stgolabs.net>,
+        "caoxiaofeng@yulong.com" <caoxiaofeng@yulong.com>,
+        "david@redhat.com" <david@redhat.com>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: RE: [PATCH] sysinfo: include availram field in sysinfo struct
+Thread-Topic: [PATCH] sysinfo: include availram field in sysinfo struct
+Thread-Index: AQHYA+fIixjnSb16cEG6DC0DSDaBB6xYIBog
+Date:   Fri, 7 Jan 2022 22:18:30 +0000
+Message-ID: <c6abe87e4c284248985ea039428ab3fe@AcuMS.aculab.com>
+References: <1641483250-18839-1-git-send-email-quic_pintu@quicinc.com>
+ <YdcUttZWaqYQpR1K@grain>
+ <CAOuPNLifYFPU4Gt2+1sOSsYNNLQq7U2aGVaYknrhaMc-CVx8vg@mail.gmail.com>
+ <Ydcmk+WaBWKlLkAw@grain> <20220107120451.z2eqru2tm5mlhla3@wittgenstein>
+ <CAOuPNLiJZu_HJQ+Hf5BJOgmT+v7DT96VLkiXrfx0MJQrkD3rSw@mail.gmail.com>
+ <91d662f1-baf6-1114-f237-a66ebc164009@suse.cz>
+In-Reply-To: <91d662f1-baf6-1114-f237-a66ebc164009@suse.cz>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [167.114.26.124]
-X-Mailer: Zimbra 8.8.15_GA_4180 (ZimbraWebClient - FF95 (Linux)/8.8.15_GA_4177)
-Thread-Topic: rseq: x86: implement abort-at-ip extension
-Thread-Index: 3gt3DeiK7OZf0kNeFIUwJ9FIkzAsPQxQ8i2E
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On Jan 7, 2022, at 2:48 PM, Mathieu Desnoyers mathieu.desnoyers@efficios.com wrote:
+PiA+IFRoZXNlIGFyZSB0aGUgaGVhZGVyIGNoYW5nZXMgZm9yIHF1aWNrIGxvb2s6DQo+ID4ge3t7
+DQo+ID4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvdWFwaS9saW51eC9zeXNpbmZvLmggYi9pbmNsdWRl
+L3VhcGkvbGludXgvc3lzaW5mby5oDQo+ID4gaW5kZXggNmU3N2U5MC4uZmU4NGM2YSAxMDA2NDQN
+Cj4gPiAtLS0gYS9pbmNsdWRlL3VhcGkvbGludXgvc3lzaW5mby5oDQo+ID4gKysrIGIvaW5jbHVk
+ZS91YXBpL2xpbnV4L3N5c2luZm8uaA0KPiA+IEBAIC0xMiw3ICsxMiw2IEBAIHN0cnVjdCBzeXNp
+bmZvIHsNCj4gPiAgICAgICAgIF9fa2VybmVsX3Vsb25nX3QgZnJlZXJhbTsgICAgICAgLyogQXZh
+aWxhYmxlIG1lbW9yeSBzaXplICovDQo+ID4gICAgICAgICBfX2tlcm5lbF91bG9uZ190IHNoYXJl
+ZHJhbTsgICAgIC8qIEFtb3VudCBvZiBzaGFyZWQgbWVtb3J5ICovDQo+ID4gICAgICAgICBfX2tl
+cm5lbF91bG9uZ190IGJ1ZmZlcnJhbTsgICAgIC8qIE1lbW9yeSB1c2VkIGJ5IGJ1ZmZlcnMgKi8N
+Cj4gPiAtICAgICAgIF9fa2VybmVsX3Vsb25nX3QgYXZhaWxyYW07ICAgICAgLyogTWVtb3J5IGF2
+YWlsYWJsZSBmb3IgYWxsb2NhdGlvbiAqLw0KPiA+ICAgICAgICAgX19rZXJuZWxfdWxvbmdfdCB0
+b3RhbHN3YXA7ICAgICAvKiBUb3RhbCBzd2FwIHNwYWNlIHNpemUgKi8NCj4gPiAgICAgICAgIF9f
+a2VybmVsX3Vsb25nX3QgZnJlZXN3YXA7ICAgICAgLyogc3dhcCBzcGFjZSBzdGlsbCBhdmFpbGFi
+bGUgKi8NCj4gPiAgICAgICAgIF9fdTE2IHByb2NzOyAgICAgICAgICAgICAgICAgICAgLyogTnVt
+YmVyIG9mIGN1cnJlbnQgcHJvY2Vzc2VzICovDQo+ID4gQEAgLTIwLDcgKzE5LDggQEAgc3RydWN0
+IHN5c2luZm8gew0KPiA+ICAgICAgICAgX19rZXJuZWxfdWxvbmdfdCB0b3RhbGhpZ2g7ICAgICAv
+KiBUb3RhbCBoaWdoIG1lbW9yeSBzaXplICovDQo+ID4gICAgICAgICBfX2tlcm5lbF91bG9uZ190
+IGZyZWVoaWdoOyAgICAgIC8qIEF2YWlsYWJsZSBoaWdoIG1lbW9yeSBzaXplICovDQo+ID4gICAg
+ICAgICBfX3UzMiBtZW1fdW5pdDsgICAgICAgICAgICAgICAgIC8qIE1lbW9yeSB1bml0IHNpemUg
+aW4gYnl0ZXMgKi8NCj4gPiAtICAgICAgIGNoYXIgX2ZbMjAtMipzaXplb2YoX19rZXJuZWxfdWxv
+bmdfdCktc2l6ZW9mKF9fdTMyKV07ICAgLyoNCj4gPiBQYWRkaW5nOiBsaWJjNSB1c2VzIHRoaXMu
+LiAqLw0KPiA+ICsgICAgICAgX19rZXJuZWxfdWxvbmdfdCBhdmFpbHJhbTsgICAgICAvKiBNZW1v
+cnkgYXZhaWxhYmxlIGZvciBhbGxvY2F0aW9uICovDQo+ID4gKyAgICAgICBjaGFyIF9mWzIwLTMq
+c2l6ZW9mKF9fa2VybmVsX3Vsb25nX3QpLXNpemVvZihfX3UzMildOyAgIC8qDQo+ID4gUGFkZGlu
+ZzogbGliYzUgdXNlcyB0aGlzLi4gKi8NCj4gPiAgfTsNCj4gPiB9fX0NCj4gPg0KPiA+IElmIHRo
+aXMgaXMgZmluZSwgSSB3aWxsIHB1c2ggdGhlIG5ldyBwYXRjaCBzZXQuDQo+IA0KPiBQbGVhc2Ug
+Q0MgbGludXgtYXBpQHZnZXIua2VybmVsLm9yZyBvbiB0aGUgbmV3IHBvc3RpbmcuDQoNClRoYXQg
+aXMgcHJvYmFibHkgc3RpbGwgYnJva2VuLg0KSWYgX19rZXJuZWxfdWxvbmdfdCBpcyA2NGJpdCB0
+aGVyZSBpcyBhcmNoaXRlY3R1cmUNCmRlcGVuZGFudCBwYWRkaW5nIGFmdGVyIG1lbV91bml0Lg0K
+DQpJbiBwYXJ0aWN1bGFyIGEgMzJiaXQgeDg2IGFwcCBydW5uaW5nIG9uIGEgNjRiaXQga2VybmVs
+DQp3aWxsIHByb2JhYmx5IHNlZSB0aGUgd3JvbmcgbGF5b3V0Lg0KDQpZb3UgZGVmaW5pdGVseSBu
+ZWVkIGEgY29tcGlsZS10aW1lIGFzc2VydCBvbiB0aGUgdG90YWwgc3RydWN0dXJlIHNpemUuDQoN
+CglEYXZpZA0KDQotDQpSZWdpc3RlcmVkIEFkZHJlc3MgTGFrZXNpZGUsIEJyYW1sZXkgUm9hZCwg
+TW91bnQgRmFybSwgTWlsdG9uIEtleW5lcywgTUsxIDFQVCwgVUsNClJlZ2lzdHJhdGlvbiBObzog
+MTM5NzM4NiAoV2FsZXMpDQo=
 
-> ----- On Jan 7, 2022, at 2:31 PM, Florian Weimer fw@deneb.enyo.de wrote:
-> 
->> * Mathieu Desnoyers:
->> 
->>> Allow rseq critical section abort handlers to optionally figure out at
->>> which instruction pointer the rseq critical section was aborted.
->>>
->>> This allows implementing rseq critical sections containing loops, in
->>> which case the commit side-effect cannot be the last instruction. This
->>> is useful to implement adaptative mutexes aware of preemption in
->>> user-space. (see [1])
->> 
->> Could you write the program counter to the rseq area instead?  This
->> would avoid discussing which register to clobber.
-> 
-> Using the rseq area for that purpose would be problematic for nested signal
-> handlers with rseq critical sections. If a signal happens to be delivered
-> right after the abort ip adjustment, its signal handler containing a rseq
-> critical section could overwrite the relevant "abort-at-ip" field in the
-> rseq per-thread area before it has been read by the abort handler interrupted
-> by the signal.
-> 
-> Making this architecture-agnostic is indeed a laudable goal, but I don't
-> think the rseq per-thread area is a good fit for this.
-> 
-> I also though about making the clobbered register configurable on a
-> per-critical-section basis, but I rather think that it would be
-> overengineered: too much complexity for the gain. Unless there are
-> very strong reasons for choosing one register over another on a per
-> use-case basis ?
-> 
-> I guess if we ever care about the state of a given register within a given
-> range of instructions, we may lose that information if it is overwritten
-> by the abort-at-ip value. For instance, in my adaptative mutex prototype,
-> I use the Zero Flag to check if cmpxchg has succeeded. But if I would have
-> wanted to use the register modified by cmpxchg, and it would happen to be
-> clobbered by the abort-at-ip on abort, then it limits what the abort handler
-> can observe. It's fine as long as instructions can select what registers they
-> operate on, but instructions like cmpxchg AFAIR work on specific registers,
-> which might warrant making the abort-at-ip register configurable per
-> critical section. But maybe just choosing a register for abort-at-ip which
-> is not typically used by instructions that rely on hardcoded registers might
-> be sufficient.
-> 
-> Thoughts ?
-
-That being said, there might be an architecture agnostic alternative available.
-On abort of a RSEQ_CS_FLAG_ABORT_AT_IP critical section, we could let the kernel
-decrement/increment the stack pointer to make room for a pointer (depending if the
-stack grows down or up). It would then store the abort-at-ip value at the top of
-stack.
-
-The abort handler would be expected to use this top of stack abort-at-ip value,
-and would be required to increment/decrement (depending on the stack direction)
-the stack pointer back to its rightful value before the end of the assembly block.
-
-Thoughts ?
-
-Thanks,
-
-Mathieu
-
-> 
-> Thanks,
-> 
-> Mathieu
-> 
-> --
-> Mathieu Desnoyers
-> EfficiOS Inc.
-> http://www.efficios.com
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
