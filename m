@@ -2,132 +2,133 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A97E48858A
-	for <lists+linux-api@lfdr.de>; Sat,  8 Jan 2022 20:13:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CFBF4886C7
+	for <lists+linux-api@lfdr.de>; Sat,  8 Jan 2022 23:35:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231284AbiAHTNY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 8 Jan 2022 14:13:24 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:33690 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S230409AbiAHTNX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 8 Jan 2022 14:13:23 -0500
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 208J1dSM028622;
-        Sat, 8 Jan 2022 19:13:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : references : content-type : in-reply-to :
- mime-version; s=pp1; bh=ZtrEmj7RpLT0D2CRHKuWX77vx/C+jmz39Z1GFmH3mLs=;
- b=tHqU1llKYcXRmyJ2hPlZPcDrCzMthnMjQ6FHBCKK/+d2tuoN5POvef0cikqmXgKGkqu8
- gxo3qWCqEWGyizloBiONrA/qTFUYqRqU/Ihxd+iSN1negkudiRNvbw7Sqod3CieychtI
- 2LlMdVm+tU0q4Lp3WaLL4k+9DaOpmQkaQbQOfay8tGtvFB/kMPG+266ctHesN8njk6QT
- lbclNazsdI/GTT/7LvlkHLcgnEJF/xxgPOFUZdJHfQA1z9UM7OXf73BqcKZr+I5CqFNl
- NE+I/NrgIJvrAALOxz9nz3zgDWioqKrYIJMpyvyVJsGVeXfAr1jYadDDHBXZXFA3Rnwe DQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 3df37w1e36-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 08 Jan 2022 19:13:13 +0000
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 208J4kFu006144;
-        Sat, 8 Jan 2022 19:13:13 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 3df37w1e2w-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 08 Jan 2022 19:13:13 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
-        by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 208J7cox001250;
-        Sat, 8 Jan 2022 19:13:11 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
-        by ppma06ams.nl.ibm.com with ESMTP id 3df1vhb012-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 08 Jan 2022 19:13:11 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 208JD8Ae32506164
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sat, 8 Jan 2022 19:13:08 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C87AD11C04A;
-        Sat,  8 Jan 2022 19:13:08 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 646E911C04C;
-        Sat,  8 Jan 2022 19:13:08 +0000 (GMT)
-Received: from osiris (unknown [9.145.35.196])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Sat,  8 Jan 2022 19:13:08 +0000 (GMT)
-Date:   Sat, 8 Jan 2022 20:13:06 +0100
-From:   Heiko Carstens <hca@linux.ibm.com>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Alexey Gladkov <legion@kernel.org>,
-        Kyle Huey <me@kylehuey.com>, Oleg Nesterov <oleg@redhat.com>,
-        Kees Cook <keescook@chromium.org>,
-        Al Viro <viro@zeniv.linux.org.uk>
-Subject: Re: [PATCH 1/8] signal: Make SIGKILL during coredumps an explicit
- special case
-Message-ID: <YdniQob7w5hTwB1v@osiris>
-References: <87a6ha4zsd.fsf@email.froward.int.ebiederm.org>
- <20211213225350.27481-1-ebiederm@xmission.com>
- <CAHk-=wiS2P+p9VJXV_fWd5ntashbA0QVzJx15rTnWOCAAVJU_Q@mail.gmail.com>
- <87sfu3b7wm.fsf@email.froward.int.ebiederm.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87sfu3b7wm.fsf@email.froward.int.ebiederm.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: iK6vptB3IxazjPD9tBOXzl9b-opgXk7z
-X-Proofpoint-ORIG-GUID: 7N4-cUVmsiUdvBVeWxNSY1UpZbWLMSIk
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        id S234947AbiAHWfb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 8 Jan 2022 17:35:31 -0500
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:39485 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234951AbiAHWfa (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 8 Jan 2022 17:35:30 -0500
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-273-98gkTIwGNSu2nY5srYZbTQ-1; Sat, 08 Jan 2022 22:35:25 +0000
+X-MC-Unique: 98gkTIwGNSu2nY5srYZbTQ-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.26; Sat, 8 Jan 2022 22:35:24 +0000
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.026; Sat, 8 Jan 2022 22:35:24 +0000
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Pintu Agarwal' <pintu.ping@gmail.com>
+CC:     Pintu Kumar <quic_pintu@quicinc.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "christian.brauner@ubuntu.com" <christian.brauner@ubuntu.com>,
+        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
+        "legion@kernel.org" <legion@kernel.org>,
+        "sashal@kernel.org" <sashal@kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "chris.hyser@oracle.com" <chris.hyser@oracle.com>,
+        "ccross@google.com" <ccross@google.com>,
+        "pcc@google.com" <pcc@google.com>,
+        "dave@stgolabs.net" <dave@stgolabs.net>,
+        "caoxiaofeng@yulong.com" <caoxiaofeng@yulong.com>,
+        "david@redhat.com" <david@redhat.com>,
+        "vbabka@suse.cz" <vbabka@suse.cz>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "dhowells@redhat.com" <dhowells@redhat.com>
+Subject: RE: [PATCH v2] sysinfo: include availram field in sysinfo struct
+Thread-Topic: [PATCH v2] sysinfo: include availram field in sysinfo struct
+Thread-Index: AQHYA/GqnIwLmHPdn0+moS7Mf5DX3axYIclAgAE2xoCAAF134A==
+Date:   Sat, 8 Jan 2022 22:35:24 +0000
+Message-ID: <5aa1e8c55cf84436b35ee5557a508e8d@AcuMS.aculab.com>
+References: <1641483250-18839-1-git-send-email-quic_pintu@quicinc.com>
+ <1641578854-14232-1-git-send-email-quic_pintu@quicinc.com>
+ <19cce51e24584c2a8090b618c580a0bd@AcuMS.aculab.com>
+ <CAOuPNLh-WLxJ7w=_C7zKXArgZLbO7OahHHhuwAyN9E1yZvNTdQ@mail.gmail.com>
+In-Reply-To: <CAOuPNLh-WLxJ7w=_C7zKXArgZLbO7OahHHhuwAyN9E1yZvNTdQ@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-08_07,2022-01-07_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=693
- priorityscore=1501 suspectscore=0 clxscore=1011 spamscore=0 phishscore=0
- mlxscore=0 impostorscore=0 bulkscore=0 malwarescore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2201080145
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jan 04, 2022 at 01:47:05PM -0600, Eric W. Biederman wrote:
-> Currently I suspect changing wait_event_uninterruptible to
-> wait_event_killable, is causing problems.
-> 
-> Or perhaps there is some reason tasks that have already entered do_exit
-> need to have fatal_signal_pending set. (The will have
-> fatal_signal_pending set up until they enter get_signal which calls
-> do_group_exit which calls do_exit).
-> 
-> Which is why I am trying to reproduce the reported failure so I can get
-> the kernel to tell me what is going on.  If this is not resolved quickly
-> I won't send you this change, and I will pull it out of linux-next.
+RnJvbTogUGludHUgQWdhcndhbA0KPiBTZW50OiAwOCBKYW51YXJ5IDIwMjIgMTY6NTMNCj4gDQo+
+IE9uIFNhdCwgOCBKYW4gMjAyMiBhdCAwMzo1MiwgRGF2aWQgTGFpZ2h0IDxEYXZpZC5MYWlnaHRA
+YWN1bGFiLmNvbT4gd3JvdGU6DQo+ID4NCj4gPiBGcm9tOiBQaW50dSBLdW1hcg0KPiA+ID4gU2Vu
+dDogMDcgSmFudWFyeSAyMDIyIDE4OjA4DQo+ID4gPg0KPiA+ID4gVGhlIHN5c2luZm8gbWVtYmVy
+IGRvZXMgbm90IGhhdmUgYW55ICJhdmFpbGFibGUgcmFtIiBmaWVsZCBhbmQNCj4gPiA+IHRoZSBi
+dWZmZXJyYW0gZmllbGQgaXMgbm90IG11Y2ggaGVscGZ1bCBlaXRoZXIsIHRvIGdldCBhIHJvdWdo
+DQo+ID4gPiBlc3RpbWF0ZSBvZiBhdmFpbGFibGUgcmFtIG5lZWRlZCBmb3IgYWxsb2NhdGlvbi4N
+Cj4gPiA+DQo+ID4gPiBPbmUgbmVlZHMgdG8gcGFyc2UgTWVtQXZhaWxhYmxlIGZpZWxkIHNlcGFy
+YXRlbHkgZnJvbSAvcHJvYy9tZW1pbmZvDQo+ID4gPiB0byBnZXQgdGhpcyBpbmZvIGluc3RlYWQg
+b2YgZGlyZWN0bHkgZ2V0dGluZyBpZiBmcm9tIHN5c2luZm8gaXRzZWxmLg0KPiA+ID4NCj4gPiA+
+IFRodXMsIHRoaXMgcGF0Y2ggaW50cm9kdWNlIGEgbmV3IGZpZWxkIGFzIGF2YWlscmFtIGluIHN5
+c2luZm8NCj4gPiA+IHNvIHRoYXQgYWxsIHRoZSBpbmZvIHRvdGFsL2ZyZWUvYXZhaWxhYmxlIGNh
+biBiZSByZXRyaWV2ZWQgZnJvbQ0KPiA+ID4gb25lIHBsYWNlIGl0c2VsZi4NCj4gPiA+DQo+ID4g
+Li4uDQo+ID4gPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS91YXBpL2xpbnV4L3N5c2luZm8uaCBiL2lu
+Y2x1ZGUvdWFwaS9saW51eC9zeXNpbmZvLmgNCj4gPiA+IGluZGV4IDQzNWQ1YzIuLmZlODRjNmEg
+MTAwNjQ0DQo+ID4gPiAtLS0gYS9pbmNsdWRlL3VhcGkvbGludXgvc3lzaW5mby5oDQo+ID4gPiAr
+KysgYi9pbmNsdWRlL3VhcGkvbGludXgvc3lzaW5mby5oDQo+ID4gPiBAQCAtMTksNyArMTksOCBA
+QCBzdHJ1Y3Qgc3lzaW5mbyB7DQo+ID4gPiAgICAgICBfX2tlcm5lbF91bG9uZ190IHRvdGFsaGln
+aDsgICAgIC8qIFRvdGFsIGhpZ2ggbWVtb3J5IHNpemUgKi8NCj4gPiA+ICAgICAgIF9fa2VybmVs
+X3Vsb25nX3QgZnJlZWhpZ2g7ICAgICAgLyogQXZhaWxhYmxlIGhpZ2ggbWVtb3J5IHNpemUgKi8N
+Cj4gPiA+ICAgICAgIF9fdTMyIG1lbV91bml0OyAgICAgICAgICAgICAgICAgLyogTWVtb3J5IHVu
+aXQgc2l6ZSBpbiBieXRlcyAqLw0KPiA+ID4gLSAgICAgY2hhciBfZlsyMC0yKnNpemVvZihfX2tl
+cm5lbF91bG9uZ190KS1zaXplb2YoX191MzIpXTsgICAvKiBQYWRkaW5nOiBsaWJjNSB1c2VzIHRo
+aXMuLiAqLw0KPiA+DQo+ID4gVGhlcmUgYXJlIDQgcGFkIGJ5dGVzIGhlcmUgb24gbW9zdCA2NGJp
+dCBhcmNoaXRlY3R1cmVzLg0KPiA+DQo+ID4gPiArICAgICBfX2tlcm5lbF91bG9uZ190IGF2YWls
+cmFtOyAgICAgIC8qIE1lbW9yeSBhdmFpbGFibGUgZm9yIGFsbG9jYXRpb24gKi8NCj4gPiA+ICsg
+ICAgIGNoYXIgX2ZbMjAtMypzaXplb2YoX19rZXJuZWxfdWxvbmdfdCktc2l6ZW9mKF9fdTMyKV07
+ICAgLyogUGFkZGluZzogbGliYzUgdXNlcyB0aGlzLi4gKi8NCj4gPiA+ICB9Ow0KPiA+DQo+ID4g
+WW91J3ZlIG5vdCBjb21waWxlLXRpbWUgdGVzdGVkIHRoZSBzaXplIG9mIHRoZSBzdHJ1Y3R1cmUu
+DQo+ID4NCj4gV2l0aCAiMzIiIGluc3RlYWQgb2YgIjIwIiBpbiBwYWRkaW5nIEkgZ2V0IHRoZXNl
+IHNpemUgb2Ygc3lzaW5mbzoNCj4gSW4geDg2LTY0IGtlcm5lbCwgd2l0aCBhcHAgNjQtYml0OiBT
+aXplIG9mIHN5c2luZm8gPSAxMjgNCj4gSW4geDg2LTY0IGtlcm5lbCwgd2l0aCBhcHAgMzItYml0
+OjogU2l6ZSBvZiBzeXNpbmZvID0gNzYNCj4gSW4gYXJtLTY0IGtlcm5lbCwgd2l0aCBhcHAgMzIt
+Yml0OiBTaXplIG9mIHN5c2luZm8gPSA3Ng0KDQpZb3UgbmVlZCB0byBjb21wYXJlIHRoZSBzaXpl
+cyBiZWZvcmUgYW5kIGFmdGVyIHlvdXIgcGF0Y2gNCnRvIGVuc3VyZSBpdCBkb2Vzbid0IGNoYW5n
+ZSBvbiBhbnkgYXJjaGl0ZWN0dXJlLg0KDQo+IE9rYXkgdGhlIHN5cyByb2JvdCByZXBvcnRlZCBz
+b21lIGlzc3VlIGluIDY0LWJpdCBidWlsZC4NCj4ge3t7DQo+ID4+IGluY2x1ZGUvdWFwaS9saW51
+eC9zeXNpbmZvLmg6MjM6MTQ6IGVycm9yOiBzaXplIG9mIGFycmF5ICdfZicgaXMgdG9vIGxhcmdl
+DQo+ID4+ICAgIDIzIHwgICAgICAgICBjaGFyIF9mWzIwLTMqc2l6ZW9mKF9fa2VybmVsX3Vsb25n
+X3QpLXNpemVvZihfX3UzMildOyAgIC8qIFBhZGRpbmc6IGxpYmM1IHVzZXMNCj4gdGhpcy4uICov
+DQo+ID4+ICAgICAgIHwgICAgICAgICAgICAgIF5+DQo+IH19fQ0KPiANCj4gQWxzbywgSSBnb3Qg
+dGhlIHNhbWUgaXNzdWUgd2hpbGUgYnVpbGRpbmcgZm9yIGFybTY0LCBzbyBJIHRyaWVkIHRvDQo+
+IGFkanVzdCBsaWtlIHRoaXM6DQo+IGNoYXIgX2ZbMzItMypzaXplb2YoX19rZXJuZWxfdWxvbmdf
+dCktc2l6ZW9mKF9fdTMyKV07DQo+IA0KPiBXaXRoIHRoaXMgdGhlIGJ1aWxkIHdvcmtzIG9uIGJv
+dGggMzIvNjQgYnV0IG91dHB1dCBmYWlscyB3aGVuIHJ1bm5pbmcNCj4gMzItYml0IHByb2dyYW0g
+b24gNjQtYml0IGtlcm5lbC4NCj4gQWxzbywgdGhlIGZyZWUgY29tbWFuZCBvbiA2NC1iaXQgcmVw
+b3J0cyAic3RhY2sgc21hc2hpbmcgZXJyb3IiLi4NCj4gDQo+IEhvdyBkbyB3ZSByZXNvbHZlIHRo
+aXMgaXNzdWUgdG8gbWFrZSBpdCB3b3JrIG9uIGJvdGggYXJjaCA/DQo+IEFsc28sIEkgZG9uJ3Qg
+cmVhbGx5IHVuZGVyc3RhbmQgdGhlIHNpZ25pZmljYW5jZSBvZiB0aGF0IG51bWJlciAiMjAiDQo+
+IGluIHBhZGRpbmcgPw0KDQpNeSBndWVzcyBpcyB0aGF0IHNvbWVvbmUgYWRkZWQgYSBjaGFyIF9m
+WzIwXSBwYWQgdG8gYWxsb3cgZm9yIGV4cGFuc2lvbi4NClRoZW4gdHdvIF9fa2VybmVsX3Vsb25n
+X3QgYW5kIG9uZSBfX3UzMiBmaWVsZCB3ZXJlIGFkZGVkLCBzbyB0aGUNCnNpemUgb2YgdGhlIHBh
+ZCB3YXMgcmVkdWNlZC4NCldoZW4gX19rZXJuZWxfdWxvbmdfdCBpcyA2NGJpdCB0aGVuIGl0IHNl
+ZW1zIHRvIGJlIGNoYXIgX2ZbMF0NCi0gd2hpY2ggbWlnaHQgZ2VuZXJhdGUgYSBjb21waWxlIHdh
+cm5pbmcgc2luY2UgeW91IGFyZSBzdXBwb3NlZA0KdG8gdXNlIGNoYXIgX2ZbXSB0byBpbmRpY2F0
+ZSBhbiBleHRlbnNpYmxlIHN0cnVjdHVyZS4NClRoZXJlIGlzLCBob3dldmVyLCA0IGJ5dGVzIG9m
+IHBhZCBhZnRlciB0aGUgX2ZbXSBvbiBtb3N0IDY0Yml0DQphcmNoaXRlY3R1cmVzLg0KDQpTbyBh
+Y3R1YWxseSB0aGVyZSBpc24ndCBlbm91Z2ggc3BhY2UgdG8gYW55dGhpbmcgdXNlZnVsIGF0IGFs
+bC4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBS
+b2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9u
+IE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
 
-It would have been good if you would have removed this from linux-next
-already.
-
-Anyway, now I also had to spend quite some time to bisect why several test
-suites just hang with linux-next. It's probably because of holidays that
-you didn't get more bug reports.
-
-On s390
-
-- ltp
-- elfutils selftests
-- seccomp kernel selftests
-
-hang with linux-next.
-
-I bisected the problem to this patch using elfutils selftests:
-
-git clone git://sourceware.org/git/elfutils.git
-cd elfutils
-autoreconf -fi
-./configure --enable-maintainer-mode --disable-debuginfod
-make -j $(nproc) > /dev/null
-cd tests
-make -j $(nproc) check
-
-Note: I actually didn't verify if this also causes ltp+seccomp selftests
-      to hang. I just assume it is the case.
