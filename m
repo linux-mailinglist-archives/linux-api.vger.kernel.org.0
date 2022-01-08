@@ -2,203 +2,130 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E27C0488467
-	for <lists+linux-api@lfdr.de>; Sat,  8 Jan 2022 17:11:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4975F488480
+	for <lists+linux-api@lfdr.de>; Sat,  8 Jan 2022 17:24:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234641AbiAHQLZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 8 Jan 2022 11:11:25 -0500
-Received: from out03.mta.xmission.com ([166.70.13.233]:41062 "EHLO
-        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231570AbiAHQLY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 8 Jan 2022 11:11:24 -0500
-Received: from in02.mta.xmission.com ([166.70.13.52]:38896)
-        by out03.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1n6EJP-006Z0x-Dw; Sat, 08 Jan 2022 09:11:23 -0700
-Received: from ip68-110-24-146.om.om.cox.net ([68.110.24.146]:56388 helo=email.froward.int.ebiederm.org.xmission.com)
-        by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1n6EJN-005O1Q-9H; Sat, 08 Jan 2022 09:11:23 -0700
-From:   "Eric W. Biederman" <ebiederm@xmission.com>
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Kees Cook <keescook@chromium.org>, linux-api@vger.kernel.org
-References: <87r19opkx1.fsf_-_@email.froward.int.ebiederm.org>
-        <20220103213312.9144-1-ebiederm@xmission.com>
-        <Yde4AcAxTziaVies@zeniv-ca.linux.org.uk>
-Date:   Sat, 08 Jan 2022 10:10:47 -0600
-In-Reply-To: <Yde4AcAxTziaVies@zeniv-ca.linux.org.uk> (Al Viro's message of
-        "Fri, 7 Jan 2022 03:48:17 +0000")
-Message-ID: <87fspyw6m0.fsf@email.froward.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+        id S232076AbiAHQYu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 8 Jan 2022 11:24:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48756 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229553AbiAHQYu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 8 Jan 2022 11:24:50 -0500
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0F18C06173F;
+        Sat,  8 Jan 2022 08:24:49 -0800 (PST)
+Received: by mail-yb1-xb30.google.com with SMTP id e198so3183664ybf.7;
+        Sat, 08 Jan 2022 08:24:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FJiGba+y5KGrEUxQgPj+i1n6kxwf6tPsHxl5ZtLV1Jk=;
+        b=Er0wHgv/5O39B6X1Eaoa+gOdkArRi0M7BbwKHauENahE6CMrveIBNNesOhCkvScO/A
+         i593kkGA/wbBUyW7ckhON+UPpr351NDk24ubAa51UCFmN2/HsQZXpr/a7BQELoRoT/g4
+         VfAw0hLKjrJSQMDoAHo3rlddCdqhVIZ/aGGOUSbCjamLuX7byDfb2Dyt8FDxrfEK1N60
+         JAQ2uumbdpeZL3j98Tkal2glWYgdHFHxtv7EXNvObkz97OmEh7qdjEG5pLu9jRyKVsCl
+         dDt5QD6ZI2OpoVOqqpYUFdxQ2Tt/LMx6jKlPH4oKg90nHegtuqS4EX53456Ig8pDGzwt
+         SpGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FJiGba+y5KGrEUxQgPj+i1n6kxwf6tPsHxl5ZtLV1Jk=;
+        b=F51dXE7MyRmqkDXHVKgOs0oIMnOrU4W5NAl8MLs3Wbz98lhkxlBJa/32vjWae7wRzb
+         UAmuEpJR9qomW4jQ3/FX05lAciWroqPhfEEiYVzyN2L6FPc1tMAKqAq+YBPoTi3e4aLs
+         87Pgwdjpj0E32riWVwQ38xGdQSSRAWKZ+XwyzknBN2f7PfWhcVq0c6Keknd+99miK4Kl
+         75lW+Qyk+17kWqgI9qpohYmZKsZYY2GpZXsc5CXuzG9xKIrDEcUr/yUg2cthnZi0nmsw
+         siFIlUa0hvOwRiKO32+0h3uinxM9lE06bwACKvromkBGtao37GLT+RVhjQ3oXU6Gq5Kr
+         cxXQ==
+X-Gm-Message-State: AOAM532QqPT49N8wn72VxoGdukIX88Q1HyX9rFF7Bu1NQKMsRFMcpfQg
+        YLWX+k6LYZipVxVt9Ripioph5JKMciwcCVTTF6Y=
+X-Google-Smtp-Source: ABdhPJx5mT0kNIzk8te7NqOcqysk500acHoavT5wfZvcDgQRdUA4MHK7GEmuQ344scSMOsFJ5FpOveStGfHW2c/Zn8k=
+X-Received: by 2002:a25:6c55:: with SMTP id h82mr89848305ybc.214.1641659088758;
+ Sat, 08 Jan 2022 08:24:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1n6EJN-005O1Q-9H;;;mid=<87fspyw6m0.fsf@email.froward.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.110.24.146;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX182nURwXFuPeTjj8mAvBySwd2YvfiPV/Q4=
-X-SA-Exim-Connect-IP: 68.110.24.146
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa05.xmission.com
-X-Spam-Level: **
-X-Spam-Status: No, score=2.0 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,XMNoVowels,
-        XMSubLong autolearn=disabled version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4997]
-        *  0.7 XMSubLong Long Subject
-        *  1.5 XMNoVowels Alpha-numberic number with no vowels
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa05 1397; Body=1 Fuz1=1 Fuz2=1]
-        *  0.0 T_TooManySym_01 4+ unique symbols in subject
-X-Spam-DCC: XMission; sa05 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: **;Al Viro <viro@zeniv.linux.org.uk>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 1575 ms - load_scoreonly_sql: 0.05 (0.0%),
-        signal_user_changed: 13 (0.8%), b_tie_ro: 11 (0.7%), parse: 1.74
-        (0.1%), extract_message_metadata: 24 (1.5%), get_uri_detail_list: 3.8
-        (0.2%), tests_pri_-1000: 23 (1.4%), tests_pri_-950: 1.62 (0.1%),
-        tests_pri_-900: 1.26 (0.1%), tests_pri_-90: 152 (9.7%), check_bayes:
-        150 (9.5%), b_tokenize: 16 (1.0%), b_tok_get_all: 9 (0.6%),
-        b_comp_prob: 4.1 (0.3%), b_tok_touch_all: 44 (2.8%), b_finish: 1.20
-        (0.1%), tests_pri_0: 1338 (85.0%), check_dkim_signature: 0.86 (0.1%),
-        check_dkim_adsp: 5 (0.3%), poll_dns_idle: 0.50 (0.0%), tests_pri_10:
-        4.0 (0.3%), tests_pri_500: 11 (0.7%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH 01/17] exit: Remove profile_task_exit & profile_munmap
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+References: <1641483250-18839-1-git-send-email-quic_pintu@quicinc.com>
+ <1641578854-14232-1-git-send-email-quic_pintu@quicinc.com> <YdiqLKS5Sv9eWwu2@grain>
+In-Reply-To: <YdiqLKS5Sv9eWwu2@grain>
+From:   Pintu Agarwal <pintu.ping@gmail.com>
+Date:   Sat, 8 Jan 2022 21:54:37 +0530
+Message-ID: <CAOuPNLhcvbk3-rTPqmJj5LBOh4VaZ+Bc=-_j6xKOLM-kH6jkfw@mail.gmail.com>
+Subject: Re: [PATCH v2] sysinfo: include availram field in sysinfo struct
+To:     Cyrill Gorcunov <gorcunov@gmail.com>
+Cc:     Pintu Kumar <quic_pintu@quicinc.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-mm <linux-mm@kvack.org>, ebiederm@xmission.com,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        sfr@canb.auug.org.au, legion@kernel.org, sashal@kernel.org,
+        chris.hyser@oracle.com, Colin Cross <ccross@google.com>,
+        Peter Collingbourne <pcc@google.com>, dave@stgolabs.net,
+        caoxiaofeng@yulong.com, david@redhat.com,
+        Vlastimil Babka <vbabka@suse.cz>, linux-api@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Al Viro <viro@zeniv.linux.org.uk> writes:
-
-> On Mon, Jan 03, 2022 at 03:32:56PM -0600, Eric W. Biederman wrote:
->> When I say remove I mean remove.  All profile_task_exit and
->> profile_munmap do is call a blocking notifier chain.  The helpers
->> profile_task_register and profile_task_unregister are not called
->> anywhere in the tree.  Which means this is all dead code.
->> 
->> So remove the dead code and make it easier to read do_exit.
+On Sat, 8 Jan 2022 at 02:31, Cyrill Gorcunov <gorcunov@gmail.com> wrote:
 >
-> How about doing the same to profile_handoff_task() and
-> task_handoff_register()/task_handoff_unregister(),
-> while we are at it?  Combined diff would be this:
+> On Fri, Jan 07, 2022 at 11:37:34PM +0530, Pintu Kumar wrote:
+> > The sysinfo member does not have any "available ram" field and
+> > the bufferram field is not much helpful either, to get a rough
+> > estimate of available ram needed for allocation.
+> >
+> > One needs to parse MemAvailable field separately from /proc/meminfo
+> > to get this info instead of directly getting if from sysinfo itself.
+>
+> Who exactly needs this change? Do you have some application for which
+> parsing /proc/meminfo is a hot path so it needs this information via
+> sysinfo interface?
+>
+Thank you so much for your feedback...
+I had a need to get total/free/available memory in my application (on
+a memory constraint system).
+First I tried to parse these from /proc/meminfo but then I saw sysinfo
+already provides some information,
+however available field was missing. Just to get available field I
+need to again do all the file operations.
 
-A very good idea.  I have added this incremental patch to my queue.
+Then I saw, even the "free" command doing this redundant work.
+Use sysinfo system call to get "total" and "free" memory then again
+get "available" memory from /proc/meminfo.
+Yet again, I see, even in kernel its reading from two different places
+while populating the /proc/meminfo.
+Also, I am sure there are plenty of other applications where this can
+be improved with this.
+Moreover, I think with this field there is not much use of other ram
+fields in sysinfo.
+Thus I felt a need to introduce this field to ease some operations.
 
-Eric
+> Don't get me wrong please but such extension really need a strong
+> justification because they are part of UAPI and there is not that much
+> space left in sysinfo structure. We will _have_ to live with this new
+> field forever so I propose to not introduce anything new here until
+> we have no other choise or parsing meminfo become a really bottleneck.
+>
+My guess is that this situation might exist in other places as well ?
+How do we handle new field addition to existing system calls ?
 
-From: "Eric W. Biederman" <ebiederm@xmission.com>
-Date: Sat, 8 Jan 2022 10:03:24 -0600
-Subject: [PATCH] exit: Remove profile_handoff_task
-
-All profile_handoff_task does is notify the task_free_notifier chain.
-The helpers task_handoff_register and task_handoff_unregister are used
-to add and delete entries from that chain and are never called.
-
-So remove the dead code and make it much easier to read and reason
-about __put_task_struct.
-
-Suggested-by: Al Viro <viro@zeniv.linux.org.uk>
-Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
----
- include/linux/profile.h | 19 -------------------
- kernel/fork.c           |  4 +---
- kernel/profile.c        | 23 -----------------------
- 3 files changed, 1 insertion(+), 45 deletions(-)
-
-diff --git a/include/linux/profile.h b/include/linux/profile.h
-index f7eb2b57d890..11db1ec516e2 100644
---- a/include/linux/profile.h
-+++ b/include/linux/profile.h
-@@ -61,14 +61,6 @@ static inline void profile_hit(int type, void *ip)
- struct task_struct;
- struct mm_struct;
- 
--/* task is dead, free task struct ? Returns 1 if
-- * the task was taken, 0 if the task should be freed.
-- */
--int profile_handoff_task(struct task_struct * task);
--
--int task_handoff_register(struct notifier_block * n);
--int task_handoff_unregister(struct notifier_block * n);
--
- #else
- 
- #define prof_on 0
-@@ -93,17 +85,6 @@ static inline void profile_hit(int type, void *ip)
- 	return;
- }
- 
--static inline int task_handoff_register(struct notifier_block * n)
--{
--	return -ENOSYS;
--}
--
--static inline int task_handoff_unregister(struct notifier_block * n)
--{
--	return -ENOSYS;
--}
--
--#define profile_handoff_task(a) (0)
- 
- #endif /* CONFIG_PROFILING */
- 
-diff --git a/kernel/fork.c b/kernel/fork.c
-index 6f0293cb29c9..494539ecb6d3 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -754,9 +754,7 @@ void __put_task_struct(struct task_struct *tsk)
- 	delayacct_tsk_free(tsk);
- 	put_signal_struct(tsk->signal);
- 	sched_core_free(tsk);
--
--	if (!profile_handoff_task(tsk))
--		free_task(tsk);
-+	free_task(tsk);
- }
- EXPORT_SYMBOL_GPL(__put_task_struct);
- 
-diff --git a/kernel/profile.c b/kernel/profile.c
-index 9355cc934a96..37640a0bd8a3 100644
---- a/kernel/profile.c
-+++ b/kernel/profile.c
-@@ -133,29 +133,6 @@ int __ref profile_init(void)
- 	return -ENOMEM;
- }
- 
--/* Profile event notifications */
--
--static ATOMIC_NOTIFIER_HEAD(task_free_notifier);
--
--int profile_handoff_task(struct task_struct *task)
--{
--	int ret;
--	ret = atomic_notifier_call_chain(&task_free_notifier, 0, task);
--	return (ret == NOTIFY_OK) ? 1 : 0;
--}
--
--int task_handoff_register(struct notifier_block *n)
--{
--	return atomic_notifier_chain_register(&task_free_notifier, n);
--}
--EXPORT_SYMBOL_GPL(task_handoff_register);
--
--int task_handoff_unregister(struct notifier_block *n)
--{
--	return atomic_notifier_chain_unregister(&task_free_notifier, n);
--}
--EXPORT_SYMBOL_GPL(task_handoff_unregister);
--
- #if defined(CONFIG_SMP) && defined(CONFIG_PROC_FS)
- /*
-  * Each cpu has a pair of open-addressed hashtables for pending
--- 
-2.29.2
-
-
+> > diff --git a/kernel/sys.c b/kernel/sys.c
+> > index ecc4cf0..7059515 100644
+> > --- a/kernel/sys.c
+> > +++ b/kernel/sys.c
+> > @@ -2671,6 +2671,7 @@ static int do_sysinfo(struct sysinfo *info)
+> >       info->freeram <<= bitcount;
+> >       info->sharedram <<= bitcount;
+> >       info->bufferram <<= bitcount;
+> > +     info->availram <<= bitcount;
+> >       info->totalswap <<= bitcount;
+> >       info->freeswap <<= bitcount;
+> >       info->totalhigh <<= bitcount;
+> > @@ -2700,6 +2701,7 @@ struct compat_sysinfo {
+> >       u32 freeram;
+> >       u32 sharedram;
+> >       u32 bufferram;
+> > +     u32 availram;
+>
+> If only I'm not missing something ovious, this is part of UAPI as well.
+Yes, this structure is part of the common UAPI header.
