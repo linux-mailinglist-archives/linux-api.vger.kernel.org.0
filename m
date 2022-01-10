@@ -2,115 +2,222 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF737489315
-	for <lists+linux-api@lfdr.de>; Mon, 10 Jan 2022 09:11:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B5004489BA5
+	for <lists+linux-api@lfdr.de>; Mon, 10 Jan 2022 15:55:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239437AbiAJIL3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 10 Jan 2022 03:11:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59218 "EHLO
+        id S230426AbiAJOzU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 10 Jan 2022 09:55:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239601AbiAJIL0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Jan 2022 03:11:26 -0500
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DBFCC06173F;
-        Mon, 10 Jan 2022 00:11:25 -0800 (PST)
-Received: by mail-lf1-x132.google.com with SMTP id g11so41402042lfu.2;
-        Mon, 10 Jan 2022 00:11:25 -0800 (PST)
+        with ESMTP id S230116AbiAJOzU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 10 Jan 2022 09:55:20 -0500
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F8E4C06173F;
+        Mon, 10 Jan 2022 06:55:20 -0800 (PST)
+Received: by mail-yb1-xb2c.google.com with SMTP id j83so38773368ybg.2;
+        Mon, 10 Jan 2022 06:55:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=+MlSZiq9RqylWqDh0sRZineCftjbqoTJy5wCtgk/PXk=;
-        b=lKs1E7vhWP22buArl+muj6kwVzs6P90Xz+OW+m5epbct4jtpfJmTrAwey0yQvMtz+b
-         +NPW9kec6s2A0PCpVh4kNBEZwSHvkth+HT9iiCdRewCko1pQvoq3bzkKRTGVx0QF+lNF
-         YCrNTK4UowVvsIITmc30TChYZ/lbq65CeSPIG+x/icbAA4bt97oK1DCGbLklA7+YkUxI
-         l4qBWrzjLe5UBNPryO4vlnltEiHcSoS2GfvfK8werJztcC6KKau4cqFxoD0884Nz5uHV
-         hGi80jYoD/ukwzyRhKw7twvz06zOQ9QXokpLOJGkRaJQRptCX+ZTQJAHMPv19mgCdGKs
-         Kong==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dEL+PwUNJ7VeDav8Vkg9ZEihg+obXr9BMf+UZGECSME=;
+        b=WMmkNgc4gd0Com5/mH7FQrgGMn6uv9XH3VFL4H6JkCFziFz7n7vr/ThIe9LF7iNK9l
+         x/F3Rhn09XlmkvucTt0lqtsAVsw6kcIhfJM8cSMpuafwVc6/YUgtVEDpTkuW+p6BmuJ6
+         MNdiXaNftD7MnCMfFz5Ft9Wi2jh22JspVyDpqb01naJBxK1LgGpMFKoeL011q/QHNzHp
+         Bpm+ZhgRQHgDhGSzcAoX0EBCYfTY0hKWpI+vauCSKbvgQzwqp2CLOQMHgUAzAu/7lIE/
+         IDBx77XRa09Oq/cnWxyjiW/tzn6vwI/tsAkDH84Eu3UVwSER/dy8nFhvglkmxNK88QTn
+         1MsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=+MlSZiq9RqylWqDh0sRZineCftjbqoTJy5wCtgk/PXk=;
-        b=1g5jV5+qAp6P9H15TD02uZx8maXs62D+wBmkjLUTN+rlvBJM8Fclepa6yk36hkFzXQ
-         d68Cu0JwG5r12MReK3csWNObYV4oFO354UG9Rxge7wG3khpxNJlHSH+aNFVp2cJjPn4e
-         zdZ3/gLfJ0rDcgSkw8SngFSzzcLtqw2qSb64/ZK8tGhX6Mztetr2DARFZhenYDt1S+W1
-         OIGKzMxTXFQIKZEE1+fHge784SqL7RgxRNPYcVfSZE3Y/qWKZXfcVBJ0vFXX3l6YCE6z
-         nZyB9l31Nc/g6f8LdAHmDh3/mgiZs/TMDsUkS0q8EKAHBqN8CADNMTEeNEC5r3IH0Q47
-         ay2g==
-X-Gm-Message-State: AOAM533mLoCTMNYcq7eqzYIe9XW8mf39D9xEK78boAj2YlbX6qLARyVA
-        +OHUq3/2E3Xf3ltAjkd7i7s=
-X-Google-Smtp-Source: ABdhPJyvAK15Ft/TN00MXnX0QnPG8re5XR1Yf1yQQ2tWZqRZdFUQ2pjijp4dqVOXxkvwbc/sD+nIew==
-X-Received: by 2002:a05:6512:130b:: with SMTP id x11mr33805576lfu.660.1641802283674;
-        Mon, 10 Jan 2022 00:11:23 -0800 (PST)
-Received: from grain.localdomain ([5.18.251.97])
-        by smtp.gmail.com with ESMTPSA id w7sm950690lfd.36.2022.01.10.00.11.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jan 2022 00:11:22 -0800 (PST)
-Received: by grain.localdomain (Postfix, from userid 1000)
-        id 7B2335A0020; Mon, 10 Jan 2022 11:11:21 +0300 (MSK)
-Date:   Mon, 10 Jan 2022 11:11:21 +0300
-From:   Cyrill Gorcunov <gorcunov@gmail.com>
-To:     Pintu Agarwal <pintu.ping@gmail.com>
-Cc:     Pintu Kumar <quic_pintu@quicinc.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-mm <linux-mm@kvack.org>, ebiederm@xmission.com,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        sfr@canb.auug.org.au, legion@kernel.org, sashal@kernel.org,
-        chris.hyser@oracle.com, Colin Cross <ccross@google.com>,
-        Peter Collingbourne <pcc@google.com>, dave@stgolabs.net,
-        caoxiaofeng@yulong.com, david@redhat.com,
-        Vlastimil Babka <vbabka@suse.cz>, linux-api@vger.kernel.org
-Subject: Re: [PATCH v2] sysinfo: include availram field in sysinfo struct
-Message-ID: <YdvqKWokVKgC0fDv@grain>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dEL+PwUNJ7VeDav8Vkg9ZEihg+obXr9BMf+UZGECSME=;
+        b=rzc8Fbla7Spg2Fanb4pVILA9kdg7yHAATHbMqPB1OjpqJTUzLA/8t3GcpnYDkW75wQ
+         XzVtGqWB7h+PlxogBnF7N5WckaKv5CHVrUaNyFoj6apv/2zCeqX4Rm8PzcWzdAD3T1jy
+         xMu0H4Q+23/omT3SCCT2nf5YLzsYpqlkYSnLIHUCStcH2N5EB8dMuzeisN9LSIri0bz0
+         aCMYBaU0FH1+nxOLo/6h+Ji4ZGrC+gRbxojaFJ2oDzUMgRseCGijXv7X00muC8u+pBok
+         LzNYSErxSD514TGnDBsFmOmD8G1YI4GyXU8slCvyPSaIKjwT9aQk5u/Rs7QwgN37BrZi
+         C8eQ==
+X-Gm-Message-State: AOAM530jwqvZ/JXnXPpeonrASGRHgdWzfM7qg1bMoC8bTdbqciKsJbk3
+        WfRl1ROd28D/dyD5PuX/Czx42tVrzG20qMsoaww=
+X-Google-Smtp-Source: ABdhPJycNKY8aWsJngqsCoXDYCvWAp/H3WkDOYKEoF7w0cRVsqvGaw4y822DqflQ0PMlIrF/yCHekML/FrBGNfrNq2E=
+X-Received: by 2002:a25:98c6:: with SMTP id m6mr4482853ybo.494.1641826519183;
+ Mon, 10 Jan 2022 06:55:19 -0800 (PST)
+MIME-Version: 1.0
 References: <1641483250-18839-1-git-send-email-quic_pintu@quicinc.com>
  <1641578854-14232-1-git-send-email-quic_pintu@quicinc.com>
- <YdiqLKS5Sv9eWwu2@grain>
- <CAOuPNLhcvbk3-rTPqmJj5LBOh4VaZ+Bc=-_j6xKOLM-kH6jkfw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOuPNLhcvbk3-rTPqmJj5LBOh4VaZ+Bc=-_j6xKOLM-kH6jkfw@mail.gmail.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
+ <19cce51e24584c2a8090b618c580a0bd@AcuMS.aculab.com> <CAOuPNLh-WLxJ7w=_C7zKXArgZLbO7OahHHhuwAyN9E1yZvNTdQ@mail.gmail.com>
+ <5aa1e8c55cf84436b35ee5557a508e8d@AcuMS.aculab.com>
+In-Reply-To: <5aa1e8c55cf84436b35ee5557a508e8d@AcuMS.aculab.com>
+From:   Pintu Agarwal <pintu.ping@gmail.com>
+Date:   Mon, 10 Jan 2022 20:25:07 +0530
+Message-ID: <CAOuPNLiKU6EkacELA-ioewBADGLV3g-m=5Cd5vE8RsSNyOkVzA@mail.gmail.com>
+Subject: Re: [PATCH v2] sysinfo: include availram field in sysinfo struct
+To:     David Laight <David.Laight@aculab.com>
+Cc:     Pintu Kumar <quic_pintu@quicinc.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "christian.brauner@ubuntu.com" <christian.brauner@ubuntu.com>,
+        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
+        "legion@kernel.org" <legion@kernel.org>,
+        "sashal@kernel.org" <sashal@kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "chris.hyser@oracle.com" <chris.hyser@oracle.com>,
+        "ccross@google.com" <ccross@google.com>,
+        "pcc@google.com" <pcc@google.com>,
+        "dave@stgolabs.net" <dave@stgolabs.net>,
+        "caoxiaofeng@yulong.com" <caoxiaofeng@yulong.com>,
+        "david@redhat.com" <david@redhat.com>,
+        "vbabka@suse.cz" <vbabka@suse.cz>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "dhowells@redhat.com" <dhowells@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Jan 08, 2022 at 09:54:37PM +0530, Pintu Agarwal wrote:
-> Thank you so much for your feedback...
-> I had a need to get total/free/available memory in my application (on
-> a memory constraint system).
-> First I tried to parse these from /proc/meminfo but then I saw sysinfo
-> already provides some information,
-> however available field was missing. Just to get available field I
-> need to again do all the file operations.
-> 
-> Then I saw, even the "free" command doing this redundant work.
-> Use sysinfo system call to get "total" and "free" memory then again
-> get "available" memory from /proc/meminfo.
-> Yet again, I see, even in kernel its reading from two different places
-> while populating the /proc/meminfo.
-> Also, I am sure there are plenty of other applications where this can
-> be improved with this.
-> Moreover, I think with this field there is not much use of other ram
-> fields in sysinfo.
-> Thus I felt a need to introduce this field to ease some operations.
-
-Thanks for explanation.
-
-> 
-> > Don't get me wrong please but such extension really need a strong
-> > justification because they are part of UAPI and there is not that much
-> > space left in sysinfo structure. We will _have_ to live with this new
-> > field forever so I propose to not introduce anything new here until
-> > we have no other choise or parsing meminfo become a really bottleneck.
+On Sun, 9 Jan 2022 at 04:05, David Laight <David.Laight@aculab.com> wrote:
+>
+> From: Pintu Agarwal
+> > Sent: 08 January 2022 16:53
 > >
-> My guess is that this situation might exist in other places as well ?
-> How do we handle new field addition to existing system calls ?
+> > On Sat, 8 Jan 2022 at 03:52, David Laight <David.Laight@aculab.com> wrote:
+> > >
+> > > From: Pintu Kumar
+> > > > Sent: 07 January 2022 18:08
+> > > >
+> > > > The sysinfo member does not have any "available ram" field and
+> > > > the bufferram field is not much helpful either, to get a rough
+> > > > estimate of available ram needed for allocation.
+> > > >
+> > > > One needs to parse MemAvailable field separately from /proc/meminfo
+> > > > to get this info instead of directly getting if from sysinfo itself.
+> > > >
+> > > > Thus, this patch introduce a new field as availram in sysinfo
+> > > > so that all the info total/free/available can be retrieved from
+> > > > one place itself.
+> > > >
+> > > ...
+> > > > diff --git a/include/uapi/linux/sysinfo.h b/include/uapi/linux/sysinfo.h
+> > > > index 435d5c2..fe84c6a 100644
+> > > > --- a/include/uapi/linux/sysinfo.h
+> > > > +++ b/include/uapi/linux/sysinfo.h
+> > > > @@ -19,7 +19,8 @@ struct sysinfo {
+> > > >       __kernel_ulong_t totalhigh;     /* Total high memory size */
+> > > >       __kernel_ulong_t freehigh;      /* Available high memory size */
+> > > >       __u32 mem_unit;                 /* Memory unit size in bytes */
+> > > > -     char _f[20-2*sizeof(__kernel_ulong_t)-sizeof(__u32)];   /* Padding: libc5 uses this.. */
+> > >
+> > > There are 4 pad bytes here on most 64bit architectures.
+> > >
+> > > > +     __kernel_ulong_t availram;      /* Memory available for allocation */
+> > > > +     char _f[20-3*sizeof(__kernel_ulong_t)-sizeof(__u32)];   /* Padding: libc5 uses this.. */
+> > > >  };
+> > >
+> > > You've not compile-time tested the size of the structure.
+> > >
+> > With "32" instead of "20" in padding I get these size of sysinfo:
+> > In x86-64 kernel, with app 64-bit: Size of sysinfo = 128
+> > In x86-64 kernel, with app 32-bit:: Size of sysinfo = 76
+> > In arm-64 kernel, with app 32-bit: Size of sysinfo = 76
+>
+> You need to compare the sizes before and after your patch
+> to ensure it doesn't change on any architecture.
 
-If there is no space left in uapi structures then we simply can't extend
-the syscall, since we're not allowed to break api. an option is to deprecate
-old interface and introduce a new one but this is a painfull procedure that's
-why i'm not convinced that we should extend sysinfo right now. but final
-decision is up to mantainers of course.
+Without the changes:
+On 32-bit, the size of structure = 64
+On 64-bit, the size of structure = 112
+
+With the addition of my new field (availram) if I try to fix the size
+issue on one arch, the other arch gets disturbed.
+I could fix the same size issue on 64-bit with below changes:
+
+        __kernel_ulong_t freeswap;      /* swap space still available */
+        __u16 procs;                    /* Number of current processes */
+        __u16 pad;                      /* Explicit padding for m68k */
++       __u32 mem_unit;                 /* Memory unit size in bytes
+*/        ============> Move the mem_unit up to adjust the padding
+        __kernel_ulong_t totalhigh;     /* Total high memory size */
+        __kernel_ulong_t freehigh;      /* Available high memory size */
+-       __u32 mem_unit;                 /* Memory unit size in bytes */
++       __kernel_ulong_t availram;      /* Memory available for
+allocation */   ========> Add the new field here
+-        char _f[20-2*sizeof(__kernel_ulong_t)-sizeof(__u32)];   /*
+Padding: libc5 uses this.. */
++       char _f[28-3*sizeof(__kernel_ulong_t)-sizeof(__u32)];   /*
+Padding: libc5 uses this.. */   ====> Increase the size to 28 (thus _f
+becomes 0 like original)
++       //char _f[4];
+ };
+
+Output with 64-bit build:
+$ gcc test-sysinfo.c ; ./a.out
+Total RAM: 32715804 kB
+Free RAM: 1111296 kB
+Size of sysinfo = 112
+Size of sysinfo uptime = 8
+Size of sysinfo loads = 24
+Size of sysinfo totalram = 8
+Size of sysinfo pad = 2
+Size of sysinfo memunit = 4
+Size of sysinfo _f = 0
+
+Output with 32-bit build:
+$ gcc test-sysinfo.c -m32 ; ./a.out
+Total RAM: 7987 kB
+Free RAM: 271 kB
+Size of sysinfo = 72
+Size of sysinfo uptime = 4
+Size of sysinfo loads = 12
+Size of sysinfo totalram = 4
+Size of sysinfo pad = 2
+Size of sysinfo memunit = 4
+Size of sysinfo _f = 12
+
+Are there any more suggestions/ideas to experiment with padding
+changes before we give-up ?
+Can we handle it using : __arch64__ check ?
+Or, the only option is to add one more, say: sysinfo64 ?
+
+
+> > Okay the sys robot reported some issue in 64-bit build.
+> > {{{
+> > >> include/uapi/linux/sysinfo.h:23:14: error: size of array '_f' is too large
+> > >>    23 |         char _f[20-3*sizeof(__kernel_ulong_t)-sizeof(__u32)];   /* Padding: libc5 uses
+> > this.. */
+> > >>       |              ^~
+> > }}}
+> >
+> > Also, I got the same issue while building for arm64, so I tried to
+> > adjust like this:
+> > char _f[32-3*sizeof(__kernel_ulong_t)-sizeof(__u32)];
+> >
+> > With this the build works on both 32/64 but output fails when running
+> > 32-bit program on 64-bit kernel.
+> > Also, the free command on 64-bit reports "stack smashing error"..
+> >
+> > How do we resolve this issue to make it work on both arch ?
+> > Also, I don't really understand the significance of that number "20"
+> > in padding ?
+>
+> My guess is that someone added a char _f[20] pad to allow for expansion.
+> Then two __kernel_ulong_t and one __u32 field were added, so the
+> size of the pad was reduced.
+> When __kernel_ulong_t is 64bit then it seems to be char _f[0]
+> - which might generate a compile warning since you are supposed
+> to use char _f[] to indicate an extensible structure.
+> There is, however, 4 bytes of pad after the _f[] on most 64bit
+> architectures.
+>
+Thanks, yes even I guessed the same.
+
+> So actually there isn't enough space to anything useful at all.
+>
+Is this problem does not exist in other UAPI structures ?
+Seems like nothing can be done to allow future expansion without
+breaking existing things and without developing the new one.
+
+Thanks,
+Pintu
