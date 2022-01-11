@@ -2,118 +2,200 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DFD348A9FB
-	for <lists+linux-api@lfdr.de>; Tue, 11 Jan 2022 09:59:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A77A48AC21
+	for <lists+linux-api@lfdr.de>; Tue, 11 Jan 2022 12:06:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348951AbiAKI7o (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 11 Jan 2022 03:59:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37314 "EHLO
+        id S238416AbiAKLGE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 11 Jan 2022 06:06:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236410AbiAKI7m (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Jan 2022 03:59:42 -0500
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F15C5C06173F;
-        Tue, 11 Jan 2022 00:59:41 -0800 (PST)
-Received: by mail-lf1-x131.google.com with SMTP id o12so53844485lfk.1;
-        Tue, 11 Jan 2022 00:59:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=6nEJxrC4VF52kQQsquVABp1lWQCr9hliOF685p20gBY=;
-        b=TDKbVRvR44rzTiWqaqeJCI2IErsf3K0AkKOncfqrFtzCzzxK0kVQGxuBrfemty+iwh
-         0U+AAgBavx+nHC4eWULR8BXDxf1ae1PWYQKKyR9VEXWTtpmD91dMh/7W2ePDJsiUO6xS
-         +WVvOGvz1bwB+kuzAT0mLPsQk68VBZU9J6Rjk6FTY2W3pljRrPNFy61Y1v56J8JQ9Ncb
-         c3/EdlKXieuTpMbAg/7xj15dezkz8QwP/Lsqzfh7CoydmWvA9hS/Nc7qoTyLFdAQUHsY
-         FRS5MvyOhhl+s0D7THITRbRSoSIT2JEZH0u7ds61zsXuSYYFuj1E2FZj0Aqi68FPoxUd
-         Mq4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=6nEJxrC4VF52kQQsquVABp1lWQCr9hliOF685p20gBY=;
-        b=3a2+GyhdIMkR9QmVZQfYXy8WiaKPbOgmzkAFXJmhHK1SVAijqts2ZBvpQURqXIqzrV
-         zB57344K8t2BUC1FVIGlkwLa9G11j+SMw7b842z3BsphGdEGLZ3O6Uefcu3156qFqm23
-         P3sdPUuNurvPEw8hV2xdxhkdz8Dg3ds+neyKMxkfa3PLvRHGPLwcjH0Fe1d4gBZqj/wh
-         QU+YNgnJeLkHCh+CcY0Rl960+TD3Tvklb9m8NYraYPB1Oz5ikKPVNAey1zsJ1On7RfcU
-         6goZQdDvWWpMkHpaO4KjHvLoqvxbh5AX62Z6OtTnoBXrvDkjbpioYPGSGJqfj7bPZ3Cy
-         OC2A==
-X-Gm-Message-State: AOAM531q8u4sUMogXJgV84QSfiaPzcsqJlJf61nIDRJ9SXwP/PpGXeKl
-        4k3M2LSpTLJ0Qg3WAP6ZK/0=
-X-Google-Smtp-Source: ABdhPJxDW5jjSr6LF6rIE41gSK6F+vTyYsZ3vnc92yuIWqQPeWNguXcIK0Tz6CGWst39vHdVQa1Rdg==
-X-Received: by 2002:a2e:9c07:: with SMTP id s7mr2246267lji.476.1641891580304;
-        Tue, 11 Jan 2022 00:59:40 -0800 (PST)
-Received: from ?IPv6:2a00:1370:810c:714f:a10:76ff:fe69:21b6? ([2a00:1370:810c:714f:a10:76ff:fe69:21b6])
-        by smtp.googlemail.com with ESMTPSA id e8sm1246693lji.2.2022.01.11.00.59.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jan 2022 00:59:39 -0800 (PST)
-Subject: Re: [PATCH 1/8] signal: Make SIGKILL during coredumps an explicit
- special case
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        with ESMTP id S238403AbiAKLGE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Jan 2022 06:06:04 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1259AC061748;
+        Tue, 11 Jan 2022 03:06:04 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8FD656159D;
+        Tue, 11 Jan 2022 11:06:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F20D0C36AE3;
+        Tue, 11 Jan 2022 11:05:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1641899163;
+        bh=+YAl/IpQceTXHbVhHLrxVhuEnb4RZPj0hvqh14o8ENk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nPYFURlaQX+0nFoLMLbKUcIo13KhGNdBCGUigh/53sX144YmxCL3lwkv7PPyEz+yX
+         qDxzKESWq8BSXcDXNoRPrQj2qhMyKgm0pg3RlHJuFtF57ks9KgWqU8EnxCfcL/I1wx
+         /DNY2MzsXQnc0JMOw0m8BunCm5Xw0h0d18r0+9FwFVITRlXSi4ilKybtIZnxce/jzc
+         stByQ1R0CMWPlCQDCZMR3H/ZZP4LXzpxiUEAWtsE/08d5vf+i60bBz/Rx17zuxZVT4
+         k4vH8reLqxyqlfX88U91PUwnSxpFgHMJZJZEzxO4XjBU5t8dD+9YM7iCZjh2YlIwvv
+         XQLHqyD3r3PUQ==
+Date:   Tue, 11 Jan 2022 12:05:56 +0100
+From:   Christian Brauner <brauner@kernel.org>
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
         linux-api@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Alexey Gladkov <legion@kernel.org>,
-        Kyle Huey <me@kylehuey.com>, Oleg Nesterov <oleg@redhat.com>,
-        Kees Cook <keescook@chromium.org>,
-        Al Viro <viro@ZenIV.linux.org.uk>
-References: <87a6ha4zsd.fsf@email.froward.int.ebiederm.org>
- <20211213225350.27481-1-ebiederm@xmission.com>
- <9363765f-9883-75ee-70f1-a1a8e9841812@gmail.com>
- <87pmp67y4r.fsf@email.froward.int.ebiederm.org>
- <5bbb54c4-7504-cd28-5dde-4e5965496625@gmail.com>
- <87bl0m14ew.fsf@email.froward.int.ebiederm.org>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <6692758a-0af2-67e0-26fd-365625b3ad0c@gmail.com>
-Date:   Tue, 11 Jan 2022 11:59:39 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Florian Weimer <fw@deneb.enyo.de>, David.Laight@ACULAB.COM,
+        carlos@redhat.com
+Subject: Re: [RFC PATCH v2 1/2] rseq: x86: implement abort-at-ip extension
+Message-ID: <20220111110556.inteixgtl5vpmka7@wittgenstein>
+References: <20220110171611.8351-1-mathieu.desnoyers@efficios.com>
 MIME-Version: 1.0
-In-Reply-To: <87bl0m14ew.fsf@email.froward.int.ebiederm.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+In-Reply-To: <20220110171611.8351-1-mathieu.desnoyers@efficios.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-08.01.2022 21:13, Eric W. Biederman пишет:
-> Dmitry Osipenko <digetx@gmail.com> writes:
+On Mon, Jan 10, 2022 at 12:16:10PM -0500, Mathieu Desnoyers wrote:
+> Allow rseq critical section abort handlers to optionally figure out at
+> which instruction pointer the rseq critical section was aborted.
 > 
->> 05.01.2022 22:58, Eric W. Biederman пишет:
->>>
->>> I have not yet been able to figure out how to run gst-pluggin-scanner in
->>> a way that triggers this yet.  In truth I can't figure out how to
->>> run gst-pluggin-scanner in a useful way.
->>>
->>> I am going to set up some unit tests and see if I can reproduce your
->>> hang another way, but if you could give me some more information on what
->>> you are doing to trigger this I would appreciate it.
->>
->> Thanks, Eric. The distro is Arch Linux, but it's a development
->> environment where I'm running latest GStreamer from git master. I'll try
->> to figure out the reproduction steps and get back to you.
+> This allows implementing rseq critical sections with loops containing
+> the commit instruction, for which having the commit as last instruction
+> of the sequence is not possible.  This is useful to implement adaptative
+> mutexes aware of preemption in user-space. (see [1])
 > 
-> Thank you.
+> This also allows implementing rseq critical sections with multiple
+> commit steps, and use the abort-at-ip information to figure out what
+> needs to be undone in the abort handler.
 > 
-> Until I can figure out why this is causing problems I have dropped the
-> following two patches from my queue:
->  signal: Make SIGKILL during coredumps an explicit special case
->  signal: Drop signals received after a fatal signal has been processed
+> Introduce the RSEQ_FLAG_QUERY_ABORT_AT_IP rseq system call flag.  This
+> lets userspace query whether the kernel and architecture supports the
+> abort-at-ip rseq extension.
 > 
-> I have replaced them with the following two patches that just do what
-> is needed for the rest of the code in the series:
->  signal: Have prepare_signal detect coredumps using
->  signal: Make coredump handling explicit in complete_signal
+> Only provide this information for rseq critical sections for which the
+> rseq_cs descriptor has the RSEQ_CS_FLAG_ABORT_AT_IP flag set.  Abort
+> handlers for critical sections with this flag set need to readjust the
+> stack pointer.  The abort-at-ip pointer is populated by the kernel on
+> the top of stack on abort.  For x86-32, the abort handler of an
+> abort-at-ip critical section needs to add 4 bytes to the stack pointer.
+> For x86-64, the abort hanler needs to add 136 bytes to the stack
+> pointer: 8 bytes to skip the abort-at-ip value, and 128 bytes to skip
+> the x86-64 redzone for leaf functions.
 > 
-> Perversely my failure to change the SIGKILL handling when coredumps are
-> happening proves to me that I need to change the SIGKILL handling when
-> coredumps are happening to make the code more maintainable.
+> [1] https://github.com/compudj/rseq-test/blob/adapt-lock-abort-at-ip/test-rseq-adaptative-lock.c#L80
+> 
+> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> ---
+> Changes since v1:
+> - Use top of stack to place abort-at-ip value rather than ecx/rcx
+>   register,
+> - Skip redzone on x86-64.
+> ---
+>  arch/x86/include/asm/ptrace.h |  5 +++++
+>  arch/x86/kernel/ptrace.c      | 12 ++++++++++++
+>  include/uapi/linux/rseq.h     |  4 ++++
+>  kernel/rseq.c                 | 28 ++++++++++++++++++++++++++++
+>  4 files changed, 49 insertions(+)
+> 
+> diff --git a/arch/x86/include/asm/ptrace.h b/arch/x86/include/asm/ptrace.h
+> index 703663175a5a..c96eb2448110 100644
+> --- a/arch/x86/include/asm/ptrace.h
+> +++ b/arch/x86/include/asm/ptrace.h
+> @@ -387,5 +387,10 @@ extern int do_set_thread_area(struct task_struct *p, int idx,
+>  # define do_set_thread_area_64(p, s, t)	(0)
+>  #endif
+>  
+> +#ifdef CONFIG_RSEQ
+> +# define RSEQ_ARCH_HAS_ABORT_AT_IP
+> +int rseq_abort_at_ip(struct pt_regs *regs, unsigned long ip);
+> +#endif
+> +
+>  #endif /* !__ASSEMBLY__ */
+>  #endif /* _ASM_X86_PTRACE_H */
+> diff --git a/arch/x86/kernel/ptrace.c b/arch/x86/kernel/ptrace.c
+> index 6d2244c94799..561ed98d12ba 100644
+> --- a/arch/x86/kernel/ptrace.c
+> +++ b/arch/x86/kernel/ptrace.c
+> @@ -1368,3 +1368,15 @@ void user_single_step_report(struct pt_regs *regs)
+>  {
+>  	send_sigtrap(regs, 0, TRAP_BRKPT);
+>  }
+> +
+> +int rseq_abort_at_ip(struct pt_regs *regs, unsigned long ip)
+> +{
+> +	if (user_64bit_mode(regs)) {
+> +		/* Need to skip redzone for leaf functions. */
+> +		regs->sp -= sizeof(u64) + 128;
+> +		return put_user(ip, (u64 __user *)regs->sp);
+> +	} else {
+> +		regs->sp -= sizeof(u32);
+> +		return put_user(ip, (u32 __user *)regs->sp);
+> +	}
 
-Eric, thank you again. I started to look at the reproduction steps and
-haven't completed it yet. Turned out the problem affects only older
-NVIDIA Tegra2 Cortex-A9 CPU that lacks support of ARM NEON instructions
-set, hence the problem isn't visible on x86 and other CPUs out of the
-box. I'll need to check whether the problem could be simulated on all
-arches or maybe it's specific to VFP exception handling of ARM32.
+I think it would be really helpful if you added the full explanation for
+sizeof(u64) + 128 or -sizeof(u32) into this codepath or provide
+constants. For folks not familiar with stuff like this it'll look like
+magic numbers. :)
+
+> +}
+> diff --git a/include/uapi/linux/rseq.h b/include/uapi/linux/rseq.h
+> index 9a402fdb60e9..3130232e6d0c 100644
+> --- a/include/uapi/linux/rseq.h
+> +++ b/include/uapi/linux/rseq.h
+> @@ -20,12 +20,14 @@ enum rseq_cpu_id_state {
+>  
+>  enum rseq_flags {
+>  	RSEQ_FLAG_UNREGISTER = (1 << 0),
+> +	RSEQ_FLAG_QUERY_ABORT_AT_IP = (1 << 1),
+>  };
+>  
+>  enum rseq_cs_flags_bit {
+>  	RSEQ_CS_FLAG_NO_RESTART_ON_PREEMPT_BIT	= 0,
+>  	RSEQ_CS_FLAG_NO_RESTART_ON_SIGNAL_BIT	= 1,
+>  	RSEQ_CS_FLAG_NO_RESTART_ON_MIGRATE_BIT	= 2,
+> +	RSEQ_CS_FLAG_ABORT_AT_IP_BIT		= 3,
+>  };
+>  
+>  enum rseq_cs_flags {
+> @@ -35,6 +37,8 @@ enum rseq_cs_flags {
+>  		(1U << RSEQ_CS_FLAG_NO_RESTART_ON_SIGNAL_BIT),
+>  	RSEQ_CS_FLAG_NO_RESTART_ON_MIGRATE	=
+>  		(1U << RSEQ_CS_FLAG_NO_RESTART_ON_MIGRATE_BIT),
+> +	RSEQ_CS_FLAG_ABORT_AT_IP		=
+> +		(1U << RSEQ_CS_FLAG_ABORT_AT_IP_BIT),
+>  };
+>  
+>  /*
+> diff --git a/kernel/rseq.c b/kernel/rseq.c
+> index 6d45ac3dae7f..fb52f2d11b56 100644
+> --- a/kernel/rseq.c
+> +++ b/kernel/rseq.c
+> @@ -21,6 +21,13 @@
+>  #define RSEQ_CS_PREEMPT_MIGRATE_FLAGS (RSEQ_CS_FLAG_NO_RESTART_ON_MIGRATE | \
+>  				       RSEQ_CS_FLAG_NO_RESTART_ON_PREEMPT)
+>  
+> +#ifdef RSEQ_ARCH_HAS_ABORT_AT_IP
+> +static bool rseq_has_abort_at_ip(void) { return true; }
+> +#else
+> +static bool rseq_has_abort_at_ip(void) { return false; }
+> +static int rseq_abort_at_ip(struct pt_regs *regs, unsigned long ip) { return 0; }
+> +#endif
+> +
+>  /*
+>   *
+>   * Restartable sequences are a lightweight interface that allows
+> @@ -79,6 +86,16 @@
+>   *
+>   *       [abort_ip]
+>   *   F1. <failure>
+> + *
+> + * rseq critical sections defined with the RSEQ_CS_FLAG_ABORT_AT_IP flag
+> + * have the following behavior on abort: when the stack grows down: the
+> + * stack pointer is decremented to skip the redzone, and decremented of
+> + * the pointer size.  The aborted address (abort-at-ip) is stored at
+> + * this stack pointer location.  The user-space abort handler needs to
+> + * pop the abort-at-ip address from the stack, and add the redzone size
+> + * to the stack pointer.
+> + *
+> + * TODO: describe stack grows up.
+
+Is this intentional or did you forget? :)
