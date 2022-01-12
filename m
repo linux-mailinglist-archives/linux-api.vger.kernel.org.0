@@ -2,23 +2,45 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC97248CD54
-	for <lists+linux-api@lfdr.de>; Wed, 12 Jan 2022 22:01:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E8D7A48CDBC
+	for <lists+linux-api@lfdr.de>; Wed, 12 Jan 2022 22:25:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229459AbiALVBK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Jan 2022 16:01:10 -0500
-Received: from albireo.enyo.de ([37.24.231.21]:37268 "EHLO albireo.enyo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229436AbiALVA5 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 12 Jan 2022 16:00:57 -0500
-Received: from [172.17.203.2] (port=33343 helo=deneb.enyo.de)
-        by albireo.enyo.de ([172.17.140.2]) with esmtps (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-        id 1n7kjV-00GoGu-Dj; Wed, 12 Jan 2022 21:00:37 +0000
-Received: from fw by deneb.enyo.de with local (Exim 4.94.2)
-        (envelope-from <fw@deneb.enyo.de>)
-        id 1n7kjV-003dn8-32; Wed, 12 Jan 2022 22:00:37 +0100
-From:   Florian Weimer <fw@deneb.enyo.de>
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+        id S230098AbiALVYQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Jan 2022 16:24:16 -0500
+Received: from mail.efficios.com ([167.114.26.124]:49484 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232990AbiALVYN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Jan 2022 16:24:13 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 535292A2381;
+        Wed, 12 Jan 2022 16:24:11 -0500 (EST)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id SM4v0cS9wioc; Wed, 12 Jan 2022 16:24:10 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id BFC692A230B;
+        Wed, 12 Jan 2022 16:24:10 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com BFC692A230B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1642022650;
+        bh=nNmEHbfn/2f0BLpXzhhRYHjAox2/MyoSvJLFh/QxHNs=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=gfaSWHLyLJe8bGYQ3XPlX58cND96ZrwwwFTebc755HxuruC75BwNGS0ZcFHYS2GBZ
+         0YK7Beqw7VTJXWg2QTAlE5FcbP6mIkyX3nUdSrr7lsTegJbuc3mZ41wROzAdW4ibfu
+         iqqfjSV5sJCUuOADmgyQOlhbB9EqX/fRjVA5H4XoaxjVFgKoY7aZ/w2by2khGmBa8Q
+         Zdp9tHyagI2qhGXrY50IFNAKvgnGouADFKIBPDpnH1HoGciFD+P2/1o4RunJRwMzK7
+         dGIXRWdTHaXSSe15CnYn7pBWeYbuVdTxz98yfVoExPeltTLSnQmHWFllgc/awnwVGG
+         DLbkFT5omZQwA==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id Zq7f5bDcJAyU; Wed, 12 Jan 2022 16:24:10 -0500 (EST)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id ABCBB2A2138;
+        Wed, 12 Jan 2022 16:24:10 -0500 (EST)
+Date:   Wed, 12 Jan 2022 16:24:10 -0500 (EST)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Florian Weimer <fw@deneb.enyo.de>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -27,51 +49,78 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         linux-api <linux-api@vger.kernel.org>,
         Christian Brauner <christian.brauner@ubuntu.com>,
         carlos <carlos@redhat.com>
+Message-ID: <22043919.26476.1642022650520.JavaMail.zimbra@efficios.com>
+In-Reply-To: <87h7a87jpm.fsf@mid.deneb.enyo.de>
+References: <20220107170302.8325-1-mathieu.desnoyers@efficios.com> <87a6g7ny0j.fsf@mid.deneb.enyo.de> <1968088162.13310.1641584935813.JavaMail.zimbra@efficios.com> <87y23l6l2j.fsf@mid.deneb.enyo.de> <Yd71+Da44h9Ge0+s@hirez.programming.kicks-ass.net> <87sftt6j0u.fsf@mid.deneb.enyo.de> <396330808.24806.1642005485899.JavaMail.zimbra@efficios.com> <87h7a87jpm.fsf@mid.deneb.enyo.de>
 Subject: Re: [RFC PATCH] rseq: x86: implement abort-at-ip extension
-References: <20220107170302.8325-1-mathieu.desnoyers@efficios.com>
-        <87a6g7ny0j.fsf@mid.deneb.enyo.de>
-        <1968088162.13310.1641584935813.JavaMail.zimbra@efficios.com>
-        <87y23l6l2j.fsf@mid.deneb.enyo.de>
-        <Yd71+Da44h9Ge0+s@hirez.programming.kicks-ass.net>
-        <87sftt6j0u.fsf@mid.deneb.enyo.de>
-        <396330808.24806.1642005485899.JavaMail.zimbra@efficios.com>
-Date:   Wed, 12 Jan 2022 22:00:37 +0100
-In-Reply-To: <396330808.24806.1642005485899.JavaMail.zimbra@efficios.com>
-        (Mathieu Desnoyers's message of "Wed, 12 Jan 2022 11:38:05 -0500
-        (EST)")
-Message-ID: <87h7a87jpm.fsf@mid.deneb.enyo.de>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_4180 (ZimbraWebClient - FF96 (Linux)/8.8.15_GA_4177)
+Thread-Topic: rseq: x86: implement abort-at-ip extension
+Thread-Index: TyJ4biqxcQeKbxCn5uRQYxCVi1wgcg==
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Mathieu Desnoyers:
+----- On Jan 12, 2022, at 4:00 PM, Florian Weimer fw@deneb.enyo.de wrote:
 
-> ----- On Jan 12, 2022, at 11:00 AM, Florian Weimer fw@deneb.enyo.de wrote:
->
->> * Peter Zijlstra:
->> 
->>> On Wed, Jan 12, 2022 at 04:16:36PM +0100, Florian Weimer wrote:
->>>
->>>> You could perhaps push a signal frame onto the stack.  It's going to
->>>> be expensive, but it's already in the context switch path, so maybe it
->>>> does not matter.
->>>
->>> Please no! Signals are a trainwreck that need change (see the whole
->>> AVX-512 / AMX saga), we shouldn't use more of that just cause.
->> 
->> If it's a signal, it should be modeled as such.  I think it's pretty
->> close to a synchronous signal.
+> * Mathieu Desnoyers:
+> 
+>> ----- On Jan 12, 2022, at 11:00 AM, Florian Weimer fw@deneb.enyo.de wrote:
+>>
+>>> * Peter Zijlstra:
+>>> 
+>>>> On Wed, Jan 12, 2022 at 04:16:36PM +0100, Florian Weimer wrote:
+>>>>
+>>>>> You could perhaps push a signal frame onto the stack.  It's going to
+>>>>> be expensive, but it's already in the context switch path, so maybe it
+>>>>> does not matter.
+>>>>
+>>>> Please no! Signals are a trainwreck that need change (see the whole
+>>>> AVX-512 / AMX saga), we shouldn't use more of that just cause.
+>>> 
+>>> If it's a signal, it should be modeled as such.  I think it's pretty
+>>> close to a synchronous signal.
+> 
+> (an asynchronous signal)
+> 
+>> Florian, just to validate here: is your argument about AVX-512/AMX or about
+>> rseq abort-at-ip ?
+> 
+> rseq abort-at-ip.  I wonder if it is possible to use regular stack
+> unwinding (through the signal frame) to figure out where the abort
+> happened, and use the existing cleanup handler functionality in GCC.
+> (Although -fnon-call-exceptions is not quite up to this, but in theory
+> we would have to fix this for POSIX asynchronous cancellation/Ada
+> asynchronous transfer of control support anyway.)
 
-(an asynchronous signal)
+OK, so if we take x86-64 as an example, the abort would do:
 
-> Florian, just to validate here: is your argument about AVX-512/AMX or about
-> rseq abort-at-ip ?
+/* Skip redzone and sigframe */
+regs->sp -= 128 + sizeof(struct rt_sigframe);
 
-rseq abort-at-ip.  I wonder if it is possible to use regular stack
-unwinding (through the signal frame) to figure out where the abort
-happened, and use the existing cleanup handler functionality in GCC.
-(Although -fnon-call-exceptions is not quite up to this, but in theory
-we would have to fix this for POSIX asynchronous cancellation/Ada
-asynchronous transfer of control support anyway.)
+It's unclear to me what should be the size of rt_sigframe here. Should it
+include floating point state as well ?
+
+Then at regs->sp, we can store a signal frame. The interesting bits would
+go into (struct rt_sigframe  __user *)->uc which is a struct sigcontext.
+It would contain all register state at the point where the critical section
+was aborted.
+
+The only register state we really care about is sigcontext "rip", given that
+the userspace abort handler can save all other relevant registers by itself.
+
+Then should we populate the other struct rt_sigframe fields or just zero them ?
+I wonder what the meaning of "pretcode" and "struct siginfo" would be in the
+context of an rseq abort ?
+
+Thanks,
+
+Mathieu
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
