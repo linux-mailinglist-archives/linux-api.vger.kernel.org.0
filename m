@@ -2,131 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B9C3348C668
-	for <lists+linux-api@lfdr.de>; Wed, 12 Jan 2022 15:48:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 404AE48C680
+	for <lists+linux-api@lfdr.de>; Wed, 12 Jan 2022 15:52:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243091AbiALOrb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Jan 2022 09:47:31 -0500
-Received: from mail.efficios.com ([167.114.26.124]:58838 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239916AbiALOrb (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Jan 2022 09:47:31 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 9A01E2563E2;
-        Wed, 12 Jan 2022 09:47:30 -0500 (EST)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id rWaN6AbcvVWA; Wed, 12 Jan 2022 09:47:30 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 2E065256521;
-        Wed, 12 Jan 2022 09:47:30 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 2E065256521
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1641998850;
-        bh=BcnDtVFo4lej1Dp/uixgYGKV0F0M2FHui42BqigyqPA=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=t3n+ikMe5EOtgTTOWx/7FpHB/4sDBZBhX80ljnF0WzVHKjxL0Jp54VcDXRpUMBLHb
-         KJYwio9eY3XLcSj+15Crc3zuVGDW5MvnOkSXWPZoYVuAt0ZIDpAvITUfmWlBdpA+0B
-         GRvF32v+4avJFvoiMHedC+o/79yUe5wi/TzArclpaxFJ/ooQcvIIA2WFOhVQs0rLgQ
-         Avql3s7a8BFDxqaoRWWaIbFeFil1cNd5qjItJKd4HHK9bAd6ljQUa4C+QO/RLTYhtB
-         bQMJhSBrefSNpNVb4VoqomtIAJPCbj1CkP+NBmO677gnPoS1Al0FPBYwqabwaRQome
-         i5lndUViNnEtw==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 5f3vQPSP2xnF; Wed, 12 Jan 2022 09:47:30 -0500 (EST)
-Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id 1785D2563E1;
-        Wed, 12 Jan 2022 09:47:30 -0500 (EST)
-Date:   Wed, 12 Jan 2022 09:47:29 -0500 (EST)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     Christian Brauner <brauner@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        paulmck <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api <linux-api@vger.kernel.org>,
-        Florian Weimer <fw@deneb.enyo.de>,
-        David Laight <David.Laight@ACULAB.COM>,
-        carlos <carlos@redhat.com>
-Message-ID: <1475639366.24565.1641998849957.JavaMail.zimbra@efficios.com>
-In-Reply-To: <20220112084617.32bjjo774n7vvyct@wittgenstein>
-References: <20220110171611.8351-1-mathieu.desnoyers@efficios.com> <20220111110556.inteixgtl5vpmka7@wittgenstein> <1626924888.21447.1641922985771.JavaMail.zimbra@efficios.com> <20220112084617.32bjjo774n7vvyct@wittgenstein>
-Subject: Re: [RFC PATCH v2 1/2] rseq: x86: implement abort-at-ip extension
+        id S1354334AbiALOvW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Jan 2022 09:51:22 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:50306 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1354317AbiALOvR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Jan 2022 09:51:17 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id AC113B81F44;
+        Wed, 12 Jan 2022 14:51:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 501FEC36AEB;
+        Wed, 12 Jan 2022 14:51:13 +0000 (UTC)
+Date:   Wed, 12 Jan 2022 15:51:09 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Aleksa Sarai <cyphar@cyphar.com>
+Cc:     Andrey Zhadchenko <andrey.zhadchenko@virtuozzo.com>,
+        linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk,
+        ptikhomirov@virtuozzo.com, linux-api@vger.kernel.org
+Subject: Re: [PATCH] fs/open: add new RESOLVE_EMPTY_PATH flag for openat2
+Message-ID: <20220112145109.pou6676bsoatfg6x@wittgenstein>
+References: <1641978137-754828-1-git-send-email-andrey.zhadchenko@virtuozzo.com>
+ <20220112143419.rgxumbts2jjb4aig@senku>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [167.114.26.124]
-X-Mailer: Zimbra 8.8.15_GA_4180 (ZimbraWebClient - FF96 (Linux)/8.8.15_GA_4177)
-Thread-Topic: rseq: x86: implement abort-at-ip extension
-Thread-Index: wXhmkkkMiFRXr8tNEYqfVGV2Lo6qQg==
+Content-Disposition: inline
+In-Reply-To: <20220112143419.rgxumbts2jjb4aig@senku>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On Jan 12, 2022, at 3:46 AM, Christian Brauner christian.brauner@ubuntu.com wrote:
-
-> On Tue, Jan 11, 2022 at 12:43:05PM -0500, Mathieu Desnoyers wrote:
-[...]
->> >> + *
->> >> + * rseq critical sections defined with the RSEQ_CS_FLAG_ABORT_AT_IP flag
->> >> + * have the following behavior on abort: when the stack grows down: the
->> >> + * stack pointer is decremented to skip the redzone, and decremented of
->> >> + * the pointer size.  The aborted address (abort-at-ip) is stored at
->> >> + * this stack pointer location.  The user-space abort handler needs to
->> >> + * pop the abort-at-ip address from the stack, and add the redzone size
->> >> + * to the stack pointer.
->> >> + *
->> >> + * TODO: describe stack grows up.
->> > 
->> > Is this intentional or did you forget? :)
->> 
->> Since I did not implement abort-at-ip on stack-grows-up architectures, I felt
->> it would be too early to describe the algorithm. I can simply remove the TODO
->> altogether and we'll take care of it when we get there ? If I had to try to
->> wordsmith it, it would look like e.g.:
->> 
->>  *                                    [...] When the stack grows up: the
->>  * stack pointer is incremented to skip the redzone, and incremented of
->>  * the pointer size.  The aborted address (abort-at-ip) is stored immediately
->>  * under this stack pointer location.  The user-space abort handler needs to
->>  * pop the abort-at-ip address from the stack, and subtract the redzone size
->>  * from the stack pointer.
->> 
->> [ Please let me know if I got somehow confused in my understanding of stack
->> grows
->> up architectures. ]
->> 
->> I'm also unsure whether any of the stack grows up architecture have redzones ?
+On Thu, Jan 13, 2022 at 01:34:19AM +1100, Aleksa Sarai wrote:
+> On 2022-01-12, Andrey Zhadchenko <andrey.zhadchenko@virtuozzo.com> wrote:
+> > If you have an opened O_PATH file, currently there is no way to re-open
+> > it with other flags with openat/openat2. As a workaround it is possible
+> > to open it via /proc/self/fd/<X>, however
+> > 1) You need to ensure that /proc exists
+> > 2) You cannot use O_NOFOLLOW flag
 > 
-> I don't think so? From when I last touched that piece of arch code when
-> massaging copy_thread() I only remember parisc as having an upwards
-> growing stack.
+> There is also another issue -- you can mount on top of magic-links so if
+> you're a container runtime that has been tricked into creating bad
+> mounts of top of /proc/ subdirectories there's no way of detecting that
+> this has happened. (Though I think in the long-term we will need to
+> make it possible for unprivileged users to create a procfs mountfd if
+> they have hidepid=4,subset=pids set -- there are loads of things
+> containers need to touch in procfs which can be overmounted in malicious
+> ways.)
+
+Yeah, though I see this as a less pressing issue for now. I'd rather
+postpone this and make userspace work a bit more. There are ways to
+design programs so you know that the procfs instance you're interacting
+with is the one you want to interact with without requiring unprivileged
+mounting outside of a userns+pidns+mountns pair. ;)
+
 > 
->> From a quick grep for redzone in Linux arch/, only openrisc, powerpc64 and
-> > x86-64 appear to have redzones.
+> > Both problems may look insignificant, but they are sensitive for CRIU.
+> > First of all, procfs may not be mounted in the namespace where we are
+> > restoring the process. Secondly, if someone opens a file with O_NOFOLLOW
+> > flag, it is exposed in /proc/pid/fdinfo/<X>. So CRIU must also open the
+> > file with this flag during restore.
+> > 
+> > This patch adds new constant RESOLVE_EMPTY_PATH for resolve field of
+> > struct open_how and changes getname() call to getname_flags() to avoid
+> > ENOENT for empty filenames.
+> 
+> This is something I've wanted to implement for a while, but from memory
+> we need to add some other protections in place before enabling this.
+> 
+> The main one is disallowing re-opening of a path when it was originally
+> opened with a different set of modes. [1] is the patch I originally
+> wrote as part of the openat2(2) (but I dropped it since I wasn't sure
+> whether it might break some systems in subtle ways -- though according
+> to my testing there wasn't an issue on any of my machines).
 
-I figured it was kind of silly to special-case arch-agnostic comments for stack
-grows up/down, how about the following instead ?
+Oh this is the discussion we had around turning an opath fd into a say
+O_RDWR fd, I think.
+So yes, I think restricting fd reopening makes sense. However, going
+from an O_PATH fd to e.g. an fd with O_RDWR does make sense and needs to
+be the default anyway. So we would need to implement this as a denylist
+anyway. The default is that opath fds can be reopened with whatever and
+only if the opath creator has restricted reopening will it fail, i.e.
+it's similar to a denylist.
 
- * rseq critical sections defined with the RSEQ_CS_FLAG_ABORT_AT_IP flag
- * have the following behavior on abort: the stack pointer is adjusted to
- * skip over the redzone [*], and the aborted address (abort-at-ip) is pushed
- * at this stack pointer location.  The user-space abort handler needs to pop
- * the abort-at-ip address from the stack, and adjust the stack pointer to skip
- * back over the redzone.
- *
- * [*] The openrisc, powerpc64 and x86-64 architectures define a "redzone" as a
- *     stack area beyond the stack pointer which can be used by the compiler
- *     to store local variables in leaf functions.
-
-Thanks,
-
-Mathieu
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
+But this patch wouldn't prevent that or hinder the upgrade mask
+restriction afaict.
