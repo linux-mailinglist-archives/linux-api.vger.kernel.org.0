@@ -2,130 +2,149 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 20D5148BF52
-	for <lists+linux-api@lfdr.de>; Wed, 12 Jan 2022 08:55:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AD8D48BF61
+	for <lists+linux-api@lfdr.de>; Wed, 12 Jan 2022 08:58:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349309AbiALHzk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Jan 2022 02:55:40 -0500
-Received: from mail-vk1-f180.google.com ([209.85.221.180]:42760 "EHLO
-        mail-vk1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237500AbiALHzh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Jan 2022 02:55:37 -0500
-Received: by mail-vk1-f180.google.com with SMTP id m57so1090766vkf.9;
-        Tue, 11 Jan 2022 23:55:37 -0800 (PST)
+        id S1351321AbiALH6K (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Jan 2022 02:58:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42452 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237500AbiALH6K (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Jan 2022 02:58:10 -0500
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22ADCC06173F;
+        Tue, 11 Jan 2022 23:58:10 -0800 (PST)
+Received: by mail-il1-x132.google.com with SMTP id d3so1544233ilr.10;
+        Tue, 11 Jan 2022 23:58:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dVQHC0GxTkVqAfD+KHCO6cWHLTOb4XHRFU2PnvbvOvM=;
+        b=d5xRdIanQ2tq7k14loEE90bkerVEyih10QULvUdYkZrIJRS6CBKA3PsAg/i90aPeS6
+         v2tR9OBFWTjrK9SodH+labYJD4Oib5tDw+GL2xDq6/ZRRS7kC4yaC1CU6nwVyouOTmot
+         1ImFEuol8PxFJYlprhPPgpKGNy+iH15DJcqAhi6vpzRv1MQqOQYkpz+ObjBGsfV4TJ8G
+         7Kgdo5f8r9A/xVkkQ/tgzzpAC+/Xyh7JqiEzPY5IL2MGJzKS91VCI6xdE/Irug1baLCE
+         WMbfZ4oGcINBVPvEgnUndJUQsUAtysVnxbQQid1KXbg3LjOKuDr8pK0VkqWGkjwYFZvX
+         6qeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=FxRXtvjLv5dyZ8SH85L5LQavbuogqUJq1KHgO/SS6/I=;
-        b=7rTK3ZIxX1oAsp7coIN8vn2RdRMNbtS5/YwTVhUU3+SniIVEULw5nIwAAyy8PfMeyp
-         3JhjkpHrrUgs3Uz63FsBzUupYYT8bFzZ417c/6Ke4EXWVEYmAMAn+DPmdaiCioliHoOe
-         2i9TZGY+xqAB6rujM3TFdrw3tY1wxmoRx00dbI3X4Zoq0utovFyXe5emfNC4c+AIn3Wq
-         sB4LOcbaCpIL1iz3ZdTCOCBvIMT9DUUvvLBl3Z4meHXSYjqhQopbOV/jBMEZ7FEZPhdS
-         RtyAfOJyjinaPs12kfwHdWmpiigyJHQkECufKXoQ4C3W06BpDuuEsoU8zStRqGVVLDgb
-         c7UA==
-X-Gm-Message-State: AOAM5325X+dkYDkGYleVoo1SGyYh0Z9bveuN2xwmLBYcE6xZjkEyZ+8Z
-        szdngekkNBVzrjN/+2X+psfyILvNc3U5zg==
-X-Google-Smtp-Source: ABdhPJwPnKfFD82cNBDQWO+q54QdRPVymagKcEYDtZpF+xa36+LW9K2CQYeouvXbTzv72xO25Z6CFA==
-X-Received: by 2002:a05:6122:d84:: with SMTP id bc4mr3754259vkb.22.1641974136637;
-        Tue, 11 Jan 2022 23:55:36 -0800 (PST)
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com. [209.85.221.182])
-        by smtp.gmail.com with ESMTPSA id h25sm1603268vsl.30.2022.01.11.23.55.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jan 2022 23:55:36 -0800 (PST)
-Received: by mail-vk1-f182.google.com with SMTP id n9so136436vkq.8;
-        Tue, 11 Jan 2022 23:55:36 -0800 (PST)
-X-Received: by 2002:a1f:5702:: with SMTP id l2mr3790303vkb.33.1641974135789;
- Tue, 11 Jan 2022 23:55:35 -0800 (PST)
+        bh=dVQHC0GxTkVqAfD+KHCO6cWHLTOb4XHRFU2PnvbvOvM=;
+        b=ypDN2pviiJY2jAVZXsS2qULf6ePUQ81AGtlMmp8cFPFsSbVAsKAwE959YV/umXg6t+
+         1WLkWbVzUwBs3fFeOnWbzPFcOjIAHL/KOVpoLfLp2VnC0g9RGOITB/+6OaDKXRdW9ema
+         6VTl0Pgs4zTuA6ykZOI287cxkuFug+flalyw1kcsSlyRG99lQoe5LnM3uVmZ6/EmC2Vx
+         LmYMzFBLsisg/Wd+ZAjpu+g44FNKedUH0XnvuAzBRCLLMBG8JKJ2t2HuE9r6KGLxkFc9
+         ZBo7410Q1eB+HEwkmZ/djM/mErZBX1Rbqi/gUEFhziPTHna4vYqoaCegSHZ64PpTM1eD
+         n0+A==
+X-Gm-Message-State: AOAM531varrTt4WXNu2LW30Ua3CeFYNrbs1XzalprVwQS80rX5VsWByg
+        s3t1/wsog/IrXsNVmKAkWMWxPHWAKNvMIb3eySY=
+X-Google-Smtp-Source: ABdhPJxj9W6HbPxWl7TmaDWpcZBQYEtjUpLThUvKEIVgKtoBq96Xsi2ow12ffnF5FTKzaa3lubY4jIyqZphvUBcd/Xk=
+X-Received: by 2002:a05:6e02:b21:: with SMTP id e1mr4511683ilu.254.1641974289495;
+ Tue, 11 Jan 2022 23:58:09 -0800 (PST)
 MIME-Version: 1.0
-References: <87r19opkx1.fsf_-_@email.froward.int.ebiederm.org>
- <20220103213312.9144-8-ebiederm@xmission.com> <CAMuHMdWsNBjOJh0QEx9sppA9x3WoL8H2icqukNqECFhOPremjw@mail.gmail.com>
- <YdxcszwEslyQJSuF@zeniv-ca.linux.org.uk> <CAMuHMdX9nhUQe_jeQCUtXeQgcQ5MBiHpPiRexh86EssoHNtJ3Q@mail.gmail.com>
- <acf7b627-2dec-c76c-2aa0-6b4c6addd793@gmail.com> <d660267-ce4f-e598-9b40-5cdbb4566c7@linux-m68k.org>
- <6060f799-d0c5-e4c2-a81c-2bd872ce3d5a@gmail.com>
-In-Reply-To: <6060f799-d0c5-e4c2-a81c-2bd872ce3d5a@gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 12 Jan 2022 08:55:24 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXJLfOKk-+gMbzVvG50vn8RBVsCdJAaysYWph01Ef-WrA@mail.gmail.com>
-Message-ID: <CAMuHMdXJLfOKk-+gMbzVvG50vn8RBVsCdJAaysYWph01Ef-WrA@mail.gmail.com>
-Subject: Re: [PATCH 08/17] ptrace/m68k: Stop open coding ptrace_report_syscall
-To:     Michael Schmitz <schmitzmic@gmail.com>
-Cc:     Finn Thain <fthain@linux-m68k.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Kees Cook <keescook@chromium.org>,
+References: <20220111074309.GA12918@kili> <Yd1ETmx/HCigOrzl@infradead.org>
+In-Reply-To: <Yd1ETmx/HCigOrzl@infradead.org>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Wed, 12 Jan 2022 09:57:58 +0200
+Message-ID: <CAOQ4uxg9V4Jsg3jRPnsk2AN7gPrNY8jRAc87tLvGW+TqH9OU-A@mail.gmail.com>
+Subject: Re: [bug report] NFS: Support statx_get and statx_set ioctls
+To:     Christoph Hellwig <hch@infradead.org>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>
+Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
+        richard.sharpe@primarydata.com,
+        Linux NFS Mailing List <linux-nfs@vger.kernel.org>,
+        lance.shelton@hammerspace.com,
+        Anna Schumaker <Anna.Schumaker@netapp.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>
+        CIFS <linux-cifs@vger.kernel.org>, ntfs3@lists.linux.dev,
+        Steve French <sfrench@samba.org>,
+        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Michael,
-
-On Wed, Jan 12, 2022 at 1:20 AM Michael Schmitz <schmitzmic@gmail.com> wrote:
-> Am 12.01.2022 um 11:42 schrieb Finn Thain:
-> > On Tue, 11 Jan 2022, Michael Schmitz wrote:
-> >>> In fact Michael did so in "[PATCH v7 1/2] m68k/kernel - wire up
-> >>> syscall_trace_enter/leave for m68k"[1], but that's still stuck...
-> >>>
-> >>> [1]
-> >>> https://lore.kernel.org/r/1624924520-17567-2-git-send-email-schmitzmic@gmail.com/
-> >>
-> >> That patch (for reasons I never found out) did interact badly with
-> >> Christoph Hellwig's 'remove set_fs' patches (and Al's signal fixes which
-> >> Christoph's patches are based upon). Caused format errors under memory
-> >> stress tests quite reliably, on my 030 hardware.
-> >>
+On Wed, Jan 12, 2022 at 4:10 AM Christoph Hellwig <hch@infradead.org> wrote:
+>
+> On Tue, Jan 11, 2022 at 10:43:09AM +0300, Dan Carpenter wrote:
+> > Hello Richard Sharpe,
 > >
-> > Those patches have since been merged, BTW.
->
-> Yes, that's why I advised caution with mine.
->
+> > This is a semi-automatic email about new static checker warnings.
 > >
-> >> Probably needs a fresh look - the signal return path got changed by Al's
-> >> patches IIRC, and I might have relied on offsets to data on the stack
-> >> that are no longer correct with these patches. Or there's a race between
-> >> the syscall trap and signal handling when returning from interrupt
-> >> context ...
-> >>
-> >> Still school hols over here so I won't have much peace and quiet until
-> >> February.
-> >>
-> >
-> > So the patch works okay with Aranym 68040 but not Motorola 68030? Since
+> > The patch bc66f6805766: "NFS: Support statx_get and statx_set ioctls"
+> > from Dec 27, 2021, leads to the following Smatch complaint:
 >
-> Correct - I seem to recall we also tested those on your 040 and there
-> was no regression there, but I may be misremembering that.
->
-> > there is at least one known issue affecting both Motorola 68030 and Hatari
-> > 68030, perhaps this patch is not the problem. In anycase, Al's suggestion
->
-> I hadn't ever made that connection, but it might be another explanation,
-> yes.
->
-> > to split the patch into two may help in that testing two smaller patches
-> > might narrow down the root cause.
->
-> That's certainly true.
->
-> What's the other reason these patches are still stuck, Geert? Did we
-> ever settle the dispute about what return code ought to abort a syscall
-> (in the seccomp context)?
+> Yikes, how did that crap get merged?
 
-IIRC, some (self)tests were still failing?
+Did it? The bots are scanning through patches on ML:
 
-Gr{oetje,eeting}s,
+https://lore.kernel.org/linux-nfs/20211227190504.309612-1-trondmy@kernel.org/
 
-                        Geert
+> Why the f**k does a remote file system need to duplicate stat?
+> This kind of stuff needs a proper discussion on linux-fsdevel.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
++ntfs3 +linux-cifs +linux-api
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+The proposal of statx_get() is very peculiar.
+statx() was especially designed to be extended and accommodate
+a diversity of filesystem attributes.
+
+Moreover, NFSv4 is not the only fs that supports those extra attributes.
+ntfs3 supports set/get of dos attrib bits via xattr SYSTEM_NTFS_ATTRIB.
+cifs support set/get of CIFS_XATTR_ATTRIB and CIFS_XATTR_CREATETIME.
+
+Not only that, but Linux now has ksmbd which actually emulates
+those attributes on the server side (like samba) by storing a samba
+formatted blob in user.DOSATTRIB xattr.
+It should have a way to get/set them on filesystems that support them
+natively.
+
+The whole thing shouts for standardization.
+
+Samba should be able to get/set the extra attributes by statx() and
+ksmbd should be able to get them from the filesystem by vfs_getattr().
+
+WRT statx_set(), standardization is also in order, both for userspace
+API and for vfs API to be used by ksmbd and nfsd v4.
+
+The new-ish vfs API fileattr_get/set() comes to mind when considering
+a method to set the dos attrib bits.
+Heck, FS_NODUMP_FL is the same as FILE_ATTRIBUTE_ARCHIVE.
+That will also make it easy for filesystems that support the fileattr flags
+to add support for FS_SYSTEM_FL, FS_HIDDEN_FL.
+
+There is a use case for that. It can be inferred from samba config options
+"map hidden/system/archive" that are used to avoid the cost of getxattr
+per file during a "readdirplus" query. I recently quantified this cost on a
+standard file server and it was very high.
+
+Which leaves us with an API to set the 'time backup' attribute, which
+is a "mutable creation time" [*].
+cifs supports setting it via setxattr and I guess ntfs3 could use an
+API to set it as well.
+
+One natural interface that comes to mind is:
+
+struct timespec times[3] = {/* atime, mtime, crtime */}
+utimensat(dirfd, path, times, AT_UTIMES_ARCHIVE);
+
+and add ia_crtime with ATTR_CRTIME to struct iattr.
+
+Trond,
+
+Do you agree to rework your patches in this direction?
+Perhaps as the first stage, just use statx() and ioctls to set the
+attributes to give enough time for bikeshedding the set APIs
+and follow up with the generic set API patches later?
+
+Thanks,
+Amir.
+
+[*] I find it convenient to use the statx() terminology of "btime"
+to refer to the immutable birth time provided by some filesystems
+and to use "crtime" for the mutable creation time for archiving,
+so that at some point, some filesystems may provide both of
+these times independently.
