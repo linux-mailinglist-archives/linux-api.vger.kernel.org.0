@@ -2,79 +2,123 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F06648C6EE
-	for <lists+linux-api@lfdr.de>; Wed, 12 Jan 2022 16:16:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08C6948C726
+	for <lists+linux-api@lfdr.de>; Wed, 12 Jan 2022 16:24:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354486AbiALPQs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Jan 2022 10:16:48 -0500
-Received: from albireo.enyo.de ([37.24.231.21]:55424 "EHLO albireo.enyo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1354485AbiALPQp (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Wed, 12 Jan 2022 10:16:45 -0500
-Received: from [172.17.203.2] (port=47567 helo=deneb.enyo.de)
-        by albireo.enyo.de ([172.17.140.2]) with esmtps (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-        id 1n7fMa-00Fx93-B6; Wed, 12 Jan 2022 15:16:36 +0000
-Received: from fw by deneb.enyo.de with local (Exim 4.94.2)
-        (envelope-from <fw@deneb.enyo.de>)
-        id 1n7fMa-003TtF-1b; Wed, 12 Jan 2022 16:16:36 +0100
-From:   Florian Weimer <fw@deneb.enyo.de>
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
+        id S243169AbiALPYP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Jan 2022 10:24:15 -0500
+Received: from mail.efficios.com ([167.114.26.124]:43292 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239638AbiALPYO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Jan 2022 10:24:14 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 1D840256AD7;
+        Wed, 12 Jan 2022 10:24:14 -0500 (EST)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id Yu5SzVRVX3wZ; Wed, 12 Jan 2022 10:24:13 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 9405E2569FC;
+        Wed, 12 Jan 2022 10:24:13 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 9405E2569FC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1642001053;
+        bh=khNFZZCALdguJbA4GqpocK2qhvdCNT10jDgdgCLUyz4=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=tyFXRUGaclxtF0A9stO+5Md9kvttN2ssiRMz8QI8snMPWPPotfSSkQCsmgjj6x9Uh
+         Sc35/HeSRa76vaFyyjdzVokAdAonNEDQLZq2R9DbfvQ49byU46SA7jmavYHhxAmVcp
+         5rUU/hcjEl749tcT7DXEKEr1m96sqOaZDu5LkNpTd/7VwiCF4xU3J1kv2QvnINmYmO
+         2CLS1c3zF5sfhaGR9GiCc3FYF2OaClfe4cz6EO7pzUVsDwHOQvuesBixPegvzc6OCS
+         QMZ6tmLDC4pZuDCQFQ+aHuF398nbfhWUZ727ksLLASiInGyXVjUUbWUoBLkfPZf6+B
+         7Fb82Y2UnYlNg==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id hGNTZmH07Ibj; Wed, 12 Jan 2022 10:24:13 -0500 (EST)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id 804882569FB;
+        Wed, 12 Jan 2022 10:24:13 -0500 (EST)
+Date:   Wed, 12 Jan 2022 10:24:13 -0500 (EST)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     David Laight <David.Laight@ACULAB.COM>
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
+        Christian Brauner <brauner@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         paulmck <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
         "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
         linux-api <linux-api@vger.kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        carlos <carlos@redhat.com>
-Subject: Re: [RFC PATCH] rseq: x86: implement abort-at-ip extension
-References: <20220107170302.8325-1-mathieu.desnoyers@efficios.com>
-        <87a6g7ny0j.fsf@mid.deneb.enyo.de>
-        <1968088162.13310.1641584935813.JavaMail.zimbra@efficios.com>
-Date:   Wed, 12 Jan 2022 16:16:36 +0100
-In-Reply-To: <1968088162.13310.1641584935813.JavaMail.zimbra@efficios.com>
-        (Mathieu Desnoyers's message of "Fri, 7 Jan 2022 14:48:55 -0500
-        (EST)")
-Message-ID: <87y23l6l2j.fsf@mid.deneb.enyo.de>
+        Florian Weimer <fw@deneb.enyo.de>, carlos <carlos@redhat.com>
+Message-ID: <2040942183.24657.1642001053391.JavaMail.zimbra@efficios.com>
+In-Reply-To: <0088806280f54211b3f90b2c1a82a140@AcuMS.aculab.com>
+References: <20220110171611.8351-1-mathieu.desnoyers@efficios.com> <20220111110556.inteixgtl5vpmka7@wittgenstein> <1626924888.21447.1641922985771.JavaMail.zimbra@efficios.com> <20220112084617.32bjjo774n7vvyct@wittgenstein> <1475639366.24565.1641998849957.JavaMail.zimbra@efficios.com> <71e7d09733df4a899d12b7ef25198bbc@AcuMS.aculab.com> <1953851780.24610.1641999934047.JavaMail.zimbra@efficios.com> <0088806280f54211b3f90b2c1a82a140@AcuMS.aculab.com>
+Subject: Re: [RFC PATCH v2 1/2] rseq: x86: implement abort-at-ip extension
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_4180 (ZimbraWebClient - FF96 (Linux)/8.8.15_GA_4177)
+Thread-Topic: rseq: x86: implement abort-at-ip extension
+Thread-Index: AdgHxNJPmHALYHCBSGGqQq0pyoAGXDSYsRN7NJggl0DQZ+TsQA==
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Mathieu Desnoyers:
+----- On Jan 12, 2022, at 10:15 AM, David Laight David.Laight@ACULAB.COM wrote:
 
-> ----- On Jan 7, 2022, at 2:31 PM, Florian Weimer fw@deneb.enyo.de wrote:
->
->> * Mathieu Desnoyers:
+> From: Mathieu Desnoyers
+>> Sent: 12 January 2022 15:06
 >> 
->>> Allow rseq critical section abort handlers to optionally figure out at
->>> which instruction pointer the rseq critical section was aborted.
->>>
->>> This allows implementing rseq critical sections containing loops, in
->>> which case the commit side-effect cannot be the last instruction. This
->>> is useful to implement adaptative mutexes aware of preemption in
->>> user-space. (see [1])
+>> ----- On Jan 12, 2022, at 9:58 AM, David Laight David.Laight@ACULAB.COM wrote:
 >> 
->> Could you write the program counter to the rseq area instead?  This
->> would avoid discussing which register to clobber.
->
-> Using the rseq area for that purpose would be problematic for nested signal
-> handlers with rseq critical sections. If a signal happens to be delivered
-> right after the abort ip adjustment, its signal handler containing a rseq
-> critical section could overwrite the relevant "abort-at-ip" field in the
-> rseq per-thread area before it has been read by the abort handler interrupted
-> by the signal.
->
-> Making this architecture-agnostic is indeed a laudable goal, but I don't
-> think the rseq per-thread area is a good fit for this.
->
-> I also though about making the clobbered register configurable on a
-> per-critical-section basis, but I rather think that it would be
-> overengineered: too much complexity for the gain. Unless there are
-> very strong reasons for choosing one register over another on a per
-> use-case basis ?
+>> >>  * [*] The openrisc, powerpc64 and x86-64 architectures define a "redzone" as a
+>> >>  *     stack area beyond the stack pointer which can be used by the compiler
+>> >>  *     to store local variables in leaf functions.
+>> >
+>> > I wonder if that is really worth the trouble it causes!
+>> > By the time a function is spilling values to stack the cost
+>> > of a %sp update is almost certainly noise.
+>> >
+>> > Someone clearly thought it was a 'good idea (tm)'.
+>> 
+>> I must admit that I've been surprised to learn about these redzones. Thanks for
+>> pointing them out to me, it was clearly a blind spot. I suspect it would be
+>> useful
+>> to introduce per-architecture KERNEL_REDZONE, USER_REDZONE and
+>> COMPAT_USER_REDZONE
+>> with a asm-generic version defining them to 0, with proper documentation. It
+>> would
+>> make it clearer to kernel developers working on stuff similar to signal handler
+>> delivery that they need to consider these carefully.
+> 
+> They can never be used in kernel - any ISR would overwrite them.
 
-You could perhaps push a signal frame onto the stack.  It's going to
-be expensive, but it's already in the context switch path, so maybe it
-does not matter.
+arch/powerpc/include/asm/ptrace.h define those for ppc64:
+
+113:#define USER_REDZONE_SIZE	512
+114:#define KERNEL_REDZONE_SIZE	288
+
+and then uses the kernel redzone size for:
+
+#define STACK_INT_FRAME_SIZE    (sizeof(struct pt_regs) + \
+                                 STACK_FRAME_OVERHEAD + KERNEL_REDZONE_SIZE)
+
+which AFAIU should ensure that ISR don't overwrite the redzone within the kernel.
+
+Thanks,
+
+Mathieu
+
+> 
+>	David
+> 
+> -
+> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT,
+> UK
+> Registration No: 1397386 (Wales)
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
