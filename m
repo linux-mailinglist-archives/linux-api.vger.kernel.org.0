@@ -2,96 +2,157 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E0CAB48C894
-	for <lists+linux-api@lfdr.de>; Wed, 12 Jan 2022 17:38:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A2A8248CA04
+	for <lists+linux-api@lfdr.de>; Wed, 12 Jan 2022 18:43:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242401AbiALQiI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Jan 2022 11:38:08 -0500
-Received: from mail.efficios.com ([167.114.26.124]:39872 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343550AbiALQiH (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Jan 2022 11:38:07 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id BD4AB2578BE;
-        Wed, 12 Jan 2022 11:38:06 -0500 (EST)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id xlU9B2-5QPf1; Wed, 12 Jan 2022 11:38:06 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 1213225799F;
-        Wed, 12 Jan 2022 11:38:06 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 1213225799F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1642005486;
-        bh=g9f7dG+bhNKpizysyUoQp+wUex1LU175g8hrrfqMfiE=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=oUYGLzxW7kN56OZ3buj3XtfWITjaoWI4Whuj09aFDuNpCxf41LWDicIYOsE4RzCRP
-         eDgfgqqtkCeldPgTgPEaEFUqkkgyy78gpIa/8wYnoTVJ9F5xzki7wcS1QszL4civ9J
-         W5vrl0vHHZlqoCsJkWxDZKIWxXtzhE3VOUlZl1LYqa4+GbmyhzeO7CBxeW+Lw0f2VW
-         vkWkaqco9iprqHDk34QxgLQlaUbBqgWbe4m1ccE8jpWrYK4R+UvvyTaPXEV/0E7TEo
-         JQtTK41GfzGtrdQK53SKVnQwmBp9hMIiBQwYi1TdY3JhULh7RTkCRdqnSIeeucKjk4
-         aHspZZCsAePwg==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id D9n8D_sJ4JYi; Wed, 12 Jan 2022 11:38:06 -0500 (EST)
-Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id 01062257B05;
-        Wed, 12 Jan 2022 11:38:06 -0500 (EST)
-Date:   Wed, 12 Jan 2022 11:38:05 -0500 (EST)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Florian Weimer <fw@deneb.enyo.de>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        paulmck <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api <linux-api@vger.kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        carlos <carlos@redhat.com>
-Message-ID: <396330808.24806.1642005485899.JavaMail.zimbra@efficios.com>
-In-Reply-To: <87sftt6j0u.fsf@mid.deneb.enyo.de>
-References: <20220107170302.8325-1-mathieu.desnoyers@efficios.com> <87a6g7ny0j.fsf@mid.deneb.enyo.de> <1968088162.13310.1641584935813.JavaMail.zimbra@efficios.com> <87y23l6l2j.fsf@mid.deneb.enyo.de> <Yd71+Da44h9Ge0+s@hirez.programming.kicks-ass.net> <87sftt6j0u.fsf@mid.deneb.enyo.de>
-Subject: Re: [RFC PATCH] rseq: x86: implement abort-at-ip extension
+        id S1343855AbiALRnF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Jan 2022 12:43:05 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:43388 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243138AbiALRnF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Jan 2022 12:43:05 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 8D4FBB81D6E;
+        Wed, 12 Jan 2022 17:43:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35393C36AE5;
+        Wed, 12 Jan 2022 17:43:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1642009382;
+        bh=L5o3p0wuBHzN9b7DsFmDk5i5nOc1gWICMYhr98lMFsI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cUeuVHe+nqNsG9Pll7a0kuKfqU0In+6N6fpi0pqA1YUGJJFYb1nVVUjd1KkEO9nYR
+         r3AilCCE9tlzdEBaJHXqFh0WzyGjVB0gHMVHSNHiFsX8fJJ+bZnbyysTThtJo8ercj
+         +kKXuaJYs2pC0iAYf6IoswpM1Op26BuHTpvAoJeeD/ISziQhHAl+Mx/ZJ75ZCPBcmD
+         Ygk+90p0YYqo/b0/Jx5ja7MFa19ieRxfoqmKu04i/2hUqppT8roTlzCDaQJAjssc2u
+         hhozyq9dtypeyCdv5O/vuiTDnIPw1E7DWQLIsIKPLnNQEMq+uAqndPxLzge/dVnBF3
+         jqWWhfnp+GTqA==
+Date:   Wed, 12 Jan 2022 09:43:01 -0800
+From:   "Darrick J. Wong" <djwong@kernel.org>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        richard.sharpe@primarydata.com,
+        Linux NFS Mailing List <linux-nfs@vger.kernel.org>,
+        lance.shelton@hammerspace.com,
+        Anna Schumaker <Anna.Schumaker@netapp.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        CIFS <linux-cifs@vger.kernel.org>, ntfs3@lists.linux.dev,
+        Steve French <sfrench@samba.org>,
+        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Subject: Re: [bug report] NFS: Support statx_get and statx_set ioctls
+Message-ID: <20220112174301.GB19154@magnolia>
+References: <20220111074309.GA12918@kili>
+ <Yd1ETmx/HCigOrzl@infradead.org>
+ <CAOQ4uxg9V4Jsg3jRPnsk2AN7gPrNY8jRAc87tLvGW+TqH9OU-A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [167.114.26.124]
-X-Mailer: Zimbra 8.8.15_GA_4180 (ZimbraWebClient - FF96 (Linux)/8.8.15_GA_4177)
-Thread-Topic: rseq: x86: implement abort-at-ip extension
-Thread-Index: SzHVQlW/ZeENurobLuAlPowCMIU0hg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOQ4uxg9V4Jsg3jRPnsk2AN7gPrNY8jRAc87tLvGW+TqH9OU-A@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On Jan 12, 2022, at 11:00 AM, Florian Weimer fw@deneb.enyo.de wrote:
-
-> * Peter Zijlstra:
+On Wed, Jan 12, 2022 at 09:57:58AM +0200, Amir Goldstein wrote:
+> On Wed, Jan 12, 2022 at 4:10 AM Christoph Hellwig <hch@infradead.org> wrote:
+> >
+> > On Tue, Jan 11, 2022 at 10:43:09AM +0300, Dan Carpenter wrote:
+> > > Hello Richard Sharpe,
+> > >
+> > > This is a semi-automatic email about new static checker warnings.
+> > >
+> > > The patch bc66f6805766: "NFS: Support statx_get and statx_set ioctls"
+> > > from Dec 27, 2021, leads to the following Smatch complaint:
+> >
+> > Yikes, how did that crap get merged?
 > 
->> On Wed, Jan 12, 2022 at 04:16:36PM +0100, Florian Weimer wrote:
->>
->>> You could perhaps push a signal frame onto the stack.  It's going to
->>> be expensive, but it's already in the context switch path, so maybe it
->>> does not matter.
->>
->> Please no! Signals are a trainwreck that need change (see the whole
->> AVX-512 / AMX saga), we shouldn't use more of that just cause.
+> Did it? The bots are scanning through patches on ML:
 > 
-> If it's a signal, it should be modeled as such.  I think it's pretty
-> close to a synchronous signal.
+> https://lore.kernel.org/linux-nfs/20211227190504.309612-1-trondmy@kernel.org/
+> 
+> > Why the f**k does a remote file system need to duplicate stat?
+> > This kind of stuff needs a proper discussion on linux-fsdevel.
+> 
+> +ntfs3 +linux-cifs +linux-api
+> 
+> The proposal of statx_get() is very peculiar.
+> statx() was especially designed to be extended and accommodate
+> a diversity of filesystem attributes.
+> 
+> Moreover, NFSv4 is not the only fs that supports those extra attributes.
+> ntfs3 supports set/get of dos attrib bits via xattr SYSTEM_NTFS_ATTRIB.
+> cifs support set/get of CIFS_XATTR_ATTRIB and CIFS_XATTR_CREATETIME.
+> 
+> Not only that, but Linux now has ksmbd which actually emulates
+> those attributes on the server side (like samba) by storing a samba
+> formatted blob in user.DOSATTRIB xattr.
+> It should have a way to get/set them on filesystems that support them
+> natively.
+> 
+> The whole thing shouts for standardization.
+> 
+> Samba should be able to get/set the extra attributes by statx() and
+> ksmbd should be able to get them from the filesystem by vfs_getattr().
+> 
+> WRT statx_set(), standardization is also in order, both for userspace
 
-Florian, just to validate here: is your argument about AVX-512/AMX or about
-rseq abort-at-ip ?
+So, uh, this is the first I've heard of statx_set in years.
 
-Am I understanding correctly that you would prefer that the kernel push an entire
-signal frame onto the stack rather than just push the abort-at-ip value
-on abort ? If it is the case, are there advantages in doing so ? Tooling support ?
+I'm glad to hear that standardizing FSGETFLAGS/FSSETXATTR/etc is still
+alive. :)
 
-Thanks,
+> API and for vfs API to be used by ksmbd and nfsd v4.
+> 
+> The new-ish vfs API fileattr_get/set() comes to mind when considering
+> a method to set the dos attrib bits.
+> Heck, FS_NODUMP_FL is the same as FILE_ATTRIBUTE_ARCHIVE.
+> That will also make it easy for filesystems that support the fileattr flags
+> to add support for FS_SYSTEM_FL, FS_HIDDEN_FL.
+> 
+> There is a use case for that. It can be inferred from samba config options
+> "map hidden/system/archive" that are used to avoid the cost of getxattr
+> per file during a "readdirplus" query. I recently quantified this cost on a
+> standard file server and it was very high.
+> 
+> Which leaves us with an API to set the 'time backup' attribute, which
+> is a "mutable creation time" [*].
+> cifs supports setting it via setxattr and I guess ntfs3 could use an
+> API to set it as well.
+> 
+> One natural interface that comes to mind is:
+> 
+> struct timespec times[3] = {/* atime, mtime, crtime */}
+> utimensat(dirfd, path, times, AT_UTIMES_ARCHIVE);
+> 
+> and add ia_crtime with ATTR_CRTIME to struct iattr.
+> 
+> Trond,
+> 
+> Do you agree to rework your patches in this direction?
+> Perhaps as the first stage, just use statx() and ioctls to set the
+> attributes to give enough time for bikeshedding the set APIs
+> and follow up with the generic set API patches later?
+> 
+> Thanks,
+> Amir.
+> 
+> [*] I find it convenient to use the statx() terminology of "btime"
+> to refer to the immutable birth time provided by some filesystems
+> and to use "crtime" for the mutable creation time for archiving,
+> so that at some point, some filesystems may provide both of
+> these times independently.
 
-Mathieu
+I disagree because XFS and ext4 both use 'crtime' for the immutable
+birth time, not a mutable creation time for archiving.  I think we'd
+need to be careful about wording here if there is interest in adding a
+user-modifiable file creation time (as opposed to creation time for a
+specific instance of an inode) to filesystems.
 
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
+Once a year or so we get a question/complaint from a user about how they
+can't change the file creation time and we have to explain to them
+what's really going on.
+
+--D
