@@ -2,61 +2,53 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 37B1D48BBBF
-	for <lists+linux-api@lfdr.de>; Wed, 12 Jan 2022 01:20:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B52C48BDAE
+	for <lists+linux-api@lfdr.de>; Wed, 12 Jan 2022 04:33:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233263AbiALAUk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 11 Jan 2022 19:20:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54234 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230147AbiALAUj (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Jan 2022 19:20:39 -0500
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F6DEC06173F;
-        Tue, 11 Jan 2022 16:20:39 -0800 (PST)
-Received: by mail-pl1-x630.google.com with SMTP id l15so1426720pls.7;
-        Tue, 11 Jan 2022 16:20:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:references:cc:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding;
-        bh=OLIwB5BHLC3yAD2ZzXqCsAZKNHH6hfK1FSSG8NbarnE=;
-        b=VxpKJF/YSyWacV7Rg5PK/7SjOxS0/V85OJKrODkd1WxXxjGZJk0xznqcbmTVccQFka
-         v9GgsYzJRZ9Ma146A+oCV7VgOhvu3TaJWQGdR+Q5CVZQg4u5ioDXUmHNjhnI0vnUJaVw
-         LnOncS7ILpiX45fg3coj8QxdLh3CterH8ejY5besGQC4dpn6cAGTKmjfn+XO5cB7nii6
-         OD1+trOyy2Z+85tgc5EC1fZjKmWWHxE/syuRJmHoGCAJpOuepDs13D7rY+kfsmKLVE6+
-         WgKeI/21jJsSTXWVoTjs67NASWspnbKkXTBgdp+VZuORZxvx5cQLKn8oyoTP5JI731VN
-         wmzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding;
-        bh=OLIwB5BHLC3yAD2ZzXqCsAZKNHH6hfK1FSSG8NbarnE=;
-        b=TWrjX5Fu8ut6bTeoBoRt/Ya5rEQWALnT+OALdLjr5ZT6fDbrNDu0QSoEoQp1Wt1gYM
-         RA80qCV0DBAGwSfcse/vshPBRyv/rX9Y76N3WPnDyVu0gPDZtwlL0cSmClwvJn7uL25y
-         7K3KKVqE8pmPc0Qhf9C9NkSZal43CTecsRFEYQV7E+GRqrD0zndeFnvLeJp4jNTxzIYK
-         AN4C+2Nr9X4xp3dVaFng+DIMZUIO5YMRPH13+67ItTOQUI6EZsHTFZwpV1gqWRiHbj6k
-         MWfyyf3QB75zcbVk45WBucSPves3zz3yBQWN6oloJCSMnhhj8hxBIg+MMI5xyLge/x2i
-         yd0w==
-X-Gm-Message-State: AOAM530zkpwWWw2wVensI5UEM+A98PSjLXZRD4/AlRu8DU20dfkjLQIy
-        qwPclEM/jcjYG1FkwPfU8eo=
-X-Google-Smtp-Source: ABdhPJwWIHZ5gvsxZEoBrIRUqAVZ7nbupSccTZkUnmCtOdQFIb0LoZWqT+fwN6FxcnxNZJSIRv2ofw==
-X-Received: by 2002:a17:90b:3a89:: with SMTP id om9mr5906345pjb.120.1641946839187;
-        Tue, 11 Jan 2022 16:20:39 -0800 (PST)
-Received: from [10.1.1.24] (222-155-5-102-adsl.sparkbb.co.nz. [222.155.5.102])
-        by smtp.gmail.com with ESMTPSA id p37sm12805225pfh.97.2022.01.11.16.20.33
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 11 Jan 2022 16:20:38 -0800 (PST)
-Subject: Re: [PATCH 08/17] ptrace/m68k: Stop open coding ptrace_report_syscall
-To:     Finn Thain <fthain@linux-m68k.org>
-References: <87r19opkx1.fsf_-_@email.froward.int.ebiederm.org>
- <20220103213312.9144-8-ebiederm@xmission.com>
- <CAMuHMdWsNBjOJh0QEx9sppA9x3WoL8H2icqukNqECFhOPremjw@mail.gmail.com>
- <YdxcszwEslyQJSuF@zeniv-ca.linux.org.uk>
- <CAMuHMdX9nhUQe_jeQCUtXeQgcQ5MBiHpPiRexh86EssoHNtJ3Q@mail.gmail.com>
- <acf7b627-2dec-c76c-2aa0-6b4c6addd793@gmail.com>
- <d660267-ce4f-e598-9b40-5cdbb4566c7@linux-m68k.org>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        id S1350222AbiALDdE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 11 Jan 2022 22:33:04 -0500
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:39125 "EHLO
+        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236491AbiALDdD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 11 Jan 2022 22:33:03 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.nyi.internal (Postfix) with ESMTP id CCC045804D8;
+        Tue, 11 Jan 2022 22:33:02 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Tue, 11 Jan 2022 22:33:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=KpXhp9
+        XTu8lwVK5H01maepw6Nj9bWZ/sx97aGJpB0yQ=; b=LfgvCkg8/dRmYEwvmAeZGp
+        PQAEsrmVyD/+7kZdPG7sdiBj8xdhEMVroxC13O+MEJ3oEwf7kKScYdp5h1tXT8K5
+        8yKtZiF0PKk0ymZ+PBxgOaVEWXS+PGOQnlA04zlzdLCAAThLNIze+5bERwO1bzZ7
+        ynoKvq2SbIA7H5acN0Gb6jG6BBRAnoOGjoeOSNeYBhMT7d1S2LFf6mr8aiEf/iVv
+        N7zuL8kym9Jdea9EuaMC3Vg59+7x5suFsxoyBZt3p4kEKXZg3Y75jEPx5DOG38hK
+        lGFPBwmBVTClVLtW3BVqSJiYLjRnNXDBAqqqf2GmS3q5X3Hd7MrXwUt/IZKYreAg
+        ==
+X-ME-Sender: <xms:7kveYd1WWXiI-mr_bVzYIvTmi-TZEKqcavnCE93Cqmc7GNk-7h1ObQ>
+    <xme:7kveYUGmxoOkDqOY4YhzwnfLHxcpJpXj23XPKgeyvv_i9yw9xJIScn_BvBRNAAeVW
+    LQZMhRxQR9Tqnpnb4I>
+X-ME-Received: <xmr:7kveYd6HPy6M2E6NYHjz-MJM_RoSk8aaTAMqAGZ_5mVQyfXSqucuXN-uYgghvppHjjOCUlGi0gT_v9HV9lHmanWXsmmBGc0txL4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrudehgedgiedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffujgfkfhggtgesthdtredttddtvdenucfhrhhomhephfhinhhnucfv
+    hhgrihhnuceofhhthhgrihhnsehlihhnuhigqdhmieekkhdrohhrgheqnecuggftrfgrth
+    htvghrnhepffduhfegfedvieetudfgleeugeehkeekfeevfffhieevteelvdfhtdevffet
+    uedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepfh
+    hthhgrihhnsehlihhnuhigqdhmieekkhdrohhrgh
+X-ME-Proxy: <xmx:7kveYa25qc4SjmTh-loKAwcZuCzl1pnxeLOVCnj8EIGThoK9K3qp9w>
+    <xmx:7kveYQFB1eias7arLJM9_mg5cbHYaT9yaMs0h_vB75Cg9oa4gbjCKg>
+    <xmx:7kveYb8vBgfZghSheOJe7ppc20Hoj_dejM5udxUNsuJF6-guJlZXhQ>
+    <xmx:7kveYeYjeEXGPCURsARWqnszLyA0Mc-9SUAR-mgCn9CxfUyjKdGvgQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 11 Jan 2022 22:32:59 -0500 (EST)
+Date:   Wed, 12 Jan 2022 14:32:51 +1100 (AEDT)
+From:   Finn Thain <fthain@linux-m68k.org>
+To:     Michael Schmitz <schmitzmic@gmail.com>
+cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -66,72 +58,25 @@ Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
         Kees Cook <keescook@chromium.org>,
         Linux API <linux-api@vger.kernel.org>,
         linux-m68k <linux-m68k@lists.linux-m68k.org>
-From:   Michael Schmitz <schmitzmic@gmail.com>
-Message-ID: <6060f799-d0c5-e4c2-a81c-2bd872ce3d5a@gmail.com>
-Date:   Wed, 12 Jan 2022 13:20:31 +1300
-User-Agent: Mozilla/5.0 (X11; Linux ppc; rv:45.0) Gecko/20100101
- Icedove/45.4.0
+Subject: Re: [PATCH 08/17] ptrace/m68k: Stop open coding
+ ptrace_report_syscall
+In-Reply-To: <6060f799-d0c5-e4c2-a81c-2bd872ce3d5a@gmail.com>
+Message-ID: <b8ad3fc-523f-eca2-91d7-c77d20a1e876@linux-m68k.org>
+References: <87r19opkx1.fsf_-_@email.froward.int.ebiederm.org> <20220103213312.9144-8-ebiederm@xmission.com> <CAMuHMdWsNBjOJh0QEx9sppA9x3WoL8H2icqukNqECFhOPremjw@mail.gmail.com> <YdxcszwEslyQJSuF@zeniv-ca.linux.org.uk> <CAMuHMdX9nhUQe_jeQCUtXeQgcQ5MBiHpPiRexh86EssoHNtJ3Q@mail.gmail.com>
+ <acf7b627-2dec-c76c-2aa0-6b4c6addd793@gmail.com> <d660267-ce4f-e598-9b40-5cdbb4566c7@linux-m68k.org> <6060f799-d0c5-e4c2-a81c-2bd872ce3d5a@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <d660267-ce4f-e598-9b40-5cdbb4566c7@linux-m68k.org>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Finn,
+On Wed, 12 Jan 2022, Michael Schmitz wrote:
 
-Am 12.01.2022 um 11:42 schrieb Finn Thain:
-> On Tue, 11 Jan 2022, Michael Schmitz wrote:
->>> In fact Michael did so in "[PATCH v7 1/2] m68k/kernel - wire up
->>> syscall_trace_enter/leave for m68k"[1], but that's still stuck...
->>>
->>> [1]
->>> https://lore.kernel.org/r/1624924520-17567-2-git-send-email-schmitzmic@gmail.com/
->>
->> That patch (for reasons I never found out) did interact badly with
->> Christoph Hellwig's 'remove set_fs' patches (and Al's signal fixes which
->> Christoph's patches are based upon). Caused format errors under memory
->> stress tests quite reliably, on my 030 hardware.
->>
->
-> Those patches have since been merged, BTW.
+> 
+> I seem to recall we also tested those on your 040 and there was no 
+> regression there, but I may be misremembering that.
+> 
 
-Yes, that's why I advised caution with mine.
-
->
->> Probably needs a fresh look - the signal return path got changed by Al's
->> patches IIRC, and I might have relied on offsets to data on the stack
->> that are no longer correct with these patches. Or there's a race between
->> the syscall trap and signal handling when returning from interrupt
->> context ...
->>
->> Still school hols over here so I won't have much peace and quiet until
->> February.
->>
->
-> So the patch works okay with Aranym 68040 but not Motorola 68030? Since
-
-Correct - I seem to recall we also tested those on your 040 and there 
-was no regression there, but I may be misremembering that.
-
-> there is at least one known issue affecting both Motorola 68030 and Hatari
-> 68030, perhaps this patch is not the problem. In anycase, Al's suggestion
-
-I hadn't ever made that connection, but it might be another explanation, 
-yes.
-
-> to split the patch into two may help in that testing two smaller patches
-> might narrow down the root cause.
-
-That's certainly true.
-
-What's the other reason these patches are still stuck, Geert? Did we 
-ever settle the dispute about what return code ought to abort a syscall 
-(in the seccomp context)?
-
-Cheers,
-
-	Michael
-
-
+I abandoned that regression testing exercise when unpatched mainline 
+kernels began failing on that machine. I'm in the process of setting up a 
+different 68040 machine.
