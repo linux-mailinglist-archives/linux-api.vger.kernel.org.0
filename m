@@ -2,103 +2,131 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EEBB48C64F
-	for <lists+linux-api@lfdr.de>; Wed, 12 Jan 2022 15:44:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B9C3348C668
+	for <lists+linux-api@lfdr.de>; Wed, 12 Jan 2022 15:48:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242526AbiALOoP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Jan 2022 09:44:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50768 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241952AbiALOoO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Jan 2022 09:44:14 -0500
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD34DC06173F;
-        Wed, 12 Jan 2022 06:44:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=qlFlkECPRVUfbaXMoD/8vlzFEq0cbbwMCSchJ4LcKmA=; b=ETiOH3cX3l64g4+xs3cWHLUrdN
-        7WR6s0Q0zlVj69t0YQ65pnGYn4EismXW1LBUlOOvnE31JkoIkXUv5M63Zyy4bapawDeqbgov6qqwK
-        X45/FT76S+b9mdv8iiwlis1MZ8pMQeWw4Ku9VGsU9qKu9kao7NpElqX+qFDoLwn1QshZn/sdewSVI
-        kl0pN1N86BrdV8X6dVgNvb7J4DmbHj5WCJuxwRBTbrBrmmaemjQMG2jIj5WMxdPkj8mc6mCUgjQAN
-        EiUugVc26avg9zr1YZVanW80LAZGRExwd/Yq337LmHGZ7OY7c95K81iGaYey7WzRcKrst8+gdw02p
-        wUopTTpg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1n7eqz-000ocW-2C; Wed, 12 Jan 2022 14:43:57 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id AB48B3001CD;
-        Wed, 12 Jan 2022 15:43:54 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 660E82006F92B; Wed, 12 Jan 2022 15:43:54 +0100 (CET)
-Date:   Wed, 12 Jan 2022 15:43:54 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Gang Li <ligang.bdlg@bytedance.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3] sched/numa: add per-process numa_balancing
-Message-ID: <Yd7pKuvjayH4q14L@hirez.programming.kicks-ass.net>
-References: <20211206024530.11336-1-ligang.bdlg@bytedance.com>
+        id S243091AbiALOrb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Jan 2022 09:47:31 -0500
+Received: from mail.efficios.com ([167.114.26.124]:58838 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239916AbiALOrb (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Jan 2022 09:47:31 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 9A01E2563E2;
+        Wed, 12 Jan 2022 09:47:30 -0500 (EST)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id rWaN6AbcvVWA; Wed, 12 Jan 2022 09:47:30 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 2E065256521;
+        Wed, 12 Jan 2022 09:47:30 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 2E065256521
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1641998850;
+        bh=BcnDtVFo4lej1Dp/uixgYGKV0F0M2FHui42BqigyqPA=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=t3n+ikMe5EOtgTTOWx/7FpHB/4sDBZBhX80ljnF0WzVHKjxL0Jp54VcDXRpUMBLHb
+         KJYwio9eY3XLcSj+15Crc3zuVGDW5MvnOkSXWPZoYVuAt0ZIDpAvITUfmWlBdpA+0B
+         GRvF32v+4avJFvoiMHedC+o/79yUe5wi/TzArclpaxFJ/ooQcvIIA2WFOhVQs0rLgQ
+         Avql3s7a8BFDxqaoRWWaIbFeFil1cNd5qjItJKd4HHK9bAd6ljQUa4C+QO/RLTYhtB
+         bQMJhSBrefSNpNVb4VoqomtIAJPCbj1CkP+NBmO677gnPoS1Al0FPBYwqabwaRQome
+         i5lndUViNnEtw==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 5f3vQPSP2xnF; Wed, 12 Jan 2022 09:47:30 -0500 (EST)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id 1785D2563E1;
+        Wed, 12 Jan 2022 09:47:30 -0500 (EST)
+Date:   Wed, 12 Jan 2022 09:47:29 -0500 (EST)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     Christian Brauner <brauner@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        paulmck <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api <linux-api@vger.kernel.org>,
+        Florian Weimer <fw@deneb.enyo.de>,
+        David Laight <David.Laight@ACULAB.COM>,
+        carlos <carlos@redhat.com>
+Message-ID: <1475639366.24565.1641998849957.JavaMail.zimbra@efficios.com>
+In-Reply-To: <20220112084617.32bjjo774n7vvyct@wittgenstein>
+References: <20220110171611.8351-1-mathieu.desnoyers@efficios.com> <20220111110556.inteixgtl5vpmka7@wittgenstein> <1626924888.21447.1641922985771.JavaMail.zimbra@efficios.com> <20220112084617.32bjjo774n7vvyct@wittgenstein>
+Subject: Re: [RFC PATCH v2 1/2] rseq: x86: implement abort-at-ip extension
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211206024530.11336-1-ligang.bdlg@bytedance.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_4180 (ZimbraWebClient - FF96 (Linux)/8.8.15_GA_4177)
+Thread-Topic: rseq: x86: implement abort-at-ip extension
+Thread-Index: wXhmkkkMiFRXr8tNEYqfVGV2Lo6qQg==
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Dec 06, 2021 at 10:45:28AM +0800, Gang Li wrote:
-> This patch add a new api PR_NUMA_BALANCING in prctl.
-> 
-> A large number of page faults will cause performance loss when numa
-> balancing is performing. Thus those processes which care about worst-case
-> performance need numa balancing disabled. Others, on the contrary, allow a
-> temporary performance loss in exchange for higher average performance, so
-> enable numa balancing is better for them.
-> 
-> Numa balancing can only be controlled globally by
-> /proc/sys/kernel/numa_balancing. Due to the above case, we want to
-> disable/enable numa_balancing per-process instead.
-> 
-> Add numa_balancing under mm_struct. Then use it in task_tick_fair.
-> 
-> Set per-process numa balancing:
-> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DISABLE); //disable
-> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_ENABLE);  //enable
-> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DEFAULT); //follow global
+----- On Jan 12, 2022, at 3:46 AM, Christian Brauner christian.brauner@ubuntu.com wrote:
 
-This seems to imply you can prctl(ENABLE) even if the global is
-disabled, IOW sched_numa_balancing is off.
+> On Tue, Jan 11, 2022 at 12:43:05PM -0500, Mathieu Desnoyers wrote:
+[...]
+>> >> + *
+>> >> + * rseq critical sections defined with the RSEQ_CS_FLAG_ABORT_AT_IP flag
+>> >> + * have the following behavior on abort: when the stack grows down: the
+>> >> + * stack pointer is decremented to skip the redzone, and decremented of
+>> >> + * the pointer size.  The aborted address (abort-at-ip) is stored at
+>> >> + * this stack pointer location.  The user-space abort handler needs to
+>> >> + * pop the abort-at-ip address from the stack, and add the redzone size
+>> >> + * to the stack pointer.
+>> >> + *
+>> >> + * TODO: describe stack grows up.
+>> > 
+>> > Is this intentional or did you forget? :)
+>> 
+>> Since I did not implement abort-at-ip on stack-grows-up architectures, I felt
+>> it would be too early to describe the algorithm. I can simply remove the TODO
+>> altogether and we'll take care of it when we get there ? If I had to try to
+>> wordsmith it, it would look like e.g.:
+>> 
+>>  *                                    [...] When the stack grows up: the
+>>  * stack pointer is incremented to skip the redzone, and incremented of
+>>  * the pointer size.  The aborted address (abort-at-ip) is stored immediately
+>>  * under this stack pointer location.  The user-space abort handler needs to
+>>  * pop the abort-at-ip address from the stack, and subtract the redzone size
+>>  * from the stack pointer.
+>> 
+>> [ Please let me know if I got somehow confused in my understanding of stack
+>> grows
+>> up architectures. ]
+>> 
+>> I'm also unsure whether any of the stack grows up architecture have redzones ?
+> 
+> I don't think so? From when I last touched that piece of arch code when
+> massaging copy_thread() I only remember parisc as having an upwards
+> growing stack.
+> 
+>> From a quick grep for redzone in Linux arch/, only openrisc, powerpc64 and
+> > x86-64 appear to have redzones.
 
-> diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-> index 884f29d07963..2980f33ac61f 100644
-> --- a/kernel/sched/fair.c
-> +++ b/kernel/sched/fair.c
-> @@ -11169,8 +11169,12 @@ static void task_tick_fair(struct rq *rq, struct task_struct *curr, int queued)
->  		entity_tick(cfs_rq, se, queued);
->  	}
->  
-> -	if (static_branch_unlikely(&sched_numa_balancing))
-> +#ifdef CONFIG_NUMA_BALANCING
-> +	if (curr->mm && (curr->mm->numab_enabled == NUMAB_ENABLED
-> +	    || (static_branch_unlikely(&sched_numa_balancing)
-> +	    && curr->mm->numab_enabled == NUMAB_DEFAULT)))
->  		task_tick_numa(rq, curr);
-> +#endif
->  
->  	update_misfit_status(curr, rq);
->  	update_overutilized_status(task_rq(curr));
+I figured it was kind of silly to special-case arch-agnostic comments for stack
+grows up/down, how about the following instead ?
 
-There's just about everything wrong there... not least of all the
-horrific coding style.
+ * rseq critical sections defined with the RSEQ_CS_FLAG_ABORT_AT_IP flag
+ * have the following behavior on abort: the stack pointer is adjusted to
+ * skip over the redzone [*], and the aborted address (abort-at-ip) is pushed
+ * at this stack pointer location.  The user-space abort handler needs to pop
+ * the abort-at-ip address from the stack, and adjust the stack pointer to skip
+ * back over the redzone.
+ *
+ * [*] The openrisc, powerpc64 and x86-64 architectures define a "redzone" as a
+ *     stack area beyond the stack pointer which can be used by the compiler
+ *     to store local variables in leaf functions.
+
+Thanks,
+
+Mathieu
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
