@@ -2,108 +2,73 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 08F2E48C693
-	for <lists+linux-api@lfdr.de>; Wed, 12 Jan 2022 15:56:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C52748C69A
+	for <lists+linux-api@lfdr.de>; Wed, 12 Jan 2022 15:58:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241338AbiALOzv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Jan 2022 09:55:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53538 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240344AbiALOzt (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Jan 2022 09:55:49 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E909C06173F;
-        Wed, 12 Jan 2022 06:55:49 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 1475FB81F4A;
-        Wed, 12 Jan 2022 14:55:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3CE5C36AE5;
-        Wed, 12 Jan 2022 14:55:43 +0000 (UTC)
-Date:   Wed, 12 Jan 2022 15:55:40 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc:     Christian Brauner <brauner@kernel.org>,
+        id S1354383AbiALO6R (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Jan 2022 09:58:17 -0500
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.85.151]:49727 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1354363AbiALO6Q (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Jan 2022 09:58:16 -0500
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-138-PRd9B9jAPKiWgPy9P27ZCQ-1; Wed, 12 Jan 2022 14:58:14 +0000
+X-MC-Unique: PRd9B9jAPKiWgPy9P27ZCQ-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.26; Wed, 12 Jan 2022 14:58:14 +0000
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.026; Wed, 12 Jan 2022 14:58:14 +0000
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Mathieu Desnoyers' <mathieu.desnoyers@efficios.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>
+CC:     Christian Brauner <brauner@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
         paulmck <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
         "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
         linux-api <linux-api@vger.kernel.org>,
-        Florian Weimer <fw@deneb.enyo.de>,
-        David Laight <David.Laight@ACULAB.COM>,
-        carlos <carlos@redhat.com>
-Subject: Re: [RFC PATCH v2 1/2] rseq: x86: implement abort-at-ip extension
-Message-ID: <20220112145540.6mzkqx6qmy2e2rcz@wittgenstein>
+        Florian Weimer <fw@deneb.enyo.de>, carlos <carlos@redhat.com>
+Subject: RE: [RFC PATCH v2 1/2] rseq: x86: implement abort-at-ip extension
+Thread-Topic: [RFC PATCH v2 1/2] rseq: x86: implement abort-at-ip extension
+Thread-Index: AdgHxNJPmHALYHCBSGGqQq0pyoAGXA==
+Date:   Wed, 12 Jan 2022 14:58:14 +0000
+Message-ID: <71e7d09733df4a899d12b7ef25198bbc@AcuMS.aculab.com>
 References: <20220110171611.8351-1-mathieu.desnoyers@efficios.com>
  <20220111110556.inteixgtl5vpmka7@wittgenstein>
  <1626924888.21447.1641922985771.JavaMail.zimbra@efficios.com>
  <20220112084617.32bjjo774n7vvyct@wittgenstein>
  <1475639366.24565.1641998849957.JavaMail.zimbra@efficios.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 In-Reply-To: <1475639366.24565.1641998849957.JavaMail.zimbra@efficios.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jan 12, 2022 at 09:47:29AM -0500, Mathieu Desnoyers wrote:
-> ----- On Jan 12, 2022, at 3:46 AM, Christian Brauner christian.brauner@ubuntu.com wrote:
-> 
-> > On Tue, Jan 11, 2022 at 12:43:05PM -0500, Mathieu Desnoyers wrote:
-> [...]
-> >> >> + *
-> >> >> + * rseq critical sections defined with the RSEQ_CS_FLAG_ABORT_AT_IP flag
-> >> >> + * have the following behavior on abort: when the stack grows down: the
-> >> >> + * stack pointer is decremented to skip the redzone, and decremented of
-> >> >> + * the pointer size.  The aborted address (abort-at-ip) is stored at
-> >> >> + * this stack pointer location.  The user-space abort handler needs to
-> >> >> + * pop the abort-at-ip address from the stack, and add the redzone size
-> >> >> + * to the stack pointer.
-> >> >> + *
-> >> >> + * TODO: describe stack grows up.
-> >> > 
-> >> > Is this intentional or did you forget? :)
-> >> 
-> >> Since I did not implement abort-at-ip on stack-grows-up architectures, I felt
-> >> it would be too early to describe the algorithm. I can simply remove the TODO
-> >> altogether and we'll take care of it when we get there ? If I had to try to
-> >> wordsmith it, it would look like e.g.:
-> >> 
-> >>  *                                    [...] When the stack grows up: the
-> >>  * stack pointer is incremented to skip the redzone, and incremented of
-> >>  * the pointer size.  The aborted address (abort-at-ip) is stored immediately
-> >>  * under this stack pointer location.  The user-space abort handler needs to
-> >>  * pop the abort-at-ip address from the stack, and subtract the redzone size
-> >>  * from the stack pointer.
-> >> 
-> >> [ Please let me know if I got somehow confused in my understanding of stack
-> >> grows
-> >> up architectures. ]
-> >> 
-> >> I'm also unsure whether any of the stack grows up architecture have redzones ?
-> > 
-> > I don't think so? From when I last touched that piece of arch code when
-> > massaging copy_thread() I only remember parisc as having an upwards
-> > growing stack.
-> > 
-> >> From a quick grep for redzone in Linux arch/, only openrisc, powerpc64 and
-> > > x86-64 appear to have redzones.
-> 
-> I figured it was kind of silly to special-case arch-agnostic comments for stack
-> grows up/down, how about the following instead ?
-> 
->  * rseq critical sections defined with the RSEQ_CS_FLAG_ABORT_AT_IP flag
->  * have the following behavior on abort: the stack pointer is adjusted to
->  * skip over the redzone [*], and the aborted address (abort-at-ip) is pushed
->  * at this stack pointer location.  The user-space abort handler needs to pop
->  * the abort-at-ip address from the stack, and adjust the stack pointer to skip
->  * back over the redzone.
->  *
->  * [*] The openrisc, powerpc64 and x86-64 architectures define a "redzone" as a
->  *     stack area beyond the stack pointer which can be used by the compiler
->  *     to store local variables in leaf functions.
+PiAgKiBbKl0gVGhlIG9wZW5yaXNjLCBwb3dlcnBjNjQgYW5kIHg4Ni02NCBhcmNoaXRlY3R1cmVz
+IGRlZmluZSBhICJyZWR6b25lIiBhcyBhDQo+ICAqICAgICBzdGFjayBhcmVhIGJleW9uZCB0aGUg
+c3RhY2sgcG9pbnRlciB3aGljaCBjYW4gYmUgdXNlZCBieSB0aGUgY29tcGlsZXINCj4gICogICAg
+IHRvIHN0b3JlIGxvY2FsIHZhcmlhYmxlcyBpbiBsZWFmIGZ1bmN0aW9ucy4NCg0KSSB3b25kZXIg
+aWYgdGhhdCBpcyByZWFsbHkgd29ydGggdGhlIHRyb3VibGUgaXQgY2F1c2VzIQ0KQnkgdGhlIHRp
+bWUgYSBmdW5jdGlvbiBpcyBzcGlsbGluZyB2YWx1ZXMgdG8gc3RhY2sgdGhlIGNvc3QNCm9mIGEg
+JXNwIHVwZGF0ZSBpcyBhbG1vc3QgY2VydGFpbmx5IG5vaXNlLg0KDQpTb21lb25lIGNsZWFybHkg
+dGhvdWdodCBpdCB3YXMgYSAnZ29vZCBpZGVhICh0bSknLg0KDQoJRGF2aWQNCg0KLQ0KUmVnaXN0
+ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBL
+ZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
 
-Sounds good to me.
