@@ -2,257 +2,128 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B279D48C02D
-	for <lists+linux-api@lfdr.de>; Wed, 12 Jan 2022 09:46:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BEF9248C0A6
+	for <lists+linux-api@lfdr.de>; Wed, 12 Jan 2022 10:03:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349003AbiALIq2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 12 Jan 2022 03:46:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53648 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348068AbiALIq2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 12 Jan 2022 03:46:28 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C9A2C06173F;
-        Wed, 12 Jan 2022 00:46:28 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 68196B81CB7;
-        Wed, 12 Jan 2022 08:46:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C95FC36AE9;
-        Wed, 12 Jan 2022 08:46:21 +0000 (UTC)
-Date:   Wed, 12 Jan 2022 09:46:17 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc:     Christian Brauner <brauner@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        paulmck <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api <linux-api@vger.kernel.org>,
-        Florian Weimer <fw@deneb.enyo.de>,
-        David Laight <David.Laight@ACULAB.COM>,
-        carlos <carlos@redhat.com>
-Subject: Re: [RFC PATCH v2 1/2] rseq: x86: implement abort-at-ip extension
-Message-ID: <20220112084617.32bjjo774n7vvyct@wittgenstein>
-References: <20220110171611.8351-1-mathieu.desnoyers@efficios.com>
- <20220111110556.inteixgtl5vpmka7@wittgenstein>
- <1626924888.21447.1641922985771.JavaMail.zimbra@efficios.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1626924888.21447.1641922985771.JavaMail.zimbra@efficios.com>
+        id S1351905AbiALJDt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 12 Jan 2022 04:03:49 -0500
+Received: from relay.sw.ru ([185.231.240.75]:35188 "EHLO relay.sw.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1351902AbiALJDs (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Wed, 12 Jan 2022 04:03:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=virtuozzo.com; s=relay; h=Message-Id:Date:Subject:From:Content-Type:
+        MIME-Version; bh=LXvcwvu/pJrvH+K8D0GYcsss9hjGYIeQtVGsSlxqdyg=; b=wGzyYFRnLJJZ
+        mucOf3wrqT9EYp3thymNqbGrxkM7GLWq6g4wz/Xr/AjKYgp7P/LM4XFBfpL7gWL6dJ+L/9ecw/JSA
+        AXwQbd/AicomCnyNMMaX15iq7iAwys86WxDE/OCQXGH1t0jiiZok0JDz5XGJh1mOBPLXSVb9giFTE
+        jtawA=;
+Received: from [10.93.0.12] (helo=dptest2.perf.sw.ru)
+        by relay.sw.ru with esmtp (Exim 4.94.2)
+        (envelope-from <andrey.zhadchenko@virtuozzo.com>)
+        id 1n7ZXk-0060qk-Ql; Wed, 12 Jan 2022 12:03:44 +0300
+From:   Andrey Zhadchenko <andrey.zhadchenko@virtuozzo.com>
+To:     linux-fsdevel@vger.kernel.org
+Cc:     cyphar@cyphar.com, viro@zeniv.linux.org.uk,
+        christian.brauner@ubuntu.com, ptikhomirov@virtuozzo.com,
+        linux-api@vger.kernel.org, andrey.zhadchenko@virtuozzo.com
+Subject: [PATCH] fs/open: add new RESOLVE_EMPTY_PATH flag for openat2
+Date:   Wed, 12 Jan 2022 12:02:17 +0300
+Message-Id: <1641978137-754828-1-git-send-email-andrey.zhadchenko@virtuozzo.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jan 11, 2022 at 12:43:05PM -0500, Mathieu Desnoyers wrote:
-> ----- On Jan 11, 2022, at 6:05 AM, Christian Brauner brauner@kernel.org wrote:
-> 
-> > On Mon, Jan 10, 2022 at 12:16:10PM -0500, Mathieu Desnoyers wrote:
-> >> Allow rseq critical section abort handlers to optionally figure out at
-> >> which instruction pointer the rseq critical section was aborted.
-> >> 
-> >> This allows implementing rseq critical sections with loops containing
-> >> the commit instruction, for which having the commit as last instruction
-> >> of the sequence is not possible.  This is useful to implement adaptative
-> >> mutexes aware of preemption in user-space. (see [1])
-> >> 
-> >> This also allows implementing rseq critical sections with multiple
-> >> commit steps, and use the abort-at-ip information to figure out what
-> >> needs to be undone in the abort handler.
-> >> 
-> >> Introduce the RSEQ_FLAG_QUERY_ABORT_AT_IP rseq system call flag.  This
-> >> lets userspace query whether the kernel and architecture supports the
-> >> abort-at-ip rseq extension.
-> >> 
-> >> Only provide this information for rseq critical sections for which the
-> >> rseq_cs descriptor has the RSEQ_CS_FLAG_ABORT_AT_IP flag set.  Abort
-> >> handlers for critical sections with this flag set need to readjust the
-> >> stack pointer.  The abort-at-ip pointer is populated by the kernel on
-> >> the top of stack on abort.  For x86-32, the abort handler of an
-> >> abort-at-ip critical section needs to add 4 bytes to the stack pointer.
-> >> For x86-64, the abort hanler needs to add 136 bytes to the stack
-> >> pointer: 8 bytes to skip the abort-at-ip value, and 128 bytes to skip
-> >> the x86-64 redzone for leaf functions.
-> >> 
-> >> [1]
-> >> https://github.com/compudj/rseq-test/blob/adapt-lock-abort-at-ip/test-rseq-adaptative-lock.c#L80
-> >> 
-> >> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> >> ---
-> >> Changes since v1:
-> >> - Use top of stack to place abort-at-ip value rather than ecx/rcx
-> >>   register,
-> >> - Skip redzone on x86-64.
-> >> ---
-> >>  arch/x86/include/asm/ptrace.h |  5 +++++
-> >>  arch/x86/kernel/ptrace.c      | 12 ++++++++++++
-> >>  include/uapi/linux/rseq.h     |  4 ++++
-> >>  kernel/rseq.c                 | 28 ++++++++++++++++++++++++++++
-> >>  4 files changed, 49 insertions(+)
-> >> 
-> >> diff --git a/arch/x86/include/asm/ptrace.h b/arch/x86/include/asm/ptrace.h
-> >> index 703663175a5a..c96eb2448110 100644
-> >> --- a/arch/x86/include/asm/ptrace.h
-> >> +++ b/arch/x86/include/asm/ptrace.h
-> >> @@ -387,5 +387,10 @@ extern int do_set_thread_area(struct task_struct *p, int
-> >> idx,
-> >>  # define do_set_thread_area_64(p, s, t)	(0)
-> >>  #endif
-> >>  
-> >> +#ifdef CONFIG_RSEQ
-> >> +# define RSEQ_ARCH_HAS_ABORT_AT_IP
-> >> +int rseq_abort_at_ip(struct pt_regs *regs, unsigned long ip);
-> >> +#endif
-> >> +
-> >>  #endif /* !__ASSEMBLY__ */
-> >>  #endif /* _ASM_X86_PTRACE_H */
-> >> diff --git a/arch/x86/kernel/ptrace.c b/arch/x86/kernel/ptrace.c
-> >> index 6d2244c94799..561ed98d12ba 100644
-> >> --- a/arch/x86/kernel/ptrace.c
-> >> +++ b/arch/x86/kernel/ptrace.c
-> >> @@ -1368,3 +1368,15 @@ void user_single_step_report(struct pt_regs *regs)
-> >>  {
-> >>  	send_sigtrap(regs, 0, TRAP_BRKPT);
-> >>  }
-> >> +
-> >> +int rseq_abort_at_ip(struct pt_regs *regs, unsigned long ip)
-> >> +{
-> >> +	if (user_64bit_mode(regs)) {
-> >> +		/* Need to skip redzone for leaf functions. */
-> >> +		regs->sp -= sizeof(u64) + 128;
-> >> +		return put_user(ip, (u64 __user *)regs->sp);
-> >> +	} else {
-> >> +		regs->sp -= sizeof(u32);
-> >> +		return put_user(ip, (u32 __user *)regs->sp);
-> >> +	}
-> > 
-> > I think it would be really helpful if you added the full explanation for
-> > sizeof(u64) + 128 or -sizeof(u32) into this codepath or provide
-> > constants. For folks not familiar with stuff like this it'll look like
-> > magic numbers. :)
-> 
-> Good point, here is the planned update:
+If you have an opened O_PATH file, currently there is no way to re-open
+it with other flags with openat/openat2. As a workaround it is possible
+to open it via /proc/self/fd/<X>, however
+1) You need to ensure that /proc exists
+2) You cannot use O_NOFOLLOW flag
 
-That's great, thanks!
+Both problems may look insignificant, but they are sensitive for CRIU.
+First of all, procfs may not be mounted in the namespace where we are
+restoring the process. Secondly, if someone opens a file with O_NOFOLLOW
+flag, it is exposed in /proc/pid/fdinfo/<X>. So CRIU must also open the
+file with this flag during restore.
 
-> 
-> int rseq_abort_at_ip(struct pt_regs *regs, unsigned long ip)
-> {
->         if (user_64bit_mode(regs)) {
->                 /*
->                  * rseq abort-at-ip x86-64 ABI: stack pointer is decremented to
->                  * skip the redzone (128 bytes on x86-64), and decremented of
->                  * the pointer size (8 bytes).  The aborted address (abort-at-ip)
->                  * is stored at this updated stack pointer location (top of stack).
->                  *
->                  * Skipping the redzone is needed to make sure not to corrupt
->                  * stack data when the rseq critical section is within a leaf
->                  * function.
->                  */
->                 regs->sp -= sizeof(u64) + 128;
->                 return put_user(ip, (u64 __user *)regs->sp);
->         } else {
->                 /*
->                  * rseq abort-at-ip x86-32 ABI: stack pointer is decremented of
->                  * the pointer size (4 bytes).  The aborted address (abort-at-ip)
->                  * is stored at this updated stack pointer location (top of stack).
->                  */
->                 regs->sp -= sizeof(u32);
->                 return put_user(ip, (u32 __user *)regs->sp);
->         }
-> }
-> 
-> 
-> 
-> > 
-> >> +}
-> >> diff --git a/include/uapi/linux/rseq.h b/include/uapi/linux/rseq.h
-> >> index 9a402fdb60e9..3130232e6d0c 100644
-> >> --- a/include/uapi/linux/rseq.h
-> >> +++ b/include/uapi/linux/rseq.h
-> >> @@ -20,12 +20,14 @@ enum rseq_cpu_id_state {
-> >>  
-> >>  enum rseq_flags {
-> >>  	RSEQ_FLAG_UNREGISTER = (1 << 0),
-> >> +	RSEQ_FLAG_QUERY_ABORT_AT_IP = (1 << 1),
-> >>  };
-> >>  
-> >>  enum rseq_cs_flags_bit {
-> >>  	RSEQ_CS_FLAG_NO_RESTART_ON_PREEMPT_BIT	= 0,
-> >>  	RSEQ_CS_FLAG_NO_RESTART_ON_SIGNAL_BIT	= 1,
-> >>  	RSEQ_CS_FLAG_NO_RESTART_ON_MIGRATE_BIT	= 2,
-> >> +	RSEQ_CS_FLAG_ABORT_AT_IP_BIT		= 3,
-> >>  };
-> >>  
-> >>  enum rseq_cs_flags {
-> >> @@ -35,6 +37,8 @@ enum rseq_cs_flags {
-> >>  		(1U << RSEQ_CS_FLAG_NO_RESTART_ON_SIGNAL_BIT),
-> >>  	RSEQ_CS_FLAG_NO_RESTART_ON_MIGRATE	=
-> >>  		(1U << RSEQ_CS_FLAG_NO_RESTART_ON_MIGRATE_BIT),
-> >> +	RSEQ_CS_FLAG_ABORT_AT_IP		=
-> >> +		(1U << RSEQ_CS_FLAG_ABORT_AT_IP_BIT),
-> >>  };
-> >>  
-> >>  /*
-> >> diff --git a/kernel/rseq.c b/kernel/rseq.c
-> >> index 6d45ac3dae7f..fb52f2d11b56 100644
-> >> --- a/kernel/rseq.c
-> >> +++ b/kernel/rseq.c
-> >> @@ -21,6 +21,13 @@
-> >>  #define RSEQ_CS_PREEMPT_MIGRATE_FLAGS (RSEQ_CS_FLAG_NO_RESTART_ON_MIGRATE | \
-> >>  				       RSEQ_CS_FLAG_NO_RESTART_ON_PREEMPT)
-> >>  
-> >> +#ifdef RSEQ_ARCH_HAS_ABORT_AT_IP
-> >> +static bool rseq_has_abort_at_ip(void) { return true; }
-> >> +#else
-> >> +static bool rseq_has_abort_at_ip(void) { return false; }
-> >> +static int rseq_abort_at_ip(struct pt_regs *regs, unsigned long ip) { return 0;
-> >> }
-> >> +#endif
-> >> +
-> >>  /*
-> >>   *
-> >>   * Restartable sequences are a lightweight interface that allows
-> >> @@ -79,6 +86,16 @@
-> >>   *
-> >>   *       [abort_ip]
-> >>   *   F1. <failure>
-> >> + *
-> >> + * rseq critical sections defined with the RSEQ_CS_FLAG_ABORT_AT_IP flag
-> >> + * have the following behavior on abort: when the stack grows down: the
-> >> + * stack pointer is decremented to skip the redzone, and decremented of
-> >> + * the pointer size.  The aborted address (abort-at-ip) is stored at
-> >> + * this stack pointer location.  The user-space abort handler needs to
-> >> + * pop the abort-at-ip address from the stack, and add the redzone size
-> >> + * to the stack pointer.
-> >> + *
-> >> + * TODO: describe stack grows up.
-> > 
-> > Is this intentional or did you forget? :)
-> 
-> Since I did not implement abort-at-ip on stack-grows-up architectures, I felt
-> it would be too early to describe the algorithm. I can simply remove the TODO
-> altogether and we'll take care of it when we get there ? If I had to try to
-> wordsmith it, it would look like e.g.:
-> 
->  *                                    [...] When the stack grows up: the
->  * stack pointer is incremented to skip the redzone, and incremented of
->  * the pointer size.  The aborted address (abort-at-ip) is stored immediately
->  * under this stack pointer location.  The user-space abort handler needs to
->  * pop the abort-at-ip address from the stack, and subtract the redzone size
->  * from the stack pointer.
-> 
-> [ Please let me know if I got somehow confused in my understanding of stack grows
-> up architectures. ]
-> 
-> I'm also unsure whether any of the stack grows up architecture have redzones ?
+This patch adds new constant RESOLVE_EMPTY_PATH for resolve field of
+struct open_how and changes getname() call to getname_flags() to avoid
+ENOENT for empty filenames.
 
-I don't think so? From when I last touched that piece of arch code when
-massaging copy_thread() I only remember parisc as having an upwards
-growing stack.
+Signed-off-by: Andrey Zhadchenko <andrey.zhadchenko@virtuozzo.com>
+---
 
-> From a quick grep for redzone in Linux arch/, only openrisc, powerpc64 and
-> x86-64 appear to have redzones.
+Why does even CRIU needs to reopen O_PATH files?
+Long story short: to support restoring opened files that are overmounted
+with single file bindmounts.
+In-depth explanation: when restoring mount tree, before doing mount()
+call, CRIU opens mountpoint with O_PATH and saves this fd for later use
+for each mount. If we need to restore overmounted file, we look at the
+mount which overmounts file mount and use its saved mountpoint fd in
+openat(<saved_fd>, <relative_path>, flags).
+If we need to open an overmounted mountpoint directory itself, we can use
+openat(<saved_fd>, ".", flags). However, if we have a bindmount, its
+mountpoint is a regular file. Therefore to open it we need to be able to
+reopen O_PATH descriptor. As I mentioned above, procfs workaround is
+possible but imposes several restrictions. Not to mention a hussle with
+/proc.
+
+Important note: the algorithm above relies on Virtozzo CRIU "mount-v2"
+engine, which is currently being prepared for mainstream CRIU.
+This patch ensures that CRIU will support all kinds of overmounted files.
+
+ fs/open.c                    | 4 +++-
+ include/linux/fcntl.h        | 2 +-
+ include/uapi/linux/openat2.h | 2 ++
+ 3 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/fs/open.c b/fs/open.c
+index f732fb9..cfde988 100644
+--- a/fs/open.c
++++ b/fs/open.c
+@@ -1131,6 +1131,8 @@ inline int build_open_flags(const struct open_how *how, struct open_flags *op)
+ 			return -EAGAIN;
+ 		lookup_flags |= LOOKUP_CACHED;
+ 	}
++	if (how->resolve & RESOLVE_EMPTY_PATH)
++		lookup_flags |= LOOKUP_EMPTY;
+ 
+ 	op->lookup_flags = lookup_flags;
+ 	return 0;
+@@ -1203,7 +1205,7 @@ static long do_sys_openat2(int dfd, const char __user *filename,
+ 	if (fd)
+ 		return fd;
+ 
+-	tmp = getname(filename);
++	tmp = getname_flags(filename, op.lookup_flags, 0);
+ 	if (IS_ERR(tmp))
+ 		return PTR_ERR(tmp);
+ 
+diff --git a/include/linux/fcntl.h b/include/linux/fcntl.h
+index a332e79..eabc7a8 100644
+--- a/include/linux/fcntl.h
++++ b/include/linux/fcntl.h
+@@ -15,7 +15,7 @@
+ /* List of all valid flags for the how->resolve argument: */
+ #define VALID_RESOLVE_FLAGS \
+ 	(RESOLVE_NO_XDEV | RESOLVE_NO_MAGICLINKS | RESOLVE_NO_SYMLINKS | \
+-	 RESOLVE_BENEATH | RESOLVE_IN_ROOT | RESOLVE_CACHED)
++	 RESOLVE_BENEATH | RESOLVE_IN_ROOT | RESOLVE_CACHED | RESOLVE_EMPTY_PATH)
+ 
+ /* List of all open_how "versions". */
+ #define OPEN_HOW_SIZE_VER0	24 /* sizeof first published struct */
+diff --git a/include/uapi/linux/openat2.h b/include/uapi/linux/openat2.h
+index a5feb76..a42cf88 100644
+--- a/include/uapi/linux/openat2.h
++++ b/include/uapi/linux/openat2.h
+@@ -39,5 +39,7 @@ struct open_how {
+ 					completed through cached lookup. May
+ 					return -EAGAIN if that's not
+ 					possible. */
++#define RESOLVE_EMPTY_PATH	0x40 /* If pathname is an empty string, open
++					the file referred by dirfd */
+ 
+ #endif /* _UAPI_LINUX_OPENAT2_H */
+-- 
+1.8.3.1
+
