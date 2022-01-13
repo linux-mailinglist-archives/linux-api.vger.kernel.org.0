@@ -2,55 +2,55 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A5EA48E107
-	for <lists+linux-api@lfdr.de>; Fri, 14 Jan 2022 00:40:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F27348E109
+	for <lists+linux-api@lfdr.de>; Fri, 14 Jan 2022 00:40:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230473AbiAMXkG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 13 Jan 2022 18:40:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48004 "EHLO
+        id S238243AbiAMXkI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 13 Jan 2022 18:40:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235652AbiAMXkF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Jan 2022 18:40:05 -0500
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B774C061574
-        for <linux-api@vger.kernel.org>; Thu, 13 Jan 2022 15:40:05 -0800 (PST)
-Received: by mail-yb1-xb49.google.com with SMTP id q185-20020a25d9c2000000b00611ae9c8773so10937923ybg.18
-        for <linux-api@vger.kernel.org>; Thu, 13 Jan 2022 15:40:05 -0800 (PST)
+        with ESMTP id S235649AbiAMXkI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Jan 2022 18:40:08 -0500
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF38DC06161C
+        for <linux-api@vger.kernel.org>; Thu, 13 Jan 2022 15:40:07 -0800 (PST)
+Received: by mail-yb1-xb4a.google.com with SMTP id e18-20020a255012000000b00611b9fa7078so7721297ybb.4
+        for <linux-api@vger.kernel.org>; Thu, 13 Jan 2022 15:40:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=FMGfyZNGg16kQgWmzvaNooZwk13glosUs6aVPqZ/nrc=;
-        b=dPjeDOi3O6ASy2ii197CAuCJWdyt8duA1D7+djoQotRqDWEhrzMmCDnirA/nQ9hobQ
-         b0jwGR5DttHhc7TO0zCq9P83NNX8HIuOu7C3PuUi1naYFMUSXJLqh/bj7/0/HUMide1a
-         CQ7+ws5aRRjDBPW3sVeq/GIKcXNaoWg9GlsmsDhG0RZFV53D9DAEMUYsppjTQW/+r9pl
-         hPifaqFSqER+Dfj0ncmOx3oxCYdMKfxadHa0FxG4lAh+xyj5K3yQN35aVqZ7Hq8hNZDe
-         mLUDfq3b+sMRtPRShVuPrMejCh12/LAjHxZAbOMHfdK+fhggZQjwS9ZxWf50K3mVt1lr
-         7F/Q==
+        bh=wwJdGAN5osUC9HM7kKzj2Htmsov37Cc7r1NsvxZMlRg=;
+        b=EqRlBPehovANSdBzY2evi/EKQYY+q7HLOecxR/MagzYR2LxVFJ2uK4VkjufpfGFEzx
+         KIeCSUfIoiL1qoE5OPQTr4qRMnceLv7+32QM4Hl7gPahtlj2cTemKA31nN2Df8LfZhZa
+         El2EqLCJCO1yQ/3YpQ/0XwnC8W2XEBXUm3dbCBExBLp/IGMMCLUgBq+B94A1I13rRSAN
+         ukHIOytgnjWR7LSixoc/8BtU4PvqqLx30PpXNj3fgwOdLAk53TWQvhTQkjw3G0wKpYC8
+         PUt8wipSgOqEFQ+Y2EWyJvcrby1YZ8yF2OF7TvyETom5WyTQmwBDMAfStsNe41S0zUdC
+         0UTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=FMGfyZNGg16kQgWmzvaNooZwk13glosUs6aVPqZ/nrc=;
-        b=Kl9/b7HyyzQWWIqCLcNFtY1/eh+lbWPw3T1+0oBeRhLcxCJ4sly++cKkJUrLeBFD2Y
-         +2Gk0T4XWb2zg6+Qe/MMcD0ubO4MBunElSRNF5jaEoGW/ooQaA6CQ+IsLCoThNdFkkOe
-         koGw2X6cusQmF5fhsR1umEGKTD4TQM+GGD3NvaOjz2Vp5RmP7RIVVhAvFLB8yHQzmH1C
-         kxAiLT8tw5rdbuK+q/IG0Z4iXzGKyIlOs3L0peIxnCy7zeIN6XSZLdrRWc3ePjqTf7Xr
-         3++nXys0Ji9M2KXAUt0VHf5+y+H6Lp738TipwxsE8NfvrpKuHqTvbh2P7/kXyC1T0nnB
-         XQaQ==
-X-Gm-Message-State: AOAM532ltdYk0aohhgJVh0dNx2ZAOmyC17gstt6u7F8sKY6AGYsbK2Lc
-        JfZzHXPn8Q9FZCX69Hq3BwWN9jWJ
-X-Google-Smtp-Source: ABdhPJz5otcxfEhE6MWpPlPMKjfGbxs3qBpBtoEpYWyLi1d9W5GUhm/RULyKZYaWhqebI5v0hyA4l39c
+        bh=wwJdGAN5osUC9HM7kKzj2Htmsov37Cc7r1NsvxZMlRg=;
+        b=jln0PJwN+wIeUJFpUO3XNO+mDLtlM8R0gd1523nsGCVMDksWLn77QWdJlATygMrwoy
+         X/sOLIgkW1WV/+MfsLGHSfPWtKmgUJ+sp1jI+MvV/W5m0tgp06JptqP6eKs4Jr/cX3Ts
+         2K9QQa9oWSBaXR7tnULvtwyon3Ey7wmWRnG6KIJpKAEEoPKMvpiVRa4oAaOqW8zcUnrs
+         70QzkS8vplHLV9EITldXsprbZXtQvMb86XOieLKraXTuXLAlXEtB+qNOQ11+TJKJ/EJM
+         ZGAe/Eb1lxZK8wi8WNXJfz+EfexgMx45+WNKyu+HN2rQhZeY8arRF/l09ZdH1gnPuIS8
+         WFgg==
+X-Gm-Message-State: AOAM5327kfu6ZjPtW2VbA+PURUYoeiQJH6u5ZODFPnq/GAA7DgS7O8h9
+        1EhVljEz7Jcs8W1BvzggM2sjWU+Y
+X-Google-Smtp-Source: ABdhPJzzGWHCGjZGF5k35EtO1RjDkQh8pxMnUpvwv8nSbHJHv8giYUEy9UlBMk+wUGWLFmwcfXW/lLPr
 X-Received: from posk.svl.corp.google.com ([2620:15c:2cd:202:c548:e79f:8954:121f])
- (user=posk job=sendgmr) by 2002:a25:9a02:: with SMTP id x2mr9180866ybn.701.1642117204312;
- Thu, 13 Jan 2022 15:40:04 -0800 (PST)
-Date:   Thu, 13 Jan 2022 15:39:36 -0800
+ (user=posk job=sendgmr) by 2002:a25:6d09:: with SMTP id i9mr4958623ybc.703.1642117206900;
+ Thu, 13 Jan 2022 15:40:06 -0800 (PST)
+Date:   Thu, 13 Jan 2022 15:39:37 -0800
 In-Reply-To: <20220113233940.3608440-1-posk@google.com>
-Message-Id: <20220113233940.3608440-2-posk@google.com>
+Message-Id: <20220113233940.3608440-3-posk@google.com>
 Mime-Version: 1.0
 References: <20220113233940.3608440-1-posk@google.com>
 X-Mailer: git-send-email 2.34.1.703.g22d0c6ccf7-goog
-Subject: [RFC PATCH v2 1/5] sched/umcg: add WF_CURRENT_CPU and externise ttwu
+Subject: [RFC PATCH v2 2/5] x86/uaccess: Implement unsafe_try_cmpxchg_user()
 From:   Peter Oskolkov <posk@google.com>
 To:     Peter Zijlstra <peterz@infradead.org>, mingo@redhat.com,
         tglx@linutronix.de, juri.lelli@redhat.com,
@@ -66,87 +66,97 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Peter Oskolkov <posk@posk.io>
+From: Peter Zijlstra <peterz@infradead.org>
 
-Add WF_CURRENT_CPU wake flag that advices the scheduler to
-move the wakee to the current CPU. This is useful for fast on-CPU
-context switching use cases such as UMCG.
+Do try_cmpxchg() loops on userspace addresses.
 
-In addition, make ttwu external rather than static so that
-the flag could be passed to it from outside of sched/core.c.
-
-Signed-off-by: Peter Oskolkov <posk@google.com>
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Link: https://lkml.kernel.org/r/20211122211327.5931-2-posk@google.com
 ---
- kernel/sched/core.c  |  3 +--
- kernel/sched/fair.c  |  4 ++++
- kernel/sched/sched.h | 15 +++++++++------
- 3 files changed, 14 insertions(+), 8 deletions(-)
+ arch/x86/include/asm/uaccess.h | 57 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 57 insertions(+)
 
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 83872f95a1ea..04525933de94 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -3980,8 +3980,7 @@ bool ttwu_state_match(struct task_struct *p, unsigned int state, int *success)
-  * Return: %true if @p->state changes (an actual wakeup was done),
-  *	   %false otherwise.
-  */
--static int
--try_to_wake_up(struct task_struct *p, unsigned int state, int wake_flags)
-+int try_to_wake_up(struct task_struct *p, unsigned int state, int wake_flags)
- {
- 	unsigned long flags;
- 	int cpu, success = 0;
-diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index 095b0aa378df..4b70cf8f1ec3 100644
---- a/kernel/sched/fair.c
-+++ b/kernel/sched/fair.c
-@@ -6838,6 +6838,10 @@ select_task_rq_fair(struct task_struct *p, int prev_cpu, int wake_flags)
- 	if (wake_flags & WF_TTWU) {
- 		record_wakee(p);
+diff --git a/arch/x86/include/asm/uaccess.h b/arch/x86/include/asm/uaccess.h
+index ac96f9b2d64b..8277ec05be02 100644
+--- a/arch/x86/include/asm/uaccess.h
++++ b/arch/x86/include/asm/uaccess.h
+@@ -342,6 +342,24 @@ do {									\
+ 		     : [umem] "m" (__m(addr))				\
+ 		     : : label)
  
-+		if ((wake_flags & WF_CURRENT_CPU) &&
-+		    cpumask_test_cpu(cpu, p->cpus_ptr))
-+			return cpu;
++#define __try_cmpxchg_user_asm(itype, _ptr, _pold, _new, label)	({	\
++	bool success;							\
++	__typeof__(_ptr) _old = (__typeof__(_ptr))(_pold);		\
++	__typeof__(*(_ptr)) __old = *_old;				\
++	__typeof__(*(_ptr)) __new = (_new);				\
++	asm_volatile_goto("\n"						\
++		     "1: " LOCK_PREFIX "cmpxchg"itype" %[new], %[ptr]\n"\
++		     _ASM_EXTABLE_UA(1b, %l[label])			\
++		     : CC_OUT(z) (success),				\
++		       [ptr] "+m" (*_ptr),				\
++		       [old] "+a" (__old)				\
++		     : [new] "r" (__new)				\
++		     : "memory", "cc"					\
++		     : label);						\
++	if (unlikely(!success))						\
++		*_old = __old;						\
++	likely(success);					})
 +
- 		if (sched_energy_enabled()) {
- 			new_cpu = find_energy_efficient_cpu(p, prev_cpu);
- 			if (new_cpu >= 0)
-diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index de53be905739..77f67d09b946 100644
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -2052,13 +2052,14 @@ static inline int task_on_rq_migrating(struct task_struct *p)
- }
+ #else // !CONFIG_CC_HAS_ASM_GOTO_OUTPUT
  
- /* Wake flags. The first three directly map to some SD flag value */
--#define WF_EXEC     0x02 /* Wakeup after exec; maps to SD_BALANCE_EXEC */
--#define WF_FORK     0x04 /* Wakeup after fork; maps to SD_BALANCE_FORK */
--#define WF_TTWU     0x08 /* Wakeup;            maps to SD_BALANCE_WAKE */
-+#define WF_EXEC         0x02 /* Wakeup after exec; maps to SD_BALANCE_EXEC */
-+#define WF_FORK         0x04 /* Wakeup after fork; maps to SD_BALANCE_FORK */
-+#define WF_TTWU         0x08 /* Wakeup;            maps to SD_BALANCE_WAKE */
+ #ifdef CONFIG_X86_32
+@@ -407,6 +425,30 @@ do {									\
+ 		     : [umem] "m" (__m(addr)),				\
+ 		       "0" (err))
  
--#define WF_SYNC     0x10 /* Waker goes to sleep after wakeup */
--#define WF_MIGRATED 0x20 /* Internal use, task got migrated */
--#define WF_ON_CPU   0x40 /* Wakee is on_cpu */
-+#define WF_SYNC         0x10 /* Waker goes to sleep after wakeup */
-+#define WF_MIGRATED     0x20 /* Internal use, task got migrated */
-+#define WF_ON_CPU       0x40 /* Wakee is on_cpu */
-+#define WF_CURRENT_CPU  0x80 /* Prefer to move the wakee to the current CPU. */
- 
- #ifdef CONFIG_SMP
- static_assert(WF_EXEC == SD_BALANCE_EXEC);
-@@ -3112,6 +3113,8 @@ static inline bool is_per_cpu_kthread(struct task_struct *p)
- extern void swake_up_all_locked(struct swait_queue_head *q);
- extern void __prepare_to_swait(struct swait_queue_head *q, struct swait_queue *wait);
- 
-+extern int try_to_wake_up(struct task_struct *tsk, unsigned int state, int wake_flags);
++#define __try_cmpxchg_user_asm(itype, _ptr, _pold, _new, label)	({	\
++	int __err = 0;							\
++	bool success;							\
++	__typeof__(_ptr) _old = (__typeof__(_ptr))(_pold);		\
++	__typeof__(*(_ptr)) __old = *_old;				\
++	__typeof__(*(_ptr)) __new = (_new);				\
++	asm volatile("\n"						\
++		     "1: " LOCK_PREFIX "cmpxchg"itype" %[new], %[ptr]\n"\
++		     CC_SET(z)						\
++		     "2:\n"						\
++		     _ASM_EXTABLE_TYPE_REG(1b, 2b, EX_TYPE_EFAULT_REG,	\
++					   %[errout])			\
++		     : CC_OUT(z) (success),				\
++		       [errout] "+r" (__err),				\
++		       [ptr] "+m" (*_ptr),				\
++		       [old] "+a" (__old)				\
++		     : [new] "r" (__new)				\
++		     : "memory", "cc");					\
++	if (unlikely(__err))						\
++		goto label;						\
++	if (unlikely(!success))						\
++		*_old = __old;						\
++	likely(success);					})
 +
- #ifdef CONFIG_PREEMPT_DYNAMIC
- extern int preempt_dynamic_mode;
- extern int sched_dynamic_mode(const char *str);
+ #endif // CONFIG_CC_HAS_ASM_GOTO_OUTPUT
+ 
+ /* FIXME: this hack is definitely wrong -AK */
+@@ -501,6 +543,21 @@ do {										\
+ } while (0)
+ #endif // CONFIG_CC_HAS_ASM_GOTO_OUTPUT
+ 
++extern void __try_cmpxchg_user_wrong_size(void);
++
++#define unsafe_try_cmpxchg_user(_ptr, _oldp, _nval, _label) ({		\
++	__typeof__(*(_ptr)) __ret;					\
++	switch (sizeof(__ret)) {					\
++	case 4:	__ret = __try_cmpxchg_user_asm("l", (_ptr), (_oldp),	\
++					       (_nval), _label);	\
++		break;							\
++	case 8:	__ret = __try_cmpxchg_user_asm("q", (_ptr), (_oldp),	\
++					       (_nval), _label);	\
++		break;							\
++	default: __try_cmpxchg_user_wrong_size();			\
++	}								\
++	__ret;						})
++
+ /*
+  * We want the unsafe accessors to always be inlined and use
+  * the error labels - thus the macro games.
 -- 
 2.34.1.703.g22d0c6ccf7-goog
 
