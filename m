@@ -2,82 +2,113 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9325548E07D
-	for <lists+linux-api@lfdr.de>; Thu, 13 Jan 2022 23:41:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C34F48E105
+	for <lists+linux-api@lfdr.de>; Fri, 14 Jan 2022 00:40:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233645AbiAMWlz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 13 Jan 2022 17:41:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35060 "EHLO
+        id S232009AbiAMXkE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 13 Jan 2022 18:40:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238038AbiAMWlx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Jan 2022 17:41:53 -0500
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01701C06161C
-        for <linux-api@vger.kernel.org>; Thu, 13 Jan 2022 14:41:53 -0800 (PST)
-Received: by mail-pf1-x442.google.com with SMTP id w204so1147831pfc.7
-        for <linux-api@vger.kernel.org>; Thu, 13 Jan 2022 14:41:52 -0800 (PST)
+        with ESMTP id S229902AbiAMXkD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Jan 2022 18:40:03 -0500
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44242C061574
+        for <linux-api@vger.kernel.org>; Thu, 13 Jan 2022 15:40:03 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id y10-20020a2586ca000000b006116aaeeee6so14461221ybm.21
+        for <linux-api@vger.kernel.org>; Thu, 13 Jan 2022 15:40:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=YbEI3Q/NEjCtDTVCV1jkA7nYNYBH/Wfa2wk3IkVyJko=;
-        b=OZP/QoKN8ru5XovrHZZEtRGAPOqy8yRZtZX0efEKVWs/Q7f6+2JX3Mloojh5SZ/AxH
-         cPAHMJhJrLRzzoPYh5n9fG2/pMOrYfS/PU2zx88sTYLTj0Dv1cVWivcA/TNU5IJgRtzI
-         yyO22l7H4XiZ577o8zD4nj2E5AestX9VYls3ntwqOHZNPl0OsU/EptDmXh66odxZFNCy
-         EIQC+hO6HyVDK/x5ziZcfqIxZJTlgvB+YGNZLq+4zSXQW5IZ9FoHkF7Eb5K19JwK6tqA
-         L1pbJiPTkM7B36B6kKA792uSFGR69D9KVeYMTQ95Fzk4WvuXfGt3UHBLmZ7aOqdAe8eh
-         8P+A==
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=L3L608G8dLCC2M7zwc9YsP4GPhXeQWfVU2hcffF/nIQ=;
+        b=tOOMnMmr4EweDOpVrMetgQw/nTj7tdLM9/og1CME1sbHCa1RgGMrZItNHCVmzxO9JA
+         oAQCNeizO7OM953sQhxt34uuWWkRupyiEA9o4dRBAIE/XNL6E/in4N1Nfv67kjDfErwU
+         /+Bi6mP5vtQtHVsPjPlGUeg3x6+avIiKSyDHtHs1MgYNPlQMRyhtGit4nOsYapDMWv2v
+         3PKITVR6WCP5SQ8sxWF9LehDb6ke9/6EWNX2bK52ZGp/BAF3Bf4b2p1+3Pl1jqpYLmN5
+         jphiRLI+Tr3+S0ei7PvlutokPwDMhatv0ww+2g8esIMuVsWEPxY3rDNqtWQjdES/C6e4
+         /clg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=YbEI3Q/NEjCtDTVCV1jkA7nYNYBH/Wfa2wk3IkVyJko=;
-        b=lcNAB73teDJMZvjM+MKXPlW/ze350+f58/u/zM7mc3u7jrqqW3S8VevXRQlUWjQoXk
-         Gwoji1VDc+zu4HmpxGSkootK7mSnAlxlhOExpy7X9uo3N72vQ/DYFOBFblXoT31vvSzP
-         jottNtAHkZLrL7BNzAx3RD/OLaXcrnmOfO8W72yCt/N3K/XTyd3fNGW1u85D9cESBTbt
-         E2pKkh9gfmzD1MjKwTb7eDjCxd4UVlm2K6rxJ76rh/LRZaKnmJnpY1U9dJgseOox/x1J
-         0CYfRu/BII/5TxEFJpECzrxeYdBhGzhdQMAVoOSR/rbvzl3UDieKBOiBTLMl89LCzzo6
-         rwHQ==
-X-Gm-Message-State: AOAM531Kbw5wX57Y2s1bIorUVqJu9rALhUPFLedSCiD2nPz/pra6tAb8
-        lJJKczwceKoTZXjkll20YOE/DmzVOWnAgkDA7pQ=
-X-Google-Smtp-Source: ABdhPJwo/BFuE/MyrXvV4Wc2jiueqzTZxw+feN+I2rvhYn2V6MZ0AjtfVc00EmStBrmKGTDtifrnIaK8zXPI0L+vd18=
-X-Received: by 2002:a63:4507:: with SMTP id s7mr5556975pga.252.1642113712456;
- Thu, 13 Jan 2022 14:41:52 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a05:6a10:f38c:0:0:0:0 with HTTP; Thu, 13 Jan 2022 14:41:52
- -0800 (PST)
-Reply-To: mchristophdaniel@gmail.com
-From:   Marcus Galois <marcus.galois@gmail.com>
-Date:   Thu, 13 Jan 2022 23:41:52 +0100
-Message-ID: <CANqBaXVSfOGLj7J26QWPsx3dwN0Cxmg71Yc9hV9b7yv0f0E1qQ@mail.gmail.com>
-Subject: Good News Finally.
-To:     undisclosed-recipients:;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=L3L608G8dLCC2M7zwc9YsP4GPhXeQWfVU2hcffF/nIQ=;
+        b=KARzmtm16sg9CrEI4yKLHcVwiYQiW4UU0NNhYieG1X7v5MVVqEfu7pJj3mPwKP3gW2
+         OcMHmr5KptD1/+DXuU2ib2OG51KIC/IKSaKIBCnd1QcthSwmqdbGXYFTKegyMiIM/Gi+
+         2E5iRDitUjzkzWadD9ehe7z556RQKtC7CImu1CCu0p69/R+LyEfPiJwRr6ENpmyUEeTR
+         KOgwKmg7vPl1clevt763TTpj2mGSdorUICpaMVVATsxvtNUXZjwnTvVGJEH4DUvoMMl/
+         5BM1H88iZsQquZZEzmPNqCxmuksDk/Fzjf2bnfYhg/2O2oXTJj0MnpO0OTDP3CyUq8Jw
+         uSoQ==
+X-Gm-Message-State: AOAM532uNjH1x/deobiRrULJNmi1g+gqLdwMLtNrogGGeCvldWoRYF7L
+        KvOP9N5Z+p0XuAb5Rj4IFTDk38ZK
+X-Google-Smtp-Source: ABdhPJwd13mNuiyAq/bOxfawkAKuzEBTlexflryVlvN15dLvMviu88qazdMu0oVcevG2zyvWfwkli6lA
+X-Received: from posk.svl.corp.google.com ([2620:15c:2cd:202:c548:e79f:8954:121f])
+ (user=posk job=sendgmr) by 2002:a05:6902:1504:: with SMTP id
+ q4mr9994403ybu.375.1642117201723; Thu, 13 Jan 2022 15:40:01 -0800 (PST)
+Date:   Thu, 13 Jan 2022 15:39:35 -0800
+Message-Id: <20220113233940.3608440-1-posk@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.34.1.703.g22d0c6ccf7-goog
+Subject: [RFC PATCH v2 0/5] User Managed Concurrency Groups
+From:   Peter Oskolkov <posk@google.com>
+To:     Peter Zijlstra <peterz@infradead.org>, mingo@redhat.com,
+        tglx@linutronix.de, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+        bristot@redhat.com
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-api@vger.kernel.org, x86@kernel.org, pjt@google.com,
+        posk@google.com, avagin@google.com, jannh@google.com,
+        tdelisle@uwaterloo.ca, posk@posk.io
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello friend.
+This adds two small patches on top of peterz@'s RFC from
+https://lore.kernel.org/lkml/20211214204445.665580974@infradead.org/
 
-You might find it so difficult to remember me, though it is indeed a
-very long time, I am much delighted to contact you again after a long
-period of time, I remember you despite circumstances that made things
-not worked out as we projected then. I want to inform you that the
-transaction we're doing together then finally worked out and I decided
-to contact you and to let you know because of your tremendous effort
-to make things work out then.
 
-Meanwhile I must inform you that I'm presently in Caribbean Island for
-numerous business negotiation with some partners. with my sincere
-heart i have decided to compensate you with USD$900,000 for your
-dedication then on our transaction, you tried so much that period and
-I appreciated your effort. I wrote a cheque/check on your name, as
-soon as you receive it, you let me know.
+The new patches are not fully tested - I'm still working on it.
+I'll post another patch shortly that adds worker timeouts in
+sys_umcg_wait().
 
-Contact my secretary now on his email: mchristophdaniel@gmail.com
-Name: Mr. Christoph Daniel
+Sending this out just to break the silence and to assess if the
+approach I'm taking here is not strongly NACKed.
 
-You are to forward to him your Name........ Address.......,Phone
-number......for shipment/dispatch of the cheque/Check to you
 
-Regards,
-Mr. Marcus Galois
+Peter Oskolkov (3):
+  sched/umcg: add WF_CURRENT_CPU and externise ttwu
+  sched: UMCG: add a blocked worker list
+  sched: UMCG: allow to sys_umcg_kick UMCG servers
+
+Peter Zijlstra (2):
+  x86/uaccess: Implement unsafe_try_cmpxchg_user()
+  sched: User Mode Concurency Groups
+
+ arch/x86/Kconfig                       |   1 +
+ arch/x86/entry/syscalls/syscall_64.tbl |   3 +
+ arch/x86/include/asm/thread_info.h     |   2 +
+ arch/x86/include/asm/uaccess.h         |  57 ++
+ fs/exec.c                              |   1 +
+ include/linux/entry-common.h           |   6 +
+ include/linux/sched.h                  |  86 +++
+ include/linux/syscalls.h               |   4 +
+ include/linux/thread_info.h            |   2 +
+ include/uapi/asm-generic/unistd.h      |   9 +-
+ include/uapi/linux/umcg.h              | 161 +++++
+ init/Kconfig                           |  15 +
+ kernel/entry/common.c                  |  18 +-
+ kernel/exit.c                          |   5 +
+ kernel/sched/Makefile                  |   1 +
+ kernel/sched/core.c                    |  12 +-
+ kernel/sched/fair.c                    |   4 +
+ kernel/sched/sched.h                   |  15 +-
+ kernel/sched/umcg.c                    | 913 +++++++++++++++++++++++++
+ kernel/sys_ni.c                        |   5 +
+ 20 files changed, 1305 insertions(+), 15 deletions(-)
+ create mode 100644 include/uapi/linux/umcg.h
+ create mode 100644 kernel/sched/umcg.c
+
+
+base-commit: 85538cc07d6b6dcffc1df64a22308fcb05ecddf4
+-- 
+2.34.1.703.g22d0c6ccf7-goog
+
