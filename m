@@ -2,125 +2,134 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22F0C48E10E
-	for <lists+linux-api@lfdr.de>; Fri, 14 Jan 2022 00:40:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D1ABB48E28E
+	for <lists+linux-api@lfdr.de>; Fri, 14 Jan 2022 03:34:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238286AbiAMXkQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 13 Jan 2022 18:40:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48084 "EHLO
+        id S234029AbiANCey (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 13 Jan 2022 21:34:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238277AbiAMXkP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Jan 2022 18:40:15 -0500
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37CCAC061751
-        for <linux-api@vger.kernel.org>; Thu, 13 Jan 2022 15:40:15 -0800 (PST)
-Received: by mail-yb1-xb4a.google.com with SMTP id h2-20020a5b0a82000000b0061192499188so14727344ybq.9
-        for <linux-api@vger.kernel.org>; Thu, 13 Jan 2022 15:40:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=M6CqLRKobTxmQJYwGP116eObFPKtwslTaqzW/rSJTK8=;
-        b=qMGBjdhvTEK6hecBGOuRoK6F9ospIcTv+bSkzHtDzzW7elpIvv8C06+6MKkfz7rono
-         PuJSCFA3CXEtek3Rf9jxxOyl/l7tTBEZ04+rY1/G7T+btp87CZdeFeT3eLx7mSuseTHi
-         iUvCt0mbOOYItyWq9/z/yf7UhMvCB6omSP+9cILENtov+4CzMlPKk4ChS/CCDgOGcR7x
-         rYu6FH+COfsfs2ihA+0r4LYfiiAGOXB0NDa+BWnm9ZmHakjHKtseaH4QESWTp8WFfWnH
-         58XhmuiKFvO8OPBHefgWNMoqmUWy+6FE+BPuXyneucVFuZG5qCO1pP3RrHlwIjnG+ltC
-         yX+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=M6CqLRKobTxmQJYwGP116eObFPKtwslTaqzW/rSJTK8=;
-        b=qYQQcUqEcl+U6rzZqiLZyVdar6bhrgHG+o7K9ReFt7/zaKaOMwKh2W7FZ9QkI1f+LG
-         MOMCEBTa798n3e79hLxSzZVLz1rn5h+eHAqwofQgTi5svhTYB+OSaza41lwL6GaMCv57
-         HyVUH+m39PAjm8lVJ3zPU7kpRGANWt16ppvxE8XJNG76NTQYqOf2l+NxZwolaaHpNEcC
-         2cGVUK80TF2OH5yQtvu2mmfilObzQYNYJdZxED85CNbbLTL9AsFUKgD7p4KFOUKMG4Dt
-         QP1wdpGwT3TgnydSYwBCjT7VQ/eN5hRDwxDSUXLLMSbrAQN8x+BSI+SBSGHkNGCexkpt
-         9miQ==
-X-Gm-Message-State: AOAM533X6valO5So0rUMGLsKIffPwPm/ifzi6zseMNYBWUDtwC8fLfae
-        t7XUkExiRnUTPUAoUqWWwfVSlyj9
-X-Google-Smtp-Source: ABdhPJyMyvqiBBmhkwL82olAcxjEEcUWe5ozz1YnPt/AtCMregTQoiHsk98ChHrmtDs/+uO8eeFVk5cL
-X-Received: from posk.svl.corp.google.com ([2620:15c:2cd:202:c548:e79f:8954:121f])
- (user=posk job=sendgmr) by 2002:a25:ae8b:: with SMTP id b11mr9266950ybj.453.1642117214365;
- Thu, 13 Jan 2022 15:40:14 -0800 (PST)
-Date:   Thu, 13 Jan 2022 15:39:40 -0800
-In-Reply-To: <20220113233940.3608440-1-posk@google.com>
-Message-Id: <20220113233940.3608440-6-posk@google.com>
+        with ESMTP id S238779AbiANCex (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 13 Jan 2022 21:34:53 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38193C061574
+        for <linux-api@vger.kernel.org>; Thu, 13 Jan 2022 18:34:53 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E142CB823EC
+        for <linux-api@vger.kernel.org>; Fri, 14 Jan 2022 02:34:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B79D9C36AED;
+        Fri, 14 Jan 2022 02:34:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1642127690;
+        bh=1zycz2e46vXoUD4sZJQiVQh6Wt3eKK/5paZ5/M+Am9k=;
+        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+        b=EoCfiU2jgjQfdrsiRLL4qry/kpJj+bEZ7S+J4ipvnWI6vyHd6mrARwMKEbU01Na3X
+         mDLRSIWU1DSKjE7iRLjiecfJvsd2NFV/B4xBO668n9/bczVcsL5Ysrwu8LNzpdE2h6
+         JkU5VhFGRLL2qiNEgNo46CG85+osyXeTwc47k5ZbN+AZEgirzkXzIfq65BDP3q9+AF
+         Ps8WQdmrgJQZ1oBXyIyle/4L14Y/iZ1CkU7+wZanJpyK77f8LnFC9kAVpL/aGesQ9U
+         qmMfqNq1gGoaECfDNenA6jpGOQJ4fhpTJ1qp6IXq/DIq9ZiOp1DY7l+Y+KqW94JlHB
+         GwvbWA/EpYLMg==
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailauth.nyi.internal (Postfix) with ESMTP id 6150427C0054;
+        Thu, 13 Jan 2022 21:34:48 -0500 (EST)
+Received: from imap48 ([10.202.2.98])
+  by compute5.internal (MEProxy); Thu, 13 Jan 2022 21:34:48 -0500
+X-ME-Sender: <xms:R-HgYYKeqp_Pf6vT461iO_w1CsQPy2fiKC1xl0b8ZhdO4cxRvKR17Q>
+    <xme:R-HgYYJl3GkF7zK7kuKktneJDAEpwQSU2XN_cj0XvMGVb47hyrjG67z1BcOhh_Osf
+    gt80WUE-yN9G8hFz_w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrtdeggdegkecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnugih
+    ucfnuhhtohhmihhrshhkihdfuceolhhuthhosehkvghrnhgvlhdrohhrgheqnecuggftrf
+    grthhtvghrnhephfegffegkeefkedvffehleehgfeileeutdfhieegkeeuheegvdektdet
+    fffhtedvnecuffhomhgrihhnpehouhhtrdhtohholhhsnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomheprghnugihodhmvghsmhhtphgruhhthhhp
+    vghrshhonhgrlhhithihqdduudeiudekheeifedvqddvieefudeiiedtkedqlhhuthhope
+    epkhgvrhhnvghlrdhorhhgsehlihhnuhigrdhluhhtohdruhhs
+X-ME-Proxy: <xmx:R-HgYYtcQl2oyw4bWnOw_izI-NxIW2JF6wL7D2aa6bQVdO0t58aQ4A>
+    <xmx:R-HgYVa1bXNSWpCOtIxItKMJGQsJO_cMiPMiEEMgeR5bi_Pf2K2cUQ>
+    <xmx:R-HgYfY9LbILUfGpQFrFlnJpDFm0Dej8dSCDyRk2roSmwkYf7C0d8Q>
+    <xmx:SOHgYcQ513uXepiIzysiDcFz4JVeK6o1sHQuKIrL4lWIDlEtkHvdyodkBP8>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id B567B21E0073; Thu, 13 Jan 2022 21:34:47 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-4569-g891f756243-fm-20220111.001-g891f7562
 Mime-Version: 1.0
-References: <20220113233940.3608440-1-posk@google.com>
-X-Mailer: git-send-email 2.34.1.703.g22d0c6ccf7-goog
-Subject: [RFC PATCH v2 5/5] sched: UMCG: allow to sys_umcg_kick UMCG servers
-From:   Peter Oskolkov <posk@google.com>
-To:     Peter Zijlstra <peterz@infradead.org>, mingo@redhat.com,
-        tglx@linutronix.de, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-api@vger.kernel.org, x86@kernel.org, pjt@google.com,
-        posk@google.com, avagin@google.com, jannh@google.com,
-        tdelisle@uwaterloo.ca, posk@posk.io
-Content-Type: text/plain; charset="UTF-8"
+Message-Id: <5a4f01f4-cd16-47dd-880b-dcfb7ec5daeb@www.fastmail.com>
+In-Reply-To: <87lezjxpnc.fsf@oldenburg.str.redhat.com>
+References: <3a1c8280967b491bf6917a18fbff6c9b52e8df24.1641398395.git.fweimer@redhat.com>
+ <54ae0e1f8928160c1c4120263ea21c8133aa3ec4.1641398395.git.fweimer@redhat.com>
+ <034075bd-aac5-9b97-6d09-02d9dd658a0b@kernel.org>
+ <87lezjxpnc.fsf@oldenburg.str.redhat.com>
+Date:   Thu, 13 Jan 2022 18:34:20 -0800
+From:   "Andy Lutomirski" <luto@kernel.org>
+To:     "Florian Weimer" <fweimer@redhat.com>
+Cc:     linux-arch@vger.kernel.org,
+        "Linux API" <linux-api@vger.kernel.org>,
+        linux-x86_64@vger.kernel.org, kernel-hardening@lists.openwall.com,
+        linux-mm@kvack.org, "the arch/x86 maintainers" <x86@kernel.org>,
+        musl@lists.openwall.com,
+        "Dave Hansen via Libc-alpha" <libc-alpha@sourceware.org>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        "Dave Hansen" <dave.hansen@intel.com>,
+        "Kees Cook" <keescook@chromium.org>,
+        "Andrei Vagin" <avagin@gmail.com>
+Subject: Re: [PATCH v3 2/3] selftests/x86/Makefile: Support per-target $(LIBS)
+ configuration
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Add enum umcg_kick_flags:
-  @UMCG_KICK_RESCHED: reschedule the task; used for worker preemption
-  @UMCG_KICK_TTWU: wake the task; used to wake servers.
+On Thu, Jan 13, 2022, at 2:00 PM, Florian Weimer wrote:
+> * Andy Lutomirski:
+>
+>> On 1/5/22 08:03, Florian Weimer wrote:
+>>> And avoid compiling PCHs by accident.
+>>> 
+>>
+>> The patch seems fine, but I can't make heads or tails of the
+>> $SUBJECT. Can you help me?
+>
+> What about this?
+>
+> selftests/x86/Makefile: Set linked libraries using $(LIBS)
+>
+> I guess that it's possible to use make features to set this per target
+> isn't important.
 
-It is sometimes useful to wake UMCG servers from the userspace, for
-example when a server detects a worker wakeup and wakes an idle server to
-run the newly woken worker.
+I think that's actually important -- it's nice to explain to make dummies (e.g. me) what the purpose is is.  I assume it's so that a given test can override the libraries.  Also, you've conflated two different changes into one patch: removal of .h and addition of LIBS.
 
-Signed-off-by: Peter Oskolkov <posk@google.com>
----
- include/uapi/linux/umcg.h | 10 ++++++++++
- kernel/sched/umcg.c       |  7 +++++--
- 2 files changed, 15 insertions(+), 2 deletions(-)
+--Andy
 
-diff --git a/include/uapi/linux/umcg.h b/include/uapi/linux/umcg.h
-index 93fccb44283b..a29e5e91a251 100644
---- a/include/uapi/linux/umcg.h
-+++ b/include/uapi/linux/umcg.h
-@@ -148,4 +148,14 @@ enum umcg_ctl_flag {
- 	UMCG_CTL_WORKER		= 0x10000,
- };
- 
-+/**
-+ * enum umcg_kick_flag - flags to pass to sys_umcg_kick
-+ * @UMCG_KICK_RESCHED: reschedule the task; used for worker preemption
-+ * @UMCG_KICK_TTWU: wake the task; used to wake servers
-+ */
-+enum umcg_kick_flag {
-+	UMCG_KICK_RESCHED	= 0x001,
-+	UMCG_KICK_TTWU		= 0x002,
-+};
-+
- #endif /* _UAPI_LINUX_UMCG_H */
-diff --git a/kernel/sched/umcg.c b/kernel/sched/umcg.c
-index b85dec6b82e4..e33ec9eddc3e 100644
---- a/kernel/sched/umcg.c
-+++ b/kernel/sched/umcg.c
-@@ -669,12 +669,15 @@ SYSCALL_DEFINE2(umcg_kick, u32, flags, pid_t, tid)
- 	if (!task)
- 		return -ESRCH;
- 
--	if (flags)
-+	if (flags != UMCG_KICK_RESCHED && flags != UMCG_KICK_TTWU)
- 		return -EINVAL;
- 
- #ifdef CONFIG_SMP
--	smp_send_reschedule(task_cpu(task));
-+	if (flags == UMCG_KICK_RESCHED)
-+		smp_send_reschedule(task_cpu(task));
- #endif
-+	if (flags == UMCG_KICK_TTWU)
-+		try_to_wake_up(task, TASK_NORMAL, 0);
- 
- 	return 0;
- }
--- 
-2.34.1.703.g22d0c6ccf7-goog
 
+
+>
+> Thanks,
+> Florian
+>
+>>> Signed-off-by: Florian Weimer <fweimer@redhat.com>
+>>> ---
+>>> v3: Patch split out.
+>>>   tools/testing/selftests/x86/Makefile | 6 ++++--
+>>>   1 file changed, 4 insertions(+), 2 deletions(-)
+>>> diff --git a/tools/testing/selftests/x86/Makefile
+>>> b/tools/testing/selftests/x86/Makefile
+>>> index 8a1f62ab3c8e..0993d12f2c38 100644
+>>> --- a/tools/testing/selftests/x86/Makefile
+>>> +++ b/tools/testing/selftests/x86/Makefile
+>>> @@ -72,10 +72,12 @@ all_64: $(BINARIES_64)
+>>>   EXTRA_CLEAN := $(BINARIES_32) $(BINARIES_64)
+>>>     $(BINARIES_32): $(OUTPUT)/%_32: %.c helpers.h
+>>> -	$(CC) -m32 -o $@ $(CFLAGS) $(EXTRA_CFLAGS) $^ -lrt -ldl -lm
+>>> +	$(CC) -m32 -o $@ $(CFLAGS) $(EXTRA_CFLAGS) $(filter-out %.h, $^) \
+>>> +		$(or $(LIBS), -lrt -ldl -lm)
+>>>     $(BINARIES_64): $(OUTPUT)/%_64: %.c helpers.h
+>>> -	$(CC) -m64 -o $@ $(CFLAGS) $(EXTRA_CFLAGS) $^ -lrt -ldl
+>>> +	$(CC) -m64 -o $@ $(CFLAGS) $(EXTRA_CFLAGS) $(filter-out %.h, $^) \
+>>> +		$(or $(LIBS), -lrt -ldl -lm)
+>>>     # x86_64 users should be encouraged to install 32-bit libraries
+>>>   ifeq ($(CAN_BUILD_I386)$(CAN_BUILD_X86_64),01)
