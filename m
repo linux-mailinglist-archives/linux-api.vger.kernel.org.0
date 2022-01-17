@@ -2,25 +2,25 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CC6F490C1F
-	for <lists+linux-api@lfdr.de>; Mon, 17 Jan 2022 17:09:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F1B8491070
+	for <lists+linux-api@lfdr.de>; Mon, 17 Jan 2022 19:47:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237453AbiAQQJ4 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Mon, 17 Jan 2022 11:09:56 -0500
-Received: from out01.mta.xmission.com ([166.70.13.231]:58430 "EHLO
-        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240818AbiAQQJk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Jan 2022 11:09:40 -0500
-Received: from in02.mta.xmission.com ([166.70.13.52]:38868)
-        by out01.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        id S233767AbiAQSq7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 17 Jan 2022 13:46:59 -0500
+Received: from out03.mta.xmission.com ([166.70.13.233]:59742 "EHLO
+        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230519AbiAQSq6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Jan 2022 13:46:58 -0500
+Received: from in01.mta.xmission.com ([166.70.13.51]:45246)
+        by out03.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <ebiederm@xmission.com>)
-        id 1n9UZe-00HJYy-1g; Mon, 17 Jan 2022 09:09:38 -0700
-Received: from ip68-110-24-146.om.om.cox.net ([68.110.24.146]:44298 helo=email.froward.int.ebiederm.org.xmission.com)
-        by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        id 1n9X1s-005F9h-PW; Mon, 17 Jan 2022 11:46:57 -0700
+Received: from ip68-110-24-146.om.om.cox.net ([68.110.24.146]:49256 helo=email.froward.int.ebiederm.org.xmission.com)
+        by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <ebiederm@xmission.com>)
-        id 1n9UZc-00FVMc-Oj; Mon, 17 Jan 2022 09:09:37 -0700
+        id 1n9X1r-003jNu-BN; Mon, 17 Jan 2022 11:46:56 -0700
 From:   "Eric W. Biederman" <ebiederm@xmission.com>
 To:     Olivier Langlois <olivier@trillion01.com>
 Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
@@ -47,158 +47,87 @@ References: <87a6ha4zsd.fsf@email.froward.int.ebiederm.org>
         <CAHk-=wjZ=aFzFb0BkxVEbN3o6a53R8Gq4hHnEZVCmpDKs3_FCw@mail.gmail.com>
         <87h7a5kgan.fsf@email.froward.int.ebiederm.org>
         <991211d94c6dc0ad3501cd9f830cdee916b982b3.camel@trillion01.com>
-Date:   Mon, 17 Jan 2022 10:09:28 -0600
-In-Reply-To: <991211d94c6dc0ad3501cd9f830cdee916b982b3.camel@trillion01.com>
-        (Olivier Langlois's message of "Sat, 15 Jan 2022 14:23:34 -0500")
-Message-ID: <87ee56e43r.fsf@email.froward.int.ebiederm.org>
+        <87ee56e43r.fsf@email.froward.int.ebiederm.org>
+Date:   Mon, 17 Jan 2022 12:46:48 -0600
+In-Reply-To: <87ee56e43r.fsf@email.froward.int.ebiederm.org> (Eric
+        W. Biederman's message of "Mon, 17 Jan 2022 10:09:28 -0600")
+Message-ID: <87v8yi8ajr.fsf_-_@email.froward.int.ebiederm.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-X-XM-SPF: eid=1n9UZc-00FVMc-Oj;;;mid=<87ee56e43r.fsf@email.froward.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.110.24.146;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX19RCqiXptE75sBjTr0WM3bA53Ca83Pe8DA=
+Content-Type: text/plain
+X-XM-SPF: eid=1n9X1r-003jNu-BN;;;mid=<87v8yi8ajr.fsf_-_@email.froward.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.110.24.146;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1/YV6/Vvn8jXg8frZWqyokYAqL1kRlGwVk=
 X-SA-Exim-Connect-IP: 68.110.24.146
 X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa06.xmission.com
-X-Spam-Level: ****
-X-Spam-Status: No, score=4.0 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-        DCC_CHECK_NEGATIVE,TR_XM_PhishingBody,T_TM2_M_HEADER_IN_MSG,XMNoVowels,
-        XMSubLong,XM_B_Phish66,XM_B_Unicode autolearn=disabled version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa08.xmission.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-0.2 required=8.0 tests=ALL_TRUSTED,BAYES_50,
+        DCC_CHECK_NEGATIVE autolearn=disabled version=3.4.2
 X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
         *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
         *      [score: 0.5000]
-        *  1.5 XMNoVowels Alpha-numberic number with no vowels
-        *  0.7 XMSubLong Long Subject
-        *  2.0 XM_B_Phish66 BODY: Obfuscated XMission
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        *  0.0 XM_B_Unicode BODY: Testing for specific types of unicode
         * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa06 1397; Body=1 Fuz1=1 Fuz2=1]
-        *  0.0 TR_XM_PhishingBody Phishing flag in body of message
-X-Spam-DCC: XMission; sa06 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: ****;Olivier Langlois <olivier@trillion01.com>
+        *      [sa08 1397; Body=1 Fuz1=1 Fuz2=1]
+X-Spam-DCC: XMission; sa08 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: ;Olivier Langlois <olivier@trillion01.com>
 X-Spam-Relay-Country: 
-X-Spam-Timing: total 676 ms - load_scoreonly_sql: 0.09 (0.0%),
-        signal_user_changed: 12 (1.7%), b_tie_ro: 10 (1.5%), parse: 1.73
-        (0.3%), extract_message_metadata: 23 (3.4%), get_uri_detail_list: 3.5
-        (0.5%), tests_pri_-1000: 30 (4.4%), tests_pri_-950: 1.44 (0.2%),
-        tests_pri_-900: 1.17 (0.2%), tests_pri_-90: 105 (15.6%), check_bayes:
-        95 (14.0%), b_tokenize: 11 (1.7%), b_tok_get_all: 12 (1.8%),
-        b_comp_prob: 4.4 (0.7%), b_tok_touch_all: 63 (9.3%), b_finish: 1.33
-        (0.2%), tests_pri_0: 480 (71.0%), check_dkim_signature: 0.73 (0.1%),
-        check_dkim_adsp: 3.2 (0.5%), poll_dns_idle: 0.87 (0.1%), tests_pri_10:
-        3.1 (0.5%), tests_pri_500: 14 (2.1%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH 1/8] signal: Make SIGKILL during coredumps an explicit
- special case
+X-Spam-Timing: total 466 ms - load_scoreonly_sql: 0.05 (0.0%),
+        signal_user_changed: 15 (3.2%), b_tie_ro: 13 (2.7%), parse: 1.27
+        (0.3%), extract_message_metadata: 13 (2.9%), get_uri_detail_list: 1.36
+        (0.3%), tests_pri_-1000: 6 (1.2%), tests_pri_-950: 1.41 (0.3%),
+        tests_pri_-900: 1.22 (0.3%), tests_pri_-90: 81 (17.4%), check_bayes:
+        79 (16.9%), b_tokenize: 6 (1.4%), b_tok_get_all: 9 (1.9%),
+        b_comp_prob: 2.8 (0.6%), b_tok_touch_all: 55 (11.9%), b_finish: 1.29
+        (0.3%), tests_pri_0: 333 (71.4%), check_dkim_signature: 0.51 (0.1%),
+        check_dkim_adsp: 2.8 (0.6%), poll_dns_idle: 1.31 (0.3%), tests_pri_10:
+        2.5 (0.5%), tests_pri_500: 8 (1.7%), rewrite_mail: 0.00 (0.0%)
+Subject: io_uring truncating coredumps
 X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Olivier Langlois <olivier@trillion01.com> writes:
 
-> On Fri, 2022-01-14 at 18:12 -0600, Eric W. Biederman wrote:
->> Linus Torvalds <torvalds@linux-foundation.org> writes:
->> 
->> > On Tue, Jan 11, 2022 at 10:51 AM Eric W. Biederman
->> > <ebiederm@xmission.com> wrote:
->> > > 
->> > > +       while ((n == -ERESTARTSYS) &&
->> > > test_thread_flag(TIF_NOTIFY_SIGNAL)) {
->> > > +               tracehook_notify_signal();
->> > > +               n = __kernel_write(file, addr, nr, &pos);
->> > > +       }
->> > 
->> > This reads horribly wrongly to me.
->> > 
->> > That "tracehook_notify_signal()" thing *has* to be renamed before
->> > we
->> > have anything like this that otherwise looks like "this will just
->> > loop
->> > forever".
->> > 
->> > I'm pretty sure we've discussed that "tracehook" thing before - the
->> > whole header file is misnamed, and most of the functions in theer
->> > are
->> > too.
->> > 
->> > As an ugly alternative, open-code it, so that it's clear that "yup,
->> > that clears the TIF_NOTIFY_SIGNAL flag".
->> 
->> A cleaner alternative looks like to modify the pipe code to use
->> wake_up_XXX instead of wake_up_interruptible_XXX and then have code
->> that does pipe_write_killable instead of pipe_write_interruptible.
->
-> Do not forget that the problem might not be limited to the pipe FS as
-> Oleg Nesterov pointed out here:
->
-> https://lore.kernel.org/io-uring/20210614141032.GA13677@redhat.com/
->
-> This is why I did like your patch fixing __dump_emit. If the only
-> problem is the tracehook_notify_signal() function unclear name, that
-> should be addressed instead of trying to fix the problem in a different
-> way.
+Subject updated to reflect the current discussion.
 
-It might be that the fix is to run a portion of the exit_to_userspace
-loop that does:
+> Linus Torvalds <torvalds@linux-foundation.org> writes:
 
-	if (ti_work & (_TIF_SIGPENDING | _TIF_NOTIFY_SIGNAL))
-		handle_signal_work(regs, ti_work);
+> But I really think it's wrong.
+> 
+> You're trying to work around a problem the wrong way around. If a task
+> is dead, and is dumping core, then signals just shouldn't matter in
+> the first place, and thus the whole "TASK_INTERRUPTIBLE vs
+> TASK_UNINTERRUPTIBLE" really shouldn't be an issue. The fact that it
+> is an issue means there's something wrong in signaling, not in the
+> pipe code.
+> 
+> So I really think that's where the fix should be - on the signal delivery side.
 
-I am deep in brainstorm mode trying to find something that comes out
-clean.
+Thinking about it from the perspective of not delivering the wake-ups
+fixing io_uring and coredumps in a non-hacky way looks comparatively
+simple.  The function task_work_add just needs to not wake anything up
+after a process has started dying.
 
-Oleg is right that while to be POSIX compliant and otherwise compatible
-with traditional unix behavior sleeps in filesystems need to be
-uninterruptible.  NFS has not always provided that compatibility.
+Something like the patch below.
 
+The only tricky part I can see is making certain there are not any races
+between task_work_add and do_coredump depending on task_work_add not
+causing signal_pending to return true.
 
->> There is also a question of how all of this should interact with the
->> freezer, as I think changing from interruptible to killable means
->> that
->> the coredumps became unfreezable.
->> 
->> I am busily simmering this on my back burner and I hope I can come up
->> with something sensible.
->
-> IMHO, fixing the problem on the emit function side has the merit of
-> being future proof if something else than io_uring in the future would
-> raise the TIF_NOTIFY_SIGNAL flag
->
-> but I am wondering why no one commented anything about my proposal of
-> cancelling io_uring before generating the core dump therefore stopping
-> it to flip TIF_NOTIFY_SIGNAL while the core dump is generated.
->
-> Is there something wrong with my proposed approach?
-> https://lore.kernel.org/lkml/cover.1629655338.git.olivier@trillion01.com/
->
-> It did flawlessly created many dozens of io_uring app core dumps in the
-> last months for me...
-
-From my perspective I am not at all convinced that io_uring is the only
-culprit.
-
-Beyond that the purpose of a coredump is to snapshot the process as it
-is, before anything is shutdown so that someone can examine the coredump
-and figure out what failed.  Running around changing the state of the
-process has a very real chance of hiding what is going wrong.
-
-Further your change requires that there be a place for io_uring to clean
-things up.  Given that fundamentally that seems like the wrong thing to
-me I am not interested in making it easy to what looks like the wrong
-thing.
-
-All of this may be perfection being the enemy of the good (especially as
-your io_uring magic happens as a special case in do_coredump).  My work
-in this area is to remove hacks so I can be convinced the code works
-100% of the time so unfortunately I am not interested in pick up a
-change that is only good enough.  Someone else like Andrew Morton might
-be.
-
-
-None of that changes the fact that tracehook_notify_signal needs to be
-renamed.  That effects your approach and my proof of concept approach.
-So renaming tracehook_notify_signal just needs to be done.
+diff --git a/kernel/task_work.c b/kernel/task_work.c
+index fad745c59234..5f941e377268 100644
+--- a/kernel/task_work.c
++++ b/kernel/task_work.c
+@@ -44,6 +44,9 @@ int task_work_add(struct task_struct *task, struct callback_head *work,
+ 		work->next = head;
+ 	} while (cmpxchg(&task->task_works, head, work) != head);
+ 
++	if (notify && (task->signal->flags & SIGNAL_GROUP_EXIT))
++		return 0;
++
+ 	switch (notify) {
+ 	case TWA_NONE:
+ 		break;
 
 Eric
