@@ -2,89 +2,92 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7ABD0490923
-	for <lists+linux-api@lfdr.de>; Mon, 17 Jan 2022 14:05:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BA0D490BED
+	for <lists+linux-api@lfdr.de>; Mon, 17 Jan 2022 16:56:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240050AbiAQNFU (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 17 Jan 2022 08:05:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47342 "EHLO
+        id S240691AbiAQP4a (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 17 Jan 2022 10:56:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234253AbiAQNFT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Jan 2022 08:05:19 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D65BC061574;
-        Mon, 17 Jan 2022 05:05:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=okXnBIihNJ45zjlOgVaV9HIZ4gTPr/ksjRMtNE9fq8A=; b=loMPvfhzX0Y2aCcY8FmyxPWYmv
-        ra70tAkSHGlVnnENkpYDo41jNZOdowzu1iBT8Ud+sM4P5s0MCs7LriwvrzyUaugGV1d3iBS4T4/wr
-        1eCZPth/HiaKLbdOqeG7fJFvQD9ek/SCCjyW+ZwRhuJs02N3UI80H1KmocLVE5LK7xNc+LWy7Fb3Z
-        B+mQPZpOK9l/3Sa9DoO6FvxXeJI2rSQEYceR1FHe+Y6tR4tEDP9XjYpQUhiAuIjVho7iaEw4kU0Lm
-        4+Ob2BRbptQZNdbtIQlUZMnCqrYn7D8n9ZRCc7ZxtRn0YN623Al6xsfFPaM3iPX2TkJZrfRHpAyvZ
-        Njv6XwBg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1n9Rgu-008DFh-Cp; Mon, 17 Jan 2022 13:04:56 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 70B7C300237;
-        Mon, 17 Jan 2022 14:04:54 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 27F832D675215; Mon, 17 Jan 2022 14:04:54 +0100 (CET)
-Date:   Mon, 17 Jan 2022 14:04:54 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Peter Oskolkov <posk@posk.io>
-Cc:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-api@vger.kernel.org, x86@kernel.org,
-        pjt@google.com, posk@google.com, avagin@google.com,
-        jannh@google.com, tdelisle@uwaterloo.ca
-Subject: Re: [RFC][PATCH 3/3] sched: User Mode Concurency Groups
-Message-ID: <YeVpdj/OP+qfAztn@hirez.programming.kicks-ass.net>
-References: <20211214204445.665580974@infradead.org>
- <20211214205358.701701555@infradead.org>
- <20211221171900.GA580323@dev-hv>
+        with ESMTP id S240667AbiAQP41 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Jan 2022 10:56:27 -0500
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D6FEC06173F
+        for <linux-api@vger.kernel.org>; Mon, 17 Jan 2022 07:56:27 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id l12-20020a7bc34c000000b003467c58cbdfso25420114wmj.2
+        for <linux-api@vger.kernel.org>; Mon, 17 Jan 2022 07:56:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DsqyxsAVSlOxkHs/ktXlOIw0yzzlQm8nxft+ufPq6ZE=;
+        b=Be35HJXMEKMEDeYomL0vE4JSstxzgh5Pw2+y6BLt5xqr0tVHCBQFkkRvcdoCQqw5P4
+         G7uvxNF3mp3szyL3Mi+c6BcbUa37AR9OGg4+Qa7PS1NfWmg3LQGttAfgDkeFc594M3M0
+         EdikTcg36rkSP0F1f1tm0IPUXyZiAC4RaB5Y2SW621B8M/3o+AT0+dRmEE4GPYa3EyRd
+         GZS3V7skrUj+cf6DY0jiDSrDsj0FmMu/IlkKQ8Yk6dfO/axKpgAWNMtJI3KtQZ2nxu2B
+         s1Tjg1IP8mbOChCX/usmY9i6c5bNTzQ72nqPt2AFQd9MZbvIvmVDBb2JZ+fF4At0VKI6
+         jwQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DsqyxsAVSlOxkHs/ktXlOIw0yzzlQm8nxft+ufPq6ZE=;
+        b=udvQLn+ajp78+Zr/9TbIkCaX0Ba84MiBl/lOsmGS3ku5WV95fwIMt9Z00orLCRtJiN
+         Ijuq+7FKbhNpJs5XoiP157WpIveGC43kMIkWpsWcRbHHt9DxbSo90qYJbhd8g7FKae97
+         QuI47i0rHw4+q0SBPi0tP7sOCbqtjXDRXdSzDyd+uh0CIM7eoeGq143lT1yxNqE3Vk4J
+         dg95jznoAVuZIPTulCRYLpwIPjmjR64992OJNMjlD0HPDimeAs7quiNw6xeA+wvlh2x/
+         1iFttB44DpjU8pmNzIkwcUzITU6ByJgqRK1UYitl1yvaIUeRIXRtmqxM5CRBwN6GD1o4
+         MXqA==
+X-Gm-Message-State: AOAM532+8Y7hnPbmeuJOcQ51P2guhlZlieR7S6MQJj2aT5oZxtF0WGS3
+        gfXUg2ZLOqAtEmMRLpmKzI7X1A==
+X-Google-Smtp-Source: ABdhPJzahs8bcHSsKhULSprSsbqUAigoWScg0qPNCMMBkhA12fU/iySVFVyEzZ9GkhQKC/nO+JwuRQ==
+X-Received: by 2002:a5d:6dd1:: with SMTP id d17mr21161718wrz.520.1642434986037;
+        Mon, 17 Jan 2022 07:56:26 -0800 (PST)
+Received: from localhost.localdomain (hst-221-60.medicom.bg. [84.238.221.60])
+        by smtp.gmail.com with ESMTPSA id i82sm15542900wma.23.2022.01.17.07.56.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Jan 2022 07:56:25 -0800 (PST)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Cc:     hverkuil-cisco@xs4all.nl,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [PATCH v3 0/6] Qualcomm custom compressed pixfmt
+Date:   Mon, 17 Jan 2022 17:55:53 +0200
+Message-Id: <20220117155559.234026-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211221171900.GA580323@dev-hv>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Dec 21, 2021 at 05:19:00PM +0000, Peter Oskolkov wrote:
-> On Tue, Dec 14, 2021 at 09:44:48PM +0100, Peter Zijlstra wrote:
-> > +static struct task_struct *umcg_get_task(u32 tid)
-> > +{
-> > +	struct task_struct *tsk = NULL;
-> > +
-> > +	if (tid) {
-> > +		rcu_read_lock();
-> > +		tsk = find_task_by_vpid(tid);
-> > +		if (tsk && current->mm == tsk->mm && tsk->umcg_task)
-> 
-> This essentially limits all operations to a single mm/process.
-> Fine for now, but a fast remote context switch is also a valid use
-> case. It is not directly related to userspace scheduling, so I'm
-> just mentioning it here. Maybe server-to-server cross-process
-> context switches should be allowed for the same user/cgroup? (Again,
-> this is for later to consider).
+Changes since v2:
 
-Doing cross-address-space UMCG will be a massive effort, too much
-(pretty much everything) in this implementation assumes things are
-directly addressable.
+- 1/6, Added a phrase that the format is opaque (Hans).
+- 6/6, new patch to address an issue with reconfigure.
 
-> > +			get_task_struct(tsk);
-> > +		else
-> > +			tsk = NULL;
-> > +		rcu_read_unlock();
-> > +	}
-> > +
-> > +	return tsk;
-> > +}
+regards,
+Stan
+
+Stanimir Varbanov (6):
+  v4l: Add Qualcomm custom compressed pixel formats
+  venus: helpers: Add helper to check supported pixel formats
+  venus: Add a handling of QC08C compressed format
+  venus: hfi_platform: Correct supported compressed format
+  venus: Add a handling of QC10C compressed format
+  venus: vdec: Use output resolution on reconfigure
+
+ .../media/v4l/pixfmt-reserved.rst             | 19 +++++++
+ drivers/media/platform/qcom/venus/helpers.c   | 51 +++++++++++--------
+ drivers/media/platform/qcom/venus/helpers.h   |  1 +
+ .../platform/qcom/venus/hfi_platform_v4.c     |  4 +-
+ .../platform/qcom/venus/hfi_platform_v6.c     |  4 +-
+ drivers/media/platform/qcom/venus/vdec.c      | 35 +++++++++++--
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  2 +
+ include/uapi/linux/videodev2.h                |  2 +
+ 8 files changed, 87 insertions(+), 31 deletions(-)
+
+-- 
+2.25.1
+
