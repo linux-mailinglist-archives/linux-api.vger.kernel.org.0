@@ -2,40 +2,40 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB849490732
-	for <lists+linux-api@lfdr.de>; Mon, 17 Jan 2022 12:35:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 99958490878
+	for <lists+linux-api@lfdr.de>; Mon, 17 Jan 2022 13:13:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239140AbiAQLf5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 17 Jan 2022 06:35:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54972 "EHLO
+        id S239737AbiAQMN5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 17 Jan 2022 07:13:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239124AbiAQLf5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Jan 2022 06:35:57 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 157FBC061574;
-        Mon, 17 Jan 2022 03:35:57 -0800 (PST)
+        with ESMTP id S232783AbiAQMN5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Jan 2022 07:13:57 -0500
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37863C061574;
+        Mon, 17 Jan 2022 04:13:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=4dydwPMjO4FnjpZSHo9LwvJN0XBlZUGpPQmY28SvGGk=; b=Bg/rKtqQ35I6yUXLjaNHtkdagP
-        fIgMRMSWeqqCi1eI0Uo06Nw+UGh05OM6VlOavxjGqW7R41bXGzezaX5LyQWYwBdEbg+QjVjUD+JpU
-        ZHklCELif+vur1Hhlix6omCJ3APlktdRkkPMZQCkuWIRS8nYqY1+6d6HxYUnE03BGE+ILxGV8k111
-        qoNVbmT6hnhwRnEUimyF82HB+alB9tj6sPSmdxda1QoPlzpWVyoUYio0q+Y4zuIEL/XkFHFd2Q0/S
-        RfOei2FZKFFH+zrxW5fcbhHEa2DhtqSga2NFVvRwp6ZbWe469sHkA2LVAw8h9dKkMne8nsCUEG9xk
-        LB/aO03Q==;
+        bh=0xwjXHytdG9TW+eEv4h5HG046BJiyWLMcQrJvytddgc=; b=Pz8qepblptPdOh+nacvo2kZqQ4
+        1ITos2gLO+OPiB77uK7PkjNvo7oL9fZrE+gVFXl/EZjE0fcMaiuNDDZR+/mhn1jDamMHBX68xBPZP
+        P1QvUSgvqMdcGkx60U3GHqCbO8uOdwurN8/WsCs0sTIey18EU6B+ACuqHIPrhVnY87KG+cJNTAegQ
+        1vO7/SjXM0Kv51kNUDzTMp5ysaC4X0YLehawm3MHYtqHk98oar1uNQWWLRst0Prx1WLzD0m2O1PLF
+        mzkSome0hxLI/FCGZpTOZk2AJaqz0QPkKKgkCbgDGUnSbVfU2K+190bUlsEpAH+MLJ/u0BwG5WwhJ
+        hBIqjnRQ==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1n9QIO-0085JA-BD; Mon, 17 Jan 2022 11:35:32 +0000
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1n9Qsd-001dpx-C8; Mon, 17 Jan 2022 12:12:59 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 0F5B0300237;
-        Mon, 17 Jan 2022 12:35:30 +0100 (CET)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 775EA3001FD;
+        Mon, 17 Jan 2022 13:12:57 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id D840E2C8A4AB6; Mon, 17 Jan 2022 12:35:29 +0100 (CET)
-Date:   Mon, 17 Jan 2022 12:35:29 +0100
+        id 387852027C5EF; Mon, 17 Jan 2022 13:12:57 +0100 (CET)
+Date:   Mon, 17 Jan 2022 13:12:57 +0100
 From:   Peter Zijlstra <peterz@infradead.org>
 To:     Peter Oskolkov <posk@posk.io>
 Cc:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
@@ -46,7 +46,7 @@ Cc:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
         pjt@google.com, posk@google.com, avagin@google.com,
         jannh@google.com, tdelisle@uwaterloo.ca
 Subject: Re: [RFC][PATCH 3/3] sched: User Mode Concurency Groups
-Message-ID: <YeVUgXd6C85VmaP7@hirez.programming.kicks-ass.net>
+Message-ID: <YeVdSYrkmMW2i8+N@hirez.programming.kicks-ass.net>
 References: <20211214204445.665580974@infradead.org>
  <20211214205358.701701555@infradead.org>
  <20211221171900.GA580323@dev-hv>
@@ -60,162 +60,34 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 On Fri, Jan 14, 2022 at 03:09:55PM +0100, Peter Zijlstra wrote:
-> > > +SYSCALL_DEFINE3(umcg_ctl, u32, flags, struct umcg_task __user *, self, clockid_t, which_clock)
-> > > +{
-> > > +	struct task_struct *server;
-> > > +	struct umcg_task ut;
-> > > +
-> > > +	if ((unsigned long)self % UMCG_TASK_ALIGN)
-> > > +		return -EINVAL;
-> > > +
-> > > +	if (flags & ~(UMCG_CTL_REGISTER |
-> > > +		      UMCG_CTL_UNREGISTER |
-> > > +		      UMCG_CTL_WORKER))
-> > > +		return -EINVAL;
-> > > +
-> > > +	if (flags == UMCG_CTL_UNREGISTER) {
-> > > +		if (self || !current->umcg_task)
-> > > +			return -EINVAL;
-> > > +
-> > > +		if (current->flags & PF_UMCG_WORKER)
-> > > +			umcg_worker_exit();
+> On Tue, Dec 21, 2021 at 05:19:00PM +0000, Peter Oskolkov wrote:
+
+> > > +	/*
+> > > +	 * Workers will still block in umcg_notify_resume() before they can
+> > > +	 * consume their error, servers however need to get the error asap.
+> > > +	 *
+> > > +	 * Still, things might be unrecoverably screwy after this. Not our
+> > > +	 * problem.
 > > 
-> > The server should be woken here. Imagine: one server, one worker.
-> > The server is sleeping, the worker is running. The worker unregisters,
-> > the server keeps sleeping forever?
-> > 
-> > I'm OK re: NOT waking the server if the worker thread exits without
-> > unregistering, as this is the userspace breaking the contract/protocol.
-> > But here we do need to notify the server. At the minimum so that the
-> > server can schedule a worker to run in its place.
-> > 
-> > (Why is this important? Worker count can fluctuate considerably:
-> > on load spikes many new workers may be created, and later in
-> > quiet times they exit to free resources.)
+> > I think we should explicitly document the unrecoverable screwiness
+> > of errors here, so that the userspace proactively kills itself
+> > to avoid badness. The only reason that returning an error here is
+> > mildly preferable to just killing the task (we already do that
+> > in other places) is to give the userspace an opportunity to
+> > log an error, with more state/info than we can do here.
 > 
-> Fair enough. Will do.
+> Bah, I should've written a better comment, because I can't quite
+> remember the case I had in mind. Also, again from the LAZY patch, I
+> think we can actually do better in some of the cases here.
+> 
+> Specifically, currently we'll enqueue on ::runnable_workers_ptr and fail
+> waking ::next_tid and leave it at that. While I think waking
+> ::server_tid in that case makes sense.
+> 
+> I'll go prod at this.
 
-Something like so then...
+Is anybody actually planning to use ::next_tid for workers?
 
----
---- a/kernel/sched/umcg.c
-+++ b/kernel/sched/umcg.c
-@@ -185,13 +185,6 @@ void umcg_clear_child(struct task_struct
- 	umcg_clear_task(tsk);
- }
- 
--/* Called both by normally (unregister) and abnormally exiting workers. */
--void umcg_worker_exit(void)
--{
--	umcg_unpin_pages();
--	umcg_clear_task(current);
--}
--
- /*
-  * Do a state transition: @from -> @to.
-  *
-@@ -748,32 +741,43 @@ SYSCALL_DEFINE2(umcg_wait, u32, flags, u
-  * sys_umcg_ctl: (un)register the current task as a UMCG task.
-  * @flags:       ORed values from enum umcg_ctl_flag; see below;
-  * @self:        a pointer to struct umcg_task that describes this
-- *               task and governs the behavior of sys_umcg_wait if
-- *               registering; must be NULL if unregistering.
-+ *               task and governs the behavior of sys_umcg_wait.
-  * @which_clock: clockid to use for timestamps and timeouts
-  *
-  * @flags & UMCG_CTL_REGISTER: register a UMCG task:
-  *
-- *         UMCG workers:
-- *              - @flags & UMCG_CTL_WORKER
-- *              - self->state must be UMCG_TASK_BLOCKED
-- *
-- *         UMCG servers:
-- *              - !(@flags & UMCG_CTL_WORKER)
-- *              - self->state must be UMCG_TASK_RUNNING
-- *
-- *         All tasks:
-- *              - self->server_tid must be a valid server
-- *              - self->next_tid must be zero
-- *
-- *         If the conditions above are met, sys_umcg_ctl() immediately returns
-- *         if the registered task is a server. If the registered task is a
-- *         worker it will be added to it's server's runnable_workers_ptr list
-- *         and the server will be woken.
-- *
-- * @flags == UMCG_CTL_UNREGISTER: unregister a UMCG task. If the current task
-- *           is a UMCG worker, the userspace is responsible for waking its
-- *           server (before or after calling sys_umcg_ctl).
-+ *	UMCG workers:
-+ *	 - @flags & UMCG_CTL_WORKER
-+ *	 - self->state must be UMCG_TASK_BLOCKED
-+ *
-+ *	UMCG servers:
-+ *	 - !(@flags & UMCG_CTL_WORKER)
-+ *	 - self->state must be UMCG_TASK_RUNNING
-+ *
-+ *	All tasks:
-+ *	 - self->server_tid must be a valid server
-+ *	 - self->next_tid must be zero
-+ *
-+ *	If the conditions above are met, sys_umcg_ctl() immediately returns
-+ *	if the registered task is a server. If the registered task is a
-+ *	worker it will be added to it's server's runnable_workers_ptr list
-+ *	and the server will be woken.
-+ *
-+ * @flags & UMCG_CTL_UNREGISTER: unregister a UMCG task.
-+ *
-+ *	UMCG workers:
-+ *	 - @flags & UMCG_CTL_WORKER
-+ *
-+ *	UMCG servers:
-+ *	 - !(@flags & UMCG_CTL_WORKER)
-+ *
-+ *	All tasks:
-+ *	 - self must match with UMCG_CTL_REGISTER
-+ *	 - self->state must be UMCG_TASK_RUNNING
-+ *	 - self->server_tid must be a valid server
-+ *
-+ * 	If the conditions above are met, sys_umcg_ctl() will change state to
-+ * 	UMCG_TASK_NONE, and for workers, wake either next or server.
-  *
-  * Return:
-  * 0		- success
-@@ -794,16 +798,31 @@ SYSCALL_DEFINE3(umcg_ctl, u32, flags, st
- 		      UMCG_CTL_WORKER))
- 		return -EINVAL;
- 
--	if (flags == UMCG_CTL_UNREGISTER) {
--		if (self || !current->umcg_task)
-+	if (flags & UMCG_CTL_UNREGISTER) {
-+		int ret;
-+
-+		if (!self || self != current->umcg_task)
- 			return -EINVAL;
- 
--		if (current->flags & PF_UMCG_WORKER) {
--			umcg_worker_exit();
--			// XXX wake server
--		} else
--			umcg_clear_task(current);
-+		current->flags &= ~PF_UMCG_WORKER;
- 
-+		ret = umcg_pin_pages();
-+		if (ret) {
-+			current->flags |= PF_UMCG_WORKER;
-+			return ret;
-+		}
-+
-+		ret = umcg_update_state(current, self, UMCG_TASK_RUNNING, UMCG_TASK_NONE);
-+		if (ret) {
-+			current->flags |= PF_UMCG_WORKER;
-+			return ret;
-+		}
-+
-+		if (current->flags & PF_UMCG_WORKER)
-+			umcg_wake(current);
-+
-+		umcg_unpin_pages();
-+		umcg_clear_task(current);
- 		return 0;
- 	}
- 
+My current thinking is that much of the problems here stem from that.
+
+Let me ponder more..
