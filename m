@@ -2,127 +2,122 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 865F8491125
-	for <lists+linux-api@lfdr.de>; Mon, 17 Jan 2022 21:55:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29D6D491E79
+	for <lists+linux-api@lfdr.de>; Tue, 18 Jan 2022 05:24:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233114AbiAQUzI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 17 Jan 2022 15:55:08 -0500
-Received: from mail.efficios.com ([167.114.26.124]:52280 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230309AbiAQUzH (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Jan 2022 15:55:07 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id EAA29304BC6;
-        Mon, 17 Jan 2022 15:55:06 -0500 (EST)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id QluqGJmTO6uJ; Mon, 17 Jan 2022 15:55:06 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 4619E304AEF;
-        Mon, 17 Jan 2022 15:55:06 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 4619E304AEF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1642452906;
-        bh=d49ncy0MXhPyV6I9UPtc4gs6gA7dVv8m6XtsJokPBKU=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=d/79NZ52WwiKIxEapfaX+yLqxzvEKc6VhLDVj90p5e130fe2PVoqRV7IYGfk/uQED
-         55pI8uGyxodadvKVkngAy+Eif/57C/4xK39CnuuZaVAT9L5ZT6jV/sDKJ9/r+b9F3w
-         x/U2M9qSNicNSU+BVStFnxr6xPfQE7JE166pLzdtkqg5w1Fvrz/GnvUM1BZwDEYI7M
-         f2Fd76Rz9y/kxcZbmTPikw1p2twlyRPpsg8cr7HR+FwZBNHEFwbqzhJcmW2DoCcK/U
-         n60uRR7O/GSW5SxtFnk6Tye1EsaL9oCmcEPM6DS60J3q8CV2WC3zxOM7Xu5s1tIjot
-         dpidoz/UiaFBw==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id xbVVbWiXWtg3; Mon, 17 Jan 2022 15:55:06 -0500 (EST)
-Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id 30BB1304E48;
-        Mon, 17 Jan 2022 15:55:06 -0500 (EST)
-Date:   Mon, 17 Jan 2022 15:55:06 -0500 (EST)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Peter Zijlstra <peterz@infradead.org>,
-        linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        paulmck <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api <linux-api@vger.kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Florian Weimer <fw@deneb.enyo.de>,
-        David Laight <David.Laight@ACULAB.COM>,
-        carlos <carlos@redhat.com>
-Message-ID: <1701683017.40984.1642452906075.JavaMail.zimbra@efficios.com>
-In-Reply-To: <20220117203925.12164-1-mathieu.desnoyers@efficios.com>
-References: <20220117203925.12164-1-mathieu.desnoyers@efficios.com>
-Subject: Re: [RFC PATCH 0/5] RSEQ selftests uplift for glibc-2.35
- compatibility
+        id S232211AbiAREYM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 17 Jan 2022 23:24:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59910 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232203AbiAREYL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 17 Jan 2022 23:24:11 -0500
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99564C061574
+        for <linux-api@vger.kernel.org>; Mon, 17 Jan 2022 20:24:10 -0800 (PST)
+Received: by mail-ed1-x52a.google.com with SMTP id z22so74145206edd.12
+        for <linux-api@vger.kernel.org>; Mon, 17 Jan 2022 20:24:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/zF5YGbP0nEkT+Uha6r3jtWZKXjZYuO+eTPXU/yYfOc=;
+        b=XlkT9EJX4wkAEbbjts/SRs/Oca3s7hNnc/YxVUdn5XXezzzfWLPOgcdIg2Eih08gC6
+         iyP5Xy26dc+EWHtnjXbLEbLbvuWerIEEl8qJ3kEwiW5OjDVPByTmajKydrPBjcTLLzF6
+         EJIKzzZfM0pAGb4rz0nfHJ7VtKgcCae7zrXTw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/zF5YGbP0nEkT+Uha6r3jtWZKXjZYuO+eTPXU/yYfOc=;
+        b=hNgu/Mw8XXdwqyNVsZ/B3wgbRibgFopVwyl8RwkhuamKIZbI5khi1HvUjlPbtTFhYb
+         5yYtgFUWtEHtixkWFT+5HfkoYo7wihtriYUXJUI9bv95kqvOBimdNzsBaYV6HzOMjHM9
+         2PTIk8XCkt/jLYtRPYtEX9vO+cIFaoJq2zYkmYE+gfPxzTRqyFS0q/lkxJnNHgRSjugX
+         ZKN9CBY2kzuLdwzAicezCTHfaoa5KyIYqfc89kGxkidAWE8ynXlQftN4wpQayHPbJJu8
+         EO8T/8huxZpXgEMTmh9u2yfgNseqtkSYrjJI7iPvtTV6JuQaOxsorDjZXM4gqgz+1Mn7
+         MM7Q==
+X-Gm-Message-State: AOAM531Embi558IZDKfhJ9X60B1EIK3n6NO3652ae+CGNiIuH/reZV5p
+        CxwemSsG+53/7psAMXuArIxJT0jktHAZ/LxU
+X-Google-Smtp-Source: ABdhPJxHglAfX38u6r01OEDq0U0ZSA5R1tabLXIb3icnx0RYWqrXb+gNGd9zpataejbJ/4G913LyHg==
+X-Received: by 2002:a50:c04c:: with SMTP id u12mr23374859edd.107.1642479848966;
+        Mon, 17 Jan 2022 20:24:08 -0800 (PST)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com. [209.85.128.54])
+        by smtp.gmail.com with ESMTPSA id v26sm3481517edd.41.2022.01.17.20.24.07
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Jan 2022 20:24:08 -0800 (PST)
+Received: by mail-wm1-f54.google.com with SMTP id q9-20020a7bce89000000b00349e697f2fbso2901803wmj.0
+        for <linux-api@vger.kernel.org>; Mon, 17 Jan 2022 20:24:07 -0800 (PST)
+X-Received: by 2002:a05:6000:1787:: with SMTP id e7mr8150004wrg.281.1642479847518;
+ Mon, 17 Jan 2022 20:24:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [167.114.26.124]
-X-Mailer: Zimbra 8.8.15_GA_4180 (ZimbraWebClient - FF96 (Linux)/8.8.15_GA_4177)
-Thread-Topic: RSEQ selftests uplift for glibc-2.35 compatibility
-Thread-Index: WM5Grb2V34t+nrcJuSFSG2JwO5Q8PA==
+References: <87a6ha4zsd.fsf@email.froward.int.ebiederm.org>
+ <20211213225350.27481-1-ebiederm@xmission.com> <CAHk-=wiS2P+p9VJXV_fWd5ntashbA0QVzJx15rTnWOCAAVJU_Q@mail.gmail.com>
+ <87sfu3b7wm.fsf@email.froward.int.ebiederm.org> <YdniQob7w5hTwB1v@osiris>
+ <87ilurwjju.fsf@email.froward.int.ebiederm.org> <87o84juwhg.fsf@email.froward.int.ebiederm.org>
+ <57dfc87c7dd5a2f9f9841bba1185336016595ef7.camel@trillion01.com>
+ <87lezmrxlq.fsf@email.froward.int.ebiederm.org> <87mtk2qf5s.fsf@email.froward.int.ebiederm.org>
+ <CAHk-=wjZ=aFzFb0BkxVEbN3o6a53R8Gq4hHnEZVCmpDKs3_FCw@mail.gmail.com>
+ <87h7a5kgan.fsf@email.froward.int.ebiederm.org> <991211d94c6dc0ad3501cd9f830cdee916b982b3.camel@trillion01.com>
+ <87ee56e43r.fsf@email.froward.int.ebiederm.org> <87v8yi8ajr.fsf_-_@email.froward.int.ebiederm.org>
+In-Reply-To: <87v8yi8ajr.fsf_-_@email.froward.int.ebiederm.org>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Tue, 18 Jan 2022 06:23:51 +0200
+X-Gmail-Original-Message-ID: <CAHk-=wjCs7XPtNHwzVHK=0D=tZgtdyMGLtoomZB5JeUm7D3JEg@mail.gmail.com>
+Message-ID: <CAHk-=wjCs7XPtNHwzVHK=0D=tZgtdyMGLtoomZB5JeUm7D3JEg@mail.gmail.com>
+Subject: Re: io_uring truncating coredumps
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Olivier Langlois <olivier@trillion01.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "<linux-arch@vger.kernel.org>" <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Alexey Gladkov <legion@kernel.org>,
+        Kyle Huey <me@kylehuey.com>, Oleg Nesterov <oleg@redhat.com>,
+        Kees Cook <keescook@chromium.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Jens Axboe <axboe@kernel.dk>,
+        Pavel Begunkov <asml.silence@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-[ I should really have CC'd the selftests maintainer and mailing list.
-  Adding them in Cc to patch 0/5 to bring this series to their attention. ]
+On Mon, Jan 17, 2022 at 8:47 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
+>
+> Thinking about it from the perspective of not delivering the wake-ups
+> fixing io_uring and coredumps in a non-hacky way looks comparatively
+> simple.  The function task_work_add just needs to not wake anything up
+> after a process has started dying.
+>
+> Something like the patch below.
 
------ On Jan 17, 2022, at 3:39 PM, Mathieu Desnoyers mathieu.desnoyers@efficios.com wrote:
+Hmm. Yes, I think this is the right direction.
 
-> glibc-2.35 will be released on 2022-02-01. It introduces a user-space ABI
-> based on the thread pointer to access a reserved area of the TCB.
-> 
-> The rseq selftests originally expected the rseq thread data to sit in a
-> __rseq_abi TLS variable.
-> 
-> Considering that the rseq ABI only allows a single rseq registration per
-> thread, both cannot actively coexist in a process.
-> 
-> Adapt the selftests librseq implementation to become compatible with
-> glibc-2.35. Keep a fallback implementation based on TLS available when
-> an older glibc is detected.
-> 
-> Feedback is welcome,
-> 
-> Thanks,
-> 
-> Mathieu
-> 
-> Mathieu Desnoyers (5):
->  selftests/rseq: Remove useless assignment to cpu variable
->  selftests/rseq: Remove volatile from __rseq_abi
->  selftests/rseq: Introduce rseq_get_abi() helper
->  selftests/rseq: Introduce thread pointer getters
->  selftests/rseq: Uplift rseq selftests for compatibility with
->    glibc-2.35
-> 
-> tools/testing/selftests/rseq/Makefile         |   2 +-
-> tools/testing/selftests/rseq/param_test.c     |   4 +-
-> tools/testing/selftests/rseq/rseq-arm.h       |  32 ++--
-> tools/testing/selftests/rseq/rseq-arm64.h     |  32 ++--
-> .../rseq/rseq-generic-thread-pointer.h        |  25 +++
-> tools/testing/selftests/rseq/rseq-mips.h      |  32 ++--
-> .../selftests/rseq/rseq-ppc-thread-pointer.h  |  30 ++++
-> tools/testing/selftests/rseq/rseq-ppc.h       |  32 ++--
-> tools/testing/selftests/rseq/rseq-s390.h      |  24 +--
-> .../selftests/rseq/rseq-thread-pointer.h      |  19 +++
-> .../selftests/rseq/rseq-x86-thread-pointer.h  |  40 +++++
-> tools/testing/selftests/rseq/rseq-x86.h       |  30 ++--
-> tools/testing/selftests/rseq/rseq.c           | 161 +++++++++---------
-> tools/testing/selftests/rseq/rseq.h           |  24 ++-
-> 14 files changed, 302 insertions(+), 185 deletions(-)
-> create mode 100644 tools/testing/selftests/rseq/rseq-generic-thread-pointer.h
-> create mode 100644 tools/testing/selftests/rseq/rseq-ppc-thread-pointer.h
-> create mode 100644 tools/testing/selftests/rseq/rseq-thread-pointer.h
-> create mode 100644 tools/testing/selftests/rseq/rseq-x86-thread-pointer.h
-> 
-> --
-> 2.17.1
+That said, I think it should not add the work at all, and return
+-ESRCH, the exact same way that it does for that work_exited
+condition.
 
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
+Because it's basically the same thing: the task is dead and shouldn't
+do more work. In fact, task_work_run() is the thing that sets it to
+&work_exited as it sees PF_EXITING, so it feels to me that THAT is
+actually the issue here - we react to PF_EXITING too late. We react to
+it *after* we've already added the work, and then we do that "no more
+work" logic only after we've accepted those late work entries?
+
+So my gut feel is that task_work_add() should just also test PF_EXITING.
+
+And in fact, my gut feel is that PF_EXITING is too late anyway (it
+happens after core-dumping, no?)
+
+But I guess that thing may be on purpose, and maybe the act of dumping
+core itself wants to do more work, and so that isn't an option?
+
+So I don't think your patch is "right" as-is, and it all worries me,
+but yes, I think this area is very much the questionable one.
+
+I think that work stopping and the io_uring shutdown should probably
+move earlier in the exit queue, but as mentioned above, maybe the work
+addition boundary in particular really wants to be late because the
+exit process itself still uses task works? ;(
+
+              Linus
