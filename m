@@ -2,177 +2,178 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7D4B492CEA
-	for <lists+linux-api@lfdr.de>; Tue, 18 Jan 2022 19:02:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FA4F492CFD
+	for <lists+linux-api@lfdr.de>; Tue, 18 Jan 2022 19:10:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347647AbiARSCD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 18 Jan 2022 13:02:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50088 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237348AbiARSCC (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 18 Jan 2022 13:02:02 -0500
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76CA8C061574;
-        Tue, 18 Jan 2022 10:02:02 -0800 (PST)
-Received: by mail-lf1-x131.google.com with SMTP id x11so48298735lfa.2;
-        Tue, 18 Jan 2022 10:02:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=QiAYKjTm8yD92XhgjPaR67VG7bLzABGjG4SsDGOnGC0=;
-        b=RLcSm7MEm7UV7/oj+FKDlyFwVsC8JJeQauMFbVIUrow6FpXJjO9HDUEo+Rd2EqDAuY
-         8XdR5OMHFybg/QbPQ6fPJLmrbjDmeE6fwCmgvw0aRIeXp1ikMST7uKhRgLXCP4qGwO5v
-         sri3lE0vJf/xkfMfhsVD8GhXOtmHs0lNSDiVOl7cq9nD8IJ8qrejhPNmurl5t3VaTGFS
-         5HAy+wRTY6NEj83xhXa6SouxQEgtEBDJ/1ihH4YT3VTC3vZZ5eZpnI3AFRhTPdGDsrgO
-         /xUSFd3id6/pJbgYv6haEksntoFiGMBVooeqYgIZlR/YbuaEFruZf4qYjI4bd04zCbf5
-         Ea6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=QiAYKjTm8yD92XhgjPaR67VG7bLzABGjG4SsDGOnGC0=;
-        b=K/5l4o3Ja6f93VKkYKrf5/neR53kmIoDjYZ8INXlQ5Ee+BuEeosih+uOmINB5yq0Va
-         nr9dCEeR7qej2X8mX8yOjuTHgyKEK75h73JIZHPYpWSWD3VQPDMMQKfo+L1OGopyYYIF
-         VKG6fKlez2fgWyjMYvbVwrTRR2zyQA5IQF4/ltJudr0bkOZx0qRakHt8pvqd2NBQQ9H8
-         uCtDhh+/06pq7NztZWw2fI0dW+3HR69O9Sx1IeYHRCswbqwodg+8ujbmH+QV90/mBuV9
-         rgmMitjbhvYmu5Qt23UpK7LDfV33V+YBT4PppmXvyNBa7Bb+LpzFHzhBxjm+AfzThihF
-         HEAA==
-X-Gm-Message-State: AOAM531pwCYKoeCzHDjypo1EdgiQxkPHu7fa264wZJo5ojSGooJhHW29
-        xRI+RkIgA+4dHRJM1CzExow=
-X-Google-Smtp-Source: ABdhPJxhUpGZSX++90qH47a+zY/EYePc2AtzAPiEB+D9aUTOJQ2K36zKUUDRe2nplPSgW1+yhDsiaw==
-X-Received: by 2002:a05:6512:39cc:: with SMTP id k12mr22210304lfu.372.1642528920783;
-        Tue, 18 Jan 2022 10:02:00 -0800 (PST)
-Received: from [192.168.2.145] (46-138-227-157.dynamic.spd-mgts.ru. [46.138.227.157])
-        by smtp.googlemail.com with ESMTPSA id h13sm1755350lfe.226.2022.01.18.10.01.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Jan 2022 10:02:00 -0800 (PST)
-Message-ID: <37ba0a3a-da54-0e35-41d6-d5fd766df618@gmail.com>
-Date:   Tue, 18 Jan 2022 21:01:59 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 1/8] signal: Make SIGKILL during coredumps an explicit
- special case
-Content-Language: en-US
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Alexey Gladkov <legion@kernel.org>,
-        Kyle Huey <me@kylehuey.com>, Oleg Nesterov <oleg@redhat.com>,
+        id S1347791AbiARSKZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 18 Jan 2022 13:10:25 -0500
+Received: from out01.mta.xmission.com ([166.70.13.231]:43220 "EHLO
+        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237348AbiARSKX (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 18 Jan 2022 13:10:23 -0500
+Received: from in02.mta.xmission.com ([166.70.13.52]:48006)
+        by out01.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1n9sw0-0028Bm-Ki; Tue, 18 Jan 2022 11:10:20 -0700
+Received: from ip68-110-24-146.om.om.cox.net ([68.110.24.146]:60400 helo=email.froward.int.ebiederm.org.xmission.com)
+        by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1n9svz-0026qb-Ei; Tue, 18 Jan 2022 11:10:20 -0700
+From:   "Eric W. Biederman" <ebiederm@xmission.com>
+To:     Valentin Schneider <valentin.schneider@arm.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Abhijeet Dharmapurikar <adharmap@quicinc.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
         Kees Cook <keescook@chromium.org>,
-        Al Viro <viro@ZenIV.linux.org.uk>
-References: <87a6ha4zsd.fsf@email.froward.int.ebiederm.org>
- <20211213225350.27481-1-ebiederm@xmission.com>
- <9363765f-9883-75ee-70f1-a1a8e9841812@gmail.com>
- <87pmp67y4r.fsf@email.froward.int.ebiederm.org>
- <5bbb54c4-7504-cd28-5dde-4e5965496625@gmail.com>
- <87bl0m14ew.fsf@email.froward.int.ebiederm.org>
- <6692758a-0af2-67e0-26fd-365625b3ad0c@gmail.com>
- <87iluqtcj3.fsf@email.froward.int.ebiederm.org>
- <99353796-eea7-b765-f355-46e50f1b8773@gmail.com>
- <87o8496idj.fsf@email.froward.int.ebiederm.org>
-From:   Dmitry Osipenko <digetx@gmail.com>
-In-Reply-To: <87o8496idj.fsf@email.froward.int.ebiederm.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Gladkov <legion@kernel.org>,
+        "Kenta.Tada@sony.com" <Kenta.Tada@sony.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Ed Tsai <ed.tsai@mediatek.com>, linux-api@vger.kernel.org
+References: <20220117164633.322550-1-valentin.schneider@arm.com>
+        <20220117164633.322550-3-valentin.schneider@arm.com>
+        <878rve89cc.fsf@email.froward.int.ebiederm.org>
+        <878rvd6jgu.mognet@arm.com>
+Date:   Tue, 18 Jan 2022 12:10:12 -0600
+In-Reply-To: <878rvd6jgu.mognet@arm.com> (Valentin Schneider's message of
+        "Tue, 18 Jan 2022 17:29:21 +0000")
+Message-ID: <87h7a06hkr.fsf@email.froward.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-XM-SPF: eid=1n9svz-0026qb-Ei;;;mid=<87h7a06hkr.fsf@email.froward.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.110.24.146;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1+GdPcXRX9fPx6fHK6oCi3BAAvq5AF1mLk=
+X-SA-Exim-Connect-IP: 68.110.24.146
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa02.xmission.com
+X-Spam-Level: 
+X-Spam-Status: No, score=0.7 required=8.0 tests=ALL_TRUSTED,BAYES_50,
+        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,XMSubLong,
+        XM_B_SpammyWords autolearn=disabled version=3.4.2
+X-Spam-Virus: No
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.7 XMSubLong Long Subject
+        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+        *      [sa02 1397; Body=1 Fuz1=1 Fuz2=1]
+        *  0.2 XM_B_SpammyWords One or more commonly used spammy words
+        *  0.0 T_TooManySym_01 4+ unique symbols in subject
+X-Spam-DCC: XMission; sa02 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: ;Valentin Schneider <valentin.schneider@arm.com>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 548 ms - load_scoreonly_sql: 0.04 (0.0%),
+        signal_user_changed: 3.1 (0.6%), b_tie_ro: 2.1 (0.4%), parse: 1.36
+        (0.2%), extract_message_metadata: 14 (2.5%), get_uri_detail_list: 2.7
+        (0.5%), tests_pri_-1000: 6 (1.1%), tests_pri_-950: 1.04 (0.2%),
+        tests_pri_-900: 0.84 (0.2%), tests_pri_-90: 96 (17.6%), check_bayes:
+        94 (17.1%), b_tokenize: 8 (1.5%), b_tok_get_all: 34 (6.2%),
+        b_comp_prob: 2.1 (0.4%), b_tok_touch_all: 47 (8.5%), b_finish: 0.64
+        (0.1%), tests_pri_0: 412 (75.3%), check_dkim_signature: 0.47 (0.1%),
+        check_dkim_adsp: 3.6 (0.7%), poll_dns_idle: 0.02 (0.0%), tests_pri_10:
+        1.85 (0.3%), tests_pri_500: 7 (1.2%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [PATCH v2 2/2] sched/tracing: Add TASK_RTLOCK_WAIT to TASK_REPORT
+X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
+X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-18.01.2022 20:52, Eric W. Biederman пишет:
-> Dmitry Osipenko <digetx@gmail.com> writes:
-> 
->> 11.01.2022 20:20, Eric W. Biederman пишет:
->>> Dmitry Osipenko <digetx@gmail.com> writes:
->>>
->>>> 08.01.2022 21:13, Eric W. Biederman пишет:
->>>>> Dmitry Osipenko <digetx@gmail.com> writes:
->>>>>
->>>>>> 05.01.2022 22:58, Eric W. Biederman пишет:
->>>>>>>
->>>>>>> I have not yet been able to figure out how to run gst-pluggin-scanner in
->>>>>>> a way that triggers this yet.  In truth I can't figure out how to
->>>>>>> run gst-pluggin-scanner in a useful way.
->>>>>>>
->>>>>>> I am going to set up some unit tests and see if I can reproduce your
->>>>>>> hang another way, but if you could give me some more information on what
->>>>>>> you are doing to trigger this I would appreciate it.
->>>>>>
->>>>>> Thanks, Eric. The distro is Arch Linux, but it's a development
->>>>>> environment where I'm running latest GStreamer from git master. I'll try
->>>>>> to figure out the reproduction steps and get back to you.
->>>>>
->>>>> Thank you.
->>>>>
->>>>> Until I can figure out why this is causing problems I have dropped the
->>>>> following two patches from my queue:
->>>>>  signal: Make SIGKILL during coredumps an explicit special case
->>>>>  signal: Drop signals received after a fatal signal has been processed
->>>>>
->>>>> I have replaced them with the following two patches that just do what
->>>>> is needed for the rest of the code in the series:
->>>>>  signal: Have prepare_signal detect coredumps using
->>>>>  signal: Make coredump handling explicit in complete_signal
->>>>>
->>>>> Perversely my failure to change the SIGKILL handling when coredumps are
->>>>> happening proves to me that I need to change the SIGKILL handling when
->>>>> coredumps are happening to make the code more maintainable.
->>>>
->>>> Eric, thank you again. I started to look at the reproduction steps and
->>>> haven't completed it yet. Turned out the problem affects only older
->>>> NVIDIA Tegra2 Cortex-A9 CPU that lacks support of ARM NEON instructions
->>>> set, hence the problem isn't visible on x86 and other CPUs out of the
->>>> box. I'll need to check whether the problem could be simulated on all
->>>> arches or maybe it's specific to VFP exception handling of ARM32.
->>>
->>> It sounds like the gstreamer plugins only fail on certain hardware on
->>> arm32, and things don't hang in coredumps unless the plugins fail.
->>> That does make things tricky to minimize.
->>>
->>> I have just verified that the known problematic code is not
->>> in linux-next for Jan 11 2022.
->>>
->>> If folks as they have time can double check linux-next and verify all is
->>> well I would appreciate it.  I don't expect that there are problems but
->>> sometimes one problem hides another.
->>
->> Hello Eric,
->>
->> I reproduced the trouble on x86_64.
->>
->> Here are the reproduction steps, using ArchLinux and linux-next-20211224:
->>
->> ```
->> sudo pacman -S base-devel git mesa glu meson wget
->> git clone https://github.com/grate-driver/gstreamer.git
->> cd gstreamer
->> git checkout sigill
->> meson --prefix=/usr -Dgst-plugins-base:playback=enabled -Dgst-devtools:validate=disabled build
->> cd build
->> sudo ninja install
->> wget https://www.peach.themazzone.com/big_buck_bunny_720p_h264.mov
->> rm -r ~/.cache/gstreamer-1.0
->> gst-play-1.0 ./big_buck_bunny_720p_h264.mov
->> ```
->>
->> The SIGILL, thrown by [1], causes the hang. There is no hang using v5.16.1 kernel. 
->>
->> [1] https://github.com/grate-driver/gstreamer/commit/006f9a2ee6dcf7b31c9b5413815d6054d82a3b2f
-> 
-> Thank you.
-> 
-> I will verify this works before I add my updated version to
-> my signal-for-v5.18 branch.
-> 
-> Have you by any chance tried a newer version of linux-next without
-> commit fbc11520b58a ("signal: Make SIGKILL during coredumps an explicit
-> special case") in it?
-> 
-> If not I will double check that my pulling the commit out does not break
-> in the case you have documented.
+Valentin Schneider <valentin.schneider@arm.com> writes:
 
-Recent linux-next works fine.
+> On 17/01/22 13:12, Eric W. Biederman wrote:
+>> Valentin Schneider <valentin.schneider@arm.com> writes:
+>>> --- a/fs/proc/array.c
+>>> +++ b/fs/proc/array.c
+>>> @@ -128,9 +128,10 @@ static const char * const task_state_array[] = {
+>>>  	"X (dead)",		/* 0x10 */
+>>>  	"Z (zombie)",		/* 0x20 */
+>>>  	"P (parked)",		/* 0x40 */
+>>> +	"L (rt-locked)",        /* 0x80 */
+>>>  
+>>>  	/* states beyond TASK_REPORT: */
+>>> -	"I (idle)",		/* 0x80 */
+>>> +	"I (idle)",		/* 0x100 */
+>>>  };
+>>
+>> I think this is at least possibly an ABI break.  I have a vague memory
+>> that userspace is not ready being reported new task states.  Which is
+>> why we encode some of our states the way we do.
+>>
+>> Maybe it was just someone being very conservative.
+>>
+>> Still if you are going to add new states to userspace and risk breaking
+>> them can you do some basic analysis and report what ps and similar
+>> programs do.
+>>
+>> Simply changing userspace without even mentioning that you are changing
+>> the userspace output of proc looks dangerous indeed.
+>>
+>
+> Yeah, you're right.
+>
+>> Looking in the history commit 74e37200de8e ("proc: cleanup/simplify
+>> get_task_state/task_state_array") seems to best document the concern
+>> that userspace does not know how to handle new states.
+>>
+>
+> Thanks for the sha1 and for digging around. Now, I read
+> 74e37200de8e ("proc: cleanup/simplify get_task_state/task_state_array")
+> as "get_task_state() isn't clear vs what value is actually exposed to
+> userspace" rather than "get_task_state() could expose things userspace
+> doesn't know what to do with".
 
+There is also commit abd50b39e783 ("wait: introduce EXIT_TRACE to avoid
+the racy EXIT_DEAD->EXIT_ZOMBIE transition").
+
+Which I think is more of what I was remembering.
+
+>> The fact we have had a parked state for quite a few years despite that
+>> concern seems to argue it is possible to extend the states.  Or perhaps
+>> it just argues that parked states are rare enough it does not matter.
+>>
+>> It is definitely the case that the ps manpage documents the possible
+>> states and as such they could be a part of anyone's shell scripts.
+>>
+>
+> 06eb61844d84 ("sched/debug: Add explicit TASK_IDLE printing") for instance
+> seems to suggest extending the states OK, but you're right that this then
+> requires updating ps' manpage.
+>
+> Alternatively, TASK_RTLOCK_WAIT could be masqueraded as
+> TASK_(UN)INTERRUPTIBLE when reported to userspace - it is actually somewhat
+> similar, unlike TASK_IDLE vs TASK_UNINTERRUPTIBLE for instance. The
+> handling in get_task_state() will be fugly, but it might be preferable over
+> exposing a detail userspace might not need to be made aware of?
+
+Right.
+
+Frequently I have seen people do a cost/benefit analysis.
+
+If the benefit is enough, and tracking down the userspace programs that
+need to be verified to work with the change is inexpensive enough the
+change is made.  Always keeping in mind that if something was missed and
+the change causes a regression the change will need to be reverted.
+
+If there is little benefit or the cost to track down userspace is great
+enough the work is put in to hide the change from userspace.  Just
+because it is too much trouble to expose it to userspace.
+
+I honestly don't have any kind of sense about how hard it is to verify
+that a userspace regression won't result from a change like this.  I
+just know that the question needs to be asked.
+
+Eric
