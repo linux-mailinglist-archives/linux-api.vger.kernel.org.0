@@ -2,79 +2,145 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D391492632
-	for <lists+linux-api@lfdr.de>; Tue, 18 Jan 2022 13:56:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7852492AEC
+	for <lists+linux-api@lfdr.de>; Tue, 18 Jan 2022 17:15:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241090AbiARM4c (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 18 Jan 2022 07:56:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35116 "EHLO
+        id S231566AbiARQPr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 18 Jan 2022 11:15:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241121AbiARM4b (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 18 Jan 2022 07:56:31 -0500
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1CE3C061747
-        for <linux-api@vger.kernel.org>; Tue, 18 Jan 2022 04:56:30 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id j5-20020a05600c1c0500b0034d2e956aadso4569216wms.4
-        for <linux-api@vger.kernel.org>; Tue, 18 Jan 2022 04:56:30 -0800 (PST)
+        with ESMTP id S1347843AbiARQOI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 18 Jan 2022 11:14:08 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5295FC061401;
+        Tue, 18 Jan 2022 08:12:32 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id q9-20020a7bce89000000b00349e697f2fbso7130868wmj.0;
+        Tue, 18 Jan 2022 08:12:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=kt7BSYvG+rr2bLEECwLOEMCvBVZotJIk44/4XcKD9H0=;
-        b=qVnMKKFkDFfregDqIMLKYbf/6Rfv7ZYgGOembxhYq270XML2HKFtTQgZWIe4suSlTH
-         9ZzqBt5SMc2HUATvpaoydj6CpAH75hfC5DF+qG4KwifTo4DrFaHm4c8fs1QJQm7jolVG
-         Yz4zXdaQM20LOthQjIWFNEHmWnNyurUbd97AZ4ibUQhIkLNbnMtMag6Xrg6QZ8gZZqDm
-         AhE1vYxascg6oV2aYaMhw3KgbAVODS8uHXaxJLKE26GX1yPfuLfQGBvcHdmtP8IdG3mL
-         tZhPduIc/yXpUOsnqZjXTAJXBz08l+EgG80HPIwCF9codvQmj8aBOWuUqBF+k09ulJ3k
-         hb2w==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Krm5uyz9TkCVOdM6IRP/tp33k9YUzt1fxsTNdw5NfEw=;
+        b=KA9qDwiChE5WC5y/z8sx1fIYwcOJidks7V9x+KmnagPHsG/nangXyPC3+rMOFMxiG2
+         ba1U24ByRXFbXcM2BPRH8q10tMqXd/SE3zLPY4vLmSr1dht5Hl5QAbq5uW7cBldbYOyd
+         KctbVzA3zk8oUtacvgfhQhSlGI8KrWCEL5/Ov1dM8hvydrW6ai3lhzQtK83R9ttUHqiL
+         +sXBFT6cUIOjHBZxKnetfudtQXdy/CW1udxChPQokhurcwURo5fx8oT/Zqqysw6BIDva
+         o9xoqpbbMxvpnLJSeVBIPbhcW6mbOucfiC6+juCQZfdXMZKsIxEs0ynuJGXNuzsT4mXh
+         BBUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=kt7BSYvG+rr2bLEECwLOEMCvBVZotJIk44/4XcKD9H0=;
-        b=2dp82kjHXxmhUdH7GBI2Mmboir03sz3kqlQaqz5HosbET9wCdSoM8XFR6ZOOJVBwWI
-         WV2m5HkJOiy1KwXG8e2EhFHBlTa+hkBCwHCH66DfBVS/WxmAwnFlEhUZVcx1X3XM7G3w
-         EejGvu0N0OQJLjA+6JQeC8E0bWmUGfwtZ5LaLA6hemzD6orR49tWDDWLVAdFbzf7i/Nm
-         fd4XsyJ2AHJKtx8IqbpwDiUcygcZCJ4HIHqa8xriNTN7zTw7ZNAnLIlvTkqsoJxUUlZE
-         dFRb+DJEsRqkziL62u0Bb4yzp6H/DezUioXjcTlac76AQ1aVv4eamdnV2nW0/szMyXL1
-         +29A==
-X-Gm-Message-State: AOAM5332mLG2ZP8PKEGslUiYQIhXaZkpu6G4C1HFd2IjM02kRVxdTjfD
-        C6+F3vJPyrE+Us4RwTAwu14j/dFHddqra4AK7s8=
-X-Google-Smtp-Source: ABdhPJxGKt76Lg3GTqSnJwaq8ce07osyp5P35JeSOcN9tb1VXjOIJO04UXEDjKYPd9tAaf1+CAAgchajeREZcdHreE4=
-X-Received: by 2002:a05:6000:1b0e:: with SMTP id f14mr24751578wrz.100.1642510589314;
- Tue, 18 Jan 2022 04:56:29 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Krm5uyz9TkCVOdM6IRP/tp33k9YUzt1fxsTNdw5NfEw=;
+        b=13GWTjrGu/OUDjwPeQCmV8nBZ8Fe3fCZmTYP7DaXjcC099U6cQaLgFVsQeTiSKbEfV
+         4yKbD6CJsmdXjON7OZjhlFqUuZh1aavB4HtSFpKVjMdfckdbIKuPjiuGp+M004E82pGN
+         sSmMiFNIIjJo4E5FPHv/AYRsjmVBoX0PiT3VwUbx3HsoGu2luIcXREDT05dyz4H0aQQa
+         qjs1YSTSVVmBbS95V8gQ2V6U19tdQu429Q8IPbgs5LletNzK8knokzLw/LFpDTUOMUVo
+         LJDaQw/Gms63Gcmoa7ITMFskLYGkGAfrppGTj7tUHAYyKYFk+6USvtjYC1GxQpwlkCOy
+         HR1A==
+X-Gm-Message-State: AOAM530G/1TSyx/2BAIHtWsZn9Eiojscg7ZPMwU+I2Ql7lgkevB7+zhE
+        Cs4zXDk08ENBLREyp0gBDtixYJcQEPgU2vZiKALlSp2n
+X-Google-Smtp-Source: ABdhPJxZIYhkFdiZT/A6fnYqp1GLnjJj7ZtJQYuN9lfydv7zQ4SqlsycyamGHxs7L0u+wVdYcHjoii0Dp7pIpJ75ZNY=
+X-Received: by 2002:a7b:cdf7:: with SMTP id p23mr25280266wmj.151.1642522350903;
+ Tue, 18 Jan 2022 08:12:30 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:adf:e18f:0:0:0:0:0 with HTTP; Tue, 18 Jan 2022 04:56:28
- -0800 (PST)
-Reply-To: mohsheikhalhamed@gmail.com
-From:   bratikox <bratikox@gmail.com>
-Date:   Tue, 18 Jan 2022 13:56:28 +0100
-Message-ID: <CAFuXTSxdo5QqN-cWu1zvOLDOxST9c2oW0BX-ZHL4Uwk2Qh45dA@mail.gmail.com>
-Subject: Salam Alaikum /ADIA LOAN OFFER
-To:     undisclosed-recipients:;
+References: <20220117155559.234026-1-stanimir.varbanov@linaro.org> <20220117155559.234026-2-stanimir.varbanov@linaro.org>
+In-Reply-To: <20220117155559.234026-2-stanimir.varbanov@linaro.org>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Tue, 18 Jan 2022 08:12:27 -0800
+Message-ID: <CAF6AEGuB2drN-qt8TicP0pLYbKQLt2vEhLt+xSND7tVoOiNEQQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/6] v4l: Add Qualcomm custom compressed pixel formats
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-api@vger.kernel.org, hverkuil-cisco@xs4all.nl,
+        Rob Clark <robdclark@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Salam Alaikum,
+On Mon, Jan 17, 2022 at 6:36 PM Stanimir Varbanov
+<stanimir.varbanov@linaro.org> wrote:
+>
+> Add custom Qualcomm raw compressed pixel formats. They are
+> used in Qualcomm SoCs to optimize the interconnect bandwidth.
+>
+> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> ---
+>  .../media/v4l/pixfmt-reserved.rst             | 19 +++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |  2 ++
+>  include/uapi/linux/videodev2.h                |  2 ++
+>  3 files changed, 23 insertions(+)
+>
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+> index 2f2133b4cd9c..929bd0dc0ba3 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+> @@ -245,6 +245,25 @@ please make a proposal on the linux-media mailing list.
+>        - Non-compressed, tiled two-planar format used by Mediatek MT8183.
+>         This is an opaque intermediate format and the MDP3 hardware can be
+>         used to convert it to other formats.
+> +    * .. _V4L2-PIX-FMT-QC08C:
+> +
+> +      - ``V4L2_PIX_FMT_QC08C``
+> +      - 'QC08C'
+> +      - Compressed Macro-tile 8-Bit YUV420 format used by Qualcomm platforms.
+> +        It is an opaque intermediate format. The used compression is lossless
+> +        and it is used by various multimedia hardware blocks like GPU, display
+> +        controllers, ISP and video accelerators.
+> +        It contains four planes for progressive video and eight planes for
+> +        interlaced video.
 
-We are a United Arab Emirates based investment company known as Abu
-Dhabi Investment Authority working on expanding its portfolio globally
-and financing projects.
+I guess QC08C is the same thing as NV12+UBWC?  Note that on the GPU
+side, NV12+UBWC is treated as two planes, we program the hw with the
+address of the start of UBWC data and the hw calculates the offset to
+pixel data for the plane.  So the UBWC and pixel data are not actually
+independent planes.
 
-We are offering Corporate and Personal Loan at 3.5% Interest Rate for
-a duration of 5 to 10 years.
+BR,
+-R
 
-Please get back to us on Email: mohsheikhalhamed@gmail.com ,if you are
-interested for further embellishment.
-
-We also pay 2% commission to brokers who introduce project owners for
-finance or other opportunities.
-
-
- Yours truly,
- Hamed Mohammad
- (Personal Assistant)
- Abu Dhabi Investment Authority
- 211 Corniche, P.O Box 3600
- Abu Dhabi,United Arab Emirates
+> +    * .. _V4L2-PIX-FMT-QC10C:
+> +
+> +      - ``V4L2_PIX_FMT_QC10C``
+> +      - 'QC10C'
+> +      - Compressed Macro-tile 10-Bit YUV420 format used by Qualcomm platforms.
+> +        It is an opaque intermediate format. The used compression is lossless
+> +        and it is used by various multimedia hardware blocks like GPU, display
+> +        controllers, ISP and video accelerators.
+> +        It contains four planes for progressive video.
+>
+>  .. raw:: latex
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 9ac557b8e146..1b6462f9ad7e 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1437,6 +1437,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>                 case V4L2_PIX_FMT_SE401:        descr = "GSPCA SE401"; break;
+>                 case V4L2_PIX_FMT_S5C_UYVY_JPG: descr = "S5C73MX interleaved UYVY/JPEG"; break;
+>                 case V4L2_PIX_FMT_MT21C:        descr = "Mediatek Compressed Format"; break;
+> +               case V4L2_PIX_FMT_QC08C:        descr = "QCOM Compressed 8-bit Format"; break;
+> +               case V4L2_PIX_FMT_QC10C:        descr = "QCOM Compressed 10-bit Format"; break;
+>                 default:
+>                         if (fmt->description[0])
+>                                 return;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index df8b9c486ba1..e710903185bd 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -744,6 +744,8 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_INZI     v4l2_fourcc('I', 'N', 'Z', 'I') /* Intel Planar Greyscale 10-bit and Depth 16-bit */
+>  #define V4L2_PIX_FMT_CNF4     v4l2_fourcc('C', 'N', 'F', '4') /* Intel 4-bit packed depth confidence information */
+>  #define V4L2_PIX_FMT_HI240    v4l2_fourcc('H', 'I', '2', '4') /* BTTV 8-bit dithered RGB */
+> +#define V4L2_PIX_FMT_QC08C    v4l2_fourcc('Q', '0', '8', 'C') /* Qualcomm 8-bit compressed */
+> +#define V4L2_PIX_FMT_QC10C    v4l2_fourcc('Q', '1', '0', 'C') /* Qualcomm 10-bit compressed */
+>
+>  /* 10bit raw bayer packed, 32 bytes for every 25 pixels, last LSB 6 bits unused */
+>  #define V4L2_PIX_FMT_IPU3_SBGGR10      v4l2_fourcc('i', 'p', '3', 'b') /* IPU3 packed 10-bit BGGR bayer */
+> --
+> 2.25.1
+>
