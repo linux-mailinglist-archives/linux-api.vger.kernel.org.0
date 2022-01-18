@@ -2,178 +2,318 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FA4F492CFD
-	for <lists+linux-api@lfdr.de>; Tue, 18 Jan 2022 19:10:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 91235492D1D
+	for <lists+linux-api@lfdr.de>; Tue, 18 Jan 2022 19:19:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347791AbiARSKZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 18 Jan 2022 13:10:25 -0500
-Received: from out01.mta.xmission.com ([166.70.13.231]:43220 "EHLO
-        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237348AbiARSKX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 18 Jan 2022 13:10:23 -0500
-Received: from in02.mta.xmission.com ([166.70.13.52]:48006)
-        by out01.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1n9sw0-0028Bm-Ki; Tue, 18 Jan 2022 11:10:20 -0700
-Received: from ip68-110-24-146.om.om.cox.net ([68.110.24.146]:60400 helo=email.froward.int.ebiederm.org.xmission.com)
-        by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1n9svz-0026qb-Ei; Tue, 18 Jan 2022 11:10:20 -0700
-From:   "Eric W. Biederman" <ebiederm@xmission.com>
-To:     Valentin Schneider <valentin.schneider@arm.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Abhijeet Dharmapurikar <adharmap@quicinc.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Gladkov <legion@kernel.org>,
-        "Kenta.Tada@sony.com" <Kenta.Tada@sony.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ed Tsai <ed.tsai@mediatek.com>, linux-api@vger.kernel.org
-References: <20220117164633.322550-1-valentin.schneider@arm.com>
-        <20220117164633.322550-3-valentin.schneider@arm.com>
-        <878rve89cc.fsf@email.froward.int.ebiederm.org>
-        <878rvd6jgu.mognet@arm.com>
-Date:   Tue, 18 Jan 2022 12:10:12 -0600
-In-Reply-To: <878rvd6jgu.mognet@arm.com> (Valentin Schneider's message of
-        "Tue, 18 Jan 2022 17:29:21 +0000")
-Message-ID: <87h7a06hkr.fsf@email.froward.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+        id S1347980AbiARSTk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 18 Jan 2022 13:19:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54024 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238965AbiARSTf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 18 Jan 2022 13:19:35 -0500
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3C25C06161C
+        for <linux-api@vger.kernel.org>; Tue, 18 Jan 2022 10:19:34 -0800 (PST)
+Received: by mail-wm1-x334.google.com with SMTP id v123so12693wme.2
+        for <linux-api@vger.kernel.org>; Tue, 18 Jan 2022 10:19:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ymA96POx7OAMmW1ydSmB8m63CErrci0k2daMxmKxHLw=;
+        b=opiJT9YotMmWMjh0/nlFBblGocf0iSIc/SpEzsthxCGN+lAKizExQvm/lcaLi2Vcup
+         VOAxpFdrfjWhuZX3RY51AXSFho+Y6HJCCU0KwkDqDeVQAMWQfMx6puOrrBJbQOCp5rTd
+         FwAc2wIh+qEOFJkIKb8CeZCOyPOP/YQfY7pJjNbXDgYo6ONo9eD5wQu8HFzmYsph9YR0
+         D5r/Fm92M7gBedDsFHKNYElWL8iC/xq4HaY3AeAJl9PWFd2V6R4cYUg9ECA/FOcp7r5D
+         KDIdy155Qi7Ly5MpeoMe3ASzDDqxmfdrjLZfFL3c0bJynqo0koONJg1F5RwXDULnNUgv
+         CnmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ymA96POx7OAMmW1ydSmB8m63CErrci0k2daMxmKxHLw=;
+        b=PuoblAG5JC0DnBVNwz+3HlOdB1hsY3jSNULYW7vjWdFUw9WOSXUBAPU/ZxUVtbuVz6
+         u+VtLELb0t8Z1V7z4WCOiMICnZP06JHVbSBz2dZzjuSdCNSYAq2Tesb+i3as6PmwrHAx
+         uGUiCCjM0nNIciC45cj1x3smML2wwNxEqz8DBrq6K00Z+/nHtBCo99T+RGou07y6JBgJ
+         FKJH2Rv32iWuA3HFY8NA85EhWykERfwiQI9HEZrU5JrbcgdbHfddi8DVXdt7nTVJLeum
+         9uzIuT8iihn+gD9prK2HY5O+vZlWFwvXe9d+gjoOzi5X4DFFF0MGQCtstkpO8cQTFDOM
+         VARw==
+X-Gm-Message-State: AOAM530XdDM0ihqRztqdQogY84dyRcU+2X9CE+ETeGGsOsjdZunJawzW
+        tmHGVsptV9dFul5AXzJEjuAWmf+pRwKrPh9t2mF5fA==
+X-Google-Smtp-Source: ABdhPJwYObsKEXcS6tbwGdn6fFMoy5RjNlLSnajzPCDzzsax/GqZnWXZjQO3dYtvj0E/XwuQ4TkkKQoiSHUghcz2SW0=
+X-Received: by 2002:a05:600c:22da:: with SMTP id 26mr33853966wmg.121.1642529973194;
+ Tue, 18 Jan 2022 10:19:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1n9svz-0026qb-Ei;;;mid=<87h7a06hkr.fsf@email.froward.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.110.24.146;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX1+GdPcXRX9fPx6fHK6oCi3BAAvq5AF1mLk=
-X-SA-Exim-Connect-IP: 68.110.24.146
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa02.xmission.com
-X-Spam-Level: 
-X-Spam-Status: No, score=0.7 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,XMSubLong,
-        XM_B_SpammyWords autolearn=disabled version=3.4.2
-X-Spam-Virus: No
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.7 XMSubLong Long Subject
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa02 1397; Body=1 Fuz1=1 Fuz2=1]
-        *  0.2 XM_B_SpammyWords One or more commonly used spammy words
-        *  0.0 T_TooManySym_01 4+ unique symbols in subject
-X-Spam-DCC: XMission; sa02 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: ;Valentin Schneider <valentin.schneider@arm.com>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 548 ms - load_scoreonly_sql: 0.04 (0.0%),
-        signal_user_changed: 3.1 (0.6%), b_tie_ro: 2.1 (0.4%), parse: 1.36
-        (0.2%), extract_message_metadata: 14 (2.5%), get_uri_detail_list: 2.7
-        (0.5%), tests_pri_-1000: 6 (1.1%), tests_pri_-950: 1.04 (0.2%),
-        tests_pri_-900: 0.84 (0.2%), tests_pri_-90: 96 (17.6%), check_bayes:
-        94 (17.1%), b_tokenize: 8 (1.5%), b_tok_get_all: 34 (6.2%),
-        b_comp_prob: 2.1 (0.4%), b_tok_touch_all: 47 (8.5%), b_finish: 0.64
-        (0.1%), tests_pri_0: 412 (75.3%), check_dkim_signature: 0.47 (0.1%),
-        check_dkim_adsp: 3.6 (0.7%), poll_dns_idle: 0.02 (0.0%), tests_pri_10:
-        1.85 (0.3%), tests_pri_500: 7 (1.2%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH v2 2/2] sched/tracing: Add TASK_RTLOCK_WAIT to TASK_REPORT
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+References: <20211214204445.665580974@infradead.org> <20211214205358.701701555@infradead.org>
+ <20211221171900.GA580323@dev-hv> <YeGEM7TP3tekBVEh@hirez.programming.kicks-ass.net>
+ <YeaRx9oDp08ABvyU@hirez.programming.kicks-ass.net>
+In-Reply-To: <YeaRx9oDp08ABvyU@hirez.programming.kicks-ass.net>
+From:   Peter Oskolkov <posk@google.com>
+Date:   Tue, 18 Jan 2022 10:19:21 -0800
+Message-ID: <CAPNVh5cdGiDqut90kUo-HXyya6Nbz_CjuUObYXfprgDhQHnUmg@mail.gmail.com>
+Subject: Re: [RFC][PATCH 3/3] sched: User Mode Concurency Groups
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Peter Oskolkov <posk@posk.io>, mingo@redhat.com,
+        tglx@linutronix.de, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+        bristot@redhat.com, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-api@vger.kernel.org, x86@kernel.org,
+        pjt@google.com, avagin@google.com, jannh@google.com,
+        tdelisle@uwaterloo.ca
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Valentin Schneider <valentin.schneider@arm.com> writes:
-
-> On 17/01/22 13:12, Eric W. Biederman wrote:
->> Valentin Schneider <valentin.schneider@arm.com> writes:
->>> --- a/fs/proc/array.c
->>> +++ b/fs/proc/array.c
->>> @@ -128,9 +128,10 @@ static const char * const task_state_array[] = {
->>>  	"X (dead)",		/* 0x10 */
->>>  	"Z (zombie)",		/* 0x20 */
->>>  	"P (parked)",		/* 0x40 */
->>> +	"L (rt-locked)",        /* 0x80 */
->>>  
->>>  	/* states beyond TASK_REPORT: */
->>> -	"I (idle)",		/* 0x80 */
->>> +	"I (idle)",		/* 0x100 */
->>>  };
->>
->> I think this is at least possibly an ABI break.  I have a vague memory
->> that userspace is not ready being reported new task states.  Which is
->> why we encode some of our states the way we do.
->>
->> Maybe it was just someone being very conservative.
->>
->> Still if you are going to add new states to userspace and risk breaking
->> them can you do some basic analysis and report what ps and similar
->> programs do.
->>
->> Simply changing userspace without even mentioning that you are changing
->> the userspace output of proc looks dangerous indeed.
->>
+On Tue, Jan 18, 2022 at 2:09 AM Peter Zijlstra <peterz@infradead.org> wrote:
 >
-> Yeah, you're right.
+> On Fri, Jan 14, 2022 at 03:09:55PM +0100, Peter Zijlstra wrote:
+> > On Tue, Dec 21, 2021 at 05:19:00PM +0000, Peter Oskolkov wrote:
 >
->> Looking in the history commit 74e37200de8e ("proc: cleanup/simplify
->> get_task_state/task_state_array") seems to best document the concern
->> that userspace does not know how to handle new states.
->>
+> > > What does worry me is that in this wakeup the server calls sys_umcg_wait()
+> > > with another worker in next_tid, so now the server will have two
+> > > workers running: the current kernel API seems to allow this to happen.
+> > > In my patchset the invariant that no more than one worker running
+> > > per server was enforced by the kernel.
+> >
+> > So one of the things I've started, but didn't finished, is to forward
+> > port the Proxy-Execution patches to a current kernel and play with the
+> > PE+UMCG interaction.
+> >
+> > Thinking about that interaction I've ran into that exact problem.
+> >
+> > The 'nice' solution is to actually block the worker, but that's also the
+> > slow solution :/
+> >
+> > The other solution seems to be to keep kernel state; track the current
+> > worker associated with the server. I haven't (so far) done that due to
+> > my futex trauma.
+> >
+> > So yes, the current API can be used to do the wrong thing, but the
+> > kernel doesn't care and you get to keep the pieces in userspace. And I
+> > much prefer user pieces over kernel pieces.
 >
-> Thanks for the sha1 and for digging around. Now, I read
-> 74e37200de8e ("proc: cleanup/simplify get_task_state/task_state_array")
-> as "get_task_state() isn't clear vs what value is actually exposed to
-> userspace" rather than "get_task_state() could expose things userspace
-> doesn't know what to do with".
-
-There is also commit abd50b39e783 ("wait: introduce EXIT_TRACE to avoid
-the racy EXIT_DEAD->EXIT_ZOMBIE transition").
-
-Which I think is more of what I was remembering.
-
->> The fact we have had a parked state for quite a few years despite that
->> concern seems to argue it is possible to extend the states.  Or perhaps
->> it just argues that parked states are rare enough it does not matter.
->>
->> It is definitely the case that the ps manpage documents the possible
->> states and as such they could be a part of anyone's shell scripts.
->>
+> So I think I came up with a 3rd option; since the TID range is 30 bits
+> (per FUTEX_TID_MASK) we have those same two top bits to play with.
 >
-> 06eb61844d84 ("sched/debug: Add explicit TASK_IDLE printing") for instance
-> seems to suggest extending the states OK, but you're right that this then
-> requires updating ps' manpage.
+> So we write into server::next_tid the tid of the worker we want to wake;
+> and we currently have it cleared such that we can distinguish between
+> the case where sys_umcg_wait() returned an error before or after waking
+> it.
 >
-> Alternatively, TASK_RTLOCK_WAIT could be masqueraded as
-> TASK_(UN)INTERRUPTIBLE when reported to userspace - it is actually somewhat
-> similar, unlike TASK_IDLE vs TASK_UNINTERRUPTIBLE for instance. The
-> handling in get_task_state() will be fugly, but it might be preferable over
-> exposing a detail userspace might not need to be made aware of?
+> However; we can use one of the 2 remaining bits to indicate the worker
+> is woken, let's say bit 31. This then has server::next_tid always
+> containing the current tid, even when the server has a 'spurious' wakeup
+> for other things.
+>
+> Then all we need to do is modify the state check when the bit is set to
+> ensure we don't wake the worker again if we race sys_umcg_wait() with a
+> worker blocking.
+>
+> A bit like this, I suppose... (incompete patch in that it relies on a
+> whole pile of local changes that might or might not live).
+>
+> --- a/include/uapi/linux/umcg.h
+> +++ b/include/uapi/linux/umcg.h
+> @@ -94,6 +94,8 @@ struct umcg_task {
+>          */
+>         __u32   state;                          /* r/w */
+>
+> +#define UMCG_TID_RUNNING       0x80000000U
+> +#define UMCG_TID_MASK          0x3fffffffU
+>         /**
+>          * @next_tid: the TID of the UMCG task that should be context-switched
+>          *            into in sys_umcg_wait(). Can be zero, in which case
+> --- a/kernel/sched/umcg.c
+> +++ b/kernel/sched/umcg.c
+> @@ -20,7 +20,7 @@ static struct task_struct *umcg_get_task
+>
+>         if (tid) {
+>                 rcu_read_lock();
+> -               tsk = find_task_by_vpid(tid);
+> +               tsk = find_task_by_vpid(tid & UMCG_TID_MASK);
+>                 if (tsk && current->mm == tsk->mm && tsk->umcg_task)
+>                         get_task_struct(tsk);
+>                 else
+> @@ -289,27 +291,6 @@ static int umcg_wake_task(struct task_st
+>         return 0;
+>  }
+>
+> -static int umcg_wake_next(struct task_struct *tsk)
+> -{
+> -       int ret = umcg_wake_task(tsk->umcg_next, tsk->umcg_next_task);
+> -       if (ret)
+> -               return ret;
+> -
+> -       /*
+> -        * If userspace sets umcg_task::next_tid, it needs to remove
+> -        * that task from the ready-queue to avoid another server
+> -        * selecting it. However, that also means it needs to put it
+> -        * back in case it went unused.
+> -        *
+> -        * By clearing the field on use, userspace can detect this case
+> -        * and DTRT.
+> -        */
+> -       if (put_user(0u, &tsk->umcg_task->next_tid))
+> -               return -EFAULT;
+> -
+> -       return 0;
+> -}
+> -
+>  static int umcg_wake_server(struct task_struct *tsk)
+>  {
+>         int ret = umcg_wake_task(tsk->umcg_server, tsk->umcg_server_task);
+> @@ -637,6 +599,48 @@ SYSCALL_DEFINE2(umcg_kick, u32, flags, p
+>         return 0;
+>  }
+>
+> +static int umcg_wake_next(struct task_struct *tsk, struct umcg_task __user *self)
+> +{
+> +       struct umcg_task __user *next_task;
+> +       struct task_struct *next;
+> +       u32 next_tid, state;
+> +       int ret;
+> +
+> +       if (get_user(next_tid, &self->next_tid))
+> +               return -EFAULT;
+> +
+> +       next = umcg_get_task(next_tid);
+> +       if (!next)
+> +               return -ESRCH;
+> +
+> +       next_task = READ_ONCE(next->umcg_task);
+> +
+> +       if (next_tid & UMCG_TID_RUNNING) {
+> +               ret = -EFAULT;
+> +               if (get_user(state, &next_task->state))
+> +                       goto put_next;
+> +
+> +               ret = 0;
+> +               if ((state & UMCG_TASK_MASK) != UMCG_TASK_RUNNING)
+> +                       ret = -EAGAIN;
+> +
+> +       } else {
+> +               ret = umcg_wake_task(next, next_task);
+> +               if (ret)
+> +                       goto put_next;
+> +
+> +               ret = -EFAULT;
+> +               if (put_user(next_tid | UMCG_TID_RUNNING, &self->next_tid))
+> +                       goto put_next;
+> +
+> +               ret = 0;
+> +       }
+> +
+> +put_next:
+> +       put_task_struct(next);
+> +       return ret;
+> +}
+> +
+>  /**
+>   * sys_umcg_wait: transfer running context
+>   *
+>
+>
+> And once we have this, we can add sanity checks that server::next_tid is
+> what it should be for ever worker moving away from RUNNING state (which
+> depends on the assumption that all threads are in the same PID
+> namespace).
+>
+>
+> Does this make sense?
 
-Right.
+This is a long reply, touching several active discussion topics:
 
-Frequently I have seen people do a cost/benefit analysis.
+- cooperative userspace scheduling
+- next_tid in workers
+- worker timeouts
+- signals and the general approach
 
-If the benefit is enough, and tracking down the userspace programs that
-need to be verified to work with the change is inexpensive enough the
-change is made.  Always keeping in mind that if something was missed and
-the change causes a regression the change will need to be reverted.
+=========== cooperative userspace scheduling
 
-If there is little benefit or the cost to track down userspace is great
-enough the work is put in to hide the change from userspace.  Just
-because it is too much trouble to expose it to userspace.
+I think an important question to clear is about having worker timeouts
+and worker-to-worker context switches (next_tid in workers). These are
+actually fundamental, core features of cooperative user-space
+scheduling. Yes, if UMCG is viewed simply as enabling what currently
+exists in the kernel to be done in the userspace, then yes, worker
+timeouts and worker.next_tid seem unneeded, and a runqueue per server,
+with a single RUNNING worker per runqueue, makes the most natural
+approach, the one that is taken in this new and improved patchset.
 
-I honestly don't have any kind of sense about how hard it is to verify
-that a userspace regression won't result from a change like this.  I
-just know that the question needs to be asked.
+However, our experience of running many production workloads with
+inprocess userspace scheduling over the last ~8 years indicate that
+cooperative userspace scheduling features, built on top of
+worker-to-worker context switches (with timeouts), are equally
+important in driving performance gains and adoption.
 
-Eric
+============= worker-to-worker context switches
+
+One example: absl::Mutex (https://abseil.io/about/design/mutex) has
+google-internal extensions that are "fiber aware". More specifically,
+consider this situation:
+
+- worker W1 acqured the mutex and is doing its work
+- worker W2 calls mutex::lock()
+  mutex::lock(), being aware of workers, understands that W2 is going to sleep;
+  so instead of just doing so, waking the server, and letting
+  the server figure out what to run in place of the sleeping worker,
+mutex::lock()
+  calls into the userspace scheduler in the context of W2 running, and the
+  userspace scheduler then picks W3 to run and does W2->W3 context switch.
+
+The optimization above replaces W2->Server and Server->W3 context switches
+with a single W2->W3 context switch, which is a material performance gain.
+
+In addition, when W1 calls mutex::unlock(), the scheduling code determines
+that W2 is waiting on the mutex, and thus calls W2::wake() from the context of
+running W1 (you asked earlier why do we need "WAKE_ONLY").
+
+There are several other similar "cooperative" worker-to-worker context switches
+used in "handcrafted" userspace synchronization primitives, the most obvious
+is a producer-consumer queue: the producer (W1) prepares an item or several,
+and context-switches to the consumer (W2) for the latter to consume the items.
+
+If the producer has more items to produce, it will call W2::wake() instead of
+context-switching into it.
+
+I hope the above discussion explains why worker-to-worker context switches,
+as well as workers waking another workers, are useful/needed.
+
+================ worker timeouts
+
+Timeouts now are easy to explain: mutex::lock() and condvar::wait() have
+timeouts, so workers waiting on these primitives naturally wait with timeouts;
+if sys_umcg_wait() supports worker timeouts, this is it, all is simple; if
+it does not, the userspace now has to implement the whole timeout machinery,
+in order to wake these sleeping workers when their timeouts expire.
+
+=========== signals and the general approach
+
+My version of the patchset has all of these things working. What it
+does not have,
+compared to the new approach we are discussing here, is runqueues per server
+and proper signal handling (and potential integration with proxy execution).
+
+Runqueues per server, in the LAZY mode, are easy to emulate in my patchset:
+nothing prevents the userspace to partition workers among servers, and have
+servers that "own" their workers to be pointed at by idle_server_tid_ptr.
+
+The only thing that is missing is proper treating of signals. But my patchset
+does ensure a single running worker per server, had pagefaults and preemptions
+sorted out, etc. Basically, everything works except signals. This patchet
+has issues with pagefaults, worker timeouts, worker-to-worker context
+switches (do workers move runqueues when they context switch?), etc.
+
+And my patchset now actually looks smaller and simpler, on the kernel side,
+that what this patchset is shaping up to be.
+
+What if I fix signals in my patchset? I think the way you deal with signals
+will work in my approach equally well; I'll also use umcg_kick() to preempt
+workers instead of sending them a signal.
+
+What do you think? If signals work in my patchset, why this new approach has
+that my version does not?
+
+Thanks,
+Peter
