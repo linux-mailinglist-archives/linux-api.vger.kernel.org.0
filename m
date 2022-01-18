@@ -2,100 +2,130 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21251492C1E
-	for <lists+linux-api@lfdr.de>; Tue, 18 Jan 2022 18:17:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BAE8F492C5B
+	for <lists+linux-api@lfdr.de>; Tue, 18 Jan 2022 18:29:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347127AbiARRRN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 18 Jan 2022 12:17:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39476 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347010AbiARRRM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 18 Jan 2022 12:17:12 -0500
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69508C06161C
-        for <linux-api@vger.kernel.org>; Tue, 18 Jan 2022 09:17:12 -0800 (PST)
-Received: by mail-wm1-x329.google.com with SMTP id p18so29240458wmg.4
-        for <linux-api@vger.kernel.org>; Tue, 18 Jan 2022 09:17:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xjMQTF4eVKdyYAu8QrW4WjNPRTGXRpV0NBTS0oqE87o=;
-        b=IZegMCoeQ3hsBGjk2vtSpm5HrT9deisVQ46CZM3W0KeCwtTnRXltsYEkFkK7yN3kmr
-         FrxakSA4UABJoLpQ2vt1aupCGgjVZR/yetgF6KbYS+Wb1MvUDzzsBcLjGToUAv8yfWEN
-         CtzNojQhJGGDxowfq4eZc6l3xtJmf2RhRdZky817UJYEa0IVe1hVWqPQ9jAmSvChBYiK
-         CmJJe8g75QHXaKLXux+guYXIgee20K9ncaKL5KcgmzKX38rvjaK5D51MMxkhre0mhd9s
-         halEpN+LKuSFqaBxYoxeF0T5KxSnAJXxWpNJO2ZMOb9zLt75zrGVSwmJWj3VVF7IVUMo
-         uy/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xjMQTF4eVKdyYAu8QrW4WjNPRTGXRpV0NBTS0oqE87o=;
-        b=JAD5byEZwYjI0QToM+y5ibkTfdOMs8nmoCw7S/sZG0Z3MgLcoxsFNfYWe3n2tqw1wx
-         Srl95GNtZ2f0TstbiqXxX0FVQtnckESPbfZeg11O6gGTkbqg6OMUafUKHtjRaufUaUha
-         PJ34XrGO6rpyD0HwtwB4meyOEDujSexbZ6LNDW3XjK3QuTfu6BnnZtSUdv+tpCSToBA+
-         uX8Q9S0uWh50vs/9aBeR6Ol10XahGX41WhrBI9KEVcQ4Q9zGRy/54rJHgpcJyRviRHXq
-         3JI9FJCB0g8Rz28hiP4/uFp21G4QNu7LgHIPBgvaeVSV8ZZPLUshF5+ON7kkt5XNKqbM
-         Sp6A==
-X-Gm-Message-State: AOAM530YSHKgNQKwa8Kja3OdsyJc92MI8WI1WfdVpSzgwTB9O5YHMDsA
-        rlsFySASiiCxtzzFuC40fO8mm5pLolOhClNHj1+XQg==
-X-Google-Smtp-Source: ABdhPJyM8Er7F8IWCUjoxB2zTsyLWrUtQFdcfszUUYmE5GJpHJTzU5uLC3uRD7QV0QTnKuyA/uRJk761VISSAS7dA7Q=
-X-Received: by 2002:a5d:6da4:: with SMTP id u4mr20828497wrs.82.1642526230826;
- Tue, 18 Jan 2022 09:17:10 -0800 (PST)
+        id S235427AbiARR31 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 18 Jan 2022 12:29:27 -0500
+Received: from foss.arm.com ([217.140.110.172]:33994 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1347244AbiARR31 (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 18 Jan 2022 12:29:27 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A693BD6E;
+        Tue, 18 Jan 2022 09:29:26 -0800 (PST)
+Received: from e113632-lin (e113632-lin.cambridge.arm.com [10.1.196.57])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3B9D03F774;
+        Tue, 18 Jan 2022 09:29:24 -0800 (PST)
+From:   Valentin Schneider <valentin.schneider@arm.com>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Abhijeet Dharmapurikar <adharmap@quicinc.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Gladkov <legion@kernel.org>,
+        "Kenta.Tada\@sony.com" <Kenta.Tada@sony.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Ed Tsai <ed.tsai@mediatek.com>, linux-api@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] sched/tracing: Add TASK_RTLOCK_WAIT to TASK_REPORT
+In-Reply-To: <878rve89cc.fsf@email.froward.int.ebiederm.org>
+References: <20220117164633.322550-1-valentin.schneider@arm.com> <20220117164633.322550-3-valentin.schneider@arm.com> <878rve89cc.fsf@email.froward.int.ebiederm.org>
+Date:   Tue, 18 Jan 2022 17:29:21 +0000
+Message-ID: <878rvd6jgu.mognet@arm.com>
 MIME-Version: 1.0
-References: <20220113233940.3608440-1-posk@google.com> <20220113233940.3608440-5-posk@google.com>
- <YeU0nr6DfBCaH6UF@hirez.programming.kicks-ass.net>
-In-Reply-To: <YeU0nr6DfBCaH6UF@hirez.programming.kicks-ass.net>
-From:   Peter Oskolkov <posk@google.com>
-Date:   Tue, 18 Jan 2022 09:16:59 -0800
-Message-ID: <CAPNVh5e+ijBCdvzZujWNUw7QnFt5Mdonw35ByuvcvzJu7gGjHQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 4/5] sched: UMCG: add a blocked worker list
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-api@vger.kernel.org, x86@kernel.org,
-        pjt@google.com, avagin@google.com, jannh@google.com,
-        tdelisle@uwaterloo.ca, posk@posk.io
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jan 17, 2022 at 1:19 AM Peter Zijlstra <peterz@infradead.org> wrote:
+On 17/01/22 13:12, Eric W. Biederman wrote:
+> Valentin Schneider <valentin.schneider@arm.com> writes:
+>> --- a/fs/proc/array.c
+>> +++ b/fs/proc/array.c
+>> @@ -128,9 +128,10 @@ static const char * const task_state_array[] = {
+>>  	"X (dead)",		/* 0x10 */
+>>  	"Z (zombie)",		/* 0x20 */
+>>  	"P (parked)",		/* 0x40 */
+>> +	"L (rt-locked)",        /* 0x80 */
+>>  
+>>  	/* states beyond TASK_REPORT: */
+>> -	"I (idle)",		/* 0x80 */
+>> +	"I (idle)",		/* 0x100 */
+>>  };
 >
-> On Thu, Jan 13, 2022 at 03:39:39PM -0800, Peter Oskolkov wrote:
-
-[...]
-
-> >
-> > So this change basically decouples block/wake detection from
-> > M:N threading in the sense that the number of servers is now
-> > does not have to be M or N, but is more driven by the scalability
-> > needs of the userspace application.
+> I think this is at least possibly an ABI break.  I have a vague memory
+> that userspace is not ready being reported new task states.  Which is
+> why we encode some of our states the way we do.
 >
-> So I don't object to having this blocking list, we had that early on in
-> the discussions.
+> Maybe it was just someone being very conservative.
 >
-> *However*, combined with WF_CURRENT_CPU this 1:N userspace model doesn't
-> really make sense, also combined with Proxy-Exec (if we ever get that
-> sorted) it will fundamentally not work.
+> Still if you are going to add new states to userspace and risk breaking
+> them can you do some basic analysis and report what ps and similar
+> programs do.
 >
-> More consideration is needed I think...
+> Simply changing userspace without even mentioning that you are changing
+> the userspace output of proc looks dangerous indeed.
+>
 
-I was not very clear here. The intent of this change is not to make
-1:N a good general approach, but to make "several running workers per
-single server" a viable option.
+Yeah, you're right.
 
-My guess, based on some numbers/benchmarks from another project, is
-that having a single server/runqueue per four or eight running
-workers, properly aligned with (= affined to) an AMD chiplet, will be
-the most performant solution, comparing to both a runqueue per single
-running worker and to a global runqueue. On Intel this will probably
-look like a single runqueue per core (2 running workers/HT threads).
+> Looking in the history commit 74e37200de8e ("proc: cleanup/simplify
+> get_task_state/task_state_array") seems to best document the concern
+> that userspace does not know how to handle new states.
+>
 
-So in this model a "server" represents a runqueue.
+Thanks for the sha1 and for digging around. Now, I read
+74e37200de8e ("proc: cleanup/simplify get_task_state/task_state_array")
+as "get_task_state() isn't clear vs what value is actually exposed to
+userspace" rather than "get_task_state() could expose things userspace
+doesn't know what to do with".
 
-I'll reply to other active umcg discussions shortly.
+> The fact we have had a parked state for quite a few years despite that
+> concern seems to argue it is possible to extend the states.  Or perhaps
+> it just argues that parked states are rare enough it does not matter.
+>
+> It is definitely the case that the ps manpage documents the possible
+> states and as such they could be a part of anyone's shell scripts.
+>
+
+06eb61844d84 ("sched/debug: Add explicit TASK_IDLE printing") for instance
+seems to suggest extending the states OK, but you're right that this then
+requires updating ps' manpage.
+
+Alternatively, TASK_RTLOCK_WAIT could be masqueraded as
+TASK_(UN)INTERRUPTIBLE when reported to userspace - it is actually somewhat
+similar, unlike TASK_IDLE vs TASK_UNINTERRUPTIBLE for instance. The
+handling in get_task_state() will be fugly, but it might be preferable over
+exposing a detail userspace might not need to be made aware of?
+
+> From the ps man page:
+>>        Here are the different values that the s, stat and state output
+>>        specifiers (header "STAT" or "S") will display to describe the
+>>        state of a process:
+>> 
+>>                D    uninterruptible sleep (usually IO)
+>>                I    Idle kernel thread
+>>                R    running or runnable (on run queue)
+>>                S    interruptible sleep (waiting for an event to complete)
+>>                T    stopped by job control signal
+>>                t    stopped by debugger during the tracing
+>>                W    paging (not valid since the 2.6.xx kernel)
+>>                X    dead (should never be seen)
+>>                Z    defunct ("zombie") process, terminated but not reaped by its parent
+>> 
+>
+> So it looks like a change that adds to the number of states in the
+> kernel should update the ps man page as well.
+>
+> Eric
