@@ -2,214 +2,79 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A4BC49238A
-	for <lists+linux-api@lfdr.de>; Tue, 18 Jan 2022 11:09:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D391492632
+	for <lists+linux-api@lfdr.de>; Tue, 18 Jan 2022 13:56:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236842AbiARKJk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 18 Jan 2022 05:09:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53376 "EHLO
+        id S241090AbiARM4c (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 18 Jan 2022 07:56:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236740AbiARKJj (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 18 Jan 2022 05:09:39 -0500
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92E56C061574;
-        Tue, 18 Jan 2022 02:09:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=6liHV220LfGQeWf071bjFsGALMPq/vYxp0KoDb2bAPg=; b=X95i51/UoNNANKjeTBR7ERQns7
-        QlLg7W0vZ5FAr1yS2MRBl4RfUQOb7emPoMo5T/dGgwkGOuIrf3uuUUq8F/hyw07kKgbPt4FKyzo/b
-        i8Pn/HtfLVxIPK5695SPrCqlpHuFXg3eip260qaowYybDL8NEVSX0m2tLacEji9tW3nVhsXsnDeuh
-        3VY6Uy5rvgWyFNznB7FXJBENJW0CSkghxYyCFF9rc+H2WtjVNGeZUVAcOhcL+6HL5qUF4J+6IW0f1
-        F0flVobdSwfXAITesV0Zv6ZRLBHQoqu6TpxQWUdILbCHsKNkIZAOSK3ZOhvV4eEFRTUNC3aFsUvxQ
-        Ao38qRCA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1n9lQQ-001pCt-FO; Tue, 18 Jan 2022 10:09:14 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 9DC0C300252;
-        Tue, 18 Jan 2022 11:09:11 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 531D1212E9D8D; Tue, 18 Jan 2022 11:09:11 +0100 (CET)
-Date:   Tue, 18 Jan 2022 11:09:11 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Peter Oskolkov <posk@posk.io>
-Cc:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-api@vger.kernel.org, x86@kernel.org,
-        pjt@google.com, posk@google.com, avagin@google.com,
-        jannh@google.com, tdelisle@uwaterloo.ca
-Subject: Re: [RFC][PATCH 3/3] sched: User Mode Concurency Groups
-Message-ID: <YeaRx9oDp08ABvyU@hirez.programming.kicks-ass.net>
-References: <20211214204445.665580974@infradead.org>
- <20211214205358.701701555@infradead.org>
- <20211221171900.GA580323@dev-hv>
- <YeGEM7TP3tekBVEh@hirez.programming.kicks-ass.net>
+        with ESMTP id S241121AbiARM4b (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 18 Jan 2022 07:56:31 -0500
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1CE3C061747
+        for <linux-api@vger.kernel.org>; Tue, 18 Jan 2022 04:56:30 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id j5-20020a05600c1c0500b0034d2e956aadso4569216wms.4
+        for <linux-api@vger.kernel.org>; Tue, 18 Jan 2022 04:56:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=kt7BSYvG+rr2bLEECwLOEMCvBVZotJIk44/4XcKD9H0=;
+        b=qVnMKKFkDFfregDqIMLKYbf/6Rfv7ZYgGOembxhYq270XML2HKFtTQgZWIe4suSlTH
+         9ZzqBt5SMc2HUATvpaoydj6CpAH75hfC5DF+qG4KwifTo4DrFaHm4c8fs1QJQm7jolVG
+         Yz4zXdaQM20LOthQjIWFNEHmWnNyurUbd97AZ4ibUQhIkLNbnMtMag6Xrg6QZ8gZZqDm
+         AhE1vYxascg6oV2aYaMhw3KgbAVODS8uHXaxJLKE26GX1yPfuLfQGBvcHdmtP8IdG3mL
+         tZhPduIc/yXpUOsnqZjXTAJXBz08l+EgG80HPIwCF9codvQmj8aBOWuUqBF+k09ulJ3k
+         hb2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=kt7BSYvG+rr2bLEECwLOEMCvBVZotJIk44/4XcKD9H0=;
+        b=2dp82kjHXxmhUdH7GBI2Mmboir03sz3kqlQaqz5HosbET9wCdSoM8XFR6ZOOJVBwWI
+         WV2m5HkJOiy1KwXG8e2EhFHBlTa+hkBCwHCH66DfBVS/WxmAwnFlEhUZVcx1X3XM7G3w
+         EejGvu0N0OQJLjA+6JQeC8E0bWmUGfwtZ5LaLA6hemzD6orR49tWDDWLVAdFbzf7i/Nm
+         fd4XsyJ2AHJKtx8IqbpwDiUcygcZCJ4HIHqa8xriNTN7zTw7ZNAnLIlvTkqsoJxUUlZE
+         dFRb+DJEsRqkziL62u0Bb4yzp6H/DezUioXjcTlac76AQ1aVv4eamdnV2nW0/szMyXL1
+         +29A==
+X-Gm-Message-State: AOAM5332mLG2ZP8PKEGslUiYQIhXaZkpu6G4C1HFd2IjM02kRVxdTjfD
+        C6+F3vJPyrE+Us4RwTAwu14j/dFHddqra4AK7s8=
+X-Google-Smtp-Source: ABdhPJxGKt76Lg3GTqSnJwaq8ce07osyp5P35JeSOcN9tb1VXjOIJO04UXEDjKYPd9tAaf1+CAAgchajeREZcdHreE4=
+X-Received: by 2002:a05:6000:1b0e:: with SMTP id f14mr24751578wrz.100.1642510589314;
+ Tue, 18 Jan 2022 04:56:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YeGEM7TP3tekBVEh@hirez.programming.kicks-ass.net>
+Received: by 2002:adf:e18f:0:0:0:0:0 with HTTP; Tue, 18 Jan 2022 04:56:28
+ -0800 (PST)
+Reply-To: mohsheikhalhamed@gmail.com
+From:   bratikox <bratikox@gmail.com>
+Date:   Tue, 18 Jan 2022 13:56:28 +0100
+Message-ID: <CAFuXTSxdo5QqN-cWu1zvOLDOxST9c2oW0BX-ZHL4Uwk2Qh45dA@mail.gmail.com>
+Subject: Salam Alaikum /ADIA LOAN OFFER
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jan 14, 2022 at 03:09:55PM +0100, Peter Zijlstra wrote:
-> On Tue, Dec 21, 2021 at 05:19:00PM +0000, Peter Oskolkov wrote:
+Salam Alaikum,
 
-> > What does worry me is that in this wakeup the server calls sys_umcg_wait()
-> > with another worker in next_tid, so now the server will have two
-> > workers running: the current kernel API seems to allow this to happen.
-> > In my patchset the invariant that no more than one worker running
-> > per server was enforced by the kernel.
-> 
-> So one of the things I've started, but didn't finished, is to forward
-> port the Proxy-Execution patches to a current kernel and play with the
-> PE+UMCG interaction.
-> 
-> Thinking about that interaction I've ran into that exact problem.
-> 
-> The 'nice' solution is to actually block the worker, but that's also the
-> slow solution :/
-> 
-> The other solution seems to be to keep kernel state; track the current
-> worker associated with the server. I haven't (so far) done that due to
-> my futex trauma.
-> 
-> So yes, the current API can be used to do the wrong thing, but the
-> kernel doesn't care and you get to keep the pieces in userspace. And I
-> much prefer user pieces over kernel pieces.
+We are a United Arab Emirates based investment company known as Abu
+Dhabi Investment Authority working on expanding its portfolio globally
+and financing projects.
 
-So I think I came up with a 3rd option; since the TID range is 30 bits
-(per FUTEX_TID_MASK) we have those same two top bits to play with.
+We are offering Corporate and Personal Loan at 3.5% Interest Rate for
+a duration of 5 to 10 years.
 
-So we write into server::next_tid the tid of the worker we want to wake;
-and we currently have it cleared such that we can distinguish between
-the case where sys_umcg_wait() returned an error before or after waking
-it.
+Please get back to us on Email: mohsheikhalhamed@gmail.com ,if you are
+interested for further embellishment.
 
-However; we can use one of the 2 remaining bits to indicate the worker
-is woken, let's say bit 31. This then has server::next_tid always
-containing the current tid, even when the server has a 'spurious' wakeup
-for other things.
-
-Then all we need to do is modify the state check when the bit is set to
-ensure we don't wake the worker again if we race sys_umcg_wait() with a
-worker blocking.
-
-A bit like this, I suppose... (incompete patch in that it relies on a
-whole pile of local changes that might or might not live).
-
---- a/include/uapi/linux/umcg.h
-+++ b/include/uapi/linux/umcg.h
-@@ -94,6 +94,8 @@ struct umcg_task {
- 	 */
- 	__u32	state;				/* r/w */
- 
-+#define UMCG_TID_RUNNING	0x80000000U
-+#define UMCG_TID_MASK		0x3fffffffU
- 	/**
- 	 * @next_tid: the TID of the UMCG task that should be context-switched
- 	 *            into in sys_umcg_wait(). Can be zero, in which case
---- a/kernel/sched/umcg.c
-+++ b/kernel/sched/umcg.c
-@@ -20,7 +20,7 @@ static struct task_struct *umcg_get_task
- 
- 	if (tid) {
- 		rcu_read_lock();
--		tsk = find_task_by_vpid(tid);
-+		tsk = find_task_by_vpid(tid & UMCG_TID_MASK);
- 		if (tsk && current->mm == tsk->mm && tsk->umcg_task)
- 			get_task_struct(tsk);
- 		else
-@@ -289,27 +291,6 @@ static int umcg_wake_task(struct task_st
- 	return 0;
- }
- 
--static int umcg_wake_next(struct task_struct *tsk)
--{
--	int ret = umcg_wake_task(tsk->umcg_next, tsk->umcg_next_task);
--	if (ret)
--		return ret;
--
--	/*
--	 * If userspace sets umcg_task::next_tid, it needs to remove
--	 * that task from the ready-queue to avoid another server
--	 * selecting it. However, that also means it needs to put it
--	 * back in case it went unused.
--	 *
--	 * By clearing the field on use, userspace can detect this case
--	 * and DTRT.
--	 */
--	if (put_user(0u, &tsk->umcg_task->next_tid))
--		return -EFAULT;
--
--	return 0;
--}
--
- static int umcg_wake_server(struct task_struct *tsk)
- {
- 	int ret = umcg_wake_task(tsk->umcg_server, tsk->umcg_server_task);
-@@ -637,6 +599,48 @@ SYSCALL_DEFINE2(umcg_kick, u32, flags, p
- 	return 0;
- }
- 
-+static int umcg_wake_next(struct task_struct *tsk, struct umcg_task __user *self)
-+{
-+	struct umcg_task __user *next_task;
-+	struct task_struct *next;
-+	u32 next_tid, state;
-+	int ret;
-+
-+	if (get_user(next_tid, &self->next_tid))
-+		return -EFAULT;
-+
-+	next = umcg_get_task(next_tid);
-+	if (!next)
-+		return -ESRCH;
-+
-+	next_task = READ_ONCE(next->umcg_task);
-+
-+	if (next_tid & UMCG_TID_RUNNING) {
-+		ret = -EFAULT;
-+		if (get_user(state, &next_task->state))
-+			goto put_next;
-+
-+		ret = 0;
-+		if ((state & UMCG_TASK_MASK) != UMCG_TASK_RUNNING)
-+			ret = -EAGAIN;
-+
-+	} else {
-+		ret = umcg_wake_task(next, next_task);
-+		if (ret)
-+			goto put_next;
-+
-+		ret = -EFAULT;
-+		if (put_user(next_tid | UMCG_TID_RUNNING, &self->next_tid))
-+			goto put_next;
-+
-+		ret = 0;
-+	}
-+
-+put_next:
-+	put_task_struct(next);
-+	return ret;
-+}
-+
- /**
-  * sys_umcg_wait: transfer running context
-  *
+We also pay 2% commission to brokers who introduce project owners for
+finance or other opportunities.
 
 
-And once we have this, we can add sanity checks that server::next_tid is
-what it should be for ever worker moving away from RUNNING state (which
-depends on the assumption that all threads are in the same PID
-namespace).
-
-
-Does this make sense?
+ Yours truly,
+ Hamed Mohammad
+ (Personal Assistant)
+ Abu Dhabi Investment Authority
+ 211 Corniche, P.O Box 3600
+ Abu Dhabi,United Arab Emirates
