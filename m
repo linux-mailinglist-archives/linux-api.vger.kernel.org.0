@@ -2,116 +2,152 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2D844936BE
-	for <lists+linux-api@lfdr.de>; Wed, 19 Jan 2022 10:00:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF3CC493F06
+	for <lists+linux-api@lfdr.de>; Wed, 19 Jan 2022 18:26:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352696AbiASJA2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 19 Jan 2022 04:00:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53904 "EHLO
+        id S236719AbiASR04 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 19 Jan 2022 12:26:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237437AbiASJA1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 19 Jan 2022 04:00:27 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D4CAC061574;
-        Wed, 19 Jan 2022 01:00:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=qnafBOfaGAHL+V+2V6xLHrQXEkPNWUyyHRjzOTQQks0=; b=X41mnegh42srhJgRjFzw2U39oF
-        ik/ga3x206OM81Ma9yTWHodK6706mdjtlmS8QqItoSXc9Ue0Qqv8QHIAGwOSxIb0vENp+L5m5zVg/
-        2Xvtm9bjVZtkIGC1TWptFA9/bRvlTSB/bTv/LtdEHijmaMKtLI2FzDXpjx7i+23GYUjNqFhScDqKN
-        IrH8x+1khfrS73fXtt2zrSySG2T/cgWuIrttlTTbLNZjChilJEATxTpvPDok+nlBOR/+v6vIzpueR
-        zoqHvMEfl6LTr8xeaHhDOKp5jGnYzXVa1vFNBWoRRMcgdWaaS1FxERozztzXfC0ZAhVH0A15cWnLD
-        SUdsh4Wg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nA6ot-00AL9R-GZ; Wed, 19 Jan 2022 08:59:55 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 6B9AB300222;
-        Wed, 19 Jan 2022 09:59:54 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 2E49A200CA459; Wed, 19 Jan 2022 09:59:54 +0100 (CET)
-Date:   Wed, 19 Jan 2022 09:59:54 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Peter Oskolkov <posk@google.com>
-Cc:     Peter Oskolkov <posk@posk.io>, mingo@redhat.com,
-        tglx@linutronix.de, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-api@vger.kernel.org, x86@kernel.org,
-        pjt@google.com, avagin@google.com, jannh@google.com,
-        tdelisle@uwaterloo.ca
-Subject: Re: [RFC][PATCH 3/3] sched: User Mode Concurency Groups
-Message-ID: <YefTCk4to5YzO8AB@hirez.programming.kicks-ass.net>
-References: <20211214204445.665580974@infradead.org>
- <20211214205358.701701555@infradead.org>
- <20211221171900.GA580323@dev-hv>
- <YeGEM7TP3tekBVEh@hirez.programming.kicks-ass.net>
- <YeaRx9oDp08ABvyU@hirez.programming.kicks-ass.net>
- <CAPNVh5cdGiDqut90kUo-HXyya6Nbz_CjuUObYXfprgDhQHnUmg@mail.gmail.com>
+        with ESMTP id S1344918AbiASR0z (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 19 Jan 2022 12:26:55 -0500
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC8B2C061574
+        for <linux-api@vger.kernel.org>; Wed, 19 Jan 2022 09:26:54 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id q141-20020a1ca793000000b00347b48dfb53so7086119wme.0
+        for <linux-api@vger.kernel.org>; Wed, 19 Jan 2022 09:26:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SEZuid1kBdUhkeCpk54LJW3gbPrX55D+4zhbEvARjRw=;
+        b=OsIaM/vzswRNN97ZqsOpKgGxJry0M6NaTwqFj/J27sTZw9N/4c0NNC5JB5nDiKbJQL
+         YCHveYFW1+VXOK9vxJ1IiTxp5XSkgGU/v6O3O/jJzcKGPweZlZWLmtbdOX0SHCzloYms
+         YYQNCuemIOJ+46aZwsoV6I3/bR8wpoLpoQmafarZM5abWGoeJ+XVWAS3pya/vctHbgen
+         li7iEOhHp67hE7vCd/93AllAkBK32Bp49EPEpE8VlhW85EGfUwiV43i67meEOCNHCHYb
+         HO5yvEAHZP2zoDrmSb1Os+71jKUmhOJ9ZXpQT/IDnh379Cl8HmoQbNvGre+E4gqqvzlm
+         KG4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SEZuid1kBdUhkeCpk54LJW3gbPrX55D+4zhbEvARjRw=;
+        b=QHibYHr2IhmpCSe0ejlGf/L8U0EXmP9iJddm/feDf3ETLOxNISbqWZe2aYZK0Dy7qA
+         VW7+YPOsvzK/WHVLpAZ8au3nLFSmfnIvQRGYq3rwgLGrg2QcBfR9AmQG5NfM4XGxqZqZ
+         DjpD8w6oLJf9H+Bji4i7zjiYbuzAafzOfpfSsgnSorEYCESlGlttHuZz7f84wPSA3E+W
+         ADoShq3uWnl3BV1fhwqChXlWjAby8HGTo9sEdVmaA61YbuCaKd95CdWN1Qs9OLqJ2MXB
+         FRjqrQ3cD6MOpBfipiLsqp4D5jZlsVyX5fwVdpkx4DZZtYk+cFUYxOU0QArIsSHo1MC7
+         ceug==
+X-Gm-Message-State: AOAM531T00kes2+xjuwxS2rSD2QzU6olpVQ1umkmd7nPQ/06F9zJASbU
+        nwPAHN/RkHDNLEVj/2CnfabvYsPxfxkR4W+EqcpRYQ==
+X-Google-Smtp-Source: ABdhPJygQoMrxaannmaE5oT8T2OCMfl70EeVNcl0JCuLJ00UC5fpSLM5m4bqGDsG3gjYlaSNGCjT/Cf2e9JudNHX1SE=
+X-Received: by 2002:a1c:a70f:: with SMTP id q15mr4540357wme.78.1642613212579;
+ Wed, 19 Jan 2022 09:26:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPNVh5cdGiDqut90kUo-HXyya6Nbz_CjuUObYXfprgDhQHnUmg@mail.gmail.com>
+References: <20211122211327.5931-1-posk@google.com> <20211122211327.5931-4-posk@google.com>
+ <20211124200822.GF721624@worktop.programming.kicks-ass.net>
+ <CAFTs51Uka8VRCHuGidw7mRwATufp87U6S8SWUVod_kU-h6T3ew@mail.gmail.com>
+ <YaEUts3RbOLyvAjl@hirez.programming.kicks-ass.net> <CAFTs51XnN+N74i1XHvRUAUWd04-Fs9uV6ouXo=CQSQs8MaEM5A@mail.gmail.com>
+ <YaUCoe07Wl9Stlch@hirez.programming.kicks-ass.net> <CAFTs51UzR=m6+vcjTCNOGwGu3ZwB5GMrg+cSQy2ecvCWxhZvEQ@mail.gmail.com>
+ <Ya34S2JCQg+81h4t@hirez.programming.kicks-ass.net>
+In-Reply-To: <Ya34S2JCQg+81h4t@hirez.programming.kicks-ass.net>
+From:   Peter Oskolkov <posk@google.com>
+Date:   Wed, 19 Jan 2022 09:26:41 -0800
+Message-ID: <CAPNVh5eYinGEK2Ece45fLYzU8hMWiqAzVdVbdFxd-P5fPXuFSA@mail.gmail.com>
+Subject: Re: [PATCH v0.9.1 3/6] sched/umcg: implement UMCG syscalls
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Peter Oskolkov <posk@posk.io>, Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-api@vger.kernel.org, Paul Turner <pjt@google.com>,
+        Ben Segall <bsegall@google.com>,
+        Andrei Vagin <avagin@google.com>, Jann Horn <jannh@google.com>,
+        Thierry Delisle <tdelisle@uwaterloo.ca>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jan 18, 2022 at 10:19:21AM -0800, Peter Oskolkov wrote:
+On Mon, Dec 6, 2021 at 3:47 AM Peter Zijlstra <peterz@infradead.org> wrote:
+>
+> On Mon, Nov 29, 2021 at 09:34:49AM -0800, Peter Oskolkov wrote:
+> > On Mon, Nov 29, 2021 at 8:41 AM Peter Zijlstra <peterz@infradead.org> wrote:
+>
+> > > Also, timeout on sys_umcg_wait() gets you the exact same situation (or
+> > > worse, multiple running workers).
+> >
+> > It should not. Timed out workers should be added to the runnable list
+> > and not become running unless a server chooses so. So sys_umcg_wait()
+> > with a timeout should behave similarly to a normal sleep, in that the
+> > server is woken upon the worker blocking, and upon the worker wakeup
+> > the worker is added to the woken workers list and waits for a server
+> > to run it. The only difference is that in a sleep the worker becomes
+> > BLOCKED, while in sys_umcg_wait() the worker is RUNNABLE the whole
+> > time.
+> >
+> > Why then have sys_umcg_wait() with a timeout at all, instead of
+> > calling nanosleep()? Because the worker in sys_umcg_wait() can be
+> > context-switched into by another worker, or made running by a server;
+> > if the worker is in nanosleep(), it just sleeps.
+>
+> I've been trying to figure out the semantics of that timeout thing, and
+> I can't seem to make sense of it.
+>
+> Consider two workers:
+>
+>         S0 running A                            S1 running B
+>
+> therefore:
+>
+>         S0::state == RUNNABLE                   S1::state == RUNNABLE
+>         A::server_tid == S0.tid                 B::server_tid = S1.tid
+>         A::state == RUNNING                     B::state == RUNNING
+>
+> Doing:
+>
+>         self->state = RUNNABLE;                 self->state = RUNNABLE;
+>         sys_umcg_wait(0);                       sys_umcg_wait(10);
+>           umcg_enqueue_runnable()                 umcg_enqueue_runnable()
 
-> =========== signals and the general approach
-> 
-> My version of the patchset has all of these things working. What it
-> does not have,
-> compared to the new approach we are discussing here, is runqueues per server
-> and proper signal handling (and potential integration with proxy execution).
-> 
-> Runqueues per server, in the LAZY mode, are easy to emulate in my patchset:
-> nothing prevents the userspace to partition workers among servers, and have
-> servers that "own" their workers to be pointed at by idle_server_tid_ptr.
-> 
-> The only thing that is missing is proper treating of signals. But my patchset
-> does ensure a single running worker per server, had pagefaults and preemptions
-> sorted out, etc. Basically, everything works except signals. This patchet
-> has issues with pagefaults, 
+sys_umcg_wait() should not enqueue the worker as runnable; workers are
+enqueued to indicate wakeup events.
 
-Already fixed pagefaults per:
+>           umcg_wake()                             umcg_wake()
+>           umcg_wait()                             umcg_wait()
+>                                                     hrtimer_start()
+>
+> In both cases we get the exact same outcome:
+>
+>         A::state == RUNNABLE                    B::state == RUNNABLE
+>         S0::state == RUNNING                    S1::state == RUNNING
+>         S0::runnable_ptr == &A                  S1::runnable_ptr = &B
 
-  YeGvovSckivQnKX8@hirez.programming.kicks-ass.net
+So without sys_umcg_wait enqueueing into the queue, the state now is
 
-> worker timeouts
+         A::state == RUNNABLE                    B::state == RUNNABLE
+         S0::state == RUNNING                    S1::state == RUNNING
+         S0::runnable_ptr == NULL                  S1::runnable_ptr = NULL
 
-I still have no clear answer as to what you actually want there.
+>
+>
+> Which is, AFAICT, the exact state you wanted to achieve, except B now
+> has an active timer, but what do you want it to do when that goes?
 
-> , worker-to-worker context
-> switches (do workers move runqueues when they context switch?), etc.
+When the timer goes off, _then_ B is enqueued into the queue, so the
+state becomes
 
-Not in kernel, if they need to be migrated, userspace needs to do that.
+         A::state == RUNNABLE                    B::state == RUNNABLE
+         S0::state == RUNNING                    S1::state == RUNNING
+         S0::runnable_ptr == NULL                  S1::runnable_ptr = &B
 
-> And my patchset now actually looks smaller and simpler, on the kernel side,
-> that what this patchset is shaping up to be.
-> 
-> What if I fix signals in my patchset? I think the way you deal with signals
-> will work in my approach equally well; I'll also use umcg_kick() to preempt
-> workers instead of sending them a signal.
-> 
-> What do you think? 
+So worker timeouts in sys_umcg_wait are treated as wakeup events, with
+the difference that when the worker is eventually scheduled by a
+server, sys_umcg_wait returns with ETIMEDOUT.
 
-I still absolutely hate how long you do page pinning, it *will* wreck
-things like CMA which are somewhat latency critical for silly things
-like Android camera apps and who knows what else.
-
-You've also forgotten about this:
-
-  YcWutpu7BDeG+dQ2@hirez.programming.kicks-ass.net
-
-That's not optional given how you're using page-pinning. Also, I think
-we need at least one direct access to the page after getting the pin in
-order to make it work.
-
-That also very much limits it to Anon pages.
+>
+> I'm tempted to say workers cannot have timeout, and servers can use it
+> to wake themselves.
