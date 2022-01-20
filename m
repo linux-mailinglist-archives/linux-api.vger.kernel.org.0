@@ -2,114 +2,120 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7256495420
-	for <lists+linux-api@lfdr.de>; Thu, 20 Jan 2022 19:25:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 123344955F0
+	for <lists+linux-api@lfdr.de>; Thu, 20 Jan 2022 22:27:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235665AbiATSZO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 20 Jan 2022 13:25:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43864 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233122AbiATSZO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Jan 2022 13:25:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1642703113;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=XlnvntdKeyJn6a4H1tGpGm3klYe/KenHIfs6bqVWGYE=;
-        b=ZEU57fg4hA5rrLVpL8BTfW8TJ4aZ8tATFMNLoUZtGNqbxFhIOZo9ctOcr6iuh6JFoPDGGy
-        po370Zgc8+DhSC1gAQEdiaUmbX0guVF1w6vNTWOyri3Z9WIKo5qpwO67+bvFNF4bEK0EN+
-        fQQ+w79FjQFC9jher9FmA2ZLRaGOIgk=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-65-hBfU49hBNvebPMkzxaEpog-1; Thu, 20 Jan 2022 13:25:11 -0500
-X-MC-Unique: hBfU49hBNvebPMkzxaEpog-1
-Received: by mail-ed1-f69.google.com with SMTP id h11-20020a05640250cb00b003fa024f87c2so6692841edb.4
-        for <linux-api@vger.kernel.org>; Thu, 20 Jan 2022 10:25:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:organization:in-reply-to
-         :content-transfer-encoding;
-        bh=XlnvntdKeyJn6a4H1tGpGm3klYe/KenHIfs6bqVWGYE=;
-        b=lLB8VDST+ZtM9ZGVhFeOPOY/G+SPH9PTdAWXOybM2/4LLxAU89F+vGLn5mlFzLvevp
-         QUkIyVWSvWAUOwk8WmIAT0WwL5UdS76CGJPsu8uH1IEEvLhsqmju9ojmVhw1dBaqQP/i
-         8HLfCuw2p5azaq73vTn1r1GjPjxAt+SCGeIWIfJ6gkAGR0X5AFOLG8aAAi4VEUnn3CoQ
-         1XS8blv/O6sfdOi7cWf/u7GpV+l6ohed/FeAoGqEWUAlANIIuWmiEPkfgNA/+m+57LnN
-         fqqguSYmgpXGZh/gvWlUVXDdbcTj8/p4RhN9KwrDW9kBSy4PuMlM1q2rm47BW4z8ugo5
-         iL7w==
-X-Gm-Message-State: AOAM533hhIjZrVfhkJ9C1x0lcSXlqOihkTqjpMjAgwwkDTcZdQgooOgi
-        FGtEaHlRdwjswr659djWuXdu2vdpNTGh3Wv2fGKcvE6GePSdVpcm/roVZNuJFCInU1gNW1QiwIJ
-        rMrs8YYk7E7RXHUsSGXtG
-X-Received: by 2002:a05:6402:21d4:: with SMTP id bi20mr385582edb.20.1642703110677;
-        Thu, 20 Jan 2022 10:25:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzL4ltr5hInC42l83cLMKXDoEXStlOPH8wqTyTd77EKcWq1GJwQnQrfyKMpFyZLHhZ4ojwR4A==
-X-Received: by 2002:a05:6402:21d4:: with SMTP id bi20mr385543edb.20.1642703110497;
-        Thu, 20 Jan 2022 10:25:10 -0800 (PST)
-Received: from ?IPV6:2003:cb:c70e:5800:eeb:dae2:b1c0:f5d1? (p200300cbc70e58000eebdae2b1c0f5d1.dip0.t-ipconnect.de. [2003:cb:c70e:5800:eeb:dae2:b1c0:f5d1])
-        by smtp.gmail.com with ESMTPSA id dk3sm1650309edb.33.2022.01.20.10.25.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Jan 2022 10:25:10 -0800 (PST)
-Message-ID: <ffb88819-a392-84f3-d40f-7406be8e3165@redhat.com>
-Date:   Thu, 20 Jan 2022 19:25:08 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [RFC][PATCH v2 1/5] mm: Avoid unmapping pinned pages
-Content-Language: en-US
-To:     Peter Zijlstra <peterz@infradead.org>, mingo@redhat.com,
-        tglx@linutronix.de, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-api@vger.kernel.org, x86@kernel.org, pjt@google.com,
-        posk@google.com, avagin@google.com, jannh@google.com,
-        tdelisle@uwaterloo.ca, mark.rutland@arm.com, posk@posk.io
-References: <20220120155517.066795336@infradead.org>
- <20220120160822.666778608@infradead.org>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220120160822.666778608@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        id S1377868AbiATV1J (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 20 Jan 2022 16:27:09 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:37628 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1377867AbiATV1J (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 20 Jan 2022 16:27:09 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C548760018;
+        Thu, 20 Jan 2022 21:27:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DA27C340E0;
+        Thu, 20 Jan 2022 21:27:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1642714028;
+        bh=uYKv82VENbhToK51CZ3LL2/11hT3VtmCN1kHzWHvC4Y=;
+        h=Date:From:To:Subject:From;
+        b=B8UxvEGmCnxO2p6D9OxbtthovuFY88SdqbQfb8iqHI3sYkemKVhYuoTqGtSQ/5NeO
+         ngarIg2rfo7P2utntdfXpipCeldRWgodwM8O0QsGVpJf4oZ2eeVX0vfk3FVP0apKbX
+         CJvMEVYZE7xLColhYUWol5voWoWSNIt+D+KnCqPk=
+Date:   Thu, 20 Jan 2022 13:27:07 -0800
+From:   akpm@linux-foundation.org
+To:     aarcange@redhat.com, ak@linux.intel.com,
+        aneesh.kumar@linux.ibm.com, ben.widawsky@intel.com,
+        dan.j.williams@intel.com, dave.hansen@linux.intel.com,
+        feng.tang@intel.com, linux-api@vger.kernel.org,
+        mgorman@techsingularity.net, mhocko@suse.com,
+        mike.kravetz@oracle.com, mm-commits@vger.kernel.org,
+        rdunlap@infradead.org, vbabka@suse.cz, ying.huang@intel.com
+Subject:  [merged]
+ mm-mempolicy-use-policy_node-helper-with-mpol_preferred_many.patch removed
+ from -mm tree
+Message-ID: <20220120212707.ne31f9EwI%akpm@linux-foundation.org>
+User-Agent: s-nail v14.8.16
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 20.01.22 16:55, Peter Zijlstra wrote:
-> Add a guarantee for Anon pages that pin_user_page*() ensures the
-> user-mapping of these pages stay preserved. In order to ensure this
-> all rmap users have been audited:
-> 
->  vmscan:	already fails eviction due to page_maybe_dma_pinned()
-> 
->  migrate:	migration will fail on pinned pages due to
-> 		expected_page_refs() not matching, however that is
-> 		*after* try_to_migrate() has already destroyed the
-> 		user mapping of these pages. Add an early exit for
-> 		this case.
-> 
->  numa-balance:	as per the above, pinned pages cannot be migrated,
-> 		however numa balancing scanning will happily PROT_NONE
-> 		them to get usage information on these pages. Avoid
-> 		this for pinned pages.
 
-page_maybe_dma_pinned() can race with GUP-fast without
-mm->write_protect_seq. This is a real problem for vmscan() with
-concurrent GUP-fast as it can result in R/O mappings of pinned pages and
-GUP will lose synchronicity to the page table on write faults due to
-wrong COW.
+The patch titled
+     Subject: mm/mempolicy: use policy_node helper with MPOL_PREFERRED_MANY
+has been removed from the -mm tree.  Its filename was
+     mm-mempolicy-use-policy_node-helper-with-mpol_preferred_many.patch
 
-If you're just using it as an optimization, that should work just fine.
-I assume all migration will freeze the refcount and consequently  bail
-out at that point. In that case, LGTM.
+This patch was dropped because it was merged into mainline or a subsystem tree
+
+------------------------------------------------------
+From: "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
+Subject: mm/mempolicy: use policy_node helper with MPOL_PREFERRED_MANY
+
+Patch series "mm: add new syscall set_mempolicy_home_node", v6.
 
 
--- 
-Thanks,
+This patch (of 3):
 
-David / dhildenb
+A followup patch will enable setting a home node with MPOL_PREFERRED_MANY
+memory policy.  To facilitate that switch to using policy_node helper. 
+There is no functional change in this patch.
+
+Link: https://lkml.kernel.org/r/20211202123810.267175-1-aneesh.kumar@linux.ibm.com
+Link: https://lkml.kernel.org/r/20211202123810.267175-2-aneesh.kumar@linux.ibm.com
+Signed-off-by: Aneesh Kumar K.V <aneesh.kumar@linux.ibm.com>
+Acked-by: Michal Hocko <mhocko@suse.com>
+Cc: Ben Widawsky <ben.widawsky@intel.com>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Feng Tang <feng.tang@intel.com>
+Cc: Andrea Arcangeli <aarcange@redhat.com>
+Cc: Mel Gorman <mgorman@techsingularity.net>
+Cc: Mike Kravetz <mike.kravetz@oracle.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: Andi Kleen <ak@linux.intel.com>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: Huang Ying <ying.huang@intel.com>
+Cc: <linux-api@vger.kernel.org>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+---
+
+ mm/mempolicy.c |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+--- a/mm/mempolicy.c~mm-mempolicy-use-policy_node-helper-with-mpol_preferred_many
++++ a/mm/mempolicy.c
+@@ -2062,7 +2062,7 @@ static struct page *alloc_pages_preferre
+ 	preferred_gfp &= ~(__GFP_DIRECT_RECLAIM | __GFP_NOFAIL);
+ 	page = __alloc_pages(preferred_gfp, order, nid, &pol->nodes);
+ 	if (!page)
+-		page = __alloc_pages(gfp, order, numa_node_id(), NULL);
++		page = __alloc_pages(gfp, order, nid, NULL);
+ 
+ 	return page;
+ }
+@@ -2104,6 +2104,7 @@ struct page *alloc_pages_vma(gfp_t gfp,
+ 	}
+ 
+ 	if (pol->mode == MPOL_PREFERRED_MANY) {
++		node = policy_node(gfp, pol, node);
+ 		page = alloc_pages_preferred_many(gfp, order, node, pol);
+ 		mpol_cond_put(pol);
+ 		goto out;
+@@ -2187,7 +2188,7 @@ struct page *alloc_pages(gfp_t gfp, unsi
+ 		page = alloc_page_interleave(gfp, order, interleave_nodes(pol));
+ 	else if (pol->mode == MPOL_PREFERRED_MANY)
+ 		page = alloc_pages_preferred_many(gfp, order,
+-				numa_node_id(), pol);
++				  policy_node(gfp, pol, numa_node_id()), pol);
+ 	else
+ 		page = __alloc_pages(gfp, order,
+ 				policy_node(gfp, pol, numa_node_id()),
+_
+
+Patches currently in -mm which might be from aneesh.kumar@linux.ibm.com are
+
 
