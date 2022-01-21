@@ -2,139 +2,78 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DDB9E496378
-	for <lists+linux-api@lfdr.de>; Fri, 21 Jan 2022 17:58:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A37F54964B4
+	for <lists+linux-api@lfdr.de>; Fri, 21 Jan 2022 19:01:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380379AbiAUQ6p (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Jan 2022 11:58:45 -0500
-Received: from foss.arm.com ([217.140.110.172]:56662 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1380415AbiAUQ5g (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Fri, 21 Jan 2022 11:57:36 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 47AE51FB;
-        Fri, 21 Jan 2022 08:57:35 -0800 (PST)
-Received: from FVFF77S0Q05N (unknown [10.57.1.33])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2B3723F73D;
-        Fri, 21 Jan 2022 08:57:32 -0800 (PST)
-Date:   Fri, 21 Jan 2022 16:57:29 +0000
-From:   Mark Rutland <mark.rutland@arm.com>
+        id S1380680AbiAUSBu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 Jan 2022 13:01:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37008 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241924AbiAUSBu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Jan 2022 13:01:50 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0F04C06173B;
+        Fri, 21 Jan 2022 10:01:49 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7E63161B44;
+        Fri, 21 Jan 2022 18:01:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDA49C340E1;
+        Fri, 21 Jan 2022 18:01:46 +0000 (UTC)
+Date:   Fri, 21 Jan 2022 13:01:45 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
 To:     Peter Zijlstra <peterz@infradead.org>
 Cc:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
         vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-api@vger.kernel.org, x86@kernel.org,
-        pjt@google.com, posk@google.com, avagin@google.com,
-        jannh@google.com, tdelisle@uwaterloo.ca, posk@posk.io
-Subject: Re: [RFC][PATCH v2 5/5] sched: User Mode Concurency Groups
-Message-ID: <Yerl+ZrZ2qflIMyg@FVFF77S0Q05N>
+        bsegall@google.com, mgorman@suse.de, bristot@redhat.com,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-api@vger.kernel.org, x86@kernel.org, pjt@google.com,
+        posk@google.com, avagin@google.com, jannh@google.com,
+        tdelisle@uwaterloo.ca, mark.rutland@arm.com, posk@posk.io
+Subject: Re: [RFC][PATCH v2 0/5] sched: User Managed Concurrency Groups
+Message-ID: <20220121130145.1bba70d3@gandalf.local.home>
+In-Reply-To: <20220120155517.066795336@infradead.org>
 References: <20220120155517.066795336@infradead.org>
- <20220120160822.914418096@infradead.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220120160822.914418096@infradead.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jan 20, 2022 at 04:55:22PM +0100, Peter Zijlstra wrote:
-> User Managed Concurrency Groups is an M:N threading toolkit that allows
-> constructing user space schedulers designed to efficiently manage
-> heterogeneous in-process workloads while maintaining high CPU
-> utilization (95%+).
+On Thu, 20 Jan 2022 16:55:17 +0100
+Peter Zijlstra <peterz@infradead.org> wrote:
+
+> Latest version, many changes since last time, still under heavy discussion.
 > 
-> XXX moar changelog explaining how this is moar awesome than
-> traditional user-space threading.
+> Seems to work with the test-case I have (below), but that still has a few gaps,
+> coverage wise.
 
-Awaiting a commit message that I can parse, I'm just looking at the entry bits
-for now. TBH I have no idea what this is actually trying to do...
+Nice work, Peter.
 
-[...]
+> 
+> Still haven't done the SMP wakeup thing, finally get the idea with
+> worker-timeouts but haven't yet implemented that.
+> 
+> Happy hacking..
+> 
+> ----
+>
 
-> --- a/include/linux/entry-common.h
-> +++ b/include/linux/entry-common.h
-> @@ -23,6 +23,10 @@
->  # define _TIF_UPROBE			(0)
->  #endif
->  
-> +#ifndef _TIF_UMCG
-> +# define _TIF_UMCG			(0)
-> +#endif
-> +
->  /*
->   * SYSCALL_WORK flags handled in syscall_enter_from_user_mode()
->   */
-> @@ -43,11 +47,13 @@
->  				 SYSCALL_WORK_SYSCALL_EMU |		\
->  				 SYSCALL_WORK_SYSCALL_AUDIT |		\
->  				 SYSCALL_WORK_SYSCALL_USER_DISPATCH |	\
-> +				 SYSCALL_WORK_SYSCALL_UMCG |		\
->  				 ARCH_SYSCALL_WORK_ENTER)
->  #define SYSCALL_WORK_EXIT	(SYSCALL_WORK_SYSCALL_TRACEPOINT |	\
->  				 SYSCALL_WORK_SYSCALL_TRACE |		\
->  				 SYSCALL_WORK_SYSCALL_AUDIT |		\
->  				 SYSCALL_WORK_SYSCALL_USER_DISPATCH |	\
-> +				 SYSCALL_WORK_SYSCALL_UMCG |		\
->  				 SYSCALL_WORK_SYSCALL_EXIT_TRAP	|	\
->  				 ARCH_SYSCALL_WORK_EXIT)
->  
-> @@ -221,8 +227,11 @@ static inline void local_irq_disable_exi
->   */
->  static inline void irqentry_irq_enable(struct pt_regs *regs)
->  {
-> -	if (!regs_irqs_disabled(regs))
-> +	if (!regs_irqs_disabled(regs)) {
->  		local_irq_enable();
-> +		if (user_mode(regs) && (current->flags & PF_UMCG_WORKER))
-> +			umcg_sys_enter(regs, -1);
-> +	}
->  }
+Should the below be added to samples/ ?
 
-Perhaps it would make sense to have separate umcg_sys_enter(regs) and
-umcg_sys_enter_syscall(regs, syscallno)? Even if the former is just a wrapper,
-to make the entry/exit bits clearly correspond for all the !syscall cases?
+-- Steve
+ 
+> #define _GNU_SOURCE
+> #include <unistd.h>
+> #include <sys/types.h>
+> #include <sys/syscall.h>
+> #include <pthread.h>
+> #include <stdio.h>
+> #include <stdlib.h>
+> #include <errno.h>
+> #include <signal.h>
 
-Also, is the syscall case meant to nest within this, or syscall entry paths not
-supposed to call irqentry_irq_enable() ?
-
->  
->  /**
-> @@ -232,8 +241,11 @@ static inline void irqentry_irq_enable(s
->   */
->  static inline void irqentry_irq_disable(struct pt_regs *regs)
->  {
-> -	if (!regs_irqs_disabled(regs))
-> +	if (!regs_irqs_disabled(regs)) {
-> +		if (user_mode(regs) && (current->flags & PF_UMCG_WORKER))
-> +			umcg_sys_exit(regs);
->  		local_irq_disable();
-> +	}
->  }
-
-Do the umcg_sys_{enter,exit}() calls need to happen with IRQs unmasked?
-
-* If not (and this nests): for arm64 these can live in our
-  enter_from_user_mode() and exit_to_user_mode() helpers.
-
-* If so (or this doesn't nest): for arm64 we'd need to rework our
-  local_daif_{inherit,restore,mask}() calls to handle this, though I've been
-  meaning to do that anyway to handle pseudo-NMI better.
-
-Either way, it looks like we'd need helpers along the lines of:
-
-| static __always_inline void umcg_enter_from_user(struct pt_regs *regs)
-| {
-| 	if (current->flags & PF_UMCG_WORKER)
-| 		umcg_sys_enter(regs, -1);
-| }
-| 
-| static __always_inline void umcg_exit_to_user(struct pt_regs *regs)
-| {
-| 	if (current->flags & PF_UMCG_WORKER)
-| 		umcg_sys_exit(regs);
-| }
-
-Thanks,
-Mark.
+[..]
