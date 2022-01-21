@@ -2,108 +2,90 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C1A6495B33
-	for <lists+linux-api@lfdr.de>; Fri, 21 Jan 2022 08:52:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C2CFD495B7C
+	for <lists+linux-api@lfdr.de>; Fri, 21 Jan 2022 09:00:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348893AbiAUHwb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Jan 2022 02:52:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39154 "EHLO
+        id S1379324AbiAUIAM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 Jan 2022 03:00:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344134AbiAUHwa (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Jan 2022 02:52:30 -0500
+        with ESMTP id S1379221AbiAUIAL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Jan 2022 03:00:11 -0500
 Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A225AC061574;
-        Thu, 20 Jan 2022 23:52:30 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70D73C061574;
+        Fri, 21 Jan 2022 00:00:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=AX0oT8maRB3wraMIS5dkLIZO7p/5l4kCV7CNiyW6Prg=; b=ND2NfECXV6cJd7sCxwqMXmPoqj
-        CshoaD/3dmIlrggOf0dvid1J740NOWQaiNBZ4yDJDAtM4Y2vtwrWC5Qpr5+63X02AHqwdeGjxWpbP
-        oX0TZl6Z1sbXGrmIQTJUifCZ4j9xMAFx8nXBeSVpmq4vshCP2DmwdEZ5lBL2NtOPX1fsc38LC97UE
-        7vLBx58PtzwUwl+DFYjdyJdr74vo46q1aLPXTGqEAQ9RaL3rvqwiQFFLuw6grc8UXtKjMvXz9EE0s
-        PCM33+N92PiHG3KKrrVUoyL6JTTSvFVLhnNm26fi7Lw0sCa3uxUQHT8BT+BUYeFNhYUNHMyn1dzIe
-        GH89AsrQ==;
+        bh=lM96gxE5Zvd4KW4P3zg/HRQmsMNlTVeN2Nd1koQYNu0=; b=YmPjgbo+hz7cUwXro8Ro7FtcZk
+        7OcXA3deT6tbo/KjioKqugUMGejB/qwRcuUZ+kzw1bQsrNt2GcQzylzIS0ym0bonp5WFfBihTC0PD
+        wFo2EPBnVbIY7jn/BfL5m947SGp9OQ50nUhsMk2OpsH0Ce1XlZtnvj02wLBdDYXw6+fA6H96kjF+u
+        ldftHUnIVWas7ZrkXmaPMBz5SRgsALt8ggiLPJdQ6xP2GmbiQ4hcF13YE4iCxfvGhIVfU3mCcoW+Y
+        /QUk0qvEwVjhU1NNmLLUQiQfTqEdVxupynRs8+QBlVkJhjJr2WwyMMOQw6xZMcAp7QopZTZ0uUrUI
+        CCRvrzWQ==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
         by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nAoiG-002XSn-6c; Fri, 21 Jan 2022 07:52:00 +0000
+        id 1nAopk-002XY0-7a; Fri, 21 Jan 2022 07:59:44 +0000
 Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 7665A984B76; Fri, 21 Jan 2022 08:51:57 +0100 (CET)
-Date:   Fri, 21 Jan 2022 08:51:57 +0100
+        id 51F19984B76; Fri, 21 Jan 2022 08:59:43 +0100 (CET)
+Date:   Fri, 21 Jan 2022 08:59:43 +0100
 From:   Peter Zijlstra <peterz@infradead.org>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
+To:     Nadav Amit <nadav.amit@gmail.com>
+Cc:     Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>, juri.lelli@redhat.com,
         vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-api@vger.kernel.org, x86@kernel.org,
-        pjt@google.com, posk@google.com, avagin@google.com,
-        jannh@google.com, tdelisle@uwaterloo.ca, mark.rutland@arm.com,
-        posk@posk.io
+        Steven Rostedt <rostedt@goodmis.org>, bsegall@google.com,
+        Mel Gorman <mgorman@suse.de>, bristot@redhat.com,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>, linux-api@vger.kernel.org,
+        X86 ML <x86@kernel.org>, pjt@google.com, posk@google.com,
+        avagin@google.com, Jann Horn <jannh@google.com>,
+        tdelisle@uwaterloo.ca, mark.rutland@arm.com, posk@posk.io
 Subject: Re: [RFC][PATCH v2 1/5] mm: Avoid unmapping pinned pages
-Message-ID: <20220121075157.GA20638@worktop.programming.kicks-ass.net>
+Message-ID: <20220121075943.GB20638@worktop.programming.kicks-ass.net>
 References: <20220120155517.066795336@infradead.org>
  <20220120160822.666778608@infradead.org>
- <ffb88819-a392-84f3-d40f-7406be8e3165@redhat.com>
+ <E63F4045-E624-47FE-A417-5D2FF7923179@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ffb88819-a392-84f3-d40f-7406be8e3165@redhat.com>
+In-Reply-To: <E63F4045-E624-47FE-A417-5D2FF7923179@gmail.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jan 20, 2022 at 07:25:08PM +0100, David Hildenbrand wrote:
-> On 20.01.22 16:55, Peter Zijlstra wrote:
-> > Add a guarantee for Anon pages that pin_user_page*() ensures the
-> > user-mapping of these pages stay preserved. In order to ensure this
-> > all rmap users have been audited:
+On Thu, Jan 20, 2022 at 10:03:44AM -0800, Nadav Amit wrote:
+
+> > --- a/mm/mprotect.c
+> > +++ b/mm/mprotect.c
+> > @@ -106,6 +106,12 @@ static unsigned long change_pte_range(st
+> > 					continue;
 > > 
-> >  vmscan:	already fails eviction due to page_maybe_dma_pinned()
+> > 				/*
+> > +				 * Can't migrate pinned pages, avoid touching them.
+> > +				 */
+> > +				if (page_maybe_dma_pinned(page))
+> > +					continue;
+> > +
+> > +				/*
 > > 
-> >  migrate:	migration will fail on pinned pages due to
-> > 		expected_page_refs() not matching, however that is
-> > 		*after* try_to_migrate() has already destroyed the
-> > 		user mapping of these pages. Add an early exit for
-> > 		this case.
-> > 
-> >  numa-balance:	as per the above, pinned pages cannot be migrated,
-> > 		however numa balancing scanning will happily PROT_NONE
-> > 		them to get usage information on these pages. Avoid
-> > 		this for pinned pages.
 > 
-> page_maybe_dma_pinned() can race with GUP-fast without
-> mm->write_protect_seq. This is a real problem for vmscan() with
-> concurrent GUP-fast as it can result in R/O mappings of pinned pages and
-> GUP will lose synchronicity to the page table on write faults due to
-> wrong COW.
+> I have a similar problem with userfaultfd changing protection for
+> DMA-pinned pages. For userfaultfd it is important to know how many
+> pages were actually modified.
+> 
+> I am working on a vectored UFFDIO_WRITEPROTECTV that aborts once
+> a pinned page is encountered, but also returns the number of pages
+> that were properly protected. I still need to do some work to
+> send patches for that as it requires further changes (to return
+> the number of pages that were handled).
+> 
+> But for the matter of your patch, is it possible to make this
+> test generic (not migration specific) and rely on a new flag in
+> cp_flags? I can of course make this change later if you prefer it
+> this way.
 
-Urgh, so yeah, that might be a problem. Follow up code uses it like
-this:
-
-+/*
-+ * Pinning a page inhibits rmap based unmap for Anon pages. Doing a load
-+ * through the user mapping ensures the user mapping exists.
-+ */
-+#define umcg_pin_and_load(_self, _pagep, _member)                              \
-+({                                                                             \
-+       __label__ __out;                                                        \
-+       int __ret = -EFAULT;                                                    \
-+                                                                               \
-+       if (pin_user_pages_fast((unsigned long)(_self), 1, 0, &(_pagep)) != 1)  \
-+               goto __out;                                                     \
-+                                                                               \
-+       if (!PageAnon(_pagep) ||                                                \
-+           get_user(_member, &(_self)->_member)) {                             \
-+               unpin_user_page(_pagep);                                        \
-+               goto __out;                                                     \
-+       }                                                                       \
-+       __ret = 0;                                                              \
-+__out: __ret;                                                                  \
-+})
-
-And after that hard assumes (on the penalty of SIGKILL) that direct user
-access works. Specifically it does RmW ops on it. So I suppose I'd
-better upgrade that load to a RmW at the very least.
-
-But is that sufficient? Let me go find that race you mention...
+I have no objection to making it apply more widely, but I'm currently
+only interested in the rmap users. If userspace does mprotect() on it's
+own pages, it gets to keep whatever pieces are the result of that.
