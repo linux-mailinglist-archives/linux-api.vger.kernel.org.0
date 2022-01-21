@@ -2,165 +2,159 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 71D84495ECD
-	for <lists+linux-api@lfdr.de>; Fri, 21 Jan 2022 13:04:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A3B4495EFB
+	for <lists+linux-api@lfdr.de>; Fri, 21 Jan 2022 13:26:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350222AbiAUMEQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 21 Jan 2022 07:04:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33158 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1350204AbiAUMEO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Jan 2022 07:04:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1642766653;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=plqbI4uQzIC/HoJcD7z9G3CYldKJvWvJe9PZR7YBaFw=;
-        b=Jtl9hB66IjJDMWdGKVnfu3P11Do/D3uh3ebYyEeRddOZozVKxyssAOmeWTWQEPNffcdFYY
-        67UMpnOMB3I1B7Ax8bJST8yPZE9kv7qBsshQ6rGPFb8iUyP/8+aI+iMed0444HHg+/hMRZ
-        dJcMAFfz/ZxwM3M4Rwuook9u89H4az8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-9-3GMGyvDSNqW8wv5zJoi4mQ-1; Fri, 21 Jan 2022 07:04:12 -0500
-X-MC-Unique: 3GMGyvDSNqW8wv5zJoi4mQ-1
-Received: by mail-wm1-f72.google.com with SMTP id l16-20020a1c7910000000b0034e4206ecb7so2039099wme.7
-        for <linux-api@vger.kernel.org>; Fri, 21 Jan 2022 04:04:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:cc:references:from:organization:subject
-         :in-reply-to:content-transfer-encoding;
-        bh=plqbI4uQzIC/HoJcD7z9G3CYldKJvWvJe9PZR7YBaFw=;
-        b=iwDYZBi4kM9yb/S/siiyCE9OarXirCGRMkNBsVoXZnBGGT2bUivh3KS7NaKc1vNAxd
-         hHvtAR0tByMuEEa5dRPyrr+JYYmUQRLCFy6hBgBm7tNSx0H/MsefmVoQnRm6vLvYARhW
-         XFEXVMlIC0nIZTM3HuA0WDC+j29Q0W3ZgKrVwYNHaGNHs8+Gf5wPD8n8I8UdfWum5zkb
-         cZSfYTaJfK7NEmYBRyPqTIu+YzByQXbRaBrnkWNhXVBO8ECADrGgPxCrbeHmkaUhATJA
-         yTTNZlv3KNglMroOWoYKJ7fMohG99rru/VJIvfMY8shu1FzEC0G73TFpnag2RY68fuJ0
-         H2cQ==
-X-Gm-Message-State: AOAM530t11cfys3Hx1MFnS9Q0wbOPhun8szgyxfNqseK6qTWpMjmVmuT
-        vyrUuTLrd2ElWUDrZLCD/j6cVlmOoUZa/FlAyiNDgaDk3ctTDWkfMsCdySOTnKRQvpEKGSPS/SK
-        SEGnnSkN5DXB9KAAYQcv3
-X-Received: by 2002:a1c:e913:: with SMTP id q19mr442687wmc.87.1642766651192;
-        Fri, 21 Jan 2022 04:04:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwvtpL32Y4x8vX37wPiF8/xHj0kcayPEkakqi21Uxs2dZI2m36gZPvmSDiRnKhy6IhJsvH1JA==
-X-Received: by 2002:a1c:e913:: with SMTP id q19mr442652wmc.87.1642766650942;
-        Fri, 21 Jan 2022 04:04:10 -0800 (PST)
-Received: from ?IPV6:2003:cb:c709:a200:adf9:611a:39a8:435a? (p200300cbc709a200adf9611a39a8435a.dip0.t-ipconnect.de. [2003:cb:c709:a200:adf9:611a:39a8:435a])
-        by smtp.gmail.com with ESMTPSA id 8sm6727265wrz.57.2022.01.21.04.04.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Jan 2022 04:04:10 -0800 (PST)
-Message-ID: <7744b904-4803-1c8e-3a1c-eebd30f2da91@redhat.com>
-Date:   Fri, 21 Jan 2022 13:04:09 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Content-Language: en-US
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
+        id S1346169AbiAUM0u (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 21 Jan 2022 07:26:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44468 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234491AbiAUM0t (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 21 Jan 2022 07:26:49 -0500
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 916E9C061574;
+        Fri, 21 Jan 2022 04:26:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=oJK25nad9Ku+botT29oqxyUUwfOA24v8IepgHTqcOuc=; b=mpvLbtSMWuybwwODDd6F7LqVot
+        tlSVND9tmkZCWh/KCJPVxUURVTcM9XlheYPrpqTSINhfoCZTXc7HfGDajIn9nXjM9ixolrTnC7Rfs
+        iMAQ2YuIlw7bDEcNkuZEwWzg61CQIXaXOzDyCyJO/aSVRNE8AQfNAPaCqjKQ5kcrNABLL9sKuznPX
+        OmyZ3J93brq95wuyVLAQ2aagRncj1mtoJ3LfB1h/pTNbRIRWOSSMeLR1c5UE36qfruGrj26XZ0JMx
+        tuwq679AlQl6OpOIeOBzLAv18Eo5Q5LjawSBhQ4rpblU82m112l2BL6BtyBk8ATXJtHE3+SPJiNm1
+        bC5kWiKA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nAszq-002Zom-BL; Fri, 21 Jan 2022 12:26:26 +0000
+Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 499B59867E1; Fri, 21 Jan 2022 13:26:25 +0100 (CET)
+Date:   Fri, 21 Jan 2022 13:26:25 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
         vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
         rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-api@vger.kernel.org, x86@kernel.org,
-        pjt@google.com, posk@google.com, avagin@google.com,
-        jannh@google.com, tdelisle@uwaterloo.ca, mark.rutland@arm.com,
-        posk@posk.io
+        bristot@redhat.com
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-api@vger.kernel.org, x86@kernel.org, pjt@google.com,
+        posk@google.com, avagin@google.com, jannh@google.com,
+        tdelisle@uwaterloo.ca, mark.rutland@arm.com, posk@posk.io,
+        david@redhat.com
+Subject: Re: [RFC][PATCH v2 5/5] sched: User Mode Concurency Groups
+Message-ID: <20220121122625.GG20638@worktop.programming.kicks-ass.net>
 References: <20220120155517.066795336@infradead.org>
- <20220120160822.666778608@infradead.org>
- <ffb88819-a392-84f3-d40f-7406be8e3165@redhat.com>
- <20220121075157.GA20638@worktop.programming.kicks-ass.net>
- <20220121085917.GA22849@worktop.programming.kicks-ass.net>
- <10d6cc13-b96b-e1b6-8751-1b245b242738@redhat.com>
- <20220121114058.GE20638@worktop.programming.kicks-ass.net>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [RFC][PATCH v2 1/5] mm: Avoid unmapping pinned pages
-In-Reply-To: <20220121114058.GE20638@worktop.programming.kicks-ass.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <20220120160822.914418096@infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220120160822.914418096@infradead.org>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 21.01.22 12:40, Peter Zijlstra wrote:
-> On Fri, Jan 21, 2022 at 10:04:45AM +0100, David Hildenbrand wrote:
->> On 21.01.22 09:59, Peter Zijlstra wrote:
-> 
->>> However, I'm not quite sure what fork() does with pages that have a pin.
->>
->> We COW the anon pages always, and we protect against concurrent GUP
->> using the
->> * mmap_lock in exclusive mode for ordinary GUP
->> * mm->write_protect_seq for GUP-fast
-> 
-> Right, but neither the mmap_sem nor the write_protect_seq help anything
-> at all vs already extant page pins.
-> 
-> But I just found copy_present_page()'s page_needs_cow_for_dma(), which I
-> think deals with exactly that case, it avoids doing CoW on pinned pages
-> and instead feeds the child a full copy while keeping the pinned page in
-> the original process.
+On Thu, Jan 20, 2022 at 04:55:22PM +0100, Peter Zijlstra wrote:
+> +/*
+> + * Pinning a page inhibits rmap based unmap for Anon pages. Doing a load
+> + * through the user mapping ensures the user mapping exists.
+> + */
+> +#define umcg_pin_and_load(_self, _pagep, _member)				\
+> +({										\
+> +	__label__ __out;							\
+> +	int __ret = -EFAULT;							\
+> +										\
+> +	if (pin_user_pages_fast((unsigned long)(_self), 1, 0, &(_pagep)) != 1)	\
+> +		goto __out;							\
+> +										\
+> +	if (!PageAnon(_pagep) ||						\
+> +	    get_user(_member, &(_self)->_member)) {				\
+> +		unpin_user_page(_pagep);					\
+> +		goto __out;							\
+> +	}									\
+> +	__ret = 0;								\
+> +__out:	__ret;									\
+> +})
 
-Yes, page_needs_cow_for_dma() is the magic bit. The locking I explained
-keep its output "reliable".
+Per the thread with David, this wants changing like so.
 
-> 
->>> Naively, a page that has async DMA activity should not be CoW'ed, or if
->>> it is, care must be taken to ensure the original pages stays in the
->>> original process, but I realize that's somewhat hard.
->>
->> That's precisely what I'm working on fixing ... and yes, it's hard.
->>
->> Let me know if you need any other information, I've spent way too much
->> time on this than I ever panned.
-> 
-> So let me try and get this right:
-> 
->  - GUP post-fork breaks CoW for FOLL_WRITE/FOLL_PIN, without either
->    there's a problem where one task might observe changes by another.
-> 
->  - GUP pre-fork prevents CoW and does a full copy.
+---
 
-Yes, pretty much.
-
-> 
-> And that all mostly works, except for a fair amount of 'fun' cases?
-
-I'd say some obviously broken cases, some racy cases, some fun cases :)
-
-
-We have three main cases. And usually, trying to tackle one triggers
-another.
-
-(1) Missed CoW
-
-If the child R/O pins and unmaps the page, the parent might miss to CoW
-and reuse the page. Security issue. Once CVE in that area is currently
-still applicable for THP (well, and hugetlb).
-
-(2) Unnecessary CoW
-
-We CoW instead of reusing the page, but there are no relevant pins, so
-it's unnecessary.
-
-(3) Wrong CoW
-
-We CoW a page that has relevant pins, losing synchronicity between GUP
-and the page tables.
-
-
-The "criticality" is (1), (3), (2).
-
-(3) can currently get triggered by anything that can map a pinned page
-R/O. The racy case is what I described about the swapcache. Other broken
-cases are mprotect() and friends (we cannot differentiate between R/O
-and R/W pins ...).
-
-
--- 
-Thanks,
-
-David / dhildenb
-
+--- a/kernel/sched/umcg.c
++++ b/kernel/sched/umcg.c
+@@ -34,25 +34,26 @@ static struct task_struct *umcg_get_task
+ }
+ 
+ /*
+- * Pinning a page inhibits rmap based unmap for Anon pages. Doing a load
+- * through the user mapping ensures the user mapping exists.
++ * Pinning a page inhibits rmap based unmap for Anon pages. Doing a store
++ * through the user mapping ensures the user mapping exists and is writable.
+  */
+-#define umcg_pin_and_load(_self, _pagep, _member)				\
+-({										\
+-	__label__ __out;							\
+-	int __ret = -EFAULT;							\
+-										\
+-	if (pin_user_pages_fast((unsigned long)(_self), 1, 0, &(_pagep)) != 1)	\
+-		goto __out;							\
+-										\
+-	if (!PageAnon(_pagep) ||						\
+-	    get_user(_member, &(_self)->_member)) {				\
+-		unpin_user_page(_pagep);					\
+-		goto __out;							\
+-	}									\
+-	__ret = 0;								\
+-__out:	__ret;									\
+-})
++static int umcg_pin_page(struct umcg_task __user *self, struct page **pagep)
++{
++	int ret = -EFAULT;
++
++	if (pin_user_pages_fast((unsigned long)self, 1, FOLL_WRITE, pagep) != 1)
++		goto out;
++
++	if (!PageAnon(*pagep) ||
++	    put_user(0ULL, &self->__zero[0])) {
++		unpin_user_page(*pagep);
++		goto out;
++	}
++
++	ret = 0;
++out:
++	return ret;
++}
+ 
+ /**
+  * umcg_pin_pages: pin pages containing struct umcg_task of
+@@ -72,10 +73,13 @@ static int umcg_pin_pages(void)
+ 			 tsk->umcg_server))
+ 		return -EBUSY;
+ 
+-	ret = umcg_pin_and_load(self, tsk->umcg_page, server_tid);
++	ret = umcg_pin_page(self, &tsk->umcg_page);
+ 	if (ret)
+ 		goto clear_self;
+ 
++	if (get_user(server_tid, &self->server_tid))
++		goto unpin_self;
++
+ 	ret = -ESRCH;
+ 	server = umcg_get_task(server_tid);
+ 	if (!server)
+@@ -83,7 +87,7 @@ static int umcg_pin_pages(void)
+ 
+ 	/* must cache due to possible concurrent change */
+ 	tsk->umcg_server_task = READ_ONCE(server->umcg_task);
+-	ret = umcg_pin_and_load(tsk->umcg_server_task, tsk->umcg_server_page, server_tid);
++	ret = umcg_pin_page(tsk->umcg_server_task, &tsk->umcg_server_page);
+ 	if (ret)
+ 		goto clear_server;
+ 
+@@ -414,7 +418,7 @@ static int umcg_wait(u64 timo)
+ 				break;
+ 			}
+ 
+-			ret = umcg_pin_and_load(self, page, state);
++			ret = umcg_pin_page(self, &page);
+ 			if (ret) {
+ 				page = NULL;
+ 				break;
