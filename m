@@ -2,34 +2,34 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEE02497CA8
-	for <lists+linux-api@lfdr.de>; Mon, 24 Jan 2022 11:03:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E11BB497CBD
+	for <lists+linux-api@lfdr.de>; Mon, 24 Jan 2022 11:07:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235266AbiAXKDc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 Jan 2022 05:03:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59482 "EHLO
+        id S230030AbiAXKHZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 24 Jan 2022 05:07:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235062AbiAXKDb (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Jan 2022 05:03:31 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B236C06173B;
-        Mon, 24 Jan 2022 02:03:31 -0800 (PST)
+        with ESMTP id S229488AbiAXKHZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Jan 2022 05:07:25 -0500
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B811C06173B;
+        Mon, 24 Jan 2022 02:07:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=H6LcKSehcG3T/G89t5l/X+r5xRWoUbyAIud7gmEk2Ns=; b=AI1SH0yWSYHRGtVDmwlkZmfGts
-        HB+d4rBh7HItjzsOBEar6kBuVbDGa3spuoIvOz/we8xbedmKSrqC6eF+3peimc27upL4/kFX+6fJJ
-        NCv+1F15l7r0fJPA/j9jd0fZymXwgC3KCYKBXd+HFxf2WriPXODLbwsA6v3d82q4Xx7FU8RBMoKuD
-        EfsXNGyCTyx/O/uLjbr3ZF6PLl/5faGeeiPtU8n3Wz7EN8eboCmUTXGYcKQPUyuE2yRIcWEz4zKHR
-        8zsMk1tiO2+hP/IOPUQbQ2IppkXJUo+qwEsUB21dE8y4cAcsGgNUajoJnPrQXZrI9q9J97RZnizpr
-        WxaifpMQ==;
+        bh=rGu/cVWqjKbmzWm5z1cUS5DKdCStpKhIQFvlPXr3oH8=; b=CwKvv+au3sSLPXpQy/TCrZHQxU
+        y7J6x6rF3K+Ea/cuj5iosEJNVPaaD/mPPNaCKdy/qC5EzvZromUcN2uO1yDJ+Dn0mm6/O0aydVD1D
+        551ijFJi6+hIWWhXTayb+4OrSC4ht5ZjSWD5NreEEFg/2LuALzbFg2WCIPSMlBQidHcLDirOzMNv0
+        c39rSxzScRcI8rEvzqrmX9BC4x9oaF9adr0bjyTSSVa6+71Ulcbpwf1H56PsRuNp+rHrkbXuALn+p
+        noONmub4xKIE2/UcTrfJkMQXXMbT7uPYl6VJliu6Vm/YfrckXv+ZdvAHyxwvQ5VDJBRoMOFqoUUvE
+        gDZkOYRA==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nBwBn-000RjR-KF; Mon, 24 Jan 2022 10:03:08 +0000
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nBwFd-0038Lz-2D; Mon, 24 Jan 2022 10:07:05 +0000
 Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id AC413986245; Mon, 24 Jan 2022 11:03:06 +0100 (CET)
-Date:   Mon, 24 Jan 2022 11:03:06 +0100
+        id A2863986245; Mon, 24 Jan 2022 11:07:04 +0100 (CET)
+Date:   Mon, 24 Jan 2022 11:07:04 +0100
 From:   Peter Zijlstra <peterz@infradead.org>
 To:     Mark Rutland <mark.rutland@arm.com>
 Cc:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
@@ -40,109 +40,69 @@ Cc:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
         pjt@google.com, posk@google.com, avagin@google.com,
         jannh@google.com, tdelisle@uwaterloo.ca, posk@posk.io
 Subject: Re: [RFC][PATCH v2 5/5] sched: User Mode Concurency Groups
-Message-ID: <20220124100306.GO20638@worktop.programming.kicks-ass.net>
+Message-ID: <20220124100704.GC22849@worktop.programming.kicks-ass.net>
 References: <20220120155517.066795336@infradead.org>
  <20220120160822.914418096@infradead.org>
  <Yerl+ZrZ2qflIMyg@FVFF77S0Q05N>
+ <20220124100306.GO20638@worktop.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Yerl+ZrZ2qflIMyg@FVFF77S0Q05N>
+In-Reply-To: <20220124100306.GO20638@worktop.programming.kicks-ass.net>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jan 21, 2022 at 04:57:29PM +0000, Mark Rutland wrote:
+On Mon, Jan 24, 2022 at 11:03:06AM +0100, Peter Zijlstra wrote:
 
-> > @@ -221,8 +227,11 @@ static inline void local_irq_disable_exi
-> >   */
-> >  static inline void irqentry_irq_enable(struct pt_regs *regs)
-> >  {
-> > -	if (!regs_irqs_disabled(regs))
-> > +	if (!regs_irqs_disabled(regs)) {
-> >  		local_irq_enable();
-> > +		if (user_mode(regs) && (current->flags & PF_UMCG_WORKER))
-> > +			umcg_sys_enter(regs, -1);
-> > +	}
-> >  }
+> > Either way, it looks like we'd need helpers along the lines of:
+> > 
+> > | static __always_inline void umcg_enter_from_user(struct pt_regs *regs)
+> > | {
+> > | 	if (current->flags & PF_UMCG_WORKER)
+> > | 		umcg_sys_enter(regs, -1);
+> > | }
+> > | 
+> > | static __always_inline void umcg_exit_to_user(struct pt_regs *regs)
+> > | {
+> > | 	if (current->flags & PF_UMCG_WORKER)
+> > | 		umcg_sys_exit(regs);
+> > | }
 > 
-> Perhaps it would make sense to have separate umcg_sys_enter(regs) and
-> umcg_sys_enter_syscall(regs, syscallno)? Even if the former is just a wrapper,
-> to make the entry/exit bits clearly correspond for all the !syscall cases?
-
-Can do I suppose.
-
-> Also, is the syscall case meant to nest within this, or syscall entry paths not
-> supposed to call irqentry_irq_enable() ?
-
-No nesting, syscall_ vs irqentry_. And you can't have a syscall and an
-exception both be from user at the same time :-)
-
-> >  /**
-> > @@ -232,8 +241,11 @@ static inline void irqentry_irq_enable(s
-> >   */
-> >  static inline void irqentry_irq_disable(struct pt_regs *regs)
-> >  {
-> > -	if (!regs_irqs_disabled(regs))
-> > +	if (!regs_irqs_disabled(regs)) {
-> > +		if (user_mode(regs) && (current->flags & PF_UMCG_WORKER))
-> > +			umcg_sys_exit(regs);
-> >  		local_irq_disable();
-> > +	}
-> >  }
+> Would something like:
 > 
-> Do the umcg_sys_{enter,exit}() calls need to happen with IRQs unmasked?
-
-Yes; both can end up blocking.
-
-> * If not (and this nests): for arm64 these can live in our
->   enter_from_user_mode() and exit_to_user_mode() helpers.
+> #ifndef arch_irqentry_irq_enter
+> static __always_inline bool arch_irqentry_irq_enter(struct pt_regs *regs)
+> {
+> 	if (!regs_irqs_disabled(regs)) {
+> 		local_irq_enable();
+> 		return true;
+> 	}
+> 	return false;
+> }
+> #endif
 > 
-> * If so (or this doesn't nest): for arm64 we'd need to rework our
->   local_daif_{inherit,restore,mask}() calls to handle this, though I've been
->   meaning to do that anyway to handle pseudo-NMI better.
+> static __always_inline void irqentry_irq_enter(struct pt_regs *regs)
+> {
+> 	if (arch_irqentry_irq_inherit(regs)) {
+> 		if (user_mode(regs) && (current->flags & PF_UMCG_WORKER))
+> 			umcg_sys_enter(regs, -1);
+> 	}
+> }
 > 
-> Either way, it looks like we'd need helpers along the lines of:
+> Work? Then arm64 can do:
 > 
-> | static __always_inline void umcg_enter_from_user(struct pt_regs *regs)
-> | {
-> | 	if (current->flags & PF_UMCG_WORKER)
-> | 		umcg_sys_enter(regs, -1);
-> | }
-> | 
-> | static __always_inline void umcg_exit_to_user(struct pt_regs *regs)
-> | {
-> | 	if (current->flags & PF_UMCG_WORKER)
-> | 		umcg_sys_exit(regs);
-> | }
+> static __always_inline bool arch_irqentry_irq_enter(struct pt_regs *regs)
+> {
+> 	local_daif_inherit();
+> 	return interrupts_enabled(regs);
+> }
+> 
+> or somesuch...
 
-Would something like:
+Ah,.. just read your other email, so your concern is about the
+user_mode() thing due to ARM64 taking a different exception path for
+from-user vs from-kernel ?
 
-#ifndef arch_irqentry_irq_enter
-static __always_inline bool arch_irqentry_irq_enter(struct pt_regs *regs)
-{
-	if (!regs_irqs_disabled(regs)) {
-		local_irq_enable();
-		return true;
-	}
-	return false;
-}
-#endif
-
-static __always_inline void irqentry_irq_enter(struct pt_regs *regs)
-{
-	if (arch_irqentry_irq_inherit(regs)) {
-		if (user_mode(regs) && (current->flags & PF_UMCG_WORKER))
-			umcg_sys_enter(regs, -1);
-	}
-}
-
-Work? Then arm64 can do:
-
-static __always_inline bool arch_irqentry_irq_enter(struct pt_regs *regs)
-{
-	local_daif_inherit();
-	return interrupts_enabled(regs);
-}
-
-or somesuch...
+I don't mind too much if arm64 decides to open-code the umcg hooks, but
+please do it such that's hard to forget a spot.
