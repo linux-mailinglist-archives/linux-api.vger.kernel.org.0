@@ -2,89 +2,114 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B98D549A67A
-	for <lists+linux-api@lfdr.de>; Tue, 25 Jan 2022 03:22:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FD3E49A680
+	for <lists+linux-api@lfdr.de>; Tue, 25 Jan 2022 03:22:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357015AbiAYCIy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 Jan 2022 21:08:54 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:47058 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1578846AbiAXWEG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Jan 2022 17:04:06 -0500
+        id S1348071AbiAYCJ0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 24 Jan 2022 21:09:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35868 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2374421AbiAYARC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Jan 2022 19:17:02 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A198AC02B8D4;
+        Mon, 24 Jan 2022 14:03:51 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4724B615A3;
-        Mon, 24 Jan 2022 22:03:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D6D5C340E9;
+        by ams.source.kernel.org (Postfix) with ESMTPS id 67163B80CCF;
+        Mon, 24 Jan 2022 22:03:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D571FC340E4;
         Mon, 24 Jan 2022 22:03:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643061828;
-        bh=torCgvUQ4OjZaj/EDgDlqqHx/5njlYExaA/ynIldKoI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=V5M2s7HimfXibF9pbGSiOOxJaSEFUHGjJqs8UiMM1ZO9NF8YE7aLWF5VMQ9wS0NlU
-         E21D1/wKhH1z1c0pnyupmPh/x/qSMHey4ZPETUd7xp3R0T8PZkZPD3kpDrd7Q0T9jG
-         kbDkNLZhMWlwq65T4jUbaBQPmxMHzlTWhQrp9jvKBtOARhTZYGByJj2X6BrPKxVJcQ
-         4SppDB4vqcnwx7coNu/W+LQTX/qSY1dFyppLvD+b9nFe2Lcc1zRXU1M9qc/miuauZc
-         dkAUmFRmNt46r3JQqfVFpur9a99kWjPrLucuUjKjeN0JYaDL9qDT8S2XgwO1b0b9R7
-         VKmJbaS8T+GeQ==
+        s=k20201202; t=1643061829;
+        bh=xrwemF3DoaZJ3THX4M5sDEyymgR1OJsmnN+8J59590A=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=ISJiKyxxFowPXIBWWiPDolNLtJNFOguGCeoc7oUL5TCgnV4fJO+brTfSXz7JFTeDX
+         HtCvbWJ6PHsp6/6UMOJAOnVD9+kxn3mnLceBX6kTuorlJwT23mbldhnua5m53/nhGA
+         tOfk7uG+SIVGyGrO9diUepvGo47ymC6jjeTNm9ZDgnBZNpVYR8I8li2ZX1DbsZKzWb
+         aTYx96+KhUmG0rtTf2EiczL/gKnZNqV4t2FIqsyCZLTfff3a2VDygyKRPL7vBfIylY
+         tlMMSeX8xC4B7VkVN2TPZXzpzoFKfK9lRYcWE53uo/+fUH5jMl0qqTJIMNlF1fI9Ai
+         VQ5ik8h7M8LCA==
 From:   Eric Biggers <ebiggers@kernel.org>
 To:     linux-block@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
         linux-scsi@vger.kernel.org, linux-mmc@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bart Van Assche <bvanassche@acm.org>
-Subject: [PATCH v4 0/3] block: show crypto capabilities in sysfs
-Date:   Mon, 24 Jan 2022 13:59:35 -0800
-Message-Id: <20220124215938.2769-1-ebiggers@kernel.org>
+        Bart Van Assche <bvanassche@acm.org>,
+        Hannes Reinecke <hare@suse.de>
+Subject: [PATCH v4 1/3] block: simplify calling convention of elv_unregister_queue()
+Date:   Mon, 24 Jan 2022 13:59:36 -0800
+Message-Id: <20220124215938.2769-2-ebiggers@kernel.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220124215938.2769-1-ebiggers@kernel.org>
+References: <20220124215938.2769-1-ebiggers@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This series adds sysfs files that expose the inline encryption
-capabilities of request queues.
+From: Eric Biggers <ebiggers@google.com>
 
-Patches 1 and 2 are some related cleanups for existing blk-sysfs code.
-Patch 3 is the real change; see there for more details.
+Make elv_unregister_queue() a no-op if q->elevator is NULL or is not
+registered.
 
-This series applies to v5.17-rc1.
+This simplifies the existing callers, as well as the future caller in
+the error path of blk_register_queue().
 
-Changed v3 => v4:
-   - Reworded a comment in patch 2.
-   - Updated dates in sysfs documentation.
-   - Added more Reviewed-by tags.
+Also don't bother checking whether q is NULL, since it never is.
 
-Changed v2 => v3:
-   - Moved the documentation into Documentation/ABI/stable/sysfs-block,
-     and improved it a bit.
-   - Write "/sys/block/" instead of "/sys/class/block/".
-   - Added Reviewed-by tags.
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+Signed-off-by: Eric Biggers <ebiggers@google.com>
+---
+ block/blk-sysfs.c | 3 +--
+ block/elevator.c  | 8 ++++----
+ 2 files changed, 5 insertions(+), 6 deletions(-)
 
-Changed v1 => v2:
-   - Use sysfs_emit() instead of sprintf().
-   - Use __ATTR_RO().
-
-Eric Biggers (3):
-  block: simplify calling convention of elv_unregister_queue()
-  block: don't delete queue kobject before its children
-  blk-crypto: show crypto capabilities in sysfs
-
- Documentation/ABI/stable/sysfs-block |  49 ++++++++
- block/Makefile                       |   3 +-
- block/blk-crypto-internal.h          |  12 ++
- block/blk-crypto-sysfs.c             | 172 +++++++++++++++++++++++++++
- block/blk-crypto.c                   |   3 +
- block/blk-sysfs.c                    |  17 ++-
- block/elevator.c                     |   8 +-
- include/linux/blkdev.h               |   1 +
- 8 files changed, 255 insertions(+), 10 deletions(-)
- create mode 100644 block/blk-crypto-sysfs.c
-
-
-base-commit: e783362eb54cd99b2cac8b3a9aeac942e6f6ac07
+diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
+index 9f32882ceb2f6..a02b42ad9a6e0 100644
+--- a/block/blk-sysfs.c
++++ b/block/blk-sysfs.c
+@@ -960,8 +960,7 @@ void blk_unregister_queue(struct gendisk *disk)
+ 	blk_trace_remove_sysfs(disk_to_dev(disk));
+ 
+ 	mutex_lock(&q->sysfs_lock);
+-	if (q->elevator)
+-		elv_unregister_queue(q);
++	elv_unregister_queue(q);
+ 	disk_unregister_independent_access_ranges(disk);
+ 	mutex_unlock(&q->sysfs_lock);
+ 	mutex_unlock(&q->sysfs_dir_lock);
+diff --git a/block/elevator.c b/block/elevator.c
+index ec98aed39c4f5..b062c5bc10b9a 100644
+--- a/block/elevator.c
++++ b/block/elevator.c
+@@ -516,9 +516,11 @@ int elv_register_queue(struct request_queue *q, bool uevent)
+ 
+ void elv_unregister_queue(struct request_queue *q)
+ {
++	struct elevator_queue *e = q->elevator;
++
+ 	lockdep_assert_held(&q->sysfs_lock);
+ 
+-	if (q) {
++	if (e && e->registered) {
+ 		struct elevator_queue *e = q->elevator;
+ 
+ 		kobject_uevent(&e->kobj, KOBJ_REMOVE);
+@@ -593,9 +595,7 @@ int elevator_switch_mq(struct request_queue *q,
+ 	lockdep_assert_held(&q->sysfs_lock);
+ 
+ 	if (q->elevator) {
+-		if (q->elevator->registered)
+-			elv_unregister_queue(q);
+-
++		elv_unregister_queue(q);
+ 		ioc_clear_queue(q);
+ 		blk_mq_sched_free_rqs(q);
+ 		elevator_exit(q);
 -- 
 2.34.1
 
