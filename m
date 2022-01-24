@@ -2,34 +2,34 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BCB68497C6C
-	for <lists+linux-api@lfdr.de>; Mon, 24 Jan 2022 10:49:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AEE02497CA8
+	for <lists+linux-api@lfdr.de>; Mon, 24 Jan 2022 11:03:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236832AbiAXJtR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 Jan 2022 04:49:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56170 "EHLO
+        id S235266AbiAXKDc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 24 Jan 2022 05:03:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236830AbiAXJtM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Jan 2022 04:49:12 -0500
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC60BC06173B;
-        Mon, 24 Jan 2022 01:49:11 -0800 (PST)
+        with ESMTP id S235062AbiAXKDb (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Jan 2022 05:03:31 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B236C06173B;
+        Mon, 24 Jan 2022 02:03:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=U9bFxdNKcDMMzkGN9dN7g8aA0mdb5+NJJNY3O8L2ma4=; b=B9qYNR+xIyROYlCnwaSlY6zegz
-        bxZLShFS4UwlNBJCvIOLbwTcmBRhczE3DWhTiB32BwCxoyTMLpUeK1X47ePxCHyQsCOpF+ZsxMZRq
-        9GdaeQnzjLusTcfi9izTGzRsO/nV+XBefDo3PXM+TP2hTtBRAg2hT+xWBVjOJJ6tXqy8GkRsN1JMn
-        N9XtS/8i/Jx228S76FhnXpOVRxU5zJR0HixKNTh6SjHf0WoKEb03UInibcW1YDf5nrY3ngUFPkz0C
-        f7jDr6HiejuS6BCx0CGTeS86SRle8wjLCFBC9aj+BW2KHhFsi0eR4ca89Ck9pSLZ6UqFiGfp/s9mT
-        G9VOp5QA==;
+        bh=H6LcKSehcG3T/G89t5l/X+r5xRWoUbyAIud7gmEk2Ns=; b=AI1SH0yWSYHRGtVDmwlkZmfGts
+        HB+d4rBh7HItjzsOBEar6kBuVbDGa3spuoIvOz/we8xbedmKSrqC6eF+3peimc27upL4/kFX+6fJJ
+        NCv+1F15l7r0fJPA/j9jd0fZymXwgC3KCYKBXd+HFxf2WriPXODLbwsA6v3d82q4Xx7FU8RBMoKuD
+        EfsXNGyCTyx/O/uLjbr3ZF6PLl/5faGeeiPtU8n3Wz7EN8eboCmUTXGYcKQPUyuE2yRIcWEz4zKHR
+        8zsMk1tiO2+hP/IOPUQbQ2IppkXJUo+qwEsUB21dE8y4cAcsGgNUajoJnPrQXZrI9q9J97RZnizpr
+        WxaifpMQ==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nBvxv-00389R-Kb; Mon, 24 Jan 2022 09:48:47 +0000
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nBwBn-000RjR-KF; Mon, 24 Jan 2022 10:03:08 +0000
 Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 3332A986245; Mon, 24 Jan 2022 10:48:46 +0100 (CET)
-Date:   Mon, 24 Jan 2022 10:48:46 +0100
+        id AC413986245; Mon, 24 Jan 2022 11:03:06 +0100 (CET)
+Date:   Mon, 24 Jan 2022 11:03:06 +0100
 From:   Peter Zijlstra <peterz@infradead.org>
 To:     Mark Rutland <mark.rutland@arm.com>
 Cc:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
@@ -40,7 +40,7 @@ Cc:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
         pjt@google.com, posk@google.com, avagin@google.com,
         jannh@google.com, tdelisle@uwaterloo.ca, posk@posk.io
 Subject: Re: [RFC][PATCH v2 5/5] sched: User Mode Concurency Groups
-Message-ID: <20220124094846.GN20638@worktop.programming.kicks-ass.net>
+Message-ID: <20220124100306.GO20638@worktop.programming.kicks-ass.net>
 References: <20220120155517.066795336@infradead.org>
  <20220120160822.914418096@infradead.org>
  <Yerl+ZrZ2qflIMyg@FVFF77S0Q05N>
@@ -53,101 +53,96 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 On Fri, Jan 21, 2022 at 04:57:29PM +0000, Mark Rutland wrote:
-> On Thu, Jan 20, 2022 at 04:55:22PM +0100, Peter Zijlstra wrote:
-> > User Managed Concurrency Groups is an M:N threading toolkit that allows
-> > constructing user space schedulers designed to efficiently manage
-> > heterogeneous in-process workloads while maintaining high CPU
-> > utilization (95%+).
-> > 
-> > XXX moar changelog explaining how this is moar awesome than
-> > traditional user-space threading.
+
+> > @@ -221,8 +227,11 @@ static inline void local_irq_disable_exi
+> >   */
+> >  static inline void irqentry_irq_enable(struct pt_regs *regs)
+> >  {
+> > -	if (!regs_irqs_disabled(regs))
+> > +	if (!regs_irqs_disabled(regs)) {
+> >  		local_irq_enable();
+> > +		if (user_mode(regs) && (current->flags & PF_UMCG_WORKER))
+> > +			umcg_sys_enter(regs, -1);
+> > +	}
+> >  }
 > 
-> Awaiting a commit message that I can parse, I'm just looking at the entry bits
-> for now. TBH I have no idea what this is actually trying to do...
+> Perhaps it would make sense to have separate umcg_sys_enter(regs) and
+> umcg_sys_enter_syscall(regs, syscallno)? Even if the former is just a wrapper,
+> to make the entry/exit bits clearly correspond for all the !syscall cases?
 
-Ha! yes.. I knew I was going to have to do that eventually :-)
+Can do I suppose.
 
-It's basically a user-space scheduler that is subservient to the kernel
-scheduler (hierarchical scheduling were a user task is a server for
-other user tasks), where a server thread is in charge of selecting which
-of it's worker threads gets to run. The original idea was that each
-server only ever runs a single worker, but PeterO is currently trying to
-reconsider that.
+> Also, is the syscall case meant to nest within this, or syscall entry paths not
+> supposed to call irqentry_irq_enable() ?
 
-The *big* feature here, over traditional N:M scheduling, is that threads
-can block, while traditional userspace threading is limited to
-non-blocking system calls (and per later, page-faults).
+No nesting, syscall_ vs irqentry_. And you can't have a syscall and an
+exception both be from user at the same time :-)
 
-In order to make that happen we must ovbiously hook schedule() for
-these worker threads and inform userspace (the server thread) when this
-happens such that it can select another worker thread to go vroom.
+> >  /**
+> > @@ -232,8 +241,11 @@ static inline void irqentry_irq_enable(s
+> >   */
+> >  static inline void irqentry_irq_disable(struct pt_regs *regs)
+> >  {
+> > -	if (!regs_irqs_disabled(regs))
+> > +	if (!regs_irqs_disabled(regs)) {
+> > +		if (user_mode(regs) && (current->flags & PF_UMCG_WORKER))
+> > +			umcg_sys_exit(regs);
+> >  		local_irq_disable();
+> > +	}
+> >  }
+> 
+> Do the umcg_sys_{enter,exit}() calls need to happen with IRQs unmasked?
 
-Meanwhile, a worker task getting woken from schedule() must not continue
-running; instead it must enter the server's ready-queue and await it's
-turn again. Instead of dealing with arbitrary delays deep inside the
-kernel block chain, we punt and let the task complete until
-return-to-user and block it there. The time between schedule() and
-return-to-user is unmanaged time.
+Yes; both can end up blocking.
 
-Now, since we can't readily poke at userspace memory from schedule(), we
-could be holding mmap_sem etc., we pin the worker and server page on
-sys-enter such that when we hit schedule() we can update state and then
-unpin the pages such that page pin time is from sys-enter to first
-schedule(), or sys-exit which ever comes first. This ensures the
-page-pin is *short* term.
+> * If not (and this nests): for arm64 these can live in our
+>   enter_from_user_mode() and exit_to_user_mode() helpers.
+> 
+> * If so (or this doesn't nest): for arm64 we'd need to rework our
+>   local_daif_{inherit,restore,mask}() calls to handle this, though I've been
+>   meaning to do that anyway to handle pseudo-NMI better.
+> 
+> Either way, it looks like we'd need helpers along the lines of:
+> 
+> | static __always_inline void umcg_enter_from_user(struct pt_regs *regs)
+> | {
+> | 	if (current->flags & PF_UMCG_WORKER)
+> | 		umcg_sys_enter(regs, -1);
+> | }
+> | 
+> | static __always_inline void umcg_exit_to_user(struct pt_regs *regs)
+> | {
+> | 	if (current->flags & PF_UMCG_WORKER)
+> | 		umcg_sys_exit(regs);
+> | }
 
-Additionally we must deal with signals :-(, the currnt approach is to
-let them bust boundaries and run them as unmanaged time. UMCG userspace
-can obviously control this by using pthread_sigmask() and friends.
+Would something like:
 
-Now, the reason for irqentry_irq_enable() is mostly #PF.  When a worker
-faults and blocks we want the same things to happen.
+#ifndef arch_irqentry_irq_enter
+static __always_inline bool arch_irqentry_irq_enter(struct pt_regs *regs)
+{
+	if (!regs_irqs_disabled(regs)) {
+		local_irq_enable();
+		return true;
+	}
+	return false;
+}
+#endif
 
-Anyway, so workers have 3 layers of hooks:
+static __always_inline void irqentry_irq_enter(struct pt_regs *regs)
+{
+	if (arch_irqentry_irq_inherit(regs)) {
+		if (user_mode(regs) && (current->flags & PF_UMCG_WORKER))
+			umcg_sys_enter(regs, -1);
+	}
+}
 
-		sys_enter
-				schedule()
-		sys_exit
+Work? Then arm64 can do:
 
-	return-to-user
+static __always_inline bool arch_irqentry_irq_enter(struct pt_regs *regs)
+{
+	local_daif_inherit();
+	return interrupts_enabled(regs);
+}
 
-There's a bunch of paths through this:
-
- - sys_enter -> sys_exit:
-
-	no blocking; nothing changes:
-	  - sys_enter:
-	    * pin pages
-
-	  - sys_exit:
-	    * unpin pages
-
- - sys_enter -> schedule() -> sys_exit:
-
-	we did block:
-	  - sys_enter:
-	    * pin pages
-
-	  - schedule():
-	    * mark worker BLOCKED
-	    * wake server (it will observe it's current worker !RUNNING
-	      and select a new worker or idles)
-	    * unpin pages
-
-	  - sys_exit():
-	    * mark worker RUNNABLE
-	    * enqueue worker on server's runnable_list
-	    * wake server (which will observe a new runnable task, add
-	      it to whatever and if it was idle goes run, otherwise goes
-	      back to sleep to let it's current worker finish)
-	    * block until RUNNING
-
- - sys_enter -> schedule() -> sys_exit -> return_to_user:
-
-	As above; except now we got a signal while !RUNNING. sys_exit()
-	terminates and return-to-user takes over running the signal and
-	on return from the signal we'll again block until RUNNING, or do
-	the whole signal dance again if so required.
-
-
-Does this clarify things a little?
+or somesuch...
