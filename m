@@ -2,164 +2,103 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 820D54982AC
-	for <lists+linux-api@lfdr.de>; Mon, 24 Jan 2022 15:46:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3203C498515
+	for <lists+linux-api@lfdr.de>; Mon, 24 Jan 2022 17:44:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231565AbiAXOq3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 24 Jan 2022 09:46:29 -0500
-Received: from out2.migadu.com ([188.165.223.204]:31768 "EHLO out2.migadu.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230300AbiAXOq3 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Mon, 24 Jan 2022 09:46:29 -0500
-Date:   Mon, 24 Jan 2022 22:46:17 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1643035587;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=4WvYZ9EsFviMO5mAWJLfSbIOq5V9P7euYY8I6ZoQ8fw=;
-        b=Tx5+sN5L8vIHOisAOz3iiSkMzMlrIWQOB5r8bOyOttd2Oy1xFq/IneAeBwct4b0JZPd9fZ
-        4/MOB/e5hDK0MWq5hVneVRkZVUjjtsqaFjc/YSIrKtugvWW2cb1ETBpv15VndKUsVtR5XN
-        TDzu1Ymxfa/4fD7bCPh50Qshjxstgkc=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Tao Zhou <tao.zhou@linux.dev>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
+        id S243728AbiAXQoj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 24 Jan 2022 11:44:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40644 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241172AbiAXQoi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 24 Jan 2022 11:44:38 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F8BAC06173B;
+        Mon, 24 Jan 2022 08:44:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=6k8LAK7tMRkW1TbeMgEK2fdsQgEWFo9/JaDK8LRdPXQ=; b=omnMlmPu3KuMaCmyP0Tf+sxWCy
+        /lM8WFMNuvRt+OYBaKD5+tKz3VeldzynZERSAAWs8v5ZrVcKxBaQUUkYrfRleX5LQIQBg7Eej1oop
+        9LVzblXb3ql3Ao1XMzw3R3iN/3vm65nv5bbuGkB3FfD0g/tAGkMStiJFCqdw2NpYEhnxRHfxHYwaQ
+        b5Oors1mFLqYW+Sw+0NvI5dbwrcDlX2omWcnJyhupZHqz9OUZuOcU20IuvUG9RmwPBdYV4ZcajUUU
+        0Q0NKpe6U/3gY8ZKNCmlLbFq2t5EVedaJZtukmmGhkzb/XPK05DYWeTDhhfl817LzOizwL4qoivyl
+        1gEAp6nQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nC2Ro-000vWm-FM; Mon, 24 Jan 2022 16:44:04 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id AC13B300B80;
+        Mon, 24 Jan 2022 17:44:03 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 90D492B3A07CB; Mon, 24 Jan 2022 17:44:03 +0100 (CET)
+Date:   Mon, 24 Jan 2022 17:44:03 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
         vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
         rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-api@vger.kernel.org, x86@kernel.org,
-        pjt@google.com, posk@google.com, avagin@google.com,
-        jannh@google.com, tdelisle@uwaterloo.ca, mark.rutland@arm.com,
-        posk@posk.io, Tao Zhou <tao.zhou@linux.dev>
+        bristot@redhat.com
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-api@vger.kernel.org, x86@kernel.org, pjt@google.com,
+        posk@google.com, avagin@google.com, jannh@google.com,
+        tdelisle@uwaterloo.ca, mark.rutland@arm.com, posk@posk.io
 Subject: Re: [RFC][PATCH v2 5/5] sched: User Mode Concurency Groups
-Message-ID: <Ye67uQa4CwUuQJVY@geo.homenetwork>
+Message-ID: <Ye7XU666240YyRBH@hirez.programming.kicks-ass.net>
 References: <20220120155517.066795336@infradead.org>
  <20220120160822.914418096@infradead.org>
+ <20220121114758.GF20638@worktop.programming.kicks-ass.net>
+ <20220121151845.GB22849@worktop.programming.kicks-ass.net>
+ <Ye635PiRpv4rXVl0@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220120160822.914418096@infradead.org>
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
+In-Reply-To: <Ye635PiRpv4rXVl0@hirez.programming.kicks-ass.net>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Peter,
+On Mon, Jan 24, 2022 at 03:29:56PM +0100, Peter Zijlstra wrote:
+> On Fri, Jan 21, 2022 at 04:18:46PM +0100, Peter Zijlstra wrote:
+> > Something like this, still yuck though. Also still need to write me a
+> > test for this.
+> > 
 
-On Thu, Jan 20, 2022 at 04:55:22PM +0100, Peter Zijlstra wrote:
+> > --- a/kernel/sched/umcg.c
+> > +++ b/kernel/sched/umcg.c
+> > @@ -232,6 +232,8 @@ static int umcg_update_state(struct task
+> >  /* Called from syscall enter path and exceptions that can schedule */
+> >  void umcg_sys_enter(struct pt_regs *regs, long syscall)
+> >  {
+> > +	current->umcg_timeout = 0;
+> > +
+> >  	/* avoid recursion vs our own syscalls */
+> >  	if (syscall == __NR_umcg_wait ||
+> >  	    syscall == __NR_umcg_ctl)
+> > @@ -519,6 +521,7 @@ void umcg_notify_resume(struct pt_regs *
+> >  	struct umcg_task __user *self = tsk->umcg_task;
+> >  	bool worker = tsk->flags & PF_UMCG_WORKER;
+> >  	u32 state;
+> > +	int ret;
+> >  
+> >  	/* avoid recursion vs schedule() */
+> >  	if (worker)
+> > @@ -554,12 +557,17 @@ void umcg_notify_resume(struct pt_regs *
+> >  		umcg_unpin_pages();
+> >  	}
+> >  
+> > -	switch (umcg_wait(0)) {
+> > +	ret = umcg_wait(tsk->umcg_timeout);
+> 
+> Oh how I hate signals... this can get scribbled by a syscall/fault from
+> sigcontext :/
+> 
+> Maybe I can recover the timo argument from the original syscall
+> pt_regs.. let me try.
 
-[...]
+Urgh, recursive hell... If the signal does *anything* that tickles
+notify-resume it'll find RUNNABLE and go wait there --- ad infinitum.
 
-> +/* pre-schedule() */
-> +void umcg_wq_worker_sleeping(struct task_struct *tsk)
-> +{
-> +	struct umcg_task __user *self = READ_ONCE(tsk->umcg_task);
-> +	int ret;
-> +
-> +	if (!tsk->umcg_server) {
-> +		/*
-> +		 * Already blocked before, the pages are unpinned.
-> +		 */
-> +		return;
-> +	}
-> +
-> +	/* Must not fault, mmap_sem might be held. */
-> +	pagefault_disable();
-> +
-> +	ret = umcg_update_state(tsk, self, UMCG_TASK_RUNNING, UMCG_TASK_BLOCKED);
-> +	if (ret == -EAGAIN) {
-> +		/*
-> +		 * Consider:
-> +		 *
-> +		 *   self->state = UMCG_TASK_RUNNABLE | UMCG_TF_COND_WAIT;
-> +		 *   ...
-> +		 *   sys_umcg_wait();
-> +		 *
-> +		 * and the '...' code doing a blocking syscall/fault. This
-> +		 * ensures that returns with UMCG_TASK_RUNNING, which will make
-
-/UMCG_TASK_RUNNING/UMCG_TASK_RUNNABLE/
-
-> +		 * sys_umcg_wait() return with -EAGAIN.
-> +		 */
-> +		ret = umcg_update_state(tsk, self, UMCG_TASK_RUNNABLE, UMCG_TASK_BLOCKED);
-> +	}
-> +	if (ret)
-> +		UMCG_DIE_PF("state");
-> +
-> +	if (umcg_wake_server(tsk))
-> +		UMCG_DIE_PF("wake");
-> +
-> +	pagefault_enable();
-> +
-> +	/*
-> +	 * We're going to sleep, make sure to unpin the pages, this ensures
-> +	 * the pins are temporary. Also see umcg_sys_exit().
-> +	 */
-> +	umcg_unpin_pages();
-> +}
-
-[...]
-
-> +/* Called from syscall exit path and exceptions that can schedule */
-> +void umcg_sys_exit(struct pt_regs *regs)
-> +{
-> +	struct task_struct *tsk = current;
-> +	long syscall = syscall_get_nr(tsk, regs);
-> +
-> +	if (syscall == __NR_umcg_wait ||
-> +	    syscall == __NR_umcg_ctl)
-> +		return;
-> +
-> +	if (tsk->umcg_server) {
-> +		/*
-> +		 * Didn't block, we done.
-> +		 */
-> +		umcg_unpin_pages();
-> +		return;
-> +	}
-> +
-> +	umcg_unblock_and_wait();
-
-umcg_unblock_and_wait() -> umcg_enqueue_and_wake() ->
-umcg_wake_server() -> umcg_wake_task(tsk->umcg_server, ...)
-
-tsk->umcg_server is NULL here and umcg_wake_task() use it to update
-state in umcg_update_state(NULL, ...), that means tsk->umcg_clock
-will happen something i do not know.
-
-There are two places to call umcg_unblock_and_wait(). One is in 
-umcg_register() where the server is set. Another one is in
-umcg_sys_exit() where the server is not set. May use a bool to
-indicate if the server is set.
-
-> +}
-
-[...]
-
-> +/**
-> + * sys_umcg_wait: transfer running context
-> + *
-> + * Called like:
-> + *
-> + *	self->state = UMCG_TASK_RUNNABLE | UMCG_TF_COND_WAIT;
-> + *	...
-> + *	sys_umcg_wait(0, time);
-> + *
-> + * The syscall will clear TF_COND_WAIT and wait until state becomes RUNNING.
-> + * The code '...' must not contain syscalls
-> + *
-> + * If self->next_tid is set and indicates a valid UMCG task with RUNNABLE state
-> + * that task will be made RUNNING and woken -- transfering the running context
-> + * to that task. In this case self->next_tid is modified with TID_RUNNING to
-> + * indicate self->next_tid is consumed.
-> + *
-> + * If self->next has TID_RUNNING set, it is validated the related task has
-
-/self->next/self->next_tid/
-Things are not clear to me even they are clear now. Nice.
-
-Thanks,
-Tao
+I need to go cook dinner, I'll prod more at this later
