@@ -2,120 +2,115 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E2E249CD4E
-	for <lists+linux-api@lfdr.de>; Wed, 26 Jan 2022 16:06:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8272049D088
+	for <lists+linux-api@lfdr.de>; Wed, 26 Jan 2022 18:16:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242559AbiAZPG1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 26 Jan 2022 10:06:27 -0500
-Received: from cloud48395.mywhc.ca ([173.209.37.211]:60350 "EHLO
-        cloud48395.mywhc.ca" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235639AbiAZPG1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 26 Jan 2022 10:06:27 -0500
-Received: from [45.44.224.220] (port=43668 helo=[192.168.1.179])
-        by cloud48395.mywhc.ca with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <olivier@trillion01.com>)
-        id 1nCjsO-0004Xu-Ld; Wed, 26 Jan 2022 10:06:24 -0500
-Message-ID: <719907481ee811fb7556deec1469a20edf0b5cdd.camel@trillion01.com>
-Subject: Re: [PATCH 1/8] signal: Make SIGKILL during coredumps an explicit
- special case
-From:   Olivier Langlois <olivier@trillion01.com>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "<linux-arch@vger.kernel.org>" <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Alexey Gladkov <legion@kernel.org>,
-        Kyle Huey <me@kylehuey.com>, Oleg Nesterov <oleg@redhat.com>,
-        Kees Cook <keescook@chromium.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jens Axboe <axboe@kernel.dk>,
-        Pavel Begunkov <asml.silence@gmail.com>
-Date:   Wed, 26 Jan 2022 10:06:23 -0500
-In-Reply-To: <87ee56e43r.fsf@email.froward.int.ebiederm.org>
-References: <87a6ha4zsd.fsf@email.froward.int.ebiederm.org>
-         <20211213225350.27481-1-ebiederm@xmission.com>
-         <CAHk-=wiS2P+p9VJXV_fWd5ntashbA0QVzJx15rTnWOCAAVJU_Q@mail.gmail.com>
-         <87sfu3b7wm.fsf@email.froward.int.ebiederm.org> <YdniQob7w5hTwB1v@osiris>
-         <87ilurwjju.fsf@email.froward.int.ebiederm.org>
-         <87o84juwhg.fsf@email.froward.int.ebiederm.org>
-         <57dfc87c7dd5a2f9f9841bba1185336016595ef7.camel@trillion01.com>
-         <87lezmrxlq.fsf@email.froward.int.ebiederm.org>
-         <87mtk2qf5s.fsf@email.froward.int.ebiederm.org>
-         <CAHk-=wjZ=aFzFb0BkxVEbN3o6a53R8Gq4hHnEZVCmpDKs3_FCw@mail.gmail.com>
-         <87h7a5kgan.fsf@email.froward.int.ebiederm.org>
-         <991211d94c6dc0ad3501cd9f830cdee916b982b3.camel@trillion01.com>
-         <87ee56e43r.fsf@email.froward.int.ebiederm.org>
-Organization: Trillion01 Inc
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.42.2 
+        id S235857AbiAZRQW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 26 Jan 2022 12:16:22 -0500
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:27200 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229754AbiAZRQV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 26 Jan 2022 12:16:21 -0500
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-281-5jw7EpX6N4aq0oVh1z86_w-1; Wed, 26 Jan 2022 17:16:19 +0000
+X-MC-Unique: 5jw7EpX6N4aq0oVh1z86_w-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.28; Wed, 26 Jan 2022 17:16:16 +0000
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.028; Wed, 26 Jan 2022 17:16:16 +0000
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Mathieu Desnoyers' <mathieu.desnoyers@efficios.com>,
+        Christian Brauner <brauner@kernel.org>
+CC:     Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        paulmck <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api <linux-api@vger.kernel.org>, shuah <shuah@kernel.org>,
+        linux-kselftest <linux-kselftest@vger.kernel.org>,
+        Florian Weimer <fw@deneb.enyo.de>,
+        "Andy Lutomirski" <luto@amacapital.net>,
+        Dave Watson <davejwatson@fb.com>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        Russell King <linux@arm.linux.org.uk>,
+        Andi Kleen <andi@firstfloor.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Ben Maurer <bmaurer@fb.com>, rostedt <rostedt@goodmis.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Joel Fernandes <joelaf@google.com>
+Subject: RE: [RFC PATCH 02/15] rseq: Remove broken uapi field layout on 32-bit
+ little endian
+Thread-Topic: [RFC PATCH 02/15] rseq: Remove broken uapi field layout on
+ 32-bit little endian
+Thread-Index: AdgS2G4EeBx+7+jyRfijfhRZbWR//g==
+Date:   Wed, 26 Jan 2022 17:16:16 +0000
+Message-ID: <fc04219fc3414bbb968adb844052ecb7@AcuMS.aculab.com>
+References: <20220124171253.22072-1-mathieu.desnoyers@efficios.com>
+ <20220124171253.22072-3-mathieu.desnoyers@efficios.com>
+ <20220125122156.v2f5anzcs35i3rii@wittgenstein>
+ <1234069751.70438.1643121673355.JavaMail.zimbra@efficios.com>
+ <1445357149.71067.1643137248305.JavaMail.zimbra@efficios.com>
+In-Reply-To: <1445357149.71067.1643137248305.JavaMail.zimbra@efficios.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cloud48395.mywhc.ca
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - trillion01.com
-X-Get-Message-Sender-Via: cloud48395.mywhc.ca: authenticated_id: olivier@trillion01.com
-X-Authenticated-Sender: cloud48395.mywhc.ca: olivier@trillion01.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, 2022-01-17 at 10:09 -0600, Eric W. Biederman wrote:
-> Olivier Langlois <olivier@trillion01.com> writes:
-> From my perspective I am not at all convinced that io_uring is the
-> only
-> culprit.
-> 
-> Beyond that the purpose of a coredump is to snapshot the process as
-> it
-> is, before anything is shutdown so that someone can examine the
-> coredump
-> and figure out what failed.  Running around changing the state of the
-> process has a very real chance of hiding what is going wrong.
-> 
-> Further your change requires that there be a place for io_uring to
-> clean
-> things up.  Given that fundamentally that seems like the wrong thing
-> to
-> me I am not interested in making it easy to what looks like the wrong
-> thing.
-> 
-> All of this may be perfection being the enemy of the good (especially
-> as
-> your io_uring magic happens as a special case in do_coredump).  My
-> work
-> in this area is to remove hacks so I can be convinced the code works
-> 100% of the time so unfortunately I am not interested in pick up a
-> change that is only good enough.  Someone else like Andrew Morton
-> might
-> be.
-> 
-> 
-Fair enough.
-
-You do bring good points but I am not so sure about the second one
-considering that the coredump is meant to be a snapshot and if io_uring
-still runs, the state may change as the dump is generated anyway.
-
-I'll follow with interest what you finally come up with but my mindset
-when I wrote the patch was that there does not seem to be any benefit
-keeping io_uring active while coredumping and it has the potential to
-create nasty issues.
-
-I did stumble into core file truncation problem.
-
-Pavel got that when modifying io_uring code:
-https://lore.kernel.org/all/1b519092-2ebf-3800-306d-c354c24a9ad1@gmail.com/
-
-and I find very likely that keeping io_uring active while coredumping
-might create new nasty but subtle issues down the road...
-
-Greetings,
-Olivier
+RnJvbTogTWF0aGlldSBEZXNub3llcnMNCj4gU2VudDogMjUgSmFudWFyeSAyMDIyIDE5OjAxDQo+
+IA0KPiAtLS0tLSBPbiBKYW4gMjUsIDIwMjIsIGF0IDk6NDEgQU0sIE1hdGhpZXUgRGVzbm95ZXJz
+IG1hdGhpZXUuZGVzbm95ZXJzQGVmZmljaW9zLmNvbSB3cm90ZToNCj4gDQo+ID4gLS0tLS0gT24g
+SmFuIDI1LCAyMDIyLCBhdCA3OjIxIEFNLCBDaHJpc3RpYW4gQnJhdW5lciBicmF1bmVyQGtlcm5l
+bC5vcmcgd3JvdGU6DQo+IFsuLi5dDQo+ID4+PiAgaW5jbHVkZS91YXBpL2xpbnV4L3JzZXEuaCB8
+IDE3ICsrKystLS0tLS0tLS0tLS0tDQo+IFsuLi5dDQo+ID4+PiAgCXVuaW9uIHsNCj4gPj4NCj4g
+Pj4gQSBiaXQgdW5mb3J0dW5hdGUgd2Ugc2VlbSB0byBoYXZlIHRvIGtlZXAgdGhlIHVuaW9uIGFy
+b3VuZCBldmVuIHRob3VnaA0KPiA+PiBpdCdzIGp1c3Qgb25lIGZpZWxkIG5vdy4NCj4gPg0KPiA+
+IFdlbGwsIGFzIGZhciBhcyB0aGUgdXNlci1zcGFjZSBwcm9qZWN0cyB0aGF0IEkga25vdyBvZiB3
+aGljaCB1c2UgcnNlcQ0KPiA+IGFyZSBjb25jZXJuZWQgKGdsaWJjLCBsaWJyc2VxLCB0Y21hbGxv
+YyksIHRob3NlIGVuZCB1cCB3aXRoIHRoZWlyIG93bg0KPiA+IGNvcHkgb2YgdGhlIHVhcGkgaGVh
+ZGVyIGFueXdheSB0byBkZWFsIHdpdGggdGhlIGJpZy9saXR0bGUgZW5kaWFuIGZpZWxkDQo+ID4g
+b24gMzItYml0LiBTbyBJJ20gdmVyeSBtdWNoIG9wZW4gdG8gcmVtb3ZlIHRoZSB1bmlvbiBpZiB3
+ZSBhY2NlcHQgdGhhdA0KPiA+IHRoaXMgdWFwaSBoZWFkZXIgaXMgcmVhbGx5IGp1c3QgbWVhbnQg
+dG8gZXhwcmVzcyB0aGUgQUJJIGFuZCBpcyBub3QNCj4gPiBleHBlY3RlZCB0byBiZSB1c2VkIGFz
+IGFuIEFQSSBieSB1c2VyLXNwYWNlLg0KPiA+DQo+ID4gVGhhdCB3b3VsZCBtZWFuIHdlIGFsc28g
+YnJpbmcgYSB1YXBpIGhlYWRlciBjb3B5IGludG8gdGhlIGtlcm5lbA0KPiA+IHJzZXEgc2VsZnRl
+c3RzIGFzIHdlbGwgdG8gbWluaW1pemUgdGhlIGdhcCBiZXR3ZWVuIGxpYnJzZXEgYW5kDQo+ID4g
+dGhlIGtlcm5lbCBzZWZsdGVzdHMgKHRoZSBrZXJuZWwgc2VmbHRlc3RzIHByZXR0eSBtdWNoIGlu
+Y2x1ZGUgYQ0KPiA+IGNvcHkgb2YgbGlicnNlcSBmb3IgY29udmVuaWVuY2UuIGxpYnJzZXEgaXMg
+bWFpbnRhaW5lZCBvdXQgb2YgdHJlZSkuDQo+ID4NCj4gPiBUaG91Z2h0cyA/DQo+IA0KPiBBY3R1
+YWxseSwgaWYgd2UgZ28gYWhlYWQgYW5kIHJlbW92ZSB0aGUgdW5pb24sIGFuZCByZXBsYWNlOg0K
+PiANCj4gc3RydWN0IHJzZXEgew0KPiAgIHVuaW9uIHsNCj4gICAgIF9fdTY0IHB0cjY0Ow0KPiAg
+IH0gcnNlcV9jczsNCj4gWy4uLl0NCj4gfSB2Ow0KPiANCj4gYnk6DQo+IA0KPiBzdHJ1Y3QgcnNl
+cSB7DQo+ICAgX191NjQgcnNlcV9jczsNCj4gfSB2Ow0KPiANCj4gZXhwcmVzc2lvbnMgc3VjaCBh
+cyB0aGVzZSBhcmUgdW5jaGFuZ2VkOg0KPiANCj4gLSBzaXplb2Yodi5yc2VxX2NzKSwNCj4gLSAm
+di5yc2VxX2NzLA0KPiAtIF9fYWxpZ25vZl9fKHYucnNlcV9jcyksDQo+IC0gb2Zmc2V0b2Yoc3Ry
+dWN0IHJzZXEsIHJzZXFfY3MpLg0KPiANCj4gU28gdXNlcnMgb2YgdGhlIHVhcGkgcnNlcS5oIChh
+cyBhbiBBUEkpIGNhbiBzdGlsbCB1c2UgcnNlcV9hYmktPnJzZXFfY3MgYmVmb3JlDQo+IGFuZCBh
+ZnRlciB0aGUgY2hhbmdlLg0KDQpCdXQ6DQoJdi5yc2VxX2NzLnB0cl82NCA9ICh1aW50cHRyX3Qp
+JmZvbzsNCmlzIGJyb2tlbi4NCg0KPiBCYXNlZCBvbiB0aGlzLCBJIGFtIGluY2xpbmVkIHRvIHJl
+bW92ZSB0aGUgdW5pb24sIGFuZCBqdXN0IG1ha2UgdGhlIHJzZXFfY3MgZmllbGQNCj4gYSBfX3U2
+NC4NCg0KSXQgcmVhbGx5IGlzIGEgc2hhbWUgdGhhdCB5b3UgY2FuJ3QgZG86DQoJdm9pZCAgICpy
+c2VxX2NzIF9fYXR0cmlidXRlX18oKHNpemUoOCkpKTsNCmFuZCBoYXZlIHRoZSBjb21waWxlciBq
+dXN0IERUUlQgb24gMzJiaXQgc3lzdGVtcy4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRk
+cmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBN
+SzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
 
