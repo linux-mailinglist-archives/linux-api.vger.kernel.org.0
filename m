@@ -2,211 +2,202 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 15CDB49E8C0
-	for <lists+linux-api@lfdr.de>; Thu, 27 Jan 2022 18:20:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44EC649EA61
+	for <lists+linux-api@lfdr.de>; Thu, 27 Jan 2022 19:31:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241236AbiA0RUz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 27 Jan 2022 12:20:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33530 "EHLO
+        id S239442AbiA0Sbe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 27 Jan 2022 13:31:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229644AbiA0RUy (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 27 Jan 2022 12:20:54 -0500
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34E7EC061714
-        for <linux-api@vger.kernel.org>; Thu, 27 Jan 2022 09:20:54 -0800 (PST)
-Received: by mail-wm1-x32a.google.com with SMTP id o30-20020a05600c511e00b0034f4c3186f4so6399516wms.3
-        for <linux-api@vger.kernel.org>; Thu, 27 Jan 2022 09:20:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HG+B3ka5o61XAmKDHkpQiSigUAPVl+07ct5c4XYqWFQ=;
-        b=guM6Q9dlGU0Z9WElYRigG8WTm+c5Rh33xQHlTJZZrknIHg9Kyr87naQZvMGL2YZYEK
-         wGi0jHj67SbDDZTKuo5RQWqP319mapoFCKL/hErtMveIzFB5+W4mbngoS5LRfhExpQV9
-         wxLn1+6DqIlLyaAQPMvfWWEfcd8+tnHPIiRIo+dlv2+s64fC7B7xAZXCkCYcFbABtCwI
-         l6tPf0/oIDMz7j4kEFtgqhrYsYHVMx8NqsyMsY2CVPIXu8pFSb/2Kz0J+Wv9uaFwe71I
-         6FAbmoG1Fh+V/jmFCpq9BMNpiOFmUpkScXvcyeY9Rx7nidfsDM+3UpASGgK6Ak7rfWO2
-         96Pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HG+B3ka5o61XAmKDHkpQiSigUAPVl+07ct5c4XYqWFQ=;
-        b=UQSaA0Dghz2duvWKUgYyJK2UWpByPk/lkDC3VN/zWU4s9Uy7JhXfcpSwXNNb3vSeqa
-         irMYmBnunLi8i22RvpatQu4a1MKgRqDbuOa6wwUC24wrkaOZLBRN9zG7TocJLYH2E98o
-         h4JgjqC4tmAUJjsEfPxT4UsDsunxFH39+HaFa10fUOwQFBmfqWg7Xj3fvD7uYc7BnlCJ
-         O6v89N9mpE0nq7rQt0rcYmsOzzywRkeVf326M1g5hcumZznMXlsRg8xgBSjxIEZzEklK
-         LLVBOzVTwpDwRtkuIq0erZ6X1aA4fBRGEtxKONEdonfH/9sxpZ8zmlMS32GM+wbYCYJ7
-         IhZQ==
-X-Gm-Message-State: AOAM532KHl/uMY6j+zkJMnjV5qtXtSFr824UCdOwG7nVaAGUGXS2/ybC
-        hs9fVbdP++qzc0i9EJ871Kbd8E8mJRzHCE8p+Z4GlA==
-X-Google-Smtp-Source: ABdhPJwAKAez3UoD9h5QcDBpaZ/e3nP3CX0/IVYilKMz+CBL+i0FSLJtIl+lKtNSiUS2rSv/Su43mcfqKjswq2uBGTc=
-X-Received: by 2002:a05:600c:3641:: with SMTP id y1mr3979079wmq.53.1643304052680;
- Thu, 27 Jan 2022 09:20:52 -0800 (PST)
-MIME-Version: 1.0
-References: <20220113233940.3608440-1-posk@google.com> <20220113233940.3608440-5-posk@google.com>
- <20220127153749.GP20638@worktop.programming.kicks-ass.net>
-In-Reply-To: <20220127153749.GP20638@worktop.programming.kicks-ass.net>
-From:   Peter Oskolkov <posk@google.com>
-Date:   Thu, 27 Jan 2022 09:20:41 -0800
-Message-ID: <CAPNVh5e8vBDnZwDa+2f9f0S76uU4hD8++roSyA3i7y=DP1gaOw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 4/5] sched: UMCG: add a blocked worker list
+        with ESMTP id S236760AbiA0Sbc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 27 Jan 2022 13:31:32 -0500
+Received: from out1.migadu.com (out1.migadu.com [IPv6:2001:41d0:2:863f::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7CE6C061714;
+        Thu, 27 Jan 2022 10:31:31 -0800 (PST)
+Date:   Fri, 28 Jan 2022 02:31:24 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1643308288;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=0HcZCBQQDy6q0SacmFWf+zshxrXVq6Q4RcA0g5Ed/lI=;
+        b=DcoRBMLtGByO5XycrxUasKnSoej24PKMzEcEjlEAV0pU9Q9uwcI6qlsckWkJ2Ic4ozlIrO
+        7Hu9ocn5l3P+uWKqjtaA8w8jG+nzXieTwGesw3yQHNk+hReXZDHo1I2zg3Xi3iJwYHklhX
+        zBqsnwOzKbKy/KgkBYWdd/7WvOIRIe4=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Tao Zhou <tao.zhou@linux.dev>
 To:     Peter Zijlstra <peterz@infradead.org>
 Cc:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
         vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
         rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
         bristot@redhat.com, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, linux-api@vger.kernel.org, x86@kernel.org,
-        pjt@google.com, avagin@google.com, jannh@google.com,
-        tdelisle@uwaterloo.ca, posk@posk.io
-Content-Type: text/plain; charset="UTF-8"
+        pjt@google.com, posk@google.com, avagin@google.com,
+        jannh@google.com, tdelisle@uwaterloo.ca, mark.rutland@arm.com,
+        posk@posk.io, Tao Zhou <tao.zhou@linux.dev>
+Subject: Re: [RFC][PATCH v2 5/5] sched: User Mode Concurency Groups
+Message-ID: <YfLk/BlerNaAFMLL@geo.homenetwork>
+References: <20220120155517.066795336@infradead.org>
+ <20220120160822.914418096@infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220120160822.914418096@infradead.org>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jan 27, 2022 at 7:37 AM Peter Zijlstra <peterz@infradead.org> wrote:
->
-> On Thu, Jan 13, 2022 at 03:39:39PM -0800, Peter Oskolkov wrote:
->
-> > This change introduces the following benefits:
-> > - block detection how behaves similarly to wake detection;
-> >   without this patch worker wakeups added wakees to the list
-> >   and woke the server, while worker blocks only woke the server
-> >   without adding blocked workers to a list, forcing servers
-> >   to explicitly check worker's state;
->
-> > - if the blocked worker woke sufficiently quickly, the server
-> >   woken on the block event would observe its worker now as
-> >   RUNNABLE, so the block event had to be inferred rather than
-> >   explicitly signalled by the worker being added to the blocked
-> >   worker list;
->
-> This I think is missing the point, there is no race if the server checks
-> curr->state == RUNNING.
->
-> > - it is now possible for a single server to control several
-> >   RUNNING workers, which makes writing userspace schedulers
-> >   simpler for smaller processes that do not need to scale beyond
-> >   one "server";
->
-> How about something like so on top?
+On Thu, Jan 20, 2022 at 04:55:22PM +0100, Peter Zijlstra wrote:
 
-This will work, I think. Thanks!
+Another iterator of the patch, some nits below.
 
-----------
+[...]
 
-On a more general note, it looks like the original desire to keep state in
-the userspace memory (TLS) instead of in task_struct has lead to a lot
-of pain and complexity due to the difficulty of updating the userspace from
-non-preemptible/sched contexts. And a bunch of stuff still trickled down
-to task_struct.
+> +/*
+> + * Pinning a page inhibits rmap based unmap for Anon pages. Doing a load
+> + * through the user mapping ensures the user mapping exists.
+> + */
+> +#define umcg_pin_and_load(_self, _pagep, _member)				\
+> +({										\
+> +	__label__ __out;							\
+> +	int __ret = -EFAULT;							\
+> +										\
+> +	if (pin_user_pages_fast((unsigned long)(_self), 1, 0, &(_pagep)) != 1)	\
+> +		goto __out;							\
+> +										\
+> +	if (!PageAnon(_pagep) ||						\
+> +	    get_user(_member, &(_self)->_member)) {				\
 
-Is it too late to revisit the design? If all state is kept in task_struct,
-most of the complexity in the patchset will go away.
+Here should be 'get_user(_member, &(_self)->##_member))'
+if I am not wrong.
 
-The only extra thing will be the fact that the kernel will maintain
-the list of blocked/runnable workers, and so there will be an additional
-syscall to get it out of the kernel and into the userspace. But all the pain
-of pinning pages and related mm changes will go away...
+> +		unpin_user_page(_pagep);					\
+> +		goto __out;							\
+> +	}									\
+> +	__ret = 0;								\
+> +__out:	__ret;									\
+> +})
 
->
-> --- a/include/linux/sched.h
-> +++ b/include/linux/sched.h
-> @@ -1298,6 +1298,7 @@ struct task_struct {
->
->  #ifdef CONFIG_UMCG
->         /* setup by sys_umcg_ctrl() */
-> +       u32                     umcg_flags;
->         clockid_t               umcg_clock;
->         struct umcg_task __user *umcg_task;
->
-> --- a/include/uapi/linux/umcg.h
-> +++ b/include/uapi/linux/umcg.h
-> @@ -119,6 +119,8 @@ struct umcg_task {
->          *
->          * Readable/writable by both the kernel and the userspace: the
->          * kernel adds items to the list, userspace removes them.
-> +        *
-> +        * Only used with UMCG_CTL_MULTI.
->          */
->         __u64   blocked_workers_ptr;            /* r/w */
->
-> @@ -147,11 +149,13 @@ enum umcg_wait_flag {
->   * @UMCG_CTL_REGISTER:   register the current task as a UMCG task
->   * @UMCG_CTL_UNREGISTER: unregister the current task as a UMCG task
->   * @UMCG_CTL_WORKER:     register the current task as a UMCG worker
-> + * @UMCG_CTL_MULTI:     allow 1:n worker relations, enables blocked_workers_ptr
->   */
->  enum umcg_ctl_flag {
->         UMCG_CTL_REGISTER       = 0x00001,
->         UMCG_CTL_UNREGISTER     = 0x00002,
->         UMCG_CTL_WORKER         = 0x10000,
-> +       UMCG_CTL_MULTI          = 0x20000,
->  };
->
->  #endif /* _UAPI_LINUX_UMCG_H */
-> --- a/kernel/sched/umcg.c
-> +++ b/kernel/sched/umcg.c
-> @@ -335,7 +335,7 @@ static inline int umcg_enqueue_runnable(
->  }
->
->  /*
-> - * Enqueue @tsk on it's server's blocked list
-> + * Enqueue @tsk on it's server's blocked list OR ensure @tsk == server::next_tid
->   *
->   * Must be called in umcg_pin_pages() context, relies on tsk->umcg_server.
->   *
-> @@ -346,10 +346,34 @@ static inline int umcg_enqueue_runnable(
->   * Returns:
->   *   0: success
->   *   -EFAULT
-> + *   -ESRCH    server::next_tid is not a valid UMCG task
-> + *   -EINVAL   server::next_tid doesn't match @tsk
->   */
->  static inline int umcg_enqueue_blocked(struct task_struct *tsk)
->  {
-> -       return umcg_enqueue(tsk, true /* blocked */);
-> +       struct task_struct *next;
-> +       u32 next_tid;
-> +       int ret;
+[...]
+
 > +
-> +       if (tsk->umcg_server->umcg_flags & UMCG_CTL_MULTI)
-> +               return umcg_enqueue(tsk, true /* blocked */);
+> +/*
+> + * Enqueue @tsk on it's server's runnable list
+> + *
+> + * Must be called in umcg_pin_pages() context, relies on tsk->umcg_server.
+> + *
+> + * cmpxchg based single linked list add such that list integrity is never
+> + * violated.  Userspace *MUST* remove it from the list before changing ->state.
+> + * As such, we must change state to RUNNABLE before enqueue.
+> + *
+> + * Returns:
+> + *   0: success
+> + *   -EFAULT
+> + */
+> +static int umcg_enqueue_runnable(struct task_struct *tsk)
+> +{
+> +	struct umcg_task __user *server = tsk->umcg_server_task;
+> +	struct umcg_task __user *self = tsk->umcg_task;
+> +	u64 first_ptr, *head = &server->runnable_workers_ptr;
+> +	u64 self_ptr = (unsigned long)self;
+
+Why not 'u64 self_ptr = (u64)self;' ?
+
+> +	/*
+> +	 * umcg_pin_pages() did access_ok() on both pointers, use self here
+> +	 * only because __user_access_begin() isn't available in generic code.
+> +	 */
+> +	if (!user_access_begin(self, sizeof(*self)))
+> +		return -EFAULT;
 > +
-> +       /*
-> +        * When !MULTI, ensure this worker is the current worker,
-> +        * ensuring the 1:1 relation.
-> +        */
-> +       if (get_user(next_tid, &tsk->umcg_server_task->next_tid))
-> +               return -EFAULT;
+> +	unsafe_get_user(first_ptr, head, Efault);
+> +	do {
+> +		unsafe_put_user(first_ptr, &self->runnable_workers_ptr, Efault);
+> +	} while (!unsafe_try_cmpxchg_user(head, &first_ptr, self_ptr, Efault));
 > +
-> +       next = umcg_get_task(next_tid);
-> +       if (!next)
-> +               return -ESRCH;
+> +	user_access_end();
+> +	return 0;
 > +
-> +       ret = (next == tsk) ? 0 : -EINVAL;
+> +Efault:
+> +	user_access_end();
+> +	return -EFAULT;
+> +}
+
+[...]
+
+> +/*
+> + * Handles ::next_tid as per sys_umcg_wait().
+> + *
+> + * ::next_tid		- return
+> + * -----------------------------
+> + * 0			- 0 (success)
+> + *
+> + * tid			- -ESRCH (no such task, or not of this UMCG)
+> + *			- -EAGAIN (next::state != RUNNABLE)
+> + *			- 0 (success, ::next_tid |= RUNNING)
+> + *
+> + * tid|RUNNING		- -EAGAIN (next::state != RUNNING)
+> + *			- 0 (success)
+> + *
+> + * Returns:
+> + *  0: success
+> + *  -EFAULT
+> + *  -ESRCH
+> + *  -EAGAIN
+> + */
+> +static int umcg_wake_next(struct task_struct *tsk, struct umcg_task __user *self)
+
+@tsk is not used in function.
+
+> +{
+> +	struct umcg_task __user *next_task;
+> +	struct task_struct *next;
+> +	u32 next_tid, state;
+> +	int ret;
 > +
-> +       put_task_struct(next);
+> +	if (get_user(next_tid, &self->next_tid))
+> +		return -EFAULT;
 > +
-> +       return ret;
->  }
->
->  /* pre-schedule() */
-> @@ -911,6 +934,8 @@ static int umcg_register(struct umcg_tas
->                 return -EINVAL;
->         }
->
-> +       current->umcg_flags = flags;
+> +	if (!next_tid)
+> +		return 0;
 > +
->         if (current->umcg_task || !self)
->                 return -EINVAL;
->
-> @@ -1061,7 +1086,7 @@ SYSCALL_DEFINE3(umcg_ctl, u32, flags, st
->
->         flags &= ~UMCG_CTL_CMD;
->
-> -       if (flags & ~(UMCG_CTL_WORKER))
-> +       if (flags & ~(UMCG_CTL_WORKER|UMCG_CTL_MULTI))
->                 return -EINVAL;
->
->         switch (cmd) {
+> +	next = umcg_get_task(next_tid);
+> +	if (!next)
+> +		return -ESRCH;
+> +
+> +	next_task = READ_ONCE(next->umcg_task);
+> +
+> +	if (next_tid & UMCG_TID_RUNNING) {
+> +		ret = -EFAULT;
+> +		if (get_user(state, &next_task->state))
+> +			goto put_next;
+> +
+> +		ret = 0;
+> +		if ((state & UMCG_TASK_MASK) != UMCG_TASK_RUNNING)
+> +			ret = -EAGAIN;
+> +
+> +	} else {
+> +		ret = umcg_wake_task(next, next_task);
+> +		if (ret)
+> +			goto put_next;
+> +
+> +		ret = -EFAULT;
+> +		if (put_user(next_tid | UMCG_TID_RUNNING, &self->next_tid))
+> +			goto put_next;
+> +
+> +		/*
+> +		 * If this is a worker doing sys_umcg_wait() switching to
+> +		 * another worker, userspace has the responsibility to update
+> +		 * server::next_tid.
+> +		 */
+> +
+> +		ret = 0;
+> +	}
+> +
+> +put_next:
+> +	put_task_struct(next);
+> +	return ret;
+> +}
+> +
