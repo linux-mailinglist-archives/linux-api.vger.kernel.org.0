@@ -2,52 +2,52 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE68849D7ED
-	for <lists+linux-api@lfdr.de>; Thu, 27 Jan 2022 03:17:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CB3F49DAD3
+	for <lists+linux-api@lfdr.de>; Thu, 27 Jan 2022 07:36:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234903AbiA0CRZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 26 Jan 2022 21:17:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53314 "EHLO
+        id S236837AbiA0Gg0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 27 Jan 2022 01:36:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234884AbiA0CRZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 26 Jan 2022 21:17:25 -0500
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28C64C06161C
-        for <linux-api@vger.kernel.org>; Wed, 26 Jan 2022 18:17:25 -0800 (PST)
-Received: by mail-pf1-x42c.google.com with SMTP id y27so1386619pfa.0
-        for <linux-api@vger.kernel.org>; Wed, 26 Jan 2022 18:17:25 -0800 (PST)
+        with ESMTP id S236847AbiA0GgY (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 27 Jan 2022 01:36:24 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7614C06173B
+        for <linux-api@vger.kernel.org>; Wed, 26 Jan 2022 22:36:23 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id z14-20020a17090ab10e00b001b6175d4040so858947pjq.0
+        for <linux-api@vger.kernel.org>; Wed, 26 Jan 2022 22:36:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=pfo2AAnbZYL8NSXYsUqsl7N0rnK7jglSBk146tmS5MY=;
-        b=WmYajQOphzJ6Iycj+xwWSnIKlTDzkcyUZpLlQTvegz7SSFg8m65ZuPmS6JvQKbc5u6
-         aIqvAPVoGf6CHYthEf8sPeC15Z+Q9iTUTE84aU2g2Eknu4u+6u7AviXWSKK9NjAE/OsU
-         vDpAoPaxpLNkQxTcHZ2ctcCBS5x4zPXZlzgLJpfkToqx6LuXP/NGhnGDc6b1KREw8MM1
-         KvypfCreMbcC3pm9lgYEmlmv7o3h/Qkn6xgwNzUawaclESwGW0yzJKXP+3GOR7QWFLcs
-         jnjh2nHDhu7milCtb5mIb1QuI3tWi35fOjqgdt469toirZ9yidr4zN+fbLZE/6bB9t20
-         m51A==
+        bh=Rg2131bVbw63F3aHI1E1Qyk0ByMnG8ZrMzsox8Y41/U=;
+        b=FtsdRwfbC8IG7UPbRSp92RJQy4S+lbtsgBaxGyWy0KcBrs7R1vIu4S1EyNjIgki690
+         riSp+B+orfVQkv/Ewe1JWSJ7lUs4+vCtKDpzNnjPII3v1idTFBCKI1zSwDIBL1as/46F
+         QZ7romkbQiJCNBwwb4dRX7fU05VzcdQr0hcTN0eZc6h7Zxq1pbBjeMUFDcNiJ7JMasLC
+         raKF3ISTGddsxXwKkpVLRP0w+V9iYB0QKAdnPSLPWqpa/9eGLM851RprsZ+XKf0+60Q1
+         a0QX94pZKvpD6i2BjteNU7gQ1DlHEgrCheJJYZfItpo9sKZlhLAfsjJIgIuR3jweXmzg
+         vaVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=pfo2AAnbZYL8NSXYsUqsl7N0rnK7jglSBk146tmS5MY=;
-        b=KovH5vs+edXkk5ycJzI5fBqYAbjRjL+2WrDIECAyLi48VXAHM8ff2kq0tfB6ytLAkh
-         ln1fqwY11CKYPnor/YxXWEW/VQwP7YhVZOax0BHT1mqNpdhTEZn7MRdKKNtgFhxHJj5j
-         0Uxj/16nwGRH5spr2NvEpz76TyVU3w/IIib8AcPEzf6iULBlXe1lcuBLJNQ1TK3oCIGM
-         8myh8w4RgBO05xv3QPixgI1GkxnTV+qExJcHbYkQu9xpiHIqqlmG4ijbO8yxO1HF/pJh
-         oLreSHEuYYt/DlFPMV8Q2lkU9JKTQfnrpwEkixMk1gzp/q5qIEZ3RZsNDZif/u/XJHjv
-         F8lA==
-X-Gm-Message-State: AOAM530wRa2Poej5/Zr3uUypHboZkCRozvbN3HgD8srD3BfZ1IL9siAq
-        zYiv0r/tJs/HE+IuJ1cvatYA2A==
-X-Google-Smtp-Source: ABdhPJwzDebr3y5VtRAz5bN4BTdqwTwYv8SZ14QttiFd0hws7Dw/VZWC29xPfw/oFRlX2ZzpePl12w==
-X-Received: by 2002:a63:88c7:: with SMTP id l190mr1242795pgd.230.1643249844295;
-        Wed, 26 Jan 2022 18:17:24 -0800 (PST)
+        bh=Rg2131bVbw63F3aHI1E1Qyk0ByMnG8ZrMzsox8Y41/U=;
+        b=7vmelBJxOmftBRqE3SfrQa8tLmyLzg9tuzzliR9ZhSlhJZwXwGy9HYW1jBHoxlFMZw
+         AgOvRas3B3ElNZTXhXRpCBl+xsH1e8l1iDzhvt5EdSrgzVUatrHYQkYxjK+knAFC7IOq
+         1TKxMs4Z8+NJakCA6cF22fQygKP0h8m3DWOvEBUFg+WInstE0UsPXSOcrIEcFSG/YOFb
+         Zwzpl6Zr1vLUW97lVhz+06VJ3BQjj361GytzcKVMiivZmXNMjK1LB0ZaGS5mj/UAtZa7
+         NraZtvs4tcthRWdYOHzFITBfeg6OG8Kb0WwwtfMpLeRoVBDqgOEBpLe8u1hjDzRz4A8x
+         S1xg==
+X-Gm-Message-State: AOAM5300sceaNchsifaE1oALLjShoKP6km2ABxfZhqFzmxQn49Fp3aNY
+        z4U7FI2yuFhUjuR3WTdwygBu8w==
+X-Google-Smtp-Source: ABdhPJyXOCYs9elTHCEIzax7TCHWJKTPOUu2c96OdSMJgwoaVb98VEWiBKlf/l6a9Ualt74KyFpeTA==
+X-Received: by 2002:a17:90b:1806:: with SMTP id lw6mr12492473pjb.82.1643265383168;
+        Wed, 26 Jan 2022 22:36:23 -0800 (PST)
 Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id w19sm3643088pfu.47.2022.01.26.18.17.23
+        by smtp.gmail.com with ESMTPSA id u18sm4889334pjn.49.2022.01.26.22.36.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Jan 2022 18:17:23 -0800 (PST)
-Date:   Thu, 27 Jan 2022 02:17:20 +0000
+        Wed, 26 Jan 2022 22:36:22 -0800 (PST)
+Date:   Thu, 27 Jan 2022 06:36:19 +0000
 From:   Sean Christopherson <seanjc@google.com>
 To:     Peter Zijlstra <peterz@infradead.org>
 Cc:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
@@ -60,107 +60,203 @@ Cc:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
         posk@posk.io
 Subject: Re: [RFC][PATCH v2 4/5] x86/uaccess: Implement
  unsafe_try_cmpxchg_user()
-Message-ID: <YfIAsHQv5Q84fOqO@google.com>
+Message-ID: <YfI9Y5l0fQAKuJav@google.com>
 References: <20220120155517.066795336@infradead.org>
  <20220120160822.852009966@infradead.org>
+ <YfIAsHQv5Q84fOqO@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220120160822.852009966@infradead.org>
+In-Reply-To: <YfIAsHQv5Q84fOqO@google.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jan 20, 2022, Peter Zijlstra wrote:
-> Do try_cmpxchg() loops on userspace addresses.
+On Thu, Jan 27, 2022, Sean Christopherson wrote:
+> Doh, I should have specified that KVM needs 8-byte CMPXCHG on 32-bit kernels due
+> to using it to atomically update guest PAE PTEs and LTR descriptors (yay).
 > 
-> Cc: Sean Christopherson <seanjc@google.com>
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> ---
->  arch/x86/include/asm/uaccess.h |   67 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 67 insertions(+)
-> 
-> --- a/arch/x86/include/asm/uaccess.h
-> +++ b/arch/x86/include/asm/uaccess.h
-> @@ -342,6 +342,24 @@ do {									\
->  		     : [umem] "m" (__m(addr))				\
->  		     : : label)
->  
-> +#define __try_cmpxchg_user_asm(itype, ltype, _ptr, _pold, _new, label)	({ \
-> +	bool success;							\
-> +	__typeof__(_ptr) _old = (__typeof__(_ptr))(_pold);		\
-> +	__typeof__(*(_ptr)) __old = *_old;				\
-> +	__typeof__(*(_ptr)) __new = (_new);				\
-> +	asm_volatile_goto("\n"						\
-> +		     "1: " LOCK_PREFIX "cmpxchg"itype" %[new], %[ptr]\n"\
-> +		     _ASM_EXTABLE_UA(1b, %l[label])			\
-> +		     : CC_OUT(z) (success),				\
-> +		       [ptr] "+m" (*_ptr),				\
-> +		       [old] "+a" (__old)				\
-> +		     : [new] ltype (__new)				\
-> +		     : "memory", "cc"					\
+> Also, KVM's use case isn't a tight loop, how gross would it be to add a slightly
+> less unsafe version that does __uaccess_begin_nospec()?  KVM pre-checks the address
+> way ahead of time, so the access_ok() check can be omitted.  Alternatively, KVM
+> could add its own macro, but that seems a little silly.  E.g. somethign like this,
+> though I don't think this is correct
 
-IIUC, the "cc" clobber is unnecessary as CONFIG_CC_HAS_ASM_GOTO_OUTPUT=y implies
-__GCC_ASM_FLAG_OUTPUTS__=y, i.e. CC_OUT() will resolve to "=@cc".
+*sigh*
 
-> +		     : label);						\
-> +	if (unlikely(!success))						\
-> +		*_old = __old;						\
-> +	likely(success);					})
-> +
->  #else // !CONFIG_CC_HAS_ASM_GOTO_OUTPUT
+Finally realized I forgot to add back the page offset after converting from guest
+page frame to host virtual address.  Anyways, this is what I ended up with, will
+test more tomorrow.
 
-...
+From: Peter Zijlstra <peterz@infradead.org>
+Date: Thu, 20 Jan 2022 16:55:21 +0100
+Subject: [PATCH] x86/uaccess: Implement unsafe_try_cmpxchg_user()
 
-> +extern void __try_cmpxchg_user_wrong_size(void);
-> +
-> +#define unsafe_try_cmpxchg_user(_ptr, _oldp, _nval, _label) ({		\
-> +	__typeof__(*(_ptr)) __ret;					\
+Do try_cmpxchg() loops on userspace addresses.  Provide 8-byte versions
+for 32-bit kernels so that KVM can do cmpxchg on guest PAE PTEs, which
+are accessed via userspace addresses.
 
-This should probably be a bool, the return from the lower level helpers is a bool
-that's true if the exchange succeed.  Declaring the type of the target implies
-that they return the raw result, which is confusing.
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Co-developed-by: Sean Christopherson <seanjc@google.com>
+Signed-off-by: Sean Christopherson <seanjc@google.com>
+---
+ arch/x86/include/asm/uaccess.h | 129 +++++++++++++++++++++++++++++++++
+ 1 file changed, 129 insertions(+)
 
-> +	switch (sizeof(__ret)) {					\
-> +	case 1:	__ret = __try_cmpxchg_user_asm("b", "q",		\
-> +					       (_ptr), (_oldp),		\
-> +					       (_nval), _label);	\
-> +		break;							\
-> +	case 2:	__ret = __try_cmpxchg_user_asm("w", "r",		\
-> +					       (_ptr), (_oldp),		\
-> +					       (_nval), _label);	\
-> +		break;							\
-> +	case 4:	__ret = __try_cmpxchg_user_asm("l", "r",		\
-> +					       (_ptr), (_oldp),		\
-> +					       (_nval), _label);	\
-> +		break;							\
-> +	case 8:	__ret = __try_cmpxchg_user_asm("q", "r",		\
-> +					       (_ptr), (_oldp),		\
-> +					       (_nval), _label);	\
+diff --git a/arch/x86/include/asm/uaccess.h b/arch/x86/include/asm/uaccess.h
+index ac96f9b2d64b..b706008aed28 100644
+--- a/arch/x86/include/asm/uaccess.h
++++ b/arch/x86/include/asm/uaccess.h
+@@ -342,6 +342,45 @@ do {									\
+ 		     : [umem] "m" (__m(addr))				\
+ 		     : : label)
 
-Doh, I should have specified that KVM needs 8-byte CMPXCHG on 32-bit kernels due
-to using it to atomically update guest PAE PTEs and LTR descriptors (yay).
++#define __try_cmpxchg_user_asm(itype, ltype, _ptr, _pold, _new, label)	({ \
++	bool success;							\
++	__typeof__(_ptr) _old = (__typeof__(_ptr))(_pold);		\
++	__typeof__(*(_ptr)) __old = *_old;				\
++	__typeof__(*(_ptr)) __new = (_new);				\
++	asm_volatile_goto("\n"						\
++		     "1: " LOCK_PREFIX "cmpxchg"itype" %[new], %[ptr]\n"\
++		     _ASM_EXTABLE_UA(1b, %l[label])			\
++		     : CC_OUT(z) (success),				\
++		       [ptr] "+m" (*_ptr),				\
++		       [old] "+a" (__old)				\
++		     : [new] ltype (__new)				\
++		     : "memory"						\
++		     : label);						\
++	if (unlikely(!success))						\
++		*_old = __old;						\
++	likely(success);					})
++
++#ifdef CONFIG_X86_32
++#define __try_cmpxchg64_user_asm(_ptr, _pold, _new, label)	({ \
++	bool success;							\
++	__typeof__(_ptr) _old = (__typeof__(_ptr))(_pold);		\
++	__typeof__(*(_ptr)) __old = *_old;				\
++	__typeof__(*(_ptr)) __new = (_new);				\
++	asm_volatile_goto("\n"						\
++		     "1: " LOCK_PREFIX "cmpxchg8b %[ptr]\n"		\
++		     _ASM_EXTABLE_UA(1b, %l[label])			\
++		     : CC_OUT(z) (success),				\
++		       "+A" (__old),					\
++		       [ptr] "+m" (*_ptr)				\
++		     : "b" ((u32)__new),				\
++		       "c" ((u32)((u64)__new >> 32))			\
++		     : "memory"						\
++		     : label);						\
++	if (unlikely(!success))						\
++		*_old = __old;						\
++	likely(success);					})
++#endif // CONFIG_X86_32
++
+ #else // !CONFIG_CC_HAS_ASM_GOTO_OUTPUT
 
-Also, KVM's use case isn't a tight loop, how gross would it be to add a slightly
-less unsafe version that does __uaccess_begin_nospec()?  KVM pre-checks the address
-way ahead of time, so the access_ok() check can be omitted.  Alternatively, KVM
-could add its own macro, but that seems a little silly.  E.g. somethign like this,
-though I don't think this is correct (something is getting inverted somewhere and
-the assembly output is a nightmare):
+ #ifdef CONFIG_X86_32
+@@ -407,6 +446,57 @@ do {									\
+ 		     : [umem] "m" (__m(addr)),				\
+ 		       "0" (err))
 
-/* "Returns" 0 on success, 1 on failure, -EFAULT if the access faults. */
-#define ___try_cmpxchg_user(_ptr, _oldp, _nval, _label)	({		\
-	int ____ret = -EFAULT;						\
-	__uaccess_begin_nospec();					\
-	____ret = !unsafe_try_cmpxchg_user(_ptr, _oldp, _nval, _label);	\
-_label:									\
-	__uaccess_end();						\
-	____ret;							\
-						})
++#define __try_cmpxchg_user_asm(itype, ltype, _ptr, _pold, _new, label)	({ \
++	int __err = 0;							\
++	bool success;							\
++	__typeof__(_ptr) _old = (__typeof__(_ptr))(_pold);		\
++	__typeof__(*(_ptr)) __old = *_old;				\
++	__typeof__(*(_ptr)) __new = (_new);				\
++	asm volatile("\n"						\
++		     "1: " LOCK_PREFIX "cmpxchg"itype" %[new], %[ptr]\n"\
++		     CC_SET(z)						\
++		     "2:\n"						\
++		     _ASM_EXTABLE_TYPE_REG(1b, 2b, EX_TYPE_EFAULT_REG,	\
++					   %[errout])			\
++		     : CC_OUT(z) (success),				\
++		       [errout] "+r" (__err),				\
++		       [ptr] "+m" (*_ptr),				\
++		       [old] "+a" (__old)				\
++		     : [new] ltype (__new)				\
++		     : "memory", "cc");					\
++	if (unlikely(__err))						\
++		goto label;						\
++	if (unlikely(!success))						\
++		*_old = __old;						\
++	likely(success);					})
++
++#ifdef CONFIG_X86_32
++#define __try_cmpxchg64_user_asm(_ptr, _pold, _new, label)	({	\
++	int __err = 0;							\
++	bool success;							\
++	__typeof__(_ptr) _old = (__typeof__(_ptr))(_pold);		\
++	__typeof__(*(_ptr)) __old = *_old;				\
++	__typeof__(*(_ptr)) __new = (_new);				\
++	asm volatile("\n"						\
++		     "1: " LOCK_PREFIX "cmpxchg8b %[ptr]\n"		\
++		     CC_SET(z)						\
++		     "2:\n"						\
++		     _ASM_EXTABLE_TYPE_REG(1b, 2b, EX_TYPE_EFAULT_REG,	\
++					   %[errout])			\
++		     : CC_OUT(z) (success),				\
++		       [errout] "+r" (__err),				\
++		       "+A" (__old),					\
++		       [ptr] "+m" (*_ptr)				\
++		     : "b" ((u32)__new),				\
++		       "c" ((u32)((u64)__new >> 32))			\
++		     : "memory", "cc");					\
++	if (unlikely(__err))						\
++		goto label;						\
++	if (unlikely(!success))						\
++		*_old = __old;						\
++	likely(success);					})
++#endif // CONFIG_X86_32
++
+ #endif // CONFIG_CC_HAS_ASM_GOTO_OUTPUT
 
-Lastly, assuming I get my crap working, mind if I post a variant (Cc'd to stable@) in
-the context of KVM series?  Turns out KVM has an ugly bug where it completely
-botches the pfn calculation of memory it remaps and accesses[*], the easiest fix
-is to switch to __try_cmpxchg_user() and purge the nastiness.
+ /* FIXME: this hack is definitely wrong -AK */
+@@ -501,6 +591,45 @@ do {										\
+ } while (0)
+ #endif // CONFIG_CC_HAS_ASM_GOTO_OUTPUT
 
-[*] https://lore.kernel.org/all/20220124172633.103323-1-tadeusz.struk@linaro.org
++extern void __try_cmpxchg_user_wrong_size(void);
++
++#ifndef CONFIG_X86_32
++#define __try_cmpxchg64_user_asm(_ptr, _oldp, _nval, _label)		\
++	__try_cmpxchg_user_asm("q", "r", (_ptr), (_oldp), (_nval), _label)
++#endif
++
++#define unsafe_try_cmpxchg_user(_ptr, _oldp, _nval, _label) ({		\
++	bool __ret;							\
++	switch (sizeof(*(_ptr))) {					\
++	case 1:	__ret = __try_cmpxchg_user_asm("b", "q",		\
++					       (_ptr), (_oldp),		\
++					       (_nval), _label);	\
++		break;							\
++	case 2:	__ret = __try_cmpxchg_user_asm("w", "r",		\
++					       (_ptr), (_oldp),		\
++					       (_nval), _label);	\
++		break;							\
++	case 4:	__ret = __try_cmpxchg_user_asm("l", "r",		\
++					       (_ptr), (_oldp),		\
++					       (_nval), _label);	\
++		break;							\
++	case 8:	__ret = __try_cmpxchg64_user_asm((_ptr), (_oldp),	\
++						 (_nval), _label);	\
++		break;							\
++	default: __try_cmpxchg_user_wrong_size();			\
++	}								\
++	__ret;						})
++
++/* "Returns" 0 on success, 1 on failure, -EFAULT if the access faults. */
++#define __try_cmpxchg_user(_ptr, _oldp, _nval, _label)	({		\
++	int __ret = -EFAULT;						\
++	__uaccess_begin_nospec();					\
++	__ret = !unsafe_try_cmpxchg_user(_ptr, _oldp, _nval, _label);	\
++_label:									\
++	__uaccess_end();						\
++	__ret;								\
++							})
++
+ /*
+  * We want the unsafe accessors to always be inlined and use
+  * the error labels - thus the macro games.
+--
+
+
