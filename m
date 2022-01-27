@@ -2,84 +2,67 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 382E449E256
-	for <lists+linux-api@lfdr.de>; Thu, 27 Jan 2022 13:26:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C11E849E41D
+	for <lists+linux-api@lfdr.de>; Thu, 27 Jan 2022 15:03:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235811AbiA0M0w (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 27 Jan 2022 07:26:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49002 "EHLO
+        id S230389AbiA0ODk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 27 Jan 2022 09:03:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229623AbiA0M0v (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 27 Jan 2022 07:26:51 -0500
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCB16C061714;
-        Thu, 27 Jan 2022 04:26:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=xCYE4SmkeSrJ/gO0loi27APL7J8Db6LU2KX4K0PIjaI=; b=A30XOGuJA/JxBw4lIYvZJ/9x2j
-        0k8YY2KWX97rf6IFh3fwraK1Gvl801c0RPrWiKA7VSER0jW+KZKlJ9VSE6T1I7mV84wCc/7hHPIRZ
-        q9fLE3bCZmOEAgqrw1Nq+DY90K8AgD5+LOgXzhY5xsPUf32D7QsmO3BcZ2XYV9/znw1Ng0WM+HWX6
-        HlcjbQY/ILaKk3zPrXlBkR9NmOTzQ18Z/dq7HNONjMU+X93Pt5K5DhO+D/FoKOjs3yDbeFB4n1dpH
-        emS+RF/gag6W6gfxdTPpG16xiI/s0sRVUYV47AvsDBegvX+Kdg6bfeJPI/z39+V8Nq7u6R1DLvzZ3
-        t0uYPFTw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nD3r9-004AGk-BN; Thu, 27 Jan 2022 12:26:27 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 8FFC93002A6;
-        Thu, 27 Jan 2022 13:26:26 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 79F342B52092A; Thu, 27 Jan 2022 13:26:26 +0100 (CET)
-Date:   Thu, 27 Jan 2022 13:26:26 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Tao Zhou <tao.zhou@linux.dev>
-Cc:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-api@vger.kernel.org, x86@kernel.org,
-        pjt@google.com, posk@google.com, avagin@google.com,
-        jannh@google.com, tdelisle@uwaterloo.ca, mark.rutland@arm.com,
-        posk@posk.io
-Subject: Re: [RFC][PATCH v2 5/5] sched: User Mode Concurency Groups
-Message-ID: <YfKPcrc4qp5HeIjC@hirez.programming.kicks-ass.net>
-References: <20220120155517.066795336@infradead.org>
- <20220120160822.914418096@infradead.org>
- <Ye67uQa4CwUuQJVY@geo.homenetwork>
+        with ESMTP id S242183AbiA0OCk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 27 Jan 2022 09:02:40 -0500
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 210A4C06175C
+        for <linux-api@vger.kernel.org>; Thu, 27 Jan 2022 06:02:40 -0800 (PST)
+Received: by mail-yb1-xb2a.google.com with SMTP id r65so8886905ybc.11
+        for <linux-api@vger.kernel.org>; Thu, 27 Jan 2022 06:02:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=4hMay+JAuCcxTH5jMZax3EOAyZhyTNJ51MAkVpSdHBs=;
+        b=kpVZma9R6J9c0+P0r7AcgR532LdaKxwRWCZjAThl+o7n34MBKHCkGk4IX4Eoiwj+WS
+         tBkE4lvUkTngDMhr9oRWSLIrwD0Mhf2aVlre0sLTyklPICSvOSgTuP4rRt7f8v22f7zh
+         v73un4SZKiNHQYpvcwloXy4eu2pLaOl6kWWC2a1syrRr9WVzph8stSZFjVY+dz+f1n0c
+         xkNf71DLgexrsyfTUGPzrASf/vujZLE7mAt7Ty9Hb3NAJuZG43nFCy8vdQGUtNE3ggF3
+         M58CLC0cu75S393E2XhW7HJKXlJCWmfrchKaJW8y+x8ntSGU0R7PyFKmvzAC8R7HrbkI
+         bb+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=4hMay+JAuCcxTH5jMZax3EOAyZhyTNJ51MAkVpSdHBs=;
+        b=A1zYz6s4Xu3O0GWTd6DtjtLeMVdWcztgeyc6X8rSpInL5vfpOAQaFI06iI9JTUE7Is
+         fs88iI/MRyktQudaXLP5xoQO02oY2Xj6MRb50lLVT1091teemjwGCC4KLygB4WX+OZMB
+         DRWo2LHn/3weMvv9CJVjCWXeE6cRA7p5mrASWVJugLvqYSoDcVGWOkXyJEhK7PpEfFlh
+         TyVrACULT9sGEbMKPIO7NjaGTD5aqP56h05/B6CL/iXXNUk6w2GQlCtCzsiAJyt7mivc
+         qMJ+o2OEou2zvlsU2bYp9YTnrC/nWwKfJQ9gWtsAAuBxqFrdK3fDsSUoCw/x0yHzXaDr
+         qpVw==
+X-Gm-Message-State: AOAM532pS80aIV9CPxOxDZDqRgXSWrYkalO0r+nk5FTCHPkNC4AcabyX
+        U/06ETFplP5kTp3T0fJfh5hA6x4JTndggajzin0=
+X-Google-Smtp-Source: ABdhPJylDyO06wHPSrcoEjey+zasSeRYW4/MOBlgK1B91kfjH6wcT9IkHbWnOL0qO6gZFm/zFK7qx9wY81u0tIiAYpM=
+X-Received: by 2002:a05:6902:120e:: with SMTP id s14mr5736215ybu.359.1643292158229;
+ Thu, 27 Jan 2022 06:02:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Ye67uQa4CwUuQJVY@geo.homenetwork>
+Sender: modumaajiyusufari@gmail.com
+Received: by 2002:a81:5689:0:0:0:0:0 with HTTP; Thu, 27 Jan 2022 06:02:37
+ -0800 (PST)
+From:   Lisa Williams <lw2367585@gmail.com>
+Date:   Thu, 27 Jan 2022 14:02:37 +0000
+X-Google-Sender-Auth: 9dYoCKn40RyIGKeIJsx-235-O08
+Message-ID: <CAD5cse2JNgTOC4CJtZ9pA_NuxqX2e4c-yduA81+ENw+sh4i2bA@mail.gmail.com>
+Subject: My name is Lisa Williams
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jan 24, 2022 at 10:46:17PM +0800, Tao Zhou wrote:
-> > +/**
-> > + * sys_umcg_wait: transfer running context
-> > + *
-> > + * Called like:
-> > + *
-> > + *	self->state = UMCG_TASK_RUNNABLE | UMCG_TF_COND_WAIT;
-> > + *	...
-> > + *	sys_umcg_wait(0, time);
-> > + *
-> > + * The syscall will clear TF_COND_WAIT and wait until state becomes RUNNING.
-> > + * The code '...' must not contain syscalls
-> > + *
-> > + * If self->next_tid is set and indicates a valid UMCG task with RUNNABLE state
-> > + * that task will be made RUNNING and woken -- transfering the running context
-> > + * to that task. In this case self->next_tid is modified with TID_RUNNING to
-> > + * indicate self->next_tid is consumed.
-> > + *
-> > + * If self->next has TID_RUNNING set, it is validated the related task has
-> 
-> /self->next/self->next_tid/
+Hi Dear,
 
-Yeah, there's more of that, I'll be sure to go re-read all the comments.
+My name is Lisa  Williams, I am from the United States of America, Its
+my pleasure to contact you for new and special friendship, I will be
+glad to see your reply for us to know each other better and exchange
+pictures.
 
+Yours
+Lisa
