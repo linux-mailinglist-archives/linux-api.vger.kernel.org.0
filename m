@@ -2,180 +2,165 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0A1649D22F
-	for <lists+linux-api@lfdr.de>; Wed, 26 Jan 2022 19:59:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE68849D7ED
+	for <lists+linux-api@lfdr.de>; Thu, 27 Jan 2022 03:17:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229529AbiAZS76 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 26 Jan 2022 13:59:58 -0500
-Received: from mail.efficios.com ([167.114.26.124]:52750 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbiAZS76 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 26 Jan 2022 13:59:58 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 94D1C360747;
-        Wed, 26 Jan 2022 13:59:57 -0500 (EST)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id JRH9cUaMSB7f; Wed, 26 Jan 2022 13:59:56 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id C518036099B;
-        Wed, 26 Jan 2022 13:59:56 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com C518036099B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1643223596;
-        bh=eICVUmQzw3l/x0zzUTePtqPtDmFZX5u3Ntxlnfacxd4=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=sJJ9BIbNfPUQAYN4BQ7bO/SrcDKFM5m0qDZbfswYA1jLFKsCzOqzwIPoyVntAI7ld
-         SRGV0U2uVIcFda6/I8d5N6B+NQ4pY/4kjVk8q75vp/7qCnh6+B1j1jBcjmeW66KZQT
-         RoyHefximyQv79nvmWTh4cCNpcXMqhJI5oKtIA0wd8wZ/DhuCRmCL/yGNsOW/gaMiX
-         LtEmS8/kq/oDQ85atWxHbjmGhGIF2A+5mXvU+0Y2IL8m8oxURv2QC2AYJsI4CJ0/4O
-         cNf8GVz5DH5M8iqsbSkQ7Brm4OdzZ4v72njwxK3KAVuavJ6Ar7GIe1NGkk76e3uiOq
-         mqyTIZYMIyXJQ==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 4kzbJ7_h7Bql; Wed, 26 Jan 2022 13:59:56 -0500 (EST)
-Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id A117A3606E5;
-        Wed, 26 Jan 2022 13:59:56 -0500 (EST)
-Date:   Wed, 26 Jan 2022 13:59:56 -0500 (EST)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     David Laight <David.Laight@ACULAB.COM>
-Cc:     Christian Brauner <brauner@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        paulmck <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api <linux-api@vger.kernel.org>, shuah <shuah@kernel.org>,
-        linux-kselftest <linux-kselftest@vger.kernel.org>,
-        Florian Weimer <fw@deneb.enyo.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Dave Watson <davejwatson@fb.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Russell King <linux@arm.linux.org.uk>,
-        Andi Kleen <andi@firstfloor.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Ben Maurer <bmaurer@fb.com>, rostedt <rostedt@goodmis.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Joel Fernandes <joelaf@google.com>
-Message-ID: <1116876795.2062.1643223596536.JavaMail.zimbra@efficios.com>
-In-Reply-To: <fc04219fc3414bbb968adb844052ecb7@AcuMS.aculab.com>
-References: <20220124171253.22072-1-mathieu.desnoyers@efficios.com> <20220124171253.22072-3-mathieu.desnoyers@efficios.com> <20220125122156.v2f5anzcs35i3rii@wittgenstein> <1234069751.70438.1643121673355.JavaMail.zimbra@efficios.com> <1445357149.71067.1643137248305.JavaMail.zimbra@efficios.com> <fc04219fc3414bbb968adb844052ecb7@AcuMS.aculab.com>
-Subject: Re: [RFC PATCH 02/15] rseq: Remove broken uapi field layout on
- 32-bit little endian
+        id S234903AbiA0CRZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 26 Jan 2022 21:17:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53314 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234884AbiA0CRZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 26 Jan 2022 21:17:25 -0500
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28C64C06161C
+        for <linux-api@vger.kernel.org>; Wed, 26 Jan 2022 18:17:25 -0800 (PST)
+Received: by mail-pf1-x42c.google.com with SMTP id y27so1386619pfa.0
+        for <linux-api@vger.kernel.org>; Wed, 26 Jan 2022 18:17:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=pfo2AAnbZYL8NSXYsUqsl7N0rnK7jglSBk146tmS5MY=;
+        b=WmYajQOphzJ6Iycj+xwWSnIKlTDzkcyUZpLlQTvegz7SSFg8m65ZuPmS6JvQKbc5u6
+         aIqvAPVoGf6CHYthEf8sPeC15Z+Q9iTUTE84aU2g2Eknu4u+6u7AviXWSKK9NjAE/OsU
+         vDpAoPaxpLNkQxTcHZ2ctcCBS5x4zPXZlzgLJpfkToqx6LuXP/NGhnGDc6b1KREw8MM1
+         KvypfCreMbcC3pm9lgYEmlmv7o3h/Qkn6xgwNzUawaclESwGW0yzJKXP+3GOR7QWFLcs
+         jnjh2nHDhu7milCtb5mIb1QuI3tWi35fOjqgdt469toirZ9yidr4zN+fbLZE/6bB9t20
+         m51A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=pfo2AAnbZYL8NSXYsUqsl7N0rnK7jglSBk146tmS5MY=;
+        b=KovH5vs+edXkk5ycJzI5fBqYAbjRjL+2WrDIECAyLi48VXAHM8ff2kq0tfB6ytLAkh
+         ln1fqwY11CKYPnor/YxXWEW/VQwP7YhVZOax0BHT1mqNpdhTEZn7MRdKKNtgFhxHJj5j
+         0Uxj/16nwGRH5spr2NvEpz76TyVU3w/IIib8AcPEzf6iULBlXe1lcuBLJNQ1TK3oCIGM
+         8myh8w4RgBO05xv3QPixgI1GkxnTV+qExJcHbYkQu9xpiHIqqlmG4ijbO8yxO1HF/pJh
+         oLreSHEuYYt/DlFPMV8Q2lkU9JKTQfnrpwEkixMk1gzp/q5qIEZ3RZsNDZif/u/XJHjv
+         F8lA==
+X-Gm-Message-State: AOAM530wRa2Poej5/Zr3uUypHboZkCRozvbN3HgD8srD3BfZ1IL9siAq
+        zYiv0r/tJs/HE+IuJ1cvatYA2A==
+X-Google-Smtp-Source: ABdhPJwzDebr3y5VtRAz5bN4BTdqwTwYv8SZ14QttiFd0hws7Dw/VZWC29xPfw/oFRlX2ZzpePl12w==
+X-Received: by 2002:a63:88c7:: with SMTP id l190mr1242795pgd.230.1643249844295;
+        Wed, 26 Jan 2022 18:17:24 -0800 (PST)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id w19sm3643088pfu.47.2022.01.26.18.17.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Jan 2022 18:17:23 -0800 (PST)
+Date:   Thu, 27 Jan 2022 02:17:20 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+        bristot@redhat.com, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-api@vger.kernel.org, x86@kernel.org,
+        pjt@google.com, posk@google.com, avagin@google.com,
+        jannh@google.com, tdelisle@uwaterloo.ca, mark.rutland@arm.com,
+        posk@posk.io
+Subject: Re: [RFC][PATCH v2 4/5] x86/uaccess: Implement
+ unsafe_try_cmpxchg_user()
+Message-ID: <YfIAsHQv5Q84fOqO@google.com>
+References: <20220120155517.066795336@infradead.org>
+ <20220120160822.852009966@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [167.114.26.124]
-X-Mailer: Zimbra 8.8.15_GA_4203 (ZimbraWebClient - FF96 (Linux)/8.8.15_GA_4203)
-Thread-Topic: rseq: Remove broken uapi field layout on 32-bit little endian
-Thread-Index: AdgS2G4EeBx+7+jyRfijfhRZbWR//oaEEpo8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220120160822.852009966@infradead.org>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On Jan 26, 2022, at 12:16 PM, David Laight David.Laight@ACULAB.COM wrote:
-
-> From: Mathieu Desnoyers
->> Sent: 25 January 2022 19:01
->> 
->> ----- On Jan 25, 2022, at 9:41 AM, Mathieu Desnoyers
->> mathieu.desnoyers@efficios.com wrote:
->> 
->> > ----- On Jan 25, 2022, at 7:21 AM, Christian Brauner brauner@kernel.org wrote:
->> [...]
->> >>>  include/uapi/linux/rseq.h | 17 ++++-------------
->> [...]
->> >>>  	union {
->> >>
->> >> A bit unfortunate we seem to have to keep the union around even though
->> >> it's just one field now.
->> >
->> > Well, as far as the user-space projects that I know of which use rseq
->> > are concerned (glibc, librseq, tcmalloc), those end up with their own
->> > copy of the uapi header anyway to deal with the big/little endian field
->> > on 32-bit. So I'm very much open to remove the union if we accept that
->> > this uapi header is really just meant to express the ABI and is not
->> > expected to be used as an API by user-space.
->> >
->> > That would mean we also bring a uapi header copy into the kernel
->> > rseq selftests as well to minimize the gap between librseq and
->> > the kernel sefltests (the kernel sefltests pretty much include a
->> > copy of librseq for convenience. librseq is maintained out of tree).
->> >
->> > Thoughts ?
->> 
->> Actually, if we go ahead and remove the union, and replace:
->> 
->> struct rseq {
->>   union {
->>     __u64 ptr64;
->>   } rseq_cs;
->> [...]
->> } v;
->> 
->> by:
->> 
->> struct rseq {
->>   __u64 rseq_cs;
->> } v;
->> 
->> expressions such as these are unchanged:
->> 
->> - sizeof(v.rseq_cs),
->> - &v.rseq_cs,
->> - __alignof__(v.rseq_cs),
->> - offsetof(struct rseq, rseq_cs).
->> 
->> So users of the uapi rseq.h (as an API) can still use rseq_abi->rseq_cs before
->> and after the change.
+On Thu, Jan 20, 2022, Peter Zijlstra wrote:
+> Do try_cmpxchg() loops on userspace addresses.
 > 
-> But:
->	v.rseq_cs.ptr_64 = (uintptr_t)&foo;
-> is broken.
-
-True. But v.rseq_cs.ptr (on 64-bit) and v.rseq_cs.ptr.ptr32 (on 32-bit) are also
-broken with the planned field removal. So how is the v.rseq_cs_ptr64 situation
-different ?
-
-My thinking here is that it does not matter if we break compilation for some
-users of the uapi as an API as long as the ABI stays the same, especially
-considering that all known users implement their own copy of the header.
-
-I suspect that as far as the API is concerned, it is nice that we have at least
-one way to access the field which works both before and after the change.
-Simply using "v.rseq_cs" works both before/after for all use-cases that seem
-to matter here.
-
+> Cc: Sean Christopherson <seanjc@google.com>
+> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> ---
+>  arch/x86/include/asm/uaccess.h |   67 +++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 67 insertions(+)
 > 
->> Based on this, I am inclined to remove the union, and just make the rseq_cs
->> field
->> a __u64.
-> 
-> It really is a shame that you can't do:
->	void   *rseq_cs __attribute__((size(8)));
-> and have the compiler just DTRT on 32bit systems.
+> --- a/arch/x86/include/asm/uaccess.h
+> +++ b/arch/x86/include/asm/uaccess.h
+> @@ -342,6 +342,24 @@ do {									\
+>  		     : [umem] "m" (__m(addr))				\
+>  		     : : label)
+>  
+> +#define __try_cmpxchg_user_asm(itype, ltype, _ptr, _pold, _new, label)	({ \
+> +	bool success;							\
+> +	__typeof__(_ptr) _old = (__typeof__(_ptr))(_pold);		\
+> +	__typeof__(*(_ptr)) __old = *_old;				\
+> +	__typeof__(*(_ptr)) __new = (_new);				\
+> +	asm_volatile_goto("\n"						\
+> +		     "1: " LOCK_PREFIX "cmpxchg"itype" %[new], %[ptr]\n"\
+> +		     _ASM_EXTABLE_UA(1b, %l[label])			\
+> +		     : CC_OUT(z) (success),				\
+> +		       [ptr] "+m" (*_ptr),				\
+> +		       [old] "+a" (__old)				\
+> +		     : [new] ltype (__new)				\
+> +		     : "memory", "cc"					\
 
-Indeed, the "size" directive appears to be ignored by the compiler.
+IIUC, the "cc" clobber is unnecessary as CONFIG_CC_HAS_ASM_GOTO_OUTPUT=y implies
+__GCC_ASM_FLAG_OUTPUTS__=y, i.e. CC_OUT() will resolve to "=@cc".
 
-Thanks,
+> +		     : label);						\
+> +	if (unlikely(!success))						\
+> +		*_old = __old;						\
+> +	likely(success);					})
+> +
+>  #else // !CONFIG_CC_HAS_ASM_GOTO_OUTPUT
 
-Mathieu
+...
 
-> 
->	David
-> 
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT,
-> UK
-> Registration No: 1397386 (Wales)
+> +extern void __try_cmpxchg_user_wrong_size(void);
+> +
+> +#define unsafe_try_cmpxchg_user(_ptr, _oldp, _nval, _label) ({		\
+> +	__typeof__(*(_ptr)) __ret;					\
 
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
+This should probably be a bool, the return from the lower level helpers is a bool
+that's true if the exchange succeed.  Declaring the type of the target implies
+that they return the raw result, which is confusing.
+
+> +	switch (sizeof(__ret)) {					\
+> +	case 1:	__ret = __try_cmpxchg_user_asm("b", "q",		\
+> +					       (_ptr), (_oldp),		\
+> +					       (_nval), _label);	\
+> +		break;							\
+> +	case 2:	__ret = __try_cmpxchg_user_asm("w", "r",		\
+> +					       (_ptr), (_oldp),		\
+> +					       (_nval), _label);	\
+> +		break;							\
+> +	case 4:	__ret = __try_cmpxchg_user_asm("l", "r",		\
+> +					       (_ptr), (_oldp),		\
+> +					       (_nval), _label);	\
+> +		break;							\
+> +	case 8:	__ret = __try_cmpxchg_user_asm("q", "r",		\
+> +					       (_ptr), (_oldp),		\
+> +					       (_nval), _label);	\
+
+Doh, I should have specified that KVM needs 8-byte CMPXCHG on 32-bit kernels due
+to using it to atomically update guest PAE PTEs and LTR descriptors (yay).
+
+Also, KVM's use case isn't a tight loop, how gross would it be to add a slightly
+less unsafe version that does __uaccess_begin_nospec()?  KVM pre-checks the address
+way ahead of time, so the access_ok() check can be omitted.  Alternatively, KVM
+could add its own macro, but that seems a little silly.  E.g. somethign like this,
+though I don't think this is correct (something is getting inverted somewhere and
+the assembly output is a nightmare):
+
+/* "Returns" 0 on success, 1 on failure, -EFAULT if the access faults. */
+#define ___try_cmpxchg_user(_ptr, _oldp, _nval, _label)	({		\
+	int ____ret = -EFAULT;						\
+	__uaccess_begin_nospec();					\
+	____ret = !unsafe_try_cmpxchg_user(_ptr, _oldp, _nval, _label);	\
+_label:									\
+	__uaccess_end();						\
+	____ret;							\
+						})
+
+Lastly, assuming I get my crap working, mind if I post a variant (Cc'd to stable@) in
+the context of KVM series?  Turns out KVM has an ugly bug where it completely
+botches the pfn calculation of memory it remaps and accesses[*], the easiest fix
+is to switch to __try_cmpxchg_user() and purge the nastiness.
+
+[*] https://lore.kernel.org/all/20220124172633.103323-1-tadeusz.struk@linaro.org
