@@ -2,177 +2,74 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D363449E636
-	for <lists+linux-api@lfdr.de>; Thu, 27 Jan 2022 16:38:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 894C049E680
+	for <lists+linux-api@lfdr.de>; Thu, 27 Jan 2022 16:46:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238992AbiA0PiT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 27 Jan 2022 10:38:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37614 "EHLO
+        id S243101AbiA0PqP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 27 Jan 2022 10:46:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236698AbiA0PiS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 27 Jan 2022 10:38:18 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B92DAC061714;
-        Thu, 27 Jan 2022 07:38:18 -0800 (PST)
+        with ESMTP id S243097AbiA0PqO (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 27 Jan 2022 10:46:14 -0500
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B1FAC061714;
+        Thu, 27 Jan 2022 07:46:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=FK2KOKKIeogSgT4OajiGqHETtj6QhVcNQ4Tqky6O32g=; b=dak2QOjj7iMRzavy/9HxfQOW1X
-        h8VZRBSWK9lbMPyh0RS5+0ZQ8Tb8js+h06kEziLv7sMlA0LCWmvbh/Rz37Y4LVrLiSmdboltDHV5A
-        QacAwnAxG6I66GqSwIg3XAyxG+GUvXJ8oY9pNeoLdkPCrFZ6bn0+B2WSwuthnIHF5+ZBSooLqw3vh
-        QYf8kAFpm9pZe96Dm93tc8NlzVMiPZ8beP/cEKR681OSvLHpbbw2ARTDZtgkQkK4evwR7FnldCzS1
-        GIgBsuOwG04L/3OUtMayoZIv/EnQ9zOiyBz49pb2+6rbsus1LSBqEporGKDRSJ9wLOjalNd9eX2z+
-        UolFqbOg==;
+        bh=te34am54aUpFtK+DUx9YCfw5VurpEVmeZCzYybJUFVs=; b=DalpuByIZ+ookpm/OOIdVEWrm8
+        WrsrgpLkhUtDWtK3cuAveqIl8AfwAkAqCwSDisxbMD167/Jz32GCvSZSU9py6pLraPF++nCvRA1IX
+        1a0pk5i3hpseMlpLiU5qwQK0iai13QM+6jni9uvJO1hY2dRon10HG9pATqfhri7zdNirDNLkJ3254
+        jONq5ebPfDhaeBJ/5+Hasnevwiw3NEOY+xfHClosK9XnJc23O19Q9xVeDGMYcYsjUgdnCxVpuU3Oi
+        4zigj/i+jaB5hMagavS1VBqHuugcSrpA0t7yKRZTBj8wW5QNbsWl9i1e3V0mwDqLEDhLQqG7VQEj7
+        lMspEUOg==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nD6qO-005N6G-BL; Thu, 27 Jan 2022 15:37:52 +0000
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nD6yM-004CiD-C2; Thu, 27 Jan 2022 15:46:06 +0000
 Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id BB6BE986245; Thu, 27 Jan 2022 16:37:49 +0100 (CET)
-Date:   Thu, 27 Jan 2022 16:37:49 +0100
+        id 0202F986245; Thu, 27 Jan 2022 16:46:04 +0100 (CET)
+Date:   Thu, 27 Jan 2022 16:46:04 +0100
 From:   Peter Zijlstra <peterz@infradead.org>
-To:     Peter Oskolkov <posk@google.com>
-Cc:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-api@vger.kernel.org, x86@kernel.org,
-        pjt@google.com, avagin@google.com, jannh@google.com,
-        tdelisle@uwaterloo.ca, posk@posk.io
-Subject: Re: [RFC PATCH v2 4/5] sched: UMCG: add a blocked worker list
-Message-ID: <20220127153749.GP20638@worktop.programming.kicks-ass.net>
-References: <20220113233940.3608440-1-posk@google.com>
- <20220113233940.3608440-5-posk@google.com>
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [RFC PATCH 00/15] rseq uapi and selftest updates
+Message-ID: <20220127154604.GQ20638@worktop.programming.kicks-ass.net>
+References: <20220124171253.22072-1-mathieu.desnoyers@efficios.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220113233940.3608440-5-posk@google.com>
+In-Reply-To: <20220124171253.22072-1-mathieu.desnoyers@efficios.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jan 13, 2022 at 03:39:39PM -0800, Peter Oskolkov wrote:
+On Mon, Jan 24, 2022 at 12:12:38PM -0500, Mathieu Desnoyers wrote:
+> Mathieu Desnoyers (15):
+>   selftests/rseq: introduce own copy of rseq uapi header
+>   rseq: Remove broken uapi field layout on 32-bit little endian
+>   selftests/rseq: Remove useless assignment to cpu variable
+>   selftests/rseq: Remove volatile from __rseq_abi
+>   selftests/rseq: Introduce rseq_get_abi() helper
+>   selftests/rseq: Introduce thread pointer getters
+>   selftests/rseq: Uplift rseq selftests for compatibility with
+>     glibc-2.35
+>   selftests/rseq: Fix ppc32: wrong rseq_cs 32-bit field pointer on big
+>     endian
+>   selftests/rseq: Fix ppc32 missing instruction selection "u" and "x"
+>     for load/store
+>   selftests/rseq: Fix ppc32 offsets by using long rather than off_t
+>   selftests/rseq: Fix warnings about #if checks of undefined tokens
+>   selftests/rseq: Remove arm/mips asm goto compiler work-around
+>   selftests/rseq: Fix: work-around asm goto compiler bugs
+>   selftests/rseq: x86-64: use %fs segment selector for accessing rseq
+>     thread area
+>   selftests/rseq: x86-32: use %gs segment selector for accessing rseq
+>     thread area
 
-> This change introduces the following benefits:
-> - block detection how behaves similarly to wake detection;
->   without this patch worker wakeups added wakees to the list
->   and woke the server, while worker blocks only woke the server
->   without adding blocked workers to a list, forcing servers
->   to explicitly check worker's state;
-
-> - if the blocked worker woke sufficiently quickly, the server
->   woken on the block event would observe its worker now as
->   RUNNABLE, so the block event had to be inferred rather than
->   explicitly signalled by the worker being added to the blocked
->   worker list;
-
-This I think is missing the point, there is no race if the server checks
-curr->state == RUNNING.
-
-> - it is now possible for a single server to control several
->   RUNNING workers, which makes writing userspace schedulers
->   simpler for smaller processes that do not need to scale beyond
->   one "server";
-
-How about something like so on top?
-
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -1298,6 +1298,7 @@ struct task_struct {
- 
- #ifdef CONFIG_UMCG
- 	/* setup by sys_umcg_ctrl() */
-+	u32			umcg_flags;
- 	clockid_t		umcg_clock;
- 	struct umcg_task __user	*umcg_task;
- 
---- a/include/uapi/linux/umcg.h
-+++ b/include/uapi/linux/umcg.h
-@@ -119,6 +119,8 @@ struct umcg_task {
- 	 *
- 	 * Readable/writable by both the kernel and the userspace: the
- 	 * kernel adds items to the list, userspace removes them.
-+	 *
-+	 * Only used with UMCG_CTL_MULTI.
- 	 */
- 	__u64	blocked_workers_ptr;		/* r/w */
- 
-@@ -147,11 +149,13 @@ enum umcg_wait_flag {
-  * @UMCG_CTL_REGISTER:   register the current task as a UMCG task
-  * @UMCG_CTL_UNREGISTER: unregister the current task as a UMCG task
-  * @UMCG_CTL_WORKER:     register the current task as a UMCG worker
-+ * @UMCG_CTL_MULTI:	 allow 1:n worker relations, enables blocked_workers_ptr
-  */
- enum umcg_ctl_flag {
- 	UMCG_CTL_REGISTER	= 0x00001,
- 	UMCG_CTL_UNREGISTER	= 0x00002,
- 	UMCG_CTL_WORKER		= 0x10000,
-+	UMCG_CTL_MULTI		= 0x20000,
- };
- 
- #endif /* _UAPI_LINUX_UMCG_H */
---- a/kernel/sched/umcg.c
-+++ b/kernel/sched/umcg.c
-@@ -335,7 +335,7 @@ static inline int umcg_enqueue_runnable(
- }
- 
- /*
-- * Enqueue @tsk on it's server's blocked list
-+ * Enqueue @tsk on it's server's blocked list OR ensure @tsk == server::next_tid
-  *
-  * Must be called in umcg_pin_pages() context, relies on tsk->umcg_server.
-  *
-@@ -346,10 +346,34 @@ static inline int umcg_enqueue_runnable(
-  * Returns:
-  *   0: success
-  *   -EFAULT
-+ *   -ESRCH	server::next_tid is not a valid UMCG task
-+ *   -EINVAL	server::next_tid doesn't match @tsk
-  */
- static inline int umcg_enqueue_blocked(struct task_struct *tsk)
- {
--	return umcg_enqueue(tsk, true /* blocked */);
-+	struct task_struct *next;
-+	u32 next_tid;
-+	int ret;
-+
-+	if (tsk->umcg_server->umcg_flags & UMCG_CTL_MULTI)
-+		return umcg_enqueue(tsk, true /* blocked */);
-+
-+	/*
-+	 * When !MULTI, ensure this worker is the current worker,
-+	 * ensuring the 1:1 relation.
-+	 */
-+	if (get_user(next_tid, &tsk->umcg_server_task->next_tid))
-+		return -EFAULT;
-+
-+	next = umcg_get_task(next_tid);
-+	if (!next)
-+		return -ESRCH;
-+
-+	ret = (next == tsk) ? 0 : -EINVAL;
-+
-+	put_task_struct(next);
-+
-+	return ret;
- }
- 
- /* pre-schedule() */
-@@ -911,6 +934,8 @@ static int umcg_register(struct umcg_tas
- 		return -EINVAL;
- 	}
- 
-+	current->umcg_flags = flags;
-+
- 	if (current->umcg_task || !self)
- 		return -EINVAL;
- 
-@@ -1061,7 +1086,7 @@ SYSCALL_DEFINE3(umcg_ctl, u32, flags, st
- 
- 	flags &= ~UMCG_CTL_CMD;
- 
--	if (flags & ~(UMCG_CTL_WORKER))
-+	if (flags & ~(UMCG_CTL_WORKER|UMCG_CTL_MULTI))
- 		return -EINVAL;
- 
- 	switch (cmd) {
+Thanks, I'll go stick then in sched/core.
