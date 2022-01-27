@@ -2,40 +2,40 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BAF5B49E22C
-	for <lists+linux-api@lfdr.de>; Thu, 27 Jan 2022 13:20:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DC1B49E253
+	for <lists+linux-api@lfdr.de>; Thu, 27 Jan 2022 13:26:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241013AbiA0MUM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 27 Jan 2022 07:20:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47388 "EHLO
+        id S229658AbiA0M0H (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 27 Jan 2022 07:26:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240990AbiA0MUM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 27 Jan 2022 07:20:12 -0500
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59617C061714;
-        Thu, 27 Jan 2022 04:20:12 -0800 (PST)
+        with ESMTP id S229623AbiA0M0G (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 27 Jan 2022 07:26:06 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB41AC061714;
+        Thu, 27 Jan 2022 04:26:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=apFD4UwkGbnUlS6QRwwlqJtZYogyGpQVvXHYQdU89mo=; b=RAzvWVT3QoIcd1wSs2pQDzCr8b
-        utwt3vbxz/RrDaxL58pAOfQR/+/GRKD2AzzRN0m54fa3sRpOt09Rm6VNBBVqbSBZm605853qYqtR4
-        UpyWDOeyi3RoCO4qadAapNaf4sA9e/nB576zo1ISzfWlUxXGyvGN1MaPL8614s0kKSb+e6y0BR4tS
-        GHHU7Zx/O8rahpO3JDeJKFxaxc3IQMsA40kh64t7gay/9MGGba9oMddpbO4dy2/+vxMHBYd9fermu
-        cpdlp69uG9ajzJpl5t/GrUVFf0VbK4x5fXiu653qop0byW2pNb6jDg5WhrH26JV355L9HrSmKBwJy
-        EwjqrwaA==;
+        bh=ahwv7/f/d1wI1UunAeceetp1H08EJfVU7XPnkABFG5E=; b=QkAOsFVIQVeugYoeLMuS21eVwD
+        BPmC8JFQCcJ4j9NVkMK1OFcsyWA3Tkm7FFOi7HuM1PBggbDhWMqIKRzHGyjCY1XeIJ5Iy5RrzrI1W
+        nDbb/gk7KRI4ZfAgC7LSPOJHCcuYP/4JXeOwWFiQRi2/JadQN+LF3j7bKnm03Y5i2ZaV9zUcRsPk5
+        VtmR2g5tvIR7Tbzm68LEAo6JfUfrL1uLEHuooRYgj8TfV+iqaJwFmHurvZhTvPwDLOPhURFH4K6ut
+        x5MDR++uZsIdyI3fliKhXwUvc3cFDlYxI6JBO/MuLkXcAxUQKuQERqQDfdIqpSgAnvGrOsQOMHJpq
+        GL0giNMQ==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nD3kf-004A8L-FF; Thu, 27 Jan 2022 12:19:45 +0000
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nD3qN-005D5r-8h; Thu, 27 Jan 2022 12:25:39 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 6E101300268;
-        Thu, 27 Jan 2022 13:19:43 +0100 (CET)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 14290300268;
+        Thu, 27 Jan 2022 13:25:36 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 4608A2B520929; Thu, 27 Jan 2022 13:19:43 +0100 (CET)
-Date:   Thu, 27 Jan 2022 13:19:43 +0100
+        id BBFA12B52092A; Thu, 27 Jan 2022 13:25:36 +0100 (CET)
+Date:   Thu, 27 Jan 2022 13:25:36 +0100
 From:   Peter Zijlstra <peterz@infradead.org>
 To:     Tao Zhou <tao.zhou@linux.dev>
 Cc:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
@@ -47,7 +47,7 @@ Cc:     mingo@redhat.com, tglx@linutronix.de, juri.lelli@redhat.com,
         jannh@google.com, tdelisle@uwaterloo.ca, mark.rutland@arm.com,
         posk@posk.io
 Subject: Re: [RFC][PATCH v2 5/5] sched: User Mode Concurency Groups
-Message-ID: <YfKN3+84gtaIopHW@hirez.programming.kicks-ass.net>
+Message-ID: <YfKPQJ+Nr4Qokgim@hirez.programming.kicks-ass.net>
 References: <20220120155517.066795336@infradead.org>
  <20220120160822.914418096@infradead.org>
  <Ye67uQa4CwUuQJVY@geo.homenetwork>
@@ -60,91 +60,42 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 On Mon, Jan 24, 2022 at 10:46:17PM +0800, Tao Zhou wrote:
-> Hi Peter,
-> 
-> On Thu, Jan 20, 2022 at 04:55:22PM +0100, Peter Zijlstra wrote:
-> 
-> [...]
-> 
-> > +/* pre-schedule() */
-> > +void umcg_wq_worker_sleeping(struct task_struct *tsk)
+
+> > +/* Called from syscall exit path and exceptions that can schedule */
+> > +void umcg_sys_exit(struct pt_regs *regs)
 > > +{
-> > +	struct umcg_task __user *self = READ_ONCE(tsk->umcg_task);
-> > +	int ret;
+> > +	struct task_struct *tsk = current;
+> > +	long syscall = syscall_get_nr(tsk, regs);
 > > +
-> > +	if (!tsk->umcg_server) {
+> > +	if (syscall == __NR_umcg_wait ||
+> > +	    syscall == __NR_umcg_ctl)
+> > +		return;
+> > +
+> > +	if (tsk->umcg_server) {
 > > +		/*
-> > +		 * Already blocked before, the pages are unpinned.
+> > +		 * Didn't block, we done.
 > > +		 */
+> > +		umcg_unpin_pages();
 > > +		return;
 > > +	}
 > > +
-> > +	/* Must not fault, mmap_sem might be held. */
-> > +	pagefault_disable();
-> > +
-> > +	ret = umcg_update_state(tsk, self, UMCG_TASK_RUNNING, UMCG_TASK_BLOCKED);
-> > +	if (ret == -EAGAIN) {
-> > +		/*
-> > +		 * Consider:
-> > +		 *
-> > +		 *   self->state = UMCG_TASK_RUNNABLE | UMCG_TF_COND_WAIT;
-> > +		 *   ...
-> > +		 *   sys_umcg_wait();
-> > +		 *
-> > +		 * and the '...' code doing a blocking syscall/fault. This
-> > +		 * ensures that returns with UMCG_TASK_RUNNING, which will make
+> > +	umcg_unblock_and_wait();
 > 
-> /UMCG_TASK_RUNNING/UMCG_TASK_RUNNABLE/
+> umcg_unblock_and_wait() -> umcg_enqueue_and_wake() ->
+> umcg_wake_server() -> umcg_wake_task(tsk->umcg_server, ...)
+> 
+> tsk->umcg_server is NULL here and umcg_wake_task() use it to update
+> state in umcg_update_state(NULL, ...), that means tsk->umcg_clock
+> will happen something i do not know.
 
-So the issue is that:
+I think umcg_unblock_and_wait() will repin, at which point we should
+have tsk->umcg_server again.
 
-	self->state = UMCG_TASK_RUNNABLE | UMCG_TF_COND_WAIT;
+> There are two places to call umcg_unblock_and_wait(). One is in 
+> umcg_register() where the server is set. Another one is in
+> umcg_sys_exit() where the server is not set. May use a bool to
+> indicate if the server is set.
 
-	<#PF>
-	  umcg_sys_enter()
-	    umcg_pin_user_page()
-	  schedule()
-	    sched_submit_work()
-	      umcg_wq_worker_sleeping()
-	        umcg_update_state(tsk, self, UMCG_TASK_RUNNING, UMCG_TASK_BLOCKED) // -EAGAIN
-		UMCG_DIE()
+I'm not sure what you're on about, but I absolutely hate redundant
+state, that only leads to problems.
 
-Which is clearly not desirable.
-
-So this additinoal thing ensures that:
-
-		umcg_update_state(tsk, self, UMCG_TASK_RUNNABLE, UMCG_TASK_BLOCKED) // 0
-
-	  umcg_sys_exit()
-	    umcg_update_state(tsk, self, UMCG_TASK_BLOCKED, UMCG_TASK_RUNNABLE);
-	    umcg_enqueue_and_wake()
-
-	  umcg_notify_resume()
-	    umcg_wait()
-
-	// must be UMCG_TASK_RUNNING here
-	</#PF>
-
-So when the pagefault finally does return, it will have:
-UMCG_TASK_RUNNING.
-
-Which will then make sys_umcg_wait() return -EAGAIN and around we go.
-
-> > +		 * sys_umcg_wait() return with -EAGAIN.
-> > +		 */
-> > +		ret = umcg_update_state(tsk, self, UMCG_TASK_RUNNABLE, UMCG_TASK_BLOCKED);
-> > +	}
-> > +	if (ret)
-> > +		UMCG_DIE_PF("state");
-> > +
-> > +	if (umcg_wake_server(tsk))
-> > +		UMCG_DIE_PF("wake");
-> > +
-> > +	pagefault_enable();
-> > +
-> > +	/*
-> > +	 * We're going to sleep, make sure to unpin the pages, this ensures
-> > +	 * the pins are temporary. Also see umcg_sys_exit().
-> > +	 */
-> > +	umcg_unpin_pages();
-> > +}
