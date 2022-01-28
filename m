@@ -2,251 +2,176 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DC0C49EF29
-	for <lists+linux-api@lfdr.de>; Fri, 28 Jan 2022 01:17:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BFF2149F5A3
+	for <lists+linux-api@lfdr.de>; Fri, 28 Jan 2022 09:52:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238679AbiA1ARc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 27 Jan 2022 19:17:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45204 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235216AbiA1ARb (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 27 Jan 2022 19:17:31 -0500
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E063C061714
-        for <linux-api@vger.kernel.org>; Thu, 27 Jan 2022 16:17:31 -0800 (PST)
-Received: by mail-lf1-x12d.google.com with SMTP id z19so8411471lfq.13
-        for <linux-api@vger.kernel.org>; Thu, 27 Jan 2022 16:17:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=IlSEJdjJrMjk0uBxQ1Hapn8YGZniC2X8+hlUSQJTZwM=;
-        b=b0GAq2WgzrvcsiDSn/b3NReLAu13yP5fhdkdH7+7CT6UB+7fWmzEeAHsKA4dDNoeNo
-         paizE2t2lPrMvJe9bILSyix2rdq0PRr2zY9MJG4pVC5F5WXz5wRRUk5hlzex7z7PLHob
-         asTr+61XLgdhhPpPp0RKDRELmqf75iv7SoSyPKD9BNktRE6TCLbmzkjFgoJEVVA7g3zb
-         6CjiFZP8sW76YJ+0pW8jd9eDQvnRKX1hdSL940vNICgmeRzitsOZ4qJcnM++xAhIrNJX
-         KLerT7V508LixrbrvdMjcwYUJsJzwlwqhT/00ZQBa3tUYwEQaJOlcy1E3kH0EaMhdcMY
-         AcdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=IlSEJdjJrMjk0uBxQ1Hapn8YGZniC2X8+hlUSQJTZwM=;
-        b=ObuvPf8r1FnX0ggyeFTw8BUggYBGzuA5uqa+mFNPcnQPM+HaiLT7Qeb5CaLMpjRX2u
-         LkWIX8HaDO8Te9zIbEUe3jHhzBe46NhwUeLscvAWfH06Wq9JNJh+XMlIDJquzIvqhZg2
-         TGCLAGpzKPJIhqJUWRKnCfqrFFdmQSS9smaKQXE4ckwOtba7l2V3iAS4iD6IAg6Ru1uG
-         FQJZfcZURA+knfA9Dlo2/WznqN8RGWNfouA0VEWQL6iaFXHtzbxku349uRkDl5AFmWVj
-         d9+LAXO2BcCBe5p/RJkZGTAmSZM+9SamvCrTQfaU8Fu7Wvgv+AODOY16IZU+xYddt2Nv
-         8YaQ==
-X-Gm-Message-State: AOAM531p5kpBIb24oC0gwg6a+pxrEtC5cd3+vNGtxUp6PSKLcy4omcXK
-        YNjrGCU+g7SvpeDJ1Q0C6zEzKSpBe0t0Ymk882Rk4w==
-X-Google-Smtp-Source: ABdhPJwwq3RWKdq6zaQeBD4zp7BWV/yEz0bPSG5n3byJeJMyzqq7BkL9gHT/C/ZRY8175jaO1A1XGgvkI1yjZL5Hpfk=
-X-Received: by 2002:ac2:4c4c:: with SMTP id o12mr4346659lfk.523.1643329049299;
- Thu, 27 Jan 2022 16:17:29 -0800 (PST)
+        id S1347388AbiA1Iwr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 28 Jan 2022 03:52:47 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:34248 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238669AbiA1Iwg (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 28 Jan 2022 03:52:36 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E8637B824F3;
+        Fri, 28 Jan 2022 08:52:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E58E4C340E8;
+        Fri, 28 Jan 2022 08:52:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1643359953;
+        bh=A4ZIq4YD54mut6tILAfqK6qkKR21qOF5XKfRj9haV7U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CRAb5TSqgtbYl/IuvBdAeio42OQkKV8HONQvLbracpULCcVf4ckEOQIbGpEy89J0y
+         Zyn508vIY/LKWJ/gTeXV1neO5E4LYN+y8aSu52Yzlr5bksmAye+T3h8/+vHfR8WSO0
+         CL2shUlnt0Xwoj4sB3n0oJ9TmcvYZPhgYb9oEKGtzKQknZnVtC4sXOVUivG+h8RC6E
+         t3rDMlLGsG5VPY7IdKsbx9lKnQGH231ls8WgalFLUDLpBZuQt2QpmwW34FGv+Jkp4/
+         8VGzOzi+aBYIleGYPrdjQRnhPpdkGn2bx1Cgg9o+asYslsEXSCFaO8VwkzvwAl02fl
+         3MaBw8qE9fawg==
+Date:   Fri, 28 Jan 2022 09:52:24 +0100
+From:   Christian Brauner <brauner@kernel.org>
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+        linux-kselftest@vger.kernel.org, Florian Weimer <fw@deneb.enyo.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Dave Watson <davejwatson@fb.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Russell King <linux@arm.linux.org.uk>,
+        Andi Kleen <andi@firstfloor.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Ben Maurer <bmaurer@fb.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Joel Fernandes <joelaf@google.com>
+Subject: Re: [RFC PATCH v2] rseq: Remove broken uapi field layout on 32-bit
+ little endian
+Message-ID: <20220128085224.twfwxz4ttxnaeweo@wittgenstein>
+References: <1116876795.2062.1643223596536.JavaMail.zimbra@efficios.com>
+ <20220127152720.25898-1-mathieu.desnoyers@efficios.com>
 MIME-Version: 1.0
-References: <20220120155517.066795336@infradead.org> <20220120160822.852009966@infradead.org>
- <YfIAsHQv5Q84fOqO@google.com> <YfI9Y5l0fQAKuJav@google.com>
- <YfJsNcYNH8JTHrM/@hirez.programming.kicks-ass.net> <YfMruK8/1izZ2VHS@google.com>
-In-Reply-To: <YfMruK8/1izZ2VHS@google.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 27 Jan 2022 16:17:17 -0800
-Message-ID: <CAKwvOdmPkCuYuMRBSeK7DaK-wrdH5+C0gL63eqJ1buHsmueFsg@mail.gmail.com>
-Subject: Re: [RFC][PATCH v2 4/5] x86/uaccess: Implement unsafe_try_cmpxchg_user()
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>, mingo@redhat.com,
-        tglx@linutronix.de, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-api@vger.kernel.org, x86@kernel.org,
-        pjt@google.com, posk@google.com, avagin@google.com,
-        jannh@google.com, tdelisle@uwaterloo.ca, mark.rutland@arm.com,
-        posk@posk.io, James Y Knight <jyknight@google.com>,
-        llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220127152720.25898-1-mathieu.desnoyers@efficios.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jan 27, 2022 at 3:33 PM Sean Christopherson <seanjc@google.com> wro=
-te:
->
-> +Nick
+On Thu, Jan 27, 2022 at 10:27:20AM -0500, Mathieu Desnoyers wrote:
+> The rseq rseq_cs.ptr.{ptr32,padding} uapi endianness handling is
+> entirely wrong on 32-bit little endian: a preprocessor logic mistake
+> wrongly uses the big endian field layout on 32-bit little endian
+> architectures.
+> 
+> Fortunately, those ptr32 accessors were never used within the kernel,
+> and only meant as a convenience for user-space.
+> 
+> Remove those and replace the whole rseq_cs union by a __u64 type, as
+> this is the only thing really needed to express the ABI. Document how
+> 32-bit architectures are meant to interact with this field.
+> 
+> Fixes: ec9c82e03a74 ("rseq: uapi: Declare rseq_cs field as union, update includes")
+> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> Cc: Florian Weimer <fw@deneb.enyo.de>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: linux-api@vger.kernel.org
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Boqun Feng <boqun.feng@gmail.com>
+> Cc: Andy Lutomirski <luto@amacapital.net>
+> Cc: Dave Watson <davejwatson@fb.com>
+> Cc: Paul Turner <pjt@google.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Russell King <linux@arm.linux.org.uk>
+> Cc: "H . Peter Anvin" <hpa@zytor.com>
+> Cc: Andi Kleen <andi@firstfloor.org>
+> Cc: Christian Brauner <christian.brauner@ubuntu.com>
+> Cc: Ben Maurer <bmaurer@fb.com>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Josh Triplett <josh@joshtriplett.org>
+> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will.deacon@arm.com>
+> Cc: Michael Kerrisk <mtk.manpages@gmail.com>
+> Cc: Joel Fernandes <joelaf@google.com>
+> Cc: Paul E. McKenney <paulmck@kernel.org>
+> ---
 
-(well, you asked the right person; you probably wont like the answer
-much though)
+Looks way cleaner now! Fwiw,
+Acked-by: Christian Brauner <brauner@kernel.org>
 
->
-> On Thu, Jan 27, 2022, Peter Zijlstra wrote:
-> > On Thu, Jan 27, 2022 at 06:36:19AM +0000, Sean Christopherson wrote:
-> > > On Thu, Jan 27, 2022, Sean Christopherson wrote:
-> > > > Doh, I should have specified that KVM needs 8-byte CMPXCHG on 32-bi=
-t kernels due
-> > > > to using it to atomically update guest PAE PTEs and LTR descriptors=
- (yay).
-> > > >
-> > > > Also, KVM's use case isn't a tight loop, how gross would it be to a=
-dd a slightly
-> > > > less unsafe version that does __uaccess_begin_nospec()?  KVM pre-ch=
-ecks the address
-> > > > way ahead of time, so the access_ok() check can be omitted.  Altern=
-atively, KVM
-> > > > could add its own macro, but that seems a little silly.  E.g. somet=
-hign like this,
-> > > > though I don't think this is correct
-> > >
-> > > *sigh*
-> > >
-> > > Finally realized I forgot to add back the page offset after convertin=
-g from guest
-> > > page frame to host virtual address.  Anyways, this is what I ended up=
- with, will
-> > > test more tomorrow.
-> >
-> > Looks about right :-) (famous last words etc..)
->
-> And it was right, but clang-13 ruined the party :-/
->
-> clang barfs on asm goto with a "+m" input/output.  Change the "+m" to "=
-=3Dm" and
-> clang is happy.  Remove usage of the label, clang is happy.
-
-Yep, sorry, we only recently noticed that this was broken.  I fixed
-this very recently (over the holidays) in clang-14, and is too risky
-and late to backport to clang-13 IMO.
-https://reviews.llvm.org/rG4edb9983cb8c8b850083ee5941468f5d0ef6fe2c
-
->
-> I tried a bunch of different variants to see if anything would squeak by,=
- but
-> clang found a way to die on everything I threw at it.
->
-> $ clang --version
->
->   Debian clang version 13.0.0-9+build1
->   Target: x86_64-pc-linux-gnu
->   Thread model: posix
->   InstalledDir: /usr/bin
->
-> As written, with a named label param, clang yields:
->
->   $ echo 'int foo(int *x) { asm goto (".long (%l[bar]) - .\n": "+m"(*x) :=
-:: bar); return *x; bar: return 0; }' | clang -x c - -c -o /dev/null
->   <stdin>:1:29: error: invalid operand in inline asm: '.long (${1:l}) - .=
-'
->   int foo(int *x) { asm goto (".long (%l[bar]) - .\n": "+m"(*x) ::: bar);=
- return *x; bar: return 0; }
->                             ^
->   <stdin>:1:29: error: unknown token in expression
->   <inline asm>:1:9: note: instantiated into assembly here
->           .long () - .
->                ^
->   2 errors generated.
->
-> While clang is perfectly happy switching "+m" to "=3Dm":
->
->   $ echo 'int foo(int *x) { asm goto (".long (%l[bar]) - .\n": "=3Dm"(*x)=
- ::: bar); return *x; bar: return 0; }' | clang -x c - -c -o /dev/null
-
-=3D constraints should work with older clang releases; + constraints are
-what was broken (Not generally, only when using asm goto with
-outputs), fixed in clang-14.
-
->
-> Referencing the label with a numbered param yields either the original er=
-ror:
->
->   $ echo 'int foo(int *x) { asm goto (".long (%l1) - .\n": "+m"(*x) ::: b=
-ar); return *x; bar: return 0; }' | clang -x c - -c -o /dev/null
->   <stdin>:1:29: error: invalid operand in inline asm: '.long (${1:l}) - .=
-'
->   int foo(int *x) { asm goto (".long (%l1) - .\n": "+m"(*x) ::: bar); ret=
-urn *x; bar: return 0; }
->                             ^
->   <stdin>:1:29: error: unknown token in expression
->   <inline asm>:1:9: note: instantiated into assembly here
->           .long () - .
->                  ^
->    2 errors generated.
-
-^ That case should not work in either compilers, more info below...
-
->
-> Bumping the param number (more below) yields a different error (I tried d=
-efining
-> tmp1, that didn't work :-) ).
->
->   $ echo 'int foo(int *x) { asm goto (".long (%l2) - .\n": "+m"(*x) ::: b=
-ar); return *x; bar: return 0; }' | clang -x c - -c -o /dev/null
->   error: Undefined temporary symbol .Ltmp1
->   1 error generated.
-
-"Bumping the param number" will be required when using numbered
-references, more info below...
-
->
-> Regarding the param number, gcc also appears to have a goof with asm goto=
- and "+m",
-> but bumping the param number in that case remedies its woes.
->
->   $echo 'int foo(int *x) { asm goto (".long (%l1) - .\n": "+m"(*x) ::: ba=
-r); return *x; bar: return 0; }' | gcc -x c - -c -o /dev/null
->   <stdin>: In function =E2=80=98foo=E2=80=99:
->   <stdin>:1:19: error: invalid 'asm': '%l' operand isn't a label
->
->   $ echo 'int foo(int *x) { asm goto (".long (%l2) - .\n": "+m"(*x) ::: b=
-ar); return *x; bar: return 0; }' | gcc -x c - -c -o /dev/null
-
-Right, so in fixing the above issue with tied outputs, I noticed that
-the GCC implementation of asm goto with outputs had different
-behavior. I changed clang's implementation in clang-14 (same patch
-series) to match:
-https://reviews.llvm.org/rG5c562f62a4ee15592f5d764d0710553a4b07a6f2
-This comment summarizes most of my thoughts on the issue:
-https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D98096#c7
-Specifically the quote "It appears to me that the GCC decision here
-was accidental, and that when pointed out, the bug was simply
-documented rather than fixed."
-Though I think compatibility between compilers is ultimately more
-important.  There's no standards bodies involved in these extension,
-which is simultaneously more flexible, yet can also lead to
-differences in implementations like this. Thanks for attending my TED
-talk.
-
->
->
-> So my immediate question: how do we want to we deal with this in the kern=
-el?  Keeping
-> in mind that I'd really like to send this to stable@ to fix the KVM mess.
->
-> I can think of few options that are varying degrees of gross.
->
->   1) Use a more complex sequence for probing CC_HAS_ASM_GOTO_OUTPUT.
->
->   2) Use an output-only "=3Dm" operand.
->
->   3) Use an input register param.
->
-> Option #1 has the obvious downside of the fancier asm goto for  __get_use=
-r_asm()
-> and friends being collateral damage.  The biggest benefit is it'd reduce =
-the
-> likelihood of someone else having to debug similar errors, which was quit=
-e painful.
-
-Right; I assumed we'd hit this at some point, as soon as people wanted
-to used tied outputs with asm goto.  I'd rather have a different
-Kconfig test for working tied outputs, and that all uses in the
-kernels used the symbolic references which are much more readable and
-less confusing than the rules for numbered references (which are bug
-prone IMO).
-
->
-> Options #2 and #3 are quite gross, but I _think_ would be ok since the se=
-quence
-> is tagged as clobbering memory anyways?
-
---=20
-Thanks,
-~Nick Desaulniers
+>  include/uapi/linux/rseq.h | 20 ++++----------------
+>  kernel/rseq.c             |  8 ++++----
+>  2 files changed, 8 insertions(+), 20 deletions(-)
+> 
+> diff --git a/include/uapi/linux/rseq.h b/include/uapi/linux/rseq.h
+> index 9a402fdb60e9..77ee207623a9 100644
+> --- a/include/uapi/linux/rseq.h
+> +++ b/include/uapi/linux/rseq.h
+> @@ -105,23 +105,11 @@ struct rseq {
+>  	 * Read and set by the kernel. Set by user-space with single-copy
+>  	 * atomicity semantics. This field should only be updated by the
+>  	 * thread which registered this data structure. Aligned on 64-bit.
+> +	 *
+> +	 * 32-bit architectures should update the low order bits of the
+> +	 * rseq_cs field, leaving the high order bits initialized to 0.
+>  	 */
+> -	union {
+> -		__u64 ptr64;
+> -#ifdef __LP64__
+> -		__u64 ptr;
+> -#else
+> -		struct {
+> -#if (defined(__BYTE_ORDER) && (__BYTE_ORDER == __BIG_ENDIAN)) || defined(__BIG_ENDIAN)
+> -			__u32 padding;		/* Initialized to zero. */
+> -			__u32 ptr32;
+> -#else /* LITTLE */
+> -			__u32 ptr32;
+> -			__u32 padding;		/* Initialized to zero. */
+> -#endif /* ENDIAN */
+> -		} ptr;
+> -#endif
+> -	} rseq_cs;
+> +	__u64 rseq_cs;
+>  
+>  	/*
+>  	 * Restartable sequences flags field.
+> diff --git a/kernel/rseq.c b/kernel/rseq.c
+> index 6d45ac3dae7f..97ac20b4f738 100644
+> --- a/kernel/rseq.c
+> +++ b/kernel/rseq.c
+> @@ -128,10 +128,10 @@ static int rseq_get_rseq_cs(struct task_struct *t, struct rseq_cs *rseq_cs)
+>  	int ret;
+>  
+>  #ifdef CONFIG_64BIT
+> -	if (get_user(ptr, &t->rseq->rseq_cs.ptr64))
+> +	if (get_user(ptr, &t->rseq->rseq_cs))
+>  		return -EFAULT;
+>  #else
+> -	if (copy_from_user(&ptr, &t->rseq->rseq_cs.ptr64, sizeof(ptr)))
+> +	if (copy_from_user(&ptr, &t->rseq->rseq_cs, sizeof(ptr)))
+>  		return -EFAULT;
+>  #endif
+>  	if (!ptr) {
+> @@ -217,9 +217,9 @@ static int clear_rseq_cs(struct task_struct *t)
+>  	 * Set rseq_cs to NULL.
+>  	 */
+>  #ifdef CONFIG_64BIT
+> -	return put_user(0UL, &t->rseq->rseq_cs.ptr64);
+> +	return put_user(0UL, &t->rseq->rseq_cs);
+>  #else
+> -	if (clear_user(&t->rseq->rseq_cs.ptr64, sizeof(t->rseq->rseq_cs.ptr64)))
+> +	if (clear_user(&t->rseq->rseq_cs, sizeof(t->rseq->rseq_cs)))
+>  		return -EFAULT;
+>  	return 0;
+>  #endif
+> -- 
+> 2.17.1
+> 
