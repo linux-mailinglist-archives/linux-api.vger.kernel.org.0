@@ -2,110 +2,96 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EAEA04A3A4D
-	for <lists+linux-api@lfdr.de>; Sun, 30 Jan 2022 22:26:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6608D4A3C40
+	for <lists+linux-api@lfdr.de>; Mon, 31 Jan 2022 01:24:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356802AbiA3V0D (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 30 Jan 2022 16:26:03 -0500
-Received: from mga07.intel.com ([134.134.136.100]:9048 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1356821AbiA3VZc (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Sun, 30 Jan 2022 16:25:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643577932; x=1675113932;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=qjlVyEBxxP1l305ldO+H2m7erFyvzIp4PIJC/dne3Rw=;
-  b=lWfmWDe1uVtISUbhbJ8UqaWGN9/ekymjl6JmgibJFvJ/a0msOYClGzfB
-   jLgH997zdon7yto4gJxJJGCxnwnHLAsEKSmmFKtq75FGKssnSTi7AYNA6
-   IuD35YpPW1l/KNHb4/PTIMcRtSbQF9aL+4DXF0RWlkRkf5q4nNptlycr2
-   fYwjujHg0epPhYNzpHZXLKLWNJxhBENW++5k1I3eDI3OSZe/BzmGfir0w
-   9N00aTCjLubqv4ISsEKAslFThE4LENdtPN0jSKi1/bieM5hPsXm+/5qKj
-   Am/hMejzL2PUiHc2Huc9U2Dc1Tcko5dBjEH+t9OQzM/5NYXk0jwk9qNyy
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10243"; a="310685840"
-X-IronPort-AV: E=Sophos;i="5.88,329,1635231600"; 
-   d="scan'208";a="310685840"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2022 13:22:14 -0800
-X-IronPort-AV: E=Sophos;i="5.88,329,1635231600"; 
-   d="scan'208";a="536857038"
-Received: from avmallar-mobl1.amr.corp.intel.com (HELO rpedgeco-desk.amr.corp.intel.com) ([10.209.123.171])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2022 13:22:14 -0800
-From:   Rick Edgecombe <rick.p.edgecombe@intel.com>
-To:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
-        kcc@google.com, eranian@google.com
-Cc:     rick.p.edgecombe@intel.com
-Subject: [PATCH 35/35] x86/cpufeatures: Limit shadow stack to Intel CPUs
-Date:   Sun, 30 Jan 2022 13:18:38 -0800
-Message-Id: <20220130211838.8382-36-rick.p.edgecombe@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
-References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
+        id S1357135AbiAaAY5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 30 Jan 2022 19:24:57 -0500
+Received: from vmicros1.altlinux.org ([194.107.17.57]:41992 "EHLO
+        vmicros1.altlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233085AbiAaAY4 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 30 Jan 2022 19:24:56 -0500
+Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
+        by vmicros1.altlinux.org (Postfix) with ESMTP id 419ED72C8FA;
+        Mon, 31 Jan 2022 03:24:54 +0300 (MSK)
+Received: by mua.local.altlinux.org (Postfix, from userid 508)
+        id 2F3347CCAA4; Mon, 31 Jan 2022 03:24:54 +0300 (MSK)
+Date:   Mon, 31 Jan 2022 03:24:54 +0300
+From:   "Dmitry V. Levin" <ldv@altlinux.org>
+To:     Tony Lu <tonylu@linux.alibaba.com>
+Cc:     kgraul@linux.ibm.com, kuba@kernel.org, davem@davemloft.net,
+        netdev@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH 2/4] net/smc: Add netlink net namespace support
+Message-ID: <20220131002453.GA7599@altlinux.org>
+References: <20211228130611.19124-1-tonylu@linux.alibaba.com>
+ <20211228130611.19124-3-tonylu@linux.alibaba.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211228130611.19124-3-tonylu@linux.alibaba.com>
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Shadow stack is supported on newer AMD processors, but the kernel
-implementation has not been tested on them. Prevent basic issues from
-showing up for normal users by disabling shadow stack on all CPUs except
-Intel until it has been tested. At which point the limitation should be
-removed.
+On Tue, Dec 28, 2021 at 09:06:10PM +0800, Tony Lu wrote:
+> This adds net namespace ID to diag of linkgroup, helps us to distinguish
+> different namespaces, and net_cookie is unique in the whole system.
+> 
+> Signed-off-by: Tony Lu <tonylu@linux.alibaba.com>
+> ---
+>  include/uapi/linux/smc.h      |  2 ++
+>  include/uapi/linux/smc_diag.h | 11 ++++++-----
+>  net/smc/smc_core.c            |  3 +++
+>  net/smc/smc_diag.c            | 16 +++++++++-------
+>  4 files changed, 20 insertions(+), 12 deletions(-)
+> 
+> diff --git a/include/uapi/linux/smc.h b/include/uapi/linux/smc.h
+> index 20f33b27787f..6c2874fd2c00 100644
+> --- a/include/uapi/linux/smc.h
+> +++ b/include/uapi/linux/smc.h
+> @@ -119,6 +119,8 @@ enum {
+>  	SMC_NLA_LGR_R_CONNS_NUM,	/* u32 */
+>  	SMC_NLA_LGR_R_V2_COMMON,	/* nest */
+>  	SMC_NLA_LGR_R_V2,		/* nest */
+> +	SMC_NLA_LGR_R_NET_COOKIE,	/* u64 */
+> +	SMC_NLA_LGR_R_PAD,		/* flag */
+>  	__SMC_NLA_LGR_R_MAX,
+>  	SMC_NLA_LGR_R_MAX = __SMC_NLA_LGR_R_MAX - 1
+>  };
+> diff --git a/include/uapi/linux/smc_diag.h b/include/uapi/linux/smc_diag.h
+> index 8cb3a6fef553..c7008d87f1a4 100644
+> --- a/include/uapi/linux/smc_diag.h
+> +++ b/include/uapi/linux/smc_diag.h
+> @@ -84,11 +84,12 @@ struct smc_diag_conninfo {
+>  /* SMC_DIAG_LINKINFO */
+>  
+>  struct smc_diag_linkinfo {
+> -	__u8 link_id;			/* link identifier */
+> -	__u8 ibname[IB_DEVICE_NAME_MAX]; /* name of the RDMA device */
+> -	__u8 ibport;			/* RDMA device port number */
+> -	__u8 gid[40];			/* local GID */
+> -	__u8 peer_gid[40];		/* peer GID */
+> +	__u8		link_id;		    /* link identifier */
+> +	__u8		ibname[IB_DEVICE_NAME_MAX]; /* name of the RDMA device */
+> +	__u8		ibport;			    /* RDMA device port number */
+> +	__u8		gid[40];		    /* local GID */
+> +	__u8		peer_gid[40];		    /* peer GID */
+> +	__aligned_u64	net_cookie;                 /* RDMA device net namespace */
+>  };
+>  
+>  struct smc_diag_lgrinfo {
 
-Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
----
+I'm sorry but this is an ABI regression.
 
-v1:
- - New patch.
+Since struct smc_diag_lgrinfo contains an object of type "struct smc_diag_linkinfo",
+offset of all subsequent members of struct smc_diag_lgrinfo is changed by
+this patch.
 
- arch/x86/kernel/cpu/common.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+As result, applications compiled with the old version of struct smc_diag_linkinfo
+will receive garbage in struct smc_diag_lgrinfo.role if the kernel implements
+this new version of struct smc_diag_linkinfo.
 
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 9ee339f5b8ca..7fbfe707a1db 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -517,6 +517,14 @@ __setup("nopku", setup_disable_pku);
- 
- static __always_inline void setup_cet(struct cpuinfo_x86 *c)
- {
-+	/*
-+	 * Shadow stack is supported on AMD processors, but has not been
-+	 * tested. Only support it on Intel processors until this is done.
-+	 * At which point, this vendor check should be removed.
-+	 */
-+	if (c->x86_vendor != X86_VENDOR_INTEL)
-+		setup_clear_cpu_cap(X86_FEATURE_SHSTK);
-+
- 	if (!cpu_feature_enabled(X86_FEATURE_SHSTK))
- 		return;
- 
+
 -- 
-2.17.1
-
+ldv
