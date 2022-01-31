@@ -2,93 +2,120 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C06B4A3E66
-	for <lists+linux-api@lfdr.de>; Mon, 31 Jan 2022 08:57:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 199E74A489A
+	for <lists+linux-api@lfdr.de>; Mon, 31 Jan 2022 14:49:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240426AbiAaH5R (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 31 Jan 2022 02:57:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46862 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S238456AbiAaH5R (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 31 Jan 2022 02:57:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1643615836;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=UKRrxpA5zhfSZiQGv/yx2cUoAnXjZEXW1GA6k9oFz4w=;
-        b=B6+oBc4812BIE+foOlFAs2qiSso6ht4kFUpYJOG2/UjanQ43I0iHvGA41qkeIKnGY65QtG
-        T5T34UBYLg5vJscMMwQUZWR0ujysPD53OQQGRTLUI2m3LhNf6By98mnVfK6clSpVPaYS87
-        Q8ZjMr2l3P2aWPgd8S5NvWylCbLZSr8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-216-gCx-9PGnMD2a71SWny4wNg-1; Mon, 31 Jan 2022 02:57:13 -0500
-X-MC-Unique: gCx-9PGnMD2a71SWny4wNg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25AD946863;
-        Mon, 31 Jan 2022 07:57:09 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.39.193.205])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F63C5F936;
-        Mon, 31 Jan 2022 07:56:47 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
-        kcc@google.com, eranian@google.com
-Subject: Re: [PATCH 34/35] x86/cet/shstk: Support wrss for userspace
-In-Reply-To: <20220130211838.8382-35-rick.p.edgecombe@intel.com> (Rick
-        Edgecombe's message of "Sun, 30 Jan 2022 13:18:37 -0800")
-References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
-        <20220130211838.8382-35-rick.p.edgecombe@intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date:   Mon, 31 Jan 2022 08:56:45 +0100
-Message-ID: <87wnig8hj6.fsf@oldenburg.str.redhat.com>
+        id S1378793AbiAaNtO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 31 Jan 2022 08:49:14 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54294 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1379136AbiAaNtN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 31 Jan 2022 08:49:13 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20VDcnUU015318;
+        Mon, 31 Jan 2022 13:49:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=Sxh7o1iAKLCMsfWCRBQwf9so06hyTCNc37KOGh7foHY=;
+ b=BV2eW+3pPWeCxJOxN/Lju5kUqd+snBvwcevFdo0dC5sOe248x/l55zGafWZn5dKwxnOu
+ 6wvFJAmnJI5eMApq8y3hw9TWiWFDCPs76vKENt4API9+7TaCTncSGLD6XrZonLaIT3+E
+ JbamMhjUwsY2NiwIk4vA6ler0FPloUhYaayUNxWzAR+mUFz8by3D1xLtM03FQrD5+2f2
+ +nTc5bA7cEK99WvZe5SmJB6+RAoNw0tU3WYL8zKLViFAWnRDd22NhtbbTF28s9EBbXoQ
+ P9e1copgLsRawR0ZaSQaoNhFGCKwIh+oxqTvjAvkLrKDvMk4X9QVnGipS6QB9TD4LgnE FQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3dx66bb7qa-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 31 Jan 2022 13:49:03 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20VDeg4t025665;
+        Mon, 31 Jan 2022 13:49:03 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3dx66bb7p8-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 31 Jan 2022 13:49:03 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+        by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20VDmBbp007404;
+        Mon, 31 Jan 2022 13:49:00 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+        by ppma04ams.nl.ibm.com with ESMTP id 3dvw79byc6-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 31 Jan 2022 13:49:00 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 20VDmwGM12517878
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 31 Jan 2022 13:48:58 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 915A511C050;
+        Mon, 31 Jan 2022 13:48:58 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 1EDDC11C052;
+        Mon, 31 Jan 2022 13:48:58 +0000 (GMT)
+Received: from [9.145.79.147] (unknown [9.145.79.147])
+        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Mon, 31 Jan 2022 13:48:58 +0000 (GMT)
+Message-ID: <521e3f2a-8b00-43d4-b296-1253c351a3d2@linux.ibm.com>
+Date:   Mon, 31 Jan 2022 14:49:13 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 2/4] net/smc: Add netlink net namespace support
+Content-Language: en-US
+To:     "Dmitry V. Levin" <ldv@altlinux.org>,
+        Tony Lu <tonylu@linux.alibaba.com>
+Cc:     kuba@kernel.org, davem@davemloft.net, netdev@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-api@vger.kernel.org
+References: <20211228130611.19124-1-tonylu@linux.alibaba.com>
+ <20211228130611.19124-3-tonylu@linux.alibaba.com>
+ <20220131002453.GA7599@altlinux.org>
+From:   Karsten Graul <kgraul@linux.ibm.com>
+Organization: IBM Deutschland Research & Development GmbH
+In-Reply-To: <20220131002453.GA7599@altlinux.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Q4L5XAycyIYWTBb2iAa0tMTYqsCrYQyi
+X-Proofpoint-ORIG-GUID: 0hntWQwo8aXJg7QmSotzx_D0sS_ptxr4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-31_05,2022-01-31_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 clxscore=1011
+ impostorscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0 spamscore=0
+ mlxscore=0 mlxlogscore=999 priorityscore=1501 phishscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2201310088
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Rick Edgecombe:
+On 31/01/2022 01:24, Dmitry V. Levin wrote:
+> On Tue, Dec 28, 2021 at 09:06:10PM +0800, Tony Lu wrote:
+>> This adds net namespace ID to diag of linkgroup, helps us to distinguish
+>> different namespaces, and net_cookie is unique in the whole system.
+>>
+> 
+> I'm sorry but this is an ABI regression.
+> 
+> Since struct smc_diag_lgrinfo contains an object of type "struct smc_diag_linkinfo",
+> offset of all subsequent members of struct smc_diag_lgrinfo is changed by
+> this patch.
+> 
+> As result, applications compiled with the old version of struct smc_diag_linkinfo
+> will receive garbage in struct smc_diag_lgrinfo.role if the kernel implements
+> this new version of struct smc_diag_linkinfo.
+> 
 
-> For the current shadow stack implementation, shadow stacks contents cannot
-> be arbitrarily provisioned with data. This property helps apps protect
-> themselves better, but also restricts any potential apps that may want to
-> do exotic things at the expense of a little security.
->
-> The x86 shadow stack feature introduces a new instruction, wrss, which
-> can be enabled to write directly to shadow stack permissioned memory from
-> userspace. Allow it to get enabled via the prctl interface.
+Good catch! This patch adds 2 ways to provide the net_cookie to user space, one is over the new
+netlink interface, and the other is using the old smc_diag way. 
+Imho to use the new netlink interface is good enough, there is no need to touch the smc_diag ABI.
+We already started adding new fields to the netlink interface only, this flexibility is 
+the reason why we added this interface initially.
 
-Why can't this be turned on unconditionally?
+So a patch that removes
+	__aligned_u64	net_cookie;
+and
+	.lnk[0].net_cookie = net->net_cookie,
+should solve the issue. 
 
-Thanks,
-Florian
-
+Thoughts?
