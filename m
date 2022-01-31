@@ -2,96 +2,93 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6608D4A3C40
-	for <lists+linux-api@lfdr.de>; Mon, 31 Jan 2022 01:24:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C06B4A3E66
+	for <lists+linux-api@lfdr.de>; Mon, 31 Jan 2022 08:57:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357135AbiAaAY5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 30 Jan 2022 19:24:57 -0500
-Received: from vmicros1.altlinux.org ([194.107.17.57]:41992 "EHLO
-        vmicros1.altlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233085AbiAaAY4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 30 Jan 2022 19:24:56 -0500
-Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
-        by vmicros1.altlinux.org (Postfix) with ESMTP id 419ED72C8FA;
-        Mon, 31 Jan 2022 03:24:54 +0300 (MSK)
-Received: by mua.local.altlinux.org (Postfix, from userid 508)
-        id 2F3347CCAA4; Mon, 31 Jan 2022 03:24:54 +0300 (MSK)
-Date:   Mon, 31 Jan 2022 03:24:54 +0300
-From:   "Dmitry V. Levin" <ldv@altlinux.org>
-To:     Tony Lu <tonylu@linux.alibaba.com>
-Cc:     kgraul@linux.ibm.com, kuba@kernel.org, davem@davemloft.net,
-        netdev@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [PATCH 2/4] net/smc: Add netlink net namespace support
-Message-ID: <20220131002453.GA7599@altlinux.org>
-References: <20211228130611.19124-1-tonylu@linux.alibaba.com>
- <20211228130611.19124-3-tonylu@linux.alibaba.com>
+        id S240426AbiAaH5R (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 31 Jan 2022 02:57:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46862 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238456AbiAaH5R (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 31 Jan 2022 02:57:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1643615836;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=UKRrxpA5zhfSZiQGv/yx2cUoAnXjZEXW1GA6k9oFz4w=;
+        b=B6+oBc4812BIE+foOlFAs2qiSso6ht4kFUpYJOG2/UjanQ43I0iHvGA41qkeIKnGY65QtG
+        T5T34UBYLg5vJscMMwQUZWR0ujysPD53OQQGRTLUI2m3LhNf6By98mnVfK6clSpVPaYS87
+        Q8ZjMr2l3P2aWPgd8S5NvWylCbLZSr8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-216-gCx-9PGnMD2a71SWny4wNg-1; Mon, 31 Jan 2022 02:57:13 -0500
+X-MC-Unique: gCx-9PGnMD2a71SWny4wNg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25AD946863;
+        Mon, 31 Jan 2022 07:57:09 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.39.193.205])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F63C5F936;
+        Mon, 31 Jan 2022 07:56:47 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
+        kcc@google.com, eranian@google.com
+Subject: Re: [PATCH 34/35] x86/cet/shstk: Support wrss for userspace
+In-Reply-To: <20220130211838.8382-35-rick.p.edgecombe@intel.com> (Rick
+        Edgecombe's message of "Sun, 30 Jan 2022 13:18:37 -0800")
+References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
+        <20220130211838.8382-35-rick.p.edgecombe@intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date:   Mon, 31 Jan 2022 08:56:45 +0100
+Message-ID: <87wnig8hj6.fsf@oldenburg.str.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211228130611.19124-3-tonylu@linux.alibaba.com>
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Dec 28, 2021 at 09:06:10PM +0800, Tony Lu wrote:
-> This adds net namespace ID to diag of linkgroup, helps us to distinguish
-> different namespaces, and net_cookie is unique in the whole system.
-> 
-> Signed-off-by: Tony Lu <tonylu@linux.alibaba.com>
-> ---
->  include/uapi/linux/smc.h      |  2 ++
->  include/uapi/linux/smc_diag.h | 11 ++++++-----
->  net/smc/smc_core.c            |  3 +++
->  net/smc/smc_diag.c            | 16 +++++++++-------
->  4 files changed, 20 insertions(+), 12 deletions(-)
-> 
-> diff --git a/include/uapi/linux/smc.h b/include/uapi/linux/smc.h
-> index 20f33b27787f..6c2874fd2c00 100644
-> --- a/include/uapi/linux/smc.h
-> +++ b/include/uapi/linux/smc.h
-> @@ -119,6 +119,8 @@ enum {
->  	SMC_NLA_LGR_R_CONNS_NUM,	/* u32 */
->  	SMC_NLA_LGR_R_V2_COMMON,	/* nest */
->  	SMC_NLA_LGR_R_V2,		/* nest */
-> +	SMC_NLA_LGR_R_NET_COOKIE,	/* u64 */
-> +	SMC_NLA_LGR_R_PAD,		/* flag */
->  	__SMC_NLA_LGR_R_MAX,
->  	SMC_NLA_LGR_R_MAX = __SMC_NLA_LGR_R_MAX - 1
->  };
-> diff --git a/include/uapi/linux/smc_diag.h b/include/uapi/linux/smc_diag.h
-> index 8cb3a6fef553..c7008d87f1a4 100644
-> --- a/include/uapi/linux/smc_diag.h
-> +++ b/include/uapi/linux/smc_diag.h
-> @@ -84,11 +84,12 @@ struct smc_diag_conninfo {
->  /* SMC_DIAG_LINKINFO */
->  
->  struct smc_diag_linkinfo {
-> -	__u8 link_id;			/* link identifier */
-> -	__u8 ibname[IB_DEVICE_NAME_MAX]; /* name of the RDMA device */
-> -	__u8 ibport;			/* RDMA device port number */
-> -	__u8 gid[40];			/* local GID */
-> -	__u8 peer_gid[40];		/* peer GID */
-> +	__u8		link_id;		    /* link identifier */
-> +	__u8		ibname[IB_DEVICE_NAME_MAX]; /* name of the RDMA device */
-> +	__u8		ibport;			    /* RDMA device port number */
-> +	__u8		gid[40];		    /* local GID */
-> +	__u8		peer_gid[40];		    /* peer GID */
-> +	__aligned_u64	net_cookie;                 /* RDMA device net namespace */
->  };
->  
->  struct smc_diag_lgrinfo {
+* Rick Edgecombe:
 
-I'm sorry but this is an ABI regression.
+> For the current shadow stack implementation, shadow stacks contents cannot
+> be arbitrarily provisioned with data. This property helps apps protect
+> themselves better, but also restricts any potential apps that may want to
+> do exotic things at the expense of a little security.
+>
+> The x86 shadow stack feature introduces a new instruction, wrss, which
+> can be enabled to write directly to shadow stack permissioned memory from
+> userspace. Allow it to get enabled via the prctl interface.
 
-Since struct smc_diag_lgrinfo contains an object of type "struct smc_diag_linkinfo",
-offset of all subsequent members of struct smc_diag_lgrinfo is changed by
-this patch.
+Why can't this be turned on unconditionally?
 
-As result, applications compiled with the old version of struct smc_diag_linkinfo
-will receive garbage in struct smc_diag_lgrinfo.role if the kernel implements
-this new version of struct smc_diag_linkinfo.
+Thanks,
+Florian
 
-
--- 
-ldv
