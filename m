@@ -2,23 +2,45 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D4294A65B5
-	for <lists+linux-api@lfdr.de>; Tue,  1 Feb 2022 21:32:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AD6A4A65C7
+	for <lists+linux-api@lfdr.de>; Tue,  1 Feb 2022 21:36:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238170AbiBAUc6 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Tue, 1 Feb 2022 15:32:58 -0500
-Received: from albireo.enyo.de ([37.24.231.21]:54248 "EHLO albireo.enyo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234508AbiBAUc5 (ORCPT <rfc822;linux-api@vger.kernel.org>);
-        Tue, 1 Feb 2022 15:32:57 -0500
-Received: from [172.17.203.2] (port=56927 helo=deneb.enyo.de)
-        by albireo.enyo.de ([172.17.140.2]) with esmtps (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-        id 1nEzpc-00HFx1-5m; Tue, 01 Feb 2022 20:32:52 +0000
-Received: from fw by deneb.enyo.de with local (Exim 4.94.2)
-        (envelope-from <fw@deneb.enyo.de>)
-        id 1nEzpb-000PPY-Ti; Tue, 01 Feb 2022 21:32:51 +0100
-From:   Florian Weimer <fw@deneb.enyo.de>
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+        id S239099AbiBAUgu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 1 Feb 2022 15:36:50 -0500
+Received: from mail.efficios.com ([167.114.26.124]:49074 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229702AbiBAUgt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Feb 2022 15:36:49 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 343D6348722;
+        Tue,  1 Feb 2022 15:36:49 -0500 (EST)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id Dd51x-zVMZyC; Tue,  1 Feb 2022 15:36:48 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id BA11B348721;
+        Tue,  1 Feb 2022 15:36:48 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com BA11B348721
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1643747808;
+        bh=9iBSk44Ww+muw9nnfZnzpoja3Pj6yjk4ZeskuFm7F7Q=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=A87I8jVYpF2TdPAX7fzuTrU30Q0rn7bneNleKyftKIJIxgDEt1AV02AuQJmgokz8g
+         v9rsOePjQwqOAsfQ5Fwjq+PbqT0+d/cjs+Vukp1dH6KQCZcOPE64hn1PqY8WE8dRZw
+         ZuCzpDXyD27Ke5UjRqFa20qVjUH9NSUsaSV7oD/vWMWliwWZNl63ceLG5/YzOC7jtU
+         V91+t8UygBl23w1QjkHoa3B+LACG8d+5jrVqoMddm+AcdGL6QifitKcLp1Zk+CZ6/B
+         /h0YpLOHIlcMwm+ieieXoHt6Ac8mGeiSVmDsFMAotsg5tT03qDEBo+6OgqkFS8nn3l
+         s00h/VP7XZAVg==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id j3uo8KmGS4Pz; Tue,  1 Feb 2022 15:36:48 -0500 (EST)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id A67A9348695;
+        Tue,  1 Feb 2022 15:36:48 -0500 (EST)
+Date:   Tue, 1 Feb 2022 15:36:48 -0500 (EST)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Peter Oskolkov <posk@posk.io>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -26,91 +48,112 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
         linux-api <linux-api@vger.kernel.org>,
         Christian Brauner <christian.brauner@ubuntu.com>,
-        David Laight <David.Laight@ACULAB.COM>,
-        carlos <carlos@redhat.com>, Peter Oskolkov <posk@posk.io>
-Subject: Re: [RFC PATCH 2/3] rseq: extend struct rseq with per thread group
- vcpu id
-References: <20220201192540.10439-1-mathieu.desnoyers@efficios.com>
-        <20220201192540.10439-2-mathieu.desnoyers@efficios.com>
-        <87bkzqz75q.fsf@mid.deneb.enyo.de>
-        <1075473571.25688.1643746930751.JavaMail.zimbra@efficios.com>
-Date:   Tue, 01 Feb 2022 21:32:51 +0100
-In-Reply-To: <1075473571.25688.1643746930751.JavaMail.zimbra@efficios.com>
-        (Mathieu Desnoyers's message of "Tue, 1 Feb 2022 15:22:10 -0500
-        (EST)")
-Message-ID: <87sft2xr7w.fsf@mid.deneb.enyo.de>
+        Florian Weimer <fw@deneb.enyo.de>,
+        David Laight <David.Laight@aculab.com>,
+        carlos <carlos@redhat.com>
+Message-ID: <1606681746.25743.1643747808563.JavaMail.zimbra@efficios.com>
+In-Reply-To: <CAFTs51XUwhPJ9BzygJPD0pWFEEwu6hSnO7r=-i8B8R6x0oK6CA@mail.gmail.com>
+References: <20220201143425.19907-1-mathieu.desnoyers@efficios.com> <CAFTs51XUwhPJ9BzygJPD0pWFEEwu6hSnO7r=-i8B8R6x0oK6CA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/2] rseq: extend struct rseq with numa node id
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_4203 (ZimbraWebClient - FF96 (Linux)/8.8.15_GA_4203)
+Thread-Topic: rseq: extend struct rseq with numa node id
+Thread-Index: qnHsMEmyHzPgx8IXv5sGUbO6RLx+vg==
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Mathieu Desnoyers:
+----- On Feb 1, 2022, at 2:28 PM, Peter Oskolkov posk@posk.io wrote:
 
-> ----- On Feb 1, 2022, at 3:03 PM, Florian Weimer fw@deneb.enyo.de wrote:
->
->> * Mathieu Desnoyers:
->> 
->>> If a thread group has fewer threads than cores, or is limited to run on
->>> few cores concurrently through sched affinity or cgroup cpusets, the
->>> virtual cpu ids will be values close to 0, thus allowing efficient use
->>> of user-space memory for per-cpu data structures.
->> 
->> From a userspace programmer perspective, what's a good way to obtain a
->> reasonable upper bound for the possible tg_vcpu_id values?
->
-> Some effective upper bounds:
->
-> - sysconf(3) _SC_NPROCESSORS_CONF,
-> - the number of threads which exist concurrently in the process,
-> - the number of cpus in the cpu affinity mask applied by sched_setaffinity,
->   except in corner-case situations such as cpu hotplug removing all cpus from
->   the affinity set,
-> - cgroup cpuset "partition" limits,
+Hi Peter,
 
-Affinity masks and _SC_NPROCESSORS_CONF can be off by more than an
-order of magnitude compared to the cgroup cpuset, I think, and those
-aren't even that atypical configurations.
+[...]
 
-The number of concurrent threads sounds more tractable, but I'm
-worried about things creating threads behind libc's back (perhaps
-io_uring?).  So it couldn't be a hard upper bound.
+>>  TRACE_EVENT(rseq_ip_fixup,
+>> diff --git a/include/uapi/linux/rseq.h b/include/uapi/linux/rseq.h
+>> index 77ee207623a9..386c25b5bbdb 100644
+>> --- a/include/uapi/linux/rseq.h
+>> +++ b/include/uapi/linux/rseq.h
+>> @@ -130,6 +130,30 @@ struct rseq {
+>>          *     this thread.
+>>          */
+>>         __u32 flags;
+>> +
+>> +       __u32 padding1[3];
+> 
+> I don't fully understand why this padding is needed here. The comment
+> below sounds like there was something in "the original rseq API", but
+> was later removed, as this patch clearly adds padding after flags, but
+> even the first rseq patch had 'flags' as the last field in struct
+> rseq...
 
-I'm worried about querying anything cgroup-related because these APIs
-have a reputation for being slow, convoluted, and unstable
-(effectively not subject to the “don't break userspace” rule).
-Hopefully I'm wrong about that.
+The struct rseq has an explicit alignment attribute of 32 bytes, which means
+that even though we populate 20 bytes up to (including) the flags field, there is
+implicitly 12 bytes or padding at the end of that structure. The size of the rseq_len
+argument expected by the rseq system call since 4.18 is sizeof(struct rseq), which is
+32 bytes (including the implicit padding).
 
->> I believe not all users of cgroup cpusets change the affinity mask.
->
-> AFAIR the sched affinity mask is tweaked independently of the cgroup cpuset.
-> Those are two mechanisms both affecting the scheduler task placement.
+So if we want to use the structure size as a way to indicate available features,
+we need to explicitly express the padding field (12 bytes), and start using offsetofend()
+on the following fields to allow per-field feature granularity without requiring
+additional padding in the future.
 
-There are container hosts out there that synthesize an affinity mask
-that matches the CPU allocation, assuming that anyone who calls
-sched_getaffinity only does so for counting the number of set bits.
+If in the original rseq implementation we would have expected offsetofend() of the
+flags fields as rseq_len, then we would not need those silly 12 bytes of padding,
+but here we are.
 
-> I would expect the user-space code to use some sensible upper bound as a
-> hint about how many per-vcpu data structure elements to expect (and how many
-> to pre-allocate), but have a "lazy initialization" fall-back in case the
-> vcpu id goes up to the number of configured processors - 1. And I suspect
-> that even the number of configured processors may change with CRIU.
+> 
+> Also have you considered adding an explicit 'version' field, or
+> something more sophisticated than 'len'? I remember about a year ago
+> you had an rfc patch(set) addressing rseq versioning, but I don't
+> think it got merged? You had some concerns about using 'len' then...
 
-Sounds reasonable.
+It's vague in my memory, but I slightly recall aiming at using those 12-bytes of
+padding for new feature extensions, in which case a version field would have helped.
+But it appears we will very soon run out of space there and need to extend the
+structure size anyway, so trying to re-purpose those 12 bytes might not be worth
+the complexity.
 
->> Is the switch really useful?  I suspect it's faster to just write as
->> much as possible all the time.  The switch should be well-predictable
->> if running uniform userspace, but still …
->
-> The switch ensures the kernel don't try to write to a memory area beyond
-> the rseq size which has been registered by user-space. So it seems to be
-> useful to ensure we don't corrupt user-space memory. Or am I missing your
-> point ?
+Considering the userspace ABI exposed by glibc 2.35 (__rseq_offset, __rseq_size,
+__rseq_flags), the "size" of the rseq structure becomes a really good fit for
+available feature description across the entire ecosystem consisting of the kernel,
+libc, and user applications. If we add a "version" field in there, then applications
+would have to check yet one more thing in addition to the __rseq_size, which I
+don't think is worthwhile.
 
-Due to the alignment, I think you'd only ever see 32 and 64 bytes for
-now?
+> 
+>> +
+>> +       /*
+>> +        * This is the end of the original rseq ABI.
+>> +        * This is a valid end of rseq ABI for the purpose of rseq registration
+>> +        * rseq_len.
+>> +        * The original rseq ABI use "sizeof(struct rseq)" on registration,
+>> +        * thus requiring the padding above.
+>> +        */
+>> +
+>> +       /*
+>> +        * Restartable sequences node_id field. Updated by the kernel. Read by
+>> +        * user-space with single-copy atomicity semantics. This field should
+>> +        * only be read by the thread which registered this data structure.
+>> +        * Aligned on 32-bit. Contains the current NUMA node ID.
+>> +        */
+>> +       __u32 node_id;
+>> +
+>> +       /*
+>> +        * This is a valid end of rseq ABI for the purpose of rseq registration
+>> +        * rseq_len. Use the offset immediately after the node_id field as
+>> +        * rseq_len.
+>> +        */
+>>  } __attribute__((aligned(4 * sizeof(__u64))));
 
-I'd appreciate if you could put the maximm supported size and possibly
-the alignment in the auxiliary vector, so that we don't have to rseq
-system calls in a loop on process startup.
+Thanks!
+
+Mathieu
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
