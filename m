@@ -2,126 +2,356 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 131424A64F9
-	for <lists+linux-api@lfdr.de>; Tue,  1 Feb 2022 20:26:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C2F264A6506
+	for <lists+linux-api@lfdr.de>; Tue,  1 Feb 2022 20:28:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242393AbiBAT00 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 1 Feb 2022 14:26:26 -0500
-Received: from mail.efficios.com ([167.114.26.124]:53348 "EHLO
-        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242362AbiBAT0Z (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Feb 2022 14:26:25 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 7D74D33FC17;
-        Tue,  1 Feb 2022 14:26:24 -0500 (EST)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 0PdxbvaKTw7s; Tue,  1 Feb 2022 14:26:24 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 278AA33FC16;
-        Tue,  1 Feb 2022 14:26:24 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 278AA33FC16
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1643743584;
-        bh=UerzEHT0HokfvobQ6Sx0XXHkVzDdD+XuQ7F7dL2bDt4=;
-        h=From:To:Date:Message-Id;
-        b=lcUnLu59tpKPeUMApFtzsnz3PFre7XjC114lnEuPMWK6kHaeDbOZM6S3ocftaotzq
-         jtXt1tCTX/Qn+Zzc5ryNzcLmTuHsvnlWLEaWu+zNUziqKO1tih+ZUcVGTAGcJH/Rlf
-         c2uZpsulMq2KIuGWGpDTTFJCNJ1+ndXsRa8X50X/qWnL8aeIU/n+nrYICKvY04/GSI
-         VdEycjx375ExAHsCs4nNM6rVDNdmItd28C6RTJdM6vbUSlQt0lHbzUgq6WW6Q1dBfz
-         GggTDMozEDTlHruLOWXBhMr7SFrGGmqwfwW8BDgFBn5Bv2h8XzM9oWoI4QsPPRjAYd
-         6qrrvQrcb0GMg==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id juUsdtvvD7aA; Tue,  1 Feb 2022 14:26:24 -0500 (EST)
-Received: from localhost.localdomain (192-222-180-24.qc.cable.ebox.net [192.222.180.24])
-        by mail.efficios.com (Postfix) with ESMTPSA id 17F7233F8FB;
-        Tue,  1 Feb 2022 14:26:23 -0500 (EST)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        id S242141AbiBAT2F (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 1 Feb 2022 14:28:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38924 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240893AbiBAT2E (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Feb 2022 14:28:04 -0500
+Received: from mail-vk1-xa36.google.com (mail-vk1-xa36.google.com [IPv6:2607:f8b0:4864:20::a36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E135C06173B
+        for <linux-api@vger.kernel.org>; Tue,  1 Feb 2022 11:28:04 -0800 (PST)
+Received: by mail-vk1-xa36.google.com with SMTP id b77so11170688vka.11
+        for <linux-api@vger.kernel.org>; Tue, 01 Feb 2022 11:28:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=posk.io; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=sJL5UhCYMJmx1pFTGrnqwQ1k/3weq8fpqF3eWI9gm3A=;
+        b=GnT98Hmbt7HXksyxzW5qrAfPVlHa8MKInVY0Gz45quwHa3oj8rga9oACpe0khKj0ek
+         H1X1X1G4IOAHnGkHSxxLK9Nen6IBD+ONi3stPCinwzTTI2biQnlPfZ/FBCH4wu1mXuZE
+         ulZ8klImGRe26RIKc9PrCv+QbvUli/AfL+EzgDnJNd5U5KQfTcZmKIuTKErtlja8qwql
+         uJVTwlOeKzk7ZhmRF/lEN+UeaOgAAXpU4XYsXlJGllWCXggdtfCD2A7zzzIaVrUFNryf
+         2CjydciXlP08uZoI6Nxk3T+j33T+nJ5neQsKnbZhjxzrF/ROl6tffn/tSjQZkH9ZrZHs
+         e/Fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sJL5UhCYMJmx1pFTGrnqwQ1k/3weq8fpqF3eWI9gm3A=;
+        b=4ivTkoqjOPyFqN7CYorGUgYO7TaGPIf3BP0CKzNTgkdensHtOlINxuJ/49fxEz0oXe
+         td66N5iUHzfqS1r146X848/IglbO1P77dhBrirSnCKy33HbG//l6H2kn3U5llLEDh+3W
+         WaO/vdX23+sSl+z8a+60htrU0K/LTbteXai8vFyj2+Q70WN03ubBbZguQfjUs1DtGbDy
+         +OkbjYUOw4DNJgh4tGbjUy0X+eL3ndtLNR5qKv/NJ/4Y5BcF2FEEIpQA4nmv5NofP1xF
+         JdlUJeqfwvEEei+fsDHRBsegu3GgoLjtYVBA+4fbsljrj5zZB87Jz+GVbj+D0Dry5cKa
+         APCA==
+X-Gm-Message-State: AOAM533+X3ONHuqLFZwtE1Ye0DX124WVfSGUYzezwNuCN3IUwwdOkTRx
+        zb1GsuXuODVJ+76rJxCFQRe5vPKJr6MhClbejCgUYA==
+X-Google-Smtp-Source: ABdhPJzdcuAFf229DNhyi7CxKph53ikMqzcCkUMKf+esjt65Hdw6kp5bQQk08yDDY9qm176rzmEfV8RRp8cKHRojOgg=
+X-Received: by 2002:a05:6122:4f3:: with SMTP id s19mr10764299vkf.32.1643743683569;
+ Tue, 01 Feb 2022 11:28:03 -0800 (PST)
+MIME-Version: 1.0
+References: <20220201143425.19907-1-mathieu.desnoyers@efficios.com>
+In-Reply-To: <20220201143425.19907-1-mathieu.desnoyers@efficios.com>
+From:   Peter Oskolkov <posk@posk.io>
+Date:   Tue, 1 Feb 2022 11:28:01 -0800
+Message-ID: <CAFTs51XUwhPJ9BzygJPD0pWFEEwu6hSnO7r=-i8B8R6x0oK6CA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/2] rseq: extend struct rseq with numa node id
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
         "Paul E . McKenney" <paulmck@kernel.org>,
         Boqun Feng <boqun.feng@gmail.com>,
         "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
         linux-api@vger.kernel.org,
         Christian Brauner <christian.brauner@ubuntu.com>,
-        Florian Weimer <fw@deneb.enyo.de>, David.Laight@ACULAB.COM,
-        carlos@redhat.com, Peter Oskolkov <posk@posk.io>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: [RFC PATCH 3/3] selftests/rseq: Implement rseq tg_vcpu_id field support
-Date:   Tue,  1 Feb 2022 14:25:40 -0500
-Message-Id: <20220201192540.10439-3-mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220201192540.10439-1-mathieu.desnoyers@efficios.com>
-References: <20220201192540.10439-1-mathieu.desnoyers@efficios.com>
+        Florian Weimer <fw@deneb.enyo.de>, David.Laight@aculab.com,
+        carlos@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
----
- tools/testing/selftests/rseq/rseq-abi.h | 15 +++++++++++++++
- tools/testing/selftests/rseq/rseq.c     |  6 +++---
- 2 files changed, 18 insertions(+), 3 deletions(-)
+Hi Mathieu,
 
-diff --git a/tools/testing/selftests/rseq/rseq-abi.h b/tools/testing/selftests/rseq/rseq-abi.h
-index 850827e8d089..929183c2b3c0 100644
---- a/tools/testing/selftests/rseq/rseq-abi.h
-+++ b/tools/testing/selftests/rseq/rseq-abi.h
-@@ -169,6 +169,21 @@ struct rseq_abi {
- 	 * rseq_len. Use the offset immediately after the node_id field as
- 	 * rseq_len.
- 	 */
-+
-+	/*
-+	 * Restartable sequences tg_vcpu_id field. Updated by the kernel. Read by
-+	 * user-space with single-copy atomicity semantics. This field should
-+	 * only be read by the thread which registered this data structure.
-+	 * Aligned on 32-bit. Contains the current thread's virtual CPU ID
-+	 * (allocated uniquely within thread group).
-+	 */
-+	__u32 tg_vcpu_id;
-+
-+	/*
-+	 * This is a valid end of rseq ABI for the purpose of rseq registration
-+	 * rseq_len. Use the offset immediately after the tg_vcpu_id field as
-+	 * rseq_len.
-+	 */
- } __attribute__((aligned(4 * sizeof(__u64))));
- 
- #endif /* _RSEQ_ABI_H */
-diff --git a/tools/testing/selftests/rseq/rseq.c b/tools/testing/selftests/rseq/rseq.c
-index 4b0e68051db8..c8d30e770d59 100644
---- a/tools/testing/selftests/rseq/rseq.c
-+++ b/tools/testing/selftests/rseq/rseq.c
-@@ -88,7 +88,7 @@ int rseq_register_current_thread(void)
- 		/* Treat libc's ownership as a successful registration. */
- 		return 0;
- 	}
--	rc = sys_rseq(&__rseq_abi, rseq_offsetofend(struct rseq_abi, node_id), 0, RSEQ_SIG);
-+	rc = sys_rseq(&__rseq_abi, rseq_offsetofend(struct rseq_abi, tg_vcpu_id), 0, RSEQ_SIG);
- 	if (rc)
- 		return -1;
- 	assert(rseq_current_cpu_raw() >= 0);
-@@ -103,7 +103,7 @@ int rseq_unregister_current_thread(void)
- 		/* Treat libc's ownership as a successful unregistration. */
- 		return 0;
- 	}
--	rc = sys_rseq(&__rseq_abi, rseq_offsetofend(struct rseq_abi, node_id), RSEQ_ABI_FLAG_UNREGISTER, RSEQ_SIG);
-+	rc = sys_rseq(&__rseq_abi, rseq_offsetofend(struct rseq_abi, tg_vcpu_id), RSEQ_ABI_FLAG_UNREGISTER, RSEQ_SIG);
- 	if (rc)
- 		return -1;
- 	return 0;
-@@ -126,7 +126,7 @@ void rseq_init(void)
- 		return;
- 	rseq_ownership = 1;
- 	rseq_offset = (void *)&__rseq_abi - rseq_thread_pointer();
--	rseq_size = rseq_offsetofend(struct rseq_abi, node_id);
-+	rseq_size = rseq_offsetofend(struct rseq_abi, tg_vcpu_id);
- 	rseq_flags = 0;
- }
- 
--- 
-2.17.1
+On Tue, Feb 1, 2022 at 6:34 AM Mathieu Desnoyers
+<mathieu.desnoyers@efficios.com> wrote:
+>
+> Adding the NUMA node id to struct rseq is a straightforward thing to do,
+> and a good way to figure out if anything in the user-space ecosystem
+> prevents extending struct rseq.
+>
+> This NUMA node id field allows memory allocators such as tcmalloc to
+> take advantage of fast access to the current NUMA node id to perform
+> NUMA-aware memory allocation.
+>
+> It can also be useful for implementing fast-paths for NUMA-aware
+> user-space mutexes.
+>
+> It also allows implementing getcpu(2) purely in user-space.
+>
+> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> ---
+>  include/linux/sched.h       |  4 ++
+>  include/trace/events/rseq.h |  4 +-
+>  include/uapi/linux/rseq.h   | 24 +++++++++++
+>  kernel/ptrace.c             |  2 +-
+>  kernel/rseq.c               | 82 ++++++++++++++++++++++++++-----------
+>  5 files changed, 89 insertions(+), 27 deletions(-)
+>
+> diff --git a/include/linux/sched.h b/include/linux/sched.h
+> index 508b91d57470..838c9e0b4cae 100644
+> --- a/include/linux/sched.h
+> +++ b/include/linux/sched.h
+> @@ -1291,6 +1291,7 @@ struct task_struct {
+>
+>  #ifdef CONFIG_RSEQ
+>         struct rseq __user *rseq;
+> +       u32 rseq_len;
+>         u32 rseq_sig;
+>         /*
+>          * RmW on rseq_event_mask must be performed atomically
+> @@ -2260,10 +2261,12 @@ static inline void rseq_fork(struct task_struct *t, unsigned long clone_flags)
+>  {
+>         if (clone_flags & CLONE_VM) {
+>                 t->rseq = NULL;
+> +               t->rseq_len = 0;
+>                 t->rseq_sig = 0;
+>                 t->rseq_event_mask = 0;
+>         } else {
+>                 t->rseq = current->rseq;
+> +               t->rseq_len = current->rseq_len;
+>                 t->rseq_sig = current->rseq_sig;
+>                 t->rseq_event_mask = current->rseq_event_mask;
+>         }
+> @@ -2272,6 +2275,7 @@ static inline void rseq_fork(struct task_struct *t, unsigned long clone_flags)
+>  static inline void rseq_execve(struct task_struct *t)
+>  {
+>         t->rseq = NULL;
+> +       t->rseq_len = 0;
+>         t->rseq_sig = 0;
+>         t->rseq_event_mask = 0;
+>  }
+> diff --git a/include/trace/events/rseq.h b/include/trace/events/rseq.h
+> index a04a64bc1a00..6bd442697354 100644
+> --- a/include/trace/events/rseq.h
+> +++ b/include/trace/events/rseq.h
+> @@ -16,13 +16,15 @@ TRACE_EVENT(rseq_update,
+>
+>         TP_STRUCT__entry(
+>                 __field(s32, cpu_id)
+> +               __field(s32, node_id)
+>         ),
+>
+>         TP_fast_assign(
+>                 __entry->cpu_id = raw_smp_processor_id();
+> +               __entry->node_id = cpu_to_node(raw_smp_processor_id());
+>         ),
+>
+> -       TP_printk("cpu_id=%d", __entry->cpu_id)
+> +       TP_printk("cpu_id=%d node_id=%d", __entry->cpu_id, __entry->node_id)
+>  );
+>
+>  TRACE_EVENT(rseq_ip_fixup,
+> diff --git a/include/uapi/linux/rseq.h b/include/uapi/linux/rseq.h
+> index 77ee207623a9..386c25b5bbdb 100644
+> --- a/include/uapi/linux/rseq.h
+> +++ b/include/uapi/linux/rseq.h
+> @@ -130,6 +130,30 @@ struct rseq {
+>          *     this thread.
+>          */
+>         __u32 flags;
+> +
+> +       __u32 padding1[3];
 
+I don't fully understand why this padding is needed here. The comment
+below sounds like there was something in "the original rseq API", but
+was later removed, as this patch clearly adds padding after flags, but
+even the first rseq patch had 'flags' as the last field in struct
+rseq...
+
+Also have you considered adding an explicit 'version' field, or
+something more sophisticated than 'len'? I remember about a year ago
+you had an rfc patch(set) addressing rseq versioning, but I don't
+think it got merged? You had some concerns about using 'len' then...
+
+> +
+> +       /*
+> +        * This is the end of the original rseq ABI.
+> +        * This is a valid end of rseq ABI for the purpose of rseq registration
+> +        * rseq_len.
+> +        * The original rseq ABI use "sizeof(struct rseq)" on registration,
+> +        * thus requiring the padding above.
+> +        */
+> +
+> +       /*
+> +        * Restartable sequences node_id field. Updated by the kernel. Read by
+> +        * user-space with single-copy atomicity semantics. This field should
+> +        * only be read by the thread which registered this data structure.
+> +        * Aligned on 32-bit. Contains the current NUMA node ID.
+> +        */
+> +       __u32 node_id;
+> +
+> +       /*
+> +        * This is a valid end of rseq ABI for the purpose of rseq registration
+> +        * rseq_len. Use the offset immediately after the node_id field as
+> +        * rseq_len.
+> +        */
+>  } __attribute__((aligned(4 * sizeof(__u64))));
+>
+>  #endif /* _UAPI_LINUX_RSEQ_H */
+> diff --git a/kernel/ptrace.c b/kernel/ptrace.c
+> index eea265082e97..f5edde5b7805 100644
+> --- a/kernel/ptrace.c
+> +++ b/kernel/ptrace.c
+> @@ -800,7 +800,7 @@ static long ptrace_get_rseq_configuration(struct task_struct *task,
+>  {
+>         struct ptrace_rseq_configuration conf = {
+>                 .rseq_abi_pointer = (u64)(uintptr_t)task->rseq,
+> -               .rseq_abi_size = sizeof(*task->rseq),
+> +               .rseq_abi_size = task->rseq_len,
+>                 .signature = task->rseq_sig,
+>                 .flags = 0,
+>         };
+> diff --git a/kernel/rseq.c b/kernel/rseq.c
+> index 97ac20b4f738..13f6d0419f31 100644
+> --- a/kernel/rseq.c
+> +++ b/kernel/rseq.c
+> @@ -81,15 +81,25 @@
+>   *   F1. <failure>
+>   */
+>
+> -static int rseq_update_cpu_id(struct task_struct *t)
+> +static int rseq_update_cpu_node_id(struct task_struct *t)
+>  {
+> -       u32 cpu_id = raw_smp_processor_id();
+>         struct rseq __user *rseq = t->rseq;
+> +       u32 cpu_id = raw_smp_processor_id();
+> +       u32 node_id = cpu_to_node(cpu_id);
+>
+> -       if (!user_write_access_begin(rseq, sizeof(*rseq)))
+> +       if (!user_write_access_begin(rseq, t->rseq_len))
+>                 goto efault;
+> -       unsafe_put_user(cpu_id, &rseq->cpu_id_start, efault_end);
+> -       unsafe_put_user(cpu_id, &rseq->cpu_id, efault_end);
+> +       switch (t->rseq_len) {
+> +       case offsetofend(struct rseq, node_id):
+> +               unsafe_put_user(node_id, &rseq->node_id, efault_end);
+> +               fallthrough;
+> +       case offsetofend(struct rseq, padding1):
+> +               unsafe_put_user(cpu_id, &rseq->cpu_id_start, efault_end);
+> +               unsafe_put_user(cpu_id, &rseq->cpu_id, efault_end);
+> +               break;
+> +       default:
+> +               goto efault_end;
+> +       }
+>         user_write_access_end();
+>         trace_rseq_update(t);
+>         return 0;
+> @@ -100,22 +110,35 @@ static int rseq_update_cpu_id(struct task_struct *t)
+>         return -EFAULT;
+>  }
+>
+> -static int rseq_reset_rseq_cpu_id(struct task_struct *t)
+> +static int rseq_reset_rseq_cpu_node_id(struct task_struct *t)
+>  {
+> -       u32 cpu_id_start = 0, cpu_id = RSEQ_CPU_ID_UNINITIALIZED;
+> +       u32 cpu_id_start = 0, cpu_id = RSEQ_CPU_ID_UNINITIALIZED, node_id = 0;
+>
+> -       /*
+> -        * Reset cpu_id_start to its initial state (0).
+> -        */
+> -       if (put_user(cpu_id_start, &t->rseq->cpu_id_start))
+> -               return -EFAULT;
+> -       /*
+> -        * Reset cpu_id to RSEQ_CPU_ID_UNINITIALIZED, so any user coming
+> -        * in after unregistration can figure out that rseq needs to be
+> -        * registered again.
+> -        */
+> -       if (put_user(cpu_id, &t->rseq->cpu_id))
+> -               return -EFAULT;
+> +       switch (t->rseq_len) {
+> +       case offsetofend(struct rseq, node_id):
+> +               /*
+> +                * Reset node_id to its initial state (0).
+> +                */
+> +               if (put_user(node_id, &t->rseq->node_id))
+> +                       return -EFAULT;
+> +               fallthrough;
+> +       case offsetofend(struct rseq, padding1):
+> +               /*
+> +                * Reset cpu_id_start to its initial state (0).
+> +                */
+> +               if (put_user(cpu_id_start, &t->rseq->cpu_id_start))
+> +                       return -EFAULT;
+> +               /*
+> +                * Reset cpu_id to RSEQ_CPU_ID_UNINITIALIZED, so any user
+> +                * coming in after unregistration can figure out that rseq
+> +                * needs to be registered again.
+> +                */
+> +               if (put_user(cpu_id, &t->rseq->cpu_id))
+> +                       return -EFAULT;
+> +               break;
+> +       default:
+> +               return -EINVAL;
+> +       }
+>         return 0;
+>  }
+>
+> @@ -293,7 +316,7 @@ void __rseq_handle_notify_resume(struct ksignal *ksig, struct pt_regs *regs)
+>                 if (unlikely(ret < 0))
+>                         goto error;
+>         }
+> -       if (unlikely(rseq_update_cpu_id(t)))
+> +       if (unlikely(rseq_update_cpu_node_id(t)))
+>                 goto error;
+>         return;
+>
+> @@ -336,15 +359,16 @@ SYSCALL_DEFINE4(rseq, struct rseq __user *, rseq, u32, rseq_len,
+>                 /* Unregister rseq for current thread. */
+>                 if (current->rseq != rseq || !current->rseq)
+>                         return -EINVAL;
+> -               if (rseq_len != sizeof(*rseq))
+> +               if (rseq_len != current->rseq_len)
+>                         return -EINVAL;
+>                 if (current->rseq_sig != sig)
+>                         return -EPERM;
+> -               ret = rseq_reset_rseq_cpu_id(current);
+> +               ret = rseq_reset_rseq_cpu_node_id(current);
+>                 if (ret)
+>                         return ret;
+>                 current->rseq = NULL;
+>                 current->rseq_sig = 0;
+> +               current->rseq_len = 0;
+>                 return 0;
+>         }
+>
+> @@ -357,7 +381,7 @@ SYSCALL_DEFINE4(rseq, struct rseq __user *, rseq, u32, rseq_len,
+>                  * the provided address differs from the prior
+>                  * one.
+>                  */
+> -               if (current->rseq != rseq || rseq_len != sizeof(*rseq))
+> +               if (current->rseq != rseq || rseq_len != current->rseq_len)
+>                         return -EINVAL;
+>                 if (current->rseq_sig != sig)
+>                         return -EPERM;
+> @@ -369,12 +393,20 @@ SYSCALL_DEFINE4(rseq, struct rseq __user *, rseq, u32, rseq_len,
+>          * If there was no rseq previously registered,
+>          * ensure the provided rseq is properly aligned and valid.
+>          */
+> -       if (!IS_ALIGNED((unsigned long)rseq, __alignof__(*rseq)) ||
+> -           rseq_len != sizeof(*rseq))
+> +       if (!IS_ALIGNED((unsigned long)rseq, __alignof__(*rseq)))
+>                 return -EINVAL;
+> +       switch (rseq_len) {
+> +       case offsetofend(struct rseq, node_id):
+> +               fallthrough;
+> +       case offsetofend(struct rseq, padding1):
+> +               break;
+> +       default:
+> +               return -EINVAL;
+> +       }
+>         if (!access_ok(rseq, rseq_len))
+>                 return -EFAULT;
+>         current->rseq = rseq;
+> +       current->rseq_len = rseq_len;
+>         current->rseq_sig = sig;
+>         /*
+>          * If rseq was previously inactive, and has just been
+> --
+> 2.17.1
+>
