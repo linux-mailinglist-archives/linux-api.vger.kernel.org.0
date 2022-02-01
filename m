@@ -2,45 +2,45 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A01B4A66C0
-	for <lists+linux-api@lfdr.de>; Tue,  1 Feb 2022 22:00:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E9B534A66E9
+	for <lists+linux-api@lfdr.de>; Tue,  1 Feb 2022 22:20:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242670AbiBAVAy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 1 Feb 2022 16:00:54 -0500
-Received: from mail.efficios.com ([167.114.26.124]:56718 "EHLO
+        id S229768AbiBAVUm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 1 Feb 2022 16:20:42 -0500
+Received: from mail.efficios.com ([167.114.26.124]:34862 "EHLO
         mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242667AbiBAVAx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Feb 2022 16:00:53 -0500
+        with ESMTP id S229527AbiBAVUm (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Feb 2022 16:20:42 -0500
 Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 4AF50348674;
-        Tue,  1 Feb 2022 16:00:53 -0500 (EST)
+        by mail.efficios.com (Postfix) with ESMTP id 7C44D3489E5;
+        Tue,  1 Feb 2022 16:20:41 -0500 (EST)
 Received: from mail.efficios.com ([127.0.0.1])
         by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id NDJj4GGdF_09; Tue,  1 Feb 2022 16:00:52 -0500 (EST)
+        with ESMTP id CZZ_RyJthgKz; Tue,  1 Feb 2022 16:20:41 -0500 (EST)
 Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id D2E3B348AA3;
-        Tue,  1 Feb 2022 16:00:52 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com D2E3B348AA3
+        by mail.efficios.com (Postfix) with ESMTP id E578D3489E4;
+        Tue,  1 Feb 2022 16:20:40 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com E578D3489E4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1643749252;
-        bh=D6F7I14e09DLJ7OBXCoOb2aDWOL6Vpkl8xCgOrXzLZI=;
+        s=default; t=1643750440;
+        bh=Rs42uhd61aoxm5cSNaX6/XcFhJcPHx0iBwfw7ZTWSPY=;
         h=Date:From:To:Message-ID:MIME-Version;
-        b=TOcOopo+zfIkJM1NpeSeho3ukIFoN0UcRhzMIbE4NvvWutErZvd76IW4HkG4bUZP8
-         Byksk4cy6M+6xk21dCLF3UspToZcfzLAxJJn5rTcShRA+xRNuqN5WJiPnwbBh2WE6g
-         +sIBKJHQ6ls80uRC1XCH5dHT69KL1DeTk8T7QVXacZm7l4r8l1CY1s6okmlAjQwLsh
-         i1KIaNUsgCt9LUxSkNdAy/5VLzKkbYiIgnctTk6qkrrWSRvlLpP4yqqVpT6LnogFH4
-         tP5GJWNjCvnU3dR+Xy2ZKsovVtaz5fcnBY/DdRTrbTpx3+xvSTA2JB8jdkqoppmd2q
-         Tr3e8sLzfir5w==
+        b=bLay9OZ4WIiR/B5W9gVMoxWiQCdNpza/6lnCDnHEXtBySQd+nWIP2Sl9QRtUuH/jO
+         mbrtm903kjlopgDANUa8l1cZJjWBxDDWVr6p2Rg6LYggmU0lcz8kB+HH71MxelfGJE
+         U3MsxEP+V01t5TwkaiTiCWk3pvor6VdWp6fKeuWBjr60mvLXZCTa1t0Jg5B/B9sM4V
+         aBsrJX/HB6Qhd6DnvTdADtB8ZaYlP3e4gNfDSHmLnJIv9jTGLCq30FtYXdEsQ17yLy
+         2PCpgDn8p8QTACBoac3TyrbmbHKB4mh8wv5+VVnC2OlQX3hOo8f4SjFOQuB0mK2vWx
+         vf9DfiATwN+vg==
 X-Virus-Scanned: amavisd-new at efficios.com
 Received: from mail.efficios.com ([127.0.0.1])
         by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id QS4bqrwocbFV; Tue,  1 Feb 2022 16:00:52 -0500 (EST)
+        with ESMTP id JkcVu1ICMl1z; Tue,  1 Feb 2022 16:20:40 -0500 (EST)
 Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id BDAF7348766;
-        Tue,  1 Feb 2022 16:00:52 -0500 (EST)
-Date:   Tue, 1 Feb 2022 16:00:52 -0500 (EST)
+        by mail.efficios.com (Postfix) with ESMTP id D24C0348BCC;
+        Tue,  1 Feb 2022 16:20:40 -0500 (EST)
+Date:   Tue, 1 Feb 2022 16:20:40 -0500 (EST)
 From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Peter Oskolkov <posk@posk.io>
+To:     Florian Weimer <fw@deneb.enyo.de>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -48,128 +48,70 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
         linux-api <linux-api@vger.kernel.org>,
         Christian Brauner <christian.brauner@ubuntu.com>,
-        Florian Weimer <fw@deneb.enyo.de>,
-        David Laight <David.Laight@aculab.com>,
-        carlos <carlos@redhat.com>, Chris Kennelly <ckennelly@google.com>
-Message-ID: <2083444900.25808.1643749252639.JavaMail.zimbra@efficios.com>
-In-Reply-To: <CAFTs51XYWqN6bPbVYh8a9ta+VxS4iBbiWWNO7n1t-4_VLpKGXQ@mail.gmail.com>
-References: <20220201192540.10439-1-mathieu.desnoyers@efficios.com> <CAFTs51XYWqN6bPbVYh8a9ta+VxS4iBbiWWNO7n1t-4_VLpKGXQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/3] Introduce per thread group current virtual cpu
- id
+        David Laight <David.Laight@ACULAB.COM>,
+        carlos <carlos@redhat.com>, Peter Oskolkov <posk@posk.io>
+Message-ID: <1339477886.25835.1643750440726.JavaMail.zimbra@efficios.com>
+In-Reply-To: <87sft2xr7w.fsf@mid.deneb.enyo.de>
+References: <20220201192540.10439-1-mathieu.desnoyers@efficios.com> <20220201192540.10439-2-mathieu.desnoyers@efficios.com> <87bkzqz75q.fsf@mid.deneb.enyo.de> <1075473571.25688.1643746930751.JavaMail.zimbra@efficios.com> <87sft2xr7w.fsf@mid.deneb.enyo.de>
+Subject: Re: [RFC PATCH 2/3] rseq: extend struct rseq with per thread group
+ vcpu id
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-Originating-IP: [167.114.26.124]
 X-Mailer: Zimbra 8.8.15_GA_4203 (ZimbraWebClient - FF96 (Linux)/8.8.15_GA_4203)
-Thread-Topic: Introduce per thread group current virtual cpu id
-Thread-Index: WUJXhv7+C6tZP3wo1UvlQkFhhpClMA==
+Thread-Topic: rseq: extend struct rseq with per thread group vcpu id
+Thread-Index: HxTS/X/4/EGniWu5U6wjiNX9x9OEuQ==
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On Feb 1, 2022, at 2:49 PM, Peter Oskolkov posk@posk.io wrote:
-
-> On Tue, Feb 1, 2022 at 11:26 AM Mathieu Desnoyers
-> <mathieu.desnoyers@efficios.com> wrote:
+----- On Feb 1, 2022, at 3:32 PM, Florian Weimer fw@deneb.enyo.de wrote:
+[...]
+>=20
+>>> Is the switch really useful?  I suspect it's faster to just write as
+>>> much as possible all the time.  The switch should be well-predictable
+>>> if running uniform userspace, but still =E2=80=A6
 >>
->> This feature allows the scheduler to expose a current virtual cpu id
->> to user-space. This virtual cpu id is within the possible cpus range,
->> and is temporarily (and uniquely) assigned while threads are actively
->> running within a thread group. If a thread group has fewer threads than
->> cores, or is limited to run on few cores concurrently through sched
->> affinity or cgroup cpusets, the virtual cpu ids will be values close
->> to 0, thus allowing efficient use of user-space memory for per-cpu
->> data structures.
-> 
-> Why per thread group and not per mm? The main use case is for
-> per-(v)cpu memory allocation logic, so it seems having this feature
-> per mm is more appropriate?
+>> The switch ensures the kernel don't try to write to a memory area beyond
+>> the rseq size which has been registered by user-space. So it seems to be
+>> useful to ensure we don't corrupt user-space memory. Or am I missing you=
+r
+>> point ?
+>=20
+> Due to the alignment, I think you'd only ever see 32 and 64 bytes for
+> now?
 
-Good point, yes, per-mm would be more appropriate.
+Yes, but I would expect the rseq registration arguments to have a rseq_len
+of offsetofend(struct rseq, tg_vcpu_id) when userspace wants the tg_vcpu_id
+feature to be supported (but not the following features).
 
-So I guess that from a userspace perspective, the rseq field could become
-"__u32 vm_vcpu; /* Current vcpu within memory space. */"
+Then, as we append additional features as follow-up fields, those
+eventually become requested by glibc by increasing the requested size.
 
-[...]
+Then it's kind of weird to receive a registration size which is not
+aligned on 32-byte, but then use internal knowledge of the structure
+alignment in the kernel code to write beyond the requested size. And all
+this in a case where we are returning to user-space after a preemption,
+so I don't expect this extra switch/case to cause significant overhead.
 
->> diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
->> index b6ecb9fc4cd2..c87e7ad5a1ea 100644
->> --- a/include/linux/sched/signal.h
->> +++ b/include/linux/sched/signal.h
->> @@ -244,6 +244,12 @@ struct signal_struct {
->>                                                  * and may have inconsistent
->>                                                  * permissions.
->>                                                  */
->> +#ifdef CONFIG_SCHED_THREAD_GROUP_VCPU
->> +       /*
->> +        * Mask of allocated vcpu ids within the thread group.
->> +        */
->> +       cpumask_t                       vcpu_mask;
-> 
-> We use a pointer for the mask (in struct mm). Adds complexity around
-> alloc/free, though. Just FYI.
+>=20
+> I'd appreciate if you could put the maximm supported size and possibly
+> the alignment in the auxiliary vector, so that we don't have to rseq
+> system calls in a loop on process startup.
 
-It does make sense if this is opt-in.
+Yes, it's a good idea. I'm not too familiar with the auxiliary vector.
+Are we talking about the kernel's
 
-[...]
+fs/binfmt_elf.c:fill_auxv_note()
 
->> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
->> index 2e4ae00e52d1..2690e80977b1 100644
->> --- a/kernel/sched/core.c
->> +++ b/kernel/sched/core.c
->> @@ -4795,6 +4795,8 @@ prepare_task_switch(struct rq *rq, struct task_struct
->> *prev,
->>         sched_info_switch(rq, prev, next);
->>         perf_event_task_sched_out(prev, next);
->>         rseq_preempt(prev);
->> +       tg_vcpu_put(prev);
->> +       tg_vcpu_get(next);
-> 
-> Doing this for all tasks on all context switches will most likely be
-> too expensive. We do it only for tasks that explicitly asked for this
-> feature during their rseq registration, and still the tight loop in
-> our equivalent of tg_vcpu_get() is occasionally noticeable (lots of
-> short wakeups can lead to the loop thrashing around).
-> 
-> Again, our approach is more complicated as a result.
-
-I suspect that the overhead of tg_vcpu_get is quite small for processes
-which work on only few cores, but becomes noticeable when processes have
-many threads and are massively parallel (not affined to only a few cores).
-
-When the feature is disabled, we can always fall-back on the value returned
-by raw_smp_processor_id() and use that as a "vm-vcpu-id" value.
-
-Whether the vm-vcpu-id or the processor id is used needs to be a consensus
-across all threads from all processes using a mm at a given time.
-
-There appears to be a tradeoff here, and I wonder how this should be presented
-to users. A few possible options:
-
-- vm-vcpu feature is opt-in (default off) or opt-out (default on),
-- whether vm-vcpu is enabled for a process could be selected at runtime by the
-  process, either at process initialization (single thread, single mm user)
-  and/or while the process is multi-threaded (requires more synchronization),
-- if we find a way to move automatically between vm-vcpu-id and processor id as
-  information source for all threads tied to a mm when we reach a number of parallel
-  threads threshold, then I suspect we could have best of both worlds. But it's not
-  clear to me how to achieve this.
-
-Thoughts ?
+?
 
 Thanks,
 
 Mathieu
 
-
-> 
->>         fire_sched_out_preempt_notifiers(prev, next);
->>         kmap_local_sched_out();
->>         prepare_task(next);
->> --
->> 2.17.1
-
--- 
+--=20
 Mathieu Desnoyers
 EfficiOS Inc.
 http://www.efficios.com
