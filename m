@@ -2,36 +2,23 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D4A04A5AE6
-	for <lists+linux-api@lfdr.de>; Tue,  1 Feb 2022 12:09:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F6344A5BDF
+	for <lists+linux-api@lfdr.de>; Tue,  1 Feb 2022 13:07:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237120AbiBALJB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 1 Feb 2022 06:09:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35790 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236791AbiBALJB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Feb 2022 06:09:01 -0500
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2A79C061714;
-        Tue,  1 Feb 2022 03:09:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=uWNduFOJS9OuZWczQEXrGKDHDs4uBUffkCKAXba6Lec=; b=HpiUGtdb3gl9D6C/Xq6aStoCko
-        EBNZjmFnDre9pAVhPz4/wL3ZDOzKVZcFuK6VA/Kgj79U8ib0yecC/JQfJ/cEJzQ3IghyA8efrQ6rt
-        03ken04y+f7PljPrSkLifkKP5GUSGkp7QqfPg6e/DU+LNwpWwh/KkXebvHyabDFzv3xnJR8C8O6Wb
-        81KIkrSHHyW40SSzKhAM6hra5pGQKdNEPaOztvRic/XwqLS0dYHIfVhYxFGn2OR6jTTUWthpYzmdX
-        VcUGkTSkFerIPNkfS0mNwffPeTyn9nrkTQFQYxcwUXnK1CH5I+LC3MZtfzd+D3mK8v833OPzXKwgo
-        R184w5yg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nEr1p-005ppW-CK; Tue, 01 Feb 2022 11:08:53 +0000
-Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id ECBB498623E; Tue,  1 Feb 2022 12:08:52 +0100 (CET)
-Date:   Tue, 1 Feb 2022 12:08:52 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Florian Weimer <fw@deneb.enyo.de>
+        id S237770AbiBAMHm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 1 Feb 2022 07:07:42 -0500
+Received: from albireo.enyo.de ([37.24.231.21]:41608 "EHLO albireo.enyo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237750AbiBAMHj (ORCPT <rfc822;linux-api@vger.kernel.org>);
+        Tue, 1 Feb 2022 07:07:39 -0500
+Received: from [172.17.203.2] (port=49315 helo=deneb.enyo.de)
+        by albireo.enyo.de ([172.17.140.2]) with esmtps (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        id 1nErwY-00EzF8-Uc; Tue, 01 Feb 2022 12:07:30 +0000
+Received: from fw by deneb.enyo.de with local (Exim 4.94.2)
+        (envelope-from <fw@deneb.enyo.de>)
+        id 1nErwR-000Ch0-BC; Tue, 01 Feb 2022 13:07:23 +0100
+From:   Florian Weimer <fw@deneb.enyo.de>
+To:     Peter Zijlstra <peterz@infradead.org>
 Cc:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
         "Paul E . McKenney" <paulmck@kernel.org>,
@@ -42,21 +29,24 @@ Cc:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         David.Laight@ACULAB.COM, carlos@redhat.com,
         Peter Oskolkov <posk@posk.io>
 Subject: Re: [RFC PATCH 1/2] rseq: extend struct rseq with numa node id
-Message-ID: <20220201110852.GW20638@worktop.programming.kicks-ass.net>
 References: <20220131205531.17873-1-mathieu.desnoyers@efficios.com>
- <8735l3k3hu.fsf@mid.deneb.enyo.de>
+        <20220201110821.GV20638@worktop.programming.kicks-ass.net>
+Date:   Tue, 01 Feb 2022 13:07:23 +0100
+In-Reply-To: <20220201110821.GV20638@worktop.programming.kicks-ass.net> (Peter
+        Zijlstra's message of "Tue, 1 Feb 2022 12:08:21 +0100")
+Message-ID: <87fsp223k4.fsf@mid.deneb.enyo.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8735l3k3hu.fsf@mid.deneb.enyo.de>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jan 31, 2022 at 10:19:09PM +0100, Florian Weimer wrote:
-> It can be used to implement getcpu purely in userspace, too.  I had
-> plan to hack this together with a node ID cache in TLS, which should
-> offer pretty much the same functionality (except for weird CPU
-> topology changes which alter the node ID of a previously used CPU).
+* Peter Zijlstra:
 
-PowerPC does that quite a lot..
+> On Mon, Jan 31, 2022 at 03:55:30PM -0500, Mathieu Desnoyers wrote:
+>
+>> It is also useful for implementing NUMA-aware user-space mutexes.
+>
+> That really wants a futex extention..
+
+Do you mean with hashes per NUMA node?
