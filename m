@@ -2,54 +2,54 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2F264A6506
-	for <lists+linux-api@lfdr.de>; Tue,  1 Feb 2022 20:28:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE21B4A652A
+	for <lists+linux-api@lfdr.de>; Tue,  1 Feb 2022 20:49:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242141AbiBAT2F (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 1 Feb 2022 14:28:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38924 "EHLO
+        id S231847AbiBATtJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 1 Feb 2022 14:49:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240893AbiBAT2E (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Feb 2022 14:28:04 -0500
-Received: from mail-vk1-xa36.google.com (mail-vk1-xa36.google.com [IPv6:2607:f8b0:4864:20::a36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E135C06173B
-        for <linux-api@vger.kernel.org>; Tue,  1 Feb 2022 11:28:04 -0800 (PST)
-Received: by mail-vk1-xa36.google.com with SMTP id b77so11170688vka.11
-        for <linux-api@vger.kernel.org>; Tue, 01 Feb 2022 11:28:04 -0800 (PST)
+        with ESMTP id S229779AbiBATtJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 1 Feb 2022 14:49:09 -0500
+Received: from mail-ua1-x92d.google.com (mail-ua1-x92d.google.com [IPv6:2607:f8b0:4864:20::92d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BE3FC06173B
+        for <linux-api@vger.kernel.org>; Tue,  1 Feb 2022 11:49:09 -0800 (PST)
+Received: by mail-ua1-x92d.google.com with SMTP id b37so15083401uad.12
+        for <linux-api@vger.kernel.org>; Tue, 01 Feb 2022 11:49:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=posk.io; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=sJL5UhCYMJmx1pFTGrnqwQ1k/3weq8fpqF3eWI9gm3A=;
-        b=GnT98Hmbt7HXksyxzW5qrAfPVlHa8MKInVY0Gz45quwHa3oj8rga9oACpe0khKj0ek
-         H1X1X1G4IOAHnGkHSxxLK9Nen6IBD+ONi3stPCinwzTTI2biQnlPfZ/FBCH4wu1mXuZE
-         ulZ8klImGRe26RIKc9PrCv+QbvUli/AfL+EzgDnJNd5U5KQfTcZmKIuTKErtlja8qwql
-         uJVTwlOeKzk7ZhmRF/lEN+UeaOgAAXpU4XYsXlJGllWCXggdtfCD2A7zzzIaVrUFNryf
-         2CjydciXlP08uZoI6Nxk3T+j33T+nJ5neQsKnbZhjxzrF/ROl6tffn/tSjQZkH9ZrZHs
-         e/Fw==
+        bh=V/WPOEcziH5UqRqb9sJkjk1z/koQumE1byOHgxdtZ+w=;
+        b=SYyqNdbtLzWD2UqR4sfFq/sVfh265WAYGg1UOqq9DF3ddTpIa844ih2iWoCCPyOKy/
+         4JSFHDfuqSZMZW1Ma9UrjzLM2GstD+KcgbTKwmq1JM+849BdKMgVLrl8f41FGsMhFpvm
+         kNeIvQpe1l1eYqJqv0lTUE7rcQ1pCsnqHCT74BFDt6tPldxCfCNS5EyUFpuoSI32sMS0
+         YW2AiPrGTG3yUGdusVkQM1GBT0rNR/ighzI8R+vvFdCYTwT9jdsnBrBRXeLiaOFALyDB
+         rx/juLpHNubUCFOjSI3rPSjW4OIB4JLr0xbXfRfoGqbCxUk3TpRjOCLIQEMrHPOZPOWd
+         zSnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=sJL5UhCYMJmx1pFTGrnqwQ1k/3weq8fpqF3eWI9gm3A=;
-        b=4ivTkoqjOPyFqN7CYorGUgYO7TaGPIf3BP0CKzNTgkdensHtOlINxuJ/49fxEz0oXe
-         td66N5iUHzfqS1r146X848/IglbO1P77dhBrirSnCKy33HbG//l6H2kn3U5llLEDh+3W
-         WaO/vdX23+sSl+z8a+60htrU0K/LTbteXai8vFyj2+Q70WN03ubBbZguQfjUs1DtGbDy
-         +OkbjYUOw4DNJgh4tGbjUy0X+eL3ndtLNR5qKv/NJ/4Y5BcF2FEEIpQA4nmv5NofP1xF
-         JdlUJeqfwvEEei+fsDHRBsegu3GgoLjtYVBA+4fbsljrj5zZB87Jz+GVbj+D0Dry5cKa
-         APCA==
-X-Gm-Message-State: AOAM533+X3ONHuqLFZwtE1Ye0DX124WVfSGUYzezwNuCN3IUwwdOkTRx
-        zb1GsuXuODVJ+76rJxCFQRe5vPKJr6MhClbejCgUYA==
-X-Google-Smtp-Source: ABdhPJzdcuAFf229DNhyi7CxKph53ikMqzcCkUMKf+esjt65Hdw6kp5bQQk08yDDY9qm176rzmEfV8RRp8cKHRojOgg=
-X-Received: by 2002:a05:6122:4f3:: with SMTP id s19mr10764299vkf.32.1643743683569;
- Tue, 01 Feb 2022 11:28:03 -0800 (PST)
+        bh=V/WPOEcziH5UqRqb9sJkjk1z/koQumE1byOHgxdtZ+w=;
+        b=2mPk/LiZwgOH7iY877HAXF3YQFSSuXO6BfgeUxmql6jOmQMGJU3vLLh51TzAdx+cCV
+         xeYJ//2DH1SMK1tb0VVOsc2qfJkwYItSenM+ZSbjkNbB7Dac6gLSlQLT5GlU2WKCzzIo
+         XA+vYPFiWcVpUhERSWZbWzPtQUjoExwptvo9a3GR2QUtM6PlVdlfC7clxpKP5YmspJtW
+         VzVoBfcuiUtbRWHAnnXdAaTbkhPHp+OD1JSAT9sGIr4iEgIyskH8shPs+j8brbZuYcII
+         XNa4PsoMQk7tmal3LTyueasYp4dMkQsk8WKwHsYF26ZsnmL2aVyn0RtDlU06fUUf/xeM
+         gzcQ==
+X-Gm-Message-State: AOAM532u1EDDaFej+j0qCB/PfjVw4/Cxh4J2JHPT0QJscKSGDf9eEoK/
+        Gvuqfn6UN8fje9Qmcx+BVAP8+yV0cHG2y2nOgQ3NJA==
+X-Google-Smtp-Source: ABdhPJyz7aVnac5n2RcM5g7ZcOY1vF6bKGu67s1QXuQrr3Mo/KffqpQw9xndsiHg+XY6+iPew8iA9NodHFIcGjgWh1E=
+X-Received: by 2002:a67:ab43:: with SMTP id k3mr10625892vsh.60.1643744948073;
+ Tue, 01 Feb 2022 11:49:08 -0800 (PST)
 MIME-Version: 1.0
-References: <20220201143425.19907-1-mathieu.desnoyers@efficios.com>
-In-Reply-To: <20220201143425.19907-1-mathieu.desnoyers@efficios.com>
+References: <20220201192540.10439-1-mathieu.desnoyers@efficios.com>
+In-Reply-To: <20220201192540.10439-1-mathieu.desnoyers@efficios.com>
 From:   Peter Oskolkov <posk@posk.io>
-Date:   Tue, 1 Feb 2022 11:28:01 -0800
-Message-ID: <CAFTs51XUwhPJ9BzygJPD0pWFEEwu6hSnO7r=-i8B8R6x0oK6CA@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 1/2] rseq: extend struct rseq with numa node id
+Date:   Tue, 1 Feb 2022 11:49:05 -0800
+Message-ID: <CAFTs51XYWqN6bPbVYh8a9ta+VxS4iBbiWWNO7n1t-4_VLpKGXQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/3] Introduce per thread group current virtual cpu id
 To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -60,298 +60,186 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         linux-api@vger.kernel.org,
         Christian Brauner <christian.brauner@ubuntu.com>,
         Florian Weimer <fw@deneb.enyo.de>, David.Laight@aculab.com,
-        carlos@redhat.com
+        carlos@redhat.com, Chris Kennelly <ckennelly@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Mathieu,
-
-On Tue, Feb 1, 2022 at 6:34 AM Mathieu Desnoyers
+On Tue, Feb 1, 2022 at 11:26 AM Mathieu Desnoyers
 <mathieu.desnoyers@efficios.com> wrote:
 >
-> Adding the NUMA node id to struct rseq is a straightforward thing to do,
-> and a good way to figure out if anything in the user-space ecosystem
-> prevents extending struct rseq.
+> This feature allows the scheduler to expose a current virtual cpu id
+> to user-space. This virtual cpu id is within the possible cpus range,
+> and is temporarily (and uniquely) assigned while threads are actively
+> running within a thread group. If a thread group has fewer threads than
+> cores, or is limited to run on few cores concurrently through sched
+> affinity or cgroup cpusets, the virtual cpu ids will be values close
+> to 0, thus allowing efficient use of user-space memory for per-cpu
+> data structures.
+
+Why per thread group and not per mm? The main use case is for
+per-(v)cpu memory allocation logic, so it seems having this feature
+per mm is more appropriate?
+
 >
-> This NUMA node id field allows memory allocators such as tcmalloc to
-> take advantage of fast access to the current NUMA node id to perform
-> NUMA-aware memory allocation.
->
-> It can also be useful for implementing fast-paths for NUMA-aware
-> user-space mutexes.
->
-> It also allows implementing getcpu(2) purely in user-space.
+> This feature is meant to be exposed by a new rseq thread area field.
 >
 > Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 > ---
->  include/linux/sched.h       |  4 ++
->  include/trace/events/rseq.h |  4 +-
->  include/uapi/linux/rseq.h   | 24 +++++++++++
->  kernel/ptrace.c             |  2 +-
->  kernel/rseq.c               | 82 ++++++++++++++++++++++++++-----------
->  5 files changed, 89 insertions(+), 27 deletions(-)
+>  fs/exec.c                    |  4 +++
+>  include/linux/sched.h        |  4 +++
+>  include/linux/sched/signal.h | 49 ++++++++++++++++++++++++++++++++++++
+>  init/Kconfig                 | 14 +++++++++++
+>  kernel/sched/core.c          |  2 ++
+>  5 files changed, 73 insertions(+)
 >
+> diff --git a/fs/exec.c b/fs/exec.c
+> index 79f2c9483302..bc9a8c5f17f4 100644
+> --- a/fs/exec.c
+> +++ b/fs/exec.c
+> @@ -1153,6 +1153,10 @@ static int de_thread(struct task_struct *tsk)
+>         sig->group_exec_task = NULL;
+>         sig->notify_count = 0;
+>
+> +       /* Release possibly high vcpu id, get vcpu id 0. */
+> +       tg_vcpu_put(tsk);
+> +       tg_vcpu_get(tsk);
+> +
+>  no_thread_group:
+>         /* we have changed execution domain */
+>         tsk->exit_signal = SIGCHLD;
 > diff --git a/include/linux/sched.h b/include/linux/sched.h
-> index 508b91d57470..838c9e0b4cae 100644
+> index 838c9e0b4cae..0f199daed26a 100644
 > --- a/include/linux/sched.h
 > +++ b/include/linux/sched.h
-> @@ -1291,6 +1291,7 @@ struct task_struct {
+> @@ -1300,6 +1300,10 @@ struct task_struct {
+>         unsigned long rseq_event_mask;
+>  #endif
 >
->  #ifdef CONFIG_RSEQ
->         struct rseq __user *rseq;
-> +       u32 rseq_len;
->         u32 rseq_sig;
->         /*
->          * RmW on rseq_event_mask must be performed atomically
-> @@ -2260,10 +2261,12 @@ static inline void rseq_fork(struct task_struct *t, unsigned long clone_flags)
->  {
->         if (clone_flags & CLONE_VM) {
->                 t->rseq = NULL;
-> +               t->rseq_len = 0;
->                 t->rseq_sig = 0;
->                 t->rseq_event_mask = 0;
->         } else {
->                 t->rseq = current->rseq;
-> +               t->rseq_len = current->rseq_len;
->                 t->rseq_sig = current->rseq_sig;
->                 t->rseq_event_mask = current->rseq_event_mask;
->         }
-> @@ -2272,6 +2275,7 @@ static inline void rseq_fork(struct task_struct *t, unsigned long clone_flags)
->  static inline void rseq_execve(struct task_struct *t)
->  {
->         t->rseq = NULL;
-> +       t->rseq_len = 0;
->         t->rseq_sig = 0;
->         t->rseq_event_mask = 0;
->  }
-> diff --git a/include/trace/events/rseq.h b/include/trace/events/rseq.h
-> index a04a64bc1a00..6bd442697354 100644
-> --- a/include/trace/events/rseq.h
-> +++ b/include/trace/events/rseq.h
-> @@ -16,13 +16,15 @@ TRACE_EVENT(rseq_update,
->
->         TP_STRUCT__entry(
->                 __field(s32, cpu_id)
-> +               __field(s32, node_id)
->         ),
->
->         TP_fast_assign(
->                 __entry->cpu_id = raw_smp_processor_id();
-> +               __entry->node_id = cpu_to_node(raw_smp_processor_id());
->         ),
->
-> -       TP_printk("cpu_id=%d", __entry->cpu_id)
-> +       TP_printk("cpu_id=%d node_id=%d", __entry->cpu_id, __entry->node_id)
->  );
->
->  TRACE_EVENT(rseq_ip_fixup,
-> diff --git a/include/uapi/linux/rseq.h b/include/uapi/linux/rseq.h
-> index 77ee207623a9..386c25b5bbdb 100644
-> --- a/include/uapi/linux/rseq.h
-> +++ b/include/uapi/linux/rseq.h
-> @@ -130,6 +130,30 @@ struct rseq {
->          *     this thread.
->          */
->         __u32 flags;
+> +#ifdef CONFIG_SCHED_THREAD_GROUP_VCPU
+> +       int                             tg_vcpu;        /* Current vcpu in thread group */
+> +#endif
 > +
-> +       __u32 padding1[3];
-
-I don't fully understand why this padding is needed here. The comment
-below sounds like there was something in "the original rseq API", but
-was later removed, as this patch clearly adds padding after flags, but
-even the first rseq patch had 'flags' as the last field in struct
-rseq...
-
-Also have you considered adding an explicit 'version' field, or
-something more sophisticated than 'len'? I remember about a year ago
-you had an rfc patch(set) addressing rseq versioning, but I don't
-think it got merged? You had some concerns about using 'len' then...
-
-> +
+>         struct tlbflush_unmap_batch     tlb_ubc;
+>
+>         union {
+> diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
+> index b6ecb9fc4cd2..c87e7ad5a1ea 100644
+> --- a/include/linux/sched/signal.h
+> +++ b/include/linux/sched/signal.h
+> @@ -244,6 +244,12 @@ struct signal_struct {
+>                                                  * and may have inconsistent
+>                                                  * permissions.
+>                                                  */
+> +#ifdef CONFIG_SCHED_THREAD_GROUP_VCPU
 > +       /*
-> +        * This is the end of the original rseq ABI.
-> +        * This is a valid end of rseq ABI for the purpose of rseq registration
-> +        * rseq_len.
-> +        * The original rseq ABI use "sizeof(struct rseq)" on registration,
-> +        * thus requiring the padding above.
+> +        * Mask of allocated vcpu ids within the thread group.
 > +        */
-> +
-> +       /*
-> +        * Restartable sequences node_id field. Updated by the kernel. Read by
-> +        * user-space with single-copy atomicity semantics. This field should
-> +        * only be read by the thread which registered this data structure.
-> +        * Aligned on 32-bit. Contains the current NUMA node ID.
-> +        */
-> +       __u32 node_id;
-> +
-> +       /*
-> +        * This is a valid end of rseq ABI for the purpose of rseq registration
-> +        * rseq_len. Use the offset immediately after the node_id field as
-> +        * rseq_len.
-> +        */
->  } __attribute__((aligned(4 * sizeof(__u64))));
+> +       cpumask_t                       vcpu_mask;
+
+We use a pointer for the mask (in struct mm). Adds complexity around
+alloc/free, though. Just FYI.
+
+> +#endif
+>  } __randomize_layout;
 >
->  #endif /* _UAPI_LINUX_RSEQ_H */
-> diff --git a/kernel/ptrace.c b/kernel/ptrace.c
-> index eea265082e97..f5edde5b7805 100644
-> --- a/kernel/ptrace.c
-> +++ b/kernel/ptrace.c
-> @@ -800,7 +800,7 @@ static long ptrace_get_rseq_configuration(struct task_struct *task,
->  {
->         struct ptrace_rseq_configuration conf = {
->                 .rseq_abi_pointer = (u64)(uintptr_t)task->rseq,
-> -               .rseq_abi_size = sizeof(*task->rseq),
-> +               .rseq_abi_size = task->rseq_len,
->                 .signature = task->rseq_sig,
->                 .flags = 0,
->         };
-> diff --git a/kernel/rseq.c b/kernel/rseq.c
-> index 97ac20b4f738..13f6d0419f31 100644
-> --- a/kernel/rseq.c
-> +++ b/kernel/rseq.c
-> @@ -81,15 +81,25 @@
->   *   F1. <failure>
->   */
->
-> -static int rseq_update_cpu_id(struct task_struct *t)
-> +static int rseq_update_cpu_node_id(struct task_struct *t)
->  {
-> -       u32 cpu_id = raw_smp_processor_id();
->         struct rseq __user *rseq = t->rseq;
-> +       u32 cpu_id = raw_smp_processor_id();
-> +       u32 node_id = cpu_to_node(cpu_id);
->
-> -       if (!user_write_access_begin(rseq, sizeof(*rseq)))
-> +       if (!user_write_access_begin(rseq, t->rseq_len))
->                 goto efault;
-> -       unsafe_put_user(cpu_id, &rseq->cpu_id_start, efault_end);
-> -       unsafe_put_user(cpu_id, &rseq->cpu_id, efault_end);
-> +       switch (t->rseq_len) {
-> +       case offsetofend(struct rseq, node_id):
-> +               unsafe_put_user(node_id, &rseq->node_id, efault_end);
-> +               fallthrough;
-> +       case offsetofend(struct rseq, padding1):
-> +               unsafe_put_user(cpu_id, &rseq->cpu_id_start, efault_end);
-> +               unsafe_put_user(cpu_id, &rseq->cpu_id, efault_end);
-> +               break;
-> +       default:
-> +               goto efault_end;
-> +       }
->         user_write_access_end();
->         trace_rseq_update(t);
->         return 0;
-> @@ -100,22 +110,35 @@ static int rseq_update_cpu_id(struct task_struct *t)
->         return -EFAULT;
+>  /*
+> @@ -742,4 +748,47 @@ static inline unsigned long rlimit_max(unsigned int limit)
+>         return task_rlimit_max(current, limit);
 >  }
 >
-> -static int rseq_reset_rseq_cpu_id(struct task_struct *t)
-> +static int rseq_reset_rseq_cpu_node_id(struct task_struct *t)
->  {
-> -       u32 cpu_id_start = 0, cpu_id = RSEQ_CPU_ID_UNINITIALIZED;
-> +       u32 cpu_id_start = 0, cpu_id = RSEQ_CPU_ID_UNINITIALIZED, node_id = 0;
+> +#ifdef CONFIG_SCHED_THREAD_GROUP_VCPU
+> +static inline void tg_vcpu_get(struct task_struct *t)
+> +{
+> +       struct cpumask *cpumask = &t->signal->vcpu_mask;
+> +       unsigned int vcpu;
+> +
+> +       if (t->flags & PF_KTHREAD)
+> +               return;
+> +       /* Atomically reserve lowest available vcpu number. */
+> +       do {
+> +               vcpu = cpumask_first_zero(cpumask);
+> +               WARN_ON_ONCE(vcpu >= nr_cpu_ids);
+> +       } while (cpumask_test_and_set_cpu(vcpu, cpumask));
+> +       t->tg_vcpu = vcpu;
+> +}
+> +
+> +static inline void tg_vcpu_put(struct task_struct *t)
+> +{
+> +       if (t->flags & PF_KTHREAD)
+> +               return;
+> +       cpumask_clear_cpu(t->tg_vcpu, &t->signal->vcpu_mask);
+> +       t->tg_vcpu = 0;
+> +}
+> +
+> +static inline int task_tg_vcpu_id(struct task_struct *t)
+> +{
+> +       return t->tg_vcpu;
+> +}
+> +#else
+> +static inline void tg_vcpu_get(struct task_struct *t) { }
+> +static inline void tg_vcpu_put(struct task_struct *t) { }
+> +static inline int task_tg_vcpu_id(struct task_struct *t)
+> +{
+> +       /*
+> +        * Use the processor id as a fall-back when the thread group vcpu
+> +        * feature is disabled. This provides functional per-cpu data structure
+> +        * accesses in user-space, althrough it won't provide the memory usage
+> +        * benefits.
+> +        */
+> +       return raw_smp_processor_id();
+> +}
+> +#endif
+> +
+>  #endif /* _LINUX_SCHED_SIGNAL_H */
+> diff --git a/init/Kconfig b/init/Kconfig
+> index e9119bf54b1f..5f72b4212a33 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -1023,6 +1023,20 @@ config RT_GROUP_SCHED
 >
-> -       /*
-> -        * Reset cpu_id_start to its initial state (0).
-> -        */
-> -       if (put_user(cpu_id_start, &t->rseq->cpu_id_start))
-> -               return -EFAULT;
-> -       /*
-> -        * Reset cpu_id to RSEQ_CPU_ID_UNINITIALIZED, so any user coming
-> -        * in after unregistration can figure out that rseq needs to be
-> -        * registered again.
-> -        */
-> -       if (put_user(cpu_id, &t->rseq->cpu_id))
-> -               return -EFAULT;
-> +       switch (t->rseq_len) {
-> +       case offsetofend(struct rseq, node_id):
-> +               /*
-> +                * Reset node_id to its initial state (0).
-> +                */
-> +               if (put_user(node_id, &t->rseq->node_id))
-> +                       return -EFAULT;
-> +               fallthrough;
-> +       case offsetofend(struct rseq, padding1):
-> +               /*
-> +                * Reset cpu_id_start to its initial state (0).
-> +                */
-> +               if (put_user(cpu_id_start, &t->rseq->cpu_id_start))
-> +                       return -EFAULT;
-> +               /*
-> +                * Reset cpu_id to RSEQ_CPU_ID_UNINITIALIZED, so any user
-> +                * coming in after unregistration can figure out that rseq
-> +                * needs to be registered again.
-> +                */
-> +               if (put_user(cpu_id, &t->rseq->cpu_id))
-> +                       return -EFAULT;
-> +               break;
-> +       default:
-> +               return -EINVAL;
-> +       }
->         return 0;
->  }
+>  endif #CGROUP_SCHED
 >
-> @@ -293,7 +316,7 @@ void __rseq_handle_notify_resume(struct ksignal *ksig, struct pt_regs *regs)
->                 if (unlikely(ret < 0))
->                         goto error;
->         }
-> -       if (unlikely(rseq_update_cpu_id(t)))
-> +       if (unlikely(rseq_update_cpu_node_id(t)))
->                 goto error;
->         return;
->
-> @@ -336,15 +359,16 @@ SYSCALL_DEFINE4(rseq, struct rseq __user *, rseq, u32, rseq_len,
->                 /* Unregister rseq for current thread. */
->                 if (current->rseq != rseq || !current->rseq)
->                         return -EINVAL;
-> -               if (rseq_len != sizeof(*rseq))
-> +               if (rseq_len != current->rseq_len)
->                         return -EINVAL;
->                 if (current->rseq_sig != sig)
->                         return -EPERM;
-> -               ret = rseq_reset_rseq_cpu_id(current);
-> +               ret = rseq_reset_rseq_cpu_node_id(current);
->                 if (ret)
->                         return ret;
->                 current->rseq = NULL;
->                 current->rseq_sig = 0;
-> +               current->rseq_len = 0;
->                 return 0;
->         }
->
-> @@ -357,7 +381,7 @@ SYSCALL_DEFINE4(rseq, struct rseq __user *, rseq, u32, rseq_len,
->                  * the provided address differs from the prior
->                  * one.
->                  */
-> -               if (current->rseq != rseq || rseq_len != sizeof(*rseq))
-> +               if (current->rseq != rseq || rseq_len != current->rseq_len)
->                         return -EINVAL;
->                 if (current->rseq_sig != sig)
->                         return -EPERM;
-> @@ -369,12 +393,20 @@ SYSCALL_DEFINE4(rseq, struct rseq __user *, rseq, u32, rseq_len,
->          * If there was no rseq previously registered,
->          * ensure the provided rseq is properly aligned and valid.
->          */
-> -       if (!IS_ALIGNED((unsigned long)rseq, __alignof__(*rseq)) ||
-> -           rseq_len != sizeof(*rseq))
-> +       if (!IS_ALIGNED((unsigned long)rseq, __alignof__(*rseq)))
->                 return -EINVAL;
-> +       switch (rseq_len) {
-> +       case offsetofend(struct rseq, node_id):
-> +               fallthrough;
-> +       case offsetofend(struct rseq, padding1):
-> +               break;
-> +       default:
-> +               return -EINVAL;
-> +       }
->         if (!access_ok(rseq, rseq_len))
->                 return -EFAULT;
->         current->rseq = rseq;
-> +       current->rseq_len = rseq_len;
->         current->rseq_sig = sig;
->         /*
->          * If rseq was previously inactive, and has just been
+> +config SCHED_THREAD_GROUP_VCPU
+> +       bool "Provide per-thread-group virtual cpu id"
+> +       depends on SMP
+> +       default n
+> +       help
+> +         This feature allows the scheduler to expose a current virtual cpu id
+> +         to user-space. This virtual cpu id is within the possible cpus range,
+> +         and is temporarily (and uniquely) assigned while threads are actively
+> +         running within a thread group. If a thread group has fewer threads than
+> +         cores, or is limited to run on few cores concurrently through sched
+> +         affinity or cgroup cpusets, the virtual cpu ids will be values close
+> +         to 0, thus allowing efficient use of user-space memory for per-cpu
+> +         data structures.
+> +
+>  config UCLAMP_TASK_GROUP
+>         bool "Utilization clamping per group of tasks"
+>         depends on CGROUP_SCHED
+> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> index 2e4ae00e52d1..2690e80977b1 100644
+> --- a/kernel/sched/core.c
+> +++ b/kernel/sched/core.c
+> @@ -4795,6 +4795,8 @@ prepare_task_switch(struct rq *rq, struct task_struct *prev,
+>         sched_info_switch(rq, prev, next);
+>         perf_event_task_sched_out(prev, next);
+>         rseq_preempt(prev);
+> +       tg_vcpu_put(prev);
+> +       tg_vcpu_get(next);
+
+Doing this for all tasks on all context switches will most likely be
+too expensive. We do it only for tasks that explicitly asked for this
+feature during their rseq registration, and still the tight loop in
+our equivalent of tg_vcpu_get() is occasionally noticeable (lots of
+short wakeups can lead to the loop thrashing around).
+
+Again, our approach is more complicated as a result.
+
+>         fire_sched_out_preempt_notifiers(prev, next);
+>         kmap_local_sched_out();
+>         prepare_task(next);
 > --
 > 2.17.1
 >
