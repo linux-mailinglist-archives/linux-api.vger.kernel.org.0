@@ -2,91 +2,128 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D8474A6FDD
-	for <lists+linux-api@lfdr.de>; Wed,  2 Feb 2022 12:24:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 80E5B4A71EA
+	for <lists+linux-api@lfdr.de>; Wed,  2 Feb 2022 14:48:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232008AbiBBLYC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 2 Feb 2022 06:24:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55918 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230478AbiBBLYC (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 2 Feb 2022 06:24:02 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D71C9C061714;
-        Wed,  2 Feb 2022 03:24:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=0uChyntsGbZTYF0NOYbJgym9Avq1awMCpANR+feQH8w=; b=DYhEZ9Kr6q4Vf8w3RGMPtj5fer
-        CeDPlxxRKjB8rYp0besQzPX5n1VUUl5wdTY02xwPKrz1GS/iw5KUJv85yQRLqiR1T9/JghiH1FdAM
-        eh5Jz6bvL7r/WriU89jKlO8TANkIcRPNPtVuWC6yOLsHZzVy+F8LjKfKZAGIEGZfxVQTVubw9+tD4
-        CTS7fph0lnMnS+SHC2E5Xju+4aCx3OeTjeKy1/6/p4mWFmeS+VQQKyulRwbXOQZDSmVGeHILZVTIf
-        wC8uHNKYY65xQ2KcEz9zVkSoAltQ8O9jHvtoqWmiaJP9jj9okWkuq3BL5FQdHe/OZoMjbpO4sk1R0
-        XcCAgJ3A==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nFDjk-00ESwW-8Y; Wed, 02 Feb 2022 11:23:44 +0000
-Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 1ACFB98327C; Wed,  2 Feb 2022 12:23:43 +0100 (CET)
-Date:   Wed, 2 Feb 2022 12:23:43 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api@vger.kernel.org,
+        id S239140AbiBBNsx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 2 Feb 2022 08:48:53 -0500
+Received: from mail.efficios.com ([167.114.26.124]:39952 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229526AbiBBNsx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 2 Feb 2022 08:48:53 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 76F2034F3DA;
+        Wed,  2 Feb 2022 08:48:52 -0500 (EST)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id cqdK2jswhzmF; Wed,  2 Feb 2022 08:48:51 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id B97F734F4E0;
+        Wed,  2 Feb 2022 08:48:51 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com B97F734F4E0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1643809731;
+        bh=VQmEXGRQQIxzpVJ3876L2AMeTU75MjY0bPrjRl6cGwE=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=F889MTHQl7N/Rl9ZKzoYcNwkiBv4niYRAOnn/BDD+wA2A7SloHaYNlK38A2susBGO
+         DHTIE5iziNt4pGtoHsIn68RFXqIvkQt56rEqHC607KtBmGZMaL5y8A9nW0U9jeojha
+         ABEc6DWL3Mh5xMrYAyaH4a8pIoGiQSEC1KSR5TQzlWxBL5zJ72awB/RRUbHZJm/A6b
+         RDp36Yh+XkzulKyoxxNGV7Dsz0WkWZDUdGPNuNaUIex8TKGLTe3BPEGBMB48vgBnl9
+         2Py1h7gRtvy6JRNAg3vgR7uDuPk43+ucrAzt9w0J1IDLvANkiuDP4dDuqcC51BnSrw
+         QPDcAGP52HbvA==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 0HZQSn_vItm0; Wed,  2 Feb 2022 08:48:51 -0500 (EST)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id A5D6434F454;
+        Wed,  2 Feb 2022 08:48:51 -0500 (EST)
+Date:   Wed, 2 Feb 2022 08:48:51 -0500 (EST)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        paulmck <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api <linux-api@vger.kernel.org>,
         Christian Brauner <christian.brauner@ubuntu.com>,
-        Florian Weimer <fw@deneb.enyo.de>, David.Laight@ACULAB.COM,
-        carlos@redhat.com, Peter Oskolkov <posk@posk.io>
-Subject: Re: [RFC PATCH 1/3] Introduce per thread group current virtual cpu id
-Message-ID: <20220202112343.GZ20638@worktop.programming.kicks-ass.net>
-References: <20220201192540.10439-1-mathieu.desnoyers@efficios.com>
+        Florian Weimer <fw@deneb.enyo.de>,
+        David Laight <David.Laight@ACULAB.COM>,
+        carlos <carlos@redhat.com>, Peter Oskolkov <posk@posk.io>
+Message-ID: <465039213.27161.1643809731530.JavaMail.zimbra@efficios.com>
+In-Reply-To: <20220202112343.GZ20638@worktop.programming.kicks-ass.net>
+References: <20220201192540.10439-1-mathieu.desnoyers@efficios.com> <20220202112343.GZ20638@worktop.programming.kicks-ass.net>
+Subject: Re: [RFC PATCH 1/3] Introduce per thread group current virtual cpu
+ id
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220201192540.10439-1-mathieu.desnoyers@efficios.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_4203 (ZimbraWebClient - FF96 (Linux)/8.8.15_GA_4203)
+Thread-Topic: Introduce per thread group current virtual cpu id
+Thread-Index: yKlWk+fUpMMdDPyl2WKE2U6dJjx55g==
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Feb 01, 2022 at 02:25:38PM -0500, Mathieu Desnoyers wrote:
+----- On Feb 2, 2022, at 6:23 AM, Peter Zijlstra peterz@infradead.org wrote:
 
-> +static inline void tg_vcpu_get(struct task_struct *t)
-> +{
-> +	struct cpumask *cpumask = &t->signal->vcpu_mask;
-> +	unsigned int vcpu;
-> +
-> +	if (t->flags & PF_KTHREAD)
-> +		return;
-> +	/* Atomically reserve lowest available vcpu number. */
-> +	do {
-> +		vcpu = cpumask_first_zero(cpumask);
-> +		WARN_ON_ONCE(vcpu >= nr_cpu_ids);
-> +	} while (cpumask_test_and_set_cpu(vcpu, cpumask));
-> +	t->tg_vcpu = vcpu;
-> +}
-> +
-> +static inline void tg_vcpu_put(struct task_struct *t)
-> +{
-> +	if (t->flags & PF_KTHREAD)
-> +		return;
-> +	cpumask_clear_cpu(t->tg_vcpu, &t->signal->vcpu_mask);
-> +	t->tg_vcpu = 0;
-> +}
+> On Tue, Feb 01, 2022 at 02:25:38PM -0500, Mathieu Desnoyers wrote:
+> 
+>> +static inline void tg_vcpu_get(struct task_struct *t)
+>> +{
+>> +	struct cpumask *cpumask = &t->signal->vcpu_mask;
+>> +	unsigned int vcpu;
+>> +
+>> +	if (t->flags & PF_KTHREAD)
+>> +		return;
+>> +	/* Atomically reserve lowest available vcpu number. */
+>> +	do {
+>> +		vcpu = cpumask_first_zero(cpumask);
+>> +		WARN_ON_ONCE(vcpu >= nr_cpu_ids);
+>> +	} while (cpumask_test_and_set_cpu(vcpu, cpumask));
+>> +	t->tg_vcpu = vcpu;
+>> +}
+>> +
+>> +static inline void tg_vcpu_put(struct task_struct *t)
+>> +{
+>> +	if (t->flags & PF_KTHREAD)
+>> +		return;
+>> +	cpumask_clear_cpu(t->tg_vcpu, &t->signal->vcpu_mask);
+>> +	t->tg_vcpu = 0;
+>> +}
+> 
+>> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+>> index 2e4ae00e52d1..2690e80977b1 100644
+>> --- a/kernel/sched/core.c
+>> +++ b/kernel/sched/core.c
+>> @@ -4795,6 +4795,8 @@ prepare_task_switch(struct rq *rq, struct task_struct
+>> *prev,
+>>  	sched_info_switch(rq, prev, next);
+>>  	perf_event_task_sched_out(prev, next);
+>>  	rseq_preempt(prev);
+>> +	tg_vcpu_put(prev);
+>> +	tg_vcpu_get(next);
+> 
+> 
+> URGGHHH!!! that's *2* atomics extra on the context switch path. Worse,
+> that's on a line that's trivially contended with a few threads.
 
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index 2e4ae00e52d1..2690e80977b1 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -4795,6 +4795,8 @@ prepare_task_switch(struct rq *rq, struct task_struct *prev,
->  	sched_info_switch(rq, prev, next);
->  	perf_event_task_sched_out(prev, next);
->  	rseq_preempt(prev);
-> +	tg_vcpu_put(prev);
-> +	tg_vcpu_get(next);
+There is one obvious optimization that just begs to be done here: when
+switching between threads belonging to the same process, we can simply
+take the vcpu_id tag of the prev thread and use it for next,
+without requiring any atomic operation.
 
+This only leaves the overhead of added atomics when scheduling between
+threads which belong to different processes. Does it matter as much ?
+If it's the case, then we should really scratch our heads a little more
+to come up with improvements.
 
-URGGHHH!!! that's *2* atomics extra on the context switch path. Worse,
-that's on a line that's trivially contended with a few threads.
+Thanks,
+
+Mathieu
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
