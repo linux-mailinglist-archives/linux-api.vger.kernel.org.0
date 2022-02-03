@@ -2,183 +2,210 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A352B4A8731
-	for <lists+linux-api@lfdr.de>; Thu,  3 Feb 2022 16:05:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B60704A8814
+	for <lists+linux-api@lfdr.de>; Thu,  3 Feb 2022 16:53:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240199AbiBCPFk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 3 Feb 2022 10:05:40 -0500
-Received: from mail.efficios.com ([167.114.26.124]:47342 "EHLO
+        id S242547AbiBCPxl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 3 Feb 2022 10:53:41 -0500
+Received: from mail.efficios.com ([167.114.26.124]:35182 "EHLO
         mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351632AbiBCPFf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 3 Feb 2022 10:05:35 -0500
+        with ESMTP id S239753AbiBCPxk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 3 Feb 2022 10:53:40 -0500
 Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id ED720390641;
-        Thu,  3 Feb 2022 10:05:34 -0500 (EST)
+        by mail.efficios.com (Postfix) with ESMTP id 08112390D23;
+        Thu,  3 Feb 2022 10:53:40 -0500 (EST)
 Received: from mail.efficios.com ([127.0.0.1])
         by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id aiWU0OIApTxa; Thu,  3 Feb 2022 10:05:34 -0500 (EST)
+        with ESMTP id b7R6ljw7HSO1; Thu,  3 Feb 2022 10:53:39 -0500 (EST)
 Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 77004390640;
-        Thu,  3 Feb 2022 10:05:34 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 77004390640
+        by mail.efficios.com (Postfix) with ESMTP id 5E81C390BCD;
+        Thu,  3 Feb 2022 10:53:39 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 5E81C390BCD
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1643900734;
-        bh=WyU7uOvxJADaGz3aMWb0JYsLM3wbm8jc3RBF8tl9dlE=;
-        h=From:To:Date:Message-Id;
-        b=d5KDhyoRCf0WVf+JNqUD7+sNJsWdPO3xfruP9ZbXomt+pTOljgjRpvgTKlTU8yqMI
-         yDObmZZN9IIeA6A0mj9FF9E90bc6zrc/v4zBfLyoPb9I6N3ri5XkVY/lD5tpAQI0Ve
-         txr86r/goZr/gQmffte0S0Jw6maMov9WSsJT2E5AXxsow+b9MMmEQ/6NJKmBMwGPK9
-         7KgJo2NDAEdkgBZYnLA4djWJTpdTZBwzgqnU8uzhVmVtiw9ww6MoFx7UCLOVmdzG4I
-         FjdQQt3+sDosJjkX2XRVqrC1f2bFcNCwL8/yGyUtyOFYdwhN9MoGfYRvf11ZtX9J02
-         Eg1Iyv4tFlRNw==
+        s=default; t=1643903619;
+        bh=/8wVYthViEyRys4kgMvHu8UD3IzJeS/ZOiKEPGOloZw=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=ZZiJR0hhbxAZ82ZsI9KT9a6uORRBezuLQPNIT4/YxjYbKKtM5vO2ejTKwMm/zUarZ
+         z4ZUH/Z5Fzn+Pq/08vQE8LW6RxcAcm0t+WWcdohS83mEnxtiDznGILJ6xj/0hE9QqM
+         rkbyLqprq/U2fa4qXXy4cwOoitXTqAK6aiTieSXR8vZdHT6nNWaGbegjvrZIwNef6u
+         GYamXGViEobnjleunolsa5oMbQ9lKNikAJtx9PiOcn8Q7Mx1E6Rp63GeNvM2AsDG10
+         2ZpsOhH+hyXjrofDfLwS6YcwG06Z7jHI96O4+OIr9AA8gi5oga/IUWAKhVcDcUVmim
+         9j6CHyyf2y0fA==
 X-Virus-Scanned: amavisd-new at efficios.com
 Received: from mail.efficios.com ([127.0.0.1])
         by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id yjEdcLOaV4XO; Thu,  3 Feb 2022 10:05:34 -0500 (EST)
-Received: from localhost.localdomain (192-222-180-24.qc.cable.ebox.net [192.222.180.24])
-        by mail.efficios.com (Postfix) with ESMTPSA id 177BF39063D;
-        Thu,  3 Feb 2022 10:05:34 -0500 (EST)
+        with ESMTP id KjRa12abZ1Nl; Thu,  3 Feb 2022 10:53:39 -0500 (EST)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id 4BE65390BC7;
+        Thu,  3 Feb 2022 10:53:39 -0500 (EST)
+Date:   Thu, 3 Feb 2022 10:53:39 -0500 (EST)
 From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api@vger.kernel.org, Florian Weimer <fw@deneb.enyo.de>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: [PATCH] selftests/rseq: change type of rseq_offset to ptrdiff_t
-Date:   Thu,  3 Feb 2022 10:05:32 -0500
-Message-Id: <20220203150532.12464-1-mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.17.1
+To:     Florian Weimer <fw@deneb.enyo.de>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        paulmck <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api <linux-api@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        David Laight <David.Laight@ACULAB.COM>,
+        carlos <carlos@redhat.com>, Peter Oskolkov <posk@posk.io>
+Message-ID: <1685571268.31788.1643903619178.JavaMail.zimbra@efficios.com>
+In-Reply-To: <1285409089.26848.1643765557716.JavaMail.zimbra@efficios.com>
+References: <20220201192540.10439-1-mathieu.desnoyers@efficios.com> <20220201192540.10439-2-mathieu.desnoyers@efficios.com> <87bkzqz75q.fsf@mid.deneb.enyo.de> <1075473571.25688.1643746930751.JavaMail.zimbra@efficios.com> <87sft2xr7w.fsf@mid.deneb.enyo.de> <1339477886.25835.1643750440726.JavaMail.zimbra@efficios.com> <87o83qxok9.fsf@mid.deneb.enyo.de> <1285409089.26848.1643765557716.JavaMail.zimbra@efficios.com>
+Subject: Re: [RFC PATCH 2/3] rseq: extend struct rseq with per thread group
+ vcpu id
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_4203 (ZimbraWebClient - FF96 (Linux)/8.8.15_GA_4203)
+Thread-Topic: rseq: extend struct rseq with per thread group vcpu id
+Thread-Index: C6NWYE2w3ULPRtwNBg28J/VU9Te00jWeL08W
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Just before the 2.35 release of glibc, the __rseq_offset userspace ABI
-was changed from int to ptrdiff_t.
+----- On Feb 1, 2022, at 8:32 PM, Mathieu Desnoyers mathieu.desnoyers@effic=
+ios.com wrote:
 
-Adapt to this change in the kernel selftests.
+> ----- On Feb 1, 2022, at 4:30 PM, Florian Weimer fw@deneb.enyo.de wrote:
+>=20
+>> * Mathieu Desnoyers:
+>>=20
+>>> ----- On Feb 1, 2022, at 3:32 PM, Florian Weimer fw@deneb.enyo.de wrote=
+:
+>>> [...]
+>>>>=20
+>>>>>> Is the switch really useful?  I suspect it's faster to just write as
+>>>>>> much as possible all the time.  The switch should be well-predictabl=
+e
+>>>>>> if running uniform userspace, but still =E2=80=A6
+>>>>>
+>>>>> The switch ensures the kernel don't try to write to a memory area bey=
+ond
+>>>>> the rseq size which has been registered by user-space. So it seems to=
+ be
+>>>>> useful to ensure we don't corrupt user-space memory. Or am I missing =
+your
+>>>>> point ?
+>>>>=20
+>>>> Due to the alignment, I think you'd only ever see 32 and 64 bytes for
+>>>> now?
+>>>
+>>> Yes, but I would expect the rseq registration arguments to have a rseq_=
+len
+>>> of offsetofend(struct rseq, tg_vcpu_id) when userspace wants the tg_vcp=
+u_id
+>>> feature to be supported (but not the following features).
+>>=20
+>> But if rseq is managed by libc, it really has to use the full size
+>> unconditionally.  I would even expect that eventually, the kernel only
+>> supports the initial 32, maybe 64 for a few early extension, and the
+>> size indicated by the auxiliary vector.
+>>=20
+>> Not all of that area would be ABI, some of it would be used by the
+>> vDSO only and opaque to userspace application (with applications/libcs
+>> passing __rseq_offset as an argument to these functions).
+>>=20
+>=20
+> I think one aspect leading to our misunderstanding here is the distinctio=
+n
+> between the size of the rseq area _allocation_, and the offset after the =
+last
+> field supported by the given kernel.
+>=20
+> With this in mind, let's state a bit more clearly our expected aux. vecto=
+r
+> extensibility scheme.
+>=20
+> With CONFIG_RSEQ=3Dy, the kernel would pass the following information thr=
+ough
+> the ELF auxv:
+>=20
+> - rseq allocation size (auxv_rseq_alloc_size),
+> - rseq allocation alignment (auxv_rseq_alloc_align),
+> - offset after the end of the last rseq field supported by this kernel
+> (auxv_rseq_offset_end),
+>=20
+> We always have auxv_rseq_alloc_size >=3D auxv_rseq_offset_end.
+>=20
+> I would expect libc to use this information to allocate a memory area
+> at least auxv_rseq_alloc_size in size, with an alignment respecting
+> auxv_rseq_alloc_align. It would use a value >=3D auvx_rseq_alloc_size
+> as rseq_len argument for the rseq registration.
+>=20
+> But I would expect libc to use the auxv_rseq_offset_end value to populate
+> __rseq_size,
+> so rseq users can rely on this to check whether the fields they are tryin=
+g to
+> access
+> is indeed populated by the kernel.
+>=20
+> Of course, the kernel would still allow the original 32-byte rseq_len arg=
+ument
+> for the rseq registration, so the original ABI still works. It would howe=
+ver
+> reject any rseq registration with size smaller than auxv_rseq_alloc_size =
+(other
+> than the 32-byte special-case).
+>=20
+> Is that in line with what you have in mind ? Do we really need to expose =
+those 3
+> auxv variables independently or can we somehow remove auxv_rseq_alloc_siz=
+e and
+> use auxv_rseq_offset_end as a min value for allocation instead ?
 
-Link: https://sourceware.org/pipermail/libc-alpha/2022-February/136024.html
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
----
- tools/testing/selftests/rseq/rseq-x86.h | 14 +++++++-------
- tools/testing/selftests/rseq/rseq.c     |  5 +++--
- tools/testing/selftests/rseq/rseq.h     |  3 ++-
- 3 files changed, 12 insertions(+), 10 deletions(-)
+After giving all this some more thoughts, I think we can extend struct rseq
+cleanly without adding any "padding1" fields at the end of the existing str=
+ucture
+(which would be effectively wasting very useful hot cache line space).
 
-diff --git a/tools/testing/selftests/rseq/rseq-x86.h b/tools/testing/selftests/rseq/rseq-x86.h
-index f704d3664327..bd01dc41ca13 100644
---- a/tools/testing/selftests/rseq/rseq-x86.h
-+++ b/tools/testing/selftests/rseq/rseq-x86.h
-@@ -143,7 +143,7 @@ int rseq_cmpeqv_storev(intptr_t *v, intptr_t expect, intptr_t newv, int cpu)
- 		RSEQ_ASM_DEFINE_ABORT(4, "", abort)
- 		: /* gcc asm goto does not allow outputs */
- 		: [cpu_id]		"r" (cpu),
--		  [rseq_offset]		"r" ((long)rseq_offset),
-+		  [rseq_offset]		"r" (rseq_offset),
- 		  [v]			"m" (*v),
- 		  [expect]		"r" (expect),
- 		  [newv]		"r" (newv)
-@@ -214,7 +214,7 @@ int rseq_cmpnev_storeoffp_load(intptr_t *v, intptr_t expectnot,
- 		RSEQ_ASM_DEFINE_ABORT(4, "", abort)
- 		: /* gcc asm goto does not allow outputs */
- 		: [cpu_id]		"r" (cpu),
--		  [rseq_offset]		"r" ((long)rseq_offset),
-+		  [rseq_offset]		"r" (rseq_offset),
- 		  /* final store input */
- 		  [v]			"m" (*v),
- 		  [expectnot]		"r" (expectnot),
-@@ -270,7 +270,7 @@ int rseq_addv(intptr_t *v, intptr_t count, int cpu)
- 		RSEQ_ASM_DEFINE_ABORT(4, "", abort)
- 		: /* gcc asm goto does not allow outputs */
- 		: [cpu_id]		"r" (cpu),
--		  [rseq_offset]		"r" ((long)rseq_offset),
-+		  [rseq_offset]		"r" (rseq_offset),
- 		  /* final store input */
- 		  [v]			"m" (*v),
- 		  [count]		"er" (count)
-@@ -329,7 +329,7 @@ int rseq_offset_deref_addv(intptr_t *ptr, long off, intptr_t inc, int cpu)
- 		RSEQ_ASM_DEFINE_ABORT(4, "", abort)
- 		: /* gcc asm goto does not allow outputs */
- 		: [cpu_id]		"r" (cpu),
--		  [rseq_offset]		"r" ((long)rseq_offset),
-+		  [rseq_offset]		"r" (rseq_offset),
- 		  /* final store input */
- 		  [ptr]			"m" (*ptr),
- 		  [off]			"er" (off),
-@@ -387,7 +387,7 @@ int rseq_cmpeqv_trystorev_storev(intptr_t *v, intptr_t expect,
- 		RSEQ_ASM_DEFINE_ABORT(4, "", abort)
- 		: /* gcc asm goto does not allow outputs */
- 		: [cpu_id]		"r" (cpu),
--		  [rseq_offset]		"r" ((long)rseq_offset),
-+		  [rseq_offset]		"r" (rseq_offset),
- 		  /* try store input */
- 		  [v2]			"m" (*v2),
- 		  [newv2]		"r" (newv2),
-@@ -469,7 +469,7 @@ int rseq_cmpeqv_cmpeqv_storev(intptr_t *v, intptr_t expect,
- 		RSEQ_ASM_DEFINE_ABORT(4, "", abort)
- 		: /* gcc asm goto does not allow outputs */
- 		: [cpu_id]		"r" (cpu),
--		  [rseq_offset]		"r" ((long)rseq_offset),
-+		  [rseq_offset]		"r" (rseq_offset),
- 		  /* cmp2 input */
- 		  [v2]			"m" (*v2),
- 		  [expect2]		"r" (expect2),
-@@ -581,7 +581,7 @@ int rseq_cmpeqv_trymemcpy_storev(intptr_t *v, intptr_t expect,
- #endif
- 		: /* gcc asm goto does not allow outputs */
- 		: [cpu_id]		"r" (cpu),
--		  [rseq_offset]		"r" ((long)rseq_offset),
-+		  [rseq_offset]		"r" (rseq_offset),
- 		  /* final store input */
- 		  [v]			"m" (*v),
- 		  [expect]		"r" (expect),
-diff --git a/tools/testing/selftests/rseq/rseq.c b/tools/testing/selftests/rseq/rseq.c
-index 07ba0d463a96..986b9458efb2 100644
---- a/tools/testing/selftests/rseq/rseq.c
-+++ b/tools/testing/selftests/rseq/rseq.c
-@@ -27,16 +27,17 @@
- #include <signal.h>
- #include <limits.h>
- #include <dlfcn.h>
-+#include <stddef.h>
- 
- #include "../kselftest.h"
- #include "rseq.h"
- 
--static const int *libc_rseq_offset_p;
-+static const ptrdiff_t *libc_rseq_offset_p;
- static const unsigned int *libc_rseq_size_p;
- static const unsigned int *libc_rseq_flags_p;
- 
- /* Offset from the thread pointer to the rseq area.  */
--int rseq_offset;
-+ptrdiff_t rseq_offset;
- 
- /* Size of the registered rseq area.  0 if the registration was
-    unsuccessful.  */
-diff --git a/tools/testing/selftests/rseq/rseq.h b/tools/testing/selftests/rseq/rseq.h
-index 6bd0ac466b4a..9d850b290c2e 100644
---- a/tools/testing/selftests/rseq/rseq.h
-+++ b/tools/testing/selftests/rseq/rseq.h
-@@ -16,6 +16,7 @@
- #include <errno.h>
- #include <stdio.h>
- #include <stdlib.h>
-+#include <stddef.h>
- #include "rseq-abi.h"
- #include "compiler.h"
- 
-@@ -47,7 +48,7 @@
- #include "rseq-thread-pointer.h"
- 
- /* Offset from the thread pointer to the rseq area.  */
--extern int rseq_offset;
-+extern ptrdiff_t rseq_offset;
- /* Size of the registered rseq area.  0 if the registration was
-    unsuccessful.  */
- extern unsigned int rseq_size;
--- 
-2.17.1
+Here is what I have in mind:
 
+We consider separately the "size" and the "feature_size" of the rseq struct=
+ure.
+
+- The "size" is really the size for memory allocation (includes padding),
+- The "feature_size" is the offset after the last supported feature field.
+
+So for the original struct rseq, size=3D32 bytes and feature_size=3D20 byte=
+s
+(offsetofend(struct rseq, flags)).
+
+The kernel can expose this "supported rseq feature size" value through the =
+ELF auxiliary
+vector (with a new AT_RSEQ_FEATURE_SIZE). It would also expose a new AT_RSE=
+Q_ALIGN for the
+minimal allocation alignment required by the kernel. Those can be queried b=
+y user-space
+through getauxval(3).
+
+glibc can add a new const unsigned int __rseq_feature_size symbol in a futu=
+re release which
+will support extended rseq structures. This is the symbol I expect rseq use=
+rs to check
+at least once in the program's lifetime before they try to access rseq fiel=
+ds beyond
+the originally populated 20 bytes.
+
+The rseq_len argument passed to sys_rseq would really be the allocated size=
+ for the rseq
+area (as it is today, considering that the kernel expects sizeof(struct rse=
+q)). Typically,
+I would expect glibc to take the rseq feature_size value and round it up to=
+ a value which
+is a multiple of the AT_RSEQ_ALIGN. That allocation size would be used to p=
+opulate
+__rseq_size.
+
+Am I missing something ?
+
+Thanks,
+
+Mathieu
+
+--=20
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
