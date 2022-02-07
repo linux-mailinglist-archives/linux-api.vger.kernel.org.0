@@ -2,111 +2,127 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 65AA84AB2DF
-	for <lists+linux-api@lfdr.de>; Mon,  7 Feb 2022 01:03:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E7D24AB60F
+	for <lists+linux-api@lfdr.de>; Mon,  7 Feb 2022 08:49:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230300AbiBGADc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 6 Feb 2022 19:03:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34644 "EHLO
+        id S231846AbiBGHhd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 7 Feb 2022 02:37:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242994AbiBGADc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 6 Feb 2022 19:03:32 -0500
-X-Greylist: delayed 571 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 06 Feb 2022 16:03:30 PST
-Received: from mail.efficios.com (mail.efficios.com [167.114.26.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E912C06173B;
-        Sun,  6 Feb 2022 16:03:29 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id E5B52360FCC;
-        Sun,  6 Feb 2022 18:53:56 -0500 (EST)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id qCDmv1sssdj6; Sun,  6 Feb 2022 18:53:56 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 423253611AC;
-        Sun,  6 Feb 2022 18:53:56 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 423253611AC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1644191636;
-        bh=7H047Zo1N1+uZqBGqXhve5zp5Ovo3/WcmoeG+ihz6CE=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=T3VDDiv0Touz7GFuXOYpoI9oCLZQcc5rkph0H/dhTifNqJqTLNPVFaW6qipYb0vXp
-         G2j7k1+gosinc5vBCItDhTo64jERJCxAdOGy15QjRitw58Y4Pj5F5pQhhUe53RLxnJ
-         sje8HmE7S3mk6FjnH1r15l+b8tjZScBY0hZaInsgYrpFIpwSNPj9JPGUQXDghX968g
-         oTvbpapOGpSQKLuwrkDoaWmC2d6sGf89N1zlwvoMf1+kET/IElELdzWkmo1Ppo4Dxd
-         AcSsc3OqGD/jQmdYVTAMeKiOH2B1xplTqOy+5W0jXH2QL+WF01Mb7Nbugh4y7AI7CS
-         5oxp4+u3Bkhgg==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id QUeyeigDF4Rh; Sun,  6 Feb 2022 18:53:56 -0500 (EST)
-Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id 2E1F5360D6D;
-        Sun,  6 Feb 2022 18:53:56 -0500 (EST)
-Date:   Sun, 6 Feb 2022 18:53:56 -0500 (EST)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        with ESMTP id S232738AbiBGH3M (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 7 Feb 2022 02:29:12 -0500
+X-Greylist: delayed 540 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 06 Feb 2022 23:29:09 PST
+Received: from rhlx01.hs-esslingen.de (rhlx01.hs-esslingen.DE [IPv6:2001:7c0:700::10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93C13C043181;
+        Sun,  6 Feb 2022 23:29:09 -0800 (PST)
+Received: by rhlx01.hs-esslingen.de (Postfix, from userid 1203)
+        id 39F2529B540F; Mon,  7 Feb 2022 08:20:02 +0100 (CET)
+Date:   Mon, 7 Feb 2022 08:20:02 +0100
+From:   Adrian Reber <adrian@lisas.de>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        paulmck <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api <linux-api@vger.kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Florian Weimer <fw@deneb.enyo.de>,
-        David Laight <David.Laight@aculab.com>,
-        carlos <carlos@redhat.com>, Peter Oskolkov <posk@posk.io>,
-        libc-coord@lists.openwall.com
-Message-ID: <1576236784.46087.1644191636055.JavaMail.zimbra@efficios.com>
-In-Reply-To: <YgBCdExhei7VmfHd@hirez.programming.kicks-ass.net>
-References: <20220203193853.21511-1-mathieu.desnoyers@efficios.com> <YgBCdExhei7VmfHd@hirez.programming.kicks-ass.net>
-Subject: Re: [RFC PATCH 1/3] rseq: Introduce feature size and alignment ELF
- auxiliary vector entries
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
+        kcc@google.com, eranian@google.com,
+        Andrei Vagin <avagin@gmail.com>,
+        Dmitry Safonov <0x7f454c46@gmail.com>
+Subject: Re: [PATCH 00/35] Shadow stacks for userspace
+Message-ID: <YgDIIpCm3UITk896@lisas.de>
+References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
+ <YgAWVSGQg8FPCeba@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [167.114.26.124]
-X-Mailer: Zimbra 8.8.15_GA_4203 (ZimbraWebClient - FF96 (Linux)/8.8.15_GA_4203)
-Thread-Topic: rseq: Introduce feature size and alignment ELF auxiliary vector entries
-Thread-Index: H40c2UEJQsV5nzI4UFsy4Q8I+aXV2A==
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YgAWVSGQg8FPCeba@kernel.org>
+X-Url:  <http://lisas.de/~adrian/>
+X-Operating-System: Linux (5.15.12-200.fc35.x86_64)
+X-Load-Average: 2.46 2.60 2.63
+X-Unexpected: The Spanish Inquisition
+X-GnuPG-Key: gpg --recv-keys D3C4906A
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On Feb 6, 2022, at 4:49 PM, Peter Zijlstra peterz@infradead.org wrote:
+On Sun, Feb 06, 2022 at 08:42:03PM +0200, Mike Rapoport wrote:
+> (added more CRIU people)
 
-> On Thu, Feb 03, 2022 at 02:38:51PM -0500, Mathieu Desnoyers wrote:
-> 
->> @@ -286,6 +287,10 @@ create_elf_tables(struct linux_binprm *bprm, const struct
->> elfhdr *exec,
->>  	if (bprm->have_execfd) {
->>  		NEW_AUX_ENT(AT_EXECFD, bprm->execfd);
->>  	}
->> +#ifdef CONFIG_RSEQ
->> +	NEW_AUX_ENT(AT_RSEQ_FEATURE_SIZE, offsetof(struct rseq, end));
-> 
-> I've gotta ask, what's up with offsetof(, end) vs sizeof() ?
+Thanks, Mike.
 
-sizeof() includes the 12 bytes of padding at the end of struct rseq, for a
-total of 32 bytes (currently). offsetof(, end) is currently 20 bytes, which
-is the offset exactly after the last field.
+> On Sun, Jan 30, 2022 at 01:18:03PM -0800, Rick Edgecombe wrote:
+> > This is a slight reboot of the userspace CET series. I will be taking over the 
+> > series from Yu-cheng. Per some internal recommendations, I’ve reset the version
+> > number and am calling it a new series. Hopefully, it doesn’t cause confusion.
+> > 
+> > The new plan is to upstream only userspace Shadow Stack support at this point. 
+> > IBT can follow later, but for now I’ll focus solely on the most in-demand and
+> > widely available (with the feature on AMD CPUs now) part of CET.
+> > 
+> > I thought as part of this reset, it might be useful to more fully write-up the 
+> > design and summarize the history of the previous CET series. So this slightly
+> > long cover letter does that. The "Updates" section has the changes, if anyone
+> > doesn't want the history.
 
-For the "feature size" (meaning the populated fields), we really want a size
-that excludes padding.
+[...]
 
-Thanks,
+> > 	CRIU Support
+> > 	------------
+> > 	In the past there was some speculation on the mailing list about 
+> > 	whether CRIU would need to be taught about CET. It turns out, it does. 
+> > 	The first issue hit is that CRIU calls sigreturn directly from its 
+> > 	“parasite code” that it injects into the dumper process. This violates
+> > 	this shadow stack implementation’s protection that intends to prevent
+> > 	attackers from doing this.
+> > 
+> > 	With so many packages already enabled with shadow stack, there is 
+> > 	probably desire to make it work seamlessly. But in the meantime if 
+> > 	distros want to support shadow stack and CRIU, users could manually 
+> > 	disabled shadow stack via “GLIBC_TUNABLES=glibc.cpu.x86_shstk=off” for 
+> > 	a process they will wants to dump. It’s not ideal.
+> > 
+> > 	I’d like to hear what people think about having shadow stack in the 
+> > 	kernel without this resolved. Nothing would change for any users until 
+> > 	they enable shadow stack in the kernel and update to a glibc configured
+> > 	with CET. Should CRIU userspace be solved before kernel support?
 
-Mathieu
+From the CRIU side I can say that I would definitely like to see this
+resolved. CRIU just went through a similar exercise with rseq() being
+enabled in glibc and CI broke all around for us and other projects
+relying on CRIU. Although rseq() was around for a long time we were not
+aware of it but luckily 5.13 introduced a way to handle it for CRIU with
+ptrace. An environment variable existed but did not really help when
+CRIU is called somewhere in the middle of the container software stack.
 
-> 
->> +	NEW_AUX_ENT(AT_RSEQ_ALIGN, __alignof__(struct rseq));
-> > +#endif
+From my point of view a solution not involving an environment variable
+would definitely be preferred.
 
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
+		Adrian
