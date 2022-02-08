@@ -2,146 +2,234 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 822124ADED7
-	for <lists+linux-api@lfdr.de>; Tue,  8 Feb 2022 18:02:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B914B4AE0D4
+	for <lists+linux-api@lfdr.de>; Tue,  8 Feb 2022 19:33:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1383654AbiBHRCk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 8 Feb 2022 12:02:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41610 "EHLO
+        id S1347675AbiBHSdj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 8 Feb 2022 13:33:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231365AbiBHRCh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Feb 2022 12:02:37 -0500
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 774CBC061576;
-        Tue,  8 Feb 2022 09:02:36 -0800 (PST)
-Received: by mail-lf1-x132.google.com with SMTP id 13so975306lfp.7;
-        Tue, 08 Feb 2022 09:02:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=H8i2s4xHp0rxY84LN1BxRLDP7j4EYhoJJT+IslnvpoI=;
-        b=CeAOjWIQeZbI3marhQ90i70bJhrQHxUVRvRhMaA7tO26fi3eAnnwdrAiiS300jSV9/
-         rFSHN4hYn1DFUV+ovphjx0xXDwujZlMu41W0cY9mh9STuL/ULgRD/Wpc6FL3E9W0MB9n
-         jLShmsInPn/dCkb+n4MWvEH945FHvrOMejxdZhgHNF4js4UR2qDQTn/K6X8YvUU6bh2J
-         CwADrvNHkjsZ90nrYWTIqhYSWrZTmKNZqq+w8ZDD1jbFN//e4zhAc83dzLx+Gq7+0Umg
-         +DTbBao0meb6h15uFR49pmkJHnipUI1jYORJOXulRakWI6MK3fRCNb6YAeKE4+WTCV/V
-         isYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=H8i2s4xHp0rxY84LN1BxRLDP7j4EYhoJJT+IslnvpoI=;
-        b=x24ylxJJPbDZ3UksW3/C9ZX5TLB5h/rB3Or+0367mT6F3eefU2y1wu7eOc7kdUWBY1
-         i+1V6z9qI/HOO1rBlbSLUfaouRZkKe2J1FGM2DMAaxdbm4949mHm/R/oPsURALofY/XZ
-         8rBcuHVrsk3xJlKUh11cQhxEE7S4/DvhLBK7s0bGGnpqoewmVLEXqnyur+FOYe9nLTY9
-         wqUNp1Up76f0Xh2G2MgRyjLzoadI6mbxR4M+rl9KgZyxTR37HhWOaPrLjwqnrlIFNFHm
-         7eDKXI+quol1YOAJrH/160x9nDs9E9YBHRFOetvAXfSU0KaUZOuXVIsRRSZyMEIBlW8q
-         oEiA==
-X-Gm-Message-State: AOAM530KjF306tVkKAZgHCfUTFL4YvxvypjGdpiLgM3dwbnAtObDvOK0
-        SfZIVMWE88Ai93/Ziqpsny0=
-X-Google-Smtp-Source: ABdhPJy4vAOsUuMcyywyagL71dLBFChw5CtMbZ5KClivwczQn/i8XjekNjbmQlZlpAVvbRy7btJhpg==
-X-Received: by 2002:a05:6512:33c8:: with SMTP id d8mr3533852lfg.41.1644339754685;
-        Tue, 08 Feb 2022 09:02:34 -0800 (PST)
-Received: from grain.localdomain ([5.18.251.97])
-        by smtp.gmail.com with ESMTPSA id a12sm643118lfu.162.2022.02.08.09.02.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Feb 2022 09:02:33 -0800 (PST)
-Received: by grain.localdomain (Postfix, from userid 1000)
-        id 80F685A0020; Tue,  8 Feb 2022 20:02:32 +0300 (MSK)
-Date:   Tue, 8 Feb 2022 20:02:32 +0300
-From:   Cyrill Gorcunov <gorcunov@gmail.com>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Mike Rapoport <rppt@kernel.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Adrian Reber <adrian@lisas.de>,
-        Rick P Edgecombe <rick.p.edgecombe@intel.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        with ESMTP id S237383AbiBHSdj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Feb 2022 13:33:39 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B9A7C061576;
+        Tue,  8 Feb 2022 10:33:38 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A39EC60C03;
+        Tue,  8 Feb 2022 18:33:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76393C004E1;
+        Tue,  8 Feb 2022 18:33:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1644345217;
+        bh=LWHpc/GxLkbO/PPq5G6kWt1p0WFNGF+VMiaZ+R5OiWA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZBPy6ZDSXiJOPqw5n1PP34cWsRXUy6DL6ayWnXAD2JTdSLQn98nqP7iIgg4Bxv1yF
+         LcZ8d/VK9bSFPJW/2znOd3119fGcHY9yF0jrKfKdPxMfS5iMNWQbUCAf3JyqGePCEP
+         2fF3BbRinh1rvCdnFHYpUqMR3uROgrKOaOGwBLD2w8YVEWCewf9nIvoP5zv9j4gnMk
+         aQAgqLVRRvslF99zZpZvkQ8qCh5mphgPOuKZd6R0rnHtH6DnfYPGTkELg0DxhiYFyl
+         iLt2EQOL73kQ3yFfASHgJmdcLyEtT3VKD7dQo1Nks4iAJW0mQBeP+Uh4/x5hDpA9vA
+         7Lt3sjfIvCbQg==
+Date:   Tue, 8 Feb 2022 20:33:18 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     linux-api@vger.kernel.org, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        "Moreira, Joao" <joao.moreira@intel.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        Andrei Vagin <avagin@gmail.com>,
-        Dmitry Safonov <0x7f454c46@gmail.com>
-Subject: Re: [PATCH 00/35] Shadow stacks for userspace
-Message-ID: <YgKiKEcsNt7mpMHN@grain>
-References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
- <YgAWVSGQg8FPCeba@kernel.org>
- <YgDIIpCm3UITk896@lisas.de>
- <8f96c2a6-9c03-f97a-df52-73ffc1d87957@intel.com>
- <YgI1A0CtfmT7GMIp@kernel.org>
- <YgI37n+3JfLSNQCQ@grain>
- <357664de-b089-4617-99d1-de5098953c80@www.fastmail.com>
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com
+Subject: Re: [PATCH v4 00/12] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <YgK3buC2xes9/lLj@kernel.org>
+References: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <357664de-b089-4617-99d1-de5098953c80@www.fastmail.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Feb 08, 2022 at 08:21:20AM -0800, Andy Lutomirski wrote:
-> >> But such a knob will immediately reduce the security value of the entire
-> >> thing, and I don't have good ideas how to deal with it :(
-> >
-> > Probably a kind of latch in the task_struct which would trigger off once
-> > returt to a different address happened, thus we would be able to jump inside
-> > paratite code. Of course such trigger should be available under proper
-> > capability only.
-> 
-> I'm not fully in touch with how parasite, etc works.  Are we talking about save or restore?
+(addded linux-api)
 
-We use parasite code in question during checkpoint phase as far as I remember.
-push addr/lret trick is used to run "injected" code (code injection itself is
-done via ptrace) in compat mode at least. Dima, Andrei, I didn't look into this code
-for years already, do we still need to support compat mode at all?
-
-> If it's restore, what exactly does CRIU need to do?  Is it just that CRIU needs to return
-> out from its resume code into the to-be-resumed program without tripping CET?  Would it
-> be acceptable for CRIU to require that at least one shstk slot be free at save time?
-> Or do we need a mechanism to atomically switch to a completely full shadow stack at resume?
+On Tue, Jan 18, 2022 at 09:21:09PM +0800, Chao Peng wrote:
+> This is the v4 of this series which try to implement the fd-based KVM
+> guest private memory. The patches are based on latest kvm/queue branch
+> commit:
 > 
-> Off the top of my head, a sigreturn (or sigreturn-like mechanism) that is intended for
-> use for altshadowstack could safely verify a token on the altshdowstack, possibly
-> compare to something in ucontext (or not -- this isn't clearly necessary) and switch
-> back to the previous stack.  CRIU could use that too.  Obviously CRIU will need a way
-> to populate the relevant stacks, but WRUSS can be used for that, and I think this
-> is a fundamental requirement for CRIU -- CRIU restore absolutely needs a way to write
-> the saved shadow stack data into the shadow stack.
+>   fea31d169094 KVM: x86/pmu: Fix available_event_types check for
+>                REF_CPU_CYCLES event
 > 
-> So I think the only special capability that CRIU really needs is WRUSS, and
-> we need to wire that up anyway.
+> Introduction
+> ------------
+> In general this patch series introduce fd-based memslot which provides
+> guest memory through memory file descriptor fd[offset,size] instead of
+> hva/size. The fd can be created from a supported memory filesystem
+> like tmpfs/hugetlbfs etc. which we refer as memory backing store. KVM
+> and the the memory backing store exchange callbacks when such memslot
+> gets created. At runtime KVM will call into callbacks provided by the
+> backing store to get the pfn with the fd+offset. Memory backing store
+> will also call into KVM callbacks when userspace fallocate/punch hole
+> on the fd to notify KVM to map/unmap secondary MMU page tables.
+> 
+> Comparing to existing hva-based memslot, this new type of memslot allows
+> guest memory unmapped from host userspace like QEMU and even the kernel
+> itself, therefore reduce attack surface and prevent bugs.
+> 
+> Based on this fd-based memslot, we can build guest private memory that
+> is going to be used in confidential computing environments such as Intel
+> TDX and AMD SEV. When supported, the memory backing store can provide
+> more enforcement on the fd and KVM can use a single memslot to hold both
+> the private and shared part of the guest memory. 
+> 
+> mm extension
+> ---------------------
+> Introduces new F_SEAL_INACCESSIBLE for shmem and new MFD_INACCESSIBLE
+> flag for memfd_create(), the file created with these flags cannot read(),
+> write() or mmap() etc via normal MMU operations. The file content can
+> only be used with the newly introduced memfile_notifier extension.
 
-Thanks for these notes, Andy! I can't provide any sane answer here since didn't
-read tech spec for this feature yet :-)
+It would be great to see man page draft for new ABI flags
+ 
+> The memfile_notifier extension provides two sets of callbacks for KVM to
+> interact with the memory backing store:
+>   - memfile_notifier_ops: callbacks for memory backing store to notify
+>     KVM when memory gets allocated/invalidated.
+>   - memfile_pfn_ops: callbacks for KVM to call into memory backing store
+>     to request memory pages for guest private memory.
+> 
+> memslot extension
+> -----------------
+> Add the private fd and the fd offset to existing 'shared' memslot so that
+> both private/shared guest memory can live in one single memslot. A page in
+> the memslot is either private or shared. A page is private only when it's
+> already allocated in the backing store fd, all the other cases it's treated
+> as shared, this includes those already mapped as shared as well as those
+> having not been mapped. This means the memory backing store is the place
+> which tells the truth of which page is private.
+> 
+> Private memory map/unmap and conversion
+> ---------------------------------------
+> Userspace's map/unmap operations are done by fallocate() ioctl on the
+> backing store fd.
+>   - map: default fallocate() with mode=0.
+>   - unmap: fallocate() with FALLOC_FL_PUNCH_HOLE.
+> The map/unmap will trigger above memfile_notifier_ops to let KVM map/unmap
+> secondary MMU page tables.
+> 
+> Test
+> ----
+> To test the new functionalities of this patch TDX patchset is needed.
+> Since TDX patchset has not been merged so I did two kinds of test:
+> 
+> -  Regresion test on kvm/queue (this patch)
+>    Most new code are not covered. I only tested building and booting.
+> 
+> -  New Funational test on latest TDX code
+>    The patch is rebased to latest TDX code and tested the new
+>    funcationalities.
+> 
+> For TDX test please see below repos:
+> Linux: https://github.com/chao-p/linux/tree/privmem-v4.3
+> QEMU: https://github.com/chao-p/qemu/tree/privmem-v4
+> 
+> And an example QEMU command line:
+> -object tdx-guest,id=tdx \
+> -object memory-backend-memfd-private,id=ram1,size=2G \
+> -machine q35,kvm-type=tdx,pic=no,kernel_irqchip=split,memory-encryption=tdx,memory-backend=ram1
+> 
+> Changelog
+> ----------
+> v4:
+>   - Decoupled the callbacks between KVM/mm from memfd and use new
+>     name 'memfile_notifier'.
+>   - Supported register multiple memslots to the same backing store.
+>   - Added per-memslot pfn_ops instead of per-system.
+>   - Reworked the invalidation part.
+>   - Improved new KVM uAPIs (private memslot extension and memory
+>     error) per Sean's suggestions.
+>   - Addressed many other minor fixes for comments from v3.
+> v3:
+>   - Added locking protection when calling
+>     invalidate_page_range/fallocate callbacks.
+>   - Changed memslot structure to keep use useraddr for shared memory.
+>   - Re-organized F_SEAL_INACCESSIBLE and MEMFD_OPS.
+>   - Added MFD_INACCESSIBLE flag to force F_SEAL_INACCESSIBLE.
+>   - Commit message improvement.
+>   - Many small fixes for comments from the last version.
+> 
+> Links of previous discussions
+> -----------------------------
+> [1] Original design proposal:
+> https://lkml.kernel.org/kvm/20210824005248.200037-1-seanjc@google.com/
+> [2] Updated proposal and RFC patch v1:
+> https://lkml.kernel.org/linux-fsdevel/20211111141352.26311-1-chao.p.peng@linux.intel.com/
+> [3] Patch v3: https://lkml.org/lkml/2021/12/23/283
+> 
+> Chao Peng (11):
+>   mm/memfd: Introduce MFD_INACCESSIBLE flag
+>   mm: Introduce memfile_notifier
+>   mm/shmem: Support memfile_notifier
+>   KVM: Extend the memslot to support fd-based private memory
+>   KVM: Use kvm_userspace_memory_region_ext
+>   KVM: Add KVM_EXIT_MEMORY_ERROR exit
+>   KVM: Use memfile_pfn_ops to obtain pfn for private pages
+>   KVM: Handle page fault for private memory
+>   KVM: Register private memslot to memory backing store
+>   KVM: Zap existing KVM mappings when pages changed in the private fd
+>   KVM: Expose KVM_MEM_PRIVATE
+> 
+> Kirill A. Shutemov (1):
+>   mm/shmem: Introduce F_SEAL_INACCESSIBLE
+> 
+>  arch/x86/kvm/Kconfig             |   1 +
+>  arch/x86/kvm/mmu/mmu.c           |  73 +++++++++++-
+>  arch/x86/kvm/mmu/paging_tmpl.h   |  11 +-
+>  arch/x86/kvm/x86.c               |  12 +-
+>  include/linux/kvm_host.h         |  49 +++++++-
+>  include/linux/memfile_notifier.h |  53 +++++++++
+>  include/linux/shmem_fs.h         |   4 +
+>  include/uapi/linux/fcntl.h       |   1 +
+>  include/uapi/linux/kvm.h         |  17 +++
+>  include/uapi/linux/memfd.h       |   1 +
+>  mm/Kconfig                       |   4 +
+>  mm/Makefile                      |   1 +
+>  mm/memfd.c                       |  20 +++-
+>  mm/memfile_notifier.c            |  99 ++++++++++++++++
+>  mm/shmem.c                       | 121 +++++++++++++++++++-
+>  virt/kvm/kvm_main.c              | 188 +++++++++++++++++++++++++++----
+>  16 files changed, 614 insertions(+), 41 deletions(-)
+>  create mode 100644 include/linux/memfile_notifier.h
+>  create mode 100644 mm/memfile_notifier.c
+> 
+> -- 
+> 2.17.1
+> 
+> 
+
+-- 
+Sincerely yours,
+Mike.
