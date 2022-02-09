@@ -2,42 +2,42 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 852ED4AFAC3
-	for <lists+linux-api@lfdr.de>; Wed,  9 Feb 2022 19:39:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 902624AFCE4
+	for <lists+linux-api@lfdr.de>; Wed,  9 Feb 2022 20:07:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240179AbiBISjy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 9 Feb 2022 13:39:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53524 "EHLO
+        id S234929AbiBITHJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 9 Feb 2022 14:07:09 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:38322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240115AbiBISjg (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 9 Feb 2022 13:39:36 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF5B0C050CFA;
-        Wed,  9 Feb 2022 10:39:04 -0800 (PST)
+        with ESMTP id S230233AbiBITHJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 9 Feb 2022 14:07:09 -0500
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEAD4C03C182;
+        Wed,  9 Feb 2022 11:07:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1644431944; x=1675967944;
+  t=1644433621; x=1675969621;
   h=message-id:date:mime-version:to:cc:references:from:
    subject:in-reply-to:content-transfer-encoding;
-  bh=gzDP3bKlNEdaxBl3I199taLYxCzYF6uSO57sfhfmuKE=;
-  b=neUdap2cEHD8CfDO449futtLaLobtS5EZPb1FNguEXCTWst4YvHgfLGT
-   gi/UxulIzmNrU0YNbCPEqnG0AlxPlqwnXWB6lv+Jk4f/fo8Vlf3Qv74o7
-   Hdp0+iSJxGUsCySypvZiAauPxQ0DwVXGljmt0Z+0UUlXyb3dfXOK7/c/8
-   sraiFeI8SNykjrJfWjGj97+uquj7CozNLzW158Qi03tjRwS9q2PA3f6Kv
-   SqMLA++7YYgjuQv5FAW6so5v8SeWxp2zMpPWOv4m9crhCnQ+NQIt2cHmA
-   Gv/GxMhXc5iVJyNRo+Ay1GQDAO7knx0y4NUYiBsVhRy46wgt9WjM2cCtY
+  bh=wb1fycuK3dchIdqoxSdcM/HUFC250JplLEY4j/mimkQ=;
+  b=dxSBfcTq6M8KiFSxrXmfsRE5VhF2h6dc6dTzuvbL1N5jxxrmhbp9q9wS
+   7tEuS69hFA9ERyZvSkaNEZ5dXmj6ZI0VccIQc3WyXexWNEE9gaC0AfArq
+   VibYDw5sjYbiuiYsr2sBJootlEWfIDn9qLwJ9pLGKB8kNgkNoWJXc59af
+   ivmAj3llJxqwlaMKFhJ7y3IxYBDsR+HFneFMD9mcJjqDOycLZbm8NU/DY
+   GSsFRQ/KnNRO8N+eYavKyarhKatrOkaGD/IR3qMcG4XXo+K36vNgcqn+w
+   oywoZE0PcFnKmarQZAjGBFT/ZUcmLZDneNBzwxixBrOXHWQgh/d+WCyvn
    A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="312592652"
+X-IronPort-AV: E=McAfee;i="6200,9189,10253"; a="249256651"
 X-IronPort-AV: E=Sophos;i="5.88,356,1635231600"; 
-   d="scan'208";a="312592652"
+   d="scan'208";a="249256651"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2022 10:30:41 -0800
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2022 11:06:29 -0800
 X-IronPort-AV: E=Sophos;i="5.88,356,1635231600"; 
-   d="scan'208";a="485362361"
+   d="scan'208";a="485378938"
 Received: from sanvery-mobl.amr.corp.intel.com (HELO [10.212.232.139]) ([10.212.232.139])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2022 10:30:40 -0800
-Message-ID: <21f5b129-e52a-74b7-6c8b-2bf0ab3db649@intel.com>
-Date:   Wed, 9 Feb 2022 10:30:37 -0800
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2022 11:06:28 -0800
+Message-ID: <528d5372-0591-857c-0c2b-eb8580f517ca@intel.com>
+Date:   Wed, 9 Feb 2022 11:06:25 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
@@ -72,11 +72,10 @@ To:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
         kcc@google.com, eranian@google.com
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
- <20220130211838.8382-13-rick.p.edgecombe@intel.com>
+ <20220130211838.8382-16-rick.p.edgecombe@intel.com>
 From:   Dave Hansen <dave.hansen@intel.com>
-Subject: Re: [PATCH 12/35] x86/mm: Update ptep_set_wrprotect() and
- pmdp_set_wrprotect() for transition from _PAGE_DIRTY to _PAGE_COW
-In-Reply-To: <20220130211838.8382-13-rick.p.edgecombe@intel.com>
+Subject: Re: [PATCH 15/35] x86/mm: Check Shadow Stack page fault errors
+In-Reply-To: <20220130211838.8382-16-rick.p.edgecombe@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -92,96 +91,127 @@ X-Mailing-List: linux-api@vger.kernel.org
 On 1/30/22 13:18, Rick Edgecombe wrote:
 > From: Yu-cheng Yu <yu-cheng.yu@intel.com>
 > 
-> When Shadow Stack is introduced, [R/O + _PAGE_DIRTY] PTE is reserved for
-> shadow stack.  Copy-on-write PTEs have [R/O + _PAGE_COW].
+> Shadow stack accesses are those that are performed by the CPU where it
+> expects to encounter a shadow stack mapping.  These accesses are performed
+> implicitly by CALL/RET at the site of the shadow stack pointer.  These
+> accesses are made explicitly by shadow stack management instructions like
+> WRUSSQ.
 
-<sigh>  Another way to refer to these PTEs.  In the last patch, it was:
+The passive voice is killing me.  Here's a rewrite:
 
-	"read-only and Dirty PTE"
-and now:
-	"[R/O + _PAGE_DIRTY]"
+	The CPU performs "shadow stack accesses" when it expects to
+	encounter shadow stack mappings.  These accesses can be
+	implicit (via CALL/RET instructions) or explicit (instructions
+	like WRUSSQ).
 
-> When a PTE goes from [R/W + _PAGE_DIRTY] to [R/O + _PAGE_COW], it could
-> become a transient shadow stack PTE in two cases:
-> 
-> The first case is that some processors can start a write but end up seeing
-> a read-only PTE by the time they get to the Dirty bit, creating a transient
-> shadow stack PTE.  However, this will not occur on processors supporting
-> Shadow Stack, and a TLB flush is not necessary.
-> 
-> The second case is that when _PAGE_DIRTY is replaced with _PAGE_COW non-
-> atomically, a transient shadow stack PTE can be created as a result.
-> Thus, prevent that with cmpxchg.
+Since we defined what a shadow stack access *is*, shouldn't we also
+connect it to X86_PF_SHSTK?
 
-== Background ==
+> Shadow stacks accesses to shadow-stack mapping can see faults in normal,
 
-Shadow stack PTEs always have [Write=0,Dirty=1].
+					   ^ mappings
 
-As currently implemented, ptep_set_wrprotect() simply clears _PAGE_RW:
-(Write=1 -> Write=0).
+> valid operation just like regular accesses to regular mappings.  Shadow
+> stacks need some of the same features like delayed allocation, swap and
+> copy-on-write.
 
-== Problem ==
+... and use faults to implement those features.
 
-This could cause a problem if ptep_set_wrprotect() caused a PTE to
-transition from:
+> Shadow stack accesses can also result in errors, such as when a shadow
+> stack overflows, or if a shadow stack access occurs to a non-shadow-stack
+> mapping.
 
-	[Write=1,Dirty=1]
-to
-	[Write=0,Dirty=1]
+Those two paragraphs tell a pretty good story.  Nice.
 
-Which would inadvertently create a shadow stack PTE instead of
-write-protecting it.  ptep_set_wrprotect() can not simply check for the
-Dirty=1 bit because the hardware can set it at any time.
+> In handling a shadow stack page fault, verify it occurs within a shadow
+> stack mapping.  It is always an error otherwise.  For valid shadow stack
+> accesses, set FAULT_FLAG_WRITE to effect copy-on-write.  Because clearing
+> _PAGE_DIRTY (vs. _PAGE_RW) is used to trigger the fault, shadow stack read
+> fault and shadow stack write fault are not differentiated and both are
+> handled as a write access.
 
-== Solution ==
+This paragraph is a rehash of what the code does.  It can go.
 
-Perform a compare-and-exchange operation on the PTE to avoid racing with
-the hardware.  The cmpxchg is expected to be more expensive than the
-existing clear_bit().  Continue using the cheaper clear_bit() on when
-shadow stacks are not in play.
+*But*, with or without this paragraph, the reader is left with all
+background and no discussion of why this patch exists.
 
-> diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
-> index 5c3886f6ccda..e1061b9cba6a 100644
-> --- a/arch/x86/include/asm/pgtable.h
-> +++ b/arch/x86/include/asm/pgtable.h
-> @@ -1295,6 +1295,24 @@ static inline void ptep_clear(struct mm_struct *mm, unsigned long addr,
->  static inline void ptep_set_wrprotect(struct mm_struct *mm,
->  				      unsigned long addr, pte_t *ptep)
->  {
+Even just this would be fine:
+
+	Handle valid and invalid shadow-stack accesses in the page fault
+	handler.
+
+
+> diff --git a/arch/x86/include/asm/trap_pf.h b/arch/x86/include/asm/trap_pf.h
+> index 10b1de500ab1..afa524325e55 100644
+> --- a/arch/x86/include/asm/trap_pf.h
+> +++ b/arch/x86/include/asm/trap_pf.h
+> @@ -11,6 +11,7 @@
+>   *   bit 3 ==				1: use of reserved bit detected
+>   *   bit 4 ==				1: fault was an instruction fetch
+>   *   bit 5 ==				1: protection keys block access
+> + *   bit 6 ==				1: shadow stack access fault
+>   *   bit 15 ==				1: SGX MMU page-fault
+>   */
+>  enum x86_pf_error_code {
+> @@ -20,6 +21,7 @@ enum x86_pf_error_code {
+>  	X86_PF_RSVD	=		1 << 3,
+>  	X86_PF_INSTR	=		1 << 4,
+>  	X86_PF_PK	=		1 << 5,
+> +	X86_PF_SHSTK	=		1 << 6,
+>  	X86_PF_SGX	=		1 << 15,
+>  };
+>  
+> diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
+> index d0074c6ed31a..6769134986ec 100644
+> --- a/arch/x86/mm/fault.c
+> +++ b/arch/x86/mm/fault.c
+> @@ -1107,6 +1107,17 @@ access_error(unsigned long error_code, struct vm_area_struct *vma)
+>  				       (error_code & X86_PF_INSTR), foreign))
+>  		return 1;
+>  
 > +	/*
-> +	 * If Shadow Stack is enabled, pte_wrprotect() moves _PAGE_DIRTY
-> +	 * to _PAGE_COW (see comments at pte_wrprotect()).
-> +	 * When a thread reads a RW=1, Dirty=0 PTE and before changing it
-> +	 * to RW=0, Dirty=0, another thread could have written to the page
-> +	 * and the PTE is RW=1, Dirty=1 now.  Use try_cmpxchg() to detect
-> +	 * PTE changes and update old_pte, then try again.
+> +	 * Verify a shadow stack access is within a shadow stack VMA.
+> +	 * It is always an error otherwise.  Normal data access to a
+> +	 * shadow stack area is checked in the case followed.
 > +	 */
 
-I think we can trim that down.  We don't need to explain what cmpxchg
-does or why it loops.  That's way too much detail that we don't need.
-Maybe:
+That comment needs some help.  Maybe:
 
-	/*
-	 * Avoid accidentally creating shadow stack PTEs
-	 * (Write=0,Dirty=1).  Use cmpxchg() to prevent races with
-	 * the hardware setting Dirty=1.
-	 */
+	Shadow stack accesses (PF_SHSTK=1) are only permitted to
+	shadow stack VMAs.  All other accesses result in an error.
 
-BTW, is it *really* a problem with other threads setting Dirty=1?  This
-is happening under the page table lock on this side at least.
+I don't think we need to talk about the other cases being handled below.
 
-> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
-> +		pte_t old_pte, new_pte;
-> +
-> +		old_pte = READ_ONCE(*ptep);
-> +		do {
-> +			new_pte = pte_wrprotect(old_pte);
-> +		} while (!try_cmpxchg(&ptep->pte, &old_pte.pte, new_pte.pte));
-> +
-> +		return;
+> +	if (error_code & X86_PF_SHSTK) {
+> +		if (!(vma->vm_flags & VM_SHADOW_STACK))
+> +			return 1;
+> +		return 0;
 > +	}
->  	clear_bit(_PAGE_BIT_RW, (unsigned long *)&ptep->pte);
->  }
+> +
+>  	if (error_code & X86_PF_WRITE) {
+>  		/* write, present and write, not present: */
+>  		if (unlikely(!(vma->vm_flags & VM_WRITE)))
+> @@ -1300,6 +1311,14 @@ void do_user_addr_fault(struct pt_regs *regs,
+>  
+>  	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
+>  
+> +	/*
+> +	 * Clearing _PAGE_DIRTY is used to detect shadow stack access.
+> +	 * This method cannot distinguish shadow stack read vs. write.
+> +	 * For valid shadow stack accesses, set FAULT_FLAG_WRITE to effect
+> +	 * copy-on-write.
+> +	 */
 
+Too much detail.  This is also rather unconnected to the code I can see:
 
+> +	if (error_code & X86_PF_SHSTK)
+> +		flags |= FAULT_FLAG_WRITE;
 
+Also, the use of "effect" here is arguably wrong.  It's odd at best.
+I'd use some alternative wording.
+
+Let's stick to the facts:
+ 1. Shadow stack pages architecturally can't be read-only
+ 2. Don't bother with read faults, consider everything a write
+
+BTW, what happens if we don't do this?  What breaks?
