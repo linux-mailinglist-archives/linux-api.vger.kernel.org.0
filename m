@@ -2,209 +2,136 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B46934AF045
-	for <lists+linux-api@lfdr.de>; Wed,  9 Feb 2022 12:57:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F18C54AF763
+	for <lists+linux-api@lfdr.de>; Wed,  9 Feb 2022 17:58:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231259AbiBIL4M (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 9 Feb 2022 06:56:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57548 "EHLO
+        id S237646AbiBIQ6i (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 9 Feb 2022 11:58:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231597AbiBILz0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 9 Feb 2022 06:55:26 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 887D9C0045A9;
-        Wed,  9 Feb 2022 02:54:10 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1527B612E7;
-        Wed,  9 Feb 2022 10:54:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F355C340EE;
-        Wed,  9 Feb 2022 10:53:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1644404049;
-        bh=8nfXi2bAkBkxKe4ZmVJ1McrLUR/vS+aiNoKC3c4V54c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=o8kvTb2TMbpq1whYqOyKIm1hlJzLi/Q/a7JoUpj/jGssXx7Qt2YZfBNYkEkw/hZXE
-         oSInBQ5nuOk5Os7WPqk0FsmT5MYuYpJeH1AwVx9/sNxYghplvePkYAHWRcNnd3okRc
-         M9krUM2hOFkqKwv1q7AvLokp6kWPbgxm4oByhL31KH+6gGAD8NURHSZGlgRPeJ34wR
-         oKsYkioVYxJpiwc0Ji4Sp/jM+78yoZTEYYk3XHfiYOqzRm+ha7Fh2SpXMJsyh6VB8N
-         ivZdoNTpo9Vm+5jKSaeoJXseiJK/X0ch6HI7SG9uzqs2raWQmeBW+yzpszfgW8m8ad
-         YPv9Vixyl0Iow==
-Date:   Wed, 9 Feb 2022 12:53:51 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "Lutomirski, Andy" <luto@kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "0x7f454c46@gmail.com" <0x7f454c46@gmail.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "adrian@lisas.de" <adrian@lisas.de>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "avagin@gmail.com" <avagin@gmail.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>, "bp@alien8.de" <bp@alien8.de>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "Moreira, Joao" <joao.moreira@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "Hansen, Dave" <dave.hansen@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>
-Subject: Re: [PATCH 00/35] Shadow stacks for userspace
-Message-ID: <YgOdP7YFwbX13SlP@kernel.org>
-References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
- <YgAWVSGQg8FPCeba@kernel.org>
- <YgDIIpCm3UITk896@lisas.de>
- <8f96c2a6-9c03-f97a-df52-73ffc1d87957@intel.com>
- <YgI1A0CtfmT7GMIp@kernel.org>
- <YgI37n+3JfLSNQCQ@grain>
- <357664de-b089-4617-99d1-de5098953c80@www.fastmail.com>
- <YgKiKEcsNt7mpMHN@grain>
- <8e36f20723ca175db49ed3cc73e42e8aa28d2615.camel@intel.com>
+        with ESMTP id S237736AbiBIQ6c (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 9 Feb 2022 11:58:32 -0500
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A53DC043180;
+        Wed,  9 Feb 2022 08:58:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1644425908; x=1675961908;
+  h=message-id:date:mime-version:to:cc:references:from:
+   subject:in-reply-to:content-transfer-encoding;
+  bh=qBIG1Z9WmAaojnbocDOnq2HfqKAkZyB1quN1UVQeNOM=;
+  b=DOtdJjJEkLKxTwXQlBYsPsD/uzUUaW0tXJO2khWuMqmnR7Zi2AFwnVkh
+   Yr0OpOesqMJfTl7iUkiqwaRR4ZcHxpsB3pf5SaodZQRBnisGytFI8yPCl
+   oIwVhXIOSOes9cUVaFfR4awP5g+hgp3yXhecNmVs1WNJQck6bfuuLKdKH
+   XKZnDBMXAbLu0BTGwFryrReth+4dHO/iQ2Ik8KgLlHgbVd5ioz/LrtYIc
+   RjWHWVXY0G/6YB9SyX6EYhH446UdQPZQNJVrYU3Z2hRuVjXCU4v31HSsK
+   u/4eM/Z8HC2dgUz36syhCO99plSJ6istVqu1MKHIlBSOzSIvCC7KXohja
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="236657725"
+X-IronPort-AV: E=Sophos;i="5.88,356,1635231600"; 
+   d="scan'208";a="236657725"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2022 08:58:20 -0800
+X-IronPort-AV: E=Sophos;i="5.88,356,1635231600"; 
+   d="scan'208";a="485309693"
+Received: from sanvery-mobl.amr.corp.intel.com (HELO [10.212.232.139]) ([10.212.232.139])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2022 08:58:19 -0800
+Message-ID: <a5bb32b8-8bd7-ac98-5c4c-5af604ac8256@intel.com>
+Date:   Wed, 9 Feb 2022 08:58:16 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8e36f20723ca175db49ed3cc73e42e8aa28d2615.camel@intel.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Content-Language: en-US
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
+        kcc@google.com, eranian@google.com
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>,
+        Zhi Wang <zhi.a.wang@intel.com>
+References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
+ <20220130211838.8382-11-rick.p.edgecombe@intel.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Subject: Re: [PATCH 10/35] drm/i915/gvt: Change _PAGE_DIRTY to
+ _PAGE_DIRTY_BITS
+In-Reply-To: <20220130211838.8382-11-rick.p.edgecombe@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Rick,
-
-On Wed, Feb 09, 2022 at 02:18:42AM +0000, Edgecombe, Rick P wrote:
-> On Tue, 2022-02-08 at 20:02 +0300, Cyrill Gorcunov wrote:
-> > On Tue, Feb 08, 2022 at 08:21:20AM -0800, Andy Lutomirski wrote:
-> > > > > But such a knob will immediately reduce the security value of
-> > > > > the entire
-> > > > > thing, and I don't have good ideas how to deal with it :(
-> > > > 
-> > > > Probably a kind of latch in the task_struct which would trigger
-> > > > off once
-> > > > returt to a different address happened, thus we would be able to
-> > > > jump inside
-> > > > paratite code. Of course such trigger should be available under
-> > > > proper
-> > > > capability only.
-> > > 
-> > > I'm not fully in touch with how parasite, etc works.  Are we
-> > > talking about save or restore?
-> > 
-> > We use parasite code in question during checkpoint phase as far as I
-> > remember.
-> > push addr/lret trick is used to run "injected" code (code injection
-> > itself is
-> > done via ptrace) in compat mode at least. Dima, Andrei, I didn't look
-> > into this code
-> > for years already, do we still need to support compat mode at all?
-> > 
-> > > If it's restore, what exactly does CRIU need to do?  Is it just
-> > > that CRIU needs to return
-> > > out from its resume code into the to-be-resumed program without
-> > > tripping CET?  Would it
-> > > be acceptable for CRIU to require that at least one shstk slot be
-> > > free at save time?
-> > > Or do we need a mechanism to atomically switch to a completely full
-> > > shadow stack at resume?
-> > > 
-> > > Off the top of my head, a sigreturn (or sigreturn-like mechanism)
-> > > that is intended for
-> > > use for altshadowstack could safely verify a token on the
-> > > altshdowstack, possibly
-> > > compare to something in ucontext (or not -- this isn't clearly
-> > > necessary) and switch
-> > > back to the previous stack.  CRIU could use that too.  Obviously
-> > > CRIU will need a way
-> > > to populate the relevant stacks, but WRUSS can be used for that,
-> > > and I think this
-> > > is a fundamental requirement for CRIU -- CRIU restore absolutely
-> > > needs a way to write
-> > > the saved shadow stack data into the shadow stack.
+On 1/30/22 13:18, Rick Edgecombe wrote:
 > 
-> Still wrapping my head around the CRIU save and restore steps, but
-> another general approach might be to give ptrace the ability to
-> temporarily pause/resume/set CET enablement and SSP for a stopped
-> thread. Then injected code doesn't need to jump through any hoops or
-> possibly run into road blocks. I'm not sure how much this opens things
-> up if the thread has to be stopped...
- 
-IIRC, criu dump does something like this:
-* Stop the process being dumped (victim) with ptrace
-* Inject parasite code and data into the victim, again with ptrace.
-  Among other things the parasite data contains a sigreturn frame with
-  saved victim state.
-* Resume the victim process, which will run parasite code now.
-* When parasite finishes it uses that frame to sigreturn to normal victim
-  execution
+> diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gtt.c
+> index 99d1781fa5f0..75ce4e823902 100644
+> --- a/drivers/gpu/drm/i915/gvt/gtt.c
+> +++ b/drivers/gpu/drm/i915/gvt/gtt.c
+> @@ -1210,7 +1210,7 @@ static int split_2MB_gtt_entry(struct intel_vgpu *vgpu,
+>  	}
+>  
+>  	/* Clear dirty field. */
+> -	se->val64 &= ~_PAGE_DIRTY;
+> +	se->val64 &= ~_PAGE_DIRTY_BITS;
+>  
+>  	ops->clear_pse(se);
+>  	ops->clear_ips(se);
 
-So, my feeling is that for dump side WRUSS should be enough.
+Are these x86 CPU page table values?  I see ->val64 being used like this:
 
-> Cyrill, could it fit into the CRIU pause and resume flow? What action
-> causes the final resuming of execution of the restored process for
-> checkpointing and for restore? Wondering if we could somehow make CET
-> re-enable exactly then.
-> 
-> And I guess this also needs a way to create shadow stack allocations at
-> a specific address to match where they were in the dumped process. That
-> is missing in this series.
+        e->val64 &= ~GEN8_PAGE_PRESENT;
+and
+	se.val64 |= GEN8_PAGE_PRESENT | GEN8_PAGE_RW;
 
-Yes, criu restore will need to recreate shadow stack mappings. Currently,
-we recreate the restored process (target) address space based on
-/proc/pid/maps and /proc/pid/smaps. CRIU preserves the virtual addresses
-and VMA flags. The relevant steps of restore process can be summarised as:
-* Clone() the target process tree
-* Recreate VMAs with the needed size and flags, but not necessarily at the
-  correct place yet
-* Partially populate memory data from the saved images
-* Move VMAs to their exact addresses
-* Complete restoring the data
-* Create a frame for sigreturn and jump to the target.
+where we also have:
 
-Here, the stack used after sigreturn contains the data that was captured
-during dump and it entirely different from what shadow stack will contain.
+#define GEN8_PAGE_PRESENT               BIT_ULL(0)
+#define GEN8_PAGE_RW                    BIT_ULL(1)
 
-There are several points when the target threads are stopped, so
-pausing/resuming CET may help.
- 
-> > > So I think the only special capability that CRIU really needs is
-> > > WRUSS, and
-> > > we need to wire that up anyway.
-> > 
-> > Thanks for these notes, Andy! I can't provide any sane answer here
-> > since didn't
-> > read tech spec for this feature yet :-)
-> 
-> 
-> 
-> 
+Which tells me that these are probably *close* to the CPU's page tables.
+ But, I honestly don't know which format they are.  I don't know if
+_PAGE_COW is still a software bit in that format or not.
 
--- 
-Sincerely yours,
-Mike.
+Either way, I don't think we should be messing with i915 device page tables.
+
+Or, are these somehow magically shared with the CPU in some way I don't
+know about?
+
+[ If these are device-only page tables, it would probably be nice to
+  stop using _PAGE_FOO for them.  It would avoid confusion like this. ]
