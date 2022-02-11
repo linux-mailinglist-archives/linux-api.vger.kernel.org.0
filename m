@@ -2,158 +2,104 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 44FC04B304B
-	for <lists+linux-api@lfdr.de>; Fri, 11 Feb 2022 23:22:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D406D4B3147
+	for <lists+linux-api@lfdr.de>; Sat, 12 Feb 2022 00:34:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354037AbiBKWT4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 11 Feb 2022 17:19:56 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53946 "EHLO
+        id S1353354AbiBKXdn (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 11 Feb 2022 18:33:43 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:38250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354034AbiBKWTz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 11 Feb 2022 17:19:55 -0500
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B614ED5E;
-        Fri, 11 Feb 2022 14:19:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1644617993; x=1676153993;
-  h=message-id:date:mime-version:to:references:from:subject:
-   in-reply-to:content-transfer-encoding;
-  bh=QhwemLJz6XJr4WABSGeGJItc6/s04gnX8fKaV4emL8o=;
-  b=RVeAhIHC8pPpmfl3USyTn2BShq9mrCdK8YGuhDI+NkPy8zeGLghkvxLk
-   lf6qWGWsJGYdiFN4OKID7GNlhqG3ClvblwVkQ+XBgJdurSOuR6aur7pzg
-   xsf/71RWhk2vT9mNJ0ym3pDiv+N933v3YIYeu9WV2WeAeCLWRbFSBZOkw
-   G5fdaDJwvqoSwNfDNGgIrvTnW89mgc9kbdMdGqERXvhfo8LGujFxbpNsS
-   h8W80lFafIg2vhPieX3G5KyOwYsZa1tUCZ1PLPVTHyXv72LKoKAcQrddk
-   i448uERDKnGtw6xiHepTXB4yOChusSH+8QkmWfuUSXX101WF0CLYU2Ii/
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10255"; a="237224081"
-X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; 
-   d="scan'208";a="237224081"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2022 14:19:53 -0800
-X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; 
-   d="scan'208";a="542262078"
-Received: from nsmdimra-mobl.amr.corp.intel.com (HELO [10.209.96.127]) ([10.209.96.127])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2022 14:19:52 -0800
-Message-ID: <3df8595d-46d9-aaee-dd33-3118102ef750@intel.com>
-Date:   Fri, 11 Feb 2022 14:19:49 -0800
+        with ESMTP id S243430AbiBKXdm (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 11 Feb 2022 18:33:42 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8CC0C66;
+        Fri, 11 Feb 2022 15:33:40 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 06EF061AB8;
+        Fri, 11 Feb 2022 23:33:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6308C340E9;
+        Fri, 11 Feb 2022 23:33:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1644622418;
+        bh=NcXN/ZExFBWEE/4j7wW8A6WXqsCsTCy55XEhj/QVImY=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=MD/s1KgbDdFqUM3Vb1BzoByXZiIGv1RlMk7utUYwSOUf2JBAZFlRXxt4ECnUyYqy2
+         W2P/xae6UgnONaMt/yfHTrkcp/Ewnkisg3q/XL2qGzszRkrYQfhNfDKBUVkaTyjKiI
+         TMeacNN8OOe3NX8ZpbtDEriWYxrQhsGFC7y9uGqj0S7moAb1kWthU5wOueV/EfmDja
+         96CZMpWUQRSafptUAWevRxcbiJHzmf1Bt5DG3KdDxxX9JAXkqI6HsnPE0GyAOsixEF
+         V+mxb58acULwgB8+JZQHVywpmh7FewNQBkD25shtBrNaMabuc4v6KV0+VFfKIvJZXJ
+         fcZZKVqrIZMqg==
+Message-ID: <619547ad-de96-1be9-036b-a7b4e99b09a6@kernel.org>
+Date:   Fri, 11 Feb 2022 15:33:35 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
+Subject: Re: [PATCH v4 01/12] mm/shmem: Introduce F_SEAL_INACCESSIBLE
 Content-Language: en-US
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+To:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org,
+        Linux API <linux-api@vger.kernel.org>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
         "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
-        kcc@google.com, eranian@google.com
-References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
- <20220130211838.8382-23-rick.p.edgecombe@intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Subject: Re: [PATCH 22/35] x86/mm: Prevent VM_WRITE shadow stacks
-In-Reply-To: <20220130211838.8382-23-rick.p.edgecombe@intel.com>
-Content-Type: text/plain; charset=UTF-8
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com
+References: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
+ <20220118132121.31388-2-chao.p.peng@linux.intel.com>
+From:   Andy Lutomirski <luto@kernel.org>
+In-Reply-To: <20220118132121.31388-2-chao.p.peng@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 1/30/22 13:18, Rick Edgecombe wrote:
-> Shadow stack accesses are writes from handle_mm_fault() perspective. So to
-> generate the correct PTE, maybe_mkwrite() will rely on the presence of
-> VM_SHADOW_STACK or VM_WRITE in the vma.
+On 1/18/22 05:21, Chao Peng wrote:
+> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 > 
-> In future patches, when VM_SHADOW_STACK is actually creatable by
-> userspace, a problem could happen if a user calls
-> mprotect( , , PROT_WRITE) on VM_SHADOW_STACK shadow stack memory. The code
-> would then be confused in the event of shadow stack accesses, and create a
-> writable PTE for a shadow stack access. Then the process would fault in a
-> loop.
+> Introduce a new seal F_SEAL_INACCESSIBLE indicating the content of
+> the file is inaccessible from userspace through ordinary MMU access
+> (e.g., read/write/mmap). However, the file content can be accessed
+> via a different mechanism (e.g. KVM MMU) indirectly.
 > 
-> Prevent this from happening by blocking this kind of memory (VM_WRITE and
-> VM_SHADOW_STACK) from being created, instead of complicating the fault
-> handler logic to handle it.
+> It provides semantics required for KVM guest private memory support
+> that a file descriptor with this seal set is going to be used as the
+> source of guest memory in confidential computing environments such
+> as Intel TDX/AMD SEV but may not be accessible from host userspace.
 > 
-> Add an x86 arch_validate_flags() implementation to handle the check.
-> Rename the uapi/asm/mman.h header guard to be able to use it for
-> arch/x86/include/asm/mman.h where the arch_validate_flags() will be.
+> At this time only shmem implements this seal.
+> 
 
-It would be great if this also said:
+I don't dislike this *that* much, but I do dislike this. 
+F_SEAL_INACCESSIBLE essentially transmutes a memfd into a different type 
+of object.  While this can apparently be done successfully and without 
+races (as in this code), it's at least awkward.  I think that either 
+creating a special inaccessible memfd should be a single operation that 
+create the correct type of object or there should be a clear 
+justification for why it's a two-step process.
 
-	There is an existing arch_validate_flags() hook for mmap() and
-	mprotect() which allows architectures to reject unwanted
-	->vm_flags combinations.  Add an implementation for x86.
-
-That's somewhat implied from what is there already, but making it more
-clear would be nice.  There's a much higher bar to add a new arch hook
-than to just implement an existing one.
-
-
-> diff --git a/arch/x86/include/asm/mman.h b/arch/x86/include/asm/mman.h
-> new file mode 100644
-> index 000000000000..b44fe31deb3a
-> --- /dev/null
-> +++ b/arch/x86/include/asm/mman.h
-> @@ -0,0 +1,21 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef _ASM_X86_MMAN_H
-> +#define _ASM_X86_MMAN_H
-> +
-> +#include <linux/mm.h>
-> +#include <uapi/asm/mman.h>
-> +
-> +#ifdef CONFIG_X86_SHADOW_STACK
-> +static inline bool arch_validate_flags(unsigned long vm_flags)
-> +{
-> +	if ((vm_flags & VM_SHADOW_STACK) && (vm_flags & VM_WRITE))
-> +		return false;
-> +
-> +	return true;
-> +}
-
-The design decision here seems to be that VM_SHADOW_STACK is itself a
-pseudo-VM_WRITE flag.  Like you said: "Shadow stack accesses are writes
-from handle_mm_fault()".
-
-Very early on, this series seems to have made the decision that shadow
-stacks are writable and need lots of write handling behavior, *BUT*
-shouldn't have VM_WRITE set.  As a whole, that seems odd.
-
-The alternative would be *requiring* VM_WRITE and VM_SHADOW_STACK be set
-together.  I guess the downside is that pte_mkwrite() would need to be
-made to work on shadow stack PTEs.
-
-That particular design decision was never discussed.  I think it has a
-really big impact on the rest of the series.  What do you think?  Was it
-a good idea?  Or would the alternative be more complicated than what you
-have now?
+(Imagine if the way to create an eventfd would be to call 
+timerfd_create() and then do a special fcntl to turn it into an eventfd 
+but only if it's not currently armed.  This would be weird.)
