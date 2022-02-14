@@ -2,142 +2,261 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 530FB4B5BA1
-	for <lists+linux-api@lfdr.de>; Mon, 14 Feb 2022 22:01:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DDC974B5B3B
+	for <lists+linux-api@lfdr.de>; Mon, 14 Feb 2022 21:51:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229502AbiBNVBR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 14 Feb 2022 16:01:17 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:36308 "EHLO
+        id S229871AbiBNUqC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 14 Feb 2022 15:46:02 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:38200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229960AbiBNVBP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 14 Feb 2022 16:01:15 -0500
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 911697A9A0
-        for <linux-api@vger.kernel.org>; Mon, 14 Feb 2022 13:01:06 -0800 (PST)
-Received: by mail-ej1-x62e.google.com with SMTP id jg20so15044973ejc.3
-        for <linux-api@vger.kernel.org>; Mon, 14 Feb 2022 13:01:06 -0800 (PST)
+        with ESMTP id S229653AbiBNUps (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 14 Feb 2022 15:45:48 -0500
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9B36244C2A
+        for <linux-api@vger.kernel.org>; Mon, 14 Feb 2022 12:43:48 -0800 (PST)
+Received: by mail-pj1-x1029.google.com with SMTP id h14-20020a17090a130e00b001b88991a305so393036pja.3
+        for <linux-api@vger.kernel.org>; Mon, 14 Feb 2022 12:43:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dgwPr3jWEXZiHeYJRBUfKrH3C5wLRAnP7Z6R5s1EJ5U=;
-        b=ZcumWtnhggjMFDUHhywZOsPSWocj5WFiFD4wxX4meGi3Jv+FEek8bAx8wm544tPFuD
-         FZMy/4sQc4BwvneObDdXEv1mNtlI8GPACMt1JW8whp1hkRcRU1/uCicaO7g7UXSaSO+q
-         JQ0jz81cHBjFl3QlKdIkLJ7hR07DlS4kmaNNI=
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=DF9WT/Vv+v/rFZpH2c7Do8/144JbYcaXb42/q6Y+A0U=;
+        b=QIyQthQljzLDrV1j/8Di/lSTC4O9i7AJ4h+RyA0Gbr4rcktlIyiBLn6GTX8uKH6LcT
+         jHb/KGlZVkhdQXIFz3E2u6cgJcFB9mYMV6IHktSAy+pSDAun9LkQRlfDlpWDNdv8isxg
+         OKtqc7zE/vmR6+ggIAD2GVAjrM2eJ1Mjo6GLo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dgwPr3jWEXZiHeYJRBUfKrH3C5wLRAnP7Z6R5s1EJ5U=;
-        b=PIygysQPZTfPBVPydwQEAq/eQWoEC55DFJj+NErQ7lv3EqTDqxBebyQDM/O6MqWrTn
-         /zQcIQg/2E2RVIhkd25OuXQ6/a4FC/r2LXv284RVexOMoFNRhEHxTx9Y0NKU3Hbzx4RX
-         nfsQXAOjA6A+Twfw2zE2GR5R/jGyq01puq57NJ73mgvVCTAwgHeaBcFaclsS6MuCcTPW
-         vMASQPpXdJLYFkpFyLimgII57cJxaOJvJfJm+CftX0hFj0KultIbWU2EVOq56TtPvA4q
-         vyhRF4PM5+PCXQFbwjIIZJOFMMz5by7zOrzeawEQF8vgabzISm0Y8iyWtE6RseN9LD8n
-         NIwg==
-X-Gm-Message-State: AOAM533FE1t3RceI2pToFYfnKyRFMnzaphh7/EW8+Yjy/ZbX0j5nhsR6
-        BK34DzclZPyyR13M9wxmtLOO4vrZw1qZ8vADYv0=
-X-Google-Smtp-Source: ABdhPJzXEksyy2qisr9Av79wn3eC2MVrTJaT6xvpYbnGO43vlDMuPXMa3OVTLTpH1NIE6xNLi+edOw==
-X-Received: by 2002:ac2:5e6f:: with SMTP id a15mr480836lfr.213.1644868892711;
-        Mon, 14 Feb 2022 12:01:32 -0800 (PST)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com. [209.85.208.182])
-        by smtp.gmail.com with ESMTPSA id y11sm3991063ljj.69.2022.02.14.12.01.21
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Feb 2022 12:01:32 -0800 (PST)
-Received: by mail-lj1-f182.google.com with SMTP id t14so23768268ljh.8
-        for <linux-api@vger.kernel.org>; Mon, 14 Feb 2022 12:01:21 -0800 (PST)
-X-Received: by 2002:a2e:a231:: with SMTP id i17mr205093ljm.443.1644868881602;
- Mon, 14 Feb 2022 12:01:21 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=DF9WT/Vv+v/rFZpH2c7Do8/144JbYcaXb42/q6Y+A0U=;
+        b=nSwugMbKZiARHSeJpDtfvDdDzOT6AxaIUK0pQBiFc+qDjKkDWBN74DGWdYsct70tpn
+         y0OiBzc1KYA7mSigOCZ/323NnqMBqzrF/8PVHwIDEQXsMuuPWSg5Eot+1tcoi1hp4t7w
+         n2tUHMaNgmTXkatOLhAkV2EcVGBeDwMtLWOih7A/gf39Az+kOd3hup1Z94Gx6ZN0zVeY
+         pnKH/1ZkoB/I621AM5FSfZ2nQO6qZsgVzzZTionSXY0tsNFMK21DE6VwYA5kF0FSedqP
+         rPRqgcnEJQ+OmCtMR2PxXJAnx8zcVbNCEHWzOlY3Ba3oAQ21cKle7c3/giwYHipQIhP/
+         3kCg==
+X-Gm-Message-State: AOAM5336BmTTX6YHqjxvijq7rCHp9U0RdQNkoAa4erGmqiWr2trF0Gy1
+        +MRna0mxsMZCZvfkm006a0CWxjpClewVWA==
+X-Google-Smtp-Source: ABdhPJyGvGVuw3HE04nf6pE0tMBuCUxgl2p9O4asWDDxJJCfFsjyzXK4t7nX3MjYl8E01F0Y9HZ41Q==
+X-Received: by 2002:a17:903:2281:: with SMTP id b1mr686528plh.158.1644869246223;
+        Mon, 14 Feb 2022 12:07:26 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id lw16sm9718884pjb.51.2022.02.14.12.07.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Feb 2022 12:07:25 -0800 (PST)
+Date:   Mon, 14 Feb 2022 12:07:25 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Christian Brauner <brauner@kernel.org>
+Cc:     Andy Lutomirski <luto@amacapital.net>,
+        Robert =?utf-8?B?xZp3acSZY2tp?= <robert@swiecki.net>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Jann Horn <jannh@google.com>, Will Drewry <wad@chromium.org>,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: Re: [RFC] Get siginfo from unreaped task
+Message-ID: <202202141152.6296CD7F@keescook>
+References: <CAP145phC6S6Zda-ZWLH1s4ZfDPh79rtf_7vzs-yvt1vykUCP4A@mail.gmail.com>
+ <CF5167CE-FA1C-4CEC-9EA8-5EE8041FE7C4@amacapital.net>
+ <20220213085212.cwzuqlrabpgbnbac@wittgenstein>
 MIME-Version: 1.0
-References: <20220214163452.1568807-1-arnd@kernel.org> <20220214163452.1568807-5-arnd@kernel.org>
- <YgqLFYqIqkIsNC92@infradead.org> <CAK8P3a1F3JaYaJPy9bSCG1+YV6EN05PE0DbwpD_GT1qRwFSJ-w@mail.gmail.com>
-In-Reply-To: <CAK8P3a1F3JaYaJPy9bSCG1+YV6EN05PE0DbwpD_GT1qRwFSJ-w@mail.gmail.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Mon, 14 Feb 2022 12:01:05 -0800
-X-Gmail-Original-Message-ID: <CAHk-=whq6_Nh3cB3FieP481VcRyCu69X3=wO1yLHGmcZEj69SA@mail.gmail.com>
-Message-ID: <CAHk-=whq6_Nh3cB3FieP481VcRyCu69X3=wO1yLHGmcZEj69SA@mail.gmail.com>
-Subject: Re: [PATCH 04/14] x86: use more conventional access_ok() definition
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Christoph Hellwig <hch@lst.de>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Rich Felker <dalias@libc.org>, linux-ia64@vger.kernel.org,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Max Filippov <jcmvbkbc@gmail.com>, Guo Ren <guoren@kernel.org>,
-        sparclinux <sparclinux@vger.kernel.org>,
-        "open list:QUALCOMM HEXAGON..." <linux-hexagon@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Brian Cain <bcain@codeaurora.org>,
-        Helge Deller <deller@gmx.de>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Russell King - ARM Linux <linux@armlinux.org.uk>,
-        linux-csky@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "open list:SYNOPSYS ARC ARCHITECTURE" 
-        <linux-snps-arc@lists.infradead.org>,
-        "open list:TENSILICA XTENSA PORT (xtensa)" 
-        <linux-xtensa@linux-xtensa.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        alpha <linux-alpha@vger.kernel.org>,
-        linux-um <linux-um@lists.infradead.org>,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>,
-        Openrisc <openrisc@lists.librecores.org>,
-        Greentime Hu <green.hu@gmail.com>,
-        Stafford Horne <shorne@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Michal Simek <monstr@monstr.eu>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Parisc List <linux-parisc@vger.kernel.org>,
-        Nick Hu <nickhu@andestech.com>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Richard Weinberger <richard@nod.at>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        David Miller <davem@davemloft.net>,
-        Al Viro <viro@zeniv.linux.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220213085212.cwzuqlrabpgbnbac@wittgenstein>
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Feb 14, 2022 at 11:46 AM Arnd Bergmann <arnd@kernel.org> wrote:
->
-> As Al pointed out, they turned out to be necessary on sparc64, but the only
-> definitions are on sparc64 and x86, so it's possible that they serve a similar
-> purpose here, in which case changing the limit from TASK_SIZE to
-> TASK_SIZE_MAX is probably wrong as well.
+On Sun, Feb 13, 2022 at 09:52:12AM +0100, Christian Brauner wrote:
+> On Sat, Feb 12, 2022 at 06:32:08PM -0800, Andy Lutomirski wrote:
+> > 
+> > > On Feb 12, 2022, at 3:24 AM, Robert Święcki <robert@swiecki.net> wrote:
+> > > 
+> > > ﻿sob., 12 lut 2022 o 05:28 Kees Cook <keescook@chromium.org> napisał(a):
+> > >> 
+> > >> Make siginfo available through PTRACE_GETSIGINFO after process death,
+> > >> without needing to have already used PTRACE_ATTACH. Uses 48 more bytes
+> > >> in task_struct, though I bet there might be somewhere else we could
+> > >> stash a copy of it?
+> > > 
+> > > An alternative way of accessing this info could be abusing the
+> > > waitid() interface, with some additional, custom to Linux, flag
+> > > 
+> > > waitid(P_ALL, 0, &si, __WCHILDSIGINFO);
+> > > 
+> > > which would change what is put into si.
+> > > 
+> > > But maybe ptrace() is better, because it's mostly incompatible with
+> > > other OSes anyway on the behavior/flag level, while waitd() seems to
+> > > be POSIX/BSD standard, even if Linux specifies some additional flags.
+> > > 
+> > > 
+> > 
+> > I had a kind of opposite thought, which is that it would be very nice
+> > to be able to get all the waitid() data without reaping a process or
+> > even necessarily being its parent.  Maybe these can be combined?  A
+> > new waitid() option like you’re suggesting could add siginfo (and
+> > might need permissions).  And we could have a different waitid() flag
+> > that says “maybe not my child, don’t reap” (and also needs
+> > permissions).
+> > 
+> > Although the “don’t reap” thing is fundamentally racy. What a sane
+> > process manager actually wants is an interface to read all this info
+> > from a pidfd, which means it all needs to get stuck in struct pid. And
+> 
+> /me briefly pops out from vacation
+> 
+> Agreed and not just siginfo I would expect(?). We already came to that
+> conclusion when we first introduced them.
+> 
+> > task_struct needs a completion or wait queue so you can actually wait
+> > for a pidfd to exit (unless someone already did this — I had patches a
+> > while back).  And this would be awesome.
+> 
+> Currently, you can wait for a pidfd to exit via polling and you can use
+> a pidfd to pass it to waitid(P_PIDFD, pidfd, ...).
+> 
+> /me pops back into vacation
 
-x86-64 has always(*) used TASK_SIZE_MAX for access_ok(), and the
-get_user() assembler implementation does the same.
+Right, so waitid already has all the infrastructure for this, so I think
+adding it there makes a lot of sense. Here's what I've got:
 
-I think any __range_not_ok() users that use TASK_SIZE are entirely
-historical, and should be just fixed.
 
-                 Linus
 
-(*) And by "always" I mean "as far back as I bothered to go". In the
-2.6.12 git import, we had
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index f5b2be39a78c..e40789e801ef 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -1178,6 +1178,7 @@ struct task_struct {
+ #endif
+ 	/* Ptrace state: */
+ 	unsigned long			ptrace_message;
++	kernel_siginfo_t		death_siginfo;
+ 	kernel_siginfo_t		*last_siginfo;
+ 
+ 	struct task_io_accounting	ioac;
+diff --git a/kernel/signal.c b/kernel/signal.c
+index 9b04631acde8..41f6ba6b7aa7 100644
+--- a/kernel/signal.c
++++ b/kernel/signal.c
+@@ -2825,6 +2825,10 @@ bool get_signal(struct ksignal *ksig)
+ 		}
+ 
+ 	fatal:
++		/* Allow siginfo to be queried until reaped. */
++		copy_siginfo(&current->death_siginfo, &ksig->info);
++		current->last_siginfo = &current->death_siginfo;
++
+ 		spin_unlock_irq(&sighand->siglock);
+ 		if (unlikely(cgroup_task_frozen(current)))
+ 			cgroup_leave_frozen(true);
+diff --git a/include/uapi/linux/wait.h b/include/uapi/linux/wait.h
+index 85b809fc9f11..7258cd4510ba 100644
+--- a/include/uapi/linux/wait.h
++++ b/include/uapi/linux/wait.h
+@@ -9,6 +9,7 @@
+ #define WCONTINUED	0x00000008
+ #define WNOWAIT		0x01000000	/* Don't reap, just poll status.  */
+ 
++#define __WCHILDSIGINFO	0x10000000	/* Report child's siginfo. */
+ #define __WNOTHREAD	0x20000000	/* Don't wait on children of other threads in this group */
+ #define __WALL		0x40000000	/* Wait on all children, regardless of type */
+ #define __WCLONE	0x80000000	/* Wait only on non-SIGCHLD children */
+diff --git a/kernel/exit.c b/kernel/exit.c
+index d54efddd378b..70ecb996cecd 100644
+--- a/kernel/exit.c
++++ b/kernel/exit.c
+@@ -953,6 +953,7 @@ struct waitid_info {
+ 	uid_t uid;
+ 	int status;
+ 	int cause;
++	kernel_siginfo_t siginfo;
+ };
+ 
+ struct wait_opts {
+@@ -964,7 +965,7 @@ struct wait_opts {
+ 	int			wo_stat;
+ 	struct rusage		*wo_rusage;
+ 
+-	wait_queue_entry_t		child_wait;
++	wait_queue_entry_t	child_wait;
+ 	int			notask_error;
+ };
+ 
+@@ -1012,11 +1013,16 @@ static int wait_task_zombie(struct wait_opts *wo, struct task_struct *p)
+ 	int state, status;
+ 	pid_t pid = task_pid_vnr(p);
+ 	uid_t uid = from_kuid_munged(current_user_ns(), task_uid(p));
+-	struct waitid_info *infop;
++	struct waitid_info *infop = wo->wo_info;
+ 
+ 	if (!likely(wo->wo_flags & WEXITED))
+ 		return 0;
+ 
++	/* Before WNOWAIT so a copy can be extracted without reaping. */
++	if (unlikely(wo->wo_flags & __WCHILDSIGINFO)) {
++		if (infop && p->last_siginfo)
++			copy_siginfo(&infop->siginfo, p->last_siginfo);
++	}
+ 	if (unlikely(wo->wo_flags & WNOWAIT)) {
+ 		status = (p->signal->flags & SIGNAL_GROUP_EXIT)
+ 			? p->signal->group_exit_code : p->exit_code;
+@@ -1121,7 +1127,6 @@ static int wait_task_zombie(struct wait_opts *wo, struct task_struct *p)
+ 		release_task(p);
+ 
+ out_info:
+-	infop = wo->wo_info;
+ 	if (infop) {
+ 		if ((status & 0x7f) == 0) {
+ 			infop->cause = CLD_EXITED;
+@@ -1564,7 +1569,7 @@ static long kernel_waitid(int which, pid_t upid, struct waitid_info *infop,
+ 	unsigned int f_flags = 0;
+ 
+ 	if (options & ~(WNOHANG|WNOWAIT|WEXITED|WSTOPPED|WCONTINUED|
+-			__WNOTHREAD|__WCLONE|__WALL))
++			__WNOTHREAD|__WCLONE|__WALL|__WCHILDSIGINFO))
+ 		return -EINVAL;
+ 	if (!(options & (WEXITED|WSTOPPED|WCONTINUED)))
+ 		return -EINVAL;
+@@ -1638,6 +1645,10 @@ SYSCALL_DEFINE5(waitid, int, which, pid_t, upid, struct siginfo __user *,
+ 	if (!infop)
+ 		return err;
+ 
++	/* __WCHILDSIGINFO */
++	if (info->siginfo.signo)
++		return copy_siginfo_to_user(infop, &info->siginfo);
++
+ 	if (!user_write_access_begin(infop, sizeof(*infop)))
+ 		return -EFAULT;
+ 
+@@ -1781,6 +1792,12 @@ COMPAT_SYSCALL_DEFINE5(waitid,
+ 	if (!infop)
+ 		return err;
+ 
++	/* __WCHILDSIGINFO */
++	if (info->siginfo.signo)
++		return copy_siginfo_to_user32(
++				(struct compat_siginfo __user *)infop,
++				&info->siginfo);
++
+ 	if (!user_write_access_begin(infop, sizeof(*infop)))
+ 		return -EFAULT;
+ 
 
-    #define USER_DS          MAKE_MM_SEG(PAGE_OFFSET)
 
-so the user access limit was actually not really TASK_SIZE_MAX at all,
-but the beginning of the kernel mapping, which on x86-64 is much much
-higher.
+One usability question I have is:
+
+- if the process just exited normally, should it return an empty
+  siginfo, or should it ignore __WCHILDSIGINFO? (I have it ignoring it
+  above.)
+
+
+-- 
+Kees Cook
