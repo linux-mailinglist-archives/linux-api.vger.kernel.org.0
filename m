@@ -2,83 +2,55 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA0274B668B
-	for <lists+linux-api@lfdr.de>; Tue, 15 Feb 2022 09:49:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C82144B66D2
+	for <lists+linux-api@lfdr.de>; Tue, 15 Feb 2022 10:02:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232897AbiBOIte (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 15 Feb 2022 03:49:34 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:60892 "EHLO
+        id S233901AbiBOJCJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 15 Feb 2022 04:02:09 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:41090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232387AbiBOItd (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 15 Feb 2022 03:49:33 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B11271133FC;
-        Tue, 15 Feb 2022 00:49:23 -0800 (PST)
+        with ESMTP id S231453AbiBOJCI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 15 Feb 2022 04:02:08 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4091B54C8;
+        Tue, 15 Feb 2022 01:01:58 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id D4C03CE1CB0;
-        Tue, 15 Feb 2022 08:49:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D579CC340EC;
-        Tue, 15 Feb 2022 08:49:12 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2A065B80764;
+        Tue, 15 Feb 2022 09:01:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5C4EC340EC;
+        Tue, 15 Feb 2022 09:01:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1644914960;
-        bh=f/WBf8BXhnl6oLHWFWEGJp8LEjoHMw+hzylbSfqI8vw=;
+        s=k20201202; t=1644915715;
+        bh=7EejRv6u9amFqRYVYWyOD9s0dLtId/TOvvFuq30/PYk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uYiPL1F28I8AaSHXIr4Gnz7p5C7M0Qwpqs2segEiChEb802kz72kgncshaveItrxm
-         xdl0TqBo8F8e5Q9QvbxmI/hTu0PCqIWdGA7NQE2lSmHPjYnmhmMzCRQ41IeEiQsEfC
-         ZpATU9n5DAqd208xH8Xrx88lTnXzSS43iCgOF5DAi/PPjx2hXj5nfNlt85sdAZwI4B
-         FOCrUf2jIESnvuMedwlX3dM7PZUxTAF26EJTDrLK/gOhAMx3NF8L9fRyoKPKBKrqVq
-         F9Wn+3lKaTFXwQ2EBMnx1kzAUZFjeosVDVgnVsUAmod2F0GJXDikCbg5mrR/okaoyR
-         6xmSufqooLSLw==
-Date:   Tue, 15 Feb 2022 09:49:10 +0100
+        b=e4evkuJgCoF1G+Drlcz97TmsU/QuwhqKfyQrVlMFhl3+IzhR0vfhGRPu4dVsLLiSb
+         T7qgkYHFR3chK9Us2GBsqc3g8r2VutrU4BJJi9p6Eu4swXNkAgsLt1cBpOJF/lZdrx
+         P9UTZGizLEp9lJ/+zKq8nYbPFsCeoqgeboWEPG7dM+JoWUpM7OobVjHG7hrHcToQRc
+         1JK4iK4e939Fa31R3Rzwg/vH0iEVPSzFQto64WR1IQ9w2Hyg5jsKxZeL6lJDkrifNB
+         tdobEUht/pZGRNy142a3sRymPUgYpCmThE8a69ZhsxTMJ+sFPpquPHnfKCvIMGOy61
+         Vqi8Zh9bLcMig==
+Date:   Tue, 15 Feb 2022 10:01:51 +0100
 From:   Christian Brauner <brauner@kernel.org>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "jannh@google.com" <jannh@google.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>, "bp@alien8.de" <bp@alien8.de>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "arnd@arndb.de" <arnd@arndb.de>,
-        "Moreira, Joao" <joao.moreira@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "dave.martin@arm.com" <dave.martin@arm.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-Subject: Re: [PATCH 26/35] x86/process: Change copy_thread() argument 'arg'
- to 'stack_size'
-Message-ID: <20220215084910.ldsbhyizssvxvpz6@wittgenstein>
-References: <20220130211838.8382-1-rick.p.edgecombe@intel.com>
- <20220130211838.8382-27-rick.p.edgecombe@intel.com>
- <CAG48ez0_Ng8Fv4ytLK=Y5ANXiDfBPsFFwfxQTzgmDjU1RNFnDw@mail.gmail.com>
- <959707bff94b3a54f05cfcfc09fa809f08152807.camel@intel.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Andy Lutomirski <luto@amacapital.net>,
+        Robert =?utf-8?B?xZp3acSZY2tp?= <robert@swiecki.net>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Jann Horn <jannh@google.com>, Will Drewry <wad@chromium.org>,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: Re: [RFC] Get siginfo from unreaped task
+Message-ID: <20220215090151.zpatnzpvqnaeekrq@wittgenstein>
+References: <CAP145phC6S6Zda-ZWLH1s4ZfDPh79rtf_7vzs-yvt1vykUCP4A@mail.gmail.com>
+ <CF5167CE-FA1C-4CEC-9EA8-5EE8041FE7C4@amacapital.net>
+ <20220213085212.cwzuqlrabpgbnbac@wittgenstein>
+ <202202141152.6296CD7F@keescook>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <959707bff94b3a54f05cfcfc09fa809f08152807.camel@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202202141152.6296CD7F@keescook>
 X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -89,250 +61,195 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Feb 15, 2022 at 01:22:04AM +0000, Edgecombe, Rick P wrote:
-> On Mon, 2022-02-14 at 13:33 +0100, Jann Horn wrote:
-> > On Sun, Jan 30, 2022 at 10:22 PM Rick Edgecombe
-> > <rick.p.edgecombe@intel.com> wrote:
+On Mon, Feb 14, 2022 at 12:07:25PM -0800, Kees Cook wrote:
+> On Sun, Feb 13, 2022 at 09:52:12AM +0100, Christian Brauner wrote:
+> > On Sat, Feb 12, 2022 at 06:32:08PM -0800, Andy Lutomirski wrote:
 > > > 
-> > > From: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> > > > On Feb 12, 2022, at 3:24 AM, Robert Święcki <robert@swiecki.net> wrote:
+> > > > 
+> > > > ﻿sob., 12 lut 2022 o 05:28 Kees Cook <keescook@chromium.org> napisał(a):
+> > > >> 
+> > > >> Make siginfo available through PTRACE_GETSIGINFO after process death,
+> > > >> without needing to have already used PTRACE_ATTACH. Uses 48 more bytes
+> > > >> in task_struct, though I bet there might be somewhere else we could
+> > > >> stash a copy of it?
+> > > > 
+> > > > An alternative way of accessing this info could be abusing the
+> > > > waitid() interface, with some additional, custom to Linux, flag
+> > > > 
+> > > > waitid(P_ALL, 0, &si, __WCHILDSIGINFO);
+> > > > 
+> > > > which would change what is put into si.
+> > > > 
+> > > > But maybe ptrace() is better, because it's mostly incompatible with
+> > > > other OSes anyway on the behavior/flag level, while waitd() seems to
+> > > > be POSIX/BSD standard, even if Linux specifies some additional flags.
+> > > > 
+> > > > 
 > > > 
-> > > The single call site of copy_thread() passes stack size in
-> > > 'arg'.  To make
-> > > this clear and in preparation of using this argument for shadow
-> > > stack
-> > > allocation, change 'arg' to 'stack_size'.  No functional changes.
+> > > I had a kind of opposite thought, which is that it would be very nice
+> > > to be able to get all the waitid() data without reaping a process or
+> > > even necessarily being its parent.  Maybe these can be combined?  A
+> > > new waitid() option like you’re suggesting could add siginfo (and
+> > > might need permissions).  And we could have a different waitid() flag
+> > > that says “maybe not my child, don’t reap” (and also needs
+> > > permissions).
+> > > 
+> > > Although the “don’t reap” thing is fundamentally racy. What a sane
+> > > process manager actually wants is an interface to read all this info
+> > > from a pidfd, which means it all needs to get stuck in struct pid. And
 > > 
-> > Actually that name is misleading - the single caller copy_process()
-> > indeed does:
+> > /me briefly pops out from vacation
 > > 
-> > retval = copy_thread(clone_flags, args->stack, args->stack_size, p,
-> > args->tls);
+> > Agreed and not just siginfo I would expect(?). We already came to that
+> > conclusion when we first introduced them.
 > > 
-> > but the member "stack_size" of "struct kernel_clone_args" can
-> > actually
-> > also be a pointer argument given to a kthread, see create_io_thread()
-> > and kernel_thread():
+> > > task_struct needs a completion or wait queue so you can actually wait
+> > > for a pidfd to exit (unless someone already did this — I had patches a
+> > > while back).  And this would be awesome.
 > > 
-> > pid_t kernel_thread(int (*fn)(void *), void *arg, unsigned long
-> > flags)
-> > {
-> >   struct kernel_clone_args args = {
-> >     .flags    = ((lower_32_bits(flags) | CLONE_VM |
-> >             CLONE_UNTRACED) & ~CSIGNAL),
-> >     .exit_signal  = (lower_32_bits(flags) & CSIGNAL),
-> >     .stack    = (unsigned long)fn,
-> >     .stack_size  = (unsigned long)arg,
-> >   };
+> > Currently, you can wait for a pidfd to exit via polling and you can use
+> > a pidfd to pass it to waitid(P_PIDFD, pidfd, ...).
 > > 
-> >   return kernel_clone(&args);
-> > }
-> > 
-> > And then in copy_thread(), we have:
-> > 
-> > kthread_frame_init(frame, sp, arg)
-> > 
-> > 
-> > So I'm not sure whether this name change really makes sense, or
-> > whether it just adds to the confusion.
+> > /me pops back into vacation
 > 
-> Thanks Jann. Yea I guess this makes it worse.
+> Right, so waitid already has all the infrastructure for this, so I think
+> adding it there makes a lot of sense. Here's what I've got:
 > 
-> Reading a bit of the history, it seems there used to be unwieldy
-> argument lists which were replaced by a big "struct kernel_clone_args"
-> to be passed around. The re-use of the stack_size argument is from
-> before there was the struct. And then the struct just inherited the
-> confusion when it was introduced.
 > 
-> So if a separate *data member was added to kernel_clone_args for
-> kernel_thread() and create_io_thread() to use, they wouldn't need to
-> re-use stack_size. And copy_thread() could just take a struct
-> kernel_clone_args pointer. It might make it more clear.
-
-I'm honestly not sure it makes things that much better but I don't feel
-strongly about it either.
-
 > 
-> But copy_thread() has a ton of arch specific implementations. So they
-> would all need to be updated to do this.
-
-When struct kernel_clone_args was introduced I also removed the
-copy_thread_tls() and copy_thread() split. So now we're only left with
-copy_thread(). That already allowed us to get rid of some arch-specific
-code. I didn't go further in trying to unify more arch-specific code. It
-might be worth it but I didn't come to a clear conclusion.
-
-> 
-> Just playing around with it, I did this which only makes the change on
-> x86. Duplicating it for 21 copy_thread()s seems perfectly doable, but
-> I'm not sure how much people care vs renaming arg to
-> stacksize_or_data...
-
-
-> 
-> diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
-> index 11bf09b60f9d..cfbba5b14609 100644
-> --- a/arch/x86/kernel/process.c
-> +++ b/arch/x86/kernel/process.c
-> @@ -132,9 +132,8 @@ static int set_new_tls(struct task_struct *p,
-> unsigned long tls)
->                 return do_set_thread_area_64(p, ARCH_SET_FS, tls);
->  }
+> diff --git a/include/linux/sched.h b/include/linux/sched.h
+> index f5b2be39a78c..e40789e801ef 100644
+> --- a/include/linux/sched.h
+> +++ b/include/linux/sched.h
+> @@ -1178,6 +1178,7 @@ struct task_struct {
+>  #endif
+>  	/* Ptrace state: */
+>  	unsigned long			ptrace_message;
+> +	kernel_siginfo_t		death_siginfo;
+>  	kernel_siginfo_t		*last_siginfo;
 >  
-> -int copy_thread(unsigned long clone_flags, unsigned long sp,
-> -               unsigned long stack_size, struct task_struct *p,
-> -               unsigned long tls)
-> +int copy_thread(unsigned long clone_flags, struct kernel_clone_args
-> *args,
-> +               struct task_struct *p)
->  {
->         struct inactive_task_frame *frame;
->         struct fork_frame *fork_frame;
-> @@ -178,7 +177,7 @@ int copy_thread(unsigned long clone_flags, unsigned
-> long sp,
->         if (unlikely(p->flags & PF_KTHREAD)) {
->                 p->thread.pkru = pkru_get_init_value();
->                 memset(childregs, 0, sizeof(struct pt_regs));
-> -               kthread_frame_init(frame, sp, stack_size);
-> +               kthread_frame_init(frame, args->stack, (unsigned
-> long)args->data);
->                 return 0;
->         }
+>  	struct task_io_accounting	ioac;
+> diff --git a/kernel/signal.c b/kernel/signal.c
+> index 9b04631acde8..41f6ba6b7aa7 100644
+> --- a/kernel/signal.c
+> +++ b/kernel/signal.c
+> @@ -2825,6 +2825,10 @@ bool get_signal(struct ksignal *ksig)
+>  		}
 >  
-> @@ -191,8 +190,8 @@ int copy_thread(unsigned long clone_flags, unsigned
-> long sp,
->         frame->bx = 0;
->         *childregs = *current_pt_regs();
->         childregs->ax = 0;
-> -       if (sp)
-> -               childregs->sp = sp;
-> +       if (args->stack)
-> +               childregs->sp = args->stack;
+>  	fatal:
+> +		/* Allow siginfo to be queried until reaped. */
+> +		copy_siginfo(&current->death_siginfo, &ksig->info);
+> +		current->last_siginfo = &current->death_siginfo;
+> +
+>  		spin_unlock_irq(&sighand->siglock);
+>  		if (unlikely(cgroup_task_frozen(current)))
+>  			cgroup_leave_frozen(true);
+> diff --git a/include/uapi/linux/wait.h b/include/uapi/linux/wait.h
+> index 85b809fc9f11..7258cd4510ba 100644
+> --- a/include/uapi/linux/wait.h
+> +++ b/include/uapi/linux/wait.h
+> @@ -9,6 +9,7 @@
+>  #define WCONTINUED	0x00000008
+>  #define WNOWAIT		0x01000000	/* Don't reap, just poll status.  */
 >  
->  #ifdef CONFIG_X86_32
->         task_user_gs(p) = get_user_gs(current_pt_regs());
-> @@ -211,17 +210,17 @@ int copy_thread(unsigned long clone_flags,
-> unsigned long sp,
->                  */
->                 childregs->sp = 0;
->                 childregs->ip = 0;
-> -               kthread_frame_init(frame, sp, stack_size);
-> +               kthread_frame_init(frame, args->stack, (unsigned
-> long)args->data);
->                 return 0;
->         }
->  
->         /* Set a new TLS for the child thread? */
->         if (clone_flags & CLONE_SETTLS)
-> -               ret = set_new_tls(p, tls);
-> +               ret = set_new_tls(p, args->tls);
->  
->         /* Allocate a new shadow stack for pthread */
->         if (!ret)
-> -               ret = shstk_alloc_thread_stack(p, clone_flags,
-> stack_size);
-> +               ret = shstk_alloc_thread_stack(p, clone_flags, args-
-> >stack_size);
->  
->         if (!ret && unlikely(test_tsk_thread_flag(current,
-> TIF_IO_BITMAP)))
->                 io_bitmap_share(p);
-> diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
-> index b9198a1b3a84..f138b23aee50 100644
-> --- a/include/linux/sched/task.h
-> +++ b/include/linux/sched/task.h
-> @@ -34,6 +34,7 @@ struct kernel_clone_args {
->         int io_thread;
->         struct cgroup *cgrp;
->         struct css_set *cset;
-> +       void *data;
+> +#define __WCHILDSIGINFO	0x10000000	/* Report child's siginfo. */
+>  #define __WNOTHREAD	0x20000000	/* Don't wait on children of other threads in this group */
+>  #define __WALL		0x40000000	/* Wait on all children, regardless of type */
+>  #define __WCLONE	0x80000000	/* Wait only on non-SIGCHLD children */
+> diff --git a/kernel/exit.c b/kernel/exit.c
+> index d54efddd378b..70ecb996cecd 100644
+> --- a/kernel/exit.c
+> +++ b/kernel/exit.c
+> @@ -953,6 +953,7 @@ struct waitid_info {
+>  	uid_t uid;
+>  	int status;
+>  	int cause;
+> +	kernel_siginfo_t siginfo;
 >  };
 >  
->  /*
-> @@ -67,8 +68,8 @@ extern void fork_init(void);
+>  struct wait_opts {
+> @@ -964,7 +965,7 @@ struct wait_opts {
+>  	int			wo_stat;
+>  	struct rusage		*wo_rusage;
 >  
->  extern void release_task(struct task_struct * p);
+> -	wait_queue_entry_t		child_wait;
+> +	wait_queue_entry_t	child_wait;
+>  	int			notask_error;
+>  };
 >  
-> -extern int copy_thread(unsigned long, unsigned long, unsigned long,
-> -                      struct task_struct *, unsigned long);
-> +extern int copy_thread(unsigned long clone_flags, struct
-> kernel_clone_args *args,
-> +                      struct task_struct *p);
+> @@ -1012,11 +1013,16 @@ static int wait_task_zombie(struct wait_opts *wo, struct task_struct *p)
+>  	int state, status;
+>  	pid_t pid = task_pid_vnr(p);
+>  	uid_t uid = from_kuid_munged(current_user_ns(), task_uid(p));
+> -	struct waitid_info *infop;
+> +	struct waitid_info *infop = wo->wo_info;
 >  
->  extern void flush_thread(void);
+>  	if (!likely(wo->wo_flags & WEXITED))
+>  		return 0;
 >  
-> @@ -85,10 +86,10 @@ extern void exit_files(struct task_struct *);
->  extern void exit_itimers(struct signal_struct *);
+> +	/* Before WNOWAIT so a copy can be extracted without reaping. */
+> +	if (unlikely(wo->wo_flags & __WCHILDSIGINFO)) {
+> +		if (infop && p->last_siginfo)
+> +			copy_siginfo(&infop->siginfo, p->last_siginfo);
+> +	}
+>  	if (unlikely(wo->wo_flags & WNOWAIT)) {
+>  		status = (p->signal->flags & SIGNAL_GROUP_EXIT)
+>  			? p->signal->group_exit_code : p->exit_code;
+> @@ -1121,7 +1127,6 @@ static int wait_task_zombie(struct wait_opts *wo, struct task_struct *p)
+>  		release_task(p);
 >  
->  extern pid_t kernel_clone(struct kernel_clone_args *kargs);
-> -struct task_struct *create_io_thread(int (*fn)(void *), void *arg, int
-> node);
-> +struct task_struct *create_io_thread(int (*fn)(void *), void *data,
-> int node);
->  struct task_struct *fork_idle(int);
->  struct mm_struct *copy_init_mm(void);
-> -extern pid_t kernel_thread(int (*fn)(void *), void *arg, unsigned long
-> flags);
-> +extern pid_t kernel_thread(int (*fn)(void *), void *data, unsigned
-> long flags);
->  extern long kernel_wait4(pid_t, int __user *, int, struct rusage *);
->  int kernel_wait(pid_t pid, int *stat);
+>  out_info:
+> -	infop = wo->wo_info;
+>  	if (infop) {
+>  		if ((status & 0x7f) == 0) {
+>  			infop->cause = CLD_EXITED;
+> @@ -1564,7 +1569,7 @@ static long kernel_waitid(int which, pid_t upid, struct waitid_info *infop,
+>  	unsigned int f_flags = 0;
 >  
-> diff --git a/kernel/fork.c b/kernel/fork.c
-> index d75a528f7b21..8af202e5651e 100644
-> --- a/kernel/fork.c
-> +++ b/kernel/fork.c
-> @@ -2170,7 +2170,7 @@ static __latent_entropy struct task_struct
-> *copy_process(
->         retval = copy_io(clone_flags, p);
->         if (retval)
->                 goto bad_fork_cleanup_namespaces;
-> -       retval = copy_thread(clone_flags, args->stack, args-
-> >stack_size, p, args->tls);
-> +       retval = copy_thread(clone_flags, args, p);
->         if (retval)
->                 goto bad_fork_cleanup_io;
+>  	if (options & ~(WNOHANG|WNOWAIT|WEXITED|WSTOPPED|WCONTINUED|
+> -			__WNOTHREAD|__WCLONE|__WALL))
+> +			__WNOTHREAD|__WCLONE|__WALL|__WCHILDSIGINFO))
+>  		return -EINVAL;
+>  	if (!(options & (WEXITED|WSTOPPED|WCONTINUED)))
+>  		return -EINVAL;
+> @@ -1638,6 +1645,10 @@ SYSCALL_DEFINE5(waitid, int, which, pid_t, upid, struct siginfo __user *,
+>  	if (!infop)
+>  		return err;
 >  
-> @@ -2487,7 +2487,7 @@ struct mm_struct *copy_init_mm(void)
->   * The returned task is inactive, and the caller must fire it up
-> through
->   * wake_up_new_task(p). All signals are blocked in the created task.
->   */
-> -struct task_struct *create_io_thread(int (*fn)(void *), void *arg, int
-> node)
-> +struct task_struct *create_io_thread(int (*fn)(void *), void *data,
-> int node)
->  {
->         unsigned long flags =
-> CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|
->                                 CLONE_IO;
-> @@ -2496,7 +2496,7 @@ struct task_struct *create_io_thread(int
-> (*fn)(void *), void *arg, int node)
->                                     CLONE_UNTRACED) & ~CSIGNAL),
->                 .exit_signal    = (lower_32_bits(flags) & CSIGNAL),
->                 .stack          = (unsigned long)fn,
-> -               .stack_size     = (unsigned long)arg,
-> +               .data           = data,
->                 .io_thread      = 1,
->         };
+> +	/* __WCHILDSIGINFO */
+> +	if (info->siginfo.signo)
+> +		return copy_siginfo_to_user(infop, &info->siginfo);
+> +
+>  	if (!user_write_access_begin(infop, sizeof(*infop)))
+>  		return -EFAULT;
 >  
-> @@ -2594,14 +2594,14 @@ pid_t kernel_clone(struct kernel_clone_args
-> *args)
->  /*
->   * Create a kernel thread.
->   */
-> -pid_t kernel_thread(int (*fn)(void *), void *arg, unsigned long flags)
-> +pid_t kernel_thread(int (*fn)(void *), void *data, unsigned long
-> flags)
->  {
->         struct kernel_clone_args args = {
->                 .flags          = ((lower_32_bits(flags) | CLONE_VM |
->                                     CLONE_UNTRACED) & ~CSIGNAL),
->                 .exit_signal    = (lower_32_bits(flags) & CSIGNAL),
->                 .stack          = (unsigned long)fn,
-> -               .stack_size     = (unsigned long)arg,
-> +               .data           = data,
->         };
+> @@ -1781,6 +1792,12 @@ COMPAT_SYSCALL_DEFINE5(waitid,
+>  	if (!infop)
+>  		return err;
 >  
->         return kernel_clone(&args);
+> +	/* __WCHILDSIGINFO */
+> +	if (info->siginfo.signo)
+> +		return copy_siginfo_to_user32(
+> +				(struct compat_siginfo __user *)infop,
+> +				&info->siginfo);
+> +
+>  	if (!user_write_access_begin(infop, sizeof(*infop)))
+>  		return -EFAULT;
+>  
 > 
 > 
+> One usability question I have is:
+> 
+> - if the process just exited normally, should it return an empty
+>   siginfo, or should it ignore __WCHILDSIGINFO? (I have it ignoring it
+>   above.)
+
+I would model this after the regular waitid() call which seems to always
+fill in that info? But note that afaict, there is a potential behavioral
+difference between getting the siginfo from a no-reaped task and a
+reaped task now. copy_siginfo_to_user*() simply copies all of siginfo
+to the user and clears additional fields. In contrast, regular waitid()
+only fills in specific fields and leaves additional fields as they were
+before. It might not matter in practice but if you're doing this then
+this behavior should be documented on the manpage.
