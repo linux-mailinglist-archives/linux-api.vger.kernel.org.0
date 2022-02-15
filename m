@@ -2,104 +2,54 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF5AF4B6722
-	for <lists+linux-api@lfdr.de>; Tue, 15 Feb 2022 10:13:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FFBE4B6734
+	for <lists+linux-api@lfdr.de>; Tue, 15 Feb 2022 10:14:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235671AbiBOJNK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 15 Feb 2022 04:13:10 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:33540 "EHLO
+        id S235049AbiBOJOS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 15 Feb 2022 04:14:18 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:39222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233369AbiBOJNJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 15 Feb 2022 04:13:09 -0500
+        with ESMTP id S235708AbiBOJOR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 15 Feb 2022 04:14:17 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E751224BC1;
-        Tue, 15 Feb 2022 01:12:59 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2951725EA6;
+        Tue, 15 Feb 2022 01:14:07 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 637BE616C6;
-        Tue, 15 Feb 2022 09:12:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5E00C34101;
-        Tue, 15 Feb 2022 09:12:58 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B389F616BC;
+        Tue, 15 Feb 2022 09:14:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AED21C340EC;
+        Tue, 15 Feb 2022 09:14:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1644916378;
-        bh=nPLs5v71E/xzzKRq/jdD2UxtX1DBSgxHKB2i8EHy1KY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=j3kUIfoQTYxq0nCVjg3xJUAdSTCwwH8temh7NFjmZfpkIjAXQ/i5eqNNYmAAO/ny1
-         Uhrqg321bjTbiL2bLfcsiw3L/YssCCJFSkB1FTV4deiCrv9oCd+WLuGBXT1JJy17rS
-         k8cMdKEehveud6wTzU+zMEsNNO9j8HHxKx2E1NBNFWFufNsE2sT4ymojJeWA5L/d5h
-         cw/DGlUHQEdW9cC4Q+y80YkhF8+ZZBz928QLF/gO6sphG+kkzt0wgVNEOYTAhGmy7s
-         fFzb6USqyb2JRrGEB+Xy9zVF9/7CIibD5o8jjgMioj1JxGYIThdIqK2msRJNx3V5hb
-         RhnYTF7LWjKEQ==
-Received: by mail-wr1-f53.google.com with SMTP id s10so17397971wrb.1;
-        Tue, 15 Feb 2022 01:12:58 -0800 (PST)
-X-Gm-Message-State: AOAM5326jOU9poDd7nicGzGVYqcKXu6zBv1rw1GVFd7ne8SXkSFiRPjk
-        0nhHrMbsfN7Si6N9gM2CoMfhsBGks4+0R8nwRUE=
-X-Google-Smtp-Source: ABdhPJwP302M1cXBE3IXsZS/v83gWi9XJR2q13sQJhY9b6tnSpJCd4099durtVh9QEm0yhQ4WeUq4MKNAAS9P/JPfzc=
-X-Received: by 2002:adf:f6ce:: with SMTP id y14mr2380558wrp.219.1644916376776;
- Tue, 15 Feb 2022 01:12:56 -0800 (PST)
+        s=k20201202; t=1644916446;
+        bh=As0zp7KHDdXIFqtOLNpY8KtgPS637bO4Rg8goRTcRaQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MRUpR31BlYi7HvFIep1lZbT6vtfYoy8OvEcqaM0UAN2Fy8YZb7mLZAsN8nz/09WCv
+         xJC4WJUfm6LAMbsgKyASgJEyp6RKbbSqjUS0f3P342s23YlrfygrxpZb7zJcNosfVU
+         HO7WpLA65QE61OnVLDr0lIZ/r3s10WKiiwoBtpvV0d7HEhLosyZ4CzB+CY/wj9pHro
+         NDPXUiaLaREJuy2rdmM4Dvlk0R0qasdAobAMdUXmSkEbu7qhwPNR8n/ys1KMrB9tKP
+         +EJHB0LzZWcUxk7l0kt4crbzEnCFaRjmk4AHQIsW0qDp2PaMxxJR7qr3H+YxVfWFbt
+         yDsGSxAvMyOKQ==
+Date:   Tue, 15 Feb 2022 10:14:00 +0100
+From:   Christian Brauner <brauner@kernel.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Robert =?utf-8?B?xZp3acSZY2tp?= <robert@swiecki.net>,
+        Jann Horn <jannh@google.com>, Oleg Nesterov <oleg@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-api@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH 1/2] exit: Introduce __WCHILDSIGINFO for waitid
+Message-ID: <20220215091400.m4koiz4qqhgctnlx@wittgenstein>
+References: <20220214213823.3297816-1-keescook@chromium.org>
+ <20220214213823.3297816-2-keescook@chromium.org>
 MIME-Version: 1.0
-References: <20220214163452.1568807-1-arnd@kernel.org> <20220214163452.1568807-9-arnd@kernel.org>
- <CAMj1kXHixUFjV=4m3tzfGz7AiRWc-VczymbKuZq7dyZZNuLKxQ@mail.gmail.com>
-In-Reply-To: <CAMj1kXHixUFjV=4m3tzfGz7AiRWc-VczymbKuZq7dyZZNuLKxQ@mail.gmail.com>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Tue, 15 Feb 2022 10:12:40 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a2VfvDkueaJNTA9SiB+PFsi_Q17AX+aL46ueooW2ahmQw@mail.gmail.com>
-Message-ID: <CAK8P3a2VfvDkueaJNTA9SiB+PFsi_Q17AX+aL46ueooW2ahmQw@mail.gmail.com>
-Subject: Re: [PATCH 08/14] arm64: simplify access_ok()
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Christoph Hellwig <hch@lst.de>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
-        Brian Cain <bcain@codeaurora.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Michal Simek <monstr@monstr.eu>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Nick Hu <nickhu@andestech.com>,
-        Greentime Hu <green.hu@gmail.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Stafford Horne <shorne@gmail.com>,
-        Helge Deller <deller@gmx.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Rich Felker <dalias@libc.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Richard Weinberger <richard@nod.at>, X86 ML <x86@kernel.org>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        alpha <linux-alpha@vger.kernel.org>,
-        "open list:SYNOPSYS ARC ARCHITECTURE" 
-        <linux-snps-arc@lists.infradead.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-csky@vger.kernel.org,
-        "open list:QUALCOMM HEXAGON..." <linux-hexagon@vger.kernel.org>,
-        linux-ia64@vger.kernel.org,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>,
-        "open list:MIPS" <linux-mips@vger.kernel.org>,
-        Openrisc <openrisc@lists.librecores.org>,
-        "open list:PARISC ARCHITECTURE" <linux-parisc@vger.kernel.org>,
-        "open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)" 
-        <linuxppc-dev@lists.ozlabs.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        "open list:S390" <linux-s390@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        "open list:SPARC + UltraSPARC (sparc/sparc64)" 
-        <sparclinux@vger.kernel.org>,
-        linux-um <linux-um@lists.infradead.org>,
-        "open list:TENSILICA XTENSA PORT (xtensa)" 
-        <linux-xtensa@linux-xtensa.org>,
-        Robin Murphy <robin.murphy@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220214213823.3297816-2-keescook@chromium.org>
 X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -110,35 +60,159 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Feb 15, 2022 at 9:17 AM Ard Biesheuvel <ardb@kernel.org> wrote:
-> On Mon, 14 Feb 2022 at 17:37, Arnd Bergmann <arnd@kernel.org> wrote:
-> > From: Arnd Bergmann <arnd@arndb.de>
-> >
->
-> With set_fs() out of the picture, wouldn't it be sufficient to check
-> that bit #55 is clear? (the bit that selects between TTBR0 and TTBR1)
-> That would also remove the need to strip the tag from the address.
->
-> Something like
->
->     asm goto("tbnz  %0, #55, %2     \n"
->              "tbnz  %1, #55, %2     \n"
->              :: "r"(addr), "r"(addr + size - 1) :: notok);
->     return 1;
-> notok:
->     return 0;
->
-> with an additional sanity check on the size which the compiler could
-> eliminate for compile-time constant values.
+On Mon, Feb 14, 2022 at 01:38:22PM -0800, Kees Cook wrote:
+> When __WCHILDSIGINFO is specified, copy the child's siginfo into the
+> waitid infop instead of constructing the parent's SIGCHLD perspective.
+> 
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: "Eric W. Biederman" <ebiederm@xmission.com>
+> Cc: Andy Lutomirski <luto@amacapital.net>
+> Cc: "Robert Święcki" <robert@swiecki.net>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: Oleg Nesterov <oleg@redhat.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: linux-api@vger.kernel.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+>  include/linux/sched.h     |  1 +
+>  include/uapi/linux/wait.h |  1 +
+>  kernel/exit.c             | 23 +++++++++++++++++++----
+>  kernel/signal.c           |  4 ++++
+>  4 files changed, 25 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/linux/sched.h b/include/linux/sched.h
+> index f5b2be39a78c..e40789e801ef 100644
+> --- a/include/linux/sched.h
+> +++ b/include/linux/sched.h
+> @@ -1178,6 +1178,7 @@ struct task_struct {
+>  #endif
+>  	/* Ptrace state: */
+>  	unsigned long			ptrace_message;
+> +	kernel_siginfo_t		death_siginfo;
+>  	kernel_siginfo_t		*last_siginfo;
+>  
+>  	struct task_io_accounting	ioac;
+> diff --git a/include/uapi/linux/wait.h b/include/uapi/linux/wait.h
+> index 85b809fc9f11..7258cd4510ba 100644
+> --- a/include/uapi/linux/wait.h
+> +++ b/include/uapi/linux/wait.h
+> @@ -9,6 +9,7 @@
+>  #define WCONTINUED	0x00000008
+>  #define WNOWAIT		0x01000000	/* Don't reap, just poll status.  */
+>  
+> +#define __WCHILDSIGINFO	0x10000000	/* Report child's siginfo. */
+>  #define __WNOTHREAD	0x20000000	/* Don't wait on children of other threads in this group */
+>  #define __WALL		0x40000000	/* Wait on all children, regardless of type */
+>  #define __WCLONE	0x80000000	/* Wait only on non-SIGCHLD children */
+> diff --git a/kernel/exit.c b/kernel/exit.c
+> index b00a25bb4ab9..de6e024976c6 100644
+> --- a/kernel/exit.c
+> +++ b/kernel/exit.c
+> @@ -953,6 +953,7 @@ struct waitid_info {
+>  	uid_t uid;
+>  	int status;
+>  	int cause;
+> +	kernel_siginfo_t siginfo;
 
-That should work, but I don't see it as a clear enough advantage to
-have a custom implementation. For the constant-size case, it probably
-isn't better than a compiler-scheduled comparison against a
-constant limit, but it does hurt maintainability when the next person
-wants to change the behavior of access_ok() globally.
+Heh, I once got yelled at because I put siginfo in there... :)
+If this time it's acceptable it might be worth considering replacing
+some of the duplicated fields if possible. But again, on a suboptimal
+device because of vacation.
 
-If we want to get into micro-optimizing uaccess, I think a better target
-would be a CONFIG_CC_HAS_ASM_GOTO_OUTPUT version
-of __get_user()/__put_user as we have on x86 and powerpc.
+>  };
+>  
+>  struct wait_opts {
+> @@ -964,7 +965,7 @@ struct wait_opts {
+>  	int			wo_stat;
+>  	struct rusage		*wo_rusage;
+>  
+> -	wait_queue_entry_t		child_wait;
+> +	wait_queue_entry_t	child_wait;
+>  	int			notask_error;
+>  };
+>  
+> @@ -1012,11 +1013,16 @@ static int wait_task_zombie(struct wait_opts *wo, struct task_struct *p)
+>  	int state, status;
+>  	pid_t pid = task_pid_vnr(p);
+>  	uid_t uid = from_kuid_munged(current_user_ns(), task_uid(p));
+> -	struct waitid_info *infop;
+> +	struct waitid_info *infop = wo->wo_info;
+>  
+>  	if (!likely(wo->wo_flags & WEXITED))
+>  		return 0;
+>  
+> +	/* Before WNOWAIT so a copy can be extracted without reaping. */
+> +	if (unlikely(wo->wo_flags & __WCHILDSIGINFO)) {
+> +		if (infop && p->last_siginfo)
+> +			copy_siginfo(&infop->siginfo, p->last_siginfo);
+> +	}
+>  	if (unlikely(wo->wo_flags & WNOWAIT)) {
+>  		status = (p->signal->flags & SIGNAL_GROUP_EXIT)
+>  			? p->signal->group_exit_code : p->exit_code;
+> @@ -1121,7 +1127,6 @@ static int wait_task_zombie(struct wait_opts *wo, struct task_struct *p)
+>  		release_task(p);
+>  
+>  out_info:
+> -	infop = wo->wo_info;
+>  	if (infop) {
+>  		if ((status & 0x7f) == 0) {
+>  			infop->cause = CLD_EXITED;
+> @@ -1564,7 +1569,7 @@ static long kernel_waitid(int which, pid_t upid, struct waitid_info *infop,
+>  	unsigned int f_flags = 0;
+>  
+>  	if (options & ~(WNOHANG|WNOWAIT|WEXITED|WSTOPPED|WCONTINUED|
+> -			__WNOTHREAD|__WCLONE|__WALL))
+> +			__WNOTHREAD|__WCLONE|__WALL|__WCHILDSIGINFO))
+>  		return -EINVAL;
+>  	if (!(options & (WEXITED|WSTOPPED|WCONTINUED)))
+>  		return -EINVAL;
+> @@ -1637,6 +1642,10 @@ SYSCALL_DEFINE5(waitid, int, which, pid_t, upid, struct siginfo __user *,
+>  	if (!infop)
+>  		return err;
+>  
+> +	/* __WCHILDSIGINFO */
+> +	if (info.siginfo.si_signo)
+> +		return copy_siginfo_to_user(infop, &info.siginfo);
+> +
+>  	if (!user_write_access_begin(infop, sizeof(*infop)))
+>  		return -EFAULT;
+>  
+> @@ -1780,6 +1789,12 @@ COMPAT_SYSCALL_DEFINE5(waitid,
+>  	if (!infop)
+>  		return err;
+>  
+> +	/* __WCHILDSIGINFO */
+> +	if (info.siginfo.si_signo)
+> +		return copy_siginfo_to_user32(
+> +				(struct compat_siginfo __user *)infop,
+> +				&info.siginfo);
+> +
 
-         Arnd
+Just to repeat what I said in the earlier thread: if I'm not misreading
+this - I have to do this on a suboptimal device because of vacation -
+then there's a behavioral change for what fields are initialized and
+what additional fields (if any) are zeroed between a __WCHILDSIGINFO
+request and a regular waitid() request. I'm a) not sure we want this and
+b) we should document it.
+
+>  	if (!user_write_access_begin(infop, sizeof(*infop)))
+>  		return -EFAULT;
+>  
+> diff --git a/kernel/signal.c b/kernel/signal.c
+> index 9b04631acde8..41f6ba6b7aa7 100644
+> --- a/kernel/signal.c
+> +++ b/kernel/signal.c
+> @@ -2825,6 +2825,10 @@ bool get_signal(struct ksignal *ksig)
+>  		}
+>  
+>  	fatal:
+> +		/* Allow siginfo to be queried until reaped. */
+> +		copy_siginfo(&current->death_siginfo, &ksig->info);
+> +		current->last_siginfo = &current->death_siginfo;
+> +
+>  		spin_unlock_irq(&sighand->siglock);
+>  		if (unlikely(cgroup_task_frozen(current)))
+>  			cgroup_leave_frozen(true);
+> -- 
+> 2.30.2
+> 
