@@ -2,38 +2,37 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B86A4B9A4E
-	for <lists+linux-api@lfdr.de>; Thu, 17 Feb 2022 08:58:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 72ABF4B9BCA
+	for <lists+linux-api@lfdr.de>; Thu, 17 Feb 2022 10:13:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236825AbiBQH6K (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 17 Feb 2022 02:58:10 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:43842 "EHLO
+        id S236082AbiBQJOG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 17 Feb 2022 04:14:06 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:33890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236875AbiBQH6I (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Feb 2022 02:58:08 -0500
-X-Greylist: delayed 305 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 16 Feb 2022 23:57:53 PST
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DA5EE015;
-        Wed, 16 Feb 2022 23:57:52 -0800 (PST)
-Received: from mail-wr1-f54.google.com ([209.85.221.54]) by
+        with ESMTP id S229699AbiBQJOC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Feb 2022 04:14:02 -0500
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82DB9279093;
+        Thu, 17 Feb 2022 01:13:47 -0800 (PST)
+Received: from mail-wm1-f49.google.com ([209.85.128.49]) by
  mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MTRhS-1nhaUr1zAK-00TmQM; Thu, 17 Feb 2022 08:52:45 +0100
-Received: by mail-wr1-f54.google.com with SMTP id x5so2599562wrg.13;
-        Wed, 16 Feb 2022 23:52:45 -0800 (PST)
-X-Gm-Message-State: AOAM531TqIZdxzgjKe4IT23BQjAj1r63uuynd0Qg8QWg7OVn4Y2HxdBL
-        jgNv3OGPn/PBpOvnautqsDKZ5B1nfPHZOSMxt4U=
-X-Google-Smtp-Source: ABdhPJwQLFNR2EKsG8wmZOAHPh9E9pyoICR3LxZT862dIjr2W4W3Sw6yF+ayzR5i5e/QGR8IN4+3KhdYVHoGFF4fNyc=
-X-Received: by 2002:adf:ea01:0:b0:1e4:b3e6:1f52 with SMTP id
- q1-20020adfea01000000b001e4b3e61f52mr1268592wrm.317.1645084364936; Wed, 16
- Feb 2022 23:52:44 -0800 (PST)
+ id 1MbBUc-1nrlkP3FMG-00ba8D; Thu, 17 Feb 2022 10:13:45 +0100
+Received: by mail-wm1-f49.google.com with SMTP id k127-20020a1ca185000000b0037bc4be8713so5642392wme.3;
+        Thu, 17 Feb 2022 01:13:45 -0800 (PST)
+X-Gm-Message-State: AOAM530cXqInqFnRZrNHPv8F9Bv9ZU/6Nrbg1+9ZyKwZgp/QWCzhK7q4
+        a8jtrAnR1/f9sa2bnwNcvcjPnvgEc/kRcs1balk=
+X-Google-Smtp-Source: ABdhPJwu2NVHGHLxx29UDj0eC2QtTDz9ABoGgqvKd5FtPXFo3D/c1j3IHxwDsslquGRbQQhg+y3kZFZQ6qJy+rJ75Go=
+X-Received: by 2002:a05:600c:1d27:b0:37c:74bb:2b4d with SMTP id
+ l39-20020a05600c1d2700b0037c74bb2b4dmr4990966wms.82.1645085639420; Thu, 17
+ Feb 2022 00:13:59 -0800 (PST)
 MIME-Version: 1.0
-References: <20220216131332.1489939-1-arnd@kernel.org> <20220216131332.1489939-14-arnd@kernel.org>
-In-Reply-To: <20220216131332.1489939-14-arnd@kernel.org>
+References: <20220216131332.1489939-1-arnd@kernel.org>
+In-Reply-To: <20220216131332.1489939-1-arnd@kernel.org>
 From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 17 Feb 2022 08:52:29 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a2T1Xr80GeM-3p1riyq=gKDJGeKVz_c5=r5=s14tXimLw@mail.gmail.com>
-Message-ID: <CAK8P3a2T1Xr80GeM-3p1riyq=gKDJGeKVz_c5=r5=s14tXimLw@mail.gmail.com>
-Subject: Re: [PATCH v2 13/18] uaccess: generalize access_ok()
+Date:   Thu, 17 Feb 2022 09:13:43 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a3QBWDYjr6VpPdjTBGFg88DdH3SHVgxEowgScgJOkNguQ@mail.gmail.com>
+Message-ID: <CAK8P3a3QBWDYjr6VpPdjTBGFg88DdH3SHVgxEowgScgJOkNguQ@mail.gmail.com>
+Subject: Re: [PATCH v2 00/18] clean up asm/uaccess.h, kill set_fs for good
 To:     Linus Torvalds <torvalds@linux-foundation.org>,
         Christoph Hellwig <hch@lst.de>,
         linux-arch <linux-arch@vger.kernel.org>,
@@ -84,23 +83,23 @@ Cc:     Russell King - ARM Linux <linux@armlinux.org.uk>,
         "open list:TENSILICA XTENSA PORT (xtensa)" 
         <linux-xtensa@linux-xtensa.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:6qcGhdTsQQvMIjB+11ipNF1DrG+OLInVcjYi4AXjSR4T+7w4a4G
- tvj/SU8V3XwoOWQPVG9LxfZPKnFfLZip/Q4k4pg7UiCm4QGSGIJG0sIDDl9GKfICP6+qAIY
- 2+TUcn5VnZN+i0sxBK5Yt242p2TWzmOaCg69Dt9OeqZlWdjtizeah9g/3PjyvE9B+9lCD1L
- cKNv6Z/s/LgftziOoQUwQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:3CQ1JAQGrF0=:m+j1qyGbULyUrnu+pAp/L7
- aw2zyOJvMBLpw9qPx/a/bOtMxNuxcAk4Jy9S5iNS3gwExa9IDRJeCo9FzAcs5CkTmB8as+kq2
- pw5HGfQzw8FU3GUy3sY6zV0y6wbve29dF/0lUxWFW9AX73dPVIcVOLHIJReSQ6uRCx9XL6HEz
- QYbG3u6zOALJFWaHRDLwwN36S51Yf82lrMKvYa2X/WzbS27K1K7Oo1Mxpwwl5NEBDT65a0Q43
- OjUKlX4MhriB2rc4v2vm0fRspANdluMzAzzaW4nuy4UrcwYPDM+hyz9ml5dyDcc3rynlbBdSO
- XkAjx5LNO5eUkjbT+WkGwIWQZ5M+eFbVvZINJV1j9hfgXbS4vuU0lUjecWPH+e38xlkQj1QB0
- bbZ+73nYCnC4RWT6Tq1g3Ogu/velbg4oNCi5rcTpkkzoOD/jkBCylL4lG7VcbVV+XYKeknUZH
- hgpO2NaBKeXLaUjHHQKcTUmEoCEikK6Au956S8X1Wh0TQ4TTv8ERW0C0OF4BTSCCJmgrSv1TX
- IEGgutddy0JqQM9rEBMu1srM45PA/+NAose2E/g7I0GcEZXhdCudb+qW7KR/q60qDbrxbIQFb
- yyrEqvFWqMKjAU058gdzCyKQPyNg2dqGSlDQ25u81S5XpvSaQlxlFyo3c79bak+h9fAukbbkS
- oZ0bFwa97SwaIdtR17B6CX9hjxNTXJzgOJRPcHEUddroS2hHh4wZjyeYH/ZHn9DnVXm1jxcT8
- KrRtnkWhcRc6GiHQtcdftL3xV9SeeCOB0j6P03kbC5JMDBruIYMMR51bo20MnVDNE4yXDkRLb
- q8X7G+we4HTJA8p7nK4nn4s6ubx3+CJAbJUDq0nN/UzZpW5HSs=
+X-Provags-ID: V03:K1:DWw8/YboN0VA6d+k6fSV83nQbC/ZW2wmQtyWyNvQRDOztud3WQ1
+ AnIMws496a5T5xk4vOXJvIH3ubEyigceAA3MZmosjx3t/8wYb2bAkyFAHAnlH/gXyXoO4MC
+ 6OXbGHp0kRSDSXaSqC/pBLsY/XbPRAn4510M1I/nBvX1e+0Sh7I2brZBCtBQBKMNI/DlCeC
+ ATdzznqt6hmKNtUzV76jA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:bCDoBw/rSs4=:7ZpiywYHjbn9ofMCGDNfAY
+ ZmaKOeukHz/i1FvEWeUnFD0+Ss3VsIj+ifgbYRpWCti0Gh1IkbQlObrmQEtIgfRfm09n5f5H4
+ juKvdnlr6upa6dkn0Kj1+Mjv86NpYedKVeAEuDu5MmJ4Uled5HrF9cMkpAK/McqYRWq65wjK2
+ 40dWs0HF+wIXDWq+qoskgDMIWBSlXVlHAUSamn5ghAWxS0kcMHW5ns/O2yCI0+XAI4Ra4U5qY
+ HEaJOLhW0PC35eAPWAU3/ztD54YhNmPLbODiw0iipIV0rBLsFx5ZxvJaiZnQte52YfmeUFgUa
+ k3PaKnQXm27l+0veXT+nctw37AC5BwVknsgEXLNPiKJIol6HbJ8J5t5PcZ1D/QOmTdjGeO4AR
+ 0g9GN43ocXW4LVZkCjdxmPh1EG9Dk93/krP1UZogxKLIuXKk9uiaeM2q5KYryQPPC0eBnERKW
+ 3aoGe/Vd2e1PtAgwFISoQ2Mc60EDRajfVEmwNsc+ZJ6F5QuDc3GVdc3LMXbLgXPuJp/Bk1T54
+ uug2aTPCPctCC0Kjkmvd9xxC4jsLMx7x9CtymMugFg8Eje946mauR1ArtzUQgTpwn/vFVpWsa
+ 6zHXLMQg52xS3vcAZUlA9niqd26IcwOShz2/29sRFEZzp0qYv8frWdS2Wk7OX3BZ3GUjJgKsz
+ BqJiQVW7t8fuf17y2qd8J7A5Sh8nQIpBxE9ZqAULMxjdpJ8zdo1SRttVQbE6L29lIFc94t+fu
+ X7JFQ1XAR4JQV5MIV4VE+QhO0Utkv4QnwYspZJXM10rUIJe63cIUNIri6hGTrZoHv8NGMVgCk
+ n8pRSzEIvcv/sRuJ686AST0gjiFHSTP64ColJil/N3M5h5gr6sojMyFYJXE6I+FXI0acF0k
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
         RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
@@ -112,20 +111,30 @@ List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
 On Wed, Feb 16, 2022 at 2:13 PM Arnd Bergmann <arnd@kernel.org> wrote:
+>
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> Christoph Hellwig and a few others spent a huge effort on removing
+> set_fs() from most of the important architectures, but about half the
+> other architectures were never completed even though most of them don't
+> actually use set_fs() at all.
+>
+> I did a patch for microblaze at some point, which turned out to be fairly
+> generic, and now ported it to most other architectures, using new generic
+> implementations of access_ok() and __{get,put}_kernel_nocheck().
+>
+> Three architectures (sparc64, ia64, and sh) needed some extra work,
+> which I also completed.
+>
+> The final series contains extra cleanup changes that touch all
+> architectures. Please review and test these, so we can merge them
+> for v5.18.
+>
+> The series is available at
+> https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git/log/?h=set_fs-2
+> for testing.
 
-> + * limit and catch all possible overflows.
-> + * On architectures with separate user address space (m68k, s390, parisc,
-> + * sparc64) or those without an MMU, this should always return true.
-...
-> +static inline int __access_ok(const void __user *ptr, unsigned long size)
-> +{
-> +       unsigned long limit = user_addr_max();
-> +       unsigned long addr = (unsigned long)ptr;
-> +
-> +       if (IS_ENABLED(CONFIG_ALTERNATE_USER_ADDRESS_SPACE))
-> +               return true;
+I've added the updated contents to my asm-generic tree now to put them
+into linux-next.
 
-I noticed that I'm missing the check for !CONFIG_MMU here, despite
-mentioning that in the comment above it. I've added it now.
-
-        Arnd
+         Arnd
