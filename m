@@ -2,213 +2,119 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 879B54B9EB8
-	for <lists+linux-api@lfdr.de>; Thu, 17 Feb 2022 12:34:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 58FC34BA095
+	for <lists+linux-api@lfdr.de>; Thu, 17 Feb 2022 14:07:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239783AbiBQLeS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 17 Feb 2022 06:34:18 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:34410 "EHLO
+        id S240652AbiBQNHQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 17 Feb 2022 08:07:16 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:40832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235040AbiBQLeR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Feb 2022 06:34:17 -0500
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDAB12722D0
-        for <linux-api@vger.kernel.org>; Thu, 17 Feb 2022 03:34:01 -0800 (PST)
-Received: by mail-ej1-x630.google.com with SMTP id hw13so6462701ejc.9
-        for <linux-api@vger.kernel.org>; Thu, 17 Feb 2022 03:34:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=LIJbkcpxWhEu+HDqv6mv/542M4vTfuWftkC1BaPuPbU=;
-        b=TbT4HVYGoCKKxlNKiPmpU3SWwZu5CDTjF38mWAh6T0DazaZgHk+5lHNO40yFFoCoTJ
-         IhX5v53CL1y0eY6Bdqq1t2Zih8HsaZ0p9WiMQHisl/7D5UNkZv20RitrLquvOEsp7uZ8
-         2UOrYUbwo+MkwjM2gosoNiJxw+R7zAXFc42lLSMGTafO8g3dSGIgRFgCj0kPS5WGaJmq
-         OGUcbMkoR6mS7EZ9CLLKNKC4g+4cwCCWM2lYGVH8WGBInhQkswKz3DmFM6AnpiEF4tr8
-         WalK7TefoPlqQBGrhd9NNSP8YyvXhC6UAYqJ2+qziFFn8PPn+bfEI9C2KIcYA2gBPfKA
-         5dKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=LIJbkcpxWhEu+HDqv6mv/542M4vTfuWftkC1BaPuPbU=;
-        b=VRHeStxrMqHlC3E8h5eRp9Qn3WHnb/8WZIraMaJvtnmdCdJVY/smCJBT+TlI24z5Kb
-         B84r03g5ziEKoMQKECqNpBfw0Q6g+2NUW1yMoCwZad+9Ks39l0jA2RqPRRuu2I8RytVO
-         +kfRlKsR0YBEWd5cT8AIo276TdNgmiOYpaDf5waI1UjNJbrHhTD/fTUgBNVpiuQqChY3
-         1QQAPeiSQDgAtRe8f6DqUnv6H+hSZV3R6gOC1Uz6LJnceyWa58HWsW67Ql7LT12j+oyG
-         l8eo4jWSp0vHB30jKP/UjRzioZen2WaZ4aLOsPxLDjWZOBJKLnGPT4FjWeJM9qoJnPVE
-         30OA==
-X-Gm-Message-State: AOAM532GHWx3zM3UAKMHEa4iey+ypEZUyo4l6Q0QmFkElerjgT4khDpm
-        GXIFuS7bxXZESoMNF0JmIVCDgQ==
-X-Google-Smtp-Source: ABdhPJw4Erll/uCqjzTBT96QBBylhZa1svkxPBZvtY01p3v7Q1PQeyr8NcLtaKJsoJkrerC/ucp6eA==
-X-Received: by 2002:a17:906:b57:b0:6ce:e31a:524 with SMTP id v23-20020a1709060b5700b006cee31a0524mr1969824ejg.290.1645097640461;
-        Thu, 17 Feb 2022 03:34:00 -0800 (PST)
-Received: from [192.168.1.9] (hst-221-75.medicom.bg. [84.238.221.75])
-        by smtp.googlemail.com with ESMTPSA id u4sm1076625ejn.216.2022.02.17.03.33.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Feb 2022 03:33:59 -0800 (PST)
-Message-ID: <55dbdf8b-290c-85ff-235e-9e5649540b6e@linaro.org>
-Date:   Thu, 17 Feb 2022 13:33:58 +0200
+        with ESMTP id S240647AbiBQNHP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Feb 2022 08:07:15 -0500
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50D50105A9D;
+        Thu, 17 Feb 2022 05:07:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1645103221; x=1676639221;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=xA8H4mCuPL0+Y5H2RRjONOFAaibouE9qYQsummWmUDo=;
+  b=aMNw7pRa+alHrCvUlPZSDNgXHuOgdVAYpRvtWtRYfQg8WRw8AXq72jmh
+   VRbPq0FdNtsyadDd/CuUxZ9cM/bdvP6d7/HKJ0DzM1RtKNNQky/1N0kD+
+   DxNK6T172poY8G9eRhOLRqpYvavLamNNSg7P12UxRRmqj+LETEYz7zDSQ
+   7u5OrHpqUn/VFu9N8OKfipFYEOKkl18iPI9rjporPOBrow12eeHol2sll
+   eBP1h231szuwPPwTRe44InuTf7f+EUpMxoxs4Eq4pRXRKLRv9i92roUPM
+   GhKGZTjWUTlJLPeE4IATQAjT2JC9xj2DMmu5+M17tSDeOkoUjaiVsQq5B
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="230830598"
+X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; 
+   d="scan'208";a="230830598"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2022 05:07:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; 
+   d="scan'208";a="704790168"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+  by orsmga005.jf.intel.com with ESMTP; 17 Feb 2022 05:06:52 -0800
+Date:   Thu, 17 Feb 2022 21:06:31 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        qemu-devel@nongnu.org, Linux API <linux-api@vger.kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com
+Subject: Re: [PATCH v4 01/12] mm/shmem: Introduce F_SEAL_INACCESSIBLE
+Message-ID: <20220217130631.GB32679@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
+ <20220118132121.31388-2-chao.p.peng@linux.intel.com>
+ <619547ad-de96-1be9-036b-a7b4e99b09a6@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 5/6] venus: Add a handling of QC10C compressed format
-Content-Language: en-US
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-Cc:     hverkuil-cisco@xs4all.nl
-References: <20220117155559.234026-1-stanimir.varbanov@linaro.org>
- <20220117155559.234026-6-stanimir.varbanov@linaro.org>
- <4e1cc50854da4075fc7ebf71e24aa8372905c668.camel@ndufresne.ca>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-In-Reply-To: <4e1cc50854da4075fc7ebf71e24aa8372905c668.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <619547ad-de96-1be9-036b-a7b4e99b09a6@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-
-
-On 2/16/22 18:20, Nicolas Dufresne wrote:
-> Le lundi 17 janvier 2022 à 17:55 +0200, Stanimir Varbanov a écrit :
->> This adds QC10C compressed pixel format in the Venus driver, and
->> make it possible to discover from v4l2 clients.
->>
->> Note: The QC10C format shouldn't be possible to discpver by the
+On Fri, Feb 11, 2022 at 03:33:35PM -0800, Andy Lutomirski wrote:
+> On 1/18/22 05:21, Chao Peng wrote:
+> > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> > 
+> > Introduce a new seal F_SEAL_INACCESSIBLE indicating the content of
+> > the file is inaccessible from userspace through ordinary MMU access
+> > (e.g., read/write/mmap). However, the file content can be accessed
+> > via a different mechanism (e.g. KVM MMU) indirectly.
+> > 
+> > It provides semantics required for KVM guest private memory support
+> > that a file descriptor with this seal set is going to be used as the
+> > source of guest memory in confidential computing environments such
+> > as Intel TDX/AMD SEV but may not be accessible from host userspace.
+> > 
+> > At this time only shmem implements this seal.
+> > 
 > 
-> discpver -> discover
-> 
-> It is not super clear though, did you mean to say that it won't be enumerated
-> after the header have been parsed ?
+> I don't dislike this *that* much, but I do dislike this. F_SEAL_INACCESSIBLE
+> essentially transmutes a memfd into a different type of object.  While this
+> can apparently be done successfully and without races (as in this code),
+> it's at least awkward.  I think that either creating a special inaccessible
+> memfd should be a single operation that create the correct type of object or
+> there should be a clear justification for why it's a two-step process.
 
-The opposite. It will be enumerable by the client only after parsing the
-header.
+Now one justification maybe from Stever's comment to patch-00: for ARM
+usage it can be used with creating a normal memfd, (partially)populate
+it with initial guest memory content (e.g. firmware), and then
+F_SEAL_INACCESSIBLE it just before the first time lunch of the guest in
+KVM (definitely the current code needs to be changed to support that).
 
+Thanks,
+Chao
 > 
->> client if the decoded bitstream is not 10-bits.
->>
->> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->> ---
->>  drivers/media/platform/qcom/venus/helpers.c | 26 ++++-----------------
->>  drivers/media/platform/qcom/venus/vdec.c    | 19 ++++++++++++---
->>  2 files changed, 20 insertions(+), 25 deletions(-)
->>
->> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
->> index adbfa4fbe139..69a9a9471a27 100644
->> --- a/drivers/media/platform/qcom/venus/helpers.c
->> +++ b/drivers/media/platform/qcom/venus/helpers.c
->> @@ -594,6 +594,8 @@ static u32 to_hfi_raw_fmt(u32 v4l2_fmt)
->>  		return HFI_COLOR_FORMAT_NV21;
->>  	case V4L2_PIX_FMT_QC08C:
->>  		return HFI_COLOR_FORMAT_NV12_UBWC;
->> +	case V4L2_PIX_FMT_QC10C:
->> +		return HFI_COLOR_FORMAT_YUV420_TP10_UBWC;
->>  	default:
->>  		break;
->>  	}
->> @@ -1176,7 +1178,8 @@ int venus_helper_set_format_constraints(struct venus_inst *inst)
->>  	if (!IS_V6(inst->core))
->>  		return 0;
->>  
->> -	if (inst->opb_fmt == HFI_COLOR_FORMAT_NV12_UBWC)
->> +	if (inst->opb_fmt == HFI_COLOR_FORMAT_NV12_UBWC ||
->> +	    inst->opb_fmt == HFI_COLOR_FORMAT_YUV420_TP10_UBWC)
->>  		return 0;
->>  
->>  	pconstraint.buffer_type = HFI_BUFFER_OUTPUT2;
->> @@ -1747,27 +1750,6 @@ int venus_helper_get_out_fmts(struct venus_inst *inst, u32 v4l2_fmt,
->>  	if (!caps)
->>  		return -EINVAL;
->>  
->> -	if (inst->bit_depth == VIDC_BITDEPTH_10 &&
->> -	    inst->session_type == VIDC_SESSION_TYPE_DEC) {
->> -		found_ubwc =
->> -			find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT,
->> -					   HFI_COLOR_FORMAT_YUV420_TP10_UBWC);
->> -		found = find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT2,
->> -					   HFI_COLOR_FORMAT_NV12);
->> -		if (found_ubwc && found) {
->> -			/*
->> -			 * Hard-code DPB buffers to be 10bit UBWC and decoder
->> -			 * output buffers in 8bit NV12 until V4L2 is able to
->> -			 * expose compressed/tiled formats to applications.
->> -			 */
->> -			*out_fmt = HFI_COLOR_FORMAT_YUV420_TP10_UBWC;
->> -			*out2_fmt = HFI_COLOR_FORMAT_NV12;
->> -			return 0;
->> -		}
->> -
->> -		return -EINVAL;
->> -	}
->> -
->>  	if (ubwc) {
->>  		ubwc_fmt = fmt | HFI_COLOR_FORMAT_UBWC_BASE;
->>  		found_ubwc = find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT,
->> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
->> index eb02e45a512b..c8261c6cb0fb 100644
->> --- a/drivers/media/platform/qcom/venus/vdec.c
->> +++ b/drivers/media/platform/qcom/venus/vdec.c
->> @@ -35,6 +35,10 @@ static const struct venus_format vdec_formats[] = {
->>  		.num_planes = 1,
->>  		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
->>  	}, {
->> +		.pixfmt = V4L2_PIX_FMT_QC10C,
->> +		.num_planes = 1,
->> +		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
->> +	},{
->>  		.pixfmt = V4L2_PIX_FMT_NV12,
->>  		.num_planes = 1,
->>  		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
->> @@ -114,6 +118,10 @@ find_format(struct venus_inst *inst, u32 pixfmt, u32 type)
->>  	    !venus_helper_check_format(inst, fmt[i].pixfmt))
->>  		return NULL;
->>  
->> +	if (V4L2_TYPE_IS_CAPTURE(type) && fmt[i].pixfmt == V4L2_PIX_FMT_QC10C &&
->> +	    !(inst->bit_depth == VIDC_BITDEPTH_10))
->> +		return NULL;
->> +
->>  	return &fmt[i];
->>  }
->>  
->> @@ -133,11 +141,16 @@ find_format_by_index(struct venus_inst *inst, unsigned int index, u32 type)
->>  		if (fmt[i].type != type)
->>  			continue;
->>  
->> -		if (V4L2_TYPE_IS_OUTPUT(type))
->> +		if (V4L2_TYPE_IS_OUTPUT(type)) {
->>  			valid = venus_helper_check_codec(inst, fmt[i].pixfmt);
->> -		else if (V4L2_TYPE_IS_CAPTURE(type))
->> +		} else if (V4L2_TYPE_IS_CAPTURE(type)) {
->>  			valid = venus_helper_check_format(inst, fmt[i].pixfmt);
->>  
->> +			if (fmt[i].pixfmt == V4L2_PIX_FMT_QC10C &&
->> +			    !(inst->bit_depth == VIDC_BITDEPTH_10))
->> +				valid = false;
->> +		}
->> +
->>  		if (k == index && valid)
->>  			break;
->>  		if (valid)
->> @@ -1537,7 +1550,7 @@ static const struct hfi_inst_ops vdec_hfi_ops = {
->>  static void vdec_inst_init(struct venus_inst *inst)
->>  {
->>  	inst->hfi_codec = HFI_VIDEO_CODEC_H264;
->> -	inst->fmt_out = &vdec_formats[7];
->> +	inst->fmt_out = &vdec_formats[8];
->>  	inst->fmt_cap = &vdec_formats[0];
->>  	inst->width = frame_width_min(inst);
->>  	inst->height = ALIGN(frame_height_min(inst), 32);
-> 
-
--- 
-regards,
-Stan
+> (Imagine if the way to create an eventfd would be to call timerfd_create()
+> and then do a special fcntl to turn it into an eventfd but only if it's not
+> currently armed.  This would be weird.)
