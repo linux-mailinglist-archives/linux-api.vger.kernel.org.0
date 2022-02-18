@@ -2,112 +2,63 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AB834BBF01
-	for <lists+linux-api@lfdr.de>; Fri, 18 Feb 2022 19:07:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CF6974BC1B7
+	for <lists+linux-api@lfdr.de>; Fri, 18 Feb 2022 22:17:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238943AbiBRSHj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 18 Feb 2022 13:07:39 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:41838 "EHLO
+        id S239534AbiBRVQK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 18 Feb 2022 16:16:10 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:42126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238946AbiBRSHi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 18 Feb 2022 13:07:38 -0500
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 547B71D9644
-        for <linux-api@vger.kernel.org>; Fri, 18 Feb 2022 10:07:20 -0800 (PST)
-Received: by mail-ed1-x52f.google.com with SMTP id u18so16835106edt.6
-        for <linux-api@vger.kernel.org>; Fri, 18 Feb 2022 10:07:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3DIqXxPmp6dtbTijOx2KTFQ/AdtfYUTWecKVh7q3dDI=;
-        b=5c/qRto3YK3Y6/Rhnnpp4RzKmf8QhiKseObhkqXIpnLfhpnv2ua8Z7YCExbmjSYUCG
-         SbBSycxSpm4FRe5zOaxst92xyRDLRie0B4d4p8x0W6snNr+dG6MghxLfcakTWMQA17Pf
-         gOp7JS9gIpdJumtDaMv9IluyX8dB5LI5eLR/YC2U+D7T5N3aQr9NOYHAOP982E02xanw
-         SC1uTLhbyKEp3+LiMa1bFSquyveVGLxTCPf/eSvmTiEZzxEI+wIe4AMdv5VgRD2GYf6G
-         kO3gnVVxKK1wWuKxjcQ5nhLyDgmj/c1nxTJoqfRQTmuVCBNlEZ4IpVOo74LURbiOVsEg
-         CBWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3DIqXxPmp6dtbTijOx2KTFQ/AdtfYUTWecKVh7q3dDI=;
-        b=q5reeKvUkJyvE3aGuAuPOma50lSnMlZyBnpPDnccQoYkvSHW2HsX2fwnJscTb4rnBE
-         S8TphAJ1kzpb2uz+sJR5EZ9vzqUGKqgphZv7D+GTourjHcpe6Ffu+NfgQBzyXOsQeRtc
-         YdoVGo5mSySTrPYg1sqRTXM6D6HXGpcWFmtsBuzogZ4ddUan7litkwkGKuW3pAN2lj+f
-         2+qEXtElb/is+6dU31KxAn4BZCXQDkBfLd4fcFUiwtha4jkyPXHpei1HpyN0V0TFx6oI
-         PCaIZkRLeNBs8BUSJS9rODNi+LFFBBgxNfPiUUCcwhDT5mjRwrSCaWVs07HdtdBDg5H4
-         N9oA==
-X-Gm-Message-State: AOAM533hBWDC/YYNXQnSa6NzP8dXNEDTtU4WAEhnrcPBFM69qeekzCUm
-        /LDaJhRO3Jn7WwPJ+JhyNZM0ck84FN2fdByRYm+FHQ==
-X-Google-Smtp-Source: ABdhPJzKi9/dAquBFvy+ZlpESpcVBT1I3X4XtLJClo2SaEqFpqb8kdqwnL9Fphl8e/qcsjqeDfp/tX4JIrAspWajnck=
-X-Received: by 2002:a05:6402:430f:b0:410:a082:c6da with SMTP id
- m15-20020a056402430f00b00410a082c6damr9386454edc.438.1645207638871; Fri, 18
- Feb 2022 10:07:18 -0800 (PST)
-MIME-Version: 1.0
-References: <20220216131332.1489939-1-arnd@kernel.org> <20220216131332.1489939-14-arnd@kernel.org>
- <CALCETrVOvYPN4_6hS8wpm2v9bGZupZ5x4=vZAseG57OUgvLGfw@mail.gmail.com> <93a1ee797e9d4f789dff85a3c0f0c232@AcuMS.aculab.com>
-In-Reply-To: <93a1ee797e9d4f789dff85a3c0f0c232@AcuMS.aculab.com>
-From:   Andy Lutomirski <luto@amacapital.net>
-Date:   Fri, 18 Feb 2022 10:07:07 -0800
-Message-ID: <CALCETrWTB65vJXsQTPd_o7BRoSU=uqD0pFzKS+r4YgDuiCCqaQ@mail.gmail.com>
-Subject: Re: [PATCH v2 13/18] uaccess: generalize access_ok()
-To:     David Laight <David.Laight@aculab.com>
-Cc:     Arnd Bergmann <arnd@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Christoph Hellwig <hch@lst.de>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
-        "will@kernel.org" <will@kernel.org>,
-        "guoren@kernel.org" <guoren@kernel.org>,
-        "bcain@codeaurora.org" <bcain@codeaurora.org>,
-        "geert@linux-m68k.org" <geert@linux-m68k.org>,
-        "monstr@monstr.eu" <monstr@monstr.eu>,
-        "tsbogend@alpha.franken.de" <tsbogend@alpha.franken.de>,
-        "nickhu@andestech.com" <nickhu@andestech.com>,
-        "green.hu@gmail.com" <green.hu@gmail.com>,
-        "dinguyen@kernel.org" <dinguyen@kernel.org>,
-        "shorne@gmail.com" <shorne@gmail.com>,
-        "deller@gmx.de" <deller@gmx.de>,
-        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "hca@linux.ibm.com" <hca@linux.ibm.com>,
-        "dalias@libc.org" <dalias@libc.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "richard@nod.at" <richard@nod.at>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "jcmvbkbc@gmail.com" <jcmvbkbc@gmail.com>,
-        "ebiederm@xmission.com" <ebiederm@xmission.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "ardb@kernel.org" <ardb@kernel.org>,
-        "linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>,
-        "linux-snps-arc@lists.infradead.org" 
-        <linux-snps-arc@lists.infradead.org>,
-        "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
-        "linux-hexagon@vger.kernel.org" <linux-hexagon@vger.kernel.org>,
-        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
-        "linux-m68k@lists.linux-m68k.org" <linux-m68k@lists.linux-m68k.org>,
-        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
-        "openrisc@lists.librecores.org" <openrisc@lists.librecores.org>,
-        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>,
-        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
-        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
-        "linux-xtensa@linux-xtensa.org" <linux-xtensa@linux-xtensa.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        with ESMTP id S236333AbiBRVQJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 18 Feb 2022 16:16:09 -0500
+Received: from mail.efficios.com (mail.efficios.com [167.114.26.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D662023DCDF;
+        Fri, 18 Feb 2022 13:15:49 -0800 (PST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 25E573BA77A;
+        Fri, 18 Feb 2022 16:06:43 -0500 (EST)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id Kw0NzY-6FgDp; Fri, 18 Feb 2022 16:06:42 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 78C833BA579;
+        Fri, 18 Feb 2022 16:06:42 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 78C833BA579
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1645218402;
+        bh=10jACHExCr29lZJSF+RqFchPVJPsovh4LMgPAKY+QjM=;
+        h=From:To:Date:Message-Id;
+        b=kUqJoY3rr967uyTbjvfdYnHXDkESx5qxmPybjTW18Q7x+Zg5+41scdj/CTGoHlksg
+         g3LHEuNioZugkASqeHjoFdGCL11FkGNhLoEIZKCucSXiDnXtbvcZ6IBz4uQfEu1841
+         LdGwsvS0gobtDek33SBifsBtaed5lOZe53QHNf60SaIKx2+duMrjO7fszi+a2fSGlp
+         gMn+F5ZA1cOB/nAzQ8t/41s0KVaWQ0NbiJf3TRr0MqTyePY7JctGh7eDTRmJYQ4Tcx
+         F9MBYmmJCOs/l3/cxfkAvLp4f1N0rkxPZ2To4HWp3JQPMEkwt1kGZBOM8dMSpQPYwR
+         uZWQ6e8nwuxxg==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id AcNg9HfHBGDg; Fri, 18 Feb 2022 16:06:42 -0500 (EST)
+Received: from localhost.localdomain (192-222-180-24.qc.cable.ebox.net [192.222.180.24])
+        by mail.efficios.com (Postfix) with ESMTPSA id 03CC53BA922;
+        Fri, 18 Feb 2022 16:06:41 -0500 (EST)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api@vger.kernel.org,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Florian Weimer <fw@deneb.enyo.de>, David.Laight@ACULAB.COM,
+        carlos@redhat.com, Peter Oskolkov <posk@posk.io>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: [RFC PATCH v2 00/11] RSEQ node id and virtual cpu id extensions
+Date:   Fri, 18 Feb 2022 16:06:22 -0500
+Message-Id: <20220218210633.23345-1-mathieu.desnoyers@efficios.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -115,40 +66,72 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Feb 18, 2022 at 1:30 AM David Laight <David.Laight@aculab.com> wrote:
->
-> From: Andy Lutomirski
-> > Sent: 17 February 2022 19:15
-> ...
-> > This isn't actually optimal.  On x86, TASK_SIZE_MAX is a bizarre
-> > constant that has a very specific value to work around a bug^Wdesign
-> > error^Wfeature of Intel CPUs.  TASK_SIZE_MAX is the maximum address at
-> > which userspace is permitted to allocate memory, but there is a huge
-> > gap between user and kernel addresses, and any value in the gap would
-> > be adequate for the comparison.  If we wanted to optimize this, simply
-> > checking the high bit (which x86 can do without any immediate
-> > constants at all) would be sufficient and, for an access known to fit
-> > in 32 bits, one could get even fancier and completely ignore the size
-> > of the access.  (For accesses not known to fit in 32 bits, I suspect
-> > some creativity could still come up with a construction that's
-> > substantially faster than the one in your patch.)
-> >
-> > So there's plenty of room for optimization here.
-> >
-> > (This is not in any respect a NAK -- it's just an observation that
-> > this could be even better.)
->
-> For 64bit arch that use the top bit to separate user/kernel
-> you can test '(addr | size) >> 62)'.
-> The compiler optimises out constant sizes.
->
-> This has all been mentioned a lot of times.
-> You do get different fault types.
->
-> OTOH an explicit check for constant size (less than something big)
-> can use the cheaper test of the sign bit.
-> Big constant sizes could be compile time errors.
+Hi,
 
-The different fault type issue may well be a real problem.  Right now
-the core x86 fault code reserves the right to grouch if we get #GP
-instead of #PF.  We could change that.
+I'm sending this series for feedback. There appears to be a lot of
+interest in the virtual cpu id feature for use in user-space memory
+allocators (e.g. glibc malloc), so I am sending this out as RFC.
+
+The most interesting patch in here is "sched: Introduce per memory space
+current virtual cpu id". So if you want to jump to the meat, go
+immediately to that patch.
+
+This series is based on the tip tree core/sched branch [1] at commit
+ed3b362d54f0 ("sched/isolation: Split housekeeping cpumask per isolation
+features").
+
+Feedback is welcome!
+
+Thanks,
+
+Mathieu
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/
+
+Mathieu Desnoyers (11):
+  rseq: Introduce feature size and alignment ELF auxiliary vector
+    entries
+  rseq: Introduce extensible rseq ABI
+  rseq: extend struct rseq with numa node id
+  selftests/rseq: Use ELF auxiliary vector for extensible rseq
+  selftests/rseq: Implement rseq numa node id field selftest
+  lib: invert _find_next_bit source arguments
+  lib: implement find_{first,next}_{zero,one}_and_zero_bit
+  cpumask: implement cpumask_{first,next}_{zero,one}_and_zero
+  sched: Introduce per memory space current virtual cpu id
+  rseq: extend struct rseq with per memory space vcpu id
+  selftests/rseq: Implement rseq vm_vcpu_id field support
+
+ fs/binfmt_elf.c                           |   5 +
+ fs/exec.c                                 |   4 +
+ include/linux/cpumask.h                   |  94 ++++++
+ include/linux/find.h                      | 123 +++++++-
+ include/linux/mm.h                        |  25 ++
+ include/linux/mm_types.h                  | 111 +++++++
+ include/linux/sched.h                     |   9 +
+ include/trace/events/rseq.h               |   4 +-
+ include/uapi/linux/auxvec.h               |   2 +
+ include/uapi/linux/rseq.h                 |  22 ++
+ init/Kconfig                              |   4 +
+ kernel/fork.c                             |  15 +-
+ kernel/ptrace.c                           |   2 +-
+ kernel/rseq.c                             |  60 +++-
+ kernel/sched/core.c                       |  82 +++++
+ kernel/sched/deadline.c                   |   3 +
+ kernel/sched/debug.c                      |  13 +
+ kernel/sched/fair.c                       |   1 +
+ kernel/sched/rt.c                         |   2 +
+ kernel/sched/sched.h                      | 364 ++++++++++++++++++++++
+ kernel/sched/stats.c                      |  16 +-
+ lib/find_bit.c                            |  17 +-
+ tools/include/linux/find.h                |   9 +-
+ tools/lib/find_bit.c                      |  17 +-
+ tools/testing/selftests/rseq/basic_test.c |   5 +
+ tools/testing/selftests/rseq/rseq-abi.h   |  22 ++
+ tools/testing/selftests/rseq/rseq.c       |  86 ++++-
+ tools/testing/selftests/rseq/rseq.h       |  46 ++-
+ 28 files changed, 1106 insertions(+), 57 deletions(-)
+
+-- 
+2.17.1
+
