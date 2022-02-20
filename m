@@ -2,97 +2,83 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 141B24BC1A1
-	for <lists+linux-api@lfdr.de>; Fri, 18 Feb 2022 22:16:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B479E4BD0D2
+	for <lists+linux-api@lfdr.de>; Sun, 20 Feb 2022 20:06:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239650AbiBRVQN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 18 Feb 2022 16:16:13 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:42436 "EHLO
+        id S244581AbiBTTGW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 20 Feb 2022 14:06:22 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:34490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239657AbiBRVQL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 18 Feb 2022 16:16:11 -0500
-Received: from mail.efficios.com (mail.efficios.com [167.114.26.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3083328BF41;
-        Fri, 18 Feb 2022 13:15:53 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id EBB513BA9DC;
-        Fri, 18 Feb 2022 16:06:49 -0500 (EST)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id QrN-FJ-75sez; Fri, 18 Feb 2022 16:06:49 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 6E7F73BA9D3;
-        Fri, 18 Feb 2022 16:06:46 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 6E7F73BA9D3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1645218406;
-        bh=jU3p85idUR7noONNjLpaS2BHDqtaaxwv6Q/ch9Ss5iw=;
-        h=From:To:Date:Message-Id;
-        b=LsRo9UIlwMUGVY1clr3Qnuzy3HVHBMRT8X7jx/1O46uXqF/nAxJrBBxSZhHILoDyR
-         lZLxFDOOTdxuSp7/PiNn6jhNX0jd1PBvm5VK7TaO1oIgQtcQS2B3ggCJSBLslPdP1c
-         Pt+5SsUHvZNeO1l5TwJ6ID0PL2Pcy3Yj+g958XcV7avusJb7ul87aytm/6kQSfdfsk
-         53LdmfMk6ZB2EQxEjPqVWI9J4+W5AdvKddHRFCPsj46TMMFePPY9red9bNIMwVlzZA
-         p/yDIG+hnt1r8DF8D4reCyZcjmC2hj+6pS7yUSjwWAlKXTeaGmF12hssnHm5TrsDwd
-         rKXZzl7cAEYng==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id X7ITggOoy7jL; Fri, 18 Feb 2022 16:06:46 -0500 (EST)
-Received: from localhost.localdomain (192-222-180-24.qc.cable.ebox.net [192.222.180.24])
-        by mail.efficios.com (Postfix) with ESMTPSA id 1EF273BA5F2;
-        Fri, 18 Feb 2022 16:06:45 -0500 (EST)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api@vger.kernel.org,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Florian Weimer <fw@deneb.enyo.de>, David.Laight@ACULAB.COM,
-        carlos@redhat.com, Peter Oskolkov <posk@posk.io>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: [RFC PATCH v2 11/11] selftests/rseq: Implement rseq vm_vcpu_id field support
-Date:   Fri, 18 Feb 2022 16:06:33 -0500
-Message-Id: <20220218210633.23345-12-mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220218210633.23345-1-mathieu.desnoyers@efficios.com>
-References: <20220218210633.23345-1-mathieu.desnoyers@efficios.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        with ESMTP id S244586AbiBTTGV (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 20 Feb 2022 14:06:21 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D7724C7B0;
+        Sun, 20 Feb 2022 11:06:00 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9E4E160EC8;
+        Sun, 20 Feb 2022 19:05:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0AD1CC340E8;
+        Sun, 20 Feb 2022 19:05:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1645383959;
+        bh=sRnjFkhnYGjiXWOFuHa+scp8WHfJPy4P4V92MMpuk2E=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=h3cbxM7zEARDLCHydJfHKXzpW2cXeltiQnk2i3CT9UhluTmdWlR69tP8T30E/Bbi+
+         VKA4mYpKRLd7f96wmDTyMAxlxr9gP31yZUk/myjq44ODQUbSGtGTcPSHP364oLDR+j
+         B7w13BM3Ip8RAO2dh289Nu3EnmMzbWDB/p1pU2jih99vsFaXF5F0GwoS9UqU9gEV0O
+         OBkeTCb+uMjxJgY3udfqvRzmjwhiTYpVMt+ucmD2eSPIeWMrSBGWYbm9W1pQnplCWO
+         rBqgKLH0JvJ5XjuKfR3F3o+nv2DqyvqtF8sKr9iTU3FhyXZfuMDUeAennLEkgeoaa6
+         +l57ZM33yafJA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id ED1BFE6D447;
+        Sun, 20 Feb 2022 19:05:58 +0000 (UTC)
+Subject: Re: [GIT PULL] ucounts: RLIMIT_NPROC fixes for v5.17
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <87wnhsfatb.fsf_-_@email.froward.int.ebiederm.org>
+References: <20220207121800.5079-1-mkoutny@suse.com>
+        <87o83e2mbu.fsf@email.froward.int.ebiederm.org>
+        <87ilteiz4a.fsf_-_@email.froward.int.ebiederm.org> <87wnhsfatb.fsf_-_@email.froward.int.ebiederm.org>
+X-PR-Tracked-List-Id: <linux-api.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87wnhsfatb.fsf_-_@email.froward.int.ebiederm.org>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/ebiederm/user-namespace.git ucount-rlimit-fixes-for-v5.17
+X-PR-Tracked-Commit-Id: 0cbae9e24fa7d6c6e9f828562f084da82217a0c5
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 2d3409ebc87f4bc4ed23bd39e78db9ffc29eec44
+Message-Id: <164538395896.24844.842779137638491894.pr-tracker-bot@kernel.org>
+Date:   Sun, 20 Feb 2022 19:05:58 +0000
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, Alexey Gladkov <legion@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Solar Designer <solar@openwall.com>,
+        Ran Xiaokai <ran.xiaokai@zte.com.cn>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        Michal =?utf-8?Q?Kou?= =?utf-8?Q?tn=C3=BD?= <mkoutny@suse.com>,
+        linux-api@vger.kernel.org
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
----
- tools/testing/selftests/rseq/rseq-abi.h | 9 +++++++++
- 1 file changed, 9 insertions(+)
+The pull request you sent on Fri, 18 Feb 2022 09:34:24 -0600:
 
-diff --git a/tools/testing/selftests/rseq/rseq-abi.h b/tools/testing/selftests/rseq/rseq-abi.h
-index a1faa9162d52..1ee4740ebe94 100644
---- a/tools/testing/selftests/rseq/rseq-abi.h
-+++ b/tools/testing/selftests/rseq/rseq-abi.h
-@@ -155,6 +155,15 @@ struct rseq_abi {
- 	 */
- 	__u32 node_id;
- 
-+	/*
-+	 * Restartable sequences vm_vcpu_id field. Updated by the kernel. Read by
-+	 * user-space with single-copy atomicity semantics. This field should
-+	 * only be read by the thread which registered this data structure.
-+	 * Aligned on 32-bit. Contains the current thread's virtual CPU ID
-+	 * (allocated uniquely within a memory space).
-+	 */
-+	__u32 vm_vcpu_id;
-+
- 	/*
- 	 * Flexible array member at end of structure, after last feature field.
- 	 */
+> git://git.kernel.org/pub/scm/linux/kernel/git/ebiederm/user-namespace.git ucount-rlimit-fixes-for-v5.17
+
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/2d3409ebc87f4bc4ed23bd39e78db9ffc29eec44
+
+Thank you!
+
 -- 
-2.17.1
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
