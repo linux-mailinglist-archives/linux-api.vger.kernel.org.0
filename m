@@ -2,89 +2,118 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C8F44BD3C9
-	for <lists+linux-api@lfdr.de>; Mon, 21 Feb 2022 03:35:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 559714BDCB1
+	for <lists+linux-api@lfdr.de>; Mon, 21 Feb 2022 18:42:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243540AbiBUCYY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 20 Feb 2022 21:24:24 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:49598 "EHLO
+        id S230456AbiBUNsT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 21 Feb 2022 08:48:19 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:42644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343681AbiBUCYG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 20 Feb 2022 21:24:06 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13FB63C703;
-        Sun, 20 Feb 2022 18:23:33 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6D39EB80E48;
-        Mon, 21 Feb 2022 02:23:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4CE2C340F5;
-        Mon, 21 Feb 2022 02:23:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1645410211;
-        bh=+f42uaVoaynmzvwmeFuqeFek1G2q6WaVoSIttveoc8o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qLvxKXaKx0rMZKnbOvnm3aDrNWfwxuV/c8/wQLOuIU3L2P/7R8+zQdXY52FE614ZS
-         9L2Pb2ol73j8BsrUFxxUI+9L+4kUXAXgDhvpWKT0NNV2azcRVLinU1X3WTUdfphXn2
-         ugad5JGWoEL+ow43PZzZ5xPrat2Az80vP/ZZAaLXMkhZqzETW6e0glh/YVrKscYttp
-         5mrBx3z9iQVemas6NXu8JCUWjIP2rBWGj7dDa/b+gVIeSRRMAoxai0sAONIpamxajB
-         75QMoQZ0GIOmxECAI0cBQoOCrr3nBM89bg+k3zMkKLt02yoic+V3udmWcy4BOK9/Su
-         0bx4nPXNoDuaw==
-Date:   Sun, 20 Feb 2022 18:23:29 -0800
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     linux-block@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-mmc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bart Van Assche <bvanassche@acm.org>
-Subject: Re: [PATCH v4 0/3] block: show crypto capabilities in sysfs
-Message-ID: <YhL3obBiHO92EcEc@sol.localdomain>
-References: <20220124215938.2769-1-ebiggers@kernel.org>
+        with ESMTP id S230090AbiBUNsS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 21 Feb 2022 08:48:18 -0500
+X-Greylist: delayed 1331 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 21 Feb 2022 05:47:55 PST
+Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5FAAE5FAA;
+        Mon, 21 Feb 2022 05:47:55 -0800 (PST)
+Received: from uucp (helo=alpha)
+        by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
+        id 1nM8h9-0001Eo-00; Mon, 21 Feb 2022 14:25:39 +0100
+Received: by alpha.franken.de (Postfix, from userid 1000)
+        id E4525C25DD; Mon, 21 Feb 2022 14:24:56 +0100 (CET)
+Date:   Mon, 21 Feb 2022 14:24:56 +0100
+From:   Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Christoph Hellwig <hch@lst.de>, linux-arch@vger.kernel.org,
+        linux-mm@kvack.org, linux-api@vger.kernel.org, arnd@arndb.de,
+        linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk,
+        linux@armlinux.org.uk, will@kernel.org, guoren@kernel.org,
+        bcain@codeaurora.org, geert@linux-m68k.org, monstr@monstr.eu,
+        nickhu@andestech.com, green.hu@gmail.com, dinguyen@kernel.org,
+        shorne@gmail.com, deller@gmx.de, mpe@ellerman.id.au,
+        peterz@infradead.org, mingo@redhat.com, mark.rutland@arm.com,
+        hca@linux.ibm.com, dalias@libc.org, davem@davemloft.net,
+        richard@nod.at, x86@kernel.org, jcmvbkbc@gmail.com,
+        ebiederm@xmission.com, akpm@linux-foundation.org, ardb@kernel.org,
+        linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+        linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org
+Subject: Re: [PATCH v2 09/18] mips: use simpler access_ok()
+Message-ID: <20220221132456.GA7139@alpha.franken.de>
+References: <20220216131332.1489939-1-arnd@kernel.org>
+ <20220216131332.1489939-10-arnd@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220124215938.2769-1-ebiggers@kernel.org>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20220216131332.1489939-10-arnd@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,T_SPF_HELO_PERMERROR
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jan 24, 2022 at 01:59:35PM -0800, Eric Biggers wrote:
-> This series adds sysfs files that expose the inline encryption
-> capabilities of request queues.
+On Wed, Feb 16, 2022 at 02:13:23PM +0100, Arnd Bergmann wrote:
 > 
-> Patches 1 and 2 are some related cleanups for existing blk-sysfs code.
-> Patch 3 is the real change; see there for more details.
-> 
-> This series applies to v5.17-rc1.
-> 
-> Changed v3 => v4:
->    - Reworded a comment in patch 2.
->    - Updated dates in sysfs documentation.
->    - Added more Reviewed-by tags.
-> 
-> Changed v2 => v3:
->    - Moved the documentation into Documentation/ABI/stable/sysfs-block,
->      and improved it a bit.
->    - Write "/sys/block/" instead of "/sys/class/block/".
->    - Added Reviewed-by tags.
-> 
-> Changed v1 => v2:
->    - Use sysfs_emit() instead of sprintf().
->    - Use __ATTR_RO().
-> 
-> Eric Biggers (3):
->   block: simplify calling convention of elv_unregister_queue()
->   block: don't delete queue kobject before its children
->   blk-crypto: show crypto capabilities in sysfs
-> 
+> diff --git a/arch/mips/include/asm/uaccess.h b/arch/mips/include/asm/uaccess.h
+> index db9a8e002b62..d7c89dc3426c 100644
+> --- a/arch/mips/include/asm/uaccess.h
+> +++ b/arch/mips/include/asm/uaccess.h
+> @@ -19,6 +19,7 @@
+>  #ifdef CONFIG_32BIT
+>  
+>  #define __UA_LIMIT 0x80000000UL
+> +#define TASK_SIZE_MAX	__UA_LIMIT
+>  
+>  #define __UA_ADDR	".word"
+>  #define __UA_LA		"la"
+> @@ -33,6 +34,7 @@
+>  extern u64 __ua_limit;
+>  
+>  #define __UA_LIMIT	__ua_limit
+> +#define TASK_SIZE_MAX	XKSSEG
 
-Any more feedback on this?
+this doesn't work. For every access above maximum implemented virtual address
+space of the CPU an address error will be issued, but not a TLB miss.
+And address error isn't able to handle this situation.
 
-- Eric
+With this patch
+
+diff --git a/arch/mips/kernel/unaligned.c b/arch/mips/kernel/unaligned.c
+index df4b708c04a9..3911f1481f3d 100644
+--- a/arch/mips/kernel/unaligned.c
++++ b/arch/mips/kernel/unaligned.c
+@@ -1480,6 +1480,13 @@ asmlinkage void do_ade(struct pt_regs *regs)
+ 	prev_state = exception_enter();
+ 	perf_sw_event(PERF_COUNT_SW_ALIGNMENT_FAULTS,
+ 			1, regs, regs->cp0_badvaddr);
++
++	/* Are we prepared to handle this kernel fault?	 */
++	if (fixup_exception(regs)) {
++		current->thread.cp0_baduaddr = regs->cp0_badvaddr;
++		return;
++	}
++
+ 	/*
+ 	 * Did we catch a fault trying to load an instruction?
+ 	 */
+
+I at least get my simple test cases fixed, but I'm not sure this is
+correct.
+
+Is there a reason to not also #define TASK_SIZE_MAX   __UA_LIMIT like
+for the 32bit case ?
+
+Thomas.
+
+-- 
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
