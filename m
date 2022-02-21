@@ -2,25 +2,24 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D5464BE09D
-	for <lists+linux-api@lfdr.de>; Mon, 21 Feb 2022 18:52:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AB2F4BE77F
+	for <lists+linux-api@lfdr.de>; Mon, 21 Feb 2022 19:03:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235608AbiBUPxT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 21 Feb 2022 10:53:19 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53740 "EHLO
+        id S1379586AbiBUPxS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 21 Feb 2022 10:53:18 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379679AbiBUPxR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 21 Feb 2022 10:53:17 -0500
-X-Greylist: delayed 568 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 21 Feb 2022 07:52:53 PST
-Received: from smtp-1909.mail.infomaniak.ch (smtp-1909.mail.infomaniak.ch [185.125.25.9])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 311062654E
+        with ESMTP id S1379555AbiBUPxP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 21 Feb 2022 10:53:15 -0500
+Received: from smtp-bc0f.mail.infomaniak.ch (smtp-bc0f.mail.infomaniak.ch [IPv6:2001:1600:3:17::bc0f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96E6B26547
         for <linux-api@vger.kernel.org>; Mon, 21 Feb 2022 07:52:51 -0800 (PST)
 Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4K2RQs5CPKzMptjp;
-        Mon, 21 Feb 2022 16:43:17 +0100 (CET)
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4K2RQt32hnzMqC3X;
+        Mon, 21 Feb 2022 16:43:18 +0100 (CET)
 Received: from localhost (unknown [23.97.221.149])
-        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4K2RQr4xqLzlhMBl;
-        Mon, 21 Feb 2022 16:43:16 +0100 (CET)
+        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4K2RQt0P1xzlhMBj;
+        Mon, 21 Feb 2022 16:43:18 +0100 (CET)
 From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
 To:     James Morris <jmorris@namei.org>,
         "Serge E . Hallyn" <serge@hallyn.com>
@@ -32,51 +31,77 @@ Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Paul Moore <paul@paul-moore.com>,
         Shuah Khan <shuah@kernel.org>, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
-Subject: [PATCH v1 0/7] Minor Landlock fixes and new tests
-Date:   Mon, 21 Feb 2022 16:53:04 +0100
-Message-Id: <20220221155311.166278-1-mic@digikod.net>
+        linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@linux.microsoft.com>
+Subject: [PATCH v1 1/7] landlock: Fix landlock_add_rule(2) documentation
+Date:   Mon, 21 Feb 2022 16:53:05 +0100
+Message-Id: <20220221155311.166278-2-mic@digikod.net>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220221155311.166278-1-mic@digikod.net>
+References: <20220221155311.166278-1-mic@digikod.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi,
+From: Mickaël Salaün <mic@linux.microsoft.com>
 
-This series contains landlock_add_rule(2) (cosmetic) signature and
-documentation fixes.  There is also some miscellaneous new tests to
-improve coverage and that may help for future access types (e.g.
-networking).
+It is not mandatory to pass a file descriptor obtained with the O_PATH
+flag.  Also, replace rule's accesses with ruleset's accesses.
 
-Regards,
+Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
+Link: https://lore.kernel.org/r/20220221155311.166278-2-mic@digikod.net
+---
+ include/uapi/linux/landlock.h | 5 +++--
+ security/landlock/syscalls.c  | 7 +++----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-Mickaël Salaün (7):
-  landlock: Fix landlock_add_rule(2) documentation
-  landlock: Fix landlock_add_rule(2) signature
-  selftest/landlock: Make tests build with old libc
-  selftest/landlock: Extend tests for minimal valid attribute size
-  selftest/landlock: Add tests for unknown access rights
-  selftest/landlock: Extend access right tests to directories
-  selftest/landlock: Fully test file rename with "remove" access
-
- include/linux/syscalls.h                     |  3 +-
- include/uapi/linux/landlock.h                |  5 +-
- security/landlock/syscalls.c                 | 14 ++--
- tools/testing/selftests/landlock/base_test.c |  5 ++
- tools/testing/selftests/landlock/fs_test.c   | 84 ++++++++++++++++----
- 5 files changed, 86 insertions(+), 25 deletions(-)
-
-
-base-commit: cfb92440ee71adcc2105b0890bb01ac3cddb8507
+diff --git a/include/uapi/linux/landlock.h b/include/uapi/linux/landlock.h
+index b3d952067f59..c0390e318a65 100644
+--- a/include/uapi/linux/landlock.h
++++ b/include/uapi/linux/landlock.h
+@@ -60,8 +60,9 @@ struct landlock_path_beneath_attr {
+ 	 */
+ 	__u64 allowed_access;
+ 	/**
+-	 * @parent_fd: File descriptor, open with ``O_PATH``, which identifies
+-	 * the parent directory of a file hierarchy, or just a file.
++	 * @parent_fd: File descriptor, preferably opened with ``O_PATH``,
++	 * which identifies the parent directory of a file hierarchy, or just a
++	 * file.
+ 	 */
+ 	__s32 parent_fd;
+ 	/*
+diff --git a/security/landlock/syscalls.c b/security/landlock/syscalls.c
+index 32396962f04d..fd4b24022a06 100644
+--- a/security/landlock/syscalls.c
++++ b/security/landlock/syscalls.c
+@@ -290,14 +290,13 @@ static int get_path_from_fd(const s32 fd, struct path *const path)
+  *
+  * - EOPNOTSUPP: Landlock is supported by the kernel but disabled at boot time;
+  * - EINVAL: @flags is not 0, or inconsistent access in the rule (i.e.
+- *   &landlock_path_beneath_attr.allowed_access is not a subset of the rule's
+- *   accesses);
++ *   &landlock_path_beneath_attr.allowed_access is not a subset of the
++ *   ruleset handled accesses);
+  * - ENOMSG: Empty accesses (e.g. &landlock_path_beneath_attr.allowed_access);
+  * - EBADF: @ruleset_fd is not a file descriptor for the current thread, or a
+  *   member of @rule_attr is not a file descriptor as expected;
+  * - EBADFD: @ruleset_fd is not a ruleset file descriptor, or a member of
+- *   @rule_attr is not the expected file descriptor type (e.g. file open
+- *   without O_PATH);
++ *   @rule_attr is not the expected file descriptor type;
+  * - EPERM: @ruleset_fd has no write access to the underlying ruleset;
+  * - EFAULT: @rule_attr inconsistency.
+  */
 -- 
 2.35.1
 
