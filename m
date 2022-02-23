@@ -2,71 +2,78 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EAC334C1C74
-	for <lists+linux-api@lfdr.de>; Wed, 23 Feb 2022 20:45:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 621E14C1C9C
+	for <lists+linux-api@lfdr.de>; Wed, 23 Feb 2022 20:51:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239176AbiBWTpg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 23 Feb 2022 14:45:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43642 "EHLO
+        id S244531AbiBWTv0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 23 Feb 2022 14:51:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243072AbiBWTpg (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Feb 2022 14:45:36 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 217E54B400
-        for <linux-api@vger.kernel.org>; Wed, 23 Feb 2022 11:45:08 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id CACC0B8219B
-        for <linux-api@vger.kernel.org>; Wed, 23 Feb 2022 19:45:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81AA6C340F5
-        for <linux-api@vger.kernel.org>; Wed, 23 Feb 2022 19:45:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1645645505;
-        bh=6v6jF0P7IEYuMS19alLwVHQ6Tz2juOAcucIRyeumVWE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=I61UvHRN0Vt744x0tqqIlz3WwBBW0aVP3hyJqajnLIxlXbsgS99B39zeqCsO6yow2
-         +NcTBsGZUnCp2ejji/LV8GKWEHm6giBflQYP/IOYmrBbQm+PWxc1IyyI3G6NEt3gUh
-         G4EsYcFF3w6kW4Mv4EMLOCfnBydFjFFVfBFNhFbxfio9f0W5fKoZNbsCd7xeSeRaaG
-         l2TEZmsNgernS2AQ3s5m/PdAJjR1bctTiEl/bnRb08j6YYXtzwFUgeYM/2GCJjBNF7
-         APrfMqJljngF5nK6yvXWmikMfw7h0z/fUyQD1CkbHKgKiR/PcIvDKMt8O/7//lQ7E/
-         67xGStzgNE0ng==
-Received: by mail-ej1-f48.google.com with SMTP id p14so54568593ejf.11
-        for <linux-api@vger.kernel.org>; Wed, 23 Feb 2022 11:45:05 -0800 (PST)
-X-Gm-Message-State: AOAM5316mC1wzV7gYI9dIcB37q86JfSIlivfZEiaYa1liVgUwe4eDOir
-        WzghDwWEyH4WucliM2SoqYUET8WknDqzx4x1ZtNfIA==
-X-Google-Smtp-Source: ABdhPJwZyitZOOWhhPDDfv051tWufIzI5PoAeGpdvPbapPOSXAFYCwmW3gmz+M4158AWX/TxdBOznwf75drzcBBKylU=
-X-Received: by 2002:a17:906:646:b0:6ce:a6fb:2854 with SMTP id
- t6-20020a170906064600b006cea6fb2854mr893331ejb.675.1645645503667; Wed, 23 Feb
- 2022 11:45:03 -0800 (PST)
+        with ESMTP id S243806AbiBWTv0 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Feb 2022 14:51:26 -0500
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58CAC4BFC6
+        for <linux-api@vger.kernel.org>; Wed, 23 Feb 2022 11:50:56 -0800 (PST)
+Received: by mail-lf1-x135.google.com with SMTP id e5so105438lfr.9
+        for <linux-api@vger.kernel.org>; Wed, 23 Feb 2022 11:50:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=torvalds.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=G7dJVDzzZAJjRauYjEJNaQl9t1I3SGJZFs1Isig0Hes=;
+        b=GeBgaLL4eq9eWZjU0wevcBQGzUWXyZs/IOZ1JKX2Wlcns4sVMXgiLeyrLGgpiHwUKn
+         RDUY8upu6aguSTlEQlDihMx04s66J0M2mWT+uKPfTUYJAfXZR8o5/5LJMY/bli20Fwlu
+         aAozLHgIjRf7xB+BegArTfWC8qikwYo0dRBCsYlL1c1vHl/xaM61qUDWQb475nWLcdwf
+         S6xIlLnLaqo8ThSnWPn81hyfA15ApEI9x0tXHomSEcBdFUeFdH4+nAubcZ4s7b3V4ozz
+         4Mx+KwdM6vOp8WGoY3uplkxjoqiQpSo0+YSpgFOmK4uGOZreE8Titb0Bpmjy+0a4tSWq
+         Za5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=G7dJVDzzZAJjRauYjEJNaQl9t1I3SGJZFs1Isig0Hes=;
+        b=HqKWskulYJ2CZWcyXk4/c3FnAjf5rVbyrZd63H6ZmGZvx8uoZ21wXXH05hD7IEwZ5z
+         fCIVymtyL2lwHhkljRavvf5Yry7i1QRFn/cIqcjEtORNnUUpnwmIpfUM9dPwy5GkZdnB
+         vJES6iqWP7YqH8X4gd1slsPzcr1g3VPwb0rsFRZAuDTMmAxFLyEOu4C8Qx6XALAmMhDN
+         R+kx60UjnQZcqK43jg4kIRmpLg3Y1l2vIxlzqYBYQ2O64zxNLCwivzDMhyM0lBCkjub6
+         R5zgWhLFTEAOozapnBuIF4YHDsXdXmUulNPujnDNqkq6OeNdEpplVVaq3B47gMDmvh5Q
+         /dhQ==
+X-Gm-Message-State: AOAM532RlqmlRTAHWluRK+sbIQXbVD/ikGLDAcZqY5ZW3JAT5npB7tlD
+        XUMo6FCg5BECzUPIzeU0N2ZxmeuwtkLGozUtPCTQ8A==
+X-Google-Smtp-Source: ABdhPJwfZqoTBuGz/LwZcWwTEfoQpwuBP2g/Wv44V2lw6nQa360AbwkzVRPbueqnWp95KpEfAiBlP8pw/J4hKZXyNs0=
+X-Received: by 2002:ac2:4211:0:b0:438:2f1:83c4 with SMTP id
+ y17-20020ac24211000000b0043802f183c4mr808431lfh.435.1645645854680; Wed, 23
+ Feb 2022 11:50:54 -0800 (PST)
 MIME-Version: 1.0
 References: <20220207121800.5079-1-mkoutny@suse.com> <e9589141-cfeb-90cd-2d0e-83a62787239a@edechamps.fr>
  <20220215101150.GD21589@blackbody.suse.cz> <87zgmi5rhm.fsf@email.froward.int.ebiederm.org>
  <87fso91n0v.fsf_-_@email.froward.int.ebiederm.org>
 In-Reply-To: <87fso91n0v.fsf_-_@email.froward.int.ebiederm.org>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Wed, 23 Feb 2022 11:44:51 -0800
-X-Gmail-Original-Message-ID: <CALCETrVh8Xu3VJzseWEJZ+ryy5WANyJg+j4=hFaVFebzSu_TgQ@mail.gmail.com>
-Message-ID: <CALCETrVh8Xu3VJzseWEJZ+ryy5WANyJg+j4=hFaVFebzSu_TgQ@mail.gmail.com>
+From:   Linus Torvalds <linus@torvalds.org>
+Date:   Wed, 23 Feb 2022 11:50:38 -0800
+Message-ID: <CAHk-=wjX3VK8QRMDUWwigCTKdHJt0ESXh0Hy5HNaXf7YkEdCAA@mail.gmail.com>
 Subject: Re: How should rlimits, suid exec, and capabilities interact?
 To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     linux-api@vger.kernel.org, Etienne Dechamps <etienne@edechamps.fr>,
+Cc:     Linux API <linux-api@vger.kernel.org>,
+        Etienne Dechamps <etienne@edechamps.fr>,
         Alexey Gladkov <legion@kernel.org>,
         Kees Cook <keescook@chromium.org>,
         Shuah Khan <shuah@kernel.org>,
         Christian Brauner <brauner@kernel.org>,
         Solar Designer <solar@openwall.com>,
         Ran Xiaokai <ran.xiaokai@zte.com.cn>,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
         Linux Containers <containers@lists.linux-foundation.org>,
         =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
-        security@kernel.org, Neil Brown <neilb@cse.unsw.edu.au>,
-        NeilBrown <neilb@suse.de>, "Serge E. Hallyn" <serge@hallyn.com>,
-        Jann Horn <jannh@google.com>
+        Security Officers <security@kernel.org>,
+        Neil Brown <neilb@cse.unsw.edu.au>, NeilBrown <neilb@suse.de>,
+        "Serge E. Hallyn" <serge@hallyn.com>, Jann Horn <jannh@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,27 +84,38 @@ X-Mailing-List: linux-api@vger.kernel.org
 On Wed, Feb 23, 2022 at 10:00 AM Eric W. Biederman
 <ebiederm@xmission.com> wrote:
 >
->
-> [CC'd the security list because I really don't know who the right people
->  are to drag into this discussion]
->
-> While looking at some issues that have cropped up with making it so
-> that RLIMIT_NPROC cannot be escaped by creating a user namespace I have
-> stumbled upon a very old issue of how rlimits and suid exec interact
-> poorly.
+> Which brings us to the practical issues of how all of these things are
+> wired together today.
 
-Once upon a time, these resource limits were effectively the only way
-to control memory consumption and consumption of historically limited
-resources like processes.  (The scheduler used to have serious issues
-with too many processes -- this is not so true any more.  And without
-cgroups, too many processes could use too much CPU collectively.)
-This all worked pretty poorly.  Now we have cgroups, fancy memory
-accounting, etc.  So I'm wondering if NPROC is even useful anymore.  I
-don't have a brilliant idea of how to deprecate it, but I think it
-wouldn't be entirely nuts to take it much less seriously and maybe
-even eventually get rid of it.
+I honestly think you should treat the limits as "approximate".
 
-I doubt there is much existing userspace that would break if a
-previously failing fork() started succeeding.
+We do that for a number of reasons:
 
---Andy]
+ - sometimes we have racy tests because we don't want to do excessive
+locking just for a limit: nobody cares if you can go a couple of
+entries past a limit because you were lucky, it's important that you
+can't go *much* past the limit.
+
+ - sometimes the limits themselves are fuzzy (example: time. it's
+incremented by "ticks", but it's simply not that precise, and it
+depends a bit when the ticks happen)
+
+ - sometimes it's ambiguous who we're talking about.
+
+I think suid execs tend to fall in that third category. Be generous.
+If the limit doesn't trigger at the suid exec, nobody cares. You want
+to make sure it triggers eventually.
+
+For example, let's say that you are the admin, and you made a mistake,
+and you had a runaway fork() bomb that was caught by the limits.
+
+Optimally, you still want to be able to be able to log in (one process
+that was root when it did the fork(), and did a 'setresuid()' or
+similar to drop the things, and then one process that does 'sudo' to
+get privileges to kill the darn fork bomb).
+
+See how that 'user' technically went over the limit, and that was A-OK!
+
+Basic rule: it's better to be too lenient than to be too strict.
+
+                  Linus
