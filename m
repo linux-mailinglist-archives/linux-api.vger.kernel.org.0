@@ -2,120 +2,155 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 621E14C1C9C
-	for <lists+linux-api@lfdr.de>; Wed, 23 Feb 2022 20:51:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DA994C1CCC
+	for <lists+linux-api@lfdr.de>; Wed, 23 Feb 2022 21:05:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244531AbiBWTv0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 23 Feb 2022 14:51:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52696 "EHLO
+        id S233174AbiBWUF6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 23 Feb 2022 15:05:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243806AbiBWTv0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Feb 2022 14:51:26 -0500
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58CAC4BFC6
-        for <linux-api@vger.kernel.org>; Wed, 23 Feb 2022 11:50:56 -0800 (PST)
-Received: by mail-lf1-x135.google.com with SMTP id e5so105438lfr.9
-        for <linux-api@vger.kernel.org>; Wed, 23 Feb 2022 11:50:56 -0800 (PST)
+        with ESMTP id S231267AbiBWUF5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Feb 2022 15:05:57 -0500
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92A364B1F9
+        for <linux-api@vger.kernel.org>; Wed, 23 Feb 2022 12:05:26 -0800 (PST)
+Received: by mail-lj1-x22d.google.com with SMTP id e8so18403757ljj.2
+        for <linux-api@vger.kernel.org>; Wed, 23 Feb 2022 12:05:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=torvalds.org; s=google;
+        d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=G7dJVDzzZAJjRauYjEJNaQl9t1I3SGJZFs1Isig0Hes=;
-        b=GeBgaLL4eq9eWZjU0wevcBQGzUWXyZs/IOZ1JKX2Wlcns4sVMXgiLeyrLGgpiHwUKn
-         RDUY8upu6aguSTlEQlDihMx04s66J0M2mWT+uKPfTUYJAfXZR8o5/5LJMY/bli20Fwlu
-         aAozLHgIjRf7xB+BegArTfWC8qikwYo0dRBCsYlL1c1vHl/xaM61qUDWQb475nWLcdwf
-         S6xIlLnLaqo8ThSnWPn81hyfA15ApEI9x0tXHomSEcBdFUeFdH4+nAubcZ4s7b3V4ozz
-         4Mx+KwdM6vOp8WGoY3uplkxjoqiQpSo0+YSpgFOmK4uGOZreE8Titb0Bpmjy+0a4tSWq
-         Za5A==
+        bh=+S6BFzj6o5ckty5iXSThNrfkPsdFE94/fVb8NP4+aFs=;
+        b=F/2f/aEUKxSuzDdCknAbug+t8clrlE0v7gj9NkhphhHftuFg6XGIjvpJXVx+ZHKhn9
+         jOIdz4l7lK+/F1JhXkxR/PARyehOhzu1/S93ijWQKe7fGKOKTiRs9R81aIq3OYNVOgnf
+         G4UcKLBEtMgH8cssPIzV42vV3R64/Z0YRVhdY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=G7dJVDzzZAJjRauYjEJNaQl9t1I3SGJZFs1Isig0Hes=;
-        b=HqKWskulYJ2CZWcyXk4/c3FnAjf5rVbyrZd63H6ZmGZvx8uoZ21wXXH05hD7IEwZ5z
-         fCIVymtyL2lwHhkljRavvf5Yry7i1QRFn/cIqcjEtORNnUUpnwmIpfUM9dPwy5GkZdnB
-         vJES6iqWP7YqH8X4gd1slsPzcr1g3VPwb0rsFRZAuDTMmAxFLyEOu4C8Qx6XALAmMhDN
-         R+kx60UjnQZcqK43jg4kIRmpLg3Y1l2vIxlzqYBYQ2O64zxNLCwivzDMhyM0lBCkjub6
-         R5zgWhLFTEAOozapnBuIF4YHDsXdXmUulNPujnDNqkq6OeNdEpplVVaq3B47gMDmvh5Q
-         /dhQ==
-X-Gm-Message-State: AOAM532RlqmlRTAHWluRK+sbIQXbVD/ikGLDAcZqY5ZW3JAT5npB7tlD
-        XUMo6FCg5BECzUPIzeU0N2ZxmeuwtkLGozUtPCTQ8A==
-X-Google-Smtp-Source: ABdhPJwfZqoTBuGz/LwZcWwTEfoQpwuBP2g/Wv44V2lw6nQa360AbwkzVRPbueqnWp95KpEfAiBlP8pw/J4hKZXyNs0=
-X-Received: by 2002:ac2:4211:0:b0:438:2f1:83c4 with SMTP id
- y17-20020ac24211000000b0043802f183c4mr808431lfh.435.1645645854680; Wed, 23
- Feb 2022 11:50:54 -0800 (PST)
+        bh=+S6BFzj6o5ckty5iXSThNrfkPsdFE94/fVb8NP4+aFs=;
+        b=K1BOqXdrBjE+gXC1di0An3muzYA2rFdf3CKFbV9jNgaF6x+FfFn5kqLe63jy6i9MVu
+         f8R+UUGkkw9fGR2m/doeWCw8DIejSOdQPmG9tvQFNIz2S1LnzGPs38108d1EU2NOLzb5
+         O6c4Wf2UqVApamoXmlKjWPglrlXGLBkORUnnS0lYqvkav21nN/09fzCxKKRjy32xG7nP
+         Oig1tYkHuSJv0imaXjflWnUKn9YJSIYhzWPNcmGXvp9W2cU6mx9AE/GNJxxYma31MYvh
+         9wy7nLUJ5Hg3xCMnPalUhiSaweEsyLD//XX1yRY0Ey4yqdM9r1mUczoDChUrKNSKD6gC
+         wv+Q==
+X-Gm-Message-State: AOAM530ZrG/+EEj3H/FpzkQQVGKbZn9eWdwOqAqvWdOFVsFJvSbh5T3O
+        0fp0vebwUKKRWAW9czXRp8D5K58PJVz8vINZ5yg=
+X-Google-Smtp-Source: ABdhPJz5d2+dHNZF0mnWurh4koBiZTA+08tE4CZ/PCVU5tGI+hYSS3NA7ukK8WXj3AvVRraJ//VK2A==
+X-Received: by 2002:a05:651c:1043:b0:23b:9302:7c2b with SMTP id x3-20020a05651c104300b0023b93027c2bmr709010ljm.302.1645646724215;
+        Wed, 23 Feb 2022 12:05:24 -0800 (PST)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com. [209.85.167.53])
+        by smtp.gmail.com with ESMTPSA id o2sm41341lfr.31.2022.02.23.12.05.20
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Feb 2022 12:05:21 -0800 (PST)
+Received: by mail-lf1-f53.google.com with SMTP id d23so133300lfv.13
+        for <linux-api@vger.kernel.org>; Wed, 23 Feb 2022 12:05:20 -0800 (PST)
+X-Received: by 2002:a05:6512:130b:b0:443:c2eb:399d with SMTP id
+ x11-20020a056512130b00b00443c2eb399dmr822016lfu.27.1645646720244; Wed, 23 Feb
+ 2022 12:05:20 -0800 (PST)
 MIME-Version: 1.0
-References: <20220207121800.5079-1-mkoutny@suse.com> <e9589141-cfeb-90cd-2d0e-83a62787239a@edechamps.fr>
- <20220215101150.GD21589@blackbody.suse.cz> <87zgmi5rhm.fsf@email.froward.int.ebiederm.org>
- <87fso91n0v.fsf_-_@email.froward.int.ebiederm.org>
-In-Reply-To: <87fso91n0v.fsf_-_@email.froward.int.ebiederm.org>
-From:   Linus Torvalds <linus@torvalds.org>
-Date:   Wed, 23 Feb 2022 11:50:38 -0800
-Message-ID: <CAHk-=wjX3VK8QRMDUWwigCTKdHJt0ESXh0Hy5HNaXf7YkEdCAA@mail.gmail.com>
-Subject: Re: How should rlimits, suid exec, and capabilities interact?
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Linux API <linux-api@vger.kernel.org>,
-        Etienne Dechamps <etienne@edechamps.fr>,
-        Alexey Gladkov <legion@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Solar Designer <solar@openwall.com>,
-        Ran Xiaokai <ran.xiaokai@zte.com.cn>,
+References: <20220216131332.1489939-1-arnd@kernel.org> <20220216131332.1489939-10-arnd@kernel.org>
+ <20220221132456.GA7139@alpha.franken.de>
+In-Reply-To: <20220221132456.GA7139@alpha.franken.de>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Wed, 23 Feb 2022 12:05:04 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wjdHz6OU3M9T5zE9Fc9SNdDs52iOE+eVn-wuUT6UDpBLg@mail.gmail.com>
+Message-ID: <CAHk-=wjdHz6OU3M9T5zE9Fc9SNdDs52iOE+eVn-wuUT6UDpBLg@mail.gmail.com>
+Subject: Re: [PATCH v2 09/18] mips: use simpler access_ok()
+To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc:     Arnd Bergmann <arnd@kernel.org>, Christoph Hellwig <hch@lst.de>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
-        Security Officers <security@kernel.org>,
-        Neil Brown <neilb@cse.unsw.edu.au>, NeilBrown <neilb@suse.de>,
-        "Serge E. Hallyn" <serge@hallyn.com>, Jann Horn <jannh@google.com>
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Russell King - ARM Linux <linux@armlinux.org.uk>,
+        Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
+        Brian Cain <bcain@codeaurora.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Michal Simek <monstr@monstr.eu>,
+        Nick Hu <nickhu@andestech.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Stafford Horne <shorne@gmail.com>,
+        Helge Deller <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Rich Felker <dalias@libc.org>,
+        David Miller <davem@davemloft.net>,
+        Richard Weinberger <richard@nod.at>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        alpha <linux-alpha@vger.kernel.org>,
+        "open list:SYNOPSYS ARC ARCHITECTURE" 
+        <linux-snps-arc@lists.infradead.org>, linux-csky@vger.kernel.org,
+        linux-hexagon <linux-hexagon@vger.kernel.org>,
+        linux-ia64@vger.kernel.org,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        Openrisc <openrisc@lists.librecores.org>,
+        linux-parisc <linux-parisc@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        linux-sparc <sparclinux@vger.kernel.org>,
+        linux-um <linux-um@lists.infradead.org>,
+        "open list:TENSILICA XTENSA PORT (xtensa)" 
+        <linux-xtensa@linux-xtensa.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Feb 23, 2022 at 10:00 AM Eric W. Biederman
-<ebiederm@xmission.com> wrote:
+On Mon, Feb 21, 2022 at 5:25 AM Thomas Bogendoerfer
+<tsbogend@alpha.franken.de> wrote:
 >
-> Which brings us to the practical issues of how all of these things are
-> wired together today.
+> With this patch
+[ .. snip snip ..]
+> I at least get my simple test cases fixed, but I'm not sure this is
+> correct.
 
-I honestly think you should treat the limits as "approximate".
+I think you really want to do that anyway, just to get things like
+wild kernel pointers right (ie think get_kernel_nofault() and friends
+for ftrace etc).
 
-We do that for a number of reasons:
+They shouldn't happen in any normal situation, but those kinds of
+unverified pointers is why we _have_ get_kernel_nofault() in the first
+place.
 
- - sometimes we have racy tests because we don't want to do excessive
-locking just for a limit: nobody cares if you can go a couple of
-entries past a limit because you were lucky, it's important that you
-can't go *much* past the limit.
+On x86-64, the roughly equivalent situation is that addresses that
+aren't in canonical format do not take a #PF (page fault), they take a
+#GP (general protection) fault.
 
- - sometimes the limits themselves are fuzzy (example: time. it's
-incremented by "ticks", but it's simply not that precise, and it
-depends a bit when the ticks happen)
+So I think you want to do that fixup_exception() for any possible addresses.
 
- - sometimes it's ambiguous who we're talking about.
+> Is there a reason to not also #define TASK_SIZE_MAX   __UA_LIMIT like
+> for the 32bit case ?
 
-I think suid execs tend to fall in that third category. Be generous.
-If the limit doesn't trigger at the suid exec, nobody cares. You want
-to make sure it triggers eventually.
+I would suggest against using a non-constant TASK_SIZE_MAX. Being
+constant is literally one reason why it exists, when TASK_SIZE itself
+has often been about other things (ie "32-bit process").
 
-For example, let's say that you are the admin, and you made a mistake,
-and you had a runaway fork() bomb that was caught by the limits.
+Having to load variables for things like get_user() is annoying, if
+you could do it with a simple constant instead (where that "simple"
+part is to avoid having to load big values from a constant pool -
+often constants like "high bit set" can be loaded and compared against
+more efficiently).
 
-Optimally, you still want to be able to be able to log in (one process
-that was root when it did the fork(), and did a 'setresuid()' or
-similar to drop the things, and then one process that does 'sudo' to
-get privileges to kill the darn fork bomb).
-
-See how that 'user' technically went over the limit, and that was A-OK!
-
-Basic rule: it's better to be too lenient than to be too strict.
-
-                  Linus
+               Linus
