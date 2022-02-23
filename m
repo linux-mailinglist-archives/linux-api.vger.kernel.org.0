@@ -2,96 +2,167 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA5244C1DD5
-	for <lists+linux-api@lfdr.de>; Wed, 23 Feb 2022 22:36:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C6444C1FA8
+	for <lists+linux-api@lfdr.de>; Thu, 24 Feb 2022 00:31:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234573AbiBWVgu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 23 Feb 2022 16:36:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34608 "EHLO
+        id S244815AbiBWXbe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 23 Feb 2022 18:31:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233549AbiBWVgu (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Feb 2022 16:36:50 -0500
-X-Greylist: delayed 411 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 23 Feb 2022 13:36:22 PST
-Received: from 1wt.eu (wtarreau.pck.nerim.net [62.212.114.60])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 154774F9D6;
-        Wed, 23 Feb 2022 13:36:21 -0800 (PST)
-Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id 21NLSdVM012144;
-        Wed, 23 Feb 2022 22:28:39 +0100
-Date:   Wed, 23 Feb 2022 22:28:39 +0100
-From:   Willy Tarreau <w@1wt.eu>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
-        linux-api@vger.kernel.org, Etienne Dechamps <etienne@edechamps.fr>,
-        Alexey Gladkov <legion@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Solar Designer <solar@openwall.com>,
-        Ran Xiaokai <ran.xiaokai@zte.com.cn>,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-        security@kernel.org, Neil Brown <neilb@cse.unsw.edu.au>,
-        NeilBrown <neilb@suse.de>, "Serge E. Hallyn" <serge@hallyn.com>,
-        Jann Horn <jannh@google.com>
-Subject: Re: How should rlimits, suid exec, and capabilities interact?
-Message-ID: <20220223212839.GA12121@1wt.eu>
-References: <20220207121800.5079-1-mkoutny@suse.com>
- <e9589141-cfeb-90cd-2d0e-83a62787239a@edechamps.fr>
- <20220215101150.GD21589@blackbody.suse.cz>
- <87zgmi5rhm.fsf@email.froward.int.ebiederm.org>
- <87fso91n0v.fsf_-_@email.froward.int.ebiederm.org>
- <CALCETrVh8Xu3VJzseWEJZ+ryy5WANyJg+j4=hFaVFebzSu_TgQ@mail.gmail.com>
+        with ESMTP id S243948AbiBWXbc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Feb 2022 18:31:32 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8D58583B6;
+        Wed, 23 Feb 2022 15:31:03 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 71131B81878;
+        Wed, 23 Feb 2022 23:31:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62A8BC340E7;
+        Wed, 23 Feb 2022 23:30:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1645659061;
+        bh=lqCEQ++vi7cgL8SGDqvu6VRtg8aruPJlQBSjPBXBFVM=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=sbRe9FkUPCxCGG5QhSpQFHALisL4a0h67bCxhSLbAt1nLiwP1yIOk1Uj7FSa6KCb5
+         weBLktMX2iJ1azUVoI5qzyIPsB248hdzJqK4FY8iQs4ijX9ClxGFEG4dPQ2t94Tu+v
+         xnm83JKO7FsjVlGtupBZVZ1sGqkMArGtNnLjnEwqgMRRugYsRTn+yfOLhixpTMveFC
+         hFyJk7dTbBRw3IsZy86rcTOonVkHxoMQs0BGW96T4vsXyVidvkbPH0uwFh8RFITz5K
+         oD3k8dsNBCQPOLOspB8IOHbjF16KCCmPClOP9aOj20bxN2gTg9NdvWcdAxevymW0xQ
+         hD4A1zZdc89kw==
+Message-ID: <c6f461f1-1dd9-aec1-2c85-a3eda478a1be@kernel.org>
+Date:   Wed, 23 Feb 2022 17:30:53 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALCETrVh8Xu3VJzseWEJZ+ryy5WANyJg+j4=hFaVFebzSu_TgQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 07/18] nios2: drop access_ok() check from __put_user()
+Content-Language: en-US
+To:     Arnd Bergmann <arnd@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Christoph Hellwig <hch@lst.de>, linux-arch@vger.kernel.org,
+        linux-mm@kvack.org, linux-api@vger.kernel.org, arnd@arndb.de,
+        linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk
+Cc:     linux@armlinux.org.uk, will@kernel.org, guoren@kernel.org,
+        bcain@codeaurora.org, geert@linux-m68k.org, monstr@monstr.eu,
+        tsbogend@alpha.franken.de, nickhu@andestech.com,
+        green.hu@gmail.com, shorne@gmail.com, deller@gmx.de,
+        mpe@ellerman.id.au, peterz@infradead.org, mingo@redhat.com,
+        mark.rutland@arm.com, hca@linux.ibm.com, dalias@libc.org,
+        davem@davemloft.net, richard@nod.at, x86@kernel.org,
+        jcmvbkbc@gmail.com, ebiederm@xmission.com,
+        akpm@linux-foundation.org, ardb@kernel.org,
+        linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+        linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org
+References: <20220216131332.1489939-1-arnd@kernel.org>
+ <20220216131332.1489939-8-arnd@kernel.org>
+From:   Dinh Nguyen <dinguyen@kernel.org>
+In-Reply-To: <20220216131332.1489939-8-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Andy,
 
-On Wed, Feb 23, 2022 at 11:44:51AM -0800, Andy Lutomirski wrote:
-> On Wed, Feb 23, 2022 at 10:00 AM Eric W. Biederman
-> <ebiederm@xmission.com> wrote:
-> >
-> >
-> > [CC'd the security list because I really don't know who the right people
-> >  are to drag into this discussion]
-> >
-> > While looking at some issues that have cropped up with making it so
-> > that RLIMIT_NPROC cannot be escaped by creating a user namespace I have
-> > stumbled upon a very old issue of how rlimits and suid exec interact
-> > poorly.
+
+On 2/16/22 07:13, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> Once upon a time, these resource limits were effectively the only way
-> to control memory consumption and consumption of historically limited
-> resources like processes.  (The scheduler used to have serious issues
-> with too many processes -- this is not so true any more.  And without
-> cgroups, too many processes could use too much CPU collectively.)
-> This all worked pretty poorly.  Now we have cgroups, fancy memory
-> accounting, etc.  So I'm wondering if NPROC is even useful anymore.  I
-> don't have a brilliant idea of how to deprecate it, but I think it
-> wouldn't be entirely nuts to take it much less seriously and maybe
-> even eventually get rid of it.
+> Unlike other architectures, the nios2 version of __put_user() has an
+> extra check for access_ok(), preventing it from being used to implement
+> __put_kernel_nofault().
 > 
-> I doubt there is much existing userspace that would break if a
-> previously failing fork() started succeeding.
+> Split up put_user() along the same lines as __get_user()/get_user()
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>   arch/nios2/include/asm/uaccess.h | 56 +++++++++++++++++++-------------
+>   1 file changed, 33 insertions(+), 23 deletions(-)
+> 
+> diff --git a/arch/nios2/include/asm/uaccess.h b/arch/nios2/include/asm/uaccess.h
+> index ca9285a915ef..a5cbe07cf0da 100644
+> --- a/arch/nios2/include/asm/uaccess.h
+> +++ b/arch/nios2/include/asm/uaccess.h
+> @@ -167,34 +167,44 @@ do {									\
+>   	: "r" (val), "r" (ptr), "i" (-EFAULT));				\
+>   }
+>   
+> -#define put_user(x, ptr)						\
+> +#define __put_user_common(__pu_val, __pu_ptr)				\
+>   ({									\
+>   	long __pu_err = -EFAULT;					\
+> -	__typeof__(*(ptr)) __user *__pu_ptr = (ptr);			\
+> -	__typeof__(*(ptr)) __pu_val = (__typeof(*ptr))(x);		\
+> -	if (access_ok(__pu_ptr, sizeof(*__pu_ptr))) {	\
+> -		switch (sizeof(*__pu_ptr)) {				\
+> -		case 1:							\
+> -			__put_user_asm(__pu_val, "stb", __pu_ptr, __pu_err); \
+> -			break;						\
+> -		case 2:							\
+> -			__put_user_asm(__pu_val, "sth", __pu_ptr, __pu_err); \
+> -			break;						\
+> -		case 4:							\
+> -			__put_user_asm(__pu_val, "stw", __pu_ptr, __pu_err); \
+> -			break;						\
+> -		default:						\
+> -			/* XXX: This looks wrong... */			\
+> -			__pu_err = 0;					\
+> -			if (copy_to_user(__pu_ptr, &(__pu_val),		\
+> -				sizeof(*__pu_ptr)))			\
+> -				__pu_err = -EFAULT;			\
+> -			break;						\
+> -		}							\
+> +	switch (sizeof(*__pu_ptr)) {					\
+> +	case 1:								\
+> +		__put_user_asm(__pu_val, "stb", __pu_ptr, __pu_err);	\
+> +		break;							\
+> +	case 2:								\
+> +		__put_user_asm(__pu_val, "sth", __pu_ptr, __pu_err);	\
+> +		break;							\
+> +	case 4:								\
+> +		__put_user_asm(__pu_val, "stw", __pu_ptr, __pu_err);	\
+> +		break;							\
+> +	default:							\
+> +		/* XXX: This looks wrong... */				\
+> +		__pu_err = 0;						\
+> +		if (__copy_to_user(__pu_ptr, &(__pu_val),		\
+> +			sizeof(*__pu_ptr)))				\
+> +			__pu_err = -EFAULT;				\
+> +		break;							\
+>   	}								\
+>   	__pu_err;							\
+>   })
+>   
+> -#define __put_user(x, ptr) put_user(x, ptr)
+> +#define __put_user(x, ptr)						\
+> +({									\
+> +	__auto_type __pu_ptr = (ptr);					\
+> +	typeof(*__pu_ptr) __pu_val = (typeof(*__pu_ptr))(x);		\
+> +	__put_user_common(__pu_val, __pu_ptr);				\
+> +})
+> +
+> +#define put_user(x, ptr)						\
+> +({									\
+> +	__auto_type __pu_ptr = (ptr);					\
+> +	typeof(*__pu_ptr) __pu_val = (typeof(*__pu_ptr))(x);		\
+> +	access_ok(__pu_ptr, sizeof(*__pu_ptr)) ?			\
+> +		__put_user_common(__pu_val, __pu_ptr) :			\
+> +		-EFAULT;						\
+> +})
+>   
+>   #endif /* _ASM_NIOS2_UACCESS_H */
 
-I strongly disagree. I've been using it for a long time as a security
-measure. Setting NPROC to 0 after daemonizing remains a particularly
-effective and portable method to mitigate the possible consequences of
-an in-process intrusion. While I wouldn't care about approximate non-zero
-values, for me it would be a significant security regression to drop the
-inability to fork() when the limit is zero. Thus at least I do want to
-keep that feature when NPROC is zero.
-
-Willy
+Acked-by: Dinh Nguyen <dinguyen@kernel.org>
