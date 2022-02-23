@@ -2,155 +2,96 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DA994C1CCC
-	for <lists+linux-api@lfdr.de>; Wed, 23 Feb 2022 21:05:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA5244C1DD5
+	for <lists+linux-api@lfdr.de>; Wed, 23 Feb 2022 22:36:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233174AbiBWUF6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 23 Feb 2022 15:05:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37910 "EHLO
+        id S234573AbiBWVgu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 23 Feb 2022 16:36:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231267AbiBWUF5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Feb 2022 15:05:57 -0500
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92A364B1F9
-        for <linux-api@vger.kernel.org>; Wed, 23 Feb 2022 12:05:26 -0800 (PST)
-Received: by mail-lj1-x22d.google.com with SMTP id e8so18403757ljj.2
-        for <linux-api@vger.kernel.org>; Wed, 23 Feb 2022 12:05:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+S6BFzj6o5ckty5iXSThNrfkPsdFE94/fVb8NP4+aFs=;
-        b=F/2f/aEUKxSuzDdCknAbug+t8clrlE0v7gj9NkhphhHftuFg6XGIjvpJXVx+ZHKhn9
-         jOIdz4l7lK+/F1JhXkxR/PARyehOhzu1/S93ijWQKe7fGKOKTiRs9R81aIq3OYNVOgnf
-         G4UcKLBEtMgH8cssPIzV42vV3R64/Z0YRVhdY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+S6BFzj6o5ckty5iXSThNrfkPsdFE94/fVb8NP4+aFs=;
-        b=K1BOqXdrBjE+gXC1di0An3muzYA2rFdf3CKFbV9jNgaF6x+FfFn5kqLe63jy6i9MVu
-         f8R+UUGkkw9fGR2m/doeWCw8DIejSOdQPmG9tvQFNIz2S1LnzGPs38108d1EU2NOLzb5
-         O6c4Wf2UqVApamoXmlKjWPglrlXGLBkORUnnS0lYqvkav21nN/09fzCxKKRjy32xG7nP
-         Oig1tYkHuSJv0imaXjflWnUKn9YJSIYhzWPNcmGXvp9W2cU6mx9AE/GNJxxYma31MYvh
-         9wy7nLUJ5Hg3xCMnPalUhiSaweEsyLD//XX1yRY0Ey4yqdM9r1mUczoDChUrKNSKD6gC
-         wv+Q==
-X-Gm-Message-State: AOAM530ZrG/+EEj3H/FpzkQQVGKbZn9eWdwOqAqvWdOFVsFJvSbh5T3O
-        0fp0vebwUKKRWAW9czXRp8D5K58PJVz8vINZ5yg=
-X-Google-Smtp-Source: ABdhPJz5d2+dHNZF0mnWurh4koBiZTA+08tE4CZ/PCVU5tGI+hYSS3NA7ukK8WXj3AvVRraJ//VK2A==
-X-Received: by 2002:a05:651c:1043:b0:23b:9302:7c2b with SMTP id x3-20020a05651c104300b0023b93027c2bmr709010ljm.302.1645646724215;
-        Wed, 23 Feb 2022 12:05:24 -0800 (PST)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com. [209.85.167.53])
-        by smtp.gmail.com with ESMTPSA id o2sm41341lfr.31.2022.02.23.12.05.20
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Feb 2022 12:05:21 -0800 (PST)
-Received: by mail-lf1-f53.google.com with SMTP id d23so133300lfv.13
-        for <linux-api@vger.kernel.org>; Wed, 23 Feb 2022 12:05:20 -0800 (PST)
-X-Received: by 2002:a05:6512:130b:b0:443:c2eb:399d with SMTP id
- x11-20020a056512130b00b00443c2eb399dmr822016lfu.27.1645646720244; Wed, 23 Feb
- 2022 12:05:20 -0800 (PST)
+        with ESMTP id S233549AbiBWVgu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Feb 2022 16:36:50 -0500
+X-Greylist: delayed 411 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 23 Feb 2022 13:36:22 PST
+Received: from 1wt.eu (wtarreau.pck.nerim.net [62.212.114.60])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 154774F9D6;
+        Wed, 23 Feb 2022 13:36:21 -0800 (PST)
+Received: (from willy@localhost)
+        by pcw.home.local (8.15.2/8.15.2/Submit) id 21NLSdVM012144;
+        Wed, 23 Feb 2022 22:28:39 +0100
+Date:   Wed, 23 Feb 2022 22:28:39 +0100
+From:   Willy Tarreau <w@1wt.eu>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
+        linux-api@vger.kernel.org, Etienne Dechamps <etienne@edechamps.fr>,
+        Alexey Gladkov <legion@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Solar Designer <solar@openwall.com>,
+        Ran Xiaokai <ran.xiaokai@zte.com.cn>,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+        security@kernel.org, Neil Brown <neilb@cse.unsw.edu.au>,
+        NeilBrown <neilb@suse.de>, "Serge E. Hallyn" <serge@hallyn.com>,
+        Jann Horn <jannh@google.com>
+Subject: Re: How should rlimits, suid exec, and capabilities interact?
+Message-ID: <20220223212839.GA12121@1wt.eu>
+References: <20220207121800.5079-1-mkoutny@suse.com>
+ <e9589141-cfeb-90cd-2d0e-83a62787239a@edechamps.fr>
+ <20220215101150.GD21589@blackbody.suse.cz>
+ <87zgmi5rhm.fsf@email.froward.int.ebiederm.org>
+ <87fso91n0v.fsf_-_@email.froward.int.ebiederm.org>
+ <CALCETrVh8Xu3VJzseWEJZ+ryy5WANyJg+j4=hFaVFebzSu_TgQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220216131332.1489939-1-arnd@kernel.org> <20220216131332.1489939-10-arnd@kernel.org>
- <20220221132456.GA7139@alpha.franken.de>
-In-Reply-To: <20220221132456.GA7139@alpha.franken.de>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 23 Feb 2022 12:05:04 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wjdHz6OU3M9T5zE9Fc9SNdDs52iOE+eVn-wuUT6UDpBLg@mail.gmail.com>
-Message-ID: <CAHk-=wjdHz6OU3M9T5zE9Fc9SNdDs52iOE+eVn-wuUT6UDpBLg@mail.gmail.com>
-Subject: Re: [PATCH v2 09/18] mips: use simpler access_ok()
-To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Cc:     Arnd Bergmann <arnd@kernel.org>, Christoph Hellwig <hch@lst.de>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Russell King - ARM Linux <linux@armlinux.org.uk>,
-        Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
-        Brian Cain <bcain@codeaurora.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Michal Simek <monstr@monstr.eu>,
-        Nick Hu <nickhu@andestech.com>,
-        Greentime Hu <green.hu@gmail.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Stafford Horne <shorne@gmail.com>,
-        Helge Deller <deller@gmx.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Rich Felker <dalias@libc.org>,
-        David Miller <davem@davemloft.net>,
-        Richard Weinberger <richard@nod.at>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        alpha <linux-alpha@vger.kernel.org>,
-        "open list:SYNOPSYS ARC ARCHITECTURE" 
-        <linux-snps-arc@lists.infradead.org>, linux-csky@vger.kernel.org,
-        linux-hexagon <linux-hexagon@vger.kernel.org>,
-        linux-ia64@vger.kernel.org,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        Openrisc <openrisc@lists.librecores.org>,
-        linux-parisc <linux-parisc@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        linux-sparc <sparclinux@vger.kernel.org>,
-        linux-um <linux-um@lists.infradead.org>,
-        "open list:TENSILICA XTENSA PORT (xtensa)" 
-        <linux-xtensa@linux-xtensa.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALCETrVh8Xu3VJzseWEJZ+ryy5WANyJg+j4=hFaVFebzSu_TgQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Feb 21, 2022 at 5:25 AM Thomas Bogendoerfer
-<tsbogend@alpha.franken.de> wrote:
->
-> With this patch
-[ .. snip snip ..]
-> I at least get my simple test cases fixed, but I'm not sure this is
-> correct.
+Hi Andy,
 
-I think you really want to do that anyway, just to get things like
-wild kernel pointers right (ie think get_kernel_nofault() and friends
-for ftrace etc).
+On Wed, Feb 23, 2022 at 11:44:51AM -0800, Andy Lutomirski wrote:
+> On Wed, Feb 23, 2022 at 10:00 AM Eric W. Biederman
+> <ebiederm@xmission.com> wrote:
+> >
+> >
+> > [CC'd the security list because I really don't know who the right people
+> >  are to drag into this discussion]
+> >
+> > While looking at some issues that have cropped up with making it so
+> > that RLIMIT_NPROC cannot be escaped by creating a user namespace I have
+> > stumbled upon a very old issue of how rlimits and suid exec interact
+> > poorly.
+> 
+> Once upon a time, these resource limits were effectively the only way
+> to control memory consumption and consumption of historically limited
+> resources like processes.  (The scheduler used to have serious issues
+> with too many processes -- this is not so true any more.  And without
+> cgroups, too many processes could use too much CPU collectively.)
+> This all worked pretty poorly.  Now we have cgroups, fancy memory
+> accounting, etc.  So I'm wondering if NPROC is even useful anymore.  I
+> don't have a brilliant idea of how to deprecate it, but I think it
+> wouldn't be entirely nuts to take it much less seriously and maybe
+> even eventually get rid of it.
+> 
+> I doubt there is much existing userspace that would break if a
+> previously failing fork() started succeeding.
 
-They shouldn't happen in any normal situation, but those kinds of
-unverified pointers is why we _have_ get_kernel_nofault() in the first
-place.
+I strongly disagree. I've been using it for a long time as a security
+measure. Setting NPROC to 0 after daemonizing remains a particularly
+effective and portable method to mitigate the possible consequences of
+an in-process intrusion. While I wouldn't care about approximate non-zero
+values, for me it would be a significant security regression to drop the
+inability to fork() when the limit is zero. Thus at least I do want to
+keep that feature when NPROC is zero.
 
-On x86-64, the roughly equivalent situation is that addresses that
-aren't in canonical format do not take a #PF (page fault), they take a
-#GP (general protection) fault.
-
-So I think you want to do that fixup_exception() for any possible addresses.
-
-> Is there a reason to not also #define TASK_SIZE_MAX   __UA_LIMIT like
-> for the 32bit case ?
-
-I would suggest against using a non-constant TASK_SIZE_MAX. Being
-constant is literally one reason why it exists, when TASK_SIZE itself
-has often been about other things (ie "32-bit process").
-
-Having to load variables for things like get_user() is annoying, if
-you could do it with a simple constant instead (where that "simple"
-part is to avoid having to load big values from a constant pool -
-often constants like "high bit set" can be loaded and compared against
-more efficiently).
-
-               Linus
+Willy
