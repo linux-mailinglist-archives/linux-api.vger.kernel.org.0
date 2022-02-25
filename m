@@ -2,190 +2,213 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 818FB4C3A57
-	for <lists+linux-api@lfdr.de>; Fri, 25 Feb 2022 01:29:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 997494C3D20
+	for <lists+linux-api@lfdr.de>; Fri, 25 Feb 2022 05:28:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229998AbiBYAaM convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Thu, 24 Feb 2022 19:30:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32868 "EHLO
+        id S235620AbiBYE3R (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 24 Feb 2022 23:29:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229558AbiBYAaL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Feb 2022 19:30:11 -0500
-Received: from out01.mta.xmission.com (out01.mta.xmission.com [166.70.13.231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FC4329F412;
-        Thu, 24 Feb 2022 16:29:41 -0800 (PST)
-Received: from in01.mta.xmission.com ([166.70.13.51]:42592)
-        by out01.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1nNOUI-001Ewm-DQ; Thu, 24 Feb 2022 17:29:34 -0700
-Received: from ip68-227-174-4.om.om.cox.net ([68.227.174.4]:56954 helo=email.froward.int.ebiederm.org.xmission.com)
-        by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1nNOUH-000XdN-5K; Thu, 24 Feb 2022 17:29:34 -0700
-From:   "Eric W. Biederman" <ebiederm@xmission.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>,
-        Etienne Dechamps <etienne@edechamps.fr>,
-        Alexey Gladkov <legion@kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Solar Designer <solar@openwall.com>,
-        Ran Xiaokai <ran.xiaokai@zte.com.cn>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>,
-        Security Officers <security@kernel.org>,
-        Neil Brown <neilb@cse.unsw.edu.au>, NeilBrown <neilb@suse.de>,
-        "Serge E. Hallyn" <serge@hallyn.com>, Jann Horn <jannh@google.com>,
-        Andy Lutomirski <luto@kernel.org>, Willy Tarreau <w@1wt.eu>,
-        Linus Torvalds <linus@torvalds.org>
-References: <20220207121800.5079-1-mkoutny@suse.com>
-        <e9589141-cfeb-90cd-2d0e-83a62787239a@edechamps.fr>
-        <20220215101150.GD21589@blackbody.suse.cz>
-        <87zgmi5rhm.fsf@email.froward.int.ebiederm.org>
-        <87fso91n0v.fsf_-_@email.froward.int.ebiederm.org>
-        <CAHk-=wjX3VK8QRMDUWwigCTKdHJt0ESXh0Hy5HNaXf7YkEdCAA@mail.gmail.com>
-        <878ru1qcos.fsf@email.froward.int.ebiederm.org>
-        <CAHk-=wgW8+vmqhx4t+uFiZL==8Ac5VWTqCm_oshA0e47B73qPw@mail.gmail.com>
-        <87tucpko7d.fsf@email.froward.int.ebiederm.org>
-        <87sfs8jmpz.fsf_-_@email.froward.int.ebiederm.org>
-        <202202240826.E31BADF@keescook>
-Date:   Thu, 24 Feb 2022 18:29:24 -0600
-In-Reply-To: <202202240826.E31BADF@keescook> (Kees Cook's message of "Thu, 24
-        Feb 2022 08:28:41 -0800")
-Message-ID: <87y21zhjq3.fsf@email.froward.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+        with ESMTP id S229702AbiBYE3O (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Feb 2022 23:29:14 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D6CA1AAA77;
+        Thu, 24 Feb 2022 20:28:43 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 00B44B82AC2;
+        Fri, 25 Feb 2022 04:28:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 905E7C340E8;
+        Fri, 25 Feb 2022 04:28:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1645763320;
+        bh=7SThN/utKX/p0lzUCmG6ocQvEAx3lLFOHF56GsXqmkg=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=QDYtR8NlrGKuoQjmYA8kyhZOE9M5T1r29vrwrzKtqeW8ZEboLFyE9tpTLIHZrIsc2
+         nruqaf44dOGvL9m0YF8yy/0GnP7bjsDnUbUqIRzmMJPfXE0DXeAhxVhfed4IaeshxM
+         3dBB3rRybvVICiYVW2EwE6UiyRp2P0hHIB0n0MePLyot8SwYrU2i+wAnXsNlJLOQZg
+         JdbB1DfWOrhGY/Jb/JrlNhbdzjO74CuLFiFEukShPqlCb0VjpFFv/dEFsnilhkTnnf
+         /2HYT2lkEsKGxWybS9oRJ8pGnuvkqQGXNVQBnHCXm5s98tF2QqOVujOWC0O/sTxEOf
+         zPy8zKCde1DGg==
+Message-ID: <f6c34635-533f-8b63-b27b-15835b93e6d4@kernel.org>
+Date:   Thu, 24 Feb 2022 22:28:32 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-X-XM-SPF: eid=1nNOUH-000XdN-5K;;;mid=<87y21zhjq3.fsf@email.froward.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.174.4;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX1+tiJNf1YjykR+rfILbUT6/qjREErIq3zE=
-X-SA-Exim-Connect-IP: 68.227.174.4
-X-SA-Exim-Mail-From: ebiederm@xmission.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 02/18] uaccess: fix nios2 and microblaze get_user_8()
+Content-Language: en-US
+To:     Arnd Bergmann <arnd@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Christoph Hellwig <hch@lst.de>, linux-arch@vger.kernel.org,
+        linux-mm@kvack.org, linux-api@vger.kernel.org, arnd@arndb.de,
+        linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk
+Cc:     linux@armlinux.org.uk, will@kernel.org, guoren@kernel.org,
+        bcain@codeaurora.org, geert@linux-m68k.org, monstr@monstr.eu,
+        tsbogend@alpha.franken.de, nickhu@andestech.com,
+        green.hu@gmail.com, shorne@gmail.com, deller@gmx.de,
+        mpe@ellerman.id.au, peterz@infradead.org, mingo@redhat.com,
+        mark.rutland@arm.com, hca@linux.ibm.com, dalias@libc.org,
+        davem@davemloft.net, richard@nod.at, x86@kernel.org,
+        jcmvbkbc@gmail.com, ebiederm@xmission.com,
+        akpm@linux-foundation.org, ardb@kernel.org,
+        linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+        linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org
+References: <20220216131332.1489939-1-arnd@kernel.org>
+ <20220216131332.1489939-3-arnd@kernel.org>
+From:   Dinh Nguyen <dinguyen@kernel.org>
+In-Reply-To: <20220216131332.1489939-3-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
-X-Spam-Virus: No
-X-Spam-DCC: XMission; sa03 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: ;Kees Cook <keescook@chromium.org>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 634 ms - load_scoreonly_sql: 0.03 (0.0%),
-        signal_user_changed: 4.2 (0.7%), b_tie_ro: 2.9 (0.5%), parse: 0.92
-        (0.1%), extract_message_metadata: 15 (2.3%), get_uri_detail_list: 2.1
-        (0.3%), tests_pri_-1000: 21 (3.3%), tests_pri_-950: 0.99 (0.2%),
-        tests_pri_-900: 0.82 (0.1%), tests_pri_-90: 62 (9.8%), check_bayes: 61
-        (9.6%), b_tokenize: 9 (1.4%), b_tok_get_all: 12 (1.8%), b_comp_prob:
-        2.7 (0.4%), b_tok_touch_all: 33 (5.3%), b_finish: 0.80 (0.1%),
-        tests_pri_0: 392 (61.9%), check_dkim_signature: 0.44 (0.1%),
-        check_dkim_adsp: 1.87 (0.3%), poll_dns_idle: 121 (19.2%),
-        tests_pri_10: 2.3 (0.4%), tests_pri_500: 132 (20.8%), rewrite_mail:
-        0.00 (0.0%)
-Subject: Re: [PATCH] ucounts: Fix systemd LimigtNPROC with private users
- regression
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Kees Cook <keescook@chromium.org> writes:
 
-> typo: Subject's LimigtNPROC -> LimitNPROC
->
-> On Thu, Feb 24, 2022 at 09:41:44AM -0600, Eric W. Biederman wrote:
->> 
->> Long story short recursively enforcing RLIMIT_NPROC when it is not
->> enforced on the process that creates a new user namespace, causes
->> currently working code to fail.  There is no reason to enforce
->> RLIMIT_NPROC recursively when we don't enforce it normally so update
->> the code to detect this case.
->> 
->> I would like to simply use capable(CAP_SYS_RESOURCE) to detect when
->> RLIMIT_NPROC is not enforced upon the caller.  Unfortunately because
->> RLIMIT_NPROC is charged and checked for enforcement based upon the
->> real uid, using capable() wich is euid based is inconsistent with reality.
->
-> typo: wich -> which
 
-Ahh... Typos.
+On 2/16/22 07:13, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> These two architectures implement 8-byte get_user() through
+> a memcpy() into a four-byte variable, which won't fit.
+> 
+> Use a temporary 64-bit variable instead here, and use a double
+> cast the way that risc-v and openrisc do to avoid compile-time
+> warnings.
+> 
+> Fixes: 6a090e97972d ("arch/microblaze: support get_user() of size 8 bytes")
+> Fixes: 5ccc6af5e88e ("nios2: Memory management")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>   arch/microblaze/include/asm/uaccess.h | 18 +++++++++---------
+>   arch/nios2/include/asm/uaccess.h      | 26 ++++++++++++++++----------
+>   2 files changed, 25 insertions(+), 19 deletions(-)
+> 
+> diff --git a/arch/microblaze/include/asm/uaccess.h b/arch/microblaze/include/asm/uaccess.h
+> index 5b6e0e7788f4..3fe96979d2c6 100644
+> --- a/arch/microblaze/include/asm/uaccess.h
+> +++ b/arch/microblaze/include/asm/uaccess.h
+> @@ -130,27 +130,27 @@ extern long __user_bad(void);
+>   
+>   #define __get_user(x, ptr)						\
+>   ({									\
+> -	unsigned long __gu_val = 0;					\
+>   	long __gu_err;							\
+>   	switch (sizeof(*(ptr))) {					\
+>   	case 1:								\
+> -		__get_user_asm("lbu", (ptr), __gu_val, __gu_err);	\
+> +		__get_user_asm("lbu", (ptr), x, __gu_err);		\
+>   		break;							\
+>   	case 2:								\
+> -		__get_user_asm("lhu", (ptr), __gu_val, __gu_err);	\
+> +		__get_user_asm("lhu", (ptr), x, __gu_err);		\
+>   		break;							\
+>   	case 4:								\
+> -		__get_user_asm("lw", (ptr), __gu_val, __gu_err);	\
+> +		__get_user_asm("lw", (ptr), x, __gu_err);		\
+>   		break;							\
+> -	case 8:								\
+> -		__gu_err = __copy_from_user(&__gu_val, ptr, 8);		\
+> -		if (__gu_err)						\
+> -			__gu_err = -EFAULT;				\
+> +	case 8: {							\
+> +		__u64 __x = 0;						\
+> +		__gu_err = raw_copy_from_user(&__x, ptr, 8) ?		\
+> +							-EFAULT : 0;	\
+> +		(x) = (typeof(x))(typeof((x) - (x)))__x;		\
+>   		break;							\
+> +	}								\
+>   	default:							\
+>   		/* __gu_val = 0; __gu_err = -EINVAL;*/ __gu_err = __user_bad();\
+>   	}								\
+> -	x = (__force __typeof__(*(ptr))) __gu_val;			\
+>   	__gu_err;							\
+>   })
+>   
+> diff --git a/arch/nios2/include/asm/uaccess.h b/arch/nios2/include/asm/uaccess.h
+> index ba9340e96fd4..ca9285a915ef 100644
+> --- a/arch/nios2/include/asm/uaccess.h
+> +++ b/arch/nios2/include/asm/uaccess.h
+> @@ -88,6 +88,7 @@ extern __must_check long strnlen_user(const char __user *s, long n);
+>   /* Optimized macros */
+>   #define __get_user_asm(val, insn, addr, err)				\
+>   {									\
+> +	unsigned long __gu_val;						\
+>   	__asm__ __volatile__(						\
+>   	"       movi    %0, %3\n"					\
+>   	"1:   " insn " %1, 0(%2)\n"					\
+> @@ -96,14 +97,20 @@ extern __must_check long strnlen_user(const char __user *s, long n);
+>   	"       .section __ex_table,\"a\"\n"				\
+>   	"       .word 1b, 2b\n"						\
+>   	"       .previous"						\
+> -	: "=&r" (err), "=r" (val)					\
+> +	: "=&r" (err), "=r" (__gu_val)					\
+>   	: "r" (addr), "i" (-EFAULT));					\
+> +	val = (__force __typeof__(*(addr)))__gu_val;			\
+>   }
+>   
+> -#define __get_user_unknown(val, size, ptr, err) do {			\
+> +extern void __get_user_unknown(void);
+> +
+> +#define __get_user_8(val, ptr, err) do {				\
+> +	u64 __val = 0;							\
+>   	err = 0;							\
+> -	if (__copy_from_user(&(val), ptr, size)) {			\
+> +	if (raw_copy_from_user(&(__val), ptr, sizeof(val))) {		\
+>   		err = -EFAULT;						\
+> +	} else {							\
+> +		val = (typeof(val))(typeof((val) - (val)))__val;	\
+>   	}								\
+>   	} while (0)
+>   
+> @@ -119,8 +126,11 @@ do {									\
+>   	case 4:								\
+>   		__get_user_asm(val, "ldw", ptr, err);			\
+>   		break;							\
+> +	case 8:								\
+> +		__get_user_8(val, ptr, err);				\
+> +		break;							\
+>   	default:							\
+> -		__get_user_unknown(val, size, ptr, err);		\
+> +		__get_user_unknown();					\
+>   		break;							\
+>   	}								\
+>   } while (0)
+> @@ -129,9 +139,7 @@ do {									\
+>   	({								\
+>   	long __gu_err = -EFAULT;					\
+>   	const __typeof__(*(ptr)) __user *__gu_ptr = (ptr);		\
+> -	unsigned long __gu_val = 0;					\
+> -	__get_user_common(__gu_val, sizeof(*(ptr)), __gu_ptr, __gu_err);\
+> -	(x) = (__force __typeof__(x))__gu_val;				\
+> +	__get_user_common(x, sizeof(*(ptr)), __gu_ptr, __gu_err);	\
+>   	__gu_err;							\
+>   	})
+>   
+> @@ -139,11 +147,9 @@ do {									\
+>   ({									\
+>   	long __gu_err = -EFAULT;					\
+>   	const __typeof__(*(ptr)) __user *__gu_ptr = (ptr);		\
+> -	unsigned long __gu_val = 0;					\
+>   	if (access_ok( __gu_ptr, sizeof(*__gu_ptr)))	\
+> -		__get_user_common(__gu_val, sizeof(*__gu_ptr),		\
+> +		__get_user_common(x, sizeof(*__gu_ptr),			\
+>   			__gu_ptr, __gu_err);				\
+> -	(x) = (__force __typeof__(x))__gu_val;				\
+>   	__gu_err;							\
+>   })
+>   
 
->> Come as close as possible to testing for capable(CAP_SYS_RESOURCE) by
->> testing for when the real uid would match the conditions when
->> CAP_SYS_RESOURCE would be present if the real uid was the effective
->> uid.
->> 
->> Reported-by: Etienne Dechamps <etienne@edechamps.fr>
->> Link: https://bugzilla.kernel.org/show_bug.cgi?id=215596
->> Link: https://lkml.kernel.org/r/e9589141-cfeb-90cd-2d0e-83a62787239a@edechamps.fr
->> Fixes: 21d1c5e386bc ("Reimplement RLIMIT_NPROC on top of ucounts")
->> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
->> ---
->> 
->> The previous conversation has given me enough clarity that I can see
->> which tests I am comfortable with use for this pending regression fix.
->> 
->> I have tested this and it works for me.  Does anyone have any concerns
->> with this change?
->
-> I'd really love some kind of selftest that exercises the edge cases; do
-> you have your tests in some form that could be converted?
->
-> But otherwise, yes, this looks like the best option here.
-
-Let's start with Michal Koutný tests.  I keep forgetting to look at
-them.  This cold has really been kicking my butt.
-
-For this issue the test case was a systemd unit file.  Which is simple
-and demonstrates the real-world regression but not really minimal in the
-way a kernel selftest should be.
-
-> Reviewed-by: Kees Cook <keescook@chromium.org>
->
->> 
->>  kernel/user_namespace.c | 14 +++++++++++++-
->>  1 file changed, 13 insertions(+), 1 deletion(-)
->> 
->> diff --git a/kernel/user_namespace.c b/kernel/user_namespace.c
->> index 6b2e3ca7ee99..5481ba44a8d6 100644
->> --- a/kernel/user_namespace.c
->> +++ b/kernel/user_namespace.c
->> @@ -58,6 +58,18 @@ static void set_cred_user_ns(struct cred *cred, struct user_namespace *user_ns)
->>  	cred->user_ns = user_ns;
->>  }
->>  
->> +static unsigned long enforced_nproc_rlimit(void)
->> +{
->> +	unsigned long limit = RLIM_INFINITY;
->> +
->> +	/* Is RLIMIT_NPROC currently enforced? */
->> +	if (!uid_eq(current_uid(), GLOBAL_ROOT_UID) ||
->> +	    (current_user_ns() != &init_user_ns))
->> +		limit = rlimit(RLIMIT_NPROC);
->> +
->> +	return limit;
->> +}
->> +
->>  /*
->>   * Create a new user namespace, deriving the creator from the user in the
->>   * passed credentials, and replacing that user with the new root user for the
->> @@ -122,7 +134,7 @@ int create_user_ns(struct cred *new)
->>  	for (i = 0; i < MAX_PER_NAMESPACE_UCOUNTS; i++) {
->>  		ns->ucount_max[i] = INT_MAX;
->>  	}
->> -	set_rlimit_ucount_max(ns, UCOUNT_RLIMIT_NPROC, rlimit(RLIMIT_NPROC));
->> +	set_rlimit_ucount_max(ns, UCOUNT_RLIMIT_NPROC, enforced_nproc_rlimit());
->>  	set_rlimit_ucount_max(ns, UCOUNT_RLIMIT_MSGQUEUE, rlimit(RLIMIT_MSGQUEUE));
->>  	set_rlimit_ucount_max(ns, UCOUNT_RLIMIT_SIGPENDING, rlimit(RLIMIT_SIGPENDING));
->>  	set_rlimit_ucount_max(ns, UCOUNT_RLIMIT_MEMLOCK, rlimit(RLIMIT_MEMLOCK));
->> -- 
->> 2.29.2
->> 
-
-Eric
+Acked-by: Dinh Nguyen <dinguyen@kernel.org>
