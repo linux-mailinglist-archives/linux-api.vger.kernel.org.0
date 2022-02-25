@@ -2,42 +2,55 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 435664C3F97
-	for <lists+linux-api@lfdr.de>; Fri, 25 Feb 2022 08:53:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DECF64C4C5F
+	for <lists+linux-api@lfdr.de>; Fri, 25 Feb 2022 18:35:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238296AbiBYHy1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 25 Feb 2022 02:54:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42170 "EHLO
+        id S243783AbiBYRgF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 25 Feb 2022 12:36:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238298AbiBYHy1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Feb 2022 02:54:27 -0500
-X-Greylist: delayed 427 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 24 Feb 2022 23:53:56 PST
-Received: from mail.powerangels.com.pl (mail.powerangels.com.pl [45.86.209.159])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B23C1B4001
-        for <linux-api@vger.kernel.org>; Thu, 24 Feb 2022 23:53:55 -0800 (PST)
-Received: by mail.powerangels.com.pl (Postfix, from userid 1001)
-        id ECD0D83995; Fri, 25 Feb 2022 02:45:28 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=powerangels.com.pl;
-        s=mail; t=1645775207;
-        bh=07NAgW1e0WiNB9zqagiM2BnwZfWBCpNa2E4+ccxBPgw=;
-        h=Date:From:To:Subject:From;
-        b=S/mfpkNq7hrSWaS10x+MgyuIgNiQUE0ARBiCyDpzg0MPTRsIT6YqzuvE9fmGjJuie
-         x5kioPHarqN1+Q+yBsUjgRZCuwnPlJlHR97oNDmGXm+6ke85+MWLZ7dwrAdUvbddSr
-         QQko3wvxqCpDKALgEL/p4RS/va/2q6EYwYzQ0+13PlAELHqy3GAIK53e/gYhnuiF7L
-         wEv3lXhQR2KHNNXAx2Fs0PL53RPDp/ywOKfb0MGPygD+M5oR9mE+7C3e2fwcC7N9xN
-         8iUqrHNpYZNZRkV6Dv9z/DO6pNCPNInNPxSLap5l7uOujRNydd5La4KKfMkFSlGCo1
-         XL21Kz5l4nRbg==
-Received: by mail.powerangels.com.pl for <linux-api@vger.kernel.org>; Fri, 25 Feb 2022 07:45:21 GMT
-Message-ID: <20220225024500-0.1.j.20cg.0.wvnlod1r32@powerangels.com.pl>
-Date:   Fri, 25 Feb 2022 07:45:21 GMT
-From:   "Jakub Daroch" <jakub.daroch@powerangels.com.pl>
-To:     <linux-api@vger.kernel.org>
-Subject: Wycena paneli fotowoltaicznych
-X-Mailer: mail.powerangels.com.pl
+        with ESMTP id S243778AbiBYRgE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 25 Feb 2022 12:36:04 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FBA01B1DC1
+        for <linux-api@vger.kernel.org>; Fri, 25 Feb 2022 09:35:32 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id E3D3E2A0;
+        Fri, 25 Feb 2022 17:35:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E3D3E2A0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1645810530; bh=xVDx4/GSY2zJkyT/gM/R6AZuIZFKi2N/VNg2nDidNbU=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=YpngwjhdB/ODio2/bgj3wh3cWagorZlvDWa3zRG/E9hD5L4S4afRgCTmOxpo3VIiK
+         JOabr1BqSrAcu0mZSP942hBbpU+iJywDZByt9PN7ORkJPW2Inm/kJymcQd3mgwGZ8u
+         Qtp+cxLsC5DjIVBLJPWIItPdJDkwFmDuNA3q3fk3cf56KftaaMgM9q/nIA0R39PWgZ
+         Z1t57DOZ372qkYwh0+RqVnJZuU06khcA1XEZJdX2IWMai+yGhZN9iLcA5L9NohsiNC
+         phOk6QuxjvauwlapB+kfqbLRkq3+YprCGSsmzmtko97nRLZWIoMOxhx48fyB7yobor
+         94o/rDUN7yM3Q==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Peter Zijlstra <peterz@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api@vger.kernel.org,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Florian Weimer <fw@deneb.enyo.de>, David.Laight@ACULAB.COM,
+        carlos@redhat.com, Peter Oskolkov <posk@posk.io>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: Re: [RFC PATCH v2 09/11] sched: Introduce per memory space current
+ virtual cpu id
+In-Reply-To: <20220218210633.23345-10-mathieu.desnoyers@efficios.com>
+References: <20220218210633.23345-1-mathieu.desnoyers@efficios.com>
+ <20220218210633.23345-10-mathieu.desnoyers@efficios.com>
+Date:   Fri, 25 Feb 2022 10:35:29 -0700
+Message-ID: <87k0dikfxa.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.7 required=5.0 tests=BAYES_05,DKIM_SIGNED,
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
         version=3.4.6
@@ -47,17 +60,24 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Mathieu Desnoyers <mathieu.desnoyers@efficios.com> writes:
 
-dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
-irm=C4=85.
+> This feature allows the scheduler to expose a current virtual cpu id
+> to user-space. This virtual cpu id is within the possible cpus range,
+> and is temporarily (and uniquely) assigned while threads are actively
+> running within a memory space. If a memory space has fewer threads than
+> cores, or is limited to run on few cores concurrently through sched
+> affinity or cgroup cpusets, the virtual cpu ids will be values close
+> to 0, thus allowing efficient use of user-space memory for per-cpu
+> data structures.
 
-=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
-ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
+So I have one possibly (probably) dumb question: if I'm writing a
+program to make use of virtual CPU IDs, how do I know what the maximum
+ID will be?  It seems like one of the advantages of this mechanism would
+be not having to be prepared for anything in the physical ID space, but
+is there any guarantee that the virtual-ID space will be smaller?
+Something like "no larger than the number of threads", say?
 
-Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
-ropozycji?
+Thanks,
 
-
-Pozdrawiam,
-Jakub Daroch
+jon
