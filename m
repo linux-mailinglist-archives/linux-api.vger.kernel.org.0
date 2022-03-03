@@ -2,109 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 10BF14CB517
-	for <lists+linux-api@lfdr.de>; Thu,  3 Mar 2022 03:52:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E40984CC0AB
+	for <lists+linux-api@lfdr.de>; Thu,  3 Mar 2022 16:06:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231806AbiCCClk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 2 Mar 2022 21:41:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36644 "EHLO
+        id S234274AbiCCPH3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 3 Mar 2022 10:07:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231793AbiCCClj (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 2 Mar 2022 21:41:39 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60C5D13CD2
-        for <linux-api@vger.kernel.org>; Wed,  2 Mar 2022 18:40:55 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id c16-20020a17090aa61000b001befad2bfaaso3110337pjq.1
-        for <linux-api@vger.kernel.org>; Wed, 02 Mar 2022 18:40:55 -0800 (PST)
+        with ESMTP id S232375AbiCCPH2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 3 Mar 2022 10:07:28 -0500
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B11811903E8
+        for <linux-api@vger.kernel.org>; Thu,  3 Mar 2022 07:06:42 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id ay10so8303473wrb.6
+        for <linux-api@vger.kernel.org>; Thu, 03 Mar 2022 07:06:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:cc
-         :references:from:to:in-reply-to:content-transfer-encoding;
-        bh=WKpgUKvbgmgS/+XZIYcGoureDOsojTAGGMqwpMVSdx0=;
-        b=WkDu5aHPpmG3JoGrcKXOSVtPyVZqVsnK9TfxUoj9Yj3PEpa6J+V/9fQwamFkioHzpi
-         GfDxjNVajhLweHzfHllvGWROpleV0ERKGRiDG21o9iU9qu1YjprDnWiFRcatw9XQC1rM
-         7sg4g4v4ucriVtTOi9A7iZ1PpUOhOET1ALx40wMhkt9JLGx1rqA7RfYuNcLxag7aq98/
-         KcLZKC4flRjOBeebXDCRsK5wGicPYjIg80LIBmi25TK/xcQQqYjtNnSuK6ls/CWInWJ2
-         a+AM1y8HzMvC5pKjQmwpWGBoprOZm5xBsply77UPufQIJWTVWaNIU4DMAjALn8ot1XPS
-         ShKg==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=J1Ny1Kk0doTsM8cCUsEjo0HlvfjQ3SyUhdWEm2QCJkM=;
+        b=w/so2gD3/QJiqxXU2uQbnIFgQ/SSyxDlL+L4v7KQCRpUBRpyGgC6TtR5IcKV1rjghj
+         p/PQjWUguJqgokoLSwjcrmhVrngwvQn2OI+C1k9cfu3400yEX+GcaKQ3iZCcKDgT8lOQ
+         5witJN6+J7m5NHY44Uct1m7RqxniLl4q7mxFb+etM0pby3VJIRRU+eI7SvKdUFjBC77c
+         vgrnvXVv0LsJGkxjBTgXJdnZ3eJi38P1hHcOMIhxSy7+/6la0viMVQIUigVEAwhuYeef
+         kShp06e9wuDyW4IvWTf4aiUsqe0kdxT+wF9C7+CnzmBBKDvp8s80dHlPk1VY2fHj7kpU
+         NZNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:cc:references:from:to:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=WKpgUKvbgmgS/+XZIYcGoureDOsojTAGGMqwpMVSdx0=;
-        b=7KshqH52lI83z9uO0dqzEISA7WkPODCh4NSDtznqX+pZ23yLal7/E05iDHh98C7U1v
-         wdDIP0JRDh4fG7YrZQP2FVyuQTwP2m7HOoFwZZ5zN79vy3pMGqsI4IfOBlh43q8x2j9G
-         FJ5tNrZsFX3++V4juHyBrETnvtJKhWHwitRVclSozpzO4Jniq1wAIYjmNFdrYYQTbhR6
-         HCA1BvoPrvIkit4mzvukUnpIA+3VFERBtusxj+grITA8uZoGhpY9uH4pQnHCX6w85ygQ
-         9CWyTd+9q22Cba/HqHusxari/d/wHbZIwaIdPVFYnIRJkt0Cs3RpJlSz1GCjt0voMXf5
-         e7sw==
-X-Gm-Message-State: AOAM531KpSFJJyGrrkVhlFzQNCwsBiF4Qjlijm9GUCX1vtTu8VZCvXHd
-        EK/b0am+dpFYFxoa9ZZet0kWlw==
-X-Google-Smtp-Source: ABdhPJxOdMLArkpmLe9NJIzj5q5ePqZMNN5SzGfTtRGy/eUE2Cok/FhJL8qVgYMzK4uz3BqAkLF3Xg==
-X-Received: by 2002:a17:902:7fc5:b0:151:863e:44ee with SMTP id t5-20020a1709027fc500b00151863e44eemr10350330plb.163.1646275254888;
-        Wed, 02 Mar 2022 18:40:54 -0800 (PST)
-Received: from [10.76.43.192] ([61.120.150.76])
-        by smtp.gmail.com with ESMTPSA id q7-20020a056a0002a700b004f357e3e42fsm546095pfs.36.2022.03.02.18.40.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Mar 2022 18:40:54 -0800 (PST)
-Message-ID: <b31b0c6b-4a97-e03a-0bc0-4bf17d2ed946@bytedance.com>
-Date:   Thu, 3 Mar 2022 10:40:48 +0800
+        bh=J1Ny1Kk0doTsM8cCUsEjo0HlvfjQ3SyUhdWEm2QCJkM=;
+        b=YlVLGskdzKMGVNmakTeS5RkIXGnKX7VxF3SxEyUPxBhvOkg+Le63qiyg8WNwar17tg
+         eAPHooOafaOGRkxhwRsY2sZdTGFx44KL2l5sjcjTWl/T8KvHdypirq/m6j4ZpzhSSmV3
+         F7W+/iJ9JtE3dYdRf5EZoCu75QsIxkjveXGIWA1pwD2NA+3OidVY4yM/dJO+BMEOtaWf
+         3sPKfuvWziOK3HOy4chMdHgST8MQZ8PeqNWkExm1KfNu2Gql20gjo7QoAhK27r8bvCia
+         3tVPI+OwikW0wew43SqyzGu8V/runz0TlVVE2RFfrC0dv+QeYpkYm1wbkS4KMiDI5wEW
+         Ex0g==
+X-Gm-Message-State: AOAM5313sCuXPmDtC9hP4KPrlETwX9p4qQGT7qjLm14hHv+5IevwhwO8
+        aTbF0hUf42sdGRIiJRyD2Pfc0g==
+X-Google-Smtp-Source: ABdhPJz+l5RnTpeHxp44K7Vl6eEYwjbGTyaupO3qN2rK9H2EFJDLcC/E3+lmzMyQO8BEsc3PDML2rg==
+X-Received: by 2002:a5d:47a1:0:b0:1f0:3440:2d04 with SMTP id 1-20020a5d47a1000000b001f034402d04mr5784070wrb.357.1646320001284;
+        Thu, 03 Mar 2022 07:06:41 -0800 (PST)
+Received: from localhost.localdomain (hst-221-14.medicom.bg. [84.238.221.14])
+        by smtp.gmail.com with ESMTPSA id o16-20020a05600c511000b0038141b4a4edsm10757072wms.38.2022.03.03.07.06.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Mar 2022 07:06:40 -0800 (PST)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Cc:     hverkuil-cisco@xs4all.nl, Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [PATCH v4 0/6] Qualcomm custom compressed pixfmt
+Date:   Thu,  3 Mar 2022 17:06:30 +0200
+Message-Id: <20220303150636.577063-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH] sched/numa: add per-process numa_balancing
-Content-Language: en-US
-Cc:     songmuchun@bytedance.com, zhengqi.arch@bytedance.com,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org
-References: <20220224075227.27127-1-ligang.bdlg@bytedance.com>
-From:   Gang Li <ligang.bdlg@bytedance.com>
-To:     Peter Zijlstra <peterz@infradead.org>, Mel Gorman <mgorman@suse.de>
-In-Reply-To: <20220224075227.27127-1-ligang.bdlg@bytedance.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi Peter Zijlstra,
+Changes since v3:
+ * added acked-by tag in 1/6 (Hans)
+ * reword patch description in 5/6 (Nicolas)
 
-On 2022/1/12 22:43, Peter Zijlstra wrote:
- >> Set per-process numa balancing:
- >> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DISABLE); //disable
- >> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_ENABLE);  //enable
- >> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DEFAULT); //follow global
- >
- > This seems to imply you can prctl(ENABLE) even if the global is
- > disabled, IOW sched_numa_balancing is off.
+Regards,
+Stan
 
-I have discussed the semantics of this API with Mel Gorman, we both
-agree that we can prctl(ENABLE) even if the global is disabled.
+Stanimir Varbanov (6):
+  v4l: Add Qualcomm custom compressed pixel formats
+  venus: helpers: Add helper to check supported pixel formats
+  venus: Add a handling of QC08C compressed format
+  venus: hfi_platform: Correct supported compressed format
+  venus: Add a handling of QC10C compressed format
+  venus: vdec: Use output resolution on reconfigure
 
-On 2021/11/10 00:26, Mel Gorman wrote: [1]
- > For symmetry and consistency of the tuning. Either there is per-process
- > control or there is not. Right now, there is only the ability to turn
- > off NUMA balancing via prctl if globally enabled. There is no option to
- > turn NUMA balancing on for a single task if globally disabled.
+ .../media/v4l/pixfmt-reserved.rst             | 19 +++++++
+ drivers/media/platform/qcom/venus/helpers.c   | 51 +++++++++++--------
+ drivers/media/platform/qcom/venus/helpers.h   |  1 +
+ .../platform/qcom/venus/hfi_platform_v4.c     |  4 +-
+ .../platform/qcom/venus/hfi_platform_v6.c     |  4 +-
+ drivers/media/platform/qcom/venus/vdec.c      | 35 +++++++++++--
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  2 +
+ include/uapi/linux/videodev2.h                |  2 +
+ 8 files changed, 87 insertions(+), 31 deletions(-)
 
-On 11/18/21 4:58 PM, Mel Gorman wrote: [2]
- > On Thu, Nov 18, 2021 at 11:26:30AM +0800, Gang Li wrote:
- >> 3. prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_ENABLE);  //enable
- >
- > If PR_SET_NUMAB_ENABLE enables numa balancing for a task when
- > kernel.numa_balancing == 0 instead of returning an error then sure.
-
-[1] Link: https://lore.kernel.org/lkml/20211109162647.GY3891@suse.de/
-[2] Link: https://lore.kernel.org/lkml/20211118085819.GD3301@suse.de/
 -- 
-Thanks
-Gang Li
+2.25.1
 
