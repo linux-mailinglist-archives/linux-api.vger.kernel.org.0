@@ -2,59 +2,59 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D2C94CC0BD
-	for <lists+linux-api@lfdr.de>; Thu,  3 Mar 2022 16:07:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 68DBC4CC0C1
+	for <lists+linux-api@lfdr.de>; Thu,  3 Mar 2022 16:07:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234329AbiCCPHk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        id S234338AbiCCPHk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
         Thu, 3 Mar 2022 10:07:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48552 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234306AbiCCPHd (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 3 Mar 2022 10:07:33 -0500
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4EFC1903F3
-        for <linux-api@vger.kernel.org>; Thu,  3 Mar 2022 07:06:47 -0800 (PST)
-Received: by mail-wm1-x32e.google.com with SMTP id i6-20020a1c3b06000000b00386f2897400so136521wma.5
-        for <linux-api@vger.kernel.org>; Thu, 03 Mar 2022 07:06:47 -0800 (PST)
+        with ESMTP id S234222AbiCCPHe (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 3 Mar 2022 10:07:34 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DACC11903ED
+        for <linux-api@vger.kernel.org>; Thu,  3 Mar 2022 07:06:48 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id bg31-20020a05600c3c9f00b00381590dbb33so3408877wmb.3
+        for <linux-api@vger.kernel.org>; Thu, 03 Mar 2022 07:06:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=RaGrefX44rEm0wu9mMJuIgGrRaikvNDSwTTA6I5onmc=;
-        b=iQLNGn0tWI4UbbLemKwJopKnPXIK6nheNzTzHrT8vkbpBGYU/hUG56HnYeriqvXwBn
-         ukQV4uk2XqPg1IYY2gQ7dA7zCxVQA9VAefi89ro1B74a8yukKgHhylzRLQKi4rcVh6UF
-         NI7bvak1fBKABNQHpdM+MqV1a3R0qX/5xamzlcsDctZNb6jr+eOuwxgjOMdkwfwM+iRg
-         otvzcIZJ05YXu31osASP0SQH4UAI5x4W7rmj74EOPCvO5edl6eofBwlPdZ4J7DyWdZ7t
-         sIxsnRYXia+pZlL6teoLO4fjKrIP1P7cG+q/Qv/Zac7Tnd+79P1RnByWsBuSUnoodgW2
-         hvPQ==
+        bh=bgKGUZV9Ow5lTkYXyL6TgBgt5kr++QVKt0rnOqG3iUs=;
+        b=TWIVaeFLPw3aJf4W+SVAkQayYuhXJUaCDckHLmfl2sqjIvYVf7A5d2VIxXHhUEbctG
+         /0CAr73TCB/72Sal9mTRhAM9U9G8N1SnJYOPhYZBW0WFoKlNirW+FCHEHz5490eWcJK/
+         fvms0rlfWgRfM/E+E2ImynSk5ar/CoKEqmCzqm68l0T64lMASIOCEDDEbC33Ju9BCn99
+         3ouJryNh373bn7HuUoSXXp25UZUl7HEocdQhGvcfbqUrMH1BZQr/7eG5R6jalEeIsyPl
+         ZOFk75SPzWG1hf/PJ2fu63xfirLVFvv/hPBxLvIRpOdKBEHX0FvPRY2/5xuW5t5/VeBX
+         FZIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=RaGrefX44rEm0wu9mMJuIgGrRaikvNDSwTTA6I5onmc=;
-        b=G5Kvljb0ZnTnf9E5raTjYpa62GIaEtVaQhjqousA5qxczkgC/E8VR6Sb2YlEnEkGN0
-         v89bpZN52/JvOPQXDYyYbd925LleimAHop/6mtS8GIsKTMcWFjM3XlPtf3Lkuy5DHDTe
-         OyLxA0XWwR7mFdDeir1b9rSgw0WPy7i0JVFKr6mvi6T5SAelh8KFzb8giuHgRILMh2f9
-         /OGBtkZIrj15/Vy4yxIMarBZU36CM32g5veyhTEWpiHRM2VOOD7HK78wjnk9X6W4IqX2
-         woPeyVcZlja2ZVLjhtPQmy6IBfzMDMDpyRZqxkCkDKDxeenU6AeM9UShCLL/JKZLcbBz
-         AdqQ==
-X-Gm-Message-State: AOAM532Sh8AusDlFC1IeVT614QavRQ8qUt6JaQXK5fkQnzuk6bevh23O
-        owVOGcVtTU6R5PqYfEbmPCF2yQU3WU86zVN6
-X-Google-Smtp-Source: ABdhPJyeVXsvKvr0st8E02wJKuejqcviu/T7Pj+MD4OwIM0plwJp9ylK47fRvkVMZ/n3NArQdUWyfg==
-X-Received: by 2002:a05:600c:35c4:b0:381:782e:9645 with SMTP id r4-20020a05600c35c400b00381782e9645mr4130136wmq.63.1646320006414;
-        Thu, 03 Mar 2022 07:06:46 -0800 (PST)
+        bh=bgKGUZV9Ow5lTkYXyL6TgBgt5kr++QVKt0rnOqG3iUs=;
+        b=zWhT5STtHak5vHFKnLT7xMtqX0cqQUfl7QmC6Wo02763ETGuja1YVAw+wse5/hG+q2
+         75vDggoJMHMZuIWsPb3u+bZ8IQ9up1f/a7BkHTXySfdumsI6t82cjqILGRNoNP9j0izZ
+         fay6QVMyP9DlpXH97lpWeZ/4TDiAaScMG0WApIHeC18WCnrfZDpgTY4PzkUBjEXtxui4
+         VH72tyDkoKf3F7KK+eHquQt8ymTleiu5ccG2kDV5+zyCpJ0+h6gbXZigq9FE+CIaaxcJ
+         54GDiDlQ9uOwp/iL4gW6c4sdNRwV8rtCl8aH0H89kdynmsWRqxpoQrzuP2yJNut9Iu+q
+         if0Q==
+X-Gm-Message-State: AOAM531KKPdlbx9IHXLE2R0Gegg6BtfOIE01Iq989kXR6NClR2oQt2pO
+        Er2V/CsSjH6YSLLSrZuHKoFPSA==
+X-Google-Smtp-Source: ABdhPJy6646N9PvrrPbXQM8ipQCvbMf0hssT95yZgxvuSuRwDiiqUx2o6vNW51KmBI2R1A0OXZFDDQ==
+X-Received: by 2002:a1c:f70a:0:b0:37c:533d:d296 with SMTP id v10-20020a1cf70a000000b0037c533dd296mr4022986wmh.147.1646320007507;
+        Thu, 03 Mar 2022 07:06:47 -0800 (PST)
 Received: from localhost.localdomain (hst-221-14.medicom.bg. [84.238.221.14])
-        by smtp.gmail.com with ESMTPSA id o16-20020a05600c511000b0038141b4a4edsm10757072wms.38.2022.03.03.07.06.45
+        by smtp.gmail.com with ESMTPSA id o16-20020a05600c511000b0038141b4a4edsm10757072wms.38.2022.03.03.07.06.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Mar 2022 07:06:45 -0800 (PST)
+        Thu, 03 Mar 2022 07:06:47 -0800 (PST)
 From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
 To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
 Cc:     hverkuil-cisco@xs4all.nl, Nicolas Dufresne <nicolas@ndufresne.ca>,
         Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH v4 5/6] venus: Add a handling of QC10C compressed format
-Date:   Thu,  3 Mar 2022 17:06:35 +0200
-Message-Id: <20220303150636.577063-6-stanimir.varbanov@linaro.org>
+Subject: [PATCH v4 6/6] venus: vdec: Use output resolution on reconfigure
+Date:   Thu,  3 Mar 2022 17:06:36 +0200
+Message-Id: <20220303150636.577063-7-stanimir.varbanov@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220303150636.577063-1-stanimir.varbanov@linaro.org>
 References: <20220303150636.577063-1-stanimir.varbanov@linaro.org>
@@ -62,131 +62,38 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,TVD_PH_BODY_ACCOUNTS_PRE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This adds QC10C compressed pixel format in the Venus driver, and
-make it possible to discover from v4l2 clients.
-
-Note: The QC10C format will be enumerable via VIDIOC_ENUM_FMT when
-the bitstream is 10-bits and the headers are parsed.
+When recalculate output buffer size we have to take into account
+the output resolution from the firmware received during event change
+notification.
 
 Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 ---
- drivers/media/platform/qcom/venus/helpers.c | 26 ++++-----------------
- drivers/media/platform/qcom/venus/vdec.c    | 19 ++++++++++++---
- 2 files changed, 20 insertions(+), 25 deletions(-)
+ drivers/media/platform/qcom/venus/vdec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-index 7144747398b6..f5a938455d7c 100644
---- a/drivers/media/platform/qcom/venus/helpers.c
-+++ b/drivers/media/platform/qcom/venus/helpers.c
-@@ -594,6 +594,8 @@ static u32 to_hfi_raw_fmt(u32 v4l2_fmt)
- 		return HFI_COLOR_FORMAT_NV21;
- 	case V4L2_PIX_FMT_QC08C:
- 		return HFI_COLOR_FORMAT_NV12_UBWC;
-+	case V4L2_PIX_FMT_QC10C:
-+		return HFI_COLOR_FORMAT_YUV420_TP10_UBWC;
- 	default:
- 		break;
- 	}
-@@ -1176,7 +1178,8 @@ int venus_helper_set_format_constraints(struct venus_inst *inst)
- 	if (!IS_V6(inst->core))
- 		return 0;
- 
--	if (inst->opb_fmt == HFI_COLOR_FORMAT_NV12_UBWC)
-+	if (inst->opb_fmt == HFI_COLOR_FORMAT_NV12_UBWC ||
-+	    inst->opb_fmt == HFI_COLOR_FORMAT_YUV420_TP10_UBWC)
- 		return 0;
- 
- 	pconstraint.buffer_type = HFI_BUFFER_OUTPUT2;
-@@ -1747,27 +1750,6 @@ int venus_helper_get_out_fmts(struct venus_inst *inst, u32 v4l2_fmt,
- 	if (!caps)
- 		return -EINVAL;
- 
--	if (inst->bit_depth == VIDC_BITDEPTH_10 &&
--	    inst->session_type == VIDC_SESSION_TYPE_DEC) {
--		found_ubwc =
--			find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT,
--					   HFI_COLOR_FORMAT_YUV420_TP10_UBWC);
--		found = find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT2,
--					   HFI_COLOR_FORMAT_NV12);
--		if (found_ubwc && found) {
--			/*
--			 * Hard-code DPB buffers to be 10bit UBWC and decoder
--			 * output buffers in 8bit NV12 until V4L2 is able to
--			 * expose compressed/tiled formats to applications.
--			 */
--			*out_fmt = HFI_COLOR_FORMAT_YUV420_TP10_UBWC;
--			*out2_fmt = HFI_COLOR_FORMAT_NV12;
--			return 0;
--		}
--
--		return -EINVAL;
--	}
--
- 	if (ubwc) {
- 		ubwc_fmt = fmt | HFI_COLOR_FORMAT_UBWC_BASE;
- 		found_ubwc = find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT,
 diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-index eb02e45a512b..c8261c6cb0fb 100644
+index c8261c6cb0fb..76716ceb3e18 100644
 --- a/drivers/media/platform/qcom/venus/vdec.c
 +++ b/drivers/media/platform/qcom/venus/vdec.c
-@@ -35,6 +35,10 @@ static const struct venus_format vdec_formats[] = {
- 		.num_planes = 1,
- 		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
- 	}, {
-+		.pixfmt = V4L2_PIX_FMT_QC10C,
-+		.num_planes = 1,
-+		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
-+	},{
- 		.pixfmt = V4L2_PIX_FMT_NV12,
- 		.num_planes = 1,
- 		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
-@@ -114,6 +118,10 @@ find_format(struct venus_inst *inst, u32 pixfmt, u32 type)
- 	    !venus_helper_check_format(inst, fmt[i].pixfmt))
- 		return NULL;
- 
-+	if (V4L2_TYPE_IS_CAPTURE(type) && fmt[i].pixfmt == V4L2_PIX_FMT_QC10C &&
-+	    !(inst->bit_depth == VIDC_BITDEPTH_10))
-+		return NULL;
-+
- 	return &fmt[i];
- }
- 
-@@ -133,11 +141,16 @@ find_format_by_index(struct venus_inst *inst, unsigned int index, u32 type)
- 		if (fmt[i].type != type)
- 			continue;
- 
--		if (V4L2_TYPE_IS_OUTPUT(type))
-+		if (V4L2_TYPE_IS_OUTPUT(type)) {
- 			valid = venus_helper_check_codec(inst, fmt[i].pixfmt);
--		else if (V4L2_TYPE_IS_CAPTURE(type))
-+		} else if (V4L2_TYPE_IS_CAPTURE(type)) {
- 			valid = venus_helper_check_format(inst, fmt[i].pixfmt);
- 
-+			if (fmt[i].pixfmt == V4L2_PIX_FMT_QC10C &&
-+			    !(inst->bit_depth == VIDC_BITDEPTH_10))
-+				valid = false;
-+		}
-+
- 		if (k == index && valid)
- 			break;
- 		if (valid)
-@@ -1537,7 +1550,7 @@ static const struct hfi_inst_ops vdec_hfi_ops = {
- static void vdec_inst_init(struct venus_inst *inst)
- {
- 	inst->hfi_codec = HFI_VIDEO_CODEC_H264;
--	inst->fmt_out = &vdec_formats[7];
-+	inst->fmt_out = &vdec_formats[8];
- 	inst->fmt_cap = &vdec_formats[0];
- 	inst->width = frame_width_min(inst);
- 	inst->height = ALIGN(frame_height_min(inst), 32);
+@@ -701,8 +701,8 @@ static int vdec_output_conf(struct venus_inst *inst)
+ 	struct venus_core *core = inst->core;
+ 	struct hfi_enable en = { .enable = 1 };
+ 	struct hfi_buffer_requirements bufreq;
+-	u32 width = inst->out_width;
+-	u32 height = inst->out_height;
++	u32 width = inst->width;
++	u32 height = inst->height;
+ 	u32 out_fmt, out2_fmt;
+ 	bool ubwc = false;
+ 	u32 ptype;
 -- 
 2.25.1
 
