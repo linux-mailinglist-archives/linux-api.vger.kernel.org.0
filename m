@@ -2,113 +2,262 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 88DBF4CDE00
-	for <lists+linux-api@lfdr.de>; Fri,  4 Mar 2022 21:25:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0726E4CE164
+	for <lists+linux-api@lfdr.de>; Sat,  5 Mar 2022 01:18:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229885AbiCDUBr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 4 Mar 2022 15:01:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37866 "EHLO
+        id S229728AbiCEATV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 4 Mar 2022 19:19:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230011AbiCDUBT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 4 Mar 2022 15:01:19 -0500
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57115574A0
-        for <linux-api@vger.kernel.org>; Fri,  4 Mar 2022 11:57:05 -0800 (PST)
-Received: by mail-yb1-xb4a.google.com with SMTP id l16-20020a25bf90000000b00628c3a412cdso5322697ybk.10
-        for <linux-api@vger.kernel.org>; Fri, 04 Mar 2022 11:57:05 -0800 (PST)
+        with ESMTP id S229449AbiCEATT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 4 Mar 2022 19:19:19 -0500
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1E8713DD4;
+        Fri,  4 Mar 2022 16:18:29 -0800 (PST)
+Received: by mail-pf1-x42b.google.com with SMTP id z16so8946900pfh.3;
+        Fri, 04 Mar 2022 16:18:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=J64es7HM/NEnjdZCnfIshrO3wOmcq5xIZ4GZ3l0aZZI=;
-        b=GItdpzKUBGucNm4WOe+HN7O/1STAH96AycQndTvxw/AJHcG/IZXBQqhHpuZ05xhR4h
-         s4/tKY3tQeE7DrutZ5Ai6jwAl8HZtsKW56JRi+K1/bpZ5fj9ArMcTSHKmuftwci5pnc5
-         8185Z7VFl8q58WBsa5DKcW7AqVcRHiRJlzc8uTybp2GtjLt3aimA8WJqpE9dZYDCaKpg
-         nSDfUCu2diH4MZ2AkU0UqvXwMpOpJHeKUdcg+CDWj/hZdns7uGct3IOKaTBZkWLRZBTm
-         LT0ppGdP7Ddd/W2mtx4Yd4qmSgUu1hBcDWvQ1o0GawHtl57BA07e3RkLP77VwgB12XvH
-         SzyA==
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=saZ72BekMK8qsFjf6iFKP3QgKwC49DlwyTRsuhEWNlU=;
+        b=gwam8yL2b++JszTOUvQ0ZXj+nmxn/AeosTKqj5LA+ZurbbaluVNjYpt7294X4BayxN
+         fhIu4Q6MVn9byBvLRMHn1RIACp028V8aYo/yJLOt18QDujL5aTCc//jGMpZrHImdAZuo
+         AYSRaWYQEYtw8WRXSVcZAr9gXGbw4qZ+BnkfHI3QvfzMVzYbb1uY64tsIxe0idkL8U6/
+         IRIn9/mY/fL+fDvJACGZ3r879hn5ZNmsMiUhriRE0yJ0yZp+ytAZrEYH80MmKBtP55kD
+         PetQ7yC5W7lc5P/VnrAZCAJ2dfpxg++d/Vj4hupboS65MQ0Kq+F04aSbwM0vvilleeQx
+         XS/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=J64es7HM/NEnjdZCnfIshrO3wOmcq5xIZ4GZ3l0aZZI=;
-        b=YURC/2Cjod5+drrtCX36ZzJEGsdKxrhnC8i9fFGsG0cezhJI11VU+BHZurt1KeN8pg
-         UdaJQARA+i5pf9j8oiycO22qUQ2qvNSQzsy24jotMzHyTC2/fvm0jjImNYuTY+YwCWJ/
-         2BIr0tX35bn6KuHAzo2LigqBxe/HCnQexN3EpcdI9XI9omPra0/3UrjFZNI52XrvhS6Y
-         Q4prhqyx63n/oC0IDhfe2loRRw8aZascmDDzfYkXO5eg5VI55hmD072pSFQZOOmPpN/C
-         Ht3HgsM1VpV5TUUGR9MgDCjJR9a8YAJU3jBKSuNkH6+xIkXlKE0lmzU4rnqUPZcUvDfd
-         d0ew==
-X-Gm-Message-State: AOAM531LtIrNsLFYqeMVBZsozSexmPWTExEkb3P/J/EDcrR0AxzlmElY
-        vVWcNIM7QI5T0kpHQUHFSkk9B/piVw47aA==
-X-Google-Smtp-Source: ABdhPJx1JBku7Y5F4eCh0ATGfGMRZ6wb/cJ1gQZwri0EnQCSBm4x3jk1yCC9794gkFLFxVD0xxm+uUa1OAahIg==
-X-Received: from shakeelb.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:28b])
- (user=shakeelb job=sendgmr) by 2002:a05:6902:3cc:b0:628:73aa:9c7f with SMTP
- id g12-20020a05690203cc00b0062873aa9c7fmr20910540ybs.632.1646421963101; Fri,
- 04 Mar 2022 11:26:03 -0800 (PST)
-Date:   Fri, 4 Mar 2022 19:26:00 +0000
-In-Reply-To: <20220304171912.305060-1-hannes@cmpxchg.org>
-Message-Id: <20220304192600.rvmgbg72aq6idooc@google.com>
-Mime-Version: 1.0
-References: <20220304171912.305060-1-hannes@cmpxchg.org>
-Subject: Re: [PATCH] mm: madvise: MADV_DONTNEED_LOCKED
-From:   Shakeel Butt <shakeelb@google.com>
-To:     Johannes Weiner <hannes@cmpxchg.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        David Hildenbrand <david@redhat.com>, dgilbert@redhat.com,
-        Mike Kravetz <mike.kravetz@oracle.com>, linux-mm@kvack.org,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
-X-Spam-Status: No, score=-10.1 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=saZ72BekMK8qsFjf6iFKP3QgKwC49DlwyTRsuhEWNlU=;
+        b=zw9KEHNRokkqCGzBRM0i5/jkFYfm3sCXKanMyC902sIwnO/SHT3nZUoMI9EIssdx3T
+         MwMSI+Ounz/LpPw2jo//pAMULw5vEjixu6uwrFecxTOQ7djJhkjYWqJU80+5fxh/MPb6
+         P3mi1jl5DcqXni/GTvsJpdRYfpz0wH6W9df9DlY/z5stSziSmQcpFXVXFaKN4OMimjpa
+         7/pIvqr1syuLW8hkZwGBw1mu1wyFA8rxqn+RH69IfTH+mej2PNXBfJg0hkBeCSZxP4Ns
+         jYPRRDFwzayiXvyLH/EhfCPMlSsIYfMx9ZQIElY2cCTSV7xG+sbaKLzL+YWkoFLL6o01
+         8LmA==
+X-Gm-Message-State: AOAM530QrshpgoSZwL2Pg3DswBobUrvNttueWs78yUJt6oXFYN/D5nBc
+        gSOf2YJfb/mG/XJBzy1ttj8=
+X-Google-Smtp-Source: ABdhPJwZvhbbHcXl8W9nWnyHp4jwWRWthrOgPp66Ud7SEJtRpKdsfE59ysfxLrdisS3itYKLLWgulQ==
+X-Received: by 2002:a65:6901:0:b0:378:8154:e2bf with SMTP id s1-20020a656901000000b003788154e2bfmr725432pgq.401.1646439509059;
+        Fri, 04 Mar 2022 16:18:29 -0800 (PST)
+Received: from google.com ([2620:15c:211:201:b771:f8fb:2968:865c])
+        by smtp.gmail.com with ESMTPSA id n22-20020a056a0007d600b004f11e614565sm7021714pfu.189.2022.03.04.16.18.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Mar 2022 16:18:28 -0800 (PST)
+Sender: Minchan Kim <minchan.kim@gmail.com>
+Date:   Fri, 4 Mar 2022 16:18:26 -0800
+From:   Minchan Kim <minchan@kernel.org>
+To:     Ivan Teterevkov <ivan.teterevkov@nutanix.com>
+Cc:     akpm@linux-foundation.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        mhocko@suse.com, hannes@cmpxchg.org, timmurray@google.com,
+        joel@joelfernandes.org, surenb@google.com, dancol@google.com,
+        shakeelb@google.com, sonnyrao@google.com, oleksandr@redhat.com,
+        hdanton@sina.com, lizeb@google.com, dave.hansen@intel.com,
+        kirill.shutemov@linux.intel.com
+Subject: Re: Regression of madvise(MADV_COLD) on shmem?
+Message-ID: <YiKsUr1FQwmDP7V0@google.com>
+References: <dd620dbd-6d71-7553-d1e9-95676ff12c82@nutanix.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dd620dbd-6d71-7553-d1e9-95676ff12c82@nutanix.com>
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Mar 04, 2022 at 12:19:12PM -0500, Johannes Weiner wrote:
-> MADV_DONTNEED historically rejects mlocked ranges, but with
-> MLOCK_ONFAULT and MCL_ONFAULT allowing to mlock without populating,
-> there are valid use cases for depopulating locked ranges as well.
+On Fri, Mar 04, 2022 at 05:55:58PM +0000, Ivan Teterevkov wrote:
+> Hi folks,
+> 
+> I want to check if there's a regression in the madvise(MADV_COLD) behaviour
+> with shared memory or my understanding of how it works is inaccurate.
+> 
+> The MADV_COLD advice was introduced in Linux 5.4 and allowed the users to
+> mark selected memory ranges as more "inactive" than others, overruling the
+> default LRU accounting. It helped to preserve the working set of an
+> application. With more recent kernels, e.g. at least 5.17.0-rc6 and 5.10.42,
+> MADV_COLD has stopped working as expected. Please take a look at a short
+> program that demonstrates it:
+> 
+>     /*
+>      * madvise(MADV_COLD) demo.
+>      */
+>     #include <assert.h>
+>     #include <stdio.h>
+>     #include <stdlib.h>
+>     #include <string.h>
+>     #include <sys/mman.h>
+> 
+>     /* Requires the kernel 5.4 or newer. */
+>     #ifndef MADV_COLD
+>     #define MADV_COLD 20
+>     #endif
+> 
+>     #define GIB(x) ((size_t)(x) << 30)
+> 
+>     int main(void)
+>     {
+>         char *shmem, *zeroes;
+>         int page_size = getpagesize();
+>         size_t i;
+> 
+>         /* Allocate 8 GiB of shared memory. */
+>         shmem = mmap(/* addr */ NULL,
+>                      /* length */ GIB(8),
+>                      /* prot */ PROT_READ | PROT_WRITE,
+>                      /* flags */ MAP_SHARED | MAP_ANONYMOUS,
+>                      /* fd */ -1,
+>                      /* offset */ 0);
+>         assert(shmem != MAP_FAILED);
+> 
+>         /* Allocate a zero page for future use. */
+>         zeroes = calloc(1, page_size);
+>         assert(zeroes != NULL);
+> 
+>         /* Put 1 GiB blob at the beginning of the shared memory range. */
+>         memset(shmem, 0xaa, GIB(1));
+> 
+>         /* Read memory adjacent to the blob. */
+>         for (i = GIB(1); i < GIB(8); i = i + page_size) {
+>             int res = memcmp(shmem + i, zeroes, page_size);
+>             assert(res == 0);
+> 
+>             /* Cooldown a zero page and make it "less active" than the blob.
+>              * Under memory pressure, it'll likely become a reclaim target
+>              * and thus will help to preserve the blob in memory.
+>              */
+>             res = madvise(shmem + i, page_size, MADV_COLD);
+>             assert(res == 0);
+>         }
+> 
+>         /* Let the user check smaps. */
+>         printf("done\n");
+>         pause();
+> 
+>         free(zeroes);
+>         munmap(shmem, GIB(8));
+> 
+>         return 0;
+>     }
+> 
+> How to run this program:
+> 
+> 1. Create a "test" cgroup with a memory limit of 3 GiB.
+> 
+> 1.1. cgroup v1:
+> 
+>     # mkdir /sys/fs/cgroup/memory/test
+>     # echo 3G > /sys/fs/cgroup/memory/test/memory.limit_in_bytes
+> 
+> 1.2. cgroup v2:
+> 
+>     # mkdir /sys/fs/cgroup/test
+>     # echo 3G > /sys/fs/cgroup/test/memory.max
+> 
+> 2. Enable at least a 1 GiB swap device.
+> 
+> 3. Run the program in the "test" cgroup:
+> 
+>     # cgexec -g memory:test ./a.out
+> 
+> 4. Wait until it has finished, i.e. has printed "done".
+> 
+> 5. Check the shared memory VMA stats.
+> 
+> 5.1. In 5.17.0-rc6 and 5.10.42:
+> 
+>     # cat /proc/$(pidof a.out)/smaps | grep -A 21 -B 1 8388608
+>     7f8ed4648000-7f90d4648000 rw-s 00000000 00:01 2055      /dev/zero
+> (deleted)
+>     Size:            8388608 kB
+>     KernelPageSize:        4 kB
+>     MMUPageSize:           4 kB
+>     Rss:             3119556 kB
+>     Pss:             3119556 kB
+>     Shared_Clean:          0 kB
+>     Shared_Dirty:          0 kB
+>     Private_Clean:   3119556 kB
+>     Private_Dirty:         0 kB
+>     Referenced:            0 kB
+>     Anonymous:             0 kB
+>     LazyFree:              0 kB
+>     AnonHugePages:         0 kB
+>     ShmemPmdMapped:        0 kB
+>     FilePmdMapped:         0 kB
+>     Shared_Hugetlb:        0 kB
+>     Private_Hugetlb:       0 kB
+>     Swap:            1048576 kB
+>     SwapPss:               0 kB
+>     Locked:                0 kB
+>     THPeligible:    0
+>     VmFlags: rd wr sh mr mw me ms sd
+> 
+> 5.2. In 5.4.109:
+> 
+>     # cat /proc/$(pidof a.out)/smaps | grep -A 21 -B 1 8388608
+>     7fca5f78b000-7fcc5f78b000 rw-s 00000000 00:01 173051      /dev/zero
+> (deleted)
+>     Size:            8388608 kB
+>     KernelPageSize:        4 kB
+>     MMUPageSize:           4 kB
+>     Rss:             3121504 kB
+>     Pss:             3121504 kB
+>     Shared_Clean:          0 kB
+>     Shared_Dirty:          0 kB
+>     Private_Clean:   2072928 kB
+>     Private_Dirty:   1048576 kB
+>     Referenced:            0 kB
+>     Anonymous:             0 kB
+>     LazyFree:              0 kB
+>     AnonHugePages:         0 kB
+>     ShmemPmdMapped:        0 kB
+>     FilePmdMapped:        0 kB
+>     Shared_Hugetlb:        0 kB
+>     Private_Hugetlb:       0 kB
+>     Swap:                  0 kB
+>     SwapPss:               0 kB
+>     Locked:                0 kB
+>     THPeligible:            0
+>     VmFlags: rd wr sh mr mw me ms
+> 
+> There's a noticeable difference in the "Swap" reports so that the older
+> kernel doesn't swap the blob, but the newer ones do.
+> 
+> According to ftrace, the newer kernels still call deactivate_page() in
+> madvise_cold():
+> 
+> # trace-cmd record -p function_graph -g madvise_cold
+> # trace-cmd report | less
+>     a.out-4877  [000]  1485.266106: funcgraph_entry: |  madvise_cold() {
+>     a.out-4877  [000]  1485.266115: funcgraph_entry: |    walk_page_range()
+> {
+>     a.out-4877  [000]  1485.266116: funcgraph_entry: |
+> __walk_page_range() {
+>     a.out-4877  [000]  1485.266117: funcgraph_entry: |
+> madvise_cold_or_pageout_pte_range() {
+>     a.out-4877  [000]  1485.266118: funcgraph_entry:        0.179 us |
+> deactivate_page();
+> 
+> (The irrelevant bits are removed for brevity.)
+> 
+> It makes me think there may be a regression in MADV_COLD. Please let me know
+> what do you reckon?
 
-> Users mlock memory to protect secrets. There are allocators for secure
-> buffers that want in-use memory generally mlocked, but cleared and
-> invalidated memory to give up the physical pages. This could be done
-> with explicit munlock -> mlock calls on free -> alloc of course, but
-> that adds two unnecessary syscalls, heavy mmap_sem write locks, vma
-> splits and re-merges - only to get rid of the backing pages.
+Since deactive_page is called, I guess that's not a regression(?) from [1]
 
-> Users also mlockall(MCL_ONFAULT) to suppress sustained paging, but are
-> okay with on-demand initial population. It seems valid to selectively
-> free some memory during the lifetime of such a process, without having
-> to mess with its overall policy.
+Then, my random guess that you mentioned "Swap" as regression might be
+related to "workingset detection for anon page" since kernel changes balancing
+policy between file and anonymous LRU, which was merged into v5.8.
+It would be helpful to see if you try it on v5.7 and v5.8.
 
-> Why add a separate flag? Isn't this a pretty niche usecase?
-
-> - MADV_DONTNEED has been bailing on locked vmas forever. It's at least
->    conceivable that someone, somewhere is relying on mlock to protect
->    data from perhaps broader invalidation calls. Changing this behavior
->    now could lead to quiet data corruption.
-
-> - It also clarifies expectations around MADV_FREE and maybe
->    MADV_REMOVE. It avoids the situation where one quietly behaves
->    different than the others. MADV_FREE_LOCKED can be added later.
-
-> - The combination of mlock() and madvise() in the first place is
->    probably niche. But where it happens, I'd say that dropping pages
->    from a locked region once they don't contain secrets or won't page
->    anymore is much saner than relying on mlock to protect memory from
->    speculative or errant invalidation calls. It's just that we can't
->    change the default behavior because of the two previous points.
-
-> Given that, an explicit new flag seems to make the most sense.
-
-> Signed-off-by: Johannes Weiner <hannes@cmpxchg.org>
-> Acked-by: Michal Hocko <mhocko@suse.com>
-
-Reviewed-by: Shakeel Butt <shakeelb@google.com>
+[1] 12e967fd8e4e6, mm: do not allow MADV_PAGEOUT for CoW page
