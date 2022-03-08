@@ -2,61 +2,127 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A04C74D12A9
-	for <lists+linux-api@lfdr.de>; Tue,  8 Mar 2022 09:48:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 378E44D170C
+	for <lists+linux-api@lfdr.de>; Tue,  8 Mar 2022 13:17:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345119AbiCHIts (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 8 Mar 2022 03:49:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33442 "EHLO
+        id S245346AbiCHMST (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 8 Mar 2022 07:18:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345120AbiCHItr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Mar 2022 03:49:47 -0500
-Received: from mail.olerise.pl (mail.olerise.pl [46.183.184.59])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F572377DB
-        for <linux-api@vger.kernel.org>; Tue,  8 Mar 2022 00:48:52 -0800 (PST)
-Received: by mail.olerise.pl (Postfix, from userid 1001)
-        id DC3CE43432; Tue,  8 Mar 2022 09:46:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=olerise.pl; s=mail;
-        t=1646729218; bh=ZNYiuZLXlxCdAPtstEG/gwJieB5RBwA/cHj1SZ3Mpl0=;
-        h=Date:From:To:Subject:From;
-        b=dtLHMjh5z3B5dyxZCG8bmu6sScI0NHp7enM/ZNkZ1FbQdGgD2xowmzqy2WsjpLsaq
-         EoHAXPUIacdugpCRwiBDsmY0a2W+TK8hZT1/SeCnWyXcR2LF2YSblZKVtOiSRat2Dt
-         Lmdwn4yY3Hi/Khc3W+lVR22ewzR8eJR7sm4ag9kDdPe6/J5CS+72uX11z1HZstiWqZ
-         hvjU3FHvvwNdnsHdTsf4PAVZhRBNGon+LhVbUJ+QJyx5vx63HwCoSdzQrYhH+WhV62
-         SMbG2/Up8yOX8ZmkoYTWMCmIdMKRa7gKefEQxbLjNIAm3BnDYPbSbXKAObsxTgndj1
-         J03gTlwNEZzKg==
-Received: by mail.olerise.pl for <linux-api@vger.kernel.org>; Tue,  8 Mar 2022 08:45:41 GMT
-Message-ID: <20220308084500-0.1.26.mt0s.0.gbtoblolr6@olerise.pl>
-Date:   Tue,  8 Mar 2022 08:45:41 GMT
-From:   =?UTF-8?Q? "Miko=C5=82aj_Rudzik" ?= <mikolaj.rudzik@olerise.pl>
-To:     <linux-api@vger.kernel.org>
-Subject: =?UTF-8?Q?Nap=C5=82yw_Klient=C3=B3w_ze_strony?=
-X-Mailer: mail.olerise.pl
+        with ESMTP id S1346780AbiCHMSD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Mar 2022 07:18:03 -0500
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A711E43EEC;
+        Tue,  8 Mar 2022 04:17:06 -0800 (PST)
+Received: by mail-ej1-x62f.google.com with SMTP id qa43so38708312ejc.12;
+        Tue, 08 Mar 2022 04:17:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=OFA2/eM8lwGnQdw8L8HYozWRTs8bN4HRmWhwr7+OpfQ=;
+        b=dZxiz91cR9d8+CC4dJkv0i2jFfJ9CP0b3NlEsXD6TPHMGYacNdhru2mSELTl8O+6T+
+         FkPBsspyt6yrQV1UNk0fLDyvuyTBbsyYl6/T/V6x+ZilvnI0NzYTKb6PgY7cnu5zGc3W
+         z8u6cgybLElr2aEZQqTCU+yd3hjzgyX32dfmIm7l1uFqFRVNXPWDahWbmtxQMKSxUF6t
+         mDip2hxkD1fj4trIskXiu0dLQGix1y5LAmHMsfX0r/TW2pyZZX5NoWOICWOAFwOo7IeO
+         jpGsIE8IKRoh4awk7E5UsjXtaPmC6jPN5sC8oetFJ5PMyH0bpwZVfBbDUpiUazI2kL/w
+         rFpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :subject:content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=OFA2/eM8lwGnQdw8L8HYozWRTs8bN4HRmWhwr7+OpfQ=;
+        b=r0OKZEy++X04LXgPuvGLZAV+xqgFCxlzL6HlMYMJf6JxxF04BeYhNVTU8XzJHIO8nk
+         aZgZUXbLfjkjWXfxH8IlCdmW8F8TnOqVjczIF+iVuePU9vbwwSF244Ehvr/8uEROWI/L
+         P+Cd8Nsi/7iE8uXREHzZFilsz4L3KlOesSuHvQhesdBNtpx7VQMZNMwdMTfYdQicBXBz
+         EUO+8pqg1gLmbpI0OA1F7lwBkgmKDdyQ4tSZwzq0S2WmActedAslT1sAlmVkAOe0LTUz
+         3C0PbKqfPbYDP/HCR9xoMprgKFlwBbdR3Bgj8eIRx2J7NOMLyNmL5ySKWRzTneFvIZOc
+         AYJg==
+X-Gm-Message-State: AOAM533xcSInz+ARxj+U1EvNpk0EEFQc8bJvKhJSrgEVCyMbHaV0G2kT
+        Bo/trlK3AEy8vNwwSdMvW1/W9qLbtgY=
+X-Google-Smtp-Source: ABdhPJwE9PU5xJ81uImIisWcDcAXQ3ECFtBqwX9p5ItDnR0zlR5H81k8PeGbgOyJEUFk90ZFZol5QQ==
+X-Received: by 2002:a17:907:97cc:b0:6da:a8fb:d1db with SMTP id js12-20020a17090797cc00b006daa8fbd1dbmr13315004ejc.267.1646741825187;
+        Tue, 08 Mar 2022 04:17:05 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+        by smtp.googlemail.com with ESMTPSA id r19-20020a17090638d300b006d6e4fc047bsm5886872ejd.11.2022.03.08.04.17.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Mar 2022 04:17:04 -0800 (PST)
+Sender: Paolo Bonzini <paolo.bonzini@gmail.com>
+Message-ID: <800a68f8-fbe0-5980-4290-bdc0ed4d05bd@redhat.com>
+Date:   Tue, 8 Mar 2022 13:17:02 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_BL,
-        RCVD_IN_MSPIKE_L3,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4 01/12] mm/shmem: Introduce F_SEAL_INACCESSIBLE
+Content-Language: en-US
+To:     Chao Peng <chao.p.peng@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>
+Cc:     Steven Price <steven.price@arm.com>,
+        kvm list <kvm@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        qemu-devel@nongnu.org, Linux API <linux-api@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        "Nakajima, Jun" <jun.nakajima@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>
+References: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
+ <20220118132121.31388-2-chao.p.peng@linux.intel.com>
+ <619547ad-de96-1be9-036b-a7b4e99b09a6@kernel.org>
+ <20220217130631.GB32679@chaop.bj.intel.com>
+ <2ca78dcb-61d9-4c9d-baa9-955b6f4298bb@www.fastmail.com>
+ <20220223114935.GA53733@chaop.bj.intel.com>
+ <71a06402-6743-bfd2-bbd4-997f8e256554@arm.com>
+ <7cc65bbd-e323-eabb-c576-b5656a3355ac@kernel.org>
+ <20220307132602.GA58690@chaop.bj.intel.com>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20220307132602.GA58690@chaop.bj.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Dzie=C5=84 dobry,
+On 3/7/22 14:26, Chao Peng wrote:
+>> In pseudo-Rust, this is the difference between:
+>>
+>> fn convert_to_private(in: &mut Memfd)
+>>
+>> and
+>>
+>> fn convert_to_private(in: Memfd) -> PrivateMemoryFd
+>>
+>> This doesn't map particularly nicely to the kernel, though.
+> I understand this Rust semantics and the difficulty to handle races.
+> Probably we should not expose F_SEAL_INACCESSIBLE to userspace, instead
+> we can use a new in-kernel flag to indicate the same thing. That flag
+> should be set only when the memfd is created with MFD_INACCESSIBLE.
 
-chcia=C5=82bym poinformowa=C4=87 Pa=C5=84stwa o mo=C5=BCliwo=C5=9Bci pozy=
-skania nowych zlece=C5=84 ze strony www.
+Yes, I like this.
 
-Widzimy zainteresowanie potencjalnych Klient=C3=B3w Pa=C5=84stwa firm=C4=85=
-, dlatego ch=C4=99tnie pomo=C5=BCemy Pa=C5=84stwu dotrze=C4=87 z ofert=C4=
-=85 do wi=C4=99kszego grona odbiorc=C3=B3w poprzez efektywne metody pozyc=
-jonowania strony w Google.
+Paolo
 
-Czy m=C3=B3g=C5=82bym liczy=C4=87 na kontakt zwrotny?
-
-
-Pozdrawiam
-Miko=C5=82aj Rudzik
