@@ -2,103 +2,44 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E5D34D0AF0
-	for <lists+linux-api@lfdr.de>; Mon,  7 Mar 2022 23:22:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 294E14D126A
+	for <lists+linux-api@lfdr.de>; Tue,  8 Mar 2022 09:39:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241079AbiCGWWz convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Mon, 7 Mar 2022 17:22:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43290 "EHLO
+        id S1345023AbiCHIkJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 8 Mar 2022 03:40:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245523AbiCGWWv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 7 Mar 2022 17:22:51 -0500
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id ED51E8CDBA
-        for <linux-api@vger.kernel.org>; Mon,  7 Mar 2022 14:21:55 -0800 (PST)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-165-8y9FGRZFPriMZfq4Jpk07A-1; Mon, 07 Mar 2022 22:21:53 +0000
-X-MC-Unique: 8y9FGRZFPriMZfq4Jpk07A-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.28; Mon, 7 Mar 2022 22:21:49 +0000
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.028; Mon, 7 Mar 2022 22:21:49 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Mike Rapoport' <rppt@kernel.org>,
-        Andy Lutomirski <luto@kernel.org>
-CC:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "0x7f454c46@gmail.com" <0x7f454c46@gmail.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "adrian@lisas.de" <adrian@lisas.de>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "avagin@gmail.com" <avagin@gmail.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "Moreira, Joao" <joao.moreira@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "dave.martin@arm.com" <dave.martin@arm.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "Hansen, Dave" <dave.hansen@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-Subject: RE: [PATCH 00/35] Shadow stacks for userspace
-Thread-Topic: [PATCH 00/35] Shadow stacks for userspace
-Thread-Index: AQHYMlUnLgOMkkzJIkGC5fp7CqAYeKy0fYyg
-Date:   Mon, 7 Mar 2022 22:21:49 +0000
-Message-ID: <776fb081217145f4a488f7bca3e16eab@AcuMS.aculab.com>
-References: <8e36f20723ca175db49ed3cc73e42e8aa28d2615.camel@intel.com>
- <9d664c91-2116-42cc-ef8d-e6d236de43d0@kernel.org>
- <Yh0wIMjFdDl8vaNM@kernel.org>
- <5a792e77-0072-4ded-9f89-e7fcc7f7a1d6@www.fastmail.com>
- <Yh0+9cFyAfnsXqxI@kernel.org>
- <05df964f-552e-402e-981c-a8bea11c555c@www.fastmail.com>
- <YiEZyTT/UBFZd6Am@kernel.org>
- <CALCETrWacW8SC2tpPxQSaLtxsOXfXHueyuwLcXpNF4aG-0ZvhA@mail.gmail.com>
- <fb7d6e4da58ae77be2c6321ee3f3487485b2886c.camel@intel.com>
- <40a3500c-835a-60b0-15bf-40c6622ad013@kernel.org>
- <YiZVbPwlgSFnhadv@kernel.org>
-In-Reply-To: <YiZVbPwlgSFnhadv@kernel.org>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        with ESMTP id S235739AbiCHIkJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Mar 2022 03:40:09 -0500
+X-Greylist: delayed 579 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 08 Mar 2022 00:39:13 PST
+Received: from mail.twelvesign.pl (mail.twelvesign.pl [89.221.214.137])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A71631368
+        for <linux-api@vger.kernel.org>; Tue,  8 Mar 2022 00:39:13 -0800 (PST)
+Received: by mail.twelvesign.pl (Postfix, from userid 1002)
+        id 89AF5357A5; Tue,  8 Mar 2022 09:29:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=twelvesign.pl;
+        s=mail; t=1646728173;
+        bh=rqcEvVJQSOmVvt10Vd77A7h4EQ3zL1XaGAodpexDxk8=;
+        h=Date:From:To:Subject:From;
+        b=LsQCQ/iA/qKtVFVbIcX/ErySkBOQXkNYjHIqexZcDXBsFs9T20STOOKKLQMwRf4GD
+         FYKSQ82SiMzR1L5F4zOvWYmBlCkasOi7+z3NW1qqVX4BfSq8kOqFoIUm8Ui4gSyAFj
+         doVEMtCjRpSt/RTirqVlx5BqjurpToQrc1q/4TNGBi1d4axKWzc2jeV7UQeJUQucyj
+         OOMgbkKuiiMq0eFEIXfYthCjb8zgqQRfS1b7VV2z7LEjTDY1NQTLTV+uLNRA0nzQrx
+         hgnBJDUPcb4UfKXqQwTTaLQS1LOnE5GwSdp99a3X5w184yMO760ScTskEYZ/AlOk5h
+         L1RPKJq3GvKgQ==
+Received: by mail.twelvesign.pl for <linux-api@vger.kernel.org>; Tue,  8 Mar 2022 08:29:05 GMT
+Message-ID: <20220308083000-0.1.w.1v60.0.mi9lwve8ql@twelvesign.pl>
+Date:   Tue,  8 Mar 2022 08:29:05 GMT
+From:   "Damian Kraska" <damian.kraska@twelvesign.pl>
+To:     <linux-api@vger.kernel.org>
+Subject: Wycena paneli fotowoltaicznych
+X-Mailer: mail.twelvesign.pl
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -106,35 +47,17 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Mike Rapoport
-> Sent: 07 March 2022 18:57
-...
-> > The sigframe thing, OTOH, seems genuinely useful if CRIU would actually use
-> > it to save the full register state.  Generating a signal frame from scratch
-> > is a pain.  That being said, if CRIU isn't excited, then don't bother.
-> 
-> CRIU is excited :)
-> 
-> I just was looking for the minimal possible interface that will allow us to
-> call sigreturn. Rick is right and CRIU does try to expose as little as
-> possible and handle the pain in the userspace.
-> 
-> The SIGFRAME approach is indeed very helpful, especially if we can make it
-> work on other architectures eventually.
+Dzie=C5=84 dobry,
 
-I thought the full sigframe layout depends very much on what the kernel
-decides it needs to save?
-Some parts are exposed to the signal handler, but there are large
-blocks of data that XSAVE (etc) save that have to be put onto the
-signal stack.
-Is it even vaguely feasible to replicate what a specific kernel
-generates on specific hardware in a userspace library?
-The size of this data is getting bigger and bigger - causing
-issues with the SIGALTSTACK (and even thread stack) minimum sizes.
+dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
+irm=C4=85.
 
-	David
+=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
+ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
+ropozycji?
 
+
+Pozdrawiam,
+Damian Kraska
