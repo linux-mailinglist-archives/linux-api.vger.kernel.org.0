@@ -2,195 +2,122 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D5DB34D2718
-	for <lists+linux-api@lfdr.de>; Wed,  9 Mar 2022 05:06:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EBD14D3977
+	for <lists+linux-api@lfdr.de>; Wed,  9 Mar 2022 20:05:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230434AbiCIBXw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 8 Mar 2022 20:23:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40456 "EHLO
+        id S237245AbiCITGX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 9 Mar 2022 14:06:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232004AbiCIBXq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 8 Mar 2022 20:23:46 -0500
-Received: from out03.mta.xmission.com (out03.mta.xmission.com [166.70.13.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 660F76B0B1;
-        Tue,  8 Mar 2022 17:22:20 -0800 (PST)
-Received: from in02.mta.xmission.com ([166.70.13.52]:37556)
-        by out03.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1nRjzj-001Qdt-51; Tue, 08 Mar 2022 17:15:59 -0700
-Received: from ip68-227-174-4.om.om.cox.net ([68.227.174.4]:34144 helo=email.froward.int.ebiederm.org.xmission.com)
-        by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1nRjzh-002fL8-Qm; Tue, 08 Mar 2022 17:15:58 -0700
-From:   "Eric W. Biederman" <ebiederm@xmission.com>
-To:     <linux-arch@vger.kernel.org>
-Cc:     <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Alexey Gladkov <legion@kernel.org>,
-        Kyle Huey <me@kylehuey.com>, Oleg Nesterov <oleg@redhat.com>,
-        Kees Cook <keescook@chromium.org>,
-        Al Viro <viro@ZenIV.linux.org.uk>, <linux-api@vger.kernel.org>,
-        Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <87r19opkx1.fsf_-_@email.froward.int.ebiederm.org> (Eric
-        W. Biederman's message of "Mon, 03 Jan 2022 15:30:02 -0600")
-References: <87a6ha4zsd.fsf@email.froward.int.ebiederm.org>
-        <87bl1kunjj.fsf@email.froward.int.ebiederm.org>
-        <87r19opkx1.fsf_-_@email.froward.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
-Date:   Tue, 08 Mar 2022 18:15:51 -0600
-Message-ID: <87fsnsdlqg.fsf_-_@email.froward.int.ebiederm.org>
+        with ESMTP id S237222AbiCITGX (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 9 Mar 2022 14:06:23 -0500
+Received: from bmailout3.hostsharing.net (bmailout3.hostsharing.net [IPv6:2a01:4f8:150:2161:1:b009:f23e:0])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78AC16F482;
+        Wed,  9 Mar 2022 11:05:23 -0800 (PST)
+Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS DV RSA Mixed SHA256 2020 CA-1" (verified OK))
+        by bmailout3.hostsharing.net (Postfix) with ESMTPS id 4A151100BA624;
+        Wed,  9 Mar 2022 20:05:21 +0100 (CET)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+        id 278F54C5886; Wed,  9 Mar 2022 20:05:21 +0100 (CET)
+Date:   Wed, 9 Mar 2022 20:05:21 +0100
+From:   Lukas Wunner <lukas@wunner.de>
+To:     Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc:     linux-serial <linux-serial@vger.kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Johan Hovold <johan@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        linux-api@vger.kernel.org, Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        linux-mips@vger.kernel.org,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        linuxppc-dev@lists.ozlabs.org,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>, linux-sh@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        sparclinux@vger.kernel.org, Chris Zankel <chris@zankel.net>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        linux-xtensa@linux-xtensa.org, Arnd Bergmann <arnd@arndb.de>,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH 6/7] serial: General support for multipoint addresses
+Message-ID: <20220309190521.GA9832@wunner.de>
+References: <20220302095606.14818-1-ilpo.jarvinen@linux.intel.com>
+ <20220302095606.14818-7-ilpo.jarvinen@linux.intel.com>
+ <20220306194001.GD19394@wunner.de>
+ <ab43569c-6488-12a6-823-3ef09f2849d@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1nRjzh-002fL8-Qm;;;mid=<87fsnsdlqg.fsf_-_@email.froward.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.174.4;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX18OQQ6XmC3RRMxFckLcbtxXLE62EYCdQMg=
-X-SA-Exim-Connect-IP: 68.227.174.4
-X-SA-Exim-Mail-From: ebiederm@xmission.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ab43569c-6488-12a6-823-3ef09f2849d@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
-X-Spam-DCC: XMission; sa07 1397; Body=2 Fuz1=2 Fuz2=2 
-X-Spam-Combo: **;<linux-arch@vger.kernel.org>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 754 ms - load_scoreonly_sql: 0.08 (0.0%),
-        signal_user_changed: 13 (1.7%), b_tie_ro: 11 (1.4%), parse: 2.4 (0.3%),
-         extract_message_metadata: 9 (1.2%), get_uri_detail_list: 4.4 (0.6%),
-        tests_pri_-1000: 8 (1.1%), tests_pri_-950: 2.6 (0.4%), tests_pri_-900:
-        2.0 (0.3%), tests_pri_-90: 213 (28.2%), check_bayes: 211 (28.0%),
-        b_tokenize: 16 (2.1%), b_tok_get_all: 11 (1.5%), b_comp_prob: 4.2
-        (0.6%), b_tok_touch_all: 173 (23.0%), b_finish: 3.4 (0.4%),
-        tests_pri_0: 472 (62.5%), check_dkim_signature: 0.76 (0.1%),
-        check_dkim_adsp: 4.8 (0.6%), poll_dns_idle: 2.0 (0.3%), tests_pri_10:
-        3.4 (0.4%), tests_pri_500: 11 (1.5%), rewrite_mail: 0.00 (0.0%)
-Subject: [PATCH 00/13] Removing tracehook.h
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Mon, Mar 07, 2022 at 11:48:01AM +0200, Ilpo Järvinen wrote:
+> On Sun, 6 Mar 2022, Lukas Wunner wrote:
+> > On Wed, Mar 02, 2022 at 11:56:05AM +0200, Ilpo Järvinen wrote:
+> > > This change is necessary for supporting devices with RS485
+> > > multipoint addressing [*].
+> > 
+> > If this is only used with RS485, why can't we just store the
+> > addresses in struct serial_rs485 and use the existing TIOCSRS485
+> > and TIOCGRS485 ioctls?  There's 20 bytes of padding left in
+> > struct serial_rs485 which you could use.  No need to add more
+> > user-space ABI.
+> 
+> It could if it is agreed that serial multipoint addressing is just
+> a thing in RS-485 and nowhere else? In that case, there is no point
+> in adding more generic support for it.
 
-While working on cleaning up do_exit I have been having to deal with the
-code in tracehook.h.  Unfortunately the code in tracehook.h does not
-make sense as organized.
+It's just that the above-quoted sentence in the commit message
+specifically mentions RS485.  If you intend to use it with RS232
+as well, that should be made explicit, otherwise one wonders why
+it wasn't integrated into struct serial_rs485.
 
-This set of changes reorganizes things so that tracehook.h no longer
-exists, and so that it's current contents are organized in a fashion
-that is a little easier to understand.
+I have no idea how common 9th bit addressing mode is with RS232.
+Goggle turns up links saying it's mainly used with RS485, "but also
+RS232".  Since RS232 isn't a bus but a point-to-point link,
+9th bit addressing doesn't seem to make as much sense.
 
-The biggest change is that I lean into the fact that get_signal
-always calls task_work_run and removes the logic that tried to
-be smart and decouple task_work_run and get_signal as it has proven
-to not be effective.
 
-This is a conservative change and I am not changing the how things
-like signal_pending operate (although it is probably justified).
+> > > [*] Technically, RS485 is just an electronic spec and does not
+> > > itself specify the 9th bit addressing mode but 9th bit seems
+> > > at least "semi-standard" way to do addressing with RS485.
+> > 
+> > Is 9th bit addressing actually used by an Intel customer or was
+> > it implemented just for feature completeness? I think this mode
+> > isn't used often (I've never seen a use case myself), primarily
+> > because it requires disabling parity.
+> 
+> On what basis? ...The datasheet I'm looking at has a timing diagram 
+> with both D8 (9th bit) and parity so I think your information must be
+> incorrect.
 
-A new header resume_user_mode.h is added to hold resume_user_mode_work
-which was previously known as tracehook_notify_resume.
+E.g. the discussion here says that 9th bit addressing requires that
+parity is disabled or the character size is reduced to 7-bit:
 
-Eric W. Biederman (13):
-      ptrace: Move ptrace_report_syscall into ptrace.h
-      ptrace/arm: Rename tracehook_report_syscall report_syscall
-      ptrace: Create ptrace_report_syscall_{entry,exit} in ptrace.h
-      ptrace: Remove arch_syscall_{enter,exit}_tracehook
-      ptrace: Remove tracehook_signal_handler
-      task_work: Remove unnecessary include from posix_timers.h
-      task_work: Introduce task_work_pending
-      task_work: Call tracehook_notify_signal from get_signal on all architectures
-      task_work: Decouple TIF_NOTIFY_SIGNAL and task_work
-      signal: Move set_notify_signal and clear_notify_signal into sched/signal.h
-      resume_user_mode: Remove #ifdef TIF_NOTIFY_RESUME in set_notify_resume
-      resume_user_mode: Move to resume_user_mode.h
-      tracehook: Remove tracehook.h
+https://www.microchip.com/forums/m299904.aspx
 
- MAINTAINERS                          |   1 -
- arch/Kconfig                         |   5 +-
- arch/alpha/kernel/ptrace.c           |   5 +-
- arch/alpha/kernel/signal.c           |   4 +-
- arch/arc/kernel/ptrace.c             |   5 +-
- arch/arc/kernel/signal.c             |   4 +-
- arch/arm/kernel/ptrace.c             |  12 +-
- arch/arm/kernel/signal.c             |   4 +-
- arch/arm64/kernel/ptrace.c           |  14 +--
- arch/arm64/kernel/signal.c           |   4 +-
- arch/csky/kernel/ptrace.c            |   5 +-
- arch/csky/kernel/signal.c            |   4 +-
- arch/h8300/kernel/ptrace.c           |   5 +-
- arch/h8300/kernel/signal.c           |   4 +-
- arch/hexagon/kernel/process.c        |   4 +-
- arch/hexagon/kernel/signal.c         |   1 -
- arch/hexagon/kernel/traps.c          |   6 +-
- arch/ia64/kernel/process.c           |   4 +-
- arch/ia64/kernel/ptrace.c            |   6 +-
- arch/ia64/kernel/signal.c            |   1 -
- arch/m68k/kernel/ptrace.c            |   6 +-
- arch/m68k/kernel/signal.c            |   4 +-
- arch/microblaze/kernel/ptrace.c      |   5 +-
- arch/microblaze/kernel/signal.c      |   4 +-
- arch/mips/kernel/ptrace.c            |   5 +-
- arch/mips/kernel/signal.c            |   4 +-
- arch/nds32/include/asm/syscall.h     |   2 +-
- arch/nds32/kernel/ptrace.c           |   5 +-
- arch/nds32/kernel/signal.c           |   4 +-
- arch/nios2/kernel/ptrace.c           |   5 +-
- arch/nios2/kernel/signal.c           |   4 +-
- arch/openrisc/kernel/ptrace.c        |   5 +-
- arch/openrisc/kernel/signal.c        |   4 +-
- arch/parisc/kernel/ptrace.c          |   7 +-
- arch/parisc/kernel/signal.c          |   4 +-
- arch/powerpc/kernel/ptrace/ptrace.c  |   8 +-
- arch/powerpc/kernel/signal.c         |   4 +-
- arch/riscv/kernel/ptrace.c           |   5 +-
- arch/riscv/kernel/signal.c           |   4 +-
- arch/s390/include/asm/entry-common.h |   1 -
- arch/s390/kernel/ptrace.c            |   1 -
- arch/s390/kernel/signal.c            |   5 +-
- arch/sh/kernel/ptrace_32.c           |   5 +-
- arch/sh/kernel/signal_32.c           |   4 +-
- arch/sparc/kernel/ptrace_32.c        |   5 +-
- arch/sparc/kernel/ptrace_64.c        |   5 +-
- arch/sparc/kernel/signal32.c         |   1 -
- arch/sparc/kernel/signal_32.c        |   4 +-
- arch/sparc/kernel/signal_64.c        |   4 +-
- arch/um/kernel/process.c             |   4 +-
- arch/um/kernel/ptrace.c              |   5 +-
- arch/x86/kernel/ptrace.c             |   1 -
- arch/x86/kernel/signal.c             |   5 +-
- arch/x86/mm/tlb.c                    |   1 +
- arch/xtensa/kernel/ptrace.c          |   5 +-
- arch/xtensa/kernel/signal.c          |   4 +-
- block/blk-cgroup.c                   |   2 +-
- fs/coredump.c                        |   1 -
- fs/exec.c                            |   1 -
- fs/io-wq.c                           |   6 +-
- fs/io_uring.c                        |  11 +-
- fs/proc/array.c                      |   1 -
- fs/proc/base.c                       |   1 -
- include/asm-generic/syscall.h        |   2 +-
- include/linux/entry-common.h         |  47 +-------
- include/linux/entry-kvm.h            |   2 +-
- include/linux/posix-timers.h         |   1 -
- include/linux/ptrace.h               |  78 ++++++++++++
- include/linux/resume_user_mode.h     |  64 ++++++++++
- include/linux/sched/signal.h         |  17 +++
- include/linux/task_work.h            |   5 +
- include/linux/tracehook.h            | 226 -----------------------------------
- include/uapi/linux/ptrace.h          |   2 +-
- kernel/entry/common.c                |  19 +--
- kernel/entry/kvm.c                   |   9 +-
- kernel/exit.c                        |   3 +-
- kernel/livepatch/transition.c        |   1 -
- kernel/seccomp.c                     |   1 -
- kernel/signal.c                      |  23 ++--
- kernel/task_work.c                   |   4 +-
- kernel/time/posix-cpu-timers.c       |   1 +
- mm/memcontrol.c                      |   2 +-
- security/apparmor/domain.c           |   1 -
- security/selinux/hooks.c             |   1 -
- 84 files changed, 317 insertions(+), 462 deletions(-)
+I guess that applies only to some UARTs, the Synopsys databook doesn't
+mention any such constraints.
 
-Eric
+Thanks,
+
+Lukas
