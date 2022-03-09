@@ -2,122 +2,91 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EBD14D3977
-	for <lists+linux-api@lfdr.de>; Wed,  9 Mar 2022 20:05:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C7FD4D3B80
+	for <lists+linux-api@lfdr.de>; Wed,  9 Mar 2022 21:58:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237245AbiCITGX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 9 Mar 2022 14:06:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48398 "EHLO
+        id S237063AbiCIU7U (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 9 Mar 2022 15:59:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237222AbiCITGX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 9 Mar 2022 14:06:23 -0500
-Received: from bmailout3.hostsharing.net (bmailout3.hostsharing.net [IPv6:2a01:4f8:150:2161:1:b009:f23e:0])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78AC16F482;
-        Wed,  9 Mar 2022 11:05:23 -0800 (PST)
-Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS DV RSA Mixed SHA256 2020 CA-1" (verified OK))
-        by bmailout3.hostsharing.net (Postfix) with ESMTPS id 4A151100BA624;
-        Wed,  9 Mar 2022 20:05:21 +0100 (CET)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-        id 278F54C5886; Wed,  9 Mar 2022 20:05:21 +0100 (CET)
-Date:   Wed, 9 Mar 2022 20:05:21 +0100
-From:   Lukas Wunner <lukas@wunner.de>
-To:     Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc:     linux-serial <linux-serial@vger.kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Johan Hovold <johan@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        linux-api@vger.kernel.org, Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-mips@vger.kernel.org,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        linuxppc-dev@lists.ozlabs.org,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>, linux-sh@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        sparclinux@vger.kernel.org, Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        linux-xtensa@linux-xtensa.org, Arnd Bergmann <arnd@arndb.de>,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH 6/7] serial: General support for multipoint addresses
-Message-ID: <20220309190521.GA9832@wunner.de>
-References: <20220302095606.14818-1-ilpo.jarvinen@linux.intel.com>
- <20220302095606.14818-7-ilpo.jarvinen@linux.intel.com>
- <20220306194001.GD19394@wunner.de>
- <ab43569c-6488-12a6-823-3ef09f2849d@linux.intel.com>
+        with ESMTP id S238270AbiCIU7U (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 9 Mar 2022 15:59:20 -0500
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDBD93B572
+        for <linux-api@vger.kernel.org>; Wed,  9 Mar 2022 12:58:20 -0800 (PST)
+Received: by mail-lj1-x235.google.com with SMTP id 17so2870115lji.1
+        for <linux-api@vger.kernel.org>; Wed, 09 Mar 2022 12:58:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rb1xRrIzaTsXw5ggh9HnMsREf0OUT8EznCjFLR6Tke0=;
+        b=XZFXja1i5rQb5XdOAmekW9zg/6hHAdnoz1qTfYcCGVqEela6f+IXzW/TDT5tOM1/lY
+         mnlzGppp2H6pBA/Un3GU+l/f2ye3YXwiPbEstAnFSeyuj9kJFvMZCgVXKfit2c0fgo2B
+         ZVSmJ5e2eppMQoSI6c9JeU6WDhCTVZwrMtOXk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rb1xRrIzaTsXw5ggh9HnMsREf0OUT8EznCjFLR6Tke0=;
+        b=cODl1d64B+LzHp3yox8aVBqzEvQ+NSRWEEAsxF+20VXDoqzkkK7GfnVW/DYxZGdN8Y
+         k3j4B82VnfDuQAAzRliJv1BjjAK0dnhDr6ufyzSJ/ipg7x7wAm/Oabghu9ofUse+EMwc
+         2zBrsYKAVRtsBBP85pl7UTEECVzDpAfddOPHEwHdDI54QKBDxW0perS/VkQJne5sNShO
+         LSUM63NWoHSBFv+fA1KbrVdY08cnYk9CwNGyXvV2ScEjANrOb43DgJBwKgZMpwjtmABd
+         +EDp+TAZ5y0N73QzOPzOvvMcmVIZ/rjr9uG+uSCwKhRdH3pvQmVyE9HS0PHfIcqf+HKP
+         vjLA==
+X-Gm-Message-State: AOAM530AC2N05gswRHpv3tSCokmWegqYyc1wPf9Q9u/25TiS6Voprlf0
+        Uj0lmj76/l3vmzdKMFS1dUgMKMdpfBnU/cj7Y8g=
+X-Google-Smtp-Source: ABdhPJwIdwrzNmE/fAvldfUdrVs23D9GmQRqzNG2by0Qq4IFK9lYtwrJmBSY4NZeJ9wr0hbm0g/Q6g==
+X-Received: by 2002:a05:651c:1597:b0:247:f79c:5794 with SMTP id h23-20020a05651c159700b00247f79c5794mr900287ljq.398.1646859498974;
+        Wed, 09 Mar 2022 12:58:18 -0800 (PST)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
+        by smtp.gmail.com with ESMTPSA id p8-20020a2ea408000000b00247e5087157sm612506ljn.101.2022.03.09.12.58.17
+        for <linux-api@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Mar 2022 12:58:18 -0800 (PST)
+Received: by mail-lf1-f48.google.com with SMTP id h14so5908847lfk.11
+        for <linux-api@vger.kernel.org>; Wed, 09 Mar 2022 12:58:17 -0800 (PST)
+X-Received: by 2002:ac2:41cf:0:b0:448:1eaa:296c with SMTP id
+ d15-20020ac241cf000000b004481eaa296cmr940626lfi.52.1646859496995; Wed, 09 Mar
+ 2022 12:58:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ab43569c-6488-12a6-823-3ef09f2849d@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <87a6ha4zsd.fsf@email.froward.int.ebiederm.org>
+ <87bl1kunjj.fsf@email.froward.int.ebiederm.org> <87r19opkx1.fsf_-_@email.froward.int.ebiederm.org>
+ <87fsnsdlqg.fsf_-_@email.froward.int.ebiederm.org>
+In-Reply-To: <87fsnsdlqg.fsf_-_@email.froward.int.ebiederm.org>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Wed, 9 Mar 2022 12:58:00 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wjHmg7UGPotZpvWsztW-p75yFCSNxwyAkBq1-OzuOZrMQ@mail.gmail.com>
+Message-ID: <CAHk-=wjHmg7UGPotZpvWsztW-p75yFCSNxwyAkBq1-OzuOZrMQ@mail.gmail.com>
+Subject: Re: [PATCH 00/13] Removing tracehook.h
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     linux-arch <linux-arch@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Alexey Gladkov <legion@kernel.org>,
+        Kyle Huey <me@kylehuey.com>, Oleg Nesterov <oleg@redhat.com>,
+        Kees Cook <keescook@chromium.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Linux API <linux-api@vger.kernel.org>,
+        Jens Axboe <axboe@kernel.dk>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Mar 07, 2022 at 11:48:01AM +0200, Ilpo Järvinen wrote:
-> On Sun, 6 Mar 2022, Lukas Wunner wrote:
-> > On Wed, Mar 02, 2022 at 11:56:05AM +0200, Ilpo Järvinen wrote:
-> > > This change is necessary for supporting devices with RS485
-> > > multipoint addressing [*].
-> > 
-> > If this is only used with RS485, why can't we just store the
-> > addresses in struct serial_rs485 and use the existing TIOCSRS485
-> > and TIOCGRS485 ioctls?  There's 20 bytes of padding left in
-> > struct serial_rs485 which you could use.  No need to add more
-> > user-space ABI.
-> 
-> It could if it is agreed that serial multipoint addressing is just
-> a thing in RS-485 and nowhere else? In that case, there is no point
-> in adding more generic support for it.
+On Tue, Mar 8, 2022 at 4:16 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
+>
+> While working on cleaning up do_exit I have been having to deal with the
+> code in tracehook.h.  Unfortunately the code in tracehook.h does not
+> make sense as organized. [...]
 
-It's just that the above-quoted sentence in the commit message
-specifically mentions RS485.  If you intend to use it with RS232
-as well, that should be made explicit, otherwise one wonders why
-it wasn't integrated into struct serial_rs485.
+Thanks, that odd naming has tripped me up several times, this looks
+like an improvement.
 
-I have no idea how common 9th bit addressing mode is with RS232.
-Goggle turns up links saying it's mainly used with RS485, "but also
-RS232".  Since RS232 isn't a bus but a point-to-point link,
-9th bit addressing doesn't seem to make as much sense.
-
-
-> > > [*] Technically, RS485 is just an electronic spec and does not
-> > > itself specify the 9th bit addressing mode but 9th bit seems
-> > > at least "semi-standard" way to do addressing with RS485.
-> > 
-> > Is 9th bit addressing actually used by an Intel customer or was
-> > it implemented just for feature completeness? I think this mode
-> > isn't used often (I've never seen a use case myself), primarily
-> > because it requires disabling parity.
-> 
-> On what basis? ...The datasheet I'm looking at has a timing diagram 
-> with both D8 (9th bit) and parity so I think your information must be
-> incorrect.
-
-E.g. the discussion here says that 9th bit addressing requires that
-parity is disabled or the character size is reduced to 7-bit:
-
-https://www.microchip.com/forums/m299904.aspx
-
-I guess that applies only to some UARTs, the Synopsys databook doesn't
-mention any such constraints.
-
-Thanks,
-
-Lukas
+                  Linus
