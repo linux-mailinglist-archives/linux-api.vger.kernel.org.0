@@ -2,143 +2,181 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 764034D565A
-	for <lists+linux-api@lfdr.de>; Fri, 11 Mar 2022 01:09:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4E6C4D5DA3
+	for <lists+linux-api@lfdr.de>; Fri, 11 Mar 2022 09:42:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242571AbiCKAKj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 10 Mar 2022 19:10:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53558 "EHLO
+        id S229882AbiCKInl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 11 Mar 2022 03:43:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229488AbiCKAKh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 10 Mar 2022 19:10:37 -0500
-Received: from mail-ua1-x935.google.com (mail-ua1-x935.google.com [IPv6:2607:f8b0:4864:20::935])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17BBCE0A2E
-        for <linux-api@vger.kernel.org>; Thu, 10 Mar 2022 16:09:35 -0800 (PST)
-Received: by mail-ua1-x935.google.com with SMTP id j7so3037595uap.5
-        for <linux-api@vger.kernel.org>; Thu, 10 Mar 2022 16:09:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KKinXJt7hCI4YpcWmOz6K5DlvGxO13aibVS8plGZoac=;
-        b=HqX+58LeRiyJ+PCpXDzYP5OEeCLu5dtyp+co5T4+ZSilbM/f/SuTyjR/SP5bq59Qje
-         NYcX25WKgHXZ7PNbCD+j6iamM/KYFiq87pv9laSQydiTUaVkWdWBOL8O7VL5I/iQtT9r
-         FDGvPa/3t0WOBLSafpitmkfSrZB3/mW3aphHPPlHNz05DljBZ3DuozCDGJSsvgRkA/W3
-         AzU1i1dkD4LVMUUI/BLlEVswagAzDBwpK+fmYbh1jYiRkTc7uCVBegSKSNnUzZploBMO
-         wgdVfKk4l0YBvSpGa3nXIddYza4tfmO3p7JqdnzggMQgnms0/2cZUvYp3RRkMrj241nk
-         C7kA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KKinXJt7hCI4YpcWmOz6K5DlvGxO13aibVS8plGZoac=;
-        b=f6FfdwpolhRXGYrjjYblLJ1uR3yVbUjGP9/xTbaFLMNuYtdCEqEUN0grXXed0bjjuj
-         3pfPiqRquUMnNs3MirwFmjYL254ud3ZetxoTqFxechJONedEt00ocETBsSE48VcSqK6r
-         3e5xAoZOSNliwP9r/6PNzFIovk2YVvsnEo3qOOY6cnY4ovwWT2WEUf7tsGY3qmtaf7dW
-         7O0dPWXOzV4SpNbjjK5hNZtXIHDzGkQQwz401/IMrPEz66vpSfbae5pZrRqWKEQ5QalK
-         NutSU99//d/yRfaxZI1FuS6SdMAT9CcpPkv0QnUpHQlpwlqgqN82pVyIkog5LHBUQI/w
-         /FUA==
-X-Gm-Message-State: AOAM531TdZIlEvQtJtnK6WB32hRRF/zhKamNI6Gtqfz9PjVMVK2IxlC1
-        UjIePdzj/+UZT6x2cjo7vy3cvPKTjHFUJtawaiJ4iQ==
-X-Google-Smtp-Source: ABdhPJyb6rTtf+blMbaJtCSG6M567B8/H8bDzy2b/FCzeVtcsifwkglVog4fG17ucBsnOxmlRf+HGHL/HFVCdu14FhY=
-X-Received: by 2002:ab0:4d52:0:b0:34c:41ce:275b with SMTP id
- k18-20020ab04d52000000b0034c41ce275bmr3638164uag.19.1646957374015; Thu, 10
- Mar 2022 16:09:34 -0800 (PST)
-MIME-Version: 1.0
-References: <dd620dbd-6d71-7553-d1e9-95676ff12c82@nutanix.com>
- <YiKsUr1FQwmDP7V0@google.com> <CAOUHufZyrLrkEvFay+FddN5Ve3v_-JvNROHo9hEhsoVuCpwh0Q@mail.gmail.com>
- <YiX2HcF5o2IjfX1H@dhcp22.suse.cz> <Yim+aOCyfwLrqYWi@dhcp22.suse.cz>
-In-Reply-To: <Yim+aOCyfwLrqYWi@dhcp22.suse.cz>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Thu, 10 Mar 2022 17:09:22 -0700
-Message-ID: <CAOUHufZ3MfDSuN4x_2wqGpc5aaKGm840KUKX6KPfvp3OcJbjTg@mail.gmail.com>
-Subject: Re: Regression of madvise(MADV_COLD) on shmem?
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Minchan Kim <minchan@kernel.org>,
-        Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
+        with ESMTP id S238414AbiCKInk (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 11 Mar 2022 03:43:40 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D3B73B3F4;
+        Fri, 11 Mar 2022 00:42:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646988157; x=1678524157;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=rnnCy0Hbi4uhBKWJV93SLPhz7c/vwnMymNdqjK9CGiI=;
+  b=TSElsKllxlM6Vbk/Yu5miqQ82L2dxUe/dDgksMB0D2EdOXf8XYk2WkEj
+   myfQNcCnR6zYAGT12LUIKb8v3YV9o/90cR3BDbuXEH+LX9DqDeVD32A1M
+   8rNxfacfmDOdjrJiizTANRs3sG23rLUpT9TSd9jxsx1ZO2+pX2Kxy+Cq8
+   nNPz0jbwJzTVG/OayqiycDDw3+vZOaAntqGF4w+S4wRM1YExYLl09AMQ6
+   vkqLelSenko/TAyf/FG1Ngp00gfmzfLgYgD4beHN9Op/lpMch9ZLhABxN
+   u1g/19eSh9AuGotby4eBXtAboRcwbyLK/1dgRkKnzlZJtpeEgILjBNmVD
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="341958572"
+X-IronPort-AV: E=Sophos;i="5.90,173,1643702400"; 
+   d="scan'208";a="341958572"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2022 00:42:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,173,1643702400"; 
+   d="scan'208";a="538926645"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+  by orsmga007.jf.intel.com with ESMTP; 11 Mar 2022 00:42:24 -0800
+Date:   Fri, 11 Mar 2022 16:42:08 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Dave Chinner <david@fromorbit.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-api@vger.kernel.org, Johannes Weiner <hannes@cmpxchg.org>,
-        Tim Murray <timmurray@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Suren Baghdasaryan <surenb@google.com>, dancol@google.com,
-        Shakeel Butt <shakeelb@google.com>, sonnyrao@google.com,
-        oleksandr@redhat.com, Hillf Danton <hdanton@sina.com>,
-        Benoit Lize <lizeb@google.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com
+Subject: Re: [PATCH v5 03/13] mm/shmem: Support memfile_notifier
+Message-ID: <20220311084208.GB56193@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
+ <20220310140911.50924-4-chao.p.peng@linux.intel.com>
+ <20220310230822.GO661808@dread.disaster.area>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220310230822.GO661808@dread.disaster.area>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Mar 10, 2022 at 2:01 AM Michal Hocko <mhocko@suse.com> wrote:
->
-> On Mon 07-03-22 13:10:08, Michal Hocko wrote:
-> > On Sat 05-03-22 02:17:37, Yu Zhao wrote:
-> > [...]
-> > > diff --git a/mm/swap.c b/mm/swap.c
-> > > index bcf3ac288b56..7fd99f037ca7 100644
-> > > --- a/mm/swap.c
-> > > +++ b/mm/swap.c
-> > > @@ -563,7 +559,7 @@ static void lru_deactivate_file_fn(struct page
-> > > *page, struct lruvec *lruvec)
-> > >
-> > >  static void lru_deactivate_fn(struct page *page, struct lruvec *lruvec)
-> > >  {
-> > > -       if (PageActive(page) && !PageUnevictable(page)) {
-> > > +       if (!PageUnevictable(page)) {
-> > >                 int nr_pages = thp_nr_pages(page);
-> > >
-> > >                 del_page_from_lru_list(page, lruvec);
-> > > @@ -677,7 +673,7 @@ void deactivate_file_page(struct page *page)
-> > >   */
-> > >  void deactivate_page(struct page *page)
-> > >  {
-> > > -       if (PageLRU(page) && PageActive(page) && !PageUnevictable(page)) {
-> > > +       if (PageLRU(page) && !PageUnevictable(page)) {
-> > >                 struct pagevec *pvec;
-> > >
-> > >                 local_lock(&lru_pvecs.lock);
-> > >
-> > > I'll leave it to Minchan to decide whether this is worth fixing,
-> > > together with this one:
-> >
-> > There doesn't seem to be any dependency on the PageActive anymore. I do
-> > remember we have relied on the PageActive to move from the active list
-> > to the inactive. This is not the case anymore but I am wondering whether
-> > above is really sufficient. If you are deactivating an inactive page
-> > then I would expect you want to move that page in the LRU as well. In
-> > other words don't you want
-> >       if (page_active)
-> >               add_page_to_lru_list
-> >       else
-> >               add_page_to_lru_list_tail
+On Fri, Mar 11, 2022 at 10:08:22AM +1100, Dave Chinner wrote:
+> On Thu, Mar 10, 2022 at 10:09:01PM +0800, Chao Peng wrote:
+> > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> > 
+> > It maintains a memfile_notifier list in shmem_inode_info structure and
+> > implements memfile_pfn_ops callbacks defined by memfile_notifier. It
+> > then exposes them to memfile_notifier via
+> > shmem_get_memfile_notifier_info.
+> > 
+> > We use SGP_NOALLOC in shmem_get_lock_pfn since the pages should be
+> > allocated by userspace for private memory. If there is no pages
+> > allocated at the offset then error should be returned so KVM knows that
+> > the memory is not private memory.
+> > 
+> > Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > ---
+> >  include/linux/shmem_fs.h |  4 +++
+> >  mm/shmem.c               | 76 ++++++++++++++++++++++++++++++++++++++++
+> >  2 files changed, 80 insertions(+)
+> > 
+> > diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
+> > index 2dde843f28ef..7bb16f2d2825 100644
+> > --- a/include/linux/shmem_fs.h
+> > +++ b/include/linux/shmem_fs.h
+> > @@ -9,6 +9,7 @@
+> >  #include <linux/percpu_counter.h>
+> >  #include <linux/xattr.h>
+> >  #include <linux/fs_parser.h>
+> > +#include <linux/memfile_notifier.h>
+> >  
+> >  /* inode in-kernel data */
+> >  
+> > @@ -28,6 +29,9 @@ struct shmem_inode_info {
+> >  	struct simple_xattrs	xattrs;		/* list of xattrs */
+> >  	atomic_t		stop_eviction;	/* hold when working on inode */
+> >  	unsigned int		xflags;		/* shmem extended flags */
+> > +#ifdef CONFIG_MEMFILE_NOTIFIER
+> > +	struct memfile_notifier_list memfile_notifiers;
+> > +#endif
+> >  	struct inode		vfs_inode;
+> >  };
+> >  
+> > diff --git a/mm/shmem.c b/mm/shmem.c
+> > index 9b31a7056009..7b43e274c9a2 100644
+> > --- a/mm/shmem.c
+> > +++ b/mm/shmem.c
+> > @@ -903,6 +903,28 @@ static struct folio *shmem_get_partial_folio(struct inode *inode, pgoff_t index)
+> >  	return page ? page_folio(page) : NULL;
+> >  }
+> >  
+> > +static void notify_fallocate(struct inode *inode, pgoff_t start, pgoff_t end)
+> > +{
+> > +#ifdef CONFIG_MEMFILE_NOTIFIER
+> > +	struct shmem_inode_info *info = SHMEM_I(inode);
+> > +
+> > +	memfile_notifier_fallocate(&info->memfile_notifiers, start, end);
+> > +#endif
+> > +}
+> 
+> *notify_populate(), not fallocate.  This is a notification that a
+> range has been populated, not that the fallocate() syscall was run
+> to populate the backing store of a file.
+> 
+> i.e.  fallocate is the name of a userspace filesystem API that can
+> be used to manipulate the backing store of a file in various ways.
+> It can both populate and punch away the backing store of a file, and
+> some operations that fallocate() can run will do both (e.g.
+> FALLOC_FL_ZERO_RANGE) and so could generate both
+> notify_invalidate() and a notify_populate() events.
 
-Yes, this is better.
+Yes, I fully agreed fallocate syscall has both populating and hole
+punching semantics so notify_fallocate can be misleading since we
+actually mean populate here.
 
-> Do you plan to send an official patch?
+> 
+> Hence "fallocate" as an internal mm namespace or operation does not
+> belong anywhere in core MM infrastructure - it should never get used
+> anywhere other than the VFS/filesystem layers that implement the
+> fallocate() syscall or use it directly.
 
-One thing I still haven't thought through is why the A-bit couldn't
-protect the blob in the test. In theory it should be enough even
-though deactivate_page() is a NOP.
+Will use your suggestion through the series where applied. Thanks for
+your suggestion.
 
-1. all pages are initially inactive and have the A-bit set
-2. madvise(COLD) clears the A-bit for zero-filled pages (but fails to
-change their LRU positions)
-3. the memcg hits the limit
-4. pages in the blob are moved to the active LRU because those pages
-still have the A-bit (zero-filled pages remain inactive)
-5. inactive_is_low() tests true and the blob gets deactivated???
-
-The last step doesn't make sense, since the inactive list is still very large.
-
-Thanks.
+Chao
+> 
+> Cheers,
+> 
+> Dave.
+> 
+> -- 
+> Dave Chinner
+> david@fromorbit.com
