@@ -2,181 +2,117 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D4E6C4D5DA3
-	for <lists+linux-api@lfdr.de>; Fri, 11 Mar 2022 09:42:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 656A64D61FF
+	for <lists+linux-api@lfdr.de>; Fri, 11 Mar 2022 14:04:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229882AbiCKInl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 11 Mar 2022 03:43:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42406 "EHLO
+        id S239747AbiCKNFg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 11 Mar 2022 08:05:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238414AbiCKInk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 11 Mar 2022 03:43:40 -0500
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D3B73B3F4;
-        Fri, 11 Mar 2022 00:42:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646988157; x=1678524157;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=rnnCy0Hbi4uhBKWJV93SLPhz7c/vwnMymNdqjK9CGiI=;
-  b=TSElsKllxlM6Vbk/Yu5miqQ82L2dxUe/dDgksMB0D2EdOXf8XYk2WkEj
-   myfQNcCnR6zYAGT12LUIKb8v3YV9o/90cR3BDbuXEH+LX9DqDeVD32A1M
-   8rNxfacfmDOdjrJiizTANRs3sG23rLUpT9TSd9jxsx1ZO2+pX2Kxy+Cq8
-   nNPz0jbwJzTVG/OayqiycDDw3+vZOaAntqGF4w+S4wRM1YExYLl09AMQ6
-   vkqLelSenko/TAyf/FG1Ngp00gfmzfLgYgD4beHN9Op/lpMch9ZLhABxN
-   u1g/19eSh9AuGotby4eBXtAboRcwbyLK/1dgRkKnzlZJtpeEgILjBNmVD
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="341958572"
-X-IronPort-AV: E=Sophos;i="5.90,173,1643702400"; 
-   d="scan'208";a="341958572"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2022 00:42:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,173,1643702400"; 
-   d="scan'208";a="538926645"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
-  by orsmga007.jf.intel.com with ESMTP; 11 Mar 2022 00:42:24 -0800
-Date:   Fri, 11 Mar 2022 16:42:08 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Dave Chinner <david@fromorbit.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com
-Subject: Re: [PATCH v5 03/13] mm/shmem: Support memfile_notifier
-Message-ID: <20220311084208.GB56193@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <20220310140911.50924-4-chao.p.peng@linux.intel.com>
- <20220310230822.GO661808@dread.disaster.area>
+        with ESMTP id S236814AbiCKNFf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 11 Mar 2022 08:05:35 -0500
+Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27CD01C1AFB
+        for <linux-api@vger.kernel.org>; Fri, 11 Mar 2022 05:04:32 -0800 (PST)
+Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-2db2add4516so92679967b3.1
+        for <linux-api@vger.kernel.org>; Fri, 11 Mar 2022 05:04:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:in-reply-to:references:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=7JWE9zd+maikJMBk6/jUSlZon4N05PNxWALWeq193Zc=;
+        b=LzcRlCsY/gDWi/5XEl4EV3Jr0gn1AMDZ89YJHx4PuIZ43S783gGQPlfJwhazqnjvWO
+         DMFOT2vU9vVwik47VtFfMdQYkuE2MFmAT8InJIK78kDvJht8L6Oz0FNGGo0kLcc2215z
+         79Xj7nB+loQGI0COltKe/BvfESAaEsdkXl/7VKw72LmN2ZEyRUxQCwuS541AUXIGG07T
+         RKTVXKR3GPbkV8E42Po9Jng/qV6/acIxOlDaHDFl+T6ijXjDTNirSEns8pPwaaMuAMEm
+         XT6kNl7Z7CTqJBFxyZer3QKo7bDmafYPceF6XMep7RTbJhZ7sv98VSl9XJRho8Uj8HVG
+         dErw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:in-reply-to:references
+         :from:date:message-id:subject:to:content-transfer-encoding;
+        bh=7JWE9zd+maikJMBk6/jUSlZon4N05PNxWALWeq193Zc=;
+        b=hhdpIXg96bh2OCPOH+Spk2joMmgwPaAZsCUVC2f52DVsNSrCOxlBIdImUYYoS7WYwy
+         vu0uKHT8PSbLk9jLGsdUkXYv91X1k/QiWGaXPRGlFIAHLuyhkQLf/GjYocSdNWYR5tNN
+         ksl403ymxWCzgJzVCzISay5agiq9hvvzmo1iQkwquQzsn3r6W0ELtjuxNbIhKu0NDsmM
+         6meM+y5ChKBwpfjaN9jYuUG/IfiTXUs63yBvpgfQHaOejKm/M4WdgMmMA7W7PJGMGrqp
+         n22qbMQoyliVTZ5JeN2ci0X1B8QG5JiWipDNksLbqbLB5SebScbhzQYE+O6JyBfSGqEG
+         DAWQ==
+X-Gm-Message-State: AOAM531ZjCJ1ZhOwxCCpGPO5JN5FazMHXih4r6150qlaFQULAdhIi1ey
+        rYw4UF7apMIsCb2hhK2swP69yA7dSrvQETs4NTE=
+X-Google-Smtp-Source: ABdhPJxYw2YH+A0gmSfRnHif0KCih+1iJXmS84AlM7NtYWJK9c9la5Xm/6dY7rxPqVN+f6l/44FDRQeE0CFDWD8/im8=
+X-Received: by 2002:a81:98c:0:b0:2dc:1cb0:8c12 with SMTP id
+ 134-20020a81098c000000b002dc1cb08c12mr7668861ywj.409.1647003871060; Fri, 11
+ Mar 2022 05:04:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220310230822.GO661808@dread.disaster.area>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Received: by 2002:a05:7010:a79b:b0:238:b5cd:5c99 with HTTP; Fri, 11 Mar 2022
+ 05:04:30 -0800 (PST)
+Reply-To: mrskatarinajanickova@gmail.com
+In-Reply-To: <CADt3=2Fvi8PHVZUYFNFiZegePRcwD_yPXtMYGDfU1yedVXhihA@mail.gmail.com>
+References: <CADt3=2E9WZbHvrKcVWvpN1_5ZgH5V7vBey1EaMe1C8C+Dvcv7Q@mail.gmail.com>
+ <CADt3=2G6Z=i-_yu=FgJvC8X7KW0mSwpk-Hvx=p9cpsX8kRxdBg@mail.gmail.com>
+ <CADt3=2Hj3MQo4VgQc_DPEc2dEopKsLVKF7mpfNrKLuiCsNz4Wg@mail.gmail.com>
+ <CADt3=2GoNJr4rvEU0wE4C9qC9AuYc5RCuY-NREbz98Y7D+Ps+g@mail.gmail.com>
+ <CADt3=2EsDefuzBQbquUZrBNDfue+AzhAr8ErsRCM8OKCS00mxw@mail.gmail.com>
+ <CADt3=2E_0Yi_rjH6r4Lkb0Qm1+tL1W0O1tjq3ejemLrZTW5XJg@mail.gmail.com>
+ <CADt3=2F9XWLdp8Yk92bY8bPAAQGCWrk6nW14mYrJBqUK3-pwkA@mail.gmail.com>
+ <CADt3=2HAhWdFLw5P592KuufmW92fRprT=Eo5pjwwxJB+LiZzPw@mail.gmail.com>
+ <CADt3=2HEdbHYAmMN=D5pMPdi_+_LbryXw7Azqxitvu85Gxdx_g@mail.gmail.com>
+ <CADt3=2FYduKH7WQgJFQ73Nd_-pyvU76yChCuxbonceFPf9GgOA@mail.gmail.com>
+ <CADt3=2HE1GCJXJcmPiQS1a7ByzPec58=StmNcrL2nbDr9Kr-9A@mail.gmail.com>
+ <CADt3=2G41a2H-ivOuhOxWruierFeCvZUocYDmhV=PYAtgKgpZw@mail.gmail.com>
+ <CADt3=2FgjhAkZKx8EmrgRNe52Mh-g9jnmjrWqKAg5t02DdMO4w@mail.gmail.com>
+ <CADt3=2Ex40f6cqk1iNC7_6AsV5Xjovkp=Dmu81+QOL1eZOF2MQ@mail.gmail.com>
+ <CADt3=2Gk2fOWM2O=rj33s7N+ph687+d4wE0axwB9dsoZWHzDZw@mail.gmail.com>
+ <CADt3=2G=WiWgHRHQFwvT3D0zG+JNB1EErTzUDZdBiP875jK1Ww@mail.gmail.com>
+ <CADt3=2F78iNEFJAOLTOcVoOwNRoY7RotJzzMfd4yBU6J30fG4g@mail.gmail.com> <CADt3=2Fvi8PHVZUYFNFiZegePRcwD_yPXtMYGDfU1yedVXhihA@mail.gmail.com>
+From:   =?UTF-8?Q?Mrs=2E_Katarina_Jan=C3=ADckov=C3=A1?= 
+        <toudignekedi@gmail.com>
+Date:   Fri, 11 Mar 2022 13:04:30 +0000
+Message-ID: <CADt3=2HQLnHefFmHftPgb+7DnPpXrCx94psi42VLJiDq2puB8w@mail.gmail.com>
+Subject: My Good Dear Friend,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=7.8 required=5.0 tests=BAYES_50,DEAR_FRIEND,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        FREEMAIL_REPLYTO,HK_NAME_FM_MR_MRS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:112c listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4451]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [toudignekedi[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  2.6 DEAR_FRIEND BODY: Dear Friend? That's not very dear!
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.0 HK_NAME_FM_MR_MRS No description available.
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.6 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Mar 11, 2022 at 10:08:22AM +1100, Dave Chinner wrote:
-> On Thu, Mar 10, 2022 at 10:09:01PM +0800, Chao Peng wrote:
-> > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-> > 
-> > It maintains a memfile_notifier list in shmem_inode_info structure and
-> > implements memfile_pfn_ops callbacks defined by memfile_notifier. It
-> > then exposes them to memfile_notifier via
-> > shmem_get_memfile_notifier_info.
-> > 
-> > We use SGP_NOALLOC in shmem_get_lock_pfn since the pages should be
-> > allocated by userspace for private memory. If there is no pages
-> > allocated at the offset then error should be returned so KVM knows that
-> > the memory is not private memory.
-> > 
-> > Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > ---
-> >  include/linux/shmem_fs.h |  4 +++
-> >  mm/shmem.c               | 76 ++++++++++++++++++++++++++++++++++++++++
-> >  2 files changed, 80 insertions(+)
-> > 
-> > diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
-> > index 2dde843f28ef..7bb16f2d2825 100644
-> > --- a/include/linux/shmem_fs.h
-> > +++ b/include/linux/shmem_fs.h
-> > @@ -9,6 +9,7 @@
-> >  #include <linux/percpu_counter.h>
-> >  #include <linux/xattr.h>
-> >  #include <linux/fs_parser.h>
-> > +#include <linux/memfile_notifier.h>
-> >  
-> >  /* inode in-kernel data */
-> >  
-> > @@ -28,6 +29,9 @@ struct shmem_inode_info {
-> >  	struct simple_xattrs	xattrs;		/* list of xattrs */
-> >  	atomic_t		stop_eviction;	/* hold when working on inode */
-> >  	unsigned int		xflags;		/* shmem extended flags */
-> > +#ifdef CONFIG_MEMFILE_NOTIFIER
-> > +	struct memfile_notifier_list memfile_notifiers;
-> > +#endif
-> >  	struct inode		vfs_inode;
-> >  };
-> >  
-> > diff --git a/mm/shmem.c b/mm/shmem.c
-> > index 9b31a7056009..7b43e274c9a2 100644
-> > --- a/mm/shmem.c
-> > +++ b/mm/shmem.c
-> > @@ -903,6 +903,28 @@ static struct folio *shmem_get_partial_folio(struct inode *inode, pgoff_t index)
-> >  	return page ? page_folio(page) : NULL;
-> >  }
-> >  
-> > +static void notify_fallocate(struct inode *inode, pgoff_t start, pgoff_t end)
-> > +{
-> > +#ifdef CONFIG_MEMFILE_NOTIFIER
-> > +	struct shmem_inode_info *info = SHMEM_I(inode);
-> > +
-> > +	memfile_notifier_fallocate(&info->memfile_notifiers, start, end);
-> > +#endif
-> > +}
-> 
-> *notify_populate(), not fallocate.  This is a notification that a
-> range has been populated, not that the fallocate() syscall was run
-> to populate the backing store of a file.
-> 
-> i.e.  fallocate is the name of a userspace filesystem API that can
-> be used to manipulate the backing store of a file in various ways.
-> It can both populate and punch away the backing store of a file, and
-> some operations that fallocate() can run will do both (e.g.
-> FALLOC_FL_ZERO_RANGE) and so could generate both
-> notify_invalidate() and a notify_populate() events.
+Dear Friend,
 
-Yes, I fully agreed fallocate syscall has both populating and hole
-punching semantics so notify_fallocate can be misleading since we
-actually mean populate here.
+Greetings to you and to your entire family.I pray this mail get to
+you in better health.
 
-> 
-> Hence "fallocate" as an internal mm namespace or operation does not
-> belong anywhere in core MM infrastructure - it should never get used
-> anywhere other than the VFS/filesystem layers that implement the
-> fallocate() syscall or use it directly.
-
-Will use your suggestion through the series where applied. Thanks for
-your suggestion.
-
-Chao
-> 
-> Cheers,
-> 
-> Dave.
-> 
-> -- 
-> Dave Chinner
-> david@fromorbit.com
+Mrs. Katarina Jan=C3=ADckov=C3=A1
