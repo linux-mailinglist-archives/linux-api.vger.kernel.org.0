@@ -2,140 +2,101 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 131854DCD99
-	for <lists+linux-api@lfdr.de>; Thu, 17 Mar 2022 19:32:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 425604DCE79
+	for <lists+linux-api@lfdr.de>; Thu, 17 Mar 2022 20:10:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235282AbiCQSeG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 17 Mar 2022 14:34:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35654 "EHLO
+        id S232406AbiCQTLg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 17 Mar 2022 15:11:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235157AbiCQSeF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Mar 2022 14:34:05 -0400
-Received: from out02.mta.xmission.com (out02.mta.xmission.com [166.70.13.232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E76A8E9CB2;
-        Thu, 17 Mar 2022 11:32:48 -0700 (PDT)
-Received: from in01.mta.xmission.com ([166.70.13.51]:54822)
-        by out02.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1nUuvX-00EeQu-9o; Thu, 17 Mar 2022 12:32:47 -0600
-Received: from ip68-227-174-4.om.om.cox.net ([68.227.174.4]:38386 helo=email.froward.int.ebiederm.org.xmission.com)
-        by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1nUuvW-000unu-Ab; Thu, 17 Mar 2022 12:32:46 -0600
-From:   "Eric W. Biederman" <ebiederm@xmission.com>
-To:     Oleg Nesterov <oleg@redhat.com>
+        with ESMTP id S237843AbiCQTLf (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 17 Mar 2022 15:11:35 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78EEF208C2F
+        for <linux-api@vger.kernel.org>; Thu, 17 Mar 2022 12:10:18 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id m11-20020a17090a7f8b00b001beef6143a8so6310987pjl.4
+        for <linux-api@vger.kernel.org>; Thu, 17 Mar 2022 12:10:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=q+Yvk4Xw+jpjX5xTLCBpPZo0AleetlGgSVjMzYWsGsY=;
+        b=PtsRNGgXT9KGmeoGD0ZfYSh4rI+8giEJ2KDLATss1DA+b5E2XmtOoQvuZ7lR5RaKJg
+         JNeCtFapCZfcql3cKxFdtTHYu4iLSgQo7W4B3/5Tw6krOSf6xcBxeDdC8M0yIA0vu+Rq
+         yj5wV7ukcYSwWBq5UxpsKMXGM1CWepdL1z5+o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=q+Yvk4Xw+jpjX5xTLCBpPZo0AleetlGgSVjMzYWsGsY=;
+        b=6rzIzY4RK82KRfgBMVuZA5ZkxSC3llkqb3boHbofaixrKhAjjMtz6ZWqnDXcTLVmEk
+         Y6l4wfh8S1MVPMGsUJjdl07r+JUZlET+8iZNyW0q82k7yf0m6k95qNfrR1mD+84ELuiE
+         SszdhBczJISlG9Xwyd6bGrhCWJ++L0t1Un9DkriXmcItYkp+/N6HfV++Gx6bh+ETcmA8
+         1hsGeyG2Qqoqfv1S5vmYN4QtCfq4zEFK6R6JbdPE/4IjgDjKr4f7DE7NkOXB8hlVWV8q
+         yOJnPcmW8uad309axoljj0nUphVDOBtT+SHynFIyS2NeT28FibO/M1qV14ozYOfAT13T
+         Omdw==
+X-Gm-Message-State: AOAM5305Sx+7uW6W6J3/r33KwwvrHbypJgaM2H6tfUjBL27NVviuAeH9
+        BGETwPmJpjoEnzxApV9TpFQT8A==
+X-Google-Smtp-Source: ABdhPJzLSAJmtCqtOTC+5DBrXu+wjHpu7EwHOXE/Ox6qNc24/dd5OCcG8i8AC/ClqpXCGpifd8BQGg==
+X-Received: by 2002:a17:90a:f2cd:b0:1c6:5a37:69ab with SMTP id gt13-20020a17090af2cd00b001c65a3769abmr7123263pjb.224.1647544217875;
+        Thu, 17 Mar 2022 12:10:17 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id h11-20020a056a00170b00b004f7a83058d5sm8094040pfc.16.2022.03.17.12.10.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Mar 2022 12:10:17 -0700 (PDT)
+Date:   Thu, 17 Mar 2022 12:10:16 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
 Cc:     linux-kernel@vger.kernel.org,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Alexey Gladkov <legion@kernel.org>,
-        Kyle Huey <me@kylehuey.com>, Kees Cook <keescook@chromium.org>,
-        Al Viro <viro@ZenIV.linux.org.uk>, linux-api@vger.kernel.org,
+        Kyle Huey <me@kylehuey.com>, Oleg Nesterov <oleg@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>, linux-api@vger.kernel.org,
         Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH 1/2] ptrace: Move setting/clearing ptrace_message into
+ ptrace_stop
+Message-ID: <202203171209.FC87C7B08@keescook>
 References: <87a6ha4zsd.fsf@email.froward.int.ebiederm.org>
-        <87bl1kunjj.fsf@email.froward.int.ebiederm.org>
-        <87r19opkx1.fsf_-_@email.froward.int.ebiederm.org>
-        <87o82gdlu9.fsf_-_@email.froward.int.ebiederm.org>
-        <87tubyx0rg.fsf_-_@email.froward.int.ebiederm.org>
-        <875yoe7qdp.fsf_-_@email.froward.int.ebiederm.org>
-        <20220317180856.GB13318@redhat.com>
-Date:   Thu, 17 Mar 2022 13:31:58 -0500
-In-Reply-To: <20220317180856.GB13318@redhat.com> (Oleg Nesterov's message of
-        "Thu, 17 Mar 2022 19:08:57 +0100")
-Message-ID: <871qz04eht.fsf@email.froward.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ <87bl1kunjj.fsf@email.froward.int.ebiederm.org>
+ <87r19opkx1.fsf_-_@email.froward.int.ebiederm.org>
+ <87o82gdlu9.fsf_-_@email.froward.int.ebiederm.org>
+ <87tubyx0rg.fsf_-_@email.froward.int.ebiederm.org>
+ <87bky67qfv.fsf_-_@email.froward.int.ebiederm.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1nUuvW-000unu-Ab;;;mid=<871qz04eht.fsf@email.froward.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.174.4;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX1+s7QqFvk2d1PVvznaot3c59gGze14b/sE=
-X-SA-Exim-Connect-IP: 68.227.174.4
-X-SA-Exim-Mail-From: ebiederm@xmission.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87bky67qfv.fsf_-_@email.froward.int.ebiederm.org>
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
-X-Spam-DCC: XMission; sa06 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: **;Oleg Nesterov <oleg@redhat.com>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 404 ms - load_scoreonly_sql: 0.08 (0.0%),
-        signal_user_changed: 11 (2.6%), b_tie_ro: 9 (2.3%), parse: 1.08 (0.3%),
-         extract_message_metadata: 3.7 (0.9%), get_uri_detail_list: 1.37
-        (0.3%), tests_pri_-1000: 4.0 (1.0%), tests_pri_-950: 1.27 (0.3%),
-        tests_pri_-900: 1.04 (0.3%), tests_pri_-90: 97 (23.9%), check_bayes:
-        95 (23.4%), b_tokenize: 7 (1.7%), b_tok_get_all: 7 (1.6%),
-        b_comp_prob: 2.3 (0.6%), b_tok_touch_all: 74 (18.4%), b_finish: 1.15
-        (0.3%), tests_pri_0: 253 (62.6%), check_dkim_signature: 0.49 (0.1%),
-        check_dkim_adsp: 3.0 (0.7%), poll_dns_idle: 1.08 (0.3%), tests_pri_10:
-        2.7 (0.7%), tests_pri_500: 20 (5.1%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH 2/2] ptrace: Return the signal to continue with from
- ptrace_stop
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Oleg Nesterov <oleg@redhat.com> writes:
+On Tue, Mar 15, 2022 at 06:21:08PM -0500, Eric W. Biederman wrote:
+> 
+> Today ptrace_message is easy to overlook as it not a core part of
+> ptrace_stop.  It has been overlooked so much that there are places
+> that set ptrace_message and don't clear it, and places that never set
+> it.  So if you get an unlucky sequence of events the ptracer may be
+> able to read a ptrace_message that does not apply to the current
+> ptrace stop.
+> 
+> Move setting of ptrace_message into ptrace_stop so that it always gets
+> set before the stop, and always gets cleared after the stop.  This
+> prevents non-sense from being reported to userspace and makes
+> ptrace_message more visible in the ptrace helper functions so that
+> kernel developers can see it.
+> 
+> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
 
-> Not sure I understand this patch, I can't apply it. I guess I need to
-> clone your tree first, will do later.
->
-> Just one question right now,
->
-> On 03/15, Eric W. Biederman wrote:
->>
->> +static int ptrace_stop(int exit_code, int why, int clear_code,
->>  			unsigned long message, kernel_siginfo_t *info)
->>  	__releases(&current->sighand->siglock)
->>  	__acquires(&current->sighand->siglock)
->>  {
->>  	bool gstop_done = false;
->> +	bool read_code = true;
->>  
->>  	if (arch_ptrace_stop_needed()) {
->>  		/*
->> @@ -2305,8 +2307,9 @@ static void ptrace_stop(int exit_code, int why, int clear_code,
->>  
->>  		/* tasklist protects us from ptrace_freeze_traced() */
->>  		__set_current_state(TASK_RUNNING);
->> +		read_code = false;
->>  		if (clear_code)
->> -			current->exit_code = 0;
->> +			exit_code = 0;
->>  		read_unlock(&tasklist_lock);
->>  	}
->>  
->> @@ -2316,8 +2319,10 @@ static void ptrace_stop(int exit_code, int why, int clear_code,
->>  	 * any signal-sending on another CPU that wants to examine it.
->>  	 */
->>  	spin_lock_irq(&current->sighand->siglock);
->> +	if (read_code) exit_code = current->exit_code;
->
-> style ;)
->
->>  	current->last_siginfo = NULL;
->>  	current->ptrace_message = 0;
->> +	current->exit_code = 0;
->
-> OK, I like it... but can't we remove the ugly "int clear_code" arg?
+This looks good to me. Did you happen to run the seccomp selftests
+before/after these changes?
 
-The flag clear_code controls what happens if a ptrace_stop does not
-stop.  In particular clear_code means do not continue with
-a signal if we can not stop.
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-For do_jobctl_trap calling ptrace_stop it clearly does not matter.
-
-For ptrace_signal it would be a change in behavior, that would
-cause the signal not to be delivered.
-
-For ptrace_do_notify we don't have a signal to deliver unless userspace
-gives us one so clear_code makes sense at that point.
-
-Which is a long way of saying that no we can not remove clear_stop
-because the behavior it is used to implement makes sense and userspace
-can reasonably depend upon it.
-
-Eric
-
-
+-- 
+Kees Cook
