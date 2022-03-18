@@ -2,49 +2,49 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C4004DDFBC
-	for <lists+linux-api@lfdr.de>; Fri, 18 Mar 2022 18:20:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 13DEF4DDFF3
+	for <lists+linux-api@lfdr.de>; Fri, 18 Mar 2022 18:28:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239559AbiCRRWI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 18 Mar 2022 13:22:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50374 "EHLO
+        id S239648AbiCRRaF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 18 Mar 2022 13:30:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235952AbiCRRWH (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 18 Mar 2022 13:22:07 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A42A2DF3FF
-        for <linux-api@vger.kernel.org>; Fri, 18 Mar 2022 10:20:48 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id n7-20020a17090aab8700b001c6aa871860so2768895pjq.2
-        for <linux-api@vger.kernel.org>; Fri, 18 Mar 2022 10:20:48 -0700 (PDT)
+        with ESMTP id S239618AbiCRRaE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 18 Mar 2022 13:30:04 -0400
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B81826AD4
+        for <linux-api@vger.kernel.org>; Fri, 18 Mar 2022 10:28:45 -0700 (PDT)
+Received: by mail-pl1-x631.google.com with SMTP id t22so7521735plo.0
+        for <linux-api@vger.kernel.org>; Fri, 18 Mar 2022 10:28:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=wI8RFHnMZ/ord/RFlr63IZcZowLUZNUmIF9gHirMLqk=;
-        b=krmhetMSHSN+BhgLY4DNV1HbVv0fwryryHNFyHRc3Zd2xEn0QEi7bS97QQNjCp4VST
-         KQX96x29cdCNw3OHSvE8aOkTlm7mOmlud6/5pjV8KdXSS7qfYehWUvKWHLr+1gQ9w1t7
-         PhH1Eb1gRgVgvgeDHo0dIZesx8U1zBVS1YEcs=
+        bh=L3+RARgNnNJbe27/avpVeSt85+3sh/ylIsjNHSeDaWM=;
+        b=KKqFe6HDwI7jVlJZ+pP7+O3dWvHqRIneqwnoQXaQNs2/SkDvJMhHlcUCBPk0HJ/tGi
+         lORUxECO92MNSSyaumzrYUAbKuVFb0IKRFhFe52wUbJ7tVjFa76NwSNg4J8WsWE06icU
+         kaeqiSw3gdThITYF+XEzb/3zHZlBBoypPCCE0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=wI8RFHnMZ/ord/RFlr63IZcZowLUZNUmIF9gHirMLqk=;
-        b=ZFJ8phkgnf81tHaV4/rul+yD0miaQh4wukP0Cu0IHx/90Mr0oiYFpTEmuAVqvSgZlz
-         xA4sNYZD1HAltJAjRzCCQVrpQeMSlPzZmZRd+EblT+sSudbUDLLpphlRHKijhj3NVmUJ
-         aXxRjdQRLtbrG7rHXvIm4fVoTCTYWzcgFGkb37TTD2rHAogHoa+g7MVOqkU758aeGmAU
-         geO+fx1aFGor3YS2Hx4Tz0DFdF1aEjgfIgJOV7ZGxOoEfLxEZHlc6UFCAh/mrcnPdRpC
-         qnpZF5ZCHU4JPRtyFp5vmti8ZcCyEo6Z9qgMoJeo3I998zMrTYeMJtubhp9xAa1nQzGJ
-         r1+Q==
-X-Gm-Message-State: AOAM531UWXd4FRkdjRcgF7DKm2fNYChXwkHI/qff10ZAQHp96jmUv7PC
-        H+h2+uMqlj1QQ3AeHMENmoAXlw==
-X-Google-Smtp-Source: ABdhPJzSQb+APMshfGD9QDYJDR1zXQnnjMDlvX76HFd4hafq269zaDls7rytBGplARDSLpfnGdNJFg==
-X-Received: by 2002:a17:90a:e397:b0:1c6:3b63:bcbe with SMTP id b23-20020a17090ae39700b001c63b63bcbemr12105144pjz.180.1647624047726;
-        Fri, 18 Mar 2022 10:20:47 -0700 (PDT)
+        bh=L3+RARgNnNJbe27/avpVeSt85+3sh/ylIsjNHSeDaWM=;
+        b=oX7aJJZoB6651dRYeXYcB5TAcB60/1Ft79puoIz4h7IWB3jo2noH0XZxFZhFLUPKE7
+         lZ24csmoWTb4nGAfZsqys8namTXfLUrSVkfWEtpPVpldCp59cHOb5qeo8/1WOac7tgBv
+         moNAXoxOY++34jnrc0V5o3hYv3QTVQksKnB6KEyO79Z1q4pWnWIoHZmcjgUEvsPdC1ux
+         yQ5DkkSTlQu8UcCW3fZbocRfWFLLzc9iM6h63cv93GPD6jMeHlnzPM2HEiOhqP8GuK3W
+         iN1jqcJdh0gJUo+wXUV8YaKYtlTI+sSvDPuic1dbMq+ka7q0lwnoLZwll3UIgVvqrf9x
+         Co0Q==
+X-Gm-Message-State: AOAM533CPLuxHFwd4wXS6sRgIoHI1IHYkRa3ISqLCLEf/i/rF+eEvi1H
+        pVysY8kgF4sfV3UBnSz703a6nw==
+X-Google-Smtp-Source: ABdhPJyMir8MSvctrzKkTGqF4tgMxTIkvl/491CdlrP8tUWgxhh81rBEknMWh9IsddJGpG0yWJCzPg==
+X-Received: by 2002:a17:90a:4a91:b0:1be:e51a:47df with SMTP id f17-20020a17090a4a9100b001bee51a47dfmr12395699pjh.40.1647624524568;
+        Fri, 18 Mar 2022 10:28:44 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id q3-20020a63ae03000000b003820cc3a451sm4220567pgf.45.2022.03.18.10.20.47
+        by smtp.gmail.com with ESMTPSA id f10-20020a056a00238a00b004f79504efc1sm10170994pfc.214.2022.03.18.10.28.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Mar 2022 10:20:47 -0700 (PDT)
-Date:   Fri, 18 Mar 2022 10:20:46 -0700
+        Fri, 18 Mar 2022 10:28:44 -0700 (PDT)
+Date:   Fri, 18 Mar 2022 10:28:43 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     "Eric W. Biederman" <ebiederm@xmission.com>
 Cc:     linux-kernel@vger.kernel.org,
@@ -53,21 +53,21 @@ Cc:     linux-kernel@vger.kernel.org,
         Kyle Huey <me@kylehuey.com>, Oleg Nesterov <oleg@redhat.com>,
         Al Viro <viro@zeniv.linux.org.uk>, linux-api@vger.kernel.org,
         Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH 1/2] ptrace: Move setting/clearing ptrace_message into
+Subject: Re: [PATCH 2/2] ptrace: Return the signal to continue with from
  ptrace_stop
-Message-ID: <202203181019.434DA4186@keescook>
+Message-ID: <202203181025.69760E3@keescook>
 References: <87a6ha4zsd.fsf@email.froward.int.ebiederm.org>
  <87bl1kunjj.fsf@email.froward.int.ebiederm.org>
  <87r19opkx1.fsf_-_@email.froward.int.ebiederm.org>
  <87o82gdlu9.fsf_-_@email.froward.int.ebiederm.org>
  <87tubyx0rg.fsf_-_@email.froward.int.ebiederm.org>
- <87bky67qfv.fsf_-_@email.froward.int.ebiederm.org>
- <202203171209.FC87C7B08@keescook>
- <87fsnf2ucx.fsf@email.froward.int.ebiederm.org>
+ <875yoe7qdp.fsf_-_@email.froward.int.ebiederm.org>
+ <202203171210.1239C9CDA@keescook>
+ <871qyz2tz5.fsf@email.froward.int.ebiederm.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87fsnf2ucx.fsf@email.froward.int.ebiederm.org>
+In-Reply-To: <871qyz2tz5.fsf@email.froward.int.ebiederm.org>
 X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -78,35 +78,80 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Mar 18, 2022 at 09:44:30AM -0500, Eric W. Biederman wrote:
+On Fri, Mar 18, 2022 at 09:52:46AM -0500, Eric W. Biederman wrote:
 > Kees Cook <keescook@chromium.org> writes:
 > 
-> > On Tue, Mar 15, 2022 at 06:21:08PM -0500, Eric W. Biederman wrote:
+> > On Tue, Mar 15, 2022 at 06:22:26PM -0500, Eric W. Biederman wrote:
 > >> 
-> >> Today ptrace_message is easy to overlook as it not a core part of
-> >> ptrace_stop.  It has been overlooked so much that there are places
-> >> that set ptrace_message and don't clear it, and places that never set
-> >> it.  So if you get an unlucky sequence of events the ptracer may be
-> >> able to read a ptrace_message that does not apply to the current
-> >> ptrace stop.
+> >> The signal a task should continue with after a ptrace stop is
+> >> inconsistently read, cleared, and sent.  Solve this by reading and
+> >> clearing the signal to be sent in ptrace_stop.
 > >> 
-> >> Move setting of ptrace_message into ptrace_stop so that it always gets
-> >> set before the stop, and always gets cleared after the stop.  This
-> >> prevents non-sense from being reported to userspace and makes
-> >> ptrace_message more visible in the ptrace helper functions so that
-> >> kernel developers can see it.
+> >> In an ideal world everything except ptrace_signal would share a common
+> >> implementation of continuing with the signal, so ptracers could count
+> >> on the signal they ask to continue with actually being delivered.  For
+> >> now retain bug compatibility and just return with the signal number
+> >> the ptracer requested the code continue with.
 > >> 
 > >> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
+> >> ---
+> >>  include/linux/ptrace.h | 12 ++++++------
+> >>  kernel/signal.c        | 31 ++++++++++++++++++-------------
+> >>  2 files changed, 24 insertions(+), 19 deletions(-)
+> >> 
+> >> diff --git a/include/linux/ptrace.h b/include/linux/ptrace.h
+> >> index 3e6b46e2b7be..15b3d176b6b4 100644
+> >> --- a/include/linux/ptrace.h
+> >> +++ b/include/linux/ptrace.h
+> >> @@ -60,7 +60,7 @@ extern int ptrace_writedata(struct task_struct *tsk, char __user *src, unsigned
+> >>  extern void ptrace_disable(struct task_struct *);
+> >>  extern int ptrace_request(struct task_struct *child, long request,
+> >>  			  unsigned long addr, unsigned long data);
+> >> -extern void ptrace_notify(int exit_code, unsigned long message);
+> >> +extern int ptrace_notify(int exit_code, unsigned long message);
+> >> [...]
+> >> -static void ptrace_stop(int exit_code, int why, int clear_code,
+> >> +static int ptrace_stop(int exit_code, int why, int clear_code,
+> >>  			unsigned long message, kernel_siginfo_t *info)
+> >> [...]
+> >> -static void ptrace_do_notify(int signr, int exit_code, int why, unsigned long message)
+> >> +static int ptrace_do_notify(int signr, int exit_code, int why, unsigned long message)
+> >> [...]
+> >> -void ptrace_notify(int exit_code, unsigned long message)
+> >> +int ptrace_notify(int exit_code, unsigned long message)
 > >
-> > This looks good to me. Did you happen to run the seccomp selftests
-> > before/after these changes?
+> > Just for robustness, how about marking the functions that have switched
+> > from void to int return as __must_check (or at least just ptrace_notify)?
 > 
-> I did not.  This is a pure ptrace change.  Do you see a way that seccomp
-> could be involved?
+> We can't.  There are historical cases that simply don't check if a
+> signal should be sent after the function, and they exist for every
+> function that is modified.
 
-Sorry, that wasn't clear: seccomp includes a number of ptrace tests as
-well, especially involving handling process death, messages, and
-signals. I'll give it a spin; so far it seems fine.
+This seems at least worth documenting with a comment, otherwise we're
+just trading one kind of "weirdness" (setting/clearing
+current->exit_code) with another (ignoring the signal returned by
+ptrace_notify()).
+
+I see only two cases that would need comments:
+
+static inline void ptrace_event(int event, unsigned long message)
+{
+        if (unlikely(ptrace_event_enabled(current, event))) {
+                ptrace_notify((event << 8) | SIGTRAP, message);
+        } else if (event == PTRACE_EVENT_EXEC) {
+                /* legacy EXEC report via SIGTRAP */
+                if ((current->ptrace & (PT_PTRACED|PT_SEIZED)) == PT_PTRACED)
+                        send_sig(SIGTRAP, current, 0);
+        }
+}
+
+static void signal_delivered(struct ksignal *ksig, int stepping)
+{
+	...
+        if (stepping)
+                ptrace_notify(SIGTRAP, 0);
+}
+
 
 -- 
 Kees Cook
