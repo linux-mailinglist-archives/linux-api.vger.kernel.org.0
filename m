@@ -2,108 +2,93 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7ABCA4E4A85
-	for <lists+linux-api@lfdr.de>; Wed, 23 Mar 2022 02:35:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B88DE4E4D1A
+	for <lists+linux-api@lfdr.de>; Wed, 23 Mar 2022 08:14:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236640AbiCWBhI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 22 Mar 2022 21:37:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39428 "EHLO
+        id S232942AbiCWHPj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 23 Mar 2022 03:15:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231477AbiCWBhI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 22 Mar 2022 21:37:08 -0400
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9CD4211A02
-        for <linux-api@vger.kernel.org>; Tue, 22 Mar 2022 18:35:38 -0700 (PDT)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-314-XHEmaLmFMKCfa60oSAy2oA-1; Wed, 23 Mar 2022 01:35:34 +0000
-X-MC-Unique: XHEmaLmFMKCfa60oSAy2oA-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.32; Wed, 23 Mar 2022 01:35:34 +0000
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.033; Wed, 23 Mar 2022 01:35:34 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Arnd Bergmann' <arnd@arndb.de>,
-        "chenjiahao (C)" <chenjiahao16@huawei.com>
-CC:     "Eric W . Biederman" <ebiederm@xmission.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Stafford Horne <shorne@gmail.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>
-Subject: RE: [PATCH -next] uaccess: fix __access_ok limit setup in compat mode
-Thread-Topic: [PATCH -next] uaccess: fix __access_ok limit setup in compat
- mode
-Thread-Index: AQHYPfsecjlH4Ezf4kOvHM6pPLYCHKzMKolw
-Date:   Wed, 23 Mar 2022 01:35:34 +0000
-Message-ID: <bdebdcb56b8a4af8a6b1d22029a2e7ba@AcuMS.aculab.com>
-References: <20220318071130.163942-1-chenjiahao16@huawei.com>
- <CAK8P3a3==vLKZUOceuMh3X1U5_sN82Vpm8J_3P-H-+q3sKKMxg@mail.gmail.com>
- <88ff36b3-558b-9c3f-f21d-5ef05b3227c5@huawei.com>
- <CAK8P3a3_iZihNmgRNz7Ntrp8sj0hB_Yrpu5iT++ivMjsUXH7+w@mail.gmail.com>
-In-Reply-To: <CAK8P3a3_iZihNmgRNz7Ntrp8sj0hB_Yrpu5iT++ivMjsUXH7+w@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        with ESMTP id S231468AbiCWHPj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Mar 2022 03:15:39 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EFC76E8C6;
+        Wed, 23 Mar 2022 00:14:10 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D3F5461614;
+        Wed, 23 Mar 2022 07:14:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C96AC340E8;
+        Wed, 23 Mar 2022 07:14:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1648019649;
+        bh=hmXlP/3KkYC9olmjEpmQ0hcW/3wqRHuMgj5g8NhFibk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=QLEWpsMnuvyQEqlQjQNNG92zDvh4BjRB7deVjeEnFYaRt3cqwUxEu/ekQT1nNzSgT
+         DTqt9566RSHNzKs+nZd43aDmjj6KWy00QRVM7B3j+XLgdh44BzzlpWB11QBH/ltgWa
+         t0MEJg07DGYGWogi2mK1ptQ1gAft/XwvlNuM5Q94=
+Date:   Wed, 23 Mar 2022 08:14:05 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Casey Schaufler <casey@schaufler-ca.com>
+Cc:     Miklos Szeredi <mszeredi@redhat.com>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-man@vger.kernel.org,
+        linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
+        Ian Kent <raven@themaw.net>,
+        David Howells <dhowells@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        Amir Goldstein <amir73il@gmail.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>
+Subject: Re: [RFC PATCH] getvalues(2) prototype
+Message-ID: <YjrIvRCg2iUeMN2V@kroah.com>
+References: <20220322192712.709170-1-mszeredi@redhat.com>
+ <f80f372b-4249-eb25-ed95-9f8615877745@schaufler-ca.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f80f372b-4249-eb25-ed95-9f8615877745@schaufler-ca.com>
+X-Spam-Status: No, score=-7.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-RnJvbTogQXJuZCBCZXJnbWFubg0KPiBTZW50OiAyMiBNYXJjaCAyMDIyIDE0OjQxDQo+IA0KPiBP
-biBUdWUsIE1hciAyMiwgMjAyMiBhdCAxOjU1IFBNIGNoZW5qaWFoYW8gKEMpIDxjaGVuamlhaGFv
-MTZAaHVhd2VpLmNvbT4gd3JvdGU6DQo+ID4g5ZyoIDIwMjIvMy8xOCAxNTo0NCwgQXJuZCBCZXJn
-bWFubiDlhpnpgZM6DQo+ID4gPg0KPiA+ID4gVGhpcyBzaG91bGQgbm90IHJlc3VsdCBpbiBhbnkg
-dXNlciB2aXNpYmxlIGRpZmZlcmVuY2UsIGluIGJvdGggY2FzZXMNCj4gPiA+IHVzZXIgcHJvY2Vz
-cyB3aWxsIHNlZSBhIC1FRkFVTFQgcmV0dXJuIGNvZGUgZnJvbSBpdHMgc3lzdGVtIGNhbGwuDQo+
-ID4gPiBBcmUgeW91IGFibGUgdG8gY29tZSB1cCB3aXRoIGEgdGVzdCBjYXNlIHRoYXQgc2hvd3Mg
-YW4gb2JzZXJ2YWJsZQ0KPiA+ID4gZGlmZmVyZW5jZSBpbiBiZWhhdmlvcj8NCj4gPg0KPiA+IEFj
-dHVhbGx5LCB0aGlzIHBhdGNoIGRvIGNvbWVzIGZyb20gYSB0ZXN0Y2FzZSBmYWlsdXJlLCB0aGUg
-Y29kZSBpcw0KPiA+IHBhc3RlZCBiZWxvdzoNCj4gDQo+IFRoYW5rIHlvdSBmb3IgdGhlIHRlc3Qg
-Y2FzZSENCj4gDQouLi4NCj4gPiAgICAgIHJldCA9IHByZWFkNjQoZmQsIGJ1ZiwgLTEsIDEpOw0K
-PiA+ICAgICAgaWYoKC0xID09IHJldCkgJiYgKEVGQVVMVCA9PSBlcnJubykpDQo+ID4gICAgICB7
-DQouLi4NCj4gPiAgICAgICAgICBwcmludGYoIlBBU1NcbiIpOw0KLi4uDQo+ID4gSW4gbXkgZXhw
-bGFuYXRpb24sIHByZWFkNjQgaXMgY2FsbGVkIHdpdGggY291bnQgJzB4ZmZmZmZmZmZ1bGwnIGFu
-ZA0KPiA+IG9mZnNldCAnMScsIHdoaWNoIG1pZ2h0IHN0aWxsIG5vdCB0cmlnZ2VyDQo+ID4NCj4g
-PiBwYWdlIGZhdWx0IGluIDY0LWJpdCBrZXJuZWwuDQo+ID4NCj4gPg0KPiA+IFRoaXMgcGF0Y2gg
-dXNlcyBUQVNLX1NJWkUgYXMgdGhlIGFkZHJfbGltaXQgdG8gcGVyZm9ybWFuY2UgYSBzdHJpY3Rl
-cg0KPiA+IGFkZHJlc3MgY2hlY2sgYW5kIGludGVyY2VwdHMNCj4gDQo+IEkgc2VlLiBTbyB3aGls
-ZSB0aGUga2VybmVsIGJlaGF2aW9yIHdhcyBub3QgbWVhbnQgdG8gY2hhbmdlIGZyb20NCj4gbXkg
-cGF0Y2gsIGl0IGNsZWFybHkgZGlkLCB3aGljaCBtYXkgY2F1c2UgcHJvYmxlbXMuIEhvd2V2ZXIs
-IEknbQ0KPiBub3Qgc3VyZSBpZiB0aGUgY2hhbmdlZCBiZWhhdmlvciBpcyBhY3R1YWxseSB3cm9u
-Zy4NCg0KSXQgaXNuJ3QgcmVhbGx5IGFueSBkaWZmZXJlbnQgZnJvbSBwYXNzaW5nIGEgbGVuZ3Ro
-IG9mICgxIDw8IDMwKQ0KKGFuZCBhIGJ1ZmZlciBhdCBhIGxvdyB1c2VyIGFkZHJlc3MpLg0KVGhl
-IGVudGlyZSBidWZmZXIgaXMgdmFsaWQgdXNlciBhZGRyZXNzZXMsIGJ1dCBtb3N0IG9mIGl0IGlz
-DQppbnZhbGlkIGJlY2F1c2UgdGhlcmUgaXMgbm90aGluZyBtYXBwZWQgYXQgdGhlIHJlbGV2YW50
-IGFkZHJlc3Nlcy4NClVubGVzcyB5b3UgYWN0dWFsbHkgdHJ5IHRvIGFjY2VzcyBvbmUgb2YgdGhl
-IG1lbW9yeSBsb2NhdGlvbnMNCnlvdSB3b24ndCBnZXQgYSBmYXVsdCAtIGFuZCB0aGUgY29ycmVj
-dCByZXR1cm4gaXMgdGhlbiBhIHBhcnRpYWwgcmVhZC4NCg0KU2ltaWxhcmx5IGl0IGlzIHZhbGlk
-IGZvciB0aGUga2VybmVsIHRvIGVuc3VyZSB0aGVyZSBpcyBhbg0KdW5tYXBwZWQgcGFnZSBiZXR3
-ZWVuIHVzZXIgYW5kIGtlcm5lbCBhZGRyZXNzZXMgYW5kIHRoZW4NCm5vdCBjaGVjayB0aGUgYnVm
-ZmVyIHNpemUgYXQgYWxsIC0gcmVxdWlyaW5nIHRoZSBrZXJuZWwgY29kZQ0KZG8gKGFkZXF1YXRl
-bHkpIHNlcXVlbnRpYWwgYWNjZXNzZXMuDQpBZ2FpbiB5b3VyIHRlc3QgJ2ZhaWxzJy4NCg0KWW91
-IGNvdWxkIGVxdWFsbHkgd2VsbCBhcmd1ZSB0aGF0IHRoZSAnb2xkJyBiZWhhdmlvdXIgaXMgd3Jv
-bmchDQoNCglEYXZpZA0KDQotDQpSZWdpc3RlcmVkIEFkZHJlc3MgTGFrZXNpZGUsIEJyYW1sZXkg
-Um9hZCwgTW91bnQgRmFybSwgTWlsdG9uIEtleW5lcywgTUsxIDFQVCwgVUsNClJlZ2lzdHJhdGlv
-biBObzogMTM5NzM4NiAoV2FsZXMpDQo=
+On Tue, Mar 22, 2022 at 01:36:26PM -0700, Casey Schaufler wrote:
+> On 3/22/2022 12:27 PM, Miklos Szeredi wrote:
+> > Add a new userspace API that allows getting multiple short values in a
+> > single syscall.
+> > 
+> > This would be useful for the following reasons:
+> > 
+> > - Calling open/read/close for many small files is inefficient.  E.g. on my
+> >    desktop invoking lsof(1) results in ~60k open + read + close calls under
+> >    /proc and 90% of those are 128 bytes or less.
+> 
+> You don't need the generality below to address this issue.
+> 
+> int openandread(const char *path, char *buffer, size_t size);
+> 
+> would address this case swimmingly.
 
+Or you can use my readfile(2) proposal:
+	https://lore.kernel.org/r/20200704140250.423345-1-gregkh@linuxfoundation.org
+
+But you had better actually benchmark the thing.  Turns out that I could
+not find a real-world use that shows improvements in anything.
+
+Miklos, what userspace tool will use this new syscall and how will it be
+faster than readfile() was?
+
+I should rebase that against 5.17 again and see if anything is different
+due to the new spectre-bhb slowdowns.
+
+thanks,
+
+greg k-h
