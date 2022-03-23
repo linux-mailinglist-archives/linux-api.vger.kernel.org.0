@@ -2,99 +2,111 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D2CB34E592A
-	for <lists+linux-api@lfdr.de>; Wed, 23 Mar 2022 20:30:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A22814E5B32
+	for <lists+linux-api@lfdr.de>; Wed, 23 Mar 2022 23:20:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344266AbiCWTba (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 23 Mar 2022 15:31:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36838 "EHLO
+        id S235278AbiCWWVw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 23 Mar 2022 18:21:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344271AbiCWTba (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Mar 2022 15:31:30 -0400
-Received: from fieldses.org (fieldses.org [IPv6:2600:3c00:e000:2f7::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8C0A89CC4;
-        Wed, 23 Mar 2022 12:29:59 -0700 (PDT)
-Received: by fieldses.org (Postfix, from userid 2815)
-        id D23745EE6; Wed, 23 Mar 2022 15:29:58 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 fieldses.org D23745EE6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fieldses.org;
-        s=default; t=1648063798;
-        bh=JqlmM1NJloLOZMtErdOCWTM4BMqIYjuNg8gf8rNh+10=;
-        h=Date:To:Cc:Subject:References:In-Reply-To:From:From;
-        b=XiuE3MK+ad95PtbIPK3tcNgV2ZFIBA/1OobGjqdSpjWTURZVlzhQ5UzmFAB6l+BQv
-         9sSK1ci0gHcdFjVQyOjO454C6k6EgKsR255d2OBlzQ7IlOE7bA++zZNjOUhN49/hV5
-         nbRqZ/PRFcmEYls4Zyh9I3nNlgSifXY4XSoujKec=
-Date:   Wed, 23 Mar 2022 15:29:58 -0400
-To:     Bernd Schubert <bschubert@ddn.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        with ESMTP id S241279AbiCWWVv (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 23 Mar 2022 18:21:51 -0400
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 423B36A032;
+        Wed, 23 Mar 2022 15:20:21 -0700 (PDT)
+Received: from cwcc.thunk.org (pool-108-7-220-252.bstnma.fios.verizon.net [108.7.220.252])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 22NMJqTT003315
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 23 Mar 2022 18:19:52 -0400
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+        id DEF6F15C0038; Wed, 23 Mar 2022 18:19:51 -0400 (EDT)
+Date:   Wed, 23 Mar 2022 18:19:51 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     Miklos Szeredi <miklos@szeredi.hu>
+Cc:     Christian Brauner <brauner@kernel.org>,
         Miklos Szeredi <mszeredi@redhat.com>,
         linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-man@vger.kernel.org,
-        linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
-        Ian Kent <raven@themaw.net>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>,
+        LSM <linux-security-module@vger.kernel.org>,
+        Karel Zak <kzak@redhat.com>, Ian Kent <raven@themaw.net>,
         David Howells <dhowells@redhat.com>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
         Christian Brauner <christian@brauner.io>,
         Amir Goldstein <amir73il@gmail.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Dharmendra Singh <dsingh@ddn.com>
+        James Bottomley <James.Bottomley@hansenpartnership.com>
 Subject: Re: [RFC PATCH] getvalues(2) prototype
-Message-ID: <20220323192958.GA18275@fieldses.org>
+Message-ID: <YjudB7XARLlRtBiR@mit.edu>
 References: <20220322192712.709170-1-mszeredi@redhat.com>
- <YjrJWf+XMnWVd6K0@kroah.com>
- <d0e2573a-7736-bb3e-9f6a-5fa25e6d31a2@ddn.com>
+ <20220323114215.pfrxy2b6vsvqig6a@wittgenstein>
+ <CAJfpegsCKEx41KA1S2QJ9gX9BEBG4_d8igA0DT66GFH2ZanspA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d0e2573a-7736-bb3e-9f6a-5fa25e6d31a2@ddn.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-From:   bfields@fieldses.org (J. Bruce Fields)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <CAJfpegsCKEx41KA1S2QJ9gX9BEBG4_d8igA0DT66GFH2ZanspA@mail.gmail.com>
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Mar 23, 2022 at 11:26:11AM +0100, Bernd Schubert wrote:
-> Add in network file systems. Demonstrating that this is useful
-> locally and with micro benchmarks - yeah, helps a bit to make it
-> locally faster. But the real case is when thousands of clients are
-> handled by a few network servers. Even reducing wire latency for a
-> single client would make a difference here.
+On Wed, Mar 23, 2022 at 02:24:40PM +0100, Miklos Szeredi wrote:
+> The reason I stated thinking about this is that Amir wanted a per-sb
+> iostat interface and dumped it into /proc/PID/mountstats.  And that is
+> definitely not the right way to go about this.
 > 
-> There is a bit of chicken-egg problem - it is a bit of work to add
-> to file systems like NFS (or others that are not the kernel), but
-> the work won't be made there before there is no syscall for it. To
-> demonstrate it on NFS one also needs a an official protocol change
-> first.
-
-I wouldn't assume that.  NFSv4 already supports compound rpc operations,
-so you can do OPEN+READ+CLOSE in a single round trip.  The client's
-never done that, but there are pynfs tests that can testify to the fact
-that our server supports it.
-
-It's not something anyone's used much outside of artificial tests, so
-there may well turn out be issues, but the protocol's definitely
-sufficient to prototype this at least.
-
-I'm not volunteering, but it doesn't seem too difficult in theory if
-someone's interested.
-
---b.
-
-> And then applications also need to support that new syscall
-> first.
-> I had a hard time explaining weather physicist back in 2009 that it
-> is not a good idea to have millions of 512B files on  Lustre. With
-> recent AI workload this gets even worse.
+> So we could add a statfsx() and start filling in new stuff, and that's
+> what Linus suggested.  But then we might need to add stuff that is not
+> representable in a flat structure (like for example the stuff that
+> nfs_show_stats does) and that again needs new infrastructure.
 > 
-> This is the same issue in fact with the fuse patches we are creating
-> (https://lwn.net/Articles/888877/). Miklos asked for benchmark
-> numbers - we can only demonstrate slight effects locally, but out
-> goal is in fact to reduce network latencies and server load.
-> 
-> - Bernd
+> Another example is task info in /proc.  Utilities are doing a crazy
+> number of syscalls to get trivial information.  Why don't we have a
+> procx(2) syscall?  I guess because lots of that is difficult to
+> represent in a flat structure.  Just take the lsof example: tt's doing
+> hundreds of thousands of syscalls on a desktop computer with just a
+> few hundred processes.
+
+I'm still a bit puzzled about the reason for getvalues(2) beyond,
+"reduce the number of system calls".  Is this a performance argument?
+If so, have you benchmarked lsof using this new interface?
+
+I did a quickie run on my laptop, which currently had 444 process.
+"lsof /home/tytso > /tmp/foo" didn't take long:
+
+% time lsof /home/tytso >& /tmp/foo
+real    0m0.144s
+user    0m0.039s
+sys     0m0.087s
+
+And an strace of that same lsof command indicated had 67,889 lines.
+So yeah, lots of system calls.  But is this new system call really
+going to speed up things by all that much?
+
+If the argument is "make it easier to use", what's wrong the solution
+of creating userspace libraries which abstract away calls to
+open/read/close a whole bunch of procfs files to make life easier for
+application programmers?
+
+In short, what problem is this new system call going to solve?  Each
+new system call, especially with all of the parsing that this one is
+going to use, is going to be an additional attack surface, and an
+additional new system call that we have to maintain --- and for the
+first 7-10 years, userspace programs are going to have to use the
+existing open/read/close interface since enterprise kernels stick a
+wrong for a L-O-N-G time, so any kind of ease-of-use argument isn't
+really going to help application programs until RHEL 10 becomes
+obsolete.  (Unless you plan to backport this into RHEL 9 beta, but
+still, waiting for RHEL 9 to become completely EOL is going to be... a
+while.)  So whatever the benefits of this new interface is going to
+be, I suggest we should be sure that it's really worth it.
+
+Cheers,
+
+					- Ted
