@@ -2,33 +2,28 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E48B4E66CE
-	for <lists+linux-api@lfdr.de>; Thu, 24 Mar 2022 17:15:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 49A0A4E69D5
+	for <lists+linux-api@lfdr.de>; Thu, 24 Mar 2022 21:31:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240690AbiCXQRZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 24 Mar 2022 12:17:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54604 "EHLO
+        id S1353464AbiCXUdH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 24 Mar 2022 16:33:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238822AbiCXQRZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Mar 2022 12:17:25 -0400
-Received: from out01.mta.xmission.com (out01.mta.xmission.com [166.70.13.231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55888A94DE;
-        Thu, 24 Mar 2022 09:15:52 -0700 (PDT)
-Received: from in01.mta.xmission.com ([166.70.13.51]:44942)
-        by out01.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1nXQ7o-00FoyY-PD; Thu, 24 Mar 2022 10:15:49 -0600
-Received: from ip68-227-174-4.om.om.cox.net ([68.227.174.4]:35326 helo=email.froward.int.ebiederm.org.xmission.com)
-        by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1nXQ7n-007zWn-MU; Thu, 24 Mar 2022 10:15:48 -0600
-From:   "Eric W. Biederman" <ebiederm@xmission.com>
+        with ESMTP id S1353411AbiCXUc5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Mar 2022 16:32:57 -0400
+Received: from mail104.syd.optusnet.com.au (mail104.syd.optusnet.com.au [211.29.132.246])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8DD2FB6E70;
+        Thu, 24 Mar 2022 13:31:23 -0700 (PDT)
+Received: from dread.disaster.area (pa49-186-150-27.pa.vic.optusnet.com.au [49.186.150.27])
+        by mail104.syd.optusnet.com.au (Postfix) with ESMTPS id 2ABDA533EAB;
+        Fri, 25 Mar 2022 07:31:18 +1100 (AEDT)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+        (envelope-from <david@fromorbit.com>)
+        id 1nXU72-009RUP-Ov; Fri, 25 Mar 2022 07:31:16 +1100
+Date:   Fri, 25 Mar 2022 07:31:16 +1100
+From:   Dave Chinner <david@fromorbit.com>
 To:     Miklos Szeredi <miklos@szeredi.hu>
-Cc:     "Theodore Ts'o" <tytso@mit.edu>,
-        Christian Brauner <brauner@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
+Cc:     Miklos Szeredi <mszeredi@redhat.com>,
         linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
         Linux API <linux-api@vger.kernel.org>,
         linux-man <linux-man@vger.kernel.org>,
@@ -40,97 +35,121 @@ Cc:     "Theodore Ts'o" <tytso@mit.edu>,
         Christian Brauner <christian@brauner.io>,
         Amir Goldstein <amir73il@gmail.com>,
         James Bottomley <James.Bottomley@hansenpartnership.com>
+Subject: Re: [RFC PATCH] getvalues(2) prototype
+Message-ID: <20220324203116.GJ1609613@dread.disaster.area>
 References: <20220322192712.709170-1-mszeredi@redhat.com>
-        <20220323114215.pfrxy2b6vsvqig6a@wittgenstein>
-        <CAJfpegsCKEx41KA1S2QJ9gX9BEBG4_d8igA0DT66GFH2ZanspA@mail.gmail.com>
-        <YjudB7XARLlRtBiR@mit.edu>
-        <CAJfpegtiRx6jRFUuPeXDxwJpBhYn0ekKkwYbGowUehGZkqVmAw@mail.gmail.com>
-Date:   Thu, 24 Mar 2022 11:15:29 -0500
-In-Reply-To: <CAJfpegtiRx6jRFUuPeXDxwJpBhYn0ekKkwYbGowUehGZkqVmAw@mail.gmail.com>
-        (Miklos Szeredi's message of "Thu, 24 Mar 2022 09:44:38 +0100")
-Message-ID: <87k0cje38e.fsf@email.froward.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ <20220323225843.GI1609613@dread.disaster.area>
+ <CAJfpegv6PmZ_RXipBs9UEjv_WfEUtTDE1uNZq+9fBkCzWPvXkw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1nXQ7n-007zWn-MU;;;mid=<87k0cje38e.fsf@email.froward.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.174.4;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX19vB1678/9LcB58fcqerljPtrf744I8h3E=
-X-SA-Exim-Connect-IP: 68.227.174.4
-X-SA-Exim-Mail-From: ebiederm@xmission.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJfpegv6PmZ_RXipBs9UEjv_WfEUtTDE1uNZq+9fBkCzWPvXkw@mail.gmail.com>
+X-Optus-CM-Score: 0
+X-Optus-CM-Analysis: v=2.4 cv=VuxAv86n c=1 sm=1 tr=0 ts=623cd519
+        a=sPqof0Mm7fxWrhYUF33ZaQ==:117 a=sPqof0Mm7fxWrhYUF33ZaQ==:17
+        a=kj9zAlcOel0A:10 a=o8Y5sQTvuykA:10 a=7-415B0cAAAA:8 a=GumQ9EM2AAAA:8
+        a=PLAR8crxhtdwIOoicKgA:9 a=CjuIK1q_8ugA:10 a=biEYGPWJfzWAr4FL6Ov7:22
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
-X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: **;Miklos Szeredi <miklos@szeredi.hu>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 472 ms - load_scoreonly_sql: 0.06 (0.0%),
-        signal_user_changed: 11 (2.4%), b_tie_ro: 10 (2.0%), parse: 0.89
-        (0.2%), extract_message_metadata: 12 (2.5%), get_uri_detail_list: 1.72
-        (0.4%), tests_pri_-1000: 10 (2.1%), tests_pri_-950: 1.27 (0.3%),
-        tests_pri_-900: 1.01 (0.2%), tests_pri_-90: 93 (19.7%), check_bayes:
-        90 (19.2%), b_tokenize: 8 (1.8%), b_tok_get_all: 21 (4.5%),
-        b_comp_prob: 3.1 (0.7%), b_tok_touch_all: 53 (11.3%), b_finish: 1.08
-        (0.2%), tests_pri_0: 323 (68.6%), check_dkim_signature: 0.51 (0.1%),
-        check_dkim_adsp: 3.0 (0.6%), poll_dns_idle: 1.09 (0.2%), tests_pri_10:
-        2.4 (0.5%), tests_pri_500: 14 (2.9%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [RFC PATCH] getvalues(2) prototype
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Miklos Szeredi <miklos@szeredi.hu> writes:
+On Thu, Mar 24, 2022 at 09:57:26AM +0100, Miklos Szeredi wrote:
+> On Wed, 23 Mar 2022 at 23:58, Dave Chinner <david@fromorbit.com> wrote:
+> >
+> > On Tue, Mar 22, 2022 at 08:27:12PM +0100, Miklos Szeredi wrote:
+> 
+> > > - Interfaces for getting various attributes and statistics are fragmented.
+> > >   For files we have basic stat, statx, extended attributes, file attributes
+> > >   (for which there are two overlapping ioctl interfaces).  For mounts and
+> > >   superblocks we have stat*fs as well as /proc/$PID/{mountinfo,mountstats}.
+> > >   The latter also has the problem on not allowing queries on a specific
+> > >   mount.
+> >
+> > https://xkcd.com/927/
+> 
+> Haha!
+> 
+> > I've said in the past when discussing things like statx() that maybe
+> > everything should be addressable via the xattr namespace and
+> > set/queried via xattr names regardless of how the filesystem stores
+> > the data. The VFS/filesystem simply translates the name to the
+> > storage location of the information. It might be held in xattrs, but
+> > it could just be a flag bit in an inode field.
+> 
+> Right, that would definitely make sense for inode attributes.
+> 
+> What about other objects' attributes, statistics?   Remember this
+> started out as a way to replace /proc/self/mountinfo with something
+> that can query individual mount.
 
-> On Wed, 23 Mar 2022 at 23:20, Theodore Ts'o <tytso@mit.edu> wrote:
->>
->> On Wed, Mar 23, 2022 at 02:24:40PM +0100, Miklos Szeredi wrote:
->> > The reason I stated thinking about this is that Amir wanted a per-sb
->> > iostat interface and dumped it into /proc/PID/mountstats.  And that is
->> > definitely not the right way to go about this.
->> >
->> > So we could add a statfsx() and start filling in new stuff, and that's
->> > what Linus suggested.  But then we might need to add stuff that is not
->> > representable in a flat structure (like for example the stuff that
->> > nfs_show_stats does) and that again needs new infrastructure.
->> >
->> > Another example is task info in /proc.  Utilities are doing a crazy
->> > number of syscalls to get trivial information.  Why don't we have a
->> > procx(2) syscall?  I guess because lots of that is difficult to
->> > represent in a flat structure.  Just take the lsof example: tt's doing
->> > hundreds of thousands of syscalls on a desktop computer with just a
->> > few hundred processes.
->>
->> I'm still a bit puzzled about the reason for getvalues(2) beyond,
->> "reduce the number of system calls".  Is this a performance argument?
->
-> One argument that can't be worked around without batchingis atomicity.
-> Not sure how important that is, but IIRC it was one of the
-> requirements relating to the proposed fsinfo syscall, which this API
-> is meant to supersede.   Performance was also oft repeated regarding
-> the fsinfo API, but I'm less bought into that.
+For individual mount info, why do we even need to query something in
+/proc? I mean, every open file in the mount has access to the mount
+and the underlying superblock, so why not just make the query
+namespace accessable from any open fd on that mount?
 
-A silly question.  Have you looked to see if you can perform this work
-with io_uring?
+e.g. /proc/self/mountinfo tells you where the mounts are, then you
+can just open(O_PATH) the mount point you want the info from and
+retrieve the relevant xattrs from that fd. The information itself
+does not need to be in /proc, nor only accessible from /proc, nor be
+limited to proc infrastructure, nor be constrained by proc's
+arbitrary "one value per file" presentation....
 
-I know io_uring does all of the batching already, so I think io_uring is
-as ready as anything is to solve the performance issues, and the general
-small file problem.  There is also the bpf information extractor (Sorry
-I forget what it's proper name is) that also can solve many of the small
-read problems.
+Indeed, we don't have to centralise all the information in one place
+- all we need is to have a well defined, consistent method for
+indexing that information and all the shenanigans for accessing
+common stuff can be wrapped up in a common userspace library
+(similar to how iterating the mount table is generic C library
+functionality).
 
-I am very confused you mention atomicity but I don't see any new
-filesystem hooks or anyway you could implement atomicity for reads
-much less writes in the patch you posted.
+> > > mnt                    - list of mount parameters
+> > > mnt:mountpoint         - the mountpoint of the mount of $ORIGIN
+> > > mntns                  - list of mount ID's reachable from the current root
+> > > mntns:21:parentid      - parent ID of the mount with ID of 21
+> > > xattr:security.selinux - the security.selinux extended attribute
+> > > data:foo/bar           - the data contained in file $ORIGIN/foo/bar
+> >
+> > How are these different from just declaring new xattr namespaces for
+> > these things. e.g. open any file and list the xattrs in the
+> > xattr:mount.mnt namespace to get the list of mount parameters for
+> > that mount.
+> 
+> Okay.
+> 
+> > Why do we need a new "xattr in everything but name" interface when
+> > we could just extend the one we've already got and formalise a new,
+> > cleaner version of xattr batch APIs that have been around for 20-odd
+> > years already?
+> 
+> Seems to make sense. But...will listxattr list everyting recursively?
+> I guess that won't work, better just list traditional xattrs,
+> otherwise we'll likely get regressions,
 
-If the real target is something like fsinfo that is returning
-information that is not currently available except by possibly
-processing /proc/self/mountinfo perhaps a more targeted name would
-help.
+*nod*
 
-I certainly did not get the impression when skimming your introduction
-to this that you were trying to solve anything except reading a number
-of small files.
+> and anyway the point of a
+> hierarchical namespace is to be able to list nodes on each level.  We
+> can use getxattr() for this purpose, just like getvalues() does in the
+> above example.
 
-Eric
+Yup, and like Casey suggests, you could implement a generic
+getvalues()-like user library on top of it so users don't even need
+to know where and how the values are located or retrieved.
+
+The other advantage of an xattr interface is that is also provides a
+symmetrical API for -changing- values. No need for some special
+configfs or configfd thingy for setting parameters - just change the
+value of the parameter or mount option with a simple setxattr call.
+That retains the simplicity of proc and sysfs attributes in that you
+can change them just by writing a new value to the file....
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
