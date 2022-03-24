@@ -2,56 +2,54 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A658D4E608D
-	for <lists+linux-api@lfdr.de>; Thu, 24 Mar 2022 09:44:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B232F4E60C2
+	for <lists+linux-api@lfdr.de>; Thu, 24 Mar 2022 09:57:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347448AbiCXIqZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 24 Mar 2022 04:46:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50394 "EHLO
+        id S1349044AbiCXI7O (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 24 Mar 2022 04:59:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233551AbiCXIqZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Mar 2022 04:46:25 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44C439BBB1
-        for <linux-api@vger.kernel.org>; Thu, 24 Mar 2022 01:44:51 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id qa43so7640232ejc.12
-        for <linux-api@vger.kernel.org>; Thu, 24 Mar 2022 01:44:51 -0700 (PDT)
+        with ESMTP id S1345575AbiCXI7K (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 24 Mar 2022 04:59:10 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBC899D0C7
+        for <linux-api@vger.kernel.org>; Thu, 24 Mar 2022 01:57:38 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id dr20so7739872ejc.6
+        for <linux-api@vger.kernel.org>; Thu, 24 Mar 2022 01:57:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=szeredi.hu; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=++pYMAFi8siFITGTtI8OJ/ZLZmlTf/qSvmoDsoiudic=;
-        b=bLvvkukA8BB7oL86pGuChsm+aSNaBbNixr+1oNjsVP/ANz9qs22bL+0co9+LxeTzLr
-         p3/WfqNXLKRw5+YHpINrfHfutnGeCd8YeacpkAp7M5/e+ZXmlEcFJraf7HOoRtUvvuzU
-         pRsj5BGCkDl5Z0LzlawnSEndD3gSIn0EoXRDs=
+        bh=TZ6s65rDvN8Tqn0qDZEB8Ijp4jvPh0GyNpSk/ZtB3pI=;
+        b=m8uvN3vl8Uzj9zAwWsZQwJeD4SgdTCd74DSTmwxQoZYwKcDUMIa06VjnueJ49ViSg6
+         AH6m1oASGMxV+L7gbdqnZl0DsC1kLdBlx0tkhj9scA0ROyULs+xnhqKjG+EjiECTe9v9
+         fHLplZ4INS5E2/hQbGf40wOuvgjoBCnl4uueQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=++pYMAFi8siFITGTtI8OJ/ZLZmlTf/qSvmoDsoiudic=;
-        b=qt7f0gaCgO98N69zo363kD7qelS1H2NT1mAHgEl8XIBQKfAqWGaiuRKwAkG5uB1sSI
-         2j4W/roWKfwix5j9KkZ7llwXIqOYAlqY5gVT3p62Sz2nZsYe4VeeCYcF9ZI08ILS8/nK
-         jZJLnY0PRxCpechuWJbPiIvkaJ3IDPtpm02sKMt4Gd3usUqWJ4YNE+hIhkBOMzYt+IEJ
-         Hwbuq92JDNTpQYlFrL/NpKm4amHFcf5QxOS1FqR4oto0fAECJlO0Z5TUiuzBPjhaAqL8
-         W1uv6tH7Le3ejueoQgc3HiJ0k7Zii2sI1eGOrGdAUQFJ6sLpPZEn1cVAYbwhZH14T3FY
-         9MiQ==
-X-Gm-Message-State: AOAM532khx3ao8ZxUMFvNxTaQYFTWeja3bB3i9Xo08tS3AWO3F/Aq8xY
-        hcjKHjYcaIsKmMRK43hVmDFeUvyPbFMmlz9lUolfWQ==
-X-Google-Smtp-Source: ABdhPJySkj3ocM+OfhTMngFbezUNAcO5OUVM0gUJl6sz5vW4FyHPd7j4grGLKSZMO+nJda8YLjoLclQNUxq16JpPat4=
-X-Received: by 2002:a17:906:2991:b0:6cf:6b24:e92f with SMTP id
- x17-20020a170906299100b006cf6b24e92fmr4461589eje.748.1648111489773; Thu, 24
- Mar 2022 01:44:49 -0700 (PDT)
+        bh=TZ6s65rDvN8Tqn0qDZEB8Ijp4jvPh0GyNpSk/ZtB3pI=;
+        b=OMuVnlbFHAWBMxhoYE/pXhsVQgVbyIwaQLSyyPmyiCXZ1hf8tu4fpzB1qJRtsM/E3Y
+         QMpR08qNscEOWYvGkWmaSrZ7cRUV0Nl6vTlMkI6B4patjIFvWY8g0gPojucwcEBXWtcv
+         XlObeGdp1/yp1XV+k7WpAB1D+piggmIPdibuPu1zuIdwhikUblIHNVe/WZ7jBj1ceed5
+         /Bnzim/SvTplGrTVIkX5+nG6SkCmhdu0L1cgASH4BlGgVi7lAzRwwvOnxGLFwSJBo3bB
+         vOrytvHw2R7uMVCF3S0I+GSSX5Dxf9eIBOD24QL59Yj+XIS2ZgTPnb8JpOKYqUggj7bT
+         TkYg==
+X-Gm-Message-State: AOAM530lvXELlfjm76iWrs7jGECpVL1vWKg2Z1qSmjN99Y2Q2ttU8/HL
+        CSLGkJZjpR9dtrhycfP5qprTJjClYFn3b31ZIoGJXw==
+X-Google-Smtp-Source: ABdhPJz7TgZDeh0+kDj2ymXCRjzBF8dMmiYeu1yauoVqNwsy2kRkXd9LUCYEVYbpcsr51BEAZ9P7D4i0qDYXH2dm+jA=
+X-Received: by 2002:a17:907:c16:b0:6db:1dfc:ca73 with SMTP id
+ ga22-20020a1709070c1600b006db1dfcca73mr4602838ejc.192.1648112257373; Thu, 24
+ Mar 2022 01:57:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220322192712.709170-1-mszeredi@redhat.com> <20220323114215.pfrxy2b6vsvqig6a@wittgenstein>
- <CAJfpegsCKEx41KA1S2QJ9gX9BEBG4_d8igA0DT66GFH2ZanspA@mail.gmail.com> <YjudB7XARLlRtBiR@mit.edu>
-In-Reply-To: <YjudB7XARLlRtBiR@mit.edu>
+References: <20220322192712.709170-1-mszeredi@redhat.com> <20220323225843.GI1609613@dread.disaster.area>
+In-Reply-To: <20220323225843.GI1609613@dread.disaster.area>
 From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Thu, 24 Mar 2022 09:44:38 +0100
-Message-ID: <CAJfpegtiRx6jRFUuPeXDxwJpBhYn0ekKkwYbGowUehGZkqVmAw@mail.gmail.com>
+Date:   Thu, 24 Mar 2022 09:57:26 +0100
+Message-ID: <CAJfpegv6PmZ_RXipBs9UEjv_WfEUtTDE1uNZq+9fBkCzWPvXkw@mail.gmail.com>
 Subject: Re: [RFC PATCH] getvalues(2) prototype
-To:     "Theodore Ts'o" <tytso@mit.edu>
-Cc:     Christian Brauner <brauner@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
+To:     Dave Chinner <david@fromorbit.com>
+Cc:     Miklos Szeredi <mszeredi@redhat.com>,
         linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
         Linux API <linux-api@vger.kernel.org>,
         linux-man <linux-man@vger.kernel.org>,
@@ -73,65 +71,59 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, 23 Mar 2022 at 23:20, Theodore Ts'o <tytso@mit.edu> wrote:
+On Wed, 23 Mar 2022 at 23:58, Dave Chinner <david@fromorbit.com> wrote:
 >
-> On Wed, Mar 23, 2022 at 02:24:40PM +0100, Miklos Szeredi wrote:
-> > The reason I stated thinking about this is that Amir wanted a per-sb
-> > iostat interface and dumped it into /proc/PID/mountstats.  And that is
-> > definitely not the right way to go about this.
-> >
-> > So we could add a statfsx() and start filling in new stuff, and that's
-> > what Linus suggested.  But then we might need to add stuff that is not
-> > representable in a flat structure (like for example the stuff that
-> > nfs_show_stats does) and that again needs new infrastructure.
-> >
-> > Another example is task info in /proc.  Utilities are doing a crazy
-> > number of syscalls to get trivial information.  Why don't we have a
-> > procx(2) syscall?  I guess because lots of that is difficult to
-> > represent in a flat structure.  Just take the lsof example: tt's doing
-> > hundreds of thousands of syscalls on a desktop computer with just a
-> > few hundred processes.
+> On Tue, Mar 22, 2022 at 08:27:12PM +0100, Miklos Szeredi wrote:
+
+> > - Interfaces for getting various attributes and statistics are fragmented.
+> >   For files we have basic stat, statx, extended attributes, file attributes
+> >   (for which there are two overlapping ioctl interfaces).  For mounts and
+> >   superblocks we have stat*fs as well as /proc/$PID/{mountinfo,mountstats}.
+> >   The latter also has the problem on not allowing queries on a specific
+> >   mount.
 >
-> I'm still a bit puzzled about the reason for getvalues(2) beyond,
-> "reduce the number of system calls".  Is this a performance argument?
+> https://xkcd.com/927/
 
-One argument that can't be worked around without batchingis atomicity.
-Not sure how important that is, but IIRC it was one of the
-requirements relating to the proposed fsinfo syscall, which this API
-is meant to supersede.   Performance was also oft repeated regarding
-the fsinfo API, but I'm less bought into that.
+Haha!
 
-> If so, have you benchmarked lsof using this new interface?
+> I've said in the past when discussing things like statx() that maybe
+> everything should be addressable via the xattr namespace and
+> set/queried via xattr names regardless of how the filesystem stores
+> the data. The VFS/filesystem simply translates the name to the
+> storage location of the information. It might be held in xattrs, but
+> it could just be a flag bit in an inode field.
 
-Not yet.  Looked yesterday at both lsof and procps source code, and
-both are pretty complex and not easy to plug in a new interface.   But
-I've not yet given up...
+Right, that would definitely make sense for inode attributes.
 
-> I did a quickie run on my laptop, which currently had 444 process.
-> "lsof /home/tytso > /tmp/foo" didn't take long:
+What about other objects' attributes, statistics?   Remember this
+started out as a way to replace /proc/self/mountinfo with something
+that can query individual mount.
+
+> > mnt                    - list of mount parameters
+> > mnt:mountpoint         - the mountpoint of the mount of $ORIGIN
+> > mntns                  - list of mount ID's reachable from the current root
+> > mntns:21:parentid      - parent ID of the mount with ID of 21
+> > xattr:security.selinux - the security.selinux extended attribute
+> > data:foo/bar           - the data contained in file $ORIGIN/foo/bar
 >
-> % time lsof /home/tytso >& /tmp/foo
-> real    0m0.144s
-> user    0m0.039s
-> sys     0m0.087s
->
-> And an strace of that same lsof command indicated had 67,889 lines.
-> So yeah, lots of system calls.  But is this new system call really
-> going to speed up things by all that much?
+> How are these different from just declaring new xattr namespaces for
+> these things. e.g. open any file and list the xattrs in the
+> xattr:mount.mnt namespace to get the list of mount parameters for
+> that mount.
 
-$ ps uax | wc -l
-335
-$ time lsof > /dev/null
+Okay.
 
-real 0m3.011s
-user 0m1.257s
-sys 0m1.249s
-$ strace -o /tmp/strace lsof > /dev/null
-$ wc -l /tmp/strace
-638523 /tmp/strace
+> Why do we need a new "xattr in everything but name" interface when
+> we could just extend the one we've already got and formalise a new,
+> cleaner version of xattr batch APIs that have been around for 20-odd
+> years already?
 
-That's an order of magnitude higher than in your case; don't know what
-could cause this.
+Seems to make sense. But...will listxattr list everyting recursively?
+I guess that won't work, better just list traditional xattrs,
+otherwise we'll likely get regressions, and anyway the point of a
+hierarchical namespace is to be able to list nodes on each level.  We
+can use getxattr() for this purpose, just like getvalues() does in the
+above example.
 
 Thanks,
-Millos
+Miklos
