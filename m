@@ -2,60 +2,63 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1198C4E7EDC
-	for <lists+linux-api@lfdr.de>; Sat, 26 Mar 2022 05:19:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C365E4E8A24
+	for <lists+linux-api@lfdr.de>; Sun, 27 Mar 2022 23:03:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230219AbiCZEVQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 26 Mar 2022 00:21:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50330 "EHLO
+        id S231824AbiC0VFJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 27 Mar 2022 17:05:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229686AbiCZEVP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 26 Mar 2022 00:21:15 -0400
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2197723F3F9;
-        Fri, 25 Mar 2022 21:19:38 -0700 (PDT)
-Received: from cwcc.thunk.org (pool-108-7-220-252.bstnma.fios.verizon.net [108.7.220.252])
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 22Q4JAos018812
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 26 Mar 2022 00:19:11 -0400
-Received: by cwcc.thunk.org (Postfix, from userid 15806)
-        id D60DD15C0038; Sat, 26 Mar 2022 00:19:10 -0400 (EDT)
-Date:   Sat, 26 Mar 2022 00:19:10 -0400
-From:   "Theodore Ts'o" <tytso@mit.edu>
-To:     Karel Zak <kzak@redhat.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Christian Brauner <brauner@kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        LSM <linux-security-module@vger.kernel.org>,
-        Ian Kent <raven@themaw.net>,
-        David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        Amir Goldstein <amir73il@gmail.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>
+        with ESMTP id S229878AbiC0VFH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 27 Mar 2022 17:05:07 -0400
+Received: from mail105.syd.optusnet.com.au (mail105.syd.optusnet.com.au [211.29.132.249])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7A94D496BA;
+        Sun, 27 Mar 2022 14:03:27 -0700 (PDT)
+Received: from dread.disaster.area (pa49-186-150-27.pa.vic.optusnet.com.au [49.186.150.27])
+        by mail105.syd.optusnet.com.au (Postfix) with ESMTPS id B445B10E6855;
+        Mon, 28 Mar 2022 08:03:20 +1100 (AEDT)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+        (envelope-from <david@fromorbit.com>)
+        id 1nYa2h-00AeCQ-BD; Mon, 28 Mar 2022 08:03:19 +1100
+Date:   Mon, 28 Mar 2022 08:03:19 +1100
+From:   Dave Chinner <david@fromorbit.com>
+To:     Trond Myklebust <trondmy@hammerspace.com>
+Cc:     "miklos@szeredi.hu" <miklos@szeredi.hu>,
+        "raven@themaw.net" <raven@themaw.net>,
+        "kzak@redhat.com" <kzak@redhat.com>,
+        "dhowells@redhat.com" <dhowells@redhat.com>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "mszeredi@redhat.com" <mszeredi@redhat.com>,
+        "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
+        "amir73il@gmail.com" <amir73il@gmail.com>,
+        "christian@brauner.io" <christian@brauner.io>,
+        "James.Bottomley@hansenpartnership.com" 
+        <James.Bottomley@hansenpartnership.com>
 Subject: Re: [RFC PATCH] getvalues(2) prototype
-Message-ID: <Yj6UPi6SDc7wMtCA@mit.edu>
+Message-ID: <20220327210319.GM1609613@dread.disaster.area>
 References: <20220322192712.709170-1-mszeredi@redhat.com>
- <20220323114215.pfrxy2b6vsvqig6a@wittgenstein>
- <CAJfpegsCKEx41KA1S2QJ9gX9BEBG4_d8igA0DT66GFH2ZanspA@mail.gmail.com>
- <YjudB7XARLlRtBiR@mit.edu>
- <CAJfpegtiRx6jRFUuPeXDxwJpBhYn0ekKkwYbGowUehGZkqVmAw@mail.gmail.com>
- <20220325084646.7g6oto2ce3vou54x@ws.net.home>
- <Yj2DPRusMAzV/N5U@kroah.com>
- <20220325092553.rncxqrjslv6e4c7v@ws.net.home>
+ <20220323225843.GI1609613@dread.disaster.area>
+ <CAJfpegv6PmZ_RXipBs9UEjv_WfEUtTDE1uNZq+9fBkCzWPvXkw@mail.gmail.com>
+ <20220324203116.GJ1609613@dread.disaster.area>
+ <5d5c170949a5c4e2e4b8ef8949e5cdc5110eeabf.camel@hammerspace.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220325092553.rncxqrjslv6e4c7v@ws.net.home>
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5d5c170949a5c4e2e4b8ef8949e5cdc5110eeabf.camel@hammerspace.com>
+X-Optus-CM-Score: 0
+X-Optus-CM-Analysis: v=2.4 cv=deDjYVbe c=1 sm=1 tr=0 ts=6240d11d
+        a=sPqof0Mm7fxWrhYUF33ZaQ==:117 a=sPqof0Mm7fxWrhYUF33ZaQ==:17
+        a=8nJEP1OIZ-IA:10 a=o8Y5sQTvuykA:10 a=7-415B0cAAAA:8
+        a=SMe7BH-ruLLs_FX_YN0A:9 a=wPNLvfGTeEIA:10 a=biEYGPWJfzWAr4FL6Ov7:22
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,49 +66,49 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Mar 25, 2022 at 10:25:53AM +0100, Karel Zak wrote:
+On Fri, Mar 25, 2022 at 04:42:27PM +0000, Trond Myklebust wrote:
+> On Fri, 2022-03-25 at 07:31 +1100, Dave Chinner wrote:
+> > > and anyway the point of a
+> > > hierarchical namespace is to be able to list nodes on each level. 
+> > > We
+> > > can use getxattr() for this purpose, just like getvalues() does in
+> > > the
+> > > above example.
+> > 
+> > Yup, and like Casey suggests, you could implement a generic
+> > getvalues()-like user library on top of it so users don't even need
+> > to know where and how the values are located or retrieved.
+> > 
+> > The other advantage of an xattr interface is that is also provides a
+> > symmetrical API for -changing- values. No need for some special
+> > configfs or configfd thingy for setting parameters - just change the
+> > value of the parameter or mount option with a simple setxattr call.
+> > That retains the simplicity of proc and sysfs attributes in that you
+> > can change them just by writing a new value to the file....
 > 
-> Right, the speed of ps(1) or lsof(1) is not important. IMHO the current
-> discussion about getvalues() goes in wrong direction :-)
-> 
-> I guess the primary motivation is not to replace open+read+close, but
-> provide to userspace something usable to get information from mount
-> table, because the current /proc/#/mountinfo and notification by
-> poll() is horrible.
+> The downsides are, however, that the current interface provides little
+> in the way of atomicity if you want to read or write to multiple
+> attributes at the same time. Something like a backup program might want
+> to be able to atomically retrieve the ctime when it is backing up the
+> attributes.
 
-I think that's because the getvalues(2) prototype *only* optimizes
-away open+read+close, and doesn't do a *thing* with respect to
-/proc/<pid>/mountinfo.
+I assumed that batched updates were implied and understood after
+my earlier comments about XFS_IOC_ATTRMULTI_BY_HANDLE as used
+by xfsdump/restore for the past 20+ years.
 
-> Don't forget that the previous attempt was fsinfo() from David Howells
-> (unfortunately, it was too complex and rejected by Linus).
+> Also, when setting attributes, I'd like to avoid multiple syscalls when
+> I'm changing multiple related attributes.
+>
+> IOW: Adding a batching interface that is akin to what Miklos was
+> proposing would be a helpful change if we want to go down this path.
 
-fsinfo() tried to do a lot more than solving the /proc/<pid>/mountinfo
-problem; perhaps that was the cause of the complexity.
+Yup, that's exactly what XFS_IOC_ATTRMULTI_BY_HANDLE provides and
+I'm assuming that would also be provided by whatever formalised
+generic syscall API we come up with here...
 
-Ignoring the notification problem (which I suspect we could solve with
-an extension of fsnotify), if the goal is to find a cleaner way to
-fetch information about a process's mount namespace and the mounts in
-that namespace, why not trying to export that information via sysfs?
-Information about devices are just as complex, after all.
+Cheers,
 
-We could make mount namespaces to be their own first class object, so
-there would be an entry in /proc/<pid> which returns the mount
-namespace id used by a particular process.  Similarly, let each
-mounted file system be its own first class object.  Information about
-each mount namespace would be in /sys/mnt_ns, and information about
-each mounted file system would be in /sys/superblock.  Then in
-/sys/mnt_ns there would be a directory for each (superblock,
-mountpoint) pair.
-
-Given how quickly programs like lsof can open tens of thousands of
-small files, and typically there are't that many mounted file systems
-in a particular mount namespace, performance really shouldn't be a
-problem.
-
-If it works well enough for other kernel objects that are accessed via
-sysfs, and fsinfo() is way to complex, why don't we try a pattern
-which has worked and is "native" to Linux?
-
-					- Ted
-
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
