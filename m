@@ -2,65 +2,65 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 55FAD4EA6B2
-	for <lists+linux-api@lfdr.de>; Tue, 29 Mar 2022 06:49:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60F394EA709
+	for <lists+linux-api@lfdr.de>; Tue, 29 Mar 2022 07:20:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231966AbiC2Eva (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 29 Mar 2022 00:51:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40112 "EHLO
+        id S231875AbiC2FWX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 29 Mar 2022 01:22:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231938AbiC2Eva (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 29 Mar 2022 00:51:30 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5690D7646
-        for <linux-api@vger.kernel.org>; Mon, 28 Mar 2022 21:49:47 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id bq24so12287820lfb.5
-        for <linux-api@vger.kernel.org>; Mon, 28 Mar 2022 21:49:47 -0700 (PDT)
+        with ESMTP id S231382AbiC2FWX (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 29 Mar 2022 01:22:23 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F39C199E31
+        for <linux-api@vger.kernel.org>; Mon, 28 Mar 2022 22:20:39 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id d5so28317897lfj.9
+        for <linux-api@vger.kernel.org>; Mon, 28 Mar 2022 22:20:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=XWLCAB1500HQsLrUixU/FnW8B7Hc4CJp8/73HN5IT2Y=;
-        b=POOwnLqQHlCOU22V8lK/DyvfG13ektO9++0nIu55Ks337hYPiaUdBhqL4r6k4qzskO
-         tsTH2/jIOm8Ln7911xEwcmfkNNzZR6TYlLsBbThIxQ60S1YHieiBgh+9lBGKSBG3xBX5
-         WouBI37zmKvRLWHdcT3YFtg7ltiWUVFXq0rwI=
+        bh=YXrL0xLSyQXecvNQfhvGNckTeDRtmwC5AuLnoj6aIyk=;
+        b=UZIGwhAS05pYmB+VYJpx3L7dlB7t/wp3TC5bIMTmHyCYUxjQ9l3nOazmIDqY72DfsX
+         gkX9RTs/KCYKqdAlqm4qERduIWGo/bAtRFjI7/WakEg1Mqid1d9/KOdvMFcSMH01EiLq
+         kbGh0iaRKP1JU13btIy6UF3lt/af3yr6y70AE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=XWLCAB1500HQsLrUixU/FnW8B7Hc4CJp8/73HN5IT2Y=;
-        b=szNjsxStP9KrLx35bw7T2arUlPD1o0CddiMk4B9k1Kva8WTn4sZtwQ3C8XDpOOpZZG
-         Ezz2hzxnRgKcJdKo4pE2RltClly0p8xVafJMalMRhVquHb2ZCnVgZ8c+hkBfouU9g/jM
-         /XnsE34Gl9snsTjTlF93pvfgLJIIVFA/BZoccqnx1e2OdPbJ8XGHpgY/A5uhHKHRYWDv
-         N12CVoLmD54a8EowYqxVaPvJojz85LC2bN5+roDVnCl/92RTVBfHkEYXxZuNzZaDKYNr
-         QiwWMGFtL+9yCq5eYv1wwrJv7Ymh2uo+UTmp/O80ngmDAzd4ivZRCfgD7dlMUpKqFlk5
-         MvdA==
-X-Gm-Message-State: AOAM533M2+4d4sM2WJQcXBTiP4OhVOBD07hTX+Oi/vRJjbitnIXU8ygP
-        54RqO+YZQRf2VmoZmmVOpLyyHWnsZXhuhtT5
-X-Google-Smtp-Source: ABdhPJyYVLfqKj+WxOA7LD8qgRaGiHM8hoXLyibJDuwar4R/hl0dIrHkVVJvTeMrLfWqddMDaPkEQA==
-X-Received: by 2002:a19:e209:0:b0:44a:51af:b3fd with SMTP id z9-20020a19e209000000b0044a51afb3fdmr906423lfg.560.1648529385252;
-        Mon, 28 Mar 2022 21:49:45 -0700 (PDT)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com. [209.85.167.50])
-        by smtp.gmail.com with ESMTPSA id c7-20020a2e9d87000000b00247ebe11990sm1939207ljj.10.2022.03.28.21.49.43
+        bh=YXrL0xLSyQXecvNQfhvGNckTeDRtmwC5AuLnoj6aIyk=;
+        b=4N5dgkfSAd/H7HA2oK5yOOJDweH7an9Cswlisho5RtrbKv6sLrruGcjfPeYyd53lJ1
+         Z48jlp0qSZ3YFX7DdgmcvfnOaEkADg6m4P4MTCa5yQU30IPRnqnJzyyP8jJ5VO5Cpi/H
+         sd5Sf/sNal1KmmIjAfvsUSpY55Byyjef83q94V+AE5Qiud/Wy3fDOeryJ6SieVLF72dz
+         A/nrrQrvHT1+awiCYrGbJeZGyu578e7ty9mTn4kBc6fPfx+Z8d5cwZcrJcRhQhSIIOxK
+         hweidtPceX+fiQa4HMPdhKtoQOD0DnmlWSSlZ39EyOxQvi7c+2gc2m3K8DjAALjznQ5S
+         B1Tw==
+X-Gm-Message-State: AOAM530oNaTimIFN8cb0pz1en0f5eTyrwgW4IUOMTUAUdPBzJke83It2
+        hbmRG28FBE5zdvhQBOmEVWWgeyAVsjNwxXoy
+X-Google-Smtp-Source: ABdhPJzWcEO73LPKwFE4SU9ukvetIjijH+c4cXWD13mL+glstQS1TGVEO01Ckc4vVYf6/GzNPEIdOA==
+X-Received: by 2002:a05:6512:3094:b0:44a:3851:f185 with SMTP id z20-20020a056512309400b0044a3851f185mr1032821lfd.28.1648531236966;
+        Mon, 28 Mar 2022 22:20:36 -0700 (PDT)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com. [209.85.167.54])
+        by smtp.gmail.com with ESMTPSA id g22-20020a0565123b9600b0044a20eb26dbsm1855973lfv.253.2022.03.28.22.20.35
         for <linux-api@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Mar 2022 21:49:44 -0700 (PDT)
-Received: by mail-lf1-f50.google.com with SMTP id m3so28207629lfj.11
-        for <linux-api@vger.kernel.org>; Mon, 28 Mar 2022 21:49:43 -0700 (PDT)
-X-Received: by 2002:a05:6512:2296:b0:44a:6aaf:b330 with SMTP id
- f22-20020a056512229600b0044a6aafb330mr898795lfu.531.1648529383200; Mon, 28
- Mar 2022 21:49:43 -0700 (PDT)
+        Mon, 28 Mar 2022 22:20:35 -0700 (PDT)
+Received: by mail-lf1-f54.google.com with SMTP id m3so28283641lfj.11
+        for <linux-api@vger.kernel.org>; Mon, 28 Mar 2022 22:20:35 -0700 (PDT)
+X-Received: by 2002:a19:e048:0:b0:448:2caa:7ed2 with SMTP id
+ g8-20020a19e048000000b004482caa7ed2mr1028168lfj.449.1648531234178; Mon, 28
+ Mar 2022 22:20:34 -0700 (PDT)
 MIME-Version: 1.0
 References: <87a6ha4zsd.fsf@email.froward.int.ebiederm.org>
  <87bl1kunjj.fsf@email.froward.int.ebiederm.org> <87r19opkx1.fsf_-_@email.froward.int.ebiederm.org>
  <87o82gdlu9.fsf_-_@email.froward.int.ebiederm.org> <87tubyx0rg.fsf_-_@email.froward.int.ebiederm.org>
  <87a6d9pr5t.fsf_-_@email.froward.int.ebiederm.org> <CAHk-=wj2u3MT5Ukaw9aAB-0oSs9S58kuRNqqy5AL-GTn9LNGkA@mail.gmail.com>
- <87r16lmnsq.fsf@email.froward.int.ebiederm.org>
-In-Reply-To: <87r16lmnsq.fsf@email.froward.int.ebiederm.org>
+ <87r16lmnsq.fsf@email.froward.int.ebiederm.org> <CAHk-=wiVB8npX4B3D48PjqHjKa8geRjMhcFSgmtYDPp05eZymA@mail.gmail.com>
+In-Reply-To: <CAHk-=wiVB8npX4B3D48PjqHjKa8geRjMhcFSgmtYDPp05eZymA@mail.gmail.com>
 From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Mon, 28 Mar 2022 21:49:26 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiVB8npX4B3D48PjqHjKa8geRjMhcFSgmtYDPp05eZymA@mail.gmail.com>
-Message-ID: <CAHk-=wiVB8npX4B3D48PjqHjKa8geRjMhcFSgmtYDPp05eZymA@mail.gmail.com>
+Date:   Mon, 28 Mar 2022 22:20:17 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiPKKU7zFeg06a05R6abB1tWrHR28z-E5vVvk+2xgXHHA@mail.gmail.com>
+Message-ID: <CAHk-=wiPKKU7zFeg06a05R6abB1tWrHR28z-E5vVvk+2xgXHHA@mail.gmail.com>
 Subject: Re: [GIT PULL] ptrace: Cleanups for v5.18
 To:     "Eric W. Biederman" <ebiederm@xmission.com>
 Cc:     Alexey Gladkov <legion@kernel.org>, Kyle Huey <me@kylehuey.com>,
@@ -81,113 +81,103 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Mar 28, 2022 at 8:38 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
+On Mon, Mar 28, 2022 at 9:49 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> Dumb question because this seems to burning a few extra creativity
-> points.  Is there any way to create a signed tag and a branch with the
-> same name?
+> So if you have both a branch and a tag named 'xyz', you generally need
+> to disambiguate them when you use them. That will make git happy,
+> because now it's not ambiguous any more.
 
-Oh, absolutely.
+On a similar but very different issue: this is not the only kind of
+naming ambiguity you can have.
 
-But you may find it annoying, because as you noticed:
+For example, try this insane thing:
 
-> Having a tag and a branch with the same name seems to completely confuse
-> git and it just tells me no I won't push anything to another git tree,
-> because what you are asking me to do is ambiguous.
+    git tag Makefile
 
-Not at all.
+that creates a tag called 'Makefile' (pointing to your current HEAD, of course).
 
-git is not at all confused by the situation, git is in fact very aware
-of it indeed.
+Now, guess what happens when you then do
 
-But as git then tells you, exactly *because* it is aware that you have
-picked the same name for both a branch and a tag, it will keep warning
-you about the ambiguity of said name (but after warning, will
-generally then preferentially use the tag of that name over the branch
-of the same name).
+    git log Makefile
 
-So if you have both a branch and a tag named 'xyz', you generally need
-to disambiguate them when you use them. That will make git happy,
-because now it's not ambiguous any more.
+that's right - git once again notices that you are doing something ambiguous.
 
-(Technical detail: some git operations work on specific namespaces, so
-"git branch -d xyz" should never remove a _tag_ called 'xyz', and as
-such the name isn't ambiguous in the context of that git command)
+In fact, git will be *so* unhappy about this kind of ambiguity that
+(unlike the 'tag vs branch' case) it will not prefer one version of
+reality over the other, and simply consider this to be a fatal error,
+and say
 
-And disambiguating them is simple, but I suspect you'll find it's
-annoying enough that you simply don't want to use the same name for
-tags and branches.
+    fatal: ambiguous argument 'Makefile': both revision and filename
+    Use '--' to separate paths from revisions, like this:
+    'git <command> [<revision>...] -- [<file>...]'
 
-The full name of a tag 'x' is actually 'refs/tags/x', and the full
-unambiguous name of a branch 'x' is 'refs/heads/x'.
+and as a result you will hopefully go "Oh, I didn't mean to have that
+tag at all" and just remove the bogus tagname.
 
-So technically a tag and a branch can never _really_ have the same
-name, because internally they have longer unambiguous names.
+Because you probably made it by mistake.
 
-You would almost never actually use that full name, it's mostly an
-internal git thing. Because even if you have ambiguous branch and tag
-names, you'd then still shorten it to just 'tags/x' and 'heads/x'
-respectively.
+But you *can* choose to say
 
-Git has other "namespaces" for these refs, too, notably
-'refs/remotes/'. In fact, I guess you could make up your own namespace
-too if you really wanted, although I don't think anybody really has
-ever had a good reason for it.
+   git log Makefile --
 
-(There is also the non-namespaced special refs like HEAD and
-FETCH_HEAD and MERGE_HEAD for "current branch", "what you fetched" and
-"what you are merging")
+or
 
-So you *can* do this:
+   git log refs/tags/Makefile
 
-    # create and check out the branch 'xyz'
-    $ git checkout -b xyz master
+to make it clear that no, 'Makefile' is not the pathname in the
+repository, you really mean the tag 'Makefile'.
 
-    # create a tag called 'xyz', but to confuse everybody, make it
-point somewhere else
-    $ git tag xyz master~3
+Or use
 
-    # look at what 'xyz' means:
-    $ git rev-parse xyz
-    warning: refname 'xyz' is ambiguous.
-    cffb2b72d3ed47f5093d128bd44d9ce136b6b5af
+  git log -- Makefile
 
-    # Hmm. it warned about it being ambiguous
-    $ git rev-parse heads/xyz
-    1930a6e739c4b4a654a69164dbe39e554d228915
+or
 
-    # Ok, it clearly took the tag, not the branch:
-    $ git rev-parse tags/xyz
-    cffb2b72d3ed47f5093d128bd44d9ce136b6b5af
+    git log ./Makefile
 
-so as you can see, yes, you can work with a tag and a branch that have
-the same 'short name', but having to disambiguate them all the time
-will likely just drive you mad.
+to say "yeah, I meant the _pathname_ 'Makefile', not the tag".
 
-And it's worth pointing out that the name does not imply a
-relationship. So the branch called 'xyz' (ie refs/heads/xyz) has
-absolutely *no* relationship to the tag called 'xyz' (ie
-refs/tags/xyz) except for that ambiguous short name. So updating the
-branch - by perhaps committing more to it - will in no way affect the
-tag.
+Or, if you just like playing games, do
 
-Also note that branches and tags are both "just refs" as far as git is
-concerned, but git *does* give some semantic meaning to the
-namespaces.
+    git log Makefile -- Makefile
 
-So the branch namespace (it those 'refs/heads/*' things) are things
-that get updated automatically as you make new commits.
+if you want to track the history of the path 'Makefile' starting at
+the tag 'Makefile'.
 
-In contrast, the tag namespace is something you *can* update, but it's
-considered odd, and if you want to overwrite an existing tag you
-generally need to do something special (eg "git tag -f" to force
-overwriting a new tag rather than telling you that you already have
-one).
+But don't actually do this for real. There's a reason git notices these things.
 
-So in a very real way, to git a ref is a ref is a ref, with very
-little to no real *technical* distinction. They are just ways to point
-to the SHA1 hash of an object. But there are basically some common
-semantic rules that are based on the namespaces, and all those git
-operations that use certain namespaces by default.
+Using ambiguous branch names (whether ambiguous with tag-names or with
+filenames) is a pain that is not worth it in practice. Git will
+notice, and git will allow you to work around it, but it's just a
+BadIdea(tm) despite that.
 
-            Linus
+But you probably want to be aware of issues like this if you script
+things around git, though.
+
+That "--" form in particular is generally the one you want to use for
+scripting, if you want to allow people to do anything they damn well
+please. It's the "Give them rope" syntax.
+
+Of course, a much more common reason for "--" for pathname separation,
+and one you may already be familiar with, is that you want to see the
+history of a pathname that is not *currently* a pathname, but was one
+at some point in the past.
+
+So in my current kernel tree, doing
+
+    $ git log arch/nds32/
+
+will actually cause an error, because of "unknown revision or path not
+in the working tree".
+
+But if you really want to see the history of that now-deleted
+architecture, you do
+
+    $ git log -- arch/nds32/
+
+and it's all good.
+
+This concludes today's sermon on git,
+
+             Linus
