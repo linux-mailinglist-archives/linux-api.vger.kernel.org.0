@@ -2,58 +2,58 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 376E74EB26A
-	for <lists+linux-api@lfdr.de>; Tue, 29 Mar 2022 19:01:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5CA74EB3A9
+	for <lists+linux-api@lfdr.de>; Tue, 29 Mar 2022 20:45:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240031AbiC2RDf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 29 Mar 2022 13:03:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57540 "EHLO
+        id S240674AbiC2SrH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 29 Mar 2022 14:47:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240026AbiC2RDe (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 29 Mar 2022 13:03:34 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15E1C4BB8F
-        for <linux-api@vger.kernel.org>; Tue, 29 Mar 2022 10:01:50 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id m30so25774370wrb.1
-        for <linux-api@vger.kernel.org>; Tue, 29 Mar 2022 10:01:50 -0700 (PDT)
+        with ESMTP id S239585AbiC2SrF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 29 Mar 2022 14:47:05 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC7BA98F72
+        for <linux-api@vger.kernel.org>; Tue, 29 Mar 2022 11:45:21 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id bx24-20020a17090af49800b001c6872a9e4eso3819910pjb.5
+        for <linux-api@vger.kernel.org>; Tue, 29 Mar 2022 11:45:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=fDEbyTk5JLZwfzVmTiXkAAwM2SkhzM0CrjsBq6yV8uQ=;
-        b=nFte+OoNNUDulAY71F/YaVEMwP4/fjEKZy3iAHaWKGtiq3jPM1hCXjv1oeE/PYW/Iu
-         CaeCDlvm9ldzoOTxdf6mWH0kRtv0jXPkPuriZuGskn6zPN54Mtw8L5ZvIBbLXFPA9SEm
-         FdEsg8IbYPk/oFSs1nqv1BhLVA3HEX43BHA3LQ+7hSkC44G2cnS9ziA+s/XAJ7fnhljy
-         EpUuct+9uxfl3dFf+JF0V45IaRO1NzBz8J/iwEKvGZ0Dy3kJqKI6yvUlhtsCwTvQX7/4
-         Qf7ABMTedmRqasdiJYqU+a+01g86eVnw4U2J2Y7iYT2ARpBS/p6MkLvOYf0754Xe/kip
-         LlTg==
+        bh=o1qcZR1LxJ/8GbkW+1o65vv0lkJ0fy//rk2/1UscmDw=;
+        b=dwjAFyr79FlAvZN4oVDM+cROGwXKgWD+GjzFyXRXAgE8FAWQh0f0I0kd8X5DA7Ic5Y
+         VwRjT+3EqrXkzzX/nA4ayJfSyv2gITG1hZSatG1ilG804HuNYYziRhjIGD8PzrzW2dTC
+         qt0ANVSElJX0JYkgUfFNeD60WWqInSK4r/B5RxaF5Zl5+LoHWKn0N40sfo5Ea2m3RSsS
+         Sxu4L76R4KPju1vfaBBeh6+oYASNnMU2wyIvIHabuxRCp2MOIvLjmk1Z8I5EaQodk5kP
+         ANAl4mN5q+r0q0fvNS/WILwuTETHBqUREYH8mUVFLgxLgkLiIpXMRtvAHqwl/fH3x5YO
+         W5fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=fDEbyTk5JLZwfzVmTiXkAAwM2SkhzM0CrjsBq6yV8uQ=;
-        b=xaf+FIUMQLqaMfolC3518QcZfeWkJb0tAGgL5SS26f8cf9BKEzM/MhDxKOWw/vsuXA
-         8wFRPtTbyDLBOwNlJusWNWyRKorSivf4qSJtwtP/6xEAFLPhAsUmpvaA8p+RvQh0yUMm
-         eoMZ/H28h0O4mncv8Grkx1qG8zhi2HGchAGVDRgAmBzDsyhP4yVAm9+7gkS3+dav0hSI
-         i2B1OpHxPSWQQ/i5bB9t9YMH9JDNxPdMHH0vxYaPP+13jG55XUcTPW3dket1nGKcHZq2
-         ky3Z90tCQ7BmEB5ht4GVODQkDz2BBXft4TMinFUOzgjcBID+FAD87zvr4N9yFsviVP/I
-         rFuA==
-X-Gm-Message-State: AOAM533I83g8tDPjJyv1mMhjtkXjKiMe+JeL05lhXqASX7A3zYIgJfxb
-        NeNmYyOwifo3w4T0xAwQfNs77Q==
-X-Google-Smtp-Source: ABdhPJxPse1UJFRu0iABOfDa+i1kx+YJuLeqO4wcBveYiTN5kWzxPsXAfC0C+zTPq81FovM+LAXOng==
-X-Received: by 2002:adf:c54c:0:b0:203:ed16:2570 with SMTP id s12-20020adfc54c000000b00203ed162570mr32914595wrf.646.1648573308184;
-        Tue, 29 Mar 2022 10:01:48 -0700 (PDT)
-Received: from google.com ([2a00:79e0:d:210:eb09:5f76:2b4a:9d88])
-        by smtp.gmail.com with ESMTPSA id l20-20020a05600c1d1400b0038cba2f88c0sm3818702wms.26.2022.03.29.10.01.47
+        bh=o1qcZR1LxJ/8GbkW+1o65vv0lkJ0fy//rk2/1UscmDw=;
+        b=GtHavTU6WvfYLNDJbmCgEq6HXJ3Xxd5BV65V4rjIZa2kZNM2g4jpolPHQKWHUxiAuV
+         GRaC2TGcT6+QBEkTKQy7k5Y7DNd+PG5BLRjeKinRY5ldhwJteuVjTynr66zQcbrbTBF6
+         I17vX4ZVJqzMC8mqqztVdWG/gpQc44smJNcXcmoQXXnG4hp//QNdPR7njOcm1KdaDmYP
+         f6cP/QvRYLk+8qcfdQggv2Hk8lObJLvfuG4p769aax50msFV4WHQFZp48NAIEL4otuI7
+         y9ZyW6G/mMiKdYW34WwPQulw7LvfgX0+OObs0CHxDRFY6jBziTMN/jda6ivLe4LlXDfG
+         2vhA==
+X-Gm-Message-State: AOAM533lkX7cqWSiswxqKyIZ1gtHQ6OZYVJUaLpee1ObWBF3dE/jxQTx
+        74e2bPM030fL6Doa8eoZC0pgWQ==
+X-Google-Smtp-Source: ABdhPJyI/2yF5j0Y4c6Rg7cy0zvMkWFf2rvkH3lV+0xBToveJFcYf3GobqOkuMkXZjAqYWlysTz2jw==
+X-Received: by 2002:a17:902:d717:b0:156:20a9:d388 with SMTP id w23-20020a170902d71700b0015620a9d388mr7038650ply.19.1648579521129;
+        Tue, 29 Mar 2022 11:45:21 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id c5-20020a056a00248500b004f6b5ddcc65sm20916192pfv.199.2022.03.29.11.45.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Mar 2022 10:01:47 -0700 (PDT)
-Date:   Tue, 29 Mar 2022 18:01:44 +0100
-From:   Quentin Perret <qperret@google.com>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Tue, 29 Mar 2022 11:45:20 -0700 (PDT)
+Date:   Tue, 29 Mar 2022 18:45:16 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
         Wanpeng Li <wanpengli@tencent.com>,
@@ -74,193 +74,196 @@ Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
         Yu Zhang <yu.c.zhang@linux.intel.com>,
         "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
         luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, maz@kernel.org,
-        will@kernel.org
-Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <YkM7eHCHEBe5NkNH@google.com>
+        ak@linux.intel.com, david@redhat.com
+Subject: Re: [PATCH v5 02/13] mm: Introduce memfile_notifier
+Message-ID: <YkNTvFqWI5F5w+DW@google.com>
 References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <YjyS6A0o4JASQK+B@google.com>
- <YkHspg+YzOsbUaCf@google.com>
- <YkH32nx+YsJuUbmZ@google.com>
- <YkIFW25WgV2WIQHb@google.com>
+ <20220310140911.50924-3-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YkIFW25WgV2WIQHb@google.com>
+In-Reply-To: <20220310140911.50924-3-chao.p.peng@linux.intel.com>
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Monday 28 Mar 2022 at 18:58:35 (+0000), Sean Christopherson wrote:
-> On Mon, Mar 28, 2022, Quentin Perret wrote:
-> > Hi Sean,
-> > 
-> > Thanks for the reply, this helps a lot.
-> > 
-> > On Monday 28 Mar 2022 at 17:13:10 (+0000), Sean Christopherson wrote:
-> > > On Thu, Mar 24, 2022, Quentin Perret wrote:
-> > > > For Protected KVM (and I suspect most other confidential computing
-> > > > solutions), guests have the ability to share some of their pages back
-> > > > with the host kernel using a dedicated hypercall. This is necessary
-> > > > for e.g. virtio communications, so these shared pages need to be mapped
-> > > > back into the VMM's address space. I'm a bit confused about how that
-> > > > would work with the approach proposed here. What is going to be the
-> > > > approach for TDX?
-> > > > 
-> > > > It feels like the most 'natural' thing would be to have a KVM exit
-> > > > reason describing which pages have been shared back by the guest, and to
-> > > > then allow the VMM to mmap those specific pages in response in the
-> > > > memfd. Is this something that has been discussed or considered?
-> > > 
-> > > The proposed solution is to exit to userspace with a new exit reason, KVM_EXIT_MEMORY_ERROR,
-> > > when the guest makes the hypercall to request conversion[1].  The private fd itself
-> > > will never allow mapping memory into userspace, instead userspace will need to punch
-> > > a hole in the private fd backing store.  The absense of a valid mapping in the private
-> > > fd is how KVM detects that a pfn is "shared" (memslots without a private fd are always
-> > > shared)[2].
-> > 
-> > Right. I'm still a bit confused about how the VMM is going to get the
-> > shared page mapped in its page-table. Once it has punched a hole into
-> > the private fd, how is it supposed to access the actual physical page
-> > that the guest shared?
-> 
-> The guest doesn't share a _host_ physical page, the guest shares a _guest_ physical
-> page.  Until host userspace converts the gfn to shared and thus maps the gfn=>hva
-> via mmap(), the guest is blocked and can't read/write/exec the memory.  AFAIK, no
-> architecture allows in-place decryption of guest private memory.  s390 allows a
-> page to be "made accessible" to the host for the purposes of swap, and other
-> architectures will have similar behavior for migrating a protected VM, but those
-> scenarios are not sharing the page (and they also make the page inaccessible to
-> the guest).
+On Thu, Mar 10, 2022, Chao Peng wrote:
+> diff --git a/mm/Makefile b/mm/Makefile
+> index 70d4309c9ce3..f628256dce0d 100644
+> +void memfile_notifier_invalidate(struct memfile_notifier_list *list,
+> +				 pgoff_t start, pgoff_t end)
+> +{
+> +	struct memfile_notifier *notifier;
+> +	int id;
+> +
+> +	id = srcu_read_lock(&srcu);
+> +	list_for_each_entry_srcu(notifier, &list->head, list,
+> +				 srcu_read_lock_held(&srcu)) {
+> +		if (notifier->ops && notifier->ops->invalidate)
 
-I see. FWIW, since pKVM is entirely MMU-based, we are in fact capable of
-doing in-place sharing, which also means it can retain the content of
-the page as part of the conversion.
+Any reason notifier->ops isn't mandatory?
 
-Also, I'll ask the Arm CCA developers to correct me if this is wrong, but
-I _believe_ it should be technically possible to do in-place sharing for
-them too.
+> +			notifier->ops->invalidate(notifier, start, end);
+> +	}
+> +	srcu_read_unlock(&srcu, id);
+> +}
+> +
+> +void memfile_notifier_fallocate(struct memfile_notifier_list *list,
+> +				pgoff_t start, pgoff_t end)
+> +{
+> +	struct memfile_notifier *notifier;
+> +	int id;
+> +
+> +	id = srcu_read_lock(&srcu);
+> +	list_for_each_entry_srcu(notifier, &list->head, list,
+> +				 srcu_read_lock_held(&srcu)) {
+> +		if (notifier->ops && notifier->ops->fallocate)
+> +			notifier->ops->fallocate(notifier, start, end);
+> +	}
+> +	srcu_read_unlock(&srcu, id);
+> +}
+> +
+> +void memfile_register_backing_store(struct memfile_backing_store *bs)
+> +{
+> +	BUG_ON(!bs || !bs->get_notifier_list);
+> +
+> +	list_add_tail(&bs->list, &backing_store_list);
+> +}
+> +
+> +void memfile_unregister_backing_store(struct memfile_backing_store *bs)
+> +{
+> +	list_del(&bs->list);
 
-> > Is there an assumption somewhere that the VMM should have this page mapped in
-> > via an alias that it can legally access only once it has punched a hole at
-> > the corresponding offset in the private fd or something along those lines?
-> 
-> Yes, the VMM must have a completely separate VMA.  The VMM doesn't haven't to
-> wait until the conversion to mmap() the shared variant, though obviously it will
-> potentially consume double the memory if the VMM actually populates both the
-> private and shared backing stores.
+Allowing unregistration of a backing store is broken.  Using the _safe() variant
+is not sufficient to guard against concurrent modification.  I don't see any reason
+to support this out of the gate, the only reason to support unregistering a backing
+store is if the backing store is implemented as a module, and AFAIK none of the
+backing stores we plan on supporting initially support being built as a module.
+These aren't exported, so it's not like that's even possible.  Registration would
+also be broken if modules are allowed, I'm pretty sure module init doesn't run
+under a global lock.
 
-Gotcha. This is what confused me I think -- in this approach private and
-shared pages are in fact entirely different.
+We can always add this complexity if it's needed in the future, but for now the
+easiest thing would be to tag memfile_register_backing_store() with __init and
+make backing_store_list __ro_after_init.
 
-In which scenario could you end up with both the private and shared
-pages live at the same time? Would this be something like follows?
+> +}
+> +
+> +static int memfile_get_notifier_info(struct inode *inode,
+> +				     struct memfile_notifier_list **list,
+> +				     struct memfile_pfn_ops **ops)
+> +{
+> +	struct memfile_backing_store *bs, *iter;
+> +	struct memfile_notifier_list *tmp;
+> +
+> +	list_for_each_entry_safe(bs, iter, &backing_store_list, list) {
+> +		tmp = bs->get_notifier_list(inode);
+> +		if (tmp) {
+> +			*list = tmp;
+> +			if (ops)
+> +				*ops = &bs->pfn_ops;
+> +			return 0;
+> +		}
+> +	}
+> +	return -EOPNOTSUPP;
+> +}
+> +
+> +int memfile_register_notifier(struct inode *inode,
 
- - userspace creates a private fd, fallocates into it, and associates
-   the <fd, offset, size> tuple with a private memslot;
+Taking an inode is a bit odd from a user perspective.  Any reason not to take a
+"struct file *" and get the inode here?  That would give callers a hint that they
+need to hold a reference to the file for the lifetime of the registration.
 
- - userspace then mmaps anonymous memory (for ex.), and associates it
-   with a standard memslot, which happens to be positioned at exactly
-   the right offset w.r.t to the private memslot (with this offset
-   defined by the bit that is set for the private addresses in the gpa
-   space);
+> +			      struct memfile_notifier *notifier,
+> +			      struct memfile_pfn_ops **pfn_ops)
+> +{
+> +	struct memfile_notifier_list *list;
+> +	int ret;
+> +
+> +	if (!inode || !notifier | !pfn_ops)
 
- - the guest runs, and accesses both 'aliases' of the page without doing
-   an explicit share hypercall.
+Bitwise | instead of logical ||.  But IMO taking in a pfn_ops pointer is silly.
+More below.
 
-Is there another option?
+> +		return -EINVAL;
+> +
+> +	ret = memfile_get_notifier_info(inode, &list, pfn_ops);
+> +	if (ret)
+> +		return ret;
+> +
+> +	spin_lock(&list->lock);
+> +	list_add_rcu(&notifier->list, &list->head);
+> +	spin_unlock(&list->lock);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(memfile_register_notifier);
+> +
+> +void memfile_unregister_notifier(struct inode *inode,
+> +				 struct memfile_notifier *notifier)
+> +{
+> +	struct memfile_notifier_list *list;
+> +
+> +	if (!inode || !notifier)
+> +		return;
+> +
+> +	BUG_ON(memfile_get_notifier_info(inode, &list, NULL));
 
-Is implicit sharing a thing? E.g., if a guest makes a memory access in
-the shared gpa range at an address that doesn't have a backing memslot,
-will KVM check whether there is a corresponding private memslot at the
-right offset with a hole punched and report a KVM_EXIT_MEMORY_ERROR? Or
-would that just generate an MMIO exit as usual?
+Eww.  Rather than force the caller to provide the inode/file and the notifier,
+what about grabbing the backing store itself in the notifier?
 
-> > > The key point is that KVM never decides to convert between shared and private, it's
-> > > always a userspace decision.  Like normal memslots, where userspace has full control
-> > > over what gfns are a valid, this gives userspace full control over whether a gfn is
-> > > shared or private at any given time.
-> > 
-> > I'm understanding this as 'the VMM is allowed to punch holes in the
-> > private fd whenever it wants'. Is this correct?
-> 
-> From the kernel's perspective, yes, the VMM can punch holes at any time.  From a
-> "do I want to DoS my guest" perspective, the VMM must honor its contract with the
-> guest and not spuriously unmap private memory.
-> 
-> > What happens if it does so for a page that a guest hasn't shared back?
-> 
-> When the hole is punched, KVM will unmap the corresponding private SPTEs.  If the
-> guest is still accessing the page as private, the next access will fault and KVM
-> will exit to userspace with KVM_EXIT_MEMORY_ERROR.  Of course the guest is probably
-> hosed if the hole punch was truly spurious, as at least hardware-based protected VMs
-> effectively destroy data when a private page is unmapped from the guest private SPTEs.
->
-> E.g. Linux guests for TDX and SNP will panic/terminate in such a scenario as they
-> will get a fault (injected by trusted hardware/firmware) saying that the guest is
-> trying to access an unaccepted/unvalidated page (TDX and SNP require the guest to
-> explicit accept all private pages that aren't part of the guest's initial pre-boot
-> image).
+	struct memfile_notifier {
+		struct list_head list;
+		struct memfile_notifier_ops *ops;
 
-I suppose this is necessary is to prevent the VMM from re-fallocating
-in a hole it previously punched and re-entering the guest without
-notifying it?
+		struct memfile_backing_store *bs;
+	};
 
-> > > Another important detail is that this approach means the kernel and KVM treat the
-> > > shared backing store and private backing store as independent, albeit related,
-> > > entities.  This is very deliberate as it makes it easier to reason about what is
-> > > and isn't allowed/required.  E.g. the kernel only needs to handle freeing private
-> > > memory, there is no special handling for conversion to shared because no such path
-> > > exists as far as host pfns are concerned.  And userspace doesn't need any new "rules"
-> > > for protecting itself against a malicious guest, e.g. userspace already needs to
-> > > ensure that it has a valid mapping prior to accessing guest memory (or be able to
-> > > handle any resulting signals).  A malicious guest can DoS itself by instructing
-> > > userspace to communicate over memory that is currently mapped private, but there
-> > > are no new novel attack vectors from the host's perspective as coercing the host
-> > > into accessing an invalid mapping after shared=>private conversion is just a variant
-> > > of a use-after-free.
-> > 
-> > Interesting. I was (maybe incorrectly) assuming that it would be
-> > difficult to handle illegal host accesses w/ TDX. IOW, this would
-> > essentially crash the host. Is this remotely correct or did I get that
-> > wrong?
-> 
-> Handling illegal host kernel accesses for both TDX and SEV-SNP is extremely
-> difficult, bordering on impossible.  That's one of the biggest, if not _the_
-> biggest, motivations for the private fd approach.  On "conversion", the page that is
-> used to back the shared variant is a completely different, unrelated host physical
-> page.  Whether or not the private/shared backing page is freed is orthogonal to
-> what version is mapped into the guest.  E.g. if the guest converts a 4kb chunk of
-> a 2mb hugepage, the private backing store could keep the physical page on hole
-> punch (example only, I don't know if this is the actual proposed implementation).
-> 
-> The idea is that it'll be much, much more difficult for the host to perform an
-> illegal access if the actual private memory is not mapped anywhere (modulo the
-> kernel's direct map, which we may or may not leave intact).  The private backing
-> store just needs to ensure it properly sanitizing pages before freeing them.
+That also helps avoid confusing between "ops" and "pfn_ops".  IMO, exposing
+memfile_backing_store to the caller isn't a big deal, and is preferable to having
+to rewalk multiple lists just to delete a notifier.
 
-Understood.
+Then this can become:
 
-I'm overall inclined to think that while this abstraction works nicely
-for TDX and the likes, it might not suit pKVM all that well in the
-current form, but it's close.
+  void memfile_unregister_notifier(struct memfile_notifier *notifier)
+  {
+	spin_lock(&notifier->bs->list->lock);
+	list_del_rcu(&notifier->list);
+	spin_unlock(&notifier->bs->list->lock);
 
-What do you think of extending the model proposed here to also address
-the needs of implementations that support in-place sharing? One option
-would be to have KVM notify the private-fd backing store when a page is
-shared back by a guest, which would then allow host userspace to mmap
-that particular page in the private fd instead of punching a hole.
+	synchronize_srcu(&srcu);
+  }
 
-This should retain the main property you're after: private pages that
-are actually mapped in the guest SPTE aren't mmap-able, but all the
-others are fair game.
+and registration can be:
 
-Thoughts?
+  int memfile_register_notifier(const struct file *file,
+			      struct memfile_notifier *notifier)
+  {
+	struct memfile_notifier_list *list;
+	struct memfile_backing_store *bs;
+	int ret;
+
+	if (!file || !notifier)
+		return -EINVAL;
+
+	list_for_each_entry(bs, &backing_store_list, list) {
+		list = bs->get_notifier_list(file_inode(file));
+		if (list) {
+			notifier->bs = bs;
+
+			spin_lock(&list->lock);
+			list_add_rcu(&notifier->list, &list->head);
+			spin_unlock(&list->lock);
+			return 0;
+		}
+	}
+
+	return -EOPNOTSUPP;
+  }
