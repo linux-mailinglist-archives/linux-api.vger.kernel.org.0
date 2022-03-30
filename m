@@ -2,55 +2,55 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A4E54EC985
-	for <lists+linux-api@lfdr.de>; Wed, 30 Mar 2022 18:18:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9178E4ECB28
+	for <lists+linux-api@lfdr.de>; Wed, 30 Mar 2022 19:58:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238269AbiC3QUJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 30 Mar 2022 12:20:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50752 "EHLO
+        id S233660AbiC3SAe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 30 Mar 2022 14:00:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348728AbiC3QUG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Mar 2022 12:20:06 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B45E912096
-        for <linux-api@vger.kernel.org>; Wed, 30 Mar 2022 09:18:20 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id c15-20020a17090a8d0f00b001c9c81d9648so490438pjo.2
-        for <linux-api@vger.kernel.org>; Wed, 30 Mar 2022 09:18:20 -0700 (PDT)
+        with ESMTP id S1349574AbiC3SAd (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 30 Mar 2022 14:00:33 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB159F1ACB
+        for <linux-api@vger.kernel.org>; Wed, 30 Mar 2022 10:58:47 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id b13so17625187pfv.0
+        for <linux-api@vger.kernel.org>; Wed, 30 Mar 2022 10:58:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=nLFu3lC46wywpXjsuIK0ZHIhaIdPVQVthjLJWcG1bqs=;
-        b=ObdhiCZmnQ357m81FhFtTehR9aYW6P4+BOjn381CbSMHEsU1E7K3XcewtQe3sJCPWQ
-         Csyxq34Lypg3+bYvidjj+H3qoa/rNI7SuZbTd3AoCwOk6Mqd2uRtxKjVcVzSJoZodMTf
-         D/y6FT6RGJsMSbkAlI8a0sPYLgZwkMMWyNwRd4fxHKehurrHJxHet0aUP9LncDJtE3cQ
-         UPOz+IFAmZ6u0RgCGDhAInm8qhjfecUTWrGa0uueQmXiVf0afirovk1cfrPKwTF9EAHS
-         gOr/NoP4PJTR2EKpDT/fo37IVT+5E6uWqx4jWGTeL/5PLf3qFXEVzRH+FzhiYJwPOXLr
-         Ejdw==
+        bh=qRdDzcsR6tHaU83Zu+AB6iaBkt7tf4uVxesheVO+k04=;
+        b=fmINK1FWWmoLOoYP7UthQGhftrRGdNFBc+IlK+NV5/Ok9ERGA+qLeK6Qc2wTVLtgAA
+         9LQ/i0EUSMCyjEaFKyIhIb7cMmbwQz9Y8BcfXLRuoN6ajRH59AuxXHA3EMGdoKl2VTSg
+         p24YHpEbjdk+uT0CBOdjzzYlBeDTZ3F7gpj4hM7l1TBMoGnLiRy7iLYUHQWybuBMUn3o
+         +79Dbrk0SFPljaZd36P/MkFhRRizQhSn53CNrK2P1EbC2v9I9Kv5K+rfi43xESLumhbH
+         68CiFZAIDCb11Ijcxh9K1W3GQjeukR3sJTsN4+zlgHn1NYrxdXEcaVCJINP6zp/PmCKt
+         vRnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=nLFu3lC46wywpXjsuIK0ZHIhaIdPVQVthjLJWcG1bqs=;
-        b=AbFq5Uk1XrTISj0Y33DcDcfTOCGhJRiZPUgzQRl9EWm4tgpPcRJIqAxQeWBXMxPpuq
-         24w+fM8uzQC7K6fG5M3fm7OvgbRJU6OZNtScQ4Sgwh/7DACLkRi4lwOGnNx458lFz6P5
-         O7o00tO4lFIm8bg1viXy9lRT1mwixMBuMR/PoVexwz8d+myV2iLar+uUaw2+moWdB3N+
-         31MkdNERUTrKp4vDtGdHoC2JEUyiF+DQgQ9bzebLZpiv5JZR3gSWP9YE1JuuW92jRcxZ
-         eM9CrY7fOP12u7H+W9VZYMOoe7LKcvwxG8nF6lXL9ZoVZVdaL3PjDEKyA6gcI5yc9j7q
-         27jw==
-X-Gm-Message-State: AOAM533o2cX1ftfx2RwwQy0Lw7W12psQwGsHV4lfRf1h5hAekl2H5FB/
-        ltVis1Si75O/W9LvWkLos7RYhQ==
-X-Google-Smtp-Source: ABdhPJzu0B5xizLOKCwUOp7QXz7jXFJn2pPNsklxdxdBWzWCsDjkD8HDdgo8h4C6dlF1WJ0c8QhdzA==
-X-Received: by 2002:a17:903:2305:b0:154:4aa2:e800 with SMTP id d5-20020a170903230500b001544aa2e800mr29560plh.167.1648657099936;
-        Wed, 30 Mar 2022 09:18:19 -0700 (PDT)
+        bh=qRdDzcsR6tHaU83Zu+AB6iaBkt7tf4uVxesheVO+k04=;
+        b=dB/kHP9ztKF20epdn5H0EMazpdneCtKER00JYjjBtJlcHOuHi4DBdpQajvmVxk6DuJ
+         wv1FEFXCDmlgLPJ0Ru00qBmzaYiriQcTgkWCnoRNytEqPxhcjU1qbCQX0n6AsOrKqxFP
+         3OkWVFDLl67Jnns9JtEm/8xLE1KM/U790enS/rf3e3nUNnMomDAvlSPJDCw6o0oQErpL
+         2i9AE1wcAh+cmfTcg2oOUXc1AttKnsHrVGNboXJy1OEYqEqEqvozV4hbEnnzj9qSnIel
+         4xjw8QM/DFfLsKwI/Kxf8HKkivT3Q3ot+IQbZdweeI8AuOogutGWLSwvVtgHLcT1B9Ej
+         LvWA==
+X-Gm-Message-State: AOAM533t0KoXVn3Ox09b7GadwwUsaZmZuxIe4adL1xAIOAYsLc8b5Qai
+        sgfnYU4mZUOegNTrMigUDfi4aA==
+X-Google-Smtp-Source: ABdhPJw5RZDHzkmYWQnqaCR/pP7fkWu0K1pHE0zmJg/ZBWnJ2OplQYKLUcCZisuEeybmIa1wsGUd6g==
+X-Received: by 2002:a65:674b:0:b0:381:6565:26fc with SMTP id c11-20020a65674b000000b00381656526fcmr7064146pgu.618.1648663126803;
+        Wed, 30 Mar 2022 10:58:46 -0700 (PDT)
 Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id b14-20020a056a000cce00b004fabc39519esm25365204pfv.5.2022.03.30.09.18.18
+        by smtp.gmail.com with ESMTPSA id y3-20020a17090a8b0300b001c735089cc2sm6710778pjn.54.2022.03.30.10.58.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Mar 2022 09:18:19 -0700 (PDT)
-Date:   Wed, 30 Mar 2022 16:18:15 +0000
+        Wed, 30 Mar 2022 10:58:45 -0700 (PDT)
+Date:   Wed, 30 Mar 2022 17:58:41 +0000
 From:   Sean Christopherson <seanjc@google.com>
-To:     Steven Price <steven.price@arm.com>
-Cc:     Quentin Perret <qperret@google.com>,
+To:     Quentin Perret <qperret@google.com>
+Cc:     Steven Price <steven.price@arm.com>,
         Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
@@ -78,7 +78,7 @@ Cc:     Quentin Perret <qperret@google.com>,
         will@kernel.org
 Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
  guest private memory
-Message-ID: <YkSCx7q4Dl25mSp8@google.com>
+Message-ID: <YkSaUQX89ZEojsQb@google.com>
 References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
  <YjyS6A0o4JASQK+B@google.com>
  <YkHspg+YzOsbUaCf@google.com>
@@ -86,94 +86,127 @@ References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
  <YkIFW25WgV2WIQHb@google.com>
  <YkM7eHCHEBe5NkNH@google.com>
  <88620519-029e-342b-0a85-ce2a20eaf41b@arm.com>
+ <YkQzfjgTQaDd2E2T@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <88620519-029e-342b-0a85-ce2a20eaf41b@arm.com>
+In-Reply-To: <YkQzfjgTQaDd2E2T@google.com>
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Mar 30, 2022, Steven Price wrote:
-> On 29/03/2022 18:01, Quentin Perret wrote:
-> > Is implicit sharing a thing? E.g., if a guest makes a memory access in
-> > the shared gpa range at an address that doesn't have a backing memslot,
-> > will KVM check whether there is a corresponding private memslot at the
-> > right offset with a hole punched and report a KVM_EXIT_MEMORY_ERROR? Or
-> > would that just generate an MMIO exit as usual?
-> 
-> My understanding is that the guest needs some way of tagging whether a
-> page is expected to be shared or private. On the architectures I'm aware
-> of this is done by effectively stealing a bit from the IPA space and
-> pretending it's a flag bit.
-> 
-> So when a guest access causes a fault, the flag bit (really part of the
-> intermediate physical address) is compared against whether the page is
-> present in the private fd. If they correspond (i.e. a private access and
-> the private fd has a page, or a shared access and there's a hole in the
-> private fd) then the appropriate page is mapped and the guest continues.
-> If there's a mismatch then a KVM_EXIT_MEMORY_ERROR exit is trigged and
-> the VMM is expected to fix up the situation (either convert the page or
-> kill the guest if this was unexpected).
-
-x86 architectures do steal a bit, but it's not strictly required.  The guest can
-communicate its desired private vs. shared state via hypercall.  I refer to the
-hypercall method as explicit conversion, and reacting to a page fault due to
-accessing the "wrong" PA variant as implicit conversion.
-
-I have dreams of supporting a software-only implementation on x86, a la pKVM, if
-only for testing and debug purposes.  In that case, only explicit conversion is
-supported.
-
-I'd actually prefer TDX and SNP only allow explicit conversion, i.e. let the host
-treat accesses to the "wrong" PA as illegal, but sadly the guest/host ABIs for
-both TDX and SNP require the host to support implicit conversions.
-
-> >>>> The key point is that KVM never decides to convert between shared and private, it's
-> >>>> always a userspace decision.  Like normal memslots, where userspace has full control
-> >>>> over what gfns are a valid, this gives userspace full control over whether a gfn is
-> >>>> shared or private at any given time.
-> >>>
-> >>> I'm understanding this as 'the VMM is allowed to punch holes in the
-> >>> private fd whenever it wants'. Is this correct?
-> >>
-> >> From the kernel's perspective, yes, the VMM can punch holes at any time.  From a
-> >> "do I want to DoS my guest" perspective, the VMM must honor its contract with the
-> >> guest and not spuriously unmap private memory.
-> >>
-> >>> What happens if it does so for a page that a guest hasn't shared back?
-> >>
-> >> When the hole is punched, KVM will unmap the corresponding private SPTEs.  If the
-> >> guest is still accessing the page as private, the next access will fault and KVM
-> >> will exit to userspace with KVM_EXIT_MEMORY_ERROR.  Of course the guest is probably
-> >> hosed if the hole punch was truly spurious, as at least hardware-based protected VMs
-> >> effectively destroy data when a private page is unmapped from the guest private SPTEs.
-> >>
-> >> E.g. Linux guests for TDX and SNP will panic/terminate in such a scenario as they
-> >> will get a fault (injected by trusted hardware/firmware) saying that the guest is
-> >> trying to access an unaccepted/unvalidated page (TDX and SNP require the guest to
-> >> explicit accept all private pages that aren't part of the guest's initial pre-boot
-> >> image).
+On Wed, Mar 30, 2022, Quentin Perret wrote:
+> On Wednesday 30 Mar 2022 at 09:58:27 (+0100), Steven Price wrote:
+> > On 29/03/2022 18:01, Quentin Perret wrote:
+> > > Is implicit sharing a thing? E.g., if a guest makes a memory access in
+> > > the shared gpa range at an address that doesn't have a backing memslot,
+> > > will KVM check whether there is a corresponding private memslot at the
+> > > right offset with a hole punched and report a KVM_EXIT_MEMORY_ERROR? Or
+> > > would that just generate an MMIO exit as usual?
 > > 
-> > I suppose this is necessary is to prevent the VMM from re-fallocating
-> > in a hole it previously punched and re-entering the guest without
-> > notifying it?
+> > My understanding is that the guest needs some way of tagging whether a
+> > page is expected to be shared or private. On the architectures I'm aware
+> > of this is done by effectively stealing a bit from the IPA space and
+> > pretending it's a flag bit.
 > 
-> I don't know specifically about TDX/SNP, but one thing we want to
-> prevent with CCA is the VMM deallocating/reallocating a private page
-> without the guest being aware (i.e. corrupting the guest's state).So
-> punching a hole will taint the address such that a future access by the
-> guest is fatal (unless the guest first jumps through the right hoops to
-> acknowledge that it was expecting such a thing).
+> Right, and that is in fact the main point of divergence we have I think.
+> While I understand this might be necessary for TDX and the likes, this
+> makes little sense for pKVM. This would effectively embed into the IPA a
+> purely software-defined non-architectural property/protocol although we
+> don't actually need to: we (pKVM) can reasonably expect the guest to
+> explicitly issue hypercalls to share pages in-place. So I'd be really
+> keen to avoid baking in assumptions about that model too deep in the
+> host mm bits if at all possible.
 
-Yep, both TDX and SNP will trigger a fault in the guest if the host removes and
-reinserts a private page.  The current plan for Linux guests is to track whether
-or not a given page has been accepted as private, and panic/die if a fault due
-to unaccepted private page occurs.
+There is no assumption about stealing PA bits baked into this API.  Even within
+x86 KVM, I consider it a hard requirement that the common flows not assume the
+private vs. shared information is communicated through the PA.
+
+> > > I'm overall inclined to think that while this abstraction works nicely
+> > > for TDX and the likes, it might not suit pKVM all that well in the
+> > > current form, but it's close.
+> > > 
+> > > What do you think of extending the model proposed here to also address
+> > > the needs of implementations that support in-place sharing? One option
+> > > would be to have KVM notify the private-fd backing store when a page is
+> > > shared back by a guest, which would then allow host userspace to mmap
+> > > that particular page in the private fd instead of punching a hole.
+> > > 
+> > > This should retain the main property you're after: private pages that
+> > > are actually mapped in the guest SPTE aren't mmap-able, but all the
+> > > others are fair game.
+> > > 
+> > > Thoughts?
+> > How do you propose this works if the page shared by the guest then needs
+> > to be made private again? If there's no hole punched then it's not
+> > possible to just repopulate the private-fd. I'm struggling to see how
+> > that could work.
+> 
+> Yes, some discussion might be required, but I was thinking about
+> something along those lines:
+> 
+>  - a guest requests a shared->private page conversion;
+> 
+>  - the conversion request is routed all the way back to the VMM;
+> 
+>  - the VMM is expected to either decline the conversion (which may be
+>    fatal for the guest if it can't handle this), or to tear-down its
+>    mappings (via munmap()) of the shared page, and accept the
+>    conversion;
+> 
+>  - upon return from the VMM, KVM will be expected to check how many
+>    references to the shared page are still held (probably by asking the
+>    fd backing store) to check that userspace has indeed torn down its
+>    mappings. If all is fine, KVM will instruct the hypervisor to
+>    repopulate the private range of the guest, otherwise it'll return an
+>    error to the VMM;
+> 
+>  - if the conversion has been successful, the guest can resume its
+>    execution normally.
+> 
+> Note: this should still allow to use the hole-punching method just fine
+> on systems that require it. The invariant here is just that KVM (with
+> help from the backing store) is now responsible for refusing to
+> instruct the hypervisor (or TDX module, or RMM, or whatever) to map a
+> private page if there are existing mappings to it.
+> 
+> > Having said that; if we can work out a way to safely
+> > mmap() pages from the private-fd there's definitely some benefits to be
+> > had - e.g. it could be used to populate the initial memory before the
+> > guest is started.
+> 
+> Right, so assuming the approach proposed above isn't entirely bogus,
+> this might now become possible by having the VMM mmap the private-fd,
+> load the payload, and then unmap it all, and only then instruct the
+> hypervisor to use this as private memory.
+
+Hard "no" on mapping the private-fd.  Having the invariant tha the private-fd
+can never be mapped greatly simplifies the responsibilities of the backing store,
+as well as the interface between the private-fd and the in-kernel consumers of the
+memory (KVM in this case).
+
+What is the use case for shared->private conversion?  x86, both TDX and SNP,
+effectively do have a flavor of shared->private conversion; SNP can definitely
+be in-place, and I think TDX too.  But the only use case in x86 is to populate
+the initial guest image, and due to other performance bottlenecks, it's strongly
+recommended to keep the initial image as small as possible.  Based on your previous
+response about the guest firmware loading the full guest image, my understanding is
+that pKVM will also utilize a minimal initial image.
+
+As a result, true in-place conversion to reduce the number of memcpy()s is low
+priority, i.e. not planned at this time.  Unless the use case expects to convert
+large swaths of memory, the simplest approach would be to have pKVM memcpy() between
+the private and shared backing pages during conversion.
+
+In-place conversion that preserves data needs to be a separate and/or additional
+hypercall, because "I want to map this page as private/shared" is very, very different
+than "I want to map this page as private/shared and consume/expose non-zero data".
+I.e. the host is guaranteed to get an explicit request to do the memcpy(), so there
+shouldn't be a need to implicitly allow this on any conversion.
