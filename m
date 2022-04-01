@@ -2,54 +2,54 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8350C4EF978
-	for <lists+linux-api@lfdr.de>; Fri,  1 Apr 2022 20:03:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A206C4EF9C8
+	for <lists+linux-api@lfdr.de>; Fri,  1 Apr 2022 20:24:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243382AbiDASFR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 1 Apr 2022 14:05:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60914 "EHLO
+        id S1350180AbiDAS0n (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 1 Apr 2022 14:26:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350526AbiDASFP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 1 Apr 2022 14:05:15 -0400
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 746816A070
-        for <linux-api@vger.kernel.org>; Fri,  1 Apr 2022 11:03:22 -0700 (PDT)
-Received: by mail-ed1-x532.google.com with SMTP id b24so3818929edu.10
-        for <linux-api@vger.kernel.org>; Fri, 01 Apr 2022 11:03:22 -0700 (PDT)
+        with ESMTP id S239054AbiDAS0j (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 1 Apr 2022 14:26:39 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F711197527
+        for <linux-api@vger.kernel.org>; Fri,  1 Apr 2022 11:24:49 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id bx24-20020a17090af49800b001c6872a9e4eso3271246pjb.5
+        for <linux-api@vger.kernel.org>; Fri, 01 Apr 2022 11:24:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=lhxxWKT9SwwnWJkm39OZn7IwwCKXG3b/O/9dQouxNPo=;
-        b=Lr8A3p7Ekj/xeqHFv/FPraXvj8lmfHwD95Tyh0wBLtHKMerFISovW3cP911Cv1OBMv
-         LV/OgGxHqX6rFmQDgLqdILULRzc7+aWuNiPU+Sk8Vtloe5edefA/RKnzKDbH1r5KuBbZ
-         kev1t4QLJXESZh3mGGAntIMgi47syaHwmLXLjV4jdlQobqziGAHtJIA2WFfzfe5cFIjV
-         fqcPM0a1TZGP94MxJrnUfa3F6LyGzWdGmQaH2OoT4mLR0RmukUXT9LXwNpTFQKZVcRf/
-         aIWCTNM3KQyU809xH2hE5O+R6+Ekag5oYXwycP+wVr1LXAKbwyLENB8lf5HV4rz1dgco
-         C/kQ==
+        bh=u8pAbwXuVZ7sCmxLVbJSUFO5pNLY6s4GVBTnQJD82aI=;
+        b=YYzb/Ra45v4lgC8Mo/lsfCtm73X48xfnKrwB54MwA5wPabpTz4mmwu8S2I8qAYyJj5
+         Kn8uWkEGKw42ptlWD2HrRNgNxXueDq73aO//NsxdRXksW3j8tF8LEZ9TNnOWeavfn4mS
+         ZnUNSezrBOtvRZXs/fW/nfMTjCy5B2muTjyglf0mxjSXQ6YnqfEviq2D7D++dUzYgxcG
+         UdF4Qru6HTQXhc6znRvUaCdL76qs761lqxWW05blkvDbtrYsJVEI4tJZNsF09hAOBLyT
+         1WnaRrSyuvDFbGtFyDjWoiF7bOi7Ge6us5fAD3EwikvFCxEpyQbi8pGe9Fn/yt7zc2oz
+         m/pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=lhxxWKT9SwwnWJkm39OZn7IwwCKXG3b/O/9dQouxNPo=;
-        b=eQ9tihMTTvznt+qfw1HgGt51gKw1kDZqvx8KjyfbJjOCa8EiLzf/+L5p7hHaQJBKzt
-         4B7ayh4OwhrjA6HzkswoyDuLHTvMKQLYBZezidHSqMkQLJUt5jsULy3VG+Xo53ZDOk2b
-         SuvImlNUt1ReOOQ/yt7kcgnkf8MvPeV4lD/20ORXE5+ujlaTxhBi/kVVtJ/laYZ8roiS
-         eCOckYMCGveqH+fZmRi5QK6pJAkYlnyolCM/xW0rVdPuis95fZhn6sHulTyXgixkiZHz
-         XiloHiTe0fW/NTfzw8prtFyxFthpP79Sd/iBaXh6qi1OLIxqmwGaYFWj1RLGHdVmc4VY
-         VsSg==
-X-Gm-Message-State: AOAM532JYI+y4K82t/QLNqewKa7r5UHX8u+5k1XRa2LD2qea5WQyIFwP
-        /0N3NHbXO7cp7SdoHOyfZnyPcw==
-X-Google-Smtp-Source: ABdhPJx4lQmR1Kk59tyeYPMDHJWz6rR/i5Lub1feW38LhyW2CdsmPwtcOTrIJDFvMbum4LQjQAg6LQ==
-X-Received: by 2002:a05:6402:438d:b0:419:4550:d52b with SMTP id o13-20020a056402438d00b004194550d52bmr22227721edc.83.1648836200464;
-        Fri, 01 Apr 2022 11:03:20 -0700 (PDT)
-Received: from google.com (30.171.91.34.bc.googleusercontent.com. [34.91.171.30])
-        by smtp.gmail.com with ESMTPSA id w14-20020a170906d20e00b006cee22553f7sm1261239ejz.213.2022.04.01.11.03.19
+        bh=u8pAbwXuVZ7sCmxLVbJSUFO5pNLY6s4GVBTnQJD82aI=;
+        b=h2i/ZBWwn2x4h0ye3O1lqQoU4z9o/ZMS9/LHKfo8d4+WnGNy0Oy1d+1KrvFRxqIJWQ
+         2da173bApTna9iVgsa//+cGHs1lHrguWW9TvBDS68HbeTG9qEyZetjd4GSvhebk9eP0d
+         Wt9zNj6jNJoqJ6DzRxghHVeqTENJxS2ROSG1nEToLv2T210x+/3R7VdOvrz+zubfKcII
+         bsdHjLulIwPFVJZauXLXtoF187wKfcbR7GuvgzkPgLq1TUU/CAWztM/OJY2cLXTEF6oM
+         uLbVw8G610vpRpmR8wk/T361GSPs2kWnDtOIfccQpssIE4iSrEop+fL+/HGTOCSA+otg
+         iE1A==
+X-Gm-Message-State: AOAM532U9lip3MLnyc3dVG42x/3zVY0+POSLdbcmpyGUSinVXt/L9sTb
+        D2wkCWo9TmTHe28FkVpW0wJJnwt6xuKE7Q==
+X-Google-Smtp-Source: ABdhPJwlAe0fXT7OVI7wEJgZhusGac4WQ7Y+Hjw0pJaGrpLtvXvp7Ss9UWdSc1InlU9W2r2G1vWIkQ==
+X-Received: by 2002:a17:90b:1c86:b0:1bf:2a7e:5c75 with SMTP id oo6-20020a17090b1c8600b001bf2a7e5c75mr13348243pjb.145.1648837488223;
+        Fri, 01 Apr 2022 11:24:48 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id oc10-20020a17090b1c0a00b001c7510ed0c8sm14589897pjb.49.2022.04.01.11.24.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Apr 2022 11:03:20 -0700 (PDT)
-Date:   Fri, 1 Apr 2022 18:03:16 +0000
-From:   Quentin Perret <qperret@google.com>
-To:     Sean Christopherson <seanjc@google.com>
+        Fri, 01 Apr 2022 11:24:47 -0700 (PDT)
+Date:   Fri, 1 Apr 2022 18:24:44 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Quentin Perret <qperret@google.com>
 Cc:     Andy Lutomirski <luto@kernel.org>,
         Steven Price <steven.price@arm.com>,
         Chao Peng <chao.p.peng@linux.intel.com>,
@@ -83,9 +83,8 @@ Cc:     Andy Lutomirski <luto@kernel.org>,
         Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>
 Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
  guest private memory
-Message-ID: <Ykc+ZNWlsXCaOrM9@google.com>
-References: <YkHspg+YzOsbUaCf@google.com>
- <YkH32nx+YsJuUbmZ@google.com>
+Message-ID: <YkdDbCdFy1Fp06K2@google.com>
+References: <YkH32nx+YsJuUbmZ@google.com>
  <YkIFW25WgV2WIQHb@google.com>
  <YkM7eHCHEBe5NkNH@google.com>
  <88620519-029e-342b-0a85-ce2a20eaf41b@arm.com>
@@ -94,106 +93,107 @@ References: <YkHspg+YzOsbUaCf@google.com>
  <80aad2f9-9612-4e87-a27a-755d3fa97c92@www.fastmail.com>
  <YkcTTY4YjQs5BRhE@google.com>
  <Ykcy7fj/d+f9OUl/@google.com>
+ <Ykc+ZNWlsXCaOrM9@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Ykcy7fj/d+f9OUl/@google.com>
+In-Reply-To: <Ykc+ZNWlsXCaOrM9@google.com>
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Friday 01 Apr 2022 at 17:14:21 (+0000), Sean Christopherson wrote:
-> On Fri, Apr 01, 2022, Quentin Perret wrote:
-> > The typical flow is as follows:
-> > 
-> >  - the host asks the hypervisor to run a guest;
-> > 
-> >  - the hypervisor does the context switch, which includes switching
-> >    stage-2 page-tables;
-> > 
-> >  - initially the guest has an empty stage-2 (we don't require
-> >    pre-faulting everything), which means it'll immediately fault;
-> > 
-> >  - the hypervisor switches back to host context to handle the guest
-> >    fault;
-> > 
-> >  - the host handler finds the corresponding memslot and does the
-> >    ipa->hva conversion. In our current implementation it uses a longterm
-> >    GUP pin on the corresponding page;
-> > 
-> >  - once it has a page, the host handler issues a hypercall to donate the
-> >    page to the guest;
-> > 
-> >  - the hypervisor does a bunch of checks to make sure the host owns the
-> >    page, and if all is fine it will unmap it from the host stage-2 and
-> >    map it in the guest stage-2, and do some bookkeeping as it needs to
-> >    track page ownership, etc;
-> > 
-> >  - the guest can then proceed to run, and possibly faults in many more
-> >    pages;
-> > 
-> >  - when it wants to, the guest can then issue a hypercall to share a
-> >    page back with the host;
-> > 
-> >  - the hypervisor checks the request, maps the page back in the host
-> >    stage-2, does more bookkeeping and returns back to the host to notify
-> >    it of the share;
-> > 
-> >  - the host kernel at that point can exit back to userspace to relay
-> >    that information to the VMM;
-> > 
-> >  - rinse and repeat.
+On Fri, Apr 01, 2022, Quentin Perret wrote:
+> On Friday 01 Apr 2022 at 17:14:21 (+0000), Sean Christopherson wrote:
+> > On Fri, Apr 01, 2022, Quentin Perret wrote:
+> > I assume there is a scenario where a page can be converted from shared=>private?
+> > If so, is there a use case where that happens post-boot _and_ the contents of the
+> > page are preserved?
 > 
-> I assume there is a scenario where a page can be converted from shared=>private?
-> If so, is there a use case where that happens post-boot _and_ the contents of the
-> page are preserved?
+> I think most our use-cases are private=>shared, but how is that
+> different?
 
-I think most our use-cases are private=>shared, but how is that
-different?
+Ah, it's not really different.  What I really was trying to understand is if there
+are post-boot conversions that preserve data.  I asked about shared=>private because
+there are known pre-boot conversions, e.g. populating the initial guest image, but
+AFAIK there are no use cases for post-boot conversions, which might be more needy in
+terms of performance.
 
-> > We currently don't allow the host punching holes in the guest IPA space.
+> > > We currently don't allow the host punching holes in the guest IPA space.
+> > 
+> > The hole doesn't get punched in guest IPA space, it gets punched in the private
+> > backing store, which is host PA space.
 > 
-> The hole doesn't get punched in guest IPA space, it gets punched in the private
-> backing store, which is host PA space.
+> Hmm, in a previous message I thought that you mentioned when a whole
+> gets punched in the fd KVM will go and unmap the page in the private
+> SPTEs, which will cause a fatal error for any subsequent access from the
+> guest to the corresponding IPA?
 
-Hmm, in a previous message I thought that you mentioned when a whole
-gets punched in the fd KVM will go and unmap the page in the private
-SPTEs, which will cause a fatal error for any subsequent access from the
-guest to the corresponding IPA?
+Oooh, that was in the context of TDX.  Mixing VMX and arm64 terminology... TDX has
+two separate stage-2 roots, one for private IPAs and one for shared IPAs.  The
+guest selects private/shared by toggling a bit stolen from the guest IPA space.
+Upon conversion, KVM will remove from one stage-2 tree and insert into the other.
 
-If that's correct, I meant that we currently don't support that - the
-host can't unmap anything from the guest stage-2, it can only tear it
-down entirely. But again, I'm not too worried about that, we could
-certainly implement that part without too many issues.
+But even then, subsequent accesses to the wrong IPA won't be fatal, as KVM will
+treat them as implicit conversions.  I wish they could be fatal, but that's not
+"allowed" given the guest/host contract dictated by the TDX specs.
 
-> > Once it has donated a page to a guest, it can't have it back until the
-> > guest has been entirely torn down (at which point all of memory is
-> > poisoned by the hypervisor obviously).
+> If that's correct, I meant that we currently don't support that - the
+> host can't unmap anything from the guest stage-2, it can only tear it
+> down entirely. But again, I'm not too worried about that, we could
+> certainly implement that part without too many issues.
+
+I believe for the pKVM case it wouldn't be unmapping, it would be a PFN change.
+
+> > > Once it has donated a page to a guest, it can't have it back until the
+> > > guest has been entirely torn down (at which point all of memory is
+> > > poisoned by the hypervisor obviously).
+> > 
+> > The guest doesn't have to know that it was handed back a different page.  It will
+> > require defining the semantics to state that the trusted hypervisor will clear
+> > that page on conversion, but IMO the trusted hypervisor should be doing that
+> > anyways.  IMO, forcing on the guest to correctly zero pages on conversion is
+> > unnecessarily risky because converting private=>shared and preserving the contents
+> > should be a very, very rare scenario, i.e. it's just one more thing for the guest
+> > to get wrong.
 > 
-> The guest doesn't have to know that it was handed back a different page.  It will
-> require defining the semantics to state that the trusted hypervisor will clear
-> that page on conversion, but IMO the trusted hypervisor should be doing that
-> anyways.  IMO, forcing on the guest to correctly zero pages on conversion is
-> unnecessarily risky because converting private=>shared and preserving the contents
-> should be a very, very rare scenario, i.e. it's just one more thing for the guest
-> to get wrong.
+> I'm not sure I agree. The guest is going to communicate with an
+> untrusted entity via that shared page, so it better be careful. Guest
+> hardening in general is a major topic, and of all problems, zeroing the
+> page before sharing is probably one of the simplest to solve.
 
-I'm not sure I agree. The guest is going to communicate with an
-untrusted entity via that shared page, so it better be careful. Guest
-hardening in general is a major topic, and of all problems, zeroing the
-page before sharing is probably one of the simplest to solve.
+Yes, for private=>shared you're correct, the guest needs to be paranoid as
+there are no guarantees as to what data may be in the shared page.
 
-Also, note that in pKVM all the hypervisor code at EL2 runs with
-preemption disabled, which is a strict constraint. As such one of the
-main goals is the spend as little time as possible in that context.
-We're trying hard to keep the amount of zeroing/memcpy-ing to an
-absolute minimum. And that's especially true as we introduce support for
-huge pages. So, we'll take every opportunity we get to have the guest
-or the host do that work.
+I was thinking more in the context of shared=>private conversions, e.g. the guest
+is done sharing a page and wants it back.  In that case, forcing the guest to zero
+the private page upon re-acceptance is dicey.  Hmm, but if the guest needs to
+explicitly re-accept the page, then putting the onus on the guest to zero the page
+isn't a big deal.  The pKVM contract would just need to make it clear that the
+guest cannot make any assumptions about the state of private data 
+
+Oh, now I remember why I'm biased toward the trusted entity doing the work.
+IIRC, thanks to TDX's lovely memory poisoning and cache aliasing behavior, the
+guest can't be trusted to properly initialize private memory with the guest key,
+i.e. the guest could induce a #MC and crash the host.
+
+Anywho, I agree that for performance reasons, requiring the guest to zero private
+pages is preferable so long as the guest must explicitly accept/initiate conversions.
+
+> Also, note that in pKVM all the hypervisor code at EL2 runs with
+> preemption disabled, which is a strict constraint. As such one of the
+> main goals is the spend as little time as possible in that context.
+> We're trying hard to keep the amount of zeroing/memcpy-ing to an
+> absolute minimum. And that's especially true as we introduce support for
+> huge pages. So, we'll take every opportunity we get to have the guest
+> or the host do that work.
+
+FWIW, TDX has the exact same constraints (they're actually worse as the trusted
+entity runs with _all_ interrupts blocked).  And yeah, it needs to be careful when
+dealing with huge pages, e.g. many flows force the guest/host to do 512 * 4kb operations.
