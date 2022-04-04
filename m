@@ -2,55 +2,55 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42F944F17C8
-	for <lists+linux-api@lfdr.de>; Mon,  4 Apr 2022 17:01:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C97AF4F1D05
+	for <lists+linux-api@lfdr.de>; Mon,  4 Apr 2022 23:37:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358896AbiDDPDY (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 4 Apr 2022 11:03:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47614 "EHLO
+        id S1382446AbiDDV3u (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 4 Apr 2022 17:29:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358260AbiDDPDX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 4 Apr 2022 11:03:23 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF73A2F386
-        for <linux-api@vger.kernel.org>; Mon,  4 Apr 2022 08:01:26 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id p23so3893954edi.8
-        for <linux-api@vger.kernel.org>; Mon, 04 Apr 2022 08:01:26 -0700 (PDT)
+        with ESMTP id S1379413AbiDDRIp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 4 Apr 2022 13:08:45 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9F2440A24
+        for <linux-api@vger.kernel.org>; Mon,  4 Apr 2022 10:06:48 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id bx5so9308961pjb.3
+        for <linux-api@vger.kernel.org>; Mon, 04 Apr 2022 10:06:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=i+zr5M68aloOJzDo2BfmM/AByzuuaBC8sU7HTQ424Ng=;
-        b=P1lRqzuiE1i5AQgVXMAadjQxuZaNvOCmKCWVC7NoAosWtxg6O6uGhV1Fs5d9UThrZ1
-         zNrRtXos2DqCwVW5VD+GKbPk1i42rM9aiUb9yc0F+sIK7PRpivdnddQGLO7YoWG7oZmw
-         1x+zSzZfSodiP6Ntsi6OzrVuazT7b0XFcTsGnlR/cfyiEBMAvlIIi+by8VcRPuSXfbaq
-         jvnXsXf/ijVmNTh2jlG406awsf8vRVsNEmYxTWAk77H/Jd0WSG835ZDrosun+PmVeAme
-         A2bgEVeBBvzo/mxIlfxdxxqbrAD3YyIIefiix/stRu7ICwOCzguPsSvKzSzjE2W+YgM+
-         7sjg==
+        bh=gIH+kCrSXmFI+fUc29mzPw+H1akkAs2ZuFoVFSP0vxU=;
+        b=Rr+FaoMffwErSOq6pRJ5Va7RKsFxClc5D23MZTexTKDgRmNLw+QXPH7HgVaF+gPlsH
+         VVR7VJA+skjtzQ0GECeuU2WVaa0asrNgHkDBl6tstbwCf7C6oMyBne0DAlcAXCdcVL7g
+         YrXAno9IHlxoD/YmxzSY5HC12atdMPGZ+Q8N6kZHZabK4TNxokJ7fJfCa2Z4Dji8u6pl
+         3dHXlOPQbLuOhlHnPj7HtE/XDcufKULa7gV7RWaa0It/x7X/ULWQS6QyjSSWicyoNFMA
+         ahGu94J7u389AK59eb7k4Mps25d3P18aXb3oZxp/f/pFl16fpYmLG3tkL22HLs/vsOZL
+         l1Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=i+zr5M68aloOJzDo2BfmM/AByzuuaBC8sU7HTQ424Ng=;
-        b=D3OAeKnW/thMMfpG7USxSuG6K9DP43yKzCRlVoFAcJU4ZWl09ptzbPQQNgLFxRPObQ
-         Cg/np4I3d45r8GYyvqImX9Ekpgbi4xrsUigH7Lwg5onyAuXi2jPYo3yPJq8pDTA5Q/Mm
-         ZSjGfQ/gcuWUMxWlfxt5wm0iuBo4TZq9BSPYus7cBhUj3GNwbIPrupszXKc8+C36AJAn
-         ZtgYtFt7HZVnV8B1D/R3uY/Dw/DVMPW0s7LY4BNFuikbBvVjhECzNJ1qGpa19gXfZO+l
-         4wjajdRwOqxbCpZTooW8/nuS0AgaXP7HJ94H4cWi7l7rc4OmG9NbB1Nthqsdifjy8gb1
-         kjxA==
-X-Gm-Message-State: AOAM532kVl4yP4a4Ep4v3XTLaGLWKqxZ6+/7K6SyeOzH5afdn+u4JlJ2
-        0WAjfwkc6+KOTQPgURrzmBtpUA==
-X-Google-Smtp-Source: ABdhPJwdjQe3XZ1e4GuiLZkjz2XSDy8kccxsDVifb45M/0aMy9MY01MBSRkMjNi/1qqoMOzRLXd9XA==
-X-Received: by 2002:aa7:cdc9:0:b0:419:197e:14d9 with SMTP id h9-20020aa7cdc9000000b00419197e14d9mr498264edw.375.1649084485024;
-        Mon, 04 Apr 2022 08:01:25 -0700 (PDT)
-Received: from google.com (30.171.91.34.bc.googleusercontent.com. [34.91.171.30])
-        by smtp.gmail.com with ESMTPSA id y14-20020a056402440e00b00416046b623csm5690519eda.2.2022.04.04.08.01.24
+        bh=gIH+kCrSXmFI+fUc29mzPw+H1akkAs2ZuFoVFSP0vxU=;
+        b=Ov5TjFMsLIO5mH+GvpCZd3lC9VGSDcRGXb0Ig5ibzr5oUg/cqQ8bGaNPkRKYjITMoz
+         dQ5TblSvm48yPvkjiXFbUYTS8oEVLAOAObCtFqddM6x56Sj9qfIm11gCoJzAwgEb9ueb
+         YD5/6WyC47noJfWUKncVfDVbAEUnchy/kPO03kgfHtUnekiI/+KsZok8dUIyYEXq4Ic3
+         bqs4A3+F5/0EeqOnZsxrdiUCEGkYtAnF5bTWcjZuoPbwzIrsWECaVrA6GY3hgQVpqW6n
+         PCqZT0w3QVEUA/0lMZWTv8ysdJ8okL1OlMzm69X6KB6Kr3sr7mTnLO1wu5VRbUAWdiHl
+         hPoQ==
+X-Gm-Message-State: AOAM533MYuW6whHzYQdqI9+7vlLmSjIL360Pe+bXQsjfcoSiIizcyaLY
+        HetPp1W6ZZxZU27g6te2qVbgYg==
+X-Google-Smtp-Source: ABdhPJxR0cMYn6++nMtTapD/RTNavycubKSgeugDdrZDDJ6GPqebAjtiOfHHZgX3JbxNGnvGjPUvmw==
+X-Received: by 2002:a17:902:7247:b0:156:9d3d:756d with SMTP id c7-20020a170902724700b001569d3d756dmr687366pll.6.1649092007999;
+        Mon, 04 Apr 2022 10:06:47 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id x9-20020a17090a970900b001ca6c59b350sm428753pjo.2.2022.04.04.10.06.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Apr 2022 08:01:24 -0700 (PDT)
-Date:   Mon, 4 Apr 2022 15:01:21 +0000
-From:   Quentin Perret <qperret@google.com>
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Sean Christopherson <seanjc@google.com>,
+        Mon, 04 Apr 2022 10:06:47 -0700 (PDT)
+Date:   Mon, 4 Apr 2022 17:06:43 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Quentin Perret <qperret@google.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
         Steven Price <steven.price@arm.com>,
         Chao Peng <chao.p.peng@linux.intel.com>,
         kvm list <kvm@vger.kernel.org>,
@@ -83,9 +83,8 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>
 Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
  guest private memory
-Message-ID: <YksIQYdG41v3KWkr@google.com>
-References: <YkHspg+YzOsbUaCf@google.com>
- <YkH32nx+YsJuUbmZ@google.com>
+Message-ID: <Ykslo2eo2eRXrpFR@google.com>
+References: <YkH32nx+YsJuUbmZ@google.com>
  <YkIFW25WgV2WIQHb@google.com>
  <YkM7eHCHEBe5NkNH@google.com>
  <88620519-029e-342b-0a85-ce2a20eaf41b@arm.com>
@@ -94,10 +93,11 @@ References: <YkHspg+YzOsbUaCf@google.com>
  <80aad2f9-9612-4e87-a27a-755d3fa97c92@www.fastmail.com>
  <YkcTTY4YjQs5BRhE@google.com>
  <83fd55f8-cd42-4588-9bf6-199cbce70f33@www.fastmail.com>
+ <YksIQYdG41v3KWkr@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <83fd55f8-cd42-4588-9bf6-199cbce70f33@www.fastmail.com>
+In-Reply-To: <YksIQYdG41v3KWkr@google.com>
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
@@ -109,78 +109,48 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Friday 01 Apr 2022 at 12:56:50 (-0700), Andy Lutomirski wrote:
-> On Fri, Apr 1, 2022, at 7:59 AM, Quentin Perret wrote:
-> > On Thursday 31 Mar 2022 at 09:04:56 (-0700), Andy Lutomirski wrote:
+On Mon, Apr 04, 2022, Quentin Perret wrote:
+> On Friday 01 Apr 2022 at 12:56:50 (-0700), Andy Lutomirski wrote:
+> FWIW, there are a couple of reasons why I'd like to have in-place
+> conversions:
 > 
-> 
-> > To answer your original question about memory 'conversion', the key
-> > thing is that the pKVM hypervisor controls the stage-2 page-tables for
-> > everyone in the system, all guests as well as the host. As such, a page
-> > 'conversion' is nothing more than a permission change in the relevant
-> > page-tables.
-> >
-> 
-> So I can see two different ways to approach this.
-> 
-> One is that you split the whole address space in half and, just like SEV and TDX, allocate one bit to indicate the shared/private status of a page.  This makes it work a lot like SEV and TDX.
->
-> The other is to have shared and private pages be distinguished only by their hypercall history and the (protected) page tables.  This saves some address space and some page table allocations, but it opens some cans of worms too.  In particular, the guest and the hypervisor need to coordinate, in a way that the guest can trust, to ensure that the guest's idea of which pages are private match the host's.  This model seems a bit harder to support nicely with the private memory fd model, but not necessarily impossible.
+>  - one goal of pKVM is to migrate some things away from the Arm
+>    Trustzone environment (e.g. DRM and the likes) and into protected VMs
+>    instead. This will give Linux a fighting chance to defend itself
+>    against these things -- they currently have access to _all_ memory.
+>    And transitioning pages between Linux and Trustzone (donations and
+>    shares) is fast and non-destructive, so we really do not want pKVM to
+>    regress by requiring the hypervisor to memcpy things;
 
-Right. Perhaps one thing I should clarify as well: pKVM (as opposed to
-TDX) has only _one_ page-table per guest, and it is controllex by the
-hypervisor only. So the hypervisor needs to be involved for both shared
-and private mappings. As such, shared pages have relatively similar
-constraints when it comes to host mm stuff --  we can't migrate shared
-pages or swap them out without getting the hypervisor involved.
+Is there actually a _need_ for the conversion to be non-destructive?  E.g. I assume
+the "trusted" side of things will need to be reworked to run as a pKVM guest, at
+which point reworking its logic to understand that conversions are destructive and
+slow-ish doesn't seem too onerous.
 
-> Also, what are you trying to accomplish by having the host userspace mmap private pages?
+>  - it can be very useful for protected VMs to do shared=>private
+>    conversions. Think of a VM receiving some data from the host in a
+>    shared buffer, and then it wants to operate on that buffer without
+>    risking to leak confidential informations in a transient state. In
+>    that case the most logical thing to do is to convert the buffer back
+>    to private, do whatever needs to be done on that buffer (decrypting a
+>    frame, ...), and then share it back with the host to consume it;
 
-What I would really like to have is non-destructive in-place conversions
-of pages. mmap-ing the pages that have been shared back felt like a good
-fit for the private=>shared conversion, but in fact I'm not all that
-opinionated about the API as long as the behaviour and the performance
-are there. Happy to look into alternatives.
+If performance is a motivation, why would the guest want to do two conversions
+instead of just doing internal memcpy() to/from a private page?  I would be quite
+surprised if multiple exits and TLB shootdowns is actually faster, especially at
+any kind of scale where zapping stage-2 PTEs will cause lock contention and IPIs.
 
-FWIW, there are a couple of reasons why I'd like to have in-place
-conversions:
+>  - similar to the previous point, a protected VM might want to
+>    temporarily turn a buffer private to avoid ToCToU issues;
 
- - one goal of pKVM is to migrate some things away from the Arm
-   Trustzone environment (e.g. DRM and the likes) and into protected VMs
-   instead. This will give Linux a fighting chance to defend itself
-   against these things -- they currently have access to _all_ memory.
-   And transitioning pages between Linux and Trustzone (donations and
-   shares) is fast and non-destructive, so we really do not want pKVM to
-   regress by requiring the hypervisor to memcpy things;
+Again, bounce buffer the page in the guest.
 
- - it can be very useful for protected VMs to do shared=>private
-   conversions. Think of a VM receiving some data from the host in a
-   shared buffer, and then it wants to operate on that buffer without
-   risking to leak confidential informations in a transient state. In
-   that case the most logical thing to do is to convert the buffer back
-   to private, do whatever needs to be done on that buffer (decrypting a
-   frame, ...), and then share it back with the host to consume it;
+>  - once we're able to do device assignment to protected VMs, this might
+>    allow DMA-ing to a private buffer, and make it shared later w/o
+>    bouncing.
 
- - similar to the previous point, a protected VM might want to
-   temporarily turn a buffer private to avoid ToCToU issues;
-
- - once we're able to do device assignment to protected VMs, this might
-   allow DMA-ing to a private buffer, and make it shared later w/o
-   bouncing.
-
-And there is probably more.
-
-IIUC, the private fd proposal as it stands requires shared and private
-pages to come from entirely distinct places. So it's not entirely clear
-to me how any of the above could be supported without having the
-hypervisor memcpy the data during conversions, which I really don't want
-to do for performance reasons.
-
-> Is the idea that multiple guest could share the same page until such time as one of them tries to write to it?
-
-That would certainly be possible to implement in the pKVM
-environment with the right tracking, so I think it is worth considering
-as a future goal.
-
-Thanks,
-Quentin
+Exposing a private buffer to a device doesn't requring in-place conversion.  The
+proper way to handle this would be to teach e.g. VFIO to retrieve the PFN from
+the backing store.  I don't understand the use case for sharing a DMA'd page at a
+later time; with whom would the guest share the page?  E.g. if a NIC has access to
+guest private data then there should never be a need to convert/bounce the page.
