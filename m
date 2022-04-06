@@ -2,99 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E92C4F6BEB
-	for <lists+linux-api@lfdr.de>; Wed,  6 Apr 2022 22:58:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D330C4F6C08
+	for <lists+linux-api@lfdr.de>; Wed,  6 Apr 2022 23:02:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231740AbiDFVAv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 6 Apr 2022 17:00:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60410 "EHLO
+        id S230182AbiDFVEh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 6 Apr 2022 17:04:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234594AbiDFVAb (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 6 Apr 2022 17:00:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AEE6D1C8DA6
-        for <linux-api@vger.kernel.org>; Wed,  6 Apr 2022 12:27:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1649273248;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=scxp5+BwL528BisDUZBAca7//7rrtzFe/Mu5lq8LYmA=;
-        b=brPlc5BEGJUNG3ngDee4qEa8jBxEPXZVy+T/0CTkDw81VkFRbfcKK3hw9pmP+i9ngAfmbn
-        k7q//kI6iTcBygYVYoo1ZOPpqRpPv2BId10MLJxk8LQlxKSNJZypn0sfTzZWEwHM8r4cG9
-        CcmwRlPMDSBeramcbfFA0llIymyuGa4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-355-Iurfq8FHNgKHHKeXZdFWMA-1; Wed, 06 Apr 2022 15:27:24 -0400
-X-MC-Unique: Iurfq8FHNgKHHKeXZdFWMA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D53AB1010360;
-        Wed,  6 Apr 2022 19:27:10 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.39.193.61])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 047EC40D1DD;
-        Wed,  6 Apr 2022 19:26:59 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Alejandro Colomar <alx.manpages@gmail.com>
+        with ESMTP id S235596AbiDFVCs (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 6 Apr 2022 17:02:48 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5BF22B04FE;
+        Wed,  6 Apr 2022 12:32:00 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id c190-20020a1c35c7000000b0038e37907b5bso4311967wma.0;
+        Wed, 06 Apr 2022 12:32:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=22nVgDnhtccIupvM0x5/4rqb76OFFE0bU+eSwV0YloA=;
+        b=Ws+wv4BvL4RvJ/o1odt3m5zrbyw6jbiG0A5RmYks39xXpBLJgRUf02cPUT51N9ixU5
+         0d/NCyZIZVEm6cF4KHn6UC18Nt9jcGdZEa0ct3qDGMs9VbfmZCeDpi1CYwWfE/jIodPh
+         LXLlqviem5yjqy12TYQjivKyN2gMfGy5vUo9B8nEAvebKt0cWqB7VvGPQkW8SX0epOsa
+         V3QywkM4pT+GJLwGfDb81vl2i2U4qM1iCdLpFS9ORFGElH5sRGGAVXiPOSgTN+Z7i+eo
+         5CYfPsSmx/0owLldFNyrWtaapg3mh5kSyKZ+5W+ORknzvErnI2RDkfbib0UnebPQaSge
+         D1lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=22nVgDnhtccIupvM0x5/4rqb76OFFE0bU+eSwV0YloA=;
+        b=2Lgu9FWJQ47SIfcsSHDU9bKuowlDbkAbkHq1AMYCdRYrslmiYw2gqC18fcsypEvuMc
+         vUocXXjQI3poEU9hheFDfrb3t4R8SBdYkNJa/fDwBbJ0zECJMGpJKhTVOCNlkE4d4K84
+         RQeWOPjQPdFatRrSZSY7H2kYVoYM1IKL2QU4IPeASCoC6SaQGrC0eKTK3muqepgNFqiY
+         fwuPKhs2zqmVOXsfusPk4hI/HdgyhPPVFgWK9+KTwqcNibT/aJJ2vQfhaeA4o8+xR1iH
+         WMD7WLn+jIsy7nedb7dZJlIItQeEWQoja8ofNTf7V2oLNKq6vo9Y/4GQItUsvnmEx1XH
+         QW9g==
+X-Gm-Message-State: AOAM530WDQPSnxanspFloTj1NlAfUSuF/UCyQqUfKGygKKZ1xuxwSTM6
+        bK+facOqGcmSQu316IGc9pN7nXiRmxVEcgsQ
+X-Google-Smtp-Source: ABdhPJyBmrrAm82HJc+z0cF2XysdMgHMh93ukTTkLTYplkmxiyrYpI6TIwRB+tNxA3Q2T51TxXXELQ==
+X-Received: by 2002:a05:600c:358f:b0:38c:c046:cb05 with SMTP id p15-20020a05600c358f00b0038cc046cb05mr8949050wmq.76.1649273519445;
+        Wed, 06 Apr 2022 12:31:59 -0700 (PDT)
+Received: from [192.168.0.160] ([170.253.36.171])
+        by smtp.gmail.com with ESMTPSA id z5-20020a05600c0a0500b0037bb8df81a2sm6647827wmp.13.2022.04.06.12.31.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Apr 2022 12:31:58 -0700 (PDT)
+Message-ID: <5e3946e1-f4bb-e3f8-11e9-be26589972b6@gmail.com>
+Date:   Wed, 6 Apr 2022 21:31:57 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [Bug 215813] syscall(SYS_vfork) causes execve() to return 0.
+ (was: vfork(2) behavior not consistent with fork(2))
+Content-Language: en-US
+To:     Florian Weimer <fweimer@redhat.com>
 Cc:     Christian Brauner <brauner@kernel.org>,
         Michael Kerrisk <mtk.manpages@gmail.com>,
         linux-kernel@vger.kernel.org,
-        =?utf-8?B?0Jo=?= =?utf-8?B?0L7RgNC10L3QsdC10YDQsyDQnNCw0YDQug==?= 
+        =?UTF-8?B?0JrQvtGA0LXQvdCx0LXRgNCzINCc0LDRgNC6?= 
         <socketpair@gmail.com>, Andrei Vagin <avagin@openvz.org>,
         Dmitry Safonov <dima@arista.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Arnd Bergmann <arnd@arndb.de>, Serge Hallyn <serge@hallyn.com>,
-        bugzilla-daemon@kernel.org, linux-api@vger.kernel.org
-Subject: Re: vfork(2) behavior not consistent with fork(2)
+        linux-api@vger.kernel.org, bugzilla-daemon@kernel.org
 References: <bug-215769-216477@https.bugzilla.kernel.org/>
-        <bug-215769-216477-to2O9X1Knw@https.bugzilla.kernel.org/>
-        <4fb02f5f-60f9-42af-ddd5-fe5af877231f@gmail.com>
-        <20220404080519.pi6izyuop3mmdg2g@wittgenstein>
-        <ae2cbf67-aace-bc40-418e-7b41873f814a@gmail.com>
-        <20220406084613.3srklyt27qxcmrcx@wittgenstein>
-        <f21a06dc-1e2a-87cd-59dc-e8d5245b0a50@gmail.com>
-Date:   Wed, 06 Apr 2022 21:26:56 +0200
-In-Reply-To: <f21a06dc-1e2a-87cd-59dc-e8d5245b0a50@gmail.com> (Alejandro
-        Colomar's message of "Wed, 6 Apr 2022 21:22:13 +0200")
-Message-ID: <87k0c2qagv.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+ <bug-215769-216477-to2O9X1Knw@https.bugzilla.kernel.org/>
+ <4fb02f5f-60f9-42af-ddd5-fe5af877231f@gmail.com>
+ <20220404080519.pi6izyuop3mmdg2g@wittgenstein>
+ <ae2cbf67-aace-bc40-418e-7b41873f814a@gmail.com>
+ <20220406084613.3srklyt27qxcmrcx@wittgenstein>
+ <f21a06dc-1e2a-87cd-59dc-e8d5245b0a50@gmail.com>
+ <87k0c2qagv.fsf@oldenburg.str.redhat.com>
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+In-Reply-To: <87k0c2qagv.fsf@oldenburg.str.redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Alejandro Colomar:
+Hi Florian,
 
->> $ sudo ./vfork_newpid
->> vfork_newpid: PID: 8479
->> vfork_newpid: PID 8479 exiting after execve(2): Success
->> print_pid: PID 1 exiting. 
->
->
-> I definitely think this is a kernel (or glibc) bug.
-> execve(2) is supposed to _never_ return 0 (and errno 0).
-> I submitted a new bug to discuss it.
->
-> Please see <https://bugzilla.kernel.org/show_bug.cgi?id=215813>
+On 4/6/22 21:26, Florian Weimer wrote:
+> It's not clear if this is valid.  The syscall function in glibc does not
+> protect the on-stack return address against overwriting, so it can't be
+> used to call SYS_vfork on x86.
+> 
+> Can you reproduce this with a true inline syscall, or the glibc vfork
+> function (which protects the return address)?
 
-It's not clear if this is valid.  The syscall function in glibc does not
-protect the on-stack return address against overwriting, so it can't be
-used to call SYS_vfork on x86.
+If you tell me how I can call a syscall without the libc wrapper or 
+syscall(2), sure, I can try :)
 
-Can you reproduce this with a true inline syscall, or the glibc vfork
-function (which protects the return address)?
+If syscall(2) can't be used for certain syscalls, maybe we should 
+document that.
 
 Thanks,
-Florian
 
+Alex
