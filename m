@@ -2,42 +2,42 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CE344F9649
-	for <lists+linux-api@lfdr.de>; Fri,  8 Apr 2022 15:03:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C9334F9692
+	for <lists+linux-api@lfdr.de>; Fri,  8 Apr 2022 15:21:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234369AbiDHNFS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 8 Apr 2022 09:05:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60698 "EHLO
+        id S236211AbiDHNX3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 8 Apr 2022 09:23:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232621AbiDHNFR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 8 Apr 2022 09:05:17 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 774751E868C;
-        Fri,  8 Apr 2022 06:03:13 -0700 (PDT)
+        with ESMTP id S235323AbiDHNX3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 8 Apr 2022 09:23:29 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F8542625;
+        Fri,  8 Apr 2022 06:21:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649422993; x=1680958993;
+  t=1649424085; x=1680960085;
   h=date:from:to:cc:subject:message-id:reply-to:references:
    mime-version:in-reply-to;
-  bh=fGTAiXBITEf6vhZtefTnJfo1Ql9L0wnvDyySANGwVrA=;
-  b=VImeqnQFsQyUuCRPDCbJI0VwXqNsrM93rbqct0nITwfbOLFGAfVcYnc7
-   MWggwbdwC7x+2YyvFCrHG1ewR8ekCYytgA7PiakRUQ+bvk791xwRER23P
-   oMQCDb+wuzhGZXS1GM3SnvtBIiwb6cdp56uJ9J4sU/bntxkZYzySEClMP
-   AmCw2UsRDJjK/8JuCkeAgk0EvJ6S7n5EWUkb6Is70uKAt7+5x74YJRUa/
-   wabL4YapZrjwggaXRXmEhIOIVmrvKLTvLpX7db/HkBEg9W1nZr+AmC3cW
-   5xwmSKUtes9mwNELZycnETTuXRjo28ANyie8lgMFfySkf5Uc1LFOfm+v9
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="242181296"
+  bh=yJ+a09qZfU8xn/sBjF/pizQ4GwvK+1hMB8dFu0xFHhY=;
+  b=dks3rhWdqhN/8km+lLvg+eDM2BEZZbK2H3s8q69OoCP/q4UV0f+eQPOZ
+   Km6RYRfbgCVECMao6ld7j5xW8JgV4XnWNJBux8jvNV5eadub/IbKKbt8S
+   jJmKbZIY3yhs28LczHnujpMIyJA3QXJi4zDBJotXcmRx8rJGukYRZ0tkJ
+   +VIYmbrYNj7wPbCWYDGQS1q9/x3rOt2iCVpJv8Zp0y9htysN22sieR6IK
+   ndCd5euthEGR8dMpHCxOHuk/dLwEtT8ltxzWspjIunKla607T2WQWVjYn
+   yWTLuZw1WdZ6CVvrfe8x+D/Vcr17yN+afyO3kAAmd028abI3x/H97Hd6R
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="261582622"
 X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; 
-   d="scan'208";a="242181296"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2022 06:03:13 -0700
+   d="scan'208";a="261582622"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2022 06:21:24 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; 
-   d="scan'208";a="698175603"
+   d="scan'208";a="571485977"
 Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
-  by fmsmga001.fm.intel.com with ESMTP; 08 Apr 2022 06:03:05 -0700
-Date:   Fri, 8 Apr 2022 21:02:54 +0800
+  by orsmga008.jf.intel.com with ESMTP; 08 Apr 2022 06:21:16 -0700
+Date:   Fri, 8 Apr 2022 21:21:05 +0800
 From:   Chao Peng <chao.p.peng@linux.intel.com>
 To:     Sean Christopherson <seanjc@google.com>
 Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -65,20 +65,20 @@ Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
         luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
         ak@linux.intel.com, david@redhat.com
-Subject: Re: [PATCH v5 04/13] mm/shmem: Restrict MFD_INACCESSIBLE memory
- against RLIMIT_MEMLOCK
-Message-ID: <20220408130254.GB57095@chaop.bj.intel.com>
+Subject: Re: [PATCH v5 05/13] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <20220408132105.GC57095@chaop.bj.intel.com>
 Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <20220310140911.50924-5-chao.p.peng@linux.intel.com>
- <Yk8L0CwKpTrv3Rg3@google.com>
+ <20220310140911.50924-6-chao.p.peng@linux.intel.com>
+ <YkIoRDNbwJH/IDeC@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Yk8L0CwKpTrv3Rg3@google.com>
+In-Reply-To: <YkIoRDNbwJH/IDeC@google.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
         SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -87,63 +87,91 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Apr 07, 2022 at 04:05:36PM +0000, Sean Christopherson wrote:
+On Mon, Mar 28, 2022 at 09:27:32PM +0000, Sean Christopherson wrote:
 > On Thu, Mar 10, 2022, Chao Peng wrote:
-> > Since page migration / swapping is not supported yet, MFD_INACCESSIBLE
-> > memory behave like longterm pinned pages and thus should be accounted to
-> > mm->pinned_vm and be restricted by RLIMIT_MEMLOCK.
+> > Extend the memslot definition to provide fd-based private memory support
+> > by adding two new fields (private_fd/private_offset). The memslot then
+> > can maintain memory for both shared pages and private pages in a single
+> > memslot. Shared pages are provided by existing userspace_addr(hva) field
+> > and private pages are provided through the new private_fd/private_offset
+> > fields.
 > > 
+> > Since there is no 'hva' concept anymore for private memory so we cannot
+> > rely on get_user_pages() to get a pfn, instead we use the newly added
+> > memfile_notifier to complete the same job.
+> > 
+> > This new extension is indicated by a new flag KVM_MEM_PRIVATE.
+> > 
+> > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> 
+> Needs a Co-developed-by: for Yu, or a From: if Yu is the sole author.
+
+Yes a Co-developed-by for Yu is needed, for all the patches throught the series.
+
+> 
 > > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
 > > ---
-> >  mm/shmem.c | 25 ++++++++++++++++++++++++-
-> >  1 file changed, 24 insertions(+), 1 deletion(-)
+> >  Documentation/virt/kvm/api.rst | 37 +++++++++++++++++++++++++++-------
+> >  include/linux/kvm_host.h       |  7 +++++++
+> >  include/uapi/linux/kvm.h       |  8 ++++++++
+> >  3 files changed, 45 insertions(+), 7 deletions(-)
 > > 
-> > diff --git a/mm/shmem.c b/mm/shmem.c
-> > index 7b43e274c9a2..ae46fb96494b 100644
-> > --- a/mm/shmem.c
-> > +++ b/mm/shmem.c
-> > @@ -915,14 +915,17 @@ static void notify_fallocate(struct inode *inode, pgoff_t start, pgoff_t end)
-> >  static void notify_invalidate_page(struct inode *inode, struct folio *folio,
-> >  				   pgoff_t start, pgoff_t end)
-> >  {
-> > -#ifdef CONFIG_MEMFILE_NOTIFIER
-> >  	struct shmem_inode_info *info = SHMEM_I(inode);
+> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> > index 3acbf4d263a5..f76ac598606c 100644
+> > --- a/Documentation/virt/kvm/api.rst
+> > +++ b/Documentation/virt/kvm/api.rst
+> > @@ -1307,7 +1307,7 @@ yet and must be cleared on entry.
+> >  :Capability: KVM_CAP_USER_MEMORY
+> >  :Architectures: all
+> >  :Type: vm ioctl
+> > -:Parameters: struct kvm_userspace_memory_region (in)
+> > +:Parameters: struct kvm_userspace_memory_region(_ext) (in)
+> >  :Returns: 0 on success, -1 on error
 > >  
-> > +#ifdef CONFIG_MEMFILE_NOTIFIER
-> >  	start = max(start, folio->index);
-> >  	end = min(end, folio->index + folio_nr_pages(folio));
+> >  ::
+> > @@ -1320,9 +1320,17 @@ yet and must be cleared on entry.
+> >  	__u64 userspace_addr; /* start of the userspace allocated memory */
+> >    };
 > >  
-> >  	memfile_notifier_invalidate(&info->memfile_notifiers, start, end);
-> >  #endif
+> > +  struct kvm_userspace_memory_region_ext {
+> > +	struct kvm_userspace_memory_region region;
+> > +	__u64 private_offset;
+> > +	__u32 private_fd;
+> > +	__u32 padding[5];
+> 
+> Uber nit, I'd prefer we pad u32 for private_fd separate from padding the size of
+> the structure for future expansion.
+> 
+> Regarding future expansion, any reason not to go crazy and pad like 128+ bytes?
+> It'd be rather embarassing if the next memslot extension needs 3 u64s and we end
+> up with region_ext2 :-)
+
+OK, so maybe:
+	__u64 private_offset;
+	__u32 private_fd;
+	__u32 pad1;
+	__u32 pad2[28];
+> 
+> > +};
 > > +
-> > +	if (info->xflags & SHM_F_INACCESSIBLE)
-> > +		atomic64_sub(end - start, &current->mm->pinned_vm);
+> >    /* for kvm_memory_region::flags */
+> >    #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
+> >    #define KVM_MEM_READONLY	(1UL << 1)
+> > +  #define KVM_MEM_PRIVATE		(1UL << 2)
+> >  
+> >  This ioctl allows the user to create, modify or delete a guest physical
+> >  memory slot.  Bits 0-15 of "slot" specify the slot id and this value
 > 
-> As Vishal's to-be-posted selftest discovered, this is broken as current->mm may
-> be NULL.  Or it may be a completely different mm, e.g. AFAICT there's nothing that
-> prevents a different process from punching hole in the shmem backing.
+> ...
 > 
-> I don't see a sane way of tracking this in the backing store unless the inode is
-> associated with a single mm when it's created, and that opens up a giant can of
-> worms, e.g. what happens with the accounting if the creating process goes away?
-
-Yes, I realized this.
-
+> > +static inline bool kvm_slot_is_private(const struct kvm_memory_slot *slot)
 > 
-> I think the correct approach is to not do the locking automatically for SHM_F_INACCESSIBLE,
-> and instead require userspace to do shmctl(.., SHM_LOCK, ...) if userspace knows the
-> consumers don't support migrate/swap.  That'd require wrapping migrate_page() and then
-> wiring up notifier hooks for migrate/swap, but IMO that's a good thing to get sorted
-> out sooner than later.  KVM isn't planning on support migrate/swap for TDX or SNP,
-> but supporting at least migrate for a software-only implementation a la pKVM should
-> be relatively straightforward.  On the notifiee side, KVM can terminate the VM if it
-> gets an unexpected migrate/swap, e.g. so that TDX/SEV VMs don't die later with
-> exceptions and/or data corruption (pre-SNP SEV guests) in the guest.
+> I 100% think we should usurp the name "private" for these memslots, but as prep
+> work this series should first rename KVM_PRIVATE_MEM_SLOTS to avoid confusion.
+> Maybe KVM_INTERNAL_MEM_SLOTS?
 
-SHM_LOCK sounds like a good match.
+Oh, I didn't realized 'PRIVATE' is already taken.  KVM_INTERNAL_MEM_SLOTS
+sounds good.
 
 Thanks,
 Chao
-> 
-> Hmm, shmem_writepage() already handles SHM_F_INACCESSIBLE by rejecting the swap, so
-> maybe it's just the page migration path that needs to be updated?
