@@ -2,161 +2,117 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 251524FBFDE
-	for <lists+linux-api@lfdr.de>; Mon, 11 Apr 2022 17:09:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 456BE4FC0A3
+	for <lists+linux-api@lfdr.de>; Mon, 11 Apr 2022 17:26:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347634AbiDKPLK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 11 Apr 2022 11:11:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35376 "EHLO
+        id S1348057AbiDKP2R (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 11 Apr 2022 11:28:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347559AbiDKPLJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 11 Apr 2022 11:11:09 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36E8A2AE15
-        for <linux-api@vger.kernel.org>; Mon, 11 Apr 2022 08:08:53 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id x33so20752482lfu.1
-        for <linux-api@vger.kernel.org>; Mon, 11 Apr 2022 08:08:53 -0700 (PDT)
+        with ESMTP id S1348429AbiDKP2E (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 11 Apr 2022 11:28:04 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9DBE1A3AA
+        for <linux-api@vger.kernel.org>; Mon, 11 Apr 2022 08:25:17 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id m8so3112174ljc.7
+        for <linux-api@vger.kernel.org>; Mon, 11 Apr 2022 08:25:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=shutemov-name.20210112.gappssmtp.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=SZ3/Vx+1Q7uH45Ete1zY0f2BZJWVMOSE6BEs5zWCYbs=;
-        b=7DIUdDw1bDVY/1pX9CrYKqoUnxn4Af2165TByD3u5HZ0iXmIdkyeDLerqJVS4ILYb2
-         sr8EaHNWEoVQlow3SdmLYTkP5xN8dgvPftKQlE2GzWppJ9Nm1Jc8ZkbxJeZp/XQcv+bm
-         CkITSbBdcYbYkEIbRjUo+wMmeMYCl/ckl8Eyh5jpmDByZr90ijXMmjL2GuwmjJqoSc6X
-         41HpTTObRQn2DziTHtTZKAPeR3G4oO4JnMRiHaWm+nxgPN2SgqBjtuDslRAMsgbobCqJ
-         zrEUAd863LfUu4IdojsoK+HRzJ1QfBeJabFS3cJ9rTqFAAPFDxSzIUbnYMV1zoLxx+KI
-         BBkg==
+        bh=rFr6s0nrZU/l/rYSbRMVpOLqR853sTAxGnl/eB7rqRM=;
+        b=vqJYdIQWv8WkNNNn9dPXtN92UFDTRrKywzC32jqHUXQPd0+vkYBmnq9rZ4NZXVIxFT
+         qFZtKKzAXyLtgRUtZW0cMECXBtK3dk3Wyx0Mmsh8UZ/OzlNIFCM15Boa0s9MFTZnFSN3
+         8zObizgXQHcCLVp6LDk/Jzo1jR2NDPvFFPY4ogEXWUB70897ie3SGoK0vWAAx5unyy9n
+         6j5A9PCMQnyGGwVeSCqGXUcxMULTqx2b4wpel2RMEuBXrpI2Je1yyPDmgKNutqRQhKPF
+         E3eAJ4YsBCcURT61ntTfs2vYmJhK1nZzXt1rqLkINEtuod8EjW60nrtXooL3LRDyK+/7
+         0TjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=SZ3/Vx+1Q7uH45Ete1zY0f2BZJWVMOSE6BEs5zWCYbs=;
-        b=QPD6vQSRL1EI6HU0c7Ih9kvlVPr+2+tFEXdiKQntOQqNV9kX/tsdOHJSXF5GTmsQxw
-         GNyVbAhW7dyrq5heuFWDBM3EpcjnyFRgYhn6QIrboo4fkaY3R+141Z+o2pX185c8Iwmi
-         h4obLXN9ahdgj1jpnMWrmHF8z6uyCY1hgNwug5Z0Fi1EEGE28t94ySY3+b9mACVqVPQ0
-         qMTsPF9CmMWKFKdUQOFTSGzTLBJvR5c2lSKlzS2Ypl8aI7X9cGxjgXpEbceCrXdr5w5q
-         xmiHfwiTPmJWjeg59t0X0MwQmCZ7071zWhQ/MxAtbWn1Ni568TuAvRGw1OZRAEKGoPyV
-         8tlQ==
-X-Gm-Message-State: AOAM531sLXB+BFySbcJ86deYnStu00v6BGDojBtWkD9tmgqyYQAOHden
-        TQqCSj3aQnYgii8jJwYJ6WxhhQ==
-X-Google-Smtp-Source: ABdhPJwVzRe0aqmUWVOSiTlNptfcMMnBCa3LaWdYU4CM/MHAyK3juuV+XEpH4cZF1tu2LetUDByrEw==
-X-Received: by 2002:a05:6512:3f29:b0:450:ac79:77dd with SMTP id y41-20020a0565123f2900b00450ac7977ddmr21705662lfa.301.1649689731304;
-        Mon, 11 Apr 2022 08:08:51 -0700 (PDT)
+        bh=rFr6s0nrZU/l/rYSbRMVpOLqR853sTAxGnl/eB7rqRM=;
+        b=TrPCOOLKjNkZRQdai4c0Wf1Hazzn8V9LJIRWmoBU6P3/wkBqDbxYMGfVtOqh0uMdrA
+         JBCB2qoGOmdGm438i7n4hbMWuFI02aiHVRpu+ZwO/vvYQlQSlDu3NuhBnIL1I61x/4pB
+         U6pvfwjP55Mt/LK4ryxxF2RivqmloawKOoCTV84uKRtW4yDgXQrvKy7hBmnqVaYzSp6C
+         Bgx+c5HwIqjprqQrH+WP8zlDDVjADWOIkpppdauOBqFtpxGkq/2VgKnKxoO4SqvDHfZv
+         X9onxE7uEZCtAtmtUFItCFspkLA3SY5IBCg5TdRbCmRJHBNVxFvzSUKqKt+1R1a55xze
+         1e2g==
+X-Gm-Message-State: AOAM530yJVz+qfL8YZRtqSMfA5MYcFXYRGleeBtqAwhlmWQCYL10vgLq
+        o0pCheNXlWfnoK1DPBk9bAI43Q==
+X-Google-Smtp-Source: ABdhPJxUo+KOo46oZZC8/G3tHjCARN4FX+eDd1+/GBegGd9jDdlQ537rMvPHZViYY23J0dOhGwiqZg==
+X-Received: by 2002:a2e:80d7:0:b0:24b:bd8:b89e with SMTP id r23-20020a2e80d7000000b0024b0bd8b89emr20019551ljg.174.1649690715205;
+        Mon, 11 Apr 2022 08:25:15 -0700 (PDT)
 Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id t2-20020a05651c204200b0024b4bc5d324sm1197193ljo.79.2022.04.11.08.08.50
+        by smtp.gmail.com with ESMTPSA id z6-20020a056512308600b0044af5ea2be1sm2837295lfd.274.2022.04.11.08.25.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Apr 2022 08:08:50 -0700 (PDT)
+        Mon, 11 Apr 2022 08:25:14 -0700 (PDT)
 Received: by box.localdomain (Postfix, from userid 1000)
-        id 41CC4103CE0; Mon, 11 Apr 2022 18:10:23 +0300 (+03)
-Date:   Mon, 11 Apr 2022 18:10:23 +0300
+        id 189A9103CE0; Mon, 11 Apr 2022 18:26:47 +0300 (+03)
+Date:   Mon, 11 Apr 2022 18:26:47 +0300
 From:   "Kirill A. Shutemov" <kirill@shutemov.name>
 To:     Chao Peng <chao.p.peng@linux.intel.com>
 Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
         linux-api@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+        david@redhat.com, "J . Bruce Fields" <bfields@fieldses.org>,
+        dave.hansen@intel.com, "H . Peter Anvin" <hpa@zytor.com>,
+        ak@linux.intel.com, Jonathan Corbet <corbet@lwn.net>,
+        Joerg Roedel <joro@8bytes.org>, x86@kernel.org,
         Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
         Steven Price <steven.price@arm.com>,
+        Ingo Molnar <mingo@redhat.com>,
         "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Borislav Petkov <bp@alien8.de>, luto@kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
         Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
+        Jim Mattson <jmattson@google.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
         Yu Zhang <yu.c.zhang@linux.intel.com>,
         "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com
-Subject: Re: [PATCH v5 01/13] mm/memfd: Introduce MFD_INACCESSIBLE flag
-Message-ID: <20220411151023.4nx34pxyg5amj44m@box.shutemov.name>
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Mike Rapoport <rppt@kernel.org>
+Subject: Re: [PATCH v5 03/13] mm/shmem: Support memfile_notifier
+Message-ID: <20220411152647.uvl2ukuwishsckys@box.shutemov.name>
 References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <20220310140911.50924-2-chao.p.peng@linux.intel.com>
+ <20220310140911.50924-4-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220310140911.50924-2-chao.p.peng@linux.intel.com>
+In-Reply-To: <20220310140911.50924-4-chao.p.peng@linux.intel.com>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Mar 10, 2022 at 10:08:59PM +0800, Chao Peng wrote:
-> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-> 
-> Introduce a new memfd_create() flag indicating the content of the
-> created memfd is inaccessible from userspace through ordinary MMU
-> access (e.g., read/write/mmap). However, the file content can be
-> accessed via a different mechanism (e.g. KVM MMU) indirectly.
-> 
-> It provides semantics required for KVM guest private memory support
-> that a file descriptor with this flag set is going to be used as the
-> source of guest memory in confidential computing environments such
-> as Intel TDX/AMD SEV but may not be accessible from host userspace.
-> 
-> Since page migration/swapping is not yet supported for such usages
-> so these pages are currently marked as UNMOVABLE and UNEVICTABLE
-> which makes them behave like long-term pinned pages.
-> 
-> The flag can not coexist with MFD_ALLOW_SEALING, future sealing is
-> also impossible for a memfd created with this flag.
-> 
-> At this time only shmem implements this flag.
-> 
-> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> ---
->  include/linux/shmem_fs.h   |  7 +++++
->  include/uapi/linux/memfd.h |  1 +
->  mm/memfd.c                 | 26 +++++++++++++++--
->  mm/shmem.c                 | 57 ++++++++++++++++++++++++++++++++++++++
->  4 files changed, 88 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
-> index e65b80ed09e7..2dde843f28ef 100644
-> --- a/include/linux/shmem_fs.h
-> +++ b/include/linux/shmem_fs.h
-> @@ -12,6 +12,9 @@
+On Thu, Mar 10, 2022 at 10:09:01PM +0800, Chao Peng wrote:
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index 9b31a7056009..7b43e274c9a2 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -903,6 +903,28 @@ static struct folio *shmem_get_partial_folio(struct inode *inode, pgoff_t index)
+>  	return page ? page_folio(page) : NULL;
+>  }
 >  
->  /* inode in-kernel data */
->  
-> +/* shmem extended flags */
-> +#define SHM_F_INACCESSIBLE	0x0001  /* prevent ordinary MMU access (e.g. read/write/mmap) to file content */
+> +static void notify_fallocate(struct inode *inode, pgoff_t start, pgoff_t end)
+> +{
+> +#ifdef CONFIG_MEMFILE_NOTIFIER
+> +	struct shmem_inode_info *info = SHMEM_I(inode);
 > +
->  struct shmem_inode_info {
->  	spinlock_t		lock;
->  	unsigned int		seals;		/* shmem seals */
-> @@ -24,6 +27,7 @@ struct shmem_inode_info {
->  	struct shared_policy	policy;		/* NUMA memory alloc policy */
->  	struct simple_xattrs	xattrs;		/* list of xattrs */
->  	atomic_t		stop_eviction;	/* hold when working on inode */
-> +	unsigned int		xflags;		/* shmem extended flags */
->  	struct inode		vfs_inode;
->  };
->  
+> +	memfile_notifier_fallocate(&info->memfile_notifiers, start, end);
+> +#endif
 
-AFAICS, only two bits of 'flags' are used. And that's very strange that
-VM_ flags are used for the purpose. My guess that someone was lazy to
-introduce new constants for this.
-
-I think we should fix this: introduce SHM_F_LOCKED and SHM_F_NORESERVE
-alongside with SHM_F_INACCESSIBLE and stuff them all into info->flags.
-It also makes shmem_file_setup_xflags() go away.
+All these #ifdefs look ugly. Could you provide dummy memfile_* for
+!MEMFILE_NOTIFIER case?
 
 -- 
  Kirill A. Shutemov
