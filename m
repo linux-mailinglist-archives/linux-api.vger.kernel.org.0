@@ -2,48 +2,76 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8813C4FF32A
-	for <lists+linux-api@lfdr.de>; Wed, 13 Apr 2022 11:16:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5AB64FFB32
+	for <lists+linux-api@lfdr.de>; Wed, 13 Apr 2022 18:25:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234310AbiDMJSN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 13 Apr 2022 05:18:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56948 "EHLO
+        id S232908AbiDMQ1s (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 13 Apr 2022 12:27:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234324AbiDMJSM (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 13 Apr 2022 05:18:12 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D34A245B6;
-        Wed, 13 Apr 2022 02:15:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649841351; x=1681377351;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=Qyg9qkfEOmRnd7ecWKODTY6fNCX00KNJAm/6F+S5OvQ=;
-  b=I8ypfzxbm0qwuSXuFG30iRhXH9mb0FjfoKFFb/P3h0hxXkAWUKgsUU9P
-   Jfi9yb+ddRDoH5iZ3QnhFkHB9Uz3zzYxETClclLkGdUF2/6QzFXpjxTZL
-   glOtAp9hTQ3C/cnMaKnMup0faGNBjbG25qU/KDFC/yhfDswniV1D2hlDm
-   OI4nxbp7vW/7iQmk4DkGTbmejeeRpvKCdwgiLGHeaVcC82SLInFiXoG98
-   4XaGa1yZ+tA0mjriZzJk10W88znaXn4bP7lFIfRhUmYvoflZN1RMfYsmW
-   u5qgqOoMd0WwqaJsam7d/JO3Cvrmv1tcFCR3wEpT435we3DXKyEc6wiea
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10315"; a="260213830"
-X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; 
-   d="scan'208";a="260213830"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 02:15:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; 
-   d="scan'208";a="700175232"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
-  by fmsmga001.fm.intel.com with ESMTP; 13 Apr 2022 02:15:43 -0700
-Date:   Wed, 13 Apr 2022 17:15:33 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc:     Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        with ESMTP id S236867AbiDMQ10 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 13 Apr 2022 12:27:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4C8954AE3D
+        for <linux-api@vger.kernel.org>; Wed, 13 Apr 2022 09:25:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1649867101;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=RgEcoM6U2AWPf465Xahivshzo2kZbOX7C4c0ahKp1Dw=;
+        b=Eplmut0vF4DlV6c+zkqOtHlqzpvGJ3v8k5+lbRl4yV4OIA9iFxRyXwgYXzb6KlsVO9QzW3
+        nl7HxNwJgX3oOvsp23Un2bK8WEuOBeDieMudWOsbppTnuMOa3/mJXAO8o3AjJSCeWGDNZi
+        qjYkdrvIe6mRigEbiz/xC4dFVOxgsL0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-332-R5juHkslMS-cef7b5Uc68A-1; Wed, 13 Apr 2022 12:25:00 -0400
+X-MC-Unique: R5juHkslMS-cef7b5Uc68A-1
+Received: by mail-wm1-f70.google.com with SMTP id c125-20020a1c3583000000b0038e3f6e871aso1087304wma.8
+        for <linux-api@vger.kernel.org>; Wed, 13 Apr 2022 09:24:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=RgEcoM6U2AWPf465Xahivshzo2kZbOX7C4c0ahKp1Dw=;
+        b=k2kmlpg7o8nlPabd51TGeHYDPouYRx/4WSFVdqZchujXBB+Wx7Ks0G65gTyrQGPml8
+         tgJ79VgSS8uaDXYQMEO/GXSc4cX+9woHnTvikBP7m7NPfwZXaiNBvDwnk3k/ax3GrV3f
+         Kb2QRSs3XpmNHIW3G/gvD8eGASnTwCqB2BTQLWb4+lM8/y+/QugulUtOeT7Ht2Ywuhe6
+         8wM8bWXVxMIPHDmhxFX2eInN7fz0sPSh9kJVJLRR5G7wmOsh94M4h+Var8V4VlzvF30K
+         b818bIUHuentd1UBDsDKdpqdhC2epdLufTh5/4ewuShOjKFhhplLozS9EM/mO5SjerKn
+         EHPw==
+X-Gm-Message-State: AOAM531ajdhX4sujj37GGbnYKBoIBl4rcWj+NiUtC94fmpIYZ8YxIWDc
+        J8Mv67KFHzQnmYZlSQdyQqNa/C4DEoawxbZLWDqNqGBYgafOIrQGRlbxiaXj4AJhP09fRFW9Cxe
+        K1zUjIa0JuGCM1/eAfpBE
+X-Received: by 2002:a05:600c:3c8f:b0:38e:4e47:3e95 with SMTP id bg15-20020a05600c3c8f00b0038e4e473e95mr9076147wmb.173.1649867098880;
+        Wed, 13 Apr 2022 09:24:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwylTIzzqJtz5EFX+MPmIPe9ZuRAk8yMJ3/juBgt0JzCyKFOBhzlfQN6ejdx28PKvB0mUKO0g==
+X-Received: by 2002:a05:600c:3c8f:b0:38e:4e47:3e95 with SMTP id bg15-20020a05600c3c8f00b0038e4e473e95mr9076112wmb.173.1649867098647;
+        Wed, 13 Apr 2022 09:24:58 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c704:5800:1078:ebb9:e2c3:ea8c? (p200300cbc70458001078ebb9e2c3ea8c.dip0.t-ipconnect.de. [2003:cb:c704:5800:1078:ebb9:e2c3:ea8c])
+        by smtp.gmail.com with ESMTPSA id n7-20020a5d5987000000b00207891050d4sm16274621wri.46.2022.04.13.09.24.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Apr 2022 09:24:58 -0700 (PDT)
+Message-ID: <1686fd2d-d9c3-ec12-32df-8c4c5ae26b08@redhat.com>
+Date:   Wed, 13 Apr 2022 18:24:56 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v5 04/13] mm/shmem: Restrict MFD_INACCESSIBLE memory
+ against RLIMIT_MEMLOCK
+Content-Language: en-US
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Sean Christopherson <seanjc@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Chao Peng <chao.p.peng@linux.intel.com>,
+        kvm list <kvm@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        Linux API <linux-api@vger.kernel.org>, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
         Wanpeng Li <wanpengli@tencent.com>,
@@ -51,8 +79,8 @@ Cc:     Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org,
         Joerg Roedel <joro@8bytes.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
         Jeff Layton <jlayton@kernel.org>,
         "J . Bruce Fields" <bfields@fieldses.org>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -62,27 +90,26 @@ Cc:     Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org,
         Vlastimil Babka <vbabka@suse.cz>,
         Vishal Annapurve <vannapurve@google.com>,
         Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com
-Subject: Re: [PATCH v5 04/13] mm/shmem: Restrict MFD_INACCESSIBLE memory
- against RLIMIT_MEMLOCK
-Message-ID: <20220413091533.GC10041@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        "Nakajima, Jun" <jun.nakajima@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Andi Kleen <ak@linux.intel.com>
 References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
  <20220310140911.50924-5-chao.p.peng@linux.intel.com>
  <Yk8L0CwKpTrv3Rg3@google.com>
- <20220411153233.54ljmi7zgqovhgsn@box.shutemov.name>
- <20220412133925.GG8013@chaop.bj.intel.com>
- <20220412192821.xliop57sblvjx4t4@box.shutemov.name>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220412192821.xliop57sblvjx4t4@box.shutemov.name>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+ <02e18c90-196e-409e-b2ac-822aceea8891@www.fastmail.com>
+ <YlB3Z8fqJ+67a2Ck@google.com>
+ <7ab689e7-e04d-5693-f899-d2d785b09892@redhat.com>
+ <20220412143636.GG64706@ziepe.ca>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20220412143636.GG64706@ziepe.ca>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -90,34 +117,41 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Apr 12, 2022 at 10:28:21PM +0300, Kirill A. Shutemov wrote:
-> On Tue, Apr 12, 2022 at 09:39:25PM +0800, Chao Peng wrote:
-> > On Mon, Apr 11, 2022 at 06:32:33PM +0300, Kirill A. Shutemov wrote:
-> > > On Thu, Apr 07, 2022 at 04:05:36PM +0000, Sean Christopherson wrote:
-> > > > Hmm, shmem_writepage() already handles SHM_F_INACCESSIBLE by rejecting the swap, so
-> > > > maybe it's just the page migration path that needs to be updated?
-> > > 
-> > > My early version prevented migration with -ENOTSUPP for
-> > > address_space_operations::migratepage().
-> > > 
-> > > What's wrong with that approach?
-> > 
-> > I previously thought migratepage will not be called since we already
-> > marked the pages as UNMOVABLE, sounds not correct?
+On 12.04.22 16:36, Jason Gunthorpe wrote:
+> On Fri, Apr 08, 2022 at 08:54:02PM +0200, David Hildenbrand wrote:
 > 
-> Do you mean missing __GFP_MOVABLE?
-
-Yes.
-
-> I can be wrong, but I don't see that it
-> direclty affects if the page is migratable. It is a hint to page allocator
-> to group unmovable pages to separate page block and impove availablity of
-> higher order pages this way. Page allocator tries to allocate unmovable
-> pages from pages blocks that already have unmovable pages.
-
-OK, thanks.
-
-Chao
+>> RLIMIT_MEMLOCK was the obvious candidate, but as we discovered int he
+>> past already with secretmem, it's not 100% that good of a fit (unmovable
+>> is worth than mlocked). But it gets the job done for now at least.
 > 
-> -- 
->  Kirill A. Shutemov
+> No, it doesn't. There are too many different interpretations how
+> MELOCK is supposed to work
+> 
+> eg VFIO accounts per-process so hostile users can just fork to go past
+> it.
+> 
+> RDMA is per-process but uses a different counter, so you can double up
+> 
+> iouring is per-user and users a 3rd counter, so it can triple up on
+> the above two
+
+Thanks for that summary, very helpful.
+
+> 
+>> So I'm open for alternative to limit the amount of unmovable memory we
+>> might allocate for user space, and then we could convert seretmem as well.
+> 
+> I think it has to be cgroup based considering where we are now :\
+
+Most probably. I think the important lessons we learned are that
+
+* mlocked != unmovable.
+* RLIMIT_MEMLOCK should most probably never have been abused for
+  unmovable memory (especially, long-term pinning)
+
+
+-- 
+Thanks,
+
+David / dhildenb
+
