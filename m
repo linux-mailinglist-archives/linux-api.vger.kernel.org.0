@@ -2,164 +2,110 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 57B514FFD1E
-	for <lists+linux-api@lfdr.de>; Wed, 13 Apr 2022 19:52:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDC4E500103
+	for <lists+linux-api@lfdr.de>; Wed, 13 Apr 2022 23:16:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237479AbiDMRyf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 13 Apr 2022 13:54:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42620 "EHLO
+        id S239186AbiDMVSv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 13 Apr 2022 17:18:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233269AbiDMRye (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 13 Apr 2022 13:54:34 -0400
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CEB16D4E1
-        for <linux-api@vger.kernel.org>; Wed, 13 Apr 2022 10:52:11 -0700 (PDT)
-Received: by mail-qt1-x82f.google.com with SMTP id hf18so1440622qtb.0
-        for <linux-api@vger.kernel.org>; Wed, 13 Apr 2022 10:52:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=AOcfAyqGgzTsDLYWZNFvb/pt3FEBh03V8FeUjVfINLs=;
-        b=Bossa6GEY7VuCphnLPZuOzJUtcvFY0Xkwv27PVSBfCC/FdX4k2U/R/8tc3e6/TDG9b
-         w/9uAgh8u82TWvzqs9/oqezRfVKYTJcg88jPsDyVpjn5i6qVesFEQ/DApakc869u+5lk
-         GwUeq/iRHuUUSbU5VPjF+x+Nxyo3LcL64cerGvihnoxpTS7x163MByH0tjIdn6VLh7j0
-         ORezJT/JFq5so7GsIh61VtI+O3VpLisBAYp/sU9dzGHFPjvZ0UPJeFpJ9W27eu7ET5GJ
-         cvhFhPAZ1ZOsHSur//jxKwQ6gDdtJtdM7gcJ7fyJKGc6kOw1FZQe9pd2KDaJak2ceHpG
-         PJvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=AOcfAyqGgzTsDLYWZNFvb/pt3FEBh03V8FeUjVfINLs=;
-        b=qT8FST4ShwafAkKQw0xmR7ledsmcd7jijacIuMo9MTByyoYQyOEDoNuCC9hmOURnN5
-         GLWyuFJBJFb7BV/d+uZQZqyeG8GqZ7kfFQd2Hiwm7T3z4CM9owcnL6e/bud62acZq6Vl
-         OQadU/f5qdlRyqyzpxGqdy68GNYBZ29MSpk6itf9CigbugKhaQerZD65ViTawmaYD1GH
-         21Bzz/TBjckKD+wNWNE51CUy3Tyqmgx5q4ADTkHm9OAM42PzIefDpu4voK4rKoZTnyzD
-         negnBGE2Aw3txO2cjf00Ssr1GKdjFoGAvYn1SqpRUAEZFFaVnh+JYcoayeKwnBp3p6bT
-         xaZA==
-X-Gm-Message-State: AOAM532OkmYcM0/pRlae/7kyRXVbxAKSG0ugeJbLzbsF9n6ELI/QiPtb
-        3p3osx6Xg7iRltvkF/jLU/V18w==
-X-Google-Smtp-Source: ABdhPJyFh5b43Bp+tYjO2fJUecpGRbFTQokPtotFsAvgNZxKoFX6OH3MdddD7y2rpYU6hDl31dtUUQ==
-X-Received: by 2002:a05:622a:1392:b0:2e1:e7b9:3ce4 with SMTP id o18-20020a05622a139200b002e1e7b93ce4mr7976945qtk.153.1649872330523;
-        Wed, 13 Apr 2022 10:52:10 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
-        by smtp.gmail.com with ESMTPSA id w10-20020a05620a424a00b00680c0c0312dsm23050212qko.30.2022.04.13.10.52.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Apr 2022 10:52:09 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1nehA0-001kWp-5D; Wed, 13 Apr 2022 14:52:08 -0300
-Date:   Wed, 13 Apr 2022 14:52:08 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Sean Christopherson <seanjc@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Chao Peng <chao.p.peng@linux.intel.com>,
-        kvm list <kvm@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        "Nakajima, Jun" <jun.nakajima@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Andi Kleen <ak@linux.intel.com>
-Subject: Re: [PATCH v5 04/13] mm/shmem: Restrict MFD_INACCESSIBLE memory
- against RLIMIT_MEMLOCK
-Message-ID: <20220413175208.GI64706@ziepe.ca>
-References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <20220310140911.50924-5-chao.p.peng@linux.intel.com>
- <Yk8L0CwKpTrv3Rg3@google.com>
- <02e18c90-196e-409e-b2ac-822aceea8891@www.fastmail.com>
- <YlB3Z8fqJ+67a2Ck@google.com>
- <7ab689e7-e04d-5693-f899-d2d785b09892@redhat.com>
- <20220412143636.GG64706@ziepe.ca>
- <1686fd2d-d9c3-ec12-32df-8c4c5ae26b08@redhat.com>
+        with ESMTP id S239049AbiDMVSc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 13 Apr 2022 17:18:32 -0400
+Received: from sonic304-25.consmr.mail.gq1.yahoo.com (sonic304-25.consmr.mail.gq1.yahoo.com [98.137.68.206])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B4328932C
+        for <linux-api@vger.kernel.org>; Wed, 13 Apr 2022 14:14:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.ca; s=s2048; t=1649884441; bh=JwDJBXmIBMVPp6KpM4t53S/ZeOI8/fENK+mBdPsfoPc=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=dsXZeNMQBuc4UzrnH1JOlgaOX7BywTSzigWKB4vrBMULuoqjKXv347pehAKTdTOe7Ur3W4fdkioVWHa2bEqsVwb2KVE0ABo667arwr0Hjc2lVueWcGPcpJtan7EEr7kJArdJG9mp5kKi969nnHHTyaFSBuvx639fyeuqZAF9JWQySR40ubAMPWh9oqSrvbrN7QuNn7oMnGYKB5O09tlltviyogpIu4LwRIkAnlkSsMiSVnrN38kt2iIUDmWgnyUSosPUL2hWXAVOQLK+Nw5MdBbLLjAbfqA9evZjw3E0sBimUjC1iIrFK1eMfWPXpX4uPstcm5sdYGI3HdnLMmTmPQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1649884441; bh=4dosHHkJgUtb2ahd4zHwUbhBuCutVzbjsTnpQw47Kys=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=d2V8u0Blp7RPz1X3E9+ezknBPfn9aOKg4N6kqlWNN/WKWBOLXfrnkIuFkR+o33fMsR6C1fnGGIq1O5RI9MBw401lPY4Ibxi2Wxlk9WlNtIh+asm1gUKAHVufSEIWPLO5y51APr5OWUGkO7hZNPlgubtnLNM0lpR/slT7N/no4j+z/nwErTkDuWpqr6g5rtwurlj4ecI40Q9lYKz5ziaNQM6dPQEx7cYF3xy+lwkfTC0y6OdEA/TY5W4t0G52KqDEpw22/dKjQ8VyqvZ+yVDI22c0xCTTW4Dc9j7dzancD5F/IV/lrQn2Am6zbhy54ZF4wbdoCuWQ5i/K+dtWMW/D0g==
+X-YMail-OSG: WGuFyh0VM1lyiSCIHjzjPC9AZ37hN2NIFEyWrCvwYHCqWnj6Cl0D9GcF4k9btqK
+ sfqSdx1DaydnqrHee6rBE.YyQ4A7uo4ZlZFbHnK.MZrFj6YC.eN_gjzKWpzHJ0je124zmIWNNAfD
+ 91LL22FnEUqVerc3w2YOh_BmiAD6jUo.GDW.JsDVpVnCmBjdffW279K51Ljyykrw67rx5pWksCby
+ Ms4Tol4lDW0b3WoNKcPWDD8KQScf5CJIwnEeDAbjR_3u96amBTJL2nIHSVAMSosbPOLKPLKZz9o0
+ 9PTLtHnHK5uf8MYU_bOOq5j6AQKdwARBcvhb6BnoWt9SGiGTpHp2jVQ.MZWFtYh8eKIn0Kr7fyxM
+ Df0tU_2Dvm110IweNmHz9uiPt703H1pbfUq.KD1f7009rVQSpb0An0hSVGVpMG8R1ZyoK9CcZD8s
+ ijsifIL9luJPwECy6AEk3jf9hl6teA0XHbxSbgJ539IWdUzTlzN679GqFT77m_gbQ.dXNyQhOyhb
+ r.1jxoa0buT4NIvzGwwHj7cCa7.yfVjR3ee2rCNrh6JJf1ehtDI8G79gjO5IHV_E.yoa56afowL3
+ ZdrBWxJ3ft66D6cow.dYMznHwqzh4nvhieEZV_4wPT.IYjrpftDa09KBYK5p6M26z8pvnY9_yGXN
+ 8diY9qX3HoMjvTtZl_othypPBD5pEpUHx2PGR75WK4CrpfGdWf_TZ5KNiJ7FREyX3AbTtU2jDwdc
+ 7kB1We.5GjGiYGf_hldNZvEXKknBf3bzAkft9ssvjrb9yShXp3lRuui0wOJDr8wVxhvuzo44Y4yH
+ rG4xocCQkl6A9y2eo5R._WagpUayDqrQ1b.1Uacs1unpsfYhSNYj3csnH.FgtNVOIsvzA9gWjsAC
+ MIEE4aJCCvhTzGbXVUtSbVagRDzQaL9ddTt0oae0DCG.9KuoUc0ZxQCosgSOZt6b1OWYoLa_sSLY
+ LQF4piVmcqmSmM8WYq7aKLGIqF0o209X3NIqz2qFA3QNCBw0gr9ZjqlHwIg2pNkNzq9_rQ0ZAwNr
+ tWwTDEGVJ6dtMV02LmGRb3jgnKdM01HapfFnosgy7_76gVA0rkIyvfmM8hF7HzaonQ5Qc8nwVf7D
+ V7Gm0.ASkEeVnAzLa9CugtrJUtHmHopyb8GvnaqlPUVgpPmeE4ELSdDUUnTaTve5Rc5KZakLWOSU
+ kvTaW6mB1wGJvSqmyCuhTffZosjGv8zLlcCET68Y_dfhyGaRR7F0p1SrUOYUNUPd.SuMsP2lRy32
+ DjjXmyp35ZZt7aSMYl3G65L.cG4eAFSK0_O3G_OdKQkOjK8fg9KYEkQ5mtFCcR1tswv07XAB8WsN
+ pTBnUrbSfh5j8S4NpDs9IvbT4hKsShBPFHyP4ibtqgMY16MDU5M5d1CXsQlr6QMxzhYdG2omxnCt
+ 7GIwOKuhFO1xMsp5GfKR4ycc4jU.i_UcSCm05NhJJvfUi5y47UKq97_gkpxwROlZJl0VTKTREATw
+ gpx_jtZgm2BZKcYdcT9YBJYaU3fEA9HEbJKYrziXnOFHthFeLMlt35Au4qKNgkdfT3PqFrlPf5fI
+ ajz.Nnzht2vOeuManjARZv6Aoxy4ryPYkYBomRgF5nuIo5ihr0IK1T4FbAxDNNUIU6TIfyTvsP.U
+ ZfPLbTuQA_CTzaRdmpPkSu6M.ahC2CFnKwGtuyAG2rShBuH2t1dw0M2UFTZ8D8g51y_czYZSmXCs
+ SBB5FNmyVGGETU1LjW12LtBE6XgPB9n.bg75Kde9Wm9Zi_UfeA7_Cg3QvQFD_oXtUlh6xCG2r0rT
+ y8soGny57gSH5C6PWqFVzD6Ly5v7HezWkBB0qf0oahnmOAip1xq7q_czpEuGV.y.EhHJJbN2JJhP
+ et_JmF9zYdfb8.77Rd3.hOWbwrN3VaIBphluYzbmp24mFMoQ0MgM0QAG8ygNxVNtscBlwWpM13NH
+ fltlfWGCPTQJZs8jLL0HQEak1sS.fng29i0IbZ0ZfHlMCZa8gbCIrFSAm87ucvH528CqfbZjGzk0
+ YdhALh_eJ_del9NdsFPLcdZVwyBXo5ktfVptZaYLp6q.fHybvQv5nDFvqXgVmI9TvobufVV2D5Ua
+ J33donMac2X7RqIKs2ZhaWjSDrEEfNw7U77qWAAPzgCT3WBDT6gtN2ND7rCJlj8ikFxwe_ucfmM7
+ vl0zVcClSZVmR0g2f_KG7pXfne8f1pF8oWY.XSGCdl9Vuujcgl4szGCcl7qaGVWc9uHjINA6eRfz
+ LrPlT7cqBx6jG2wHksFCIjAjm4.OGnJqBe93wmTYTN8UyNhsnC2MuP.uZr34DbXUqO5sHiEKQzQ0
+ G
+X-Sonic-MF: <alex_y_xu@yahoo.ca>
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic304.consmr.mail.gq1.yahoo.com with HTTP; Wed, 13 Apr 2022 21:14:01 +0000
+Received: by hermes--canary-production-ne1-855b9c5d98-txrl8 (VZM Hermes SMTP Server) with ESMTPA ID 574483ab8d8a5f0795b3659afa4a2172;
+          Wed, 13 Apr 2022 21:13:59 +0000 (UTC)
+From:   "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Vlastimil Babka <vbabka@suse.cz>,
+        Daniel Colascione <dancol@google.com>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        linux-api@vger.kernel.org, "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>
+Subject: [PATCH] mm/smaps_rollup: return empty file for kthreads instead of ESRCH
+Date:   Wed, 13 Apr 2022 17:13:57 -0400
+Message-Id: <20220413211357.26938-1-alex_y_xu@yahoo.ca>
+X-Mailer: git-send-email 2.35.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1686fd2d-d9c3-ec12-32df-8c4c5ae26b08@redhat.com>
+Content-Transfer-Encoding: 8bit
+References: <20220413211357.26938-1-alex_y_xu.ref@yahoo.ca>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Apr 13, 2022 at 06:24:56PM +0200, David Hildenbrand wrote:
-> On 12.04.22 16:36, Jason Gunthorpe wrote:
-> > On Fri, Apr 08, 2022 at 08:54:02PM +0200, David Hildenbrand wrote:
-> > 
-> >> RLIMIT_MEMLOCK was the obvious candidate, but as we discovered int he
-> >> past already with secretmem, it's not 100% that good of a fit (unmovable
-> >> is worth than mlocked). But it gets the job done for now at least.
-> > 
-> > No, it doesn't. There are too many different interpretations how
-> > MELOCK is supposed to work
-> > 
-> > eg VFIO accounts per-process so hostile users can just fork to go past
-> > it.
-> > 
-> > RDMA is per-process but uses a different counter, so you can double up
-> > 
-> > iouring is per-user and users a 3rd counter, so it can triple up on
-> > the above two
-> 
-> Thanks for that summary, very helpful.
+This restores the behavior prior to 258f669e7e88 ("mm:
+/proc/pid/smaps_rollup: convert to single value seq_file"), making it
+once again consistent with maps and smaps, and allowing patterns like
+awk '$1=="Anonymous:"{x+=$2}END{print x}' /proc/*/smaps_rollup to work.
+Searching all Debian packages for "smaps_rollup" did not find any
+programs which would be affected by this change.
 
-I kicked off a big discussion when I suggested to change vfio to use
-the same as io_uring
+Fixes: 258f669e7e88 ("mm: /proc/pid/smaps_rollup: convert to single value seq_file")
 
-We may still end up trying it, but the major concern is that libvirt
-sets the RLIMIT_MEMLOCK and if we touch anything here - including
-fixing RDMA, or anything really, it becomes a uAPI break for libvirt..
+Signed-off-by: Alex Xu (Hello71) <alex_y_xu@yahoo.ca>
+---
+ fs/proc/task_mmu.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-> >> So I'm open for alternative to limit the amount of unmovable memory we
-> >> might allocate for user space, and then we could convert seretmem as well.
-> > 
-> > I think it has to be cgroup based considering where we are now :\
-> 
-> Most probably. I think the important lessons we learned are that
-> 
-> * mlocked != unmovable.
-> * RLIMIT_MEMLOCK should most probably never have been abused for
->   unmovable memory (especially, long-term pinning)
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index f46060eb91b5..d7de4584a271 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -883,10 +883,8 @@ static int show_smaps_rollup(struct seq_file *m, void *v)
+ 		return -ESRCH;
+ 
+ 	mm = priv->mm;
+-	if (!mm || !mmget_not_zero(mm)) {
+-		ret = -ESRCH;
++	if (!mm || !mmget_not_zero(mm))
+ 		goto out_put_task;
+-	}
+ 
+ 	memset(&mss, 0, sizeof(mss));
+ 
+-- 
+2.35.2
 
-The trouble is I'm not sure how anything can correctly/meaningfully
-set a limit.
-
-Consider qemu where we might have 3 different things all pinning the
-same page (rdma, iouring, vfio) - should the cgroup give 3x the limit?
-What use is that really?
-
-IMHO there are only two meaningful scenarios - either you are unpriv
-and limited to a very small number for your user/cgroup - or you are
-priv and you can do whatever you want.
-
-The idea we can fine tune this to exactly the right amount for a
-workload does not seem realistic and ends up exporting internal kernel
-decisions into a uAPI..
-
-Jason
