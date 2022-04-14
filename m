@@ -2,128 +2,107 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1307C500718
-	for <lists+linux-api@lfdr.de>; Thu, 14 Apr 2022 09:38:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 679AC50185E
+	for <lists+linux-api@lfdr.de>; Thu, 14 Apr 2022 18:08:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236069AbiDNHkk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 14 Apr 2022 03:40:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56560 "EHLO
+        id S233823AbiDNQKb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 14 Apr 2022 12:10:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231998AbiDNHkk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 14 Apr 2022 03:40:40 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4373256415;
-        Thu, 14 Apr 2022 00:38:16 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id E274F1F747;
-        Thu, 14 Apr 2022 07:38:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1649921894; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=2hT+knE9TV0fknXqaP/vEB7WYsrSBA5fzZ7sExOr3dw=;
-        b=aohmTLrbVTD86oE7+SsZqDVi2lqtz1j7ogs4Cs0VA3kWhVeXC1v1VT/uihTvjq239SPx83
-        UQFu1pdc5HHKqIhkl2s1/RpLAlwtCDRaRj2lagdytLLT2nC/8KMqnpffEztqYD+FQF+iQk
-        xjdHGfYCmtyJt5ocwvGDVDJdvPoHCwY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1649921894;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=2hT+knE9TV0fknXqaP/vEB7WYsrSBA5fzZ7sExOr3dw=;
-        b=PUHpjk/daB3UV+CFagYStPsjIvjETQj66VwLW4WGwDDASth3HlZMI/i4ifeguZtftsatNH
-        +S5L0JtebkKn8jBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C48E113A86;
-        Thu, 14 Apr 2022 07:38:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id N+JQL2bPV2LNNQAAMHmgww
-        (envelope-from <vbabka@suse.cz>); Thu, 14 Apr 2022 07:38:14 +0000
-Message-ID: <83f49beb-52f7-15f6-3b53-97cac0030ca4@suse.cz>
-Date:   Thu, 14 Apr 2022 09:38:14 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
+        with ESMTP id S1358638AbiDNPmD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 14 Apr 2022 11:42:03 -0400
+Received: from sonic307-55.consmr.mail.gq1.yahoo.com (sonic307-55.consmr.mail.gq1.yahoo.com [98.137.64.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BDC6C6F36
+        for <linux-api@vger.kernel.org>; Thu, 14 Apr 2022 08:24:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.ca; s=s2048; t=1649949882; bh=l7uEf+zHfGuXlKA/7aMuUENHXKPZm3r3B51bsgI8f2Q=; h=Date:From:Subject:To:Cc:References:In-Reply-To:From:Subject:Reply-To; b=h+ZC2BvN8pcuEOWtR9p6QOwASKIVW8HY7x+GeFfL0FCDoMREsJoK+zDw/7f0u+vZ4AbUTDubeQ0yPJfna4JdMNkDqmyAnIJBLqoLKT4bv5BBBa7lUjBQYtDH6lRxlatEsLHcUPoCGl76yimjCoz6cnp+w/hu4PsEEZKwV+e7EZ5HosQ5gJBebML5FqlnYq/u1t8aQTe2VoZQCFMPy7w8cWTzqhvxZovuoKD9qwDTkFxH0CP40fUSjbd/CDuFjkKrjVe4bVxup5MOayb3ygXgbBiWb1NY2ZFVsWH3eAJLpJFwuVNJX68/3ZvsME4QHWJSK5gq4i80Gnf335fTyOoITA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1649949882; bh=c0PR5MdqQVMbrOS9QgNLeD581KVxI66+yo63nInVZPI=; h=X-Sonic-MF:Date:From:Subject:To:From:Subject; b=fv4lNBYS5pFRa2GLDlY0GtUPYkRBA738m2HwyXxbgv51t0GqjdERVrnXyu8xJEZkE/qP2gLP/R92EpOxF7Xm0CCqU2JHHa3Wk2VRmD1TB+ishh9xY2zHgssMFELAqjfBbLHshg4FGadUcNWN5+8hpbIzEgXwDTWLyF5N18ersnG9DeYBq+ZIIImGrSQ/0GIlhHUnf6oYX+7PkSwXDphOgxtUCIumcpHPq9tWPEr/n3iikz9GGKoeRXCuyUT4mC4iYHkaEPvWdtijVTxLCypbE3iEOUxjUZXs4vBPHfc4v4C+45SwpSEVlDjwUTQtlpkcEYRb53tYvy8B7m9oW1QPaQ==
+X-YMail-OSG: ixi72QsVM1ludGt1a_NOmZsL3Tw7Yf6Hu6LmOJvnhrp_Pg.OBrJkFUPM.k_p9uu
+ t2iM4LjQNAOcKrDdY019Q6RRB2xHaQcrOi8JoyXT1U7klhVvFGTyb8XfjOCLJRj2lNxJ8q2Jjvdh
+ 0RCoA4bNSaEglicQOBF6JijL1UyjdGqANkqNLMF8WTZHT8qAWKHUAdNOWprquOz2aip0gHtlfW.F
+ 0xWCdWi1JNQHgebpbqM2ehQx37fndADEArENjDbErQINW3gwXdV6.BHRZEncyo_O7lFejfXw8nAu
+ 8wZAWTa1WhwWGVdqzti_7lgINmDzf6PAvnC9sVTYakQdynskwkUSBRx28YrAfEvIbC2qH3rntOmP
+ cMa4KJ7f59etRXona43oI.tNprJz9MEd3HMvGgdsO1hRpIwM9ixzjhTUPLbMOSDD0YmFFy5AdaS8
+ rxom2dwujAZ7WldrKaLTDypL.tCaBPvoJx3YmdC6I8yK54rKwVc3Xvv.fjGKmR.TqtD4Tpf3mRh4
+ gU2T7phP0k_mNV3SfwBY5uyKiBVoTYH4tqARM9.T.0HaRuzw3ZrNbvvIiMGmmB0F5WuYcl4pygSJ
+ ccprenv8z5lX7mrLTvVDsUh43Q8aSLrll0t6jqbGf2yip8416VNNKHS2BARuun1b_z4sWmSo8_HS
+ ikDysAr6t5LyyrUiyqsCW5OoXI0d3pBTmuMlFdpWrOOAGBRBLOalciBwHxkbW_YlPZtUTCmsCLNW
+ eRRV5vs9bQYD.H4Wstf5ghG17lJkvCG2X0QgtqfLA737NdbzeIRVD8iFOxlmh_Y_zCZJ_2E4v0B.
+ xXgHnnCbGAxFuiFGr7WnSQCf1ne_hJf6bTaQKrNI3tPbJmjuX6QfhVZyqqeblBvD0asA5iIqP5ft
+ 4JuOcawECMqsLJUgBLWWOBw5YLGGQfAlsdfHWgLmbzvl8gy3rienmPLDZtQa.uFNVb8XpLLEh93J
+ AC3RCdzF9zOHQbZw39ZDQVeavhTMT1q_2UKxZZbmwGH6GNuNlrYwiQcaeOfSHRWDabId2ml4mUQR
+ RFFON__K84I9DPQQx5IyI3YvR46LhJwagtwWYJF_bBUE86W6kf3_f4epIb_wRXj.HIJ29k94FvF_
+ AgloODt10QIMUepFAQjRX8pJcRJBPNVc0I5HgV0bfiFpTNP3DQfM9HhJfoQWUYpfEgtZrnEZ0bYc
+ rXLV0aHPyjqTuJXwxwbBXiuk2uK7K5WbEJxvQ25fmdx0ODo1MCjBLCzMi.Jz9gK7w3toR9_YoELv
+ .jEWGSU78GfBVC8Bl1lII2VporKr09cqrtCuoho8WYVPiWZJEzowjBlETfBgriWEmd9Sy7pI9KEo
+ LyJwYL5dAz5n.JEukZ7FfzBCyf0yohXpY4mw1xighpeSnmeLHeqKQD6Noc.90esAHwxfaWdVzcqw
+ vdv6hCcKB.kYiA6wJvlXwAp2lSfpT4nSR70AdGnHlsVm1GRVdkX2D5Mpr6c3L9wBoa5_oesEpVo6
+ rXgpj7YZ.ptcghQwRXqa2ce4GrWpSFodvnyloFkoB2gWux.LQjoElUboRwNNWNbwYeQmP75CCr99
+ H3ix8fgwAZSoMFoSQJN0vbuWawRblVDxqfZ57_CnNuQWAcWCKnmcYcVVWh7rJpJoM.ZRakDakI3a
+ 7H49tOCA1OUP3GlfxuR28ypdhF5X.x0BCZ4gOUmlePbXGspmb.FoV3hR_3vskdEXg0s1zfF2fP1m
+ DQMb69kxOKu7MEtGDxMBuI3QJG.hSUJmwKEDhDQ8xy4C3v8yeuHXmt3i1dAva01wCdeaoI4o2HNp
+ xraygLZ5eiIfcCiOUjhR6xRbroLClVMtgJuSR_r0abBVIHBBfEVVxDmBWwBxcbx2n0J_eE8haMCL
+ hesR30KTb0GsDF8IZjlQeUWdyMoGZMQ9K5IfXX3_VO_4qA7TnpUayZAQcmEGZw4QDuCDhtPXTbg_
+ Lrq6imWqIqkLOa77ZyccZl_tVndLc3_bVv_Xb.4KcKkmNDl9CuC5aRL0wJ0jBXtf76Wr56I34xaY
+ HoK07z0oV1FVukmEeiqjLtH0Bi9SsF_7BV3B3gK5S3yy2fO2bfRdWdbVOLPL3HWQpSi7nWcv0Wq5
+ yHGlTGNSX5U2AipMpz90gBCIa3mM4TBeNgwChvHra0TO_5rxjsSPZOZKc.iKcizrrnETSFXAqGFd
+ 6e.B5t0ohwE8SO_600iyK5F0AD5RB30OaOuiZFrIoTwDN4o.OY0txDMPjHbSAIjVx7WLNXf45i2K
+ Dpo7wcPaJ5i3RFM7d4zoP3FsWFJKTf7MD9qKCNM86HojINd3evbgu7ZSfJrsRsva82arIk2UmcVD
+ p
+X-Sonic-MF: <alex_y_xu@yahoo.ca>
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic307.consmr.mail.gq1.yahoo.com with HTTP; Thu, 14 Apr 2022 15:24:42 +0000
+Received: by hermes--canary-production-gq1-cc54c7bb9-9gfh6 (VZM Hermes SMTP Server) with ESMTPA ID 70fcc1be1711c5a35768f5595215e0c4;
+          Thu, 14 Apr 2022 15:24:38 +0000 (UTC)
+Date:   Thu, 14 Apr 2022 11:24:35 -0400
+From:   "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>
 Subject: Re: [PATCH] mm/smaps_rollup: return empty file for kthreads instead
  of ESRCH
-Content-Language: en-US
-To:     Alexey Dobriyan <adobriyan@gmail.com>,
-        Matthew Wilcox <willy@infradead.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>,
+To:     Alexey Dobriyan <adobriyan@gmail.com>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Daniel Colascione <dancol@google.com>,
         linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Vlastimil Babka <vbabka@suse.cz>
 References: <20220413211357.26938-1-alex_y_xu.ref@yahoo.ca>
- <20220413211357.26938-1-alex_y_xu@yahoo.ca>
- <20220413142748.a5796e31e567a6205c850ae7@linux-foundation.org>
- <1649886492.rqei1nn3vm.none@localhost>
- <20220413160613.385269bf45a9ebb2f7223ca8@linux-foundation.org>
- <YleToQbgeRalHTwO@casper.infradead.org>
- <YlfFaPhNFWNP+1Z7@localhost.localdomain>
-From:   Vlastimil Babka <vbabka@suse.cz>
+        <20220413211357.26938-1-alex_y_xu@yahoo.ca>
+        <20220413142748.a5796e31e567a6205c850ae7@linux-foundation.org>
+        <1649886492.rqei1nn3vm.none@localhost>
+        <20220413160613.385269bf45a9ebb2f7223ca8@linux-foundation.org>
+        <YleToQbgeRalHTwO@casper.infradead.org>
+        <YlfFaPhNFWNP+1Z7@localhost.localdomain>
 In-Reply-To: <YlfFaPhNFWNP+1Z7@localhost.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+MIME-Version: 1.0
+Message-Id: <1649949601.z8rr7ed5qb.none@localhost>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: WebService/1.1.20001 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 4/14/22 08:55, Alexey Dobriyan wrote:
-> On Thu, Apr 14, 2022 at 04:23:13AM +0100, Matthew Wilcox wrote:
->> On Wed, Apr 13, 2022 at 04:06:13PM -0700, Andrew Morton wrote:
->> > On Wed, 13 Apr 2022 18:25:53 -0400 "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca> wrote:
->> > > > 258f669e7e88 was 4 years ago, so I guess a -stable backport isn't
->> > > > really needed.
->> > > 
->> > > Current behavior (4.19+):
->> [...]
->> > > Pre-4.19 and post-patch behavior:
->> > 
->> > I don't think this will work very well.  smaps_rollup is the sort of
->> > system tuning thing for which organizations will develop in-house
->> > tooling which never get relesaed externally.
->> > 
->> > > 3. As mentioned previously, this was already the behavior between 4.14 
->> > >    and 4.18 (inclusive).
->> > > 
->> > 
->> > Yup.  Hm, tricky.  I'd prefer to leave it alone if possible.  How
->> > serious a problem is this, really?  
->> 
->> I don't think "It's been like this for four years" is as solid an argument
->> as you might like.  Certain distributions (of the coloured millinery
->> variety, for example) haven't updated their kernel since then and so
->> there may well be many organisations who have not been exposed to the
->> current behaviour.  Even my employers distribution, while it offers a
->> 5.4 based kernel, still has many customers who have not moved from the
->> 4.14 kernel.  Inertia is a real thing, and restoring this older behaviour
->> might well be an improvement.
-> 
+Excerpts from Alexey Dobriyan's message of April 14, 2022 2:55 am:
 > Returning ESRCH is better so that programs don't waste time reading and
 > closing empty files and instantiating useless inodes.
 
-Hm, unfortunately I don't remember why I put return -ESRCH for this case in
-addition to get_proc_task() failing. I doubt it was a conscious decision to
-treat kthreads differently - I think I would have preferred consistency with
-maps/smaps.
+Yes, except ESRCH is not returned for open, it is returned for read.
 
-Can the awk use case be fixed with some flag to make it ignore the errors?
+> Of course it is different if this patch was sent as response to a regress=
+ion.
 
-> Of course it is different if this patch was sent as response to a regression.
+I'm not sure I would classify it as a regression; I don't have an=20
+existing program which broke, it is a new program which happens to use=20
+some functionality which worked with a previous kernel. It is=20
+theoretically possible that some program exists that currently uses=20
+4.14, and will break if upgraded to 4.19+, but it is also possible that=20
+some program exists that currently uses 4.19+ and will break if this=20
+patch is applied.
 
+Cheers,
+Alex.
