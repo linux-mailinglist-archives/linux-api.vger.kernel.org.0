@@ -2,62 +2,153 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F2EB5082B4
-	for <lists+linux-api@lfdr.de>; Wed, 20 Apr 2022 09:50:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61E3C508D04
+	for <lists+linux-api@lfdr.de>; Wed, 20 Apr 2022 18:17:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376411AbiDTHxO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 20 Apr 2022 03:53:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48904 "EHLO
+        id S1355696AbiDTQTr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 20 Apr 2022 12:19:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376498AbiDTHxE (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Apr 2022 03:53:04 -0400
-X-Greylist: delayed 428 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 20 Apr 2022 00:50:19 PDT
-Received: from mail.fixingbiz.pl (mail.fixingbiz.pl [217.61.22.139])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BC0D344F1
-        for <linux-api@vger.kernel.org>; Wed, 20 Apr 2022 00:50:18 -0700 (PDT)
-Received: by mail.fixingbiz.pl (Postfix, from userid 1001)
-        id ECEEDA36CF; Wed, 20 Apr 2022 08:41:47 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fixingbiz.pl; s=mail;
-        t=1650440559; bh=FDuFY3XQoq0gMX1b2gxgT7Py2p4Sxl0PJZYZ4NVaPho=;
-        h=Date:From:To:Subject:From;
-        b=mAOB8Ql3KhBBi8zwsYfC6C4Fy9VlxjWenLE05xOwNKbXjNZYXtZK1ITSIUuok1n80
-         OdZCcKhophVqMAq+4OrwMgmoVGhTR9H+Hg00AJswKAIZmvywTmULbha4I6w1hCuw2c
-         gTkqtMHEqLv0NFBsqK2FDE6cHzhH1J08dPwFQGG+FtKZrhKMW9kwf6t+xwtEPvQYEZ
-         7mZ5+XaWm6JWl821/0LHWDF6zr3BYFw157sENuBmELQw2jXYyM6IsckJn2BJ9F5DUY
-         dNAVmFd+/ZAB+1OEKmtwmIMMTPc1mOIqNRjvynR0GjGAdfBc9VdpYAw5W29RdF23Nv
-         cfpZeES9ZTA8w==
-Received: by mail.fixingbiz.pl for <linux-api@vger.kernel.org>; Wed, 20 Apr 2022 07:40:53 GMT
-Message-ID: <20220420074501-0.1.1x.6tyn.0.icfemin1e3@fixingbiz.pl>
-Date:   Wed, 20 Apr 2022 07:40:53 GMT
-From:   =?UTF-8?Q? "Przemys=C5=82aw_Wr=C3=B3blewski" ?= 
-        <przemyslaw.wroblewski@fixingbiz.pl>
-To:     <linux-api@vger.kernel.org>
-Subject: Wycena paneli fotowoltaicznych
-X-Mailer: mail.fixingbiz.pl
+        with ESMTP id S245375AbiDTQTq (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Apr 2022 12:19:46 -0400
+X-Greylist: delayed 92 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 20 Apr 2022 09:16:58 PDT
+Received: from wrqvxtdp.outbound-mail.sendgrid.net (wrqvxtdp.outbound-mail.sendgrid.net [149.72.167.211])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7989F2F00A
+        for <linux-api@vger.kernel.org>; Wed, 20 Apr 2022 09:16:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=catern.com;
+        h=from:subject:mime-version:to:cc:content-type:
+        content-transfer-encoding;
+        s=s1; bh=EN7Luo3GMJhLlC/mt0FKildypLmFmFvGR+/jZZeUY2M=;
+        b=EcdnZSj7lNJoGFfgBQilz8IIPticWslnmuBGep9/d4808no+vTtdNiky2KJpIIZaavIC
+        U4ZiRyvQakk9udPetuRNRqBYxfDBDwc2b99xyilG0G4KdQJNPtZDoyUcMzlea54kl1iTib
+        6g5PDbW5sn6GcJgBsGzteOjoMZc8xQNBPLt+oKFNSNgtbWoVyyNr5KDFnXZMedX7NMbbTw
+        Yznd41KVBTTN653B6TxItdAxoZtom2v5loCB4YtaJtytYPZcRTUk9jeua616C/yTqSOdQf
+        p5h0PqTYwIxoTZ860QhZApnAsmjLoxq+YHjWBXTdRg9cT5xHpoOlbHQfmyDzRAVA==
+Received: by filterdrecv-5645d9c87f-64zxs with SMTP id filterdrecv-5645d9c87f-64zxs-1-6260319D-10
+        2022-04-20 16:15:25.060658459 +0000 UTC m=+1189873.688363729
+Received: from earth.catern.com (unknown)
+        by geopod-ismtpd-2-4 (SG)
+        with ESMTP
+        id L1cDp85IRLmtZoiFwzAtDw
+        Wed, 20 Apr 2022 16:15:24.846 +0000 (UTC)
+X-Comment: SPF check N/A for local connections - client-ip=::1; helo=localhost; envelope-from=sbaugh@catern.com; receiver=<UNKNOWN> 
+Received: from localhost (localhost [IPv6:::1])
+        by earth.catern.com (Postfix) with ESMTPSA id CCFDA60089;
+        Wed, 20 Apr 2022 12:15:23 -0400 (EDT)
+From:   Spencer Baugh <sbaugh@catern.com>
+Subject: Explicitly defining the userspace API
+Date:   Wed, 20 Apr 2022 16:15:25 +0000 (UTC)
+Message-ID: <874k2nhgtg.fsf@catern.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-SG-EID: =?us-ascii?Q?GW3oCMoYnalRiojMOuLzE6x2H5kORXvlCdz1UwQVRMVT4fbh9ODEfCogOe74cO?=
+ =?us-ascii?Q?rI4e0V+MFZgakz9Re5a6=2FCgjy6GEoSnTxOKF1gT?=
+ =?us-ascii?Q?uAnWM1KA27DMMvzzFj1a2HW2qEPwCq35ELHWGOl?=
+ =?us-ascii?Q?r89xiFPwn5z+9peKu0xUU7I0rd7zYU5=2F71xxc9l?=
+ =?us-ascii?Q?ObeU2CHU6j5s2ekfvfkOBTMT0r=2FgHGgI3GAADz6?=
+ =?us-ascii?Q?EJLzPl277gS34TUi4JeDJZo+mjMXyxwB6f8+Ei?=
+To:     linux-api@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, marcin@juszkiewicz.com.pl,
+        torvalds@linux-foundation.org, arnd@arndb.de
+X-Entity-ID: d/0VcHixlS0t7iB1YKCv4Q==
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_BL_SPAMCOP_NET,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Dzie=C5=84 dobry,
 
-dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
-irm=C4=85.
+Linux guarantees the stability of its userspace API, but the API
+itself is only informally described, primarily with English prose.  I
+want to add an explicit, authoritative machine-readable definition of
+the Linux userspace API.
 
-=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
-ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
+As background, in a conventional libc like glibc, read(2) calls the
+Linux system call read, passing arguments in an architecture-specific
+way according to the specific details of read.
 
-Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
-ropozycji?
+The details of these syscalls are at best documented in manpages, and
+often defined only by the implementation.  Anyone else who wants to
+work with a syscall, in any way, needs to duplicate all those details.
 
+So the most basic definition of the API would just represent the
+information already present in SYSCALL_DEFINE macros: the C types of
+arguments and return values.  More usefully, it would describe the
+formats of those arguments and return values: that the first argument
+to read is a file descriptor rather than an arbitrary integer, and
+what flags are valid in the flags argument of openat, and that open
+returns a file descriptor.  A step beyond that would be describing, in
+some limited way, the effects of syscalls; for example, that read
+writes into the passed buffer the number of bytes that it returned.
 
-Pozdrawiam,
-Przemys=C5=82aw Wr=C3=B3blewski
+Even a basic machine-readable definition of the Linux userspace API
+would have numerous benefits:
+
+* Debugging tools which need to understand the format of syscalls and
+ their arguments in great detail, such as strace, are currently
+ primarily hand-written with great duplication of effort.  Even a
+ basic description of syscalls would allow much of this code to be
+ generated instead.
+
+* It often takes a long time for newly-added syscalls to be usable in
+ userspace.  With an explicit definition of the Linux userspace API,
+ it would be easy to automatically generate functions for new
+ syscalls, which could be deployed quickly either as part of libc or
+ in a separate syscall library.
+
+* Implementers of new languages currently almost always make syscalls
+ by going through libc.  Supporting interoperability with C in this
+ way is a major burden, and the resulting interfaces are typically
+ highly unidiomatic for the new language.  With a explicit definition
+ of the Linux API, it would be much easier for new languages to make
+ syscalls directly (rather than through libc) by automatically
+ generating syscall functions which are idiomatic to the new language;
+ for example, functions which preserve memory-safety and type-safety
+ in Rust.
+
+* Reimplementers of the Linux API, such as Linuxulator, WSL1, and
+ gVisor, would be able to generate stubs for the interfaces they need
+ to implement automatically, reducing duplicated code and making them
+ conform better to the Linux API.
+
+* Changes to Linux behavior that require a change in the API
+ definition would deserve greater scrutiny by maintainers, since such
+ a change might break userspace.  This certainly could never catch all
+ possible API breaks, but it would be one more way to prevent
+ regressions.
+
+* Any other tool which needs to understand the Linux API would
+ benefit, such as more esoteric projects to batch syscalls, intercept
+ and rewrite syscalls, forward syscalls to remote hosts, or any other
+ syscall manipulations.
+
+To write this definition, a new Linux-specific format for the
+definition might need to be created.  At a minimum, it will need to be
+able to describe bit-level data formats, complex pointer-based
+data structures, tagged unions, "overloaded" syscalls such as ioctl,
+and architecture-specific divergences.  Most existing formats and
+languages for describing interfaces like this unfortunately lack these
+capabilities.
+
+Whatever the format of the definition, the most important feature is
+that it must be maintainable by existing Linux developers.  One way to
+achieve that might be to integrate it into the C code in some way,
+building on top of SYSCALL_DEFINE.  The API description can then be
+automatically extracted from the C code into a more-easily-reusable
+format, which can be used as input for other tools.
+
+One step in this direction is Documentation/ABI, which specifies the
+stability guarantees for different userspace APIs in a semi-formal
+way.  But it doesn't specify the actual content of those APIs, and it
+doesn't cover individual syscalls at all.
+
+Another related project is system call tables like
+https://marcin.juszkiewicz.com.pl/download/tables/syscalls.html which
+don't contain any more information than already in SYSCALL_DEFINE.
+
+Hopefully this sounds like a reasonable thing to do.  I'm looking for
+any comments or suggestions, or related projects I don't know about.
