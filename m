@@ -2,123 +2,110 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38F86509CE5
-	for <lists+linux-api@lfdr.de>; Thu, 21 Apr 2022 11:55:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7225D509E96
+	for <lists+linux-api@lfdr.de>; Thu, 21 Apr 2022 13:34:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1387997AbiDUJ5y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 21 Apr 2022 05:57:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57800 "EHLO
+        id S1388281AbiDULhG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 21 Apr 2022 07:37:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1387984AbiDUJ5v (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Apr 2022 05:57:51 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F283DF98;
-        Thu, 21 Apr 2022 02:55:01 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 3AD711F748;
-        Thu, 21 Apr 2022 09:55:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1650534900; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=VMrQB8Mg6VKJYObqAvv9nuVQ8BrTb7/yb5RzzVbXM7Y=;
-        b=G40LNoD3gBMlHBEsNDKoq/6Oq/g0SlkYZV73W0xvZQE1eWRGhEW0QAikzYvEJafzth6L/f
-        X0EoFGAizGC2hXIVWEW7XVFJz5JgPJGrg8RAf5ZzyaJpYB98iyxWp79DMOczk9edacNc6J
-        kZTS0et16KBC5Uuah/PvhaqjlanqNzk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1650534900;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=VMrQB8Mg6VKJYObqAvv9nuVQ8BrTb7/yb5RzzVbXM7Y=;
-        b=QhliLrVy5IuCYIEAoFyqO7AU0uWiNDURI5tVdsz1bcke8wRdm5QMNaWd/jG6f8tw/MEy6j
-        MAjIkbXQNVUhVhDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 28F6913A84;
-        Thu, 21 Apr 2022 09:55:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id DDIgCfQpYWJ9UAAAMHmgww
-        (envelope-from <chrubis@suse.cz>); Thu, 21 Apr 2022 09:55:00 +0000
-Date:   Thu, 21 Apr 2022 11:57:16 +0200
-From:   Cyril Hrubis <chrubis@suse.cz>
-To:     Spencer Baugh <sbaugh@catern.com>
-Cc:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        marcin@juszkiewicz.com.pl, torvalds@linux-foundation.org,
-        arnd@arndb.de
-Subject: Re: Explicitly defining the userspace API
-Message-ID: <YmEqfFdYN0Rml6V2@yuki>
-References: <874k2nhgtg.fsf@catern.com>
+        with ESMTP id S229845AbiDULhF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Apr 2022 07:37:05 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4977140F9;
+        Thu, 21 Apr 2022 04:34:15 -0700 (PDT)
+Received: from mail-wm1-f45.google.com ([209.85.128.45]) by
+ mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1N95Rn-1nwCUj0Mhr-0165Bq; Thu, 21 Apr 2022 13:34:14 +0200
+Received: by mail-wm1-f45.google.com with SMTP id x3so2998405wmj.5;
+        Thu, 21 Apr 2022 04:34:14 -0700 (PDT)
+X-Gm-Message-State: AOAM530TYyfrwUkm75Vfw/bnUsGOVLZJwg1Vc9JFQYXVOErH1VeSvFNb
+        w78J6zI+Cl8YGBNDoH0BZtMB5MajgN8scAhyRrY=
+X-Google-Smtp-Source: ABdhPJwnGtY6P1co6gbbhHKNQHOma5ABD5kBnSOX51UNJdytJx9YbJ50fB/NRrPgASW9wxD+qnXzHSDChk0i/W4ed5Q=
+X-Received: by 2002:a05:600c:25c5:b0:38f:f0b9:4c8c with SMTP id
+ 5-20020a05600c25c500b0038ff0b94c8cmr8493643wml.20.1650540853681; Thu, 21 Apr
+ 2022 04:34:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <874k2nhgtg.fsf@catern.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <874k2nhgtg.fsf@catern.com> <CAG48ez1PcDV5LvUomM6MsoA0pbg_7oJyfBLt6M2e3541gxx-LA@mail.gmail.com>
+In-Reply-To: <CAG48ez1PcDV5LvUomM6MsoA0pbg_7oJyfBLt6M2e3541gxx-LA@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 21 Apr 2022 13:33:57 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1dLWs8DuQH5SV_d-S08sLj3rJy5O4s=Tva+Ry0EhO6Fg@mail.gmail.com>
+Message-ID: <CAK8P3a1dLWs8DuQH5SV_d-S08sLj3rJy5O4s=Tva+Ry0EhO6Fg@mail.gmail.com>
+Subject: Re: Explicitly defining the userspace API
+To:     Jann Horn <jannh@google.com>
+Cc:     Spencer Baugh <sbaugh@catern.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Marcin Juszkiewicz <marcin@juszkiewicz.com.pl>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:rkRtVxXPzzTjdqPTwePteQpbtX/huo5f1Ne66vl1b6fuC8fx5IH
+ XsL0NnyuwVTRCIsgfx+EvWCOlo4XeNi+ZtQ3wnw67TcrxBhkBHt+2k9uq0KSMNd5wjMa1SU
+ Rs4ndLJTFTIv/ST/r4hNB9+uHJEOqGNqyIL67uVXMr8jSd+W0mF+9Hj3Arjj/h6JLMh0P3D
+ BgJFHZSd+1gKzq56+Vz/g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:kfwfobX88qs=:xd2xVaCwo8riOPXw8yq0pj
+ vq0UeXH7F64U4MMhE/muBVU59AIwRac+BhT2lRuSORW4mHCZF98rnW069ViT9uThlq7g+squj
+ G6RcavV+2iZcXeIxWqOal9F7h9nsYRc3cYa3wckd+ghtRRetm0gkI0k9nAx1Rk5VW1GH756X+
+ XKPFTiW8WZHVV1cQaqUY9lLyuBDeX6NJ55mBA1TjyWieqZeTpG5skQJoLPKykTbpqcZ6Y4DPc
+ JpP59WRYrWy+Oj4onxT4FUKZRh//oPF47JFKlcnstX5gNivS0Puvrx8ljI9iFSUcM9tYWFVoR
+ lPdB2J2I4xD5cxLM2ZI8rTumwfmUiRuDVzhhujYjL9BdSLyNuscf0z8EOPKMO9Ct6BK1DYyLV
+ IzB+Wel6SYDCQQPk6ggzqBcqxuJi+DhTHpwKlxQ2C3D9HvFka6MQPWGwMM/TblIHGFGpMJVgJ
+ rx9t7u2NhzCsEewaexUywnlCRaGx0LLa+9kchltv139iL4fVPmFK9H46xvdPXKkj7FwiDGM19
+ 4RnyN45/1/HSHQB2jc+H0YUopiNhZwc8DXDDf2xX/pnPkYcjyKrPoVDIdzUDZdRtwbvlhz6S3
+ wfQJGWKnLjzTz6+MU/l0JOhy23VPYW8jrX3791T7uj7SiczFI9Nii2IPLxyDILT9HZbWVWbYR
+ xjO8Y6GnkRXoh3azsjaa+epy1IZWD7Eif3S/k3tpxJJnuEF+g5cMX8a17GRYhQLpIjmB4lp/d
+ xbIZEoijp7UpnJXflvXYYIDs85/6eNizgBnPn/odtV+FZXBZBK32PlvKF7DI6rggcR3suscBT
+ 8xOGmw9fDRbZw98x+zw8REQNOzxYOCsNWepBhqr8pAAI8tmlWY=
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi!
-> Linux guarantees the stability of its userspace API, but the API
-> itself is only informally described, primarily with English prose.  I
-> want to add an explicit, authoritative machine-readable definition of
-> the Linux userspace API.
+On Wed, Apr 20, 2022 at 7:18 PM Jann Horn <jannh@google.com> wrote:
+>
+> On Wed, Apr 20, 2022 at 6:30 PM Spencer Baugh <sbaugh@catern.com> wrote:
+> > Linux guarantees the stability of its userspace API, but the API
+> > itself is only informally described, primarily with English prose.  I
+> > want to add an explicit, authoritative machine-readable definition of
+> > the Linux userspace API.
+> >
+> > As background, in a conventional libc like glibc, read(2) calls the
+> > Linux system call read, passing arguments in an architecture-specific
+> > way according to the specific details of read.
+> >
+> > The details of these syscalls are at best documented in manpages, and
+> > often defined only by the implementation.  Anyone else who wants to
+> > work with a syscall, in any way, needs to duplicate all those details.
+> >
+> > So the most basic definition of the API would just represent the
+> > information already present in SYSCALL_DEFINE macros: the C types of
+> > arguments and return values.
+>
+> FWIW, I believe ftrace already gets that basic information from the
+> SYSCALL_DEFINE macros via struct syscall_metadata, and exports it to
+> root-privileged userspace (although I think it won't actually tell you
+> what the syscall number is that way):
 
-My background is in kernel testing I do maintain the Linux Test Project
-for more than a decade now. During the years we did create many "unit
-tests" for kernel syscalls that are watching over the syscall API and
-making sure that we get right results for both valid and invalid inputs.
-These tests can also be considered to be a form of a documentation. The
-same goes for some of the selftests that have been added to kernel repo
-in the recent years. In a sense these are the most detailed descriptions
-of the interfaces we have.
+One possible way I have considered in the past is to change the
+SYSCALL_DEFINE() macros so they live in include/linux/syscalls.h,
+where they expand to the wrappers for argument sanitizing (clearing
+the upper bits etc) and end up calling normal functions.
 
-The main problem is that the kernel userspace boundary is large, we have
-thousands of tests and I'm pretty sure that we don't cover even half of
-it.
+When combined with the information in the syscall.tbl, this can help
+provide a machine-readable list of implemented system calls and at the
+same time ensure that the prototypes match what the actual functions
+have.
 
-Also some of the interfaces are too complex to be even described in any
-formal system, mostly the modern stuff such as io_uring or bfp. I have
-had hard time even understading how to use these and I doubt I would be
-even able to build a formal system to describe them. Especially since
-the io_uring is mostly syscall less and we talk to the kernel by shared
-buffers and atomic data updates.
+The main missing bit for this is to convert asm-generic/unistd.h to
+the syscall.tbl format, and to ensure that there is a unique mapping
+between sys_*() function names and prototypes. The latter bit is
+/almost/ there and should be easy to get right by renaming a couple
+of nonstandard syscall entry points.
 
-> As background, in a conventional libc like glibc, read(2) calls the
-> Linux system call read, passing arguments in an architecture-specific
-> way according to the specific details of read.
-> 
-> The details of these syscalls are at best documented in manpages, and
-> often defined only by the implementation.  Anyone else who wants to
-> work with a syscall, in any way, needs to duplicate all those details.
-> 
-> So the most basic definition of the API would just represent the
-> information already present in SYSCALL_DEFINE macros: the C types of
-> arguments and return values.  More usefully, it would describe the
-> formats of those arguments and return values: that the first argument
-> to read is a file descriptor rather than an arbitrary integer, and
-> what flags are valid in the flags argument of openat, and that open
-> returns a file descriptor.  A step beyond that would be describing, in
-> some limited way, the effects of syscalls; for example, that read
-> writes into the passed buffer the number of bytes that it returned.
-
-Having this would be awesome, this is just one step from actually
-generating automated tests for the syscalls. However my estimate is that
-even if you started to work on this now it will take decade to get
-somewhere, but maybe I'm too pesimistic.
-
-Stil fingers crossed.
-
--- 
-Cyril Hrubis
-chrubis@suse.cz
+       Arnd
