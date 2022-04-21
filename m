@@ -2,110 +2,131 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7225D509E96
-	for <lists+linux-api@lfdr.de>; Thu, 21 Apr 2022 13:34:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C285E50A45B
+	for <lists+linux-api@lfdr.de>; Thu, 21 Apr 2022 17:36:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1388281AbiDULhG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 21 Apr 2022 07:37:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32970 "EHLO
+        id S1390194AbiDUPja (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 21 Apr 2022 11:39:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229845AbiDULhF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Apr 2022 07:37:05 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4977140F9;
-        Thu, 21 Apr 2022 04:34:15 -0700 (PDT)
-Received: from mail-wm1-f45.google.com ([209.85.128.45]) by
- mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1N95Rn-1nwCUj0Mhr-0165Bq; Thu, 21 Apr 2022 13:34:14 +0200
-Received: by mail-wm1-f45.google.com with SMTP id x3so2998405wmj.5;
-        Thu, 21 Apr 2022 04:34:14 -0700 (PDT)
-X-Gm-Message-State: AOAM530TYyfrwUkm75Vfw/bnUsGOVLZJwg1Vc9JFQYXVOErH1VeSvFNb
-        w78J6zI+Cl8YGBNDoH0BZtMB5MajgN8scAhyRrY=
-X-Google-Smtp-Source: ABdhPJwnGtY6P1co6gbbhHKNQHOma5ABD5kBnSOX51UNJdytJx9YbJ50fB/NRrPgASW9wxD+qnXzHSDChk0i/W4ed5Q=
-X-Received: by 2002:a05:600c:25c5:b0:38f:f0b9:4c8c with SMTP id
- 5-20020a05600c25c500b0038ff0b94c8cmr8493643wml.20.1650540853681; Thu, 21 Apr
- 2022 04:34:13 -0700 (PDT)
+        with ESMTP id S1390181AbiDUPj1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Apr 2022 11:39:27 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9262847066;
+        Thu, 21 Apr 2022 08:36:37 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id k22so7259736wrd.2;
+        Thu, 21 Apr 2022 08:36:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=VvKv13ZK3iFa+2L/yU8R/npHJfHQ8PQo4T/Wi4XzLzI=;
+        b=ihHXZKvLqJCw831yeo6ujJoTlq4JGDUMT/hg1HDQQZ2bNiIIsCB2OCJPtXDasltQ5E
+         vxtlebMh5qnPqQQphqFb9hjWwahipK3b8bsW5JHXuqekYBVXeRUuYEEZJ0waZ345Uowr
+         mhGe1+HZYi/OMYxV2JAgam2pLDQilgiMyiwrHZDB711FFnW6y7awM0SXsfaC/6SwTFGL
+         kylyGAyc5XwLkw5au63A9+hayKno9omVNp5/OuHVv4nlRl/Nf/ysJY4BhKlOHzy0iNe8
+         m9q+tEUWVG6MZy6YI2iuSgjXekfj2KzMACa7MNCKBC3tuudI9D8B25HcxrbbofqFL15x
+         NcWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=VvKv13ZK3iFa+2L/yU8R/npHJfHQ8PQo4T/Wi4XzLzI=;
+        b=FHu63npKWANPzHfQleC/8oSzeCa1fV5LpqTe7ZWe6kxZRX6RP9z5TzSbRNF0Y8nNDC
+         jZM52lQcwchmyVIBu4gKoO3kuPr9GMBYelkdNKqFPblIhXUPesfF3tugCmsrQ+6lkgCo
+         iN/4EUEignDDnixyDOAXFnuHeRsjaFoaYx6SJq7NansdMaQBB3mnGWb+Nv7s2IJlEBe8
+         MwV3FyKg/lRHGB7mW9sEeVXQ3XKR3oKzaFWUfV+HrIVR0lKvJUgZltqu/JAQ3jPH4jTN
+         uWV/xx6XrykFvGdBpS5ASJdTE31qSKuyX9a/GSje7ePHoHWMtIL22U/002qCQWDcR8Rv
+         rXTg==
+X-Gm-Message-State: AOAM5338RHretoiFNKaBc8pcQxV9fOkPYR9vtU6CXnVH0yEtrY2mopkr
+        XX1dTIpu4FGvernk1OdjRFY=
+X-Google-Smtp-Source: ABdhPJztLbxi1p6Vq0IAkoh6pzN37oVEH4QuhuyDAMFC4R1nwZ2ZF5CZi6DbA7oSLOWednr9ZxIqog==
+X-Received: by 2002:a5d:490a:0:b0:207:b3d0:18d6 with SMTP id x10-20020a5d490a000000b00207b3d018d6mr221037wrq.503.1650555395952;
+        Thu, 21 Apr 2022 08:36:35 -0700 (PDT)
+Received: from alfredos.. ([2a0c:5a84:3610:e200:8a88:88ff:fe88:8788])
+        by smtp.gmail.com with ESMTPSA id l8-20020a5d6d88000000b0020a8d0d0076sm2792248wrs.68.2022.04.21.08.36.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Apr 2022 08:36:35 -0700 (PDT)
+From:   Vicente Bergas <vicencb@gmail.com>
+To:     ilpo.jarvinen@linux.intel.com
+Cc:     andriy.shevchenko@linux.intel.com, giulio.benetti@micronovasrl.com,
+        gregkh@linuxfoundation.org, heikki.krogerus@linux.intel.com,
+        heiko@sntech.de, jirislaby@kernel.org, johan@kernel.org,
+        linux-api@vger.kernel.org, linux-serial@vger.kernel.org,
+        lukas@wunner.de, u.kleine-koenig@pengutronix.de
+Subject: Re: [PATCH v3 00/12] Add RS485 support to DW UART
+Date:   Thu, 21 Apr 2022 17:36:26 +0200
+Message-Id: <20220421153626.120494-1-vicencb@gmail.com>
+X-Mailer: git-send-email 2.36.0
+In-Reply-To: <20220411083321.9131-1-ilpo.jarvinen@linux.intel.com>
+References: <20220411083321.9131-1-ilpo.jarvinen@linux.intel.com>
 MIME-Version: 1.0
-References: <874k2nhgtg.fsf@catern.com> <CAG48ez1PcDV5LvUomM6MsoA0pbg_7oJyfBLt6M2e3541gxx-LA@mail.gmail.com>
-In-Reply-To: <CAG48ez1PcDV5LvUomM6MsoA0pbg_7oJyfBLt6M2e3541gxx-LA@mail.gmail.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 21 Apr 2022 13:33:57 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1dLWs8DuQH5SV_d-S08sLj3rJy5O4s=Tva+Ry0EhO6Fg@mail.gmail.com>
-Message-ID: <CAK8P3a1dLWs8DuQH5SV_d-S08sLj3rJy5O4s=Tva+Ry0EhO6Fg@mail.gmail.com>
-Subject: Re: Explicitly defining the userspace API
-To:     Jann Horn <jannh@google.com>
-Cc:     Spencer Baugh <sbaugh@catern.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Marcin Juszkiewicz <marcin@juszkiewicz.com.pl>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:rkRtVxXPzzTjdqPTwePteQpbtX/huo5f1Ne66vl1b6fuC8fx5IH
- XsL0NnyuwVTRCIsgfx+EvWCOlo4XeNi+ZtQ3wnw67TcrxBhkBHt+2k9uq0KSMNd5wjMa1SU
- Rs4ndLJTFTIv/ST/r4hNB9+uHJEOqGNqyIL67uVXMr8jSd+W0mF+9Hj3Arjj/h6JLMh0P3D
- BgJFHZSd+1gKzq56+Vz/g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kfwfobX88qs=:xd2xVaCwo8riOPXw8yq0pj
- vq0UeXH7F64U4MMhE/muBVU59AIwRac+BhT2lRuSORW4mHCZF98rnW069ViT9uThlq7g+squj
- G6RcavV+2iZcXeIxWqOal9F7h9nsYRc3cYa3wckd+ghtRRetm0gkI0k9nAx1Rk5VW1GH756X+
- XKPFTiW8WZHVV1cQaqUY9lLyuBDeX6NJ55mBA1TjyWieqZeTpG5skQJoLPKykTbpqcZ6Y4DPc
- JpP59WRYrWy+Oj4onxT4FUKZRh//oPF47JFKlcnstX5gNivS0Puvrx8ljI9iFSUcM9tYWFVoR
- lPdB2J2I4xD5cxLM2ZI8rTumwfmUiRuDVzhhujYjL9BdSLyNuscf0z8EOPKMO9Ct6BK1DYyLV
- IzB+Wel6SYDCQQPk6ggzqBcqxuJi+DhTHpwKlxQ2C3D9HvFka6MQPWGwMM/TblIHGFGpMJVgJ
- rx9t7u2NhzCsEewaexUywnlCRaGx0LLa+9kchltv139iL4fVPmFK9H46xvdPXKkj7FwiDGM19
- 4RnyN45/1/HSHQB2jc+H0YUopiNhZwc8DXDDf2xX/pnPkYcjyKrPoVDIdzUDZdRtwbvlhz6S3
- wfQJGWKnLjzTz6+MU/l0JOhy23VPYW8jrX3791T7uj7SiczFI9Nii2IPLxyDILT9HZbWVWbYR
- xjO8Y6GnkRXoh3azsjaa+epy1IZWD7Eif3S/k3tpxJJnuEF+g5cMX8a17GRYhQLpIjmB4lp/d
- xbIZEoijp7UpnJXflvXYYIDs85/6eNizgBnPn/odtV+FZXBZBK32PlvKF7DI6rggcR3suscBT
- 8xOGmw9fDRbZw98x+zw8REQNOzxYOCsNWepBhqr8pAAI8tmlWY=
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Apr 20, 2022 at 7:18 PM Jann Horn <jannh@google.com> wrote:
->
-> On Wed, Apr 20, 2022 at 6:30 PM Spencer Baugh <sbaugh@catern.com> wrote:
-> > Linux guarantees the stability of its userspace API, but the API
-> > itself is only informally described, primarily with English prose.  I
-> > want to add an explicit, authoritative machine-readable definition of
-> > the Linux userspace API.
-> >
-> > As background, in a conventional libc like glibc, read(2) calls the
-> > Linux system call read, passing arguments in an architecture-specific
-> > way according to the specific details of read.
-> >
-> > The details of these syscalls are at best documented in manpages, and
-> > often defined only by the implementation.  Anyone else who wants to
-> > work with a syscall, in any way, needs to duplicate all those details.
-> >
-> > So the most basic definition of the API would just represent the
-> > information already present in SYSCALL_DEFINE macros: the C types of
-> > arguments and return values.
->
-> FWIW, I believe ftrace already gets that basic information from the
-> SYSCALL_DEFINE macros via struct syscall_metadata, and exports it to
-> root-privileged userspace (although I think it won't actually tell you
-> what the syscall number is that way):
 
-One possible way I have considered in the past is to change the
-SYSCALL_DEFINE() macros so they live in include/linux/syscalls.h,
-where they expand to the wrappers for argument sanitizing (clearing
-the upper bits etc) and end up calling normal functions.
+Hello Ilpo,
 
-When combined with the information in the syscall.tbl, this can help
-provide a machine-readable list of implemented system calls and at the
-same time ensure that the prototypes match what the actual functions
-have.
+i have tested your v3 patch on v3 hardware, that is, using the
+emulated em485 because of lack of HW support. It is not working
+due to three issues.
 
-The main missing bit for this is to convert asm-generic/unistd.h to
-the syscall.tbl format, and to ensure that there is a unique mapping
-between sys_*() function names and prototypes. The latter bit is
-/almost/ there and should be easy to get right by renaming a couple
-of nonstandard syscall entry points.
+1.- rs485_stop_tx is never called because there are no interrupts.
+I worked around this by disabling DMA:
 
-       Arnd
+--- a/drivers/tty/serial/8250/8250_dw.c
++++ b/drivers/tty/serial/8250/8250_dw.c
+@@ -577,3 +577,3 @@ static int dw8250_probe(struct platform_device *pdev)
+ 		data->data.dma.rxconf.src_maxburst = p->fifosize / 4;
+ 		data->data.dma.txconf.dst_maxburst = p->fifosize / 4;
+- 		up->dma = &data->data.dma;
++		up->dma = 0; // Proof of concept, not to be merged!
+
+2.- Although "linux,rs485-enabled-at-boot-time" is set in the DTS,
+the RTS/DriverEnable line is asserted all the time the /dev/ttyS1
+device file is closed.
+As soon as the device file is openned, the RTS line is deasserted.
+Then it works as expected: it is asserted only during transmissions.
+When the device file is closed again, the RTS line goes back to the
+asserted level and stays there.
+When the rs485 mode is enabled, it is expected that the RTS line be
+deasserted by default.
+
+3.- The RTS line is asserted a few microseconds earlier than the
+start bit, that is acceptable, but then it deasserts one whole bit
+time before the last stop bit.
+So, the last stop bit of the last byte of a message is not sent
+because the driver is disabled.
+This has been tested with the port configured at 19200e1, that is,
+the bit time is 52 us.
+I worked around this by adding "rs485-rts-delay = <0 52>;" in the
+DTS. This leads to the following feature (not an issue):
+
+On Mon, 11 Apr 2022 11:33:12 +0300, Ilpo Järvinen wrote:
+> Set delay_rts_before_send and delay_rts_after_send to zero for now.
+> The granularity of that ABI is too coarse to be useful.
+
+Indeed the time unit of this parameter is milliseconds, as stated in
+Documentation/devicetree/bindings/serial/rs485.yaml
+Which in the general case is more than ten bit times.
+
+But it is being interpreted as microseconds here:
+
+On Mon, 11 Apr 2022 11:33:11 +0300, Ilpo Järvinen wrote:
+> [PATCH v3 02/12] serial: 8250: Handle UART without interrupt on TEMT
+>+	stop_delay += (u64)p->port.rs485.delay_rts_after_send * NSEC_PER_USEC;
+
+So, this way it has a useful granularity to be used in
+"rs485-rts-delay = <0 52>;" but is not compliant with the spec.
+
+Regards,
+  Vicente.
