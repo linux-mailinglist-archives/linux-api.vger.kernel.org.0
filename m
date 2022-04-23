@@ -2,167 +2,355 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C19A250B7E9
-	for <lists+linux-api@lfdr.de>; Fri, 22 Apr 2022 15:08:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFF3650C7AA
+	for <lists+linux-api@lfdr.de>; Sat, 23 Apr 2022 07:44:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1447733AbiDVNKT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 22 Apr 2022 09:10:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44464 "EHLO
+        id S233341AbiDWFrI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 23 Apr 2022 01:47:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233857AbiDVNKS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 22 Apr 2022 09:10:18 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61BB722B3E;
-        Fri, 22 Apr 2022 06:07:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1650632845; x=1682168845;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=SFvPy9du95xQnOhvhD2l1NkJ/MBIRyt1xPXB/F8fRrc=;
-  b=ky0MRk5Xu/+Xt8REf8KPW31uP73A4/n/v2Km4TNTtwF6Lois2V27jqQO
-   BhHV3X3EyzFelstXcPwkbUG1TpdYYHMNGKJ5qvcEJlbVztmghbrl5BNPk
-   8j71R0LVssKFhKts2vN1YeE+kkWFuHelLUGqx9wCc0p4UmXwY7bEV3opf
-   ms6INoJ9bVQuKMBTABW/YekGd/236vWujsfYQpgaD7ZtK9ubO3r9CfzSJ
-   W+WiLrCnmw8XX71GHPmwpgcVvo0R01w0Pe9sELb0LMQ/NIoVyFFhQY/Wx
-   Uampz00s9nX6NmpUTw/UCPU71TWg46WjvUshXFPek95VaO8AiI8/yOteo
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10324"; a="325123974"
-X-IronPort-AV: E=Sophos;i="5.90,281,1643702400"; 
-   d="scan'208";a="325123974"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2022 06:07:24 -0700
-X-IronPort-AV: E=Sophos;i="5.90,281,1643702400"; 
-   d="scan'208";a="534279957"
-Received: from dongaris-mobl.gar.corp.intel.com ([10.252.56.39])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2022 06:07:21 -0700
-Date:   Fri, 22 Apr 2022 16:07:18 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-cc:     Vicente Bergas <vicencb@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        giulio.benetti@micronovasrl.com, gregkh@linuxfoundation.org,
-        heikki.krogerus@linux.intel.com, heiko@sntech.de,
-        jirislaby@kernel.org, johan@kernel.org, linux-api@vger.kernel.org,
-        linux-serial <linux-serial@vger.kernel.org>, lukas@wunner.de,
-        u.kleine-koenig@pengutronix.de
-Subject: Re: [PATCH v3 00/12] Add RS485 support to DW UART
-In-Reply-To: <388d773-5c21-dfc9-40b1-7f2a060154d@linux.intel.com>
-Message-ID: <184ccf6c-e1db-8a64-24e0-f045a9d88751@linux.intel.com>
-References: <20220411083321.9131-1-ilpo.jarvinen@linux.intel.com> <20220421153626.120494-1-vicencb@gmail.com> <388d773-5c21-dfc9-40b1-7f2a060154d@linux.intel.com>
+        with ESMTP id S233321AbiDWFq7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 23 Apr 2022 01:46:59 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9E9D64BDF
+        for <linux-api@vger.kernel.org>; Fri, 22 Apr 2022 22:44:01 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id s14so15288270plk.8
+        for <linux-api@vger.kernel.org>; Fri, 22 Apr 2022 22:44:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZFsn76Wy7S6v0Yqx+I64DSGzjdIzFdQ9mwgQEn4qZdI=;
+        b=OHli3WxxjTNOtwXzzUteux30e7lUnsvZe0VRujYtUDHGwF7DeCIr0LXKfAdXygEqPL
+         jUVEy5CqxatjGEfrEhkcGYVCbn04il2mvqrFC+qSMBWU6UqUzGkuBSSfOOqC2udQsReS
+         29aFR4RuBGZpab2g/+roF2YHgsvahIzxZKAtzL7eWdu05biLD5jt8zW8OVMAMJI54HEy
+         kuj8auXO0vv/CU2VKzIKuhg+HijorcVemLraYYwjfnrpXXOB//KjbZRLFjSKzZfgZhwi
+         v5KznMcSPYlVbKh3tW9hURb3yOlhL1Yz1runuW6hFsP7ndeT6RkJlWvDsHc2NVpByLwS
+         TErw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZFsn76Wy7S6v0Yqx+I64DSGzjdIzFdQ9mwgQEn4qZdI=;
+        b=o87KeSEMOZpizIc2H7DWPFaAzg7N+C0avo7HOMcnQoYvv8r6ZnaRj3oKEOFfW7nJeA
+         +6FsbdE3k3X6aTrcdKyq56d1kjvWTnpdlVawnQMJ6P6FGwV8yMyPJEayWl3qQFh18ybF
+         4K/zQ371GQRiQ0V2IX0qPfIiYeGyzihmrg7src5jMulLEIvwsNrhM3X+QKOem6Ml0y5V
+         +IHqdhg2s8AT3XxFDYHszTiue8iokqKTGvtwoN3yaM9l961R9SATRhbjSFKnnmeZO4rf
+         SWxbo+CT0gKNvDk/N1LeTlWfV1H63iJVnSKGcGp3k3XBsVZPair/rXyj35R8ZS3L8Qhv
+         EwKA==
+X-Gm-Message-State: AOAM533oksYdGyM0QxrPdgeH522ZWq12J9zkrjNk0NeoHrB+SG/GwQQD
+        YQZTOrCusVtnELK8hW39NA9Fug9o+LS50j3brXAaIg==
+X-Google-Smtp-Source: ABdhPJzqdIY3siotXW6eE2KEll2J6YC3j9KiWON6VCesRQeVObAGPD6alQrr4OD/+znajuSVjVEYLGvlfokOtuBttAM=
+X-Received: by 2002:a17:90b:4f89:b0:1d4:961f:ad9d with SMTP id
+ qe9-20020a17090b4f8900b001d4961fad9dmr18172000pjb.114.1650692640956; Fri, 22
+ Apr 2022 22:44:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-1750312257-1650632844=:1779"
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220310140911.50924-1-chao.p.peng@linux.intel.com> <20220310140911.50924-2-chao.p.peng@linux.intel.com>
+In-Reply-To: <20220310140911.50924-2-chao.p.peng@linux.intel.com>
+From:   Vishal Annapurve <vannapurve@google.com>
+Date:   Fri, 22 Apr 2022 22:43:50 -0700
+Message-ID: <CAGtprH9sncAeS7-=ewr07B=Q+htVDdwRJhbqF+GhehHMYmvw5w@mail.gmail.com>
+Subject: Re: [PATCH v5 01/13] mm/memfd: Introduce MFD_INACCESSIBLE flag
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jun Nakajima <jun.nakajima@intel.com>, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Thu, Mar 10, 2022 at 6:09 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+>
+> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+>
+> Introduce a new memfd_create() flag indicating the content of the
+> created memfd is inaccessible from userspace through ordinary MMU
+> access (e.g., read/write/mmap). However, the file content can be
+> accessed via a different mechanism (e.g. KVM MMU) indirectly.
+>
+> It provides semantics required for KVM guest private memory support
+> that a file descriptor with this flag set is going to be used as the
+> source of guest memory in confidential computing environments such
+> as Intel TDX/AMD SEV but may not be accessible from host userspace.
+>
+> Since page migration/swapping is not yet supported for such usages
+> so these pages are currently marked as UNMOVABLE and UNEVICTABLE
+> which makes them behave like long-term pinned pages.
+>
+> The flag can not coexist with MFD_ALLOW_SEALING, future sealing is
+> also impossible for a memfd created with this flag.
+>
+> At this time only shmem implements this flag.
+>
+> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> ---
+>  include/linux/shmem_fs.h   |  7 +++++
+>  include/uapi/linux/memfd.h |  1 +
+>  mm/memfd.c                 | 26 +++++++++++++++--
+>  mm/shmem.c                 | 57 ++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 88 insertions(+), 3 deletions(-)
+>
+> diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
+> index e65b80ed09e7..2dde843f28ef 100644
+> --- a/include/linux/shmem_fs.h
+> +++ b/include/linux/shmem_fs.h
+> @@ -12,6 +12,9 @@
+>
+>  /* inode in-kernel data */
+>
+> +/* shmem extended flags */
+> +#define SHM_F_INACCESSIBLE     0x0001  /* prevent ordinary MMU access (e.g. read/write/mmap) to file content */
+> +
+>  struct shmem_inode_info {
+>         spinlock_t              lock;
+>         unsigned int            seals;          /* shmem seals */
+> @@ -24,6 +27,7 @@ struct shmem_inode_info {
+>         struct shared_policy    policy;         /* NUMA memory alloc policy */
+>         struct simple_xattrs    xattrs;         /* list of xattrs */
+>         atomic_t                stop_eviction;  /* hold when working on inode */
+> +       unsigned int            xflags;         /* shmem extended flags */
+>         struct inode            vfs_inode;
+>  };
+>
+> @@ -61,6 +65,9 @@ extern struct file *shmem_file_setup(const char *name,
+>                                         loff_t size, unsigned long flags);
+>  extern struct file *shmem_kernel_file_setup(const char *name, loff_t size,
+>                                             unsigned long flags);
+> +extern struct file *shmem_file_setup_xflags(const char *name, loff_t size,
+> +                                           unsigned long flags,
+> +                                           unsigned int xflags);
+>  extern struct file *shmem_file_setup_with_mnt(struct vfsmount *mnt,
+>                 const char *name, loff_t size, unsigned long flags);
+>  extern int shmem_zero_setup(struct vm_area_struct *);
+> diff --git a/include/uapi/linux/memfd.h b/include/uapi/linux/memfd.h
+> index 7a8a26751c23..48750474b904 100644
+> --- a/include/uapi/linux/memfd.h
+> +++ b/include/uapi/linux/memfd.h
+> @@ -8,6 +8,7 @@
+>  #define MFD_CLOEXEC            0x0001U
+>  #define MFD_ALLOW_SEALING      0x0002U
+>  #define MFD_HUGETLB            0x0004U
+> +#define MFD_INACCESSIBLE       0x0008U
+>
+>  /*
+>   * Huge page size encoding when MFD_HUGETLB is specified, and a huge page
+> diff --git a/mm/memfd.c b/mm/memfd.c
+> index 9f80f162791a..74d45a26cf5d 100644
+> --- a/mm/memfd.c
+> +++ b/mm/memfd.c
+> @@ -245,16 +245,20 @@ long memfd_fcntl(struct file *file, unsigned int cmd, unsigned long arg)
+>  #define MFD_NAME_PREFIX_LEN (sizeof(MFD_NAME_PREFIX) - 1)
+>  #define MFD_NAME_MAX_LEN (NAME_MAX - MFD_NAME_PREFIX_LEN)
+>
+> -#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB)
+> +#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB | \
+> +                      MFD_INACCESSIBLE)
+>
+>  SYSCALL_DEFINE2(memfd_create,
+>                 const char __user *, uname,
+>                 unsigned int, flags)
+>  {
+> +       struct address_space *mapping;
+>         unsigned int *file_seals;
+> +       unsigned int xflags;
+>         struct file *file;
+>         int fd, error;
+>         char *name;
+> +       gfp_t gfp;
+>         long len;
+>
+>         if (!(flags & MFD_HUGETLB)) {
+> @@ -267,6 +271,10 @@ SYSCALL_DEFINE2(memfd_create,
+>                         return -EINVAL;
+>         }
+>
+> +       /* Disallow sealing when MFD_INACCESSIBLE is set. */
+> +       if (flags & MFD_INACCESSIBLE && flags & MFD_ALLOW_SEALING)
+> +               return -EINVAL;
+> +
+>         /* length includes terminating zero */
+>         len = strnlen_user(uname, MFD_NAME_MAX_LEN + 1);
+>         if (len <= 0)
+> @@ -301,8 +309,11 @@ SYSCALL_DEFINE2(memfd_create,
+>                                         HUGETLB_ANONHUGE_INODE,
+>                                         (flags >> MFD_HUGE_SHIFT) &
+>                                         MFD_HUGE_MASK);
 
---8323329-1750312257-1650632844=:1779
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-
-On Fri, 22 Apr 2022, Ilpo Järvinen wrote:
-
-> On Thu, 21 Apr 2022, Vicente Bergas wrote:
-> 
-> > i have tested your v3 patch on v3 hardware, that is, using the
-> > emulated em485 because of lack of HW support. It is not working
-> > due to three issues.
-> 
-> Thanks for testing!
-> 
-> > 1.- rs485_stop_tx is never called because there are no interrupts.
-> > I worked around this by disabling DMA:
-> > 
-> > --- a/drivers/tty/serial/8250/8250_dw.c
-> > +++ b/drivers/tty/serial/8250/8250_dw.c
-> > @@ -577,3 +577,3 @@ static int dw8250_probe(struct platform_device *pdev)
-> >  		data->data.dma.rxconf.src_maxburst = p->fifosize / 4;
-> >  		data->data.dma.txconf.dst_maxburst = p->fifosize / 4;
-> > - 		up->dma = &data->data.dma;
-> > +		up->dma = 0; // Proof of concept, not to be merged!
-> 
-> I'll need to look into this.
-
-8250 DMA tx complete path lacks calls to normal 8250 stop handling and
-I think it probably also assumes too much from dmaengine's completion 
-callback. ...It also seems bit early to call serial8250_rpm_put_tx from 
-there(?).
-
-This patch allowed em485_start/stop_tx to be called in my tests:
+Should hugetlbfs also be modified to be a backing store for private
+memory like shmem when hugepages are to be used?
+As of now, this series doesn't seem to support using private memfds
+with backing hugepages.
 
 
-[PATCH 1/1] serial: 8250: use THRE & __stop_tx also with DMA
 
-Currently, DMA complete handling in 8250 driver does not use THRE
-to detect true completion of the tx and also doesn't call __stop_tx.
-This leads to problems with em485 that needs to handle RTS timing.
-
-Instead of handling tx stop within 8250 dma code, enable THRE when
-tx data runs out and tweak serial8250_handle_irq to call
-__stop_tx when uart is using DMA.
-
-Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
----
- drivers/tty/serial/8250/8250_dma.c  | 4 ++--
- drivers/tty/serial/8250/8250_port.c | 9 ++++++---
- 2 files changed, 8 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/tty/serial/8250/8250_dma.c b/drivers/tty/serial/8250/8250_dma.c
-index 890fa7ddaa7f..e84db0abf365 100644
---- a/drivers/tty/serial/8250/8250_dma.c
-+++ b/drivers/tty/serial/8250/8250_dma.c
-@@ -29,12 +29,13 @@ static void __dma_tx_complete(void *param)
- 	xmit->tail += dma->tx_size;
- 	xmit->tail &= UART_XMIT_SIZE - 1;
- 	p->port.icount.tx += dma->tx_size;
-+	dma->tx_size = 0;
- 
- 	if (uart_circ_chars_pending(xmit) < WAKEUP_CHARS)
- 		uart_write_wakeup(&p->port);
- 
- 	ret = serial8250_tx_dma(p);
--	if (ret)
-+	if (ret || !dma->tx_size)
- 		serial8250_set_THRI(p);
- 
- 	spin_unlock_irqrestore(&p->port.lock, flags);
-@@ -71,7 +72,6 @@ int serial8250_tx_dma(struct uart_8250_port *p)
- 
- 	if (uart_tx_stopped(&p->port) || uart_circ_empty(xmit)) {
- 		/* We have been called from __dma_tx_complete() */
--		serial8250_rpm_put_tx(p);
- 		return 0;
- 	}
- 
-diff --git a/drivers/tty/serial/8250/8250_port.c b/drivers/tty/serial/8250/8250_port.c
-index b3289ef117d1..72f144449ee1 100644
---- a/drivers/tty/serial/8250/8250_port.c
-+++ b/drivers/tty/serial/8250/8250_port.c
-@@ -1960,9 +1960,12 @@ int serial8250_handle_irq(struct uart_port *port, unsigned int iir)
- 			status = serial8250_rx_chars(up, status);
- 	}
- 	serial8250_modem_status(up);
--	if ((!up->dma || up->dma->tx_err) && (status & UART_LSR_THRE) &&
--		(up->ier & UART_IER_THRI))
--		serial8250_tx_chars(up);
-+	if ((status & UART_LSR_THRE) && (up->ier & UART_IER_THRI)) {
-+		if (!up->dma || up->dma->tx_err)
-+			serial8250_tx_chars(up);
-+		else
-+			__stop_tx(up);
-+	}
- 
- 	uart_unlock_and_check_sysrq_irqrestore(port, flags);
- 
--- 
-2.35.1
-
---8323329-1750312257-1650632844=:1779--
+> -       } else
+> -               file = shmem_file_setup(name, 0, VM_NORESERVE);
+> +       } else {
+> +               xflags = flags & MFD_INACCESSIBLE ? SHM_F_INACCESSIBLE : 0;
+> +               file = shmem_file_setup_xflags(name, 0, VM_NORESERVE, xflags);
+> +       }
+> +
+>         if (IS_ERR(file)) {
+>                 error = PTR_ERR(file);
+>                 goto err_fd;
+> @@ -313,6 +324,15 @@ SYSCALL_DEFINE2(memfd_create,
+>         if (flags & MFD_ALLOW_SEALING) {
+>                 file_seals = memfd_file_seals_ptr(file);
+>                 *file_seals &= ~F_SEAL_SEAL;
+> +       } else if (flags & MFD_INACCESSIBLE) {
+> +               mapping = file_inode(file)->i_mapping;
+> +               gfp = mapping_gfp_mask(mapping);
+> +               gfp &= ~__GFP_MOVABLE;
+> +               mapping_set_gfp_mask(mapping, gfp);
+> +               mapping_set_unevictable(mapping);
+> +
+> +               file_seals = memfd_file_seals_ptr(file);
+> +               *file_seals = F_SEAL_SEAL;
+>         }
+>
+>         fd_install(fd, file);
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index a09b29ec2b45..9b31a7056009 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -1084,6 +1084,13 @@ static int shmem_setattr(struct user_namespace *mnt_userns,
+>                     (newsize > oldsize && (info->seals & F_SEAL_GROW)))
+>                         return -EPERM;
+>
+> +               if (info->xflags & SHM_F_INACCESSIBLE) {
+> +                       if(oldsize)
+> +                               return -EPERM;
+> +                       if (!PAGE_ALIGNED(newsize))
+> +                               return -EINVAL;
+> +               }
+> +
+>                 if (newsize != oldsize) {
+>                         error = shmem_reacct_size(SHMEM_I(inode)->flags,
+>                                         oldsize, newsize);
+> @@ -1331,6 +1338,8 @@ static int shmem_writepage(struct page *page, struct writeback_control *wbc)
+>                 goto redirty;
+>         if (!total_swap_pages)
+>                 goto redirty;
+> +       if (info->xflags & SHM_F_INACCESSIBLE)
+> +               goto redirty;
+>
+>         /*
+>          * Our capabilities prevent regular writeback or sync from ever calling
+> @@ -2228,6 +2237,9 @@ static int shmem_mmap(struct file *file, struct vm_area_struct *vma)
+>         if (ret)
+>                 return ret;
+>
+> +       if (info->xflags & SHM_F_INACCESSIBLE)
+> +               return -EPERM;
+> +
+>         /* arm64 - allow memory tagging on RAM-based files */
+>         vma->vm_flags |= VM_MTE_ALLOWED;
+>
+> @@ -2433,6 +2445,8 @@ shmem_write_begin(struct file *file, struct address_space *mapping,
+>                 if ((info->seals & F_SEAL_GROW) && pos + len > inode->i_size)
+>                         return -EPERM;
+>         }
+> +       if (unlikely(info->xflags & SHM_F_INACCESSIBLE))
+> +               return -EPERM;
+>
+>         ret = shmem_getpage(inode, index, pagep, SGP_WRITE);
+>
+> @@ -2517,6 +2531,21 @@ static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
+>                 end_index = i_size >> PAGE_SHIFT;
+>                 if (index > end_index)
+>                         break;
+> +
+> +               /*
+> +                * inode_lock protects setting up seals as well as write to
+> +                * i_size. Setting SHM_F_INACCESSIBLE only allowed with
+> +                * i_size == 0.
+> +                *
+> +                * Check SHM_F_INACCESSIBLE after i_size. It effectively
+> +                * serialize read vs. setting SHM_F_INACCESSIBLE without
+> +                * taking inode_lock in read path.
+> +                */
+> +               if (SHMEM_I(inode)->xflags & SHM_F_INACCESSIBLE) {
+> +                       error = -EPERM;
+> +                       break;
+> +               }
+> +
+>                 if (index == end_index) {
+>                         nr = i_size & ~PAGE_MASK;
+>                         if (nr <= offset)
+> @@ -2648,6 +2677,12 @@ static long shmem_fallocate(struct file *file, int mode, loff_t offset,
+>                         goto out;
+>                 }
+>
+> +               if ((info->xflags & SHM_F_INACCESSIBLE) &&
+> +                   (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))) {
+> +                       error = -EINVAL;
+> +                       goto out;
+> +               }
+> +
+>                 shmem_falloc.waitq = &shmem_falloc_waitq;
+>                 shmem_falloc.start = (u64)unmap_start >> PAGE_SHIFT;
+>                 shmem_falloc.next = (unmap_end + 1) >> PAGE_SHIFT;
+> @@ -4082,6 +4117,28 @@ struct file *shmem_kernel_file_setup(const char *name, loff_t size, unsigned lon
+>         return __shmem_file_setup(shm_mnt, name, size, flags, S_PRIVATE);
+>  }
+>
+> +/**
+> + * shmem_file_setup_xflags - get an unlinked file living in tmpfs with
+> + *      additional xflags.
+> + * @name: name for dentry (to be seen in /proc/<pid>/maps
+> + * @size: size to be set for the file
+> + * @flags: VM_NORESERVE suppresses pre-accounting of the entire object size
+> + * @xflags: SHM_F_INACCESSIBLE prevents ordinary MMU access to the file content
+> + */
+> +
+> +struct file *shmem_file_setup_xflags(const char *name, loff_t size,
+> +                                    unsigned long flags, unsigned int xflags)
+> +{
+> +       struct shmem_inode_info *info;
+> +       struct file *res = __shmem_file_setup(shm_mnt, name, size, flags, 0);
+> +
+> +       if(!IS_ERR(res)) {
+> +               info = SHMEM_I(file_inode(res));
+> +               info->xflags = xflags & SHM_F_INACCESSIBLE;
+> +       }
+> +       return res;
+> +}
+> +
+>  /**
+>   * shmem_file_setup - get an unlinked file living in tmpfs
+>   * @name: name for dentry (to be seen in /proc/<pid>/maps
+> --
+> 2.17.1
+>
