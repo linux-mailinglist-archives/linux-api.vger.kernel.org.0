@@ -2,218 +2,161 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A5EF50D072
-	for <lists+linux-api@lfdr.de>; Sun, 24 Apr 2022 10:15:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC0D450D3C8
+	for <lists+linux-api@lfdr.de>; Sun, 24 Apr 2022 19:00:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238657AbiDXISm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 24 Apr 2022 04:18:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59262 "EHLO
+        id S235776AbiDXRDG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 24 Apr 2022 13:03:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238659AbiDXISl (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 24 Apr 2022 04:18:41 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62AED6E4DC;
-        Sun, 24 Apr 2022 01:15:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1650788142; x=1682324142;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=R5/zZF/IyIdTwmbR+/CpSjzujNVRZET5P/KUYqz4hbY=;
-  b=mUe/0iSmQ8BsD5PsLd7n1RL0F8BH/VTKHaMVrdOuAIPVJ8GR89w/HnDB
-   sKsqeaFN4klnuZVvXos7Rs9PfCT8mvRHLLqPffnbpu/OvFZr3pBaX3Ly5
-   vs1NLQgCJ5T8TbhmuS1yW9DUQofWNL6oLMLB0sPaFdoR6yieCfloodtXB
-   pqDREHAfH+SAnBiNmZ/735NAWoGG4g1bKq+4lXVUG96cjjbLxojf6ywrH
-   DFLiaes0EbuZn8tkgduvX1WS9lAM30v1xwDkyv2ZutjeDS5YtczRGo9Z0
-   O+GB7OWcBXIBDjNyH9qox8ZFW3iYxyk8F0fgVl+8dBtY7aN0NYyBE/7l2
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10326"; a="246931372"
-X-IronPort-AV: E=Sophos;i="5.90,286,1643702400"; 
-   d="scan'208";a="246931372"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2022 01:15:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,286,1643702400"; 
-   d="scan'208";a="704147618"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
-  by fmsmga001.fm.intel.com with ESMTP; 24 Apr 2022 01:15:34 -0700
-Date:   Sun, 24 Apr 2022 16:15:25 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Vishal Annapurve <vannapurve@google.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        with ESMTP id S234895AbiDXRDF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 24 Apr 2022 13:03:05 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DB1EAE7C;
+        Sun, 24 Apr 2022 10:00:03 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0B6C3611DE;
+        Sun, 24 Apr 2022 17:00:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0358C385AD;
+        Sun, 24 Apr 2022 17:00:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1650819602;
+        bh=Je+h7tOqeRuiQPlVHJ9YBtSjYKQSsE87o9H6bqNhv0E=;
+        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+        b=LQiLb34FBw2eNgmoSiK231PONOUqKINkvAm71Hqa/6IFcH84IBd4KI62BNG2mLhtK
+         Hc6wfzDdol11Q6iTwsjdogfokTjyEWWEbGSpsOx/knOJKp6Crx5ySz6ZBPNfCPm2Y2
+         UTOM8YD+BmK8eAmsrEjDxw20mEt5bF7RNwdoAAbcP7G3bq3wsJBVcC+ket5QCp7pNZ
+         ebwBj9BNaRZhioAXdPrTG0cP2ypE2dSneAE2Y4RaBLyhY3E0B2q6+EJuUHx1fwlqL9
+         ky9DUb3woG18oxgarN9knFcnkhJA5NdzVOb2xc+hnzYweKSFCn+6GsqSZcJd4W0g4C
+         eLcYkopG6nWTg==
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailauth.nyi.internal (Postfix) with ESMTP id AF9FB27C0054;
+        Sun, 24 Apr 2022 12:59:59 -0400 (EDT)
+Received: from imap48 ([10.202.2.98])
+  by compute2.internal (MEProxy); Sun, 24 Apr 2022 12:59:59 -0400
+X-ME-Sender: <xms:DYJlYrS34FbKgFIeuLj_dSMvkd5cU95kEUVKwMNEB6sujYQvoPVv6Q>
+    <xme:DYJlYswLoJzXo6S6_R7s1t-GiUI4O6DLQ-Pd_h4VfsSNC7qvDxGEUISicXFj94Pnp
+    ZNy6B9ZgrmKpY1sYlo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdelgddutdelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
+    ugihucfnuhhtohhmihhrshhkihdfuceolhhuthhosehkvghrnhgvlhdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepvdfhuedvtdfhudffhfekkefftefghfeltdelgeffteehueegjeff
+    udehgfetiefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homheprghnugihodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduudeiudek
+    heeifedvqddvieefudeiiedtkedqlhhuthhopeepkhgvrhhnvghlrdhorhhgsehlihhnuh
+    igrdhluhhtohdruhhs
+X-ME-Proxy: <xmx:DYJlYg2mLjrVZeMpqDRGXmRBOA-ECqlSFMjTE8uGdMFCztXmSs1Oww>
+    <xmx:DYJlYrDN603TmyI_zfJc_c4WIOl52Lr3VQyhal9I5Eb6ECdOYdjpsg>
+    <xmx:DYJlYkh4toKPkrvr3za3g-nANRCLI8UWxf7YtZx3gqdjE5hym31nCA>
+    <xmx:D4JlYtA1fc6cjZhfnkcH18sWUIyRZ7lxNJCXAb7CsWUmjH9hBozjjg>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 5AA8821E006E; Sun, 24 Apr 2022 12:59:57 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-569-g7622ad95cc-fm-20220421.002-g7622ad95
+Mime-Version: 1.0
+Message-Id: <3b99f157-0f30-4b30-8399-dd659250ab8d@www.fastmail.com>
+In-Reply-To: <20220422105612.GB61987@chaop.bj.intel.com>
+References: <YkQzfjgTQaDd2E2T@google.com> <YkSaUQX89ZEojsQb@google.com>
+ <80aad2f9-9612-4e87-a27a-755d3fa97c92@www.fastmail.com>
+ <YkcTTY4YjQs5BRhE@google.com>
+ <83fd55f8-cd42-4588-9bf6-199cbce70f33@www.fastmail.com>
+ <YksIQYdG41v3KWkr@google.com> <Ykslo2eo2eRXrpFR@google.com>
+ <eefc3c74-acca-419c-8947-726ce2458446@www.fastmail.com>
+ <Ykwbqv90C7+8K+Ao@google.com> <YkyEaYiL0BrDYcZv@google.com>
+ <20220422105612.GB61987@chaop.bj.intel.com>
+Date:   Sun, 24 Apr 2022 09:59:37 -0700
+From:   "Andy Lutomirski" <luto@kernel.org>
+To:     "Chao Peng" <chao.p.peng@linux.intel.com>,
+        "Sean Christopherson" <seanjc@google.com>
+Cc:     "Quentin Perret" <qperret@google.com>,
+        "Steven Price" <steven.price@arm.com>,
+        "kvm list" <kvm@vger.kernel.org>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
         linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
+        "Linux API" <linux-api@vger.kernel.org>, qemu-devel@nongnu.org,
+        "Paolo Bonzini" <pbonzini@redhat.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Vitaly Kuznetsov" <vkuznets@redhat.com>,
+        "Wanpeng Li" <wanpengli@tencent.com>,
+        "Jim Mattson" <jmattson@google.com>,
+        "Joerg Roedel" <joro@8bytes.org>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Hugh Dickins" <hughd@google.com>,
+        "Jeff Layton" <jlayton@kernel.org>,
         "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        "Mike Rapoport" <rppt@kernel.org>,
         "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Jun Nakajima <jun.nakajima@intel.com>, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com
-Subject: Re: [PATCH v5 01/13] mm/memfd: Introduce MFD_INACCESSIBLE flag
-Message-ID: <20220424081525.GB4207@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <20220310140911.50924-2-chao.p.peng@linux.intel.com>
- <CAGtprH9sncAeS7-=ewr07B=Q+htVDdwRJhbqF+GhehHMYmvw5w@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGtprH9sncAeS7-=ewr07B=Q+htVDdwRJhbqF+GhehHMYmvw5w@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        "Vlastimil Babka" <vbabka@suse.cz>,
+        "Vishal Annapurve" <vannapurve@google.com>,
+        "Yu Zhang" <yu.c.zhang@linux.intel.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        "Nakajima, Jun" <jun.nakajima@intel.com>,
+        "Dave Hansen" <dave.hansen@intel.com>,
+        "Andi Kleen" <ak@linux.intel.com>,
+        "David Hildenbrand" <david@redhat.com>,
+        "Marc Zyngier" <maz@kernel.org>, "Will Deacon" <will@kernel.org>
+Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM guest
+ private memory
+Content-Type: text/plain
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Apr 22, 2022 at 10:43:50PM -0700, Vishal Annapurve wrote:
-> On Thu, Mar 10, 2022 at 6:09 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> >
-> > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-> >
-> > Introduce a new memfd_create() flag indicating the content of the
-> > created memfd is inaccessible from userspace through ordinary MMU
-> > access (e.g., read/write/mmap). However, the file content can be
-> > accessed via a different mechanism (e.g. KVM MMU) indirectly.
-> >
-> > It provides semantics required for KVM guest private memory support
-> > that a file descriptor with this flag set is going to be used as the
-> > source of guest memory in confidential computing environments such
-> > as Intel TDX/AMD SEV but may not be accessible from host userspace.
-> >
-> > Since page migration/swapping is not yet supported for such usages
-> > so these pages are currently marked as UNMOVABLE and UNEVICTABLE
-> > which makes them behave like long-term pinned pages.
-> >
-> > The flag can not coexist with MFD_ALLOW_SEALING, future sealing is
-> > also impossible for a memfd created with this flag.
-> >
-> > At this time only shmem implements this flag.
-> >
-> > Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > ---
-> >  include/linux/shmem_fs.h   |  7 +++++
-> >  include/uapi/linux/memfd.h |  1 +
-> >  mm/memfd.c                 | 26 +++++++++++++++--
-> >  mm/shmem.c                 | 57 ++++++++++++++++++++++++++++++++++++++
-> >  4 files changed, 88 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
-> > index e65b80ed09e7..2dde843f28ef 100644
-> > --- a/include/linux/shmem_fs.h
-> > +++ b/include/linux/shmem_fs.h
-> > @@ -12,6 +12,9 @@
-> >
-> >  /* inode in-kernel data */
-> >
-> > +/* shmem extended flags */
-> > +#define SHM_F_INACCESSIBLE     0x0001  /* prevent ordinary MMU access (e.g. read/write/mmap) to file content */
-> > +
-> >  struct shmem_inode_info {
-> >         spinlock_t              lock;
-> >         unsigned int            seals;          /* shmem seals */
-> > @@ -24,6 +27,7 @@ struct shmem_inode_info {
-> >         struct shared_policy    policy;         /* NUMA memory alloc policy */
-> >         struct simple_xattrs    xattrs;         /* list of xattrs */
-> >         atomic_t                stop_eviction;  /* hold when working on inode */
-> > +       unsigned int            xflags;         /* shmem extended flags */
-> >         struct inode            vfs_inode;
-> >  };
-> >
-> > @@ -61,6 +65,9 @@ extern struct file *shmem_file_setup(const char *name,
-> >                                         loff_t size, unsigned long flags);
-> >  extern struct file *shmem_kernel_file_setup(const char *name, loff_t size,
-> >                                             unsigned long flags);
-> > +extern struct file *shmem_file_setup_xflags(const char *name, loff_t size,
-> > +                                           unsigned long flags,
-> > +                                           unsigned int xflags);
-> >  extern struct file *shmem_file_setup_with_mnt(struct vfsmount *mnt,
-> >                 const char *name, loff_t size, unsigned long flags);
-> >  extern int shmem_zero_setup(struct vm_area_struct *);
-> > diff --git a/include/uapi/linux/memfd.h b/include/uapi/linux/memfd.h
-> > index 7a8a26751c23..48750474b904 100644
-> > --- a/include/uapi/linux/memfd.h
-> > +++ b/include/uapi/linux/memfd.h
-> > @@ -8,6 +8,7 @@
-> >  #define MFD_CLOEXEC            0x0001U
-> >  #define MFD_ALLOW_SEALING      0x0002U
-> >  #define MFD_HUGETLB            0x0004U
-> > +#define MFD_INACCESSIBLE       0x0008U
-> >
-> >  /*
-> >   * Huge page size encoding when MFD_HUGETLB is specified, and a huge page
-> > diff --git a/mm/memfd.c b/mm/memfd.c
-> > index 9f80f162791a..74d45a26cf5d 100644
-> > --- a/mm/memfd.c
-> > +++ b/mm/memfd.c
-> > @@ -245,16 +245,20 @@ long memfd_fcntl(struct file *file, unsigned int cmd, unsigned long arg)
-> >  #define MFD_NAME_PREFIX_LEN (sizeof(MFD_NAME_PREFIX) - 1)
-> >  #define MFD_NAME_MAX_LEN (NAME_MAX - MFD_NAME_PREFIX_LEN)
-> >
-> > -#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB)
-> > +#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB | \
-> > +                      MFD_INACCESSIBLE)
-> >
-> >  SYSCALL_DEFINE2(memfd_create,
-> >                 const char __user *, uname,
-> >                 unsigned int, flags)
-> >  {
-> > +       struct address_space *mapping;
-> >         unsigned int *file_seals;
-> > +       unsigned int xflags;
-> >         struct file *file;
-> >         int fd, error;
-> >         char *name;
-> > +       gfp_t gfp;
-> >         long len;
-> >
-> >         if (!(flags & MFD_HUGETLB)) {
-> > @@ -267,6 +271,10 @@ SYSCALL_DEFINE2(memfd_create,
-> >                         return -EINVAL;
-> >         }
-> >
-> > +       /* Disallow sealing when MFD_INACCESSIBLE is set. */
-> > +       if (flags & MFD_INACCESSIBLE && flags & MFD_ALLOW_SEALING)
-> > +               return -EINVAL;
-> > +
-> >         /* length includes terminating zero */
-> >         len = strnlen_user(uname, MFD_NAME_MAX_LEN + 1);
-> >         if (len <= 0)
-> > @@ -301,8 +309,11 @@ SYSCALL_DEFINE2(memfd_create,
-> >                                         HUGETLB_ANONHUGE_INODE,
-> >                                         (flags >> MFD_HUGE_SHIFT) &
-> >                                         MFD_HUGE_MASK);
-> 
-> Should hugetlbfs also be modified to be a backing store for private
-> memory like shmem when hugepages are to be used?
-> As of now, this series doesn't seem to support using private memfds
-> with backing hugepages.
-> 
 
-Right, as the first step tmpfs is the first backing store supported,
-hugetlbfs would be potentially the second one to support once the user
-semantics and kAPIs exposed to KVM are well understood.
 
-Thanks,
-Chao
+On Fri, Apr 22, 2022, at 3:56 AM, Chao Peng wrote:
+> On Tue, Apr 05, 2022 at 06:03:21PM +0000, Sean Christopherson wrote:
+>> On Tue, Apr 05, 2022, Quentin Perret wrote:
+>> > On Monday 04 Apr 2022 at 15:04:17 (-0700), Andy Lutomirski wrote:
+>     Only when the register succeeds, the fd is
+>     converted into a private fd, before that, the fd is just a normal (shared)
+>     one. During this conversion, the previous data is preserved so you can put
+>     some initial data in guest pages (whether the architecture allows this is
+>     architecture-specific and out of the scope of this patch).
+
+I think this can be made to work, but it will be awkward.  On TDX, for example, what exactly are the semantics supposed to be?  An error code if the memory isn't all zero?  An error code if it has ever been written?
+
+Fundamentally, I think this is because your proposed lifecycle for these memfiles results in a lightweight API but is awkward for the intended use cases.  You're proposing, roughly:
+
+1. Create a memfile. 
+
+Now it's in a shared state with an unknown virt technology.  It can be read and written.  Let's call this state BRAND_NEW.
+
+2. Bind to a VM.
+
+Now it's an a bound state.  For TDX, for example, let's call the new state BOUND_TDX.  In this state, the TDX rules are followed (private memory can't be converted, etc).
+
+The problem here is that the BOUND_NEW state allows things that are nonsensical in TDX, and the binding step needs to invent some kind of semantics for what happens when binding a nonempty memfile.
+
+
+So I would propose a somewhat different order:
+
+1. Create a memfile.  It's in the UNBOUND state and no operations whatsoever are allowed except binding or closing.
+
+2. Bind the memfile to a VM (or at least to a VM technology).  Now it's in the initial state appropriate for that VM.
+
+For TDX, this completely bypasses the cases where the data is prepopulated and TDX can't handle it cleanly.  For SEV, it bypasses a situation in which data might be written to the memory before we find out whether that data will be unreclaimable or unmovable.
+
+
+----------------------------------------------
+
+Now I have a question, since I don't think anyone has really answered it: how does this all work with SEV- or pKVM-like technologies in which private and shared pages share the same address space?  I sounds like you're proposing to have a big memfile that contains private and shared pages and to use that same memfile as pages are converted back and forth.  IO and even real physical DMA could be done on that memfile.  Am I understanding correctly?
+
+If so, I think this makes sense, but I'm wondering if the actual memslot setup should be different.  For TDX, private memory lives in a logically separate memslot space.  For SEV and pKVM, it doesn't.  I assume the API can reflect this straightforwardly.
+
+And the corresponding TDX question: is the intent still that shared pages aren't allowed at all in a TDX memfile?  If so, that would be the most direct mapping to what the hardware actually does.
+
+--Andy
