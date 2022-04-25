@@ -2,448 +2,203 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 555C550E360
-	for <lists+linux-api@lfdr.de>; Mon, 25 Apr 2022 16:36:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 713A150E3B9
+	for <lists+linux-api@lfdr.de>; Mon, 25 Apr 2022 16:53:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234498AbiDYOjV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 25 Apr 2022 10:39:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41340 "EHLO
+        id S242587AbiDYO4K (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 25 Apr 2022 10:56:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242555AbiDYOjS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 25 Apr 2022 10:39:18 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 264B137AA9;
-        Mon, 25 Apr 2022 07:36:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1650897371; x=1682433371;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=09yRLDdukF2NqScy5FEXRNekxsijnB9E2xteSASuYuI=;
-  b=PkUT8tIgqaLz+O+/umRLKBbu2fFD0tm4L9SdooNgLG3ejoL5bSNWEvWG
-   nAR25rE8NeJbhtp1Bgv88MIj/BNjTp3UkbustQ209nC/uRFR5wIj87xJJ
-   C6YdnbZQ8TtOcjeTIf/9i5pCY0Pi2KBbyOLw1NgtpEUF0jtE+bUfiPqFt
-   IBlRHmZHx802ZSb7FnScCprfXcHyPUtK3SFIPHu6qfIJuES1lF0jLHuH4
-   KOeNEFm8zYmOfOlhru118JZQoG4QOEfAMs/yW3e6f2MIMkGC6YQrtTgFZ
-   ebtkXogSmRxfzSXrpM5Jqyl5MIhvH28DJsUNQG+u3IC2Fm9sTcXT0wxx9
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10328"; a="351710872"
-X-IronPort-AV: E=Sophos;i="5.90,288,1643702400"; 
-   d="scan'208";a="351710872"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2022 07:36:10 -0700
-X-IronPort-AV: E=Sophos;i="5.90,288,1643702400"; 
-   d="scan'208";a="579316136"
-Received: from lpuglia-mobl.ger.corp.intel.com (HELO ijarvine-MOBL2.ger.corp.intel.com) ([10.251.217.93])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2022 07:35:58 -0700
-From:   =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     linux-serial@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Lukas Wunner <lukas@wunner.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Vicente Bergas <vicencb@gmail.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Johan Hovold <johan@kernel.org>, heiko@sntech.de,
-        giulio.benetti@micronovasrl.com,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        linux-api@vger.kernel.org,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-mips@vger.kernel.org,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        linuxppc-dev@lists.ozlabs.org,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>, linux-sh@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        sparclinux@vger.kernel.org, Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        linux-xtensa@linux-xtensa.org, Arnd Bergmann <arnd@arndb.de>,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v4 09/13] serial: General support for multipoint addresses
-Date:   Mon, 25 Apr 2022 17:34:06 +0300
-Message-Id: <20220425143410.12703-10-ilpo.jarvinen@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220425143410.12703-1-ilpo.jarvinen@linux.intel.com>
-References: <20220425143410.12703-1-ilpo.jarvinen@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S242586AbiDYO4J (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 25 Apr 2022 10:56:09 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4475F3464A;
+        Mon, 25 Apr 2022 07:53:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 0652DB8185F;
+        Mon, 25 Apr 2022 14:53:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A28C7C385BD;
+        Mon, 25 Apr 2022 14:53:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1650898382;
+        bh=2d/1yAOVmYsCW9kJuQkBsU2TaXtcebq8zUB95NfIY+o=;
+        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+        b=QKdYT1HLv3X0O4J5zWLygGZ+KUW0l33P03Ua0xMdckTS8WGfW9sVt5C4r9SYq0Y4W
+         rrY+4aQmOKUovpC2nYrfpvbc9BV6UgfDCbm9SyNQw6a4E2xQFyrSbwhPHH51/wpA9S
+         IyU/opY1adl2kZxM3fI8zLxPBKAoIgKy0LcHbS0vNZ0jz3xzAjniCJrGC+Y6JuLpwD
+         2zXOnbfYgEnzenMoz9t4aiG39hkbUE8znOqRBH0/jb6EqFeuAmk1P5jXMv+x87WIou
+         n1vd5BSAahx/WWDoL2n6uPNG4aA8l5yp1oX3FIvOdYCgRHojodF/3TOLaqgjXicba1
+         0sfALvii55OFg==
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailauth.nyi.internal (Postfix) with ESMTP id 7C3AC27C0054;
+        Mon, 25 Apr 2022 10:53:00 -0400 (EDT)
+Received: from imap48 ([10.202.2.98])
+  by compute2.internal (MEProxy); Mon, 25 Apr 2022 10:53:00 -0400
+X-ME-Sender: <xms:y7VmYtrBZC8Zu64O4UXFwaKxuZup8ZeVuoCIhCms7J92pM3Q7gB6Uw>
+    <xme:y7VmYvqB_ryXW1_4_ZphfM_s6K9iBovtAxdtQn1bRrtX8Xk3eiXdDvpldyZl3xRlb
+    te5XDlFXy-rYkGpOB0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddugdektdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetnhgu
+    hicunfhuthhomhhirhhskhhifdcuoehluhhtoheskhgvrhhnvghlrdhorhhgqeenucggtf
+    frrghtthgvrhhnpedvhfeuvddthfdufffhkeekffetgffhledtleegffetheeugeejffdu
+    hefgteeihfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpegrnhguhidomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudduiedukeeh
+    ieefvddqvdeifeduieeitdekqdhluhhtoheppehkvghrnhgvlhdrohhrgheslhhinhhugi
+    drlhhuthhordhush
+X-ME-Proxy: <xmx:y7VmYqNL_LZicuZal0_wT-FGnRkaFFOzXPObXQSxPaGJUtMxqFGadw>
+    <xmx:y7VmYo4SiO5H2zySG1LRtiwiDkqIQyUUkI9Pp5F2u-jjdQRXlIm60Q>
+    <xmx:y7VmYs4-x0vwyMzJZ7T18qHW7WCv9WHuX_YMkaGLcrDTSivfmPUCTQ>
+    <xmx:zLVmYhYi4pSZLux0Nq7oJpRDXaCJpdEbVmv58hLuFhFBa0uvCJZiIw>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 0E2B821E006E; Mon, 25 Apr 2022 10:52:59 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-569-g7622ad95cc-fm-20220421.002-g7622ad95
+Mime-Version: 1.0
+Message-Id: <27616b2f-1eff-42ff-91e0-047f531639ea@www.fastmail.com>
+In-Reply-To: <20220425134051.GA175928@chaop.bj.intel.com>
+References: <80aad2f9-9612-4e87-a27a-755d3fa97c92@www.fastmail.com>
+ <YkcTTY4YjQs5BRhE@google.com>
+ <83fd55f8-cd42-4588-9bf6-199cbce70f33@www.fastmail.com>
+ <YksIQYdG41v3KWkr@google.com> <Ykslo2eo2eRXrpFR@google.com>
+ <eefc3c74-acca-419c-8947-726ce2458446@www.fastmail.com>
+ <Ykwbqv90C7+8K+Ao@google.com> <YkyEaYiL0BrDYcZv@google.com>
+ <20220422105612.GB61987@chaop.bj.intel.com>
+ <3b99f157-0f30-4b30-8399-dd659250ab8d@www.fastmail.com>
+ <20220425134051.GA175928@chaop.bj.intel.com>
+Date:   Mon, 25 Apr 2022 07:52:38 -0700
+From:   "Andy Lutomirski" <luto@kernel.org>
+To:     "Chao Peng" <chao.p.peng@linux.intel.com>
+Cc:     "Sean Christopherson" <seanjc@google.com>,
+        "Quentin Perret" <qperret@google.com>,
+        "Steven Price" <steven.price@arm.com>,
+        "kvm list" <kvm@vger.kernel.org>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        "Linux API" <linux-api@vger.kernel.org>, qemu-devel@nongnu.org,
+        "Paolo Bonzini" <pbonzini@redhat.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Vitaly Kuznetsov" <vkuznets@redhat.com>,
+        "Wanpeng Li" <wanpengli@tencent.com>,
+        "Jim Mattson" <jmattson@google.com>,
+        "Joerg Roedel" <joro@8bytes.org>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Hugh Dickins" <hughd@google.com>,
+        "Jeff Layton" <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        "Mike Rapoport" <rppt@kernel.org>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        "Vlastimil Babka" <vbabka@suse.cz>,
+        "Vishal Annapurve" <vannapurve@google.com>,
+        "Yu Zhang" <yu.c.zhang@linux.intel.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        "Nakajima, Jun" <jun.nakajima@intel.com>,
+        "Dave Hansen" <dave.hansen@intel.com>,
+        "Andi Kleen" <ak@linux.intel.com>,
+        "David Hildenbrand" <david@redhat.com>,
+        "Marc Zyngier" <maz@kernel.org>, "Will Deacon" <will@kernel.org>
+Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM guest
+ private memory
+Content-Type: text/plain
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Add generic support for serial multipoint addressing. Two new ioctls
-are added. TIOCSADDR is used to indicate the destination/receive
-address. TIOCGADDR returns the current address in use. The driver
-should implement set_addr and get_addr to support addressing mode.
 
-Adjust ADDRB clearing to happen only if driver does not provide
-set_addr (=the driver doesn't support address mode).
 
-This change is necessary for supporting devices with RS485 multipoint
-addressing [*]. A following patch in the patch series adds support for
-Synopsys Designware UART capable for 9th bit addressing mode. In this
-mode, 9th bit is used to indicate an address (byte) within the
-communication line. The 9th bit addressing mode is selected using ADDRB
-introduced by the previous patch.
+On Mon, Apr 25, 2022, at 6:40 AM, Chao Peng wrote:
+> On Sun, Apr 24, 2022 at 09:59:37AM -0700, Andy Lutomirski wrote:
+>> 
 
-Transmit addresses / receiver filter are specified by setting the flags
-SER_ADDR_DEST and/or SER_ADDR_RECV. When the user supplies the transmit
-address, in the 9bit addressing mode it is sent out immediately with
-the 9th bit set to 1. After that, the subsequent normal data bytes are
-sent with 9th bit as 0 and they are intended to the device with the
-given address. It is up to receiver to enforce the filter using
-SER_ADDR_RECV. When userspace has supplied the receive address, the
-driver is expected to handle the matching of the address and only data
-with that address is forwarded to the user. Both SER_ADDR_DEST and
-SER_ADDR_RECV can be given at the same time in a single call if the
-addresses are the same.
+>> 
+>> 2. Bind the memfile to a VM (or at least to a VM technology).  Now it's in the initial state appropriate for that VM.
+>> 
+>> For TDX, this completely bypasses the cases where the data is prepopulated and TDX can't handle it cleanly.  For SEV, it bypasses a situation in which data might be written to the memory before we find out whether that data will be unreclaimable or unmovable.
+>
+> This sounds a more strict rule to avoid semantics unclear.
+>
+> So userspace needs to know what excatly happens for a 'bind' operation.
+> This is different when binds to different technologies. E.g. for SEV, it
+> may imply after this call, the memfile can be accessed (through mmap or
+> what ever) from userspace, while for current TDX this should be not allowed.
 
-The user can clear the receive filter with SER_ADDR_RECV_CLEAR.
+I think this is actually a good thing.  While SEV, TDX, pKVM, etc achieve similar goals and have broadly similar ways of achieving them, they really are different, and having userspace be aware of the differences seems okay to me.
 
-[*] Technically, RS485 is just an electronic spec and does not itself
-specify the 9th bit addressing mode but 9th bit seems at least
-"semi-standard" way to do addressing with RS485.
+(Although I don't think that allowing userspace to mmap SEV shared pages is particularly wise -- it will result in faults or cache incoherence depending on the variant of SEV in use.)
 
-Cc: linux-api@vger.kernel.org
-Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-Cc: Matt Turner <mattst88@gmail.com>
-Cc: linux-alpha@vger.kernel.org
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Cc: linux-mips@vger.kernel.org
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Cc: Helge Deller <deller@gmx.de>
-Cc: linux-parisc@vger.kernel.org
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc: Paul Mackerras <paulus@samba.org>
-Cc: linuxppc-dev@lists.ozlabs.org
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: Rich Felker <dalias@libc.org>
-Cc: linux-sh@vger.kernel.org
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: sparclinux@vger.kernel.org
-Cc: Chris Zankel <chris@zankel.net>
-Cc: Max Filippov <jcmvbkbc@gmail.com>
-Cc: linux-xtensa@linux-xtensa.org
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: linux-arch@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
-Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
----
- .../driver-api/serial/serial-rs485.rst        | 23 ++++++-
- arch/alpha/include/uapi/asm/ioctls.h          |  3 +
- arch/mips/include/uapi/asm/ioctls.h           |  3 +
- arch/parisc/include/uapi/asm/ioctls.h         |  3 +
- arch/powerpc/include/uapi/asm/ioctls.h        |  3 +
- arch/sh/include/uapi/asm/ioctls.h             |  3 +
- arch/sparc/include/uapi/asm/ioctls.h          |  3 +
- arch/xtensa/include/uapi/asm/ioctls.h         |  3 +
- drivers/tty/serial/8250/8250_core.c           |  2 +
- drivers/tty/serial/serial_core.c              | 62 ++++++++++++++++++-
- drivers/tty/tty_io.c                          |  2 +
- include/linux/serial_core.h                   |  6 ++
- include/uapi/asm-generic/ioctls.h             |  3 +
- include/uapi/linux/serial.h                   |  8 +++
- 14 files changed, 125 insertions(+), 2 deletions(-)
+>
+> And I feel we still need a third flow/operation to indicate the
+> completion of the initialization on the memfile before the guest's 
+> first-time launch. SEV needs to check previous mmap-ed areas are munmap-ed
+> and prevent future userspace access. After this point, then the memfile
+> becomes truely private fd.
 
-diff --git a/Documentation/driver-api/serial/serial-rs485.rst b/Documentation/driver-api/serial/serial-rs485.rst
-index 6bc824f948f9..2f45f007fa5b 100644
---- a/Documentation/driver-api/serial/serial-rs485.rst
-+++ b/Documentation/driver-api/serial/serial-rs485.rst
-@@ -95,7 +95,28 @@ RS485 Serial Communications
- 		/* Error handling. See errno. */
- 	}
- 
--5. References
-+5. Multipoint Addressing
-+========================
-+
-+   The Linux kernel provides serial_addr structure to handle addressing within
-+   multipoint serial communications line such as RS485. 9th bit addressiong mode
-+   is enabled by adding ADDRB flag in termios c_cflag.
-+
-+   Serial core calls device specific set/get_addr in response to TIOCSADDR and
-+   TIOCGADDR ioctls with a pointer to serial_addr. Destination and receive
-+   address can be specified using serial_addr flags field. Receive address may
-+   also be cleared using flags. Once an address is set, the communication
-+   can occur only with the particular device and other peers are filtered out.
-+   It is left up to the receiver side to enforce the filtering.
-+
-+   Address flags:
-+	- SER_ADDR_RECV: Receive (filter) address.
-+	- SER_ADDR_RECV_CLEAR: Clear receive filter (only for TIOCSADDR).
-+	- SER_ADDR_DEST: Destination address.
-+
-+   Note: not all devices supporting RS485 support multipoint addressing.
-+
-+6. References
- =============
- 
-  [1]	include/uapi/linux/serial.h
-diff --git a/arch/alpha/include/uapi/asm/ioctls.h b/arch/alpha/include/uapi/asm/ioctls.h
-index 971311605288..500cab3e1d6b 100644
---- a/arch/alpha/include/uapi/asm/ioctls.h
-+++ b/arch/alpha/include/uapi/asm/ioctls.h
-@@ -125,4 +125,7 @@
- #define TIOCMIWAIT	0x545C	/* wait for a change on serial input line(s) */
- #define TIOCGICOUNT	0x545D	/* read serial port inline interrupt counts */
- 
-+#define TIOCSADDR	_IOWR('T', 0x63, struct serial_addr)
-+#define TIOCGADDR	_IOWR('T', 0x64, struct serial_addr)
-+
- #endif /* _ASM_ALPHA_IOCTLS_H */
-diff --git a/arch/mips/include/uapi/asm/ioctls.h b/arch/mips/include/uapi/asm/ioctls.h
-index 16aa8a766aec..3859dc46857e 100644
---- a/arch/mips/include/uapi/asm/ioctls.h
-+++ b/arch/mips/include/uapi/asm/ioctls.h
-@@ -96,6 +96,9 @@
- #define TIOCGISO7816	_IOR('T', 0x42, struct serial_iso7816)
- #define TIOCSISO7816	_IOWR('T', 0x43, struct serial_iso7816)
- 
-+#define TIOCSADDR	_IOWR('T', 0x63, struct serial_addr)
-+#define TIOCGADDR	_IOWR('T', 0x64, struct serial_addr)
-+
- /* I hope the range from 0x5480 on is free ... */
- #define TIOCSCTTY	0x5480		/* become controlling tty */
- #define TIOCGSOFTCAR	0x5481
-diff --git a/arch/parisc/include/uapi/asm/ioctls.h b/arch/parisc/include/uapi/asm/ioctls.h
-index 82d1148c6379..62337743db64 100644
---- a/arch/parisc/include/uapi/asm/ioctls.h
-+++ b/arch/parisc/include/uapi/asm/ioctls.h
-@@ -86,6 +86,9 @@
- #define TIOCSTOP	0x5462
- #define TIOCSLTC	0x5462
- 
-+#define TIOCSADDR	_IOWR('T', 0x63, struct serial_addr)
-+#define TIOCGADDR	_IOWR('T', 0x64, struct serial_addr)
-+
- /* Used for packet mode */
- #define TIOCPKT_DATA		 0
- #define TIOCPKT_FLUSHREAD	 1
-diff --git a/arch/powerpc/include/uapi/asm/ioctls.h b/arch/powerpc/include/uapi/asm/ioctls.h
-index 2c145da3b774..84fd69ac366a 100644
---- a/arch/powerpc/include/uapi/asm/ioctls.h
-+++ b/arch/powerpc/include/uapi/asm/ioctls.h
-@@ -120,4 +120,7 @@
- #define TIOCMIWAIT	0x545C	/* wait for a change on serial input line(s) */
- #define TIOCGICOUNT	0x545D	/* read serial port inline interrupt counts */
- 
-+#define TIOCSADDR	_IOWR('T', 0x63, struct serial_addr)
-+#define TIOCGADDR	_IOWR('T', 0x64, struct serial_addr)
-+
- #endif	/* _ASM_POWERPC_IOCTLS_H */
-diff --git a/arch/sh/include/uapi/asm/ioctls.h b/arch/sh/include/uapi/asm/ioctls.h
-index 11866d4f60e1..f82966b7dba2 100644
---- a/arch/sh/include/uapi/asm/ioctls.h
-+++ b/arch/sh/include/uapi/asm/ioctls.h
-@@ -113,4 +113,7 @@
- #define TIOCMIWAIT	_IO('T', 92) /* 0x545C */	/* wait for a change on serial input line(s) */
- #define TIOCGICOUNT	0x545D	/* read serial port inline interrupt counts */
- 
-+#define TIOCSADDR	_IOWR('T', 0x63, struct serial_addr)
-+#define TIOCGADDR	_IOWR('T', 0x64, struct serial_addr)
-+
- #endif /* __ASM_SH_IOCTLS_H */
-diff --git a/arch/sparc/include/uapi/asm/ioctls.h b/arch/sparc/include/uapi/asm/ioctls.h
-index 7fd2f5873c9e..e44624c67c79 100644
---- a/arch/sparc/include/uapi/asm/ioctls.h
-+++ b/arch/sparc/include/uapi/asm/ioctls.h
-@@ -125,6 +125,9 @@
- #define TIOCMIWAIT	0x545C /* Wait for change on serial input line(s) */
- #define TIOCGICOUNT	0x545D /* Read serial port inline interrupt counts */
- 
-+#define TIOCSADDR	_IOWR('T', 0x63, struct serial_addr)
-+#define TIOCGADDR	_IOWR('T', 0x64, struct serial_addr)
-+
- /* Kernel definitions */
- 
- /* Used for packet mode */
-diff --git a/arch/xtensa/include/uapi/asm/ioctls.h b/arch/xtensa/include/uapi/asm/ioctls.h
-index 6d4a87296c95..759ca9377f2a 100644
---- a/arch/xtensa/include/uapi/asm/ioctls.h
-+++ b/arch/xtensa/include/uapi/asm/ioctls.h
-@@ -127,4 +127,7 @@
- #define TIOCMIWAIT	_IO('T', 92) /* wait for a change on serial input line(s) */
- #define TIOCGICOUNT	0x545D	/* read serial port inline interrupt counts */
- 
-+#define TIOCSADDR	_IOWR('T', 0x63, struct serial_addr)
-+#define TIOCGADDR	_IOWR('T', 0x64, struct serial_addr)
-+
- #endif /* _XTENSA_IOCTLS_H */
-diff --git a/drivers/tty/serial/8250/8250_core.c b/drivers/tty/serial/8250/8250_core.c
-index 01d30f6ed8fb..f67bc3b76f65 100644
---- a/drivers/tty/serial/8250/8250_core.c
-+++ b/drivers/tty/serial/8250/8250_core.c
-@@ -1008,6 +1008,8 @@ int serial8250_register_8250_port(const struct uart_8250_port *up)
- 		uart->port.rs485	= up->port.rs485;
- 		uart->rs485_start_tx	= up->rs485_start_tx;
- 		uart->rs485_stop_tx	= up->rs485_stop_tx;
-+		uart->port.set_addr	= up->port.set_addr;
-+		uart->port.get_addr	= up->port.get_addr;
- 		uart->dma		= up->dma;
- 
- 		/* Take tx_loadsz from fifosize if it wasn't set separately */
-diff --git a/drivers/tty/serial/serial_core.c b/drivers/tty/serial/serial_core.c
-index de198c2acefe..2cd129c78ef6 100644
---- a/drivers/tty/serial/serial_core.c
-+++ b/drivers/tty/serial/serial_core.c
-@@ -1350,6 +1350,56 @@ static int uart_set_iso7816_config(struct uart_port *port,
- 	return 0;
- }
- 
-+static int uart_set_addr(struct uart_port *port,
-+			 struct serial_addr __user *serial_addr_user)
-+{
-+	struct serial_addr addr;
-+	unsigned long flags;
-+	int ret;
-+
-+	if (!port->set_addr)
-+		return -ENOTTY;
-+
-+	if (copy_from_user(&addr, serial_addr_user, sizeof(*serial_addr_user)))
-+		return -EFAULT;
-+
-+	spin_lock_irqsave(&port->lock, flags);
-+	ret = port->set_addr(port, &addr);
-+	spin_unlock_irqrestore(&port->lock, flags);
-+	if (ret)
-+		return ret;
-+
-+	if (copy_to_user(serial_addr_user, &addr, sizeof(addr)))
-+		return -EFAULT;
-+
-+	return 0;
-+}
-+
-+static int uart_get_addr(struct uart_port *port,
-+			 struct serial_addr __user *serial_addr_user)
-+{
-+	struct serial_addr addr;
-+	unsigned long flags;
-+	int ret;
-+
-+	if (!port->get_addr)
-+		return -ENOTTY;
-+
-+	if (copy_from_user(&addr, serial_addr_user, sizeof(*serial_addr_user)))
-+		return -EFAULT;
-+
-+	spin_lock_irqsave(&port->lock, flags);
-+	ret = port->get_addr(port, &addr);
-+	spin_unlock_irqrestore(&port->lock, flags);
-+	if (ret)
-+		return ret;
-+
-+	if (copy_to_user(serial_addr_user, &addr, sizeof(addr)))
-+		return -EFAULT;
-+
-+	return 0;
-+}
-+
- /*
-  * Called via sys_ioctl.  We can use spin_lock_irq() here.
-  */
-@@ -1427,6 +1477,15 @@ uart_ioctl(struct tty_struct *tty, unsigned int cmd, unsigned long arg)
- 	case TIOCGISO7816:
- 		ret = uart_get_iso7816_config(state->uart_port, uarg);
- 		break;
-+
-+	case TIOCSADDR:
-+		ret = uart_set_addr(uport, uarg);
-+		break;
-+
-+	case TIOCGADDR:
-+		ret = uart_get_addr(uport, uarg);
-+		break;
-+
- 	default:
- 		if (uport->ops->ioctl)
- 			ret = uport->ops->ioctl(uport, cmd, arg);
-@@ -1493,7 +1552,8 @@ static void uart_set_termios(struct tty_struct *tty,
- 		goto out;
- 	}
- 
--	tty->termios.c_cflag &= ~ADDRB;
-+	if (!uport->set_addr)
-+		tty->termios.c_cflag &= ~ADDRB;
- 
- 	uart_change_speed(tty, state, old_termios);
- 	/* reload cflag from termios; port driver may have overridden flags */
-diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
-index 7e8b3bd59c7b..93d8609e88aa 100644
---- a/drivers/tty/tty_io.c
-+++ b/drivers/tty/tty_io.c
-@@ -2885,6 +2885,8 @@ static long tty_compat_ioctl(struct file *file, unsigned int cmd,
- 	case TIOCSERGETLSR:
- 	case TIOCGRS485:
- 	case TIOCSRS485:
-+	case TIOCSADDR:
-+	case TIOCGADDR:
- #ifdef TIOCGETP
- 	case TIOCGETP:
- 	case TIOCSETP:
-diff --git a/include/linux/serial_core.h b/include/linux/serial_core.h
-index 504d365e2803..a2efd3fe2635 100644
---- a/include/linux/serial_core.h
-+++ b/include/linux/serial_core.h
-@@ -135,6 +135,12 @@ struct uart_port {
- 						struct serial_rs485 *rs485);
- 	int			(*iso7816_config)(struct uart_port *,
- 						  struct serial_iso7816 *iso7816);
-+
-+	int			(*set_addr)(struct uart_port *p,
-+					    struct serial_addr *addr);
-+	int			(*get_addr)(struct uart_port *p,
-+					    struct serial_addr *addr);
-+
- 	unsigned int		irq;			/* irq number */
- 	unsigned long		irqflags;		/* irq flags  */
- 	unsigned int		uartclk;		/* base uart clock */
-diff --git a/include/uapi/asm-generic/ioctls.h b/include/uapi/asm-generic/ioctls.h
-index cdc9f4ca8c27..689743366091 100644
---- a/include/uapi/asm-generic/ioctls.h
-+++ b/include/uapi/asm-generic/ioctls.h
-@@ -106,6 +106,9 @@
- # define FIOQSIZE	0x5460
- #endif
- 
-+#define TIOCSADDR	_IOWR('T', 0x63, struct serial_addr)
-+#define TIOCGADDR	_IOWR('T', 0x64, struct serial_addr)
-+
- /* Used for packet mode */
- #define TIOCPKT_DATA		 0
- #define TIOCPKT_FLUSHREAD	 1
-diff --git a/include/uapi/linux/serial.h b/include/uapi/linux/serial.h
-index fa6b16e5fdd8..8cb785ea7087 100644
---- a/include/uapi/linux/serial.h
-+++ b/include/uapi/linux/serial.h
-@@ -149,4 +149,12 @@ struct serial_iso7816 {
- 	__u32	reserved[5];
- };
- 
-+struct serial_addr {
-+	__u32	flags;
-+#define SER_ADDR_RECV			(1 << 0)
-+#define SER_ADDR_RECV_CLEAR		(1 << 1)
-+#define SER_ADDR_DEST			(1 << 2)
-+	__u32	addr;
-+};
-+
- #endif /* _UAPI_LINUX_SERIAL_H */
--- 
-2.30.2
+Even that is technology-dependent.  For TDX, this operation doesn't really exist.  For SEV, I'm not sure (I haven't read the specs in nearly enough detail).  For pKVM, I guess it does exist and isn't quite the same as a shared->private conversion.
 
+Maybe this could be generalized a bit as an operation "measure and make private" that would be supported by the technologies for which it's useful.
+
+
+>
+>> 
+>> 
+>> ----------------------------------------------
+>> 
+>> Now I have a question, since I don't think anyone has really answered it: how does this all work with SEV- or pKVM-like technologies in which private and shared pages share the same address space?  I sounds like you're proposing to have a big memfile that contains private and shared pages and to use that same memfile as pages are converted back and forth.  IO and even real physical DMA could be done on that memfile.  Am I understanding correctly?
+>
+> For TDX case, and probably SEV as well, this memfile contains private memory
+> only. But this design at least makes it possible for usage cases like
+> pKVM which wants both private/shared memory in the same memfile and rely
+> on other ways like mmap/munmap or mprotect to toggle private/shared instead
+> of fallocate/hole punching.
+
+Hmm.  Then we still need some way to get KVM to generate the correct SEV pagetables.  For TDX, there are private memslots and shared memslots, and they can overlap.  If they overlap and both contain valid pages at the same address, then the results may not be what the guest-side ABI expects, but everything will work.  So, when a single logical guest page transitions between shared and private, no change to the memslots is needed.  For SEV, this is not the case: everything is in one set of pagetables, and there isn't a natural way to resolve overlaps.
+
+If the memslot code becomes efficient enough, then the memslots could be fragmented.  Or the memfile could support private and shared data in the same memslot.  And if pKVM does this, I don't see why SEV couldn't also do it and hopefully reuse the same code.
+
+>
+>> 
+>> If so, I think this makes sense, but I'm wondering if the actual memslot setup should be different.  For TDX, private memory lives in a logically separate memslot space.  For SEV and pKVM, it doesn't.  I assume the API can reflect this straightforwardly.
+>
+> I believe so. The flow should be similar but we do need pass different
+> flags during the 'bind' to the backing store for different usages. That
+> should be some new flags for pKVM but the callbacks (API here) between
+> memfile_notifile and its consumers can be reused.
+
+And also some different flag in the operation that installs the fd as a memslot?
+
+>
+>> 
+>> And the corresponding TDX question: is the intent still that shared pages aren't allowed at all in a TDX memfile?  If so, that would be the most direct mapping to what the hardware actually does.
+>
+> Exactly. TDX will still use fallocate/hole punching to turn on/off the
+> private page. Once off, the traditional shared page will become
+> effective in KVM.
+
+Works for me.
+
+For what it's worth, I still think it should be fine to land all the TDX memfile bits upstream as long as we're confident that SEV, pKVM, etc can be added on without issues.
+
+I think we can increase confidence in this by either getting one other technology's maintainers to get far enough along in the design to be confident and/or by having a pure-kernel-software implementation that serves as a testbed.  For the latter, maybe it could support two different models with little overhead:
+
+Pure software "interleaved" model: pages are shared or private and a hypercall converts them.  The access mode is entirely determined by the state programmed by hypercall.  I think this is essentially what Vishal implemented, but with the "HACK" replaced by something permanent and (if they're not already in the series) appropriate access checks implemented to actually protect the private memory.
+
+Pure software "separate" mode: one GPA bit is set aside as the shared vs private bit.  The normal memslots are restricted to the shared half of GPA space.  Private memslots use the private half.  This works a lot like TDX.  This would be new code.  We don't *really* need this for testing, since TDX itself exercises the same programming model, but it would let people without TDX hardware exercise the interesting bits of the memory management.
+
+Paolo, etc: what do you think?
+
+>
+> Chao
+>> 
+>> --Andy
