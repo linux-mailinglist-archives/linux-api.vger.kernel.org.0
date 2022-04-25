@@ -2,106 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D9C2250DB9E
-	for <lists+linux-api@lfdr.de>; Mon, 25 Apr 2022 10:50:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6D7E50DD4C
+	for <lists+linux-api@lfdr.de>; Mon, 25 Apr 2022 11:55:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238323AbiDYIw6 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Mon, 25 Apr 2022 04:52:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42414 "EHLO
+        id S239847AbiDYJ6Q (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 25 Apr 2022 05:58:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235825AbiDYIw5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 25 Apr 2022 04:52:57 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61AADB1888;
-        Mon, 25 Apr 2022 01:49:54 -0700 (PDT)
-Received: from mail-wm1-f53.google.com ([209.85.128.53]) by
- mrelayeu.kundenserver.de (mreue009 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1Ml6i4-1oAWSa3GV2-00lXOo; Mon, 25 Apr 2022 10:49:52 +0200
-Received: by mail-wm1-f53.google.com with SMTP id q20so8830299wmq.1;
-        Mon, 25 Apr 2022 01:49:52 -0700 (PDT)
-X-Gm-Message-State: AOAM533GogKGJ857zi7cqT1tBhDCnJI99in9rszKdBW6z/wQ3o6GvAox
-        eXpUkLLZ/9WGyR9O3SDxl3lQv0kKwxG8lYAr8wA=
-X-Google-Smtp-Source: ABdhPJznBo55D1o0+WIRuh7wr97I06MCGT/Bj0IN0lqL0hSs0OuVvnsKvU+rzU5QmLcLYLe1/6Wmmx7p2/jDZLH/xxI=
-X-Received: by 2002:a05:600c:25c5:b0:38f:f0b9:4c8c with SMTP id
- 5-20020a05600c25c500b0038ff0b94c8cmr16117479wml.20.1650876592353; Mon, 25 Apr
- 2022 01:49:52 -0700 (PDT)
+        with ESMTP id S240668AbiDYJ5n (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 25 Apr 2022 05:57:43 -0400
+Received: from mail-yw1-x1143.google.com (mail-yw1-x1143.google.com [IPv6:2607:f8b0:4864:20::1143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 724FA1FA66
+        for <linux-api@vger.kernel.org>; Mon, 25 Apr 2022 02:54:38 -0700 (PDT)
+Received: by mail-yw1-x1143.google.com with SMTP id 00721157ae682-2ec42eae76bso141936657b3.10
+        for <linux-api@vger.kernel.org>; Mon, 25 Apr 2022 02:54:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=s9IGPqOTuFEFxKMxMPq1P/MfyJrhGXNasZNiCUUGkGw=;
+        b=ATyrrXg7Zde9kNKDF5ZCIwB8sFwpTlj1alooHiv5B82ElZ6NtBEuNx95Avx3yfEG+v
+         SR3Pi9YiGn8JkKlYHD/qdytouxQeX3oJ0iJvxi83jqS7n6ODsQVEo3TYQchW3Es2L9VU
+         WpUkJmlaB6wVhppaQWj/4q6pjGxtcDa4HJW4QOfeOpSLK6Z6UVte2AgKSDjpTAjhaUvp
+         1vlu8JD8M0fsDcaE5ehzA10bFVyNVT/sZxFBm7wzmvCvDzerVUlRGvU96jP/8ljbUbru
+         odoIA7j0rE1KKiANkkvBpPl/x2AfmHungJLTzDrn645E4r+5rvRovpsE1TzToHsa3UvN
+         2Ivg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=s9IGPqOTuFEFxKMxMPq1P/MfyJrhGXNasZNiCUUGkGw=;
+        b=51+4YXAiUoBNmqXTzOXYzv5aghAucLxG3kXZOfqYSXZQ/WZWPPWEyW6dLWkKyshA4q
+         y0kVuK54Tpr7w8/FPFrlbcUn/l4z4QJ4j9eRM5ou8ZFZdxU/54FGWRhlFUgEvwKJydEE
+         B/gfk2Zj0jvlet1h0loJHJazMgZMpf8t96o9GlOFn9X84qXGcb6aknOs0OCPlBh5oKi5
+         BMFLMyCcMFuCNWhlqrGfk00Nf7KWeU8qmj+Ob+zV0NHKQ/M43lBcV3kjm4zyn3JA1Qox
+         xMbTpOg8zGoRV2QSnJ0GuvUAl49MRR2oQfW+xV2HZ6/Hpfu/dLhMY9MrDT23GZO/pwT/
+         BBlg==
+X-Gm-Message-State: AOAM533vYb50yYgWSSav6u9uDe4liINX7rxHMVx1AQ2IoA5fJ1myNs6y
+        rpHxjxvgxpp1vIFtZOTI9KH2HMZbKvAToc+aIl4=
+X-Google-Smtp-Source: ABdhPJxQijnkVqO46AP9dZFBb+zIV+lJgA02aHBxz50/JloNDj/GM6qY165L4Ew15qf1giwmqZ6pYLM3j+WeCcqd3IM=
+X-Received: by 2002:a0d:d787:0:b0:2f4:dfc5:9a70 with SMTP id
+ z129-20020a0dd787000000b002f4dfc59a70mr16308194ywd.447.1650880477612; Mon, 25
+ Apr 2022 02:54:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220422151725.1336997-1-mailhol.vincent@wanadoo.fr>
- <YmXMiTXEvFXZ/swU@dev-arch.thelio-3990X> <CAMZ6Rq+3XOze01dZZRTe+V44N2uo5J_=rtd9bKH7d7Fq9sNxVw@mail.gmail.com>
- <CAK8P3a31WAyh_vLqNwvv2GMcZ8SQp7gC=OV8c=Nc9pBtOSR8-g@mail.gmail.com> <CAMZ6RqL8G4uVn--Y5pBC+_c9Ex3Sjf8OJuVRwkVFFPwWd_ezLQ@mail.gmail.com>
-In-Reply-To: <CAMZ6RqL8G4uVn--Y5pBC+_c9Ex3Sjf8OJuVRwkVFFPwWd_ezLQ@mail.gmail.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Mon, 25 Apr 2022 10:49:36 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1_XoyjOPQ0ghku_QUjUL5V6BK9kSNUXoQj2RYaA=JxFg@mail.gmail.com>
-Message-ID: <CAK8P3a1_XoyjOPQ0ghku_QUjUL5V6BK9kSNUXoQj2RYaA=JxFg@mail.gmail.com>
-Subject: Re: [PATCH] checksyscalls: ignore -Wunused-macros
-To:     Vincent MAILHOL <mailhol.vincent@wanadoo.fr>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <llvm@lists.linux.dev>,
-        Linux API <linux-api@vger.kernel.org>
+Received: by 2002:a05:7000:bf06:0:0:0:0 with HTTP; Mon, 25 Apr 2022 02:54:37
+ -0700 (PDT)
+Reply-To: lawrencetansanco.y@gmail.com
+From:   Lawrence Tansanco <lt01102203@gmail.com>
+Date:   Mon, 25 Apr 2022 09:54:37 +0000
+Message-ID: <CAHP1huHfPzicY=hdR831QxbM-x=dFovv4_naSGV3EfxdN+Ra9g@mail.gmail.com>
+Subject: THANKS FOR YOUR RESPONSE AND GOD BLESS
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Provags-ID: V03:K1:YnibiRNyIgeuI2nPVLClsnhP1828FAbmVUYeoPkiNrTa8wA+aCl
- 6nzkkwwCK5ra4jSO7yof9xi3ag8OBY0xP5UmorHgQsejui3M9qi3murGQaZFx/Mg2kGKXHq
- FPp3V1OHPtZbC7El9/GdWOZ+P1nSrAIqMoxlf2oErQQKh0McIDvYWRYQ4ekb5/5J01PdiXZ
- Ye1OtdgWjHzcSyzU6COLg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:etjVTRUMtNY=:8cGRRh6scKpqNjfImdGj3i
- g+ZFj0No7LeBfPC67hzJbwkxVfMshswEBhgLUO4slSJQiXYB1DEi6eT2/qsqIWEnGBQrgO2R7
- LifyBz0oqLavS2KzlAF3bCy73b/s+/27PO3mk2+zc+Oxfo7qg2azx7n3yS+xb3FRzeZbOZhya
- ivvzL3J/xylS5rS8IbqUAvrJ9EmfShRzWWqgyzcdGY+O+z9HXlqXn/IY+QZFzaUd4SNtZ7adu
- H1yPXH64w1wEya33VsrnWUNDvUuAaeQPxar2UeHROM6j8veInZY+5CKE2OUS+IoO2pEmrre6/
- 3q9oICfw7ubdw6Ur7GL9WuR9idFrSiNGG02qhObVaSIwZb6WaZkGt0OGGzVwVo7Onwdb+3OYc
- qc5VXwRXZYyZgzSoM2PcFClSl4+sD+ddqPDQwPhr2V3YU3CoS6Iso0qMpZYciuyG3vDWgjpzr
- Vs/Cyi9F6lSDwgLMFBZdoTIxwAMWW5LmZ9Y6/+4aAbaPIUyC7QcqDo4WPFphSfQiMrpJExoEQ
- VcQ5jokFi6lMeSlPkZmQQeGU0MqPwG9aiS5Jo43oqrtY+2ulyT84SMts6WK0NZ1k03n2GTFh0
- LwGjgh3Yzr/D3Gj/BNgaHXB2qEX/V33xfv8gPC1oyEMCL2bl0JED4J20Dz+2uLmWW4yYubmU0
- /P+xgXZW2jd0nbn0sElVaHX0uM40jvaS9B5WwgIM0MY2f2MpScUU0w0VloDmCtK3oYvPAYto4
- YvSnHaGXQji3ociDCFODER4kmqhvG5y50UJmSSIXJ25HkMT/Qbxu7Gcfe3bEdambM6+TUdJTf
- yovSdyNhvk2gDEoTKwnHy2XIq8BXy1ixZj3euLHFjUYMO7Wo1k=
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: Yes, score=5.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,SUBJ_ALL_CAPS,UNDISC_FREEM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:1143 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4725]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [lt01102203[at]gmail.com]
+        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [lt01102203[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        *  3.6 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Apr 25, 2022 at 9:42 AM Vincent MAILHOL
-<mailhol.vincent@wanadoo.fr> wrote:
-> On Mon. 25 Apr 2022 at 15:50, Arnd Bergmann <arnd@arndb.de> wrote:
-> > On Mon, Apr 25, 2022 at 8:17 AM Vincent MAILHOL> <mailhol.vincent@wanadoo.fr> wrote:
-> > > When I run W=2, I want to only see the warnings of the file I am
-> > > working on. So I find it useful to fix the W=2 warnings which
-> > > show up when building other files to not get spammed by
-> > > irrelevant issues and to simplify the triage.
-> > >
-> > > My initial message lacked the rationale. I will add additional
-> > > explanations in the v2 of this patch.
-> >
-> > I agree this is worth fixing if we want to make W=2 have any meaning at all.
-> >
-> > Your approach is probably fine. We could try to improve this by comparing
-> > against the list from include/uapi/asm-generic/unistd.h instead of the i386
-> > list. I suppose that would involve rewriting the script into a simpler one,
-> > but I'm not sure if anyone has an interest in working on this.
->
-> If someone wants to do it, great, but I do not have the
-> confidence to do it myself so I hope you will forgive me for
-> taking a pass here.
+.
+I will like to disclose something very important to you,
+get back for more details please.
 
-Sure, no worries.
-
-> Another alternative I considered was to only call
-> checksyscalls.sh when doing a 'make all'. This way, we keep the
-> warning but people won’t be spammed when building sub projects
-> because the script would not be executed.
-
-Right, I like that as well, one less thing to be done for every
-iterative make as well. The syscall table really doesn't change
-all that much that this needs to be run by most developers.
-
-      Arnd
+Regards.
+Mr Lawrence Tansanco Y.
