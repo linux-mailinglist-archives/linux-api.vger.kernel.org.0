@@ -2,161 +2,133 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC0D450D3C8
-	for <lists+linux-api@lfdr.de>; Sun, 24 Apr 2022 19:00:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DE5750D9C9
+	for <lists+linux-api@lfdr.de>; Mon, 25 Apr 2022 08:50:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235776AbiDXRDG (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 24 Apr 2022 13:03:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41722 "EHLO
+        id S233077AbiDYGxu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 25 Apr 2022 02:53:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234895AbiDXRDF (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 24 Apr 2022 13:03:05 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DB1EAE7C;
-        Sun, 24 Apr 2022 10:00:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0B6C3611DE;
-        Sun, 24 Apr 2022 17:00:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0358C385AD;
-        Sun, 24 Apr 2022 17:00:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650819602;
-        bh=Je+h7tOqeRuiQPlVHJ9YBtSjYKQSsE87o9H6bqNhv0E=;
-        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
-        b=LQiLb34FBw2eNgmoSiK231PONOUqKINkvAm71Hqa/6IFcH84IBd4KI62BNG2mLhtK
-         Hc6wfzDdol11Q6iTwsjdogfokTjyEWWEbGSpsOx/knOJKp6Crx5ySz6ZBPNfCPm2Y2
-         UTOM8YD+BmK8eAmsrEjDxw20mEt5bF7RNwdoAAbcP7G3bq3wsJBVcC+ket5QCp7pNZ
-         ebwBj9BNaRZhioAXdPrTG0cP2ypE2dSneAE2Y4RaBLyhY3E0B2q6+EJuUHx1fwlqL9
-         ky9DUb3woG18oxgarN9knFcnkhJA5NdzVOb2xc+hnzYweKSFCn+6GsqSZcJd4W0g4C
-         eLcYkopG6nWTg==
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailauth.nyi.internal (Postfix) with ESMTP id AF9FB27C0054;
-        Sun, 24 Apr 2022 12:59:59 -0400 (EDT)
-Received: from imap48 ([10.202.2.98])
-  by compute2.internal (MEProxy); Sun, 24 Apr 2022 12:59:59 -0400
-X-ME-Sender: <xms:DYJlYrS34FbKgFIeuLj_dSMvkd5cU95kEUVKwMNEB6sujYQvoPVv6Q>
-    <xme:DYJlYswLoJzXo6S6_R7s1t-GiUI4O6DLQ-Pd_h4VfsSNC7qvDxGEUISicXFj94Pnp
-    ZNy6B9ZgrmKpY1sYlo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdelgddutdelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
-    ugihucfnuhhtohhmihhrshhkihdfuceolhhuthhosehkvghrnhgvlhdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepvdfhuedvtdfhudffhfekkefftefghfeltdelgeffteehueegjeff
-    udehgfetiefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homheprghnugihodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduudeiudek
-    heeifedvqddvieefudeiiedtkedqlhhuthhopeepkhgvrhhnvghlrdhorhhgsehlihhnuh
-    igrdhluhhtohdruhhs
-X-ME-Proxy: <xmx:DYJlYg2mLjrVZeMpqDRGXmRBOA-ECqlSFMjTE8uGdMFCztXmSs1Oww>
-    <xmx:DYJlYrDN603TmyI_zfJc_c4WIOl52Lr3VQyhal9I5Eb6ECdOYdjpsg>
-    <xmx:DYJlYkh4toKPkrvr3za3g-nANRCLI8UWxf7YtZx3gqdjE5hym31nCA>
-    <xmx:D4JlYtA1fc6cjZhfnkcH18sWUIyRZ7lxNJCXAb7CsWUmjH9hBozjjg>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 5AA8821E006E; Sun, 24 Apr 2022 12:59:57 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-569-g7622ad95cc-fm-20220421.002-g7622ad95
-Mime-Version: 1.0
-Message-Id: <3b99f157-0f30-4b30-8399-dd659250ab8d@www.fastmail.com>
-In-Reply-To: <20220422105612.GB61987@chaop.bj.intel.com>
-References: <YkQzfjgTQaDd2E2T@google.com> <YkSaUQX89ZEojsQb@google.com>
- <80aad2f9-9612-4e87-a27a-755d3fa97c92@www.fastmail.com>
- <YkcTTY4YjQs5BRhE@google.com>
- <83fd55f8-cd42-4588-9bf6-199cbce70f33@www.fastmail.com>
- <YksIQYdG41v3KWkr@google.com> <Ykslo2eo2eRXrpFR@google.com>
- <eefc3c74-acca-419c-8947-726ce2458446@www.fastmail.com>
- <Ykwbqv90C7+8K+Ao@google.com> <YkyEaYiL0BrDYcZv@google.com>
- <20220422105612.GB61987@chaop.bj.intel.com>
-Date:   Sun, 24 Apr 2022 09:59:37 -0700
-From:   "Andy Lutomirski" <luto@kernel.org>
-To:     "Chao Peng" <chao.p.peng@linux.intel.com>,
-        "Sean Christopherson" <seanjc@google.com>
-Cc:     "Quentin Perret" <qperret@google.com>,
-        "Steven Price" <steven.price@arm.com>,
-        "kvm list" <kvm@vger.kernel.org>,
-        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        "Linux API" <linux-api@vger.kernel.org>, qemu-devel@nongnu.org,
-        "Paolo Bonzini" <pbonzini@redhat.com>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Vitaly Kuznetsov" <vkuznets@redhat.com>,
-        "Wanpeng Li" <wanpengli@tencent.com>,
-        "Jim Mattson" <jmattson@google.com>,
-        "Joerg Roedel" <joro@8bytes.org>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Hugh Dickins" <hughd@google.com>,
-        "Jeff Layton" <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        "Andrew Morton" <akpm@linux-foundation.org>,
-        "Mike Rapoport" <rppt@kernel.org>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        "Vlastimil Babka" <vbabka@suse.cz>,
-        "Vishal Annapurve" <vannapurve@google.com>,
-        "Yu Zhang" <yu.c.zhang@linux.intel.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        "Nakajima, Jun" <jun.nakajima@intel.com>,
-        "Dave Hansen" <dave.hansen@intel.com>,
-        "Andi Kleen" <ak@linux.intel.com>,
-        "David Hildenbrand" <david@redhat.com>,
-        "Marc Zyngier" <maz@kernel.org>, "Will Deacon" <will@kernel.org>
-Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM guest
- private memory
-Content-Type: text/plain
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S231721AbiDYGxu (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 25 Apr 2022 02:53:50 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC9D372E0E;
+        Sun, 24 Apr 2022 23:50:45 -0700 (PDT)
+Received: from mail-wr1-f51.google.com ([209.85.221.51]) by
+ mrelayeu.kundenserver.de (mreue012 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1MuF4v-1o1vTi2ySb-00uXUa; Mon, 25 Apr 2022 08:50:43 +0200
+Received: by mail-wr1-f51.google.com with SMTP id x18so19417170wrc.0;
+        Sun, 24 Apr 2022 23:50:43 -0700 (PDT)
+X-Gm-Message-State: AOAM531qquoFZpNNmgpU9hlQVwGxWR2i/DYAjGaEIEGAqHWxb/uINC+k
+        oNd9BmePSv7vkaBHsPhVG6MwqRu0sslqBhxGo30=
+X-Google-Smtp-Source: ABdhPJxPmwV5WfcLnmUcvdXXaS8GyG1IsSnRTeCouUj2lCvJavpxFpqEWw5tHbS8gyEonBI8l0BcoD/6n15ffRVK4JY=
+X-Received: by 2002:a5d:49cb:0:b0:20a:cee3:54fc with SMTP id
+ t11-20020a5d49cb000000b0020acee354fcmr8897626wrs.12.1650869443104; Sun, 24
+ Apr 2022 23:50:43 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220422151725.1336997-1-mailhol.vincent@wanadoo.fr>
+ <YmXMiTXEvFXZ/swU@dev-arch.thelio-3990X> <CAMZ6Rq+3XOze01dZZRTe+V44N2uo5J_=rtd9bKH7d7Fq9sNxVw@mail.gmail.com>
+In-Reply-To: <CAMZ6Rq+3XOze01dZZRTe+V44N2uo5J_=rtd9bKH7d7Fq9sNxVw@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Mon, 25 Apr 2022 08:50:26 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a31WAyh_vLqNwvv2GMcZ8SQp7gC=OV8c=Nc9pBtOSR8-g@mail.gmail.com>
+Message-ID: <CAK8P3a31WAyh_vLqNwvv2GMcZ8SQp7gC=OV8c=Nc9pBtOSR8-g@mail.gmail.com>
+Subject: Re: [PATCH] checksyscalls: ignore -Wunused-macros
+To:     Vincent MAILHOL <mailhol.vincent@wanadoo.fr>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <llvm@lists.linux.dev>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:UaCMRLV59oKpIUu2ubDKLDGAgKT/RVqgR8o7Sf6wAJ/o26k9drx
+ WATwG6fvMDAyx288U/tjPp5okwmDteAFpSxMDG3S1dSCJ5yDePznIVqIXpkC1FmgOAbevrJ
+ dnLwwIGZh5sxeHIDpm//TWSO85V5MYVnMfN/KpK9+LswndgTOQWNueoxackeKNH4IRWfahd
+ PF+b8jqKnmbCSW3e9MS1w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:jMQQiCIRwX8=:wKorjLd+Zoo+h0Kv890um+
+ WjBeDynLgYmGe5x5ReBXQO/w+F6WshAK6vXNlK2/UHeiG2nSjluBH4X28x1VmPEBy1O7I7N2a
+ lO+Vuy2EisyyRIBhUpNXHzKPlSA/A3SLHyHHbcyjj8hRTgtmoEag9iBWhk7VY0/dtq9CDFWrM
+ OkORDMPW4IQOlVts47wjV6tfd5wG1LWaixW4OacmFxnT/Ewy/KZvXD/q2tl0fQwCROTbZxqhe
+ VWsshz0zFqevDI4t073M1FcDhcmgbWFwPd4IgiEQCQm4Onv7CdnLcTg66ktXZFVVoLR4JzuPz
+ K5WaJQBmjS4U/efocBwYW8JFKsZ22e6uHN/yhN3n9QPVdehhYseod24oRuj0gfPaIN1iW0r5j
+ 8tTb/v0wwDHgaWF4KAeJLyC+OIQw96RqIXEyf3pYeX0miTjy5afPvPEHj5U/vgiMRNTRIIjG3
+ 2JxWK2eOJkmstit8OSIf4ACG0lqUWa4yYvdlsf5Ez5D34qEjCTkOM6SHsi9Ctu8ekwRI38Hd/
+ ae83ypvhaCCKF0YakZoa2IsaquRVxLEy/bSiYZtzrnd8tf4REGpMZ4+EU9x0VuqhNX232HTbN
+ jhUDMR+2ALf9pEX+chA+E3kDW7c5r2lFORRDtvevKEk2au1baecut64vtft05qnr9A2ZqD1e0
+ aUbltgMrAFl+na9BpQnOc8aR+98v4rlCFvVbPLU7LpTGvMnK3V3m1/lMCQHCEROxymnxjYUC3
+ wu2K6A09ax/MqZGP7oaOjZItUaKdbGRdmxGVYzOU1VLC3rcsPh7u1chG+UxhJh5QBHUC/B8ka
+ xScis/z4WdVg1FTv0S6ay5gV6rqYyeZBEu5q43QI1nrIPRkD+4=
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Mon, Apr 25, 2022 at 8:17 AM Vincent MAILHOL
+<mailhol.vincent@wanadoo.fr> wrote:
+> On Mon. 25 Apr 2022 at 07:17, Nathan Chancellor <nathan@kernel.org> wrote:
+> > Hi Vincent,
+> >
+> > On Sat, Apr 23, 2022 at 12:17:25AM +0900, Vincent Mailhol wrote:
+> > > The macros defined in this file are for testing only and are purposely
+> > > not used. When compiled with W=2, both gcc and clang yield some
+> > > -Wunused-macros warnings. Ignore them.
+> > >
+> > > Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+> >
+> > The change itself looks fine but a couple of comments:
+> >
+> > 1. Nick and I do not pick up patches, we rely on others to do so.
+> >    Additionally, this is not really something within our domain, despite
+> >    what get_maintainer.pl might say. This change should be sent to
+> >    either
+> >
+> >    Masahiro Yamada <masahiroy@kernel.org>
+> >    linux-kbuild@vger.kernel.org
+> >
+> >    or
+> >
+> >    Andrew Morton <akpm@linux-foundation.org>
+> >
+> >    so that it can be applied by one of them.
+>
+> Ack. As you pointed out, I indeed just followed get_maintainer.pl.
+> I will resend a v2 to the people you pointed out (and exclude you).
+>
+> > 2. I am not sure that silencing warnings from W=2 is that useful, as
+> >    they are unlikely to be real issues. Not to discourage you by any
+> >    means but it might be more useful to focus on cleaning up warnings
+> >    from W=1 and getting those promoted to regular build warnings.
+>
+> Normally I agree, but there is one reason to fix this W=2: this
+> warning appears when building other files.
+>
+> Example:
+> | $ make W=2 drivers/net/dummy.o
+> |   CALL    scripts/checksyscalls.sh
+> | <stdin>:21: warning: macro "__IGNORE_stat64" is not used [-Wunused-macros]
+> | <stdin>:22: warning: macro "__IGNORE_lstat64" is not used [-Wunused-macros]
+> | <stdin>:75: warning: macro "__IGNORE_llseek" is not used [-Wunused-macros]
+> | <stdin>:159: warning: macro "__IGNORE_madvise1" is not used [-Wunused-macros]
+> (rest of the output redacted).
+>
+> When I run W=2, I want to only see the warnings of the file I am
+> working on. So I find it useful to fix the W=2 warnings which
+> show up when building other files to not get spammed by
+> irrelevant issues and to simplify the triage.
+>
+> My initial message lacked the rationale. I will add additional
+> explanations in the v2 of this patch.
 
+I agree this is worth fixing if we want to make W=2 have any meaning at all.
 
-On Fri, Apr 22, 2022, at 3:56 AM, Chao Peng wrote:
-> On Tue, Apr 05, 2022 at 06:03:21PM +0000, Sean Christopherson wrote:
->> On Tue, Apr 05, 2022, Quentin Perret wrote:
->> > On Monday 04 Apr 2022 at 15:04:17 (-0700), Andy Lutomirski wrote:
->     Only when the register succeeds, the fd is
->     converted into a private fd, before that, the fd is just a normal (shared)
->     one. During this conversion, the previous data is preserved so you can put
->     some initial data in guest pages (whether the architecture allows this is
->     architecture-specific and out of the scope of this patch).
+Your approach is probably fine. We could try to improve this by comparing
+against the list from include/uapi/asm-generic/unistd.h instead of the i386
+list. I suppose that would involve rewriting the script into a simpler one,
+but I'm not sure if anyone has an interest in working on this.
 
-I think this can be made to work, but it will be awkward.  On TDX, for example, what exactly are the semantics supposed to be?  An error code if the memory isn't all zero?  An error code if it has ever been written?
-
-Fundamentally, I think this is because your proposed lifecycle for these memfiles results in a lightweight API but is awkward for the intended use cases.  You're proposing, roughly:
-
-1. Create a memfile. 
-
-Now it's in a shared state with an unknown virt technology.  It can be read and written.  Let's call this state BRAND_NEW.
-
-2. Bind to a VM.
-
-Now it's an a bound state.  For TDX, for example, let's call the new state BOUND_TDX.  In this state, the TDX rules are followed (private memory can't be converted, etc).
-
-The problem here is that the BOUND_NEW state allows things that are nonsensical in TDX, and the binding step needs to invent some kind of semantics for what happens when binding a nonempty memfile.
-
-
-So I would propose a somewhat different order:
-
-1. Create a memfile.  It's in the UNBOUND state and no operations whatsoever are allowed except binding or closing.
-
-2. Bind the memfile to a VM (or at least to a VM technology).  Now it's in the initial state appropriate for that VM.
-
-For TDX, this completely bypasses the cases where the data is prepopulated and TDX can't handle it cleanly.  For SEV, it bypasses a situation in which data might be written to the memory before we find out whether that data will be unreclaimable or unmovable.
-
-
-----------------------------------------------
-
-Now I have a question, since I don't think anyone has really answered it: how does this all work with SEV- or pKVM-like technologies in which private and shared pages share the same address space?  I sounds like you're proposing to have a big memfile that contains private and shared pages and to use that same memfile as pages are converted back and forth.  IO and even real physical DMA could be done on that memfile.  Am I understanding correctly?
-
-If so, I think this makes sense, but I'm wondering if the actual memslot setup should be different.  For TDX, private memory lives in a logically separate memslot space.  For SEV and pKVM, it doesn't.  I assume the API can reflect this straightforwardly.
-
-And the corresponding TDX question: is the intent still that shared pages aren't allowed at all in a TDX memfile?  If so, that would be the most direct mapping to what the hardware actually does.
-
---Andy
+       Arnd
