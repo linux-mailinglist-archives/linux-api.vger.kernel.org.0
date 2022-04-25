@@ -2,47 +2,69 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F78750E231
-	for <lists+linux-api@lfdr.de>; Mon, 25 Apr 2022 15:45:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8112950E2B0
+	for <lists+linux-api@lfdr.de>; Mon, 25 Apr 2022 16:08:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234000AbiDYNre (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 25 Apr 2022 09:47:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45356 "EHLO
+        id S242374AbiDYOKQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 25 Apr 2022 10:10:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242230AbiDYNrc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 25 Apr 2022 09:47:32 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BA174969E;
-        Mon, 25 Apr 2022 06:44:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1650894268; x=1682430268;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=11l8nWOAh8jVYp4pTM08c8ajsmoXROtLceTxJ8NiSMU=;
-  b=JR8Ute/GJoN07izCCk5Zc7OxBCMey/J59svcRudy72t4VzM309/Aw6PH
-   b/ZHjjIihKYyKpfM8+XOo1aiwT9+JD5evTwPYtHVbZpOMMUspu7dfP2Qz
-   xHJ59bXkoWawJr77n/TAShrgT6z7DsIyDd0KRJeHGQD4YTHq79TEuEZWL
-   cihD4uIu1nnZ2+tI0H3LJvH6botetkQ42mxukQY4FaloFsWV+E0wT32+3
-   ZTGCGEmIk5hWwJIyqlTZEKzlC6M9ZaiiqAlW8gyBHs+2QuuOAjvlFDSQc
-   5KWCAW+vAOHaTFNEpOTv9vwOpPmMR4efSl4tnzFzA+Z1BGA5psG2o5g/q
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10327"; a="325738297"
-X-IronPort-AV: E=Sophos;i="5.90,288,1643702400"; 
-   d="scan'208";a="325738297"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2022 06:44:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,288,1643702400"; 
-   d="scan'208";a="704562650"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
-  by fmsmga001.fm.intel.com with ESMTP; 25 Apr 2022 06:44:19 -0700
-Date:   Mon, 25 Apr 2022 21:40:51 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Andy Lutomirski <luto@kernel.org>
+        with ESMTP id S242367AbiDYOKP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 25 Apr 2022 10:10:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CB1542C649
+        for <linux-api@vger.kernel.org>; Mon, 25 Apr 2022 07:07:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1650895629;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=SVM3muYPJyfaOhJtwnQezE4YHj5J/gwIIpTn05v9eQ0=;
+        b=cv/UsoNPfNqX91dFXSy4cjeJw7K7YFlyVGrYU0/O/x384jacxAkS9y0ItG2SGGBY4drBFr
+        SigH9vJWXULnBXUIKBnLE68BTqclw96P5Drp234vT5lEWwdvSipGp3RJ+Tk1r9QuQRHId9
+        ZfC7q1mHuIC0Mwd3n9pO+xyEf6DxK5s=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-125-cZe5b0nxOy6yzwabxWu6Nw-1; Mon, 25 Apr 2022 10:07:08 -0400
+X-MC-Unique: cZe5b0nxOy6yzwabxWu6Nw-1
+Received: by mail-wr1-f71.google.com with SMTP id e13-20020adf9bcd000000b0020adc114131so835860wrc.8
+        for <linux-api@vger.kernel.org>; Mon, 25 Apr 2022 07:07:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:cc:references:from:organization:subject
+         :in-reply-to:content-transfer-encoding;
+        bh=SVM3muYPJyfaOhJtwnQezE4YHj5J/gwIIpTn05v9eQ0=;
+        b=GgnTreoan6PbimYeiHuYOEveSDfIzg1QRRAH1TE6AuTuGtrfGH9pOfoezorI/UM73x
+         wLGl7VkBgqy4Rq55yVjBtIjwn1JdxTg7x2jrUHnEw3zKQCJLdqJR70S3WMUzjfGzevuJ
+         pmzwS+Hy5L2pCBQigeRWbnxXzPfmMxutM5NM6nEF4V1TUCF/eTKKLumuMpgFRe3FUBls
+         kSFpHh2PYq7waFeR5EHmlKp7dTRsPELEMhu5lKXYNv/IgjoWxEWuPh5J1JaKpwjjrdIW
+         FeMOY6VCVWnlbi81CpVXi/QK/jQ+pGKoyAa+NX/qhvCE838P9sSUdQW7mgLqWxDpMMex
+         NUtw==
+X-Gm-Message-State: AOAM530KyhGfNh8UTiogNbyMDHQLEYK5WfgdFb0v38bJnloR129lQQdt
+        7WjoEUn3EQViGcmhUplTZ6/UeCpn5MZpWqoA+vdJxQW0egRc0XfESdR8/EnljEI3LPxc6BaHeih
+        3WdD6eH6GPRVU1tA3/t/T
+X-Received: by 2002:a5d:6241:0:b0:207:ac0e:3549 with SMTP id m1-20020a5d6241000000b00207ac0e3549mr14371872wrv.343.1650895627105;
+        Mon, 25 Apr 2022 07:07:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzgoNX9maOD+O7h8van/rWNjXvLl8lKMAp755C32BIUi/e19PViAQ+6Xwf7k6WLPh49+cUdlA==
+X-Received: by 2002:a5d:6241:0:b0:207:ac0e:3549 with SMTP id m1-20020a5d6241000000b00207ac0e3549mr14371841wrv.343.1650895626813;
+        Mon, 25 Apr 2022 07:07:06 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c700:fc00:490d:ed6a:8b22:223a? (p200300cbc700fc00490ded6a8b22223a.dip0.t-ipconnect.de. [2003:cb:c700:fc00:490d:ed6a:8b22:223a])
+        by smtp.gmail.com with ESMTPSA id t18-20020a05600c199200b0039291537cfesm11669789wmq.21.2022.04.25.07.07.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Apr 2022 07:07:06 -0700 (PDT)
+Message-ID: <d2aa867b-3355-8223-2721-f3e825632255@redhat.com>
+Date:   Mon, 25 Apr 2022 16:07:03 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Content-Language: en-US
+To:     Jason Gunthorpe <jgg@ziepe.ca>
 Cc:     Sean Christopherson <seanjc@google.com>,
-        Quentin Perret <qperret@google.com>,
-        Steven Price <steven.price@arm.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Chao Peng <chao.p.peng@linux.intel.com>,
         kvm list <kvm@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
@@ -61,6 +83,7 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         "J . Bruce Fields" <bfields@fieldses.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
         "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
         Vlastimil Babka <vbabka@suse.cz>,
         Vishal Annapurve <vannapurve@google.com>,
@@ -68,116 +91,128 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
         "Nakajima, Jun" <jun.nakajima@intel.com>,
         Dave Hansen <dave.hansen@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>,
-        Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <20220425134051.GA175928@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <80aad2f9-9612-4e87-a27a-755d3fa97c92@www.fastmail.com>
- <YkcTTY4YjQs5BRhE@google.com>
- <83fd55f8-cd42-4588-9bf6-199cbce70f33@www.fastmail.com>
- <YksIQYdG41v3KWkr@google.com>
- <Ykslo2eo2eRXrpFR@google.com>
- <eefc3c74-acca-419c-8947-726ce2458446@www.fastmail.com>
- <Ykwbqv90C7+8K+Ao@google.com>
- <YkyEaYiL0BrDYcZv@google.com>
- <20220422105612.GB61987@chaop.bj.intel.com>
- <3b99f157-0f30-4b30-8399-dd659250ab8d@www.fastmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3b99f157-0f30-4b30-8399-dd659250ab8d@www.fastmail.com>
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        Andi Kleen <ak@linux.intel.com>
+References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
+ <20220310140911.50924-5-chao.p.peng@linux.intel.com>
+ <Yk8L0CwKpTrv3Rg3@google.com>
+ <02e18c90-196e-409e-b2ac-822aceea8891@www.fastmail.com>
+ <YlB3Z8fqJ+67a2Ck@google.com>
+ <7ab689e7-e04d-5693-f899-d2d785b09892@redhat.com>
+ <20220412143636.GG64706@ziepe.ca>
+ <1686fd2d-d9c3-ec12-32df-8c4c5ae26b08@redhat.com>
+ <20220413175208.GI64706@ziepe.ca>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v5 04/13] mm/shmem: Restrict MFD_INACCESSIBLE memory
+ against RLIMIT_MEMLOCK
+In-Reply-To: <20220413175208.GI64706@ziepe.ca>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, Apr 24, 2022 at 09:59:37AM -0700, Andy Lutomirski wrote:
+On 13.04.22 19:52, Jason Gunthorpe wrote:
+> On Wed, Apr 13, 2022 at 06:24:56PM +0200, David Hildenbrand wrote:
+>> On 12.04.22 16:36, Jason Gunthorpe wrote:
+>>> On Fri, Apr 08, 2022 at 08:54:02PM +0200, David Hildenbrand wrote:
+>>>
+>>>> RLIMIT_MEMLOCK was the obvious candidate, but as we discovered int he
+>>>> past already with secretmem, it's not 100% that good of a fit (unmovable
+>>>> is worth than mlocked). But it gets the job done for now at least.
+>>>
+>>> No, it doesn't. There are too many different interpretations how
+>>> MELOCK is supposed to work
+>>>
+>>> eg VFIO accounts per-process so hostile users can just fork to go past
+>>> it.
+>>>
+>>> RDMA is per-process but uses a different counter, so you can double up
+>>>
+>>> iouring is per-user and users a 3rd counter, so it can triple up on
+>>> the above two
+>>
+>> Thanks for that summary, very helpful.
 > 
+> I kicked off a big discussion when I suggested to change vfio to use
+> the same as io_uring
 > 
-> On Fri, Apr 22, 2022, at 3:56 AM, Chao Peng wrote:
-> > On Tue, Apr 05, 2022 at 06:03:21PM +0000, Sean Christopherson wrote:
-> >> On Tue, Apr 05, 2022, Quentin Perret wrote:
-> >> > On Monday 04 Apr 2022 at 15:04:17 (-0700), Andy Lutomirski wrote:
-> >     Only when the register succeeds, the fd is
-> >     converted into a private fd, before that, the fd is just a normal (shared)
-> >     one. During this conversion, the previous data is preserved so you can put
-> >     some initial data in guest pages (whether the architecture allows this is
-> >     architecture-specific and out of the scope of this patch).
+> We may still end up trying it, but the major concern is that libvirt
+> sets the RLIMIT_MEMLOCK and if we touch anything here - including
+> fixing RDMA, or anything really, it becomes a uAPI break for libvirt..
 > 
-> I think this can be made to work, but it will be awkward.  On TDX, for example, what exactly are the semantics supposed to be?  An error code if the memory isn't all zero?  An error code if it has ever been written?
-> 
-> Fundamentally, I think this is because your proposed lifecycle for these memfiles results in a lightweight API but is awkward for the intended use cases.  You're proposing, roughly:
-> 
-> 1. Create a memfile. 
-> 
-> Now it's in a shared state with an unknown virt technology.  It can be read and written.  Let's call this state BRAND_NEW.
-> 
-> 2. Bind to a VM.
-> 
-> Now it's an a bound state.  For TDX, for example, let's call the new state BOUND_TDX.  In this state, the TDX rules are followed (private memory can't be converted, etc).
-> 
-> The problem here is that the BOUND_NEW state allows things that are nonsensical in TDX, and the binding step needs to invent some kind of semantics for what happens when binding a nonempty memfile.
-> 
-> 
-> So I would propose a somewhat different order:
-> 
-> 1. Create a memfile.  It's in the UNBOUND state and no operations whatsoever are allowed except binding or closing.
 
-OK, so we need invent new user API to indicate UNBOUND state. For memfd
-based, it can be a new feature-neutral flag at creation time.
+Okay, so we have to introduce a second mechanism, don't use
+RLIMIT_MEMLOCK for new unmovable memory, and then eventually phase out
+RLIMIT_MEMLOCK usage for existing unmovable memory consumers (which, as
+you say, will be difficult).
 
+>>>> So I'm open for alternative to limit the amount of unmovable memory we
+>>>> might allocate for user space, and then we could convert seretmem as well.
+>>>
+>>> I think it has to be cgroup based considering where we are now :\
+>>
+>> Most probably. I think the important lessons we learned are that
+>>
+>> * mlocked != unmovable.
+>> * RLIMIT_MEMLOCK should most probably never have been abused for
+>>   unmovable memory (especially, long-term pinning)
 > 
-> 2. Bind the memfile to a VM (or at least to a VM technology).  Now it's in the initial state appropriate for that VM.
+> The trouble is I'm not sure how anything can correctly/meaningfully
+> set a limit.
 > 
-> For TDX, this completely bypasses the cases where the data is prepopulated and TDX can't handle it cleanly.  For SEV, it bypasses a situation in which data might be written to the memory before we find out whether that data will be unreclaimable or unmovable.
+> Consider qemu where we might have 3 different things all pinning the
+> same page (rdma, iouring, vfio) - should the cgroup give 3x the limit?
+> What use is that really?
 
-This sounds a more strict rule to avoid semantics unclear.
+I think your tackling a related problem, that we double-account
+unmovable/mlocked memory due to lack of ways to track that a page is
+already pinned by the same user/cgroup/whatsoever. Not easy to solve.
 
-So userspace needs to know what excatly happens for a 'bind' operation.
-This is different when binds to different technologies. E.g. for SEV, it
-may imply after this call, the memfile can be accessed (through mmap or
-what ever) from userspace, while for current TDX this should be not allowed.
-
-And I feel we still need a third flow/operation to indicate the
-completion of the initialization on the memfile before the guest's 
-first-time launch. SEV needs to check previous mmap-ed areas are munmap-ed
-and prevent future userspace access. After this point, then the memfile
-becomes truely private fd.
-
-> 
-> 
-> ----------------------------------------------
-> 
-> Now I have a question, since I don't think anyone has really answered it: how does this all work with SEV- or pKVM-like technologies in which private and shared pages share the same address space?  I sounds like you're proposing to have a big memfile that contains private and shared pages and to use that same memfile as pages are converted back and forth.  IO and even real physical DMA could be done on that memfile.  Am I understanding correctly?
-
-For TDX case, and probably SEV as well, this memfile contains private memory
-only. But this design at least makes it possible for usage cases like
-pKVM which wants both private/shared memory in the same memfile and rely
-on other ways like mmap/munmap or mprotect to toggle private/shared instead
-of fallocate/hole punching.
+The problem also becomes interesting if iouring with fixed buffers
+doesn't work on guest RAM, but on some other QEMU buffers.
 
 > 
-> If so, I think this makes sense, but I'm wondering if the actual memslot setup should be different.  For TDX, private memory lives in a logically separate memslot space.  For SEV and pKVM, it doesn't.  I assume the API can reflect this straightforwardly.
-
-I believe so. The flow should be similar but we do need pass different
-flags during the 'bind' to the backing store for different usages. That
-should be some new flags for pKVM but the callbacks (API here) between
-memfile_notifile and its consumers can be reused.
-
+> IMHO there are only two meaningful scenarios - either you are unpriv
+> and limited to a very small number for your user/cgroup - or you are
+> priv and you can do whatever you want.
 > 
-> And the corresponding TDX question: is the intent still that shared pages aren't allowed at all in a TDX memfile?  If so, that would be the most direct mapping to what the hardware actually does.
+> The idea we can fine tune this to exactly the right amount for a
+> workload does not seem realistic and ends up exporting internal kernel
+> decisions into a uAPI..
 
-Exactly. TDX will still use fallocate/hole punching to turn on/off the
-private page. Once off, the traditional shared page will become
-effective in KVM.
 
-Chao
-> 
-> --Andy
+IMHO, there are three use cases:
+
+* App that conditionally uses selected mechanism that end up requiring
+  unmovable, long-term allocations. Secretmem, iouring, rdma. We want
+  some sane, small default. Apps have a backup path in case any such
+  mechanism fails because we're out of allowed unmovable resources.
+* App that relies on selected mechanism that end up requiring unmovable,
+  long-term allocations. E.g., vfio with known memory consumption, such
+  as the VM size. It's fairly easy to come up with the right value.
+* App that relies on multiple mechanism that end up requiring unmovable,
+  long-term allocations. QEMU with rdma, iouring, vfio, ... I agree that
+  coming up with something good is problematic.
+
+Then, there are privileged/unprivileged apps. There might be admins that
+just don't care. There might be admins that even want to set some limit
+instead of configuring "unlimited" for QEMU.
+
+Long story short, it should be an admin choice what to configure,
+especially:
+* What the default is for random apps
+* What the maximum is for selected apps
+* Which apps don't have a maximum
+
+-- 
+Thanks,
+
+David / dhildenb
+
