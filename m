@@ -2,107 +2,113 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AB6A510255
-	for <lists+linux-api@lfdr.de>; Tue, 26 Apr 2022 17:57:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40969510276
+	for <lists+linux-api@lfdr.de>; Tue, 26 Apr 2022 18:01:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352666AbiDZQBC convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Tue, 26 Apr 2022 12:01:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54968 "EHLO
+        id S1352750AbiDZQEP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 26 Apr 2022 12:04:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347456AbiDZQAx (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 26 Apr 2022 12:00:53 -0400
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D029D387A0;
-        Tue, 26 Apr 2022 08:57:45 -0700 (PDT)
-Received: by mail-yb1-f181.google.com with SMTP id v59so20855303ybi.12;
-        Tue, 26 Apr 2022 08:57:45 -0700 (PDT)
+        with ESMTP id S1352826AbiDZQEM (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 26 Apr 2022 12:04:12 -0400
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FD6E38BFE
+        for <linux-api@vger.kernel.org>; Tue, 26 Apr 2022 09:01:03 -0700 (PDT)
+Received: by mail-io1-xd33.google.com with SMTP id h8so283471iov.12
+        for <linux-api@vger.kernel.org>; Tue, 26 Apr 2022 09:01:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dyCNcdxP+OP+ZEEDkKpS4dIut/dFXRkxuAQItAbC2hk=;
+        b=kkI2HO5/ZEBb6dwCosEFba8Hqs93phXW7y7LQIwDiDweskbxzWfkhJOxUXgbksafGv
+         Cj9I3+VUsMtqzbQ+FRheYG7Jnp0nCQoqCtylg9A9uVvjFZFE+gYUol4vZnJS8L/D7fcH
+         IXLA9h7oaFPNuHm4FrQjgkuQGxMTT+zn4y0Dc3ZUaMQ6grfstTlV1uURhTu7yZhAB2CR
+         S15Az/6PGwq5RzEtyE76iZSrukPtIepHVy15uTIKCKRfoQGMqwl6nQ2Wcrtywgqq4l9K
+         yrTT7rEccOM0wyFm2LgURZQ9atXRmAewK37yNCUoS/4n8PFFGhjVqFY7J9psP2v3Z2G9
+         KjGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=5UMIziwn3GcEpZ2EHO6PLtQUiahYmzZMqohaqW8D0IA=;
-        b=cs/MShqilxyWrHAOk/6Kz5tTAlV7K4w8g4BSaNkIR+mFAJwlBTBPrui9zFJPm85DMH
-         XxuaVku0rADvOqS4Ou5DV9jxa85u0Ry86uqSiUAHQQSuJ0oRDWpECyvUnpf5Pz8yIugR
-         Ev3LGtuax6+2Se2pFAhCu7FrwxnIp8vrJ9a9GtkLTF3dSDMnH27shm8/cCW2G84b2iBe
-         vM1isLxuXFNch+YRc55La1/RnxRxzuGf2aFMn+iHl/UlaX75xSw9GJrEIXMzIfZgDcDc
-         18yNKm4LNtkWdwtBsgaYudXp29R8wKdQvyGcRghtjcWYoPv9Xd5rUT0LdqY16Vm85fPO
-         6x/A==
-X-Gm-Message-State: AOAM531oTbMdDZiC5k1jbZKhtbUOI7c+AV3ai36baVk1OkTRQBjq29kS
-        /KE5p6wf55ZCWh6OsZ8gMRF9MK9eMDSlIfTYogo=
-X-Google-Smtp-Source: ABdhPJxUaYxafCpZusev8ZL1gpQ6NzaKd7sZu4xO9qFeyZLl82Jn/WlTJdeHg/oFQ7v/wA5nSL29dF8pnpK+e/vn1Og=
-X-Received: by 2002:a25:9f8a:0:b0:628:b9f3:6d2f with SMTP id
- u10-20020a259f8a000000b00628b9f36d2fmr21206839ybq.151.1650988664926; Tue, 26
- Apr 2022 08:57:44 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=dyCNcdxP+OP+ZEEDkKpS4dIut/dFXRkxuAQItAbC2hk=;
+        b=s1NRFuN+8pbFcf+ZbQGN+hJnBKzIR0bAOqKYBQalyjvGBHwfFca0YQ3+ffNvXWNtxZ
+         q1D5irdLqnsQwP+ktAa+AIbyL7hgFnP0EIeMqfcZYa3VBQpk3W/zHHKD8KKS4AcMs0PC
+         AOd1VZ40HzWaf1UhBzMkvawrLVck0/7dArD1wcRDV3SEsM2+ovPTUNvEWOLZ9K5RHlYu
+         tHp2jFcIAiAYtgCRV2OuluGXtdlRtjTGZRKNoG/2bGXXXlYyj+KVIUGfrFe1KcUAQj01
+         r6yNfilqmtHOsgco0DTjEg0q9ne74j62EqYdRFNpYdssuWoo6gJdHsr+x/tdJmtoGAx6
+         8ytg==
+X-Gm-Message-State: AOAM533xnlWBWZoSXUH2pKsaZpNebZSKA+eZ8y8KtU25EPUyEcRoCIHM
+        CeL+R857XYTPIMpfSwTb4WfAORknRC/hZr6DIwnE7A==
+X-Google-Smtp-Source: ABdhPJy2p2YsSAWaLRUyeCx9GIenmVZnYXSr1zBWwbH2S+IZQF4NN6DuvWqwwrbZ5neEqlH8OPqJygq6V4YSc9feqz0=
+X-Received: by 2002:a05:6638:1695:b0:32a:a178:98bc with SMTP id
+ f21-20020a056638169500b0032aa17898bcmr10205311jat.167.1650988862310; Tue, 26
+ Apr 2022 09:01:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220422151725.1336997-1-mailhol.vincent@wanadoo.fr>
- <YmXMiTXEvFXZ/swU@dev-arch.thelio-3990X> <CAMZ6Rq+3XOze01dZZRTe+V44N2uo5J_=rtd9bKH7d7Fq9sNxVw@mail.gmail.com>
- <CAK8P3a31WAyh_vLqNwvv2GMcZ8SQp7gC=OV8c=Nc9pBtOSR8-g@mail.gmail.com>
- <CAMZ6RqL8G4uVn--Y5pBC+_c9Ex3Sjf8OJuVRwkVFFPwWd_ezLQ@mail.gmail.com> <CAK8P3a1_XoyjOPQ0ghku_QUjUL5V6BK9kSNUXoQj2RYaA=JxFg@mail.gmail.com>
-In-Reply-To: <CAK8P3a1_XoyjOPQ0ghku_QUjUL5V6BK9kSNUXoQj2RYaA=JxFg@mail.gmail.com>
-From:   Vincent MAILHOL <mailhol.vincent@wanadoo.fr>
-Date:   Wed, 27 Apr 2022 00:57:33 +0900
-Message-ID: <CAMZ6RqKxog4xS+E_HLQ1jE_s7oK8XfpT++8go6GZ0qS-utOejQ@mail.gmail.com>
-Subject: Re: [PATCH] checksyscalls: ignore -Wunused-macros
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <llvm@lists.linux.dev>,
-        Linux API <linux-api@vger.kernel.org>
+References: <20220422212945.2227722-1-axelrasmussen@google.com>
+ <20220422212945.2227722-3-axelrasmussen@google.com> <20220425203249.GA5814@altlinux.org>
+In-Reply-To: <20220425203249.GA5814@altlinux.org>
+From:   Axel Rasmussen <axelrasmussen@google.com>
+Date:   Tue, 26 Apr 2022 09:00:26 -0700
+Message-ID: <CAJHvVchLSpbKXn6u451pjaRpW=SwbOFSdpQpaC47WBFa0660xw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/6] userfaultfd: add /dev/userfaultfd for fine grained
+ access control
+To:     "Dmitry V. Levin" <ldv@altlinux.org>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Charan Teja Reddy <charante@codeaurora.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
+        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
+        Peter Xu <peterx@redhat.com>, Shuah Khan <shuah@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        zhangyi <yi.zhang@huawei.com>, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        Linuxkselftest <linux-kselftest@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon. 25 Apr 2022 at 17:49, Arnd Bergmann <arnd@arndb.de> wrote:
-> On Mon, Apr 25, 2022 at 9:42 AM Vincent MAILHOL
-> <mailhol.vincent@wanadoo.fr> wrote:
-> > On Mon. 25 Apr 2022 at 15:50, Arnd Bergmann <arnd@arndb.de> wrote:
-> > > On Mon, Apr 25, 2022 at 8:17 AM Vincent MAILHOL> <mailhol.vincent@wanadoo.fr> wrote:
-> > > > When I run W=2, I want to only see the warnings of the file I am
-> > > > working on. So I find it useful to fix the W=2 warnings which
-> > > > show up when building other files to not get spammed by
-> > > > irrelevant issues and to simplify the triage.
-> > > >
-> > > > My initial message lacked the rationale. I will add additional
-> > > > explanations in the v2 of this patch.
-> > >
-> > > I agree this is worth fixing if we want to make W=2 have any meaning at all.
-> > >
-> > > Your approach is probably fine. We could try to improve this by comparing
-> > > against the list from include/uapi/asm-generic/unistd.h instead of the i386
-> > > list. I suppose that would involve rewriting the script into a simpler one,
-> > > but I'm not sure if anyone has an interest in working on this.
+You're right, [1] says _IO is appropriate for ioctls which only take
+an integer argument. I'll send a v3 with this fix, although I might
+wait a bit for any other review comments before doing so. Thanks for
+taking a look!
+
+https://www.kernel.org/doc/html/latest/driver-api/ioctl.html
+
+On Mon, Apr 25, 2022 at 1:32 PM Dmitry V. Levin <ldv@altlinux.org> wrote:
+>
+> On Fri, Apr 22, 2022 at 02:29:41PM -0700, Axel Rasmussen wrote:
+> [...]
+> > --- a/include/uapi/linux/userfaultfd.h
+> > +++ b/include/uapi/linux/userfaultfd.h
+> > @@ -12,6 +12,10 @@
 > >
-> > If someone wants to do it, great, but I do not have the
-> > confidence to do it myself so I hope you will forgive me for
-> > taking a pass here.
+> >  #include <linux/types.h>
+> >
+> > +/* ioctls for /dev/userfaultfd */
+> > +#define USERFAULTFD_IOC 0xAA
+> > +#define USERFAULTFD_IOC_NEW _IOWR(USERFAULTFD_IOC, 0x00, int)
 >
-> Sure, no worries.
+> Why this new ioctl is defined using _IOWR()?  Since it neither reads from
+> user memory nor writes into user memory, it should rather be defined using
+> _IO(), shouldn't it?
 >
-> > Another alternative I considered was to only call
-> > checksyscalls.sh when doing a 'make all'. This way, we keep the
-> > warning but people won’t be spammed when building sub projects
-> > because the script would not be executed.
 >
-> Right, I like that as well, one less thing to be done for every
-> iterative make as well. The syscall table really doesn't change
-> all that much that this needs to be run by most developers.
-
-I send a patch in a new thread to only call the script once:
-https://lore.kernel.org/lkml/20220426155229.436681-1-mailhol.vincent@wanadoo.fr/T/#u
-
-If this new patch gets rejected, then I will go back to the
--Wno-unused-macros approach.
-
-
-Yours sincerely,
-Vincent Mailhol
+> --
+> ldv
