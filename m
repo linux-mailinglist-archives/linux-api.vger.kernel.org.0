@@ -2,162 +2,107 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 28BA8510017
-	for <lists+linux-api@lfdr.de>; Tue, 26 Apr 2022 16:10:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AB6A510255
+	for <lists+linux-api@lfdr.de>; Tue, 26 Apr 2022 17:57:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351458AbiDZONm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 26 Apr 2022 10:13:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55096 "EHLO
+        id S1352666AbiDZQBC convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Tue, 26 Apr 2022 12:01:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351452AbiDZONj (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 26 Apr 2022 10:13:39 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 291196256;
-        Tue, 26 Apr 2022 07:10:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B025D61760;
-        Tue, 26 Apr 2022 14:10:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8E92C385AA;
-        Tue, 26 Apr 2022 14:10:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1650982231;
-        bh=ZPeje/e98HoyDemHXaKoIfAh2yfEIqi6kqltvCUz+ww=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=crfo0u+PB5SA5RNj0pQLJWatVk5+qE7b+uBd61uRcRaJxczzYs9rk/aVzPXrKyYwc
-         griwOklNbGPxwfqD9bWrszcneMdtK+CgXXW2ayV/CSuFqtcqOY4sb8e6wUBk3O37MM
-         NeZ4qAp8hltXLoSrkQ0y3zsY+oM+cY/t8FoJi6YM=
-Date:   Tue, 26 Apr 2022 16:10:26 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc:     linux-serial <linux-serial@vger.kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Lukas Wunner <lukas@wunner.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Vicente Bergas <vicencb@gmail.com>,
-        Johan Hovold <johan@kernel.org>, heiko@sntech.de,
-        giulio.benetti@micronovasrl.com,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        linux-api@vger.kernel.org,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-mips@vger.kernel.org,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        linuxppc-dev@lists.ozlabs.org,
-        "David S. Miller" <davem@davemloft.net>,
-        sparclinux@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        linux-arch@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v5 05/10] serial: termbits: ADDRB to indicate 9th bit
- addressing mode
-Message-ID: <Ymf9UhyXj7o8cNhq@kroah.com>
-References: <20220426122448.38997-1-ilpo.jarvinen@linux.intel.com>
- <20220426122448.38997-6-ilpo.jarvinen@linux.intel.com>
- <Ymfq+jUXfZcNM/P/@kroah.com>
- <b667479-fb27-8712-cec8-938eed179240@linux.intel.com>
- <17547658-4737-7ec1-9ef9-c61c6287b8b@linux.intel.com>
+        with ESMTP id S1347456AbiDZQAx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 26 Apr 2022 12:00:53 -0400
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D029D387A0;
+        Tue, 26 Apr 2022 08:57:45 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id v59so20855303ybi.12;
+        Tue, 26 Apr 2022 08:57:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=5UMIziwn3GcEpZ2EHO6PLtQUiahYmzZMqohaqW8D0IA=;
+        b=cs/MShqilxyWrHAOk/6Kz5tTAlV7K4w8g4BSaNkIR+mFAJwlBTBPrui9zFJPm85DMH
+         XxuaVku0rADvOqS4Ou5DV9jxa85u0Ry86uqSiUAHQQSuJ0oRDWpECyvUnpf5Pz8yIugR
+         Ev3LGtuax6+2Se2pFAhCu7FrwxnIp8vrJ9a9GtkLTF3dSDMnH27shm8/cCW2G84b2iBe
+         vM1isLxuXFNch+YRc55La1/RnxRxzuGf2aFMn+iHl/UlaX75xSw9GJrEIXMzIfZgDcDc
+         18yNKm4LNtkWdwtBsgaYudXp29R8wKdQvyGcRghtjcWYoPv9Xd5rUT0LdqY16Vm85fPO
+         6x/A==
+X-Gm-Message-State: AOAM531oTbMdDZiC5k1jbZKhtbUOI7c+AV3ai36baVk1OkTRQBjq29kS
+        /KE5p6wf55ZCWh6OsZ8gMRF9MK9eMDSlIfTYogo=
+X-Google-Smtp-Source: ABdhPJxUaYxafCpZusev8ZL1gpQ6NzaKd7sZu4xO9qFeyZLl82Jn/WlTJdeHg/oFQ7v/wA5nSL29dF8pnpK+e/vn1Og=
+X-Received: by 2002:a25:9f8a:0:b0:628:b9f3:6d2f with SMTP id
+ u10-20020a259f8a000000b00628b9f36d2fmr21206839ybq.151.1650988664926; Tue, 26
+ Apr 2022 08:57:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <17547658-4737-7ec1-9ef9-c61c6287b8b@linux.intel.com>
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20220422151725.1336997-1-mailhol.vincent@wanadoo.fr>
+ <YmXMiTXEvFXZ/swU@dev-arch.thelio-3990X> <CAMZ6Rq+3XOze01dZZRTe+V44N2uo5J_=rtd9bKH7d7Fq9sNxVw@mail.gmail.com>
+ <CAK8P3a31WAyh_vLqNwvv2GMcZ8SQp7gC=OV8c=Nc9pBtOSR8-g@mail.gmail.com>
+ <CAMZ6RqL8G4uVn--Y5pBC+_c9Ex3Sjf8OJuVRwkVFFPwWd_ezLQ@mail.gmail.com> <CAK8P3a1_XoyjOPQ0ghku_QUjUL5V6BK9kSNUXoQj2RYaA=JxFg@mail.gmail.com>
+In-Reply-To: <CAK8P3a1_XoyjOPQ0ghku_QUjUL5V6BK9kSNUXoQj2RYaA=JxFg@mail.gmail.com>
+From:   Vincent MAILHOL <mailhol.vincent@wanadoo.fr>
+Date:   Wed, 27 Apr 2022 00:57:33 +0900
+Message-ID: <CAMZ6RqKxog4xS+E_HLQ1jE_s7oK8XfpT++8go6GZ0qS-utOejQ@mail.gmail.com>
+Subject: Re: [PATCH] checksyscalls: ignore -Wunused-macros
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <llvm@lists.linux.dev>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Apr 26, 2022 at 05:01:31PM +0300, Ilpo Järvinen wrote:
-> One additional thing below I missed on the first read.
-> 
-> On Tue, 26 Apr 2022, Ilpo Järvinen wrote:
-> > On Tue, 26 Apr 2022, Greg KH wrote:
-> > 
-> > > On Tue, Apr 26, 2022 at 03:24:43PM +0300, Ilpo Järvinen wrote:
-> > > > Add ADDRB to termbits to indicate 9th bit addressing mode. This change
-> > > > is necessary for supporting devices with RS485 multipoint addressing
-> > > > [*]. A later patch in the patch series adds support for Synopsys
-> > > > Designware UART capable for 9th bit addressing mode. In this mode, 9th
-> > > > bit is used to indicate an address (byte) within the communication
-> > > > line. The 9th bit addressing mode is selected using ADDRB introduced by
-> > > > an earlier patch.
-> > > > 
-> > > > [*] Technically, RS485 is just an electronic spec and does not itself
-> > > > specify the 9th bit addressing mode but 9th bit seems at least
-> > > > "semi-standard" way to do addressing with RS485.
-> > > > 
-> > > > Cc: linux-api@vger.kernel.org
-> > > > Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-> > > > Cc: Matt Turner <mattst88@gmail.com>
-> > > > Cc: linux-alpha@vger.kernel.org
-> > > > Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-> > > > Cc: linux-mips@vger.kernel.org
-> > > > Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-> > > > Cc: Helge Deller <deller@gmx.de>
-> > > > Cc: linux-parisc@vger.kernel.org
-> > > > Cc: Michael Ellerman <mpe@ellerman.id.au>
-> > > > Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> > > > Cc: Paul Mackerras <paulus@samba.org>
-> > > > Cc: linuxppc-dev@lists.ozlabs.org
-> > > > Cc: "David S. Miller" <davem@davemloft.net>
-> > > > Cc: sparclinux@vger.kernel.org
-> > > > Cc: Arnd Bergmann <arnd@arndb.de>
-> > > > Cc: linux-arch@vger.kernel.org
-> > > > Cc: linux-usb@vger.kernel.org
-> > > > Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-> > > > ---
-> 
-> > > >  #define CMSPAR    010000000000          /* mark or space (stick) parity */
-> > > >  #define CRTSCTS   020000000000          /* flow control */
-> > > >  
-> > > > diff --git a/arch/powerpc/include/uapi/asm/termbits.h b/arch/powerpc/include/uapi/asm/termbits.h
-> > > > index ed18bc61f63d..c6a033732f39 100644
-> > > > --- a/arch/powerpc/include/uapi/asm/termbits.h
-> > > > +++ b/arch/powerpc/include/uapi/asm/termbits.h
-> > > > @@ -171,6 +171,7 @@ struct ktermios {
-> > > >  #define HUPCL	00040000
-> > > >  
-> > > >  #define CLOCAL	00100000
-> > > > +#define ADDRB	004000000000		/* address bit */
-> > > >  #define CMSPAR	  010000000000		/* mark or space (stick) parity */
-> > > >  #define CRTSCTS	  020000000000		/* flow control */
-> > > >  
-> > > > diff --git a/arch/sparc/include/uapi/asm/termbits.h b/arch/sparc/include/uapi/asm/termbits.h
-> > > > index ce5ad5d0f105..5eb1d547b5c4 100644
-> > > > --- a/arch/sparc/include/uapi/asm/termbits.h
-> > > > +++ b/arch/sparc/include/uapi/asm/termbits.h
-> > > > @@ -201,6 +201,7 @@ struct ktermios {
-> > > >  #define B3500000  0x00001012
-> > > >  #define B4000000  0x00001013  */
-> > > >  #define CIBAUD	  0x100f0000  /* input baud rate (not used) */
-> > > > +#define ADDRB	  0x20000000  /* address bit */
-> > > >  #define CMSPAR	  0x40000000  /* mark or space (stick) parity */
-> > > >  #define CRTSCTS	  0x80000000  /* flow control */
-> > > 
-> > > Why all the different values?  Can't we pick one and use it for all
-> > > arches?  Having these be different in different arches and userspace
-> > > should not be a thing for new fields, right?
-> 
-> ADDRB value is the same for all archs (it's just this octal vs hex 
-> notation I've followed as per the nearby defines within the same file
-> which makes them look different).
-> 
-> Should I perhaps add to my cleanup list conversion of all those octal ones 
-> to hex?
+On Mon. 25 Apr 2022 at 17:49, Arnd Bergmann <arnd@arndb.de> wrote:
+> On Mon, Apr 25, 2022 at 9:42 AM Vincent MAILHOL
+> <mailhol.vincent@wanadoo.fr> wrote:
+> > On Mon. 25 Apr 2022 at 15:50, Arnd Bergmann <arnd@arndb.de> wrote:
+> > > On Mon, Apr 25, 2022 at 8:17 AM Vincent MAILHOL> <mailhol.vincent@wanadoo.fr> wrote:
+> > > > When I run W=2, I want to only see the warnings of the file I am
+> > > > working on. So I find it useful to fix the W=2 warnings which
+> > > > show up when building other files to not get spammed by
+> > > > irrelevant issues and to simplify the triage.
+> > > >
+> > > > My initial message lacked the rationale. I will add additional
+> > > > explanations in the v2 of this patch.
+> > >
+> > > I agree this is worth fixing if we want to make W=2 have any meaning at all.
+> > >
+> > > Your approach is probably fine. We could try to improve this by comparing
+> > > against the list from include/uapi/asm-generic/unistd.h instead of the i386
+> > > list. I suppose that would involve rewriting the script into a simpler one,
+> > > but I'm not sure if anyone has an interest in working on this.
+> >
+> > If someone wants to do it, great, but I do not have the
+> > confidence to do it myself so I hope you will forgive me for
+> > taking a pass here.
+>
+> Sure, no worries.
+>
+> > Another alternative I considered was to only call
+> > checksyscalls.sh when doing a 'make all'. This way, we keep the
+> > warning but people wonâ€™t be spammed when building sub projects
+> > because the script would not be executed.
+>
+> Right, I like that as well, one less thing to be done for every
+> iterative make as well. The syscall table really doesn't change
+> all that much that this needs to be run by most developers.
 
-Argh, yes, please, let's do that now, I totally missed that.  Will let
-us see how to unify them as well.
+I send a patch in a new thread to only call the script once:
+https://lore.kernel.org/lkml/20220426155229.436681-1-mailhol.vincent@wanadoo.fr/T/#u
 
-thanks,
+If this new patch gets rejected, then I will go back to the
+-Wno-unused-macros approach.
 
-greg k-h
+
+Yours sincerely,
+Vincent Mailhol
