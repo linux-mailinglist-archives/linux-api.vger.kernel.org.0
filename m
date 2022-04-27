@@ -2,97 +2,60 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B2CFF510527
-	for <lists+linux-api@lfdr.de>; Tue, 26 Apr 2022 19:19:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F13251128C
+	for <lists+linux-api@lfdr.de>; Wed, 27 Apr 2022 09:31:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231140AbiDZRWT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 26 Apr 2022 13:22:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58988 "EHLO
+        id S1346624AbiD0He6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 27 Apr 2022 03:34:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229839AbiDZRWS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 26 Apr 2022 13:22:18 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC4F224595;
-        Tue, 26 Apr 2022 10:19:09 -0700 (PDT)
-Received: from mail-yb1-f180.google.com ([209.85.219.180]) by
- mrelayeu.kundenserver.de (mreue012 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1My6xz-1o5LQB2b5b-00zTZO; Tue, 26 Apr 2022 19:14:04 +0200
-Received: by mail-yb1-f180.google.com with SMTP id w187so24764165ybe.2;
-        Tue, 26 Apr 2022 10:14:04 -0700 (PDT)
-X-Gm-Message-State: AOAM532TsqAt7Q/IPazDwjCS6R/JEhIcoPDVTsdC9pmcMcvx7ZCU6ZpG
-        htWPz1fVoKBklr2XU7h8bs7g1Vq+5LHFp+nNr+A=
-X-Google-Smtp-Source: ABdhPJy4qrzId24VdonwrFL8xdmT+OefZW9RIA7s/JBFmqDtK6o+FbcHdop/B8RF2jVsl9Z7YvDRgbjOS6bpOD7eSC0=
-X-Received: by 2002:a25:d3c2:0:b0:645:74df:f43d with SMTP id
- e185-20020a25d3c2000000b0064574dff43dmr21550935ybf.394.1650993243035; Tue, 26
- Apr 2022 10:14:03 -0700 (PDT)
+        with ESMTP id S242894AbiD0He5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 27 Apr 2022 03:34:57 -0400
+Received: from mail.fixingbiz.pl (mail.fixingbiz.pl [217.61.22.139])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DB1B7C179
+        for <linux-api@vger.kernel.org>; Wed, 27 Apr 2022 00:31:47 -0700 (PDT)
+Received: by mail.fixingbiz.pl (Postfix, from userid 1001)
+        id 61629A61C2; Wed, 27 Apr 2022 08:28:54 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fixingbiz.pl; s=mail;
+        t=1651044629; bh=FDuFY3XQoq0gMX1b2gxgT7Py2p4Sxl0PJZYZ4NVaPho=;
+        h=Date:From:To:Subject:From;
+        b=Hnd6PluQU1D7x1yy7AFvnq6h1zLN2OdeCeBFVJn1W0Vci3vnUT1/ZY+At5yxy10tn
+         VsjyX2BfeFAV2ZuPUstBu447N1272sFQFv4Jujl8DhszaI+GdlotpN3OZ3Nl3gIJkM
+         V7f2A5fY5Pv1sYYQz34pl/o2txLWvsjSntfeRH9XuEaX9Gqy78XIxEPbgMstqjLNa7
+         dZkM6nO5jFPvhDO2nefDGjWgFxz6gPXAcL151CIv8nbcxp/Xm+DSCjXN9WgNEZKzMz
+         XjESX0QFxJTG1aqp1fsUgaR+WYBXmvqSv4sPKZMlfaVLkQfkF6bbeeAw71EAABGcve
+         hwqRsAbrjEDwg==
+Received: by mail.fixingbiz.pl for <linux-api@vger.kernel.org>; Wed, 27 Apr 2022 07:28:09 GMT
+Message-ID: <20220427073002-0.1.22.aj2c.0.3q738t51y1@fixingbiz.pl>
+Date:   Wed, 27 Apr 2022 07:28:09 GMT
+From:   =?UTF-8?Q? "Przemys=C5=82aw_Wr=C3=B3blewski" ?= 
+        <przemyslaw.wroblewski@fixingbiz.pl>
+To:     <linux-api@vger.kernel.org>
+Subject: Wycena paneli fotowoltaicznych
+X-Mailer: mail.fixingbiz.pl
 MIME-Version: 1.0
-References: <20220422212945.2227722-1-axelrasmussen@google.com>
- <20220422212945.2227722-3-axelrasmussen@google.com> <20220425203249.GA5814@altlinux.org>
- <CAJHvVchLSpbKXn6u451pjaRpW=SwbOFSdpQpaC47WBFa0660xw@mail.gmail.com>
-In-Reply-To: <CAJHvVchLSpbKXn6u451pjaRpW=SwbOFSdpQpaC47WBFa0660xw@mail.gmail.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Tue, 26 Apr 2022 19:13:47 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0th99KbPO_Mt17uztHay6vBMngT-ii2dFW4++BaAQNpw@mail.gmail.com>
-Message-ID: <CAK8P3a0th99KbPO_Mt17uztHay6vBMngT-ii2dFW4++BaAQNpw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] userfaultfd: add /dev/userfaultfd for fine grained
- access control
-To:     Axel Rasmussen <axelrasmussen@google.com>
-Cc:     "Dmitry V. Levin" <ldv@altlinux.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Charan Teja Reddy <charante@codeaurora.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
-        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
-        Peter Xu <peterx@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        zhangyi <yi.zhang@huawei.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Linuxkselftest <linux-kselftest@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:+s8HFHdANqZQ0PHV/EC05dFnp+y9+zq7ZoknP0XSfx+gbj1UKdy
- qpd/5nWyjvrS+vcbvdCPyfrueeReCzfxkFwdSw8JbIqIinpDALZigP9yF6FY8L0US6P4aG6
- JncGfCJpshBqIUY+6ShHNRwX1J1a4eECU2ibabTL/29b2T58eMWnbdprNr/ARASn82mFmEZ
- NpD5ZuwRg6RsaYYS4ofTA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0naR4d11Hho=:T/uCdg0IR3rEfMqak9PYUn
- zOE2qQ6wxT3yC1Vzz/WV6+QpsRIL4kY2AjBUzlYySiZYfc7/3EzGuhXLItGo2Kb3+ZY0PQJ42
- VZzF4UW2lGC6kFYmJQ+WMTF92+ENA7/y164+o+meFagCa9Fn+3NfQaRk56Ff8s/aU5GO/pUUY
- XUhCq+yZ6NRbJOECBFonYVkG4as7im20bcmzTs2BKsr4kAEpJliKOi9epmsYRokD6L2CjiE8d
- yS61e1Vk1sCee5j4oT/u8ALpEKUs2RP3gZBTnmv5tCTMLSTBkMu9pBuVuGY0y6MHycjgWc/PN
- uHi1N3tMZf7YOfPMn2JYI1VXxco6XyNWdV9ib5innyN67evnHCI/O89YecEzqrxGzB9DaMIia
- XVTrqoYIEbaOhFIHql7O9b1mZfjF1lk3uG+dhZ5P1tWdJiUB5FxIs0VNKuV1ZSo398jMz3LXK
- 6Z0wb45FHbYHdMQdgedxRQHVH3meS08WJuTRh83gRWWN9dZufJBRln0JUglmMzousuSUWtyxp
- qWZD5lZ5YOR5LaahRVE8zvePLQ0H04a+NH5iJwuZfpXy5JC5bShdZDiusWs8SMv3vCMw3UbaQ
- UTZ65k1AyB7TOB1ZRre0Yf6y/7Lkqv1SHVZGbmDB8jXf01s2X/M/IhNxSjwMxHD7yKK8WFRlE
- OcYJk/vBipN4vr6bpdOkQaU1Qw5AuZsQjPzmRREMuC2INh75h6OZXoHKQqHZuG2mcab7bZYcg
- J55deikpHYsUgLz3xZl/sInGUID9zNUwLB/JyATNj4wE7JFKIKZXMaGK9tDEfponNtBCNdNZz
- axy2FU0aEnACFatxVhJPEuowBbHpsX3FBDxdbvVefIH0W64R4s=
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Apr 26, 2022 at 6:00 PM Axel Rasmussen <axelrasmussen@google.com> wrote:
->
-> You're right, [1] says _IO is appropriate for ioctls which only take
-> an integer argument. I'll send a v3 with this fix, although I might
-> wait a bit for any other review comments before doing so. Thanks for
-> taking a look!
+Dzie=C5=84 dobry,
 
-If there are no other command codes, you could also set .compat_ioctl
-to the same function pointer as .unlocked_ioctl, the compat_ptr_ioctl
-conversion is only needed when there are commands that take a pointer.
+dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
+irm=C4=85.
 
-        Armd
+=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
+ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
+
+Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
+ropozycji?
+
+
+Pozdrawiam,
+Przemys=C5=82aw Wr=C3=B3blewski
