@@ -2,98 +2,89 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 79A9B514E3E
-	for <lists+linux-api@lfdr.de>; Fri, 29 Apr 2022 16:50:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0C3F5151C6
+	for <lists+linux-api@lfdr.de>; Fri, 29 Apr 2022 19:24:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358529AbiD2Ox1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 29 Apr 2022 10:53:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54968 "EHLO
+        id S235805AbiD2R1x (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 29 Apr 2022 13:27:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359846AbiD2OxZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 29 Apr 2022 10:53:25 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B968A6E34;
-        Fri, 29 Apr 2022 07:50:07 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id bv19so15916373ejb.6;
-        Fri, 29 Apr 2022 07:50:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=kxG9R+Mj6hQ/bgRaikLvuXkk5Cew5MDIyTZHQmokcDI=;
-        b=XIuFoea3IeF9X34o7Yg3zdHgCtAAk+fm6rFmlBkDvKIsuVbKd6BjegPYM5Ff6ITCsV
-         tVQNEJdDWkyu6P6GWaDvCaaNnJ1+zZwEtBsbHYJ2ucobJqMh0c3LP6gN/vlBa414vLpQ
-         4evPmnlzC7/caRAa7gvnKX3ZINny5bmrIOzUnfLAplVm+8DXVwGv2BSjjBTCLpejHL74
-         ipnx6YhPQbwBXfplA5O/pH9MtM1hTY3yBzMeXTJCPe+QT6kMPV/AGMSJ79miJkeyIzyY
-         H9eCsUHdRmurrohDAZkpO0sWyZL0ppQHR2lxmV8Y+Y/K6SQO90FnwFnm3/F+MpqND12v
-         4tiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=kxG9R+Mj6hQ/bgRaikLvuXkk5Cew5MDIyTZHQmokcDI=;
-        b=1ng3CYo3djcN7tA5MJsHDAp5YC3TX0NYZLhbsnm6creC0vsrqZzqs6Z7ldhDwhQcpF
-         SjrN4S1QjqbHJthnwusC5MRDuXFd5LVojF8R6QlctiBzNquHuqHj/XjyINgzeA1kOlIR
-         C9a0ZB0hsa4ae/H0TSYKu0BJgJeTFWZ4ybeNkYjhNLIjMQlupfWUxSpz97uH8U/tQbFW
-         6S5CEZcb0M4oae0pc34hU5v9iVUG2n7B1h+zHG0fGLU6yazDQhXBusq+sVAn8YvrddWq
-         Iqp1M9yDzemz+9mg4Zg93VDVnydhW06F9xTYi2ZvR6qDTOajvoHMZTpf5uinNXojk4L0
-         rmQw==
-X-Gm-Message-State: AOAM530cfWFM2SXDJtba7e2v/c0PD9WYEOpS8EedVUWZTq7VFJCq1BqQ
-        iReOhLpIm52cbvKLRheNbJqOK/W21g==
-X-Google-Smtp-Source: ABdhPJwkJBEZqlVOka7oGLAdvL6EGro5bKsusSCCIAJaQIEjq1gd0ncIyzjdpEWH5kuhg9t/q5w97w==
-X-Received: by 2002:a17:907:2cc6:b0:6f0:2de3:9446 with SMTP id hg6-20020a1709072cc600b006f02de39446mr35955279ejc.690.1651243805956;
-        Fri, 29 Apr 2022 07:50:05 -0700 (PDT)
-Received: from localhost.localdomain ([46.53.253.143])
-        by smtp.gmail.com with ESMTPSA id qr48-20020a1709068cb000b006f3ef214e0bsm719709ejc.113.2022.04.29.07.50.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 07:50:05 -0700 (PDT)
-Date:   Fri, 29 Apr 2022 17:50:03 +0300
-From:   Alexey Dobriyan <adobriyan@gmail.com>
-To:     akpm@linux-foundation.org
-Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: [PATCH] ELF, uapi: fixup ELF_ST_TYPE definition
-Message-ID: <Ymv7G1BeX4kt3obz@localhost.localdomain>
+        with ESMTP id S232726AbiD2R1x (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 29 Apr 2022 13:27:53 -0400
+X-Greylist: delayed 903 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 29 Apr 2022 10:24:33 PDT
+Received: from brightrain.aerifal.cx (brightrain.aerifal.cx [216.12.86.13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC00969299
+        for <linux-api@vger.kernel.org>; Fri, 29 Apr 2022 10:24:33 -0700 (PDT)
+Date:   Fri, 29 Apr 2022 13:09:29 -0400
+From:   Rich Felker <dalias@libc.org>
+To:     linux-api@vger.kernel.org
+Subject: COMPAT_32BIT_TIME and allnoconfig: breaking userspace
+Message-ID: <20220429170923.GA14233@brightrain.aerifal.cx>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This is very theoretical compile failure:
+I just ran across another instance of breakage from allnoconfig
+setting COMPAT_32BIT_TIME to no:
 
-	ELF_ST_TYPE(st_info = A)
+https://github.com/esnet/iperf/issues/1326
 
-Cast will bind first and st_info will stop being lvalue:
+This option inherently breaks the cardinal rule of "Don't break
+userspace", and as I understand it was initially justified as being
+configurable for the sake of "testing that a system is time64 ready"
+rather than as a viable production option. But it was never documented
+in the Kconfig text as breaking userspace or put behind EXPERT or
+anything that would prevent inadvertently turning it off, and of
+course allnoconfig turns it off.
 
-	error: lvalue required as left operand of assignment
+I'm told (?) that some people want to break userspace here, removing
+the old syscalls after 2038 or maybe even before. That should not
+happen. Not only is it an unjustified violation of syscall stability
+policy; it's not even well-motivated. The vast majority of these
+syscalls take relative timeouts and did not even need time64 versions
+added. Removing them will not only break binaries which are not
+time64-ready, but also old binaries which do not care about time at
+all, as well as all current binaries built on musl libc, as we use
+these syscalls (per the syscall stability policy) even in >=1.2.0
+which is fully time64.
 
-Given that the only use of this macro is
+Quoting from the above bug tracker thread:
 
-	ELF_ST_TYPE(sym->st_info)
+> musl supports all kernels back to the earliest one the arch was
+> added in or 2.6.0, whichever came later. And it has always depended
+> on the kernel ABI stability policy ("don't break userspace" - Linus)
+> as the principle on which it makes this work. That is, we always use
+> the oldest syscall that can achieve the operation requested.
 
-where st_info is "unsigned char" I've decided to remove cast especially
-given that companion macro ELF_ST_BIND doesn't use cast.
+> In theory we could do things the other way around, trying the newer
+> one first and falling back, but that would put a performance hit on
+> older systems and most of the time it doesn't even have any
+> usefulness - for example, the timeout passed to select is relative,
+> so unless you're trying to wait 70 years (in which case we do
+> perform the time64 syscall and error if it's not available) the old
+> syscall is perfectly acceptable. For operations where it can't be
+> known in advance whether the time fits in 32 bits - for example,
+> stat, clock_gettime, etc. - we do have to try the time64 one first.
+> (Note that vdso, where present, greatly reduces the cost of having
+> to do that for clock_gettime.)
 
-Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
----
+I would like to propose making the ability to disable
+COMPAT_32BIT_TIME depend on EXPERT, and documenting in the Kconfig
+description that it breaks userspace. I will send a separate patch to
+that effect.
 
- include/uapi/linux/elf.h |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+If folks are strongly opposed to this, can you please clarify why it's
+okay to break userspace here but not in other places, especially in
+light of the fact that were are already (and have been for over 2
+years, so there are plenty of binaries in the wild) using these
+syscalls successfully in fully-time64-ready binaries.
 
---- a/include/uapi/linux/elf.h
-+++ b/include/uapi/linux/elf.h
-@@ -134,7 +134,7 @@ typedef __s64	Elf64_Sxword;
- #define STT_TLS     6
- 
- #define ELF_ST_BIND(x)		((x) >> 4)
--#define ELF_ST_TYPE(x)		(((unsigned int) x) & 0xf)
-+#define ELF_ST_TYPE(x)		((x) & 0xf)
- #define ELF32_ST_BIND(x)	ELF_ST_BIND(x)
- #define ELF32_ST_TYPE(x)	ELF_ST_TYPE(x)
- #define ELF64_ST_BIND(x)	ELF_ST_BIND(x)
+Rich
