@@ -2,79 +2,116 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B7BD751532E
-	for <lists+linux-api@lfdr.de>; Fri, 29 Apr 2022 20:03:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5627515C64
+	for <lists+linux-api@lfdr.de>; Sat, 30 Apr 2022 13:21:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376913AbiD2SGS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 29 Apr 2022 14:06:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43844 "EHLO
+        id S239931AbiD3LNz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 30 Apr 2022 07:13:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231160AbiD2SGS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 29 Apr 2022 14:06:18 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F0B68BE26;
-        Fri, 29 Apr 2022 11:02:59 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id l7so16901964ejn.2;
-        Fri, 29 Apr 2022 11:02:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=sBYSjhExy8FPS84fDKOS2lo0heZ+WhIcDHz+cn1FRbE=;
-        b=irhsPAq3aUs20/CjP71rBBRTfgRKoLFdaziB2gz6m6KBvp6oXmY6NPO9sqMqMOELUf
-         Xz2Dctb/hWVvAh2HbpS1VNe41kyo95D8EhzeUvw2HW5KAJwa2UApFLIIZFdi3YQ5o5NZ
-         cJrFFee29SVr+AUrSPt0V4w0GMEX1VYL6BD/rgolwHmBnScwiYY0Mjtq27LADiAUyXno
-         0AJg46DyvxJCDdYyK7V2iY5gvJkGcaZFTfHVBenuOnqsdAaDuO9+vjKyyqiHq7cBpFDc
-         H5184lj/RquE0ScLPtj9CxuV0YmA+upDDRX2kqy3zj3tR3ER/HKk2idfm1wh8PfOsOPL
-         I3ZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=sBYSjhExy8FPS84fDKOS2lo0heZ+WhIcDHz+cn1FRbE=;
-        b=qz+DK3xpy+Nl1Fy/s06qWtsp2q7jMttU84JBpUQuf0rQUKnIJ3TPkoTG0eXV/sf83d
-         yk1PdghKf9wJcDCKb4mAkPaOv5S9sGUPZ614VZY7FLEnNdmguQeQ5Dz+vMd1TAKb89Yp
-         rsX/99kRGzzK19Jd9o1niFTnMxzwnXO6UCaadHn+0L/MoRE17SH9HkJrIa/QmF2h+gQw
-         MAPSRluAjh0UVbcYLZljWaepjcWcp+tANBsdeIFQKkB5QySyIIqZOO3z//cu0GMKMAjT
-         IyogHvLbfSaT/siHXEXxNon4N/KLZvTkm1m0azQr0G7u0FvL+HOV/krfVF0zEzvlUqLT
-         S/GA==
-X-Gm-Message-State: AOAM530qEy3q6PmrggsucSUc1pn3VLJmZj9eL4+uXjBP1a6P/CggpwMM
-        3rVgXrw1CR6XS1KlJa4TKJlWPyKN4g==
-X-Google-Smtp-Source: ABdhPJzey0qcrgC+yH5euuaSkLBSbZ6GOQXju8Sfc9zdWKMENFdelOeNXZCmwn6FqtehVIY+ESWPJw==
-X-Received: by 2002:a17:907:9482:b0:6da:8ad6:c8b5 with SMTP id dm2-20020a170907948200b006da8ad6c8b5mr496340ejc.372.1651255377899;
-        Fri, 29 Apr 2022 11:02:57 -0700 (PDT)
-Received: from localhost.localdomain ([46.53.248.99])
-        by smtp.gmail.com with ESMTPSA id hf27-20020a1709072c5b00b006f3ef214e2fsm866785ejc.149.2022.04.29.11.02.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 11:02:57 -0700 (PDT)
-Date:   Fri, 29 Apr 2022 21:02:55 +0300
-From:   Alexey Dobriyan <adobriyan@gmail.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     akpm@linux-foundation.org, linux-kernel@vger.kernel.org,
-        Eric Biederman <ebiederm@xmission.com>,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH] ELF, uapi: fixup ELF_ST_TYPE definition
-Message-ID: <YmwoT2/6rh6K1tDE@localhost.localdomain>
-References: <Ymv7G1BeX4kt3obz@localhost.localdomain>
- <202204291019.B628991360@keescook>
+        with ESMTP id S230501AbiD3LNy (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 30 Apr 2022 07:13:54 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.74])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E8CF5FF6;
+        Sat, 30 Apr 2022 04:10:29 -0700 (PDT)
+Received: from mail-yb1-f175.google.com ([209.85.219.175]) by
+ mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1Ma1HG-1nNjqD27l6-00W23Y; Sat, 30 Apr 2022 13:05:09 +0200
+Received: by mail-yb1-f175.google.com with SMTP id w187so18600390ybe.2;
+        Sat, 30 Apr 2022 04:05:09 -0700 (PDT)
+X-Gm-Message-State: AOAM531o/3BAN8nqceJV/xsr+E4yVz2GNdptZvfqIMN9bInkV6Fq3mxS
+        XF/+7H5zHjU7aXJJnZT4XERP7tJBoQdkJtbSIAs=
+X-Google-Smtp-Source: ABdhPJwibsCnhqRh57jVjG10phM0BrUgvfZ/Cu+XnlvIN8vHkz0VXxSV0emX0Uq3MS9OyJQ4u/HSolRYBlWtD82GrJc=
+X-Received: by 2002:a25:cdc7:0:b0:648:f57d:c0ed with SMTP id
+ d190-20020a25cdc7000000b00648f57dc0edmr3093454ybf.480.1651314908194; Sat, 30
+ Apr 2022 03:35:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <202204291019.B628991360@keescook>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220430090518.3127980-1-chenhuacai@loongson.cn>
+ <20220430090518.3127980-14-chenhuacai@loongson.cn> <CAK8P3a0A9dW4mwJ6JHDiJxizL7vWfr4r4c5KhbjtAY0sWbZJVA@mail.gmail.com>
+ <CAAhV-H4te_+AS69viO4eBz=abBUm5oQ6AfoY1Cb+nOCZyyeMdA@mail.gmail.com>
+In-Reply-To: <CAAhV-H4te_+AS69viO4eBz=abBUm5oQ6AfoY1Cb+nOCZyyeMdA@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Sat, 30 Apr 2022 12:34:52 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0DqQcApv8aa2dgBS5At=tEkN7cnaskoUeXDi2-Bu9Rnw@mail.gmail.com>
+Message-ID: <CAK8P3a0DqQcApv8aa2dgBS5At=tEkN7cnaskoUeXDi2-Bu9Rnw@mail.gmail.com>
+Subject: Re: [PATCH V9 13/24] LoongArch: Add system call support
+To:     Huacai Chen <chenhuacai@gmail.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Huacai Chen <chenhuacai@loongson.cn>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Christian Brauner <brauner@kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:5Q9ONKpvezK/gY6sK2MPxh0TEU0BEAAMPsvROxQ36cnlmFEuzsX
+ HJsG/sjFOKpipVSpnXpq9/Ku4sBDl72eHjTZI/jSDmrqMQ8IIFStXLMVQjFdfwzt3St4jP7
+ E07FbeDW1UzkQp6jGVh7QHV6fYvi4I2RH664Dtr/txCTm7/GLBVUuHn6rRjXvAUTb4m+3ZQ
+ bP4jZMRxNSRZ3WHWQ1MAQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:oWsy5LbyTq4=:s7CgRuTp2XESwdp66ENlDB
+ +NkgFe9kdfEFuy214EXWqK1AHaJR4oXifE5/H5Kur1cVn7QArR7Txb627fNLJl8mEoCWvWCyf
+ G4SXEAH0q5qjr9RvMNvZhnKhHyvdMjP6oYE678pwKSqoDdXn6QJG4kWv68n+ME8rHBp5832DT
+ MQPlpKZqUn/lJMFIX/Jj0nd+0M30HUNVP80dbr+5bWkXSvJSmms8MZQWtFX9Xrtyl21sCHJlY
+ X34QYEFwUHNcJoFziIPhbVuPMM0otbQcRgjZkR8I3vTrR4LpX4SeyLNvs70vdFQWILlh7nIwc
+ /+sfcxsbcFu4lD4hE5x/p2ZPGgChsCwmjEgWIl7KGDcEewGXNM31KEUo5bb8PGXnDuzIrvLcO
+ GsMWKhPkxG6Cx6zyD3DotsOdt5XT66aLYlTfeCje8GoAbV7CJpgXK6IT7OH4ywqpIF/y88CQd
+ wUBn4BLGGENZ9mv3UeJuAx+hLfAdb5Cjxif+bG5nUeaOnQ769/37AoJhDLCK/XUwyRmtFN/Z5
+ 97FSHXEQf23DdpAA13mLkGHkGoBOVuQpmnBy5ySCGj21CleDHrt7byJDB0n4GS8lrNM2mCWkv
+ hy6OykB1ixIlssTi1skcFPeTYdk7NKLz3SZaq014lznWmdXYR7aYf//tUAUZNDbGbjJDxq52P
+ YsG7j/xU8PO4c+TvzTEnZEjujWIIowaOMbh/A6MkrEDV/17xKWtFLUtpLaEOF7NG/I/HGhctw
+ /V/Stumjei+zsmOAeY2oJl2x84P9h8O/NEm79U5ggsdJqGPwz0JrJcgeVQx/NVHSeMYrGaeRO
+ YVshJNh2V4ryguQjzMPbdPBwXEBIB+MicnBZEOcPNVKahVmyRA=
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Apr 29, 2022 at 10:25:23AM -0700, Kees Cook wrote:
-> Please keep Eric & I CCed on ELF changes; there's a MAINTAINERS entry
-> now...
+On Sat, Apr 30, 2022 at 12:05 PM Huacai Chen <chenhuacai@gmail.com> wrote:
+> On Sat, Apr 30, 2022 at 5:45 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> > On Sat, Apr 30, 2022 at 11:05 AM Huacai Chen <chenhuacai@loongson.cn> wrote:
+> > >
+> > > This patch adds system call support and related uaccess.h for LoongArch.
+> > >
+> > > Q: Why keep __ARCH_WANT_NEW_STAT definition while there is statx:
+> > > A: Until the latest glibc release (2.34), statx is only used for 32-bit
+> > >    platforms, or 64-bit platforms with 32-bit timestamp. I.e., Most 64-
+> > >    bit platforms still use newstat now.
+> > >
+> > > Q: Why keep _ARCH_WANT_SYS_CLONE definition while there is clone3:
+> > > A: The latest glibc release (2.34) has some basic support for clone3 but
+> > >    it isn't complete. E.g., pthread_create() and spawni() have converted
+> > >    to use clone3 but fork() will still use clone. Moreover, some seccomp
+> > >    related applications can still not work perfectly with clone3. E.g.,
+> > >    Chromium sandbox cannot work at all and there is no solution for it,
+> > >    which is more terrible than the fork() story [1].
+> > >
+> > > [1] https://chromium-review.googlesource.com/c/chromium/src/+/2936184
+> >
+> > I still think these have to be removed. There is no mainline glibc or musl
+> > port yet, and neither of them should actually be required. Please remove
+> > them here, and modify your libc patches accordingly when you send those
+> > upstream.
+>
+> If this is just a problem that can be resolved by upgrading
+> glibc/musl, I will remove them. But the Chromium problem (or sandbox
+> problem in general) seems to have no solution now.
 
-Hah!
+I added Christian Brauner to Cc now, maybe he has come across the
+sandbox problem before and has an idea for a solution.
 
-I honestly searched for 'ELF' before sending and didn't find anything.
+        Arnd
