@@ -2,56 +2,47 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7310651919E
-	for <lists+linux-api@lfdr.de>; Wed,  4 May 2022 00:44:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0A78519245
+	for <lists+linux-api@lfdr.de>; Wed,  4 May 2022 01:22:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243790AbiECWqq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 3 May 2022 18:46:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34710 "EHLO
+        id S244220AbiECXZX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 3 May 2022 19:25:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236973AbiECWqq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 3 May 2022 18:46:46 -0400
-Received: from mail104.syd.optusnet.com.au (mail104.syd.optusnet.com.au [211.29.132.246])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 80A662DA8D;
-        Tue,  3 May 2022 15:43:12 -0700 (PDT)
-Received: from dread.disaster.area (pa49-181-2-147.pa.nsw.optusnet.com.au [49.181.2.147])
-        by mail104.syd.optusnet.com.au (Postfix) with ESMTPS id DCC56534356;
-        Wed,  4 May 2022 08:43:06 +1000 (AEST)
-Received: from dave by dread.disaster.area with local (Exim 4.92.3)
-        (envelope-from <david@fromorbit.com>)
-        id 1nm1EX-007glS-UL; Wed, 04 May 2022 08:43:05 +1000
-Date:   Wed, 4 May 2022 08:43:05 +1000
-From:   Dave Chinner <david@fromorbit.com>
-To:     Miklos Szeredi <miklos@szeredi.hu>
-Cc:     linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
-        Karel Zak <kzak@redhat.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Christian Brauner <brauner@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        LSM <linux-security-module@vger.kernel.org>,
-        Ian Kent <raven@themaw.net>,
-        David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        Amir Goldstein <amir73il@gmail.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>
-Subject: Re: [RFC PATCH] getting misc stats/attributes via xattr API
-Message-ID: <20220503224305.GF1360180@dread.disaster.area>
-References: <YnEeuw6fd1A8usjj@miu.piliscsaba.redhat.com>
+        with ESMTP id S244230AbiECXZW (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 3 May 2022 19:25:22 -0400
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95EF942ECD;
+        Tue,  3 May 2022 16:21:44 -0700 (PDT)
+Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88] helo=phil.localnet)
+        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <heiko@sntech.de>)
+        id 1nm1pd-0004Xd-6L; Wed, 04 May 2022 01:21:25 +0200
+From:   Heiko Stuebner <heiko@sntech.de>
+To:     Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linux-riscv@lists.infradead.org
+Cc:     Atish Patra <atishp@rivosinc.com>,
+        Anup Patel <anup@brainfault.org>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>, linux-mm@kvack.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        linux-man@vger.kernel.org, Jiatai He <jiatai2021@iscas.ac.cn>,
+        "Hongren (Zenithal) Zheng" <i@zenithal.me>
+Subject: Re: [PATCH 1/3] RISC-V: add Bitmanip/Scalar Crypto parsing from DT
+Date:   Wed, 04 May 2022 01:21:23 +0200
+Message-ID: <4734719.31r3eYUQgx@phil>
+In-Reply-To: <Ym0+nr9KZBO118Dx@Sun>
+References: <Ym0+Erz5DEnB78vu@Sun> <Ym0+nr9KZBO118Dx@Sun>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YnEeuw6fd1A8usjj@miu.piliscsaba.redhat.com>
-X-Optus-CM-Score: 0
-X-Optus-CM-Analysis: v=2.4 cv=VuxAv86n c=1 sm=1 tr=0 ts=6271afff
-        a=ivVLWpVy4j68lT4lJFbQgw==:117 a=ivVLWpVy4j68lT4lJFbQgw==:17
-        a=kj9zAlcOel0A:10 a=oZkIemNP1mAA:10 a=7-415B0cAAAA:8
-        a=yUZlb4BpVi82aJ1b07cA:9 a=CjuIK1q_8ugA:10 a=biEYGPWJfzWAr4FL6Ov7:22
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,T_SPF_HELO_TEMPERROR,UPPERCASE_50_75 autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -59,102 +50,137 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 03, 2022 at 02:23:23PM +0200, Miklos Szeredi wrote:
-> This is a simplification of the getvalues(2) prototype and moving it to the
-> getxattr(2) interface, as suggested by Dave.
+Am Samstag, 30. April 2022, 15:50:22 CEST schrieb Hongren (Zenithal) Zheng:
+> This commit parses Zb/Zk related string from DT and
+> output them in cpuinfo
 > 
-> The patch itself just adds the possibility to retrieve a single line of
-> /proc/$$/mountinfo (which was the basic requirement from which the fsinfo
-> patchset grew out of).
+> One thing worth noting is that if DT provides zk,
+> all zbkb, zbkc, zbkx and zkn, zkr, zkt would be enabled.
 > 
-> But this should be able to serve Amir's per-sb iostats, as well as a host of
-> other cases where some statistic needs to be retrieved from some object.  Note:
-> a filesystem object often represents other kinds of objects (such as processes
-> in /proc) so this is not limited to fs attributes.
+> Note that zk is a valid extension name and the current
+> DT binding spec allows this.
 > 
-> This also opens up the interface to setting attributes via setxattr(2).
+> There currently lacks a mechanism to merge them when
+> producing cpuinfo. Namely if you provide a riscv,isa
+> "rv64imafdc_zk_zks", the cpuinfo output would be
+> "rv64imafdc_zbkb_zbkc_zbkx_zknd_zkne_zknh_zkr_zksed
+> _zksh_zkt"
 > 
-> After some pondering I made the namespace so:
-> 
-> : - root
-> bar - an attribute
-> foo: - a folder (can contain attributes and/or folders)
-> 
-> The contents of a folder is represented by a null separated list of names.
-> 
-> Examples:
-> 
-> $ getfattr -etext -n ":" .
-> # file: .
-> :="mnt:\000mntns:"
-> 
-> $ getfattr -etext -n ":mnt:" .
-> # file: .
-> :mnt:="info"
-> 
-> $ getfattr -etext -n ":mnt:info" .
-> # file: .
-> :mnt:info="21 1 254:0 / / rw,relatime - ext4 /dev/root rw\012"
-> 
-> $ getfattr -etext -n ":mntns:" .
-> # file: .
-> :mntns:="21:\00022:\00024:\00025:\00023:\00026:\00027:\00028:\00029:\00030:\00031:"
-> 
-> $ getfattr -etext -n ":mntns:28:" .
-> # file: .
-> :mntns:28:="info"
-> 
-> Comments?
-
-I like. :)
-
-> Thanks,
-> Miklos
-> 
+> Tested-by: Jiatai He <jiatai2021@iscas.ac.cn>
+> Signed-off-by: Hongren (Zenithal) Zheng <i@zenithal.me>
 > ---
->  fs/Makefile            |    2 
->  fs/mount.h             |    8 +
->  fs/namespace.c         |   15 ++-
->  fs/pnode.h             |    2 
->  fs/proc_namespace.c    |   15 ++-
->  fs/values.c            |  242 +++++++++++++++++++++++++++++++++++++++++++++++++
->  fs/xattr.c             |   16 ++-
->  include/linux/values.h |   11 ++
+>  arch/riscv/include/asm/hwcap.h | 14 ++++++++++++++
+>  arch/riscv/kernel/cpu.c        | 14 ++++++++++++++
+>  arch/riscv/kernel/cpufeature.c | 33 +++++++++++++++++++++++++++++++++
+>  3 files changed, 61 insertions(+)
+> 
+> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
+> index 0734e42f74f2..199eda39e0b8 100644
+> --- a/arch/riscv/include/asm/hwcap.h
+> +++ b/arch/riscv/include/asm/hwcap.h
+> @@ -52,6 +52,20 @@ extern unsigned long elf_hwcap;
+>   */
+>  enum riscv_isa_ext_id {
+>  	RISCV_ISA_EXT_SSCOFPMF = RISCV_ISA_EXT_BASE,
+> +	RISCV_ISA_EXT_ZBA,
+> +	RISCV_ISA_EXT_ZBB,
+> +	RISCV_ISA_EXT_ZBC,
+> +	RISCV_ISA_EXT_ZBS,
+> +	RISCV_ISA_EXT_ZBKB,
+> +	RISCV_ISA_EXT_ZBKC,
+> +	RISCV_ISA_EXT_ZBKX,
+> +	RISCV_ISA_EXT_ZKNE,
+> +	RISCV_ISA_EXT_ZKND,
+> +	RISCV_ISA_EXT_ZKNH,
+> +	RISCV_ISA_EXT_ZKSED,
+> +	RISCV_ISA_EXT_ZKSH,
+> +	RISCV_ISA_EXT_ZKR,
+> +	RISCV_ISA_EXT_ZKT,
+>  	RISCV_ISA_EXT_ID_MAX = RISCV_ISA_EXT_MAX,
+>  };
+>  
+> diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
+> index ccb617791e56..7251336969c1 100644
+> --- a/arch/riscv/kernel/cpu.c
+> +++ b/arch/riscv/kernel/cpu.c
+> @@ -87,6 +87,20 @@ int riscv_of_parent_hartid(struct device_node *node)
+>   *    extensions by an underscore.
+>   */
+>  static struct riscv_isa_ext_data isa_ext_arr[] = {
+> +	__RISCV_ISA_EXT_DATA(zba, RISCV_ISA_EXT_ZBA),
+> +	__RISCV_ISA_EXT_DATA(zbb, RISCV_ISA_EXT_ZBB),
+> +	__RISCV_ISA_EXT_DATA(zbc, RISCV_ISA_EXT_ZBC),
+> +	__RISCV_ISA_EXT_DATA(zbkb, RISCV_ISA_EXT_ZBKB),
+> +	__RISCV_ISA_EXT_DATA(zbkc, RISCV_ISA_EXT_ZBKC),
+> +	__RISCV_ISA_EXT_DATA(zbkx, RISCV_ISA_EXT_ZBKX),
+> +	__RISCV_ISA_EXT_DATA(zbs, RISCV_ISA_EXT_ZBS),
+> +	__RISCV_ISA_EXT_DATA(zknd, RISCV_ISA_EXT_ZKND),
+> +	__RISCV_ISA_EXT_DATA(zkne, RISCV_ISA_EXT_ZKNE),
+> +	__RISCV_ISA_EXT_DATA(zknh, RISCV_ISA_EXT_ZKNH),
+> +	__RISCV_ISA_EXT_DATA(zkr, RISCV_ISA_EXT_ZKR),
+> +	__RISCV_ISA_EXT_DATA(zksed, RISCV_ISA_EXT_ZKSED),
+> +	__RISCV_ISA_EXT_DATA(zksh, RISCV_ISA_EXT_ZKSH),
+> +	__RISCV_ISA_EXT_DATA(zkt, RISCV_ISA_EXT_ZKT),
+>  	__RISCV_ISA_EXT_DATA(sscofpmf, RISCV_ISA_EXT_SSCOFPMF),
 
-"values" is a very generic name - probably should end up being
-something more descriptive of the functionality is provides,
-especially if the header file is going to be dumped in
-include/linux/. I don't really have a good suggestion at the moment,
-though. 
+I guess a bit of sorting rule might be helpful, here it's the additions
+above sscofpmf while in the enum it's the other way around.
 
-....
+As the list will get a long longer over time, I guess consistency
+might improve readability.
 
-> +
-> +enum {
-> +	VAL_MNT_INFO,
-> +};
-> +
-> +static struct val_desc val_mnt_group[] = {
-> +	{ VD_NAME("info"),		.idx = VAL_MNT_INFO		},
-> +	{ }
-> +};
-....
-> +
-> +
-> +static struct val_desc val_toplevel_group[] = {
-> +	{ VD_NAME("mnt:"),	.get = val_mnt_get,	},
-> +	{ VD_NAME("mntns:"),	.get = val_mntns_get,	},
-> +	{ },
-> +};
+>  	__RISCV_ISA_EXT_DATA("", RISCV_ISA_EXT_MAX),
+>  };
+> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+> index 1b2d42d7f589..10f9daf3734e 100644
+> --- a/arch/riscv/kernel/cpufeature.c
+> +++ b/arch/riscv/kernel/cpufeature.c
+> @@ -192,6 +192,39 @@ void __init riscv_fill_hwcap(void)
+>  				set_bit(*ext - 'a', this_isa);
+>  			} else {
+>  				SET_ISA_EXT_MAP("sscofpmf", RISCV_ISA_EXT_SSCOFPMF);
+> +				SET_ISA_EXT_MAP("zba"     , RISCV_ISA_EXT_ZBA     );
 
-I know this is an early POC, my main question is how do you
-envisiage this table driven structure being extended down from just
-the mount into the filesystem so we can expose filesystem specific
-information that isn't covered by generic interfaces like statx?
+not sure if the additional whitespaces are really necessary? [especially the ones at the end]
+What did checkpatch have to say about them?
 
-Cheers,
+> +				SET_ISA_EXT_MAP("zbb"     , RISCV_ISA_EXT_ZBB     );
+> +				SET_ISA_EXT_MAP("zbc"     , RISCV_ISA_EXT_ZBC     );
+> +				SET_ISA_EXT_MAP("zbs"     , RISCV_ISA_EXT_ZBS     );
+> +				SET_ISA_EXT_MAP("zbkb"    , RISCV_ISA_EXT_ZBKB    );
+> +				SET_ISA_EXT_MAP("zbkc"    , RISCV_ISA_EXT_ZBKC    );
+> +				SET_ISA_EXT_MAP("zbks"    , RISCV_ISA_EXT_ZBKX    );
+> +				SET_ISA_EXT_MAP("zknd"    , RISCV_ISA_EXT_ZKND    );
+> +				SET_ISA_EXT_MAP("zkne"    , RISCV_ISA_EXT_ZKNE    );
+> +				SET_ISA_EXT_MAP("zknh"    , RISCV_ISA_EXT_ZKNH    );
+> +				SET_ISA_EXT_MAP("zksed"   , RISCV_ISA_EXT_ZKSED   );
+> +				SET_ISA_EXT_MAP("zksh"    , RISCV_ISA_EXT_ZKSH    );
+> +				SET_ISA_EXT_MAP("zkr"     , RISCV_ISA_EXT_ZKR     );
+> +				SET_ISA_EXT_MAP("zkt"     , RISCV_ISA_EXT_ZKT     );
+> +				SET_ISA_EXT_MAP("zkn"     , RISCV_ISA_EXT_ZBKB    );
+> +				SET_ISA_EXT_MAP("zkn"     , RISCV_ISA_EXT_ZBKC    );
+> +				SET_ISA_EXT_MAP("zkn"     , RISCV_ISA_EXT_ZBKX    );
+> +				SET_ISA_EXT_MAP("zkn"     , RISCV_ISA_EXT_ZKND    );
+> +				SET_ISA_EXT_MAP("zkn"     , RISCV_ISA_EXT_ZKNE    );
+> +				SET_ISA_EXT_MAP("zkn"     , RISCV_ISA_EXT_ZKNH    );
+> +				SET_ISA_EXT_MAP("zks"     , RISCV_ISA_EXT_ZBKB    );
+> +				SET_ISA_EXT_MAP("zks"     , RISCV_ISA_EXT_ZBKC    );
+> +				SET_ISA_EXT_MAP("zks"     , RISCV_ISA_EXT_ZBKX    );
+> +				SET_ISA_EXT_MAP("zks"     , RISCV_ISA_EXT_ZKSED   );
+> +				SET_ISA_EXT_MAP("zks"     , RISCV_ISA_EXT_ZKSH    );
+> +				SET_ISA_EXT_MAP("zk"      , RISCV_ISA_EXT_ZBKB    );
+> +				SET_ISA_EXT_MAP("zk"      , RISCV_ISA_EXT_ZBKC    );
+> +				SET_ISA_EXT_MAP("zk"      , RISCV_ISA_EXT_ZBKX    );
+> +				SET_ISA_EXT_MAP("zk"      , RISCV_ISA_EXT_ZKND    );
+> +				SET_ISA_EXT_MAP("zk"      , RISCV_ISA_EXT_ZKNE    );
+> +				SET_ISA_EXT_MAP("zk"      , RISCV_ISA_EXT_ZKNH    );
+> +				SET_ISA_EXT_MAP("zk"      , RISCV_ISA_EXT_ZKR     );
+> +				SET_ISA_EXT_MAP("zk"      , RISCV_ISA_EXT_ZKT     );
+>  			}
+>  #undef SET_ISA_EXT_MAP
+>  		}
+> 
 
-Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+
+
+
