@@ -2,101 +2,111 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DEC9B519D8B
-	for <lists+linux-api@lfdr.de>; Wed,  4 May 2022 13:03:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7EC8519EDE
+	for <lists+linux-api@lfdr.de>; Wed,  4 May 2022 14:05:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348458AbiEDLG4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 4 May 2022 07:06:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40746 "EHLO
+        id S1349398AbiEDMJR convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Wed, 4 May 2022 08:09:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348461AbiEDLG4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 4 May 2022 07:06:56 -0400
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A72E17E24;
-        Wed,  4 May 2022 04:03:17 -0700 (PDT)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4KtYpR36kMz4x7V;
-        Wed,  4 May 2022 21:03:10 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-        s=201909; t=1651662194;
-        bh=LCpTjFnDEwsYkNeVhJ/7ZfUx41S6pzSAGCwTzE+zXeE=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=oSdsWchJ7c6LaWBbTkrN4HY/gAMdpQJZcaKFI7EDhV0JeJSI6Ilrh5JXSrxrO+uBi
-         fz7astncBphLXFWCOHhi/UuBJgXcyFzZqYPiGHlIi6X45BigzITOjmK1rMnK6xaTol
-         wK+Fl001hFDLFxA3kebNvk3NpO9blGLOH5shsbSldk7k/YPS8CY+2HU/0urlMYnQPi
-         3f3A20Ra29iiAIuItwlZHJn/lAKzlgp6ft6XtuAwcXeHVWlSH3tlipFUOHXN4lOi74
-         kINmxaDpdRmWpd8ejwQmQIqRTqnHtMk+0OO2DYANcnQC+pIYh1SpDofrsXa2SehLI+
-         bhi5wSivAPsvA==
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Ilpo =?utf-8?Q?J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        with ESMTP id S1349352AbiEDMJE (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 4 May 2022 08:09:04 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D86332AC1;
+        Wed,  4 May 2022 05:05:21 -0700 (PDT)
+Received: from mail-wm1-f47.google.com ([209.85.128.47]) by
+ mrelayeu.kundenserver.de (mreue108 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1Mspu2-1o64sF3C2q-00tDXf; Wed, 04 May 2022 14:00:11 +0200
+Received: by mail-wm1-f47.google.com with SMTP id p7-20020a05600c358700b00393e80c59daso2530300wmq.0;
+        Wed, 04 May 2022 05:00:11 -0700 (PDT)
+X-Gm-Message-State: AOAM533SDCVqzQiAdKsV83vgiJE9VyJH9Jl2sQzi1xyjCxHP/8W/lFlE
+        M/RrauBA2UJujaaNl1c8a9CIW84ywx7qwk6yP2E=
+X-Google-Smtp-Source: ABdhPJxa91M6kOpYUD0iTKIgWao6CfWQbX+SRQAAcnEVkI7cNck+veUzwJT66OrSTBCPZk65kSjp++m9nNZ6refLZnU=
+X-Received: by 2002:a7b:cc93:0:b0:394:2622:fcd9 with SMTP id
+ p19-20020a7bcc93000000b003942622fcd9mr7695473wma.20.1651665611020; Wed, 04
+ May 2022 05:00:11 -0700 (PDT)
+MIME-Version: 1.0
+References: <2c8c96f-a12f-aadc-18ac-34c1d371929c@linux.intel.com>
+ <CAK8P3a0hy8Ras7pwF9rJADtCAfeV49K7GWkftJnzqeGiQ6j-zA@mail.gmail.com> <ca39c741-8d15-33c0-7bd6-635778cc436@linux.intel.com>
+In-Reply-To: <ca39c741-8d15-33c0-7bd6-635778cc436@linux.intel.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Wed, 4 May 2022 13:59:55 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a33b4KvsGayDV7fXte0+1FzCJp_J60d8LuZO3P+i1NUEg@mail.gmail.com>
+Message-ID: <CAK8P3a33b4KvsGayDV7fXte0+1FzCJp_J60d8LuZO3P+i1NUEg@mail.gmail.com>
+Subject: Re: [PATCH 1/1] termbits: Convert octal defines to hex
+To:     =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
         Greg KH <gregkh@linuxfoundation.org>,
-        linux-serial <linux-serial@vger.kernel.org>
-Cc:     Jiri Slaby <jirislaby@kernel.org>, linux-api@vger.kernel.org,
+        linux-serial <linux-serial@vger.kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
+        Matt Turner <mattst88@gmail.com>,
+        alpha <linux-alpha@vger.kernel.org>,
         Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-mips@vger.kernel.org,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
         "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org,
+        Helge Deller <deller@gmx.de>,
+        Parisc List <linux-parisc@vger.kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
         Benjamin Herrenschmidt <benh@kernel.crashing.org>,
         Paul Mackerras <paulus@samba.org>,
-        linuxppc-dev@lists.ozlabs.org, Arnd Bergmann <arnd@arndb.de>,
-        linux-arch@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/1] termbits: Convert octal defines to hex
-In-Reply-To: <2c8c96f-a12f-aadc-18ac-34c1d371929c@linux.intel.com>
-References: <2c8c96f-a12f-aadc-18ac-34c1d371929c@linux.intel.com>
-Date:   Wed, 04 May 2022 21:03:09 +1000
-Message-ID: <87bkwdv9ua.fsf@mpe.ellerman.id.au>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Provags-ID: V03:K1:7CQbFrqW4cTrqLaKVG3j35bzBmKn+IuU4tx6h+ezN6PVZKgk+sz
+ 8qiTIxQWgKVg592Oz6fM8BuTAJRta1OJthsCcRFJWgMJrQl+8iOo18131rIlBhcQ167uw2s
+ qAsXBkV140cw0H0Uw5CXNeANe/rq7NcMXdg9AUUoijd/XgP/QBj+C4gUWMGdBbcXYryCDEK
+ fMwzJlPIbalz2Qph2RNqA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:COPjXxKqg1Q=:VZTn72NtlgaYBDBCvL5I0k
+ M7DGX/NMGjayrppYB0LPSZo4Fb0C/Dund+x/w084MgQANdpltVj92fHlfclpNX3TSS7P9fFdO
+ 1ZndGa8zjXzVRxASqTuOGxvwNskOIfVB/DP7LyZqQR9/x/7YmdHgAmJWBXNGXqoTzm5xTzNTw
+ /wNGfn6qcX2yxiPbsHntjmfHuLU2Khbc9tg6j/7zboJOpTOUo5PCKtHtEoL+MPsfirWp8LZYc
+ OISYXsoOceS3FeZw1OfzZ6P6nDeHDerMGHShA/EuI0zAEn06zgMJJCeWkZHU8rdUIyBarHA9c
+ 9lf4M9ZI4N6QHZx7HrdA4zF5YhLq4WEUPjOrK1foApXnfxsgFX50MbWxhnJkm/QYsrp5NmwVG
+ uz2nwueC1bbCdhA99DYuLquD97jx6gMrhpIU1dkUZwhy03A+q8nM2RA9HQ1gp7Fa8r7TZJf9g
+ b1mnW7C5llZ+Sby/KMRChcy9Ll+o02WXKM9/aHmCQfrA/pHjsIliYNzDQLMOxhlTqfH6FAHFY
+ Cel4dtDXgpwDpcgSHZcH87yZTC0RhtNZC5wWplk4WbKsbm7X+ZIahx3CwdwYchrSa7SoxyCIf
+ ps3O+Y3fOmOWHWmToMrJW0OW0NeH96aemgaKzORFWNOiGXrWZf/0EuGkI9IgdnOkqWhkLtNuA
+ B4aXh1nXwzlsqJuTsozi8kkASB5qQHn216j/ky+JHL/Yce2pQaA6Tho7m7QKLPKPS/lJmxq4w
+ uxtW68qM3nLVpvOJwGksIEOeBfzsUTUgUjA48BW2yRDp/9AZ46oo+QJ5v1tmEwb8YyD0EWp00
+ M1jbs3JJDosCeiNtbb2VAKMtaAlSHZpTRf1fQbcy8OiJtLqwKM=
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com> writes:
-> Many archs have termbits.h as octal numbers. It makes hard for humans
-> to parse the magnitude of large numbers correctly and to compare with
-> hex ones of the same define.
+On Wed, May 4, 2022 at 10:33 AM Ilpo Järvinen
+<ilpo.jarvinen@linux.intel.com> wrote:
+> On Wed, 4 May 2022, Arnd Bergmann wrote:
+> > On Wed, May 4, 2022 at 9:20 AM Ilpo Järvinen <ilpo.jarvinen@linux.intel.com> wrote:
+> > >
+> > After applying the patch locally, I still see a bunch of whitespace
+> > differences in the
+> > changed lines if I run
+> >
+> > vimdiff arch/*/include/uapi/asm/termbits.h include/uapi/asm-generic/termbits.h
+> >
+> > I think this mostly because you left the sparc version alone (it already
+> > uses hex constants), but it may be nice to edit this a little more to
+> > make the actual differences stick out more.
 >
-> Convert octal values to hex.
->
-> First step is an automated conversion with:
->
-> for i in $(git ls-files | grep 'termbits\.h'); do
-> 	awk --non-decimal-data '/^#define\s+[A-Z][A-Z0-9]*\s+0[0-9]/ {
-> 		l=3Dint(((length($3) - 1) * 3 + 3) / 4);
-> 		repl =3D sprintf("0x%0" l "x", $3);
-> 		print gensub(/[^[:blank:]]+/, repl, 3);
-> 		next} {print}' $i > $i~;
-> 	mv $i~ $i;
-> done
->
-> On top of that, some manual processing on alignment and number of zeros.
-> In addition, small tweaks to formatting of a few comments on the same=20
-> lines.
->
-> Signed-off-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
-> ---
->
-> I prefer this to go in though Greg's tty tree.
->
->  arch/alpha/include/uapi/asm/termbits.h   | 202 ++++++++++-----------
->  arch/mips/include/uapi/asm/termbits.h    | 222 +++++++++++------------
->  arch/parisc/include/uapi/asm/termbits.h  | 220 +++++++++++-----------
->  arch/powerpc/include/uapi/asm/termbits.h | 202 ++++++++++-----------
+> I took a look on further harmonizing, however, it turned out to be not
+> that simple. This is basically the pipeline I use to further cleanup the
+> differences and remove comments if you want to play yourself, just remove
+> stages from the tail to get the intermediate datas (gawk is required for
+> --non-decimal-data):
 
-I ran some horrible awk/sed/python mess over the before and after and
-they seem to be numerically identical, so LGTM.
+I've played around with it some more to adjust the number of leading
+zeroes and the type of whitespace. This is what I ended up with on top
+of your patch: https://pastebin.com/raw/pkDPaKN1
 
-Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
+Feel free to fold it into yours.
 
-cheers
+        Arnd
