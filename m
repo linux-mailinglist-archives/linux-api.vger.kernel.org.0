@@ -2,127 +2,114 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62D7A51BD74
-	for <lists+linux-api@lfdr.de>; Thu,  5 May 2022 12:47:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45FFF51BDEF
+	for <lists+linux-api@lfdr.de>; Thu,  5 May 2022 13:22:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356002AbiEEKuZ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Thu, 5 May 2022 06:50:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57476 "EHLO
+        id S1354787AbiEEL0C (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 May 2022 07:26:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353497AbiEEKuZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 5 May 2022 06:50:25 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D63AF15FD7;
-        Thu,  5 May 2022 03:46:44 -0700 (PDT)
-Received: from mail-wm1-f49.google.com ([209.85.128.49]) by
- mrelayeu.kundenserver.de (mreue009 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MC2sH-1ngkWc0SNh-00CTav; Thu, 05 May 2022 12:46:43 +0200
-Received: by mail-wm1-f49.google.com with SMTP id q20so2393754wmq.1;
-        Thu, 05 May 2022 03:46:42 -0700 (PDT)
-X-Gm-Message-State: AOAM533c9sfMuPrtHgRDKUD42mJz5pnnIox0XcM4CbXmTctETUpV6QZV
-        yyCxqln/3PaoAURcU+hdzEq2FXqt32sodmX2xe4=
-X-Google-Smtp-Source: ABdhPJyFwBY33nx8Flpk/PWMnjLEt5creYwEvl9Kax8NgZPjrsYAYPMUU9wJqfenypJSNx98Enu2cPCLEOTeKZBJGw0=
-X-Received: by 2002:a7b:cc93:0:b0:394:2622:fcd9 with SMTP id
- p19-20020a7bcc93000000b003942622fcd9mr4145550wma.20.1651747602669; Thu, 05
- May 2022 03:46:42 -0700 (PDT)
+        with ESMTP id S236651AbiEELZ6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 5 May 2022 07:25:58 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18F4653B73
+        for <linux-api@vger.kernel.org>; Thu,  5 May 2022 04:22:19 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id C9D851F38A;
+        Thu,  5 May 2022 11:22:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1651749737; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=IJDRSUTdb5ybeBA5bzxdSn8LTP1LamasunF0g7vONQw=;
+        b=iFGCj0R5jzXo08g7+CMxRt4ILZZBUIVZWbjwvyOBP3keDZkwAGICf+D6y6+AtA2Hvc3d3B
+        71ybcWAEykWC1miTGN6EFXGBD9n7OaukYQqM+qSpTOyuGgvc4qUiypwfNFU4k9BvrMghae
+        FSNF+6Ws6d6bJfWl8KjvVwHBHvMijfY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1651749737;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=IJDRSUTdb5ybeBA5bzxdSn8LTP1LamasunF0g7vONQw=;
+        b=ODRTVcyalF3P7nijm9ijYaPU0O5z4xT07MEND42CirAQ0E131OPDhg5A6eegeN6vB7R1M5
+        slHE+0FzJ5vOjrCA==
+Received: from quack3.suse.cz (unknown [10.100.224.230])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id B83EB2C141;
+        Thu,  5 May 2022 11:22:17 +0000 (UTC)
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+        id 58632A0627; Thu,  5 May 2022 13:22:17 +0200 (CEST)
+Date:   Thu, 5 May 2022 13:22:17 +0200
+From:   Jan Kara <jack@suse.cz>
+To:     Matthew Bobrowski <repnop@google.com>
+Cc:     jack@suse.cz, amir73il@gmail.com, linux-api@vger.kernel.org
+Subject: Re: Fanotify API - Tracking File Movement
+Message-ID: <20220505112217.zvzbzhjgmoz7lr6w@quack3.lan>
+References: <YnOmG2DvSpvvOEOQ@google.com>
 MIME-Version: 1.0
-References: <2c8c96f-a12f-aadc-18ac-34c1d371929c@linux.intel.com>
- <CAK8P3a0hy8Ras7pwF9rJADtCAfeV49K7GWkftJnzqeGiQ6j-zA@mail.gmail.com>
- <ca39c741-8d15-33c0-7bd6-635778cc436@linux.intel.com> <CAK8P3a33b4KvsGayDV7fXte0+1FzCJp_J60d8LuZO3P+i1NUEg@mail.gmail.com>
- <386eed36-94f7-8acb-926f-99c74d55915f@linux.intel.com>
-In-Reply-To: <386eed36-94f7-8acb-926f-99c74d55915f@linux.intel.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 5 May 2022 12:46:25 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a06wdDC-c6V9kO6q3j_TB7HE7f1tdTUvC5yi7ekaHw1YQ@mail.gmail.com>
-Message-ID: <CAK8P3a06wdDC-c6V9kO6q3j_TB7HE7f1tdTUvC5yi7ekaHw1YQ@mail.gmail.com>
-Subject: Re: [PATCH 1/1] termbits: Convert octal defines to hex
-To:     =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        linux-serial <linux-serial@vger.kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        alpha <linux-alpha@vger.kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Parisc List <linux-parisc@vger.kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Provags-ID: V03:K1:sSGfFqyReakvFmMBoIFnKxXTt3YrM/AnN0JCkz+2KDvVIBHaIhO
- imKzkV0yjeWXzBJ5JXQvWrIFnusxADrODyOLWhZQYzBhr0/M3O2+4yOrCH4lIpVQ+XyA3mx
- g4fUMdGvwaFJDRwopyDq6+GQZ8HOS+VEHC0q3TWeMpqoJ2fRxUJ6NR1OD4tqfpoJwb9raXb
- JA+qppAU7xdxMzS5qE6qA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:qroVvn/Q8aE=:KgtJ9Klgc8zNCMyp0WCvBW
- TmskdG82IVWkRJfBtPefNuZlNT7sEVh4wEAClPkidx2q7Kq33Xv6U0pG5jqKlN9G2TRLkMGt4
- a4iAaB10OrHTcK8VorQre3D1BQLH/PjlDjhe2QgLFzXYfwTZsl/3Jjhi1zAzK3cNMnenTjGzI
- RKudTV2wlKwZJykITtm1aVB2c3nxeNPHKwAG+LwoMGN9E8I20OgSInEMxRNOWRlPkzUtx9kXj
- L/Aozn7YpzdlU1OIOB8Exrv2tv3eenu+Tag7JwYce7bPn8Fq8bJXx/0GPx79QCzuWUlCHPmVj
- j02i85Fvnhv/XSatu1udT5ZuauLHWRB/V/HuuxJRvky/4eBGcbPqJoL70c6tubK3blDXDp68H
- 27vIlyJjr3AOJGHmNekjGY9uBrHvFiTJnNabUthL92lIqz1U3WILjclO4W+RU6gKnyYVrybkF
- rfdC/CtVjny8uitU+VA6AKQ0WJgZ3CpFtq+r722T2dC4VmBs4bj+1j+FIR0Y3pJqvITPf/Xeq
- c1LsQHJeRao2bqqlDfaBsqhbHI/1lK/51A652mv3sTLiahpWQFzZGDZnjsEI0VTBi4SfiWCme
- UGbl7M82FMzm36RIm7d/dnHdKJ7oofurFS13lk+Ya889Rn6TbAGIGyypqnLSCUeF+ADc6Ea0F
- 65x/M1wtGbYf1gYEB5QxjuPzdKFE0dsCQy65yC99NDxpXToIuwYg9W+wEuDaFEaOX6/8=
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YnOmG2DvSpvvOEOQ@google.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, May 5, 2022 at 10:56 AM Ilpo Järvinen
-<ilpo.jarvinen@linux.intel.com> wrote:
-> On Wed, 4 May 2022, Arnd Bergmann wrote:
-> > On Wed, May 4, 2022 at 10:33 AM Ilpo Järvinen
-> > <ilpo.jarvinen@linux.intel.com> wrote:
-> > > On Wed, 4 May 2022, Arnd Bergmann wrote:
-> > > > On Wed, May 4, 2022 at 9:20 AM Ilpo Järvinen <ilpo.jarvinen@linux.intel.com> wrote:
-> > > > >
-> > > > After applying the patch locally, I still see a bunch of whitespace
-> > > > differences in the
-> > > > changed lines if I run
-> > > >
-> > > > vimdiff arch/*/include/uapi/asm/termbits.h include/uapi/asm-generic/termbits.h
-> > > >
-> > > > I think this mostly because you left the sparc version alone (it already
-> > > > uses hex constants), but it may be nice to edit this a little more to
-> > > > make the actual differences stick out more.
-> > >
-> > > I took a look on further harmonizing, however, it turned out to be not
-> > > that simple. This is basically the pipeline I use to further cleanup the
-> > > differences and remove comments if you want to play yourself, just remove
-> > > stages from the tail to get the intermediate datas (gawk is required for
-> > > --non-decimal-data):
-> >
-> > I've played around with it some more to adjust the number of leading
-> > zeroes and the type of whitespace. This is what I ended up with on top
-> > of your patch: https://pastebin.com/raw/pkDPaKN1
-> >
-> > Feel free to fold it into yours.
->
-> Ok thanks. With that it seems to go a bit beyond octal to hex conversion
-> so I'll make a series out of it. The series will also introduce
-> include/uapi/asm-generic/termbits-common.h for the most obvious
-> intersection.
+Hello Matthew!
 
-Ok, sounds good. Here's a retroactive
+On Thu 05-05-22 20:25:31, Matthew Bobrowski wrote:
+> I was having a brief chat with Amir the other day about an idea/use
+> case that I have which at present don't believe is robustly supported
+> by the fanotify API. I was wondering whether you could share some
+> thoughts on supporting the following idea.
+> 
+> I have a need to track file movement across a filesystem without
+> necessarily burdening the system by having to watch the entire
+> filesystem for such movements. That is, knowing when file /dir1/a had
+> been moved from /dir1/a to /dir2/a and then from /dir2/a to /dir3/a
+> and so on. Or more simply, knowing the destination/new path of the
+> file once it has moved.
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+OK, and the places the file moves to can be arbitrary? That seems like a
+bit narrow usecase :)
 
-for my changes so you can put them into a separate patch. I assume
-you will change it some more in the process, so maybe retain
-your ownership and just mark the bits a 'Co-developed-by: Arnd...'.
+> Initially, I was thinking of using FAN_MOVE_SELF, but it doesn't quite
+> cut it. For such events, you only know the target location or path of
+> a file had been modified once it has subsequently been moved
+> elsewhere. Not to mention that path resolution using the file
+> identifier from such an event may not always work. Then there's
+> FAN_RENAME which could arguably work. This would include setting up a
+> watch on the parent directory of the file of interest and then using
+> the information record of type FAN_EVENT_INFO_TYPE_NEW_DFID_NAME to
+> figure out the new target location of the file once it has been moved
+> and then resetting the mark on the next parent directory once the new
+> target location is known. But, as Amir rightfully mentioned, this
+> rinse and repeat mark approach is suboptimal as it can lead to certain
+> race conditions.
 
-        Arnd
+It seems to me you really want FAN_MOVE_SELF but you'd need more
+information coming with it like the new parent dir, wouldn't you? It would
+be relatively easy to add that info but it would kind of suck that it would
+be difficult to discover in advance whether the directory info will arrive
+with the event or not. But that actually would seem to be the case for
+FAN_RENAME as well because we didn't seem to bother to refuse FAN_RENAME on
+a file. Amir?
+
+> Having briefly mentioned all this, what is your stance on maybe
+> extending out FAN_RENAME to also cover files? Or, maybe you have
+> another approach/idea in mind to cover such cases i.e. introducing a
+> new flag FAN_{TRACK,TRACE}.
+
+So extending FAN_MOVE_SELF or FAN_RENAME looks OK to me, not much thoughts
+beyond that :).
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
