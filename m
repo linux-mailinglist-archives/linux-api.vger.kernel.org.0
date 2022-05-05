@@ -2,111 +2,172 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3095E51BF47
-	for <lists+linux-api@lfdr.de>; Thu,  5 May 2022 14:30:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDF0451BFFB
+	for <lists+linux-api@lfdr.de>; Thu,  5 May 2022 14:58:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376769AbiEEMeX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 5 May 2022 08:34:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37208 "EHLO
+        id S237046AbiEENAI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 May 2022 09:00:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376743AbiEEMeX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 5 May 2022 08:34:23 -0400
-Received: from us-smtp-delivery-74.mimecast.com (us-smtp-delivery-74.mimecast.com [170.10.129.74])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CAA384B1FA
-        for <linux-api@vger.kernel.org>; Thu,  5 May 2022 05:30:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1651753842;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=YlZT13jIA/It2oCfOEpEIe9Baj4YpyTZ8d0J7CEtWsQ=;
-        b=GXYJxoTSpQUmj2x9+Vut+gqd5fiTMOYjvcziJsSjA/5dcEhRPYoClZs83Aie7MxMwP6NQ/
-        MdaHf6z0MaR16Nc+hE1DhqWeYjFOqVNDe2+LHkj/J/AKQ5eGhMSGzZVWmA+RA79RbtNEqM
-        52YJWsH57fe8sZV42EttaiBgcAbjo3A=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-343-0xIDvD5lPEWJE6D9hkjW7Q-1; Thu, 05 May 2022 08:30:39 -0400
-X-MC-Unique: 0xIDvD5lPEWJE6D9hkjW7Q-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B60953810D27;
-        Thu,  5 May 2022 12:30:38 +0000 (UTC)
-Received: from ws.net.home (unknown [10.36.112.12])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 06CB8463E1C;
-        Thu,  5 May 2022 12:30:35 +0000 (UTC)
-Date:   Thu, 5 May 2022 14:30:33 +0200
-From:   Karel Zak <kzak@redhat.com>
-To:     Miklos Szeredi <miklos@szeredi.hu>
-Cc:     linux-fsdevel@vger.kernel.org, Dave Chinner <david@fromorbit.com>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Christian Brauner <brauner@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        LSM <linux-security-module@vger.kernel.org>,
-        Ian Kent <raven@themaw.net>,
-        David Howells <dhowells@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        Amir Goldstein <amir73il@gmail.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>
-Subject: Re: [RFC PATCH] getting misc stats/attributes via xattr API
-Message-ID: <20220505123033.sgcyx7kfl4kcfcds@ws.net.home>
-References: <YnEeuw6fd1A8usjj@miu.piliscsaba.redhat.com>
+        with ESMTP id S233634AbiEENAH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 5 May 2022 09:00:07 -0400
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8724D4A922;
+        Thu,  5 May 2022 05:56:28 -0700 (PDT)
+Received: by mail-qt1-x831.google.com with SMTP id o11so3028057qtp.13;
+        Thu, 05 May 2022 05:56:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=g2zNSZ7z34605RGjUSbGcNOfuH/EFE45DeZ21jtbg80=;
+        b=SgrSvcG/zqMmD1Aq5+dRqptKSr4wQVOtA78nyzkGuTxRDgDarD6x70+FKTZsqDEKce
+         S6VGcmdrmiXUsKH+J9XAe/56mJ7lX9hCi+Y4Ux50734ZctiUYS1jzX5BXtb1QdJ74jJK
+         uZFIHv2GCuldAMktpgap9Wfmfsf/vjbLsMulp4tKGCzvo9pP/LrJqGSbkOq86LCc5GG6
+         OIbNS/Uaa/a0et+soE2hcLGgSg6JWOgayepBljz2VKzj6epRtQmF8d2GgxZ64Cbv7Rfs
+         ETxmwXynFNaoi2XxSif8YE9TNpEH/zWCcqsBLdrlytWRV3FzfVIOmjg1Vsz07I8r58qY
+         UWSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=g2zNSZ7z34605RGjUSbGcNOfuH/EFE45DeZ21jtbg80=;
+        b=Qd/8SfUskcI9T1HptI73e9Dt/GHGmcBG3cF5iphjs5JUYEolNt77SzQKtUV+M/jwp9
+         JX03Wt7DXuMM2CfHl0T9X6tDVWEsxYRx01RaHz4NirJZ8Qr9V9qgDX633diAsliBg2zU
+         W5If9W2qLmvbufsgWZsIATqkF0G08nfwqrvzLr26b9NYw9u74M/a23/OCiAeR2ElOynJ
+         t+wJ7c+YLbE4w8n9qxn0nBYz4dZmZ6+YkYtbhbne8vgzy7KCoHSb/ab+B3YU2ojZkOdo
+         u2RXqZ8t1hLJaLGJJi9OPPLSZ5oyZZESt/YAOTVF+MAyUbPmzAYffAVpIQX9U/qURqPJ
+         VvSg==
+X-Gm-Message-State: AOAM531PO/llTXaoNKOQmkvHWHfLGhTQEcB+0THczTpilY7mvOXfYYIj
+        l1AIezDho/OTtEx7mXJMiw5M+2OVZ3PwBSJigcMm9ZBERy9R4A==
+X-Google-Smtp-Source: ABdhPJzZisT99LrTtQb1wsHfJwtfXf2HzLuXv1MlTV4JfrfapOznKr2ZY0Y2uDJX2DE0/YDSegcKrkRMizizlE7xEnI=
+X-Received: by 2002:ac8:5a4f:0:b0:2ed:d39b:5264 with SMTP id
+ o15-20020ac85a4f000000b002edd39b5264mr23780497qta.477.1651755387623; Thu, 05
+ May 2022 05:56:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YnEeuw6fd1A8usjj@miu.piliscsaba.redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <YnOmG2DvSpvvOEOQ@google.com> <20220505112217.zvzbzhjgmoz7lr6w@quack3.lan>
+In-Reply-To: <20220505112217.zvzbzhjgmoz7lr6w@quack3.lan>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Thu, 5 May 2022 15:56:16 +0300
+Message-ID: <CAOQ4uxhJFEoV0X8uunNaYjdKpsFj6nUtcNFBx8d3oqodDO_iYA@mail.gmail.com>
+Subject: Re: Fanotify API - Tracking File Movement
+To:     Jan Kara <jack@suse.cz>
+Cc:     Matthew Bobrowski <repnop@google.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 03, 2022 at 02:23:23PM +0200, Miklos Szeredi wrote:
-> Examples:
-> 
-> $ getfattr -etext -n ":" .
-> # file: .
-> :="mnt:\000mntns:"
-> 
-> $ getfattr -etext -n ":mnt:" .
-> # file: .
-> :mnt:="info"
-> 
-> $ getfattr -etext -n ":mnt:info" .
-> # file: .
-> :mnt:info="21 1 254:0 / / rw,relatime - ext4 /dev/root rw\012"
++fsdevel
 
-Is there a way how to get mountinfo-like entry by mount ID for some
-sub-tree? Something like:
+On Thu, May 5, 2022 at 2:22 PM Jan Kara <jack@suse.cz> wrote:
+>
+> Hello Matthew!
+>
+> On Thu 05-05-22 20:25:31, Matthew Bobrowski wrote:
+> > I was having a brief chat with Amir the other day about an idea/use
+> > case that I have which at present don't believe is robustly supported
+> > by the fanotify API. I was wondering whether you could share some
+> > thoughts on supporting the following idea.
+> >
+> > I have a need to track file movement across a filesystem without
+> > necessarily burdening the system by having to watch the entire
+> > filesystem for such movements. That is, knowing when file /dir1/a had
+> > been moved from /dir1/a to /dir2/a and then from /dir2/a to /dir3/a
+> > and so on. Or more simply, knowing the destination/new path of the
+> > file once it has moved.
+>
+> OK, and the places the file moves to can be arbitrary? That seems like a
+> bit narrow usecase :)
+>
+> > Initially, I was thinking of using FAN_MOVE_SELF, but it doesn't quite
+> > cut it. For such events, you only know the target location or path of
+> > a file had been modified once it has subsequently been moved
+> > elsewhere. Not to mention that path resolution using the file
+> > identifier from such an event may not always work. Then there's
+> > FAN_RENAME which could arguably work. This would include setting up a
+> > watch on the parent directory of the file of interest and then using
+> > the information record of type FAN_EVENT_INFO_TYPE_NEW_DFID_NAME to
+> > figure out the new target location of the file once it has been moved
+> > and then resetting the mark on the next parent directory once the new
+> > target location is known. But, as Amir rightfully mentioned, this
+> > rinse and repeat mark approach is suboptimal as it can lead to certain
+> > race conditions.
+>
+> It seems to me you really want FAN_MOVE_SELF but you'd need more
+> information coming with it like the new parent dir, wouldn't you? It would
+> be relatively easy to add that info but it would kind of suck that it would
+> be difficult to discover in advance whether the directory info will arrive
+> with the event or not. But that actually would seem to be the case for
+> FAN_RENAME as well because we didn't seem to bother to refuse FAN_RENAME on
+> a file. Amir?
+>
 
- getfattr -etext -n ":mnt:info:21" /
+No, we did not, but it is also not refused for all the other dirent events and
+it was never refused by inotify too, so that behavior is at least consistent.
+But if we do want to change the behavior of FAN_RENAME on file, my preference
+would be to start with a Fixes commit that forbis that, backport it to stable
+and then allow the new behavior upstream.
+I can post the fix patch.
 
-The interface has to be consistent with some notification system (I
-see your question about fsnotify/fanotify at linux-fsdevel) and mount
-ID seems better than paths due to over-mounts, etc.
+> > Having briefly mentioned all this, what is your stance on maybe
+> > extending out FAN_RENAME to also cover files? Or, maybe you have
+> > another approach/idea in mind to cover such cases i.e. introducing a
+> > new flag FAN_{TRACK,TRACE}.
+>
+> So extending FAN_MOVE_SELF or FAN_RENAME looks OK to me, not much thoughts
+> beyond that :).
 
-> $ getfattr -etext -n ":mntns:" .
-> # file: .
-> :mntns:="21:\00022:\00024:\00025:\00023:\00026:\00027:\00028:\00029:\00030:\00031:"
-> 
-> $ getfattr -etext -n ":mntns:28:" .
-> # file: .
-> :mntns:28:="info"
+Both FAN_RENAME and FAN_REPORT_TARGET_FID are from v5.17
+which is rather new and it is highly unlikely that anyone has ever used them,
+so I think we can get away with fixing the API either way.
+Not to mention that the man pages have not been updated.
 
-  Karel
+This is from the man page that is pending review:
 
--- 
- Karel Zak  <kzak@redhat.com>
- http://karelzak.blogspot.com
+       FAN_REPORT_TARGET_FID (since Linux 5.17)
+              Events for fanotify groups initialized with this flag
+will contain additional information
+              about the child correlated with directory entry
+modification events...
+              For the directory entry modification events
+              FAN_CREATE,  FAN_DELETE,  FAN_RENAME,  and  FAN_MOVE,
+an  additional...
 
+       FAN_MOVED_TO (since Linux 5.1)
+              Create an event when a file or directory has been moved
+to a marked parent directory...
+
+       FAN_RENAME (since Linux 5.17)
+              This  event contains the same information provided by
+events FAN_MOVED_FROM
+              and FAN_MOVED_TO, ...
+
+       FAN_MOVE_SELF (since Linux 5.1)
+              Create an event when a marked file or directory itself
+has been moved...
+
+I think it will be easier to retrofit this functionality of FAN_RENAME
+(i.e. ...provided
+by events FAN_MOVED_FROM, FAN_MOVED_TO, and FAN_MOVE_SELF).
+Looking at the code, I think it will also be much easier to implement
+for FAN_RENAME
+because it is special-cased for reporting.
+
+HOWEVER! look at the way we implemented reporting of FAN_RENAME
+(i.e. match_mask). We report_new location only if watching sb or watching
+new dir. We did that for a reason because watcher may not have permissions
+to read new dir. We could revisit this decision for a privileged group, but will
+need to go back reading all the discussions we had about this point to see
+if there were other reasons(?).
+
+Thanks,
+Amir.
