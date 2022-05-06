@@ -2,60 +2,72 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC89851CD58
-	for <lists+linux-api@lfdr.de>; Fri,  6 May 2022 02:03:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F15A51CD66
+	for <lists+linux-api@lfdr.de>; Fri,  6 May 2022 02:07:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1387574AbiEFAGZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 5 May 2022 20:06:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36774 "EHLO
+        id S1387219AbiEFAKx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 5 May 2022 20:10:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1387524AbiEFAGS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 5 May 2022 20:06:18 -0400
-Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0946666FA1;
-        Thu,  5 May 2022 17:01:10 -0700 (PDT)
-Received: by mail-qv1-xf2e.google.com with SMTP id ke5so4317074qvb.5;
-        Thu, 05 May 2022 17:01:10 -0700 (PDT)
+        with ESMTP id S241593AbiEFAKw (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 5 May 2022 20:10:52 -0400
+Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3688A4EDED;
+        Thu,  5 May 2022 17:07:11 -0700 (PDT)
+Received: by mail-qv1-xf2d.google.com with SMTP id p3so2832403qvi.7;
+        Thu, 05 May 2022 17:07:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=fuHdbS0xWKHmv6J1u5d3rVQ4QxnLhs8Sn7FHmkEtewk=;
-        b=Pr2SsDM6VQo3fJLxPMqbyGDLZbtVZgtiXd0+o5ekU8f7JLpY5LwRFnTQsrtqIrxqbH
-         6Y9UHjMLz9FUBhLDCIRZmPyLb0gU391/Ld0Z6HOFDGtjDz7TIJbqNO6ZlgBFqGVCkmkp
-         2QiHhpHNBoczmw8RBFMtBvCTFWAflOtAk6kwLe7EvuMtZpYwqupDIKIHqD8sVVb1Zqve
-         us86t/7Ejqg2iCyeHYR+rhF2si5TK6uF3lBtpUdKrQ45hIkxs1R9fr1N4bfA227spK8N
-         3Knn7IN8DdUsfGXtkPEwdK/rrQRxRb6rOMAuZ5N6VFDGTUF3D7G7GCRPFsyheBOBVMLE
-         i2rA==
+        bh=0bydLn+MaadsEKy9TI70LzBq8Pin31TT5BFRic3vn7g=;
+        b=kBDdht1mILQDR5YeRdYRciPLf6mSNjR+h0e4piIWG2v8aN4VZaGlo+qap7nOYmeaGx
+         ykor7T6KQ9snP0rfDQPcX3sgVerXCx6FC9d88f3omuuFO3fMdZcld1G8nCw/Akc3Gk66
+         +Qu5kDjJC6m2a14JBY4fOGHv0/fp27PK4YtfLLbObBYnvpqI8YJ16ej6DR96SbijW0HR
+         dooiWGfHSDM94Ejq0KDN6sUCbFZ2lTi/X8tHyPUEpKdha+Q/KHe9K6CqgiaCtQi2X4OO
+         Sz5YpmJMwt6PVDzlhGB4MI4AjRuGDD0jzgiSEmDxrsiqBlapkhAsLKWedHm/4m+kM8fk
+         NFHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=fuHdbS0xWKHmv6J1u5d3rVQ4QxnLhs8Sn7FHmkEtewk=;
-        b=5vDarfA8JPd9AuS8sGnzfoQ7CADI2Zi/Blq1WyOpURaJNYQ80Y/wjnNzmvHm4Ny6+j
-         xNKG4dMU1oK6HZ7cJicE5nqx8p+hiTUkQUFzgVYQ3R36JxNAd2n88NS08XSV4vGCNoD/
-         htGU6w4EQBFNuOPxO4K5T3VF9fVla7cgQirPcVGplsMfjFPm6aZ8Me7BoIjisb+Mfh5a
-         47qTvREPI+Am105kd0n6VBChop+P+ODchMxJgSpYGycuemm92Q4SRh5HUaIc/b6h3usK
-         0u7qdOzvA2SUwcDV4arfa8fu5E6Rg7MOKyne9u6DvuRL5s3tMxU60HooDNOGtzTR79bX
-         XruQ==
-X-Gm-Message-State: AOAM531MBGv5bRXBtY2U4pUJRZYANPNMqIDNL1z47p9215lHks0z5gZg
-        c/FAucHbQU2mhbZubCPZF0vrFi1ISu/xstj4YXk=
-X-Google-Smtp-Source: ABdhPJwpMdt/KfyK/x4AVKoVhsS6iD7B3iwfmlFE4qs7nyyrC3w5UkNhXHm5T4e0BK3HVvB26Wo15XjFmS9ni+1vqCk=
-X-Received: by 2002:a05:6214:1c83:b0:443:6749:51f8 with SMTP id
- ib3-20020a0562141c8300b00443674951f8mr460845qvb.74.1651795269661; Thu, 05 May
- 2022 17:01:09 -0700 (PDT)
+        bh=0bydLn+MaadsEKy9TI70LzBq8Pin31TT5BFRic3vn7g=;
+        b=IBEgNahNw/9d6uFQBP3bI8e6AKjU+F+RSve1amoDcTVE41GejnOVH+OxPdCGZ4bVB7
+         EkindYrBERxCMXZ4Es3gNqnMl1k4pU8nF2GQ8fylf3k1dAikUHBVnzyxdyDUgiOQg/e0
+         rkPSWCaUtDue8oeRFQh3807NFKoD0njz/ZJEEv0KNFI5mb2+t78kBLvzsmFnlcWetVJN
+         /o6M9GhjHLTPCNmVX6GgWf0PWiqkaNnYORqPo9St252yseOXt0NqLR3Dsjuffa5prA6D
+         fWvLbxuWSNVwMDVI4wnOSh29HCOkrSvMk/fEk4ZINc1cVo5DApPcC+OLXMp8vSgLNYIj
+         Akbw==
+X-Gm-Message-State: AOAM531gmSWVRafE+L2n76R/mKxQalMo4g0VRnTlK2GTQxsWDRHdTOnC
+        HI4JxJpE+9RuiT43uvJjxGL2Iloe6P1OGlXc0hs=
+X-Google-Smtp-Source: ABdhPJyaDpmUFa8693GGOZKoshTrgqWPC/GVkZGfl0YdqcEiBmM9HArJu/b29zQy+tTX4iGxH14Qy7qgeQaSVDLphTM=
+X-Received: by 2002:a05:6214:2409:b0:432:bf34:362f with SMTP id
+ fv9-20020a056214240900b00432bf34362fmr485516qvb.66.1651795630327; Thu, 05 May
+ 2022 17:07:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <YnOmG2DvSpvvOEOQ@google.com> <20220505112217.zvzbzhjgmoz7lr6w@quack3.lan>
- <CAOQ4uxhJFEoV0X8uunNaYjdKpsFj6nUtcNFBx8d3oqodDO_iYA@mail.gmail.com>
- <20220505133057.zm5t6vumc4xdcnsg@quack3.lan> <YnRhVgu6JKNinarh@google.com>
-In-Reply-To: <YnRhVgu6JKNinarh@google.com>
+References: <YnEeuw6fd1A8usjj@miu.piliscsaba.redhat.com> <YnRf5CNN2yNKVu0B@mit.edu>
+In-Reply-To: <YnRf5CNN2yNKVu0B@mit.edu>
 From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Fri, 6 May 2022 03:00:58 +0300
-Message-ID: <CAOQ4uxi9Jps3BGiSYWWvQdNeb+QPA9kSo_BDRCC2jfPSGWdx_w@mail.gmail.com>
-Subject: Re: Fanotify API - Tracking File Movement
-To:     Matthew Bobrowski <repnop@google.com>
-Cc:     Jan Kara <jack@suse.cz>, Linux API <linux-api@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Date:   Fri, 6 May 2022 03:06:59 +0300
+Message-ID: <CAOQ4uxjXMMLBex0exsWYuA14QMc_0tPenx_bC2AynShUoGZzEw@mail.gmail.com>
+Subject: Re: [RFC PATCH] getting misc stats/attributes via xattr API
+To:     tytso <tytso@mit.edu>
+Cc:     Miklos Szeredi <miklos@szeredi.hu>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Dave Chinner <david@fromorbit.com>,
+        Karel Zak <kzak@redhat.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Christian Brauner <brauner@kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>,
+        LSM <linux-security-module@vger.kernel.org>,
+        Ian Kent <raven@themaw.net>,
+        David Howells <dhowells@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -67,64 +79,56 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-> > > HOWEVER! look at the way we implemented reporting of FAN_RENAME
-> > > (i.e. match_mask). We report_new location only if watching sb or watching
-> > > new dir. We did that for a reason because watcher may not have permissions
-> > > to read new dir. We could revisit this decision for a privileged group, but will
-> > > need to go back reading all the discussions we had about this point to see
-> > > if there were other reasons(?).
+On Fri, May 6, 2022 at 2:38 AM tytso <tytso@mit.edu> wrote:
+>
+> On Tue, May 03, 2022 at 02:23:23PM +0200, Miklos Szeredi wrote:
 > >
-> > Yeah, this is a good point. We are able to safely report the new parent
-> > only if the watching process is able to prove it is able to watch it.
-> > Adding even more special cases there would be ugly and error prone I'm
-> > afraid. We could certainly make this available only to priviledged
-> > notification groups but still it is one more odd corner case and the
-> > usecase does not seem to be that big.
+> > : - root
+> > bar - an attribute
+> > foo: - a folder (can contain attributes and/or folders)
+> >
+> > The contents of a folder is represented by a null separated list of names.
+> >
+> > Examples:
+> >
+> > $ getfattr -etext -n ":" .
+> > # file: .
+> > :="mnt:\000mntns:"
 >
-> Sorry, I'm confused about the conclusion we've drawn here. Are we hard
-> up against not extending FAN_RENAME for the sole reason that the
-> implementation might be ugly and error prone?
->
-> Can we not expose this case exclusively to privileged notification
-> groups/watchers? This case seems far simpler than what has already
-> been implemented in the FAN_RENAME series, that is as you mentioned,
-> trying to safely report the new parent only if the watching process is
-> able to prove it is able to watch it. If anything, I would've expected
-> the privileged case to be implemented prior to attempting to cover
-> whether the super block or target directory is being watched.
+> In your example, does it matter what "." is?  It looks like in some
+> cases, it makes no difference at all, and in other cases, like this,
+> '.' *does* matter:
 
-To be fair, that is what the "added complexity" for the privileged use
-case looks like:
-
-                        /* Report both old and new parent+name if sb watching */
-                        report_old = report_new =
-+                               !FAN_GROUP_FLAG(group, FANOTIFY_UNPRIV) ||
-                                match_mask & (1U << FSNOTIFY_ITER_TYPE_SB);
-                        report_old |=
-                                match_mask & (1U << FSNOTIFY_ITER_TYPE_INODE);
-
-There is a bit more complexity to replace FSNOTIFY_ITER_TYPE_INODE2
-with FSNOTIFY_ITER_TYPE_DIR1 and FSNOTIFY_ITER_TYPE_DIR1.
-
-But I understand why Jan is hesitant about increasing the cases for
-already highly
-specialized code.
-
-My only argument in favor of this case is that had we though about it before
-merging FAN_RENAME we would have probably included it.(?)
+It does. If "." was a directory in /proc/ or in ext4 it might have had
+more entries.
 
 >
-> > So maybe watching on sb for FAN_RENAME and just quickly filtering
-> > based on child FID would be better solution than fiddling with new
-> > event for files?
+> > $ getfattr -etext -n ":mnt:info" .
+> > # file: .
+> > :mnt:info="21 1 254:0 / / rw,relatime - ext4 /dev/root rw\012"
 >
-> Ah, I really wanted to stay away from watching the super block for all
-> FAN_RENAME events. I feel like userspace wearing the pain for such
-> cases is suboptimal, as this is something that can effectively be done
-> in-kernel.
+> Is that right?
 >
+> > $ getfattr -etext -n ":mntns:" .
+> > # file: .
+> > :mntns:="21:\00022:\00024:\00025:\00023:\00026:\00027:\00028:\00029:\00030:\00031:"
+>
+> What is this returning?  All possible mount name spaces?  Or all of
+> the mount spaces where '.' happens to exist?
 
-I'm not opposing. Letting Jan make the call.
+This confused me too.
+It is not returning the mount namespaces, it is returning all the mount ids
+in the mount namespace of ".".
+":mntns:mounts:" might have been a better choice of key.
 
 Thanks,
 Amir.
+
+>
+> Also, using the null character means that we can't really use shell
+> scripts calling getfattr.  I understand that the problem is that in
+> some cases, you might want to return a pathname, and NULL is the only
+> character which is guaranteed not to show up in a pathname.  However,
+> it makes parsing the returned value in a shell script exciting.
+>
+>                                          - Ted
