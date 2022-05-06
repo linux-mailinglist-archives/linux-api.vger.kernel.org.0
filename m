@@ -2,83 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A76551DF12
-	for <lists+linux-api@lfdr.de>; Fri,  6 May 2022 20:24:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90BCB51E0BF
+	for <lists+linux-api@lfdr.de>; Fri,  6 May 2022 23:08:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346024AbiEFS2N (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 May 2022 14:28:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47094 "EHLO
+        id S229507AbiEFVMV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 May 2022 17:12:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230050AbiEFS2M (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 May 2022 14:28:12 -0400
-Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com [IPv6:2607:f8b0:4864:20::e2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40D62289BA
-        for <linux-api@vger.kernel.org>; Fri,  6 May 2022 11:24:25 -0700 (PDT)
-Received: by mail-vs1-xe2b.google.com with SMTP id e19so7965220vsu.12
-        for <linux-api@vger.kernel.org>; Fri, 06 May 2022 11:24:25 -0700 (PDT)
+        with ESMTP id S1444288AbiEFVMU (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 May 2022 17:12:20 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0F8C6F48F
+        for <linux-api@vger.kernel.org>; Fri,  6 May 2022 14:08:35 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id q4so5700568plr.11
+        for <linux-api@vger.kernel.org>; Fri, 06 May 2022 14:08:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=Ywr/AAbKxzqinK4l/8lgvC9UDWmmURWl4OIYrXSaASE=;
-        b=TCKMheDB3NtADZk6IemAj0VCnbVbaYTUHyb1p4skZllUiIYqFMXbc7erIGrNfGJ02C
-         5zv8j2gwRrQWAo/kCffd21TbR85+4Q9HvSsEOHZnFz8VP0Yw8lNf1BSg4XwitHTDDj9+
-         kqEFPMLIwDEH5nYoI0lvZeikUuUKFHDi3A+7UC9JoZr4W2A5elYETmc4U2OG4Q8m1WtO
-         y267KoRFjy8e+y0h8bZA+CUv4Y/Uqfx2I7ZN/UzQfCiD7AFiku1fJBII1MU5QkrqtCFG
-         RvPhxdA3BTVj4bzNGB9Oh4gvZ5Yj9djnY9aX62SnaFJGM1oIvbVjsYJXUNSKOGoSm/gY
-         XtAQ==
+        h=mime-version:reply-to:in-reply-to:references:from:date:message-id
+         :subject:to;
+        bh=VSSUIwdzgxQxnEkB7+u7pnweyPajIQMP3nQqWYs8VX0=;
+        b=Joad3nP8B5ojFitfw8DdC0REQkC0zsEe5u5htQxRckBRMr0urz7hxKetQtkO7udZkC
+         FzsX8+p0Sc9gNOdvrZeAW12+l5tyilxfYlspVMB2dpiDJXLqx6Wpi7hihMfrud54m1Zg
+         Mh1oe2MDVYw6kiaDlA2NtogrCOZQSuzvqJYgf6f6Wy1ePNSkxUwDBI80KJ/ZXX/CFO5Q
+         B0yfdN0Ec0SWIEutTTWh6w6dsvNIDRBHaB7bwrhudJECyVKeg6tf7u7bc9CBG2qQ5YWd
+         PTVzliATz7YkJx+8OKJJ6ybkyR4ooOScuQpvU3MnF7L2YHjPQ0IF5hQRrxqJ19lmzvAD
+         R+8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=Ywr/AAbKxzqinK4l/8lgvC9UDWmmURWl4OIYrXSaASE=;
-        b=SbrQanpy5RUyvU4JmbM8P7BEwqlQg2ZL70JRcnXrykfkqx85XXRsAbeTZ2HvokXkD5
-         6qVRCwKzj3ZQvgf/a/wvtmzabl6FYDk3uN6zOrLbXa3ytWkM/x45t62BBuiDNVsXtNjR
-         gYX3WIGA+WJlcgtK7AwfZIj74UvTnk/9oy7xX09l8Su3n1vARCw4Z0YirOreM3taQkKF
-         M/GJn6/fLpPKKLjhFq+L+p3Jj/ShYIDIG8ACKeKLiT+rByWw7ppqiMmQCjwUFo7dZDGS
-         tgl2LtYKCOUe9Q0UmdPRl8N8lzk+M9QFVsawy061ZEMqGB0jiTkIkVujc4FtyuMPkUwq
-         V8/Q==
-X-Gm-Message-State: AOAM533XSTcWq10gNJSoogKWj5lAtIizey90SlyNXyrUuX11KXf8gdZW
-        QXz6Js7oLi7Rgskkj+IYCDNgSqSdinJivKbyXd4=
-X-Google-Smtp-Source: ABdhPJzOxi0T9MNS3sgdySq4Y8k9+8cIqQJfTNE4nzdHFufW3hcOuPkOKyEPC4udMiVDvhFj7/dFrNClBk/E9e4lrp8=
-X-Received: by 2002:a05:6102:538:b0:32c:bb2d:ddce with SMTP id
- m24-20020a056102053800b0032cbb2dddcemr1493680vsa.6.1651861464224; Fri, 06 May
- 2022 11:24:24 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:in-reply-to:references
+         :from:date:message-id:subject:to;
+        bh=VSSUIwdzgxQxnEkB7+u7pnweyPajIQMP3nQqWYs8VX0=;
+        b=gTrhqs+2hAQik/zlaU5eWvoVbZMJYJbCWqeizC/M6wp++W83spcKcdAgdCEd3dWaw3
+         5In7v2+FFaeNAHz+yx/D0WT1FBBEHIQnqcNvYJV9mJukq7cpKnlbB4YqGZ2RlkbGl/i8
+         OW70pYzQA+n48vUGeSDy3ihpt8tjjcebBcbJpiJ4bBKWe54Q3B2TRFpOSLpKRQZc/fLA
+         D+oksvgld9xbjbmG0rR27kDtTSjpN5+2fw/FJv4XdPwrAxN1XtI10M4TGStIGk7yqQ34
+         FbjQH73f/YclDnHbdV4CKeFOtcv3R0Y0l+GF0Ialpl5GXN0XyNBFI5OTZrPVlblag/wJ
+         ZYRQ==
+X-Gm-Message-State: AOAM533KQHYJjDgQviCB1h6D1MKgQqy4JoX7pibo+qgFfJJMDmeY6+fi
+        YSSwi5QwOaGWHHBnHLgUEIqjUUONHaqzFatRfg==
+X-Google-Smtp-Source: ABdhPJx7AZjSp/7FT2MdvlO7YrWQYCt+JqbfUbd88+DVrBY7qXWtsKhZdbXg3BxxR2WqyNhrb0hZJ8rVXn/MQ9qyvow=
+X-Received: by 2002:a17:90b:4c4d:b0:1dc:9636:ad19 with SMTP id
+ np13-20020a17090b4c4d00b001dc9636ad19mr14608339pjb.39.1651871315438; Fri, 06
+ May 2022 14:08:35 -0700 (PDT)
 MIME-Version: 1.0
-Sender: kalueke51@gmail.com
-Received: by 2002:a67:d18a:0:0:0:0:0 with HTTP; Fri, 6 May 2022 11:24:23 -0700 (PDT)
-From:   Sophia Erick <sdltdkggl3455@gmail.com>
-Date:   Fri, 6 May 2022 20:24:23 +0200
-X-Google-Sender-Auth: 0gAS6dTmOXh0spl8t95e-qD_IVc
-Message-ID: <CAKCfqfgSoBLv1meY7hXahcX0z1pwUBTqxr7KkAC7Bp2YTPA2KQ@mail.gmail.com>
-Subject: HELLO
+Received: by 2002:ac4:9906:0:b0:4ba:807b:b8f3 with HTTP; Fri, 6 May 2022
+ 14:08:34 -0700 (PDT)
+Reply-To: warren001buffett@gmail.com
+In-Reply-To: <CAD_xG_pvNZK6BFCW+28Xv4DE=_5rbDZXDok2BYNn9xw6Ma7iow@mail.gmail.com>
+References: <CAD_xG_pvNZK6BFCW+28Xv4DE=_5rbDZXDok2BYNn9xw6Ma7iow@mail.gmail.com>
+From:   Warren Buffett <guidayema@gmail.com>
+Date:   Fri, 6 May 2022 21:08:34 +0000
+Message-ID: <CAD_xG_rdOBPkJ_vBtwu64jvh_9gu-xQ0snv+DGiNbwhQ45dCoA@mail.gmail.com>
+Subject: Fwd: My name is Warren Buffett, an American businessman.
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.4 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FROM_LOCAL_NOVOWEL,HK_RANDOM_FROM,LOTS_OF_MONEY,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_MONEY_PERCENT,
-        T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: ****
+X-Spam-Status: Yes, score=5.1 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:644 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4852]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [guidayema[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.5 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello My Dear,
+My name is Warren Buffett, an American businessman and investor I have
+something important to discuss with you.
 
-It is my pleasure to communicate with you, I know that this message
-will be a surprise to you my name is Mrs. Sophia Erick, I am diagnosed
-with ovarian cancer which my doctor have confirmed that I have only
-some weeks to live so I have decided you handover the sum of($
-11,000,000.00) through I decided handover the money in my account to
-you for help of the orphanage homes and the needy once
-
-Please   kindly reply me here as soon as possible to enable me give
-you more information but before handing over my details to you please
-assure me that you will only take 30%  of the money and share the rest
-to the poor orphanage home and the needy once, thank you am waiting to
-hear from you
-
-Mrs Sophia Erick.
+Mr. Warren Buffett
+warren001buffett@gmail.com
+Chief Executive Officer: Berkshire Hathaway
+aphy/Warren-Edward-Buffett
