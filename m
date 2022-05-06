@@ -2,185 +2,83 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA15651DE09
-	for <lists+linux-api@lfdr.de>; Fri,  6 May 2022 19:01:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A76551DF12
+	for <lists+linux-api@lfdr.de>; Fri,  6 May 2022 20:24:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1444060AbiEFREs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 May 2022 13:04:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39414 "EHLO
+        id S1346024AbiEFS2N (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 May 2022 14:28:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1444041AbiEFREm (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 May 2022 13:04:42 -0400
-X-Greylist: delayed 92 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 06 May 2022 10:00:59 PDT
-Received: from wrqvvpzp.outbound-mail.sendgrid.net (wrqvvpzp.outbound-mail.sendgrid.net [149.72.131.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 139134474F
-        for <linux-api@vger.kernel.org>; Fri,  6 May 2022 10:00:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=catern.com;
-        h=from:subject:in-reply-to:references:mime-version:to:cc:content-type:
-        content-transfer-encoding;
-        s=s1; bh=0kv8Y+pw6sAthOMznHqH5eVjKXOt00qV9e4yFDnt+Es=;
-        b=JyGuBIUDLSg4VXtCtO+PrvbRjlHlYCWKmbwjPwbfXPEBx5aN/PKoexTCq249YbDPbeWO
-        PtA9yI37NUqajl8TtUDOxJPsJZPdoZc0f4BOyHJFEAs0+N9Tgzn7WSTF6w34GdGlRK3ob2
-        5p/SWiyqSLmOjpS6RNmfIFjcrKAJPbAI5SKDW6vMnhbSFhV/CQEh9vYF+z8JcFodjYuKWY
-        Y00pZ52/0HprIoV4nG7CtUVXPI8/E0+l+HHsNgm+dbPZspoWc6fj/dS8vHormThs86lRO9
-        07IIi4OMbFj5tYdnOsI2sPYXUvofIHnKPSQZGiy7cDj541Uwh0WpDUk6w5w4AhyA==
-Received: by filterdrecv-77df7bffc9-b2j5p with SMTP id filterdrecv-77df7bffc9-b2j5p-1-627553ED-5E
-        2022-05-06 16:59:25.839025366 +0000 UTC m=+2574812.774299640
-Received: from earth.catern.com (unknown)
-        by geopod-ismtpd-2-2 (SG)
-        with ESMTP
-        id lPNwAp36QO6WuhyWBDuI8g
-        Fri, 06 May 2022 16:59:25.688 +0000 (UTC)
-X-Comment: SPF check N/A for local connections - client-ip=::1; helo=localhost; envelope-from=sbaugh@catern.com; receiver=<UNKNOWN> 
-Received: from localhost (localhost [IPv6:::1])
-        by earth.catern.com (Postfix) with ESMTPSA id 966DA60040;
-        Fri,  6 May 2022 12:59:24 -0400 (EDT)
-From:   Spencer Baugh <sbaugh@catern.com>
-Subject: Re: Explicitly defining the userspace API
-In-Reply-To: <YmA/jFztk5GkjIr2@kroah.com>
-References: <874k2nhgtg.fsf@catern.com> <YmA/jFztk5GkjIr2@kroah.com>
-Date:   Fri, 06 May 2022 16:59:25 +0000 (UTC)
-Message-ID: <87levefvgz.fsf@catern.com>
+        with ESMTP id S230050AbiEFS2M (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 May 2022 14:28:12 -0400
+Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com [IPv6:2607:f8b0:4864:20::e2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40D62289BA
+        for <linux-api@vger.kernel.org>; Fri,  6 May 2022 11:24:25 -0700 (PDT)
+Received: by mail-vs1-xe2b.google.com with SMTP id e19so7965220vsu.12
+        for <linux-api@vger.kernel.org>; Fri, 06 May 2022 11:24:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=Ywr/AAbKxzqinK4l/8lgvC9UDWmmURWl4OIYrXSaASE=;
+        b=TCKMheDB3NtADZk6IemAj0VCnbVbaYTUHyb1p4skZllUiIYqFMXbc7erIGrNfGJ02C
+         5zv8j2gwRrQWAo/kCffd21TbR85+4Q9HvSsEOHZnFz8VP0Yw8lNf1BSg4XwitHTDDj9+
+         kqEFPMLIwDEH5nYoI0lvZeikUuUKFHDi3A+7UC9JoZr4W2A5elYETmc4U2OG4Q8m1WtO
+         y267KoRFjy8e+y0h8bZA+CUv4Y/Uqfx2I7ZN/UzQfCiD7AFiku1fJBII1MU5QkrqtCFG
+         RvPhxdA3BTVj4bzNGB9Oh4gvZ5Yj9djnY9aX62SnaFJGM1oIvbVjsYJXUNSKOGoSm/gY
+         XtAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=Ywr/AAbKxzqinK4l/8lgvC9UDWmmURWl4OIYrXSaASE=;
+        b=SbrQanpy5RUyvU4JmbM8P7BEwqlQg2ZL70JRcnXrykfkqx85XXRsAbeTZ2HvokXkD5
+         6qVRCwKzj3ZQvgf/a/wvtmzabl6FYDk3uN6zOrLbXa3ytWkM/x45t62BBuiDNVsXtNjR
+         gYX3WIGA+WJlcgtK7AwfZIj74UvTnk/9oy7xX09l8Su3n1vARCw4Z0YirOreM3taQkKF
+         M/GJn6/fLpPKKLjhFq+L+p3Jj/ShYIDIG8ACKeKLiT+rByWw7ppqiMmQCjwUFo7dZDGS
+         tgl2LtYKCOUe9Q0UmdPRl8N8lzk+M9QFVsawy061ZEMqGB0jiTkIkVujc4FtyuMPkUwq
+         V8/Q==
+X-Gm-Message-State: AOAM533XSTcWq10gNJSoogKWj5lAtIizey90SlyNXyrUuX11KXf8gdZW
+        QXz6Js7oLi7Rgskkj+IYCDNgSqSdinJivKbyXd4=
+X-Google-Smtp-Source: ABdhPJzOxi0T9MNS3sgdySq4Y8k9+8cIqQJfTNE4nzdHFufW3hcOuPkOKyEPC4udMiVDvhFj7/dFrNClBk/E9e4lrp8=
+X-Received: by 2002:a05:6102:538:b0:32c:bb2d:ddce with SMTP id
+ m24-20020a056102053800b0032cbb2dddcemr1493680vsa.6.1651861464224; Fri, 06 May
+ 2022 11:24:24 -0700 (PDT)
 MIME-Version: 1.0
-X-SG-EID: =?us-ascii?Q?GW3oCMoYnalRiojMOuLzE6x2H5kORXvlCdz1UwQVRMVT4fbh9ODEfCogOe74cO?=
- =?us-ascii?Q?rI4e0V+MFZgakz9Re5a6=2FCgloGF35IKSfipc2eg?=
- =?us-ascii?Q?gco3jvfFNeZBoapduVGgMA+K=2F4SfxXcosVfTDgq?=
- =?us-ascii?Q?NVbZkA6JzG4eHrV1fet9KMsG2zjt1m2G+4sLeKk?=
- =?us-ascii?Q?x2qi8H6etKTBXIJh5tDAnZ87rv1pt8ITWJ9K4go?=
- =?us-ascii?Q?mo7BdnsZvqPx+pTGwHnmm9qs87IFdA3LPG7J4H?=
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        marcin@juszkiewicz.com.pl, torvalds@linux-foundation.org,
-        arnd@arndb.de
-X-Entity-ID: d/0VcHixlS0t7iB1YKCv4Q==
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+Sender: kalueke51@gmail.com
+Received: by 2002:a67:d18a:0:0:0:0:0 with HTTP; Fri, 6 May 2022 11:24:23 -0700 (PDT)
+From:   Sophia Erick <sdltdkggl3455@gmail.com>
+Date:   Fri, 6 May 2022 20:24:23 +0200
+X-Google-Sender-Auth: 0gAS6dTmOXh0spl8t95e-qD_IVc
+Message-ID: <CAKCfqfgSoBLv1meY7hXahcX0z1pwUBTqxr7KkAC7Bp2YTPA2KQ@mail.gmail.com>
+Subject: HELLO
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.4 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FROM_LOCAL_NOVOWEL,HK_RANDOM_FROM,LOTS_OF_MONEY,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_MONEY_PERCENT,
+        T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no autolearn_force=no
         version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Greg KH <gregkh@linuxfoundation.org> writes:
-> On Wed, Apr 20, 2022 at 04:15:25PM +0000, Spencer Baugh wrote:
->> 
->> Linux guarantees the stability of its userspace API, but the API
->> itself is only informally described, primarily with English prose.  I
->> want to add an explicit, authoritative machine-readable definition of
->> the Linux userspace API.
->> 
->> As background, in a conventional libc like glibc, read(2) calls the
->> Linux system call read, passing arguments in an architecture-specific
->> way according to the specific details of read.
->> 
->> The details of these syscalls are at best documented in manpages, and
->> often defined only by the implementation.  Anyone else who wants to
->> work with a syscall, in any way, needs to duplicate all those details.
->> 
->> So the most basic definition of the API would just represent the
->> information already present in SYSCALL_DEFINE macros: the C types of
->> arguments and return values.  More usefully, it would describe the
->> formats of those arguments and return values: that the first argument
->> to read is a file descriptor rather than an arbitrary integer, and
->> what flags are valid in the flags argument of openat, and that open
->> returns a file descriptor.  A step beyond that would be describing, in
->> some limited way, the effects of syscalls; for example, that read
->> writes into the passed buffer the number of bytes that it returned.
->
-> So how would you define read() in this format in a way that has not
-> already been attempted in the past?
+Hello My Dear,
 
-I don't know about any attempts at doing this in the past (other than
-what's already been mentioned in this thread - e.g. SYSCALL_DEFINE),
-what do you have in mind?
+It is my pleasure to communicate with you, I know that this message
+will be a surprise to you my name is Mrs. Sophia Erick, I am diagnosed
+with ovarian cancer which my doctor have confirmed that I have only
+some weeks to live so I have decided you handover the sum of($
+11,000,000.00) through I decided handover the money in my account to
+you for help of the orphanage homes and the needy once
 
-> How are you going to define a format that explains functionality in a
-> way that is not just the implementation in the end?
+Please   kindly reply me here as soon as possible to enable me give
+you more information but before handing over my details to you please
+assure me that you will only take 30%  of the money and share the rest
+to the poor orphanage home and the needy once, thank you am waiting to
+hear from you
 
-Lots of information can be expressed just with more specific types on
-the function signature, even with regular C types.  No need to expose
-the implementation in any way.
-
-For example, accept4's signature is:
-
-SYSCALL_DEFINE4(accept4, int, fd, struct sockaddr __user *, upeer_sockaddr,
-		int __user *, upeer_addrlen, int, flags)
-
-Here, fd and flags are the same type and have nothing to distinguish
-them.  But, purely as an example, not suggesting exactly this, but one
-could have:
-
-typedef int user_fd_t;
-typedef int accept_flags_t;
-
-SYSCALL_DEFINE4(accept4, user_fd_t, fd, struct sockaddr __user *, upeer_sockaddr,
-		int __user *, upeer_addrlen, accept_flags_t, flags)
-
-Then a user could parse this SYSCALL_DEFINE and know that fd and flags
-have different types with different possible valid values. user_fd_t
-would be used by many different syscalls, accept_flags_t just by this.
-
-With just this, the user of this information would still need to know
-what user_fd and accept_flags are.  The next step would be describing
-the valid values for accept_flags.  Unfortunately that's not something
-that the C type system alone can express, but again purely as an
-example, but one could have something like:
-
-FLAGS_DEFINE(accept_flags, int,
-  SOCK_CLOEXEC,
-  SOCK_NONBLOCK)
-
-Then a user could parse this FLAGS_DEFINE and know what the range of
-valid values for accept_flags_t is.  This could also be used in the
-kernel; for example, FLAGS_DEFINE could generate an accept_flags_valid
-function, usable in accept4 as:
-
-if (!accept_flags_valid(flags))
-	return -EINVAL;
-
-As for describing the buffer-writing behavior of read like I mentioned
-before, here's a sketch of what that maybe could look like.  The current
-signature of read is:
-
-SYSCALL_DEFINE3(read, unsigned int, fd, char __user *, buf, size_t, count)
-
-One could imagine adding a type to the return value and changing this to
-something like:
-
-#define bytes_written_or_error(written_buffer) int
-#define writable_user_buf(size_of_buffer) char __user *
-
-SYSCALL_DEFINE3_RET(bytes_written_or_error(buf),
-                    read, unsigned int, fd,
-                    writable_user_buf(count), buf, size_t, count)
-
-A user could parse this and know at least partially how read uses the
-passed-in buffer, without having to look at the implementation.
-
-Just for the sake of mentioning it, one could also imagine static
-analysis which checks the kernel implementation against these
-more-detailed types, which could catch bugs.  But I'm not necessarily
-proposing doing that - this is useful on its own even if it's not
-checked by static analysis.
-
->> One step in this direction is Documentation/ABI, which specifies the
->> stability guarantees for different userspace APIs in a semi-formal
->> way.  But it doesn't specify the actual content of those APIs, and it
->> doesn't cover individual syscalls at all.
->
-> The content is described in Documentation/ABI/ entries, where do you see
-> that missing?
-
-I meant that it doesn't describe the content of the APIs in a
-machine-readable way.  (It's still very useful of course!)
-
-> And you are correct, that place does not describe syscalls, or other
-> user/kernel interfaces that predate sysfs.
->
-> good luck!
-
-Thank you!
+Mrs Sophia Erick.
