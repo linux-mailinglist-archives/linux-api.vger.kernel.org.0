@@ -2,97 +2,139 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 90BCB51E0BF
-	for <lists+linux-api@lfdr.de>; Fri,  6 May 2022 23:08:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8245F51E2C5
+	for <lists+linux-api@lfdr.de>; Sat,  7 May 2022 02:32:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229507AbiEFVMV (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 6 May 2022 17:12:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35528 "EHLO
+        id S1445082AbiEGAfz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 6 May 2022 20:35:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1444288AbiEFVMU (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 6 May 2022 17:12:20 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0F8C6F48F
-        for <linux-api@vger.kernel.org>; Fri,  6 May 2022 14:08:35 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id q4so5700568plr.11
-        for <linux-api@vger.kernel.org>; Fri, 06 May 2022 14:08:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:in-reply-to:references:from:date:message-id
-         :subject:to;
-        bh=VSSUIwdzgxQxnEkB7+u7pnweyPajIQMP3nQqWYs8VX0=;
-        b=Joad3nP8B5ojFitfw8DdC0REQkC0zsEe5u5htQxRckBRMr0urz7hxKetQtkO7udZkC
-         FzsX8+p0Sc9gNOdvrZeAW12+l5tyilxfYlspVMB2dpiDJXLqx6Wpi7hihMfrud54m1Zg
-         Mh1oe2MDVYw6kiaDlA2NtogrCOZQSuzvqJYgf6f6Wy1ePNSkxUwDBI80KJ/ZXX/CFO5Q
-         B0yfdN0Ec0SWIEutTTWh6w6dsvNIDRBHaB7bwrhudJECyVKeg6tf7u7bc9CBG2qQ5YWd
-         PTVzliATz7YkJx+8OKJJ6ybkyR4ooOScuQpvU3MnF7L2YHjPQ0IF5hQRrxqJ19lmzvAD
-         R+8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:in-reply-to:references
-         :from:date:message-id:subject:to;
-        bh=VSSUIwdzgxQxnEkB7+u7pnweyPajIQMP3nQqWYs8VX0=;
-        b=gTrhqs+2hAQik/zlaU5eWvoVbZMJYJbCWqeizC/M6wp++W83spcKcdAgdCEd3dWaw3
-         5In7v2+FFaeNAHz+yx/D0WT1FBBEHIQnqcNvYJV9mJukq7cpKnlbB4YqGZ2RlkbGl/i8
-         OW70pYzQA+n48vUGeSDy3ihpt8tjjcebBcbJpiJ4bBKWe54Q3B2TRFpOSLpKRQZc/fLA
-         D+oksvgld9xbjbmG0rR27kDtTSjpN5+2fw/FJv4XdPwrAxN1XtI10M4TGStIGk7yqQ34
-         FbjQH73f/YclDnHbdV4CKeFOtcv3R0Y0l+GF0Ialpl5GXN0XyNBFI5OTZrPVlblag/wJ
-         ZYRQ==
-X-Gm-Message-State: AOAM533KQHYJjDgQviCB1h6D1MKgQqy4JoX7pibo+qgFfJJMDmeY6+fi
-        YSSwi5QwOaGWHHBnHLgUEIqjUUONHaqzFatRfg==
-X-Google-Smtp-Source: ABdhPJx7AZjSp/7FT2MdvlO7YrWQYCt+JqbfUbd88+DVrBY7qXWtsKhZdbXg3BxxR2WqyNhrb0hZJ8rVXn/MQ9qyvow=
-X-Received: by 2002:a17:90b:4c4d:b0:1dc:9636:ad19 with SMTP id
- np13-20020a17090b4c4d00b001dc9636ad19mr14608339pjb.39.1651871315438; Fri, 06
- May 2022 14:08:35 -0700 (PDT)
+        with ESMTP id S1445071AbiEGAfw (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 6 May 2022 20:35:52 -0400
+Received: from mail104.syd.optusnet.com.au (mail104.syd.optusnet.com.au [211.29.132.246])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AC6586543F;
+        Fri,  6 May 2022 17:32:07 -0700 (PDT)
+Received: from dread.disaster.area (pa49-181-2-147.pa.nsw.optusnet.com.au [49.181.2.147])
+        by mail104.syd.optusnet.com.au (Postfix) with ESMTPS id C2F1A5344B9;
+        Sat,  7 May 2022 10:32:02 +1000 (AEST)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+        (envelope-from <david@fromorbit.com>)
+        id 1nn8Ma-008ucI-Uc; Sat, 07 May 2022 10:32:00 +1000
+Date:   Sat, 7 May 2022 10:32:00 +1000
+From:   Dave Chinner <david@fromorbit.com>
+To:     tytso <tytso@mit.edu>
+Cc:     Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org,
+        Karel Zak <kzak@redhat.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Christian Brauner <brauner@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>,
+        LSM <linux-security-module@vger.kernel.org>,
+        Ian Kent <raven@themaw.net>,
+        David Howells <dhowells@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        Amir Goldstein <amir73il@gmail.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>
+Subject: Re: [RFC PATCH] getting misc stats/attributes via xattr API
+Message-ID: <20220507003200.GM1949718@dread.disaster.area>
+References: <YnEeuw6fd1A8usjj@miu.piliscsaba.redhat.com>
+ <YnRf5CNN2yNKVu0B@mit.edu>
 MIME-Version: 1.0
-Received: by 2002:ac4:9906:0:b0:4ba:807b:b8f3 with HTTP; Fri, 6 May 2022
- 14:08:34 -0700 (PDT)
-Reply-To: warren001buffett@gmail.com
-In-Reply-To: <CAD_xG_pvNZK6BFCW+28Xv4DE=_5rbDZXDok2BYNn9xw6Ma7iow@mail.gmail.com>
-References: <CAD_xG_pvNZK6BFCW+28Xv4DE=_5rbDZXDok2BYNn9xw6Ma7iow@mail.gmail.com>
-From:   Warren Buffett <guidayema@gmail.com>
-Date:   Fri, 6 May 2022 21:08:34 +0000
-Message-ID: <CAD_xG_rdOBPkJ_vBtwu64jvh_9gu-xQ0snv+DGiNbwhQ45dCoA@mail.gmail.com>
-Subject: Fwd: My name is Warren Buffett, an American businessman.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.1 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:644 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4852]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [guidayema[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  3.5 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YnRf5CNN2yNKVu0B@mit.edu>
+X-Optus-CM-Score: 0
+X-Optus-CM-Analysis: v=2.4 cv=VuxAv86n c=1 sm=1 tr=0 ts=6275be06
+        a=ivVLWpVy4j68lT4lJFbQgw==:117 a=ivVLWpVy4j68lT4lJFbQgw==:17
+        a=kj9zAlcOel0A:10 a=oZkIemNP1mAA:10 a=7-415B0cAAAA:8
+        a=6tRzxmq33S4bAUIDdMMA:9 a=CjuIK1q_8ugA:10 a=biEYGPWJfzWAr4FL6Ov7:22
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-My name is Warren Buffett, an American businessman and investor I have
-something important to discuss with you.
+On Thu, May 05, 2022 at 04:38:12PM -0700, tytso wrote:
+> On Tue, May 03, 2022 at 02:23:23PM +0200, Miklos Szeredi wrote:
+> > 
+> > : - root
+> > bar - an attribute
+> > foo: - a folder (can contain attributes and/or folders)
+> > 
+> > The contents of a folder is represented by a null separated list of names.
+> > 
+> > Examples:
+> > 
+> > $ getfattr -etext -n ":" .
+> > # file: .
+> > :="mnt:\000mntns:"
+> 
+> In your example, does it matter what "." is?  It looks like in some
+> cases, it makes no difference at all, and in other cases, like this,
+> '.' *does* matter:
+> 
+> > $ getfattr -etext -n ":mnt:info" .
+> > # file: .
+> > :mnt:info="21 1 254:0 / / rw,relatime - ext4 /dev/root rw\012"
+> 
+> Is that right?
+> 
+> > $ getfattr -etext -n ":mntns:" .
+> > # file: .
+> > :mntns:="21:\00022:\00024:\00025:\00023:\00026:\00027:\00028:\00029:\00030:\00031:"
+> 
+> What is this returning?  All possible mount name spaces?  Or all of
+> the mount spaces where '.' happens to exist?
+> 
+> Also, using the null character means that we can't really use shell
+> scripts calling getfattr.
 
-Mr. Warren Buffett
-warren001buffett@gmail.com
-Chief Executive Officer: Berkshire Hathaway
-aphy/Warren-Edward-Buffett
+Yeah, it should be returning an attr per namespace, not an attr
+whose value contains all the valid namespaces.
+
+i.e. if the next level of the heirachy is 21, 22, 24, .... we should
+be seeing a listing of multiple attributes with naming like:
+
+:mntns:21:
+:mntns:22:
+:mntns:24:
+....
+
+rather than an attribute whose value contains the names of the
+attrbiutes in the next layer of the heirarchy. Then we can just
+pull the namespace we want and feed it directly to:
+
+$ getfattr -n ":mntns:21:"
+
+and we get a list of all the attributes available for that
+namespace...
+
+> I understand that the problem is that in
+> some cases, you might want to return a pathname, and NULL is the only
+> character which is guaranteed not to show up in a pathname.  However,
+> it makes parsing the returned value in a shell script exciting.
+
+We shouldn't be returning the names of children in an attribute
+value. We have a syscall API for doing this that - listxattr() will
+iterate attribute names just like a directory does with readdir()
+via listxattr(). IOWs, we should not need to encode the next layer
+of child attribute names into the value of the parent attribute - if
+we do a listxattr on a parent that has children, return the list of
+child names as individual attribute names....
+
+(Yes, I know listxattr null separates the attribute names - it's a
+godawful kernel API - but that's not the programmatic interface
+we should expose at the shell script level.)
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
