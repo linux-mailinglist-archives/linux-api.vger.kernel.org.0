@@ -2,67 +2,59 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CAF651F96A
-	for <lists+linux-api@lfdr.de>; Mon,  9 May 2022 12:09:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE47351FD4D
+	for <lists+linux-api@lfdr.de>; Mon,  9 May 2022 14:52:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231191AbiEIKMb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 May 2022 06:12:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34240 "EHLO
+        id S234940AbiEIMwW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 May 2022 08:52:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233003AbiEIKM3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 May 2022 06:12:29 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 368CF233A6A;
-        Mon,  9 May 2022 03:08:30 -0700 (PDT)
+        with ESMTP id S234907AbiEIMwR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 9 May 2022 08:52:17 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9345291CE6;
+        Mon,  9 May 2022 05:48:23 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A54AAB80D3C;
-        Mon,  9 May 2022 10:01:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 308F7C385A8;
-        Mon,  9 May 2022 10:01:01 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 60DC160F83;
+        Mon,  9 May 2022 12:48:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC776C385AB;
+        Mon,  9 May 2022 12:48:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1652090465;
-        bh=Xj+BxxtzqKq6ClC+lgtNkIEjRLg+0U/DyE+0EsHanR4=;
+        s=k20201202; t=1652100502;
+        bh=PEkal2Mg+V+a1Uc4DwNy01rEfPajZVpu3xEyPDheL7g=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rVhyEI4DCCNX9EpA2cYe+oghmzpR+KJ7NQEvWTwkt57PG8e+pkVTuXwkv68g1h8ty
-         X0d530Fm1dTEXvRXxQo84SlftXYiVkh6cviQ9dYCER0QlBP6uf83H4OEoiPXZFyh/y
-         831mCcvaiHL8kyxFd9ZkztQaBJQV1AKE8sqHtYI12swbA6JHnt/fURNh7iDnXA/025
-         Zbnoj/7G6qtsBV6hdnhu3VLlfjJtadyE0ZW6ckVDMUKZvdDf2Omi4GgcMKYXtlg+W0
-         2Nny282doe/wTCMPH/Zs+Uc79huxL3X5FjzwT7h6qM4vt1n0cH0b3/qcH2hhclM/Ao
-         JOLdtch+eOtmQ==
-Date:   Mon, 9 May 2022 12:00:58 +0200
+        b=nLdqiKtUmlalSDwS1n1Pd+QPOl3ZQ5Z/Px3VzfgDfi/iTVQE75a4Mx59sqYinG3Y/
+         6JQ6tPdvw+spGntcA6/qBbzc0EWVWgvTCSeRhFt1TJnwfvlS403/93TzCxeTfDI7bL
+         Y5ZOPkievIcmDHqw93+6S/hqUlUH3A62X+d+bPRUfl+mF2CJW2bDhz2iBiCLZyWITr
+         djQO1sd/jt9/OKnyv7F6kp5sV6MSxq3kG3Cdq0CXHpH2YpoyabNaeZddaukEfsezds
+         fZkIgyWymXJHtqeaAT7YcpcuzYjWrtm8sVHbltjmgphJAmYJA3YXh3Yq2Rnko/B5MD
+         lwieyoWchdbeg==
+Date:   Mon, 9 May 2022 14:48:15 +0200
 From:   Christian Brauner <brauner@kernel.org>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Huacai Chen <chenhuacai@gmail.com>,
-        Huacai Chen <chenhuacai@loongson.cn>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
+To:     Miklos Szeredi <miklos@szeredi.hu>
+Cc:     linux-fsdevel@vger.kernel.org, Dave Chinner <david@fromorbit.com>,
+        Theodore Ts'o <tytso@mit.edu>, Karel Zak <kzak@redhat.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>,
+        LSM <linux-security-module@vger.kernel.org>,
+        Ian Kent <raven@themaw.net>,
+        David Howells <dhowells@redhat.com>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH V9 13/24] LoongArch: Add system call support
-Message-ID: <20220509100058.vmrgn5fkk3ayt63v@wittgenstein>
-References: <20220430090518.3127980-1-chenhuacai@loongson.cn>
- <20220430090518.3127980-14-chenhuacai@loongson.cn>
- <CAK8P3a0A9dW4mwJ6JHDiJxizL7vWfr4r4c5KhbjtAY0sWbZJVA@mail.gmail.com>
- <CAAhV-H4te_+AS69viO4eBz=abBUm5oQ6AfoY1Cb+nOCZyyeMdA@mail.gmail.com>
- <CAK8P3a0DqQcApv8aa2dgBS5At=tEkN7cnaskoUeXDi2-Bu9Rnw@mail.gmail.com>
- <20220507121104.7soocpgoqkvwv3gc@wittgenstein>
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        Amir Goldstein <amir73il@gmail.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>
+Subject: Re: [RFC PATCH] getting misc stats/attributes via xattr API
+Message-ID: <20220509124815.vb7d2xj5idhb2wq6@wittgenstein>
+References: <YnEeuw6fd1A8usjj@miu.piliscsaba.redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220507121104.7soocpgoqkvwv3gc@wittgenstein>
+In-Reply-To: <YnEeuw6fd1A8usjj@miu.piliscsaba.redhat.com>
 X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -73,97 +65,159 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, May 07, 2022 at 02:11:04PM +0200, Christian Brauner wrote:
-> On Sat, Apr 30, 2022 at 12:34:52PM +0200, Arnd Bergmann wrote:
-> > On Sat, Apr 30, 2022 at 12:05 PM Huacai Chen <chenhuacai@gmail.com> wrote:
-> > > On Sat, Apr 30, 2022 at 5:45 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> > > > On Sat, Apr 30, 2022 at 11:05 AM Huacai Chen <chenhuacai@loongson.cn> wrote:
-> > > > >
-> > > > > This patch adds system call support and related uaccess.h for LoongArch.
-> > > > >
-> > > > > Q: Why keep __ARCH_WANT_NEW_STAT definition while there is statx:
-> > > > > A: Until the latest glibc release (2.34), statx is only used for 32-bit
-> > > > >    platforms, or 64-bit platforms with 32-bit timestamp. I.e., Most 64-
-> > > > >    bit platforms still use newstat now.
-> > > > >
-> > > > > Q: Why keep _ARCH_WANT_SYS_CLONE definition while there is clone3:
-> > > > > A: The latest glibc release (2.34) has some basic support for clone3 but
-> > > > >    it isn't complete. E.g., pthread_create() and spawni() have converted
-> > > > >    to use clone3 but fork() will still use clone. Moreover, some seccomp
-> > > > >    related applications can still not work perfectly with clone3. E.g.,
-> > > > >    Chromium sandbox cannot work at all and there is no solution for it,
-> > > > >    which is more terrible than the fork() story [1].
-> > > > >
-> > > > > [1] https://chromium-review.googlesource.com/c/chromium/src/+/2936184
-> > > >
-> > > > I still think these have to be removed. There is no mainline glibc or musl
-> > > > port yet, and neither of them should actually be required. Please remove
-> > > > them here, and modify your libc patches accordingly when you send those
-> > > > upstream.
-> > >
-> > > If this is just a problem that can be resolved by upgrading
-> > > glibc/musl, I will remove them. But the Chromium problem (or sandbox
-> > > problem in general) seems to have no solution now.
-> > 
-> > I added Christian Brauner to Cc now, maybe he has come across the
-> > sandbox problem before and has an idea for a solution.
+On Tue, May 03, 2022 at 02:23:23PM +0200, Miklos Szeredi wrote:
+> This is a simplification of the getvalues(2) prototype and moving it to the
+> getxattr(2) interface, as suggested by Dave.
 > 
-> (I just got back from LSFMM so I'll reply in more detail next week. I'm
-> still pretty jet-lagged.)
+> The patch itself just adds the possibility to retrieve a single line of
+> /proc/$$/mountinfo (which was the basic requirement from which the fsinfo
+> patchset grew out of).
+> 
+> But this should be able to serve Amir's per-sb iostats, as well as a host of
+> other cases where some statistic needs to be retrieved from some object.  Note:
+> a filesystem object often represents other kinds of objects (such as processes
+> in /proc) so this is not limited to fs attributes.
+> 
+> This also opens up the interface to setting attributes via setxattr(2).
+> 
+> After some pondering I made the namespace so:
+> 
+> : - root
+> bar - an attribute
+> foo: - a folder (can contain attributes and/or folders)
+> 
+> The contents of a folder is represented by a null separated list of names.
+> 
+> Examples:
+> 
+> $ getfattr -etext -n ":" .
+> # file: .
+> :="mnt:\000mntns:"
+> 
+> $ getfattr -etext -n ":mnt:" .
+> # file: .
+> :mnt:="info"
+> 
+> $ getfattr -etext -n ":mnt:info" .
+> # file: .
+> :mnt:info="21 1 254:0 / / rw,relatime - ext4 /dev/root rw\012"
 
-Right, I forgot about the EPERM/ENOSYS sandbox thread.
+Hey Miklos,
 
-Kees and I gave a talk about this problem at LPC 2019 (see [2]). The
-proposed solutions back then was to add basic deep argument inspection
-for first-level pointers to seccomp.
+One comment about this. We really need to have this interface support
+giving us mount options like "relatime" back in numeric form (I assume
+this will be possible.). It is royally annoying having to maintain a
+mapping table in userspace just to do:
 
-There are problems with this approach such as not useable on
-second-level pointers (although we concluded that's ok) and if the input
-args are very large copying stuff from within seccomp becomes rather
-costly and in general the various approaches seemed handwavy at the
-time.
+relatime -> MS_RELATIME/MOUNT_ATTR_RELATIME
+ro	 -> MS_RDONLY/MOUNT_ATTR_RDONLY
 
-If seccomp were to be made to support some basic form of eBPF such that
-it can still be safely called by unprivileged users then this would
-likely be easier to do (famous last words) but given that the stance has
-traditionally bee to not port seccomp it remains a tricky patch.
+A library shouldn't be required to use this interface. Conservative
+low-level software that keeps its shared library dependencies minimal
+will need to be able to use that interface without having to go to an
+external library that transforms text-based output to binary form (Which
+I'm very sure will need to happen if we go with a text-based
+interface.).
 
-Some time after that I talked to Mathieu Desnoyers about this issue who
-used another angle of attack. The idea seems less complicated to me.
-Instead of argument inspection we introduce basic syscall argument
-checksumming for seccomp. It would only be done when seccomp is
-interested in syscall input args and checksumming would be per syscall
-argument. It would be validated within the syscall when it actually
-reads the arguments; again, only if seccomp is used. If the checksums
-mismatch an error is returned or the calling process terminated.
+> 
+> $ getfattr -etext -n ":mntns:" .
+> # file: .
+> :mntns:="21:\00022:\00024:\00025:\00023:\00026:\00027:\00028:\00029:\00030:\00031:"
+> 
+> $ getfattr -etext -n ":mntns:28:" .
+> # file: .
+> :mntns:28:="info"
+> 
+> Comments?
 
-There's one case that deserves mentioning: since we introduced the
-seccomp notifier we do allow advanced syscall interception and we do use
-it extensively in various projects.
+I'm not a fan of text-based APIs and I'm particularly not a fan of the
+xattr APIs. But at this point I'm ready to compromise on a lot as long
+as it gets us values out of the kernel in some way. :)
 
-Roughly, it works by allowing a userspace process (the "supervisor") to
-listen on a seccomp fd. The seccomp fd is an fd referring to the filter
-of a target task (the "supervisee"). When the supervisee performs a
-syscall listed in the seccomp notify filter the supervisor will receive
-a notification on the seccomp fd for the filter.
+I had to use xattrs extensively in various low-level userspace projects
+and they continue to be a source of races and memory bugs.
 
-I mention this because it is possible for the supervisor to e.g.
-intercept an bpf() system call and then modify/create/attach a bpf
-program for the supervisee and then update fields in the supervisee's
-bpf struct that was passed to the bpf() syscall by it. So the supervisor
-might rewrite syscall args and continue the syscall (In general, it's
-not recommeneded because of TOCTOU. But still doable in certain
-scenarios where we can guarantee that this is safe even if syscall args
-are rewritten to something else by a MIT attack.).
+A few initial questions:
 
-Arguably, the checksumming approach could even be made to work with this
-if the seccomp fd learns a new ioctl() or similar to safely update the
-checksum.
+* The xattr APIs often require the caller to do sm like (copying some go
+  code quickly as I have that lying around):
 
-I can try and move a poc for this up the todo list.
+	for _, x := range split {
+		xattr := string(x)
+		// Call Getxattr() twice: First, to determine the size of the
+		// buffer we need to allocate to store the extended attributes,
+		// second, to actually store the extended attributes in the
+		// buffer. Also, check if the size of the extended attribute
+		// hasn't increased between the two calls.
+		pre, err = unix.Getxattr(path, xattr, nil)
+		if err != nil || pre < 0 {
+			return nil, err
+		}
 
-Without an approach like this certain sandboxes will fallback to
-ENOSYSing system calls they can't filter. This is a generic problem
-though with clone3() being one promiment example.
+		dest = make([]byte, pre)
+		post := 0
+		if pre > 0 {
+			post, err = unix.Getxattr(path, xattr, dest)
+			if err != nil || post < 0 {
+				return nil, err
+			}
+		}
 
-[2]: https://www.youtube.com/watch?v=PnOSPsRzVYM&list=PLVsQ_xZBEyN2Ol7y8axxhbTsG47Va3Se2
+		if post > pre {
+			return nil, fmt.Errorf("Extended attribute '%s' size increased from %d to %d during retrieval", xattr, pre, post)
+		}
+
+		xattrs[xattr] = string(dest)
+	}
+
+  This pattern of requesting the size first by passing empty arguments,
+  then allocating the buffer and then passing down that buffer to
+  retrieve that value is really annoying to use and error prone (I do
+  of course understand why it exists.).
+
+  For real xattrs it's not that bad because we can assume that these
+  values don't change often and so the race window between
+  getxattr(GET_SIZE) and getxattr(GET_VALUES) often doesn't matter. But
+  fwiw, the post > pre check doesn't exist for no reason; we do indeed
+  hit that race.
+  
+  In addition, it is costly having to call getxattr() twice. Again, for
+  retrieving xattrs it often doesn't matter because it's not a super
+  common operation but for mount and other info it might matter.
+
+  Will we have to use the same pattern for mnt and other info as well?
+  If so, I worry that the race is way more likely than it is for real
+  xattrs.
+
+* Would it be possible to support binary output with this interface?
+  I really think users would love to have an interfact where they can
+  get a struct with binary info back. I'm not advocating to make the
+  whole interface binary but I wouldn't mind having the option to
+  support it.
+  Especially for some information at least. I'd really love to have a
+  way go get a struct mount_info or whatever back that gives me all the
+  details about a mount encompassed in a single struct.
+
+  Callers like systemd will have to parse text and will end up
+  converting everything from text into binary anyway; especially for
+  mount information. So giving them an option for this out of the box
+  would be quite good.
+
+  Interfaces like statx aim to be as fast as possible because we exptect
+  them to be called quite often. Retrieving mount info is quite costly
+  and is done quite often as well. Maybe not for all software but for a
+  lot of low-level software. Especially when starting services in
+  systemd a lot of mount parsing happens similar when starting
+  containers in runtimes.
+
+* If we decide to go forward with this interface - and I think I
+  mentioned this in the lsfmm session - could we please at least add a
+  new system call? It really feels wrong to retrieve mount and other
+  information through the xattr interfaces. They aren't really xattrs.
+
+  Imho, xattrs are a bit like a wonky version of streams already (One of
+  the reasons I find them quite unpleasant.). Making mount and other
+  information retrievable directly through the getxattr() interface will
+  turn them into a full-on streams implementation imho. I'd prefer not
+  to do that (Which is another reason I'd prefer at least a separate
+  system call.).
