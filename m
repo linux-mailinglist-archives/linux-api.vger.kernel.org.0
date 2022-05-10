@@ -2,40 +2,31 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D24CF522079
-	for <lists+linux-api@lfdr.de>; Tue, 10 May 2022 17:59:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C41BD522758
+	for <lists+linux-api@lfdr.de>; Wed, 11 May 2022 01:04:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346989AbiEJQD3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 10 May 2022 12:03:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57460 "EHLO
+        id S233256AbiEJXEz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 10 May 2022 19:04:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346995AbiEJQBB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 10 May 2022 12:01:01 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B358B3CA52;
-        Tue, 10 May 2022 08:53:40 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4284961673;
-        Tue, 10 May 2022 15:53:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C17F4C385A6;
-        Tue, 10 May 2022 15:53:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1652198019;
-        bh=9pgUcC73MMhE3nPFiSsB/Zp0JFryDLtpwGsW8VKXMIc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=u7AzoJ/Wk3+3/R2dR6hL3nO2cRTFVkpejdusu1cWWqVxNKpzc9Vy/meXirezGrwZi
-         J0ZEbm2n4fxpjjgMY/pmT/vd2Mfu9pcKIxWKj95uWzWf40AodLu8S0c6nIM19gJ0Tw
-         kSXcRleqg5eBZ5f/7ks7y1nufYS4P6+8qpjb9XOe0fmD6kocBMMPPBx+gDCifjtF1z
-         2Zp/8QdJFjY+q9EAns9A3uZUD9ZctwxPKJN+UbTg8PKs6esQzU2pPpusSbNwm8Am3L
-         tgGo6JPSNRMoETWilBHweh5lLCuzXFJFNFzTyG3qS4ZYm5/zyhCRYffXVvbjjgP0Br
-         uc7+JMwnO6kow==
-Date:   Tue, 10 May 2022 17:53:32 +0200
-From:   Christian Brauner <brauner@kernel.org>
-To:     Miklos Szeredi <miklos@szeredi.hu>
-Cc:     linux-fsdevel@vger.kernel.org, Dave Chinner <david@fromorbit.com>,
-        Theodore Ts'o <tytso@mit.edu>, Karel Zak <kzak@redhat.com>,
+        with ESMTP id S230470AbiEJXEy (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 10 May 2022 19:04:54 -0400
+Received: from mail105.syd.optusnet.com.au (mail105.syd.optusnet.com.au [211.29.132.249])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 072442734DA;
+        Tue, 10 May 2022 16:04:53 -0700 (PDT)
+Received: from dread.disaster.area (pa49-181-2-147.pa.nsw.optusnet.com.au [49.181.2.147])
+        by mail105.syd.optusnet.com.au (Postfix) with ESMTPS id 44A9110E68F9;
+        Wed, 11 May 2022 09:04:49 +1000 (AEST)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+        (envelope-from <david@fromorbit.com>)
+        id 1noYuN-00AT9W-Ck; Wed, 11 May 2022 09:04:47 +1000
+Date:   Wed, 11 May 2022 09:04:47 +1000
+From:   Dave Chinner <david@fromorbit.com>
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     Christian Brauner <brauner@kernel.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
+        Karel Zak <kzak@redhat.com>,
         Greg KH <gregkh@linuxfoundation.org>,
         linux-kernel@vger.kernel.org,
         Linux API <linux-api@vger.kernel.org>,
@@ -49,23 +40,22 @@ Cc:     linux-fsdevel@vger.kernel.org, Dave Chinner <david@fromorbit.com>,
         Amir Goldstein <amir73il@gmail.com>,
         James Bottomley <James.Bottomley@hansenpartnership.com>
 Subject: Re: [RFC PATCH] getting misc stats/attributes via xattr API
-Message-ID: <20220510155332.3zm5nycl7nmuxgdx@wittgenstein>
+Message-ID: <20220510230447.GC2306852@dread.disaster.area>
 References: <YnEeuw6fd1A8usjj@miu.piliscsaba.redhat.com>
  <20220509124815.vb7d2xj5idhb2wq6@wittgenstein>
- <CAJfpegveWaS5pR3O1c_7qLnaEDWwa8oi26x2v_CwDXB_sir1tg@mail.gmail.com>
- <20220510115316.acr6gl5ayqszada6@wittgenstein>
- <CAJfpegtVgyumJiFM_ujjuRTjg07vwOd4h9AT+mbh+n1Qn-LqqA@mail.gmail.com>
- <20220510141932.lth3bryefbl6ykny@wittgenstein>
- <CAJfpegt94fP-_eDAk=_C=24ahCtjQ4vhh8Xg+SrZbwPHs1waLA@mail.gmail.com>
- <20220510153050.cgbt3wezbvf2jfnb@wittgenstein>
- <CAJfpegu8d2VQ+WjfmUJ6g7YBPJsYUABt0jG5ByVh-dMt_waV8A@mail.gmail.com>
+ <20220510005533.GA2306852@dread.disaster.area>
+ <87bkw5d098.fsf@oldenburg.str.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJfpegu8d2VQ+WjfmUJ6g7YBPJsYUABt0jG5ByVh-dMt_waV8A@mail.gmail.com>
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+In-Reply-To: <87bkw5d098.fsf@oldenburg.str.redhat.com>
+X-Optus-CM-Score: 0
+X-Optus-CM-Analysis: v=2.4 cv=e9dl9Yl/ c=1 sm=1 tr=0 ts=627aef94
+        a=ivVLWpVy4j68lT4lJFbQgw==:117 a=ivVLWpVy4j68lT4lJFbQgw==:17
+        a=kj9zAlcOel0A:10 a=oZkIemNP1mAA:10 a=7-415B0cAAAA:8
+        a=DeMPlFUAyss6Xeq_UakA:9 a=CjuIK1q_8ugA:10 a=biEYGPWJfzWAr4FL6Ov7:22
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,22 +63,66 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, May 10, 2022 at 05:47:13PM +0200, Miklos Szeredi wrote:
-> On Tue, 10 May 2022 at 17:30, Christian Brauner <brauner@kernel.org> wrote:
+On Tue, May 10, 2022 at 02:45:39PM +0200, Florian Weimer wrote:
+> * Dave Chinner:
 > 
-> > But now we're in the process of extending the *xattr() calls to operate
-> > on mounts and filesystems so an additional getfsattr() (or another name)
-> > is not fragmentation imho. And I definitely don't think this would
-> > qualify as "crazy".
+> > IOWs, what Linux really needs is a listxattr2() syscall that works
+> > the same way that getdents/XFS_IOC_ATTRLIST_BY_HANDLE work. With the
+> > list function returning value sizes and being able to iterate
+> > effectively, every problem that listxattr() causes goes away.
 > 
-> In that spirit st_dev does not belong in struct stat, because that is
-> the property of the block device, not the inode.
-> 
-> But I feel we are going round in circles, lets please not get hung up
-> on this issue.  Linus will have the final word on which variant (if
-> either) is going to go in.
+> getdents has issues of its own because it's unspecified what happens if
+> the list of entries is modified during iteration.  Few file systems add
+> another tree just to guarantee stable iteration.
 
-Well yes, I'm obviously not going to be d*ck about it and go around
-NAKing it just because I didn't get my favorite name but I at least
-want to register my strong opposition to the current "unification"
-approach loud and clear. :)
+The filesystem I care about (XFS) guarantees stable iteration and
+stable seekdir/telldir cookies. It's not that hard to do, but it
+requires the filesystem designer to understand that this is a
+necessary feature before they start designing the on-disk directory
+format and lookup algorithms....
+
+> Maybe that's different for xattrs because they are supposed to be small
+> and can just be snapshotted with a full copy?
+
+It's different for xattrs because we directly control the API
+specification for XFS_IOC_ATTRLIST_BY_HANDLE, not POSIX. We can
+define the behaviour however we want. Stable iteration is what
+listing keys needs.
+
+The cursor is defined as 16 bytes of opaque data, enabling us to
+encoded exactly where in the hashed name btree index we have
+traversed to:
+
+/*
+ * Kernel-internal version of the attrlist cursor.
+ */
+struct xfs_attrlist_cursor_kern {
+        __u32   hashval;        /* hash value of next entry to add */
+        __u32   blkno;          /* block containing entry (suggestion) */
+        __u32   offset;         /* offset in list of equal-hashvals */
+        __u16   pad1;           /* padding to match user-level */
+        __u8    pad2;           /* padding to match user-level */
+        __u8    initted;        /* T/F: cursor has been initialized */
+};
+
+Hence we have all the information in the cursor we need to reset the
+btree traversal index to the exact entry we finished at (even in the
+presence of hash collisions in the index). Hence removal of the
+entry the cursor points to isn't a problem for us, we just move to
+the next highest sequential hash index in the btree and start again
+from there.
+
+Of course, if this is how we define listxattr2() behaviour (or maybe
+we should call it "list_keys()" to make it clear we are treating
+this as a key/value store instead of xattrs) then each filesystem
+can put what it needs in that cursor to guarantee it can restart key
+iteration correctly if the entry the cursor points to has been
+removed.  We can also make the cursor larger if necessary for other
+filesystems to store the information they need.
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
