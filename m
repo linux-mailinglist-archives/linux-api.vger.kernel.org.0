@@ -2,318 +2,305 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1461A520861
-	for <lists+linux-api@lfdr.de>; Tue, 10 May 2022 01:29:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D28BA520A6F
+	for <lists+linux-api@lfdr.de>; Tue, 10 May 2022 02:55:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232442AbiEIXdE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 May 2022 19:33:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53714 "EHLO
+        id S233823AbiEJA7h (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 May 2022 20:59:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232420AbiEIXdD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 May 2022 19:33:03 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB46D1DF659
-        for <linux-api@vger.kernel.org>; Mon,  9 May 2022 16:29:05 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id l11so7692785pgt.13
-        for <linux-api@vger.kernel.org>; Mon, 09 May 2022 16:29:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=8KUgtn5nyg5jr7YjoVRw3h8Od+NzNpZfZuV38wd6b7A=;
-        b=tkQ1FWK+ZYSJohYiLv6r8pjipgcqhKYVCAxGnBs1r6iZpdB9F39xx654LaJg5tmptb
-         Jy8U9pynMDIQXaf4AtUJYP7d4xFU4ltiNtrelqnW3Qjfk7mImr0ovMm98oViuaXGykB4
-         kFF+ePjSIkS93pR+akIC3Z/cndBfybHx1SIxUiQ9YcpAKddk5peEE97toonazUHSQK66
-         Q/HnavaGhvRixAlkFuoK4aEfg8GYpwCI/jUzf6rLJkxf8hrzeymtNLip0+euFkPlLC7z
-         vM1ije6M+DYPqNyhNcmNCOE9E+dKPD3JgZq8eMXCMxi7B4QizakABMEPx7TYbmCSRTV/
-         3V7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=8KUgtn5nyg5jr7YjoVRw3h8Od+NzNpZfZuV38wd6b7A=;
-        b=zKKWrOV+lbFIbkPwUB8/u3XvuzUGCrOczGJfwQRR2kPbV8e2Z6LGQn7r8PM4jQmUzD
-         50+maHOdbRA4IirmVIr+x0l/GQ4rdXNRki9P4eraIL45p9uVJTcS3gy9xxzvJLYHFsn9
-         L20Z9jcojP3/5pgRsjuIuwSNWOQJKuKA1lEqJAKeR2JlvwrLalIrCgJgBhgTs/Xe7JLg
-         4B5O5FF/gDebb4Nm6mQNwvGprzfvgPs+jEKk67v4ctmlXlLjlpJni4IRYTrx4IJbLIPV
-         e4z7PfpeMXky0lg9tzCe7UntG36eVatl+ETwGFpX2mSvcL0Mt1eko2Bj5+omTHKBabrJ
-         4xMw==
-X-Gm-Message-State: AOAM531NS9qoLfQvpCWxJX+NoetYQWxGZEo/KaWUoqKHGH61NUSrta/9
-        J0M0wloMgMmVyBUYIPNy15OWZA==
-X-Google-Smtp-Source: ABdhPJzm8jQxDOg0Ffbg/fNP2Jh6oUDG+3VQUqDgUNfGtKSVGiBY2jEkIX2ibTy4qHuLsQmBBomGSA==
-X-Received: by 2002:a63:5a09:0:b0:3c2:5dfa:285c with SMTP id o9-20020a635a09000000b003c25dfa285cmr15186422pgb.381.1652138945064;
-        Mon, 09 May 2022 16:29:05 -0700 (PDT)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id r7-20020aa79627000000b0050dc76281f8sm9327263pfg.210.2022.05.09.16.29.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 May 2022 16:29:04 -0700 (PDT)
-Date:   Mon, 9 May 2022 23:29:01 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Michael Roth <michael.roth@amd.com>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>,
-        Quentin Perret <qperret@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        kvm list <kvm@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        "Nakajima, Jun" <jun.nakajima@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>,
-        Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>,
-        nikunj@amd.com, ashish.kalra@amd.com
-Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <YnmjvX9ow4elYsY8@google.com>
-References: <80aad2f9-9612-4e87-a27a-755d3fa97c92@www.fastmail.com>
- <YkcTTY4YjQs5BRhE@google.com>
- <83fd55f8-cd42-4588-9bf6-199cbce70f33@www.fastmail.com>
- <YksIQYdG41v3KWkr@google.com>
- <Ykslo2eo2eRXrpFR@google.com>
- <eefc3c74-acca-419c-8947-726ce2458446@www.fastmail.com>
- <Ykwbqv90C7+8K+Ao@google.com>
- <YkyEaYiL0BrDYcZv@google.com>
- <20220422105612.GB61987@chaop.bj.intel.com>
- <20220509223056.pyazfxjwjvipmytb@amd.com>
+        with ESMTP id S232972AbiEJA7g (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 9 May 2022 20:59:36 -0400
+Received: from mail104.syd.optusnet.com.au (mail104.syd.optusnet.com.au [211.29.132.246])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D38375A0A9;
+        Mon,  9 May 2022 17:55:39 -0700 (PDT)
+Received: from dread.disaster.area (pa49-181-2-147.pa.nsw.optusnet.com.au [49.181.2.147])
+        by mail104.syd.optusnet.com.au (Postfix) with ESMTPS id 2A831534592;
+        Tue, 10 May 2022 10:55:34 +1000 (AEST)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+        (envelope-from <david@fromorbit.com>)
+        id 1noEA1-00A6UT-AL; Tue, 10 May 2022 10:55:33 +1000
+Date:   Tue, 10 May 2022 10:55:33 +1000
+From:   Dave Chinner <david@fromorbit.com>
+To:     Christian Brauner <brauner@kernel.org>
+Cc:     Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org,
+        Theodore Ts'o <tytso@mit.edu>, Karel Zak <kzak@redhat.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>,
+        LSM <linux-security-module@vger.kernel.org>,
+        Ian Kent <raven@themaw.net>,
+        David Howells <dhowells@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        Amir Goldstein <amir73il@gmail.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>
+Subject: Re: [RFC PATCH] getting misc stats/attributes via xattr API
+Message-ID: <20220510005533.GA2306852@dread.disaster.area>
+References: <YnEeuw6fd1A8usjj@miu.piliscsaba.redhat.com>
+ <20220509124815.vb7d2xj5idhb2wq6@wittgenstein>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220509223056.pyazfxjwjvipmytb@amd.com>
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+In-Reply-To: <20220509124815.vb7d2xj5idhb2wq6@wittgenstein>
+X-Optus-CM-Score: 0
+X-Optus-CM-Analysis: v=2.4 cv=VuxAv86n c=1 sm=1 tr=0 ts=6279b80a
+        a=ivVLWpVy4j68lT4lJFbQgw==:117 a=ivVLWpVy4j68lT4lJFbQgw==:17
+        a=kj9zAlcOel0A:10 a=oZkIemNP1mAA:10 a=7-415B0cAAAA:8
+        a=CMf3WBuwh-sY1y9demkA:9 a=CjuIK1q_8ugA:10 a=biEYGPWJfzWAr4FL6Ov7:22
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, May 09, 2022, Michael Roth wrote:
-> On Fri, Apr 22, 2022 at 06:56:12PM +0800, Chao Peng wrote:
-> > Requirements & Gaps
-> > -------------------------------------
-> >   - Confidential computing(CC): TDX/SEV/CCA
-> >     * Need support both explicit/implicit conversions.
-> >     * Need support only destructive conversion at runtime.
-> >     * The current patch should just work, but prefer to have pre-boot guest
-> >       payload/firmware population into private memory for performance.
-> 
-> Not just performance in the case of SEV, it's needed there because firmware
-> only supports in-place encryption of guest memory, there's no mechanism to
-> provide a separate buffer to load into guest memory at pre-boot time. I
-> think you're aware of this but wanted to point that out just in case.
-
-I view it as a performance problem because nothing stops KVM from copying from
-userspace into the private fd during the SEV ioctl().  What's missing is the
-ability for userspace to directly initialze the private fd, which may or may not
-avoid an extra memcpy() depending on how clever userspace is.
-
-> 
+On Mon, May 09, 2022 at 02:48:15PM +0200, Christian Brauner wrote:
+> On Tue, May 03, 2022 at 02:23:23PM +0200, Miklos Szeredi wrote:
+> > This is a simplification of the getvalues(2) prototype and moving it to the
+> > getxattr(2) interface, as suggested by Dave.
 > > 
-> >   - pKVM
-> >     * Support explicit conversion only. Hard to achieve implicit conversion,
-> >       does not record the guest access info (private/shared) in page fault,
-> >       also makes little sense.
-> >     * Expect to support non-destructive conversion at runtime. Additionally
-> >       in-place conversion (the underlying physical page is unchanged) is
-> >       desirable since copy is not disirable. The current destructive conversion
-> >       does not fit well.
-> >     * The current callbacks between mm/KVM is useful and reusable for pKVM.
-> >     * Pre-boot guest payload population is nice to have.
+> > The patch itself just adds the possibility to retrieve a single line of
+> > /proc/$$/mountinfo (which was the basic requirement from which the fsinfo
+> > patchset grew out of).
 > > 
+> > But this should be able to serve Amir's per-sb iostats, as well as a host of
+> > other cases where some statistic needs to be retrieved from some object.  Note:
+> > a filesystem object often represents other kinds of objects (such as processes
+> > in /proc) so this is not limited to fs attributes.
 > > 
-> > Change Proposal
-> > ---------------
-> > Since there are some divergences for pKVM from CC usages and at this time looks
-> > whether we will and how we will support pKVM with this private memory patchset
-> > is still not quite clear, so this proposal does not imply certain detailed pKVM
-> > implementation. But from the API level, we want this can be possible to be future
-> > extended for pKVM or other potential usages.
+> > This also opens up the interface to setting attributes via setxattr(2).
 > > 
-> >   - No new user APIs introduced for memory backing store, e.g. remove the
-> >     current MFD_INACCESSIBLE. This info will be communicated from memfile_notifier
-> >     consumers to backing store via the new 'flag' field in memfile_notifier
-> >     described below. At creation time, the fd is normal shared fd. At rumtime CC
-> >     usages will keep using current fallocate/FALLOC_FL_PUNCH_HOLE to do the
-> >     conversion, but pKVM may also possible use a different way (e.g. rely on
-> >     mmap/munmap or mprotect as discussed). These are all not new APIs anyway.
-> 
-> For SNP most of the explicit conversions are via GHCB page-state change
-> requests. Each of these PSC requests can request shared/private
-> conversions for up to 252 individual pages, along with whether or not
-> they should be treated as 4K or 2M pages. Currently, like with
-> KVM_EXIT_MEMORY_ERROR, these requests get handled in userspace and call
-> back into the kernel via fallocate/PUNCH_HOLE calls.
-> 
-> For each fallocate(), we need to update the RMP table to mark a page as
-> private, and for PUNCH_HOLE we need to mark it as shared (otherwise it
-> would be freed back to the host as guest-owned/private and cause a crash if
-> the host tries to re-use it for something). I needed to add some callbacks
-> to the memfile_notifier to handle these RMP table updates. There might be
-> some other bits of book-keeping like clflush's, and adding/removing guest
-> pages from the kernel's direct map.
-> 
-> Not currently implemented, but the guest can also issue requests to
-> "smash"/"unsmash" a 2M private range into individual 4K private ranges
-> (generally in advance of flipping one of the pages to shared, or
-> vice-versa) in the RMP table. Hypervisor code tries to handle this
-> automatically, by determining when to smash/unsmash on it's own, but...
-> 
-> I'm wondering how all these things can be properly conveyed through this
-> fallocate/PUNCH_HOLE interface if we ever needed to add support for all
-> of this, as it seems a bit restrictive as-is. For instance, with the
-> current approach, one possible scheme is:
-> 
->   - explicit conversion of shared->private for 252 4K pages:
->     - we could do 252 individual fallocate()'s of 4K each, and make sure the
->       kernel code will do notifier callbacks / RMP updates for each individual
->       4K page
-> 
->   - shared->private for 252 2M pages:
->     - we could do 252 individual fallocate()'s of 2M each, and make sure the
->       kernel code will do notifier callbacks / RMP updates for each individual
->       2M page
-> 
-> But for SNP most of these bulk PSC changes are when the guest switches
-> *all* of it's pages from shared->private during early boot when it
-> validates all of it's memory. So these pages tend to be contiguous
-> ranges, and a nice optimization would be to coalesce these 252
-> fallocate() calls into a single fallocate() that spans the whole range.
-> But there's no good way to do that without losing information like
-> whether these should be treated as individual 4K vs. 2M ranges.
-
-Eh, the smash/unsmash hint from the guest is just that, a hint.  If the guest
-hints at 4kb pages and then bulk converts a contiguous 2mb chunk (or 242 2mb chunks),
-then the guest is being dumb because it either (a) doesn't realize it can/should use
-2mb pages, or (b) is doing an unnecessary shared->private (assuming the hint was sane
-and intented to hint that a private->shared split+conversion is coming).
-
-> So I wonder, since there's talk of the "binding" of this memfd to KVM
-> being what actually enabled all the private/shared operations, if we
-> should introduce some sort of new KVM ioctl, like
-> KVM_UPM_SET_PRIVATE/SHARED, that could handle all the
-> fallocate/hole-punching on the kernel side for larger GFN ranges to reduce
-> the kernel<->userspace transitions, and allow for 4K/2M granularity to be
-> specified as arguments, and maybe provide for better
-> backward-compatibility vs. future changes to memfd backend interface.
-
-At this point, I don't think we need anything new.  When SNP is merged, KVM can
-coalesce contiguous pages into a single KVM_HC_MAP_GPA_RANGE so that userspace can
-batch those into a single fallocate().  That does leave a gap in that KVM_HC_MAP_GPA_RANGE
-will require multiple roundtrips for discontiguous ranges, but I would be very surprised
-if that ends up being the long pole for boot performance.
-
-> >   - Add a flag to memfile_notifier so its consumers can state the requirements.
+> > After some pondering I made the namespace so:
 > > 
-> >         struct memfile_notifier {
-> >                 struct list_head list;
-> >                 unsigned long flags;     /* consumer states its requirements here */
-> >                 struct memfile_notifier_ops *ops; /* future function may also extend ops when necessary */
-> >         };
+> > : - root
+> > bar - an attribute
+> > foo: - a folder (can contain attributes and/or folders)
 > > 
-> >     For current CC usage, we can define and set below flags from KVM.
+> > The contents of a folder is represented by a null separated list of names.
 > > 
-> >         /* memfile notifier flags */
-> >         #define MFN_F_USER_INACCESSIBLE   0x0001  /* memory allocated in the file is inaccessible from userspace (e.g. read/write/mmap) */
-> >         #define MFN_F_UNMOVABLE           0x0002  /* memory allocated in the file is unmovable */
-> >         #define MFN_F_UNRECLAIMABLE       0x0003  /* memory allocated in the file is unreclaimable (e.g. via kswapd or any other pathes) */
+> > Examples:
 > > 
-> >     When memfile_notifier is being registered, memfile_register_notifier will
-> >     need check these flags. E.g. for MFN_F_USER_INACCESSIBLE, it fails when
-> >     previous mmap-ed mapping exists on the fd (I'm still unclear on how to do
-> >     this). When multiple consumers are supported it also need check all
-> >     registered consumers to see if any conflict (e.g. all consumers should have
-> >     MFN_F_USER_INACCESSIBLE set). Only when the register succeeds, the fd is
-> >     converted into a private fd, before that, the fd is just a normal (shared)
-> >     one. During this conversion, the previous data is preserved so you can put
-> >     some initial data in guest pages (whether the architecture allows this is
-> >     architecture-specific and out of the scope of this patch).
+> > $ getfattr -etext -n ":" .
+> > # file: .
+> > :="mnt:\000mntns:"
 > > 
-> >   - Pre-boot guest payload populating is done by normal mmap/munmap on the fd
-> >     before it's converted into private fd when KVM registers itself to the
-> >     backing store.
+> > $ getfattr -etext -n ":mnt:" .
+> > # file: .
+> > :mnt:="info"
+> > 
+> > $ getfattr -etext -n ":mnt:info" .
+> > # file: .
+> > :mnt:info="21 1 254:0 / / rw,relatime - ext4 /dev/root rw\012"
 > 
-> Is that registration still intended to be triggered by
-> KVM_SET_USER_MEMORY_REGION, or is there a new ioctl you're considering?
+> Hey Miklos,
 > 
-> I ask because in the case of SNP (and QEMU in general, maybe other VMMs),
-> the regions are generally registered before the guest contents are
-> initialized. So if KVM_SET_USER_MEMORY_REGION kicks of the conversion then
-> it's too late for the SNP code in QEMU to populate the pre-conversion data.
+> One comment about this. We really need to have this interface support
+> giving us mount options like "relatime" back in numeric form (I assume
+> this will be possible.). It is royally annoying having to maintain a
+> mapping table in userspace just to do:
 > 
-> Maybe, building on the above approach, we could have something like:
-> 
-> KVM_SET_USER_MEMORY_REGION
-> KVM_UPM_BIND(TYPE_TDX|SEV|SNP, gfn_start, gfn_end)
-> <populate guest memory>
-> KVM_UPM_INIT(gfn_start, gfn_end) //not sure if needed
-> KVM_UPM_SET_PRIVATE(gfn_start, gfn_end, granularity)
-> <launch guest>
-> ...
-> KVM_UPM_SET_PRIVATE(gfn_start, gfn_end, granularity)
-> ...
-> KVM_UPM_SET_SHARED(gfn_start, gfn_end, granularity)
-> etc.
-> 
-> Just some rough ideas, but I think addressing these in some form would help
-> a lot with getting SNP covered with reasonable performance.
+> relatime -> MS_RELATIME/MOUNT_ATTR_RELATIME
+> ro	 -> MS_RDONLY/MOUNT_ATTR_RDONLY
 
-TDX also needs to populate some amount of guest memory with non-zero data, and to
-do so must set up TDP page table in KVM.  So for starters, I think a single ioctl
-to copy data into a private fd is the way to go.  That does leave a performance
-gap (the extra memcpy() I mentioned earlier), but it at least ensures KVM can boot
-an SNP guest.
+You're asking for a complete change of output information there.
+This has nothing to do with the mechanism for extracting key/value
+information from the kernel.
 
-I'm certainly not opposed to directly pre-populating private fd memory from
-userspace, I just want to point out that this can be handled in KVM without too
-much fuss and without any additional support in the private fd implementation. 
+i.e. we need to separate demands for "data I want" from "mechanism
+to extract data".
 
-> >   - Implicit conversion: maybe it's worthy to discuss again: how about totally
-> >     remove implicit converion support? TDX should be OK, unsure SEV/CCA. pKVM
-> >     should be happy to see. Removing also makes the work much easier and prevents
-> >     guest bugs/unitended behaviors early. If it turns out that there is reason to
-> >     keep it, then for pKVM we can make it an optional feature (e.g. via a new
-> >     module param). But that can be added when pKVM really gets supported.
+> > $ getfattr -etext -n ":mntns:" .
+> > # file: .
+> > :mntns:="21:\00022:\00024:\00025:\00023:\00026:\00027:\00028:\00029:\00030:\00031:"
+> > 
+> > $ getfattr -etext -n ":mntns:28:" .
+> > # file: .
+> > :mntns:28:="info"
+> > 
+> > Comments?
 > 
-> SEV sort of relies on implicit conversion since the guest is free to turn
-> on/off the encryption bit during run-time. But in the context of UPM that
-> wouldn't be supported anyway since, IIUC, the idea is that SEV/SEV-ES would
-> only be supported for guests that do explicit conversions via MAP_GPA_RANGE
-> hypercall. And for SNP these would similarly be done via explicit page-state
-> change requests via GHCB requests issued by the guest.
+> I'm not a fan of text-based APIs and I'm particularly not a fan of the
+> xattr APIs. But at this point I'm ready to compromise on a lot as long
+> as it gets us values out of the kernel in some way. :)
 > 
-> But if possible, it would be nice if we could leave implicit conversion
-> as an optional feature/flag, as it's something that we considered
-> harmless for the guest SNP support (now upstream), and planned to allow
-> in the hypervisor implementation. I don't think we intentionally relied on
-> it in the guest kernel/uefi support, but I need to audit that code to be
-> sure that dropping it wouldn't cause a regression in the guest support.
-> I'll try to confirm this soon one I get things running under UPM a bit more
-> reliably.
+> I had to use xattrs extensively in various low-level userspace projects
+> and they continue to be a source of races and memory bugs.
+> 
+> A few initial questions:
+> 
+> * The xattr APIs often require the caller to do sm like (copying some go
+>   code quickly as I have that lying around):
+> 
+> 	for _, x := range split {
+> 		xattr := string(x)
+> 		// Call Getxattr() twice: First, to determine the size of the
+> 		// buffer we need to allocate to store the extended attributes,
+> 		// second, to actually store the extended attributes in the
+> 		// buffer. Also, check if the size of the extended attribute
+> 		// hasn't increased between the two calls.
+> 		pre, err = unix.Getxattr(path, xattr, nil)
+> 		if err != nil || pre < 0 {
+> 			return nil, err
+> 		}
+> 
+> 		dest = make([]byte, pre)
+> 		post := 0
+> 		if pre > 0 {
+> 			post, err = unix.Getxattr(path, xattr, dest)
+> 			if err != nil || post < 0 {
+> 				return nil, err
+> 			}
+> 		}
+> 
+> 		if post > pre {
+> 			return nil, fmt.Errorf("Extended attribute '%s' size increased from %d to %d during retrieval", xattr, pre, post)
+> 		}
+> 
+> 		xattrs[xattr] = string(dest)
+> 	}
+> 
+>   This pattern of requesting the size first by passing empty arguments,
+>   then allocating the buffer and then passing down that buffer to
+>   retrieve that value is really annoying to use and error prone (I do
+>   of course understand why it exists.).
 
-The plan is to support implicit conversions, albeit with a lot of whining :-)
-Both SNP's GHCB and TDX's GHCI specs allow for implicit conversion, so barring a
-spec change KVM needs to support it.
+You're doing it wrong.
+
+When you have an attr extraction loop like this, you allocate a
+single 64kB buffer for the value, adn then call getattr() with the
+buffer and a length of 64kB. Then the call returns both the value
+length and the value in one syscall, and then the application can
+allocate+copy into an exact sized buffer if it needs to.
+
+Then you use the same 64kB buffer for the next getxattr() call.
+
+I first saw this pattern in code written in the mid 1990s for
+Irix, and for basic listxattr/getxattr operations to find and
+retrieve key/value pairs this is much more efficient than the above.
+
+The real problem is that the linux listxattr() syscall only returns
+names. It's a shit API design at best, especially the part where it
+cannot iterate over a list larger than a single buffer. If you've
+got millions of xattrs, listxattr is fucking useless. The man page
+is actively harmful - that's where everyone learns the double
+getxattr anit-pattern you've described above.
+
+
+With that in mind, go look at XFS_IOC_ATTRLIST_BY_HANDLE that I've
+mentioned in previous discussions this topic.  Each attr entry
+returned is one of these:
+
+struct xfs_attrlist_ent {       /* data from attr_list() */
+	__u32   a_valuelen;     /* number bytes in value of attr */
+	char    a_name[1];      /* attr name (NULL terminated) */
+};
+
+It really needs a namelen to make parsing of the output buffer
+simpler, but this is the model we should be following - listing
+xattrs is no different from listing directory entries. Indeed,
+a directory entries is basically just a name/value pair - the name
+of the dirent and the inode number it points to is the value.
+
+Further to that point, the control structure for
+XFS_IOC_ATTRLIST_BY_HANDLE has a cursor value that works the same
+way as readdir cookies do. Hence when iterating over xattrs that
+require multiple syscalls to retrieve, the cursor allows the next
+list syscall to start off listing exactly where the previous syscall
+finished.
+
+IOWs, what Linux really needs is a listxattr2() syscall that works
+the same way that getdents/XFS_IOC_ATTRLIST_BY_HANDLE work. With the
+list function returning value sizes and being able to iterate
+effectively, every problem that listxattr() causes goes away.
+
+And while we are at it, we need to consider a xattr2() syscall to
+replace getxattr/setxattr. The model for that is
+XFS_IOC_ATTRMULTI_BY_HANDLE, which allows operations to be performed
+on mulitple xattrs in a single syscall. e.g. we can do a bulk get,
+set and remove operation across multiple xattrs - we can even mix
+and match get/set/remove operations on different xattrs in a single
+call.
+
+> * Would it be possible to support binary output with this interface?
+
+The xattr API already supports binary names and values. The only
+exception is you can't put NULLs in names because APIs use that as a
+name terminator. if listxattr2() returns a namelen in it's
+structure, then we could allow fully binary names, too (XFS already
+fully supports this internally!). In the current API, values are
+always determined by length, not null termiantions, so they are
+also already fully binary capable.
+
+>   I really think users would love to have an interfact where they can
+>   get a struct with binary info back.
+
+No. Not for kernel informational interfaces. We have ioctls and
+syscalls for defining structured binary interfaces that pass
+non-trivial objects. xattrs are no the place for this - they are
+key/value object stores like sysfs is supposed to be, so I really
+don't think we should support encoded binary data in xattrs under
+this special mount namespace...
+
+Solving the "retreive multiple values per syscall" problem is what
+the bulk get interface (XFS_IOC_ATTRMULTI_BY_HANDLE) is for.
+
+>   Callers like systemd will have to parse text and will end up
+>   converting everything from text into binary anyway; especially for
+>   mount information. So giving them an option for this out of the box
+>   would be quite good.
+
+That boat sailed years ago. You're making the same arguments about
+binary extraction interfaces being way more efficient than ascii
+based value-per-file interfaces like proc/sysfs that were made back
+in the early 2000s. That boat has long sailed - while the current
+method is somewhat inefficient, it certainly hasn't had all the
+problems that maintaining binary interfaces over decades has had....
+
+Much as it pains me to say it (because I came to Linux from an OS
+that exported huge amounts of custom binary structures from the
+kernel), having all the export interfaces dump human readable
+information has proved far more flexible and usable than interfaces
+that required binary parsers to dump information before it could be
+used on the command line or in scripting languages....
+
+> * If we decide to go forward with this interface - and I think I
+>   mentioned this in the lsfmm session - could we please at least add a
+>   new system call? It really feels wrong to retrieve mount and other
+>   information through the xattr interfaces. They aren't really xattrs.
+
+We are trying to expose structured key-value information. That's
+exactly what the xattr API was orginally created to cater for...
+
+>   Imho, xattrs are a bit like a wonky version of streams already (One of
+>   the reasons I find them quite unpleasant.). Making mount and other
+>   information retrievable directly through the getxattr() interface will
+>   turn them into a full-on streams implementation imho. I'd prefer not
+>   to do that (Which is another reason I'd prefer at least a separate
+>   system call.).
+
+And that's a total misunderstanding of what xattrs are.
+
+Alternate data streams are just {file,offset} based data streams
+accessed via ithe same read/write() mechanisms as the primary data
+stream.
+
+Xattrs provide an *atomic key-value object store API*, not an offset
+based data stream API. They are completely different beasts,
+intended for completely different purposes. ADS are redundant when you
+have directories and files, whilst an atomic key-value store is
+something completely different.
+
+You do realise we have an independent, scalable, ACID compliant
+key-value object store in every inode in an XFS filesystem, right?
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
