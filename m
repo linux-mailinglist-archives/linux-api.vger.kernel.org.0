@@ -2,52 +2,53 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB0D65216EA
-	for <lists+linux-api@lfdr.de>; Tue, 10 May 2022 15:18:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C1565217A3
+	for <lists+linux-api@lfdr.de>; Tue, 10 May 2022 15:24:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242690AbiEJNW0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 10 May 2022 09:22:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45980 "EHLO
+        id S242806AbiEJN2G (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 10 May 2022 09:28:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243239AbiEJNVl (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 10 May 2022 09:21:41 -0400
+        with ESMTP id S243094AbiEJNZa (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 10 May 2022 09:25:30 -0400
 Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60F6A2C334A
-        for <linux-api@vger.kernel.org>; Tue, 10 May 2022 06:15:23 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id z19so19963870edx.9
-        for <linux-api@vger.kernel.org>; Tue, 10 May 2022 06:15:23 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E58D0102773
+        for <linux-api@vger.kernel.org>; Tue, 10 May 2022 06:18:53 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id be20so19947291edb.12
+        for <linux-api@vger.kernel.org>; Tue, 10 May 2022 06:18:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=szeredi.hu; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=cEMXxfbHgL5k8G+nQx9Id44d10sZKLXr0DUGje9AXRs=;
-        b=ANNKvFreFEu9sBWYzQhnMMLOHwEQYbyIk1iuCaMTgX4k9jEZW/e7PzAnlL8A7orHrh
-         RGh9btUIUpjvRB4tNDpYgwJlTjOL5w6g2oROzijDZBuwqgiqXjt3dJQfSWysmAukJE3W
-         6fviCca3i7WKiW/KEEtORZFD0aDK8BvFwa/DY=
+        bh=bQPxzjuthC5W7FG0xtvK97qut8WhgOZVs5QGqQcukzE=;
+        b=Ib9QQhXrM+AZHVuN39H0Gj+04jz1DkFcq6dfa7Ts+bfu4GOpgy7EP6e6+/Bu+c3z2N
+         ENIb0CkTl5epcS7kuHzNgbY6Ckx3XymenJ9LEcP3JjqiswNfAYZSUESSCTojwaYl0Ys8
+         Wby5SNlVrBFWql2lFfQTzdFuqaK5lVdg5fmGk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=cEMXxfbHgL5k8G+nQx9Id44d10sZKLXr0DUGje9AXRs=;
-        b=mcZDViKgcgwXT25iZNSCujdIyt+LSqxqbUF+a1IQPrG+0EoMVXdV7xO8q3Se2Hrg3p
-         F1YWDhWiVOhgHM8s2Q0y5ghJVvIK3EcGl0SswAcIH+/KBePh4K60Zqppnnw7e02Zlp0s
-         7kwduIumIrwcVixaYmnsqYsaqP7LpOo4WAGNvfZDo+xbnLMjbS3rbeGNut69IUt73HkI
-         W5NlGOYaXxfpScu8aW1lG7DTQ3C/ysbRs3R/TJFbJH2zmMTaJJZFb8t2dD1HCrNzR1lA
-         OsHn9dAXaulIsbGkQ6J0EeAiQKK+fmPXc+K6sQT4rFmrOZnwq8mRganqJ7hHUNwmaaPa
-         zZnQ==
-X-Gm-Message-State: AOAM531F+wlw1BHU0+Su44Ay7By3mPbLypci6bvIjz7hDnNWrffgyKuh
-        bTg62M5NF7FPOE98H2VN1YIC6cC19r0cpSqfvMUdMqSCxBJruQ==
-X-Google-Smtp-Source: ABdhPJy1yn2joxH0jRtB4tUrT8rXWVf3r823UovFXFhuulv4RgusZBMQed96S+gfdxujGTV1zzS0kjw+DY7epPFTe4Y=
-X-Received: by 2002:a05:6402:50d1:b0:428:1473:d173 with SMTP id
- h17-20020a05640250d100b004281473d173mr22738467edb.37.1652188517024; Tue, 10
- May 2022 06:15:17 -0700 (PDT)
+        bh=bQPxzjuthC5W7FG0xtvK97qut8WhgOZVs5QGqQcukzE=;
+        b=X7da6JD9Aw4kwukR7Yk3poHx6bpqGZN1IZ1eysOL+Ksz005+QOZi9yxrDcvmDqnIYL
+         XfFMdzke+LFTk22Mk0JA46Jttyd73nphI1O5bP4/yCOL8Zjuy1UZubJ8Jw8UbGBNWKlI
+         ZXvqLDdL/5LcJNGT0dIQBBi0Q7dAKTj0TAVLgSMURhdv01h0UI1K6lzCe7/B+fIFreAS
+         6XPpVUXVA7EDXEAlrjOHAA1AWoqc2HZdfSPS9k22ZTVeEx3h3w8ECBZz45DmBPeJFpd2
+         ZHEyaDV0rwOJGvGmsk5PCVrymhvagu7XViqpwQMW+scpgPlG/sNQja8EIELidvSAVypY
+         TLSQ==
+X-Gm-Message-State: AOAM533Qs6RBpeAoW3moLs3G0J9lMeWWzUECz5Djnt3xD9ACu5r/Z2fV
+        fT5WOdV4EUyNIyWTtY/iJvNsc5YlQs4ulg+tHnqA1Q==
+X-Google-Smtp-Source: ABdhPJwczgUPDxe7i5EFoi7djB0qfa6gmDtEieMpp4Tpi/GlN71wFMNkosjsi+Nmytcb6euO0hRwtO0GNWPw30McobE=
+X-Received: by 2002:a05:6402:f08:b0:428:53c1:a867 with SMTP id
+ i8-20020a0564020f0800b0042853c1a867mr23374997eda.224.1652188732583; Tue, 10
+ May 2022 06:18:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <YnEeuw6fd1A8usjj@miu.piliscsaba.redhat.com> <20220509124815.vb7d2xj5idhb2wq6@wittgenstein>
- <CAJfpegveWaS5pR3O1c_7qLnaEDWwa8oi26x2v_CwDXB_sir1tg@mail.gmail.com> <20220510115316.acr6gl5ayqszada6@wittgenstein>
-In-Reply-To: <20220510115316.acr6gl5ayqszada6@wittgenstein>
+ <CAJfpegveWaS5pR3O1c_7qLnaEDWwa8oi26x2v_CwDXB_sir1tg@mail.gmail.com>
+ <20220510115316.acr6gl5ayqszada6@wittgenstein> <CAJfpegtVgyumJiFM_ujjuRTjg07vwOd4h9AT+mbh+n1Qn-LqqA@mail.gmail.com>
+In-Reply-To: <CAJfpegtVgyumJiFM_ujjuRTjg07vwOd4h9AT+mbh+n1Qn-LqqA@mail.gmail.com>
 From:   Miklos Szeredi <miklos@szeredi.hu>
-Date:   Tue, 10 May 2022 15:15:05 +0200
-Message-ID: <CAJfpegtVgyumJiFM_ujjuRTjg07vwOd4h9AT+mbh+n1Qn-LqqA@mail.gmail.com>
+Date:   Tue, 10 May 2022 15:18:40 +0200
+Message-ID: <CAJfpegvBoYABebN2GD=ecu4gUsPZgiTksK6S8d3MA-1r1NgmMA@mail.gmail.com>
 Subject: Re: [RFC PATCH] getting misc stats/attributes via xattr API
 To:     Christian Brauner <brauner@kernel.org>
 Cc:     linux-fsdevel@vger.kernel.org, Dave Chinner <david@fromorbit.com>,
@@ -75,45 +76,31 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, 10 May 2022 at 13:53, Christian Brauner <brauner@kernel.org> wrote:
-
-> > What exactly are the attributes that systemd requires?
+On Tue, 10 May 2022 at 15:15, Miklos Szeredi <miklos@szeredi.hu> wrote:
 >
-> We keep a repo with ideas for (kernel) extensions - we should probably
-> publish that somewhere - but the list we used for a prototype roughly
-> contains:
+> On Tue, 10 May 2022 at 13:53, Christian Brauner <brauner@kernel.org> wrote:
 >
-> * mount flags MOUNT_ATTR_RDONLY etc.
-> * time flags MOUNT_ATTR_RELATIME etc. (could probably be combined with
->   mount flags. We missed the opportunity to make them proper enums
->   separate from other mount flags imho.)
-> * propagation "flags" (MS_SHARED)
-> * peer group
-> * mnt_id of the mount
-> * mnt_id of the mount's parent
-> * owning userns
+> > > What exactly are the attributes that systemd requires?
+> >
+> > We keep a repo with ideas for (kernel) extensions - we should probably
+> > publish that somewhere - but the list we used for a prototype roughly
+> > contains:
+> >
+> > * mount flags MOUNT_ATTR_RDONLY etc.
+> > * time flags MOUNT_ATTR_RELATIME etc. (could probably be combined with
+> >   mount flags. We missed the opportunity to make them proper enums
+> >   separate from other mount flags imho.)
+> > * propagation "flags" (MS_SHARED)
+> > * peer group
+> > * mnt_id of the mount
+> > * mnt_id of the mount's parent
+> > * owning userns
+>
+> Sounds good thus far.   And hey, we don't even need a new syscall:
+> statx(2) could handle these fine.
 
-Sounds good thus far.   And hey, we don't even need a new syscall:
-statx(2) could handle these fine.
-
-> There's a bit more advanced stuff systemd would really want but which I
-> think is misplaced in a mountinfo system call including:
-> * list of primary and auxiliary block device major/minor
-
-It's when you need to return variable size arrays or list of strings
-that the statx kind of interface falls down.
-
-For that a hierarchical namespace is a much better choice, as it can
-represent arbitrary levels of arrays, while doing that with a
-specialized syscall is going to be cumbersome.
-
-> I just have a really hard time understanding how this belongs into the
-> (f)getxattr() system call family and why it would be a big deal to just
-> make this a separate system call.
-
-Fragmenting syntactically equivalent interfaces is bad, unifying them
-is good.  Dave's example of adding a new syscall for retrieving
-multiple xattrs  is a prime example.
+Oh, we need this indexed with a mount id, which statx can't do.  So
+indeed, a new syscall may be the best choice.
 
 Thanks,
 Miklos
