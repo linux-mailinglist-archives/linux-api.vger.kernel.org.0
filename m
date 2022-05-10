@@ -2,139 +2,174 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AFB9A520C28
-	for <lists+linux-api@lfdr.de>; Tue, 10 May 2022 05:38:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4397D520C6A
+	for <lists+linux-api@lfdr.de>; Tue, 10 May 2022 05:49:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230499AbiEJDl4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 9 May 2022 23:41:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38670 "EHLO
+        id S229908AbiEJDxZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 9 May 2022 23:53:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235709AbiEJDkh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 9 May 2022 23:40:37 -0400
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2FFE2016C7;
-        Mon,  9 May 2022 20:34:54 -0700 (PDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.west.internal (Postfix) with ESMTP id 5917D3200976;
-        Mon,  9 May 2022 23:34:52 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Mon, 09 May 2022 23:34:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
-        :cc:content-transfer-encoding:content-type:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to; s=fm3; t=1652153691; x=
-        1652240091; bh=Wf4+GirlHr8odLVWkz1C4aI3GGmAypu/lVakO44m7ok=; b=K
-        d6w/Ky9g1ONou+rs8boNzVnFBHtYNFA1WbynVGD24JKcYKLWqLU6/jX/6JNP7rak
-        PHLtOTz43QnIoy5mF8GRfgKHt+ESvwLJW13bIwbI7ikNVBPAlj4zg6JAzwUnNFPN
-        jGn5u15qQuWJM4OPcfg2QGSuBdFKbuBk4yAelyVa6gcBpJM3twzbBseiBTAy4Dcs
-        /kfW5db8YGVUfH/Li6584SZtEKKusdFuj0ZHDQTyXmOLcxj3w8qshaXGb9E9LdrC
-        RCqb2sorM7VVhmpc4aSR1kGSolhW1dU3MoAm4IL5wnrVXTA63daH729Y3LfVseIo
-        FRbmIkOl+MldRigeH5ybQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; t=1652153691; x=1652240091; bh=Wf4+GirlHr8od
-        LVWkz1C4aI3GGmAypu/lVakO44m7ok=; b=z4cDqglDdqc/osHgQ2M74yL21q/ld
-        on9l+ORXm2aR824S7xOaod5uSPAVxA5Aejyxb4Sf2cvRQuzghCC/TdyWxCFeeewX
-        /A0f22gQbVUlyu2/fEFWAGb6aXHaXu9M+uPFDkXsn4UBgFWNjYpuaeYjuQUO/hpx
-        HR217Tpo2MtH4wzCJMYaPWK5Ku8OtXiYDmq/nW7f5UMwFYwxZ9y4X+a9kxEczDHi
-        KqWv5mS8iuL9A6ieNtYMLCqQYR9UVkMM0mg5DMWL/ocJ11sni2H/RUXdVBJCUtD6
-        J7UZXsSTYbm7oLgZlQIVY39m0lyXOScdGjABK0D2Nk7rEpblfpf3/BI3w==
-X-ME-Sender: <xms:W915YiXgOfRlxtp1jBt-bKBEGGNlhEe7beM7JojMZmEJ71Rg1ns1BA>
-    <xme:W915YunJF_w0NYU0VqbbHadSvl-Pk4zNQ-Q-7xzjOGHxgwGiFfG8rzQcFSTWysIOY
-    QXxh9umjVir>
-X-ME-Received: <xmr:W915YmamtN3erdOvVnkmGCn6Gy-cy5252odPqGY0x5VVJexN_Z-rVOmTc0xWbl2Xxjc6V3bel9I2NiQQ69b1On3VHK1QzITp51yO_Tx4S73jrCvJcxSe>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgedtgdejvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkuffhvfevffgjfhgtfggggfesthejredttderjeenucfhrhhomhepkfgrnhcu
-    mfgvnhhtuceorhgrvhgvnhesthhhvghmrgifrdhnvghtqeenucggtffrrghtthgvrhhnpe
-    dviefhveeifeevfedutdffkeeigedukeehvefgteeileeitdehgffggfffveejteenucev
-    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehrrghvvghnse
-    hthhgvmhgrfidrnhgvth
-X-ME-Proxy: <xmx:W915YpXpVdJCHMQJ77WMVun5-1I0IPPIXrZGxhduGFwCax5-nPHDhg>
-    <xmx:W915YskWEIYjktriuuuklFjPrdw8zSMuiO1kDkdsEpMZJkEmRy19Hg>
-    <xmx:W915YuflhFnjCnToJ7cyd3nhc0gd5WlgLUJTYfKotRzK0xKk2QZYAw>
-    <xmx:W915Ygl0Jc82FSJuDZwWuy-mCkfNI7bvcGv92xu6y1wanURsXE5jrA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 9 May 2022 23:34:45 -0400 (EDT)
-Message-ID: <4a712f3618835ac9ba0db8d26630f8edf209a193.camel@themaw.net>
+        with ESMTP id S231199AbiEJDxQ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 9 May 2022 23:53:16 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AB6D3ED32
+        for <linux-api@vger.kernel.org>; Mon,  9 May 2022 20:49:18 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id ba17so18470276edb.5
+        for <linux-api@vger.kernel.org>; Mon, 09 May 2022 20:49:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=csH2b0yln8VJjIPZKUY8Qo0Oj23Oo4VsNy+UnhWpwO0=;
+        b=oYECvY6qXcMfackrkGXaEF2Uh8uHzvWghh2G/m/tPRNi9b9hcdKAzXapnkBfurvbuY
+         cQk/LXQg4Z0ssHXJbTax12Vpmb8NOErMzH+BaeZdW79uWkpm8VtbWCTuTP6+XBtrszqm
+         My2e+l5cAmZyvF0loTH1IJeyRjko0Bh2atekA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=csH2b0yln8VJjIPZKUY8Qo0Oj23Oo4VsNy+UnhWpwO0=;
+        b=1q45hgOaCoyo2z7JnGFY+WhZXH3lXPjgbO7nrMF8SpCTy+yHA+STXCilkoR/Mu9JdL
+         3d3uuG1y4pINpDsbnWc23EGl1dr1btYA5zTlsyK82HcJCJ0gZWsFIO/+lk4bKTBGLaGi
+         7wPPplD9gGssV7vzuiinkottVdcbZnUe7X1xM4yAMbQ9/eDbngRaJiHuKzgwcDK3eAL7
+         gcJ+WeM7cvT1jR8Nh6RN1HiFIBaPKQjNRh8ALIDtVAgd3Yiy+6weDTqk1uVghDHQUQpr
+         9N7Q2NH/VB3RRavnJj0gGKgkZeA8vVndZQj9ahbde6Tarj9ZZRY0aJCHZsO0EeL+Uuz8
+         Rnnw==
+X-Gm-Message-State: AOAM5316Y9kRZFHMnQIzPPCDM1zNGnMaP+5lFSU3JzidQSXfkF9Vow4H
+        ddm32iou0yGB6mDI90d+wZ//pdK4bPg8qxwKrcbbJw==
+X-Google-Smtp-Source: ABdhPJwob4/gCvx9CBCx7p8HvSC7iJaxs4G3456S0eeE4V5/ze1040Hv+xp4UizOuDERM7sfMDPdbXRTbaFZ5ah5tNU=
+X-Received: by 2002:a05:6402:5ca:b0:423:f330:f574 with SMTP id
+ n10-20020a05640205ca00b00423f330f574mr20595539edx.116.1652154556554; Mon, 09
+ May 2022 20:49:16 -0700 (PDT)
+MIME-Version: 1.0
+References: <YnEeuw6fd1A8usjj@miu.piliscsaba.redhat.com> <20220509124815.vb7d2xj5idhb2wq6@wittgenstein>
+In-Reply-To: <20220509124815.vb7d2xj5idhb2wq6@wittgenstein>
+From:   Miklos Szeredi <miklos@szeredi.hu>
+Date:   Tue, 10 May 2022 05:49:04 +0200
+Message-ID: <CAJfpegveWaS5pR3O1c_7qLnaEDWwa8oi26x2v_CwDXB_sir1tg@mail.gmail.com>
 Subject: Re: [RFC PATCH] getting misc stats/attributes via xattr API
-From:   Ian Kent <raven@themaw.net>
-To:     Vivek Goyal <vgoyal@redhat.com>,
-        Christian Brauner <brauner@kernel.org>
-Cc:     Amir Goldstein <amir73il@gmail.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Dave Chinner <david@fromorbit.com>,
-        Theodore Ts'o <tytso@mit.edu>, Karel Zak <kzak@redhat.com>,
+To:     Christian Brauner <brauner@kernel.org>
+Cc:     linux-fsdevel@vger.kernel.org, Dave Chinner <david@fromorbit.com>,
+        "Theodore Ts'o" <tytso@mit.edu>, Karel Zak <kzak@redhat.com>,
         Greg KH <gregkh@linuxfoundation.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-kernel@vger.kernel.org,
         Linux API <linux-api@vger.kernel.org>,
         linux-man <linux-man@vger.kernel.org>,
         LSM <linux-security-module@vger.kernel.org>,
+        Ian Kent <raven@themaw.net>,
         David Howells <dhowells@redhat.com>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
         Christian Brauner <christian@brauner.io>,
+        Amir Goldstein <amir73il@gmail.com>,
         James Bottomley <James.Bottomley@hansenpartnership.com>
-Date:   Tue, 10 May 2022 11:34:39 +0800
-In-Reply-To: <YnmK0VJhQ4sf8AMI@redhat.com>
-References: <YnEeuw6fd1A8usjj@miu.piliscsaba.redhat.com>
-         <20220509124815.vb7d2xj5idhb2wq6@wittgenstein>
-         <CAOQ4uxgCSJ2rpJkPy1FkP__7zhaVXO5dnZQXSzvk=fReaZH7Aw@mail.gmail.com>
-         <20220509150856.cfsxn5t2tvev2njx@wittgenstein>
-         <YnmK0VJhQ4sf8AMI@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-1.fc35) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, 2022-05-09 at 17:42 -0400, Vivek Goyal wrote:
-> On Mon, May 09, 2022 at 05:08:56PM +0200, Christian Brauner wrote:
-> 
-> [..]
-> > Having "xattr" in the system call name is just confusing. These are
-> > fundamentally not "real" xattrs and we shouldn't mix semantics.
-> > There
-> > should be a clear distinction between traditional xattrs and this
-> > vfs
-> > and potentially fs information providing interface.
-> > 
-> > Just thinking about what the manpage would look like. We would need
-> > to
-> > add a paragraph to xattr(7) explaining that in addition to the
-> > system.*,
-> > security.*, user.* and other namespaces we now also have a set of
-> > namespaces that function as ways to get information about mounts or
-> > other things instead of information attached to specific inodes.
-> > 
-> > That's super random imho. If I were to be presented with this
-> > manpage
-> > I'd wonder if someone was too lazy to add a proper new system call
-> > with
-> > it's own semantics for this and just stuffed it into an existing
-> > API
-> > because it provided matching system call arguments. We can add a
-> > new
-> > system call. It's not that we're running out of them.
-> 
-> FWIW, I also felt that using xattr API to get some sort of mount info
-> felt
-> very non-intutive.
+On Mon, 9 May 2022 at 14:48, Christian Brauner <brauner@kernel.org> wrote:
 
-Yeah, people looking for this function simply wouldn't know to
-look here ...
+> One comment about this. We really need to have this interface support
+> giving us mount options like "relatime" back in numeric form (I assume
+> this will be possible.). It is royally annoying having to maintain a
+> mapping table in userspace just to do:
+>
+> relatime -> MS_RELATIME/MOUNT_ATTR_RELATIME
+> ro       -> MS_RDONLY/MOUNT_ATTR_RDONLY
+>
+> A library shouldn't be required to use this interface. Conservative
+> low-level software that keeps its shared library dependencies minimal
+> will need to be able to use that interface without having to go to an
+> external library that transforms text-based output to binary form (Which
+> I'm very sure will need to happen if we go with a text-based
+> interface.).
 
-Ian
+Agreed.
+
+>   This pattern of requesting the size first by passing empty arguments,
+>   then allocating the buffer and then passing down that buffer to
+>   retrieve that value is really annoying to use and error prone (I do
+>   of course understand why it exists.).
+>
+>   For real xattrs it's not that bad because we can assume that these
+>   values don't change often and so the race window between
+>   getxattr(GET_SIZE) and getxattr(GET_VALUES) often doesn't matter. But
+>   fwiw, the post > pre check doesn't exist for no reason; we do indeed
+>   hit that race.
+
+That code is wrong.  Changing xattr size is explicitly documented in
+the man page as a non-error condition:
+
+       If size is specified as zero, these calls return the  current  size  of
+       the  named extended attribute (and leave value unchanged).  This can be
+       used to determine the size of the buffer that should be supplied  in  a
+       subsequent  call.   (But, bear in mind that there is a possibility that
+       the attribute value may change between the two calls,  so  that  it  is
+       still necessary to check the return status from the second call.)
+
+>
+>   In addition, it is costly having to call getxattr() twice. Again, for
+>   retrieving xattrs it often doesn't matter because it's not a super
+>   common operation but for mount and other info it might matter.
+
+You don't *have* to retrieve the size, it's perfectly valid to e.g.
+start with a fixed buffer size and double the size until the result
+fits.
+
+> * Would it be possible to support binary output with this interface?
+>   I really think users would love to have an interfact where they can
+>   get a struct with binary info back.
+
+I think that's bad taste.   fsinfo(2) had the same issue.  As well as
+mount(2) which still interprets the last argument as a binary blob in
+certain cases (nfs is one I know of).
+
+>   Especially for some information at least. I'd really love to have a
+>   way go get a struct mount_info or whatever back that gives me all the
+>   details about a mount encompassed in a single struct.
+
+If we want that, then can do a new syscall with that specific struct
+as an argument.
+
+>   Callers like systemd will have to parse text and will end up
+>   converting everything from text into binary anyway; especially for
+>   mount information. So giving them an option for this out of the box
+>   would be quite good.
+
+What exactly are the attributes that systemd requires?
+
+>   Interfaces like statx aim to be as fast as possible because we exptect
+>   them to be called quite often. Retrieving mount info is quite costly
+>   and is done quite often as well. Maybe not for all software but for a
+>   lot of low-level software. Especially when starting services in
+>   systemd a lot of mount parsing happens similar when starting
+>   containers in runtimes.
+
+Was there ever a test patch for systemd using fsinfo(2)?  I think not.
+
+Until systemd people start to reengineer the mount handing to allow
+for retrieving a single mount instead of the complete mount table we
+will never know where the performance bottleneck lies.
+
+>
+> * If we decide to go forward with this interface - and I think I
+>   mentioned this in the lsfmm session - could we please at least add a
+>   new system call? It really feels wrong to retrieve mount and other
+>   information through the xattr interfaces. They aren't really xattrs.
+
+I'd argue with that statement.  These are most definitely attributes.
+As for being extended, we'd just extended the xattr interface...
+
+Naming aside... imagine that read(2) has always been used to retrieve
+disk data, would you say that reading data from proc feels wrong?
+And in hindsight, would a new syscall for the purpose make any sense?
+
+Thanks,
+Miklos
