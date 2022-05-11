@@ -2,60 +2,98 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 010E4523F34
-	for <lists+linux-api@lfdr.de>; Wed, 11 May 2022 23:06:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A767523F4E
+	for <lists+linux-api@lfdr.de>; Wed, 11 May 2022 23:12:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229633AbiEKVG1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 11 May 2022 17:06:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52004 "EHLO
+        id S1348057AbiEKVMl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 11 May 2022 17:12:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347978AbiEKVGY (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 11 May 2022 17:06:24 -0400
-X-Greylist: delayed 25514 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 11 May 2022 14:06:22 PDT
-Received: from yodobashi.com (unknown [106.75.237.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C0AEF6543E
-        for <linux-api@vger.kernel.org>; Wed, 11 May 2022 14:06:22 -0700 (PDT)
-Sender: info@yodobashi.com
-Date:   Thu, 12 May 2022 05:06:13 +0800
-From:   "yodobashi.com" <mail@yodobashi.com>
-To:     <linux-api@vger.kernel.org>
-Subject: =?gb2312?B?peilyaXQpbelyaXDpcils6Xgo7qhuKSqv82YlMfpiPOhuYnkuPzSwA==?=
-        =?gb2312?B?7m3K3Li2pM6ktN9CvWogYTA3cmI1NnJ6ajhl?=
-Message-ID: <20220512050623737253@yodobashi.com>
-X-mailer: Foxmail 6, 13, 102, 15 [cn]
-Mime-Version: 1.0
-Content-Type: text/plain;
-        charset="gb2312"
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,RCVD_IN_SBL_CSS,
-        RDNS_NONE,SPF_FAIL,SPF_HELO_FAIL,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+        with ESMTP id S1348041AbiEKVMj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 11 May 2022 17:12:39 -0400
+Received: from brightrain.aerifal.cx (brightrain.aerifal.cx [216.12.86.13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 276201DAFA7
+        for <linux-api@vger.kernel.org>; Wed, 11 May 2022 14:12:34 -0700 (PDT)
+Date:   Wed, 11 May 2022 17:12:32 -0400
+From:   Rich Felker <dalias@libc.org>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Christian Brauner <brauner@kernel.org>,
+        Huacai Chen <chenhuacai@gmail.com>,
+        Huacai Chen <chenhuacai@loongson.cn>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        GNU C Library <libc-alpha@sourceware.org>,
+        musl@lists.openwall.com
+Subject: Re: [musl] Re: [PATCH V9 13/24] LoongArch: Add system call support
+Message-ID: <20220511211231.GG7074@brightrain.aerifal.cx>
+References: <20220430090518.3127980-1-chenhuacai@loongson.cn>
+ <20220430090518.3127980-14-chenhuacai@loongson.cn>
+ <CAK8P3a0A9dW4mwJ6JHDiJxizL7vWfr4r4c5KhbjtAY0sWbZJVA@mail.gmail.com>
+ <CAAhV-H4te_+AS69viO4eBz=abBUm5oQ6AfoY1Cb+nOCZyyeMdA@mail.gmail.com>
+ <CAK8P3a0DqQcApv8aa2dgBS5At=tEkN7cnaskoUeXDi2-Bu9Rnw@mail.gmail.com>
+ <20220507121104.7soocpgoqkvwv3gc@wittgenstein>
+ <20220509100058.vmrgn5fkk3ayt63v@wittgenstein>
+ <CAK8P3a0zmPbMNsS11aUGiAADyjOEueNUXQ8QZtVxr48M3pwAkQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK8P3a0zmPbMNsS11aUGiAADyjOEueNUXQ8QZtVxr48M3pwAkQ@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-ofah9qG4pKq/zZiUx+mI86G5ieS4/NLA7m3K3Li2pM6ktN9CvWqh9qH2DQqjqKSzpM6l4algpeuk
-z6GixeTQxYyf08OkzqWipcml7KW5pMfF5NDFpLWk7KTGpKSk3qS5o6kNCg0KDQql6KXJpdClt6XJ
-pcOlyKWzpeCk8qS0wPvTw6SkpL+kwKStoaKkoqTqpKykyKSmpLSktqSkpN6kuaGjDQqkqr/NmJSk
-zqSqv82YlMfpiPOJ5Lj8yta+QaStpPKkqqSzpMqkpKTepLekv6GjDQrE2sjdpM6ktLRf1Uqk8qSq
-7oqkpKSkpL+kt6TepLmhow0Ko6il0aW5pe+pYKXJpM+horHtyr6kt6TGpKqk6qTepLuk86OpDQoN
-CqG+ieS4/Iydz/OkzrvhhlRJRKG/DQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0Ku+GGVElEoaE6oaFsaW51eC1hcGlAdmdlci5rZXJu
-ZWwub3JnDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLQ0KDQqh8YnkuPyktaTspL+kqr/NmJTH6YjzIA0KLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCuuK1JK3rLrFDQrI1dbQ
-pM6ktN9CvWrPyOuK1JK3rLrFDQoNCqS0tcflaMfpiPOkz6Giz8LTm6G4pKq/zZiUjJ/Tw6XaqWCl
-uKG5pKuk6aS0tF/VSqSvpMCktaSkoaMNCg0KoaGoi6Sqv82YlIyf08Ol2qlgpbgNCmh0dHBzOi8v
-cy55YW0uY29tLzlhbzZ2DQoNCqH5pLOkzqXhqWCl68TayN2ky9DEpKKkv6TqpM6kyqSkiPa6z6TP
-oaKkqsrWyv2kx6S5pKyhoqXopcml0KW3P6XJpcOlyD+ls6XgpKqGlqSkus+k76S7t5m/2qTY1sG8
-saS030K9aqTypKruiqSkpKSkv6S3pN6kuaGjDQoNCg0KpLOkzqXhqWCl66TPoaLF5NDFjJ/Tw6TO
-paKlyaXspbmkx8Xk0MWktaTspMakpKTepLmhow0KpKrK1sr9pPKkqpLspLGkpKS/pLek3qS5pKyh
-oqSzpM6l4algpeukzsTayN2ky6TEpKSkxqTOpKqGlqSkus+k76S7pM/PwtObpM7fQr1qz8ik3qTH
-pKruiqSkpKSkv6S3pN6kuaGjDQoNCqXopcml0KW3pcmlw6XIpbOl4CCkqoaWpKS6z6TvpLu3mb/a
-DQpFbWFpbDogaW5mb0B5b2RvYmFzaGkuY29tDQoNCkNvcHlyaWdodDIwMjIgWW9kb2Jhc2hpIENh
-bWVyYSBDby4sTHRkLg0KDQogDQo=
+On Wed, May 11, 2022 at 09:11:56AM +0200, Arnd Bergmann wrote:
+> On Mon, May 9, 2022 at 12:00 PM Christian Brauner <brauner@kernel.org> wrote:
+> .....
+> > I can try and move a poc for this up the todo list.
+> >
+> > Without an approach like this certain sandboxes will fallback to
+> > ENOSYSing system calls they can't filter. This is a generic problem
+> > though with clone3() being one promiment example.
+> 
+> Thank you for the detailed reply. It sounds to me like this will eventually have
+> to get solved anyway, so we could move ahead without clone() on loongarch,
+> and just not have support for Chrome until this is fully solved.
+> 
+> As both the glibc and musl ports are being proposed for inclusion right
+> now, we should try to come to a decision so the libc ports can adjust if
+> necessary. Adding both mailing lists to Cc here, the discussion is archived
+> at [1].
+> 
+>          Arnd
+> 
+> [1] https://lore.kernel.org/linux-arch/20220509100058.vmrgn5fkk3ayt63v@wittgenstein/
 
+Having read about the seccomp issue, I think it's a very strong
+argument that __NR_clone should be kept permanently for all future
+archs. Otherwise, at least AIUI, it's impossible to seccomp-sandbox
+multithreaded programs (since you can't allow the creation of threads
+without also allowing other unwanted use of clone3). It sounds like
+there's some interest in extending seccomp to allow filtering of
+argument blocks like clone3 uses, but some of what I read about was
+checksum-based (thus a weak hardening measure at best, not a hard
+privilege boundary) and even if something is eventually created that
+works, it won't be available right away, and it won't be nearly as
+easy to use as just allowing thread-creating clone syscalls on
+existing archs.
 
+Rich
