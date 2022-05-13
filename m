@@ -2,59 +2,42 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 75F07524C73
-	for <lists+linux-api@lfdr.de>; Thu, 12 May 2022 14:11:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1ACB525CEA
+	for <lists+linux-api@lfdr.de>; Fri, 13 May 2022 10:14:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353575AbiELMLk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 12 May 2022 08:11:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49640 "EHLO
+        id S1378037AbiEMIGE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 13 May 2022 04:06:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353578AbiELMLj (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 12 May 2022 08:11:39 -0400
-Received: from brightrain.aerifal.cx (brightrain.aerifal.cx [216.12.86.13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C948E3D492
-        for <linux-api@vger.kernel.org>; Thu, 12 May 2022 05:11:33 -0700 (PDT)
-Date:   Thu, 12 May 2022 08:11:31 -0400
-From:   Rich Felker <dalias@libc.org>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     musl@lists.openwall.com, Christian Brauner <brauner@kernel.org>,
-        Huacai Chen <chenhuacai@gmail.com>,
-        Huacai Chen <chenhuacai@loongson.cn>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        GNU C Library <libc-alpha@sourceware.org>
-Subject: Re: [musl] Re: [PATCH V9 13/24] LoongArch: Add system call support
-Message-ID: <20220512121131.GH7074@brightrain.aerifal.cx>
-References: <20220430090518.3127980-1-chenhuacai@loongson.cn>
- <20220430090518.3127980-14-chenhuacai@loongson.cn>
- <CAK8P3a0A9dW4mwJ6JHDiJxizL7vWfr4r4c5KhbjtAY0sWbZJVA@mail.gmail.com>
- <CAAhV-H4te_+AS69viO4eBz=abBUm5oQ6AfoY1Cb+nOCZyyeMdA@mail.gmail.com>
- <CAK8P3a0DqQcApv8aa2dgBS5At=tEkN7cnaskoUeXDi2-Bu9Rnw@mail.gmail.com>
- <20220507121104.7soocpgoqkvwv3gc@wittgenstein>
- <20220509100058.vmrgn5fkk3ayt63v@wittgenstein>
- <CAK8P3a0zmPbMNsS11aUGiAADyjOEueNUXQ8QZtVxr48M3pwAkQ@mail.gmail.com>
- <20220511211231.GG7074@brightrain.aerifal.cx>
- <CAK8P3a05wSVu7M9kVMw5cSqx84YUCk1394Yfd_5tweEOc2P69g@mail.gmail.com>
+        with ESMTP id S1378029AbiEMIGC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 13 May 2022 04:06:02 -0400
+Received: from mail.coredeal.pl (mail.coredeal.pl [51.75.73.133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ECE02E0BC
+        for <linux-api@vger.kernel.org>; Fri, 13 May 2022 01:05:59 -0700 (PDT)
+Received: by mail.coredeal.pl (Postfix, from userid 1002)
+        id 5FE3FA500E; Fri, 13 May 2022 08:05:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=coredeal.pl; s=mail;
+        t=1652429158; bh=9KGuIG62LgzC9aYmjKxzocuYLRCVghXg6v9Q1q2LHec=;
+        h=Date:From:To:Subject:From;
+        b=aWCDdoKke0A6K0RsI4GPWGlAIvTAcL4obuFDH6v07ST5nEwSecOXPDrMGfldF1GVb
+         Bir1JUBi/JGcqjahdqbmrf4GdfmXTVhG61crHGCOHApB1TqIWe9nJ7UiDJmcXqy/Ea
+         3c5D/UM90uwVPpp9rUzrAwYvzBeEDfmpN9lIGJ5IgeBZVd5hDZKeOFiXxJWlXcTL6q
+         Kxf2sITf+jOomPxTxKhkLx6lrC7KM9TVfzFXdGmnOOpYfxDc7C2SrpdbcYk3zsTMsx
+         xJdjWgtek7GuSHWjvf91D6xPottQpzqf+a2UiDfyX+QFjl8e24sWp3CaC+935ybf1C
+         eYW6si/bzlZQA==
+Received: by mail.coredeal.pl for <linux-api@vger.kernel.org>; Fri, 13 May 2022 08:05:55 GMT
+Message-ID: <20220513064500-0.1.33.nznv.0.nv3n6cc5rf@coredeal.pl>
+Date:   Fri, 13 May 2022 08:05:55 GMT
+From:   "Krzysztof Maj" <krzysztof.maj@coredeal.pl>
+To:     <linux-api@vger.kernel.org>
+Subject: Biznesowy angielski
+X-Mailer: mail.coredeal.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK8P3a05wSVu7M9kVMw5cSqx84YUCk1394Yfd_5tweEOc2P69g@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,54 +45,29 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, May 12, 2022 at 09:21:13AM +0200, Arnd Bergmann wrote:
-> On Wed, May 11, 2022 at 11:12 PM Rich Felker <dalias@libc.org> wrote:
-> > On Wed, May 11, 2022 at 09:11:56AM +0200, Arnd Bergmann wrote:
-> > > On Mon, May 9, 2022 at 12:00 PM Christian Brauner <brauner@kernel.org> wrote:
-> > > .....
-> > > > I can try and move a poc for this up the todo list.
-> > > >
-> > > > Without an approach like this certain sandboxes will fallback to
-> > > > ENOSYSing system calls they can't filter. This is a generic problem
-> > > > though with clone3() being one promiment example.
-> > >
-> > > Thank you for the detailed reply. It sounds to me like this will eventually have
-> > > to get solved anyway, so we could move ahead without clone() on loongarch,
-> > > and just not have support for Chrome until this is fully solved.
-> > >
-> > > As both the glibc and musl ports are being proposed for inclusion right
-> > > now, we should try to come to a decision so the libc ports can adjust if
-> > > necessary. Adding both mailing lists to Cc here, the discussion is archived
-> > > at [1].
-> > >
-> > >          Arnd
-> > >
-> > > [1] https://lore.kernel.org/linux-arch/20220509100058.vmrgn5fkk3ayt63v@wittgenstein/
-> >
-> > Having read about the seccomp issue, I think it's a very strong
-> > argument that __NR_clone should be kept permanently for all future
-> > archs.
-> 
-> Ok, let's keep clone() around for all architectures then. We should probably
-> just remove the __ARCH_WANT_SYS_CLONE macro and build the
-> code into the kernel unconditionally, but at the moment there
-> are still private versions for ia64 and sparc with the same name as
-> the generic version. Both are also still lacking support for clone3() and
-> don't have anyone actively working on them.
-> 
-> In this case, we probably don't need to change clone3() to allow the
-> zero-length stack after all, and the wrapper that was added to the
-> musl port should get removed again.
+Dzie=C5=84 dobry,=20
 
-I still think disallowing a zero length (unknown length with caller
-providing the start address only) stack is a gratuitous limitation on
-the clone3 interface, and would welcome leaving the change to allow
-zero-length in place. There does not seem to be any good justification
-for forbidding it, and it does pose other real-world obstruction to
-use. For example if your main thread had exited (or if you're forking
-from a non-main thread) and you wanted to create a new process using
-the old main thread stack as your stack, you would not know a
-size/lowest-address, only a starting address from which it extends
-some long (and possibly expanding) amount.
+czy rozwa=C5=BCali Pa=C5=84stwo rozw=C3=B3j kwalifikacji j=C4=99zykowych =
+swoich pracownik=C3=B3w?
 
-Rich
+Opracowali=C5=9Bmy kursy j=C4=99zykowe dla r=C3=B3=C5=BCnych bran=C5=BC, =
+w kt=C3=B3rych koncentrujemy si=C4=99 na podniesieniu poziomu s=C5=82owni=
+ctwa i jako=C5=9Bci komunikacji wykorzystuj=C4=85c autorsk=C4=85 metod=C4=
+=99, stworzon=C4=85 specjalnie dla wymagaj=C4=85cego biznesu.=20
+
+Niestandardowy kurs on-line, dopasowany do profilu firmy i obszar=C3=B3w =
+=C5=9Bwiadczonych us=C5=82ug, w szybkim czasie przyniesie efekty, kt=C3=B3=
+re zwi=C4=99ksz=C4=85 komfort i jako=C5=9B=C4=87 pracy, rozwijaj=C4=85c m=
+o=C5=BCliwo=C5=9Bci biznesowe.=20
+
+Zdalne szkolenie j=C4=99zykowe to m.in. zaj=C4=99cia z native speakerami,=
+ kt=C3=B3re w szybkim czasie naucz=C4=85 pracownik=C3=B3w rozmawia=C4=87 =
+za pomoc=C4=85 jasnego i zwi=C4=99z=C5=82ego j=C4=99zyka Business English=
+=2E
+
+Czy m=C3=B3g=C5=82bym przedstawi=C4=87 wi=C4=99cej szczeg=C3=B3=C5=82=C3=B3=
+w i opowiedzie=C4=87 jak dzia=C5=82amy?=20
+
+
+Pozdrawiam
+Krzysztof Maj
