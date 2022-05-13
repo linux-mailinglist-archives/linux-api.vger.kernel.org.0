@@ -2,72 +2,140 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D1ACB525CEA
-	for <lists+linux-api@lfdr.de>; Fri, 13 May 2022 10:14:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF6A25262E8
+	for <lists+linux-api@lfdr.de>; Fri, 13 May 2022 15:18:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378037AbiEMIGE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 13 May 2022 04:06:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37466 "EHLO
+        id S1380633AbiEMNSa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 13 May 2022 09:18:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378029AbiEMIGC (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 13 May 2022 04:06:02 -0400
-Received: from mail.coredeal.pl (mail.coredeal.pl [51.75.73.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ECE02E0BC
-        for <linux-api@vger.kernel.org>; Fri, 13 May 2022 01:05:59 -0700 (PDT)
-Received: by mail.coredeal.pl (Postfix, from userid 1002)
-        id 5FE3FA500E; Fri, 13 May 2022 08:05:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=coredeal.pl; s=mail;
-        t=1652429158; bh=9KGuIG62LgzC9aYmjKxzocuYLRCVghXg6v9Q1q2LHec=;
-        h=Date:From:To:Subject:From;
-        b=aWCDdoKke0A6K0RsI4GPWGlAIvTAcL4obuFDH6v07ST5nEwSecOXPDrMGfldF1GVb
-         Bir1JUBi/JGcqjahdqbmrf4GdfmXTVhG61crHGCOHApB1TqIWe9nJ7UiDJmcXqy/Ea
-         3c5D/UM90uwVPpp9rUzrAwYvzBeEDfmpN9lIGJ5IgeBZVd5hDZKeOFiXxJWlXcTL6q
-         Kxf2sITf+jOomPxTxKhkLx6lrC7KM9TVfzFXdGmnOOpYfxDc7C2SrpdbcYk3zsTMsx
-         xJdjWgtek7GuSHWjvf91D6xPottQpzqf+a2UiDfyX+QFjl8e24sWp3CaC+935ybf1C
-         eYW6si/bzlZQA==
-Received: by mail.coredeal.pl for <linux-api@vger.kernel.org>; Fri, 13 May 2022 08:05:55 GMT
-Message-ID: <20220513064500-0.1.33.nznv.0.nv3n6cc5rf@coredeal.pl>
-Date:   Fri, 13 May 2022 08:05:55 GMT
-From:   "Krzysztof Maj" <krzysztof.maj@coredeal.pl>
-To:     <linux-api@vger.kernel.org>
-Subject: Biznesowy angielski
-X-Mailer: mail.coredeal.pl
+        with ESMTP id S1380678AbiEMNS3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 13 May 2022 09:18:29 -0400
+Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F21320BD5
+        for <linux-api@vger.kernel.org>; Fri, 13 May 2022 06:18:21 -0700 (PDT)
+Received: by mail-qv1-xf2e.google.com with SMTP id kk28so6643321qvb.3
+        for <linux-api@vger.kernel.org>; Fri, 13 May 2022 06:18:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=7DVFy8B/48vjDiogKao/u1m+Uh2mcMVRQSudVGyqLtY=;
+        b=DjE88+L1q+zLlBpMSt37mMdN0+dUyQIzezAEtT4kgPMj+5SSNbCLHGx1qdXFtWUJE+
+         zXSJMwHYSspilh8NQ9wqgl7tZR54EETX1g1p/cBR1GTZpCZNzomL6sQj4jIHUhlXb4jM
+         uX6k2sbt6KYlxvGiJLl00l+MTg1ARkJHFtDW//qzXXIFo2ysalC44xvAtq8bBzpnveVc
+         XAnVdv8i/OIWlB9cpKcwf5WhkQYUwG3j3KfzZT9nTpi0JyM+8zP8gkRmKXpI7QWqMwVU
+         64Rxmf6dO1+vjGI9VQ1QyI58A6/84fj1zzNoWyjOnPLEuglLpIa9VElSi4ty3zMGOo5O
+         YN5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=7DVFy8B/48vjDiogKao/u1m+Uh2mcMVRQSudVGyqLtY=;
+        b=lBOUq7V0qZk+F58XojVD/BAJksBz7/QP+d21nDcbWkW3C+QdtJo7D2WDFPBLJM7SS1
+         iCqpzBxCFp8Z1PxpUSHyAPQCyD/OlfVkpwb8rIT5PXecIj942HmlPda/FppMMkXPXDS8
+         PWSq4L2x202lYrRe7h2QxGoQoYlpkfeoc9nyNUiQXZd5jT/zdyc87TvWNihun/p0ugqg
+         FbmYJw4SdUBT1mUK5bS7c7QAEqbcr1n0fkURyq4SX6MLDADd6Wwlke0xyqk8B2S9gtTr
+         aa8oOiWBB/sU0v6pJOYLL0yKwaqYQHOLY6nBapM/KTyuVnMuXTFiZ9WRwovCQWh3f/Ek
+         4b0A==
+X-Gm-Message-State: AOAM5335+cKqn0m963ZW9ymPdktB5MmaDAJxu2UqZiG2vIt7bNkqxLpE
+        bRH63q/AEkd8raYK+M4HBklx/A==
+X-Google-Smtp-Source: ABdhPJyomolJRYnpMEQULCStjOkEvGo2Qh31RUDyghNdXG/oPYiAqPkyU1f8MsaTLrLM6vktlh87kA==
+X-Received: by 2002:a0c:f453:0:b0:45a:95a5:e81d with SMTP id h19-20020a0cf453000000b0045a95a5e81dmr4173656qvm.48.1652447900046;
+        Fri, 13 May 2022 06:18:20 -0700 (PDT)
+Received: from google.com (122.213.145.34.bc.googleusercontent.com. [34.145.213.122])
+        by smtp.gmail.com with ESMTPSA id j9-20020ac84409000000b002f3edca00casm1420178qtn.16.2022.05.13.06.18.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 May 2022 06:18:18 -0700 (PDT)
+Date:   Fri, 13 May 2022 13:18:15 +0000
+From:   Matthew Bobrowski <repnop@google.com>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>, Linux API <linux-api@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Subject: Re: Fanotify API - Tracking File Movement
+Message-ID: <Yn5al/rEQIcf6pjR@google.com>
+References: <YnOmG2DvSpvvOEOQ@google.com>
+ <20220505112217.zvzbzhjgmoz7lr6w@quack3.lan>
+ <CAOQ4uxhJFEoV0X8uunNaYjdKpsFj6nUtcNFBx8d3oqodDO_iYA@mail.gmail.com>
+ <20220505133057.zm5t6vumc4xdcnsg@quack3.lan>
+ <YnRhVgu6JKNinarh@google.com>
+ <CAOQ4uxi9Jps3BGiSYWWvQdNeb+QPA9kSo_BDRCC2jfPSGWdx_w@mail.gmail.com>
+ <20220506100636.k2lm22ztxpyaw373@quack3.lan>
+ <CAOQ4uxjEcbjRoObAUfSS3RHVJY7EiW8tJSo1geNtbgQbcTOM+A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOQ4uxjEcbjRoObAUfSS3RHVJY7EiW8tJSo1geNtbgQbcTOM+A@mail.gmail.com>
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Dzie=C5=84 dobry,=20
+On Sat, May 07, 2022 at 07:03:13PM +0300, Amir Goldstein wrote:
+> Sorry Matthew, I was looking at the code to give you pointers, but there were
+> so many subtle details (as Jan has expected) that I could only communicate
+> them with a patch.
+> I tested that this patch does not break anything, but did not implement the
+> UAPI changes, so the functionality that it adds is not tested - I leave that
+> to you.
 
-czy rozwa=C5=BCali Pa=C5=84stwo rozw=C3=B3j kwalifikacji j=C4=99zykowych =
-swoich pracownik=C3=B3w?
+No, that's totally fine. I had to familiarize myself with the
+FS/FAN_RENAME implementation as I hadn't gone over that series. So
+appreciate you whipping this together quickly as it would've taken a
+fair bit of time.
 
-Opracowali=C5=9Bmy kursy j=C4=99zykowe dla r=C3=B3=C5=BCnych bran=C5=BC, =
-w kt=C3=B3rych koncentrujemy si=C4=99 na podniesieniu poziomu s=C5=82owni=
-ctwa i jako=C5=9Bci komunikacji wykorzystuj=C4=85c autorsk=C4=85 metod=C4=
-=99, stworzon=C4=85 specjalnie dla wymagaj=C4=85cego biznesu.=20
+Before the UAPI related modifications, we need to first figure out how
+we are to handle the CREATE/DELETE/MOVE cases.
 
-Niestandardowy kurs on-line, dopasowany do profilu firmy i obszar=C3=B3w =
-=C5=9Bwiadczonych us=C5=82ug, w szybkim czasie przyniesie efekty, kt=C3=B3=
-re zwi=C4=99ksz=C4=85 komfort i jako=C5=9B=C4=87 pracy, rozwijaj=C4=85c m=
-o=C5=BCliwo=C5=9Bci biznesowe.=20
+...
 
-Zdalne szkolenie j=C4=99zykowe to m.in. zaj=C4=99cia z native speakerami,=
- kt=C3=B3re w szybkim czasie naucz=C4=85 pracownik=C3=B3w rozmawia=C4=87 =
-za pomoc=C4=85 jasnego i zwi=C4=99z=C5=82ego j=C4=99zyka Business English=
-=2E
+> My 0.02$ - while FAN_RENAME is a snowflake, this is not because
+> of our design, this is because rename(2) is a snowflake vfs operation.
+> The event information simply reflects the operation complexity and when
+> looking at non-Linux filesystem event APIs, the event information for rename
+> looks very similar to FAN_RENAME. In some cases (lustre IIRC) the protocol
+> was enhanced at some point exactly as we did with FAN_RENAME to
+> have all the info in one event vs. having to join two events.
+> 
+> Hopefully, the attached patch simplifies the specialized implementation
+> a little bit.
+> 
+> But... (there is always a but when it comes to UAPI),
+> When looking at my patch, one cannot help wondering -
+> what about FAN_CREATE/FAN_DELETE/FAN_MOVE?
+> If those can report child fid, why should they be treated differently
+> than FAN_RENAME w.r.t marking the child inode?
 
-Czy m=C3=B3g=C5=82bym przedstawi=C4=87 wi=C4=99cej szczeg=C3=B3=C5=82=C3=B3=
-w i opowiedzie=C4=87 jak dzia=C5=82amy?=20
+This is something that crossed my mind while looking over the patch
+and is a very good thing to call-out indeed. I am of the opinion that
+we shouldn't be placing FAN_RENAME in the special egg basket and also
+consider how this is to operate for events
+FAN_CREATE/FAN_DELETE/FAN_MOVE.
 
+> For example, when watching a non-dir for FAN_CREATE, it could
+> be VERY helpful to get the dirfid+name of where the inode was
+> hard linked.
 
-Pozdrawiam
-Krzysztof Maj
+Oh right, here you're referring to this specific scenario:
+
+- FAN_CREATE mark exclusively placed on /dir1/old_file
+- Create link(/dir1/old_file, /dir2/new_file)
+- Expect to receive single event including two information records
+  FID(/dir1/old_file) + DFID_NAME(/dir2/new_file)
+
+Is that correct?
+
+> In fact, if an application is watching FAN_RENAME to track the
+> movement of a non-dir file and does not watch hardlink+unlink, then
+> the file could escape under the application's nose.
+
+That's understood.
+
+/M
+
