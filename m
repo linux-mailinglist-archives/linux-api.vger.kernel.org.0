@@ -2,44 +2,44 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F59352B5D6
-	for <lists+linux-api@lfdr.de>; Wed, 18 May 2022 11:28:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20F2652B633
+	for <lists+linux-api@lfdr.de>; Wed, 18 May 2022 11:29:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234389AbiERJ0y (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 18 May 2022 05:26:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47226 "EHLO
+        id S234149AbiERJ1E (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 18 May 2022 05:27:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234187AbiERJZ4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 18 May 2022 05:25:56 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2129.outbound.protection.outlook.com [40.107.113.129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E87C16598;
-        Wed, 18 May 2022 02:25:52 -0700 (PDT)
+        with ESMTP id S234375AbiERJ0t (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 18 May 2022 05:26:49 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2117.outbound.protection.outlook.com [40.107.113.117])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24C486D4EB;
+        Wed, 18 May 2022 02:26:47 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FSuHhjcuOnbJ6j5zhJvCyVRLCmZ/Z3AL7Pv985Hdyi8RIVqdqu9pXqL/Cpa5pHTMYptmIOr1eTRx2RrheJvniLL8AxqNeZzgYMk4wJMH/p352oxzPA+EpXVGtKxNnyFvEm2SEx1lJuXn+xw2Nza+EP4XicUVHjzlPZm9/rRCj3qqJ4eYNKz1Crhco1byx8QTK1KSmYeL8Kd7tVzdgZBvQs+wX+gckmWLpPz6sUs0SLspxeKpoxisbx+6vud3f+CLZx5shM84v2xVJ3Z8JdgJSoHgEiZI/NZgDRbuklhE1Q7g1tdi57k5aYwy1Fay2iZtxelzRxci3auYZ8ufhA9hOQ==
+ b=BfGRLgvBp9AYOMkkRwXu4SdjbAeLKMePOfAWcSjcVtCeQMDIZ8HHkkIZUZvs5RRK5vRihxLTzf0IAsBsO+vtq+ExfI0+s0jz++kOpkj1w3qnvTRI8NQe2bMYjDCWkuF/5uHOptoBufADVHAEAwSEPQaaWUc+Cskq+iVscSIUZ/T2tsH8uaLpW5L+Wc+oq/8Wi+e50RLXIsXRYPD73TwtZN9pbyxeUGZbgE1laLjb5oaUwN2nY8Ig+elgzMEYdfw510FOlLpMdXL+/3FCEpPvGcKYieri4UlVuTyLAmAY/5CkdYr28yiqRsgLQFOAQ7802KJzGgCkDT683LuOPuP2Iw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LmgCsUrRFQiDkhjhuP0NOx/lzAJkFtwARE4FbvL7+C0=;
- b=VPdgp4A8FElSkPDXG5gJEL4Nwig/wZDU4pl1m5bnHO2poaA1ikn0XrlJXesWypYUwprsHUP0duEq5I31HkApDIbFE3OUq8jPv5SL9ZcXraN9CdIsjsn2KdH/glLe7fZbozIiBUbgFLEmyo/XG9nzB6zIKjoCG/1ZB/PquKPSzAvQT8fPAZeFy+admZ6Dw/3h2SwV3ALe/GmrJ9SBI2YZzG5P7yJ/pa+YzmyhDiDlx6iGKvWl/gSQdzPIsvJv7hOlKKe6i2niUqYMDquQVAlAeAJ38mBTLNb7eNUlZLP29gaANhifnMVaBhK5iLJ9mvQ4yL+WSwV3QZeIp0O+UaBwww==
+ bh=Tb9uXup1SNxpWP2+fr3T4QxkLHnxcu9yVSz47ObqrQo=;
+ b=PI1EgD1r/9/c7MAaDx5FuaLfmPVM8c1CD95iwGOh7Q5JMZK7SSsHd4uNSVNZf8I4dnuWp11RYOAXZ9jjysuXVuA7kBqeHmy+ke/AsKH/GTK60KuVdDyVeqXqJKigzHfMH6eLfvDBrEr9n4TZMAq2Dzvcl7IR3aiSPHgwDLAfauoIAyHzelXJ+o9gBSty4ZLetlYeKQbgerjoP4A76aoJDuSLIUrKisxsbMb3AvbiYys2LeGxgMVxwM2U2hK4UEY9sg69RHbfft5GXMtUbSGgm3eRk+YMBHx+CgF7SIe8rMzspHrNPgeOqPQqu/k97TjBcAVacfUIW0RhgOzHiVt1eA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=zenithal.me; dmarc=pass action=none header.from=zenithal.me;
  dkim=pass header.d=zenithal.me; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zenithal.me;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LmgCsUrRFQiDkhjhuP0NOx/lzAJkFtwARE4FbvL7+C0=;
- b=JjdJWlhimKCm0NQLXLqh06pvspkyFVdnVpBOXxjSyWnJ9p5kahwcJlnQLW0rpLIRKwZF6IZ8SIU0z55JbwKv+WL6mTF+Ym+STG4Mz/AFuOroJI27wFsnwgdsKLLeGtGsa9eELOLlvBR9mNrZcvuC8bd28Y99YiUO5a9IYkbriQY=
+ bh=Tb9uXup1SNxpWP2+fr3T4QxkLHnxcu9yVSz47ObqrQo=;
+ b=YUwoFpSx7U+cALpoUBO+DAQAatyl2nFym89A1TffXLkOy6XeYNgV1Hd7lFha42KMNGTKxZkjxo0Clj1yqgOostjTiDxxuH9CaQGSLZM50ur13GKLA8gu1W045Y6rNqx3eaJRLH/aYAUwBTSGbjz2450I2hcKhNOuYcpaoyuspH8=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=zenithal.me;
 Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:c0::6) by
- OSZP286MB1324.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:13c::14) with Microsoft
+ OSYP286MB0024.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:86::13) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5250.14; Wed, 18 May 2022 09:25:49 +0000
+ 15.20.5250.14; Wed, 18 May 2022 09:26:41 +0000
 Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
  ([fe80::bd99:5c83:e2dc:a8f7]) by TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
  ([fe80::bd99:5c83:e2dc:a8f7%7]) with mapi id 15.20.5273.014; Wed, 18 May 2022
- 09:25:49 +0000
-Date:   Wed, 18 May 2022 17:25:42 +0800
+ 09:26:41 +0000
+Date:   Wed, 18 May 2022 17:26:34 +0800
 From:   "Hongren (Zenithal) Zheng" <i@zenithal.me>
 To:     Palmer Dabbelt <palmer@rivosinc.com>,
         Paul Walmsley <paul.walmsley@sifive.com>,
@@ -53,70 +53,70 @@ Cc:     Atish Patra <atishp@rivosinc.com>,
         linux-api@vger.kernel.org,
         Michael Kerrisk <mtk.manpages@gmail.com>,
         linux-man@vger.kernel.org, Jiatai He <jiatai2021@iscas.ac.cn>
-Subject: [PATCH -next v2 2/3] RISC-V: uapi: add HWCAP for Bitmanip/Scalar
- Crypto
-Message-ID: <YoS7lgTmcRT0q9y+@Sun>
+Subject: [PATCH -next v2 3/3] RISC-V: HWCAP: parse Bitmanip/Scalar Crypto
+ HWCAP from DT
+Message-ID: <YoS7yhANyM6/Dlts@Sun>
 References: <YoS6qRhxGuwHmK7q@Sun>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <YoS6qRhxGuwHmK7q@Sun>
-X-Operating-System: Linux Sun 5.15.26
+X-Operating-System: Linux Sun 5.15.26 
 X-Mailer: Mutt 2.2.1 (2022-02-19)
-X-ClientProxiedBy: SJ0PR03CA0248.namprd03.prod.outlook.com
- (2603:10b6:a03:3a0::13) To TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
+X-ClientProxiedBy: SJ0PR03CA0269.namprd03.prod.outlook.com
+ (2603:10b6:a03:3a0::34) To TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
  (2603:1096:400:c0::6)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 33fbae2b-a1db-439f-6746-08da38b06561
-X-MS-TrafficTypeDiagnostic: OSZP286MB1324:EE_
-X-Microsoft-Antispam-PRVS: <OSZP286MB1324E8E61DF4E5A1C0442D9CBCD19@OSZP286MB1324.JPNP286.PROD.OUTLOOK.COM>
+X-MS-Office365-Filtering-Correlation-Id: a1ca3e96-2e7a-4ef3-2bcb-08da38b08435
+X-MS-TrafficTypeDiagnostic: OSYP286MB0024:EE_
+X-Microsoft-Antispam-PRVS: <OSYP286MB0024828DED3C4E05BE707E6BBCD19@OSYP286MB0024.JPNP286.PROD.OUTLOOK.COM>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: B+pDy2P4AziHMVYZfxmPZ8NODBj0i/2UVtw2U+y/2de3C9fRPAzb7OYsvUStx1uVP5XwHAZloTFwzPRvE/1FC/wsXpcq/QvFl6R4GITdMMJrQ+dIZsaE6sFOAn14OSEd47ohrizJHS5J9Bi/dvkkp/W7kzxXhXXV9OIoRZjl1LFXyqZqa3Q6AcM1z3A+2Ok/2UvAJc24t1KzjrmZziqFprZ7d9YW6zK12E7QZZbR+xQ4HEsX+NlM57nBz5ErgkZqBDLFVFiy5NM/BeR85P2uY/X9SowV+AlA9dyT3QPydydR1vTYVRHac5/mGYQqp91CqaaxRzM4sogTIyMUFIFlsBSzhxtIjZ39oFWTXStskZ8wrpYfluabGcAQ09B70NK5KZ3dLOxWnnEBlRPhGc7OzS2SJoHD72IO8tpLhGBmgjjYCpEc+f7Cc00F+wWN02JEHPFtISvGCgX2L84Xg6f5GAim6wvfQ94KfMB+M+mahXE2TjbMRKk5m43L7mrIYe5IYf/Sl6dB3tVzcfCc6p6pAEkHrk5NXEml9V3kmMsEjp8JG4djvIW6cpNAWm5VD5iaqC1mbvgdRYvZuY6oRl+j/UTM5GTmPFiAiH3OfI81mOyfxtJpiwH50m/qGWRTunhZ+F4wUwnvuJQJ8Sd/LSoc0vNcnN9MrNvoMTgvfSF9zQAsOHx1MKVayXHw54do+y+K5GKgKkR+SxrctyTutO6gvTMkzN4StrahanakFof93D9kqljCTzamLrmbGf6rkj68QWMumfAN+kCvHC3ujezRpw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230001)(7916004)(346002)(136003)(396003)(376002)(39830400003)(366004)(52116002)(6512007)(6506007)(186003)(38100700002)(508600001)(54906003)(110136005)(6486002)(966005)(2906002)(9686003)(33716001)(66946007)(8676002)(4326008)(66556008)(66476007)(6666004)(5660300002)(7416002)(8936002)(41300700001)(41320700001)(83380400001)(316002)(786003)(86362001)(49092004);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: judtiGB22SzoTePbYOD68JudlrbKqUkyUQtZxGhXRDFZHNsJLcGlwUFft900YCs4Mn3fG+zToXAyHgzy5RLgAXLGMHGMvl4FnOyiYX4YR8u6YeFie8koRsbo/ZY172bkWGn69vtneINyJwGyvOpLfv7wmowfSzlllTPq8hGgg0X5PfxN/uPsBTMwzZZweZqK7BfUnu+zWustUzSNyS2zk3COW4nsMA23nN2aLQEjcxbp9Y44Gks1Je3LKQUng6TeSqeAka43ZzjP5sKWkDifIFbnnVseZ/xpJrchB/mR3AGbEdLeDIc0Qmxc4m+JOixtg3dviH7Vsme1Z4KLVPcww0gSKrF1vjiTSkmlNHiERyPWTcw5JbOzIf33xHTiQ89mAPlB5Aehlbe/dHpmrA0vbxCdYCN0mVdKqhBZv0Qlx1rK+qhL2gXhLzm/xXx03vSYoZgFuzfrIjVJTwKwMIwEnrdIraC2Wpk/Q4m6ztcuq2Hasi1mfBfGKFRBMZbIcve+CKqAfUdPYUGBXWDDrw/F+VOY9z3FrzUGG3q9pJwAYKjeMKXx56Q6iHnu8datGVfAIvVC7/0ZdBZkgn6oSU4FzDEtsuKyhAn7Iisi1OR7Iz8LeqC+zGyCIhEnOQNibiQzRhO5I73T4q/WyXca1ALVCQq1QjnCdtlWTgsD1udwLC0BIapoonxLLQD0rtZPoDJi
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(136003)(346002)(39830400003)(396003)(376002)(83380400001)(786003)(6512007)(6666004)(316002)(6486002)(9686003)(41300700001)(41320700001)(6506007)(2906002)(52116002)(86362001)(8676002)(8936002)(508600001)(33716001)(66946007)(66476007)(4326008)(38100700002)(186003)(7416002)(54906003)(5660300002)(110136005)(66556008)(49092004);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2yELDRNvZXK/b/ENvQEMRJxIt3MEBBwrMDz5J+NjKIr87aNyRIsjPdBtF8eh?=
- =?us-ascii?Q?sWhtVxYp/sY+S9CPaRT//kNoV+ympU5rRXpM4+GBod1L4HqWzK9JPXuKh92s?=
- =?us-ascii?Q?0MDVQ9TYkzifrnKKxQ8N3uKA4lod46mQ4JE6J1GWUskg49q2OP2Iw8JsSFHb?=
- =?us-ascii?Q?Lns2xKsfxMrO7WePpsvz3rBqffdeYBlmAnbiqS/UEugs5XOmeqEbp33v4OF9?=
- =?us-ascii?Q?6NCdQ0B3Q3Irb/LjXtaQCsNDEY14Lm1Lt0RXPiKE1pLnlEABymmuQkPMH8KF?=
- =?us-ascii?Q?VKlXZRRwMfoEKRXAtfcQ0QxSi74CYbu9Ruc02VC//Dn3UJq0+mjO/oqZ7Xi6?=
- =?us-ascii?Q?m6p3iV8V1JbRZlf2+xyEwUtbAH+2+fz7QLbaX20MihWe8v5N3xV7BwgENv8u?=
- =?us-ascii?Q?NC9Dk2eDEgwmPR/Wuqp4E9vTLTnYqprRJHkf26DlNV40h1GAJwsAuXDud9H/?=
- =?us-ascii?Q?rejn343TQH+mW7Y5uV9zeDgz9Z4obbNVxpT2lJbp8Tsv3CzeSSvxaml1yjqo?=
- =?us-ascii?Q?4BnineYXJC/+I13kjXF01IM2zB5FoqU8XXaxvlrXKCzNzgg4qXngxyMjVy8m?=
- =?us-ascii?Q?TByDWJveJHXBEzaOaQp8/fblE73U4kHBom0Hp+Y18Gj4ppU7ZF5K2f7rvUT7?=
- =?us-ascii?Q?QmJIzb1xgzI66841q9QsunRSIpEZyPqCyCbiB8CQ2CFCTjhHrtN5h2WO93P9?=
- =?us-ascii?Q?8je8W1xxQMEYlprylFo/BT29X/zQ75AQ88UnIBu/3WdMaaYqM7ED8mpLndSW?=
- =?us-ascii?Q?agdnQdmCVbWdYlaAtOWXX7kRiazqyAXQyR4NZlgMu9t9ckhpWVs/kdrFRueA?=
- =?us-ascii?Q?iJllIc2Ly4lXUTgPgqcBM97aJ/XokLnezU8VMHYkmGornDKl/oN5m+5T2WWn?=
- =?us-ascii?Q?M4jALbA9orNvqrz3koxPcJqKzkVcgPie1AaigaIPzfbrTV6SVuDeO7Gjf30c?=
- =?us-ascii?Q?/25Pux64EGa2M4oxy1Fx4UmNdo9PMqQCA0Kyei44GhyUf/ZjDitgN6+02SxX?=
- =?us-ascii?Q?ak38f/nr3e6nZciHAKKRWgzSQJJor+fRlszc+1vSzx/AUxdUMiE44Fj9KYLT?=
- =?us-ascii?Q?vbQV2DPYF2BeecJOSHEa+R2e/hG3gmAZ8KGsK24tjyYlewiH26zcEdo5/qsz?=
- =?us-ascii?Q?TJnucbeDUCeqt3ExO4bAS1TDUDQq9P/vZfROJ6HXeitdPFXmYrbCE6Gllj4f?=
- =?us-ascii?Q?AwcrUVPm89mCTTKRdPcG1Km0iWhY5scjHdimyD0mwsIGXotOZon5JWonnlzD?=
- =?us-ascii?Q?OZSaU/wraI0cRZ8McKKBMPc8xf3TDh5MY740c5/2zKM8BYnVe80KSiCEZL2S?=
- =?us-ascii?Q?KskMSm2uzjfqZfeAPpfwXCEZ3IL0BxjCoYsotjRKD2ri12eTuvjkXtUF73zh?=
- =?us-ascii?Q?2BhmOvdLWOee7qTo9l3voKN+KF7Eux5yGSDx6LwxUdZDmdr6/CP4B2hlZ7aM?=
- =?us-ascii?Q?VB/sZ3TU+LCZ+6tVA04S9fL1Bj4QsbqwyJYBp2bfPMpVPV1wmh8TifzUqRJw?=
- =?us-ascii?Q?al0OCsJOOodMplpnV7sxd1w8LQinkdpUb4H9TvdSS0evLjWIPU0QU2jU28mR?=
- =?us-ascii?Q?hnJ/xEN4f6t3/2VQ/hAoW0oH7+CExmOKw+exnTu8SfISwiyP7pBkQABYaN7E?=
- =?us-ascii?Q?d0PjN3JcvFPRGlCfqH1iRNzrFnBwhrjrt1ZYfdBdy+febhW6CJbLOL7fy3Yp?=
- =?us-ascii?Q?1EHF1CIZV4ub7xU75vqvQmiSkWS33/SZUzdj78VpjuHtiOa6t5E7C734279v?=
- =?us-ascii?Q?+4f3lFFEbQ=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?QmGRnlImVaedpAuD2lLukeMkw+wKsTs2x07Ax/CakYt4fKIkDPQ+W31ZS06x?=
+ =?us-ascii?Q?XgbCf8oXt28FRwUGqgbb2jNNEyk71sFmW5G6fEtSZ6aO7Q2FGR80mFr/3g+o?=
+ =?us-ascii?Q?IwOZ/pKQZexdqhVN9UahISCW/i9b+qXyUov4OPuGoplUz+FpJT10wOC6Dkud?=
+ =?us-ascii?Q?VH32cQFqtyoQ0LJNayMxQS0ZkiZVX0pZjtJo8IgheaM7s8q0utkRPXmrCl5V?=
+ =?us-ascii?Q?jP3nJCKOM/A+1IFbFPntQ6QERxhi2eKdLiX+qNvhdDtQBawufHpNCkICTOXm?=
+ =?us-ascii?Q?AL5JzueHJG7wsf7jscq4Ns1DH7+Y+oGo9+xb3O6EZfgeUvgiG6nWUyVsnQIa?=
+ =?us-ascii?Q?Slg9O6/E1rLnfgWMvD0Kp9CVaMHdPmkfvXr8uERJ7Mqtew28UYjlSfTTYAoc?=
+ =?us-ascii?Q?4/xGqrvjGpliiOv/b2cbz/KOTcDxwhhT46FxwbC3VlOS5OMcAK6tVtpCYbwP?=
+ =?us-ascii?Q?rdJ6pwVJCMIrPdlcLRuOdzznz/933jUCTKW29bW9zJcPA5sUW59ITv0pkQml?=
+ =?us-ascii?Q?q5ldlki3Z+3fin+smbM9QTIaU0hU5sZGoBwoweNLey6SPkTMqtUdzf2fH/51?=
+ =?us-ascii?Q?gMvw01VMPUuJi1iCJyfdGQDahmPkwfdFFnYP0ktUXKyg/8iYKbCy4g8pXjev?=
+ =?us-ascii?Q?3wiEKMv6uDo6ja0vjYB2AIgU4vgomfIf4xJ8d8HIxsNiSwKNVJFyIk5UJ5Rf?=
+ =?us-ascii?Q?JAuEyaJgWQg0nzqDpq33kUw60RDRH7uiWUvZKdtKtJB2gQHSi17rpTH3m3we?=
+ =?us-ascii?Q?8wKTfF9r5z4AtQq5Q40ZT/Yb68zTt7+TWrzVTPyRrEPTrE7l7I8W7nUDtLOz?=
+ =?us-ascii?Q?72NOs8pEtDDbVHIGXRF5LuyvF1jyYX887pVDwMy41ldQcmVqBOrMUqwdfFLq?=
+ =?us-ascii?Q?2rXs5w1bmKe7H7O1Mz1+crcnjiD91dHKQkX34iX0LQ8lDfiG7dIK+NIP486P?=
+ =?us-ascii?Q?ZxGuIu/WzvaEe+TZpO5OCysHWd3KrbV2tVoDpXUzvqs58CZNN5ZhmOQl+8qV?=
+ =?us-ascii?Q?8qX1ZbPnOfIw7Of9o9BMDOqn/tKp8bUqYdvW2IMFjZ8UKsejnL+iIABJ4OxM?=
+ =?us-ascii?Q?rPr5kzNeReVTepUJ3IFtk+U0+9MZKjt8R1zNiTF/LUdudxF3ugEOs20iKtQy?=
+ =?us-ascii?Q?eEV0KWdCBAnRR+968P6DOx3XnF/v8OhnE9eg48MAcxf48xrE2aqXDwi9gjON?=
+ =?us-ascii?Q?Y0HPQVVybXCJehZlLhAGha6nxlZXm4lVUUVKPJrhyoHRNNtyQ7hXBG8kwi4J?=
+ =?us-ascii?Q?hM7e3m7qyTbaQWg5zdsu2Adon+sV+5c79ohMOwB3NYgHPhV2FHgPzAuJJf25?=
+ =?us-ascii?Q?Yu5gpq4lilxeAXgunuZKTqG/KyOSz+U2TjdeB20SKvXCK88Ha7D+y6nv1ym2?=
+ =?us-ascii?Q?LRxLA0npWaPoxGw20f8MKg4ZqJwYUoVZ4X5pQZt++SReu/B4lt9dzCFw10oH?=
+ =?us-ascii?Q?yQG8t1/CO2X6Nt52DitC1i6vXWva1QCyuohZj/nXcObJBwxoVCRCzLu7hBjP?=
+ =?us-ascii?Q?Q/pi17mX+R41Yd8r28m1PJ34ROPM3svWhDVrohJy3L5VhltSWdPWS34zYddr?=
+ =?us-ascii?Q?360fqakCOMUZo/dEJjwOntm1+9VZ7G/H8GLc/8MJA8ue0fWPSMRUf59l31u1?=
+ =?us-ascii?Q?l1BTD9Iy6AAu859LjJ/7a2qi35YTVs3BMdw6uYZDXs6MF+Y2t71LDwX9mXff?=
+ =?us-ascii?Q?OTOpDfoomYvo8VyhQUI6WzYbleUoICuD1LtAXDDpj6Lpq/+YdETqMV7dmYzs?=
+ =?us-ascii?Q?Oaqc876FxA=3D=3D?=
 X-OriginatorOrg: zenithal.me
-X-MS-Exchange-CrossTenant-Network-Message-Id: 33fbae2b-a1db-439f-6746-08da38b06561
+X-MS-Exchange-CrossTenant-Network-Message-Id: a1ca3e96-2e7a-4ef3-2bcb-08da38b08435
 X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2022 09:25:49.5596
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2022 09:26:41.1222
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 436d481c-43b1-4418-8d7f-84c1e4887cf0
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TWKQefj54T/6G1fxPJCnmNcngOuGI/0zb8FsKkmb06bE0gAsPUXxaudqyBGNp8tf
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZP286MB1324
+X-MS-Exchange-CrossTenant-UserPrincipalName: g59vRL6FS3v6kamzG/mvZ5wGL6t/4RdBE2u7r1o8IRk5QOjzWhZz2EAdRFr3X7xp
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSYP286MB0024
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -127,60 +127,152 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-userspace currently lacks a way to detect whether the
-platform has Bitmanip/Scalar Crypto capability,
-this commit provides a way such that the userspace
-can detect it.
+One viable way to detect Zb/Zk HWCAP is from the DT binding.
+No matter how the "M" mode things change, this way can
+always be an auxiliary way to detect it.
 
-RISC-V currently still has no mature mechanism,
-but no matter how things in the spec changes,
-(no matter how "M" mode things change), the kernel
-still needs to offer some API to the userspace.
+Note that QEMU currently has "zba/zbb/zbc/zbs" in their device tree
+riscv,isa
 
-More discussion can be found at
-https://github.com/openssl/openssl/pull/18197
-Userspace currently has to use env var to detect them.
-
-This commit along does not assume any specific mechanism
-below kernel.
+This also fixes the isa2hwcap way as using unsigned char
+for long extension is not viable. Note that the tolower function
+ensures functionality. For other no-hwcap extension (e.g. h, s, u),
+or ("|") with 0 has no effect on hwcap.
 
 Tested-by: Jiatai He <jiatai2021@iscas.ac.cn>
 Signed-off-by: Hongren (Zenithal) Zheng <i@zenithal.me>
 ---
- arch/riscv/include/uapi/asm/hwcap.h | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ arch/riscv/include/asm/elf.h   |  2 ++
+ arch/riscv/include/asm/hwcap.h |  2 ++
+ arch/riscv/kernel/cpufeature.c | 48 ++++++++++++++++++++++++++--------
+ 3 files changed, 41 insertions(+), 11 deletions(-)
 
-diff --git a/arch/riscv/include/uapi/asm/hwcap.h b/arch/riscv/include/uapi/asm/hwcap.h
-index 46dc3f5ee99f..bfed3e5c338c 100644
---- a/arch/riscv/include/uapi/asm/hwcap.h
-+++ b/arch/riscv/include/uapi/asm/hwcap.h
-@@ -22,4 +22,26 @@
- #define COMPAT_HWCAP_ISA_D	(1 << ('D' - 'A'))
- #define COMPAT_HWCAP_ISA_C	(1 << ('C' - 'A'))
+diff --git a/arch/riscv/include/asm/elf.h b/arch/riscv/include/asm/elf.h
+index f53c40026c7a..c6a4d8d2a241 100644
+--- a/arch/riscv/include/asm/elf.h
++++ b/arch/riscv/include/asm/elf.h
+@@ -51,7 +51,9 @@
+  * but it's not easy, and we've already done it here.
+  */
+ #define ELF_HWCAP	(elf_hwcap)
++#define ELF_HWCAP2	(elf_hwcap2)
+ extern unsigned long elf_hwcap;
++extern unsigned long elf_hwcap2;
  
-+/*
-+ * HWCAP2 flags - for elf_hwcap2 (in kernel) and AT_HWCAP2
-+ *
-+ * As only 32 bits of elf_hwcap (in kernel) could be used
-+ * and RISC-V has reserved 26 bits of it, other caps like
-+ * bitmanip and crypto can not be placed in AT_HWCAP
-+ */
-+#define COMPAT_HWCAP2_ISA_ZBA   (1 <<  0)
-+#define COMPAT_HWCAP2_ISA_ZBB   (1 <<  1)
-+#define COMPAT_HWCAP2_ISA_ZBC   (1 <<  2)
-+#define COMPAT_HWCAP2_ISA_ZBS   (1 <<  3)
-+#define COMPAT_HWCAP2_ISA_ZBKB  (1 <<  4)
-+#define COMPAT_HWCAP2_ISA_ZBKC  (1 <<  5)
-+#define COMPAT_HWCAP2_ISA_ZBKX  (1 <<  6)
-+#define COMPAT_HWCAP2_ISA_ZKND  (1 <<  7)
-+#define COMPAT_HWCAP2_ISA_ZKNE  (1 <<  8)
-+#define COMPAT_HWCAP2_ISA_ZKNH  (1 <<  9)
-+#define COMPAT_HWCAP2_ISA_ZKSED (1 << 10)
-+#define COMPAT_HWCAP2_ISA_ZKSH  (1 << 11)
-+#define COMPAT_HWCAP2_ISA_ZKR   (1 << 12)
-+#define COMPAT_HWCAP2_ISA_ZKT   (1 << 13)
+ /*
+  * This yields a string that ld.so will use to load implementation
+diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
+index 02c454a12683..ef0349c5d303 100644
+--- a/arch/riscv/include/asm/hwcap.h
++++ b/arch/riscv/include/asm/hwcap.h
+@@ -17,12 +17,14 @@
+  * instruction set this cpu supports.
+  */
+ #define ELF_HWCAP		(elf_hwcap)
++#define ELF_HWCAP2		(elf_hwcap2)
+ 
+ enum {
+ 	CAP_HWCAP = 1,
+ };
+ 
+ extern unsigned long elf_hwcap;
++extern unsigned long elf_hwcap2;
+ 
+ #define RISCV_ISA_EXT_a		('a' - 'a')
+ #define RISCV_ISA_EXT_c		('c' - 'a')
+diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+index 800a7aebced3..03ea199edffc 100644
+--- a/arch/riscv/kernel/cpufeature.c
++++ b/arch/riscv/kernel/cpufeature.c
+@@ -23,6 +23,7 @@
+ #define NUM_ALPHA_EXTS ('z' - 'a' + 1)
+ 
+ unsigned long elf_hwcap __read_mostly;
++unsigned long elf_hwcap2 __read_mostly;
+ 
+ /* Host ISA bitmap */
+ static DECLARE_BITMAP(riscv_isa, RISCV_ISA_EXT_MAX) __read_mostly;
+@@ -74,21 +75,39 @@ void __init riscv_fill_hwcap(void)
+ 	const char *isa;
+ 	char print_str[NUM_ALPHA_EXTS + 1];
+ 	int i, j;
+-	static unsigned long isa2hwcap[256] = {0};
+-
+-	isa2hwcap['i'] = isa2hwcap['I'] = COMPAT_HWCAP_ISA_I;
+-	isa2hwcap['m'] = isa2hwcap['M'] = COMPAT_HWCAP_ISA_M;
+-	isa2hwcap['a'] = isa2hwcap['A'] = COMPAT_HWCAP_ISA_A;
+-	isa2hwcap['f'] = isa2hwcap['F'] = COMPAT_HWCAP_ISA_F;
+-	isa2hwcap['d'] = isa2hwcap['D'] = COMPAT_HWCAP_ISA_D;
+-	isa2hwcap['c'] = isa2hwcap['C'] = COMPAT_HWCAP_ISA_C;
++	static unsigned long isa2hwcap[RISCV_ISA_EXT_MAX] = {0};
 +
- #endif /* _UAPI_ASM_RISCV_HWCAP_H */
++	/* HWCAP */
++	isa2hwcap[RISCV_ISA_EXT_i] = COMPAT_HWCAP_ISA_I;
++	isa2hwcap[RISCV_ISA_EXT_m] = COMPAT_HWCAP_ISA_M;
++	isa2hwcap[RISCV_ISA_EXT_a] = COMPAT_HWCAP_ISA_A;
++	isa2hwcap[RISCV_ISA_EXT_f] = COMPAT_HWCAP_ISA_F;
++	isa2hwcap[RISCV_ISA_EXT_d] = COMPAT_HWCAP_ISA_D;
++	isa2hwcap[RISCV_ISA_EXT_c] = COMPAT_HWCAP_ISA_C;
++	/* HWCAP2 */
++	isa2hwcap[RISCV_ISA_EXT_ZBA] = COMPAT_HWCAP2_ISA_ZBA;
++	isa2hwcap[RISCV_ISA_EXT_ZBB] = COMPAT_HWCAP2_ISA_ZBB;
++	isa2hwcap[RISCV_ISA_EXT_ZBC] = COMPAT_HWCAP2_ISA_ZBC;
++	isa2hwcap[RISCV_ISA_EXT_ZBS] = COMPAT_HWCAP2_ISA_ZBS;
++	isa2hwcap[RISCV_ISA_EXT_ZBKB] = COMPAT_HWCAP2_ISA_ZBKB;
++	isa2hwcap[RISCV_ISA_EXT_ZBKC] = COMPAT_HWCAP2_ISA_ZBKC;
++	isa2hwcap[RISCV_ISA_EXT_ZBKX] = COMPAT_HWCAP2_ISA_ZBKX;
++	isa2hwcap[RISCV_ISA_EXT_ZKNE] = COMPAT_HWCAP2_ISA_ZKND;
++	isa2hwcap[RISCV_ISA_EXT_ZKND] = COMPAT_HWCAP2_ISA_ZKNE;
++	isa2hwcap[RISCV_ISA_EXT_ZKNH] = COMPAT_HWCAP2_ISA_ZKNH;
++	isa2hwcap[RISCV_ISA_EXT_ZKSED] = COMPAT_HWCAP2_ISA_ZKSED;
++	isa2hwcap[RISCV_ISA_EXT_ZKSH] = COMPAT_HWCAP2_ISA_ZKSH;
++	isa2hwcap[RISCV_ISA_EXT_ZKR] = COMPAT_HWCAP2_ISA_ZKR;
++	isa2hwcap[RISCV_ISA_EXT_ZKT] = COMPAT_HWCAP2_ISA_ZKT;
+ 
+ 	elf_hwcap = 0;
++	elf_hwcap2 = 0;
+ 
+ 	bitmap_zero(riscv_isa, RISCV_ISA_EXT_MAX);
+ 
+ 	for_each_of_cpu_node(node) {
+ 		unsigned long this_hwcap = 0;
++		unsigned long this_hwcap2 = 0;
+ 		DECLARE_BITMAP(this_isa, RISCV_ISA_EXT_MAX);
+ 		const char *temp;
+ 
+@@ -187,15 +206,17 @@ void __init riscv_fill_hwcap(void)
+ #define SET_ISA_EXT_MAP(name, bit)						\
+ 			do {							\
+ 				if ((ext_end - ext == sizeof(name) - 1) &&	\
+-				     !memcmp(ext, name, sizeof(name) - 1))	\
++				     !memcmp(ext, name, sizeof(name) - 1)) {	\
++					this_hwcap2 |= isa2hwcap[bit];		\
+ 					set_bit(bit, this_isa);			\
++				}						\
+ 			} while (false)						\
+ 
+ 			if (unlikely(ext_err))
+ 				continue;
+ 			if (!ext_long) {
+-				this_hwcap |= isa2hwcap[(unsigned char)(*ext)];
+-				set_bit(*ext - 'a', this_isa);
++				this_hwcap |= isa2hwcap[tolower(*ext) - 'a'];
++				set_bit(tolower(*ext) - 'a', this_isa);
+ 			} else {
+ 				SET_ISA_EXT_MAP("sscofpmf", RISCV_ISA_EXT_SSCOFPMF);
+ 				SET_ISA_EXT_MAP("svpbmt", RISCV_ISA_EXT_SVPBMT);
+@@ -246,6 +267,11 @@ void __init riscv_fill_hwcap(void)
+ 		else
+ 			elf_hwcap = this_hwcap;
+ 
++		if (elf_hwcap2)
++			elf_hwcap2 &= this_hwcap2;
++		else
++			elf_hwcap2 = this_hwcap2;
++
+ 		if (bitmap_weight(riscv_isa, RISCV_ISA_EXT_MAX))
+ 			bitmap_and(riscv_isa, riscv_isa, this_isa, RISCV_ISA_EXT_MAX);
+ 		else
 -- 
 2.35.1
 
