@@ -2,56 +2,56 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F9BA52CA70
-	for <lists+linux-api@lfdr.de>; Thu, 19 May 2022 05:39:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF58D52CBE0
+	for <lists+linux-api@lfdr.de>; Thu, 19 May 2022 08:23:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232906AbiESDjt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 18 May 2022 23:39:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49066 "EHLO
+        id S230176AbiESGXf (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 19 May 2022 02:23:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231429AbiESDjr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 18 May 2022 23:39:47 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 465AB692AF;
-        Wed, 18 May 2022 20:39:46 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id v11so3983738pff.6;
-        Wed, 18 May 2022 20:39:46 -0700 (PDT)
+        with ESMTP id S229654AbiESGXe (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 19 May 2022 02:23:34 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7E0710FC;
+        Wed, 18 May 2022 23:23:33 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id n8so3933448plh.1;
+        Wed, 18 May 2022 23:23:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:from:to:cc:subject:references:mime-version
          :content-disposition:in-reply-to;
-        bh=yN69T3VlLbhWzqaJ04/Cruu+aC3pD4q/ss9q7X7d+FE=;
-        b=O8SV9hdkE/2vj4RLhxwpWjcWg2MmD/u6TYK5SqYSCu5WCmhJAYJ+RUHEsv3o/P2ysQ
-         bRQKp4ojl1sa53WL3E9LzfFg27FlqAdedOb7PSo004MffWmLAPSUznXHoPxnt8TcTzDd
-         uXY/1HfmkKSt+YqRtwtKxOELNNfyrtSjAVgNI3z+xHzNXOYc9hs3k90qznkA7yyx6fOY
-         m02VrVUWbUPYkt6DrMkhT8SQjGjtR/U1EZF+jlbibSj/QitF9dyFKT9jvQ/VkvYcaRL8
-         cC/2SZqK5ir6P4q41NhWjX1LaVkFjqGAw4Y0evqleL8x+DoBbeZpIbnq1/Og+H8+YYDg
-         zsqw==
+        bh=dU3DINgtfDGFvxrO8vrzH5gTpYaPOj3EtI0Lxev004k=;
+        b=P9W2ao+X1j8o0e4M3FlE51sp3ZbX3kE6OaySix0Nr61fzvDANNnziV6sn4i0OFOuQb
+         fnL6nP43cKR4E1RS0Ne2keCb+AkGQPT9y8ZPd6G32GtOgD+5MIeRrANHYRmlE7Ep5hGz
+         Y6JPNIoB+Q0BZ/oMJmulRfJ60JVL8dmzgECHEtp9OYAhGkeunjdp17a8pupShmNPinaU
+         JzCaDrAkxVMUKS9MHQjYBPMSizldkrKM7Z7fqvcp0N9w84qm/HZAzzWcHXuDY6qaAbxN
+         Y/rB+0OStlQdUsmwlr5b78RECyJyCescD02nI86iYRRtnnwtGmXbAivv2KStLk79Uj8l
+         nvOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:from:to:cc:subject:references
          :mime-version:content-disposition:in-reply-to;
-        bh=yN69T3VlLbhWzqaJ04/Cruu+aC3pD4q/ss9q7X7d+FE=;
-        b=o4nJW667z2cb/rgwP431cXCqxfAUiN2XUDF1kIECL3hW/O5tJIh8mtbHUTpQc5bRgZ
-         Ln3cTNcFh6CsZpHeV9W134sGFs1KR0x7X658/7cUDDFXjNxBobqsUpaKb7yuUVF5lmak
-         SbzfP16HHJXkEA+wq/bSamaASPwra12itzRpvVpAqKPUGoQqcm5pMjTWybLkGSqh01E0
-         FYw2hx1Q2kXAz50W/r/RjME+KhMI3CgIwfMRGqhrtxthFTMeyLOAZv+C00cdM9aa5LWj
-         HOIwpaWU3bsG1Zp5/52Ls6zQbgcNTyPI1H2ddPHqWMCG0WJ+IVk6WpTZ35ghvYMwtvgv
-         DEiA==
-X-Gm-Message-State: AOAM531d9ueCouCVvz7rqhMTLfSBzmdC7LQmvaZJo+YwqA7OMqZdNwvG
-        cYnf2J7vuqxGJaKHjnxWaIQ=
-X-Google-Smtp-Source: ABdhPJx30F806uRbpCNtRmzK2AGNOrstjwNN4/n2kuy2Me5b9xpDht5tUrZRNMmwBhAwfAj+zwzxYg==
-X-Received: by 2002:a63:1b49:0:b0:3f2:cf90:5ad4 with SMTP id b9-20020a631b49000000b003f2cf905ad4mr2275090pgm.450.1652931585799;
-        Wed, 18 May 2022 20:39:45 -0700 (PDT)
+        bh=dU3DINgtfDGFvxrO8vrzH5gTpYaPOj3EtI0Lxev004k=;
+        b=eupZJrrhG7dqCjkSACIhd556cAlsOD3suFe/7SwcFgSsyOoKlnTJEwGA/pQITBnrgZ
+         c0TbzD3RExrlcmeSsLxE61x4uI1OK753etGjP2v/xFI0ENcN90KPJXK4x3/XVYdne7yq
+         N5aom8d42KEs0J9w8eTL0gEI/4p5HJx9AsWiEuf4JpLGFGxb9h2huMm3kZTEAgJexCAX
+         1qg7w1K9UCMqzd4MiA8nuhlhpHr1rsQhuQDSJfMTTKGpnxg/37tRXlH9wbEnoGlybRDR
+         ey6fiurs3itAah+5wToq6JjaxuU7vqNbqEmVcgg5xv22WRqE4/2gm55LQIXK8aiMZdYV
+         ZkQw==
+X-Gm-Message-State: AOAM531Pvn6llEasuqn+07W4XW0yADVs4XjuM+/3RyxRhvHZnSpLEtWY
+        Xrq0eM7L61PiV7zHAGcfacU=
+X-Google-Smtp-Source: ABdhPJyxzQAh4x9PryBtqoGQKFBgbbAygSGM6ZDhTgWcBRb9YCR0GTecP+DjRQ+BYAA7pFaWwznVqw==
+X-Received: by 2002:a17:902:ba8c:b0:161:5ad4:1800 with SMTP id k12-20020a170902ba8c00b001615ad41800mr3412938pls.9.1652941413377;
+        Wed, 18 May 2022 23:23:33 -0700 (PDT)
 Received: from localhost ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id p6-20020a170902e74600b0015e8d4eb21dsm2542589plf.103.2022.05.18.20.39.44
+        by smtp.gmail.com with ESMTPSA id y23-20020a17090264d700b0015e8d4eb204sm2815041pli.78.2022.05.18.23.23.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 May 2022 20:39:45 -0700 (PDT)
-Message-ID: <6285bc01.1c69fb81.c4048.6665@mx.google.com>
-X-Google-Original-Message-ID: <20220519033943.GA1735704@cgel.zte@gmail.com>
-Date:   Thu, 19 May 2022 03:39:43 +0000
+        Wed, 18 May 2022 23:23:32 -0700 (PDT)
+Message-ID: <6285e264.1c69fb81.3f416.71a8@mx.google.com>
+X-Google-Original-Message-ID: <20220519062330.GA1735877@cgel.zte@gmail.com>
+Date:   Thu, 19 May 2022 06:23:30 +0000
 From:   CGEL <cgel.zte@gmail.com>
-To:     Jann Horn <jannh@google.com>
+To:     Michal Hocko <mhocko@suse.com>
 Cc:     akpm@linux-foundation.org, ammarfaizi2@gnuweeb.org,
         oleksandr@natalenko.name, willy@infradead.org, linux-mm@kvack.org,
         corbet@lwn.net, linux-kernel@vger.kernel.org,
@@ -61,17 +61,16 @@ Cc:     akpm@linux-foundation.org, ammarfaizi2@gnuweeb.org,
         wangyong <wang.yong12@zte.com.cn>,
         Yunkai Zhang <zhang.yunkai@zte.com.cn>,
         Jiang Xuexin <jiang.xuexin@zte.com.cn>,
-        Michal Hocko <mhocko@suse.com>,
-        Hugh Dickins <hughd@google.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Daniel Gruss <daniel.gruss@iaik.tugraz.at>
+        Hugh Dickins <hughd@google.com>, linux-api@vger.kernel.org
 Subject: Re: [PATCH] mm/ksm: introduce ksm_enabled for each process
 References: <20220517092701.1662641-1-xu.xin16@zte.com.cn>
- <CAG48ez0riS60zcA9CC9rUDV=kLS0326Rr23OKv1_RHaTkOOj7A@mail.gmail.com>
+ <YoOrdh85+AqJH8w1@dhcp22.suse.cz>
+ <62845e2b.1c69fb81.cbf4a.1200@mx.google.com>
+ <YoTiqm4sQCtq8C1C@dhcp22.suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAG48ez0riS60zcA9CC9rUDV=kLS0326Rr23OKv1_RHaTkOOj7A@mail.gmail.com>
+In-Reply-To: <YoTiqm4sQCtq8C1C@dhcp22.suse.cz>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -82,41 +81,108 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, May 18, 2022 at 04:31:26PM +0200, Jann Horn wrote:
-> On Tue, May 17, 2022 at 11:27 AM <cgel.zte@gmail.com> wrote:
-> > For now, if we want to use KSM to merge pages of some apps, we have to
-> > explicitly call madvise() in application code, which means installed
-> > apps on OS needs to be uninstall and source code needs to be modified.
-> > It is very inconvenient because sometimes users or app developers are not
-> > willing to modify their app source codes for any reasons.
+On Wed, May 18, 2022 at 02:12:26PM +0200, Michal Hocko wrote:
+> On Wed 18-05-22 02:47:06, CGEL wrote:
+> > On Tue, May 17, 2022 at 04:04:38PM +0200, Michal Hocko wrote:
+> > > [CCing Hugh and linux-api]
+> > > 
+> > > On Tue 17-05-22 09:27:01, cgel.zte@gmail.com wrote:
+> > > > From: xu xin <xu.xin16@zte.com.cn>
+> > > > 
+> > > > For now, if we want to use KSM to merge pages of some apps, we have to
+> > > > explicitly call madvise() in application code, which means installed
+> > > > apps on OS needs to be uninstall and source code needs to be modified.
+> > > > It is very inconvenient because sometimes users or app developers are not
+> > > > willing to modify their app source codes for any reasons.
+> > 
+> > Hello, Michal.
+> > > 
+> > > Would it help to allow external control by process_madvise?
+> > >
+> > 
+> > Maybe, but it will be much more complicated to achieve this by
+> > process_madvise(). process_madvise works on a serires of VMAs in
+> > essential, So all the eligible VMAs have to be traversed. The problem
+> > about this has been discussed in [1],[2].
+> > [1]https://lore.kernel.org/lkml/1835064.A2aMcgg3dW@natalenko.name/
+> > [2]https://lore.kernel.org/lkml/20220513133210.9dd0a4216bd8baaa1047562c@linux-foundation.org/
 > 
-> As a sidenote: If you're going to enable KSM on your devices, I hope
-> you're aware that KSM significantly reduces security -
-> when cloud providers were using KSM, there were a bunch of papers that
-> abused it for attacks. In particular, KSM inherently creates
-> significant information leaks, because an attacker can determine
-> whether a memory page with specific content exists in other apps
-> through timing side channels. In the worst case, this could lead to an
-> attacker being able to steal things like authentication tokens out of
-> other apps.
+> I can see that this is not a trivial interface to use but I do not
+> think this would be too hard to be usable. There is certainly some
+> coordination required between the external and the target tasks. But
+> that is to be expected IMHO. You do not really want to configure merging
+> without actually understanding what the application does and whether
+> that is really OK. Right?
 > 
-> If you see significant memory savings from enabling KSM, it might be a
-> good idea to look into where exactly those savings are coming from,
-> and look into whether there is a better way to reduce memory
-> utilization that doesn't rely on comparing entire pages against each
-> other.
-> 
-> See https://arxiv.org/pdf/2111.08553.pdf for a recent research paper
-> that shows that memory deduplication can even make it possible to
-> remotely (!) leak memory contents out of a machine, over the internet.
-> 
-> (On top of that, KSM can also make it easier to pull off Rowhammer
-> attacks in some contexts -
-> see https://www.usenix.org/system/files/conference/usenixsecurity16/sec16_paper_razavi.pdf
-> .)
+> Besides that, as far as I remember, the process_madvise interface
+> doesn't really require exact vmas to be provided and a single range can
+> span multiple VMAs.
 
-Thank you for your reply. The information you provided is very
-meaningful. However, the administrator should have the right to decide
-whether to use KSM. The kernel should provide a flexible mechanism to
-use KSM. How to use KSM safely should be decided by the user's security
-policy.
+Yes, but all the eligible VMAs still have to be traversed after all. It may
+induce more latency than needed because the target task has to be
+stopped to avoid races.
+
+
+> 
+> > > > So to use KSM more flexibly, we provide a new proc file "ksm_enabled" under
+> > > > /proc/<pid>/. We can pass parameter into this file with one of three values
+> > > > as follows:
+> > > > 
+> > > > 	always:
+> > > > 		force all anonymous and eligible VMAs of this process to be
+> > > > 		scanned by ksmd.
+> > > > 	madvise:
+> > > > 		the default state, unless user code call madvise, ksmd
+> > > > 		doesn't scan this process.
+> > > > 	never:
+> > > > 		this process will never be scanned by ksmd and no merged
+> > > > 		pages occurred in this process.
+> > > > 
+> > > > With this patch, we can control KSM with ``/proc/<pid>/ksm_enabled``
+> > > > based on every process. KSM for each process can be entirely disabled
+> > > > (mostly for debugging purposes) or only enabled inside MADV_MERGEABLE
+> > > > regions (to avoid the risk of consuming more cpu resources to scan for
+> > > > ksmd) or enabled entirely for a process.
+> > > 
+> > > I am not really familiar with KSM much but I am wondering whether the
+> > > proc based interface is really the best fit. We have a very similar
+> > > concern with THP where processes would like to override the global setup
+> > > and that has been done with prctl interface. Is there any reason why
+> > > this should be any different?
+> > > 
+> > At least for now, I can't find a simpler implementation than proc file,
+> > unless we add a new syscall used for changing another process mm's flag
+> > in user space.
+> 
+> What is the problem with the prctl extension?
+>
+
+What's the meaning of the prctl extension?
+I don't quite get your point. Can prctl control external process?
+
+> > Speaking to THP, the interactive UI of KSM is relatively simpler because
+> > KSM dosen't have global knob like THP. OTOH, THP trades space for time
+> > (consume memory) while KSM trades time for space (save memory), so THP
+> > tends to be enabled system wide while KSM not.
+> > 
+> > > Another question I have is about the interaction of the per-process
+> > > tunable with any explicit madvise calls. AFAICS you have made this knob
+> > > per mm but the actual implementation currently relies on the per-vma
+> > > flags. That means that one can explicitly disallow merging by madvise
+> > > for a range. Is it wise to override that by a per-process knob? I mean
+> > > there might be a very good reason why a particular memory ranges should
+> > > never be merged but a per-process knob could easily ignore that hint
+> > > from the application. Or am I just confuse?
+> > For now, there is no any hints for letting KSM never merge some memory
+> > ranges.
+> 
+> I am not sure I understand. Could you be more specific?
+
+Not like THP, KSM doesn't have anything like VM_NOHUGEPAGE, so apps
+cann't explicitly disallow merging by madvise. If it is really necessary for
+a particular meory ranges of a process to be never merged, we have to submit
+one more patch to achieve that.
+
+> -- 
+> Michal Hocko
+> SUSE Labs
