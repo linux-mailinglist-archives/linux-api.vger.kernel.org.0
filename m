@@ -2,120 +2,106 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE68852D832
-	for <lists+linux-api@lfdr.de>; Thu, 19 May 2022 17:44:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB67152DEE8
+	for <lists+linux-api@lfdr.de>; Thu, 19 May 2022 23:02:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233612AbiESPn5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 19 May 2022 11:43:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47662 "EHLO
+        id S244976AbiESVCA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 19 May 2022 17:02:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233022AbiESPmO (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 19 May 2022 11:42:14 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79D735C845;
-        Thu, 19 May 2022 08:42:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652974933; x=1684510933;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=XcUkjLL+YpWw11P834waxgWm/NgeT+vT/ACdu5U5CAo=;
-  b=lIi2fiLkt8EW9XmGeKZ3DL2Mw4ExFhwsBMFo4zIQLEv/mfuqfgqQw4Fv
-   WiIyXEhhsMc2f0ziJG0K4PN+zMsBDcRfrrAs6nwKqCBn++Ji8E8ZSNIQz
-   vGwtyLMGLnthYzd79cZNe8C5lzn+7Si8Yu9XG2XH7kv4PmBH0CbSqgehq
-   Plb4WxW7vbQ7k/azGC9hneLxIv8R7Z0283EBKlZTtpINJW9Dqu7zb9jJe
-   Jw98quqjDNz2AGxqLwXxz2qFG1q/6DhyIYuaQSf25patS3lqOtpf4xAJt
-   RR/H6S8c5COBVDvkq386+CF8m61nnwo9/ZcIlhMOk5+MsV+JTwXRhSCA4
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="272213468"
-X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; 
-   d="scan'208";a="272213468"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2022 08:42:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; 
-   d="scan'208";a="598635609"
-Received: from chaop.bj.intel.com ([10.240.192.101])
-  by orsmga008.jf.intel.com with ESMTP; 19 May 2022 08:42:03 -0700
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: [PATCH v6 8/8] memfd_create.2: Describe MFD_INACCESSIBLE flag
-Date:   Thu, 19 May 2022 23:37:13 +0800
-Message-Id: <20220519153713.819591-9-chao.p.peng@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+        with ESMTP id S242747AbiESVB7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 19 May 2022 17:01:59 -0400
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2C235BD27
+        for <linux-api@vger.kernel.org>; Thu, 19 May 2022 14:01:57 -0700 (PDT)
+Received: by mail-yb1-xb29.google.com with SMTP id d137so11032867ybc.13
+        for <linux-api@vger.kernel.org>; Thu, 19 May 2022 14:01:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=nvfi/FkkRcQOxttlT1W4tUjOf5gCrt+pDxGf3qnwTek=;
+        b=vqMlLof0fuiWzd248UraP76doOdIz5iCAKkORAsgESDI3ML/Yh+wuv4bh22lKGaWte
+         VJFD8xu1QY90x8A2JxAEAor2S50Z8OIHycFD/5MIm9ijiVcMy/gn9zlO3hA2bkHfdD/o
+         3UEx1e3vIVFEyHqMJEJoewgdkOmewkYmX+OwXt+6B+/6VoaEfEMQwaXFoGN6Oa1xOgz3
+         344DT/L6UHbLY5AzfrKJUtUOr9RU6zjIDb5n6HwHv1f8V5loo6sPSBm8bSeO3ioUxA3s
+         o9+lXNGnjYBNyZWEhxcAjfxsZbuR+EE4ukIs9OR7RPpRCUv1JkM/pB+p5aW2hctxX0ph
+         zqpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=nvfi/FkkRcQOxttlT1W4tUjOf5gCrt+pDxGf3qnwTek=;
+        b=rOx5itienxle7iq/4x00qTTdggg1RI9gFdV7HEsWjoG74vthh4hWRIPBLJhvyrsaqb
+         vjeVnbQeKiog4qKEf+XFCsMgYXVOGsPD9Ne5zBllGseSjGKetqFs79s8VsXRZHDgAQq+
+         t7cAaREt7GriwNdDYhIr8uIFQE9OGvCq2OPwrKYchPU3ppOgLjkQac+h8gwT2f/VxqPh
+         63hvwyAHHk810hy/BLkY2IhoxGN3pdwVN+KSWkScfaMHu0wV//Zj0SCAKcGFh/+FuErF
+         GUQt8qLrSDsIu2aocE43CbOrW7+7i3TdnvtBH6+Ml4b7sdns/3MOc552sJyyHeGwgbkV
+         H6Cg==
+X-Gm-Message-State: AOAM5308/K4z1Eg3eFPy4Vwt5H4wVkYBhKk/MmgGFdea0m4O7KUkT4TH
+        ok2dFZrXkA/cqEeXAgSyFugBTWsoSsmTBZo0yEMJYQ==
+X-Google-Smtp-Source: ABdhPJzNR4Wrf4wpzc22TgZlDNFOvKX8B13v65Sh0nJdkJ3ys3ADKjrd+O0tl1MT1zi4j+gQah1jkYknq+wLogmQE2A=
+X-Received: by 2002:a5b:302:0:b0:64b:a20a:fcd9 with SMTP id
+ j2-20020a5b0302000000b0064ba20afcd9mr6226804ybp.492.1652994116812; Thu, 19
+ May 2022 14:01:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20201117233928.255671-1-linus.walleij@linaro.org> <b63c04ff68340d367ad4138f3496d217df9b5151.camel@icenowy.me>
+In-Reply-To: <b63c04ff68340d367ad4138f3496d217df9b5151.camel@icenowy.me>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 19 May 2022 23:01:45 +0200
+Message-ID: <CACRpkdar8MeG4vYx+xJ5fh9U3+6LfKdMrNzNzYmC-7YUK=pQYA@mail.gmail.com>
+Subject: Re: [PATCH v4] fcntl: Add 32bit filesystem mode
+To:     Icenowy Zheng <uwu@icenowy.me>, Chris Mason <clm@fb.clm>,
+        "Theodore Ts'o" <tytso@mit.edu>
+Cc:     Andreas Dilger <adilger.kernel@dilger.ca>,
+        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, qemu-devel@nongnu.org,
+        Florian Weimer <fw@deneb.enyo.de>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Eric Blake <eblake@redhat.com>,
+        =?UTF-8?B?572X5YuH5Yia?= <luoyonggang@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
----
- man2/memfd_create.2 | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+On Thu, May 19, 2022 at 4:23 PM Icenowy Zheng <uwu@icenowy.me> wrote:
+> =E5=9C=A8 2020-11-18=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 00:39 +0100=EF=
+=BC=8CLinus Walleij=E5=86=99=E9=81=93=EF=BC=9A
 
-diff --git a/man2/memfd_create.2 b/man2/memfd_create.2
-index 89e9c4136..2698222ae 100644
---- a/man2/memfd_create.2
-+++ b/man2/memfd_create.2
-@@ -101,6 +101,19 @@ meaning that no other seals can be set on the file.
- .\" FIXME Why is the MFD_ALLOW_SEALING behavior not simply the default?
- .\" Is it worth adding some text explaining this?
- .TP
-+.BR MFD_INACCESSIBLE
-+Disallow userspace access through ordinary MMU accesses via
-+.BR read (2),
-+.BR write (2)
-+and
-+.BR mmap (2).
-+The file size cannot be changed once initialized.
-+This flag cannot coexist with
-+.B MFD_ALLOW_SEALING
-+and when this flag is set, the initial set of seals will be
-+.B F_SEAL_SEAL,
-+meaning that no other seals can be set on the file.
-+.TP
- .BR MFD_HUGETLB " (since Linux 4.14)"
- .\" commit 749df87bd7bee5a79cef073f5d032ddb2b211de8
- The anonymous file will be created in the hugetlbfs filesystem using
--- 
-2.17.1
+> > It was brought to my attention that this bug from 2018 was
+> > still unresolved: 32 bit emulators like QEMU were given
+> > 64 bit hashes when running 32 bit emulation on 64 bit systems.
+>
+> Sorry for replying such an old mail, but I found that using 32-bit file
+> syscalls in 32-bit QEMU user on 64-bit hosts are still broken today,
+> and google sent me here.
 
+Yeah the bug was 2 years old when I started patching it and now it
+is 4 years old...
+
+> This mail does not get any reply according to linux-ext4 patchwork, so
+> could I ping it?
+
+I suppose, I think the patch is authored according to the maintainer
+requirements, but I'm happy to revise and resend it if it no longer
+applies.
+
+Arnd and others suggested to maybe use F_SETFL instead:
+https://lore.kernel.org/linux-fsdevel/CAK8P3a2SN2zeK=3Ddj01Br-m86rJmK8mOyH=
+=3DgHAidwSPgKAEthVw@mail.gmail.com/
+
+I am happy to do it either way by need to have some input from the
+maintainer (Ted). Maybe someone else on the fsdevel list want to
+chime in? Maybe any FS maintainer can actually apply this?
+
+Yours,
+Linus Walleij
