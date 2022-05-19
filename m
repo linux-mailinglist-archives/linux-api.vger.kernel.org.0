@@ -2,224 +2,273 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E63F452D648
-	for <lists+linux-api@lfdr.de>; Thu, 19 May 2022 16:40:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D369352D7FB
+	for <lists+linux-api@lfdr.de>; Thu, 19 May 2022 17:42:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231478AbiESOjw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 19 May 2022 10:39:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57742 "EHLO
+        id S241454AbiESPmF (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 19 May 2022 11:42:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235762AbiESOjW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 19 May 2022 10:39:22 -0400
-X-Greylist: delayed 905 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 19 May 2022 07:38:53 PDT
-Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 484E5B0A48
-        for <linux-api@vger.kernel.org>; Thu, 19 May 2022 07:38:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1652970215; cv=none; 
-        d=zohomail.com; s=zohoarc; 
-        b=UUc/a1qTKCDlF2+3QHLcqhwsYBOdFfAQ7x8UUnDAfDnoqcAGOcnYXLkuOyS8wZwBT14i4dxF4lhlH7wXeORxMD8lVwEGIw7cXIdUfVdyIAWjh3uyqubLk6oy9jIhoowkpAAzVsP0RMuwLq/NfCBuYCL3Dq0VVbsBhs24+pEi2tY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-        t=1652970215; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-        bh=OU6h4AK10q/BZFnU+VciJzWkp2XjAXU1sgSVxL87nkU=; 
-        b=VEOppScIwmi94N6RIbdn3BjOltknspwh14Xv3+QEjHnJpaZQocYGJ9PWpUBKmd9loJkx+p3jDaNFOA6gFprOGsfBFh0cygwLx4D5lXMSWfeurBcS+uCO2V5obYmlG4DrXi/hC7yeDWUvo/d+5YajrsjsbvSyU6W0lpsl7+om+gc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-        dkim=pass  header.i=icenowy.me;
-        spf=pass  smtp.mailfrom=uwu@icenowy.me;
-        dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1652970215;
-        s=zmail; d=icenowy.me; i=uwu@icenowy.me;
-        h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-        bh=OU6h4AK10q/BZFnU+VciJzWkp2XjAXU1sgSVxL87nkU=;
-        b=Wk64YyXTSZf+wXh+uDWh1ZOB9Ji+GiEqGpG2DeqPamXD2JXNweoKZi9aaEX4U9vO
-        P5tjTYcOV3fXR1Ldcj/44RRy/FctA6dCWTCa+noc9+kN2JgdEHyZSVrc7ushuku33YA
-        SXvcPhVMNGAvRbC5OXfQcllBTB98hmRV9tNjl9Pc=
-Received: from edelgard.icenowy.me (59.41.160.82 [59.41.160.82]) by mx.zohomail.com
-        with SMTPS id 165297021293546.341349506360984; Thu, 19 May 2022 07:23:32 -0700 (PDT)
-Message-ID: <b63c04ff68340d367ad4138f3496d217df9b5151.camel@icenowy.me>
-Subject: Re: [PATCH v4] fcntl: Add 32bit filesystem mode
-From:   Icenowy Zheng <uwu@icenowy.me>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>
-Cc:     linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, qemu-devel@nongnu.org,
-        Florian Weimer <fw@deneb.enyo.de>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Eric Blake <eblake@redhat.com>,
-        =?gb2312?Q?=C2=DE=D3=C2=B8=D5?= <luoyonggang@gmail.com>
-Date:   Thu, 19 May 2022 22:23:08 +0800
-In-Reply-To: <20201117233928.255671-1-linus.walleij@linaro.org>
-References: <20201117233928.255671-1-linus.walleij@linaro.org>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 
+        with ESMTP id S241142AbiESPkx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 19 May 2022 11:40:53 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBE7410C3;
+        Thu, 19 May 2022 08:40:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652974851; x=1684510851;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=2gQabxIn8tPmd6ZL9v/swSq/nd87q2Ez4Gvfaiq6P+g=;
+  b=kGItLVNZA1Muqh7qEmRLz6D5HxVgDTFDh/PFFakiDGWodNSeDUjZ60Eb
+   rO9UAZrU7zplGU/jb9rL4OPjAvtFRIUORzZl3mihAt68DxZ70VcPiUjRJ
+   ylX1ZjWhLyzP/zvFesdPikivmi977YnYBKpWJ5Rl+2n4IwoUUZGvbkcFe
+   hrD1qFdzAZ9ImtqdcJWZjaSPz3sObSMfSi88/tLtUBH5x9nj/qo00214x
+   vo9Nz0tTsw4eta7zMaXFVslG2ISj8U8mZZBU2Vl9TKr5Q3JvhPjV7env1
+   0b0wLsTMNzInRjHaRG6U2DrFe4vNm/vvr1XzvF2aGJ+EyOSWiUZhIzo+W
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="272377334"
+X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; 
+   d="scan'208";a="272377334"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2022 08:40:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; 
+   d="scan'208";a="598634928"
+Received: from chaop.bj.intel.com ([10.240.192.101])
+  by orsmga008.jf.intel.com with ESMTP; 19 May 2022 08:40:41 -0700
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Subject: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM guest private memory 
+Date:   Thu, 19 May 2022 23:37:05 +0800
+Message-Id: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-ZohoMailClient: External
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-=E5=9C=A8 2020-11-18=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 00:39 +0100=EF=BC=
-=8CLinus Walleij=E5=86=99=E9=81=93=EF=BC=9A
-> It was brought to my attention that this bug from 2018 was
-> still unresolved: 32 bit emulators like QEMU were given
-> 64 bit hashes when running 32 bit emulation on 64 bit systems.
->=20
+This is the v6 of this series which tries to implement the fd-based KVM
+guest private memory. The patches are based on latest kvm/queue branch
+commit:
 
-Sorry for replying such an old mail, but I found that using 32-bit file
-syscalls in 32-bit QEMU user on 64-bit hosts are still broken today,
-and google sent me here.
+  2764011106d0 (kvm/queue) KVM: VMX: Include MKTME KeyID bits in
+shadow_zero_check
+ 
+and Sean's below patch:
 
-This mail does not get any reply according to linux-ext4 patchwork, so
-could I ping it?
+  KVM: x86/mmu: Add RET_PF_CONTINUE to eliminate bool+int* "returns"
+  https://lkml.org/lkml/2022/4/22/1598
 
-Thanks,
-Icenowy Zheng
+Introduction
+------------
+In general this patch series introduce fd-based memslot which provides
+guest memory through memory file descriptor fd[offset,size] instead of
+hva/size. The fd can be created from a supported memory filesystem
+like tmpfs/hugetlbfs etc. which we refer as memory backing store. KVM
+and the the memory backing store exchange callbacks when such memslot
+gets created. At runtime KVM will call into callbacks provided by the
+backing store to get the pfn with the fd+offset. Memory backing store
+will also call into KVM callbacks when userspace fallocate/punch hole
+on the fd to notify KVM to map/unmap secondary MMU page tables.
 
-> This adds a flag to the fcntl() F_GETFD and F_SETFD operations
-> to set the underlying filesystem into 32bit mode even if the
-> file handle was opened using 64bit mode without the compat
-> syscalls.
->=20
-> Programs that need the 32 bit file system behavior need to
-> issue a fcntl() system call such as in this example:
->=20
-> =C2=A0 #define FD_32BIT_MODE 2
->=20
-> =C2=A0 int main(int argc, char** argv) {
-> =C2=A0=C2=A0=C2=A0 DIR* dir;
-> =C2=A0=C2=A0=C2=A0 int err;
-> =C2=A0=C2=A0=C2=A0 int mode;
-> =C2=A0=C2=A0=C2=A0 int fd;
->=20
-> =C2=A0=C2=A0=C2=A0 dir =3D opendir("/boot");
-> =C2=A0=C2=A0=C2=A0 fd =3D dirfd(dir);
-> =C2=A0=C2=A0=C2=A0 mode =3D fcntl(fd, F_GETFD);
-> =C2=A0=C2=A0=C2=A0 mode |=3D FD_32BIT_MODE;
-> =C2=A0=C2=A0=C2=A0 err =3D fcntl(fd, F_SETFD, mode);
-> =C2=A0=C2=A0=C2=A0 if (err) {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 printf("fcntl() failed! err=3D%d\n", err);
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 1;
-> =C2=A0=C2=A0=C2=A0 }
-> =C2=A0=C2=A0=C2=A0 printf("dir=3D%p\n", dir);
-> =C2=A0=C2=A0=C2=A0 printf("readdir(dir)=3D%p\n", readdir(dir));
-> =C2=A0=C2=A0=C2=A0 printf("errno=3D%d: %s\n", errno, strerror(errno));
-> =C2=A0=C2=A0=C2=A0 return 0;
-> =C2=A0 }
->=20
-> This can be pretty hard to test since C libraries and linux
-> userspace security extensions aggressively filter the parameters
-> that are passed down and allowed to commit into actual system
-> calls.
->=20
-> Cc: Florian Weimer <fw@deneb.enyo.de>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: Andy Lutomirski <luto@kernel.org>
-> Cc: Eric Blake <eblake@redhat.com>
-> Reported-by: =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) <luoyonggang@gmail=
-.com>
-> Suggested-by: Theodore Ts'o <tytso@mit.edu>
-> Link: https://bugs.launchpad.net/qemu/+bug/1805913
-> Link: https://lore.kernel.org/lkml/87bm56vqg4.fsf@mid.deneb.enyo.de/
-> Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=3D205957
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
-> ChangeLog v3 RESEND 1-> v4:
-> - Update the example in the commit message to a read/modify/write
-> =C2=A0 version.
-> - Notice that Yonggang Luo sees the sema problem on i386 binaries
-> =C2=A0 as we see on ARM 32bit binaries.
-> ChangeLog v3->v3 RESEND 1:
-> - Resending during the v5.10 merge window to get attention.
-> ChangeLog v2->v3:
-> - Realized that I also have to clear the flag correspondingly
-> =C2=A0 if someone ask for !FD_32BIT_MODE after setting it the
-> =C2=A0 first time.
-> ChangeLog v1->v2:
-> - Use a new flag FD_32BIT_MODE to F_GETFD and F_SETFD
-> =C2=A0 instead of a new fcntl operation, there is already a fcntl
-> =C2=A0 operation to set random flags.
-> - Sorry for taking forever to respin this patch :(
-> ---
-> =C2=A0fs/fcntl.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- | 7 +++++++
-> =C2=A0include/uapi/asm-generic/fcntl.h | 8 ++++++++
-> =C2=A02 files changed, 15 insertions(+)
->=20
-> diff --git a/fs/fcntl.c b/fs/fcntl.c
-> index 19ac5baad50f..6c32edc4099a 100644
-> --- a/fs/fcntl.c
-> +++ b/fs/fcntl.c
-> @@ -335,10 +335,17 @@ static long do_fcntl(int fd, unsigned int cmd,
-> unsigned long arg,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0break;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0case F_GETFD:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0err =3D get_close_on_exec(fd) ? FD_CLOEXEC : 0;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0/* Report 32bit file system mode */
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0if (filp->f_mode & FMODE_32BITHASH)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0err |=3D =
-FD_32BIT_MODE;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0break;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0case F_SETFD:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0err =3D 0;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0set_close_on_exec(fd, arg & FD_CLOEXEC);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0if (arg & FD_32BIT_MODE)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0filp->f_m=
-ode |=3D FMODE_32BITHASH;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0else
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0filp->f_m=
-ode &=3D ~FMODE_32BITHASH;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0break;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0case F_GETFL:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0err =3D filp->f_flags;
-> diff --git a/include/uapi/asm-generic/fcntl.h b/include/uapi/asm-
-> generic/fcntl.h
-> index 9dc0bf0c5a6e..edd3573cb7ef 100644
-> --- a/include/uapi/asm-generic/fcntl.h
-> +++ b/include/uapi/asm-generic/fcntl.h
-> @@ -160,6 +160,14 @@ struct f_owner_ex {
-> =C2=A0
-> =C2=A0/* for F_[GET|SET]FL */
-> =C2=A0#define FD_CLOEXEC=C2=A0=C2=A0=C2=A0=C2=A0=C2=A01=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0/* actually anything with low bit set
-> goes */
-> +/*
-> + * This instructs the kernel to provide 32bit semantics (such as
-> hashes) from
-> + * the file system layer, when running a userland that depend on 32bit
-> + * semantics on a kernel that supports 64bit userland, but does not
-> use the
-> + * compat ioctl() for e.g. open(), so that the kernel would otherwise
-> assume
-> + * that the userland process is capable of dealing with 64bit
-> semantics.
-> + */
-> +#define FD_32BIT_MODE=C2=A0=C2=A02
-> =C2=A0
-> =C2=A0/* for posix fcntl() and lockf() */
-> =C2=A0#ifndef F_RDLCK
+Comparing to existing hva-based memslot, this new type of memslot allows
+guest memory unmapped from host userspace like QEMU and even the kernel
+itself, therefore reduce attack surface and prevent bugs.
 
+Based on this fd-based memslot, we can build guest private memory that
+is going to be used in confidential computing environments such as Intel
+TDX and AMD SEV. When supported, the memory backing store can provide
+more enforcement on the fd and KVM can use a single memslot to hold both
+the private and shared part of the guest memory. 
+
+mm extension
+---------------------
+Introduces new MFD_INACCESSIBLE flag for memfd_create(), the file created
+with these flags cannot read(), write() or mmap() etc via normal
+MMU operations. The file content can only be used with the newly
+introduced memfile_notifier extension.
+
+The memfile_notifier extension provides two sets of callbacks for KVM to
+interact with the memory backing store:
+  - memfile_notifier_ops: callbacks for memory backing store to notify
+    KVM when memory gets allocated/invalidated.
+  - backing store callbacks: callbacks for KVM to call into memory backing
+    store to request memory pages for guest private memory.
+
+The memfile_notifier extension also provides APIs for memory backing
+store to register/unregister itself and to trigger the notifier when the
+bookmarked memory gets fallocated/invalidated.
+
+memslot extension
+-----------------
+Add the private fd and the fd offset to existing 'shared' memslot so that
+both private/shared guest memory can live in one single memslot. A page in
+the memslot is either private or shared. A page is private only when it's
+already allocated in the backing store fd, all the other cases it's treated
+as shared, this includes those already mapped as shared as well as those
+having not been mapped. This means the memory backing store is the place
+which tells the truth of which page is private.
+
+Private memory map/unmap and conversion
+---------------------------------------
+Userspace's map/unmap operations are done by fallocate() ioctl on the
+backing store fd.
+  - map: default fallocate() with mode=0.
+  - unmap: fallocate() with FALLOC_FL_PUNCH_HOLE.
+The map/unmap will trigger above memfile_notifier_ops to let KVM map/unmap
+secondary MMU page tables.
+
+Test
+----
+To test the new functionalities of this patch TDX patchset is needed.
+Since TDX patchset has not been merged so I did two kinds of test:
+
+-  Selftest on normal VM from Vishal
+   https://lkml.org/lkml/2022/5/10/2045
+   The selftest has been ported to this patchset and you can find it in
+   repo: https://github.com/chao-p/linux/tree/privmem-v6
+
+-  Private memory funational test on latest TDX code
+   The patch is rebased to latest TDX code and tested the new
+   funcationalities. See below repos:
+   Linux: https://github.com/chao-p/linux/commits/privmem-v6-tdx
+   QEMU: https://github.com/chao-p/qemu/tree/privmem-v6
+
+An example QEMU command line for TDX test:
+-object tdx-guest,id=tdx \
+-object memory-backend-memfd-private,id=ram1,size=2G \
+-machine q35,kvm-type=tdx,pic=no,kernel_irqchip=split,memory-encryption=tdx,memory-backend=ram1
+
+What's missing
+--------------
+  - The accounting for longterm pinned memory in the backing store is
+    not included since I havn't come out a good solution yet.
+  - Batch invalidation notify for shmem is not ready, as I still see
+    it's a bit tricky to do that clearly.
+
+Changelog
+----------
+v6:
+  - Re-organzied patch for both mm/KVM parts.
+  - Added flags for memfile_notifier so its consumers can state their
+    features and memory backing store can check against these flags.
+  - Put a backing store reference in the memfile_notifier and move pfn_ops
+    into backing store.
+  - Only support boot time backing store register.
+  - Overall KVM part improvement suggested by Sean and some others.
+v5:
+  - Removed userspace visible F_SEAL_INACCESSIBLE, instead using an
+    in-kernel flag (SHM_F_INACCESSIBLE for shmem). Private fd can only
+    be created by MFD_INACCESSIBLE.
+  - Introduced new APIs for backing store to register itself to
+    memfile_notifier instead of direct function call.
+  - Added the accounting and restriction for MFD_INACCESSIBLE memory.
+  - Added KVM API doc for new memslot extensions and man page for the new
+    MFD_INACCESSIBLE flag.
+  - Removed the overlap check for mapping the same file+offset into
+    multiple gfns due to perf consideration, warned in document.
+  - Addressed other comments in v4.
+v4:
+  - Decoupled the callbacks between KVM/mm from memfd and use new
+    name 'memfile_notifier'.
+  - Supported register multiple memslots to the same backing store.
+  - Added per-memslot pfn_ops instead of per-system.
+  - Reworked the invalidation part.
+  - Improved new KVM uAPIs (private memslot extension and memory
+    error) per Sean's suggestions.
+  - Addressed many other minor fixes for comments from v3.
+v3:
+  - Added locking protection when calling
+    invalidate_page_range/fallocate callbacks.
+  - Changed memslot structure to keep use useraddr for shared memory.
+  - Re-organized F_SEAL_INACCESSIBLE and MEMFD_OPS.
+  - Added MFD_INACCESSIBLE flag to force F_SEAL_INACCESSIBLE.
+  - Commit message improvement.
+  - Many small fixes for comments from the last version.
+
+Links to previous discussions
+-----------------------------
+[1] Original design proposal:
+https://lkml.kernel.org/kvm/20210824005248.200037-1-seanjc@google.com/
+[2] Updated proposal and RFC patch v1:
+https://lkml.kernel.org/linux-fsdevel/20211111141352.26311-1-chao.p.peng@linux.intel.com/
+[3] Patch v5: https://lkml.org/lkml/2022/3/10/457
+
+Chao Peng (6):
+  mm: Introduce memfile_notifier
+  mm/memfd: Introduce MFD_INACCESSIBLE flag
+  KVM: Extend the memslot to support fd-based private memory
+  KVM: Add KVM_EXIT_MEMORY_FAULT exit
+  KVM: Handle page fault for private memory
+  KVM: Enable and expose KVM_MEM_PRIVATE
+
+Kirill A. Shutemov (1):
+  mm/shmem: Support memfile_notifier
+
+ Documentation/virt/kvm/api.rst   |  60 ++++++++++--
+ arch/mips/include/asm/kvm_host.h |   2 +-
+ arch/x86/include/asm/kvm_host.h  |   2 +-
+ arch/x86/kvm/Kconfig             |   2 +
+ arch/x86/kvm/mmu.h               |   1 +
+ arch/x86/kvm/mmu/mmu.c           |  70 +++++++++++++-
+ arch/x86/kvm/mmu/mmu_internal.h  |  17 ++++
+ arch/x86/kvm/mmu/mmutrace.h      |   1 +
+ arch/x86/kvm/mmu/paging_tmpl.h   |   5 +-
+ arch/x86/kvm/x86.c               |   2 +-
+ include/linux/kvm_host.h         |  51 +++++++++--
+ include/linux/memfile_notifier.h |  99 ++++++++++++++++++++
+ include/linux/shmem_fs.h         |   2 +
+ include/uapi/linux/kvm.h         |  33 +++++++
+ include/uapi/linux/memfd.h       |   1 +
+ mm/Kconfig                       |   4 +
+ mm/Makefile                      |   1 +
+ mm/memfd.c                       |  15 ++-
+ mm/memfile_notifier.c            | 137 +++++++++++++++++++++++++++
+ mm/shmem.c                       | 120 +++++++++++++++++++++++-
+ virt/kvm/Kconfig                 |   3 +
+ virt/kvm/kvm_main.c              | 153 +++++++++++++++++++++++++++++--
+ 22 files changed, 748 insertions(+), 33 deletions(-)
+ create mode 100644 include/linux/memfile_notifier.h
+ create mode 100644 mm/memfile_notifier.c
+
+-- 
+2.25.1
 
