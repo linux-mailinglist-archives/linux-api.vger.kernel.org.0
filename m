@@ -2,173 +2,68 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 44F0953132E
-	for <lists+linux-api@lfdr.de>; Mon, 23 May 2022 18:23:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F817532747
+	for <lists+linux-api@lfdr.de>; Tue, 24 May 2022 12:17:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237783AbiEWPWq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 23 May 2022 11:22:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56368 "EHLO
+        id S229543AbiEXKQM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 24 May 2022 06:16:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237758AbiEWPWj (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 23 May 2022 11:22:39 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 990DA5DBF0
-        for <linux-api@vger.kernel.org>; Mon, 23 May 2022 08:22:37 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id d22so13393078plr.9
-        for <linux-api@vger.kernel.org>; Mon, 23 May 2022 08:22:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=alhazuhH7tTd8Xd528vjQZhEVIVEKAWK4HCLXZDJ228=;
-        b=FY+eaeQn0QSUHoJZ1pIFqwwhEngjriob9gD9u/B6V7NGsK628vXfe9OaR7V+ivQcG7
-         oUq06I8eW7HBIntiAx8hVuSzVcI4o08UOO8rnlQzh+q3k/m/WbEVxbdOUyjyOCwOE937
-         A487RWEuR49BgO5YHvoZXJYj8YibiJbikPaMzwoJU6XjJBkkBT4zo6LA0wUkZ+xe+wVv
-         u/5J4TUl1BPNy5wFyQRJj+jpLzLFkAgws5kcfohn0eOOtgmxkfKFRb1vx4U7mxSjIxMa
-         n0m0TkhMSmH3C563bTiPkClwsxB2JnwTw2UxQ027A0jTP2RpKPm9+cBoqaLh2XhDQs3i
-         KbEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=alhazuhH7tTd8Xd528vjQZhEVIVEKAWK4HCLXZDJ228=;
-        b=eOFii8iXdWURb4wbG8l/hNTw8mJb/MTFywRSNlMKZ6V1+pbKISl0fHPCvDj213BCug
-         cZ4ukorCjcmgpsIf2NL4YJxjSPLRf8NiKywh92sk2MLUC1TpheVYacpGm3X3SiWtaxS8
-         bbMx2A396Rh3bGsEFDFWPPGS3o+a7GQG3otjB6rQh+tHLY5LpTFNqWC9nH/F939rLjek
-         yEw2q0OL595EIBwcWGN15Ig+yTQx3h+CtI7Dp9WG/WlmNLw0Gd0PsvwvAyofHkyCVItN
-         8LeYLOCEY50nB/Bk8luLJxOnLPDjC6eh/UkDssjEIgI7ew9QmsmEhoAzmbluOW9CmP3M
-         0M1g==
-X-Gm-Message-State: AOAM532JWNfhImworYmCXkv6Ggw+o0q/7FAzmf2XBHLwP+XbyIMHH+r+
-        2LSiOfaXJ8xWwEObvSc8vTUtWg==
-X-Google-Smtp-Source: ABdhPJxMnuGcLeXNmgvjCrimkV9tdjgzm2jljb8i5xr1qPYZt2WYeIGCUhIkYo7TSWGZfmskKdgJKg==
-X-Received: by 2002:a17:90b:3884:b0:1df:db8a:1fcf with SMTP id mu4-20020a17090b388400b001dfdb8a1fcfmr24013896pjb.217.1653319356845;
-        Mon, 23 May 2022 08:22:36 -0700 (PDT)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id q22-20020a170902789600b0016230703ca3sm1655647pll.231.2022.05.23.08.22.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 May 2022 08:22:36 -0700 (PDT)
-Date:   Mon, 23 May 2022 15:22:32 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Andy Lutomirski <luto@kernel.org>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: Re: [PATCH v6 4/8] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <YoumuHUmgM6TH20S@google.com>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <20220519153713.819591-5-chao.p.peng@linux.intel.com>
- <8840b360-cdb2-244c-bfb6-9a0e7306c188@kernel.org>
- <YofeZps9YXgtP3f1@google.com>
- <20220523132154.GA947536@chaop.bj.intel.com>
+        with ESMTP id S235858AbiEXKQL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 24 May 2022 06:16:11 -0400
+X-Greylist: delayed 2221 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 24 May 2022 03:16:10 PDT
+Received: from box.indicandustries.com (hwsrv-970840.hostwindsdns.com [IPv6:2607:5501:3000:21a5::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85CD213F07
+        for <linux-api@vger.kernel.org>; Tue, 24 May 2022 03:16:09 -0700 (PDT)
+Received: from authenticated-user (box.indicandustries.com [104.168.149.109])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by box.indicandustries.com (Postfix) with ESMTPSA id 234A5108168
+        for <linux-api@vger.kernel.org>; Tue, 24 May 2022 03:25:11 -0600 (MDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+        d=box.indicandustries.com; s=mail; t=1653384312;
+        bh=V6VCn7WEbqHjVVQ20/+SYu6rwS1WmTHcxX88g+j430s=;
+        h=Reply-To:From:To:Subject:Date:From;
+        b=RLlepTCCiuyv8R9HCzjLpzton7bSlr2N+WA+gN/FvVmmiLci2pAV6J8+eGPYghIlj
+         VOBgAOFkEuG3p731gzDHglhOQWtUqjNuhjwFcHvvMCNjxZHJtFCc+F7OJnewxxp40t
+         XeRJMl5g0OmDAGcFWgAVEFfKBdRo1hOpMCoSBki2XEQ+dvtrXn45UUBPZY6Llwnhj5
+         eg5zJKAWYGSH38JziG1/Uj+l4gLL88OdpZPQz8lb3Y/ww05AroXMDNZ8szkAB4DKeP
+         XD7BgY3uMB7kX7PCqwGxJ7LYVnlB/2VHxWqiCW575Cn5BPPlxNh38rgHxPC3SUH55V
+         DnT0n/gEUHp+w==
+Reply-To: amjalia90@gmail.com
+From:   amjad.ali@box.indicandustries.com
+To:     linux-api@vger.kernel.org
+Subject: Hello Sir, I seek your urgent consideration.
+Date:   24 May 2022 11:25:10 +0200
+Message-ID: <20220524112510.0AC4C6D9B70423A2@box.indicandustries.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220523132154.GA947536@chaop.bj.intel.com>
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=3.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, May 23, 2022, Chao Peng wrote:
-> On Fri, May 20, 2022 at 06:31:02PM +0000, Sean Christopherson wrote:
-> > On Fri, May 20, 2022, Andy Lutomirski wrote:
-> > > The alternative would be to have some kind of separate table or bitmap (part
-> > > of the memslot?) that tells KVM whether a GPA should map to the fd.
-> > > 
-> > > What do you all think?
-> > 
-> > My original proposal was to have expolicit shared vs. private memslots, and punch
-> > holes in KVM's memslots on conversion, but due to the way KVM (and userspace)
-> > handle memslot updates, conversions would be painfully slow.  That's how we ended
-> > up with the current propsoal.
-> > 
-> > But a dedicated KVM ioctl() to add/remove shared ranges would be easy to implement
-> > and wouldn't necessarily even need to interact with the memslots.  It could be a
-> > consumer of memslots, e.g. if we wanted to disallow registering regions without an
-> > associated memslot, but I think we'd want to avoid even that because things will
-> > get messy during memslot updates, e.g. if dirty logging is toggled or a shared
-> > memory region is temporarily removed then we wouldn't want to destroy the tracking.
-> 
-> Even we don't tight that to memslots, that info can only be effective
-> for private memslot, right? Setting this ioctl to memory ranges defined
-> in a traditional non-private memslots just makes no sense, I guess we can
-> comment that in the API document.
+Hello,
 
-Hrm, applying it universally would be funky, e.g. emulated MMIO would need to be
-declared "shared".  But, applying it selectively would arguably be worse, e.g.
-letting userspace map memory into the guest as shared for a region that's registered
-as private...
+Greetings? I am Amjad. I work with a leading Bio Firm.  Due to=20
+the setbacks of the pandemic, my company has opened a bid in=20
+search of new suppliers for basic raw materials needed in=20
+production.
 
-On option to that mess would be to make memory shared by default, and so userspace
-must declare regions that are private.  Then there's no weirdness with emulated MMIO
-or "legacy" memslots.
+I am seeking a representative=C2=A0as I am a staff, I can not be=20
+involved directly. It may not be your area of work but the=20
+profits are great and I will guide you through. I have already=20
+sourced a local supplier for this. I only need a reliable=20
+representative.
 
-On page fault, KVM does a lookup to see if the GPA is shared or private.  If the
-GPA is private, but there is no memslot or the memslot doesn't have a private fd,
-KVM exits to userspace.  If there's a memslot with a private fd, the shared/private
-flag is used to resolve the 
+Please get back to me so I can explain this in full.
 
-And to handle the ioctl(), KVM can use kvm_zap_gfn_range(), which will bump the
-notifier sequence, i.e. force the page fault to retry if the GPA may have been
-(un)registered between checking the type and acquiring mmu_lock.
-
-> > I don't think we'd want to use a bitmap, e.g. for a well-behaved guest, XArray
-> > should be far more efficient.
-> 
-> What about the mis-behaved guest? I don't want to design for the worst
-> case, but people may raise concern on the attack from such guest.
-
-That's why cgroups exist.  E.g. a malicious/broken L1 can similarly abuse nested
-EPT/NPT to generate a large number of shadow page tables.
-
-> > One benefit to explicitly tracking this in KVM is that it might be useful for
-> > software-only protected VMs, e.g. KVM could mark a region in the XArray as "pending"
-> > based on guest hypercalls to share/unshare memory, and then complete the transaction
-> > when userspace invokes the ioctl() to complete the share/unshare.
-> 
-> OK, then this can be another field of states/flags/attributes. Let me
-> dig up certain level of details:
-> 
-> First, introduce below KVM ioctl
-> 
-> KVM_SET_MEMORY_ATTR
-
-Actually, if the semantics are that userspace declares memory as private, then we
-can reuse KVM_MEMORY_ENCRYPT_REG_REGION and KVM_MEMORY_ENCRYPT_UNREG_REGION.  It'd
-be a little gross because we'd need to slightly redefine the semantics for TDX, SNP,
-and software-protected VM types, e.g. the ioctls() currently require a pre-exisitng
-memslot.  But I think it'd work...
-
-I'll think more on this...
+Amjad
