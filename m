@@ -2,93 +2,58 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 430FF535CE5
-	for <lists+linux-api@lfdr.de>; Fri, 27 May 2022 11:09:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F156C5362D6
+	for <lists+linux-api@lfdr.de>; Fri, 27 May 2022 14:43:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230115AbiE0JGo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 27 May 2022 05:06:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52330 "EHLO
+        id S1353204AbiE0Mnj convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Fri, 27 May 2022 08:43:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351218AbiE0JGB (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 27 May 2022 05:06:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DE9A71157D6
-        for <linux-api@vger.kernel.org>; Fri, 27 May 2022 02:02:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1653642174;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=VxSx5WHE/is7ha0Qn9ZHkh6x3/barWbE89a+k35Foho=;
-        b=Rt1wOrHIcMY/yuZZ2tyx7s9BWHyc0stNuTknEJT5UV/JefyMOX1sv05+a80DQPv4mXew9+
-        g+i+E5dCZx6HS78f+tBj30sGH/aJJL9d8pd7wCwHJikX9nyp/T1UZuE0+Lc1joq9za91ZE
-        jPUpnfc9giIpMGYFGePZRkBKSphTAQA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-391-NTi_t_sZMdal6y7vIU_a0A-1; Fri, 27 May 2022 05:02:51 -0400
-X-MC-Unique: NTi_t_sZMdal6y7vIU_a0A-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BF12E858EEE;
-        Fri, 27 May 2022 09:02:50 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.39.192.71])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 64FE7492C3B;
-        Fri, 27 May 2022 09:02:48 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-fscrypt@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Keith Busch <kbusch@kernel.org>
-Subject: Re: [RFC PATCH v2 1/7] statx: add I/O alignment information
-References: <20220518235011.153058-1-ebiggers@kernel.org>
-        <20220518235011.153058-2-ebiggers@kernel.org>
-Date:   Fri, 27 May 2022 11:02:46 +0200
-In-Reply-To: <20220518235011.153058-2-ebiggers@kernel.org> (Eric Biggers's
-        message of "Wed, 18 May 2022 16:50:05 -0700")
-Message-ID: <87r14ffivd.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+        with ESMTP id S1352963AbiE0Mnb (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 27 May 2022 08:43:31 -0400
+X-Greylist: delayed 5689 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 27 May 2022 05:40:52 PDT
+Received: from mail.composit.net (mail.composit.net [195.49.185.119])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 50B3419284;
+        Fri, 27 May 2022 05:40:52 -0700 (PDT)
+Received: from mail.composit.net (localhost.localdomain [127.0.0.1])
+        by mail.composit.net (Proxmox) with ESMTP id 70A2C38A824;
+        Fri, 27 May 2022 14:02:43 +0300 (MSK)
+Received: from mail.composit.net (mail.industrial-flow.com [192.168.101.14])
+        by mail.composit.net (Proxmox) with SMTP id 3733E38F9FA;
+        Fri, 27 May 2022 14:02:43 +0300 (MSK)
+Received: from [192.168.1.105] (Unknown [197.234.219.23])
+        by mail.composit.net with ESMTPSA
+        (version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256)
+        ; Fri, 27 May 2022 14:02:44 +0300
+Message-ID: <7ABC466F-919F-4F2A-9EAC-76D0177AB17D@mail.composit.net>
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Greetings From Ukraine.  
+To:     Recipients <heiss@dnet.it>
+From:   "Kostiantyn Chichkov" <heiss@dnet.it>
+Date:   Fri, 27 May 2022 11:59:39 +0100
+Reply-To: kostiantync@online.ee
+X-Spam-Status: No, score=3.7 required=5.0 tests=BAYES_50,RCVD_IN_SBL,
+        RCVD_IN_SORBS_WEB,RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Eric Biggers:
+Good Morning,
 
-> diff --git a/include/uapi/linux/stat.h b/include/uapi/linux/stat.h
-> index 1500a0f58041a..f822b23e81091 100644
-> --- a/include/uapi/linux/stat.h
-> +++ b/include/uapi/linux/stat.h
-> @@ -124,9 +124,13 @@ struct statx {
->  	__u32	stx_dev_minor;
->  	/* 0x90 */
->  	__u64	stx_mnt_id;
-> -	__u64	__spare2;
-> +	__u32	stx_mem_align_dio;	/* Memory buffer alignment for direct I/O */
-> +	__u32	stx_offset_align_dio;	/* File offset alignment for direct I/O */
->  	/* 0xa0 */
-> -	__u64	__spare3[12];	/* Spare space for future expansion */
-> +	__u32	stx_offset_align_optimal; /* Optimal file offset alignment for I/O */
-> +	__u32	__spare2;
-> +	/* 0xa8 */
-> +	__u64	__spare3[11];	/* Spare space for future expansion */
->  	/* 0x100 */
->  };
+We are Kostiantyn Chychkov and Maryna Chudnovska from Ukraine, we need your service, we have gone through your profile and we will like to work with you on an important service that needs urgent attention due to the ongoing war in our country. Kindly acknowledge this inquiry as soon as possible for a detailed discussion about the service.
 
-Are 32 bits enough?  Would it make sense to store the base-2 logarithm
-instead?
+Thank you.
 
-Thanks,
-Florian
+Yours expectantly,
+
+Kostiantyn Chichkov & Ms. Maryna Chudnovska,
+From Ukraine.
+
 
