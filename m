@@ -2,95 +2,109 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E9655362A1
-	for <lists+linux-api@lfdr.de>; Fri, 27 May 2022 14:36:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4814A5363D6
+	for <lists+linux-api@lfdr.de>; Fri, 27 May 2022 16:14:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353282AbiE0MgL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 27 May 2022 08:36:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49866 "EHLO
+        id S1346017AbiE0OOM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 27 May 2022 10:14:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353021AbiE0MgA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 27 May 2022 08:36:00 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A58266542D;
-        Fri, 27 May 2022 05:18:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=geAMsSyauLMOVPX6W6eghzalquulsdZss1iC62RITD4=; b=OXBSZOwIzEo0nW3OGXNYDNcso7
-        cSVBDSeUyodCUGjW0kjEI72x26/sZY5G+halPOjMqHW/csefH0Qc0ACDbcJZWOM0C9aigW5ZLORDm
-        RYg+7mO8/e9EueIsvDw+GKz19plfEHQ2UZuRXBz6+rI7XgUQOZstvPajG8UOVVgRIagN6NWkQSVTR
-        XNOJw6mMu6xvqKpm0T7KzjyoMmQrDk8MNY5VChOS/kM+87zJvSTzJXoN1cAMoxjkMBxrV7gJsbDj1
-        0FdOWr3Qp9iK5HFfqvrXQJLS5gs0S1zcj/zvA2wwzyCWwn9NVEh6NXN1+myb1Ow7VJaqxyGrqR3bl
-        yobvkScw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nuYv9-00255Z-AA; Fri, 27 May 2022 12:18:23 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 2463B300327;
-        Fri, 27 May 2022 14:18:20 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id C06992026D29A; Fri, 27 May 2022 14:18:20 +0200 (CEST)
-Date:   Fri, 27 May 2022 14:18:20 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Zhang Yuchen <zhangyuchen.lcr@bytedance.com>
-Cc:     akpm@linux-foundation.org, david@redhat.com, mingo@redhat.com,
-        ast@kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-api@vger.kernel.org, fam.zheng@bytedance.com
-Subject: Re: [PATCH] procfs: add syscall statistics
-Message-ID: <YpDBjDTpS4evca3F@hirez.programming.kicks-ass.net>
-References: <20220527110959.54559-1-zhangyuchen.lcr@bytedance.com>
+        with ESMTP id S236208AbiE0OOL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 27 May 2022 10:14:11 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9DB75AA4A;
+        Fri, 27 May 2022 07:14:08 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id wh22so9067983ejb.7;
+        Fri, 27 May 2022 07:14:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mDpmMrX6ZAj99tYsLUoYw7iDnZGlJpEI/3VF/4/WHsM=;
+        b=hmiV/2279z7xlKaFk+GxCbmDFupUyDQeF53CqctYwc3ylvA1+g67fm9AYwf3aJD52U
+         2Y0VNqCIPfJbF0YC3jT9aXfuCTHrZQH0zxRrdU5jcN1U1Kr3Xyjgnel+Kg8sZAH6ee2U
+         0dRC/R9cIcfp4pxd3fmznfBJMykLh8g3O16PpM3SZgOtK4GcYkW2MzmtU5DshhyBsBBf
+         3dKOBekLlhYbIn1nXTFG8IGd4yeaLAs2b4LMzjf8mjbboq9RHjfL3e/PH9gzng8YZQoR
+         wqBZqmfZxrzbCTzS+9/EGH3SBeLUcCO/TOjFgUVkrnmnGi4VHBCbnbAcC3eLlGOH/cDk
+         d4rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mDpmMrX6ZAj99tYsLUoYw7iDnZGlJpEI/3VF/4/WHsM=;
+        b=XWvs1OzpyEqn2rhMU2sOJAnRMC9Qb0KkWrQvEEpybCDANviWERnMzdKTzV8aiyBUGn
+         HfqcPxGd+loh56t7alMhH3Q0ezryCE1SoGoUud6dfyt939qEQ4TrgjxJjr4BEoNWPvNZ
+         nmKroZJUnPRTnYy980ah4Ud0Ta9/Ccdh3twtCIZrU/dqNDrlTKjQK/GZPi6iKeX3sY0f
+         gWEXI5FzA9O12F2/E7cSft5VY1WiOxWEv4rVUMWSCqIdp44M+qyDKeZR/WAONDI2BG8v
+         K2gQVHlJ3wEXPjZyQtzfG1xN+aWXYySc4QaQiaVBdXQ5mtkDd1o6ca2HmJVlmG6XPbT9
+         ePnA==
+X-Gm-Message-State: AOAM5320hwJ+ArNo4XFq8NN+JwUKClRz+yG1JczUhHhT/Y10LQMQqysQ
+        wQRha3zL6V8EzSfVax4KAaQES3v6XH5Ksu67WVk=
+X-Google-Smtp-Source: ABdhPJzu+h5wDUX4t7z5kJNxgp3+mHRNUPXxSn4d+Qux7XVdKfp9P59rjLYvyQHCXOcEAGyObqTC+BjeidAUXP/vTKc=
+X-Received: by 2002:a17:907:7da5:b0:6fe:d818:ee49 with SMTP id
+ oz37-20020a1709077da500b006fed818ee49mr24958685ejc.58.1653660847121; Fri, 27
+ May 2022 07:14:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <20220527110959.54559-1-zhangyuchen.lcr@bytedance.com>
 In-Reply-To: <20220527110959.54559-1-zhangyuchen.lcr@bytedance.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date:   Fri, 27 May 2022 07:13:54 -0700
+Message-ID: <CAADnVQL69J8MWhaNzNG=ANL_i8_QqABON+pWJDuqRTkFGPJYUQ@mail.gmail.com>
+Subject: Re: [PATCH] procfs: add syscall statistics
+To:     Zhang Yuchen <zhangyuchen.lcr@bytedance.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        David Hildenbrand <david@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-Fsdevel <linux-fsdevel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>, fam.zheng@bytedance.com,
+        bpf <bpf@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, May 27, 2022 at 07:09:59PM +0800, Zhang Yuchen wrote:
+On Fri, May 27, 2022 at 4:10 AM Zhang Yuchen
+<zhangyuchen.lcr@bytedance.com> wrote:
+>
 > Add /proc/syscalls to display percpu syscall count.
-> 
+
+I second Peter's nack.
+We don't add debug features to the production kernel.
+
 > We need a less resource-intensive way to count syscall per cpu
 > for system problem location.
-> 
+>
 > There is a similar utility syscount in the BCC project, but syscount
 > has a high performance cost.
-> 
-> The following is a comparison on the same machine, using UnixBench
-> System Call Overhead:
-> 
->     ┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━┓
->     ┃ Change        ┃ Unixbench Score ┃ Loss   ┃
->     ┡━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━┩
->     │ no change     │ 1072.6          │ ---    │
->     │ syscall count │ 982.5           │ 8.40%  │
->     │ bpf syscount  │ 614.2           │ 42.74% │
->     └───────────────┴─────────────────┴────────┘
-> 
-> UnixBench System Call Use sys_gettid to test, this system call only reads
-> one variable, so the performance penalty seems large. When tested with
-> fork, the test scores were almost the same.
-> 
-> So the conclusion is that it does not have a significant impact on system
-> call performance.
-> 
-> This function depends on CONFIG_FTRACE_SYSCALLS because the system call
-> number is stored in syscall_metadata.
 
-Death by a thousand cuts. 99% of people won't ever use this.
+There are two syscount tools in BCC:
+tools/syscount
+libbpf-tools/syscount
 
-NAK
+Which one has this 42% overhead?
+
+The former tool is obsolete though.
+It was written in the days when bpf had 1/10 of
+the features it has today.
+Both tools can be optimized.
+They attach to raw_syscalls tracepoint.
+tracepoints are not cheap.
+In terms of overhead:
+tracepoint > raw_tracepoint > fentry.
+bpf can attach to all three.
+
+Please profile libbpf-tools/syscount tool
+with perf and unixbench, understand where overhead
+comes from and then optimize the tool.
