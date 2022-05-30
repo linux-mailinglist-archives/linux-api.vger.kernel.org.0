@@ -2,169 +2,184 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A41EE53772A
-	for <lists+linux-api@lfdr.de>; Mon, 30 May 2022 10:51:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B809537D3C
+	for <lists+linux-api@lfdr.de>; Mon, 30 May 2022 15:42:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233255AbiE3IOO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 30 May 2022 04:14:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49852 "EHLO
+        id S237322AbiE3Njt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 30 May 2022 09:39:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233341AbiE3IOI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 30 May 2022 04:14:08 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9347338BFE;
-        Mon, 30 May 2022 01:14:06 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2C63560EEB;
-        Mon, 30 May 2022 08:14:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB3A7C385B8;
-        Mon, 30 May 2022 08:14:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1653898445;
-        bh=IiUVNys82QKu71QCm8k+glI5bp4KFPNfGLhFwPbxkn0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PEaUS7QOfbZ9ewQuHtkHiLC41azqD02A82nuPpdE5Ndwrq8UR/p+tw9S1PM26EsEQ
-         jpybBSwJ5os1HcmCyljv1BXBWah6n0CJAW4ki28jU/wIrytmS3bbhBkM6q3F6k4H9j
-         aoVt7SJZhOgZnvqMGv+IXox7tEuaDUuvHBZu3VNB+5kh+qSTHJ5UAN4z4rPHYpLwc8
-         +XUBVJ5mQT/MEgJnVjIX/Ud5hG4ZVEIS7Cd/3AKJnSCK7mBUGsMP9Bt4uoQvfeRZLB
-         MeXKC0QBZcKOCdr5L/zqxc8+53ne5KlUZuS9ob30rEnJP8BU/CwdaCM+LWllXZZhcL
-         oCn7fTxviqyqQ==
-Date:   Mon, 30 May 2022 10:13:58 +0200
-From:   Christian Brauner <brauner@kernel.org>
-To:     Jan Kiszka <jan.kiszka@siemens.com>
-Cc:     "Serge E. Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Laurent Vivier <laurent@vivier.eu>,
-        linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
-        Kees Cook <keescook@chromium.org>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Jann Horn <jannh@google.com>,
-        Henning Schild <henning.schild@siemens.com>,
-        Andrei Vagin <avagin@gmail.com>,
-        Matthew Bobrowski <repnop@google.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        containers@lists.linux.dev,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Subject: Re: [PATCH v2 2/2] binfmt_misc: enable sandboxed mounts
-Message-ID: <20220530081358.b3tvgvo63mq5o2oo@wittgenstein>
-References: <20211216112659.310979-1-brauner@kernel.org>
- <20211216112659.310979-2-brauner@kernel.org>
- <20211226133140.GA8064@mail.hallyn.com>
- <0e817424-51db-fe0b-a00e-ac7933e8ac1d@siemens.com>
+        with ESMTP id S238150AbiE3NgI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 30 May 2022 09:36:08 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74894985AF;
+        Mon, 30 May 2022 06:29:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1653917391; x=1685453391;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=I21a6ClKGB+lq1NfhYRQ0tz6+Os23OEzwGczNY+MKwY=;
+  b=HpvNlcVINhWSmF2Khe79cHcXMHlqq8MD2pq5h//KORGzneoTvxjrwGOC
+   lUFqvSjakeEsFY4cAqT5ep1vHYaIhzrACuH9QR96Wdzi74dG2pH9neXJJ
+   1EPbdyEkxENjnVyAtmRK1ruUw1XeLGarOY1IgXCkVoEYe6HgjbKQ+JRPU
+   HxL/PtL7Kb8/ckE1FPkj7mmMHx5BUNKbGGYAfrPI1wjQRDKvGxs2DStk2
+   niuShl40ewrDrlfLvWcZMus1mGjAgSmYHUAlA+3IIhnFcklnQEyH17o2f
+   ZAc2tldND5vrR2yrGUFOwiHujWmUsLDqS6GT4Jrjc+JyP0GmKqQmEWixg
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10362"; a="273813992"
+X-IronPort-AV: E=Sophos;i="5.91,263,1647327600"; 
+   d="scan'208";a="273813992"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2022 06:29:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,263,1647327600"; 
+   d="scan'208";a="529175229"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+  by orsmga003.jf.intel.com with ESMTP; 30 May 2022 06:29:39 -0700
+Date:   Mon, 30 May 2022 21:26:13 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Andy Lutomirski <luto@kernel.org>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Subject: Re: [PATCH v6 4/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <20220530132613.GA1200843@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <20220519153713.819591-5-chao.p.peng@linux.intel.com>
+ <8840b360-cdb2-244c-bfb6-9a0e7306c188@kernel.org>
+ <YofeZps9YXgtP3f1@google.com>
+ <20220523132154.GA947536@chaop.bj.intel.com>
+ <YoumuHUmgM6TH20S@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0e817424-51db-fe0b-a00e-ac7933e8ac1d@siemens.com>
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <YoumuHUmgM6TH20S@google.com>
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sun, May 29, 2022 at 09:35:40PM +0200, Jan Kiszka wrote:
-> On 26.12.21 14:31, Serge E. Hallyn wrote:
-> > On Thu, Dec 16, 2021 at 12:26:59PM +0100, Christian Brauner wrote:
-> >> From: Christian Brauner <christian.brauner@ubuntu.com>
-> >>
-> >> Enable unprivileged sandboxes to create their own binfmt_misc mounts.
-> >> This is based on Laurent's work in [1] but has been significantly
-> >> reworked to fix various issues we identified in earlier versions.
-> >>
-> >> While binfmt_misc can currently only be mounted in the initial user
-> >> namespace, binary types registered in this binfmt_misc instance are
-> >> available to all sandboxes (Either by having them installed in the
-> >> sandbox or by registering the binary type with the F flag causing the
-> >> interpreter to be opened right away). So binfmt_misc binary types are
-> >> already delegated to sandboxes implicitly.
-> >>
-> >> However, while a sandbox has access to all registered binary types in
-> >> binfmt_misc a sandbox cannot currently register its own binary types
-> >> in binfmt_misc. This has prevented various use-cases some of which were
-> >> already outlined in [1] but we have a range of issues associated with
-> >> this (cf. [3]-[5] below which are just a small sample).
-> >>
-> >> Extend binfmt_misc to be mountable in non-initial user namespaces.
-> >> Similar to other filesystem such as nfsd, mqueue, and sunrpc we use
-> >> keyed superblock management. The key determines whether we need to
-> >> create a new superblock or can reuse an already existing one. We use the
-> >> user namespace of the mount as key. This means a new binfmt_misc
-> >> superblock is created once per user namespace creation. Subsequent
-> >> mounts of binfmt_misc in the same user namespace will mount the same
-> >> binfmt_misc instance. We explicitly do not create a new binfmt_misc
-> >> superblock on every binfmt_misc mount as the semantics for
-> >> load_misc_binary() line up with the keying model. This also allows us to
-> >> retrieve the relevant binfmt_misc instance based on the caller's user
-> >> namespace which can be done in a simple (bounded to 32 levels) loop.
-> >>
-> >> Similar to the current binfmt_misc semantics allowing access to the
-> >> binary types in the initial binfmt_misc instance we do allow sandboxes
-> >> access to their parent's binfmt_misc mounts if they do not have created
-> >> a separate binfmt_misc instance.
-> >>
-> >> Overall, this will unblock the use-cases mentioned below and in general
-> >> will also allow to support and harden execution of another
-> >> architecture's binaries in tight sandboxes. For instance, using the
-> >> unshare binary it possible to start a chroot of another architecture and
-> >> configure the binfmt_misc interpreter without being root to run the
-> >> binaries in this chroot and without requiring the host to modify its
-> >> binary type handlers.
-> >>
-> >> Henning had already posted a few experiments in the cover letter at [1].
-> >> But here's an additional example where an unprivileged container
-> >> registers qemu-user-static binary handlers for various binary types in
-> >> its separate binfmt_misc mount and is then seamlessly able to start
-> >> containers with a different architecture without affecting the host:
-> >>
-> >> root    [lxc monitor] /var/snap/lxd/common/lxd/containers f1
-> >> 1000000  \_ /sbin/init
-> >> 1000000      \_ /lib/systemd/systemd-journald
-> >> 1000000      \_ /lib/systemd/systemd-udevd
-> >> 1000100      \_ /lib/systemd/systemd-networkd
-> >> 1000101      \_ /lib/systemd/systemd-resolved
-> >> 1000000      \_ /usr/sbin/cron -f
-> >> 1000103      \_ /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
-> >> 1000000      \_ /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
-> >> 1000104      \_ /usr/sbin/rsyslogd -n -iNONE
-> >> 1000000      \_ /lib/systemd/systemd-logind
-> >> 1000000      \_ /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 vt220
-> >> 1000107      \_ dnsmasq --conf-file=/dev/null -u lxc-dnsmasq --strict-order --bind-interfaces --pid-file=/run/lxc/dnsmasq.pid --liste
-> >> 1000000      \_ [lxc monitor] /var/lib/lxc f1-s390x
-> >> 1100000          \_ /usr/bin/qemu-s390x-static /sbin/init
-> >> 1100000              \_ /usr/bin/qemu-s390x-static /lib/systemd/systemd-journald
-> >> 1100000              \_ /usr/bin/qemu-s390x-static /usr/sbin/cron -f
-> >> 1100103              \_ /usr/bin/qemu-s390x-static /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-ac
-> >> 1100000              \_ /usr/bin/qemu-s390x-static /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
-> >> 1100104              \_ /usr/bin/qemu-s390x-static /usr/sbin/rsyslogd -n -iNONE
-> >> 1100000              \_ /usr/bin/qemu-s390x-static /lib/systemd/systemd-logind
-> >> 1100000              \_ /usr/bin/qemu-s390x-static /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 vt220
-> >> 1100000              \_ /usr/bin/qemu-s390x-static /sbin/agetty -o -p -- \u --noclear --keep-baud pts/0 115200,38400,9600 vt220
-> >> 1100000              \_ /usr/bin/qemu-s390x-static /sbin/agetty -o -p -- \u --noclear --keep-baud pts/1 115200,38400,9600 vt220
-> >> 1100000              \_ /usr/bin/qemu-s390x-static /sbin/agetty -o -p -- \u --noclear --keep-baud pts/2 115200,38400,9600 vt220
-> >> 1100000              \_ /usr/bin/qemu-s390x-static /sbin/agetty -o -p -- \u --noclear --keep-baud pts/3 115200,38400,9600 vt220
-> >> 1100000              \_ /usr/bin/qemu-s390x-static /lib/systemd/systemd-udevd
-> >>
-> >> [1]: https://lore.kernel.org/all/20191216091220.465626-1-laurent@vivier.eu
-> >> [2]: https://discuss.linuxcontainers.org/t/binfmt-misc-permission-denied
-> >> [3]: https://discuss.linuxcontainers.org/t/lxd-binfmt-support-for-qemu-static-interpreters
-> >> [4]: https://discuss.linuxcontainers.org/t/3-1-0-binfmt-support-service-in-unprivileged-guest-requires-write-access-on-hosts-proc-sys-fs-binfmt-misc
-> >> [5]: https://discuss.linuxcontainers.org/t/qemu-user-static-not-working-4-11
-> >>
-> >> Link: https://lore.kernel.org/r/20191216091220.465626-2-laurent@vivier.eu (origin)
-> >> Link: https://lore.kernel.org/r/20211028103114.2849140-2-brauner@kernel.org (v1)
-> >> Cc: Sargun Dhillon <sargun@sargun.me>
-> >> Cc: Serge Hallyn <serge@hallyn.com>
+On Mon, May 23, 2022 at 03:22:32PM +0000, Sean Christopherson wrote:
+> On Mon, May 23, 2022, Chao Peng wrote:
+> > On Fri, May 20, 2022 at 06:31:02PM +0000, Sean Christopherson wrote:
+> > > On Fri, May 20, 2022, Andy Lutomirski wrote:
+> > > > The alternative would be to have some kind of separate table or bitmap (part
+> > > > of the memslot?) that tells KVM whether a GPA should map to the fd.
+> > > > 
+> > > > What do you all think?
+> > > 
+> > > My original proposal was to have expolicit shared vs. private memslots, and punch
+> > > holes in KVM's memslots on conversion, but due to the way KVM (and userspace)
+> > > handle memslot updates, conversions would be painfully slow.  That's how we ended
+> > > up with the current propsoal.
+> > > 
+> > > But a dedicated KVM ioctl() to add/remove shared ranges would be easy to implement
+> > > and wouldn't necessarily even need to interact with the memslots.  It could be a
+> > > consumer of memslots, e.g. if we wanted to disallow registering regions without an
+> > > associated memslot, but I think we'd want to avoid even that because things will
+> > > get messy during memslot updates, e.g. if dirty logging is toggled or a shared
+> > > memory region is temporarily removed then we wouldn't want to destroy the tracking.
 > > 
-> > (one typo below)
-> > 
-> > Acked-by: Serge Hallyn <serge@hallyn.com>
-> > 
+> > Even we don't tight that to memslots, that info can only be effective
+> > for private memslot, right? Setting this ioctl to memory ranges defined
+> > in a traditional non-private memslots just makes no sense, I guess we can
+> > comment that in the API document.
 > 
-> What happened to this afterwards? Any remaining issues?
+> Hrm, applying it universally would be funky, e.g. emulated MMIO would need to be
+> declared "shared".  But, applying it selectively would arguably be worse, e.g.
+> letting userspace map memory into the guest as shared for a region that's registered
+> as private...
+> 
+> On option to that mess would be to make memory shared by default, and so userspace
+> must declare regions that are private.  Then there's no weirdness with emulated MMIO
+> or "legacy" memslots.
+> 
+> On page fault, KVM does a lookup to see if the GPA is shared or private.  If the
+> GPA is private, but there is no memslot or the memslot doesn't have a private fd,
+> KVM exits to userspace.  If there's a memslot with a private fd, the shared/private
+> flag is used to resolve the 
+> 
+> And to handle the ioctl(), KVM can use kvm_zap_gfn_range(), which will bump the
+> notifier sequence, i.e. force the page fault to retry if the GPA may have been
+> (un)registered between checking the type and acquiring mmu_lock.
 
-Not that we know. I plan to queue this up for 5.20.
+Yeah, that makes sense.
+
+> 
+> > > I don't think we'd want to use a bitmap, e.g. for a well-behaved guest, XArray
+> > > should be far more efficient.
+> > 
+> > What about the mis-behaved guest? I don't want to design for the worst
+> > case, but people may raise concern on the attack from such guest.
+> 
+> That's why cgroups exist.  E.g. a malicious/broken L1 can similarly abuse nested
+> EPT/NPT to generate a large number of shadow page tables.
+
+I havn't seen we had that in KVM. Is there any plan/discussion to add that?
+
+> 
+> > > One benefit to explicitly tracking this in KVM is that it might be useful for
+> > > software-only protected VMs, e.g. KVM could mark a region in the XArray as "pending"
+> > > based on guest hypercalls to share/unshare memory, and then complete the transaction
+> > > when userspace invokes the ioctl() to complete the share/unshare.
+> > 
+> > OK, then this can be another field of states/flags/attributes. Let me
+> > dig up certain level of details:
+> > 
+> > First, introduce below KVM ioctl
+> > 
+> > KVM_SET_MEMORY_ATTR
+> 
+> Actually, if the semantics are that userspace declares memory as private, then we
+> can reuse KVM_MEMORY_ENCRYPT_REG_REGION and KVM_MEMORY_ENCRYPT_UNREG_REGION.  It'd
+> be a little gross because we'd need to slightly redefine the semantics for TDX, SNP,
+> and software-protected VM types, e.g. the ioctls() currently require a pre-exisitng
+> memslot.  But I think it'd work...
+
+These existing ioctls looks good for TDX and probably SNP as well. For
+softrware-protected VM types, it may not be enough. Maybe for the first
+step we can reuse this for all hardware based solutions and invent new
+interface when software-protected solution gets really supported.
+
+There is semantics difference for fd-based private memory. Current above
+two ioctls() use userspace addreess(hva) while for fd-based it should be
+fd+offset, and probably it's better to use gpa in this case. Then we
+will need change existing semantics and break backward-compatibility.
+
+Chao
+
+> 
+> I'll think more on this...
