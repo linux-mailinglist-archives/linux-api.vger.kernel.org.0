@@ -2,109 +2,142 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60CE9538499
-	for <lists+linux-api@lfdr.de>; Mon, 30 May 2022 17:18:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4D6853902B
+	for <lists+linux-api@lfdr.de>; Tue, 31 May 2022 14:00:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240373AbiE3PSi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 30 May 2022 11:18:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54774 "EHLO
+        id S1343957AbiEaMAJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 31 May 2022 08:00:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240452AbiE3PS3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 30 May 2022 11:18:29 -0400
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3283AE277F
-        for <linux-api@vger.kernel.org>; Mon, 30 May 2022 07:20:33 -0700 (PDT)
-Received: by mail-io1-xd42.google.com with SMTP id z20so11481772iof.1
-        for <linux-api@vger.kernel.org>; Mon, 30 May 2022 07:20:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=XJqXgw0Qi4Ge6Q57wB4GlvotoYnhUuSq68y9152a6AE=;
-        b=Wc9YLfir5ejlsDTz4KQpGBf4urVA/F2ogmC6FfLeyv2RCfAOeKFzlKlppzhHItc1Bq
-         vHeCQtNTz/suh8kziWhOIun4oCdQ4RIPux43jF2U4bgOApJU9XCDG1w4vwb3MsA82kNB
-         9Us6Et6UQKfU5aAUEkHyGO8whgTbLWqra46yHhqF9o8unKDP2lnDv9363PKnmlWJsFuP
-         RGcG16haNPz1H5YFR+Z69B0Lb5RGSmlriOSJ8Ug7l9qtBzq4bXBEkeuNGIA/4zpMB5DK
-         bfHRx1y5TSGzlgjuVF4KMQFM8XYReKP4ZLbwbj6wzk0akZy9rTPRtxkpaBCYv6CNuDRE
-         aMVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=XJqXgw0Qi4Ge6Q57wB4GlvotoYnhUuSq68y9152a6AE=;
-        b=25udWCNeQ/ocETaNILrREff4TZ+1WBTFt1qO0NwnCWSVvjzF6BsIwc+uddlXtlhEkq
-         IXAKNA27Aon+OPdXcQy8Uwm3QojWw+xavFWWFxcatmtukDhpeuFjraIkgyktjakAoIlJ
-         nRNT0xMTeGHFUTbrcQXJd+kMI+cT8gtayt77Ett4QFwO/Er0dzh+lIdw0lJ7npAEW2Al
-         PJsJVp4jODbpssaBqZdyrp8d3Rd5IbjV7f3EckRz3sDoQ4GsVc4nl2Pi+Wymu1MpN/5a
-         61BCdukjzh7jCinlZqaOP5PRpUn7rpuou6jwhhVirLVj1qeGO+E9INScGYXlZ/o560pB
-         gwRA==
-X-Gm-Message-State: AOAM530jEOGFC3xyRjpIrkam6Cn84lak98pZ4RARNBOK4Gjcy9ez/869
-        ZsxHmjkKoA72One3WbLtUrVe+O2ej8ckXglIRnY=
-X-Google-Smtp-Source: ABdhPJxjpQKM5stogsglVw1vjymm5n5jVJgWw3WodUvIBLYuGZKRRDdmP+WUPpKGpZhiKarXTScRvxVkvgg9P1qoYdA=
-X-Received: by 2002:a5d:9d95:0:b0:663:c256:e19e with SMTP id
- ay21-20020a5d9d95000000b00663c256e19emr17055181iob.7.1653920424607; Mon, 30
- May 2022 07:20:24 -0700 (PDT)
+        with ESMTP id S1344022AbiEaL77 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 31 May 2022 07:59:59 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56E514B876;
+        Tue, 31 May 2022 04:59:57 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id C6DBFCE0E9F;
+        Tue, 31 May 2022 11:59:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BAAAC385A9;
+        Tue, 31 May 2022 11:59:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1653998394;
+        bh=7Lbe2zyNQ0rV/hxwT06A/1O3dq6x6sIy9gX8/rG0xtw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Tmy2IrqB7ccOQs5HHqYf6TgLGfnXAIJZtPc+/nGbbCvo8aX1LEZimBe88wqFy9V+C
+         uvtv6axBqQslJIEcqCmHaJugkFIWb+Z1TGJf0qmIzfM29u5W8NMrAAmC8ktgIpl75E
+         gcrEmiqK0XFNQKuFpsGTYvYggWUWTxW87kTg+bDnnxhtC5uR2wiybPoB/pGb0zaA8x
+         i+jCSOkZjgQgg9JGDLRgGwvKGGOSuZ8dg7B5XT3N41k+vwPDtPOWUa8GUiBlAGdxy4
+         tonA882Bd2BjYe9bNLmfo/ws8UnfaLAUVImqoIdDISbcSTFxR642KkhZQ769WLFSed
+         swLqoEFb/vljQ==
+Date:   Tue, 31 May 2022 14:59:37 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     "H.J. Lu" <hjl.tools@gmail.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "0x7f454c46@gmail.com" <0x7f454c46@gmail.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "adrian@lisas.de" <adrian@lisas.de>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "avagin@gmail.com" <avagin@gmail.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "dave.martin@arm.com" <dave.martin@arm.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+Subject: Re: [PATCH 00/35] Shadow stacks for userspace
+Message-ID: <YpYDKVjMEYVlV6Ya@kernel.org>
+References: <Yh0wIMjFdDl8vaNM@kernel.org>
+ <5a792e77-0072-4ded-9f89-e7fcc7f7a1d6@www.fastmail.com>
+ <Yh0+9cFyAfnsXqxI@kernel.org>
+ <05df964f-552e-402e-981c-a8bea11c555c@www.fastmail.com>
+ <YiEZyTT/UBFZd6Am@kernel.org>
+ <CALCETrWacW8SC2tpPxQSaLtxsOXfXHueyuwLcXpNF4aG-0ZvhA@mail.gmail.com>
+ <fb7d6e4da58ae77be2c6321ee3f3487485b2886c.camel@intel.com>
+ <40a3500c-835a-60b0-15bf-40c6622ad013@kernel.org>
+ <YiZVbPwlgSFnhadv@kernel.org>
+ <CAMe9rOrSLPKdL2gL=yx84zrs-u6ch1AVvjk3oqUe3thR5ZD=dQ@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 2002:a05:6622:f06:0:0:0:0 with HTTP; Mon, 30 May 2022 07:20:24
- -0700 (PDT)
-Reply-To: barristerbenjamin221@gmail.com
-From:   Attorney Amadou <koadaidrissa1@gmail.com>
-Date:   Mon, 30 May 2022 07:20:24 -0700
-Message-ID: <CAOh7+P-bAv+p1s5fx2Lazi2kYkmbqXrXk85_k1cAiBH4_HUV1g@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-X-Spam-Status: Yes, score=7.7 required=5.0 tests=BAYES_99,BAYES_999,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:d42 listed in]
-        [list.dnswl.org]
-        *  0.2 BAYES_999 BODY: Bayes spam probability is 99.9 to 100%
-        *      [score: 1.0000]
-        *  3.5 BAYES_99 BODY: Bayes spam probability is 99 to 100%
-        *      [score: 1.0000]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [koadaidrissa1[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [barristerbenjamin221[at]gmail.com]
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [koadaidrissa1[at]gmail.com]
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *******
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMe9rOrSLPKdL2gL=yx84zrs-u6ch1AVvjk3oqUe3thR5ZD=dQ@mail.gmail.com>
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-SGVsbG8gZGVhciBmcmllbmQuDQoNClBsZWFzZSBJIHdpbGwgbG92ZSB0byBkaXNjdXNzIHNvbWV0
-aGluZyB2ZXJ5IGltcG9ydGFudCB3aXRoIHlvdSwgSQ0Kd2lsbCBhcHByZWNpYXRlIGl0IGlmIHlv
-dSBncmFudCBtZSBhdWRpZW5jZS4NCg0KU2luY2VyZWx5Lg0KQmFycmlzdGVyIEFtYWRvdSBCZW5q
-YW1pbiBFc3EuDQouLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
-Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4NCuimquaEm+OB
-quOCi+WPi+S6uuOAgeOBk+OCk+OBq+OBoeOBr+OAgg0KDQrnp4Hjga/jgYLjgarjgZ/jgajpnZ7l
-uLjjgavph43opoHjgarjgZPjgajjgavjgaTjgYTjgaboqbHjgZflkIjjgYbjga7jgYzlpKflpb3j
-gY3jgafjgZnjgIHjgYLjgarjgZ/jgYznp4HjgavogbTooYbjgpLkuI7jgYjjgabjgY/jgozjgozj
-gbDnp4Hjga/jgZ3jgozjgpLmhJ/orJ3jgZfjgb7jgZnjgIINCg0K5b+D44GL44KJ44CCDQrjg5Dj
-g6rjgrnjgr/jg7zjgqLjg57jg4njgqXjg5njg7Pjgrjjg6Pjg5/jg7NFc3HjgIINCg==
+Hi all,
+
+On Mon, Mar 07, 2022 at 11:07:01AM -0800, H.J. Lu wrote:
+> On Mon, Mar 7, 2022 at 10:57 AM Mike Rapoport <rppt@kernel.org> wrote:
+> >
+> > On Fri, Mar 04, 2022 at 11:13:19AM -0800, Andy Lutomirski wrote:
+> > > On 3/3/22 17:30, Edgecombe, Rick P wrote:
+> 
+> Here is the CET ptrace patch on CET 5.16 kernel branch:
+> 
+> https://github.com/hjl-tools/linux/commit/3a43ec29ddac56f87807161b5aeafa80f632363d
+
+It took me a while, but at last I have a version of CRIU that knows how to
+handle shadow stack. For the shadow stack manipulation during dump and for
+the creation of the sigframe for sigreturn I used the CET ptrace patch for
+5.16 (thanks H.J).
+
+For the restore I had to add two modifications to the kernel APIs on top of
+this version of the shadow stack series:
+
+* add address parameter to map_shadow_stack() so that it'll call mmap()
+with MAP_FIXED if the address is requested. This is required to restore the
+shadow stack at the same address as it was at dump time.
+
+* add ability to unlock shadow stack features using ptrace. This is
+required because the current glibc (or at least in the version I used for
+tests) locks shadow stack state when it loads a program. This locking means
+that a process will either have shadow stack disabled without an ability to
+enable it or it will have shadow stack enabled with WRSS disabled and
+again, there is no way to re-enable WRSS. With that, ptrace looked like the
+most sensible interface to interfere with the shadow stack locking.
+
+I've pushed the kernel modifications here:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git/log/?h=cet/kvm
+
+and CRIU modifications here:
+
+https://github.com/rppt/criu/tree/cet/v0.1
+
+-- 
+Sincerely yours,
+Mike.
