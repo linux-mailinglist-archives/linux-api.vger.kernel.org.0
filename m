@@ -2,78 +2,95 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 768245396F5
-	for <lists+linux-api@lfdr.de>; Tue, 31 May 2022 21:24:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 492E0539EFB
+	for <lists+linux-api@lfdr.de>; Wed,  1 Jun 2022 10:06:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346707AbiEaTYr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 31 May 2022 15:24:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40142 "EHLO
+        id S1346469AbiFAIGZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 1 Jun 2022 04:06:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236740AbiEaTYl (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 31 May 2022 15:24:41 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EBB999699
-        for <linux-api@vger.kernel.org>; Tue, 31 May 2022 12:24:39 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id 137so13697799pgb.5
-        for <linux-api@vger.kernel.org>; Tue, 31 May 2022 12:24:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=790ZGIWLu3M3fciHJnar3YBAhr4IOM5eNhb2rLFf0HQ=;
-        b=ZlDjvw3Ht/bFFf8r0sW6FLU2cNvq5PNson53ZKFZtoLckRqYPs6XKmwKUSlfBheNPO
-         9qDqCUTcvyoTfcE2Z9YxRa3Zx61lYn0c78qB+aSelPEiX/noLol7MJaf33lPvGph13mL
-         I6A/9bhVBjvaoD6M+4/IwGj7Nz6/mcx9KNgNk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=790ZGIWLu3M3fciHJnar3YBAhr4IOM5eNhb2rLFf0HQ=;
-        b=xkUINrvsBIgF9ygMX3LhR/q88NMom5gCN5Bxex7AKDWaKfeWN7WAHf/2USXJaXR1u+
-         YNPTHWjhgWNZDSQMq0tl8SZSzXkJlu+XWXWH+7Btg0+Xe4ULnec+WUjGSLCbk7ki/qP5
-         lFXRp6nK4C+VA4SY1nNdXKYFPACcU3uyFPngQ8TBZ7z1gpv9hhkReI76umKh27B5LzDH
-         xb44wffflhj1r7VoPzQOVK0H0YrotAsm/HZLEg8jKMbQo7ehKF6l3+uRSHhDrMMMhd+o
-         NC/nArSQBrJyUnhwSLUdSgH9/S5Ht6L9g5C8I7JGYKTquj4uQfQrKQiIc2/V9ECJumAi
-         aLhQ==
-X-Gm-Message-State: AOAM533y/FzP8htCX+qxD0lnoxH7EYFntQWSwA+iT3UuNxX3woxrD21S
-        s8AOsQoVuTVfPhNGcnJeskOiPw==
-X-Google-Smtp-Source: ABdhPJwjahwm2XcxJzarB0bkFTPaJCZS6iCgNIpZLQNwb7hsy9A6fndnl0egtxKCatv7ANknoIeKrw==
-X-Received: by 2002:a65:404c:0:b0:3c6:4018:ffbf with SMTP id h12-20020a65404c000000b003c64018ffbfmr54323134pgp.408.1654025078759;
-        Tue, 31 May 2022 12:24:38 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id fs24-20020a17090af29800b001e02073474csm2305234pjb.36.2022.05.31.12.24.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 May 2022 12:24:38 -0700 (PDT)
-Date:   Tue, 31 May 2022 12:24:37 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Christian Brauner <brauner@kernel.org>
-Cc:     Jan Kiszka <jan.kiszka@siemens.com>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Laurent Vivier <laurent@vivier.eu>,
-        linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Jann Horn <jannh@google.com>,
-        Henning Schild <henning.schild@siemens.com>,
-        Andrei Vagin <avagin@gmail.com>,
-        Matthew Bobrowski <repnop@google.com>,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        containers@lists.linux.dev,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Subject: Re: [PATCH v2 2/2] binfmt_misc: enable sandboxed mounts
-Message-ID: <202205311219.725ED1C69@keescook>
-References: <20211216112659.310979-1-brauner@kernel.org>
- <20211216112659.310979-2-brauner@kernel.org>
- <20211226133140.GA8064@mail.hallyn.com>
- <0e817424-51db-fe0b-a00e-ac7933e8ac1d@siemens.com>
- <20220530081358.b3tvgvo63mq5o2oo@wittgenstein>
+        with ESMTP id S234295AbiFAIGY (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 1 Jun 2022 04:06:24 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBD2A45AD5;
+        Wed,  1 Jun 2022 01:06:22 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7876261457;
+        Wed,  1 Jun 2022 08:06:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE2B1C385A5;
+        Wed,  1 Jun 2022 08:06:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654070781;
+        bh=Pe+xqjlEZkEvfqPm0TvyzYDROtRhOytTmfU9fiGZws8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fffsVtEMEyvvzETBbzbLRANw5qSpp7g2hTxlgYQz+92zoX1gJ4zXLlEruzzqTTYSf
+         N2BAoyYsXpTHyVPmtOwTYApytoYIJPfrTIBwv2gyDHOq/5r47nwIHZPTWZzz9zoHk9
+         HIW68lMuS6J2BG6fNBdQzDZqpTs5jqdA1xRDTgQvl/O0vFZsBgZr0IZcc+8/f7VoHM
+         mBF2JE0x8Ik5pv3aB1Imh9Gv7aUytp6d1jtbut/qaDi9XZTuqB7BqQSbE4OFZACvzW
+         oy5d4OXtHdvuB+Q9kGqn/gRGVFqYIR5IuOvAiNdNdhEzfcmmRJPg/FEZRFrjXI8zOL
+         HJ48ltR8tywIg==
+Date:   Wed, 1 Jun 2022 11:06:08 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "0x7f454c46@gmail.com" <0x7f454c46@gmail.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "adrian@lisas.de" <adrian@lisas.de>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "avagin@gmail.com" <avagin@gmail.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "dave.martin@arm.com" <dave.martin@arm.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+Subject: Re: [PATCH 00/35] Shadow stacks for userspace
+Message-ID: <Ypcd8HQtrn7T41LF@kernel.org>
+References: <YiEZyTT/UBFZd6Am@kernel.org>
+ <CALCETrWacW8SC2tpPxQSaLtxsOXfXHueyuwLcXpNF4aG-0ZvhA@mail.gmail.com>
+ <fb7d6e4da58ae77be2c6321ee3f3487485b2886c.camel@intel.com>
+ <40a3500c-835a-60b0-15bf-40c6622ad013@kernel.org>
+ <YiZVbPwlgSFnhadv@kernel.org>
+ <CAMe9rOrSLPKdL2gL=yx84zrs-u6ch1AVvjk3oqUe3thR5ZD=dQ@mail.gmail.com>
+ <YpYDKVjMEYVlV6Ya@kernel.org>
+ <d0c94eed6e3c7f35b78bab3f00aadebd960ee0d8.camel@intel.com>
+ <YpZEDjxSPxUfMxDZ@kernel.org>
+ <7c637f729e14f03d0df744568800fc986542e33d.camel@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220530081358.b3tvgvo63mq5o2oo@wittgenstein>
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+In-Reply-To: <7c637f729e14f03d0df744568800fc986542e33d.camel@intel.com>
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -81,127 +98,96 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, May 30, 2022 at 10:13:58AM +0200, Christian Brauner wrote:
-> On Sun, May 29, 2022 at 09:35:40PM +0200, Jan Kiszka wrote:
-> > On 26.12.21 14:31, Serge E. Hallyn wrote:
-> > > On Thu, Dec 16, 2021 at 12:26:59PM +0100, Christian Brauner wrote:
-> > >> From: Christian Brauner <christian.brauner@ubuntu.com>
-> > >>
-> > >> Enable unprivileged sandboxes to create their own binfmt_misc mounts.
-> > >> This is based on Laurent's work in [1] but has been significantly
-> > >> reworked to fix various issues we identified in earlier versions.
-> > >>
-> > >> While binfmt_misc can currently only be mounted in the initial user
-> > >> namespace, binary types registered in this binfmt_misc instance are
-> > >> available to all sandboxes (Either by having them installed in the
-> > >> sandbox or by registering the binary type with the F flag causing the
-> > >> interpreter to be opened right away). So binfmt_misc binary types are
-> > >> already delegated to sandboxes implicitly.
-> > >>
-> > >> However, while a sandbox has access to all registered binary types in
-> > >> binfmt_misc a sandbox cannot currently register its own binary types
-> > >> in binfmt_misc. This has prevented various use-cases some of which were
-> > >> already outlined in [1] but we have a range of issues associated with
-> > >> this (cf. [3]-[5] below which are just a small sample).
-> > >>
-> > >> Extend binfmt_misc to be mountable in non-initial user namespaces.
-> > >> Similar to other filesystem such as nfsd, mqueue, and sunrpc we use
-> > >> keyed superblock management. The key determines whether we need to
-> > >> create a new superblock or can reuse an already existing one. We use the
-> > >> user namespace of the mount as key. This means a new binfmt_misc
-> > >> superblock is created once per user namespace creation. Subsequent
-> > >> mounts of binfmt_misc in the same user namespace will mount the same
-> > >> binfmt_misc instance. We explicitly do not create a new binfmt_misc
-> > >> superblock on every binfmt_misc mount as the semantics for
-> > >> load_misc_binary() line up with the keying model. This also allows us to
-> > >> retrieve the relevant binfmt_misc instance based on the caller's user
-> > >> namespace which can be done in a simple (bounded to 32 levels) loop.
-> > >>
-> > >> Similar to the current binfmt_misc semantics allowing access to the
-> > >> binary types in the initial binfmt_misc instance we do allow sandboxes
-> > >> access to their parent's binfmt_misc mounts if they do not have created
-> > >> a separate binfmt_misc instance.
-> > >>
-> > >> Overall, this will unblock the use-cases mentioned below and in general
-> > >> will also allow to support and harden execution of another
-> > >> architecture's binaries in tight sandboxes. For instance, using the
-> > >> unshare binary it possible to start a chroot of another architecture and
-> > >> configure the binfmt_misc interpreter without being root to run the
-> > >> binaries in this chroot and without requiring the host to modify its
-> > >> binary type handlers.
-> > >>
-> > >> Henning had already posted a few experiments in the cover letter at [1].
-> > >> But here's an additional example where an unprivileged container
-> > >> registers qemu-user-static binary handlers for various binary types in
-> > >> its separate binfmt_misc mount and is then seamlessly able to start
-> > >> containers with a different architecture without affecting the host:
-> > >>
-> > >> root    [lxc monitor] /var/snap/lxd/common/lxd/containers f1
-> > >> 1000000  \_ /sbin/init
-> > >> 1000000      \_ /lib/systemd/systemd-journald
-> > >> 1000000      \_ /lib/systemd/systemd-udevd
-> > >> 1000100      \_ /lib/systemd/systemd-networkd
-> > >> 1000101      \_ /lib/systemd/systemd-resolved
-> > >> 1000000      \_ /usr/sbin/cron -f
-> > >> 1000103      \_ /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
-> > >> 1000000      \_ /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
-> > >> 1000104      \_ /usr/sbin/rsyslogd -n -iNONE
-> > >> 1000000      \_ /lib/systemd/systemd-logind
-> > >> 1000000      \_ /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 vt220
-> > >> 1000107      \_ dnsmasq --conf-file=/dev/null -u lxc-dnsmasq --strict-order --bind-interfaces --pid-file=/run/lxc/dnsmasq.pid --liste
-> > >> 1000000      \_ [lxc monitor] /var/lib/lxc f1-s390x
-> > >> 1100000          \_ /usr/bin/qemu-s390x-static /sbin/init
-> > >> 1100000              \_ /usr/bin/qemu-s390x-static /lib/systemd/systemd-journald
-> > >> 1100000              \_ /usr/bin/qemu-s390x-static /usr/sbin/cron -f
-> > >> 1100103              \_ /usr/bin/qemu-s390x-static /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-ac
-> > >> 1100000              \_ /usr/bin/qemu-s390x-static /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
-> > >> 1100104              \_ /usr/bin/qemu-s390x-static /usr/sbin/rsyslogd -n -iNONE
-> > >> 1100000              \_ /usr/bin/qemu-s390x-static /lib/systemd/systemd-logind
-> > >> 1100000              \_ /usr/bin/qemu-s390x-static /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 vt220
-> > >> 1100000              \_ /usr/bin/qemu-s390x-static /sbin/agetty -o -p -- \u --noclear --keep-baud pts/0 115200,38400,9600 vt220
-> > >> 1100000              \_ /usr/bin/qemu-s390x-static /sbin/agetty -o -p -- \u --noclear --keep-baud pts/1 115200,38400,9600 vt220
-> > >> 1100000              \_ /usr/bin/qemu-s390x-static /sbin/agetty -o -p -- \u --noclear --keep-baud pts/2 115200,38400,9600 vt220
-> > >> 1100000              \_ /usr/bin/qemu-s390x-static /sbin/agetty -o -p -- \u --noclear --keep-baud pts/3 115200,38400,9600 vt220
-> > >> 1100000              \_ /usr/bin/qemu-s390x-static /lib/systemd/systemd-udevd
-> > >>
-> > >> [1]: https://lore.kernel.org/all/20191216091220.465626-1-laurent@vivier.eu
-> > >> [2]: https://discuss.linuxcontainers.org/t/binfmt-misc-permission-denied
-> > >> [3]: https://discuss.linuxcontainers.org/t/lxd-binfmt-support-for-qemu-static-interpreters
-> > >> [4]: https://discuss.linuxcontainers.org/t/3-1-0-binfmt-support-service-in-unprivileged-guest-requires-write-access-on-hosts-proc-sys-fs-binfmt-misc
-> > >> [5]: https://discuss.linuxcontainers.org/t/qemu-user-static-not-working-4-11
-> > >>
-> > >> Link: https://lore.kernel.org/r/20191216091220.465626-2-laurent@vivier.eu (origin)
-> > >> Link: https://lore.kernel.org/r/20211028103114.2849140-2-brauner@kernel.org (v1)
-> > >> Cc: Sargun Dhillon <sargun@sargun.me>
-> > >> Cc: Serge Hallyn <serge@hallyn.com>
-> > > 
-> > > (one typo below)
-> > > 
-> > > Acked-by: Serge Hallyn <serge@hallyn.com>
-> > > 
+On Tue, May 31, 2022 at 05:34:50PM +0000, Edgecombe, Rick P wrote:
+> On Tue, 2022-05-31 at 19:36 +0300, Mike Rapoport wrote:
+> > > WRSS is a feature where you would usually want to lock it as
+> > > disabled,
+> > > but WRSS cannot be enabled if shadow stack is not enabled. Locking
+> > > shadow stack and WRSS off together doesn't have any security
+> > > benefits
+> > > in theory. so I'm thinking glibc doesn't need to do this. The
+> > > kernel
+> > > could even refuse to lock WRSS without shadow stack being enabled.
+> > > Could we avoid the extra ptrace functionality then?
 > > 
-> > What happened to this afterwards? Any remaining issues?
+> > What I see for is that a program can support shadow stack, glibc
+> > enables
+> > shadow stack, does not enable WRSS and than calls
+> > 
+> >         arch_prctl(ARCH_X86_FEATURE_LOCK,
+> >                    LINUX_X86_FEATURE_SHSTK | LINUX_X86_FEATURE_WRSS);
 > 
-> Not that we know. I plan to queue this up for 5.20.
+> I see the logic is glibc will lock SHSTK|IBT if either is enabled in
+> the elf header. I guess that is why I didn't see the locking happening
+> for me, because my manual enablement test doesn't have either set in
+> the header.
 
-Hello!
+The locking was quite a surprise for me when I moved from standalone test
+to a system with CET-enabled glibc :)
+ 
+> It can't see where that glibc knows about WRSS though...
 
-Thanks for the thread-ping -- I hadn't had a chance to read through this
-before, but since it's touching binfmt, it popped up on my radar. :)
+Right, it was my mistake, as H.J. said glibc locks SHSTK and IBT.
+ 
+> The glibc logic seems wrong to me also, because shadow stack or IBT
+> could be force-disabled via glibc tunables. I don't see why the elf
+> header bit should exclusively control the feature locking. Or why both
+> should be locked if only one is in the header.
+> 
+> > 
+> > so that WRSS cannot be re-enabled.
+> > 
+> > For the programs that do not support shadow stack, both SHSTK and
+> > WRSS are
+> > disabled, but still there is the same call to
+> > arch_prctl(ARCH_X86_FEATURE_LOCK, ...) and then neither shadow stack
+> > nor
+> > WRSS can be enabled.
+> > 
+> > My original plan was to run CRIU with no shadow stack, enable shadow
+> > stack
+> > and WRSS in the restored tasks using arch_prct() and after the shadow
+> > stack
+> > contents is restored disable WRSS.
+> > 
+> > Obviously, this didn't work with glibc I have :)
+> 
+> Were you disabling shadow stack via glibc tunnable? Or was the elf
+> header marked for IBT? If it was a plain old binary, the code looks to
+> me like it should not lock any features.
 
-I like it overall, though I'd rather see it split up more (there's
-some refactoring built into the patches that would be nice to split out
-just to make review easier), but since others have already reviewed it,
-that's probably overkill.
+I built criu as a plain old binary, there were no SHSTK or IBT markers. And
+I've seen that there was a call to arch_prctl that locked the features as
+disabled. 
+ 
+> > On the bright side, having a ptrace call to unlock shadow stack and
+> > wrss
+> > allows running CRIU itself with shadow stack.
+> 
+> Yea, having something working is really great. My only hesitancy is
+> that, per a discussion on the LAM patchset, we are going to make this
+> enabling API CET only (same semantics for though). I suppose the
+> locking API arch_prctl() could still be support other arch features,
+> but it might be a second CET only regset. It's not the end of the
+> world.
 
-I'd really like to see some self-tests for this, though. Especially
-around the cred logic changes and the namespace fallback logic. I'd like
-to explicitly document and test what the expectations are around the
-mounts, etc.
+The support for CET in criu is anyway experimental for now, if the kernel
+API will be slightly different in the end, we'll update criu.
+The important things are the ability to control tracee shadow stack
+from ptrace, the ability to map the shadow stack at fixed address and the
+ability to control the features at least from ptrace.
+As long as we have APIs that provide those, it should be Ok.
+ 
+> I guess the other consideration is tieing CRIU to glibc peculiarities.
+> Like even if we fix glibc, then CRIU may not work with some other libc
+> or app that force disables for some weird reason. Is it supposed to be
+> libc-agnostic?
 
-Finally, I'd prefer this went via the execve tree.
-
--Kees
+Actually using the ptrace to control the CET features does not tie criu to
+glibc. The current proposal for the arch_prctl() allows libc to lock CET
+features and having a ptrace call to control the lock makes criu agnostic
+to libc behaviour.
 
 -- 
-Kees Cook
+Sincerely yours,
+Mike.
