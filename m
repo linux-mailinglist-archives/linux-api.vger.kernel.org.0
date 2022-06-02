@@ -2,153 +2,146 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FDA453AD6B
-	for <lists+linux-api@lfdr.de>; Wed,  1 Jun 2022 21:48:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1A7253B6A5
+	for <lists+linux-api@lfdr.de>; Thu,  2 Jun 2022 12:11:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229573AbiFATan (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 1 Jun 2022 15:30:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54822 "EHLO
+        id S233414AbiFBKLO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 2 Jun 2022 06:11:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229605AbiFATal (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 1 Jun 2022 15:30:41 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2347017C6AF;
-        Wed,  1 Jun 2022 12:28:42 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id b5so2646622plx.10;
-        Wed, 01 Jun 2022 12:28:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MwFYe8vG1hgF//coAlXZoNBBVbmnrkPi8xOD0rdFVts=;
-        b=KF2QzfcpN134OIsXyk3kBy72OtuSNqbJHaRvlqkAGA0kbj0Phrwf5K3xBxwidYkUPG
-         bJLJl3OjKYDIu8We1CSIRj89bkJWaPAS4LgNgc+eFD3nd7lncagoR28dNSEZsF2gr+qV
-         QtTWORwt+ry+x+RIOznMukILrX1XWqyCPsIdq+3O1AVHRR9hoIAoqHnWn19+CqUU3b6e
-         ht1Yty84Qu0f1N8QPJmld5ipZgWipzdIBsyTXZe8GDxgAEzY1Ic9Sv+lJL6inUqWJ1b4
-         /IMuJbDxT8M1ogwnWI0/Uw5PL76LSXDEJF/2DnKE2lsiLYAFqovXPYhDRYUR3zXGfr6p
-         FS5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MwFYe8vG1hgF//coAlXZoNBBVbmnrkPi8xOD0rdFVts=;
-        b=zPueRMssRFimdoyRa0L1gvyouQmKC8WeoOEGwjcPQepp4A1fTEDFgieIrCttG6xAMc
-         q18gGVbvORL6Sx6q9tJeqm7XT8NC+Ejfsuw52GeHDZr2dlGKZCcEBA9p3P15fwsR2zpF
-         GOoHUT5ywRRSU80xyti2Dh+ealU2UAFEXFRqxdvj29hw/xhBXyzR4/A0J/LiDYGpEHpH
-         LZQz865gplPXSNVwPyk0xJxpXqAwIqCwC9yWNEmEhiwZCXTHrMHkpf6jlT5RO4jPwKVG
-         UDcxTCir8pywenKcEw+7TY0t2qMrfO6HeSNay+PHAJnueyWARjsuu6esFJpEJ9tV+vnV
-         TAyw==
-X-Gm-Message-State: AOAM531HhaUzHsZS1otP9QbrVWPzA+dWV+kDLyZeIxZJNuS9qqCOWsFR
-        H9FMzAOdEdGa2me7i1aNYdZGKYiyPrcJif+D1oE=
-X-Google-Smtp-Source: ABdhPJyDA6C5DQXioXg31Wj9TMeGFjgKh185K1zYFg2Gp28lZkR0rLJ5Az2Ahuku4Ke5Wjt3PdFq+l9pcuaeBfBBob8=
-X-Received: by 2002:a17:90b:23d8:b0:1e2:e3cb:ac08 with SMTP id
- md24-20020a17090b23d800b001e2e3cbac08mr967331pjb.35.1654111697802; Wed, 01
- Jun 2022 12:28:17 -0700 (PDT)
+        with ESMTP id S230406AbiFBKLN (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 2 Jun 2022 06:11:13 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CED7D2AD5C2;
+        Thu,  2 Jun 2022 03:11:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1654164672; x=1685700672;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=da86tUUULUVat8HuHmdIwGDy5StYU/aEj+aL1ESVKiM=;
+  b=fHDYKqgFDHVQviH6ChjxYfgt1oORIuPN7lRKfUdcYRYt40abOD/amhhf
+   C5eF6K4qDsSlNQIHbJ87jbtAbaEDOf3T0ifprAkgruf8hhUI7tOT2H6Rt
+   nwk9Pm6SEFSQnfsSEFX/2Q9i1O3ZtiB5TmYPM3fPmpCQdHP03GLUMYO+z
+   SYdKNyzIVd22JepgAltlTJ8wS5cBW3NUVY5kBQoAEgpQfdqvEql9Rqau/
+   Yyn7PIgh9sOTldkumprPtotX0p6oeKVLQZiBQVDG/2qSdYYhBnp2zMRAC
+   WGFg9t80LwiWeCvx91frsgzmYOHucZqd6ZeU2s+jrIhoAIYa0R+b0oaYm
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10365"; a="336560321"
+X-IronPort-AV: E=Sophos;i="5.91,270,1647327600"; 
+   d="scan'208";a="336560321"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2022 03:11:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,270,1647327600"; 
+   d="scan'208";a="721237238"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+  by fmsmga001.fm.intel.com with ESMTP; 02 Jun 2022 03:10:58 -0700
+Date:   Thu, 2 Jun 2022 18:07:33 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Cc:     Vishal Annapurve <vannapurve@google.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jun Nakajima <jun.nakajima@intel.com>, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Subject: Re: [PATCH v6 3/8] mm/memfd: Introduce MFD_INACCESSIBLE flag
+Message-ID: <20220602100733.GA1296997@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <20220519153713.819591-4-chao.p.peng@linux.intel.com>
+ <CAGtprH8EMsPMMoOEzjRu0SMVKT0RqmkLk=n+6uXkBA6-wiRtUA@mail.gmail.com>
+ <20220601101747.GA1255243@chaop.bj.intel.com>
+ <1f1b17e8-a16d-c029-88e0-01f522cc077a@amd.com>
 MIME-Version: 1.0
-References: <Yh0+9cFyAfnsXqxI@kernel.org> <05df964f-552e-402e-981c-a8bea11c555c@www.fastmail.com>
- <YiEZyTT/UBFZd6Am@kernel.org> <CALCETrWacW8SC2tpPxQSaLtxsOXfXHueyuwLcXpNF4aG-0ZvhA@mail.gmail.com>
- <fb7d6e4da58ae77be2c6321ee3f3487485b2886c.camel@intel.com>
- <40a3500c-835a-60b0-15bf-40c6622ad013@kernel.org> <YiZVbPwlgSFnhadv@kernel.org>
- <CAMe9rOrSLPKdL2gL=yx84zrs-u6ch1AVvjk3oqUe3thR5ZD=dQ@mail.gmail.com>
- <YpYDKVjMEYVlV6Ya@kernel.org> <d0c94eed6e3c7f35b78bab3f00aadebd960ee0d8.camel@intel.com>
- <YpZEDjxSPxUfMxDZ@kernel.org> <7c637f729e14f03d0df744568800fc986542e33d.camel@intel.com>
- <CAMe9rOpctH-FQZH_5e=f17Ma7Ev0u9jiXap5bgqFyhLfsx102g@mail.gmail.com> <172310e1b8fcc78fca786f9ea7966f58dd93ff93.camel@intel.com>
-In-Reply-To: <172310e1b8fcc78fca786f9ea7966f58dd93ff93.camel@intel.com>
-From:   "H.J. Lu" <hjl.tools@gmail.com>
-Date:   Wed, 1 Jun 2022 12:27:41 -0700
-Message-ID: <CAMe9rOqwueSXjhkyPfv4+UDbBwf5jtsVjKqm_aD-htkh8k99Rg@mail.gmail.com>
-Subject: Re: [PATCH 00/35] Shadow stacks for userspace
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "0x7f454c46@gmail.com" <0x7f454c46@gmail.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "adrian@lisas.de" <adrian@lisas.de>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "avagin@gmail.com" <avagin@gmail.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "Moreira, Joao" <joao.moreira@intel.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "dave.martin@arm.com" <dave.martin@arm.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "Hansen, Dave" <dave.hansen@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1f1b17e8-a16d-c029-88e0-01f522cc077a@amd.com>
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jun 1, 2022 at 10:27 AM Edgecombe, Rick P
-<rick.p.edgecombe@intel.com> wrote:
->
-> On Tue, 2022-05-31 at 11:00 -0700, H.J. Lu wrote:
-> > > The glibc logic seems wrong to me also, because shadow stack or IBT
-> > > could be force-disabled via glibc tunables. I don't see why the elf
-> > > header bit should exclusively control the feature locking. Or why
-> > > both
-> > > should be locked if only one is in the header.
-> >
-> > glibc locks SHSTK and IBT only if they are enabled at run-time.
->
-> It's not what I saw in the code. Somehow Mike saw something different
-> as well.
+On Wed, Jun 01, 2022 at 02:11:42PM +0200, Gupta, Pankaj wrote:
+> 
+> > > > Introduce a new memfd_create() flag indicating the content of the
+> > > > created memfd is inaccessible from userspace through ordinary MMU
+> > > > access (e.g., read/write/mmap). However, the file content can be
+> > > > accessed via a different mechanism (e.g. KVM MMU) indirectly.
+> > > > 
+> > > 
+> > > SEV, TDX, pkvm and software-only VMs seem to have usecases to set up
+> > > initial guest boot memory with the needed blobs.
+> > > TDX already supports a KVM IOCTL to transfer contents to private
+> > > memory using the TDX module but rest of the implementations will need
+> > > to invent
+> > > a way to do this.
+> > 
+> > There are some discussions in https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flkml.org%2Flkml%2F2022%2F5%2F9%2F1292&amp;data=05%7C01%7Cpankaj.gupta%40amd.com%7Cb81ef334e2dd44c6143308da43b87d17%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637896756895977587%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=oQbM2Hj7GlhJTwnTM%2FPnwsfJlmTL7JR9ULBysAqm6V8%3D&amp;reserved=0
+> > already. I somehow agree with Sean. TDX is using an dedicated ioctl to
+> > copy guest boot memory to private fd so the rest can do that similarly.
+> > The concern is the performance (extra memcpy) but it's trivial since the
+> > initial guest payload is usually optimized in size.
+> > 
+> > > 
+> > > Is there a plan to support a common implementation for either allowing
+> > > initial write access from userspace to private fd or adding a KVM
+> > > IOCTL to transfer contents to such a file,
+> > > as part of this series through future revisions?
+> > 
+> > Indeed, adding pre-boot private memory populating on current design
+> > isn't impossible, but there are still some opens, e.g. how to expose
+> > private fd to userspace for access, pKVM and CC usages may have
+> > different requirements. Before that's well-studied I would tend to not
+> > add that and instead use an ioctl to copy. Whether we need a generic
+> > ioctl or feature-specific ioctl, I don't have strong opinion here.
+> > Current TDX uses a feature-specific ioctl so it's not covered in this
+> > series.
+> 
+> Common function or ioctl to populate preboot private memory actually makes
+> sense.
+> 
+> Sorry, did not follow much of TDX code yet, Is it possible to filter out
+> the current TDX specific ioctl to common function so that it can be used by
+> other technologies?
 
-The current glibc cet branch:
+TDX code is here:
+https://patchwork.kernel.org/project/kvm/patch/70ed041fd47c1f7571aa259450b3f9244edda48d.1651774250.git.isaku.yamahata@intel.com/
 
-https://gitlab.com/x86-glibc/glibc/-/commits/users/hjl/cet/master
+AFAICS It might be possible to filter that out to a common function. But
+would like to hear from Paolo/Sean for their opinion.
 
-locks only available CET features.  Since only SHSTK is available, I
-saw
-
-arch_prctl(0x3003 /* ARCH_??? */, 0x2)  = 0
-
-CET features are always enabled early in ld.so to allow function
-calls in the CET enabled ld.so.   ld.so always locks CET features
-even if they are disabled when the program or a dependency
-library isn't CET enabled.
-
-> >  It doesn't
-> > enable/disable/lock WRSS at the moment.  If WRSS can be enabled
-> > via arch_prctl at any time, we can't lock it.  If WRSS should be
-> > locked early,
-> > how should it be enabled in application?  Also can WRSS be enabled
-> > from a dlopened object?
->
-> I think in the past we discussed having another elf header bit that
-> behaved differently (OR vs AND).
-
-We should have a complete list of use cases and design a way to
-support them.
-
--- 
-H.J.
+Chao
+> 
+> Thanks,
+> Pankaj
