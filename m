@@ -2,148 +2,205 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8F94540275
-	for <lists+linux-api@lfdr.de>; Tue,  7 Jun 2022 17:32:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DB095403D6
+	for <lists+linux-api@lfdr.de>; Tue,  7 Jun 2022 18:35:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232029AbiFGPcI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 7 Jun 2022 11:32:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51194 "EHLO
+        id S241841AbiFGQe6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 7 Jun 2022 12:34:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344112AbiFGPcA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Jun 2022 11:32:00 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 658A6F551C;
-        Tue,  7 Jun 2022 08:31:57 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id v25so23515011eda.6;
-        Tue, 07 Jun 2022 08:31:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=w0Hdg77AgoPG+P9TsvX0MGr6YMoh94u++wV7R/8mG6Q=;
-        b=UrlZfICkRAZGfTAxgXamkUF1euwIXz/dlpvevt15u/GXuGmNhmXjx+8+VHEyd1fe8z
-         Weg+hLtYIdvErfuTKGZe9T861PjQQqTb5yTkMVKRy2mRPzGshG+AtZSIJjfwnG8Hn7NF
-         0t7ik+wYMi689h3lZ70iLHInepJesqv/anMj7Nze/F7nNvBynY0INZ61KE008DZagKul
-         VtQ0A8MdGAjp/YefQZiN6B0tvOBfKQEgEwczSwGPRe3hhwXHFq4J1M+xIlrdmIPMyL5I
-         zoYW8xs+KCy0qqsfPUO6lRVGof3loBpEaijhmdt86A39468D5vZIz/HW+vAldcF9cjwe
-         JX8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=w0Hdg77AgoPG+P9TsvX0MGr6YMoh94u++wV7R/8mG6Q=;
-        b=lAOSNdcFH0mdIO35+CBZO3bWJ8cR/cWl1DEVQvmBO/F7ol9GiSZOx2Kj7NDi/HI2Zp
-         Jtn/LG7kJOul1/Beuwe+5G0ZwNL1WGA+nVEfGM5BedNicYWwlSR0ByHaTu9sG78suATO
-         ypH7kGJMIwJDFYZeC4iwCE+tmHLfMFT2XnO75yJvsCpXfAn1Pg3yBn2uXPk8NkTgvcCN
-         ZtNy3IgOFdQFiPnSqV51vQgifdc+RPwotz/NXy3YNsIXVfHw5VIukltWJ4qKx1OvTiRg
-         b4l0eequIe1H1jL19uawr4NaObpRHMvOIKOjhviru7F1j+KqY0hu5ThYUvEpeD1VVjMO
-         /jyQ==
-X-Gm-Message-State: AOAM5304QAxzT4OROE68R7YorXXOy+a9ZoDiV9ETelW7GeUbDHlzlW9s
-        t+vXyhVt7fh29fiMTly1+cxhd/SsgQ8=
-X-Google-Smtp-Source: ABdhPJw5O8Mix5sJdiw5XuZUUJ6C5dUvQIiC5WMe0/YwVvV1sO2SkEmWjUN8DtVmS9GesJcUxvlSug==
-X-Received: by 2002:a05:6402:1341:b0:42a:f7cb:44dc with SMTP id y1-20020a056402134100b0042af7cb44dcmr34808302edw.165.1654615915837;
-        Tue, 07 Jun 2022 08:31:55 -0700 (PDT)
-Received: from debianHome.localdomain (dynamic-077-008-054-039.77.8.pool.telefonica.de. [77.8.54.39])
-        by smtp.gmail.com with ESMTPSA id jg36-20020a170907972400b00701eb600df8sm8143445ejc.169.2022.06.07.08.31.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jun 2022 08:31:55 -0700 (PDT)
-From:   =?UTF-8?q?Christian=20G=C3=B6ttsche?= <cgzones@googlemail.com>
-To:     selinux@vger.kernel.org
-Cc:     Miklos Szeredi <mszeredi@redhat.com>, linux-api@vger.kernel.org,
-        linux-man@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC PATCH] f*xattr: allow O_PATH descriptors
-Date:   Tue,  7 Jun 2022 17:31:39 +0200
-Message-Id: <20220607153139.35588-1-cgzones@googlemail.com>
-X-Mailer: git-send-email 2.36.1
+        with ESMTP id S245259AbiFGQe5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Jun 2022 12:34:57 -0400
+Received: from smtp6-g21.free.fr (smtp6-g21.free.fr [212.27.42.6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F0EC562E6
+        for <linux-api@vger.kernel.org>; Tue,  7 Jun 2022 09:34:53 -0700 (PDT)
+Received: from [IPV6:2a01:e35:39f2:1220:fb3b:de96:b07b:89c3] (unknown [IPv6:2a01:e35:39f2:1220:fb3b:de96:b07b:89c3])
+        by smtp6-g21.free.fr (Postfix) with ESMTPS id A5F5778039B;
+        Tue,  7 Jun 2022 18:34:46 +0200 (CEST)
+Message-ID: <5a3f8e2f-d67a-d1e1-c5a5-0f711323a782@opteya.com>
+Date:   Tue, 7 Jun 2022 18:34:46 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v5 8/8] linux: Add mount_setattr
+Content-Language: fr-FR
+To:     Adhemerval Zanella <adhemerval.zanella@linaro.org>,
+        Carlos O'Donell <carlos@redhat.com>,
+        Christian Brauner <brauner@kernel.org>
+References: <20220606134432.1944534-1-adhemerval.zanella@linaro.org>
+ <20220606134432.1944534-9-adhemerval.zanella@linaro.org>
+Cc:     GNU C Library <libc-alpha@sourceware.org>,
+        linux-api@vger.kernel.org
+From:   Yann Droneaud <ydroneaud@opteya.com>
+Organization: OPTEYA
+In-Reply-To: <20220606134432.1944534-9-adhemerval.zanella@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-From: Miklos Szeredi <mszeredi@redhat.com>
+Hi,
 
-Support file descriptors obtained via O_PATH for extended attribute
-operations.
-
-Extended attributes are for example used by SELinux for the security
-context of file objects. To avoid time-of-check-time-of-use issues while
-setting those contexts it is advisable to pin the file in question and
-operate on a file descriptor instead of the path name. This can be
-emulated in userspace via /proc/self/fd/NN [1] but requires a procfs,
-which might not be mounted e.g. inside of chroots, see[2].
-
-[1]: https://github.com/SELinuxProject/selinux/commit/7e979b56fd2cee28f647376a7233d2ac2d12ca50
-[2]: https://github.com/SELinuxProject/selinux/commit/de285252a1801397306032e070793889c9466845
-
-Original patch by Miklos Szeredi <mszeredi@redhat.com>
-https://patchwork.kernel.org/project/linux-fsdevel/patch/20200505095915.11275-6-mszeredi@redhat.com/
-
-> While this carries a minute risk of someone relying on the property of
-> xattr syscalls rejecting O_PATH descriptors, it saves the trouble of
-> introducing another set of syscalls.
+Le 06/06/2022 à 15:44, Adhemerval Zanella via Libc-alpha a écrit :
+> It was added on Linux 5.12 (2a1867219c7b27f928e2545782b86daaf9ad50bd)
+> to allow change the properties of a mount or a mount tree using file
+> descriptors which the new mount api is based on.
 >
-> Only file->f_path and file->f_inode are accessed in these functions.
+> Checked on x86_64-linux-gnu.
+> ---
+>   NEWS                                          |  6 ++--
+>   sysdeps/unix/sysv/linux/Versions              |  1 +
+>   sysdeps/unix/sysv/linux/aarch64/libc.abilist  |  1 +
+>   sysdeps/unix/sysv/linux/alpha/libc.abilist    |  1 +
+>   sysdeps/unix/sysv/linux/arc/libc.abilist      |  1 +
+>   sysdeps/unix/sysv/linux/arm/be/libc.abilist   |  1 +
+>   sysdeps/unix/sysv/linux/arm/le/libc.abilist   |  1 +
+>   sysdeps/unix/sysv/linux/csky/libc.abilist     |  1 +
+>   sysdeps/unix/sysv/linux/hppa/libc.abilist     |  1 +
+>   sysdeps/unix/sysv/linux/i386/libc.abilist     |  1 +
+>   sysdeps/unix/sysv/linux/ia64/libc.abilist     |  1 +
+>   .../sysv/linux/m68k/coldfire/libc.abilist     |  1 +
+>   .../unix/sysv/linux/m68k/m680x0/libc.abilist  |  1 +
+>   .../sysv/linux/microblaze/be/libc.abilist     |  1 +
+>   .../sysv/linux/microblaze/le/libc.abilist     |  1 +
+>   .../sysv/linux/mips/mips32/fpu/libc.abilist   |  1 +
+>   .../sysv/linux/mips/mips32/nofpu/libc.abilist |  1 +
+>   .../sysv/linux/mips/mips64/n32/libc.abilist   |  1 +
+>   .../sysv/linux/mips/mips64/n64/libc.abilist   |  1 +
+>   sysdeps/unix/sysv/linux/nios2/libc.abilist    |  1 +
+>   sysdeps/unix/sysv/linux/or1k/libc.abilist     |  1 +
+>   .../linux/powerpc/powerpc32/fpu/libc.abilist  |  1 +
+>   .../powerpc/powerpc32/nofpu/libc.abilist      |  1 +
+>   .../linux/powerpc/powerpc64/be/libc.abilist   |  1 +
+>   .../linux/powerpc/powerpc64/le/libc.abilist   |  1 +
+>   .../unix/sysv/linux/riscv/rv32/libc.abilist   |  1 +
+>   .../unix/sysv/linux/riscv/rv64/libc.abilist   |  1 +
+>   .../unix/sysv/linux/s390/s390-32/libc.abilist |  1 +
+>   .../unix/sysv/linux/s390/s390-64/libc.abilist |  1 +
+>   sysdeps/unix/sysv/linux/sh/be/libc.abilist    |  1 +
+>   sysdeps/unix/sysv/linux/sh/le/libc.abilist    |  1 +
+>   .../sysv/linux/sparc/sparc32/libc.abilist     |  1 +
+>   .../sysv/linux/sparc/sparc64/libc.abilist     |  1 +
+>   sysdeps/unix/sysv/linux/sys/mount.h           | 22 ++++++++++++++
+>   sysdeps/unix/sysv/linux/syscalls.list         |  1 +
+>   sysdeps/unix/sysv/linux/tst-mount.c           | 30 +++++++++++++++++--
+>   .../unix/sysv/linux/x86_64/64/libc.abilist    |  1 +
+>   .../unix/sysv/linux/x86_64/x32/libc.abilist   |  1 +
+>   38 files changed, 87 insertions(+), 6 deletions(-)
 >
-> Current versions return EBADF, hence easy to detect the presense of
-> this feature and fall back in case it's missing.
+> diff --git a/NEWS b/NEWS
+> index de12657449..696de3962b 100644
+> --- a/NEWS
+> +++ b/NEWS
+> @@ -29,9 +29,9 @@ Major new features:
+>     memory is carried out in the context of the caller, using the caller's
+>     CPU affinity, and priority with CPU usage accounted to the caller.
+>   
+> -* On Linux, the fsopen, fsmount, move_mount, fsconfig, fspick, and open_tree
+> -  have been added.  It is a new mount API to allow more flexibility on mount
+> -  operations, specially when used along namespaces.
+> +* On Linux, the fsopen, fsmount, move_mount, fsconfig, fspick, open_tree,
+> +  and mount_setattr have been added.  It is a new mount API to allow more
+> +  flexibility on mount operations, specially when used along namespaces.
+>   
+>   Deprecated and removed features, and other changes affecting compatibility:
+>   
+> diff --git a/sysdeps/unix/sysv/linux/Versions b/sysdeps/unix/sysv/linux/Versions
+> index b70530ef40..65d2ceda2c 100644
+> --- a/sysdeps/unix/sysv/linux/Versions
+> +++ b/sysdeps/unix/sysv/linux/Versions
+> @@ -305,6 +305,7 @@ libc {
+>       fsopen;
+>       fspick;
+>       move_mount;
+> +    mount_setattr;
+>       open_tree;
+>       pidfd_open;
+>       pidfd_getfd;
 
-CC: linux-api@vger.kernel.org
-CC: linux-man@vger.kernel.org
-Signed-off-by: Christian Göttsche <cgzones@googlemail.com>
----
- fs/xattr.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+> diff --git a/sysdeps/unix/sysv/linux/sys/mount.h b/sysdeps/unix/sysv/linux/sys/mount.h
+> index eb6705a091..4929d84027 100644
+> --- a/sysdeps/unix/sysv/linux/sys/mount.h
+> +++ b/sysdeps/unix/sysv/linux/sys/mount.h
+> @@ -23,6 +23,8 @@
+>   
+>   #include <fcntl.h>
+>   #include <features.h>
+> +#include <stdint.h>
+> +#include <stddef.h>
+>   #include <sys/ioctl.h>
+>   
+>   #define BLOCK_SIZE	1024
+> @@ -155,6 +157,17 @@ enum
+>   #define MOUNT_ATTR_NOSYMFOLLOW  0x00200000 /* Do not follow symlinks.  */
+>   
+>   
+> +/* For mount_setattr.  */
+> +struct mount_attr
+> +{
+> +  uint64_t attr_set;
+> +  uint64_t attr_clr;
+> +  uint64_t propagation;
+> +  uint64_t userns_fd;
+> +};
+> +
+> +#define MOUNT_ATTR_SIZE_VER0    32 /* sizeof first published struct */
+> +
+>   /* move_mount flags.  */
+>   #define MOVE_MOUNT_F_SYMLINKS   0x00000001 /* Follow symlinks on from path */
+>   #define MOVE_MOUNT_F_AUTOMOUNTS 0x00000002 /* Follow automounts on from path */
+> @@ -240,6 +253,15 @@ extern int fspick (int __dfd, const char *__path, unsigned int __flags)
+>   extern int open_tree (int __dfd, const char *__filename, unsigned int __flags)
+>     __THROW;
+>   
+> +/* Change the mount proprieties of the mount or an entire mount tree.  If
+> +   PATH is a relative pathname, then it is interpreted relative to the directory
+> +   referred to by the file descriptor dirfd.  Otherwise if DFD is the special
+> +   value AT_FDCWD then PATH is interpreted relative to the current working
+> +   directory of the calling process.  */
+> +extern int mount_setattr (int __dfd, const char *__path, unsigned int __flags,
+> +			  struct mount_attr *__uattr, size_t __usize)
+> +  __THROW;
+> +
 
-diff --git a/fs/xattr.c b/fs/xattr.c
-index e8dd03e4561e..16360ac4eb1b 100644
---- a/fs/xattr.c
-+++ b/fs/xattr.c
-@@ -656,7 +656,7 @@ SYSCALL_DEFINE5(lsetxattr, const char __user *, pathname,
- SYSCALL_DEFINE5(fsetxattr, int, fd, const char __user *, name,
- 		const void __user *,value, size_t, size, int, flags)
- {
--	struct fd f = fdget(fd);
-+	struct fd f = fdget_raw(fd);
- 	int error = -EBADF;
- 
- 	if (!f.file)
-@@ -768,7 +768,7 @@ SYSCALL_DEFINE4(lgetxattr, const char __user *, pathname,
- SYSCALL_DEFINE4(fgetxattr, int, fd, const char __user *, name,
- 		void __user *, value, size_t, size)
- {
--	struct fd f = fdget(fd);
-+	struct fd f = fdget_raw(fd);
- 	ssize_t error = -EBADF;
- 
- 	if (!f.file)
-@@ -844,7 +844,7 @@ SYSCALL_DEFINE3(llistxattr, const char __user *, pathname, char __user *, list,
- 
- SYSCALL_DEFINE3(flistxattr, int, fd, char __user *, list, size_t, size)
- {
--	struct fd f = fdget(fd);
-+	struct fd f = fdget_raw(fd);
- 	ssize_t error = -EBADF;
- 
- 	if (!f.file)
-@@ -910,7 +910,7 @@ SYSCALL_DEFINE2(lremovexattr, const char __user *, pathname,
- 
- SYSCALL_DEFINE2(fremovexattr, int, fd, const char __user *, name)
- {
--	struct fd f = fdget(fd);
-+	struct fd f = fdget_raw(fd);
- 	int error = -EBADF;
- 
- 	if (!f.file)
+
+I wonder why __uattr is not declared const struct mount_attr * ?
+
+Is it really expected that future mount_setattr() extensions to write 
+back into the userspace structure ?
+
+
+
+>   __END_DECLS
+>   
+>   #endif /* _SYS_MOUNT_H */
+> diff --git a/sysdeps/unix/sysv/linux/syscalls.list b/sysdeps/unix/sysv/linux/syscalls.list
+> index e5e2b528fd..f79a519d89 100644
+> --- a/sysdeps/unix/sysv/linux/syscalls.list
+> +++ b/sysdeps/unix/sysv/linux/syscalls.list
+> @@ -39,6 +39,7 @@ mincore		-	mincore		i:aUV	mincore
+>   mlock		-	mlock		i:bU	mlock
+>   mlockall	-	mlockall	i:i	mlockall
+>   mount		EXTRA	mount		i:sssUp	__mount	mount
+> +mount_setattr	EXTRA	mount_setattr	i:isUpi	mount_setattr
+>   move_mount	EXTRA	move_mount	i:isisU	move_mount
+>   munlock		-	munlock		i:aU	munlock
+>   munlockall	-	munlockall	i:	munlockall
+
+
+Regards
+
 -- 
-2.36.1
+
+Yann Droneaud
+
+OPTEYA
+
 
