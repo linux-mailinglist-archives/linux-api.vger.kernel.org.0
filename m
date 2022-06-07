@@ -2,155 +2,148 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D4BE253F6BE
-	for <lists+linux-api@lfdr.de>; Tue,  7 Jun 2022 09:01:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8F94540275
+	for <lists+linux-api@lfdr.de>; Tue,  7 Jun 2022 17:32:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237012AbiFGHBq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 7 Jun 2022 03:01:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38936 "EHLO
+        id S232029AbiFGPcI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 7 Jun 2022 11:32:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231392AbiFGHBq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Jun 2022 03:01:46 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13DA2DFD13;
-        Tue,  7 Jun 2022 00:01:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1654585305; x=1686121305;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=ZV74rA8Yj9vsewf5ZR+zBoOmFi7pomIO9JTPNnhNKN8=;
-  b=K0kATua1kyotCI00blMzra3BpvqvEwQpBF3ONucBFBtci+cCdKzXAutw
-   TBRE/He+PipiFuZbJFq3dCEGT8pTGxug7femgjarN8qJP2e2NkuICxD85
-   HC2IekcArSCZXgpkrgzLbRbmtScHP5OtGxCXKBJ+cHOVpPd0euTpANd31
-   dky0nXhbdal3koQTU6Fcg0ba6j2EmTCTISRqo90924sTdqmqBovn664lZ
-   u+cIB0RT1tm9jbvR+OqPKgjFNCp2zunFI7j0sJQzy7fe8fnKCkWxXteXY
-   FQOOWwTmyKy2m/CdR8+Ki7bZBapqBZfdYU7urAQ18blSGx87h3yeYkBFq
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10370"; a="277355550"
-X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; 
-   d="scan'208";a="277355550"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2022 00:01:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; 
-   d="scan'208";a="579485634"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
-  by orsmga007.jf.intel.com with ESMTP; 07 Jun 2022 00:01:13 -0700
-Date:   Tue, 7 Jun 2022 14:57:49 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Vishal Annapurve <vannapurve@google.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Jun Nakajima <jun.nakajima@intel.com>, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: Re: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <20220607065749.GA1513445@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <CAGtprH_83CEC0U-cBR2FzHsxbwbGn0QJ87WFNOEet8sineOcbQ@mail.gmail.com>
+        with ESMTP id S1344112AbiFGPcA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Jun 2022 11:32:00 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 658A6F551C;
+        Tue,  7 Jun 2022 08:31:57 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id v25so23515011eda.6;
+        Tue, 07 Jun 2022 08:31:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=w0Hdg77AgoPG+P9TsvX0MGr6YMoh94u++wV7R/8mG6Q=;
+        b=UrlZfICkRAZGfTAxgXamkUF1euwIXz/dlpvevt15u/GXuGmNhmXjx+8+VHEyd1fe8z
+         Weg+hLtYIdvErfuTKGZe9T861PjQQqTb5yTkMVKRy2mRPzGshG+AtZSIJjfwnG8Hn7NF
+         0t7ik+wYMi689h3lZ70iLHInepJesqv/anMj7Nze/F7nNvBynY0INZ61KE008DZagKul
+         VtQ0A8MdGAjp/YefQZiN6B0tvOBfKQEgEwczSwGPRe3hhwXHFq4J1M+xIlrdmIPMyL5I
+         zoYW8xs+KCy0qqsfPUO6lRVGof3loBpEaijhmdt86A39468D5vZIz/HW+vAldcF9cjwe
+         JX8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=w0Hdg77AgoPG+P9TsvX0MGr6YMoh94u++wV7R/8mG6Q=;
+        b=lAOSNdcFH0mdIO35+CBZO3bWJ8cR/cWl1DEVQvmBO/F7ol9GiSZOx2Kj7NDi/HI2Zp
+         Jtn/LG7kJOul1/Beuwe+5G0ZwNL1WGA+nVEfGM5BedNicYWwlSR0ByHaTu9sG78suATO
+         ypH7kGJMIwJDFYZeC4iwCE+tmHLfMFT2XnO75yJvsCpXfAn1Pg3yBn2uXPk8NkTgvcCN
+         ZtNy3IgOFdQFiPnSqV51vQgifdc+RPwotz/NXy3YNsIXVfHw5VIukltWJ4qKx1OvTiRg
+         b4l0eequIe1H1jL19uawr4NaObpRHMvOIKOjhviru7F1j+KqY0hu5ThYUvEpeD1VVjMO
+         /jyQ==
+X-Gm-Message-State: AOAM5304QAxzT4OROE68R7YorXXOy+a9ZoDiV9ETelW7GeUbDHlzlW9s
+        t+vXyhVt7fh29fiMTly1+cxhd/SsgQ8=
+X-Google-Smtp-Source: ABdhPJw5O8Mix5sJdiw5XuZUUJ6C5dUvQIiC5WMe0/YwVvV1sO2SkEmWjUN8DtVmS9GesJcUxvlSug==
+X-Received: by 2002:a05:6402:1341:b0:42a:f7cb:44dc with SMTP id y1-20020a056402134100b0042af7cb44dcmr34808302edw.165.1654615915837;
+        Tue, 07 Jun 2022 08:31:55 -0700 (PDT)
+Received: from debianHome.localdomain (dynamic-077-008-054-039.77.8.pool.telefonica.de. [77.8.54.39])
+        by smtp.gmail.com with ESMTPSA id jg36-20020a170907972400b00701eb600df8sm8143445ejc.169.2022.06.07.08.31.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jun 2022 08:31:55 -0700 (PDT)
+From:   =?UTF-8?q?Christian=20G=C3=B6ttsche?= <cgzones@googlemail.com>
+To:     selinux@vger.kernel.org
+Cc:     Miklos Szeredi <mszeredi@redhat.com>, linux-api@vger.kernel.org,
+        linux-man@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [RFC PATCH] f*xattr: allow O_PATH descriptors
+Date:   Tue,  7 Jun 2022 17:31:39 +0200
+Message-Id: <20220607153139.35588-1-cgzones@googlemail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGtprH_83CEC0U-cBR2FzHsxbwbGn0QJ87WFNOEet8sineOcbQ@mail.gmail.com>
-X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jun 06, 2022 at 01:09:50PM -0700, Vishal Annapurve wrote:
-> >
-> > Private memory map/unmap and conversion
-> > ---------------------------------------
-> > Userspace's map/unmap operations are done by fallocate() ioctl on the
-> > backing store fd.
-> >   - map: default fallocate() with mode=0.
-> >   - unmap: fallocate() with FALLOC_FL_PUNCH_HOLE.
-> > The map/unmap will trigger above memfile_notifier_ops to let KVM map/unmap
-> > secondary MMU page tables.
-> >
-> ....
-> >    QEMU: https://github.com/chao-p/qemu/tree/privmem-v6
-> >
-> > An example QEMU command line for TDX test:
-> > -object tdx-guest,id=tdx \
-> > -object memory-backend-memfd-private,id=ram1,size=2G \
-> > -machine q35,kvm-type=tdx,pic=no,kernel_irqchip=split,memory-encryption=tdx,memory-backend=ram1
-> >
-> 
-> There should be more discussion around double allocation scenarios
-> when using the private fd approach. A malicious guest or buggy
-> userspace VMM can cause physical memory getting allocated for both
-> shared (memory accessible from host) and private fds backing the guest
-> memory.
-> Userspace VMM will need to unback the shared guest memory while
-> handling the conversion from shared to private in order to prevent
-> double allocation even with malicious guests or bugs in userspace VMM.
+From: Miklos Szeredi <mszeredi@redhat.com>
 
-I don't know how malicious guest can cause that. The initial design of
-this serie is to put the private/shared memory into two different
-address spaces and gives usersapce VMM the flexibility to convert
-between the two. It can choose respect the guest conversion request or
-not.
+Support file descriptors obtained via O_PATH for extended attribute
+operations.
 
-It's possible for a usrspace VMM to cause double allocation if it fails
-to call the unback operation during the conversion, this may be a bug
-or not. Double allocation may not be a wrong thing, even in conception.
-At least TDX allows you to use half shared half private in guest, means
-both shared/private can be effective. Unbacking the memory is just the
-current QEMU implementation choice.
+Extended attributes are for example used by SELinux for the security
+context of file objects. To avoid time-of-check-time-of-use issues while
+setting those contexts it is advisable to pin the file in question and
+operate on a file descriptor instead of the path name. This can be
+emulated in userspace via /proc/self/fd/NN [1] but requires a procfs,
+which might not be mounted e.g. inside of chroots, see[2].
 
-Chao
-> 
-> Options to unback shared guest memory seem to be:
-> 1) madvise(.., MADV_DONTNEED/MADV_REMOVE) - This option won't stop
-> kernel from backing the shared memory on subsequent write accesses
-> 2) fallocate(..., FALLOC_FL_PUNCH_HOLE...) - For file backed shared
-> guest memory, this option still is similar to madvice since this would
-> still allow shared memory to get backed on write accesses
-> 3) munmap - This would give away the contiguous virtual memory region
-> reservation with holes in the guest backing memory, which might make
-> guest memory management difficult.
-> 4) mprotect(... PROT_NONE) - This would keep the virtual memory
-> address range backing the guest memory preserved
-> 
-> ram_block_discard_range_fd from reference implementation:
-> https://github.com/chao-p/qemu/tree/privmem-v6 seems to be relying on
-> fallocate/madvise.
-> 
-> Any thoughts/suggestions around better ways to unback the shared
-> memory in order to avoid double allocation scenarios?
-> 
-> Regards,
-> Vishal
+[1]: https://github.com/SELinuxProject/selinux/commit/7e979b56fd2cee28f647376a7233d2ac2d12ca50
+[2]: https://github.com/SELinuxProject/selinux/commit/de285252a1801397306032e070793889c9466845
+
+Original patch by Miklos Szeredi <mszeredi@redhat.com>
+https://patchwork.kernel.org/project/linux-fsdevel/patch/20200505095915.11275-6-mszeredi@redhat.com/
+
+> While this carries a minute risk of someone relying on the property of
+> xattr syscalls rejecting O_PATH descriptors, it saves the trouble of
+> introducing another set of syscalls.
+>
+> Only file->f_path and file->f_inode are accessed in these functions.
+>
+> Current versions return EBADF, hence easy to detect the presense of
+> this feature and fall back in case it's missing.
+
+CC: linux-api@vger.kernel.org
+CC: linux-man@vger.kernel.org
+Signed-off-by: Christian Göttsche <cgzones@googlemail.com>
+---
+ fs/xattr.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/fs/xattr.c b/fs/xattr.c
+index e8dd03e4561e..16360ac4eb1b 100644
+--- a/fs/xattr.c
++++ b/fs/xattr.c
+@@ -656,7 +656,7 @@ SYSCALL_DEFINE5(lsetxattr, const char __user *, pathname,
+ SYSCALL_DEFINE5(fsetxattr, int, fd, const char __user *, name,
+ 		const void __user *,value, size_t, size, int, flags)
+ {
+-	struct fd f = fdget(fd);
++	struct fd f = fdget_raw(fd);
+ 	int error = -EBADF;
+ 
+ 	if (!f.file)
+@@ -768,7 +768,7 @@ SYSCALL_DEFINE4(lgetxattr, const char __user *, pathname,
+ SYSCALL_DEFINE4(fgetxattr, int, fd, const char __user *, name,
+ 		void __user *, value, size_t, size)
+ {
+-	struct fd f = fdget(fd);
++	struct fd f = fdget_raw(fd);
+ 	ssize_t error = -EBADF;
+ 
+ 	if (!f.file)
+@@ -844,7 +844,7 @@ SYSCALL_DEFINE3(llistxattr, const char __user *, pathname, char __user *, list,
+ 
+ SYSCALL_DEFINE3(flistxattr, int, fd, char __user *, list, size_t, size)
+ {
+-	struct fd f = fdget(fd);
++	struct fd f = fdget_raw(fd);
+ 	ssize_t error = -EBADF;
+ 
+ 	if (!f.file)
+@@ -910,7 +910,7 @@ SYSCALL_DEFINE2(lremovexattr, const char __user *, pathname,
+ 
+ SYSCALL_DEFINE2(fremovexattr, int, fd, const char __user *, name)
+ {
+-	struct fd f = fdget(fd);
++	struct fd f = fdget_raw(fd);
+ 	int error = -EBADF;
+ 
+ 	if (!f.file)
+-- 
+2.36.1
+
