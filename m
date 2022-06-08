@@ -2,183 +2,187 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C7B825410A4
-	for <lists+linux-api@lfdr.de>; Tue,  7 Jun 2022 21:29:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CE7854241B
+	for <lists+linux-api@lfdr.de>; Wed,  8 Jun 2022 08:52:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352328AbiFGT2q (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 7 Jun 2022 15:28:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48166 "EHLO
+        id S231262AbiFHDqE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 7 Jun 2022 23:46:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356765AbiFGT2K (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Jun 2022 15:28:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 141257354D
-        for <linux-api@vger.kernel.org>; Tue,  7 Jun 2022 11:10:42 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8677B61929
-        for <linux-api@vger.kernel.org>; Tue,  7 Jun 2022 18:10:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 879B2C385A5;
-        Tue,  7 Jun 2022 18:10:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654625441;
-        bh=Cp+1TMF0hGRCVl32z1k66YVDqokGbwvXJz8mRgClFaY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aKgR0yCLzDD72+YDeB6jlIzwkma2BpQKd8KTyk8jGH7tj9jwAF9cD9POnneG8FLXo
-         4OlsWbAXnaPnA9fFdZ67A4XjLnJ1HzNDMKrywI35pI+apllTYVH/3ycnEp51wqkynk
-         cGVay1xxHLK0+8NQ/xRfBsWhs3dMUHJ5ahVqkMlwimW1VwwrCyIiJr/TogVkOSBOsk
-         dDt7tHNyZkSa4apfmHjOKFWFo3lB4+twrrFm/QmZhxtjopisqADRYP2i0BKdTzxwo0
-         sYC7iAH3R60Q4srb2N+MojjvdnVG77Fo0MdHuezDyHmY/8TJxjeBAgF0B64SKKoO4j
-         EIVzCTFiAcB+Q==
-Date:   Tue, 7 Jun 2022 20:10:32 +0200
-From:   Christian Brauner <brauner@kernel.org>
-To:     Yann Droneaud <ydroneaud@opteya.com>
-Cc:     Adhemerval Zanella <adhemerval.zanella@linaro.org>,
-        Carlos O'Donell <carlos@redhat.com>, linux-api@vger.kernel.org,
-        GNU C Library <libc-alpha@sourceware.org>
-Subject: Re: [PATCH v5 8/8] linux: Add mount_setattr
-Message-ID: <20220607181032.s4rnqwxik7scuhzx@wittgenstein>
-References: <20220606134432.1944534-1-adhemerval.zanella@linaro.org>
- <20220606134432.1944534-9-adhemerval.zanella@linaro.org>
- <5a3f8e2f-d67a-d1e1-c5a5-0f711323a782@opteya.com>
+        with ESMTP id S235333AbiFHDpZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 7 Jun 2022 23:45:25 -0400
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCDC722CEC1
+        for <linux-api@vger.kernel.org>; Tue,  7 Jun 2022 17:56:07 -0700 (PDT)
+Received: by mail-oi1-x22a.google.com with SMTP id p129so21512291oig.3
+        for <linux-api@vger.kernel.org>; Tue, 07 Jun 2022 17:56:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=wFH16JpjBRikHN1IAO48ehtoxfzCGCzN3oM9EiMa6X8=;
+        b=l4i+k+6Abr5HeudzU075zO0r/BLzbacv0V6STNZIEAEBluaeTcRvx1TChTOuxyCASs
+         uAUgVwmDgoEyG6k0dhZ8NFmw5OEbd2l74yvSxXxWA53CBaw9OoBV3iEq26EPYk4y+7IT
+         qKn9JDYz2OP806c9cvPpDahmxZAZDvrVhTSIayulr7dYNanhmDiOChse+RJNE6HykCsj
+         9xuaaLmPGA8/BJDWN8cpUzOPbGbAyNe0shOzPx2NRgDBxX7ug5Bu5rZe5CkKdYsGZDwp
+         RBwBbso17/gWhg2hEdQ9VBPL7L2J3NplhFzwna8YW9Inmvn2hE+jo34OGkRp4w12iAUj
+         sThA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wFH16JpjBRikHN1IAO48ehtoxfzCGCzN3oM9EiMa6X8=;
+        b=V02/jU7q1c2j4Suo/jECxWDu3Jmj78KxymtjxPNJZiH/wQvBNpZcuyJZgpKV8edR/N
+         5X0c38mmraMqnJOL/ciVbshM2Dc4ox3qCs9TiEhquipd+WC+kuniSJbwSg9J6HdYWhue
+         3qSoy7Y0m0cst279ev7JbGS5d9msEseu0L5UYTJD759CKlWQ/jDb/qFGhKpc5TR6nyez
+         hoiEXoTC1rlkPnJ4VkYsLmYDB2FfIUweBHOLTHDS/urluxXifS4qRZcDOkWu89b4ZKEE
+         7+mEN8MQ4bahw8dxxvnnnw7kG++GSAwNx+4tjg22WfVVdL2jj890IMRcZaqsHfnI1i0k
+         7aQg==
+X-Gm-Message-State: AOAM530maSsVEILN5N1JL9ubHDwxEPJ7mwMEnDW4d9jxCrldpf0O7aVm
+        zlwCbban621KVnkd0C/OBnH/RhXjSLH0VYuZWDJV9Q==
+X-Google-Smtp-Source: ABdhPJwjBSZgp55zoUZOFIm3kjCTD4NqCF0p7muhSr/F2gMJemxqIIRloSiqM46aTGwoS/mB8l6y90gRDZltreZ8pZ8=
+X-Received: by 2002:a05:6808:bd3:b0:32e:400d:1eb1 with SMTP id
+ o19-20020a0568080bd300b0032e400d1eb1mr1047136oik.110.1654649757116; Tue, 07
+ Jun 2022 17:55:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5a3f8e2f-d67a-d1e1-c5a5-0f711323a782@opteya.com>
-X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <CAGtprH_83CEC0U-cBR2FzHsxbwbGn0QJ87WFNOEet8sineOcbQ@mail.gmail.com> <20220607065749.GA1513445@chaop.bj.intel.com>
+In-Reply-To: <20220607065749.GA1513445@chaop.bj.intel.com>
+From:   Marc Orr <marcorr@google.com>
+Date:   Tue, 7 Jun 2022 17:55:46 -0700
+Message-ID: <CAA03e5H_vOQS-qdZgacnmqP5T5jJLnEfm44yfRzJQ2KVu0Br+Q@mail.gmail.com>
+Subject: Re: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     Vishal Annapurve <vannapurve@google.com>,
+        kvm list <kvm@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jun Nakajima <jun.nakajima@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jun 07, 2022 at 06:34:46PM +0200, Yann Droneaud wrote:
-> Hi,
-> 
-> Le 06/06/2022 à 15:44, Adhemerval Zanella via Libc-alpha a écrit :
-> > It was added on Linux 5.12 (2a1867219c7b27f928e2545782b86daaf9ad50bd)
-> > to allow change the properties of a mount or a mount tree using file
-> > descriptors which the new mount api is based on.
-> > 
-> > Checked on x86_64-linux-gnu.
-> > ---
-> >   NEWS                                          |  6 ++--
-> >   sysdeps/unix/sysv/linux/Versions              |  1 +
-> >   sysdeps/unix/sysv/linux/aarch64/libc.abilist  |  1 +
-> >   sysdeps/unix/sysv/linux/alpha/libc.abilist    |  1 +
-> >   sysdeps/unix/sysv/linux/arc/libc.abilist      |  1 +
-> >   sysdeps/unix/sysv/linux/arm/be/libc.abilist   |  1 +
-> >   sysdeps/unix/sysv/linux/arm/le/libc.abilist   |  1 +
-> >   sysdeps/unix/sysv/linux/csky/libc.abilist     |  1 +
-> >   sysdeps/unix/sysv/linux/hppa/libc.abilist     |  1 +
-> >   sysdeps/unix/sysv/linux/i386/libc.abilist     |  1 +
-> >   sysdeps/unix/sysv/linux/ia64/libc.abilist     |  1 +
-> >   .../sysv/linux/m68k/coldfire/libc.abilist     |  1 +
-> >   .../unix/sysv/linux/m68k/m680x0/libc.abilist  |  1 +
-> >   .../sysv/linux/microblaze/be/libc.abilist     |  1 +
-> >   .../sysv/linux/microblaze/le/libc.abilist     |  1 +
-> >   .../sysv/linux/mips/mips32/fpu/libc.abilist   |  1 +
-> >   .../sysv/linux/mips/mips32/nofpu/libc.abilist |  1 +
-> >   .../sysv/linux/mips/mips64/n32/libc.abilist   |  1 +
-> >   .../sysv/linux/mips/mips64/n64/libc.abilist   |  1 +
-> >   sysdeps/unix/sysv/linux/nios2/libc.abilist    |  1 +
-> >   sysdeps/unix/sysv/linux/or1k/libc.abilist     |  1 +
-> >   .../linux/powerpc/powerpc32/fpu/libc.abilist  |  1 +
-> >   .../powerpc/powerpc32/nofpu/libc.abilist      |  1 +
-> >   .../linux/powerpc/powerpc64/be/libc.abilist   |  1 +
-> >   .../linux/powerpc/powerpc64/le/libc.abilist   |  1 +
-> >   .../unix/sysv/linux/riscv/rv32/libc.abilist   |  1 +
-> >   .../unix/sysv/linux/riscv/rv64/libc.abilist   |  1 +
-> >   .../unix/sysv/linux/s390/s390-32/libc.abilist |  1 +
-> >   .../unix/sysv/linux/s390/s390-64/libc.abilist |  1 +
-> >   sysdeps/unix/sysv/linux/sh/be/libc.abilist    |  1 +
-> >   sysdeps/unix/sysv/linux/sh/le/libc.abilist    |  1 +
-> >   .../sysv/linux/sparc/sparc32/libc.abilist     |  1 +
-> >   .../sysv/linux/sparc/sparc64/libc.abilist     |  1 +
-> >   sysdeps/unix/sysv/linux/sys/mount.h           | 22 ++++++++++++++
-> >   sysdeps/unix/sysv/linux/syscalls.list         |  1 +
-> >   sysdeps/unix/sysv/linux/tst-mount.c           | 30 +++++++++++++++++--
-> >   .../unix/sysv/linux/x86_64/64/libc.abilist    |  1 +
-> >   .../unix/sysv/linux/x86_64/x32/libc.abilist   |  1 +
-> >   38 files changed, 87 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/NEWS b/NEWS
-> > index de12657449..696de3962b 100644
-> > --- a/NEWS
-> > +++ b/NEWS
-> > @@ -29,9 +29,9 @@ Major new features:
-> >     memory is carried out in the context of the caller, using the caller's
-> >     CPU affinity, and priority with CPU usage accounted to the caller.
-> > -* On Linux, the fsopen, fsmount, move_mount, fsconfig, fspick, and open_tree
-> > -  have been added.  It is a new mount API to allow more flexibility on mount
-> > -  operations, specially when used along namespaces.
-> > +* On Linux, the fsopen, fsmount, move_mount, fsconfig, fspick, open_tree,
-> > +  and mount_setattr have been added.  It is a new mount API to allow more
-> > +  flexibility on mount operations, specially when used along namespaces.
-> >   Deprecated and removed features, and other changes affecting compatibility:
-> > diff --git a/sysdeps/unix/sysv/linux/Versions b/sysdeps/unix/sysv/linux/Versions
-> > index b70530ef40..65d2ceda2c 100644
-> > --- a/sysdeps/unix/sysv/linux/Versions
-> > +++ b/sysdeps/unix/sysv/linux/Versions
-> > @@ -305,6 +305,7 @@ libc {
-> >       fsopen;
-> >       fspick;
-> >       move_mount;
-> > +    mount_setattr;
-> >       open_tree;
-> >       pidfd_open;
-> >       pidfd_getfd;
-> 
-> > diff --git a/sysdeps/unix/sysv/linux/sys/mount.h b/sysdeps/unix/sysv/linux/sys/mount.h
-> > index eb6705a091..4929d84027 100644
-> > --- a/sysdeps/unix/sysv/linux/sys/mount.h
-> > +++ b/sysdeps/unix/sysv/linux/sys/mount.h
-> > @@ -23,6 +23,8 @@
-> >   #include <fcntl.h>
-> >   #include <features.h>
-> > +#include <stdint.h>
-> > +#include <stddef.h>
-> >   #include <sys/ioctl.h>
-> >   #define BLOCK_SIZE	1024
-> > @@ -155,6 +157,17 @@ enum
-> >   #define MOUNT_ATTR_NOSYMFOLLOW  0x00200000 /* Do not follow symlinks.  */
-> > +/* For mount_setattr.  */
-> > +struct mount_attr
-> > +{
-> > +  uint64_t attr_set;
-> > +  uint64_t attr_clr;
-> > +  uint64_t propagation;
-> > +  uint64_t userns_fd;
-> > +};
-> > +
-> > +#define MOUNT_ATTR_SIZE_VER0    32 /* sizeof first published struct */
-> > +
-> >   /* move_mount flags.  */
-> >   #define MOVE_MOUNT_F_SYMLINKS   0x00000001 /* Follow symlinks on from path */
-> >   #define MOVE_MOUNT_F_AUTOMOUNTS 0x00000002 /* Follow automounts on from path */
-> > @@ -240,6 +253,15 @@ extern int fspick (int __dfd, const char *__path, unsigned int __flags)
-> >   extern int open_tree (int __dfd, const char *__filename, unsigned int __flags)
-> >     __THROW;
-> > +/* Change the mount proprieties of the mount or an entire mount tree.  If
-> > +   PATH is a relative pathname, then it is interpreted relative to the directory
-> > +   referred to by the file descriptor dirfd.  Otherwise if DFD is the special
-> > +   value AT_FDCWD then PATH is interpreted relative to the current working
-> > +   directory of the calling process.  */
-> > +extern int mount_setattr (int __dfd, const char *__path, unsigned int __flags,
-> > +			  struct mount_attr *__uattr, size_t __usize)
-> > +  __THROW;
-> > +
-> 
-> 
-> I wonder why __uattr is not declared const struct mount_attr * ?
-> 
-> Is it really expected that future mount_setattr() extensions to write back
-> into the userspace structure ?
+On Tue, Jun 7, 2022 at 12:01 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+>
+> On Mon, Jun 06, 2022 at 01:09:50PM -0700, Vishal Annapurve wrote:
+> > >
+> > > Private memory map/unmap and conversion
+> > > ---------------------------------------
+> > > Userspace's map/unmap operations are done by fallocate() ioctl on the
+> > > backing store fd.
+> > >   - map: default fallocate() with mode=0.
+> > >   - unmap: fallocate() with FALLOC_FL_PUNCH_HOLE.
+> > > The map/unmap will trigger above memfile_notifier_ops to let KVM map/unmap
+> > > secondary MMU page tables.
+> > >
+> > ....
+> > >    QEMU: https://github.com/chao-p/qemu/tree/privmem-v6
+> > >
+> > > An example QEMU command line for TDX test:
+> > > -object tdx-guest,id=tdx \
+> > > -object memory-backend-memfd-private,id=ram1,size=2G \
+> > > -machine q35,kvm-type=tdx,pic=no,kernel_irqchip=split,memory-encryption=tdx,memory-backend=ram1
+> > >
+> >
+> > There should be more discussion around double allocation scenarios
+> > when using the private fd approach. A malicious guest or buggy
+> > userspace VMM can cause physical memory getting allocated for both
+> > shared (memory accessible from host) and private fds backing the guest
+> > memory.
+> > Userspace VMM will need to unback the shared guest memory while
+> > handling the conversion from shared to private in order to prevent
+> > double allocation even with malicious guests or bugs in userspace VMM.
+>
+> I don't know how malicious guest can cause that. The initial design of
+> this serie is to put the private/shared memory into two different
+> address spaces and gives usersapce VMM the flexibility to convert
+> between the two. It can choose respect the guest conversion request or
+> not.
 
-I don't think we can in principle rule this out. A const is a bit of a
-scary commitment in this regard... I need to think about this a bit.
+For example, the guest could maliciously give a device driver a
+private page so that a host-side virtual device will blindly write the
+private page.
+
+> It's possible for a usrspace VMM to cause double allocation if it fails
+> to call the unback operation during the conversion, this may be a bug
+> or not. Double allocation may not be a wrong thing, even in conception.
+> At least TDX allows you to use half shared half private in guest, means
+> both shared/private can be effective. Unbacking the memory is just the
+> current QEMU implementation choice.
+
+Right. But the idea is that this patch series should accommodate all
+of the CVM architectures. Or at least that's what I know was
+envisioned last time we discussed this topic for SNP [*].
+
+Regardless, it's important to ensure that the VM respects its memory
+budget. For example, within Google, we run VMs inside of containers.
+So if we double allocate we're going to OOM. This seems acceptable for
+an early version of CVMs. But ultimately, I think we need a more
+robust way to ensure that the VM operates within its memory container.
+Otherwise, the OOM is going to be hard to diagnose and distinguish
+from a real OOM.
+
+[*] https://lore.kernel.org/all/20210820155918.7518-1-brijesh.singh@amd.com/
+
+>
+> Chao
+> >
+> > Options to unback shared guest memory seem to be:
+> > 1) madvise(.., MADV_DONTNEED/MADV_REMOVE) - This option won't stop
+> > kernel from backing the shared memory on subsequent write accesses
+> > 2) fallocate(..., FALLOC_FL_PUNCH_HOLE...) - For file backed shared
+> > guest memory, this option still is similar to madvice since this would
+> > still allow shared memory to get backed on write accesses
+> > 3) munmap - This would give away the contiguous virtual memory region
+> > reservation with holes in the guest backing memory, which might make
+> > guest memory management difficult.
+> > 4) mprotect(... PROT_NONE) - This would keep the virtual memory
+> > address range backing the guest memory preserved
+> >
+> > ram_block_discard_range_fd from reference implementation:
+> > https://github.com/chao-p/qemu/tree/privmem-v6 seems to be relying on
+> > fallocate/madvise.
+> >
+> > Any thoughts/suggestions around better ways to unback the shared
+> > memory in order to avoid double allocation scenarios?
+
+I agree with Vishal. I think this patch set is making great progress.
+But the double allocation scenario seems like a high-level design
+issue that warrants more discussion.
