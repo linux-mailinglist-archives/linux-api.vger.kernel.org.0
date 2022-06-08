@@ -2,63 +2,98 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 46E92542C1E
-	for <lists+linux-api@lfdr.de>; Wed,  8 Jun 2022 11:56:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54CB1542F2C
+	for <lists+linux-api@lfdr.de>; Wed,  8 Jun 2022 13:27:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235651AbiFHJz6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 8 Jun 2022 05:55:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40730 "EHLO
+        id S238187AbiFHL1h (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 8 Jun 2022 07:27:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235293AbiFHJzc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 8 Jun 2022 05:55:32 -0400
-X-Greylist: delayed 2399 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 08 Jun 2022 02:28:19 PDT
-Received: from mail.puregrowthonline.pl (mail.puregrowthonline.pl [51.38.124.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB6B5108ABB
-        for <linux-api@vger.kernel.org>; Wed,  8 Jun 2022 02:28:17 -0700 (PDT)
-Received: by mail.puregrowthonline.pl (Postfix, from userid 1002)
-        id 552E5A2B5A; Wed,  8 Jun 2022 08:10:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puregrowthonline.pl;
-        s=mail; t=1654675857;
-        bh=CSKXLMgcdpWkXuTgJn5+jsCVobtU9JEF4vCnS5z6McM=;
-        h=Date:From:To:Subject:From;
-        b=WSYbIZFMHbyYfKNSVZuCKbevaQtLA79lXnSmAqTcYFCyGJcqUsXmZ0zZnBBWzOHLp
-         zNPwmPh/liczjkg/LXYDUYfkS0CTPJhnPl6T0+ubnErYkqi69ld92IcOU1XFkxBUZ0
-         LGHZxGJgsGLyoBRIPcPH4PIRlSr2j+9oix6/EeTHnF1R3F+iXDrUOjun/PDF+u230r
-         6Sa5tn8snexDHvBe20/Ew7lawKf+3axkbo8IaCfkHHVaQ9R8/4HPRcvAtToCV1Gv30
-         vmZH5mOpev9TQSfP51tvqTlkyx+0uOlr/J4+rHMKMw456uvXB21MBMtD1QDUIRMb43
-         Gxwwo/GgKDRCw==
-Received: by mail.puregrowthonline.pl for <linux-api@vger.kernel.org>; Wed,  8 Jun 2022 08:10:14 GMT
-Message-ID: <20220608064500-0.1.41.cyn7.0.j6oeddjzzd@puregrowthonline.pl>
-Date:   Wed,  8 Jun 2022 08:10:14 GMT
-From:   "Wiktor Nurek" <wiktor.nurek@puregrowthonline.pl>
-To:     <linux-api@vger.kernel.org>
-Subject: =?UTF-8?Q?Nap=C5=82yw_Klient=C3=B3w_ze_strony?=
-X-Mailer: mail.puregrowthonline.pl
+        with ESMTP id S238209AbiFHL1f (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 8 Jun 2022 07:27:35 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98C541673D1;
+        Wed,  8 Jun 2022 04:27:34 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 35337615B3;
+        Wed,  8 Jun 2022 11:27:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F0B3C34116;
+        Wed,  8 Jun 2022 11:27:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654687653;
+        bh=mw/8TTzcVjw2Heammx4s/Kl/78h76VgQk6zFg4QLP4w=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WlFAibnCvGU1+f/+rCYQSyeyXOW0jQAf3vYCJG3DfXUYZInQ2s6gx5FLhQCF/Y/K2
+         XqQPblVMpU4oDHt6uMyraFdx8J77OTimMxURh0L93rSDmYWaayZbHkgNbl+FZZQ5np
+         V10Un2CYmhO52QU3XYCdDD30hf25xyC8HQca5jqlIEh++sUqua1biWtWQnSbzA9F8c
+         3D9BP2yb6WSxk5Qvpsos2Zy/oVoOESAQ4xhogmLsi43jDtEZwP8G/9evFnl4qtf8gD
+         1KMcIQqvj/LCWtDip4MIkSxumkP3WCj2sP7RQxZ2BmcaJSs+YEGerBBIqkx3YPl2F1
+         J0yiCCDxbJdpA==
+Date:   Wed, 8 Jun 2022 13:27:28 +0200
+From:   Christian Brauner <brauner@kernel.org>
+To:     Christian =?utf-8?B?R8O2dHRzY2hl?= <cgzones@googlemail.com>
+Cc:     selinux@vger.kernel.org, Miklos Szeredi <mszeredi@redhat.com>,
+        linux-api@vger.kernel.org, linux-man@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] f*xattr: allow O_PATH descriptors
+Message-ID: <20220608112728.b4xrdppxqmyqmtwf@wittgenstein>
+References: <20220607153139.35588-1-cgzones@googlemail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220607153139.35588-1-cgzones@googlemail.com>
+X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Dzie=C5=84 dobry,
+On Tue, Jun 07, 2022 at 05:31:39PM +0200, Christian Göttsche wrote:
+> From: Miklos Szeredi <mszeredi@redhat.com>
+> 
+> Support file descriptors obtained via O_PATH for extended attribute
+> operations.
+> 
+> Extended attributes are for example used by SELinux for the security
+> context of file objects. To avoid time-of-check-time-of-use issues while
+> setting those contexts it is advisable to pin the file in question and
+> operate on a file descriptor instead of the path name. This can be
+> emulated in userspace via /proc/self/fd/NN [1] but requires a procfs,
+> which might not be mounted e.g. inside of chroots, see[2].
+> 
+> [1]: https://github.com/SELinuxProject/selinux/commit/7e979b56fd2cee28f647376a7233d2ac2d12ca50
+> [2]: https://github.com/SELinuxProject/selinux/commit/de285252a1801397306032e070793889c9466845
+> 
+> Original patch by Miklos Szeredi <mszeredi@redhat.com>
+> https://patchwork.kernel.org/project/linux-fsdevel/patch/20200505095915.11275-6-mszeredi@redhat.com/
+> 
+> > While this carries a minute risk of someone relying on the property of
+> > xattr syscalls rejecting O_PATH descriptors, it saves the trouble of
+> > introducing another set of syscalls.
+> >
+> > Only file->f_path and file->f_inode are accessed in these functions.
+> >
+> > Current versions return EBADF, hence easy to detect the presense of
+> > this feature and fall back in case it's missing.
+> 
+> CC: linux-api@vger.kernel.org
+> CC: linux-man@vger.kernel.org
+> Signed-off-by: Christian Göttsche <cgzones@googlemail.com>
+> ---
 
-chcia=C5=82bym poinformowa=C4=87 Pa=C5=84stwa o mo=C5=BCliwo=C5=9Bci pozy=
-skania nowych zlece=C5=84 ze strony www.
+I'd be somewhat fine with getxattr and listxattr but I'm worried that
+setxattr/removexattr waters down O_PATH semantics even more. I don't
+want O_PATH fds to be useable for operations which are semantically
+equivalent to a write.
 
-Widzimy zainteresowanie potencjalnych Klient=C3=B3w Pa=C5=84stwa firm=C4=85=
-, dlatego ch=C4=99tnie pomo=C5=BCemy Pa=C5=84stwu dotrze=C4=87 z ofert=C4=
-=85 do wi=C4=99kszego grona odbiorc=C3=B3w poprzez efektywne metody pozyc=
-jonowania strony w Google.
-
-Czy m=C3=B3g=C5=82bym liczy=C4=87 na kontakt zwrotny?
-
-
-Pozdrawiam serdecznie,
-Wiktor Nurek
+In sensitive environments such as service management/container runtimes
+we often send O_PATH fds around precisely because it is restricted what
+they can be used for. I'd prefer to not to plug at this string.
