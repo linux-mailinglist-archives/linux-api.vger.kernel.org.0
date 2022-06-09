@@ -2,135 +2,104 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B49BD543CFC
-	for <lists+linux-api@lfdr.de>; Wed,  8 Jun 2022 21:37:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7F155442A9
+	for <lists+linux-api@lfdr.de>; Thu,  9 Jun 2022 06:36:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234834AbiFHThh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 8 Jun 2022 15:37:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44332 "EHLO
+        id S232431AbiFIEgL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 9 Jun 2022 00:36:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235610AbiFHThf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 8 Jun 2022 15:37:35 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88AEA2347DA
-        for <linux-api@vger.kernel.org>; Wed,  8 Jun 2022 12:37:29 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id r1so1262420plo.10
-        for <linux-api@vger.kernel.org>; Wed, 08 Jun 2022 12:37:29 -0700 (PDT)
+        with ESMTP id S232169AbiFIEgK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jun 2022 00:36:10 -0400
+Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com [IPv6:2607:f8b0:4864:20::e2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98247B07;
+        Wed,  8 Jun 2022 21:36:08 -0700 (PDT)
+Received: by mail-vs1-xe2a.google.com with SMTP id g6so3248969vsb.2;
+        Wed, 08 Jun 2022 21:36:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wh6/XuxZPZUDwyzy5Eh7VeXfArKnNs6YeEjpbWE+j5g=;
-        b=ZAG/K6D48l0KrmmRn1p2FTmiQngI/15yOkQ8MG3uOIp2K2v36XwQ2z8ZERlay6GUnj
-         f6Sg6s8FFS/vw4GmKlcbDU92NrHn2K9bSARE4ICPUYhAVS3ymvr75ETolLgVKsl3A513
-         oscCyM1WP/DK5242tikPCpr2E/rKOv00sX5olq99qElwq471NkYsjKcAWArALuZx2UmC
-         CgiqYG3dwPpKqe4lLXhreFySMsEDe8d4kPNvglQIKziVC1KrNkNXJk21EPdQMbqcRvJ6
-         v8IdnFTEPtFo6VDq8R+YkUgfipwAH1spS4CjC2hG/IiGlAv6nPBHFnuhil0CZaWyp+5b
-         sSXw==
+         :cc:content-transfer-encoding;
+        bh=K/i8DYT2ygHvcWIB+TGUjE1cSyP6RpUZJ+cTGMu/weo=;
+        b=MkX92/OX5Jd4R4X4Wew8Jy/pDaEgc8pKlkmzkvLpPA1RUmP9CwVAp4mDE0zWuRwoUN
+         sHJfzwPkd7kyPFb1HFLU+lLqulZbVnaaJGRs1WgCYAIsflL3FZJ8DzogP+jRp2TVLwf1
+         Ne13c4/6HFu8/8IzAfMynFRc/lfRr7q2bylvhRRBJ1mj8iNGM0XBm0zXYDQ04W8q0RVJ
+         M024CeoPPCByj+d1HofI1imrGXkc0KUN8Xmnu7ET4Vy0hhKGQ6DU3tpsZQyrpFEgPPJU
+         AszWyNxmxvXHkSVqZngAalYpGEcQqo3tNjp0yZ7iw/HSovXDXWPJqho0jtJwHvyzbefv
+         4wZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wh6/XuxZPZUDwyzy5Eh7VeXfArKnNs6YeEjpbWE+j5g=;
-        b=GZJZ25xmS4mr+RYI4VrKKwhLAOmq5kUQJV36mZUxlmZyaUSi2Va31fqHujcsE3tgoT
-         dCYdxs3z+DAm1NwtSKIE1Y5ZUaKCf76DmQBsUg+/9jsABE/le7snHgsv5nhvRYm9PKDb
-         Nrp9fvRVjHl52j164BpMX/oSzWO3DpWpmj1rhu4qfuPgapH1H2h8GbJINApRxtYh1YJb
-         kbDXgbfWA448wBIawhMh75+bCmRcagURE1U2yTNTH0DjNpJ29z6mSE/pOHQyi0lMY/JG
-         F8+E+l++BKsQAKBOYXSWg6vPA3pGrsbfixp6TTrh8F34aQ5BKrEx6o93t5Lwm67cx+QG
-         OD2A==
-X-Gm-Message-State: AOAM532wglnRKsvMx7/eMyrarWS+pJAOrQGpSkiAUBnQdovdJJje8rr+
-        vusm9VaotX063i7pWAJt0/fCP4SSilzhMTeStILs4Q==
-X-Google-Smtp-Source: ABdhPJyfhv1kDe3gJcgewOBnTs26+Uc6YFkqzaIMBY+Sas+MZKd5jC6EwNSmICRKaXBZxv4CUZaYAZlNhfXBPpTEGHU=
-X-Received: by 2002:a17:902:f710:b0:15f:165f:b50b with SMTP id
- h16-20020a170902f71000b0015f165fb50bmr36739481plo.158.1654717048302; Wed, 08
- Jun 2022 12:37:28 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=K/i8DYT2ygHvcWIB+TGUjE1cSyP6RpUZJ+cTGMu/weo=;
+        b=Y89a01FnxkPJe0XhmH37dkKgHDR1Upl1a+2s6tMrspHz60jLkcPB7c0aWxP2vem9t8
+         tl1Hwt0wVX+vf3swW2iIBExUvtxGoWmvefaku7XY/qx/vr5jBNyO90wjH/W39B+9PC4D
+         AzjgSHan21K3YpRg4RQWL7NqJZ/C33QawvS5GfERvmbMIDLU0kjQbKgjPyVvMx+iRaB9
+         n8yWuc8lz1USrGa1SSZnFnO+SKP1iovCwu75KrbihX7q99rRcS+eZJ7R267YGoYwQ2wd
+         DwJOJZ89S/qcstG3YOezK+k5EXkjNsNlb/TL/4PiN68UnDXMiP5IqJk+/6fOsZqGzoao
+         o9Vg==
+X-Gm-Message-State: AOAM532mCVz7072ZAJgyzG2nNZ6uei+re07zrdJuQa9v/f6ArpW75Qv6
+        To57dIeLXQd5zbnxgcVOxZ7zLuJG8fz9RQ0o5No=
+X-Google-Smtp-Source: ABdhPJxATreDqd9IudoNJR6VJZ9zNaC3pZreydmxwBOzXGiSBfrzQ6mEOynR6Y9h2KoqVyCehMYW3nQHz1cKElRa+b4=
+X-Received: by 2002:a67:70c4:0:b0:349:d442:f287 with SMTP id
+ l187-20020a6770c4000000b00349d442f287mr17213314vsc.2.1654749367725; Wed, 08
+ Jun 2022 21:36:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <CAGtprH_83CEC0U-cBR2FzHsxbwbGn0QJ87WFNOEet8sineOcbQ@mail.gmail.com>
- <20220607065749.GA1513445@chaop.bj.intel.com> <CAA03e5H_vOQS-qdZgacnmqP5T5jJLnEfm44yfRzJQ2KVu0Br+Q@mail.gmail.com>
- <20220608021820.GA1548172@chaop.bj.intel.com>
-In-Reply-To: <20220608021820.GA1548172@chaop.bj.intel.com>
-From:   Vishal Annapurve <vannapurve@google.com>
-Date:   Wed, 8 Jun 2022 12:37:17 -0700
-Message-ID: <CAGtprH8xyf07jMN7ubTC__BvDj+z41uVGRiCJ7Rc5cv3KWg03w@mail.gmail.com>
-Subject: Re: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Marc Orr <marcorr@google.com>, kvm list <kvm@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Jun Nakajima <jun.nakajima@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+References: <20220607153139.35588-1-cgzones@googlemail.com> <08A11E25-0208-4B4F-8759-75C1841E7017@dilger.ca>
+In-Reply-To: <08A11E25-0208-4B4F-8759-75C1841E7017@dilger.ca>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Thu, 9 Jun 2022 07:35:56 +0300
+Message-ID: <CAOQ4uxh1QG_xJ0Ffh=wKksxWKm1ioazmc8SxeYYH9yHT1PMasg@mail.gmail.com>
+Subject: Re: [RFC PATCH] f*xattr: allow O_PATH descriptors
+To:     Andreas Dilger <adilger@dilger.ca>
+Cc:     =?UTF-8?Q?Christian_G=C3=B6ttsche?= <cgzones@googlemail.com>,
+        selinux@vger.kernel.org, Miklos Szeredi <mszeredi@redhat.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-...
-> With this patch series, it's actually even not possible for userspace VMM
-> to allocate private page by a direct write, it's basically unmapped from
-> there. If it really wants to, it should so something special, by intention,
-> that's basically the conversion, which we should allow.
+On Wed, Jun 8, 2022 at 9:01 PM Andreas Dilger <adilger@dilger.ca> wrote:
 >
+> On Jun 7, 2022, at 9:31 AM, Christian G=C3=B6ttsche <cgzones@googlemail.c=
+om> wrote:
+> >
+> > From: Miklos Szeredi <mszeredi@redhat.com>
+> >
+> > Support file descriptors obtained via O_PATH for extended attribute
+> > operations.
+> >
+> > Extended attributes are for example used by SELinux for the security
+> > context of file objects. To avoid time-of-check-time-of-use issues whil=
+e
+> > setting those contexts it is advisable to pin the file in question and
+> > operate on a file descriptor instead of the path name. This can be
+> > emulated in userspace via /proc/self/fd/NN [1] but requires a procfs,
+> > which might not be mounted e.g. inside of chroots, see[2].
+>
+> Will this allow get/set xattrs directly on symlinks?  That is one problem
+> that we have with some of the xattrs that are inherited on symlinks, but
+> there is no way to change them.  Allowing setxattr directly on a symlink
+> would be very useful.
 
-A VM can pass GPA backed by private pages to userspace VMM and when
-Userspace VMM accesses the backing hva there will be pages allocated
-to back the shared fd causing 2 sets of pages backing the same guest
-memory range.
+It is possible.
+See: https://github.com/libfuse/libfuse/pull/514
 
-> Thanks for bringing this up. But in my mind I still think userspace VMM
-> can do and it's its responsibility to guarantee that, if that is hard
-> required. By design, userspace VMM is the decision-maker for page
-> conversion and has all the necessary information to know which page is
-> shared/private. It also has the necessary knobs to allocate/free the
-> physical pages for guest memory. Definitely, we should make userspace
-> VMM more robust.
+That's why Miklos withdrew this patch:
+https://lore.kernel.org/linux-fsdevel/CAOssrKeV7g0wPg4ozspG4R7a+5qARqWdG+Gx=
+WtXB-MCfbVM=3D9A@mail.gmail.com/
 
-Making Userspace VMM more robust to avoid double allocation can get
-complex, it will have to keep track of all in-use (by Userspace VMM)
-shared fd memory to disallow conversion from shared to private and
-will have to ensure that all guest supplied addresses belong to shared
-GPA ranges.
-A coarser but simpler alternative could be to always allow shared to
-private conversion with unbacking the memory from shared fd and exit
-if the VMM runs in double allocation scenarios. In either cases,
-unbacking shared fd memory ideally should prevent memory allocation on
-subsequent write accesses to ensure double allocation scenarios are
-caught early.
-
-Regards,
-Vishal
+Thanks,
+Amir.
