@@ -2,125 +2,147 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C7D35449B2
-	for <lists+linux-api@lfdr.de>; Thu,  9 Jun 2022 13:05:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E166C5453A3
+	for <lists+linux-api@lfdr.de>; Thu,  9 Jun 2022 20:05:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241944AbiFILFw convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Thu, 9 Jun 2022 07:05:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51164 "EHLO
+        id S243685AbiFISE7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 9 Jun 2022 14:04:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230108AbiFILFt (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jun 2022 07:05:49 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5172F21A540;
-        Thu,  9 Jun 2022 04:05:48 -0700 (PDT)
-Received: from fraeml704-chm.china.huawei.com (unknown [172.18.147.206])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LJh3F5cDyz689QR;
-        Thu,  9 Jun 2022 19:00:57 +0800 (CST)
-Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
- fraeml704-chm.china.huawei.com (10.206.15.53) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2375.24; Thu, 9 Jun 2022 13:05:45 +0200
-Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
- fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2375.024;
- Thu, 9 Jun 2022 13:05:45 +0200
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-To:     Eugeniu Rosca <erosca@de.adit-jv.com>
-CC:     Rob Landley <rob@landley.net>, "hpa@zytor.com" <hpa@zytor.com>,
-        "Masahiro Yamada" <masahiroy@kernel.org>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        "Mimi Zohar" <zohar@linux.ibm.com>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "initramfs@vger.kernel.org" <initramfs@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        with ESMTP id S238630AbiFISE6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jun 2022 14:04:58 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEEDC20014D;
+        Thu,  9 Jun 2022 11:04:50 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 68E1661D06;
+        Thu,  9 Jun 2022 18:04:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27328C34114;
+        Thu,  9 Jun 2022 18:04:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654797889;
+        bh=pASgOkIhhI/ZJTQJiOxQQ7BetAsfgOyqGy5+OxBbrvU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BTB64wygOFCsPdDhaQrt8ga2Ig64u/kXZw4tZeGJT0YWnHOFEVrA9wtMwDaA4po75
+         tHkRwZ4Z1OS5DEp1vz0DLZjhsVFXOj9cWFGJqF8h1e4ExnGDlLM66vc852A7UGTVkV
+         yEz7FlAClMKRrohieUz/v2D/e1sIUfPAptFYdXD6e5jM5B9XSjou+kMB5JSzyCWkav
+         Vy3bM2wpcA65mdDfoHZTzmvQ2m/dzKtFKO6ebtcmQ6ve9Ss5LpTv7FPNvFa0fZq3IE
+         X+WdUzskIEX0iCxmt+US9NfG657DMkWYw8HIeB0mVRrH72fJJ6NrdiTApIn1c/+71Q
+         Z1MZF3k8udZcQ==
+Date:   Thu, 9 Jun 2022 21:04:34 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "0x7f454c46@gmail.com" <0x7f454c46@gmail.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "adrian@lisas.de" <adrian@lisas.de>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "avagin@gmail.com" <avagin@gmail.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "bp@alien8.de" <bp@alien8.de>, "arnd@arndb.de" <arnd@arndb.de>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "dave.martin@arm.com" <dave.martin@arm.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "bug-cpio@gnu.org" <bug-cpio@gnu.org>,
-        "zohar@linux.vnet.ibm.com" <zohar@linux.vnet.ibm.com>,
-        Silviu Vlasceanu <Silviu.Vlasceanu@huawei.com>,
-        Dmitry Kasatkin <dmitry.kasatkin@huawei.com>,
-        "takondra@cisco.com" <takondra@cisco.com>,
-        "kamensky@cisco.com" <kamensky@cisco.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "james.w.mcmechan@gmail.com" <james.w.mcmechan@gmail.com>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        Dirk Behme <dirk.behme@de.bosch.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: RE: [PATCH v4 0/3] initramfs: add support for xattrs in the initial
- ram disk
-Thread-Topic: [PATCH v4 0/3] initramfs: add support for xattrs in the initial
- ram disk
-Thread-Index: AQHYe+tsPH1HC/8x8Uq7oovD5MPpKK1G5r2Q
-Date:   Thu, 9 Jun 2022 11:05:45 +0000
-Message-ID: <21b3aeab20554a30b9796b82cc58e55b@huawei.com>
-References: <20190523121803.21638-1-roberto.sassu@huawei.com>
- <cf9d08ca-74c7-c945-5bf9-7c3495907d1e@huawei.com>
- <541e9ea1-024f-5c22-0b58-f8692e6c1eb1@landley.net>
- <33cfb804-6a17-39f0-92b7-01d54e9c452d@huawei.com>
- <1561909199.3985.33.camel@linux.ibm.com>
- <45164486-782f-a442-e442-6f56f9299c66@huawei.com>
- <1561991485.4067.14.camel@linux.ibm.com>
- <f85ed711-f583-51cd-34e2-80018a592280@huawei.com>
- <0c17bf9e-9b0b-b067-cf18-24516315b682@huawei.com>
- <20220609102627.GA3922@lxhi-065>
-In-Reply-To: <20220609102627.GA3922@lxhi-065>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.204.63.21]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+Subject: Re: [PATCH 00/35] Shadow stacks for userspace
+Message-ID: <YqI2MgV9S1iQR9Mq@kernel.org>
+References: <fb7d6e4da58ae77be2c6321ee3f3487485b2886c.camel@intel.com>
+ <40a3500c-835a-60b0-15bf-40c6622ad013@kernel.org>
+ <YiZVbPwlgSFnhadv@kernel.org>
+ <CAMe9rOrSLPKdL2gL=yx84zrs-u6ch1AVvjk3oqUe3thR5ZD=dQ@mail.gmail.com>
+ <YpYDKVjMEYVlV6Ya@kernel.org>
+ <d0c94eed6e3c7f35b78bab3f00aadebd960ee0d8.camel@intel.com>
+ <YpZEDjxSPxUfMxDZ@kernel.org>
+ <7c637f729e14f03d0df744568800fc986542e33d.camel@intel.com>
+ <Ypcd8HQtrn7T41LF@kernel.org>
+ <1d77dcab5d5ee7c565cfc62601d3a28ecf5a6bed.camel@intel.com>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1d77dcab5d5ee7c565cfc62601d3a28ecf5a6bed.camel@intel.com>
+X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-> From: Eugeniu Rosca [mailto:erosca@de.adit-jv.com]
-> Sent: Thursday, June 9, 2022 12:26 PM
-> Dear Roberto,
-> Cc: Yamada-san, linux-kbuild
+On Wed, Jun 01, 2022 at 05:24:26PM +0000, Edgecombe, Rick P wrote:
+> On Wed, 2022-06-01 at 11:06 +0300, Mike Rapoport wrote:
+> > > Yea, having something working is really great. My only hesitancy is
+> > > that, per a discussion on the LAM patchset, we are going to make
+> > > this
+> > > enabling API CET only (same semantics for though). I suppose the
+> > > locking API arch_prctl() could still be support other arch
+> > > features,
+> > > but it might be a second CET only regset. It's not the end of the
+> > > world.
+> > 
+> > The support for CET in criu is anyway experimental for now, if the
+> > kernel
+> > API will be slightly different in the end, we'll update criu.
+> > The important things are the ability to control tracee shadow stack
+> > from ptrace, the ability to map the shadow stack at fixed address and
+> > the
+> > ability to control the features at least from ptrace.
+> > As long as we have APIs that provide those, it should be Ok.
+> >  
+> > > I guess the other consideration is tieing CRIU to glibc
+> > > peculiarities.
+> > > Like even if we fix glibc, then CRIU may not work with some other
+> > > libc
+> > > or app that force disables for some weird reason. Is it supposed to
+> > > be
+> > > libc-agnostic?
+> > 
+> > Actually using the ptrace to control the CET features does not tie
+> > criu to
+> > glibc. The current proposal for the arch_prctl() allows libc to lock
+> > CET
+> > features and having a ptrace call to control the lock makes criu
+> > agnostic
+> > to libc behaviour.
 > 
-> On Mi, Jul 24, 2019 at 05:34:53 +0200, Roberto Sassu wrote:
-> > Is there anything I didn't address in this patch set, that is delaying
-> > the review? I would appreciate if you can give me a feedback, positive
-> > or negative.
-> >
-> > Thanks a lot!
-> >
-> > Roberto
+> From staring at the glibc code, I'm suspicious something was weird with
+> your test setup, as I don't think it should be locking. But I guess to
+> be completely proper you would need to save and restore the lock state
+> anyway. So, ok yea, on balance probably better to have an extra
+> interface.
 > 
-> Some of our users have recently asked for this patch series.
+> Should we make it a GET/SET interface?
 
-Hello
+Yes, I think so.
 
-thanks for your interest in this patch set.
-
-> Could you please feedback if this is the latest revision available or
-> maybe there is a newer one developed and potentially not shared on LKML?
-
-Yes, it is the latest revision available. There might have been few
-fixes in the final code. You may want to have a look at:
-
-https://github.com/openeuler-mirror/kernel/commit/888460f17775b62f77e33e774e6673587c61cabd
-https://github.com/openeuler-mirror/kernel/commit/4adaeecd5d23cc75ffd1883d9b677bbd67c535d1
-https://github.com/openeuler-mirror/kernel/commit/59db8952e91c2ac443bccdcacfd37ae94c49a259
-
-and:
-
-https://gitee.com/src-openeuler/cpio/blob/master/add-option-to-add-metadata-in-copy-out-mode.patch
-https://gitee.com/src-openeuler/cpio/blob/master/Fix-use-after-free-and-return-appropriate-error.patch
-
-Roberto
-
-HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-Managing Director: Li Peng, Yang Xi, Li He
+-- 
+Sincerely yours,
+Mike.
