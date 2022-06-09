@@ -2,119 +2,92 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F406544706
-	for <lists+linux-api@lfdr.de>; Thu,  9 Jun 2022 11:15:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C8D35448D0
+	for <lists+linux-api@lfdr.de>; Thu,  9 Jun 2022 12:26:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238622AbiFIJO7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 9 Jun 2022 05:14:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35822 "EHLO
+        id S241944AbiFIK0g (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 9 Jun 2022 06:26:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230290AbiFIJO6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jun 2022 05:14:58 -0400
-Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com [IPv6:2001:4860:4864:20::2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60FEE175B9;
-        Thu,  9 Jun 2022 02:14:57 -0700 (PDT)
-Received: by mail-oa1-x2d.google.com with SMTP id 586e51a60fabf-f2e0a41009so30286312fac.6;
-        Thu, 09 Jun 2022 02:14:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=ON3Pub6AHUCAeH8SyvUYJIu2FNlMbAkSzqXkvKSDFAg=;
-        b=GQGMNkYUeeI8CBd4rHlhZMbMb3aFVGJ622JnZaJbfYjMOpW//pg9bwsiKfnK+KtyZC
-         F29KG67ibpRAlUQu9L1mqeQcodqCjp9/KVh9r6Ti7s796zZ3e8qyxKXfqhMSzmJJMghQ
-         6SZufhAgEm44JFBmc+9PPeey4LVGSlAsGyTfrb9LHB2sf9pEhGdb37aQhPXIzGeajfYN
-         b/wxtKuV3vTHRRv+2ldMn71jxtWrYfKDRN+O5EaMewxuHfIRmvxQofwtB7T57uX2WajW
-         APkEsAfzBlAbvHo2/bB27eDOq3IZxXij2keapnpqY4F7LFS03IwsbLgtOmw2xuMeK3zZ
-         fzWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=ON3Pub6AHUCAeH8SyvUYJIu2FNlMbAkSzqXkvKSDFAg=;
-        b=eqACfIByrlPzVoeheDyoiFwiMvmBfdzrH/1SwN1Ls6iTURLonGStk1Qg5C0iX54xji
-         HRrtwR5zWHXRnDxncUMneDdjE6Y+PONkG16a+muu1UwGOOpdoHglMb9LF2kd7zskx0CD
-         yMKsfK4Wq5vmCsq4PIagzBAl3Xmzf/d5utTRnREczF2qCq5f14rlKY+j4UHARPhQJq+V
-         e5hgZi3snTUiRMcnoA9fB2eJnHwWdFBty85XhFA3wpTNc1c8Q6fMgVROv+cQKhN5crCe
-         2tb/nWRlfSuUIctMaP4+4vzB7WUTuTDSu+nadTDnRXJ26dgkUz+YbT/WwnCDd55NVJN8
-         ipng==
-X-Gm-Message-State: AOAM530ccIUCSVjHgAQ722zsfJvKXsLjhAQWjPC45vjWCuOaW/m0Ywef
-        CODQ3/OpivkX8qEr8L+JLAZOaCnwyWw3Zi67j2cSgqSt7JQ=
-X-Google-Smtp-Source: ABdhPJzWx9LlUR4RR9d3X0CrSWaKeVIEBnxlZ2i8BI3KROIhC0JPG2YUtffi0CqhLJ9fUXX1WO98fAvFtA5FNkwvUeQ=
-X-Received: by 2002:a05:6870:e40c:b0:f3:2f32:7c3d with SMTP id
- n12-20020a056870e40c00b000f32f327c3dmr1152770oag.71.1654766096472; Thu, 09
- Jun 2022 02:14:56 -0700 (PDT)
+        with ESMTP id S240043AbiFIK0g (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jun 2022 06:26:36 -0400
+Received: from hi1smtp01.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B0A31D8712;
+        Thu,  9 Jun 2022 03:26:35 -0700 (PDT)
+Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by hi1smtp01.de.adit-jv.com (Postfix) with ESMTPS id 7F5B0520171;
+        Thu,  9 Jun 2022 12:26:33 +0200 (CEST)
+Received: from lxhi-065 (10.72.94.24) by hi2exch02.adit-jv.com (10.72.92.28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2308.27; Thu, 9 Jun
+ 2022 12:26:32 +0200
+Date:   Thu, 9 Jun 2022 12:26:27 +0200
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Roberto Sassu <roberto.sassu@huawei.com>
+CC:     Rob Landley <rob@landley.net>, <hpa@zytor.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Mimi Zohar <zohar@linux.ibm.com>, <viro@zeniv.linux.org.uk>,
+        <linux-security-module@vger.kernel.org>,
+        <linux-integrity@vger.kernel.org>, <initramfs@vger.kernel.org>,
+        <linux-api@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <bug-cpio@gnu.org>,
+        <zohar@linux.vnet.ibm.com>, <silviu.vlasceanu@huawei.com>,
+        <dmitry.kasatkin@huawei.com>, <takondra@cisco.com>,
+        <kamensky@cisco.com>, <arnd@arndb.de>,
+        <james.w.mcmechan@gmail.com>, <linux-kbuild@vger.kernel.org>,
+        Dirk Behme <dirk.behme@de.bosch.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [PATCH v4 0/3] initramfs: add support for xattrs in the initial
+ ram disk
+Message-ID: <20220609102627.GA3922@lxhi-065>
+References: <20190523121803.21638-1-roberto.sassu@huawei.com>
+ <cf9d08ca-74c7-c945-5bf9-7c3495907d1e@huawei.com>
+ <541e9ea1-024f-5c22-0b58-f8692e6c1eb1@landley.net>
+ <33cfb804-6a17-39f0-92b7-01d54e9c452d@huawei.com>
+ <1561909199.3985.33.camel@linux.ibm.com>
+ <45164486-782f-a442-e442-6f56f9299c66@huawei.com>
+ <1561991485.4067.14.camel@linux.ibm.com>
+ <f85ed711-f583-51cd-34e2-80018a592280@huawei.com>
+ <0c17bf9e-9b0b-b067-cf18-24516315b682@huawei.com>
 MIME-Version: 1.0
-References: <20220607153139.35588-1-cgzones@googlemail.com>
- <08A11E25-0208-4B4F-8759-75C1841E7017@dilger.ca> <CAOQ4uxh1QG_xJ0Ffh=wKksxWKm1ioazmc8SxeYYH9yHT1PMasg@mail.gmail.com>
-In-Reply-To: <CAOQ4uxh1QG_xJ0Ffh=wKksxWKm1ioazmc8SxeYYH9yHT1PMasg@mail.gmail.com>
-From:   =?UTF-8?Q?Christian_G=C3=B6ttsche?= <cgzones@googlemail.com>
-Date:   Thu, 9 Jun 2022 11:14:45 +0200
-Message-ID: <CAJ2a_DdpvaXxoWKJhVww3=xGcp5n4O3LZ+n5dZMh8pUb9WZM_w@mail.gmail.com>
-Subject: Re: [RFC PATCH] f*xattr: allow O_PATH descriptors
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Andreas Dilger <adilger@dilger.ca>,
-        SElinux list <selinux@vger.kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <0c17bf9e-9b0b-b067-cf18-24516315b682@huawei.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.72.94.24]
+X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
+ hi2exch02.adit-jv.com (10.72.92.28)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, 9 Jun 2022 at 06:36, Amir Goldstein <amir73il@gmail.com> wrote:
->
-> On Wed, Jun 8, 2022 at 9:01 PM Andreas Dilger <adilger@dilger.ca> wrote:
-> >
-> > On Jun 7, 2022, at 9:31 AM, Christian G=C3=B6ttsche <cgzones@googlemail=
-.com> wrote:
-> > >
-> > > From: Miklos Szeredi <mszeredi@redhat.com>
-> > >
-> > > Support file descriptors obtained via O_PATH for extended attribute
-> > > operations.
-> > >
-> > > Extended attributes are for example used by SELinux for the security
-> > > context of file objects. To avoid time-of-check-time-of-use issues wh=
-ile
-> > > setting those contexts it is advisable to pin the file in question an=
-d
-> > > operate on a file descriptor instead of the path name. This can be
-> > > emulated in userspace via /proc/self/fd/NN [1] but requires a procfs,
-> > > which might not be mounted e.g. inside of chroots, see[2].
-> >
-> > Will this allow get/set xattrs directly on symlinks?  That is one probl=
-em
-> > that we have with some of the xattrs that are inherited on symlinks, bu=
-t
-> > there is no way to change them.  Allowing setxattr directly on a symlin=
-k
-> > would be very useful.
->
-> It is possible.
-> See: https://github.com/libfuse/libfuse/pull/514
->
+Dear Roberto,
+Cc: Yamada-san, linux-kbuild
 
-Does it really? (It should not since xtattr(7) mentions some quota
-related issues.)
-In my tests setting extended attributes via O_PATH on symlinks fails
-with ENOTSUP (even as root), except for special ones, like
-"security.selinux".
+On Mi, Jul 24, 2019 at 05:34:53 +0200, Roberto Sassu wrote:
+> Is there anything I didn't address in this patch set, that is delaying
+> the review? I would appreciate if you can give me a feedback, positive
+> or negative.
+> 
+> Thanks a lot!
+> 
+> Roberto
 
-> That's why Miklos withdrew this patch:
-> https://lore.kernel.org/linux-fsdevel/CAOssrKeV7g0wPg4ozspG4R7a+5qARqWdG+=
-GxWtXB-MCfbVM=3D9A@mail.gmail.com/
->
-> Thanks,
-> Amir.
+Some of our users have recently asked for this patch series.
+
+Could you please feedback if this is the latest revision available or
+maybe there is a newer one developed and potentially not shared on LKML?
+
+Appreciate your time.
+
+Thanks and Best Regards,
+Eugeniu
