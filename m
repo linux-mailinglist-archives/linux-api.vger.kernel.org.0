@@ -2,147 +2,172 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E166C5453A3
-	for <lists+linux-api@lfdr.de>; Thu,  9 Jun 2022 20:05:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC31B5455A1
+	for <lists+linux-api@lfdr.de>; Thu,  9 Jun 2022 22:29:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243685AbiFISE7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 9 Jun 2022 14:04:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33888 "EHLO
+        id S1344304AbiFIU3Q (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 9 Jun 2022 16:29:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238630AbiFISE6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jun 2022 14:04:58 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEEDC20014D;
-        Thu,  9 Jun 2022 11:04:50 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 68E1661D06;
-        Thu,  9 Jun 2022 18:04:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27328C34114;
-        Thu,  9 Jun 2022 18:04:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1654797889;
-        bh=pASgOkIhhI/ZJTQJiOxQQ7BetAsfgOyqGy5+OxBbrvU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BTB64wygOFCsPdDhaQrt8ga2Ig64u/kXZw4tZeGJT0YWnHOFEVrA9wtMwDaA4po75
-         tHkRwZ4Z1OS5DEp1vz0DLZjhsVFXOj9cWFGJqF8h1e4ExnGDlLM66vc852A7UGTVkV
-         yEz7FlAClMKRrohieUz/v2D/e1sIUfPAptFYdXD6e5jM5B9XSjou+kMB5JSzyCWkav
-         Vy3bM2wpcA65mdDfoHZTzmvQ2m/dzKtFKO6ebtcmQ6ve9Ss5LpTv7FPNvFa0fZq3IE
-         X+WdUzskIEX0iCxmt+US9NfG657DMkWYw8HIeB0mVRrH72fJJ6NrdiTApIn1c/+71Q
-         Z1MZF3k8udZcQ==
-Date:   Thu, 9 Jun 2022 21:04:34 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "0x7f454c46@gmail.com" <0x7f454c46@gmail.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "adrian@lisas.de" <adrian@lisas.de>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "avagin@gmail.com" <avagin@gmail.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "bp@alien8.de" <bp@alien8.de>, "arnd@arndb.de" <arnd@arndb.de>,
-        "Moreira, Joao" <joao.moreira@intel.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "dave.martin@arm.com" <dave.martin@arm.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "Hansen, Dave" <dave.hansen@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
-Subject: Re: [PATCH 00/35] Shadow stacks for userspace
-Message-ID: <YqI2MgV9S1iQR9Mq@kernel.org>
-References: <fb7d6e4da58ae77be2c6321ee3f3487485b2886c.camel@intel.com>
- <40a3500c-835a-60b0-15bf-40c6622ad013@kernel.org>
- <YiZVbPwlgSFnhadv@kernel.org>
- <CAMe9rOrSLPKdL2gL=yx84zrs-u6ch1AVvjk3oqUe3thR5ZD=dQ@mail.gmail.com>
- <YpYDKVjMEYVlV6Ya@kernel.org>
- <d0c94eed6e3c7f35b78bab3f00aadebd960ee0d8.camel@intel.com>
- <YpZEDjxSPxUfMxDZ@kernel.org>
- <7c637f729e14f03d0df744568800fc986542e33d.camel@intel.com>
- <Ypcd8HQtrn7T41LF@kernel.org>
- <1d77dcab5d5ee7c565cfc62601d3a28ecf5a6bed.camel@intel.com>
+        with ESMTP id S1344324AbiFIU3O (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jun 2022 16:29:14 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BF3926EEB6
+        for <linux-api@vger.kernel.org>; Thu,  9 Jun 2022 13:29:12 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id o6so16052566plg.2
+        for <linux-api@vger.kernel.org>; Thu, 09 Jun 2022 13:29:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=C4/yJYyLya7rE6Jieokr56CujDpfPfuLcGNiEECS+QU=;
+        b=CjppovKB2YLi+/umkUgs7TGbUGFHqjbhz+/vuQpURnYcTn7Y/XOYbzw0Ykj8khDf1D
+         lU6118PzbLcDnYEohwwuQpWRqLnFFor88HMkhxJnTWzVFPYmlDCWI4t25w0FcOY9LsJ3
+         Xx+fRvY97K5Q4b9fyl2wIJsNDu8BFxuzsJC2MBkEM8rOua9Xl2avo9S7S1w8ygcb6WQp
+         l07wjz7O+ipoSddpByuvOEx8LLG0at/WFa44rE+IaodvVFqdep6gbL1AbyDvvOmSNBeS
+         GcNHdTH1imkTwWGYIM5B+u73KBCppBXzzkigAH/N4DrtNRxqLpENGyWxu6onk+j5isHM
+         5lXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=C4/yJYyLya7rE6Jieokr56CujDpfPfuLcGNiEECS+QU=;
+        b=ipVQyZOC3Mbv7vh9xfrgPIy30nPiP6xJ2So6RTx7KQzVsunFn/4s2Jo6urRF1nvw+T
+         uqicxesRRI623RstJIRjiFd9CW2qxMkToVsuXgvbZ4sl0K49QoHtX57ZLyGjEnUg3h6t
+         1WZN814EPsH7FQl960tQ/3Jqqn1I6N0XvqABL+w6eQcOgHdEP9q/E3FzB9xT4fH1zK3Q
+         auKzbBxbzVY9PNq8tZ8G9dIJAARtx82Pjon6VIwJkCOCRMxB0bzitIgUAI0EW9YJEPlg
+         weETmcpd4fZWtf0fkZKEnyCLCkI0xS+o+6mFLmOPg/vSlvqlAmsuUaoymHmao9DGKbRu
+         TJKw==
+X-Gm-Message-State: AOAM533EWJDT316ebTS/eQ4P5lfpM99Ryzt+acRr62BiGbsYWMZuIRXk
+        M+0jNy7Tk6FTo6CPuy+aL1TTug==
+X-Google-Smtp-Source: ABdhPJx0nBU6Y+TUh04OO6/IROXMWJ7hUc76Ud455mDwfSNlb8nAgIObkwH4NgXB0NSx9cPem36m4g==
+X-Received: by 2002:a17:90a:b284:b0:1e3:826b:d11d with SMTP id c4-20020a17090ab28400b001e3826bd11dmr5147277pjr.79.1654806551448;
+        Thu, 09 Jun 2022 13:29:11 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id e3-20020a17090301c300b0016511314b94sm17748369plh.159.2022.06.09.13.29.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jun 2022 13:29:10 -0700 (PDT)
+Date:   Thu, 9 Jun 2022 20:29:06 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Vishal Annapurve <vannapurve@google.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>,
+        Marc Orr <marcorr@google.com>, kvm list <kvm@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jun Nakajima <jun.nakajima@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Subject: Re: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <YqJYEheLiGI4KqXF@google.com>
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <CAGtprH_83CEC0U-cBR2FzHsxbwbGn0QJ87WFNOEet8sineOcbQ@mail.gmail.com>
+ <20220607065749.GA1513445@chaop.bj.intel.com>
+ <CAA03e5H_vOQS-qdZgacnmqP5T5jJLnEfm44yfRzJQ2KVu0Br+Q@mail.gmail.com>
+ <20220608021820.GA1548172@chaop.bj.intel.com>
+ <CAGtprH8xyf07jMN7ubTC__BvDj+z41uVGRiCJ7Rc5cv3KWg03w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1d77dcab5d5ee7c565cfc62601d3a28ecf5a6bed.camel@intel.com>
-X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <CAGtprH8xyf07jMN7ubTC__BvDj+z41uVGRiCJ7Rc5cv3KWg03w@mail.gmail.com>
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jun 01, 2022 at 05:24:26PM +0000, Edgecombe, Rick P wrote:
-> On Wed, 2022-06-01 at 11:06 +0300, Mike Rapoport wrote:
-> > > Yea, having something working is really great. My only hesitancy is
-> > > that, per a discussion on the LAM patchset, we are going to make
-> > > this
-> > > enabling API CET only (same semantics for though). I suppose the
-> > > locking API arch_prctl() could still be support other arch
-> > > features,
-> > > but it might be a second CET only regset. It's not the end of the
-> > > world.
-> > 
-> > The support for CET in criu is anyway experimental for now, if the
-> > kernel
-> > API will be slightly different in the end, we'll update criu.
-> > The important things are the ability to control tracee shadow stack
-> > from ptrace, the ability to map the shadow stack at fixed address and
-> > the
-> > ability to control the features at least from ptrace.
-> > As long as we have APIs that provide those, it should be Ok.
-> >  
-> > > I guess the other consideration is tieing CRIU to glibc
-> > > peculiarities.
-> > > Like even if we fix glibc, then CRIU may not work with some other
-> > > libc
-> > > or app that force disables for some weird reason. Is it supposed to
-> > > be
-> > > libc-agnostic?
-> > 
-> > Actually using the ptrace to control the CET features does not tie
-> > criu to
-> > glibc. The current proposal for the arch_prctl() allows libc to lock
-> > CET
-> > features and having a ptrace call to control the lock makes criu
-> > agnostic
-> > to libc behaviour.
+On Wed, Jun 08, 2022, Vishal Annapurve wrote:
+> ...
+> > With this patch series, it's actually even not possible for userspace VMM
+> > to allocate private page by a direct write, it's basically unmapped from
+> > there. If it really wants to, it should so something special, by intention,
+> > that's basically the conversion, which we should allow.
+> >
 > 
-> From staring at the glibc code, I'm suspicious something was weird with
-> your test setup, as I don't think it should be locking. But I guess to
-> be completely proper you would need to save and restore the lock state
-> anyway. So, ok yea, on balance probably better to have an extra
-> interface.
+> A VM can pass GPA backed by private pages to userspace VMM and when
+> Userspace VMM accesses the backing hva there will be pages allocated
+> to back the shared fd causing 2 sets of pages backing the same guest
+> memory range.
 > 
-> Should we make it a GET/SET interface?
+> > Thanks for bringing this up. But in my mind I still think userspace VMM
+> > can do and it's its responsibility to guarantee that, if that is hard
+> > required.
 
-Yes, I think so.
+That was my initial reaction too, but there are unfortunate side effects to punting
+this to userspace. 
 
--- 
-Sincerely yours,
-Mike.
+> By design, userspace VMM is the decision-maker for page
+> > conversion and has all the necessary information to know which page is
+> > shared/private. It also has the necessary knobs to allocate/free the
+> > physical pages for guest memory. Definitely, we should make userspace
+> > VMM more robust.
+> 
+> Making Userspace VMM more robust to avoid double allocation can get
+> complex, it will have to keep track of all in-use (by Userspace VMM)
+> shared fd memory to disallow conversion from shared to private and
+> will have to ensure that all guest supplied addresses belong to shared
+> GPA ranges.
+
+IMO, the complexity argument isn't sufficient justfication for introducing new
+kernel functionality.  If multiple processes are accessing guest memory then there
+already needs to be some amount of coordination, i.e. it can't be _that_ complex.
+
+My concern with forcing userspace to fully handle unmapping shared memory is that
+it may lead to additional performance overhead and/or noisy neighbor issues, even
+if all guests are well-behaved.
+
+Unnmapping arbitrary ranges will fragment the virtual address space and consume
+more memory for all the result VMAs.  The extra memory consumption isn't that big
+of a deal, and it will be self-healing to some extent as VMAs will get merged when
+the holes are filled back in (if the guest converts back to shared), but it's still
+less than desirable.
+
+More concerning is having to take mmap_lock for write for every conversion, which
+is very problematic for configurations where a single userspace process maps memory
+belong to multiple VMs.  Unmapping and remapping on every conversion will create a
+bottleneck, especially if a VM has sub-optimal behavior and is converting pages at
+a high rate.
+
+One argument is that userspace can simply rely on cgroups to detect misbehaving
+guests, but (a) those types of OOMs will be a nightmare to debug and (b) an OOM
+kill from the host is typically considered a _host_ issue and will be treated as
+a missed SLO.
+
+An idea for handling this in the kernel without too much complexity would be to
+add F_SEAL_FAULT_ALLOCATIONS (terrible name) that would prevent page faults from
+allocating pages, i.e. holes can only be filled by an explicit fallocate().  Minor
+faults, e.g. due to NUMA balancing stupidity, and major faults due to swap would
+still work, but writes to previously unreserved/unallocated memory would get a
+SIGSEGV on something it has mapped.  That would allow the userspace VMM to prevent
+unintentional allocations without having to coordinate unmapping/remapping across
+multiple processes.
