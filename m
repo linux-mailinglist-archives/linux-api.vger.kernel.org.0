@@ -2,135 +2,168 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E886D546980
-	for <lists+linux-api@lfdr.de>; Fri, 10 Jun 2022 17:38:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13A30546A29
+	for <lists+linux-api@lfdr.de>; Fri, 10 Jun 2022 18:14:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241798AbiFJPij convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Fri, 10 Jun 2022 11:38:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42174 "EHLO
+        id S1344979AbiFJQO3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 10 Jun 2022 12:14:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345163AbiFJPi3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 10 Jun 2022 11:38:29 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E70126D925;
-        Fri, 10 Jun 2022 08:38:27 -0700 (PDT)
-Received: from fraeml701-chm.china.huawei.com (unknown [172.18.147.226])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LKQ3K4K7hz67KPP;
-        Fri, 10 Jun 2022 23:33:33 +0800 (CST)
-Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
- fraeml701-chm.china.huawei.com (10.206.15.50) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2375.24; Fri, 10 Jun 2022 17:38:24 +0200
-Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
- fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2375.024;
- Fri, 10 Jun 2022 17:38:24 +0200
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-To:     Eugeniu Rosca <erosca@de.adit-jv.com>
-CC:     Rob Landley <rob@landley.net>, "hpa@zytor.com" <hpa@zytor.com>,
-        "Masahiro Yamada" <masahiroy@kernel.org>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        "Mimi Zohar" <zohar@linux.ibm.com>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "initramfs@vger.kernel.org" <initramfs@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "bug-cpio@gnu.org" <bug-cpio@gnu.org>,
-        "zohar@linux.vnet.ibm.com" <zohar@linux.vnet.ibm.com>,
-        Silviu Vlasceanu <Silviu.Vlasceanu@huawei.com>,
-        Dmitry Kasatkin <dmitry.kasatkin@huawei.com>,
-        "takondra@cisco.com" <takondra@cisco.com>,
-        "kamensky@cisco.com" <kamensky@cisco.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "james.w.mcmechan@gmail.com" <james.w.mcmechan@gmail.com>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        Dirk Behme <dirk.behme@de.bosch.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: RE: [PATCH v4 0/3] initramfs: add support for xattrs in the initial
- ram disk
-Thread-Topic: [PATCH v4 0/3] initramfs: add support for xattrs in the initial
- ram disk
-Thread-Index: AQHYe+tsPH1HC/8x8Uq7oovD5MPpKK1G5r2QgAG+ywCAACILEA==
-Date:   Fri, 10 Jun 2022 15:38:24 +0000
-Message-ID: <4bc349a59e4042f7831b1190914851fe@huawei.com>
-References: <cf9d08ca-74c7-c945-5bf9-7c3495907d1e@huawei.com>
- <541e9ea1-024f-5c22-0b58-f8692e6c1eb1@landley.net>
- <33cfb804-6a17-39f0-92b7-01d54e9c452d@huawei.com>
- <1561909199.3985.33.camel@linux.ibm.com>
- <45164486-782f-a442-e442-6f56f9299c66@huawei.com>
- <1561991485.4067.14.camel@linux.ibm.com>
- <f85ed711-f583-51cd-34e2-80018a592280@huawei.com>
- <0c17bf9e-9b0b-b067-cf18-24516315b682@huawei.com>
- <20220609102627.GA3922@lxhi-065>
- <21b3aeab20554a30b9796b82cc58e55b@huawei.com>
- <20220610153336.GA8881@lxhi-065>
-In-Reply-To: <20220610153336.GA8881@lxhi-065>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.204.63.21]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        with ESMTP id S241758AbiFJQO2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 10 Jun 2022 12:14:28 -0400
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 008981056B
+        for <linux-api@vger.kernel.org>; Fri, 10 Jun 2022 09:14:26 -0700 (PDT)
+Received: by mail-pg1-x52b.google.com with SMTP id y187so25224623pgd.3
+        for <linux-api@vger.kernel.org>; Fri, 10 Jun 2022 09:14:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=sqYpRJpV7hTVkJzWeySC/55ywPreerEYyAHVK7rq9LA=;
+        b=ZehwwLYuij7pbQaghWD2GrdTIOfQ1XgasEUmVI+nhvd82X4ZEWGF79XBvheRliFM+8
+         LQlrxByJVokCQ/gINBsFhOZhZjHXcpmAir492TXOaXI7iC/F7Bwi4ptRQtYUbYGyY5SQ
+         TxK5qW/wV8CCV8YqQLV5jWM8YEEm92a1WCcQVxigUczBkLKzhwgrSGPjDy4yzeckQMEl
+         k23GcmLFp8s0aWbczjuNfnjBEB9gzzj7nGZZJi5rfah1FRb/8MQ3Cd99incf77459IOk
+         fmV8msfIleb4V2r4FMWvWw0fr1RX3bQCUO2JP23SfG2qby97FTF15ddfD8Y7n8su8tG3
+         h2BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=sqYpRJpV7hTVkJzWeySC/55ywPreerEYyAHVK7rq9LA=;
+        b=XOP/2/6uRNa+QSTa+h05SG5HTv5eEDKp7dvslUR91pDQteCWHqERJYh5wfpzk0H1+f
+         39onE0dp/B51ocjVMCH8ocPyKP4MI0RYOK9TWBOLU2/MFc612TUUUPy+/y0r7n5CkfsC
+         8NkMa2d/cY4aogzmYts7Fj7VhhNFKXO2ONXhOH18CXu0vUxX7HrIusfNJFGZAHRhGUKz
+         iWzXa59LQ7pW/PAKkTBHcfmtY/B1KQpVG+QVoQYN90Q1+NHcKLdS7UieGNV1A3tYywRa
+         pGt1us6dPitxXNz/dezstWXzWOEODS1DMvxGhh6K7t7YEfZeTSZr160MZOdVFF5D2E6N
+         HicQ==
+X-Gm-Message-State: AOAM533lDjzGaGJ42xETfAx3vSyyymHu2sDrdflD5netCS2X9xCEInJB
+        8yLoVrcx4dJ44OK7s+scvmiYqw==
+X-Google-Smtp-Source: ABdhPJzxrryZznx/9GnvIIDqh+c23V5/Xt5ZsJHD0N8PohIbtiXWvM06mGWU66DmH3LeRvNyTftAHA==
+X-Received: by 2002:a63:5:0:b0:3fe:2558:677 with SMTP id 5-20020a630005000000b003fe25580677mr14572323pga.113.1654877666234;
+        Fri, 10 Jun 2022 09:14:26 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id r11-20020a170902e3cb00b0015e8d4eb28csm18669442ple.214.2022.06.10.09.14.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jun 2022 09:14:25 -0700 (PDT)
+Date:   Fri, 10 Jun 2022 16:14:21 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     Andy Lutomirski <luto@kernel.org>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Subject: Re: [PATCH v6 4/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <YqNt3Sgzge5Rph/R@google.com>
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <20220519153713.819591-5-chao.p.peng@linux.intel.com>
+ <8840b360-cdb2-244c-bfb6-9a0e7306c188@kernel.org>
+ <YofeZps9YXgtP3f1@google.com>
+ <20220523132154.GA947536@chaop.bj.intel.com>
+ <YoumuHUmgM6TH20S@google.com>
+ <20220530132613.GA1200843@chaop.bj.intel.com>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220530132613.GA1200843@chaop.bj.intel.com>
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-> From: Eugeniu Rosca [mailto:erosca@de.adit-jv.com]
-> Sent: Friday, June 10, 2022 5:34 PM
-> Hello Roberto,
+On Mon, May 30, 2022, Chao Peng wrote:
+> On Mon, May 23, 2022 at 03:22:32PM +0000, Sean Christopherson wrote:
+> > Actually, if the semantics are that userspace declares memory as private, then we
+> > can reuse KVM_MEMORY_ENCRYPT_REG_REGION and KVM_MEMORY_ENCRYPT_UNREG_REGION.  It'd
+> > be a little gross because we'd need to slightly redefine the semantics for TDX, SNP,
+> > and software-protected VM types, e.g. the ioctls() currently require a pre-exisitng
+> > memslot.  But I think it'd work...
 > 
-> On Do, Jun 09, 2022 at 11:05:45 +0000, Roberto Sassu wrote:
-> > > From: Eugeniu Rosca [mailto:erosca@de.adit-jv.com]
-> > > Sent: Thursday, June 9, 2022 12:26 PM
-> > > Dear Roberto,
-> > > Cc: Yamada-san, linux-kbuild
-> > >
-> > > On Mi, Jul 24, 2019 at 05:34:53 +0200, Roberto Sassu wrote:
-> > > > Is there anything I didn't address in this patch set, that is delaying
-> > > > the review? I would appreciate if you can give me a feedback, positive
-> > > > or negative.
-> > > >
-> > > > Thanks a lot!
-> > > >
-> > > > Roberto
-> > >
-> > > Some of our users have recently asked for this patch series.
-> >
-> > Hello
-> >
-> > thanks for your interest in this patch set.
-> >
-> > > Could you please feedback if this is the latest revision available or
-> > > maybe there is a newer one developed and potentially not shared on LKML?
-> >
-> > Yes, it is the latest revision available. There might have been few
-> > fixes in the final code. You may want to have a look at:
+> These existing ioctls looks good for TDX and probably SNP as well. For
+> softrware-protected VM types, it may not be enough. Maybe for the first
+> step we can reuse this for all hardware based solutions and invent new
+> interface when software-protected solution gets really supported.
 > 
-> Many thanks for the links to the updated patch revisions. It looks
-> like the new versions added a couple of bugfixes and refinements.
-> 
-> With more users now using this feature, do you think there is a higher
-> chance for upstreaming, compared to 2019 (original submission date)?
+> There is semantics difference for fd-based private memory. Current above
+> two ioctls() use userspace addreess(hva) while for fd-based it should be
+> fd+offset, and probably it's better to use gpa in this case. Then we
+> will need change existing semantics and break backward-compatibility.
 
-Hello Eugeniu
+My thought was to keep the existing semantics for VMs with type==0, i.e. SEV and
+SEV-ES VMs.  It's a bit gross, but the pinning behavior is a dead end for SNP and
+TDX, so it effectively needs to be deprecated anyways.  I'm definitely not opposed
+to a new ioctl if Paolo or others think this is too awful, but burning an ioctl
+for this seems wasteful.
 
-I would be happy to address the remaining concerns, or take more
-suggestions, and then develop a new version of the patch set.
+Then generic KVM can do something like:
 
-Thanks
+	case KVM_MEMORY_ENCRYPT_REG_REGION:
+	case KVM_MEMORY_ENCRYPT_UNREG_REGION:
+		struct kvm_enc_region region;
 
-Roberto
+		if (!kvm_arch_vm_supports_private_memslots(kvm))
+			goto arch_vm_ioctl;
 
-HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-Managing Director: Li Peng, Yang Xi, Li He
+		r = -EFAULT;
+		if (copy_from_user(&region, argp, sizeof(region)))
+			goto out;
+
+		r = kvm_set_encrypted_region(ioctl, &region);
+		break;
+	default:
+arch_vm_ioctl:
+		r = kvm_arch_vm_ioctl(filp, ioctl, arg);
+
+
+where common KVM provides
+
+  __weak void kvm_arch_vm_supports_private_memslots(struct kvm *kvm)
+  {
+	return false;
+  }
+
+and x86 overrides that to
+
+  bool kvm_arch_vm_supports_private_memslots(struct kvm *kvm)
+  {
+  	/* I can't remember what we decided on calling type '0' VMs. */
+	return !!kvm->vm_type;
+  }
+
+and if someone ever wants to enable private memslot for SEV/SEV-ES guests we can
+always add a capability or even a new VM type.
+
+pKVM on arm can then obviously implement kvm_arch_vm_supports_private_memslots()
+to grab whatever identifies a pKVM VM.
