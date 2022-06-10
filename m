@@ -2,191 +2,118 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9963B545905
-	for <lists+linux-api@lfdr.de>; Fri, 10 Jun 2022 02:11:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 506C954696D
+	for <lists+linux-api@lfdr.de>; Fri, 10 Jun 2022 17:33:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238951AbiFJALj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 9 Jun 2022 20:11:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47330 "EHLO
+        id S234379AbiFJPdq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 10 Jun 2022 11:33:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238404AbiFJALh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 9 Jun 2022 20:11:37 -0400
-Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com [IPv6:2001:4860:4864:20::2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CDD34C41A
-        for <linux-api@vger.kernel.org>; Thu,  9 Jun 2022 17:11:35 -0700 (PDT)
-Received: by mail-oa1-x2e.google.com with SMTP id 586e51a60fabf-f2cbceefb8so1381369fac.11
-        for <linux-api@vger.kernel.org>; Thu, 09 Jun 2022 17:11:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lN+fOqwv9bBcDqIpukqHItG5mOqsK9h2lCdbXTf1cPM=;
-        b=DayT0SdBt1ymTKyry+8RI8dWvFXfKXAgjmO8VhNnB1yoDZK63YuzcCUTHD3X1Z3+t5
-         KxmGEbccYszaa9LA1rH+uPvXkUot/k7y+eYJ5dVw1vcNDUZMV9ll/y/F+7N08dr0Wzcn
-         baBzETzPA15Z2tn9QgoF5S7+WOA0j8RJa/fH3l+HKIsIdEIRN75ENG6RuJQTaJE4f7s+
-         tdQ6ePOMDHk+W48X2uZ7KmmqPYEcwu7pMK65fJXjpYRLWoV5X97j/IkcgrkGUpYpxwIB
-         E5LIO66muSm/XASIShQU2K4+YUS/ejVNHYtSotPk8eFHXkkvvETkJhzMm8POKoBM9Wup
-         sSZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lN+fOqwv9bBcDqIpukqHItG5mOqsK9h2lCdbXTf1cPM=;
-        b=HhNcDLS1WJNwhEWuMvpDC6/jPYCCRuCX8+Q61MJlLxxUrhXXksYhOd2cq+LTGYN845
-         iIebC1xdUfM1Oegql52AYF8iovVNWAraVt41FvczV+T6Yt/FIfFZSUwWG+K4KcRfkQc8
-         fJvP2zruFW9uvtZMOIaHArQizT9P3W39FkB3cmAIZQ4Y9+hnKq5YZ9yGugVT6+YkFnPx
-         FZHssorcJePzxsQfIKl0a/Eckqsq3ysmjDyWzco6lMlv0gTq4+PHlERwzesfi9YoLCX6
-         wPcJjNbflxfFkoQVOuj/tGVyb9P2t+NgdrzbNd1scYPUdWQ5Al1fe6Q2GWnuqmhxjnBz
-         lasQ==
-X-Gm-Message-State: AOAM5321DqiyHO4RdW9yCJC3gCKsUQenuLWi3YMPLSFKv7eVipV3JWAM
-        98t5STYbJgxkzATAq/7xznnV6UoukY4qfuQhE7Xr7A==
-X-Google-Smtp-Source: ABdhPJzdaT0C30mX9Im9rqGsL6x1Rmi0294lLn68XE92+pqgxWwSN0AqB6f3CMYnEGDUJ7ZH1btvuZX8xfTHzXelZbU=
-X-Received: by 2002:a05:6870:b616:b0:e2:f8bb:5eb with SMTP id
- cm22-20020a056870b61600b000e2f8bb05ebmr3338490oab.218.1654819893261; Thu, 09
- Jun 2022 17:11:33 -0700 (PDT)
+        with ESMTP id S233020AbiFJPdp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 10 Jun 2022 11:33:45 -0400
+Received: from hi1smtp01.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC7BE17ED36;
+        Fri, 10 Jun 2022 08:33:43 -0700 (PDT)
+Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by hi1smtp01.de.adit-jv.com (Postfix) with ESMTPS id BB6A5520171;
+        Fri, 10 Jun 2022 17:33:41 +0200 (CEST)
+Received: from lxhi-065 (10.72.94.27) by hi2exch02.adit-jv.com (10.72.92.28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2308.27; Fri, 10 Jun
+ 2022 17:33:40 +0200
+Date:   Fri, 10 Jun 2022 17:33:36 +0200
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Roberto Sassu <roberto.sassu@huawei.com>
+CC:     Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Rob Landley <rob@landley.net>, "hpa@zytor.com" <hpa@zytor.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "initramfs@vger.kernel.org" <initramfs@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "bug-cpio@gnu.org" <bug-cpio@gnu.org>,
+        "zohar@linux.vnet.ibm.com" <zohar@linux.vnet.ibm.com>,
+        Silviu Vlasceanu <Silviu.Vlasceanu@huawei.com>,
+        Dmitry Kasatkin <dmitry.kasatkin@huawei.com>,
+        "takondra@cisco.com" <takondra@cisco.com>,
+        "kamensky@cisco.com" <kamensky@cisco.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "james.w.mcmechan@gmail.com" <james.w.mcmechan@gmail.com>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        Dirk Behme <dirk.behme@de.bosch.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [PATCH v4 0/3] initramfs: add support for xattrs in the initial
+ ram disk
+Message-ID: <20220610153336.GA8881@lxhi-065>
+References: <cf9d08ca-74c7-c945-5bf9-7c3495907d1e@huawei.com>
+ <541e9ea1-024f-5c22-0b58-f8692e6c1eb1@landley.net>
+ <33cfb804-6a17-39f0-92b7-01d54e9c452d@huawei.com>
+ <1561909199.3985.33.camel@linux.ibm.com>
+ <45164486-782f-a442-e442-6f56f9299c66@huawei.com>
+ <1561991485.4067.14.camel@linux.ibm.com>
+ <f85ed711-f583-51cd-34e2-80018a592280@huawei.com>
+ <0c17bf9e-9b0b-b067-cf18-24516315b682@huawei.com>
+ <20220609102627.GA3922@lxhi-065>
+ <21b3aeab20554a30b9796b82cc58e55b@huawei.com>
 MIME-Version: 1.0
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <CAGtprH_83CEC0U-cBR2FzHsxbwbGn0QJ87WFNOEet8sineOcbQ@mail.gmail.com>
- <20220607065749.GA1513445@chaop.bj.intel.com> <CAA03e5H_vOQS-qdZgacnmqP5T5jJLnEfm44yfRzJQ2KVu0Br+Q@mail.gmail.com>
- <20220608021820.GA1548172@chaop.bj.intel.com>
-In-Reply-To: <20220608021820.GA1548172@chaop.bj.intel.com>
-From:   Marc Orr <marcorr@google.com>
-Date:   Thu, 9 Jun 2022 17:11:21 -0700
-Message-ID: <CAA03e5GmJw8u83=OG2wYrhdO81Sx5Jme-jkUnoTMQ7cc_o7u=w@mail.gmail.com>
-Subject: Re: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Vishal Annapurve <vannapurve@google.com>,
-        kvm list <kvm@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Jun Nakajima <jun.nakajima@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <21b3aeab20554a30b9796b82cc58e55b@huawei.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.72.94.27]
+X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
+ hi2exch02.adit-jv.com (10.72.92.28)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jun 7, 2022 at 7:22 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
->
-> On Tue, Jun 07, 2022 at 05:55:46PM -0700, Marc Orr wrote:
-> > On Tue, Jun 7, 2022 at 12:01 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+Hello Roberto,
+
+On Do, Jun 09, 2022 at 11:05:45 +0000, Roberto Sassu wrote:
+> > From: Eugeniu Rosca [mailto:erosca@de.adit-jv.com]
+> > Sent: Thursday, June 9, 2022 12:26 PM
+> > Dear Roberto,
+> > Cc: Yamada-san, linux-kbuild
+> > 
+> > On Mi, Jul 24, 2019 at 05:34:53 +0200, Roberto Sassu wrote:
+> > > Is there anything I didn't address in this patch set, that is delaying
+> > > the review? I would appreciate if you can give me a feedback, positive
+> > > or negative.
 > > >
-> > > On Mon, Jun 06, 2022 at 01:09:50PM -0700, Vishal Annapurve wrote:
-> > > > >
-> > > > > Private memory map/unmap and conversion
-> > > > > ---------------------------------------
-> > > > > Userspace's map/unmap operations are done by fallocate() ioctl on the
-> > > > > backing store fd.
-> > > > >   - map: default fallocate() with mode=0.
-> > > > >   - unmap: fallocate() with FALLOC_FL_PUNCH_HOLE.
-> > > > > The map/unmap will trigger above memfile_notifier_ops to let KVM map/unmap
-> > > > > secondary MMU page tables.
-> > > > >
-> > > > ....
-> > > > >    QEMU: https://github.com/chao-p/qemu/tree/privmem-v6
-> > > > >
-> > > > > An example QEMU command line for TDX test:
-> > > > > -object tdx-guest,id=tdx \
-> > > > > -object memory-backend-memfd-private,id=ram1,size=2G \
-> > > > > -machine q35,kvm-type=tdx,pic=no,kernel_irqchip=split,memory-encryption=tdx,memory-backend=ram1
-> > > > >
-> > > >
-> > > > There should be more discussion around double allocation scenarios
-> > > > when using the private fd approach. A malicious guest or buggy
-> > > > userspace VMM can cause physical memory getting allocated for both
-> > > > shared (memory accessible from host) and private fds backing the guest
-> > > > memory.
-> > > > Userspace VMM will need to unback the shared guest memory while
-> > > > handling the conversion from shared to private in order to prevent
-> > > > double allocation even with malicious guests or bugs in userspace VMM.
+> > > Thanks a lot!
 > > >
-> > > I don't know how malicious guest can cause that. The initial design of
-> > > this serie is to put the private/shared memory into two different
-> > > address spaces and gives usersapce VMM the flexibility to convert
-> > > between the two. It can choose respect the guest conversion request or
-> > > not.
-> >
-> > For example, the guest could maliciously give a device driver a
-> > private page so that a host-side virtual device will blindly write the
-> > private page.
->
-> With this patch series, it's actually even not possible for userspace VMM
-> to allocate private page by a direct write, it's basically unmapped from
-> there. If it really wants to, it should so something special, by intention,
-> that's basically the conversion, which we should allow.
+> > > Roberto
+> > 
+> > Some of our users have recently asked for this patch series.
+> 
+> Hello
+> 
+> thanks for your interest in this patch set.
+> 
+> > Could you please feedback if this is the latest revision available or
+> > maybe there is a newer one developed and potentially not shared on LKML?
+> 
+> Yes, it is the latest revision available. There might have been few
+> fixes in the final code. You may want to have a look at:
 
-I think Vishal did a better job to explain this scenario in his last
-reply than I did.
+Many thanks for the links to the updated patch revisions. It looks
+like the new versions added a couple of bugfixes and refinements.
 
-> > > It's possible for a usrspace VMM to cause double allocation if it fails
-> > > to call the unback operation during the conversion, this may be a bug
-> > > or not. Double allocation may not be a wrong thing, even in conception.
-> > > At least TDX allows you to use half shared half private in guest, means
-> > > both shared/private can be effective. Unbacking the memory is just the
-> > > current QEMU implementation choice.
-> >
-> > Right. But the idea is that this patch series should accommodate all
-> > of the CVM architectures. Or at least that's what I know was
-> > envisioned last time we discussed this topic for SNP [*].
->
-> AFAICS, this series should work for both TDX and SNP, and other CVM
-> architectures. I don't see where TDX can work but SNP cannot, or I
-> missed something here?
+With more users now using this feature, do you think there is a higher
+chance for upstreaming, compared to 2019 (original submission date)?
 
-Agreed. I was just responding to the "At least TDX..." bit. Sorry for
-any confusion.
-
-> >
-> > Regardless, it's important to ensure that the VM respects its memory
-> > budget. For example, within Google, we run VMs inside of containers.
-> > So if we double allocate we're going to OOM. This seems acceptable for
-> > an early version of CVMs. But ultimately, I think we need a more
-> > robust way to ensure that the VM operates within its memory container.
-> > Otherwise, the OOM is going to be hard to diagnose and distinguish
-> > from a real OOM.
->
-> Thanks for bringing this up. But in my mind I still think userspace VMM
-> can do and it's its responsibility to guarantee that, if that is hard
-> required. By design, userspace VMM is the decision-maker for page
-> conversion and has all the necessary information to know which page is
-> shared/private. It also has the necessary knobs to allocate/free the
-> physical pages for guest memory. Definitely, we should make userspace
-> VMM more robust.
-
-Vishal and Sean did a better job to articulate the concern in their
-most recent replies.
+Best Regards,
+Eugeniu
