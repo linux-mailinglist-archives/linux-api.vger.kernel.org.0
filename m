@@ -2,110 +2,172 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 11B2A54A8AC
-	for <lists+linux-api@lfdr.de>; Tue, 14 Jun 2022 07:25:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6730D54A9BA
+	for <lists+linux-api@lfdr.de>; Tue, 14 Jun 2022 08:49:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237754AbiFNFZW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 14 Jun 2022 01:25:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38712 "EHLO
+        id S1352380AbiFNGs5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 14 Jun 2022 02:48:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232427AbiFNFZW (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Jun 2022 01:25:22 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFDDB26AC4;
-        Mon, 13 Jun 2022 22:25:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 15EF6CE181B;
-        Tue, 14 Jun 2022 05:25:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9603C3411B;
-        Tue, 14 Jun 2022 05:25:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1655184315;
-        bh=yVv5NBSoS8jRKy5ozRnvXgCu1M0fCe/nJRys6szNJx8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=V3vMc4a/nCEXDbFNP/4wKJ/IRtOdNoppRm3KT6glab4LkOZA75EmhzGbtaA1xJ+t3
-         zvkLdo81p05dnXKT+qKQuo6DrZwA4lYN2s4XqyUV53L250GdKda6QGguEubwN+2Tiu
-         d4A9dR7WcBIqi94WqvepH+Mo3dRm4pzTy62UhK2d0tWAEz0EaNQA/qG3VSjqGh/ZGP
-         BfUQkMRf8IKtoMh07F+Bm4ksrN2SWxyqmzziAxnkoynG7uOflh+qdDkUkyMvYFq2EJ
-         VUGOVK9SwNY9c0UT3JGvInxETeshxNeq+5qJGUa9Q4x+rKmPDCLKDNxg8c1GJk61r1
-         KqP5kl72VRMGw==
-Date:   Mon, 13 Jun 2022 22:25:12 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Dave Chinner <david@fromorbit.com>
-Cc:     "Darrick J. Wong" <djwong@kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-fscrypt@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Keith Busch <kbusch@kernel.org>
-Subject: Re: [RFC PATCH v2 1/7] statx: add I/O alignment information
-Message-ID: <YqgbuDbdH2OLcbC7@sol.localdomain>
-References: <20220518235011.153058-1-ebiggers@kernel.org>
- <20220518235011.153058-2-ebiggers@kernel.org>
- <YobNXbYnhBiqniTH@magnolia>
- <20220520032739.GB1098723@dread.disaster.area>
+        with ESMTP id S1352348AbiFNGs4 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Jun 2022 02:48:56 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0B42393D0;
+        Mon, 13 Jun 2022 23:48:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1655189335; x=1686725335;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=wuX5JnFrxSq386a6TH37odo/ge8jsmW2qkPxXWwsMwk=;
+  b=XqyBeM+SC0sn1m7v6sUkGKi3+OmUwaPu8oyiBwspM2lG1Iic58DIA9vw
+   BsBnIj1O+Wjy1LFUBhFzfVmct8m2xyi9ZXj648n+QmmsfIwd9Y62S1vxg
+   rIs9oFIPj4C7JjaL5z475EnQcUC3dP8Qzi6kJu36+Fm601u6gGVi4LDlA
+   UQbsc1ZFe7GHxZ3E3ls4b4Ua8RwQMk1G71H3wU06W3yz763pklJWFcm7M
+   UksybhVQ+ibZYou2JPRLTqdstS+yj2IofS4ch5SpC87yuCVVhuuuhYq1I
+   x7Dd/G8pOLEfKVJnXbWGRupqhA2wEr8cdoO6ZRQYAjXy7n5Vrjkvptcxi
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10377"; a="303933443"
+X-IronPort-AV: E=Sophos;i="5.91,299,1647327600"; 
+   d="scan'208";a="303933443"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2022 23:48:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,299,1647327600"; 
+   d="scan'208";a="582566724"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+  by orsmga007.jf.intel.com with ESMTP; 13 Jun 2022 23:48:44 -0700
+Date:   Tue, 14 Jun 2022 14:45:22 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Andy Lutomirski <luto@kernel.org>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Subject: Re: [PATCH v6 4/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <20220614064522.GA1783435@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <20220519153713.819591-5-chao.p.peng@linux.intel.com>
+ <8840b360-cdb2-244c-bfb6-9a0e7306c188@kernel.org>
+ <YofeZps9YXgtP3f1@google.com>
+ <20220523132154.GA947536@chaop.bj.intel.com>
+ <YoumuHUmgM6TH20S@google.com>
+ <20220530132613.GA1200843@chaop.bj.intel.com>
+ <YqNt3Sgzge5Rph/R@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220520032739.GB1098723@dread.disaster.area>
-X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <YqNt3Sgzge5Rph/R@google.com>
+X-Spam-Status: No, score=-8.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, May 20, 2022 at 01:27:39PM +1000, Dave Chinner wrote:
-> > > * stx_offset_align_optimal: the alignment (in bytes) suggested for file
-> > >   offsets and I/O segment lengths to get optimal performance.  This
-> > >   applies to both DIO and buffered I/O.  It differs from stx_blocksize
-> > >   in that stx_offset_align_optimal will contain the real optimum I/O
-> > >   size, which may be a large value.  In contrast, for compatibility
-> > >   reasons stx_blocksize is the minimum size needed to avoid page cache
-> > >   read/write/modify cycles, which may be much smaller than the optimum
-> > >   I/O size.  For more details about the motivation for this field, see
-> > >   https://lore.kernel.org/r/20220210040304.GM59729@dread.disaster.area
+On Fri, Jun 10, 2022 at 04:14:21PM +0000, Sean Christopherson wrote:
+> On Mon, May 30, 2022, Chao Peng wrote:
+> > On Mon, May 23, 2022 at 03:22:32PM +0000, Sean Christopherson wrote:
+> > > Actually, if the semantics are that userspace declares memory as private, then we
+> > > can reuse KVM_MEMORY_ENCRYPT_REG_REGION and KVM_MEMORY_ENCRYPT_UNREG_REGION.  It'd
+> > > be a little gross because we'd need to slightly redefine the semantics for TDX, SNP,
+> > > and software-protected VM types, e.g. the ioctls() currently require a pre-exisitng
+> > > memslot.  But I think it'd work...
 > > 
-> > Hmm.  So I guess this is supposed to be the filesystem's best guess at
-> > the IO size that will minimize RMW cycles in the entire stack?  i.e. if
-> > the user does not want RMW of pagecache pages, of file allocation units
-> > (if COW is enabled), of RAID stripes, or in the storage itself, then it
-> > should ensure that all IOs are aligned to this value?
+> > These existing ioctls looks good for TDX and probably SNP as well. For
+> > softrware-protected VM types, it may not be enough. Maybe for the first
+> > step we can reuse this for all hardware based solutions and invent new
+> > interface when software-protected solution gets really supported.
 > > 
-> > I guess that means for XFS it's effectively max(pagesize, i_blocksize,
-> > bdev io_opt, sb_width, and (pretend XFS can reflink the realtime volume)
-> > the rt extent size)?  I didn't see a manpage update for statx(2) but
-> > that's mostly what I'm interested in. :)
+> > There is semantics difference for fd-based private memory. Current above
+> > two ioctls() use userspace addreess(hva) while for fd-based it should be
+> > fd+offset, and probably it's better to use gpa in this case. Then we
+> > will need change existing semantics and break backward-compatibility.
 > 
-> Yup, xfs_stat_blksize() should give a good idea of what we should
-> do. It will end up being pretty much that, except without the need
-> to a mount option to turn on the sunit/swidth return, and always
-> taking into consideration extent size hints rather than just doing
-> that for RT inodes...
+> My thought was to keep the existing semantics for VMs with type==0, i.e. SEV and
+> SEV-ES VMs.  It's a bit gross, but the pinning behavior is a dead end for SNP and
+> TDX, so it effectively needs to be deprecated anyways. 
 
-While working on the man-pages update, I'm having second thoughts about the
-stx_offset_align_optimal field.  Does any filesystem other than XFS actually
-want stx_offset_align_optimal, when st[x]_blksize already exists?  Many network
-filesystems, as well as tmpfs when hugepages are enabled, already report large
-(megabytes) sizes in st[x]_blksize.  And all documentation I looked at (man
-pages for Linux, POSIX, FreeBSD, NetBSD, macOS) documents st_blksize as
-something like "the preferred blocksize for efficient I/O".  It's never
-documented as being limited to PAGE_SIZE, which makes sense because it's not.
+Yes agreed.
 
-So stx_offset_align_optimal seems redundant, and it is going to confuse
-application developers who will have to decide when to use st[x]_blksize and
-when to use stx_offset_align_optimal.
+> I'm definitely not opposed
+> to a new ioctl if Paolo or others think this is too awful, but burning an ioctl
+> for this seems wasteful.
 
-Also, applications that don't work well with huge reported optimal I/O sizes
-would still continue to exist, as it will remain possible for applications to
-only be tested on filesystems that report a small optimal I/O size.
+Yes, I also feel confortable if it's acceptable to reuse kvm_enc_region
+to pass _gpa_ range for this new type.
 
-Perhaps for now we should just add STATX_DIOALIGN instead of STATX_IOALIGN,
-leaving out the stx_offset_align_optimal field?  What do people think?
+> 
+> Then generic KVM can do something like:
+> 
+> 	case KVM_MEMORY_ENCRYPT_REG_REGION:
+> 	case KVM_MEMORY_ENCRYPT_UNREG_REGION:
+> 		struct kvm_enc_region region;
+> 
+> 		if (!kvm_arch_vm_supports_private_memslots(kvm))
+> 			goto arch_vm_ioctl;
+> 
+> 		r = -EFAULT;
+> 		if (copy_from_user(&region, argp, sizeof(region)))
+> 			goto out;
+> 
+> 		r = kvm_set_encrypted_region(ioctl, &region);
+> 		break;
+> 	default:
+> arch_vm_ioctl:
+> 		r = kvm_arch_vm_ioctl(filp, ioctl, arg);
+> 
+> 
+> where common KVM provides
+> 
+>   __weak void kvm_arch_vm_supports_private_memslots(struct kvm *kvm)
+>   {
+> 	return false;
+>   }
 
-- Eric
+I already had kvm_arch_private_mem_supported() introduced in patch-07
+so that can be reused.
+
+> 
+> and x86 overrides that to
+> 
+>   bool kvm_arch_vm_supports_private_memslots(struct kvm *kvm)
+>   {
+>   	/* I can't remember what we decided on calling type '0' VMs. */
+> 	return !!kvm->vm_type;
+>   }
+> 
+> and if someone ever wants to enable private memslot for SEV/SEV-ES guests we can
+> always add a capability or even a new VM type.
+> 
+> pKVM on arm can then obviously implement kvm_arch_vm_supports_private_memslots()
+> to grab whatever identifies a pKVM VM.
