@@ -2,83 +2,135 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA39054B21A
-	for <lists+linux-api@lfdr.de>; Tue, 14 Jun 2022 15:15:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CCCCB54B7D2
+	for <lists+linux-api@lfdr.de>; Tue, 14 Jun 2022 19:38:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235802AbiFNNPo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 14 Jun 2022 09:15:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33538 "EHLO
+        id S236164AbiFNRh6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 14 Jun 2022 13:37:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232474AbiFNNPn (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Jun 2022 09:15:43 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4101A36B5F
-        for <linux-api@vger.kernel.org>; Tue, 14 Jun 2022 06:15:42 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id o37-20020a05600c512500b0039c4ba4c64dso6213399wms.2
-        for <linux-api@vger.kernel.org>; Tue, 14 Jun 2022 06:15:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=SzYFHVgWm0kd+ASxjFHC1PCrJjtBcqT81Pevzo2pEAE=;
-        b=Ga6bnhBErS4nTSO0/ofz7v4Quyidt5EBEMlHYykXUrFOzJRu3VTNBgp8TNHAu01yWy
-         eXsYD5FGhEaPEA2MkJiPxUCTlBzEUvcvDax0yz89Ue8eLvH3I8CNWgZtj8lxHgd8cSJT
-         o4i4u6TKMY4JCuiuTmYflku22FVjqmzl7NXzgGN9NrCdXXIHjMj0Yp5/mOVHeCneUDC0
-         8R3377NqPV5u2fc4oGtCkyBuNum26FF8WzUjbcjQaFrPS10aqrZ2NBC77kTnudygp1Su
-         gS3yE9vuBgls3i7gDYxVRw8GxEZLBgGgijhZ4exlqZlvG01BuXsnov8gGBLLoH4bvJCH
-         BNkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=SzYFHVgWm0kd+ASxjFHC1PCrJjtBcqT81Pevzo2pEAE=;
-        b=PofCfUyyUYZTbxhfR95wQgUqqdL+CtsVvWnKgxwbhJ/g4k10x/cB1J/P2FhPuy+CK1
-         uDGsdV7RxHg4xnupBKUlDx7zLevgDcutrUTTzrgib5aZL+RRggrl9oi7RHre1ZHjnfmg
-         H7K8jMt1GarWCm6d5s03+eK/816Vcdeg+JjdlStryWnwFTtzqMUoWf9RGamAHt9ubX3l
-         hhj8K5OvX9dA+UiWQYOs7xYWPuVh3gfZ78MmwAuwhViH/nCzwXCDTfKfsHC/cMXX8tx3
-         bGiOhKwv8slmH1mhygE23q+3/zMgjYHHJlhpRhMGrkXL++lh+MF4lK5/7KMERIwmmiBq
-         v+pQ==
-X-Gm-Message-State: AOAM530ydpakTCRltBNPJjq47Rp9IbW+wCLmVRr28H7mqRQohYvMSIaq
-        IZXndOEAXDXiDOZfWPtqSQZTNp2V/HOrrtOzAs6kbm6f+ds=
-X-Google-Smtp-Source: ABdhPJxY/C8NFhW4fNU8nYvu8RzBSDt2EoWQiXb42R3DbsKC9Yg3AHKfBBTx3P+H+TQ9ucB9QZpWApvdmR5fxpzGcTY=
-X-Received: by 2002:a7b:c752:0:b0:39c:4853:24f8 with SMTP id
- w18-20020a7bc752000000b0039c485324f8mr4029841wmk.184.1655212540620; Tue, 14
- Jun 2022 06:15:40 -0700 (PDT)
+        with ESMTP id S243618AbiFNRhz (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 14 Jun 2022 13:37:55 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A0A5E73
+        for <linux-api@vger.kernel.org>; Tue, 14 Jun 2022 10:37:54 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B4242B81A25
+        for <linux-api@vger.kernel.org>; Tue, 14 Jun 2022 17:37:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61893C341CE
+        for <linux-api@vger.kernel.org>; Tue, 14 Jun 2022 17:37:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1655228271;
+        bh=IfvLnQR788L8QWGOY03Cidk5AO0MFCOejaXVfQOMPCw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=rVsqTEMCOYtQg0EhaeIyrGXi4SPR+xCja/Zzrm4/rXKs2rHudfxst4/iDfEc7IQHK
+         231UQkTDY6d6nmdAlt1kRM+zRgLLBDu035jXo5xVowLng3mEh3oiXDy8mQR20Hacmd
+         LnzQlaeG3xrE2iaFi/ZdceqCE70b9VENcDWjU+WHKEa2HJsyqUZj0vCI94Pk49Z42u
+         h/RWzCu6j4a9w8yEsj7rK5e9uiDjc2EiFUc+avH0qZI0dyuzeA/z91zXgiRd7yeSl3
+         8mOVqXBg2pv8zvUY79qtaym4zlYLKvBcSVb7us+LoO+lJ2erExWSiAMs/ARQBPGhP9
+         Q8CDnPjgM2DNQ==
+Received: by mail-ej1-f43.google.com with SMTP id v1so18511840ejg.13
+        for <linux-api@vger.kernel.org>; Tue, 14 Jun 2022 10:37:51 -0700 (PDT)
+X-Gm-Message-State: AOAM531LhLE8EWEG5kH+I4oaKygLtvbyocsH1ZFXraWHMx6I1DpvcXuE
+        H4qtwq3JYZ0WomvFOU2e3xQwhwGhttryD+7gKaEszQ==
+X-Google-Smtp-Source: ABdhPJww+lYVXFvUzPwylC2186LPMaNfdFPXgghAh2gRgIANvpNaY/HFZOJeSAxuhp7fvjON6/ZRor4QvsJ9snnK8jU=
+X-Received: by 2002:a17:906:2298:b0:715:7f3d:32ec with SMTP id
+ p24-20020a170906229800b007157f3d32ecmr5255068eja.538.1655228269361; Tue, 14
+ Jun 2022 10:37:49 -0700 (PDT)
 MIME-Version: 1.0
-From:   Federico Di Pierro <nierro92@gmail.com>
-Date:   Tue, 14 Jun 2022 15:15:29 +0200
-Message-ID: <CAMZm_C=o-rc4a+u_8-pFJtmL_2drwczASMRTqszamrks5Zm_OA@mail.gmail.com>
-Subject: pgprot_encrypted macro is broken
-To:     linux-api@vger.kernel.org
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <CAGtprH_83CEC0U-cBR2FzHsxbwbGn0QJ87WFNOEet8sineOcbQ@mail.gmail.com>
+ <20220607065749.GA1513445@chaop.bj.intel.com> <CAA03e5H_vOQS-qdZgacnmqP5T5jJLnEfm44yfRzJQ2KVu0Br+Q@mail.gmail.com>
+ <20220608021820.GA1548172@chaop.bj.intel.com> <CAGtprH8xyf07jMN7ubTC__BvDj+z41uVGRiCJ7Rc5cv3KWg03w@mail.gmail.com>
+ <YqJYEheLiGI4KqXF@google.com> <20220614072800.GB1783435@chaop.bj.intel.com>
+In-Reply-To: <20220614072800.GB1783435@chaop.bj.intel.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Tue, 14 Jun 2022 10:37:37 -0700
+X-Gmail-Original-Message-ID: <CALCETrWw=Q=1AKW0Jcj3ZGscjyjDJXAjuxOnQx_sabQ6ZtS-wg@mail.gmail.com>
+Message-ID: <CALCETrWw=Q=1AKW0Jcj3ZGscjyjDJXAjuxOnQx_sabQ6ZtS-wg@mail.gmail.com>
+Subject: Re: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     Sean Christopherson <seanjc@google.com>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Marc Orr <marcorr@google.com>, kvm list <kvm@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jun Nakajima <jun.nakajima@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi everyone,
+On Tue, Jun 14, 2022 at 12:32 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+>
+> On Thu, Jun 09, 2022 at 08:29:06PM +0000, Sean Christopherson wrote:
+> > On Wed, Jun 08, 2022, Vishal Annapurve wrote:
+> >
+> > One argument is that userspace can simply rely on cgroups to detect misbehaving
+> > guests, but (a) those types of OOMs will be a nightmare to debug and (b) an OOM
+> > kill from the host is typically considered a _host_ issue and will be treated as
+> > a missed SLO.
+> >
+> > An idea for handling this in the kernel without too much complexity would be to
+> > add F_SEAL_FAULT_ALLOCATIONS (terrible name) that would prevent page faults from
+> > allocating pages, i.e. holes can only be filled by an explicit fallocate().  Minor
+> > faults, e.g. due to NUMA balancing stupidity, and major faults due to swap would
+> > still work, but writes to previously unreserved/unallocated memory would get a
+> > SIGSEGV on something it has mapped.  That would allow the userspace VMM to prevent
+> > unintentional allocations without having to coordinate unmapping/remapping across
+> > multiple processes.
+>
+> Since this is mainly for shared memory and the motivation is catching
+> misbehaved access, can we use mprotect(PROT_NONE) for this? We can mark
+> those range backed by private fd as PROT_NONE during the conversion so
+> subsequence misbehaved accesses will be blocked instead of causing double
+> allocation silently.
 
-In our kmod we use the `pgprot_encrypted` macro.
-It seems like the macro cannot be used on 5.18+ kernels because commit
-b577f542f93cbba57f8d6185ef1fb13a41ddf162 broke it.
+This patch series is fairly close to implementing a rather more
+efficient solution.  I'm not familiar enough with hypervisor userspace
+to really know if this would work, but:
 
-Basically, the macro definition was:
-`__pgprot(__sme_set(pgprot_val(prot)))`
+What if shared guest memory could also be file-backed, either in the
+same fd or with a second fd covering the shared portion of a memslot?
+This would allow changes to the backing store (punching holes, etc) to
+be some without mmap_lock or host-userspace TLB flushes?  Depending on
+what the guest is doing with its shared memory, userspace might need
+the memory mapped or it might not.
 
-but after the commit, it was changed to:
-`__pgprot(cc_mkenc(pgprot_val(prot)))`.
-
-But `cc_mkenc` symbol is not exported!
-
-This leads to build issues:
-> ERROR: modpost: "cc_mkenc" undefined!
-
-Is this a bug?
-Is there any workaround?
-
-Thank you,
-Regards
-Federico
+--Andy
