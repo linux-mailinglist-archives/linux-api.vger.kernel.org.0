@@ -2,183 +2,168 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FB1F54CB59
-	for <lists+linux-api@lfdr.de>; Wed, 15 Jun 2022 16:29:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 297EE54CD81
+	for <lists+linux-api@lfdr.de>; Wed, 15 Jun 2022 17:52:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349044AbiFOO3w (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Jun 2022 10:29:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46116 "EHLO
+        id S1345699AbiFOPwj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Jun 2022 11:52:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238074AbiFOO3v (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Jun 2022 10:29:51 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDDA732EE8
-        for <linux-api@vger.kernel.org>; Wed, 15 Jun 2022 07:29:50 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id y6so5960684pfr.13
-        for <linux-api@vger.kernel.org>; Wed, 15 Jun 2022 07:29:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=urXLCEo0HdMiwrT9/lHPLDvk+tFr+S8kFKoTasWYgTM=;
-        b=jE8+1EoaVPLQAQgJuF6uSHsVQUNEYiULaZEf4qWJ+FDCtBcy5wU+1PuRU/qTw6mXuJ
-         rhkDSC1GoM3r6gP1XqDzyFKdRxVJyQscQceF46fTmrMh4tpJ7/3OD4E0UUUL4FXaE4E4
-         HLsY4nWxsZ1bLbc4mtfRzI75UcR7ige6egZvCSqqgKpyeTsqtkTZjDQiW2mEf6TP1C0u
-         784mpZz2YhCQYjeTdJsTJu7oJeXZ7GHllZjsJApUFHo2QiJHGuFpB3Xi7l8+I0pC+m8X
-         WUI+8LcLsPMDaqunWg8z0EiW4EPIpYE086RJe+7JyYOWlUAXkMPBTz0xEA+GhbwuK97s
-         EpUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=urXLCEo0HdMiwrT9/lHPLDvk+tFr+S8kFKoTasWYgTM=;
-        b=CgAB5xq1E6NbbrxdFemREiX+1WwgvPhWiTk2hOc+Xp86b0pK0WSQdk9/D0osIR/A8i
-         9l5K9hoKQ0vSbxu+HK6cH978GZFvIrwhrkvmun4VbsU20hvbr/TK1Z0pkWVZQHJdSjAX
-         kzo4ac+vIXfKX/sObO97BolK4iaQJkl2v+NOnJMKc6BnnM4wlyU0DhAH9CWkpCumhHfy
-         IIVYFVLdaSBgOlvmY0aTOEvrToNJS57AigRklRNTHDeaEawHvoEDJ8yJkxc2w+TTJMMi
-         +YxPNBYx8oGuCjcve9eCk2JiK4g/Cvd151Mb/IFAK8eYTZZlRHXopw9BSvTiku+tZlyN
-         +MIg==
-X-Gm-Message-State: AJIora+PvHTWe/yoIOALxlN1QsyXwIYTrpNbw3G715DNQSc+xRRuOssl
-        vVraBBnUVyEyyze1Graq7Hcucg==
-X-Google-Smtp-Source: AGRyM1tbE6e2B2i42MyE6StE9nppc07YDmrFHDgu8iNlTHFWW5xo4NNjzQzQb9yFXGjB6QHFLP8hJw==
-X-Received: by 2002:a63:e1c:0:b0:3fd:f319:df7b with SMTP id d28-20020a630e1c000000b003fdf319df7bmr75509pgl.135.1655303389770;
-        Wed, 15 Jun 2022 07:29:49 -0700 (PDT)
-Received: from google.com (123.65.230.35.bc.googleusercontent.com. [35.230.65.123])
-        by smtp.gmail.com with ESMTPSA id z15-20020a170903018f00b0015eb200cc00sm9366660plg.138.2022.06.15.07.29.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jun 2022 07:29:49 -0700 (PDT)
-Date:   Wed, 15 Jun 2022 14:29:45 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Marc Orr <marcorr@google.com>, kvm list <kvm@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Jun Nakajima <jun.nakajima@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: Re: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <Yqns2ar0TND4RP9P@google.com>
-References: <20220607065749.GA1513445@chaop.bj.intel.com>
- <CAA03e5H_vOQS-qdZgacnmqP5T5jJLnEfm44yfRzJQ2KVu0Br+Q@mail.gmail.com>
- <20220608021820.GA1548172@chaop.bj.intel.com>
- <CAGtprH8xyf07jMN7ubTC__BvDj+z41uVGRiCJ7Rc5cv3KWg03w@mail.gmail.com>
- <YqJYEheLiGI4KqXF@google.com>
- <20220614072800.GB1783435@chaop.bj.intel.com>
- <CALCETrWw=Q=1AKW0Jcj3ZGscjyjDJXAjuxOnQx_sabQ6ZtS-wg@mail.gmail.com>
- <Yqjcx6u0KJcJuZfI@google.com>
- <CALCETrUdGoZ2yUnNGbxJ-Xr3KD7QhTi-ddhS8AUMjFyJM5pDfA@mail.gmail.com>
- <20220615091759.GB1823790@chaop.bj.intel.com>
+        with ESMTP id S1345858AbiFOPwh (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Jun 2022 11:52:37 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF8AAB66;
+        Wed, 15 Jun 2022 08:52:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1655308349; x=1686844349;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=vEpxs2+wXr4SsR+MY+H6e3dQBj8yAjWaewnFE5qkviQ=;
+  b=KR3vgA3Ss6LOK2vmKOjb3tQ30EoLt/tjcs4oeUT1tviqGc1SOy/u3jXW
+   /Jf67D3PuIiqNU2Ysrl7mu9wp1cjTFjh9dxcT/xb44ULb9pJVsAF+sOr9
+   NJL4CqCh3l8sXLThtWK/JcyR/YoOQKwpgRERctziCfNEPRP9aMqgyOfa2
+   /RSPaTWLzBnTN8WRrcjL0+gofyk1/hfBUh1gSaxpye0tEm/FrhxDAFf+p
+   Dq+pWyTRSyDruhsAtt2qKEEGlvCUWiH+AxVlAnFsUWRjj3U3JGUJZHWY/
+   nf5YNogIETTLYYZNPxqTZvoagXzHJJIdytUxzZWcd1xypTX07CGIaKAEv
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="340665401"
+X-IronPort-AV: E=Sophos;i="5.91,302,1647327600"; 
+   d="scan'208";a="340665401"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2022 08:52:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,302,1647327600"; 
+   d="scan'208";a="572247935"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+  by orsmga002.jf.intel.com with ESMTP; 15 Jun 2022 08:52:24 -0700
+Received: from newjersey.igk.intel.com (newjersey.igk.intel.com [10.102.20.203])
+        by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id 25FFqMbv015178;
+        Wed, 15 Jun 2022 16:52:22 +0100
+From:   Alexander Lobakin <alexandr.lobakin@intel.com>
+To:     Roberto Sassu <roberto.sassu@huawei.com>
+Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
+        viro@zeniv.linux.org.uk, linux-security-module@vger.kernel.org,
+        linux-integrity@vger.kernel.org, initramfs@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, bug-cpio@gnu.org,
+        zohar@linux.vnet.ibm.com, silviu.vlasceanu@huawei.com,
+        dmitry.kasatkin@huawei.com, takondra@cisco.com, kamensky@cisco.com,
+        hpa@zytor.com, arnd@arndb.de, rob@landley.net,
+        james.w.mcmechan@gmail.com, niveditas98@gmail.com
+Subject: Re: [PATCH v4 0/3] initramfs: add support for xattrs in the initial ram disk
+Date:   Wed, 15 Jun 2022 17:50:34 +0200
+Message-Id: <20220615155034.1271240-1-alexandr.lobakin@intel.com>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20190523121803.21638-1-roberto.sassu@huawei.com>
+References: <20190523121803.21638-1-roberto.sassu@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220615091759.GB1823790@chaop.bj.intel.com>
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-5.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jun 15, 2022, Chao Peng wrote:
-> On Tue, Jun 14, 2022 at 01:59:41PM -0700, Andy Lutomirski wrote:
-> > On Tue, Jun 14, 2022 at 12:09 PM Sean Christopherson <seanjc@google.com> wrote:
-> > >
-> > > On Tue, Jun 14, 2022, Andy Lutomirski wrote:
-> > > > This patch series is fairly close to implementing a rather more
-> > > > efficient solution.  I'm not familiar enough with hypervisor userspace
-> > > > to really know if this would work, but:
-> > > >
-> > > > What if shared guest memory could also be file-backed, either in the
-> > > > same fd or with a second fd covering the shared portion of a memslot?
-> > > > This would allow changes to the backing store (punching holes, etc) to
-> > > > be some without mmap_lock or host-userspace TLB flushes?  Depending on
-> > > > what the guest is doing with its shared memory, userspace might need
-> > > > the memory mapped or it might not.
-> > >
-> > > That's what I'm angling for with the F_SEAL_FAULT_ALLOCATIONS idea.  The issue,
-> > > unless I'm misreading code, is that punching a hole in the shared memory backing
-> > > store doesn't prevent reallocating that hole on fault, i.e. a helper process that
-> > > keeps a valid mapping of guest shared memory can silently fill the hole.
-> > >
-> > > What we're hoping to achieve is a way to prevent allocating memory without a very
-> > > explicit action from userspace, e.g. fallocate().
-> > 
-> > Ah, I misunderstood.  I thought your goal was to mmap it and prevent
-> > page faults from allocating.
+From: Roberto Sassu <roberto.sassu@huawei.com>
+Date: Thu, 23 May 2019 14:18:00 +0200
 
-I don't think you misunderstood, that's also one of the goals.  The use case is
-that multiple processes in the host mmap() guest memory, and we'd like to be able
-to punch a hole without having to rendezvous with all processes and also to prevent
-an unintentional re-allocation.
+> This patch set aims at solving the following use case: appraise files from
+> the initial ram disk. To do that, IMA checks the signature/hash from the
 
-> I think we still need the mmap, but want to prevent allocating when
-> userspace touches previously mmaped area that has never filled the page.
+Hi,
+is this[0] relatable somehow?
 
-Yes, or if a chunk was filled at some point but then was removed via PUNCH_HOLE.
-
-> I don't have clear answer if other operations like read/write should be
-> also prevented (probably yes). And only after an explicit fallocate() to
-> allocate the page these operations would act normally.
-
-I always forget about read/write.  I believe reads should be ok, the semantics of
-holes are that they return zeros, i.e. can use ZERO_PAGE() and not allocate a new
-backing page.  Not sure what to do about writes though.  Allocating on direct writes
-might be ok for our use case, but that could also result in a rather wierd API.
-
-> > It is indeed the case (and has been since before quite a few of us
-> > were born) that a hole in a sparse file is logically just a bunch of
-> > zeros.  A way to make a file for which a hole is an actual hole seems
-> > like it would solve this problem nicely.  It could also be solved more
-> > specifically for KVM by making sure that the private/shared mode that
-> > userspace programs is strict enough to prevent accidental allocations
-> > -- if a GPA is definitively private, shared, neither, or (potentially,
-> > on TDX only) both, then a page that *isn't* shared will never be
-> > accidentally allocated by KVM.
+> security.ima xattr. Unfortunately, this use case cannot be implemented
+> currently, as the CPIO format does not support xattrs.
 > 
-> KVM is clever enough to not allocate since it knows a GPA is shared or
-> not. This case it's the host userspace that can cause the allocating and
-> is too complex to check on every access from guest.
-
-Yes, KVM is not in the picture at all.  KVM won't trigger allocation, but KVM also
-is not in a position to prevent userspace from touching memory.
-
-> > If the shared backing is not mmapped,
-> > it also won't be accidentally allocated by host userspace on a stray
-> > or careless write.
+> This proposal consists in including file metadata as additional files named
+> METADATA!!!, for each file added to the ram disk. The CPIO parser in the
+> kernel recognizes these special files from the file name, and calls the
+> appropriate parser to add metadata to the previously extracted file. It has
+> been proposed to use bit 17:16 of the file mode as a way to recognize files
+> with metadata, but both the kernel and the cpio tool declare the file mode
+> as unsigned short.
 > 
-> As said above, mmap is still prefered, otherwise too many changes are
-> needed for usespace VMM.
+> The difference from v2, v3 (https://lkml.org/lkml/2019/5/9/230,
+> https://lkml.org/lkml/2019/5/17/466) is that file metadata are stored in
+> separate files instead of a single file. Given that files with metadata
+> must immediately follow the files metadata will be added to, image
+> generators have to be modified in this version.
+> 
+> The difference from v1 (https://lkml.org/lkml/2018/11/22/1182) is that
+> all files have the same name. The file metadata are added to is always the
+> previous one, and the image generator in user space will make sure that
+> files are in the correct sequence.
+> 
+> The difference with another proposal
+> (https://lore.kernel.org/patchwork/cover/888071/) is that xattrs can be
+> included in an image without changing the image format. Files with metadata
+> will appear as regular files. It will be task of the parser in the kernel
+> to process them.
+> 
+> This patch set extends the format of data defined in patch 9/15 of the last
+> proposal. It adds header version and type, so that new formats can be
+> defined and arbitrary metadata types can be processed.
+> 
+> The changes introduced by this patch set don't cause any compatibility
+> issue: kernels without the metadata parser simply extract the special files
+> and don't process metadata; kernels with the metadata parser don't process
+> metadata if the special files are not included in the image.
+> 
+> >>From the kernel space perspective, backporting this functionality to older
+> kernels should be very easy. It is sufficient to add two calls to the new
+> function do_process_metadata() in do_copy(), and to check the file name in
+> do_name(). From the user space perspective, unlike the previous version of
+> the patch set, it is required to modify the image generators in order to
+> include metadata as separate files.
+> 
+> Changelog
+> 
+> v3:
+> - include file metadata as separate files named METADATA!!!
+> - add the possibility to include in the ram disk arbitrary metadata types
+> 
+> v2:
+> - replace ksys_lsetxattr() with kern_path() and vfs_setxattr()
+>   (suggested by Jann Horn)
+> - replace ksys_open()/ksys_read()/ksys_close() with
+>   filp_open()/kernel_read()/fput()
+>   (suggested by Jann Horn)
+> - use path variable instead of name_buf in do_readxattrs()
+> - set last byte of str to 0 in do_readxattrs()
+> - call do_readxattrs() in do_name() before replacing an existing
+>   .xattr-list
+> - pass pathname to do_setxattrs()
+> 
+> v1:
+> - move xattr unmarshaling to CPIO parser
+> 
+> 
+> Mimi Zohar (1):
+>   initramfs: add file metadata
+> 
+> Roberto Sassu (2):
+>   initramfs: read metadata from special file METADATA!!!
+>   gen_init_cpio: add support for file metadata
+> 
+>  include/linux/initramfs.h |  21 ++++++
+>  init/initramfs.c          | 137 +++++++++++++++++++++++++++++++++++++-
+>  usr/Kconfig               |   8 +++
+>  usr/Makefile              |   4 +-
+>  usr/gen_init_cpio.c       | 137 ++++++++++++++++++++++++++++++++++++--
+>  usr/gen_initramfs_list.sh |  10 ++-
+>  6 files changed, 305 insertions(+), 12 deletions(-)
+>  create mode 100644 include/linux/initramfs.h
+> 
+> -- 
+> 2.17.1
 
-Forcing userspace to change doesn't bother me too much, the biggest concern is
-having to take mmap_lock for write in a per-host process.
+[0] https://lore.kernel.org/all/20210702233727.21301-1-alobakin@pm.me
+
+Thanks,
+Olek
