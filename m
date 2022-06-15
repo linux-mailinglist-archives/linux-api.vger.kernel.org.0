@@ -2,47 +2,48 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F8E054C408
-	for <lists+linux-api@lfdr.de>; Wed, 15 Jun 2022 10:56:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E71C854C481
+	for <lists+linux-api@lfdr.de>; Wed, 15 Jun 2022 11:21:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240742AbiFOI4w (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Jun 2022 04:56:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32902 "EHLO
+        id S243260AbiFOJVd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Jun 2022 05:21:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235386AbiFOI4t (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Jun 2022 04:56:49 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEDC43CA65;
-        Wed, 15 Jun 2022 01:56:48 -0700 (PDT)
+        with ESMTP id S239736AbiFOJVd (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Jun 2022 05:21:33 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEFA81D338;
+        Wed, 15 Jun 2022 02:21:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655283409; x=1686819409;
+  t=1655284892; x=1686820892;
   h=date:from:to:cc:subject:message-id:reply-to:references:
    mime-version:in-reply-to;
-  bh=YUylNu9M17rCKFlfGnkhsZRqok22qMLdjCA7fnGzy7c=;
-  b=NbZ9+CyUHocvHsi1PmjXztgbRL/+O1bDVGGI05z1EkSy0Vy2ko/5OUs0
-   dux/8ByjCtROh3Oc3sJ8661OT5u1TTPS6nE3fPZN90fzZJ/St6ickxo64
-   ed5H/jHlGzmyZAGCXfD9QtXzPwmWtnzzR59OUOhG9HKHwD7dOwOYmBTRD
-   ejtuqDSYxlkf4w7BxogzdRPmZ04m98fURnREiaGyAdP3g/pKil6kAiQH1
-   hJ+Kq+wLaVEFBQFLvwwRR6TNjj8rC8i/fHm8wg+FDnjQcoBofeQ7VBSsG
-   7x+D+b6t2zZdUy0dKM8PQJSePwbusSQnr3MC2fz9SBMu8eb413Sy8jhjd
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10378"; a="277679791"
+  bh=35w+G+fbWucz8txfjhA1uFhTpuj87R9d/qHcnOEmPeM=;
+  b=CB+v7hMtlCwATy66WC+JXDAigU3Duu1OHQaxlOXRB+Se+IXtUYWuiTw3
+   cCn+uBJ5EpHDvUSedqpLVd82Wt1pXsYU3vIUnLC7iMgxk6LDRU20tzONE
+   FBVwS3M7xCtCUQTYJLkDlQa5owb7jTQAP8d17CwsWqp7uHCqocVslTvdy
+   IYuN9Hf3FQyAmOTPQXfPYgZdOil0fU7P6YLvDmGeEDdXs8D3KLN94ZSGS
+   CPgj1DyOARMY9eC6HfjG5M8naa39SvcZB7P7d+etiL+uJM4EklkXNQpmf
+   sGib3sUeBImtc6RnxBWyyw3uXjPy//yyb4vpzKRW6bUK9E2Vq/wmy0Xgd
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10378"; a="342856863"
 X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; 
-   d="scan'208";a="277679791"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2022 01:56:48 -0700
+   d="scan'208";a="342856863"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2022 02:21:31 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; 
-   d="scan'208";a="589000276"
+   d="scan'208";a="583119186"
 Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
-  by fmsmga007.fm.intel.com with ESMTP; 15 Jun 2022 01:56:38 -0700
-Date:   Wed, 15 Jun 2022 16:53:16 +0800
+  by orsmga007.jf.intel.com with ESMTP; 15 Jun 2022 02:21:21 -0700
+Date:   Wed, 15 Jun 2022 17:17:59 +0800
 From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     "Gupta, Pankaj" <pankaj.gupta@amd.com>,
-        Vishal Annapurve <vannapurve@google.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Sean Christopherson <seanjc@google.com>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Marc Orr <marcorr@google.com>, kvm list <kvm@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
         linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
         linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
         Paolo Bonzini <pbonzini@redhat.com>,
@@ -53,7 +54,7 @@ Cc:     "Gupta, Pankaj" <pankaj.gupta@amd.com>,
         Joerg Roedel <joro@8bytes.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
         Hugh Dickins <hughd@google.com>,
         Jeff Layton <jlayton@kernel.org>,
         "J . Bruce Fields" <bfields@fieldses.org>,
@@ -64,26 +65,31 @@ Cc:     "Gupta, Pankaj" <pankaj.gupta@amd.com>,
         Vlastimil Babka <vbabka@suse.cz>,
         Yu Zhang <yu.c.zhang@linux.intel.com>,
         "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Jun Nakajima <jun.nakajima@intel.com>, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        Jun Nakajima <jun.nakajima@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
         ddutile@redhat.com, dhildenb@redhat.com,
         Quentin Perret <qperret@google.com>,
         Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: Re: [PATCH v6 3/8] mm/memfd: Introduce MFD_INACCESSIBLE flag
-Message-ID: <20220615085316.GA1823790@chaop.bj.intel.com>
+Subject: Re: [PATCH v6 0/8] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <20220615091759.GB1823790@chaop.bj.intel.com>
 Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <20220519153713.819591-4-chao.p.peng@linux.intel.com>
- <CAGtprH8EMsPMMoOEzjRu0SMVKT0RqmkLk=n+6uXkBA6-wiRtUA@mail.gmail.com>
- <20220601101747.GA1255243@chaop.bj.intel.com>
- <1f1b17e8-a16d-c029-88e0-01f522cc077a@amd.com>
- <20220602100733.GA1296997@chaop.bj.intel.com>
- <YqjuUngpVg8cZTD/@google.com>
+References: <CAGtprH_83CEC0U-cBR2FzHsxbwbGn0QJ87WFNOEet8sineOcbQ@mail.gmail.com>
+ <20220607065749.GA1513445@chaop.bj.intel.com>
+ <CAA03e5H_vOQS-qdZgacnmqP5T5jJLnEfm44yfRzJQ2KVu0Br+Q@mail.gmail.com>
+ <20220608021820.GA1548172@chaop.bj.intel.com>
+ <CAGtprH8xyf07jMN7ubTC__BvDj+z41uVGRiCJ7Rc5cv3KWg03w@mail.gmail.com>
+ <YqJYEheLiGI4KqXF@google.com>
+ <20220614072800.GB1783435@chaop.bj.intel.com>
+ <CALCETrWw=Q=1AKW0Jcj3ZGscjyjDJXAjuxOnQx_sabQ6ZtS-wg@mail.gmail.com>
+ <Yqjcx6u0KJcJuZfI@google.com>
+ <CALCETrUdGoZ2yUnNGbxJ-Xr3KD7QhTi-ddhS8AUMjFyJM5pDfA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YqjuUngpVg8cZTD/@google.com>
+In-Reply-To: <CALCETrUdGoZ2yUnNGbxJ-Xr3KD7QhTi-ddhS8AUMjFyJM5pDfA@mail.gmail.com>
 X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
@@ -94,64 +100,92 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jun 14, 2022 at 08:23:46PM +0000, Sean Christopherson wrote:
-> On Thu, Jun 02, 2022, Chao Peng wrote:
-> > On Wed, Jun 01, 2022 at 02:11:42PM +0200, Gupta, Pankaj wrote:
-> > > 
-> > > > > > Introduce a new memfd_create() flag indicating the content of the
-> > > > > > created memfd is inaccessible from userspace through ordinary MMU
-> > > > > > access (e.g., read/write/mmap). However, the file content can be
-> > > > > > accessed via a different mechanism (e.g. KVM MMU) indirectly.
-> > > > > > 
-> > > > > 
-> > > > > SEV, TDX, pkvm and software-only VMs seem to have usecases to set up
-> > > > > initial guest boot memory with the needed blobs.
-> > > > > TDX already supports a KVM IOCTL to transfer contents to private
-> > > > > memory using the TDX module but rest of the implementations will need
-> > > > > to invent
-> > > > > a way to do this.
-> > > > 
-> > > > There are some discussions in https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flkml.org%2Flkml%2F2022%2F5%2F9%2F1292&amp;data=05%7C01%7Cpankaj.gupta%40amd.com%7Cb81ef334e2dd44c6143308da43b87d17%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637896756895977587%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=oQbM2Hj7GlhJTwnTM%2FPnwsfJlmTL7JR9ULBysAqm6V8%3D&amp;reserved=0
-> > > > already. I somehow agree with Sean. TDX is using an dedicated ioctl to
-> > > > copy guest boot memory to private fd so the rest can do that similarly.
-> > > > The concern is the performance (extra memcpy) but it's trivial since the
-> > > > initial guest payload is usually optimized in size.
-> > > > 
-> > > > > 
-> > > > > Is there a plan to support a common implementation for either allowing
-> > > > > initial write access from userspace to private fd or adding a KVM
-> > > > > IOCTL to transfer contents to such a file,
-> > > > > as part of this series through future revisions?
-> > > > 
-> > > > Indeed, adding pre-boot private memory populating on current design
-> > > > isn't impossible, but there are still some opens, e.g. how to expose
-> > > > private fd to userspace for access, pKVM and CC usages may have
-> > > > different requirements. Before that's well-studied I would tend to not
-> > > > add that and instead use an ioctl to copy. Whether we need a generic
-> > > > ioctl or feature-specific ioctl, I don't have strong opinion here.
-> > > > Current TDX uses a feature-specific ioctl so it's not covered in this
-> > > > series.
-> > > 
-> > > Common function or ioctl to populate preboot private memory actually makes
-> > > sense.
-> > > 
-> > > Sorry, did not follow much of TDX code yet, Is it possible to filter out
-> > > the current TDX specific ioctl to common function so that it can be used by
-> > > other technologies?
-> > 
-> > TDX code is here:
-> > https://patchwork.kernel.org/project/kvm/patch/70ed041fd47c1f7571aa259450b3f9244edda48d.1651774250.git.isaku.yamahata@intel.com/
-> > 
-> > AFAICS It might be possible to filter that out to a common function. But
-> > would like to hear from Paolo/Sean for their opinion.
-> 
-> Eh, I wouldn't put too much effort into creating a common helper, I would be very
-> surprised if TDX and SNP can share a meaningful amount of code that isn't already
-> shared, e.g. provided by MMU helpers.
-> 
-> The only part I truly care about sharing is whatever ioctl(s) get added, i.e. I
-> don't want to end up with two ioctls that do the same thing for TDX vs. SNP.
+On Tue, Jun 14, 2022 at 01:59:41PM -0700, Andy Lutomirski wrote:
+> On Tue, Jun 14, 2022 at 12:09 PM Sean Christopherson <seanjc@google.com> wrote:
+> >
+> > On Tue, Jun 14, 2022, Andy Lutomirski wrote:
+> > > On Tue, Jun 14, 2022 at 12:32 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+> > > >
+> > > > On Thu, Jun 09, 2022 at 08:29:06PM +0000, Sean Christopherson wrote:
+> > > > > On Wed, Jun 08, 2022, Vishal Annapurve wrote:
+> > > > >
+> > > > > One argument is that userspace can simply rely on cgroups to detect misbehaving
+> > > > > guests, but (a) those types of OOMs will be a nightmare to debug and (b) an OOM
+> > > > > kill from the host is typically considered a _host_ issue and will be treated as
+> > > > > a missed SLO.
+> > > > >
+> > > > > An idea for handling this in the kernel without too much complexity would be to
+> > > > > add F_SEAL_FAULT_ALLOCATIONS (terrible name) that would prevent page faults from
+> > > > > allocating pages, i.e. holes can only be filled by an explicit fallocate().  Minor
+> > > > > faults, e.g. due to NUMA balancing stupidity, and major faults due to swap would
+> > > > > still work, but writes to previously unreserved/unallocated memory would get a
+> > > > > SIGSEGV on something it has mapped.  That would allow the userspace VMM to prevent
+> > > > > unintentional allocations without having to coordinate unmapping/remapping across
+> > > > > multiple processes.
+> > > >
+> > > > Since this is mainly for shared memory and the motivation is catching
+> > > > misbehaved access, can we use mprotect(PROT_NONE) for this? We can mark
+> > > > those range backed by private fd as PROT_NONE during the conversion so
+> > > > subsequence misbehaved accesses will be blocked instead of causing double
+> > > > allocation silently.
+> >
+> > PROT_NONE, a.k.a. mprotect(), has the same vma downsides as munmap().
 
-OK, then that part would be better to be added in TDX or SNP series.
+Yes, right.
 
+> >
+> > > This patch series is fairly close to implementing a rather more
+> > > efficient solution.  I'm not familiar enough with hypervisor userspace
+> > > to really know if this would work, but:
+> > >
+> > > What if shared guest memory could also be file-backed, either in the
+> > > same fd or with a second fd covering the shared portion of a memslot?
+> > > This would allow changes to the backing store (punching holes, etc) to
+> > > be some without mmap_lock or host-userspace TLB flushes?  Depending on
+> > > what the guest is doing with its shared memory, userspace might need
+> > > the memory mapped or it might not.
+> >
+> > That's what I'm angling for with the F_SEAL_FAULT_ALLOCATIONS idea.  The issue,
+> > unless I'm misreading code, is that punching a hole in the shared memory backing
+> > store doesn't prevent reallocating that hole on fault, i.e. a helper process that
+> > keeps a valid mapping of guest shared memory can silently fill the hole.
+> >
+> > What we're hoping to achieve is a way to prevent allocating memory without a very
+> > explicit action from userspace, e.g. fallocate().
+> 
+> Ah, I misunderstood.  I thought your goal was to mmap it and prevent
+> page faults from allocating.
+
+I think we still need the mmap, but want to prevent allocating when
+userspace touches previously mmaped area that has never filled the page.
+I don't have clear answer if other operations like read/write should be
+also prevented (probably yes). And only after an explicit fallocate() to
+allocate the page these operations would act normally.
+
+> 
+> It is indeed the case (and has been since before quite a few of us
+> were born) that a hole in a sparse file is logically just a bunch of
+> zeros.  A way to make a file for which a hole is an actual hole seems
+> like it would solve this problem nicely.  It could also be solved more
+> specifically for KVM by making sure that the private/shared mode that
+> userspace programs is strict enough to prevent accidental allocations
+> -- if a GPA is definitively private, shared, neither, or (potentially,
+> on TDX only) both, then a page that *isn't* shared will never be
+> accidentally allocated by KVM.
+
+KVM is clever enough to not allocate since it knows a GPA is shared or
+not. This case it's the host userspace that can cause the allocating and
+is too complex to check on every access from guest.
+
+> If the shared backing is not mmapped,
+> it also won't be accidentally allocated by host userspace on a stray
+> or careless write.
+
+As said above, mmap is still prefered, otherwise too many changes are
+needed for usespace VMM.
+
+Thanks,
 Chao
+> 
+> 
+> --Andy
