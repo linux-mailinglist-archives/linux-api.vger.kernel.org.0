@@ -2,232 +2,76 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B56CC54C905
-	for <lists+linux-api@lfdr.de>; Wed, 15 Jun 2022 14:49:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF3A654C975
+	for <lists+linux-api@lfdr.de>; Wed, 15 Jun 2022 15:12:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349108AbiFOMtZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Jun 2022 08:49:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55140 "EHLO
+        id S1345892AbiFONMJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Jun 2022 09:12:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348943AbiFOMtS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Jun 2022 08:49:18 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEA701EEDE;
-        Wed, 15 Jun 2022 05:49:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655297351; x=1686833351;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=367w6HIi5GuVANWSFTtVUtm5HUURP3exi/rAwUOCYro=;
-  b=eFVFiz6v2QeJtZk1tlymIJ5IXgtDaoQ7zPvEOw3or3V99MUgb0nppZHs
-   vkNYlE6wCDMhuQi4gqONyiZcmvHd7k2lxYqhU7LlRaQ9V9zvMgIX7Ibj/
-   pR9ogVD2Sm47BEmyYa5zFVFOzo6VIlnJXrB0fjlpxxzqcUDi5LLzguUFY
-   GDwv/mQHy8/5mbJX01iY1rsjTM/UM9Oifw0ZcSsNB5fVVLWcxMOCyKLSW
-   ntMaQ+bTpc9dzwZJDx19Ppwpq00HhGNSCUgjW7U1LNkpIuIKYh3JdaWXG
-   8GA+yuV503EwK1dFVbt1cvWK2I0/vc3y9WvRsggigWiZ/PlZRgKxNEUbO
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10378"; a="258800977"
-X-IronPort-AV: E=Sophos;i="5.91,302,1647327600"; 
-   d="scan'208";a="258800977"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2022 05:49:11 -0700
-X-IronPort-AV: E=Sophos;i="5.91,302,1647327600"; 
-   d="scan'208";a="687288139"
-Received: from mgrymel-mobl1.ger.corp.intel.com (HELO ijarvine-MOBL2.ger.corp.intel.com) ([10.249.41.34])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2022 05:49:07 -0700
-From:   =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     linux-serial@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Lukas Wunner <lukas@wunner.de>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
-        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        linux-api@vger.kernel.org
-Subject: [PATCH v7 5/6] serial: Support for RS-485 multipoint addresses
-Date:   Wed, 15 Jun 2022 15:48:28 +0300
-Message-Id: <20220615124829.34516-6-ilpo.jarvinen@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220615124829.34516-1-ilpo.jarvinen@linux.intel.com>
-References: <20220615124829.34516-1-ilpo.jarvinen@linux.intel.com>
+        with ESMTP id S233309AbiFONMI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Jun 2022 09:12:08 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B528A24581;
+        Wed, 15 Jun 2022 06:12:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=FHOVdTg6NKnoEjJkArBOs1GnjsYN72M8SV5hUzpqtrM=; b=2XD3XMBMNnkMfNTbWofuI16L1y
+        ibePJHi5dvh74MnJpzG/u7S4aY3orURjcbZttxdDGEus2CPnup5s5KOGh1tezdDut2pv1x+NGhPuQ
+        X+3q7hkUy7zDSvVK2F4TppQrdIPlffoCN0T5tf11PK7u3/D8dclNIN8z91X7ihwHu8RuY3cc7wDnT
+        d43ZIT49HPtGxdcjxsIboQvMIdqXM3LrRBtzzeyXMjMyX991d/c4srAjBj5WAi/1DhB92Ucde0Xdx
+        naUR1vNfJj/V/p7q3PNpvUcCQ6o6WE2NrGm2l1MnAHXJhZcTWN19ICW2w0WfNwRcn01j35hhvNYIv
+        H6BuzbSQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1o1SoW-00EdqR-Tk; Wed, 15 Jun 2022 13:12:04 +0000
+Date:   Wed, 15 Jun 2022 06:12:04 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Eric Biggers <ebiggers@kernel.org>
+Cc:     Dave Chinner <david@fromorbit.com>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-fscrypt@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Keith Busch <kbusch@kernel.org>
+Subject: Re: [RFC PATCH v2 1/7] statx: add I/O alignment information
+Message-ID: <YqnapOLvHDmX/3py@infradead.org>
+References: <20220518235011.153058-1-ebiggers@kernel.org>
+ <20220518235011.153058-2-ebiggers@kernel.org>
+ <YobNXbYnhBiqniTH@magnolia>
+ <20220520032739.GB1098723@dread.disaster.area>
+ <YqgbuDbdH2OLcbC7@sol.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YqgbuDbdH2OLcbC7@sol.localdomain>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Add support for RS-485 multipoint addressing using 9th bit [*]. The
-addressing mode is configured through .rs485_config().
+On Mon, Jun 13, 2022 at 10:25:12PM -0700, Eric Biggers wrote:
+> While working on the man-pages update, I'm having second thoughts about the
+> stx_offset_align_optimal field.  Does any filesystem other than XFS actually
+> want stx_offset_align_optimal, when st[x]_blksize already exists?  Many network
+> filesystems, as well as tmpfs when hugepages are enabled, already report large
+> (megabytes) sizes in st[x]_blksize.  And all documentation I looked at (man
+> pages for Linux, POSIX, FreeBSD, NetBSD, macOS) documents st_blksize as
+> something like "the preferred blocksize for efficient I/O".  It's never
+> documented as being limited to PAGE_SIZE, which makes sense because it's not.
 
-ADDRB in termios indicates 9th bit addressing mode is enabled. In this
-mode, 9th bit is used to indicate an address (byte) within the
-communication line. ADDRB can only be enabled/disabled through
-.rs485_config() that is also responsible for setting the destination and
-receiver (filter) addresses.
+Yes.  While st_blksize is utterly misnamed, it has always aways been
+the optimal I/O size.
 
-[*] Technically, RS485 is just an electronic spec and does not itself
-specify the 9th bit addressing mode but 9th bit seems at least
-"semi-standard" way to do addressing with RS485.
+> Perhaps for now we should just add STATX_DIOALIGN instead of STATX_IOALIGN,
+> leaving out the stx_offset_align_optimal field?  What do people think?
 
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-api@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-arch@vger.kernel.org
-Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
----
- Documentation/driver-api/serial/driver.rst    |  2 ++
- .../driver-api/serial/serial-rs485.rst        | 26 ++++++++++++++++++-
- drivers/tty/serial/serial_core.c              | 11 ++++++++
- drivers/tty/tty_ioctl.c                       |  4 +++
- include/uapi/asm-generic/termbits-common.h    |  1 +
- include/uapi/linux/serial.h                   | 12 +++++++--
- 6 files changed, 53 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/driver-api/serial/driver.rst b/Documentation/driver-api/serial/driver.rst
-index 7ef83fd3917b..35fb3866bb3d 100644
---- a/Documentation/driver-api/serial/driver.rst
-+++ b/Documentation/driver-api/serial/driver.rst
-@@ -261,6 +261,8 @@ hardware.
- 			- parity enable
- 		PARODD
- 			- odd parity (when PARENB is in force)
-+		ADDRB
-+			- address bit (changed through .rs485_config()).
- 		CREAD
- 			- enable reception of characters (if not set,
- 			  still receive characters from the port, but
-diff --git a/Documentation/driver-api/serial/serial-rs485.rst b/Documentation/driver-api/serial/serial-rs485.rst
-index 00b5d333acba..6ebad75c74ed 100644
---- a/Documentation/driver-api/serial/serial-rs485.rst
-+++ b/Documentation/driver-api/serial/serial-rs485.rst
-@@ -99,7 +99,31 @@ RS485 Serial Communications
- 		/* Error handling. See errno. */
- 	}
- 
--5. References
-+5. Multipoint Addressing
-+========================
-+
-+   The Linux kernel provides addressing mode for multipoint RS-485 serial
-+   communications line. The addressing mode is enabled with SER_RS485_ADDRB
-+   flag in serial_rs485. Struct serial_rs485 has two additional flags and
-+   fields for enabling receive and destination addresses.
-+
-+   Address mode flags:
-+	- SER_RS485_ADDRB: Enabled addressing mode (sets also ADDRB in termios).
-+	- SER_RS485_ADDR_RECV: Receive (filter) address enabled.
-+	- SER_RS485_ADDR_DEST: Set destination address.
-+
-+   Address fields (enabled with corresponding SER_RS485_ADDR_* flag):
-+	- addr_recv: Receive address.
-+	- addr_dest: Destination address.
-+
-+   Once a receive address is set, the communication can occur only with the
-+   particular device and other peers are filtered out. It is left up to the
-+   receiver side to enforce the filtering. Receive address will be cleared
-+   if SER_RS485_ADDR_RECV is not set.
-+
-+   Note: not all devices supporting RS485 support multipoint addressing.
-+
-+6. References
- =============
- 
-  [1]	include/uapi/linux/serial.h
-diff --git a/drivers/tty/serial/serial_core.c b/drivers/tty/serial/serial_core.c
-index 76bb1b77b06e..b2bce1696540 100644
---- a/drivers/tty/serial/serial_core.c
-+++ b/drivers/tty/serial/serial_core.c
-@@ -1294,6 +1294,17 @@ static int uart_check_rs485_flags(struct uart_port *port, struct serial_rs485 *r
- 	if (flags & ~port->rs485_supported->flags)
- 		return -EINVAL;
- 
-+	/* Asking for address w/o addressing mode? */
-+	if (!(rs485->flags & SER_RS485_ADDRB) &&
-+	    (rs485->flags & (SER_RS485_ADDR_RECV|SER_RS485_ADDR_DEST)))
-+		return -EINVAL;
-+
-+	/* Address given but not enabled? */
-+	if (!(rs485->flags & SER_RS485_ADDR_RECV) && rs485->addr_recv)
-+		return -EINVAL;
-+	if (!(rs485->flags & SER_RS485_ADDR_DEST) && rs485->addr_dest)
-+		return -EINVAL;
-+
- 	return 0;
- }
- 
-diff --git a/drivers/tty/tty_ioctl.c b/drivers/tty/tty_ioctl.c
-index adae687f654b..ed253f2337a7 100644
---- a/drivers/tty/tty_ioctl.c
-+++ b/drivers/tty/tty_ioctl.c
-@@ -319,6 +319,8 @@ unsigned char tty_get_frame_size(unsigned int cflag)
- 		bits++;
- 	if (cflag & PARENB)
- 		bits++;
-+	if (cflag & ADDRB)
-+		bits++;
- 
- 	return bits;
- }
-@@ -353,6 +355,8 @@ int tty_set_termios(struct tty_struct *tty, struct ktermios *new_termios)
- 	old_termios = tty->termios;
- 	tty->termios = *new_termios;
- 	unset_locked_termios(tty, &old_termios);
-+	/* Reset any ADDRB changes, ADDRB is changed through .rs485_config() */
-+	tty->termios.c_cflag ^= (tty->termios.c_cflag ^ old_termios.c_cflag) & ADDRB;
- 
- 	if (tty->ops->set_termios)
- 		tty->ops->set_termios(tty, &old_termios);
-diff --git a/include/uapi/asm-generic/termbits-common.h b/include/uapi/asm-generic/termbits-common.h
-index 4d084fe8def5..4a6a79f28b21 100644
---- a/include/uapi/asm-generic/termbits-common.h
-+++ b/include/uapi/asm-generic/termbits-common.h
-@@ -46,6 +46,7 @@ typedef unsigned int	speed_t;
- #define EXTA		B19200
- #define EXTB		B38400
- 
-+#define ADDRB		0x20000000	/* address bit */
- #define CMSPAR		0x40000000	/* mark or space (stick) parity */
- #define CRTSCTS		0x80000000	/* flow control */
- 
-diff --git a/include/uapi/linux/serial.h b/include/uapi/linux/serial.h
-index fa6b16e5fdd8..9df86f0a3d46 100644
---- a/include/uapi/linux/serial.h
-+++ b/include/uapi/linux/serial.h
-@@ -126,10 +126,18 @@ struct serial_rs485 {
- #define SER_RS485_TERMINATE_BUS		(1 << 5)	/* Enable bus
- 							   termination
- 							   (if supported) */
-+
-+/* RS-485 addressing mode */
-+#define SER_RS485_ADDRB			(1 << 6)	/* Enable addressing mode */
-+#define SER_RS485_ADDR_RECV		(1 << 7)	/* Receive address filter */
-+#define SER_RS485_ADDR_DEST		(1 << 8)	/* Destination address */
-+
- 	__u32	delay_rts_before_send;	/* Delay before send (milliseconds) */
- 	__u32	delay_rts_after_send;	/* Delay after send (milliseconds) */
--	__u32	padding[5];		/* Memory is cheap, new structs
--					   are a royal PITA .. */
-+	__u8	addr_recv;
-+	__u8	addr_dest;
-+	__u8	padding[2 + 4 * sizeof(__u32)];		/* Memory is cheap, new structs
-+							 * are a royal PITA .. */
- };
- 
- /*
--- 
-2.30.2
-
+Yes, this sounds like a good plan.
