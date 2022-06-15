@@ -2,76 +2,98 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF3A654C975
-	for <lists+linux-api@lfdr.de>; Wed, 15 Jun 2022 15:12:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84EB354CA57
+	for <lists+linux-api@lfdr.de>; Wed, 15 Jun 2022 15:54:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345892AbiFONMJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Jun 2022 09:12:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48624 "EHLO
+        id S243547AbiFONx7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Jun 2022 09:53:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233309AbiFONMI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Jun 2022 09:12:08 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B528A24581;
-        Wed, 15 Jun 2022 06:12:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=FHOVdTg6NKnoEjJkArBOs1GnjsYN72M8SV5hUzpqtrM=; b=2XD3XMBMNnkMfNTbWofuI16L1y
-        ibePJHi5dvh74MnJpzG/u7S4aY3orURjcbZttxdDGEus2CPnup5s5KOGh1tezdDut2pv1x+NGhPuQ
-        X+3q7hkUy7zDSvVK2F4TppQrdIPlffoCN0T5tf11PK7u3/D8dclNIN8z91X7ihwHu8RuY3cc7wDnT
-        d43ZIT49HPtGxdcjxsIboQvMIdqXM3LrRBtzzeyXMjMyX991d/c4srAjBj5WAi/1DhB92Ucde0Xdx
-        naUR1vNfJj/V/p7q3PNpvUcCQ6o6WE2NrGm2l1MnAHXJhZcTWN19ICW2w0WfNwRcn01j35hhvNYIv
-        H6BuzbSQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1o1SoW-00EdqR-Tk; Wed, 15 Jun 2022 13:12:04 +0000
-Date:   Wed, 15 Jun 2022 06:12:04 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     Dave Chinner <david@fromorbit.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-fscrypt@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Keith Busch <kbusch@kernel.org>
-Subject: Re: [RFC PATCH v2 1/7] statx: add I/O alignment information
-Message-ID: <YqnapOLvHDmX/3py@infradead.org>
-References: <20220518235011.153058-1-ebiggers@kernel.org>
- <20220518235011.153058-2-ebiggers@kernel.org>
- <YobNXbYnhBiqniTH@magnolia>
- <20220520032739.GB1098723@dread.disaster.area>
- <YqgbuDbdH2OLcbC7@sol.localdomain>
+        with ESMTP id S1355278AbiFONxv (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Jun 2022 09:53:51 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15F4065F8;
+        Wed, 15 Jun 2022 06:53:50 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id c2so16274033edf.5;
+        Wed, 15 Jun 2022 06:53:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=HAwNdI/HLgYUFqFkwLp3tbG9Q5FUzi13aLInTGzpSNg=;
+        b=BUQotWXSPBypOQsI5HWXPn2wQh5HMwLx0LNE7FM6vN+3VoigZ1JCwbyRjgLv2xVeSu
+         eMpP4O4MR/nUmkonY1fnVqLU/c9wDtzZJkBhyWcgJCsCmaFRcf59HLHALaHNpEAXPbGo
+         VXw5SbxoFTa4x+An3kTLq3IzUgxaBaYymdExORgM1p4VA7odZ4J8OE8vMMtx16lgZ88A
+         PXPVzBhO+ElwZ6LazOBUy2sIY8B7VvqbPlxYR4jcp8hJSXQZpht8u8jA8lMUzvHP703v
+         pFDf6hBT/RYz4rtbZWrDKdPODiT9kw3xa9RHrfqUuFq1MozznmawDHSTtiUkxl2+51We
+         Brgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=HAwNdI/HLgYUFqFkwLp3tbG9Q5FUzi13aLInTGzpSNg=;
+        b=7BO/egDOzjAPsaJSxn++kXWPFQTTKVxIc1oxtPtpUyEvQHlBNNh4tJpdVHPsS9nqH+
+         55QqlSRoHayh2cZRC26ekGaU7kVj6/xxRgwdMH6n3YTldJyzPYtA+v9y9fWCYwG8Dzbk
+         EoWvMLFfQBlVAQA7bsYL0fooCLumN7wy0Lk/xUhzhr97L6bvfVL1JF5D41WKDpAtrYvr
+         4905ELKcimA0X3pvyo6hC6EPZLiQcLKUGhQUUUUf88cLP6biDIXm50aId31GsRhQ6xW0
+         bu39acUG+ViC+S/JFgsyL7oVhj/KG8nWkITYqRukgE/fWWgvzo1YNF89Q54TpKqu7zxa
+         Pq7Q==
+X-Gm-Message-State: AOAM531BqBhNEA4Ix7nzaAmd/x2yrYUYKI2mpRQ3R4F41JrVghSgDkWi
+        QBONZRPtKACv0nDV4hyuTEuahZju9kdHBSImxi0=
+X-Google-Smtp-Source: ABdhPJw6beu1XgW7zZjneKwFqagHeiozjlaixPXxUkvWD+Bf3rn1xseyVyKO7ljDE5GjVTD+7Q8tqo99e9XMnuiRE+4=
+X-Received: by 2002:aa7:d481:0:b0:42d:d5fd:f963 with SMTP id
+ b1-20020aa7d481000000b0042dd5fdf963mr12921817edr.209.1655301228521; Wed, 15
+ Jun 2022 06:53:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YqgbuDbdH2OLcbC7@sol.localdomain>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+References: <20220615124829.34516-1-ilpo.jarvinen@linux.intel.com>
+In-Reply-To: <20220615124829.34516-1-ilpo.jarvinen@linux.intel.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 15 Jun 2022 15:53:11 +0200
+Message-ID: <CAHp75VfmEmXifk0F2+JPLMOF0i=Xs+t5_y9Tyfo3airF2E=ZPA@mail.gmail.com>
+Subject: Re: [PATCH v7 0/6] Add RS485 9th bit addressing mode support to DW UART
+To:     =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc:     "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
+        Arnd Bergmann <arnd@arndb.de>, linux-api@vger.kernel.org,
+        Linux-Arch <linux-arch@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jun 13, 2022 at 10:25:12PM -0700, Eric Biggers wrote:
-> While working on the man-pages update, I'm having second thoughts about the
-> stx_offset_align_optimal field.  Does any filesystem other than XFS actually
-> want stx_offset_align_optimal, when st[x]_blksize already exists?  Many network
-> filesystems, as well as tmpfs when hugepages are enabled, already report large
-> (megabytes) sizes in st[x]_blksize.  And all documentation I looked at (man
-> pages for Linux, POSIX, FreeBSD, NetBSD, macOS) documents st_blksize as
-> something like "the preferred blocksize for efficient I/O".  It's never
-> documented as being limited to PAGE_SIZE, which makes sense because it's not.
+On Wed, Jun 15, 2022 at 2:52 PM Ilpo J=C3=A4rvinen
+<ilpo.jarvinen@linux.intel.com> wrote:
+>
+> This patchset adds RS-485 9th bit addressing mode support to the DW
+> UART driver and the necessary serial core bits to handle it. The
+> addressing mode is configured through .rs485_config() as was requested
+> during the review of the earlier versions. The line configuration
+> related ADDRB is still kept in ktermios->c_cflag to be able to take
+> account the extra addressing bit while calculating timing, etc. but it
+> is set/cleared by .rs485_config().
+>
+> PLEASE CHECK that the serial_rs485 .padding change looks OK (mainly
+> that it won't add hole under some odd condition which would alter
+> serial_rs485's sizeof)!
 
-Yes.  While st_blksize is utterly misnamed, it has always aways been
-the optimal I/O size.
+Have you had a chance to run `pahole` [1][2]?
 
-> Perhaps for now we should just add STATX_DIOALIGN instead of STATX_IOALIGN,
-> leaving out the stx_offset_align_optimal field?  What do people think?
+[1]: https://linux.die.net/man/1/pahole
+[2]: https://git.kernel.org/pub/scm/devel/pahole/pahole.git
 
-Yes, this sounds like a good plan.
+--=20
+With Best Regards,
+Andy Shevchenko
