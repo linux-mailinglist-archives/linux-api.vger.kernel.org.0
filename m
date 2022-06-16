@@ -2,117 +2,123 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8399C54DE32
-	for <lists+linux-api@lfdr.de>; Thu, 16 Jun 2022 11:31:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E04F554E1D7
+	for <lists+linux-api@lfdr.de>; Thu, 16 Jun 2022 15:24:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229643AbiFPJbv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 16 Jun 2022 05:31:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54798 "EHLO
+        id S230063AbiFPNYR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 16 Jun 2022 09:24:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229497AbiFPJbv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Jun 2022 05:31:51 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 606CF42EC4
-        for <linux-api@vger.kernel.org>; Thu, 16 Jun 2022 02:31:50 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id r24so867215ljn.2
-        for <linux-api@vger.kernel.org>; Thu, 16 Jun 2022 02:31:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=GQIe5GbTcKD6rjp+c5BHC6mitZ1qlJx0QumepIeEYhU=;
-        b=Hmchcq9+iQ/ATlU+ohWFAki1kxNb3WOjyHZJOBDmPKMacBcOM9/+7+5J3XCVhkkUjg
-         fSEqmFB1HHdo5hDYnoxiWSJ1EsuAUq4MbXmXqbvCYntS3F9KCxkIOtE8tzlBOY4crsH2
-         hDsN87jlPXl9MNbGUsx3EaDDtODsvLpaK6iOrLawnLRi2OJvriEHY23wWU8aZCTLSH1K
-         mAw9QhA5r2jKQ8Ew0l4as1MNs2uZk3kyQjxG2uL3b4SNPnha3xvwQmtbw1IUarp6vlaW
-         Yvil1XaNOgYDB3qLKtrFDkTu3JJDU8B+XiOhL70KCQVn8ak2I5bY8J2EnO89uakr4qzl
-         uY7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=GQIe5GbTcKD6rjp+c5BHC6mitZ1qlJx0QumepIeEYhU=;
-        b=hTUUuvlgW3N7AVOI7d5UId8od1otCsk8D6prvjZIUsuv8jr+p+KpGvRmqAVVdttlXU
-         MvfmMel7geIP/0ZpPvLQaJl7inOR0RBja6xMhr9idNMRyzAHJGqKpcAlEwH/QmekvBXT
-         amAgXepNte2PTIDdMrQY5KSicicHDgKYhM/+6yblsk+nFMVrK8oJXndmtgHb44p5dDv7
-         oVHjh390Mxq3KvM3hAFqJcV99sVaEj3YsKeblRImmdX1PVSOuDO1BtobUVb3gd5Q9wZG
-         GFXKa0pQkOHvevxWIoICwIKNDzw7/juwmuMGgppMuy2cd0c1dJKej88f+Uo6i9TNOA48
-         TLYg==
-X-Gm-Message-State: AJIora+o4Az/zQRTywIeC5K7ug6XFDzOXrz8wbp3SX3e9n5M/gr9u+Ga
-        DZcsEQUEgBVZEbSCwhYUGwtWbaiRG/6IcQmC5x0=
-X-Google-Smtp-Source: AGRyM1vmkrbqP0ms1rXgFstbPzi3EGHqDqCWc1+/YAq3K2KORE1JuhfuWyrjEOZ78h37/Bb+Eo3woHsgtnxwu9yzZf4=
-X-Received: by 2002:a2e:864f:0:b0:255:81e4:733b with SMTP id
- i15-20020a2e864f000000b0025581e4733bmr2047866ljj.227.1655371908654; Thu, 16
- Jun 2022 02:31:48 -0700 (PDT)
+        with ESMTP id S229740AbiFPNYR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Jun 2022 09:24:17 -0400
+Received: from hi1smtp01.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5F8033EB6;
+        Thu, 16 Jun 2022 06:24:15 -0700 (PDT)
+Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by hi1smtp01.de.adit-jv.com (Postfix) with ESMTPS id 56957520290;
+        Thu, 16 Jun 2022 15:24:13 +0200 (CEST)
+Received: from lxhi-065 (10.72.94.14) by hi2exch02.adit-jv.com (10.72.92.28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2308.27; Thu, 16 Jun
+ 2022 15:24:12 +0200
+Date:   Thu, 16 Jun 2022 15:24:08 +0200
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+CC:     <viro@zeniv.linux.org.uk>, <linux-security-module@vger.kernel.org>,
+        Roberto Sassu <roberto.sassu@huawei.com>,
+        <linux-integrity@vger.kernel.org>, <initramfs@vger.kernel.org>,
+        <linux-api@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <bug-cpio@gnu.org>,
+        <zohar@linux.vnet.ibm.com>, <silviu.vlasceanu@huawei.com>,
+        <dmitry.kasatkin@huawei.com>, <takondra@cisco.com>,
+        <kamensky@cisco.com>, <hpa@zytor.com>, <arnd@arndb.de>,
+        <rob@landley.net>, <james.w.mcmechan@gmail.com>,
+        <niveditas98@gmail.com>, Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [PATCH v4 0/3] initramfs: add support for xattrs in the initial
+ ram disk
+Message-ID: <20220616132408.GA4018@lxhi-065>
+References: <20190523121803.21638-1-roberto.sassu@huawei.com>
 MIME-Version: 1.0
-Received: by 2002:a05:6520:218e:b0:1f3:15e6:2f39 with HTTP; Thu, 16 Jun 2022
- 02:31:48 -0700 (PDT)
-Reply-To: stephanieleo2041@gmail.com
-From:   Stephenie Leo <elisakouakou24@gmail.com>
-Date:   Thu, 16 Jun 2022 10:31:48 +0100
-Message-ID: <CAHqsGVasiBxoo7pCHwu0wfK9iLfw_GmgsO5jCy+DO-FAm-+psQ@mail.gmail.com>
-Subject: Od Stephenie
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=4.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20190523121803.21638-1-roberto.sassu@huawei.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.72.94.14]
+X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
+ hi2exch02.adit-jv.com (10.72.92.28)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-T2QgU3RlcGhlbmllIExlbw0KDQpBaG9qIHpsYXRvDQoNCkphayBqc2kgZG91ZmFsLCDFvmUgamUg
-cyB0ZWJvdSB2xaFlY2hubyB2IHBvxZnDoWRrdT8NCg0KSmUgbWkgcG90xJvFoWVuw61tIHbDoW0g
-cG8genbDocW+ZW7DrSBuYXBzYXQgc2UgdsWhw60gamlzdG90b3UsIHByb3Rvxb5lDQp6cG/EjcOh
-dGt1IHbDoXMgbmVtb2h1IHZpZMSbdCB0dsOhxZnDrSB2IHR2w6HFmTsgUHJvc8OtbSwgcG90xZll
-YnVqaSB2YcWhaSBwb21vYy4NCkpzZW0gU3RlcGhlbmllIExlbywgamVkaW7DoSBkY2VyYSB6ZXNu
-dWzDqWhvIHBhbmEgTGVhIHogUG9ixZllxb7DrQ0Kc2xvbm92aW55LiAoSmUgbWkgMjIgbGV0Likg
-TcWvaiBvdGVjIGJ5bCBwxZllZCBzdm91IHDFmWVkxI1hc25vdSBzbXJ0w60NCm9iY2hvZG7DrWtl
-bSBzIGtha2FlbSBhIHpsYXRlbSB2IEFiaWRqYW51IG5hIFBvYsWZZcW+w60gc2xvbm92aW55LiBQ
-byBzdsOpDQpvYmNob2Ruw60gY2VzdMSbIGRvIEppxb5uw60gS29yZWplLCBrdsWvbGkgamVkbsOh
-bsOtIG8gb2JjaG9kdSBzIGtha2FlbSBhDQp6bGF0ZW0sIGt0ZXLDvSBjaHTEm2wgaW52ZXN0b3Zh
-dCB2IEppxb5uw60gS29yZWppLCB0w71kZW4gcG90w6ksIGNvIHNlDQp2csOhdGlsIHogSmnFvm7D
-rSBLb3JlamUsIG5lb25lbW9jbsSbbCBhIHDEm3QgZG7DrSBwb3TDqSB6ZW3FmWVsIHYgc291a3Jv
-bcOpDQpuZW1vY25pY2kuIFRvaG8gdsSbcm7DqWhvIG9kcG9sZWRuZSBqc2VtIG5ldsSbZMSbbCwg
-xb5lIG3EmyBtxa9qIG90ZWMgb3B1c3TDrQ0KcG90w6ksIGNvIGpzZW0gcMWZZWR0w61tIHp0cmF0
-aWwgbWF0a3UsIGtkecW+IGpzZW0gYnlsIGplxaF0xJsgZMOtdMSbLCBhbGUgbmXFvg0Kc2Ugdnpk
-YWwgZHVjaGEsIGJ5bG8gdG8sIGpha28gYnkgdsSbZMSbbCwgxb5lIHplbcWZZS4gT24sIG3Fr2og
-b3RlYywgKGHFpQ0KamVobyBkdcWhZSBvZHBvxI3DrXbDoSB2IGRva29uYWzDqW0gcG9rb2ppKSBz
-aSBtxJsgemF2b2xhbCBrZSBzdsOpIHBvc3RlbGkgYQ0KxZlla2wgbWksIMW+ZSB1bG/FvmlsIMSN
-w6FzdGt1ICg2IDgwMCAwMDAsMDAgJCkgxaFlc3QgbWlsaW9uxa8gb3NtIHNldCB0aXPDrWMNCmRv
-bGFyxa8gdiBiYW5jZSB6ZGUgbmEgUG9ixZllxb7DrSBzbG9ub3ZpbnkuDQoNCk3Fr2ogemVzbnVs
-w70gb3RlYyDFmWVrbCwgxb5lIHBlbsOtemUgYnlseSB1csSNZW55IG5hIGplaG8gb2JjaG9kIHMg
-a2FrYWVtIGENCnpsYXRlbSwga3RlcsO9IGNodMSbbCB6YWxvxb5pdCB2IEppxb5uw60gS29yZWpp
-LCBwb2RsZSBtw6lobyBvdGNlIHVsb8W+aWwNCnBlbsOtemUgbmEgcGV2bsO9IHDFmWVjaG9kbsO9
-IMO6xI1ldCBzIHBvdcW+aXTDrW0gbcOpaG8gam3DqW5hIGpha28gbmVqYmxpxb7FocOtaG8NCnDF
-mcOtYnV6bsOpaG8sIOKAi+KAi2RhbCBtaSBwb2t5biwgYWJ5Y2ggaGxlZGFsIHphIHNwb2xlaGxp
-dsOpaG8gYQ0KZMWvdsSbcnlob2Ruw6lobyBvYmNob2Ruw61obyBwYXJ0bmVyYSBwcm8gbW91IGNl
-bG/Fvml2b3Ruw60gaW52ZXN0aWNpIHYNCnphaHJhbmnEjcOtLiBOeW7DrSBzZSBtaSBwb2RhxZlp
-bG8gbmFqw610IGRlcG96aXRuw60gZG9rdW1lbnR5IGEgYmFua3UsIGtkZQ0KanNvdSB0eXRvIHBl
-bsOtemUgemRlIHYgQWJpZGphbnUgbmEgUG9ixZllxb7DrSBzbG9ub3ZpbnkuIEt2xa9saQ0KcG9s
-aXRpY2vDqW11IHByb2Jsw6ltdSB2IG3DqSB6ZW1pIFBvYsWZZcW+w60gc2xvbm92aW55IG55bsOt
-IMW+w6Fkw6FtIG8gdmHFoWkNCnBvbW9jLCBhYnlzdGUgbWkgcG9tb2hsaSBwxZlldsOpc3QgdHl0
-byBwZW7DrXplIHogbcOpIHplbcSbIFBvYsWZZcW+w60NCnNsb25vdmlueSBuYSB2w6HFoSDDusSN
-ZXQgdiB6YWhyYW5pxI3DrSwgYWJ5Y2hvbSBqZSBtb2hsaSBpbnZlc3RvdmF0IGRvDQpqYWvDqWhv
-a29saSBzbXlzbHVwbG7DqWhvIGEgbHVrcmF0aXZuw61obyBwb2RuaWvDoW7DrSB2ZSB2YcWhw60g
-emVtaS4gcHJvdG/FvmUNCnRvIGplIG1vamUgamVkaW7DoSBuYWTEm2plIHYgxb5pdm90xJsuIEpz
-ZW0gb2Nob3RlbiB2w6FtIG5hYsOtZG5vdXQgMTUgJSB6DQpjZWxrb3bDqWhvIGZvbmR1LCBwb2t1
-ZCBtaSBqZW4gbcWvxb5ldGUgcG9tb2NpIHogbcOpIHNvdcSNYXNuw6kgbmVzbsOhemUuDQoNClBy
-b3PDrW0gbyB2YcWhaSBwb21vYyBuw6FzbGVkdWrDrWPDrW1pIHpwxa9zb2J5Og0KDQooMS4pIFBv
-c2t5dG5vdXQgYmFua292bsOtIMO6xI1ldCwgbmEga3RlcsO9IGx6ZSB0eXRvIHBlbsOtemUgcMWZ
-ZXbDqXN0Lg0KDQooMi4pIFphxZnDrWRpdCwgYWJ5Y2ggcG8gw7pzcMSbxaFuw6ltIHDFmWV2b2R1
-IHTEm2NodG8gcGVuxJt6IG5hIHbDocWhIMO6xI1ldA0KcMWZaWplbCBkbyB2YcWhw60gemVtxJss
-IGFieWNoIHNlIG1vaGwgZMOhbGUgdnpkxJtsw6F2YXQuDQoNCigzLikgUG9tb2NpIGludmVzdG92
-YXQgdHl0byBwZW7DrXplIGRvIHppc2tvdsOpaG8gcG9kbmlrw6Fuw60sIHByb3Rvxb5lIGplDQpt
-aSBwb3Vow71jaCAyMiBsZXQgYSBvIHBvZG5pa8OhbsOtIHRvaG8gbW9jIG5ldsOtbS4NCg0KUG9r
-dWQgc291aGxhc8OtdGUgcyB0w61tLCDFvmUgbWkgcG9txa/FvmV0ZSwgb2Rwb3bEm3p0ZSBtaSwg
-YWJ5Y2ggdsOhbQ0KcG9za3l0bCB2w61jZSBpbmZvcm1hY8OtIGEgdGFrw6kgbmFza2VudWppIHN2
-xa9qIG9icsOhemVrIGEgcG/FoWx1IHbDoW0gamVqLA0KYWJ5c3RlIHbEm2TEm2xpLCBrZG8ganNl
-bS4NCg0KT2Rwb3bEm3p0ZSBtaSBwcm9zw61tLCBwb3NreXRudSB2w6FtIHbDrWNlIHBvZHJvYm5v
-c3TDrQ0KDQpExJtrdWppIGEgYnXEjyBwb8W+ZWhuw6FuLg0KDQpTIMO6Y3RvdQ0K
+Dear Yamada-san,
+
+On Do, Mai 23, 2019 at 02:18:00 +0200, Roberto Sassu wrote:
+> This patch set aims at solving the following use case: appraise files from
+> the initial ram disk. To do that, IMA checks the signature/hash from the
+> security.ima xattr. Unfortunately, this use case cannot be implemented
+> currently, as the CPIO format does not support xattrs.
+> 
+> This proposal consists in including file metadata as additional files named
+> METADATA!!!, for each file added to the ram disk. The CPIO parser in the
+> kernel recognizes these special files from the file name, and calls the
+> appropriate parser to add metadata to the previously extracted file. It has
+> been proposed to use bit 17:16 of the file mode as a way to recognize files
+> with metadata, but both the kernel and the cpio tool declare the file mode
+> as unsigned short.
+> 
+> The difference from v2, v3 (https://lkml.org/lkml/2019/5/9/230,
+> https://lkml.org/lkml/2019/5/17/466) is that file metadata are stored in
+> separate files instead of a single file. Given that files with metadata
+> must immediately follow the files metadata will be added to, image
+> generators have to be modified in this version.
+> 
+> The difference from v1 (https://lkml.org/lkml/2018/11/22/1182) is that
+> all files have the same name. The file metadata are added to is always the
+> previous one, and the image generator in user space will make sure that
+> files are in the correct sequence.
+> 
+> The difference with another proposal
+> (https://lore.kernel.org/patchwork/cover/888071/) is that xattrs can be
+> included in an image without changing the image format. Files with metadata
+> will appear as regular files. It will be task of the parser in the kernel
+> to process them.
+> 
+> This patch set extends the format of data defined in patch 9/15 of the last
+> proposal. It adds header version and type, so that new formats can be
+> defined and arbitrary metadata types can be processed.
+> 
+> The changes introduced by this patch set don't cause any compatibility
+> issue: kernels without the metadata parser simply extract the special files
+> and don't process metadata; kernels with the metadata parser don't process
+> metadata if the special files are not included in the image.
+> 
+> >From the kernel space perspective, backporting this functionality to older
+> kernels should be very easy. It is sufficient to add two calls to the new
+> function do_process_metadata() in do_copy(), and to check the file name in
+> do_name(). From the user space perspective, unlike the previous version of
+> the patch set, it is required to modify the image generators in order to
+> include metadata as separate files.
+
+Since this patch series most likely falls under your jurisdiction and
+also given your recent commits [*] in the same area, I am curious if
+there are any early signs which would prevent your final acceptance
+and would potentially result in a no-Go?
+
+Can we have an early confirmation that, upon rebasing and handling of
+all the review comments, you would be willing to accept the patches?
+
+[*] Most recent commits touching usr/gen_initramfs.sh
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=7168965ec7b10b8a2c7dea1f82f1ebadf44d64ba
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=65e00e04e5aea34b256814cfa21b32e3b94a2402
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=469e87e89fd61de804bd29f6dd0380a399b567a7
+
+Thanks,
+Eugeniu.
