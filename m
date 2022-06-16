@@ -2,92 +2,142 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EA5954D5BA
-	for <lists+linux-api@lfdr.de>; Thu, 16 Jun 2022 02:05:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 691A054D983
+	for <lists+linux-api@lfdr.de>; Thu, 16 Jun 2022 07:04:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350582AbiFPAFK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Jun 2022 20:05:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43534 "EHLO
+        id S1357185AbiFPFE0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 16 Jun 2022 01:04:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236390AbiFPAFJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Jun 2022 20:05:09 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 809BD54FB2;
-        Wed, 15 Jun 2022 17:05:00 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 25BCA61A77;
-        Thu, 16 Jun 2022 00:05:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DE0FC3411A;
-        Thu, 16 Jun 2022 00:04:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1655337899;
-        bh=twKDf6UE+kS3vngFTnZTxVTzoWdtagr989JXNITgwOw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jgVdLgvp0/JpnSn+TbW+19ECVOHgg2dvTd36K9dJ22dJewyA3ZwH85RLqqQhJ4rwu
-         eQRyLfRWbmNBVSY1p7ja1StME1gpGVXoweCk085gvuq5K3fYghi7s3zN8llC5NB4DT
-         7wMD56EHiUonIGs1WJIuErOZsdSVBXzjwJossod7XVa/UXSqTAr+0i+J9fC9mSo86u
-         MC0so6r8yjPi2hY2EBAN05ziiHSbiTb48hzbZsYl8kqWGa29RP58h+SFfWlo9UOmhj
-         mkduUSoEiKc7lQO9oM1+UBROu6epiy9J3JLrz6s5NI0683ClKMWFzU9kyryIEZ0z5n
-         RaO3GdDZGXmCw==
-Date:   Wed, 15 Jun 2022 17:04:57 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Dave Chinner <david@fromorbit.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-fscrypt@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Keith Busch <kbusch@kernel.org>
-Subject: Re: [RFC PATCH v2 1/7] statx: add I/O alignment information
-Message-ID: <YqpzqZQgu0Zz+vW1@sol.localdomain>
-References: <20220518235011.153058-1-ebiggers@kernel.org>
- <20220518235011.153058-2-ebiggers@kernel.org>
- <YobNXbYnhBiqniTH@magnolia>
- <20220520032739.GB1098723@dread.disaster.area>
- <YqgbuDbdH2OLcbC7@sol.localdomain>
- <YqnapOLvHDmX/3py@infradead.org>
+        with ESMTP id S1349153AbiFPFE0 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 16 Jun 2022 01:04:26 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B536A5A154;
+        Wed, 15 Jun 2022 22:04:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1655355861; x=1686891861;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=BLWxLUoPpHR0Mx/K28WEXQm09XW/3QsGGK6+7EjrGps=;
+  b=YqicQFhf27pgy/EYaHH4rHemWejTPzjOvhddlF0K2tfvUNmCkR3wyJRW
+   I5bxU9kEnKsh5y8U4wMZ/AjYnCgOnBcnGqBCU2bnXpNyDWQAfuWts62DV
+   yYSDhaz8mvtJSpYG5UwW8FhexNAhKwg6t2Dhd+tyCVBtCuQZwzVVsgXyt
+   A01PeGN6WZv3ZvqWMf9lJpNjobklYg2md8FOGfbAQFAgksDj4MNUsg3Co
+   dlyyIAvlHKV66nZ8SqR3BVKs1ccffKqe2APsmszX7t4xGXkdtk0qdw/dd
+   8pGJIw1Qfsx/0tW0Nj2joOIOC1l1noz4zGgQPyVies1ZwjcdP4U4dAJNg
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="277963358"
+X-IronPort-AV: E=Sophos;i="5.91,304,1647327600"; 
+   d="scan'208";a="277963358"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2022 22:04:21 -0700
+X-IronPort-AV: E=Sophos;i="5.91,304,1647327600"; 
+   d="scan'208";a="589477564"
+Received: from mngueron-mobl1.amr.corp.intel.com ([10.252.60.248])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2022 22:04:16 -0700
+Date:   Thu, 16 Jun 2022 08:04:09 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+cc:     linux-serial <linux-serial@vger.kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>, linux-arch@vger.kernel.org,
+        Lukas Wunner <lukas@wunner.de>,
+        =?ISO-8859-15?Q?Uwe_Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH v7 5/6] serial: Support for RS-485 multipoint addresses
+In-Reply-To: <Yqno+b/+W2RP8rnh@smile.fi.intel.com>
+Message-ID: <ae5c2e50-1a19-7a8f-7dbf-d7ef84128be6@linux.intel.com>
+References: <20220615124829.34516-1-ilpo.jarvinen@linux.intel.com> <20220615124829.34516-6-ilpo.jarvinen@linux.intel.com> <Yqno+b/+W2RP8rnh@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YqnapOLvHDmX/3py@infradead.org>
-X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/mixed; boundary="8323329-1441432405-1655355860=:1693"
+X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jun 15, 2022 at 06:12:04AM -0700, Christoph Hellwig wrote:
-> On Mon, Jun 13, 2022 at 10:25:12PM -0700, Eric Biggers wrote:
-> > While working on the man-pages update, I'm having second thoughts about the
-> > stx_offset_align_optimal field.  Does any filesystem other than XFS actually
-> > want stx_offset_align_optimal, when st[x]_blksize already exists?  Many network
-> > filesystems, as well as tmpfs when hugepages are enabled, already report large
-> > (megabytes) sizes in st[x]_blksize.  And all documentation I looked at (man
-> > pages for Linux, POSIX, FreeBSD, NetBSD, macOS) documents st_blksize as
-> > something like "the preferred blocksize for efficient I/O".  It's never
-> > documented as being limited to PAGE_SIZE, which makes sense because it's not.
-> 
-> Yes.  While st_blksize is utterly misnamed, it has always aways been
-> the optimal I/O size.
-> 
-> > Perhaps for now we should just add STATX_DIOALIGN instead of STATX_IOALIGN,
-> > leaving out the stx_offset_align_optimal field?  What do people think?
-> 
-> Yes, this sounds like a good plan.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-One more thing.  I'm trying to add support for STATX_DIOALIGN on block devices.
-Unfortunately I don't think it is going to work, at all, since the inode is for
-the device node and not the block device itself.  This is true even after the
-file is opened (I previously thought that at least that case would work).
+--8323329-1441432405-1655355860=:1693
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8BIT
 
-Were you expecting that this would work on block devices?  It seems they will
-need a different API -- a new BLK* ioctl, or files in /sys/block/$dev/queue.
+On Wed, 15 Jun 2022, Andy Shevchenko wrote:
 
-- Eric
+> On Wed, Jun 15, 2022 at 03:48:28PM +0300, Ilpo Järvinen wrote:
+> > Add support for RS-485 multipoint addressing using 9th bit [*]. The
+> > addressing mode is configured through .rs485_config().
+> > 
+> > ADDRB in termios indicates 9th bit addressing mode is enabled. In this
+> > mode, 9th bit is used to indicate an address (byte) within the
+> > communication line. ADDRB can only be enabled/disabled through
+> > .rs485_config() that is also responsible for setting the destination and
+> > receiver (filter) addresses.
+> > 
+> > [*] Technically, RS485 is just an electronic spec and does not itself
+> > specify the 9th bit addressing mode but 9th bit seems at least
+> > "semi-standard" way to do addressing with RS485.
+> > 
+> > Cc: Arnd Bergmann <arnd@arndb.de>
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > Cc: linux-api@vger.kernel.org
+> > Cc: linux-doc@vger.kernel.org
+> > Cc: linux-kernel@vger.kernel.org
+> > Cc: linux-arch@vger.kernel.org
+> 
+> Hmm... In order to reduce commit messages you can move these Cc:s after the
+> cutter line ('---').
+
+Ok, although the toolchain I use didn't support preserving --- content
+so I had to create hack to preserve them, hopefully nothing backfires due 
+to the hack. :-)
+
+> > -	__u32	padding[5];		/* Memory is cheap, new structs
+> > -					   are a royal PITA .. */
+> > +	__u8	addr_recv;
+> > +	__u8	addr_dest;
+> > +	__u8	padding[2 + 4 * sizeof(__u32)];		/* Memory is cheap, new structs
+> > +							 * are a royal PITA .. */
+> 
+> I'm not sure it's an equivalent. I would leave u32 members  untouched, so
+> something like
+> 
+> 	__u8	addr_recv;
+> 	__u8	addr_dest;
+> 	__u8	padding0[2];		/* Memory is cheap, new structs
+> 	__u32	padding1[4];		 * are a royal PITA .. */
+> 
+> And repeating about `pahole` tool which may be useful here to check for ABI
+> potential changes.
+
+I cannot take __u32 padding[] away like that, this is an uapi header. Or 
+do you mean I should create anonymous union? ...I'm skeptical that can be 
+pulled off w/o breaking user-space compile in some circumstances. Anon 
+unions were only introduced by C11 but is it ok to rely on C11 in uapi/ 
+headers?
+
+Even making padding smaller has some unwanted consequences if somebody is 
+clearing just .padding. In retrospect, having padding as a direct member 
+doesn't seem a good idea. That padding[5] should have been within an union 
+right from the start to make this easily extendable.
+
+Maybe create a copy of that struct under another name which is just equal 
+sized, that would give more freedom on member naming. But can I change 
+ioctl's param type to another struct (in _IOR/_IOWR) w/o breaking 
+something?
+
+-- 
+ i.
+
+--8323329-1441432405-1655355860=:1693--
