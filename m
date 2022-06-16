@@ -2,55 +2,60 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BC8854D06B
-	for <lists+linux-api@lfdr.de>; Wed, 15 Jun 2022 19:54:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EA5954D5BA
+	for <lists+linux-api@lfdr.de>; Thu, 16 Jun 2022 02:05:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231317AbiFORyW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 15 Jun 2022 13:54:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38626 "EHLO
+        id S1350582AbiFPAFK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 15 Jun 2022 20:05:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235028AbiFORyV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Jun 2022 13:54:21 -0400
-Received: from hi1smtp01.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6634E26117;
-        Wed, 15 Jun 2022 10:54:20 -0700 (PDT)
-Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
+        with ESMTP id S236390AbiFPAFJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 15 Jun 2022 20:05:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 809BD54FB2;
+        Wed, 15 Jun 2022 17:05:00 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by hi1smtp01.de.adit-jv.com (Postfix) with ESMTPS id 33E96520291;
-        Wed, 15 Jun 2022 19:54:18 +0200 (CEST)
-Received: from lxhi-065 (10.72.94.5) by hi2exch02.adit-jv.com (10.72.92.28)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2308.27; Wed, 15 Jun
- 2022 19:54:17 +0200
-Date:   Wed, 15 Jun 2022 19:54:12 +0200
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Roberto Sassu <roberto.sassu@huawei.com>,
-        Mimi Zohar <zohar@linux.vnet.ibm.com>
-CC:     <viro@zeniv.linux.org.uk>, <linux-security-module@vger.kernel.org>,
-        <linux-integrity@vger.kernel.org>, <initramfs@vger.kernel.org>,
-        <linux-api@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <bug-cpio@gnu.org>,
-        <silviu.vlasceanu@huawei.com>, <dmitry.kasatkin@huawei.com>,
-        <takondra@cisco.com>, <kamensky@cisco.com>, <hpa@zytor.com>,
-        <arnd@arndb.de>, <rob@landley.net>, <james.w.mcmechan@gmail.com>,
-        <niveditas98@gmail.com>, Dirk Behme <dirk.behme@de.bosch.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH v4 1/3] initramfs: add file metadata
-Message-ID: <20220615175412.GA7029@lxhi-065>
-References: <20190523121803.21638-1-roberto.sassu@huawei.com>
- <20190523121803.21638-2-roberto.sassu@huawei.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 25BCA61A77;
+        Thu, 16 Jun 2022 00:05:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DE0FC3411A;
+        Thu, 16 Jun 2022 00:04:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1655337899;
+        bh=twKDf6UE+kS3vngFTnZTxVTzoWdtagr989JXNITgwOw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jgVdLgvp0/JpnSn+TbW+19ECVOHgg2dvTd36K9dJ22dJewyA3ZwH85RLqqQhJ4rwu
+         eQRyLfRWbmNBVSY1p7ja1StME1gpGVXoweCk085gvuq5K3fYghi7s3zN8llC5NB4DT
+         7wMD56EHiUonIGs1WJIuErOZsdSVBXzjwJossod7XVa/UXSqTAr+0i+J9fC9mSo86u
+         MC0so6r8yjPi2hY2EBAN05ziiHSbiTb48hzbZsYl8kqWGa29RP58h+SFfWlo9UOmhj
+         mkduUSoEiKc7lQO9oM1+UBROu6epiy9J3JLrz6s5NI0683ClKMWFzU9kyryIEZ0z5n
+         RaO3GdDZGXmCw==
+Date:   Wed, 15 Jun 2022 17:04:57 -0700
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     Dave Chinner <david@fromorbit.com>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-fscrypt@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Keith Busch <kbusch@kernel.org>
+Subject: Re: [RFC PATCH v2 1/7] statx: add I/O alignment information
+Message-ID: <YqpzqZQgu0Zz+vW1@sol.localdomain>
+References: <20220518235011.153058-1-ebiggers@kernel.org>
+ <20220518235011.153058-2-ebiggers@kernel.org>
+ <YobNXbYnhBiqniTH@magnolia>
+ <20220520032739.GB1098723@dread.disaster.area>
+ <YqgbuDbdH2OLcbC7@sol.localdomain>
+ <YqnapOLvHDmX/3py@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190523121803.21638-2-roberto.sassu@huawei.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.72.94.5]
-X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
- hi2exch02.adit-jv.com (10.72.92.28)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+In-Reply-To: <YqnapOLvHDmX/3py@infradead.org>
+X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,70 +63,31 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello Roberto,
-Hello Mimi,
-
-On Thu, May 23, 2019 at 02:18:01PM +0200, Roberto Sassu wrote:
-> From: Mimi Zohar <zohar@linux.vnet.ibm.com>
+On Wed, Jun 15, 2022 at 06:12:04AM -0700, Christoph Hellwig wrote:
+> On Mon, Jun 13, 2022 at 10:25:12PM -0700, Eric Biggers wrote:
+> > While working on the man-pages update, I'm having second thoughts about the
+> > stx_offset_align_optimal field.  Does any filesystem other than XFS actually
+> > want stx_offset_align_optimal, when st[x]_blksize already exists?  Many network
+> > filesystems, as well as tmpfs when hugepages are enabled, already report large
+> > (megabytes) sizes in st[x]_blksize.  And all documentation I looked at (man
+> > pages for Linux, POSIX, FreeBSD, NetBSD, macOS) documents st_blksize as
+> > something like "the preferred blocksize for efficient I/O".  It's never
+> > documented as being limited to PAGE_SIZE, which makes sense because it's not.
 > 
-> This patch adds metadata to a file from a supplied buffer. The buffer might
-> contains multiple metadata records. The format of each record is:
+> Yes.  While st_blksize is utterly misnamed, it has always aways been
+> the optimal I/O size.
 > 
-> <metadata len (ASCII, 8 chars)><version><type><metadata>
+> > Perhaps for now we should just add STATX_DIOALIGN instead of STATX_IOALIGN,
+> > leaving out the stx_offset_align_optimal field?  What do people think?
 > 
-> For now, only the TYPE_XATTR metadata type is supported. The specific
-> format of this metadata type is:
-> 
-> <xattr #N name>\0<xattr #N value>
-> 
-> [kamensky: fixed restoring of xattrs for symbolic links by using
->            sys_lsetxattr() instead of sys_setxattr()]
-> 
-> [sassu: removed state management, kept only do_setxattrs(), added support
->         for generic file metadata, replaced sys_lsetxattr() with
->         vfs_setxattr(), added check for entry_size, added check for
->         hdr->c_size, replaced strlen() with strnlen(); moved do_setxattrs()
->         before do_name()]
-> 
-> Signed-off-by: Mimi Zohar <zohar@linux.vnet.ibm.com>
-> Signed-off-by: Victor Kamensky <kamensky@cisco.com>
-> Signed-off-by: Taras Kondratiuk <takondra@cisco.com>
-> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
-> ---
->  include/linux/initramfs.h | 21 ++++++++++
->  init/initramfs.c          | 88 ++++++++++++++++++++++++++++++++++++++-
->  2 files changed, 107 insertions(+), 2 deletions(-)
->  create mode 100644 include/linux/initramfs.h
+> Yes, this sounds like a good plan.
 
-[..]
+One more thing.  I'm trying to add support for STATX_DIOALIGN on block devices.
+Unfortunately I don't think it is going to work, at all, since the inode is for
+the device node and not the block device itself.  This is true even after the
+file is opened (I previously thought that at least that case would work).
 
-> +static int __init do_setxattrs(char *pathname, char *buf, size_t size)
-> +{
-> +	struct path path;
-> +	char *xattr_name, *xattr_value;
-> +	size_t xattr_name_size, xattr_value_size;
-> +	int ret;
-> +
-> +	xattr_name = buf;
-> +	xattr_name_size = strnlen(xattr_name, size);
-> +	if (xattr_name_size == size) {
-> +		error("malformed xattrs");
-> +		return -EINVAL;
-> +	}
-> +
+Were you expecting that this would work on block devices?  It seems they will
+need a different API -- a new BLK* ioctl, or files in /sys/block/$dev/queue.
 
-[..]
-
-> +
-> +		switch (hdr->c_type) {
-> +		case TYPE_XATTR:
-> +			do_setxattrs(pathname, buf + sizeof(*hdr),
-> +				     entry_size - sizeof(*hdr));
-
-Is it on purpose not to check the return value of do_setxattrs?
-
-I think I would have more comfort and piece of mind if I knew
-the return value is properly checked and acted upon. Otherwise,
-why returning an int from within do_setxattrs() at all?
-
-BR, Eugeniu
+- Eric
