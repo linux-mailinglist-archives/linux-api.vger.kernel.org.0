@@ -2,295 +2,240 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A22D54FF5D
-	for <lists+linux-api@lfdr.de>; Fri, 17 Jun 2022 23:31:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B1A155025D
+	for <lists+linux-api@lfdr.de>; Sat, 18 Jun 2022 05:18:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232790AbiFQVbB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 17 Jun 2022 17:31:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56314 "EHLO
+        id S238698AbiFRDS2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 17 Jun 2022 23:18:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230357AbiFQVa7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 17 Jun 2022 17:30:59 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C5D64C7A5
-        for <linux-api@vger.kernel.org>; Fri, 17 Jun 2022 14:30:58 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id f8so4878298plo.9
-        for <linux-api@vger.kernel.org>; Fri, 17 Jun 2022 14:30:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=UqA+O2iAjJVJVS6ckVZAwOszKMvVWnDYVURyulma9/8=;
-        b=rLPJAR88grVVrICam06LN8y5WgV/N1UDXOZUtwxnT05CZs2/+ScUbmlvPg7YNGt8jN
-         CP/H23Hb5io+PPWzCiRobvcwa6QKaczN/XFJbCJ1xw5FJnKufBcNrQBq2QH3TVs6m/8S
-         pT7Ot2jqLIXY5UYrEa9kMivftMhJQ3dtAiEYVicHj41LHpVN49WNN2gyfFOFkPL51bRO
-         e2VE7PExegoxz8xRDdxSEKwgJlf0YXMCZQmM3cCvHURRIH33DMEbdALixtIGM0z5DMcv
-         vU/sCc0n/YzSIEkmBVf46E+uON/ergwqcFB9WJP4GXemBs6Udj4I3LMO75CQIwPrcj5u
-         /Kow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=UqA+O2iAjJVJVS6ckVZAwOszKMvVWnDYVURyulma9/8=;
-        b=LyyVBsMD3AsoLv5rE+zk9aNUf7FDXiviz9hp3JPSAbzhiPKLOizGG3KFTIfeNv/qYl
-         c2ylaLbfTG4ShnQlk+m6nIH3wcYzini+F4PEx113EPLAnhDqdfSCiUyHDVJp/iJTlloU
-         l5miz2UFobYFbHr+Me3ubFZ+yHbFu8adyfJFa0RbQMcF3yhNrg8+B8IyAgtAl1mkKjRu
-         BX05I4U9MbEAfkDmCTI6ext/4O2wof6s6EnhnfyHhyS603ixru8UJYcFLTbnW/+p/NiS
-         GZA+KhHUSRho/5SQ6bA+I+bdb0j2GwwRpNJyZ4t+8+mf0bGvaVh6EhnXUmQXqz8+yn7r
-         IsDA==
-X-Gm-Message-State: AJIora8crUwhrt8uC9Wrgo6YodX9Y/bxZ5amWATJ1z04ughjCOjop8U1
-        lbSEioNjdLnvwmIT0eXG/kMWkw==
-X-Google-Smtp-Source: AGRyM1uGkQimPoB8kL1Wht4vTq43JoT8EC6dik/7IAdBWeLMjfdAenHlbc0UpgOFY4oFjdeqquWEtw==
-X-Received: by 2002:a17:90a:e507:b0:1ea:fa43:21de with SMTP id t7-20020a17090ae50700b001eafa4321demr9134913pjy.177.1655501457594;
-        Fri, 17 Jun 2022 14:30:57 -0700 (PDT)
-Received: from google.com (123.65.230.35.bc.googleusercontent.com. [35.230.65.123])
-        by smtp.gmail.com with ESMTPSA id f16-20020a633810000000b003fd9b8b865dsm4281929pga.0.2022.06.17.14.30.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jun 2022 14:30:57 -0700 (PDT)
-Date:   Fri, 17 Jun 2022 21:30:53 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: Re: [PATCH v6 6/8] KVM: Handle page fault for private memory
-Message-ID: <YqzyjZnflCMPo8b/@google.com>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <20220519153713.819591-7-chao.p.peng@linux.intel.com>
+        with ESMTP id S1383685AbiFRDS0 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 17 Jun 2022 23:18:26 -0400
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3708447046;
+        Fri, 17 Jun 2022 20:18:24 -0700 (PDT)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4LQ1MC3fKTz9sTF;
+        Sat, 18 Jun 2022 05:18:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+        t=1655522295;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ti92GavK4B+AVOSiOc7sl0Nh3i4kHTF9NVY/77Be+cs=;
+        b=iqfJvTkOopcCPhN1geyQohtJR9+Z6ikYbBKj0dm+I0jEOjYObbq3MSBUzLXSmiJ9KLBYHu
+        PdzA2Q9gELs01xqfFGy6Rw5P50Gi73tRbTZyiaXUuUAkbGU9bPE1eUdmc0lAzrzCq+ydf8
+        v8l3xQFM1ly5vhc7wVNhfDWr01MnZpJ3QA9KuihibEGahd9hF9eSgPZHZ03b1s5AE6ZeBF
+        xnFlw6VophiXCKevd1YR6nuQ0vAwQj6ynUtGfU608c4mdTD66Eq5H/vefYJAhqa+YTF8fg
+        hd3rfacAiX/s5AZd5i8ZYTkl1gbjftrEkVT0tEycyBPEP++XMoC3konoCAkdvA==
+Date:   Sat, 18 Jun 2022 13:18:05 +1000
+From:   Aleksa Sarai <cyphar@cyphar.com>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Christian Brauner <brauner@kernel.org>,
+        Christian =?utf-8?B?R8O2dHRzY2hl?= <cgzones@googlemail.com>,
+        selinux@vger.kernel.org, Miklos Szeredi <mszeredi@redhat.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH] f*xattr: allow O_PATH descriptors
+Message-ID: <20220618031805.nmgiuapuqeblm3ba@senku>
+References: <20220607153139.35588-1-cgzones@googlemail.com>
+ <20220608112728.b4xrdppxqmyqmtwf@wittgenstein>
+ <CAOQ4uxipD6khNUYuZT80WUa0KOMdyyP0ia55uhmeRCLj4NBicg@mail.gmail.com>
+ <20220608124808.uylo5lntzfgxxmns@wittgenstein>
+ <CAOQ4uxjP7kC95ou56wabVhQcc2vkNcD-8usYhLhbLOoJZ-jkOw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="lozwk7eau5q3sps2"
 Content-Disposition: inline
-In-Reply-To: <20220519153713.819591-7-chao.p.peng@linux.intel.com>
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <CAOQ4uxjP7kC95ou56wabVhQcc2vkNcD-8usYhLhbLOoJZ-jkOw@mail.gmail.com>
+X-Rspamd-Queue-Id: 4LQ1MC3fKTz9sTF
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, May 19, 2022, Chao Peng wrote:
-> @@ -4028,8 +4081,11 @@ static bool is_page_fault_stale(struct kvm_vcpu *vcpu,
->  	if (!sp && kvm_test_request(KVM_REQ_MMU_FREE_OBSOLETE_ROOTS, vcpu))
->  		return true;
->  
-> -	return fault->slot &&
-> -	       mmu_notifier_retry_hva(vcpu->kvm, mmu_seq, fault->hva);
-> +	if (fault->is_private)
-> +		return mmu_notifier_retry(vcpu->kvm, mmu_seq);
 
-Hmm, this is somewhat undesirable, because faulting in private pfns will be blocked
-by unrelated mmu_notifier updates.  The issue is mitigated to some degree by bumping
-the sequence count if and only if overlap with a memslot is detected, e.g. mapping
-changes that affects only userspace won't block the guest.
+--lozwk7eau5q3sps2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-It probably won't be an issue, but at the same time it's easy to solve, and I don't
-like piggybacking mmu_notifier_seq as private mappings shouldn't be subject to the
-mmu_notifier.
+On 2022-06-08, Amir Goldstein <amir73il@gmail.com> wrote:
+> On Wed, Jun 8, 2022 at 3:48 PM Christian Brauner <brauner@kernel.org> wro=
+te:
+> >
+> > On Wed, Jun 08, 2022 at 03:28:52PM +0300, Amir Goldstein wrote:
+> > > On Wed, Jun 8, 2022 at 2:57 PM Christian Brauner <brauner@kernel.org>=
+ wrote:
+> > > >
+> > > > On Tue, Jun 07, 2022 at 05:31:39PM +0200, Christian G=F6ttsche wrot=
+e:
+> > > > > From: Miklos Szeredi <mszeredi@redhat.com>
+> > > > >
+> > > > > Support file descriptors obtained via O_PATH for extended attribu=
+te
+> > > > > operations.
+> > > > >
+> > > > > Extended attributes are for example used by SELinux for the secur=
+ity
+> > > > > context of file objects. To avoid time-of-check-time-of-use issue=
+s while
+> > > > > setting those contexts it is advisable to pin the file in questio=
+n and
+> > > > > operate on a file descriptor instead of the path name. This can be
+> > > > > emulated in userspace via /proc/self/fd/NN [1] but requires a pro=
+cfs,
+> > > > > which might not be mounted e.g. inside of chroots, see[2].
+> > > > >
+> > > > > [1]: https://github.com/SELinuxProject/selinux/commit/7e979b56fd2=
+cee28f647376a7233d2ac2d12ca50
+> > > > > [2]: https://github.com/SELinuxProject/selinux/commit/de285252a18=
+01397306032e070793889c9466845
+> > > > >
+> > > > > Original patch by Miklos Szeredi <mszeredi@redhat.com>
+> > > > > https://patchwork.kernel.org/project/linux-fsdevel/patch/20200505=
+095915.11275-6-mszeredi@redhat.com/
+> > > > >
+> > > > > > While this carries a minute risk of someone relying on the prop=
+erty of
+> > > > > > xattr syscalls rejecting O_PATH descriptors, it saves the troub=
+le of
+> > > > > > introducing another set of syscalls.
+> > > > > >
+> > > > > > Only file->f_path and file->f_inode are accessed in these funct=
+ions.
+> > > > > >
+> > > > > > Current versions return EBADF, hence easy to detect the presens=
+e of
+> > > > > > this feature and fall back in case it's missing.
+> > > > >
+> > > > > CC: linux-api@vger.kernel.org
+> > > > > CC: linux-man@vger.kernel.org
+> > > > > Signed-off-by: Christian G=F6ttsche <cgzones@googlemail.com>
+> > > > > ---
+> > > >
+> > > > I'd be somewhat fine with getxattr and listxattr but I'm worried th=
+at
+> > > > setxattr/removexattr waters down O_PATH semantics even more. I don't
+> > > > want O_PATH fds to be useable for operations which are semantically
+> > > > equivalent to a write.
+> > >
+> > > It is not really semantically equivalent to a write if it works on a
+> > > O_RDONLY fd already.
+> >
+> > The fact that it works on a O_RDONLY fd has always been weird. And is
+> > probably a bug. If you look at xattr_permission() you can see that it
+>=20
+> Bug or no bug, this is the UAPI. It is not fixable anymore.
+>=20
+> > checks for MAY_WRITE for set operations... setxattr() writes to disk for
+> > real filesystems. I don't know how much closer to a write this can get.
+> >
+> > In general, one semantic aberration doesn't justify piling another one
+> > on top.
+> >
+> > (And one thing that speaks for O_RDONLY is at least that it actually
+> > opens the file wheres O_PATH doesn't.)
+>=20
+> Ok. I care mostly about consistent UAPI, so if you want to set the
+> rule that modify f*() operations are not allowed to use O_PATH fd,
+> I can live with that, although fcntl(2) may be breaking that rule, but
+> fine by me.
+> It's good to have consistent rules and it's good to add a new UAPI for
+> new behavior.
+>=20
+> However...
+>=20
+> >
+> > >
+> > > >
+> > > > In sensitive environments such as service management/container runt=
+imes
+> > > > we often send O_PATH fds around precisely because it is restricted =
+what
+> > > > they can be used for. I'd prefer to not to plug at this string.
+> > >
+> > > But unless I am mistaken, path_setxattr() and syscall_fsetxattr()
+> > > are almost identical w.r.t permission checks and everything else.
+> > >
+> > > So this change introduces nothing new that a user in said environment
+> > > cannot already accomplish with setxattr().
+> > >
+> > > Besides, as the commit message said, doing setxattr() on an O_PATH
+> > > fd is already possible with setxattr("/proc/self/$fd"), so whatever s=
+ecurity
+> > > hole you are trying to prevent is already wide open.
+> >
+> > That is very much a something that we're trying to restrict for this
+> > exact reason and is one of the main motivator for upgrade mask in
+> > openat2(). If I want to send a O_PATH around I want it to not be
+> > upgradable. Aleksa is working on upgrade masks with openat2() (see [1]
+> > and part of the original patchset in [2]. O_PATH semantics don't need to
+> > become weird.
+> >
+> > [1]: https://lore.kernel.org/all/20220526130355.fo6gzbst455fxywy@senku
+> > [2]: https://patchwork.ozlabs.org/project/linuxppc-dev/patch/2019072801=
+0207.9781-8-cyphar@cyphar.com
+>=20
+> ... thinking forward, if this patch is going to be rejected, the patch th=
+at
+> will follow is *xattrat() syscalls.
+>=20
+> What will you be able to argue then?
+>=20
+> There are several *at() syscalls that modify metadata.
+> fchownat(.., AT_EMPTY_PATH) is intentionally designed for this.
+>=20
+> Do you intend to try and block setxattrat()?
+> Just try and block setxattrat(.., AT_EMPTY_PATH)?
+> those *at() syscalls have real use cases to avoid TOCTOU races.
+> Do you propose that applications will have to use fsetxattr() on an open
+> file to avert races?
+>=20
+> I completely understand the idea behind upgrade masks
+> for limiting f_mode, but I don't know if trying to retroactively
+> change semantics of setxattr() in the move to setxattrat()
+> is going to be a good idea.
 
-That would also fix a theoretical bug in this patch where mmu_notifier_retry()
-wouldn't be defined if CONFIG_MEMFILE_NOTIFIER=y && CONFIG_MMU_NOTIFIER=n.a
+The goal would be that the semantics of fooat(<fd>, AT_EMPTY_PATH) and
+foo(/proc/self/fd/<fd>) should always be identical, and the current
+semantics of /proc/self/fd/<fd> are too leaky so we shouldn't always
+assume that keeping them makes sense (the most obvious example is being
+able to do tricks to open /proc/$pid/exe as O_RDWR).
 
----
- arch/x86/kvm/mmu/mmu.c   | 11 ++++++-----
- include/linux/kvm_host.h | 16 +++++++++++-----
- virt/kvm/kvm_main.c      |  2 +-
- 3 files changed, 18 insertions(+), 11 deletions(-)
+I suspect that the long-term solution would be to have more upgrade
+masks so that userspace can opt-in to not allowing any kind of
+(metadata) write access through a particular file descriptor. You're
+quite right that we have several metadata write AT_EMPTY_PATH APIs, and
+so we can't retroactively block /everything/ but we should try to come
+up with less leaky rules by default if it won't break userspace.
 
-diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-index 0b455c16ec64..a4cbd29433e7 100644
---- a/arch/x86/kvm/mmu/mmu.c
-+++ b/arch/x86/kvm/mmu/mmu.c
-@@ -4100,10 +4100,10 @@ static bool is_page_fault_stale(struct kvm_vcpu *vcpu,
- 		return true;
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
 
- 	if (fault->is_private)
--		return mmu_notifier_retry(vcpu->kvm, mmu_seq);
--	else
--		return fault->slot &&
--			mmu_notifier_retry_hva(vcpu->kvm, mmu_seq, fault->hva);
-+		return memfile_notifier_retry(vcpu->kvm, mmu_seq);
-+
-+	return fault->slot &&
-+	       mmu_notifier_retry_hva(vcpu->kvm, mmu_seq, fault->hva);
- }
+--lozwk7eau5q3sps2
+Content-Type: application/pgp-signature; name="signature.asc"
 
- static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
-@@ -4127,7 +4127,8 @@ static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
- 	if (r)
- 		return r;
+-----BEGIN PGP SIGNATURE-----
 
--	mmu_seq = vcpu->kvm->mmu_notifier_seq;
-+	mmu_seq = fault->is_private ? vcpu->kvm->memfile_notifier_seq :
-+				      vcpu->kvm->mmu_notifier_seq;
- 	smp_rmb();
+iHUEABYKAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCYq1D7QAKCRCdlLljIbnQ
+EisDAQDlTybzv0tXJJs7WeKQLAHpCjjTaNTZABGWLVdCDTPWmwD/TTjQ9wMwI+b0
+0NiySyPqfspZ5q8lElvMQSojZ1u9Vww=
+=8W1/
+-----END PGP SIGNATURE-----
 
- 	r = kvm_faultin_pfn(vcpu, fault);
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index 92afa5bddbc5..31f704c83099 100644
---- a/include/linux/kvm_host.h
-+++ b/include/linux/kvm_host.h
-@@ -773,16 +773,15 @@ struct kvm {
- 	struct hlist_head irq_ack_notifier_list;
- #endif
-
--#if (defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER)) ||\
--	defined(CONFIG_MEMFILE_NOTIFIER)
-+#if (defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER))
- 	unsigned long mmu_notifier_seq;
--#endif
--
--#if defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER)
- 	struct mmu_notifier mmu_notifier;
- 	long mmu_notifier_count;
- 	unsigned long mmu_notifier_range_start;
- 	unsigned long mmu_notifier_range_end;
-+#endif
-+#ifdef CONFIG_MEMFILE_NOTIFIER
-+	unsigned long memfile_notifier_seq;
- #endif
- 	struct list_head devices;
- 	u64 manual_dirty_log_protect;
-@@ -1964,6 +1963,13 @@ static inline int mmu_notifier_retry_hva(struct kvm *kvm,
- }
- #endif
-
-+#ifdef CONFIG_MEMFILE_NOTIFIER
-+static inline bool memfile_notifier_retry(struct kvm *kvm, unsigned long mmu_seq)
-+{
-+	return kvm->memfile_notifier_seq != mmu_seq;
-+}
-+#endif
-+
- #ifdef CONFIG_HAVE_KVM_IRQ_ROUTING
-
- #define KVM_MAX_IRQ_ROUTES 4096 /* might need extension/rework in the future */
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index 2b416d3bd60e..e6d34c964d51 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -898,7 +898,7 @@ static void kvm_private_mem_notifier_handler(struct memfile_notifier *notifier,
- 	KVM_MMU_LOCK(kvm);
- 	if (kvm_unmap_gfn_range(kvm, &gfn_range))
- 		kvm_flush_remote_tlbs(kvm);
--	kvm->mmu_notifier_seq++;
-+	kvm->memfile_notifier_seq++;
- 	KVM_MMU_UNLOCK(kvm);
- 	srcu_read_unlock(&kvm->srcu, idx);
- }
-
-base-commit: 333ef501c7f6c6d4ef2b7678905cad0f8ef3e271
---
-
-> +	else
-> +		return fault->slot &&
-> +			mmu_notifier_retry_hva(vcpu->kvm, mmu_seq, fault->hva);
->  }
->  
->  static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
-> @@ -4088,7 +4144,12 @@ static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
->  		read_unlock(&vcpu->kvm->mmu_lock);
->  	else
->  		write_unlock(&vcpu->kvm->mmu_lock);
-> -	kvm_release_pfn_clean(fault->pfn);
-> +
-> +	if (fault->is_private)
-> +		kvm_private_mem_put_pfn(fault->slot, fault->pfn);
-
-Why does the shmem path lock the page, and then unlock it here?
-
-Same question for why this path marks it dirty?  The guest has the page mapped
-so the dirty flag is immediately stale.
-
-In other words, why does KVM need to do something different for private pfns?
-
-> +	else
-> +		kvm_release_pfn_clean(fault->pfn);
-> +
->  	return r;
->  }
->  
-
-...
-
-> diff --git a/arch/x86/kvm/mmu/paging_tmpl.h b/arch/x86/kvm/mmu/paging_tmpl.h
-> index 7f8f1c8dbed2..1d857919a947 100644
-> --- a/arch/x86/kvm/mmu/paging_tmpl.h
-> +++ b/arch/x86/kvm/mmu/paging_tmpl.h
-> @@ -878,7 +878,10 @@ static int FNAME(page_fault)(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
->  
->  out_unlock:
->  	write_unlock(&vcpu->kvm->mmu_lock);
-> -	kvm_release_pfn_clean(fault->pfn);
-> +	if (fault->is_private)
-
-Indirect MMUs can't support private faults, i.e. this is unnecessary.
-
-> +		kvm_private_mem_put_pfn(fault->slot, fault->pfn);
-> +	else
-> +		kvm_release_pfn_clean(fault->pfn);
->  	return r;
->  }
->  
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 3fd168972ecd..b0a7910505ed 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -2241,4 +2241,26 @@ static inline void kvm_handle_signal_exit(struct kvm_vcpu *vcpu)
->  /* Max number of entries allowed for each kvm dirty ring */
->  #define  KVM_DIRTY_RING_MAX_ENTRIES  65536
->  
-> +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
-> +static inline int kvm_private_mem_get_pfn(struct kvm_memory_slot *slot,
-> +					  gfn_t gfn, kvm_pfn_t *pfn, int *order)
-> +{
-> +	int ret;
-> +	pfn_t pfnt;
-> +	pgoff_t index = gfn - slot->base_gfn +
-> +			(slot->private_offset >> PAGE_SHIFT);
-> +
-> +	ret = slot->notifier.bs->get_lock_pfn(slot->private_file, index, &pfnt,
-> +						order);
-> +	*pfn = pfn_t_to_pfn(pfnt);
-> +	return ret;
-> +}
-> +
-> +static inline void kvm_private_mem_put_pfn(struct kvm_memory_slot *slot,
-> +					   kvm_pfn_t pfn)
-> +{
-> +	slot->notifier.bs->put_unlock_pfn(pfn_to_pfn_t(pfn));
-> +}
-> +#endif /* CONFIG_HAVE_KVM_PRIVATE_MEM */
-> +
->  #endif
-> -- 
-> 2.25.1
-> 
+--lozwk7eau5q3sps2--
