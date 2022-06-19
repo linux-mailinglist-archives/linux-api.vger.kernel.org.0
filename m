@@ -2,350 +2,211 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 214A45505C1
-	for <lists+linux-api@lfdr.de>; Sat, 18 Jun 2022 17:30:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB0FC550A41
+	for <lists+linux-api@lfdr.de>; Sun, 19 Jun 2022 13:30:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235364AbiFRPau (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 18 Jun 2022 11:30:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42048 "EHLO
+        id S236536AbiFSLa5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 19 Jun 2022 07:30:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234228AbiFRPat (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 18 Jun 2022 11:30:49 -0400
-Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com [IPv6:2607:f8b0:4864:20::e2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 671AC10FD5;
-        Sat, 18 Jun 2022 08:30:47 -0700 (PDT)
-Received: by mail-vs1-xe2f.google.com with SMTP id r4so6660275vsf.10;
-        Sat, 18 Jun 2022 08:30:47 -0700 (PDT)
+        with ESMTP id S236590AbiFSLa4 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 19 Jun 2022 07:30:56 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C97817678
+        for <linux-api@vger.kernel.org>; Sun, 19 Jun 2022 04:30:52 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id p6-20020a05600c1d8600b0039c630b8d96so5567810wms.1
+        for <linux-api@vger.kernel.org>; Sun, 19 Jun 2022 04:30:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=ec81JYS9w05iELXFjalVH4ADOj7J/oGdbyFrCIUI9hk=;
-        b=dL596wyrSxQmSMAyW4DEZlFRo8n7C8VTb+84OXnV7Wx6dY+JGfce4zLMP0ZENZ9SWI
-         hTCTUoGqUcviCHKpYRVfLFl0ciQW/gFqqafwcrSSSKD5qJguLfPTyIMT15sgEw1vyQSK
-         NeGPMM3qfIcAWAVnqkQUTGjrmMnWzv9/RSKgYIwmtym0sQnc9UY5pB6X9u1aetCo0Orp
-         xipzKRc/s0HIFRhv+0qFdf77Ccwo1Z/P2JPhgZ9Dxy3PsM3Q3PXS/tfPd81nF8cIkofk
-         DkPYMYI3P/LhnqY5V04VUUfNO07B3B6tRtHTiwfodPYfPWg/5Mv47h6eXKMbRvfIawFf
-         uw8Q==
+        d=scylladb.com; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=O2I45PoOglfUqWYYLgh36wUEI38mqN5c3WyJELiYVrQ=;
+        b=CMDX7ziQVP/ELJCQ2uYixvE/VDY4gI0qJRyGZ6YhB69FGdgWsPUtuQ4ujKYUJOLfr3
+         JecC5hxwQzEatbQfmcHzd4sjCyNFkj1eXcQa2IbP+NPsmH3iuu5a83ukp1hWLtrn+SDp
+         8gvphAot6Kf3zSzGxxzeUfJ6pluXb1axlJWDmuKfXjXHgxmIa3Ne9GsgU811Ua2tYlrE
+         OA1WN8N/jwauET/7+Xk91P+RwrybwSq+T3UMITLjpWa85tfQOfL/LK5uULCiFGPNytHq
+         /qfUyy4cM4U38c3lRisTyxMFzdqTuYbve/Ij7FcakHP7u3lqBMOhVDG5RpW9uGnPMM9A
+         3j5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=ec81JYS9w05iELXFjalVH4ADOj7J/oGdbyFrCIUI9hk=;
-        b=dH2ZMCvaOL18udr8r1UuhcOI4Ixwd5pkOEsP7E4mjoVWRRFyZAli7h6rlYFTSF/kDj
-         qLhriPaWqw06I2k6BSuOjirrUxuyFfVrC64iGmbYgPr3mqodY1fOFNq2UgF2M+/ZwLRg
-         3JIzqRRE5rcrqDmfB0mMTyIZmbtYNrWf6jyXybMHEDXGfM5AlAt0Tio9RQb6RZqZgPZG
-         xy+/+6RkKzQ33VDu8rQyxKURa88MjjCtncXyCByZzLBLcAkldg6uBlrDYSHdSXbyN0WA
-         Q0qWiFc0ro2Bo4EGnjJ9EdUNFZCum7XG4BUVjbCtXE4bNWq5ipAIuzDChT/1UrNX8mz+
-         t7MQ==
-X-Gm-Message-State: AJIora9/CDFN/WY3Xb1jdIVOupPhHpfdJjtBJgsVoTHGUZdlKxPFI1v4
-        5yTPkEgyXeIec/iAPmx1Z9jBJJPnoXolRu3bgMM=
-X-Google-Smtp-Source: AGRyM1v8FLa38qza3BLrfAhoH5oURZdetNTjGy6tO2zlIgKlS9EB/2GFEvwQpjIsWr1FZsLeHAcdErKBzoh11r25H0U=
-X-Received: by 2002:a05:6102:3bc5:b0:34c:bfaa:1d31 with SMTP id
- a5-20020a0561023bc500b0034cbfaa1d31mr6340120vsv.3.1655566246401; Sat, 18 Jun
- 2022 08:30:46 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=O2I45PoOglfUqWYYLgh36wUEI38mqN5c3WyJELiYVrQ=;
+        b=s3i7U/+ipOjKUkShRFYAYUiiGIeSg8Qw13PEJt/IdH7jbAAgiKQyqXPh8G+AgPFbRm
+         5CDN9mA0RfcPpV4eIDQFKNAdMxJdTPiDV5hpKKgpSxKNQk4G2hfshVNBXxwgJrw4k3gL
+         v/hiK+CiXG03HwKsYB8AVZ7CezW5S+GuH0oc8p9sVL+MjvZqxsjq3jbHuAIywy0j42jO
+         ah5onho/SHEjcEo8WQiWyiWeyBmGX2VaAoa9Hfo8gvIz2p05+R6sWC52MsZENg2t2zz+
+         ufKFIo+AVxn5t7VSDEDaG0s8xKJHaBzdgPu3YXfC4izwwkN1b+mvUHE9k70q8OspydBa
+         tBDA==
+X-Gm-Message-State: AJIora8Az8xOHlup3YMTpniW3e3S0rBdvrYZaRC3m+lSYr/QZORDg8j7
+        GgxL7PbL51AMUf8pRzKRvdMhoA==
+X-Google-Smtp-Source: AGRyM1sQr/+BlLCjFYp7YIL2rW66A6O7S/z7a9tjlAuS/44BkYWT2Uw8taLHxSnMG2oypjiTMj2wcg==
+X-Received: by 2002:a05:600c:17cf:b0:39c:4b79:78c9 with SMTP id y15-20020a05600c17cf00b0039c4b7978c9mr19415525wmo.96.1655638251293;
+        Sun, 19 Jun 2022 04:30:51 -0700 (PDT)
+Received: from [10.0.0.1] (system.cloudius-systems.com. [199.203.229.89])
+        by smtp.gmail.com with ESMTPSA id x1-20020adff0c1000000b002103cfd2fbasm10156755wro.65.2022.06.19.04.30.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 19 Jun 2022 04:30:50 -0700 (PDT)
+Message-ID: <6c06b2d4-2d96-c4a6-7aca-5147a91e7cf2@scylladb.com>
+Date:   Sun, 19 Jun 2022 14:30:47 +0300
 MIME-Version: 1.0
-References: <20220607153139.35588-1-cgzones@googlemail.com>
- <20220608112728.b4xrdppxqmyqmtwf@wittgenstein> <CAOQ4uxipD6khNUYuZT80WUa0KOMdyyP0ia55uhmeRCLj4NBicg@mail.gmail.com>
- <20220608124808.uylo5lntzfgxxmns@wittgenstein> <CAOQ4uxjP7kC95ou56wabVhQcc2vkNcD-8usYhLhbLOoJZ-jkOw@mail.gmail.com>
- <20220618031805.nmgiuapuqeblm3ba@senku> <CAOQ4uxg6QLJ26pX8emXmUvq6jDDEH_Qq=Z4RPUK-jGLsZpHzfg@mail.gmail.com>
- <CAJ2a_DectnRF56fxpOjvVm2ZdvO+shxCjtjzLbH4oaa7KnsgTA@mail.gmail.com>
-In-Reply-To: <CAJ2a_DectnRF56fxpOjvVm2ZdvO+shxCjtjzLbH4oaa7KnsgTA@mail.gmail.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Sat, 18 Jun 2022 18:30:35 +0300
-Message-ID: <CAOQ4uxj1YhDmXqkwzfVt6JjRu4Fqtq-u1vj72m75U_AggBhs=g@mail.gmail.com>
-Subject: Re: [RFC PATCH] f*xattr: allow O_PATH descriptors
-To:     =?UTF-8?Q?Christian_G=C3=B6ttsche?= <cgzones@googlemail.com>
-Cc:     Aleksa Sarai <cyphar@cyphar.com>,
-        Christian Brauner <brauner@kernel.org>,
-        SElinux list <selinux@vger.kernel.org>,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v3 1/8] statx: add direct I/O alignment information
+Content-Language: en-US
+To:     Eric Biggers <ebiggers@kernel.org>, linux-fsdevel@vger.kernel.org
+Cc:     linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-xfs@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Keith Busch <kbusch@kernel.org>
+References: <20220616201506.124209-1-ebiggers@kernel.org>
+ <20220616201506.124209-2-ebiggers@kernel.org>
+From:   Avi Kivity <avi@scylladb.com>
+Organization: ScyllaDB
+In-Reply-To: <20220616201506.124209-2-ebiggers@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Jun 18, 2022 at 2:19 PM Christian G=C3=B6ttsche
-<cgzones@googlemail.com> wrote:
->
-> On Sat, 18 Jun 2022 at 11:11, Amir Goldstein <amir73il@gmail.com> wrote:
-> >
-> > On Sat, Jun 18, 2022 at 6:18 AM Aleksa Sarai <cyphar@cyphar.com> wrote:
-> > >
-> > > On 2022-06-08, Amir Goldstein <amir73il@gmail.com> wrote:
-> > > > On Wed, Jun 8, 2022 at 3:48 PM Christian Brauner <brauner@kernel.or=
-g> wrote:
-> > > > >
-> > > > > On Wed, Jun 08, 2022 at 03:28:52PM +0300, Amir Goldstein wrote:
-> > > > > > On Wed, Jun 8, 2022 at 2:57 PM Christian Brauner <brauner@kerne=
-l.org> wrote:
-> > > > > > >
-> > > > > > > On Tue, Jun 07, 2022 at 05:31:39PM +0200, Christian G=C3=B6tt=
-sche wrote:
-> > > > > > > > From: Miklos Szeredi <mszeredi@redhat.com>
-> > > > > > > >
-> > > > > > > > Support file descriptors obtained via O_PATH for extended a=
-ttribute
-> > > > > > > > operations.
-> > > > > > > >
-> > > > > > > > Extended attributes are for example used by SELinux for the=
- security
-> > > > > > > > context of file objects. To avoid time-of-check-time-of-use=
- issues while
-> > > > > > > > setting those contexts it is advisable to pin the file in q=
-uestion and
-> > > > > > > > operate on a file descriptor instead of the path name. This=
- can be
-> > > > > > > > emulated in userspace via /proc/self/fd/NN [1] but requires=
- a procfs,
-> > > > > > > > which might not be mounted e.g. inside of chroots, see[2].
-> > > > > > > >
-> > > > > > > > [1]: https://github.com/SELinuxProject/selinux/commit/7e979=
-b56fd2cee28f647376a7233d2ac2d12ca50
-> > > > > > > > [2]: https://github.com/SELinuxProject/selinux/commit/de285=
-252a1801397306032e070793889c9466845
-> > > > > > > >
-> > > > > > > > Original patch by Miklos Szeredi <mszeredi@redhat.com>
-> > > > > > > > https://patchwork.kernel.org/project/linux-fsdevel/patch/20=
-200505095915.11275-6-mszeredi@redhat.com/
-> > > > > > > >
-> > > > > > > > > While this carries a minute risk of someone relying on th=
-e property of
-> > > > > > > > > xattr syscalls rejecting O_PATH descriptors, it saves the=
- trouble of
-> > > > > > > > > introducing another set of syscalls.
-> > > > > > > > >
-> > > > > > > > > Only file->f_path and file->f_inode are accessed in these=
- functions.
-> > > > > > > > >
-> > > > > > > > > Current versions return EBADF, hence easy to detect the p=
-resense of
-> > > > > > > > > this feature and fall back in case it's missing.
-> > > > > > > >
-> > > > > > > > CC: linux-api@vger.kernel.org
-> > > > > > > > CC: linux-man@vger.kernel.org
-> > > > > > > > Signed-off-by: Christian G=C3=B6ttsche <cgzones@googlemail.=
-com>
-> > > > > > > > ---
-> > > > > > >
-> > > > > > > I'd be somewhat fine with getxattr and listxattr but I'm worr=
-ied that
-> > > > > > > setxattr/removexattr waters down O_PATH semantics even more. =
-I don't
-> > > > > > > want O_PATH fds to be useable for operations which are semant=
-ically
-> > > > > > > equivalent to a write.
-> > > > > >
-> > > > > > It is not really semantically equivalent to a write if it works=
- on a
-> > > > > > O_RDONLY fd already.
-> > > > >
-> > > > > The fact that it works on a O_RDONLY fd has always been weird. An=
-d is
-> > > > > probably a bug. If you look at xattr_permission() you can see tha=
-t it
-> > > >
-> > > > Bug or no bug, this is the UAPI. It is not fixable anymore.
-> > > >
-> > > > > checks for MAY_WRITE for set operations... setxattr() writes to d=
-isk for
-> > > > > real filesystems. I don't know how much closer to a write this ca=
-n get.
-> > > > >
-> > > > > In general, one semantic aberration doesn't justify piling anothe=
-r one
-> > > > > on top.
-> > > > >
-> > > > > (And one thing that speaks for O_RDONLY is at least that it actua=
-lly
-> > > > > opens the file wheres O_PATH doesn't.)
-> > > >
-> > > > Ok. I care mostly about consistent UAPI, so if you want to set the
-> > > > rule that modify f*() operations are not allowed to use O_PATH fd,
-> > > > I can live with that, although fcntl(2) may be breaking that rule, =
-but
-> > > > fine by me.
-> > > > It's good to have consistent rules and it's good to add a new UAPI =
-for
-> > > > new behavior.
-> > > >
-> > > > However...
-> > > >
-> > > > >
-> > > > > >
-> > > > > > >
-> > > > > > > In sensitive environments such as service management/containe=
-r runtimes
-> > > > > > > we often send O_PATH fds around precisely because it is restr=
-icted what
-> > > > > > > they can be used for. I'd prefer to not to plug at this strin=
-g.
-> > > > > >
-> > > > > > But unless I am mistaken, path_setxattr() and syscall_fsetxattr=
-()
-> > > > > > are almost identical w.r.t permission checks and everything els=
-e.
-> > > > > >
-> > > > > > So this change introduces nothing new that a user in said envir=
-onment
-> > > > > > cannot already accomplish with setxattr().
-> > > > > >
-> > > > > > Besides, as the commit message said, doing setxattr() on an O_P=
-ATH
-> > > > > > fd is already possible with setxattr("/proc/self/$fd"), so what=
-ever security
-> > > > > > hole you are trying to prevent is already wide open.
-> > > > >
-> > > > > That is very much a something that we're trying to restrict for t=
-his
-> > > > > exact reason and is one of the main motivator for upgrade mask in
-> > > > > openat2(). If I want to send a O_PATH around I want it to not be
-> > > > > upgradable. Aleksa is working on upgrade masks with openat2() (se=
-e [1]
-> > > > > and part of the original patchset in [2]. O_PATH semantics don't =
-need to
-> > > > > become weird.
-> > > > >
-> > > > > [1]: https://lore.kernel.org/all/20220526130355.fo6gzbst455fxywy@=
-senku
-> > > > > [2]: https://patchwork.ozlabs.org/project/linuxppc-dev/patch/2019=
-0728010207.9781-8-cyphar@cyphar.com
-> > > >
-> > > > ... thinking forward, if this patch is going to be rejected, the pa=
-tch that
-> > > > will follow is *xattrat() syscalls.
-> > > >
-> > > > What will you be able to argue then?
-> > > >
-> > > > There are several *at() syscalls that modify metadata.
-> > > > fchownat(.., AT_EMPTY_PATH) is intentionally designed for this.
-> > > >
-> > > > Do you intend to try and block setxattrat()?
-> > > > Just try and block setxattrat(.., AT_EMPTY_PATH)?
-> > > > those *at() syscalls have real use cases to avoid TOCTOU races.
-> > > > Do you propose that applications will have to use fsetxattr() on an=
- open
-> > > > file to avert races?
-> > > >
-> > > > I completely understand the idea behind upgrade masks
-> > > > for limiting f_mode, but I don't know if trying to retroactively
-> > > > change semantics of setxattr() in the move to setxattrat()
-> > > > is going to be a good idea.
-> > >
-> > > The goal would be that the semantics of fooat(<fd>, AT_EMPTY_PATH) an=
-d
-> > > foo(/proc/self/fd/<fd>) should always be identical, and the current
-> > > semantics of /proc/self/fd/<fd> are too leaky so we shouldn't always
-> > > assume that keeping them makes sense (the most obvious example is bei=
-ng
-> > > able to do tricks to open /proc/$pid/exe as O_RDWR).
-> >
-> > Please make a note that I have applications relying on current magic sy=
-mlink
-> > semantics w.r.t setxattr() and other metadata operations, and the libse=
-linux
-> > commit linked from the patch commit message proves that magic symlink
-> > semantics are used in the wild, so it is not likely that those semantic=
-s could
-> > be changed, unless userspace breakage could be justified by fixing a se=
-rious
-> > security issue (i.e. open /proc/$pid/exe as O_RDWR).
-> >
-> > >
-> > > I suspect that the long-term solution would be to have more upgrade
-> > > masks so that userspace can opt-in to not allowing any kind of
-> > > (metadata) write access through a particular file descriptor. You're
-> > > quite right that we have several metadata write AT_EMPTY_PATH APIs, a=
-nd
-> > > so we can't retroactively block /everything/ but we should try to com=
-e
-> > > up with less leaky rules by default if it won't break userspace.
-> > >
-> >
-> > Ok, let me try to say this in my own words using an example to see that
-> > we are all on the same page:
-> >
-> > - lsetxattr(PATH_TO_FILE,..) has inherent TOCTOU races
-> > - fsetxattr(fd,...) is not applicable for symbolic links
->
-> fsetxattr(2) works on symbolic links, e.g. for "security.selinux",
-> except for the user namespace:
->
-> https://github.com/torvalds/linux/blob/4b35035bcf80ddb47c0112c4fbd84a63a2=
-836a18/fs/xattr.c#L124-L136
-> /*
-> * In the user.* namespace, only regular files and directories can have
-> * extended attributes. For sticky directories, only the owner and
-> * privileged users can write attributes.
-> */
-> if (!strncmp(name, XATTR_USER_PREFIX, XATTR_USER_PREFIX_LEN)) {
->     if (!S_ISREG(inode->i_mode) && !S_ISDIR(inode->i_mode))
->         return (mask & MAY_WRITE) ? -EPERM : -ENODATA;
->     if (S_ISDIR(inode->i_mode) && (inode->i_mode & S_ISVTX) &&
->        (mask & MAY_WRITE) &&
->         !inode_owner_or_capable(mnt_userns, inode))
->         return -EPERM;
-> }
->
-> Currently it just does not support O_PATH file descriptors.
-> And with O_RDONLY setting extended attributes is supported as well
-> (fsetxattr(2) does not require O_RDWR or O_WRONLY).
 
-But it is not possible to get a O_RDONLY fd for a symlink object, is it?
-That's why I wrote "fsetxattr() is not applicable for symbolic links".
-And then libselinux is left to choose between one API that is racy (lsetxat=
-tr)
-and another API that does not work in containers (magic symlink).
-They need to be give a proper API.
+On 16/06/2022 23.14, Eric Biggers wrote:
+> From: Eric Biggers <ebiggers@google.com>
+>
+> Traditionally, the conditions for when DIO (direct I/O) is supported
+> were fairly simple.  For both block devices and regular files, DIO had
+> to be aligned to the logical block size of the block device.
+>
+> However, due to filesystem features that have been added over time (e.g.
+> multi-device support, data journalling, inline data, encryption, verity,
+> compression, checkpoint disabling, log-structured mode), the conditions
+> for when DIO is allowed on a regular file have gotten increasingly
+> complex.  Whether a particular regular file supports DIO, and with what
+> alignment, can depend on various file attributes and filesystem mount
+> options, as well as which block device(s) the file's data is located on.
+>
+> Moreover, the general rule of DIO needing to be aligned to the block
+> device's logical block size is being relaxed to allow user buffers (but
+> not file offsets) aligned to the DMA alignment instead
+> (https://lore.kernel.org/linux-block/20220610195830.3574005-1-kbusch@fb.com/T/#u).
+>
+> XFS has an ioctl XFS_IOC_DIOINFO that exposes DIO alignment information.
+> Uplifting this to the VFS is one possibility.  However, as discussed
+> (https://lore.kernel.org/linux-fsdevel/20220120071215.123274-1-ebiggers@kernel.org/T/#u),
+> this ioctl is rarely used and not known to be used outside of
+> XFS-specific code.  It was also never intended to indicate when a file
+> doesn't support DIO at all, nor was it intended for block devices.
+>
+> Therefore, let's expose this information via statx().  Add the
+> STATX_DIOALIGN flag and two new statx fields associated with it:
+>
+> * stx_dio_mem_align: the alignment (in bytes) required for user memory
+>    buffers for DIO, or 0 if DIO is not supported on the file.
+>
+> * stx_dio_offset_align: the alignment (in bytes) required for file
+>    offsets and I/O segment lengths for DIO, or 0 if DIO is not supported
+>    on the file.  This will only be nonzero if stx_dio_mem_align is
+>    nonzero, and vice versa.
+
+
+If you consider AIO, this is actually three alignments:
+
+1. offset alignment for reads (sector size in XFS)
+
+2. offset alignment for overwrites (sector size in XFS since 
+ed1128c2d0c87e, block size earlier)
+
+3. offset alignment for appending writes (block size)
+
+
+This is critical for linux-aio since violation of these alignments will 
+stall the io_submit system call. Perhaps io_uring handles it better by 
+bouncing to a workqueue, but there is a significant performance and 
+latency penalty for that.
+
+
+Small appending writes are important for database commit logs (and so 
+it's better to overwrite a pre-formatted file to avoid aligning to block 
+size).
+
+
+It would be good to expose these differences.
+
 
 >
-> > - setxattr("/proc/self/fd/<fd>",...) is the current API to avoid TOCTOU=
- races
-> >   when setting xattr on symbolic links
-> > - setxattrat(o_path_fd, "", ..., AT_EMPTY_PATH) is proposed as a the
-> >   "new API" for setting xattr on symlinks (and special files)
-> > - The new API is going to be more strict than the old magic symlink API
-> > - *If* it turns out to not break user applications, old API can also be=
-come
-> >   more strict to align with new API (unlikely the case for setxattr())
-> > - This will allow sandboxed containers to opt-out of the "old API", by
-> >   restricting access to /proc/self/fd and to implement more fine graine=
-d
-> >   control over which metadata operations are allowed on an O_PATH fd
-> >
-> > Did I understand the plan correctly?
-> > Do you agree with me that the plan to keep AT_EMPTY_PATH and
-> > magic symlink semantics may not be realistic?
-
-Sorry, this gave out messy.
-This was supposed to ask whether this part of the plan:
-"semantics of fooat(<fd>, AT_EMPTY_PATH) and foo(/proc/self/fd/<fd>)
-should always be identical" is realistic, given that applications
-already depend on existing setxattr(MAGIC_SYMLINK) semantics.
-
-IMO, it should be fine to keep the same semantic and allow
-setxattrat() on O_PATH fd (subject to xattr_permission() of course),
-as long as open masks could be added to further restrict the O_PATH
-fd from being used for setxattr() in the future.
-
-IOW, we don't have to think of O_PATH as the "least capable" fd mode.
-It is just a mode that that is not capable for data manipulations, but
-there could be even less capable fd modes that are also not capable
-for metadata manipulations such as setxattrat() or chownat().
-
-Does that make sense?
-
-Thanks,
-Amir.
+> Note that as with other statx() extensions, if STATX_DIOALIGN isn't set
+> in the returned statx struct, then these new fields won't be filled in.
+> This will happen if the file is neither a regular file nor a block
+> device, or if the file is a regular file and the filesystem doesn't
+> support STATX_DIOALIGN.  It might also happen if the caller didn't
+> include STATX_DIOALIGN in the request mask, since statx() isn't required
+> to return unrequested information.
+>
+> This commit only adds the VFS-level plumbing for STATX_DIOALIGN.  For
+> regular files, individual filesystems will still need to add code to
+> support it.  For block devices, a separate commit will wire it up too.
+>
+> Signed-off-by: Eric Biggers <ebiggers@google.com>
+> ---
+>   fs/stat.c                 | 2 ++
+>   include/linux/stat.h      | 2 ++
+>   include/uapi/linux/stat.h | 4 +++-
+>   3 files changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/fs/stat.c b/fs/stat.c
+> index 9ced8860e0f35..a7930d7444830 100644
+> --- a/fs/stat.c
+> +++ b/fs/stat.c
+> @@ -611,6 +611,8 @@ cp_statx(const struct kstat *stat, struct statx __user *buffer)
+>   	tmp.stx_dev_major = MAJOR(stat->dev);
+>   	tmp.stx_dev_minor = MINOR(stat->dev);
+>   	tmp.stx_mnt_id = stat->mnt_id;
+> +	tmp.stx_dio_mem_align = stat->dio_mem_align;
+> +	tmp.stx_dio_offset_align = stat->dio_offset_align;
+>   
+>   	return copy_to_user(buffer, &tmp, sizeof(tmp)) ? -EFAULT : 0;
+>   }
+> diff --git a/include/linux/stat.h b/include/linux/stat.h
+> index 7df06931f25d8..ff277ced50e9f 100644
+> --- a/include/linux/stat.h
+> +++ b/include/linux/stat.h
+> @@ -50,6 +50,8 @@ struct kstat {
+>   	struct timespec64 btime;			/* File creation time */
+>   	u64		blocks;
+>   	u64		mnt_id;
+> +	u32		dio_mem_align;
+> +	u32		dio_offset_align;
+>   };
+>   
+>   #endif
+> diff --git a/include/uapi/linux/stat.h b/include/uapi/linux/stat.h
+> index 1500a0f58041a..7cab2c65d3d7f 100644
+> --- a/include/uapi/linux/stat.h
+> +++ b/include/uapi/linux/stat.h
+> @@ -124,7 +124,8 @@ struct statx {
+>   	__u32	stx_dev_minor;
+>   	/* 0x90 */
+>   	__u64	stx_mnt_id;
+> -	__u64	__spare2;
+> +	__u32	stx_dio_mem_align;	/* Memory buffer alignment for direct I/O */
+> +	__u32	stx_dio_offset_align;	/* File offset alignment for direct I/O */
+>   	/* 0xa0 */
+>   	__u64	__spare3[12];	/* Spare space for future expansion */
+>   	/* 0x100 */
+> @@ -152,6 +153,7 @@ struct statx {
+>   #define STATX_BASIC_STATS	0x000007ffU	/* The stuff in the normal stat struct */
+>   #define STATX_BTIME		0x00000800U	/* Want/got stx_btime */
+>   #define STATX_MNT_ID		0x00001000U	/* Got stx_mnt_id */
+> +#define STATX_DIOALIGN		0x00002000U	/* Want/got direct I/O alignment info */
+>   
+>   #define STATX__RESERVED		0x80000000U	/* Reserved for future struct statx expansion */
+>   
