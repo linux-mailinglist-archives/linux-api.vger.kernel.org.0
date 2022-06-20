@@ -2,133 +2,106 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 03F045517BE
-	for <lists+linux-api@lfdr.de>; Mon, 20 Jun 2022 13:48:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A867A551EF4
+	for <lists+linux-api@lfdr.de>; Mon, 20 Jun 2022 16:36:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234716AbiFTLsl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 20 Jun 2022 07:48:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37230 "EHLO
+        id S241689AbiFTObh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 20 Jun 2022 10:31:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242052AbiFTLsi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 20 Jun 2022 07:48:38 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E9DE17057;
-        Mon, 20 Jun 2022 04:48:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655725717; x=1687261717;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Fg8wToUgzOMv1MBkkI+JlUdgqqTH6ag3Hnfhb3mXbJs=;
-  b=H0dXDi4NhcfC1Ih6+wo1mI+6tHgKG2fNeHFvK8slsiYvMgmVP2VlYiED
-   p0ex7U7XyLtaufSc8mT2Lcoe3yJTW8ANH6EJf9TiKAeZvbdrJLc85XR4d
-   qcTPdpt5g53Y0R6oJBXFCp9N3KYwJxf7SAV30/MAxazvOaLhOPTsX+JiH
-   Lq5+Xx3u3pOGVUoZSLWlimVT1QBV1uM5HrhoQk8ac27PcqvvMyfUqwJxb
-   FfWER7Xf+FNnUZg8+QT4FfeSbVPEZSO8TcHgMk+dHi+ZmTCkQr/jfTWT1
-   +Hvl5sISBEZ+E8nAjlCGib/TcMvPlzSrmtvpkyQ21Xl/pX88WINg7FASL
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="280605064"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
-   d="scan'208";a="280605064"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2022 04:48:37 -0700
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
-   d="scan'208";a="833079546"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2022 04:48:33 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1o3FtO-000kLC-P2;
-        Mon, 20 Jun 2022 14:48:30 +0300
-Date:   Mon, 20 Jun 2022 14:48:30 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc:     linux-serial <linux-serial@vger.kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>, linux-arch@vger.kernel.org,
-        Lukas Wunner <lukas@wunner.de>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH v8 5/6] serial: Support for RS-485 multipoint addresses
-Message-ID: <YrBejkxeZfpQ35iG@smile.fi.intel.com>
-References: <20220620064030.7938-1-ilpo.jarvinen@linux.intel.com>
- <20220620064030.7938-6-ilpo.jarvinen@linux.intel.com>
- <YrBS03ymAWVajy7e@smile.fi.intel.com>
- <a9b8ec3a-4f40-c0f5-e1a-bb577d5937ff@linux.intel.com>
+        with ESMTP id S238913AbiFTObZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 20 Jun 2022 10:31:25 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 605F54D27F;
+        Mon, 20 Jun 2022 06:45:57 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id c21so14775720wrb.1;
+        Mon, 20 Jun 2022 06:45:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=q0/acyt1Yt+CAGQuKAQvux2R5oV+9aowMrjxJPhPJg0=;
+        b=JKr80j5SLAtgWYBjXbYu1S8TrJOm6rEmIATGKCTlUHCPnhqX1qsVJWS1ezQZcPxoQ2
+         0cKoBMjtRMEj3N8krNd3g7m2via6rbMoM0uK3MSoCaP1TJkK9YI5SMg1WB5T/v2bBVdU
+         BmaFsQYn44+j/7P7QBHgE5VmlT4w/TZlqPjcLDE6YC223xzOy60K7ucHSGY6rnG67gSe
+         SYxloaK1QKbKlj+t/txmFZYNKiDKAEOKrbN0X6slXN9cpBe94J/2VsrQJAVL2Kpod/uW
+         XlOG1SuOJeLHhU4AwX/uP2yjuclcNyVqHeUFA3CGWRKiEFO25kx2T+BpahBfZCimTuNy
+         tDxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=q0/acyt1Yt+CAGQuKAQvux2R5oV+9aowMrjxJPhPJg0=;
+        b=0VNmoQN/vp2xUUMk6Lb3SR9iBBro57JRdDhbPHpkho1SpLkg12JzDdHp8jLf7vmJyn
+         BfBZBOIFDuRA5Jc3/UmmLYxuwTrO+y2XL1mwSCkRC3Zi+LHS1kA48X7BpaLgqBqCuSKj
+         CE6BFdvoY5xyObA4EVZXIX0YocPd7RDoxKxcC0BwGGPs5E7+y0tiqwtMt1vFHyCxSxFC
+         R+x1CwAmFyXH4NTFo6p6McsF+GILeYexkdeJ0ck1K5hz6Tx/WUBT82dZwl6NXSTE/ZMU
+         JpVuTzZQTPEiXDq4nVbWAZtpS2o2eMcQoNpLexnb5L1FG4IIfgC26/QIkHrPWFAha+DP
+         nBOg==
+X-Gm-Message-State: AJIora/P0pdTcXMjU1NW657r7U+V6nPxpv71+lIWW1zYhjHbGTS7WJfC
+        JXA0gtPxA4pyBlYQNWl6rUU=
+X-Google-Smtp-Source: AGRyM1v0xdrU9GSikc5+u5xsEwVE1HqLR3/RIa2OBOElMvwqMkQk6UZmQ7tbOYgyVvH9qZlG9IFAXQ==
+X-Received: by 2002:a5d:4d52:0:b0:21b:93b4:6a2a with SMTP id a18-20020a5d4d52000000b0021b93b46a2amr2044268wru.576.1655732755861;
+        Mon, 20 Jun 2022 06:45:55 -0700 (PDT)
+Received: from amir-ThinkPad-T480.ctera.local (bzq-166-168-31-246.red.bezeqint.net. [31.168.166.246])
+        by smtp.gmail.com with ESMTPSA id y16-20020a5d6150000000b0021b932de5d6sm1634355wrt.39.2022.06.20.06.45.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jun 2022 06:45:55 -0700 (PDT)
+From:   Amir Goldstein <amir73il@gmail.com>
+To:     Jan Kara <jack@suse.cz>
+Cc:     Matthew Bobrowski <repnop@google.com>,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: [PATCH 0/2] New fanotify API for ignoring events
+Date:   Mon, 20 Jun 2022 16:45:49 +0300
+Message-Id: <20220620134551.2066847-1-amir73il@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a9b8ec3a-4f40-c0f5-e1a-bb577d5937ff@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jun 20, 2022 at 02:26:17PM +0300, Ilpo Järvinen wrote:
-> On Mon, 20 Jun 2022, Andy Shevchenko wrote:
-> > On Mon, Jun 20, 2022 at 09:40:29AM +0300, Ilpo Järvinen wrote:
+Hi Jan,
 
-...
+As we discussed [1], here is the implementation of the new
+FAN_MARK_IGNORE API, to try and sort the historic mess of
+FAN_MARK_IGNORED_MASK.
 
-> > > The changes to serial_rs485 struct were test built with a few traps to
-> > > detect mislayouting on archs lkp/0day builts for (all went fine):
-> > >   BUILD_BUG_ON(((&rs485.delay_rts_after_send) + 1) != &rs485.padding[0]);
-> > >   BUILD_BUG_ON(&rs485.padding[1] != &rs485.padding1[0]);
-> > >   BUILD_BUG_ON(sizeof(rs485) != ((u8 *)(&rs485.padding[4]) -
-> > > 				 ((u8 *)&rs485.flags) + sizeof(__u32)));
-> > 
-> > You may add static_asserts() for the above mentioned cases.
-> 
-> I'll add into the end of serial_core.h but in a cleaned up form
-> using offsetof(). Those above look rather ugly :-).
+It is worth mentioning that the new API enables the functionality of
+watching events ONLY on directories (by ignoring events on non-dir).
 
-Agree!
+LTP tests [2] and man page draft [3] are ready as well.
 
-...
+I am going on vacation in two weeks time, so wanted to
+send these out early.
 
-> > > -	__u32	padding[5];		/* Memory is cheap, new structs
-> > > -					   are a royal PITA .. */
-> > > +	union {
-> > > +		/* v1 */
-> > > +		__u32	padding[5];		/* Memory is cheap, new structs are a pain */
-> > > +
-> > > +		/* v2 (adds addressing mode fields) */
-> > 
-> > How user space will inform a kernel that it's trying v2?
-> >
-> > Usually when we have a union, it should be accompanied with the enum or version
-> > or something to tell which part of it is in use. I can imagine that in this case
-> > it's implied by the IOCTL parameters that never should be used on a garbage.
-> > 
-> > Either add a commit message / UAPI comment or add a version field or ...?
-> > 
-> > > +		struct {
-> > > +			__u8	addr_recv;
-> > > +			__u8	addr_dest;
-> 
-> The flags in .flags indicate when these two new fields are in use. Do you 
-> think I need something beyond that. Maybe I should remove those comments 
-> so they don't mislead you to think it's a "version" for real?
+Thanks,
+Amir.
 
-Yes, either drop this versioning, or replace with a comment on top of a union
-like:
+[1] https://lore.kernel.org/linux-fsdevel/20220428123824.ssq72ovqg2nao5f4@quack3.lan/
+[2] https://github.com/amir73il/ltp/commits/fan_mark_ignore
+[3] https://github.com/amir73il/man-pages/commits/fan_mark_ignore
 
-	/* The fields are defined by flags */
+Amir Goldstein (2):
+  fanotify: prepare for setting event flags in ignore mask
+  fanotify: introduce FAN_MARK_IGNORE
+
+ fs/notify/fanotify/fanotify.c      | 17 +++++----
+ fs/notify/fanotify/fanotify.h      |  2 ++
+ fs/notify/fanotify/fanotify_user.c | 55 +++++++++++++++++++++---------
+ fs/notify/fdinfo.c                 |  6 ++--
+ fs/notify/fsnotify.c               | 21 +++++++-----
+ include/linux/fanotify.h           |  5 ++-
+ include/linux/fsnotify_backend.h   | 46 +++++++++++++++++++++----
+ include/uapi/linux/fanotify.h      |  2 ++
+ 8 files changed, 113 insertions(+), 41 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.25.1
 
