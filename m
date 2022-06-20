@@ -2,96 +2,133 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D82C551779
-	for <lists+linux-api@lfdr.de>; Mon, 20 Jun 2022 13:32:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03F045517BE
+	for <lists+linux-api@lfdr.de>; Mon, 20 Jun 2022 13:48:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241846AbiFTLcs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 20 Jun 2022 07:32:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52914 "EHLO
+        id S234716AbiFTLsl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 20 Jun 2022 07:48:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232549AbiFTLcp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 20 Jun 2022 07:32:45 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85F01165B6
-        for <linux-api@vger.kernel.org>; Mon, 20 Jun 2022 04:32:44 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id a29so16782178lfk.2
-        for <linux-api@vger.kernel.org>; Mon, 20 Jun 2022 04:32:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JIMgUbT+sdDDCNglVtIeEpzvKHWn5FNbAyBHXWpSN1c=;
-        b=PLaJ/ay/YVqFpYPY2jfh6O1y+IIKjBmkQHUC5UeiT6DNhvyULiVcJ6r+KwY4WrG/Ci
-         qq8+ZTHG2Y8zjtWSdGPW+grBbRTv+aE+3KI01rDtyDjtgo+HN9iVZzz1B3FdV5uBHppw
-         iAJza80SEAUdWj5Hbiw8UfN6MmWGZr+rh9TXiPCYY82KkxjTNea2viH9ZCh6XhqXWLep
-         yUOkRfBaQovrA9wObEEHJ/pg0BT7sSX+OTWHxMfC8WAYFTaY2ZzDH546o0yh4xvi7uqp
-         waLvS70Mp7MZgx5OcEhVqIOXNX9GPcICgMXHTjWwFvwanesqylxLgKgrmwlGhZFjCNow
-         c/fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JIMgUbT+sdDDCNglVtIeEpzvKHWn5FNbAyBHXWpSN1c=;
-        b=N3lo8aueehga45aJey508EDS/BSMUgg7Qoin0/lq2Nt0GQaLFjuoJAtBTh1KEFtSMh
-         RbQ1BZFCoh9Sd1A7qVZqMbUEXN7YcEXIe5tRp/98Z7ycGJpgksrfElydsjL6wMNXfUO1
-         6sl9mDwzXHaAj1kAdYWtBJSCpb4E/PtxD1aFNXGhS+Hu8smdtSLZT3gg38yRD8IkxlaK
-         /UGgzFgHdh//5V6uaoyaWgzrI69mtFeMA3wsDQrfyazti7NYDLj01LPWlVQ3SLhgz93d
-         8aBndOjxJadi9/0m34wjIi4gzVcZYeEBubX2rlCkF3ih3sOc+zLxuiJme4LI5r9mgCXQ
-         Vxqw==
-X-Gm-Message-State: AJIora8VjsTrfHvPuNW38mLPVrQzTR9p9mnZLgjzKnB+lyptyrokvd2Z
-        7Rnex53HSQoyctrKYh7H0nQGaC0MXbTIVDbSF+sEjA==
-X-Google-Smtp-Source: AGRyM1uaPmO1+JFXQo6wupY7ns+3WPbbWvmOzzOUNbM8vu7hRg420BV856+U4FtUIQwAYEw/LDUBD1CHl3w4Yiql7D4=
-X-Received: by 2002:a05:6512:1317:b0:47f:528e:6a32 with SMTP id
- x23-20020a056512131700b0047f528e6a32mr9708569lfu.354.1655724762625; Mon, 20
- Jun 2022 04:32:42 -0700 (PDT)
+        with ESMTP id S242052AbiFTLsi (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 20 Jun 2022 07:48:38 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E9DE17057;
+        Mon, 20 Jun 2022 04:48:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1655725717; x=1687261717;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Fg8wToUgzOMv1MBkkI+JlUdgqqTH6ag3Hnfhb3mXbJs=;
+  b=H0dXDi4NhcfC1Ih6+wo1mI+6tHgKG2fNeHFvK8slsiYvMgmVP2VlYiED
+   p0ex7U7XyLtaufSc8mT2Lcoe3yJTW8ANH6EJf9TiKAeZvbdrJLc85XR4d
+   qcTPdpt5g53Y0R6oJBXFCp9N3KYwJxf7SAV30/MAxazvOaLhOPTsX+JiH
+   Lq5+Xx3u3pOGVUoZSLWlimVT1QBV1uM5HrhoQk8ac27PcqvvMyfUqwJxb
+   FfWER7Xf+FNnUZg8+QT4FfeSbVPEZSO8TcHgMk+dHi+ZmTCkQr/jfTWT1
+   +Hvl5sISBEZ+E8nAjlCGib/TcMvPlzSrmtvpkyQ21Xl/pX88WINg7FASL
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="280605064"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
+   d="scan'208";a="280605064"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2022 04:48:37 -0700
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
+   d="scan'208";a="833079546"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2022 04:48:33 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1o3FtO-000kLC-P2;
+        Mon, 20 Jun 2022 14:48:30 +0300
+Date:   Mon, 20 Jun 2022 14:48:30 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc:     linux-serial <linux-serial@vger.kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>, linux-arch@vger.kernel.org,
+        Lukas Wunner <lukas@wunner.de>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH v8 5/6] serial: Support for RS-485 multipoint addresses
+Message-ID: <YrBejkxeZfpQ35iG@smile.fi.intel.com>
+References: <20220620064030.7938-1-ilpo.jarvinen@linux.intel.com>
+ <20220620064030.7938-6-ilpo.jarvinen@linux.intel.com>
+ <YrBS03ymAWVajy7e@smile.fi.intel.com>
+ <a9b8ec3a-4f40-c0f5-e1a-bb577d5937ff@linux.intel.com>
 MIME-Version: 1.0
-References: <CAMZm_C=o-rc4a+u_8-pFJtmL_2drwczASMRTqszamrks5Zm_OA@mail.gmail.com>
- <CAG48ez2PVMs-CeLoZtvPq2EeQqOg05mm3AuvEE_pr9Sog0O5og@mail.gmail.com> <CAMZm_CmW7pHwfEfCQfXRJPiHOjeGviQunfwxY_1ejrihKab5rA@mail.gmail.com>
-In-Reply-To: <CAMZm_CmW7pHwfEfCQfXRJPiHOjeGviQunfwxY_1ejrihKab5rA@mail.gmail.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Mon, 20 Jun 2022 13:32:06 +0200
-Message-ID: <CAG48ez2OcfTQ4SRbY89uHDJG6QujSfChaO4B3=zgGpj=9J8bdA@mail.gmail.com>
-Subject: Re: pgprot_encrypted macro is broken
-To:     Federico Di Pierro <nierro92@gmail.com>
-Cc:     Linux API <linux-api@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a9b8ec3a-4f40-c0f5-e1a-bb577d5937ff@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jun 20, 2022 at 9:39 AM Federico Di Pierro <nierro92@gmail.com> wrote:
-> > Why does your driver need to use that macro? pgprot_encrypted() is
-> > mostly only directly used by core kernel code, not by drivers... and
-> > if memory encryption is enabled, almost all memory mappings created by
-> > the kernel should be marked as encrypted automatically.
->
-> This is interesting; i don't really know the history behind our piece
-> of code; as far as i understand,
-> we have a shared ring buffer with userspace, onto which we push tracing events,
-> and we must mark it as encrypted when
-> the kmod runs on an AMD SME enabled kernel to allow userspace to grab sane data.
->
-> This is the commit that introduced the change (if you wish to give it a look):
-> https://github.com/falcosecurity/libs/commit/0333501cf429c045c61aaf5909812156f090786e
->
-> Do you see any workaround not involving `pgprot_encrypted` ?
+On Mon, Jun 20, 2022 at 02:26:17PM +0300, Ilpo Järvinen wrote:
+> On Mon, 20 Jun 2022, Andy Shevchenko wrote:
+> > On Mon, Jun 20, 2022 at 09:40:29AM +0300, Ilpo Järvinen wrote:
 
-If you do have to use remap_pfn_range() to map normal kernel memory,
-then you might want to use vma->vm_page_prot instead, like a few other
-places in the kernel do.
+...
 
-(Alternatively you might want to use remap_vmalloc_range() to map
-vmalloc pages into userspace, but note that that has very different
-semantics - I believe that installs a normal page reference rather
-than a raw PFN reference, so that would permit get_user_pages() calls
-on the range.)
+> > > The changes to serial_rs485 struct were test built with a few traps to
+> > > detect mislayouting on archs lkp/0day builts for (all went fine):
+> > >   BUILD_BUG_ON(((&rs485.delay_rts_after_send) + 1) != &rs485.padding[0]);
+> > >   BUILD_BUG_ON(&rs485.padding[1] != &rs485.padding1[0]);
+> > >   BUILD_BUG_ON(sizeof(rs485) != ((u8 *)(&rs485.padding[4]) -
+> > > 				 ((u8 *)&rs485.flags) + sizeof(__u32)));
+> > 
+> > You may add static_asserts() for the above mentioned cases.
+> 
+> I'll add into the end of serial_core.h but in a cleaned up form
+> using offsetof(). Those above look rather ugly :-).
+
+Agree!
+
+...
+
+> > > -	__u32	padding[5];		/* Memory is cheap, new structs
+> > > -					   are a royal PITA .. */
+> > > +	union {
+> > > +		/* v1 */
+> > > +		__u32	padding[5];		/* Memory is cheap, new structs are a pain */
+> > > +
+> > > +		/* v2 (adds addressing mode fields) */
+> > 
+> > How user space will inform a kernel that it's trying v2?
+> >
+> > Usually when we have a union, it should be accompanied with the enum or version
+> > or something to tell which part of it is in use. I can imagine that in this case
+> > it's implied by the IOCTL parameters that never should be used on a garbage.
+> > 
+> > Either add a commit message / UAPI comment or add a version field or ...?
+> > 
+> > > +		struct {
+> > > +			__u8	addr_recv;
+> > > +			__u8	addr_dest;
+> 
+> The flags in .flags indicate when these two new fields are in use. Do you 
+> think I need something beyond that. Maybe I should remove those comments 
+> so they don't mislead you to think it's a "version" for real?
+
+Yes, either drop this versioning, or replace with a comment on top of a union
+like:
+
+	/* The fields are defined by flags */
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
