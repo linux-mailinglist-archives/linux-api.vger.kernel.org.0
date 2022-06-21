@@ -2,109 +2,97 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A5C6552FA0
-	for <lists+linux-api@lfdr.de>; Tue, 21 Jun 2022 12:24:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF63C55304A
+	for <lists+linux-api@lfdr.de>; Tue, 21 Jun 2022 12:58:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347062AbiFUKW1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 21 Jun 2022 06:22:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55012 "EHLO
+        id S1348880AbiFUK6l (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 21 Jun 2022 06:58:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229497AbiFUKWZ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 21 Jun 2022 06:22:25 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D38242899F;
-        Tue, 21 Jun 2022 03:22:22 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id g4so18206620wrh.11;
-        Tue, 21 Jun 2022 03:22:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nFKOWnxfMAvpfuR5nZvfo/PJZQyBNJd8pSCg3peeMzU=;
-        b=PS1CvUmfj+YgU/b5s3RHKMSGeq25FnBJ908QsNFw9En7udzmO5KWpI87Fxrz7cBCP2
-         M2b9eOiapgceBX3JBUOGXwsuO368zVhC/SL8YP/Op3i6NFfG1zDNg/KwAHfdkbJmI2lb
-         O+ogXD9IU1W5rytIxgWHMlX/2SofhA841OyaEHNBnT2edKBa9lD5y45EXkzgmoOu7YYQ
-         PvBlHX+7wd63wZAmEW021ZnD8kGY2023HmEU9Yr4wF58bJsOGCCw+v7sV8JCZWq1y6WD
-         5VT3LCPDRZ1Np+Dy8RyNwiTdDogQ+c7VvDkGUrqtUuJEwv1zdV3FmofzDfOUD9BUnNNX
-         7K7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nFKOWnxfMAvpfuR5nZvfo/PJZQyBNJd8pSCg3peeMzU=;
-        b=NFuh6s89PwucEuKCVjuhWx06tW8JJ+On9dQxo0l433T1jQsZgC4uWWKYwITxf1ZXzl
-         ETX85mualIgunL6Udk+DOE4I279YbpiCeI8H6AeefWo48WNmwgacFZbY4erp1gy1XkzK
-         t81XfoHzTQ5+qJPwuXhMrr8y5uytXJmH1J3kj6GTAZlS/9LpdXhk/Y8rMur+yQJVj5Fh
-         P3c7e816JBRC9JgGa3AcCq3I08fyytOl5rJVfs0jIoUfr5UQfHTSEmKqWycryqRSvFIm
-         YPLbe2CkFjoV7L3F9LveS6vsIPY7BYZpqLPNC5si7+acaqj8VELwApkTt9D6oh7OWgqF
-         CTJA==
-X-Gm-Message-State: AJIora8cVlaD80yc6Dmgf7vtLeHqMe8hVbT4k7NoKK4tXnjbR4TG4tel
-        Q07Mm2ueGAo7Frifqgho1DDa2SOZnNX9phZJSZFasHaLgig=
-X-Google-Smtp-Source: AGRyM1uvf4LHU1HU49uZEE55Xvve6Ulm83LVZnbey7RZpGVfRK8TyarjNw9QuE1f9s0fM3kEJoVkyDixZGpKfisVAJQ=
-X-Received: by 2002:adf:e0c3:0:b0:21a:39f3:e6f6 with SMTP id
- m3-20020adfe0c3000000b0021a39f3e6f6mr23433295wri.98.1655806941204; Tue, 21
- Jun 2022 03:22:21 -0700 (PDT)
+        with ESMTP id S1348884AbiFUK6l (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 21 Jun 2022 06:58:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4101A29808
+        for <linux-api@vger.kernel.org>; Tue, 21 Jun 2022 03:58:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1655809118;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Hy6KOcY0sRAojRWcsjR0aWULa6jJaSKcS71iuLiH50w=;
+        b=iusCzojIFFVM6oa1nWOZBJYrtg4ogVRpT7U2u1VTc0utnGfb2qDpB+3SOUEgQ4h+BmfzAz
+        EdWN0dnpGEUZCn/OPhc1hUCruHZTFGE+FBk+lf74kQ77+0+nG1MQ8jXNZ3R2M71L1OUN2y
+        sh7Cdt69Y94w0z+1dtxo+r+FPypNp4g=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-207-WzjmQB9zNRa7eiyrfXXRvQ-1; Tue, 21 Jun 2022 06:58:27 -0400
+X-MC-Unique: WzjmQB9zNRa7eiyrfXXRvQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E8F69299E773;
+        Tue, 21 Jun 2022 10:58:26 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.39.192.87])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id F239C2166B26;
+        Tue, 21 Jun 2022 10:58:24 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Cyril Hrubis <metan@ucw.cz>
+Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        libc-alpha@sourceware.org, arnd@arndb.de,
+        linux-api@vger.kernel.org, dhowells@redhat.com,
+        David.Laight@aculab.com, zack@owlfolio.org, ltp@lists.linux.it
+Subject: Re: [LTP] [PATCH v2] uapi: Make __{u, s}64 match {u, }int64_t in
+ userspace
+References: <20220621090951.29911-1-metan@ucw.cz>
+Date:   Tue, 21 Jun 2022 12:58:23 +0200
+In-Reply-To: <20220621090951.29911-1-metan@ucw.cz> (Cyril Hrubis's message of
+        "Tue, 21 Jun 2022 11:09:51 +0200")
+Message-ID: <877d5a1dww.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <CAMZm_C=o-rc4a+u_8-pFJtmL_2drwczASMRTqszamrks5Zm_OA@mail.gmail.com>
- <CAG48ez2PVMs-CeLoZtvPq2EeQqOg05mm3AuvEE_pr9Sog0O5og@mail.gmail.com>
- <CAMZm_CmW7pHwfEfCQfXRJPiHOjeGviQunfwxY_1ejrihKab5rA@mail.gmail.com> <CAG48ez2OcfTQ4SRbY89uHDJG6QujSfChaO4B3=zgGpj=9J8bdA@mail.gmail.com>
-In-Reply-To: <CAG48ez2OcfTQ4SRbY89uHDJG6QujSfChaO4B3=zgGpj=9J8bdA@mail.gmail.com>
-From:   Federico Di Pierro <nierro92@gmail.com>
-Date:   Tue, 21 Jun 2022 12:22:10 +0200
-Message-ID: <CAMZm_C=5sNVxB6vE83zcrhv+b0JhYT9hL8i4o_6rwRuwm_ggVg@mail.gmail.com>
-Subject: Re: pgprot_encrypted macro is broken
-To:     Jann Horn <jannh@google.com>
-Cc:     Linux API <linux-api@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi!
+* Cyril Hrubis:
 
-Thank you very much for your hints and for your time!
-I solved the issue and I agree that we should not have used that macro
-in the first place.
+> From: Cyril Hrubis <chrubis@suse.cz>
+>
+> This changes the __u64 and __s64 in userspace on 64bit platforms from
+> long long (unsigned) int to just long (unsigned) int in order to match
+> the uint64_t and int64_t size in userspace.
+>
+> This allows us to use the kernel structure definitions in userspace.
+>
+> For example we can use PRIu64 and PRId64 modifiers in printf() to print
+> structure membere. Morever with this there would be no need to redefine
+> these structures in an libc implementations as it is done now.
+>
+> Consider for example the newly added statx() syscall. If we use the
+> header from uapi we will get warnings when attempting to print it's
+> members as:
+>
+> 	printf("%" PRIu64 "\n", stx.stx_size);
+>
+> We get:
+>
+> 	warning: format '%lu' expects argument of type 'long unsigned int',
+> 	         but argument 5 has type '__u64' {aka 'long long unsigned int'}
+>
+> Signed-off-by: Cyril Hrubis <chrubis@suse.cz>
 
-Again, thank you very much for your help,
-Regards
-Federico
+Could you add some motivation for the C++ condition to the commit
+message?
 
-Il giorno lun 20 giu 2022 alle ore 13:32 Jann Horn <jannh@google.com>
-ha scritto:
->
-> On Mon, Jun 20, 2022 at 9:39 AM Federico Di Pierro <nierro92@gmail.com> wrote:
-> > > Why does your driver need to use that macro? pgprot_encrypted() is
-> > > mostly only directly used by core kernel code, not by drivers... and
-> > > if memory encryption is enabled, almost all memory mappings created by
-> > > the kernel should be marked as encrypted automatically.
-> >
-> > This is interesting; i don't really know the history behind our piece
-> > of code; as far as i understand,
-> > we have a shared ring buffer with userspace, onto which we push tracing events,
-> > and we must mark it as encrypted when
-> > the kmod runs on an AMD SME enabled kernel to allow userspace to grab sane data.
-> >
-> > This is the commit that introduced the change (if you wish to give it a look):
-> > https://github.com/falcosecurity/libs/commit/0333501cf429c045c61aaf5909812156f090786e
-> >
-> > Do you see any workaround not involving `pgprot_encrypted` ?
->
-> If you do have to use remap_pfn_range() to map normal kernel memory,
-> then you might want to use vma->vm_page_prot instead, like a few other
-> places in the kernel do.
->
-> (Alternatively you might want to use remap_vmalloc_range() to map
-> vmalloc pages into userspace, but note that that has very different
-> semantics - I believe that installs a normal page reference rather
-> than a raw PFN reference, so that would permit get_user_pages() calls
-> on the range.)
+Thanks,
+Florian
+
