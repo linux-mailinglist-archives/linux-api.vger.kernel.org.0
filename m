@@ -2,74 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D7B85552086
-	for <lists+linux-api@lfdr.de>; Mon, 20 Jun 2022 17:23:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE324552DF0
+	for <lists+linux-api@lfdr.de>; Tue, 21 Jun 2022 11:07:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242945AbiFTPXB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 20 Jun 2022 11:23:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52912 "EHLO
+        id S1348338AbiFUJHu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 21 Jun 2022 05:07:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244176AbiFTPWn (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 20 Jun 2022 11:22:43 -0400
-Received: from mail.altsetonline.com (mail.altsetonline.com [51.254.119.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40830293
-        for <linux-api@vger.kernel.org>; Mon, 20 Jun 2022 08:17:40 -0700 (PDT)
-Received: by mail.altsetonline.com (Postfix, from userid 1002)
-        id DDAD522FF0; Mon, 20 Jun 2022 15:16:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=altsetonline.com;
-        s=mail; t=1655738206;
-        bh=ZWOA/1seUbDdknp7vWPZTi/LTxkJxgWJ33h0PDOotrA=;
-        h=Date:From:To:Subject:From;
-        b=WJgYpv4GAX0toWGwY9Enxrq9HmgaTMOY/Oq4Iz2JH7OBs7KfKihasFbtpi1MV2hGJ
-         5BymmKg+Iq0B16PcPzfLtMr3bX65DnEGOHzWStGamgpHkuy+xJeFfjTK/4C70H3ppv
-         w7wvrfthNbSGc86hUXUwlWeJ2zmb1fNeTvciKTOB98mjzaiunrxvU4SiLl6RvBzZ/i
-         xmhCEg4uySkBofa7pX4RZHsqOkAqwCMFe9gjQQYgPbQmG19vnvR8UUtEt3vUGMuF5k
-         mYeib8ngl+QBA/K+/6znZNI6xzF0d0yvSCKrNDLEI0njTLoMlo5WxZzqGW/0fjCNZm
-         3S2c7pIy23UQA==
-Received: by mail.altsetonline.com for <linux-api@vger.kernel.org>; Mon, 20 Jun 2022 15:15:56 GMT
-Message-ID: <20220620143000-0.1.14.5ch0.0.garngr7d34@altsetonline.com>
-Date:   Mon, 20 Jun 2022 15:15:56 GMT
-From:   "Walker Cooney" <walker.cooney@altsetonline.com>
-To:     <linux-api@vger.kernel.org>
-Subject: SEO analysis 
-X-Mailer: mail.altsetonline.com
+        with ESMTP id S1348086AbiFUJHt (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 21 Jun 2022 05:07:49 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49E08186D0;
+        Tue, 21 Jun 2022 02:07:48 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 055391FADF;
+        Tue, 21 Jun 2022 09:07:47 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D895613A88;
+        Tue, 21 Jun 2022 09:07:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id qOaSMmKKsWKFHAAAMHmgww
+        (envelope-from <chrubis@suse.cz>); Tue, 21 Jun 2022 09:07:46 +0000
+From:   Cyril Hrubis <metan@ucw.cz>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        libc-alpha@sourceware.org, arnd@arndb.de, ltp@lists.linux.it,
+        David.Laight@aculab.com, zack@owlfolio.org, dhowells@redhat.com,
+        Cyril Hrubis <chrubis@suse.cz>
+Subject: [PATCH v2] uapi: Make __{u,s}64 match {u,}int64_t in userspace
+Date:   Tue, 21 Jun 2022 11:09:51 +0200
+Message-Id: <20220621090951.29911-1-metan@ucw.cz>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello,
+From: Cyril Hrubis <chrubis@suse.cz>
 
-would you like to reach more clients?
+This changes the __u64 and __s64 in userspace on 64bit platforms from
+long long (unsigned) int to just long (unsigned) int in order to match
+the uint64_t and int64_t size in userspace.
 
-As one of the first SEO agencies in Europe, we=E2=80=99ve introduced SEO =
-360 service (SEO, UX, and SEM), which assures a multidimensional approach=
- to optimising company=E2=80=99s visibility online and increasing website=
- traffic.
+This allows us to use the kernel structure definitions in userspace.
 
-We provide a free consultation with our specialist, during which we will =
-conduct a detailed analysis of your website or e-shop, positioning indica=
-tors and check the actions and results achieved by your competitors.
+For example we can use PRIu64 and PRId64 modifiers in printf() to print
+structure membere. Morever with this there would be no need to redefine
+these structures in an libc implementations as it is done now.
 
-Our clients gain notable results by using a dedicated strategy, extensive=
- website analytics, technical optimisation, adding new subpages and link =
-building.
+Consider for example the newly added statx() syscall. If we use the
+header from uapi we will get warnings when attempting to print it's
+members as:
 
-With 14 years of experience and the skills of over 350 specialists workin=
-g on 3 continents, you can increase your sales and become an industry lea=
-der.
+	printf("%" PRIu64 "\n", stx.stx_size);
 
-Please let us know if you want to learn more about our methods and possib=
-le results.
+We get:
 
-Yours sincerely,
+	warning: format '%lu' expects argument of type 'long unsigned int',
+	         but argument 5 has type '__u64' {aka 'long long unsigned int'}
 
-Walker Cooney
+Signed-off-by: Cyril Hrubis <chrubis@suse.cz>
+---
+ include/uapi/asm-generic/types.h | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+v2: Make sure we do not break C++ applications
+
+diff --git a/include/uapi/asm-generic/types.h b/include/uapi/asm-generic/types.h
+index dfaa50d99d8f..11e468a39d1e 100644
+--- a/include/uapi/asm-generic/types.h
++++ b/include/uapi/asm-generic/types.h
+@@ -1,9 +1,16 @@
+ /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+ #ifndef _ASM_GENERIC_TYPES_H
+ #define _ASM_GENERIC_TYPES_H
++
++#include <asm/bitsperlong.h>
++
+ /*
+- * int-ll64 is used everywhere now.
++ * int-ll64 is used everywhere in kernel now.
+  */
+-#include <asm-generic/int-ll64.h>
++#if !defined(__KERNEL__) && !defined(__cplusplus) && __BITSPERLONG == 64
++# include <asm-generic/int-l64.h>
++#else
++# include <asm-generic/int-ll64.h>
++#endif
+ 
+ #endif /* _ASM_GENERIC_TYPES_H */
+-- 
+2.35.1
+
