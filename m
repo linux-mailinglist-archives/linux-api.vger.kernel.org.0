@@ -2,52 +2,52 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CD02955504A
-	for <lists+linux-api@lfdr.de>; Wed, 22 Jun 2022 17:54:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D76485550A3
+	for <lists+linux-api@lfdr.de>; Wed, 22 Jun 2022 18:02:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356156AbiFVPy1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 22 Jun 2022 11:54:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53808 "EHLO
+        id S1376321AbiFVQBz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 22 Jun 2022 12:01:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359763AbiFVPxf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 22 Jun 2022 11:53:35 -0400
+        with ESMTP id S1376336AbiFVQBR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 22 Jun 2022 12:01:17 -0400
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F3A1CE35;
-        Wed, 22 Jun 2022 08:53:03 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DB65D4;
+        Wed, 22 Jun 2022 09:00:51 -0700 (PDT)
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id C8E3721C10;
-        Wed, 22 Jun 2022 15:52:51 +0000 (UTC)
+        by smtp-out1.suse.de (Postfix) with ESMTP id 5FE3E21C8F;
+        Wed, 22 Jun 2022 16:00:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1655913171; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1655913650; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=NDybUhlXPjzwC9jJdp7b3hPv6c4lM2q2OAfx4WizXnA=;
-        b=Wmai+dySOWNDIipW1Y7gI+/dPR0+umcTZBXqpN7VAqRxN+PiwoocAKri6YujpvHq1RDgps
-        iOEB4tzTK4fJle9rmXKHa82yo+j9JGv8yCkBIU57jxjGYsHCo3JCGXcYZxbyDhUkxavZbD
-        BuD2j2grPHbqv5djdDwsQ9CzWy4Qu3Q=
+        bh=UHjSRmma6M/WmRUm+RwQQFmHFLU3YNOPTDkKjsHF8kU=;
+        b=BU5Q4P9yjBzX8LZBlci6zbmeXCuYm4wXLT1aEsPGUH5SXYjnJBY+Dxg32VAR40KEIZ2VIe
+        UGd66Yd5N+fdH6uz3kxvZ0/3mhWAc+fWetY/FtUrGnlebCma0uJlEoEHewNLy/49GDa0ce
+        dXI7o9SIM6gnnzSO/rl12GK1GeRHJ7o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1655913171;
+        s=susede2_ed25519; t=1655913650;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=NDybUhlXPjzwC9jJdp7b3hPv6c4lM2q2OAfx4WizXnA=;
-        b=WzvECKr9CIhOps9NeTBzRzHRtMk1wf7/Xeg3RbmR0pIVXNjVZKJal4oRIcO5xokXfOZlA5
-        Uz4IaDVwO89NiCBA==
+        bh=UHjSRmma6M/WmRUm+RwQQFmHFLU3YNOPTDkKjsHF8kU=;
+        b=1ft6gkkelxmF2/mkUATuYFA/TTpceB1eyvd1N4efenjuKyVmdHO952/PIyAUguTQV46AeM
+        G5kh3URag+u1cPAA==
 Received: from quack3.suse.cz (unknown [10.100.224.230])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id B6D572C141;
-        Wed, 22 Jun 2022 15:52:51 +0000 (UTC)
+        by relay2.suse.de (Postfix) with ESMTPS id 4D2E32C141;
+        Wed, 22 Jun 2022 16:00:50 +0000 (UTC)
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-        id 5F308A062B; Wed, 22 Jun 2022 17:52:48 +0200 (CEST)
-Date:   Wed, 22 Jun 2022 17:52:48 +0200
+        id EDAD2A062B; Wed, 22 Jun 2022 18:00:49 +0200 (CEST)
+Date:   Wed, 22 Jun 2022 18:00:49 +0200
 From:   Jan Kara <jack@suse.cz>
 To:     Amir Goldstein <amir73il@gmail.com>
 Cc:     Jan Kara <jack@suse.cz>, Matthew Bobrowski <repnop@google.com>,
         linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
 Subject: Re: [PATCH 1/2] fanotify: prepare for setting event flags in ignore
  mask
-Message-ID: <20220622155248.d6oywn3rkurbijs6@quack3.lan>
+Message-ID: <20220622160049.koda4uazle7i2735@quack3.lan>
 References: <20220620134551.2066847-1-amir73il@gmail.com>
  <20220620134551.2066847-2-amir73il@gmail.com>
 MIME-Version: 1.0
@@ -85,76 +85,23 @@ On Mon 20-06-22 16:45:50, Amir Goldstein wrote:
 > 
 > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 
-Looks mostly good to me. Just one question / suggestion: You are
-introducing helpers fsnotify_ignore_mask() and fsnotify_ignored_events().
-So shouldn't we be using these helpers as much as possible throughout the
-code? Because in several places I had to check the code around whether
-using mark->ignore_mask directly is actually fine. In particular:
+..
 
-> @@ -315,19 +316,23 @@ static u32 fanotify_group_event_mask(struct fsnotify_group *group,
->  			return 0;
->  	} else if (!(fid_mode & FAN_REPORT_FID)) {
->  		/* Do we have a directory inode to report? */
-> -		if (!dir && !(event_mask & FS_ISDIR))
-> +		if (!dir && !ondir)
->  			return 0;
->  	}
->  
->  	fsnotify_foreach_iter_mark_type(iter_info, mark, type) {
-> -		/* Apply ignore mask regardless of mark's ISDIR flag */
-> -		marks_ignored_mask |= mark->ignored_mask;
-> +		/*
-> +		 * Apply ignore mask depending on whether FAN_ONDIR flag in
-> +		 * ignore mask should be checked to ignore events on dirs.
-> +		 */
-> +		if (!ondir || fsnotify_ignore_mask(mark) & FAN_ONDIR)
-> +			marks_ignore_mask |= mark->ignore_mask;
->  
->  		/*
->  		 * If the event is on dir and this mark doesn't care about
->  		 * events on dir, don't send it!
->  		 */
-> -		if (event_mask & FS_ISDIR && !(mark->mask & FS_ISDIR))
-> +		if (ondir && !(mark->mask & FAN_ONDIR))
->  			continue;
->  
->  		marks_mask |= mark->mask;
+> @@ -423,7 +425,8 @@ static bool fsnotify_iter_select_report_types(
+>  			 * But is *this mark* watching children?
+>  			 */
+>  			if (type == FSNOTIFY_ITER_TYPE_PARENT &&
+> -			    !(mark->mask & FS_EVENT_ON_CHILD))
+> +			    !(mark->mask & FS_EVENT_ON_CHILD) &&
+> +			    !(fsnotify_ignore_mask(mark) & FS_EVENT_ON_CHILD))
+>  				continue;
 
-So for example here I'm wondering whether a helper should not be used...
-
-> @@ -336,7 +341,7 @@ static u32 fanotify_group_event_mask(struct fsnotify_group *group,
->  		*match_mask |= 1U << type;
->  	}
->  
-> -	test_mask = event_mask & marks_mask & ~marks_ignored_mask;
-> +	test_mask = event_mask & marks_mask & ~marks_ignore_mask;
-
-Especially because here if say FAN_EVENT_ON_CHILD becomes a part of
-marks_ignore_mask it can result in clearing this flag in the returned
-'mask' which is likely not what we want if there are some events left
-unignored in the 'mask'?
-  
-> @@ -344,14 +344,16 @@ static int send_to_group(__u32 mask, const void *data, int data_type,
->  	fsnotify_foreach_iter_mark_type(iter_info, mark, type) {
->  		group = mark->group;
->  		marks_mask |= mark->mask;
-> -		marks_ignored_mask |= mark->ignored_mask;
-> +		if (!(mask & FS_ISDIR) ||
-> +		    (fsnotify_ignore_mask(mark) & FS_ISDIR))
-> +			marks_ignore_mask |= mark->ignore_mask;
->  	}
->  
-> -	pr_debug("%s: group=%p mask=%x marks_mask=%x marks_ignored_mask=%x data=%p data_type=%d dir=%p cookie=%d\n",
-> -		 __func__, group, mask, marks_mask, marks_ignored_mask,
-> +	pr_debug("%s: group=%p mask=%x marks_mask=%x marks_ignore_mask=%x data=%p data_type=%d dir=%p cookie=%d\n",
-> +		 __func__, group, mask, marks_mask, marks_ignore_mask,
->  		 data, data_type, dir, cookie);
->  
-> -	if (!(test_mask & marks_mask & ~marks_ignored_mask))
-> +	if (!(test_mask & marks_mask & ~marks_ignore_mask))
->  		return 0;
-
-And I'm wondering about similar things here...
+So now we have in ->report_mask the FSNOTIFY_ITER_TYPE_PARENT if either
+->mask or ->ignore_mask have FS_EVENT_ON_CHILD set. But I see nothing that
+would stop us from applying say ->mask to the set of events we are
+interested in if FS_EVENT_ON_CHILD is set only in ->ignore_mask? And
+there's the same problem in the other direction as well. Am I missing
+something?
 
 								Honza
 -- 
