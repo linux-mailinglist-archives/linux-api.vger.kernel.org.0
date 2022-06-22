@@ -2,167 +2,153 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 482D4555348
-	for <lists+linux-api@lfdr.de>; Wed, 22 Jun 2022 20:31:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E49E15554F4
+	for <lists+linux-api@lfdr.de>; Wed, 22 Jun 2022 21:47:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237728AbiFVSbX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 22 Jun 2022 14:31:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53874 "EHLO
+        id S1376604AbiFVTrD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 22 Jun 2022 15:47:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359273AbiFVSbV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 22 Jun 2022 14:31:21 -0400
-Received: from mail-vk1-xa29.google.com (mail-vk1-xa29.google.com [IPv6:2607:f8b0:4864:20::a29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 528CB3B2BF;
-        Wed, 22 Jun 2022 11:31:18 -0700 (PDT)
-Received: by mail-vk1-xa29.google.com with SMTP id b81so8744867vkf.1;
-        Wed, 22 Jun 2022 11:31:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DRjJ1rSC0xlHCXZ2VwDKfLap9+4Ib3wKG/Ud565cchk=;
-        b=mpWbw4byrr3CUUSq1sKiIklXXmE3IYkz2L9gQJRnbmMWLhVU+/57NoIaaokR0cVlgJ
-         HHCl3qySffM3I77Iu0mJtOBR1c4RaGwz05ZnKr2zgXRale/5wsM4hDwn0IW2UQq8HzTp
-         UKRl1QDiHopOgXOOJKZWztmQWhQQq+u7/80YnfeztWIBHmppLTN0sEBfaE5/z+doR6i5
-         A5Kpc76ecx4A7xZ8K7uh4vlElTuY5NpJw2vDY311fTZ/ejI0iCCZrqJWJHzp5uvtFGE+
-         K7BgK9maK0lkeI1of9EIEomgGXiSmP1U0DSFF1MEEtGyZG82BqaBgncxbBSu7abotZ4m
-         4x9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DRjJ1rSC0xlHCXZ2VwDKfLap9+4Ib3wKG/Ud565cchk=;
-        b=vUphG9ZqqWr/n9gA4WaG2vynfRmcDynItO9L9n1m5mD71ZK6Xy6BToH+52BYV0MTm8
-         AVTLmgmkISePBz83E1uhscyIbuVGsqKdhvdRQ45+zlN07kg+ATu9wr8fxo6Pc0tM7Dzp
-         aG2/5Zt0iVjLBmpps9sa2BfB44lZZVT/4BvtcuI2h2zgIRhPyUUSpJiKojGZTa9yrOAj
-         +I1vanAIQk1/p1fLNystcfQVi8yjeapMRDGSDD+IxIDREERhj7tFR9VZYWwYvrr4Oj25
-         ie3pzs5M404sci+G0kEIl8nBhaV42W6vuLBU9d3k6/SgJByxtaF03ciP2pzIpl6wPDHj
-         KJZQ==
-X-Gm-Message-State: AJIora+4H02tsFSRxRZNnv7cq4RdgkKMA8DeThhC0eJKSys0nb7vauks
-        8qE5AkAqdxmZ7Cu62b+ENvbwLcZ5VFccn56uqOomZmXXYRc=
-X-Google-Smtp-Source: AGRyM1vcrBIwqupsNIJhbyovfM6u9AZ3mXidoDVOlqf4cCcdiJfStQ4p3q1HWyXU2lqIxZpgLf8+4LpgBPFFJo89ezY=
-X-Received: by 2002:a1f:168d:0:b0:36c:86b6:7883 with SMTP id
- 135-20020a1f168d000000b0036c86b67883mr2553105vkw.15.1655922676799; Wed, 22
- Jun 2022 11:31:16 -0700 (PDT)
+        with ESMTP id S1376536AbiFVTq3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 22 Jun 2022 15:46:29 -0400
+Received: from mail.efficios.com (mail.efficios.com [167.114.26.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B4C83FBF2;
+        Wed, 22 Jun 2022 12:46:27 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 7001A3AB52A;
+        Wed, 22 Jun 2022 15:46:26 -0400 (EDT)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id NXZ1sSTyeDmO; Wed, 22 Jun 2022 15:46:26 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 03E303AB528;
+        Wed, 22 Jun 2022 15:46:26 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 03E303AB528
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1655927186;
+        bh=REdjFWHkNgTslxzEt0v47qXrGBzea93HG4yuCFGNgQ4=;
+        h=From:To:Date:Message-Id:MIME-Version;
+        b=r1UyxCjO9jMe4KmqPrfFcKcCO/CC55FitGeyLD9COovhVtGW+hKn6PCHR5EdSO7pB
+         YP0qE+YUba3AkzHiHpbXvRVJUfY/GcZ61cGjUf1Hojp6fpp3za/C8QgsnwPOAjdghI
+         Jrd3QwZSy1Tx/Q1Eu3eAW0dH6JfJy8XXSiDFfbPF5s5x2+UM9l/rJS5HU94O9twTvp
+         iXc+ySPCU8UL2+ALERB+nyI3pMVBt/uArcmo6QqX+l0hcqtXonrOP0x9SxCsP8Gq7f
+         99kPfkjIadGsFe/K9ZjqCgOp72kPdQ4X+3hdE4Bwobr9pRWPOk3aEencBcvgRlmDzA
+         6ULfCE+I2SUiQ==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id us-ZVGYFXR8W; Wed, 22 Jun 2022 15:46:25 -0400 (EDT)
+Received: from thinkos.internal.efficios.com (192-222-180-24.qc.cable.ebox.net [192.222.180.24])
+        by mail.efficios.com (Postfix) with ESMTPSA id A24A23AB522;
+        Wed, 22 Jun 2022 15:46:25 -0400 (EDT)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api@vger.kernel.org, Peter Oskolkov <posk@posk.io>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: [PATCH 1/2] rseq: Deprecate RSEQ_CS_FLAG_NO_RESTART_ON_* flags
+Date:   Wed, 22 Jun 2022 15:46:16 -0400
+Message-Id: <20220622194617.1155957-1-mathieu.desnoyers@efficios.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20220620134551.2066847-1-amir73il@gmail.com> <20220620134551.2066847-2-amir73il@gmail.com>
- <20220622155248.d6oywn3rkurbijs6@quack3.lan>
-In-Reply-To: <20220622155248.d6oywn3rkurbijs6@quack3.lan>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Wed, 22 Jun 2022 21:31:05 +0300
-Message-ID: <CAOQ4uxjZ84qY4OgJFCnxf1KT1_d013k0+XmU8iwiJVOSJSVMhQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] fanotify: prepare for setting event flags in ignore mask
-To:     Jan Kara <jack@suse.cz>
-Cc:     Matthew Bobrowski <repnop@google.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jun 22, 2022 at 6:52 PM Jan Kara <jack@suse.cz> wrote:
->
-> On Mon 20-06-22 16:45:50, Amir Goldstein wrote:
-> > Setting flags FAN_ONDIR FAN_EVENT_ON_CHILD in ignore mask has no effect.
-> > The FAN_EVENT_ON_CHILD flag in mask implicitly applies to ignore mask and
-> > ignore mask is always implicitly applied to events on directories.
-> >
-> > Define a mark flag that replaces this legacy behavior with logic of
-> > applying the ignore mask according to event flags in ignore mask.
-> >
-> > Implement the new logic to prepare for supporting an ignore mask that
-> > ignores events on children and ignore mask that does not ignore events
-> > on directories.
-> >
-> > To emphasize the change in terminology, also rename ignored_mask mark
-> > member to ignore_mask and use accessor to get only ignored events or
-> > events and flags.
-> >
-> > This change in terminology finally aligns with the "ignore mask"
-> > language in man pages and in most of the comments.
-> >
-> > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
->
-> Looks mostly good to me. Just one question / suggestion: You are
-> introducing helpers fsnotify_ignore_mask() and fsnotify_ignored_events().
-> So shouldn't we be using these helpers as much as possible throughout the
-> code? Because in several places I had to check the code around whether
-> using mark->ignore_mask directly is actually fine. In particular:
->
-> > @@ -315,19 +316,23 @@ static u32 fanotify_group_event_mask(struct fsnotify_group *group,
-> >                       return 0;
-> >       } else if (!(fid_mode & FAN_REPORT_FID)) {
-> >               /* Do we have a directory inode to report? */
-> > -             if (!dir && !(event_mask & FS_ISDIR))
-> > +             if (!dir && !ondir)
-> >                       return 0;
-> >       }
-> >
-> >       fsnotify_foreach_iter_mark_type(iter_info, mark, type) {
-> > -             /* Apply ignore mask regardless of mark's ISDIR flag */
-> > -             marks_ignored_mask |= mark->ignored_mask;
-> > +             /*
-> > +              * Apply ignore mask depending on whether FAN_ONDIR flag in
-> > +              * ignore mask should be checked to ignore events on dirs.
-> > +              */
-> > +             if (!ondir || fsnotify_ignore_mask(mark) & FAN_ONDIR)
-> > +                     marks_ignore_mask |= mark->ignore_mask;
-> >
-> >               /*
-> >                * If the event is on dir and this mark doesn't care about
-> >                * events on dir, don't send it!
-> >                */
-> > -             if (event_mask & FS_ISDIR && !(mark->mask & FS_ISDIR))
-> > +             if (ondir && !(mark->mask & FAN_ONDIR))
-> >                       continue;
-> >
-> >               marks_mask |= mark->mask;
->
-> So for example here I'm wondering whether a helper should not be used...
->
-> > @@ -336,7 +341,7 @@ static u32 fanotify_group_event_mask(struct fsnotify_group *group,
-> >               *match_mask |= 1U << type;
-> >       }
-> >
-> > -     test_mask = event_mask & marks_mask & ~marks_ignored_mask;
-> > +     test_mask = event_mask & marks_mask & ~marks_ignore_mask;
->
-> Especially because here if say FAN_EVENT_ON_CHILD becomes a part of
-> marks_ignore_mask it can result in clearing this flag in the returned
-> 'mask' which is likely not what we want if there are some events left
-> unignored in the 'mask'?
->
-> > @@ -344,14 +344,16 @@ static int send_to_group(__u32 mask, const void *data, int data_type,
-> >       fsnotify_foreach_iter_mark_type(iter_info, mark, type) {
-> >               group = mark->group;
-> >               marks_mask |= mark->mask;
-> > -             marks_ignored_mask |= mark->ignored_mask;
-> > +             if (!(mask & FS_ISDIR) ||
-> > +                 (fsnotify_ignore_mask(mark) & FS_ISDIR))
-> > +                     marks_ignore_mask |= mark->ignore_mask;
-> >       }
-> >
-> > -     pr_debug("%s: group=%p mask=%x marks_mask=%x marks_ignored_mask=%x data=%p data_type=%d dir=%p cookie=%d\n",
-> > -              __func__, group, mask, marks_mask, marks_ignored_mask,
-> > +     pr_debug("%s: group=%p mask=%x marks_mask=%x marks_ignore_mask=%x data=%p data_type=%d dir=%p cookie=%d\n",
-> > +              __func__, group, mask, marks_mask, marks_ignore_mask,
-> >                data, data_type, dir, cookie);
-> >
-> > -     if (!(test_mask & marks_mask & ~marks_ignored_mask))
-> > +     if (!(test_mask & marks_mask & ~marks_ignore_mask))
-> >               return 0;
->
-> And I'm wondering about similar things here...
->
+The pretty much unused RSEQ_CS_FLAG_NO_RESTART_ON_* flags introduce
+complexity in rseq, and are subtly buggy [1]. Solving those issues
+requires introducing additional complexity in the rseq implementation
+for each supported architecture.
 
-I can't remember if I left those cases on purpose.
-I will check if it makes sense to use a macro here.
+Considering that it complexifies the rseq ABI, I am proposing that we
+deprecate those flags. [2]
 
-Amir.
+So far there appears to be consensus from maintainers of user-space
+projects impacted by this feature that its removal would be a welcome
+simplification. [3]
+
+The deprecation approach proposed here is to issue WARN_ON_ONCE() when
+encountering those flags and kill the offending process with sigsegv.
+This should allow us to quickly identify whether anyone yells at us for
+removing this.
+
+Link: https://lore.kernel.org/lkml/20220618182515.95831-1-minhquangbui99@=
+gmail.com/ [1]
+Link: https://lore.kernel.org/lkml/258546133.12151.1655739550814.JavaMail=
+.zimbra@efficios.com/ [2]
+Link: https://lore.kernel.org/lkml/87pmj1enjh.fsf@email.froward.int.ebied=
+erm.org/ [3]
+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+---
+ kernel/rseq.c | 23 ++++++++---------------
+ 1 file changed, 8 insertions(+), 15 deletions(-)
+
+diff --git a/kernel/rseq.c b/kernel/rseq.c
+index 97ac20b4f738..81d7dc80787b 100644
+--- a/kernel/rseq.c
++++ b/kernel/rseq.c
+@@ -18,8 +18,9 @@
+ #define CREATE_TRACE_POINTS
+ #include <trace/events/rseq.h>
+=20
+-#define RSEQ_CS_PREEMPT_MIGRATE_FLAGS (RSEQ_CS_FLAG_NO_RESTART_ON_MIGRAT=
+E | \
+-				       RSEQ_CS_FLAG_NO_RESTART_ON_PREEMPT)
++#define RSEQ_CS_NO_RESTART_FLAGS (RSEQ_CS_FLAG_NO_RESTART_ON_PREEMPT | \
++				  RSEQ_CS_FLAG_NO_RESTART_ON_SIGNAL | \
++				  RSEQ_CS_FLAG_NO_RESTART_ON_MIGRATE)
+=20
+ /*
+  *
+@@ -175,23 +176,15 @@ static int rseq_need_restart(struct task_struct *t,=
+ u32 cs_flags)
+ 	u32 flags, event_mask;
+ 	int ret;
+=20
++	if (WARN_ON_ONCE(cs_flags & RSEQ_CS_NO_RESTART_FLAGS))
++		return -EINVAL;
++
+ 	/* Get thread flags. */
+ 	ret =3D get_user(flags, &t->rseq->flags);
+ 	if (ret)
+ 		return ret;
+=20
+-	/* Take critical section flags into account. */
+-	flags |=3D cs_flags;
+-
+-	/*
+-	 * Restart on signal can only be inhibited when restart on
+-	 * preempt and restart on migrate are inhibited too. Otherwise,
+-	 * a preempted signal handler could fail to restart the prior
+-	 * execution context on sigreturn.
+-	 */
+-	if (unlikely((flags & RSEQ_CS_FLAG_NO_RESTART_ON_SIGNAL) &&
+-		     (flags & RSEQ_CS_PREEMPT_MIGRATE_FLAGS) !=3D
+-		     RSEQ_CS_PREEMPT_MIGRATE_FLAGS))
++	if (WARN_ON_ONCE(flags & RSEQ_CS_NO_RESTART_FLAGS))
+ 		return -EINVAL;
+=20
+ 	/*
+@@ -203,7 +196,7 @@ static int rseq_need_restart(struct task_struct *t, u=
+32 cs_flags)
+ 	t->rseq_event_mask =3D 0;
+ 	preempt_enable();
+=20
+-	return !!(event_mask & ~flags);
++	return !!event_mask;
+ }
+=20
+ static int clear_rseq_cs(struct task_struct *t)
+--=20
+2.30.2
+
