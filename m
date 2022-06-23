@@ -2,118 +2,133 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A371555746B
-	for <lists+linux-api@lfdr.de>; Thu, 23 Jun 2022 09:48:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44228557716
+	for <lists+linux-api@lfdr.de>; Thu, 23 Jun 2022 11:49:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229978AbiFWHsx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 Jun 2022 03:48:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34894 "EHLO
+        id S231233AbiFWJtr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 Jun 2022 05:49:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231193AbiFWHsl (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Jun 2022 03:48:41 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AC241274F;
-        Thu, 23 Jun 2022 00:48:34 -0700 (PDT)
-Received: from mail-ot1-f54.google.com ([209.85.210.54]) by
- mrelayeu.kundenserver.de (mreue012 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1Mkn8B-1nONOZ1ds7-00mMNU; Thu, 23 Jun 2022 09:48:32 +0200
-Received: by mail-ot1-f54.google.com with SMTP id c3-20020a9d6843000000b0060c2c63c337so14876060oto.5;
-        Thu, 23 Jun 2022 00:48:31 -0700 (PDT)
-X-Gm-Message-State: AJIora/gvnfOGrSrwEDCwyieKynJHmWnCdWF1oCn/h0sOPAdhXn4Uk3Z
-        ZZ5CayhBLw3lG/sYsZgIJejZmLEQOYxor8idRTo=
-X-Google-Smtp-Source: AGRyM1uHkBIdCkI9mpCrsEZDA8zvdmE7/Fo1G/+3sQac7LSyKfcZpANe6OOE8iPxe+xA5YpR3xLpoECCt9dTyF/gSRw=
-X-Received: by 2002:a9d:4a8:0:b0:60c:76b1:f1be with SMTP id
- 37-20020a9d04a8000000b0060c76b1f1bemr3345332otm.347.1655970510870; Thu, 23
- Jun 2022 00:48:30 -0700 (PDT)
+        with ESMTP id S230412AbiFWJtq (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Jun 2022 05:49:46 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7E66BEB;
+        Thu, 23 Jun 2022 02:49:45 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 7412921D23;
+        Thu, 23 Jun 2022 09:49:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1655977784; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=+CLl76jCtc8JF3MOH1U5ZFbevKkgfgdE07Jn+f0mNCI=;
+        b=fBTd+tR4X2qkk37Pn+hlm0r9bZLPgH6EvaSpqYhwDnZ4hytW6sSzacCvMImZW30w2CeqbN
+        aUOh+rouH878Bw5fX/Krpi+RyQQmCFrY6mniJzICicOJeN4F5g70zwvGaibj0K2jCnLrtk
+        EkOluqiKnbrHm40cC1FRqRHkNMwkc+s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1655977784;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=+CLl76jCtc8JF3MOH1U5ZFbevKkgfgdE07Jn+f0mNCI=;
+        b=2pS36cRb+Iu7+M3vn/Be7YOzAx3YYw4MZ34FGOnlRkKW07tlWgWWHCsjOlb7DlJhpnkMmG
+        YcYoqWFAQwOumqBw==
+Received: from quack3.suse.cz (unknown [10.100.224.230])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id A7C4E2C142;
+        Thu, 23 Jun 2022 09:49:38 +0000 (UTC)
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+        id 03515A062B; Thu, 23 Jun 2022 11:49:43 +0200 (CEST)
+Date:   Thu, 23 Jun 2022 11:49:43 +0200
+From:   Jan Kara <jack@suse.cz>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>, Matthew Bobrowski <repnop@google.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH 1/2] fanotify: prepare for setting event flags in ignore
+ mask
+Message-ID: <20220623094943.tp3qtl6zgnjxup3z@quack3.lan>
+References: <20220620134551.2066847-1-amir73il@gmail.com>
+ <20220620134551.2066847-2-amir73il@gmail.com>
+ <20220622160049.koda4uazle7i2735@quack3.lan>
+ <CAOQ4uxg6-hzNTaXRdhC7RPZFfDJiNwbSEdj4yq40GZZQP7gC_A@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220621120355.2903-1-chrubis@suse.cz>
-In-Reply-To: <20220621120355.2903-1-chrubis@suse.cz>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 23 Jun 2022 09:48:13 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2J5k2ub6TNu9qDympdWEdQkqpbL_SqAznpwaQa+S9kXQ@mail.gmail.com>
-Message-ID: <CAK8P3a2J5k2ub6TNu9qDympdWEdQkqpbL_SqAznpwaQa+S9kXQ@mail.gmail.com>
-Subject: Re: [PATCH v3] uapi: Make __{u,s}64 match {u,}int64_t in userspace
-To:     Cyril Hrubis <chrubis@suse.cz>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        GNU C Library <libc-alpha@sourceware.org>,
-        Arnd Bergmann <arnd@arndb.de>, LTP List <ltp@lists.linux.it>,
-        David Laight <David.Laight@aculab.com>,
-        Zack Weinberg <zack@owlfolio.org>,
-        David Howells <dhowells@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:0YkVNDOX+L/OqW9IxfeVC4LojecooO6C77iFFbpozHXYPlwVsWH
- +o/qbJpHRnjjmwkLIhTqThaPZpcR8Gx7Kx6Zf9NWRVyKJg6n758aH7T3jYp2CikebyDzZ7V
- 9V+ifZhxLIBRV1w1wIGmBcXqIqZHvF8Ni5an5evbn/cSy3Ffq61eh7wWT2gDyg9u9cryE9V
- QxENscWPSVQTPNSFppI7A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wBylCmi8U3M=:kl6DPcI8z4JI8lfngq4jge
- bFknkHbJ1j6r84/1gKToOveBYGHynwzCNPsiaQEQ1PjIgzLSgtWJUWaR6dSvn854zEDQkC5o0
- KYhDL11dGd3F6gIcctFbm3CmHfb4+HXng0lsvebaDGXpV40tE4o+rm4RoXezPTWCRQrvIRUQ/
- 6WLuooA+ZxqPbvqWDvmaTSYL6FpozKKc7WPxHcsUlTtLEyDU3POzReXpKoZb3vpB8/9nvhBMe
- wo1usFVF1gsKAJViA/eppZSF0cc58vVq764VP5YWTj1KMcN0P4gSkp90oLf/222Gc3AnEi48t
- FxzQikUBHaI6Ud7a+9DgRyOGh1yJX9y+AacPlx1uG8vnZQl6qBEFthyA/nxfKEVWEFJLPBaKk
- MXHonUm403LLQN0vupnLKJjCKg3Wpuy6+9fOAdwz0zCQdPZHj0/J00hKxBmnqz3r7IGboibco
- +BsRYqObopmuS0zAxN0qTOTGV1anCO5I1lnyZjblcPLwXT34C7RKBgb1Cu3jpQjN12L2D/+P5
- PuxdxdRT0dYPIBDsQLauODqnRvIhqJgto2YzchLO9fv8vgZMNEJHwiJjAnAOx0zEKxCzeMlP7
- 0VP029uNhMiwPpqfbCly6NK55ub1pMhyZrLraGfcEnGtpQ0fdIO+XwnD/yMJugL+qefX5xp1I
- +Wza0EPnY8sLaLAJH1egiuwAlbscschVA8bG3EPt8hdgbtzEWEZ8ti+18J5qQ+eKxMt3wqOFQ
- Hr1G0I5yE7vJVn0VXfxmVz7/omi4Qv+bVXNWjYOfT3T4QAcktkDIpunq1/GKN6sJPVlhIXqeT
- AdZEDeINMDNJYIIepgERVWtpNAKZfWjhdBYhK7jZjMvFLu+Ef53HaapEYbzFHoIY/PCb5asxb
- jLmZ1zuLMFmoF6NsEqIw==
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOQ4uxg6-hzNTaXRdhC7RPZFfDJiNwbSEdj4yq40GZZQP7gC_A@mail.gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Jun 21, 2022 at 2:03 PM Cyril Hrubis <chrubis@suse.cz> wrote:
->
-> This changes the __u64 and __s64 in userspace on 64bit platforms from
-> long long (unsigned) int to just long (unsigned) int in order to match
-> the uint64_t and int64_t size in userspace for C code.
->
-> We cannot make the change for C++ since that would be non-backwards
-> compatible change and may cause possible regressions and even
-> compilation failures, e.g. overloaded function may no longer find a
-> correct match.
->
-> This allows us to use the kernel structure definitions in userspace in C
-> code. For example we can use PRIu64 and PRId64 modifiers in printf() to
-> print structure membere. Morever with this there would be no need to
-> redefine these structures in an libc implementations as it is done now.
->
-> Consider for example the newly added statx() syscall. If we use the
-> header from uapi we will get warnings when attempting to print it's
-> members as:
->
->         printf("%" PRIu64 "\n", stx.stx_size);
->
-> We get:
->
->         warning: format '%lu' expects argument of type 'long unsigned int',
->                  but argument 5 has type '__u64' {aka 'long long unsigned int'}
->
-> Signed-off-by: Cyril Hrubis <chrubis@suse.cz>
+On Wed 22-06-22 21:28:23, Amir Goldstein wrote:
+> On Wed, Jun 22, 2022 at 7:00 PM Jan Kara <jack@suse.cz> wrote:
+> >
+> > On Mon 20-06-22 16:45:50, Amir Goldstein wrote:
+> > > Setting flags FAN_ONDIR FAN_EVENT_ON_CHILD in ignore mask has no effect.
+> > > The FAN_EVENT_ON_CHILD flag in mask implicitly applies to ignore mask and
+> > > ignore mask is always implicitly applied to events on directories.
+> > >
+> > > Define a mark flag that replaces this legacy behavior with logic of
+> > > applying the ignore mask according to event flags in ignore mask.
+> > >
+> > > Implement the new logic to prepare for supporting an ignore mask that
+> > > ignores events on children and ignore mask that does not ignore events
+> > > on directories.
+> > >
+> > > To emphasize the change in terminology, also rename ignored_mask mark
+> > > member to ignore_mask and use accessor to get only ignored events or
+> > > events and flags.
+> > >
+> > > This change in terminology finally aligns with the "ignore mask"
+> > > language in man pages and in most of the comments.
+> > >
+> > > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> >
+> > ..
+> >
+> > > @@ -423,7 +425,8 @@ static bool fsnotify_iter_select_report_types(
+> > >                        * But is *this mark* watching children?
+> > >                        */
+> > >                       if (type == FSNOTIFY_ITER_TYPE_PARENT &&
+> > > -                         !(mark->mask & FS_EVENT_ON_CHILD))
+> > > +                         !(mark->mask & FS_EVENT_ON_CHILD) &&
+> > > +                         !(fsnotify_ignore_mask(mark) & FS_EVENT_ON_CHILD))
+> > >                               continue;
+> >
+> > So now we have in ->report_mask the FSNOTIFY_ITER_TYPE_PARENT if either
+> > ->mask or ->ignore_mask have FS_EVENT_ON_CHILD set. But I see nothing that
+> > would stop us from applying say ->mask to the set of events we are
+> > interested in if FS_EVENT_ON_CHILD is set only in ->ignore_mask? And
+> 
+> I think I spent some time thinking about this and came to a conclusion that
+> 1. It is hard to get all the cases right
+> 2. It is a micro optimization
+> 
+> The implication is that the user can set an ignore mask of an object, get no
+> events but still cause performance penalty. Right?
+> So just don't do that...
 
-I understand the problem you are solving here, but I'm not convinced
-that this is actually an overall improvement as you introduce two
-similar problems in its place:
+So I was more afraid that this actually results in generating events we
+should not generate. For example consider dir 'd' with mask FS_OPEN and
+ignore_mask FS_MODIFY | FS_EVENT_ON_CHILD. Now open("d/file") happens so
+FS_OPEN is generated for d/file. We select FSNOTIFY_ITER_TYPE_PARENT in the
+->report_mask because of the ignore_mask on 'd' and pass the iter to
+fanotify_handle_event(). There fanotify_group_event_mask() will include
+FS_OPEN to marks_mask and conclude event should be reported. But there's no
+mark that should result in reporting this...
 
-- any application that has previously used the correct %ll or %ull format
-  strings for members of kernel data structures now gains a new warning
+The problem is that with the introduction of FSNOTIFY_ITER_TYPE_PARENT we
+started to rely on that type being set only when the event on child should
+be reported to parent and now you break that AFAICT.
 
-- After your patch, neither the PRIu64 nor the "%ull" format strings are
-  portable across old and new kernel headers, so applications are now
-  forced to add an explicit cast to 'unsigned long long' or 'uint64_t' to
-  every print statement for these members if they want to guarantee a
-  clean build.
-
-Do you have an estimate of how many build time warnings in common
-packages actually get fixed by your patch, compared to the number
-of warnings that get introduced?
-
-        Arnd
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
