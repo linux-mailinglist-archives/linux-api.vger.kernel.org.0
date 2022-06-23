@@ -2,146 +2,181 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A1BED557D67
-	for <lists+linux-api@lfdr.de>; Thu, 23 Jun 2022 15:59:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F23D557F23
+	for <lists+linux-api@lfdr.de>; Thu, 23 Jun 2022 17:58:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230208AbiFWN73 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 Jun 2022 09:59:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37912 "EHLO
+        id S230372AbiFWP6S (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 Jun 2022 11:58:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231725AbiFWN72 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Jun 2022 09:59:28 -0400
-Received: from mail-vk1-xa31.google.com (mail-vk1-xa31.google.com [IPv6:2607:f8b0:4864:20::a31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E05F3B031;
-        Thu, 23 Jun 2022 06:59:27 -0700 (PDT)
-Received: by mail-vk1-xa31.google.com with SMTP id b4so6436723vkh.6;
-        Thu, 23 Jun 2022 06:59:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ogy+YQkMGLcwRR8n0uq3dxwjYK412jStU07zA03fUns=;
-        b=EHwxQxxYQhK+GktZNMWjAik3eMMRoQSxDsPdoGW5Wgp1YXaIFQaS3T4ZLtmBWiH/p0
-         l736ctMtFCA4EegduXxEEaLLti0ZLXm0qDKXUWypSif191gj+937yr0XSEKzc+xFKPJJ
-         nsk8ZU0IcgsMk3uvguOM4xdLhGyO+edFKjP0LzqIAzloRoVsMb8rSePbty8nIHbbt5Gb
-         jZIpUYILD5FTH6g7VZrtEVOgmFdT3sg0KmilzwcGTQcvGKtRg0q2PokZNuHj9x3Uw7TL
-         eey5RUpzjAFVaA71RgG4yUlEBw9ZFfshAPrnWl72L9DjUgiGRyEGEDPqLR/o6U0RBToe
-         oedg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ogy+YQkMGLcwRR8n0uq3dxwjYK412jStU07zA03fUns=;
-        b=HS+Hb0G55hjQjce2TN8aiMTHYEZ6mWiUqDNlJ0gNCIzp7o1EJE/TOtJ9Q8si0W/heQ
-         xBIoC1X7Z7IGuMbGRbBzFxFlc2iaceoT1r4pjgjrNsIP1PmMRZx2bwwtkSXugOAVdmiK
-         VPmZin2zhfP/Bzxwq56J+bBG6WE+33vGph6qSxj8tTMMY7EbW4HORd5sne3AuxMzS+Ae
-         67VNHSIB4cHufZ/lFVf8odxxP18Js8GFEaeCW/phcgkDwKUigW3ZLQIxlLGN0y/QfUtL
-         T00aCXgWGx9ekJaMHR1k4uDKBvAnVtdQSyH3DKw20Vi18mmUAz3v4x9x4krolsp9g8hl
-         58pw==
-X-Gm-Message-State: AJIora/g7496iAS3vIGUv9cKpseG5hrGsyk/ypExgfJvi6yjaeiPTPLj
-        6PrgZ7FO1XIpR2czxDwlZpFgjZ1fuYjgWAqFJ+E=
-X-Google-Smtp-Source: AGRyM1udSotwRsD/EPucHrlm8U0TSjNBHVJh/s9Eul5zKJxBv2IkjORtU1PkjdCqqFD0KTuDAguoD7QroVBQX2WAqwM=
-X-Received: by 2002:a1f:c603:0:b0:36c:500c:d692 with SMTP id
- w3-20020a1fc603000000b0036c500cd692mr8908478vkf.11.1655992766470; Thu, 23 Jun
- 2022 06:59:26 -0700 (PDT)
+        with ESMTP id S231879AbiFWP6Q (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Jun 2022 11:58:16 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4819B1759D;
+        Thu, 23 Jun 2022 08:58:15 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E28DEB8246F;
+        Thu, 23 Jun 2022 15:58:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ABDCC3411B;
+        Thu, 23 Jun 2022 15:58:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1655999892;
+        bh=IDUiBH6qH1G61loO2huDf8LDrhqI5TftKFjOpKwln1w=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JVJrrlgnMomsS9MtZpmtRr2uj/8AzIx2iwsVTXJVAr8pFXOrnVs0PxFj4GbnJAiLR
+         i3hsm34ZvTcj+8gCkkFWevl7WtqEE6fN4E49FstL2oXwqdd68yQsMOt84qntsMnrwq
+         8HEcPTcx42VlaTz/YMLQOiVLJjIdlVYH5f7P8ii0d6TiDBDik4p8+H27HPFVijnOCI
+         VQc/pkbEo3Zk2QP38sf90S/pZniGo8eX6u1ZkREK5z2xzyoK/R3fYyzAb8MfzqetVP
+         dKAK1VMswGbyWx37ibSEpANTAlWQ5eAAGaHsGmYm00yfANLr+7DQ7+cI/acQk5VJec
+         0rIRGNzt5630g==
+Date:   Thu, 23 Jun 2022 08:58:12 -0700
+From:   "Darrick J. Wong" <djwong@kernel.org>
+To:     Eric Biggers <ebiggers@kernel.org>
+Cc:     linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-fscrypt@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH v3 1/8] statx: add direct I/O alignment information
+Message-ID: <YrSNlFgW6X4pUelg@magnolia>
+References: <20220616201506.124209-1-ebiggers@kernel.org>
+ <20220616201506.124209-2-ebiggers@kernel.org>
 MIME-Version: 1.0
-References: <20220620134551.2066847-1-amir73il@gmail.com> <20220620134551.2066847-2-amir73il@gmail.com>
- <20220622160049.koda4uazle7i2735@quack3.lan> <CAOQ4uxg6-hzNTaXRdhC7RPZFfDJiNwbSEdj4yq40GZZQP7gC_A@mail.gmail.com>
- <20220623094943.tp3qtl6zgnjxup3z@quack3.lan>
-In-Reply-To: <20220623094943.tp3qtl6zgnjxup3z@quack3.lan>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Thu, 23 Jun 2022 16:59:15 +0300
-Message-ID: <CAOQ4uxgVhF5DV+AC-nDwQhBS7rpHEF3+WQBHE1Fc07e77rhuvQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] fanotify: prepare for setting event flags in ignore mask
-To:     Jan Kara <jack@suse.cz>
-Cc:     Matthew Bobrowski <repnop@google.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220616201506.124209-2-ebiggers@kernel.org>
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jun 23, 2022 at 12:49 PM Jan Kara <jack@suse.cz> wrote:
->
-> On Wed 22-06-22 21:28:23, Amir Goldstein wrote:
-> > On Wed, Jun 22, 2022 at 7:00 PM Jan Kara <jack@suse.cz> wrote:
-> > >
-> > > On Mon 20-06-22 16:45:50, Amir Goldstein wrote:
-> > > > Setting flags FAN_ONDIR FAN_EVENT_ON_CHILD in ignore mask has no effect.
-> > > > The FAN_EVENT_ON_CHILD flag in mask implicitly applies to ignore mask and
-> > > > ignore mask is always implicitly applied to events on directories.
-> > > >
-> > > > Define a mark flag that replaces this legacy behavior with logic of
-> > > > applying the ignore mask according to event flags in ignore mask.
-> > > >
-> > > > Implement the new logic to prepare for supporting an ignore mask that
-> > > > ignores events on children and ignore mask that does not ignore events
-> > > > on directories.
-> > > >
-> > > > To emphasize the change in terminology, also rename ignored_mask mark
-> > > > member to ignore_mask and use accessor to get only ignored events or
-> > > > events and flags.
-> > > >
-> > > > This change in terminology finally aligns with the "ignore mask"
-> > > > language in man pages and in most of the comments.
-> > > >
-> > > > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> > >
-> > > ..
-> > >
-> > > > @@ -423,7 +425,8 @@ static bool fsnotify_iter_select_report_types(
-> > > >                        * But is *this mark* watching children?
-> > > >                        */
-> > > >                       if (type == FSNOTIFY_ITER_TYPE_PARENT &&
-> > > > -                         !(mark->mask & FS_EVENT_ON_CHILD))
-> > > > +                         !(mark->mask & FS_EVENT_ON_CHILD) &&
-> > > > +                         !(fsnotify_ignore_mask(mark) & FS_EVENT_ON_CHILD))
-> > > >                               continue;
-> > >
-> > > So now we have in ->report_mask the FSNOTIFY_ITER_TYPE_PARENT if either
-> > > ->mask or ->ignore_mask have FS_EVENT_ON_CHILD set. But I see nothing that
-> > > would stop us from applying say ->mask to the set of events we are
-> > > interested in if FS_EVENT_ON_CHILD is set only in ->ignore_mask? And
-> >
-> > I think I spent some time thinking about this and came to a conclusion that
-> > 1. It is hard to get all the cases right
-> > 2. It is a micro optimization
-> >
-> > The implication is that the user can set an ignore mask of an object, get no
-> > events but still cause performance penalty. Right?
-> > So just don't do that...
->
-> So I was more afraid that this actually results in generating events we
-> should not generate. For example consider dir 'd' with mask FS_OPEN and
-> ignore_mask FS_MODIFY | FS_EVENT_ON_CHILD. Now open("d/file") happens so
-> FS_OPEN is generated for d/file. We select FSNOTIFY_ITER_TYPE_PARENT in the
-> ->report_mask because of the ignore_mask on 'd' and pass the iter to
-> fanotify_handle_event(). There fanotify_group_event_mask() will include
-> FS_OPEN to marks_mask and conclude event should be reported. But there's no
-> mark that should result in reporting this...
->
+On Thu, Jun 16, 2022 at 01:14:59PM -0700, Eric Biggers wrote:
+> From: Eric Biggers <ebiggers@google.com>
+> 
+> Traditionally, the conditions for when DIO (direct I/O) is supported
+> were fairly simple.  For both block devices and regular files, DIO had
+> to be aligned to the logical block size of the block device.
+> 
+> However, due to filesystem features that have been added over time (e.g.
+> multi-device support, data journalling, inline data, encryption, verity,
+> compression, checkpoint disabling, log-structured mode), the conditions
+> for when DIO is allowed on a regular file have gotten increasingly
+> complex.  Whether a particular regular file supports DIO, and with what
+> alignment, can depend on various file attributes and filesystem mount
+> options, as well as which block device(s) the file's data is located on.
+> 
+> Moreover, the general rule of DIO needing to be aligned to the block
+> device's logical block size is being relaxed to allow user buffers (but
+> not file offsets) aligned to the DMA alignment instead
+> (https://lore.kernel.org/linux-block/20220610195830.3574005-1-kbusch@fb.com/T/#u).
+> 
+> XFS has an ioctl XFS_IOC_DIOINFO that exposes DIO alignment information.
+> Uplifting this to the VFS is one possibility.  However, as discussed
+> (https://lore.kernel.org/linux-fsdevel/20220120071215.123274-1-ebiggers@kernel.org/T/#u),
+> this ioctl is rarely used and not known to be used outside of
+> XFS-specific code.  It was also never intended to indicate when a file
+> doesn't support DIO at all, nor was it intended for block devices.
+> 
+> Therefore, let's expose this information via statx().  Add the
+> STATX_DIOALIGN flag and two new statx fields associated with it:
+> 
+> * stx_dio_mem_align: the alignment (in bytes) required for user memory
+>   buffers for DIO, or 0 if DIO is not supported on the file.
+> 
+> * stx_dio_offset_align: the alignment (in bytes) required for file
+>   offsets and I/O segment lengths for DIO, or 0 if DIO is not supported
+>   on the file.  This will only be nonzero if stx_dio_mem_align is
+>   nonzero, and vice versa.
+> 
+> Note that as with other statx() extensions, if STATX_DIOALIGN isn't set
+> in the returned statx struct, then these new fields won't be filled in.
+> This will happen if the file is neither a regular file nor a block
+> device, or if the file is a regular file and the filesystem doesn't
+> support STATX_DIOALIGN.  It might also happen if the caller didn't
+> include STATX_DIOALIGN in the request mask, since statx() isn't required
+> to return unrequested information.
+> 
+> This commit only adds the VFS-level plumbing for STATX_DIOALIGN.  For
+> regular files, individual filesystems will still need to add code to
+> support it.  For block devices, a separate commit will wire it up too.
+> 
+> Signed-off-by: Eric Biggers <ebiggers@google.com>
+> ---
+>  fs/stat.c                 | 2 ++
+>  include/linux/stat.h      | 2 ++
+>  include/uapi/linux/stat.h | 4 +++-
+>  3 files changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/stat.c b/fs/stat.c
+> index 9ced8860e0f35..a7930d7444830 100644
+> --- a/fs/stat.c
+> +++ b/fs/stat.c
+> @@ -611,6 +611,8 @@ cp_statx(const struct kstat *stat, struct statx __user *buffer)
+>  	tmp.stx_dev_major = MAJOR(stat->dev);
+>  	tmp.stx_dev_minor = MINOR(stat->dev);
+>  	tmp.stx_mnt_id = stat->mnt_id;
+> +	tmp.stx_dio_mem_align = stat->dio_mem_align;
+> +	tmp.stx_dio_offset_align = stat->dio_offset_align;
+>  
+>  	return copy_to_user(buffer, &tmp, sizeof(tmp)) ? -EFAULT : 0;
+>  }
+> diff --git a/include/linux/stat.h b/include/linux/stat.h
+> index 7df06931f25d8..ff277ced50e9f 100644
+> --- a/include/linux/stat.h
+> +++ b/include/linux/stat.h
+> @@ -50,6 +50,8 @@ struct kstat {
+>  	struct timespec64 btime;			/* File creation time */
+>  	u64		blocks;
+>  	u64		mnt_id;
+> +	u32		dio_mem_align;
+> +	u32		dio_offset_align;
 
-I see... I think the FS_EVENT_ON_CHILD needs to be added to send_to_group()
-just like it knows about FS_ISDIR. Will need to look into it and see which tests
-we are missing.
+Hmm.  Does the XFS port of XFS_IOC_DIOINFO to STATX_DIOALIGN look like
+this?
 
-> The problem is that with the introduction of FSNOTIFY_ITER_TYPE_PARENT we
-> started to rely on that type being set only when the event on child should
-> be reported to parent and now you break that AFAICT.
->
+	struct xfs_buftarg	*target = xfs_inode_buftarg(ip);
 
-The idea behind FSNOTIFY_ITER_TYPE_PARENT is that the event handlers
-have all the information to make the right decision based on mask/ignored_mask
-and flags. I guess the implementation is incorrect though.
+	kstat.dio_mem_align = target->bt_logical_sectorsize;
+	kstat.dio_offset_align = target->bt_logical_sectorsize;
+	kstat.result_mask |= STATX_DIOALIGN;
 
-Well spotted!
+And I guess you're tabling the "optimal" IO discussions for now, because
+there are too many variants of what that means?
 
-Thanks,
-Amir.
+--D
+
+>  };
+>  
+>  #endif
+> diff --git a/include/uapi/linux/stat.h b/include/uapi/linux/stat.h
+> index 1500a0f58041a..7cab2c65d3d7f 100644
+> --- a/include/uapi/linux/stat.h
+> +++ b/include/uapi/linux/stat.h
+> @@ -124,7 +124,8 @@ struct statx {
+>  	__u32	stx_dev_minor;
+>  	/* 0x90 */
+>  	__u64	stx_mnt_id;
+> -	__u64	__spare2;
+> +	__u32	stx_dio_mem_align;	/* Memory buffer alignment for direct I/O */
+> +	__u32	stx_dio_offset_align;	/* File offset alignment for direct I/O */
+>  	/* 0xa0 */
+>  	__u64	__spare3[12];	/* Spare space for future expansion */
+>  	/* 0x100 */
+> @@ -152,6 +153,7 @@ struct statx {
+>  #define STATX_BASIC_STATS	0x000007ffU	/* The stuff in the normal stat struct */
+>  #define STATX_BTIME		0x00000800U	/* Want/got stx_btime */
+>  #define STATX_MNT_ID		0x00001000U	/* Got stx_mnt_id */
+> +#define STATX_DIOALIGN		0x00002000U	/* Want/got direct I/O alignment info */
+>  
+>  #define STATX__RESERVED		0x80000000U	/* Reserved for future struct statx expansion */
+>  
+> -- 
+> 2.36.1
+> 
