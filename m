@@ -2,56 +2,57 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A748557A22
-	for <lists+linux-api@lfdr.de>; Thu, 23 Jun 2022 14:17:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1BED557D67
+	for <lists+linux-api@lfdr.de>; Thu, 23 Jun 2022 15:59:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229992AbiFWMRS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 23 Jun 2022 08:17:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34938 "EHLO
+        id S230208AbiFWN73 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 23 Jun 2022 09:59:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231688AbiFWMRQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Jun 2022 08:17:16 -0400
-Received: from mail-vs1-xe36.google.com (mail-vs1-xe36.google.com [IPv6:2607:f8b0:4864:20::e36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0F3534B9D;
-        Thu, 23 Jun 2022 05:17:15 -0700 (PDT)
-Received: by mail-vs1-xe36.google.com with SMTP id j1so10339229vsj.12;
-        Thu, 23 Jun 2022 05:17:15 -0700 (PDT)
+        with ESMTP id S231725AbiFWN72 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 23 Jun 2022 09:59:28 -0400
+Received: from mail-vk1-xa31.google.com (mail-vk1-xa31.google.com [IPv6:2607:f8b0:4864:20::a31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E05F3B031;
+        Thu, 23 Jun 2022 06:59:27 -0700 (PDT)
+Received: by mail-vk1-xa31.google.com with SMTP id b4so6436723vkh.6;
+        Thu, 23 Jun 2022 06:59:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Sb/jwSe5HoSp8kH02mtcD5nKWDYLNYBGBBdjWlW/hgg=;
-        b=ZlmQm6ttq+q+bJ+WYsd41EU3h2wV5pgrNq2/DrRfhd/JyS57UFJ+5TfMWbF3Ym1MUS
-         H/WLtqVAE41Cjs1vtaK7sLiCJH31l5AU6g00Jf88bro/8h3LsSILn9M4iwXOmWqrYuvc
-         7oAbC8TXl2IMsPHAthS/rI8C1kMXHyWgGp1fDKk2f69FxO7y44cQRcu/tXScxKjbXC2V
-         rMbq8amryhi3I+0gkIOzVF20lxZ1CFEQGaIDzWpdy8xIEqgwirTxKkIj5xDAIovkjjpf
-         o0YWSOZdwZs+SifuWYCznBAUKdFdfzIEkqMTwKOjxSYNksaNE7a69+TGZ/aIIC1W8ew7
-         ZNkQ==
+        bh=ogy+YQkMGLcwRR8n0uq3dxwjYK412jStU07zA03fUns=;
+        b=EHwxQxxYQhK+GktZNMWjAik3eMMRoQSxDsPdoGW5Wgp1YXaIFQaS3T4ZLtmBWiH/p0
+         l736ctMtFCA4EegduXxEEaLLti0ZLXm0qDKXUWypSif191gj+937yr0XSEKzc+xFKPJJ
+         nsk8ZU0IcgsMk3uvguOM4xdLhGyO+edFKjP0LzqIAzloRoVsMb8rSePbty8nIHbbt5Gb
+         jZIpUYILD5FTH6g7VZrtEVOgmFdT3sg0KmilzwcGTQcvGKtRg0q2PokZNuHj9x3Uw7TL
+         eey5RUpzjAFVaA71RgG4yUlEBw9ZFfshAPrnWl72L9DjUgiGRyEGEDPqLR/o6U0RBToe
+         oedg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Sb/jwSe5HoSp8kH02mtcD5nKWDYLNYBGBBdjWlW/hgg=;
-        b=zFHw3/GZvr5wNPabEF7QGtT3DJBbaF3FF7SWHC8mlj4bRH9BKVFA0bByTqmRyM70I+
-         KMkXW5+ySkcJ3zJ/YImTfcADkGXDlalgtYkrJ/fNKlY4BKFBg8P9z2KK7so5oSgBng3s
-         cO8/GNqv+wsojuvoZVZe8zdTp0BsJ+vPm88D6fmSawZ4Vixv4oRpZMsTwm2VNjXHSsye
-         YBQs6R/39n/MuyHuHSmK9shPQOTqIaVQmfVyS9GDvO8wBVREqp8VbGghQhrvhQqE2WpX
-         3XZ6PpxDRJMuINrGgQfqJVpkaXH9Ys5Pb1rv/gWWBDcyQyH1uKGH/A5t7QDGPn4AHlh+
-         iIvQ==
-X-Gm-Message-State: AJIora9VfK/NH6TXczLJ3Whdp/wx74c9zpJtgt0vSvTPbw8Xfo4VuoKQ
-        eovd2UkiylyKx20w7fYRFh5Eutda2Xf1DsF1uVY=
-X-Google-Smtp-Source: AGRyM1uWKMbJWyZkYE4XFBOdesa+iiLiSyyUdSsPZESGKXZ3H6l+T6qAr07jRPujOEDinYnjWJAmWHYMKWi9MyF7IvU=
-X-Received: by 2002:a67:fa01:0:b0:354:3136:c62e with SMTP id
- i1-20020a67fa01000000b003543136c62emr10134728vsq.2.1655986631710; Thu, 23 Jun
- 2022 05:17:11 -0700 (PDT)
+        bh=ogy+YQkMGLcwRR8n0uq3dxwjYK412jStU07zA03fUns=;
+        b=HS+Hb0G55hjQjce2TN8aiMTHYEZ6mWiUqDNlJ0gNCIzp7o1EJE/TOtJ9Q8si0W/heQ
+         xBIoC1X7Z7IGuMbGRbBzFxFlc2iaceoT1r4pjgjrNsIP1PmMRZx2bwwtkSXugOAVdmiK
+         VPmZin2zhfP/Bzxwq56J+bBG6WE+33vGph6qSxj8tTMMY7EbW4HORd5sne3AuxMzS+Ae
+         67VNHSIB4cHufZ/lFVf8odxxP18Js8GFEaeCW/phcgkDwKUigW3ZLQIxlLGN0y/QfUtL
+         T00aCXgWGx9ekJaMHR1k4uDKBvAnVtdQSyH3DKw20Vi18mmUAz3v4x9x4krolsp9g8hl
+         58pw==
+X-Gm-Message-State: AJIora/g7496iAS3vIGUv9cKpseG5hrGsyk/ypExgfJvi6yjaeiPTPLj
+        6PrgZ7FO1XIpR2czxDwlZpFgjZ1fuYjgWAqFJ+E=
+X-Google-Smtp-Source: AGRyM1udSotwRsD/EPucHrlm8U0TSjNBHVJh/s9Eul5zKJxBv2IkjORtU1PkjdCqqFD0KTuDAguoD7QroVBQX2WAqwM=
+X-Received: by 2002:a1f:c603:0:b0:36c:500c:d692 with SMTP id
+ w3-20020a1fc603000000b0036c500cd692mr8908478vkf.11.1655992766470; Thu, 23 Jun
+ 2022 06:59:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220620134551.2066847-1-amir73il@gmail.com> <20220620134551.2066847-3-amir73il@gmail.com>
- <20220623101408.ejmqpp7xw6f67me7@quack3.lan>
-In-Reply-To: <20220623101408.ejmqpp7xw6f67me7@quack3.lan>
+References: <20220620134551.2066847-1-amir73il@gmail.com> <20220620134551.2066847-2-amir73il@gmail.com>
+ <20220622160049.koda4uazle7i2735@quack3.lan> <CAOQ4uxg6-hzNTaXRdhC7RPZFfDJiNwbSEdj4yq40GZZQP7gC_A@mail.gmail.com>
+ <20220623094943.tp3qtl6zgnjxup3z@quack3.lan>
+In-Reply-To: <20220623094943.tp3qtl6zgnjxup3z@quack3.lan>
 From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Thu, 23 Jun 2022 15:17:00 +0300
-Message-ID: <CAOQ4uxiy7WkzhUO6o4ZgpNH2rrca5iXwTFujw=rJNWosVaK8zA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] fanotify: introduce FAN_MARK_IGNORE
+Date:   Thu, 23 Jun 2022 16:59:15 +0300
+Message-ID: <CAOQ4uxgVhF5DV+AC-nDwQhBS7rpHEF3+WQBHE1Fc07e77rhuvQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] fanotify: prepare for setting event flags in ignore mask
 To:     Jan Kara <jack@suse.cz>
 Cc:     Matthew Bobrowski <repnop@google.com>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
@@ -67,85 +68,80 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jun 23, 2022 at 1:14 PM Jan Kara <jack@suse.cz> wrote:
+On Thu, Jun 23, 2022 at 12:49 PM Jan Kara <jack@suse.cz> wrote:
 >
-> On Mon 20-06-22 16:45:51, Amir Goldstein wrote:
-> > This flag is a new way to configure ignore mask which allows adding and
-> > removing the event flags FAN_ONDIR and FAN_EVENT_ON_CHILD in ignore mask.
+> On Wed 22-06-22 21:28:23, Amir Goldstein wrote:
+> > On Wed, Jun 22, 2022 at 7:00 PM Jan Kara <jack@suse.cz> wrote:
+> > >
+> > > On Mon 20-06-22 16:45:50, Amir Goldstein wrote:
+> > > > Setting flags FAN_ONDIR FAN_EVENT_ON_CHILD in ignore mask has no effect.
+> > > > The FAN_EVENT_ON_CHILD flag in mask implicitly applies to ignore mask and
+> > > > ignore mask is always implicitly applied to events on directories.
+> > > >
+> > > > Define a mark flag that replaces this legacy behavior with logic of
+> > > > applying the ignore mask according to event flags in ignore mask.
+> > > >
+> > > > Implement the new logic to prepare for supporting an ignore mask that
+> > > > ignores events on children and ignore mask that does not ignore events
+> > > > on directories.
+> > > >
+> > > > To emphasize the change in terminology, also rename ignored_mask mark
+> > > > member to ignore_mask and use accessor to get only ignored events or
+> > > > events and flags.
+> > > >
+> > > > This change in terminology finally aligns with the "ignore mask"
+> > > > language in man pages and in most of the comments.
+> > > >
+> > > > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> > >
+> > > ..
+> > >
+> > > > @@ -423,7 +425,8 @@ static bool fsnotify_iter_select_report_types(
+> > > >                        * But is *this mark* watching children?
+> > > >                        */
+> > > >                       if (type == FSNOTIFY_ITER_TYPE_PARENT &&
+> > > > -                         !(mark->mask & FS_EVENT_ON_CHILD))
+> > > > +                         !(mark->mask & FS_EVENT_ON_CHILD) &&
+> > > > +                         !(fsnotify_ignore_mask(mark) & FS_EVENT_ON_CHILD))
+> > > >                               continue;
+> > >
+> > > So now we have in ->report_mask the FSNOTIFY_ITER_TYPE_PARENT if either
+> > > ->mask or ->ignore_mask have FS_EVENT_ON_CHILD set. But I see nothing that
+> > > would stop us from applying say ->mask to the set of events we are
+> > > interested in if FS_EVENT_ON_CHILD is set only in ->ignore_mask? And
 > >
-> > The legacy FAN_MARK_IGNORED_MASK flag would always ignore events on
-> > directories and would ignore events on children depending on whether
-> > the FAN_EVENT_ON_CHILD flag was set in the (non ignored) mask.
+> > I think I spent some time thinking about this and came to a conclusion that
+> > 1. It is hard to get all the cases right
+> > 2. It is a micro optimization
 > >
-> > FAN_MARK_IGNORE can be used to ignore events on children without setting
-> > FAN_EVENT_ON_CHILD in the mark's mask and will not ignore events on
-> > directories unconditionally, only when FAN_ONDIR is set in ignore mask.
-> >
-> > The new behavior is sticky.  After calling fanotify_mark() with
-> > FAN_MARK_IGNORE once, calling fanotify_mark() with FAN_MARK_IGNORED_MASK
-> > will update the ignore mask, but will not change the event flags in
-> > ignore mask nor how these flags are treated.
+> > The implication is that the user can set an ignore mask of an object, get no
+> > events but still cause performance penalty. Right?
+> > So just don't do that...
 >
-> IMHO this stickyness is not very obvious. Wouldn't it be less error-prone
-> for users to say that once FAN_MARK_IGNORE is used for a mark, all
-> subsequent modifications of ignore mask have to use FAN_MARK_IGNORE? I mean
-> if some program bothers with FAN_MARK_IGNORE, I'd expect it to use it for
-> all its calls as otherwise the mixup is kind of difficult to reason
-> about...
-
-I like that.
-
->
-> Also it follows the behavior we have picked for FAN_MARK_EVICTABLE AFAIR
-> but that's not really important to me.
-
-It's kind of the opposite in the case of FAN_MARK_EVICTABLE.
-FAN_MARK_EVICTABLE can be "upgraded" no non-evictable
-but not the other way around.
-And also with FAN_MARK_EVICTABLE we do not deprecate the
-old API...
-
-See man page draft:
-https://github.com/amir73il/man-pages/commit/58851140bbc08b9ab9c7edd8830f37cf883d8d2a#diff-7a4387558a34e18ed6fb13d31933b2e4506496f8b3dd55df700f62b258e6f004R165
-
->
-> > @@ -1591,10 +1601,20 @@ static int do_fanotify_mark(int fanotify_fd, unsigned int flags, __u64 mask,
-> >
-> >       /*
-> >        * Event flags (FAN_ONDIR, FAN_EVENT_ON_CHILD) have no effect with
-> > -      * FAN_MARK_IGNORED_MASK.
-> > +      * FAN_MARK_IGNORED_MASK.  They can be updated in ignore mask with
-> > +      * FAN_MARK_IGNORE and then they do take effect.
-> >        */
-> > -     if (ignore)
-> > +     switch (ignore) {
-> > +     case 0:
-> > +     case FAN_MARK_IGNORE:
-> > +             break;
-> > +     case FAN_MARK_IGNORED_MASK:
-> >               mask &= ~FANOTIFY_EVENT_FLAGS;
-> > +             umask = FANOTIFY_EVENT_FLAGS;
-> > +             break;
-> > +     default:
-> > +             return -EINVAL;
-> > +     }
->
-> I think this would be easier to follow as two ifs:
->
->         /* We don't allow FAN_MARK_IGNORE & FAN_MARK_IGNORED_MASK together */
->         if (ignore == FAN_MARK_IGNORE | FAN_MARK_IGNORED_MASK)
->                 return -EINVAL;
->         /*
->          * Event flags (FAN_ONDIR, FAN_EVENT_ON_CHILD) have no effect with
->          * FAN_MARK_IGNORED_MASK.
->          */
->         if (ignore == FAN_MARK_IGNORED_MASK) {
->                 mask &= ~FANOTIFY_EVENT_FLAGS;
->                 umask = FANOTIFY_EVENT_FLAGS;
->         }
+> So I was more afraid that this actually results in generating events we
+> should not generate. For example consider dir 'd' with mask FS_OPEN and
+> ignore_mask FS_MODIFY | FS_EVENT_ON_CHILD. Now open("d/file") happens so
+> FS_OPEN is generated for d/file. We select FSNOTIFY_ITER_TYPE_PARENT in the
+> ->report_mask because of the ignore_mask on 'd' and pass the iter to
+> fanotify_handle_event(). There fanotify_group_event_mask() will include
+> FS_OPEN to marks_mask and conclude event should be reported. But there's no
+> mark that should result in reporting this...
 >
 
-Yeh that looks better.
+I see... I think the FS_EVENT_ON_CHILD needs to be added to send_to_group()
+just like it knows about FS_ISDIR. Will need to look into it and see which tests
+we are missing.
+
+> The problem is that with the introduction of FSNOTIFY_ITER_TYPE_PARENT we
+> started to rely on that type being set only when the event on child should
+> be reported to parent and now you break that AFAICT.
+>
+
+The idea behind FSNOTIFY_ITER_TYPE_PARENT is that the event handlers
+have all the information to make the right decision based on mask/ignored_mask
+and flags. I guess the implementation is incorrect though.
+
+Well spotted!
 
 Thanks,
 Amir.
