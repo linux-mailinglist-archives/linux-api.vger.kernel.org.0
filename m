@@ -2,128 +2,125 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 514D655FCDD
-	for <lists+linux-api@lfdr.de>; Wed, 29 Jun 2022 12:09:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F5AD560375
+	for <lists+linux-api@lfdr.de>; Wed, 29 Jun 2022 16:44:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230140AbiF2KJ2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 29 Jun 2022 06:09:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53382 "EHLO
+        id S233608AbiF2Om0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 29 Jun 2022 10:42:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229777AbiF2KJ1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 29 Jun 2022 06:09:27 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDF541CFEE;
-        Wed, 29 Jun 2022 03:09:26 -0700 (PDT)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 1D6682204C;
-        Wed, 29 Jun 2022 10:09:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1656497365; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=8J44nym0dyAwhq0nK9KESAeqsoUvdq6frY1Sy5q0KXY=;
-        b=es7UlIf0YzuDdbIxxkXpikEX5FuSqSRf6SojQOYd8mlxGQZzFxVVbvMXzq/gAaczeiXJua
-        zfKr9pGLpbM/vScb5BZ7n2XMlhLM9KquysmOGix3AM3ZmiDGdoKSYXu+hyzLyzfH3P37P5
-        fPphRTDaPhRSznUWXRV33T9ln6IxjCA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1656497365;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=8J44nym0dyAwhq0nK9KESAeqsoUvdq6frY1Sy5q0KXY=;
-        b=QkuDbnfLwxWgqszpioFQvKlwPdGRVXj7xGeYoqPeu7NYGryzUsxIXemzFbgWsPKY/hL+AO
-        KnOtHw+A7SXGhVCw==
-Received: from quack3.suse.cz (unknown [10.100.224.230])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 096CD2C141;
-        Wed, 29 Jun 2022 10:09:25 +0000 (UTC)
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-        id B4C71A062F; Wed, 29 Jun 2022 12:09:24 +0200 (CEST)
-Date:   Wed, 29 Jun 2022 12:09:24 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Jan Kara <jack@suse.cz>, Matthew Bobrowski <repnop@google.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH] fanotify: refine the validation checks on non-dir inode
- mask
-Message-ID: <20220629100924.kvr6rbaanudmennh@quack3>
-References: <20220627174719.2838175-1-amir73il@gmail.com>
- <20220628092725.mfwvdu4sk72jov5x@quack3>
- <CAOQ4uxj4EFTrMHfVY=wFt9aAJakNVQA6_Vq-y-b7yvB0tEDsiQ@mail.gmail.com>
+        with ESMTP id S233541AbiF2OmS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 29 Jun 2022 10:42:18 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8345139148;
+        Wed, 29 Jun 2022 07:42:17 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id r20so22836823wra.1;
+        Wed, 29 Jun 2022 07:42:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eI9CQLpWygNGy4yl/tWF9cKiFCPEVrJqU/3ubCQYgks=;
+        b=RzqyZ0fegsKON41cB34MB/Z+1RaI7S6nE54qlrLmfWAPMAO+dJKUhfaKAI/kLlbcIe
+         aQKgyRcGEwCwvW/dlgcjSSof+O7MkYpcr3/MnQHQn9Na1iIvejMsIEsde5jJDLGq6eFn
+         BeFkgTQMh33z+in0ZlsQ89MCy9aCP6NDyOQ2z7Kq4Pi9sj55smg5Hrk6nEYVOuOOGwI6
+         JCTorEyy40LKZE4uXqbLjFZukYytO+uz1ESJaGCY04imyqFKJL3QPE8phmjidlOGUs28
+         sYZKRltT/hZ4kor9L3IaGiZgX7PyVMY4czlcuX7WVN5gtiqSI7CH5UE8RCcGeu/HeHeB
+         lPSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eI9CQLpWygNGy4yl/tWF9cKiFCPEVrJqU/3ubCQYgks=;
+        b=fhsyQbaCnei6TuVdnupQXHfRUsYCodO3EAjPAICV2aUAT53UPMr2T/lRa4Od/nsU/1
+         IyxVU4EnQCofGeUny9VFm6TWwMBJfB9BDhocmok64HKsuYe0S0idYK/RRXTXFOE2Udvr
+         /ZbXncdJGX4naGatzVeOYY91u3O9iTo8TCHE2jfmeAAtwgmBbhdG6o85220AkosumyDg
+         +tU7yzmahjvFvo+k8+q50aWoc485pqU7JuK1CuadjcF5aCxDtkqhH4FPrbPFBT2k9E1X
+         0/9vl1ic09WOQje4Qz/3uWgdBLbnuiVtiuXxKYS5EBN5WlodYIppQe/NVH80mBFvkukS
+         TONA==
+X-Gm-Message-State: AJIora81VyUx/x3FS2U7MVU08K2gI4/1TwzaqMASm7EQKwICLWFaIp/f
+        axRLwpP/c+T+Oa1dJKDURPw=
+X-Google-Smtp-Source: AGRyM1vp5qcwOM3ySCshstV/s72WlpOMrLDacER1VnP4uBL/Kgn4stLO4hLbIcdnOMrMEeRC07PKtQ==
+X-Received: by 2002:a05:6000:711:b0:21b:b9a0:601e with SMTP id bs17-20020a056000071100b0021bb9a0601emr3545006wrb.388.1656513735916;
+        Wed, 29 Jun 2022 07:42:15 -0700 (PDT)
+Received: from localhost.localdomain ([77.137.66.49])
+        by smtp.gmail.com with ESMTPSA id e17-20020a05600c4e5100b0039c747a1e8fsm3562085wmq.7.2022.06.29.07.42.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jun 2022 07:42:15 -0700 (PDT)
+From:   Amir Goldstein <amir73il@gmail.com>
+To:     Jan Kara <jack@suse.cz>
+Cc:     Matthew Bobrowski <repnop@google.com>,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: [PATCH v3 0/3] New fanotify API for ignoring events
+Date:   Wed, 29 Jun 2022 17:42:07 +0300
+Message-Id: <20220629144210.2983229-1-amir73il@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOQ4uxj4EFTrMHfVY=wFt9aAJakNVQA6_Vq-y-b7yvB0tEDsiQ@mail.gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue 28-06-22 20:22:28, Amir Goldstein wrote:
-> On Tue, Jun 28, 2022 at 12:27 PM Jan Kara <jack@suse.cz> wrote:
-> >
-> > On Mon 27-06-22 20:47:19, Amir Goldstein wrote:
-> > > Commit ceaf69f8eadc ("fanotify: do not allow setting dirent events in
-> > > mask of non-dir") added restrictions about setting dirent events in the
-> > > mask of a non-dir inode mark, which does not make any sense.
-> > >
-> > > For backward compatibility, these restictions were added only to new
-> > > (v5.17+) APIs.
-> > >
-> > > It also does not make any sense to set the flags FAN_EVENT_ON_CHILD or
-> > > FAN_ONDIR in the mask of a non-dir inode.  Add these flags to the
-> > > dir-only restriction of the new APIs as well.
-> > >
-> > > Move the check of the dir-only flags for new APIs into the helper
-> > > fanotify_events_supported(), which is only called for FAN_MARK_ADD,
-> > > because there is no need to error on an attempt to remove the dir-only
-> > > flags from non-dir inode.
-> > >
-> > > Fixes: ceaf69f8eadc ("fanotify: do not allow setting dirent events in mask of non-dir")
-> > > Link: https://lore.kernel.org/linux-fsdevel/20220627113224.kr2725conevh53u4@quack3.lan/
-> > > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> >
-> > Thanks! I've taken the patch to my tree.
-> >
-> >                                                                 Honza
-> >
-> > > [1] https://github.com/amir73il/ltp/commits/fan_enotdir
-> > > [2] https://github.com/amir73il/man-pages/commits/fanotify_target_fid
-> 
-> Mathew and Jan,
-> 
-> Please let me know if I can keep your RVB on the man page patch for
-> FAN_REPORT_TARGET_FID linked above.
-> 
-> The only change is an update to the ENOTDIR section which ends up like this:
-> 
->        ENOTDIR
->               flags contains FAN_MARK_ONLYDIR, and dirfd and pathname
-> do not specify a directory.
-> 
->        ENOTDIR
->               mask contains FAN_RENAME, and dirfd and pathname do not
-> specify a directory.
-> 
->        ENOTDIR
->               flags  contains FAN_MARK_IGNORE, or the fanotify group
-> was initialized with
->               flag FAN_REPORT_TARGET_FID, and mask contains directory
-> entry modification
->               events (e.g., FAN_CREATE, FAN_DELETE), or directory event flags
->               (e.g., FAN_ONDIR, FAN_EVENT_ON_CHILD),
->               and dirfd and pathname do not specify a directory.
+Hi Jan,
 
-Looks good to me. Thanks!
+As we discussed [1], here is the implementation of the new
+FAN_MARK_IGNORE API, to try and sort the historic mess of
+FAN_MARK_IGNORED_MASK.
 
-								Honza
+We use the opportunity of the new API to further restict the events
+and flags that are allowed in ignore mask of a non-dir inode mark and
+we require FAN_MARK_IGNORED_SURV_MODIFY for dir/mount/sb ignore mark
+to remove from the test matrix a lot of notsensical combinations.
+
+I extended the LTP tests [2] to cover the bug that you pointed out
+in [v1] review. I verified that the 6 relevant test cases fail with
+the buggy v1 version and pass in this version.
+
+The man page draft [3] has been updated to reflect the new restrictions,
+some of which have already been added by a Fixes patch [4].
+
+Thanks,
+Amir.
+
+Changes since [v2]:
+- Rebase on top of API restriction patch
+- Require FAN_MARK_IGNORED_SURV_MODIFY for dir/mount/sb ignore mark
+- Add test coverage and update man page with new restrictions
+
+Changes since [v1]:
+- Replace "sticky" semantics with EEXITS error
+- Simplify EINVAL checks
+- Add missing ignore mask accessors
+- Add fsnotify_effective_ignore_mask() helper to fix bug
+
+[v1] https://lore.kernel.org/linux-fsdevel/20220620134551.2066847-1-amir73il@gmail.com/
+[v2] https://lore.kernel.org/linux-fsdevel/20220624143538.2500990-1-amir73il@gmail.com/
+[1] https://lore.kernel.org/linux-fsdevel/20220428123824.ssq72ovqg2nao5f4@quack3.lan/
+[2] https://github.com/amir73il/ltp/commits/fan_mark_ignore
+[3] https://github.com/amir73il/man-pages/commits/fan_mark_ignore
+[4] https://lore.kernel.org/linux-fsdevel/20220627174719.2838175-1-amir73il@gmail.com/
+
+Amir Goldstein (3):
+  fanotify: prepare for setting event flags in ignore mask
+  fanotify: cleanups for fanotify_mark() input validations
+  fanotify: introduce FAN_MARK_IGNORE
+
+ fs/notify/fanotify/fanotify.c      |  19 ++---
+ fs/notify/fanotify/fanotify.h      |   2 +
+ fs/notify/fanotify/fanotify_user.c | 110 ++++++++++++++++++++++-------
+ fs/notify/fdinfo.c                 |   6 +-
+ fs/notify/fsnotify.c               |  21 +++---
+ include/linux/fanotify.h           |  14 ++--
+ include/linux/fsnotify_backend.h   |  89 +++++++++++++++++++++--
+ include/uapi/linux/fanotify.h      |   8 +++
+ 8 files changed, 212 insertions(+), 57 deletions(-)
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.25.1
+
