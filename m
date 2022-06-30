@@ -2,80 +2,182 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E78B56201C
-	for <lists+linux-api@lfdr.de>; Thu, 30 Jun 2022 18:19:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D02475622CC
+	for <lists+linux-api@lfdr.de>; Thu, 30 Jun 2022 21:14:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236299AbiF3QSo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 30 Jun 2022 12:18:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55258 "EHLO
+        id S235383AbiF3TOa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 30 Jun 2022 15:14:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235069AbiF3QSa (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Jun 2022 12:18:30 -0400
-Received: from mail.yonan.net (mail.yonan.net [54.244.116.145])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BB4C1EECA;
-        Thu, 30 Jun 2022 09:18:30 -0700 (PDT)
-Received: from [10.10.0.40] (unknown [76.130.91.106])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.yonan.net (Postfix) with ESMTPSA id 546323E880;
-        Thu, 30 Jun 2022 16:18:29 +0000 (UTC)
-Message-ID: <cd783f6c-9aa6-2f63-000c-4bcb252a3567@openvpn.net>
-Date:   Thu, 30 Jun 2022 10:18:28 -0600
+        with ESMTP id S232887AbiF3TO0 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 30 Jun 2022 15:14:26 -0400
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E0CD3982A
+        for <linux-api@vger.kernel.org>; Thu, 30 Jun 2022 12:14:24 -0700 (PDT)
+Received: by mail-pg1-x52a.google.com with SMTP id 68so216752pgb.10
+        for <linux-api@vger.kernel.org>; Thu, 30 Jun 2022 12:14:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CseVMsc9DMcvnremI2IMCVn9RXMEwKZ3PfQxnseEk1Y=;
+        b=L86qxID6q2M+JSm6WJlw/ywbiK2Bd4F4OqP2crvM+fBErSUs7vAk8+S+Iq/oWCc3S3
+         A/zD733aSeW/NQtqDBUXacjPlB7RxpFMnf6lRRa/+NdtBmLjMtHmcPsoOWwkq8KCWT59
+         Wrjd2sZMC+z5N1mQaKCk8s3sRW71BeCnVhZwSRy715zMP+SNJe7eU9WYohudOv1KNRGA
+         /2Hl1gt/4XtlScYZ3mwC111MIu9O+AEpZ9xmxnKCHZmdZRhh6DrJvNuc5sQfRD0Ka1kU
+         JrjpbfOKNuX8+d69m9LSTBv0r1O0mwEp5rUB+SIBwil7KVtufeEqPNZkhvO1MatEsuMw
+         lriQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CseVMsc9DMcvnremI2IMCVn9RXMEwKZ3PfQxnseEk1Y=;
+        b=Rubmhkmi3E2mWE2Pd7twL41io+fQfaOPrTg1UgvuE6liSdYuKeJkMhLvbII/G99fs0
+         k5tjrjjJJ+hipTV0jPr3h20Y4+ZlkfhGHIG5LnWCjVeoWF+KFvY5rwIvtX33A/gxuU2P
+         unXhMl7qkrsxSy5mJkktZ8T/wjp9KqC7dWJsxBr4VYEN20PILHvVmllEu4Pe+c2dnwnV
+         AWc5+7bmYrUJ4jx9x2kgpXk/+PgK9Pl9V6OJh0ZBhHFFQjq+xVkLL0WzG5C4uwQNGQ6H
+         xIT2DXQKR+fPHeOQFUDppQrK072Gloib0MMK9gqDeLSySCz3N0E6yNEbhvJG2xZCFRJA
+         vYsw==
+X-Gm-Message-State: AJIora9K7xu1BYQZoEOk6/8C8rYsvhYChno4vezpRuDNFjmri7zjL6ZP
+        /ivAXLJUBREvm4I8PRF4Jmh/WAq8VIUtf4zRltj3SChHzqw=
+X-Google-Smtp-Source: AGRyM1sSw2bcuHVxuECIXV0dhinx7eNbwu+6Xk72mVPwUCDEPf65Qjtbn+gPrnXqf1ZcPTdHgl0RAcjI8NMysu55SIM=
+X-Received: by 2002:a65:6b8a:0:b0:3db:7dc5:fec2 with SMTP id
+ d10-20020a656b8a000000b003db7dc5fec2mr8746604pgw.223.1656616463900; Thu, 30
+ Jun 2022 12:14:23 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] namei: implemented RENAME_NEWER flag for renameat2()
- conditional replace
-Content-Language: en-US
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-References: <20220627221107.176495-1-james@openvpn.net>
- <CAOQ4uxi5mKd1OuAcdFemx=h+1Ay-Ka4F6ddO5_fjk7m6G88MuQ@mail.gmail.com>
- <3062694c-8725-3653-a8e6-de2942aed1c2@openvpn.net>
- <CAOQ4uxjfZ=c4Orm2VcbsOuqEkdsXViZhxLN55CN5-5ZtSqj4Sg@mail.gmail.com>
-From:   James Yonan <james@openvpn.net>
-In-Reply-To: <CAOQ4uxjfZ=c4Orm2VcbsOuqEkdsXViZhxLN55CN5-5ZtSqj4Sg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <20220519153713.819591-7-chao.p.peng@linux.intel.com> <b3ce0855-0e4b-782a-599c-26590df948dd@amd.com>
+ <20220624090246.GA2181919@chaop.bj.intel.com>
+In-Reply-To: <20220624090246.GA2181919@chaop.bj.intel.com>
+From:   Vishal Annapurve <vannapurve@google.com>
+Date:   Thu, 30 Jun 2022 12:14:13 -0700
+Message-ID: <CAGtprH82H_fjtRbL0KUxOkgOk4pgbaEbAydDYfZ0qxz41JCnAQ@mail.gmail.com>
+Subject: Re: [PATCH v6 6/8] KVM: Handle page fault for private memory
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     "Nikunj A. Dadhania" <nikunj@amd.com>,
+        kvm list <kvm@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jun Nakajima <jun.nakajima@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 6/28/22 23:15, Amir Goldstein wrote:
->> because the application layer has already done the heavy lifting on the
->> networking side so that the filesystem layer can be local, fast, and
->> atomic.  So yes, I haven't tested this yet on networked filesystems.
->> But I'm thinking that because all functionality is implemented at the
->> VFS layer, it should be portable to any fs that also supports
->> RENAME_NOREPLACE, with the caveat that it depends on the ability of the
->> VFS to get a current and accurate mtime attribute inside the critical
->> section between lock_rename() and unlock_rename().
-> The implementation is generic. You just implement the logic in the vfs and
-> enable it for a few tested filesystems and whoever wants to join the party
-> is welcome to test their own filesystems and opt-in to the new flag whether
-> they like. Nothing wrong with that.
+...
+> > >     /*
+> > > diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> > > index afe18d70ece7..e18460e0d743 100644
+> > > --- a/arch/x86/kvm/mmu/mmu.c
+> > > +++ b/arch/x86/kvm/mmu/mmu.c
+> > > @@ -2899,6 +2899,9 @@ int kvm_mmu_max_mapping_level(struct kvm *kvm,
+> > >     if (max_level == PG_LEVEL_4K)
+> > >             return PG_LEVEL_4K;
+> > >
+> > > +   if (kvm_slot_is_private(slot))
+> > > +           return max_level;
+> >
+> > Can you explain the rationale behind the above change?
+> > AFAIU, this overrides the transparent_hugepage=never setting for both
+> > shared and private mappings.
 >
-> w.r.t stability of i_mtime, if I am not mistaken i_mtime itself is
-> stable with inode
-> lock held (i.e. after lock_two_nondirectories()), however, as Dave pointed out,
-> the file's data can be modified in page cache, so as long as the file is open
-> for write or mmaped writable, the check of mtime is not atomic.
+> As Sean pointed out, this should check against fault->is_private instead
+> of the slot. For private fault, the level is retrieved and stored to
+> fault->max_level in kvm_faultin_pfn_private() instead of here.
 >
-> Neil's suggestion to deny the operation on open files makes sense.
-> You can use a variant of deny_write_access() that takes inode
-> which implies the error  ETXTBSY for an attempt to exchange newer
-> with a file that is open for write.
+> For shared fault, it will continue to query host_level below. For
+> private fault, the host level has already been accounted in
+> kvm_faultin_pfn_private().
+>
+> Chao
+> >
 
-So I will incorporate these suggestions into an upcoming v2 patch.
+With transparent_hugepages=always setting I see issues with the
+current implementation.
 
-Thanks,
-James
+Scenario:
+1) Guest accesses a gfn range 0x800-0xa00 as private
+2) Guest calls mapgpa to convert the range 0x84d-0x86e as shared
+3) Guest tries to access recently converted memory as shared for the first time
+Guest VM shutdown is observed after step 3 -> Guest is unable to
+proceed further since somehow code section is not as expected
 
+Corresponding KVM trace logs after step 3:
+VCPU-0-61883   [078] ..... 72276.115679: kvm_page_fault: address
+84d000 error_code 4
+VCPU-0-61883   [078] ..... 72276.127005: kvm_mmu_spte_requested: gfn
+84d pfn 100b4a4d level 2
+VCPU-0-61883   [078] ..... 72276.127008: kvm_tdp_mmu_spte_changed: as
+id 0 gfn 800 level 2 old_spte 100b1b16827 new_spte 100b4a00ea7
+VCPU-0-61883   [078] ..... 72276.127009: kvm_mmu_prepare_zap_page: sp
+gen 0 gfn 800 l1 8-byte q0 direct wux nxe ad root 0 sync
+VCPU-0-61883   [078] ..... 72276.127009: kvm_tdp_mmu_spte_changed: as
+id 0 gfn 800 level 1 old_spte 1003eb27e67 new_spte 5a0
+VCPU-0-61883   [078] ..... 72276.127010: kvm_tdp_mmu_spte_changed: as
+id 0 gfn 801 level 1 old_spte 10056cc8e67 new_spte 5a0
+VCPU-0-61883   [078] ..... 72276.127010: kvm_tdp_mmu_spte_changed: as
+id 0 gfn 802 level 1 old_spte 10056fa2e67 new_spte 5a0
+VCPU-0-61883   [078] ..... 72276.127010: kvm_tdp_mmu_spte_changed: as
+id 0 gfn 803 level 1 old_spte 0 new_spte 5a0
+....
+ VCPU-0-61883   [078] ..... 72276.127089: kvm_tdp_mmu_spte_changed: as
+id 0 gfn 9ff level 1 old_spte 100a43f4e67 new_spte 5a0
+ VCPU-0-61883   [078] ..... 72276.127090: kvm_mmu_set_spte: gfn 800
+spte 100b4a00ea7 (rwxu) level 2 at 10052fa5020
+ VCPU-0-61883   [078] ..... 72276.127091: kvm_fpu: unload
 
+Looks like with transparent huge pages enabled kvm tried to handle the
+shared memory fault on 0x84d gfn by coalescing nearby 4K pages
+to form a contiguous 2MB page mapping at gfn 0x800, since level 2 was
+requested in kvm_mmu_spte_requested.
+This caused the private memory contents from regions 0x800-0x84c and
+0x86e-0xa00 to get unmapped from the guest leading to guest vm
+shutdown.
+
+Does getting the mapping level as per the fault access type help
+address the above issue? Any such coalescing should not cross between
+private to
+shared or shared to private memory regions.
+
+> > >     host_level = host_pfn_mapping_level(kvm, gfn, pfn, slot);
+> > >     return min(host_level, max_level);
+> > >  }
+> >
+
+Regards,
+Vishal
