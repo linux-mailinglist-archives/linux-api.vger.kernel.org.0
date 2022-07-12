@@ -2,99 +2,150 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CD5A57216F
-	for <lists+linux-api@lfdr.de>; Tue, 12 Jul 2022 18:55:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 288F5572220
+	for <lists+linux-api@lfdr.de>; Tue, 12 Jul 2022 20:03:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230110AbiGLQzC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 12 Jul 2022 12:55:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43872 "EHLO
+        id S233727AbiGLSDD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 12 Jul 2022 14:03:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229781AbiGLQzA (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 12 Jul 2022 12:55:00 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 634DFB3D4B
-        for <linux-api@vger.kernel.org>; Tue, 12 Jul 2022 09:54:59 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id p9so8282316pjd.3
-        for <linux-api@vger.kernel.org>; Tue, 12 Jul 2022 09:54:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=SNbvxQrAF0PGcWamYEyo8Q3smlt0K9Ue+RRXRcxSf94=;
-        b=qoixECQBykn1whjmBUMxClVzmZaLfgU87MkzAi56yZgkw/6M1Jk+D/0kyqEJeVg79S
-         qr1kuYjaaM0Pn1+fyw4B/hB41KAV3Y/6uwX+qSxouA0HfYLvoSTRywD/azAjOELNGd3s
-         5oRqb+W9jo6RZeQbPeG35GCgdoiR6IHrcD8TeRqQRtLXmYXSdqL1iQizZRsi7P07cLR6
-         X5a89k27O/E/aI9afoEpQ0Ezhl9t766rYc34qL8WxXUNC+20bDHIpYQSN6ERJk/4Bj+s
-         cmzMDbQ2PqTINDPmm488KMxqLZu38TElVSFlc24eGFwIW2APhN76nPUt9VKkh3V4pNvl
-         ozCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=SNbvxQrAF0PGcWamYEyo8Q3smlt0K9Ue+RRXRcxSf94=;
-        b=IgEmxVg/L4fE0z84TKERfw9SOvYmi4TMibf4vQgtQZNTEkXFwUcyfqPdlaX2RLNjfC
-         GZJPT//xfVAx3wG0QgFBrNug73zbTlY5o/xTewVdBAaI7aPRzY5grWQFxjWAveHmv7L4
-         2isLISNJYqidFH70JcLESkIdnrVt4LGtJBmxn1PB+dqtNT8MGcaILg+cwmFE4NsysiAT
-         0+fF6L5beTAZRCXuRPaah9PapGCsSpea6bLoeWjBNiYCaKjnc9+pdy1lvpRxLPHp1j3Q
-         MraZbfX5w+epLsPKVtaNwC12hCPR8x8Wx455I7d1fC3+3NvEHipPM0Ig6JyOT7lRofKo
-         WYJQ==
-X-Gm-Message-State: AJIora+9+ziW+yreXz2B9aw+/C20Yz8+mKy5UyKE+HTbn1ZLCTverfIs
-        Ukpv9Zne1cKNo50WqDGqguJZCg==
-X-Google-Smtp-Source: AGRyM1sFGPWf6FKecDUbG+GZhrkpljlf9bfuS7/lNjUhV6QI55IwuKKqhqA5zXdKlU89oKIIvTUlzg==
-X-Received: by 2002:a17:90b:33c4:b0:1f0:3d9d:39ac with SMTP id lk4-20020a17090b33c400b001f03d9d39acmr5357409pjb.56.1657644898526;
-        Tue, 12 Jul 2022 09:54:58 -0700 (PDT)
-Received: from google.com (55.212.185.35.bc.googleusercontent.com. [35.185.212.55])
-        by smtp.gmail.com with ESMTPSA id 64-20020a621943000000b00518764d09cdsm7059748pfz.164.2022.07.12.09.54.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jul 2022 09:54:57 -0700 (PDT)
-Date:   Tue, 12 Jul 2022 09:54:54 -0700
-From:   Zach O'Keefe <zokeefe@google.com>
-To:     Yang Shi <shy828301@gmail.com>
-Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
-        David Hildenbrand <david@redhat.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Pasha Tatashin <pasha.tatashin@soleen.com>,
-        Peter Xu <peterx@redhat.com>,
-        Rongwei Wang <rongwei.wang@linux.alibaba.com>,
-        SeongJae Park <sj@kernel.org>,
-        Song Liu <songliubraving@fb.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Zi Yan <ziy@nvidia.com>,
-        Linux MM <linux-mm@kvack.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        Chris Kennelly <ckennelly@google.com>,
-        Chris Zankel <chris@zankel.net>, Helge Deller <deller@gmx.de>,
+        with ESMTP id S233739AbiGLSCy (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 12 Jul 2022 14:02:54 -0400
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2080.outbound.protection.outlook.com [40.107.223.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06218D1391;
+        Tue, 12 Jul 2022 11:02:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PPJFoNiMrg9Z1riFwMu8JSeLFCyYX+FCTGdUNVgQt+r9c7yxB1d5FeZry5Hb/oIy4d2fGLeI9tzeSPJgIMCxtUA8kg1U2BDkUAyx0tJ6/FxEZcKKShEuhpN6i98ZvRBEa2u07nSEJ/l4S62CgjcK1fTL3bhsfAPC3s2lkThEanBCZOuo8vftJ4u1Kk8Z/ZED9aGAfrQjEVNzjsLtVD6sneE+AVE+tD+yZekVCgChtDigUM4c5KbMWsHfeDCKq+MYRdF1YLxbVFa6tkyv3X7sY0RsnshR5rNQ7pbVK9CQVlo2KSxx3lyloS8WU0FUT3ozCTcKa1Q5K75Uq013ZJ1DeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+EYITfmExrsDJY0Q03NUvIoqQ3PNQ1QnVy4kPiPRk+8=;
+ b=lakwHjqIzqcmxWD0QhPlC0j77yZw7r1ZUUthHRHBBMxkuwhMDxvpw00y3bo5TrzmoDIZmH0p8URCz95EZWFvcyUBG1ZuVblI75LLJNb6ypSQ011vtEhBbxkc7RAtBLm7t68CyRmbdyYsKIIUDM+KT2fG5lM5Uan/P8l50YwLIwz9teb0Dvkc7ZhRRPGIcND9knvL3NUcYXD24eUxgdcPj3Pl6D8gX3ze7dgVt6KdoPLjT2dsCn9R5VMhBTKViodkU8sazAEQ2oR1kPLIZvDmOtSjwxuKgYcXIrZilrkh52+C6N5t6LarOFUJ8NVxL0/7Xj1HoOYj+9FWaqwhrP+kxg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+EYITfmExrsDJY0Q03NUvIoqQ3PNQ1QnVy4kPiPRk+8=;
+ b=zJ1upMRn7rmoEBGqczQYA48Tr7l1I/J9z/G/xfBfdGOA0QI4GCflgFd8VDDb0QkXj1ymRXi/7ECllnrCVedMkcR/iLmGSyIvy3XIO6p1TLM7yczWhLWSnKNVOUPSjvmTaMCdwLoO5uppYa1S+GFXACMHVKr7VwX0yBoZFsi7yOs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
+ (2603:10b6:910:1f::11) by SA0PR12MB4558.namprd12.prod.outlook.com
+ (2603:10b6:806:72::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.16; Tue, 12 Jul
+ 2022 18:02:49 +0000
+Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
+ ([fe80::1001:3c79:9504:8d6a]) by CY4PR1201MB0181.namprd12.prod.outlook.com
+ ([fe80::1001:3c79:9504:8d6a%10]) with mapi id 15.20.5417.026; Tue, 12 Jul
+ 2022 18:02:47 +0000
+Message-ID: <c4112b84-9359-d4c8-1852-0057c074607c@amd.com>
+Date:   Tue, 12 Jul 2022 20:02:34 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v7 04/14] mm/shmem: Support memfile_notifier
+Content-Language: en-US
+To:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        linux-kselftest@vger.kernel.org
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         Hugh Dickins <hughd@google.com>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Matt Turner <mattst88@gmail.com>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Patrick Xia <patrickx@google.com>,
-        Pavel Begunkov <asml.silence@gmail.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-api@vger.kernel.org
-Subject: Re: [mm-unstable v7 09/18] mm/madvise: introduce MADV_COLLAPSE sync
- hugepage collapse
-Message-ID: <Ys2nXoMRhyfcx4q8@google.com>
-References: <20220706235936.2197195-1-zokeefe@google.com>
- <20220706235936.2197195-10-zokeefe@google.com>
- <CAHbLzkrgLovEf71E+FTTLAmTwWuDhTYvFEYbqHxhMQkM2zAT7g@mail.gmail.com>
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-5-chao.p.peng@linux.intel.com>
+From:   "Gupta, Pankaj" <pankaj.gupta@amd.com>
+In-Reply-To: <20220706082016.2603916-5-chao.p.peng@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0019.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1c::6) To CY4PR1201MB0181.namprd12.prod.outlook.com
+ (2603:10b6:910:1f::11)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHbLzkrgLovEf71E+FTTLAmTwWuDhTYvFEYbqHxhMQkM2zAT7g@mail.gmail.com>
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 03b87450-6a68-4d54-614f-08da6430ba65
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4558:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /4mZtZCv6YEwoz2STSxRkmhKZpE1yOh3OXwuZr+x2SAuXlJ3mVPe6PmcCkpeoixshnAMW9h5ALT5Tp92ByfM08mKOgeir5abJaJLur9CPxiaVpLj5aMOMDkeX4s17RRbSFzHW6hlSpvGoujxGCfUGZPu0EK4nKWlHZ6C8qm62+8o4//Ld5bB3hVYbLffY+8gpUhS1yNvQ1R7bKxVsW5ds+DLS9yDFIhi2QEIOQJiQaJ/Y1Obeu7ypivKZNcPcBP4QlHTQmEUr/Z5hdAq4jAXplqE7fzY84eNAMiGWndfTnKKytISmIesHXKPt3jWpvxP18r64O9DBaLs6IVr1qfCYq4elG/4KdpMT24MjtFtnZF3lBPZDfVgkhu3aeYW2jFlJaIhB/9mEsZQW7ev4qldkrVBN2RLv/zh7tNTnUjf8z//lZE6usVE5LX1J9hizdvQuIQte4RoSMKWJdx10dlc2YATPIguoZHcVvTiQbNsCoSvx7+q6/DIoCsV2Xjtw9IVg/tg0JwY8DmKayBE+LLB91uMYR+9ZxCIhp6+d+E4ZreU+bs0CBIqFjtj+RNS3xbnlO1HT0ghB3OWOVI1oaBQK0WvQiFNlxoc7MiIhfQQ8A2IUcbf61xF7nNQQqdc2n5tH7p2BtsCe2dEJnQjoodScSpjlwrYFzbRDv2utcFyMCwIplbaNB43OEck3QUaZSup6+msj2L3ChWy25wQCVuYoiKi6yaFjwk3V36IwfyT5vkKLm1iC+zmXWWS6DME3sSCDD3ZcPtQluIVa1RCvPfrmnj9zAO9N2UkvB/Ouy4myX4mVTVsfM0+OLDQnE2gj2als73LwrY4ufUee65/V+vfyEhQ2bSUcwEM04QLjgiVy+Y=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR1201MB0181.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(366004)(39860400002)(136003)(376002)(396003)(66476007)(66946007)(66556008)(8676002)(316002)(4326008)(31686004)(54906003)(7416002)(8936002)(7406005)(6486002)(478600001)(2906002)(5660300002)(36756003)(53546011)(6666004)(86362001)(26005)(41300700001)(6512007)(6506007)(2616005)(186003)(38100700002)(83380400001)(31696002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YXpGVmIzRlpLMUFFL21SVno1dlJoTHhkRytEZWpZY3I5eW1RK2kvSnpxVzhB?=
+ =?utf-8?B?VUhpajF0T1l1U0xUeHVDOUNWdmlnS3pvYU5UeERrVzBTdTFjYzd2VXJGdWJ1?=
+ =?utf-8?B?b2VzZTNTTFFsNkhodHMxYnhUK2tOS3lBYS9SQlYrUkFwK2Z0ZExqTUdCWDNa?=
+ =?utf-8?B?aVBSRW5aY3BPNHltWmdDaVdNd05wMkwwZ2VzMWt0SkhiMytrdXlpSnAyWUNJ?=
+ =?utf-8?B?VTNsbGpaaWVlYXhwT1hyZkRubnp1UnphWW9qRThsV3hYd21sWmIwbzJFMy9O?=
+ =?utf-8?B?VTR5c0Y3dDBWSGhzbnQxeGVTNStQL0YxdldrVW9RR3VCeXFlU3BUSExXcmpM?=
+ =?utf-8?B?RnlBRUtmSGZtR1pYS1MzaE9OT2VyeHpiT0dTZm9mZE5tVVVJUUZCeVkvMWNL?=
+ =?utf-8?B?S2YrRnI2M0NldGxkNTZ1TVJhQVFEVHpQK3NzNm01OFREVklDQmUzbTloM0hj?=
+ =?utf-8?B?dGFIVENpYllLMDdGc0JxNnJuSVllSDllUS9ES3BYM2l0RkVqOFplWmo5MkhZ?=
+ =?utf-8?B?RnAwbDNPQ0ZZbUtDYUJodFRWVzZmbS8wUlZZcFUraUhSelBCNlVEUFBRQllW?=
+ =?utf-8?B?eUhHUExQOGFYcTA5eUZPbnJZWWJ2WGVwQlNUcXVSZmpJMG1VdVpiRGZTeCtP?=
+ =?utf-8?B?bmJyU0xlYWFDdWxFZXFzVUpOeDZKZUNjRlQwREg3Z0s0T3gyYkVNU09QTHNX?=
+ =?utf-8?B?MG9vSmtHSWJBN0ZDd1R6VEhzamVpMThXVmwzQW1CN1RMdXA2WUdNTFBhQUxS?=
+ =?utf-8?B?cjlCN3BCSnVOc01vTzJSYnZ3ZXZSdWFxUTYrbldneVU0ZlYzcmFNOUZVRG95?=
+ =?utf-8?B?SklQeXp2bTY4ZzNreURGbDg4NVF2SW1jZzZBbTNucVpVQUVLemtodnFTeHJF?=
+ =?utf-8?B?dzhDZmdtOUlGTDNLKyswZDRMY1g2WmIwZ1c0QWx1dHlRb0NZYmU2anlTaU5D?=
+ =?utf-8?B?aXpMYStyVjNiQ3F3eWtGd3h4TEZxTkhwQlRMbDBRQnZMVHVxMkdTTVMwM1Iw?=
+ =?utf-8?B?eGk1QWVWKzBYWmhnZUJGWHNkTkN3bjJhdTRCdHc4KzVLdzB2M0x4TzZtUkJO?=
+ =?utf-8?B?aE04b0dja0c0QjFmdURCeEJyTUx3bkRIRDFkMXJaRmhvSU1rY0NsWkUrVW5L?=
+ =?utf-8?B?ZHVaMXM4dFFKTTI1blJuWHZ6aVViRFBjS0hReWlhZFBna2RrM3F0bWJ2SnVp?=
+ =?utf-8?B?TUZaMmtlK0JGa0JxaXF5SnJJTmJtdTNqNHFoMHRtRjByWGltOHIvSHJlS3di?=
+ =?utf-8?B?VDNlK2I4MlBCK0x6TThqc29UQ3pqUEJzcnNUYXdqa0pRUWZBcklQcmZPK0xp?=
+ =?utf-8?B?MUs5YmJPTkIzbkcxWjNHTDV3K1YrdmNPdTVvZlZRSmdseDJ1QWNkUmVSOVlT?=
+ =?utf-8?B?SkZ5RWRFMEo0WUVUdnBpQis4c0JUL0tVUkV2MEhzL1NrclljVUxsWFprUDJz?=
+ =?utf-8?B?SldxR1J5c25hSWMydFNERFBGOS8yanA5M0xVSlVnMGhhS2pkUVJaNzhsZFh4?=
+ =?utf-8?B?VVhLYTYvdnJjNGdxa0RUcUxSeVFZQVFZcXVaUlRWTWExaFBLSE1adzU4S09B?=
+ =?utf-8?B?aGo3UlZ4UmdVNmdKSHdiRU5zcVN6Tmw5YmVmUUI3OEIrckF1bUJuRXNMeXUw?=
+ =?utf-8?B?YU1LZWxqYkg0QW9seFI0WUkwVlNRTDF1NTVDblNJczhSWmpENlRhWHRtcmQ0?=
+ =?utf-8?B?Vzc2VkNHNWwzbDJvZnJmdEsvTXRuSG1ucUxtKyt2UHd0NG91ak1xS0hLNVFX?=
+ =?utf-8?B?Zy8wczZTTW1TaTJpRUNhd0Z5UE93bllWQzFreWN1NVVkTmpFbVBXWkRHWXZZ?=
+ =?utf-8?B?ZHhYTGNkcEE0MmtQZ3NXU1M3eDRiUHZtcnJQTmNOKzdFMkNaTFBtOFNtdGt3?=
+ =?utf-8?B?U055OTB3bWd4bXh1cGl5Vk9YNTJYa05ZeDkyQ2x4M2ZWbDZIbm1lVXVzcjho?=
+ =?utf-8?B?SjZURXNDRkFnVDRyZG01b2w1YjFhaHBXQ2doTU9NdUF5RElGZEdMVzJxN2JI?=
+ =?utf-8?B?SEh2blhmSUZrclFTSHp5UHVwTE1NVUJEd1hrQkF3UkdVdWJBakdreHI4MVlN?=
+ =?utf-8?B?RGROWjZrMm1BM1ZQVkUyT2p3aTNMVWhKQU80a3NZSGkyVDZvdDI0VVBGWmVM?=
+ =?utf-8?Q?Z7KowFhhZVJtp6MoQcNIUAF0U?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 03b87450-6a68-4d54-614f-08da6430ba65
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR1201MB0181.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2022 18:02:47.8353
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wKdhfVUp6/Cn3AynQG59cwe2S2EFRgdglzmZjdUD9zmxdDac9Y38rofbAQUKyelWiGFgdGERvfagG8TMLoIpmw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4558
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -102,411 +153,254 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Jul 11 14:22, Yang Shi wrote:
-> On Wed, Jul 6, 2022 at 5:06 PM Zach O'Keefe <zokeefe@google.com> wrote:
-> >
-> > This idea was introduced by David Rientjes[1].
-> >
-> > Introduce a new madvise mode, MADV_COLLAPSE, that allows users to request a
-> > synchronous collapse of memory at their own expense.
-> >
-> > The benefits of this approach are:
-> >
-> > * CPU is charged to the process that wants to spend the cycles for the
-> >   THP
-> > * Avoid unpredictable timing of khugepaged collapse
-> >
-> > Semantics
-> >
-> > This call is independent of the system-wide THP sysfs settings, but will
-> > fail for memory marked VM_NOHUGEPAGE.  If the ranges provided span
-> > multiple VMAs, the semantics of the collapse over each VMA is
-> > independent from the others.  This implies a hugepage cannot cross a VMA
-> > boundary.  If collapse of a given hugepage-aligned/sized region fails,
-> > the operation may continue to attempt collapsing the remainder of memory
-> > specified.
-> >
-> > The memory ranges provided must be page-aligned, but are not required to
-> > be hugepage-aligned.  If the memory ranges are not hugepage-aligned, the
-> > start/end of the range will be clamped to the first/last
-> > hugepage-aligned address covered by said range.  The memory ranges must
-> > span at least one hugepage-sized region.
-> >
-> > All non-resident pages covered by the range will first be
-> > swapped/faulted-in, before being internally copied onto a freshly
-> > allocated hugepage.  Unmapped pages will have their data directly
-> > initialized to 0 in the new hugepage.  However, for every eligible hugepage
-> > aligned/sized region to-be collapsed, at least one page must currently be
-> > backed by memory (a PMD covering the address range must already exist).
-> >
-> > Allocation for the new hugepage may enter direct reclaim and/or
-> > compaction, regardless of VMA flags.  When the system has multiple NUMA
-> > nodes, the hugepage will be allocated from the node providing the most
-> > native pages.  This operation operates on the current state of the
-> > specified process and makes no persistent changes or guarantees on how
-> > pages will be mapped, constructed, or faulted in the future
-> >
-> > Return Value
-> >
-> > If all hugepage-sized/aligned regions covered by the provided range were
-> > either successfully collapsed, or were already PMD-mapped THPs, this
-> > operation will be deemed successful.  On success, process_madvise(2)
-> > returns the number of bytes advised, and madvise(2) returns 0.  Else, -1
-> > is returned and errno is set to indicate the error for the most-recently
-> > attempted hugepage collapse.  Note that many failures might have
-> > occurred, since the operation may continue to collapse in the event a
-> > single hugepage-sized/aligned region fails.
-> >
-> >         ENOMEM  Memory allocation failed or VMA not found
-> >         EBUSY   Memcg charging failed
-> >         EAGAIN  Required resource temporarily unavailable.  Try again
-> >                 might succeed.
-> >         EINVAL  Other error: No PMD found, subpage doesn't have Present
-> >                 bit set, "Special" page no backed by struct page, VMA
-> >                 incorrectly sized, address not page-aligned, ...
-> >
-> > Most notable here is ENOMEM and EBUSY (new to madvise) which are
-> > intended to provide the caller with actionable feedback so they may take
-> > an appropriate fallback measure.
+On 7/6/2022 10:20 AM, Chao Peng wrote:
+> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 > 
-> Don't forget to update man-pages. And cc'ed linux-api.
->
-
-Thanks for the review, Yang. Yes, have plans to update the man-pages once things
-are fully ironed out. Also, thanks for tip to cc linux-api - I did not know
-about that.
-
-Best,
-Zach
-
-> >
-> > Use Cases
-> >
-> > An immediate user of this new functionality are malloc() implementations
-> > that manage memory in hugepage-sized chunks, but sometimes subrelease
-> > memory back to the system in native-sized chunks via MADV_DONTNEED;
-> > zapping the pmd.  Later, when the memory is hot, the implementation
-> > could madvise(MADV_COLLAPSE) to re-back the memory by THPs to regain
-> > hugepage coverage and dTLB performance.  TCMalloc is such an
-> > implementation that could benefit from this[2].
-> >
-> > Only privately-mapped anon memory is supported for now, but additional
-> > support for file, shmem, and HugeTLB high-granularity mappings[2] is
-> > expected.  File and tmpfs/shmem support would permit:
-> >
-> > * Backing executable text by THPs.  Current support provided by
-> >   CONFIG_READ_ONLY_THP_FOR_FS may take a long time on a large system which
-> >   might impair services from serving at their full rated load after
-> >   (re)starting.  Tricks like mremap(2)'ing text onto anonymous memory to
-> >   immediately realize iTLB performance prevents page sharing and demand
-> >   paging, both of which increase steady state memory footprint.  With
-> >   MADV_COLLAPSE, we get the best of both worlds: Peak upfront performance
-> >   and lower RAM footprints.
-> > * Backing guest memory by hugapages after the memory contents have been
-> >   migrated in native-page-sized chunks to a new host, in a
-> >   userfaultfd-based live-migration stack.
-> >
-> > [1] https://lore.kernel.org/linux-mm/d098c392-273a-36a4-1a29-59731cdf5d3d@google.com/
-> > [2] https://github.com/google/tcmalloc/tree/master/tcmalloc
-> >
-> > Suggested-by: David Rientjes <rientjes@google.com>
-> > Signed-off-by: Zach O'Keefe <zokeefe@google.com>
+> Implement shmem as a memfile_notifier backing store. Essentially it
+> interacts with the memfile_notifier feature flags for userspace
+> access/page migration/page reclaiming and implements the necessary
+> memfile_backing_store callbacks.
 > 
-> Reviewed-by: Yang Shi <shy828301@gmail.com>
+> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> ---
+>   include/linux/shmem_fs.h |   2 +
+>   mm/shmem.c               | 109 ++++++++++++++++++++++++++++++++++++++-
+>   2 files changed, 110 insertions(+), 1 deletion(-)
 > 
-> > ---
-> >  arch/alpha/include/uapi/asm/mman.h           |   2 +
-> >  arch/mips/include/uapi/asm/mman.h            |   2 +
-> >  arch/parisc/include/uapi/asm/mman.h          |   2 +
-> >  arch/xtensa/include/uapi/asm/mman.h          |   2 +
-> >  include/linux/huge_mm.h                      |  14 ++-
-> >  include/uapi/asm-generic/mman-common.h       |   2 +
-> >  mm/khugepaged.c                              | 118 ++++++++++++++++++-
-> >  mm/madvise.c                                 |   5 +
-> >  tools/include/uapi/asm-generic/mman-common.h |   2 +
-> >  9 files changed, 146 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/arch/alpha/include/uapi/asm/mman.h b/arch/alpha/include/uapi/asm/mman.h
-> > index 4aa996423b0d..763929e814e9 100644
-> > --- a/arch/alpha/include/uapi/asm/mman.h
-> > +++ b/arch/alpha/include/uapi/asm/mman.h
-> > @@ -76,6 +76,8 @@
-> >
-> >  #define MADV_DONTNEED_LOCKED   24      /* like DONTNEED, but drop locked pages too */
-> >
-> > +#define MADV_COLLAPSE  25              /* Synchronous hugepage collapse */
-> > +
-> >  /* compatibility flags */
-> >  #define MAP_FILE       0
-> >
-> > diff --git a/arch/mips/include/uapi/asm/mman.h b/arch/mips/include/uapi/asm/mman.h
-> > index 1be428663c10..c6e1fc77c996 100644
-> > --- a/arch/mips/include/uapi/asm/mman.h
-> > +++ b/arch/mips/include/uapi/asm/mman.h
-> > @@ -103,6 +103,8 @@
-> >
-> >  #define MADV_DONTNEED_LOCKED   24      /* like DONTNEED, but drop locked pages too */
-> >
-> > +#define MADV_COLLAPSE  25              /* Synchronous hugepage collapse */
-> > +
-> >  /* compatibility flags */
-> >  #define MAP_FILE       0
-> >
-> > diff --git a/arch/parisc/include/uapi/asm/mman.h b/arch/parisc/include/uapi/asm/mman.h
-> > index a7ea3204a5fa..22133a6a506e 100644
-> > --- a/arch/parisc/include/uapi/asm/mman.h
-> > +++ b/arch/parisc/include/uapi/asm/mman.h
-> > @@ -70,6 +70,8 @@
-> >  #define MADV_WIPEONFORK 71             /* Zero memory on fork, child only */
-> >  #define MADV_KEEPONFORK 72             /* Undo MADV_WIPEONFORK */
-> >
-> > +#define MADV_COLLAPSE  73              /* Synchronous hugepage collapse */
-> > +
-> >  #define MADV_HWPOISON     100          /* poison a page for testing */
-> >  #define MADV_SOFT_OFFLINE 101          /* soft offline page for testing */
-> >
-> > diff --git a/arch/xtensa/include/uapi/asm/mman.h b/arch/xtensa/include/uapi/asm/mman.h
-> > index 7966a58af472..1ff0c858544f 100644
-> > --- a/arch/xtensa/include/uapi/asm/mman.h
-> > +++ b/arch/xtensa/include/uapi/asm/mman.h
-> > @@ -111,6 +111,8 @@
-> >
-> >  #define MADV_DONTNEED_LOCKED   24      /* like DONTNEED, but drop locked pages too */
-> >
-> > +#define MADV_COLLAPSE  25              /* Synchronous hugepage collapse */
-> > +
-> >  /* compatibility flags */
-> >  #define MAP_FILE       0
-> >
-> > diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-> > index 00312fc251c1..39193623442e 100644
-> > --- a/include/linux/huge_mm.h
-> > +++ b/include/linux/huge_mm.h
-> > @@ -218,6 +218,9 @@ void __split_huge_pud(struct vm_area_struct *vma, pud_t *pud,
-> >
-> >  int hugepage_madvise(struct vm_area_struct *vma, unsigned long *vm_flags,
-> >                      int advice);
-> > +int madvise_collapse(struct vm_area_struct *vma,
-> > +                    struct vm_area_struct **prev,
-> > +                    unsigned long start, unsigned long end);
-> >  void vma_adjust_trans_huge(struct vm_area_struct *vma, unsigned long start,
-> >                            unsigned long end, long adjust_next);
-> >  spinlock_t *__pmd_trans_huge_lock(pmd_t *pmd, struct vm_area_struct *vma);
-> > @@ -361,9 +364,16 @@ static inline void split_huge_pmd_address(struct vm_area_struct *vma,
-> >  static inline int hugepage_madvise(struct vm_area_struct *vma,
-> >                                    unsigned long *vm_flags, int advice)
-> >  {
-> > -       BUG();
-> > -       return 0;
-> > +       return -EINVAL;
-> >  }
-> > +
-> > +static inline int madvise_collapse(struct vm_area_struct *vma,
-> > +                                  struct vm_area_struct **prev,
-> > +                                  unsigned long start, unsigned long end)
-> > +{
-> > +       return -EINVAL;
-> > +}
-> > +
-> >  static inline void vma_adjust_trans_huge(struct vm_area_struct *vma,
-> >                                          unsigned long start,
-> >                                          unsigned long end,
-> > diff --git a/include/uapi/asm-generic/mman-common.h b/include/uapi/asm-generic/mman-common.h
-> > index 6c1aa92a92e4..6ce1f1ceb432 100644
-> > --- a/include/uapi/asm-generic/mman-common.h
-> > +++ b/include/uapi/asm-generic/mman-common.h
-> > @@ -77,6 +77,8 @@
-> >
-> >  #define MADV_DONTNEED_LOCKED   24      /* like DONTNEED, but drop locked pages too */
-> >
-> > +#define MADV_COLLAPSE  25              /* Synchronous hugepage collapse */
-> > +
-> >  /* compatibility flags */
-> >  #define MAP_FILE       0
-> >
-> > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> > index c7a09cc9a0e8..2b2d832e44f2 100644
-> > --- a/mm/khugepaged.c
-> > +++ b/mm/khugepaged.c
-> > @@ -976,7 +976,8 @@ static int alloc_charge_hpage(struct page **hpage, struct mm_struct *mm,
-> >                               struct collapse_control *cc)
-> >  {
-> >         /* Only allocate from the target node */
-> > -       gfp_t gfp = alloc_hugepage_khugepaged_gfpmask() | __GFP_THISNODE;
-> > +       gfp_t gfp = (cc->is_khugepaged ? alloc_hugepage_khugepaged_gfpmask() :
-> > +                    GFP_TRANSHUGE) | __GFP_THISNODE;
-> >         int node = khugepaged_find_target_node(cc);
-> >
-> >         if (!khugepaged_alloc_page(hpage, gfp, node))
-> > @@ -2356,3 +2357,118 @@ void khugepaged_min_free_kbytes_update(void)
-> >                 set_recommended_min_free_kbytes();
-> >         mutex_unlock(&khugepaged_mutex);
-> >  }
-> > +
-> > +static int madvise_collapse_errno(enum scan_result r)
-> > +{
-> > +       /*
-> > +        * MADV_COLLAPSE breaks from existing madvise(2) conventions to provide
-> > +        * actionable feedback to caller, so they may take an appropriate
-> > +        * fallback measure depending on the nature of the failure.
-> > +        */
-> > +       switch (r) {
-> > +       case SCAN_ALLOC_HUGE_PAGE_FAIL:
-> > +               return -ENOMEM;
-> > +       case SCAN_CGROUP_CHARGE_FAIL:
-> > +               return -EBUSY;
-> > +       /* Resource temporary unavailable - trying again might succeed */
-> > +       case SCAN_PAGE_LOCK:
-> > +       case SCAN_PAGE_LRU:
-> > +               return -EAGAIN;
-> > +       /*
-> > +        * Other: Trying again likely not to succeed / error intrinsic to
-> > +        * specified memory range. khugepaged likely won't be able to collapse
-> > +        * either.
-> > +        */
-> > +       default:
-> > +               return -EINVAL;
-> > +       }
-> > +}
-> > +
-> > +int madvise_collapse(struct vm_area_struct *vma, struct vm_area_struct **prev,
-> > +                    unsigned long start, unsigned long end)
-> > +{
-> > +       struct collapse_control *cc;
-> > +       struct mm_struct *mm = vma->vm_mm;
-> > +       unsigned long hstart, hend, addr;
-> > +       int thps = 0, last_fail = SCAN_FAIL;
-> > +       bool mmap_locked = true;
-> > +
-> > +       BUG_ON(vma->vm_start > start);
-> > +       BUG_ON(vma->vm_end < end);
-> > +
-> > +       cc = kmalloc(sizeof(*cc), GFP_KERNEL);
-> > +       if (!cc)
-> > +               return -ENOMEM;
-> > +       cc->is_khugepaged = false;
-> > +       cc->last_target_node = NUMA_NO_NODE;
-> > +
-> > +       *prev = vma;
-> > +
-> > +       /* TODO: Support file/shmem */
-> > +       if (!vma->anon_vma || !vma_is_anonymous(vma))
-> > +               return -EINVAL;
-> > +
-> > +       hstart = (start + ~HPAGE_PMD_MASK) & HPAGE_PMD_MASK;
-> > +       hend = end & HPAGE_PMD_MASK;
-> > +
-> > +       if (!hugepage_vma_check(vma, vma->vm_flags, false, false, false))
-> > +               return -EINVAL;
-> > +
-> > +       mmgrab(mm);
-> > +       lru_add_drain_all();
-> > +
-> > +       for (addr = hstart; addr < hend; addr += HPAGE_PMD_SIZE) {
-> > +               int result = SCAN_FAIL;
-> > +
-> > +               if (!mmap_locked) {
-> > +                       cond_resched();
-> > +                       mmap_read_lock(mm);
-> > +                       mmap_locked = true;
-> > +                       result = hugepage_vma_revalidate(mm, addr, &vma, cc);
-> > +                       if (result  != SCAN_SUCCEED) {
-> > +                               last_fail = result;
-> > +                               goto out_nolock;
-> > +                       }
-> > +               }
-> > +               mmap_assert_locked(mm);
-> > +               memset(cc->node_load, 0, sizeof(cc->node_load));
-> > +               result = khugepaged_scan_pmd(mm, vma, addr, &mmap_locked, cc);
-> > +               if (!mmap_locked)
-> > +                       *prev = NULL;  /* Tell caller we dropped mmap_lock */
-> > +
-> > +               switch (result) {
-> > +               case SCAN_SUCCEED:
-> > +               case SCAN_PMD_MAPPED:
-> > +                       ++thps;
-> > +                       break;
-> > +               /* Whitelisted set of results where continuing OK */
-> > +               case SCAN_PMD_NULL:
-> > +               case SCAN_PTE_NON_PRESENT:
-> > +               case SCAN_PTE_UFFD_WP:
-> > +               case SCAN_PAGE_RO:
-> > +               case SCAN_LACK_REFERENCED_PAGE:
-> > +               case SCAN_PAGE_NULL:
-> > +               case SCAN_PAGE_COUNT:
-> > +               case SCAN_PAGE_LOCK:
-> > +               case SCAN_PAGE_COMPOUND:
-> > +               case SCAN_PAGE_LRU:
-> > +                       last_fail = result;
-> > +                       break;
-> > +               default:
-> > +                       last_fail = result;
-> > +                       /* Other error, exit */
-> > +                       goto out_maybelock;
-> > +               }
-> > +       }
-> > +
-> > +out_maybelock:
-> > +       /* Caller expects us to hold mmap_lock on return */
-> > +       if (!mmap_locked)
-> > +               mmap_read_lock(mm);
-> > +out_nolock:
-> > +       mmap_assert_locked(mm);
-> > +       mmdrop(mm);
-> > +
-> > +       return thps == ((hend - hstart) >> HPAGE_PMD_SHIFT) ? 0
-> > +                       : madvise_collapse_errno(last_fail);
-> > +}
-> > diff --git a/mm/madvise.c b/mm/madvise.c
-> > index 851fa4e134bc..9f08e958ea86 100644
-> > --- a/mm/madvise.c
-> > +++ b/mm/madvise.c
-> > @@ -59,6 +59,7 @@ static int madvise_need_mmap_write(int behavior)
-> >         case MADV_FREE:
-> >         case MADV_POPULATE_READ:
-> >         case MADV_POPULATE_WRITE:
-> > +       case MADV_COLLAPSE:
-> >                 return 0;
-> >         default:
-> >                 /* be safe, default to 1. list exceptions explicitly */
-> > @@ -1057,6 +1058,8 @@ static int madvise_vma_behavior(struct vm_area_struct *vma,
-> >                 if (error)
-> >                         goto out;
-> >                 break;
-> > +       case MADV_COLLAPSE:
-> > +               return madvise_collapse(vma, prev, start, end);
-> >         }
-> >
-> >         anon_name = anon_vma_name(vma);
-> > @@ -1150,6 +1153,7 @@ madvise_behavior_valid(int behavior)
-> >  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> >         case MADV_HUGEPAGE:
-> >         case MADV_NOHUGEPAGE:
-> > +       case MADV_COLLAPSE:
-> >  #endif
-> >         case MADV_DONTDUMP:
-> >         case MADV_DODUMP:
-> > @@ -1339,6 +1343,7 @@ int madvise_set_anon_name(struct mm_struct *mm, unsigned long start,
-> >   *  MADV_NOHUGEPAGE - mark the given range as not worth being backed by
-> >   *             transparent huge pages so the existing pages will not be
-> >   *             coalesced into THP and new pages will not be allocated as THP.
-> > + *  MADV_COLLAPSE - synchronously coalesce pages into new THP.
-> >   *  MADV_DONTDUMP - the application wants to prevent pages in the given range
-> >   *             from being included in its core dump.
-> >   *  MADV_DODUMP - cancel MADV_DONTDUMP: no longer exclude from core dump.
-> > diff --git a/tools/include/uapi/asm-generic/mman-common.h b/tools/include/uapi/asm-generic/mman-common.h
-> > index 6c1aa92a92e4..6ce1f1ceb432 100644
-> > --- a/tools/include/uapi/asm-generic/mman-common.h
-> > +++ b/tools/include/uapi/asm-generic/mman-common.h
-> > @@ -77,6 +77,8 @@
-> >
-> >  #define MADV_DONTNEED_LOCKED   24      /* like DONTNEED, but drop locked pages too */
-> >
-> > +#define MADV_COLLAPSE  25              /* Synchronous hugepage collapse */
-> > +
-> >  /* compatibility flags */
-> >  #define MAP_FILE       0
-> >
-> > --
-> > 2.37.0.rc0.161.g10f37bed90-goog
-> >
+> diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
+> index a68f982f22d1..6031c0b08d26 100644
+> --- a/include/linux/shmem_fs.h
+> +++ b/include/linux/shmem_fs.h
+> @@ -9,6 +9,7 @@
+>   #include <linux/percpu_counter.h>
+>   #include <linux/xattr.h>
+>   #include <linux/fs_parser.h>
+> +#include <linux/memfile_notifier.h>
+>   
+>   /* inode in-kernel data */
+>   
+> @@ -25,6 +26,7 @@ struct shmem_inode_info {
+>   	struct simple_xattrs	xattrs;		/* list of xattrs */
+>   	atomic_t		stop_eviction;	/* hold when working on inode */
+>   	struct timespec64	i_crtime;	/* file creation time */
+> +	struct memfile_node	memfile_node;	/* memfile node */
+>   	struct inode		vfs_inode;
+>   };
+>   
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index 6c8aef15a17d..627e315c3b4d 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -905,6 +905,17 @@ static struct folio *shmem_get_partial_folio(struct inode *inode, pgoff_t index)
+>   	return page ? page_folio(page) : NULL;
+>   }
+>   
+> +static void notify_invalidate(struct inode *inode, struct folio *folio,
+> +				   pgoff_t start, pgoff_t end)
+> +{
+> +	struct shmem_inode_info *info = SHMEM_I(inode);
+> +
+> +	start = max(start, folio->index);
+> +	end = min(end, folio->index + folio_nr_pages(folio));
+> +
+> +	memfile_notifier_invalidate(&info->memfile_node, start, end);
+> +}
+> +
+>   /*
+>    * Remove range of pages and swap entries from page cache, and free them.
+>    * If !unfalloc, truncate or punch hole; if unfalloc, undo failed fallocate.
+> @@ -948,6 +959,8 @@ static void shmem_undo_range(struct inode *inode, loff_t lstart, loff_t lend,
+>   			}
+>   			index += folio_nr_pages(folio) - 1;
+>   
+> +			notify_invalidate(inode, folio, start, end);
+> +
+>   			if (!unfalloc || !folio_test_uptodate(folio))
+>   				truncate_inode_folio(mapping, folio);
+>   			folio_unlock(folio);
+> @@ -1021,6 +1034,9 @@ static void shmem_undo_range(struct inode *inode, loff_t lstart, loff_t lend,
+>   					index--;
+>   					break;
+>   				}
+> +
+> +				notify_invalidate(inode, folio, start, end);
+> +
+>   				VM_BUG_ON_FOLIO(folio_test_writeback(folio),
+>   						folio);
+>   				truncate_inode_folio(mapping, folio);
+> @@ -1092,6 +1108,13 @@ static int shmem_setattr(struct user_namespace *mnt_userns,
+>   		    (newsize > oldsize && (info->seals & F_SEAL_GROW)))
+>   			return -EPERM;
+>   
+> +		if (info->memfile_node.flags & MEMFILE_F_USER_INACCESSIBLE) {
+> +			if (oldsize)
+> +				return -EPERM;
+> +			if (!PAGE_ALIGNED(newsize))
+> +				return -EINVAL;
+> +		}
+> +
+>   		if (newsize != oldsize) {
+>   			error = shmem_reacct_size(SHMEM_I(inode)->flags,
+>   					oldsize, newsize);
+> @@ -1336,6 +1359,8 @@ static int shmem_writepage(struct page *page, struct writeback_control *wbc)
+>   		goto redirty;
+>   	if (!total_swap_pages)
+>   		goto redirty;
+> +	if (info->memfile_node.flags & MEMFILE_F_UNRECLAIMABLE)
+> +		goto redirty;
+>   
+>   	/*
+>   	 * Our capabilities prevent regular writeback or sync from ever calling
+> @@ -2271,6 +2296,9 @@ static int shmem_mmap(struct file *file, struct vm_area_struct *vma)
+>   	if (ret)
+>   		return ret;
+>   
+> +	if (info->memfile_node.flags & MEMFILE_F_USER_INACCESSIBLE)
+> +		return -EPERM;
+> +
+>   	/* arm64 - allow memory tagging on RAM-based files */
+>   	vma->vm_flags |= VM_MTE_ALLOWED;
+>   
+> @@ -2306,6 +2334,7 @@ static struct inode *shmem_get_inode(struct super_block *sb, const struct inode
+>   		info->i_crtime = inode->i_mtime;
+>   		INIT_LIST_HEAD(&info->shrinklist);
+>   		INIT_LIST_HEAD(&info->swaplist);
+> +		memfile_node_init(&info->memfile_node);
+>   		simple_xattrs_init(&info->xattrs);
+>   		cache_no_acl(inode);
+>   		mapping_set_large_folios(inode->i_mapping);
+> @@ -2477,6 +2506,8 @@ shmem_write_begin(struct file *file, struct address_space *mapping,
+>   		if ((info->seals & F_SEAL_GROW) && pos + len > inode->i_size)
+>   			return -EPERM;
+>   	}
+> +	if (unlikely(info->memfile_node.flags & MEMFILE_F_USER_INACCESSIBLE))
+> +		return -EPERM;
+>   
+>   	if (unlikely(info->seals & F_SEAL_AUTO_ALLOCATE))
+>   		sgp = SGP_NOALLOC;
+> @@ -2556,6 +2587,13 @@ static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
+>   		end_index = i_size >> PAGE_SHIFT;
+>   		if (index > end_index)
+>   			break;
+> +
+> +		if (SHMEM_I(inode)->memfile_node.flags &
+> +				MEMFILE_F_USER_INACCESSIBLE) {
+> +			error = -EPERM;
+> +			break;
+> +		}
+> +
+>   		if (index == end_index) {
+>   			nr = i_size & ~PAGE_MASK;
+>   			if (nr <= offset)
+> @@ -2697,6 +2735,12 @@ static long shmem_fallocate(struct file *file, int mode, loff_t offset,
+>   			goto out;
+>   		}
+>   
+> +		if ((info->memfile_node.flags & MEMFILE_F_USER_INACCESSIBLE) &&
+> +		    (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))) {
+> +			error = -EINVAL;
+> +			goto out;
+> +		}
+> +
+>   		shmem_falloc.waitq = &shmem_falloc_waitq;
+>   		shmem_falloc.start = (u64)unmap_start >> PAGE_SHIFT;
+>   		shmem_falloc.next = (unmap_end + 1) >> PAGE_SHIFT;
+> @@ -3806,6 +3850,20 @@ static int shmem_error_remove_page(struct address_space *mapping,
+>   	return 0;
+>   }
+>   
+> +#ifdef CONFIG_MIGRATION
+> +static int shmem_migrate_page(struct address_space *mapping,
+> +			      struct page *newpage, struct page *page,
+> +			      enum migrate_mode mode)
+> +{
+> +	struct inode *inode = mapping->host;
+> +	struct shmem_inode_info *info = SHMEM_I(inode);
+> +
+> +	if (info->memfile_node.flags & MEMFILE_F_UNMOVABLE)
+> +		return -EOPNOTSUPP;
+> +	return migrate_page(mapping, newpage, page, mode);
+
+Wondering how well page migrate would work for private pages
+on shmem memfd based backend?
+
+> +}
+> +#endif
+> +
+>   const struct address_space_operations shmem_aops = {
+>   	.writepage	= shmem_writepage,
+>   	.dirty_folio	= noop_dirty_folio,
+> @@ -3814,7 +3872,7 @@ const struct address_space_operations shmem_aops = {
+>   	.write_end	= shmem_write_end,
+>   #endif
+>   #ifdef CONFIG_MIGRATION
+> -	.migratepage	= migrate_page,
+> +	.migratepage	= shmem_migrate_page,
+>   #endif
+>   	.error_remove_page = shmem_error_remove_page,
+>   };
+> @@ -3931,6 +3989,51 @@ static struct file_system_type shmem_fs_type = {
+>   	.fs_flags	= FS_USERNS_MOUNT,
+>   };
+>   
+> +#ifdef CONFIG_MEMFILE_NOTIFIER
+> +static struct memfile_node *shmem_lookup_memfile_node(struct file *file)
+> +{
+> +	struct inode *inode = file_inode(file);
+> +
+> +	if (!shmem_mapping(inode->i_mapping))
+> +		return NULL;
+> +
+> +	return  &SHMEM_I(inode)->memfile_node;
+> +}
+> +
+> +
+> +static int shmem_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
+> +			 int *order)
+> +{
+> +	struct page *page;
+> +	int ret;
+> +
+> +	ret = shmem_getpage(file_inode(file), offset, &page, SGP_WRITE);
+> +	if (ret)
+> +		return ret;
+> +
+> +	unlock_page(page);
+> +	*pfn = page_to_pfn_t(page);
+> +	*order = thp_order(compound_head(page));
+> +	return 0;
+> +}
+> +
+> +static void shmem_put_pfn(pfn_t pfn)
+> +{
+> +	struct page *page = pfn_t_to_page(pfn);
+> +
+> +	if (!page)
+> +		return;
+> +
+> +	put_page(page);
+> +}
+> +
+> +static struct memfile_backing_store shmem_backing_store = {
+> +	.lookup_memfile_node = shmem_lookup_memfile_node,
+> +	.get_pfn = shmem_get_pfn,
+> +	.put_pfn = shmem_put_pfn,
+> +};
+> +#endif /* CONFIG_MEMFILE_NOTIFIER */
+> +
+>   void __init shmem_init(void)
+>   {
+>   	int error;
+> @@ -3956,6 +4059,10 @@ void __init shmem_init(void)
+>   	else
+>   		shmem_huge = SHMEM_HUGE_NEVER; /* just in case it was patched */
+>   #endif
+> +
+> +#ifdef CONFIG_MEMFILE_NOTIFIER
+> +	memfile_register_backing_store(&shmem_backing_store);
+> +#endif
+>   	return;
+>   
+>   out1:
+
