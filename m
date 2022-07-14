@@ -2,97 +2,168 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0849C5746E1
-	for <lists+linux-api@lfdr.de>; Thu, 14 Jul 2022 10:36:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97EAF574B5D
+	for <lists+linux-api@lfdr.de>; Thu, 14 Jul 2022 13:01:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235862AbiGNIgm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 14 Jul 2022 04:36:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60240 "EHLO
+        id S238254AbiGNLBJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 14 Jul 2022 07:01:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229931AbiGNIgl (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 14 Jul 2022 04:36:41 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ED2C3DBEE
-        for <linux-api@vger.kernel.org>; Thu, 14 Jul 2022 01:36:40 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id a9so1607298lfk.11
-        for <linux-api@vger.kernel.org>; Thu, 14 Jul 2022 01:36:40 -0700 (PDT)
+        with ESMTP id S237030AbiGNLBI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 14 Jul 2022 07:01:08 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77055564EF;
+        Thu, 14 Jul 2022 04:01:07 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id w2so1721646ljj.7;
+        Thu, 14 Jul 2022 04:01:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=H3bGT1ZyGPu3PRQJlJHyQI9TvTjBPuNSyHjFOzNfiP0=;
-        b=nfF93HFABydKtKUN6hm08YjvNRh2G4i7biDP0iGWKm0CJI/6tO/7ASVGiMVbrFcvre
-         dFe7LS0o6XmnC1olR6EZQT61Pk5CcDXk8EOCE/ZUPQPC2WOF08wHjQNTI98f51BXkTW7
-         5dyslKzFlMJ1FAFUBcS5XSZMuJJQc0mVGS8sJL1EcuApFLh9MbSY3DeHMChVpm6lylO2
-         ZiD2YD5TYnCnW1RYesj2zabgr2TZokupGOdRW5Wg1Wsic5Yzi6a7GNVAIH/aFq924Tv4
-         l/BLkapdJUQdDh1nnfELCxBLwNTsd2zSHh12MGEWr6e9uOYA2kL+ohlW7KhzBK2CbHvs
-         dAHg==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=bRaGXzVsvXrp9o5BPxAa6QcDd4JsOvIWMxX4WmnVZY4=;
+        b=U7kw7ZYsgQjQ8Dj5Ii7ZALQ4i0Ay6GsdAT3jLgvD0oXeJzMIIgwqmDug0QeoD5EMhC
+         lkUaRsQjGoq6Hb2+NQilhFrQRSp6AxR4WJnH4FrNrHi8j2/XiE4YwoQSaOIsPtQmgB+L
+         QW7/VNyjHxGKzYXXnX15Knfgl+dP2xyvKCXPAms2BA/XHGVkhEGuG2xHK4ZEavFl0OKO
+         DdyvT8Txo2pITpMnqqUhf1taDfAt/Z+XVOslk35y4tWkG4hZyGR1rUG5uIZhiIsCN7tE
+         h5/axgSTLvEYBe1WlWCNwtStaVTZ+I9A1/ZndvQY/WEAjHFqpVhUfu/bR/gnwhOddpP8
+         v0Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=H3bGT1ZyGPu3PRQJlJHyQI9TvTjBPuNSyHjFOzNfiP0=;
-        b=yf2dQYUuUvqtEojRwPGYAE4eimq9T2WPDU2edaR4aHVSMNsh4Whn+IPlfP0bsIMiye
-         c9YUif2bz1Cukq67TescpHdYPU3SpGLkY1U2VHpK8T+X3FURiGzGponjSNK52LEI9qFO
-         GqQPeHF9F6dhHilloleaCHng55T2IhVR6oDGK5LeMdPXF3cLYhwREJ6r9T1JgGfo96Gz
-         EvyB3RJm1PTFXnrSW+Q+a/IIEAHqqYZyfd0bSNPjId8+pupYDupvub9E4B0J455T7Q/1
-         PqY/ioKoRplGR1+Z333jabxebkRCKjjNe9S9zxXssozSczwyHoZYIMxC8LWIalC8hdg5
-         jeaw==
-X-Gm-Message-State: AJIora8eBBGQJ0fiLyPuU93j30sJX+D61g8nA8xHmg9HcLESlyuguCPe
-        qCyJYSXag1kBqEbkbH2i7qGfE1mi8gVKoQcE0hg=
-X-Google-Smtp-Source: AGRyM1sBAY02anFyAAkYvB61573ohyB+lIVHvdune1I2St249pttaSZdeqZISv5rckThyg5u7Q/retQg6yCpkFrJ9YI=
-X-Received: by 2002:a05:6512:1307:b0:47f:baa4:52c5 with SMTP id
- x7-20020a056512130700b0047fbaa452c5mr4350443lfu.103.1657787798421; Thu, 14
- Jul 2022 01:36:38 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=bRaGXzVsvXrp9o5BPxAa6QcDd4JsOvIWMxX4WmnVZY4=;
+        b=4jyYpPd3FOaBUs2bN0FJD0TSNQYQAOG3QvEWCLUL+Baq2WE7XAThTZsTEXOZ/ptjno
+         xKS8iDC3/JF9oOSbIEHZ/6mVlUMTqaMlKryxOx/Kd4OZkv+xGFxhOZLY1+nu2Zu2FTpt
+         06vMjw302MimkiSsny7MVrRoAjq3WllnKAHgSvNokfg3XmNuavVSGXw/mCCsF+VWcrh6
+         ipZk/rbLPZkfshBwz44w1vDqQLmPpk51bVojl33vWFipGlHlMvm9WGDc75hnTW6W9YmO
+         C2dog36vyZ4/LrW7k8NqE1lTqxju8wMeMyl28ppSCaJKY6whPAOPkXqLOvpeTwAhvioO
+         yT7Q==
+X-Gm-Message-State: AJIora9X9IfIRBVova4X3DhppRpzskQld4Wc5Zh6bMEV5OZmeis12pa4
+        L3CFrF+0WZpSylu34QLXBxc=
+X-Google-Smtp-Source: AGRyM1uSKOlQOCjmCNWVBaZdNHAasytESWuj89vkdO3z3UYcRr2rkd5t7vGNvPhyQBxNsucZD+dRSw==
+X-Received: by 2002:a2e:98da:0:b0:25d:91a7:22eb with SMTP id s26-20020a2e98da000000b0025d91a722ebmr3037580ljj.46.1657796465704;
+        Thu, 14 Jul 2022 04:01:05 -0700 (PDT)
+Received: from [192.168.1.2] (broadband-188-32-106-30.ip.moscow.rt.ru. [188.32.106.30])
+        by smtp.gmail.com with ESMTPSA id e2-20020a2e9842000000b00258fd1ba2e7sm224521ljj.84.2022.07.14.04.01.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Jul 2022 04:01:05 -0700 (PDT)
+Message-ID: <74ba5239-27b0-299e-717c-595680cd52f9@gmail.com>
+Date:   Thu, 14 Jul 2022 14:01:04 +0300
 MIME-Version: 1.0
-Received: by 2002:a2e:9041:0:0:0:0:0 with HTTP; Thu, 14 Jul 2022 01:36:37
- -0700 (PDT)
-Reply-To: abdwabbomaddahm@gmail.com
-From:   Abdwabbo Maddah <abdwabbomaddah746@gmail.com>
-Date:   Thu, 14 Jul 2022 09:36:37 +0100
-Message-ID: <CAFC-3idDfFB0Mmtq-N-n6z5Ly7T-KDCJtvbc0UgtirMnTLYTCg@mail.gmail.com>
-Subject: Get back to me... URGENT
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:12f listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [abdwabbomaddah746[at]gmail.com]
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [abdwabbomaddah746[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  3.2 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [RFC] futex2: add NUMA awareness
+Content-Language: en-US
+To:     =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        linux-kernel@vger.kernel.org
+Cc:     linux-api@vger.kernel.org, fweimer@redhat.com,
+        libc-alpha@sourceware.org, Davidlohr Bueso <dave@stgolabs.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+References: <36a8f60a-69b2-4586-434e-29820a64cd88@igalia.com>
+From:   Andrey Semashev <andrey.semashev@gmail.com>
+In-Reply-To: <36a8f60a-69b2-4586-434e-29820a64cd88@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
--- 
-Dear,
-I had sent you a mail but i don't think you received it that's why am
-writing you again.It is important you get back to me as soon as you
-can.
-Abd-Wabbo Maddah
+On 7/14/22 06:18, André Almeida wrote:
+> Hi,
+> 
+> futex2 is an ongoing project with the goal to create a new interface for
+> futex that solves ongoing issues with the current syscall.
+> 
+> One of this problems is the lack of NUMA awareness for futex operations.
+> This RFC is aimed to gather feedback around the a NUMA interface proposal.
+> 
+>  * The problem
+> 
+> futex has a single, global hash table to store information of current
+> waiters to be queried by wakers. This hash table is stored in a single
+> node in non-uniform machines. This means that a process running in other
+> nodes will have some overhead using futex, given that it will need to
+> access the table in a different node.
+> 
+>  * A solution
+> 
+> For NUMA machines, it would be allocated a table per node. Processes
+> then would be able to use the local table to avoid sharing data with
+> other nodes.
+> 
+>  * The interface
+> 
+> Userspace needs to specify which node would like to use to store/query
+> the futex table. The common case would be to operate on the current
+> node, but some cases could required to operate in another one.
+> 
+> Before getting to the NUMA part, a quick recap of the syscalls interface
+> of futex2:
+> 
+> futex_wait(void *uaddr, unsigned int val, unsigned int flags,
+>            struct timespec *timo)
+> 
+> futex_wake(void *uaddr, unsigned long nr_wake, unsigned int flags)
+> 
+> struct futex_requeue {
+> 	void *uaddr;
+> 	unsigned int flags;
+> };
+> 
+> futex_requeue(struct futex_requeue *rq1, struct futex_requeue *rq2,
+> 	      unsigned int nr_wake, unsigned int nr_requeue,
+> 	      u64 cmpval, unsigned int flags)
+> 
+> 
+> As requeue already has 6 arguments, we can't add an argument for the
+> node ID, we need to pack it in a struct. So then we have
+> 
+> struct futexX_numa {
+>         __uX value;
+>         __sX hint;
+> };
+> 
+> Where X can be 8, 16, 32 or 64 (futex2 supports variable sized futexes).
+> `value` is the futex value and `hint` can be -1 for the current node, or
+> [0, MAX_NUMA_NODES) to specify a node. Example:
+> 
+> struct futex32_numa f = {.value = 0, hint = -1};
+> 
+> ...
+> 
+> futex_wait(&f, 0, FUTEX_NUMA | FUTEX_32, NULL);
+> 
+> Then &f would be used as the futex address, as expected, and this would
+> be used for the current node. If an app is expecting to have calls from
+> different nodes then it should do for instance:
+> 
+> struct futex32_numa f = {.value = 0, hint = 2};
+> 
+> For non-NUMA apps, a call without FUTEX_NUMA flag would just use the
+> first node as default.
+> 
+> Feedback? Who else should I CC?
+
+Just a few questions:
+
+Do I understand correctly that notifiers won't be able to wake up
+waiters unless they know on which node they are waiting?
+
+Is it possible to wait on a futex on different nodes?
+
+Is it possible to wake waiters on a futex on all nodes? When a single
+(or N, where N is not "all") waiter is woken, which node is selected? Is
+there a rotation of nodes, so that nodes are not skewed in terms of
+notified waiters?
