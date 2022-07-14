@@ -2,90 +2,57 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E975557404F
-	for <lists+linux-api@lfdr.de>; Thu, 14 Jul 2022 02:02:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C8425741CD
+	for <lists+linux-api@lfdr.de>; Thu, 14 Jul 2022 05:19:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229829AbiGNACw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 13 Jul 2022 20:02:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37302 "EHLO
+        id S232042AbiGNDTe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 13 Jul 2022 23:19:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229495AbiGNACv (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 13 Jul 2022 20:02:51 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37DD820B;
-        Wed, 13 Jul 2022 17:02:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657756970; x=1689292970;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=26iuG2PU8gROzu7IcUO0TLcA9lykFGbxNWG8zTRrDpg=;
-  b=BHZkgySkaM4voPeSvG7NNKOtqgxUbYRJrXr1AfnhgExX9mFsLr+7Pr2/
-   3b7vvnxQjaDYvWM9dWtWTNRuv2QsuvCQZ3BOFUu/SLAFeHuy8EHRW9zZC
-   aKY3WPVoppxeZ11ysASXWMxpOU7+GlRWbnTqZc8apzW2uxdicC+84K7b0
-   VPys08r5MXjmCLjEjzyZlRZDS100H+m3thriEpbrLDIDhSlvdEV6779fW
-   5ry6ImhEJgYT+J14h+GBOWEcPilenNiQ/exgNNw1Fco7cVixq05kjWd7T
-   pUxLpqDpKZg4Za9vhSIHADmsO1KsUMk0PMQBhufqMSP9kDZcVPCqii9N4
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10407"; a="311021375"
-X-IronPort-AV: E=Sophos;i="5.92,269,1650956400"; 
-   d="scan'208";a="311021375"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2022 17:02:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,269,1650956400"; 
-   d="scan'208";a="593178497"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
-  by orsmga007.jf.intel.com with ESMTP; 13 Jul 2022 17:02:39 -0700
-Date:   Thu, 14 Jul 2022 07:59:22 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     "Gupta, Pankaj" <pankaj.gupta@amd.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <20220713235922.GB2881285@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <b1c12a4b-46f7-081b-242f-005a8824aad1@amd.com>
- <20220713075738.GC2831541@chaop.bj.intel.com>
- <13d25d2e-ff79-5762-ddb8-87df56f5cbcf@amd.com>
+        with ESMTP id S232673AbiGNDTc (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 13 Jul 2022 23:19:32 -0400
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5AAF240A6;
+        Wed, 13 Jul 2022 20:19:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:Cc:To:Subject:From:
+        MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=hlVc3S338Hs1/PiwG/AKrI6AGgY3YdI9TqJMD9Bi1PE=; b=X+EIsxb/17qPVsjsj7DTQ1KetF
+        oyWGhlb840NRd9rsQLLwQAdYvhzpN/K1TJ/w/6GtgvC+EQ/7rY1hMl574NvgC5gTn6Fc5kfCA2+2z
+        eYyd2bL0cB9UvtEX8FZKm515zrK0gVspoy353swryS/WWZsV1pNs/Xq9dK4rwUYWKddMJ7pZLas/i
+        rq7iuLekWhdzuSqVwgZkVs+TcC77nhFLMa7v10/15Eu+Uzb/JEky+NyU9ndCevCvPnq3uf7Csu6sz
+        Yl9LNhfIZFTSnbcGgbO9Awpu6DvDU0sMcCshibs8vv9MA9EcNbWlFkb7OaRK0kChrGVZ6qyaNcjqu
+        G3i3zhgw==;
+Received: from [177.139.47.106] (helo=[192.168.15.109])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1oBpNd-00Fohe-Gr; Thu, 14 Jul 2022 05:19:09 +0200
+Message-ID: <36a8f60a-69b2-4586-434e-29820a64cd88@igalia.com>
+Date:   Thu, 14 Jul 2022 00:18:51 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <13d25d2e-ff79-5762-ddb8-87df56f5cbcf@amd.com>
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>
+Subject: [RFC] futex2: add NUMA awareness
+Content-Language: en-US
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        linux-kernel@vger.kernel.org
+Cc:     linux-api@vger.kernel.org, fweimer@redhat.com,
+        libc-alpha@sourceware.org,
+        Andrey Semashev <andrey.semashev@gmail.com>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -93,46 +60,80 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jul 13, 2022 at 12:35:56PM +0200, Gupta, Pankaj wrote:
-> 
-> > > > This is the v7 of this series which tries to implement the fd-based KVM
-> > > > guest private memory. The patches are based on latest kvm/queue branch
-> > > > commit:
-> > > > 
-> > > >     b9b71f43683a (kvm/queue) KVM: x86/mmu: Buffer nested MMU
-> > > > split_desc_cache only by default capacity
-> > > > 
-> > > > Introduction
-> > > > ------------
-> > > > In general this patch series introduce fd-based memslot which provides
-> > > > guest memory through memory file descriptor fd[offset,size] instead of
-> > > > hva/size. The fd can be created from a supported memory filesystem
-> > > > like tmpfs/hugetlbfs etc. which we refer as memory backing store. KVM
-> > > 
-> > > Thinking a bit, As host side fd on tmpfs or shmem will store memory on host
-> > > page cache instead of mapping pages into userspace address space. Can we hit
-> > > double (un-coordinated) page cache problem with this when guest page cache
-> > > is also used?
-> > 
-> > This is my understanding: in host it will be indeed in page cache (in
-> > current shmem implementation) but that's just the way it allocates and
-> > provides the physical memory for the guest. In guest, guest OS will not
-> > see this fd (absolutely), it only sees guest memory, on top of which it
-> > can build its own page cache system for its own file-mapped content but
-> > that is unrelated to host page cache.
-> 
-> yes. If guest fills its page cache with file backed memory, this at host
-> side(on shmem fd backend) will also fill the host page cache fast. This can
-> have an impact on performance of guest VM's if host goes to memory pressure
-> situation sooner. Or else we end up utilizing way less System RAM.
+Hi,
 
-(Currently), the file backed guest private memory is long-term pinned
-and not reclaimable, it's in page cache anyway once we allocated it for
-guest. This does not depend on how guest use it (e.g. use it for guest
-page cache or not). 
+futex2 is an ongoing project with the goal to create a new interface for
+futex that solves ongoing issues with the current syscall.
 
-Chao
-> 
-> Thanks,
-> Pankaj
-> 
+One of this problems is the lack of NUMA awareness for futex operations.
+This RFC is aimed to gather feedback around the a NUMA interface proposal.
+
+ * The problem
+
+futex has a single, global hash table to store information of current
+waiters to be queried by wakers. This hash table is stored in a single
+node in non-uniform machines. This means that a process running in other
+nodes will have some overhead using futex, given that it will need to
+access the table in a different node.
+
+ * A solution
+
+For NUMA machines, it would be allocated a table per node. Processes
+then would be able to use the local table to avoid sharing data with
+other nodes.
+
+ * The interface
+
+Userspace needs to specify which node would like to use to store/query
+the futex table. The common case would be to operate on the current
+node, but some cases could required to operate in another one.
+
+Before getting to the NUMA part, a quick recap of the syscalls interface
+of futex2:
+
+futex_wait(void *uaddr, unsigned int val, unsigned int flags,
+           struct timespec *timo)
+
+futex_wake(void *uaddr, unsigned long nr_wake, unsigned int flags)
+
+struct futex_requeue {
+	void *uaddr;
+	unsigned int flags;
+};
+
+futex_requeue(struct futex_requeue *rq1, struct futex_requeue *rq2,
+	      unsigned int nr_wake, unsigned int nr_requeue,
+	      u64 cmpval, unsigned int flags)
+
+
+As requeue already has 6 arguments, we can't add an argument for the
+node ID, we need to pack it in a struct. So then we have
+
+struct futexX_numa {
+        __uX value;
+        __sX hint;
+};
+
+Where X can be 8, 16, 32 or 64 (futex2 supports variable sized futexes).
+`value` is the futex value and `hint` can be -1 for the current node, or
+[0, MAX_NUMA_NODES) to specify a node. Example:
+
+struct futex32_numa f = {.value = 0, hint = -1};
+
+...
+
+futex_wait(&f, 0, FUTEX_NUMA | FUTEX_32, NULL);
+
+Then &f would be used as the futex address, as expected, and this would
+be used for the current node. If an app is expecting to have calls from
+different nodes then it should do for instance:
+
+struct futex32_numa f = {.value = 0, hint = 2};
+
+For non-NUMA apps, a call without FUTEX_NUMA flag would just use the
+first node as default.
+
+Feedback? Who else should I CC?
+
+Thanks,
+	André
