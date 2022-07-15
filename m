@@ -2,58 +2,65 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7780D575FAB
-	for <lists+linux-api@lfdr.de>; Fri, 15 Jul 2022 13:03:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E20DF575FEE
+	for <lists+linux-api@lfdr.de>; Fri, 15 Jul 2022 13:22:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229713AbiGOLDW (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 15 Jul 2022 07:03:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57236 "EHLO
+        id S231442AbiGOLWB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 15 Jul 2022 07:22:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229638AbiGOLDV (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 15 Jul 2022 07:03:21 -0400
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8279F86898
-        for <linux-api@vger.kernel.org>; Fri, 15 Jul 2022 04:03:17 -0700 (PDT)
-Received: by mail-lj1-x233.google.com with SMTP id v15so1583270ljc.1
-        for <linux-api@vger.kernel.org>; Fri, 15 Jul 2022 04:03:17 -0700 (PDT)
+        with ESMTP id S229452AbiGOLWA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 15 Jul 2022 07:22:00 -0400
+Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com [IPv6:2607:f8b0:4864:20::1131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5371087C1F
+        for <linux-api@vger.kernel.org>; Fri, 15 Jul 2022 04:21:56 -0700 (PDT)
+Received: by mail-yw1-x1131.google.com with SMTP id 00721157ae682-31bf3656517so43679047b3.12
+        for <linux-api@vger.kernel.org>; Fri, 15 Jul 2022 04:21:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=UE1FrYoch4YdKD+Vw9+azGNMLjwsFgEirxtfoByER8w=;
-        b=QztZdBwKoFsOeb1QRpc8F9mLmNDlKFq09Ktg+h5qqtzSbUSuYEHvrEsknK8NSaRh4z
-         edMyTEw4sviIdPKErs/lnA+M1npsarunjfhCdOvGb9pO65A5/1AWYMP6VVmOD6QmVzP5
-         dDOjoVexY7iwQCq2vpU8E0jcpFGX/0rMJ38v+Gow33fUSmx7bnAtWwzJ7Txwpju68SVY
-         VMmKiuo4LKNOonHuqx/PAjiGrwUi/NmJkT1XVydsqPWf9PX5wkHLP1nkLSl3cQ1rZfu5
-         1hUsBcAc7B06Y/fsPJTL5SsyL/pJ5UlIJMpCWFZyoD6lKLQ7R3jLMtxsmPEejo2G8s3S
-         l8qA==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dkVxiAsXVQZWFloXZfDXz+TjjPPvSMh+ZOUwfV+rWAk=;
+        b=na7fVRcOYydI6hUvM/LoPJ1er7GaajmqKsa/jaX6TgizoajoSoYFvE3Wv+wmzsUlg9
+         kxHJigjvaz6R0elP/ugAKN0/1qPOfhS5xdlW8gKuxRfIyaCKaaqlEerGeJeVYTQ7JCEz
+         mJHs4n1coq/pVT2m5hAvP9Piq1YJy79zZ0A/kXBR4gxSFr8yUXxr9zhSE8MKayIGzwH5
+         PUrh/l+nQfqlGiZjmi8BUB3/PIOkazQSBK0K3sl4gI8O9S81N+BFseKGuUjjQdhGhYjz
+         TsptIc6WrML00JUDyQJepFYEFqf5L70hyR5aXEE3h8abIkenXvOIiipIZmvhb8OCjIi7
+         AzJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=UE1FrYoch4YdKD+Vw9+azGNMLjwsFgEirxtfoByER8w=;
-        b=6LMsbD3/DoFIzla6rNUylI2mNtLrtwJz31HcccnVXaYJv2r+5yN26J0EZRrgLRrmEn
-         r4XgjaxyRiuwvB8MmzjpBqI3eyjG0cDfqi1o8gpgsfP7HoiBcAP3EMW0FXn9di50iHuy
-         4Yypv6XAt9WCE8EAIxqVTNwc7awoCzMGkDrqHROHN8/ku9yXSia54AL/2/V7Gv0sK0bH
-         pfwmyDZCzk9RonXdc+WJj1RORNs6huiKh4sNENMZrfxX2VKEBRnH7vQ4QBZupP7PyrOG
-         j8tBmQPZ9HWev3b5SHNR8hsTnmvBbZ2iRvB8eDsLQJk15kw+oBEhCok1qdWybJ6UcA/o
-         kWOg==
-X-Gm-Message-State: AJIora/eiZWygM+dlGIxLxckzqetxfjobElxMDEbHdap48Lt4irIC+/w
-        k87dlnKB02Qh0dt0XCxB0Y3Ubwq46+XNTFkFi5pM6WpuOERcaGnnCEjw+A==
-X-Google-Smtp-Source: AGRyM1vPu+3r36+2Hbj5vYA2dOnJOuYed9LbeQ9UFz7KxqwXK1JfLWTLkK9E53leGn/k5Ewv9S5L/0ZWivRJC2nF+5E=
-X-Received: by 2002:a2e:bd86:0:b0:25b:a4b0:bccb with SMTP id
- o6-20020a2ebd86000000b0025ba4b0bccbmr6685709ljq.439.1657882995435; Fri, 15
- Jul 2022 04:03:15 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dkVxiAsXVQZWFloXZfDXz+TjjPPvSMh+ZOUwfV+rWAk=;
+        b=Q/0y24FnJYqTx4dKJPQTLt4DS/aEONp7f/ZNXFyWJdBQo1t9GN2UdJXPkM4e0Ksaxq
+         moRbHfOMviI4we0ObJsMz5NXDqdZkO+0QCyZBl8MY6tP/4g64kSJyHnoM2Qd0t7SDu3B
+         +TlGgCkFth3ngKddyoupnV5RuAchae7X/Quw61kCkoi4HtE1g/krp3EPET0pQ7pDYUDL
+         BjGdm/6xpfvpU59g5j8xgzsB0Aee5+ehzJlbcjA18gNs4HIwF9NMKikm54S9iiV62pdN
+         1CmI1XBAwUTgMNhoCuil0MqlCE/d61XMm0bvair45XC7h0uCA3yCH5hYHlUSiLh7xoTE
+         lafA==
+X-Gm-Message-State: AJIora+UFHCokZWmo6dOtfOWCSyWnKE3sj9M1poCdsF3rbb6kXVus+Px
+        jxsPN57P3CPs1ywB9Fx4l7uFTp/b41QCi1TNTmulYQ==
+X-Google-Smtp-Source: AGRyM1tUia74PMywhnQ5nJLObaGWCuXLa1QRTMd7+15WgJNNfZpSRMvZVm1YPqeRV6RTyyUcPAr/iSIvgM2jyRfhv3U=
+X-Received: by 2002:a0d:dd09:0:b0:31c:e3b9:7442 with SMTP id
+ g9-20020a0ddd09000000b0031ce3b97442mr15520622ywe.47.1657884115352; Fri, 15
+ Jul 2022 04:21:55 -0700 (PDT)
 MIME-Version: 1.0
-From:   Alexander Babayants <babayants.alexander@gmail.com>
-Date:   Fri, 15 Jul 2022 14:03:04 +0300
-Message-ID: <CAB92dJbs0tcXmnQLZ5QKT4MJ+Hfbj4tr_HyFeaL=ySLHEUQxUQ@mail.gmail.com>
-Subject: recvmmsg() behaviour with MSG_PEEK flag
-To:     linux-api@vger.kernel.org
-Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, mtk.manpages@gmail.com
+References: <CAB92dJbs0tcXmnQLZ5QKT4MJ+Hfbj4tr_HyFeaL=ySLHEUQxUQ@mail.gmail.com>
+In-Reply-To: <CAB92dJbs0tcXmnQLZ5QKT4MJ+Hfbj4tr_HyFeaL=ySLHEUQxUQ@mail.gmail.com>
+From:   Eric Dumazet <edumazet@google.com>
+Date:   Fri, 15 Jul 2022 13:21:44 +0200
+Message-ID: <CANn89iJ0yB97TJ90MjuTx9UwuTKMM5qVgTaEhhwWboHOOb69Fg@mail.gmail.com>
+Subject: Re: recvmmsg() behaviour with MSG_PEEK flag
+To:     Alexander Babayants <babayants.alexander@gmail.com>
+Cc:     Linux API <linux-api@vger.kernel.org>,
+        David Miller <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, mtk.manpages@gmail.com
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -61,20 +68,33 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hello!
+On Fri, Jul 15, 2022 at 1:03 PM Alexander Babayants
+<babayants.alexander@gmail.com> wrote:
+>
+> Hello!
+>
+> The behaviour of recvmmsg() with MSG_PEEK flag confuses me. I'd expect
+> it to peek multiple messages at once, but it seems to peek only the
+> first one, filling each of the provided struct msghdr with a copy of
+> the first message. I do not see if it is documented anywhere, is it a
+> bug or intended design?
+>
+> What I want to achieve is to first peek into the socket, get the size
+> of each message, then allocate appropriate buffers and read the
+> messages with the second recvmmsg() call. This seems to be a
+> relatively common pattern for reading single messages via recvmsg(),
+> and I naively expected it to work with recvmmsg() too.
+>
 
-The behaviour of recvmmsg() with MSG_PEEK flag confuses me. I'd expect
-it to peek multiple messages at once, but it seems to peek only the
-first one, filling each of the provided struct msghdr with a copy of
-the first message. I do not see if it is documented anywhere, is it a
-bug or intended design?
+MSG_PEEK is a mistake really, it considerably increases the cost of
+receiving packets,
+because you need twice more system calls.
 
-What I want to achieve is to first peek into the socket, get the size
-of each message, then allocate appropriate buffers and read the
-messages with the second recvmmsg() call. This seems to be a
-relatively common pattern for reading single messages via recvmsg(),
-and I naively expected it to work with recvmmsg() too.
+It also increases costs in the kernel, having to deal with it, even if
+not used by fast applications.
 
--- 
-Regards,
-Alexander Babayants.
+Adding proper MSG_PEEK support to recvmmsg() is tricky, do_recvmmsg()
+would probably have
+to be completely reimplemented to not call ___sys_recvmsg(), or risk
+some quadratic behavior
+if each ___sys_recvmsg() has to skip over N datagrams
