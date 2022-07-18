@@ -2,38 +2,37 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C7E425789A5
-	for <lists+linux-api@lfdr.de>; Mon, 18 Jul 2022 20:39:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BE08578939
+	for <lists+linux-api@lfdr.de>; Mon, 18 Jul 2022 20:08:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235701AbiGRSjr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 18 Jul 2022 14:39:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40904 "EHLO
+        id S235692AbiGRSIQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 18 Jul 2022 14:08:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230451AbiGRSjr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 18 Jul 2022 14:39:47 -0400
-X-Greylist: delayed 3601 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 18 Jul 2022 11:39:45 PDT
-Received: from esa3.mentor.iphmx.com (esa3.mentor.iphmx.com [68.232.137.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECD922CDF8
-        for <linux-api@vger.kernel.org>; Mon, 18 Jul 2022 11:39:45 -0700 (PDT)
+        with ESMTP id S235694AbiGRSIQ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 18 Jul 2022 14:08:16 -0400
+Received: from esa2.mentor.iphmx.com (esa2.mentor.iphmx.com [68.232.141.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09FB22F004;
+        Mon, 18 Jul 2022 11:08:15 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.92,281,1650960000"; 
-   d="scan'208";a="79810792"
+   d="scan'208";a="79917465"
 Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa3.mentor.iphmx.com with ESMTP; 18 Jul 2022 08:36:16 -0800
-IronPort-SDR: RTjfIgzc+dEN6kC/wiahZ34aDq4N/lz4wt2gOaf3gyvKgbBgy7GQpdrAGz0TSAiEUWi+ya5Unr
- gmkYsvQK+ohtMCEWFgUOpyY66f9X39W1vVK02qBI1H5onSYK75Pc/1vMoVCUJxGv33IMPq9bQ2
- oVXSpXODQ6Og1foDv+s8GFj50phjddzVPBJt2HR23rxJmXRZiaFdLlzC1jNdr2lwwmR5DNHLGX
- AK5/7yyQ++vhwU/PHSyXdo4u6nIwJuPb8F93oY3w+emM9L4h04z8oSkrSns1WQE8vNYUpZYkVK
- UJM=
-Message-ID: <032ade35-6eb8-d698-ac44-aa45d46752dd@mentor.com>
-Date:   Mon, 18 Jul 2022 17:36:06 +0100
+  by esa2.mentor.iphmx.com with ESMTP; 18 Jul 2022 10:08:14 -0800
+IronPort-SDR: zDH7NpIdnCMcwT/D3prrqMMhlGnooyg0d/vhKwsQ0lbC8PuU04Gv9ZCy4BNlxdbHMTipPu7yzI
+ dRMIu+m44ScLzHSFuk1bs8Ke08oCUF1fdtWSLySCjNnRNbNbRqvzPvN10aGLaiF4xz+hncd+0H
+ w6grKi3yhHgBbe41Ac8tf1gLu427xsb4JbCK67KTEudG/ltVQCQNF9/N9qfGccyar1t//X34gq
+ HsStVJsdYbWaWOsQLdbtbvtx5Nc4d6iFxX75zmgTGALxm3lBG+OSR+9nWMcypiPEFqSevnUg3O
+ bnk=
+Message-ID: <737ddf72-05f4-a47e-c901-fec5b1dfa7a6@mentor.com>
+Date:   Mon, 18 Jul 2022 19:08:04 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
 Subject: Re: [PATCH v4 0/3] initramfs: add support for xattrs in the initial
  ram disk
 Content-Language: en-GB
-To:     Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Roberto Sassu <roberto.sassu@huawei.com>
+To:     Roberto Sassu <roberto.sassu@huawei.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>
 CC:     Rob Landley <rob@landley.net>, "hpa@zytor.com" <hpa@zytor.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Arvind Sankar <nivedita@alum.mit.edu>,
@@ -68,80 +67,129 @@ References: <33cfb804-6a17-39f0-92b7-01d54e9c452d@huawei.com>
  <20220610153336.GA8881@lxhi-065>
  <4bc349a59e4042f7831b1190914851fe@huawei.com>
  <20220615092712.GA4068@lxhi-065>
+ <032ade35-6eb8-d698-ac44-aa45d46752dd@mentor.com>
+ <f82d4961986547b28b6de066219ad08b@huawei.com>
 From:   Jim Baxter <jim_baxter@mentor.com>
 Organization: Siemens Digital Industries Software
-In-Reply-To: <20220615092712.GA4068@lxhi-065>
+In-Reply-To: <f82d4961986547b28b6de066219ad08b@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: svr-ies-mbx-13.mgc.mentorg.com (139.181.222.13) To
+X-ClientProxiedBy: svr-ies-mbx-12.mgc.mentorg.com (139.181.222.12) To
  svr-ies-mbx-12.mgc.mentorg.com (139.181.222.12)
 X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_PASS,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 15/06/2022 10:27, Eugeniu Rosca wrote:
-> Hello Roberto,
+
+
+Best regards,
+
+*Jim Baxter*
+
+Siemens Digital Industries Software
+Automotive Business Unit
+DI SW STS ABU
+UK
+Tel.: +44 (161) 926-1656
+mailto:jim.baxter@siemens.com <mailto:jim.baxter@siemens.com>
+sw.siemens.com <https://sw.siemens.com/>
+
+On 18/07/2022 17:49, Roberto Sassu wrote:
+>> From: Jim Baxter [mailto:jim_baxter@mentor.com]
+>> Sent: Monday, July 18, 2022 6:36 PM
+>>
+>>
+>> Hello,
+>>
+>> I have been testing these patches and do not see the xattr information when
+>> trying to retrieve it within the initramfs, do you have an example of how
+>> you tested this originally?
 > 
-> On Fr, Jun 10, 2022 at 03:38:24 +0000, Roberto Sassu wrote:
->> I would be happy to address the remaining concerns, or take more
->> suggestions, and then develop a new version of the patch set.
-> I face a number of conflicts when I try to rebase the latest openEuler
-> commits against vanilla master (v5.19-rc2). Do you think it is possible
-> to submit the rebased version to ML?
+> Hi Jim, all
 > 
-> In addition, I can also see some open/unresolved points from Mimi [*].
-> Did you by chance find some mutual agreement offline or do you think
-> they would still potentially need some attention?
+> apologies, I didn't find yet the time to look at this.
+
+Hello Roberto,
+
+Thank you for your response, I can wait until you have looked at the patches,
+I asked the question to make sure it was not something wrong in my
+configuration.
+
 > 
-> Maybe we can resume the discussion once you submit the rebased series?
+> Uhm, I guess this could be solved with:
 > 
-> Many thanks and looking forward to it.
+> https://github.com/openeuler-mirror/kernel/commit/18a502f7e3b1de7b9ba0c70896ce08ee13d052da
 > 
-> [*] Potentially comments which deserve a reply/clarification/resolution
-> 
-> https://lore.kernel.org/lkml/1561985652.4049.24.camel@linux.ibm.com/#t
-> https://lore.kernel.org/lkml/1561908456.3985.23.camel@linux.ibm.com/
-> 
-> BR, Eugeniu.
+> and adding initramtmpfs to the kernel command line. You are
+> probably using ramfs, which does not have xattr support.
 > 
 
 
-Hello,
+Thank you, I have tested that patch but the problem remained. Here is my
+command line, I wonder if there is something wrong.
 
-I have been testing these patches and do not see the xattr information when
-trying to retrieve it within the initramfs, do you have an example of how
-you tested this originally?
-
-
-So far I have set the xattr in the rootfs before creating the cpio file like this:
-$ setfattr -n user.comment -v "this is a comment" test.txt
-If I access the data here it works:
-$ getfattr test.txt 
-# file: test.txt
-user.comment
+Kernel command line: rw rootfstype=initramtmpfs root=/dev/ram0 initrd=0x500000000 rootwait 
 
 
-Then I package it and try to verify it with this command:
-$getfattr /test.txt
+I also found that root is always mounted as rootfs in my initramfs system
+which I understood to be tmpfs, is that incorrect?
 
-Which returns to the command line without the data.
+sh-3.2# mount
+none on / type rootfs (rw)
+
+
+>> So far I have set the xattr in the rootfs before creating the cpio file like this:
+>> $ setfattr -n user.comment -v "this is a comment" test.txt
+>> If I access the data here it works:
+>> $ getfattr test.txt
+>> # file: test.txt
+>> user.comment
+>>
+>>
+>> Then I package it and try to verify it with this command:
+>> $getfattr /test.txt
+> 
+> I assume you try to pack/unpack, right? If I remember correctly
+> I only implemented the pack part. Unpacking is done by the kernel
+> (but you are right, it should be done by user space too).
+> 
+
+
+I modified the file before packing. To pack I use the following commands:
+
+$ ./usr/gen_initramfs.sh -l initramfs.list -e xattr ../rootfs > initramfs.cpio
+$ gzip initramfs.cpio
+$ mkimage -A arm64 -O linux -T ramdisk -d initramfs.cpio.gz uRamdisk
+
+The kernel is loaded using:
+booti ${kernaddr} ${initramaddr} ${dtbaddr}
 
 
 
-I believe the cpio is working because I see the file /METADATA\!\!\! in
-the target root filesystem, which shows the following when viewed with cat -e:
-00000028^A^Auser.comment^@this is a comment
 
-This matches the data I fed in at the start, so I believe the data is being
-transferred correctly but I am accessioning it with the wrong tools.
-
-Thank you for any help.
+>> Which returns to the command line without the data.
+>>
+>>
+>>
+>> I believe the cpio is working because I see the file /METADATA\!\!\! in
+>> the target root filesystem, which shows the following when viewed with cat -e:
+>> 00000028^A^Auser.comment^@this is a comment
+>>
+>> This matches the data I fed in at the start, so I believe the data is being
+>> transferred correctly but I am accessioning it with the wrong tools.
+> 
+> Yes, xattrs are marshalled in the METADATA!!! file, one per regular file
+> xattrs are applied to. Xattrs are applied to the previous regular file.
+> That file name was preferred to adding a suffix to the file, to avoid
+> reaching the filename size limit.
+> 
+> Roberto
 
 Best regards,
 Jim
