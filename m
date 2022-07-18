@@ -2,136 +2,217 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 24964577ED7
-	for <lists+linux-api@lfdr.de>; Mon, 18 Jul 2022 11:42:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 946D45783C5
+	for <lists+linux-api@lfdr.de>; Mon, 18 Jul 2022 15:34:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233920AbiGRJmN (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 18 Jul 2022 05:42:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35002 "EHLO
+        id S233815AbiGRNex (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 18 Jul 2022 09:34:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234203AbiGRJl4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 18 Jul 2022 05:41:56 -0400
-Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com [IPv6:2607:f8b0:4864:20::e34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EAEE19C1C;
-        Mon, 18 Jul 2022 02:41:56 -0700 (PDT)
-Received: by mail-vs1-xe34.google.com with SMTP id 125so9862712vsx.7;
-        Mon, 18 Jul 2022 02:41:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Uw96p5rg9bMjde+tQ6Y+RJreM2+o6oDSBazbHt0Gpe4=;
-        b=ZMcgYemoS6vhtGV+wZTepAv0v7yYdmq3PKJVRg8DujBUwUrtzrBTIQtVGghklIuZsp
-         pMH+ZEbCBITkHbGhkhnJVzLS/JRkvLlB3L1msVvqVDzqH0IaOlwS7HrlrywJufHp7a/1
-         Y46jotEQTTbMuP32ne5lLIti/hegrnYiBGCwT9XX/WeYE/yteviq9WPcw27r1wC+V43l
-         k0cNHGA09ys6nFRf+Q+HEeguCh75hz+/+d0OO1JmuJI4xeKUV4wP92OHwULfEI+pWMhI
-         Z4OSmv1RwcrOKfyQYWrW1I0zb/bFVGMMxpd7U5luCglHL8fYp3ncTlDbS6pHHk/YYaZL
-         R/SQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Uw96p5rg9bMjde+tQ6Y+RJreM2+o6oDSBazbHt0Gpe4=;
-        b=RwJSp5cZsXPC/5yy8LmbKTRNz/6JtGRbZaZ3e2m06SB7Iia0UtTo1tKI/64IAzMh5R
-         8Av1hD0kQ4o6freVqSPjbfquzZtZmkNsEfFGToFqaj2M8REJIUeq73jg/ylakb21xJDy
-         GYervOLjU7U+KEJME7Qmir+os8T8iHAnzc5gMur1RJcL7dQVVPRyB/fTjbV0VIJHvmek
-         Hz9Ff7wpFjvjQLqFMlVqcKq9lysLyDHKFDsw+qz6tj5cXwrUZGWf1TsvdGQfOO8pmNQS
-         N26utQ1WR/laTo5yu5zaXyp/DAvYwMrRpXM1H0KMroO3Uo2fDWivLvFluzKGIhuigiqA
-         jewQ==
-X-Gm-Message-State: AJIora/vBhm8fIEeMagtZj1HCbs/lAS3VLaVuKU4jMS8VBA8ZTiovfBj
-        wen71xosbbhrypooGSW8zo9JzIO956DoDdhs0YcWJpAs7oJK7w==
-X-Google-Smtp-Source: AGRyM1uwPymo7DRuHzRKWZ13dPYMPZ/am7w4EtUZor/81WS5GgLWhgdwQXs2hG/1EIRU7O70pBwq+X5JnU9nktk2d/M=
-X-Received: by 2002:a05:6102:834:b0:357:e3b9:56d5 with SMTP id
- k20-20020a056102083400b00357e3b956d5mr190138vsb.72.1658137315176; Mon, 18 Jul
- 2022 02:41:55 -0700 (PDT)
+        with ESMTP id S233900AbiGRNew (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 18 Jul 2022 09:34:52 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CE5C19C3E;
+        Mon, 18 Jul 2022 06:34:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658151291; x=1689687291;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=rHFYZeCUhUEMCyj5v9zq3o/zGTENSXf+B8mm6YmDQ6A=;
+  b=YA9EYCDeqWGfW1UPeaGqPCbNH1VGlfaFYurfw47BjMg/51HVhjZlBkqo
+   3KV7aJ374rocye5HlIm/HEMAaWTi4RSnKoCS2lw1WTMO3EftDEOEUrbTN
+   6jFi3ynXfjcAgvWuWkL1Xq4jsEYK9jjoozTzS4s1ShaseQ3TXehLL3HHV
+   vrEGzA1cQNCj4O36qc0086cNkoXxr4FTbWq/pj9Qv2nK3/outpdbIYPva
+   15l11Eb04u+pZU8eRLlagutnTcKUhN1Ok77sYT2J0nsqM3vhX/5X/5ZU0
+   NMXQjobZssAEmP6p/cnJXNdqprL1e40dS7OMFzxojnVT2s3Tb0kBJ6yWL
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10411"; a="347907674"
+X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; 
+   d="scan'208";a="347907674"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2022 06:34:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; 
+   d="scan'208";a="624730241"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by orsmga008.jf.intel.com with ESMTP; 18 Jul 2022 06:34:40 -0700
+Date:   Mon, 18 Jul 2022 21:29:50 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 07/14] KVM: Use gfn instead of hva for
+ mmu_notifier_retry
+Message-ID: <20220718132950.GA38104@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-8-chao.p.peng@linux.intel.com>
+ <d480a850-601b-cda2-b671-04d839c98429@amd.com>
 MIME-Version: 1.0
-References: <YtTM8GYn0/HkSoet@squish.home.loc>
-In-Reply-To: <YtTM8GYn0/HkSoet@squish.home.loc>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Mon, 18 Jul 2022 11:41:43 +0200
-Message-ID: <CAOQ4uxgya2-H9=qNZkRBO1exr=GRqyn=PFfGgAf0Px0VkH4bjQ@mail.gmail.com>
-Subject: Re: [REGRESSION] recent changes to copy_file_range behavior breakage
-To:     Paul Thompson <paul.a.thompson@zohomail.com>
-Cc:     regressions@lists.linux.dev,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        mat h <isolation.principle@gmail.com>,
-        arvidn <arvid@libtorrent.org>,
-        Luis Henriques <lhenriques@suse.de>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d480a850-601b-cda2-b671-04d839c98429@amd.com>
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jul 18, 2022 at 5:01 AM Paul Thompson
-<paul.a.thompson@zohomail.com> wrote:
->
->         Something that worked in 5.18.9 no longer does in 5.18.1[01] and 5.19-rc6.
->
->         Using the example code in the man page for copy_file_range:
->
-> # ./copy-file-range testfile-on-ext4 /path-to-another-ext4/testfile (or symlink thereto)
->
-> Works in 5.18.9, fails with:
->
-> # copy_file_range: Invalid cross-device link
->
-> And produces garbage file at destination on newer (5.18.10+) kernels.
->
->         This breaks eg. qbittorrent (moving a distro image across ext4
-> filesystems, or following such a symlink) So potentially other real world
-> applications. I do not know if the reason for the commit overrides this
-> breakage, but it caused me a bit of a headache.
->
+On Fri, Jul 15, 2022 at 01:36:15PM +0200, Gupta, Pankaj wrote:
+> > Currently in mmu_notifier validate path, hva range is recorded and then
+> > checked in the mmu_notifier_retry_hva() from page fault path. However
+> > for the to be introduced private memory, a page fault may not have a hva
+> 
+> As this patch appeared in v7, just wondering did you see an actual bug
+> because of it? And not having corresponding 'hva' occurs only with private
+> memory because its not mapped to host userspace?
 
-Hi Paul,
+The addressed problem is not new in this version, previous versions I
+also had code to handle it (just in different way). But the problem is:
+mmu_notifier/memfile_notifier may be in the progress of invalidating a
+pfn that obtained earlier in the page fault handler, when happens, we
+should retry the fault. In v6 I used global mmu_notifier_retry() for
+memfile_notifier but that can block unrelated mmu_notifer invalidation
+which has hva range specified.
 
-I apologize for the headache this change has caused you.
-FWIW, Arvidn has already fixed the problem in libtorrent 2.0.7 release yesterday
-following a report by Mat [1].
+Sean gave a comment at https://lkml.org/lkml/2022/6/17/1001 to separate
+memfile_notifier from mmu_notifier but during the implementation I
+realized we actually can reuse the same code for shared and private
+memory if both using gpa range and that can simplify the code handling
+in kvm_zap_gfn_range and some other code (e.g. we don't need two
+versions for memfile_notifier/mmu_notifier).
 
-The story here is that cross-fs copy_file_range() was not allowed pre
-kernel v5.3.
-When we started allowing it in v5.3, we did not and we could not test
-all possible
-combinations of src and dst fs, so it took a few years, but regression reports
-started to surface [2].
+Adding gpa range for private memory invalidation also relieves the
+above blocking issue between private memory page fault and mmu_notifier.
 
-We decided to try and revert the behavior to pre kernel v5.3 to fix those
-regressions.
-
-The first attempt was around v5.12 release, but sadly, the patch got ignored
-and it wasn't before v5.19-rc5 that we managed to get the patch merged.
-
-In the meanwhile, libtorrent 2.0.0 was released with code that assumes
-that cross-fs copy_file_range() failure is a fatal error. This was
-fixed is 2.0.7
-released yesterday and I hope this fix will be packaged soon for distros.
-
-There is no easy way to find if other userspace tools have made the same
-assumptions except for getting regression reports like yours.
-It is encouraging to me that I got two regression reports from you and Mat
-shortly after the kernel patch was merged, which suggests that if there are
-other userspace tools out there making the same assumption, we will hear
-about them in the near future.
-
-If we find out that is it too late to revert to pre v5.3 behavior,
-then there are
-a few other options that were discussed on [2], but none of them are pretty
-and there was no consensus on either solution, so I'd rather wait a bit to
-see if other workloads rely on cross-fs copy_file_range() from any src fs to
-any dst fs, before taking further action.
-
-Thanks,
-Amir.
-
-[1] https://github.com/qbittorrent/qBittorrent/issues/17352
-[2] https://lore.kernel.org/linux-fsdevel/20210212044405.4120619-1-drinkcat@chromium.org/
+Chao
+> 
+> Thanks,
+> Pankaj
+> 
+> > associated, checking gfn(gpa) makes more sense. For existing non private
+> > memory case, gfn is expected to continue to work.
+> > 
+> > The patch also fixes a potential bug in kvm_zap_gfn_range() which has
+> > already been using gfn when calling kvm_inc/dec_notifier_count() in
+> > current code.
+> > 
+> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > ---
+> >   arch/x86/kvm/mmu/mmu.c   |  2 +-
+> >   include/linux/kvm_host.h | 18 ++++++++----------
+> >   virt/kvm/kvm_main.c      |  6 +++---
+> >   3 files changed, 12 insertions(+), 14 deletions(-)
+> > 
+> > diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> > index f7fa4c31b7c5..0d882fad4bc1 100644
+> > --- a/arch/x86/kvm/mmu/mmu.c
+> > +++ b/arch/x86/kvm/mmu/mmu.c
+> > @@ -4182,7 +4182,7 @@ static bool is_page_fault_stale(struct kvm_vcpu *vcpu,
+> >   		return true;
+> >   	return fault->slot &&
+> > -	       mmu_notifier_retry_hva(vcpu->kvm, mmu_seq, fault->hva);
+> > +	       mmu_notifier_retry_gfn(vcpu->kvm, mmu_seq, fault->gfn);
+> >   }
+> >   static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
+> > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> > index 0bdb6044e316..e9153b54e2a4 100644
+> > --- a/include/linux/kvm_host.h
+> > +++ b/include/linux/kvm_host.h
+> > @@ -767,8 +767,8 @@ struct kvm {
+> >   	struct mmu_notifier mmu_notifier;
+> >   	unsigned long mmu_notifier_seq;
+> >   	long mmu_notifier_count;
+> > -	unsigned long mmu_notifier_range_start;
+> > -	unsigned long mmu_notifier_range_end;
+> > +	gfn_t mmu_notifier_range_start;
+> > +	gfn_t mmu_notifier_range_end;
+> >   #endif
+> >   	struct list_head devices;
+> >   	u64 manual_dirty_log_protect;
+> > @@ -1362,10 +1362,8 @@ void kvm_mmu_free_memory_cache(struct kvm_mmu_memory_cache *mc);
+> >   void *kvm_mmu_memory_cache_alloc(struct kvm_mmu_memory_cache *mc);
+> >   #endif
+> > -void kvm_inc_notifier_count(struct kvm *kvm, unsigned long start,
+> > -				   unsigned long end);
+> > -void kvm_dec_notifier_count(struct kvm *kvm, unsigned long start,
+> > -				   unsigned long end);
+> > +void kvm_inc_notifier_count(struct kvm *kvm, gfn_t start, gfn_t end);
+> > +void kvm_dec_notifier_count(struct kvm *kvm, gfn_t start, gfn_t end);
+> >   long kvm_arch_dev_ioctl(struct file *filp,
+> >   			unsigned int ioctl, unsigned long arg);
+> > @@ -1923,9 +1921,9 @@ static inline int mmu_notifier_retry(struct kvm *kvm, unsigned long mmu_seq)
+> >   	return 0;
+> >   }
+> > -static inline int mmu_notifier_retry_hva(struct kvm *kvm,
+> > +static inline int mmu_notifier_retry_gfn(struct kvm *kvm,
+> >   					 unsigned long mmu_seq,
+> > -					 unsigned long hva)
+> > +					 gfn_t gfn)
+> >   {
+> >   	lockdep_assert_held(&kvm->mmu_lock);
+> >   	/*
+> > @@ -1935,8 +1933,8 @@ static inline int mmu_notifier_retry_hva(struct kvm *kvm,
+> >   	 * positives, due to shortcuts when handing concurrent invalidations.
+> >   	 */
+> >   	if (unlikely(kvm->mmu_notifier_count) &&
+> > -	    hva >= kvm->mmu_notifier_range_start &&
+> > -	    hva < kvm->mmu_notifier_range_end)
+> > +	    gfn >= kvm->mmu_notifier_range_start &&
+> > +	    gfn < kvm->mmu_notifier_range_end)
+> >   		return 1;
+> >   	if (kvm->mmu_notifier_seq != mmu_seq)
+> >   		return 1;
+> > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> > index da263c370d00..4d7f0e72366f 100644
+> > --- a/virt/kvm/kvm_main.c
+> > +++ b/virt/kvm/kvm_main.c
+> > @@ -536,8 +536,7 @@ static void kvm_mmu_notifier_invalidate_range(struct mmu_notifier *mn,
+> >   typedef bool (*hva_handler_t)(struct kvm *kvm, struct kvm_gfn_range *range);
+> > -typedef void (*on_lock_fn_t)(struct kvm *kvm, unsigned long start,
+> > -			     unsigned long end);
+> > +typedef void (*on_lock_fn_t)(struct kvm *kvm, gfn_t start, gfn_t end);
+> >   typedef void (*on_unlock_fn_t)(struct kvm *kvm);
+> > @@ -624,7 +623,8 @@ static __always_inline int __kvm_handle_hva_range(struct kvm *kvm,
+> >   				locked = true;
+> >   				KVM_MMU_LOCK(kvm);
+> >   				if (!IS_KVM_NULL_FN(range->on_lock))
+> > -					range->on_lock(kvm, range->start, range->end);
+> > +					range->on_lock(kvm, gfn_range.start,
+> > +							    gfn_range.end);
+> >   				if (IS_KVM_NULL_FN(range->handler))
+> >   					break;
+> >   			}
