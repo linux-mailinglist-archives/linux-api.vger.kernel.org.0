@@ -2,100 +2,85 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 07F85578649
-	for <lists+linux-api@lfdr.de>; Mon, 18 Jul 2022 17:26:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 474CF5787C0
+	for <lists+linux-api@lfdr.de>; Mon, 18 Jul 2022 18:49:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235441AbiGRP0o (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 18 Jul 2022 11:26:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40508 "EHLO
+        id S233545AbiGRQte (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 18 Jul 2022 12:49:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235406AbiGRP0m (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 18 Jul 2022 11:26:42 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4560A28E30
-        for <linux-api@vger.kernel.org>; Mon, 18 Jul 2022 08:26:39 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id g17so9328854plh.2
-        for <linux-api@vger.kernel.org>; Mon, 18 Jul 2022 08:26:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Yt9oE0kz3TmH5FGxe6pEDCKgvRvBbOAA/ay7EMCbyEc=;
-        b=Uff3ivfihawnDb3MVf5QlQ2jPMMai38C6bP4DepEErQNRp/Kc0gYVje6cUTN3mqgBa
-         8e/i6cCNzLQRIo6XA6wMXV8Z208mTTLPAFevNS72jjatByWcRHbhRuXNC/PzoiNVlj0A
-         G9sTexZ1nkBq8bHjUgqFI7BC1X8Fl1pf5ZeLZgS5QdWIqKzWIGGLSvIy/UwP2bykPTMR
-         S0KDUdaMZvJIWXXz6SkPgu1okTxSS3xRe0n7hIARn0g4omp+/4Oqj1iwRKhLmSvwxOC1
-         gHiiZYsDVdI0DS6/yoOU3d2IjW3kS0u9umKDtPmgnjR6gLoFlRAZm1r5c55NFjc5PcWF
-         DbCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Yt9oE0kz3TmH5FGxe6pEDCKgvRvBbOAA/ay7EMCbyEc=;
-        b=RimoSHr82OG4+XHe27BIOPrmLHAbmic/9BeQvvbZWsmMMqeg+YLFovZ8kPYRIKDrYF
-         m0a7MdzqiuVDxtyysBVdcEHi/+XOhbm9iavCTcXnKq1GC5ea/dxBmDg1/yzm4VdekqjZ
-         3vUK3Yu52eO97Hjd8mqHWVXYKt3MULYmO9A41v7DGeDI0+3rgCP/rFRbsfEyjwOgEf1+
-         nN1X3cRRC8TiT0N2E0h3WwoQjUp9IGPNtOASIAKGT5oKNC6a5ZcOdU/Fp9bVHoh8Bh3q
-         LHru/IPafFqy8CQfJ56KDqukdAK/RTCaGvrRsZqFDDiyVFJE/4NtfqV6PO0TNRupBVYL
-         uePg==
-X-Gm-Message-State: AJIora+ywZPx4SrIYoHqsaWtYZtp44ruVjjM59BY9E2YfzLhyn4H4LBB
-        fXmNQKPfVKIogClx8EIy/2E2qA==
-X-Google-Smtp-Source: AGRyM1vgtGvBYkyh0ni5e/mqVLrnNK1+XKLqZyiT0UcMq2k28Wiwo9nZP6ot9un6Y/cxDUraL3c4cg==
-X-Received: by 2002:a17:903:1208:b0:16b:81f6:e992 with SMTP id l8-20020a170903120800b0016b81f6e992mr29233754plh.55.1658157998529;
-        Mon, 18 Jul 2022 08:26:38 -0700 (PDT)
-Received: from google.com (123.65.230.35.bc.googleusercontent.com. [35.230.65.123])
-        by smtp.gmail.com with ESMTPSA id h14-20020a63e14e000000b004161b3c3388sm8342392pgk.26.2022.07.18.08.26.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jul 2022 08:26:38 -0700 (PDT)
-Date:   Mon, 18 Jul 2022 15:26:34 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     "Gupta, Pankaj" <pankaj.gupta@amd.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 07/14] KVM: Use gfn instead of hva for
- mmu_notifier_retry
-Message-ID: <YtV7qpYZoT6jIKHQ@google.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-8-chao.p.peng@linux.intel.com>
- <d480a850-601b-cda2-b671-04d839c98429@amd.com>
- <20220718132950.GA38104@chaop.bj.intel.com>
+        with ESMTP id S229639AbiGRQtd (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 18 Jul 2022 12:49:33 -0400
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9B8C336;
+        Mon, 18 Jul 2022 09:49:31 -0700 (PDT)
+Received: from fraeml705-chm.china.huawei.com (unknown [172.18.147.200])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LmnvT21FCz6HJbV;
+        Tue, 19 Jul 2022 00:47:49 +0800 (CST)
+Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
+ fraeml705-chm.china.huawei.com (10.206.15.54) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2375.24; Mon, 18 Jul 2022 18:49:29 +0200
+Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
+ fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2375.024;
+ Mon, 18 Jul 2022 18:49:29 +0200
+From:   Roberto Sassu <roberto.sassu@huawei.com>
+To:     Jim Baxter <jim_baxter@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>
+CC:     Rob Landley <rob@landley.net>, "hpa@zytor.com" <hpa@zytor.com>,
+        "Masahiro Yamada" <masahiroy@kernel.org>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        "Mimi Zohar" <zohar@linux.ibm.com>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "initramfs@vger.kernel.org" <initramfs@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "bug-cpio@gnu.org" <bug-cpio@gnu.org>,
+        "zohar@linux.vnet.ibm.com" <zohar@linux.vnet.ibm.com>,
+        Silviu Vlasceanu <Silviu.Vlasceanu@huawei.com>,
+        Dmitry Kasatkin <dmitry.kasatkin@huawei.com>,
+        "takondra@cisco.com" <takondra@cisco.com>,
+        "kamensky@cisco.com" <kamensky@cisco.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "james.w.mcmechan@gmail.com" <james.w.mcmechan@gmail.com>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        Dirk Behme <dirk.behme@de.bosch.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: RE: [PATCH v4 0/3] initramfs: add support for xattrs in the initial
+ ram disk
+Thread-Topic: [PATCH v4 0/3] initramfs: add support for xattrs in the initial
+ ram disk
+Thread-Index: AQHYe+tsPH1HC/8x8Uq7oovD5MPpKK1G5r2QgAG+ywCAACILEIAHUz4AgDRUxQCAACKFgA==
+Date:   Mon, 18 Jul 2022 16:49:28 +0000
+Message-ID: <f82d4961986547b28b6de066219ad08b@huawei.com>
+References: <33cfb804-6a17-39f0-92b7-01d54e9c452d@huawei.com>
+ <1561909199.3985.33.camel@linux.ibm.com>
+ <45164486-782f-a442-e442-6f56f9299c66@huawei.com>
+ <1561991485.4067.14.camel@linux.ibm.com>
+ <f85ed711-f583-51cd-34e2-80018a592280@huawei.com>
+ <0c17bf9e-9b0b-b067-cf18-24516315b682@huawei.com>
+ <20220609102627.GA3922@lxhi-065>
+ <21b3aeab20554a30b9796b82cc58e55b@huawei.com>
+ <20220610153336.GA8881@lxhi-065>
+ <4bc349a59e4042f7831b1190914851fe@huawei.com>
+ <20220615092712.GA4068@lxhi-065>
+ <032ade35-6eb8-d698-ac44-aa45d46752dd@mentor.com>
+In-Reply-To: <032ade35-6eb8-d698-ac44-aa45d46752dd@mentor.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.221.98.153]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220718132950.GA38104@chaop.bj.intel.com>
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -103,36 +88,55 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Jul 18, 2022, Chao Peng wrote:
-> On Fri, Jul 15, 2022 at 01:36:15PM +0200, Gupta, Pankaj wrote:
-> > > Currently in mmu_notifier validate path, hva range is recorded and then
-> > > checked in the mmu_notifier_retry_hva() from page fault path. However
-> > > for the to be introduced private memory, a page fault may not have a hva
-> > 
-> > As this patch appeared in v7, just wondering did you see an actual bug
-> > because of it? And not having corresponding 'hva' occurs only with private
-> > memory because its not mapped to host userspace?
-> 
-> The addressed problem is not new in this version, previous versions I
-> also had code to handle it (just in different way). But the problem is:
-> mmu_notifier/memfile_notifier may be in the progress of invalidating a
-> pfn that obtained earlier in the page fault handler, when happens, we
-> should retry the fault. In v6 I used global mmu_notifier_retry() for
-> memfile_notifier but that can block unrelated mmu_notifer invalidation
-> which has hva range specified.
-> 
-> Sean gave a comment at https://lkml.org/lkml/2022/6/17/1001 to separate
-> memfile_notifier from mmu_notifier but during the implementation I
-> realized we actually can reuse the same code for shared and private
-> memory if both using gpa range and that can simplify the code handling
-> in kvm_zap_gfn_range and some other code (e.g. we don't need two
-> versions for memfile_notifier/mmu_notifier).
-
-This should work, though I'm undecided as to whether or not it's a good idea.  KVM
-allows aliasing multiple gfns to a single hva, and so using the gfn could result
-in a much larger range being rejected given the simplistic algorithm for handling
-multiple ranges in kvm_inc_notifier_count().  But I assume such aliasing is uncommon,
-so I'm not sure it's worth optimizing for.
-
-> Adding gpa range for private memory invalidation also relieves the
-> above blocking issue between private memory page fault and mmu_notifier.
+PiBGcm9tOiBKaW0gQmF4dGVyIFttYWlsdG86amltX2JheHRlckBtZW50b3IuY29tXQ0KPiBTZW50
+OiBNb25kYXksIEp1bHkgMTgsIDIwMjIgNjozNiBQTQ0KPiBPbiAxNS8wNi8yMDIyIDEwOjI3LCBF
+dWdlbml1IFJvc2NhIHdyb3RlOg0KPiA+IEhlbGxvIFJvYmVydG8sDQo+ID4NCj4gPiBPbiBGciwg
+SnVuIDEwLCAyMDIyIGF0IDAzOjM4OjI0ICswMDAwLCBSb2JlcnRvIFNhc3N1IHdyb3RlOg0KPiA+
+PiBJIHdvdWxkIGJlIGhhcHB5IHRvIGFkZHJlc3MgdGhlIHJlbWFpbmluZyBjb25jZXJucywgb3Ig
+dGFrZSBtb3JlDQo+ID4+IHN1Z2dlc3Rpb25zLCBhbmQgdGhlbiBkZXZlbG9wIGEgbmV3IHZlcnNp
+b24gb2YgdGhlIHBhdGNoIHNldC4NCj4gPiBJIGZhY2UgYSBudW1iZXIgb2YgY29uZmxpY3RzIHdo
+ZW4gSSB0cnkgdG8gcmViYXNlIHRoZSBsYXRlc3Qgb3BlbkV1bGVyDQo+ID4gY29tbWl0cyBhZ2Fp
+bnN0IHZhbmlsbGEgbWFzdGVyICh2NS4xOS1yYzIpLiBEbyB5b3UgdGhpbmsgaXQgaXMgcG9zc2li
+bGUNCj4gPiB0byBzdWJtaXQgdGhlIHJlYmFzZWQgdmVyc2lvbiB0byBNTD8NCj4gPg0KPiA+IElu
+IGFkZGl0aW9uLCBJIGNhbiBhbHNvIHNlZSBzb21lIG9wZW4vdW5yZXNvbHZlZCBwb2ludHMgZnJv
+bSBNaW1pIFsqXS4NCj4gPiBEaWQgeW91IGJ5IGNoYW5jZSBmaW5kIHNvbWUgbXV0dWFsIGFncmVl
+bWVudCBvZmZsaW5lIG9yIGRvIHlvdSB0aGluaw0KPiA+IHRoZXkgd291bGQgc3RpbGwgcG90ZW50
+aWFsbHkgbmVlZCBzb21lIGF0dGVudGlvbj8NCj4gPg0KPiA+IE1heWJlIHdlIGNhbiByZXN1bWUg
+dGhlIGRpc2N1c3Npb24gb25jZSB5b3Ugc3VibWl0IHRoZSByZWJhc2VkIHNlcmllcz8NCj4gPg0K
+PiA+IE1hbnkgdGhhbmtzIGFuZCBsb29raW5nIGZvcndhcmQgdG8gaXQuDQo+ID4NCj4gPiBbKl0g
+UG90ZW50aWFsbHkgY29tbWVudHMgd2hpY2ggZGVzZXJ2ZSBhIHJlcGx5L2NsYXJpZmljYXRpb24v
+cmVzb2x1dGlvbg0KPiA+DQo+ID4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGttbC8xNTYxOTg1
+NjUyLjQwNDkuMjQuY2FtZWxAbGludXguaWJtLmNvbS8jdA0KPiA+IGh0dHBzOi8vbG9yZS5rZXJu
+ZWwub3JnL2xrbWwvMTU2MTkwODQ1Ni4zOTg1LjIzLmNhbWVsQGxpbnV4LmlibS5jb20vDQo+ID4N
+Cj4gPiBCUiwgRXVnZW5pdS4NCj4gPg0KPiANCj4gDQo+IEhlbGxvLA0KPiANCj4gSSBoYXZlIGJl
+ZW4gdGVzdGluZyB0aGVzZSBwYXRjaGVzIGFuZCBkbyBub3Qgc2VlIHRoZSB4YXR0ciBpbmZvcm1h
+dGlvbiB3aGVuDQo+IHRyeWluZyB0byByZXRyaWV2ZSBpdCB3aXRoaW4gdGhlIGluaXRyYW1mcywg
+ZG8geW91IGhhdmUgYW4gZXhhbXBsZSBvZiBob3cNCj4geW91IHRlc3RlZCB0aGlzIG9yaWdpbmFs
+bHk/DQoNCkhpIEppbSwgYWxsDQoNCmFwb2xvZ2llcywgSSBkaWRuJ3QgZmluZCB5ZXQgdGhlIHRp
+bWUgdG8gbG9vayBhdCB0aGlzLg0KDQpVaG0sIEkgZ3Vlc3MgdGhpcyBjb3VsZCBiZSBzb2x2ZWQg
+d2l0aDoNCg0KaHR0cHM6Ly9naXRodWIuY29tL29wZW5ldWxlci1taXJyb3Iva2VybmVsL2NvbW1p
+dC8xOGE1MDJmN2UzYjFkZTdiOWJhMGM3MDg5NmNlMDhlZTEzZDA1MmRhDQoNCmFuZCBhZGRpbmcg
+aW5pdHJhbXRtcGZzIHRvIHRoZSBrZXJuZWwgY29tbWFuZCBsaW5lLiBZb3UgYXJlDQpwcm9iYWJs
+eSB1c2luZyByYW1mcywgd2hpY2ggZG9lcyBub3QgaGF2ZSB4YXR0ciBzdXBwb3J0Lg0KDQo+IFNv
+IGZhciBJIGhhdmUgc2V0IHRoZSB4YXR0ciBpbiB0aGUgcm9vdGZzIGJlZm9yZSBjcmVhdGluZyB0
+aGUgY3BpbyBmaWxlIGxpa2UgdGhpczoNCj4gJCBzZXRmYXR0ciAtbiB1c2VyLmNvbW1lbnQgLXYg
+InRoaXMgaXMgYSBjb21tZW50IiB0ZXN0LnR4dA0KPiBJZiBJIGFjY2VzcyB0aGUgZGF0YSBoZXJl
+IGl0IHdvcmtzOg0KPiAkIGdldGZhdHRyIHRlc3QudHh0DQo+ICMgZmlsZTogdGVzdC50eHQNCj4g
+dXNlci5jb21tZW50DQo+IA0KPiANCj4gVGhlbiBJIHBhY2thZ2UgaXQgYW5kIHRyeSB0byB2ZXJp
+ZnkgaXQgd2l0aCB0aGlzIGNvbW1hbmQ6DQo+ICRnZXRmYXR0ciAvdGVzdC50eHQNCg0KSSBhc3N1
+bWUgeW91IHRyeSB0byBwYWNrL3VucGFjaywgcmlnaHQ/IElmIEkgcmVtZW1iZXIgY29ycmVjdGx5
+DQpJIG9ubHkgaW1wbGVtZW50ZWQgdGhlIHBhY2sgcGFydC4gVW5wYWNraW5nIGlzIGRvbmUgYnkg
+dGhlIGtlcm5lbA0KKGJ1dCB5b3UgYXJlIHJpZ2h0LCBpdCBzaG91bGQgYmUgZG9uZSBieSB1c2Vy
+IHNwYWNlIHRvbykuDQoNCj4gV2hpY2ggcmV0dXJucyB0byB0aGUgY29tbWFuZCBsaW5lIHdpdGhv
+dXQgdGhlIGRhdGEuDQo+IA0KPiANCj4gDQo+IEkgYmVsaWV2ZSB0aGUgY3BpbyBpcyB3b3JraW5n
+IGJlY2F1c2UgSSBzZWUgdGhlIGZpbGUgL01FVEFEQVRBXCFcIVwhIGluDQo+IHRoZSB0YXJnZXQg
+cm9vdCBmaWxlc3lzdGVtLCB3aGljaCBzaG93cyB0aGUgZm9sbG93aW5nIHdoZW4gdmlld2VkIHdp
+dGggY2F0IC1lOg0KPiAwMDAwMDAyOF5BXkF1c2VyLmNvbW1lbnReQHRoaXMgaXMgYSBjb21tZW50
+DQo+IA0KPiBUaGlzIG1hdGNoZXMgdGhlIGRhdGEgSSBmZWQgaW4gYXQgdGhlIHN0YXJ0LCBzbyBJ
+IGJlbGlldmUgdGhlIGRhdGEgaXMgYmVpbmcNCj4gdHJhbnNmZXJyZWQgY29ycmVjdGx5IGJ1dCBJ
+IGFtIGFjY2Vzc2lvbmluZyBpdCB3aXRoIHRoZSB3cm9uZyB0b29scy4NCg0KWWVzLCB4YXR0cnMg
+YXJlIG1hcnNoYWxsZWQgaW4gdGhlIE1FVEFEQVRBISEhIGZpbGUsIG9uZSBwZXIgcmVndWxhciBm
+aWxlDQp4YXR0cnMgYXJlIGFwcGxpZWQgdG8uIFhhdHRycyBhcmUgYXBwbGllZCB0byB0aGUgcHJl
+dmlvdXMgcmVndWxhciBmaWxlLg0KVGhhdCBmaWxlIG5hbWUgd2FzIHByZWZlcnJlZCB0byBhZGRp
+bmcgYSBzdWZmaXggdG8gdGhlIGZpbGUsIHRvIGF2b2lkDQpyZWFjaGluZyB0aGUgZmlsZW5hbWUg
+c2l6ZSBsaW1pdC4NCg0KUm9iZXJ0bw0K
