@@ -2,112 +2,128 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 84F3057BF24
-	for <lists+linux-api@lfdr.de>; Wed, 20 Jul 2022 22:23:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBFF957C0A2
+	for <lists+linux-api@lfdr.de>; Thu, 21 Jul 2022 01:09:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230159AbiGTUXl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 20 Jul 2022 16:23:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45808 "EHLO
+        id S230496AbiGTXJH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 20 Jul 2022 19:09:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229469AbiGTUXl (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Jul 2022 16:23:41 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 180B52E9CC;
-        Wed, 20 Jul 2022 13:23:40 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A85EA61B59;
-        Wed, 20 Jul 2022 20:23:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AE72C3411E;
-        Wed, 20 Jul 2022 20:23:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658348619;
-        bh=lW21q/FRWjWE3vtmO3DcbyopA+xnj8cd4DOAyFf9cFI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oR/7zkojZptHam4OYQI7P7DJlDQqa1dO4av9TIdH9p+bSc+42SdnW88iuyCahtEH7
-         pb5B6olrLeICizfdZrb8CPU9Ap2HwcGkVT/qGIKgcZtZja4OPRwKTiBKmRTmOsj4EV
-         9boJElTA9daYSGFLWehsII5ydSGJDxoBhwfac78Scy5LeaBvWAEpDXu6Kc0/lYq/8v
-         pR/Em443K3NvHJ1W+fMGILjCxkbCy81uYia3Q0li5RIHsCDVE1bUXaZPgO9d1DjK+H
-         dNnrdABwRJeE+jls2LZr0JBc26AMON2mSmtfrCF+SRYlDN+mZg9xwqI+ggA+D8/Bbw
-         D2M0opea0CuSw==
-Date:   Wed, 20 Jul 2022 13:23:38 -0700
-From:   "Darrick J. Wong" <djwong@kernel.org>
-To:     Jeremy Bongio <bongiojp@gmail.com>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Theodore Ts'o <tytso@mit.edu>, linux-ext4@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v4] Add ioctls to get/set the ext4 superblock uuid.
-Message-ID: <YthkSsZNA5g2Pqkn@magnolia>
-References: <20220719234131.235187-1-bongiojp@gmail.com>
- <Ytd0G0glVWdv+iaD@casper.infradead.org>
- <Ytd28d36kwdYWkVZ@magnolia>
- <YtgNCfMcuX7DGg7z@casper.infradead.org>
- <YthCucuMk/SAL0qN@mit.edu>
- <YthI9qp+VeNbFQP3@casper.infradead.org>
- <YthNrO4PMR+5ao+6@magnolia>
- <YthSysIGldWhK6f+@casper.infradead.org>
- <CANfQU3xMtYE8egLim0MS6N0SCCNX5yihQgafptop6ACrO8MGbw@mail.gmail.com>
+        with ESMTP id S231603AbiGTXIv (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Jul 2022 19:08:51 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B4EA73919
+        for <linux-api@vger.kernel.org>; Wed, 20 Jul 2022 16:08:22 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id 6so2212765pgb.13
+        for <linux-api@vger.kernel.org>; Wed, 20 Jul 2022 16:08:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Nszl3bsf2mnME2IbrRKNWdpEyNRDpL7edLFc4oh5rQk=;
+        b=FwlOpTY1Xy5ZtTxSMQshR8kwWNBaEnIm9ywPyxdMxe3T/XxFEM/rXOZ8shtzx6jRRS
+         91M8w+897Sjn6+U9yhdoQBbOHvUIZbnudqyVKqIbiFL3KIAItk6n7+SblQBLvdTN309V
+         3g30TPedV8pjIQUF/c55Q9haSHOBERI23VMmBXMMfrJh6ECBxww0/hu+TOsLKCzYQ+gw
+         GdGAnrtzEzMI3WfqML65BzsZafuMe/PQ0gjEW6sraCLwWPSVKqu83KinR/xUkg5DZP6e
+         1lFSj7wj5ru0N/Lu8b5OfGt3wIdl4NxJaMaNB7fu16Hj/vtrqiGttQ3ijzZC5VLTZ10Y
+         P4jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Nszl3bsf2mnME2IbrRKNWdpEyNRDpL7edLFc4oh5rQk=;
+        b=oAch7SrhNFQX/6hvM7ovBX6W+vmBOiFN7FB7FFW9UShil4nP3Nxey2Nwm+gPHGfbFR
+         qUXvWZHUznxqTKwqX9DhTd6lMmTffjqkriQw7MEu+5GBqtA8291zcfl+ATPs4bGQ9OFM
+         beaqSwubUxvgP0PbqIJyqG4Yv8Ma9virfXlRLBHa60810HIHDa3s2aUpxbcGAscMq5AC
+         5+VbyJMOPwqWAiBsKN1Ar7Wy7v99gBXe0/ZS5tVO24b7vICHZXDBOdBrBfN5C/qieMMA
+         vCv+6+IGb3PviV+XpQIVpr9L512xk6/+CCorInaWSbtSSTxKQ6lwke0jM+WhQ+dpg7a4
+         ze8A==
+X-Gm-Message-State: AJIora+whIgf/sp8/I2LQ2Z40pUXuyaxKbYbmm38HHfior6o+tZ2Cur8
+        oT2OLZaldyiuMTSyzCwMLWr16E1VTQSwZsLNPxFmUQ==
+X-Google-Smtp-Source: AGRyM1sVSu2sWaA6KhwjXATdLIcan8zoTwRzYetVEkO/NR0+movB4Kj6gdLqTbANspAPpdn1ss3XaAW1x7VvJRw8slU=
+X-Received: by 2002:a62:1a8b:0:b0:528:d505:1a06 with SMTP id
+ a133-20020a621a8b000000b00528d5051a06mr41267868pfa.78.1658358501699; Wed, 20
+ Jul 2022 16:08:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANfQU3xMtYE8egLim0MS6N0SCCNX5yihQgafptop6ACrO8MGbw@mail.gmail.com>
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <20220519153713.819591-7-chao.p.peng@linux.intel.com> <b3ce0855-0e4b-782a-599c-26590df948dd@amd.com>
+ <20220624090246.GA2181919@chaop.bj.intel.com> <CAGtprH82H_fjtRbL0KUxOkgOk4pgbaEbAydDYfZ0qxz41JCnAQ@mail.gmail.com>
+ <20220630222140.of4md7bufd5jv5bh@amd.com> <4fe3b47d-e94a-890a-5b87-6dfb7763bc7e@intel.com>
+ <Ysc9JDcVAnlVrGC8@google.com> <5d0b9341-78b5-0959-2517-0fb1fe83a205@intel.com>
+In-Reply-To: <5d0b9341-78b5-0959-2517-0fb1fe83a205@intel.com>
+From:   Vishal Annapurve <vannapurve@google.com>
+Date:   Wed, 20 Jul 2022 16:08:10 -0700
+Message-ID: <CAGtprH9knCr++C7jgXYCi1zfYcreip1uun-d+eucjEQy9xymNg@mail.gmail.com>
+Subject: Re: [PATCH v6 6/8] KVM: Handle page fault for private memory
+To:     Xiaoyao Li <xiaoyao.li@intel.com>
+Cc:     Sean Christopherson <seanjc@google.com>,
+        Michael Roth <michael.roth@amd.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>,
+        "Nikunj A. Dadhania" <nikunj@amd.com>,
+        kvm list <kvm@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jun Nakajima <jun.nakajima@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, mhocko@suse.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jul 20, 2022 at 01:11:25PM -0700, Jeremy Bongio wrote:
-> On Wed, Jul 20, 2022 at 12:09 PM Matthew Wilcox <willy@infradead.org> wrote:
+> > Hmm, so a new slot->arch.page_attr array shouldn't be necessary, KVM can instead
+> > update slot->arch.lpage_info on shared<->private conversions.  Detecting whether
+> > a given range is partially mapped could get nasty if KVM defers tracking to the
+> > backing store, but if KVM itself does the tracking as was previously suggested[*],
+> > then updating lpage_info should be relatively straightfoward, e.g. use
+> > xa_for_each_range() to see if a given 2mb/1gb range is completely covered (fully
+> > shared) or not covered at all (fully private).
 > >
-> > On Wed, Jul 20, 2022 at 11:47:08AM -0700, Darrick J. Wong wrote:
-> > > On Wed, Jul 20, 2022 at 07:27:02PM +0100, Matthew Wilcox wrote:
-> > > > On Wed, Jul 20, 2022 at 02:00:25PM -0400, Theodore Ts'o wrote:
-> > > > > On Wed, Jul 20, 2022 at 03:11:21PM +0100, Matthew Wilcox wrote:
-> > > > > > Uhhh.  So what are the semantics of len?  That is, on SET, what does
-> > > > > > a filesystem do if userspace says "Here's 8 bytes" but the filesystem
-> > > > > > usually uses 16 bytes?  What does the same filesystem do if userspace
-> > > > > > offers it 32 bytes?  If the answer is "returns -EINVAL", how does
-> > > > > > userspace discover what size of volume ID is acceptable to a particular
-> > > > > > filesystem?
-> > > > > >
-> > > > > > And then, on GET, does 'len' just mean "here's the length of the buffer,
-> > > > > > put however much will fit into it"?  Should filesystems update it to
-> > > > > > inform userspace how much was transferred?
-> > > > >
-> > > > > What I'd suggest is that for GET, the length field when called should
-> > > > > be the length of the buffer, and if the length is too small, we should
-> > > > > return some error --- probably EINVAL or ENOSPC.  If the buffer size
-> > > > > length is larger than what is needed, having the file system update it
-> > > > > with the size of the UUID that was returned.
-> > >
-> > > I'd suggest something different -- calling the getfsuuid ioctl with a
-> > > null argument should return the filesystem's volid/uuid size as the
-> > > return value.  If userspace supplies a non-null argument, then fsu_len
-> > > has to match the filesystem's volid/uuid size or else you get EINVAL.
-> >
-> > Or userspace passes in 0 for the len and the filesystem returns -EINVAL
-> > and sets ->len to what the valid size would be?  There's a few ways of
-> > solving this.
-> 
-> This solution seems more intuitive to me. If EXT4_IOCTL_GETFSUUID is
-> called with fsu_len set to 0, then fsu_len will be set to the required
-> UUID length and return with an error code.
+> > [*] https://lore.kernel.org/all/YofeZps9YXgtP3f1@google.com
+>
+> Yes, slot->arch.page_attr was introduced to help identify whether a page
+> is completely shared/private at given level. It seems XARRAY can serve
+> the same purpose, though I know nothing about it. Looking forward to
+> seeing the patch of using XARRAY.
+>
+> yes, update slot->arch.lpage_info is good to utilize the existing logic
+> and Isaku has applied it to slot->arch.lpage_info for 2MB support patches.
 
-Works for me!
+Chao, are you planning to implement these changes to ensure proper
+handling of hugepages partially mapped as private/shared in subsequent
+versions of this series?
+Or is this something left to be handled by the architecture specific code?
 
-> I discussed this solution when first developing the ioctl, but I left
-> it out since for ext4 I don't have a use case. However since other
-> filesystems will likely implement this ioctl, it makes sense to add.
-
-Hee hee, future thinking.  That's what a good ARB should be for <cough>.
-
-> I'll send out a new manpage with that detail added and update the code.
-
-I'll look forward to it. :)
-
---D
+Regards,
+Vishal
