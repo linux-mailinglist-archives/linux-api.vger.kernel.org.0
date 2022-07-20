@@ -2,58 +2,61 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2718A57B9B3
-	for <lists+linux-api@lfdr.de>; Wed, 20 Jul 2022 17:32:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6957957BB52
+	for <lists+linux-api@lfdr.de>; Wed, 20 Jul 2022 18:21:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236834AbiGTPcL (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 20 Jul 2022 11:32:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39370 "EHLO
+        id S233111AbiGTQVq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 20 Jul 2022 12:21:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236836AbiGTPcH (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Jul 2022 11:32:07 -0400
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2052.outbound.protection.outlook.com [40.107.244.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A02BD61DBB;
-        Wed, 20 Jul 2022 08:31:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ntNxZ9KmwDGOzZyFOUzo1EpBQe38CHJKP1LgFext6aQvFiBkf3P5z2t8SZKQbmawVfYbhYy2wz7SqtxcdbIonfIbMePGZJgihP845yq2uwu7vE6G0KcvRcQFv1L8Vus0Gd4oQHr7SwmtL7ymjvulHEXBK5cSIzMcHEGtkHtcurU20qbowiH3dfSvh8dKe/tNUQJwZGmf9sEol4os/Y7w2NAXafRxArZpdei/PmHK77wLA/7JkH12c3Wuie2b7uljNLV45yZdisf0XpLbSJc/X3x6AaRFQ+ZzQtIkqLCf5GI/mEjhMSe0lYv61qpMBToOjiU35Uv4DO7DyDp3Dxzt4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=I8pXgw62BxAIAwbrEYE97Y22msu6xhq7UAzzGX1PsXg=;
- b=Jnamp8t9ZMb8uSVdOyWB/YzpTNtT5LosQ5wLBIMc1RPktEWuV4gOHsqxNl82kqkt/LZ2U2mg2BTGWBOom3Yf39gBqQOUdYnTNjOz/WY+YiSqkDoSxnG0knqhTCQZ7JRpQDvkc0bPVgVZMgaxUsOdcMglE/21T1E/+z4x01GsJjUj0xi/P9om4KGCRvNmPN6g8CH3hDoL55rswYS6s1M4VGcx5hngxCmzkdtE+NM+QYzAyPys7DLi3DTdeU5T/7fUTVDzqLZl7ezYq4zFIngNlETd1pBKnb7flT/F/92MzSMV/mqLzT7wbm5Ulw2v6alOPhaxgwRbbNbGgZZ5lZsHGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I8pXgw62BxAIAwbrEYE97Y22msu6xhq7UAzzGX1PsXg=;
- b=afJ/mkAcEENKHjExurQ4I9eqUdS0i+KkCtD+vp7ExrLoAdNTebhiwNGcQcwosGfN1pV7wy27aW54Yww+pmtdNmoeG/I3pWNisdKWqGYWr51inGeEd12yjDwYkH3jrDhLQz+IHlYZOVJhhxVMDsOaJskWRXxbjuwRNXpO3wDf5Z0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
- (2603:10b6:910:1f::11) by MN2PR12MB3998.namprd12.prod.outlook.com
- (2603:10b6:208:16d::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.14; Wed, 20 Jul
- 2022 15:31:51 +0000
-Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
- ([fe80::1001:3c79:9504:8d6a]) by CY4PR1201MB0181.namprd12.prod.outlook.com
- ([fe80::1001:3c79:9504:8d6a%10]) with mapi id 15.20.5438.023; Wed, 20 Jul
- 2022 15:31:51 +0000
-Message-ID: <d0fd229d-afa6-c66d-3e55-09ac5877453e@amd.com>
-Date:   Wed, 20 Jul 2022 17:31:34 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
- memory regions
-Content-Language: en-US
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
+        with ESMTP id S232114AbiGTQVo (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 20 Jul 2022 12:21:44 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E58761B39
+        for <linux-api@vger.kernel.org>; Wed, 20 Jul 2022 09:21:42 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id 72so16861398pge.0
+        for <linux-api@vger.kernel.org>; Wed, 20 Jul 2022 09:21:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=f0adogo0zxbyENycGDyitWJjrMgz2USumvEVtMapSaM=;
+        b=spGLDNQ08YQPqH7UmhIpiHe2RaM2zw7ODEii6vmP7whH0yk8NhoS7QYoLrpacwnfbW
+         S3VkQABUgvOUZAhV+aAm4mnqaDYIZ6zOWmQpK2Ozj1qZ4yEP8IO8Ogxh+e38++9rhFjG
+         Gncn3BStXeB7j7O3s/y/CX20mihB4UWNCG15aOuY2njFY086JqM16L+H4BlY/AN8pWe8
+         s9ex7tY8xz16AMATUg5JkSGjI8FqtQ1JH/Ckd2eXT2/cGJ188i8q7NwsSTtTXSvKMUHc
+         Y4He+Vu/AgyMtaInE+pTo4N4Wc2xqCJOuE/medBD2cHSdxBx52LLtQTesVoUiLmIcCvV
+         AYCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=f0adogo0zxbyENycGDyitWJjrMgz2USumvEVtMapSaM=;
+        b=lspn9OyJcQlS59el4LtRlmAaQFRLGkkPn50HWA30B/7Fh7B0bOvi29x2Pvq6d8e+bu
+         uC3e814+XGfZ7FyWBjsLOMKOReKNc+3LbHlNJGlYd13NipRsmOvx8RMZYiihW1lKjYzJ
+         9XYY7pwSXAtrFBKkMzJUqvBlwQrkHYzemx55eZgAkQhHnAr7nSMXva+zGsjnJdbdKKnJ
+         1lDMbvzVILvMMKjnlcqsaz9JNqWSbxKhcbtqH5Q9Ld5T+EhV+5TWyifhfvqC9m052Cbc
+         mdoJ1CO3f3ZTk9AYdf1+1TdexIZBI/0rVMNMe1EQwV7Xr2pI4cZ2eskOqFu2vEumBMCW
+         HI1A==
+X-Gm-Message-State: AJIora+qX7rFm10uh8JlF3DaxGUeunhFAgpg8RLOYgdc2wQanXgAOmWT
+        fsy5LZQS5qW1+qdPS7NjTGrar1VSP5BQKA==
+X-Google-Smtp-Source: AGRyM1vSVUjKLbGc4Kd7xVml29j/pMq086Pfs5AgzFCjeBxpV+cVQy9BGtwT6tQB+IRvWirFlwJ5Og==
+X-Received: by 2002:a65:6bcc:0:b0:3f6:1815:f541 with SMTP id e12-20020a656bcc000000b003f61815f541mr33324434pgw.183.1658334101831;
+        Wed, 20 Jul 2022 09:21:41 -0700 (PDT)
+Received: from google.com (123.65.230.35.bc.googleusercontent.com. [35.230.65.123])
+        by smtp.gmail.com with ESMTPSA id g5-20020a63dd45000000b0041a4d5e7e5fsm3266314pgj.47.2022.07.20.09.21.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Jul 2022 09:21:41 -0700 (PDT)
+Date:   Wed, 20 Jul 2022 16:21:37 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        linux-kselftest@vger.kernel.org,
         Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
         Wanpeng Li <wanpengli@tencent.com>,
         Jim Mattson <jmattson@google.com>,
@@ -78,79 +81,24 @@ Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         Quentin Perret <qperret@google.com>,
         Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
         Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
+ memory regions
+Message-ID: <YtgrkXqP/GIi9ujZ@google.com>
 References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
  <20220706082016.2603916-12-chao.p.peng@linux.intel.com>
  <f02baa37-8d34-5d07-a0ae-300ffefc7fee@amd.com>
  <20220719140843.GA84779@chaop.bj.intel.com>
  <36e671d2-6b95-8e4f-c2ac-fee4b2670c6e@amd.com>
  <20220720150706.GB124133@chaop.bj.intel.com>
-From:   "Gupta, Pankaj" <pankaj.gupta@amd.com>
-In-Reply-To: <20220720150706.GB124133@chaop.bj.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS8PR04CA0140.eurprd04.prod.outlook.com
- (2603:10a6:20b:127::25) To CY4PR1201MB0181.namprd12.prod.outlook.com
- (2603:10b6:910:1f::11)
+ <d0fd229d-afa6-c66d-3e55-09ac5877453e@amd.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 75962c63-7ae6-4e91-704b-08da6a64f763
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3998:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: q/kbsMs1T0nfLKg/Sp4Q06kzwPXO8WR7RHeqONNmzln9heXT5t0tUwdyMI3K7HmzX1gYAWGecAvITErxnLFt6cUDG0KMoJgewDs25sJN3nY46fC0Cnyajpn7rhgX7iAtHq3nmOtaXO0NwpjPqftfoimFMG7erxRDZNYQA7mDa2jMJqH1DXXmiTF9eTKoqoPuqqGlcx/VxN5MMdSp35bux2UmRqlY8CyFh34W3Afhy8Fx7eGOG0sZPZ7nA9LX3UC0/eYws8vSyJ/C5lr+5j3vKyBcSZLTAsR3wgXvh58fW7PNk0o6jFE3zjgPaUpV5IAhQLHZUV7AgWX17snGdDYD+tjfBmLPpZfamXc4vIp0aFooaMT28kPJvczLo0TrJqEFnWDqusUedJL6GWZA4aZL++7Efd+q7RCXWVnmEc9v1bUjGi5E2lXwfsKxLXLW2lXi/ZYfdX0fYXfRVaGGgYeDTyJsb/Ho+DOnM5U+rChYpDnl69+Fomcvf9wXz7HyrpltgNoDMdGpseztuiOmY83Lo2aYN36fX7CWfTkeZhfXVR2SMY9joP7RdafCDC/St2wCHIMlFG8LE4/0LK/E+snl8Ssyt35L2xLoiJY11+PBLQTtNvubIQCFNglCcVr5mFLWEOpTe9rrvk8o6iqCVNDtwLR8Ym/pV+5xdNSiS1wOTPSBpYSagY3ql29oyA2fn2ZObLUfnhTi617VU8n8RysuWQplE4AoSsZtxjV7CwvHieBM4j52XsuTaPjXKaDAKy5Wek4qj7NqpY8OjvM3GgNNwtvj53CUH1Tms8M8n+GKGYmrlxpi87jx0Vlm7Q082AK4ZpaIREW1RuWyvbOlvBzJhA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR1201MB0181.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(136003)(376002)(346002)(39860400002)(366004)(316002)(54906003)(66476007)(6916009)(66946007)(66556008)(86362001)(186003)(8676002)(5660300002)(4326008)(7416002)(31696002)(7406005)(8936002)(6512007)(38100700002)(6486002)(26005)(2616005)(2906002)(31686004)(36756003)(6666004)(478600001)(41300700001)(6506007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cmJya1VmeE5OWS93NHBXT2xkMk4zWS9hODV4YUpBTFd1ZERoelRIYUNtQ0FU?=
- =?utf-8?B?ZHBPUG5SdFpaakVRSFhFTytSUU5pbDI5ak5wcVhaRWJGQmNmaE14OTFSOVdz?=
- =?utf-8?B?TjNZbjRkeDQ1dnBpQnJ2by9Jb2RNTVk3bGwweWppRnhTdzBvazdGTEoxNGFN?=
- =?utf-8?B?N3Zua2lWUW9KMUNmbzdCMzNGOWJiT2JoVERDYXhjVlRwbVNGakwwRXMwYVlW?=
- =?utf-8?B?bWU1U1BDWThsQTBUVnRKUFdwQ2hONDVDNjhNRHo5YlZIa2QyU1kvcm5YelFL?=
- =?utf-8?B?bFhJNTI5UDBiYlFwL3dGQWFoWEd2eHJMZ25xVU5OOUhYbndHS2hWQjlSTjZr?=
- =?utf-8?B?SjIrak1FZmtXaCtSV1ZTSXVnZU9VdDJjQjJUU3pYRStiOFIrRVdZYlFOc01K?=
- =?utf-8?B?bHQ2SXQ5dE1sQUVsRUxtWFUyUnNVbWdUdmxwN3Fyb1dBOXJPS1IvZnRuY09j?=
- =?utf-8?B?UE5wWERCMk8yV3QrT1ZmRzlqS2lNNE1FZ3lDRmV0RzJIdDFzbElqaTJmd1cw?=
- =?utf-8?B?d1k2T29YUFdvTkJYRXBiYUloSytOZ1E2YzRGVmZVK3A0RVZrTEo2VTdZcEVZ?=
- =?utf-8?B?OU9VZUJNT1VzQ2ppQTF3cTBTeG9jeUJoVzFrdno3RndwTHdXZVZZcUlPN1ZU?=
- =?utf-8?B?NS8xYnVzdEhUZytwMkdIcHE3UC90Mk1ObjhZVWtlTUtlYWM2enBZYWlzRDZt?=
- =?utf-8?B?OWVxdHVpZkxreWlsamFIMCs3b2MvVUdWTks0Y3hGZmliVm1tYzZwM0M2WU1N?=
- =?utf-8?B?dnF3MUVFN0QrdEZkdTVtVy9tNjFtVlVhanlSOGhFY1Y0bzBGTVZ0Z0FLL1BF?=
- =?utf-8?B?WnlTaGhHSEErcGV0SFgxNzVwdzBXYWpLaklhUGFEVEVPRDZvcnJ1alVmUUVs?=
- =?utf-8?B?R1JHSmEyaUVuT1FYaGk1WHY5b0o3WE5iczNxdGsxdFEzakcwUEx0Sko3cTB2?=
- =?utf-8?B?K3VFRXJiS2VQa3U4YlNlQU11dkUzZkdxZ1dQalloQWZtWkhZUmpKRVFjU3NW?=
- =?utf-8?B?VTRGdktFU2Y0MlVFUStPVlFlQy9yRTFWblFyNnZsM2ZIdmlxMWR0UlR1THZH?=
- =?utf-8?B?a3BKdjUvSjRkS2Vld3k4Z1VZaXY5YlhkM3ozTTZHQnFiWkdEazU3TmM3RVNN?=
- =?utf-8?B?R20wMGxvZVd2V2h2ZWRRYjlDdjRPNWF2UTk4YjVRK2hOZW90b0cxRkVlUG9v?=
- =?utf-8?B?M05HMTNxam5PYlJNQjBoSUo1Njkrend5bGUreUdNMVRKSFM3bEN2dE9BZEVQ?=
- =?utf-8?B?OXlJQkNqajE4ZVFBYXdydVB6Vmw0SkRDZWE1aG5XWG5sbWhGZDQyU3F4MmFF?=
- =?utf-8?B?bzE2RFF4VXZjZCtaNlgxMlRjSW5FbFN6bFk3QmFWSEp3UzVYNi9hNHQ4TzZy?=
- =?utf-8?B?SnA1Qi9wMWxDT0pmbXdrK3dHcVQreERSeGl6TWg4T2tlM3lyUkdPSjNlb1Jr?=
- =?utf-8?B?N0JWcVc3ejRBdjN2Yyt5cld5ZnhxZzBMWGh2eUJ4Y1JEdXJ6YklSbDBoK3do?=
- =?utf-8?B?OGV1YjAzVkRibHE3djJhVVJNWTFlSHYweFBKdWhVRVhEL0tyME1mUG10Vklo?=
- =?utf-8?B?QmdKZXpiSXMzdGgySEk2bHcvUk16aSsxM3FDRCtOU1laRk1KZW1VYTVjd2Ez?=
- =?utf-8?B?WkJBcUFBY3lIenQ2NDVib2NLUkE5d1pHVzZnVm9pTzNRdFNKcjV0V0IzVVhU?=
- =?utf-8?B?U3p5UWxaZnlnR3ZEazQyVytYUG15YjZMcklIcXQ0YnJUT3NPQlY3WGd3ejZ3?=
- =?utf-8?B?TEdFMmo4TWJpOWhEcXFSdnlpV0hYb2gxNDVKQnAvU0hGTjQvNHViTVhYQXlT?=
- =?utf-8?B?YS91UDB4VWxHdzUwTEl3dnZCakloWDdoaGF0anEvUmZIQkVRd0orOFk5TXJ2?=
- =?utf-8?B?YjFNbWtRVmNTRWhXakJlSjVqQy9tWUxJaFVld0hqb3RFYVhyWG84aklCWE54?=
- =?utf-8?B?TG5rczRSZm45MC9jREpKc1lRdnZJTHRVT0xtQXBOaDNlWnRGQUp0aGU3S0px?=
- =?utf-8?B?TUtYU3M0a2tGVUxaOXZmejRScWZYZDNUVnB1M3QvUVMyQ2FCQnRZUW52Ukc1?=
- =?utf-8?B?L2RJYlpyd0F3UVoxNVl0djZDWUdqc01JYmpod1BTZFZBQlJ2d3RzVTRjR2RG?=
- =?utf-8?Q?nGatqrFbk3ZMJUWdQLNUUYIY5?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75962c63-7ae6-4e91-704b-08da6a64f763
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR1201MB0181.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2022 15:31:50.9859
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gv/YljjgkS8mtRrJbAASo80kTBH+j1nUXWWwtGyUWcr5UNs8rBKUXKunIkUgWPE7OATmANQceJBiN78kuJhBSA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3998
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d0fd229d-afa6-c66d-3e55-09ac5877453e@amd.com>
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -158,57 +106,88 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-
->>>>> +bool __weak kvm_arch_private_mem_supported(struct kvm *kvm)
->>>>> +{
->>>>> +	return false;
->>>>> +}
->>>>
->>>> Does this function has to be overriden by SEV and TDX to support the private
->>>> regions?
->>>
->>> Yes it should be overridden by architectures which want to support it.
->>
->> o.k
->>>
->>>>
->>>>> +
->>>>>     static int check_memory_region_flags(const struct kvm_user_mem_region *mem)
->>>>>     {
->>>>>     	u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
->>>>> @@ -4689,6 +4729,22 @@ static long kvm_vm_ioctl(struct file *filp,
->>>>>     		r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
->>>>>     		break;
->>>>>     	}
->>>>> +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
->>>>> +	case KVM_MEMORY_ENCRYPT_REG_REGION:
->>>>> +	case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
->>>>> +		struct kvm_enc_region region;
->>>>> +
->>>>> +		if (!kvm_arch_private_mem_supported(kvm))
->>>>> +			goto arch_vm_ioctl;
->>>>> +
->>>>> +		r = -EFAULT;
->>>>> +		if (copy_from_user(&region, argp, sizeof(region)))
->>>>> +			goto out;
->>>>> +
->>>>> +		r = kvm_vm_ioctl_set_encrypted_region(kvm, ioctl, &region);
->>>>
->>>> this is to store private region metadata not only the encrypted region?
->>>
->>> Correct.
->>
->> Sorry for not being clear, was suggesting name change of this function from:
->> "kvm_vm_ioctl_set_encrypted_region" to "kvm_vm_ioctl_set_private_region"
+On Wed, Jul 20, 2022, Gupta, Pankaj wrote:
 > 
-> Though I don't have strong reason to change it, I'm fine with this and
+> > > > > > +bool __weak kvm_arch_private_mem_supported(struct kvm *kvm)
 
-Yes, no strong reason, just thought "kvm_vm_ioctl_set_private_region" 
-would depict the actual functionality :)
+Use kvm_arch_has_private_mem(), both because "has" makes it obvious this is checking
+a flag of sorts, and to align with other helpers of this nature (and with
+CONFIG_HAVE_KVM_PRIVATE_MEM).
 
-> this name matches the above kvm_arch_private_mem_supported perfectly.
-BTW could not understand this, how "kvm_vm_ioctl_set_encrypted_region"
-matches "kvm_arch_private_mem_supported"?
+  $ git grep kvm_arch | grep supported | wc -l
+  0
+  $ git grep kvm_arch | grep has | wc -l
+  26
 
-Thanks,
-Pankaj
+> > > > > > +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
+> > > > > > +	case KVM_MEMORY_ENCRYPT_REG_REGION:
+> > > > > > +	case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
+> > > > > > +		struct kvm_enc_region region;
+> > > > > > +
+> > > > > > +		if (!kvm_arch_private_mem_supported(kvm))
+> > > > > > +			goto arch_vm_ioctl;
+> > > > > > +
+> > > > > > +		r = -EFAULT;
+> > > > > > +		if (copy_from_user(&region, argp, sizeof(region)))
+> > > > > > +			goto out;
+> > > > > > +
+> > > > > > +		r = kvm_vm_ioctl_set_encrypted_region(kvm, ioctl, &region);
+> > > > > 
+> > > > > this is to store private region metadata not only the encrypted region?
+> > > > 
+> > > > Correct.
+> > > 
+> > > Sorry for not being clear, was suggesting name change of this function from:
+> > > "kvm_vm_ioctl_set_encrypted_region" to "kvm_vm_ioctl_set_private_region"
+> > 
+> > Though I don't have strong reason to change it, I'm fine with this and
+> 
+> Yes, no strong reason, just thought "kvm_vm_ioctl_set_private_region" would
+> depict the actual functionality :)
+> 
+> > this name matches the above kvm_arch_private_mem_supported perfectly.
+> BTW could not understand this, how "kvm_vm_ioctl_set_encrypted_region"
+> matches "kvm_arch_private_mem_supported"?
+
+Chao is saying that kvm_vm_ioctl_set_private_region() pairs nicely with
+kvm_arch_private_mem_supported(), not that the "encrypted" variant pairs nicely.
+
+I also like using "private" instead of "encrypted", though we should probably
+find a different verb than "set", because calling "set_private" when making the
+region shared is confusing.  I'm struggling to come up with a good alternative
+though.
+
+kvm_vm_ioctl_set_memory_region() is already taken by KVM_SET_USER_MEMORY_REGION,
+and that also means that anything with "memory_region" in the name is bound to be
+confusing.
+
+Hmm, and if we move away from "encrypted", it probably makes sense to pass in
+addr+size instead of a kvm_enc_region.
+
+Maybe this?
+
+static int kvm_vm_ioctl_set_or_clear_mem_private(struct kvm *kvm, gpa_t gpa,
+					         gpa_t size, bool set_private)
+
+and then:
+
+#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
+	case KVM_MEMORY_ENCRYPT_REG_REGION:
+	case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
+		bool set = ioctl == KVM_MEMORY_ENCRYPT_REG_REGION;
+		struct kvm_enc_region region;
+
+		if (!kvm_arch_private_mem_supported(kvm))
+			goto arch_vm_ioctl;
+
+		r = -EFAULT;
+		if (copy_from_user(&region, argp, sizeof(region)))
+			goto out;
+
+		r = kvm_vm_ioctl_set_or_clear_mem_private(kvm, region.addr,
+							  region.size, set);
+		break;
+	}
+#endif
+
+I don't love it, so if someone has a better idea...
