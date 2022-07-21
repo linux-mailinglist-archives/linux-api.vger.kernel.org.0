@@ -2,319 +2,130 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE14757D148
-	for <lists+linux-api@lfdr.de>; Thu, 21 Jul 2022 18:18:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B946457D2B5
+	for <lists+linux-api@lfdr.de>; Thu, 21 Jul 2022 19:46:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233634AbiGUQSP (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 21 Jul 2022 12:18:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43200 "EHLO
+        id S229607AbiGURqK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 21 Jul 2022 13:46:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233925AbiGUQR0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Jul 2022 12:17:26 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A97641EAD0;
-        Thu, 21 Jul 2022 09:17:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=WgzZa30sO+MTxtlA0G94jkaG79sJrQmGOgNm2L7+a4M=; b=G488QPpAKdPaCXlw2obmqR+nGs
-        NvfabYxXM4ZkKo3kBSH7a3JJkXYXPjgnhNjKd437BaEQyUCAk1bv03U85k5IfLYHa0EXI9/SVHf7v
-        K8ro5wxfUW2Y/af4rDz2ZHi0FFX0T1AR5XIlDW1ah6XTivivF13xRtxT7vjayOSrJqVxZ0GAe6NLa
-        aOQJ6zEdMveM7HszD2oeCnlbRzs5skq32IgThd9aOjhbqlr63J7ENEZ0spLU70yDsA5m+eukzPg3d
-        r7GgRmIXtid+rjtKILjEdgGEJk7xPw5AGJi0lmsDJysRBpwQY8rKgR8hJWoqfwgcB7CuYdGIvq3qb
-        wTqy5grw==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oEYr1-009my1-T0; Thu, 21 Jul 2022 16:16:47 +0000
-Date:   Thu, 21 Jul 2022 09:16:47 -0700
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Zhang Yuchen <zhangyuchen.lcr@bytedance.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
+        with ESMTP id S229606AbiGURqJ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Jul 2022 13:46:09 -0400
+Received: from out01.mta.xmission.com (out01.mta.xmission.com [166.70.13.231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81BED33A26;
+        Thu, 21 Jul 2022 10:46:08 -0700 (PDT)
+Received: from in01.mta.xmission.com ([166.70.13.51]:44794)
+        by out01.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1oEaFT-00EnHe-8s; Thu, 21 Jul 2022 11:46:07 -0600
+Received: from ip68-227-174-4.om.om.cox.net ([68.227.174.4]:37930 helo=email.froward.int.ebiederm.org.xmission.com)
+        by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1oEaFS-00CknM-Ap; Thu, 21 Jul 2022 11:46:06 -0600
+From:   "Eric W. Biederman" <ebiederm@xmission.com>
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Zhang Yuchen <zhangyuchen.lcr@bytedance.com>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         David Howells <dhowells@redhat.com>,
         Deepa Dinamani <deepa.kernel@gmail.com>,
         Christoph Hellwig <hch@lst.de>,
         Muchun Song <songmuchun@bytedance.com>,
-        linux-api@vger.kernel.org
-Cc:     keescook@chromium.org, yzaikin@google.com,
-        songmuchun@bytedance.com, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, keescook@chromium.org,
+        yzaikin@google.com, linux-kernel@vger.kernel.org,
         linux-fsdevel@vger.kernel.org
-Subject: Re: [RFC] proc: fix create timestamp of files in proc
-Message-ID: <Ytl772fRS74eIneC@bombadil.infradead.org>
 References: <20220721081617.36103-1-zhangyuchen.lcr@bytedance.com>
+        <Ytl772fRS74eIneC@bombadil.infradead.org>
+Date:   Thu, 21 Jul 2022 12:45:42 -0500
+In-Reply-To: <Ytl772fRS74eIneC@bombadil.infradead.org> (Luis Chamberlain's
+        message of "Thu, 21 Jul 2022 09:16:47 -0700")
+Message-ID: <87wnc6nyux.fsf@email.froward.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220721081617.36103-1-zhangyuchen.lcr@bytedance.com>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-XM-SPF: eid=1oEaFS-00CknM-Ap;;;mid=<87wnc6nyux.fsf@email.froward.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.174.4;;;frm=ebiederm@xmission.com;;;spf=softfail
+X-XM-AID: U2FsdGVkX19PVm7taLEyMu/qVXZ+V45ZQOvYPYkE79c=
+X-SA-Exim-Connect-IP: 68.227.174.4
+X-SA-Exim-Mail-From: ebiederm@xmission.com
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: *;Luis Chamberlain <mcgrof@kernel.org>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 405 ms - load_scoreonly_sql: 0.05 (0.0%),
+        signal_user_changed: 10 (2.4%), b_tie_ro: 9 (2.1%), parse: 0.84 (0.2%),
+         extract_message_metadata: 3.5 (0.9%), get_uri_detail_list: 1.46
+        (0.4%), tests_pri_-1000: 3.5 (0.9%), tests_pri_-950: 1.17 (0.3%),
+        tests_pri_-900: 0.91 (0.2%), tests_pri_-90: 89 (22.1%), check_bayes:
+        88 (21.7%), b_tokenize: 6 (1.6%), b_tok_get_all: 8 (1.9%),
+        b_comp_prob: 2.5 (0.6%), b_tok_touch_all: 68 (16.7%), b_finish: 0.92
+        (0.2%), tests_pri_0: 279 (69.0%), check_dkim_signature: 0.48 (0.1%),
+        check_dkim_adsp: 2.8 (0.7%), poll_dns_idle: 0.97 (0.2%), tests_pri_10:
+        1.96 (0.5%), tests_pri_500: 6 (1.6%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [RFC] proc: fix create timestamp of files in proc
+X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Jul 21, 2022 at 04:16:17PM +0800, Zhang Yuchen wrote:
-> A user has reported a problem that the /proc/{pid} directory
-> creation timestamp is incorrect.
+Luis Chamberlain <mcgrof@kernel.org> writes:
 
-The directory?
-
-> He believes that the directory was created when the process was
-> started, so the timestamp of the directory creation should also
-> be when the process was created.
-
-A quick glance at Documentation/filesystems/proc.rst reveals there
-is documentation that the process creation time is the start_time in
-the stat file for the pid. It makes absolutely no mention of the
-directory creation time.
-
-The directory creation time has been the way it is since linux history [0]
-commit fdb2f0a59a1c7 ("[PATCH] Linux-0.97.3 (September 5, 1992)) and so this
-has been the way .. since the beginning.
-
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/
-
-The last change was by Deepa to correct y2038 considerations through
-commit 078cd8279e659 ("fs: Replace CURRENT_TIME with current_time() for
-inode timestamps").
-
-Next time you try to report something like this please be very sure
-to learn to use git blame, and then git blame foo.c <commit-id>~1 and
-keep doing this until you get to the root commit, this will let you
-determine *how long has this been this way*. When you run into a
-commit history which lands to the first git commit on linux you can
-use the above linux history.git to go back further as I did.
-
-> The file timestamp in procfs is the timestamp when the inode was
-> created. If the inode of a file in procfs is reclaimed, the inode
-> will be recreated when it is opened again, and the timestamp will
-> be changed to the time when it was recreated.
-
-The commit log above starts off with a report of the directory
-of a PID. When does the directory of a PID change dates when its
-respective start_time does not? When does this reclaim happen exactly?
-Under what situation?
-
-And if that is not happening, can you name *one* file in a process
-directory under proc which does get reclaimed for, for which this
-does happen?
-
-> In other file systems, this timestamp is typically recorded in
-> the file system and assigned to the inode when the inode is created.
-
-I don't understand, which files are we reclaiming in procfs which
-get re-recreated which your *user* is having issues with? What did
-they report exactly, I'm *super* curious what your user reported
-exactly. Do you have a bug report somewhere? Or any information
-about its bug report. Can you pass it on to Muchun for peer review?
-What file were they monitoring and what tool were they using which
-made them realize there was a sort of issue?
-
-> This mechanism can be confusing to users who are not familiar with it.
-
-Why are they monitoring it? Why would a *new* inode having a different
-timestamp be an issue as per existing documentation?
-
-> For users who know this mechanism, they will choose not to trust this time.
-> So the timestamp now has no meaning other than to confuse the user.
-
-That is unfair given this is the first *user* to report confusion since
-the inception of Linux, don't you think?
-
-> It needs fixing.
-
-A fix is for when there is an issue. You are not reporting a bug or an
-issue, but you seem to be reporting something a confused user sees and
-perhaps lack of documentation for something which is not even tracked
-or cared for. This is the way things have been done since the beginning.
-It doesn't mean things can't change, but there needs to be a good reason.
-
-The terminology of "fix" implies something is broken. The only thing
-seriouly broken here is this patch you are suggesting and the mechanism
-which is enabling you to send patches for what you think are issues and
-seriously wasting people's time. That seriously needs to be fixed.
-
-> There are three solutions. We don't have to make the timestamp
-> meaningful, as long as the user doesn't trust the timestamp.
-> 
-> 1. Add to the kernel documentation that the timestamp in PROC is
->    not reliable and do not use this timestamp.
->    The problem with this solution is that most users don't read
->    the kernel documentation and it can still be misleading.
-> 
-> 2. Fix it, change the timestamp of /proc/pid to the timestamp of
->    process creation.
-> 
->    This raises new questions.
-> 
->    a. Users don't know which kernel version is correct.
-> 
->    b. This problem exists not only in the pid directory, but also
->       in other directories under procfs. It would take a lot of
->       extra work to fix them all. There are also easier ways for
->       users to get the creation time information better than this.
-> 
->    c. We need to describe the specific meaning of each file under
->       proc in the kernel documentation for the creation time.
->       Because the creation time of various directories has different
->       meanings. For example, PID directory is the process creation
->       time, FD directory is the FD creation time and so on.
-> 
->    d. Some files have no associated entity, such as iomem.
->       Unable to give a meaningful time.
-> 
-> 3. Instead of fixing it, set the timestamp in all procfs to 0.
->    Users will see it as an error and will not use it.
-> 
-> I think 3 is better. Any other suggestions?
+> On Thu, Jul 21, 2022 at 04:16:17PM +0800, Zhang Yuchen wrote:
+>> A user has reported a problem that the /proc/{pid} directory
+>> creation timestamp is incorrect.
 >
-> Signed-off-by: Zhang Yuchen <zhangyuchen.lcr@bytedance.com>
+> The directory?
 
-The logic behind this patch is way off track, a little effort
-alone should have made you reach similar conflusions as I have.
-Your patch does your suggested step 3), so no way! What you are
-proposing can potentially break things! Have you put some effort
-into evaluating the negative possible impacts of your patch? If
-not, can you do that now?  Did you even *boot* test your patch?
+A bit of history that I don't think made it to the git log is that
+procps uses the /proc/<pid> directory, to discover the uid and gid of the
+process.
 
-It makes all of the proc files go dated back to Jan 1 1970.
+I have memories of Albert Cahalan reporting regressions because I
+had tweaked the attributes of proc in ways that I expected no
+one would care about and caused a regression in procps.
 
-How can this RFC in any way shape or form have been sent with
-a serious intent?
+So it is not unreasonable for people to have used proc in surprising
+ways.
 
-Sadly the lack of any serious consideration of the past and then
-for you to easily suggest to make a new change which could easily
-break existing users makes me needing to ask you to please have
-one of your peers at bytedance.com such as Muchun Song to please
-review your patches prior to you posting them, because otherwise
-this is creating noise and quite frankly make me wonder if you
-are intentially trying to break things.
+I took a quick read through procps and it looks like procps reads
+/proc/<pid>/stat to get the start_time of the process.
 
-Muchun Song, sorry but can you please help here ensure that your
-peers don't post this level of quality of patches again? It would be
-seriously appreciated.
 
-Users exist for years without issue and now you want to change things
-for a user which finds something done which is not documented and want
-to purposely *really* change things for *everyone* to ways which have
-0 compatibility with what users may have been expecting before.
+Which leads us to this quality of implementation issue that the time
+on the inode of a proc directory is the first time that someone read
+the directory and observed the file.  Which does not need to be anything
+at all related to the start time.
 
-How can you conclude this?
+I think except for the symlinks and files under /proc/pid/fd and
+/proc/pid/fdinfo there is a very good case for making all of the files
+/proc/pid have a creation time of equal to the creation of the process
+in question.  Although the files under /proc/pid/task/ need to have
+a time equal to the creation time of the thread in question.
 
-This suggested patch is quite alarming.
+Improving the quality of implementation requires caring enough to make
+that change, and right now I don't.
 
-  Luis
+At the same time I would say the suggested patch is a bad idea.
+Any application that breaks because we hard set the timestamp on a proc
+file or directory to the beginning of time is automatically counts as a
+regression.
 
-Below is just nonsense.
+Since the entire point of the patch is to break applications that are
+doing things wrong, aka cause regressions I don't think the patch
+make sense.
 
-> ---
->  fs/proc/base.c        | 4 +++-
->  fs/proc/inode.c       | 3 ++-
->  fs/proc/proc_sysctl.c | 3 ++-
->  fs/proc/self.c        | 3 ++-
->  fs/proc/thread_self.c | 3 ++-
->  5 files changed, 11 insertions(+), 5 deletions(-)
-> 
-> diff --git a/fs/proc/base.c b/fs/proc/base.c
-> index 0b72a6d8aac3..af440ef13091 100644
-> --- a/fs/proc/base.c
-> +++ b/fs/proc/base.c
-> @@ -1892,6 +1892,8 @@ struct inode *proc_pid_make_inode(struct super_block *sb,
->  	struct proc_inode *ei;
->  	struct pid *pid;
->  
-> +	struct timespec64 ts_zero = {0, 0};
-> +
->  	/* We need a new inode */
->  
->  	inode = new_inode(sb);
-> @@ -1902,7 +1904,7 @@ struct inode *proc_pid_make_inode(struct super_block *sb,
->  	ei = PROC_I(inode);
->  	inode->i_mode = mode;
->  	inode->i_ino = get_next_ino();
-> -	inode->i_mtime = inode->i_atime = inode->i_ctime = current_time(inode);
-> +	inode->i_mtime = inode->i_atime = inode->i_ctime = ts_zero;
->  	inode->i_op = &proc_def_inode_operations;
->  
->  	/*
-> diff --git a/fs/proc/inode.c b/fs/proc/inode.c
-> index fd40d60169b5..efb1c935fa8d 100644
-> --- a/fs/proc/inode.c
-> +++ b/fs/proc/inode.c
-> @@ -642,6 +642,7 @@ const struct inode_operations proc_link_inode_operations = {
->  struct inode *proc_get_inode(struct super_block *sb, struct proc_dir_entry *de)
->  {
->  	struct inode *inode = new_inode(sb);
-> +	struct timespec64 ts_zero = {0, 0};
->  
->  	if (!inode) {
->  		pde_put(de);
-> @@ -650,7 +651,7 @@ struct inode *proc_get_inode(struct super_block *sb, struct proc_dir_entry *de)
->  
->  	inode->i_private = de->data;
->  	inode->i_ino = de->low_ino;
-> -	inode->i_mtime = inode->i_atime = inode->i_ctime = current_time(inode);
-> +	inode->i_mtime = inode->i_atime = inode->i_ctime = ts_zero;
->  	PROC_I(inode)->pde = de;
->  	if (is_empty_pde(de)) {
->  		make_empty_dir_inode(inode);
-> diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
-> index 021e83fe831f..c670f9d3b871 100644
-> --- a/fs/proc/proc_sysctl.c
-> +++ b/fs/proc/proc_sysctl.c
-> @@ -455,6 +455,7 @@ static struct inode *proc_sys_make_inode(struct super_block *sb,
->  	struct ctl_table_root *root = head->root;
->  	struct inode *inode;
->  	struct proc_inode *ei;
-> +	struct timespec64 ts_zero = {0, 0};
->  
->  	inode = new_inode(sb);
->  	if (!inode)
-> @@ -476,7 +477,7 @@ static struct inode *proc_sys_make_inode(struct super_block *sb,
->  	head->count++;
->  	spin_unlock(&sysctl_lock);
->  
-> -	inode->i_mtime = inode->i_atime = inode->i_ctime = current_time(inode);
-> +	inode->i_mtime = inode->i_atime = inode->i_ctime = ts_zero;
->  	inode->i_mode = table->mode;
->  	if (!S_ISDIR(table->mode)) {
->  		inode->i_mode |= S_IFREG;
-> diff --git a/fs/proc/self.c b/fs/proc/self.c
-> index 72cd69bcaf4a..b9e572fdc27c 100644
-> --- a/fs/proc/self.c
-> +++ b/fs/proc/self.c
-> @@ -44,9 +44,10 @@ int proc_setup_self(struct super_block *s)
->  	self = d_alloc_name(s->s_root, "self");
->  	if (self) {
->  		struct inode *inode = new_inode(s);
-> +		struct timespec64 ts_zero = {0, 0};
->  		if (inode) {
->  			inode->i_ino = self_inum;
-> -			inode->i_mtime = inode->i_atime = inode->i_ctime = current_time(inode);
-> +			inode->i_mtime = inode->i_atime = inode->i_ctime = ts_zero;
->  			inode->i_mode = S_IFLNK | S_IRWXUGO;
->  			inode->i_uid = GLOBAL_ROOT_UID;
->  			inode->i_gid = GLOBAL_ROOT_GID;
-> diff --git a/fs/proc/thread_self.c b/fs/proc/thread_self.c
-> index a553273fbd41..964966387da2 100644
-> --- a/fs/proc/thread_self.c
-> +++ b/fs/proc/thread_self.c
-> @@ -44,9 +44,10 @@ int proc_setup_thread_self(struct super_block *s)
->  	thread_self = d_alloc_name(s->s_root, "thread-self");
->  	if (thread_self) {
->  		struct inode *inode = new_inode(s);
-> +		struct timespec64 ts_zero = {0, 0};
->  		if (inode) {
->  			inode->i_ino = thread_self_inum;
-> -			inode->i_mtime = inode->i_atime = inode->i_ctime = current_time(inode);
-> +			inode->i_mtime = inode->i_atime = inode->i_ctime = ts_zero;
->  			inode->i_mode = S_IFLNK | S_IRWXUGO;
->  			inode->i_uid = GLOBAL_ROOT_UID;
->  			inode->i_gid = GLOBAL_ROOT_GID;
-> -- 
-> 2.30.2
-> 
+So I would vote for understanding what the problem user is doing.  Then
+either proc can be improved to better support users, or we can do
+nothing.
+
+Except for explaining the history and how people have legitimately used
+implementation details of proc before, I am not really interested.  But
+I do think we can do better.
+
+Eric
+
