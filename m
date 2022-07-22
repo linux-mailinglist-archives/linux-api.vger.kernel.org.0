@@ -2,172 +2,183 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA3CD57E46C
-	for <lists+linux-api@lfdr.de>; Fri, 22 Jul 2022 18:32:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABBF657E49A
+	for <lists+linux-api@lfdr.de>; Fri, 22 Jul 2022 18:42:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235661AbiGVQcX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 22 Jul 2022 12:32:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60508 "EHLO
+        id S231178AbiGVQmo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 22 Jul 2022 12:42:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235296AbiGVQcX (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 22 Jul 2022 12:32:23 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAB9893639;
-        Fri, 22 Jul 2022 09:32:21 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A82FBB82970;
-        Fri, 22 Jul 2022 16:32:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59770C341C6;
-        Fri, 22 Jul 2022 16:32:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658507539;
-        bh=9kjRTVDxL24Wa+68T4xaPpTYLmzvbSMN20xX2dxrB8g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=icBna0IWzDzuvLGufKYYwp3fkc8pRyl7ILh2N+bdXNC1iPTVoM0JORs0pV2YaQBVz
-         Dn1UbPnqqQP9pizgMGAEcsx5tX2ZOVzuEX1AbEQ3x1dn695O3l3C6QclFxrjmHnVA9
-         NamWnaf2Et59G3UOAsXG7SurBZJtMJqG7HYGLxE6h1AE1ZP6zfU0ZAL2B5WfjNZNNx
-         83MvuOF7NkAbfz/jId+XGbTyW0ETGtLxBjdH6sz7ia0qqk4eFEB0k/O4d1t9cw/ns+
-         ydzb6a46SRXdSi40XD+gcuTRm7C5PozIJG6VgxIzex6Zcorf457MGnco2D1Nc4VE3k
-         +FIQdWH/zmbqQ==
-Date:   Fri, 22 Jul 2022 09:32:18 -0700
-From:   "Darrick J. Wong" <djwong@kernel.org>
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-fscrypt@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v4 1/9] statx: add direct I/O alignment information
-Message-ID: <YtrREiRZ4Qrdte6t@magnolia>
-References: <20220722071228.146690-1-ebiggers@kernel.org>
- <20220722071228.146690-2-ebiggers@kernel.org>
+        with ESMTP id S229937AbiGVQmn (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 22 Jul 2022 12:42:43 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 362C45FACB;
+        Fri, 22 Jul 2022 09:42:42 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id p10so976143lfd.9;
+        Fri, 22 Jul 2022 09:42:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=xaaf0HNzWmhDoOucX+0h5VHGXwYwMIslA/bCLi1nrKE=;
+        b=Tsv4sFokS0GU1gqG5yQV9meI5UgcZgAA02hdyFj6DPzNfI/Jhiaimb1AH7mMmLmFom
+         ZQTnIIviPL6htMofuiWUC2iF3QJS6zylSGB44BwZ7SEhgdRv1MWwIHwWZdcVG9OKiB3A
+         OHjgHABF2qu7kb9qHNZLDvpoJVOiI7kUKC43DILGvSjjpCh+39RVQlMTCC396DRQjGCb
+         zSfrevchflsmFmr/2OhN5dwIdMqyh78n5YYfPNIWGO/pzudXsfKo/oSLkNL7PeXkJNlp
+         TshNwCOVcomL98xN3etQSU8zZCPeA/cO+HLwjW0O/Lig7v8tVRpWkSLnqbt4N2n1H/eb
+         G0RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=xaaf0HNzWmhDoOucX+0h5VHGXwYwMIslA/bCLi1nrKE=;
+        b=hlRZE6Lm6v0ZzYmqpboRa8/FfYevverxNsWVW1jeUtL7Mf4nu0MEcHSfuXk2T4JZjd
+         HHm//sgNHFeOpLnIPWmGB7kcEvQWwvgXTsfZBGGTqUTrWqQsr24fgaWq/Wf1VNfcbdg3
+         hVcfXJ3AfqPTnS5svMY7Ws7Zp6A6FG6D/YPiPVGJuxYE15F0502RJFS62pqNJ7P23UyA
+         Id+4kTVtJFZq5lA9hDsBPuexvqtoNHhVo0qvvx7+U75Syg2GjhcGQU/ax9+t5Ck3pHON
+         rTxmlrCJqzU9AvGn7bMDgE0V/Yi1+I/H/9Ye893p7FhEqeiOfkjQhABiJO7N4SJxj+i1
+         nkFg==
+X-Gm-Message-State: AJIora+e/yJd3egAYFhKfPc3l5WMPODPG+AeYnrzVt6HHuLbMIpuvWe6
+        1Zdx34tKvWJ0V7yMswTUu8tDael0atxOkA==
+X-Google-Smtp-Source: AGRyM1sTHqgBReLbiOi3fH7YqUujhX7RaKusK8BFbdtr+bXhcXex5n7DvpxnnZENJkIIUIAK9M/fJw==
+X-Received: by 2002:a05:6512:b27:b0:489:e045:394e with SMTP id w39-20020a0565120b2700b00489e045394emr332687lfu.202.1658508160232;
+        Fri, 22 Jul 2022 09:42:40 -0700 (PDT)
+Received: from [192.168.1.4] (broadband-188-32-106-30.ip.moscow.rt.ru. [188.32.106.30])
+        by smtp.gmail.com with ESMTPSA id p15-20020a19f00f000000b0047255d2110asm1140388lfc.57.2022.07.22.09.42.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 Jul 2022 09:42:39 -0700 (PDT)
+Message-ID: <3995754e-064b-6091-ccb0-224c3e698af2@gmail.com>
+Date:   Fri, 22 Jul 2022 19:42:38 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220722071228.146690-2-ebiggers@kernel.org>
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [RFC] futex2: add NUMA awareness
+Content-Language: en-US
+To:     =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>
+Cc:     linux-api@vger.kernel.org, fweimer@redhat.com,
+        linux-kernel@vger.kernel.org, Darren Hart <dvhart@infradead.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        libc-alpha@sourceware.org, Davidlohr Bueso <dave@stgolabs.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+References: <36a8f60a-69b2-4586-434e-29820a64cd88@igalia.com>
+ <74ba5239-27b0-299e-717c-595680cd52f9@gmail.com>
+ <8bfd13a7-ed02-00dd-63a1-7144f2e55ef0@igalia.com>
+From:   Andrey Semashev <andrey.semashev@gmail.com>
+In-Reply-To: <8bfd13a7-ed02-00dd-63a1-7144f2e55ef0@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jul 22, 2022 at 12:12:20AM -0700, Eric Biggers wrote:
-> From: Eric Biggers <ebiggers@google.com>
+On 7/14/22 18:00, André Almeida wrote:
+> Hi Andrey,
 > 
-> Traditionally, the conditions for when DIO (direct I/O) is supported
-> were fairly simple.  For both block devices and regular files, DIO had
-> to be aligned to the logical block size of the block device.
+> Thanks for the feedback.
 > 
-> However, due to filesystem features that have been added over time (e.g.
-> multi-device support, data journalling, inline data, encryption, verity,
-> compression, checkpoint disabling, log-structured mode), the conditions
-> for when DIO is allowed on a regular file have gotten increasingly
-> complex.  Whether a particular regular file supports DIO, and with what
-> alignment, can depend on various file attributes and filesystem mount
-> options, as well as which block device(s) the file's data is located on.
+> Às 08:01 de 14/07/22, Andrey Semashev escreveu:
+>> On 7/14/22 06:18, André Almeida wrote:
+> [...]
+>>>
+>>> Feedback? Who else should I CC?
+>>
+>> Just a few questions:
+>>
+>> Do I understand correctly that notifiers won't be able to wake up
+>> waiters unless they know on which node they are waiting?
+>>
 > 
-> Moreover, the general rule of DIO needing to be aligned to the block
-> device's logical block size is being relaxed to allow user buffers (but
-> not file offsets) aligned to the DMA alignment instead
-> (https://lore.kernel.org/linux-block/20220610195830.3574005-1-kbusch@fb.com/T/#u).
+> If userspace is using NUMA_FLAG, yes. Otherwise all futexes would be
+> located in the default node, and userspace doesn't need to know which
+> one is the default.
 > 
-> XFS has an ioctl XFS_IOC_DIOINFO that exposes DIO alignment information.
-> Uplifting this to the VFS is one possibility.  However, as discussed
-> (https://lore.kernel.org/linux-fsdevel/20220120071215.123274-1-ebiggers@kernel.org/T/#u),
-> this ioctl is rarely used and not known to be used outside of
-> XFS-specific code.  It was also never intended to indicate when a file
-> doesn't support DIO at all, nor was it intended for block devices.
+>> Is it possible to wait on a futex on different nodes?
 > 
-> Therefore, let's expose this information via statx().  Add the
-> STATX_DIOALIGN flag and two new statx fields associated with it:
-> 
-> * stx_dio_mem_align: the alignment (in bytes) required for user memory
->   buffers for DIO, or 0 if DIO is not supported on the file.
-> 
-> * stx_dio_offset_align: the alignment (in bytes) required for file
->   offsets and I/O segment lengths for DIO, or 0 if DIO is not supported
->   on the file.  This will only be nonzero if stx_dio_mem_align is
->   nonzero, and vice versa.
-> 
-> Note that as with other statx() extensions, if STATX_DIOALIGN isn't set
-> in the returned statx struct, then these new fields won't be filled in.
-> This will happen if the file is neither a regular file nor a block
-> device, or if the file is a regular file and the filesystem doesn't
-> support STATX_DIOALIGN.  It might also happen if the caller didn't
-> include STATX_DIOALIGN in the request mask, since statx() isn't required
-> to return unrequested information.
-> 
-> This commit only adds the VFS-level plumbing for STATX_DIOALIGN.  For
-> regular files, individual filesystems will still need to add code to
-> support it.  For block devices, a separate commit will wire it up too.
-> 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Eric Biggers <ebiggers@google.com>
+> Yes, given that you specify `.hint = id` with the proper node id.
 
-Looks good to me,
-Reviewed-by: Darrick J. Wong <djwong@kernel.org>
+So any given futex_wake(FUTEX_NUMA) operates only within its node, right?
 
---D
+>> Is it possible to wake waiters on a futex on all nodes? When a single
+>> (or N, where N is not "all") waiter is woken, which node is selected? Is
+>> there a rotation of nodes, so that nodes are not skewed in terms of
+>> notified waiters?
+> 
+> Regardless of which node the waiter process is running, what matter is
+> in which node the futex hash table is. So for instance if we have:
+> 
+> 	struct futex32_numa f = {.value = 0, hint = 2};
+> 
+> And now we add some waiters for this futex:
+> 
+> Thread 1, running on node 3:
+> 
+> 	futex_wait(&f, 0, FUTEX_NUMA | FUTEX_32, NULL);
+> 
+> Thread 2, running on node 0:
+> 
+> 	futex_wait(&f, 0, FUTEX_NUMA | FUTEX_32, NULL);
+> 
+> Thread 3, running on node 2:
+> 
+> 	futex_wait(&f, 0, FUTEX_NUMA | FUTEX_32, NULL);
+> 
+> And then, Thread 4, running on node 3:
+> 
+> 	futex_wake(&f, 2, FUTEX_NUMA | FUTEX_32);
+> 
+> Now, two waiter would wake up (e.g. T1 and T3, node 3 and 2) and they
+> are from different nodes. futex_wake() doesn't provide guarantees of
+> which waiter will be selected, so I can't say which node would be
+> selected.
 
-> ---
->  fs/stat.c                 | 2 ++
->  include/linux/stat.h      | 2 ++
->  include/uapi/linux/stat.h | 4 +++-
->  3 files changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/stat.c b/fs/stat.c
-> index 9ced8860e0f35d..a7930d74448304 100644
-> --- a/fs/stat.c
-> +++ b/fs/stat.c
-> @@ -611,6 +611,8 @@ cp_statx(const struct kstat *stat, struct statx __user *buffer)
->  	tmp.stx_dev_major = MAJOR(stat->dev);
->  	tmp.stx_dev_minor = MINOR(stat->dev);
->  	tmp.stx_mnt_id = stat->mnt_id;
-> +	tmp.stx_dio_mem_align = stat->dio_mem_align;
-> +	tmp.stx_dio_offset_align = stat->dio_offset_align;
->  
->  	return copy_to_user(buffer, &tmp, sizeof(tmp)) ? -EFAULT : 0;
->  }
-> diff --git a/include/linux/stat.h b/include/linux/stat.h
-> index 7df06931f25d85..ff277ced50e9fd 100644
-> --- a/include/linux/stat.h
-> +++ b/include/linux/stat.h
-> @@ -50,6 +50,8 @@ struct kstat {
->  	struct timespec64 btime;			/* File creation time */
->  	u64		blocks;
->  	u64		mnt_id;
-> +	u32		dio_mem_align;
-> +	u32		dio_offset_align;
->  };
->  
->  #endif
-> diff --git a/include/uapi/linux/stat.h b/include/uapi/linux/stat.h
-> index 1500a0f58041ae..7cab2c65d3d7fc 100644
-> --- a/include/uapi/linux/stat.h
-> +++ b/include/uapi/linux/stat.h
-> @@ -124,7 +124,8 @@ struct statx {
->  	__u32	stx_dev_minor;
->  	/* 0x90 */
->  	__u64	stx_mnt_id;
-> -	__u64	__spare2;
-> +	__u32	stx_dio_mem_align;	/* Memory buffer alignment for direct I/O */
-> +	__u32	stx_dio_offset_align;	/* File offset alignment for direct I/O */
->  	/* 0xa0 */
->  	__u64	__spare3[12];	/* Spare space for future expansion */
->  	/* 0x100 */
-> @@ -152,6 +153,7 @@ struct statx {
->  #define STATX_BASIC_STATS	0x000007ffU	/* The stuff in the normal stat struct */
->  #define STATX_BTIME		0x00000800U	/* Want/got stx_btime */
->  #define STATX_MNT_ID		0x00001000U	/* Got stx_mnt_id */
-> +#define STATX_DIOALIGN		0x00002000U	/* Want/got direct I/O alignment info */
->  
->  #define STATX__RESERVED		0x80000000U	/* Reserved for future struct statx expansion */
->  
-> -- 
-> 2.37.0
-> 
+In this example, T1, T2 and T3 are all blocking on node 2 (since all of
+them presumably specify hint == 2), right? In this sense, it doesn't
+matter which node they are running on, what matters is what node they
+block on.
+
+What I'm asking is can I wake all threads blocked on all nodes on the
+same futex? That is, is the following possible?
+
+  // I'm using hint == -1 to indicate the current node
+  // of the calling thread for waiters and all nodes for notifiers
+  struct futex32_numa f = {.value = 0, .hint = -1};
+
+  Thread 1, running on node 3, blocks on node 3:
+
+  futex_wait(&f, 0, FUTEX_NUMA | FUTEX_32, NULL);
+
+  Thread 2, running on node 0, blocks on node 0:
+
+  futex_wait(&f, 0, FUTEX_NUMA | FUTEX_32, NULL);
+
+  Thread 3, running on node 2, blocks on node 2:
+
+  futex_wait(&f, 0, FUTEX_NUMA | FUTEX_32, NULL);
+
+  And then, Thread 4, running on whatever node:
+
+  futex_wake(&f, -1, FUTEX_NUMA | FUTEX_32);
+
+Here, futex_wake would wake T1, T2 and T3. Or:
+
+  futex_wake(&f, 1, FUTEX_NUMA | FUTEX_32);
+
+Here, futex_wake would wake any one of T1, T2 or T3.
+
+> There's no policy for fairness/starvation for futex_wake(). Do
+> you think this would be important for the NUMA case?
+
+I'm not sure yet. If there isn't a cross-node behavior like in my
+example above then, I suppose, it falls to the userspace to ensure fair
+rotation of the wakeups on different nodes. If there is functionality
+like this, I imagine, some sort of fairness would be desired.
