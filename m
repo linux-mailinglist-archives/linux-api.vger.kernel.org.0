@@ -2,237 +2,366 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E9D357D70D
-	for <lists+linux-api@lfdr.de>; Fri, 22 Jul 2022 00:44:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E240B57D914
+	for <lists+linux-api@lfdr.de>; Fri, 22 Jul 2022 05:44:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229684AbiGUWof (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 21 Jul 2022 18:44:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49380 "EHLO
+        id S233387AbiGVDo3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 21 Jul 2022 23:44:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229552AbiGUWoe (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Jul 2022 18:44:34 -0400
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 719EE78589;
-        Thu, 21 Jul 2022 15:44:32 -0700 (PDT)
-Received: by mail-pg1-x52b.google.com with SMTP id f65so2921394pgc.12;
-        Thu, 21 Jul 2022 15:44:32 -0700 (PDT)
+        with ESMTP id S233081AbiGVDo3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 21 Jul 2022 23:44:29 -0400
+Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88E877CB4D
+        for <linux-api@vger.kernel.org>; Thu, 21 Jul 2022 20:44:26 -0700 (PDT)
+Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-31e7ca45091so36018687b3.3
+        for <linux-api@vger.kernel.org>; Thu, 21 Jul 2022 20:44:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=aC/fs4gtBUPJ1XcqWtBzIeZ4t21NIE+hcHDSProhOug=;
-        b=qC1wIJyYzHPWuck+8MLr7C9b2GkXmDg8+fanLUyFhQDiVbqopXUKtwAn7WkUeVbceZ
-         JuvR1Yns9S0Lb7RkXe3P+m+Ci1phq6/CREbX6gxLBy/zvZmCTkQL9IpENp/55JENABYF
-         QKX42Kvs0dHBOUDF2MRPqNDK62r09Bs8f/DXHxxmt5jRt1Ia+r3DM2chl+8lVoVqHv+d
-         Uulvnr6tveWFmcSu+11iCEu3kqAH/LpXc8HzuijFhgMMLWdgsHns8T5dOcCkvo6e4pAp
-         Q9wyCv7PHQe4L0JxXJBIuvOxLt/ZDX1gtt7s8KdHYjSugSdDSszmjFqvmbT9WL5WdDyQ
-         +ELg==
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=puv6KQYZaqXR85z5wvkylMHiqN9HYSrVPWoRAapKd+o=;
+        b=zW+xYGhpnwuTc3lh4kLFMkShJJjIdesdKLZka4viCvbxVCYBlbkbuVAZO37toEpcMM
+         S9meI9g+7HpqNBVmzlZ+xuITh0TvA71WkLXvJUyz0KspWWCFSIXtNEDW77TXyRTcFI9F
+         3tHacym7ONILWRsXXXwcKKtxgS4S+qdcvZIb2ZM8WKPn9frOT7FTdSc3XM244dU2XdzH
+         zLYRFKmB4MQ/vcMnT0TxMaBk18Ea52k8GYnGJ+P83asQYOGdqX60yT+AMfDpyqLdmZOp
+         wYcBIGhmRhWUQ8OTB2akDfrjP5ROLEAhL016553eA+jXzCjeh3voCo3NF+LonahbUj8T
+         WJvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=aC/fs4gtBUPJ1XcqWtBzIeZ4t21NIE+hcHDSProhOug=;
-        b=20aM+gJbkHxP0V9BNnvQumQybUuqj+shXymEJOayVvjd1YiIninDY3E1u+DHJSzuCf
-         llPPGEXmKG4hKdIzpu8cVEezzSFY6arPowTLXqgeNFdOPtinuAngyaPhECaBrTDhqq5o
-         UIM3bFcr847/ToTAAZsc3i+iqK4cQvEij0QuBbLSiYVQyvNVvLwAuDn3k5hn0wFsU/Pi
-         /JyIUK9zd1UaPp+87ZR5tyteXy3ze/vXZ6RXjHwIM61LSDLblSdUBnT28dtjWAJuWP2x
-         KfZRwNapbsposBX6Vrup8LvKwK+GjDf/Fndy5BE5HgQpo9GvUrINJf//iM4wkkNxtA/l
-         2oXA==
-X-Gm-Message-State: AJIora9px6Rt/wv5A1egW9P8bg5jUCLYiL/Ua4uA7fZd5GMJsMe5ZV6X
-        uBh+cb4tkMAICDHewL3XDms=
-X-Google-Smtp-Source: AGRyM1ukQpMK3hp0P+IfFqpQKVG3XEKbxoJBsNJC1WdQjp4Po/ys+k7iHQB6drUHxaZZfLxSzgqTNQ==
-X-Received: by 2002:a65:6c08:0:b0:3f2:6a6a:98d with SMTP id y8-20020a656c08000000b003f26a6a098dmr562003pgu.30.1658443471471;
-        Thu, 21 Jul 2022 15:44:31 -0700 (PDT)
-Received: from jbongio9100214.roam.corp.google.com (cpe-104-173-199-31.socal.res.rr.com. [104.173.199.31])
-        by smtp.googlemail.com with ESMTPSA id pj5-20020a17090b4f4500b001df264610c4sm9925763pjb.0.2022.07.21.15.44.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jul 2022 15:44:30 -0700 (PDT)
-From:   Jeremy Bongio <bongiojp@gmail.com>
-To:     Ted Tso <tytso@mit.edu>
-Cc:     linux-ext4@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, Jeremy Bongio <bongiojp@gmail.com>
-Subject: [PATCH v5] Add ioctls to get/set the ext4 superblock uuid.
-Date:   Thu, 21 Jul 2022 15:44:22 -0700
-Message-Id: <20220721224422.438351-1-bongiojp@gmail.com>
-X-Mailer: git-send-email 2.37.1.359.gd136c6c3e2-goog
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=puv6KQYZaqXR85z5wvkylMHiqN9HYSrVPWoRAapKd+o=;
+        b=FP7UG+ZQBKyzgoHiMocUAP41q63Fw+957c7+IwhIviFALC4v2wqg/5orkpWbRe2B63
+         OYPX2mVZiTxGHwYYdiKawkqneuRmGczF9yShGwgrDfraj524Q3mP4oA3GPC7542dH6Gy
+         jIl3KGXCIheKCS7iqIFTXKrdnJ3AwKu7t376H2F7WO9a5lin32laoU8DiuNb1ZkSBAFH
+         vtE7OoPg+zo+RbUAGxKDyZyHtJ73o+A19Is2OnskMkPjAEahce+ZH70uyNs38CNxEUBc
+         4Ndv/kPM9QafX9mZ4+EJfbJga6WtUngElJ8ARrfQCC6+jK3akNPdLrsJ+MfnQZ7OzP/f
+         TnRA==
+X-Gm-Message-State: AJIora8wqYJ0kUMaECSZGzzdXumvhC3VJHa0wG+VP0sdbUKZ453UzeZP
+        4QnfFgDCmcHIBnlRUJ9/eRqgPJ/CT66HxEyES2FULg==
+X-Google-Smtp-Source: AGRyM1snbOwx3NX1L9HyAA+TKj3fcab7Fudn6kbA90xmW3pzbx8tFk04sl6OqWAaZ+i5EC0/UAVx6NMccJaPVc3X1is=
+X-Received: by 2002:a81:190f:0:b0:31e:66e3:79e0 with SMTP id
+ 15-20020a81190f000000b0031e66e379e0mr1429927ywz.331.1658461465704; Thu, 21
+ Jul 2022 20:44:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220721081617.36103-1-zhangyuchen.lcr@bytedance.com> <Ytl772fRS74eIneC@bombadil.infradead.org>
+In-Reply-To: <Ytl772fRS74eIneC@bombadil.infradead.org>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Fri, 22 Jul 2022 11:43:49 +0800
+Message-ID: <CAMZfGtXjK2BgpwTOGsWdKs9-3i0X9ohdbXJk=0DAmpEKUymS5w@mail.gmail.com>
+Subject: Re: [RFC] proc: fix create timestamp of files in proc
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Zhang Yuchen <zhangyuchen.lcr@bytedance.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        David Howells <dhowells@redhat.com>,
+        Deepa Dinamani <deepa.kernel@gmail.com>,
+        Christoph Hellwig <hch@lst.de>, linux-api@vger.kernel.org,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-This fixes a race between changing the ext4 superblock uuid and operations
-like mounting, resizing, changing features, etc.
+On Fri, Jul 22, 2022 at 12:16 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
+>
+> On Thu, Jul 21, 2022 at 04:16:17PM +0800, Zhang Yuchen wrote:
+> > A user has reported a problem that the /proc/{pid} directory
+> > creation timestamp is incorrect.
+>
+> The directory?
+>
+> > He believes that the directory was created when the process was
+> > started, so the timestamp of the directory creation should also
+> > be when the process was created.
+>
+> A quick glance at Documentation/filesystems/proc.rst reveals there
+> is documentation that the process creation time is the start_time in
+> the stat file for the pid. It makes absolutely no mention of the
+> directory creation time.
+>
 
-Reviewed-by: Theodore Ts'o <tytso@mit.edu>
-Signed-off-by: Jeremy Bongio <bongiojp@gmail.com>
----
+Hi Luis,
 
-Changes in v5:
+Right.
 
-Return size of uuid in a EXT4_IOC_GETFSUUID operation if fsu_len is 0.
+> The directory creation time has been the way it is since linux history [0]
+> commit fdb2f0a59a1c7 ("[PATCH] Linux-0.97.3 (September 5, 1992)) and so this
+> has been the way .. since the beginning.
+>
+> [0] https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/
+>
+> The last change was by Deepa to correct y2038 considerations through
+> commit 078cd8279e659 ("fs: Replace CURRENT_TIME with current_time() for
+> inode timestamps").
+>
+> Next time you try to report something like this please be very sure
+> to learn to use git blame, and then git blame foo.c <commit-id>~1 and
+> keep doing this until you get to the root commit, this will let you
+> determine *how long has this been this way*. When you run into a
+> commit history which lands to the first git commit on linux you can
+> use the above linux history.git to go back further as I did.
+>
 
- fs/ext4/ext4.h  | 11 +++++++
- fs/ext4/ioctl.c | 83 +++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 94 insertions(+)
+A good instruction for a newbie.
 
-diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
-index 75b8d81b2469..b760d669a1ca 100644
---- a/fs/ext4/ext4.h
-+++ b/fs/ext4/ext4.h
-@@ -724,6 +724,8 @@ enum {
- #define EXT4_IOC_GETSTATE		_IOW('f', 41, __u32)
- #define EXT4_IOC_GET_ES_CACHE		_IOWR('f', 42, struct fiemap)
- #define EXT4_IOC_CHECKPOINT		_IOW('f', 43, __u32)
-+#define EXT4_IOC_GETFSUUID		_IOR('f', 44, struct fsuuid)
-+#define EXT4_IOC_SETFSUUID		_IOW('f', 44, struct fsuuid)
- 
- #define EXT4_IOC_SHUTDOWN _IOR ('X', 125, __u32)
- 
-@@ -753,6 +755,15 @@ enum {
- 						EXT4_IOC_CHECKPOINT_FLAG_ZEROOUT | \
- 						EXT4_IOC_CHECKPOINT_FLAG_DRY_RUN)
- 
-+/*
-+ * Structure for EXT4_IOC_GETFSUUID/EXT4_IOC_SETFSUUID
-+ */
-+struct fsuuid {
-+	__u32       fsu_len;
-+	__u32       fsu_flags;
-+	__u8        fsu_uuid[];
-+};
-+
- #if defined(__KERNEL__) && defined(CONFIG_COMPAT)
- /*
-  * ioctl commands in 32 bit emulation
-diff --git a/fs/ext4/ioctl.c b/fs/ext4/ioctl.c
-index cb01c1da0f9d..b7c9bf9e7864 100644
---- a/fs/ext4/ioctl.c
-+++ b/fs/ext4/ioctl.c
-@@ -20,6 +20,7 @@
- #include <linux/delay.h>
- #include <linux/iversion.h>
- #include <linux/fileattr.h>
-+#include <linux/uuid.h>
- #include "ext4_jbd2.h"
- #include "ext4.h"
- #include <linux/fsmap.h>
-@@ -41,6 +42,15 @@ static void ext4_sb_setlabel(struct ext4_super_block *es, const void *arg)
- 	memcpy(es->s_volume_name, (char *)arg, EXT4_LABEL_MAX);
- }
- 
-+/*
-+ * Superblock modification callback function for changing file system
-+ * UUID.
-+ */
-+static void ext4_sb_setuuid(struct ext4_super_block *es, const void *arg)
-+{
-+	memcpy(es->s_uuid, (__u8 *)arg, UUID_SIZE);
-+}
-+
- static
- int ext4_update_primary_sb(struct super_block *sb, handle_t *handle,
- 			   ext4_update_sb_callback func,
-@@ -1131,6 +1141,73 @@ static int ext4_ioctl_getlabel(struct ext4_sb_info *sbi, char __user *user_label
- 	return 0;
- }
- 
-+static int ext4_ioctl_getuuid(struct ext4_sb_info *sbi,
-+			struct fsuuid __user *ufsuuid)
-+{
-+	struct fsuuid fsuuid;
-+	__u8 uuid[UUID_SIZE];
-+
-+	if (copy_from_user(&fsuuid, ufsuuid, sizeof(fsuuid)))
-+		return -EFAULT;
-+
-+	if (fsuuid.fsu_len == 0) {
-+		fsuuid.fsu_len = UUID_SIZE;
-+		if (copy_to_user(ufsuuid, &fsuuid, sizeof(fsuuid.fsu_len)))
-+			return -EFAULT;
-+		return -EINVAL;
-+	}
-+
-+	if (fsuuid.fsu_len != UUID_SIZE || fsuuid.fsu_flags != 0)
-+		return -EINVAL;
-+
-+	lock_buffer(sbi->s_sbh);
-+	memcpy(uuid, sbi->s_es->s_uuid, UUID_SIZE);
-+	unlock_buffer(sbi->s_sbh);
-+
-+	if (copy_to_user(&ufsuuid->fsu_uuid[0], uuid, UUID_SIZE))
-+		return -EFAULT;
-+	return 0;
-+}
-+
-+static int ext4_ioctl_setuuid(struct file *filp,
-+			const struct fsuuid __user *ufsuuid)
-+{
-+	int ret = 0;
-+	struct super_block *sb = file_inode(filp)->i_sb;
-+	struct fsuuid fsuuid;
-+	__u8 uuid[UUID_SIZE];
-+
-+	if (!capable(CAP_SYS_ADMIN))
-+		return -EPERM;
-+
-+	/*
-+	 * If any checksums (group descriptors or metadata) are being used
-+	 * then the checksum seed feature is required to change the UUID.
-+	 */
-+	if (((ext4_has_feature_gdt_csum(sb) || ext4_has_metadata_csum(sb))
-+			&& !ext4_has_feature_csum_seed(sb))
-+		|| ext4_has_feature_stable_inodes(sb))
-+		return -EOPNOTSUPP;
-+
-+	if (copy_from_user(&fsuuid, ufsuuid, sizeof(fsuuid)))
-+		return -EFAULT;
-+
-+	if (fsuuid.fsu_len != UUID_SIZE || fsuuid.fsu_flags != 0)
-+		return -EINVAL;
-+
-+	if (copy_from_user(uuid, &ufsuuid->fsu_uuid[0], UUID_SIZE))
-+		return -EFAULT;
-+
-+	ret = mnt_want_write_file(filp);
-+	if (ret)
-+		return ret;
-+
-+	ret = ext4_update_superblocks_fn(sb, ext4_sb_setuuid, &uuid);
-+	mnt_drop_write_file(filp);
-+
-+	return ret;
-+}
-+
- static long __ext4_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
- {
- 	struct inode *inode = file_inode(filp);
-@@ -1509,6 +1586,10 @@ static long __ext4_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
- 		return ext4_ioctl_setlabel(filp,
- 					   (const void __user *)arg);
- 
-+	case EXT4_IOC_GETFSUUID:
-+		return ext4_ioctl_getuuid(EXT4_SB(sb), (void __user *)arg);
-+	case EXT4_IOC_SETFSUUID:
-+		return ext4_ioctl_setuuid(filp, (const void __user *)arg);
- 	default:
- 		return -ENOTTY;
- 	}
-@@ -1586,6 +1667,8 @@ long ext4_compat_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
- 	case EXT4_IOC_CHECKPOINT:
- 	case FS_IOC_GETFSLABEL:
- 	case FS_IOC_SETFSLABEL:
-+	case EXT4_IOC_GETFSUUID:
-+	case EXT4_IOC_SETFSUUID:
- 		break;
- 	default:
- 		return -ENOIOCTLCMD;
--- 
-2.37.1.359.gd136c6c3e2-goog
+> > The file timestamp in procfs is the timestamp when the inode was
+> > created. If the inode of a file in procfs is reclaimed, the inode
+> > will be recreated when it is opened again, and the timestamp will
+> > be changed to the time when it was recreated.
+>
+> The commit log above starts off with a report of the directory
+> of a PID. When does the directory of a PID change dates when its
+> respective start_time does not? When does this reclaim happen exactly?
+> Under what situation?
+>
 
+IMHO, when the system is under memory pressure, then the proc
+inode can be reclaimed, it is also true when we `echo 3 >
+/proc/sys/vm/drop_caches`. After this operation, the proc inode's
+timestamp is changed.
+
+> And if that is not happening, can you name *one* file in a process
+> directory under proc which does get reclaimed for, for which this
+> does happen?
+>
+> > In other file systems, this timestamp is typically recorded in
+> > the file system and assigned to the inode when the inode is created.
+>
+> I don't understand, which files are we reclaiming in procfs which
+> get re-recreated which your *user* is having issues with? What did
+> they report exactly, I'm *super* curious what your user reported
+> exactly. Do you have a bug report somewhere? Or any information
+> about its bug report. Can you pass it on to Muchun for peer review?
+> What file were they monitoring and what tool were they using which
+> made them realize there was a sort of issue?
+>
+> > This mechanism can be confusing to users who are not familiar with it.
+>
+> Why are they monitoring it? Why would a *new* inode having a different
+> timestamp be an issue as per existing documentation?
+>
+
+Maybe the users think the timestamp of /proc/$pid directory is equal to
+the start_time of a process, I think it is because of a comment of
+shortage about the meaning of the timestamp of /proc files.
+
+> > For users who know this mechanism, they will choose not to trust this time.
+> > So the timestamp now has no meaning other than to confuse the user.
+>
+> That is unfair given this is the first *user* to report confusion since
+> the inception of Linux, don't you think?
+>
+> > It needs fixing.
+>
+> A fix is for when there is an issue. You are not reporting a bug or an
+> issue, but you seem to be reporting something a confused user sees and
+> perhaps lack of documentation for something which is not even tracked
+> or cared for. This is the way things have been done since the beginning.
+> It doesn't mean things can't change, but there needs to be a good reason.
+>
+> The terminology of "fix" implies something is broken. The only thing
+> seriouly broken here is this patch you are suggesting and the mechanism
+> which is enabling you to send patches for what you think are issues and
+> seriously wasting people's time. That seriously needs to be fixed.
+>
+> > There are three solutions. We don't have to make the timestamp
+> > meaningful, as long as the user doesn't trust the timestamp.
+> >
+> > 1. Add to the kernel documentation that the timestamp in PROC is
+> >    not reliable and do not use this timestamp.
+> >    The problem with this solution is that most users don't read
+> >    the kernel documentation and it can still be misleading.
+> >
+> > 2. Fix it, change the timestamp of /proc/pid to the timestamp of
+> >    process creation.
+> >
+> >    This raises new questions.
+> >
+> >    a. Users don't know which kernel version is correct.
+> >
+> >    b. This problem exists not only in the pid directory, but also
+> >       in other directories under procfs. It would take a lot of
+> >       extra work to fix them all. There are also easier ways for
+> >       users to get the creation time information better than this.
+> >
+> >    c. We need to describe the specific meaning of each file under
+> >       proc in the kernel documentation for the creation time.
+> >       Because the creation time of various directories has different
+> >       meanings. For example, PID directory is the process creation
+> >       time, FD directory is the FD creation time and so on.
+> >
+> >    d. Some files have no associated entity, such as iomem.
+> >       Unable to give a meaningful time.
+> >
+> > 3. Instead of fixing it, set the timestamp in all procfs to 0.
+> >    Users will see it as an error and will not use it.
+> >
+> > I think 3 is better. Any other suggestions?
+> >
+> > Signed-off-by: Zhang Yuchen <zhangyuchen.lcr@bytedance.com>
+>
+> The logic behind this patch is way off track, a little effort
+> alone should have made you reach similar conflusions as I have.
+> Your patch does your suggested step 3), so no way! What you are
+> proposing can potentially break things! Have you put some effort
+> into evaluating the negative possible impacts of your patch? If
+> not, can you do that now?  Did you even *boot* test your patch?
+>
+> It makes all of the proc files go dated back to Jan 1 1970.
+>
+> How can this RFC in any way shape or form have been sent with
+> a serious intent?
+>
+> Sadly the lack of any serious consideration of the past and then
+> for you to easily suggest to make a new change which could easily
+> break existing users makes me needing to ask you to please have
+> one of your peers at bytedance.com such as Muchun Song to please
+> review your patches prior to you posting them, because otherwise
+> this is creating noise and quite frankly make me wonder if you
+> are intentially trying to break things.
+>
+> Muchun Song, sorry but can you please help here ensure that your
+> peers don't post this level of quality of patches again? It would be
+> seriously appreciated.
+>
+
+It's my bad. Sorry. I should review it carefully. Zhang Yuchen is a newbie
+for Linux kernel development, I think he just want to point out the potential
+confusion to the users. Yuchen is not sure if this change is the best, I suspect
+this is why there is RFC is the patch's subject. I think at least we
+should point
+it out in Documentation/filesystems/proc.rst so that users can know what does
+the timestamp of proc files/directories mean.
+
+Thanks.
+
+> Users exist for years without issue and now you want to change things
+> for a user which finds something done which is not documented and want
+> to purposely *really* change things for *everyone* to ways which have
+> 0 compatibility with what users may have been expecting before.
+>
+> How can you conclude this?
+>
+> This suggested patch is quite alarming.
+>
+>   Luis
+>
+> Below is just nonsense.
+>
+> > ---
+> >  fs/proc/base.c        | 4 +++-
+> >  fs/proc/inode.c       | 3 ++-
+> >  fs/proc/proc_sysctl.c | 3 ++-
+> >  fs/proc/self.c        | 3 ++-
+> >  fs/proc/thread_self.c | 3 ++-
+> >  5 files changed, 11 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/fs/proc/base.c b/fs/proc/base.c
+> > index 0b72a6d8aac3..af440ef13091 100644
+> > --- a/fs/proc/base.c
+> > +++ b/fs/proc/base.c
+> > @@ -1892,6 +1892,8 @@ struct inode *proc_pid_make_inode(struct super_block *sb,
+> >       struct proc_inode *ei;
+> >       struct pid *pid;
+> >
+> > +     struct timespec64 ts_zero = {0, 0};
+> > +
+> >       /* We need a new inode */
+> >
+> >       inode = new_inode(sb);
+> > @@ -1902,7 +1904,7 @@ struct inode *proc_pid_make_inode(struct super_block *sb,
+> >       ei = PROC_I(inode);
+> >       inode->i_mode = mode;
+> >       inode->i_ino = get_next_ino();
+> > -     inode->i_mtime = inode->i_atime = inode->i_ctime = current_time(inode);
+> > +     inode->i_mtime = inode->i_atime = inode->i_ctime = ts_zero;
+> >       inode->i_op = &proc_def_inode_operations;
+> >
+> >       /*
+> > diff --git a/fs/proc/inode.c b/fs/proc/inode.c
+> > index fd40d60169b5..efb1c935fa8d 100644
+> > --- a/fs/proc/inode.c
+> > +++ b/fs/proc/inode.c
+> > @@ -642,6 +642,7 @@ const struct inode_operations proc_link_inode_operations = {
+> >  struct inode *proc_get_inode(struct super_block *sb, struct proc_dir_entry *de)
+> >  {
+> >       struct inode *inode = new_inode(sb);
+> > +     struct timespec64 ts_zero = {0, 0};
+> >
+> >       if (!inode) {
+> >               pde_put(de);
+> > @@ -650,7 +651,7 @@ struct inode *proc_get_inode(struct super_block *sb, struct proc_dir_entry *de)
+> >
+> >       inode->i_private = de->data;
+> >       inode->i_ino = de->low_ino;
+> > -     inode->i_mtime = inode->i_atime = inode->i_ctime = current_time(inode);
+> > +     inode->i_mtime = inode->i_atime = inode->i_ctime = ts_zero;
+> >       PROC_I(inode)->pde = de;
+> >       if (is_empty_pde(de)) {
+> >               make_empty_dir_inode(inode);
+> > diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
+> > index 021e83fe831f..c670f9d3b871 100644
+> > --- a/fs/proc/proc_sysctl.c
+> > +++ b/fs/proc/proc_sysctl.c
+> > @@ -455,6 +455,7 @@ static struct inode *proc_sys_make_inode(struct super_block *sb,
+> >       struct ctl_table_root *root = head->root;
+> >       struct inode *inode;
+> >       struct proc_inode *ei;
+> > +     struct timespec64 ts_zero = {0, 0};
+> >
+> >       inode = new_inode(sb);
+> >       if (!inode)
+> > @@ -476,7 +477,7 @@ static struct inode *proc_sys_make_inode(struct super_block *sb,
+> >       head->count++;
+> >       spin_unlock(&sysctl_lock);
+> >
+> > -     inode->i_mtime = inode->i_atime = inode->i_ctime = current_time(inode);
+> > +     inode->i_mtime = inode->i_atime = inode->i_ctime = ts_zero;
+> >       inode->i_mode = table->mode;
+> >       if (!S_ISDIR(table->mode)) {
+> >               inode->i_mode |= S_IFREG;
+> > diff --git a/fs/proc/self.c b/fs/proc/self.c
+> > index 72cd69bcaf4a..b9e572fdc27c 100644
+> > --- a/fs/proc/self.c
+> > +++ b/fs/proc/self.c
+> > @@ -44,9 +44,10 @@ int proc_setup_self(struct super_block *s)
+> >       self = d_alloc_name(s->s_root, "self");
+> >       if (self) {
+> >               struct inode *inode = new_inode(s);
+> > +             struct timespec64 ts_zero = {0, 0};
+> >               if (inode) {
+> >                       inode->i_ino = self_inum;
+> > -                     inode->i_mtime = inode->i_atime = inode->i_ctime = current_time(inode);
+> > +                     inode->i_mtime = inode->i_atime = inode->i_ctime = ts_zero;
+> >                       inode->i_mode = S_IFLNK | S_IRWXUGO;
+> >                       inode->i_uid = GLOBAL_ROOT_UID;
+> >                       inode->i_gid = GLOBAL_ROOT_GID;
+> > diff --git a/fs/proc/thread_self.c b/fs/proc/thread_self.c
+> > index a553273fbd41..964966387da2 100644
+> > --- a/fs/proc/thread_self.c
+> > +++ b/fs/proc/thread_self.c
+> > @@ -44,9 +44,10 @@ int proc_setup_thread_self(struct super_block *s)
+> >       thread_self = d_alloc_name(s->s_root, "thread-self");
+> >       if (thread_self) {
+> >               struct inode *inode = new_inode(s);
+> > +             struct timespec64 ts_zero = {0, 0};
+> >               if (inode) {
+> >                       inode->i_ino = thread_self_inum;
+> > -                     inode->i_mtime = inode->i_atime = inode->i_ctime = current_time(inode);
+> > +                     inode->i_mtime = inode->i_atime = inode->i_ctime = ts_zero;
+> >                       inode->i_mode = S_IFLNK | S_IRWXUGO;
+> >                       inode->i_uid = GLOBAL_ROOT_UID;
+> >                       inode->i_gid = GLOBAL_ROOT_GID;
+> > --
+> > 2.30.2
+> >
