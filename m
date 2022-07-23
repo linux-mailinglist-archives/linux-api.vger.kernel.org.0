@@ -2,110 +2,128 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CBE057E7AF
-	for <lists+linux-api@lfdr.de>; Fri, 22 Jul 2022 21:56:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C55E957EBA0
+	for <lists+linux-api@lfdr.de>; Sat, 23 Jul 2022 05:09:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236569AbiGVT42 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 22 Jul 2022 15:56:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52416 "EHLO
+        id S229572AbiGWDJ3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 22 Jul 2022 23:09:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231149AbiGVT40 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 22 Jul 2022 15:56:26 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 354259C27B;
-        Fri, 22 Jul 2022 12:56:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=ZosF4/sMc0ihmX47ZtSXWJLh9VlS4bzSsfv/BETdwF4=; b=VNhO9L3HEMflnvHx6vsxrwdWR6
-        BeMsUX5k5thgO5ceMSltwRfdDNQWHw+slUvZMJF45URjzjQ5t5orJLjccfNNLVm9hE6NWLyla9sVK
-        DUETIYMZSceOB1HrGZsftTEV9OHhGsKOmWu0qWiWOc4qTm3K06uxzC6at2pm0mP2SkjWzylGhaAsy
-        lTnNeEdIEnfgUc/7nAoeqnAJheKRqrETrRi3SGS3sD8zs/fgcO8TZyt+Y02zuUpLUN4kTq7qSapud
-        zBOQYKE9BXo6z6MRWlVu9REjeS7eiA1KnbqJzHReMVKXPbAYgtT63wFw/+jZThS9GF06guioAuLmt
-        YLCk674g==;
-Received: from [2601:1c0:6280:3f0::a6b3]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oEykt-009cUn-Fz; Fri, 22 Jul 2022 19:56:11 +0000
-Message-ID: <d0c9c894-bfff-e3ee-c1be-84b7690a7a86@infradead.org>
-Date:   Fri, 22 Jul 2022 12:56:09 -0700
+        with ESMTP id S229469AbiGWDJ2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 22 Jul 2022 23:09:28 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC03278598;
+        Fri, 22 Jul 2022 20:09:27 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6EEA762308;
+        Sat, 23 Jul 2022 03:09:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD8C9C341C6;
+        Sat, 23 Jul 2022 03:09:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1658545766;
+        bh=yfeKrSA/SfbRW4ZHy2JK6fnHYLeUM29oPE55X5506UQ=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Oxm6j4n4k6TEwVlK1dp/rDs53BLhwoauQbLGK35rc3QJ+wKey0b7sGTpikHW4XCvY
+         1JQNGkU2/ealbT+TOlf5zdl65Ecd0y/txIIQwq85gdvSTrBRDN00VMmMFOzHLaK8co
+         Tm3Ejfx8av5weVgr8UFTcaBA8CZcFNbCF4xWNajYI9OCEWgsi3etdizaEN291jOYya
+         EWgKUJ6hjldQNmY7xRMSkvHOK0oqmPh1bMP39edxeiCh9w3Extm3R/FoZu5F+ZGeWS
+         zPTL4jl/DeG2NZSThdoMW+a3xiq0qebMTY8jfhn4XDCwuNqYBjJqN6Y4E1vBNieytj
+         F3xnrGkgASOBQ==
+Message-ID: <2171cf37-ea82-25c5-ad85-a80519525045@kernel.org>
+Date:   Fri, 22 Jul 2022 20:09:23 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 2/2] Documentation/filesystems/proc.rst: document procfs
- inode timestamps
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
 Content-Language: en-US
-To:     Luis Chamberlain <mcgrof@kernel.org>, ebiederm@xmission.com,
-        corbet@lwn.net, keescook@chromium.org, yzaikin@google.com
-Cc:     songmuchun@bytedance.com, zhangyuchen.lcr@bytedance.com,
-        dhowells@redhat.com, deepa.kernel@gmail.com, hch@lst.de,
-        linux-doc@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220722162934.1888835-1-mcgrof@kernel.org>
- <20220722162934.1888835-3-mcgrof@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220722162934.1888835-3-mcgrof@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+To:     Sean Christopherson <seanjc@google.com>,
+        "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>,
+        Steven Price <steven.price@arm.com>,
+        kvm list <kvm@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        Linux API <linux-api@vger.kernel.org>, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        "Nakajima, Jun" <jun.nakajima@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>,
+        nikunj@amd.com, ashish.kalra@amd.com
+References: <83fd55f8-cd42-4588-9bf6-199cbce70f33@www.fastmail.com>
+ <YksIQYdG41v3KWkr@google.com> <Ykslo2eo2eRXrpFR@google.com>
+ <eefc3c74-acca-419c-8947-726ce2458446@www.fastmail.com>
+ <Ykwbqv90C7+8K+Ao@google.com> <YkyEaYiL0BrDYcZv@google.com>
+ <20220422105612.GB61987@chaop.bj.intel.com>
+ <20220509223056.pyazfxjwjvipmytb@amd.com> <YnmjvX9ow4elYsY8@google.com>
+ <c3ca63d6-db27-d783-40ca-486b3fbbced7@amd.com> <YtnCyqbI26QfRuOP@google.com>
+From:   Andy Lutomirski <luto@kernel.org>
+In-Reply-To: <YtnCyqbI26QfRuOP@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi--
+On 7/21/22 14:19, Sean Christopherson wrote:
+> On Thu, Jul 21, 2022, Gupta, Pankaj wrote:
+>>
 
-On 7/22/22 09:29, Luis Chamberlain wrote:
-> The timestamps for procfs files are not well understood and can
-> confuse users and developers [0] in particular for the timestamp
-> for the start time or a process. Clarify what they mean and that
-> they are a reflection of the ephemeral nature of the filesystem
-> inodes.
+>>> I view it as a performance problem because nothing stops KVM from copying from
+>>> userspace into the private fd during the SEV ioctl().  What's missing is the
+>>> ability for userspace to directly initialze the private fd, which may or may not
+>>> avoid an extra memcpy() depending on how clever userspace is.
+>> Can you please elaborate more what you see as a performance problem? And
+>> possible ways to solve it?
 > 
-> The procfs inodes are created when you first read them and then
-> stuffed in the page cache. If the page cache and indodes are
-> reclaimed they can be removed, and re-created with a new timestamp
-> after read again. Document this little bit of tribal knowledge.
-> 
-> [0] https://lkml.kernel.org/r/20220721081617.36103-1-zhangyuchen.lcr@bytedance.com
-> Reported-by: Zhang Yuchen <zhangyuchen.lcr@bytedance.com>
-> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
-> ---
->  Documentation/filesystems/proc.rst | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
-> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> index 9fd5249f1a5f..9defe9af683a 100644
-> --- a/Documentation/filesystems/proc.rst
-> +++ b/Documentation/filesystems/proc.rst
-> @@ -59,6 +59,15 @@ The proc  file  system acts as an interface to internal data structures in the
->  kernel. It  can  be  used to obtain information about the system and to change
->  certain kernel parameters at runtime (sysctl).
->  
-> +The proc files are dynamic in nature and allow for developers to make the
+> Oh, I'm not saying there actually _is_ a performance problem.  What I'm saying is
+> that in-place encryption is not a functional requirement, which means it's purely
+> an optimization, and thus we should other bother supporting in-place encryption
+> _if_ it would solve a performane bottleneck.
 
-Awkward. How about:
+Even if we end up having a performance problem, I think we need to 
+understand the workloads that we want to optimize before getting too 
+excited about designing a speedup.
 
-   The proc files are dynamic and allow for the content to be changed each time
-   a file is read.
+In particular, there's (depending on the specific technology, perhaps, 
+and also architecture) a possible tradeoff between trying to reduce 
+copying and trying to reduce unmapping and the associated flushes.  If a 
+user program maps an fd, populates it, and then converts it in place 
+into private memory (especially if it doesn't do it in a single shot), 
+then that memory needs to get unmapped both from the user mm and 
+probably from the kernel direct map.  On the flip side, it's possible to 
+imagine an ioctl that does copy-and-add-to-private-fd that uses a 
+private mm and doesn't need any TLB IPIs.
 
-> +content to be changed each time a file is read. The proc files and directories
-
-                                                   The proc files and directory
-
-> +inodes are created when someone first reads a respective proc file or directory,
-> +as such the timestamps of the proc files reflect this time. As with other
-> +filesystems, these proc inodes can be removed through reclaim under memory
-> +pressure and so the timestamps of the proc files can change if the proc files
-> +are destroyed and re-created (echo 3 > /proc/sys/vm/drop_caches forces and
-> +illustrate the reclaim of inodes and page cache).
-> +
->  First, we'll  take  a  look  at the read-only parts of /proc. In Chapter 2, we
->  show you how you can use /proc/sys to change settings.
-
-Thanks.
--- 
-~Randy
+All of this is to say that trying to optimize right now seems quite 
+premature to me.
