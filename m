@@ -2,175 +2,171 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E980580897
-	for <lists+linux-api@lfdr.de>; Tue, 26 Jul 2022 01:58:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0886258172F
+	for <lists+linux-api@lfdr.de>; Tue, 26 Jul 2022 18:20:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235876AbiGYX6k (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 25 Jul 2022 19:58:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43396 "EHLO
+        id S239197AbiGZQUr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 26 Jul 2022 12:20:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231426AbiGYX6j (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 25 Jul 2022 19:58:39 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C475B27FC5
-        for <linux-api@vger.kernel.org>; Mon, 25 Jul 2022 16:58:36 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id o12so11785995pfp.5
-        for <linux-api@vger.kernel.org>; Mon, 25 Jul 2022 16:58:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dilger-ca.20210112.gappssmtp.com; s=20210112;
-        h=from:message-id:mime-version:subject:date:in-reply-to:cc:to
-         :references;
-        bh=Ojaa/UU8B50WRImEMgYvPwV6uUe5mTD3KQg4CpEBv6U=;
-        b=PkQ/Af+T+bA+/HBQemEG7rZ7dPDvjPWBs3HhdBpZabOE+c1rBlVlPIz1r+rHpdv09X
-         hB/EyFoWNzuccoVADcy4Vdl0PLaNW6AiPxDyeJbUvnDe/d0KvCIQjhAOcQQ6b24XQJYg
-         8/PAIEY6L4XYgwJFXkpYL6jJ6xqV0QHoFCBKZuCOOlwPSQ9LL/4PuyVrqBEmhxUVKhgq
-         +5HJCiX+CYP8vccNJNvOCHb5WsnAQn5aouKG55wjmwwCi36yEZd/bT00fkiGHByJF0de
-         LcwGyirkTcqrv4ntzC3qtmLHmekGwpixqOSlqyQo5wyaYQWrvN7MIDDe1tW66CN4d0X1
-         CgSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:message-id:mime-version:subject:date
-         :in-reply-to:cc:to:references;
-        bh=Ojaa/UU8B50WRImEMgYvPwV6uUe5mTD3KQg4CpEBv6U=;
-        b=R8CNBD6a57CC1dOVfAibvYc4YpqKH6G9Y10oCDTUBVM3biQmL1tBJzj75qfqldEQqC
-         kZufl3WbbjhDiBlpeLlpkJsJQ/7z8TvTGQ6EbgtmJqhhHqiLcYXeTXNa92A1EXrhQMPo
-         UEBucxBnRMEMCHDwP5LeI/N5+MiTO0nwyrGdW92keOUZJaYFN+uue0wg267TvawA1rdr
-         038bOsY8H/0u4m3qJaX866xhs59fP6dod8O/PmTuT14/6MTtkkfFsEF2auv2V4YkmJxo
-         KnPnQrvBPTR1NpXV7d47bDodv9eh88tF532uCV7MTe0R7iPjpjp/bQ2RTBcp6U3FNRFZ
-         aJLA==
-X-Gm-Message-State: AJIora+wAYMDcv7xBdTjkTwws5DZLyZSls3NkhwFtZ0diKvq41T2Zie6
-        PkrUg0HhVDXUegKx0PKxKNgHFA==
-X-Google-Smtp-Source: AGRyM1syH3Cbkf+bRQQU5ivPuhB3TZd0qaZdIG1SBv9zyCS0k235ZiPGksi9iuxNjB1O939AUiI02Q==
-X-Received: by 2002:a65:57c2:0:b0:41a:ff04:694c with SMTP id q2-20020a6557c2000000b0041aff04694cmr5997273pgr.573.1658793516160;
-        Mon, 25 Jul 2022 16:58:36 -0700 (PDT)
-Received: from cabot.adilger.int (S01061cabc081bf83.cg.shawcable.net. [70.77.221.9])
-        by smtp.gmail.com with ESMTPSA id p2-20020a170902780200b00168dadc7354sm9859676pll.78.2022.07.25.16.58.34
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 25 Jul 2022 16:58:35 -0700 (PDT)
-From:   Andreas Dilger <adilger@dilger.ca>
-Message-Id: <EC8AF6A7-9A90-4C21-8A1F-4AE936776876@dilger.ca>
-Content-Type: multipart/signed;
- boundary="Apple-Mail=_DB83B9B8-69A7-4FD9-B14D-F8B77FC7C0F2";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
-Subject: Re: [PATCH v4 6/9] f2fs: don't allow DIO reads but not DIO writes
-Date:   Mon, 25 Jul 2022 17:58:31 -0600
-In-Reply-To: <Yt7dCcG0ns85QqJe@sol.localdomain>
-Cc:     Jaegeuk Kim <jaegeuk@kernel.org>, linux-fsdevel@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-xfs@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Keith Busch <kbusch@kernel.org>
-To:     Eric Biggers <ebiggers@kernel.org>
-References: <20220722071228.146690-1-ebiggers@kernel.org>
- <20220722071228.146690-7-ebiggers@kernel.org> <YtyoF89iOg8gs7hj@google.com>
- <Yt7dCcG0ns85QqJe@sol.localdomain>
-X-Mailer: Apple Mail (2.3273)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        with ESMTP id S229831AbiGZQUq (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 26 Jul 2022 12:20:46 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 231121CB39;
+        Tue, 26 Jul 2022 09:20:45 -0700 (PDT)
+Received: from localhost.localdomain (unknown [203.135.47.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: usama.anjum)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 93E386601AA5;
+        Tue, 26 Jul 2022 17:20:33 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1658852443;
+        bh=Q8yKS/CE9WeaVU/KjkLDiu1+P/03f/c90M8YsCixowU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=cgN22QmV02XkyYXSex/PVpjIAgeSTJ3OarhCz60EXZZSIFtH4Ry66m5tQhPibiNlx
+         ejgKdT6EuGerVmVtrcDtxz065YEw9n4vz/5f3G9wrhBym7pKH4ZrPC5hXxzrpdS0pD
+         Y1+Vx0AtG6jvdTF6VVfdadQR7EtGSZILqK0V8oACG7CF3mgz8xIOtBNM/lDziTLvNw
+         E2FHA8881Ts8ak3YP5z5ZQ9lUe1hCTA0nD7zL0NiTzkQF93DaE+LH7271nX/Vt45Ro
+         BW5l2/BzT/sJwUwaL4wlymWvcrdPd3yhj65fBxc2bnIgd0LIBoQZGDjVsTEDnPsr+q
+         M4e19wsh2sZ3g==
+From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+        "H. Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list),
+        linux-fsdevel@vger.kernel.org (open list:PROC FILESYSTEM),
+        linux-api@vger.kernel.org (open list:ABI/API),
+        linux-arch@vger.kernel.org (open list:GENERIC INCLUDE/ASM HEADER FILES),
+        linux-mm@kvack.org (open list:MEMORY MANAGEMENT),
+        linux-perf-users@vger.kernel.org (open list:PERFORMANCE EVENTS
+        SUBSYSTEM),
+        linux-kselftest@vger.kernel.org (open list:KERNEL SELFTEST FRAMEWORK),
+        krisman@collabora.com
+Cc:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
+        kernel@collabora.com
+Subject: [PATCH 0/5] Add process_memwatch syscall
+Date:   Tue, 26 Jul 2022 21:18:49 +0500
+Message-Id: <20220726161854.276359-1-usama.anjum@collabora.com>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Hello,
 
---Apple-Mail=_DB83B9B8-69A7-4FD9-B14D-F8B77FC7C0F2
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+This patch series implements a new syscall, process_memwatch. Currently,
+only the support to watch soft-dirty PTE bit is added. This syscall is
+generic to watch the memory of the process. There is enough room to add
+more operations like this to watch memory in the future.
 
-On Jul 25, 2022, at 12:12 PM, Eric Biggers <ebiggers@kernel.org> wrote:
->=20
-> On Sat, Jul 23, 2022 at 07:01:59PM -0700, Jaegeuk Kim wrote:
->> On 07/22, Eric Biggers wrote:
->>> From: Eric Biggers <ebiggers@google.com>
->>>=20
->>> Currently, if an f2fs filesystem is mounted with the mode=3Dlfs and
->>> io_bits mount options, DIO reads are allowed but DIO writes are not.
->>> Allowing DIO reads but not DIO writes is an unusual restriction, =
-which
->>> is likely to be surprising to applications, namely any application =
-that
->>> both reads and writes from a file (using O_DIRECT).  This behavior =
-is
->>> also incompatible with the proposed STATX_DIOALIGN extension to =
-statx.
->>> Given this, let's drop the support for DIO reads in this =
-configuration.
->>=20
->> IIRC, we allowed DIO reads since applications complained a lower =
-performance.
->> So, I'm afraid this change will make another confusion to users. =
-Could
->> you please apply the new bahavior only for STATX_DIOALIGN?
->>=20
->=20
-> Well, the issue is that the proposed STATX_DIOALIGN fields cannot =
-represent this
-> weird case where DIO reads are allowed but not DIO writes.  So the =
-question is
-> whether this case actually matters, in which case we should make =
-STATX_DIOALIGN
-> distinguish between DIO reads and DIO writes, or whether it's some odd =
-edge case
-> that doesn't really matter, in which case we could just fix it or make
-> STATX_DIOALIGN report that DIO is unsupported.  I was hoping that you =
-had some
-> insight here.  What sort of applications want DIO reads but not DIO =
-writes?
-> Is this common at all?
+Soft-dirty PTE bit of the memory pages can be viewed by using pagemap
+procfs file. The soft-dirty PTE bit for the memory in a process can be
+cleared by writing to the clear_refs file. This series adds features that
+weren't possible through the Proc FS interface.
+- There is no atomic get soft-dirty PTE bit status and clear operation
+  possible.
+- The soft-dirty PTE bit of only a part of memory cannot be cleared.
 
-I don't think this is f2fs related, but some backup applications I'm =
-aware
-of are using DIO reads to avoid polluting the page cache when reading =
-large
-numbers of files. They don't care about DIO writes, since that is =
-usually
-slower than async writes due to the sync before returning from the =
-syscall.
+Historically, soft-dirty PTE bit tracking has been used in the CRIU
+project. The Proc FS interface is enough for that as I think the process
+is frozen. We have the use case where we need to track the soft-dirty
+PTE bit for running processes. We need this tracking and clear mechanism
+of a region of memory while the process is running to emulate the
+getWriteWatch() syscall of Windows. This syscall is used by games to keep
+track of dirty pages and keep processing only the dirty pages. This
+syscall can be used by the CRIU project and other applications which
+require soft-dirty PTE bit information.
 
-Also, IMHO it doesn't make sense to remove useful functionality because =
-the
-new STATX_DIOALIGN fields don't handle this.  At worst the application =
-will
-still get an error when trying a DIO write, but in most cases they will
-not use the brand new STATX call in the first place, and if this is =
-documented
-then any application that starts to use it should be able to handle it.
+As in the current kernel there is no way to clear a part of memory (instead
+of clearing the Soft-Dirty bits for the entire processi) and get+clear
+operation cannot be performed atomically, there are other methods to mimic
+this information entirely in userspace with poor performance:
+- The mprotect syscall and SIGSEGV handler for bookkeeping
+- The userfaultfd syscall with the handler for bookkeeping
 
-Cheers, Andreas
+        long process_memwatch(int pidfd, unsigned long start, int len,
+                              unsigned int flags, void *vec, int vec_len);
 
+This syscall can be used by the CRIU project and other applications which
+require soft-dirty PTE bit information. The following operations are
+supported in this syscall:
+- Get the pages that are soft-dirty.
+- Clear the pages which are soft-dirty.
+- The optional flag to ignore the VM_SOFTDIRTY and only track per page
+soft-dirty PTE bit
 
+There are two decisions which have been taken about how to get the output
+from the syscall.
+- Return offsets of the pages from the start in the vec
+- Stop execution when vec is filled with dirty pages
+These two arguments doesn't follow the mincore() philosophy where the
+output array corresponds to the address range in one to one fashion, hence
+the output buffer length isn't passed and only a flag is set if the page
+is present. This makes mincore() easy to use with less control. We are
+passing the size of the output array and putting return data consecutively
+which is offset of dirty pages from the start. The user can convert these
+offsets back into the dirty page addresses easily. Suppose, the user want
+to get first 10 dirty pages from a total memory of 100 pages. He'll
+allocate output buffer of size 10 and process_memwatch() syscall will
+abort after finding the 10 pages. This behaviour is needed to support
+Windows' getWriteWatch(). The behaviour like mincore() can be achieved by
+passing output buffer of 100 size. This interface can be used for any
+desired behaviour.
 
+Regards,
+Muhammad Usama Anjum
 
+Muhammad Usama Anjum (5):
+  fs/proc/task_mmu: make functions global to be used in other files
+  mm: Implement process_memwatch syscall
+  mm: wire up process_memwatch syscall for x86
+  selftests: vm: add process_memwatch syscall tests
+  mm: add process_memwatch syscall documentation
 
+ Documentation/admin-guide/mm/soft-dirty.rst   |  48 +-
+ arch/x86/entry/syscalls/syscall_32.tbl        |   1 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |   1 +
+ fs/proc/task_mmu.c                            |  84 +--
+ include/linux/mm_inline.h                     |  99 +++
+ include/linux/syscalls.h                      |   3 +-
+ include/uapi/asm-generic/unistd.h             |   5 +-
+ include/uapi/linux/memwatch.h                 |  12 +
+ kernel/sys_ni.c                               |   1 +
+ mm/Makefile                                   |   2 +-
+ mm/memwatch.c                                 | 285 ++++++++
+ tools/include/uapi/asm-generic/unistd.h       |   5 +-
+ .../arch/x86/entry/syscalls/syscall_64.tbl    |   1 +
+ tools/testing/selftests/vm/.gitignore         |   1 +
+ tools/testing/selftests/vm/Makefile           |   2 +
+ tools/testing/selftests/vm/memwatch_test.c    | 635 ++++++++++++++++++
+ 16 files changed, 1098 insertions(+), 87 deletions(-)
+ create mode 100644 include/uapi/linux/memwatch.h
+ create mode 100644 mm/memwatch.c
+ create mode 100644 tools/testing/selftests/vm/memwatch_test.c
 
---Apple-Mail=_DB83B9B8-69A7-4FD9-B14D-F8B77FC7C0F2
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
+-- 
+2.30.2
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - http://gpgtools.org
-
-iQIzBAEBCAAdFiEEDb73u6ZejP5ZMprvcqXauRfMH+AFAmLfLigACgkQcqXauRfM
-H+DIjBAAuhcCUrRZxLbIIbGQiYg9WA8Kq1A3wSBPDzMet5t78gjiKUo6y+RE2w0X
-O2Be8DY9X8x4OIpbD4jiFAe7TiVDAHAYjjrzKFMykU63wB4nJELcIZrqELT/O1qg
-9Zi1+hqoXK+WcCcC8IEh52+ypABRczFIb9OF6RPR450wAxc+0x7lXfyZ/TzBcRyl
-+NeWbyLAQfW+VRViN/re9tlticLobDklbfgNC0rNuhp1CawlnMVsqWSxx/F9WT3s
-RjdsJ8hzDqLEpPv6Sgd30T9U4UaoLEpRe36CMuT4/SYx6h6SR2Kv61+Z3IihAp41
-utLypsHnpswfLjF3KmxusOMLZGmCG1EFazn/gMi6WuccfBaI+m7OXeUvvlLGnzn4
-9RJWpVHy3TVTWdikFE/LVP9L7D8rj2jos9UVpFE8QUO2Gu1NNf6C5lIg3iXlvcvn
-uxuqCpYcPCCwYosLSNcpi9tNW/p3aS0WNNfGlqWfB8Au4S/91sMJsGKkON+jwsMs
-cMiUECc+eFc7HuCrP80IW+N8asiaGrTWGrrg+EpxFtl12OzKyn4OnoY5NxWuLXLF
-3lSS1IZWudfgO1TD/5sUmvsHtUS4Rd3akslKsAQyavGxszDWvxIGvU0kABSb8k1P
-q3CXMHx8oG9FooyoP3FnfUzDrZXf40Sk28cCsqOa09926JUbhqY=
-=zitC
------END PGP SIGNATURE-----
-
---Apple-Mail=_DB83B9B8-69A7-4FD9-B14D-F8B77FC7C0F2--
