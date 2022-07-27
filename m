@@ -2,69 +2,60 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1ACFC581A20
-	for <lists+linux-api@lfdr.de>; Tue, 26 Jul 2022 21:11:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A443D5831D6
+	for <lists+linux-api@lfdr.de>; Wed, 27 Jul 2022 20:19:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239309AbiGZTLs (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 26 Jul 2022 15:11:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45184 "EHLO
+        id S242647AbiG0STu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 27 Jul 2022 14:19:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232019AbiGZTLr (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 26 Jul 2022 15:11:47 -0400
-Received: from mail.efficios.com (mail.efficios.com [167.114.26.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9AE727B37;
-        Tue, 26 Jul 2022 12:11:46 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 1B6D5440B22;
-        Tue, 26 Jul 2022 15:11:46 -0400 (EDT)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id F-v6hklY4CT4; Tue, 26 Jul 2022 15:11:45 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 89428440B21;
-        Tue, 26 Jul 2022 15:11:45 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 89428440B21
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1658862705;
-        bh=vN9ARZK+WvtXE9yychMGzpzNLo2B1FEaXvJk8aAC00M=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=pSOb7aoADAZMbnJFkOkQ11mqxhZPP4gFbWWmRjvseIWyp2m6snVatqWu+XaMvLhYd
-         MetezN1GIWjfNV9Urs2Z7wtb7JjQwKSkEO3j41y9VQldhGOh0FuDdKL76We26RQbI7
-         j+5rwXsGgdOdbF82qwnQfuafnmcYeR4tNuL8mloEZVZb5ImVBuZP4K2KUJU0JGmkIf
-         Bg1OJMzmCVVUxSFAAu97wQo9bBBT26Snt9fLZssAiZRiNevnH0p/BBf5X5HiDUMAkn
-         iSCfMvqz61VD/0zAL3V5LUN9zKI5cAK2KgkLUKk+fHVoGqmgYrGzecXYLxbsyxgJi4
-         xB/5tNGwIdg/w==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id D6o0RAAckapU; Tue, 26 Jul 2022 15:11:45 -0400 (EDT)
-Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id 7A826440CA1;
-        Tue, 26 Jul 2022 15:11:45 -0400 (EDT)
-Date:   Tue, 26 Jul 2022 15:11:45 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api <linux-api@vger.kernel.org>,
-        Peter Oskolkov <posk@posk.io>
-Message-ID: <1021959527.83217.1658862705489.JavaMail.zimbra@efficios.com>
-In-Reply-To: <20220622194617.1155957-2-mathieu.desnoyers@efficios.com>
-References: <20220622194617.1155957-1-mathieu.desnoyers@efficios.com> <20220622194617.1155957-2-mathieu.desnoyers@efficios.com>
-Subject: Re: [PATCH 2/2] rseq: Kill process when unknown flags are
- encountered in ABI structures
+        with ESMTP id S243537AbiG0ST2 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 27 Jul 2022 14:19:28 -0400
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64815B3;
+        Wed, 27 Jul 2022 10:19:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=Qjt6jgON/IXxK9vUL+bWcu11UAynI91N7Vvf+lXsDnA=; b=Y4W3ohKogtIsv5sO1rsWnXkRxi
+        5K5uHf++cajTI1O4kH4egHglOMQeus8wDRum4prR6t6udBPNq07JZ54X79r4UJMJH02fEC/I/Y2sH
+        v65heA7zDLHxHvS7rJjLO4xZmNTPmCVFKs7E5Ga7iwzyEign4+hVEJIq+EcgFwm0YchyRH8C30w+k
+        KvERPaM0VaUp4n5N1AbSp9VJhr65btxexX2f+3qEBO83EjsA7A7FATL+HTj44yU92peMLVxFAO/ZF
+        eM0DzRb3pPzswO/t+XgtST8E7yS5ado6s5eooxQT2jZbRizD2JSFUDndZq31sVfRbYs2WKLld3mkG
+        AyDYg3xw==;
+Received: from 201-13-50-220.dsl.telesp.net.br ([201.13.50.220] helo=[192.168.15.109])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1oGkhC-008yIs-Ri; Wed, 27 Jul 2022 19:19:42 +0200
+Message-ID: <9ef24c18-775b-000a-5a03-4e4fe0f1c83c@igalia.com>
+Date:   Wed, 27 Jul 2022 14:19:22 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [167.114.26.124]
-X-Mailer: Zimbra 8.8.15_GA_4304 (ZimbraWebClient - FF100 (Linux)/8.8.15_GA_4304)
-Thread-Topic: rseq: Kill process when unknown flags are encountered in ABI structures
-Thread-Index: XBYLrKi9cAv8nErblMXcBK4sHvOViA==
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [RFC] futex2: add NUMA awareness
+Content-Language: en-US
+To:     Andrey Semashev <andrey.semashev@gmail.com>
+Cc:     linux-api@vger.kernel.org, fweimer@redhat.com,
+        linux-kernel@vger.kernel.org, Darren Hart <dvhart@infradead.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        libc-alpha@sourceware.org, Davidlohr Bueso <dave@stgolabs.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+References: <36a8f60a-69b2-4586-434e-29820a64cd88@igalia.com>
+ <74ba5239-27b0-299e-717c-595680cd52f9@gmail.com>
+ <8bfd13a7-ed02-00dd-63a1-7144f2e55ef0@igalia.com>
+ <3995754e-064b-6091-ccb0-224c3e698af2@gmail.com>
+From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <3995754e-064b-6091-ccb0-224c3e698af2@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,64 +63,120 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
------ On Jun 22, 2022, at 3:46 PM, Mathieu Desnoyers mathieu.desnoyers@efficios.com wrote:
+Às 13:42 de 22/07/22, Andrey Semashev escreveu:
+> On 7/14/22 18:00, André Almeida wrote:
+>> Hi Andrey,
+>>
+>> Thanks for the feedback.
+>>
+>> Às 08:01 de 14/07/22, Andrey Semashev escreveu:
+>>> On 7/14/22 06:18, André Almeida wrote:
+>> [...]
+>>>>
+>>>> Feedback? Who else should I CC?
+>>>
+>>> Just a few questions:
+>>>
+>>> Do I understand correctly that notifiers won't be able to wake up
+>>> waiters unless they know on which node they are waiting?
+>>>
+>>
+>> If userspace is using NUMA_FLAG, yes. Otherwise all futexes would be
+>> located in the default node, and userspace doesn't need to know which
+>> one is the default.
+>>
+>>> Is it possible to wait on a futex on different nodes?
+>>
+>> Yes, given that you specify `.hint = id` with the proper node id.
+> 
+> So any given futex_wake(FUTEX_NUMA) operates only within its node, right?
+> 
+>>> Is it possible to wake waiters on a futex on all nodes? When a single
+>>> (or N, where N is not "all") waiter is woken, which node is selected? Is
+>>> there a rotation of nodes, so that nodes are not skewed in terms of
+>>> notified waiters?
+>>
+>> Regardless of which node the waiter process is running, what matter is
+>> in which node the futex hash table is. So for instance if we have:
+>>
+>> 	struct futex32_numa f = {.value = 0, hint = 2};
+>>
+>> And now we add some waiters for this futex:
+>>
+>> Thread 1, running on node 3:
+>>
+>> 	futex_wait(&f, 0, FUTEX_NUMA | FUTEX_32, NULL);
+>>
+>> Thread 2, running on node 0:
+>>
+>> 	futex_wait(&f, 0, FUTEX_NUMA | FUTEX_32, NULL);
+>>
+>> Thread 3, running on node 2:
+>>
+>> 	futex_wait(&f, 0, FUTEX_NUMA | FUTEX_32, NULL);
+>>
+>> And then, Thread 4, running on node 3:
+>>
+>> 	futex_wake(&f, 2, FUTEX_NUMA | FUTEX_32);
+>>
+>> Now, two waiter would wake up (e.g. T1 and T3, node 3 and 2) and they
+>> are from different nodes. futex_wake() doesn't provide guarantees of
+>> which waiter will be selected, so I can't say which node would be
+>> selected.
+> 
+> In this example, T1, T2 and T3 are all blocking on node 2 (since all of
+> them presumably specify hint == 2), right? In this sense, it doesn't
+> matter which node they are running on, what matters is what node they
+> block on.
 
-> rseq_abi()->flags and rseq_abi()->rseq_cs->flags 29 upper bits are
-> currently unused.
-> 
-> The current behavior when those bits are set is to ignore them. This is
-> not an ideal behavior, because when future features will start using
-> those flags, if user-space fails to correctly validate that the kernel
-> indeed supports those flags (e.g. with a new sys_rseq flags bit) before
-> using them, it may incorrectly assume that the kernel will handle those
-> flags way when in fact those will be silently ignored on older kernels.
-> 
-> Validating that unused flags bits are cleared will allow a smoother
-> transition when those flags will start to be used by allowing
-> applications to fail early, and obviously, when they attempt to use the
-> new flags on an older kernel that does not support them.
-
-Hi Peter, as for the prior patch, would you consider pulling this through
-the tip tree ?
-
-Thanks,
-
-Mathieu
+yes
 
 > 
-> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> ---
-> kernel/rseq.c | 4 ++--
-> 1 file changed, 2 insertions(+), 2 deletions(-)
+> What I'm asking is can I wake all threads blocked on all nodes on the
+> same futex? That is, is the following possible?
 > 
-> diff --git a/kernel/rseq.c b/kernel/rseq.c
-> index 81d7dc80787b..bda8175f8f99 100644
-> --- a/kernel/rseq.c
-> +++ b/kernel/rseq.c
-> @@ -176,7 +176,7 @@ static int rseq_need_restart(struct task_struct *t, u32
-> cs_flags)
-> 	u32 flags, event_mask;
-> 	int ret;
+>   // I'm using hint == -1 to indicate the current node
+>   // of the calling thread for waiters and all nodes for notifiers
+>   struct futex32_numa f = {.value = 0, .hint = -1};
 > 
-> -	if (WARN_ON_ONCE(cs_flags & RSEQ_CS_NO_RESTART_FLAGS))
-> +	if (WARN_ON_ONCE(cs_flags & RSEQ_CS_NO_RESTART_FLAGS) || cs_flags)
-> 		return -EINVAL;
+>   Thread 1, running on node 3, blocks on node 3:
 > 
-> 	/* Get thread flags. */
-> @@ -184,7 +184,7 @@ static int rseq_need_restart(struct task_struct *t, u32
-> cs_flags)
-> 	if (ret)
-> 		return ret;
+>   futex_wait(&f, 0, FUTEX_NUMA | FUTEX_32, NULL);
 > 
-> -	if (WARN_ON_ONCE(flags & RSEQ_CS_NO_RESTART_FLAGS))
-> +	if (WARN_ON_ONCE(flags & RSEQ_CS_NO_RESTART_FLAGS) || flags)
-> 		return -EINVAL;
+>   Thread 2, running on node 0, blocks on node 0:
 > 
-> 	/*
-> --
-> 2.30.2
+>   futex_wait(&f, 0, FUTEX_NUMA | FUTEX_32, NULL);
+> 
+>   Thread 3, running on node 2, blocks on node 2:
+> 
+>   futex_wait(&f, 0, FUTEX_NUMA | FUTEX_32, NULL);
+> 
+>   And then, Thread 4, running on whatever node:
+> 
+>   futex_wake(&f, -1, FUTEX_NUMA | FUTEX_32);
 
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
+this futex_wake will wake all futexes waiting on the node that called
+futex_wake(), waking only one futex in this example. They are __not__
+the same futex. If they have different nodes, they would have different
+information inside the kernel.
+
+if you want to wake them all with the same futex_wake(), they need to be
+waiting on the same node.
+
+> 
+> Here, futex_wake would wake T1, T2 and T3. Or:
+> 
+>   futex_wake(&f, 1, FUTEX_NUMA | FUTEX_32);
+
+this would behave exactly as the futex_wake() above.
+
+> 
+> Here, futex_wake would wake any one of T1, T2 or T3.
+> 
+>> There's no policy for fairness/starvation for futex_wake(). Do
+>> you think this would be important for the NUMA case?
+> 
+> I'm not sure yet. If there isn't a cross-node behavior like in my
+> example above then, I suppose, it falls to the userspace to ensure fair
+> rotation of the wakeups on different nodes. If there is functionality
+> like this, I imagine, some sort of fairness would be desired.
