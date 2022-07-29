@@ -2,181 +2,157 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A443D5831D6
-	for <lists+linux-api@lfdr.de>; Wed, 27 Jul 2022 20:19:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EE0A584EF2
+	for <lists+linux-api@lfdr.de>; Fri, 29 Jul 2022 12:38:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242647AbiG0STu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 27 Jul 2022 14:19:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33840 "EHLO
+        id S235562AbiG2KiB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 29 Jul 2022 06:38:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243537AbiG0ST2 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 27 Jul 2022 14:19:28 -0400
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64815B3;
-        Wed, 27 Jul 2022 10:19:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Qjt6jgON/IXxK9vUL+bWcu11UAynI91N7Vvf+lXsDnA=; b=Y4W3ohKogtIsv5sO1rsWnXkRxi
-        5K5uHf++cajTI1O4kH4egHglOMQeus8wDRum4prR6t6udBPNq07JZ54X79r4UJMJH02fEC/I/Y2sH
-        v65heA7zDLHxHvS7rJjLO4xZmNTPmCVFKs7E5Ga7iwzyEign4+hVEJIq+EcgFwm0YchyRH8C30w+k
-        KvERPaM0VaUp4n5N1AbSp9VJhr65btxexX2f+3qEBO83EjsA7A7FATL+HTj44yU92peMLVxFAO/ZF
-        eM0DzRb3pPzswO/t+XgtST8E7yS5ado6s5eooxQT2jZbRizD2JSFUDndZq31sVfRbYs2WKLld3mkG
-        AyDYg3xw==;
-Received: from 201-13-50-220.dsl.telesp.net.br ([201.13.50.220] helo=[192.168.15.109])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1oGkhC-008yIs-Ri; Wed, 27 Jul 2022 19:19:42 +0200
-Message-ID: <9ef24c18-775b-000a-5a03-4e4fe0f1c83c@igalia.com>
-Date:   Wed, 27 Jul 2022 14:19:22 -0300
+        with ESMTP id S235421AbiG2KiA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 29 Jul 2022 06:38:00 -0400
+Received: from esa2.mentor.iphmx.com (esa2.mentor.iphmx.com [68.232.141.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3DE38238A;
+        Fri, 29 Jul 2022 03:37:58 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.93,201,1654588800"; 
+   d="scan'208";a="80469973"
+Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
+  by esa2.mentor.iphmx.com with ESMTP; 29 Jul 2022 02:37:57 -0800
+IronPort-SDR: qPRhArPH6ZfwOvrGboF1DO33OGLMQs0xHIKjcfXqY8Lk27NI4sJNrioLfb4O/zeu75QM7acBJx
+ RUiWkZqPSTWojbH0H0gXzxy/AL+nvHb00tFrOLkYnz/RHKwpAFa5g0qG3soTRxC8QbfLqoSHZk
+ wsjD87724I0ya8BQw7zoawEfU6OQAUebQgZEiBN7/k3LcVgLyKE/KE0Am/W2zUJ6Nf1J6hiQhb
+ AHY6i8npVGsz+kLBnTR84kSvUca7daDXzQ9R7oRw907kjBH87faV4+/VQ35izCe2TiLYq2O+Cp
+ xwo=
+Message-ID: <d6af7f7e-7f8c-a6a7-7a09-84928fd69774@mentor.com>
+Date:   Fri, 29 Jul 2022 11:37:49 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [RFC] futex2: add NUMA awareness
-Content-Language: en-US
-To:     Andrey Semashev <andrey.semashev@gmail.com>
-Cc:     linux-api@vger.kernel.org, fweimer@redhat.com,
-        linux-kernel@vger.kernel.org, Darren Hart <dvhart@infradead.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        libc-alpha@sourceware.org, Davidlohr Bueso <dave@stgolabs.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-References: <36a8f60a-69b2-4586-434e-29820a64cd88@igalia.com>
- <74ba5239-27b0-299e-717c-595680cd52f9@gmail.com>
- <8bfd13a7-ed02-00dd-63a1-7144f2e55ef0@igalia.com>
- <3995754e-064b-6091-ccb0-224c3e698af2@gmail.com>
-From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <3995754e-064b-6091-ccb0-224c3e698af2@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Subject: Re: [PATCH v4 0/3] initramfs: add support for xattrs in the initial
+ ram disk
+Content-Language: en-GB
+To:     Roberto Sassu <roberto.sassu@huawei.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>
+CC:     Rob Landley <rob@landley.net>, "hpa@zytor.com" <hpa@zytor.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "initramfs@vger.kernel.org" <initramfs@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "bug-cpio@gnu.org" <bug-cpio@gnu.org>,
+        "zohar@linux.vnet.ibm.com" <zohar@linux.vnet.ibm.com>,
+        Silviu Vlasceanu <Silviu.Vlasceanu@huawei.com>,
+        Dmitry Kasatkin <dmitry.kasatkin@huawei.com>,
+        "takondra@cisco.com" <takondra@cisco.com>,
+        "kamensky@cisco.com" <kamensky@cisco.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "james.w.mcmechan@gmail.com" <james.w.mcmechan@gmail.com>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        Dirk Behme <dirk.behme@de.bosch.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+References: <33cfb804-6a17-39f0-92b7-01d54e9c452d@huawei.com>
+ <1561909199.3985.33.camel@linux.ibm.com>
+ <45164486-782f-a442-e442-6f56f9299c66@huawei.com>
+ <1561991485.4067.14.camel@linux.ibm.com>
+ <f85ed711-f583-51cd-34e2-80018a592280@huawei.com>
+ <0c17bf9e-9b0b-b067-cf18-24516315b682@huawei.com>
+ <20220609102627.GA3922@lxhi-065>
+ <21b3aeab20554a30b9796b82cc58e55b@huawei.com>
+ <20220610153336.GA8881@lxhi-065>
+ <4bc349a59e4042f7831b1190914851fe@huawei.com>
+ <20220615092712.GA4068@lxhi-065>
+ <032ade35-6eb8-d698-ac44-aa45d46752dd@mentor.com>
+ <f82d4961986547b28b6de066219ad08b@huawei.com>
+ <737ddf72-05f4-a47e-c901-fec5b1dfa7a6@mentor.com>
+ <8e6a723874644449be99fcebb0905058@huawei.com>
+From:   Jim Baxter <jim_baxter@mentor.com>
+Organization: Siemens Digital Industries Software
+In-Reply-To: <8e6a723874644449be99fcebb0905058@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [137.202.0.90]
+X-ClientProxiedBy: svr-ies-mbx-09.mgc.mentorg.com (139.181.222.9) To
+ svr-ies-mbx-12.mgc.mentorg.com (139.181.222.12)
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Às 13:42 de 22/07/22, Andrey Semashev escreveu:
-> On 7/14/22 18:00, André Almeida wrote:
->> Hi Andrey,
+
+On 19/07/2022 07:55, Roberto Sassu wrote:
+>> From: Jim Baxter [mailto:jim_baxter@mentor.com]
+>> Sent: Monday, July 18, 2022 8:08 PM
 >>
->> Thanks for the feedback.
 >>
->> Às 08:01 de 14/07/22, Andrey Semashev escreveu:
->>> On 7/14/22 06:18, André Almeida wrote:
->> [...]
+>>
+>> Best regards,
+>>
+>> *Jim Baxter*
+>>
+>> Siemens Digital Industries Software
+>> Automotive Business Unit
+>> DI SW STS ABU
+>> UK
+>> Tel.: +44 (161) 926-1656
+>> mailto:jim.baxter@siemens.com <mailto:jim.baxter@siemens.com>
+>> sw.siemens.com <https://sw.siemens.com/>
+>>
+>> On 18/07/2022 17:49, Roberto Sassu wrote:
+>>>> From: Jim Baxter [mailto:jim_baxter@mentor.com]
+>>>> Sent: Monday, July 18, 2022 6:36 PM
 >>>>
->>>> Feedback? Who else should I CC?
+>>>>
+>>>> Hello,
+>>>>
+>>>> I have been testing these patches and do not see the xattr information when
+>>>> trying to retrieve it within the initramfs, do you have an example of how
+>>>> you tested this originally?
 >>>
->>> Just a few questions:
+>>> Hi Jim, all
 >>>
->>> Do I understand correctly that notifiers won't be able to wake up
->>> waiters unless they know on which node they are waiting?
+>>> apologies, I didn't find yet the time to look at this.
+>>
+>> Hello Roberto,
+>>
+>> Thank you for your response, I can wait until you have looked at the patches,
+>> I asked the question to make sure it was not something wrong in my
+>> configuration.
+>>
 >>>
->>
->> If userspace is using NUMA_FLAG, yes. Otherwise all futexes would be
->> located in the default node, and userspace doesn't need to know which
->> one is the default.
->>
->>> Is it possible to wait on a futex on different nodes?
->>
->> Yes, given that you specify `.hint = id` with the proper node id.
-> 
-> So any given futex_wake(FUTEX_NUMA) operates only within its node, right?
-> 
->>> Is it possible to wake waiters on a futex on all nodes? When a single
->>> (or N, where N is not "all") waiter is woken, which node is selected? Is
->>> there a rotation of nodes, so that nodes are not skewed in terms of
->>> notified waiters?
->>
->> Regardless of which node the waiter process is running, what matter is
->> in which node the futex hash table is. So for instance if we have:
->>
->> 	struct futex32_numa f = {.value = 0, hint = 2};
->>
->> And now we add some waiters for this futex:
->>
->> Thread 1, running on node 3:
->>
->> 	futex_wait(&f, 0, FUTEX_NUMA | FUTEX_32, NULL);
->>
->> Thread 2, running on node 0:
->>
->> 	futex_wait(&f, 0, FUTEX_NUMA | FUTEX_32, NULL);
->>
->> Thread 3, running on node 2:
->>
->> 	futex_wait(&f, 0, FUTEX_NUMA | FUTEX_32, NULL);
->>
->> And then, Thread 4, running on node 3:
->>
->> 	futex_wake(&f, 2, FUTEX_NUMA | FUTEX_32);
->>
->> Now, two waiter would wake up (e.g. T1 and T3, node 3 and 2) and they
->> are from different nodes. futex_wake() doesn't provide guarantees of
->> which waiter will be selected, so I can't say which node would be
->> selected.
-> 
-> In this example, T1, T2 and T3 are all blocking on node 2 (since all of
-> them presumably specify hint == 2), right? In this sense, it doesn't
-> matter which node they are running on, what matters is what node they
-> block on.
+>>> Uhm, I guess this could be solved with:
+>>>
+>>> https://github.com/openeuler-
+>> mirror/kernel/commit/18a502f7e3b1de7b9ba0c70896ce08ee13d052da
+>>>
+>>> and adding initramtmpfs to the kernel command line. You are
+>>> probably using ramfs, which does not have xattr support.
+>>>
 
-yes
+Can I clarify which filesystem type is supported with this patch series?
+Is it tmpfs or perhaps a ramdisk?
 
-> 
-> What I'm asking is can I wake all threads blocked on all nodes on the
-> same futex? That is, is the following possible?
-> 
->   // I'm using hint == -1 to indicate the current node
->   // of the calling thread for waiters and all nodes for notifiers
->   struct futex32_numa f = {.value = 0, .hint = -1};
-> 
->   Thread 1, running on node 3, blocks on node 3:
-> 
->   futex_wait(&f, 0, FUTEX_NUMA | FUTEX_32, NULL);
-> 
->   Thread 2, running on node 0, blocks on node 0:
-> 
->   futex_wait(&f, 0, FUTEX_NUMA | FUTEX_32, NULL);
-> 
->   Thread 3, running on node 2, blocks on node 2:
-> 
->   futex_wait(&f, 0, FUTEX_NUMA | FUTEX_32, NULL);
-> 
->   And then, Thread 4, running on whatever node:
-> 
->   futex_wake(&f, -1, FUTEX_NUMA | FUTEX_32);
 
-this futex_wake will wake all futexes waiting on the node that called
-futex_wake(), waking only one futex in this example. They are __not__
-the same futex. If they have different nodes, they would have different
-information inside the kernel.
+>>
+>>
+>> Thank you, I have tested that patch but the problem remained. Here is my
+>> command line, I wonder if there is something wrong.
+>>
+>> Kernel command line: rw rootfstype=initramtmpfs root=/dev/ram0
+>> initrd=0x500000000 rootwait
+> 
+> It is just initramtmpfs, without rootfstype=.
+> 
+> Roberto
 
-if you want to wake them all with the same futex_wake(), they need to be
-waiting on the same node.
-
-> 
-> Here, futex_wake would wake T1, T2 and T3. Or:
-> 
->   futex_wake(&f, 1, FUTEX_NUMA | FUTEX_32);
-
-this would behave exactly as the futex_wake() above.
-
-> 
-> Here, futex_wake would wake any one of T1, T2 or T3.
-> 
->> There's no policy for fairness/starvation for futex_wake(). Do
->> you think this would be important for the NUMA case?
-> 
-> I'm not sure yet. If there isn't a cross-node behavior like in my
-> example above then, I suppose, it falls to the userspace to ensure fair
-> rotation of the wakeups on different nodes. If there is functionality
-> like this, I imagine, some sort of fairness would be desired.
+Best regards,
+Jim
