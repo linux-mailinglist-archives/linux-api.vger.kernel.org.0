@@ -2,267 +2,198 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B427585656
-	for <lists+linux-api@lfdr.de>; Fri, 29 Jul 2022 22:58:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AACF758599D
+	for <lists+linux-api@lfdr.de>; Sat, 30 Jul 2022 11:32:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230089AbiG2U6t (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 29 Jul 2022 16:58:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53622 "EHLO
+        id S234430AbiG3JcI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sat, 30 Jul 2022 05:32:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238924AbiG2U6s (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 29 Jul 2022 16:58:48 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC7968AEC1
-        for <linux-api@vger.kernel.org>; Fri, 29 Jul 2022 13:58:45 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id l193so4486680pge.9
-        for <linux-api@vger.kernel.org>; Fri, 29 Jul 2022 13:58:45 -0700 (PDT)
+        with ESMTP id S234442AbiG3JcH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sat, 30 Jul 2022 05:32:07 -0400
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1109042AE8
+        for <linux-api@vger.kernel.org>; Sat, 30 Jul 2022 02:32:05 -0700 (PDT)
+Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-f2a4c51c45so8333698fac.9
+        for <linux-api@vger.kernel.org>; Sat, 30 Jul 2022 02:32:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=xSUX4n5EOZoO6EmWZ2h+wwgMii0Rl96zCog8KMwNDpE=;
-        b=IQa/2kQ54sNuJFQTlEtNq5TKTdwkdwyj7A2Lk5GyapXGPHgft6Y4da5hKX8JyLKYUF
-         dxIS0jRo9GG3npqy+Pg4Ln4aI12jIIGtLZP0/UBLco+CF9pVQjURcXwHKbpgIaL6oDo2
-         oHPrpODdXTv5tU6hp5fnQVQaLEOG2clh+Dv38QypiPr2SiCugTXODzmnkYiEw9xwIygg
-         /6eAHyLwoYiqcdVMdT02I9kG8osr3/FmkjgMjspXUgU4nrIqcp177Bu4fYi5UEuFgXNu
-         aPQZj8BQskDnwF3+n8m72EOF8vqFzF/UzjAX2l1tE6KGgebsxuoKxNou4XR1uAj2Xvn9
-         2H6g==
+        d=landley-net.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=VQvaSdst3GlNtIz5gSEbzEWnw6iJp0dnfjX2/uw4Pi0=;
+        b=WwZeLQPHVZMv7Tf/yzouYMy/N8ncJHBvNxrLWXHyVtWxdZ1PxHorwX/QP+bQZFNbY1
+         rFwGJtpccThotO8bEaWew5690F3KBLjHib7+tV2wpgxvsFLNez3D6LNChyTXqofSjLSL
+         3t6mL4NZhitq1h4tRWJkYont7aB4p6WDw3W2nbHcvT//xibau8r6KMdHFoQnG+SQ/3rI
+         3j0ybuxX0FIf2CU4lpJxYEwnn2Qs8McUF9hZQ8kDHVp4HHibCyHITaH7wbRaDD6Z8BOI
+         nolUx7bNdTsURyp6dA0MSYRIyofqMVotGVXSojpI8bVNj+lPXZDKpcXfE/3CmYrakb10
+         Apmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=xSUX4n5EOZoO6EmWZ2h+wwgMii0Rl96zCog8KMwNDpE=;
-        b=AkqZMZalIHVwl7neha0S/Hgf9T2SvhCVIgowH+WU+r3ZcLuljgMpE1pT5GFxAuFQ+q
-         h54i/gwV91RU2z5iRpOMIjS2MFWwX2ctSxrxmmiE1tQAwvpAdy84xchGUiOgFJJi5LBX
-         VMJVPToMUDwKtbuxr2EjLvb6ENMRENdwRiuIwQJgYVOWA+4lyVfqo2lXK3jRyMyjfppV
-         9GjEpELzULu/3tlTgi+rVwa1RS1WOLeM6FU2PvkPCoVLLBjiCzFlSItbbQriYhFo0HKJ
-         FDdpQWc66WJ3JtPzwV6zQLmhte64N5GQu703Pb8BHTJdPSihfN7QNQyU9iKmTadRUYUr
-         P1yQ==
-X-Gm-Message-State: AJIora/FYkTntVOPuAm2otOEDdAAvX82ZQFmBq4IPl1EMOB7LCxMoxhS
-        ci07rWa0Bb60M2+kzIAVNTzLDg==
-X-Google-Smtp-Source: AGRyM1vN6zx5wsr5GVVc5ytEEhaS3cRKGvLGbuTs4y/gxM5vty96tVvmJRlSNJfUJgonhSJqKrn69g==
-X-Received: by 2002:a63:535f:0:b0:41a:ee1c:a15f with SMTP id t31-20020a63535f000000b0041aee1ca15fmr4299865pgl.265.1659128325266;
-        Fri, 29 Jul 2022 13:58:45 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id b10-20020a1709027e0a00b0016d295888e3sm3999789plm.241.2022.07.29.13.58.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Jul 2022 13:58:44 -0700 (PDT)
-Date:   Fri, 29 Jul 2022 20:58:41 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 12/14] KVM: Handle page fault for private memory
-Message-ID: <YuRKAcT3cuEE4GgF@google.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-13-chao.p.peng@linux.intel.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=VQvaSdst3GlNtIz5gSEbzEWnw6iJp0dnfjX2/uw4Pi0=;
+        b=3ExBMGbwFwS7WLBv1Qhs/um1JKs02svuKCo+LH9tfxYQiejNTe1ubMCGmr4udh8dGf
+         TuknZX9RXvkl9qk+xPmkjQhbXJb+oMRDkevD06a+ikVqOSOlD7/jFNN8o8OOzgYgCfnR
+         VXtqjLpN/hU19fm7+HMEab3Ne4OODnySb+OWcyyTonr4DoJFtrRZLawwtTLfj1ICfGsx
+         1kWMq9+iXOD0iv7LPonNxSzi1DHfdoFefmpjbG5hUqG5KwqtHpK5OepGalwmuOPCaU7O
+         eAb/PeDij5nXOKxNGr9P/Z7SUMcTUz1DJdFyCYA1cgy/mSFBgIDYNlnG29dmGMhXN5Vt
+         +Ivw==
+X-Gm-Message-State: AJIora+LMDOs5raKjv1izZ4axTGEU0Po2r46mmF3dMv0bvi5BoQBxOJn
+        585ngflQ32yDtgxs825UfonSIg==
+X-Google-Smtp-Source: AGRyM1vlzdqQ1oG5qxelDaZGwViNeSWbgs5sytdvECpAolwn1LIlFKm9WBz+/JKkjdUAPx95t1xc6g==
+X-Received: by 2002:a05:6870:f2a0:b0:fe:29a0:4b48 with SMTP id u32-20020a056870f2a000b000fe29a04b48mr3309674oap.183.1659173524398;
+        Sat, 30 Jul 2022 02:32:04 -0700 (PDT)
+Received: from ?IPV6:2607:fb90:c2d4:35df:6680:99ff:fe6f:cb54? ([2607:fb90:c2d4:35df:6680:99ff:fe6f:cb54])
+        by smtp.gmail.com with ESMTPSA id q16-20020a05683033d000b0061c29a38b3bsm1633168ott.33.2022.07.30.02.32.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 30 Jul 2022 02:32:03 -0700 (PDT)
+Message-ID: <e850477a-6dd8-0a76-cfa0-bf78951f7281@landley.net>
+Date:   Sat, 30 Jul 2022 04:39:13 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220706082016.2603916-13-chao.p.peng@linux.intel.com>
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v4 0/3] initramfs: add support for xattrs in the initial
+ ram disk
+Content-Language: en-US
+To:     Jim Baxter <jim_baxter@mentor.com>,
+        Roberto Sassu <roberto.sassu@huawei.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc:     "hpa@zytor.com" <hpa@zytor.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "initramfs@vger.kernel.org" <initramfs@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "bug-cpio@gnu.org" <bug-cpio@gnu.org>,
+        "zohar@linux.vnet.ibm.com" <zohar@linux.vnet.ibm.com>,
+        Silviu Vlasceanu <Silviu.Vlasceanu@huawei.com>,
+        Dmitry Kasatkin <dmitry.kasatkin@huawei.com>,
+        "takondra@cisco.com" <takondra@cisco.com>,
+        "kamensky@cisco.com" <kamensky@cisco.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "james.w.mcmechan@gmail.com" <james.w.mcmechan@gmail.com>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        Dirk Behme <dirk.behme@de.bosch.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+References: <33cfb804-6a17-39f0-92b7-01d54e9c452d@huawei.com>
+ <1561909199.3985.33.camel@linux.ibm.com>
+ <45164486-782f-a442-e442-6f56f9299c66@huawei.com>
+ <1561991485.4067.14.camel@linux.ibm.com>
+ <f85ed711-f583-51cd-34e2-80018a592280@huawei.com>
+ <0c17bf9e-9b0b-b067-cf18-24516315b682@huawei.com>
+ <20220609102627.GA3922@lxhi-065>
+ <21b3aeab20554a30b9796b82cc58e55b@huawei.com>
+ <20220610153336.GA8881@lxhi-065>
+ <4bc349a59e4042f7831b1190914851fe@huawei.com>
+ <20220615092712.GA4068@lxhi-065>
+ <032ade35-6eb8-d698-ac44-aa45d46752dd@mentor.com>
+ <f82d4961986547b28b6de066219ad08b@huawei.com>
+ <737ddf72-05f4-a47e-c901-fec5b1dfa7a6@mentor.com>
+ <8e6a723874644449be99fcebb0905058@huawei.com>
+ <d6af7f7e-7f8c-a6a7-7a09-84928fd69774@mentor.com>
+From:   Rob Landley <rob@landley.net>
+In-Reply-To: <d6af7f7e-7f8c-a6a7-7a09-84928fd69774@mentor.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Jul 06, 2022, Chao Peng wrote:
-> A page fault can carry the private/shared information for
-> KVM_MEM_PRIVATE memslot, this can be filled by architecture code(like
-> TDX code). To handle page fault for such access, KVM maps the page only
-> when this private property matches the host's view on the page.
-> 
-> For a successful match, private pfn is obtained with memfile_notifier
-> callbacks from private fd and shared pfn is obtained with existing
-> get_user_pages.
-> 
-> For a failed match, KVM causes a KVM_EXIT_MEMORY_FAULT exit to
-> userspace. Userspace then can convert memory between private/shared from
-> host's view then retry the access.
-> 
-> Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> ---
->  arch/x86/kvm/mmu/mmu.c          | 60 ++++++++++++++++++++++++++++++++-
->  arch/x86/kvm/mmu/mmu_internal.h | 18 ++++++++++
->  arch/x86/kvm/mmu/mmutrace.h     |  1 +
->  include/linux/kvm_host.h        | 35 ++++++++++++++++++-
->  4 files changed, 112 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-> index 545eb74305fe..27dbdd4fe8d1 100644
-> --- a/arch/x86/kvm/mmu/mmu.c
-> +++ b/arch/x86/kvm/mmu/mmu.c
-> @@ -3004,6 +3004,9 @@ int kvm_mmu_max_mapping_level(struct kvm *kvm,
->  	if (max_level == PG_LEVEL_4K)
->  		return PG_LEVEL_4K;
->  
-> +	if (kvm_mem_is_private(kvm, gfn))
-> +		return max_level;
-> +
->  	host_level = host_pfn_mapping_level(kvm, gfn, pfn, slot);
->  	return min(host_level, max_level);
->  }
-> @@ -4101,10 +4104,52 @@ void kvm_arch_async_page_ready(struct kvm_vcpu *vcpu, struct kvm_async_pf *work)
->  	kvm_mmu_do_page_fault(vcpu, work->cr2_or_gpa, 0, true);
->  }
->  
-> +static inline u8 order_to_level(int order)
-> +{
-> +	enum pg_level level;
-> +
-> +	for (level = KVM_MAX_HUGEPAGE_LEVEL; level > PG_LEVEL_4K; level--)
+On 7/29/22 05:37, Jim Baxter wrote:
+>>>> Uhm, I guess this could be solved with:
+>>>>
+>>>> https://github.com/openeuler-
+>>> mirror/kernel/commit/18a502f7e3b1de7b9ba0c70896ce08ee13d052da
+>>>>
+>>>> and adding initramtmpfs to the kernel command line. You are
+>>>> probably using ramfs, which does not have xattr support.
+>>>>
 
-Curly braces needed for the for-loop.
+Oh, here's the actual tested version of the patch wiring up rootfstype=tmpfs to
+force rootfs to be tmpfs even when you specify root=
 
-And I think it makes sense to take in the fault->max_level, that way this is
-slightly more performant when the guest mapping is smaller than the host, e.g.
+diff --git a/init/do_mounts.c b/init/do_mounts.c
+index 7058e14ad5f7..dedf27fe9044 100644
+--- a/init/do_mounts.c
++++ b/init/do_mounts.c
+@@ -665,7 +665,7 @@ struct file_system_type rootfs_fs_type = {
 
-	for (level = max_level; level > PG_LEVEL_4K; level--)
-		...
+ void __init init_rootfs(void)
+ {
+-	if (IS_ENABLED(CONFIG_TMPFS) && !saved_root_name[0] &&
+-		(!root_fs_names || strstr(root_fs_names, "tmpfs")))
++	if (IS_ENABLED(CONFIG_TMPFS) && (!root_fs_names ? !saved_root_name[0] :
++		!!strstr(root_fs_names, "tmpfs")))
+ 		is_tmpfs = true;
+ }
 
-	return level;
+Signed-in-triplicate-by: Rob Landley <rob@landley.net>
 
-Though I think I'd vote to avoid a loop entirely and do:
+No idea why nobody else has fixed that bug in the past 9 years, seems obvious?
 
-	BUILD_BUG_ON(KVM_MAX_HUGEPAGE_LEVEL > PG_LEVEL_1G);
+Anyway, here's the testing I did using mkroot (ala
+https://landley.net/toybox/faq.html#mkroot):
 
-	if (order > ???)
-		return PG_LEVEL_1G;
-	
-	if (order > ???)
-		return PG_LEVEL_2M;
+$ (cd root/x86_64; KARGS='quiet root=potato HANDOFF="/bin/head -n 1
+/proc/mounts"' ./run-qemu.sh) | tail -n 3
+rootfs / rootfs rw 0 0
+reboot: Restarting system
 
-	return PG_LEVEL_4K;
+$ (cd root/x86_64; KARGS='quiet HANDOFF="/bin/head -n 1 /proc/mounts"'
+./run-qemu.sh) | tail -n 3
+rootfs / rootfs rw,size=121828k,nr_inodes=30457 0 0
+reboot: Restarting system
 
+$ (cd root/x86_64; KARGS='quiet rootfstype=tmpfs root=potato HANDOFF="/bin/head
+-n 1 /proc/mounts"' ./run-qemu.sh) | tail -n 3
+rootfs / rootfs rw,size=121828k,nr_inodes=30457 0 0
+reboot: Restarting system
 
-> +		if (order >= page_level_shift(level) - PAGE_SHIFT)
-> +			return level;
-> +	return level;
-> +}
-> +
-> +static int kvm_faultin_pfn_private(struct kvm_vcpu *vcpu,
-> +				   struct kvm_page_fault *fault)
-> +{
-> +	int order;
-> +	struct kvm_memory_slot *slot = fault->slot;
-> +	bool private_exist = kvm_mem_is_private(vcpu->kvm, fault->gfn);
-> +
-> +	if (fault->is_private != private_exist) {
-> +		vcpu->run->exit_reason = KVM_EXIT_MEMORY_FAULT;
-> +		if (fault->is_private)
-> +			vcpu->run->memory.flags = KVM_MEMORY_EXIT_FLAG_PRIVATE;
-> +		else
-> +			vcpu->run->memory.flags = 0;
-> +		vcpu->run->memory.padding = 0;
-> +		vcpu->run->memory.gpa = fault->gfn << PAGE_SHIFT;
-> +		vcpu->run->memory.size = PAGE_SIZE;
-> +		return RET_PF_USER;
-> +	}
-> +
-> +	if (fault->is_private) {
-> +		if (kvm_private_mem_get_pfn(slot, fault->gfn, &fault->pfn, &order))
-> +			return RET_PF_RETRY;
-> +		fault->max_level = min(order_to_level(order), fault->max_level);
-> +		fault->map_writable = !(slot->flags & KVM_MEM_READONLY);
-> +		return RET_PF_FIXED;
-> +	}
-> +
-> +	/* Fault is shared, fallthrough. */
-> +	return RET_PF_CONTINUE;
-> +}
-> +
->  static int kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
->  {
->  	struct kvm_memory_slot *slot = fault->slot;
->  	bool async;
-> +	int r;
->  
->  	/*
->  	 * Retry the page fault if the gfn hit a memslot that is being deleted
-> @@ -4133,6 +4178,12 @@ static int kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
->  			return RET_PF_EMULATE;
->  	}
->  
-> +	if (kvm_slot_can_be_private(slot)) {
-> +		r = kvm_faultin_pfn_private(vcpu, fault);
-> +		if (r != RET_PF_CONTINUE)
-> +			return r == RET_PF_FIXED ? RET_PF_CONTINUE : r;
+I.E. rootfstype=tmpfs neutralized the root= so it was still tmpfs despite the
+kernel being explicitly told you weren't going to stay on initramfs (which is
+still what root= means). With just root= it's still ramfs, with all the "my log
+file got too big and the system livelocked" and "querying available space always
+returns zero" that entails.
 
-I apologize if I've given you conflicting feedback in the past.  Now that this
-returns RET_PF_* directly, I definitely think it makes sense to do:
+> Can I clarify which filesystem type is supported with this patch series?
+> Is it tmpfs or perhaps a ramdisk?
 
-	if (kvm_slot_can_be_private(slot) &&
-	    fault->is_private != kvm_mem_is_private(vcpu->kvm, fault->gfn)) {
-		vcpu->run->exit_reason = KVM_EXIT_MEMORY_FAULT;
-		if (fault->is_private)
-			vcpu->run->memory.flags = KVM_MEMORY_EXIT_FLAG_PRIVATE;
-		else
-			vcpu->run->memory.flags = 0;
-		vcpu->run->memory.padding = 0;
-		vcpu->run->memory.gpa = fault->gfn << PAGE_SHIFT;
-		vcpu->run->memory.size = PAGE_SIZE;
-		return RET_PF_USER;
-	}
+I believe both tmpfs and ramfs support xattrs? (I know tmpfs does, and
+fs/ramfs/file-mmu.c plugs simple_getattr() into ramfs_file_operations.setattr so
+it looks like that would too? Haven't tried it.)
 
-	if (fault->is_private)
-		return kvm_faultin_pfn_private(vcpu, fault);
+This isn't a modification to the filesystem code (ramfs/tmpfs), this is a
+modification to the boot-time loader (initramfs) that extracts a cpio.gz file
+into the filesystem.
 
-That way kvm_faultin_pfn_private() only handles private faults, and this doesn't
-need to play games with RET_PF_FIXED.
+Ramdisks have supported xattrs for years: they fake up a block device out of a
+chunk of memory and them format it and mount some other filesystem on it,
+meaning the driver for the other filesystem handles the xattr support.
 
+But ramdisks don't use initramfs, they load an image of the preformatted
+filesystem into the ramdisk block device. Completely separate mechanism, sharing
+no code with initramfs, depending on the block layer, etc.
 
-> +	}
-> +
->  	async = false;
->  	fault->pfn = __gfn_to_pfn_memslot(slot, fault->gfn, false, &async,
->  					  fault->write, &fault->map_writable,
-> @@ -4241,7 +4292,11 @@ static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
->  		read_unlock(&vcpu->kvm->mmu_lock);
->  	else
->  		write_unlock(&vcpu->kvm->mmu_lock);
-> -	kvm_release_pfn_clean(fault->pfn);
-> +
-> +	if (fault->is_private)
-> +		kvm_private_mem_put_pfn(fault->slot, fault->pfn);
-> +	else
-> +		kvm_release_pfn_clean(fault->pfn);
+>>> Thank you, I have tested that patch but the problem remained. Here is my
+>>> command line, I wonder if there is something wrong.
+>>>
+>>> Kernel command line: rw rootfstype=initramtmpfs root=/dev/ram0
+>>> initrd=0x500000000 rootwait
+>> 
+>> It is just initramtmpfs, without rootfstype=.
 
-AFAIK, we never bottomed out on whether or not this is needed[*].  Can you follow
-up with Kirill to get an answer before posting v8?
+The above patch does not go on top of that patch, it's instead of.
 
-[*] https://lore.kernel.org/all/20220620141647.GC2016793@chaop.bj.intel.com
+Rob
