@@ -2,76 +2,83 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0ECF6586CC4
-	for <lists+linux-api@lfdr.de>; Mon,  1 Aug 2022 16:25:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A597586D02
+	for <lists+linux-api@lfdr.de>; Mon,  1 Aug 2022 16:39:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230282AbiHAOZu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 1 Aug 2022 10:25:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41426 "EHLO
+        id S231411AbiHAOj6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 1 Aug 2022 10:39:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232533AbiHAOZh (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 1 Aug 2022 10:25:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CE8B11FCC0
-        for <linux-api@vger.kernel.org>; Mon,  1 Aug 2022 07:25:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1659363936;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=8SWhnvugOGDjKjvgWCUF/erAdE9TR/aKwqvfm/BKepE=;
-        b=H0lAgOjM0UZt2S4k3ofqh6epoMMZf9wlIC+Sg4tx/Jq5BwAvEQI7ATDrz2LNOO+q/Ns//i
-        i0txuNLq7CuRGsa7iiKp1lLQxelnV8u5KoRgX0oanTqDOI/Xru/qmj9q6I+Nctl9BanzSL
-        Bc7W13/yjdyc7+Vz9Gzzuka8Klv55y8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-117-qFY0QgG5N4m_0qyjuUxHnw-1; Mon, 01 Aug 2022 10:25:19 -0400
-X-MC-Unique: qFY0QgG5N4m_0qyjuUxHnw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F1BF638035AB;
-        Mon,  1 Aug 2022 14:25:18 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.39.192.16])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id B055E90A04;
-        Mon,  1 Aug 2022 14:25:16 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
+        with ESMTP id S230109AbiHAOj5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 1 Aug 2022 10:39:57 -0400
+Received: from mail.efficios.com (mail.efficios.com [167.114.26.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85DB233A08;
+        Mon,  1 Aug 2022 07:39:55 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 41022355282;
+        Mon,  1 Aug 2022 10:39:54 -0400 (EDT)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id qU3Ksj57-Bf5; Mon,  1 Aug 2022 10:39:53 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 84365355281;
+        Mon,  1 Aug 2022 10:39:53 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 84365355281
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1659364793;
+        bh=S6TGQdRaLLzWDqfWZw/iX4zWZbflDaNiquwZgEj1VAU=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=GEcHO9q5VqIHAvO9M4Ydp4H68nx8WrnKU7NcXWY2D7IPyC0YwoxjOAQ2lgkRGgNzZ
+         xtOOS0dDoNecDFEt3sAJl2HOP1/QLkuAUKpunPP7NjbTqa4Y2pVH7fWmGTXX+/83IB
+         UjxztRTvu6bSF+Pg0bLf2mJFZ+RDS8N7HxfhjngILB7wnOz//L8fWUiIuP+pQfgQVo
+         ebxXkCRVmopyaquWoHbqFAALghaeRLubX5azntPcaXkhAEmgyRgTwqpML6A+9ttaA0
+         Dr90DNSqBCm0aWFCmnwD5hMHweDS0t0PDUKreEY9JjqJPUvbCAyNVK4gcjqnFtrFpF
+         n9cfH2lJ+M3XQ==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 28mwD_qkks1k; Mon,  1 Aug 2022 10:39:53 -0400 (EDT)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id 72610354FAE;
+        Mon,  1 Aug 2022 10:39:53 -0400 (EDT)
+Date:   Mon, 1 Aug 2022 10:39:53 -0400 (EDT)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To:     Ingo Molnar <mingo@kernel.org>
-Cc:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
         "Paul E . McKenney" <paulmck@kernel.org>,
         Boqun Feng <boqun.feng@gmail.com>,
-        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api@vger.kernel.org, Peter Oskolkov <posk@posk.io>
+        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api <linux-api@vger.kernel.org>,
+        Peter Oskolkov <posk@posk.io>,
+        Florian Weimer <fweimer@redhat.com>,
+        Carlos O'Donell <carlos@redhat.com>
+Message-ID: <1686554751.93506.1659364793386.JavaMail.zimbra@efficios.com>
+In-Reply-To: <YufV3PmAOfo1Gt7g@gmail.com>
+References: <20220622194617.1155957-1-mathieu.desnoyers@efficios.com> <20220622194617.1155957-2-mathieu.desnoyers@efficios.com> <YufV3PmAOfo1Gt7g@gmail.com>
 Subject: Re: [PATCH 2/2] rseq: Kill process when unknown flags are
  encountered in ABI structures
-References: <20220622194617.1155957-1-mathieu.desnoyers@efficios.com>
-        <20220622194617.1155957-2-mathieu.desnoyers@efficios.com>
-        <YufV3PmAOfo1Gt7g@gmail.com>
-Date:   Mon, 01 Aug 2022 16:25:14 +0200
-In-Reply-To: <YufV3PmAOfo1Gt7g@gmail.com> (Ingo Molnar's message of "Mon, 1
-        Aug 2022 15:32:12 +0200")
-Message-ID: <87tu6wm46t.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_4304 (ZimbraWebClient - FF100 (Linux)/8.8.15_GA_4304)
+Thread-Topic: rseq: Kill process when unknown flags are encountered in ABI structures
+Thread-Index: Gyv6lAHRYZe8QjWfh6WSrEJ1aTXMvw==
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Ingo Molnar:
+----- On Aug 1, 2022, at 9:32 AM, Ingo Molnar mingo@kernel.org wrote:
 
 > * Mathieu Desnoyers <mathieu.desnoyers@efficios.com> wrote:
->
+> 
 >> rseq_abi()->flags and rseq_abi()->rseq_cs->flags 29 upper bits are
 >> currently unused.
 >> 
@@ -96,7 +103,8 @@ X-Mailing-List: linux-api@vger.kernel.org
 >> index 81d7dc80787b..bda8175f8f99 100644
 >> --- a/kernel/rseq.c
 >> +++ b/kernel/rseq.c
->> @@ -176,7 +176,7 @@ static int rseq_need_restart(struct task_struct *t, u32 cs_flags)
+>> @@ -176,7 +176,7 @@ static int rseq_need_restart(struct task_struct *t, u32
+>> cs_flags)
 >>  	u32 flags, event_mask;
 >>  	int ret;
 >>  
@@ -105,22 +113,38 @@ X-Mailing-List: linux-api@vger.kernel.org
 >>  		return -EINVAL;
 >>  
 >>  	/* Get thread flags. */
->> @@ -184,7 +184,7 @@ static int rseq_need_restart(struct task_struct *t, u32 cs_flags)
+>> @@ -184,7 +184,7 @@ static int rseq_need_restart(struct task_struct *t, u32
+>> cs_flags)
 >>  	if (ret)
 >>  		return ret;
 >>  
 >> -	if (WARN_ON_ONCE(flags & RSEQ_CS_NO_RESTART_FLAGS))
 >> +	if (WARN_ON_ONCE(flags & RSEQ_CS_NO_RESTART_FLAGS) || flags)
 >>  		return -EINVAL;
->
-> Just to make it clear: no existing libraries/tooling out there have learned 
-> to rely on the old ABI that ignored unset flags, right? Only then is this 
+> 
+> Just to make it clear: no existing libraries/tooling out there have learned
+> to rely on the old ABI that ignored unset flags, right? Only then is this
 > patch ABI-safe.
 
-I believe glibc initializes the flag fields to zero before calling the
-rseq system call.  (I don't know if the rseq system call does its own
-initialization; maybe it should if it doesn't do so already.)
+The projects I know about that use rseq at the moment don't rely on the old ABI
+ignoring unset flags:
+
+- glibc initialize the rseq_abi()->flags to 0 and do not use rseq_abi()->rseq_cs->flags yet.
+- tcmalloc initialize rseq_abi()->flags and rseq_abi()->rseq_cs->flags to 0.
+- librseq (still only a master branch, no officially released public API yet) initialize
+  rseq_abi()->flags and rseq_abi()->rseq_cs->cs_flags to 0.
+- the Linux kernel selftests initialize rseq_abi()->flags and rseq_abi()->rseq_cs->cs_flags
+  to 0.
+- AFAIK DynamoRIO does not rely on the kernel ignoring unset flags bits.
+- AFAIK CRIU does not rely on the kernel ignoring unset flags bits.
+
+If anyone else rely on rseq ignoring those unset flags, please yell now.
 
 Thanks,
-Florian
 
+Mathieu
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
