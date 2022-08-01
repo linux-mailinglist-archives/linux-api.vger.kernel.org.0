@@ -2,137 +2,108 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE224586F46
-	for <lists+linux-api@lfdr.de>; Mon,  1 Aug 2022 19:07:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42E95587185
+	for <lists+linux-api@lfdr.de>; Mon,  1 Aug 2022 21:40:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232361AbiHARHR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 1 Aug 2022 13:07:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55768 "EHLO
+        id S233438AbiHATky (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 1 Aug 2022 15:40:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230298AbiHARHQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 1 Aug 2022 13:07:16 -0400
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F81162ED
-        for <linux-api@vger.kernel.org>; Mon,  1 Aug 2022 10:07:15 -0700 (PDT)
-Received: by mail-lj1-x22a.google.com with SMTP id h12so13002925ljg.7
-        for <linux-api@vger.kernel.org>; Mon, 01 Aug 2022 10:07:15 -0700 (PDT)
+        with ESMTP id S229901AbiHATkx (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 1 Aug 2022 15:40:53 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 913F1CC4;
+        Mon,  1 Aug 2022 12:40:52 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id k26so6520652ejx.5;
+        Mon, 01 Aug 2022 12:40:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=posk.io; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=M/VjqcNJHc+gRY3wXiZakq1QMHZ6f0h1tErzqGq4ciw=;
-        b=O5KxE3ZAwD1QooSwoE5YL1eStigRy//uq+NqHkFRn1/n3WHSd0rD6slClmUZE/nZXj
-         V2E4ussAL5zEBVfk63mmqY2Lcu8WuVqIv6omUi7KwC5BMbasyR/56ngg8oiQL84R0B81
-         Utn2OiAIUGj8Cp/lm3kkji68h1+pVEgnyU2Rro5pWWuAWUifuZM4hFXZBRySWeaR9qty
-         uYkXe2tiOfxyBN9pNmo23Oyyx6WhqU/XVfc4lFTj0MAcmMseUoxjvU980qU3se+qkhOR
-         ZBeRv5zTGiGQF4FGQb9PCCdqiEOk7pFS+7Yz9udR6tFM60/tx9rBXdSkX3Q/kV0sm3ej
-         oj8A==
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=p68rKFvwaoybuf/oqm2qNNk2sii1+JQP9Px6zobKFXU=;
+        b=eWKRDpCXwREP9gNrZUUpuYoI2NseiEJMV7z+O5wS5aZP+5RszSVdigMy66lzgT4TyW
+         u+7YoPyap+qVCqqpVVlv3UXh6XKuds2HPgHyG7Nsvf2e1gLqjWcJgL3xH6qiMY8nyyH7
+         sGv5KZgZ1B9i5nJP3GsihP9heks+5g10dCslOykAfMZ5Nmrelbspqjw1o5mxg/igilSC
+         f+txWPe6IHpoJTyG9zFIbHbTvXppCSzre56J9YqYmzYd8LUL0T/XHcYtik9wr2Be0Aw5
+         7JSEM0s817wjzfAkg3ahd8e8I80P7HLPknQLYlzrRcCS5GtgyZ61GwtTIMnIphBV1agQ
+         pdEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=M/VjqcNJHc+gRY3wXiZakq1QMHZ6f0h1tErzqGq4ciw=;
-        b=E3+8y+ALr93puMor9Lf2r7RlcLRZsZj8xQ9GD3yjMK5bow4o0+UvVUBfkvQkqVJjMN
-         TnGpykzuvKpH74cv/anPiQENgoAXES1N8mQn/aKFFTRK/KIFtf+ZOBso6u5okthPw6zS
-         cj5mHz2M9/3g1cSrvZbAdWMxQ8TbUN80gk1JsUyoYO7AfGmKjz/v+660w/1QHZdjQRmU
-         dewE/jt0fhO5ggtBsPSmT/CW6eoaDapOP/+fEZJPJTyyQL3eEWuq0CnE+r/vJ4C4tN6q
-         rqaiUjXl8Kkd5KPfalgQ5kpnsUEYP7YjK8F80mJvTWTxwU7lpSH//WEjHKqXzDyVaNQv
-         dZlw==
-X-Gm-Message-State: AJIora9moOnhVqNXReG42hLY7Cgju8bpQYP91ZZbmT4TCvTsx+okpiMK
-        uWRy3TlzJ9nAna6ZhE7ZFhTkd8270K0Ib+PgixrsuA==
-X-Google-Smtp-Source: AGRyM1swoEOC54y8dlt5wE189wVcgzfbMXw8yiwim4WUK8j9m3XBlYeTVTHWJijP9eiJ/kf3L/nl2oHK/6d2KZJPvtU=
-X-Received: by 2002:a2e:b539:0:b0:25e:2f3e:bda0 with SMTP id
- z25-20020a2eb539000000b0025e2f3ebda0mr5194722ljm.227.1659373633411; Mon, 01
- Aug 2022 10:07:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220729190225.12726-1-mathieu.desnoyers@efficios.com>
-In-Reply-To: <20220729190225.12726-1-mathieu.desnoyers@efficios.com>
-From:   Peter Oskolkov <posk@posk.io>
-Date:   Mon, 1 Aug 2022 10:07:09 -0700
-Message-ID: <CAFTs51UAyc4Z5WUFdMXCTYR6zji6NwLeBxYsp9GQZvFdEtUm1w@mail.gmail.com>
-Subject: Re: [PATCH v3 00/23] RSEQ node id and virtual cpu id extensions
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=p68rKFvwaoybuf/oqm2qNNk2sii1+JQP9Px6zobKFXU=;
+        b=TvO8ihX9S3yRZqCpqMU7XqzjDcr2+OZ3UIUHkzHQSYey6dWpFJoUhN4c4FrSzKoF1n
+         L2EaWQt6TkeG7xsrSV4ijwvkWy5FEEx9mPsW4YO0boUAGu4vYWMBo3DpwWE7WY0JGABC
+         6WGmmLmbOO1pu/stiukA+o7Rii2dgjyUM9Y1Ht+k+4WelgxNmByHeYMY8bEpMUeyiNfp
+         WFzVDD6fius8sN7tVfidnQyhk912DrpqmoYcGu+ynsQXR4LwoAMZDkkzxRJMlGJCOfEh
+         /tFK3jfJ1SQJbuS3GWqSTqkU6TMZEQtOh20vfowCULFX/xlWYL23G2v/eieYfKeoMJTR
+         aDFA==
+X-Gm-Message-State: AJIora/yI1j+dJerQpENftm/xG8jSspXJ2Asz2eQIV/xoZ6KDZnw8FTl
+        POx0JG3G6pRs4DYYjbAEk0Y=
+X-Google-Smtp-Source: AGRyM1tBJwjV+fXm+aDN+d3gEZUMRFEUCwcQwIfN9wKTTiWb36ksdA3fKD5/PIMK5vVZhf+jwl5Rnw==
+X-Received: by 2002:a17:907:7347:b0:72d:78bb:b0d7 with SMTP id dq7-20020a170907734700b0072d78bbb0d7mr13374107ejc.45.1659382851100;
+        Mon, 01 Aug 2022 12:40:51 -0700 (PDT)
+Received: from gmail.com (84-236-113-167.pool.digikabel.hu. [84.236.113.167])
+        by smtp.gmail.com with ESMTPSA id q8-20020a170906a08800b006fe0abb00f0sm5466009ejy.209.2022.08.01.12.40.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Aug 2022 12:40:50 -0700 (PDT)
+Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
+Date:   Mon, 1 Aug 2022 21:40:48 +0200
+From:   Ingo Molnar <mingo@kernel.org>
 To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         "Paul E . McKenney" <paulmck@kernel.org>,
         Boqun Feng <boqun.feng@gmail.com>,
-        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api@vger.kernel.org,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Florian Weimer <fw@deneb.enyo.de>, David.Laight@aculab.com,
-        carlos@redhat.com, Chris Kennelly <ckennelly@google.com>,
-        Peter Oskolkov <posk@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api <linux-api@vger.kernel.org>,
+        Peter Oskolkov <posk@posk.io>,
+        Florian Weimer <fweimer@redhat.com>,
+        Carlos O'Donell <carlos@redhat.com>
+Subject: Re: [PATCH 2/2] rseq: Kill process when unknown flags are
+ encountered in ABI structures
+Message-ID: <YugsQDLJJ/385wRP@gmail.com>
+References: <20220622194617.1155957-1-mathieu.desnoyers@efficios.com>
+ <20220622194617.1155957-2-mathieu.desnoyers@efficios.com>
+ <YufV3PmAOfo1Gt7g@gmail.com>
+ <1686554751.93506.1659364793386.JavaMail.zimbra@efficios.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1686554751.93506.1659364793386.JavaMail.zimbra@efficios.com>
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jul 29, 2022 at 12:02 PM Mathieu Desnoyers
-<mathieu.desnoyers@efficios.com> wrote:
->
-> Extend the rseq ABI to expose a NUMA node ID and a vm_vcpu_id field.
 
-Thanks a lot, Mathieu - it is really exciting to see this happening!
+* Mathieu Desnoyers <mathieu.desnoyers@efficios.com> wrote:
 
-I'll share our experiences here, with the hope that it may be useful.
-I've also cc-ed
-Chris Kennelly, who worked on the userspace/tcmalloc side, as he can provide
-more context/details if I miss or misrepresent something.
+> The projects I know about that use rseq at the moment don't rely on the 
+> old ABI ignoring unset flags:
+> 
+> - glibc initialize the rseq_abi()->flags to 0 and do not use rseq_abi()->rseq_cs->flags yet.
+> - tcmalloc initialize rseq_abi()->flags and rseq_abi()->rseq_cs->flags to 0.
+> - librseq (still only a master branch, no officially released public API yet) initialize
+>   rseq_abi()->flags and rseq_abi()->rseq_cs->cs_flags to 0.
+> - the Linux kernel selftests initialize rseq_abi()->flags and rseq_abi()->rseq_cs->cs_flags
+>   to 0.
+> - AFAIK DynamoRIO does not rely on the kernel ignoring unset flags bits.
+> - AFAIK CRIU does not rely on the kernel ignoring unset flags bits.
 
-The problem:
+Thanks - that's exhaustive enough.
 
-tcmalloc maintains per-cpu freelists in the userspace to make userspace
-memory allocations fast and efficient; it relies on rseq to do so, as
-any manipulation
-of the freelists has to be protected vs thread migrations.
+> If anyone else rely on rseq ignoring those unset flags, please yell now.
 
-However, as a typical userspace process at a Google datacenter is confined to
-a relatively small number of CPUs (8-16) via cgroups, while the
-servers typically
-have a much larger number of physical CPUs, the per-cpu freelist model
-is somewhat
-wasteful: if a process has only at most 10 threads running, for
-example, but these threads
-can "wander" across 100 CPUs over the lifetime of the process, keeping 100
-freelists instead of 10 noticeably wastes memory.
+Well, people are unlikely to see random lkml mails - but if gets reported 
+as a regression then we need to revert. But I don't expect it to happen.
 
-Note that although a typical process at Google has a limited CPU
-quota, thus using
-only a small number of CPUs at any given time, the process may often have many
-hundreds or thousands of threads, so per-thread freelists are not a viable
-solution to the problem just described.
+Thanks,
 
-Our current solution:
-
-As you outlined in patch 9, tracking the number of currently running threads per
-address space and exposing this information via a vcpu_id abstraction helps
-tcmalloc to noticeably reduce its freelist overhead in the "narrow
-process running
-on a wide server" situation, which is typical at Google.
-
-We have experimented with several approaches here. The one that we are
-currently using is the "flat" model: we allocate vcpu IDs ignoring numa nodes.
-
-We did try per-numa-node vcpus, but it did not show any material improvement
-over the "flat" model, perhaps because on our most "wide" servers the CPU
-topology is multi-level. Chris Kennelly may provide more details here.
-
-On a more technical note, we do use atomic operations extensively in
-the kernel to make sure
-vcpu IDs are "tightly packed", i.e. if only N threads of a process are currently
-running on physical CPUs, vcpu IDs will be in the range [0, N-1], i.e. no gaps,
-no going to N and above; this does consume some extra CPU cycles, but the
-RAM savings we gain far outweigh the extra CPU cost; it will be interesting to
-see what you can do with the optimizations you propose in this patchset.
-
-Again, thanks a lot for this effort!
-
-Peter
-
-[...]
+	Ingo
