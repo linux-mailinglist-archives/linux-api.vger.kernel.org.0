@@ -2,92 +2,68 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 85FDB585CFE
-	for <lists+linux-api@lfdr.de>; Sun, 31 Jul 2022 05:08:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2B61586633
+	for <lists+linux-api@lfdr.de>; Mon,  1 Aug 2022 10:20:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231882AbiGaDIc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sat, 30 Jul 2022 23:08:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51412 "EHLO
+        id S229972AbiHAITz (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 1 Aug 2022 04:19:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231517AbiGaDIb (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sat, 30 Jul 2022 23:08:31 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0687712D1B;
-        Sat, 30 Jul 2022 20:08:31 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BDE92B80C95;
-        Sun, 31 Jul 2022 03:08:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38810C433D6;
-        Sun, 31 Jul 2022 03:08:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1659236908;
-        bh=tawPftnF94jyXfV2ZmURRfIrH7cFklH6ixzelkdY6vM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=q3PgaArNxgaBWU0TwQ7i9JXcghaMQBe+njO4dt2ETXSDmDPQdoUc7kkKPAs6gs3ir
-         dKRoNbPddLaqkyzJBf/s73FN4CsT+anw/YXvcsyO97vODzyrgtyheOGsSBeR/KmFd3
-         l0HBiL65yvRvJLakDLqAzgOSgRFqnAguq3ahykb2UuWx2Br0IJXjZSINU5XUHTnJvy
-         09CG02eD4Vi3eq0o/LgIqRCQhVi6MPDIfHxhjxTBZud5EIqVn9XiZ8CCn4JlzUMk9Q
-         cf87fjR7QKSKs8lTSQfBgORJxJjeLdihqWOr19SaKyrdWDL76pz/FbUB7a0sV6LfFe
-         l8+AbGlYl20tw==
-Date:   Sat, 30 Jul 2022 20:08:26 -0700
-From:   Jaegeuk Kim <jaegeuk@kernel.org>
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-fscrypt@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH v4 6/9] f2fs: don't allow DIO reads but not DIO writes
-Message-ID: <YuXyKh8Zvr56rR4R@google.com>
-References: <20220722071228.146690-1-ebiggers@kernel.org>
- <20220722071228.146690-7-ebiggers@kernel.org>
- <YtyoF89iOg8gs7hj@google.com>
- <Yt7dCcG0ns85QqJe@sol.localdomain>
+        with ESMTP id S230146AbiHAITp (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 1 Aug 2022 04:19:45 -0400
+X-Greylist: delayed 493 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 01 Aug 2022 01:19:35 PDT
+Received: from mail.fadrush.pl (mail.fadrush.pl [54.37.225.211])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9738E3C148
+        for <linux-api@vger.kernel.org>; Mon,  1 Aug 2022 01:19:35 -0700 (PDT)
+Received: by mail.fadrush.pl (Postfix, from userid 1002)
+        id 397E1226F8; Mon,  1 Aug 2022 08:11:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fadrush.pl; s=mail;
+        t=1659341481; bh=bD6j9gIFU6CLTaCGl0Ow9oeIxtirvTfMeNZSfLEZQ+I=;
+        h=Date:From:To:Subject:From;
+        b=b6FREaFrSucwpOXQfL27nULgdQqgpS0kRfpHvUgXtXLaZo6A/kkXbGay7lyaU+r89
+         LOhw9q0Iw6/U1bDr8t7PNdNKpaz4oqvl6olFF4I2W698UyHie65+NNdghRUU0GtCNt
+         gGP07Sz5I6ZVyqHM8e/SDWi8g+8mUeo5p1RT0sBTmVh13XlzKaKwNN+lokYxC2x6PB
+         CaU5f42BWfAwSTxNs5i2A3Vbd9w85lrgp1VL1izqloM1EhnjFtr6eFQY23VwTqEanb
+         EZWKa14YD3HAb1R8blFBjkmJYHK+QjgpyRnM6FTTUwKwGuwrO3T+AIaBPvzijMitrT
+         bQnG4kGJ1q3qA==
+Received: by mail.fadrush.pl for <linux-api@vger.kernel.org>; Mon,  1 Aug 2022 08:11:17 GMT
+Message-ID: <20220801064500-0.1.r.58oq.0.k9ahzc9ht2@fadrush.pl>
+Date:   Mon,  1 Aug 2022 08:11:17 GMT
+From:   "Jakub Olejniczak" <jakub.olejniczak@fadrush.pl>
+To:     <linux-api@vger.kernel.org>
+Subject: =?UTF-8?Q?Zwi=C4=99kszenie_p=C5=82ynno=C5=9Bci_finansowej?=
+X-Mailer: mail.fadrush.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yt7dCcG0ns85QqJe@sol.localdomain>
-X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 07/25, Eric Biggers wrote:
-> On Sat, Jul 23, 2022 at 07:01:59PM -0700, Jaegeuk Kim wrote:
-> > On 07/22, Eric Biggers wrote:
-> > > From: Eric Biggers <ebiggers@google.com>
-> > > 
-> > > Currently, if an f2fs filesystem is mounted with the mode=lfs and
-> > > io_bits mount options, DIO reads are allowed but DIO writes are not.
-> > > Allowing DIO reads but not DIO writes is an unusual restriction, which
-> > > is likely to be surprising to applications, namely any application that
-> > > both reads and writes from a file (using O_DIRECT).  This behavior is
-> > > also incompatible with the proposed STATX_DIOALIGN extension to statx.
-> > > Given this, let's drop the support for DIO reads in this configuration.
-> > 
-> > IIRC, we allowed DIO reads since applications complained a lower performance.
-> > So, I'm afraid this change will make another confusion to users. Could
-> > you please apply the new bahavior only for STATX_DIOALIGN?
-> > 
-> 
-> Well, the issue is that the proposed STATX_DIOALIGN fields cannot represent this
-> weird case where DIO reads are allowed but not DIO writes.  So the question is
-> whether this case actually matters, in which case we should make STATX_DIOALIGN
-> distinguish between DIO reads and DIO writes, or whether it's some odd edge case
-> that doesn't really matter, in which case we could just fix it or make
-> STATX_DIOALIGN report that DIO is unsupported.  I was hoping that you had some
-> insight here.  What sort of applications want DIO reads but not DIO writes?
-> Is this common at all?
+Dzie=C5=84 dobry,
 
-I think there's no specific application to use the LFS mode at this
-moment, but I'd like to allow DIO read for zoned device which will be
-used for Android devices.
+kontaktuj=C4=99 si=C4=99 z Pa=C5=84stwem, poniewa=C5=BC chcia=C5=82bym za=
+proponowa=C4=87 wygodne rozwi=C4=85zanie, kt=C3=B3re umo=C5=BCliwi Pa=C5=84=
+stwa firmie stabilny rozw=C3=B3j.=20
 
-> 
-> - Eric
+Konkurencyjne otoczenie wymaga ci=C4=85g=C5=82ego ulepszania i poszerzeni=
+a oferty, co z kolei wi=C4=85=C5=BCe si=C4=99 z konieczno=C5=9Bci=C4=85 i=
+nwestowania. Brak odpowiedniego kapita=C5=82u powa=C5=BCnie ogranicza tem=
+po rozwoju firmy.
+
+Od wielu lat z powodzeniem pomagam firmom w uzyskaniu najlepszej formy fi=
+nansowania z banku oraz UE. Mam sta=C5=82ych Klient=C3=B3w, kt=C3=B3rzy n=
+adal ch=C4=99tnie korzystaj=C4=85 z moich us=C5=82ug, a tak=C5=BCe poleca=
+j=C4=85 je innym.
+
+Czy chcieliby Pa=C5=84stwo skorzysta=C4=87 z pomocy wykwalifikowanego i d=
+o=C5=9Bwiadczonego doradcy finansowego?
+
+
+Pozdrawiam
+Jakub Olejniczak
