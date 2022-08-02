@@ -2,57 +2,45 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C3EFF587A0E
-	for <lists+linux-api@lfdr.de>; Tue,  2 Aug 2022 11:49:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B390587BEB
+	for <lists+linux-api@lfdr.de>; Tue,  2 Aug 2022 14:04:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232724AbiHBJtM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 2 Aug 2022 05:49:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35542 "EHLO
+        id S233683AbiHBMES (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 2 Aug 2022 08:04:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232600AbiHBJtL (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 2 Aug 2022 05:49:11 -0400
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3814527B3E
-        for <linux-api@vger.kernel.org>; Tue,  2 Aug 2022 02:49:10 -0700 (PDT)
-Received: by mail-oi1-x232.google.com with SMTP id r13so15982380oie.1
-        for <linux-api@vger.kernel.org>; Tue, 02 Aug 2022 02:49:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Rd/MnnpubSXpiz2m3mizA1wFblV70cbg5nXLpi9fPUU=;
-        b=LrhdbfLNPTzm+rQRir/KlWFTOP5w7dp2DeTugPU44Q7w9F+j2YfnKpe5cfHrw8ralE
-         bKy5BBnIk/1WWdF3dgQ/lWnyvcFT5+dRorBjdP3noyEpgfJqKe3is9ZiFbMNycb6g6v4
-         0MRYwfSDsPLWug/dc57YhUVLFQrhQPoRYD1AivLL9QUs4VTOvsIGmHWbj9nPBlkXwueu
-         xbaByWeHnH7xrusROFoxFuJRrdZmKdaGTgZXL5zmSyG2yv642dN+zwJTVYzJLHRddndm
-         CxXNmEiUPl7zFls9hvBpssresB7hZSjkLKunn8joVhzt1eroMR4WxIf8rps0sGG1CyLi
-         54sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Rd/MnnpubSXpiz2m3mizA1wFblV70cbg5nXLpi9fPUU=;
-        b=QQrTN2jNM9MM6d1VnrV/+w+LXorSD1/hPEVyxI/3YJGssZ4czbQLCChMIYvrOpzCcp
-         rjgiJhmsloscIMOJAbUITzBmzTluNgFNdnuyPWVMsKsUR8H7kN2XoSMqjXR3i5UtOmfF
-         Qp3Xb1glGgVvR1ud6+zIxJe/jGFIXrWK0wHcaZvkwpoMBipPI907ncZT8/6qNMnXBgo0
-         LJyqVOxiSyPcZZ/vH+fVvkS2sPzSG/H+V4S55QOWG2ME/ng4zTV22vzmR4rV5maBuJi2
-         fuIIezXgPTufDeSWapuRTWdIYvngUSK/57sogA9MlmQlOT2dpmNwWYd4OkSZ4DYYSdOI
-         YIjw==
-X-Gm-Message-State: AJIora9OmWbm31Gn1bXA0yfEuppCSPqcBYlakt+1aBNKo7YerQgewpQY
-        x8Yr9fuBs92snaAgSuKf4loxzPpWnUHjs/H5sPxdOg==
-X-Google-Smtp-Source: AGRyM1vYxPJcIwe5cHDHLSAcsh31y1ZP8mbEtq/TG7pxpHeW2mhAu3KJQQ6G4OsCSeCIaJ4nIBs3Y1UcxGw0e5uU3tU=
-X-Received: by 2002:a05:6808:1446:b0:33a:c7e0:e88d with SMTP id
- x6-20020a056808144600b0033ac7e0e88dmr7690868oiv.123.1659433749236; Tue, 02
- Aug 2022 02:49:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220801210946.3069083-1-zokeefe@google.com> <YujpzGKImMQsn8SM@dhcp22.suse.cz>
-In-Reply-To: <YujpzGKImMQsn8SM@dhcp22.suse.cz>
-From:   "Zach O'Keefe" <zokeefe@google.com>
-Date:   Tue, 2 Aug 2022 02:48:33 -0700
-Message-ID: <CAAa6QmS=VbsdvHgvFQCceV+pYHwSSj1pjhX3_voz12T4rJ-EBQ@mail.gmail.com>
-Subject: Re: [PATCH mm-unstable] mm/madvise: remove CAP_SYS_ADMIN requirement
- for process_madvise(MADV_COLLAPSE)
-To:     Michal Hocko <mhocko@suse.com>
+        with ESMTP id S231208AbiHBMES (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 2 Aug 2022 08:04:18 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 878624AD7A;
+        Tue,  2 Aug 2022 05:04:16 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 279431F936;
+        Tue,  2 Aug 2022 12:04:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1659441855; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=yNCOVJvTvXYjkbinC2wpPiVJJz4uAY9LW/GyhexozMg=;
+        b=Y/f4ThdH9BA3tZ6Mfyjhq2ZRwzYGOqQn6/SVYc6F8K9jwumW860ltxLGH9ZEdggr4RJgG8
+        qz88X9PpFtY85Nurju+9YH5zwoG6AKodu7DB1m8/wPvzc14p5eSmoX1H0n3UipW33jaIgb
+        Rk2hmRcA9zN84E8AM/lNtlb70xzFAWI=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F2D7E13A8E;
+        Tue,  2 Aug 2022 12:04:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id +04/O74S6WKhNQAAMHmgww
+        (envelope-from <mhocko@suse.com>); Tue, 02 Aug 2022 12:04:14 +0000
+Date:   Tue, 2 Aug 2022 14:04:14 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Zach O'Keefe <zokeefe@google.com>
 Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
         linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
         Axel Rasmussen <axelrasmussen@google.com>,
@@ -83,107 +71,66 @@ Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
         Patrick Xia <patrickx@google.com>,
         Pavel Begunkov <asml.silence@gmail.com>,
         Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Subject: Re: [PATCH mm-unstable] mm/madvise: remove CAP_SYS_ADMIN requirement
+ for process_madvise(MADV_COLLAPSE)
+Message-ID: <YukSvpPRuus2bHOu@dhcp22.suse.cz>
+References: <20220801210946.3069083-1-zokeefe@google.com>
+ <YujpzGKImMQsn8SM@dhcp22.suse.cz>
+ <CAAa6QmS=VbsdvHgvFQCceV+pYHwSSj1pjhX3_voz12T4rJ-EBQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAa6QmS=VbsdvHgvFQCceV+pYHwSSj1pjhX3_voz12T4rJ-EBQ@mail.gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 2, 2022 at 2:09 AM Michal Hocko <mhocko@suse.com> wrote:
->
-> Hasn't this been discussed during the MADV_COLLAPSE submission? What has
-> changed? Does this need more time to settle with the consensus?
->
-> On Mon 01-08-22 14:09:46, Zach O'Keefe wrote:
-> > process_madvise(MADV_COLLAPSE) currently requires CAP_SYS_ADMIN when not
-> > acting on the caller's own mm.  This is maximally restrictive, and
-> > perpetuates existing issues with CAP_SYS_ADMIN.  Remove this requirement.
-> >
-> > When acting on an external process' memory, the biggest concerns for
-> > process_madvise(MADV_COLLAPSE) are (1) being able to influence process
-> > performance by moving memory, possibly between nodes, that is mapped
-> > into the address space of external process(es), (2) defeat of
-> > address-space-layout randomization, and (3), being able to increase
-> > process RSS and memcg usage, possibly causing memcg OOM.
-> >
-> > process_madvise(2) already enforces CAP_SYS_NICE and PTRACE_MODE_READ (in
-> > PTRACE_MODE_FSCREDS mode).  A process with these credentials can already
-> > accomplish (1) and (2) via move_pages(MPOL_MF_MOVE_ALL), and (3) via
-> > process_madvise(MADV_WILLNEED).
-> >
-> > process_madvise(MADV_COLLAPSE) may also circumvent sysfs THP settings.
-> > When acting on one's own memory (which is equivalent to
-> > madvise(MADV_COLLAPSE)), this is deemed acceptable, since aside from the
-> > possibility of hoarding available hugepages (which is currently already
-> > possible) no harm to the system can be done.  When acting on an external
-> > process' memory, circumventing sysfs THP settings should provide no
-> > additional threat compared to the ones listed.  As such, imposing
-> > additional capabilities (such as CAP_SETUID, as a way to ensure the
-> > caller could have just altered the sysfs THP settings themselves)
-> > provides no extra protection.
-> >
-> > Fixes: 7ec952341312 ("mm/madvise: add MADV_COLLAPSE to process_madvise()")
-> > Signed-off-by: Zach O'Keefe <zokeefe@google.com>
-> > ---
-> >  mm/madvise.c | 8 +++-----
-> >  1 file changed, 3 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/mm/madvise.c b/mm/madvise.c
-> > index f9e11b6c9916..af97100a0727 100644
-> > --- a/mm/madvise.c
-> > +++ b/mm/madvise.c
-> > @@ -1170,16 +1170,14 @@ madvise_behavior_valid(int behavior)
-> >       }
-> >  }
-> >
-> > -static bool
-> > -process_madvise_behavior_valid(int behavior, struct task_struct *task)
-> > +static bool process_madvise_behavior_valid(int behavior)
-> >  {
-> >       switch (behavior) {
-> >       case MADV_COLD:
-> >       case MADV_PAGEOUT:
-> >       case MADV_WILLNEED:
-> > -             return true;
-> >       case MADV_COLLAPSE:
-> > -             return task == current || capable(CAP_SYS_ADMIN);
-> > +             return true;
-> >       default:
-> >               return false;
-> >       }
-> > @@ -1457,7 +1455,7 @@ SYSCALL_DEFINE5(process_madvise, int, pidfd, const struct iovec __user *, vec,
-> >               goto free_iov;
-> >       }
-> >
-> > -     if (!process_madvise_behavior_valid(behavior, task)) {
-> > +     if (!process_madvise_behavior_valid(behavior)) {
-> >               ret = -EINVAL;
-> >               goto release_task;
-> >       }
-> > --
-> > 2.37.1.455.g008518b4e5-goog
->
-> --
-> Michal Hocko
-> SUSE Labs
+On Tue 02-08-22 02:48:33, Zach O'Keefe wrote:
+[...]
+> "mm/madvise: add MADV_COLLAPSE to process_madvise()" in the v7 series
+> ended with me mentioning a couple options, but ultimately I didn't
+> present a solution, and no consensus was reached[1]. After taking a
+> closer look, this is my proposal for what I believe to be the best
+> path forward. It should be squashed into the original patch. What do you think?
 
-Hey Michal,
+If it is agreed that the CAP_SYS_ADMIN is too strict of a requirement
+then yes, this should be squashed into the original patch. There is no
+real reason to create a potential bisection headache by changing the
+permission model in a later patch.
 
-Thanks for taking the time to take a look at this.
+From my POV, I would agree that CAP_SYS_ADMIN is just too strict of a
+requirement.
 
-"mm/madvise: add MADV_COLLAPSE to process_madvise()" in the v7 series
-ended with me mentioning a couple options, but ultimately I didn't
-present a solution, and no consensus was reached[1]. After taking a
-closer look, this is my proposal for what I believe to be the best
-path forward. It should be squashed into the original patch. What do you think?
+I didn't really have time to follow recent discussions but I would argue
+that the operation is not really destructive or seriously harmful. All
+applications can already have their memory (almost) equally THP
+collapsed by khupaged with the proposed process_madvise semantic.
 
-Thanks again,
-Zach
+NOHUGEMEM and prctl opt out from THP are both honored AFAIU and the only
+difference is the global THP killswitch behavior which I do not think
+warrants the strongest CAP_SYS_ADMIN capability (especially because it
+doesn't really control all kinds of THPs).
 
-[1] https://lore.kernel.org/linux-mm/Ys4aTRqWIbjNs1mI@google.com/
+If there is a userspace agent collapsing memory and causing problems
+then it can be easily fixed in the userspace. And I find that easier
+to do than putting the bar so high that userspace agents would be
+unfeasible because of CAP_SYS_ADMIN (which is nono in many cases as it
+would allow essentially full control of other stuff). So from practical
+POV, risking an extended RSS is really a negligible risk to lose a
+potentially useful feature for all others.
+
+Just my 2c
+
+> Thanks again,
+> Zach
+> 
+> [1] https://lore.kernel.org/linux-mm/Ys4aTRqWIbjNs1mI@google.com/
+
+-- 
+Michal Hocko
+SUSE Labs
