@@ -2,103 +2,70 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EAB9588061
-	for <lists+linux-api@lfdr.de>; Tue,  2 Aug 2022 18:39:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F7C75880BE
+	for <lists+linux-api@lfdr.de>; Tue,  2 Aug 2022 19:07:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239070AbiHBQjX (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 2 Aug 2022 12:39:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44986 "EHLO
+        id S229576AbiHBRHC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 2 Aug 2022 13:07:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239085AbiHBQjK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 2 Aug 2022 12:39:10 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCD38E93
-        for <linux-api@vger.kernel.org>; Tue,  2 Aug 2022 09:39:00 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id d16so5867433pll.11
-        for <linux-api@vger.kernel.org>; Tue, 02 Aug 2022 09:39:00 -0700 (PDT)
+        with ESMTP id S229462AbiHBRHB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 2 Aug 2022 13:07:01 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91BF133405
+        for <linux-api@vger.kernel.org>; Tue,  2 Aug 2022 10:06:59 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id u1so12608977lfq.4
+        for <linux-api@vger.kernel.org>; Tue, 02 Aug 2022 10:06:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=YLolmPC/4W6Ekt5KXSGhTlaQ+SvTrN9uL1784FHTktA=;
-        b=DEczoNtVTMwIsaw8yg11wYkQuI9LeTuQwFeOQ0oJ03m1tMW/YgHdOnTv17v8+A6WTV
-         U7hpMystc0MLLmDXYDMaROWkoGrECN3+IY7Ia+Z09cQyp/+2thONhPGLIYnqECJRrXhr
-         dDHRlXhlBA0o0w24sHNoK99DkncCME85F/XcNTjXnZbY1/vtUg34rxTUMG/OWYQ4HMcI
-         iIFe/Qw/lNcBgMnxPgPuAhy90CFyCy84wOdE8NkRPB91ulC5zTuJcdVgjk8H0EgOjoUm
-         FnlRd5MiMQxVvv/M1kuZRL91q7QvdBIT05QOREIPMw2HWyehKvsTbH9WC464J4D8ov37
-         YsWg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=ZXWj8bAr14o0Agc06qVEnrp82B9KIUIFNSkdgF3Gohc=;
+        b=cBO7meugLJqyR+4TK+L2GvQ1jwGL7IEu5mBgrr0z7hLEJmgMGEus+W0LqYvkdEaxU7
+         gWEFucqgGrc6ngDSOxBhjuO8b1xGU12K1m+wdKSbUky1Y6ACeFyS+G+q4VSo34iVs0p/
+         ZLf8euyc/cxp8VDona9sw7igkjVYASpFKYzhJlkcdeuXBMq0tVNrdLnPOqfXB2LnJxz2
+         lXYzIZXbEqjE5EJEQ4ESz767wYzWFLAWiqRR/E8OQ45TwsYNtH0+Jget0BeZPcB339Mn
+         IKwOVtQ7Vk443URjhpJgugm6ZdwpYs8Slz59bjQF3mJ3RYMECgSo/DFnzEHVj7jPszFM
+         y/OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=YLolmPC/4W6Ekt5KXSGhTlaQ+SvTrN9uL1784FHTktA=;
-        b=YrNw/pB8pXXPlSXSkcScl7o5O5wd6WySGULuSEYwD521CxoHgUoYRCckxlJzhTtDNd
-         n2QeohGsOAcORZytpHZyc9X0CGmqVkk2dOcQr23uvr4dH95HKHLvrN4rkV9JhVNcCXGD
-         IqCRlM0b0s65YG7AmfAb36sqULImO3Q4/XnQuckezTH8c3i7F6RBLYwYRIbDcWDYsUdo
-         a4ZnO/ZFNGESovCLGMzgEAAJnZQvwy5mmK9+Nz6Um1fp2yPLNhU8bfxIFpfOGhrqGSZ3
-         4TM+OZwYZeJ+jE4ouP70GAfn6abCA/GEVfJn3FEQ1n1zmdoH0KlLLJxf2E02pTchq0Aa
-         vf7Q==
-X-Gm-Message-State: ACgBeo0y4uBvY+08A4diN8TH5Yrpb0RH+e9jFkWz4Du0vOewIdeoK3vn
-        et466fGp9A9EmTtJtctVfQVq1w==
-X-Google-Smtp-Source: AA6agR5iAjFP2q7X1PbZvwrW6P6B4ILkh92ieVBGwE4LPz6Qma2k0ZREMBEhxOJKazpAhnjrSGkWTg==
-X-Received: by 2002:a17:902:dac6:b0:16d:bdf5:7084 with SMTP id q6-20020a170902dac600b0016dbdf57084mr22165713plx.55.1659458340177;
-        Tue, 02 Aug 2022 09:39:00 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id l15-20020a17090aec0f00b001f216407204sm11136513pjy.36.2022.08.02.09.38.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Aug 2022 09:38:59 -0700 (PDT)
-Date:   Tue, 2 Aug 2022 16:38:55 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Wei Wang <wei.w.wang@linux.intel.com>,
-        "Gupta, Pankaj" <pankaj.gupta@amd.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
- memory regions
-Message-ID: <YulTH7bL4MwT5v5K@google.com>
-References: <36e671d2-6b95-8e4f-c2ac-fee4b2670c6e@amd.com>
- <20220720150706.GB124133@chaop.bj.intel.com>
- <d0fd229d-afa6-c66d-3e55-09ac5877453e@amd.com>
- <YtgrkXqP/GIi9ujZ@google.com>
- <45ae9f57-d595-f202-abb5-26a03a2ca131@linux.intel.com>
- <20220721092906.GA153288@chaop.bj.intel.com>
- <YtmT2irvgInX1kPp@google.com>
- <20220725130417.GA304216@chaop.bj.intel.com>
- <YuQ64RgWqdoAAGdY@google.com>
- <Yuh0ikhoh+tCK6VW@google.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=ZXWj8bAr14o0Agc06qVEnrp82B9KIUIFNSkdgF3Gohc=;
+        b=FQq0Bno5evgtk4n/xOe/hzdRoFjuOg3yjD/7lK0jjvAmN0Eh5ZDY69olObW/ozbyzN
+         yh7vgkXQI2cZNFnBcUJ7kbyNa6DMZNcISEcEE5WlCEXyjb2rKkxl3FMdZxo1JY7GqwL9
+         ++oDSpdjhZZtY5MyLh98q95HnfzsQ1SJC1n3C3clrTsg4Q/SBeX1JI07+2kNQWINOsMT
+         5UjKdefaHZso3Z860O9iKy4hY79//IWdR1KHp3yC1QGFLsmYSWsfjOO2o17d3hm6LMUy
+         fFp4/dDgiXE6N4h8SGfew7bJPif8D1NtWuwAqt3ou8Tfu3VLunYxeFPmIHiMpHsulfS2
+         XPFQ==
+X-Gm-Message-State: AJIora9si4Q/bMtjDRiaZ0KWy6ECLfIEa2O3WOPvgNgvQrjmdeObMStY
+        ju+BjqXwAVaLM9pKcoM6WqviZX6R14SYPEkTEJ65Nw==
+X-Google-Smtp-Source: AGRyM1sPNLZq14qYNmP60AzGtHJUw6471TvUJfcxP5adnc8e8cgleoWQVR5+TC6UWESg14FbmxpVeNGf67+b9zKlVuM=
+X-Received: by 2002:a05:6512:10ce:b0:489:cc6b:fad with SMTP id
+ k14-20020a05651210ce00b00489cc6b0fadmr8328207lfg.299.1659460017708; Tue, 02
+ Aug 2022 10:06:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yuh0ikhoh+tCK6VW@google.com>
+References: <20220729190225.12726-1-mathieu.desnoyers@efficios.com>
+ <CAFTs51UAyc4Z5WUFdMXCTYR6zji6NwLeBxYsp9GQZvFdEtUm1w@mail.gmail.com> <500891137.95782.1659452479846.JavaMail.zimbra@efficios.com>
+In-Reply-To: <500891137.95782.1659452479846.JavaMail.zimbra@efficios.com>
+From:   Peter Oskolkov <posk@google.com>
+Date:   Tue, 2 Aug 2022 10:06:45 -0700
+Message-ID: <CAPNVh5dviLMLS5APS8M+n9cHups2zvoJvcguqnO0aPO8bi4DDQ@mail.gmail.com>
+Subject: Re: [PATCH v3 00/23] RSEQ node id and virtual cpu id extensions
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     Peter Oskolkov <posk@posk.io>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api <linux-api@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Florian Weimer <fw@deneb.enyo.de>,
+        David Laight <David.Laight@aculab.com>,
+        carlos <carlos@redhat.com>, Chris Kennelly <ckennelly@google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
@@ -110,28 +77,65 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 02, 2022, Sean Christopherson wrote:
-> I think we should avoid UNMAPPABLE even on the KVM side of things for the core
-> memslots functionality and instead be very literal, e.g.
-> 
-> 	KVM_HAS_FD_BASED_MEMSLOTS
-> 	KVM_MEM_FD_VALID
-> 
-> We'll still need KVM_HAS_USER_UNMAPPABLE_MEMORY, but it won't be tied directly to
-> the memslot.  Decoupling the two thingis will require a bit of extra work, but the
-> code impact should be quite small, e.g. explicitly query and propagate
-> MEMFILE_F_USER_INACCESSIBLE to kvm_memory_slot to track if a memslot can be private.
-> And unless I'm missing something, it won't require an additional memslot flag.
-> The biggest oddity (if we don't also add KVM_MEM_PRIVATE) is that KVM would
-> effectively ignore the hva for fd-based memslots for VM types that don't support
-> private memory, i.e. userspace can't opt out of using the fd-based backing, but that
-> doesn't seem like a deal breaker.
+On Tue, Aug 2, 2022 at 8:01 AM Mathieu Desnoyers
+<mathieu.desnoyers@efficios.com> wrote:
+>
 
-Hrm, but basing private memory on top of a generic FD_VALID would effectively require
-shared memory to use hva-based memslots for confidential VMs.  That'd yield a very
-weird API, e.g. non-confidential VMs could be backed entirely by fd-based memslots,
-but confidential VMs would be forced to use hva-based memslots.
+[...]
 
-Ignore this idea for now.  If there's an actual use case for generic fd-based memory
-then we'll want a separate flag, fd, and offset, i.e. that support could be added
-independent of KVM_MEM_PRIVATE.
+> >
+> > We have experimented with several approaches here. The one that we are
+> > currently using is the "flat" model: we allocate vcpu IDs ignoring numa nodes.
+> >
+> > We did try per-numa-node vcpus, but it did not show any material improvement
+> > over the "flat" model, perhaps because on our most "wide" servers the CPU
+> > topology is multi-level. Chris Kennelly may provide more details here.
+>
+> I would really like to know more about Google's per-numa-node vcpus implementation.
+> I suspect you guys may have taken a different turn somewhere in the design which
+> led to these results. But having not seen that implementation, I can only guess.
+>
+> I notice the following Google-specific prototype extension in tcmalloc:
+>
+>   // This is a prototype extension to the rseq() syscall.  Since a process may
+>   // run on only a few cores at a time, we can use a dense set of "v(irtual)
+>   // cpus."  This can reduce cache requirements, as we only need N caches for
+>   // the cores we actually run on simultaneously, rather than a cache for every
+>   // physical core.
+>   union {
+>     struct {
+>       short numa_node_id;
+>       short vcpu_id;
+>     };
+>     int vcpu_flat;
+>   };
+>
+> Can you tell me more about the way the numa_node_id and vcpu_id are allocated
+> internally, and how they are expected to be used by userspace ?
+
+Based on a "VCPU policy" flag passed by the userspace during rseq registration
+request, our kernel would:
+- do nothing re: vcpus, i.e. behave like it currently does upstream;
+- allocate VCPUs in a "flat" manner, ignoring NUMA;
+- populate numa_node_id with the value from the function with the same name in
+  https://elixir.bootlin.com/linux/latest/source/include/linux/topology.h
+  and allocate vcpu_id within the numa node in a tight manner.
+
+Basically, if there are M threads running on node 0 and N threads
+running on node 1 at time T, there will be [0,M-1] vcpu IDs associated with
+node 0 and [0,N-1] vcpu IDs associated with node 1 at this moment
+in time. If a thread migrates across nodes, the balance would change
+accordingly.
+
+I'm not sure how exactly tcmalloc tried to use VCPUs under this policy, and
+what were the benefits expected. The simplest way would be to keep
+a freelist per node_id/vcpu_id pair (basically, per vcpu_flat in the union),
+but this would tend to increase the number of freelists due to thread
+migrations,
+so benefits should be related to memory locality, and so somewhat difficult to
+measure precisely.
+
+Chris Kennelly may offer more details here.
+
+Thanks,
+Peter
