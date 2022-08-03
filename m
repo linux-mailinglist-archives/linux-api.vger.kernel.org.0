@@ -2,44 +2,54 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA2D0588A3E
-	for <lists+linux-api@lfdr.de>; Wed,  3 Aug 2022 12:18:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECE76588ECC
+	for <lists+linux-api@lfdr.de>; Wed,  3 Aug 2022 16:42:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236080AbiHCKSH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 3 Aug 2022 06:18:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56630 "EHLO
+        id S236284AbiHCOm3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 3 Aug 2022 10:42:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233057AbiHCKSD (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 3 Aug 2022 06:18:03 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB8E0B3C;
-        Wed,  3 Aug 2022 03:18:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1659521882; x=1691057882;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=wFam+LDcRbKILr0ubXYReeOGRVLmWUy4n8feDpXT4KY=;
-  b=jixmJUcG97PKX5ZUa28+bVmJitLlvDDyE5XCz7Ngn6Sxs2fCCk346OQh
-   /e7FPrzxv/OdN4siefyhkCmDrmkJFuKi1quptgBEu6/s5XmygcajKBJyS
-   ZrsivssBk6Q7Shs30NldTHjA62ZsniOd/HXGIDXlrTKGtCc5gAS4ZwvNo
-   qo42XvQaBejZVxpSQUtCDI1QrL1sCc3Xo8xti8W/but3T4lGXOid1a2+Z
-   es7fB9RoKojXChzirRk7Rdgt+2K7OkYwaS65MVYx5fSlXPS65iNPv2qhQ
-   +W/GCziMYhi4xBvRcr6NoRpWxw/cDdJjsMT1swi02fnY9YKHgpQp6glME
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10427"; a="351350449"
-X-IronPort-AV: E=Sophos;i="5.93,213,1654585200"; 
-   d="scan'208";a="351350449"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2022 03:18:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,213,1654585200"; 
-   d="scan'208";a="631095811"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by orsmga008.jf.intel.com with ESMTP; 03 Aug 2022 03:17:51 -0700
-Date:   Wed, 3 Aug 2022 18:13:04 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Sean Christopherson <seanjc@google.com>
+        with ESMTP id S236093AbiHCOm1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 3 Aug 2022 10:42:27 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFA5228E0D
+        for <linux-api@vger.kernel.org>; Wed,  3 Aug 2022 07:42:22 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id 17so1107322plj.10
+        for <linux-api@vger.kernel.org>; Wed, 03 Aug 2022 07:42:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=WbLojLDf4bnSMua5Syjpq38ZqCfDt7KDJFslMAkFjxI=;
+        b=S8oyKUBy69riYkQuhYnwr0bc7Xvahe0VOOFXz4BtcQ0Obxpsdkj/f3ARt4Mt/OUsCb
+         DsrJXH1aF/JgDNByaDUbxmaljW2v3JxByMH8iLWSiayTU5HbZCNMaZqiqvwzNiTOjjYT
+         dSe2qtNn5OyY/2iIiipeDJWnj9+8KugXVn/Gh1KEZyNk2izo4jPnWiscetPUQPS9YA5a
+         KuaMdniensvSwTajg+cFCupR8Fse6ozUzNza11V9wBVMEgrMl8EoawPzLyociiYgPofZ
+         qs4D88AaLCVfbZBTf1QVpfkIjxi1VjVXMa7LR98wadzIA8n6LRzLHGWMpdZ6eyKnF0ic
+         g4CA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=WbLojLDf4bnSMua5Syjpq38ZqCfDt7KDJFslMAkFjxI=;
+        b=k7zAtbyT6PEUI80+Hou87T5ERosuFMfPGls3qaHjhnhIeiAgApo4YkspDCipguQ4ot
+         35bTLIvwnvFFGuxJyJTbwlw/UpioeK+Ed9rCX/C3rLCSnWrF62EiUNjUe6+sUHyUhQti
+         lr+VKq0j6fkDMOJTotBP6JgBuSNdt6byCbbzfUs9k+HnokplpARwZLXt8I3UUKHASLve
+         eJLdQ5yhoQ8/ewD+JqAfz97YQTBr/EwkRQtwJ72R4TWvm/5pxSU0H0+lzovWJ/o+RmXB
+         L9+5CNqxfYJnYoTZXe2oV2iNWrG9ZM4jPhc/wVBqmSVxR3l7f7MAZNY9CREM6NyfoILg
+         f+IQ==
+X-Gm-Message-State: ACgBeo3EY+XtV//4oe/H8ANcMLAi1VNdP9BI3mSTDrqn++Q0o0/ABbOW
+        E9F4lZwhLbPLSIUWExwnp84Vmw==
+X-Google-Smtp-Source: AA6agR4YfMFOGAmga5CfWpVWHyya4teDhnGUJy+qkkGHA09bRr9mP40ayb7pIQHXCvX5PQKdF82pIw==
+X-Received: by 2002:a17:90b:350c:b0:1f5:e4b:2884 with SMTP id ls12-20020a17090b350c00b001f50e4b2884mr5338018pjb.46.1659537741705;
+        Wed, 03 Aug 2022 07:42:21 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id u62-20020a627941000000b0052ac12e7596sm3118097pfc.114.2022.08.03.07.42.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Aug 2022 07:42:20 -0700 (PDT)
+Date:   Wed, 3 Aug 2022 14:42:17 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
 Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
         linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
@@ -70,47 +80,68 @@ Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         Quentin Perret <qperret@google.com>,
         Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
         Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 08/14] KVM: Rename mmu_notifier_*
-Message-ID: <20220803101304.GE607465@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+Subject: Re: [PATCH v7 09/14] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <YuqJSQI3gas/k56X@google.com>
 References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-9-chao.p.peng@linux.intel.com>
- <YuQutJAhKWcsrrYl@google.com>
+ <20220706082016.2603916-10-chao.p.peng@linux.intel.com>
+ <YuQ6QWcdZLdStkWl@google.com>
+ <20220803100835.GD607465@chaop.bj.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YuQutJAhKWcsrrYl@google.com>
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220803100835.GD607465@chaop.bj.intel.com>
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Jul 29, 2022 at 07:02:12PM +0000, Sean Christopherson wrote:
-> On Wed, Jul 06, 2022, Chao Peng wrote:
-> > The sync mechanism between mmu_notifier and page fault handler employs
-> > fields mmu_notifier_seq/count and mmu_notifier_range_start/end. For the
-> > to be added private memory, there is the same mechanism needed but not
-> > rely on mmu_notifier (It uses new introduced memfile_notifier). This
-> > patch renames the existing fields and related helper functions to a
-> > neutral name mmu_updating_* so private memory can reuse.
+On Wed, Aug 03, 2022, Chao Peng wrote:
+> On Fri, Jul 29, 2022 at 07:51:29PM +0000, Sean Christopherson wrote:
+> > On Wed, Jul 06, 2022, Chao Peng wrote:
+> > > @@ -1332,9 +1332,18 @@ yet and must be cleared on entry.
+> > >  	__u64 userspace_addr; /* start of the userspace allocated memory */
+> > >    };
+> > >  
+> > > +  struct kvm_userspace_memory_region_ext {
+> > > +	struct kvm_userspace_memory_region region;
+> > > +	__u64 private_offset;
+> > > +	__u32 private_fd;
+> > > +	__u32 pad1;
+> > > +	__u64 pad2[14];
+> > > +};
+> > > +
+> > >    /* for kvm_memory_region::flags */
+> > >    #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
+> > >    #define KVM_MEM_READONLY	(1UL << 1)
+> > > +  #define KVM_MEM_PRIVATE		(1UL << 2)
+> > 
+> > Very belatedly following up on prior feedback...
+> > 
+> >   | I think a flag is still needed, the problem is private_fd can be safely
+> >   | accessed only when this flag is set, e.g. without this flag, we can't
+> >   | copy_from_user these new fields since they don't exist for previous
+> >   | kvm_userspace_memory_region callers.
+> > 
+> > I forgot about that aspect of things.  We don't technically need a dedicated
+> > PRIVATE flag to handle that, but it does seem to be the least awful soltuion.
+> > We could either add a generic KVM_MEM_EXTENDED_REGION or an entirely new
+> > ioctl(), e.g. KVM_SET_USER_MEMORY_REGION2, but in both approaches there's a decent
+> > chance that we'll end up needed individual "this field is valid" flags anways.
+> > 
+> > E.g. if KVM requires pad1 and pad2 to be zero to carve out future extensions,
+> > then we're right back here if some future extension needs to treat '0' as a legal
+> > input.
 > 
-> mmu_updating_* is too broad of a term, e.g. page faults and many other operations
-> also update the mmu.  Although the name most definitely came from the mmu_notifier,
-> it's not completely inaccurate for other sources, e.g. KVM's MMU is still being
-> notified of something, even if the source is not the actual mmu_notifier.
-> 
-> If we really want a different name, I'd vote for nomenclature that captures the
-> invalidation aspect, which is really what the variables are all trackng, e.g.
-> 
->   mmu_invalidate_seq
->   mmu_invalidate_in_progress
->   mmu_invalidate_range_start
->   mmu_invalidate_range_end
+> I had such practice (always rejecting none-zero 'pad' value when
+> introducing new user APIs) in other project previously, but I rarely
+> see that in KVM.
 
-Looks good to me. Thanks.
-
-Chao
+Ya, KVM often uses flags to indicate the validity of a field specifically so that
+KVM doesn't misinterpret a '0' from an older userspace as an intended value.
