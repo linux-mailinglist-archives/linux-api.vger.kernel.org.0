@@ -2,62 +2,61 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E71A6588FD4
-	for <lists+linux-api@lfdr.de>; Wed,  3 Aug 2022 17:53:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CD33589829
+	for <lists+linux-api@lfdr.de>; Thu,  4 Aug 2022 09:10:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238094AbiHCPxi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 3 Aug 2022 11:53:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50074 "EHLO
+        id S238527AbiHDHKx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 4 Aug 2022 03:10:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238294AbiHCPwi (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 3 Aug 2022 11:52:38 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE42B19006
-        for <linux-api@vger.kernel.org>; Wed,  3 Aug 2022 08:51:31 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id b133so16828726pfb.6
-        for <linux-api@vger.kernel.org>; Wed, 03 Aug 2022 08:51:31 -0700 (PDT)
+        with ESMTP id S230001AbiHDHKv (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Aug 2022 03:10:51 -0400
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 550862CE04;
+        Thu,  4 Aug 2022 00:10:47 -0700 (PDT)
+Received: by mail-pg1-x531.google.com with SMTP id j17so2849222pgl.5;
+        Thu, 04 Aug 2022 00:10:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=nQ/PVBdgsWcgdstxLD2wNHSv0oGBQkwDPYWARWt/BZk=;
-        b=UqknoREV8mEy68zQSBU2lbsWwGYJTvDQqRAleSTHvyIJ9duv+KK5mptQRpjJ4+gqwT
-         NxHvbORsCprsREjtYZh1buxFH+7EmVZpQLTV3+hYE+0dFCTXjJEnC3b96X8evdOb5AvE
-         k4iA+m9355bZUR/pB9mbPpAtkahMb5UJRUeDN+StvBc9wiJ05Fv5gikb+f1UBTkXZ9Wb
-         T3uxjZMlPupTU7GmMz1t23PVXrEuoowTqTk0zL5Hyru097c+kpaUrTX0+tZJiyZrRiOO
-         fkDHAGmtMrFQ7XABTAs6+c7PxqPyw3Ku9zCqwf6gSHK8zwJF3t1nJjjVSt++BhLBcJPe
-         c9cg==
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Msx+MTdWqnPNVUHp+3FfvLfdSxDAnztRmbALqvTfmJc=;
+        b=ee2B6ZmuD7w/b216B4sfnS7nxgF19nbbPD5seH0PzGR35P0l0m9VVe9qFY5joUzJwv
+         iGIgbUoJeOoPnK8RYddMDCWsam2EAdTDUk+2AAnJFInausC/w4mQ2e9JWHj5oNqpLmJM
+         ZmraEjxD8qh3F/SCH81nNk09N2xF+KP95AbrPc1phVtNBvj5AX3qcNeulUAWJ7Hymogk
+         VqWvw5PYeg9pv95ntmSIiWZUY7COS9mMSx+VnBuEmtTMpgIUnMguWM3fOELjfqr08cB9
+         YBCc9XKnWP8+/2JP25FF31wt0Z5iUujxqEQEuxCTiUrEDXf51d/LCk8VLAdiABIOIjqV
+         3uTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=nQ/PVBdgsWcgdstxLD2wNHSv0oGBQkwDPYWARWt/BZk=;
-        b=sg5ZM91WnIETSISrY3230I06aMsFjALg+TuQJgh4X9CnHjDssyGXYVHwTN2J7G13oS
-         zvkmTAXmAAxJaiC4Hnn+HWeLiKViGfdtTCGqmjShs9lagxQA1FOIZWQPnBd3numXthdH
-         Ikt3DEQK9h4kvM5Ty2cXDBOrVSXMlbazbMv5lzaYLYwgKVYZcPYuLAB27DXXhT0/qQQF
-         WfOq9Yd2phIHPxuh4T9xlC/j37A+2r7YnzxJVGZdoAT2EvuRtsYFPkB79m7iMfZ06Jy+
-         A+J2DVulu9/CuPae3QVx5zmcKfGCEkVH2WB9IJNakifLrWRUqXsoACymLIJxLUpxqFxG
-         Ndig==
-X-Gm-Message-State: AJIora+rMdZtIdwTmwNzN5GJ+Bq9kFI1KnomdL3j70IKmSR6gAFytMZu
-        3nV0SSeT7OwDAu+HiLnkxyHvPA==
-X-Google-Smtp-Source: AGRyM1uDNFXI+kxeHIg+ULHnKLrtLVM3YAsuBREDsfvLxR8PwpGaMsjug1I+UmNiUr91nJEzTB4ZRg==
-X-Received: by 2002:a63:d014:0:b0:41a:13b3:69d9 with SMTP id z20-20020a63d014000000b0041a13b369d9mr21261764pgf.202.1659541889184;
-        Wed, 03 Aug 2022 08:51:29 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id x187-20020a6231c4000000b0052c4b3e6f6asm13535782pfx.97.2022.08.03.08.51.28
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Msx+MTdWqnPNVUHp+3FfvLfdSxDAnztRmbALqvTfmJc=;
+        b=MT1h+TG2A44d4eNya5+1LTqanxdXxxTxNmEerBcgl7JFD9bC9Q75X89Yfb0Lvfmuml
+         qTfgFiq8DTX73f1YH6q1rgqdvursgeQ3bZ9lNhfir1eK0PdLTJ7YkaUMCZSER93WhTSi
+         oEOyDEgF9cyWSqNo4YrdBh/iOUfGGRJK6n80smwonPR/wzJIZhTjWCRSDkIKHHpalrw/
+         VP5bGqjaN2tpfwrB0A4d2YoxLn2AJQgdU5bUeuiWmWDUhi2LfxpOsi+TLR6mQryo+FuG
+         /33rK0j0lMQN1Y29cy+68KPXAkUZVxG2EF9jFsjNaf9xt8pDf4jIQ+yZxV+4/JJdtjFF
+         GoPQ==
+X-Gm-Message-State: ACgBeo3+WmETvhCNOpd8cbLkeWTKEUIVfAZjqWbDfwJWrqws9MwBYB84
+        VQ3Xv9EGg91MSI3jdewWT1k=
+X-Google-Smtp-Source: AA6agR4epr3dQoXSYo3tVKgoUy+uKNO2hxFagEdJ8l6v4De0QEoIfT716hYj4Pnm1/vc1DQPzChKgQ==
+X-Received: by 2002:a63:e343:0:b0:41c:d5cd:a39 with SMTP id o3-20020a63e343000000b0041cd5cd0a39mr562084pgj.512.1659597046489;
+        Thu, 04 Aug 2022 00:10:46 -0700 (PDT)
+Received: from localhost ([192.55.54.49])
+        by smtp.gmail.com with ESMTPSA id n15-20020a056a00212f00b0052deda6e3d2sm137803pfj.98.2022.08.04.00.10.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Aug 2022 08:51:28 -0700 (PDT)
-Date:   Wed, 3 Aug 2022 15:51:24 +0000
-From:   Sean Christopherson <seanjc@google.com>
+        Thu, 04 Aug 2022 00:10:45 -0700 (PDT)
+Date:   Thu, 4 Aug 2022 00:10:44 -0700
+From:   Isaku Yamahata <isaku.yamahata@gmail.com>
 To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Wei Wang <wei.w.wang@linux.intel.com>,
-        "Gupta, Pankaj" <pankaj.gupta@amd.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
         Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
         Wanpeng Li <wanpengli@tencent.com>,
         Jim Mattson <jmattson@google.com>,
@@ -81,28 +80,20 @@ Cc:     Wei Wang <wei.w.wang@linux.intel.com>,
         ddutile@redhat.com, dhildenb@redhat.com,
         Quentin Perret <qperret@google.com>,
         Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
- memory regions
-Message-ID: <YuqZfPvRo+3GvLF1@google.com>
-References: <d0fd229d-afa6-c66d-3e55-09ac5877453e@amd.com>
- <YtgrkXqP/GIi9ujZ@google.com>
- <45ae9f57-d595-f202-abb5-26a03a2ca131@linux.intel.com>
- <20220721092906.GA153288@chaop.bj.intel.com>
- <YtmT2irvgInX1kPp@google.com>
- <20220725130417.GA304216@chaop.bj.intel.com>
- <YuQ64RgWqdoAAGdY@google.com>
- <Yuh0ikhoh+tCK6VW@google.com>
- <YulTH7bL4MwT5v5K@google.com>
- <20220803094827.GA607465@chaop.bj.intel.com>
+        Muchun Song <songmuchun@bytedance.com>,
+        isaku.yamahata@gmail.com
+Subject: Re: [PATCH v7 07/14] KVM: Use gfn instead of hva for
+ mmu_notifier_retry
+Message-ID: <20220804071044.GA4091749@ls.amr.corp.intel.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-8-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220803094827.GA607465@chaop.bj.intel.com>
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+In-Reply-To: <20220706082016.2603916-8-chao.p.peng@linux.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -110,105 +101,54 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Aug 03, 2022, Chao Peng wrote:
-> On Tue, Aug 02, 2022 at 04:38:55PM +0000, Sean Christopherson wrote:
-> > On Tue, Aug 02, 2022, Sean Christopherson wrote:
-> > > I think we should avoid UNMAPPABLE even on the KVM side of things for the core
-> > > memslots functionality and instead be very literal, e.g.
-> > > 
-> > > 	KVM_HAS_FD_BASED_MEMSLOTS
-> > > 	KVM_MEM_FD_VALID
-> > > 
-> > > We'll still need KVM_HAS_USER_UNMAPPABLE_MEMORY, but it won't be tied directly to
-> > > the memslot.  Decoupling the two thingis will require a bit of extra work, but the
-> > > code impact should be quite small, e.g. explicitly query and propagate
-> > > MEMFILE_F_USER_INACCESSIBLE to kvm_memory_slot to track if a memslot can be private.
-> > > And unless I'm missing something, it won't require an additional memslot flag.
-> > > The biggest oddity (if we don't also add KVM_MEM_PRIVATE) is that KVM would
-> > > effectively ignore the hva for fd-based memslots for VM types that don't support
-> > > private memory, i.e. userspace can't opt out of using the fd-based backing, but that
-> > > doesn't seem like a deal breaker.
-> 
-> I actually love this idea. I don't mind adding extra code for potential
-> usage other than confidential VMs if we can have a workable solution for
-> it.
-> 
-> > 
-> > Hrm, but basing private memory on top of a generic FD_VALID would effectively require
-> > shared memory to use hva-based memslots for confidential VMs.  That'd yield a very
-> > weird API, e.g. non-confidential VMs could be backed entirely by fd-based memslots,
-> > but confidential VMs would be forced to use hva-based memslots.
-> 
-> It would work if we can treat userspace_addr as optional for
-> KVM_MEM_FD_VALID, e.g. userspace can opt in to decide whether needing
-> the mappable part or not for a regular VM and we can enforce KVM for
-> confidential VMs. But the u64 type of userspace_addr doesn't allow us to
-> express a 'null' value so sounds like we will end up needing another
-> flag anyway.
-> 
-> In concept, we could have three cofigurations here:
->   1. hva-only: without any flag and use userspace_addr;
->   2. fd-only:  another new flag is needed and use fd/offset;
->   3. hva/fd mixed: both userspace_addr and fd/offset is effective.
->      KVM_MEM_PRIVATE is a subset of it for confidential VMs. Not sure
->      regular VM also wants this.
+On Wed, Jul 06, 2022 at 04:20:09PM +0800,
+Chao Peng <chao.p.peng@linux.intel.com> wrote:
 
-My mental model breaks things down slightly differently, though the end result is
-more or less the same. 
+> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> index 0bdb6044e316..e9153b54e2a4 100644
+> --- a/include/linux/kvm_host.h
+> +++ b/include/linux/kvm_host.h
+> @@ -1362,10 +1362,8 @@ void kvm_mmu_free_memory_cache(struct kvm_mmu_memory_cache *mc);
+>  void *kvm_mmu_memory_cache_alloc(struct kvm_mmu_memory_cache *mc);
+>  #endif
+>  
+> -void kvm_inc_notifier_count(struct kvm *kvm, unsigned long start,
+> -				   unsigned long end);
+> -void kvm_dec_notifier_count(struct kvm *kvm, unsigned long start,
+> -				   unsigned long end);
+> +void kvm_inc_notifier_count(struct kvm *kvm, gfn_t start, gfn_t end);
+> +void kvm_dec_notifier_count(struct kvm *kvm, gfn_t start, gfn_t end);
+>  
+>  long kvm_arch_dev_ioctl(struct file *filp,
+>  			unsigned int ioctl, unsigned long arg);
 
-After this series, there will be two types of memory: private and "regular" (I'm
-trying to avoid "shared").  "Regular" memory is always hva-based (userspace_addr),
-and private always fd-based (fd+offset).
+The corresponding changes in kvm_main.c are missing.
 
-In the future, if we want to support fd-based memory for "regular" memory, then
-as you said we'd need to add a new flag, and a new fd+offset pair.
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index b2c79bef61bd..0184e327f6f5 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -711,8 +711,7 @@ static void kvm_mmu_notifier_change_pte(struct mmu_notifier *mn,
+        kvm_handle_hva_range(mn, address, address + 1, pte, kvm_set_spte_gfn);
+ }
+ 
+-void kvm_inc_notifier_count(struct kvm *kvm, unsigned long start,
+-                                  unsigned long end)
++void kvm_inc_notifier_count(struct kvm *kvm, gfn_t start, gfn_t end)
+ {
+        /*
+         * The count increase must become visible at unlock time as no
+@@ -786,8 +785,7 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
+        return 0;
+ }
+ 
+-void kvm_dec_notifier_count(struct kvm *kvm, unsigned long start,
+-                                  unsigned long end)
++void kvm_dec_notifier_count(struct kvm *kvm, gfn_t start, gfn_t end)
+ {
+        /*
+         * This sequence increase will notify the kvm page fault that
 
-At that point, we'd have two new (relatively to current) flags:
 
-  KVM_MEM_PRIVATE_FD_VALID
-  KVM_MEM_FD_VALID
-
-along with two new pairs of fd+offset (private_* and "regular").  Mapping those
-to your above list:
-  
-  1.  Neither *_FD_VALID flag set.
-  2a. Both PRIVATE_FD_VALID and FD_VALID are set
-  2b. FD_VALID is set and the VM doesn't support private memory
-  3.  Only PRIVATE_FD_VALID is set (which private memory support in the VM).
-
-Thus, "regular" VMs can't have a mix in a single memslot because they can't use
-private memory.
-
-> There is no direct relationship between unmappable and fd-based since
-> even fd-based can also be mappable for regular VM?
-
-Yep.
-
-> > Ignore this idea for now.  If there's an actual use case for generic fd-based memory
-> > then we'll want a separate flag, fd, and offset, i.e. that support could be added
-> > independent of KVM_MEM_PRIVATE.
-> 
-> If we ignore this idea now (which I'm also fine), do you still think we
-> need change KVM_MEM_PRIVATE to KVM_MEM_USER_UNMAPPBLE?
-
-Hmm, no.  After working through this, I think it's safe to say KVM_MEM_USER_UNMAPPABLE
-is bad name because we could end up with "regular" memory that's backed by an
-inaccessible (unmappable) file.
-
-One alternative would be to call it KVM_MEM_PROTECTED.  That shouldn't cause
-problems for the known use of "private" (TDX and SNP), and it gives us a little
-wiggle room, e.g. if we ever get a use case where VMs can share memory that is
-otherwise protected.
-
-That's a pretty big "if" though, and odds are good we'd need more memslot flags and
-fd+offset pairs to allow differentiating "private" vs. "protected-shared" without
-forcing userspace to punch holes in memslots, so I don't know that hedging now will
-buy us anything.
-
-So I'd say that if people think KVM_MEM_PRIVATE brings additional and meaningful
-clarity over KVM_MEM_PROTECTECD, then lets go with PRIVATE.  But if PROTECTED is
-just as good, go with PROTECTED as it gives us a wee bit of wiggle room for the
-future.
-
-Note, regardless of what name we settle on, I think it makes to do the
-KVM_PRIVATE_MEM_SLOTS => KVM_INTERNAL_MEM_SLOTS rename.
+-- 
+Isaku Yamahata <isaku.yamahata@gmail.com>
