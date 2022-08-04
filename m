@@ -2,222 +2,258 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 216C75898F1
-	for <lists+linux-api@lfdr.de>; Thu,  4 Aug 2022 10:03:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C63C3589F3E
+	for <lists+linux-api@lfdr.de>; Thu,  4 Aug 2022 18:18:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239373AbiHDIDb (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 4 Aug 2022 04:03:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50280 "EHLO
+        id S235845AbiHDQSt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 4 Aug 2022 12:18:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231782AbiHDID3 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Aug 2022 04:03:29 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB37361DAD;
-        Thu,  4 Aug 2022 01:03:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1659600208; x=1691136208;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=n6vj1E+K6IGerPlEyIy+T8JA9iaBmJsVY3SC0cCq/5I=;
-  b=kI7egYbOvMahyhUNcbWWU/Sh/50H7H0GJ+QDCwuBCzrQc5D4o65w7DyJ
-   767egw8Svkz76V5teVSOzOxjNKnrWmgaYRe02rGDfixym1aZrL4h4klzX
-   RO2Fs31YhmsvAmuhU14VgtbzlmustEppJ0buZ8jNoDGoS5dApEIK6XKOW
-   teVaQnLpCBtFK37IUEv6tkyyZ6MX5ZMOxmWbYMHfaEkh5OzMYBeQ64ErK
-   9ZcoHSP6HD39Df4HUCRtEgjixxBSf4C+YfzEI1QI36ZC6bwUjr8Ee/Fz4
-   7JStrUeZkx4ml4n2iGuLjHvsTHCnj1Wz1o8INRMSwACt6kJNwFKt+viAN
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10428"; a="288627961"
-X-IronPort-AV: E=Sophos;i="5.93,215,1654585200"; 
-   d="scan'208";a="288627961"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2022 01:03:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,215,1654585200"; 
-   d="scan'208";a="631482938"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by orsmga008.jf.intel.com with ESMTP; 04 Aug 2022 01:03:17 -0700
-Date:   Thu, 4 Aug 2022 15:58:30 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     Wei Wang <wei.w.wang@linux.intel.com>,
-        "Gupta, Pankaj" <pankaj.gupta@amd.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
- memory regions
-Message-ID: <20220804075830.GA645378@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <YtgrkXqP/GIi9ujZ@google.com>
- <45ae9f57-d595-f202-abb5-26a03a2ca131@linux.intel.com>
- <20220721092906.GA153288@chaop.bj.intel.com>
- <YtmT2irvgInX1kPp@google.com>
- <20220725130417.GA304216@chaop.bj.intel.com>
- <YuQ64RgWqdoAAGdY@google.com>
- <Yuh0ikhoh+tCK6VW@google.com>
- <YulTH7bL4MwT5v5K@google.com>
- <20220803094827.GA607465@chaop.bj.intel.com>
- <YuqZfPvRo+3GvLF1@google.com>
+        with ESMTP id S236119AbiHDQSr (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 4 Aug 2022 12:18:47 -0400
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FF7E61B32
+        for <linux-api@vger.kernel.org>; Thu,  4 Aug 2022 09:18:46 -0700 (PDT)
+Received: by mail-oi1-x229.google.com with SMTP id bb16so23686672oib.11
+        for <linux-api@vger.kernel.org>; Thu, 04 Aug 2022 09:18:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=etAmvsyhZzAzzT9eyPtlklylpAwVqTimPZnoJD750d4=;
+        b=pWnBXfjSYro00kkuIYoJF0a2gPtXFqFR4GH/dMGyfAykOejvu7D4UgubnzN3FVCHS6
+         NjhzjrRRHIBQ2OBJMRfYXGChXYK1G1OV0SI8qniz8fYyrBX5Lg5p+au0EIZ8Mr12X2tS
+         tKpiV7Uz1R6hL6HKiRGcnv+CHLOUWaP7JjsqrbWVZrpD7SRozuMNcXwlYPK1jOARpD86
+         VBscChfT1Xfihl626+98SWfniv94iuungvj1WCertkzdTjdXVQjK7lv1sqNYjnMJrKe1
+         PqDyybDheiusgxZmpwZ2NFAcLtNQK0TlxUgo+LuAoDJCOKP9prTiH0VX+0hb8ssPchLo
+         BqvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=etAmvsyhZzAzzT9eyPtlklylpAwVqTimPZnoJD750d4=;
+        b=4FICEKG9nyOF+IY03eHyavKNpLCE75d4JtoT+BwD3pHsHy30VIqvsT45u+jVw1m7hN
+         viSmS3e1jNQ7R8Y7WkbujrP2iYzwhXSvogjsHEnMUVHZpp8N8fRn/X7K3vpwBP8C445m
+         SPYawlpmDWiB7de/4eth7Nhj1y/GgyVuLJWFzYTLloMaUQake+y6lAujigFODy4Z9fPS
+         Wx6p66ox5r4QXqnvAVDaUQj4x0JqEy7bbcaHxja+aVRLfVdQsfzb1OgPbiCzOl0GsI7M
+         vcSlyrGqBGgAxTpkEkxz1QpWMwy6Aij5mavTuz9SDNMQ9AWU6DhZr5VabJ/5cqX3MDjI
+         NusQ==
+X-Gm-Message-State: ACgBeo2BBLype9GUwVgx5UwchQl+hQVxp5fKCIesMpclY961LOaU6/nH
+        Oi1uKO6r3/wsZHwNjcd7t+CHcdAkCqaVTOMwD4Pd0w==
+X-Google-Smtp-Source: AA6agR6u16XAL1FnO7eIUszF9FfQdkgFIC6uxAlbpWpZyYsU0mhIYHZxKJBtdR7qGRo6OF6/ZYdw47SwytgyMqwpqhM=
+X-Received: by 2002:a05:6808:138c:b0:33a:b02b:8a9a with SMTP id
+ c12-20020a056808138c00b0033ab02b8a9amr4170972oiw.227.1659629925330; Thu, 04
+ Aug 2022 09:18:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YuqZfPvRo+3GvLF1@google.com>
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220729190225.12726-1-mathieu.desnoyers@efficios.com>
+ <CAFTs51UAyc4Z5WUFdMXCTYR6zji6NwLeBxYsp9GQZvFdEtUm1w@mail.gmail.com>
+ <500891137.95782.1659452479846.JavaMail.zimbra@efficios.com>
+ <CAPNVh5dviLMLS5APS8M+n9cHups2zvoJvcguqnO0aPO8bi4DDQ@mail.gmail.com> <2019726322.96838.1659473613204.JavaMail.zimbra@efficios.com>
+In-Reply-To: <2019726322.96838.1659473613204.JavaMail.zimbra@efficios.com>
+From:   Chris Kennelly <ckennelly@google.com>
+Date:   Thu, 4 Aug 2022 12:18:33 -0400
+Message-ID: <CAEE+ybmG+LrowRwhsBzT8yXkpMLWkye-AP1Gt_0i3A=MtHbAtQ@mail.gmail.com>
+Subject: Re: [PATCH v3 00/23] RSEQ node id and virtual cpu id extensions
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     Peter Oskolkov <posk@google.com>, Peter Oskolkov <posk@posk.io>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api <linux-api@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Florian Weimer <fw@deneb.enyo.de>,
+        David Laight <David.Laight@aculab.com>,
+        "Carlos O'Donell" <carlos@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Aug 03, 2022 at 03:51:24PM +0000, Sean Christopherson wrote:
-> On Wed, Aug 03, 2022, Chao Peng wrote:
-> > On Tue, Aug 02, 2022 at 04:38:55PM +0000, Sean Christopherson wrote:
-> > > On Tue, Aug 02, 2022, Sean Christopherson wrote:
-> > > > I think we should avoid UNMAPPABLE even on the KVM side of things for the core
-> > > > memslots functionality and instead be very literal, e.g.
-> > > > 
-> > > > 	KVM_HAS_FD_BASED_MEMSLOTS
-> > > > 	KVM_MEM_FD_VALID
-> > > > 
-> > > > We'll still need KVM_HAS_USER_UNMAPPABLE_MEMORY, but it won't be tied directly to
-> > > > the memslot.  Decoupling the two thingis will require a bit of extra work, but the
-> > > > code impact should be quite small, e.g. explicitly query and propagate
-> > > > MEMFILE_F_USER_INACCESSIBLE to kvm_memory_slot to track if a memslot can be private.
-> > > > And unless I'm missing something, it won't require an additional memslot flag.
-> > > > The biggest oddity (if we don't also add KVM_MEM_PRIVATE) is that KVM would
-> > > > effectively ignore the hva for fd-based memslots for VM types that don't support
-> > > > private memory, i.e. userspace can't opt out of using the fd-based backing, but that
-> > > > doesn't seem like a deal breaker.
-> > 
-> > I actually love this idea. I don't mind adding extra code for potential
-> > usage other than confidential VMs if we can have a workable solution for
-> > it.
-> > 
-> > > 
-> > > Hrm, but basing private memory on top of a generic FD_VALID would effectively require
-> > > shared memory to use hva-based memslots for confidential VMs.  That'd yield a very
-> > > weird API, e.g. non-confidential VMs could be backed entirely by fd-based memslots,
-> > > but confidential VMs would be forced to use hva-based memslots.
-> > 
-> > It would work if we can treat userspace_addr as optional for
-> > KVM_MEM_FD_VALID, e.g. userspace can opt in to decide whether needing
-> > the mappable part or not for a regular VM and we can enforce KVM for
-> > confidential VMs. But the u64 type of userspace_addr doesn't allow us to
-> > express a 'null' value so sounds like we will end up needing another
-> > flag anyway.
-> > 
-> > In concept, we could have three cofigurations here:
-> >   1. hva-only: without any flag and use userspace_addr;
-> >   2. fd-only:  another new flag is needed and use fd/offset;
-> >   3. hva/fd mixed: both userspace_addr and fd/offset is effective.
-> >      KVM_MEM_PRIVATE is a subset of it for confidential VMs. Not sure
-> >      regular VM also wants this.
-> 
-> My mental model breaks things down slightly differently, though the end result is
-> more or less the same. 
-> 
-> After this series, there will be two types of memory: private and "regular" (I'm
-> trying to avoid "shared").  "Regular" memory is always hva-based (userspace_addr),
-> and private always fd-based (fd+offset).
-> 
-> In the future, if we want to support fd-based memory for "regular" memory, then
-> as you said we'd need to add a new flag, and a new fd+offset pair.
-> 
-> At that point, we'd have two new (relatively to current) flags:
-> 
->   KVM_MEM_PRIVATE_FD_VALID
->   KVM_MEM_FD_VALID
-> 
-> along with two new pairs of fd+offset (private_* and "regular").  Mapping those
-> to your above list:
+On Tue, Aug 2, 2022 at 4:53 PM Mathieu Desnoyers
+<mathieu.desnoyers@efficios.com> wrote:
+>
+> ----- On Aug 2, 2022, at 1:06 PM, Peter Oskolkov posk@google.com wrote:
+>
+> > On Tue, Aug 2, 2022 at 8:01 AM Mathieu Desnoyers
+> > <mathieu.desnoyers@efficios.com> wrote:
+> >>
+> >
+> > [...]
+> >
+> >> >
+> >> > We have experimented with several approaches here. The one that we are
+> >> > currently using is the "flat" model: we allocate vcpu IDs ignoring numa nodes.
+> >> >
+> >> > We did try per-numa-node vcpus, but it did not show any material improvement
+> >> > over the "flat" model, perhaps because on our most "wide" servers the CPU
+> >> > topology is multi-level. Chris Kennelly may provide more details here.
 
-I previously thought we could reuse the private_fd (name should be
-changed) for regular VM as well so only need one pair of fd+offset, the
-meaning of the fd can be decided by the flag. But introducing two pairs
-of them may support extra usages like one fd for regular memory and
-another private_fd for private memory, though unsure this is a useful
-configuration.
+As Peter mentioned, though, we solely use the flat vcpu ID implementation.
 
->   
->   1.  Neither *_FD_VALID flag set.
->   2a. Both PRIVATE_FD_VALID and FD_VALID are set
->   2b. FD_VALID is set and the VM doesn't support private memory
->   3.  Only PRIVATE_FD_VALID is set (which private memory support in the VM).
-> 
-> Thus, "regular" VMs can't have a mix in a single memslot because they can't use
-> private memory.
-> 
-> > There is no direct relationship between unmappable and fd-based since
-> > even fd-based can also be mappable for regular VM?
+> >>
+> >> I would really like to know more about Google's per-numa-node vcpus
+> >> implementation.
+> >> I suspect you guys may have taken a different turn somewhere in the design which
+> >> led to these results. But having not seen that implementation, I can only guess.
+> >>
+> >> I notice the following Google-specific prototype extension in tcmalloc:
+> >>
+> >>   // This is a prototype extension to the rseq() syscall.  Since a process may
+> >>   // run on only a few cores at a time, we can use a dense set of "v(irtual)
+> >>   // cpus."  This can reduce cache requirements, as we only need N caches for
+> >>   // the cores we actually run on simultaneously, rather than a cache for every
+> >>   // physical core.
+> >>   union {
+> >>     struct {
+> >>       short numa_node_id;
+> >>       short vcpu_id;
+> >>     };
+> >>     int vcpu_flat;
+> >>   };
+> >>
+> >> Can you tell me more about the way the numa_node_id and vcpu_id are allocated
+> >> internally, and how they are expected to be used by userspace ?
+> >
+> > Based on a "VCPU policy" flag passed by the userspace during rseq registration
+> > request, our kernel would:
+> > - do nothing re: vcpus, i.e. behave like it currently does upstream;
+> > - allocate VCPUs in a "flat" manner, ignoring NUMA;
+> > - populate numa_node_id with the value from the function with the same name in
+> >  https://elixir.bootlin.com/linux/latest/source/include/linux/topology.h
+> >  and allocate vcpu_id within the numa node in a tight manner.
+> >
+> > Basically, if there are M threads running on node 0 and N threads
+> > running on node 1 at time T, there will be [0,M-1] vcpu IDs associated with
+> > node 0 and [0,N-1] vcpu IDs associated with node 1 at this moment
+> > in time. If a thread migrates across nodes, the balance would change
+> > accordingly.
+> >
+> > I'm not sure how exactly tcmalloc tried to use VCPUs under this policy, and
+> > what were the benefits expected. The simplest way would be to keep
+> > a freelist per node_id/vcpu_id pair (basically, per vcpu_flat in the union),
+> > but this would tend to increase the number of freelists due to thread
+> > migrations,
+> > so benefits should be related to memory locality, and so somewhat difficult to
+> > measure precisely.
+>
+> So, based on your explanation of the Google implementation, for each memory space,
+> the kernel keeps per-numa-node vcpu-id allocation domains.
+>
+> This leaves two choices to userspace AFAIU:
+>
+> 1) Userspace takes the vcpu_flat (int, combining the short node_id with the short vcpu_id)
+>    as index in a sparse array. The sparseness of the array may be unwelcome in terms of
+>    memory and cache footprint.
 
-Hmm, yes, for private memory we have special treatment in page fault
-handler and that is not applied to regular VM.
+In general, TCMalloc addresses sparseness by lazily allocating caches.
+Virtual address space is relatively inexpensive, so we can allocate
+enough space to have cache space for every feasible CPU ID and
+structure things so on fault (of a zero page), we trigger the slow
+path and handle initialization
+(https://github.com/google/tcmalloc/blob/master/tcmalloc/cpu_cache.h#L824).
 
-> 
-> Yep.
-> 
-> > > Ignore this idea for now.  If there's an actual use case for generic fd-based memory
-> > > then we'll want a separate flag, fd, and offset, i.e. that support could be added
-> > > independent of KVM_MEM_PRIVATE.
-> > 
-> > If we ignore this idea now (which I'm also fine), do you still think we
-> > need change KVM_MEM_PRIVATE to KVM_MEM_USER_UNMAPPBLE?
-> 
-> Hmm, no.  After working through this, I think it's safe to say KVM_MEM_USER_UNMAPPABLE
-> is bad name because we could end up with "regular" memory that's backed by an
-> inaccessible (unmappable) file.
-> 
-> One alternative would be to call it KVM_MEM_PROTECTED.  That shouldn't cause
-> problems for the known use of "private" (TDX and SNP), and it gives us a little
-> wiggle room, e.g. if we ever get a use case where VMs can share memory that is
-> otherwise protected.
-> 
-> That's a pretty big "if" though, and odds are good we'd need more memslot flags and
-> fd+offset pairs to allow differentiating "private" vs. "protected-shared" without
-> forcing userspace to punch holes in memslots, so I don't know that hedging now will
-> buy us anything.
-> 
-> So I'd say that if people think KVM_MEM_PRIVATE brings additional and meaningful
-> clarity over KVM_MEM_PROTECTECD, then lets go with PRIVATE.  But if PROTECTED is
-> just as good, go with PROTECTED as it gives us a wee bit of wiggle room for the
-> future.
+Even without virtual CPU IDs, TCMalloc still preferred to allocate a
+cache per possible core, so no additional checks would be needed on
+the fast path.
 
-Then I'd stay with PRIVATE.
+>
+>
+> 2) Userspace could take a 2-level approach: using the short node_id to index an array of
+>    "numa node" objects, which would then point to a 2nd level indexed by short vcpu_id.
+>    This adds an extra pointer dereference on the fast-path, and touches additional cache
+>    lines on the fast path as well, which is probably unwelcome. In addition, keeping track
+>    of this 2-level table adds extra complexity in userspace, and requires that user-space
+>    designs its data structure specifically for NUMA, which is unusual considering that NUMA
+>    is typically just an optimization hint to improve locality of memory accesses.
 
-> 
-> Note, regardless of what name we settle on, I think it makes to do the
-> KVM_PRIVATE_MEM_SLOTS => KVM_INTERNAL_MEM_SLOTS rename.
+This is the strategy I looked at using previously.
 
-Agreed.
+> Hopefully I did not miss anything there.
+>
+> So here is how I did things differently.
+>
+> I realized that when userspace uses a rseq_abi()->cpu_id as index into per-cpu data structures,
+> it expects that when any of the process' threads observe a numa_node_id when running on behalf
+> of a given cpu_id once in the process lifetime, this topology is invariant [1]. IOW, the same
+> cpu_id should always run on the same NUMA node in the future.
+>
+> This characteristic is what allows indexing by cpu_id to index data structures that have a
+> good NUMA locality: on first use of a given cpu_id, memory allocation can be done on behalf of
+> the right NUMA node, and then all per-cpu accesses are guaranteed to be local.
+>
+> So I applied this concept to vcpu_ids.
+>
+> The trick here is mostly to add a per-numa-node bitmap to the mm_struct in addition to the bitmap
+> tracking the current vcpu_id allocation. The per-numa-node bitmap keeps track of which vcpu_ids
+> have been allocated on behalf of each numa node in the past.
+>
+> So when a thread running on a given NUMA node needs to find the lowest vcpu_id which is available,
+> it uses cpumask_first_one_and_zero(node_cpumask, cpumask) to find the first bit which has both
+> been allocated already for this NUMA node, and is currently not in use by another thread.
+>
+> There is also a node_alloc_vcpumask bitmap which keeps track of which vcpu have already been
+> allocated in the past, across all NUMA nodes. This allows scanning efficiently for the first
+> vcpu which was _not_ yet allocated, and is currently unused with
+> cpumask_first_zero_and_zero(node_alloc_cpumask, cpumask).
+>
+> With this, user-space can simply use the vm_vcpu_id field as index into the per-vcpu array,
+> and the NUMA locality is implicit. Upon initial allocation of the numa-local memory, it just
+> needs to read both vm_vcpu_id and numa_node_id fields within a rseq critical section to
+> ensure there is no migration between the two field loads.
+>
+>
+> So as long as the scheduler does a good job at keeping the number of threads per NUMA node
+> relatively constant by pushing back against thread migration across NUMA nodes over the process
+> lifetime, there should not be too many extra vcpu_ids needed. In the worse-case scenario, the
+> number of vcpu_ids needed is equal to the number of online cpus in the system.
 
-Chao
+Interesting.  It seems like this simplifies the fast path for using
+the NUMA ID quite a bit.
+
+As Peter mentions, our implementation prefers lower indexed vCPU IDs
+over higher ones, but TCMalloc is agnostic to the precise IDs in use
+(it looks at individual cache stats, not IDs, to make decisions).
+Definitively skipping a vCPU ID on one node because it is used on
+another seems entirely workable.
+
+Chris
+
+
+
+>
+> The performance overhead of keeping track of those additional bitmaps for NUMA locality should
+> be minimal considering that the only update needed in the per-numa-node bitmap and the
+> node_alloc_vcpumask bitmap is the first time a vcpu_id is assigned within a process. The rest
+> is lookup only. And even there, the optimizations I have put in place skip those lookups in
+> the common scenarios entirely.
+>
+>
+> Thanks,
+>
+> Mathieu
+>
+> [1] There is the exception of Power CPU hotplug which can reconfigure the NUMA topology,
+>     but this seems like a rather odd and rare corner-case. It is supported by my implementation,
+>     but userspace would have to deal with this kind of reconfiguration on its own to
+>     preserve NUMA locality.
+>
+> >
+> > Chris Kennelly may offer more details here.
+> >
+> > Thanks,
+> > Peter
+>
+> --
+> Mathieu Desnoyers
+> EfficiOS Inc.
+> http://www.efficios.com
