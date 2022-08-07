@@ -2,121 +2,65 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2254558B089
-	for <lists+linux-api@lfdr.de>; Fri,  5 Aug 2022 21:54:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C654F58B9A5
+	for <lists+linux-api@lfdr.de>; Sun,  7 Aug 2022 07:07:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240663AbiHETyq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 5 Aug 2022 15:54:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58340 "EHLO
+        id S232010AbiHGFHT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 7 Aug 2022 01:07:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230098AbiHETyp (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 5 Aug 2022 15:54:45 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4D2E10FFB;
-        Fri,  5 Aug 2022 12:54:40 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id tl27so6800338ejc.1;
-        Fri, 05 Aug 2022 12:54:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=uNNCMzM6wGgvKylIcV8lYZcNxMUBwXushcdpJCRFwXA=;
-        b=e6zKPWvo6IkiM49qZMgVKOQWfbZ4SrSe6FffLSmDWP8fLIdlY1yC8OE/wQSvLo7meO
-         H+G1B1j8KGTDWa3VYpZ9mL+EiFelSvWjLwXE7DG8n8DQ+D5rzmDidw5gGMSxEtzBTYay
-         CLtkEm9skbWSrqajt3PPDuzophplCTD2rEc2ozvNuGxaWnQx2yPBCEFUqeaSi77JFMf/
-         Lw2RNp9XxDE8YMazE5oWBsI9D+FoaBUwg1aWZoHlGg3LGNcIATEAW1twLhw3HNGCMwn7
-         vwJyZXFiNu98nw+DG5ql1wkGSRaTKJ8FnxsEEAQxBwk2IlQrhE2vSCh672yBPBlGzRGv
-         RtWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=uNNCMzM6wGgvKylIcV8lYZcNxMUBwXushcdpJCRFwXA=;
-        b=0RjUpMCrVyar1nwWqr9Ws+duYx/0HXjYpl9Gj+cHR8FF0sGcMPNSQojNtf3pK70SFA
-         qUqmfGosMBcTfQX2abSfGkgwx6BfejzYqep4JuGHA2nNREckc5FgtXReQYPvXS0Rprpi
-         hjh5/X1mY2DALri16RMatRMSQqhiM1W1yALcAiSCEfUDgOQmK1oKYS3YuSr0StSA/DzV
-         fzPh7axUsMX/B61swxVJlULayT+NGaVbO2OZFAmkP3cMtEBZSG9rH3WXGbT0T/AEOa/U
-         h4KpqHaH9nDrRB9KyRln2RS0VCX7l3b/8mWRi+rtFnk8qKPv2eOR60BMsOCB2Yj0+Fzh
-         nfkw==
-X-Gm-Message-State: ACgBeo07GdJoqRg7dh+8WskaxfZe6Nj9naSGF454IgCZEgZZ4KTO8heJ
-        7Rb/CIR3ReR+TT2aY3Q++vc=
-X-Google-Smtp-Source: AA6agR69gHdIOk66u3DOAUGxbgd3W9IYbjKGJ4TRriMkRlw9SK3I2HFpGUjJDA71iNteqeGQVxRwjg==
-X-Received: by 2002:a17:907:2719:b0:730:a5e7:9da7 with SMTP id w25-20020a170907271900b00730a5e79da7mr6558802ejk.26.1659729279246;
-        Fri, 05 Aug 2022 12:54:39 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89? ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
-        by smtp.googlemail.com with ESMTPSA id 2-20020a170906200200b0073100dfa7b0sm947743ejo.8.2022.08.05.12.54.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Aug 2022 12:54:38 -0700 (PDT)
-Sender: Paolo Bonzini <paolo.bonzini@gmail.com>
-Message-ID: <ec3fe997-37d8-22b5-65f1-72f08a16474f@redhat.com>
-Date:   Fri, 5 Aug 2022 21:54:35 +0200
+        with ESMTP id S230156AbiHGFHS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 7 Aug 2022 01:07:18 -0400
+X-Greylist: delayed 3652 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 06 Aug 2022 22:07:17 PDT
+Received: from www4201.sakura.ne.jp (www4201.sakura.ne.jp [133.242.249.141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20E1ED111
+        for <linux-api@vger.kernel.org>; Sat,  6 Aug 2022 22:07:16 -0700 (PDT)
+Received: from www4201.sakura.ne.jp (localhost [127.0.0.1])
+        by www4201.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 27746MUk051050
+        for <linux-api@vger.kernel.org>; Sun, 7 Aug 2022 13:06:22 +0900 (JST)
+        (envelope-from myrte-aroma@www4201.sakura.ne.jp)
+Received: (from myrte-aroma@localhost)
+        by www4201.sakura.ne.jp (8.15.2/8.15.2/Submit) id 27746Mmn051049;
+        Sun, 7 Aug 2022 13:06:22 +0900 (JST)
+        (envelope-from myrte-aroma)
+To:     linux-api@vger.kernel.org
+Subject: Myrte Aromatherapy school "CRYPTOCURRENCY DROP WILL MAKE YOU A BILLIONAIRE"
+X-PHP-Originating-Script: 1002:class-phpmailer.php
+Date:   Sun, 7 Aug 2022 04:06:22 +0000
+From:   Myrte Aromatherapy school <wordpress@myrte-aroma.com>
+Reply-To: myrte.aromatherapy@gmail.com
+Message-ID: <991f25163f7d681a565513585ef5db12@myrte-aroma.com>
+X-Mailer: PHPMailer 5.2.27 (https://github.com/PHPMailer/PHPMailer)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v7 08/14] KVM: Rename mmu_notifier_*
-Content-Language: en-US
-To:     Sean Christopherson <seanjc@google.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-9-chao.p.peng@linux.intel.com>
- <YuQutJAhKWcsrrYl@google.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <YuQutJAhKWcsrrYl@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=3.1 required=5.0 tests=BAYES_50,
+        FREEMAIL_FORGED_REPLYTO,HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 7/29/22 21:02, Sean Christopherson wrote:
-> If we really want a different name, I'd vote for nomenclature that captures the
-> invalidation aspect, which is really what the variables are all trackng, e.g.
-> 
->    mmu_invalidate_seq
->    mmu_invalidate_in_progress
->    mmu_invalidate_range_start
->    mmu_invalidate_range_end
-> 
+差出人: Charlesbup <linux-api@vger.kernel.org>
+題名: CRYPTOCURRENCY DROP WILL MAKE YOU A BILLIONAIRE
+電話番号：81752233282
+ご希望メニュー：
 
-Agreed, and this can of course be committed separately if Chao Peng 
-sends it outside this series.
+メッセージ本文:
+EARN OVER $1200 PER DAY ONLINE WITH THE BITCOIN PROFIT METHOD! https://telegra.ph/Cryptocurrency-makes-people-millionaires-at-15-people-per-hour---Page-54610-08-02
 
-Paolo
+-- 
+このメールは Myrte Aromatherapy school (https://myrte-aroma.com) のお問い合わせフォームから送信されました。
+
+このメールは自動返信です。
+頂戴したメールを確認次第、改めてお返事致しますので、しばらくお待ちくださいませ。
+
+1日経過しても返信が無い場合は、大変恐れ入りますが、再度メールを送信いただけますと幸いです。
+何卒宜しくお願い致します。
+
+Myrteアロマテラピースクール
+
