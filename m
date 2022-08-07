@@ -2,65 +2,94 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C654F58B9A5
-	for <lists+linux-api@lfdr.de>; Sun,  7 Aug 2022 07:07:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D9CC58BDDB
+	for <lists+linux-api@lfdr.de>; Mon,  8 Aug 2022 00:23:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232010AbiHGFHT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 7 Aug 2022 01:07:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39600 "EHLO
+        id S242241AbiHGWXm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 7 Aug 2022 18:23:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230156AbiHGFHS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 7 Aug 2022 01:07:18 -0400
-X-Greylist: delayed 3652 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 06 Aug 2022 22:07:17 PDT
-Received: from www4201.sakura.ne.jp (www4201.sakura.ne.jp [133.242.249.141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20E1ED111
-        for <linux-api@vger.kernel.org>; Sat,  6 Aug 2022 22:07:16 -0700 (PDT)
-Received: from www4201.sakura.ne.jp (localhost [127.0.0.1])
-        by www4201.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 27746MUk051050
-        for <linux-api@vger.kernel.org>; Sun, 7 Aug 2022 13:06:22 +0900 (JST)
-        (envelope-from myrte-aroma@www4201.sakura.ne.jp)
-Received: (from myrte-aroma@localhost)
-        by www4201.sakura.ne.jp (8.15.2/8.15.2/Submit) id 27746Mmn051049;
-        Sun, 7 Aug 2022 13:06:22 +0900 (JST)
-        (envelope-from myrte-aroma)
-To:     linux-api@vger.kernel.org
-Subject: Myrte Aromatherapy school "CRYPTOCURRENCY DROP WILL MAKE YOU A BILLIONAIRE"
-X-PHP-Originating-Script: 1002:class-phpmailer.php
-Date:   Sun, 7 Aug 2022 04:06:22 +0000
-From:   Myrte Aromatherapy school <wordpress@myrte-aroma.com>
-Reply-To: myrte.aromatherapy@gmail.com
-Message-ID: <991f25163f7d681a565513585ef5db12@myrte-aroma.com>
-X-Mailer: PHPMailer 5.2.27 (https://github.com/PHPMailer/PHPMailer)
+        with ESMTP id S234943AbiHGWXT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 7 Aug 2022 18:23:19 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 151FB1FCFF;
+        Sun,  7 Aug 2022 15:10:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=x4+1SyuBnrsfLH3HBApRgaK+TGzqaCKJHHZnZyL8QS8=; b=nu/cBWDS99rOTqn80qBNQjT8uK
+        XOac2xWsTFDD6kBvHa9wYsprv1AqpHPZKL4PmsfGHE5hCfXSv/H8H2/teaAbY+TDBirmg9n1wxjOt
+        6PdTk8pOpKx963XwOBtwXdCEF/4LB6zLW4LEWT29np7gUmbCZy5XsE18f0XwWGyFjka9nVaKLAyQf
+        lXghFir0KRS6W6jQBOwRu9XqavxA58iXNUINdo/muia/uZRyQ/jEiLzO/wZ7k6yCQaJcLxf4tza4y
+        3XHJG3eJKKEptiHDJTINiY8H4vKwk/7gtGxgrVrM8Yrj1kw6eopKjPQ5+wOImhQoVfu8+W6IO3HKs
+        uBNZ2e8g==;
+Received: from [2601:1c0:6280:3f0::a6b3] (helo=casper.infradead.org)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oKoSq-00DL2b-E7; Sun, 07 Aug 2022 22:09:40 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linux-riscv@lists.infradead.org, linux-api@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org
+Subject: [PATCH v2] kernel/sys_ni: add compat entry for fadvise64_64
+Date:   Sun,  7 Aug 2022 15:09:34 -0700
+Message-Id: <20220807220934.5689-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=3.1 required=5.0 tests=BAYES_50,
-        FREEMAIL_FORGED_REPLYTO,HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
-X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-差出人: Charlesbup <linux-api@vger.kernel.org>
-題名: CRYPTOCURRENCY DROP WILL MAKE YOU A BILLIONAIRE
-電話番号：81752233282
-ご希望メニュー：
+When CONFIG_ADVISE_SYSCALLS is not set/enabled and CONFIG_COMPAT is
+set/enabled, the riscv compat_syscall_table references
+'compat_sys_fadvise64_64', which is not defined:
 
-メッセージ本文:
-EARN OVER $1200 PER DAY ONLINE WITH THE BITCOIN PROFIT METHOD! https://telegra.ph/Cryptocurrency-makes-people-millionaires-at-15-people-per-hour---Page-54610-08-02
+riscv64-linux-ld: arch/riscv/kernel/compat_syscall_table.o:(.rodata+0x6f8):
+undefined reference to `compat_sys_fadvise64_64'
 
--- 
-このメールは Myrte Aromatherapy school (https://myrte-aroma.com) のお問い合わせフォームから送信されました。
+Add 'fadvise64_64' to kernel/sys_ni.c as a conditional COMPAT function
+so that when CONFIG_ADVISE_SYSCALLS is not set, there is a fallback
+function available.
 
-このメールは自動返信です。
-頂戴したメールを確認次第、改めてお返事致しますので、しばらくお待ちくださいませ。
+Fixes: d3ac21cacc24 ("mm: Support compiling out madvise and fadvise")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Suggested-by: Arnd Bergmann <arnd@arndb.de>
+Cc: Josh Triplett <josh@joshtriplett.org>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Albert Ou <aou@eecs.berkeley.edu>
+Cc: linux-riscv@lists.infradead.org
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: linux-api@vger.kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-mm@kvack.org
+---
+v2: patch kernel/sys_ni.c (for any arch) instead of arch/riscv's
+    unistd.h (Arnd)
 
-1日経過しても返信が無い場合は、大変恐れ入りますが、再度メールを送信いただけますと幸いです。
-何卒宜しくお願い致します。
+ kernel/sys_ni.c |    1 +
+ 1 file changed, 1 insertion(+)
 
-Myrteアロマテラピースクール
-
+--- a/kernel/sys_ni.c
++++ b/kernel/sys_ni.c
+@@ -277,6 +277,7 @@ COND_SYSCALL(landlock_restrict_self);
+ 
+ /* mm/fadvise.c */
+ COND_SYSCALL(fadvise64_64);
++COND_SYSCALL_COMPAT(fadvise64_64);
+ 
+ /* mm/, CONFIG_MMU only */
+ COND_SYSCALL(swapon);
