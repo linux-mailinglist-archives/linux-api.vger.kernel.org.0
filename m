@@ -2,117 +2,211 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E7B9D58C93C
-	for <lists+linux-api@lfdr.de>; Mon,  8 Aug 2022 15:17:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46E3658CA12
+	for <lists+linux-api@lfdr.de>; Mon,  8 Aug 2022 16:02:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237683AbiHHNRm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 8 Aug 2022 09:17:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59402 "EHLO
+        id S243026AbiHHOCR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 8 Aug 2022 10:02:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235969AbiHHNRl (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 8 Aug 2022 09:17:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 45EB726F6
-        for <linux-api@vger.kernel.org>; Mon,  8 Aug 2022 06:17:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1659964659;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=F3isuR0jQPqF+YB0HX0DbKwI7eUCGW/G7ScBjYwrfKU=;
-        b=f29LfDBbIZoLz2GHDSCX1qwMcrfUbPZRoSIQle/vs+NQBIopPjbtaWKdfByw7LHogUOxbr
-        b/N7rveb1GY+J3Qj5ju4EiY3whyzOjch9uwoQYUoX20ihL+lMA2lpt90tPK/3vVZolpYbG
-        8ILJ2feZd1ZN3lgcAZnkL4IQi8ydyKk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-270-2sQI0B1CMFqk3ENTj3BrcQ-1; Mon, 08 Aug 2022 09:17:37 -0400
-X-MC-Unique: 2sQI0B1CMFqk3ENTj3BrcQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3E19485A58C;
-        Mon,  8 Aug 2022 13:17:37 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.33.36.14])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 5E1279457F;
-        Mon,  8 Aug 2022 13:17:36 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-To:     linux-fsdevel@vger.kernel.org
-cc:     dhowells@redhat.com, Ian Kent <raven@themaw.net>,
+        with ESMTP id S243206AbiHHOCR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 8 Aug 2022 10:02:17 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD9B2E0AF;
+        Mon,  8 Aug 2022 07:02:15 -0700 (PDT)
+Received: from mail-ej1-f46.google.com ([209.85.218.46]) by
+ mrelayeu.kundenserver.de (mreue109 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1Mwfj2-1nSnnA0iPS-00y8yM; Mon, 08 Aug 2022 16:02:14 +0200
+Received: by mail-ej1-f46.google.com with SMTP id i14so16780530ejg.6;
+        Mon, 08 Aug 2022 07:02:14 -0700 (PDT)
+X-Gm-Message-State: ACgBeo1ziLCAzM7ozxXEF1rdjbouTD7Z22m3whQlKpDi7UzfxX30WDUN
+        n39TE7T53yVKulLPa6tdu+pZn1dkRUMJQx1pouM=
+X-Google-Smtp-Source: AA6agR5qgiyoSGZBBKVGGI6L8F9F58ARv8LUPdh3d+FcET/dzkcrREdLKsYZsK1B6EvOzT85cd8K4aaK1HO7s1uRGvQ=
+X-Received: by 2002:a17:907:7395:b0:730:b636:2c89 with SMTP id
+ er21-20020a170907739500b00730b6362c89mr13943270ejc.547.1659967333768; Mon, 08
+ Aug 2022 07:02:13 -0700 (PDT)
+MIME-Version: 1.0
+References: <163410.1659964655@warthog.procyon.org.uk>
+In-Reply-To: <163410.1659964655@warthog.procyon.org.uk>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Mon, 8 Aug 2022 16:01:57 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3ZNbmND-TPLEmc-37ZmK31pOT2+hDhQD+HWQZyXFZX8Q@mail.gmail.com>
+Message-ID: <CAK8P3a3ZNbmND-TPLEmc-37ZmK31pOT2+hDhQD+HWQZyXFZX8Q@mail.gmail.com>
+Subject: Re: [RFC][PATCH] uapi: Remove the inclusion of linux/mount.h from uapi/linux/fs.h
+To:     David Howells <dhowells@redhat.com>
+Cc:     linux-fsdevel@vger.kernel.org, Ian Kent <raven@themaw.net>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
         Christian Brauner <christian@brauner.io>,
         linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC][PATCH] uapi: Remove the inclusion of linux/mount.h from uapi/linux/fs.h
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <163409.1659964655.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
-Date:   Mon, 08 Aug 2022 14:17:35 +0100
-Message-ID: <163410.1659964655@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:1reflZM1aKn3EqKV2wtpAFNNyOuaYsSRArZwiFPIJiG2MRgtBgZ
+ pKnqPzexya65U7wThtAsuWNVQUTcKwP3VgWZGINf1iAEhgRBChXvXTmctN0XHgLp/i7v52H
+ Cfw/xMhzLSMBZJGKcFlrhf3JUJTGXwiOJladLDaUk3fCXi1FdSokdjlYJm/K2WvDf5B6YwX
+ CN3LchDPQdgnmNhrGxufg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:bIGL7TTs/Dw=:ALnb+EAd32wsDMBtVCqNB5
+ 5IpF+pVJvEOLFeYzryC8lo3wfPJjHVP4eyq9iKhtXW9QGjA1hJDRmipPaAraDJScB2IixGG9R
+ CJm1C45YWeMEuxHhvj7osYyAowo//cQrIkQAQ0No4MnO7tCTnQNDnL4w05updue12zRDpBJgB
+ HbOx9Q45PhWLVg903VO6A+MSqzyP7CcSIwrcWohUYaEodkgwfK0a94HGQRHCRjteaGs/RJvQ+
+ C9jR/dCiBif19Ofi1zBgOewi/J4poghpPVSmoRlDwg10H5QhC7Fh69VcNjeUT9Qb7B8/52BJ/
+ HST3GWnIZFo9+D6hNiRRGchB5VE5iuflT6518nSslD1rci0g8Wj7LPQ1myxTck4TPJmKGJc4b
+ rVAs7jkfwID120dp8hzD+7kwya5GOP/HWUY5L2m3oFyurv/+GyP00qKa7AXgrKC0eVA/YmsGu
+ 7v1P2lHzUldW8lX3iORu1qinPyfcECj9twgcsgUTJvWDHLEwSGZo1xupx5329lhAQoezRDygg
+ mM2jED/ye+a4I+ucIkroUFJGZDgHw+uVyOpLniY17Hu5/4pWDpqv7Ntbp72364MAmV6aOIjmz
+ 1pqPqkxXCRywPjm0QVz88mVfAzJxgNZaDUFMmPdZWaBTNFPUWriOpUt/2rKnjNB/bdt02RXB7
+ ATLbW+MQSOwHPQ3WTUg2A63wOBrieEQMSyeEMhPpJJEpa0KjO1HquksYGj9JArZQUTpper+oC
+ WRp45cdgxHmm8rp0r/0nuP+jd370ZeHMZxqrFQ==
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi,
+On Mon, Aug 8, 2022 at 3:17 PM David Howells <dhowells@redhat.com> wrote:
+>
+> Hi,
+>
+> We're seeing issues in autofs and xfstests whereby linux/mount.h (the UAPI
+> version) as included indirectly by linux/fs.h is conflicting with
+> sys/mount.h (there's a struct and an enum).
+>
+> Would it be possible to just remove the #include from linux/fs.h (as patch
+> below) and rely on those hopefully few things that need mount flags that don't
+> use the glibc header for them working around it by configuration?
+>
+> David
+> ---
+> uapi: Remove the inclusion of linux/mount.h from uapi/linux/fs.h
+>
+> Remove the inclusion of <linux/mount.h> from uapi/linux/fs.h as it
+> interferes with definitions in sys/mount.h - but linux/fs.h is needed by
+> various things where mount flags and structs are not.
+>
+> Note that this will likely have the side effect of causing some build
+> failures.
+>
+> Reported-by: Ian Kent <raven@themaw.net>
+> Signed-off-by: David Howells <dhowells@redhat.com>
+> cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> cc: Christian Brauner <christian@brauner.io>
+> cc: linux-fsdevel@vger.kernel.org
+> cc: linux-api@vger.kernel.org
 
-We're seeing issues in autofs and xfstests whereby linux/mount.h (the UAPI
-version) as included indirectly by linux/fs.h is conflicting with
-sys/mount.h (there's a struct and an enum).
+I think that's probably ok. Looking through the results from
 
-Would it be possible to just remove the #include from linux/fs.h (as patch
-below) and rely on those hopefully few things that need mount flags that d=
-on't
-use the glibc header for them working around it by configuration?
+https://codesearch.debian.net/search?q=MS_RDONLY
+combined with the list of results from
+https://codesearch.debian.net/search?q=linux/fs.h
 
-David
----
-uapi: Remove the inclusion of linux/mount.h from uapi/linux/fs.h
-    =
+I found 95 packages that mention both /somewhere/ in the code, see
+below for a complete list. I did not try an exhaustive search but found
+that almost all of these reference the two in different files.
 
-Remove the inclusion of <linux/mount.h> from uapi/linux/fs.h as it
-interferes with definitions in sys/mount.h - but linux/fs.h is needed by
-various things where mount flags and structs are not.
+The only counterexample I found is
 
-Note that this will likely have the side effect of causing some build
-failures.
+https://sources.debian.org/src/trinity/1.9+git20200331.4d2343bd18c7b-2/syscalls/mount.c/?hl=13#L13
 
-Reported-by: Ian Kent <raven@themaw.net>
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: Alexander Viro <viro@zeniv.linux.org.uk>
-cc: Christian Brauner <christian@brauner.io>
-cc: linux-fsdevel@vger.kernel.org
-cc: linux-api@vger.kernel.org
----
- include/uapi/linux/fs.h |    5 -----
- 1 file changed, 5 deletions(-)
+so this will likely break and have to get fixed to includle <linux/mount.h> or
+<sys/mount.h> instead of linux/fs.h, but that is probably acceptable.
+There may be others like it, but not a ton of them.
 
-diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
-index bdf7b404b3e7..7a2597ac59ed 100644
---- a/include/uapi/linux/fs.h
-+++ b/include/uapi/linux/fs.h
-@@ -17,11 +17,6 @@
- #include <linux/fscrypt.h>
- #endif
- =
+      Arnd
 
--/* Use of MS_* flags within the kernel is restricted to core mount(2) cod=
-e. */
--#if !defined(__KERNEL__)
--#include <linux/mount.h>
--#endif
--
- /*
-  * It's silly to have NR_OPEN bigger than NR_FILE, but you can change
-  * the file limit at runtime and only root can increase the per-process
-
+8<---
+android-framework-23
+android-platform-art
+android-platform-frameworks-base
+android-platform-system-core
+android-platform-system-extras
+android-platform-tools
+apparmor
+audit
+avfs
+bazel-bootstrap
+bcachefs-tools
+bpfcc
+busybox
+cargo
+cde
+ceph
+chromium
+criu
+cryptmount
+docker.io
+e2fsprogs
+elogind
+emscripten
+falcosecurity-libs
+firefox
+firefox-esr
+fstransform
+gcc-10
+gcc-11
+gcc-12
+gcc-9
+gcc-snapshot
+gfarm
+glibc
+glusterfs
+gnumach
+golang-1.11
+golang-1.15
+golang-1.16
+golang-1.17
+golang-1.18
+golang-1.19
+golang-github-containers-storage
+golang-golang-x-sys
+golang-inet-netstack
+hashrat
+hurd
+icingadb
+kfreebsd-10
+klibc
+kubernetes
+kvmtool
+libblockdev
+libexplain
+librsvg
+libvirt
+linux
+linux-apfs-rw
+lxc
+manpages-l10n
+mergerfs
+mozjs91
+mtd-utils
+network-manager
+nilfs-tools
+ntfs-3g
+ocfs2-tools
+ostree
+partclone
+ploop
+qemu
+quota
+rust-libc
+rustc
+sash
+snapd
+strace
+stress-ng
+suricata
+systemd
+systemtap
+testdisk
+thunderbird
+tiny-initramfs
+tomoyo-tools
+toybox
+trinity
+u-boot
+uclibc
+umview
+util-linux
+virtualbox
+webhook
+zfs-linux
+zulucrypt
