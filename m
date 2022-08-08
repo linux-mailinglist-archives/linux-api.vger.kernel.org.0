@@ -2,63 +2,60 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E882958C395
-	for <lists+linux-api@lfdr.de>; Mon,  8 Aug 2022 08:58:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7B9D58C93C
+	for <lists+linux-api@lfdr.de>; Mon,  8 Aug 2022 15:17:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233845AbiHHG6Q (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 8 Aug 2022 02:58:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48276 "EHLO
+        id S237683AbiHHNRm (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 8 Aug 2022 09:17:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229688AbiHHG6O (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 8 Aug 2022 02:58:14 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1BB1DFA4;
-        Sun,  7 Aug 2022 23:58:12 -0700 (PDT)
-Received: from mail-ej1-f41.google.com ([209.85.218.41]) by
- mrelayeu.kundenserver.de (mreue109 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MBltK-1oFPsk4Ak0-00CDs0; Mon, 08 Aug 2022 08:58:11 +0200
-Received: by mail-ej1-f41.google.com with SMTP id m4so14885562ejr.3;
-        Sun, 07 Aug 2022 23:58:10 -0700 (PDT)
-X-Gm-Message-State: ACgBeo0G6WOIKCURBtp87O3XkvPsiZpgt41U/qRK7ihkoXBWl5B/qc19
-        boPbYvPWWc47ipq2PhNOk8ifGqBQCAThJJ+x/RE=
-X-Google-Smtp-Source: AA6agR7+MNBPFkwjMYrs9F5cklCO3PmGk+NVWugFBet3Tm9GK726GURnSLhj9K8pZOtw7GOLS3S01sY9ymEq4UpWwag=
-X-Received: by 2002:a17:907:7395:b0:730:b636:2c89 with SMTP id
- er21-20020a170907739500b00730b6362c89mr12935429ejc.547.1659941890680; Sun, 07
- Aug 2022 23:58:10 -0700 (PDT)
+        with ESMTP id S235969AbiHHNRl (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 8 Aug 2022 09:17:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 45EB726F6
+        for <linux-api@vger.kernel.org>; Mon,  8 Aug 2022 06:17:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1659964659;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=F3isuR0jQPqF+YB0HX0DbKwI7eUCGW/G7ScBjYwrfKU=;
+        b=f29LfDBbIZoLz2GHDSCX1qwMcrfUbPZRoSIQle/vs+NQBIopPjbtaWKdfByw7LHogUOxbr
+        b/N7rveb1GY+J3Qj5ju4EiY3whyzOjch9uwoQYUoX20ihL+lMA2lpt90tPK/3vVZolpYbG
+        8ILJ2feZd1ZN3lgcAZnkL4IQi8ydyKk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-270-2sQI0B1CMFqk3ENTj3BrcQ-1; Mon, 08 Aug 2022 09:17:37 -0400
+X-MC-Unique: 2sQI0B1CMFqk3ENTj3BrcQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3E19485A58C;
+        Mon,  8 Aug 2022 13:17:37 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.33.36.14])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 5E1279457F;
+        Mon,  8 Aug 2022 13:17:36 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+To:     linux-fsdevel@vger.kernel.org
+cc:     dhowells@redhat.com, Ian Kent <raven@themaw.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [RFC][PATCH] uapi: Remove the inclusion of linux/mount.h from uapi/linux/fs.h
 MIME-Version: 1.0
-References: <20220807220934.5689-1-rdunlap@infradead.org>
-In-Reply-To: <20220807220934.5689-1-rdunlap@infradead.org>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Mon, 8 Aug 2022 08:57:54 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1-NxPazURDPdKYU0Het+pjL6E3BZMskjQD=aCU91Q=rw@mail.gmail.com>
-Message-ID: <CAK8P3a1-NxPazURDPdKYU0Het+pjL6E3BZMskjQD=aCU91Q=rw@mail.gmail.com>
-Subject: Re: [PATCH v2] kernel/sys_ni: add compat entry for fadvise64_64
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        linux-riscv@lists.infradead.org, linux-api@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:gN4mlgAA3OCy7aqEGs782K2/DEXfr25l3XOGHgc9OTiys8FwtYb
- Q+0K0/GI86Tj4lOE1slCMfmr72Wy6/jewjOzRN4oBTdLRV6auT+pNh0M6ecqKbosjW5opl+
- p0ei0zGbzgJ1/73leOBKi14u2ywi1iAm+xAG7zvb/nEPPpOVFNmVHJii/qiFdt8SnHEOOr8
- LlMpjSw7ICHKakcXuVJkg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:x1lfxl0+L/s=:frpwqEAjA06OGFQxSa9p+G
- SaTKaPk3gRcHH+oK18vhvTCX1Tdf0YVo5ireZb21kWRgPBY6a/w91x3mILVzheKYUewkKxp92
- c/GBKT0+eXrrKPcFuSRElRXeJPHI9arVAMsnm5NvhTP9/AMu1PsMytPN0RknILfzlY+VA9HSw
- +0j97XZYTwDZlf/eu9Wnlidu4esKdsQU6RxCvM0mCrY3R09vwqNAElQW0WxCX185ZUl0slcQo
- soEiPlzkhDdbK4QgeUnCBGimZfJ8coc4SS239hom+aHP/i8aEwvv94B2ozk590UUixZFgG/x0
- Cb8bt14hD5P+gkxV+AlDWL0UmmChXe29nhvqIgr9EXty5q3oifV746uTPpaeLJiEaaYDh2Dlw
- 0L7qS2aScxWdFlXGrAK8srCrH2nhF3j5d6cg85TkuTn87fBMepJim1xSJr2Swg1L6Hyz29k6F
- VNZTisxlKITuUJMgdvBwsB9yF7ylc7k0qutwb0XTuM6xlvwDaPRguVZvu0DlNiDZyZ6dwmxVw
- tAabVZQKFM54YoPhuBx1PxiUbHp2cTQlOhy5onkHMA1bVv2YUFU/jR1hhXkqppEucUumu3xg7
- ZW4n5YG3eiejD4RW3yjLwGCfDFZpOpRHpz5+7jEvsh4e/78xXc2RJSCwEuc7XfzDSGgSJ4juZ
- TyPOKslL7Kxp0yBjTwtPkDzxqwxkGCucNEjiPp61w4xvw5SWzzZnQqWqcK5iwd/HfMF0N/8F7
- FXp+u7YDAojf/dNjGV0sfVQS3DIh+DyJcewVhw==
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <163409.1659964655.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: quoted-printable
+Date:   Mon, 08 Aug 2022 14:17:35 +0100
+Message-ID: <163410.1659964655@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -67,21 +64,55 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Aug 8, 2022 at 12:09 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> When CONFIG_ADVISE_SYSCALLS is not set/enabled and CONFIG_COMPAT is
-> set/enabled, the riscv compat_syscall_table references
-> 'compat_sys_fadvise64_64', which is not defined:
->
-> riscv64-linux-ld: arch/riscv/kernel/compat_syscall_table.o:(.rodata+0x6f8):
-> undefined reference to `compat_sys_fadvise64_64'
->
-> Add 'fadvise64_64' to kernel/sys_ni.c as a conditional COMPAT function
-> so that when CONFIG_ADVISE_SYSCALLS is not set, there is a fallback
-> function available.
->
-> Fixes: d3ac21cacc24 ("mm: Support compiling out madvise and fadvise")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Suggested-by: Arnd Bergmann <arnd@arndb.de>
+Hi,
 
-Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+We're seeing issues in autofs and xfstests whereby linux/mount.h (the UAPI
+version) as included indirectly by linux/fs.h is conflicting with
+sys/mount.h (there's a struct and an enum).
+
+Would it be possible to just remove the #include from linux/fs.h (as patch
+below) and rely on those hopefully few things that need mount flags that d=
+on't
+use the glibc header for them working around it by configuration?
+
+David
+---
+uapi: Remove the inclusion of linux/mount.h from uapi/linux/fs.h
+    =
+
+Remove the inclusion of <linux/mount.h> from uapi/linux/fs.h as it
+interferes with definitions in sys/mount.h - but linux/fs.h is needed by
+various things where mount flags and structs are not.
+
+Note that this will likely have the side effect of causing some build
+failures.
+
+Reported-by: Ian Kent <raven@themaw.net>
+Signed-off-by: David Howells <dhowells@redhat.com>
+cc: Alexander Viro <viro@zeniv.linux.org.uk>
+cc: Christian Brauner <christian@brauner.io>
+cc: linux-fsdevel@vger.kernel.org
+cc: linux-api@vger.kernel.org
+---
+ include/uapi/linux/fs.h |    5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+index bdf7b404b3e7..7a2597ac59ed 100644
+--- a/include/uapi/linux/fs.h
++++ b/include/uapi/linux/fs.h
+@@ -17,11 +17,6 @@
+ #include <linux/fscrypt.h>
+ #endif
+ =
+
+-/* Use of MS_* flags within the kernel is restricted to core mount(2) cod=
+e. */
+-#if !defined(__KERNEL__)
+-#include <linux/mount.h>
+-#endif
+-
+ /*
+  * It's silly to have NR_OPEN bigger than NR_FILE, but you can change
+  * the file limit at runtime and only root can increase the per-process
+
