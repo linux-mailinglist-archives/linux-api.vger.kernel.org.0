@@ -2,61 +2,77 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 46E3658CA12
-	for <lists+linux-api@lfdr.de>; Mon,  8 Aug 2022 16:02:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C10C558D83E
+	for <lists+linux-api@lfdr.de>; Tue,  9 Aug 2022 13:35:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243026AbiHHOCR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 8 Aug 2022 10:02:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36578 "EHLO
+        id S242311AbiHILfq (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 9 Aug 2022 07:35:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243206AbiHHOCR (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 8 Aug 2022 10:02:17 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD9B2E0AF;
-        Mon,  8 Aug 2022 07:02:15 -0700 (PDT)
-Received: from mail-ej1-f46.google.com ([209.85.218.46]) by
- mrelayeu.kundenserver.de (mreue109 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1Mwfj2-1nSnnA0iPS-00y8yM; Mon, 08 Aug 2022 16:02:14 +0200
-Received: by mail-ej1-f46.google.com with SMTP id i14so16780530ejg.6;
-        Mon, 08 Aug 2022 07:02:14 -0700 (PDT)
-X-Gm-Message-State: ACgBeo1ziLCAzM7ozxXEF1rdjbouTD7Z22m3whQlKpDi7UzfxX30WDUN
-        n39TE7T53yVKulLPa6tdu+pZn1dkRUMJQx1pouM=
-X-Google-Smtp-Source: AA6agR5qgiyoSGZBBKVGGI6L8F9F58ARv8LUPdh3d+FcET/dzkcrREdLKsYZsK1B6EvOzT85cd8K4aaK1HO7s1uRGvQ=
-X-Received: by 2002:a17:907:7395:b0:730:b636:2c89 with SMTP id
- er21-20020a170907739500b00730b6362c89mr13943270ejc.547.1659967333768; Mon, 08
- Aug 2022 07:02:13 -0700 (PDT)
+        with ESMTP id S242833AbiHILfY (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 9 Aug 2022 07:35:24 -0400
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BBDB22B01;
+        Tue,  9 Aug 2022 04:34:57 -0700 (PDT)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.west.internal (Postfix) with ESMTP id 2AE7F3200979;
+        Tue,  9 Aug 2022 07:34:56 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Tue, 09 Aug 2022 07:34:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+        cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+        :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+         s=fm2; t=1660044895; x=1660131295; bh=sG3dfW2+8uHUHlEdheiLB6CAO
+        Rlgb6+iLDptt+xl+L4=; b=pytOGLqMrHrV0vUIbND1YlQwelLouQz9EKwI5BOd0
+        /n9laR37cD8SDdJsrtVtaVR1zI+Fq8It8MMfkU8YJG1MpmEXr4V/rpTpqxe2e8yw
+        WijGkZRuTk79aiQgf8g6ng26Uljbhec/PvBVh5yZW44n/9uY8gUow4/lbqGicWwY
+        vHywdMVRFP008CpLNTrW23EdCL02CH/VjQTzTKP6RM1S+FS7D2C4GRoThJk3lHuk
+        wvB3ZA1gDSdQffqRehPwHttJ42O8/lgfiKGBDUYEhDoN7tgL4zEnouNkIOEXoF1Q
+        Y5lvIaFheK2UzKKF7ADNS2wRluAGltiop66+0KPjoPWeQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:message-id
+        :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+        1660044895; x=1660131295; bh=sG3dfW2+8uHUHlEdheiLB6CAORlgb6+iLDp
+        tt+xl+L4=; b=xG9yL5lsuZcEkpa6OC61vDWSwOkV6A1Mr5sghZ1UGdyXwqfSalS
+        qx91TGjx7f0mjd1YowwyLvMzpeTSkSPqYSfbeI4oazw+/HPuboxvGYDbeW4Iz4fo
+        1aMSSpn6iWeYgupeOfH9HtMfZnDm+GprIHozgwW+cx/l+f6WV1Z/VbOPTR1ZdoZd
+        i82icUvLXmKTBq4UWPIWbb+DBZyZXJqQPRjOBLUBNcZqp6Q8/L2YNEeJfBFsioq4
+        pKmjWpyjfqtLaAP/9LpXycMJfCdjKr4iaN8hT57ZMGplNqH+dgAvIjTct45+RMvW
+        yV+pbWK+KKUYLQv0KP3BAklWBr5g/uijwKw==
+X-ME-Sender: <xms:X0byYsFpwaLn58nEbDYXxHus6b9Hl-_tWx_WlDrsK3CAJBuf8rJUcQ>
+    <xme:X0byYlWJPzU084IRx1lTBnD97Z8E_yISirIUwol_MGbaHlxY1Qjy95PGYlip_spz2
+    QdUAZBmc4fb_Sk9uwo>
+X-ME-Received: <xmr:X0byYmIvLAnDKdLnHgkeEO5Wfv_zgLWS8Nr51lwIWtC5QDy-OZmAV10NMkPCqsJVOc6t6yjPOItSWpi7OG-mjWOcvOVhXPA3pm_7SKwql9XYwbbHh_V4GKKk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdegtddggeduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpeflihgrgihunhcujggrnhhguceojhhirgiguhhnrdihrghnghes
+    fhhlhihgohgrthdrtghomheqnecuggftrfgrthhtvghrnhephfetuddtudevieeljeejte
+    ffheeujeduhefgffejudfhueelleduffefgfffveeknecuvehluhhsthgvrhfuihiivgep
+    tdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgoh
+    grthdrtghomh
+X-ME-Proxy: <xmx:X0byYuGknYmkQBuCY2GJ0tem1zQUq4s2p1-kd9ivUasX6XlfxlZSjQ>
+    <xmx:X0byYiUe8ZPR-bxFGY7kZP-rMObb_C0cWKcyP14qEq3GwRn-15JsVA>
+    <xmx:X0byYhOwwf95n7oqO2Zq2603G1nxw1u3e6ExG0anOP3K193XSJx9-Q>
+    <xmx:X0byYhTlummVrvgyMCGN3Me02FLFQ0AIHC3-ks_Ye97LpDzxBJPuGQ>
+Feedback-ID: ifd894703:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 9 Aug 2022 07:34:54 -0400 (EDT)
+From:   Jiaxun Yang <jiaxun.yang@flygoat.com>
+To:     linux-mips@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, tsbogend@alpha.franken.de,
+        linux-api@vger.kernel.org, Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: [PATCH] MIPS: Expose prid and globalnumber to sysfs
+Date:   Tue,  9 Aug 2022 11:34:44 +0000
+Message-Id: <20220809113444.17757-1-jiaxun.yang@flygoat.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <163410.1659964655@warthog.procyon.org.uk>
-In-Reply-To: <163410.1659964655@warthog.procyon.org.uk>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Mon, 8 Aug 2022 16:01:57 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3ZNbmND-TPLEmc-37ZmK31pOT2+hDhQD+HWQZyXFZX8Q@mail.gmail.com>
-Message-ID: <CAK8P3a3ZNbmND-TPLEmc-37ZmK31pOT2+hDhQD+HWQZyXFZX8Q@mail.gmail.com>
-Subject: Re: [RFC][PATCH] uapi: Remove the inclusion of linux/mount.h from uapi/linux/fs.h
-To:     David Howells <dhowells@redhat.com>
-Cc:     linux-fsdevel@vger.kernel.org, Ian Kent <raven@themaw.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:1reflZM1aKn3EqKV2wtpAFNNyOuaYsSRArZwiFPIJiG2MRgtBgZ
- pKnqPzexya65U7wThtAsuWNVQUTcKwP3VgWZGINf1iAEhgRBChXvXTmctN0XHgLp/i7v52H
- Cfw/xMhzLSMBZJGKcFlrhf3JUJTGXwiOJladLDaUk3fCXi1FdSokdjlYJm/K2WvDf5B6YwX
- CN3LchDPQdgnmNhrGxufg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:bIGL7TTs/Dw=:ALnb+EAd32wsDMBtVCqNB5
- 5IpF+pVJvEOLFeYzryC8lo3wfPJjHVP4eyq9iKhtXW9QGjA1hJDRmipPaAraDJScB2IixGG9R
- CJm1C45YWeMEuxHhvj7osYyAowo//cQrIkQAQ0No4MnO7tCTnQNDnL4w05updue12zRDpBJgB
- HbOx9Q45PhWLVg903VO6A+MSqzyP7CcSIwrcWohUYaEodkgwfK0a94HGQRHCRjteaGs/RJvQ+
- C9jR/dCiBif19Ofi1zBgOewi/J4poghpPVSmoRlDwg10H5QhC7Fh69VcNjeUT9Qb7B8/52BJ/
- HST3GWnIZFo9+D6hNiRRGchB5VE5iuflT6518nSslD1rci0g8Wj7LPQ1myxTck4TPJmKGJc4b
- rVAs7jkfwID120dp8hzD+7kwya5GOP/HWUY5L2m3oFyurv/+GyP00qKa7AXgrKC0eVA/YmsGu
- 7v1P2lHzUldW8lX3iORu1qinPyfcECj9twgcsgUTJvWDHLEwSGZo1xupx5329lhAQoezRDygg
- mM2jED/ye+a4I+ucIkroUFJGZDgHw+uVyOpLniY17Hu5/4pWDpqv7Ntbp72364MAmV6aOIjmz
- 1pqPqkxXCRywPjm0QVz88mVfAzJxgNZaDUFMmPdZWaBTNFPUWriOpUt/2rKnjNB/bdt02RXB7
- ATLbW+MQSOwHPQ3WTUg2A63wOBrieEQMSyeEMhPpJJEpa0KjO1HquksYGj9JArZQUTpper+oC
- WRp45cdgxHmm8rp0r/0nuP+jd370ZeHMZxqrFQ==
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,149 +80,154 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Aug 8, 2022 at 3:17 PM David Howells <dhowells@redhat.com> wrote:
->
-> Hi,
->
-> We're seeing issues in autofs and xfstests whereby linux/mount.h (the UAPI
-> version) as included indirectly by linux/fs.h is conflicting with
-> sys/mount.h (there's a struct and an enum).
->
-> Would it be possible to just remove the #include from linux/fs.h (as patch
-> below) and rely on those hopefully few things that need mount flags that don't
-> use the glibc header for them working around it by configuration?
->
-> David
-> ---
-> uapi: Remove the inclusion of linux/mount.h from uapi/linux/fs.h
->
-> Remove the inclusion of <linux/mount.h> from uapi/linux/fs.h as it
-> interferes with definitions in sys/mount.h - but linux/fs.h is needed by
-> various things where mount flags and structs are not.
->
-> Note that this will likely have the side effect of causing some build
-> failures.
->
-> Reported-by: Ian Kent <raven@themaw.net>
-> Signed-off-by: David Howells <dhowells@redhat.com>
-> cc: Alexander Viro <viro@zeniv.linux.org.uk>
-> cc: Christian Brauner <christian@brauner.io>
-> cc: linux-fsdevel@vger.kernel.org
-> cc: linux-api@vger.kernel.org
+Some application would like to know precise model and rev of processor
+to do errata workaround or optimization.
 
-I think that's probably ok. Looking through the results from
+Expose them in sysfs as:
+/sys/devices/system/cpu/cpuX/regs/identification/prid
+/sys/devices/system/cpu/cpuX/regs/identification/globalnumber
 
-https://codesearch.debian.net/search?q=MS_RDONLY
-combined with the list of results from
-https://codesearch.debian.net/search?q=linux/fs.h
+Reusing AArch64 CPU registers directory.
 
-I found 95 packages that mention both /somewhere/ in the code, see
-below for a complete list. I did not try an exhaustive search but found
-that almost all of these reference the two in different files.
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+ .../ABI/testing/sysfs-devices-system-cpu      | 11 +++
+ arch/mips/kernel/topology.c                   | 96 +++++++++++++++++++
+ 2 files changed, 107 insertions(+)
 
-The only counterexample I found is
+diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
+index 5bf61881f012..adf855e7bb9b 100644
+--- a/Documentation/ABI/testing/sysfs-devices-system-cpu
++++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
+@@ -512,6 +512,17 @@ Description:	information about CPUs heterogeneity.
+ 
+ 		cpu_capacity: capacity of cpuX.
+ 
++What:		/sys/devices/system/cpu/cpuX/regs/
++		/sys/devices/system/cpu/cpuX/regs/identification/
++		/sys/devices/system/cpu/cpuX/regs/identification/prid
++		/sys/devices/system/cpu/cpuX/regs/identification/globalnumber
++Date:		Augest 2022
++Contact:	Linux MIPS Kernel Mailing list <linux-mips@vger.kernel.org>
++Description:	MIPS CPU registers
++
++		'identification' directory exposes the Processor ID and Global Number
++		registers for identifying model and revision of the CPU.
++
+ What:		/sys/devices/system/cpu/vulnerabilities
+ 		/sys/devices/system/cpu/vulnerabilities/meltdown
+ 		/sys/devices/system/cpu/vulnerabilities/spectre_v1
+diff --git a/arch/mips/kernel/topology.c b/arch/mips/kernel/topology.c
+index 9429d85a4703..90b5136afb63 100644
+--- a/arch/mips/kernel/topology.c
++++ b/arch/mips/kernel/topology.c
+@@ -5,6 +5,8 @@
+ #include <linux/node.h>
+ #include <linux/nodemask.h>
+ #include <linux/percpu.h>
++#include <linux/seq_file.h>
++#include <linux/smp.h>
+ 
+ static DEFINE_PER_CPU(struct cpu, cpu_devices);
+ 
+@@ -26,3 +28,97 @@ static int __init topology_init(void)
+ }
+ 
+ subsys_initcall(topology_init);
++
++static struct kobj_type cpuregs_kobj_type = {
++	.sysfs_ops = &kobj_sysfs_ops,
++};
++
++struct cpureg {
++	struct kobject kobj;
++	struct cpuinfo_mips *info;
++};
++static DEFINE_PER_CPU(struct cpureg, cpuregs);
++
++#define kobj_to_cpureg(kobj)	container_of(kobj, struct cpureg, kobj)
++#define CPUREGS_ATTR_RO(_name, _field)						\
++	static ssize_t _name##_show(struct kobject *kobj,			\
++			struct kobj_attribute *attr, char *buf)			\
++	{									\
++		struct cpuinfo_mips *info = kobj_to_cpureg(kobj)->info;		\
++										\
++		return sprintf(buf, "0x%08x\n", info->_field);	\
++	}									\
++	static struct kobj_attribute cpuregs_attr_##_name = __ATTR_RO(_name)
++
++CPUREGS_ATTR_RO(prid, processor_id);
++CPUREGS_ATTR_RO(globalnumber, globalnumber);
++
++static struct attribute *cpuregs_id_attrs[] = {
++	&cpuregs_attr_prid.attr,
++	&cpuregs_attr_globalnumber.attr,
++	NULL
++};
++
++static const struct attribute_group cpuregs_attr_group = {
++	.attrs = cpuregs_id_attrs,
++	.name = "identification"
++};
++
++static int cpuregs_cpu_online(unsigned int cpu)
++{
++	int rc;
++	struct device *dev;
++	struct cpureg *reg = &per_cpu(cpuregs, cpu);
++
++	dev = get_cpu_device(cpu);
++	if (!dev) {
++		rc = -ENODEV;
++		goto out;
++	}
++	rc = kobject_add(&reg->kobj, &dev->kobj, "regs");
++	if (rc)
++		goto out;
++	rc = sysfs_create_group(&reg->kobj, &cpuregs_attr_group);
++	if (rc)
++		kobject_del(&reg->kobj);
++out:
++	return rc;
++}
++
++static int cpuregs_cpu_offline(unsigned int cpu)
++{
++	struct device *dev;
++	struct cpureg *reg = &per_cpu(cpuregs, cpu);
++
++	dev = get_cpu_device(cpu);
++	if (!dev)
++		return -ENODEV;
++	if (reg->kobj.parent) {
++		sysfs_remove_group(&reg->kobj, &cpuregs_attr_group);
++		kobject_del(&reg->kobj);
++	}
++
++	return 0;
++}
++
++static int __init cpuinfo_regs_init(void)
++{
++	int cpu, ret;
++
++	for_each_possible_cpu(cpu) {
++		struct cpureg *reg = &per_cpu(cpuregs, cpu);
++
++		reg->info = &cpu_data[cpu];
++		kobject_init(&reg->kobj, &cpuregs_kobj_type);
++	}
++
++	ret = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "mips/topology:online",
++				cpuregs_cpu_online, cpuregs_cpu_offline);
++	if (ret < 0) {
++		pr_err("cpuinfo: failed to register hotplug callbacks.\n");
++		return ret;
++	}
++	return 0;
++}
++
++device_initcall(cpuinfo_regs_init);
+-- 
+2.34.1
 
-https://sources.debian.org/src/trinity/1.9+git20200331.4d2343bd18c7b-2/syscalls/mount.c/?hl=13#L13
-
-so this will likely break and have to get fixed to includle <linux/mount.h> or
-<sys/mount.h> instead of linux/fs.h, but that is probably acceptable.
-There may be others like it, but not a ton of them.
-
-      Arnd
-
-8<---
-android-framework-23
-android-platform-art
-android-platform-frameworks-base
-android-platform-system-core
-android-platform-system-extras
-android-platform-tools
-apparmor
-audit
-avfs
-bazel-bootstrap
-bcachefs-tools
-bpfcc
-busybox
-cargo
-cde
-ceph
-chromium
-criu
-cryptmount
-docker.io
-e2fsprogs
-elogind
-emscripten
-falcosecurity-libs
-firefox
-firefox-esr
-fstransform
-gcc-10
-gcc-11
-gcc-12
-gcc-9
-gcc-snapshot
-gfarm
-glibc
-glusterfs
-gnumach
-golang-1.11
-golang-1.15
-golang-1.16
-golang-1.17
-golang-1.18
-golang-1.19
-golang-github-containers-storage
-golang-golang-x-sys
-golang-inet-netstack
-hashrat
-hurd
-icingadb
-kfreebsd-10
-klibc
-kubernetes
-kvmtool
-libblockdev
-libexplain
-librsvg
-libvirt
-linux
-linux-apfs-rw
-lxc
-manpages-l10n
-mergerfs
-mozjs91
-mtd-utils
-network-manager
-nilfs-tools
-ntfs-3g
-ocfs2-tools
-ostree
-partclone
-ploop
-qemu
-quota
-rust-libc
-rustc
-sash
-snapd
-strace
-stress-ng
-suricata
-systemd
-systemtap
-testdisk
-thunderbird
-tiny-initramfs
-tomoyo-tools
-toybox
-trinity
-u-boot
-uclibc
-umview
-util-linux
-virtualbox
-webhook
-zfs-linux
-zulucrypt
