@@ -2,56 +2,56 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D43258E6B4
-	for <lists+linux-api@lfdr.de>; Wed, 10 Aug 2022 07:22:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 485E958E746
+	for <lists+linux-api@lfdr.de>; Wed, 10 Aug 2022 08:23:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230168AbiHJFWJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 10 Aug 2022 01:22:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35032 "EHLO
+        id S231202AbiHJGXE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 10 Aug 2022 02:23:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230165AbiHJFWI (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 10 Aug 2022 01:22:08 -0400
-Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com [IPv6:2607:f8b0:4864:20::e2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B082564D2;
-        Tue,  9 Aug 2022 22:22:07 -0700 (PDT)
-Received: by mail-vs1-xe2a.google.com with SMTP id 129so14047878vsq.8;
-        Tue, 09 Aug 2022 22:22:07 -0700 (PDT)
+        with ESMTP id S230384AbiHJGXD (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 10 Aug 2022 02:23:03 -0400
+Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com [IPv6:2607:f8b0:4864:20::e35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51B516D565;
+        Tue,  9 Aug 2022 23:23:02 -0700 (PDT)
+Received: by mail-vs1-xe35.google.com with SMTP id c3so14142657vsc.6;
+        Tue, 09 Aug 2022 23:23:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=oSJ3PBj2dSpaR7fCdE7LTCOdjNsBWGTVYv5P7MiZ/Uo=;
-        b=q6N/lXJlPPq67/vmqmv7eUxMwDBlgmJ0clVG6xrfSqdE8UTuiMDEf6qn7zaikrA1A2
-         5lGTPOyR9/gIyw24KeSYOaTbU5rzCefzE7M+AjGcwijuCMckHVvmhhcAtseDVTgQ0v8x
-         IXIRnUzKKoDQen1FKXkWSVm+nS+0OQiVjtuSfzCzTqPbC8qrOs9+6WLEEa4j4NtDEGg2
-         LcCEdVm3/zjuRwygldiJtxUZrGvl2GUlSZlT13Rg7czPz0U+1TlNPLimYAZ+9mS2InFn
-         fY0nN9k5KXhO7fhMv+DkJJhZINo645Q7+NYjvqG4s1RbObcIquswgs+Fx2gRU28Y9NQv
-         gLoA==
+        bh=oNiC7YhrEAbKIwyKLm8c/Y9sTLqUK8SsszUBwIfVgM8=;
+        b=MRPCMSAF1FryYoO2fOLapZLWV8Ucrru60/11qZSKspfT9BvN7vpSgrfr76oj8JxKwq
+         d/JIhuUg8wGDWnk3r6Cw3JEmDwkrDd2LUCxGNGhtAFYqYS6fDS3L16ndvo+pgW+7XuUC
+         J0WIKPDkCJJsiWnJiRX5lS0/KwhctB3Wjcuv7VDSsDHrZQ8cSnMBKk64511/wP+RuX1b
+         rN9IN/tP+vQkb085OGitBZq9AYR4IQCbndb9sHGqksZm0R3WgTi7crli6dDBpgXZSy6G
+         gNwnzYfgCjsIRuvH2SJqdClkbciGBA/U2zfaxngGUBXen9+lplf7TO8qql2UBq0Ed1jL
+         AMFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=oSJ3PBj2dSpaR7fCdE7LTCOdjNsBWGTVYv5P7MiZ/Uo=;
-        b=mS+DIoirrNTZskqZz2B9fL5GkxmS2WEB5H0zTlVv0Z389KbDWfmx04TjwNEcbL/bsE
-         1KpB8kBi2+sQ5YUfXVnOo+6QS1vHMzJ0HsitP6EQQYi6j0d/Wegy89z+ZxEKgubtb0zj
-         VdXS/E8vklQ3oFFQ96wx0+rxMsXY64hTBOuqBhOYtI41NyT1R0friBcbBx2WMR5Ey9OA
-         Qjyxx73E65ghFtGOWy8+GfakqVS6emwufmCIfWSSjrztXTrgw0q0F89wSqr0NJvuTTzu
-         3X7UBO+fmHqmpcFCTN5DUvorx3PqyEgrMesPUIosk+qMF8hKgMCA9hkqRrsoqITOsyXL
-         zZcQ==
-X-Gm-Message-State: ACgBeo2Wtgel7UQNtlZtJTA1pfsJbDpZQ2REoBJ+h5s8Cn6p3Gf92Xz8
-        x24OmNeuUxgAVCcOwuTfPCMztBgHJS0z57bW7CQ=
-X-Google-Smtp-Source: AA6agR7Po/CU+pNnTYM3xUdj9rMd8Os9SsP3EV8ROX/RmUzooaXh1HD+5PighqocONKi7tNfMJeBU+Wtrjm24ZTXWp0=
+        bh=oNiC7YhrEAbKIwyKLm8c/Y9sTLqUK8SsszUBwIfVgM8=;
+        b=Jo+U3KrbYokWfAzUPV2pU6+hqLF+S5+sa4mSHktD2SAnN5gDVB4rxRHnWAqUbQGyGz
+         8AgBUzrwJiXJlWTsevL/ZtJNQi2HPXDHh0mwVm96cNta0xZ2vSs98UlFVL2vIlnx41iJ
+         v4t8ZaKUwLUqxzXHZRSo/0XmwkWHnRxyYPVbmgxmUfEKoP0tWeIRDEwRYR7FPvDeAfI+
+         Mt+v/BDIrgEwda+vAR60GzpjtDUUuWVW1zVC9DMpEBYFwafGIccTwPqjGkVxuludmK8Q
+         GvxrzUGiD13IpVnoZ+SkETmFhHkJtXSsZGW/vGJK/XzaeDT/J37tPiYEeHF5XZOhvGGU
+         f4VA==
+X-Gm-Message-State: ACgBeo12z9jXj+STY3E9I/UH8uU24SQbrpqmE1TIafrlYwgPZr4jD+LY
+        TkRUgsDf5CeegZNnAcZt1DuUR+f2qNR7ncH3DPQ=
+X-Google-Smtp-Source: AA6agR6b7grznDyI/cGaAw9yZ/j9OSykag+1lJaDT+7hW4UHVEI//Tm29t457HgwkwWI8iMFouh9mI3+hV57eQJx3g8=
 X-Received: by 2002:a05:6102:3ecd:b0:358:57a1:d8a with SMTP id
- n13-20020a0561023ecd00b0035857a10d8amr10842757vsv.2.1660108926141; Tue, 09
- Aug 2022 22:22:06 -0700 (PDT)
+ n13-20020a0561023ecd00b0035857a10d8amr10897213vsv.2.1660112581268; Tue, 09
+ Aug 2022 23:23:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1659996830.git.rgb@redhat.com>
-In-Reply-To: <cover.1659996830.git.rgb@redhat.com>
+References: <cover.1659996830.git.rgb@redhat.com> <8767f3a0d43d6a994584b86c03eb659a662cc416.1659996830.git.rgb@redhat.com>
+In-Reply-To: <8767f3a0d43d6a994584b86c03eb659a662cc416.1659996830.git.rgb@redhat.com>
 From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Wed, 10 Aug 2022 07:21:54 +0200
-Message-ID: <CAOQ4uxiATP24r_0=2Y474FUPjSSg6TTv+txiXOouYE4+EYfNTA@mail.gmail.com>
-Subject: Re: [PATCH v4 0/4] fanotify: Allow user space to pass back additional
- audit info
+Date:   Wed, 10 Aug 2022 08:22:49 +0200
+Message-ID: <CAOQ4uxjWCyFNATVmAcgOa8HNk6Upj+PPrJF7DA9V-4LjOGAALA@mail.gmail.com>
+Subject: Re: [PATCH v4 2/4] fanotify: define struct members to hold response
+ decision context
 To:     Richard Guy Briggs <rgb@redhat.com>
 Cc:     Linux-Audit Mailing List <linux-audit@redhat.com>,
         LKML <linux-kernel@vger.kernel.org>,
@@ -75,99 +75,399 @@ X-Mailing-List: linux-api@vger.kernel.org
 
 On Tue, Aug 9, 2022 at 7:23 PM Richard Guy Briggs <rgb@redhat.com> wrote:
 >
-> The Fanotify API can be used for access control by requesting permission
-> event notification. The user space tooling that uses it may have a
-> complicated policy that inherently contains additional context for the
-> decision. If this information were available in the audit trail, policy
-> writers can close the loop on debugging policy. Also, if this additional
-> information were available, it would enable the creation of tools that
-> can suggest changes to the policy similar to how audit2allow can help
-> refine labeled security.
+> This patch adds a flag, FAN_INFO and an extensible buffer to provide
+> additional information about response decisions.  The buffer contains
+> one or more headers defining the information type and the length of the
+> following information.  The patch defines one additional information
+> type, FAN_RESPONSE_INFO_AUDIT_RULE, an audit rule number.  This will
+> allow for the creation of other information types in the future if other
+> users of the API identify different needs.
 >
-> This patchset defines a new flag (FAN_INFO) and new extensions that
-> define additional information which are appended after the response
-> structure returned from user space on a permission event.  The appended
-> information is organized with headers containing a type and size that
-> can be delegated to interested subsystems.  One new information type is
-> defined for audit rule number.
+> Suggested-by: Steve Grubb <sgrubb@redhat.com>
+> Link: https://lore.kernel.org/r/2745105.e9J7NaK4W3@x2
+> Suggested-by: Jan Kara <jack@suse.cz>
+> Link: https://lore.kernel.org/r/20201001101219.GE17860@quack2.suse.cz
+> Signed-off-by: Richard Guy Briggs <rgb@redhat.com>
+> ---
+
+Looks mostly fine.
+A few small bugs and style suggestions
+and one UAPI improvement suggestion.
+
+>  fs/notify/fanotify/fanotify.c      |  10 ++-
+>  fs/notify/fanotify/fanotify.h      |   2 +
+>  fs/notify/fanotify/fanotify_user.c | 104 +++++++++++++++++++++++------
+>  include/linux/fanotify.h           |   5 ++
+>  include/uapi/linux/fanotify.h      |  27 +++++++-
+>  5 files changed, 123 insertions(+), 25 deletions(-)
 >
-> A newer kernel will work with an older userspace and an older kernel
-> will behave as expected and reject a newer userspace, leaving it up to
-> the newer userspace to test appropriately and adapt as necessary.
+> diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
+> index 4f897e109547..0f36062521f4 100644
+> --- a/fs/notify/fanotify/fanotify.c
+> +++ b/fs/notify/fanotify/fanotify.c
+> @@ -262,13 +262,16 @@ static int fanotify_get_response(struct fsnotify_group *group,
+>         }
+>
+>         /* userspace responded, convert to something usable */
+> -       switch (event->response & ~FAN_AUDIT) {
+> +       switch (event->response & FANOTIFY_RESPONSE_ACCESS) {
+>         case FAN_ALLOW:
+>                 ret = 0;
+>                 break;
+>         case FAN_DENY:
+> -       default:
+>                 ret = -EPERM;
+> +               break;
+> +       default:
+> +               ret = -EINVAL;
+> +               break;
 
-Since you did not accept my suggestion of FAN_TEST response code [1],
-I am not really sure how you envision that "adapt as necessary" part.
+This is very odd.
+Why has this changed?
+The return value here is going to the process that
+is trying to access the file.
 
-A well designed UAPI should allow newer userspace to check for kernel
-support of FAN_INFO on initialization.
+>         }
+>
+>         /* Check if the response should be audited */
+> @@ -560,6 +563,8 @@ static struct fanotify_event *fanotify_alloc_perm_event(const struct path *path,
+>
+>         pevent->fae.type = FANOTIFY_EVENT_TYPE_PATH_PERM;
+>         pevent->response = 0;
+> +       pevent->info_len = 0;
+> +       pevent->info_buf = NULL;
+>         pevent->state = FAN_EVENT_INIT;
+>         pevent->path = *path;
+>         path_get(path);
+> @@ -996,6 +1001,7 @@ static void fanotify_free_path_event(struct fanotify_event *event)
+>  static void fanotify_free_perm_event(struct fanotify_event *event)
+>  {
+>         path_put(fanotify_event_path(event));
+> +       kfree(FANOTIFY_PERM(event)->info_buf);
+>         kmem_cache_free(fanotify_perm_event_cachep, FANOTIFY_PERM(event));
+>  }
+>
+> diff --git a/fs/notify/fanotify/fanotify.h b/fs/notify/fanotify/fanotify.h
+> index abfa3712c185..14c30e173632 100644
+> --- a/fs/notify/fanotify/fanotify.h
+> +++ b/fs/notify/fanotify/fanotify.h
+> @@ -428,6 +428,8 @@ struct fanotify_perm_event {
+>         u32 response;                   /* userspace answer to the event */
+>         unsigned short state;           /* state of the event */
+>         int fd;         /* fd we passed to userspace for this event */
+> +       size_t info_len;
+> +       char *info_buf;
+>  };
+>
+>  static inline struct fanotify_perm_event *
+> diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
+> index ff67ca0d25cc..a4ae953f0e62 100644
+> --- a/fs/notify/fanotify/fanotify_user.c
+> +++ b/fs/notify/fanotify/fanotify_user.c
+> @@ -289,13 +289,18 @@ static int create_fd(struct fsnotify_group *group, struct path *path,
+>   */
+>  static void finish_permission_event(struct fsnotify_group *group,
+>                                     struct fanotify_perm_event *event,
+> -                                   u32 response)
+> +                                   struct fanotify_response *response,
+> +                                   size_t info_len, char *info_buf)
+>                                     __releases(&group->notification_lock)
+>  {
+>         bool destroy = false;
+>
+>         assert_spin_locked(&group->notification_lock);
+> -       event->response = response;
+> +       event->response = response->response & ~FAN_INFO;
+> +       if (response->response & FAN_INFO) {
+> +               event->info_len = info_len;
+> +               event->info_buf = info_buf;
+> +       }
+>         if (event->state == FAN_EVENT_CANCELED)
+>                 destroy = true;
+>         else
+> @@ -306,33 +311,71 @@ static void finish_permission_event(struct fsnotify_group *group,
+>  }
+>
+>  static int process_access_response(struct fsnotify_group *group,
+> -                                  struct fanotify_response *response_struct)
+> +                                  struct fanotify_response *response_struct,
+> +                                  const char __user *buf,
+> +                                  size_t count)
+>  {
+>         struct fanotify_perm_event *event;
+>         int fd = response_struct->fd;
+>         u32 response = response_struct->response;
+> +       struct fanotify_response_info_header info_hdr;
+> +       char *info_buf = NULL;
+>
+> -       pr_debug("%s: group=%p fd=%d response=%u\n", __func__, group,
+> -                fd, response);
+> +       pr_debug("%s: group=%p fd=%d response=%u buf=%p size=%lu\n", __func__,
+> +                group, fd, response, info_buf, count);
+>         /*
+>          * make sure the response is valid, if invalid we do nothing and either
+>          * userspace can send a valid response or we will clean it up after the
+>          * timeout
+>          */
+> -       switch (response & ~FAN_AUDIT) {
+> +       if (response & ~FANOTIFY_RESPONSE_VALID_MASK)
+> +               return -EINVAL;
+> +       switch (response & FANOTIFY_RESPONSE_ACCESS) {
+>         case FAN_ALLOW:
+>         case FAN_DENY:
+>                 break;
+>         default:
+>                 return -EINVAL;
+>         }
+> -
+> -       if (fd < 0)
+> -               return -EINVAL;
+> -
+>         if ((response & FAN_AUDIT) && !FAN_GROUP_FLAG(group, FAN_ENABLE_AUDIT))
+>                 return -EINVAL;
+> +       if (fd < 0)
+> +               return -EINVAL;
 
-For example, without this property of UAPI, it is going to be hard to write an
-LTP test for the new functionality that does not run on older kernels.
+Since you did not accept my suggestion of FAN_TEST [1],
+I am not sure why this check was moved.
 
-As far as I can tell, your proposed UAPI does not provide this functionality.
-It allows newer userspace to check for support of FAN_INFO only as a
-response to a permission event.
+However, if you move this check past FAN_INFO processing,
+you could change the error value to -ENOENT, same as the return value
+for an fd that is >= 0 but does not correspond to any pending
+permission event.
 
-You never replied to my question to explain why you think FAN_TEST
-complicated things. The only purpose of FAN_TEST is for userspace
-to be able to test FAN_INFO kernel support without providing a valid fd.
+The idea was that userspace could write a test
+fanotify_response_info_audit_rule payload to fanotify fd with FAN_NOFD
+in the response.fd field.
+On old kernel, this will return EINVAL.
+On new kernel, if the fanotify_response_info_audit_rule payload
+passes all the validations, this will do nothing and return ENOENT.
 
 [1] https://lore.kernel.org/linux-fsdevel/CAOQ4uxi+8HUqyGxQBNMqSong92nreOWLKdy9MCrYg8wgW9Dj4g@mail.gmail.com/
 
->
-> The audit function was updated to log the additional information in the
-> AUDIT_FANOTIFY record. The following is an example of the new record
-> format:
->
-> type=FANOTIFY msg=audit(1600385147.372:590): resp=2 fan_type=1 fan_info=3F
->
-> changelog:
-> v1:
-> - first version by Steve Grubb <sgrubb@redhat.com>
-> Link: https://lore.kernel.org/r/2042449.irdbgypaU6@x2
->
-> v2:
-> - enhancements suggested by Jan Kara <jack@suse.cz>
-> - 1/3 change %d to %u in pr_debug
-> - 2/3 change response from __u32 to __u16
-> - mod struct fanotify_response and fanotify_perm_event add extra_info_type, extra_info_buf
-> - extra_info_buf size max FANOTIFY_MAX_RESPONSE_EXTRA_LEN, add struct fanotify_response_audit_rule
-> - extend debug statements
-> - remove unneeded macros
-> - [internal] change interface to finish_permission_event() and process_access_response()
-> - 3/3 update format of extra information
-> - [internal] change interface to audit_fanotify()
-> - change ctx_type= to fan_type=
-> Link: https://lore.kernel.org/r/cover.1651174324.git.rgb@redhat.com
->
-> v3:
-> - 1/3 switch {,__}audit_fanotify() from uint to u32
-> - 2/3 re-add fanotify_get_response switch case FAN_DENY: to avoid unnecessary churn
-> - add FAN_EXTRA flag to indicate more info and break with old kernel
-> - change response from u16 to u32 to avoid endian issues
-> - change extra_info_buf to union
-> - move low-cost fd check earlier
-> - change FAN_RESPONSE_INFO_AUDIT_NONE to FAN_RESPONSE_INFO_NONE
-> - switch to u32 for internal and __u32 for uapi
-> Link: https://lore.kernel.org/r/cover.1652724390.git.rgb@redhat.com
+> +       if (response & FAN_INFO) {
 
-Link seems broken?
+Please split this out to helper process_response_info() and
+optionally also helper process_response_info_audit_rule()
 
+> +               size_t c = count;
+> +               const char __user *ib = buf;
 >
-> v4:
-> - scrap FAN_INVALID_RESPONSE_MASK in favour of original to catch invalid response == 0
-> - introduce FANOTIFY_RESPONSE_* macros
-> - uapi: remove union
-> - keep original struct fanotify_response, add fan_info infra starting with audit reason
-> - uapi add struct fanotify_response_info_header{type/pad/len} and struct fanotify_response_info_audit_rule{hdr/rule}
-> - rename fan_ctx= to fan_info=, FAN_EXTRA to FAN_INFO
-> - change event struct from type/buf to len/buf
-> - enable multiple info extensions in one message
-> - hex encode fan_info in __audit_fanotify()
-> - record type FANOTIFY extended to "type=FANOTIFY msg=audit(1659730979.839:284): resp=1 fan_type=0 fan_info=3F"
-> Link: https://lore.kernel.org/r/cover.1659981772.git.rgb@redhat.com
+> +               if (c <= 0)
+> +                       return -EINVAL;
 
-Link seems broken?
+This was already checked by the caller.
+If you think we need this defence use if (WARN_ON_ONCE())
 
-Thanks,
-Amir.
+> +               while (c >= sizeof(info_hdr)) {
+
+This while() is a bit confusing.
+It suggests that the parser may process multiple info records,
+but the code below uses 'count' and assumed single audit rule
+record.
+
+Maybe just change this to:
+  if (WARN_ON_ONCE(c < sizeof(info_hdr))
+     return -EINVAL
+
+Until the code can really handle multiple records.
+
+> +                       if (copy_from_user(&info_hdr, ib, sizeof(info_hdr)))
+> +                               return -EFAULT;
+> +                       if (info_hdr.pad != 0)
+> +                               return -EINVAL;
+> +                       if (c < info_hdr.len)
+> +                               return -EINVAL;
+> +                       switch (info_hdr.type) {
+> +                       case FAN_RESPONSE_INFO_AUDIT_RULE:
+> +                               break;
+> +                       case FAN_RESPONSE_INFO_NONE:
+> +                       default:
+> +                               return -EINVAL;
+> +                       }
+> +                       c -= info_hdr.len;
+> +                       ib += info_hdr.len;
+> +               }
+> +               if (c != 0)
+> +                       return -EINVAL;
+> +               /* Simplistic check for now */
+> +               if (count != sizeof(struct fanotify_response_info_audit_rule))
+> +                       return -EINVAL;
+> +               info_buf = kmalloc(sizeof(struct fanotify_response_info_audit_rule),
+> +                                  GFP_KERNEL);
+> +               if (!info_buf)
+> +                       return -ENOMEM;
+> +               if (copy_from_user(info_buf, buf, count))
+> +                       return -EFAULT;
+
+info_buf allocation is leaked here and also in case 'fd' is not found.
+
+> +       }
+>         spin_lock(&group->notification_lock);
+>         list_for_each_entry(event, &group->fanotify_data.access_list,
+>                             fae.fse.list) {
+> @@ -340,7 +383,9 @@ static int process_access_response(struct fsnotify_group *group,
+>                         continue;
+>
+>                 list_del_init(&event->fae.fse.list);
+> -               finish_permission_event(group, event, response);
+> +               /* finish_permission_event() eats info_buf */
+> +               finish_permission_event(group, event, response_struct,
+> +                                       count, info_buf);
+>                 wake_up(&group->fanotify_data.access_waitq);
+>                 return 0;
+>         }
+> @@ -802,9 +847,14 @@ static ssize_t fanotify_read(struct file *file, char __user *buf,
+>                         fsnotify_destroy_event(group, &event->fse);
+>                 } else {
+>                         if (ret <= 0) {
+> +                               struct fanotify_response response = {
+> +                                       .fd = FAN_NOFD,
+> +                                       .response = FAN_DENY };
+> +
+>                                 spin_lock(&group->notification_lock);
+>                                 finish_permission_event(group,
+> -                                       FANOTIFY_PERM(event), FAN_DENY);
+> +                                       FANOTIFY_PERM(event), &response,
+> +                                       0, NULL);
+>                                 wake_up(&group->fanotify_data.access_waitq);
+>                         } else {
+>                                 spin_lock(&group->notification_lock);
+> @@ -827,26 +877,33 @@ static ssize_t fanotify_read(struct file *file, char __user *buf,
+>
+>  static ssize_t fanotify_write(struct file *file, const char __user *buf, size_t count, loff_t *pos)
+>  {
+> -       struct fanotify_response response = { .fd = -1, .response = -1 };
+> +       struct fanotify_response response;
+>         struct fsnotify_group *group;
+>         int ret;
+> +       const char __user *info_buf = buf + sizeof(struct fanotify_response);
+> +       size_t c;
+>
+>         if (!IS_ENABLED(CONFIG_FANOTIFY_ACCESS_PERMISSIONS))
+>                 return -EINVAL;
+>
+>         group = file->private_data;
+>
+> -       if (count < sizeof(response))
+> -               return -EINVAL;
+> -
+> -       count = sizeof(response);
+> -
+>         pr_debug("%s: group=%p count=%zu\n", __func__, group, count);
+>
+> -       if (copy_from_user(&response, buf, count))
+> +       if (count < sizeof(response))
+> +               return -EINVAL;
+> +       if (copy_from_user(&response, buf, sizeof(response)))
+>                 return -EFAULT;
+>
+> -       ret = process_access_response(group, &response);
+> +       c = count - sizeof(response);
+> +       if (response.response & FAN_INFO) {
+> +               if (c < sizeof(struct fanotify_response_info_header))
+> +                       return -EINVAL;
+
+Should FAN_INFO require FAN_AUDIT?
+
+> +       } else {
+> +               if (c != 0)
+> +                       return -EINVAL;
+> +       }
+> +       ret = process_access_response(group, &response, info_buf, c);
+>         if (ret < 0)
+>                 count = ret;
+>
+> @@ -857,6 +914,9 @@ static int fanotify_release(struct inode *ignored, struct file *file)
+>  {
+>         struct fsnotify_group *group = file->private_data;
+>         struct fsnotify_event *fsn_event;
+> +       struct fanotify_response response = {
+> +               .fd = FAN_NOFD,
+> +               .response = FAN_ALLOW };
+>
+>         /*
+>          * Stop new events from arriving in the notification queue. since
+> @@ -876,7 +936,7 @@ static int fanotify_release(struct inode *ignored, struct file *file)
+>                 event = list_first_entry(&group->fanotify_data.access_list,
+>                                 struct fanotify_perm_event, fae.fse.list);
+>                 list_del_init(&event->fae.fse.list);
+> -               finish_permission_event(group, event, FAN_ALLOW);
+> +               finish_permission_event(group, event, &response, 0, NULL);
+>                 spin_lock(&group->notification_lock);
+>         }
+>
+> @@ -893,7 +953,7 @@ static int fanotify_release(struct inode *ignored, struct file *file)
+>                         fsnotify_destroy_event(group, fsn_event);
+>                 } else {
+>                         finish_permission_event(group, FANOTIFY_PERM(event),
+> -                                               FAN_ALLOW);
+> +                                               &response, 0, NULL);
+>                 }
+>                 spin_lock(&group->notification_lock);
+>         }
+> diff --git a/include/linux/fanotify.h b/include/linux/fanotify.h
+> index edc28555814c..ce9f97eb69f2 100644
+> --- a/include/linux/fanotify.h
+> +++ b/include/linux/fanotify.h
+> @@ -114,6 +114,11 @@
+>  #define ALL_FANOTIFY_EVENT_BITS                (FANOTIFY_OUTGOING_EVENTS | \
+>                                          FANOTIFY_EVENT_FLAGS)
+>
+> +/* This mask is to check for invalid bits of a user space permission response */
+> +#define FANOTIFY_RESPONSE_ACCESS (FAN_ALLOW | FAN_DENY)
+> +#define FANOTIFY_RESPONSE_FLAGS (FAN_AUDIT | FAN_INFO)
+> +#define FANOTIFY_RESPONSE_VALID_MASK (FANOTIFY_RESPONSE_ACCESS | FANOTIFY_RESPONSE_FLAGS)
+> +
+>  /* Do not use these old uapi constants internally */
+>  #undef FAN_ALL_CLASS_BITS
+>  #undef FAN_ALL_INIT_FLAGS
+> diff --git a/include/uapi/linux/fanotify.h b/include/uapi/linux/fanotify.h
+> index f1f89132d60e..4d08823a5698 100644
+> --- a/include/uapi/linux/fanotify.h
+> +++ b/include/uapi/linux/fanotify.h
+> @@ -180,15 +180,40 @@ struct fanotify_event_info_error {
+>         __u32 error_count;
+>  };
+>
+> +/*
+> + * User space may need to record additional information about its decision.
+> + * The extra information type records what kind of information is included.
+> + * The default is none. We also define an extra information buffer whose
+> + * size is determined by the extra information type.
+> + *
+> + * If the context type is Rule, then the context following is the rule number
+> + * that triggered the user space decision.
+> + */
+> +
+> +#define FAN_RESPONSE_INFO_NONE         0
+> +#define FAN_RESPONSE_INFO_AUDIT_RULE   1
+> +
+>  struct fanotify_response {
+>         __s32 fd;
+>         __u32 response;
+>  };
+>
+> +struct fanotify_response_info_header {
+> +       __u8 type;
+> +       __u8 pad;
+> +       __u16 len;
+> +};
+> +
+> +struct fanotify_response_info_audit_rule {
+> +       struct fanotify_response_info_header hdr;
+> +       __u32 audit_rule;
+> +};
+> +
+>  /* Legit userspace responses to a _PERM event */
+>  #define FAN_ALLOW      0x01
+>  #define FAN_DENY       0x02
+> -#define FAN_AUDIT      0x10    /* Bit mask to create audit record for result */
+> +#define FAN_AUDIT      0x10    /* Bitmask to create audit record for result */
+> +#define FAN_INFO       0x20    /* Bitmask to indicate additional information */
+>
+>  /* No fd set in event */
+>  #define FAN_NOFD       -1
+> --
+> 2.27.0
+>
