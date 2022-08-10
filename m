@@ -2,140 +2,155 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0011558ECA6
-	for <lists+linux-api@lfdr.de>; Wed, 10 Aug 2022 15:02:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7D9658ED2B
+	for <lists+linux-api@lfdr.de>; Wed, 10 Aug 2022 15:28:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232398AbiHJNCD (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 10 Aug 2022 09:02:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60216 "EHLO
+        id S232649AbiHJN1w (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 10 Aug 2022 09:27:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232446AbiHJNBe (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 10 Aug 2022 09:01:34 -0400
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6AF761B0F;
-        Wed, 10 Aug 2022 06:01:33 -0700 (PDT)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.nyi.internal (Postfix) with ESMTP id 3E50E5C0358;
-        Wed, 10 Aug 2022 09:01:32 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Wed, 10 Aug 2022 09:01:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
-        :cc:content-transfer-encoding:content-type:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to; s=fm3; t=1660136492; x=
-        1660222892; bh=D2dDj1/YvO3PoXFbhxtyDvrJjuK0U5n+THc//8l/nSg=; b=0
-        uEws4l4g6w2vrXp4GfCdWCnTh+CSrYDl4BIH9cfZm8TNqDt0C1F4/kQu0PjMlz/7
-        IPok/mc8SanD4aZtIwfFt3wz2LHUZHri/bel2AmR1Prp9nlTkTF6qmPVN0tIj/SG
-        AfDJZIQi/OtqscaGUmTWTXaL5dG5bm8QhmTP5cvPLeVGBHXnrd6OuRALPdmLZh0P
-        391bvUHNo4eiljos5XQkZkKDPqPNvYRQ7wUkPdLCjbDv2+IbqC85GVUeNyErpJJl
-        Xi5ccgqV8fBFhUdrjhrfRsKvfLDnbr+zSzq/FQyQOZoqf7NVUUjgMvKqO13XQ9Lt
-        V53LdIwYZE1PGG+9FgXmg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:date:date:feedback-id:feedback-id:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1660136492; x=
-        1660222892; bh=D2dDj1/YvO3PoXFbhxtyDvrJjuK0U5n+THc//8l/nSg=; b=g
-        4PUnbuBsbuWyDlmRz2cl0jHM/Wz9W+AAacy4xwFeYEc7jLDtN4vqJfBrNQvPBg+U
-        sY+nbk3DIt8+312Frgxpo5/eh0pZPP0UD4YIRuWX+vyTew6o8ohjY3wbA8F7WD/4
-        zVNvmYG1ldBGhPRo+DJx/GazOdXyvRtuvR9PUM86q4SoybRXO3yu2xuT86kgeiOZ
-        +nLUeLICLrWZ/MA7NQLAdZ8LqfDRUKkal0QJhULVY3dYUG/Vl6WeDoqfDVDanteq
-        o93PFZ8iw+tAFheEtKPh+kjKUtwONChc1p5w/P8cdILsF5vFYUAcltY0hTM2gHKL
-        PcviV0zo6aBwQ7dSp/n7w==
-X-ME-Sender: <xms:K6zzYgaufmFQYN3G-XE3GD_vN0bwiRO7qVkN-7J17C4m-ECwAF-3mA>
-    <xme:K6zzYraYxzysb-4EsfTXXjMDMY0mKilEmSyoJfChHtgKlkxJitcAAAyZvnFn1wjKy
-    V_hf6iZuIsn>
-X-ME-Received: <xmr:K6zzYq_hV8cfHgpYJ6ceTOAWwdug0m5PGJ7AYoOtsfGjkd4S1UUHhQcSgtIkrFVyScAdWozwAS1-XhSHVQ0PJvovtPIO8-mAKQhyK7RMb71iJgYeYlm2>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdegvddgheejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtfeejnecuhfhrohhmpefkrghn
-    ucfmvghnthcuoehrrghvvghnsehthhgvmhgrfidrnhgvtheqnecuggftrfgrthhtvghrnh
-    epgeevhedvleejleevkeduvdfgtefgtdfgffevtdetudekteekheeluddthfdtleehnecu
-    ffhomhgrihhnpehsohhurhgtvgifrghrvgdrohhrghenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehrrghvvghnsehthhgvmhgrfidrnhgvth
-X-ME-Proxy: <xmx:K6zzYqq9Zeku69vjGyL7qCQ8y-siPza__UiByZwdf1sH727kGsR_sA>
-    <xmx:K6zzYrpBtEloIhq5qRx6uVC9MvBI9Bs9Pdmml3lfQfUOmueKype-Fw>
-    <xmx:K6zzYoS0K7lSIZ-quO3NK8tJ9UPkIejLJ1CbewJieP-GkVbetvyABg>
-    <xmx:LKzzYsnReg1zR2o7eA9WFra5rnD8htQ9ljHUtQvVHnPniq_-dR8abg>
-Feedback-ID: i31e841b0:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 10 Aug 2022 09:01:28 -0400 (EDT)
-Message-ID: <3364aae7-9247-21aa-9ea4-36348462df4c@themaw.net>
-Date:   Wed, 10 Aug 2022 21:01:26 +0800
+        with ESMTP id S232691AbiHJN1k (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 10 Aug 2022 09:27:40 -0400
+Received: from mail.efficios.com (mail.efficios.com [167.114.26.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3495E31DE5;
+        Wed, 10 Aug 2022 06:27:39 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 2E83643EE6D;
+        Wed, 10 Aug 2022 09:27:38 -0400 (EDT)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id MJib_laXykSn; Wed, 10 Aug 2022 09:27:37 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id AC46643F1C7;
+        Wed, 10 Aug 2022 09:27:37 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com AC46643F1C7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1660138057;
+        bh=NPRedLsPVS59v5tcpWRZeGzk9PUOEhDQ6s4F/doEc0M=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=Fs6t9Ze7hq023TBFz39CV5kXBR8TA6pz8xaD4rsZ48R78lc1jaocA4Tvx+rnuqYuH
+         rRqudIHuZM1znPL/2JZVNSHPMqs6xRTmUS8nfitOx0vFsDCbI3xke3tLhX+s0O90n2
+         tP8lWAgJeA6dza8zST5I6f6K/e0v30KTJLZOccZZ7m4XfcrYIz4yo/zATAlYN3EIRS
+         h0Vm3YRVIIqNWpVyAJmfGA11zxEH01GEOOZ/nKZYFBcgyjV9/ub5MVb8+a87Hxgj0f
+         C9jl5I0Cq/eEvp1OGb1yA+Zjq7oLlapO1FxC6Ws2ZA5sy/5RA+KuEbw4cQR4EmwTQc
+         2/SNldCF9kYOQ==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id Mw2fUtflSjGQ; Wed, 10 Aug 2022 09:27:37 -0400 (EDT)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id 9232B43F30C;
+        Wed, 10 Aug 2022 09:27:37 -0400 (EDT)
+Date:   Wed, 10 Aug 2022 09:27:37 -0400 (EDT)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api <linux-api@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        David Laight <David.Laight@ACULAB.COM>,
+        carlos <carlos@redhat.com>, Peter Oskolkov <posk@posk.io>
+Message-ID: <10664496.447.1660138057500.JavaMail.zimbra@efficios.com>
+In-Reply-To: <8735e4hajt.fsf@oldenburg.str.redhat.com>
+References: <20220729190225.12726-1-mathieu.desnoyers@efficios.com> <20220729190225.12726-3-mathieu.desnoyers@efficios.com> <8735e4hajt.fsf@oldenburg.str.redhat.com>
+Subject: Re: [PATCH v3 02/23] rseq: Introduce extensible rseq ABI
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [RFC][PATCH] uapi: Remove the inclusion of linux/mount.h from
- uapi/linux/fs.h
-Content-Language: en-US
-To:     Florian Weimer <fweimer@redhat.com>,
-        David Howells <dhowells@redhat.com>
-Cc:     linux-fsdevel@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <christian@brauner.io>,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <163410.1659964655@warthog.procyon.org.uk>
- <87zggce9fd.fsf@oldenburg.str.redhat.com>
-From:   Ian Kent <raven@themaw.net>
-In-Reply-To: <87zggce9fd.fsf@oldenburg.str.redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_4372 (ZimbraWebClient - FF103 (Linux)/8.8.15_GA_4372)
+Thread-Topic: rseq: Introduce extensible rseq ABI
+Thread-Index: ubZeGluYZawXefnGZNHU0cuZYToYsw==
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 10/8/22 17:26, Florian Weimer wrote:
-> * David Howells:
->
->> We're seeing issues in autofs and xfstests whereby linux/mount.h (the UAPI
->> version) as included indirectly by linux/fs.h is conflicting with
->> sys/mount.h (there's a struct and an enum).
+----- On Aug 10, 2022, at 2:33 AM, Florian Weimer fweimer@redhat.com wrote:
+
+> * Mathieu Desnoyers:
+> 
+>> Introduce the extensible rseq ABI, where the feature size supported by
+>> the kernel and the required alignment are communicated to user-space
+>> through ELF auxiliary vectors.
 >>
->> Would it be possible to just remove the #include from linux/fs.h (as patch
->> below) and rely on those hopefully few things that need mount flags that don't
->> use the glibc header for them working around it by configuration?
-> Wasn't <linux/mount.h> split from <linux/fs.h> relatively recently, and
-> userspace is probably using <linux/fs.h> to get the mount flag
-> definitions?
+>> This allows user-space to call rseq registration with a rseq_len of
+>> either 32 bytes for the original struct rseq size (which includes
+>> padding), or larger.
+>>
+>> If rseq_len is larger than 32 bytes, then it must be large enough to
+>> contain the feature size communicated to user-space through ELF
+>> auxiliary vectors.
+> 
+> I don't think this works with the glibc extension mechanism because
+> __rseq_size does not change until the padding is exhausted.
 
-Not sure myself but this is in the user space kernel includes
+In order to deal with this existing discrepancy between feature-set vs
+size, the proposed extension scheme would require that glibc expose a new
+__rseq_feature_size, which would give us:
 
-and sys/mount.h has pretty much what linux/mount.h has plus a
+/*
+ * Size of the registered rseq area. 0 if the registration was
+ * unsuccessful.
+ */
+unsigned int __rseq_size = -1U;
 
-few function declarations. It's almost a complete duplication.
+/* Flags used during rseq registration.  */
+unsigned int __rseq_flags;
 
+/*
+ * rseq feature size supported by the kernel. 0 if the registration was
+ * unsuccessful.
+ */
+unsigned int __rseq_feature_size = -1U;
 
-The reality is that the enum declaration could be changed to
+> I think you'll need to add the suggested flags to the auxiliary vector,
+> and then we can use that during registration and also communicate these
+> flags via __rseq_flags.
 
-#defines (not a preferred approach) which leaves only the
+For the struct rseq extension, with the "__rseq_feature_size" symbol
+I don't think we need to suggest rseq registration flags through
+auxiliary vectors.
 
-struct mount_attr which is the difficult one to resolve.
+However, the kernel could provide the set of "supported flags" which
+can be passed as rseq flags argument through auxiliary vectors. Is
+that what you have in mind ?
 
+This can be useful to ensure we don't require userspace to rely on
+rseq returning -1, errno=-EINVAL to detect supported feature flags.
 
->
-> In retrospect, it would have been better to add the new fsmount stuff to
-> a separate header file, so that we could include that easily from
-> <sys/mount.h> on the glibc side.  Adhemerval posted a glibc patch to
-> fake that (for recent compilers):
->
->    [PATCH] linux: Fix sys/mount.h usage with kernel headers
->    <https://sourceware.org/pipermail/libc-alpha/2022-August/141316.html>
->
-> I think it should work reliably, so that's probably the direction we are
-> going to move in.
+> 
+> Size and alignment can be stored in a single auxiliary vector entry.
 
-Looked a lot more complicated than I thought it could be, enough
+getauxval returns a single "unsigned long". I'm not sure how to extract
+size and alignment other than using bitwise operations. Is that what you
+have in mind ? Are there other auxval entries that use this kind of
+bitwise scheme ?
 
-that I can't say if it will work so I'll take your word for it.
+And by "size", do you mean "supported feature size" or "allocation size" ?
+Because the allocation size will be typically aligned to the next power of
+two, but not the "supported feature size". AFAIU though, the kernel only
+needs to express the supported feature size and the allocation alignment
+through auxv. The rest can be figured out from userspace.
 
+Thanks,
 
-Ian
+Mathieu
 
+> 
+> Thanks,
+> Florian
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
