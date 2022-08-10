@@ -2,95 +2,111 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAC6558E758
-	for <lists+linux-api@lfdr.de>; Wed, 10 Aug 2022 08:34:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BA1458E87B
+	for <lists+linux-api@lfdr.de>; Wed, 10 Aug 2022 10:14:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231381AbiHJGeK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 10 Aug 2022 02:34:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38164 "EHLO
+        id S231135AbiHJIO0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 10 Aug 2022 04:14:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231376AbiHJGeJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 10 Aug 2022 02:34:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AED136E2D0
-        for <linux-api@vger.kernel.org>; Tue,  9 Aug 2022 23:34:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1660113246;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=8IIzlB4jensj1oGktEeyGAu5ttHJ4e1db9NKIaRaDkY=;
-        b=cUX2KHAkVxYbseUt7CWCpUWQSSvYpg6e77OOTSRA/immqAOI+JhZWV3BzWBGRskvGGAIrI
-        smttbt7dfZ1hYi2JOTJq8BODAVxFgZa1qms8UsupmvhgidwX+4Vhspq4Zte16RUsJBTxRR
-        7/ykB/migBcp3BsUxQDcosww/rKvlg4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-271-ynl2zvoXMO6j_n5de7QVDA-1; Wed, 10 Aug 2022 02:34:03 -0400
-X-MC-Unique: ynl2zvoXMO6j_n5de7QVDA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B0BB485A597;
-        Wed, 10 Aug 2022 06:34:02 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.39.192.75])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id D120DC15BA1;
-        Wed, 10 Aug 2022 06:33:59 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api@vger.kernel.org,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        David.Laight@ACULAB.COM, carlos@redhat.com,
-        Peter Oskolkov <posk@posk.io>
-Subject: Re: [PATCH v3 02/23] rseq: Introduce extensible rseq ABI
-References: <20220729190225.12726-1-mathieu.desnoyers@efficios.com>
-        <20220729190225.12726-3-mathieu.desnoyers@efficios.com>
-Date:   Wed, 10 Aug 2022 08:33:58 +0200
-In-Reply-To: <20220729190225.12726-3-mathieu.desnoyers@efficios.com> (Mathieu
-        Desnoyers's message of "Fri, 29 Jul 2022 15:02:04 -0400")
-Message-ID: <8735e4hajt.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+        with ESMTP id S229969AbiHJIOZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 10 Aug 2022 04:14:25 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB08E82FB0;
+        Wed, 10 Aug 2022 01:14:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1660119264; x=1691655264;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=E0g83rEnLU+9yWmv16RmjNOqjZtTTbUeUZHLBrUwL7c=;
+  b=guxSelHBZKvw3kWVu/PCc2t6nE6juFIi4qwHX13ikjX+U2vzSL7ehNwQ
+   iZ56Y/JiluVIoCZKWlSCWZnABIj6gtD8q5GFLdon8AgWCQGkfkNKWp/lj
+   X4vs1jdOWAOxegPhqdl/OEsi/Xdz5SgCxtn5zsS5iBUYE3fPop5mqUfIz
+   Mnqtz4S07twlw8f3ssrOndCjTfvgXWJeiaiy9ih122V8GCkK1NIhVBD3H
+   bpktsn2c/WxQJ9Yav+3JofMpabCVWWeVWGiApuA2Zay3EWr5u3HzzLh0D
+   7/KXCJyil3cmpjv+fkcSDu6JKfPsdYXl8JwhYRlNx/z2IVqQC6I0wG8am
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10434"; a="291816766"
+X-IronPort-AV: E=Sophos;i="5.93,226,1654585200"; 
+   d="scan'208";a="291816766"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2022 01:14:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,226,1654585200"; 
+   d="scan'208";a="601736291"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by orsmga007.jf.intel.com with ESMTP; 10 Aug 2022 01:14:11 -0700
+Date:   Wed, 10 Aug 2022 16:09:25 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Paolo Bonzini <pbonzini@redhat.com>
+Cc:     Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        linux-kselftest@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 08/14] KVM: Rename mmu_notifier_*
+Message-ID: <20220810080925.GA862421@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-9-chao.p.peng@linux.intel.com>
+ <YuQutJAhKWcsrrYl@google.com>
+ <ec3fe997-37d8-22b5-65f1-72f08a16474f@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ec3fe997-37d8-22b5-65f1-72f08a16474f@redhat.com>
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-* Mathieu Desnoyers:
+On Fri, Aug 05, 2022 at 09:54:35PM +0200, Paolo Bonzini wrote:
+> On 7/29/22 21:02, Sean Christopherson wrote:
+> > If we really want a different name, I'd vote for nomenclature that captures the
+> > invalidation aspect, which is really what the variables are all trackng, e.g.
+> > 
+> >    mmu_invalidate_seq
+> >    mmu_invalidate_in_progress
+> >    mmu_invalidate_range_start
+> >    mmu_invalidate_range_end
+> > 
+> 
+> Agreed, and this can of course be committed separately if Chao Peng sends it
+> outside this series.
 
-> Introduce the extensible rseq ABI, where the feature size supported by
-> the kernel and the required alignment are communicated to user-space
-> through ELF auxiliary vectors.
->
-> This allows user-space to call rseq registration with a rseq_len of
-> either 32 bytes for the original struct rseq size (which includes
-> padding), or larger.
->
-> If rseq_len is larger than 32 bytes, then it must be large enough to
-> contain the feature size communicated to user-space through ELF
-> auxiliary vectors.
+I will do that, probably also includes:
+  06/14 KVM: Rename KVM_PRIVATE_MEM_SLOT
 
-I don't think this works with the glibc extension mechanism because
-__rseq_size does not change until the padding is exhausted.
-
-I think you'll need to add the suggested flags to the auxiliary vector,
-and then we can use that during registration and also communicate these
-flags via __rseq_flags.
-
-Size and alignment can be stored in a single auxiliary vector entry.
-
-Thanks,
-Florian
-
+Chao
+> 
+> Paolo
