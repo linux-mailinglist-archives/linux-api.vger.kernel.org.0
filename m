@@ -2,146 +2,248 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE159592F66
-	for <lists+linux-api@lfdr.de>; Mon, 15 Aug 2022 15:09:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BF695933A5
+	for <lists+linux-api@lfdr.de>; Mon, 15 Aug 2022 18:57:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242616AbiHONJK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 15 Aug 2022 09:09:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48442 "EHLO
+        id S232901AbiHOQ5T (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 15 Aug 2022 12:57:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229816AbiHONJJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Aug 2022 09:09:09 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57FCE1A050;
-        Mon, 15 Aug 2022 06:09:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1660568948; x=1692104948;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=uC6wcjTIjKWZdEEUC6nc6q/QLuQ42xa9S3mFqSAWmAc=;
-  b=D7z1M7k05lfgk/4oNMiHl6lR0EEZWjiK78uYc0+ltrFjyA/mNld6zARG
-   k7ZgsdkTCNGGjsnJr9RofIHSyuCJkl7M7ioTOZqbHuDVBMdnw8Rx83D58
-   DyB1YNE9SkEX4soApUwcFZLdY4JfrN6g1kl16OIBGm5A3pD+z0ZfpBocw
-   bvXfl/EDl4g45w/YWmRLpPVQFHBTkQXlKcrJ3vNGrmXWiEYXP/YkKNGmT
-   mYMWjiCJJM0rVu5H5VPiCYJfhfK0BsqykWt6WjqS2Gh6NEEAtNb+1KpZz
-   49OTVE0IsSIQYsZgXwN3+vm3VGJwRolVvb4SzGaU7FgsLfpy9/h9mDlWX
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10440"; a="317937105"
-X-IronPort-AV: E=Sophos;i="5.93,238,1654585200"; 
-   d="scan'208";a="317937105"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2022 06:09:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,238,1654585200"; 
-   d="scan'208";a="635470742"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by orsmga008.jf.intel.com with ESMTP; 15 Aug 2022 06:08:56 -0700
-Date:   Mon, 15 Aug 2022 21:04:11 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     "Nikunj A. Dadhania" <nikunj@amd.com>
-Cc:     "Gupta, Pankaj" <pankaj.gupta@amd.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, bharata@amd.com,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <20220815130411.GA1073443@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <b21f41e5-0322-bbfb-b9c2-db102488592d@amd.com>
- <9e86daea-5619-a216-fe02-0562cf14c501@amd.com>
- <9dc91ce8-4cb6-37e6-4c25-27a72dc11dd0@amd.com>
- <422b9f97-fdf5-54bf-6c56-3c45eff5e174@amd.com>
- <1407c70c-0c0b-6955-10bb-d44c5928f2d9@amd.com>
- <1136925c-2e37-6af4-acac-be8bed9f6ed5@amd.com>
- <1b02db9d-f2f1-94dd-6f37-59481525abff@amd.com>
+        with ESMTP id S232813AbiHOQ5L (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 15 Aug 2022 12:57:11 -0400
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D180275C1;
+        Mon, 15 Aug 2022 09:57:07 -0700 (PDT)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.nyi.internal (Postfix) with ESMTP id C634C5C00A9;
+        Mon, 15 Aug 2022 12:57:06 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Mon, 15 Aug 2022 12:57:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+        cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+        :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+         s=fm2; t=1660582626; x=1660669026; bh=Ol1vZQMDzQJ/UfaV4djAjHutl
+        ohkGJidWHRjUdixpVo=; b=x/OuqusICqcvuOKW68PLhWc6i4McmfcwFYAHiHklP
+        gJVqJsRTdoK8CEfhw/OKkjQG9l67Sn6FwJjPDZGZLH1bHFqn6lopAhZsB/Fma7WV
+        bw4BY4Y3p2a6MNnKL/BjCIs05AsSLLfx+3ykG6IbAHmkgNs6wJZPp9je3iMlrqPv
+        3qVbSK0JzzT1puf7pyLCNOk8R0ycVasBq88ip5UzR1rwTvs9O6y7DqHPOyhYC9HX
+        Wy2czMqhn4OcIssk+hwY6sRVPD9DuENE+Pywz13P2Pa/iZwxgWxoq9WlvRlD03tH
+        NRta3yl67r3w6imOZlhEYjiUPlpgoqVgT389ygoDFLKew==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:message-id
+        :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+        1660582626; x=1660669026; bh=Ol1vZQMDzQJ/UfaV4djAjHutlohkGJidWHR
+        jUdixpVo=; b=N8X1NZ/vz5dy2p5j9z6GbidEljoeZTkBxfFuy+EcBpa7vBLoXuA
+        xNJOc+Cc9k7PXgtxQCK7FuqKsOilzwxNn1ihsz3JvxsIUF35VpAYo4KKuW0RPr91
+        IoTaIGC84H6v/mvaBIyM1+6BbWKdBDgukJ4JkYfsEh2HBR+2llnchOq0Kc0nfudI
+        Q6b/fFzigdlktTc3kq5xA4XJpcuWmMx6s6shVNZpbyr1m0Gec3xvbI9uQOZvqz/9
+        6PGA+qUZkKH7XIwp/9DRVtNkukRg7TIIBNsAgw669KGFN7bYW6DEYOM/wgpPMG8z
+        WS3N4OzVs8S0wqeYULrfcRV1tdw0Wtkh3gQ==
+X-ME-Sender: <xms:4nr6Yjf42Fbz5XyPiWMZHjLUanoINeYXI9iUJ80XSfhNJYOz1Pauyw>
+    <xme:4nr6YpM1DbZYLfJ21QZh0VkIYIN_v3cO2hBc86bqFbCCGFHc5SAAAhEaaZZ8zPlNI
+    75tUbxYgfXM1TLXPrk>
+X-ME-Received: <xmr:4nr6Ysg5pjbXfhEZ4x6Sh-yrgxfN_q_8Uo3eeFrlZV79BXWIqUsGSbkMl_JLJO7eA0fC_ZwRBrjUMNKDRqNVVej7mO8xeJKxSytErK6jdO4abQ48KobVTCse>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehvddguddtkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekre
+    dtredttdenucfhrhhomheplfhirgiguhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhg
+    sehflhihghhorghtrdgtohhmqeenucggtffrrghtthgvrhhnpefhtedutdduveeileejje
+    etffehueejudehgfffjeduhfeuleeludfffefgffevkeenucevlhhushhtvghrufhiiigv
+    pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihgh
+    horghtrdgtohhm
+X-ME-Proxy: <xmx:4nr6Yk-285XV4M837Lz7eQ1eB3-3aMfAaJykBrchctogaP6fQEYAjA>
+    <xmx:4nr6Yvtdp51Jx751KVB5HLW7dMYk8xXu4wAfRWnbuUG0Sxa3UBGMWA>
+    <xmx:4nr6YjEi_UynVNjtqCFMwzyQiVJEUQbBQpPNa58nzPpXOLbfOTKPBw>
+    <xmx:4nr6YlWGpdpJ83lazjcxYE6JwlpRzE7L4Acju9VmSYzapahVfEEZoA>
+Feedback-ID: ifd894703:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 15 Aug 2022 12:57:05 -0400 (EDT)
+From:   Jiaxun Yang <jiaxun.yang@flygoat.com>
+To:     linux-mips@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, tsbogend@alpha.franken.de,
+        linux-api@vger.kernel.org, greg@kroah.com, f.fainelli@gmail.com,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: [PATCH v3] MIPS: Expose prid and globalnumber to sysfs
+Date:   Mon, 15 Aug 2022 16:56:58 +0000
+Message-Id: <20220815165658.11887-1-jiaxun.yang@flygoat.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1b02db9d-f2f1-94dd-6f37-59481525abff@amd.com>
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Aug 12, 2022 at 02:18:43PM +0530, Nikunj A. Dadhania wrote:
-> 
-> 
-> On 12/08/22 12:48, Gupta, Pankaj wrote:
-> > 
-> >>>>>>
-> >>>>>> However, fallocate() preallocates full guest memory before starting the guest.
-> >>>>>> With this behaviour guest memory is *not* demand pinned. Is there a way to
-> >>>>>> prevent fallocate() from reserving full guest memory?
-> >>>>>
-> >>>>> Isn't the pinning being handled by the corresponding host memory backend with mmu > notifier and architecture support while doing the memory operations e.g page> migration and swapping/reclaim (not supported currently AFAIU). But yes, we need> to allocate entire guest memory with the new flags MEMFILE_F_{UNMOVABLE, UNRECLAIMABLE etc}.
-> >>>>
-> >>>> That is correct, but the question is when does the memory allocated, as these flags are set,
-> >>>> memory is neither moved nor reclaimed. In current scenario, if I start a 32GB guest, all 32GB is
-> >>>> allocated.
-> >>>
-> >>> I guess so if guest memory is private by default.
-> >>>
-> >>> Other option would be to allocate memory as shared by default and
-> >>> handle on demand allocation and RMPUPDATE with page state change event. But still that would be done at guest boot time, IIUC.
-> >>
-> >> Sorry! Don't want to hijack the other thread so replying here.
-> >>
-> >> I thought the question is for SEV SNP. For SEV, maybe the hypercall with the page state information can be used to allocate memory as we use it or something like quota based memory allocation (just thinking).
-> > 
-> > But all this would have considerable performance overhead (if by default memory is shared) and used mostly at boot time. 
-> 
-> > So, preallocating memory (default memory private) seems better approach for both SEV & SEV SNP with later page management (pinning, reclaim) taken care by host memory backend & architecture together.
-> 
-> I am not sure how will pre-allocating memory help, even if guest would not use full memory it will be pre-allocated. Which if I understand correctly is not expected.
+Some application would like to know precise model and rev of processor
+to do errata workaround or optimization.
 
-Actually the current version allows you to delay the allocation to a
-later time (e.g. page fault time) if you don't call fallocate() on the
-private fd. fallocate() is necessary in previous versions because we
-treat the existense in the fd as 'private' but in this version we track
-private/shared info in KVM so we don't rely on that fact from memory
-backstores.
+Expose them in sysfs as:
+/sys/devices/system/cpu/cpuX/regs/identification/prid
+/sys/devices/system/cpu/cpuX/regs/identification/globalnumber
 
-Definitely the page will still be pinned once it's allocated, there is
-no way to swap it out for example just with the current code. That kind
-of support, if desirable, can be extended through MOVABLE flag and some
-other callbacks to let feature-specific code to involve.
+Reusing AArch64 CPU registers directory.
 
-Chao
-> 
-> Regards
-> Nikunj
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+v2: Drop static qualifier for kobj (gregkh)
+v3: Use kzalloc to allocate struct cpuregs.
+    note: When Greg mentioned about static I was thinking about
+    static qualifier of percpu variable. After reading documents
+    again it turns out kobjs should be allocated at runtime. Arm64's
+    cpuinfo kobj is also on a percpu variable... I guess that was a
+    intentional use?
+---
+ .../ABI/testing/sysfs-devices-system-cpu      |  11 ++
+ arch/mips/kernel/topology.c                   | 103 ++++++++++++++++++
+ 2 files changed, 114 insertions(+)
+
+diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
+index 5bf61881f012..adf855e7bb9b 100644
+--- a/Documentation/ABI/testing/sysfs-devices-system-cpu
++++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
+@@ -512,6 +512,17 @@ Description:	information about CPUs heterogeneity.
+ 
+ 		cpu_capacity: capacity of cpuX.
+ 
++What:		/sys/devices/system/cpu/cpuX/regs/
++		/sys/devices/system/cpu/cpuX/regs/identification/
++		/sys/devices/system/cpu/cpuX/regs/identification/prid
++		/sys/devices/system/cpu/cpuX/regs/identification/globalnumber
++Date:		Augest 2022
++Contact:	Linux MIPS Kernel Mailing list <linux-mips@vger.kernel.org>
++Description:	MIPS CPU registers
++
++		'identification' directory exposes the Processor ID and Global Number
++		registers for identifying model and revision of the CPU.
++
+ What:		/sys/devices/system/cpu/vulnerabilities
+ 		/sys/devices/system/cpu/vulnerabilities/meltdown
+ 		/sys/devices/system/cpu/vulnerabilities/spectre_v1
+diff --git a/arch/mips/kernel/topology.c b/arch/mips/kernel/topology.c
+index 9429d85a4703..bbb7d4b51ffe 100644
+--- a/arch/mips/kernel/topology.c
++++ b/arch/mips/kernel/topology.c
+@@ -5,6 +5,8 @@
+ #include <linux/node.h>
+ #include <linux/nodemask.h>
+ #include <linux/percpu.h>
++#include <linux/seq_file.h>
++#include <linux/smp.h>
+ 
+ static DEFINE_PER_CPU(struct cpu, cpu_devices);
+ 
+@@ -26,3 +28,104 @@ static int __init topology_init(void)
+ }
+ 
+ subsys_initcall(topology_init);
++
++static struct kobj_type cpuregs_kobj_type = {
++	.sysfs_ops = &kobj_sysfs_ops,
++};
++
++struct cpureg {
++	struct kobject kobj;
++	struct cpuinfo_mips *info;
++};
++static DEFINE_PER_CPU(struct cpureg *, cpuregs);
++
++#define kobj_to_cpureg(kobj)	container_of(kobj, struct cpureg, kobj)
++#define CPUREGS_ATTR_RO(_name, _field)						\
++	static ssize_t _name##_show(struct kobject *kobj,			\
++			struct kobj_attribute *attr, char *buf)			\
++	{									\
++		struct cpuinfo_mips *info = kobj_to_cpureg(kobj)->info;		\
++										\
++		return sprintf(buf, "0x%08x\n", info->_field);	\
++	}									\
++	static struct kobj_attribute cpuregs_attr_##_name = __ATTR_RO(_name)
++
++CPUREGS_ATTR_RO(prid, processor_id);
++CPUREGS_ATTR_RO(globalnumber, globalnumber);
++
++static struct attribute *cpuregs_id_attrs[] = {
++	&cpuregs_attr_prid.attr,
++	&cpuregs_attr_globalnumber.attr,
++	NULL
++};
++
++static const struct attribute_group cpuregs_attr_group = {
++	.attrs = cpuregs_id_attrs,
++	.name = "identification"
++};
++
++static int cpuregs_cpu_online(unsigned int cpu)
++{
++	int rc;
++	struct device *dev;
++	struct cpureg *reg;
++
++	dev = get_cpu_device(cpu);
++	if (!dev) {
++		rc = -ENODEV;
++		goto out;
++	}
++	reg = kzalloc(sizeof(struct cpureg), GFP_KERNEL);
++	if (!reg) {
++		rc = -ENOMEM;
++		goto out;
++	}
++	rc = kobject_init_and_add(&reg->kobj, &cpuregs_kobj_type,
++					&dev->kobj, "regs");
++	if (rc)
++		goto out_kfree;
++	rc = sysfs_create_group(&reg->kobj, &cpuregs_attr_group);
++	if (rc)
++		goto out_kobj;
++
++	return 0;
++out_kobj:
++	kobject_del(&reg->kobj);
++out_kfree:
++	kfree(reg);
++out:
++	return rc;
++}
++
++static int cpuregs_cpu_offline(unsigned int cpu)
++{
++	struct device *dev;
++	struct cpureg *reg = per_cpu(cpuregs, cpu);
++
++	dev = get_cpu_device(cpu);
++	if (!dev || !reg)
++		return -ENODEV;
++	if (reg->kobj.parent) {
++		sysfs_remove_group(&reg->kobj, &cpuregs_attr_group);
++		kobject_del(&reg->kobj);
++	}
++	kfree(reg);
++
++	return 0;
++}
++
++static int __init cpuinfo_regs_init(void)
++{
++	int ret;
++
++
++	ret = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "mips/topology:online",
++				cpuregs_cpu_online, cpuregs_cpu_offline);
++	if (ret < 0) {
++		pr_err("cpuinfo: failed to register hotplug callbacks.\n");
++		return ret;
++	}
++	return 0;
++}
++
++device_initcall(cpuinfo_regs_init);
+-- 
+2.34.1
+
