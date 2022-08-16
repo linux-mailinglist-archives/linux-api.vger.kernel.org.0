@@ -2,144 +2,245 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DFAC3595F62
-	for <lists+linux-api@lfdr.de>; Tue, 16 Aug 2022 17:41:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6F8A59607F
+	for <lists+linux-api@lfdr.de>; Tue, 16 Aug 2022 18:42:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232450AbiHPPjr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 16 Aug 2022 11:39:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58868 "EHLO
+        id S236598AbiHPQmk (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Aug 2022 12:42:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236143AbiHPPi1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Aug 2022 11:38:27 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 161DA3342A
-        for <linux-api@vger.kernel.org>; Tue, 16 Aug 2022 08:38:13 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id y141so9648580pfb.7
-        for <linux-api@vger.kernel.org>; Tue, 16 Aug 2022 08:38:13 -0700 (PDT)
+        with ESMTP id S236185AbiHPQmj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Aug 2022 12:42:39 -0400
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59E1180E89
+        for <linux-api@vger.kernel.org>; Tue, 16 Aug 2022 09:42:35 -0700 (PDT)
+Received: by mail-pg1-x536.google.com with SMTP id 202so9707905pgc.8
+        for <linux-api@vger.kernel.org>; Tue, 16 Aug 2022 09:42:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=6LpLI14G6coqJFruGZ3VYJdlLWVZL7InToOUXv07gLQ=;
-        b=V3kYfawNPteaJkUnHbTXnRrS5N35HXy6iGSEoRvrRPR7lf/QPGG3xDy01PDbV3CNJU
-         rYN3Q+NG+MI7miMCPrKRr9QMWbJNUvipQt7nZBzy91mXjgUP1bhKDg6Pv8PLccjK328e
-         QHgPWN2TVwVDgsm0DNCSKHVDZJyXPC0S2jmlNvJNeN/YEUOYVYC0ArRAq7x4AOWHAAvX
-         U8kkfqX2SlO0Wx9GoH6WDXhHME6I42+EOUK5vgZdNMDY/qSlMxKyT1KEekpwoGvFgNHf
-         kgo444qsZ2z0tgTbJp5duXgBZVSHUHP1vb6nzpsrWEMHaATSgyPonGA239evs+ZXtTji
-         kdPQ==
+        d=dilger-ca.20210112.gappssmtp.com; s=20210112;
+        h=references:to:cc:in-reply-to:date:subject:mime-version:message-id
+         :from:from:to:cc;
+        bh=3UsEcGaqqxu6uaf6V7Db2UUvbrW1qQxZh0X1je5plvs=;
+        b=Zmvs6vXQj1YuzC5CpcL9ZdRSfRMxWuvJuG36+xzxXxSn/FnBKBWixBWCoOKIwrcf55
+         n46G64dAdkeAyCTOhtlwvPzc4Tk73T8CZOzBxW/yv7iUTcD5j+K09Xl78RS6JHAryYsH
+         dpl6GIflzqLKivwt8XMQjnVpsHzQ8A5k8FSijs3OEEXN9w0pRa/0S5IaJNPik48pckp6
+         C5aMtORn54V5bsaXmHvhAa1AZHkQKY6sgAgHPDjgbX8T2hQke1pSCge/sRvDRbpzK3+Q
+         NVCcQskda4YA0R3znKKkgXYcwZ4EYf0ewpN+JcDe6G59HZSOCmXZDesAM6+QGyO3VRhc
+         YGsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=6LpLI14G6coqJFruGZ3VYJdlLWVZL7InToOUXv07gLQ=;
-        b=rM/A4SM8GqGddMGN11J39VYdH7gLBAbzFJ3bfQ3a9BOcnNm9AlwS6uNIO5KtN70tSx
-         Mq9YIHujTfLjLeacwgScG8ZCrQGMv4mco25h+sCvJ9pbAcWPpljd/bqWXbiQ152s4Cbg
-         ISjsaSRBMDIY4AP4OX7VWR0zuHryTSEDb6pTxoUvWVJ/w7mNDtnRF/L/R4szRxqY38ie
-         YPqGN3aFGyvHvb7c/WKXr7XMltQPm5heuJTy+d24uwLkuDdM5bcT2FDFtKnye/hwv6Oa
-         NsEGPuTA8jYKnHCUnYrGzuvoibspsFur4Npqqz2AXClxAAuQcDgKzLLjxZoJWVI4TNEw
-         5hDg==
-X-Gm-Message-State: ACgBeo1ZKX4O+Ip+/lAoTNIYuZjKkT8f+jsS/O3JBpm33eTboDXfeS2i
-        MIAjh59xowNfd7q72N7XOBpnmA==
-X-Google-Smtp-Source: AA6agR4vWikDhLEVIg5nAiL4NEUcgXEMkiaD3WHaihv4ACQ9BBnFu3QXd85Rfr1lttpC/Y68iivbPA==
-X-Received: by 2002:a63:81c7:0:b0:429:a566:e536 with SMTP id t190-20020a6381c7000000b00429a566e536mr2846519pgd.22.1660664292890;
-        Tue, 16 Aug 2022 08:38:12 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id l9-20020a170903120900b0016cf3f124e5sm9281691plh.131.2022.08.16.08.38.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Aug 2022 08:38:12 -0700 (PDT)
-Date:   Tue, 16 Aug 2022 15:38:08 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     "Gupta, Pankaj" <pankaj.gupta@amd.com>
-Cc:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>,
-        "Nikunj A. Dadhania" <nikunj@amd.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, bharata@amd.com,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <Yvu54I7Y+/ybVyec@google.com>
-References: <9e86daea-5619-a216-fe02-0562cf14c501@amd.com>
- <9dc91ce8-4cb6-37e6-4c25-27a72dc11dd0@amd.com>
- <422b9f97-fdf5-54bf-6c56-3c45eff5e174@amd.com>
- <1407c70c-0c0b-6955-10bb-d44c5928f2d9@amd.com>
- <1136925c-2e37-6af4-acac-be8bed9f6ed5@amd.com>
- <1b02db9d-f2f1-94dd-6f37-59481525abff@amd.com>
- <20220815130411.GA1073443@chaop.bj.intel.com>
- <f0094f31-9669-47b5-eb52-6754a13ce757@amd.com>
- <20220816122457.2fjyd4uz5hp5cani@box.shutemov.name>
- <f95f35af-4824-2a2a-7cd0-71d1fda6867a@amd.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f95f35af-4824-2a2a-7cd0-71d1fda6867a@amd.com>
-X-Spam-Status: No, score=-14.4 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,FSL_HELO_FAKE,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=no autolearn_force=no version=3.4.6
+        h=references:to:cc:in-reply-to:date:subject:mime-version:message-id
+         :from:x-gm-message-state:from:to:cc;
+        bh=3UsEcGaqqxu6uaf6V7Db2UUvbrW1qQxZh0X1je5plvs=;
+        b=J9PFVg5n1AUTBbVJJZB2Ei1q9MIPcByUSf66P2QCw6ET+sJuCkFdTfeg8vrKnnFgqC
+         Bb52ChyUvrZHoBNU5jHCkASOk1lGpsFMYfTRvn4sae9nlXNtSWucDB4QKaBkdnsVhqDs
+         2OgCZ9CKSLikc6ZS4KNFQTRDaaTOgdMiz+YFLjGZ0d8X9m/mcuCwTI1PcXKkLBzN3/AS
+         ZI8wjUYVNKFwbpl3mBBGcCN3W0JoPqTc5MFXQjj+O6VgC/QBAAaYepb385UTWvdQTkhW
+         PiR3DcAWlX8pKtPWO8saV9hmc6m/SB66AA9Px+JJN5mfeB1S1kRgVUypU4us7zSSQ33F
+         dVZQ==
+X-Gm-Message-State: ACgBeo1TAF8pjDYJw55GxKtr4n+kX6cCTR6zqkpeU0asWm0CMzPjwmvz
+        kwjnSeLEyhbISulNvljGk5PxPw==
+X-Google-Smtp-Source: AA6agR5MxmTfKKDmbSJw3suGI5oZ/F470+FJjV7/Uj0jVLBbToS4xOkVs5Jg06J4aqmXnDRNRAtD/Q==
+X-Received: by 2002:a65:6d85:0:b0:429:9ce8:6a60 with SMTP id bc5-20020a656d85000000b004299ce86a60mr4399151pgb.352.1660668154762;
+        Tue, 16 Aug 2022 09:42:34 -0700 (PDT)
+Received: from cabot.adilger.int (S01061cabc081bf83.cg.shawcable.net. [70.77.221.9])
+        by smtp.gmail.com with ESMTPSA id z25-20020a656659000000b00419b66846fcsm7761270pgv.91.2022.08.16.09.42.32
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 16 Aug 2022 09:42:33 -0700 (PDT)
+From:   Andreas Dilger <adilger@dilger.ca>
+Message-Id: <D1CDACE3-EC7E-43E4-8F49-EEA2B6E71A41@dilger.ca>
+Content-Type: multipart/signed;
+ boundary="Apple-Mail=_55512B7B-3B73-458E-BB38-6700602A50E9";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
+Subject: Re: [PATCH v4 6/9] f2fs: don't allow DIO reads but not DIO writes
+Date:   Tue, 16 Aug 2022 10:42:29 -0600
+In-Reply-To: <20220816090312.GU3600936@dread.disaster.area>
+Cc:     Jaegeuk Kim <jaegeuk@kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-f2fs-devel@lists.sourceforge.net,
+        xfs <linux-xfs@vger.kernel.org>, linux-api@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org,
+        linux-block <linux-block@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Keith Busch <kbusch@kernel.org>
+To:     Dave Chinner <david@fromorbit.com>,
+        Eric Biggers <ebiggers@kernel.org>
+References: <20220722071228.146690-1-ebiggers@kernel.org>
+ <20220722071228.146690-7-ebiggers@kernel.org> <YtyoF89iOg8gs7hj@google.com>
+ <Yt7dCcG0ns85QqJe@sol.localdomain> <YuXyKh8Zvr56rR4R@google.com>
+ <YvrrEcw4E+rpDLwM@sol.localdomain>
+ <20220816090312.GU3600936@dread.disaster.area>
+X-Mailer: Apple Mail (2.3273)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 16, 2022, Gupta, Pankaj wrote:
-> 
-> > > > Actually the current version allows you to delay the allocation to a
-> > > > later time (e.g. page fault time) if you don't call fallocate() on the
-> > > > private fd. fallocate() is necessary in previous versions because we
-> > > > treat the existense in the fd as 'private' but in this version we track
-> > > > private/shared info in KVM so we don't rely on that fact from memory
-> > > > backstores.
-> > > 
-> > > Does this also mean reservation of guest physical memory with secure
-> > > processor (both for SEV-SNP & TDX) will also happen at page fault time?
-> > > 
-> > > Do we plan to keep it this way?
-> > 
-> > If you are talking about accepting memory by the guest, it is initiated by
-> > the guest and has nothing to do with page fault time vs fallocate()
-> > allocation of host memory. I mean acceptance happens after host memory
-> > allocation but they are not in lockstep, acceptance can happen much later.
-> 
-> No, I meant reserving guest physical memory range from hypervisor e.g with
-> RMPUpdate for SEV-SNP or equivalent at TDX side (PAMTs?).
 
-As proposed, RMP/PAMT updates will occur in the fault path, i.e. there is no way
-for userspace to pre-map guest memory.
+--Apple-Mail=_55512B7B-3B73-458E-BB38-6700602A50E9
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-I think the best approach is to turn KVM_TDX_INIT_MEM_REGION into a generic
-vCPU-scoped ioctl() that allows userspace to pre-map guest memory.  Supporting
-initializing guest private memory with a source page can be implemented via a
-flag.  That also gives KVM line of sight to in-place "conversion", e.g. another
-flag could be added to say that the dest is also the source.
+On Aug 16, 2022, at 3:03 AM, Dave Chinner <david@fromorbit.com> wrote:
+>=20
+> On Mon, Aug 15, 2022 at 05:55:45PM -0700, Eric Biggers wrote:
+>> On Sat, Jul 30, 2022 at 08:08:26PM -0700, Jaegeuk Kim wrote:
+>>> On 07/25, Eric Biggers wrote:
+>>>> On Sat, Jul 23, 2022 at 07:01:59PM -0700, Jaegeuk Kim wrote:
+>>>>> On 07/22, Eric Biggers wrote:
+>>>>>> From: Eric Biggers <ebiggers@google.com>
+>>>>>>=20
+>>>>>> Currently, if an f2fs filesystem is mounted with the mode=3Dlfs =
+and
+>>>>>> io_bits mount options, DIO reads are allowed but DIO writes are =
+not.
+>>>>>> Allowing DIO reads but not DIO writes is an unusual restriction, =
+which
+>>>>>> is likely to be surprising to applications, namely any =
+application that
+>>>>>> both reads and writes from a file (using O_DIRECT).  This =
+behavior is
+>>>>>> also incompatible with the proposed STATX_DIOALIGN extension to =
+statx.
+>>>>>> Given this, let's drop the support for DIO reads in this =
+configuration.
+>>>>>=20
+>>>>> IIRC, we allowed DIO reads since applications complained a lower =
+performance.
+>>>>> So, I'm afraid this change will make another confusion to users. =
+Could
+>>>>> you please apply the new bahavior only for STATX_DIOALIGN?
+>>>>>=20
+>>>>=20
+>>>> Well, the issue is that the proposed STATX_DIOALIGN fields cannot =
+represent this
+>>>> weird case where DIO reads are allowed but not DIO writes.  So the =
+question is
+>>>> whether this case actually matters, in which case we should make =
+STATX_DIOALIGN
+>>>> distinguish between DIO reads and DIO writes, or whether it's some =
+odd edge case
+>>>> that doesn't really matter, in which case we could just fix it or =
+make
+>>>> STATX_DIOALIGN report that DIO is unsupported.  I was hoping that =
+you had some
+>>>> insight here.  What sort of applications want DIO reads but not DIO =
+writes?
+>>>> Is this common at all?
+>>>=20
+>>> I think there's no specific application to use the LFS mode at this
+>>> moment, but I'd like to allow DIO read for zoned device which will =
+be
+>>> used for Android devices.
+>>>=20
+>>=20
+>> So if the zoned device feature becomes widely adopted, then =
+STATX_DIOALIGN will
+>> be useless on all Android devices?  That sounds undesirable.  Are you =
+sure that
+>> supporting DIO reads but not DIO writes actually works?  Does it not =
+cause
+>> problems for existing applications?
+>=20
+> What purpose does DIO in only one direction actually serve? All it
+> means is that we're forcibly mixing buffered and direct IO to the
+> same file and that simply never ends well from a data coherency POV.
+>=20
+> Hence I'd suggest that mixing DIO reads and buffered writes like
+> this ends up exposing uses to the worst of both worlds - all of the
+> problems with none of the benefits...
+>=20
+>> What we need to do is make a decision about whether this means we =
+should
+>> build in a stx_dio_direction field (indicating no support / readonly
+>> support / writeonly support / readwrite support) into the API from =
+the
+>> beginning.  If we don't do that, then I don't think we could simply =
+add
+>> such a field later, as the statx_dio_*_align fields will have already
+>> been assigned their meaning.  I think we'd instead have to =
+"duplicate"
+>> the API, with STATX_DIOROALIGN and statx_dio_ro_*_align fields.  That
+>> seems uglier than building a directional indicator into the API from =
+the
+>> beginning.  On the other hand, requiring all programs to check
+>> stx_dio_direction would add complexity to using the API.
+>>=20
+>> Any thoughts on this?
+>=20
+> Decide whether partial, single direction DIO serves a useful purpose
+> before trying to work out what is needed in the API to indicate that
+> this sort of crazy will be supported....
 
-The TDX and SNP restrictions would then become addition restrictions on when
-initializing with a source is allowed (and VMs that don't have guest private
-memory wouldn't allow the flag at all).
+Using read-only O_DIRECT makes sense for backup and other filesystem
+scanning tools that don't want to pollute the page cache of a system
+(which may be in use by other programs) while reading many files once.
+
+Using interfaces like posix_fadvise(FADV_DONTNEED) to drop file cache
+afterward is both a hassle and problematic when reading very large files
+that would push out more important pages from cache before the large
+file's pages can be dropped.
+
+
+IMHO, this whole discussion is putting the cart before the horse.
+Changing existing (and useful) IO behavior to accommodate an API that
+nobody has ever used, and is unlikely to even be widely used, doesn't
+make sense to me.  Most applications won't check or care about the new
+DIO size fields, since they've lived this long without statx() returning
+this info, and will just pick a "large enough" size (4KB, 1MB, whatever)
+that gives them the performance they need.  They *WILL* care if the app
+is suddenly unable to read data from a file in ways that have worked for
+a long time.
+
+Even if apps are modified to check these new DIO size fields, and then
+try to DIO write to a file in f2fs that doesn't allow it, then f2fs will
+return an error, which is what it would have done without the statx()
+changes, so no harm done AFAICS.
+
+Even with a more-complex DIO status return that handles a "direction"
+field (which IMHO is needlessly complex), there is always the potential
+for a TOCTOU race where a file changes between checking and access, so
+the userspace code would need to handle this.
+
+Cheers, Andreas
+
+
+
+
+
+
+--Apple-Mail=_55512B7B-3B73-458E-BB38-6700602A50E9
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - http://gpgtools.org
+
+iQIzBAEBCAAdFiEEDb73u6ZejP5ZMprvcqXauRfMH+AFAmL7yPUACgkQcqXauRfM
+H+C5yA/9G0OeBL/KETzAPM0Gdql84d9VCjortatITeNdwHUMtP26voBr8Q5A85dE
+vey+YGYSY1rcLrN9ORjCqJ9WRD3e77oXPapHyNlqgh+x2fxGgI8Ypb34fT0oB/vu
+YTRE3UgK0IEt2ZB76AnlSOtXzHGQrME4dUNTg9NcwDIEdJL3L4FUrykhozGqkFFu
+/zxI8KCATl2lEyuse7h7DYX187W1H1tSORo4Z7BpW7JcA0F4Bw0NoNET9nhV7PlS
+GW7QqOSt46Wf+w2V6HsUhVAbLJz+3XfQ1hVO+tp3cWfqRQ54DpcqJIL0HD73GQmY
+eR6m67atxsHO2tsgOaMxcaQwTNZrmZoPveHrS5oR2Eo+qWsVn4hp5pikFGp9fyuD
+V9cUm2yFCa/bKxhwTcfSTrEO8/R7rYVX3ppqP1HGO5t9xw0vSe8Mg+wBLFG45/L9
+Bk+vfgnffDluYw546hklgu+KqD0wVkfRKUEZcimT/4Vfyg5d1GPSXTLlnjm6lWq3
+i5Y2yf2PPo+Yx25qt65QC0VkRV1dsdPLuTI9MoyKTHgYc3MlPYJoK+Ohyq8CuHq/
+W6Qpib+UBC07fdA61Qw1yJR1TfIIJ+nNFzuXvAZvINFKRDQ87npdHpuoUul1lJ6p
+eXugihjhNr7Ny2hXArGDjA/lPjTfg6gf0EPZOezgajagFOyerH4=
+=1DeF
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_55512B7B-3B73-458E-BB38-6700602A50E9--
