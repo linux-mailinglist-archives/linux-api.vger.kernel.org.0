@@ -2,82 +2,96 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F604595B3D
-	for <lists+linux-api@lfdr.de>; Tue, 16 Aug 2022 14:06:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23D6D595BAF
+	for <lists+linux-api@lfdr.de>; Tue, 16 Aug 2022 14:22:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231815AbiHPMGd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 16 Aug 2022 08:06:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46700 "EHLO
+        id S229843AbiHPMWH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Aug 2022 08:22:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235192AbiHPMFs (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Aug 2022 08:05:48 -0400
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66623578A7;
-        Tue, 16 Aug 2022 04:55:19 -0700 (PDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id C35195C01D2;
-        Tue, 16 Aug 2022 07:55:18 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 16 Aug 2022 07:55:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm1; t=1660650918; x=1660737318; bh=4Ybgh31u0I
-        +7D7+hcoMIGJWFz0aze/c+ECeecGK4vmQ=; b=BGohKPFWPDuGkhKTFsvsY31hIJ
-        o0Mo+enhrCTvBsuCbgisMT7mP3Htz80+i7X8sbsmACdmXVZPO0LKnNaa17v/JwOi
-        so2V8mrNu1MEPb1bbyXoRtvXwb2O11gr5fnnaVj6ISf4MisGgFXPSNVAwWkFgHJM
-        qu8ORQWDuQa/Te5x1JSAs7Gy7WCt+CGRpIlv8LrmpLej2ThQaD0JRr1N5ThBCr/T
-        2XgTziCW+uCCUydjeUSmFeuf5793zJbU/d71h1Dkw7UbZlieSNvZn3h28zngVYbm
-        2rkEh4QvH85L+i9jl6T7XjTYK2PsqtArCFWu6l6llR6Tyj2peNZ4uXFgu4YQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; t=1660650918; x=1660737318; bh=4Ybgh31u0I+7D7+hcoMIGJWFz0az
-        e/c+ECeecGK4vmQ=; b=0Y6F42MdGNPSbYV/D8ydjq+I6dZQ/9k3BE+C3LW0V2QD
-        R99Sj3iTqNsdzk+/w0p9suwTzJUaE1YNHuBZsajkXZ/m6POyXqsddVrpTxH48/Fq
-        EmwK6ogWk8/AV1L3eOm1sV2u5ixFD5100I/zv8n35rzgpmnZHyfabMcf9yaY0Pn+
-        1ZbJY6GQGy+f/qUa1zq45szCH4i8xZXiCKXFHFX3jRUhOmh7ZfoeMy6tQ+Z11d2n
-        +0Nv28bvh8a0UwvcdsNwS3bQDHG8XDu+vAI/D4cpxPzpY2U7U2QY0kYFH9qt+++5
-        /gn61yi3+Gv5NOKIBXAiMhAeb7kIc2TqerpXWXiIsw==
-X-ME-Sender: <xms:poX7YnPXIFD44GWmeBgYyED6dl3iCLdrMBjA21VfYC3HtJiu3U8c6w>
-    <xme:poX7Yh8qhz93RbUgPwceHlk6HPZfC76hZpSKnVqX1hDhgVY2Md6yug8qEUKELnYKt
-    xpkTOsI2aC2RA>
-X-ME-Received: <xmr:poX7YmQhWSpC-qgJ-4kN4CRF8KnYESvfLwL_kYmZlSlGErx2RHkDo2KLtskNev8gmQdKdGFoFYStAAf5HCe90Cz4xsn8w7OP>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedggeejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdtrodttddtvdenucfhrhhomhepifhrvghg
-    ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepjefhle
-    ffjeekjeehtefgieegkeeuueduvdevkeejkeeugefgvdfhfeetleeggfdvnecuvehluhhs
-    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorg
-    hhrdgtohhm
-X-ME-Proxy: <xmx:poX7Yrt7BuH2UxyQ7t8K5GdXgZY8Ng0btdtktAaDOoL4mBGTH0foAQ>
-    <xmx:poX7Yvd0lBmOm9NRhqFWqHugSluIP0rtEh90YCL5bdkKvEgU24UV5A>
-    <xmx:poX7Yn1T5stPzRYGCakkqKwuxsy8dJQr7m11RlIAcSrgPZ-7lJtiwQ>
-    <xmx:poX7YgUz7tei6B1wuPdRxJP_--5SN2n7LNDE8xabcfK9w8GnRMUkgw>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 16 Aug 2022 07:55:17 -0400 (EDT)
-Date:   Tue, 16 Aug 2022 13:55:15 +0200
-From:   Greg KH <greg@kroah.com>
-To:     Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc:     linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tsbogend@alpha.franken.de, linux-api@vger.kernel.org,
-        f.fainelli@gmail.com
-Subject: Re: [PATCH v4] MIPS: Expose prid and globalnumber to sysfs
-Message-ID: <YvuFoyUVyjUdJNPf@kroah.com>
-References: <20220816091258.9571-1-jiaxun.yang@flygoat.com>
- <YvthfQUfv0TiO/bK@kroah.com>
- <BA886B5F-EE3B-4227-AC3C-E7FBAAA98ECB@flygoat.com>
+        with ESMTP id S230007AbiHPMWF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Aug 2022 08:22:05 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B4CA25C68;
+        Tue, 16 Aug 2022 05:22:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1660652525; x=1692188525;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=B3uUd/yG6wpuTb/aR5iTfAme30Qm6tQlD5VU32Fh/CI=;
+  b=Tifp/ISUfjpNRaPP/CY94u94leOZ91YRfJkuv3BDszBornbMs5Q6XRQ7
+   Ixcw0xfxSGlJ1Jg0hiYU0p5uFCXRilB6YP1Oef6lmkw0edqQbDB88Z1Zk
+   92hPzlG/ufTn1JT3E+1Bor79jl97sbJHqhdZcxEGuqk0Z1IAVbJxaAgBF
+   8TkLB0HHACBU+bOr/uWseGqjadJawZfkVjkgEF0OV/8Hm9kAqrgBq7FeF
+   TucuT2O8paNDEBJxQExyYRDVCGdFPd1jsimk54wcpS0qKHTZDzhCHAQ47
+   lhhOfV7Q2m5H6OH4cSsSeil9POTww0F/BnV3p9UUmF5ySbm27HvydlkBK
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10440"; a="289773234"
+X-IronPort-AV: E=Sophos;i="5.93,241,1654585200"; 
+   d="scan'208";a="289773234"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2022 05:22:03 -0700
+X-IronPort-AV: E=Sophos;i="5.93,241,1654585200"; 
+   d="scan'208";a="675194031"
+Received: from damianos-mobl.ger.corp.intel.com (HELO box.shutemov.name) ([10.252.40.45])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2022 05:21:54 -0700
+Received: by box.shutemov.name (Postfix, from userid 1000)
+        id 4FB31104A4E; Tue, 16 Aug 2022 15:24:57 +0300 (+03)
+Date:   Tue, 16 Aug 2022 15:24:57 +0300
+From:   "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+To:     "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>,
+        "Nikunj A. Dadhania" <nikunj@amd.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, bharata@amd.com,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <20220816122457.2fjyd4uz5hp5cani@box.shutemov.name>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <b21f41e5-0322-bbfb-b9c2-db102488592d@amd.com>
+ <9e86daea-5619-a216-fe02-0562cf14c501@amd.com>
+ <9dc91ce8-4cb6-37e6-4c25-27a72dc11dd0@amd.com>
+ <422b9f97-fdf5-54bf-6c56-3c45eff5e174@amd.com>
+ <1407c70c-0c0b-6955-10bb-d44c5928f2d9@amd.com>
+ <1136925c-2e37-6af4-acac-be8bed9f6ed5@amd.com>
+ <1b02db9d-f2f1-94dd-6f37-59481525abff@amd.com>
+ <20220815130411.GA1073443@chaop.bj.intel.com>
+ <f0094f31-9669-47b5-eb52-6754a13ce757@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <BA886B5F-EE3B-4227-AC3C-E7FBAAA98ECB@flygoat.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+In-Reply-To: <f0094f31-9669-47b5-eb52-6754a13ce757@amd.com>
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -85,13 +99,26 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 16, 2022 at 12:43:52PM +0100, Jiaxun Yang wrote:
+On Tue, Aug 16, 2022 at 01:33:00PM +0200, Gupta, Pankaj wrote:
+> Hi Chao,
+> 
+> > 
+> > Actually the current version allows you to delay the allocation to a
+> > later time (e.g. page fault time) if you don't call fallocate() on the
+> > private fd. fallocate() is necessary in previous versions because we
+> > treat the existense in the fd as 'private' but in this version we track
+> > private/shared info in KVM so we don't rely on that fact from memory
+> > backstores.
+> 
+> Does this also mean reservation of guest physical memory with secure
+> processor (both for SEV-SNP & TDX) will also happen at page fault time?
+> 
+> Do we plan to keep it this way?
 
-<snip>
+If you are talking about accepting memory by the guest, it is initiated by
+the guest and has nothing to do with page fault time vs fallocate()
+allocation of host memory. I mean acceptance happens after host memory
+allocation but they are not in lockstep, acceptance can happen much later.
 
-Sorry, html email will be rejected by the mailing list, please resend
-after fixing up your email client.
-
-thanks,
-
-greg k-h
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
