@@ -2,124 +2,249 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CFA059583F
-	for <lists+linux-api@lfdr.de>; Tue, 16 Aug 2022 12:31:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52C71595781
+	for <lists+linux-api@lfdr.de>; Tue, 16 Aug 2022 12:07:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234634AbiHPK3h (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 16 Aug 2022 06:29:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51474 "EHLO
+        id S234303AbiHPKHI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 16 Aug 2022 06:07:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234402AbiHPK3A (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Aug 2022 06:29:00 -0400
-Received: from mail104.syd.optusnet.com.au (mail104.syd.optusnet.com.au [211.29.132.246])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D01D65E309;
-        Tue, 16 Aug 2022 02:03:14 -0700 (PDT)
-Received: from dread.disaster.area (pa49-181-52-176.pa.nsw.optusnet.com.au [49.181.52.176])
-        by mail104.syd.optusnet.com.au (Postfix) with ESMTPS id 7B45B62D403;
-        Tue, 16 Aug 2022 19:03:13 +1000 (AEST)
-Received: from dave by dread.disaster.area with local (Exim 4.92.3)
-        (envelope-from <david@fromorbit.com>)
-        id 1oNsTg-00Dk22-Ca; Tue, 16 Aug 2022 19:03:12 +1000
-Date:   Tue, 16 Aug 2022 19:03:12 +1000
-From:   Dave Chinner <david@fromorbit.com>
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     Jaegeuk Kim <jaegeuk@kernel.org>, linux-fsdevel@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-xfs@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH v4 6/9] f2fs: don't allow DIO reads but not DIO writes
-Message-ID: <20220816090312.GU3600936@dread.disaster.area>
-References: <20220722071228.146690-1-ebiggers@kernel.org>
- <20220722071228.146690-7-ebiggers@kernel.org>
- <YtyoF89iOg8gs7hj@google.com>
- <Yt7dCcG0ns85QqJe@sol.localdomain>
- <YuXyKh8Zvr56rR4R@google.com>
- <YvrrEcw4E+rpDLwM@sol.localdomain>
+        with ESMTP id S234312AbiHPKGs (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 16 Aug 2022 06:06:48 -0400
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C10D6C13B;
+        Tue, 16 Aug 2022 02:13:09 -0700 (PDT)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailout.nyi.internal (Postfix) with ESMTP id B97AD5C023C;
+        Tue, 16 Aug 2022 05:13:06 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Tue, 16 Aug 2022 05:13:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+        cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+        :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+         s=fm2; t=1660641186; x=1660727586; bh=8a1Us8uLfYqD/kfLMEoeT8k8O
+        knxiZLX1kGLg+OrAM4=; b=r6H+8a3y5yj7F0UBxWS3xmNGJ4AZCoV08iA9aYSiG
+        iIUMD0BVkiArJeidyP3+THHDgukkHtiYS2rV2+5jEczyQJWOJxa+ZTlU/LZywIWS
+        jIn0WD0vtvdAsrpKUe75BD5Vx/SgInIM8oyeFBWYjnul23Yq+Jc1VhQXQITkEX9X
+        8zs6nw70KAkOukTTHFd4WAytOG+3ydSI1JQuJTvF9oLI9+cHiDr15mPHkj3ROJsn
+        GzolNxC7i1+u7A9MSZNbGTYdtofb7F5t4LMWGpcCg3ovJpYAwi+ENSePxTE1uFI4
+        GcG0mtNLrBJAjou8YRD3LVd+XUzGW770AE4pH7tIXRvrA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:message-id
+        :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+        1660641186; x=1660727586; bh=8a1Us8uLfYqD/kfLMEoeT8k8OknxiZLX1kG
+        Lg+OrAM4=; b=wrYGYkzDiCXY2jq9yVfNlwFSOW1/NZDsNT4xf02gU7Drm1Ei1QJ
+        NJiG9y7Vqv95PxaclaFAxVInyTQjKlZScb4tpZip+4HPtydJDOre9VjpLJjZQUbY
+        vMaNQm3i3OrdILpnDNqtBLyKJ/gnptxLxMo8UZ+Nnc8RB4EDuTbaat4f7Eha2+VK
+        dbVzXpccV2JY2643CcTGcd97TU5fz1msF9n5JBFo6E7VgKk92FrTeX/vREcE6mr1
+        1TzcvdmZPxzFpDa3F/Piz+LcbnzQ3zrQbljtlPw7k4Ds7tGE8TVCoYa8lFtP6c65
+        qBsGmMExD8Tcxq8R3qp4HMEQbsmvRQnt9dw==
+X-ME-Sender: <xms:ol_7YgtxxlMA42cgcxr0bVkHAmattxopCO_l9CI8J6QblsGfqubOUw>
+    <xme:ol_7YtcfKP1ox8rn6hoG4fMB6BPI6kxmW4owEBEs35Z21K-I0_jPQkwtT8nKngl2x
+    OYWqvRumZocdqE_GTU>
+X-ME-Received: <xmr:ol_7YrwQRZpYNfse4O4jlQKtMJOfkvzWMHvHCsT_fjOyjKHnK_N75aEm_uHQNvn008a8o0B_WTaTdQldztknVG5Gw2HKWZEKfFlGf80nNQ-4x2TIItzR7JfG>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedgudegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpeflihgrgihunhcujggrnhhguceojhhirgiguhhnrdihrghnghes
+    fhhlhihgohgrthdrtghomheqnecuggftrfgrthhtvghrnhephfetuddtudevieeljeejte
+    ffheeujeduhefgffejudfhueelleduffefgfffveeknecuvehluhhsthgvrhfuihiivgep
+    tdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgoh
+    grthdrtghomh
+X-ME-Proxy: <xmx:ol_7YjN0pHaGH713wYRLYfbjQbtuSU04CsZyS0JOSOEjfhTJMUmyPg>
+    <xmx:ol_7Yg8Qs9kdGRzPVQJgiJ8YxL0TNtXbWC_ML7BEiVc2SQR5IKYjSA>
+    <xmx:ol_7YrXsZeKZ0I5zREdmRUXKuaHtn1heGrrn8czkR53XWaFV4WJw2w>
+    <xmx:ol_7Yvkeo-Dttf3JulnEP_ywlgJvVFLVbZJRVwrNLQ51D415F7pWaQ>
+Feedback-ID: ifd894703:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 16 Aug 2022 05:13:05 -0400 (EDT)
+From:   Jiaxun Yang <jiaxun.yang@flygoat.com>
+To:     linux-mips@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, tsbogend@alpha.franken.de,
+        linux-api@vger.kernel.org, greg@kroah.com, f.fainelli@gmail.com,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: [PATCH v4] MIPS: Expose prid and globalnumber to sysfs
+Date:   Tue, 16 Aug 2022 09:12:58 +0000
+Message-Id: <20220816091258.9571-1-jiaxun.yang@flygoat.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YvrrEcw4E+rpDLwM@sol.localdomain>
-X-Optus-CM-Score: 0
-X-Optus-CM-Analysis: v=2.4 cv=e9dl9Yl/ c=1 sm=1 tr=0 ts=62fb5d51
-        a=O3n/kZ8kT9QBBO3sWHYIyw==:117 a=O3n/kZ8kT9QBBO3sWHYIyw==:17
-        a=kj9zAlcOel0A:10 a=biHskzXt2R4A:10 a=1XWaLZrsAAAA:8 a=7-415B0cAAAA:8
-        a=0f_GdJSvYQN_4D2ffm4A:9 a=CjuIK1q_8ugA:10 a=biEYGPWJfzWAr4FL6Ov7:22
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Aug 15, 2022 at 05:55:45PM -0700, Eric Biggers wrote:
-> On Sat, Jul 30, 2022 at 08:08:26PM -0700, Jaegeuk Kim wrote:
-> > On 07/25, Eric Biggers wrote:
-> > > On Sat, Jul 23, 2022 at 07:01:59PM -0700, Jaegeuk Kim wrote:
-> > > > On 07/22, Eric Biggers wrote:
-> > > > > From: Eric Biggers <ebiggers@google.com>
-> > > > > 
-> > > > > Currently, if an f2fs filesystem is mounted with the mode=lfs and
-> > > > > io_bits mount options, DIO reads are allowed but DIO writes are not.
-> > > > > Allowing DIO reads but not DIO writes is an unusual restriction, which
-> > > > > is likely to be surprising to applications, namely any application that
-> > > > > both reads and writes from a file (using O_DIRECT).  This behavior is
-> > > > > also incompatible with the proposed STATX_DIOALIGN extension to statx.
-> > > > > Given this, let's drop the support for DIO reads in this configuration.
-> > > > 
-> > > > IIRC, we allowed DIO reads since applications complained a lower performance.
-> > > > So, I'm afraid this change will make another confusion to users. Could
-> > > > you please apply the new bahavior only for STATX_DIOALIGN?
-> > > > 
-> > > 
-> > > Well, the issue is that the proposed STATX_DIOALIGN fields cannot represent this
-> > > weird case where DIO reads are allowed but not DIO writes.  So the question is
-> > > whether this case actually matters, in which case we should make STATX_DIOALIGN
-> > > distinguish between DIO reads and DIO writes, or whether it's some odd edge case
-> > > that doesn't really matter, in which case we could just fix it or make
-> > > STATX_DIOALIGN report that DIO is unsupported.  I was hoping that you had some
-> > > insight here.  What sort of applications want DIO reads but not DIO writes?
-> > > Is this common at all?
-> > 
-> > I think there's no specific application to use the LFS mode at this
-> > moment, but I'd like to allow DIO read for zoned device which will be
-> > used for Android devices.
-> > 
-> 
-> So if the zoned device feature becomes widely adopted, then STATX_DIOALIGN will
-> be useless on all Android devices?  That sounds undesirable.  Are you sure that
-> supporting DIO reads but not DIO writes actually works?  Does it not cause
-> problems for existing applications?
+Some application would like to know precise model and rev of processor
+to do errata workaround or optimization.
 
-What purpose does DIO in only one direction actually serve? All it
-means is that we're forcibly mixing buffered and direct IO to the
-same file and that simply never ends well from a data coherency POV.
+Expose them in sysfs as:
+/sys/devices/system/cpu/cpuX/regs/identification/prid
+/sys/devices/system/cpu/cpuX/regs/identification/globalnumber
 
-Hence I'd suggest that mixing DIO reads and buffered writes like
-this ends up exposing uses to the worst of both worlds - all of the
-problems with none of the benefits...
+Reusing AArch64 CPU registers directory.
 
-> What we need to do is make a decision about whether this means we should build
-> in a stx_dio_direction field (indicating no support / readonly support /
-> writeonly support / readwrite support) into the API from the beginning.  If we
-> don't do that, then I don't think we could simply add such a field later, as the
-> statx_dio_*_align fields will have already been assigned their meaning.  I think
-> we'd instead have to "duplicate" the API, with STATX_DIOROALIGN and
-> statx_dio_ro_*_align fields.  That seems uglier than building a directional
-> indicator into the API from the beginning.  On the other hand, requiring all
-> programs to check stx_dio_direction would add complexity to using the API.
-> 
-> Any thoughts on this?
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+v2: Drop static qualifier for kobj (gregkh)
+v3: Use kzalloc to allocate struct cpuregs.
+    note: When Greg mentioned about static I was thinking about
+    static qualifier of percpu variable. After reading documents
+    again it turns out kobjs should be allocated at runtime. Arm64's
+    cpuinfo kobj is also on a percpu variable... I guess that was a
+    intentional use?
+v4: Properly handle err of kobj creation. (gregkh)
+---
+ .../ABI/testing/sysfs-devices-system-cpu      |  11 ++
+ arch/mips/kernel/topology.c                   | 103 ++++++++++++++++++
+ 2 files changed, 114 insertions(+)
 
-Decide whether partial, single direction DIO serves a useful purpose
-before trying to work out what is needed in the API to indicate that
-this sort of crazy will be supported....
-
-Cheers,
-
-Dave.
+diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
+index 5bf61881f012..adf855e7bb9b 100644
+--- a/Documentation/ABI/testing/sysfs-devices-system-cpu
++++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
+@@ -512,6 +512,17 @@ Description:	information about CPUs heterogeneity.
+ 
+ 		cpu_capacity: capacity of cpuX.
+ 
++What:		/sys/devices/system/cpu/cpuX/regs/
++		/sys/devices/system/cpu/cpuX/regs/identification/
++		/sys/devices/system/cpu/cpuX/regs/identification/prid
++		/sys/devices/system/cpu/cpuX/regs/identification/globalnumber
++Date:		Augest 2022
++Contact:	Linux MIPS Kernel Mailing list <linux-mips@vger.kernel.org>
++Description:	MIPS CPU registers
++
++		'identification' directory exposes the Processor ID and Global Number
++		registers for identifying model and revision of the CPU.
++
+ What:		/sys/devices/system/cpu/vulnerabilities
+ 		/sys/devices/system/cpu/vulnerabilities/meltdown
+ 		/sys/devices/system/cpu/vulnerabilities/spectre_v1
+diff --git a/arch/mips/kernel/topology.c b/arch/mips/kernel/topology.c
+index 9429d85a4703..45a15eda651a 100644
+--- a/arch/mips/kernel/topology.c
++++ b/arch/mips/kernel/topology.c
+@@ -5,6 +5,8 @@
+ #include <linux/node.h>
+ #include <linux/nodemask.h>
+ #include <linux/percpu.h>
++#include <linux/seq_file.h>
++#include <linux/smp.h>
+ 
+ static DEFINE_PER_CPU(struct cpu, cpu_devices);
+ 
+@@ -26,3 +28,104 @@ static int __init topology_init(void)
+ }
+ 
+ subsys_initcall(topology_init);
++
++static struct kobj_type cpuregs_kobj_type = {
++	.sysfs_ops = &kobj_sysfs_ops,
++};
++
++struct cpureg {
++	struct kobject kobj;
++	struct cpuinfo_mips *info;
++};
++static DEFINE_PER_CPU(struct cpureg *, cpuregs);
++
++#define kobj_to_cpureg(kobj)	container_of(kobj, struct cpureg, kobj)
++#define CPUREGS_ATTR_RO(_name, _field)						\
++	static ssize_t _name##_show(struct kobject *kobj,			\
++			struct kobj_attribute *attr, char *buf)			\
++	{									\
++		struct cpuinfo_mips *info = kobj_to_cpureg(kobj)->info;		\
++										\
++		return sprintf(buf, "0x%08x\n", info->_field);	\
++	}									\
++	static struct kobj_attribute cpuregs_attr_##_name = __ATTR_RO(_name)
++
++CPUREGS_ATTR_RO(prid, processor_id);
++CPUREGS_ATTR_RO(globalnumber, globalnumber);
++
++static struct attribute *cpuregs_id_attrs[] = {
++	&cpuregs_attr_prid.attr,
++	&cpuregs_attr_globalnumber.attr,
++	NULL
++};
++
++static const struct attribute_group cpuregs_attr_group = {
++	.attrs = cpuregs_id_attrs,
++	.name = "identification"
++};
++
++static int cpuregs_cpu_online(unsigned int cpu)
++{
++	int rc;
++	struct device *dev;
++	struct cpureg *reg;
++
++	dev = get_cpu_device(cpu);
++	if (!dev) {
++		rc = -ENODEV;
++		goto out;
++	}
++	reg = kzalloc(sizeof(struct cpureg), GFP_KERNEL);
++	if (!reg) {
++		rc = -ENOMEM;
++		goto out;
++	}
++	rc = kobject_init_and_add(&reg->kobj, &cpuregs_kobj_type,
++					&dev->kobj, "regs");
++	if (rc)
++		goto out_kfree;
++	rc = sysfs_create_group(&reg->kobj, &cpuregs_attr_group);
++	if (rc)
++		goto out_kobj;
++
++	return 0;
++out_kobj:
++	kobject_put(&reg->kobj);
++out_kfree:
++	kfree(reg);
++out:
++	return rc;
++}
++
++static int cpuregs_cpu_offline(unsigned int cpu)
++{
++	struct device *dev;
++	struct cpureg *reg = per_cpu(cpuregs, cpu);
++
++	dev = get_cpu_device(cpu);
++	if (!dev || !reg)
++		return -ENODEV;
++	if (reg->kobj.parent) {
++		sysfs_remove_group(&reg->kobj, &cpuregs_attr_group);
++		kobject_put(&reg->kobj);
++	}
++	kfree(reg);
++
++	return 0;
++}
++
++static int __init cpuinfo_regs_init(void)
++{
++	int ret;
++
++
++	ret = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "mips/topology:online",
++				cpuregs_cpu_online, cpuregs_cpu_offline);
++	if (ret < 0) {
++		pr_err("cpuinfo: failed to register hotplug callbacks.\n");
++		return ret;
++	}
++	return 0;
++}
++
++device_initcall(cpuinfo_regs_init);
 -- 
-Dave Chinner
-david@fromorbit.com
+2.34.1
+
