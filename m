@@ -2,169 +2,68 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 410F0597E22
-	for <lists+linux-api@lfdr.de>; Thu, 18 Aug 2022 07:41:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3F21597FF9
+	for <lists+linux-api@lfdr.de>; Thu, 18 Aug 2022 10:21:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231696AbiHRFkl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 18 Aug 2022 01:40:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47860 "EHLO
+        id S239100AbiHRIRI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 18 Aug 2022 04:17:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243095AbiHRFkg (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Aug 2022 01:40:36 -0400
-Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE73C73927
-        for <linux-api@vger.kernel.org>; Wed, 17 Aug 2022 22:40:34 -0700 (PDT)
-Received: by mail-qt1-x82e.google.com with SMTP id h21so440078qta.3
-        for <linux-api@vger.kernel.org>; Wed, 17 Aug 2022 22:40:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc;
-        bh=c4YN6O08AaYBNToE2Um1itfC+MNp00Kd+ydM+T0W7ko=;
-        b=IZg9hsqi4ssQ7fuSUIn7+iozROcN5MvemR4pWibTfFN+hfgd52YevwqpQv+32PXVtk
-         tMKwa30Shd3IsjRcMLHYaAnJfl/UHy6ihTpMO5jxCGTVmCK8t9Q/fI2uh+GiuGiPBmQT
-         hK2VF/OtxMLDbC/ytFlCkss/tfpwYlp5+ZwaMpzIEC+P6HlTmxeljMnHhkBQPeC4di9d
-         T2u0GkCtVLOLm6jsVJ/3uxGfDAAj5JLx6gR6GsoWNUhw61Zp1rHlGIeQeHfYiVPTdajB
-         O6i+/DSqdHmANKvtofbV85bdjkpgDV6mKg5DiLTieyv2rXLbetaIRb7kxG6T1BLHQnBp
-         SkEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc;
-        bh=c4YN6O08AaYBNToE2Um1itfC+MNp00Kd+ydM+T0W7ko=;
-        b=zH4YCkbPSvDEgknj+HkFdQmy+kEue4buCEinUhAkXUqo0nqtDegInGxFpoIG58iXf4
-         gZNMnM3SCyT8BK2tcQd7HvWCSbp3iGlT3aDccnpB0mW2NBwHO0vYhEfQsiNujowBnoop
-         5FQ0VDJvYoX4oUnqPC/gYuoTpEQgpCJD/Vr1xMzIVPWhe6vnfZcaFAgU1XinDZn6P6yl
-         8l6H7PTm3mSL9cPAJgCzHfxDkLTwa8+AM34jid0XlsqMrQG81Mz978KWnHvNdnvjf+UG
-         z+oqot3qzCoBe7+sRm0U/hmMi3qBT22ScaT+HdKUK7jKYDPZ5Eco+wIN7Pm9DJ6+h88J
-         bSiw==
-X-Gm-Message-State: ACgBeo1eQTQp78sqtV/FZiym9OO4D3CJez3H7KqJehGNxFjwNUiE4gOz
-        iuc/supsWoS2r2vxzLA/cgqmJw==
-X-Google-Smtp-Source: AA6agR4Fw98jiMqwiSkyP6cz6JD/D6jUG7NFWUxowXwEedXtNOOsMzX1sD0rCuxeyRSGmm1fcXkVkw==
-X-Received: by 2002:a05:622a:1745:b0:343:5e40:47b1 with SMTP id l5-20020a05622a174500b003435e4047b1mr1310585qtk.120.1660801233516;
-        Wed, 17 Aug 2022 22:40:33 -0700 (PDT)
-Received: from ripple.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id m1-20020a05620a290100b006b95f832aebsm787055qkp.96.2022.08.17.22.40.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Aug 2022 22:40:33 -0700 (PDT)
-Date:   Wed, 17 Aug 2022 22:40:12 -0700 (PDT)
-From:   Hugh Dickins <hughd@google.com>
-X-X-Sender: hugh@ripple.anvils
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>,
-        "Gupta, Pankaj" <pankaj.gupta@amd.com>
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-In-Reply-To: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
-Message-ID: <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+        with ESMTP id S232816AbiHRIRH (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 18 Aug 2022 04:17:07 -0400
+Received: from mail.fadrush.pl (mail.fadrush.pl [54.37.225.211])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FF97786F0
+        for <linux-api@vger.kernel.org>; Thu, 18 Aug 2022 01:17:07 -0700 (PDT)
+Received: by mail.fadrush.pl (Postfix, from userid 1002)
+        id 0F28322FC8; Thu, 18 Aug 2022 08:16:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fadrush.pl; s=mail;
+        t=1660810626; bh=bD6j9gIFU6CLTaCGl0Ow9oeIxtirvTfMeNZSfLEZQ+I=;
+        h=Date:From:To:Subject:From;
+        b=cic/9BbGBK3gLPAIBC85oNV13Z+Lr+8qjvO1wUGsBCNtnQ2JzUlmfL0J3u2ZfsB+E
+         U1kHMEam62wFiBnz9qIMoZqLL9U9CPotwA68OaqWRLyWdFAeikVJKr8SrHp0AypTz0
+         ZszQzjx2zWDQuZNileKOQ9kzU4prIFq87NhneBRZKETlvlxEPuQOdM++Jj8shqmGBc
+         ZH+HyPiGL8dq7sAIEBYA/c2hVb2iDDaTbAL6xvUG2A76poGJMextfut0YWpVHLC9gz
+         qzVASaPxJ+wuhA8vFpvDQNJ6doo53IDfgAs3ItBhonzzoMYHakAXRL5b3KND7J4PEa
+         PLNBKbG0Wv93w==
+Received: by mail.fadrush.pl for <linux-api@vger.kernel.org>; Thu, 18 Aug 2022 08:16:20 GMT
+Message-ID: <20220818064500-0.1.13.58oq.0.4ri91cmk6f@fadrush.pl>
+Date:   Thu, 18 Aug 2022 08:16:20 GMT
+From:   "Jakub Olejniczak" <jakub.olejniczak@fadrush.pl>
+To:     <linux-api@vger.kernel.org>
+Subject: =?UTF-8?Q?Zwi=C4=99kszenie_p=C5=82ynno=C5=9Bci_finansowej?=
+X-Mailer: mail.fadrush.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, 6 Jul 2022, Chao Peng wrote:
-> This is the v7 of this series which tries to implement the fd-based KVM
-> guest private memory.
+Dzie=C5=84 dobry,
 
-Here at last are my reluctant thoughts on this patchset.
+kontaktuj=C4=99 si=C4=99 z Pa=C5=84stwem, poniewa=C5=BC chcia=C5=82bym za=
+proponowa=C4=87 wygodne rozwi=C4=85zanie, kt=C3=B3re umo=C5=BCliwi Pa=C5=84=
+stwa firmie stabilny rozw=C3=B3j.=20
 
-fd-based approach for supporting KVM guest private memory: fine.
+Konkurencyjne otoczenie wymaga ci=C4=85g=C5=82ego ulepszania i poszerzeni=
+a oferty, co z kolei wi=C4=85=C5=BCe si=C4=99 z konieczno=C5=9Bci=C4=85 i=
+nwestowania. Brak odpowiedniego kapita=C5=82u powa=C5=BCnie ogranicza tem=
+po rozwoju firmy.
 
-Use or abuse of memfd and shmem.c: mistaken.
+Od wielu lat z powodzeniem pomagam firmom w uzyskaniu najlepszej formy fi=
+nansowania z banku oraz UE. Mam sta=C5=82ych Klient=C3=B3w, kt=C3=B3rzy n=
+adal ch=C4=99tnie korzystaj=C4=85 z moich us=C5=82ug, a tak=C5=BCe poleca=
+j=C4=85 je innym.
 
-memfd_create() was an excellent way to put together the initial prototype.
+Czy chcieliby Pa=C5=84stwo skorzysta=C4=87 z pomocy wykwalifikowanego i d=
+o=C5=9Bwiadczonego doradcy finansowego?
 
-But since then, TDX in particular has forced an effort into preventing
-(by flags, seals, notifiers) almost everything that makes it shmem/tmpfs.
 
-Are any of the shmem.c mods useful to existing users of shmem.c? No.
-Is MFD_INACCESSIBLE useful or comprehensible to memfd_create() users? No.
-
-What use do you have for a filesystem here?  Almost none.
-IIUC, what you want is an fd through which QEMU can allocate kernel
-memory, selectively free that memory, and communicate fd+offset+length
-to KVM.  And perhaps an interface to initialize a little of that memory
-from a template (presumably copied from a real file on disk somewhere).
-
-You don't need shmem.c or a filesystem for that!
-
-If your memory could be swapped, that would be enough of a good reason
-to make use of shmem.c: but it cannot be swapped; and although there
-are some references in the mailthreads to it perhaps being swappable
-in future, I get the impression that will not happen soon if ever.
-
-If your memory could be migrated, that would be some reason to use
-filesystem page cache (because page migration happens to understand
-that type of memory): but it cannot be migrated.
-
-Some of these impressions may come from earlier iterations of the
-patchset (v7 looks better in several ways than v5).  I am probably
-underestimating the extent to which you have taken on board other
-usages beyond TDX and SEV private memory, and rightly want to serve
-them all with similar interfaces: perhaps there is enough justification
-for shmem there, but I don't see it.  There was mention of userfaultfd
-in one link: does that provide the justification for using shmem?
-
-I'm afraid of the special demands you may make of memory allocation
-later on - surprised that huge pages are not mentioned already;
-gigantic contiguous extents? secretmem removed from direct map?
-
-Here's what I would prefer, and imagine much easier for you to maintain;
-but I'm no system designer, and may be misunderstanding throughout.
-
-QEMU gets fd from opening /dev/kvm_something, uses ioctls (or perhaps
-the fallocate syscall interface itself) to allocate and free the memory,
-ioctl for initializing some of it too.  KVM in control of whether that
-fd can be read or written or mmap'ed or whatever, no need to prevent it
-in shmem.c, no need for flags, seals, notifications to and fro because
-KVM is already in control and knows the history.  If shmem actually has
-value, call into it underneath - somewhat like SysV SHM, and /dev/zero
-mmap, and i915/gem make use of it underneath.  If shmem has nothing to
-add, just allocate and free kernel memory directly, recorded in your
-own xarray.
-
-With that /dev/kvm_something subject to access controls and LSMs -
-which I cannot find for memfd_create().  Full marks for including the
-MFD_INACCESSIBLE manpage update, and for Cc'ing linux-api: but I'd
-have expected some doubts from that direction already.
-
-Hugh
+Pozdrawiam
+Jakub Olejniczak
