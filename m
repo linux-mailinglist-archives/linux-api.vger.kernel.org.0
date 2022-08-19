@@ -2,146 +2,126 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92E7159A685
-	for <lists+linux-api@lfdr.de>; Fri, 19 Aug 2022 21:40:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7D2559A70F
+	for <lists+linux-api@lfdr.de>; Fri, 19 Aug 2022 22:32:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350047AbiHSTh5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 19 Aug 2022 15:37:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37190 "EHLO
+        id S1351376AbiHSU2L (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 19 Aug 2022 16:28:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351138AbiHSTh4 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 19 Aug 2022 15:37:56 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4AC311231D
-        for <linux-api@vger.kernel.org>; Fri, 19 Aug 2022 12:37:54 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id r14-20020a17090a4dce00b001faa76931beso8453915pjl.1
-        for <linux-api@vger.kernel.org>; Fri, 19 Aug 2022 12:37:54 -0700 (PDT)
+        with ESMTP id S1351462AbiHSU2I (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 19 Aug 2022 16:28:08 -0400
+Received: from mail-ua1-x935.google.com (mail-ua1-x935.google.com [IPv6:2607:f8b0:4864:20::935])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DFD410E793;
+        Fri, 19 Aug 2022 13:28:02 -0700 (PDT)
+Received: by mail-ua1-x935.google.com with SMTP id h19so2204496uan.9;
+        Fri, 19 Aug 2022 13:28:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=k9KpOd9i/ZNi1t1K9tR8np0p9gkpfM3VrD2lfsO25Mo=;
-        b=HC3bATKO80CNvgZPBl3R//G0TK0r3ngVuJktWYhEP8NaHJnXH6/HXfP142vc4oH9Aw
-         oJyeetzADSpgcohe210zCSh8DQfsxcwVcf8c/0gFINaAT23hmdkT8TGnAAdrxDmHlKGf
-         fctMqKyKBGj1alfGcbKBQ2/gLlX44if/PwK0HhdyLICbvLdbiwe2vlRz/1zOJjoePZzP
-         pxHe9IuraDvzqkDJ8J71BHT2b3xfBrXGMv+aVkONLXSJx4ZIfmskklMmsRvcCwUvoOUK
-         TVCUXOcQ5kN8i0t/EAZeKwJMG0HSZvtVvquJlnRoYjq4V1P98OEYU5jvAIbcSHYlInUs
-         Kn4A==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc;
+        bh=OYthYYNdZQvrpatlOm3lNYVTS6uAKNPx96c7Q90Mz3s=;
+        b=hq3zLC3QBeifttKK3V6vCbMEkU8j6p1Z5SjX9GufXXA60CpcuyEALJ7vWrDpFTTPtb
+         +HFPq1l8z9lFAFMrw+tl8qwiAGQVsf+eGbr2QjNgfhPAo/EtpksMB3/16Imfs+4TTxSx
+         l24ekTa+3H4V6mfQCuSkbSQsYUe+i7Q7JKumt7XeuoOZrou8BcPFOPkA+g/3qYs0nKQc
+         c5XJLdNv/9uA7TGR3lAyVAYIy7PMSNrkNKcsZyQIg1S+sRUirUjLQqM7oZlWhYnxyf1x
+         lYgYwZN20kn+lUsm/L1q9DDUxSjtXMD84kq7mmUhn4FaJm0kh/rrNP43Mm6BpTwqCf6y
+         A1wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=k9KpOd9i/ZNi1t1K9tR8np0p9gkpfM3VrD2lfsO25Mo=;
-        b=KD0L14qg5yyUgaFTRiDawz93h85vvHBHZuc5gHQwSMOcQ+2EWvtL5+yOHnF03xvFau
-         dk477iN66jvpWe7ZKyD6bUhDywyHEUZRSwc5q+vh+zpDBxLaWppik8rZyOFcKRfJSHlj
-         xLJqDvAH8jnFNiOB/xwc7WODKtIw7Af4rK2ORlayWnh5eRIR1+qLL6WeQcg4JkIg/x9x
-         NH7SwWJbMrXbJ47lqVzofYnG9/zMjepI3jcNww1+4rJEBsLsYqcqFup2HQGNVkAmexv3
-         QIt4ijjtDCftVwouytj7/iIdzFPm+NF8waf+wV4e0BUhC4itBU2LmdIc/1yor2Vl0DXj
-         iEKg==
-X-Gm-Message-State: ACgBeo3F+lO9WqiwJdqDh8Jrr9n8JL7j7eUt4wAKXWaVwGC+q8XzIQLA
-        C3o3L0lUQqJ1fhGLSklzQ7hkQGxGKagZ8cyIKG3A1A==
-X-Google-Smtp-Source: AA6agR6k/DAzQx9qRqaoRc0DfYUeZpNmDFrlAHfGRBtmhp/IGDr8OXnmdkj2tKhP7ciJU8phJ2DTP7DaAQ0zqKSGHws=
-X-Received: by 2002:a17:90b:4b91:b0:1f4:e116:8f1 with SMTP id
- lr17-20020a17090b4b9100b001f4e11608f1mr10112497pjb.121.1660937873970; Fri, 19
- Aug 2022 12:37:53 -0700 (PDT)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+        bh=OYthYYNdZQvrpatlOm3lNYVTS6uAKNPx96c7Q90Mz3s=;
+        b=U7hbgUq2dVIeOyuXKUF2gZ3xlr6oaeTSJCo/f8mGHWPhBNFuGhYeAwlBtASYdPEK2Z
+         9uc1CEiay+AiE1B4wIe+K2jibaeCkvDfHAdSypD9DIF3TV8aB+ptnI50AhofDm35Yf1e
+         zsrNfKmOVyfbHi6q1lvJCmySxastvIW2ldVZyjkE0oe7g+Q++c566EnjJprRy8mgNBS1
+         /fZvW/xv/j/ciHHLrP9MSbrNDnbf9m+wlV4cGu0IrL2NSMXjqNBWQB1Fqoq0B2/mCO7H
+         l0itT+CeCT6nVa5sOaRlkT/il/dekiGlkEBcvEhwnmwM/OBBGsRJUxxFeRZcupu1XNm9
+         vE7w==
+X-Gm-Message-State: ACgBeo0USofOgc3JtoZ6kdyw5neucN9Ogy33H0s+WfB+TAEMar0jhzDF
+        H/yoLg0eWmJdGiqHT1vs5J6EhCvn1usE4hcgYJA=
+X-Google-Smtp-Source: AA6agR76KQhgeaAZ++agDFZdUHr+Pui39KP1+A5o5aqlblLsaaVkQYVFKjPrRMaPphxedL00hKcBALuWLDkjiBYeks0=
+X-Received: by 2002:ab0:6dc5:0:b0:39b:fa5e:77f6 with SMTP id
+ r5-20020ab06dc5000000b0039bfa5e77f6mr2860032uaf.114.1660940880665; Fri, 19
+ Aug 2022 13:28:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com> <20220706082016.2603916-12-chao.p.peng@linux.intel.com>
-In-Reply-To: <20220706082016.2603916-12-chao.p.peng@linux.intel.com>
-From:   Vishal Annapurve <vannapurve@google.com>
-Date:   Fri, 19 Aug 2022 12:37:42 -0700
-Message-ID: <CAGtprH9xyw6bt4=RBWF6-v2CSpabOCpKq5rPz+e-9co7EisoVQ@mail.gmail.com>
-Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
- memory regions
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm list <kvm@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Jun Nakajima <jun.nakajima@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
+References: <20220607153139.35588-1-cgzones@googlemail.com>
+ <20220608112728.b4xrdppxqmyqmtwf@wittgenstein> <CAOQ4uxipD6khNUYuZT80WUa0KOMdyyP0ia55uhmeRCLj4NBicg@mail.gmail.com>
+ <20220608124808.uylo5lntzfgxxmns@wittgenstein> <CAOQ4uxjP7kC95ou56wabVhQcc2vkNcD-8usYhLhbLOoJZ-jkOw@mail.gmail.com>
+ <20220618031805.nmgiuapuqeblm3ba@senku> <CAOQ4uxg6QLJ26pX8emXmUvq6jDDEH_Qq=Z4RPUK-jGLsZpHzfg@mail.gmail.com>
+ <20220620060741.3clikqadotq2p5ja@senku> <CAOQ4uxhq8HVoM=6O_H-uowv65m6tLAPUj2a_r3-CWpiX-48MoQ@mail.gmail.com>
+ <20220622025715.upflevvao3ttaekj@senku> <CAJ2a_DfkMvh7EdOA6k+omxhi18-oVbSXSGzXnpU1tXPD55B2qw@mail.gmail.com>
+In-Reply-To: <CAJ2a_DfkMvh7EdOA6k+omxhi18-oVbSXSGzXnpU1tXPD55B2qw@mail.gmail.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Fri, 19 Aug 2022 23:27:49 +0300
+Message-ID: <CAOQ4uxhiyVixjDnDsMusfAPqP4DkbA0TfmOKGLa_L6T6s1JJjQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] f*xattr: allow O_PATH descriptors
+To:     =?UTF-8?Q?Christian_G=C3=B6ttsche?= <cgzones@googlemail.com>
+Cc:     Aleksa Sarai <cyphar@cyphar.com>,
+        Christian Brauner <brauner@kernel.org>,
+        SElinux list <selinux@vger.kernel.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-> ...
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index 230c8ff9659c..bb714c2a4b06 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -914,6 +914,35 @@ static int kvm_init_mmu_notifier(struct kvm *kvm)
+On Fri, Aug 19, 2022 at 9:05 PM Christian G=C3=B6ttsche
+<cgzones@googlemail.com> wrote:
 >
->  #endif /* CONFIG_MMU_NOTIFIER && KVM_ARCH_WANT_MMU_NOTIFIER */
+> On Wed, 22 Jun 2022 at 04:57, Aleksa Sarai <cyphar@cyphar.com> wrote:
+> >
+> > On 2022-06-20, Amir Goldstein <amir73il@gmail.com> wrote:
+> > > To be a reasonable reaction to the currently broken API is
+> > > to either accept the patch as is or request that setxattrat()
+> > > will be added to provide the new functionality.
+> >
+> > Since the current functionality cannot be retroactively disabled as it
+> > is being used already through /proc/self/fd/$n, adding
+> > *xattrat(AT_EMPTY_PATH) doesn't really change what is currently possibl=
+e
+> > by userspace.
+> >
+> > I would say we should add *xattrat(2) and then we can add an upgrade
+> > mask blocking it (and other operations) later.
+> >
 >
-> +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
-> +#define KVM_MEM_ATTR_PRIVATE   0x0001
-> +static int kvm_vm_ioctl_set_encrypted_region(struct kvm *kvm, unsigned int ioctl,
-> +                                            struct kvm_enc_region *region)
-> +{
-> +       unsigned long start, end;
-> +       void *entry;
-> +       int r;
-> +
-> +       if (region->size == 0 || region->addr + region->size < region->addr)
-> +               return -EINVAL;
-> +       if (region->addr & (PAGE_SIZE - 1) || region->size & (PAGE_SIZE - 1))
-> +               return -EINVAL;
-> +
-> +       start = region->addr >> PAGE_SHIFT;
-> +       end = (region->addr + region->size - 1) >> PAGE_SHIFT;
-> +
-> +       entry = ioctl == KVM_MEMORY_ENCRYPT_REG_REGION ?
-> +                               xa_mk_value(KVM_MEM_ATTR_PRIVATE) : NULL;
-> +
-> +       r = xa_err(xa_store_range(&kvm->mem_attr_array, start, end,
-> +                                       entry, GFP_KERNEL_ACCOUNT));
+> It seems setxattrat() is the preferred way to continue.
+> fsetxattr() would have one advantage though (w.r.t. SELinux):
+>
+> The steps to label a file are:
+>   1. get the type of the file (via stat(2) family)
+>   2. lookup the desired label from the label database via selabel_lookup(=
+3)
+>   3. assign the retrieved label to the file
+>
+> The label is sensitive to the file type, e.g.
+>
+>     $ matchpathcon -m file /etc/shadow
+>     /etc/shadow     system_u:object_r:shadow_t:s0
+>     $ matchpathcon -m lnk_file /etc/shadow
+>     /etc/shadow     system_u:object_r:etc_t:s0
+>
+> Using the *at() family the file type could change between step 1. and 3.,
+> which operating on an O_PATH file descriptor would prevent.
 
-xa_store_range seems to create multi-index entries by default.
-Subsequent xa_store_range call changes all the entries stored
-previously.
-xa_store needs to be used here instead of xa_store_range to achieve
-the intended behavior.
+I don't understand the problem.
 
-> +
-> +       kvm_zap_gfn_range(kvm, start, end + 1);
-> +
-> +       return r;
-> +}
-> +#endif /* CONFIG_HAVE_KVM_PRIVATE_MEM */
-> +
-> ...
+If you have an O_PATH fd, the object it represents does not change.
+If you use fstatat(fd, ..., AT_EMPTY_PATH) (or fstat) and
+setxattrat(fd, ..., AT_EMPTY_PATH), it prevents the race.
+
+Thanks,
+Amir.
