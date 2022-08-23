@@ -2,128 +2,203 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7478059CDC4
-	for <lists+linux-api@lfdr.de>; Tue, 23 Aug 2022 03:26:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2F5159CF56
+	for <lists+linux-api@lfdr.de>; Tue, 23 Aug 2022 05:23:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237871AbiHWBZr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 22 Aug 2022 21:25:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54892 "EHLO
+        id S240053AbiHWDWT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 22 Aug 2022 23:22:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233491AbiHWBZq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Aug 2022 21:25:46 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8938857E12;
-        Mon, 22 Aug 2022 18:25:44 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id o5-20020a17090a3d4500b001ef76490983so13126902pjf.2;
-        Mon, 22 Aug 2022 18:25:44 -0700 (PDT)
+        with ESMTP id S239213AbiHWDWS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Aug 2022 23:22:18 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A64D58535
+        for <linux-api@vger.kernel.org>; Mon, 22 Aug 2022 20:22:16 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id r14-20020a17090a4dce00b001faa76931beso15900995pjl.1
+        for <linux-api@vger.kernel.org>; Mon, 22 Aug 2022 20:22:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=zUw74NM1PF7THinMe6GlF9fUaFjzhhz/u/PvpW+nALE=;
-        b=Q64HD9FubVrlP5FmJOhxKQUOt96oa1y4u811xQjDNizh82sETFqtDd7YBhlyq7Fdxb
-         rLbPDmVH9HGNC5K/UDeLYv14kfMyzYjVa50MOJ3QGeHCfs4+qrFqcTtzZArm4uraIU/C
-         Nvrv9grRvmRE9oXrd0tzcZWKDezpB1lWXwmfxeu/1emkEXRpVPM/7arbKBomI1miyiS1
-         hy+2xHiijPE8GCpoe5wjF/dscpP7+aowXMXjkAsfFbEH43jZ108/WVH0r9AZlzcMQqx9
-         hVVjlHJU7iqLQKQKcheYNF9PR/qe1ORY2lIlJGzxRCAvGY1+/1jjiSLaSTUkLSyqVi90
-         uW+g==
+        d=dilger-ca.20210112.gappssmtp.com; s=20210112;
+        h=references:to:cc:in-reply-to:date:subject:mime-version:message-id
+         :from:from:to:cc;
+        bh=t5TO7xdQGMXaC5TRTQFcqhFSnLRjgf1D8C0Y6A6YDxE=;
+        b=WmzvvmXH5e7wP/UE3SOCEoTxUnalykJ3N3TkckdsZzxqPN6OxAvOMEhsFJIg72/pec
+         dV+HIGE92uLWsaavfgjKM+C+A5n4EiV88XdKFsoxydVAFe5nmQZ3wXK7pbUiZnpPSViH
+         9wcRuFbEeMk6CuUC5TU2Fsvnjo++S7A79RBLzB6Aur+2C1mdRPNWR6V9hkWGd33kuaZ6
+         xcCba0irYI0fzWODf7B+oUYh3cw5uD53qZpQUEbxAvY5/4dbEDBWYTz1DS09LYro3uwm
+         G9+kpUhWzIhcfbKMcEQU1XlfvHYa+Duf15Pq6vyDet2odUshI95kkV9niiVxvoEj4EEl
+         OWIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=zUw74NM1PF7THinMe6GlF9fUaFjzhhz/u/PvpW+nALE=;
-        b=Xwicifs0XYamrE5uEXARQ0O+rvs9DfdwfuznrzftFxPvmxE5c/sZtC6SWIC4P5D+x+
-         t2wugjjIguIzAB6qkyx0d/kX5Nv7s/bv9ZhBLWh0WL+FaWLZsd9TKMkSkKCfJXjqILUC
-         mES1anJuno4CTHQhwiQJqmm8uxQ34OxeJL1i2jTU+5dIIf3HawhI878QJavcM8OCmHCo
-         Txo8Xctnf9uOZdKrN+UYfjwtQStLPwnCL+rr8hvm04NVEcbH8XzmS8seICuhOJfCwSWz
-         aT+gqayCn5EXzpfe3YBB8Ca/etcqI6byfylLm/D5twU9Ma/nbLMt6RvnA+XCLMRdcqvL
-         15KA==
-X-Gm-Message-State: ACgBeo0yAtxRa+c7WmLpG4AdzoOIzDG3JvRHY98EM1KoJSK8FBAZofZb
-        Zerx4sPtVH/dAjJx2zhbyyg=
-X-Google-Smtp-Source: AA6agR6cK3+6tkV4eQf/7WDt9r9QaUp4zK5IzLni0B+GqaZ9vscYfOKokN6RflRUU0B5j2K2m/fZsQ==
-X-Received: by 2002:a17:902:9886:b0:172:bb36:70f1 with SMTP id s6-20020a170902988600b00172bb3670f1mr21126201plp.139.1661217943863;
-        Mon, 22 Aug 2022 18:25:43 -0700 (PDT)
-Received: from localhost ([192.55.55.51])
-        by smtp.gmail.com with ESMTPSA id d10-20020a17090ab30a00b001fb53587166sm1055886pjr.28.2022.08.22.18.25.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Aug 2022 18:25:43 -0700 (PDT)
-Date:   Mon, 22 Aug 2022 18:25:41 -0700
-From:   Isaku Yamahata <isaku.yamahata@gmail.com>
-To:     Michael Roth <michael.roth@amd.com>
-Cc:     Sean Christopherson <seanjc@google.com>,
-        "Gupta, Pankaj" <pankaj.gupta@amd.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>,
-        "Nikunj A. Dadhania" <nikunj@amd.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>,
-        bharata@amd.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, linux-fsdevel@vger.kernel.org,
-        isaku.yamahata@gmail.com
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <20220823012541.GA2147148@ls.amr.corp.intel.com>
-References: <422b9f97-fdf5-54bf-6c56-3c45eff5e174@amd.com>
- <1407c70c-0c0b-6955-10bb-d44c5928f2d9@amd.com>
- <1136925c-2e37-6af4-acac-be8bed9f6ed5@amd.com>
- <1b02db9d-f2f1-94dd-6f37-59481525abff@amd.com>
- <20220815130411.GA1073443@chaop.bj.intel.com>
- <f0094f31-9669-47b5-eb52-6754a13ce757@amd.com>
- <20220816122457.2fjyd4uz5hp5cani@box.shutemov.name>
- <f95f35af-4824-2a2a-7cd0-71d1fda6867a@amd.com>
- <Yvu54I7Y+/ybVyec@google.com>
- <20220817152719.g7pgu34syekzkha5@amd.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220817152719.g7pgu34syekzkha5@amd.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        h=references:to:cc:in-reply-to:date:subject:mime-version:message-id
+         :from:x-gm-message-state:from:to:cc;
+        bh=t5TO7xdQGMXaC5TRTQFcqhFSnLRjgf1D8C0Y6A6YDxE=;
+        b=PkBeAFfLyjp5KvH4hMQdKk8G+iFRHAJRFT9UBf0DM3PbX/ext0EYwLpwe+XU1tHxHA
+         bDmEl/V6OVLxR3hPo8f5GMete5aTgJlTF5XClL+yQpTZXXvWtQb4PVeGcsRnmBfBAGRD
+         fBI7QmVdDdU3ZbGgMy30420h1a7SRlalPaUTBOa1f5fiOCGUPJ6xVj4zCHz2iBj9wFZa
+         qUM22FlO4gkmPxfPzU6Ks6QAJ7dT6hNZ3p13sLGo91eCWpRa7tmiesNkHUvrLUw0M6kP
+         8HRP+xS+z15yoKHgk75btDqBg+ftbhLC39fd4P60cCAdvOtDmJbJkPKlFsF48oZYGxEH
+         cJzw==
+X-Gm-Message-State: ACgBeo09XAUDkR2QRn6hzoeryGbJ5WOKOpYzVyMsH0fXStbmSeyY4U/6
+        2doONvO/5IBcOmYURzuy9g/ocg==
+X-Google-Smtp-Source: AA6agR6bYAoLnjuq/NI/816MPUccS4/TdIQzRNkgRVQfsY/JSoRbcW6B7pyoAJACabZ0K9rJNxD0pA==
+X-Received: by 2002:a17:903:18b:b0:16e:f09c:919b with SMTP id z11-20020a170903018b00b0016ef09c919bmr23613380plg.135.1661224935485;
+        Mon, 22 Aug 2022 20:22:15 -0700 (PDT)
+Received: from cabot.adilger.int (S01061cabc081bf83.cg.shawcable.net. [70.77.221.9])
+        by smtp.gmail.com with ESMTPSA id b9-20020a1709027e0900b00172d52b7c03sm5372011plm.125.2022.08.22.20.22.14
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 22 Aug 2022 20:22:14 -0700 (PDT)
+From:   Andreas Dilger <adilger@dilger.ca>
+Message-Id: <21923F1E-1C54-44FB-AF7C-4CD8B4B35433@dilger.ca>
+Content-Type: multipart/signed;
+ boundary="Apple-Mail=_8E3621BA-8A02-4654-8DC0-856F43CB7C0C";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
+Subject: Re: [PATCH v4 6/9] f2fs: don't allow DIO reads but not DIO writes
+Date:   Mon, 22 Aug 2022 21:22:11 -0600
+In-Reply-To: <YwAYPFxW7VV4M9D1@sol.localdomain>
+Cc:     Dave Chinner <david@fromorbit.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-f2fs-devel@lists.sourceforge.net,
+        xfs <linux-xfs@vger.kernel.org>, linux-api@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org,
+        linux-block <linux-block@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Keith Busch <kbusch@kernel.org>
+To:     Eric Biggers <ebiggers@kernel.org>
+References: <20220722071228.146690-1-ebiggers@kernel.org>
+ <20220722071228.146690-7-ebiggers@kernel.org> <YtyoF89iOg8gs7hj@google.com>
+ <Yt7dCcG0ns85QqJe@sol.localdomain> <YuXyKh8Zvr56rR4R@google.com>
+ <YvrrEcw4E+rpDLwM@sol.localdomain>
+ <20220816090312.GU3600936@dread.disaster.area>
+ <D1CDACE3-EC7E-43E4-8F49-EEA2B6E71A41@dilger.ca>
+ <YwAYPFxW7VV4M9D1@sol.localdomain>
+X-Mailer: Apple Mail (2.3273)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Aug 17, 2022 at 10:27:19AM -0500,
-Michael Roth <michael.roth@amd.com> wrote:
 
-> > I think the best approach is to turn KVM_TDX_INIT_MEM_REGION into a generic
-> > vCPU-scoped ioctl() that allows userspace to pre-map guest memory.  Supporting
-> > initializing guest private memory with a source page can be implemented via a
-> > flag.  That also gives KVM line of sight to in-place "conversion", e.g. another
-> > flag could be added to say that the dest is also the source.
-> 
-> So is this proposed ioctl only intended to handle the initial encrypted
-> payload, and the KVM_MEMORY_ENCRYPT_{REG,UNREG}_REGION ioctls would
-> still be used for conversions post-boot?
+--Apple-Mail=_8E3621BA-8A02-4654-8DC0-856F43CB7C0C
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-Yes.  It is called before running any vcpu.  At run time (after running vcpus),
-KVM_MEMORY_ENCRYPT_{REG,UNREG}_REGION is used.
--- 
-Isaku Yamahata <isaku.yamahata@gmail.com>
+On Aug 19, 2022, at 5:09 PM, Eric Biggers <ebiggers@kernel.org> wrote:
+>=20
+> On Tue, Aug 16, 2022 at 10:42:29AM -0600, Andreas Dilger wrote:
+>>=20
+>> IMHO, this whole discussion is putting the cart before the horse.
+>> Changing existing (and useful) IO behavior to accommodate an API that
+>> nobody has ever used, and is unlikely to even be widely used, doesn't
+>> make sense to me.  Most applications won't check or care about the =
+new
+>> DIO size fields, since they've lived this long without statx() =
+returning
+>> this info, and will just pick a "large enough" size (4KB, 1MB, =
+whatever)
+>> that gives them the performance they need.  They *WILL* care if the =
+app
+>> is suddenly unable to read data from a file in ways that have worked =
+for
+>> a long time.
+>>=20
+>> Even if apps are modified to check these new DIO size fields, and =
+then
+>> try to DIO write to a file in f2fs that doesn't allow it, then f2fs =
+will
+>> return an error, which is what it would have done without the statx()
+>> changes, so no harm done AFAICS.
+>>=20
+>> Even with a more-complex DIO status return that handles a "direction"
+>> field (which IMHO is needlessly complex), there is always the =
+potential
+>> for a TOCTOU race where a file changes between checking and access, =
+so
+>> the userspace code would need to handle this.
+>=20
+> I'm having trouble making sense of your argument here; you seem to be =
+saying
+> that STATX_DIOALIGN isn't useful, so it doesn't matter if we design it
+> correctly?  That line of reasoning is concerning, as it's certainly =
+intended
+> to be useful, and if it's not useful there's no point in adding it.
+>=20
+> Are there any specific concerns that you have, besides TOCTOU races =
+and the
+> lack of support for read-only DIO?
+
+My main concern is disabling useful functionality that exists today to =
+appease
+the new DIO size API.  Whether STATX_DIOALIGN will become widely used by
+applications or not is hard to say at this point.
+
+If there were separate STATX_DIOREAD and STATX_DIOWRITE flags in the =
+returned
+data, and the alignment is provided as it is today, that would be enough =
+IMHO
+to address the original use case without significant complexity.
+
+> I don't think that TOCTOU races are a real concern here.  Generally =
+DIO
+> constraints would only change if the application doing DIO =
+intentionally does
+> something to the file, or if there are changes that involve the =
+filesystem
+> being taken offline, e.g. the filesystem being mounted with =
+significantly
+> different options or being moved to a different block device.  And, =
+well,
+> everything else in stat()/statx() is subject to TOCTOU as well, but is =
+still
+> used...
+
+I was thinking of background filesystem operations like compression, LVM
+migration to new storage with a different sector size, etc. that may =
+change
+the DIO characteristics of the file even while it is open.  Not that I =
+think
+this will happen frequently, but it is possible, and applications =
+shouldn't
+explode if the DIO parameters change and they get an error.
+
+Cheers, Andreas
+
+
+
+
+
+
+--Apple-Mail=_8E3621BA-8A02-4654-8DC0-856F43CB7C0C
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - http://gpgtools.org
+
+iQIzBAEBCAAdFiEEDb73u6ZejP5ZMprvcqXauRfMH+AFAmMER+MACgkQcqXauRfM
+H+D5gBAAjf5qhCdnFlyRgIkdcPs1zELiCu4+Jw0PH5rkavcu3tVPwEBTCbHxXVMN
+6ZsFra7ARjxxj58mUSEtN9NDHwpiQreGlgqDoP+uYYb3EwiFZstja2fl0mTAytE5
+lMb8zBxkfCh8xexTnnVk7ULsOrTO+/xYTUbmRIqQvK6PTicVuO6H8FtzYFHjilnn
+/RZ8yRCndDsFmRpZCApwy26cPcP3UyrtUqz8rKk1iy5oBIC1ALvx8baYjY/Wi7Fs
+vMq1ExdKsjPPVQT5dmj1ISPRXpxTGezKhqvxNvbR/IMwKW2PzEMZzClRQnYKuWe5
+GBu6zW0mWe5l+Bg1amzve/WteBX/5i6rrkknoD58zBL8SL4LDh+uQGaM2q7EzegR
+lEc1/IpOtR1WrfmP+tOqEIfdwa4jMikNm4NKHYoQA2OQcxEzmYgtBHeeVbGOFCEq
+PRKVZbxxF2bVFWuBVbsSbAar9o6G6Ucm11LBDHkKEpn8RTqN/UeXBrcslIk9NczK
+2qtnn0jbek1OgtMEpGaajobjeqBqQUIC6/cUkU0S7Ga1LsV7D8eH5TV9EF3rWwLe
+0MJ2IWgAmbMDp7gYNVZYrsJJMrqcjphRO33u2JvwFisboKU1DD4qtfnG1vvF8u1n
+RHpWdRBE/l0VC15dWox4zVKfVgH52rkeKE8ZVkTj83NDSIidz94=
+=WmyJ
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_8E3621BA-8A02-4654-8DC0-856F43CB7C0C--
