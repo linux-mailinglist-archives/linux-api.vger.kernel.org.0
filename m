@@ -2,203 +2,150 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D2F5159CF56
-	for <lists+linux-api@lfdr.de>; Tue, 23 Aug 2022 05:23:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB22F59D259
+	for <lists+linux-api@lfdr.de>; Tue, 23 Aug 2022 09:39:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240053AbiHWDWT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 22 Aug 2022 23:22:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48648 "EHLO
+        id S239875AbiHWHhO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 23 Aug 2022 03:37:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239213AbiHWDWS (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 22 Aug 2022 23:22:18 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A64D58535
-        for <linux-api@vger.kernel.org>; Mon, 22 Aug 2022 20:22:16 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id r14-20020a17090a4dce00b001faa76931beso15900995pjl.1
-        for <linux-api@vger.kernel.org>; Mon, 22 Aug 2022 20:22:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dilger-ca.20210112.gappssmtp.com; s=20210112;
-        h=references:to:cc:in-reply-to:date:subject:mime-version:message-id
-         :from:from:to:cc;
-        bh=t5TO7xdQGMXaC5TRTQFcqhFSnLRjgf1D8C0Y6A6YDxE=;
-        b=WmzvvmXH5e7wP/UE3SOCEoTxUnalykJ3N3TkckdsZzxqPN6OxAvOMEhsFJIg72/pec
-         dV+HIGE92uLWsaavfgjKM+C+A5n4EiV88XdKFsoxydVAFe5nmQZ3wXK7pbUiZnpPSViH
-         9wcRuFbEeMk6CuUC5TU2Fsvnjo++S7A79RBLzB6Aur+2C1mdRPNWR6V9hkWGd33kuaZ6
-         xcCba0irYI0fzWODf7B+oUYh3cw5uD53qZpQUEbxAvY5/4dbEDBWYTz1DS09LYro3uwm
-         G9+kpUhWzIhcfbKMcEQU1XlfvHYa+Duf15Pq6vyDet2odUshI95kkV9niiVxvoEj4EEl
-         OWIA==
+        with ESMTP id S240863AbiHWHhG (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Aug 2022 03:37:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBD5A642E2
+        for <linux-api@vger.kernel.org>; Tue, 23 Aug 2022 00:37:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1661240225;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=HohlDOM1an5R3Aeg0WJ6GQRtA32+l/PSRz3n64TVcFI=;
+        b=Y8lHcwEaMTgdjbG/tbKrjI3w+ZvyXb0YQLp2zDUbZ5Bdo/bo1kmLGljTthBQmARyjPuwLj
+        Xoxosn/rXX0xRLHgu7UUU5SNMLvOmPUINur5IeF6Q3nt0wY60JBdVWbP9QjgMSzctFDWdH
+        H+15TnZF/5yk/2tu5t0ZUgGHM2fRXDw=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-324-l9qsalxZMM6oqAWboyXpMQ-1; Tue, 23 Aug 2022 03:37:01 -0400
+X-MC-Unique: l9qsalxZMM6oqAWboyXpMQ-1
+Received: by mail-wr1-f72.google.com with SMTP id m7-20020adfa3c7000000b002251ddd0e05so2046044wrb.10
+        for <linux-api@vger.kernel.org>; Tue, 23 Aug 2022 00:37:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=references:to:cc:in-reply-to:date:subject:mime-version:message-id
-         :from:x-gm-message-state:from:to:cc;
-        bh=t5TO7xdQGMXaC5TRTQFcqhFSnLRjgf1D8C0Y6A6YDxE=;
-        b=PkBeAFfLyjp5KvH4hMQdKk8G+iFRHAJRFT9UBf0DM3PbX/ext0EYwLpwe+XU1tHxHA
-         bDmEl/V6OVLxR3hPo8f5GMete5aTgJlTF5XClL+yQpTZXXvWtQb4PVeGcsRnmBfBAGRD
-         fBI7QmVdDdU3ZbGgMy30420h1a7SRlalPaUTBOa1f5fiOCGUPJ6xVj4zCHz2iBj9wFZa
-         qUM22FlO4gkmPxfPzU6Ks6QAJ7dT6hNZ3p13sLGo91eCWpRa7tmiesNkHUvrLUw0M6kP
-         8HRP+xS+z15yoKHgk75btDqBg+ftbhLC39fd4P60cCAdvOtDmJbJkPKlFsF48oZYGxEH
-         cJzw==
-X-Gm-Message-State: ACgBeo09XAUDkR2QRn6hzoeryGbJ5WOKOpYzVyMsH0fXStbmSeyY4U/6
-        2doONvO/5IBcOmYURzuy9g/ocg==
-X-Google-Smtp-Source: AA6agR6bYAoLnjuq/NI/816MPUccS4/TdIQzRNkgRVQfsY/JSoRbcW6B7pyoAJACabZ0K9rJNxD0pA==
-X-Received: by 2002:a17:903:18b:b0:16e:f09c:919b with SMTP id z11-20020a170903018b00b0016ef09c919bmr23613380plg.135.1661224935485;
-        Mon, 22 Aug 2022 20:22:15 -0700 (PDT)
-Received: from cabot.adilger.int (S01061cabc081bf83.cg.shawcable.net. [70.77.221.9])
-        by smtp.gmail.com with ESMTPSA id b9-20020a1709027e0900b00172d52b7c03sm5372011plm.125.2022.08.22.20.22.14
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 22 Aug 2022 20:22:14 -0700 (PDT)
-From:   Andreas Dilger <adilger@dilger.ca>
-Message-Id: <21923F1E-1C54-44FB-AF7C-4CD8B4B35433@dilger.ca>
-Content-Type: multipart/signed;
- boundary="Apple-Mail=_8E3621BA-8A02-4654-8DC0-856F43CB7C0C";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
-Subject: Re: [PATCH v4 6/9] f2fs: don't allow DIO reads but not DIO writes
-Date:   Mon, 22 Aug 2022 21:22:11 -0600
-In-Reply-To: <YwAYPFxW7VV4M9D1@sol.localdomain>
-Cc:     Dave Chinner <david@fromorbit.com>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-f2fs-devel@lists.sourceforge.net,
-        xfs <linux-xfs@vger.kernel.org>, linux-api@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org,
-        linux-block <linux-block@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Keith Busch <kbusch@kernel.org>
-To:     Eric Biggers <ebiggers@kernel.org>
-References: <20220722071228.146690-1-ebiggers@kernel.org>
- <20220722071228.146690-7-ebiggers@kernel.org> <YtyoF89iOg8gs7hj@google.com>
- <Yt7dCcG0ns85QqJe@sol.localdomain> <YuXyKh8Zvr56rR4R@google.com>
- <YvrrEcw4E+rpDLwM@sol.localdomain>
- <20220816090312.GU3600936@dread.disaster.area>
- <D1CDACE3-EC7E-43E4-8F49-EEA2B6E71A41@dilger.ca>
- <YwAYPFxW7VV4M9D1@sol.localdomain>
-X-Mailer: Apple Mail (2.3273)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc;
+        bh=HohlDOM1an5R3Aeg0WJ6GQRtA32+l/PSRz3n64TVcFI=;
+        b=cbsr6IYlluZf1wXa6siTSREACOgdl+HrurcouO/ta3Mx7VU8gCheNqOqcBCBcMkZEu
+         T5VdyukTafJCTIhk9WLUhu1UijFrrYh5sRd/jsQ1i+XjPmkdDgrV3c3/q0tQ4p3PUlyQ
+         2Bu3xpoDE8cJqM4aevIhZLH+3nBbUMQCAvUjuHs/1pzM4de8i2umWKOwYkQUZBHOFTTX
+         TBNX8UujyUry1ZW1No/XSvgJPjIMFNDWii9Ae7iRVWvSnGF1NwpEkVo2NlD1C89iY+6+
+         8tlbp/I++oSL1FjdFEPn5KUjChsXIyFL+HK6OjL8lqOipKb6PL6mnpr72052ujnXBUYP
+         Koww==
+X-Gm-Message-State: ACgBeo2PWmmxXWvBc1Lz1YRiJlDzB9dyJp/BpM/RE7rn9JpSnSQeucY4
+        yxg14WLTCh8aRMt3twD1lyjFQWW5v8wvg73ZESzDiTppNpt82ftD7P8xHkbxlgSbXGgXz7gkB6h
+        9JS4npqOHJRFv5O0ZOchv
+X-Received: by 2002:a05:600c:4e04:b0:3a5:a34e:ae81 with SMTP id b4-20020a05600c4e0400b003a5a34eae81mr1210651wmq.147.1661240219939;
+        Tue, 23 Aug 2022 00:36:59 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4NUFG4IFicJqv+j50eM5lq6Rzd1ri/9X+RKdy6Bv7oWpP5THIKdol8DYBnS2vZ39y/40KufQ==
+X-Received: by 2002:a05:600c:4e04:b0:3a5:a34e:ae81 with SMTP id b4-20020a05600c4e0400b003a5a34eae81mr1210635wmq.147.1661240219655;
+        Tue, 23 Aug 2022 00:36:59 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c70b:1600:c48b:1fab:a330:5182? (p200300cbc70b1600c48b1faba3305182.dip0.t-ipconnect.de. [2003:cb:c70b:1600:c48b:1fab:a330:5182])
+        by smtp.gmail.com with ESMTPSA id u18-20020adfdb92000000b0021eaf4138aesm16379582wri.108.2022.08.23.00.36.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Aug 2022 00:36:59 -0700 (PDT)
+Message-ID: <8f6f428b-85e6-a188-7f32-512b6aae0abf@redhat.com>
+Date:   Tue, 23 Aug 2022 09:36:57 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v7 01/14] mm: Add F_SEAL_AUTO_ALLOCATE seal to memfd
+Content-Language: en-US
+To:     "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Paolo Bonzini <pbonzini@redhat.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        linux-kselftest@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-2-chao.p.peng@linux.intel.com>
+ <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
+ <472207cf-ff71-563b-7b66-0c7bea9ea8ad@redhat.com>
+ <20220817234120.mw2j3cgshmuyo2vw@box.shutemov.name>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20220817234120.mw2j3cgshmuyo2vw@box.shutemov.name>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On 18.08.22 01:41, Kirill A. Shutemov wrote:
+> On Fri, Aug 05, 2022 at 07:55:38PM +0200, Paolo Bonzini wrote:
+>> On 7/21/22 11:44, David Hildenbrand wrote:
+>>>
+>>> Also, I*think*  you can place pages via userfaultfd into shmem. Not
+>>> sure if that would count "auto alloc", but it would certainly bypass
+>>> fallocate().
+>>
+>> Yeah, userfaultfd_register would probably have to forbid this for
+>> F_SEAL_AUTO_ALLOCATE vmas.  Maybe the memfile_node can be reused for this,
+>> adding a new MEMFILE_F_NO_AUTO_ALLOCATE flags?  Then userfault_register
+>> would do something like memfile_node_get_flags(vma->vm_file) and check the
+>> result.
+> 
+> I donno, memory allocation with userfaultfd looks pretty intentional to
+> me. Why would F_SEAL_AUTO_ALLOCATE prevent it?
+> 
 
---Apple-Mail=_8E3621BA-8A02-4654-8DC0-856F43CB7C0C
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+Can't we say the same about a write()?
 
-On Aug 19, 2022, at 5:09 PM, Eric Biggers <ebiggers@kernel.org> wrote:
->=20
-> On Tue, Aug 16, 2022 at 10:42:29AM -0600, Andreas Dilger wrote:
->>=20
->> IMHO, this whole discussion is putting the cart before the horse.
->> Changing existing (and useful) IO behavior to accommodate an API that
->> nobody has ever used, and is unlikely to even be widely used, doesn't
->> make sense to me.  Most applications won't check or care about the =
-new
->> DIO size fields, since they've lived this long without statx() =
-returning
->> this info, and will just pick a "large enough" size (4KB, 1MB, =
-whatever)
->> that gives them the performance they need.  They *WILL* care if the =
-app
->> is suddenly unable to read data from a file in ways that have worked =
-for
->> a long time.
->>=20
->> Even if apps are modified to check these new DIO size fields, and =
-then
->> try to DIO write to a file in f2fs that doesn't allow it, then f2fs =
-will
->> return an error, which is what it would have done without the statx()
->> changes, so no harm done AFAICS.
->>=20
->> Even with a more-complex DIO status return that handles a "direction"
->> field (which IMHO is needlessly complex), there is always the =
-potential
->> for a TOCTOU race where a file changes between checking and access, =
-so
->> the userspace code would need to handle this.
->=20
-> I'm having trouble making sense of your argument here; you seem to be =
-saying
-> that STATX_DIOALIGN isn't useful, so it doesn't matter if we design it
-> correctly?  That line of reasoning is concerning, as it's certainly =
-intended
-> to be useful, and if it's not useful there's no point in adding it.
->=20
-> Are there any specific concerns that you have, besides TOCTOU races =
-and the
-> lack of support for read-only DIO?
+> Maybe we would need it in the future for post-copy migration or something?
+> 
+> Or existing practises around userfaultfd touch memory randomly and
+> therefore incompatible with F_SEAL_AUTO_ALLOCATE intent?
+> 
+> Note, that userfaultfd is only relevant for shared memory as it requires
+> VMA which we don't have for MFD_INACCESSIBLE.
 
-My main concern is disabling useful functionality that exists today to =
-appease
-the new DIO size API.  Whether STATX_DIOALIGN will become widely used by
-applications or not is hard to say at this point.
+This feature (F_SEAL_AUTO_ALLOCATE) is independent of all the lovely
+encrypted VM stuff, so it doesn't matter how it relates to MFD_INACCESSIBLE.
 
-If there were separate STATX_DIOREAD and STATX_DIOWRITE flags in the =
-returned
-data, and the alignment is provided as it is today, that would be enough =
-IMHO
-to address the original use case without significant complexity.
+-- 
+Thanks,
 
-> I don't think that TOCTOU races are a real concern here.  Generally =
-DIO
-> constraints would only change if the application doing DIO =
-intentionally does
-> something to the file, or if there are changes that involve the =
-filesystem
-> being taken offline, e.g. the filesystem being mounted with =
-significantly
-> different options or being moved to a different block device.  And, =
-well,
-> everything else in stat()/statx() is subject to TOCTOU as well, but is =
-still
-> used...
+David / dhildenb
 
-I was thinking of background filesystem operations like compression, LVM
-migration to new storage with a different sector size, etc. that may =
-change
-the DIO characteristics of the file even while it is open.  Not that I =
-think
-this will happen frequently, but it is possible, and applications =
-shouldn't
-explode if the DIO parameters change and they get an error.
-
-Cheers, Andreas
-
-
-
-
-
-
---Apple-Mail=_8E3621BA-8A02-4654-8DC0-856F43CB7C0C
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - http://gpgtools.org
-
-iQIzBAEBCAAdFiEEDb73u6ZejP5ZMprvcqXauRfMH+AFAmMER+MACgkQcqXauRfM
-H+D5gBAAjf5qhCdnFlyRgIkdcPs1zELiCu4+Jw0PH5rkavcu3tVPwEBTCbHxXVMN
-6ZsFra7ARjxxj58mUSEtN9NDHwpiQreGlgqDoP+uYYb3EwiFZstja2fl0mTAytE5
-lMb8zBxkfCh8xexTnnVk7ULsOrTO+/xYTUbmRIqQvK6PTicVuO6H8FtzYFHjilnn
-/RZ8yRCndDsFmRpZCApwy26cPcP3UyrtUqz8rKk1iy5oBIC1ALvx8baYjY/Wi7Fs
-vMq1ExdKsjPPVQT5dmj1ISPRXpxTGezKhqvxNvbR/IMwKW2PzEMZzClRQnYKuWe5
-GBu6zW0mWe5l+Bg1amzve/WteBX/5i6rrkknoD58zBL8SL4LDh+uQGaM2q7EzegR
-lEc1/IpOtR1WrfmP+tOqEIfdwa4jMikNm4NKHYoQA2OQcxEzmYgtBHeeVbGOFCEq
-PRKVZbxxF2bVFWuBVbsSbAar9o6G6Ucm11LBDHkKEpn8RTqN/UeXBrcslIk9NczK
-2qtnn0jbek1OgtMEpGaajobjeqBqQUIC6/cUkU0S7Ga1LsV7D8eH5TV9EF3rWwLe
-0MJ2IWgAmbMDp7gYNVZYrsJJMrqcjphRO33u2JvwFisboKU1DD4qtfnG1vvF8u1n
-RHpWdRBE/l0VC15dWox4zVKfVgH52rkeKE8ZVkTj83NDSIidz94=
-=WmyJ
------END PGP SIGNATURE-----
-
---Apple-Mail=_8E3621BA-8A02-4654-8DC0-856F43CB7C0C--
