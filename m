@@ -2,74 +2,75 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB22F59D259
-	for <lists+linux-api@lfdr.de>; Tue, 23 Aug 2022 09:39:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A44359D2C3
+	for <lists+linux-api@lfdr.de>; Tue, 23 Aug 2022 09:56:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239875AbiHWHhO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 23 Aug 2022 03:37:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45408 "EHLO
+        id S241405AbiHWHzO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 23 Aug 2022 03:55:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240863AbiHWHhG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Aug 2022 03:37:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBD5A642E2
-        for <linux-api@vger.kernel.org>; Tue, 23 Aug 2022 00:37:05 -0700 (PDT)
+        with ESMTP id S240512AbiHWHzL (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 23 Aug 2022 03:55:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24F96356EF
+        for <linux-api@vger.kernel.org>; Tue, 23 Aug 2022 00:55:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661240225;
+        s=mimecast20190719; t=1661241309;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=HohlDOM1an5R3Aeg0WJ6GQRtA32+l/PSRz3n64TVcFI=;
-        b=Y8lHcwEaMTgdjbG/tbKrjI3w+ZvyXb0YQLp2zDUbZ5Bdo/bo1kmLGljTthBQmARyjPuwLj
-        Xoxosn/rXX0xRLHgu7UUU5SNMLvOmPUINur5IeF6Q3nt0wY60JBdVWbP9QjgMSzctFDWdH
-        H+15TnZF/5yk/2tu5t0ZUgGHM2fRXDw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=EIwZ7BoTfdMUAhH2fOQC6fOziS/YjfnIvgRTO5vTHto=;
+        b=DyCI55PulUdOrmKB+WgGxp1BNPAeh4juvIPpeXCF87rXoNnLnpMySUbuwRhr2S0tj1ME19
+        XoH2s5lhUgWm3ytjpdAK5bRJwjnYlJotPWAxLQCFL+JlZGmvCyohxuntZ48XyDsa5fE2YY
+        haGZa/VSZ6I6oWfy2Vr9bHAQfLHmsYI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-324-l9qsalxZMM6oqAWboyXpMQ-1; Tue, 23 Aug 2022 03:37:01 -0400
-X-MC-Unique: l9qsalxZMM6oqAWboyXpMQ-1
-Received: by mail-wr1-f72.google.com with SMTP id m7-20020adfa3c7000000b002251ddd0e05so2046044wrb.10
-        for <linux-api@vger.kernel.org>; Tue, 23 Aug 2022 00:37:00 -0700 (PDT)
+ us-mta-447-SfaGaZZ3Po2S0GYz7mctvA-1; Tue, 23 Aug 2022 03:55:07 -0400
+X-MC-Unique: SfaGaZZ3Po2S0GYz7mctvA-1
+Received: by mail-wm1-f70.google.com with SMTP id c64-20020a1c3543000000b003a61987ffb3so7596538wma.6
+        for <linux-api@vger.kernel.org>; Tue, 23 Aug 2022 00:55:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
+        h=content-transfer-encoding:in-reply-to:subject:organization:from
+         :references:cc:to:content-language:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc;
-        bh=HohlDOM1an5R3Aeg0WJ6GQRtA32+l/PSRz3n64TVcFI=;
-        b=cbsr6IYlluZf1wXa6siTSREACOgdl+HrurcouO/ta3Mx7VU8gCheNqOqcBCBcMkZEu
-         T5VdyukTafJCTIhk9WLUhu1UijFrrYh5sRd/jsQ1i+XjPmkdDgrV3c3/q0tQ4p3PUlyQ
-         2Bu3xpoDE8cJqM4aevIhZLH+3nBbUMQCAvUjuHs/1pzM4de8i2umWKOwYkQUZBHOFTTX
-         TBNX8UujyUry1ZW1No/XSvgJPjIMFNDWii9Ae7iRVWvSnGF1NwpEkVo2NlD1C89iY+6+
-         8tlbp/I++oSL1FjdFEPn5KUjChsXIyFL+HK6OjL8lqOipKb6PL6mnpr72052ujnXBUYP
-         Koww==
-X-Gm-Message-State: ACgBeo2PWmmxXWvBc1Lz1YRiJlDzB9dyJp/BpM/RE7rn9JpSnSQeucY4
-        yxg14WLTCh8aRMt3twD1lyjFQWW5v8wvg73ZESzDiTppNpt82ftD7P8xHkbxlgSbXGgXz7gkB6h
-        9JS4npqOHJRFv5O0ZOchv
-X-Received: by 2002:a05:600c:4e04:b0:3a5:a34e:ae81 with SMTP id b4-20020a05600c4e0400b003a5a34eae81mr1210651wmq.147.1661240219939;
-        Tue, 23 Aug 2022 00:36:59 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4NUFG4IFicJqv+j50eM5lq6Rzd1ri/9X+RKdy6Bv7oWpP5THIKdol8DYBnS2vZ39y/40KufQ==
-X-Received: by 2002:a05:600c:4e04:b0:3a5:a34e:ae81 with SMTP id b4-20020a05600c4e0400b003a5a34eae81mr1210635wmq.147.1661240219655;
-        Tue, 23 Aug 2022 00:36:59 -0700 (PDT)
+        bh=EIwZ7BoTfdMUAhH2fOQC6fOziS/YjfnIvgRTO5vTHto=;
+        b=4isLYO37N6YQoeTvW4dEqJjv9HPFtCn7Vj2gyt1t2IZ1LI3dgky9Sz+KoIiRDH/fCN
+         lGT58B4A6aRDB7fYI2dO4vRNXwufCz02oXWoHbbCCjHKE8H3G/qHNCdmIbHV439HGqfQ
+         manJ+b3URz+cFPRkBQkOLLHjgVhQ08FcytY/TvTY3fHAuDBmMAHUhoQEuN3EFZUQzn2l
+         0kOeZHHkaYmZ3cP2Hucl64hKcGG4XHc7nHFFoPLw7baQvuXHRqyMPwnTkNUg4zYP6eh6
+         Kl+AVbD7AEX4RhyOFAzAwgQ1pzV9gFJ5NS+/4uS3e8tH7xTOiBjhMLKDZOOI+fDec+85
+         dimw==
+X-Gm-Message-State: ACgBeo0t222pVrmAzpQbvkkLbk7sq/S/Rt9I5UQ+eBR+DcUoPKKK6d4W
+        LbQAo8kzYj/Rbed4GyJH/xFtXuC3JbCzSt1f2S6I5gGBKOvHMWChDRDc/vqzTpvh00yktg+HJFk
+        ItPblNFef6hxCAowlTuwy
+X-Received: by 2002:adf:f643:0:b0:225:2cb3:4b05 with SMTP id x3-20020adff643000000b002252cb34b05mr13203076wrp.12.1661241306646;
+        Tue, 23 Aug 2022 00:55:06 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7QQcmZIjuOTP3rp/phaSR8BK9i2DfQ3gujUYj0ItGrG9WBrBV+POmli4zo4g6w/n8XuVdszg==
+X-Received: by 2002:adf:f643:0:b0:225:2cb3:4b05 with SMTP id x3-20020adff643000000b002252cb34b05mr13203037wrp.12.1661241306387;
+        Tue, 23 Aug 2022 00:55:06 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c70b:1600:c48b:1fab:a330:5182? (p200300cbc70b1600c48b1faba3305182.dip0.t-ipconnect.de. [2003:cb:c70b:1600:c48b:1fab:a330:5182])
-        by smtp.gmail.com with ESMTPSA id u18-20020adfdb92000000b0021eaf4138aesm16379582wri.108.2022.08.23.00.36.57
+        by smtp.gmail.com with ESMTPSA id c9-20020a05600c100900b003a2f6367049sm16281074wmc.48.2022.08.23.00.55.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Aug 2022 00:36:59 -0700 (PDT)
-Message-ID: <8f6f428b-85e6-a188-7f32-512b6aae0abf@redhat.com>
-Date:   Tue, 23 Aug 2022 09:36:57 +0200
+        Tue, 23 Aug 2022 00:55:05 -0700 (PDT)
+Message-ID: <b2743a3a-a1b4-2d2e-98be-87b58ad387cf@redhat.com>
+Date:   Tue, 23 Aug 2022 09:55:03 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v7 01/14] mm: Add F_SEAL_AUTO_ALLOCATE seal to memfd
 Content-Language: en-US
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Paolo Bonzini <pbonzini@redhat.com>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+To:     Hugh Dickins <hughd@google.com>,
+        Sean Christopherson <seanjc@google.com>
+Cc:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
         linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
+        linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
         Wanpeng Li <wanpengli@tencent.com>,
         Jim Mattson <jmattson@google.com>,
@@ -77,7 +78,6 @@ Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
         Jeff Layton <jlayton@kernel.org>,
         "J . Bruce Fields" <bfields@fieldses.org>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -86,26 +86,27 @@ Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
         "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
         Vlastimil Babka <vbabka@suse.cz>,
         Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
         Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
+        Muchun Song <songmuchun@bytedance.com>,
+        "Gupta, Pankaj" <pankaj.gupta@amd.com>
 References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-2-chao.p.peng@linux.intel.com>
- <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
- <472207cf-ff71-563b-7b66-0c7bea9ea8ad@redhat.com>
- <20220817234120.mw2j3cgshmuyo2vw@box.shutemov.name>
+ <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
+ <20220818132421.6xmjqduempmxnnu2@box> <Yv7XTON3MwuC1Q3U@google.com>
+ <226ab26d-9aa8-dce2-c7f0-9e3f5b65b63@google.com>
 From:   David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-In-Reply-To: <20220817234120.mw2j3cgshmuyo2vw@box.shutemov.name>
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+In-Reply-To: <226ab26d-9aa8-dce2-c7f0-9e3f5b65b63@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -113,36 +114,34 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 18.08.22 01:41, Kirill A. Shutemov wrote:
-> On Fri, Aug 05, 2022 at 07:55:38PM +0200, Paolo Bonzini wrote:
->> On 7/21/22 11:44, David Hildenbrand wrote:
->>>
->>> Also, I*think*  you can place pages via userfaultfd into shmem. Not
->>> sure if that would count "auto alloc", but it would certainly bypass
->>> fallocate().
+On 19.08.22 05:38, Hugh Dickins wrote:
+> On Fri, 19 Aug 2022, Sean Christopherson wrote:
+>> On Thu, Aug 18, 2022, Kirill A . Shutemov wrote:
+>>> On Wed, Aug 17, 2022 at 10:40:12PM -0700, Hugh Dickins wrote:
+>>>> On Wed, 6 Jul 2022, Chao Peng wrote:
+>>>> But since then, TDX in particular has forced an effort into preventing
+>>>> (by flags, seals, notifiers) almost everything that makes it shmem/tmpfs.
+>>>>
+>>>> Are any of the shmem.c mods useful to existing users of shmem.c? No.
+>>>> Is MFD_INACCESSIBLE useful or comprehensible to memfd_create() users? No.
 >>
->> Yeah, userfaultfd_register would probably have to forbid this for
->> F_SEAL_AUTO_ALLOCATE vmas.  Maybe the memfile_node can be reused for this,
->> adding a new MEMFILE_F_NO_AUTO_ALLOCATE flags?  Then userfault_register
->> would do something like memfile_node_get_flags(vma->vm_file) and check the
->> result.
+>> But QEMU and other VMMs are users of shmem and memfd.  The new features certainly
+>> aren't useful for _all_ existing users, but I don't think it's fair to say that
+>> they're not useful for _any_ existing users.
 > 
-> I donno, memory allocation with userfaultfd looks pretty intentional to
-> me. Why would F_SEAL_AUTO_ALLOCATE prevent it?
-> 
+> Okay, I stand corrected: there exist some users of memfd_create()
+> who will also have use for "INACCESSIBLE" memory.
 
-Can't we say the same about a write()?
+As raised in reply to the relevant patch, I'm not sure if we really have
+to/want to expose MFD_INACCESSIBLE to user space. I feel like this is a
+requirement of specific memfd_notifer (memfile_notifier) implementations
+-- such as TDX that will convert the memory and MCE-kill the machine on
+ordinary write access. We might be able to set/enforce this when
+registering a notifier internally instead, and fail notifier
+registration if a condition isn't met (e.g., existing mmap).
 
-> Maybe we would need it in the future for post-copy migration or something?
-> 
-> Or existing practises around userfaultfd touch memory randomly and
-> therefore incompatible with F_SEAL_AUTO_ALLOCATE intent?
-> 
-> Note, that userfaultfd is only relevant for shared memory as it requires
-> VMA which we don't have for MFD_INACCESSIBLE.
-
-This feature (F_SEAL_AUTO_ALLOCATE) is independent of all the lovely
-encrypted VM stuff, so it doesn't matter how it relates to MFD_INACCESSIBLE.
+So I'd be curious, which other users of shmem/memfd would benefit from
+(MMU)-"INACCESSIBLE" memory obtained via memfd_create()?
 
 -- 
 Thanks,
