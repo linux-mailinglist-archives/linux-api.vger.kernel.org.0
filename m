@@ -2,149 +2,111 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7760959F6C0
-	for <lists+linux-api@lfdr.de>; Wed, 24 Aug 2022 11:47:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B534059F742
+	for <lists+linux-api@lfdr.de>; Wed, 24 Aug 2022 12:17:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234695AbiHXJrH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 24 Aug 2022 05:47:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45458 "EHLO
+        id S236420AbiHXKR0 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 24 Aug 2022 06:17:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235439AbiHXJqo (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Aug 2022 05:46:44 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 709B561D56;
-        Wed, 24 Aug 2022 02:46:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1661334403; x=1692870403;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=8HINI0FFOmHZ98p+KrUxRjOuWiCSe4IMz6bvZat9QRk=;
-  b=VEC2IPRa4/nMxztM1aPX5KBq3uRmsrlx84vpGJo30JMhOjT7NCbbKyxF
-   p2nDnlQykp8sW2liM3a5kwU+T+xrFOsb7xXSZlWsBLhcm5/H+GLgxTuuI
-   NkFBKFmBojUBrrwcGGDgYT2z4NH7B8N+irzrcTplevbIUF9M8M/LdxeCd
-   Vju+BLkMplOOV6mxETkiKY4xYdPyJHFE/bfzJIUd9HGQR0jKHk1On0r/8
-   1IrPOLICOuvhwYTmhfImFMH/8+1/xzBd922Ju6I6kiHBrIzlE/lrELGqU
-   hgZbixw+f7qeibeBzUbBTgvCtzpArDa4r2z0Bnjom5Rd6ZQT7mkTzPdjH
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10448"; a="294708544"
-X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; 
-   d="scan'208";a="294708544"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2022 02:46:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; 
-   d="scan'208";a="605977030"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by orsmga007.jf.intel.com with ESMTP; 24 Aug 2022 02:46:32 -0700
-Date:   Wed, 24 Aug 2022 17:41:49 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     David Hildenbrand <david@redhat.com>,
-        Hugh Dickins <hughd@google.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>,
-        "Gupta, Pankaj" <pankaj.gupta@amd.com>
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <20220824094149.GA1383966@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
- <20220818132421.6xmjqduempmxnnu2@box>
- <Yv7XTON3MwuC1Q3U@google.com>
- <226ab26d-9aa8-dce2-c7f0-9e3f5b65b63@google.com>
- <b2743a3a-a1b4-2d2e-98be-87b58ad387cf@redhat.com>
- <YwT6x2g9jcMH60LI@google.com>
+        with ESMTP id S231846AbiHXKRZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Aug 2022 06:17:25 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E19072ECD;
+        Wed, 24 Aug 2022 03:17:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9966F618C9;
+        Wed, 24 Aug 2022 10:17:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B228C433C1;
+        Wed, 24 Aug 2022 10:17:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661336244;
+        bh=Q/sJyEIBeFaiOK2DLVudYTgdQk3CzzSDuKuPyWzoMfA=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=Ty2H/OJjltsYMMYRlq8ferSZILE2V/1ku703OF1EGmXBIY88vJ3YChurbN8Sndb2s
+         RYedY5SvWseSldIgp7gKvIDiT0pYfXFLSK+IdjYkxmVTah4lOwt4aqj5P/QviduCtX
+         YqKWkvRkJMSXspsGwS5Nk/nzrc7VyVs0brHNjQ8ps9SCxYkxOvQN5TQooTUIvWEEqf
+         WgWOUO1kgp2QJHW4uF74AMbb8yfjVVH0307sw37+vUIR29L/xHsLwERTwT6Vc8Y2CF
+         TCXXbY42hfHUcnUXPnli5k2hiscx2MwVWXOf+Tlrshc8ZpKjn52gGlqI8wNf5oubKp
+         RzKdmNbpZW/+w==
+Message-ID: <7901f60f7ea67d757caa5ba26588f01f308caaac.camel@kernel.org>
+Subject: Re: [PATCH] vfs: report an inode version in statx for IS_I_VERSION
+ inodes
+From:   Jeff Layton <jlayton@kernel.org>
+To:     Dave Chinner <david@fromorbit.com>
+Cc:     viro@zeniv.linux.org.uk, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
+        David Howells <dhowells@redhat.com>,
+        Frank Filz <ffilzlnx@mindspring.com>
+Date:   Wed, 24 Aug 2022 06:17:22 -0400
+In-Reply-To: <20220823215333.GC3144495@dread.disaster.area>
+References: <20220819115641.14744-1-jlayton@kernel.org>
+         <20220823215333.GC3144495@dread.disaster.area>
+Content-Type: text/plain; charset="ISO-8859-15"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YwT6x2g9jcMH60LI@google.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Aug 23, 2022 at 04:05:27PM +0000, Sean Christopherson wrote:
-> On Tue, Aug 23, 2022, David Hildenbrand wrote:
-> > On 19.08.22 05:38, Hugh Dickins wrote:
-> > > On Fri, 19 Aug 2022, Sean Christopherson wrote:
-> > >> On Thu, Aug 18, 2022, Kirill A . Shutemov wrote:
-> > >>> On Wed, Aug 17, 2022 at 10:40:12PM -0700, Hugh Dickins wrote:
-> > >>>> On Wed, 6 Jul 2022, Chao Peng wrote:
-> > >>>> But since then, TDX in particular has forced an effort into preventing
-> > >>>> (by flags, seals, notifiers) almost everything that makes it shmem/tmpfs.
-> > >>>>
-> > >>>> Are any of the shmem.c mods useful to existing users of shmem.c? No.
-> > >>>> Is MFD_INACCESSIBLE useful or comprehensible to memfd_create() users? No.
-> > >>
-> > >> But QEMU and other VMMs are users of shmem and memfd.  The new features certainly
-> > >> aren't useful for _all_ existing users, but I don't think it's fair to say that
-> > >> they're not useful for _any_ existing users.
-> > > 
-> > > Okay, I stand corrected: there exist some users of memfd_create()
-> > > who will also have use for "INACCESSIBLE" memory.
-> > 
-> > As raised in reply to the relevant patch, I'm not sure if we really have
-> > to/want to expose MFD_INACCESSIBLE to user space. I feel like this is a
-> > requirement of specific memfd_notifer (memfile_notifier) implementations
-> > -- such as TDX that will convert the memory and MCE-kill the machine on
-> > ordinary write access. We might be able to set/enforce this when
-> > registering a notifier internally instead, and fail notifier
-> > registration if a condition isn't met (e.g., existing mmap).
-> >
-> > So I'd be curious, which other users of shmem/memfd would benefit from
-> > (MMU)-"INACCESSIBLE" memory obtained via memfd_create()?
-> 
-> I agree that there's no need to expose the inaccessible behavior via uAPI.  Making
-> it a kernel-internal thing that's negotiated/resolved when KVM binds to the fd
-> would align INACCESSIBLE with the UNMOVABLE and UNRECLAIMABLE flags (and any other
-> flags that get added in the future).
-> 
-> AFAICT, the user-visible flag is a holdover from the early RFCs and doesn't provide
-> any unique functionality.
+On Wed, 2022-08-24 at 07:53 +1000, Dave Chinner wrote:
+> On Fri, Aug 19, 2022 at 07:56:41AM -0400, Jeff Layton wrote:
+> > From: Jeff Layton <jlayton@redhat.com>
+> >=20
+> > The NFS server and IMA both rely heavily on the i_version counter, but
+> > it's largely invisible to userland, which makes it difficult to test it=
+s
+> > behavior. This value would also be of use to userland NFS servers, and
+> > other applications that want a reliable way to know if there was an
+> > explicit change to an inode since they last checked.
+> >=20
+> > Claim one of the spare fields in struct statx to hold a 64-bit inode
+> > version attribute. This value must change with any explicit, observeabl=
+e
+> > metadata or data change. Note that atime updates are excluded from this=
+,
+> > unless it is due to an explicit change via utimes or similar mechanism.
+> >=20
+> > When statx requests this attribute on an IS_I_VERSION inode, do an
+> > inode_query_iversion and fill the result in the field. Also, update the
+> > test-statx.c program to display the inode version and the mountid.
+> >=20
+> > Cc: David Howells <dhowells@redhat.com>
+> > Cc: Frank Filz <ffilzlnx@mindspring.com>
+> > Signed-off-by: Jeff Layton <jlayton@kernel.org>
+>=20
+> NAK.
+>=20
+> THere's no definition of what consitutes an "inode change" and this
+> exposes internal filesystem implementation details (i.e. on disk
+> format behaviour) directly to userspace. That means when the
+> internal filesystem behaviour changes, userspace applications will
+> see changes in stat->ino_version changes and potentially break them.
+>=20
+> We *need a documented specification* for the behaviour we are exposing to
+> userspace here, and then individual filesystems needs to opt into
+> providing this information as they are modified to conform to the
+> behaviour we are exposing directly to userspsace.
+>=20
+> Jeff - can you please stop posting iversion patches to different
+> subsystems as individual, unrelated patchsets and start posting all
+> the changes - statx, ext4, xfs, man pages, etc as a single patchset
+> so the discussion can be centralised in one place and not spread
+> over half a dozen disconnected threads?
+>=20
 
-That's also what I'm thinking. And I don't see problem immediately if
-user has populated the fd at the binding time. Actually that looks an
-advantage for previously discussed guest payload pre-loading.
 
-> 
-> If we go that route, we might want to have shmem/memfd require INACCESSIBLE to be
-> set for the initial implementation.  I.e. disallow binding without INACCESSIBLE
-> until there's a use case.
+Sure. Give me a few days and I'll post a more coherent set of patches.
 
-I can do that.
-
-Chao
+Thanks,
+--=20
+Jeff Layton <jlayton@kernel.org>
