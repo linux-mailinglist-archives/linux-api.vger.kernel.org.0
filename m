@@ -2,117 +2,84 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE91A5A0B14
-	for <lists+linux-api@lfdr.de>; Thu, 25 Aug 2022 10:11:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CCFDA5A1490
+	for <lists+linux-api@lfdr.de>; Thu, 25 Aug 2022 16:43:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239463AbiHYIJy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 25 Aug 2022 04:09:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49074 "EHLO
+        id S242462AbiHYOnl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 25 Aug 2022 10:43:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238715AbiHYIJw (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 25 Aug 2022 04:09:52 -0400
-Received: from xry111.site (xry111.site [89.208.246.23])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F57A2BD2;
-        Thu, 25 Aug 2022 01:09:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xry111.site;
-        s=default; t=1661414988;
-        bh=Ey9GW0PV5iG2eKxKqte4kaBuQ9z7RLnssn2v4uBnuIE=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=UsqsoMRKTq44PTH9LXGKRrjAFo0QlgSWy8k+pvMx7kNR+xyR320PQ4CF153ciVAzK
-         VY0buArQ9R02ARFWWWvIcHC4rrNqwjoaDXKH4rPcIIPDb5KZSAexd8Tm55PvvXAFHb
-         lJbOrcXWsXMObhUsj4gMHHGvr52T6NNM8xBzZ1r4=
-Received: from localhost.localdomain (xry111.site [IPv6:2001:470:683e::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature ECDSA (P-384))
-        (Client did not present a certificate)
-        (Authenticated sender: xry111@xry111.site)
-        by xry111.site (Postfix) with ESMTPSA id C0F0266850;
-        Thu, 25 Aug 2022 04:09:43 -0400 (EDT)
-Message-ID: <c02a6b7e4f8e377178b25c30d544420906346816.camel@xry111.site>
+        with ESMTP id S241798AbiHYOnZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 25 Aug 2022 10:43:25 -0400
+X-Greylist: delayed 122 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 25 Aug 2022 07:42:04 PDT
+Received: from esa3.mentor.iphmx.com (esa3.mentor.iphmx.com [68.232.137.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54876B959F
+        for <linux-api@vger.kernel.org>; Thu, 25 Aug 2022 07:42:03 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.93,263,1654588800"; 
+   d="scan'208";a="81807983"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa3.mentor.iphmx.com with ESMTP; 25 Aug 2022 06:38:49 -0800
+IronPort-SDR: x1Ixj9xEowfDaxB+rCmYv+GSCPnGqKWu+UVR1/d2bXu884TLkcyorKTAOJ3GIdG2sZcAKPnr8C
+ HrDpsKuUuy/7A3YVdzDaX/MsrZX96NDhq5JOA2b7iEqcFgR8p++itQnfXWYEalx8sudUp7WR3Q
+ um6mcl43b7D6ol4iQIF2NVNDO6kFKAVM4x0sDavVBXMjnIhpFoTzJo4nALK+MjLYUthu9lkmIN
+ xkDupHA97VMp7y+qdLBmrdVJnKzGutKQCtTsZdyiix3T/aUpRWC6kZou1GuriOnoXxFN8q1rQH
+ aYs=
+Date:   Thu, 25 Aug 2022 14:38:40 +0000
+From:   Joseph Myers <joseph@codesourcery.com>
+X-X-Sender: jsm28@digraph.polyomino.org.uk
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+CC:     Florian Weimer <fweimer@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alejandro Colomar <alx.manpages@gmail.com>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Alex Colomar <alx@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        linux-man <linux-man@vger.kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Zack Weinberg <zackw@panix.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        glibc <libc-alpha@sourceware.org>, GCC <gcc-patches@gcc.gnu.org>,
+        bpf <bpf@vger.kernel.org>, LTP List <ltp@lists.linux.it>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        David Laight <David.Laight@aculab.com>,
+        Cyril Hrubis <chrubis@suse.cz>,
+        David Howells <dhowells@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>, Rich Felker <dalias@libc.org>,
+        Adhemerval Zanella <adhemerval.zanella@linaro.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
 Subject: Re: [PATCH v3] Many pages: Document fixed-width types with ISO C
  naming
-From:   Xi Ruoyao <xry111@xry111.site>
-To:     Alejandro Colomar <alx.manpages@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-man <linux-man@vger.kernel.org>,
-        Rich Felker <dalias@libc.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Zack Weinberg <zackw@panix.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Alex Colomar <alx@kernel.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Cyril Hrubis <chrubis@suse.cz>, Arnd Bergmann <arnd@arndb.de>,
-        GCC <gcc-patches@gcc.gnu.org>, LTP List <ltp@lists.linux.it>,
-        Florian Weimer <fweimer@redhat.com>,
-        glibc <libc-alpha@sourceware.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        David Laight <David.Laight@aculab.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>
-Date:   Thu, 25 Aug 2022 16:09:42 +0800
-In-Reply-To: <017d77b8-8be3-a0a8-ce2e-17c7b6a16758@gmail.com>
-References: <20210423230609.13519-1-alx.manpages@gmail.com>
-         <20220824185505.56382-1-alx.manpages@gmail.com>
-         <CAADnVQKiEVL9zRtN4WY2+cTD2b3b3buV8BQb83yQw13pWq4OGQ@mail.gmail.com>
-         <c06008bc-0c13-12f1-df85-3814b74e47f9@gmail.com>
-         <CAHk-=whfft=qpCiQ=mkaCz+X1MEfGK5hpUWYoM5zWK=2EQMwyw@mail.gmail.com>
-         <20d93962-538c-d2c9-1696-a1bdbffa87f8@gmail.com>
-         <5a3ce36a284fe988694d2e75117aca5f9af66194.camel@xry111.site>
-         <017d77b8-8be3-a0a8-ce2e-17c7b6a16758@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.45.2 
+In-Reply-To: <CAHk-=whsETo4kc2Ec1Nf4HQY5vKYmRi9et243kyqN4E-=PgKJw@mail.gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2208251435370.104368@digraph.polyomino.org.uk>
+References: <20210423230609.13519-1-alx.manpages@gmail.com> <20220824185505.56382-1-alx.manpages@gmail.com> <CAADnVQKiEVL9zRtN4WY2+cTD2b3b3buV8BQb83yQw13pWq4OGQ@mail.gmail.com> <c06008bc-0c13-12f1-df85-3814b74e47f9@gmail.com> <YwcPQ987poRYjfoL@kroah.com>
+ <87ilmgddui.fsf@oldenburg.str.redhat.com> <CAHk-=whsETo4kc2Ec1Nf4HQY5vKYmRi9et243kyqN4E-=PgKJw@mail.gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_SUSPICIOUS_NTLD,
-        PDS_OTHER_BAD_TLD,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="US-ASCII"
+X-Originating-IP: [137.202.0.90]
+X-ClientProxiedBy: svr-ies-mbx-11.mgc.mentorg.com (139.181.222.11) To
+ svr-ies-mbx-10.mgc.mentorg.com (139.181.222.10)
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, 2022-08-25 at 09:48 +0200, Alejandro Colomar wrote:
-> Hi Xi,
->=20
-> On 8/25/22 09:28, Xi Ruoyao wrote:
-> > On Thu, 2022-08-25 at 09:20 +0200, Alejandro Colomar via Gcc-patches
-> > wrote:
-> > > I don't know for sure, and I never pretended to say otherwise.=C2=A0 =
-But what
-> > > IMHO the kernel could do is to make the types compatible, by typedefi=
-ng
-> > > to the same fundamental types (i.e., long or long long) that user-spa=
-ce
-> > > types do.
-> >=20
-> > In user-space things are already inconsistent as we have multiple libc
-> > implementations.=C2=A0 Telling every libc implementation to sync their
-> > typedef w/o a WG14 decision will only cause "aggressive discussion" (fa=
-r
-> > more aggressive than this thread, I'd say).
-> >=20
-> > If int64_t etc. were defined as builtin types since epoch, things would
-> > be a lot easier.=C2=A0 But we can't change history.
->=20
-> This would be great.=C2=A0 I mean, the fundamental types should be u8, u1=
-6,
-> ... and int, long, ... typedefs for these, and not the other way around,=
-=20
-> if the language was designed today.
->=20
-> Maybe GCC could consider something like that.
+On Thu, 25 Aug 2022, Linus Torvalds wrote:
 
-GCC already have __UINT8_TYPE__ etc. but again telling all libc
-implementations to use "typedef __UINT8_TYPE__ uint8_t" etc. will make
-no effect expect annoying their maintainers.
+> That's a small detail that yes, we've tried to avoid the absolute
+> humongous mess that the C standard library has with their horrendous
+> 'PRId*' mess, but honestly, it's just a tiny detail.
 
---=20
-Xi Ruoyao <xry111@xry111.site>
-School of Aerospace Science and Technology, Xidian University
+I've not yet implemented it for glibc or for GCC format checking, but C23 
+adds 'wN' format length modifiers so you will be able to e.g. use "%w64d" 
+with printf to print an int64_t and won't need those PRI macros any more.
+
+-- 
+Joseph S. Myers
+joseph@codesourcery.com
