@@ -2,109 +2,128 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BCB05A19C7
-	for <lists+linux-api@lfdr.de>; Thu, 25 Aug 2022 21:48:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D0125A1D4F
+	for <lists+linux-api@lfdr.de>; Fri, 26 Aug 2022 01:43:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229493AbiHYTsQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 25 Aug 2022 15:48:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45254 "EHLO
+        id S244278AbiHYXni (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 25 Aug 2022 19:43:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233141AbiHYTsP (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 25 Aug 2022 15:48:15 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3A225F12A;
-        Thu, 25 Aug 2022 12:48:13 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7612761DCF;
-        Thu, 25 Aug 2022 19:48:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EBCBC433C1;
-        Thu, 25 Aug 2022 19:48:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661456892;
-        bh=r8gaxJKLQI+z6juVzGPZoOj4RUwyYCmoO+hFGBi7yio=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=HDLiJw9Oy8arB3LTOsdS+SDOeJbX+vBcaTADTdnfo41tdS09mjbzlWhnDnfva+x4g
-         BjKUYzjJM0KmbD5ADf4P2NZUl6JYLFgGhIqfJv+PBq8RAZA+1zu7S79xGQXsz5M2Ci
-         0YEfVeZs98dFwDoUhDpoxiDLWCB/NmTFitQq9abEb6kP+l4mP3Zztwp74A3uHznlIA
-         Nlpuue//VRmfvXJahz0JhGI6SaPXkVDjIWHKMK/6sf45SCoepMiCV91giZ2O+EJPME
-         qaOJ0nE5cyGhIXp6sgMq5RBjvGMrBhMcHFq8rSuvQToRb3cIml8cmdtm7nY26beVcU
-         kAw01z3J9LPeg==
-Message-ID: <0339f5f540010ba1bae74121d33c0643f26fefab.camel@kernel.org>
-Subject: Re: [PATCH] vfs: report an inode version in statx for IS_I_VERSION
- inodes
-From:   Jeff Layton <jlayton@kernel.org>
-To:     Colin Walters <walters@verbum.org>,
-        Dave Chinner <david@fromorbit.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
-        David Howells <dhowells@redhat.com>,
-        Frank Filz <ffilzlnx@mindspring.com>
-Date:   Thu, 25 Aug 2022 15:48:10 -0400
-In-Reply-To: <fc59bfa8-295e-4180-9cf0-c2296d2e8707@www.fastmail.com>
-References: <20220819115641.14744-1-jlayton@kernel.org>
-         <20220823215333.GC3144495@dread.disaster.area>
-         <fc59bfa8-295e-4180-9cf0-c2296d2e8707@www.fastmail.com>
-Content-Type: text/plain; charset="ISO-8859-15"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+        with ESMTP id S244623AbiHYXne (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 25 Aug 2022 19:43:34 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 254A2BC13A
+        for <linux-api@vger.kernel.org>; Thu, 25 Aug 2022 16:43:33 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id m10-20020a17090a730a00b001fa986fd8eeso6510700pjk.0
+        for <linux-api@vger.kernel.org>; Thu, 25 Aug 2022 16:43:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=CrkUDi4mYcC3qOEbpgTO1y4xAYzFYl9qfJxBFAO1WQU=;
+        b=oH89fuC7/OCch4BVe3RICsoOXGZYywI31GBVdOyyzkOO7DEQwz0A3bC8XVXdtvCwd1
+         6++QpYTFdw9m4hHnWiKtTIpB7Hi5ELfJeZuqNN9uFKSo7WfdJ9G1Mhm4JK6AV2WHzXjJ
+         VbNzkpdmEXJLIC2dBL9fBoXXr3+4Uapf2ay+q5o5OiTRLYNgKYonwB+ySRb6B5oDeL1+
+         dAGtJD3OxzwN4u/yHADk0FqkEVYKITXRoFTnTIyXKBO0WL66kWEVFTEfNMRKnT8HVrqd
+         r0phSuI2WdqgmUZxadQTwthKDt4ZrV+UeAwXIY6ktT0Ll4TYsN0WDJRL1/UrY3DGWEjg
+         ExLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=CrkUDi4mYcC3qOEbpgTO1y4xAYzFYl9qfJxBFAO1WQU=;
+        b=KUtBPqqgHrdqepp4naULHgOIcqamApesCv/LWP4bXu8ggfPjLN/z99XdTzV+1pkhkh
+         AZYxxe/a0S3wz5lomqFIQexGWuyeDylkcg43/VfXGKNMMKI9MXVSuENJ7+mI3KHfZ2XQ
+         Ym0Fjr6iwIynI4Yse+aQuZqHeU8ohTrwIwRlqKX+jmElDFMM0pr0g+5oDASGl9SFwC/X
+         62GlPMYrmVXapNwyletm+zjNbyWmX5QdeFAcD/1/eJMTHUzRL1mU7vB8QWH68nWwYUz+
+         YwqUUYAPOLm/NmllgWQnrdCyMle371WW4QatsJYInyuh9pP0ikfuePHkAVHv2dJLjEPH
+         aGfw==
+X-Gm-Message-State: ACgBeo2cP9IEZmHRqkUk0kAUsG4xmNosz6yNvif0t0Kss7gOU/fDEd/2
+        CIqy7JF2z1l0Tpf9eW8MKDM/kg==
+X-Google-Smtp-Source: AA6agR7uDYeONp1wM5VEYWT/Ep3xp8EiV6yvT/4U8QUXuA4MqoQg5QOZ3aLyR1Qey0199Sw+p/pMAg==
+X-Received: by 2002:a17:90b:2390:b0:1fa:c680:1f63 with SMTP id mr16-20020a17090b239000b001fac6801f63mr1464578pjb.16.1661471012094;
+        Thu, 25 Aug 2022 16:43:32 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id a9-20020aa78e89000000b005379fb50ff0sm216131pfr.50.2022.08.25.16.43.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Aug 2022 16:43:31 -0700 (PDT)
+Date:   Thu, 25 Aug 2022 23:43:27 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     "Kirill A. Shutemov" <kirill@shutemov.name>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
+Subject: Re: [PATCH v6 6/8] KVM: Handle page fault for private memory
+Message-ID: <YwgJH0TRZO4ie4z8@google.com>
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <20220519153713.819591-7-chao.p.peng@linux.intel.com>
+ <YqzyjZnflCMPo8b/@google.com>
+ <20220819004018.mgdvxhl6dj3ujl3f@box.shutemov.name>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220819004018.mgdvxhl6dj3ujl3f@box.shutemov.name>
+X-Spam-Status: No, score=-14.5 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,FSL_HELO_FAKE,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, 2022-08-25 at 14:48 -0400, Colin Walters wrote:
->=20
-> On Tue, Aug 23, 2022, at 5:53 PM, Dave Chinner wrote:
-> >=20
-> > THere's no definition of what consitutes an "inode change" and this
-> > exposes internal filesystem implementation details (i.e. on disk
-> > format behaviour) directly to userspace. That means when the
-> > internal filesystem behaviour changes, userspace applications will
-> > see changes in stat->ino_version changes and potentially break them.
->=20
-> As a userspace developer (ostree, etc. who is definitely interested in th=
-is functionality) I do agree with this concern; but a random drive by comme=
-nt: would it be helpful to expose iversion (or other bits like this from th=
-e vfs) via e.g. debugfs to start?  I think that'd unblock writing fstests i=
-n the short term right?
->=20
->=20
+On Fri, Aug 19, 2022, Kirill A. Shutemov wrote:
+> On Fri, Jun 17, 2022 at 09:30:53PM +0000, Sean Christopherson wrote:
+> > > @@ -4088,7 +4144,12 @@ static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
+> > >  		read_unlock(&vcpu->kvm->mmu_lock);
+> > >  	else
+> > >  		write_unlock(&vcpu->kvm->mmu_lock);
+> > > -	kvm_release_pfn_clean(fault->pfn);
+> > > +
+> > > +	if (fault->is_private)
+> > > +		kvm_private_mem_put_pfn(fault->slot, fault->pfn);
+> > 
+> > Why does the shmem path lock the page, and then unlock it here?
+> 
+> Lock is require to avoid race with truncate / punch hole. Like if truncate
+> happens after get_pfn(), but before it gets into SEPT we are screwed.
 
-It's great to hear from userland developers who are interested in this!
+Getting the PFN into the SPTE doesn't provide protection in and of itself.  The
+protection against truncation and whatnot comes from KVM getting a notification
+and either retrying the fault (notification acquires mmu_lock before
+direct_page_fault()), or blocking the notification (truncate / punch hole) until
+after KVM installs the SPTE.  I.e. KVM just needs to ensure it doesn't install a
+SPTE _after_ getting notified.
 
-I don't think there is a lot of controversy about the idea of presenting
-a value like this via statx. The usefulness seems pretty obvious if
-you've ever had to deal with timestamp granularity issues.
-
-The part we're wrestling with now is that applications will need a clear
-(and testable!) definition of what this value means. We need to be very
-careful how we define this so that userland developers don't get stuck
-dealing with semantics that vary per fstype, while still allowing the
-broadest range of filesystems to support it.
-
-My current thinking is to define this such that the reported ino_version
-MUST change any time that the ctime would change (even if the timestamp
-doesn't appear to change). That should also catch mtime updates.
-
-The part I'm still conflicted about is whether we should allow for a
-conformant implementation to increment the value even when there is no
-apparent change to the inode.
-
-IOW, should this value mean that something _did_ change in the inode or
-that something _may_ have changed in it?
-
-Implementations that do spurious increments would less than ideal, but
-defining it that way might allow a broader range of filesystems to
-present this value.
-
-What would you prefer, as a userland developer?
---=20
-Jeff Layton <jlayton@kernel.org>
+If the API is similar to gup(), i.e. only elevates the refcount but doesn't lock
+the page, then there's no need for a separate kvm_private_mem_put_pfn(), and in
+fact no need for ->put_unlock_pfn() because can KVM do set_page_dirty() and
+put_page() directly as needed using all of KVM's existing mechanisms.
