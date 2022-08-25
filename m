@@ -2,70 +2,39 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D16605A0564
-	for <lists+linux-api@lfdr.de>; Thu, 25 Aug 2022 02:52:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67AA15A088D
+	for <lists+linux-api@lfdr.de>; Thu, 25 Aug 2022 07:57:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230512AbiHYAw6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 24 Aug 2022 20:52:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51930 "EHLO
+        id S233356AbiHYF5S (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 25 Aug 2022 01:57:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231453AbiHYAwz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 24 Aug 2022 20:52:55 -0400
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C16356E8B4
-        for <linux-api@vger.kernel.org>; Wed, 24 Aug 2022 17:52:53 -0700 (PDT)
-Received: by mail-ed1-x52d.google.com with SMTP id t5so24125209edc.11
-        for <linux-api@vger.kernel.org>; Wed, 24 Aug 2022 17:52:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=ot0aEvyT380VjDU6PPl13tz+5G5649T71Q1QmyiGXIo=;
-        b=YpSDVkBcxWVnnXfQXF/M7AZGWY5x+V+c24wMO5zVR8RFtXivElwnk0FLNTXke/emLT
-         oh8/MGX4jyRJc+YrZXh96+Jtsdh8UfgCE6n4YSYTOMmu4AtkTQJ7laVjSVHJm8+QclNG
-         oVzUJs4I5lvMg1LyJ9KO0CmiPyQ9FIcsSPJtg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=ot0aEvyT380VjDU6PPl13tz+5G5649T71Q1QmyiGXIo=;
-        b=LZrJLzccp7QW+BRkEaNOuXuz4lBytv+9STEyHK8clpyTM43k/fOd7qkIET8dshElb9
-         /qXZ+mLJH8Wf1oXfVrYQBO2IIfSfnHVCQFc0iyTsEJcqBRfda+0P+FXk8J1ldKSzHyUI
-         Zj3dPUne7BM73buI2Ta5x8Ib3oPRbVV8jB9uybkAgZpWWCllNb8MEevaTCnfog+Ofzsh
-         uqKxER/+7TP20yS8Mb9HRSKm8ASpLqxuQMMRmTSiFomEk5eOufInxBldfOuR/DUcxTby
-         7xMfKsHP0ILntJ3EIaDpvh5cjV0V5Yo+m4Qi2AvXa4u50Cs93yB6b5pdSoTa6qkvfxwM
-         Gbwg==
-X-Gm-Message-State: ACgBeo2vT/T2zpJyaM/bASDCt8iqGfr5jqjRcwJmPFuQbZ1k8VWVzkrT
-        UX5vM12+vFo6uFfyQ/07Pb3KtWLeSQEqDtQ2mas=
-X-Google-Smtp-Source: AA6agR7/ywuRwX8CGMcB+qGwk0ko/KowJXDRxsxLe5JjS/AnNhET2Zvz+cS+dGUmaq5ILt1j40/tNQ==
-X-Received: by 2002:a05:6402:241d:b0:443:39c5:808b with SMTP id t29-20020a056402241d00b0044339c5808bmr1202967eda.39.1661388772939;
-        Wed, 24 Aug 2022 17:52:52 -0700 (PDT)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com. [209.85.221.49])
-        by smtp.gmail.com with ESMTPSA id p18-20020a17090653d200b0073bdb2f6f28sm1738312ejo.217.2022.08.24.17.52.38
-        for <linux-api@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Aug 2022 17:52:45 -0700 (PDT)
-Received: by mail-wr1-f49.google.com with SMTP id h5so21882872wru.7
-        for <linux-api@vger.kernel.org>; Wed, 24 Aug 2022 17:52:38 -0700 (PDT)
-X-Received: by 2002:adf:e843:0:b0:225:221f:262 with SMTP id
- d3-20020adfe843000000b00225221f0262mr764111wrn.193.1661388757863; Wed, 24 Aug
- 2022 17:52:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210423230609.13519-1-alx.manpages@gmail.com>
- <20220824185505.56382-1-alx.manpages@gmail.com> <CAADnVQKiEVL9zRtN4WY2+cTD2b3b3buV8BQb83yQw13pWq4OGQ@mail.gmail.com>
- <c06008bc-0c13-12f1-df85-3814b74e47f9@gmail.com>
-In-Reply-To: <c06008bc-0c13-12f1-df85-3814b74e47f9@gmail.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 24 Aug 2022 17:52:21 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whfft=qpCiQ=mkaCz+X1MEfGK5hpUWYoM5zWK=2EQMwyw@mail.gmail.com>
-Message-ID: <CAHk-=whfft=qpCiQ=mkaCz+X1MEfGK5hpUWYoM5zWK=2EQMwyw@mail.gmail.com>
-Subject: Re: [PATCH v3] Many pages: Document fixed-width types with ISO C naming
+        with ESMTP id S231853AbiHYF5R (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 25 Aug 2022 01:57:17 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B95499F197;
+        Wed, 24 Aug 2022 22:57:14 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6DF82B826A7;
+        Thu, 25 Aug 2022 05:57:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E63CC433C1;
+        Thu, 25 Aug 2022 05:57:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1661407032;
+        bh=BzxcFbEfQ/Yeo0E0e2sHS9CwVB1n9JHMHeKD1IhcYQE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WEt6QVjfJvyXaIx6HafON24CGsg9kBIx410clN6sJBNxvMYqYT3t69Qvv8fUydCii
+         VOwmEd+zP/S8e5fTVek0cwEzoI7qPe3LRWV7/keV37Vli2wwYtB4pRJJqPwFYcThG8
+         Wop0557JL/SJdBKCbpMCKDMgvC3WMpgcPTgoiaFA=
+Date:   Thu, 25 Aug 2022 07:57:23 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     Alejandro Colomar <alx.manpages@gmail.com>
 Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
         Alex Colomar <alx@kernel.org>,
         Alexei Starovoitov <ast@kernel.org>,
         linux-man <linux-man@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Daniel Borkmann <daniel@iogearbox.net>,
         Zack Weinberg <zackw@panix.com>,
         LKML <linux-kernel@vger.kernel.org>,
@@ -80,51 +49,54 @@ Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
         David Howells <dhowells@redhat.com>,
         Arnd Bergmann <arnd@arndb.de>, Rich Felker <dalias@libc.org>,
         Adhemerval Zanella <adhemerval.zanella@linaro.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH v3] Many pages: Document fixed-width types with ISO C
+ naming
+Message-ID: <YwcPQ987poRYjfoL@kroah.com>
+References: <20210423230609.13519-1-alx.manpages@gmail.com>
+ <20220824185505.56382-1-alx.manpages@gmail.com>
+ <CAADnVQKiEVL9zRtN4WY2+cTD2b3b3buV8BQb83yQw13pWq4OGQ@mail.gmail.com>
+ <c06008bc-0c13-12f1-df85-3814b74e47f9@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c06008bc-0c13-12f1-df85-3814b74e47f9@gmail.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Aug 24, 2022 at 4:36 PM Alejandro Colomar
-<alx.manpages@gmail.com> wrote:
->
-> I'm trying to be nice, and ask for review to make sure I'm not making
-> some big mistake by accident, and I get disrespect?  No thanks.
+On Thu, Aug 25, 2022 at 01:36:10AM +0200, Alejandro Colomar wrote:
+> But from your side what do we have?  Just direct NAKs without much
+> explanation.  The only one who gave some explanation was Greg, and he
+> vaguely pointed to Linus's comments about it in the past, with no precise
+> pointer to it.  I investigated a lot before v2, and could not find anything
+> strong enough to recommend using kernel types in user space, so I pushed v2,
+> and the discussion was kept.
 
-You've been told multiple times that the kernel doesn't use the
-"standard" names, and *cannot* use them for namespace reasons, and you
-ignore all the feedback, and then you claim you are asking for review?
+So despite me saying that "this is not ok", and many other maintainers
+saying "this is not ok", you applied a patch with our objections on it?
+That is very odd and a bit rude.
 
-That's not "asking for review". That's "I think I know the answer, and
-when people tell me otherwise I ignore them".
+> I would like that if you still oppose to the patch, at least were able to
+> provide some facts to this discussion.
 
-The fact is, kernel UAPI header files MUST NOT use the so-called standard names.
+The fact is that the kernel can not use the namespace that userspace has
+with ISO C names.  It's that simple as the ISO standard does NOT
+describe the variable types for an ABI that can cross the user/kernel
+boundry.
 
-We cannot provide said names, because they are only provided by the
-standard header files.
+Work with the ISO C standard if you wish to document such type usage,
+and get it approved and then we would be willing to consider such a
+change.  But until then, we have to stick to our variable name types,
+just like all other operating systems have to (we are not alone here.)
 
-And since kernel header files cannot provide them, then kernel UAPI
-header files cannot _use_ them.
+Please revert your change.
 
-End result: any kernel UAPI header file will continue to use __u32 etc
-naming that doesn't have any namespace pollution issues.
-
-Nothing else is even remotely acceptable.
-
-Stop trying to make this something other than it is.
-
-And if you cannot accept these simple technical reasons, why do you
-expect respect?
-
-Why are you so special that you think you can change the rules for
-kernel uapi files over the *repeated* objections from maintainers who
-know better?
-
-                  Linus
+greg k-h
