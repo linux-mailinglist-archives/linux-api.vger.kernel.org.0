@@ -2,102 +2,109 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 396735A1904
-	for <lists+linux-api@lfdr.de>; Thu, 25 Aug 2022 20:48:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BCB05A19C7
+	for <lists+linux-api@lfdr.de>; Thu, 25 Aug 2022 21:48:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243455AbiHYSsv (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 25 Aug 2022 14:48:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47408 "EHLO
+        id S229493AbiHYTsQ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 25 Aug 2022 15:48:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243309AbiHYSso (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 25 Aug 2022 14:48:44 -0400
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27AB9B08B9;
-        Thu, 25 Aug 2022 11:48:38 -0700 (PDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id A0E735C00A7;
-        Thu, 25 Aug 2022 14:48:35 -0400 (EDT)
-Received: from imap46 ([10.202.2.96])
-  by compute5.internal (MEProxy); Thu, 25 Aug 2022 14:48:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=verbum.org; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm1; t=1661453315; x=1661539715; bh=7/QJ5cEPcM
-        fYYVo1y1XafN6H2GK15RMZ9wDJuYjC+3c=; b=tAJRAlKJC6gwE4HsW/KFz043yK
-        24kBNzKUiqmnVincz1sRtGKAb19o0zAv/9Fy3yHUJ7me08gpSkhGFvCWlPjT4ER+
-        +fNGjc/wZ6IOXNAIT2wqi5fp++4hIugMf/rc7b0/ujORdyOq64rh2quHqGtoZDdk
-        dLsQf6wCXqgn8RU8Hcy812rvA86MmxNSJzKD+fXCKdMwbwgJxgW6h1iB9+o1jgA+
-        IFur+F8TqAEKzz9HV8vU978jhpMJ/9UHc1JGXLoIg+JnodG27tUhcPdFWNzDDdpX
-        UJ+mfLKn/kDhfRmWTKQ7v9y49Y7kQ2GfW83zU0SnddNwXV24uGXZmhQx2ZJA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; t=1661453315; x=1661539715; bh=7/QJ5cEPcMfYYVo1y1XafN6H2GK1
-        5RMZ9wDJuYjC+3c=; b=aa7WC/tnYeq9OEjXMIgD5gjslo07PCVNiJjuBBQdaR38
-        n51GhANSSmBdeGZTtg5eDLrA4BdvWSEkvqCwaDMIfgyWc5depXXCHqTnmv8m3d8r
-        fT0XK7FvIHXFXhcdMpTLHH/RNW06CX+x4fWxxT7+BSpuO3yDHayMs9RvS2M26UHW
-        iNbjsaRW4egk+/gLmvM2xNiZSdbMruognidUigvjkcHjc8yNGrhD4zrxT6oImZps
-        Np1MrDj8k9jtJQZo2sjU/Z4SucHTM7VJ4DksLpIRKM/y7/dCCcR0zG3W4nSOKS2V
-        L18DNzyfWvFLhNSJ6GoReFAYZ8icZaxkfOMf6DkXrw==
-X-ME-Sender: <xms:A8QHY82GfZAwKKwY_0T6x9zEtaLb6uf8nx0uruUK6g9bGwSe1YyFkA>
-    <xme:A8QHY3GvgJ9DZvB6LI9m-3Xd4J6y_1XZJcXrLdp-0fj0YbzrrihNF-_-GmAEe38ne
-    uwZn9MWVop5_BwY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejfedguddvlecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdev
-    ohhlihhnucghrghlthgvrhhsfdcuoeifrghlthgvrhhssehvvghrsghumhdrohhrgheqne
-    cuggftrfgrthhtvghrnhephfejuddthedtgfeuueeltdekfeekvdfgveeifeduteekheff
-    jefgieehheekgeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepfigrlhhtvghrshesvhgvrhgsuhhmrdhorhhg
-X-ME-Proxy: <xmx:A8QHY06R9jjTowXOu19o1y47k7-QiWvVbrDyUvENlz3pvT8WGkhMQA>
-    <xmx:A8QHY11eU6Qd6nefd6Gb9VL37HPxK91pI76roxyKS7OooLjewyKexQ>
-    <xmx:A8QHY_F_Rr4M0DWHCqyFKNnhF_6pTnoh2MsmzQkRDS-XVvRAemOFQw>
-    <xmx:A8QHY045Pks8pmIGRrvdS2iqbDXCdghu_nCsY5cdix3wFMMXOYN6Bg>
-Feedback-ID: ibe7c40e9:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 3C1E52A20075; Thu, 25 Aug 2022 14:48:35 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-841-g7899e99a45-fm-20220811.002-g7899e99a
-Mime-Version: 1.0
-Message-Id: <fc59bfa8-295e-4180-9cf0-c2296d2e8707@www.fastmail.com>
-In-Reply-To: <20220823215333.GC3144495@dread.disaster.area>
-References: <20220819115641.14744-1-jlayton@kernel.org>
- <20220823215333.GC3144495@dread.disaster.area>
-Date:   Thu, 25 Aug 2022 14:48:02 -0400
-From:   "Colin Walters" <walters@verbum.org>
-To:     "Dave Chinner" <david@fromorbit.com>,
-        "Jeff Layton" <jlayton@kernel.org>
-Cc:     "Al Viro" <viro@zeniv.linux.org.uk>, linux-api@vger.kernel.org,
+        with ESMTP id S233141AbiHYTsP (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 25 Aug 2022 15:48:15 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3A225F12A;
+        Thu, 25 Aug 2022 12:48:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7612761DCF;
+        Thu, 25 Aug 2022 19:48:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EBCBC433C1;
+        Thu, 25 Aug 2022 19:48:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661456892;
+        bh=r8gaxJKLQI+z6juVzGPZoOj4RUwyYCmoO+hFGBi7yio=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=HDLiJw9Oy8arB3LTOsdS+SDOeJbX+vBcaTADTdnfo41tdS09mjbzlWhnDnfva+x4g
+         BjKUYzjJM0KmbD5ADf4P2NZUl6JYLFgGhIqfJv+PBq8RAZA+1zu7S79xGQXsz5M2Ci
+         0YEfVeZs98dFwDoUhDpoxiDLWCB/NmTFitQq9abEb6kP+l4mP3Zztwp74A3uHznlIA
+         Nlpuue//VRmfvXJahz0JhGI6SaPXkVDjIWHKMK/6sf45SCoepMiCV91giZ2O+EJPME
+         qaOJ0nE5cyGhIXp6sgMq5RBjvGMrBhMcHFq8rSuvQToRb3cIml8cmdtm7nY26beVcU
+         kAw01z3J9LPeg==
+Message-ID: <0339f5f540010ba1bae74121d33c0643f26fefab.camel@kernel.org>
+Subject: Re: [PATCH] vfs: report an inode version in statx for IS_I_VERSION
+ inodes
+From:   Jeff Layton <jlayton@kernel.org>
+To:     Colin Walters <walters@verbum.org>,
+        Dave Chinner <david@fromorbit.com>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>, linux-api@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
-        "Jeff Layton" <jlayton@redhat.com>,
-        "David Howells" <dhowells@redhat.com>,
-        "Frank Filz" <ffilzlnx@mindspring.com>
-Subject: Re: [PATCH] vfs: report an inode version in statx for IS_I_VERSION inodes
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        David Howells <dhowells@redhat.com>,
+        Frank Filz <ffilzlnx@mindspring.com>
+Date:   Thu, 25 Aug 2022 15:48:10 -0400
+In-Reply-To: <fc59bfa8-295e-4180-9cf0-c2296d2e8707@www.fastmail.com>
+References: <20220819115641.14744-1-jlayton@kernel.org>
+         <20220823215333.GC3144495@dread.disaster.area>
+         <fc59bfa8-295e-4180-9cf0-c2296d2e8707@www.fastmail.com>
+Content-Type: text/plain; charset="ISO-8859-15"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Thu, 2022-08-25 at 14:48 -0400, Colin Walters wrote:
+>=20
+> On Tue, Aug 23, 2022, at 5:53 PM, Dave Chinner wrote:
+> >=20
+> > THere's no definition of what consitutes an "inode change" and this
+> > exposes internal filesystem implementation details (i.e. on disk
+> > format behaviour) directly to userspace. That means when the
+> > internal filesystem behaviour changes, userspace applications will
+> > see changes in stat->ino_version changes and potentially break them.
+>=20
+> As a userspace developer (ostree, etc. who is definitely interested in th=
+is functionality) I do agree with this concern; but a random drive by comme=
+nt: would it be helpful to expose iversion (or other bits like this from th=
+e vfs) via e.g. debugfs to start?  I think that'd unblock writing fstests i=
+n the short term right?
+>=20
+>=20
 
+It's great to hear from userland developers who are interested in this!
 
-On Tue, Aug 23, 2022, at 5:53 PM, Dave Chinner wrote:
-> 
-> THere's no definition of what consitutes an "inode change" and this
-> exposes internal filesystem implementation details (i.e. on disk
-> format behaviour) directly to userspace. That means when the
-> internal filesystem behaviour changes, userspace applications will
-> see changes in stat->ino_version changes and potentially break them.
+I don't think there is a lot of controversy about the idea of presenting
+a value like this via statx. The usefulness seems pretty obvious if
+you've ever had to deal with timestamp granularity issues.
 
-As a userspace developer (ostree, etc. who is definitely interested in this functionality) I do agree with this concern; but a random drive by comment: would it be helpful to expose iversion (or other bits like this from the vfs) via e.g. debugfs to start?  I think that'd unblock writing fstests in the short term right?
+The part we're wrestling with now is that applications will need a clear
+(and testable!) definition of what this value means. We need to be very
+careful how we define this so that userland developers don't get stuck
+dealing with semantics that vary per fstype, while still allowing the
+broadest range of filesystems to support it.
 
+My current thinking is to define this such that the reported ino_version
+MUST change any time that the ctime would change (even if the timestamp
+doesn't appear to change). That should also catch mtime updates.
 
+The part I'm still conflicted about is whether we should allow for a
+conformant implementation to increment the value even when there is no
+apparent change to the inode.
+
+IOW, should this value mean that something _did_ change in the inode or
+that something _may_ have changed in it?
+
+Implementations that do spurious increments would less than ideal, but
+defining it that way might allow a broader range of filesystems to
+present this value.
+
+What would you prefer, as a userland developer?
+--=20
+Jeff Layton <jlayton@kernel.org>
