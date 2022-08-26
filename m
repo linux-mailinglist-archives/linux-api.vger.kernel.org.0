@@ -2,128 +2,106 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D0125A1D4F
-	for <lists+linux-api@lfdr.de>; Fri, 26 Aug 2022 01:43:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 814FD5A236A
+	for <lists+linux-api@lfdr.de>; Fri, 26 Aug 2022 10:44:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244278AbiHYXni (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 25 Aug 2022 19:43:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33654 "EHLO
+        id S229535AbiHZIoy (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 26 Aug 2022 04:44:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244623AbiHYXne (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 25 Aug 2022 19:43:34 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 254A2BC13A
-        for <linux-api@vger.kernel.org>; Thu, 25 Aug 2022 16:43:33 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id m10-20020a17090a730a00b001fa986fd8eeso6510700pjk.0
-        for <linux-api@vger.kernel.org>; Thu, 25 Aug 2022 16:43:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=CrkUDi4mYcC3qOEbpgTO1y4xAYzFYl9qfJxBFAO1WQU=;
-        b=oH89fuC7/OCch4BVe3RICsoOXGZYywI31GBVdOyyzkOO7DEQwz0A3bC8XVXdtvCwd1
-         6++QpYTFdw9m4hHnWiKtTIpB7Hi5ELfJeZuqNN9uFKSo7WfdJ9G1Mhm4JK6AV2WHzXjJ
-         VbNzkpdmEXJLIC2dBL9fBoXXr3+4Uapf2ay+q5o5OiTRLYNgKYonwB+ySRb6B5oDeL1+
-         dAGtJD3OxzwN4u/yHADk0FqkEVYKITXRoFTnTIyXKBO0WL66kWEVFTEfNMRKnT8HVrqd
-         r0phSuI2WdqgmUZxadQTwthKDt4ZrV+UeAwXIY6ktT0Ll4TYsN0WDJRL1/UrY3DGWEjg
-         ExLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=CrkUDi4mYcC3qOEbpgTO1y4xAYzFYl9qfJxBFAO1WQU=;
-        b=KUtBPqqgHrdqepp4naULHgOIcqamApesCv/LWP4bXu8ggfPjLN/z99XdTzV+1pkhkh
-         AZYxxe/a0S3wz5lomqFIQexGWuyeDylkcg43/VfXGKNMMKI9MXVSuENJ7+mI3KHfZ2XQ
-         Ym0Fjr6iwIynI4Yse+aQuZqHeU8ohTrwIwRlqKX+jmElDFMM0pr0g+5oDASGl9SFwC/X
-         62GlPMYrmVXapNwyletm+zjNbyWmX5QdeFAcD/1/eJMTHUzRL1mU7vB8QWH68nWwYUz+
-         YwqUUYAPOLm/NmllgWQnrdCyMle371WW4QatsJYInyuh9pP0ikfuePHkAVHv2dJLjEPH
-         aGfw==
-X-Gm-Message-State: ACgBeo2cP9IEZmHRqkUk0kAUsG4xmNosz6yNvif0t0Kss7gOU/fDEd/2
-        CIqy7JF2z1l0Tpf9eW8MKDM/kg==
-X-Google-Smtp-Source: AA6agR7uDYeONp1wM5VEYWT/Ep3xp8EiV6yvT/4U8QUXuA4MqoQg5QOZ3aLyR1Qey0199Sw+p/pMAg==
-X-Received: by 2002:a17:90b:2390:b0:1fa:c680:1f63 with SMTP id mr16-20020a17090b239000b001fac6801f63mr1464578pjb.16.1661471012094;
-        Thu, 25 Aug 2022 16:43:32 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id a9-20020aa78e89000000b005379fb50ff0sm216131pfr.50.2022.08.25.16.43.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Aug 2022 16:43:31 -0700 (PDT)
-Date:   Thu, 25 Aug 2022 23:43:27 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: Re: [PATCH v6 6/8] KVM: Handle page fault for private memory
-Message-ID: <YwgJH0TRZO4ie4z8@google.com>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <20220519153713.819591-7-chao.p.peng@linux.intel.com>
- <YqzyjZnflCMPo8b/@google.com>
- <20220819004018.mgdvxhl6dj3ujl3f@box.shutemov.name>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220819004018.mgdvxhl6dj3ujl3f@box.shutemov.name>
-X-Spam-Status: No, score=-14.5 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,FSL_HELO_FAKE,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=no autolearn_force=no version=3.4.6
+        with ESMTP id S234289AbiHZIow (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 26 Aug 2022 04:44:52 -0400
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84D6D3BA;
+        Fri, 26 Aug 2022 01:44:45 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id B18B75C022B;
+        Fri, 26 Aug 2022 04:44:43 -0400 (EDT)
+Received: from imap46 ([10.202.2.96])
+  by compute5.internal (MEProxy); Fri, 26 Aug 2022 04:44:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=verbum.org; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm1; t=1661503483; x=1661589883; bh=FcASxq07SE
+        JAkx76u4e1lSLrpan2odYfhNnko4gKCBs=; b=LeV864c4Muuh7j8Sy/U/pPijNm
+        TT4vf3VzTnFOpQqT1U8HBAJ2kf4YS4topp8b+YOxbEH03o8CRIy3pKu5SPAoS/0/
+        f5XM6WN8BJarYPAchCpEfJ6pudK4M8Hp4ot+5P9pbshg4P7cvrxFcEvNLh6GcrIQ
+        D9TR1bQz7iuOzgNUQrHe6b5ONpHnbgCzO+2Wlr8HbsfkA5QT9EZZgxkRcVrXinlT
+        OPNSPCq4ni2o9MHZLbRW/LrsBcOQBE8e1EXuX5GotgZYo02B6UNVIdehTsUzk9eb
+        XYq5a2WX4GPnOYc8QwptfW2c2cUN99rVO+PhRcc02E0xdUOrFl/+2nQMUp+A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm1; t=1661503483; x=1661589883; bh=FcASxq07SEJAkx76u4e1lSLrpan2
+        odYfhNnko4gKCBs=; b=BXR6BlyeylwLEC6k2RMCXdPYtLeOtqahSifpvCWDJmTF
+        FcekJZWUlY/f0i8L6KTUgbGGXsVuW8KD+hplG29CfrpjA4bMtg+d0WwpzzD3dSMf
+        mm3MBkXWughoZJuzNVduOfVdD48KEsBydFAqri59lx+s2NId7SINaAtCPK/Er/0k
+        ghFIz9X2Q7xw52mR0+Lchztf+LJLLep1NOkGioZw/yCgJklyIT+AfxToYkXxGnze
+        TF37H85MvPi6rphO3Wjx2ImX79bBaysIFEAHEk6eBhCa37ss5hvh+JzrnyL9x+7g
+        dF25RH5U0nJ/sDGbepZGeTdBD2zsqUEzQ9Dv/IOgvg==
+X-ME-Sender: <xms:-4cIYyXn2N1ziYEEd4F2xV50QSAdb1MOCGfAr9VnFWTtKf9fvl_5qA>
+    <xme:-4cIY-nEF8kMLD92jdR-3gB8T0PJsQo9ZylCZTXeHyuF7jvak8h7oFIMEDi6HpXVY
+    bx1-rrDSnbrOgqX>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejhedgtdejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfveho
+    lhhinhcuhggrlhhtvghrshdfuceofigrlhhtvghrshesvhgvrhgsuhhmrdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpeffteeugeehlefhvddvleeljefgheegudehhfdugeffffejfeef
+    gfduhffgueejleenucffohhmrghinheplhifnhdrnhgvthenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpeifrghlthgvrhhssehvvghrsghumhdr
+    ohhrgh
+X-ME-Proxy: <xmx:-4cIY2aFNIYb8WxEhA_OxGFmObT7bbggSBTKhH-fMKpvCV5fQfS7lg>
+    <xmx:-4cIY5XcIQfigXZ0B3LzryQcWa9m2uQ1R1zif7nDYS8hr0ROoMORUA>
+    <xmx:-4cIY8mNOEEVju0h-4MifiTlLd1hW1zReWB1HmuFjTXk3Y_ab3nDXg>
+    <xmx:-4cIY7u547JP726GpbIP1f9YBisqZP19inE51rno9_Qbj7k1yhPxlQ>
+Feedback-ID: ibe7c40e9:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 4D1D92A20075; Fri, 26 Aug 2022 04:44:43 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-841-g7899e99a45-fm-20220811.002-g7899e99a
+Mime-Version: 1.0
+Message-Id: <0c5ef1d2-235c-48c1-9a7a-5e52f3a34855@www.fastmail.com>
+In-Reply-To: <0339f5f540010ba1bae74121d33c0643f26fefab.camel@kernel.org>
+References: <20220819115641.14744-1-jlayton@kernel.org>
+ <20220823215333.GC3144495@dread.disaster.area>
+ <fc59bfa8-295e-4180-9cf0-c2296d2e8707@www.fastmail.com>
+ <0339f5f540010ba1bae74121d33c0643f26fefab.camel@kernel.org>
+Date:   Fri, 26 Aug 2022 04:44:23 -0400
+From:   "Colin Walters" <walters@verbum.org>
+To:     "Jeff Layton" <jlayton@kernel.org>,
+        "Dave Chinner" <david@fromorbit.com>
+Cc:     "Al Viro" <viro@zeniv.linux.org.uk>, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
+        "David Howells" <dhowells@redhat.com>,
+        "Frank Filz" <ffilzlnx@mindspring.com>
+Subject: Re: [PATCH] vfs: report an inode version in statx for IS_I_VERSION inodes
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Aug 19, 2022, Kirill A. Shutemov wrote:
-> On Fri, Jun 17, 2022 at 09:30:53PM +0000, Sean Christopherson wrote:
-> > > @@ -4088,7 +4144,12 @@ static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
-> > >  		read_unlock(&vcpu->kvm->mmu_lock);
-> > >  	else
-> > >  		write_unlock(&vcpu->kvm->mmu_lock);
-> > > -	kvm_release_pfn_clean(fault->pfn);
-> > > +
-> > > +	if (fault->is_private)
-> > > +		kvm_private_mem_put_pfn(fault->slot, fault->pfn);
-> > 
-> > Why does the shmem path lock the page, and then unlock it here?
-> 
-> Lock is require to avoid race with truncate / punch hole. Like if truncate
-> happens after get_pfn(), but before it gets into SEPT we are screwed.
+Bigger picture, I think eventually I'm going to rework stuff related to my use case to be more similar to the container stack, specifically using overlayfs; so it's quite possible by the time iversion is exposed to userspace, I won't have any strong want/need of it myself.
 
-Getting the PFN into the SPTE doesn't provide protection in and of itself.  The
-protection against truncation and whatnot comes from KVM getting a notification
-and either retrying the fault (notification acquires mmu_lock before
-direct_page_fault()), or blocking the notification (truncate / punch hole) until
-after KVM installs the SPTE.  I.e. KVM just needs to ensure it doesn't install a
-SPTE _after_ getting notified.
+On Thu, Aug 25, 2022, at 3:48 PM, Jeff Layton wrote:
 
-If the API is similar to gup(), i.e. only elevates the refcount but doesn't lock
-the page, then there's no need for a separate kvm_private_mem_put_pfn(), and in
-fact no need for ->put_unlock_pfn() because can KVM do set_page_dirty() and
-put_page() directly as needed using all of KVM's existing mechanisms.
+> IOW, should this value mean that something _did_ change in the inode or
+> that something _may_ have changed in it?
+
+In my case it's basically the same as IMA - we want to only compute the sha256 digest of files that actually changed.  Some false positives are hence OK - but that also means the usefulness of the feature degrades in proportion to that number.
+
+A bit more detail:
+
+I didn't deep dive into the XFS mention about internal/background iversion changes, but AIUI at a high level it sounds like those iversion changes happen mainly (only?) when the file is recently created and pending writeback, which doesn't seem like a problem in practice.  I do agree with Ingo's old quote about atime though in https://lwn.net/Articles/244829/ and this thread reminded me to use `noatime` on my main workstation (again; I'd recently changed how I provision it).
+
+
+
+
