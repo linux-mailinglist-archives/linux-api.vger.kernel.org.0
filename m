@@ -2,65 +2,187 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E61AE5A402F
-	for <lists+linux-api@lfdr.de>; Mon, 29 Aug 2022 01:49:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4677A5A428E
+	for <lists+linux-api@lfdr.de>; Mon, 29 Aug 2022 07:48:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229464AbiH1Xtd (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 28 Aug 2022 19:49:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44662 "EHLO
+        id S229653AbiH2Fs6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 29 Aug 2022 01:48:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbiH1Xtc (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 28 Aug 2022 19:49:32 -0400
-X-Greylist: delayed 528 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 28 Aug 2022 16:49:30 PDT
-Received: from vigilant-mayer.142-93-222-223.plesk.page (unknown [142.93.222.223])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0336C2F01D
-        for <linux-api@vger.kernel.org>; Sun, 28 Aug 2022 16:49:29 -0700 (PDT)
-Received: by vigilant-mayer.142-93-222-223.plesk.page (Postfix, from userid 10000)
-        id D86547FB9C; Mon, 29 Aug 2022 05:10:38 +0530 (IST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mahalaxmicomforts.in; s=default; t=1661730038;
-        bh=taGSh7LqJMD8eLpMDkpLNPbUAVocDOqKoEmUwz9Fha8=; h=To:Subject:From;
-        b=fOmx0O1hMESYjKWA+VBzZI7ue8p6rBb2DiT6JQfuAtQjRbcwV04qPYH+Ui2Fy5sPp
-         S0gfimEhdepMBKPK2ubE4JK90T92t59tdyALd9p9OqUafopvPfQXcgy7pPoKlF3HtB
-         bW7o7x4KiEnkzF42AWLVxrYkfTpZQm8dyhM072ik=
-To:     linux-api@vger.kernel.org
-Subject: =?us-ascii?Q?Telegram:_Werden_Sie_in_einem_Monat_einer_der_K?=
- =?us-ascii?Q?rypto-Millionare?=
-Date:   Sun, 28 Aug 2022 23:40:38 +0000
-From:   WordPress <admin@mahalaxmicomforts.in>
-Message-ID: <yLtCg02i3U3ql3XHJTtxqZ75SW4FTfBio472RJ0@mahalaxmicomforts.in>
-X-Mailer: PHPMailer 6.5.3 (https://github.com/PHPMailer/PHPMailer)
+        with ESMTP id S229536AbiH2Fs5 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Aug 2022 01:48:57 -0400
+Received: from mail104.syd.optusnet.com.au (mail104.syd.optusnet.com.au [211.29.132.246])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AAC9146214;
+        Sun, 28 Aug 2022 22:48:55 -0700 (PDT)
+Received: from dread.disaster.area (pa49-195-4-169.pa.nsw.optusnet.com.au [49.195.4.169])
+        by mail104.syd.optusnet.com.au (Postfix) with ESMTPS id 43D3562DA32;
+        Mon, 29 Aug 2022 15:48:50 +1000 (AEST)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+        (envelope-from <david@fromorbit.com>)
+        id 1oSXdg-001DXe-Mw; Mon, 29 Aug 2022 15:48:48 +1000
+Date:   Mon, 29 Aug 2022 15:48:48 +1000
+From:   Dave Chinner <david@fromorbit.com>
+To:     Jeff Layton <jlayton@kernel.org>
+Cc:     Amir Goldstein <amir73il@gmail.com>,
+        Trond Myklebust <trondmy@hammerspace.com>,
+        "djwong@kernel.org" <djwong@kernel.org>,
+        "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
+        "brauner@kernel.org" <brauner@kernel.org>,
+        "xiubli@redhat.com" <xiubli@redhat.com>,
+        "neilb@suse.de" <neilb@suse.de>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
+        "dwysocha@redhat.com" <dwysocha@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "chuck.lever@oracle.com" <chuck.lever@oracle.com>,
+        "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
+        "tytso@mit.edu" <tytso@mit.edu>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "jack@suse.cz" <jack@suse.cz>,
+        "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "lczerner@redhat.com" <lczerner@redhat.com>,
+        "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
+        "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>
+Subject: Re: [PATCH v3 4/7] xfs: don't bump the i_version on an atime update
+ in xfs_vn_update_time
+Message-ID: <20220829054848.GR3600936@dread.disaster.area>
+References: <20220826214703.134870-1-jlayton@kernel.org>
+ <20220826214703.134870-5-jlayton@kernel.org>
+ <CAOQ4uxjzE_B_EQktLr8z8gXOhFDNm-_YpUTycfZCdaZNp-i0hQ@mail.gmail.com>
+ <CAOQ4uxge86g=+HPnds-wRXkFHg67G=m9rGK7V_T8yS+2=w9tmg@mail.gmail.com>
+ <35d31d0a5c6c9a20c58f55ef62355ff39a3f18c6.camel@kernel.org>
+ <Ywo8cWRcJUpLFMxJ@magnolia>
+ <079df2134120f847e8237675a8cc227d6354a153.camel@hammerspace.com>
+ <b13812a68310e49cc6fb649c2b1c25287712a8af.camel@kernel.org>
+ <CAOQ4uxgThXDEO3mxR_PtPgcPsF7ueqFUxHO3F3KE9sVqi8sLJQ@mail.gmail.com>
+ <732164ffb95468992035a6f597dc26e3ce39316d.camel@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-PPP-Message-ID: <166173003883.246698.4483520838156229829@vigilant-mayer.142-93-222-223.plesk.page>
-X-PPP-Vhost: mahalaxmicomforts.in
-X-Spam-Status: Yes, score=5.4 required=5.0 tests=BAYES_50,DKIM_INVALID,
-        DKIM_SIGNED,RCVD_IN_VALIDITY_RPBL,RDNS_NONE,SCC_BODY_URI_ONLY,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_PH_SURBL
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.6 URIBL_PH_SURBL Contains an URL listed in the PH SURBL blocklist
-        *      [URIs: churchfaq.com]
-        *  1.3 RCVD_IN_VALIDITY_RPBL RBL: Relay in Validity RPBL,
-        *      https://senderscore.org/blocklistlookup/
-        *      [142.93.222.223 listed in bl.score.senderscore.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 SPF_NONE SPF: sender does not publish an SPF Record
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        *  0.1 DKIM_INVALID DKIM or DK signature exists, but is not valid
-        *  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  1.7 SCC_BODY_URI_ONLY No description available.
-X-Spam-Level: *****
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <732164ffb95468992035a6f597dc26e3ce39316d.camel@kernel.org>
+X-Optus-CM-Score: 0
+X-Optus-CM-Analysis: v=2.4 cv=e9dl9Yl/ c=1 sm=1 tr=0 ts=630c5345
+        a=FOdsZBbW/tHyAhIVFJ0pRA==:117 a=FOdsZBbW/tHyAhIVFJ0pRA==:17
+        a=kj9zAlcOel0A:10 a=biHskzXt2R4A:10 a=VwQbUJbxAAAA:8 a=7-415B0cAAAA:8
+        a=Emwzr4xTW__1gdtk8LEA:9 a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22
+        a=biEYGPWJfzWAr4FL6Ov7:22
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Charleslam
-Telegram: Werden Sie in einem Monat einer der Krypto-Millionare
-Sind Sie es leid, in Schulden zu leben? Es gibt einen Ausweg und es ist sehr einfach. http://bitcoin-what-is-it.churchfaq.com/news-4384
+On Sun, Aug 28, 2022 at 10:37:37AM -0400, Jeff Layton wrote:
+> On Sun, 2022-08-28 at 16:25 +0300, Amir Goldstein wrote:
+> > On Sat, Aug 27, 2022 at 7:10 PM Jeff Layton <jlayton@kernel.org> wrote:
+> > > Yeah, thinking about it some more, simply changing the block allocation
+> > > is not something that should affect the ctime, so we probably don't want
+> > > to bump i_version on it. It's an implicit change, IOW, not an explicit
+> > > one.
+> > > 
+> > > The fact that xfs might do that is unfortunate, but it's not the end of
+> > > the world and it still would conform to the proposed definition for
+> > > i_version. In practice, this sort of allocation change should come soon
+> > > after the file was written, so one would hope that any damage due to the
+> > > false i_version bump would be minimized.
+> > > 
+> > 
+> > That was exactly my point.
+> > 
+> > > It would be nice to teach it not to do that however. Maybe we can insert
+> > > the NOIVER flag at a strategic place to avoid it?
 
+No, absolutely not.
+
+I've already explained this: The XFS *disk format specification*
+says that di_changecount is bumped for every change that is made to
+the inode.
+
+Applications that are written from this specification expect the on
+disk format for a XFS given filesystem feature to remain the same
+until it is either deprecated and removed or we add feature flags to
+indicate it has different behaviour.  We can't just change the
+behaviour at a whim.
+
+And that's ignoring the fact that randomly spewing NOIVER
+into transactions that modify inode metadata is a nasty hack - it
+is not desirable from a design or documentation POV, nor is it
+maintainable.
+
+> > Why would that be nice to avoid?
+> > You did not specify any use case where incrementing i_version
+> > on block mapping change matters in practice.
+> > On the contrary, you said that NFS client writer sends COMMIT on close,
+> > which should stabilize i_version for the next readers.
+> > 
+> > Given that we already have an xfs implementation that does increment
+> > i_version on block mapping changes and it would be a pain to change
+> > that or add a new user options, I don't see the point in discussing it further
+> > unless there is a good incentive for avoiding i_version updates in those cases.
+> > 
+> 
+> Because the change to the block allocation doesn't represent an
+> "explicit" change to the inode. We will have bumped the ctime on the
+> original write (in update_time), but the follow-on changes that occur
+> due to that write needn't be counted as they aren't visible to the
+> client.
+> 
+> It's possible for a client to issue a read between the write and the
+> flush and get the interim value for i_version. Then, once the write
+> happens and the i_version gets bumped again, the client invalidates its
+> cache even though it needn't do so.
+> 
+> The race window ought to be relatively small, and this wouldn't result
+> in incorrect behavior that you'd notice (other than loss of
+> performance), but it's not ideal. We're doing more on-the-wire reads
+> than are necessary in this case.
+> 
+> It would be nice to have it not do that. If we end up taking this patch
+> to make it elide the i_version bumps on atime updates, we may be able to
+> set the the NOIVER flag in other cases as well, and avoid some of these
+> extra bumps.
+
+
+<sigh>
+
+Please don't make me repeat myself for the third time.
+
+Once we have decided on a solid, unchanging definition for the
+*statx user API variable*, we'll implement a new on-disk field that
+provides this information.  We will document it in the on-disk
+specification as "this is how di_iversion behaves" so that it is
+clear to everyone parsing the on-disk format or writing their own
+XFS driver how to implement it and when to expect it to
+change.
+
+Then we can add a filesystem and inode feature flags that say "inode
+has new iversion" and we use that to populate the kernel iversion
+instead of di_changecount. We keep di_changecount exactly the way it
+is now for the applications and use cases we already have for that
+specific behaviour. If the kernel and/or filesystem don't support
+the new di_iversion field, then we'll use di_changecount as it
+currently exists for the kernel iversion code.
+
+Keep in mind that we've been doing dynamic inode format updates in
+XFS for a couple of decades - users don't even have to be aware that
+they need to perform format upgrades because often they just happen
+whenever an inode is accessed. IOWs, just because we have to change
+the on-disk format to support this new iversion definition, it
+doesn't mean users have to reformat filesystems before the new
+feature can be used.
+
+Hence, over time, as distros update kernels, the XFS iversion
+behaviour will change automagically as we update inodes in existing
+filesystems as they are accessed to add and then use the new
+di_iversion field for the VFS change attribute field instead of the
+di_changecount field...
+
+-Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
