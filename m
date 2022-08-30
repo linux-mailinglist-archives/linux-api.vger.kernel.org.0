@@ -2,220 +2,235 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D86615A58C7
-	for <lists+linux-api@lfdr.de>; Tue, 30 Aug 2022 03:04:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67D995A6184
+	for <lists+linux-api@lfdr.de>; Tue, 30 Aug 2022 13:21:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229481AbiH3BE4 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 29 Aug 2022 21:04:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41508 "EHLO
+        id S229752AbiH3LVB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 30 Aug 2022 07:21:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229469AbiH3BEy (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 29 Aug 2022 21:04:54 -0400
-Received: from mail104.syd.optusnet.com.au (mail104.syd.optusnet.com.au [211.29.132.246])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A6D972BDA;
-        Mon, 29 Aug 2022 18:04:47 -0700 (PDT)
-Received: from dread.disaster.area (pa49-195-4-169.pa.nsw.optusnet.com.au [49.195.4.169])
-        by mail104.syd.optusnet.com.au (Postfix) with ESMTPS id 1884D62D9C7;
-        Tue, 30 Aug 2022 11:04:43 +1000 (AEST)
-Received: from dave by dread.disaster.area with local (Exim 4.92.3)
-        (envelope-from <david@fromorbit.com>)
-        id 1oSpgI-001XKz-SX; Tue, 30 Aug 2022 11:04:42 +1000
-Date:   Tue, 30 Aug 2022 11:04:42 +1000
-From:   Dave Chinner <david@fromorbit.com>
-To:     Jeff Layton <jlayton@kernel.org>
-Cc:     tytso@mit.edu, adilger.kernel@dilger.ca, djwong@kernel.org,
-        trondmy@hammerspace.com, neilb@suse.de, viro@zeniv.linux.org.uk,
-        zohar@linux.ibm.com, xiubli@redhat.com, chuck.lever@oracle.com,
-        lczerner@redhat.com, jack@suse.cz, brauner@kernel.org,
-        linux-api@vger.kernel.org, linux-btrfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-ceph@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-nfs@vger.kernel.org, linux-xfs@vger.kernel.org,
-        Colin Walters <walters@verbum.org>
-Subject: Re: [PATCH v3 1/7] iversion: update comments with info about atime
- updates
-Message-ID: <20220830010442.GW3600936@dread.disaster.area>
-References: <20220826214703.134870-1-jlayton@kernel.org>
- <20220826214703.134870-2-jlayton@kernel.org>
- <20220829075651.GS3600936@dread.disaster.area>
- <549776abfaddcc936c6de7800b6d8249d97d9f28.camel@kernel.org>
+        with ESMTP id S229550AbiH3LVA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 30 Aug 2022 07:21:00 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78C5B642C7;
+        Tue, 30 Aug 2022 04:20:57 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id A4735B816D8;
+        Tue, 30 Aug 2022 11:20:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39F55C433C1;
+        Tue, 30 Aug 2022 11:20:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661858454;
+        bh=alCF5GpH5u+gpvCxHLRbmwtthtKRe9pS/J4xxwf7TlA=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=a7j+WOMxJ9NMH5hK1XagXQm5MHEZxrPMD+WSnBfFpTC3FVBQxNASK0R5/e3ZgYkTB
+         RFnZLpxr+y1wsO6XVnF48yLtobWjttaRB/tDYfX8vUAvWp9kSRAxOd02h0qQ4myPys
+         FJjFtGXofZyh60kfbMHBtmLl9jzMrURzy5I5ZefnmoLjaQqVr9gLDfMTViAHVrYYHe
+         ixNouIUFv2Va5wVzA2qOdclJmWu66YI/1y0ZIxWWN/2MH7eTacr4XOkqA9hc48vB/Z
+         N+CV8GXDJoVKxdF5RsbVQNIYvtmbeMxu2lHS/WrnRHpxT08PEeYW1j93IQSQ2mSrdG
+         DEQb0qnOPHiiQ==
+Message-ID: <fe13642a39160cc7dd15f9212e1afb69e955c0be.camel@kernel.org>
+Subject: Re: [PATCH v3 4/7] xfs: don't bump the i_version on an atime update
+ in xfs_vn_update_time
+From:   Jeff Layton <jlayton@kernel.org>
+To:     Dave Chinner <david@fromorbit.com>
+Cc:     Amir Goldstein <amir73il@gmail.com>,
+        Trond Myklebust <trondmy@hammerspace.com>,
+        "djwong@kernel.org" <djwong@kernel.org>,
+        "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
+        "brauner@kernel.org" <brauner@kernel.org>,
+        "xiubli@redhat.com" <xiubli@redhat.com>,
+        "neilb@suse.de" <neilb@suse.de>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
+        "dwysocha@redhat.com" <dwysocha@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "chuck.lever@oracle.com" <chuck.lever@oracle.com>,
+        "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
+        "tytso@mit.edu" <tytso@mit.edu>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "jack@suse.cz" <jack@suse.cz>,
+        "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "lczerner@redhat.com" <lczerner@redhat.com>,
+        "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
+        "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>
+Date:   Tue, 30 Aug 2022 07:20:50 -0400
+In-Reply-To: <20220830000851.GV3600936@dread.disaster.area>
+References: <CAOQ4uxjzE_B_EQktLr8z8gXOhFDNm-_YpUTycfZCdaZNp-i0hQ@mail.gmail.com>
+         <CAOQ4uxge86g=+HPnds-wRXkFHg67G=m9rGK7V_T8yS+2=w9tmg@mail.gmail.com>
+         <35d31d0a5c6c9a20c58f55ef62355ff39a3f18c6.camel@kernel.org>
+         <Ywo8cWRcJUpLFMxJ@magnolia>
+         <079df2134120f847e8237675a8cc227d6354a153.camel@hammerspace.com>
+         <b13812a68310e49cc6fb649c2b1c25287712a8af.camel@kernel.org>
+         <CAOQ4uxgThXDEO3mxR_PtPgcPsF7ueqFUxHO3F3KE9sVqi8sLJQ@mail.gmail.com>
+         <732164ffb95468992035a6f597dc26e3ce39316d.camel@kernel.org>
+         <20220829054848.GR3600936@dread.disaster.area>
+         <8510ff07fdba7dd4c59a14e2f202ff38b83a9ef1.camel@kernel.org>
+         <20220830000851.GV3600936@dread.disaster.area>
+Content-Type: text/plain; charset="ISO-8859-15"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <549776abfaddcc936c6de7800b6d8249d97d9f28.camel@kernel.org>
-X-Optus-CM-Score: 0
-X-Optus-CM-Analysis: v=2.4 cv=VuxAv86n c=1 sm=1 tr=0 ts=630d622e
-        a=FOdsZBbW/tHyAhIVFJ0pRA==:117 a=FOdsZBbW/tHyAhIVFJ0pRA==:17
-        a=kj9zAlcOel0A:10 a=biHskzXt2R4A:10 a=zVjiu_gZAAAA:8 a=SEtKQCMJAAAA:8
-        a=7-415B0cAAAA:8 a=VwQbUJbxAAAA:8 a=qmMTymrXjTok30Q9744A:9
-        a=CjuIK1q_8ugA:10 a=DXoJjCrjhysRDS3qLJti:22 a=kyTSok1ft720jgMXX5-3:22
-        a=biEYGPWJfzWAr4FL6Ov7:22 a=AjGcO6oz07-iQ99wixmX:22
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, Aug 29, 2022 at 06:39:04AM -0400, Jeff Layton wrote:
-> On Mon, 2022-08-29 at 17:56 +1000, Dave Chinner wrote:
-> > On Fri, Aug 26, 2022 at 05:46:57PM -0400, Jeff Layton wrote:
-> > > The i_version field in the kernel has had different semantics over
-> > > the decades, but we're now proposing to expose it to userland via
-> > > statx. This means that we need a clear, consistent definition of
-> > > what it means and when it should change.
-> > > 
-> > > Update the comments in iversion.h to describe how a conformant
-> > > i_version implementation is expected to behave. This definition
-> > > suits the current users of i_version (NFSv4 and IMA), but is
-> > > loose enough to allow for a wide range of possible implementations.
-> > > 
-> > > Cc: Colin Walters <walters@verbum.org>
-> > > Cc: NeilBrown <neilb@suse.de>
-> > > Cc: Trond Myklebust <trondmy@hammerspace.com>
-> > > Cc: Dave Chinner <david@fromorbit.com>
-> > > Link: https://lore.kernel.org/linux-xfs/166086932784.5425.17134712694961326033@noble.neil.brown.name/#t
-> > > Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> > > ---
-> > >  include/linux/iversion.h | 23 +++++++++++++++++++++--
-> > >  1 file changed, 21 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/include/linux/iversion.h b/include/linux/iversion.h
-> > > index 3bfebde5a1a6..45e93e1b4edc 100644
-> > > --- a/include/linux/iversion.h
-> > > +++ b/include/linux/iversion.h
-> > > @@ -9,8 +9,19 @@
-> > >   * ---------------------------
-> > >   * The change attribute (i_version) is mandated by NFSv4 and is mostly for
-> > >   * knfsd, but is also used for other purposes (e.g. IMA). The i_version must
-> > > - * appear different to observers if there was a change to the inode's data or
-> > > - * metadata since it was last queried.
-> > > + * appear different to observers if there was an explicit change to the inode's
-> > > + * data or metadata since it was last queried.
-> > > + *
-> > > + * An explicit change is one that would ordinarily result in a change to the
-> > > + * inode status change time (aka ctime). The version must appear to change, even
-> > > + * if the ctime does not (since the whole point is to avoid missing updates due
-> > > + * to timestamp granularity). If POSIX mandates that the ctime must change due
-> > > + * to an operation, then the i_version counter must be incremented as well.
-> > > + *
-> > > + * A conformant implementation is allowed to increment the counter in other
-> > > + * cases, but this is not optimal. NFSv4 and IMA both use this value to determine
-> > > + * whether caches are up to date. Spurious increments can cause false cache
-> > > + * invalidations.
-> > 
-> > "not optimal", but never-the-less allowed - that's "unspecified
-> > behaviour" if I've ever seen it. How is userspace supposed to
-> > know/deal with this?
-> > 
-> > Indeed, this loophole clause doesn't exist in the man pages that
-> > define what statx.stx_ino_version means. The man pages explicitly
-> > define that stx_ino_version only ever changes when stx_ctime
-> > changes.
-> > 
-> 
-> We can fix the manpage to make this more clear.
-> 
-> > IOWs, the behaviour userspace developers are going to expect *does
-> > not include* stx_ino_version changing it more often than ctime is
-> > changed. Hence a kernel iversion implementation that bumps the
-> > counter more often than ctime changes *is not conformant with the
-> > statx version counter specification*. IOWs, we can't export such
-> > behaviour to userspace *ever* - it is a non-conformant
-> > implementation.
-> > 
-> 
-> Nonsense. The statx version counter specification is *whatever we decide
-> to make it*.
+On Tue, 2022-08-30 at 10:08 +1000, Dave Chinner wrote:
+> On Mon, Aug 29, 2022 at 06:33:48AM -0400, Jeff Layton wrote:
+> > On Mon, 2022-08-29 at 15:48 +1000, Dave Chinner wrote:
+> > > >=20
+> > > > The race window ought to be relatively small, and this wouldn't res=
+ult
+> > > > in incorrect behavior that you'd notice (other than loss of
+> > > > performance), but it's not ideal. We're doing more on-the-wire read=
+s
+> > > > than are necessary in this case.
+> > > >=20
+> > > > It would be nice to have it not do that. If we end up taking this p=
+atch
+> > > > to make it elide the i_version bumps on atime updates, we may be ab=
+le to
+> > > > set the the NOIVER flag in other cases as well, and avoid some of t=
+hese
+> > > > extra bumps.
+> > >=20
+> > >=20
+> > > <sigh>
+> > >=20
+> > > Please don't make me repeat myself for the third time.
+> > >=20
+> > > Once we have decided on a solid, unchanging definition for the
+> > > *statx user API variable*, we'll implement a new on-disk field that
+> > > provides this information.  We will document it in the on-disk
+> > > specification as "this is how di_iversion behaves" so that it is
+> > > clear to everyone parsing the on-disk format or writing their own
+> > > XFS driver how to implement it and when to expect it to
+> > > change.
+> > >=20
+> > > Then we can add a filesystem and inode feature flags that say "inode
+> > > has new iversion" and we use that to populate the kernel iversion
+> > > instead of di_changecount. We keep di_changecount exactly the way it
+> > > is now for the applications and use cases we already have for that
+> > > specific behaviour. If the kernel and/or filesystem don't support
+> > > the new di_iversion field, then we'll use di_changecount as it
+> > > currently exists for the kernel iversion code.
+> > >=20
+> >=20
+> > Aside from NFS and IMA, what applications are dependent on the current
+> > definition and how do they rely on i_version today?
+>=20
+> I've answered this multiple times already: the di_changecount
+> behaviour is defined in the on-disk specification and hence we
+> *cannot change the behaviour* without changing the on-disk format
+> specification.
+>=20
+> Apart from the forensics aspect of the change counter (which nobody
+> but us XFS developers seem to understand just how damn important
+> this is), there are *many* third party applications that parse the
+> XFS on-disk format directly. This:
+>=20
+> https://codesearch.debian.net/search?q=3DXFS_SB_VERSION_DIRV2&literal=3D1
+>=20
+> Shows grub2, libparted, syslinux, partclone and fsarchiver as
+> knowing about XFS on-disk superblock flags that tell them what
+> format the directory structure is in. That alone is enough to
+> indicate they parse on-disk inodes directly, and hence may expect
+> di_changecount to have specific meaning and use it to detect
+> unexpected changes to files/directories they care about.
+>=20
+> If I go looking for XFS_SB_MAGIC, I find things like libblkid,
+> klibc, qemu, Xen, testdisk, gpart, and virtualbox all parse the
+> on-disk superblocks directly from the block device, too. They also
+> rely directly on XFS developers ensuring there are no silent
+> incomaptible changes to the on disk format.
+>=20
+> I also know of many other utilities that people and companies have
+> written that parse the on disk format directly from userspace. The
+> functions these perform include low level storage management tools,
+> copying and managing disk images (e.g. offline configuration for
+> cluster deployments), data recovery tools that scrape all the data
+> out of broken filesystems, etc.
+>=20
+> These applications are reliant on the guarantee we provide that the
+> on-disk format will not silently change and that behaviour/structure
+> can always easily be discovered by feature flags in the superblock
+> and/or inodes.
+>=20
+> IOWs, just because there aren't obvious "traditional" application on
+> top of the kernel filesystem that consumes the in-memory kernel
+> iversion field, it does not mean that the defined behaviour of the
+> on-disk di_changecount field is not used or relied on by other tools
+> that work directly on the on-disk format.
+>=20
+> You might be right that NFS doesn't care about this, but the point
+> remains that NFS does not control the XFS on-disk format, nor does
+> the fact that what NFS wants from the change attribute has changed
+> over time override the fact that maintaining XFS on-disk format
+> compatibility is the responsibility of XFS developers. We're willing
+> to change the on-disk format to support whatever the new definition
+> of the statx change attribute ends up being, and that should be the
+> end of the discussion.
+>=20
 
-Yes, but...
+Thanks for spelling this out in more detail.
 
-> If we define it to allow for spurious version bumps, then
-> these implementations would be conformant.
+> > > Keep in mind that we've been doing dynamic inode format updates in
+> > > XFS for a couple of decades - users don't even have to be aware that
+> > > they need to perform format upgrades because often they just happen
+> > > whenever an inode is accessed. IOWs, just because we have to change
+> > > the on-disk format to support this new iversion definition, it
+> > > doesn't mean users have to reformat filesystems before the new
+> > > feature can be used.
+> > >=20
+> > > Hence, over time, as distros update kernels, the XFS iversion
+> > > behaviour will change automagically as we update inodes in existing
+> > > filesystems as they are accessed to add and then use the new
+> > > di_iversion field for the VFS change attribute field instead of the
+> > > di_changecount field...
+> > >=20
+> >=20
+> > If you want to create a whole new on-disk field for this, then that's
+> > your prerogative, but before you do that, I'd like to better understand
+> > why and how the constraints on this field changed.
+> >=20
+> > The original log message from the commit that added a change counter
+> > (below) stated that you were adding it for network filesystems like NFS=
+.
+> > When did this change and why?
+>=20
+> It never changed. I'll repeat what I've already explained twice
+> before:
+>=20
+> https://lore.kernel.org/linux-xfs/20220818030048.GE3600936@dread.disaster=
+.area/
+> https://lore.kernel.org/linux-xfs/20220818033731.GF3600936@dread.disaster=
+.area/
+>=20
+> tl; dr: NFS requirements were just one of *many* we had at the time
+> for an atomic persistent change counter.
+>=20
+> The fact is that NFS users are just going to have to put up with
+> random cache invalidations on XFS for a while longer. Nobody noticed
+> this and/or cared about this enough to raise it as an issue for the
+> past decade, so waiting another few months for upstream XFS to
+> change to a different on-disk format for the NFS/statx change
+> attribute isn't a big deal.
+>=20
 
-... that's _not how you defined stx_ino_version to behave_!
+Fair enough. I'll plan to drop this patch from the series for now, with
+the expectation that you guys will add a new i_version counter that
+better conforms to what NFS and IMA need.
 
-> Given that you can't tell what or how much changed in the inode whenever
-> the value changes, allowing it to be bumped on non-observable changes is
-> ok and the counter is still useful. When you see it change you need to
-> go stat/read/getxattr etc, to see what actually happened anyway.
-
-IDGI. If this is acceptible, then you're forcing userspace into
-"store and filter" implementations as the only viable method of
-using the change notification usefully.
-
-That means atime is just another attribute in the "store and
-filter" algorithm, so if this is how we define stx_ino_version
-behaviour, why carve out an explicit exception for atime?
-
-> Most applications won't be interested in every possible explicit change
-> that can happen to an inode. It's likely these applications would check
-> the parts of the inode they're interested in, and then go back to
-> waiting for the next bump if the change wasn't significant to them.
-
-Yes, that is exactly my point.
-
-You make the argument that we must not bump iversion in certain
-situations (atime) because it will cause spurious cache
-invalidations, but then say it is OK to bump it in others regardless
-of the fact that it will cause spurious cache invalidations. And you
-justify this latter behaviour by saying it is up to the application
-to avoid spurious invalidations by using "store and filter"
-algorithms.
-
-If the application has to store state and filter changes indicated
-by stx_ino_version changing, then by definition *it must be capable
-of filtering iversion bumps as a result of atime changes*.
-
-The iversion exception carved out for atime requires the application
-to implement "store and filter" algorithms only if it needs to care
-about atime changes. The "invisible bump" exception carved out here
-*requires* applications to implement "store and filter" algorithms
-to filter out invisible bumps.
-
-Hence if we combine both these behaviours, atime bumping iversion
-appears to userspace exactly the same as "invisible bump occurred,
-followed by access that changes atime".  IOWs, userspace cannot tell the
-difference between a filesystem implementation that doesn't bump
-iversion on atime but has invisible bump, and a filesystem that
-bumps iversion on atime updates and so it always needs to filter
-atime changes if it doesn't care about them.
-
-Hence if stx_ino_version can have invisible bumps, it makes no
-difference to userspace if atime updates bump iversion or not. They
-will have to filter atime if they don't care about it, and they have
-to store the new stx_ino_version every time they filter out an
-invisible bump that doesn't change anything their filters care
-about (e.g. atime!).
-
-At which point I have to ask: if we are expecting userspace to
-filter out invisible iversion bumps because that's allowed,
-conformant behaviour, then why aren't we requiring both the NFS
-server and IMA applications to filter spurious iversion bumps as
-well?
-
-> > Hence I think anything that bumps iversion outside the bounds of the
-> > statx definition should be declared as such:
-> > 
-> > "Non-conformant iversion implementations:
-> > 	- MUST NOT be exported by statx() to userspace
-> > 	- MUST be -tolerated- by kernel internal applications that
-> > 	  use iversion for their own purposes."
-> > 
-> 
-> I think this is more strict than is needed. An implementation that bumps
-> this value more often than is necessary is still useful.
-
-I never said that non-conformant implementations aren't useful. What
-I said is they aren't conformant with the provided definition of
-stx_ino_version, and as a result we should not allow them to be
-exposed to userspace.
-
-Cheers,
-
-Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+Thanks,
+--=20
+Jeff Layton <jlayton@kernel.org>
