@@ -2,491 +2,425 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B6A65A801C
-	for <lists+linux-api@lfdr.de>; Wed, 31 Aug 2022 16:25:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 881665A870F
+	for <lists+linux-api@lfdr.de>; Wed, 31 Aug 2022 21:55:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231951AbiHaOZZ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 31 Aug 2022 10:25:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54716 "EHLO
+        id S231491AbiHaTzB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 31 Aug 2022 15:55:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232312AbiHaOYz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 31 Aug 2022 10:24:55 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95BB26252;
-        Wed, 31 Aug 2022 07:24:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1661955891; x=1693491891;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XQ6+HYUV9BK9liyIJxXHAL7mePl6YHQqJS6+3Icj6e8=;
-  b=QmCjyIP8rcASIewxfUA0nMGhTIkak7sUzNqgh0VW6IAyz5n01ICZZkcW
-   C19u349J427JdSI+5hgVaanj8hl1sPo+yBS4Z8dvTDk1GJCQFNW6XWXh7
-   nbSQjjYxObtQnS1XpKzewQqEVA5JEyaT6KGymgVvQ0oVoZn2rT/Otm3fn
-   BPBYQ5YDEWg8XCbqdomr/zjWzBBwCnI3RpAOL8iWuXtJfLtAH9R93Lb8M
-   S3p9o9C0iWolbbp1+wEkzQ1JW3RN+8SMf7Ts00OFVAWFR06xT6OZT1ys/
-   kITd6iBYC+G61d0oSxk1EuGaJDdgnCff6sbg/KNA1n5ZgutI4pfxO55vj
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10456"; a="296242295"
-X-IronPort-AV: E=Sophos;i="5.93,278,1654585200"; 
-   d="scan'208";a="296242295"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2022 07:24:51 -0700
-X-IronPort-AV: E=Sophos;i="5.93,278,1654585200"; 
-   d="scan'208";a="673370832"
-Received: from javulax-mobl1.gar.corp.intel.com (HELO box.shutemov.name) ([10.249.44.236])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2022 07:24:41 -0700
-Received: by box.shutemov.name (Postfix, from userid 1000)
-        id 137AD10483B; Wed, 31 Aug 2022 17:24:39 +0300 (+03)
-Date:   Wed, 31 Aug 2022 17:24:39 +0300
-From:   "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-To:     Hugh Dickins <hughd@google.com>
-Cc:     "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>,
-        "Gupta, Pankaj" <pankaj.gupta@amd.com>,
-        Elena Reshetova <elena.reshetova@intel.com>
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <20220831142439.65q2gi4g2d2z4ofh@box.shutemov.name>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
- <20220818132421.6xmjqduempmxnnu2@box>
- <c6ccbb96-5849-2e2f-3b49-4ea711af525d@google.com>
- <20220820002700.6yflrxklmpsavdzi@box.shutemov.name>
- <c194262b-b634-4baf-abf0-dc727e8f1d7@google.com>
+        with ESMTP id S232063AbiHaTy6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 31 Aug 2022 15:54:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A9C4FC0
+        for <linux-api@vger.kernel.org>; Wed, 31 Aug 2022 12:54:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1661975688;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=svDOqsVD4qeIC1aKtCh3SbdYv27RpwGCDoSktV2RiVw=;
+        b=inUI2vqyrg/k5fnoA2c1WDfGGAuYJT+j08VJAmho2SNRgHjn/H/tfig82GAbdVkoxbS8gw
+        /ItsWZDCH+wfJLYfLDrFLs9D3Ijw5Q5YU1eQnoj3NBYB/p/kyVQ7zDbH3SB4AL6QLKhE4L
+        w4dCFstB4RPOO3o6i0DhOtYPC0K1vjA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-336-3zdW1BcFPr6Lb_vvtYX_nQ-1; Wed, 31 Aug 2022 15:54:44 -0400
+X-MC-Unique: 3zdW1BcFPr6Lb_vvtYX_nQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A13EF101A54E;
+        Wed, 31 Aug 2022 19:54:43 +0000 (UTC)
+Received: from madcap2.tricolour.ca (unknown [10.22.48.5])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 269B61415117;
+        Wed, 31 Aug 2022 19:54:41 +0000 (UTC)
+Date:   Wed, 31 Aug 2022 15:54:38 -0400
+From:   Richard Guy Briggs <rgb@redhat.com>
+To:     Christian =?iso-8859-1?Q?G=F6ttsche?= <cgzones@googlemail.com>
+Cc:     selinux@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-xtensa@linux-xtensa.org, linux-fsdevel@vger.kernel.org,
+        linux-audit@redhat.com, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org
+Subject: Re: [RFC PATCH 2/2] fs/xattr: wire up syscalls
+Message-ID: <Yw+8fo3k1tIuscoR@madcap2.tricolour.ca>
+References: <20220830152858.14866-1-cgzones@googlemail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <c194262b-b634-4baf-abf0-dc727e8f1d7@google.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220830152858.14866-1-cgzones@googlemail.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,SUSPICIOUS_RECIPS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sat, Aug 20, 2022 at 10:15:32PM -0700, Hugh Dickins wrote:
-> > I will try next week to rework it as shim to top of shmem. Does it work
-> > for you?
+On 2022-08-30 17:28, Christian Göttsche wrote:
+> Enable the new added extended attribute related syscalls.
 > 
-> Yes, please do, thanks.  It's a compromise between us: the initial TDX
-> case has no justification to use shmem at all, but doing it that way
-> will help you with some of the infrastructure, and will probably be
-> easiest for KVM to extend to other more relaxed fd cases later.
+> Signed-off-by: Christian Göttsche <cgzones@googlemail.com>
 
-Okay, below is my take on the shim approach.
+I can't speak to the completeness of the arch list, but I'm glad to see
+the audit attr change bits in there.
 
-I don't hate how it turned out. It is easier to understand without
-callback exchange thing.
+> ---
+> TODO:
+>   - deprecate traditional syscalls (setxattr, ...)?
+>   - resolve possible conflicts with proposed readfile syscall
+> ---
+>  arch/alpha/kernel/syscalls/syscall.tbl      |  4 ++++
+>  arch/arm/tools/syscall.tbl                  |  4 ++++
+>  arch/arm64/include/asm/unistd.h             |  2 +-
+>  arch/arm64/include/asm/unistd32.h           |  8 ++++++++
+>  arch/ia64/kernel/syscalls/syscall.tbl       |  4 ++++
+>  arch/m68k/kernel/syscalls/syscall.tbl       |  4 ++++
+>  arch/microblaze/kernel/syscalls/syscall.tbl |  4 ++++
+>  arch/mips/kernel/syscalls/syscall_n32.tbl   |  4 ++++
+>  arch/mips/kernel/syscalls/syscall_n64.tbl   |  4 ++++
+>  arch/mips/kernel/syscalls/syscall_o32.tbl   |  4 ++++
+>  arch/parisc/kernel/syscalls/syscall.tbl     |  4 ++++
+>  arch/powerpc/kernel/syscalls/syscall.tbl    |  4 ++++
+>  arch/s390/kernel/syscalls/syscall.tbl       |  4 ++++
+>  arch/sh/kernel/syscalls/syscall.tbl         |  4 ++++
+>  arch/sparc/kernel/syscalls/syscall.tbl      |  4 ++++
+>  arch/x86/entry/syscalls/syscall_32.tbl      |  4 ++++
+>  arch/x86/entry/syscalls/syscall_64.tbl      |  4 ++++
+>  arch/xtensa/kernel/syscalls/syscall.tbl     |  4 ++++
+>  include/asm-generic/audit_change_attr.h     |  6 ++++++
+>  include/linux/syscalls.h                    |  8 ++++++++
+>  include/uapi/asm-generic/unistd.h           | 12 +++++++++++-
+>  21 files changed, 98 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
+> index 3515bc4f16a4..826a8a36da81 100644
+> --- a/arch/alpha/kernel/syscalls/syscall.tbl
+> +++ b/arch/alpha/kernel/syscalls/syscall.tbl
+> @@ -490,3 +490,7 @@
+>  558	common	process_mrelease		sys_process_mrelease
+>  559	common  futex_waitv                     sys_futex_waitv
+>  560	common	set_mempolicy_home_node		sys_ni_syscall
+> +561	common	setxattrat			sys_setxattrat
+> +562	common	getxattrat			sys_getxattrat
+> +563	common	listxattrat			sys_listxattrat
+> +564	common	removexattrat			sys_removexattrat
+> diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
+> index ac964612d8b0..f0e9d9d487f0 100644
+> --- a/arch/arm/tools/syscall.tbl
+> +++ b/arch/arm/tools/syscall.tbl
+> @@ -464,3 +464,7 @@
+>  448	common	process_mrelease		sys_process_mrelease
+>  449	common	futex_waitv			sys_futex_waitv
+>  450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
+> +451	common	setxattrat			sys_setxattrat
+> +452	common	getxattrat			sys_getxattrat
+> +453	common	listxattrat			sys_listxattrat
+> +454	common	removexattrat			sys_removexattrat
+> diff --git a/arch/arm64/include/asm/unistd.h b/arch/arm64/include/asm/unistd.h
+> index 037feba03a51..63a8a9c4abc1 100644
+> --- a/arch/arm64/include/asm/unistd.h
+> +++ b/arch/arm64/include/asm/unistd.h
+> @@ -39,7 +39,7 @@
+>  #define __ARM_NR_compat_set_tls		(__ARM_NR_COMPAT_BASE + 5)
+>  #define __ARM_NR_COMPAT_END		(__ARM_NR_COMPAT_BASE + 0x800)
+>  
+> -#define __NR_compat_syscalls		451
+> +#define __NR_compat_syscalls		455
+>  #endif
+>  
+>  #define __ARCH_WANT_SYS_CLONE
+> diff --git a/arch/arm64/include/asm/unistd32.h b/arch/arm64/include/asm/unistd32.h
+> index 604a2053d006..cd6ac63376d1 100644
+> --- a/arch/arm64/include/asm/unistd32.h
+> +++ b/arch/arm64/include/asm/unistd32.h
+> @@ -907,6 +907,14 @@ __SYSCALL(__NR_process_mrelease, sys_process_mrelease)
+>  __SYSCALL(__NR_futex_waitv, sys_futex_waitv)
+>  #define __NR_set_mempolicy_home_node 450
+>  __SYSCALL(__NR_set_mempolicy_home_node, sys_set_mempolicy_home_node)
+> +#define __NR_setxattrat 451
+> +__SYSCALL(__NR_setxattrat, sys_setxattrat)
+> +#define __NR_getxattrat 452
+> +__SYSCALL(__NR_getxattrat, sys_getxattrat)
+> +#define __NR_listxattrat 453
+> +__SYSCALL(__NR_listxattrat, sys_listxattrat)
+> +#define __NR_removexattrat 454
+> +__SYSCALL(__NR_removexattrat, sys_removexattrat)
+>  
+>  /*
+>   * Please add new compat syscalls above this comment and update
+> diff --git a/arch/ia64/kernel/syscalls/syscall.tbl b/arch/ia64/kernel/syscalls/syscall.tbl
+> index 78b1d03e86e1..6e942a935a27 100644
+> --- a/arch/ia64/kernel/syscalls/syscall.tbl
+> +++ b/arch/ia64/kernel/syscalls/syscall.tbl
+> @@ -371,3 +371,7 @@
+>  448	common	process_mrelease		sys_process_mrelease
+>  449	common  futex_waitv                     sys_futex_waitv
+>  450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
+> +451	common	setxattrat			sys_setxattrat
+> +452	common	getxattrat			sys_getxattrat
+> +453	common	listxattrat			sys_listxattrat
+> +454	common	removexattrat			sys_removexattrat
+> diff --git a/arch/m68k/kernel/syscalls/syscall.tbl b/arch/m68k/kernel/syscalls/syscall.tbl
+> index b1f3940bc298..0847efdee734 100644
+> --- a/arch/m68k/kernel/syscalls/syscall.tbl
+> +++ b/arch/m68k/kernel/syscalls/syscall.tbl
+> @@ -450,3 +450,7 @@
+>  448	common	process_mrelease		sys_process_mrelease
+>  449	common  futex_waitv                     sys_futex_waitv
+>  450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
+> +451	common	setxattrat			sys_setxattrat
+> +452	common	getxattrat			sys_getxattrat
+> +453	common	listxattrat			sys_listxattrat
+> +454	common	removexattrat			sys_removexattrat
+> diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
+> index 820145e47350..7f619bbc718d 100644
+> --- a/arch/microblaze/kernel/syscalls/syscall.tbl
+> +++ b/arch/microblaze/kernel/syscalls/syscall.tbl
+> @@ -456,3 +456,7 @@
+>  448	common	process_mrelease		sys_process_mrelease
+>  449	common  futex_waitv                     sys_futex_waitv
+>  450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
+> +451	common	setxattrat			sys_setxattrat
+> +452	common	getxattrat			sys_getxattrat
+> +453	common	listxattrat			sys_listxattrat
+> +454	common	removexattrat			sys_removexattrat
+> diff --git a/arch/mips/kernel/syscalls/syscall_n32.tbl b/arch/mips/kernel/syscalls/syscall_n32.tbl
+> index 253ff994ed2e..5e4206c0aede 100644
+> --- a/arch/mips/kernel/syscalls/syscall_n32.tbl
+> +++ b/arch/mips/kernel/syscalls/syscall_n32.tbl
+> @@ -389,3 +389,7 @@
+>  448	n32	process_mrelease		sys_process_mrelease
+>  449	n32	futex_waitv			sys_futex_waitv
+>  450	n32	set_mempolicy_home_node		sys_set_mempolicy_home_node
+> +451	n32	setxattrat			sys_setxattrat
+> +452	n32	getxattrat			sys_getxattrat
+> +453	n32	listxattrat			sys_listxattrat
+> +454	n32	removexattrat			sys_removexattrat
+> diff --git a/arch/mips/kernel/syscalls/syscall_n64.tbl b/arch/mips/kernel/syscalls/syscall_n64.tbl
+> index 3f1886ad9d80..df0f053e76cd 100644
+> --- a/arch/mips/kernel/syscalls/syscall_n64.tbl
+> +++ b/arch/mips/kernel/syscalls/syscall_n64.tbl
+> @@ -365,3 +365,7 @@
+>  448	n64	process_mrelease		sys_process_mrelease
+>  449	n64	futex_waitv			sys_futex_waitv
+>  450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
+> +451	n64	setxattrat			sys_setxattrat
+> +452	n64	getxattrat			sys_getxattrat
+> +453	n64	listxattrat			sys_listxattrat
+> +454	n64	removexattrat			sys_removexattrat
+> diff --git a/arch/mips/kernel/syscalls/syscall_o32.tbl b/arch/mips/kernel/syscalls/syscall_o32.tbl
+> index 8f243e35a7b2..09ec31ad475f 100644
+> --- a/arch/mips/kernel/syscalls/syscall_o32.tbl
+> +++ b/arch/mips/kernel/syscalls/syscall_o32.tbl
+> @@ -438,3 +438,7 @@
+>  448	o32	process_mrelease		sys_process_mrelease
+>  449	o32	futex_waitv			sys_futex_waitv
+>  450	o32	set_mempolicy_home_node		sys_set_mempolicy_home_node
+> +451	o32	setxattrat			sys_setxattrat
+> +452	o32	getxattrat			sys_getxattrat
+> +453	o32	listxattrat			sys_listxattrat
+> +454	o32	removexattrat			sys_removexattrat
+> diff --git a/arch/parisc/kernel/syscalls/syscall.tbl b/arch/parisc/kernel/syscalls/syscall.tbl
+> index 8a99c998da9b..fe3f4f41aee6 100644
+> --- a/arch/parisc/kernel/syscalls/syscall.tbl
+> +++ b/arch/parisc/kernel/syscalls/syscall.tbl
+> @@ -448,3 +448,7 @@
+>  448	common	process_mrelease		sys_process_mrelease
+>  449	common	futex_waitv			sys_futex_waitv
+>  450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
+> +451	common	setxattrat			sys_setxattrat
+> +452	common	getxattrat			sys_getxattrat
+> +453	common	listxattrat			sys_listxattrat
+> +454	common	removexattrat			sys_removexattrat
+> diff --git a/arch/powerpc/kernel/syscalls/syscall.tbl b/arch/powerpc/kernel/syscalls/syscall.tbl
+> index 2600b4237292..bee27f650397 100644
+> --- a/arch/powerpc/kernel/syscalls/syscall.tbl
+> +++ b/arch/powerpc/kernel/syscalls/syscall.tbl
+> @@ -530,3 +530,7 @@
+>  448	common	process_mrelease		sys_process_mrelease
+>  449	common  futex_waitv                     sys_futex_waitv
+>  450 	nospu	set_mempolicy_home_node		sys_set_mempolicy_home_node
+> +451	common	setxattrat			sys_setxattrat
+> +452	common	getxattrat			sys_getxattrat
+> +453	common	listxattrat			sys_listxattrat
+> +454	common	removexattrat			sys_removexattrat
+> diff --git a/arch/s390/kernel/syscalls/syscall.tbl b/arch/s390/kernel/syscalls/syscall.tbl
+> index 799147658dee..d1fbad4b7864 100644
+> --- a/arch/s390/kernel/syscalls/syscall.tbl
+> +++ b/arch/s390/kernel/syscalls/syscall.tbl
+> @@ -453,3 +453,7 @@
+>  448  common	process_mrelease	sys_process_mrelease		sys_process_mrelease
+>  449  common	futex_waitv		sys_futex_waitv			sys_futex_waitv
+>  450  common	set_mempolicy_home_node	sys_set_mempolicy_home_node	sys_set_mempolicy_home_node
+> +451  common	setxattrat		sys_setxattrat			sys_setxattrat
+> +452  common	getxattrat		sys_getxattrat			sys_getxattrat
+> +453  common	listxattrat		sys_listxattrat			sys_listxattrat
+> +454  common	removexattrat		sys_removexattrat		sys_removexattrat
+> diff --git a/arch/sh/kernel/syscalls/syscall.tbl b/arch/sh/kernel/syscalls/syscall.tbl
+> index 2de85c977f54..d4daa8afe45c 100644
+> --- a/arch/sh/kernel/syscalls/syscall.tbl
+> +++ b/arch/sh/kernel/syscalls/syscall.tbl
+> @@ -453,3 +453,7 @@
+>  448	common	process_mrelease		sys_process_mrelease
+>  449	common  futex_waitv                     sys_futex_waitv
+>  450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
+> +451	common	setxattrat			sys_setxattrat
+> +452	common	getxattrat			sys_getxattrat
+> +453	common	listxattrat			sys_listxattrat
+> +454	common	removexattrat			sys_removexattrat
+> diff --git a/arch/sparc/kernel/syscalls/syscall.tbl b/arch/sparc/kernel/syscalls/syscall.tbl
+> index 4398cc6fb68d..510d5175f80a 100644
+> --- a/arch/sparc/kernel/syscalls/syscall.tbl
+> +++ b/arch/sparc/kernel/syscalls/syscall.tbl
+> @@ -496,3 +496,7 @@
+>  448	common	process_mrelease		sys_process_mrelease
+>  449	common  futex_waitv                     sys_futex_waitv
+>  450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
+> +451	common	setxattrat			sys_setxattrat
+> +452	common	getxattrat			sys_getxattrat
+> +453	common	listxattrat			sys_listxattrat
+> +454	common	removexattrat			sys_removexattrat
+> diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
+> index 320480a8db4f..8488cc157fe0 100644
+> --- a/arch/x86/entry/syscalls/syscall_32.tbl
+> +++ b/arch/x86/entry/syscalls/syscall_32.tbl
+> @@ -455,3 +455,7 @@
+>  448	i386	process_mrelease	sys_process_mrelease
+>  449	i386	futex_waitv		sys_futex_waitv
+>  450	i386	set_mempolicy_home_node		sys_set_mempolicy_home_node
+> +451	i386	setxattrat		sys_setxattrat
+> +452	i386	getxattrat		sys_getxattrat
+> +453	i386	listxattrat		sys_listxattrat
+> +454	i386	removexattrat		sys_removexattrat
+> diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+> index c84d12608cd2..f45d723d5a30 100644
+> --- a/arch/x86/entry/syscalls/syscall_64.tbl
+> +++ b/arch/x86/entry/syscalls/syscall_64.tbl
+> @@ -372,6 +372,10 @@
+>  448	common	process_mrelease	sys_process_mrelease
+>  449	common	futex_waitv		sys_futex_waitv
+>  450	common	set_mempolicy_home_node	sys_set_mempolicy_home_node
+> +451	common	setxattrat		sys_setxattrat
+> +452	common	getxattrat		sys_getxattrat
+> +453	common	listxattrat		sys_listxattrat
+> +454	common	removexattrat		sys_removexattrat
+>  
+>  #
+>  # Due to a historical design error, certain syscalls are numbered differently
+> diff --git a/arch/xtensa/kernel/syscalls/syscall.tbl b/arch/xtensa/kernel/syscalls/syscall.tbl
+> index 52c94ab5c205..dbafe441a83f 100644
+> --- a/arch/xtensa/kernel/syscalls/syscall.tbl
+> +++ b/arch/xtensa/kernel/syscalls/syscall.tbl
+> @@ -421,3 +421,7 @@
+>  448	common	process_mrelease		sys_process_mrelease
+>  449	common  futex_waitv                     sys_futex_waitv
+>  450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
+> +451	common	setxattrat			sys_setxattrat
+> +452	common	getxattrat			sys_getxattrat
+> +453	common	listxattrat			sys_listxattrat
+> +454	common	removexattrat			sys_removexattrat
+> diff --git a/include/asm-generic/audit_change_attr.h b/include/asm-generic/audit_change_attr.h
+> index 331670807cf0..cc840537885f 100644
+> --- a/include/asm-generic/audit_change_attr.h
+> +++ b/include/asm-generic/audit_change_attr.h
+> @@ -11,9 +11,15 @@ __NR_lchown,
+>  __NR_fchown,
+>  #endif
+>  __NR_setxattr,
+> +#ifdef __NR_setxattrat
+> +__NR_setxattrat,
+> +#endif
+>  __NR_lsetxattr,
+>  __NR_fsetxattr,
+>  __NR_removexattr,
+> +#ifdef __NR_removexattrat
+> +__NR_removexattrat,
+> +#endif
+>  __NR_lremovexattr,
+>  __NR_fremovexattr,
+>  #ifdef __NR_fchownat
+> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+> index a34b0f9a9972..090b9b5229a0 100644
+> --- a/include/linux/syscalls.h
+> +++ b/include/linux/syscalls.h
+> @@ -348,23 +348,31 @@ asmlinkage long sys_io_uring_register(unsigned int fd, unsigned int op,
+>  /* fs/xattr.c */
+>  asmlinkage long sys_setxattr(const char __user *path, const char __user *name,
+>  			     const void __user *value, size_t size, int flags);
+> +asmlinkage long sys_setxattrat(int dfd, const char __user *path, const char __user *name,
+> +			     const void __user *value, size_t size, int flags);
+>  asmlinkage long sys_lsetxattr(const char __user *path, const char __user *name,
+>  			      const void __user *value, size_t size, int flags);
+>  asmlinkage long sys_fsetxattr(int fd, const char __user *name,
+>  			      const void __user *value, size_t size, int flags);
+>  asmlinkage long sys_getxattr(const char __user *path, const char __user *name,
+>  			     void __user *value, size_t size);
+> +asmlinkage long sys_getxattrat(int dfd, const char __user *path, const char __user *name,
+> +			     void __user *value, size_t size, int flags);
+>  asmlinkage long sys_lgetxattr(const char __user *path, const char __user *name,
+>  			      void __user *value, size_t size);
+>  asmlinkage long sys_fgetxattr(int fd, const char __user *name,
+>  			      void __user *value, size_t size);
+>  asmlinkage long sys_listxattr(const char __user *path, char __user *list,
+>  			      size_t size);
+> +asmlinkage long sys_listxattrat(int dfd, const char __user *path, char __user *list,
+> +			      size_t size, int flags);
+>  asmlinkage long sys_llistxattr(const char __user *path, char __user *list,
+>  			       size_t size);
+>  asmlinkage long sys_flistxattr(int fd, char __user *list, size_t size);
+>  asmlinkage long sys_removexattr(const char __user *path,
+>  				const char __user *name);
+> +asmlinkage long sys_removexattrat(int dfd, const char __user *path,
+> +				const char __user *name, int flags);
+>  asmlinkage long sys_lremovexattr(const char __user *path,
+>  				 const char __user *name);
+>  asmlinkage long sys_fremovexattr(int fd, const char __user *name);
+> diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+> index 45fa180cc56a..4fcc71612b7a 100644
+> --- a/include/uapi/asm-generic/unistd.h
+> +++ b/include/uapi/asm-generic/unistd.h
+> @@ -886,8 +886,18 @@ __SYSCALL(__NR_futex_waitv, sys_futex_waitv)
+>  #define __NR_set_mempolicy_home_node 450
+>  __SYSCALL(__NR_set_mempolicy_home_node, sys_set_mempolicy_home_node)
+>  
+> +/* fs/xattr.c */
+> +#define __NR_setxattrat 451
+> +__SYSCALL(__NR_setxattrat, sys_setxattrat)
+> +#define __NR_getxattrat 452
+> +__SYSCALL(__NR_getxattrat, sys_getxattrat)
+> +#define __NR_listxattrat 453
+> +__SYSCALL(__NR_listxattrat, sys_listxattrat)
+> +#define __NR_removexattrat 454
+> +__SYSCALL(__NR_removexattrat, sys_removexattrat)
+> +
+>  #undef __NR_syscalls
+> -#define __NR_syscalls 451
+> +#define __NR_syscalls 455
+>  
+>  /*
+>   * 32 bit systems traditionally used different
+> -- 
+> 2.37.2
+> 
 
-The only caveat is I had to introduce external lock to protect against
-race between lookup and truncate. Otherwise, looks pretty reasonable to me.
+- RGB
 
-I did very limited testing. And it lacks integration with KVM, but API
-changed not substantially, any it should be easy to adopt.
+--
+Richard Guy Briggs <rgb@redhat.com>
+Sr. S/W Engineer, Kernel Security, Base Operating Systems
+Remote, Ottawa, Red Hat Canada
+IRC: rgb, SunRaycer
+Voice: +1.647.777.2635, Internal: (81) 32635
 
-Any comments?
-
-diff --git a/include/linux/memfd.h b/include/linux/memfd.h
-index 4f1600413f91..aec04a0f8b7b 100644
---- a/include/linux/memfd.h
-+++ b/include/linux/memfd.h
-@@ -3,6 +3,7 @@
- #define __LINUX_MEMFD_H
- 
- #include <linux/file.h>
-+#include <linux/pfn_t.h>
- 
- #ifdef CONFIG_MEMFD_CREATE
- extern long memfd_fcntl(struct file *file, unsigned int cmd, unsigned long arg);
-@@ -13,4 +14,27 @@ static inline long memfd_fcntl(struct file *f, unsigned int c, unsigned long a)
- }
- #endif
- 
-+struct inaccessible_notifier;
-+
-+struct inaccessible_notifier_ops {
-+	void (*invalidate)(struct inaccessible_notifier *notifier,
-+			   pgoff_t start, pgoff_t end);
-+};
-+
-+struct inaccessible_notifier {
-+	struct list_head list;
-+	const struct inaccessible_notifier_ops *ops;
-+};
-+
-+int inaccessible_register_notifier(struct file *file,
-+				   struct inaccessible_notifier *notifier);
-+void inaccessible_unregister_notifier(struct file *file,
-+				      struct inaccessible_notifier *notifier);
-+
-+int inaccessible_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
-+			 int *order);
-+void inaccessible_put_pfn(struct file *file, pfn_t pfn);
-+
-+struct file *memfd_mkinaccessible(struct file *memfd);
-+
- #endif /* __LINUX_MEMFD_H */
-diff --git a/include/uapi/linux/magic.h b/include/uapi/linux/magic.h
-index 6325d1d0e90f..9d066be3d7e8 100644
---- a/include/uapi/linux/magic.h
-+++ b/include/uapi/linux/magic.h
-@@ -101,5 +101,6 @@
- #define DMA_BUF_MAGIC		0x444d4142	/* "DMAB" */
- #define DEVMEM_MAGIC		0x454d444d	/* "DMEM" */
- #define SECRETMEM_MAGIC		0x5345434d	/* "SECM" */
-+#define INACCESSIBLE_MAGIC	0x494e4143	/* "INAC" */
- 
- #endif /* __LINUX_MAGIC_H__ */
-diff --git a/include/uapi/linux/memfd.h b/include/uapi/linux/memfd.h
-index 7a8a26751c23..48750474b904 100644
---- a/include/uapi/linux/memfd.h
-+++ b/include/uapi/linux/memfd.h
-@@ -8,6 +8,7 @@
- #define MFD_CLOEXEC		0x0001U
- #define MFD_ALLOW_SEALING	0x0002U
- #define MFD_HUGETLB		0x0004U
-+#define MFD_INACCESSIBLE	0x0008U
- 
- /*
-  * Huge page size encoding when MFD_HUGETLB is specified, and a huge page
-diff --git a/mm/Makefile b/mm/Makefile
-index 9a564f836403..f82e5d4b4388 100644
---- a/mm/Makefile
-+++ b/mm/Makefile
-@@ -126,7 +126,7 @@ obj-$(CONFIG_HARDENED_USERCOPY) += usercopy.o
- obj-$(CONFIG_PERCPU_STATS) += percpu-stats.o
- obj-$(CONFIG_ZONE_DEVICE) += memremap.o
- obj-$(CONFIG_HMM_MIRROR) += hmm.o
--obj-$(CONFIG_MEMFD_CREATE) += memfd.o
-+obj-$(CONFIG_MEMFD_CREATE) += memfd.o memfd_inaccessible.o
- obj-$(CONFIG_MAPPING_DIRTY_HELPERS) += mapping_dirty_helpers.o
- obj-$(CONFIG_PTDUMP_CORE) += ptdump.o
- obj-$(CONFIG_PAGE_REPORTING) += page_reporting.o
-diff --git a/mm/memfd.c b/mm/memfd.c
-index 08f5f8304746..1853a90f49ff 100644
---- a/mm/memfd.c
-+++ b/mm/memfd.c
-@@ -261,7 +261,8 @@ long memfd_fcntl(struct file *file, unsigned int cmd, unsigned long arg)
- #define MFD_NAME_PREFIX_LEN (sizeof(MFD_NAME_PREFIX) - 1)
- #define MFD_NAME_MAX_LEN (NAME_MAX - MFD_NAME_PREFIX_LEN)
- 
--#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB)
-+#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB | \
-+		       MFD_INACCESSIBLE)
- 
- SYSCALL_DEFINE2(memfd_create,
- 		const char __user *, uname,
-@@ -283,6 +284,14 @@ SYSCALL_DEFINE2(memfd_create,
- 			return -EINVAL;
- 	}
- 
-+	/* Disallow sealing when MFD_INACCESSIBLE is set. */
-+	if ((flags & MFD_INACCESSIBLE) && (flags & MFD_ALLOW_SEALING))
-+		return -EINVAL;
-+
-+	/* TODO: add hugetlb support */
-+	if ((flags & MFD_INACCESSIBLE) && (flags & MFD_HUGETLB))
-+		return -EINVAL;
-+
- 	/* length includes terminating zero */
- 	len = strnlen_user(uname, MFD_NAME_MAX_LEN + 1);
- 	if (len <= 0)
-@@ -331,10 +340,24 @@ SYSCALL_DEFINE2(memfd_create,
- 		*file_seals &= ~F_SEAL_SEAL;
- 	}
- 
-+	if (flags & MFD_INACCESSIBLE) {
-+		struct file *inaccessible_file;
-+
-+		inaccessible_file = memfd_mkinaccessible(file);
-+		if (IS_ERR(inaccessible_file)) {
-+			error = PTR_ERR(inaccessible_file);
-+			goto err_file;
-+		}
-+
-+		file = inaccessible_file;
-+	}
-+
- 	fd_install(fd, file);
- 	kfree(name);
- 	return fd;
- 
-+err_file:
-+	fput(file);
- err_fd:
- 	put_unused_fd(fd);
- err_name:
-diff --git a/mm/memfd_inaccessible.c b/mm/memfd_inaccessible.c
-new file mode 100644
-index 000000000000..89194438af9c
---- /dev/null
-+++ b/mm/memfd_inaccessible.c
-@@ -0,0 +1,234 @@
-+#include <linux/memfd.h>
-+#include <linux/pagemap.h>
-+#include <linux/pseudo_fs.h>
-+#include <linux/shmem_fs.h>
-+#include <uapi/linux/falloc.h>
-+#include <uapi/linux/magic.h>
-+
-+struct inaccessible_data {
-+	struct rw_semaphore lock;
-+	struct file *memfd;
-+	struct list_head notifiers;
-+};
-+
-+static void inaccessible_notifier_invalidate(struct inaccessible_data *data,
-+				 pgoff_t start, pgoff_t end)
-+{
-+	struct inaccessible_notifier *notifier;
-+
-+	lockdep_assert_held(&data->lock);
-+	VM_BUG_ON(!rwsem_is_locked(&data->lock));
-+
-+	list_for_each_entry(notifier, &data->notifiers, list) {
-+		notifier->ops->invalidate(notifier, start, end);
-+	}
-+}
-+
-+static int inaccessible_release(struct inode *inode, struct file *file)
-+{
-+	struct inaccessible_data *data = inode->i_mapping->private_data;
-+
-+	fput(data->memfd);
-+	kfree(data);
-+	return 0;
-+}
-+
-+static long inaccessible_fallocate(struct file *file, int mode,
-+				   loff_t offset, loff_t len)
-+{
-+	struct inaccessible_data *data = file->f_mapping->private_data;
-+	struct file *memfd = data->memfd;
-+	int ret;
-+
-+	/* The lock prevents parallel inaccessible_get/put_pfn() */
-+	down_write(&data->lock);
-+	if (mode & FALLOC_FL_PUNCH_HOLE) {
-+		if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len)) {
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+	}
-+
-+	ret = memfd->f_op->fallocate(memfd, mode, offset, len);
-+	inaccessible_notifier_invalidate(data, offset, offset + len);
-+out:
-+	up_write(&data->lock);
-+	return ret;
-+}
-+
-+static const struct file_operations inaccessible_fops = {
-+	.release = inaccessible_release,
-+	.fallocate = inaccessible_fallocate,
-+};
-+
-+static int inaccessible_getattr(struct user_namespace *mnt_userns,
-+				const struct path *path, struct kstat *stat,
-+				u32 request_mask, unsigned int query_flags)
-+{
-+	struct inode *inode = d_inode(path->dentry);
-+	struct inaccessible_data *data = inode->i_mapping->private_data;
-+	struct file *memfd = data->memfd;
-+
-+	return memfd->f_inode->i_op->getattr(mnt_userns, path, stat,
-+					     request_mask, query_flags);
-+}
-+
-+static int inaccessible_setattr(struct user_namespace *mnt_userns,
-+				struct dentry *dentry, struct iattr *attr)
-+{
-+	struct inode *inode = d_inode(dentry);
-+	struct inaccessible_data *data = inode->i_mapping->private_data;
-+	struct file *memfd = data->memfd;
-+	int ret;
-+
-+	if (attr->ia_valid & ATTR_SIZE) {
-+		if (memfd->f_inode->i_size) {
-+			ret = -EPERM;
-+			goto out;
-+		}
-+
-+		if (!PAGE_ALIGNED(attr->ia_size)) {
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+	}
-+
-+	ret = memfd->f_inode->i_op->setattr(mnt_userns,
-+					    file_dentry(memfd), attr);
-+out:
-+	return ret;
-+}
-+
-+static const struct inode_operations inaccessible_iops = {
-+	.getattr = inaccessible_getattr,
-+	.setattr = inaccessible_setattr,
-+};
-+
-+static int inaccessible_init_fs_context(struct fs_context *fc)
-+{
-+	if (!init_pseudo(fc, INACCESSIBLE_MAGIC))
-+		return -ENOMEM;
-+
-+	fc->s_iflags |= SB_I_NOEXEC;
-+	return 0;
-+}
-+
-+static struct file_system_type inaccessible_fs = {
-+	.owner		= THIS_MODULE,
-+	.name		= "[inaccessible]",
-+	.init_fs_context = inaccessible_init_fs_context,
-+	.kill_sb	= kill_anon_super,
-+};
-+
-+static struct vfsmount *inaccessible_mnt;
-+
-+static __init int inaccessible_init(void)
-+{
-+	inaccessible_mnt = kern_mount(&inaccessible_fs);
-+	if (IS_ERR(inaccessible_mnt))
-+		return PTR_ERR(inaccessible_mnt);
-+	return 0;
-+}
-+fs_initcall(inaccessible_init);
-+
-+struct file *memfd_mkinaccessible(struct file *memfd)
-+{
-+	struct inaccessible_data *data;
-+	struct address_space *mapping;
-+	struct inode *inode;
-+	struct file *file;
-+
-+	data = kzalloc(sizeof(*data), GFP_KERNEL);
-+	if (!data)
-+		return ERR_PTR(-ENOMEM);
-+
-+	data->memfd = memfd;
-+	init_rwsem(&data->lock);
-+	INIT_LIST_HEAD(&data->notifiers);
-+
-+	inode = alloc_anon_inode(inaccessible_mnt->mnt_sb);
-+	if (IS_ERR(inode)) {
-+		kfree(data);
-+		return ERR_CAST(inode);
-+	}
-+
-+	inode->i_mode |= S_IFREG;
-+	inode->i_op = &inaccessible_iops;
-+	inode->i_mapping->private_data = data;
-+
-+	file = alloc_file_pseudo(inode, inaccessible_mnt,
-+				 "[memfd:inaccessible]", O_RDWR,
-+				 &inaccessible_fops);
-+	if (IS_ERR(file)) {
-+		iput(inode);
-+		kfree(data);
-+	}
-+
-+	mapping = memfd->f_mapping;
-+	mapping_set_unevictable(mapping);
-+	mapping_set_gfp_mask(mapping,
-+			     mapping_gfp_mask(mapping) & ~__GFP_MOVABLE);
-+
-+	return file;
-+}
-+
-+int inaccessible_register_notifier(struct file *file,
-+			      struct inaccessible_notifier *notifier)
-+{
-+	struct inaccessible_data *data = file->f_mapping->private_data;
-+
-+	down_write(&data->lock);
-+	list_add(&notifier->list, &data->notifiers);
-+	up_write(&data->lock);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(inaccessible_register_notifier);
-+
-+void inaccessible_unregister_notifier(struct file *file,
-+				      struct inaccessible_notifier *notifier)
-+{
-+	struct inaccessible_data *data = file->f_mapping->private_data;
-+
-+	down_write(&data->lock);
-+	list_del_rcu(&notifier->list);
-+	up_write(&data->lock);
-+}
-+EXPORT_SYMBOL_GPL(inaccessible_unregister_notifier);
-+
-+int inaccessible_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
-+			 int *order)
-+{
-+	struct inaccessible_data *data = file->f_mapping->private_data;
-+	struct file *memfd = data->memfd;
-+	struct page *page;
-+	int ret;
-+
-+	down_read(&data->lock);
-+
-+	ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
-+	if (ret) {
-+		up_read(&data->lock);
-+		return ret;
-+	}
-+
-+	*pfn = page_to_pfn_t(page);
-+	*order = thp_order(compound_head(page));
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(inaccessible_get_pfn);
-+
-+void inaccessible_put_pfn(struct file *file, pfn_t pfn)
-+{
-+	struct page *page = pfn_t_to_page(pfn);
-+	struct inaccessible_data *data = file->f_mapping->private_data;
-+
-+	if (WARN_ON_ONCE(!page))
-+		return;
-+
-+	SetPageUptodate(page);
-+	unlock_page(page);
-+	put_page(page);
-+	up_read(&data->lock);
-+}
-+EXPORT_SYMBOL_GPL(inaccessible_put_pfn);
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
