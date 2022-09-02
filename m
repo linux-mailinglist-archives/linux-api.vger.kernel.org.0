@@ -2,159 +2,132 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2375B5A9D13
-	for <lists+linux-api@lfdr.de>; Thu,  1 Sep 2022 18:30:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBA495AAC4F
+	for <lists+linux-api@lfdr.de>; Fri,  2 Sep 2022 12:24:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235037AbiIAQaa (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 1 Sep 2022 12:30:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51248 "EHLO
+        id S235821AbiIBKYE (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 2 Sep 2022 06:24:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235050AbiIAQa1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 1 Sep 2022 12:30:27 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 288F54054F;
-        Thu,  1 Sep 2022 09:30:25 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B533C61FA4;
-        Thu,  1 Sep 2022 16:30:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED73BC433C1;
-        Thu,  1 Sep 2022 16:30:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1662049824;
-        bh=IJ0PCR/aHRiRVBBTIlB2iYhCXtiktwtTDXekHNHskb8=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=Ag+0p/y9MHRUC6ul4TWQLjIrJ+7XAHSbClMDLdLD9e/Huey6Weo5MYuoX/3mugA8X
-         0k12yUDgSByRh22zychlAHEV3/q5J+hDBBb+SNSGusbGhr2SoxVqwW3Se1GFECa0Rb
-         /hbHFqRNJsPkNmgZydl/Sa4lCR9tprV6kXjW3f6sE5LrZNyfvrqXjxV/fBrhz2qaq9
-         Yr+MwcBrLcLT5ia5nhq2C2d0km7Mp8ywszbpYXLNMHzSQCm+S48owcryMD6DdWjRE7
-         PQlyGD8bVFJM5NN1qVzOZNbP5miip9A6N3bC8nYHHSovbBhipoRpW7VCC3cWkGMpEn
-         VYaGqsFDmIJmw==
-Message-ID: <81e57e81e4570d1659098f2bbc7c9049a605c5e8.camel@kernel.org>
-Subject: Re: [RFC PATCH v2] statx, inode: document the new STATX_INO_VERSION
- field
-From:   Jeff Layton <jlayton@kernel.org>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     tytso@mit.edu, adilger.kernel@dilger.ca, djwong@kernel.org,
-        david@fromorbit.com, trondmy@hammerspace.com, neilb@suse.de,
-        viro@zeniv.linux.org.uk, zohar@linux.ibm.com, xiubli@redhat.com,
-        chuck.lever@oracle.com, lczerner@redhat.com, jack@suse.cz,
-        bfields@fieldses.org, brauner@kernel.org,
-        linux-man@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ceph-devel@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-nfs@vger.kernel.org,
-        linux-xfs@vger.kernel.org
-Date:   Thu, 01 Sep 2022 12:30:20 -0400
-In-Reply-To: <874jxrqdji.fsf@oldenburg.str.redhat.com>
-References: <20220901121714.20051-1-jlayton@kernel.org>
-         <874jxrqdji.fsf@oldenburg.str.redhat.com>
-Content-Type: text/plain; charset="ISO-8859-15"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+        with ESMTP id S235774AbiIBKYA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 2 Sep 2022 06:24:00 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 906EEA59BB;
+        Fri,  2 Sep 2022 03:23:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662114239; x=1693650239;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Hmx1025FThlE9cx1UE6O8SOkWc9A3kuNYU7VIFp8RZU=;
+  b=XR6Jo7eI3TzsF+IKEmbfQSCLKck4Va6LEtBgyhUMbLFoNshpbJiSwMP9
+   VFkNlhMpCdVqqXxekXgm8ThCF0Aq09DU/ZkxlNOEEG5TWyptfRBUM1j8N
+   E/6zGz+F4umYT+B2GSKud+KLz03kNp6WNpXKkDdP9SFATzzms3Py4IZ3o
+   UiCrMvyUnkIFRfRHSBR5n8AvJQTZp2wurRSD83Gg04mId+CCSORv87rAB
+   zXBf+jLuVvGyMVf64L2MwIyqVVhFmXnCAxxbdDKkqiizgX91MmqAV4BmW
+   wh4fEtGVdAbGvk2M0/LfQbwSz/DnUVEurh7Csmm6g8GV0cKx/EuPq0xka
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10457"; a="322109916"
+X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; 
+   d="scan'208";a="322109916"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2022 03:23:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; 
+   d="scan'208";a="608943940"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by orsmga007.jf.intel.com with ESMTP; 02 Sep 2022 03:23:46 -0700
+Date:   Fri, 2 Sep 2022 18:19:05 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Fuad Tabba <tabba@google.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>,
+        Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <20220902101905.GA1712673@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <CA+EHjTy6NF=BkCqK0vhXLdtKZMahp55JUMSfxN96-NT3YiMXYQ@mail.gmail.com>
+ <20220829151756.GB1586678@chaop.bj.intel.com>
+ <CA+EHjTxgKJ=9UP=DWtNsSgD2FtvBMYrUbcS=9h5j8Tmk57WqxQ@mail.gmail.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=gb2312
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+EHjTxgKJ=9UP=DWtNsSgD2FtvBMYrUbcS=9h5j8Tmk57WqxQ@mail.gmail.com>
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, 2022-09-01 at 18:12 +0200, Florian Weimer wrote:
-> * Jeff Layton:
->=20
-> > @@ -411,6 +413,21 @@ and corresponds to the number in the first field i=
-n one of the records in
-> >  For further information on the above fields, see
-> >  .BR inode (7).
-> >  .\"
-> > +.TP
-> > +.I stx_ino_version
-> > +The inode version, also known as the inode change attribute. This
-> > +value must change any time there is an inode status change. Any
-> > +operation that would cause the
-> > +.I stx_ctime
-> > +to change must also cause
-> > +.I stx_ino_version
-> > +to change, even when there is no apparent change to the
-> > +.I stx_ctime
-> > +due to coarse timestamp granularity.
-> > +.IP
-> > +An observer cannot infer anything about the nature or magnitude of the=
- change
-> > +from the value of this field. A change in this value only indicates th=
-at
-> > +there has been an explicit change in the inode.
->=20
-> What happens if the file system does not support i_version?
->=20
+On Wed, Aug 31, 2022 at 10:12:12AM +0100, Fuad Tabba wrote:
+> > > Moreover, something which was discussed here before [3], is the
+> > > ability to share in-place. For pKVM/arm64, the conversion between
+> > > shared and private involves only changes to the stage-2 page tables,
+> > > which are controlled by the hypervisor. Android supports this in-place
+> > > conversion already, and I think that the cost of copying for many
+> > > use-cases that would involve large amounts of data would be big. We
+> > > will measure the relative costs in due course, but in the meantime
+> > > we¡¯re nervous about adopting a new user ABI which doesn¡¯t appear to
+> > > cater for in-place conversion; having just the fd would simplify that
+> > > somewhat
+> >
+> > I understand there is difficulty to achieve that with the current
+> > private_fd + userspace_addr (they basically in two separate fds), but is
+> > it possible for pKVM to extend this? Brainstorming for example, pKVM can
+> > ignore userspace_addr and only use private_fd to cover both shared and
+> > private memory, or pKVM introduce new KVM memslot flag?
+> 
+> It's not that there's anything blocking pKVM from doing that. It's
+> that the disconnect of using a memory address for the shared memory,
+> and a file descriptor for the private memory doesn't really make sense
+> for pKVM. I see how it makes sense for TDX and the Intel-specific
+> implementation. It just seems that this is baking in an
+> implementation-specific aspect as a part of the KVM general api, and
+> the worry is that this might have some unintended consequences in the
+> future.
 
-The STATX_INO_VERSION bit will not be set in stx_mask field of the
-response.
+It's true this API originates from supporting TDX and probably other
+similar confidential computing(CC) technologies. But if we ever get
+chance to make it more common to cover more usages like pKVM, I would
+also like to. The challenge on this point is pKVM diverges a lot from CC
+usages, putting both shared and private memory in the same fd
+complicates CC usages. If two things are different enough, I'm also
+thinking implementation-specific may not be that bad.
 
-> > diff --git a/man7/inode.7 b/man7/inode.7
-> > index 9b255a890720..d5e0890a52c0 100644
-> > --- a/man7/inode.7
-> > +++ b/man7/inode.7
-> > @@ -184,6 +184,18 @@ Last status change timestamp (ctime)
-> >  This is the file's last status change timestamp.
-> >  It is changed by writing or by setting inode information
-> >  (i.e., owner, group, link count, mode, etc.).
-> > +.TP
-> > +Inode version (i_version)
-> > +(not returned in the \fIstat\fP structure); \fIstatx.stx_ino_version\f=
-P
-> > +.IP
-> > +This is the inode change attribute. Any operation that would result in=
- a change
-> > +to \fIstatx.stx_ctime\fP must result in a change to this value. The va=
-lue must
-> > +change even in the case where the ctime change is not evident due to c=
-oarse
-> > +timestamp granularity.
-> > +.IP
-> > +An observer cannot infer anything from the returned value about the na=
-ture or
-> > +magnitude of the change. If the returned value is different from the l=
-ast time
-> > +it was checked, then something has made an explicit change to the inod=
-e.
->=20
-> What is the wraparound behavior for i_version?  Does it use the full
-> 64-bit range?
->=20
-
-All of the existing implementations use all 64 bits. If you were to
-increment a 64 bit value every nanosecond, it will take >500 years for
-it to wrap. I'm hoping that's good enough. ;)
-
-The implementation that all of the local Linux filesystems use track
-whether the value has been queried using one bit, so there you only get
-63 bits of counter.
-
-My original thinking here was that we should leave the spec "loose" to
-allow for implementations that may not be based on a counter. E.g. could
-some filesystem do this instead by hashing certain metadata?
-
-It's arguable though that the NFSv4 spec requires that this be based on
-a counter, as the client is required to increment it in the case of
-write delegations.
-
-> If the system crashes without flushing disks, is it possible to observe
-> new file contents without a change of i_version?
-
-Yes, I think that's possible given the current implementations.
-
-We don't have a great scheme to combat that at the moment, other than
-looking at this in conjunction with the ctime. As long as the clock
-doesn't jump backward after the crash and it takes more than one jiffy
-to get the host back up, then you can be reasonably sure that
-i_version+ctime should never repeat.
-
-Maybe that's worth adding to the NOTES section of the manpage?
---=20
-Jeff Layton <jlayton@kernel.org>
+Chao
