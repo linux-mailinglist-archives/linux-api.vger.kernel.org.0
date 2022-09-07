@@ -2,84 +2,143 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F08F65B075B
-	for <lists+linux-api@lfdr.de>; Wed,  7 Sep 2022 16:46:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 072475B07E3
+	for <lists+linux-api@lfdr.de>; Wed,  7 Sep 2022 17:04:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229544AbiIGOqH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 7 Sep 2022 10:46:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47964 "EHLO
+        id S230291AbiIGPE2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 7 Sep 2022 11:04:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229708AbiIGOpz (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 7 Sep 2022 10:45:55 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 519487AC08
-        for <linux-api@vger.kernel.org>; Wed,  7 Sep 2022 07:45:52 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id k14-20020a25e80e000000b006aa1160dfe3so3190528ybd.5
-        for <linux-api@vger.kernel.org>; Wed, 07 Sep 2022 07:45:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date;
-        bh=jfIKw0rpfjs8BPHH039CQ9s30YRHogwU1zA4CCSkPEA=;
-        b=ar/s317qinfv+58xjvJ2sudjUrm+5o323P/n+FWbF9+nWFWKxQziJbwd56wdbwqd1n
-         jiqOCvFCW5e9f/oK3yruo9OWsWkFTPb5FH7+Qz7zdlENwe791zpcDM8Lup+ys2ziq7ls
-         AhDIgG+WPOAB5kU+XpjzD4fCd0XiRd4LBLORwPcVEljrK7jGHuwauNM3ggllhdGoL9Ac
-         nuB8wWFJ5uagI1Igc+EyovBZuabNF6H+wnG2zFKnMNWgEH60XsVJP1nss27AwXe66TaZ
-         r9//LLwbeXC6J+NZn5CL0H0UpTDBdSBUQRfYKDw+XrLYSXU8TMWWo7BIFEKpYivQRsOt
-         Z0hA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date;
-        bh=jfIKw0rpfjs8BPHH039CQ9s30YRHogwU1zA4CCSkPEA=;
-        b=vAgb/qGLM4cX4BVWZQYh6Ew2wRfGmCbUdWHqo+1iGUD1yqKOT7jxhfGvOHPu4fhzZD
-         3bcM4xNPgsAtviepPH83pp7mLcAfEKmuS6q5a88mV51+IXFTOd3blG6+IYwIVf/d26ox
-         IQIl206WqHl/WRYyIqcB3fYEcf3spvPwrAq9kCURw1CBPsElilK5vdSt971Fypy6I+OI
-         DQV1wygx3Rn7OPuwD8aMWly33JskKoGqPvKmss4Dl8UdKWLzKMof4OWvMHjruVMT8BCO
-         7RNR6fRKJM1b9LoHmUmC7uy2SFsy2WoTabW/QvYj/1+C/7mRt47WDuulNvw7otiF8Wud
-         4MMg==
-X-Gm-Message-State: ACgBeo0kuvPIMvjUaO07g98FUrTH1LxUafaw+0OYkQP+bJ8Qqdiw1Mnu
-        P05UXJxyKS0P9UFEQeESaI0MPPMNirw7
-X-Google-Smtp-Source: AA6agR5hI8qHbbQEgaqVWe2tOUteinAFG8DkzIHy5fch/FoZG2hS8mzTkVN0JArWrwJlJLHHC+uU0gZzpvyL
-X-Received: from zokeefe3.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1b6])
- (user=zokeefe job=sendgmr) by 2002:a81:1255:0:b0:345:27ea:f44d with SMTP id
- 82-20020a811255000000b0034527eaf44dmr3551926yws.225.1662561951431; Wed, 07
- Sep 2022 07:45:51 -0700 (PDT)
-Date:   Wed,  7 Sep 2022 07:45:21 -0700
-In-Reply-To: <20220907144521.3115321-1-zokeefe@google.com>
-Mime-Version: 1.0
-References: <20220907144521.3115321-1-zokeefe@google.com>
-X-Mailer: git-send-email 2.37.2.789.g6183377224-goog
-Message-ID: <20220907144521.3115321-11-zokeefe@google.com>
-Subject: [PATCH mm-unstable v3 10/10] selftests/vm: add selftest for
- MADV_COLLAPSE of uffd-minor memory
-From:   "Zach O'Keefe" <zokeefe@google.com>
-To:     linux-mm@kvack.org
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-api@vger.kernel.org,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        James Houghton <jthoughton@google.com>,
-        Hugh Dickins <hughd@google.com>,
-        Yang Shi <shy828301@gmail.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        David Hildenbrand <david@redhat.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Pasha Tatashin <pasha.tatashin@soleen.com>,
-        Peter Xu <peterx@redhat.com>,
-        Rongwei Wang <rongwei.wang@linux.alibaba.com>,
-        SeongJae Park <sj@kernel.org>,
-        Song Liu <songliubraving@fb.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Chris Kennelly <ckennelly@google.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Patrick Xia <patrickx@google.com>,
-        "Zach O'Keefe" <zokeefe@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
+        with ESMTP id S230293AbiIGPEZ (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 7 Sep 2022 11:04:25 -0400
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1anam02on2122.outbound.protection.outlook.com [40.107.96.122])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A004722F;
+        Wed,  7 Sep 2022 08:04:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TG9t1iFLJUpTNMTKEUKY4sSOZXBffVvBx4YOv2JU74s1s7oZ1tTEdMk3nnetdmcpPbTw6sEo61oT8WFJPjYH3016k6rGdNkNwE0V8VXZWAvFb93NNf3M0xSiPUKP3HAIaJIKp9LKE3e8cNiRTWI1h5/mMyy4BjrZKRB7lRiHI2eBvrO5lTAEHJqNWKjxI4K5jmYFUy2g9M8drfSfG44qGQgGWYXK49mPt+V+MprNFtOsP3rBVGRbNWXQP7mMsYNS0hu8946SiEwaOxY7lVqizQJKeyHrQsvZUxpVYn9AUNkPv23ZScbg5TIOR0VIGGZfVrXFHhTb1vI/TslrxS558w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RIsK5YXWf0Axszuu2If7pi6KvWFwO7ibH/BSSbgFjfs=;
+ b=DyvCQJkzVJYQ6OirF4W0HzHiF0ZJVv33yxtrtw8UJY8c58e3G1F8Xx8Zl8WQrHY4AEqxsj+Vtm05xkdQRYbZ1BUQckQUkFDxfY6uTUEpCm7o0k8yUoCbRjiBHvj68S0dX1jK+0wcfhHPjvd20jf/lIx+ZL7FH+El8da6zUJy6P6nrV0laIvCcRrDeRv+nyo6cbP/2XxHS2uIgsLxjr+X4OkvT378f24pXIUJb4w60fqRy/sKlByDrP416PHR4JgPYGvvm7+xHo+hSNyquSF/LElgV7ubCexMabPJ15eOL9XUUhC+AZHC6qGtJXBfL4AumUcogyYQnRB4SkaNX8B3fA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=hammerspace.com; dmarc=pass action=none
+ header.from=hammerspace.com; dkim=pass header.d=hammerspace.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hammerspace.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RIsK5YXWf0Axszuu2If7pi6KvWFwO7ibH/BSSbgFjfs=;
+ b=f/zWclqlsmOzkL2u05TVxbEtTzHuRTLYJHsJk36WQ6fqOhQm2qr41zl4m7AIrwyXziPQWRUPrB76vpsaH7YTamtMWexK6k2bvnhgV9iJ+keipKOFwN/HFa47rGggQLQrKVEmJyUdUhwmKe8eB+uP0DC/Cq+TO3Tc5bIgX5FXU78=
+Received: from CH0PR13MB5084.namprd13.prod.outlook.com (2603:10b6:610:111::7)
+ by PH0PR13MB5469.namprd13.prod.outlook.com (2603:10b6:510:142::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Wed, 7 Sep
+ 2022 15:04:19 +0000
+Received: from CH0PR13MB5084.namprd13.prod.outlook.com
+ ([fe80::f1c7:62d0:a63d:f5ca]) by CH0PR13MB5084.namprd13.prod.outlook.com
+ ([fe80::f1c7:62d0:a63d:f5ca%3]) with mapi id 15.20.5612.012; Wed, 7 Sep 2022
+ 15:04:19 +0000
+From:   Trond Myklebust <trondmy@hammerspace.com>
+To:     "bfields@fieldses.org" <bfields@fieldses.org>,
+        "jlayton@kernel.org" <jlayton@kernel.org>
+CC:     "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
+        "djwong@kernel.org" <djwong@kernel.org>,
+        "brauner@kernel.org" <brauner@kernel.org>,
+        "xiubli@redhat.com" <xiubli@redhat.com>,
+        "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "neilb@suse.de" <neilb@suse.de>,
+        "david@fromorbit.com" <david@fromorbit.com>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "chuck.lever@oracle.com" <chuck.lever@oracle.com>,
+        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
+        "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
+        "tytso@mit.edu" <tytso@mit.edu>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "jack@suse.cz" <jack@suse.cz>,
+        "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "lczerner@redhat.com" <lczerner@redhat.com>,
+        "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
+        "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>
+Subject: Re: [man-pages RFC PATCH v4] statx, inode: document the new
+ STATX_INO_VERSION field
+Thread-Topic: [man-pages RFC PATCH v4] statx, inode: document the new
+ STATX_INO_VERSION field
+Thread-Index: AQHYwqs/evAHvn9kzUKFB4lWpvCB0q3T1xmAgAATgACAAAFbgIAABbEAgAAL3gCAAALPgIAAEIkA
+Date:   Wed, 7 Sep 2022 15:04:18 +0000
+Message-ID: <9ddbc23661ab6527d73860a873391a3536451ee6.camel@hammerspace.com>
+References: <20220907111606.18831-1-jlayton@kernel.org>
+         <166255065346.30452.6121947305075322036@noble.neil.brown.name>
+         <79aaf122743a295ddab9525d9847ac767a3942aa.camel@kernel.org>
+         <20220907125211.GB17729@fieldses.org>
+         <771650a814ab1ff4dc5473d679936b747d9b6cf5.camel@kernel.org>
+         <8a71986b4fb61cd9b4adc8b4250118cbb19eec58.camel@hammerspace.com>
+         <c22baa64133a23be3aba81df23b4af866df51343.camel@kernel.org>
+In-Reply-To: <c22baa64133a23be3aba81df23b4af866df51343.camel@kernel.org>
+Accept-Language: en-US, en-GB
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=hammerspace.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CH0PR13MB5084:EE_|PH0PR13MB5469:EE_
+x-ms-office365-filtering-correlation-id: 03011ae4-4a5d-47fe-efa4-08da90e23d24
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: DpVPOE8Qz/eL9ZDSuEeYcXQFjvdFpoW7MIqISYTsLdVYaYS39YY6uuFpz9kL/EM1QsbTxaDpOsVbvKsifaxhTdQCRHBb0eJCozbBU6jOQFUdsBOILGwDM5yxI87NvIDTrcxqonlelvohF73iNqycJQXN1+2JKNtpVv2vxVTGqTpC4TCE8GoUiAvQh8L4Ry2cnA4Hi1LrRV5XmN0gdEhcHsTyG2l4zvOC2wczCj2zV4KNEyAZx26IUABHLhx/WsuSJHj+Jvy3FbEYzFwAdFyRPlPomCWiEq2PbdtIeG5+VJ2JKwYMGOiGRoOay/lpeKVIZiRzBrp66jc/RnIX2p1+pRq/efvxBPgqFjqdv3oYMOICzSIy4EcF3hZN8ObJzUJoYysS80yQlp0vau+Kv3JtSCBh088IYVR9byHV9ni4a6Gi9/pDM89FN2Q8veFglOwC8gE8ZQgw6mEMm4K/POGV7h0kqpStY4e9GZLz283fu6neBEdhfQE4oxdrdlz819SwRNI7xvhPer15Cjh4hSrsQh+YA/+EFLaI4pISHY31ntm/SK6MpQEwJOA3yXxr3wUNf6nbloG0c/AMTMUPJ5gMxz3Dh2dyJ7GLFpiJRa72Ls0rUD6JY5U+2/8aJ/XWkglNcal69Qv6a3KrC/KDcSh9/FFd0ipmsOfyMJ++ZJ4iMsgTT9FRHmQBmKgv7PiL3fOmvNoWPVZ1afc8+xruvhHBestRfoy4klEzhtxEFCplx7lVr4sY34MPKZ8eRd1tMFm1LBKWvY6CT6An+Avka8GK0+7Mawxdee4wJFtFsTKfK2SwpaaGFGIp7BCXopiB4K0Y
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR13MB5084.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(376002)(39840400004)(136003)(366004)(346002)(396003)(71200400001)(186003)(478600001)(6506007)(36756003)(2616005)(5660300002)(26005)(7416002)(86362001)(8936002)(41300700001)(6512007)(6486002)(38070700005)(8676002)(66946007)(110136005)(54906003)(83380400001)(122000001)(316002)(4326008)(66446008)(76116006)(2906002)(64756008)(38100700002)(66556008)(66476007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZCtVdGlSUy8yOWxiRnRDdGlWYUpKMXBFRFhWRzdNbG1FQm9HbTd5RVJFVUxB?=
+ =?utf-8?B?YkpIb25nZDVvWlVqTFhjaExaR3NnRlBwaHFKUzFxTGJ5b1o3ZTRIM1JEdzl4?=
+ =?utf-8?B?UTVYRElrTUZ1VWpxYW5NaXk5ZU5hRzJWVVBhZGdvc2NVWTM0cjRqSmFydzlG?=
+ =?utf-8?B?TXFodnFWS2poNTkzNzdiS29mVmYwVGV2THFOUVRUeEcrRW5oSzR2cDgvSGla?=
+ =?utf-8?B?cStMTHVFVUczM0ZrejVmbnhCTWhrVng2ODVRL0FpNnVyVzM3c1Y0L0pLeU5B?=
+ =?utf-8?B?Wm93N2hMdVBGQzNXYkx2VXNPWjVLRU1mNytXYjVIU29NNnhONzdpd0Q5RXh4?=
+ =?utf-8?B?NGhMWnZyejNKUGFtcnVoWFc2czBQRlhvQjdzVlpmbkxpdjVWbVJtUXVoZlpW?=
+ =?utf-8?B?VFUydW9FUmR0ZGJJNVRXR2YwakZBcmp5MVRYbFVXTllTSExRRVp6MHNUQnYx?=
+ =?utf-8?B?R2N6d3JrL2Z5NVBPUG9DMUl1S1hKRzdaT3c2STY5eG1kbk9mU3o1NEFRdnVT?=
+ =?utf-8?B?UFRhc2h5YUMzUktqa1NUVmphN2xDWHJnOG92S0lEak0wM3pKSWNhMU5UWnNt?=
+ =?utf-8?B?VWk3QVFjbmp2N2JXblJxVi93WSsrTEErbnZFU1BhNVFodU1ORUVmZVVVeXA3?=
+ =?utf-8?B?VzdvYVo2eXJkaGwvMm5YWWM2SlNVUnp4RmZxdnEyQmx6dmtiQmNmb3VKdTk1?=
+ =?utf-8?B?SDVDZ0p4YVU5b0c0TmkrZ3B3ekd4cFdBelNXZG4xYUtVTjhnb3hFcWRBL3dZ?=
+ =?utf-8?B?c3FkejVVbXNyLzd2Vk83RGtWUklLYzBzT05uZjJyUVpEMUd6Umw0dnE5T2FU?=
+ =?utf-8?B?UjBrNldFMjBjL1o5MkdON0VKQnYyRXF2eVZrenFMUVArT05wcDkwWnVMek1w?=
+ =?utf-8?B?WlZoSU4wb1BGSFEya3UvRVRrQ01QVEZ1ZGZIT2lKbHNsWCtmZ01sblR5ZkN5?=
+ =?utf-8?B?ZXdma3orWmU5dUp4eFh1Y2hseDh0NzEzZUlHc3cwckxWa1laa2lwS0N1Y040?=
+ =?utf-8?B?Q1pCRFdQUkNMU1pSbVg4dURPaCtGcXpuYldUakh6bkp0ZXVVd3hzc05PYkha?=
+ =?utf-8?B?QXFJenlOMU9vczI5b2FJNDMrMklpUXpZSFlHWUZLeWdQaXhpSVR5ZE8zMEJG?=
+ =?utf-8?B?c1cyWmdYNzBBR0pHUHozQjVWYlJySlI2OWVLVWJYdDNzVDE1YUhNSnNpZDVj?=
+ =?utf-8?B?MEp5Z1hTL2RpZWRBRXU0ZW1QOHdXQy9PK0IrQXdOK2tuUkw1NzBlWUlQSDZl?=
+ =?utf-8?B?dXRJU1ZvNDlZbWZVaFVnaXpBSEViVldiL21ZbDdndXArUGZEdzlpUHprM3hj?=
+ =?utf-8?B?cXV4UXN0OFQyVnFoVWl5eWw3S3AyWWZ4Tjc4MU15dTBGUWkwOEZhdjRZYlI5?=
+ =?utf-8?B?b0ZjVWoxUGhwNEZWL1h1R1FBalg4aDNoV3FxN0NNcHN0YVdNeVdLZHBBVk5y?=
+ =?utf-8?B?bEFTRVJyS05oYmMrNmNvTUtHb3lFeE80YzhWTHRwRFhhVFdNU2o1aVc4YzRX?=
+ =?utf-8?B?RW8vWE5yVy85ZTU0ZnJYanVybWZLb0kzbyt3RlFHc084UFdOZzlvUUU1TmlN?=
+ =?utf-8?B?QU1UNTYxWFVacVgvSGxpMkcyREFsQiswZm5GWmJ0eGpQNEsvOXJmY0RVVFlE?=
+ =?utf-8?B?ei9IRU42blF3dFpMcVNuVytmYlNLMEc1NkkvZ1FDb2cyZnNXTlNVOXVJYm84?=
+ =?utf-8?B?a0JzSC9oMGJGQ1AwRWxVZjVvd1UvbzFQVzJXaHNwOGV4Y3BXNEt3bmttV1oz?=
+ =?utf-8?B?OE1aYXFIRTVKSStQMm5RUjBTT2VCZTNvY2lCMHhSeUhqcGJzdGVVNmJkdkdX?=
+ =?utf-8?B?QWFyTWdWSEFabklQRThSMGFSQ2R5Z3RMckhYTnNKQStpR3JUKzJlNW5uTTJK?=
+ =?utf-8?B?LzVOQkJ6YkxwRkw4NWNOMk5kSE8zZTFwdEM1b3RwakF5VzFzbUJQdmdhOGFm?=
+ =?utf-8?B?WHJ4U2FyaklTMUIrc0RKakZ1cDBXektSQzM3ZWZjY2FrbndETFl2ZjZPUGdM?=
+ =?utf-8?B?Uk1iOFpCTGlVM04wUDRmZGNVeUk3ai84RlNvZlRxMFZOQ3JBRDh2L3dKVDJ1?=
+ =?utf-8?B?bXB4TFJiNnRzdkpyKzhRQmVFNWFUTUltdmpNL0ppbGZSNHE4Q29PZ0hiOUdy?=
+ =?utf-8?B?MkUyNTJXaW5aRkUwWG9OUWhuc1hGUlBhRllraUdXK2c1WkJoYjhCempNblpn?=
+ =?utf-8?B?UkE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <C11DA9E2C5EE6D4EAB78D8E00151E50C@namprd13.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: hammerspace.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR13MB5469
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -87,420 +146,79 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Add :collapse mod to userfaultfd selftest.  Currently this mod is
-only valid for "shmem" test type, but could be used for other test
-types.
-
-When provided, memory allocated by ->allocate_area() will be
-hugepage-aligned enforced to be hugepage-sized.  userfaultf_minor_test,
-after the UFFD-registered mapping has been populated by UUFD minor
-fault handler, attempt to MADV_COLLAPSE the UFFD-registered mapping to
-collapse the memory into a pmd-mapped THP.
-
-This test is meant to be a functional test of what occurs during
-UFFD-driven live migration of VMs backed by huge tmpfs where, after
-a hugepage-sized region has been successfully migrated (in native
-page-sized chunks, to avoid latency of fetched a hugepage over the
-network), we want to reclaim previous VM performance by remapping it
-at the PMD level.
-
-Signed-off-by: Zach O'Keefe <zokeefe@google.com>
----
- tools/testing/selftests/vm/Makefile      |   1 +
- tools/testing/selftests/vm/userfaultfd.c | 171 ++++++++++++++++++-----
- 2 files changed, 134 insertions(+), 38 deletions(-)
-
-diff --git a/tools/testing/selftests/vm/Makefile b/tools/testing/selftests/vm/Makefile
-index c9c0996c122b..c687533374e6 100644
---- a/tools/testing/selftests/vm/Makefile
-+++ b/tools/testing/selftests/vm/Makefile
-@@ -99,6 +99,7 @@ $(OUTPUT)/khugepaged: vm_util.c
- $(OUTPUT)/madv_populate: vm_util.c
- $(OUTPUT)/soft-dirty: vm_util.c
- $(OUTPUT)/split_huge_page_test: vm_util.c
-+$(OUTPUT)/userfaultfd: vm_util.c
- 
- ifeq ($(MACHINE),x86_64)
- BINARIES_32 := $(patsubst %,$(OUTPUT)/%,$(BINARIES_32))
-diff --git a/tools/testing/selftests/vm/userfaultfd.c b/tools/testing/selftests/vm/userfaultfd.c
-index 7be709d9eed0..74babdbc02e5 100644
---- a/tools/testing/selftests/vm/userfaultfd.c
-+++ b/tools/testing/selftests/vm/userfaultfd.c
-@@ -61,10 +61,11 @@
- #include <sys/random.h>
- 
- #include "../kselftest.h"
-+#include "vm_util.h"
- 
- #ifdef __NR_userfaultfd
- 
--static unsigned long nr_cpus, nr_pages, nr_pages_per_cpu, page_size;
-+static unsigned long nr_cpus, nr_pages, nr_pages_per_cpu, page_size, hpage_size;
- 
- #define BOUNCE_RANDOM		(1<<0)
- #define BOUNCE_RACINGFAULTS	(1<<1)
-@@ -79,6 +80,8 @@ static int test_type;
- 
- #define UFFD_FLAGS	(O_CLOEXEC | O_NONBLOCK | UFFD_USER_MODE_ONLY)
- 
-+#define BASE_PMD_ADDR ((void *)(1UL << 30))
-+
- /* test using /dev/userfaultfd, instead of userfaultfd(2) */
- static bool test_dev_userfaultfd;
- 
-@@ -97,9 +100,10 @@ static int huge_fd;
- static unsigned long long *count_verify;
- static int uffd = -1;
- static int uffd_flags, finished, *pipefd;
--static char *area_src, *area_src_alias, *area_dst, *area_dst_alias;
-+static char *area_src, *area_src_alias, *area_dst, *area_dst_alias, *area_remap;
- static char *zeropage;
- pthread_attr_t attr;
-+static bool test_collapse;
- 
- /* Userfaultfd test statistics */
- struct uffd_stats {
-@@ -127,6 +131,8 @@ struct uffd_stats {
- #define swap(a, b) \
- 	do { typeof(a) __tmp = (a); (a) = (b); (b) = __tmp; } while (0)
- 
-+#define factor_of_2(x) ((x) ^ ((x) & ((x) - 1)))
-+
- const char *examples =
-     "# Run anonymous memory test on 100MiB region with 99999 bounces:\n"
-     "./userfaultfd anon 100 99999\n\n"
-@@ -152,6 +158,8 @@ static void usage(void)
- 		"Supported mods:\n");
- 	fprintf(stderr, "\tsyscall - Use userfaultfd(2) (default)\n");
- 	fprintf(stderr, "\tdev - Use /dev/userfaultfd instead of userfaultfd(2)\n");
-+	fprintf(stderr, "\tcollapse - Test MADV_COLLAPSE of UFFDIO_REGISTER_MODE_MINOR\n"
-+		"memory\n");
- 	fprintf(stderr, "\nExample test mod usage:\n");
- 	fprintf(stderr, "# Run anonymous memory test with /dev/userfaultfd:\n");
- 	fprintf(stderr, "./userfaultfd anon:dev 100 99999\n\n");
-@@ -229,12 +237,10 @@ static void anon_release_pages(char *rel_area)
- 		err("madvise(MADV_DONTNEED) failed");
- }
- 
--static void anon_allocate_area(void **alloc_area)
-+static void anon_allocate_area(void **alloc_area, bool is_src)
- {
- 	*alloc_area = mmap(NULL, nr_pages * page_size, PROT_READ | PROT_WRITE,
- 			   MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
--	if (*alloc_area == MAP_FAILED)
--		err("mmap of anonymous memory failed");
- }
- 
- static void noop_alias_mapping(__u64 *start, size_t len, unsigned long offset)
-@@ -252,7 +258,7 @@ static void hugetlb_release_pages(char *rel_area)
- 	}
- }
- 
--static void hugetlb_allocate_area(void **alloc_area)
-+static void hugetlb_allocate_area(void **alloc_area, bool is_src)
- {
- 	void *area_alias = NULL;
- 	char **alloc_area_alias;
-@@ -262,7 +268,7 @@ static void hugetlb_allocate_area(void **alloc_area)
- 			nr_pages * page_size,
- 			PROT_READ | PROT_WRITE,
- 			MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB |
--				(*alloc_area == area_src ? 0 : MAP_NORESERVE),
-+				(is_src ? 0 : MAP_NORESERVE),
- 			-1,
- 			0);
- 	else
-@@ -270,9 +276,9 @@ static void hugetlb_allocate_area(void **alloc_area)
- 			nr_pages * page_size,
- 			PROT_READ | PROT_WRITE,
- 			MAP_SHARED |
--				(*alloc_area == area_src ? 0 : MAP_NORESERVE),
-+				(is_src ? 0 : MAP_NORESERVE),
- 			huge_fd,
--			*alloc_area == area_src ? 0 : nr_pages * page_size);
-+			is_src ? 0 : nr_pages * page_size);
- 	if (*alloc_area == MAP_FAILED)
- 		err("mmap of hugetlbfs file failed");
- 
-@@ -282,12 +288,12 @@ static void hugetlb_allocate_area(void **alloc_area)
- 			PROT_READ | PROT_WRITE,
- 			MAP_SHARED,
- 			huge_fd,
--			*alloc_area == area_src ? 0 : nr_pages * page_size);
-+			is_src ? 0 : nr_pages * page_size);
- 		if (area_alias == MAP_FAILED)
- 			err("mmap of hugetlb file alias failed");
- 	}
- 
--	if (*alloc_area == area_src) {
-+	if (is_src) {
- 		alloc_area_alias = &area_src_alias;
- 	} else {
- 		alloc_area_alias = &area_dst_alias;
-@@ -310,21 +316,36 @@ static void shmem_release_pages(char *rel_area)
- 		err("madvise(MADV_REMOVE) failed");
- }
- 
--static void shmem_allocate_area(void **alloc_area)
-+static void shmem_allocate_area(void **alloc_area, bool is_src)
- {
- 	void *area_alias = NULL;
--	bool is_src = alloc_area == (void **)&area_src;
--	unsigned long offset = is_src ? 0 : nr_pages * page_size;
-+	size_t bytes = nr_pages * page_size;
-+	unsigned long offset = is_src ? 0 : bytes;
-+	char *p = NULL, *p_alias = NULL;
-+
-+	if (test_collapse) {
-+		p = BASE_PMD_ADDR;
-+		if (!is_src)
-+			/* src map + alias + interleaved hpages */
-+			p += 2 * (bytes + hpage_size);
-+		p_alias = p;
-+		p_alias += bytes;
-+		p_alias += hpage_size;  /* Prevent src/dst VMA merge */
-+	}
- 
--	*alloc_area = mmap(NULL, nr_pages * page_size, PROT_READ | PROT_WRITE,
--			   MAP_SHARED, shm_fd, offset);
-+	*alloc_area = mmap(p, bytes, PROT_READ | PROT_WRITE, MAP_SHARED,
-+			   shm_fd, offset);
- 	if (*alloc_area == MAP_FAILED)
- 		err("mmap of memfd failed");
-+	if (test_collapse && *alloc_area != p)
-+		err("mmap of memfd failed at %p", p);
- 
--	area_alias = mmap(NULL, nr_pages * page_size, PROT_READ | PROT_WRITE,
--			  MAP_SHARED, shm_fd, offset);
-+	area_alias = mmap(p_alias, bytes, PROT_READ | PROT_WRITE, MAP_SHARED,
-+			  shm_fd, offset);
- 	if (area_alias == MAP_FAILED)
- 		err("mmap of memfd alias failed");
-+	if (test_collapse && area_alias != p_alias)
-+		err("mmap of anonymous memory failed at %p", p_alias);
- 
- 	if (is_src)
- 		area_src_alias = area_alias;
-@@ -337,28 +358,39 @@ static void shmem_alias_mapping(__u64 *start, size_t len, unsigned long offset)
- 	*start = (unsigned long)area_dst_alias + offset;
- }
- 
-+static void shmem_check_pmd_mapping(void *p, int expect_nr_hpages)
-+{
-+	if (!check_huge_shmem(area_dst_alias, expect_nr_hpages, hpage_size))
-+		err("Did not find expected %d number of hugepages",
-+		    expect_nr_hpages);
-+}
-+
- struct uffd_test_ops {
--	void (*allocate_area)(void **alloc_area);
-+	void (*allocate_area)(void **alloc_area, bool is_src);
- 	void (*release_pages)(char *rel_area);
- 	void (*alias_mapping)(__u64 *start, size_t len, unsigned long offset);
-+	void (*check_pmd_mapping)(void *p, int expect_nr_hpages);
- };
- 
- static struct uffd_test_ops anon_uffd_test_ops = {
- 	.allocate_area	= anon_allocate_area,
- 	.release_pages	= anon_release_pages,
- 	.alias_mapping = noop_alias_mapping,
-+	.check_pmd_mapping = NULL,
- };
- 
- static struct uffd_test_ops shmem_uffd_test_ops = {
- 	.allocate_area	= shmem_allocate_area,
- 	.release_pages	= shmem_release_pages,
- 	.alias_mapping = shmem_alias_mapping,
-+	.check_pmd_mapping = shmem_check_pmd_mapping,
- };
- 
- static struct uffd_test_ops hugetlb_uffd_test_ops = {
- 	.allocate_area	= hugetlb_allocate_area,
- 	.release_pages	= hugetlb_release_pages,
- 	.alias_mapping = hugetlb_alias_mapping,
-+	.check_pmd_mapping = NULL,
- };
- 
- static struct uffd_test_ops *uffd_test_ops;
-@@ -478,6 +510,7 @@ static void uffd_test_ctx_clear(void)
- 	munmap_area((void **)&area_src_alias);
- 	munmap_area((void **)&area_dst);
- 	munmap_area((void **)&area_dst_alias);
-+	munmap_area((void **)&area_remap);
- }
- 
- static void uffd_test_ctx_init(uint64_t features)
-@@ -486,8 +519,8 @@ static void uffd_test_ctx_init(uint64_t features)
- 
- 	uffd_test_ctx_clear();
- 
--	uffd_test_ops->allocate_area((void **)&area_src);
--	uffd_test_ops->allocate_area((void **)&area_dst);
-+	uffd_test_ops->allocate_area((void **)&area_src, true);
-+	uffd_test_ops->allocate_area((void **)&area_dst, false);
- 
- 	userfaultfd_open(&features);
- 
-@@ -804,6 +837,7 @@ static void *uffd_poll_thread(void *arg)
- 				err("remove failure");
- 			break;
- 		case UFFD_EVENT_REMAP:
-+			area_remap = area_dst;  /* save for later unmap */
- 			area_dst = (char *)(unsigned long)msg.arg.remap.to;
- 			break;
- 		}
-@@ -1256,13 +1290,30 @@ static int userfaultfd_sig_test(void)
- 	return userfaults != 0;
- }
- 
-+void check_memory_contents(char *p)
-+{
-+	unsigned long i;
-+	uint8_t expected_byte;
-+	void *expected_page;
-+
-+	if (posix_memalign(&expected_page, page_size, page_size))
-+		err("out of memory");
-+
-+	for (i = 0; i < nr_pages; ++i) {
-+		expected_byte = ~((uint8_t)(i % ((uint8_t)-1)));
-+		memset(expected_page, expected_byte, page_size);
-+		if (my_bcmp(expected_page, p + (i * page_size), page_size))
-+			err("unexpected page contents after minor fault");
-+	}
-+
-+	free(expected_page);
-+}
-+
- static int userfaultfd_minor_test(void)
- {
--	struct uffdio_register uffdio_register;
- 	unsigned long p;
-+	struct uffdio_register uffdio_register;
- 	pthread_t uffd_mon;
--	uint8_t expected_byte;
--	void *expected_page;
- 	char c;
- 	struct uffd_stats stats = { 0 };
- 
-@@ -1301,17 +1352,7 @@ static int userfaultfd_minor_test(void)
- 	 * fault. uffd_poll_thread will resolve the fault by bit-flipping the
- 	 * page's contents, and then issuing a CONTINUE ioctl.
- 	 */
--
--	if (posix_memalign(&expected_page, page_size, page_size))
--		err("out of memory");
--
--	for (p = 0; p < nr_pages; ++p) {
--		expected_byte = ~((uint8_t)(p % ((uint8_t)-1)));
--		memset(expected_page, expected_byte, page_size);
--		if (my_bcmp(expected_page, area_dst_alias + (p * page_size),
--			    page_size))
--			err("unexpected page contents after minor fault");
--	}
-+	check_memory_contents(area_dst_alias);
- 
- 	if (write(pipefd[1], &c, sizeof(c)) != sizeof(c))
- 		err("pipe write");
-@@ -1320,6 +1361,23 @@ static int userfaultfd_minor_test(void)
- 
- 	uffd_stats_report(&stats, 1);
- 
-+	if (test_collapse) {
-+		printf("testing collapse of uffd memory into PMD-mapped THPs:");
-+		if (madvise(area_dst_alias, nr_pages * page_size,
-+			    MADV_COLLAPSE))
-+			err("madvise(MADV_COLLAPSE)");
-+
-+		uffd_test_ops->check_pmd_mapping(area_dst,
-+						 nr_pages * page_size /
-+						 hpage_size);
-+		/*
-+		 * This won't cause uffd-fault - it purely just makes sure there
-+		 * was no corruption.
-+		 */
-+		check_memory_contents(area_dst_alias);
-+		printf(" done.\n");
-+	}
-+
- 	return stats.missing_faults != 0 || stats.minor_faults != nr_pages;
- }
- 
-@@ -1656,6 +1714,8 @@ static void parse_test_type_arg(const char *raw_type)
- 			test_dev_userfaultfd = true;
- 		else if (!strcmp(token, "syscall"))
- 			test_dev_userfaultfd = false;
-+		else if (!strcmp(token, "collapse"))
-+			test_collapse = true;
- 		else
- 			err("unrecognized test mod '%s'", token);
- 	}
-@@ -1663,8 +1723,11 @@ static void parse_test_type_arg(const char *raw_type)
- 	if (!test_type)
- 		err("failed to parse test type argument: '%s'", raw_type);
- 
-+	if (test_collapse && test_type != TEST_SHMEM)
-+		err("Unsupported test: %s", raw_type);
-+
- 	if (test_type == TEST_HUGETLB)
--		page_size = default_huge_page_size();
-+		page_size = hpage_size;
- 	else
- 		page_size = sysconf(_SC_PAGE_SIZE);
- 
-@@ -1702,6 +1765,8 @@ static void sigalrm(int sig)
- 
- int main(int argc, char **argv)
- {
-+	size_t bytes;
-+
- 	if (argc < 4)
- 		usage();
- 
-@@ -1709,11 +1774,41 @@ int main(int argc, char **argv)
- 		err("failed to arm SIGALRM");
- 	alarm(ALARM_INTERVAL_SECS);
- 
-+	hpage_size = default_huge_page_size();
- 	parse_test_type_arg(argv[1]);
-+	bytes = atol(argv[2]) * 1024 * 1024;
-+
-+	if (test_collapse && bytes & (hpage_size - 1))
-+		err("MiB must be multiple of %lu if :collapse mod set",
-+		    hpage_size >> 20);
- 
- 	nr_cpus = sysconf(_SC_NPROCESSORS_ONLN);
--	nr_pages_per_cpu = atol(argv[2]) * 1024*1024 / page_size /
--		nr_cpus;
-+
-+	if (test_collapse) {
-+		/* nr_cpus must divide (bytes / page_size), otherwise,
-+		 * area allocations of (nr_pages * paze_size) won't be a
-+		 * multiple of hpage_size, even if bytes is a multiple of
-+		 * hpage_size.
-+		 *
-+		 * This means that nr_cpus must divide (N * (2 << (H-P))
-+		 * where:
-+		 *	bytes = hpage_size * N
-+		 *	hpage_size = 2 << H
-+		 *	page_size = 2 << P
-+		 *
-+		 * And we want to chose nr_cpus to be the largest value
-+		 * satisfying this constraint, not larger than the number
-+		 * of online CPUs. Unfortunately, prime factorization of
-+		 * N and nr_cpus may be arbitrary, so have to search for it.
-+		 * Instead, just use the highest power of 2 dividing both
-+		 * nr_cpus and (bytes / page_size).
-+		 */
-+		int x = factor_of_2(nr_cpus);
-+		int y = factor_of_2(bytes / page_size);
-+
-+		nr_cpus = x < y ? x : y;
-+	}
-+	nr_pages_per_cpu = bytes / page_size / nr_cpus;
- 	if (!nr_pages_per_cpu) {
- 		_err("invalid MiB");
- 		usage();
--- 
-2.37.2.789.g6183377224-goog
-
+T24gV2VkLCAyMDIyLTA5LTA3IGF0IDEwOjA1IC0wNDAwLCBKZWZmIExheXRvbiB3cm90ZToNCj4g
+T24gV2VkLCAyMDIyLTA5LTA3IGF0IDEzOjU1ICswMDAwLCBUcm9uZCBNeWtsZWJ1c3Qgd3JvdGU6
+DQo+ID4gT24gV2VkLCAyMDIyLTA5LTA3IGF0IDA5OjEyIC0wNDAwLCBKZWZmIExheXRvbiB3cm90
+ZToNCj4gPiA+IE9uIFdlZCwgMjAyMi0wOS0wNyBhdCAwODo1MiAtMDQwMCwgSi4gQnJ1Y2UgRmll
+bGRzIHdyb3RlOg0KPiA+ID4gPiBPbiBXZWQsIFNlcCAwNywgMjAyMiBhdCAwODo0NzoyMEFNIC0w
+NDAwLCBKZWZmIExheXRvbiB3cm90ZToNCj4gPiA+ID4gPiBPbiBXZWQsIDIwMjItMDktMDcgYXQg
+MjE6MzcgKzEwMDAsIE5laWxCcm93biB3cm90ZToNCj4gPiA+ID4gPiA+IE9uIFdlZCwgMDcgU2Vw
+IDIwMjIsIEplZmYgTGF5dG9uIHdyb3RlOg0KPiA+ID4gPiA+ID4gPiArVGhlIGNoYW5nZSB0byBc
+ZklzdGF0eC5zdHhfaW5vX3ZlcnNpb25cZlAgaXMgbm90IGF0b21pYw0KPiA+ID4gPiA+ID4gPiB3
+aXRoDQo+ID4gPiA+ID4gPiA+IHJlc3BlY3QgdG8gdGhlDQo+ID4gPiA+ID4gPiA+ICtvdGhlciBj
+aGFuZ2VzIGluIHRoZSBpbm9kZS4gT24gYSB3cml0ZSwgZm9yIGluc3RhbmNlLA0KPiA+ID4gPiA+
+ID4gPiB0aGUNCj4gPiA+ID4gPiA+ID4gaV92ZXJzaW9uIGl0IHVzdWFsbHkNCj4gPiA+ID4gPiA+
+ID4gK2luY3JlbWVudGVkIGJlZm9yZSB0aGUgZGF0YSBpcyBjb3BpZWQgaW50byB0aGUNCj4gPiA+
+ID4gPiA+ID4gcGFnZWNhY2hlLg0KPiA+ID4gPiA+ID4gPiBUaGVyZWZvcmUgaXQgaXMNCj4gPiA+
+ID4gPiA+ID4gK3Bvc3NpYmxlIHRvIHNlZSBhIG5ldyBpX3ZlcnNpb24gdmFsdWUgd2hpbGUgYSBy
+ZWFkIHN0aWxsDQo+ID4gPiA+ID4gPiA+IHNob3dzIHRoZSBvbGQgZGF0YS4NCj4gPiA+ID4gPiA+
+IA0KPiA+ID4gPiA+ID4gRG9lc24ndCB0aGF0IG1ha2UgdGhlIHZhbHVlIHVzZWxlc3M/DQo+ID4g
+PiA+ID4gPiANCj4gPiA+ID4gPiANCj4gPiA+ID4gPiBObywgSSBkb24ndCB0aGluayBzby4gSXQn
+cyBvbmx5IHJlYWxseSB1c2VmdWwgZm9yIGNvbXBhcmluZw0KPiA+ID4gPiA+IHRvIGFuDQo+ID4g
+PiA+ID4gb2xkZXINCj4gPiA+ID4gPiBzYW1wbGUgYW55d2F5LiBJZiB5b3UgZG8gInN0YXR4OyBy
+ZWFkOyBzdGF0eCIgYW5kIHRoZSB2YWx1ZQ0KPiA+ID4gPiA+IGhhc24ndA0KPiA+ID4gPiA+IGNo
+YW5nZWQsIHRoZW4geW91IGtub3cgdGhhdCB0aGluZ3MgYXJlIHN0YWJsZS4gDQo+ID4gPiA+IA0K
+PiA+ID4gPiBJIGRvbid0IHNlZSBob3cgdGhhdCBoZWxwcy7CoCBJdCdzIHN0aWxsIHBvc3NpYmxl
+IHRvIGdldDoNCj4gPiA+ID4gDQo+ID4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgcmVhZGVywqDCoMKgwqDCoMKgwqDCoMKgwqB3cml0ZXINCj4gPiA+ID4gwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAtLS0tLS3CoMKgwqDCoMKgwqDCoMKgwqDCoC0tLS0tLQ0KPiA+
+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgaV92ZXJzaW9uKysNCj4gPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqBzdGF0eA0KPiA+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJl
+YWQNCj4gPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBzdGF0eA0KPiA+ID4g
+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgdXBkYXRlIHBhZ2UgY2FjaGUNCj4gPiA+ID4gDQo+ID4gPiA+IHJpZ2h0Pw0KPiA+
+ID4gPiANCj4gPiA+IA0KPiA+ID4gWWVhaCwgSSBzdXBwb3NlIHNvIC0tIHRoZSBzdGF0eCB3b3Vs
+ZG4ndCBuZWNlc3NpdGF0ZSBhbnkgbG9ja2luZy4NCj4gPiA+IEluDQo+ID4gPiB0aGF0IGNhc2Us
+IG1heWJlIHRoaXMgaXMgdXNlbGVzcyB0aGVuIG90aGVyIHRoYW4gZm9yIHRlc3RpbmcNCj4gPiA+
+IHB1cnBvc2VzDQo+ID4gPiBhbmQgdXNlcmxhbmQgTkZTIHNlcnZlcnMuDQo+ID4gPiANCj4gPiA+
+IFdvdWxkIGl0IGJlIGJldHRlciB0byBub3QgY29uc3VtZSBhIHN0YXR4IGZpZWxkIHdpdGggdGhp
+cyBpZiBzbz8NCj4gPiA+IFdoYXQNCj4gPiA+IGNvdWxkIHdlIHVzZSBhcyBhbiBhbHRlcm5hdGUg
+aW50ZXJmYWNlPyBpb2N0bD8gU29tZSBzb3J0IG9mDQo+ID4gPiBnbG9iYWwNCj4gPiA+IHZpcnR1
+YWwgeGF0dHI/IEl0IGRvZXMgbmVlZCB0byBiZSBzb21ldGhpbmcgcGVyLWlub2RlLg0KPiA+IA0K
+PiA+IEkgZG9uJ3Qgc2VlIGhvdyBhIG5vbi1hdG9taWMgY2hhbmdlIGF0dHJpYnV0ZSBpcyByZW1v
+dGVseSB1c2VmdWwNCj4gPiBldmVuDQo+ID4gZm9yIE5GUy4NCj4gPiANCj4gPiBUaGUgbWFpbiBw
+cm9ibGVtIGlzIG5vdCBzbyBtdWNoIHRoZSBhYm92ZSAoYWx0aG91Z2ggTkZTIGNsaWVudHMgYXJl
+DQo+ID4gdnVsbmVyYWJsZSB0byB0aGF0IHRvbykgYnV0IHRoZSBiZWhhdmlvdXIgdy5yLnQuIGRp
+cmVjdG9yeSBjaGFuZ2VzLg0KPiA+IA0KPiA+IElmIHRoZSBzZXJ2ZXIgY2FuJ3QgZ3VhcmFudGVl
+IHRoYXQgZmlsZS9kaXJlY3RvcnkvLi4uIGNyZWF0aW9uIGFuZA0KPiA+IHVubGluayBhcmUgYXRv
+bWljYWxseSByZWNvcmRlZCB3aXRoIGNoYW5nZSBhdHRyaWJ1dGUgdXBkYXRlcywgdGhlbg0KPiA+
+IHRoZQ0KPiA+IGNsaWVudCBoYXMgdG8gYWx3YXlzIGFzc3VtZSB0aGF0IHRoZSBzZXJ2ZXIgaXMg
+bHlpbmcsIGFuZCB0aGF0IGl0DQo+ID4gaGFzDQo+ID4gdG8gcmV2YWxpZGF0ZSBhbGwgaXRzIGNh
+Y2hlcyBhbnl3YXkuIEN1ZSBlbmRsZXNzDQo+ID4gcmVhZGRpci9sb29rdXAvZ2V0YXR0cg0KPiA+
+IHJlcXVlc3RzIGFmdGVyIGVhY2ggYW5kIGV2ZXJ5IGRpcmVjdG9yeSBtb2RpZmljYXRpb24gaW4g
+b3JkZXIgdG8NCj4gPiBjaGVjaw0KPiA+IHRoYXQgc29tZSBvdGhlciBjbGllbnQgZGlkbid0IGFs
+c28gc25lYWsgaW4gYSBjaGFuZ2Ugb2YgdGhlaXIgb3duLg0KPiA+IA0KPiANCj4gV2UgZ2VuZXJh
+bGx5IGhvbGQgdGhlIHBhcmVudCBkaXIncyBpbm9kZS0+aV9yd3NlbSBleGNsdXNpdmVseSBvdmVy
+DQo+IG1vc3QNCj4gaW1wb3J0YW50IGRpcmVjdG9yeSBjaGFuZ2VzLCBhbmQgdGhlIHRpbWVzL2lf
+dmVyc2lvbiBhcmUgYWxzbyB1cGRhdGVkDQo+IHdoaWxlIGhvbGRpbmcgaXQuIFdoYXQgd2UgZG9u
+J3QgZG8gaXMgc2VyaWFsaXplIHJlYWRzIG9mIHRoaXMgdmFsdWUNCj4gdnMuDQo+IHRoZSBpX3J3
+c2VtLCBzbyB5b3UgY291bGQgc2VlIG5ldyBkaXJlY3RvcnkgY29udGVudHMgYWxvbmdzaWRlIGFu
+IG9sZA0KPiBpX3ZlcnNpb24uIE1heWJlIHdlIHNob3VsZCBiZSB0YWtpbmcgaXQgZm9yIHJlYWQg
+d2hlbiB3ZSBxdWVyeSBpdCBvbg0KPiBhDQo+IGRpcmVjdG9yeT8NCg0KU2VyaWFsaXNpbmcgcmVh
+ZHMgaXMgbm90IHRoZSBwcm9ibGVtLiBUaGUgcHJvYmxlbSBpcyBlbnN1cmluZyB0aGF0DQprbmZz
+ZCBpcyBhYmxlIHRvIHByb3ZpZGUgYW4gYXRvbWljIGNoYW5nZV9pbmZvNCBzdHJ1Y3R1cmUgd2hl
+biB0aGUNCmNsaWVudCBtb2RpZmllcyB0aGUgZGlyZWN0b3J5Lg0KaS5lLiB0aGUgcmVxdWlyZW1l
+bnQgaXMgdGhhdCBpZiB0aGUgZGlyZWN0b3J5IGNoYW5nZWQsIHRoZW4gdGhhdA0KbW9kaWZpY2F0
+aW9uIGlzIGF0b21pY2FsbHkgYWNjb21wYW5pZWQgYnkgYW4gdXBkYXRlIG9mIHRoZSBjaGFuZ2UN
+CmF0dHJpYnV0ZSB0aGF0IGNhbiBiZSByZXRyaWV2ZWQgYnkga25mc2QgYW5kIHBsYWNlZCBpbiB0
+aGUgcmVwbHkgdG8gdGhlDQpjbGllbnQuDQoNCj4gQWNoaWV2aW5nIGF0b21pY2l0eSB3aXRoIGZp
+bGUgd3JpdGVzIHRob3VnaCBpcyBhbm90aGVyIG1hdHRlcg0KPiBlbnRpcmVseS4NCj4gSSdtIG5v
+dCBzdXJlIHRoYXQncyBldmVuIGRvYWJsZSBvciBob3cgdG8gYXBwcm9hY2ggaXQgaWYgc28uDQo+
+IFN1Z2dlc3Rpb25zPw0KDQpUaGUgcHJvYmxlbSBvdXRsaW5lZCBieSBCcnVjZSBhYm92ZSBpc24n
+dCBhIGJpZyBkZWFsLiBKdXN0IGNoZWNrIHRoZQ0KSV9WRVJTSU9OX1FVRVJJRUQgZmxhZyBhZnRl
+ciB0aGUgJ3VwZGF0ZV9wYWdlX2NhY2hlJyBiaXQsIGFuZCBidW1wIHRoZQ0KaV92ZXJzaW9uIGlm
+IHRoYXQncyB0aGUgY2FzZS4gVGhlIHJlYWwgcHJvYmxlbSBpcyB3aGF0IGhhcHBlbnMgaWYgeW91
+DQp0aGVuIGNyYXNoIGR1cmluZyB3cml0ZWJhY2suLi4NCg0KLS0gDQpUcm9uZCBNeWtsZWJ1c3QN
+CkxpbnV4IE5GUyBjbGllbnQgbWFpbnRhaW5lciwgSGFtbWVyc3BhY2UNCnRyb25kLm15a2xlYnVz
+dEBoYW1tZXJzcGFjZS5jb20NCg0KDQo=
