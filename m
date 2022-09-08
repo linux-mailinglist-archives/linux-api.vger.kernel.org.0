@@ -2,114 +2,93 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 363D85B0A36
-	for <lists+linux-api@lfdr.de>; Wed,  7 Sep 2022 18:36:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F79C5B113C
+	for <lists+linux-api@lfdr.de>; Thu,  8 Sep 2022 02:31:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230004AbiIGQgO (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 7 Sep 2022 12:36:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35858 "EHLO
+        id S230328AbiIHAbi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Wed, 7 Sep 2022 20:31:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230145AbiIGQgK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 7 Sep 2022 12:36:10 -0400
-X-Greylist: delayed 601 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 07 Sep 2022 09:36:06 PDT
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97FED4BA61;
-        Wed,  7 Sep 2022 09:36:06 -0700 (PDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailnew.west.internal (Postfix) with ESMTP id 865F22B05B86;
-        Wed,  7 Sep 2022 12:18:35 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Wed, 07 Sep 2022 12:18:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
-         h=cc:cc:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm3; t=1662567515; x=1662574715; bh=5D
-        ZtFrVdqR12nN7HSUlbgO9Phu3Lj4gHCeI3MI0eXEs=; b=gKjMSLcGKU47Bpx6uQ
-        gZ+Ahn/J6pmAu6Fk54tOUPmkt4ySG4YQ4tNtCsXNooyXqDQdnB0p/CITTV1m34mq
-        s+LAYPRNp7umaA0DS2tD6Bl9cL2UPuUH1NnFqt+Hujshubfu6tpdqxXryN7Jif7b
-        wFcbM6hQx1KAluzks24vm6vt401JXycrXk/U1TxhftI2k9a3Qr1m/7eQrpEGaUoY
-        dMxR1PpNXaxHCUiB+IzNfCTcZdKp74OQaJyZNKu9NNG2Kd9Cty0VZ7c37OqmpmGx
-        91qSQwwUWpUuKrGDcjIKulD3bI5YIyxjctZu6ma29GlM+OIwXDzKYX0fO8UNhgKu
-        Ok5g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1662567515; x=1662574715; bh=5DZtFrVdqR12nN7HSUlbgO9Phu3L
-        j4gHCeI3MI0eXEs=; b=OZJQAUW2is2zfDT/Ce2aXyZmrMSXobT3OZMp5q6fVpQ/
-        iVRiwH1zHSZcVtLQ2DkHlpUlqbEffGM1fAmWod1B2oWsgEDoe///wEj9f9lghrAo
-        QmF2m0YsiHOKiN8AKnZz/6f5uUQMq/9NAYeyhYKiSfFb9Dz+qoavKwdvW7oRiyhC
-        EATCi/71d3py5lcq99u7ST/c6PkyOa3KHXiwFRYH2JEiXVa1izqMZLW3QFlYIdsy
-        XqD1Q0zUyBwkxx7SuUl6U3WVue4FTTdJB8uWCgJhcTDbXLhEkyIR5uYLz6VpaFwh
-        96XgrgE3i0bQPirExWJbzFosbfLoZt7t6DTe9rF30A==
-X-ME-Sender: <xms:V8QYYw_o5DzFzVn-nsNBEVd-FS_D_oEsE0Ni1kSDm-EDmUqf7t5RYw>
-    <xme:V8QYY4tkvs0qarp3milgqkj-QnUfLwCvr9jPsDhMl_JVoMp1Uawemvudn2tTZjoFP
-    RKollyj_THPCycU494>
-X-ME-Received: <xmr:V8QYY2AJ6tnceeMtt6ze-9Y21GxOCHjfGO0Uaic1_Z0sgkplNSGu4E0Lv93m0HLV2ntwuQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedttddgleelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
-    ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
-    grmhgvqeenucggtffrrghtthgvrhhnpeelgffhfeetlefhveffleevfffgtefffeelfedu
-    udfhjeduteeggfeiheefteehjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuve
-    hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirhhilhhl
-    sehshhhuthgvmhhovhdrnhgrmhgv
-X-ME-Proxy: <xmx:V8QYYweqdTZRL4Hql-Il9ILHjXYOl5I2TLxUmx4tUf2irEd7UWrODA>
-    <xmx:V8QYY1Nzk_PUNIp2LKA55MR0G9GVC8m4bLDpu3YSj4OFMB6ygSASzg>
-    <xmx:V8QYY6lIz_r5CyIgsFG97LMd1GcuCvwSFmdupTCv8XNGm0jAThrJpw>
-    <xmx:W8QYYyKr-0dAl_rNZ4o-w_sGm3XfXyNXiJWuDL3a0JOCCopTLRQCg_cdsds>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Sep 2022 12:18:31 -0400 (EDT)
-Received: by box.shutemov.name (Postfix, from userid 1000)
-        id CAD3C103799; Wed,  7 Sep 2022 19:18:27 +0300 (+03)
-Date:   Wed, 7 Sep 2022 19:18:27 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 05/14] mm/memfd: Introduce MFD_INACCESSIBLE flag
-Message-ID: <20220907161827.klbscalq5lk66rco@box.shutemov.name>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-6-chao.p.peng@linux.intel.com>
- <203c752f-9439-b5ae-056c-27b2631dcb81@redhat.com>
+        with ESMTP id S230272AbiIHAba (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Wed, 7 Sep 2022 20:31:30 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98145D0773;
+        Wed,  7 Sep 2022 17:31:21 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 1848620A08;
+        Thu,  8 Sep 2022 00:31:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1662597080; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=jZL4IIR5pfW+dB6M5aYU+c6C39aV8z8lPkflRrG+URU=;
+        b=xhWsmma/D1pNOJcXcAyNNudzKTd5IWeA/c3+FbDta8nGJ9qkuCHDG9GQnSG9PdnN7/Skva
+        HsIr1gy0WdeX8JatYzy3I+CQoAKtNUuQbd3xK9c1D/uq4a2OrhuBOXUELws2TMEbsDzqiJ
+        tVQZ0rCVKHwC5Y+ZngpvHcwx+/Vu5Vc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1662597080;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=jZL4IIR5pfW+dB6M5aYU+c6C39aV8z8lPkflRrG+URU=;
+        b=2EZ00t47e/GkOmNlEyHEtudCQMs17PgOGXfuHHWD2eWfRmG6ZTcBs00W3KzPNFGPfmK2ne
+        xklLIOrqfjDbRwAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8B3DE1322C;
+        Thu,  8 Sep 2022 00:31:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id odUxENA3GWPrBgAAMHmgww
+        (envelope-from <neilb@suse.de>); Thu, 08 Sep 2022 00:31:12 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <203c752f-9439-b5ae-056c-27b2631dcb81@redhat.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+From:   "NeilBrown" <neilb@suse.de>
+To:     "Trond Myklebust" <trondmy@hammerspace.com>
+Cc:     "bfields@fieldses.org" <bfields@fieldses.org>,
+        "jlayton@kernel.org" <jlayton@kernel.org>,
+        "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
+        "djwong@kernel.org" <djwong@kernel.org>,
+        "xiubli@redhat.com" <xiubli@redhat.com>,
+        "brauner@kernel.org" <brauner@kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
+        "david@fromorbit.com" <david@fromorbit.com>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "chuck.lever@oracle.com" <chuck.lever@oracle.com>,
+        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
+        "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
+        "tytso@mit.edu" <tytso@mit.edu>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "jack@suse.cz" <jack@suse.cz>,
+        "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "lczerner@redhat.com" <lczerner@redhat.com>,
+        "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
+        "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>
+Subject: Re: [man-pages RFC PATCH v4] statx, inode: document the new
+ STATX_INO_VERSION field
+In-reply-to: <8a71986b4fb61cd9b4adc8b4250118cbb19eec58.camel@hammerspace.com>
+References: <20220907111606.18831-1-jlayton@kernel.org>,
+ <166255065346.30452.6121947305075322036@noble.neil.brown.name>,
+ <79aaf122743a295ddab9525d9847ac767a3942aa.camel@kernel.org>,
+ <20220907125211.GB17729@fieldses.org>,
+ <771650a814ab1ff4dc5473d679936b747d9b6cf5.camel@kernel.org>,
+ <8a71986b4fb61cd9b4adc8b4250118cbb19eec58.camel@hammerspace.com>
+Date:   Thu, 08 Sep 2022 10:31:08 +1000
+Message-id: <166259706887.30452.6749778447732126953@noble.neil.brown.name>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -118,42 +97,78 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Aug 05, 2022 at 03:28:50PM +0200, David Hildenbrand wrote:
-> On 06.07.22 10:20, Chao Peng wrote:
-> > Introduce a new memfd_create() flag indicating the content of the
-> > created memfd is inaccessible from userspace through ordinary MMU
-> > access (e.g., read/write/mmap). However, the file content can be
-> > accessed via a different mechanism (e.g. KVM MMU) indirectly.
-> > 
-> > It provides semantics required for KVM guest private memory support
-> > that a file descriptor with this flag set is going to be used as the
-> > source of guest memory in confidential computing environments such
-> > as Intel TDX/AMD SEV but may not be accessible from host userspace.
-> > 
-> > The flag can not coexist with MFD_ALLOW_SEALING, future sealing is
-> > also impossible for a memfd created with this flag.
-> 
-> It's kind of weird to have it that way. Why should the user have to
-> care? It's the notifier requirement to have that, no?
-> 
-> Why can't we handle that when register a notifier? If anything is
-> already mapped, fail registering the notifier if the notifier has these
-> demands. If registering succeeds, block it internally.
-> 
-> Or what am I missing? We might not need the memfile set flag semantics
-> eventually and would not have to expose such a flag to user space.
+On Wed, 07 Sep 2022, Trond Myklebust wrote:
+> On Wed, 2022-09-07 at 09:12 -0400, Jeff Layton wrote:
+> > On Wed, 2022-09-07 at 08:52 -0400, J. Bruce Fields wrote:
+> > > On Wed, Sep 07, 2022 at 08:47:20AM -0400, Jeff Layton wrote:
+> > > > On Wed, 2022-09-07 at 21:37 +1000, NeilBrown wrote:
+> > > > > On Wed, 07 Sep 2022, Jeff Layton wrote:
+> > > > > > +The change to \fIstatx.stx_ino_version\fP is not atomic with
+> > > > > > respect to the
+> > > > > > +other changes in the inode. On a write, for instance, the
+> > > > > > i_version it usually
+> > > > > > +incremented before the data is copied into the pagecache.
+> > > > > > Therefore it is
+> > > > > > +possible to see a new i_version value while a read still
+> > > > > > shows the old data.
+> > > > >=20
+> > > > > Doesn't that make the value useless?
+> > > > >=20
+> > > >=20
+> > > > No, I don't think so. It's only really useful for comparing to an
+> > > > older
+> > > > sample anyway. If you do "statx; read; statx" and the value
+> > > > hasn't
+> > > > changed, then you know that things are stable.=20
+> > >=20
+> > > I don't see how that helps.=C2=A0 It's still possible to get:
+> > >=20
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0reader=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0writer
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0------=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0------
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0i_version++
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0statx
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0read
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0statx
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0update page cache
+> > >=20
+> > > right?
+> > >=20
+> >=20
+> > Yeah, I suppose so -- the statx wouldn't necessitate any locking. In
+> > that case, maybe this is useless then other than for testing purposes
+> > and userland NFS servers.
+> >=20
+> > Would it be better to not consume a statx field with this if so? What
+> > could we use as an alternate interface? ioctl? Some sort of global
+> > virtual xattr? It does need to be something per-inode.
+>=20
+> I don't see how a non-atomic change attribute is remotely useful even
+> for NFS.
+>=20
+> The main problem is not so much the above (although NFS clients are
+> vulnerable to that too) but the behaviour w.r.t. directory changes.
+>=20
+> If the server can't guarantee that file/directory/... creation and
+> unlink are atomically recorded with change attribute updates, then the
+> client has to always assume that the server is lying, and that it has
+> to revalidate all its caches anyway. Cue endless readdir/lookup/getattr
+> requests after each and every directory modification in order to check
+> that some other client didn't also sneak in a change of their own.
 
-Well, with the new shim-based[1] implementation the approach without uAPI
-does not work.
+NFS re-export doesn't support atomic change attributes on directories.
+Do we see the endless revalidate requests after directory modification
+in that situation?  Just curious.
 
-We now have two struct file, one is a normal accessible memfd and the
-other one is wrapper around that hides the memfd from userspace and
-filters allowed operations. If we first create an accessible memfd that
-userspace see it would be hard to hide it as by the time userspace may
-have multiple fds in different processes that point to the same struct
-file.
-
-[1] https://lore.kernel.org/all/20220831142439.65q2gi4g2d2z4ofh@box.shutemov.name
-
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Thanks,
+NeilBrown
