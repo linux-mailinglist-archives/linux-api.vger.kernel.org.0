@@ -2,99 +2,193 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BAA05B3B4D
-	for <lists+linux-api@lfdr.de>; Fri,  9 Sep 2022 16:58:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81DDE5B3C20
+	for <lists+linux-api@lfdr.de>; Fri,  9 Sep 2022 17:38:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231974AbiIIO6b (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 9 Sep 2022 10:58:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50258 "EHLO
+        id S231502AbiIIPiR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 9 Sep 2022 11:38:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231419AbiIIO6a (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 9 Sep 2022 10:58:30 -0400
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5277138646;
-        Fri,  9 Sep 2022 07:58:27 -0700 (PDT)
-Received: from letrec.thunk.org (guestnat-104-133-160-102.corp.google.com [104.133.160.102] (may be forged))
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 289Ew10l001494
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 9 Sep 2022 10:58:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-        t=1662735488; bh=vltgW/497ssICvI79c1LZB9Nq2N7w8/7ZtnVK7GOrnY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=PBG3ECnnbpz5+0FPCf1CST7S2mVOTUFasSMo2qCEMH6AjNmVT/HXG6grbqsIUHl3G
-         YFKHEdghRHcjIvEkkAlUGYa9cLBlLOgJxYhj+H+cGwimW6d8pzzjMtRhi3PwAMfZiU
-         0pw0rsHe4w7aRhL65LKCVzDJNqOQI2IV0FPN8xtJrtEwtyRt9zA16CET3GiI4dQPMs
-         jyWnNImoG/W/Advyk1y/QSJcyfrwvyCThvaS75Mfb0VDQUlDPcP8k2N/ivM0LRT/GV
-         gUJ60dijj5TAUfNZZvG23IFwn3xb8ptevIy5SiWd/bsTBFSlkOYmFP9v+6tYrWdCot
-         nWzEbsJsOmujA==
-Received: by letrec.thunk.org (Postfix, from userid 15806)
-        id B63508C2B49; Fri,  9 Sep 2022 10:58:00 -0400 (EDT)
-Date:   Fri, 9 Sep 2022 10:58:00 -0400
-From:   "Theodore Ts'o" <tytso@mit.edu>
-To:     Jeff Layton <jlayton@kernel.org>
-Cc:     "J. Bruce Fields" <bfields@fieldses.org>, Jan Kara <jack@suse.cz>,
-        NeilBrown <neilb@suse.de>, adilger.kernel@dilger.ca,
-        djwong@kernel.org, david@fromorbit.com, trondmy@hammerspace.com,
-        viro@zeniv.linux.org.uk, zohar@linux.ibm.com, xiubli@redhat.com,
-        chuck.lever@oracle.com, lczerner@redhat.com, brauner@kernel.org,
-        fweimer@redhat.com, linux-man@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-btrfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ceph-devel@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-nfs@vger.kernel.org, linux-xfs@vger.kernel.org
-Subject: Re: [man-pages RFC PATCH v4] statx, inode: document the new
- STATX_INO_VERSION field
-Message-ID: <YxtUeE4OouV7jUF9@mit.edu>
-References: <166259786233.30452.5417306132987966849@noble.neil.brown.name>
- <20220908083326.3xsanzk7hy3ff4qs@quack3>
- <YxoIjV50xXKiLdL9@mit.edu>
- <02928a8c5718590bea5739b13d6b6ebe66cac577.camel@kernel.org>
- <20220908155605.GD8951@fieldses.org>
- <9e06c506fd6b3e3118da0ec24276e85ea3ee45a1.camel@kernel.org>
- <YxstWiu34TfJ6muW@mit.edu>
- <6173b33e43ac8b0e4377b5d65fec7231608f71f7.camel@kernel.org>
- <YxtEHIkfX0nQQC0n@mit.edu>
- <8b556c2dadb717a25ab47f02f70cfaaa6c6074c7.camel@kernel.org>
+        with ESMTP id S232195AbiIIPiA (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 9 Sep 2022 11:38:00 -0400
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2088.outbound.protection.outlook.com [40.107.243.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70599286C7;
+        Fri,  9 Sep 2022 08:36:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F3LlxYWsC8GDRaPf6O1mXUYoGK3O1gbQ+aJnrEB0xv6OIN0cVyo/Qw0fN87CAdPDmJglHhmmyJHlqiUAZiKICwFrXfMYy8LlhqGQxgoAdWkKPg20z8xOs89viaC4G9Przlbm+aqRnYPekFxZ15jERduVJoE72AZQJdcmS3Rpl9pymPQpdZazvhPl8wl1GTwA0maEz2pj9/mDK23xzYXZASpoWGbrbSMe97KXBKGfiSFfCyjFOjOX4ybvApC2P2VcoBNuExygitv5LM//h0rzG2+r6hmKpDXRKIieXHXbYd/YnOUJu3OUviMV7Mh6H68ZGisFNtKMLJ1SN/UfntIm7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ArFRh4lsuk91DZT1WsJsDLoImSaBpXMYiHSpZQqJ1gw=;
+ b=SzXddS5J4X4YzyZlEy8Kg9c1BXa/KUX7qW7EYrdQ1+NxX7Py+3BV67mIN8e9CSbX4x7NZDI7747dLiBbornVZdjURtWDjsj+HpUSDAGby6y7s9Vy0rjQ1PJl6WOHe3LeDp2D20Jy23D6Ehv82W6UDWiQWI6PQnI4iSGI6LYp1LGIDMoF3jRYoZkVv2jijdE5cYWGsU37R3BAQGzrRN4FrSjHuL4YmXq2JUo38JPQj+1S1AD1j8hkE7GQpYihAEls551po0AFqOk62eLEb0lKLcix6bERIzyRsjhmSqf1x1UojyKzTUeYk13KigI8h4zEA3M1h5U0gj1sJSX8f/LO7g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ArFRh4lsuk91DZT1WsJsDLoImSaBpXMYiHSpZQqJ1gw=;
+ b=mNH0FqKQaAMFjFkm+2aZ/8a8glVD3InwHPM4BWdff95jEbEwIvecta7Yy/EET2yE818Fhv6IsPFvDq6SS6WkgrNn1gylBLAwYwlUeDOXktJ6Hezr+mam/qxHwUDMUwpywUWO46+bGPB3zrYE0VgNvG6f9eNbaOV15j9sNsHzFBU=
+Received: from MW4PR03CA0320.namprd03.prod.outlook.com (2603:10b6:303:dd::25)
+ by BL3PR12MB6475.namprd12.prod.outlook.com (2603:10b6:208:3bb::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.21; Fri, 9 Sep
+ 2022 15:35:41 +0000
+Received: from CO1NAM11FT051.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:dd:cafe::49) by MW4PR03CA0320.outlook.office365.com
+ (2603:10b6:303:dd::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.19 via Frontend
+ Transport; Fri, 9 Sep 2022 15:35:41 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT051.mail.protection.outlook.com (10.13.174.114) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5612.13 via Frontend Transport; Fri, 9 Sep 2022 15:35:41 +0000
+Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Fri, 9 Sep
+ 2022 10:35:40 -0500
+Date:   Fri, 9 Sep 2022 10:35:22 -0500
+From:   Michael Roth <michael.roth@amd.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+CC:     <kvm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-mm@kvack.org>, <linux-fsdevel@vger.kernel.org>,
+        <linux-api@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <qemu-devel@nongnu.org>, <linux-kselftest@vger.kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        <luto@kernel.org>, <jun.nakajima@intel.com>,
+        <dave.hansen@intel.com>, <ak@linux.intel.com>, <david@redhat.com>,
+        <aarcange@redhat.com>, <ddutile@redhat.com>, <dhildenb@redhat.com>,
+        Quentin Perret <qperret@google.com>, <mhocko@suse.com>,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <20220909153522.r2a4amvtfp7l56zo@amd.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <8b556c2dadb717a25ab47f02f70cfaaa6c6074c7.camel@kernel.org>
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT051:EE_|BL3PR12MB6475:EE_
+X-MS-Office365-Filtering-Correlation-Id: 132b7a38-5735-445d-b3a6-08da9278f426
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BdzNXyjMfiDoTinxpZMddodgFmtulx1RMDUdFgvS+bwBelMUidwj9Gcd2C1BhxJPTY6bF5BF+1oYKOwsAyarHy8g3/RGIF12IXP1Ur3Fn3h9OvlxXXuPRxX6V+c9j31CPfWOU186/8kGav4TjT5RlAneYd9n1CvavFsn1Mu8PvdaBevD1bXiy7c9fewV7n5RwKI91xDISegxuFwDygB+SKhaJKTzJ/uYbNwun1p3f+FBFRHb1ilw6rVtnp+vGRXTMzWH5gtcYFBb0BXAcksNZm9GTW5OFOEAaA0hqRUKM1F01kjUfDbGBiJdpKgPPp5LhDFB3hSon76VLtLFG9CgBBmXQv4JP41CuTVXKQu71gS7aJSlIudJqXn/IPf4zupY8ELf8Kr2j2fOQcKE+qe8SFVByt8+FweJ3ox55VmV76BZNUtfTiC3Jp64Wsuk/ijs1bS9K4o9iiTjFKNbHuTLBr7nZIcQE6M3P6P7v1a+wu1hTSMNJgxmNN5duP79hngrPq36cYzMUJ2BljoZJ3WegAK4wZIqJpLFOqEGgJAGeYHIVrmggNGfc8ujXb6fnFvpCgJbt7MRnGXWgVb6jne6QzBBtqPmPuosWyUAD2NZcHFFcu0YUfZd6gMZU+SImrUQ6SAZx+uoRhOPkDHxMfolWQnw+gEdHQ9nDWZ6vZ5KKmGINsaCTkGJ7FdHXtK9dNuQlwz3Fl6hoz9SsSH2TLXp5yVShpxHxYLxWyYX7bjvOOCKwoykh9b8+QEHhpNNdGxsSYPQ1ogUmg/pUJXdG7AKdkOIkT8KR02M90V0CqKujZprjfsz3j7GynOWCjXPywDeyWp4s5FWnvbh3tC5sxBhRqJ6ovgAdsJkqXOyhHdHMvfwgKbva/fOmKJSWgx7G3rD
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(136003)(396003)(346002)(376002)(40470700004)(36840700001)(46966006)(426003)(2906002)(7416002)(86362001)(16526019)(6916009)(356005)(40480700001)(40460700003)(316002)(478600001)(81166007)(966005)(41300700001)(186003)(83380400001)(336012)(36860700001)(54906003)(2616005)(47076005)(1076003)(82310400005)(6666004)(82740400003)(7406005)(26005)(70206006)(44832011)(8936002)(4326008)(8676002)(70586007)(36756003)(5660300002)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2022 15:35:41.4379
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 132b7a38-5735-445d-b3a6-08da9278f426
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT051.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6475
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Sep 09, 2022 at 10:43:30AM -0400, Jeff Layton wrote:
+On Wed, Jul 06, 2022 at 04:20:02PM +0800, Chao Peng wrote:
+> This is the v7 of this series which tries to implement the fd-based KVM
+> guest private memory. The patches are based on latest kvm/queue branch
+> commit:
+> 
+>   b9b71f43683a (kvm/queue) KVM: x86/mmu: Buffer nested MMU
+> split_desc_cache only by default capacity
+> 
+> Introduction
+> ------------
+> In general this patch series introduce fd-based memslot which provides
+> guest memory through memory file descriptor fd[offset,size] instead of
+> hva/size. The fd can be created from a supported memory filesystem
+> like tmpfs/hugetlbfs etc. which we refer as memory backing store. KVM
+> and the the memory backing store exchange callbacks when such memslot
+> gets created. At runtime KVM will call into callbacks provided by the
+> backing store to get the pfn with the fd+offset. Memory backing store
+> will also call into KVM callbacks when userspace punch hole on the fd
+> to notify KVM to unmap secondary MMU page table entries.
+> 
+> Comparing to existing hva-based memslot, this new type of memslot allows
+> guest memory unmapped from host userspace like QEMU and even the kernel
+> itself, therefore reduce attack surface and prevent bugs.
+> 
+> Based on this fd-based memslot, we can build guest private memory that
+> is going to be used in confidential computing environments such as Intel
+> TDX and AMD SEV. When supported, the memory backing store can provide
+> more enforcement on the fd and KVM can use a single memslot to hold both
+> the private and shared part of the guest memory. 
 
-> In general, we want to bump i_version if the ctime changes. I'm guessing
-> that we don't change ctime on a delalloc? If it's not visible to NFS,
-> then NFS won't care about it.  We can't project FIEMAP info across the
-> wire at this time, so we'd probably like to avoid seeing an i_version
-> bump in due to delalloc.
+Hi everyone,
 
-Right, currently nothing user-visible changes when delayed allocation
-is resolved; ctime isn't bumped, and i_version shouldn't be bumped
-either.
+Just wanted to let you all know that I reserved a slot at the LPC
+Confidential Computing Microconference to discuss some topics related
+to unmapped/inaccessible private memory support:
 
-If we crash before delayed allocation is resolved, there might be
-cases (mounting with data=writeback is the one which I'm most worried
-about, but I haven't experimented to be sure) where the inode might
-become a zero-length file after the reboot without i_version or ctime
-changing, but given that NFS forces a fsync(2) before it acknowledges
-a client request, that shouldn't be an issue for NFS.
+  "Unmapped Private Memory for Confidential Guests"
+  Tuesday, Sep 13th, 10:00am (Dublin time)
+  https://lpc.events/event/16/sessions/133/#20220913
 
-This is where as far I'm concerned, for ext4, i_version has only one
-customer to keep happy, and it's NFS.  :-)    Now, if we expose i_version
-via statx(2), we might need to be a tad bit more careful about what
-semantics we guarantee to userspace, especially with respect to what
-might be returned before and after a crash recovery.  If we can leave
-things such that there is maximal freedom for file system
-implementations, that would be my preference.
+The discussion agenda is still a bit in flux, but one topic I really
+wanted to cover is how we intend to deal with the kernel directmap
+for TDX/SNP, where there is a need to either remove or split mappings
+so that KVM or other kernel threads writing to non-private pages
+don't run into issues due mappings overlapping with private pages.[1]
 
-						- Ted
+Other possible discussion topics:
+
+  - guarding against shared->private conversions while KVM is
+    attempting to access a shared page (separate PFN pools for
+    shared/private seems to resolve this nicely, but may not be
+    compatible with things like pKVM where the underlying PFN
+    is the same for shared/private)[2]
+
+  - extending KVM_EXIT_MEMORY_FAULT to handle batched requests to
+    better handle things like explicit batched conversions initiated
+    by the guest
+
+It's a short session so not sure how much time we'll actually have
+to discuss things in detail, but maybe this can at least be a good
+jumping off point for other discussions.
+
+Thanks, and hope to see you there!
+
+[1] https://lore.kernel.org/all/YWb8WG6Ravbs1nbx@google.com/
+[2] https://lore.kernel.org/lkml/CA+EHjTy6NF=BkCqK0vhXLdtKZMahp55JUMSfxN96-NT3YiMXYQ@mail.gmail.com/
