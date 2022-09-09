@@ -2,161 +2,225 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 775785B2DD5
-	for <lists+linux-api@lfdr.de>; Fri,  9 Sep 2022 06:55:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC0035B2F29
+	for <lists+linux-api@lfdr.de>; Fri,  9 Sep 2022 08:42:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230124AbiIIEzi (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 9 Sep 2022 00:55:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56086 "EHLO
+        id S230237AbiIIGmB (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 9 Sep 2022 02:42:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229765AbiIIEzf (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 9 Sep 2022 00:55:35 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E3F780B57;
-        Thu,  8 Sep 2022 21:55:33 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S230113AbiIIGl7 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 9 Sep 2022 02:41:59 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F086C10043D;
+        Thu,  8 Sep 2022 23:41:53 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 4BC54CE2072;
-        Fri,  9 Sep 2022 04:55:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69DD9C433C1;
-        Fri,  9 Sep 2022 04:55:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1662699330;
-        bh=msAn2untxTbG9lve9YPiSW6u+1kfRzel1BmeAbbTzVk=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=IKpdWrtStwoZtZ8Zp9KpRJe1T01ctzX66EYNB7h2x8B4rtGdZP9oYfts2NOHcp1Kh
-         E1cA58qajYyLtbh77dc2M+/EoeARTgA9xWAWZ4e9XN/mL8rv8RfSZlJP8LXwLggjmY
-         YpRluduZsf7cTrFjP4TfVLVCoO0ysDpWAqC+fgIuJ0YrwP/sS0O+AXsXLFqy83uAvb
-         XvSwOe03Uha8ElXacHenw22uJDKmJ4cL4fTSkDreOUCeYZMs6kr0YHWmtdGDqUj9bE
-         ogaegpX9MZ8RpBZW/2ATqKUOaVyI4yqiiItNREGu3ok+kqbbK6NSi9juXf/vUiVBT0
-         U2x+iNrNJgM/g==
-Message-ID: <8f2fdba8-ce19-0dff-5934-5d51cde94915@kernel.org>
-Date:   Thu, 8 Sep 2022 21:55:27 -0700
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 63F58223CF;
+        Fri,  9 Sep 2022 06:41:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1662705712; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=yu9RUrvQxAp2Fwf5ytrIMONKOHocNgrjkYLX/KWmaXI=;
+        b=fnx4L3TRvm7ivccqTWoZ0YtWUYcY+D9ZxAZGDhBgo37sBA/T0aQbgG6OHbtlGec9adsq8E
+        5HzIEN6DRXftpAKhAUJNpLoKQPTW6mcV+tw35b0VOy4ilMlRbstQPo11SkefQxxUAlodRb
+        UJ/mgeNoLD9djtqe0p2bvwr0xGWzjsw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1662705712;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=yu9RUrvQxAp2Fwf5ytrIMONKOHocNgrjkYLX/KWmaXI=;
+        b=o7rI0SCETDdSZb5fZLS/rndvwmAOsDGOGxBlP8QvX3nqHAyoPxX9zWeZ73w4A6jtSgij2C
+        FeUntuj8ItjuWfCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 016AC139D5;
+        Fri,  9 Sep 2022 06:41:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id osOjKSjgGmOTHwAAMHmgww
+        (envelope-from <neilb@suse.de>); Fri, 09 Sep 2022 06:41:44 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Content-Language: en-US
-To:     Chao Peng <chao.p.peng@linux.intel.com>,
-        Sean Christopherson <seanjc@google.com>
-Cc:     David Hildenbrand <david@redhat.com>,
-        Hugh Dickins <hughd@google.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>, jun.nakajima@intel.com,
-        dave.hansen@intel.com, ak@linux.intel.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>,
-        "Gupta, Pankaj" <pankaj.gupta@amd.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
- <20220818132421.6xmjqduempmxnnu2@box> <Yv7XTON3MwuC1Q3U@google.com>
- <226ab26d-9aa8-dce2-c7f0-9e3f5b65b63@google.com>
- <b2743a3a-a1b4-2d2e-98be-87b58ad387cf@redhat.com>
- <YwT6x2g9jcMH60LI@google.com> <20220824094149.GA1383966@chaop.bj.intel.com>
-From:   Andy Lutomirski <luto@kernel.org>
-In-Reply-To: <20220824094149.GA1383966@chaop.bj.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-10.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+From:   "NeilBrown" <neilb@suse.de>
+To:     "Trond Myklebust" <trondmy@hammerspace.com>
+Cc:     "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
+        "djwong@kernel.org" <djwong@kernel.org>,
+        "xiubli@redhat.com" <xiubli@redhat.com>,
+        "brauner@kernel.org" <brauner@kernel.org>,
+        "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "bfields@fieldses.org" <bfields@fieldses.org>,
+        "david@fromorbit.com" <david@fromorbit.com>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "chuck.lever@oracle.com" <chuck.lever@oracle.com>,
+        "jlayton@kernel.org" <jlayton@kernel.org>,
+        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
+        "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
+        "tytso@mit.edu" <tytso@mit.edu>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "jack@suse.cz" <jack@suse.cz>,
+        "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
+        "lczerner@redhat.com" <lczerner@redhat.com>,
+        "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>
+Subject: Re: [man-pages RFC PATCH v4] statx, inode: document the new
+ STATX_INO_VERSION field
+In-reply-to: <8d638cb3c63b0d2da8679b5288d1622fdb387f83.camel@hammerspace.com>
+References: <20220907111606.18831-1-jlayton@kernel.org>,
+ <166255065346.30452.6121947305075322036@noble.neil.brown.name>,
+ <79aaf122743a295ddab9525d9847ac767a3942aa.camel@kernel.org>,
+ <20220907125211.GB17729@fieldses.org>,
+ <771650a814ab1ff4dc5473d679936b747d9b6cf5.camel@kernel.org>,
+ <20220907135153.qvgibskeuz427abw@quack3>,
+ <166259786233.30452.5417306132987966849@noble.neil.brown.name>,
+ <20220908083326.3xsanzk7hy3ff4qs@quack3>, <YxoIjV50xXKiLdL9@mit.edu>,
+ <02928a8c5718590bea5739b13d6b6ebe66cac577.camel@kernel.org>,
+ <166267775728.30452.17640919701924887771@noble.neil.brown.name>,
+ <91e31d20d66d6f47fe12c80c34b1cffdfc202b6a.camel@hammerspace.com>,
+ <166268467103.30452.1687952324107257676@noble.neil.brown.name>,
+ <166268566751.30452.13562507405746100242@noble.neil.brown.name>,
+ <29a6c2e78284e7947ddedf71e5cb9436c9330910.camel@hammerspace.com>,
+ <8d638cb3c63b0d2da8679b5288d1622fdb387f83.camel@hammerspace.com>
+Date:   Fri, 09 Sep 2022 16:41:41 +1000
+Message-id: <166270570118.30452.16939807179630112340@noble.neil.brown.name>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 8/24/22 02:41, Chao Peng wrote:
-> On Tue, Aug 23, 2022 at 04:05:27PM +0000, Sean Christopherson wrote:
->> On Tue, Aug 23, 2022, David Hildenbrand wrote:
->>> On 19.08.22 05:38, Hugh Dickins wrote:
->>>> On Fri, 19 Aug 2022, Sean Christopherson wrote:
->>>>> On Thu, Aug 18, 2022, Kirill A . Shutemov wrote:
->>>>>> On Wed, Aug 17, 2022 at 10:40:12PM -0700, Hugh Dickins wrote:
->>>>>>> On Wed, 6 Jul 2022, Chao Peng wrote:
->>>>>>> But since then, TDX in particular has forced an effort into preventing
->>>>>>> (by flags, seals, notifiers) almost everything that makes it shmem/tmpfs.
->>>>>>>
->>>>>>> Are any of the shmem.c mods useful to existing users of shmem.c? No.
->>>>>>> Is MFD_INACCESSIBLE useful or comprehensible to memfd_create() users? No.
->>>>>
->>>>> But QEMU and other VMMs are users of shmem and memfd.  The new features certainly
->>>>> aren't useful for _all_ existing users, but I don't think it's fair to say that
->>>>> they're not useful for _any_ existing users.
->>>>
->>>> Okay, I stand corrected: there exist some users of memfd_create()
->>>> who will also have use for "INACCESSIBLE" memory.
->>>
->>> As raised in reply to the relevant patch, I'm not sure if we really have
->>> to/want to expose MFD_INACCESSIBLE to user space. I feel like this is a
->>> requirement of specific memfd_notifer (memfile_notifier) implementations
->>> -- such as TDX that will convert the memory and MCE-kill the machine on
->>> ordinary write access. We might be able to set/enforce this when
->>> registering a notifier internally instead, and fail notifier
->>> registration if a condition isn't met (e.g., existing mmap).
->>>
->>> So I'd be curious, which other users of shmem/memfd would benefit from
->>> (MMU)-"INACCESSIBLE" memory obtained via memfd_create()?
->>
->> I agree that there's no need to expose the inaccessible behavior via uAPI.  Making
->> it a kernel-internal thing that's negotiated/resolved when KVM binds to the fd
->> would align INACCESSIBLE with the UNMOVABLE and UNRECLAIMABLE flags (and any other
->> flags that get added in the future).
->>
->> AFAICT, the user-visible flag is a holdover from the early RFCs and doesn't provide
->> any unique functionality.
-> 
-> That's also what I'm thinking. And I don't see problem immediately if
-> user has populated the fd at the binding time. Actually that looks an
-> advantage for previously discussed guest payload pre-loading.
+On Fri, 09 Sep 2022, Trond Myklebust wrote:
+> On Fri, 2022-09-09 at 01:10 +0000, Trond Myklebust wrote:
+> > On Fri, 2022-09-09 at 11:07 +1000, NeilBrown wrote:
+> > > On Fri, 09 Sep 2022, NeilBrown wrote:
+> > > > On Fri, 09 Sep 2022, Trond Myklebust wrote:
+> > > >=20
+> > > > >=20
+> > > > > IOW: the minimal condition needs to be that for all cases
+> > > > > below,
+> > > > > the
+> > > > > application reads 'state B' as having occurred if any data was
+> > > > > committed to disk before the crash.
+> > > > >=20
+> > > > > Application=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Filesystem
+> > > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> > > > > read change attr <- 'state A'
+> > > > > read data <- 'state A'
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0write data -> 'state B'
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0<crash>+<reboot>
+> > > > > read change attr <- 'state B'
+> > > >=20
+> > > > The important thing here is to not see 'state A'.=C2=A0 Seeing 'state
+> > > > C'
+> > > > should be acceptable.=C2=A0 Worst case we could merge in wall-clock
+> > > > time
+> > > > of
+> > > > system boot, but the filesystem should be able to be more helpful
+> > > > than
+> > > > that.
+> > > >=20
+> > >=20
+> > > Actually, without the crash+reboot it would still be acceptable to
+> > > see
+> > > "state A" at the end there - but preferably not for long.
+> > > From the NFS perspective, the changeid needs to update by the time
+> > > of
+> > > a
+> > > close or unlock (so it is visible to open or lock), but before that
+> > > it
+> > > is just best-effort.
+> >=20
+> > Nope. That will inevitably lead to data corruption, since the
+> > application might decide to use the data from state A instead of
+> > revalidating it.
+> >=20
+>=20
+> The point is, NFS is not the only potential use case for change
+> attributes. We wouldn't be bothering to discuss statx() if it was.
 
-I think this gets awkward. Trying to define sensible semantics for what 
-happens if a shmem or similar fd gets used as secret guest memory and 
-that fd isn't utterly and completely empty can get quite nasty.  For 
-example:
+My understanding is that it was primarily a desire to add fstests to
+exercise the i_version which motivated the statx extension.
+Obviously we should prepare for other uses though.
 
-If there are already mmaps, then TDX (much more so than SEV) really 
-doesn't want to also use it as guest memory.
+>=20
+> I could be using O_DIRECT, and all the tricks in order to ensure that
+> my stock broker application (to choose one example) has access to the
+> absolute very latest prices when I'm trying to execute a trade.
+> When the filesystem then says 'the prices haven't changed since your
+> last read because the change attribute on the database file is the
+> same' in response to a statx() request with the AT_STATX_FORCE_SYNC
+> flag set, then why shouldn't my application be able to assume it can
+> serve those prices right out of memory instead of having to go to disk?
 
-If there is already data in the fd, then maybe some technologies can use 
-this for pre-population, but TDX needs explicit instructions in order to 
-get the guest's hash right.
+I would think that such an application would be using inotify rather
+than having to poll.  But certainly we should have a clear statement of
+quality-of-service parameters in the documentation.
+If we agree that perfect atomicity is what we want to promise, and that
+the cost to the filesystem and the statx call is acceptable, then so be it.
 
+My point wasn't to say that atomicity is bad.  It was that:
+ - if the i_version change is visible before the change itself is
+   visible, then that is a correctness problem.
+ - if the i_version change is only visible some time after the change
+   itself is visible, then that is a quality-of-service issue.
+I cannot see any room for debating the first.  I do see some room to
+debate the second.
 
-In general, it seems like it will be much more likely to actually work 
-well if the user (uAPI) is required to declare to the kernel exactly 
-what the fd is for (e.g. TDX secret memory, software-only secret memory, 
-etc) before doing anything at all with it other than binding it to KVM.
+Cached writes, directory ops, and attribute changes are, I think, easy
+enough to provide truly atomic i_version updates with the change being
+visible.
 
-INACCESSIBLE is a way to achieve this.  Maybe it's not the prettiest in 
-the world -- I personally would rather see an explicit request for, say, 
-TDX or SEV memory or maybe the memory that works for a particular KVM 
-instance instead of something generic like INACCESSIBLE, but this is a 
-pretty weak preference.  But I think that just starting with a plain 
-memfd is a can of worms.
+Changes to a shared memory-mapped files is probably the hardest to
+provide timely i_version updates for.  We might want to document an
+explicit exception for those.  Alternately each request for i_version
+would need to find all pages that are writable, remap them read-only to
+catch future writes, then update i_version if any were writable (i.e.
+->mkwrite had been called).  That is the only way I can think of to
+provide atomicity.
+
+O_DIRECT writes are a little easier than mmapped files.  I suspect we
+should update the i_version once the device reports that the write is
+complete, but a parallel reader could have seem some of the write before
+that moment.  True atomicity could only be provided by taking some
+exclusive lock that blocked all O_DIRECT writes.  Jeff seems to be
+suggesting this, but I doubt the stock broker application would be
+willing to make the call in that case.  I don't think I would either.
+
+NeilBrown
+
+>=20
+> --=20
+> Trond Myklebust
+> Linux NFS client maintainer, Hammerspace
+> trond.myklebust@hammerspace.com
+>=20
+>=20
+>=20
