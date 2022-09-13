@@ -2,105 +2,134 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D1B345B6ADD
-	for <lists+linux-api@lfdr.de>; Tue, 13 Sep 2022 11:39:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FCA15B6AFD
+	for <lists+linux-api@lfdr.de>; Tue, 13 Sep 2022 11:44:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229977AbiIMJjg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 13 Sep 2022 05:39:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46940 "EHLO
+        id S231610AbiIMJoj (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 13 Sep 2022 05:44:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231290AbiIMJje (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Sep 2022 05:39:34 -0400
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49D2A10E9;
-        Tue, 13 Sep 2022 02:39:31 -0700 (PDT)
-Received: from letrec.thunk.org ([185.122.133.20])
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 28D9cu5U003944
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 13 Sep 2022 05:38:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-        t=1663061946; bh=G7mfMTxIhO2dJDEzf6XiznIO1C37bfNYVMZnFYYDpfM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=Y6+LcTEHkFj2wDbDzypsKBa9asmbb+u9juMHKg/la5ygB9di9baoPrd7VsSQ4J4rq
-         O3CPHqjPzIpUq7+6bePkemcvx00k04ANvoHk06kgSuxF+xjvcdL4SmzfwkprV00hzf
-         oBlG0nNC/6UE+zcALHHnyykTa5afqLKozgNsm5vNYO2JeaWb3TFqmh+NHFYyQxG4QB
-         z9tvj/8dF9pGJk4lewP2AZElY4oQUwLqXJZCyzRnO34YGbGES+UlFPNBEpcgh30Gjo
-         qgK6OTNSq/Yi1PCL811322LaNiQN473z3jZTj0GjzbUY4XCEGPD1uEPr8uk5AL+wIX
-         kOBun6/6OYd3g==
-Received: by letrec.thunk.org (Postfix, from userid 15806)
-        id 6C7A48C3288; Tue, 13 Sep 2022 05:38:56 -0400 (EDT)
-Date:   Tue, 13 Sep 2022 05:38:56 -0400
-From:   "Theodore Ts'o" <tytso@mit.edu>
-To:     NeilBrown <neilb@suse.de>
-Cc:     Dave Chinner <david@fromorbit.com>,
+        with ESMTP id S230293AbiIMJoh (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Sep 2022 05:44:37 -0400
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 641A410DB
+        for <linux-api@vger.kernel.org>; Tue, 13 Sep 2022 02:44:32 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id l65so11200702pfl.8
+        for <linux-api@vger.kernel.org>; Tue, 13 Sep 2022 02:44:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=ZmfmFbMYmaq0ZyQMdMN01+8jHfJN0luS93tqSO/DBY4=;
+        b=kjd/plfmNvrnSBexSRLrDTrVGwbFvpmKW/pCZ9ip9X3RoMI0PIUIt+BX7cJtWwzy+T
+         N6FzGmRSYRbga2Hfey2bwFqsTNtkZ3PtoRAzL2bq20SSTD099hzZZR2HKnkQsBLhs0Xr
+         pGrlRrtmyHjhWXepdyNQlVL4TclSL5+7o2GRqb1mg8L5MJsCX5BMltQxX5lleEImYIJG
+         jQwSkPAv/SNPTmNOeqDc8HSrQIrmjdhIBFOXM2UC3nT0BG/Yq8OC3tiPvYTDIPnEEAq/
+         hZzpJnQ3ur8fgAox4BiTLBYLUW/hY8W89cnaJk+CshU7bSYsyWnaw+0JSUVdBrg1EVXA
+         8W2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=ZmfmFbMYmaq0ZyQMdMN01+8jHfJN0luS93tqSO/DBY4=;
+        b=5CyX4ejNw5J8NcK4gTXo/JqiJl14GVg7eFbc6XUTZHR2Wye5e370qnv/IvqemEaLKB
+         aj4uYwhNJCz4YzpZOtIY+XxOC1AGUaX/3ktEH/scxFicWCWhvHmJ5JmirQLKa320n1fA
+         skfITLV+KjlXLURrDuSPfopem6dqjMre1Jdat9hCTqSY7xYfc79v9BtG2yNVVN7W6tPP
+         vHdwaosXoEIKj+noDTj8q2+ynD9OH0JMZCNJ6s6Kh2wf0U2QbwpJq/qkNxcmIBcuQP7e
+         HU6oo3ydJ/mEs11UunFLCal7cR1PzmP7vfjKMzI9NBJgLd41hRRKwP+3G1w1JmI1LQnj
+         0paQ==
+X-Gm-Message-State: ACgBeo3TJaHclBxdL1BYyBa9RhjFquQaa7jIQSFan+7t4kCm8sR+zaup
+        uAyFF7m0p8i4IUVjrDW8wMLG7A==
+X-Google-Smtp-Source: AA6agR7eB/++IWh7o7ceymNTd594u7FaPNMIjNiPIe8nwYUseP7bj+TI+2SkDa9U94pgy3+68+fu7Q==
+X-Received: by 2002:a05:6a00:1892:b0:540:acee:29e8 with SMTP id x18-20020a056a00189200b00540acee29e8mr24802369pfh.1.1663062271855;
+        Tue, 13 Sep 2022 02:44:31 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id e14-20020a63db0e000000b0042c2def703asm7191167pgg.22.2022.09.13.02.44.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Sep 2022 02:44:31 -0700 (PDT)
+Date:   Tue, 13 Sep 2022 09:44:27 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     "Kirill A. Shutemov" <kirill@shutemov.name>
+Cc:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Hugh Dickins <hughd@google.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         Jeff Layton <jlayton@kernel.org>,
-        "J. Bruce Fields" <bfields@fieldses.org>, Jan Kara <jack@suse.cz>,
-        adilger.kernel@dilger.ca, djwong@kernel.org,
-        trondmy@hammerspace.com, viro@zeniv.linux.org.uk,
-        zohar@linux.ibm.com, xiubli@redhat.com, chuck.lever@oracle.com,
-        lczerner@redhat.com, brauner@kernel.org, fweimer@redhat.com,
-        linux-man@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ceph-devel@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-nfs@vger.kernel.org,
-        linux-xfs@vger.kernel.org
-Subject: Re: [man-pages RFC PATCH v4] statx, inode: document the new
- STATX_INO_VERSION field
-Message-ID: <YyBPsDZoEL5yDc3G@mit.edu>
-References: <20220908182252.GA18939@fieldses.org>
- <44efe219dbf511492b21a653905448d43d0f3363.camel@kernel.org>
- <20220909154506.GB5674@fieldses.org>
- <125df688dbebaf06478b0911e76e228e910b04b3.camel@kernel.org>
- <20220910145600.GA347@fieldses.org>
- <9eaed9a47d1aef11fee95f0079e302bc776bc7ff.camel@kernel.org>
- <20220913004146.GD3600936@dread.disaster.area>
- <166303374350.30452.17386582960615006566@noble.neil.brown.name>
- <20220913024109.GF3600936@dread.disaster.area>
- <166303985824.30452.7333958999671590160@noble.neil.brown.name>
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>,
+        "Gupta, Pankaj" <pankaj.gupta@amd.com>,
+        Elena Reshetova <elena.reshetova@intel.com>
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <YyBQ+wzPtGwwRB/U@google.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
+ <20220818132421.6xmjqduempmxnnu2@box>
+ <c6ccbb96-5849-2e2f-3b49-4ea711af525d@google.com>
+ <20220820002700.6yflrxklmpsavdzi@box.shutemov.name>
+ <c194262b-b634-4baf-abf0-dc727e8f1d7@google.com>
+ <20220831142439.65q2gi4g2d2z4ofh@box.shutemov.name>
+ <20220908011037.ez2cdorthqxkerwk@box.shutemov.name>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <166303985824.30452.7333958999671590160@noble.neil.brown.name>
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220908011037.ez2cdorthqxkerwk@box.shutemov.name>
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Sep 13, 2022 at 01:30:58PM +1000, NeilBrown wrote:
-> On Tue, 13 Sep 2022, Dave Chinner wrote:
+On Thu, Sep 08, 2022, Kirill A. Shutemov wrote:
+> On Wed, Aug 31, 2022 at 05:24:39PM +0300, Kirill A . Shutemov wrote:
+> > On Sat, Aug 20, 2022 at 10:15:32PM -0700, Hugh Dickins wrote:
+> > > > I will try next week to rework it as shim to top of shmem. Does it work
+> > > > for you?
+> > > 
+> > > Yes, please do, thanks.  It's a compromise between us: the initial TDX
+> > > case has no justification to use shmem at all, but doing it that way
+> > > will help you with some of the infrastructure, and will probably be
+> > > easiest for KVM to extend to other more relaxed fd cases later.
 > > 
-> > Indeed, we know there are many systems out there that mount a
-> > filesystem, preallocate and map the blocks that are allocated to a
-> > large file, unmount the filesysetm, mmap the ranges of the block
-> > device and pass them to RDMA hardware, then have sensor arrays rdma
-> > data directly into the block device.....
-> 
-> And this tool doesn't update the i_version?  Sounds like a bug.
+> > Okay, below is my take on the shim approach.
+> > 
+> > I don't hate how it turned out. It is easier to understand without
+> > callback exchange thing.
+> > 
+> > The only caveat is I had to introduce external lock to protect against
+> > race between lookup and truncate.
 
-Tools that do this include "grub" and "lilo".  Fortunately, most
-people aren't trying to export their /boot directory over NFS.  :-P
+As before, I think this lock is unnecessary.  Or at least it's unnessary to hold
+the lock across get/put.  The ->invalidate() call will ensure that the pfn is
+never actually used if get() races with truncation.
 
-That being said, all we can strive for is "good enough" and not
-"perfection".  So if I were to add a "crash counter" to the ext4
-superblock, I can make sure it gets incremented (a) whenever the
-journal is replayed (assuming that we decide to use lazytime-style
-update for i_version for performance reasons), or (b) when fsck needs
-to fix some file system inconsistency, or (c) when some external tool
-like debugfs or fuse2fs is modifying the file system.
-
-Will this get *everything*?  No.  For example, in addition Linux boot
-loaders, there might be userspace which uses FIEMAP to get the
-physical blocks #'s for a file, and then reads and writes to those
-blocks using a kernel-bypass interface for high-speed SSDs, for
-example.  I happen to know of thousands of machines that are doing
-this with ext4 in production today, so this isn't hypothetical
-example; fortuntely, they aren't exporting their file system over NFS,
-nor are they likely to do so.  :-)
-
-		    	    	      		   - Ted
+Switching topics, what actually prevents mmapp() on the shim?  I tried to follow,
+but I don't know these areas well enough.
