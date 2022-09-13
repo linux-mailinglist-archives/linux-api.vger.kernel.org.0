@@ -2,131 +2,233 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FDAE5B77DD
-	for <lists+linux-api@lfdr.de>; Tue, 13 Sep 2022 19:27:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A18415B7A6E
+	for <lists+linux-api@lfdr.de>; Tue, 13 Sep 2022 21:03:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232785AbiIMRZr (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 13 Sep 2022 13:25:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55872 "EHLO
+        id S231360AbiIMTDK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 13 Sep 2022 15:03:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232797AbiIMRZT (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Sep 2022 13:25:19 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBE8974E09
-        for <linux-api@vger.kernel.org>; Tue, 13 Sep 2022 09:12:09 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id l10so12304075plb.10
-        for <linux-api@vger.kernel.org>; Tue, 13 Sep 2022 09:12:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=4GTld6ZU8MtCcyeBG9nWMSKRKMoB2xn8bpkZwXHEw2s=;
-        b=DihabYGaFpN/XoOHm1MSaQi2kRH2os0yj0QoILo7SPAJF8OpMSQjLf1+pqVt7GZRjd
-         D81sKZU5Oq0vtGEgr0Plm1UVQOezX4s/yuWlGktjKnB/6aqUWru04VRRHhXjgMf9lgKo
-         FR9C6O8IdbFGuxPJakYZ4BdDTShUXISvdElPZULkotAb3nTa0x7V27hT49l5H57ZEuzT
-         Y2ncOVkRrhHKP66UtZI06AJkG7HRBc21aMZ2rHU6LkxtwqHKRvYMVYVLxRX743DN2L19
-         qdr5gZklkks6Bi/hi2Z1rhwNsdKW/awWh0sDR0Rahs+8lcIfTne4V8e5TEE/NSU59M4J
-         aEIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=4GTld6ZU8MtCcyeBG9nWMSKRKMoB2xn8bpkZwXHEw2s=;
-        b=GsYMjiifZOn43pDugjWG1h1pt/NJLBCagnB7I8cFtKUxNnTPuxkAP9MJSnpqwtC4Y6
-         ThbnBlNcui8QnTsfctHq35AutNMBwrz1puIHWOfMOL/LqC99Eh7eOgUo7eVHTDUf5c/b
-         GJeSRv0YbiqX4LCh9VjroomzVRsVcB3odnlCOoUnBIuck9xJXPo5+s3SK6UFQyZHlwB5
-         UMPyMVq+ngxpJFY288/l97No+VRqh4ru/07hDnFo6/7dN9/E1Nv0NLucyhHNlds52eC5
-         Ly2LpMWz8DOhUrRBKyVYXcaxC88yfEiNNE0MumC/jPc//vxQBqg90/gt+0YjdnN9PIlm
-         Bybw==
-X-Gm-Message-State: ACgBeo3ythG3h1A744wK4ZKLol5VzPhzuv+GCdLnMI4IbPlwXhA3655+
-        86FPUldbl44nHoOypEhYS7VcDg==
-X-Google-Smtp-Source: AA6agR40QaognMZ1z9EKqE4W87Ed5lvL47BWBF35ur3fvygfSXXOQSwbnkou/SgHBPbWX+ZFZu3LkA==
-X-Received: by 2002:a17:902:ce12:b0:172:9512:595d with SMTP id k18-20020a170902ce1200b001729512595dmr33361116plg.101.1663085528936;
-        Tue, 13 Sep 2022 09:12:08 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id ij24-20020a170902ab5800b001783f964fe3sm3191697plb.113.2022.09.13.09.12.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Sep 2022 09:12:07 -0700 (PDT)
-Date:   Tue, 13 Sep 2022 16:12:04 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Hugh Dickins <hughd@google.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>,
-        "Gupta, Pankaj" <pankaj.gupta@amd.com>,
-        Elena Reshetova <elena.reshetova@intel.com>
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <YyCr1IfPWtAHmrwN@google.com>
-References: <20220818132421.6xmjqduempmxnnu2@box>
- <c6ccbb96-5849-2e2f-3b49-4ea711af525d@google.com>
- <20220820002700.6yflrxklmpsavdzi@box.shutemov.name>
- <c194262b-b634-4baf-abf0-dc727e8f1d7@google.com>
- <20220831142439.65q2gi4g2d2z4ofh@box.shutemov.name>
- <20220908011037.ez2cdorthqxkerwk@box.shutemov.name>
- <YyBQ+wzPtGwwRB/U@google.com>
- <20220913132821.3ch5cv3rgdxqgz3i@box.shutemov.name>
- <YyCZZSyCrwXLLCD9@google.com>
- <20220913160046.rkz7uh6cpwy6wyzg@box.shutemov.name>
+        with ESMTP id S232545AbiIMTCw (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Sep 2022 15:02:52 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AF7FC14;
+        Tue, 13 Sep 2022 12:01:57 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 8C2C9B80E42;
+        Tue, 13 Sep 2022 19:01:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10AB1C433D7;
+        Tue, 13 Sep 2022 19:01:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1663095714;
+        bh=9RF+0QcN+/pFpwRf+wXoUfwGV4Go/AvHmZuDiCUBtos=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=jwNv0SFF66fyyctsd1g0W7h20TEcG82c6vvY8Ouen4mrnjIpHOAxVlmN20hbS/6Sz
+         Dh8zRrmmgBnfbwRXOwU6TYAx6d3YK2fb0bSTmixanvDQuVXis4t36z65l1ZeQ5QaQu
+         JU4tf6dxt7MTV3dk2UYmJUtlgAlEc0j9aJ9FLq4j3+Pd2nindU/IIQ98faH5JmgmtK
+         MRqDEhUshRzj4xZjoN2im0finwnosO9W+9m8lTgLeFmpR+Bg4bym25ZyGxqXbUWJly
+         7jhMtKYtgKX71HUUiCjyFGzF2te1PC19K+O7zncdXoG8I+lfn0S4AqAtO2fjx7S82N
+         IrMLYxA0GvRag==
+Message-ID: <b67fe8b26977dc1213deb5ec815a53a26d31fbc0.camel@kernel.org>
+Subject: Re: [man-pages RFC PATCH v4] statx, inode: document the new
+ STATX_INO_VERSION field
+From:   Jeff Layton <jlayton@kernel.org>
+To:     Dave Chinner <david@fromorbit.com>, NeilBrown <neilb@suse.de>
+Cc:     Trond Myklebust <trondmy@hammerspace.com>,
+        "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
+        "djwong@kernel.org" <djwong@kernel.org>,
+        "xiubli@redhat.com" <xiubli@redhat.com>,
+        "brauner@kernel.org" <brauner@kernel.org>,
+        "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "bfields@fieldses.org" <bfields@fieldses.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "chuck.lever@oracle.com" <chuck.lever@oracle.com>,
+        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
+        "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
+        "tytso@mit.edu" <tytso@mit.edu>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "jack@suse.cz" <jack@suse.cz>,
+        "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
+        "lczerner@redhat.com" <lczerner@redhat.com>,
+        "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>
+Date:   Tue, 13 Sep 2022 15:01:50 -0400
+In-Reply-To: <20220913011518.GE3600936@dread.disaster.area>
+References: <91e31d20d66d6f47fe12c80c34b1cffdfc202b6a.camel@hammerspace.com>
+         <166268467103.30452.1687952324107257676@noble.neil.brown.name>
+         <166268566751.30452.13562507405746100242@noble.neil.brown.name>
+         <29a6c2e78284e7947ddedf71e5cb9436c9330910.camel@hammerspace.com>
+         <8d638cb3c63b0d2da8679b5288d1622fdb387f83.camel@hammerspace.com>
+         <166270570118.30452.16939807179630112340@noble.neil.brown.name>
+         <33d058be862ccc0ccaf959f2841a7e506e51fd1f.camel@kernel.org>
+         <166285038617.30452.11636397081493278357@noble.neil.brown.name>
+         <2e34a7d4e1a3474d80ee0402ed3bc0f18792443a.camel@kernel.org>
+         <166302538820.30452.7783524836504548113@noble.neil.brown.name>
+         <20220913011518.GE3600936@dread.disaster.area>
+Content-Type: text/plain; charset="ISO-8859-15"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220913160046.rkz7uh6cpwy6wyzg@box.shutemov.name>
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Sep 13, 2022, Kirill A. Shutemov wrote:
-> On Tue, Sep 13, 2022 at 02:53:25PM +0000, Sean Christopherson wrote:
-> > > > Switching topics, what actually prevents mmapp() on the shim?  I tried to follow,
-> > > > but I don't know these areas well enough.
-> > > 
-> > > It has no f_op->mmap, so mmap() will fail with -ENODEV. See do_mmap().
-> > > (I did not read the switch statement correctly at first. Note there are
-> > > two 'fallthrough' there.)
-> > 
-> > Ah, validate_mmap_request().  Thought not implementing ->mmap() was the key, but
-> > couldn't find the actual check.
-> 
-> validate_mmap_request() is in mm/nommu.c which is not relevant for real
-> computers.
-> 
-> I was talking about this check:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/mm/mmap.c#n1495
+On Tue, 2022-09-13 at 11:15 +1000, Dave Chinner wrote:
+> On Tue, Sep 13, 2022 at 09:29:48AM +1000, NeilBrown wrote:
+> > On Mon, 12 Sep 2022, Jeff Layton wrote:
+> > > On Sun, 2022-09-11 at 08:53 +1000, NeilBrown wrote:
+> > > > This could be expensive.
+> > > >=20
+> > > > There is not currently any locking around O_DIRECT writes.  You can=
+not
+> > > > synchronise with them.
+> > > >=20
+> > >=20
+> > > AFAICT, DIO write() implementations in btrfs, ext4, and xfs all hold
+> > > inode_lock_shared across the I/O. That was why patch #8 takes the
+> > > inode_lock (exclusive) across the getattr.
+> >=20
+> > Looking at ext4_dio_write_iter() it certain does take
+> > inode_lock_shared() before starting the write and in some cases it
+> > requests, using IOMAP_DIO_FORCE_WAIT, that imap_dio_rw() should wait fo=
+r
+> > the write to complete.  But not in all cases.
+> > So I don't think it always holds the shared lock across all direct IO.
+>=20
+> To serialise against dio writes, one must:
+>=20
+> 	// Lock the inode exclusively to block new DIO submissions
+> 	inode_lock(inode);
+>=20
+> 	// Wait for all in flight DIO reads and writes to complete
+> 	inode_dio_wait(inode);
+>=20
+> This is how truncate, fallocate, etc serialise against AIO+DIO which
+> do not hold the inode lock across the entire IO. These have to
+> serialise aginst DIO reads, too, because we can't have IO in
+> progress over a range of the file that we are about to free....
+>=20
 
-Hence the comment about 'fallthrough'.  Thanks again!
+Thanks, that clarifies a bit.
+
+> > > Taking inode_lock_shared is sufficient to block out buffered and DAX
+> > > writes. DIO writes sometimes only take the shared lock (e.g. when the
+> > > data is already properly aligned). If we want to ensure the getattr
+> > > doesn't run while _any_ writes are running, we'd need the exclusive
+> > > lock.
+> >=20
+> > But the exclusive lock is bad for scalability.
+>=20
+> Serilisation against DIO is -expensive- and -slow-. It's not a
+> solution for what is supposed to be a fast unlocked read-only
+> operation like statx().
+>=20
+
+Fair enough. I labeled that patch with RFC as I suspected that it would
+be too expensive. I don't think we can guarantee perfect consistency vs.
+mmap either, so carving out DIO is not a stretch (at least not for
+NFSv4).
+
+> > > Maybe that's overkill, though it seems like we could have a race like
+> > > this without taking inode_lock across the getattr:
+> > >=20
+> > > reader				writer
+> > > -----------------------------------------------------------------
+> > > 				i_version++
+> > > getattr
+> > > read
+> > > 				DIO write to backing store
+> > >=20
+> >=20
+> > This is why I keep saying that the i_version increment must be after th=
+e
+> > write, not before it.
+>=20
+> Sure, but that ignores the reason why we actually need to bump
+> i_version *before* we submit a DIO write. DIO write invalidates the
+> page cache over the range of the write, so any racing read will
+> re-populate the page cache during the DIO write.
+>=20
+> Hence buffered reads can return before the DIO write has completed,
+> and the contents of the read can contain, none, some or all of the
+> contents of the DIO write. Hence i_version has to be incremented
+> before the DIO write is submitted so that racing getattrs will
+> indicate that the local caches have been invalidated and that data
+> needs to be refetched.
+>=20
+
+Bumping the change attribute after the write is done would be sufficient
+for serving NFSv4. The clients just invalidate their caches if they see
+the value change. Bumping it before and after would be fine too. We
+might get some spurious cache invalidations but they'd be infrequent.
+
+FWIW, we've never guaranteed any real atomicity with NFS readers vs.
+writers. Clients may see the intermediate stages of a write from a
+different client if their reads race in at the right time. If you need
+real atomicity, then you really should be using locking. What we _do_
+try to ensure is timely pagecache invalidation when this occurs.
+
+If we want to expose this to userland via statx in the future, then we
+may need a stronger guarantee because we can't as easily predict how
+people will want to use this.
+
+At that point, bumping i_version both before and after makes a bit more
+sense, since it better ensures that a change will be noticed, whether
+the related read op comes before or after the statx.
+
+> But, yes, to actually be safe here, we *also* should be bumping
+> i_version on DIO write on DIO write completion so that racing
+> i_version and data reads that occur *after* the initial i_version
+> bump are invalidated immediately.
+>=20
+> IOWs, to avoid getattr/read races missing stale data invalidations
+> during DIO writes, we really need to bump i_version both _before and
+> after_ DIO write submission.
+>=20
+> It's corner cases like this where "i_version should only be bumped
+> when ctime changes" fails completely. i.e. there are concurrent IO
+> situations which can only really be handled correctly by bumping
+> i_version whenever either in-memory and/or on-disk persistent data/
+> metadata state changes occur.....
+
+I think we have two choices (so far) when it comes to closing the race
+window between the i_version bump and the write. Either should be fine
+for serving NFSv4.
+
+1/ take the inode_lock in some form across the getattr call for filling
+out GETATTR/READDIR/NVERIFY info. This is what the RFC patch in my
+latest set does. That's obviously too expensive though. We could take
+inode_lock_shared, which wouldn't exclude DIO, but would cover the
+buffered and DAX codepaths. This is somewhat ugly though, particularly
+with slow backend network filesystems (like NFS). That getattr could
+take a while, and meanwhile all writes are stuck...
+
+...or...
+
+2/ start bumping the i_version after a write completes. Bumping it twice
+(before and after) would be fine too. In most cases the second one will
+be a no-op anyway. We might get the occasional false cache invalidations
+there with NFS, but they should be pretty rare and that's preferable to
+holding on to invalid cached data (which I think is a danger today).
+
+To do #2, I guess we'd need to add an inode_maybe_inc_iversion call at
+the end of the relevant ->write_iter ops, and then dirty the inode if
+that comes back true? That should be pretty rare.
+
+We do also still need some way to mitigate potential repeated versions
+due to crashes, but that's orthogonal to the above issue (and being
+discussed in a different branch of this thread).
+--=20
+Jeff Layton <jlayton@kernel.org>
