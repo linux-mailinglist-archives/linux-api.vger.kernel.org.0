@@ -2,54 +2,71 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E2A555B75CD
-	for <lists+linux-api@lfdr.de>; Tue, 13 Sep 2022 17:55:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDA335B7781
+	for <lists+linux-api@lfdr.de>; Tue, 13 Sep 2022 19:16:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236729AbiIMPzT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 13 Sep 2022 11:55:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47910 "EHLO
+        id S232544AbiIMROw (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 13 Sep 2022 13:14:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236681AbiIMPyl (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Sep 2022 11:54:41 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0CBE1262D
-        for <linux-api@vger.kernel.org>; Tue, 13 Sep 2022 07:55:19 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id jm11so12045671plb.13
-        for <linux-api@vger.kernel.org>; Tue, 13 Sep 2022 07:55:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=OJAIEjey9dL/oOlyHKJUty+rvUtRfrNcjV74l588HbE=;
-        b=nipjUGyopyRbnweevoI2Oq+FbDhrGlaD7wKP+k5xapkMVsoGweAQ6K2hQ8AZ+n3N71
-         J85U0qDe2D5AD8d1gpjf++nTpiIkyTFzNlFk+YTPVFtJCYSH/SE9jP8KJtPu7wQ0hfi5
-         wYDpgxyUrRwd1sYa/NGSuu4VudYk3GqiPthKN+bOi/ckST3RiIggvPeGp3bhm5p8ypVT
-         3f+MwrbGT4h/7a0VEnXrxvfZQW0KEOYcQaivu+1/UqQdLAEGFiH+0RbJHMUiEdIZPPCt
-         MhVMuPS1IGUUE+HBMjXHJM9fAUIO8mG1oaSP0/UpGjTZuC/UI7ZeIyP4hCCX4seU5+Tv
-         A0Cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=OJAIEjey9dL/oOlyHKJUty+rvUtRfrNcjV74l588HbE=;
-        b=u9PpRxWEor7uKWqE+fuISAqn0kDblBz4W+6m1zjRg9Zpb3fzOgzM9jjV0hJPS1obpe
-         FD4U6RfNvewf6osbXvNnvGCYarY0B4o4YbDM/O1yh607hgKrqIUtL42k1j4BIwHl/eDD
-         w3LQuXIxBY6qz2zmcLQNoJ/Vs1hrHmht4NnrcaFuOTePyzsvalJZZ/MuILoP5R1MDyFD
-         7HclLaoEB2OUKHYwUvoCFPdWl7jPfLfZB0fdwjXlRu90+nx7sy43M4jO4pRLj6A4OXxl
-         01KwO2gQ7+7dxHIBlYOco9efzY3FSq/l5qi6v6K1uRNbRzpapexUQRt9mlE7Q1xFWkeg
-         34SA==
-X-Gm-Message-State: ACgBeo2qIrIkHLCgYBK5T8XueodbuP5Sh0St29Y7oyhuq4nII8A4jOYW
-        oFZ4ZSOvauhMHaVzGPPwmKShSg==
-X-Google-Smtp-Source: AA6agR4hCeLSjZthMuJfgYlKUGutRaZadKKJTFOH4uT+lOP/oa9jwO7wbAgJCVwL7oqP3EbrVwcGew==
-X-Received: by 2002:a17:902:c7cc:b0:176:9fdd:ddb7 with SMTP id r12-20020a170902c7cc00b001769fddddb7mr32324812pla.150.1663080810301;
-        Tue, 13 Sep 2022 07:53:30 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id k5-20020aa79985000000b00535d3caa66fsm7855085pfh.197.2022.09.13.07.53.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Sep 2022 07:53:29 -0700 (PDT)
-Date:   Tue, 13 Sep 2022 14:53:25 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
+        with ESMTP id S232546AbiIMROS (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 13 Sep 2022 13:14:18 -0400
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40F4A101D4;
+        Tue, 13 Sep 2022 09:02:58 -0700 (PDT)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailnew.nyi.internal (Postfix) with ESMTP id CC1605802D8;
+        Tue, 13 Sep 2022 12:00:51 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Tue, 13 Sep 2022 12:00:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+         h=cc:cc:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm3; t=1663084851; x=1663092051; bh=nR
+        H4z7e+oXA2SkZv/m8JgJqSDk7nulXrp2QoWv1YEN4=; b=XM4CuKJtTWDLoARjMU
+        ZEoD6wB5FqnJdSnY3AUy+IO++7ZeMKuIGV7uzlq8uSGUd+dk9chibkWCsvDK8GNY
+        lUXAlf7MPuPfea2V80ipCokGbqWGe90/O4izA17lU44CEqmslzDymGWi8CmFigUv
+        /1pt2fDthxiWGh3J8mgjWfumcmOTyZXvfPJoP6Id6cvvaavU+5xrsA9EhZpt5Euf
+        aywjzWe1+3TbO7Nv8QkUYFPgV+AlIEB+1KFSYXFxjZDIPVazeJogLXHgNC4ex0Ea
+        /IlPGW+cYL0/VjUf6NiNk6Okczw8aRTkqyNAGpU2Ezuj6KQd9nYmPgjUi1it7PhV
+        upFg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm2; t=1663084851; x=1663092051; bh=nRH4z7e+oXA2SkZv/m8JgJqSDk7n
+        ulXrp2QoWv1YEN4=; b=L9Yl22VBFNLeetc6fSQgTPfXDMKU/Un/Nk3+eIFVPVGM
+        jXoMC62j/pqiRCZhTsfDKXXjDf0pwGuFtuMs1+x5MjSaHS9RqdS4IdUUxa93GbGA
+        kpWwa4xQFzg0GgHggZDoI/hD1+DFTJ8Y554qKeRFdOTrWvQf98vrayUX4L3sBVbf
+        uF2qW1fujBLU6PEAPaHmqdw/urgqhR4LySbsxm1+RXzmoNNVO2rXx1nfscmcdinv
+        GAoZo5+589NE8/kQ5NTX+lIcLX4szCiqfW2jXy0gAXNFnk8Eide20Iu/gvidC+XI
+        00H5SJY8aaxn8RExcr8e6V6nkwTTQXr4g+Y4SDFVqQ==
+X-ME-Sender: <xms:MakgY8Bb_c1hF-G-V0xWPp6v2tFFK59WYo5RW7yO9_bo81elPeCgoA>
+    <xme:MakgY-isRLK2xNjFVddU3SuO8bJG_C6SNZa4RK15I9d4SP_yc0hvI3va7iWTOsVZo
+    3FaCARM6L7l1xyd5Zk>
+X-ME-Received: <xmr:MakgY_lm1icemmPyCRuc9L2e_WJ__1iRM-x3EYy78zCdcr1QKV3cVpWOP2lYACbn3DOrxg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedugedgleekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
+    ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
+    grmhgvqeenucggtffrrghtthgvrhhnpeelgffhfeetlefhveffleevfffgtefffeelfedu
+    udfhjeduteeggfeiheefteehjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuve
+    hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirhhilhhl
+    sehshhhuthgvmhhovhdrnhgrmhgv
+X-ME-Proxy: <xmx:MakgYyz6PLeOqvzrzN5MSngKpLn4PepAjtzzW3M8h49ivJQx919_Qg>
+    <xmx:MakgYxTRjdKN_AfcWIfFLJ3MShKx3UaKy8i5hyCqMXeqjxeGHGl_eQ>
+    <xmx:MakgY9aZkKdjYf2ydxmqv_7Rz2mI3q82LHYS_E-o9H-iPrDI0ym8hA>
+    <xmx:M6kgY4M0E0kvqk7pyaWP0fDgJCM7yLnmmneraumr2YriAtgMkDNi7w>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 13 Sep 2022 12:00:49 -0400 (EDT)
+Received: by box.shutemov.name (Postfix, from userid 1000)
+        id CDFF310465E; Tue, 13 Sep 2022 19:00:46 +0300 (+03)
+Date:   Tue, 13 Sep 2022 19:00:46 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Sean Christopherson <seanjc@google.com>
 Cc:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
         Hugh Dickins <hughd@google.com>,
         Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
@@ -84,9 +101,8 @@ Cc:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
         Elena Reshetova <elena.reshetova@intel.com>
 Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
  guest private memory
-Message-ID: <YyCZZSyCrwXLLCD9@google.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
+Message-ID: <20220913160046.rkz7uh6cpwy6wyzg@box.shutemov.name>
+References: <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
  <20220818132421.6xmjqduempmxnnu2@box>
  <c6ccbb96-5849-2e2f-3b49-4ea711af525d@google.com>
  <20220820002700.6yflrxklmpsavdzi@box.shutemov.name>
@@ -95,59 +111,38 @@ References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
  <20220908011037.ez2cdorthqxkerwk@box.shutemov.name>
  <YyBQ+wzPtGwwRB/U@google.com>
  <20220913132821.3ch5cv3rgdxqgz3i@box.shutemov.name>
+ <YyCZZSyCrwXLLCD9@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220913132821.3ch5cv3rgdxqgz3i@box.shutemov.name>
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <YyCZZSyCrwXLLCD9@google.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Tue, Sep 13, 2022, Kirill A. Shutemov wrote:
-> On Tue, Sep 13, 2022 at 09:44:27AM +0000, Sean Christopherson wrote:
-> > On Thu, Sep 08, 2022, Kirill A. Shutemov wrote:
-> > > On Wed, Aug 31, 2022 at 05:24:39PM +0300, Kirill A . Shutemov wrote:
-> > > > On Sat, Aug 20, 2022 at 10:15:32PM -0700, Hugh Dickins wrote:
-> > > > > > I will try next week to rework it as shim to top of shmem. Does it work
-> > > > > > for you?
-> > > > > 
-> > > > > Yes, please do, thanks.  It's a compromise between us: the initial TDX
-> > > > > case has no justification to use shmem at all, but doing it that way
-> > > > > will help you with some of the infrastructure, and will probably be
-> > > > > easiest for KVM to extend to other more relaxed fd cases later.
-> > > > 
-> > > > Okay, below is my take on the shim approach.
-> > > > 
-> > > > I don't hate how it turned out. It is easier to understand without
-> > > > callback exchange thing.
-> > > > 
-> > > > The only caveat is I had to introduce external lock to protect against
-> > > > race between lookup and truncate.
+On Tue, Sep 13, 2022 at 02:53:25PM +0000, Sean Christopherson wrote:
+> > > Switching topics, what actually prevents mmapp() on the shim?  I tried to follow,
+> > > but I don't know these areas well enough.
 > > 
-> > As before, I think this lock is unnecessary.  Or at least it's unnessary to hold
-> > the lock across get/put.  The ->invalidate() call will ensure that the pfn is
-> > never actually used if get() races with truncation.
+> > It has no f_op->mmap, so mmap() will fail with -ENODEV. See do_mmap().
+> > (I did not read the switch statement correctly at first. Note there are
+> > two 'fallthrough' there.)
 > 
-> The updated version you replying to does not use the lock to protect
-> against truncation anymore. The lock protect notifier list.
+> Ah, validate_mmap_request().  Thought not implementing ->mmap() was the key, but
+> couldn't find the actual check.
 
-Gah, grabbed the patch when applying.
+validate_mmap_request() is in mm/nommu.c which is not relevant for real
+computers.
 
-> > Switching topics, what actually prevents mmapp() on the shim?  I tried to follow,
-> > but I don't know these areas well enough.
-> 
-> It has no f_op->mmap, so mmap() will fail with -ENODEV. See do_mmap().
-> (I did not read the switch statement correctly at first. Note there are
-> two 'fallthrough' there.)
+I was talking about this check:
 
-Ah, validate_mmap_request().  Thought not implementing ->mmap() was the key, but
-couldn't find the actual check.
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/mm/mmap.c#n1495
 
-Thanks much!
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
