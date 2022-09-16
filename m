@@ -2,244 +2,150 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C88D5BA2E9
-	for <lists+linux-api@lfdr.de>; Fri, 16 Sep 2022 00:43:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 211025BA3CB
+	for <lists+linux-api@lfdr.de>; Fri, 16 Sep 2022 03:17:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229647AbiIOWnu (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 15 Sep 2022 18:43:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47342 "EHLO
+        id S229725AbiIPBRg (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 15 Sep 2022 21:17:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230057AbiIOWne (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 15 Sep 2022 18:43:34 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0D041DA58;
-        Thu, 15 Sep 2022 15:43:11 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 6C34833688;
-        Thu, 15 Sep 2022 22:43:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1663281790; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=6j1tbyUJe99gQVK1AKJ7NKKaL8ugwu3EUW51FcJDEkA=;
-        b=0QNOmyxRCtPexU84DSE7vwzKel++MFuFvLFmEfh802vGVvBh8NhJDRv34Qv10EwFpxCrUK
-        5sIKN+AF8vqla/KvDyerGrtHIbrZmxqM/ONQbYZVg15X9XeD0jpVMh3JxFFZs0LuLifHpk
-        bvNpQqzR29tJYdaVInbT6JsnZHz4dgk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1663281790;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=6j1tbyUJe99gQVK1AKJ7NKKaL8ugwu3EUW51FcJDEkA=;
-        b=RmF9rw5A0eCyDh9A84rzu1+triL1eN5eQwarN6BrIJ3yM9wph7vvBS2uxXK8lNv3Jyvj5Q
-        CFJEgRjA0ISJ7IBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7FE8E13A49;
-        Thu, 15 Sep 2022 22:43:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id tSv/DHaqI2PFFgAAMHmgww
-        (envelope-from <neilb@suse.de>); Thu, 15 Sep 2022 22:43:02 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S229480AbiIPBRe (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 15 Sep 2022 21:17:34 -0400
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01hn2218.outbound.protection.outlook.com [52.100.223.218])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B15DC77568;
+        Thu, 15 Sep 2022 18:17:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RHySZeo98zLAwkITHSwPOge6SSbyoF/vFDx/cKEARd4nmrRUOmaSPM8pIHbqzmlDLRbjibhyaLAYmI7AkkwSG9iSkOigyn359W/cTnhm0/9h/B0gs2j8NrCLx2MVjuczky6wLrhlG8TkCM/8yOtLUYHq7+z6y/DtXlTyvnlEs/+vaVAHgby880SqEFaDOIIzZ0wqTQBrThySnaxf2F6HFuVoX5phritkOGDLpoc/8aOBL1LI1KR/KB8uKpmNteHoxJducIlkwyVRrLywJS7od5WTS5aFVtVB7X3pc8oIuPIhFDvrKbpVfK8HJJ7MuzXB0STb0ls/LxW3/LFCRMw6kw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Bs10Md+15nMnyayKLyd22Uv+/ZH79IcFcpzuzGLq1Fg=;
+ b=bpmMSIp5G22sxE9TFGf3Y9jM7FoQkhc9QTz2BGdoOa0zPFDGnkdNtAJGBmASV8pc0AagJ6eZsaQyRoP4b7EadpllopNOaT53oonw+ijWMVcHAuSI19VWaJhd1rckafas8cyVlYAe2urgvi6uhoQsrFtAk4oseH0qrzZLvTbiMGFVVGRPkZ0a5z5RUvFavxzXZSA2JZLWvJbVP9LeXZtrxdqtuwl9yY1XiGLkOvQWgYaBCU5mZgoUvN7KX1XdwzfomUmPDz9/9vyjSzG4WavshywAyTog8hGvexdzcNDz5lO1Rvazivo4rXQVCjfLzIEf3QnmQ6S49RK9YA63JXx86A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 45.14.71.5) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=t4.cims.jp;
+ dmarc=bestguesspass action=none header.from=t4.cims.jp; dkim=none (message
+ not signed); arc=none (0)
+Received: from TYCPR01CA0122.jpnprd01.prod.outlook.com (2603:1096:400:26d::11)
+ by SI2PR04MB4137.apcprd04.prod.outlook.com (2603:1096:4:f8::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5612.16; Fri, 16 Sep 2022 01:17:32 +0000
+Received: from TYZAPC01FT053.eop-APC01.prod.protection.outlook.com
+ (2603:1096:400:26d:cafe::65) by TYCPR01CA0122.outlook.office365.com
+ (2603:1096:400:26d::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.19 via Frontend
+ Transport; Fri, 16 Sep 2022 01:17:31 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 45.14.71.5)
+ smtp.mailfrom=t4.cims.jp; dkim=none (message not signed)
+ header.d=none;dmarc=bestguesspass action=none header.from=t4.cims.jp;
+Received-SPF: Pass (protection.outlook.com: domain of t4.cims.jp designates
+ 45.14.71.5 as permitted sender) receiver=protection.outlook.com;
+ client-ip=45.14.71.5; helo=User; pr=M
+Received: from mail.prasarana.com.my (58.26.8.158) by
+ TYZAPC01FT053.mail.protection.outlook.com (10.118.152.149) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5632.12 via Frontend Transport; Fri, 16 Sep 2022 01:17:31 +0000
+Received: from MRL-EXH-02.prasarana.com.my (10.128.66.101) by
+ MRL-EXH-01.prasarana.com.my (10.128.66.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.14; Fri, 16 Sep 2022 09:16:51 +0800
+Received: from User (45.14.71.5) by MRL-EXH-02.prasarana.com.my
+ (10.128.66.101) with Microsoft SMTP Server id 15.1.2176.14 via Frontend
+ Transport; Fri, 16 Sep 2022 09:16:21 +0800
+Reply-To: <rhashimi202222@kakao.com>
+From:   Consultant Swift Capital Loans Ltd <info@t4.cims.jp>
+Subject: I hope you are doing well, and business is great!
+Date:   Fri, 16 Sep 2022 09:17:03 +0800
 MIME-Version: 1.0
-From:   "NeilBrown" <neilb@suse.de>
-To:     "Jeff Layton" <jlayton@kernel.org>
-Cc:     "J. Bruce Fields" <bfields@fieldses.org>,
-        "Theodore Ts'o" <tytso@mit.edu>, "Jan Kara" <jack@suse.cz>,
-        adilger.kernel@dilger.ca, djwong@kernel.org, david@fromorbit.com,
-        trondmy@hammerspace.com, viro@zeniv.linux.org.uk,
-        zohar@linux.ibm.com, xiubli@redhat.com, chuck.lever@oracle.com,
-        lczerner@redhat.com, brauner@kernel.org, fweimer@redhat.com,
-        linux-man@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ceph-devel@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-nfs@vger.kernel.org,
-        linux-xfs@vger.kernel.org
-Subject: Re: [man-pages RFC PATCH v4] statx, inode: document the new
- STATX_INO_VERSION field
-In-reply-to: <52a21018cde28eb7670a5ea86b79aef4a100d74b.camel@kernel.org>
-References: <20220908083326.3xsanzk7hy3ff4qs@quack3>,
- <YxoIjV50xXKiLdL9@mit.edu>,
- <02928a8c5718590bea5739b13d6b6ebe66cac577.camel@kernel.org>,
- <20220908155605.GD8951@fieldses.org>,
- <9e06c506fd6b3e3118da0ec24276e85ea3ee45a1.camel@kernel.org>,
- <20220908182252.GA18939@fieldses.org>,
- <44efe219dbf511492b21a653905448d43d0f3363.camel@kernel.org>,
- <166284799157.30452.4308111193560234334@noble.neil.brown.name>,
- <20220912134208.GB9304@fieldses.org>,
- <166302447257.30452.6751169887085269140@noble.neil.brown.name>,
- <20220915140644.GA15754@fieldses.org>,
- <52a21018cde28eb7670a5ea86b79aef4a100d74b.camel@kernel.org>
-Date:   Fri, 16 Sep 2022 08:42:58 +1000
-Message-id: <166328177826.15759.4993896959612969524@noble.neil.brown.name>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-ID: <0135ac95-8929-4d45-8a5f-93547c102f2e@MRL-EXH-02.prasarana.com.my>
+To:     Undisclosed recipients:;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-SkipListedInternetSender: ip=[45.14.71.5];domain=User
+X-MS-Exchange-ExternalOriginalInternetSender: ip=[45.14.71.5];domain=User
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYZAPC01FT053:EE_|SI2PR04MB4137:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9ea11b2e-dba3-4db4-6365-08da97813ab5
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: =?windows-1251?Q?27C4NJfFKZgDG5cHZywkbuN9AlsZ/R+LT2SDpH3esd6rzewy/uF5Ikd2?=
+ =?windows-1251?Q?QHN4fwZjm9vXHH6VXw67j1K6Ejx5yiIsp1K12ZkN4FjFIckxyZX3rLAM?=
+ =?windows-1251?Q?EJ8d9siWYXQQQNC2JVEfxo163pwfnju6ybc0PAAgFLuzDAF7272+mcVB?=
+ =?windows-1251?Q?paA/8YnGaZ0RHR3NdmRVKuAAncQJ4ibGuuTwzFP82pz4u0qcox3t6eg3?=
+ =?windows-1251?Q?uU3qw0L9gcm+mVrcCyLkDhVyTdCw4EE/E4p015Vd0PmyE1tm5gcYq1XY?=
+ =?windows-1251?Q?FI81i37wggWd8CryMy5w68/YZ3L/FBlS3vQHxyA6i9yJxiQVlY1mngjb?=
+ =?windows-1251?Q?g2xRwI9MEnRG2ei5gOylrviz5ajsUs8X6iYTKEWDGf2c5avE242BIwwZ?=
+ =?windows-1251?Q?cTDsd8uXdtyj19Kmc3YinX9bjY7aYGyBydlF1yxbZibj0mtUkxoMFrVl?=
+ =?windows-1251?Q?NAdkzB7z/PLD7+u70tjgLQNVWU8+aZwpTSGgO1Pd+dsuNzKELTFZJaG8?=
+ =?windows-1251?Q?kDHlCqfd1aRz+Ch/fgi2sVGIJPx0YNZE7wHH7emXnkXtAfyp0VFMiQlV?=
+ =?windows-1251?Q?jn9RMokVhMHqWPt1v3EGxDm2szo9gI2S/NZn3ImT0Tw6ogSfRti7TTKR?=
+ =?windows-1251?Q?RfbtOoOrjZ/Klo7ylF+OcqPNByQbjzusVZb5x3gYtWJ1JPbBZl35qYgw?=
+ =?windows-1251?Q?YnSLzDag3iDgguj2uVS//uU+7R+jKoya2S4Ixlsu717lNB+P6qmEBfee?=
+ =?windows-1251?Q?qugQYBsvC9JjdcJhw8lXIPUHuO3AhfSfSnEZcTz2w3G7hC6RQsi21kcY?=
+ =?windows-1251?Q?aF7+vOQ5yWEiIlNULc2cGf1ozwrB+IwFA0qRYMWQ4g2Up95rWMm9ZWM8?=
+ =?windows-1251?Q?1uXF1QS2EaFBD5/xLWYTjDjW7HZkwaytLDUqs8OmTStcQi6USnsdYy1E?=
+ =?windows-1251?Q?RpSRZo6fZ1Cfd3nbYZWHgWWWGlhTNw0Gv9e2IceeZpTxx8ZFqvlPpCO8?=
+ =?windows-1251?Q?9+XPTQ3GticBsqpY+ewFLNqRpdPfvdpc3ejOt++uQTR0AUAYHM/LXC+F?=
+ =?windows-1251?Q?Cn7iYoZhAA2fskt23RA9Zpc3NjYwFfGe0cgfaha9Vm5m/yEeLUpFM1w3?=
+ =?windows-1251?Q?nUrlMn5+tFhwxOH7URRD3oFSgZMumPzXSUc606LkMzWa93WIYXLVLIVp?=
+ =?windows-1251?Q?2tIzt0ApJNxGoIV+QZiSP4YPCUzPAJ72WwQaEvuNn9DPqSJf7mLzPpI3?=
+ =?windows-1251?Q?PFm8G6B78oAOPemwEoj0/vVH6F9HxM3hTNTYSS0/9Rl2Ayr7W4TBTVwk?=
+ =?windows-1251?Q?xa4JChRApsohZw0FNkQa4v7eSHUVYXYCrIlj7G3/69Bh9f02?=
+X-Forefront-Antispam-Report: CIP:58.26.8.158;CTRY:JP;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:User;PTR:45.14.71.5.static.xtom.com;CAT:OSPM;SFS:(13230022)(4636009)(376002)(396003)(136003)(39860400002)(346002)(451199015)(40470700004)(82310400005)(40480700001)(32650700002)(31686004)(86362001)(70586007)(70206006)(8936002)(5660300002)(336012)(956004)(498600001)(8676002)(7416002)(7366002)(31696002)(7406005)(81166007)(4744005)(156005)(316002)(35950700001)(32850700003)(41300700001)(36906005)(2906002)(40460700003)(6666004)(82740400003)(26005)(109986005)(9686003)(66899012)(2700400008);DIR:OUT;SFP:1501;
+X-OriginatorOrg: myprasarana.onmicrosoft.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2022 01:17:31.6325
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ea11b2e-dba3-4db4-6365-08da97813ab5
+X-MS-Exchange-CrossTenant-Id: 3cbb2ff2-27fb-4993-aecf-bf16995e64c0
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3cbb2ff2-27fb-4993-aecf-bf16995e64c0;Ip=[58.26.8.158];Helo=[mail.prasarana.com.my]
+X-MS-Exchange-CrossTenant-AuthSource: TYZAPC01FT053.eop-APC01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR04MB4137
+X-Spam-Status: Yes, score=6.2 required=5.0 tests=AXB_XMAILER_MIMEOLE_OL_024C2,
+        AXB_X_FF_SEZ_S,BAYES_50,FORGED_MUA_OUTLOOK,FSL_CTYPE_WIN1251,
+        FSL_NEW_HELO_USER,HEADER_FROM_DIFFERENT_DOMAINS,NSL_RCVD_FROM_USER,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_PASS,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [52.100.223.218 listed in list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5181]
+        *  0.0 NSL_RCVD_FROM_USER Received from User
+        *  0.0 FSL_CTYPE_WIN1251 Content-Type only seen in 419 spam
+        *  3.2 AXB_X_FF_SEZ_S Forefront sez this is spam
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
+        *  0.2 HEADER_FROM_DIFFERENT_DOMAINS From and EnvelopeFrom 2nd level
+        *      mail domains are different
+        *  0.0 AXB_XMAILER_MIMEOLE_OL_024C2 Yet another X header trait
+        *  0.0 FSL_NEW_HELO_USER Spam's using Helo and User
+        *  1.9 FORGED_MUA_OUTLOOK Forged mail pretending to be from MS Outlook
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, 16 Sep 2022, Jeff Layton wrote:
-> On Thu, 2022-09-15 at 10:06 -0400, J. Bruce Fields wrote:
-> > On Tue, Sep 13, 2022 at 09:14:32AM +1000, NeilBrown wrote:
-> > > On Mon, 12 Sep 2022, J. Bruce Fields wrote:
-> > > > On Sun, Sep 11, 2022 at 08:13:11AM +1000, NeilBrown wrote:
-> > > > > On Fri, 09 Sep 2022, Jeff Layton wrote:
-> > > > > >=20
-> > > > > > The machine crashes and comes back up, and we get a query for i_v=
-ersion
-> > > > > > and it comes back as X. Fine, it's an old version. Now there is a=
- write.
-> > > > > > What do we do to ensure that the new value doesn't collide with X=
-+1?=20
-> > > > >=20
-> > > > > (I missed this bit in my earlier reply..)
-> > > > >=20
-> > > > > How is it "Fine" to see an old version?
-> > > > > The file could have changed without the version changing.
-> > > > > And I thought one of the goals of the crash-count was to be able to
-> > > > > provide a monotonic change id.
-> > > >=20
-> > > > I was still mainly thinking about how to provide reliable close-to-op=
-en
-> > > > semantics between NFS clients.  In the case the writer was an NFS
-> > > > client, it wasn't done writing (or it would have COMMITted), so those
-> > > > writes will come in and bump the change attribute soon, and as long as
-> > > > we avoid the small chance of reusing an old change attribute, we're O=
-K,
-> > > > and I think it'd even still be OK to advertise
-> > > > CHANGE_TYPE_IS_MONOTONIC_INCR.
-> > >=20
-> > > You seem to be assuming that the client doesn't crash at the same time
-> > > as the server (maybe they are both VMs on a host that lost power...)
-> > >=20
-> > > If client A reads and caches, client B writes, the server crashes after
-> > > writing some data (to already allocated space so no inode update needed)
-> > > but before writing the new i_version, then client B crashes.
-> > > When server comes back the i_version will be unchanged but the data has
-> > > changed.  Client A will cache old data indefinitely...
-> >=20
-> > I guess I assume that if all we're promising is close-to-open, then a
-> > client isn't allowed to trust its cache in that situation.  Maybe that's
-> > an overly draconian interpretation of close-to-open.
-> >=20
-> > Also, I'm trying to think about how to improve things incrementally.
-> > Incorporating something like a crash count into the on-disk i_version
-> > fixes some cases without introducing any new ones or regressing
-> > performance after a crash.
-> >=20
->=20
-> I think we ought to start there.
->=20
-> > If we subsequently wanted to close those remaining holes, I think we'd
-> > need the change attribute increment to be seen as atomic with respect to
-> > its associated change, both to clients and (separately) on disk.  (That
-> > would still allow the change attribute to go backwards after a crash, to
-> > the value it held as of the on-disk state of the file.  I think clients
-> > should be able to deal with that case.)
-> >=20
-> > But, I don't know, maybe a bigger hammer would be OK:
-> >=20
-> > > I think we need to require the filesystem to ensure that the i_version
-> > > is seen to increase shortly after any change becomes visible in the
-> > > file, and no later than the moment when the request that initiated the
-> > > change is acknowledged as being complete.  In the case of an unclean
-> > > restart, any file that is not known to have been unchanged immediately
-> > > before the crash must have i_version increased.
-> > >=20
-> > > The simplest implementation is to have an unclean-restart counter and to
-> > > always included this multiplied by some constant X in the reported
-> > > i_version.  The filesystem guarantees to record (e.g.  to journal
-> > > at least) the i_version if it comes close to X more than the previous
-> > > record.  The filesystem gets to choose X.
-> >
-> > So the question is whether people can live with invalidating all client
-> > caches after a cache.  I don't know.
-> >=20
->=20
-> I assume you mean "after a crash". Yeah, that is pretty nasty. We don't
-> get perfect crash resilience with incorporating this into the on-disk
-> value, but I like that better than factoring it in at=C2=A0presentation tim=
-e.
->=20
-> That would mean that the servers would end up getting hammered with read
-> activity after a crash (at least in some environments). I don't think
-> that would be worth the tradeoff. There's a real benefit to preserving
-> caches when we can.
+Hello,
 
-Would it really mean the server gets hammered?
+I hope you are doing well, and business is great!
+However, if you need working capital to further grow and expand your business, we may be a perfect fit for you. I am Ms. Kaori Ichikawa Swift Capital Loans Ltd Consultant, Our loans are NOT based on your personal credit, and NO collateral is required.
 
-For files and NFSv4, any significant cache should be held on the basis
-of a delegation, and if the client holds a delegation then it shouldn't
-be paying attention to i_version.
+We are a Direct Lender who can approve your loan today, and fund as Early as Tomorrow.
 
-I'm not entirely sure of this.  Section 10.2.1 of RFC 5661 seems to
-suggest that when the client uses CLAIM_DELEG_PREV to reclaim a
-delegation, it must then return the delegation.  However the explanation
-seems to be mostly about WRITE delegations and immediately flushing
-cached changes.  Do we know if there is a way for the server to say "OK,
-you have that delegation again" in a way that the client can keep the
-delegation and continue to ignore i_version?
+Once your reply I will send you the official website to complete your application
 
-For directories, which cannot be delegated the same way but can still be
-cached, the issues are different.  All directory morphing operations
-will be journalled by the filesystem so it should be able to keep the
-i_version up to date.  So the (journalling) filesystem should *NOT* add
-a crash-count to the i_version for directories even if it does for files.
+Waiting for your reply.
 
-NeilBrown
-
-
->=20
-> > > A more complex solution would be to record (similar to the way orphans
-> > > are recorded) any file which is open for write, and to add X to the
-> > > i_version for any "dirty" file still recorded during an unclean
-> > > restart.  This would avoid bumping the i_version for read-only files.
-> >=20
-> > Is that practical?  Working out the performance tradeoffs sounds like a
-> > project.
-> >
-> >=20
-> > > There may be other solutions, but we should leave that up to the
-> > > filesystem.  Each filesystem might choose something different.
-> >=20
-> > Sure.
-> >=20
->=20
-> Agreed here too. I think we need to allow for some flexibility here.=C2=A0
->=20
-> Here's what I'm thinking:
->=20
-> We'll carve out the upper 16 bits in the i_version counter to be the
-> crash counter field. That gives us 8k crashes before we have to worry
-> about collisions. Hopefully the remaining 47 bits of counter will be
-> plenty given that we don't increment it when it's not being queried or
-> nothing else changes. (Can we mitigate wrapping here somehow?)
->=20
-> The easiest way to do this would be to add a u16 s_crash_counter to
-> struct super_block. We'd initialize that to 0, and the filesystem could
-> fill that value out at mount time.
->=20
-> Then inode_maybe_inc_iversion can just shift the s_crash_counter that
-> left by 24 bits and and plop it into the top of the value we're
-> preparing to cmpxchg into place.
->=20
-> This is backward compatible too, at least for i_version counter values
-> that are <2^47. With anything larger, we might end up with something
-> going backward and a possible collision, but it's (hopefully) a small
-> risk.
->=20
-> --=20
-> Jeff Layton <jlayton@kernel.org>
->=20
+Regards
+Ms. Kaori Ichikawa
+Consultant Swift Capital Loans Ltd
