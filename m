@@ -2,133 +2,226 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 494D05BA70C
-	for <lists+linux-api@lfdr.de>; Fri, 16 Sep 2022 08:55:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5D955BA924
+	for <lists+linux-api@lfdr.de>; Fri, 16 Sep 2022 11:16:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229557AbiIPGy7 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 16 Sep 2022 02:54:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40622 "EHLO
+        id S231261AbiIPJOo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 16 Sep 2022 05:14:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229637AbiIPGy5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 16 Sep 2022 02:54:57 -0400
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 341373D594;
-        Thu, 15 Sep 2022 23:54:55 -0700 (PDT)
-Received: from letrec.thunk.org ([185.122.133.20])
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 28G6sHId010783
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 16 Sep 2022 02:54:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-        t=1663311263; bh=jqjwwvRnowqEU63Vd3ESTJA7Bt/dd4WUfiC93PuK8ls=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=Ai5m0LTYmY21j+kf5nN3AizGJqlL/LrHVN1RgeEb+xCpZq0dS80CsVUaeGrp98Dzh
-         /KpNaDuaR7sdPespuANIxRXxOyJEXCv8YP7HHs2NCGva/CMwd9ztDxuSA4uGkFo05H
-         m+484K+K47AEq0mdO2BBceyISweo4B9/3sD3aRpUSS8DKXRwERiKgcvzzZ3t0zRzeb
-         4yhRPmfhY/O1AoNMNCo8EXkA4kIWgQA918ZNtRWlEzn9yy/oOXt0goj0JAxUXZ9wzi
-         fn5oc7nYYk3Jh7xY+PyIyKNHh2Wy6eSJnvowA19Qdruqe56Le+KFdzwfNySaWQOCb7
-         TopHTQvd4l2ow==
-Received: by letrec.thunk.org (Postfix, from userid 15806)
-        id 8A0D68C2B4B; Fri, 16 Sep 2022 02:54:16 -0400 (EDT)
-Date:   Fri, 16 Sep 2022 02:54:16 -0400
-From:   "Theodore Ts'o" <tytso@mit.edu>
-To:     NeilBrown <neilb@suse.de>
-Cc:     Jeff Layton <jlayton@kernel.org>,
-        Trond Myklebust <trondmy@hammerspace.com>,
-        "bfields@fieldses.org" <bfields@fieldses.org>,
-        "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
-        "djwong@kernel.org" <djwong@kernel.org>,
-        "brauner@kernel.org" <brauner@kernel.org>,
-        "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "david@fromorbit.com" <david@fromorbit.com>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "chuck.lever@oracle.com" <chuck.lever@oracle.com>,
-        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
-        "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
-        "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
-        "jack@suse.cz" <jack@suse.cz>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "xiubli@redhat.com" <xiubli@redhat.com>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
-        "lczerner@redhat.com" <lczerner@redhat.com>,
-        "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
-        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>
-Subject: Re: [man-pages RFC PATCH v4] statx, inode: document the new
- STATX_INO_VERSION field
-Message-ID: <YyQdmLpiAMvl5EkU@mit.edu>
-References: <20220912134208.GB9304@fieldses.org>
- <166302447257.30452.6751169887085269140@noble.neil.brown.name>
- <20220915140644.GA15754@fieldses.org>
- <577b6d8a7243aeee37eaa4bbb00c90799586bc48.camel@hammerspace.com>
- <1a968b8e87f054e360877c9ab8cdfc4cfdfc8740.camel@kernel.org>
- <0646410b6d2a5d19d3315f339b2928dfa9f2d922.camel@hammerspace.com>
- <34e91540c92ad6980256f6b44115cf993695d5e1.camel@kernel.org>
- <871f9c5153ddfe760854ca31ee36b84655959b83.camel@hammerspace.com>
- <e8922bc821a40f5a3f0a1301583288ed19b6891b.camel@kernel.org>
- <166328063547.15759.12797959071252871549@noble.neil.brown.name>
+        with ESMTP id S231221AbiIPJOj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 16 Sep 2022 05:14:39 -0400
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D1F6FD13;
+        Fri, 16 Sep 2022 02:14:34 -0700 (PDT)
+Received: by mail-pg1-x531.google.com with SMTP id t65so19814556pgt.2;
+        Fri, 16 Sep 2022 02:14:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=9HbJp1JFOjaCOMdfyVv+S5Btdn1/AdqiEXlLTZXJGsw=;
+        b=FhXk6bHLd2b2R99Ls/aHceAb/stM1+/U366ItM+cIq6+4cGyeSSS3oIj0C0fleVnRb
+         1Oy5YydiCifwONXQ7wSQiUYRXoH7Mx1foLkqZPWh8dP8iXIDDqQ5t6pLwxs6+plCZvlg
+         Nn+HEf/pJUaZbke7TTPzTTPkGpt085qGFfZNtCQRSNX3ALv7oZte2z1tpOrDZga6rULp
+         UhUnt0L+EsaXnKH93vJFxK9Cqsv5+shWxVZ8+qcd1oF52gRR3xHbwA1NrpOFdZedwuRe
+         un8jpB+sJR4QedlqDa4uSBkp9rex0MViA2EldTkEAnstjD1ZJKcVVfl3WtUvxl6d6Cxc
+         Ghxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=9HbJp1JFOjaCOMdfyVv+S5Btdn1/AdqiEXlLTZXJGsw=;
+        b=J0JRfvX69bvz2Pbhp1Qr1oMRkNujqrt9gDE/TiWJEOMTWZJXFOLCDpqblfhbJkyHi2
+         qML8bMZhbD0PeX4ubS5fsuQL/F3OQw2C8+scEklJ/Hx0Nibe8ENDgJIK9+U18q4yiw/N
+         4k1TXWCVVK2/zn5vZjPcYzosWm8h0PnPrNoFDK3I3ZAzsfx0UhzFt7q6TMERRXJuJZ7L
+         1ICk1QSm1DTK6I6h/RlyxuObTiJ9uTnP8/1mVxpzFN/8aQ474G5ZzWi/sxeohjdXGrLN
+         KWVyy2onEcStzWtrJQBVg8+45V6XqYRRQL1KDuBWULCKQBHAYqu1X1zYEJ35TV2tYZks
+         aQ/A==
+X-Gm-Message-State: ACrzQf3e61PNjadJTgrfOW+F1dz4U3jlV1/TmaVAyueqiVHoCE8GXfJK
+        NuuQlOxxhKs4rednY6CqWrM=
+X-Google-Smtp-Source: AMsMyM5/dJZc/QkfgAbO54iWH2nmTge0XbEgPmG5RCUUzNqq/hIVySC1GzK1Hf1d9uWZroqXUsDRFw==
+X-Received: by 2002:a65:6e82:0:b0:41a:9b73:f0e6 with SMTP id bm2-20020a656e82000000b0041a9b73f0e6mr3808278pgb.371.1663319673424;
+        Fri, 16 Sep 2022 02:14:33 -0700 (PDT)
+Received: from debian.me (subs32-116-206-28-32.three.co.id. [116.206.28.32])
+        by smtp.gmail.com with ESMTPSA id c81-20020a621c54000000b0052d4cb47339sm13931057pfc.151.2022.09.16.02.14.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Sep 2022 02:14:32 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 719B010322A; Fri, 16 Sep 2022 16:14:29 +0700 (WIB)
+Date:   Fri, 16 Sep 2022 16:14:29 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <YyQ+dQT9/V5e62/u@debian.me>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="r2iCa8Nng+AYARyi"
 Content-Disposition: inline
-In-Reply-To: <166328063547.15759.12797959071252871549@noble.neil.brown.name>
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Sep 16, 2022 at 08:23:55AM +1000, NeilBrown wrote:
-> > > If the answer is that 'all values change', then why store the crash
-> > > counter in the inode at all? Why not just add it as an offset when
-> > > you're generating the user-visible change attribute?
-> > > 
-> > > i.e. statx.change_attr = inode->i_version + (crash counter * offset)
 
-I had suggested just hashing the crash counter with the file system's
-on-disk i_version number, which is essentially what you are suggested.
+--r2iCa8Nng+AYARyi
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > Yes, if we plan to ensure that all the change attrs change after a
-> > crash, we can do that.
-> > 
-> > So what would make sense for an offset? Maybe 2**12? One would hope that
-> > there wouldn't be more than 4k increments before one of them made it to
-> > disk. OTOH, maybe that can happen with teeny-tiny writes.
-> 
-> Leave it up the to filesystem to decide.  The VFS and/or NFSD should
-> have not have part in calculating the i_version.  It should be entirely
-> in the filesystem - though support code could be provided if common
-> patterns exist across filesystems.
+On Thu, Sep 15, 2022 at 10:29:07PM +0800, Chao Peng wrote:
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.=
+rst
+> index abd7c32126ce..c1fac1e9f820 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -1319,7 +1319,7 @@ yet and must be cleared on entry.
+>  :Capability: KVM_CAP_USER_MEMORY
+>  :Architectures: all
+>  :Type: vm ioctl
+> -:Parameters: struct kvm_userspace_memory_region (in)
+> +:Parameters: struct kvm_userspace_memory_region(_ext) (in)
+>  :Returns: 0 on success, -1 on error
+> =20
+>  ::
+> @@ -1332,9 +1332,18 @@ yet and must be cleared on entry.
+>  	__u64 userspace_addr; /* start of the userspace allocated memory */
+>    };
+> =20
+> +  struct kvm_userspace_memory_region_ext {
+> +	struct kvm_userspace_memory_region region;
+> +	__u64 private_offset;
+> +	__u32 private_fd;
+> +	__u32 pad1;
+> +	__u64 pad2[14];
+> +  };
+> +
+>    /* for kvm_memory_region::flags */
+>    #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
+>    #define KVM_MEM_READONLY	(1UL << 1)
+> +  #define KVM_MEM_PRIVATE		(1UL << 2)
+> =20
+>  This ioctl allows the user to create, modify or delete a guest physical
+>  memory slot.  Bits 0-15 of "slot" specify the slot id and this value
+> @@ -1365,12 +1374,27 @@ It is recommended that the lower 21 bits of guest=
+_phys_addr and userspace_addr
+>  be identical.  This allows large pages in the guest to be backed by large
+>  pages in the host.
+> =20
+> -The flags field supports two flags: KVM_MEM_LOG_DIRTY_PAGES and
+> -KVM_MEM_READONLY.  The former can be set to instruct KVM to keep track of
+> -writes to memory within the slot.  See KVM_GET_DIRTY_LOG ioctl to know h=
+ow to
+> -use it.  The latter can be set, if KVM_CAP_READONLY_MEM capability allow=
+s it,
+> -to make a new slot read-only.  In this case, writes to this memory will =
+be
+> -posted to userspace as KVM_EXIT_MMIO exits.
+> +kvm_userspace_memory_region_ext includes all the kvm_userspace_memory_re=
+gion
+> +fields. It also includes additional fields for some specific features. S=
+ee
+> +below description of flags field for more information. It's recommended =
+to use
+> +kvm_userspace_memory_region_ext in new userspace code.
 
-Oh, *heck* no.  This parameter is for the NFS implementation to
-decide, because it's NFS's caching algorithms which are at stake here.
+Better say "kvm_userspace_memory_region_ext includes all fields of
+kvm_userspace_memory_region struct, while also adds additional fields ..."
 
-As a the file system maintainer, I had offered to make an on-disk
-"crash counter" which would get updated when the journal had gotten
-replayed, in addition to the on-disk i_version number.  This will be
-available for the Linux implementation of NFSD to use, but that's up
-to *you* to decide how you want to use them.
+> +
+> +The flags field supports below flags:
 
-I was perfectly happy with hashing the crash counter and the i_version
-because I had assumed that not *that* much stuff was going to be
-cached, and so invalidating all of the caches in the unusual case
-where there was a crash was acceptable.  After all it's a !@#?!@
-cache.  Caches sometimmes get invalidated.  "That is the order of
-things." (as Ramata'Klan once said in "Rocks and Shoals")
+s/below/following/
 
-But if people expect that multiple TB's of data is going to be stored;
-that cache invalidation is unacceptable; and that a itsy-weeny chance
-of false negative failures which might cause data corruption might be
-acceptable tradeoff, hey, that's for the system which is providing
-caching semantics to determine.
+> +
+> +- KVM_MEM_LOG_DIRTY_PAGES can be set to instruct KVM to keep track of wr=
+ites to
+> +  memory within the slot.  See KVM_GET_DIRTY_LOG ioctl to know how to us=
+e it.
+> +
 
-PLEASE don't put this tradeoff on the file system authors; I would
-much prefer to leave this tradeoff in the hands of the system which is
-trying to do the caching.
+Better say "... For more details, see KVM_GET_DIRTY_LOG."
 
-						- Ted
+> +- KVM_MEM_READONLY can be set, if KVM_CAP_READONLY_MEM capability allows=
+ it, to
+> +  make a new slot read-only.  In this case, writes to this memory will b=
+e posted
+> +  to userspace as KVM_EXIT_MMIO exits.
+> +
+
+Better say "if KVM_CAP_READONLY_MEM allows, KVM_MEM_READONLY makes a new
+slot read-only ..."
+
+> +- KVM_MEM_PRIVATE can be set to indicate a new slot has private memory b=
+acked by
+> +  a file descirptor(fd) and the content of the private memory is invisib=
+le to
+> +  userspace. In this case, userspace should use private_fd/private_offse=
+t in
+> +  kvm_userspace_memory_region_ext to instruct KVM to provide private mem=
+ory to
+> +  guest. Userspace should guarantee not to map the same pfn indicated by
+> +  private_fd/private_offset to different gfns with multiple memslots. Fa=
+iled to
+> +  do this may result undefined behavior.
+> =20
+
+For the lists above,
+s/can be set/
+
+Thanks.=20
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--r2iCa8Nng+AYARyi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYyQ+bwAKCRD2uYlJVVFO
+o23ZAQDRE9CoC5C+vDIubVjEpXEJsigvh2LH13HdQDeX1z+k1AD/X1CQT1z1G/wL
+BTUE4CCJxYH87fBebOmUE0OMZL/c8go=
+=sF4e
+-----END PGP SIGNATURE-----
+
+--r2iCa8Nng+AYARyi--
