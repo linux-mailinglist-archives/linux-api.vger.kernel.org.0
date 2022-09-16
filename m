@@ -2,177 +2,216 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D64C45BAFEB
-	for <lists+linux-api@lfdr.de>; Fri, 16 Sep 2022 17:11:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41A6B5BB1BC
+	for <lists+linux-api@lfdr.de>; Fri, 16 Sep 2022 19:46:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230039AbiIPPLl (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 16 Sep 2022 11:11:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50074 "EHLO
+        id S229814AbiIPRq3 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 16 Sep 2022 13:46:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229714AbiIPPLk (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 16 Sep 2022 11:11:40 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4779DAA344;
-        Fri, 16 Sep 2022 08:11:39 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CC5D162C56;
-        Fri, 16 Sep 2022 15:11:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20D98C433D6;
-        Fri, 16 Sep 2022 15:11:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1663341098;
-        bh=xvCxeZz4qr3XPSIp4Xc+yhFsHVPnIedgZs2G2tMZsFY=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=dflY6BY+7OgdppPwGYZ1j2a+2JWSUCq/paCdLXV43SC0YRNH9B1ZehljmY7G9jgUB
-         R+rM9MN6G0TxYueqvRv2PUYrwCdN0UYQBSdo/ssfH5paScu6u6nG9H1FhTRFVqTgnV
-         CDM4JmVTvgLtnXjop8rcMSH0BTec5Ri2zUU8JXcp64lS4X57v/A76eH+n2gNIog+yD
-         +jCeKc2Gv2fgbGnsA8Ipm2MgrEx/ZugChsvZxy+JkRqSV/xO8Edtk9rlY9neC/OxIz
-         37bpYnrUKpwjmWEgOvwAtmZo4hR/69GhVDEpM7zxq/Eh0xxPN8EamCTLOpo8NliT62
-         Bcm3mFB44vmxA==
-Message-ID: <24005713ad25370d64ab5bd0db0b2e4fcb902c1c.camel@kernel.org>
-Subject: Re: [man-pages RFC PATCH v4] statx, inode: document the new
- STATX_INO_VERSION field
-From:   Jeff Layton <jlayton@kernel.org>
-To:     Theodore Ts'o <tytso@mit.edu>, NeilBrown <neilb@suse.de>
-Cc:     Trond Myklebust <trondmy@hammerspace.com>,
-        "bfields@fieldses.org" <bfields@fieldses.org>,
-        "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
-        "djwong@kernel.org" <djwong@kernel.org>,
-        "brauner@kernel.org" <brauner@kernel.org>,
-        "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "david@fromorbit.com" <david@fromorbit.com>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "chuck.lever@oracle.com" <chuck.lever@oracle.com>,
-        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
-        "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
-        "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
-        "jack@suse.cz" <jack@suse.cz>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "xiubli@redhat.com" <xiubli@redhat.com>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
-        "lczerner@redhat.com" <lczerner@redhat.com>,
-        "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
-        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>
-Date:   Fri, 16 Sep 2022 11:11:34 -0400
-In-Reply-To: <7027d1c2923053fe763e9218d10ce8634b56e81d.camel@kernel.org>
-References: <20220912134208.GB9304@fieldses.org>
-         <166302447257.30452.6751169887085269140@noble.neil.brown.name>
-         <20220915140644.GA15754@fieldses.org>
-         <577b6d8a7243aeee37eaa4bbb00c90799586bc48.camel@hammerspace.com>
-         <1a968b8e87f054e360877c9ab8cdfc4cfdfc8740.camel@kernel.org>
-         <0646410b6d2a5d19d3315f339b2928dfa9f2d922.camel@hammerspace.com>
-         <34e91540c92ad6980256f6b44115cf993695d5e1.camel@kernel.org>
-         <871f9c5153ddfe760854ca31ee36b84655959b83.camel@hammerspace.com>
-         <e8922bc821a40f5a3f0a1301583288ed19b6891b.camel@kernel.org>
-         <166328063547.15759.12797959071252871549@noble.neil.brown.name>
-         <YyQdmLpiAMvl5EkU@mit.edu>
-         <7027d1c2923053fe763e9218d10ce8634b56e81d.camel@kernel.org>
-Content-Type: text/plain; charset="ISO-8859-15"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+        with ESMTP id S229784AbiIPRq1 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 16 Sep 2022 13:46:27 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62B3190C72
+        for <linux-api@vger.kernel.org>; Fri, 16 Sep 2022 10:46:23 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id d64-20020a17090a6f4600b00202ce056566so382177pjk.4
+        for <linux-api@vger.kernel.org>; Fri, 16 Sep 2022 10:46:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=bGlPiAdoAwCN/kk/sgLTt0tFCqAu0UJel6VuA5nrRzo=;
+        b=kj+jNlpEBI1gx5UYRCwGlU0K4V/x/gxhqMZH2GL4znu+wsn4o8owU9yUOQi3EWfGAo
+         5388vFVL2ZB/KlkberyIdDGa2Ba0/dzaD8lIjeO08fZJ4RknTMi9duk4Siwj4ODXKyw0
+         dDnuxM6XvRptf3VVhf2TH8AmWjNZSuy05+5DjEq0DLAZsRlQhtZGIxX7FH6ChQu4jlH+
+         3rWJ51kMHiJ/CmD6twKSuMOJ0wqNUftzvnxol4F/84oawrrhQBJtw8MhD+0hB5+aeTbf
+         t/7giJUExIxlOXza4ArgVfIb4MvmH4Q776HlqQVnmWtCNBjM+BzYaRx/SYTjoer5UeyH
+         VOYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=bGlPiAdoAwCN/kk/sgLTt0tFCqAu0UJel6VuA5nrRzo=;
+        b=E3+/v1hsm9GoofmrYaU9BeVYvIrQmS5HxIaCv5niAXehJcvuRC/jlzqJOo5BykteQ3
+         NZThPxiudOoQ6JuDBXHap/Rj9ZJSYIRGw8G7OAwqy5kUhf1+WG5FJE4jO+c7m0Vr5zjU
+         jTPIwcvpTPwqjt5TPsghGmrYtWGkqzenc2ELhRiHmu3UUP8dza0H7foJ5n7axgB3B7rT
+         E9PTYuSSsatuVXqT+AjBwOFKCKMdOJcNADKN6wd/qcdpT36RFhU9c1N361Hre0tHTX07
+         7uVZ1BsIRxzZ1b/3kfNAQnxSyXZUY61xClDtK/3XsmygnIJxfoGQpFuDbWqSsDlBo7Dd
+         8GYQ==
+X-Gm-Message-State: ACrzQf1s4e++MFGtoT7ZoDMWbdPhB0zuztXb12FQxkKaUacWC4XZtOSd
+        kn92lOlFiYBX7gXTaGT90Tunhu2EtlMon5/i5CU=
+X-Google-Smtp-Source: AMsMyM4LUFoR1XGTgnimYOGHfm9KyHt1RuU0QXZaJq3t9UVoRP8j6DITjCtGkO9biE+VIJ1u0nOpi2SkMtELa6coTio=
+X-Received: by 2002:a17:90b:1b4c:b0:202:c05f:6e7b with SMTP id
+ nv12-20020a17090b1b4c00b00202c05f6e7bmr6729830pjb.200.1663350382684; Fri, 16
+ Sep 2022 10:46:22 -0700 (PDT)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20220907144521.3115321-1-zokeefe@google.com> <20220907144521.3115321-2-zokeefe@google.com>
+In-Reply-To: <20220907144521.3115321-2-zokeefe@google.com>
+From:   Yang Shi <shy828301@gmail.com>
+Date:   Fri, 16 Sep 2022 10:46:09 -0700
+Message-ID: <CAHbLzko3A5-TpS0BgBeKkx5cuOkWgLvWXQH=TdgW-baO4rPtdg@mail.gmail.com>
+Subject: Re: [PATCH mm-unstable v3 01/10] mm/shmem: add flag to enforce shmem
+ THP in hugepage_vma_check()
+To:     "Zach O'Keefe" <zokeefe@google.com>
+Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
+        linux-api@vger.kernel.org,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        James Houghton <jthoughton@google.com>,
+        Hugh Dickins <hughd@google.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        David Hildenbrand <david@redhat.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Pasha Tatashin <pasha.tatashin@soleen.com>,
+        Peter Xu <peterx@redhat.com>,
+        Rongwei Wang <rongwei.wang@linux.alibaba.com>,
+        SeongJae Park <sj@kernel.org>,
+        Song Liu <songliubraving@fb.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Chris Kennelly <ckennelly@google.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Patrick Xia <patrickx@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, 2022-09-16 at 07:36 -0400, Jeff Layton wrote:
-> On Fri, 2022-09-16 at 02:54 -0400, Theodore Ts'o wrote:
-> > On Fri, Sep 16, 2022 at 08:23:55AM +1000, NeilBrown wrote:
-> > > > > If the answer is that 'all values change', then why store the cra=
-sh
-> > > > > counter in the inode at all? Why not just add it as an offset whe=
-n
-> > > > > you're generating the user-visible change attribute?
-> > > > >=20
-> > > > > i.e. statx.change_attr =3D inode->i_version + (crash counter * of=
-fset)
-> >=20
-> > I had suggested just hashing the crash counter with the file system's
-> > on-disk i_version number, which is essentially what you are suggested.
-> >=20
-> > > > Yes, if we plan to ensure that all the change attrs change after a
-> > > > crash, we can do that.
-> > > >=20
-> > > > So what would make sense for an offset? Maybe 2**12? One would hope=
- that
-> > > > there wouldn't be more than 4k increments before one of them made i=
-t to
-> > > > disk. OTOH, maybe that can happen with teeny-tiny writes.
-> > >=20
-> > > Leave it up the to filesystem to decide.  The VFS and/or NFSD should
-> > > have not have part in calculating the i_version.  It should be entire=
-ly
-> > > in the filesystem - though support code could be provided if common
-> > > patterns exist across filesystems.
-> >=20
-> > Oh, *heck* no.  This parameter is for the NFS implementation to
-> > decide, because it's NFS's caching algorithms which are at stake here.
-> >=20
-> > As a the file system maintainer, I had offered to make an on-disk
-> > "crash counter" which would get updated when the journal had gotten
-> > replayed, in addition to the on-disk i_version number.  This will be
-> > available for the Linux implementation of NFSD to use, but that's up
-> > to *you* to decide how you want to use them.
-> >=20
-> > I was perfectly happy with hashing the crash counter and the i_version
-> > because I had assumed that not *that* much stuff was going to be
-> > cached, and so invalidating all of the caches in the unusual case
-> > where there was a crash was acceptable.  After all it's a !@#?!@
-> > cache.  Caches sometimmes get invalidated.  "That is the order of
-> > things." (as Ramata'Klan once said in "Rocks and Shoals")
-> >=20
-> > But if people expect that multiple TB's of data is going to be stored;
-> > that cache invalidation is unacceptable; and that a itsy-weeny chance
-> > of false negative failures which might cause data corruption might be
-> > acceptable tradeoff, hey, that's for the system which is providing
-> > caching semantics to determine.
-> >=20
-> > PLEASE don't put this tradeoff on the file system authors; I would
-> > much prefer to leave this tradeoff in the hands of the system which is
-> > trying to do the caching.
-> >=20
->=20
-> Yeah, if we were designing this from scratch, I might agree with leaving
-> more up to the filesystem, but the existing users all have pretty much
-> the same needs. I'm going to plan to try to keep most of this in the
-> common infrastructure defined in iversion.h.
->=20
-> Ted, for the ext4 crash counter, what wordsize were you thinking? I
-> doubt we'll be able to use much more than 32 bits so a larger integer is
-> probably not worthwhile. There are several holes in struct super_block
-> (at least on x86_64), so adding this field to the generic structure
-> needn't grow it.
+On Wed, Sep 7, 2022 at 7:45 AM Zach O'Keefe <zokeefe@google.com> wrote:
+>
+> Extend 'mm/thp: add flag to enforce sysfs THP in
+> hugepage_vma_check()' to shmem, allowing callers to ignore
+> /sys/kernel/transparent_hugepage/shmem_enabled and tmpfs huge= mount.
+>
+> This is intended to be used by MADV_COLLAPSE, and the rationale is
+> analogous to the anon/file case: MADV_COLLAPSE is not coupled to
+> directives that advise the kernel's decisions on when THPs should be
+> considered eligible. shmem/tmpfs always claims large folio support,
+> regardless of sysfs or mount options.
+>
+> Signed-off-by: Zach O'Keefe <zokeefe@google.com>
 
-That said, now that I've taken a swipe at implementing this, I need more
-information than just the crash counter. We need to multiply the crash
-counter with a reasonable estimate of the maximum number of individual
-writes that could occur between an i_version being incremented and that
-value making it to the backing store.
+Reviewed-by: Yang Shi <shy828301@gmail.com>
 
-IOW, given a write that bumps the i_version to X, how many more write
-calls could race in before X makes it to the platter? I took a SWAG and
-said 4k in an earlier email, but I don't really have a way to know, and
-that could vary wildly with different filesystems and storage.
+A nit below...
 
-What I'd like to see is this in struct super_block:
+> ---
+>  include/linux/shmem_fs.h | 10 ++++++----
+>  mm/huge_memory.c         |  2 +-
+>  mm/shmem.c               | 18 +++++++++---------
+>  3 files changed, 16 insertions(+), 14 deletions(-)
+>
+> diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
+> index f24071e3c826..d500ea967dc7 100644
+> --- a/include/linux/shmem_fs.h
+> +++ b/include/linux/shmem_fs.h
+> @@ -92,11 +92,13 @@ extern struct page *shmem_read_mapping_page_gfp(struct address_space *mapping,
+>  extern void shmem_truncate_range(struct inode *inode, loff_t start, loff_t end);
+>  int shmem_unuse(unsigned int type);
+>
+> -extern bool shmem_is_huge(struct vm_area_struct *vma,
+> -                         struct inode *inode, pgoff_t index);
+> -static inline bool shmem_huge_enabled(struct vm_area_struct *vma)
+> +extern bool shmem_is_huge(struct vm_area_struct *vma, struct inode *inode,
+> +                         pgoff_t index, bool shmem_huge_force);
+> +static inline bool shmem_huge_enabled(struct vm_area_struct *vma,
+> +                                     bool shmem_huge_force)
+>  {
+> -       return shmem_is_huge(vma, file_inode(vma->vm_file), vma->vm_pgoff);
+> +       return shmem_is_huge(vma, file_inode(vma->vm_file), vma->vm_pgoff,
+> +                            shmem_huge_force);
+>  }
+>  extern unsigned long shmem_swap_usage(struct vm_area_struct *vma);
+>  extern unsigned long shmem_partial_swap_usage(struct address_space *mapping,
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index 7fa74b9749a6..53d170dac332 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -119,7 +119,7 @@ bool hugepage_vma_check(struct vm_area_struct *vma, unsigned long vm_flags,
+>          * own flags.
+>          */
+>         if (!in_pf && shmem_file(vma->vm_file))
+> -               return shmem_huge_enabled(vma);
+> +               return shmem_huge_enabled(vma, !enforce_sysfs);
+>
+>         /* Enforce sysfs THP requirements as necessary */
+>         if (enforce_sysfs &&
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index 99b7341bd0bf..47c42c566fd1 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -461,20 +461,20 @@ static bool shmem_confirm_swap(struct address_space *mapping,
+>
+>  static int shmem_huge __read_mostly = SHMEM_HUGE_NEVER;
+>
+> -bool shmem_is_huge(struct vm_area_struct *vma,
+> -                  struct inode *inode, pgoff_t index)
+> +bool shmem_is_huge(struct vm_area_struct *vma, struct inode *inode,
+> +                  pgoff_t index, bool shmem_huge_force)
+>  {
+>         loff_t i_size;
+>
+>         if (!S_ISREG(inode->i_mode))
+>                 return false;
+> -       if (shmem_huge == SHMEM_HUGE_DENY)
+> -               return false;
+>         if (vma && ((vma->vm_flags & VM_NOHUGEPAGE) ||
+>             test_bit(MMF_DISABLE_THP, &vma->vm_mm->flags)))
+>                 return false;
+> -       if (shmem_huge == SHMEM_HUGE_FORCE)
+> +       if (shmem_huge == SHMEM_HUGE_FORCE || shmem_huge_force)
 
-	u32		s_version_offset;
+shmem_huge_force means ignore all sysfs and mount options, so it seems
+better to have it test explicitly IMHO, like:
 
-...and then individual filesystems can calculate:
+if (shmem_huge_force)
+    return true;
 
-	crash_counter * max_number_of_writes
+if (shmem_huge == SHMEM_HUGE_FORCE)
+    return true;
 
-and put the correct value in there at mount time.
 
---=20
-Jeff Layton <jlayton@kernel.org>
+>                 return true;
+> +       if (shmem_huge == SHMEM_HUGE_DENY)
+> +               return false;
+>
+>         switch (SHMEM_SB(inode->i_sb)->huge) {
+>         case SHMEM_HUGE_ALWAYS:
+> @@ -669,8 +669,8 @@ static long shmem_unused_huge_count(struct super_block *sb,
+>
+>  #define shmem_huge SHMEM_HUGE_DENY
+>
+> -bool shmem_is_huge(struct vm_area_struct *vma,
+> -                  struct inode *inode, pgoff_t index)
+> +bool shmem_is_huge(struct vm_area_struct *vma, struct inode *inode,
+> +                  pgoff_t index, bool shmem_huge_force)
+>  {
+>         return false;
+>  }
+> @@ -1056,7 +1056,7 @@ static int shmem_getattr(struct user_namespace *mnt_userns,
+>                         STATX_ATTR_NODUMP);
+>         generic_fillattr(&init_user_ns, inode, stat);
+>
+> -       if (shmem_is_huge(NULL, inode, 0))
+> +       if (shmem_is_huge(NULL, inode, 0, false))
+>                 stat->blksize = HPAGE_PMD_SIZE;
+>
+>         if (request_mask & STATX_BTIME) {
+> @@ -1888,7 +1888,7 @@ static int shmem_get_folio_gfp(struct inode *inode, pgoff_t index,
+>                 return 0;
+>         }
+>
+> -       if (!shmem_is_huge(vma, inode, index))
+> +       if (!shmem_is_huge(vma, inode, index, false))
+>                 goto alloc_nohuge;
+>
+>         huge_gfp = vma_thp_gfp_mask(vma);
+> --
+> 2.37.2.789.g6183377224-goog
+>
