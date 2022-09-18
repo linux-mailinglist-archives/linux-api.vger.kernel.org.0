@@ -2,174 +2,134 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F0D485BB496
-	for <lists+linux-api@lfdr.de>; Sat, 17 Sep 2022 01:05:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A50915BC045
+	for <lists+linux-api@lfdr.de>; Mon, 19 Sep 2022 00:05:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229539AbiIPXFo (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 16 Sep 2022 19:05:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49414 "EHLO
+        id S229581AbiIRWFA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 18 Sep 2022 18:05:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229772AbiIPXFn (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 16 Sep 2022 19:05:43 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB5834DF10
-        for <linux-api@vger.kernel.org>; Fri, 16 Sep 2022 16:05:42 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id d82so22585635pfd.10
-        for <linux-api@vger.kernel.org>; Fri, 16 Sep 2022 16:05:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=JPS3rZg4bQ62RtLzsB7DgGU6ZsDdjoF4tP8H2c4lSWg=;
-        b=jh7AhztYzYpQz9QGFSUwzCSl6BMCHWMP5wLzATZsIheNEgGXNQ8PlG5i9weZ51RKmf
-         hDhnRs4dglyPOGituqoUMss4FgEukjpASj9OouMXam+9KJJ4cmIvHmOSERSqXmdaRxfG
-         yt3/E5GzzjG5EgQtBohUesRrPXzEoSJ4047ffdt8W1C4FOXlJPEQeQsNWNsH7Emz+W/s
-         1ezR39+sok5UN+ys0LIhMmEKCXTuZHgzGh4puiywidbDm0I6zxGLaLCDZtpS47PknAfV
-         Wwd6y35mHkM92lOBgDEKmtuEb5h5CHu/2ClPPNoiUMkFb8qEhw7vKAAIoZAOa0KV8MaU
-         5TOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=JPS3rZg4bQ62RtLzsB7DgGU6ZsDdjoF4tP8H2c4lSWg=;
-        b=Du/hQAIrbFveeJ9E2fzeWfs5DS6Ra8ULfUBDVqtB1eaY4rGERqTwiSQvLL7pc5bhaO
-         7qj8OFLlbkM49DCIIxs+mCgQN9JpOzrb72nzDTZ75VXAAGtCq3zV/mdscCugRqNXHvpn
-         RGqQe6nyeDEc0lL7iSRLRAvez+nUfA/4CI3AIds4vAYRjVVTsRawqs4XX2cSUoVciSNW
-         Xck3uWZlJsXPAnTovC4CM83FIQL1DIeg02T/x1oed2GVNbS8i0LFw1LZdX8enplWaYnr
-         J+CLuRVia+8JnipM+AqSB17A4mWyDJv2M6Jwdjk1SfITv+1o7yeFKDjHPSH7NDB+kYFn
-         9oWg==
-X-Gm-Message-State: ACrzQf09mxWtoMQTWB3wZ+MjVgKvKD+AlriDmSFKQQpb1Nqvd7o7w3g3
-        EJb05q1cjgXsr5H8JYkPtsnxmQ==
-X-Google-Smtp-Source: AMsMyM4w0RVV82+Q3b7HuylqZMpKg87acNTPI01JO42vgXPC+p5MKWY281B2C9+jJX3cGhkOJWq/9g==
-X-Received: by 2002:a62:1a8d:0:b0:544:1309:19f3 with SMTP id a135-20020a621a8d000000b00544130919f3mr7429622pfa.37.1663369541940;
-        Fri, 16 Sep 2022 16:05:41 -0700 (PDT)
-Received: from google.com (33.5.83.34.bc.googleusercontent.com. [34.83.5.33])
-        by smtp.gmail.com with ESMTPSA id c3-20020a170902d48300b001786b712f0esm4535776plg.227.2022.09.16.16.05.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Sep 2022 16:05:41 -0700 (PDT)
-Date:   Fri, 16 Sep 2022 16:05:37 -0700
-From:   Zach O'Keefe <zokeefe@google.com>
-To:     Yang Shi <shy828301@gmail.com>
-Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
-        linux-api@vger.kernel.org,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        James Houghton <jthoughton@google.com>,
-        Hugh Dickins <hughd@google.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        David Hildenbrand <david@redhat.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Pasha Tatashin <pasha.tatashin@soleen.com>,
-        Peter Xu <peterx@redhat.com>,
-        Rongwei Wang <rongwei.wang@linux.alibaba.com>,
-        SeongJae Park <sj@kernel.org>,
-        Song Liu <songliubraving@fb.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Chris Kennelly <ckennelly@google.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Patrick Xia <patrickx@google.com>
-Subject: Re: [PATCH mm-unstable v3 04/10] mm/khugepaged: add tracepoint to
- hpage_collapse_scan_file()
-Message-ID: <YyUBQbIgLmAoAOLo@google.com>
-References: <20220907144521.3115321-1-zokeefe@google.com>
- <20220907144521.3115321-5-zokeefe@google.com>
- <CAHbLzko9MsLcKhV9hh_0ZN8j5Zqh9cvLTCOrhNXGRcVYWQ1q3g@mail.gmail.com>
+        with ESMTP id S229458AbiIRWE6 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 18 Sep 2022 18:04:58 -0400
+Received: from out02.mta.xmission.com (out02.mta.xmission.com [166.70.13.232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 324BCBF70;
+        Sun, 18 Sep 2022 15:04:57 -0700 (PDT)
+Received: from in01.mta.xmission.com ([166.70.13.51]:48816)
+        by out02.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1oa2PI-00H78e-0b; Sun, 18 Sep 2022 16:04:56 -0600
+Received: from ip68-110-29-46.om.om.cox.net ([68.110.29.46]:50464 helo=email.froward.int.ebiederm.org.xmission.com)
+        by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1oa2PH-000O86-13; Sun, 18 Sep 2022 16:04:55 -0600
+From:   "Eric W. Biederman" <ebiederm@xmission.com>
+To:     Florian Mayer <fmayer@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Oleg Nesterov <oleg@redhat.com>,
+        Christian Brauner <brauner@kernel.org>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Peter Collingbourne <pcc@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>, linux-api@vger.kernel.org
+References: <20220909180617.374238-1-fmayer@google.com>
+        <87v8pw8bkx.fsf@email.froward.int.ebiederm.org>
+        <CAJAyTCCcecgqeMfs9W8=U4wi-6O+DaRktUsyJuStYy-JgKQCdg@mail.gmail.com>
+Date:   Sun, 18 Sep 2022 17:04:48 -0500
+In-Reply-To: <CAJAyTCCcecgqeMfs9W8=U4wi-6O+DaRktUsyJuStYy-JgKQCdg@mail.gmail.com>
+        (Florian Mayer's message of "Fri, 9 Sep 2022 16:05:34 -0700")
+Message-ID: <875yhk730f.fsf@email.froward.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHbLzko9MsLcKhV9hh_0ZN8j5Zqh9cvLTCOrhNXGRcVYWQ1q3g@mail.gmail.com>
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-XM-SPF: eid=1oa2PH-000O86-13;;;mid=<875yhk730f.fsf@email.froward.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.110.29.46;;;frm=ebiederm@xmission.com;;;spf=softfail
+X-XM-AID: U2FsdGVkX1+GH9uiilgu5nUbYPntWwWcfiqEPCTLJ20=
+X-SA-Exim-Connect-IP: 68.110.29.46
+X-SA-Exim-Mail-From: ebiederm@xmission.com
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: **;Florian Mayer <fmayer@google.com>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 441 ms - load_scoreonly_sql: 0.04 (0.0%),
+        signal_user_changed: 12 (2.7%), b_tie_ro: 10 (2.3%), parse: 1.09
+        (0.2%), extract_message_metadata: 14 (3.1%), get_uri_detail_list: 2.1
+        (0.5%), tests_pri_-1000: 14 (3.1%), tests_pri_-950: 1.22 (0.3%),
+        tests_pri_-900: 1.00 (0.2%), tests_pri_-90: 63 (14.2%), check_bayes:
+        61 (13.8%), b_tokenize: 8 (1.8%), b_tok_get_all: 8 (1.9%),
+        b_comp_prob: 2.8 (0.6%), b_tok_touch_all: 38 (8.7%), b_finish: 1.06
+        (0.2%), tests_pri_0: 323 (73.2%), check_dkim_signature: 0.51 (0.1%),
+        check_dkim_adsp: 4.0 (0.9%), poll_dns_idle: 2.1 (0.5%), tests_pri_10:
+        2.1 (0.5%), tests_pri_500: 8 (1.8%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [PATCH RESEND] Add sicode to /proc/<PID>/stat.
+X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Sep 16 13:41, Yang Shi wrote:
-> On Wed, Sep 7, 2022 at 7:45 AM Zach O'Keefe <zokeefe@google.com> wrote:
-> >
-> > Add huge_memory:trace_mm_khugepaged_scan_file tracepoint to
-> > hpage_collapse_scan_file() analogously to hpage_collapse_scan_pmd().
-> > While this change is targeted at debugging MADV_COLLAPSE pathway, the
-> > "mm_khugepaged" prefix is retained for symmetry with
-> > huge_memory:trace_mm_khugepaged_scan_pmd, which retains it's legacy name
-> > to prevent changing kernel ABI as much as possible.
-> >
-> > Signed-off-by: Zach O'Keefe <zokeefe@google.com>
-> 
-> Reviewed-by: Yang Shi <shy828301@gmail.com>
-> 
+Florian Mayer <fmayer@google.com> writes:
 
-Thanks, as always!
+> On Fri, 9 Sept 2022 at 14:47, Eric W. Biederman <ebiederm@xmission.com> wrote:
+>> Added linux-api because you are changing the api.
+>
+> Thanks.
+>
+>> Several things.  First you are messing with /proc/<pid>/stat which is
+>> heavily used.  You do add the value to the end of the list which is
+>> good.  You don't talk about how many userspace applications you have
+>> tested to be certain that it is actually safe to add something to this
+>> file, nor do you talk about measuring performance.
+>
+> Makes sense. Given this and Kees comment above, it seems like status
+> instead is a better place. That should deal with the compatibility
+> issue given it's a key-value pair file. Do you have the same
+> performance concerns for that file as well?
 
-> > ---
-> >  include/trace/events/huge_memory.h | 34 ++++++++++++++++++++++++++++++
-> >  mm/khugepaged.c                    |  3 ++-
-> >  2 files changed, 36 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/include/trace/events/huge_memory.h b/include/trace/events/huge_memory.h
-> > index df33453b70fc..935af4947917 100644
-> > --- a/include/trace/events/huge_memory.h
-> > +++ b/include/trace/events/huge_memory.h
-> > @@ -169,5 +169,39 @@ TRACE_EVENT(mm_collapse_huge_page_swapin,
-> >                 __entry->ret)
-> >  );
-> >
-> > +TRACE_EVENT(mm_khugepaged_scan_file,
-> > +
-> > +       TP_PROTO(struct mm_struct *mm, struct page *page, const char *filename,
-> > +                int present, int swap, int result),
-> > +
-> > +       TP_ARGS(mm, page, filename, present, swap, result),
-> > +
-> > +       TP_STRUCT__entry(
-> > +               __field(struct mm_struct *, mm)
-> > +               __field(unsigned long, pfn)
-> > +               __string(filename, filename)
-> > +               __field(int, present)
-> > +               __field(int, swap)
-> > +               __field(int, result)
-> > +       ),
-> > +
-> > +       TP_fast_assign(
-> > +               __entry->mm = mm;
-> > +               __entry->pfn = page ? page_to_pfn(page) : -1;
-> > +               __assign_str(filename, filename);
-> > +               __entry->present = present;
-> > +               __entry->swap = swap;
-> > +               __entry->result = result;
-> > +       ),
-> > +
-> > +       TP_printk("mm=%p, scan_pfn=0x%lx, filename=%s, present=%d, swap=%d, result=%s",
-> > +               __entry->mm,
-> > +               __entry->pfn,
-> > +               __get_str(filename),
-> > +               __entry->present,
-> > +               __entry->swap,
-> > +               __print_symbolic(__entry->result, SCAN_STATUS))
-> > +);
-> > +
-> >  #endif /* __HUGE_MEMORY_H */
-> >  #include <trace/define_trace.h>
-> > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> > index 66457a06b4e7..9325aec25abc 100644
-> > --- a/mm/khugepaged.c
-> > +++ b/mm/khugepaged.c
-> > @@ -2152,7 +2152,8 @@ static int hpage_collapse_scan_file(struct mm_struct *mm, unsigned long addr,
-> >                 }
-> >         }
-> >
-> > -       /* TODO: tracepoints */
-> > +       trace_mm_khugepaged_scan_file(mm, page, file->f_path.dentry->d_iname,
-> > +                                     present, swap, result);
-> >         return result;
-> >  }
-> >  #else
-> > --
-> > 2.37.2.789.g6183377224-goog
-> >
+They are a general concern.  It is worth checking to see if the
+performance of the proc file you modify changes measurably.
+
+>> This implementation seems very fragile.  How long until you need the
+>> full siginfo of the signal that caused the process to exit somewhere?
+>
+> For our use case probably never. I don't know if someone else will
+> eventually need everything.
+>
+>> There are two ways to get this information with existing APIs.
+>> - Catch the signal in the process and give it to someone.
+>
+> This would involve establishing a back-channel from the child process
+> to init, which is not impossible but also not particularly
+> architecturally nice.
+>
+>> - Debug the process and stop in PTRACE_EVENT_EXIT and read
+>>   the signal with PTRACE_PEEKSIGINFO.
+>
+> This will not work with the SELinux rules we want to enforce on Android.
+>
+>> I know people have wanted the full siginfo on exit before, but we have
+>> not gotten there yet.
+>
+> That sounds like a much bigger change. How would that look? A new
+> sys-call to get the siginfo from a zombie? A new wait API?
+
+Another proc file.  It is more that we have gotten requests for that
+in the past.
+
+I will toss out one more possibility that seems like a good solution
+with existing facilities.  Have the coredump helper (aka the process
+that coredumps are piped to) read the signal state from the coredump.
+At which point the coredump helper can back channel to init or whatever
+needs this information.
+
+I am probably missing something obvious but the consumer of all
+coredumps seems like the right place to add functionality for debugging
+like this as it can tell everything about the dead userspace process.
+
+Eric
