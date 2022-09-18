@@ -2,134 +2,198 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A50915BC045
-	for <lists+linux-api@lfdr.de>; Mon, 19 Sep 2022 00:05:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B70D5BC0AC
+	for <lists+linux-api@lfdr.de>; Mon, 19 Sep 2022 01:53:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229581AbiIRWFA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 18 Sep 2022 18:05:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59994 "EHLO
+        id S229703AbiIRXxx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Sun, 18 Sep 2022 19:53:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbiIRWE6 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 18 Sep 2022 18:04:58 -0400
-Received: from out02.mta.xmission.com (out02.mta.xmission.com [166.70.13.232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 324BCBF70;
-        Sun, 18 Sep 2022 15:04:57 -0700 (PDT)
-Received: from in01.mta.xmission.com ([166.70.13.51]:48816)
-        by out02.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1oa2PI-00H78e-0b; Sun, 18 Sep 2022 16:04:56 -0600
-Received: from ip68-110-29-46.om.om.cox.net ([68.110.29.46]:50464 helo=email.froward.int.ebiederm.org.xmission.com)
-        by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1oa2PH-000O86-13; Sun, 18 Sep 2022 16:04:55 -0600
-From:   "Eric W. Biederman" <ebiederm@xmission.com>
-To:     Florian Mayer <fmayer@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Oleg Nesterov <oleg@redhat.com>,
-        Christian Brauner <brauner@kernel.org>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Peter Collingbourne <pcc@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>, linux-api@vger.kernel.org
-References: <20220909180617.374238-1-fmayer@google.com>
-        <87v8pw8bkx.fsf@email.froward.int.ebiederm.org>
-        <CAJAyTCCcecgqeMfs9W8=U4wi-6O+DaRktUsyJuStYy-JgKQCdg@mail.gmail.com>
-Date:   Sun, 18 Sep 2022 17:04:48 -0500
-In-Reply-To: <CAJAyTCCcecgqeMfs9W8=U4wi-6O+DaRktUsyJuStYy-JgKQCdg@mail.gmail.com>
-        (Florian Mayer's message of "Fri, 9 Sep 2022 16:05:34 -0700")
-Message-ID: <875yhk730f.fsf@email.froward.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+        with ESMTP id S229519AbiIRXxw (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Sun, 18 Sep 2022 19:53:52 -0400
+Received: from mail104.syd.optusnet.com.au (mail104.syd.optusnet.com.au [211.29.132.246])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A6D2D13CD7;
+        Sun, 18 Sep 2022 16:53:50 -0700 (PDT)
+Received: from dread.disaster.area (pa49-186-149-49.pa.vic.optusnet.com.au [49.186.149.49])
+        by mail104.syd.optusnet.com.au (Postfix) with ESMTPS id B1B9B8A9D52;
+        Mon, 19 Sep 2022 09:53:46 +1000 (AEST)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+        (envelope-from <david@fromorbit.com>)
+        id 1oa46a-009Oeo-7b; Mon, 19 Sep 2022 09:53:44 +1000
+Date:   Mon, 19 Sep 2022 09:53:44 +1000
+From:   Dave Chinner <david@fromorbit.com>
+To:     Jeff Layton <jlayton@kernel.org>
+Cc:     Theodore Ts'o <tytso@mit.edu>, NeilBrown <neilb@suse.de>,
+        Trond Myklebust <trondmy@hammerspace.com>,
+        "bfields@fieldses.org" <bfields@fieldses.org>,
+        "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
+        "djwong@kernel.org" <djwong@kernel.org>,
+        "brauner@kernel.org" <brauner@kernel.org>,
+        "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "chuck.lever@oracle.com" <chuck.lever@oracle.com>,
+        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
+        "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
+        "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+        "jack@suse.cz" <jack@suse.cz>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "xiubli@redhat.com" <xiubli@redhat.com>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
+        "lczerner@redhat.com" <lczerner@redhat.com>,
+        "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
+        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>
+Subject: Re: [man-pages RFC PATCH v4] statx, inode: document the new
+ STATX_INO_VERSION field
+Message-ID: <20220918235344.GH3600936@dread.disaster.area>
+References: <577b6d8a7243aeee37eaa4bbb00c90799586bc48.camel@hammerspace.com>
+ <1a968b8e87f054e360877c9ab8cdfc4cfdfc8740.camel@kernel.org>
+ <0646410b6d2a5d19d3315f339b2928dfa9f2d922.camel@hammerspace.com>
+ <34e91540c92ad6980256f6b44115cf993695d5e1.camel@kernel.org>
+ <871f9c5153ddfe760854ca31ee36b84655959b83.camel@hammerspace.com>
+ <e8922bc821a40f5a3f0a1301583288ed19b6891b.camel@kernel.org>
+ <166328063547.15759.12797959071252871549@noble.neil.brown.name>
+ <YyQdmLpiAMvl5EkU@mit.edu>
+ <7027d1c2923053fe763e9218d10ce8634b56e81d.camel@kernel.org>
+ <24005713ad25370d64ab5bd0db0b2e4fcb902c1c.camel@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1oa2PH-000O86-13;;;mid=<875yhk730f.fsf@email.froward.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.110.29.46;;;frm=ebiederm@xmission.com;;;spf=softfail
-X-XM-AID: U2FsdGVkX1+GH9uiilgu5nUbYPntWwWcfiqEPCTLJ20=
-X-SA-Exim-Connect-IP: 68.110.29.46
-X-SA-Exim-Mail-From: ebiederm@xmission.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <24005713ad25370d64ab5bd0db0b2e4fcb902c1c.camel@kernel.org>
+X-Optus-CM-Score: 0
+X-Optus-CM-Analysis: v=2.4 cv=e9dl9Yl/ c=1 sm=1 tr=0 ts=6327af8e
+        a=XTRC1Ovx3SkpaCW1YxGVGA==:117 a=XTRC1Ovx3SkpaCW1YxGVGA==:17
+        a=kj9zAlcOel0A:10 a=xOM3xZuef0cA:10 a=7-415B0cAAAA:8
+        a=OM9ssF-cS7fGoRW40zoA:9 a=CjuIK1q_8ugA:10 a=biEYGPWJfzWAr4FL6Ov7:22
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
-X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: **;Florian Mayer <fmayer@google.com>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 441 ms - load_scoreonly_sql: 0.04 (0.0%),
-        signal_user_changed: 12 (2.7%), b_tie_ro: 10 (2.3%), parse: 1.09
-        (0.2%), extract_message_metadata: 14 (3.1%), get_uri_detail_list: 2.1
-        (0.5%), tests_pri_-1000: 14 (3.1%), tests_pri_-950: 1.22 (0.3%),
-        tests_pri_-900: 1.00 (0.2%), tests_pri_-90: 63 (14.2%), check_bayes:
-        61 (13.8%), b_tokenize: 8 (1.8%), b_tok_get_all: 8 (1.9%),
-        b_comp_prob: 2.8 (0.6%), b_tok_touch_all: 38 (8.7%), b_finish: 1.06
-        (0.2%), tests_pri_0: 323 (73.2%), check_dkim_signature: 0.51 (0.1%),
-        check_dkim_adsp: 4.0 (0.9%), poll_dns_idle: 2.1 (0.5%), tests_pri_10:
-        2.1 (0.5%), tests_pri_500: 8 (1.8%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH RESEND] Add sicode to /proc/<PID>/stat.
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Florian Mayer <fmayer@google.com> writes:
+On Fri, Sep 16, 2022 at 11:11:34AM -0400, Jeff Layton wrote:
+> On Fri, 2022-09-16 at 07:36 -0400, Jeff Layton wrote:
+> > On Fri, 2022-09-16 at 02:54 -0400, Theodore Ts'o wrote:
+> > > On Fri, Sep 16, 2022 at 08:23:55AM +1000, NeilBrown wrote:
+> > > > > > If the answer is that 'all values change', then why store the crash
+> > > > > > counter in the inode at all? Why not just add it as an offset when
+> > > > > > you're generating the user-visible change attribute?
+> > > > > > 
+> > > > > > i.e. statx.change_attr = inode->i_version + (crash counter * offset)
+> > > 
+> > > I had suggested just hashing the crash counter with the file system's
+> > > on-disk i_version number, which is essentially what you are suggested.
+> > > 
+> > > > > Yes, if we plan to ensure that all the change attrs change after a
+> > > > > crash, we can do that.
+> > > > > 
+> > > > > So what would make sense for an offset? Maybe 2**12? One would hope that
+> > > > > there wouldn't be more than 4k increments before one of them made it to
+> > > > > disk. OTOH, maybe that can happen with teeny-tiny writes.
+> > > > 
+> > > > Leave it up the to filesystem to decide.  The VFS and/or NFSD should
+> > > > have not have part in calculating the i_version.  It should be entirely
+> > > > in the filesystem - though support code could be provided if common
+> > > > patterns exist across filesystems.
+> > > 
+> > > Oh, *heck* no.  This parameter is for the NFS implementation to
+> > > decide, because it's NFS's caching algorithms which are at stake here.
+> > > 
+> > > As a the file system maintainer, I had offered to make an on-disk
+> > > "crash counter" which would get updated when the journal had gotten
+> > > replayed, in addition to the on-disk i_version number.  This will be
+> > > available for the Linux implementation of NFSD to use, but that's up
+> > > to *you* to decide how you want to use them.
+> > > 
+> > > I was perfectly happy with hashing the crash counter and the i_version
+> > > because I had assumed that not *that* much stuff was going to be
+> > > cached, and so invalidating all of the caches in the unusual case
+> > > where there was a crash was acceptable.  After all it's a !@#?!@
+> > > cache.  Caches sometimmes get invalidated.  "That is the order of
+> > > things." (as Ramata'Klan once said in "Rocks and Shoals")
+> > > 
+> > > But if people expect that multiple TB's of data is going to be stored;
+> > > that cache invalidation is unacceptable; and that a itsy-weeny chance
+> > > of false negative failures which might cause data corruption might be
+> > > acceptable tradeoff, hey, that's for the system which is providing
+> > > caching semantics to determine.
+> > > 
+> > > PLEASE don't put this tradeoff on the file system authors; I would
+> > > much prefer to leave this tradeoff in the hands of the system which is
+> > > trying to do the caching.
+> > > 
+> > 
+> > Yeah, if we were designing this from scratch, I might agree with leaving
+> > more up to the filesystem, but the existing users all have pretty much
+> > the same needs. I'm going to plan to try to keep most of this in the
+> > common infrastructure defined in iversion.h.
+> > 
+> > Ted, for the ext4 crash counter, what wordsize were you thinking? I
+> > doubt we'll be able to use much more than 32 bits so a larger integer is
+> > probably not worthwhile. There are several holes in struct super_block
+> > (at least on x86_64), so adding this field to the generic structure
+> > needn't grow it.
+> 
+> That said, now that I've taken a swipe at implementing this, I need more
+> information than just the crash counter. We need to multiply the crash
+> counter with a reasonable estimate of the maximum number of individual
+> writes that could occur between an i_version being incremented and that
+> value making it to the backing store.
+> 
+> IOW, given a write that bumps the i_version to X, how many more write
+> calls could race in before X makes it to the platter? I took a SWAG and
+> said 4k in an earlier email, but I don't really have a way to know, and
+> that could vary wildly with different filesystems and storage.
+> 
+> What I'd like to see is this in struct super_block:
+> 
+> 	u32		s_version_offset;
 
-> On Fri, 9 Sept 2022 at 14:47, Eric W. Biederman <ebiederm@xmission.com> wrote:
->> Added linux-api because you are changing the api.
->
-> Thanks.
->
->> Several things.  First you are messing with /proc/<pid>/stat which is
->> heavily used.  You do add the value to the end of the list which is
->> good.  You don't talk about how many userspace applications you have
->> tested to be certain that it is actually safe to add something to this
->> file, nor do you talk about measuring performance.
->
-> Makes sense. Given this and Kees comment above, it seems like status
-> instead is a better place. That should deal with the compatibility
-> issue given it's a key-value pair file. Do you have the same
-> performance concerns for that file as well?
+	u64		s_version_salt;
 
-They are a general concern.  It is worth checking to see if the
-performance of the proc file you modify changes measurably.
+> ...and then individual filesystems can calculate:
+> 
+> 	crash_counter * max_number_of_writes
+> 
+> and put the correct value in there at mount time.
 
->> This implementation seems very fragile.  How long until you need the
->> full siginfo of the signal that caused the process to exit somewhere?
->
-> For our use case probably never. I don't know if someone else will
-> eventually need everything.
->
->> There are two ways to get this information with existing APIs.
->> - Catch the signal in the process and give it to someone.
->
-> This would involve establishing a back-channel from the child process
-> to init, which is not impossible but also not particularly
-> architecturally nice.
->
->> - Debug the process and stop in PTRACE_EVENT_EXIT and read
->>   the signal with PTRACE_PEEKSIGINFO.
->
-> This will not work with the SELinux rules we want to enforce on Android.
->
->> I know people have wanted the full siginfo on exit before, but we have
->> not gotten there yet.
->
-> That sounds like a much bigger change. How would that look? A new
-> sys-call to get the siginfo from a zombie? A new wait API?
+Other filesystems might not have a crash counter but have other
+information that can be substituted, like a mount counter or a
+global change sequence number that is guaranteed to increment from
+one mount to the next. 
 
-Another proc file.  It is more that we have gotten requests for that
-in the past.
+Further, have you thought about what "max number of writes" might
+be in ten years time? e.g.  what happens if a filesysetm as "max
+number of writes" being greater than 2^32? I mean, we already have
+machines out there running Linux with 64-128TB of physical RAM, so
+it's already practical to hold > 2^32 individual writes to a single
+inode that each bump i_version in memory....
 
-I will toss out one more possibility that seems like a good solution
-with existing facilities.  Have the coredump helper (aka the process
-that coredumps are piped to) read the signal state from the coredump.
-At which point the coredump helper can back channel to init or whatever
-needs this information.
+So when we consider this sort of scale, the "crash counter * max
+writes" scheme largely falls apart because "max writes" is a really
+large number to begin with. We're going to be stuck with whatever
+algorithm is decided on for the foreseeable future, so we must
+recognise that _we've already overrun 32 bit counter schemes_ in
+terms of tracking "i_version changes in memory vs what we have on
+disk".
 
-I am probably missing something obvious but the consumer of all
-coredumps seems like the right place to add functionality for debugging
-like this as it can tell everything about the dead userspace process.
+Hence I really think that we should be leaving the implementation of
+the salt value to the individual filesysetms as different
+filesytsems are aimed at different use cases and so may not
+necessarily have to all care about the same things (like 2^32 bit
+max write overruns).  All the high level VFS code then needs to do
+is add the two together:
 
-Eric
+	statx.change_attr = inode->i_version + sb->s_version_salt;
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
