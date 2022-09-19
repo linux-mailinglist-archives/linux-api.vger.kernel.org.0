@@ -2,73 +2,106 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B70D5BC0AC
-	for <lists+linux-api@lfdr.de>; Mon, 19 Sep 2022 01:53:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13AFF5BC512
+	for <lists+linux-api@lfdr.de>; Mon, 19 Sep 2022 11:13:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229703AbiIRXxx (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Sun, 18 Sep 2022 19:53:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53048 "EHLO
+        id S230225AbiISJM6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 19 Sep 2022 05:12:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229519AbiIRXxw (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Sun, 18 Sep 2022 19:53:52 -0400
-Received: from mail104.syd.optusnet.com.au (mail104.syd.optusnet.com.au [211.29.132.246])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A6D2D13CD7;
-        Sun, 18 Sep 2022 16:53:50 -0700 (PDT)
-Received: from dread.disaster.area (pa49-186-149-49.pa.vic.optusnet.com.au [49.186.149.49])
-        by mail104.syd.optusnet.com.au (Postfix) with ESMTPS id B1B9B8A9D52;
-        Mon, 19 Sep 2022 09:53:46 +1000 (AEST)
-Received: from dave by dread.disaster.area with local (Exim 4.92.3)
-        (envelope-from <david@fromorbit.com>)
-        id 1oa46a-009Oeo-7b; Mon, 19 Sep 2022 09:53:44 +1000
-Date:   Mon, 19 Sep 2022 09:53:44 +1000
-From:   Dave Chinner <david@fromorbit.com>
-To:     Jeff Layton <jlayton@kernel.org>
-Cc:     Theodore Ts'o <tytso@mit.edu>, NeilBrown <neilb@suse.de>,
-        Trond Myklebust <trondmy@hammerspace.com>,
-        "bfields@fieldses.org" <bfields@fieldses.org>,
-        "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
-        "djwong@kernel.org" <djwong@kernel.org>,
-        "brauner@kernel.org" <brauner@kernel.org>,
-        "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "chuck.lever@oracle.com" <chuck.lever@oracle.com>,
-        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
-        "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
-        "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
-        "jack@suse.cz" <jack@suse.cz>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "xiubli@redhat.com" <xiubli@redhat.com>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
-        "lczerner@redhat.com" <lczerner@redhat.com>,
-        "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
-        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>
-Subject: Re: [man-pages RFC PATCH v4] statx, inode: document the new
- STATX_INO_VERSION field
-Message-ID: <20220918235344.GH3600936@dread.disaster.area>
-References: <577b6d8a7243aeee37eaa4bbb00c90799586bc48.camel@hammerspace.com>
- <1a968b8e87f054e360877c9ab8cdfc4cfdfc8740.camel@kernel.org>
- <0646410b6d2a5d19d3315f339b2928dfa9f2d922.camel@hammerspace.com>
- <34e91540c92ad6980256f6b44115cf993695d5e1.camel@kernel.org>
- <871f9c5153ddfe760854ca31ee36b84655959b83.camel@hammerspace.com>
- <e8922bc821a40f5a3f0a1301583288ed19b6891b.camel@kernel.org>
- <166328063547.15759.12797959071252871549@noble.neil.brown.name>
- <YyQdmLpiAMvl5EkU@mit.edu>
- <7027d1c2923053fe763e9218d10ce8634b56e81d.camel@kernel.org>
- <24005713ad25370d64ab5bd0db0b2e4fcb902c1c.camel@kernel.org>
+        with ESMTP id S229953AbiISJM4 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 19 Sep 2022 05:12:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0114423173
+        for <linux-api@vger.kernel.org>; Mon, 19 Sep 2022 02:12:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1663578771;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=jxl8dn6mQx+TY+/R8pZqq4F+YYfwiklYX5vSpv2CpI0=;
+        b=J5pouKe1VlcV+F1AwRxlmUiVMY1Tb+t0g1cOLkkLtlqKoJVVND10eoYNZ0n92/FnQX4fBK
+        ucOWgYT1xE7Lq/ieXh843dFzVgBleccnmtgLgDEOMvcZ4N8v7vrfgxqk/vXE0GGH6zswMn
+        s/cjhXkl+5j7u1nFhKGqRmBeqA7u5Gw=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-648-vskkSrPMNBuQZ1Mt1xAGLA-1; Mon, 19 Sep 2022 05:12:50 -0400
+X-MC-Unique: vskkSrPMNBuQZ1Mt1xAGLA-1
+Received: by mail-wr1-f71.google.com with SMTP id s5-20020adfa285000000b0022ad5c2771cso2066765wra.18
+        for <linux-api@vger.kernel.org>; Mon, 19 Sep 2022 02:12:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:subject:organization:from
+         :references:cc:to:content-language:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date;
+        bh=jxl8dn6mQx+TY+/R8pZqq4F+YYfwiklYX5vSpv2CpI0=;
+        b=8DlcJ7QjdJPRZ7AM8JvXmprDGV5JPSsB5kVqOvQUUTZDNFCVYecI844eb6GLEe7pCH
+         w6K1ui8vcavaV+zk54WIFIA/HH35celE/MbFku+IKmS2inoUtaagCJ8KORwcTK5AILS0
+         s6VjQPvP2YzyBPCEBMp2YUedM/ujuKN0mY2SKSWHULseO6x0rUTwGUvqfip02YqwDYhc
+         Pb+P77QTlCAQgRvLF+FSS2afyJKcjvA+odctY5LMTjNdThUT+X09iuqq7S6+jWRo2IP/
+         /g/hz1A066o5Dy4b4qdApeplno4LuPRx7ZACOLYw2a4B+Q2VOgZ39J94K7w3WqRtR9rL
+         vY7g==
+X-Gm-Message-State: ACrzQf39l3+foA0RTGAxhHnnJ9b9RIfN2f+PbDMvm/h7TA7voL5E0a5I
+        qLVXcB5LjN1Ol7I8VRCZnQBeo97fbQgUXd+z9aGbBiC6nzMtUtHLv2mcdpgrwKCODFxHvb4+krk
+        MiGKAQ0mbDh4KePEzxNJn
+X-Received: by 2002:a05:600c:434c:b0:3b4:82fb:5f78 with SMTP id r12-20020a05600c434c00b003b482fb5f78mr11569512wme.157.1663578769344;
+        Mon, 19 Sep 2022 02:12:49 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM42ZT4pkoKjyDjQQPF2OgJto1LVpfUrBqi2mVYRAlQ8yoTL+vv0kZdwqQbz4IN8mCzxBGb4fw==
+X-Received: by 2002:a05:600c:434c:b0:3b4:82fb:5f78 with SMTP id r12-20020a05600c434c00b003b482fb5f78mr11569468wme.157.1663578768973;
+        Mon, 19 Sep 2022 02:12:48 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c703:c100:c136:f914:345f:f5f3? (p200300cbc703c100c136f914345ff5f3.dip0.t-ipconnect.de. [2003:cb:c703:c100:c136:f914:345f:f5f3])
+        by smtp.gmail.com with ESMTPSA id bk23-20020a0560001d9700b0022b014fb0b7sm2473698wrb.110.2022.09.19.02.12.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Sep 2022 02:12:48 -0700 (PDT)
+Message-ID: <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
+Date:   Mon, 19 Sep 2022 11:12:46 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <24005713ad25370d64ab5bd0db0b2e4fcb902c1c.camel@kernel.org>
-X-Optus-CM-Score: 0
-X-Optus-CM-Analysis: v=2.4 cv=e9dl9Yl/ c=1 sm=1 tr=0 ts=6327af8e
-        a=XTRC1Ovx3SkpaCW1YxGVGA==:117 a=XTRC1Ovx3SkpaCW1YxGVGA==:17
-        a=kj9zAlcOel0A:10 a=xOM3xZuef0cA:10 a=7-415B0cAAAA:8
-        a=OM9ssF-cS7fGoRW40zoA:9 a=CjuIK1q_8ugA:10 a=biEYGPWJfzWAr4FL6Ov7:22
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Content-Language: en-US
+To:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+In-Reply-To: <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,124 +109,178 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Fri, Sep 16, 2022 at 11:11:34AM -0400, Jeff Layton wrote:
-> On Fri, 2022-09-16 at 07:36 -0400, Jeff Layton wrote:
-> > On Fri, 2022-09-16 at 02:54 -0400, Theodore Ts'o wrote:
-> > > On Fri, Sep 16, 2022 at 08:23:55AM +1000, NeilBrown wrote:
-> > > > > > If the answer is that 'all values change', then why store the crash
-> > > > > > counter in the inode at all? Why not just add it as an offset when
-> > > > > > you're generating the user-visible change attribute?
-> > > > > > 
-> > > > > > i.e. statx.change_attr = inode->i_version + (crash counter * offset)
-> > > 
-> > > I had suggested just hashing the crash counter with the file system's
-> > > on-disk i_version number, which is essentially what you are suggested.
-> > > 
-> > > > > Yes, if we plan to ensure that all the change attrs change after a
-> > > > > crash, we can do that.
-> > > > > 
-> > > > > So what would make sense for an offset? Maybe 2**12? One would hope that
-> > > > > there wouldn't be more than 4k increments before one of them made it to
-> > > > > disk. OTOH, maybe that can happen with teeny-tiny writes.
-> > > > 
-> > > > Leave it up the to filesystem to decide.  The VFS and/or NFSD should
-> > > > have not have part in calculating the i_version.  It should be entirely
-> > > > in the filesystem - though support code could be provided if common
-> > > > patterns exist across filesystems.
-> > > 
-> > > Oh, *heck* no.  This parameter is for the NFS implementation to
-> > > decide, because it's NFS's caching algorithms which are at stake here.
-> > > 
-> > > As a the file system maintainer, I had offered to make an on-disk
-> > > "crash counter" which would get updated when the journal had gotten
-> > > replayed, in addition to the on-disk i_version number.  This will be
-> > > available for the Linux implementation of NFSD to use, but that's up
-> > > to *you* to decide how you want to use them.
-> > > 
-> > > I was perfectly happy with hashing the crash counter and the i_version
-> > > because I had assumed that not *that* much stuff was going to be
-> > > cached, and so invalidating all of the caches in the unusual case
-> > > where there was a crash was acceptable.  After all it's a !@#?!@
-> > > cache.  Caches sometimmes get invalidated.  "That is the order of
-> > > things." (as Ramata'Klan once said in "Rocks and Shoals")
-> > > 
-> > > But if people expect that multiple TB's of data is going to be stored;
-> > > that cache invalidation is unacceptable; and that a itsy-weeny chance
-> > > of false negative failures which might cause data corruption might be
-> > > acceptable tradeoff, hey, that's for the system which is providing
-> > > caching semantics to determine.
-> > > 
-> > > PLEASE don't put this tradeoff on the file system authors; I would
-> > > much prefer to leave this tradeoff in the hands of the system which is
-> > > trying to do the caching.
-> > > 
-> > 
-> > Yeah, if we were designing this from scratch, I might agree with leaving
-> > more up to the filesystem, but the existing users all have pretty much
-> > the same needs. I'm going to plan to try to keep most of this in the
-> > common infrastructure defined in iversion.h.
-> > 
-> > Ted, for the ext4 crash counter, what wordsize were you thinking? I
-> > doubt we'll be able to use much more than 32 bits so a larger integer is
-> > probably not worthwhile. There are several holes in struct super_block
-> > (at least on x86_64), so adding this field to the generic structure
-> > needn't grow it.
+On 15.09.22 16:29, Chao Peng wrote:
+> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 > 
-> That said, now that I've taken a swipe at implementing this, I need more
-> information than just the crash counter. We need to multiply the crash
-> counter with a reasonable estimate of the maximum number of individual
-> writes that could occur between an i_version being incremented and that
-> value making it to the backing store.
+> KVM can use memfd-provided memory for guest memory. For normal userspace
+> accessible memory, KVM userspace (e.g. QEMU) mmaps the memfd into its
+> virtual address space and then tells KVM to use the virtual address to
+> setup the mapping in the secondary page table (e.g. EPT).
 > 
-> IOW, given a write that bumps the i_version to X, how many more write
-> calls could race in before X makes it to the platter? I took a SWAG and
-> said 4k in an earlier email, but I don't really have a way to know, and
-> that could vary wildly with different filesystems and storage.
+> With confidential computing technologies like Intel TDX, the
+> memfd-provided memory may be encrypted with special key for special
+> software domain (e.g. KVM guest) and is not expected to be directly
+> accessed by userspace. Precisely, userspace access to such encrypted
+> memory may lead to host crash so it should be prevented.
+
+Initially my thaught was that this whole inaccessible thing is TDX 
+specific and there is no need to force that on other mechanisms. That's 
+why I suggested to not expose this to user space but handle the notifier 
+requirements internally.
+
+IIUC now, protected KVM has similar demands. Either access (read/write) 
+of guest RAM would result in a fault and possibly crash the hypervisor 
+(at least not the whole machine IIUC).
+
 > 
-> What I'd like to see is this in struct super_block:
+> This patch introduces userspace inaccessible memfd (created with
+> MFD_INACCESSIBLE). Its memory is inaccessible from userspace through
+> ordinary MMU access (e.g. read/write/mmap) but can be accessed via
+> in-kernel interface so KVM can directly interact with core-mm without
+> the need to map the memory into KVM userspace.
+
+With secretmem we decided to not add such "concept switch" flags and 
+instead use a dedicated syscall.
+
+What about memfd_inaccessible()? Especially, sealing and hugetlb are not 
+even supported and it might take a while to support either.
+
+
 > 
-> 	u32		s_version_offset;
-
-	u64		s_version_salt;
-
-> ...and then individual filesystems can calculate:
+> It provides semantics required for KVM guest private(encrypted) memory
+> support that a file descriptor with this flag set is going to be used as
+> the source of guest memory in confidential computing environments such
+> as Intel TDX/AMD SEV.
 > 
-> 	crash_counter * max_number_of_writes
+> KVM userspace is still in charge of the lifecycle of the memfd. It
+> should pass the opened fd to KVM. KVM uses the kernel APIs newly added
+> in this patch to obtain the physical memory address and then populate
+> the secondary page table entries.
 > 
-> and put the correct value in there at mount time.
+> The userspace inaccessible memfd can be fallocate-ed and hole-punched
+> from userspace. When hole-punching happens, KVM can get notified through
+> inaccessible_notifier it then gets chance to remove any mapped entries
+> of the range in the secondary page tables.
+> 
+> The userspace inaccessible memfd itself is implemented as a shim layer
+> on top of real memory file systems like tmpfs/hugetlbfs but this patch
+> only implemented tmpfs. The allocated memory is currently marked as
+> unmovable and unevictable, this is required for current confidential
+> usage. But in future this might be changed.
+> 
+> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> ---
+>   include/linux/memfd.h      |  24 ++++
+>   include/uapi/linux/magic.h |   1 +
+>   include/uapi/linux/memfd.h |   1 +
+>   mm/Makefile                |   2 +-
+>   mm/memfd.c                 |  25 ++++-
+>   mm/memfd_inaccessible.c    | 219 +++++++++++++++++++++++++++++++++++++
+>   6 files changed, 270 insertions(+), 2 deletions(-)
+>   create mode 100644 mm/memfd_inaccessible.c
+> 
+> diff --git a/include/linux/memfd.h b/include/linux/memfd.h
+> index 4f1600413f91..334ddff08377 100644
+> --- a/include/linux/memfd.h
+> +++ b/include/linux/memfd.h
+> @@ -3,6 +3,7 @@
+>   #define __LINUX_MEMFD_H
+>   
+>   #include <linux/file.h>
+> +#include <linux/pfn_t.h>
+>   
+>   #ifdef CONFIG_MEMFD_CREATE
+>   extern long memfd_fcntl(struct file *file, unsigned int cmd, unsigned long arg);
+> @@ -13,4 +14,27 @@ static inline long memfd_fcntl(struct file *f, unsigned int c, unsigned long a)
+>   }
+>   #endif
+>   
+> +struct inaccessible_notifier;
+> +
+> +struct inaccessible_notifier_ops {
+> +	void (*invalidate)(struct inaccessible_notifier *notifier,
+> +			   pgoff_t start, pgoff_t end);
+> +};
+> +
+> +struct inaccessible_notifier {
+> +	struct list_head list;
+> +	const struct inaccessible_notifier_ops *ops;
+> +};
+> +
+> +void inaccessible_register_notifier(struct file *file,
+> +				    struct inaccessible_notifier *notifier);
+> +void inaccessible_unregister_notifier(struct file *file,
+> +				      struct inaccessible_notifier *notifier);
+> +
+> +int inaccessible_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
+> +			 int *order);
+> +void inaccessible_put_pfn(struct file *file, pfn_t pfn);
+> +
+> +struct file *memfd_mkinaccessible(struct file *memfd);
+> +
+>   #endif /* __LINUX_MEMFD_H */
+> diff --git a/include/uapi/linux/magic.h b/include/uapi/linux/magic.h
+> index 6325d1d0e90f..9d066be3d7e8 100644
+> --- a/include/uapi/linux/magic.h
+> +++ b/include/uapi/linux/magic.h
+> @@ -101,5 +101,6 @@
+>   #define DMA_BUF_MAGIC		0x444d4142	/* "DMAB" */
+>   #define DEVMEM_MAGIC		0x454d444d	/* "DMEM" */
+>   #define SECRETMEM_MAGIC		0x5345434d	/* "SECM" */
+> +#define INACCESSIBLE_MAGIC	0x494e4143	/* "INAC" */
 
-Other filesystems might not have a crash counter but have other
-information that can be substituted, like a mount counter or a
-global change sequence number that is guaranteed to increment from
-one mount to the next. 
 
-Further, have you thought about what "max number of writes" might
-be in ten years time? e.g.  what happens if a filesysetm as "max
-number of writes" being greater than 2^32? I mean, we already have
-machines out there running Linux with 64-128TB of physical RAM, so
-it's already practical to hold > 2^32 individual writes to a single
-inode that each bump i_version in memory....
+[...]
 
-So when we consider this sort of scale, the "crash counter * max
-writes" scheme largely falls apart because "max writes" is a really
-large number to begin with. We're going to be stuck with whatever
-algorithm is decided on for the foreseeable future, so we must
-recognise that _we've already overrun 32 bit counter schemes_ in
-terms of tracking "i_version changes in memory vs what we have on
-disk".
+> +
+> +int inaccessible_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
+> +			 int *order)
+> +{
+> +	struct inaccessible_data *data = file->f_mapping->private_data;
+> +	struct file *memfd = data->memfd;
+> +	struct page *page;
+> +	int ret;
+> +
+> +	ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
+> +	if (ret)
+> +		return ret;
+> +
+> +	*pfn = page_to_pfn_t(page);
+> +	*order = thp_order(compound_head(page));
+> +	SetPageUptodate(page);
+> +	unlock_page(page);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(inaccessible_get_pfn);
+> +
+> +void inaccessible_put_pfn(struct file *file, pfn_t pfn)
+> +{
+> +	struct page *page = pfn_t_to_page(pfn);
+> +
+> +	if (WARN_ON_ONCE(!page))
+> +		return;
+> +
+> +	put_page(page);
+> +}
+> +EXPORT_SYMBOL_GPL(inaccessible_put_pfn);
 
-Hence I really think that we should be leaving the implementation of
-the salt value to the individual filesysetms as different
-filesytsems are aimed at different use cases and so may not
-necessarily have to all care about the same things (like 2^32 bit
-max write overruns).  All the high level VFS code then needs to do
-is add the two together:
+Sorry, I missed your reply regarding get/put interface.
 
-	statx.change_attr = inode->i_version + sb->s_version_salt;
+https://lore.kernel.org/linux-mm/20220810092532.GD862421@chaop.bj.intel.com/
 
-Cheers,
+"We have a design assumption that somedays this can even support 
+non-page based backing stores."
 
-Dave.
+As long as there is no such user in sight (especially how to get the 
+memfd from even allocating such memory which will require bigger 
+changes), I prefer to keep it simple here and work on pages/folios. No 
+need to over-complicate it for now.
+
+
 -- 
-Dave Chinner
-david@fromorbit.com
+Thanks,
+
+David / dhildenb
+
