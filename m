@@ -2,262 +2,820 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 791925BCCA8
-	for <lists+linux-api@lfdr.de>; Mon, 19 Sep 2022 15:13:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E0FD5BD0F0
+	for <lists+linux-api@lfdr.de>; Mon, 19 Sep 2022 17:30:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230073AbiISNNK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 19 Sep 2022 09:13:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34784 "EHLO
+        id S229947AbiISPaK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 19 Sep 2022 11:30:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229737AbiISNNJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 19 Sep 2022 09:13:09 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0833818B07;
-        Mon, 19 Sep 2022 06:13:08 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 3E6ECCE10C5;
-        Mon, 19 Sep 2022 13:13:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E5C3C433D6;
-        Mon, 19 Sep 2022 13:13:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1663593184;
-        bh=zdqdu0iqK3lpkefJfnopHzwRQytsQHl1o57nfALcMmg=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=lF6uMc92oOq+K1gl/oWQybTPzfvNPS8M3b6CFkhXxto4SGv3tGZgj1tqQqFCZ5QQz
-         vOPPOdhl2tWMEHLGAezmh7/B/T+MtC8ky2uy9qdZ1o2DsTHPSeKp51RZ2XJ/YSByx0
-         fE3wYAvToilWekqsphVAbWHB5lahMYGkxP8o6C3Scpvr8lvsrFyycjm4x5G3YGE8Mx
-         IW6gR/A3YgbHSXV7vF6gqi0+EON1NM43LNG6Vml7g0vImEcDryVfDQPALTao/cSL0m
-         jBg7H42N5OzaCH/PNPtkLh7FqEuPCJNCKNcFsg5MKI12RsGgNvJCY3pOewTf4/2byu
-         NRLIvHDObfSKg==
-Message-ID: <87fb43b117472c0a4c688c37a925ac51738c8826.camel@kernel.org>
-Subject: Re: [man-pages RFC PATCH v4] statx, inode: document the new
- STATX_INO_VERSION field
-From:   Jeff Layton <jlayton@kernel.org>
-To:     Dave Chinner <david@fromorbit.com>
-Cc:     Theodore Ts'o <tytso@mit.edu>, NeilBrown <neilb@suse.de>,
-        Trond Myklebust <trondmy@hammerspace.com>,
-        "bfields@fieldses.org" <bfields@fieldses.org>,
-        "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
-        "djwong@kernel.org" <djwong@kernel.org>,
-        "brauner@kernel.org" <brauner@kernel.org>,
-        "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "chuck.lever@oracle.com" <chuck.lever@oracle.com>,
-        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
-        "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
-        "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
-        "jack@suse.cz" <jack@suse.cz>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "xiubli@redhat.com" <xiubli@redhat.com>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
-        "lczerner@redhat.com" <lczerner@redhat.com>,
-        "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
-        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>
-Date:   Mon, 19 Sep 2022 09:13:00 -0400
-In-Reply-To: <20220918235344.GH3600936@dread.disaster.area>
-References: <577b6d8a7243aeee37eaa4bbb00c90799586bc48.camel@hammerspace.com>
-         <1a968b8e87f054e360877c9ab8cdfc4cfdfc8740.camel@kernel.org>
-         <0646410b6d2a5d19d3315f339b2928dfa9f2d922.camel@hammerspace.com>
-         <34e91540c92ad6980256f6b44115cf993695d5e1.camel@kernel.org>
-         <871f9c5153ddfe760854ca31ee36b84655959b83.camel@hammerspace.com>
-         <e8922bc821a40f5a3f0a1301583288ed19b6891b.camel@kernel.org>
-         <166328063547.15759.12797959071252871549@noble.neil.brown.name>
-         <YyQdmLpiAMvl5EkU@mit.edu>
-         <7027d1c2923053fe763e9218d10ce8634b56e81d.camel@kernel.org>
-         <24005713ad25370d64ab5bd0db0b2e4fcb902c1c.camel@kernel.org>
-         <20220918235344.GH3600936@dread.disaster.area>
-Content-Type: text/plain; charset="ISO-8859-15"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+        with ESMTP id S230078AbiISPaB (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 19 Sep 2022 11:30:01 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A402959B
+        for <linux-api@vger.kernel.org>; Mon, 19 Sep 2022 08:29:58 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id e5so28465012pfl.2
+        for <linux-api@vger.kernel.org>; Mon, 19 Sep 2022 08:29:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=ZtUnA5m4+AcIpXSXi8NaUq+lj8ohDdCTAi2ITNZDEF0=;
+        b=ABynQ6Z9j7jGu5aT0i9YoyiewodNZoW1L/9rkEaVEFHYeKnsftREaly/dvpppQWE8a
+         wqqHw6ltCZyHeBqekpGvDIfn0prL1HQkJ/zSmnkKL/wm39R9bDp3xsLoDJr/dAinn2sR
+         V6M37trKU7BzyHtDkmGgme9crQEmIZTdeOvc0MU9IAFME19344U1ZOZxmvKDLt1MFv+/
+         Bl64VcaSaBwm9w2GUutEi1YlrdONci1EZBZSb/I/JB7Hh7naYnKeQYm/O5x8a+el2dDi
+         bFHEOiFUfWBC6JFB0l0xosTTGUmCM8Rv6tRmXkeFBlLV8U9JWpEqbZ8vdU12VLxmAxQW
+         uVIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=ZtUnA5m4+AcIpXSXi8NaUq+lj8ohDdCTAi2ITNZDEF0=;
+        b=hDlG7YYKDIacrX45mW5iYWwpCJHKaQ1q3LbScMVBjye2Q77EHakYUAish24B2Yjaeg
+         K6o8vPd7IdELADUlo8xY6woJBAkOc9BHEdjeG6Ul/KnlfxPjS1fA3ZeaupZqHWZY0Ky8
+         x+CMgX9vRLnIJiZSzPLSar0bxH8S4RLNgrUHcZ7b9bxtF3yLvAdNhqJqXtO4oQ4US40G
+         oCs0v1yMVlIzJRU9neD/zpsnzGTGtNLx5fO7yEwF3RVhvGoYlxfkI997zUja5pznO116
+         2L6TxJYZ2FfjH+N7jHuas4N3aAAChIvJLP4Cb7k8xh9f+IQIoe9B9O+/FqSMjjAQ/J7C
+         D5Bg==
+X-Gm-Message-State: ACrzQf0W0kZearYIwUHGi0FsVskF/EVK2wKdRau870kPMZa2Vqv5Vl6U
+        E28Hla4f7MNCrIHHmF3XeFm/3A==
+X-Google-Smtp-Source: AMsMyM5tFUAtxYvz/3XdYFhieSHJyZ2h4747RyyktfI+80Q1j9AgaBYA5l+qpiWU21dkcTtkLC/a6A==
+X-Received: by 2002:a63:5a61:0:b0:41b:b021:f916 with SMTP id k33-20020a635a61000000b0041bb021f916mr15804950pgm.387.1663601397458;
+        Mon, 19 Sep 2022 08:29:57 -0700 (PDT)
+Received: from google.com (33.5.83.34.bc.googleusercontent.com. [34.83.5.33])
+        by smtp.gmail.com with ESMTPSA id y16-20020a170902b49000b001789ee5c821sm2923673plr.61.2022.09.19.08.29.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Sep 2022 08:29:56 -0700 (PDT)
+Date:   Mon, 19 Sep 2022 08:29:53 -0700
+From:   Zach O'Keefe <zokeefe@google.com>
+To:     Yang Shi <shy828301@gmail.com>
+Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
+        linux-api@vger.kernel.org,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        James Houghton <jthoughton@google.com>,
+        Hugh Dickins <hughd@google.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        David Hildenbrand <david@redhat.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Pasha Tatashin <pasha.tatashin@soleen.com>,
+        Peter Xu <peterx@redhat.com>,
+        Rongwei Wang <rongwei.wang@linux.alibaba.com>,
+        SeongJae Park <sj@kernel.org>,
+        Song Liu <songliubraving@fb.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Chris Kennelly <ckennelly@google.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Patrick Xia <patrickx@google.com>
+Subject: Re: [PATCH mm-unstable v3 03/10] mm/madvise: add file and shmem
+ support to MADV_COLLAPSE
+Message-ID: <YyiK8YvVcrtZo0z3@google.com>
+References: <20220907144521.3115321-1-zokeefe@google.com>
+ <20220907144521.3115321-4-zokeefe@google.com>
+ <CAHbLzkrtpM=ic7cYAHcqkubah5VTR8N5=k5RT8MTvv5rN1Y91w@mail.gmail.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHbLzkrtpM=ic7cYAHcqkubah5VTR8N5=k5RT8MTvv5rN1Y91w@mail.gmail.com>
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Mon, 2022-09-19 at 09:53 +1000, Dave Chinner wrote:
-> On Fri, Sep 16, 2022 at 11:11:34AM -0400, Jeff Layton wrote:
-> > On Fri, 2022-09-16 at 07:36 -0400, Jeff Layton wrote:
-> > > On Fri, 2022-09-16 at 02:54 -0400, Theodore Ts'o wrote:
-> > > > On Fri, Sep 16, 2022 at 08:23:55AM +1000, NeilBrown wrote:
-> > > > > > > If the answer is that 'all values change', then why store the=
- crash
-> > > > > > > counter in the inode at all? Why not just add it as an offset=
- when
-> > > > > > > you're generating the user-visible change attribute?
-> > > > > > >=20
-> > > > > > > i.e. statx.change_attr =3D inode->i_version + (crash counter =
-* offset)
-> > > >=20
-> > > > I had suggested just hashing the crash counter with the file system=
-'s
-> > > > on-disk i_version number, which is essentially what you are suggest=
-ed.
-> > > >=20
-> > > > > > Yes, if we plan to ensure that all the change attrs change afte=
-r a
-> > > > > > crash, we can do that.
-> > > > > >=20
-> > > > > > So what would make sense for an offset? Maybe 2**12? One would =
-hope that
-> > > > > > there wouldn't be more than 4k increments before one of them ma=
-de it to
-> > > > > > disk. OTOH, maybe that can happen with teeny-tiny writes.
-> > > > >=20
-> > > > > Leave it up the to filesystem to decide.  The VFS and/or NFSD sho=
-uld
-> > > > > have not have part in calculating the i_version.  It should be en=
-tirely
-> > > > > in the filesystem - though support code could be provided if comm=
-on
-> > > > > patterns exist across filesystems.
-> > > >=20
-> > > > Oh, *heck* no.  This parameter is for the NFS implementation to
-> > > > decide, because it's NFS's caching algorithms which are at stake he=
-re.
-> > > >=20
-> > > > As a the file system maintainer, I had offered to make an on-disk
-> > > > "crash counter" which would get updated when the journal had gotten
-> > > > replayed, in addition to the on-disk i_version number.  This will b=
-e
-> > > > available for the Linux implementation of NFSD to use, but that's u=
-p
-> > > > to *you* to decide how you want to use them.
-> > > >=20
-> > > > I was perfectly happy with hashing the crash counter and the i_vers=
-ion
-> > > > because I had assumed that not *that* much stuff was going to be
-> > > > cached, and so invalidating all of the caches in the unusual case
-> > > > where there was a crash was acceptable.  After all it's a !@#?!@
-> > > > cache.  Caches sometimmes get invalidated.  "That is the order of
-> > > > things." (as Ramata'Klan once said in "Rocks and Shoals")
-> > > >=20
-> > > > But if people expect that multiple TB's of data is going to be stor=
-ed;
-> > > > that cache invalidation is unacceptable; and that a itsy-weeny chan=
-ce
-> > > > of false negative failures which might cause data corruption might =
-be
-> > > > acceptable tradeoff, hey, that's for the system which is providing
-> > > > caching semantics to determine.
-> > > >=20
-> > > > PLEASE don't put this tradeoff on the file system authors; I would
-> > > > much prefer to leave this tradeoff in the hands of the system which=
- is
-> > > > trying to do the caching.
-> > > >=20
-> > >=20
-> > > Yeah, if we were designing this from scratch, I might agree with leav=
-ing
-> > > more up to the filesystem, but the existing users all have pretty muc=
-h
-> > > the same needs. I'm going to plan to try to keep most of this in the
-> > > common infrastructure defined in iversion.h.
-> > >=20
-> > > Ted, for the ext4 crash counter, what wordsize were you thinking? I
-> > > doubt we'll be able to use much more than 32 bits so a larger integer=
- is
-> > > probably not worthwhile. There are several holes in struct super_bloc=
-k
-> > > (at least on x86_64), so adding this field to the generic structure
-> > > needn't grow it.
-> >=20
-> > That said, now that I've taken a swipe at implementing this, I need mor=
-e
-> > information than just the crash counter. We need to multiply the crash
-> > counter with a reasonable estimate of the maximum number of individual
-> > writes that could occur between an i_version being incremented and that
-> > value making it to the backing store.
-> >=20
-> > IOW, given a write that bumps the i_version to X, how many more write
-> > calls could race in before X makes it to the platter? I took a SWAG and
-> > said 4k in an earlier email, but I don't really have a way to know, and
-> > that could vary wildly with different filesystems and storage.
-> >=20
-> > What I'd like to see is this in struct super_block:
-> >=20
-> > 	u32		s_version_offset;
->=20
-> 	u64		s_version_salt;
->=20
+On Sep 16 13:38, Yang Shi wrote:
+> On Wed, Sep 7, 2022 at 7:45 AM Zach O'Keefe <zokeefe@google.com> wrote:
+> >
+> > Add support for MADV_COLLAPSE to collapse shmem-backed and file-backed
+> > memory into THPs (requires CONFIG_READ_ONLY_THP_FOR_FS=y).
+> >
+> > On success, the backing memory will be a hugepage.  For the memory range
+> > and process provided, the page tables will synchronously have a huge pmd
+> > installed, mapping the THP.  Other mappings of the file extent mapped by
+> > the memory range may be added to a set of entries that khugepaged will
+> > later process and attempt update their page tables to map the THP by a pmd.
+> >
+> > This functionality unlocks two important uses:
+> >
+> > (1)     Immediately back executable text by THPs.  Current support provided
+> >         by CONFIG_READ_ONLY_THP_FOR_FS may take a long time on a large
+> >         system which might impair services from serving at their full rated
+> >         load after (re)starting.  Tricks like mremap(2)'ing text onto
+> >         anonymous memory to immediately realize iTLB performance prevents
+> >         page sharing and demand paging, both of which increase steady state
+> >         memory footprint.  Now, we can have the best of both worlds: Peak
+> >         upfront performance and lower RAM footprints.
+> >
+> > (2)     userfaultfd-based live migration of virtual machines satisfy UFFD
+> >         faults by fetching native-sized pages over the network (to avoid
+> >         latency of transferring an entire hugepage).  However, after guest
+> >         memory has been fully copied to the new host, MADV_COLLAPSE can
+> >         be used to immediately increase guest performance.
+> >
+> > Since khugepaged is single threaded, this change now introduces
+> > possibility of collapse contexts racing in file collapse path.  There a
+> > important few places to consider:
+> >
+> > (1)     hpage_collapse_scan_file(), when we xas_pause() and drop RCU.
+> >         We could have the memory collapsed out from under us, but
+> >         the next xas_for_each() iteration will correctly pick up the
+> >         hugepage.  The hugepage might not be up to date (insofar as
+> >         copying of small page contents might not have completed - the
+> >         page still may be locked), but regardless what small page index
+> >         we were iterating over, we'll find the hugepage and identify it
+> >         as a suitably aligned compound page of order HPAGE_PMD_ORDER.
+> >
+> >         In khugepaged path, we locklessly check the value of the pmd,
+> >         and only add it to deferred collapse array if we find pmd
+> >         mapping pte table. This is fine, since other values that could
+> >         have raced in right afterwards denote failure, or that the
+> >         memory was successfully collapsed, so we don't need further
+> >         processing.
+> >
+> >         In madvise path, we'll take mmap_lock() in write to serialize
+> >         against page table updates and will know what to do based on the
+> >         true value of the pmd: recheck all ptes if we point to a pte table,
+> >         directly install the pmd, if the pmd has been cleared, but
+> >         memory not yet faulted, or nothing at all if we find a huge pmd.
+> >
+> >         It's worth putting emphasis here on how we treat the none pmd
+> >         here.  If khugepaged has processed this mm's page tables
+> >         already, it will have left the pmd cleared (ready for refault by
+> >         the process).  Depending on the VMA flags and sysfs settings,
+> >         amount of RAM on the machine, and the current load, could be a
+> >         relatively common occurrence - and as such is one we'd like to
+> >         handle successfully in MADV_COLLAPSE.  When we see the none pmd
+> >         in collapse_pte_mapped_thp(), we've locked mmap_lock in write
+> >         and checked (a) huepaged_vma_check() to see if the backing
+> >         memory is appropriate still, along with VMA sizing and
+> >         appropriate hugepage alignment within the file, and (b) we've
+> >         found a hugepage head of order HPAGE_PMD_ORDER at the offset
+> >         in the file mapped by our hugepage-aligned virtual address.
+> >         Even though the common-case is likely race with khugepaged,
+> >         given these checks (regardless how we got here - we could be
+> >         operating on a completely different file than originally checked
+> >         in hpage_collapse_scan_file() for all we know) it should be safe
+> >         to directly make the pmd a huge pmd pointing to this hugepage.
+> >
+> > (2)     collapse_file() is mostly serialized on the same file extent by
+> >         lock sequence:
+> >
+> >                 |       lock hupepage
+> >                 |               lock mapping->i_pages
+> >                 |                       lock 1st page
+> >                 |               unlock mapping->i_pages
+> >                 |                               <page checks>
+> >                 |               lock mapping->i_pages
+> >                 |                               page_ref_freeze(3)
+> >                 |                               xas_store(hugepage)
+> >                 |               unlock mapping->i_pages
+> >                 |                               page_ref_unfreeze(1)
+> >                 |                       unlock 1st page
+> >                 V       unlock hugepage
+> >
+> >         Once a context (who already has their fresh hugepage locked)
+> >         locks mapping->i_pages exclusively, it will hold said lock
+> >         until it locks the first page, and it will hold that lock until
+> >         the after the hugepage has been added to the page cache (and
+> >         will unlock the hugepage after page table update, though that
+> >         isn't important here).
+> >
+> >         A racing context that loses the race for mapping->i_pages will
+> >         then lose the race to locking the first page.  Here - depending
+> >         on how far the other racing context has gotten - we might find
+> >         the new hugepage (in which case we'll exit cleanly when we
+> >         check PageTransCompound()), or we'll find the "old" 1st small
+> >         page (in which we'll exit cleanly when we discover unexpected
+> >         refcount of 2 after isolate_lru_page()).  This is assuming we
+> >         are able to successfully lock the page we find - in shmem path,
+> >         we could just fail the trylock and exit cleanly anyways.
+> >
+> >         Failure path in collapse_file() is similar: once we hold lock
+> >         on 1st small page, we are serialized against other collapse
+> >         contexts.  Before the 1st small page is unlocked, we add it
+> >         back to the pagecache and unfreeze the refcount appropriately.
+> >         Contexts who lost the race to the 1st small page will then find
+> >         the same 1st small page with the correct refcount and will be
+> >         able to proceed.
+> >
+> > Signed-off-by: Zach O'Keefe <zokeefe@google.com>
+> > ---
+> >  include/linux/khugepaged.h         |  13 +-
+> >  include/trace/events/huge_memory.h |   1 +
+> >  kernel/events/uprobes.c            |   2 +-
+> >  mm/khugepaged.c                    | 238 ++++++++++++++++++++++-------
+> >  4 files changed, 194 insertions(+), 60 deletions(-)
+> >
+> > diff --git a/include/linux/khugepaged.h b/include/linux/khugepaged.h
+> > index 384f034ae947..70162d707caf 100644
+> > --- a/include/linux/khugepaged.h
+> > +++ b/include/linux/khugepaged.h
+> > @@ -16,11 +16,13 @@ extern void khugepaged_enter_vma(struct vm_area_struct *vma,
+> >                                  unsigned long vm_flags);
+> >  extern void khugepaged_min_free_kbytes_update(void);
+> >  #ifdef CONFIG_SHMEM
+> > -extern void collapse_pte_mapped_thp(struct mm_struct *mm, unsigned long addr);
+> > +extern int collapse_pte_mapped_thp(struct mm_struct *mm, unsigned long addr,
+> > +                                  bool install_pmd);
+> >  #else
+> > -static inline void collapse_pte_mapped_thp(struct mm_struct *mm,
+> > -                                          unsigned long addr)
+> > +static inline int collapse_pte_mapped_thp(struct mm_struct *mm,
+> > +                                         unsigned long addr, bool install_pmd)
+> >  {
+> > +       return 0;
+> >  }
+> >  #endif
+> >
+> > @@ -46,9 +48,10 @@ static inline void khugepaged_enter_vma(struct vm_area_struct *vma,
+> >                                         unsigned long vm_flags)
+> >  {
+> >  }
+> > -static inline void collapse_pte_mapped_thp(struct mm_struct *mm,
+> > -                                          unsigned long addr)
+> > +static inline int collapse_pte_mapped_thp(struct mm_struct *mm,
+> > +                                         unsigned long addr, bool install_pmd)
+> >  {
+> > +       return 0;
+> >  }
+> >
+> >  static inline void khugepaged_min_free_kbytes_update(void)
+> > diff --git a/include/trace/events/huge_memory.h b/include/trace/events/huge_memory.h
+> > index fbbb25494d60..df33453b70fc 100644
+> > --- a/include/trace/events/huge_memory.h
+> > +++ b/include/trace/events/huge_memory.h
+> > @@ -11,6 +11,7 @@
+> >         EM( SCAN_FAIL,                  "failed")                       \
+> >         EM( SCAN_SUCCEED,               "succeeded")                    \
+> >         EM( SCAN_PMD_NULL,              "pmd_null")                     \
+> > +       EM( SCAN_PMD_NONE,              "pmd_none")                     \
+> >         EM( SCAN_PMD_MAPPED,            "page_pmd_mapped")              \
+> >         EM( SCAN_EXCEED_NONE_PTE,       "exceed_none_pte")              \
+> >         EM( SCAN_EXCEED_SWAP_PTE,       "exceed_swap_pte")              \
+> > diff --git a/kernel/events/uprobes.c b/kernel/events/uprobes.c
+> > index e0a9b945e7bc..d9e357b7e17c 100644
+> > --- a/kernel/events/uprobes.c
+> > +++ b/kernel/events/uprobes.c
+> > @@ -555,7 +555,7 @@ int uprobe_write_opcode(struct arch_uprobe *auprobe, struct mm_struct *mm,
+> >
+> >         /* try collapse pmd for compound page */
+> >         if (!ret && orig_page_huge)
+> > -               collapse_pte_mapped_thp(mm, vaddr);
+> > +               collapse_pte_mapped_thp(mm, vaddr, false);
+> >
+> >         return ret;
+> >  }
+> > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> > index 31ccf49cf279..66457a06b4e7 100644
+> > --- a/mm/khugepaged.c
+> > +++ b/mm/khugepaged.c
+> > @@ -29,6 +29,7 @@ enum scan_result {
+> >         SCAN_FAIL,
+> >         SCAN_SUCCEED,
+> >         SCAN_PMD_NULL,
+> > +       SCAN_PMD_NONE,
+> >         SCAN_PMD_MAPPED,
+> >         SCAN_EXCEED_NONE_PTE,
+> >         SCAN_EXCEED_SWAP_PTE,
+> > @@ -838,6 +839,18 @@ static int hugepage_vma_revalidate(struct mm_struct *mm, unsigned long address,
+> >         if (!hugepage_vma_check(vma, vma->vm_flags, false, false,
+> >                                 cc->is_khugepaged))
+> >                 return SCAN_VMA_CHECK;
+> > +       return SCAN_SUCCEED;
+> > +}
+> > +
+> > +static int hugepage_vma_revalidate_anon(struct mm_struct *mm,
 
-IDK...it _is_ an offset since we're folding it in with addition, and it
-has a real meaning. Filesystems do need to be cognizant of that fact, I
-think.
+Hey Yang,
 
-Also does anyone have a preference on doing this vs. a get_version_salt
-or get_version_offset sb operation? I figured the value should be mostly
-static so it'd be nice to avoid an operation for it.
+Thanks for taking the time to review this series - particularly this patch,
+which I found tricky.
 
-> > ...and then individual filesystems can calculate:
-> >=20
-> > 	crash_counter * max_number_of_writes
-> >=20
-> > and put the correct value in there at mount time.
->=20
-> Other filesystems might not have a crash counter but have other
-> information that can be substituted, like a mount counter or a
-> global change sequence number that is guaranteed to increment from
-> one mount to the next.=20
->=20
+> 
+> Do we really need a new function for anon vma dedicatedly? Can't we
+> add a parameter to hugepage_vma_revalidate()?
+> 
 
-The problem there is that you're going to cause the invalidation of all
-of the NFS client's cached regular files, even on clean server reboots.
-That's not a desirable outcome.
+Good point - at some point I think I utilized it more, but you're right that
+it it's overkill now.  Have added a "expect_anon" argument to
+hugepage_vma_revalidate().  Thanks for the suggestions.
 
-> Further, have you thought about what "max number of writes" might
-> be in ten years time? e.g.  what happens if a filesysetm as "max
-> number of writes" being greater than 2^32? I mean, we already have
-> machines out there running Linux with 64-128TB of physical RAM, so
-> it's already practical to hold > 2^32 individual writes to a single
-> inode that each bump i_version in memory....
+> > +                                       unsigned long address,
+> > +                                       struct vm_area_struct **vmap,
+> > +                                       struct collapse_control *cc)
+> > +{
+> > +       int ret = hugepage_vma_revalidate(mm, address, vmap, cc);
+> > +
+> > +       if (ret != SCAN_SUCCEED)
+> > +               return ret;
+> >         /*
+> >          * Anon VMA expected, the address may be unmapped then
+> >          * remapped to file after khugepaged reaquired the mmap_lock.
+> > @@ -845,8 +858,8 @@ static int hugepage_vma_revalidate(struct mm_struct *mm, unsigned long address,
+> >          * hugepage_vma_check may return true for qualified file
+> >          * vmas.
+> >          */
+> > -       if (!vma->anon_vma || !vma_is_anonymous(vma))
+> > -               return SCAN_VMA_CHECK;
+> > +       if (!(*vmap)->anon_vma || !vma_is_anonymous(*vmap))
+> > +               return SCAN_PAGE_ANON;
+> >         return SCAN_SUCCEED;
+> >  }
+> >
+> > @@ -866,8 +879,8 @@ static int find_pmd_or_thp_or_none(struct mm_struct *mm,
+> >         /* See comments in pmd_none_or_trans_huge_or_clear_bad() */
+> >         barrier();
+> >  #endif
+> > -       if (!pmd_present(pmde))
+> > -               return SCAN_PMD_NULL;
+> > +       if (pmd_none(pmde))
+> > +               return SCAN_PMD_NONE;
+> >         if (pmd_trans_huge(pmde))
+> >                 return SCAN_PMD_MAPPED;
+> >         if (pmd_bad(pmde))
+> > @@ -995,7 +1008,7 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
+> >                 goto out_nolock;
+> >
+> >         mmap_read_lock(mm);
+> > -       result = hugepage_vma_revalidate(mm, address, &vma, cc);
+> > +       result = hugepage_vma_revalidate_anon(mm, address, &vma, cc);
+> >         if (result != SCAN_SUCCEED) {
+> >                 mmap_read_unlock(mm);
+> >                 goto out_nolock;
+> > @@ -1026,7 +1039,7 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
+> >          * handled by the anon_vma lock + PG_lock.
+> >          */
+> >         mmap_write_lock(mm);
+> > -       result = hugepage_vma_revalidate(mm, address, &vma, cc);
+> > +       result = hugepage_vma_revalidate_anon(mm, address, &vma, cc);
+> >         if (result != SCAN_SUCCEED)
+> >                 goto out_up_write;
+> >         /* check if the pmd is still valid */
+> > @@ -1332,13 +1345,44 @@ static bool khugepaged_add_pte_mapped_thp(struct mm_struct *mm,
+> >         slot = mm_slot_lookup(mm_slots_hash, mm);
+> >         mm_slot = mm_slot_entry(slot, struct khugepaged_mm_slot, slot);
+> >         if (likely(mm_slot && mm_slot->nr_pte_mapped_thp < MAX_PTE_MAPPED_THP)) {
+> > +               int i;
+> > +               /*
+> > +                * Multiple callers may be adding entries here.  Do a quick
+> > +                * check to see the entry hasn't already been added by someone
+> > +                * else.
+> > +                */
+> > +               for (i = 0; i < mm_slot->nr_pte_mapped_thp; ++i)
+> > +                       if (mm_slot->pte_mapped_thp[i] == addr)
+> > +                               goto out;
+> 
+> I don't quite get why we need this. I'm supposed just khugepaged could
+> add the addr to the array and MADV_COLLAPSE just handles pte-mapped
+> hugepage immediately IIRC, right? If so there is actually no change on
+> khugepaged side.
+>
 
-> So when we consider this sort of scale, the "crash counter * max
-> writes" scheme largely falls apart because "max writes" is a really
-> large number to begin with. We're going to be stuck with whatever
-> algorithm is decided on for the foreseeable future, so we must
-> recognise that _we've already overrun 32 bit counter schemes_ in
-> terms of tracking "i_version changes in memory vs what we have on
-> disk".
->=20
-> Hence I really think that we should be leaving the implementation of
-> the salt value to the individual filesysetms as different
-> filesytsems are aimed at different use cases and so may not
-> necessarily have to all care about the same things (like 2^32 bit
-> max write overruns).  All the high level VFS code then needs to do
-> is add the two together:
->=20
-> 	statx.change_attr =3D inode->i_version + sb->s_version_salt;
->=20
+So you're right to say that this change isn't needed.  The "multi-add"
+sequence is:
 
-Yeah, I have thought about that. I was really hoping that file systems
-wouldn't leave so many ephemeral changes lying around before logging
-something. It's actually not as bad as it sounds. You'd need that number
-of inode changes in memory + queries of i_version, alternating. When
-there are no queries, nothing changes. But, the number of queries is
-hard to gauge too as it's very dependent on workload, hardware, etc.
+(1) khugepaged calls khugepaged_collapse_pte_mapped_thps() for mm_struct A,
+    emptying the A's ->pte_mapped_thp[] array.
+(2) MADV_COLLAPSE collapses some file extent with target mm_struct B, and
+    retract_page_tables() finds a VMA in mm_struct A mapping the same extent
+    (at virtual address X) and adds an entry (for X) into mm_struct A's
+    ->pte-mapped_thp[] array.
+(3) khugepaged calls khugepagedge_collapse_scan_file() for mm_struct A at X,
+    sees a pte-mapped THP (SCAN_PTE_MAPPED_HUGEPAGE) and adds an entry (for X)
+    into mm_struct A's ->pte-mapped_thp[] array.
 
-If the sky really is the limit on unlogged inode changes, then what do
-you suggest? One idea:
+Which is somewhat contrived/rare - but it can occur.  If we don't have this,
+the second time we call collapse_pte_mapped_thp() for the same
+mm_struct/address, we should take the "if (result == SCAN_PMD_MAPPED) {...}"
+branch early and return before grabbing any other locks (we already have
+exclusive mmap_lock).  So, perhaps we can drop this check?
 
-We could try to kick off a write_inode in the background when the
-i_version gets halfway to the limit. Eventually the nfs server could
-just return NFS4ERR_DELAY on a GETATTR if it looked like the reported
-version was going to cross the threshold. It'd be ugly, but hopefully
-wouldn't happen much if things are tuned well.
+> >                 mm_slot->pte_mapped_thp[mm_slot->nr_pte_mapped_thp++] = addr;
+> >                 ret = true;
+> >         }
+> > +out:
+> >         spin_unlock(&khugepaged_mm_lock);
+> >         return ret;
+> >  }
+> >
+> > +/* hpage must be locked, and mmap_lock must be held in write */
+> > +static int set_huge_pmd(struct vm_area_struct *vma, unsigned long addr,
+> > +                       pmd_t *pmdp, struct page *hpage)
+> > +{
+> > +       struct vm_fault vmf = {
+> > +               .vma = vma,
+> > +               .address = addr,
+> > +               .flags = 0,
+> > +               .pmd = pmdp,
+> > +       };
+> > +
+> > +       VM_BUG_ON(!PageTransHuge(hpage));
+> > +       mmap_assert_write_locked(vma->vm_mm);
+> > +
+> > +       if (do_set_pmd(&vmf, hpage))
+> > +               return SCAN_FAIL;
+> > +
+> > +       get_page(hpage);
+> > +       return SCAN_SUCCEED;
+> > +}
+> > +
+> >  static void collapse_and_free_pmd(struct mm_struct *mm, struct vm_area_struct *vma,
+> >                                   unsigned long addr, pmd_t *pmdp)
+> >  {
+> > @@ -1360,12 +1404,14 @@ static void collapse_and_free_pmd(struct mm_struct *mm, struct vm_area_struct *v
+> >   *
+> >   * @mm: process address space where collapse happens
+> >   * @addr: THP collapse address
+> > + * @install_pmd: If a huge PMD should be installed
+> >   *
+> >   * This function checks whether all the PTEs in the PMD are pointing to the
+> >   * right THP. If so, retract the page table so the THP can refault in with
+> > - * as pmd-mapped.
+> > + * as pmd-mapped. Possibly install a huge PMD mapping the THP.
+> >   */
+> > -void collapse_pte_mapped_thp(struct mm_struct *mm, unsigned long addr)
+> > +int collapse_pte_mapped_thp(struct mm_struct *mm, unsigned long addr,
+> > +                           bool install_pmd)
+> >  {
+> >         unsigned long haddr = addr & HPAGE_PMD_MASK;
+> >         struct vm_area_struct *vma = vma_lookup(mm, haddr);
+> > @@ -1380,12 +1426,12 @@ void collapse_pte_mapped_thp(struct mm_struct *mm, unsigned long addr)
+> >
+> >         /* Fast check before locking page if already PMD-mapped  */
+> >         result = find_pmd_or_thp_or_none(mm, haddr, &pmd);
+> > -       if (result != SCAN_SUCCEED)
+> > -               return;
+> > +       if (result == SCAN_PMD_MAPPED)
+> > +               return result;
+> >
+> >         if (!vma || !vma->vm_file ||
+> >             !range_in_vma(vma, haddr, haddr + HPAGE_PMD_SIZE))
+> > -               return;
+> > +               return SCAN_VMA_CHECK;
+> >
+> >         /*
+> >          * If we are here, we've succeeded in replacing all the native pages
+> > @@ -1395,24 +1441,39 @@ void collapse_pte_mapped_thp(struct mm_struct *mm, unsigned long addr)
+> >          * analogously elide sysfs THP settings here.
+> >          */
+> >         if (!hugepage_vma_check(vma, vma->vm_flags, false, false, false))
+> > -               return;
+> > +               return SCAN_VMA_CHECK;
+> >
+> >         /* Keep pmd pgtable for uffd-wp; see comment in retract_page_tables() */
+> >         if (userfaultfd_wp(vma))
+> > -               return;
+> > +               return SCAN_PTE_UFFD_WP;
+> >
+> >         hpage = find_lock_page(vma->vm_file->f_mapping,
+> >                                linear_page_index(vma, haddr));
+> >         if (!hpage)
+> > -               return;
+> > +               return SCAN_PAGE_NULL;
+> >
+> > -       if (!PageHead(hpage))
+> > +       if (!PageHead(hpage)) {
+> > +               result = SCAN_FAIL;
+> 
+> I don't think you could trust this must be a HPAGE_PMD_ORDER hugepage
+> anymore since the vma might point to a different file, so a different
+> page cache. And the current kernel does support arbitrary order of
+> large foios for page cache. [...]
 
-Tracking that info might be expensive though. We'd need at least another
-u64 field in struct inode for the latest on-disk version. Maybe we can
-keep that in the fs-specific part of the inode somehow so we don't need
-to grow generic struct inode?
---=20
-Jeff Layton <jlayton@kernel.org>
+Good catch! Yes, I think we need to double check HPAGE_PMD_ORDER here,
+and that applies equally to khugepaged as well.
+
+> [...] The below pte traverse may remove rmap for
+> the wrong page IIUC. Khugepaged should experience the same problem as
+> well.
+>
+
+Just to confirm, you mean this is only a danger if we don't check the compound
+order, correct? I.e. if compound_order < HPAGE_PMD_ORDER  we'll iterate over
+ptes that map something other than our compound page and erroneously adjust rmap
+for wrong pages.  So, adding a check for compound_order == HPAGE_PMD_ORDER above
+alleviates this possibility.
+
+> >                 goto drop_hpage;
+> > +       }
+> >
+> > -       if (find_pmd_or_thp_or_none(mm, haddr, &pmd) != SCAN_SUCCEED)
+> > +       result = find_pmd_or_thp_or_none(mm, haddr, &pmd);
+> > +       switch (result) {
+> > +       case SCAN_SUCCEED:
+> > +               break;
+> > +       case SCAN_PMD_NONE:
+> > +               /*
+> > +                * In MADV_COLLAPSE path, possible race with khugepaged where
+> > +                * all pte entries have been removed and pmd cleared.  If so,
+> > +                * skip all the pte checks and just update the pmd mapping.
+> > +                */
+> > +               goto maybe_install_pmd;
+> > +       default:
+> >                 goto drop_hpage;
+> > +       }
+> >
+> >         start_pte = pte_offset_map_lock(mm, pmd, haddr, &ptl);
+> > +       result = SCAN_FAIL;
+> >
+> >         /* step 1: check all mapped PTEs are to the right huge page */
+> >         for (i = 0, addr = haddr, pte = start_pte;
+> > @@ -1424,8 +1485,10 @@ void collapse_pte_mapped_thp(struct mm_struct *mm, unsigned long addr)
+> >                         continue;
+> >
+> >                 /* page swapped out, abort */
+> > -               if (!pte_present(*pte))
+> > +               if (!pte_present(*pte)) {
+> > +                       result = SCAN_PTE_NON_PRESENT;
+> >                         goto abort;
+> > +               }
+> >
+> >                 page = vm_normal_page(vma, addr, *pte);
+> >                 if (WARN_ON_ONCE(page && is_zone_device_page(page)))
+> > @@ -1460,12 +1523,19 @@ void collapse_pte_mapped_thp(struct mm_struct *mm, unsigned long addr)
+> >                 add_mm_counter(vma->vm_mm, mm_counter_file(hpage), -count);
+> >         }
+> >
+> > -       /* step 4: collapse pmd */
+> > +       /* step 4: remove pte entries */
+> 
+> It also collapses and flushes pmd.
+>
+
+True, will update the comment.
+
+Thanks again for your time,
+Zach
+
+> >         collapse_and_free_pmd(mm, vma, haddr, pmd);
+> > +
+> > +maybe_install_pmd:
+> > +       /* step 5: install pmd entry */
+> > +       result = install_pmd
+> > +                       ? set_huge_pmd(vma, haddr, pmd, hpage)
+> > +                       : SCAN_SUCCEED;
+> > +
+> >  drop_hpage:
+> >         unlock_page(hpage);
+> >         put_page(hpage);
+> > -       return;
+> > +       return result;
+> >
+> >  abort:
+> >         pte_unmap_unlock(start_pte, ptl);
+> > @@ -1488,22 +1558,29 @@ static void khugepaged_collapse_pte_mapped_thps(struct khugepaged_mm_slot *mm_sl
+> >                 goto out;
+> >
+> >         for (i = 0; i < mm_slot->nr_pte_mapped_thp; i++)
+> > -               collapse_pte_mapped_thp(mm, mm_slot->pte_mapped_thp[i]);
+> > +               collapse_pte_mapped_thp(mm, mm_slot->pte_mapped_thp[i], false);
+> >
+> >  out:
+> >         mm_slot->nr_pte_mapped_thp = 0;
+> >         mmap_write_unlock(mm);
+> >  }
+> >
+> > -static void retract_page_tables(struct address_space *mapping, pgoff_t pgoff)
+> > +static int retract_page_tables(struct address_space *mapping, pgoff_t pgoff,
+> > +                              struct mm_struct *target_mm,
+> > +                              unsigned long target_addr, struct page *hpage,
+> > +                              struct collapse_control *cc)
+> >  {
+> >         struct vm_area_struct *vma;
+> > -       struct mm_struct *mm;
+> > -       unsigned long addr;
+> > -       pmd_t *pmd;
+> > +       int target_result = SCAN_FAIL;
+> >
+> >         i_mmap_lock_write(mapping);
+> >         vma_interval_tree_foreach(vma, &mapping->i_mmap, pgoff, pgoff) {
+> > +               int result = SCAN_FAIL;
+> > +               struct mm_struct *mm = NULL;
+> > +               unsigned long addr = 0;
+> > +               pmd_t *pmd;
+> > +               bool is_target = false;
+> > +
+> >                 /*
+> >                  * Check vma->anon_vma to exclude MAP_PRIVATE mappings that
+> >                  * got written to. These VMAs are likely not worth investing
+> > @@ -1520,24 +1597,34 @@ static void retract_page_tables(struct address_space *mapping, pgoff_t pgoff)
+> >                  * ptl. It has higher chance to recover THP for the VMA, but
+> >                  * has higher cost too.
+> >                  */
+> > -               if (vma->anon_vma)
+> > -                       continue;
+> > +               if (vma->anon_vma) {
+> > +                       result = SCAN_PAGE_ANON;
+> > +                       goto next;
+> > +               }
+> >                 addr = vma->vm_start + ((pgoff - vma->vm_pgoff) << PAGE_SHIFT);
+> > -               if (addr & ~HPAGE_PMD_MASK)
+> > -                       continue;
+> > -               if (vma->vm_end < addr + HPAGE_PMD_SIZE)
+> > -                       continue;
+> > +               if (addr & ~HPAGE_PMD_MASK ||
+> > +                   vma->vm_end < addr + HPAGE_PMD_SIZE) {
+> > +                       result = SCAN_VMA_CHECK;
+> > +                       goto next;
+> > +               }
+> >                 mm = vma->vm_mm;
+> > -               if (find_pmd_or_thp_or_none(mm, addr, &pmd) != SCAN_SUCCEED)
+> > -                       continue;
+> > +               is_target = mm == target_mm && addr == target_addr;
+> > +               result = find_pmd_or_thp_or_none(mm, addr, &pmd);
+> > +               if (result != SCAN_SUCCEED)
+> > +                       goto next;
+> >                 /*
+> >                  * We need exclusive mmap_lock to retract page table.
+> >                  *
+> >                  * We use trylock due to lock inversion: we need to acquire
+> >                  * mmap_lock while holding page lock. Fault path does it in
+> >                  * reverse order. Trylock is a way to avoid deadlock.
+> > +                *
+> > +                * Also, it's not MADV_COLLAPSE's job to collapse other
+> > +                * mappings - let khugepaged take care of them later.
+> >                  */
+> > -               if (mmap_write_trylock(mm)) {
+> > +               result = SCAN_PTE_MAPPED_HUGEPAGE;
+> > +               if ((cc->is_khugepaged || is_target) &&
+> > +                   mmap_write_trylock(mm)) {
+> >                         /*
+> >                          * When a vma is registered with uffd-wp, we can't
+> >                          * recycle the pmd pgtable because there can be pte
+> > @@ -1546,22 +1633,45 @@ static void retract_page_tables(struct address_space *mapping, pgoff_t pgoff)
+> >                          * it'll always mapped in small page size for uffd-wp
+> >                          * registered ranges.
+> >                          */
+> > -                       if (!hpage_collapse_test_exit(mm) &&
+> > -                           !userfaultfd_wp(vma))
+> > -                               collapse_and_free_pmd(mm, vma, addr, pmd);
+> > +                       if (hpage_collapse_test_exit(mm)) {
+> > +                               result = SCAN_ANY_PROCESS;
+> > +                               goto unlock_next;
+> > +                       }
+> > +                       if (userfaultfd_wp(vma)) {
+> > +                               result = SCAN_PTE_UFFD_WP;
+> > +                               goto unlock_next;
+> > +                       }
+> > +                       collapse_and_free_pmd(mm, vma, addr, pmd);
+> > +                       if (!cc->is_khugepaged && is_target)
+> > +                               result = set_huge_pmd(vma, addr, pmd, hpage);
+> > +                       else
+> > +                               result = SCAN_SUCCEED;
+> > +
+> > +unlock_next:
+> >                         mmap_write_unlock(mm);
+> > -               } else {
+> > -                       /* Try again later */
+> > +                       goto next;
+> > +               }
+> > +               /*
+> > +                * Calling context will handle target mm/addr. Otherwise, let
+> > +                * khugepaged try again later.
+> > +                */
+> > +               if (!is_target) {
+> >                         khugepaged_add_pte_mapped_thp(mm, addr);
+> > +                       continue;
+> >                 }
+> > +next:
+> > +               if (is_target)
+> > +                       target_result = result;
+> >         }
+> >         i_mmap_unlock_write(mapping);
+> > +       return target_result;
+> >  }
+> >
+> >  /**
+> >   * collapse_file - collapse filemap/tmpfs/shmem pages into huge one.
+> >   *
+> >   * @mm: process address space where collapse happens
+> > + * @addr: virtual collapse start address
+> >   * @file: file that collapse on
+> >   * @start: collapse start address
+> >   * @cc: collapse context and scratchpad
+> > @@ -1581,8 +1691,9 @@ static void retract_page_tables(struct address_space *mapping, pgoff_t pgoff)
+> >   *    + restore gaps in the page cache;
+> >   *    + unlock and free huge page;
+> >   */
+> > -static int collapse_file(struct mm_struct *mm, struct file *file,
+> > -                        pgoff_t start, struct collapse_control *cc)
+> > +static int collapse_file(struct mm_struct *mm, unsigned long addr,
+> > +                        struct file *file, pgoff_t start,
+> > +                        struct collapse_control *cc)
+> >  {
+> >         struct address_space *mapping = file->f_mapping;
+> >         struct page *hpage;
+> > @@ -1890,7 +2001,8 @@ static int collapse_file(struct mm_struct *mm, struct file *file,
+> >                 /*
+> >                  * Remove pte page tables, so we can re-fault the page as huge.
+> >                  */
+> > -               retract_page_tables(mapping, start);
+> > +               result = retract_page_tables(mapping, start, mm, addr, hpage,
+> > +                                            cc);
+> >                 unlock_page(hpage);
+> >                 hpage = NULL;
+> >         } else {
+> > @@ -1946,8 +2058,9 @@ static int collapse_file(struct mm_struct *mm, struct file *file,
+> >         return result;
+> >  }
+> >
+> > -static int khugepaged_scan_file(struct mm_struct *mm, struct file *file,
+> > -                               pgoff_t start, struct collapse_control *cc)
+> > +static int hpage_collapse_scan_file(struct mm_struct *mm, unsigned long addr,
+> > +                                   struct file *file, pgoff_t start,
+> > +                                   struct collapse_control *cc)
+> >  {
+> >         struct page *page = NULL;
+> >         struct address_space *mapping = file->f_mapping;
+> > @@ -2035,7 +2148,7 @@ static int khugepaged_scan_file(struct mm_struct *mm, struct file *file,
+> >                         result = SCAN_EXCEED_NONE_PTE;
+> >                         count_vm_event(THP_SCAN_EXCEED_NONE_PTE);
+> >                 } else {
+> > -                       result = collapse_file(mm, file, start, cc);
+> > +                       result = collapse_file(mm, addr, file, start, cc);
+> >                 }
+> >         }
+> >
+> > @@ -2043,8 +2156,9 @@ static int khugepaged_scan_file(struct mm_struct *mm, struct file *file,
+> >         return result;
+> >  }
+> >  #else
+> > -static int khugepaged_scan_file(struct mm_struct *mm, struct file *file,
+> > -                               pgoff_t start, struct collapse_control *cc)
+> > +static int hpage_collapse_scan_file(struct mm_struct *mm, unsigned long addr,
+> > +                                   struct file *file, pgoff_t start,
+> > +                                   struct collapse_control *cc)
+> >  {
+> >         BUILD_BUG();
+> >  }
+> > @@ -2142,8 +2256,9 @@ static unsigned int khugepaged_scan_mm_slot(unsigned int pages, int *result,
+> >                                                 khugepaged_scan.address);
+> >
+> >                                 mmap_read_unlock(mm);
+> > -                               *result = khugepaged_scan_file(mm, file, pgoff,
+> > -                                                              cc);
+> > +                               *result = hpage_collapse_scan_file(mm,
+> > +                                                                  khugepaged_scan.address,
+> > +                                                                  file, pgoff, cc);
+> >                                 mmap_locked = false;
+> >                                 fput(file);
+> >                         } else {
+> > @@ -2449,10 +2564,6 @@ int madvise_collapse(struct vm_area_struct *vma, struct vm_area_struct **prev,
+> >
+> >         *prev = vma;
+> >
+> > -       /* TODO: Support file/shmem */
+> > -       if (!vma->anon_vma || !vma_is_anonymous(vma))
+> > -               return -EINVAL;
+> > -
+> >         if (!hugepage_vma_check(vma, vma->vm_flags, false, false, false))
+> >                 return -EINVAL;
+> >
+> > @@ -2483,16 +2594,35 @@ int madvise_collapse(struct vm_area_struct *vma, struct vm_area_struct **prev,
+> >                 }
+> >                 mmap_assert_locked(mm);
+> >                 memset(cc->node_load, 0, sizeof(cc->node_load));
+> > -               result = hpage_collapse_scan_pmd(mm, vma, addr, &mmap_locked,
+> > -                                                cc);
+> > +               if (IS_ENABLED(CONFIG_SHMEM) && vma->vm_file) {
+> > +                       struct file *file = get_file(vma->vm_file);
+> > +                       pgoff_t pgoff = linear_page_index(vma, addr);
+> > +
+> > +                       mmap_read_unlock(mm);
+> > +                       mmap_locked = false;
+> > +                       result = hpage_collapse_scan_file(mm, addr, file, pgoff,
+> > +                                                         cc);
+> > +                       fput(file);
+> > +               } else {
+> > +                       result = hpage_collapse_scan_pmd(mm, vma, addr,
+> > +                                                        &mmap_locked, cc);
+> > +               }
+> >                 if (!mmap_locked)
+> >                         *prev = NULL;  /* Tell caller we dropped mmap_lock */
+> >
+> > +handle_result:
+> >                 switch (result) {
+> >                 case SCAN_SUCCEED:
+> >                 case SCAN_PMD_MAPPED:
+> >                         ++thps;
+> >                         break;
+> > +               case SCAN_PTE_MAPPED_HUGEPAGE:
+> > +                       BUG_ON(mmap_locked);
+> > +                       BUG_ON(*prev);
+> > +                       mmap_write_lock(mm);
+> > +                       result = collapse_pte_mapped_thp(mm, addr, true);
+> > +                       mmap_write_unlock(mm);
+> > +                       goto handle_result;
+> >                 /* Whitelisted set of results where continuing OK */
+> >                 case SCAN_PMD_NULL:
+> >                 case SCAN_PTE_NON_PRESENT:
+> > --
+> > 2.37.2.789.g6183377224-goog
+> >
