@@ -2,55 +2,55 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ADCED5BD434
-	for <lists+linux-api@lfdr.de>; Mon, 19 Sep 2022 19:54:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D06DF5BD491
+	for <lists+linux-api@lfdr.de>; Mon, 19 Sep 2022 20:12:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230258AbiISRy5 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 19 Sep 2022 13:54:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45196 "EHLO
+        id S229489AbiISSM6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 19 Sep 2022 14:12:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231368AbiISRyq (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 19 Sep 2022 13:54:46 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9680640A
-        for <linux-api@vger.kernel.org>; Mon, 19 Sep 2022 10:54:39 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id bu5-20020a17090aee4500b00202e9ca2182so7194005pjb.0
-        for <linux-api@vger.kernel.org>; Mon, 19 Sep 2022 10:54:39 -0700 (PDT)
+        with ESMTP id S229505AbiISSMy (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 19 Sep 2022 14:12:54 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04CAB3A4A7
+        for <linux-api@vger.kernel.org>; Mon, 19 Sep 2022 11:12:51 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id go6so474204pjb.2
+        for <linux-api@vger.kernel.org>; Mon, 19 Sep 2022 11:12:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=RglZamLWhAEVPfuxR9RdNieRUWWHv4S4Jv6EvYoG9ok=;
-        b=ETyHRJXPFXybmCD9uIc+NdscgosoVEizstUhOYIaYeQvouhl1vb1ZzaNm6YCECUT16
-         4h3bDl+JHeGeYmTSe+ctpO5UnVmmp1k27bjohYu0rjm7V7/nPXBm1TTxmhhYkoYcPOJC
-         16Z6UJ4arACnQ5uIgn7H9i64oC63mpOiRIiqJDAyP/Ek2c1bSDjQtIKGXCVwNdbubTYD
-         gLPlwvQ0+nTDZm3hLVVzFubD1aI9neN1S/zZCEwpJqhgJCdctHKoyssZmOjXuvdB3INW
-         EeaKJjNMjhdRcG20uh6LdhlwopbeBZkyAimC8swuS5v6GXr46SWm/2oTh6qmGdQlvCA3
-         y2vQ==
+        bh=N9YxiEt8BIO0bAGXnavdJI0ghFk2X0vFq95TtIMiTg8=;
+        b=iGhhk6AoxEOIvkR80q7D0rF95VAr+ymwXtvV1R2JxkWdcZwvNOlRqXdo39KZIEvhEl
+         J96BEl0VEUcY744yp0N+VgiYNvlUaKvHRMxDfoMgyY8dxc5I3cqcF17a5B4Y5RklrvDs
+         HnHLOTREqKiz21Txz0s1MZIerl+XUPIJQPi8ZPEKGQagIssMTIk5LN6Vscq+Isl9pgee
+         7I1bBWDHUYeBaOYRXfioc5kqs+woZTjhnSQ3RTsZ8BqCHZpHN5rRdxAaY8jn9q/GfKdZ
+         cPFwEoJt8fnZHikVxPodvORRUBwE3ksaiYZp4Z45Zh2ydYsITX0YwVoSJIvxCNfQCfOd
+         Vdtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=RglZamLWhAEVPfuxR9RdNieRUWWHv4S4Jv6EvYoG9ok=;
-        b=pAK1QQYIk+79YPjfQxie7VfOqjzrkmfN3KgqbpMFsMJie/KyCbhZqch/VM0gCuVZRT
-         JwLQ9al1UlaXtL8FDW3uyz4qwh4xF9xUklSTIIzz7KRESAqLVPyT9jh9iFKz4s1lSTZ0
-         5p+SgWom59iE/Ne+XhOhpTdPSOwawyD2J3JrVCy8g5VNoUIJ9Vcry0k56mC5UREoR/8d
-         PnNn9qZFFEw1KYwBEvs8SXoBjXPqXuQhY8rjGyAFhtSF/XVjhqzCxpXZnJi55efuoNLL
-         ZHAX0rx874KjnlbKbeqD7Pzy8UWBLsX1JNKoRADACLT8gFKRez0K+qZn4HenhWLOSj5P
-         9X+A==
-X-Gm-Message-State: ACrzQf3iT6JVZqX04byqm1n/Lz0y3mRblR85UmKineSvvFPoXLpKbNLQ
-        4cccCfa9g2uzEoUJbOqIf+sUIBVUFn1ajoYj0lU=
-X-Google-Smtp-Source: AMsMyM4tKnLgf58dBMXQudiKdZ/Vw3kvy4IBG4Rg2VJxYjH5/FxgoIGFDj9fiSVGe1wGh8FWyI09ZSdb138aWyTzhQs=
+        bh=N9YxiEt8BIO0bAGXnavdJI0ghFk2X0vFq95TtIMiTg8=;
+        b=fTIsvC6dIPqNRFB13TXdo49jUkhtFT8UXOq3gs0IdnoHwxQgRvM5uQhO28YDd9T5z0
+         Fa640i5/6bG/dPv8ej8jQC0SaORh/GWJR6AGTHA4VeZNK9DJQ2RuDlybkwTpCLZnCuL9
+         E+2HC/mv+zeNLC4oE9oX4VLupm/BrN48yrfzyR1lPiqEjGa8L/QEUDA4VjVCgzMIjs6f
+         krpB34QBdgI9x4FthTRtuosImFo40/xFXZHwnLzxEIpMPRVXtA07VXAraaK53k811Kl9
+         hnXa7OD3Hz9PMo04FeTRk77Gl2VR4fCgVEh23hlK7k8lAKmqL6sJudQphci9QJSiuuz8
+         9IBw==
+X-Gm-Message-State: ACrzQf08iSMrlHMpgDtWN81FMBLDaYdc0in4TUozlV5Ew3IaqRmtelF8
+        uRbXaiNxaJDyU1FdqpwAJb1e66egtBRvtJhxvd7cS4Jf
+X-Google-Smtp-Source: AMsMyM6zFbcaD4xUQWqB+aRA51nvsKMG9L2rp6HJrD807ZDDFZrFBohSPN0BOONKEMB/rQiiys/kNXUZD631aoQCpGE=
 X-Received: by 2002:a17:902:e5c1:b0:176:c2b3:6a4c with SMTP id
- u1-20020a170902e5c100b00176c2b36a4cmr881491plf.87.1663610078803; Mon, 19 Sep
- 2022 10:54:38 -0700 (PDT)
+ u1-20020a170902e5c100b00176c2b36a4cmr953264plf.87.1663611170207; Mon, 19 Sep
+ 2022 11:12:50 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220907144521.3115321-1-zokeefe@google.com> <20220907144521.3115321-4-zokeefe@google.com>
  <CAHbLzkrtpM=ic7cYAHcqkubah5VTR8N5=k5RT8MTvv5rN1Y91w@mail.gmail.com> <YyiK8YvVcrtZo0z3@google.com>
 In-Reply-To: <YyiK8YvVcrtZo0z3@google.com>
 From:   Yang Shi <shy828301@gmail.com>
-Date:   Mon, 19 Sep 2022 10:54:26 -0700
-Message-ID: <CAHbLzkrm4+UDCdGULEKKB89xuTY8DWTch5KPsaHHjWfnW2VFjw@mail.gmail.com>
+Date:   Mon, 19 Sep 2022 11:12:37 -0700
+Message-ID: <CAHbLzkon+2ky8v9ywGcsTUgXM_B35jt5NThYqQKXW2YV_GUacw@mail.gmail.com>
 Subject: Re: [PATCH mm-unstable v3 03/10] mm/madvise: add file and shmem
  support to MADV_COLLAPSE
 To:     "Zach O'Keefe" <zokeefe@google.com>
@@ -392,10 +392,6 @@ On Mon, Sep 19, 2022 at 8:29 AM Zach O'Keefe <zokeefe@google.com> wrote:
 > mm_struct/address, we should take the "if (result == SCAN_PMD_MAPPED) {...}"
 > branch early and return before grabbing any other locks (we already have
 > exclusive mmap_lock).  So, perhaps we can drop this check?
-
-Thanks for elaborating the case. The follow-up question is how often
-it happens and whether it is worth it or not?
-
 >
 > > >                 mm_slot->pte_mapped_thp[mm_slot->nr_pte_mapped_thp++] = addr;
 > > >                 ret = true;
@@ -491,6 +487,10 @@ it happens and whether it is worth it or not?
 >
 > Good catch! Yes, I think we need to double check HPAGE_PMD_ORDER here,
 > and that applies equally to khugepaged as well.
+
+BTW, it should be better to have a separate patch to fix this issue as
+a prerequisite of this series.
+
 >
 > > [...] The below pte traverse may remove rmap for
 > > the wrong page IIUC. Khugepaged should experience the same problem as
@@ -502,9 +502,6 @@ it happens and whether it is worth it or not?
 > ptes that map something other than our compound page and erroneously adjust rmap
 > for wrong pages.  So, adding a check for compound_order == HPAGE_PMD_ORDER above
 > alleviates this possibility.
-
-Yes, exactly. And we can't install PMD for less than HPAGE_PMD_ORDER hugepage.
-
 >
 > > >                 goto drop_hpage;
 > > > +       }
