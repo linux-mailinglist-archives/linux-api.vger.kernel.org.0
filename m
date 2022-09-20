@@ -2,39 +2,52 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB2A85BE3C6
-	for <lists+linux-api@lfdr.de>; Tue, 20 Sep 2022 12:52:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3390C5BE44B
+	for <lists+linux-api@lfdr.de>; Tue, 20 Sep 2022 13:20:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229687AbiITKwH (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Tue, 20 Sep 2022 06:52:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55836 "EHLO
+        id S229791AbiITLUS (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Tue, 20 Sep 2022 07:20:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbiITKwG (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Tue, 20 Sep 2022 06:52:06 -0400
-Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A783B3A499;
-        Tue, 20 Sep 2022 03:52:04 -0700 (PDT)
-Date:   Tue, 20 Sep 2022 12:33:31 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=t-8ch.de; s=mail;
-        t=1663670011; bh=wBP7/I9Gh6LWk47k8z87D5gzRBm0BSfiWpd0Ma9utdE=;
-        h=Date:From:To:Cc:Subject:From;
-        b=nUyYKSjI3iS9IXGjZj/OLgJTIQCdetbGNpieapZN+I5VPiv9ArpZght3a196ZH+Ly
-         YfWrDd0968/2hvr1fx+gKfHPGgAWeGmnWhESC8nP7PA9uzeM2eO3T/0TevUQT6EMWP
-         otF4DREf3RKRCHcbnAhvZ+DdZPxwqhY1zrGZ8QYA=
-From:   Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>
-To:     linux-fsdevel@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-nfs@vger.kernel.org, thomas.weissschuh@amadeus.com
-Subject: O_LARGEFILE / EOVERFLOW on tmpfs / NFS
-Message-ID: <76bedae6-22ea-4abc-8c06-b424ceb39217@t-8ch.de>
+        with ESMTP id S229590AbiITLUR (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Tue, 20 Sep 2022 07:20:17 -0400
+Received: from bmailout2.hostsharing.net (bmailout2.hostsharing.net [83.223.78.240])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 776FB32D98;
+        Tue, 20 Sep 2022 04:20:15 -0700 (PDT)
+Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+         client-signature RSA-PSS (4096 bits) client-digest SHA256)
+        (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS DV RSA Mixed SHA256 2020 CA-1" (verified OK))
+        by bmailout2.hostsharing.net (Postfix) with ESMTPS id 84EF2280F3D8F;
+        Tue, 20 Sep 2022 13:20:11 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+        id 7AB6B27C89; Tue, 20 Sep 2022 13:20:11 +0200 (CEST)
+Date:   Tue, 20 Sep 2022 13:20:11 +0200
+From:   Lukas Wunner <lukas@wunner.de>
+To:     Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc:     linux-serial@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH v9 5/6] serial: Support for RS-485 multipoint addresses
+Message-ID: <20220920112011.GA7187@wunner.de>
+References: <20220624204210.11112-1-ilpo.jarvinen@linux.intel.com>
+ <20220624204210.11112-6-ilpo.jarvinen@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="lGPmldGHO6LcANo9"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Jabber-ID: thomas@t-8ch.de
-X-Accept: text/plain, text/html;q=0.2, text/*;q=0.1
-X-Accept-Language: en-us, en;q=0.8, de-de;q=0.7, de;q=0.6
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220624204210.11112-6-ilpo.jarvinen@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -42,79 +55,30 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+On Fri, Jun 24, 2022 at 11:42:09PM +0300, Ilpo Järvinen wrote:
+> ADDRB in termios indicates 9th bit addressing mode is enabled. In this
+> mode, 9th bit is used to indicate an address (byte) within the
+> communication line. ADDRB can only be enabled/disabled through
+> ->rs485_config() that is also responsible for setting the destination and
+> receiver (filter) addresses.
+[...]
+> --- a/include/uapi/asm-generic/termbits-common.h
+> +++ b/include/uapi/asm-generic/termbits-common.h
+> @@ -46,6 +46,7 @@ typedef unsigned int	speed_t;
+>  #define EXTA		B19200
+>  #define EXTB		B38400
+>  
+> +#define ADDRB		0x20000000	/* address bit */
+>  #define CMSPAR		0x40000000	/* mark or space (stick) parity */
+>  #define CRTSCTS		0x80000000	/* flow control */
+>
 
---lGPmldGHO6LcANo9
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+You may want to consider submitting a patch to the Linux man-pages
+project to document the newly introduced bit:
 
-Hi everybody,
-
-it seems there is some inconsistency about how large files that are opened
-*without* O_LARGEFILE on different filesystems.
-
-On ext4/btrfs/xfs a large file openend without O_LARGEFILE results in an
-EOVERFLOW error to be reported (as documented by open(2) and open(3p)).
-On tmpfs/NFS the file is opened successfully but the values returned for
-lseek() are bogus.
-(See the reproducer attached to this mail.)
-
-This has been reproduced on 5.19.8 but the sources look the same on current
-torvalds/master.
-
-Is this intentional? To me it seems this should fail with EOVERFLOW everywhere.
-Looking at the sources, the O_LARGEFILE flag is checked in generic_file_open()
-but not all filesystems call this function.
-
-If this is a bug would it make sense to hoist this check into the VFS layer so
-not all filesystems have to call this manually?
-Another question would be about backwards-compatibility becaus fixing it would
-prevent applications from opening files they could open before.
-On the other hand they could have experienced silent data corruption before.
+https://www.kernel.org/doc/man-pages/patches.html
+https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/tree/man3/termios.3
 
 Thanks,
-Thomas
 
---lGPmldGHO6LcANo9
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: attachment; filename="test.c"
-
-/*
- * Compile:
- *   cc -m32 test.c -o test
- *
- * Prepare testfile:
- *   fallocate -l 4294967297 large-file
- *
- * Test:
- *   ./test large-file
- *
- * Result:
- *   Correct: open() fails, exit code 2
- *   Incorrect: Prints an incorrect file size
- *
- * Observation:
- *   Correct on ext4/btrfs
- *   Incorrect on NFS/tmpfs
- */
-
-#include <assert.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
-
-static_assert(sizeof(void *) == 4, "This test only makes sense on 32bit");
-static_assert(sizeof(off_t) == 4, "Large file support has to be disabled");
-
-int main(int argc, char **argv)
-{
-	if (argc != 2)
-		return 1;
-	int fd = open(argv[1], O_RDONLY);
-	if (fd == -1)
-		return 2;
-	off_t fsize = lseek(fd, 0, SEEK_END);
-	printf("file size=%lu\n", fsize);
-}
-
---lGPmldGHO6LcANo9--
+Lukas
