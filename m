@@ -2,56 +2,57 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 249A75E6FD5
-	for <lists+linux-api@lfdr.de>; Fri, 23 Sep 2022 00:41:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 024A35E6FD7
+	for <lists+linux-api@lfdr.de>; Fri, 23 Sep 2022 00:41:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229571AbiIVWlC (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 22 Sep 2022 18:41:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37332 "EHLO
+        id S230087AbiIVWlJ (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 22 Sep 2022 18:41:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229551AbiIVWk7 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Sep 2022 18:40:59 -0400
-Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 587789A6B9
-        for <linux-api@vger.kernel.org>; Thu, 22 Sep 2022 15:40:58 -0700 (PDT)
-Received: by mail-pl1-x64a.google.com with SMTP id n1-20020a170902f60100b00179c0a5c51fso653447plg.7
-        for <linux-api@vger.kernel.org>; Thu, 22 Sep 2022 15:40:58 -0700 (PDT)
+        with ESMTP id S230072AbiIVWlC (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Sep 2022 18:41:02 -0400
+Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7A3AF3935
+        for <linux-api@vger.kernel.org>; Thu, 22 Sep 2022 15:40:59 -0700 (PDT)
+Received: by mail-pf1-x44a.google.com with SMTP id w197-20020a627bce000000b00556ac6baf07so15085pfc.4
+        for <linux-api@vger.kernel.org>; Thu, 22 Sep 2022 15:40:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date;
-        bh=utuE6lqKBJIEKGH4+B+hune/6k6tZq0aWAJkqoURqk0=;
-        b=UZ4msjJdD5WvKXwPxcVJIaPIrBENIQfCoqWiQ/JjJTsKjaJ0CK1UlAi/mFi01hCHbe
-         V9AQfcAJNiCa8a1CBRSsWiE4dyxa3rkOE3AWzQRu4CyPlwnhL5Ujt0egLyGZPdeVEvpQ
-         Lbxls3H/hQ+48g8cEu3KouCJLEJdNrQNWn8Ij9ZtvvLmOex2VKtuc8ZFec5ELmur/QM/
-         X0nltLtuoEqGHSK8qzHS6tHg0IvxxwSwMAcR0KBCCojJNZ/A8nPDiYibhZWCsxufnZJA
-         IpIQOzLO4arKn99g4SrOlyPIyx0GMdVXn09A+qSbm0Qvyq1y4XnbWDk5ShZmCiepKRjD
-         gF/A==
+        bh=o0zQBmgFOza7kGjnXBSwwcCy6SGdp6sM7N1TFRG3PAs=;
+        b=IAbpL3I6bFhgWp4WoWXjKEhylQg/NyflO9xv12+C+duSnFP9Q49DGSQqCROSlIM3Yz
+         eHHlnrsHEiYHn2UE3sd4FJf6UD+RkhlpxjEpTxDxIVWGUJS4LiUKA0JYYAN64M+6CZmO
+         /zP5mKP2qR4Fwekx/WDjSvK2Eu+FtyUhYzC5qUaj8wy6qqv4m4tqb64/KXDCnUnZHtP2
+         JGCRbmbio5LpowjEHqJZ+1Fk4sMu546VfXHfdVpXA4MaTKhLN1XK0ne49WCElli9SnYF
+         eb8wSHEiLOkIaUc6GO7hNAqf9kCgfGo5asUDVkEiASSrEn0f3UAwIba2VxT5DWpPj4JR
+         NOjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date;
-        bh=utuE6lqKBJIEKGH4+B+hune/6k6tZq0aWAJkqoURqk0=;
-        b=GHWbDUDY+SE+OXka7zXegKbI9JPP3B25cMXBStAKJf/gDUn/jKfmdZl4LuOOVUCwlN
-         cSCMoRqtjjYOSPm+NieNIAp0lzsZarm5KyUwg6gBlv5eQ0n4ShVTVKIR9HZj7aO5aYjk
-         kx1C2CnAIhm6OicGjBYchZ/fA9CXcCAcAVMb6JzCLmzy6BujMDuw+76Fw7/9Oo3P6qnf
-         JunYfvwF8kzS7HPcdSp2K3psdAr/rkjDJ62Wu9oE3LcCkgKP34jQXztguBq0jSvQyxsH
-         fSwF73GtVcQnsjx4FG66VjcOgq2KNCZSXSEqFlvO3pGdFZxeUXLP7CSXNpkNRI7t6/+D
-         ugpQ==
-X-Gm-Message-State: ACrzQf2jDHzEHRmkek5QlS8HO/RJEZMgPm/D2kkNaDX/fRJEY59thcWe
-        XWfEotzOTpOaTmxFGHpW2tgrw/LYP+CM
-X-Google-Smtp-Source: AMsMyM4oWLM6XB3Tm5pXduKo2eeYprCavqqw2mG3KiyUE0K8sQ4yuABPSq9UJdL+1QY9msR4x0MH7oqSJFiQ
+        bh=o0zQBmgFOza7kGjnXBSwwcCy6SGdp6sM7N1TFRG3PAs=;
+        b=FLswFRa111578PzsJXPHEA2VDSCivIDI0LkSkDy/x+X/FsCN8r8usMiq8Y+iewOMKZ
+         vGPhUwa80q5WSa+62D2ALHAv1E7B1QTjksCP6Uy8ELLcJ8+P2CCv63dpqNhHbqRyf8J2
+         RsGBmnLYqJfBpkhhhv3lf95fKKz/fpVPYxtmq2SVyoUomwosVXY6VNZ4qIODLdN/yD1a
+         S0+3PRs2SEXOpKDW9M4hmO5BXkWig1nnZEwp6px553xSscZDS/wpds6pFSCskNy12Y4b
+         IThg2VI0mi0MvCfLnfg1FjkZTHLoMlkO2o0VLC79cHo9/1JIv/hOVVvy7SmyiaPefBbV
+         T47g==
+X-Gm-Message-State: ACrzQf1NuiR09+XzmIQfTsaeAzTmujDcxe1X9kNog1Z5pN0GCs+pN5Pv
+        dYJA6rDokbKrqQ4yu6IUiSzpzxz3++wd
+X-Google-Smtp-Source: AMsMyM7hVpAJXf5Wkr7NvfavBwXBUzA/RbeJ0pmMced52nheubJfNMU3f1yDh4uRYuNUKAEoVeQ6l26EV/1k
 X-Received: from zokeefe3.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1b6])
- (user=zokeefe job=sendgmr) by 2002:a17:902:d491:b0:178:2cc3:a4c6 with SMTP id
- c17-20020a170902d49100b001782cc3a4c6mr5592230plg.46.1663886457609; Thu, 22
- Sep 2022 15:40:57 -0700 (PDT)
-Date:   Thu, 22 Sep 2022 15:40:41 -0700
+ (user=zokeefe job=sendgmr) by 2002:a05:6a02:28b:b0:439:19d6:fad5 with SMTP id
+ bk11-20020a056a02028b00b0043919d6fad5mr5102840pgb.591.1663886459297; Thu, 22
+ Sep 2022 15:40:59 -0700 (PDT)
+Date:   Thu, 22 Sep 2022 15:40:42 -0700
 In-Reply-To: <20220922224046.1143204-1-zokeefe@google.com>
 Mime-Version: 1.0
 References: <20220922224046.1143204-1-zokeefe@google.com>
 X-Mailer: git-send-email 2.37.3.998.g577e59143f-goog
-Message-ID: <20220922224046.1143204-6-zokeefe@google.com>
-Subject: [PATCH mm-unstable v4 05/10] selftests/vm: dedup THP helpers
+Message-ID: <20220922224046.1143204-7-zokeefe@google.com>
+Subject: [PATCH mm-unstable v4 06/10] selftests/vm: modularize thp collapse
+ memory operations
 From:   "Zach O'Keefe" <zokeefe@google.com>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     linux-mm@kvack.org, linux-api@vger.kernel.org,
@@ -84,32 +85,12 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-These files:
+Modularize operations to setup, cleanup, fault, and check for huge pages,
+for a given memory type.  This allows reusing existing tests with
+additional memory types by defining new memory operations.  Following
+patches will add file and shmem memory types.
 
-tools/testing/selftests/vm/vm_util.c
-tools/testing/selftests/vm/khugepaged.c
-
-Both contain logic to:
-
-1) Determine hugepage size on current system
-2) Read /proc/self/smaps to determine number of THPs at an address
-
-Refactor selftests/vm/khugepaged.c to use the vm_util common helpers and
-add it as a build dependency.
-
-Since selftests/vm/khugepaged.c is the largest user of check_huge(),
-change the signature of check_huge() to match selftests/vm/khugepaged.c's
-useage: take an expected number of hugepages, and return a bool indicating
-if the correct number of hugepages were found.  Add a wrapper,
-check_huge_anon(), in anticipation of checking smaps for file and shmem
-hugepages.
-
-Update existing callsites to use the new pattern / function.
-
-Likewise, check_for_pattern() was duplicated, and it's a general enough
-helper to include in vm_util helpers as well.
-
-Link: https://lkml.kernel.org/r/20220907144521.3115321-6-zokeefe@google.com
+Link: https://lkml.kernel.org/r/20220907144521.3115321-7-zokeefe@google.com
 Signed-off-by: Zach O'Keefe <zokeefe@google.com>
 Cc: Axel Rasmussen <axelrasmussen@google.com>
 Cc: Chris Kennelly <ckennelly@google.com>
@@ -129,264 +110,756 @@ Cc: Song Liu <songliubraving@fb.com>
 Cc: Vlastimil Babka <vbabka@suse.cz>
 Cc: Yang Shi <shy828301@gmail.com>
 ---
- tools/testing/selftests/vm/Makefile           |  1 +
- tools/testing/selftests/vm/khugepaged.c       | 64 ++-----------------
- tools/testing/selftests/vm/soft-dirty.c       |  2 +-
- .../selftests/vm/split_huge_page_test.c       | 12 ++--
- tools/testing/selftests/vm/vm_util.c          | 26 +++++---
- tools/testing/selftests/vm/vm_util.h          |  3 +-
- 6 files changed, 32 insertions(+), 76 deletions(-)
+ tools/testing/selftests/vm/khugepaged.c | 373 +++++++++++++-----------
+ 1 file changed, 207 insertions(+), 166 deletions(-)
 
-diff --git a/tools/testing/selftests/vm/Makefile b/tools/testing/selftests/vm/Makefile
-index 6e66404e116f..824d3a58ab1a 100644
---- a/tools/testing/selftests/vm/Makefile
-+++ b/tools/testing/selftests/vm/Makefile
-@@ -95,6 +95,7 @@ TEST_FILES += va_128TBswitch.sh
- 
- include ../lib.mk
- 
-+$(OUTPUT)/khugepaged: vm_util.c
- $(OUTPUT)/madv_populate: vm_util.c
- $(OUTPUT)/soft-dirty: vm_util.c
- $(OUTPUT)/split_huge_page_test: vm_util.c
 diff --git a/tools/testing/selftests/vm/khugepaged.c b/tools/testing/selftests/vm/khugepaged.c
-index b55dc331af13..235a64b4458c 100644
+index 235a64b4458c..06ea6f18980e 100644
 --- a/tools/testing/selftests/vm/khugepaged.c
 +++ b/tools/testing/selftests/vm/khugepaged.c
-@@ -12,6 +12,8 @@
- #include <sys/mman.h>
- #include <sys/wait.h>
+@@ -29,8 +29,16 @@ static int hpage_pmd_nr;
+ #define THP_SYSFS "/sys/kernel/mm/transparent_hugepage/"
+ #define PID_SMAPS "/proc/self/smaps"
  
-+#include "vm_util.h"
++struct mem_ops {
++	void *(*setup_area)(int nr_hpages);
++	void (*cleanup_area)(void *p, unsigned long size);
++	void (*fault)(void *p, unsigned long start, unsigned long end);
++	bool (*check_huge)(void *addr, int nr_hpages);
++};
 +
- #ifndef MADV_PAGEOUT
- #define MADV_PAGEOUT 21
- #endif
-@@ -352,64 +354,12 @@ static void save_settings(void)
+ struct collapse_context {
+-	void (*collapse)(const char *msg, char *p, int nr_hpages, bool expect);
++	void (*collapse)(const char *msg, char *p, int nr_hpages,
++			 struct mem_ops *ops, bool expect);
+ 	bool enforce_pte_scan_limits;
+ };
+ 
+@@ -354,11 +362,6 @@ static void save_settings(void)
  	signal(SIGQUIT, restore_settings);
  }
  
--#define MAX_LINE_LENGTH 500
--
--static bool check_for_pattern(FILE *fp, char *pattern, char *buf)
+-static bool check_huge(void *addr, int nr_hpages)
 -{
--	while (fgets(buf, MAX_LINE_LENGTH, fp) != NULL) {
--		if (!strncmp(buf, pattern, strlen(pattern)))
--			return true;
--	}
--	return false;
+-	return check_huge_anon(addr, nr_hpages, hpage_pmd_size);
 -}
 -
- static bool check_huge(void *addr, int nr_hpages)
- {
--	bool thp = false;
--	int ret;
--	FILE *fp;
--	char buffer[MAX_LINE_LENGTH];
--	char addr_pattern[MAX_LINE_LENGTH];
--
--	ret = snprintf(addr_pattern, MAX_LINE_LENGTH, "%08lx-",
--		       (unsigned long) addr);
--	if (ret >= MAX_LINE_LENGTH) {
--		printf("%s: Pattern is too long\n", __func__);
--		exit(EXIT_FAILURE);
--	}
--
--
--	fp = fopen(PID_SMAPS, "r");
--	if (!fp) {
--		printf("%s: Failed to open file %s\n", __func__, PID_SMAPS);
--		exit(EXIT_FAILURE);
--	}
--	if (!check_for_pattern(fp, addr_pattern, buffer))
--		goto err_out;
--
--	ret = snprintf(addr_pattern, MAX_LINE_LENGTH, "AnonHugePages:%10ld kB",
--		       nr_hpages * (hpage_pmd_size >> 10));
--	if (ret >= MAX_LINE_LENGTH) {
--		printf("%s: Pattern is too long\n", __func__);
--		exit(EXIT_FAILURE);
--	}
--	/*
--	 * Fetch the AnonHugePages: in the same block and check whether it got
--	 * the expected number of hugeepages next.
--	 */
--	if (!check_for_pattern(fp, "AnonHugePages:", buffer))
--		goto err_out;
--
--	if (strncmp(buffer, addr_pattern, strlen(addr_pattern)))
--		goto err_out;
--
--	thp = true;
--err_out:
--	fclose(fp);
--	return thp;
-+	return check_huge_anon(addr, nr_hpages, hpage_pmd_size);
- }
- 
--
-+#define MAX_LINE_LENGTH 500
+ #define MAX_LINE_LENGTH 500
  static bool check_swap(void *addr, unsigned long size)
  {
- 	bool swap = false;
-@@ -431,7 +381,7 @@ static bool check_swap(void *addr, unsigned long size)
- 		printf("%s: Failed to open file %s\n", __func__, PID_SMAPS);
- 		exit(EXIT_FAILURE);
- 	}
--	if (!check_for_pattern(fp, addr_pattern, buffer))
-+	if (!check_for_pattern(fp, addr_pattern, buffer, sizeof(buffer)))
- 		goto err_out;
- 
- 	ret = snprintf(addr_pattern, MAX_LINE_LENGTH, "Swap:%19ld kB",
-@@ -444,7 +394,7 @@ static bool check_swap(void *addr, unsigned long size)
- 	 * Fetch the Swap: in the same block and check whether it got
- 	 * the expected number of hugeepages next.
- 	 */
--	if (!check_for_pattern(fp, "Swap:", buffer))
-+	if (!check_for_pattern(fp, "Swap:", buffer, sizeof(buffer)))
- 		goto err_out;
- 
- 	if (strncmp(buffer, addr_pattern, strlen(addr_pattern)))
-@@ -1066,7 +1016,7 @@ int main(int argc, const char **argv)
- 	setbuf(stdout, NULL);
- 
- 	page_size = getpagesize();
--	hpage_pmd_size = read_num("hpage_pmd_size");
-+	hpage_pmd_size = read_pmd_pagesize();
- 	hpage_pmd_nr = hpage_pmd_size / page_size;
- 
- 	default_settings.khugepaged.max_ptes_none = hpage_pmd_nr - 1;
-diff --git a/tools/testing/selftests/vm/soft-dirty.c b/tools/testing/selftests/vm/soft-dirty.c
-index e3a43f5d4fa2..21d8830c5f24 100644
---- a/tools/testing/selftests/vm/soft-dirty.c
-+++ b/tools/testing/selftests/vm/soft-dirty.c
-@@ -91,7 +91,7 @@ static void test_hugepage(int pagemap_fd, int pagesize)
- 	for (i = 0; i < hpage_len; i++)
- 		map[i] = (char)i;
- 
--	if (check_huge(map)) {
-+	if (check_huge_anon(map, 1, hpage_len)) {
- 		ksft_test_result_pass("Test %s huge page allocation\n", __func__);
- 
- 		clear_softdirty();
-diff --git a/tools/testing/selftests/vm/split_huge_page_test.c b/tools/testing/selftests/vm/split_huge_page_test.c
-index 6aa2b8253aed..76e1c36dd9e5 100644
---- a/tools/testing/selftests/vm/split_huge_page_test.c
-+++ b/tools/testing/selftests/vm/split_huge_page_test.c
-@@ -92,7 +92,6 @@ void split_pmd_thp(void)
+@@ -452,18 +455,33 @@ static int madvise_collapse_retry(void *p, unsigned long size)
+  * Returns pmd-mapped hugepage in VMA marked VM_HUGEPAGE, filled with
+  * validate_memory()'able contents.
+  */
+-static void *alloc_hpage(void)
++static void *alloc_hpage(struct mem_ops *ops)
  {
- 	char *one_page;
- 	size_t len = 4 * pmd_pagesize;
--	uint64_t thp_size;
- 	size_t i;
+-	void *p;
++	void *p = ops->setup_area(1);
  
- 	one_page = memalign(pmd_pagesize, len);
-@@ -107,8 +106,7 @@ void split_pmd_thp(void)
- 	for (i = 0; i < len; i++)
- 		one_page[i] = (char)i;
- 
--	thp_size = check_huge(one_page);
--	if (!thp_size) {
-+	if (!check_huge_anon(one_page, 1, pmd_pagesize)) {
- 		printf("No THP is allocated\n");
- 		exit(EXIT_FAILURE);
- 	}
-@@ -124,9 +122,8 @@ void split_pmd_thp(void)
- 		}
- 
- 
--	thp_size = check_huge(one_page);
--	if (thp_size) {
--		printf("Still %ld kB AnonHugePages not split\n", thp_size);
-+	if (check_huge_anon(one_page, 0, pmd_pagesize)) {
-+		printf("Still AnonHugePages not split\n");
- 		exit(EXIT_FAILURE);
- 	}
- 
-@@ -172,8 +169,7 @@ void split_pte_mapped_thp(void)
- 	for (i = 0; i < len; i++)
- 		one_page[i] = (char)i;
- 
--	thp_size = check_huge(one_page);
--	if (!thp_size) {
-+	if (!check_huge_anon(one_page, 1, pmd_pagesize)) {
- 		printf("No THP is allocated\n");
- 		exit(EXIT_FAILURE);
- 	}
-diff --git a/tools/testing/selftests/vm/vm_util.c b/tools/testing/selftests/vm/vm_util.c
-index 2768d4f3de4c..77244df973e9 100644
---- a/tools/testing/selftests/vm/vm_util.c
-+++ b/tools/testing/selftests/vm/vm_util.c
-@@ -64,9 +64,9 @@ void clear_softdirty(void)
- 		ksft_exit_fail_msg("writing clear_refs failed\n");
- }
- 
--static bool check_for_pattern(FILE *fp, const char *pattern, char *buf)
-+bool check_for_pattern(FILE *fp, const char *pattern, char *buf, size_t len)
- {
--	while (fgets(buf, MAX_LINE_LENGTH, fp) != NULL) {
-+	while (fgets(buf, len, fp)) {
- 		if (!strncmp(buf, pattern, strlen(pattern)))
- 			return true;
- 	}
-@@ -94,9 +94,10 @@ uint64_t read_pmd_pagesize(void)
- 	return strtoul(buf, NULL, 10);
- }
- 
--uint64_t check_huge(void *addr)
-+bool __check_huge(void *addr, char *pattern, int nr_hpages,
-+		  uint64_t hpage_size)
- {
--	uint64_t thp = 0;
-+	uint64_t thp = -1;
- 	int ret;
- 	FILE *fp;
- 	char buffer[MAX_LINE_LENGTH];
-@@ -111,20 +112,27 @@ uint64_t check_huge(void *addr)
- 	if (!fp)
- 		ksft_exit_fail_msg("%s: Failed to open file %s\n", __func__, SMAP_FILE_PATH);
- 
--	if (!check_for_pattern(fp, addr_pattern, buffer))
-+	if (!check_for_pattern(fp, addr_pattern, buffer, sizeof(buffer)))
- 		goto err_out;
- 
- 	/*
--	 * Fetch the AnonHugePages: in the same block and check the number of
-+	 * Fetch the pattern in the same block and check the number of
- 	 * hugepages.
- 	 */
--	if (!check_for_pattern(fp, "AnonHugePages:", buffer))
-+	if (!check_for_pattern(fp, pattern, buffer, sizeof(buffer)))
- 		goto err_out;
- 
--	if (sscanf(buffer, "AnonHugePages:%10ld kB", &thp) != 1)
-+	snprintf(addr_pattern, MAX_LINE_LENGTH, "%s%%9ld kB", pattern);
+-	p = alloc_mapping(1);
++	ops->fault(p, 0, hpage_pmd_size);
 +
-+	if (sscanf(buffer, addr_pattern, &thp) != 1)
- 		ksft_exit_fail_msg("Reading smap error\n");
++	/*
++	 * VMA should be neither VM_HUGEPAGE nor VM_NOHUGEPAGE.
++	 * The latter is ineligible for collapse by MADV_COLLAPSE
++	 * while the former might cause MADV_COLLAPSE to race with
++	 * khugepaged on low-load system (like a test machine), which
++	 * would cause MADV_COLLAPSE to fail with EAGAIN.
++	 */
+ 	printf("Allocate huge page...");
+-	madvise(p, hpage_pmd_size, MADV_HUGEPAGE);
+-	fill_memory(p, 0, hpage_pmd_size);
+-	if (check_huge(p, 1))
+-		success("OK");
+-	else
+-		fail("Fail");
++	if (madvise_collapse_retry(p, hpage_pmd_size)) {
++		perror("madvise(MADV_COLLAPSE)");
++		exit(EXIT_FAILURE);
++	}
++	if (!ops->check_huge(p, 1)) {
++		perror("madvise(MADV_COLLAPSE)");
++		exit(EXIT_FAILURE);
++	}
++	if (madvise(p, hpage_pmd_size, MADV_HUGEPAGE)) {
++		perror("madvise(MADV_HUGEPAGE)");
++		exit(EXIT_FAILURE);
++	}
++	success("OK");
+ 	return p;
+ }
  
- err_out:
- 	fclose(fp);
--	return thp;
-+	return thp == (nr_hpages * (hpage_size >> 10));
+@@ -480,18 +498,40 @@ static void validate_memory(int *p, unsigned long start, unsigned long end)
+ 	}
+ }
+ 
+-static void madvise_collapse(const char *msg, char *p, int nr_hpages,
+-			     bool expect)
++static void *anon_setup_area(int nr_hpages)
++{
++	return alloc_mapping(nr_hpages);
 +}
 +
-+bool check_huge_anon(void *addr, int nr_hpages, uint64_t hpage_size)
++static void anon_cleanup_area(void *p, unsigned long size)
 +{
-+	return __check_huge(addr, "AnonHugePages: ", nr_hpages, hpage_size);
++	munmap(p, size);
++}
++
++static void anon_fault(void *p, unsigned long start, unsigned long end)
++{
++	fill_memory(p, start, end);
++}
++
++static bool anon_check_huge(void *addr, int nr_hpages)
++{
++	return check_huge_anon(addr, nr_hpages, hpage_pmd_size);
++}
++
++static struct mem_ops anon_ops = {
++	.setup_area = &anon_setup_area,
++	.cleanup_area = &anon_cleanup_area,
++	.fault = &anon_fault,
++	.check_huge = &anon_check_huge,
++};
++
++static void __madvise_collapse(const char *msg, char *p, int nr_hpages,
++			       struct mem_ops *ops, bool expect)
+ {
+ 	int ret;
+ 	struct settings settings = *current_settings();
+ 
+ 	printf("%s...", msg);
+-	/* Sanity check */
+-	if (!check_huge(p, 0)) {
+-		printf("Unexpected huge page\n");
+-		exit(EXIT_FAILURE);
+-	}
+ 
+ 	/*
+ 	 * Prevent khugepaged interference and tests that MADV_COLLAPSE
+@@ -505,7 +545,7 @@ static void madvise_collapse(const char *msg, char *p, int nr_hpages,
+ 	ret = madvise_collapse_retry(p, nr_hpages * hpage_pmd_size);
+ 	if (((bool)ret) == expect)
+ 		fail("Fail: Bad return value");
+-	else if (check_huge(p, nr_hpages) != expect)
++	else if (!ops->check_huge(p, expect ? nr_hpages : 0))
+ 		fail("Fail: check_huge()");
+ 	else
+ 		success("OK");
+@@ -513,14 +553,26 @@ static void madvise_collapse(const char *msg, char *p, int nr_hpages,
+ 	pop_settings();
  }
-diff --git a/tools/testing/selftests/vm/vm_util.h b/tools/testing/selftests/vm/vm_util.h
-index 307e11f72341..65c8c561bebd 100644
---- a/tools/testing/selftests/vm/vm_util.h
-+++ b/tools/testing/selftests/vm/vm_util.h
-@@ -7,5 +7,6 @@ bool pagemap_is_softdirty(int fd, char *start);
- bool pagemap_is_swapped(int fd, char *start);
- bool pagemap_range_some_swapped(int fd, char *start, size_t len);
- void clear_softdirty(void);
-+bool check_for_pattern(FILE *fp, const char *pattern, char *buf, size_t len);
- uint64_t read_pmd_pagesize(void);
--uint64_t check_huge(void *addr);
-+bool check_huge_anon(void *addr, int nr_hpages, uint64_t hpage_size);
+ 
++static void madvise_collapse(const char *msg, char *p, int nr_hpages,
++			     struct mem_ops *ops, bool expect)
++{
++	/* Sanity check */
++	if (!ops->check_huge(p, 0)) {
++		printf("Unexpected huge page\n");
++		exit(EXIT_FAILURE);
++	}
++	__madvise_collapse(msg, p, nr_hpages, ops, expect);
++}
++
+ #define TICK 500000
+-static bool wait_for_scan(const char *msg, char *p, int nr_hpages)
++static bool wait_for_scan(const char *msg, char *p, int nr_hpages,
++			  struct mem_ops *ops)
+ {
+ 	int full_scans;
+ 	int timeout = 6; /* 3 seconds */
+ 
+ 	/* Sanity check */
+-	if (!check_huge(p, 0)) {
++	if (!ops->check_huge(p, 0)) {
+ 		printf("Unexpected huge page\n");
+ 		exit(EXIT_FAILURE);
+ 	}
+@@ -532,7 +584,7 @@ static bool wait_for_scan(const char *msg, char *p, int nr_hpages)
+ 
+ 	printf("%s...", msg);
+ 	while (timeout--) {
+-		if (check_huge(p, nr_hpages))
++		if (ops->check_huge(p, nr_hpages))
+ 			break;
+ 		if (read_num("khugepaged/full_scans") >= full_scans)
+ 			break;
+@@ -546,19 +598,20 @@ static bool wait_for_scan(const char *msg, char *p, int nr_hpages)
+ }
+ 
+ static void khugepaged_collapse(const char *msg, char *p, int nr_hpages,
+-				bool expect)
++				struct mem_ops *ops, bool expect)
+ {
+-	if (wait_for_scan(msg, p, nr_hpages)) {
++	if (wait_for_scan(msg, p, nr_hpages, ops)) {
+ 		if (expect)
+ 			fail("Timeout");
+ 		else
+ 			success("OK");
+ 		return;
+-	} else if (check_huge(p, nr_hpages) == expect) {
++	}
++
++	if (ops->check_huge(p, expect ? nr_hpages : 0))
+ 		success("OK");
+-	} else {
++	else
+ 		fail("Fail");
+-	}
+ }
+ 
+ static void alloc_at_fault(void)
+@@ -572,7 +625,7 @@ static void alloc_at_fault(void)
+ 	p = alloc_mapping(1);
+ 	*p = 1;
+ 	printf("Allocate huge page on fault...");
+-	if (check_huge(p, 1))
++	if (check_huge_anon(p, 1, hpage_pmd_size))
+ 		success("OK");
+ 	else
+ 		fail("Fail");
+@@ -581,49 +634,48 @@ static void alloc_at_fault(void)
+ 
+ 	madvise(p, page_size, MADV_DONTNEED);
+ 	printf("Split huge PMD on MADV_DONTNEED...");
+-	if (check_huge(p, 0))
++	if (check_huge_anon(p, 0, hpage_pmd_size))
+ 		success("OK");
+ 	else
+ 		fail("Fail");
+ 	munmap(p, hpage_pmd_size);
+ }
+ 
+-static void collapse_full(struct collapse_context *c)
++static void collapse_full(struct collapse_context *c, struct mem_ops *ops)
+ {
+ 	void *p;
+ 	int nr_hpages = 4;
+ 	unsigned long size = nr_hpages * hpage_pmd_size;
+ 
+-	p = alloc_mapping(nr_hpages);
+-	fill_memory(p, 0, size);
++	p = ops->setup_area(nr_hpages);
++	ops->fault(p, 0, size);
+ 	c->collapse("Collapse multiple fully populated PTE table", p, nr_hpages,
+-		    true);
++		    ops, true);
+ 	validate_memory(p, 0, size);
+-	munmap(p, size);
++	ops->cleanup_area(p, size);
+ }
+ 
+-static void collapse_empty(struct collapse_context *c)
++static void collapse_empty(struct collapse_context *c, struct mem_ops *ops)
+ {
+ 	void *p;
+ 
+-	p = alloc_mapping(1);
+-	c->collapse("Do not collapse empty PTE table", p, 1, false);
+-	munmap(p, hpage_pmd_size);
++	p = ops->setup_area(1);
++	c->collapse("Do not collapse empty PTE table", p, 1, ops, false);
++	ops->cleanup_area(p, hpage_pmd_size);
+ }
+ 
+-static void collapse_single_pte_entry(struct collapse_context *c)
++static void collapse_single_pte_entry(struct collapse_context *c, struct mem_ops *ops)
+ {
+ 	void *p;
+ 
+-	p = alloc_mapping(1);
+-	fill_memory(p, 0, page_size);
++	p = ops->setup_area(1);
++	ops->fault(p, 0, page_size);
+ 	c->collapse("Collapse PTE table with single PTE entry present", p,
+-		    1, true);
+-	validate_memory(p, 0, page_size);
+-	munmap(p, hpage_pmd_size);
++		    1, ops, true);
++	ops->cleanup_area(p, hpage_pmd_size);
+ }
+ 
+-static void collapse_max_ptes_none(struct collapse_context *c)
++static void collapse_max_ptes_none(struct collapse_context *c, struct mem_ops *ops)
+ {
+ 	int max_ptes_none = hpage_pmd_nr / 2;
+ 	struct settings settings = *current_settings();
+@@ -632,30 +684,30 @@ static void collapse_max_ptes_none(struct collapse_context *c)
+ 	settings.khugepaged.max_ptes_none = max_ptes_none;
+ 	push_settings(&settings);
+ 
+-	p = alloc_mapping(1);
++	p = ops->setup_area(1);
+ 
+-	fill_memory(p, 0, (hpage_pmd_nr - max_ptes_none - 1) * page_size);
++	ops->fault(p, 0, (hpage_pmd_nr - max_ptes_none - 1) * page_size);
+ 	c->collapse("Maybe collapse with max_ptes_none exceeded", p, 1,
+-		    !c->enforce_pte_scan_limits);
++		    ops, !c->enforce_pte_scan_limits);
+ 	validate_memory(p, 0, (hpage_pmd_nr - max_ptes_none - 1) * page_size);
+ 
+ 	if (c->enforce_pte_scan_limits) {
+-		fill_memory(p, 0, (hpage_pmd_nr - max_ptes_none) * page_size);
+-		c->collapse("Collapse with max_ptes_none PTEs empty", p, 1,
++		ops->fault(p, 0, (hpage_pmd_nr - max_ptes_none) * page_size);
++		c->collapse("Collapse with max_ptes_none PTEs empty", p, 1, ops,
+ 			    true);
+ 		validate_memory(p, 0,
+ 				(hpage_pmd_nr - max_ptes_none) * page_size);
+ 	}
+-
+-	munmap(p, hpage_pmd_size);
++	ops->cleanup_area(p, hpage_pmd_size);
+ 	pop_settings();
+ }
+ 
+-static void collapse_swapin_single_pte(struct collapse_context *c)
++static void collapse_swapin_single_pte(struct collapse_context *c, struct mem_ops *ops)
+ {
+ 	void *p;
+-	p = alloc_mapping(1);
+-	fill_memory(p, 0, hpage_pmd_size);
++
++	p = ops->setup_area(1);
++	ops->fault(p, 0, hpage_pmd_size);
+ 
+ 	printf("Swapout one page...");
+ 	if (madvise(p, page_size, MADV_PAGEOUT)) {
+@@ -669,20 +721,21 @@ static void collapse_swapin_single_pte(struct collapse_context *c)
+ 		goto out;
+ 	}
+ 
+-	c->collapse("Collapse with swapping in single PTE entry", p, 1, true);
++	c->collapse("Collapse with swapping in single PTE entry", p, 1, ops,
++		    true);
+ 	validate_memory(p, 0, hpage_pmd_size);
+ out:
+-	munmap(p, hpage_pmd_size);
++	ops->cleanup_area(p, hpage_pmd_size);
+ }
+ 
+-static void collapse_max_ptes_swap(struct collapse_context *c)
++static void collapse_max_ptes_swap(struct collapse_context *c, struct mem_ops *ops)
+ {
+ 	int max_ptes_swap = read_num("khugepaged/max_ptes_swap");
+ 	void *p;
+ 
+-	p = alloc_mapping(1);
++	p = ops->setup_area(1);
++	ops->fault(p, 0, hpage_pmd_size);
+ 
+-	fill_memory(p, 0, hpage_pmd_size);
+ 	printf("Swapout %d of %d pages...", max_ptes_swap + 1, hpage_pmd_nr);
+ 	if (madvise(p, (max_ptes_swap + 1) * page_size, MADV_PAGEOUT)) {
+ 		perror("madvise(MADV_PAGEOUT)");
+@@ -695,12 +748,12 @@ static void collapse_max_ptes_swap(struct collapse_context *c)
+ 		goto out;
+ 	}
+ 
+-	c->collapse("Maybe collapse with max_ptes_swap exceeded", p, 1,
++	c->collapse("Maybe collapse with max_ptes_swap exceeded", p, 1, ops,
+ 		    !c->enforce_pte_scan_limits);
+ 	validate_memory(p, 0, hpage_pmd_size);
+ 
+ 	if (c->enforce_pte_scan_limits) {
+-		fill_memory(p, 0, hpage_pmd_size);
++		ops->fault(p, 0, hpage_pmd_size);
+ 		printf("Swapout %d of %d pages...", max_ptes_swap,
+ 		       hpage_pmd_nr);
+ 		if (madvise(p, max_ptes_swap * page_size, MADV_PAGEOUT)) {
+@@ -715,63 +768,65 @@ static void collapse_max_ptes_swap(struct collapse_context *c)
+ 		}
+ 
+ 		c->collapse("Collapse with max_ptes_swap pages swapped out", p,
+-			    1, true);
++			    1, ops, true);
+ 		validate_memory(p, 0, hpage_pmd_size);
+ 	}
+ out:
+-	munmap(p, hpage_pmd_size);
++	ops->cleanup_area(p, hpage_pmd_size);
+ }
+ 
+-static void collapse_single_pte_entry_compound(struct collapse_context *c)
++static void collapse_single_pte_entry_compound(struct collapse_context *c, struct mem_ops *ops)
+ {
+ 	void *p;
+ 
+-	p = alloc_hpage();
++	p = alloc_hpage(ops);
++
+ 	madvise(p, hpage_pmd_size, MADV_NOHUGEPAGE);
+ 	printf("Split huge page leaving single PTE mapping compound page...");
+ 	madvise(p + page_size, hpage_pmd_size - page_size, MADV_DONTNEED);
+-	if (check_huge(p, 0))
++	if (ops->check_huge(p, 0))
+ 		success("OK");
+ 	else
+ 		fail("Fail");
+ 
+ 	c->collapse("Collapse PTE table with single PTE mapping compound page",
+-		    p, 1, true);
++		    p, 1, ops, true);
+ 	validate_memory(p, 0, page_size);
+-	munmap(p, hpage_pmd_size);
++	ops->cleanup_area(p, hpage_pmd_size);
+ }
+ 
+-static void collapse_full_of_compound(struct collapse_context *c)
++static void collapse_full_of_compound(struct collapse_context *c, struct mem_ops *ops)
+ {
+ 	void *p;
+ 
+-	p = alloc_hpage();
++	p = alloc_hpage(ops);
+ 	printf("Split huge page leaving single PTE page table full of compound pages...");
+ 	madvise(p, page_size, MADV_NOHUGEPAGE);
+ 	madvise(p, hpage_pmd_size, MADV_NOHUGEPAGE);
+-	if (check_huge(p, 0))
++	if (ops->check_huge(p, 0))
+ 		success("OK");
+ 	else
+ 		fail("Fail");
+ 
+-	c->collapse("Collapse PTE table full of compound pages", p, 1, true);
++	c->collapse("Collapse PTE table full of compound pages", p, 1, ops,
++		    true);
+ 	validate_memory(p, 0, hpage_pmd_size);
+-	munmap(p, hpage_pmd_size);
++	ops->cleanup_area(p, hpage_pmd_size);
+ }
+ 
+-static void collapse_compound_extreme(struct collapse_context *c)
++static void collapse_compound_extreme(struct collapse_context *c, struct mem_ops *ops)
+ {
+ 	void *p;
+ 	int i;
+ 
+-	p = alloc_mapping(1);
++	p = ops->setup_area(1);
+ 	for (i = 0; i < hpage_pmd_nr; i++) {
+ 		printf("\rConstruct PTE page table full of different PTE-mapped compound pages %3d/%d...",
+ 				i + 1, hpage_pmd_nr);
+ 
+ 		madvise(BASE_ADDR, hpage_pmd_size, MADV_HUGEPAGE);
+-		fill_memory(BASE_ADDR, 0, hpage_pmd_size);
+-		if (!check_huge(BASE_ADDR, 1)) {
++		ops->fault(BASE_ADDR, 0, hpage_pmd_size);
++		if (!ops->check_huge(BASE_ADDR, 1)) {
+ 			printf("Failed to allocate huge page\n");
+ 			exit(EXIT_FAILURE);
+ 		}
+@@ -798,30 +853,30 @@ static void collapse_compound_extreme(struct collapse_context *c)
+ 		}
+ 	}
+ 
+-	munmap(BASE_ADDR, hpage_pmd_size);
+-	fill_memory(p, 0, hpage_pmd_size);
+-	if (check_huge(p, 0))
++	ops->cleanup_area(BASE_ADDR, hpage_pmd_size);
++	ops->fault(p, 0, hpage_pmd_size);
++	if (!ops->check_huge(p, 1))
+ 		success("OK");
+ 	else
+ 		fail("Fail");
+ 
+ 	c->collapse("Collapse PTE table full of different compound pages", p, 1,
+-		    true);
++		    ops, true);
+ 
+ 	validate_memory(p, 0, hpage_pmd_size);
+-	munmap(p, hpage_pmd_size);
++	ops->cleanup_area(p, hpage_pmd_size);
+ }
+ 
+-static void collapse_fork(struct collapse_context *c)
++static void collapse_fork(struct collapse_context *c, struct mem_ops *ops)
+ {
+ 	int wstatus;
+ 	void *p;
+ 
+-	p = alloc_mapping(1);
++	p = ops->setup_area(1);
+ 
+ 	printf("Allocate small page...");
+-	fill_memory(p, 0, page_size);
+-	if (check_huge(p, 0))
++	ops->fault(p, 0, page_size);
++	if (ops->check_huge(p, 0))
+ 		success("OK");
+ 	else
+ 		fail("Fail");
+@@ -832,17 +887,17 @@ static void collapse_fork(struct collapse_context *c)
+ 		skip_settings_restore = true;
+ 		exit_status = 0;
+ 
+-		if (check_huge(p, 0))
++		if (ops->check_huge(p, 0))
+ 			success("OK");
+ 		else
+ 			fail("Fail");
+ 
+-		fill_memory(p, page_size, 2 * page_size);
++		ops->fault(p, page_size, 2 * page_size);
+ 		c->collapse("Collapse PTE table with single page shared with parent process",
+-			    p, 1, true);
++			    p, 1, ops, true);
+ 
+ 		validate_memory(p, 0, page_size);
+-		munmap(p, hpage_pmd_size);
++		ops->cleanup_area(p, hpage_pmd_size);
+ 		exit(exit_status);
+ 	}
+ 
+@@ -850,27 +905,27 @@ static void collapse_fork(struct collapse_context *c)
+ 	exit_status += WEXITSTATUS(wstatus);
+ 
+ 	printf("Check if parent still has small page...");
+-	if (check_huge(p, 0))
++	if (ops->check_huge(p, 0))
+ 		success("OK");
+ 	else
+ 		fail("Fail");
+ 	validate_memory(p, 0, page_size);
+-	munmap(p, hpage_pmd_size);
++	ops->cleanup_area(p, hpage_pmd_size);
+ }
+ 
+-static void collapse_fork_compound(struct collapse_context *c)
++static void collapse_fork_compound(struct collapse_context *c, struct mem_ops *ops)
+ {
+ 	int wstatus;
+ 	void *p;
+ 
+-	p = alloc_hpage();
++	p = alloc_hpage(ops);
+ 	printf("Share huge page over fork()...");
+ 	if (!fork()) {
+ 		/* Do not touch settings on child exit */
+ 		skip_settings_restore = true;
+ 		exit_status = 0;
+ 
+-		if (check_huge(p, 1))
++		if (ops->check_huge(p, 1))
+ 			success("OK");
+ 		else
+ 			fail("Fail");
+@@ -878,20 +933,20 @@ static void collapse_fork_compound(struct collapse_context *c)
+ 		printf("Split huge page PMD in child process...");
+ 		madvise(p, page_size, MADV_NOHUGEPAGE);
+ 		madvise(p, hpage_pmd_size, MADV_NOHUGEPAGE);
+-		if (check_huge(p, 0))
++		if (ops->check_huge(p, 0))
+ 			success("OK");
+ 		else
+ 			fail("Fail");
+-		fill_memory(p, 0, page_size);
++		ops->fault(p, 0, page_size);
+ 
+ 		write_num("khugepaged/max_ptes_shared", hpage_pmd_nr - 1);
+ 		c->collapse("Collapse PTE table full of compound pages in child",
+-			    p, 1, true);
++			    p, 1, ops, true);
+ 		write_num("khugepaged/max_ptes_shared",
+ 			  current_settings()->khugepaged.max_ptes_shared);
+ 
+ 		validate_memory(p, 0, hpage_pmd_size);
+-		munmap(p, hpage_pmd_size);
++		ops->cleanup_area(p, hpage_pmd_size);
+ 		exit(exit_status);
+ 	}
+ 
+@@ -899,59 +954,59 @@ static void collapse_fork_compound(struct collapse_context *c)
+ 	exit_status += WEXITSTATUS(wstatus);
+ 
+ 	printf("Check if parent still has huge page...");
+-	if (check_huge(p, 1))
++	if (ops->check_huge(p, 1))
+ 		success("OK");
+ 	else
+ 		fail("Fail");
+ 	validate_memory(p, 0, hpage_pmd_size);
+-	munmap(p, hpage_pmd_size);
++	ops->cleanup_area(p, hpage_pmd_size);
+ }
+ 
+-static void collapse_max_ptes_shared(struct collapse_context *c)
++static void collapse_max_ptes_shared(struct collapse_context *c, struct mem_ops *ops)
+ {
+ 	int max_ptes_shared = read_num("khugepaged/max_ptes_shared");
+ 	int wstatus;
+ 	void *p;
+ 
+-	p = alloc_hpage();
++	p = alloc_hpage(ops);
+ 	printf("Share huge page over fork()...");
+ 	if (!fork()) {
+ 		/* Do not touch settings on child exit */
+ 		skip_settings_restore = true;
+ 		exit_status = 0;
+ 
+-		if (check_huge(p, 1))
++		if (ops->check_huge(p, 1))
+ 			success("OK");
+ 		else
+ 			fail("Fail");
+ 
+ 		printf("Trigger CoW on page %d of %d...",
+ 				hpage_pmd_nr - max_ptes_shared - 1, hpage_pmd_nr);
+-		fill_memory(p, 0, (hpage_pmd_nr - max_ptes_shared - 1) * page_size);
+-		if (check_huge(p, 0))
++		ops->fault(p, 0, (hpage_pmd_nr - max_ptes_shared - 1) * page_size);
++		if (ops->check_huge(p, 0))
+ 			success("OK");
+ 		else
+ 			fail("Fail");
+ 
+ 		c->collapse("Maybe collapse with max_ptes_shared exceeded", p,
+-			    1, !c->enforce_pte_scan_limits);
++			    1, ops, !c->enforce_pte_scan_limits);
+ 
+ 		if (c->enforce_pte_scan_limits) {
+ 			printf("Trigger CoW on page %d of %d...",
+ 			       hpage_pmd_nr - max_ptes_shared, hpage_pmd_nr);
+-			fill_memory(p, 0, (hpage_pmd_nr - max_ptes_shared) *
++			ops->fault(p, 0, (hpage_pmd_nr - max_ptes_shared) *
+ 				    page_size);
+-			if (check_huge(p, 0))
++			if (ops->check_huge(p, 0))
+ 				success("OK");
+ 			else
+ 				fail("Fail");
+ 
+ 			c->collapse("Collapse with max_ptes_shared PTEs shared",
+-				    p, 1,  true);
++				    p, 1, ops, true);
+ 		}
+ 
+ 		validate_memory(p, 0, hpage_pmd_size);
+-		munmap(p, hpage_pmd_size);
++		ops->cleanup_area(p, hpage_pmd_size);
+ 		exit(exit_status);
+ 	}
+ 
+@@ -959,42 +1014,28 @@ static void collapse_max_ptes_shared(struct collapse_context *c)
+ 	exit_status += WEXITSTATUS(wstatus);
+ 
+ 	printf("Check if parent still has huge page...");
+-	if (check_huge(p, 1))
++	if (ops->check_huge(p, 1))
+ 		success("OK");
+ 	else
+ 		fail("Fail");
+ 	validate_memory(p, 0, hpage_pmd_size);
+-	munmap(p, hpage_pmd_size);
++	ops->cleanup_area(p, hpage_pmd_size);
+ }
+ 
+-static void madvise_collapse_existing_thps(void)
++static void madvise_collapse_existing_thps(struct collapse_context *c,
++					   struct mem_ops *ops)
+ {
+ 	void *p;
+-	int err;
+ 
+-	p = alloc_mapping(1);
+-	fill_memory(p, 0, hpage_pmd_size);
++	p = ops->setup_area(1);
++	ops->fault(p, 0, hpage_pmd_size);
++	c->collapse("Collapse fully populated PTE table...", p, 1, ops, true);
++	validate_memory(p, 0, hpage_pmd_size);
+ 
+-	printf("Collapse fully populated PTE table...");
+-	/*
+-	 * Note that we don't set MADV_HUGEPAGE here, which
+-	 * also tests that VM_HUGEPAGE isn't required for
+-	 * MADV_COLLAPSE in "madvise" mode.
+-	 */
+-	err = madvise(p, hpage_pmd_size, MADV_COLLAPSE);
+-	if (err == 0 && check_huge(p, 1)) {
+-		success("OK");
+-		printf("Re-collapse PMD-mapped hugepage");
+-		err = madvise(p, hpage_pmd_size, MADV_COLLAPSE);
+-		if (err == 0 && check_huge(p, 1))
+-			success("OK");
+-		else
+-			fail("Fail");
+-	} else {
+-		fail("Fail");
+-	}
++	/* c->collapse() will find a hugepage and complain - call directly. */
++	__madvise_collapse("Re-collapse PMD-mapped hugepage", p, 1, ops, true);
+ 	validate_memory(p, 0, hpage_pmd_size);
+-	munmap(p, hpage_pmd_size);
++	ops->cleanup_area(p, hpage_pmd_size);
+ }
+ 
+ int main(int argc, const char **argv)
+@@ -1034,37 +1075,37 @@ int main(int argc, const char **argv)
+ 		c.collapse = &khugepaged_collapse;
+ 		c.enforce_pte_scan_limits = true;
+ 
+-		collapse_full(&c);
+-		collapse_empty(&c);
+-		collapse_single_pte_entry(&c);
+-		collapse_max_ptes_none(&c);
+-		collapse_swapin_single_pte(&c);
+-		collapse_max_ptes_swap(&c);
+-		collapse_single_pte_entry_compound(&c);
+-		collapse_full_of_compound(&c);
+-		collapse_compound_extreme(&c);
+-		collapse_fork(&c);
+-		collapse_fork_compound(&c);
+-		collapse_max_ptes_shared(&c);
++		collapse_full(&c, &anon_ops);
++		collapse_empty(&c, &anon_ops);
++		collapse_single_pte_entry(&c, &anon_ops);
++		collapse_max_ptes_none(&c, &anon_ops);
++		collapse_swapin_single_pte(&c, &anon_ops);
++		collapse_max_ptes_swap(&c, &anon_ops);
++		collapse_single_pte_entry_compound(&c, &anon_ops);
++		collapse_full_of_compound(&c, &anon_ops);
++		collapse_compound_extreme(&c, &anon_ops);
++		collapse_fork(&c, &anon_ops);
++		collapse_fork_compound(&c, &anon_ops);
++		collapse_max_ptes_shared(&c, &anon_ops);
+ 	}
+ 	if (!strcmp(tests, "madvise") || !strcmp(tests, "all")) {
+ 		printf("\n*** Testing context: madvise ***\n");
+ 		c.collapse = &madvise_collapse;
+ 		c.enforce_pte_scan_limits = false;
+ 
+-		collapse_full(&c);
+-		collapse_empty(&c);
+-		collapse_single_pte_entry(&c);
+-		collapse_max_ptes_none(&c);
+-		collapse_swapin_single_pte(&c);
+-		collapse_max_ptes_swap(&c);
+-		collapse_single_pte_entry_compound(&c);
+-		collapse_full_of_compound(&c);
+-		collapse_compound_extreme(&c);
+-		collapse_fork(&c);
+-		collapse_fork_compound(&c);
+-		collapse_max_ptes_shared(&c);
+-		madvise_collapse_existing_thps();
++		collapse_full(&c, &anon_ops);
++		collapse_empty(&c, &anon_ops);
++		collapse_single_pte_entry(&c, &anon_ops);
++		collapse_max_ptes_none(&c, &anon_ops);
++		collapse_swapin_single_pte(&c, &anon_ops);
++		collapse_max_ptes_swap(&c, &anon_ops);
++		collapse_single_pte_entry_compound(&c, &anon_ops);
++		collapse_full_of_compound(&c, &anon_ops);
++		collapse_compound_extreme(&c, &anon_ops);
++		collapse_fork(&c, &anon_ops);
++		collapse_fork_compound(&c, &anon_ops);
++		collapse_max_ptes_shared(&c, &anon_ops);
++		madvise_collapse_existing_thps(&c, &anon_ops);
+ 	}
+ 
+ 	restore_settings(0);
 -- 
 2.37.3.998.g577e59143f-goog
 
