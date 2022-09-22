@@ -2,56 +2,57 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E0B2A5E6FD9
-	for <lists+linux-api@lfdr.de>; Fri, 23 Sep 2022 00:41:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C9E35E6FDA
+	for <lists+linux-api@lfdr.de>; Fri, 23 Sep 2022 00:41:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230137AbiIVWlK (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 22 Sep 2022 18:41:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37838 "EHLO
+        id S229551AbiIVWlM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 22 Sep 2022 18:41:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230092AbiIVWlH (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Sep 2022 18:41:07 -0400
-Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com [IPv6:2607:f8b0:4864:20::1049])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AA28102539
-        for <linux-api@vger.kernel.org>; Thu, 22 Sep 2022 15:41:03 -0700 (PDT)
-Received: by mail-pj1-x1049.google.com with SMTP id my9-20020a17090b4c8900b002027721b2b0so2294489pjb.6
-        for <linux-api@vger.kernel.org>; Thu, 22 Sep 2022 15:41:02 -0700 (PDT)
+        with ESMTP id S230211AbiIVWlI (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Sep 2022 18:41:08 -0400
+Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4ECA103FEF
+        for <linux-api@vger.kernel.org>; Thu, 22 Sep 2022 15:41:04 -0700 (PDT)
+Received: by mail-pg1-x549.google.com with SMTP id l72-20020a63914b000000b00434ac6f8214so6027132pge.13
+        for <linux-api@vger.kernel.org>; Thu, 22 Sep 2022 15:41:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date;
-        bh=P0VJ6zxKB3GbTh5oZqe1dUT4NE74SChYC1EfGCnujzg=;
-        b=pEVeQtHD/RiUPS6BQVDmVSO6d9cqux3HNIsbS+o17OlMomJfw/3FK6FEGcyv+kdBgZ
-         W5dPHuLzknWPBIs+SQwV0Gl0t106M30Y5wGgBXlZF/6iKDOG62eT34vDrOE/Smpn8PjY
-         kOlK0P/Qce0O0TA/eNRZvKAg6ihwPu4iHg8MmgFvXaNCshhyTLVBtsEcmtXT3Fa6gLOb
-         C3wQGrDBbT9a3E98huUZ40sPyPYoEj9t5i5Gwvk8ZuXyYQGxu+gOcvlLnt7fHVhhwNrZ
-         4CucWN/dEqe34ED6jl192tLV6NrEXN/ijiEIg9xsacsoCEqQTiqGkIimE6++73cJbiDK
-         XA9A==
+        bh=yfmQyCpPKoozqzWfXY5DtmVT4vjPpKAbwFoVy0wbyyY=;
+        b=jgxIKy0YnIHXFu7DxVvRJF6oQBx1pTOqEYXftlCJey9nT6iUS3R6jcjq/aEUZAp8jj
+         kobCKngbcpA8+rJaJfm3kD6GMY1LeQJBxQL/4wwCXYAq+2O1P/sQSSi3pZCl+ikexaSE
+         fP9W1AVrmYow9I0eu5zMFEk3eioPkgwaI5AIOdzr+/Ocmc6LQK1eapuu2RE+/aa+kuzM
+         325FrgT+Ci4Hm9rqbt+QWDaOwOuQJ6FkIbDWW+mKjVqONLtmwWkjvjd3hdSb5sBlYR9T
+         MUygV+LTmuwWsKA30a4i11osCLlc8sXzy6v5fgbxdPR00x4r+c5xfVuMScs2oyfp68cb
+         BCVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date;
-        bh=P0VJ6zxKB3GbTh5oZqe1dUT4NE74SChYC1EfGCnujzg=;
-        b=yo+98VdOGjuTGm0Rp5dSvYDk44t1Fd3yAVxySJQuh4HG2d3XRe/7+EsXEJH60mL5TX
-         mUPxvVM7OsDn6H0+QIERWC5IjNhn3k34bG22wT9eavVf6kH3GihmA3UID8XMgpWbbSJW
-         FGNOkAkW+je5cfgLxTV0wEGPYqnTgosTskrs3ypGqpawvr+qJgq+RxtZ1M3iSROD373k
-         ctxa0vxnJBeMbfVEJfOJKVVKpNbGsz0qGvkKbmq2i7ssRGP+2Z6g1m4gcRAKrsmN2REd
-         LDfkWY6ts6rZmyLBEQGrE2MVDRubpFrwwfSXxzBCBZkxaVZGAAXJEx1zDRfKnfXJBIj4
-         8r2g==
-X-Gm-Message-State: ACrzQf1fY8pJvmxNOaaPedEogQPCgySWeXm4MuXuWtvtvMWkuh3Wc6Nq
-        4d4ZIUcpxF+bwV5O/GGxSPKuI277D/cM
-X-Google-Smtp-Source: AMsMyM4KYG2nJJhfmLexvDlcN2rPrDHcskX9T39zGlXNxRgoqkufi3Y4qMcSojpUmf5+5BpufdkZ6xF6MTVs
+        bh=yfmQyCpPKoozqzWfXY5DtmVT4vjPpKAbwFoVy0wbyyY=;
+        b=wlcu0mBmHd7OLTq6/QjJMC08UsGVS5hrWwv9AT7zqVDPWyIisuc6Alnobk3VrfYWxz
+         KMolLOhM0nrpQXM6e5xUjskQlSbn4wT0IVGrzTLnK2exnimoOQgoTBX0bNDuoBQMctpG
+         b1DheZheeXX9BgnU7Wno5s7aocZSCcGhbc50nRHGG7qwxZKf+Lcti7zshud/srwFgPDI
+         snmA5tNQJbMDiwiUdvdqS69qVKuB9rRB7G+v4OTt/eCDmSNrKfGY6eXzu092I4NCUvhH
+         uyLUcMYtARmv6Y6cWsd+corqhIhNwqsqI6Zb8XPY2EQhsSh7Dg1i+ke+dRhRlx9sPM79
+         nRDw==
+X-Gm-Message-State: ACrzQf2ml8DWjlJ4UgNcqr33CIXHQna5KQcrlpxj5JnN70x6DjKgyceN
+        IsN5iMW+X18PHzWV/7A8z9l4ZGwp2Ryk
+X-Google-Smtp-Source: AMsMyM5rA5SRcjBMelsf8wDZWEADHxT93l2AGD6ACCrsVyFwSGH2llPq6lqi9pl/KA6T+2jXlVBAt37kyyW/
 X-Received: from zokeefe3.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1b6])
- (user=zokeefe job=sendgmr) by 2002:a05:6a00:114c:b0:528:2c7a:630e with SMTP
- id b12-20020a056a00114c00b005282c7a630emr5840136pfm.86.1663886462491; Thu, 22
- Sep 2022 15:41:02 -0700 (PDT)
-Date:   Thu, 22 Sep 2022 15:40:44 -0700
+ (user=zokeefe job=sendgmr) by 2002:a62:1e83:0:b0:545:6896:188 with SMTP id
+ e125-20020a621e83000000b0054568960188mr5680742pfe.51.1663886464257; Thu, 22
+ Sep 2022 15:41:04 -0700 (PDT)
+Date:   Thu, 22 Sep 2022 15:40:45 -0700
 In-Reply-To: <20220922224046.1143204-1-zokeefe@google.com>
 Mime-Version: 1.0
 References: <20220922224046.1143204-1-zokeefe@google.com>
 X-Mailer: git-send-email 2.37.3.998.g577e59143f-goog
-Message-ID: <20220922224046.1143204-9-zokeefe@google.com>
-Subject: [PATCH mm-unstable v4 08/10] selftests/vm: add thp collapse shmem testing
+Message-ID: <20220922224046.1143204-10-zokeefe@google.com>
+Subject: [PATCH mm-unstable v4 09/10] selftests/vm: add file/shmem
+ MADV_COLLAPSE selftest for cleared pmd
 From:   "Zach O'Keefe" <zokeefe@google.com>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     linux-mm@kvack.org, linux-api@vger.kernel.org,
@@ -84,13 +85,17 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Add memory operations for shmem (memfd) memory, and reuse existing tests
-with the new memory operations.
+This test tests that MADV_COLLAPSE acting on file/shmem memory for which
+(1) the file extent mapping by the memory is already a huge page in the
+page cache, and (2) the pmd mapping this memory in the target process is
+none.
 
-Shmem tests can be called with "shmem" mem_type, and shmem tests are ran
-with "all" mem_type as well.
+In practice, (1)+(2) is the state left over after khugepaged has
+successfully collapsed file/shmem memory for a target VMA, but the memory
+has not yet been refaulted.  So, this test in-effect tests MADV_COLLAPSE
+racing with khugepaged to collapse the memory first.
 
-Link: https://lkml.kernel.org/r/20220907144521.3115321-9-zokeefe@google.com
+Link: https://lkml.kernel.org/r/20220907144521.3115321-10-zokeefe@google.com
 Signed-off-by: Zach O'Keefe <zokeefe@google.com>
 Cc: Axel Rasmussen <axelrasmussen@google.com>
 Cc: Chris Kennelly <ckennelly@google.com>
@@ -110,147 +115,54 @@ Cc: Song Liu <songliubraving@fb.com>
 Cc: Vlastimil Babka <vbabka@suse.cz>
 Cc: Yang Shi <shy828301@gmail.com>
 ---
- tools/testing/selftests/vm/khugepaged.c | 57 ++++++++++++++++++++++++-
- 1 file changed, 55 insertions(+), 2 deletions(-)
+ tools/testing/selftests/vm/khugepaged.c | 30 +++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
 diff --git a/tools/testing/selftests/vm/khugepaged.c b/tools/testing/selftests/vm/khugepaged.c
-index 08de6141c2af..eabbd2710096 100644
+index eabbd2710096..64126c8cd561 100644
 --- a/tools/testing/selftests/vm/khugepaged.c
 +++ b/tools/testing/selftests/vm/khugepaged.c
-@@ -59,6 +59,7 @@ struct mem_ops {
- 
- static struct mem_ops *file_ops;
- static struct mem_ops *anon_ops;
-+static struct mem_ops *shmem_ops;
- 
- struct collapse_context {
- 	void (*collapse)(const char *msg, char *p, int nr_hpages,
-@@ -739,6 +740,40 @@ static bool file_check_huge(void *addr, int nr_hpages)
- 	}
+@@ -1353,6 +1353,33 @@ static void madvise_collapse_existing_thps(struct collapse_context *c,
+ 	ops->cleanup_area(p, hpage_pmd_size);
  }
  
-+static void *shmem_setup_area(int nr_hpages)
++/*
++ * Test race with khugepaged where page tables have been retracted and
++ * pmd cleared.
++ */
++static void madvise_retracted_page_tables(struct collapse_context *c,
++					  struct mem_ops *ops)
 +{
 +	void *p;
++	int nr_hpages = 1;
 +	unsigned long size = nr_hpages * hpage_pmd_size;
 +
-+	finfo.fd = memfd_create("khugepaged-selftest-collapse-shmem", 0);
-+	if (finfo.fd < 0)  {
-+		perror("memfd_create()");
-+		exit(EXIT_FAILURE);
++	p = ops->setup_area(nr_hpages);
++	ops->fault(p, 0, size);
++
++	/* Let khugepaged collapse and leave pmd cleared */
++	if (wait_for_scan("Collapse and leave PMD cleared", p, nr_hpages,
++			  ops)) {
++		fail("Timeout");
++		return;
 +	}
-+	if (ftruncate(finfo.fd, size)) {
-+		perror("ftruncate()");
-+		exit(EXIT_FAILURE);
-+	}
-+	p = mmap(BASE_ADDR, size, PROT_READ | PROT_WRITE, MAP_SHARED, finfo.fd,
-+		 0);
-+	if (p != BASE_ADDR) {
-+		perror("mmap()");
-+		exit(EXIT_FAILURE);
-+	}
-+	return p;
++	success("OK");
++	c->collapse("Install huge PMD from page cache", p, nr_hpages, ops,
++		    true);
++	validate_memory(p, 0, size);
++	ops->cleanup_area(p, size);
 +}
 +
-+static void shmem_cleanup_area(void *p, unsigned long size)
-+{
-+	munmap(p, size);
-+	close(finfo.fd);
-+}
-+
-+static bool shmem_check_huge(void *addr, int nr_hpages)
-+{
-+	return check_huge_shmem(addr, nr_hpages, hpage_pmd_size);
-+}
-+
- static struct mem_ops __anon_ops = {
- 	.setup_area = &anon_setup_area,
- 	.cleanup_area = &anon_cleanup_area,
-@@ -755,6 +790,14 @@ static struct mem_ops __file_ops = {
- 	.name = "file",
- };
- 
-+static struct mem_ops __shmem_ops = {
-+	.setup_area = &shmem_setup_area,
-+	.cleanup_area = &shmem_cleanup_area,
-+	.fault = &anon_fault,
-+	.check_huge = &shmem_check_huge,
-+	.name = "shmem",
-+};
-+
- static void __madvise_collapse(const char *msg, char *p, int nr_hpages,
- 			       struct mem_ops *ops, bool expect)
+ static void usage(void)
  {
-@@ -1315,7 +1358,7 @@ static void usage(void)
  	fprintf(stderr, "\nUsage: ./khugepaged <test type> [dir]\n\n");
- 	fprintf(stderr, "\t<test type>\t: <context>:<mem_type>\n");
- 	fprintf(stderr, "\t<context>\t: [all|khugepaged|madvise]\n");
--	fprintf(stderr, "\t<mem_type>\t: [all|anon|file]\n");
-+	fprintf(stderr, "\t<mem_type>\t: [all|anon|file|shmem]\n");
- 	fprintf(stderr, "\n\t\"file,all\" mem_type requires [dir] argument\n");
- 	fprintf(stderr, "\n\t\"file,all\" mem_type requires kernel built with\n");
- 	fprintf(stderr,	"\tCONFIG_READ_ONLY_THP_FOR_FS=y\n");
-@@ -1357,10 +1400,13 @@ static void parse_test_type(int argc, const char **argv)
- 	if (!strcmp(buf, "all")) {
- 		file_ops =  &__file_ops;
- 		anon_ops = &__anon_ops;
-+		shmem_ops = &__shmem_ops;
- 	} else if (!strcmp(buf, "anon")) {
- 		anon_ops = &__anon_ops;
- 	} else if (!strcmp(buf, "file")) {
- 		file_ops =  &__file_ops;
-+	} else if (!strcmp(buf, "shmem")) {
-+		shmem_ops = &__shmem_ops;
- 	} else {
- 		usage();
- 	}
-@@ -1377,7 +1423,7 @@ int main(int argc, const char **argv)
- 	struct settings default_settings = {
- 		.thp_enabled = THP_MADVISE,
- 		.thp_defrag = THP_DEFRAG_ALWAYS,
--		.shmem_enabled = SHMEM_NEVER,
-+		.shmem_enabled = SHMEM_ADVISE,
- 		.use_zero_page = 0,
- 		.khugepaged = {
- 			.defrag = 1,
-@@ -1424,16 +1470,20 @@ int main(int argc, const char **argv)
- 
- 	TEST(collapse_full, khugepaged_context, anon_ops);
- 	TEST(collapse_full, khugepaged_context, file_ops);
-+	TEST(collapse_full, khugepaged_context, shmem_ops);
- 	TEST(collapse_full, madvise_context, anon_ops);
- 	TEST(collapse_full, madvise_context, file_ops);
-+	TEST(collapse_full, madvise_context, shmem_ops);
- 
- 	TEST(collapse_empty, khugepaged_context, anon_ops);
- 	TEST(collapse_empty, madvise_context, anon_ops);
- 
- 	TEST(collapse_single_pte_entry, khugepaged_context, anon_ops);
- 	TEST(collapse_single_pte_entry, khugepaged_context, file_ops);
-+	TEST(collapse_single_pte_entry, khugepaged_context, shmem_ops);
- 	TEST(collapse_single_pte_entry, madvise_context, anon_ops);
- 	TEST(collapse_single_pte_entry, madvise_context, file_ops);
-+	TEST(collapse_single_pte_entry, madvise_context, shmem_ops);
- 
- 	TEST(collapse_max_ptes_none, khugepaged_context, anon_ops);
- 	TEST(collapse_max_ptes_none, khugepaged_context, file_ops);
-@@ -1447,8 +1497,10 @@ int main(int argc, const char **argv)
- 
- 	TEST(collapse_full_of_compound, khugepaged_context, anon_ops);
- 	TEST(collapse_full_of_compound, khugepaged_context, file_ops);
-+	TEST(collapse_full_of_compound, khugepaged_context, shmem_ops);
- 	TEST(collapse_full_of_compound, madvise_context, anon_ops);
- 	TEST(collapse_full_of_compound, madvise_context, file_ops);
-+	TEST(collapse_full_of_compound, madvise_context, shmem_ops);
- 
- 	TEST(collapse_compound_extreme, khugepaged_context, anon_ops);
- 	TEST(collapse_compound_extreme, madvise_context, anon_ops);
-@@ -1470,6 +1522,7 @@ int main(int argc, const char **argv)
- 
- 	TEST(madvise_collapse_existing_thps, madvise_context, anon_ops);
+@@ -1524,5 +1551,8 @@ int main(int argc, const char **argv)
  	TEST(madvise_collapse_existing_thps, madvise_context, file_ops);
-+	TEST(madvise_collapse_existing_thps, madvise_context, shmem_ops);
+ 	TEST(madvise_collapse_existing_thps, madvise_context, shmem_ops);
  
++	TEST(madvise_retracted_page_tables, madvise_context, file_ops);
++	TEST(madvise_retracted_page_tables, madvise_context, shmem_ops);
++
  	restore_settings(0);
  }
 -- 
