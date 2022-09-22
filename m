@@ -2,54 +2,57 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BCE515E6FD1
-	for <lists+linux-api@lfdr.de>; Fri, 23 Sep 2022 00:41:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A31195E6FD2
+	for <lists+linux-api@lfdr.de>; Fri, 23 Sep 2022 00:41:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230130AbiIVWk6 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 22 Sep 2022 18:40:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37104 "EHLO
+        id S230100AbiIVWlA (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 22 Sep 2022 18:41:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230137AbiIVWku (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Sep 2022 18:40:50 -0400
-Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com [IPv6:2607:f8b0:4864:20::649])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16FBB9A6B9
-        for <linux-api@vger.kernel.org>; Thu, 22 Sep 2022 15:40:49 -0700 (PDT)
-Received: by mail-pl1-x649.google.com with SMTP id a16-20020a170902ecd000b001782ec09870so6865902plh.12
-        for <linux-api@vger.kernel.org>; Thu, 22 Sep 2022 15:40:49 -0700 (PDT)
+        with ESMTP id S230072AbiIVWkv (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Sep 2022 18:40:51 -0400
+Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2711F9600
+        for <linux-api@vger.kernel.org>; Thu, 22 Sep 2022 15:40:50 -0700 (PDT)
+Received: by mail-pf1-x44a.google.com with SMTP id cg5-20020a056a00290500b0053511889856so6093307pfb.18
+        for <linux-api@vger.kernel.org>; Thu, 22 Sep 2022 15:40:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date;
-        bh=fNTKxCUtmwqTlplF/wC95wgLLGzTj/hDrdPvtiLcybM=;
-        b=NhVNO7wmA/OrmCpF3gO5mQUFXZDaYWRbfy5FdnH13yzE4JKPcBQHp33GdQogN89XdS
-         xRLetG247FLl3gTRM6mnLl0wVbdLj653mYNDzFE58llogsvV2ewm5pCOiIFHp1xcu4/o
-         YzWVSQnLNYeRo+kemIh6JtC7wb2ekHHHBX7LVq1LTsi5Xa4Ncbo1L4cxCWB21sPjMwUm
-         WLNosrDdQzReie+Sw7eUqhEj2EHAzN30dFBVoZjPyv0PZgtLwGP2EeHfPi5dH7MTo72v
-         2sC4ju79CF1oix0ZpGD73bIPR606T9pScDt1gsZbHfA4lOVtqByq+/77eSzX5tCUyFmM
-         lupA==
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date;
+        bh=puqRnKrvqny8lZD9l+R4ob28H2OLAsGqa9r7Be9elB8=;
+        b=Ug3xHbvJiPRbeH5/g7NxHX1Ur65ZzMM13E45ZG6fdmj3/8Xr7SkDVcp+4InbNMfq23
+         6FKA1hdhTn8aBKhC5gmv/T/+jaMgSgC69WAyWTG5+VMvcLrq9vaj9jDFsNDSXq/7F3Kg
+         onMgCGFUjVKf83LrP8GEWyUSLGaVO2h6RQQqMTvcgUS8Iu/vYaFUoh6gYjDsMDeTNNZ4
+         EMA7FTLwt05Dhx/r+I99rDnYr/rv8HHjPqW8KGROSd9O1KUhStlBbam+omwJJ3dOR6XF
+         +cRf1/5tuW1ecaG1GExyP7svjNkE/4wllJtbKKNbbVtyeJ4bNKB5grOhEbKvrgjqyVxm
+         qP/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=fNTKxCUtmwqTlplF/wC95wgLLGzTj/hDrdPvtiLcybM=;
-        b=atHldYZ1BQDofDldJxa6P5bi+FKdQ7AKOIPrho1TCZLeVSIUfjHfHRdfvnETJBYxJN
-         d0hZm31Q0jVEhBXD7MA4BcuNCaV/QKVl9JDf1LQRyML6I2fmu5ZX2Lr/SjLMuqE2fuY1
-         rRdXa+CJcR7u8Pc51lr1nSRM0Y8cGqwcg6E0fIyOFoGL8iq6rCyB8Wv1L/7OsEAVugwu
-         dErLW3LgCrljIOS4NucnfJEznyfk+nCwch6MgWoV9SwUlYrUc2jxOLs2Ttib9DYTHNQi
-         uXqou0FRIR73ZpfWH1vWr1H0OmlDdXI8+RRMUWfj8BT8FisYrLMrBZUfICwYmjrZAtth
-         E2YA==
-X-Gm-Message-State: ACrzQf14INJO64oFp/+cFusHZvz0MSnVFNmbZJoJ9ppLQemEpZevgsfM
-        SEp8dN/ITEjRdni3jP95iqQ95u3t/mkg
-X-Google-Smtp-Source: AMsMyM4X7/KtkZOGML3IDM5zof0Y35OkIxwIFntno1P0lYDkcI9OFq2rlha/aWOCnRxKhRHgJJGfWdKDLRFZ
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date;
+        bh=puqRnKrvqny8lZD9l+R4ob28H2OLAsGqa9r7Be9elB8=;
+        b=eO3UFrRv2Mik+Fp1KHsaZLGkU40GYJHLkQNwXXFLBEIEn1tf2tWV7/8MzsBNbAbUYP
+         WfIZ1hcYw5ZhenSA1OTXxy4D79fvokOFMkXKjC6mp2gWN5CojWAFEd3yqkdiGnyF1p4Q
+         9wjidVvWUt0LynVKbc+k+Zir5e6N8dMGMnYJMcYOpF7itlgfR/mKJH7i5kroUfz8ACz4
+         eVYSl4Y/2VdYAqi/+J3w/KZ7ntopM7ws/Avf58h9GdIxKnoDZmtpaMPS64xg9qvCGVIT
+         XL6cWpgJhguN+8SQDngTXKH+ziMK+onl8wA87YM+vA4fqZ1SKNzUyKqSvbYLovh+Bcgn
+         aXiw==
+X-Gm-Message-State: ACrzQf1+8SHvKHediIFbTeJf73iiah/ADftpUoBdvCDQBHBMaYLjc49F
+        zE9xLRI4MxId0CHQlKABgUWBDfTZ6QNB
+X-Google-Smtp-Source: AMsMyM6XJd66bYtUXfIU+MAlCiD+0FD+J03+WZRCwrKo791W5IgmAyRWIMLXSySop/rZiyMsOAs6YvVUgwIk
 X-Received: from zokeefe3.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1b6])
- (user=zokeefe job=sendgmr) by 2002:a17:902:ccc7:b0:16c:484f:4c69 with SMTP id
- z7-20020a170902ccc700b0016c484f4c69mr5592673ple.118.1663886448528; Thu, 22
- Sep 2022 15:40:48 -0700 (PDT)
-Date:   Thu, 22 Sep 2022 15:40:36 -0700
+ (user=zokeefe job=sendgmr) by 2002:a17:902:e88b:b0:176:c37f:511c with SMTP id
+ w11-20020a170902e88b00b00176c37f511cmr5628990plg.2.1663886450312; Thu, 22 Sep
+ 2022 15:40:50 -0700 (PDT)
+Date:   Thu, 22 Sep 2022 15:40:37 -0700
+In-Reply-To: <20220922224046.1143204-1-zokeefe@google.com>
 Mime-Version: 1.0
+References: <20220922224046.1143204-1-zokeefe@google.com>
 X-Mailer: git-send-email 2.37.3.998.g577e59143f-goog
-Message-ID: <20220922224046.1143204-1-zokeefe@google.com>
-Subject: [PATCH mm-unstable v4 00/10] mm: add file/shmem support to MADV_COLLAPSE
+Message-ID: <20220922224046.1143204-2-zokeefe@google.com>
+Subject: [PATCH mm-unstable v4 01/10] mm/shmem: add flag to enforce shmem THP
+ in hugepage_vma_check()
 From:   "Zach O'Keefe" <zokeefe@google.com>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     linux-mm@kvack.org, linux-api@vger.kernel.org,
@@ -82,236 +85,138 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hey Andrew,
+Extend 'mm/thp: add flag to enforce sysfs THP in hugepage_vma_check()' to
+shmem, allowing callers to ignore
+/sys/kernel/transparent_hugepage/shmem_enabled and tmpfs huge= mount.
 
-This v4 of the series supersedes v3 currently in mm-unstable, and has the
-following dependencies, which should be applied in order (with v3 dropped):
+This is intended to be used by MADV_COLLAPSE, and the rationale is
+analogous to the anon/file case: MADV_COLLAPSE is not coupled to
+directives that advise the kernel's decisions on when THPs should be
+considered eligible.  shmem/tmpfs always claims large folio support,
+regardless of sysfs or mount options.
 
-(1)	Patch "mm/khugepaged: check compound_order() in
-        collapse_pte_mapped_thp()"
-	Link: https://lore.kernel.org/linux-mm/20220922222731.1124481-1-zokeefe@google.com/
+[shy828301@gmail.com: test shmem_huge_force explicitly]
+  Link: https://lore.kernel.org/linux-mm/CAHbLzko3A5-TpS0BgBeKkx5cuOkWgLvWXQH=TdgW-baO4rPtdg@mail.gmail.com/
+Link: https://lkml.kernel.org/r/20220907144521.3115321-2-zokeefe@google.com
+Signed-off-by: Zach O'Keefe <zokeefe@google.com>
+Reviewed-by: Yang Shi <shy828301@gmail.com>
+Cc: Axel Rasmussen <axelrasmussen@google.com>
+Cc: Chris Kennelly <ckennelly@google.com>
+Cc: David Hildenbrand <david@redhat.com>
+Cc: David Rientjes <rientjes@google.com>
+Cc: Hugh Dickins <hughd@google.com>
+Cc: James Houghton <jthoughton@google.com>
+Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: Miaohe Lin <linmiaohe@huawei.com>
+Cc: Minchan Kim <minchan@kernel.org>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: Rongwei Wang <rongwei.wang@linux.alibaba.com>
+Cc: SeongJae Park <sj@kernel.org>
+Cc: Song Liu <songliubraving@fb.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+---
+ include/linux/shmem_fs.h | 10 ++++++----
+ mm/huge_memory.c         |  2 +-
+ mm/shmem.c               | 18 ++++++++++--------
+ 3 files changed, 17 insertions(+), 13 deletions(-)
 
-(2)	Series (2) "mm/madvise: MADV_COLLAPSE return EAGAIN when page cannot be
-        isolated"
-	Link: https://lore.kernel.org/linux-mm/20220922184651.1016461-1-zokeefe@google.com/
-
-Apologies for the all the patch manipulation trouble.  Please consider taking
-them together into mm-unstable.
-
-Best,
-Zach
-
---------------------------------
-
-v4 Forward
-
-This version provides some small cleanups: documentation, comments,
-readability refactorings.  While most of the changes are small, there were
-enough warrant a new version.  See the v3 -> v4 log below for detailed
-changes.
-
-The only change in kernel behavior, as suggested by Yang Shi, is that in
-khugepaged_add_pte_mapped_thp(), when adding an address to a mm_struct's
-khugepaged_mm_slot ->pte_mapped_thp[] array, don't check if the address
-already exists.  While there is a possible race between khugepaged and
-MADV_COLLAPSE that exists that would result in a "multiple-add", it is
-quite rare and the cost of said "multiple-add" is likely cheaper then
-preventing the "multiple-add" in the first place (plus, it also simplifies
-the code)[1].
---------------------------------
-
-v3 Forward
-
-This version cleans up a few small issues in v2, expands selftest
-coverage, rebases on some recent khugepaged changes and adds more details
-to commit descriptions to help with review.
-
-The three main cleanups made are:
-
-(1)	Patch 2: In hpage_collapse_scan_file() and collapse_file(),
-	don't use then xa_state.xa_index to determine if the
-	HPAGE_PMD_ORDER THP is properly aligned.  Instead, check
-	the compound_head(page)->index. Not only is it better to not
-	rely on internal data in struct xa_state (as the comments
-	above said struct definition ask), but it is slightly more
-	accurate / future proof in case we encounter an unaligned
-	compound page of order HPAGE_PMD_ORDER (AFAIK not possible today).
-	Moreover, especially for hpage_collapse_scan_file() where the RCU
-	lock might be dropped as we traverse the XArray, we want to
-	be checking the compound_head(), since otherwise we might
-	erroneously be looking at a tail page if a collapse happened from
-	under us.
-
-(2)	Patch 2: When hpage_collapse_scan_file() returns
-	SCAN_PTE_MAPPED_HUGEPAGE in the khugepaged path, check the pmd
-	maps a pte table before adding the mm/address to the deferred
-	collapse array. The reason is: we will grab mmap_lock in write
-	every time we attempt collapse_pte_mapped_thp(), so we should
-	try to avoid this if possible.  This also prevents khugepaged
-	from repeatedly adding the same mm/address pair to the deferred
-	collapse array after the page cache has already been updated with
-	the new hugepage, but before the memory has been refaulted.
-
-(3)	Patch 3: In find_pmd_thp_or_none(), check pmd_none() instead of
-	!pmd_present() when detecting pmds that have been cleared.  The
-	reason this check exists is because MADV_COLLAPSE might be
-	operating on memory which was already collapsed by khugepaged,
-	but before the memory had been refaulted.  In this case, khugepaged
-	cleared the pmd, and so the correct pmd entry to look for is the
-	"none" pmd.
---------------------------------
-
-v2 Forward
-
-Mostly a RESEND: rebase on latest mm-unstable + minor bug fixes from
-kernel test robot.
---------------------------------
-
-This series builds on top of the previous "mm: userspace hugepage collapse"
-series which introduced the MADV_COLLAPSE madvise mode and added support
-for private, anonymous mappings[2], by adding support for file and shmem
-backed memory to CONFIG_READ_ONLY_THP_FOR_FS=y kernels.
-
-File and shmem support have been added with effort to align with existing
-MADV_COLLAPSE semantics and policy decisions[3].  Collapse of shmem-backed
-memory ignores kernel-guiding directives and heuristics including all
-sysfs settings (transparent_hugepage/shmem_enabled), and tmpfs huge= mount
-options (shmem always supports large folios).  Like anonymous mappings, on
-successful return of MADV_COLLAPSE on file/shmem memory, the contents of
-memory mapped by the addresses provided will be synchronously pmd-mapped
-THPs.
-
-This functionality unlocks two important uses:
-
-(1)	Immediately back executable text by THPs.  Current support provided
-	by CONFIG_READ_ONLY_THP_FOR_FS may take a long time on a large
-	system which might impair services from serving at their full rated
-	load after (re)starting.  Tricks like mremap(2)'ing text onto
-	anonymous memory to immediately realize iTLB performance prevents
-	page sharing and demand paging, both of which increase steady state
-	memory footprint.  Now, we can have the best of both worlds: Peak
-	upfront performance and lower RAM footprints.
-
-(2)	userfaultfd-based live migration of virtual machines satisfy UFFD
-	faults by fetching native-sized pages over the network (to avoid
-	latency of transferring an entire hugepage).  However, after guest
-	memory has been fully copied to the new host, MADV_COLLAPSE can
-	be used to immediately increase guest performance.
-
-khugepaged has received a small improvement by association and can now
-detect and collapse pte-mapped THPs.  However, there is still work to be
-done along the file collapse path.  Compound pages of arbitrary order still
-needs to be supported and THP collapse needs to be converted to using
-folios in general.  Eventually, we'd like to move away from the read-only
-and executable-mapped constraints currently imposed on eligible files and
-support any inode claiming huge folio support.  That said, I think the
-series as-is covers enough to claim that MADV_COLLAPSE supports file/shmem
-memory.
-
-Patches 1-3	Implement the guts of the series.
-Patch 4 	Is a tracepoint for debugging.
-Patches 5-9 	Refactor existing khugepaged selftests to work with new
-		memory types + new collapse tests.
-Patch 10 	Adds a userfaultfd selftest mode to mimic a functional test
-		of UFFDIO_REGISTER_MODE_MINOR+MADV_COLLAPSE live migration.
-		(v4 note: "userfaultfd shmem" selftest is failing as of
-		Sep 22 mm-unstable)
-
-Applies against mm-unstable with:
-- v3 series dropped
-- Prerequisite patch (v2) "mm/khugepaged: check compound_order() in
-  collapse_pte_mapped_thp()" [4]
-- Prerequisite series "mm/madvise: MADV_COLLAPSE return EAGAIN when page
-  cannot be isolated" [5]
-
-[1] https://lore.kernel.org/linux-mm/YyiK8YvVcrtZo0z3@google.com/
-[2] https://lore.kernel.org/linux-mm/20220706235936.2197195-1-zokeefe@google.com/
-[3] https://lore.kernel.org/linux-mm/YtBmhaiPHUTkJml8@google.com/
-[4] https://lore.kernel.org/linux-mm/20220922222731.1124481-1-zokeefe@google.com/
-[5] https://lore.kernel.org/linux-mm/20220922184651.1016461-1-zokeefe@google.com/
-
-Previous versions:
-v1: https://lore.kernel.org/linux-mm/20220812012843.3948330-1-zokeefe@google.com/
-v2: https://lore.kernel.org/linux-mm/20220826220329.1495407-1-zokeefe@google.com/
-v3: https://lore.kernel.org/linux-mm/20220907144521.3115321-1-zokeefe@google.com/
-
-v3 -> v4:
-- [Yang Shi] ("mm/shmem: add flag to enforce shmem THP in
-  hugepage_vma_check()). Explicitly test shmem_huge_force argument in
-  shmem_is_huge() to make it obvious it ignores sysfs settings.
-- [Yang Shi] ("mm/khugepaged: attempt to map file/shmem-backed pte-mapped
-  THPs by pmds") Fix misspelling in commit description.
-- [Yang Shi] ("mm/khugepaged: attempt to map file/shmem-backed") Corrected
-  comment in collapse_pte_mapped_thp() in to make it accurate what we are
-  checking in fast-path.
-- [Yang Shi] ("mm/khugepaged: attempt to map file/shmem-backed pte-mapped
-  THPs by pmds") Add note in Documentation/admin-guide/mm/transhuge.rst
-  detailing changes to khugepaged/pages_collapsed counter.
-- [Yang Shi] ("mm/madvise: add file and shmem support to MADV_COLLAPSE")
-  Removed check for "multi-add" in khugepaged_add_pte_mapped_thp() and
-  added comment detailing the possible race, and why this check wasn't
-  necessary.
-- [Yang Shi] ("mm/madvise: add file and shmem support to MADV_COLLAPSE")
-  Deleted hugepage_vma_revalidate_anon() and added argument to
-  hugepage_vma_revalidate() specifying if we are expecting an anonymous
-  VMA.
-
-v2 -> v3:
-- The 3 changes mentioned in the v3 Forward
-- Drop redundant PageTransCompound() check in collapse_pte_mapped_thp() in
-  "mm/madvise: add file and shmem support to MADV_COLLAPSE" (it is covered
-  by PageHead() and hugepage_vma_check() for !HugeTLB.
-- In "selftests/vm: add thp collapse file and tmpfs testing", don't assume
-  path used for file collapse testing will be on /dev/sda - instead, use the
-  major/minor device numbers returned from stat(2) to traverse sysfs and find
-  the correct block device.  Also only do stat() statfs() checks on
-  user-supplied test directory once (instead of every time we create a test
-  file).
-- Added "selftests/vm: add file/shmem MADV_COLLAPSE selftest for cleared
-  pmd" which tests a common case of MADV_COLLAPSE applied to file/shmem
-  memory that has been "collapsed" (in the page cache) by khugepaged, but
-  not yet refaulted by the process.
-
-v1 -> v2:
-- Add missing definition for khugepaged_add_pte_mapped_thp() in
-  !CONFIG_SHEM builds, in "mm/khugepaged: attempt to map
-  file/shmem-backed pte-mapped THPs by pmds"
-- Minor bugfixes in "mm/madvise: add file and shmem support to
-  MADV_COLLAPSE" for !CONFIG_SHMEM, !CONFIG_TRANSPARENT_HUGEPAGE and some
-  compiler settings.
-- Rebased on latest mm-unstable
-
-
-Zach O'Keefe (10):
-  mm/shmem: add flag to enforce shmem THP in hugepage_vma_check()
-  mm/khugepaged: attempt to map file/shmem-backed pte-mapped THPs by
-    pmds
-  mm/madvise: add file and shmem support to MADV_COLLAPSE
-  mm/khugepaged: add tracepoint to hpage_collapse_scan_file()
-  selftests/vm: dedup THP helpers
-  selftests/vm: modularize thp collapse memory operations
-  selftests/vm: add thp collapse file and tmpfs testing
-  selftests/vm: add thp collapse shmem testing
-  selftests/vm: add file/shmem MADV_COLLAPSE selftest for cleared pmd
-  selftests/vm: add selftest for MADV_COLLAPSE of uffd-minor memory
-
- Documentation/admin-guide/mm/transhuge.rst    |   9 +-
- include/linux/khugepaged.h                    |  13 +-
- include/linux/shmem_fs.h                      |  10 +-
- include/trace/events/huge_memory.h            |  36 +
- kernel/events/uprobes.c                       |   2 +-
- mm/huge_memory.c                              |   2 +-
- mm/khugepaged.c                               | 311 ++++--
- mm/shmem.c                                    |  18 +-
- tools/testing/selftests/vm/Makefile           |   2 +
- tools/testing/selftests/vm/khugepaged.c       | 913 +++++++++++++-----
- tools/testing/selftests/vm/soft-dirty.c       |   2 +-
- .../selftests/vm/split_huge_page_test.c       |  12 +-
- tools/testing/selftests/vm/userfaultfd.c      | 171 +++-
- tools/testing/selftests/vm/vm_util.c          |  36 +-
- tools/testing/selftests/vm/vm_util.h          |   5 +-
- 15 files changed, 1166 insertions(+), 376 deletions(-)
-
+diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
+index f24071e3c826..d500ea967dc7 100644
+--- a/include/linux/shmem_fs.h
++++ b/include/linux/shmem_fs.h
+@@ -92,11 +92,13 @@ extern struct page *shmem_read_mapping_page_gfp(struct address_space *mapping,
+ extern void shmem_truncate_range(struct inode *inode, loff_t start, loff_t end);
+ int shmem_unuse(unsigned int type);
+ 
+-extern bool shmem_is_huge(struct vm_area_struct *vma,
+-			  struct inode *inode, pgoff_t index);
+-static inline bool shmem_huge_enabled(struct vm_area_struct *vma)
++extern bool shmem_is_huge(struct vm_area_struct *vma, struct inode *inode,
++			  pgoff_t index, bool shmem_huge_force);
++static inline bool shmem_huge_enabled(struct vm_area_struct *vma,
++				      bool shmem_huge_force)
+ {
+-	return shmem_is_huge(vma, file_inode(vma->vm_file), vma->vm_pgoff);
++	return shmem_is_huge(vma, file_inode(vma->vm_file), vma->vm_pgoff,
++			     shmem_huge_force);
+ }
+ extern unsigned long shmem_swap_usage(struct vm_area_struct *vma);
+ extern unsigned long shmem_partial_swap_usage(struct address_space *mapping,
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index 4938defe4e73..1cc4a5f4791e 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -119,7 +119,7 @@ bool hugepage_vma_check(struct vm_area_struct *vma, unsigned long vm_flags,
+ 	 * own flags.
+ 	 */
+ 	if (!in_pf && shmem_file(vma->vm_file))
+-		return shmem_huge_enabled(vma);
++		return shmem_huge_enabled(vma, !enforce_sysfs);
+ 
+ 	/* Enforce sysfs THP requirements as necessary */
+ 	if (enforce_sysfs &&
+diff --git a/mm/shmem.c b/mm/shmem.c
+index 305dbca9ceef..fd15b7ca1d7e 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -462,20 +462,22 @@ static bool shmem_confirm_swap(struct address_space *mapping,
+ 
+ static int shmem_huge __read_mostly = SHMEM_HUGE_NEVER;
+ 
+-bool shmem_is_huge(struct vm_area_struct *vma,
+-		   struct inode *inode, pgoff_t index)
++bool shmem_is_huge(struct vm_area_struct *vma, struct inode *inode,
++		   pgoff_t index, bool shmem_huge_force)
+ {
+ 	loff_t i_size;
+ 
+ 	if (!S_ISREG(inode->i_mode))
+ 		return false;
+-	if (shmem_huge == SHMEM_HUGE_DENY)
+-		return false;
+ 	if (vma && ((vma->vm_flags & VM_NOHUGEPAGE) ||
+ 	    test_bit(MMF_DISABLE_THP, &vma->vm_mm->flags)))
+ 		return false;
++	if (shmem_huge_force)
++		return true;
+ 	if (shmem_huge == SHMEM_HUGE_FORCE)
+ 		return true;
++	if (shmem_huge == SHMEM_HUGE_DENY)
++		return false;
+ 
+ 	switch (SHMEM_SB(inode->i_sb)->huge) {
+ 	case SHMEM_HUGE_ALWAYS:
+@@ -670,8 +672,8 @@ static long shmem_unused_huge_count(struct super_block *sb,
+ 
+ #define shmem_huge SHMEM_HUGE_DENY
+ 
+-bool shmem_is_huge(struct vm_area_struct *vma,
+-		   struct inode *inode, pgoff_t index)
++bool shmem_is_huge(struct vm_area_struct *vma, struct inode *inode,
++		   pgoff_t index, bool shmem_huge_force)
+ {
+ 	return false;
+ }
+@@ -1058,7 +1060,7 @@ static int shmem_getattr(struct user_namespace *mnt_userns,
+ 			STATX_ATTR_NODUMP);
+ 	generic_fillattr(&init_user_ns, inode, stat);
+ 
+-	if (shmem_is_huge(NULL, inode, 0))
++	if (shmem_is_huge(NULL, inode, 0, false))
+ 		stat->blksize = HPAGE_PMD_SIZE;
+ 
+ 	if (request_mask & STATX_BTIME) {
+@@ -1900,7 +1902,7 @@ static int shmem_get_folio_gfp(struct inode *inode, pgoff_t index,
+ 		return 0;
+ 	}
+ 
+-	if (!shmem_is_huge(vma, inode, index))
++	if (!shmem_is_huge(vma, inode, index, false))
+ 		goto alloc_nohuge;
+ 
+ 	huge_gfp = vma_thp_gfp_mask(vma);
 -- 
 2.37.3.998.g577e59143f-goog
 
