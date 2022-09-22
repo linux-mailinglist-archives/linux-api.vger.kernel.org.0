@@ -2,175 +2,166 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD16B5E5FA7
-	for <lists+linux-api@lfdr.de>; Thu, 22 Sep 2022 12:18:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CC205E6045
+	for <lists+linux-api@lfdr.de>; Thu, 22 Sep 2022 12:58:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230257AbiIVKS2 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 22 Sep 2022 06:18:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34442 "EHLO
+        id S229932AbiIVK6b (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 22 Sep 2022 06:58:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230125AbiIVKS1 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Sep 2022 06:18:27 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70697DC127;
-        Thu, 22 Sep 2022 03:18:26 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0CCA062B00;
-        Thu, 22 Sep 2022 10:18:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35CF4C433C1;
-        Thu, 22 Sep 2022 10:18:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1663841905;
-        bh=unHNLjgsxiDp0S08RPmDJfG3btH8Okc+VlSD5IufLJI=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=M1OQe0cNsUxh7Q+Z8ii8q5aOdDgyIr1XG8dnke5SmJWCwHFnkij36gn/docRxA4yM
-         MuSoMVc/vYqYek/J5ljXykCsW/Yt2ds9nyIixqYhufxTMhY6oJxNVFkoWFncYeK0m3
-         B/nJNnHLSEQTDexJE9j9Vb3wh8FEM9lYjwpjP2gyi9PXGutwpEZWhrE3k508Za1OgR
-         LZ40Tq/pBypLlYOgS1YZq0P5n9qlmjmKTHq0R5Mvvb+Y1DgbfstiLRyhIFCk4NhAXp
-         9g4LRA9fYfU87UeWRmcF5b0izvQ9a6mwlwm75HPt8ZDaOPLnhtBnw+emqSPML4Jk0r
-         GZZonnTYPze8Q==
-Message-ID: <e04e349170bc227b330556556d0592a53692b5b5.camel@kernel.org>
-Subject: Re: [man-pages RFC PATCH v4] statx, inode: document the new
- STATX_INO_VERSION field
-From:   Jeff Layton <jlayton@kernel.org>
-To:     Dave Chinner <david@fromorbit.com>
-Cc:     Theodore Ts'o <tytso@mit.edu>, NeilBrown <neilb@suse.de>,
-        Trond Myklebust <trondmy@hammerspace.com>,
-        "bfields@fieldses.org" <bfields@fieldses.org>,
-        "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
-        "djwong@kernel.org" <djwong@kernel.org>,
-        "brauner@kernel.org" <brauner@kernel.org>,
-        "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "chuck.lever@oracle.com" <chuck.lever@oracle.com>,
-        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
-        "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
-        "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
-        "jack@suse.cz" <jack@suse.cz>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "xiubli@redhat.com" <xiubli@redhat.com>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
-        "lczerner@redhat.com" <lczerner@redhat.com>,
-        "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
-        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>
-Date:   Thu, 22 Sep 2022 06:18:21 -0400
-In-Reply-To: <20220921214124.GS3600936@dread.disaster.area>
-References: <166328063547.15759.12797959071252871549@noble.neil.brown.name>
-         <YyQdmLpiAMvl5EkU@mit.edu>
-         <7027d1c2923053fe763e9218d10ce8634b56e81d.camel@kernel.org>
-         <24005713ad25370d64ab5bd0db0b2e4fcb902c1c.camel@kernel.org>
-         <20220918235344.GH3600936@dread.disaster.area>
-         <87fb43b117472c0a4c688c37a925ac51738c8826.camel@kernel.org>
-         <20220920001645.GN3600936@dread.disaster.area>
-         <5832424c328ea427b5c6ecdaa6dd53f3b99c20a0.camel@kernel.org>
-         <20220921000032.GR3600936@dread.disaster.area>
-         <93b6d9f7cf997245bb68409eeb195f9400e55cd0.camel@kernel.org>
-         <20220921214124.GS3600936@dread.disaster.area>
-Content-Type: text/plain; charset="ISO-8859-15"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+        with ESMTP id S230188AbiIVK6a (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Sep 2022 06:58:30 -0400
+Received: from CAN01-YQB-obe.outbound.protection.outlook.com (mail-yqbcan01on2082.outbound.protection.outlook.com [40.107.116.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68F01D58B0;
+        Thu, 22 Sep 2022 03:58:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BWnZvUxr/zWvgcy6rW7d8hjLNhyrougZ29p7n66NLmWjieHmvkdmaZgWKS3+8Cp6EUXPdBnx8D9tjWCyHfECtXq0HT8+u4/xxPZsUy5OX/FEXBcZyQAU5vS+hfLmnScpRpSu3HLqre2T2Z30F8lPkAGhfpECTH1L3FFacmjYUdAzEnWDHXEbY/sxDetxWyFnLv4eWdZkFc1TMQgntOHABOU+mjrQU8NXAyBRC31sF0dFjd7+GxfNiyyZDZvU+d+ateG4Hrt8nrSbK9HHXgTpM9SEGpsiMSrBF+b5L0TZQbLLqOpQMCtH0r8NqqtUO1Fw5dKl+rd5ahH36gtiJ82vFQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7BqGeFHcIQaXlDhNbxePNxH/IgkYFcFDpIYmQJ1U0rM=;
+ b=UanpQcJVO0HEXAohoECDAgjqvFGYB83AabaA7eMpAiPxXT6V/m9Mi9synh/go4L6aK540hqI6dzt/aMltp5FWzx1C6vG/8M5DegaVG5uwlnJO86DmSO+ZwaemQnR2sC06IktRWs3tDt3VZQbW+Kj2jwiJpKuwr7N48/2ybZgoH7SSOCg5c9ajt+mMDrCuHVaeusKRiEzQGqisV0XT8bk+M2Lu83vd6NSaHNzXQ/HQiEKURm4D/Q2gb6hhY0kgu0fSlqOyCUEaOUky8RTXMIepUg+PGjNaXrBs3ElSuQ36X0erM0c5KpPXK67UxvcpVXamjus0VFoDJmsGbuVJRSnPg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
+ dkim=pass header.d=efficios.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7BqGeFHcIQaXlDhNbxePNxH/IgkYFcFDpIYmQJ1U0rM=;
+ b=eoPzKnFpKScrQ4ffNQHVo5vwHfc4LMBuqWWxY5WFigy9yiIN9JnCGaxJ6smBwMXNTi+zLx7i+wXVa3DgCpBoo2GZtNXkNOPqNkeGICgjxPM2iojRZ9bASBpe3JL279cUnMcG2845tux0iC1yOf44I1YkEAL3og+vfoBmGcnU/2CuEbE+51y3vClcNMyJkJz+EGxPOJIF8nrWMD49XYH1qF0Gypt8DgKDqNT/jBu3iWvQSpwDwG/yD7dauQLRiHnkrCtGETCRd32ZYw4gk5ypgMR+PLe7k8019RzpNQHPU8xEA/AJv46BivA3BKggf1CgmqnB/shYb3aUPCnWoCrnBg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=efficios.com;
+Received: from YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:be::5)
+ by YT3PR01MB6454.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:71::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.19; Thu, 22 Sep
+ 2022 10:58:27 +0000
+Received: from YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::bd25:7243:1b45:3fb9]) by YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::bd25:7243:1b45:3fb9%6]) with mapi id 15.20.5654.016; Thu, 22 Sep 2022
+ 10:58:27 +0000
+Message-ID: <8c628a55-7b03-4c89-91f1-0bba973a5480@efficios.com>
+Date:   Thu, 22 Sep 2022 06:59:13 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [RFC PATCH v4 00/25] RSEQ node id and virtual cpu id extensions
+Content-Language: en-US
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+        Florian Weimer <fw@deneb.enyo.de>, David.Laight@aculab.com,
+        carlos@redhat.com, Peter Oskolkov <posk@posk.io>,
+        Alexander Mikhalitsyn <alexander@mihalicyn.com>
+References: <20220921192454.231662-1-mathieu.desnoyers@efficios.com>
+ <14ba275f-8ddc-33fc-2669-1c336436f473@efficios.com>
+ <YywYWSIocrDDntq3@hirez.programming.kicks-ass.net>
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+In-Reply-To: <YywYWSIocrDDntq3@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR0101CA0255.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:68::16) To YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:be::5)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: YT2PR01MB9175:EE_|YT3PR01MB6454:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5c635c16-5011-44ec-edbe-08da9c89608a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Of30vlbSsqjxiVxyodgTGESJlC6+96qnb/jY+m/v1gGXoZUQKE8kDAbd0BZAW1ksABT8+P+2FxXpNA5sklqmQD1MOGMqQQZ+0CcdgeG06IYQv6TOun/29/OpkcV6y0W3coA9YhFjxHsiyMcj/xPYy6y46NLF2VtdfykWWLqD/Ws32GqKljYvNWKob3yogRURdRJAm6IIir/a3ElOqRlbG7tbrLqiCqsMVRCeYCYRwAFZn/EJH6Lpx8gaLNfQp6HqJOIk2uhKwtQux7/C2RA1cxBTMXgYDN0eG9qYqALKxYJqxomEMN2G8xivW7GoyM/878t7V2Hn6AivwWvI8s1+KdvP7PjBO1L6+bbiDZBHyGJGBU3UTz2V3JO2h5Xe9dVZWovWqnbCx9pcD0+M7k0mkkcWrZm6SSoXntIZViMGn/cNwU5KdgqdmdzmNKptrns+KQB/PPMVXpmrjUZr5ZRxyDXd/z1BDw+4RvcffOq27/go26XIHgJt0hkZ2zkdUfLHNqravQbODAFGAFGjOOC4dPPngAOgeMQiHI8FZ5QwvQ9dxzV9iwdxd4e5MKTK/12ZYTkhEZFgKNbBlLCFEoO4xwY4OrTQwHnhSUSgbf4GXSQXUQx4OdCWuHXScKKpMd7bpdM4/z+Au2HqxJwSMQ9xjyPuRAKaODU+pU6cRBUkPR0CQ2R/l+Wf79JPrEII7/OSZkFAITqpNT4UTsSCWTjxUq//D8seZ+uP8lqTYuZ7uh5XVl1pCu9/dQoZD7tnsrSrOFKIQr8HTWRPkyP1qHCag3DaYFjwuFC9o/214nrhRz6Br9VxbU8RJ+lzfDuwqyLT
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(34096005)(396003)(366004)(34036004)(136003)(39830400003)(376002)(346002)(451199015)(38100700002)(31696002)(36756003)(86362001)(31686004)(83380400001)(7416002)(4744005)(2616005)(2906002)(44832011)(41320700001)(586005)(966005)(6486002)(38610400001)(6666004)(41300700001)(498600001)(26005)(6512007)(53546011)(6506007)(186003)(54906003)(6916009)(5660300002)(8936002)(66946007)(66556008)(66476007)(8676002)(4326008)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b09aQWR2eDh2VnMrYUdFM2Ryc1pyc29adG5iU2FTSXpNT2J6MEcrSSt2Qm9o?=
+ =?utf-8?B?NHZUZFVoVWg2MzRxYVFNSytOemxiMEhjOHdVUFkxbkwrQ2lRNXkvMmU1a2NS?=
+ =?utf-8?B?cks1YVY1S3Uzb2tpSEVPUFpHb2hDNG9uUG9OM2hIZ1o1azFlUzZTVjhPamdy?=
+ =?utf-8?B?QXVuUi9pYVFrbnlpdTFFbkZnU0NwSmxMUDBhUXZZUHBmenpaTW9HQ0ZYdEFk?=
+ =?utf-8?B?ZFl6VDhQMDJoVHJyUzBncnFLUUtiK0hiSVFOWXg4N1A5cXNFN242UCtLTWc0?=
+ =?utf-8?B?T0YyTTNHTmtLSTF1aVZEVkpwS2tTTmlIRnBoYjRpZWFFMTc2Y0FUTUFERDYw?=
+ =?utf-8?B?enhsU3ZBN1FYV2lHb1ZKcVZwaFh3NDdwK0QzTGRtdzBZRTVnN2gyay9MZUNi?=
+ =?utf-8?B?RG4zc1QzQ0p2NFovdUhmaDRPMERVdzlYc1A0bTJudit1b21NY1lHdTBwTmFo?=
+ =?utf-8?B?Skx0TXVPMmh6VlhXSHRNd1RYSGR5Y1JabDhNRG9mVHZWRDZvSVh1ZHllNzZz?=
+ =?utf-8?B?Ympia0lnTzZucy8zclJhclV3WWl0eVdITThua1A2TTVMcWp6TDFSNmRBc3Bw?=
+ =?utf-8?B?YnlNRk04b0MvZyt6WFdwZUpQU2xtSU9wTmhaMXM5ZjNTV24rSFlYSSsxNEdU?=
+ =?utf-8?B?R2NqZDNJYklYRTFtRE1kY2F0THZCN3M0b0V0ODMrMWQxZjgzbyttUjVvWGo0?=
+ =?utf-8?B?K2l2QWM2OU1tSThKNTNoTnU3dnFWQ0dTWGRva2pjSHJzRUFjUUlUUGVtMFZV?=
+ =?utf-8?B?Sk9md2JkNkkwdElJOGhjemUvN0pFcXd3NEpBUml4a0QxaUpCK2V1NUMzNWMz?=
+ =?utf-8?B?aHV2NHlOSER6aFE3SWdmRGcyb0FKR09FN09MdG8zeWpnanNzQWJJVHRvZ0Rm?=
+ =?utf-8?B?d29LWmxrUkp5ZGxMTWNaNGduVzcvTlJ6Ri9TWlJGTXJlZzFMVUl1SUZQc09o?=
+ =?utf-8?B?djRSTHFlaHZpbzVLN3MvYVdMRHZBVFdKRlhkU0xEWWdpbjF4QjVDVnUrc1Vy?=
+ =?utf-8?B?SjFTdFFxWWk2SWpmMmVNMGZxU1FKZzlhNW1ydCtKYm93L3pKKzc0RmtHakY4?=
+ =?utf-8?B?VVZPOXRXdDgzU1cwdDNnU2w3Rko1V2Q1ZXRNWlJXcjQ1QVFMcDZsTi9oQmdX?=
+ =?utf-8?B?UVZtYzJmOTIrM3ZtUm1WQlZkMkEzYjNWbHdDZnIrVG83R3F3bmd5c280NU9O?=
+ =?utf-8?B?UzJBOHhUMWVuUmZEbG1xclFvSWhwR3F1N09IT0szZjArWHFlNEJKZmVjL1lk?=
+ =?utf-8?B?UG55SkVCcmJVUFR1eS8xTytJYWxybFV2THRSNzljMEJzK1pJZHFndjVQQzJB?=
+ =?utf-8?B?VWRNRmMzTzBHOWNUY3ZOeXp2M3M4YXIzRDZPdmpnMGxGY2RPazVlcktVNWFo?=
+ =?utf-8?B?a0ZsUEcyRVllN2FwTnFXS0VFUjgzTlhvamFPQ28wam9TWXRUdkg5UGRRcXRI?=
+ =?utf-8?B?QTd6MEc4WHJTTm5mWlZmZWl6dHJBOVZCOUlGWHNIeXNNZ2JYMlhySWxZS2VR?=
+ =?utf-8?B?Si9DVVZIYS95Nnd0bXYxbitZVXlEQnlmWVAvbVF0SFJBd2tKUGxZTURSek9l?=
+ =?utf-8?B?dThNWGorWW1Ndyt0bi9MOU1ZUm1kWkRpemg4c0pvem5HbmdoaWtBUURYSGdh?=
+ =?utf-8?B?WUdEbElBbUdwakJCUjFOazQwRDZ5bDNsa1ZMcDZrUTEzTnpFQ056Zk1HZXRF?=
+ =?utf-8?B?YUNoUU5GVm4xcTIxeWpoVWZ1MkFIUUFCaEtRU1Y4MlpYdjNqeURiZXlhTHQ3?=
+ =?utf-8?B?UEs3YTFKSTV0bnk5VVVabDcvNVVFanc3WUJwTUgva0Z1d0J2T003RjNSWG1Y?=
+ =?utf-8?B?VkU3V0swcVEzYjBycHZTRzd6U2Y1VDBwWnpvd2h6YWZHRFV2QmZrR1MyNkNO?=
+ =?utf-8?B?NHB1c2J3bzhGUW03UlVIMkZSS3VONjlySE9UZ3hXWFdKaGY2MzV2UzlNdE5R?=
+ =?utf-8?B?eGxXTG5UZ2tsM3NhZTJ2TWl2ZXFZS2dxRVg1VjZORVBPbWRSZE55eEFSMmZ4?=
+ =?utf-8?B?MTZMZ05GRmNwemZ6VWovSmRuV2RCa1FtZFZKOWZCVGgwanFNV1FXVXZ2S3Vk?=
+ =?utf-8?B?Qmx2VXJOQ1ExQVFwT0VBdzZKVmxBQ1ZjV1NEaWxiTCt0NUhhUG9RS0t4RjFq?=
+ =?utf-8?B?WnZwVWpRbndYN0dKSWUxTWJNNUpzalJxOUErOU5uRlYrYkhsUTllQlpLaHd6?=
+ =?utf-8?Q?GScGWISn6uNb0fc10A9+OYU=3D?=
+X-OriginatorOrg: efficios.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c635c16-5011-44ec-edbe-08da9c89608a
+X-MS-Exchange-CrossTenant-AuthSource: YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2022 10:58:27.1610
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: U2cIbycFnqMal3+kQO6nH0ydKS78zL2uTkXm2dBfJxWlmOWonpvXuYpH+Oo7m+6tjdE5AVzbBx4iKS86UMvWyAOowItGMAZmsLIpHf+KP2w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT3PR01MB6454
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, 2022-09-22 at 07:41 +1000, Dave Chinner wrote:
-> On Wed, Sep 21, 2022 at 06:33:28AM -0400, Jeff Layton wrote:
-> > On Wed, 2022-09-21 at 10:00 +1000, Dave Chinner wrote:
-> > > > How do we determine what that offset should be? Your last email
-> > > > suggested that there really is no limit to the number of i_version =
-bumps
-> > > > that can happen in memory before one of them makes it to disk. What=
- can
-> > > > we do to address that?
-> > >=20
-> > > <shrug>
-> > >=20
-> > > I'm just pointing out problems I see when defining this as behaviour
-> > > for on-disk format purposes. If we define it as part of the on-disk
-> > > format, then we have to be concerned about how it may be used
-> > > outside the scope of just the NFS server application.=20
-> > >=20
-> > > However, If NFS keeps this metadata and functionaly entirely
-> > > contained at the application level via xattrs, I really don't care
-> > > what algorithm NFS developers decides to use for their crash
-> > > sequencing. It's not my concern at this point, and that's precisely
-> > > why NFS should be using xattrs for this NFS specific functionality.
-> > >=20
-> >=20
-> > I get it: you'd rather not have to deal with what you see as an NFS
-> > problem, but I don't get how what you're proposing solves anything. We
-> > might be able to use that scheme to detect crashes, but that's only par=
-t
-> > of the problem (and it's a relatively simple part of the problem to
-> > solve, really).
-> >=20
-> > Maybe you can clarify it for me:
-> >=20
-> > Suppose we go with what you're saying and store some information in
-> > xattrs that allows us to detect crashes in some fashion. The server
-> > crashes and comes back up and we detect that there was a crash earlier.
-> >=20
-> > What does nfsd need to do now to ensure that it doesn't hand out a
-> > duplicate change attribute?=20
->=20
-> As I've already stated, the NFS server can hold the persistent NFS
-> crash counter value in a second xattr that it bumps whenever it
-> detects a crash and hence we take the local filesystem completely
-> out of the equation.  How the crash counter is then used by the nfsd
-> to fold it into the NFS protocol change attribute is a nfsd problem,
-> not a local filesystem problem.
->=20
+On 2022-09-22 04:10, Peter Zijlstra wrote:
+> On Wed, Sep 21, 2022 at 03:54:18PM -0400, Mathieu Desnoyers wrote:
+[...]
+>> Hi Peter,
+>>
+>> I'm having MTA issues at the moment. I will resend the series as soon as I
+>> can get hold of my sysadmin.
+> 
+> It landed in my inbox and Lore seems to have received a copy too; as
+> per:
+> 
+>    https://lkml.kernel.org/r/14ba275f-8ddc-33fc-2669-1c336436f473@efficios.com
+> 
+> So I'm thinking you did manage to send out mail and all is well.
+> 
+> I'll try and have a look later today.
 
-Ok, assuming you mean put this in an xattr that lives at the root of the
-export? We only need this for IS_I_VERSION filesystems (btrfs, xfs, and
-ext4), and they all support xattrs so this scheme should work.
+AFAIU my ISP's MTA only sent the first 7 emails in the series, and the 
+rest are nowhere to be seen.
 
-> If you're worried about maximum number of writes outstanding vs
-> i_version bumps that are held in memory, then *bound the maximum
-> number of uncommitted i_version changes that the NFS server will
-> allow to build up in memory*. By moving the crash counter to being a
-> NFS server only function, the NFS server controls the entire
-> algorithm and it doesn't have to care about external 3rd party
-> considerations like local filesystems have to.
->=20
+I've hopefully managed to fix my issues now. Let me try to resend the 
+whole series. (without RFC tag this time)
 
-Yeah, this is the bigger consideration.
+Thanks,
 
-> e.g. The NFS server can track the i_version values when the NFSD
-> syncs/commits a given inode. The nfsd can sample i_version it when
-> calls ->commit_metadata or flushed data on the inode, and then when
-> it peeks at i_version when gathering post-op attrs (or any other
-> getattr op) it can decide that there is too much in-memory change
-> (e.g. 10,000 counts since last sync) and sync the inode.
->=20
-> i.e. the NFS server can trivially cap the maximum number of
-> uncommitted NFS change attr bumps it allows to build up in memory.
-> At that point, the NFS server has a bound "maximum write count" that
-> can be used in conjunction with the xattr based crash counter to
-> determine how the change_attr is bumped by the crash counter.
+Mathieu
 
-Well, not "trivially". This is the bit where we have to grow struct
-inode (or the fs-specific inode), as we'll need to know what the latest
-on-disk value is for the inode.
 
-I'm leaning toward doing this on the query side. Basically, when nfsd
-goes to query the i_version, it'll check the delta between the current
-version and the latest one on disk. If it's bigger than X then we'd just
-return NFS4ERR_DELAY to the client.
-
-If the delta is >X/2, maybe it can kick off a workqueue job or something
-that calls write_inode with WB_SYNC_ALL to try to get the thing onto the
-platter ASAP.
---=20
-Jeff Layton <jlayton@kernel.org>
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
