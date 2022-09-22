@@ -2,146 +2,92 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BED45E554A
-	for <lists+linux-api@lfdr.de>; Wed, 21 Sep 2022 23:41:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C503C5E5D17
+	for <lists+linux-api@lfdr.de>; Thu, 22 Sep 2022 10:10:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230271AbiIUVlc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Wed, 21 Sep 2022 17:41:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43334 "EHLO
+        id S229677AbiIVIKT (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 22 Sep 2022 04:10:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229496AbiIUVlb (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Wed, 21 Sep 2022 17:41:31 -0400
-Received: from mail105.syd.optusnet.com.au (mail105.syd.optusnet.com.au [211.29.132.249])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 02665A61F1;
-        Wed, 21 Sep 2022 14:41:29 -0700 (PDT)
-Received: from dread.disaster.area (pa49-181-106-210.pa.nsw.optusnet.com.au [49.181.106.210])
-        by mail105.syd.optusnet.com.au (Postfix) with ESMTPS id CD09A1100972;
-        Thu, 22 Sep 2022 07:41:25 +1000 (AEST)
-Received: from dave by dread.disaster.area with local (Exim 4.92.3)
-        (envelope-from <david@fromorbit.com>)
-        id 1ob7TA-00AY5T-EA; Thu, 22 Sep 2022 07:41:24 +1000
-Date:   Thu, 22 Sep 2022 07:41:24 +1000
-From:   Dave Chinner <david@fromorbit.com>
-To:     Jeff Layton <jlayton@kernel.org>
-Cc:     Theodore Ts'o <tytso@mit.edu>, NeilBrown <neilb@suse.de>,
-        Trond Myklebust <trondmy@hammerspace.com>,
-        "bfields@fieldses.org" <bfields@fieldses.org>,
-        "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
-        "djwong@kernel.org" <djwong@kernel.org>,
-        "brauner@kernel.org" <brauner@kernel.org>,
-        "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "chuck.lever@oracle.com" <chuck.lever@oracle.com>,
-        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
-        "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
-        "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
-        "jack@suse.cz" <jack@suse.cz>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "xiubli@redhat.com" <xiubli@redhat.com>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
-        "lczerner@redhat.com" <lczerner@redhat.com>,
-        "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
-        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>
-Subject: Re: [man-pages RFC PATCH v4] statx, inode: document the new
- STATX_INO_VERSION field
-Message-ID: <20220921214124.GS3600936@dread.disaster.area>
-References: <166328063547.15759.12797959071252871549@noble.neil.brown.name>
- <YyQdmLpiAMvl5EkU@mit.edu>
- <7027d1c2923053fe763e9218d10ce8634b56e81d.camel@kernel.org>
- <24005713ad25370d64ab5bd0db0b2e4fcb902c1c.camel@kernel.org>
- <20220918235344.GH3600936@dread.disaster.area>
- <87fb43b117472c0a4c688c37a925ac51738c8826.camel@kernel.org>
- <20220920001645.GN3600936@dread.disaster.area>
- <5832424c328ea427b5c6ecdaa6dd53f3b99c20a0.camel@kernel.org>
- <20220921000032.GR3600936@dread.disaster.area>
- <93b6d9f7cf997245bb68409eeb195f9400e55cd0.camel@kernel.org>
+        with ESMTP id S229554AbiIVIKT (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Sep 2022 04:10:19 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 274BF7C741;
+        Thu, 22 Sep 2022 01:10:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=x2S7ihsdzXGdnhLKW5/Rg77+Ve4aEgc8tlCoujWLAvE=; b=ZWFv9XB9sZkq0mqegWIrgQAV61
+        vY73ggeCAQ8R06BrBZqAeK3aWR/ZbbPkXa++s1YIquK+RKyJaDn4U0qUttxHozcKpOBp4DGkOXUfL
+        mVKgyiWCGn5XqPf5LunV/XEewR32uXN4/94HwqEM+OCWzR0Bug2O8D5MtGGI+zPu2kJXbY78M1JPw
+        GeTP7BN1SmM9lslPbWONPssY4zRtPUvfvRlX37uuIpsh2h8JjIPMfSu0uUTyqpstn8jABeEh+jNkb
+        rPQLVOtc3NzzDLn1ZuKeBRxDXYsEtnXgdii9I8rsjkMbh19kcKna+46gpFycCX8RlKWDAjISicjWb
+        YLxSst4w==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1obHHZ-006ro0-Gs; Thu, 22 Sep 2022 08:10:05 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id BCE8F300169;
+        Thu, 22 Sep 2022 10:10:01 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 9322C200FBDF7; Thu, 22 Sep 2022 10:10:01 +0200 (CEST)
+Date:   Thu, 22 Sep 2022 10:10:01 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+        Florian Weimer <fw@deneb.enyo.de>, David.Laight@aculab.com,
+        carlos@redhat.com, Peter Oskolkov <posk@posk.io>,
+        Alexander Mikhalitsyn <alexander@mihalicyn.com>
+Subject: Re: [RFC PATCH v4 00/25] RSEQ node id and virtual cpu id extensions
+Message-ID: <YywYWSIocrDDntq3@hirez.programming.kicks-ass.net>
+References: <20220921192454.231662-1-mathieu.desnoyers@efficios.com>
+ <14ba275f-8ddc-33fc-2669-1c336436f473@efficios.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <93b6d9f7cf997245bb68409eeb195f9400e55cd0.camel@kernel.org>
-X-Optus-CM-Score: 0
-X-Optus-CM-Analysis: v=2.4 cv=OJNEYQWB c=1 sm=1 tr=0 ts=632b8509
-        a=j6JUzzrSC7wlfFge/rmVbg==:117 a=j6JUzzrSC7wlfFge/rmVbg==:17
-        a=kj9zAlcOel0A:10 a=xOM3xZuef0cA:10 a=7-415B0cAAAA:8
-        a=8pfsZ2Olh1enfcy7SOgA:9 a=CjuIK1q_8ugA:10 a=Fg_2k2EkwPauNWe-Eirz:22
-        a=biEYGPWJfzWAr4FL6Ov7:22
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <14ba275f-8ddc-33fc-2669-1c336436f473@efficios.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Wed, Sep 21, 2022 at 06:33:28AM -0400, Jeff Layton wrote:
-> On Wed, 2022-09-21 at 10:00 +1000, Dave Chinner wrote:
-> > > How do we determine what that offset should be? Your last email
-> > > suggested that there really is no limit to the number of i_version bumps
-> > > that can happen in memory before one of them makes it to disk. What can
-> > > we do to address that?
+On Wed, Sep 21, 2022 at 03:54:18PM -0400, Mathieu Desnoyers wrote:
+> On 2022-09-21 15:24, Mathieu Desnoyers wrote:
+> > Extend the rseq ABI to expose a NUMA node ID and a vm_vcpu_id field.
 > > 
-> > <shrug>
+> > The NUMA node ID field allows implementing a faster getcpu(2) in libc.
 > > 
-> > I'm just pointing out problems I see when defining this as behaviour
-> > for on-disk format purposes. If we define it as part of the on-disk
-> > format, then we have to be concerned about how it may be used
-> > outside the scope of just the NFS server application. 
+> > The virtual cpu id allows ideal scaling (down or up) of user-space
+> > per-cpu data structures. The virtual cpu ids allocated within a memory
+> > space are tracked by the scheduler, which takes into account the number
+> > of concurrently running threads, thus implicitly considering the number
+> > of threads, the cpu affinity, the cpusets applying to those threads, and
+> > the number of logical cores on the system.
 > > 
-> > However, If NFS keeps this metadata and functionaly entirely
-> > contained at the application level via xattrs, I really don't care
-> > what algorithm NFS developers decides to use for their crash
-> > sequencing. It's not my concern at this point, and that's precisely
-> > why NFS should be using xattrs for this NFS specific functionality.
-> > 
+> > This series is based on the v5.19 tag.
 > 
-> I get it: you'd rather not have to deal with what you see as an NFS
-> problem, but I don't get how what you're proposing solves anything. We
-> might be able to use that scheme to detect crashes, but that's only part
-> of the problem (and it's a relatively simple part of the problem to
-> solve, really).
+> Hi Peter,
 > 
-> Maybe you can clarify it for me:
-> 
-> Suppose we go with what you're saying and store some information in
-> xattrs that allows us to detect crashes in some fashion. The server
-> crashes and comes back up and we detect that there was a crash earlier.
-> 
-> What does nfsd need to do now to ensure that it doesn't hand out a
-> duplicate change attribute? 
+> I'm having MTA issues at the moment. I will resend the series as soon as I
+> can get hold of my sysadmin.
 
-As I've already stated, the NFS server can hold the persistent NFS
-crash counter value in a second xattr that it bumps whenever it
-detects a crash and hence we take the local filesystem completely
-out of the equation.  How the crash counter is then used by the nfsd
-to fold it into the NFS protocol change attribute is a nfsd problem,
-not a local filesystem problem.
+It landed in my inbox and Lore seems to have received a copy too; as
+per:
 
-If you're worried about maximum number of writes outstanding vs
-i_version bumps that are held in memory, then *bound the maximum
-number of uncommitted i_version changes that the NFS server will
-allow to build up in memory*. By moving the crash counter to being a
-NFS server only function, the NFS server controls the entire
-algorithm and it doesn't have to care about external 3rd party
-considerations like local filesystems have to.
+  https://lkml.kernel.org/r/14ba275f-8ddc-33fc-2669-1c336436f473@efficios.com
 
-e.g. The NFS server can track the i_version values when the NFSD
-syncs/commits a given inode. The nfsd can sample i_version it when
-calls ->commit_metadata or flushed data on the inode, and then when
-it peeks at i_version when gathering post-op attrs (or any other
-getattr op) it can decide that there is too much in-memory change
-(e.g. 10,000 counts since last sync) and sync the inode.
+So I'm thinking you did manage to send out mail and all is well.
 
-i.e. the NFS server can trivially cap the maximum number of
-uncommitted NFS change attr bumps it allows to build up in memory.
-At that point, the NFS server has a bound "maximum write count" that
-can be used in conjunction with the xattr based crash counter to
-determine how the change_attr is bumped by the crash counter.
-
--Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+I'll try and have a look later today.
