@@ -2,519 +2,129 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A7FC5E6FDB
-	for <lists+linux-api@lfdr.de>; Fri, 23 Sep 2022 00:41:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80AC45E70EA
+	for <lists+linux-api@lfdr.de>; Fri, 23 Sep 2022 02:53:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229835AbiIVWlM (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Thu, 22 Sep 2022 18:41:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37852 "EHLO
+        id S231683AbiIWAxh (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Thu, 22 Sep 2022 20:53:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230214AbiIVWlJ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Sep 2022 18:41:09 -0400
-Received: from mail-pf1-x449.google.com (mail-pf1-x449.google.com [IPv6:2607:f8b0:4864:20::449])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D76A105D6B
-        for <linux-api@vger.kernel.org>; Thu, 22 Sep 2022 15:41:06 -0700 (PDT)
-Received: by mail-pf1-x449.google.com with SMTP id g24-20020a056a00079800b0054b1a110543so6069040pfu.2
-        for <linux-api@vger.kernel.org>; Thu, 22 Sep 2022 15:41:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date;
-        bh=1TMOJr4DxnORJjvI0fw0x8scRlgaiqtLavZQBhY6sx8=;
-        b=S5EoZoBYVc4O4+40JqD+DFi3CFc8xh5HXT5Wvx6JqwLA8WEtt69zTmPoBxXB7eNFKN
-         icAXAp7WL0rLstdsV4aQe4fIw4h1VeZ2AoBpVuCzaK+2O+nW/gqoOPmGLNpxRgrsmNuV
-         u+0mrzjjkwVKacNo6EWr03SkGNgMG9UDbAjpkSsLsHtzj6CjZFIwz8gzSfC7IciMu2Bq
-         b8YMPOWT6VMzu2W4LOqL0aBiLBTOEsDGb4OsfuhPLIBdrc3kt7VnPa9i2ndEG+qLS2sW
-         qGT3y3OccQRPITnDoRXigCUvlkT6k+C/KPuumK/W4Eo/uHfmsM8wZQg2KP33Xs+aexBO
-         tS/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date;
-        bh=1TMOJr4DxnORJjvI0fw0x8scRlgaiqtLavZQBhY6sx8=;
-        b=giyChlyo9saoeFdM+EbYa0tvZiqqCk6uFzDH43xOP4mV3la3h12e3aHaEypc2m7/S9
-         r6FOQJVMH0zUvjc4njpmAOFjFMLOOvzoE+h3Qp8Jhh/OYwSjRO+XQ08xH81d0nV90vqB
-         dN/Iq6WqH43vqWiYqPb53sOLJEFzTXwBXPvWWy+ilkxzAqAPcxgnnt2S7IA4e9m5cSgc
-         3T4o2IzXSK+yW8hm/cVqID8GN0Szro+3Mr3zhoeVx4AQhpOLdEkQfqG52nXd1RGLZrsO
-         ni4etQ8rLWxak2MvHBdJeU9a+4MGu2AoQUkBEBbhZthDxiyH+atg/Bvw/fTxvGm5OtVX
-         IDTw==
-X-Gm-Message-State: ACrzQf2CKRIKXb7MHvNS8ZwIRyjtRiPHlMYCT+IIfI81eXKRYwG4rWaX
-        PEQjz3G9F7fYYw9EOKFt1SwDcnWv8mNr
-X-Google-Smtp-Source: AMsMyM6PJF6tmBumUpsVZn3r5IVgv4sbkoHiOyYpeln+sa33eMqUYI1WVbX2FJijfgWYyTrkNRwLteK0vGd8
-X-Received: from zokeefe3.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1b6])
- (user=zokeefe job=sendgmr) by 2002:a17:902:f547:b0:178:39fe:5b14 with SMTP id
- h7-20020a170902f54700b0017839fe5b14mr5522884plf.100.1663886465739; Thu, 22
- Sep 2022 15:41:05 -0700 (PDT)
-Date:   Thu, 22 Sep 2022 15:40:46 -0700
-In-Reply-To: <20220922224046.1143204-1-zokeefe@google.com>
-Mime-Version: 1.0
-References: <20220922224046.1143204-1-zokeefe@google.com>
-X-Mailer: git-send-email 2.37.3.998.g577e59143f-goog
-Message-ID: <20220922224046.1143204-11-zokeefe@google.com>
-Subject: [PATCH mm-unstable v4 10/10] selftests/vm: add selftest for
- MADV_COLLAPSE of uffd-minor memory
-From:   "Zach O'Keefe" <zokeefe@google.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-mm@kvack.org, linux-api@vger.kernel.org,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        James Houghton <jthoughton@google.com>,
-        Hugh Dickins <hughd@google.com>,
-        Yang Shi <shy828301@gmail.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        David Hildenbrand <david@redhat.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Pasha Tatashin <pasha.tatashin@soleen.com>,
-        Peter Xu <peterx@redhat.com>,
-        Rongwei Wang <rongwei.wang@linux.alibaba.com>,
-        SeongJae Park <sj@kernel.org>,
-        Song Liu <songliubraving@fb.com>,
+        with ESMTP id S231556AbiIWAxd (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Thu, 22 Sep 2022 20:53:33 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 336C563D3;
+        Thu, 22 Sep 2022 17:53:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663894412; x=1695430412;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=N5ROSjhMMMcLpyjlHpJbtQYkQW/pwctSUSnQMueHIwE=;
+  b=j0npw3hxIhk/PNb5lDfzUqD6jLjrltPDSjqtLFQjLyRdomVN6bRefFHz
+   uXvWfgG4uz2MxxCNbni1bBuYLUa+koUygb7dcUoPhN2odkzkEqsUE2Wob
+   Fo3ygUUA51auPuT+HUNkVklb8KJxTyVHf8P3Nv4GF0eEHysOqNnxnR5jK
+   a+aoyB5TILiFMiHOHcYb4b+G3B3EocQyJuAwQzMVBtEvZSutXObl/iFrY
+   gYXU6YQKmcVmT+UImswR9TWKMm2m/x/gVKgcmicaxRHWA+kzIVIcNHalx
+   KMF697UTmPER7m2tv6+hrcdtos4Dsv4g4RgjJkJoqemIe2EOLD0fxzTul
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="283569063"
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
+   d="scan'208";a="283569063"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2022 17:53:31 -0700
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
+   d="scan'208";a="622334850"
+Received: from dnessim-mobl1.ger.corp.intel.com (HELO box.shutemov.name) ([10.252.60.183])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2022 17:53:21 -0700
+Received: by box.shutemov.name (Postfix, from userid 1000)
+        id 6B9DA104532; Fri, 23 Sep 2022 03:53:19 +0300 (+03)
+Date:   Fri, 23 Sep 2022 03:53:19 +0300
+From:   "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     "Wang, Wei W" <wei.w.wang@intel.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
         Vlastimil Babka <vbabka@suse.cz>,
-        Chris Kennelly <ckennelly@google.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Patrick Xia <patrickx@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "Nakajima, Jun" <jun.nakajima@intel.com>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "ak@linux.intel.com" <ak@linux.intel.com>,
+        "david@redhat.com" <david@redhat.com>,
+        "aarcange@redhat.com" <aarcange@redhat.com>,
+        "ddutile@redhat.com" <ddutile@redhat.com>,
+        "dhildenb@redhat.com" <dhildenb@redhat.com>,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>,
+        "Hocko, Michal" <mhocko@suse.com>,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+Message-ID: <20220923005319.wkzpl36uailh4zbw@box.shutemov.name>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+ <DS0PR11MB63734D4DF4C4F368805EC97DDC4E9@DS0PR11MB6373.namprd11.prod.outlook.com>
+ <Yyy8Pp0Y4NRzIzNw@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yyy8Pp0Y4NRzIzNw@google.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Add :collapse mod to userfaultfd selftest.  Currently this mod is only
-valid for "shmem" test type, but could be used for other test types.
+On Thu, Sep 22, 2022 at 07:49:18PM +0000, Sean Christopherson wrote:
+> On Thu, Sep 22, 2022, Wang, Wei W wrote:
+> > On Thursday, September 15, 2022 10:29 PM, Chao Peng wrote:
+> > > +int inaccessible_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
+> > > +			 int *order)
+> > 
+> > Better to remove "order" from this interface?
+> 
+> Hard 'no'.
+> 
+> > Some callers only need to get pfn, and no need to bother with
+> > defining and inputting something unused. For callers who need the "order",
+> > can easily get it via thp_order(pfn_to_page(pfn)) on their own.
+> 
+> That requires (a) assuming the pfn is backed by struct page, and (b) assuming the
+> struct page is a transparent huge page.  That might be true for the current
+> implementation, but it most certainly will not always be true.
+> 
+> KVM originally did things like this, where there was dedicated code for THP vs.
+> HugeTLB, and it was a mess.  The goal here is very much to avoid repeating those
+> mistakes.  Have the backing store _tell_ KVM how big the mapping is, don't force
+> KVM to rediscover the info on its own.
 
-When provided, memory allocated by ->allocate_area() will be
-hugepage-aligned enforced to be hugepage-sized.  userfaultf_minor_test,
-after the UFFD-registered mapping has been populated by UUFD minor fault
-handler, attempt to MADV_COLLAPSE the UFFD-registered mapping to collapse
-the memory into a pmd-mapped THP.
+I guess we can allow order pointer to be NULL to cover caller that don't
+need to know the order. Is it useful?
 
-This test is meant to be a functional test of what occurs during
-UFFD-driven live migration of VMs backed by huge tmpfs where, after a
-hugepage-sized region has been successfully migrated (in native page-sized
-chunks, to avoid latency of fetched a hugepage over the network), we want
-to reclaim previous VM performance by remapping it at the PMD level.
-
-Link: https://lkml.kernel.org/r/20220907144521.3115321-11-zokeefe@google.com
-Signed-off-by: Zach O'Keefe <zokeefe@google.com>
-Cc: Axel Rasmussen <axelrasmussen@google.com>
-Cc: Chris Kennelly <ckennelly@google.com>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: David Rientjes <rientjes@google.com>
-Cc: Hugh Dickins <hughd@google.com>
-Cc: James Houghton <jthoughton@google.com>
-Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Miaohe Lin <linmiaohe@huawei.com>
-Cc: Minchan Kim <minchan@kernel.org>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Rongwei Wang <rongwei.wang@linux.alibaba.com>
-Cc: SeongJae Park <sj@kernel.org>
-Cc: Song Liu <songliubraving@fb.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>
-Cc: Yang Shi <shy828301@gmail.com>
----
- tools/testing/selftests/vm/Makefile      |   1 +
- tools/testing/selftests/vm/userfaultfd.c | 171 ++++++++++++++++++-----
- 2 files changed, 134 insertions(+), 38 deletions(-)
-
-diff --git a/tools/testing/selftests/vm/Makefile b/tools/testing/selftests/vm/Makefile
-index 824d3a58ab1a..b3669c36e1e2 100644
---- a/tools/testing/selftests/vm/Makefile
-+++ b/tools/testing/selftests/vm/Makefile
-@@ -100,6 +100,7 @@ $(OUTPUT)/madv_populate: vm_util.c
- $(OUTPUT)/soft-dirty: vm_util.c
- $(OUTPUT)/split_huge_page_test: vm_util.c
- $(OUTPUT)/hmm-tests: vm_util.c
-+$(OUTPUT)/userfaultfd: vm_util.c
- 
- ifeq ($(MACHINE),x86_64)
- BINARIES_32 := $(patsubst %,$(OUTPUT)/%,$(BINARIES_32))
-diff --git a/tools/testing/selftests/vm/userfaultfd.c b/tools/testing/selftests/vm/userfaultfd.c
-index 7be709d9eed0..74babdbc02e5 100644
---- a/tools/testing/selftests/vm/userfaultfd.c
-+++ b/tools/testing/selftests/vm/userfaultfd.c
-@@ -61,10 +61,11 @@
- #include <sys/random.h>
- 
- #include "../kselftest.h"
-+#include "vm_util.h"
- 
- #ifdef __NR_userfaultfd
- 
--static unsigned long nr_cpus, nr_pages, nr_pages_per_cpu, page_size;
-+static unsigned long nr_cpus, nr_pages, nr_pages_per_cpu, page_size, hpage_size;
- 
- #define BOUNCE_RANDOM		(1<<0)
- #define BOUNCE_RACINGFAULTS	(1<<1)
-@@ -79,6 +80,8 @@ static int test_type;
- 
- #define UFFD_FLAGS	(O_CLOEXEC | O_NONBLOCK | UFFD_USER_MODE_ONLY)
- 
-+#define BASE_PMD_ADDR ((void *)(1UL << 30))
-+
- /* test using /dev/userfaultfd, instead of userfaultfd(2) */
- static bool test_dev_userfaultfd;
- 
-@@ -97,9 +100,10 @@ static int huge_fd;
- static unsigned long long *count_verify;
- static int uffd = -1;
- static int uffd_flags, finished, *pipefd;
--static char *area_src, *area_src_alias, *area_dst, *area_dst_alias;
-+static char *area_src, *area_src_alias, *area_dst, *area_dst_alias, *area_remap;
- static char *zeropage;
- pthread_attr_t attr;
-+static bool test_collapse;
- 
- /* Userfaultfd test statistics */
- struct uffd_stats {
-@@ -127,6 +131,8 @@ struct uffd_stats {
- #define swap(a, b) \
- 	do { typeof(a) __tmp = (a); (a) = (b); (b) = __tmp; } while (0)
- 
-+#define factor_of_2(x) ((x) ^ ((x) & ((x) - 1)))
-+
- const char *examples =
-     "# Run anonymous memory test on 100MiB region with 99999 bounces:\n"
-     "./userfaultfd anon 100 99999\n\n"
-@@ -152,6 +158,8 @@ static void usage(void)
- 		"Supported mods:\n");
- 	fprintf(stderr, "\tsyscall - Use userfaultfd(2) (default)\n");
- 	fprintf(stderr, "\tdev - Use /dev/userfaultfd instead of userfaultfd(2)\n");
-+	fprintf(stderr, "\tcollapse - Test MADV_COLLAPSE of UFFDIO_REGISTER_MODE_MINOR\n"
-+		"memory\n");
- 	fprintf(stderr, "\nExample test mod usage:\n");
- 	fprintf(stderr, "# Run anonymous memory test with /dev/userfaultfd:\n");
- 	fprintf(stderr, "./userfaultfd anon:dev 100 99999\n\n");
-@@ -229,12 +237,10 @@ static void anon_release_pages(char *rel_area)
- 		err("madvise(MADV_DONTNEED) failed");
- }
- 
--static void anon_allocate_area(void **alloc_area)
-+static void anon_allocate_area(void **alloc_area, bool is_src)
- {
- 	*alloc_area = mmap(NULL, nr_pages * page_size, PROT_READ | PROT_WRITE,
- 			   MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
--	if (*alloc_area == MAP_FAILED)
--		err("mmap of anonymous memory failed");
- }
- 
- static void noop_alias_mapping(__u64 *start, size_t len, unsigned long offset)
-@@ -252,7 +258,7 @@ static void hugetlb_release_pages(char *rel_area)
- 	}
- }
- 
--static void hugetlb_allocate_area(void **alloc_area)
-+static void hugetlb_allocate_area(void **alloc_area, bool is_src)
- {
- 	void *area_alias = NULL;
- 	char **alloc_area_alias;
-@@ -262,7 +268,7 @@ static void hugetlb_allocate_area(void **alloc_area)
- 			nr_pages * page_size,
- 			PROT_READ | PROT_WRITE,
- 			MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB |
--				(*alloc_area == area_src ? 0 : MAP_NORESERVE),
-+				(is_src ? 0 : MAP_NORESERVE),
- 			-1,
- 			0);
- 	else
-@@ -270,9 +276,9 @@ static void hugetlb_allocate_area(void **alloc_area)
- 			nr_pages * page_size,
- 			PROT_READ | PROT_WRITE,
- 			MAP_SHARED |
--				(*alloc_area == area_src ? 0 : MAP_NORESERVE),
-+				(is_src ? 0 : MAP_NORESERVE),
- 			huge_fd,
--			*alloc_area == area_src ? 0 : nr_pages * page_size);
-+			is_src ? 0 : nr_pages * page_size);
- 	if (*alloc_area == MAP_FAILED)
- 		err("mmap of hugetlbfs file failed");
- 
-@@ -282,12 +288,12 @@ static void hugetlb_allocate_area(void **alloc_area)
- 			PROT_READ | PROT_WRITE,
- 			MAP_SHARED,
- 			huge_fd,
--			*alloc_area == area_src ? 0 : nr_pages * page_size);
-+			is_src ? 0 : nr_pages * page_size);
- 		if (area_alias == MAP_FAILED)
- 			err("mmap of hugetlb file alias failed");
- 	}
- 
--	if (*alloc_area == area_src) {
-+	if (is_src) {
- 		alloc_area_alias = &area_src_alias;
- 	} else {
- 		alloc_area_alias = &area_dst_alias;
-@@ -310,21 +316,36 @@ static void shmem_release_pages(char *rel_area)
- 		err("madvise(MADV_REMOVE) failed");
- }
- 
--static void shmem_allocate_area(void **alloc_area)
-+static void shmem_allocate_area(void **alloc_area, bool is_src)
- {
- 	void *area_alias = NULL;
--	bool is_src = alloc_area == (void **)&area_src;
--	unsigned long offset = is_src ? 0 : nr_pages * page_size;
-+	size_t bytes = nr_pages * page_size;
-+	unsigned long offset = is_src ? 0 : bytes;
-+	char *p = NULL, *p_alias = NULL;
-+
-+	if (test_collapse) {
-+		p = BASE_PMD_ADDR;
-+		if (!is_src)
-+			/* src map + alias + interleaved hpages */
-+			p += 2 * (bytes + hpage_size);
-+		p_alias = p;
-+		p_alias += bytes;
-+		p_alias += hpage_size;  /* Prevent src/dst VMA merge */
-+	}
- 
--	*alloc_area = mmap(NULL, nr_pages * page_size, PROT_READ | PROT_WRITE,
--			   MAP_SHARED, shm_fd, offset);
-+	*alloc_area = mmap(p, bytes, PROT_READ | PROT_WRITE, MAP_SHARED,
-+			   shm_fd, offset);
- 	if (*alloc_area == MAP_FAILED)
- 		err("mmap of memfd failed");
-+	if (test_collapse && *alloc_area != p)
-+		err("mmap of memfd failed at %p", p);
- 
--	area_alias = mmap(NULL, nr_pages * page_size, PROT_READ | PROT_WRITE,
--			  MAP_SHARED, shm_fd, offset);
-+	area_alias = mmap(p_alias, bytes, PROT_READ | PROT_WRITE, MAP_SHARED,
-+			  shm_fd, offset);
- 	if (area_alias == MAP_FAILED)
- 		err("mmap of memfd alias failed");
-+	if (test_collapse && area_alias != p_alias)
-+		err("mmap of anonymous memory failed at %p", p_alias);
- 
- 	if (is_src)
- 		area_src_alias = area_alias;
-@@ -337,28 +358,39 @@ static void shmem_alias_mapping(__u64 *start, size_t len, unsigned long offset)
- 	*start = (unsigned long)area_dst_alias + offset;
- }
- 
-+static void shmem_check_pmd_mapping(void *p, int expect_nr_hpages)
-+{
-+	if (!check_huge_shmem(area_dst_alias, expect_nr_hpages, hpage_size))
-+		err("Did not find expected %d number of hugepages",
-+		    expect_nr_hpages);
-+}
-+
- struct uffd_test_ops {
--	void (*allocate_area)(void **alloc_area);
-+	void (*allocate_area)(void **alloc_area, bool is_src);
- 	void (*release_pages)(char *rel_area);
- 	void (*alias_mapping)(__u64 *start, size_t len, unsigned long offset);
-+	void (*check_pmd_mapping)(void *p, int expect_nr_hpages);
- };
- 
- static struct uffd_test_ops anon_uffd_test_ops = {
- 	.allocate_area	= anon_allocate_area,
- 	.release_pages	= anon_release_pages,
- 	.alias_mapping = noop_alias_mapping,
-+	.check_pmd_mapping = NULL,
- };
- 
- static struct uffd_test_ops shmem_uffd_test_ops = {
- 	.allocate_area	= shmem_allocate_area,
- 	.release_pages	= shmem_release_pages,
- 	.alias_mapping = shmem_alias_mapping,
-+	.check_pmd_mapping = shmem_check_pmd_mapping,
- };
- 
- static struct uffd_test_ops hugetlb_uffd_test_ops = {
- 	.allocate_area	= hugetlb_allocate_area,
- 	.release_pages	= hugetlb_release_pages,
- 	.alias_mapping = hugetlb_alias_mapping,
-+	.check_pmd_mapping = NULL,
- };
- 
- static struct uffd_test_ops *uffd_test_ops;
-@@ -478,6 +510,7 @@ static void uffd_test_ctx_clear(void)
- 	munmap_area((void **)&area_src_alias);
- 	munmap_area((void **)&area_dst);
- 	munmap_area((void **)&area_dst_alias);
-+	munmap_area((void **)&area_remap);
- }
- 
- static void uffd_test_ctx_init(uint64_t features)
-@@ -486,8 +519,8 @@ static void uffd_test_ctx_init(uint64_t features)
- 
- 	uffd_test_ctx_clear();
- 
--	uffd_test_ops->allocate_area((void **)&area_src);
--	uffd_test_ops->allocate_area((void **)&area_dst);
-+	uffd_test_ops->allocate_area((void **)&area_src, true);
-+	uffd_test_ops->allocate_area((void **)&area_dst, false);
- 
- 	userfaultfd_open(&features);
- 
-@@ -804,6 +837,7 @@ static void *uffd_poll_thread(void *arg)
- 				err("remove failure");
- 			break;
- 		case UFFD_EVENT_REMAP:
-+			area_remap = area_dst;  /* save for later unmap */
- 			area_dst = (char *)(unsigned long)msg.arg.remap.to;
- 			break;
- 		}
-@@ -1256,13 +1290,30 @@ static int userfaultfd_sig_test(void)
- 	return userfaults != 0;
- }
- 
-+void check_memory_contents(char *p)
-+{
-+	unsigned long i;
-+	uint8_t expected_byte;
-+	void *expected_page;
-+
-+	if (posix_memalign(&expected_page, page_size, page_size))
-+		err("out of memory");
-+
-+	for (i = 0; i < nr_pages; ++i) {
-+		expected_byte = ~((uint8_t)(i % ((uint8_t)-1)));
-+		memset(expected_page, expected_byte, page_size);
-+		if (my_bcmp(expected_page, p + (i * page_size), page_size))
-+			err("unexpected page contents after minor fault");
-+	}
-+
-+	free(expected_page);
-+}
-+
- static int userfaultfd_minor_test(void)
- {
--	struct uffdio_register uffdio_register;
- 	unsigned long p;
-+	struct uffdio_register uffdio_register;
- 	pthread_t uffd_mon;
--	uint8_t expected_byte;
--	void *expected_page;
- 	char c;
- 	struct uffd_stats stats = { 0 };
- 
-@@ -1301,17 +1352,7 @@ static int userfaultfd_minor_test(void)
- 	 * fault. uffd_poll_thread will resolve the fault by bit-flipping the
- 	 * page's contents, and then issuing a CONTINUE ioctl.
- 	 */
--
--	if (posix_memalign(&expected_page, page_size, page_size))
--		err("out of memory");
--
--	for (p = 0; p < nr_pages; ++p) {
--		expected_byte = ~((uint8_t)(p % ((uint8_t)-1)));
--		memset(expected_page, expected_byte, page_size);
--		if (my_bcmp(expected_page, area_dst_alias + (p * page_size),
--			    page_size))
--			err("unexpected page contents after minor fault");
--	}
-+	check_memory_contents(area_dst_alias);
- 
- 	if (write(pipefd[1], &c, sizeof(c)) != sizeof(c))
- 		err("pipe write");
-@@ -1320,6 +1361,23 @@ static int userfaultfd_minor_test(void)
- 
- 	uffd_stats_report(&stats, 1);
- 
-+	if (test_collapse) {
-+		printf("testing collapse of uffd memory into PMD-mapped THPs:");
-+		if (madvise(area_dst_alias, nr_pages * page_size,
-+			    MADV_COLLAPSE))
-+			err("madvise(MADV_COLLAPSE)");
-+
-+		uffd_test_ops->check_pmd_mapping(area_dst,
-+						 nr_pages * page_size /
-+						 hpage_size);
-+		/*
-+		 * This won't cause uffd-fault - it purely just makes sure there
-+		 * was no corruption.
-+		 */
-+		check_memory_contents(area_dst_alias);
-+		printf(" done.\n");
-+	}
-+
- 	return stats.missing_faults != 0 || stats.minor_faults != nr_pages;
- }
- 
-@@ -1656,6 +1714,8 @@ static void parse_test_type_arg(const char *raw_type)
- 			test_dev_userfaultfd = true;
- 		else if (!strcmp(token, "syscall"))
- 			test_dev_userfaultfd = false;
-+		else if (!strcmp(token, "collapse"))
-+			test_collapse = true;
- 		else
- 			err("unrecognized test mod '%s'", token);
- 	}
-@@ -1663,8 +1723,11 @@ static void parse_test_type_arg(const char *raw_type)
- 	if (!test_type)
- 		err("failed to parse test type argument: '%s'", raw_type);
- 
-+	if (test_collapse && test_type != TEST_SHMEM)
-+		err("Unsupported test: %s", raw_type);
-+
- 	if (test_type == TEST_HUGETLB)
--		page_size = default_huge_page_size();
-+		page_size = hpage_size;
- 	else
- 		page_size = sysconf(_SC_PAGE_SIZE);
- 
-@@ -1702,6 +1765,8 @@ static void sigalrm(int sig)
- 
- int main(int argc, char **argv)
- {
-+	size_t bytes;
-+
- 	if (argc < 4)
- 		usage();
- 
-@@ -1709,11 +1774,41 @@ int main(int argc, char **argv)
- 		err("failed to arm SIGALRM");
- 	alarm(ALARM_INTERVAL_SECS);
- 
-+	hpage_size = default_huge_page_size();
- 	parse_test_type_arg(argv[1]);
-+	bytes = atol(argv[2]) * 1024 * 1024;
-+
-+	if (test_collapse && bytes & (hpage_size - 1))
-+		err("MiB must be multiple of %lu if :collapse mod set",
-+		    hpage_size >> 20);
- 
- 	nr_cpus = sysconf(_SC_NPROCESSORS_ONLN);
--	nr_pages_per_cpu = atol(argv[2]) * 1024*1024 / page_size /
--		nr_cpus;
-+
-+	if (test_collapse) {
-+		/* nr_cpus must divide (bytes / page_size), otherwise,
-+		 * area allocations of (nr_pages * paze_size) won't be a
-+		 * multiple of hpage_size, even if bytes is a multiple of
-+		 * hpage_size.
-+		 *
-+		 * This means that nr_cpus must divide (N * (2 << (H-P))
-+		 * where:
-+		 *	bytes = hpage_size * N
-+		 *	hpage_size = 2 << H
-+		 *	page_size = 2 << P
-+		 *
-+		 * And we want to chose nr_cpus to be the largest value
-+		 * satisfying this constraint, not larger than the number
-+		 * of online CPUs. Unfortunately, prime factorization of
-+		 * N and nr_cpus may be arbitrary, so have to search for it.
-+		 * Instead, just use the highest power of 2 dividing both
-+		 * nr_cpus and (bytes / page_size).
-+		 */
-+		int x = factor_of_2(nr_cpus);
-+		int y = factor_of_2(bytes / page_size);
-+
-+		nr_cpus = x < y ? x : y;
-+	}
-+	nr_pages_per_cpu = bytes / page_size / nr_cpus;
- 	if (!nr_pages_per_cpu) {
- 		_err("invalid MiB");
- 		usage();
 -- 
-2.37.3.998.g577e59143f-goog
-
+  Kiryl Shutsemau / Kirill A. Shutemov
