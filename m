@@ -2,87 +2,92 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02E335E792A
-	for <lists+linux-api@lfdr.de>; Fri, 23 Sep 2022 13:13:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 824F95E7986
+	for <lists+linux-api@lfdr.de>; Fri, 23 Sep 2022 13:25:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230327AbiIWLN1 (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 23 Sep 2022 07:13:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34334 "EHLO
+        id S231261AbiIWLZd convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Fri, 23 Sep 2022 07:25:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229794AbiIWLN0 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 23 Sep 2022 07:13:26 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C31C81332E4;
-        Fri, 23 Sep 2022 04:13:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=zfgAtGE1lzX9cKdfzAVSb8jixMZFgP1pDMu4gWZzZHk=; b=Aceuu38oHTVA5CFZWx2oP+KXGT
-        XezfqgfXSkFakEfdz/3LwuygiHo3V15hhuBPQS170VUkaHE1bG5ZV1PzU9o/DFGvmJinwV1eNl3Oq
-        rGbsOzCebKqKL3lGJXLzQrJIvbvRLYnkBVPHZVFzy4WrnqOlZZnpcQOoYmUD87Bd1/O3tMq+/O0EK
-        1IQ1HZ4YRymL+zTfhr3XCU/r50Hd/OH9ggDqL/+pLY3i1QbagUDCd+gabWy2DsQypRiaWsw1LqXPY
-        W49KwuoTl+mh0gomtmls5Z/eytm5BcFPp2Ely9KrdoGMO+EoiMpKESbjx6l6eWfUPjP3RWwGdmefr
-        C3j9c/5g==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1obgcL-00FCci-AK; Fri, 23 Sep 2022 11:13:13 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 5FB7B3001FD;
-        Fri, 23 Sep 2022 13:13:12 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 222612BC047C3; Fri, 23 Sep 2022 13:13:12 +0200 (CEST)
-Date:   Fri, 23 Sep 2022 13:13:12 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        "H . Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
-        linux-api@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-        Florian Weimer <fw@deneb.enyo.de>, David.Laight@aculab.com,
-        carlos@redhat.com, Peter Oskolkov <posk@posk.io>,
-        Alexander Mikhalitsyn <alexander@mihalicyn.com>
-Subject: Re: [PATCH v4 03/25] rseq: Extend struct rseq with numa node id
-Message-ID: <Yy2UyL7vtQqWqKyI@hirez.programming.kicks-ass.net>
-References: <20220922105941.237830-1-mathieu.desnoyers@efficios.com>
- <20220922105941.237830-4-mathieu.desnoyers@efficios.com>
+        with ESMTP id S231387AbiIWLZF (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 23 Sep 2022 07:25:05 -0400
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94368139414
+        for <linux-api@vger.kernel.org>; Fri, 23 Sep 2022 04:24:24 -0700 (PDT)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-88-mnhmMfK-PT2rPSHOtJFAFA-1; Fri, 23 Sep 2022 12:24:21 +0100
+X-MC-Unique: mnhmMfK-PT2rPSHOtJFAFA-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.38; Fri, 23 Sep
+ 2022 12:24:18 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.040; Fri, 23 Sep 2022 12:24:18 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     "'cambda@linux.alibaba.com'" <cambda@linux.alibaba.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        Dust Li <dust.li@linux.alibaba.com>,
+        Tony Lu <tonylu@linux.alibaba.com>
+Subject: RE: Syscall kill() can send signal to thread ID
+Thread-Topic: Syscall kill() can send signal to thread ID
+Thread-Index: AQHYzwCNj4NIUfe8L0qIx1KiSNUBva3s3edg
+Date:   Fri, 23 Sep 2022 11:24:18 +0000
+Message-ID: <062228e73ef444dcafbcb6056bd6c37c@AcuMS.aculab.com>
+References: <69E17223-F0CA-4A4C-AAD7-065D6E6266D9@linux.alibaba.com>
+ <87k05v5sqn.fsf@email.froward.int.ebiederm.org>
+ <59403595-9F9B-49C4-AB62-259DD2C40196@linux.alibaba.com>
+In-Reply-To: <59403595-9F9B-49C4-AB62-259DD2C40196@linux.alibaba.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220922105941.237830-4-mathieu.desnoyers@efficios.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On Thu, Sep 22, 2022 at 06:59:18AM -0400, Mathieu Desnoyers wrote:
-> diff --git a/include/trace/events/rseq.h b/include/trace/events/rseq.h
-> index a04a64bc1a00..6bd442697354 100644
-> --- a/include/trace/events/rseq.h
-> +++ b/include/trace/events/rseq.h
-> @@ -16,13 +16,15 @@ TRACE_EVENT(rseq_update,
->  
->  	TP_STRUCT__entry(
->  		__field(s32, cpu_id)
-> +		__field(s32, node_id)
->  	),
->  
->  	TP_fast_assign(
->  		__entry->cpu_id = raw_smp_processor_id();
-> +		__entry->node_id = cpu_to_node(raw_smp_processor_id());
+...
+> And yes, I'm tracking a bug. A service monitor, like systemd or
+> some watchdog, uses kill() to check if a pid is valid or not:
+>   1. Store service pid into cache.
+>   2. Check if pid in cache is valid by kill(pid, 0).
+>   3. Check if pid in cache is the service to watch.
+> 
+> So if kill(pid, 0) returns success but no process info shows on 'ps'
+> command, the service monitor could be confused. The monitor could
+> check if pid is tid, but this means the odd behavior would be used
+> intentionally. And this workaround may be unsafe on other OS?
 
-Very minor nit: perhaps:
+That looks pretty broken to me.
+On Linux a pid can be reused immediately a process exits.
+So there is really no guarantee that the pid is the one you want.
+IIRC there are some recent changes that mean opening /proc/<pid>
+will stop the pid being reused - allowing checks before sending a signal.
+(Netbsd won't reuse a pid for a reasonable number of forks
+and then uses a semi-random pid allocator.
+Don't know whether any other 'bsd picked up that change.)
 
-		_entry->node_id = cpu_to_node(__entry->cpu_id);
+Also using signals in multi-threaded programs is pretty much
+non-portable.
 
-just in case it does a reload and finds a different value.
+	David
 
->  	),
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
+
