@@ -2,68 +2,105 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 39DAC5E73A7
-	for <lists+linux-api@lfdr.de>; Fri, 23 Sep 2022 08:05:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 290035E73EC
+	for <lists+linux-api@lfdr.de>; Fri, 23 Sep 2022 08:25:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229570AbiIWGFR (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 23 Sep 2022 02:05:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44236 "EHLO
+        id S230178AbiIWGZM convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-api@lfdr.de>); Fri, 23 Sep 2022 02:25:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229912AbiIWGFQ (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 23 Sep 2022 02:05:16 -0400
-Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 534F5286E3
-        for <linux-api@vger.kernel.org>; Thu, 22 Sep 2022 23:05:15 -0700 (PDT)
-Received: by mail-yb1-xb42.google.com with SMTP id e81so15736994ybb.13
-        for <linux-api@vger.kernel.org>; Thu, 22 Sep 2022 23:05:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:sender:reply-to:mime-version:from
-         :to:cc:subject:date;
-        bh=xqV0SEJtZbR/dGKSwq8YnqP6PVCCHS5FOV4KkHOfuyU=;
-        b=ZYVoVQxRRRB7pF/X03WWZpssn4c5Jpl/iwWVqFY2G/ssDb9pwSuwhXjHMfSi6ljDDe
-         E6MdMNEyMcIWRlU23HO48okOykAcFLxTTSJVUQgUMVfrVDCxcuJt9SEDTK/jf6b0OES/
-         bCTSHmWD09JycauH+0TDapuB2dJDFnUKXaWq2C0sfpFBgsPRI/ZMcO9vK+cMjG0EvXOl
-         tdAS/fn5GVQS34i+cruvPUGuiG+l+rjz+m0xZSLkTc/MqrgGuwWgfyd6wzKZyzFcVQVm
-         PQd5UaK5QZ3UTAwiHu7PGyyiYOVdabMRyQgwtSz7gfMb3mWLXHpz6QWMBz+Hmo16re++
-         YFgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:sender:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=xqV0SEJtZbR/dGKSwq8YnqP6PVCCHS5FOV4KkHOfuyU=;
-        b=WoKuekQUZ9eWcdbx6TX2G89IrRrKPBSqKfl6LzXg82peaz2Fhqmmut8GjKOxIp9kvt
-         mUNELF69Lssi5AYw6VHAl/lfT49meF9dh+YczG8MF5CCXup3fXkfhbFFesdYISo3YJ4L
-         I5D5u4LYPx0FYCatg+m6fCdraq1lhSFCsD9P8qNW4oiRTtOINMwpSrxFEzbgOO+Si2Hr
-         3bFqk1DDmzZv4rxTdZCrgtn03QCv1ufOWYCnyebPRVJXxo3eLuOhyGfQ/vxdW0LD0MRG
-         3ZLKuxaXl09eNXWjDo2CyuDVAEA0GLUgGoz5R4xUXPaTLASGvi3aNRRWpiSifujeDBz3
-         2atg==
-X-Gm-Message-State: ACrzQf3ozTXryT+P7xhYzlV4GwEKOeqcjWcuhqKwndkS3Xs9PU+dPdiK
-        F1/C1iz2/yqEBGZgpgkHP2B9qh4TziWc5SHzULs=
-X-Google-Smtp-Source: AMsMyM5gvLxkqtf4uqM558QP37KJk8X8ZsLnmddToE5q0cb28qOdi3KYSxFJyW2x4vqeuN/fRecvKt1f3MP1uyUKL8U=
-X-Received: by 2002:a25:8407:0:b0:6ae:da9a:4031 with SMTP id
- u7-20020a258407000000b006aeda9a4031mr8114162ybk.238.1663913114646; Thu, 22
- Sep 2022 23:05:14 -0700 (PDT)
-MIME-Version: 1.0
-Reply-To: sgtkalamanthey@gmail.com
-Sender: andreamoussou252@gmail.com
-Received: by 2002:a05:7010:4ad1:b0:305:51c9:23a1 with HTTP; Thu, 22 Sep 2022
- 23:05:14 -0700 (PDT)
-From:   kala manthey <sgtkalamanthey@gmail.com>
-Date:   Thu, 22 Sep 2022 23:05:14 -0700
-X-Google-Sender-Auth: 5jQ0pG9ni2oC554uHtu6uR0HmDM
-Message-ID: <CAH-QM3Hem6Vrr8mWJFuf4-RZP0KSOoUknvekpe_2SCDQ9BMR=Q@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        with ESMTP id S230197AbiIWGZK (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 23 Sep 2022 02:25:10 -0400
+Received: from out30-132.freemail.mail.aliyun.com (out30-132.freemail.mail.aliyun.com [115.124.30.132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93A7E9C23D;
+        Thu, 22 Sep 2022 23:25:09 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046059;MF=cambda@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0VQVe2Tc_1663914306;
+Received: from smtpclient.apple(mailfrom:cambda@linux.alibaba.com fp:SMTPD_---0VQVe2Tc_1663914306)
+          by smtp.aliyun-inc.com;
+          Fri, 23 Sep 2022 14:25:06 +0800
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
+Subject: Re: Syscall kill() can send signal to thread ID
+From:   "cambda@linux.alibaba.com" <cambda@linux.alibaba.com>
+In-Reply-To: <87r102ejwo.fsf@oldenburg.str.redhat.com>
+Date:   Fri, 23 Sep 2022 14:25:05 +0800
+Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        Dust Li <dust.li@linux.alibaba.com>,
+        Tony Lu <tonylu@linux.alibaba.com>
+Content-Transfer-Encoding: 8BIT
+Message-Id: <0CC7D0E7-71C5-4DAC-8A01-F9E13659F864@linux.alibaba.com>
+References: <69E17223-F0CA-4A4C-AAD7-065D6E6266D9@linux.alibaba.com>
+ <87pmfn5tu1.fsf@email.froward.int.ebiederm.org>
+ <87r102ejwo.fsf@oldenburg.str.redhat.com>
+To:     Florian Weimer <fweimer@redhat.com>
+X-Mailer: Apple Mail (2.3696.120.41.1.1)
+X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-Hi, did you get my two previous e -Mail? please let me know
+
+> On Sep 23, 2022, at 13:31, Florian Weimer <fweimer@redhat.com> wrote:
+> 
+> * Eric W. Biederman:
+> 
+>> cambda@linux.alibaba.com writes:
+>> 
+>>> I found syscall kill() can send signal to a thread id, which is
+>>> not the TGID. But the Linux manual page kill(2) said:
+>>> 
+>>> "The kill() system call can be used to send any signal to any
+>>> process group or process."
+>>> 
+>>> And the Linux manual page tkill(2) said:
+>>> 
+>>> "tgkill() sends the signal sig to the thread with the thread ID
+>>> tid in the thread group tgid.  (By contrast, kill(2) can be used
+>>> to send a signal only to a process (i.e., thread group) as a
+>>> whole, and the signal will be delivered to an arbitrary thread
+>>> within that process.)"
+>>> 
+>>> I don't know whether the meaning of this 'process' should be
+>>> the TGID? Because I found kill(tid, 0) will return ESRCH on FreeBSD,
+>>> while Linux sends signal to the thread group that the thread belongs
+>>> to.
+>>> 
+>>> If this is as expected, should we add a notice to the Linux manual
+>>> page? Because it's a syscall and the pids not equal to tgid are not
+>>> listed under /proc. This may be a little confusing, I guess.
+>> 
+>> This is as expected.
+>> 
+>> The bit about is /proc is interesting.  On linux try
+>> "cd /proc; cd tid" and see what happens.
+>> 
+>> Using the thread id in kill(2) is used to select the process, and the
+>> delivery happens just the same as if the TGID had been used.
+>> 
+>> It is one of those odd behaviors that we could potentially remove.  It
+>> would require hunting through all of the userspace applications to see
+>> if something happens to depend upon that behavior.  Unless it becomes
+>> expensive to maintain I don't expect we will ever do that.
+> 
+> It would just replace one odd behavior by another because kill for the
+> TID of the main thread will still send the signal to the entire process
+> (because the TID is equal to the PID), but for the other threads, it
+> would just send it to the thread.  So it would still be inconsistent.
+> 
+> Thanks,
+> Florian
+
+I don't quite understand what you mean, sorry. But if kill() returns -ESRCH for
+tid which is not equal to tgid, kill() can only send signal to thread group via
+main thread id, that is what BSD did and manual said. It seems not odd?
+
+Regards,
+Cambda
