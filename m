@@ -2,105 +2,79 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 290035E73EC
-	for <lists+linux-api@lfdr.de>; Fri, 23 Sep 2022 08:25:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FD625E753C
+	for <lists+linux-api@lfdr.de>; Fri, 23 Sep 2022 09:53:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230178AbiIWGZM convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-api@lfdr.de>); Fri, 23 Sep 2022 02:25:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44148 "EHLO
+        id S230425AbiIWHxt (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 23 Sep 2022 03:53:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230197AbiIWGZK (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 23 Sep 2022 02:25:10 -0400
-Received: from out30-132.freemail.mail.aliyun.com (out30-132.freemail.mail.aliyun.com [115.124.30.132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93A7E9C23D;
-        Thu, 22 Sep 2022 23:25:09 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046059;MF=cambda@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0VQVe2Tc_1663914306;
-Received: from smtpclient.apple(mailfrom:cambda@linux.alibaba.com fp:SMTPD_---0VQVe2Tc_1663914306)
-          by smtp.aliyun-inc.com;
-          Fri, 23 Sep 2022 14:25:06 +0800
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
-Subject: Re: Syscall kill() can send signal to thread ID
-From:   "cambda@linux.alibaba.com" <cambda@linux.alibaba.com>
-In-Reply-To: <87r102ejwo.fsf@oldenburg.str.redhat.com>
-Date:   Fri, 23 Sep 2022 14:25:05 +0800
+        with ESMTP id S231173AbiIWHxj (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 23 Sep 2022 03:53:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 455A712CCA2
+        for <linux-api@vger.kernel.org>; Fri, 23 Sep 2022 00:53:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1663919618;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=iOGG5hgOKi/CJM4NK1rzcJoL+Wi8Clwwu1KXxusOWjU=;
+        b=ffNrt3nNfiX38MwqlCwuzBQmzhH15GWYloGCXXdniU5to+K/ro216mPO7lkPN4UWGx6LCt
+        deJ42y/CqfnevyN27/xOBSakpuZ2h3EswG4OMfNHCUkL54LFJl92mhXb/Di2lARJL6gXrI
+        5PT7lGjEqyq4X31Bf1TKQiMweF00s6E=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-106-_i6V8lngNXajPEiNifPUOQ-1; Fri, 23 Sep 2022 03:53:34 -0400
+X-MC-Unique: _i6V8lngNXajPEiNifPUOQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 78F333817A74;
+        Fri, 23 Sep 2022 07:53:33 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.39.192.26])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 201D640C6E14;
+        Fri, 23 Sep 2022 07:53:31 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     cambda@linux.alibaba.com
 Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
         linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
         Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
         Dust Li <dust.li@linux.alibaba.com>,
         Tony Lu <tonylu@linux.alibaba.com>
-Content-Transfer-Encoding: 8BIT
-Message-Id: <0CC7D0E7-71C5-4DAC-8A01-F9E13659F864@linux.alibaba.com>
+Subject: Re: Syscall kill() can send signal to thread ID
 References: <69E17223-F0CA-4A4C-AAD7-065D6E6266D9@linux.alibaba.com>
- <87pmfn5tu1.fsf@email.froward.int.ebiederm.org>
- <87r102ejwo.fsf@oldenburg.str.redhat.com>
-To:     Florian Weimer <fweimer@redhat.com>
-X-Mailer: Apple Mail (2.3696.120.41.1.1)
-X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        <87pmfn5tu1.fsf@email.froward.int.ebiederm.org>
+        <87r102ejwo.fsf@oldenburg.str.redhat.com>
+        <0CC7D0E7-71C5-4DAC-8A01-F9E13659F864@linux.alibaba.com>
+Date:   Fri, 23 Sep 2022 09:53:30 +0200
+In-Reply-To: <0CC7D0E7-71C5-4DAC-8A01-F9E13659F864@linux.alibaba.com>
+        (cambda@linux.alibaba.com's message of "Fri, 23 Sep 2022 14:25:05
+        +0800")
+Message-ID: <87illeedc5.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+> I don't quite understand what you mean, sorry. But if kill() returns
+> -ESRCH for tid which is not equal to tgid, kill() can only send signal
+> to thread group via main thread id, that is what BSD did and manual
+> said. It seems not odd?
 
-> On Sep 23, 2022, at 13:31, Florian Weimer <fweimer@redhat.com> wrote:
-> 
-> * Eric W. Biederman:
-> 
->> cambda@linux.alibaba.com writes:
->> 
->>> I found syscall kill() can send signal to a thread id, which is
->>> not the TGID. But the Linux manual page kill(2) said:
->>> 
->>> "The kill() system call can be used to send any signal to any
->>> process group or process."
->>> 
->>> And the Linux manual page tkill(2) said:
->>> 
->>> "tgkill() sends the signal sig to the thread with the thread ID
->>> tid in the thread group tgid.  (By contrast, kill(2) can be used
->>> to send a signal only to a process (i.e., thread group) as a
->>> whole, and the signal will be delivered to an arbitrary thread
->>> within that process.)"
->>> 
->>> I don't know whether the meaning of this 'process' should be
->>> the TGID? Because I found kill(tid, 0) will return ESRCH on FreeBSD,
->>> while Linux sends signal to the thread group that the thread belongs
->>> to.
->>> 
->>> If this is as expected, should we add a notice to the Linux manual
->>> page? Because it's a syscall and the pids not equal to tgid are not
->>> listed under /proc. This may be a little confusing, I guess.
->> 
->> This is as expected.
->> 
->> The bit about is /proc is interesting.  On linux try
->> "cd /proc; cd tid" and see what happens.
->> 
->> Using the thread id in kill(2) is used to select the process, and the
->> delivery happens just the same as if the TGID had been used.
->> 
->> It is one of those odd behaviors that we could potentially remove.  It
->> would require hunting through all of the userspace applications to see
->> if something happens to depend upon that behavior.  Unless it becomes
->> expensive to maintain I don't expect we will ever do that.
-> 
-> It would just replace one odd behavior by another because kill for the
-> TID of the main thread will still send the signal to the entire process
-> (because the TID is equal to the PID), but for the other threads, it
-> would just send it to the thread.  So it would still be inconsistent.
-> 
-> Thanks,
-> Florian
+It's still odd because there's one TID per process that's valid for
+kill by accident.  That's all.
 
-I don't quite understand what you mean, sorry. But if kill() returns -ESRCH for
-tid which is not equal to tgid, kill() can only send signal to thread group via
-main thread id, that is what BSD did and manual said. It seems not odd?
+Thanks,
+Florian
 
-Regards,
-Cambda
