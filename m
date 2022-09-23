@@ -2,164 +2,311 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9F3B5E7DD6
-	for <lists+linux-api@lfdr.de>; Fri, 23 Sep 2022 17:05:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A9AB5E7E1E
+	for <lists+linux-api@lfdr.de>; Fri, 23 Sep 2022 17:20:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231511AbiIWPFI (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Fri, 23 Sep 2022 11:05:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37454 "EHLO
+        id S232402AbiIWPUe (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Fri, 23 Sep 2022 11:20:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbiIWPFH (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Fri, 23 Sep 2022 11:05:07 -0400
-X-Greylist: delayed 327 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 23 Sep 2022 08:05:00 PDT
-Received: from mta-102a.earthlink-vadesecure.net (mta-102a.earthlink-vadesecure.net [51.81.61.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECAB452FE3;
-        Fri, 23 Sep 2022 08:04:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; bh=N+Y2Asvd9JPiLkBH1FxZjhC7Kvt1Am28CEudYX
- K+k9M=; c=relaxed/relaxed; d=earthlink.net; h=from:reply-to:subject:
- date:to:cc:resent-date:resent-from:resent-to:resent-cc:in-reply-to:
- references:list-id:list-help:list-unsubscribe:list-subscribe:list-post:
- list-owner:list-archive; q=dns/txt; s=dk12062016; t=1663945138;
- x=1664549938; b=QzIpgTeRhzk+oXAG0w2wXTk3knt7B6hPDgYBU9ZvjKI0wg8sqPEQWaq
- gYfzosQZ/cIs1/vwH3hunDFSzEloIxot7aQ6GlAMW3axqZdwRDbcZgLWVdJHrFVwc5fXxuU
- Pcsfdc8kPelR3ruy9zezXHbqo+aZEcZpKPDyspB1RJOfBlzMphkoI/s6yyuXpGEZUmN0HQu
- xtqzMM2an+D6o9ulXwtv6R/ro4om2RpGMUnUA33qDOTFfeYCLUxojgy5vz8vrg8My0jkRLx
- xUACYrUDkw91O3ZAOmZbMVrAhRXehF3V0zflpsm1oL41wD5r7q4pCMkHy/qEE4K+tId4gYL
- H1g==
-Received: from FRANKSTHINKPAD ([76.105.143.216])
- by smtp.earthlink-vadesecure.net ESMTP vsel1nmtao02p with ngmta
- id 22c3a592-17178548f48eb86d; Fri, 23 Sep 2022 14:58:57 +0000
-From:   "Frank Filz" <ffilzlnx@mindspring.com>
-To:     "'Jeff Layton'" <jlayton@kernel.org>,
-        "'Trond Myklebust'" <trondmy@hammerspace.com>, <jack@suse.cz>
-Cc:     <zohar@linux.ibm.com>, <djwong@kernel.org>, <brauner@kernel.org>,
-        <linux-xfs@vger.kernel.org>, <bfields@fieldses.org>,
-        <linux-api@vger.kernel.org>, <neilb@suse.de>,
-        <david@fromorbit.com>, <fweimer@redhat.com>,
-        <linux-kernel@vger.kernel.org>, <chuck.lever@oracle.com>,
-        <linux-man@vger.kernel.org>, <linux-nfs@vger.kernel.org>,
-        <linux-ext4@vger.kernel.org>, <tytso@mit.edu>,
-        <viro@zeniv.linux.org.uk>, <xiubli@redhat.com>,
-        <linux-fsdevel@vger.kernel.org>, <adilger.kernel@dilger.ca>,
-        <lczerner@redhat.com>, <ceph-devel@vger.kernel.org>,
-        <linux-btrfs@vger.kernel.org>
-References: <24005713ad25370d64ab5bd0db0b2e4fcb902c1c.camel@kernel.org>         <20220918235344.GH3600936@dread.disaster.area>         <87fb43b117472c0a4c688c37a925ac51738c8826.camel@kernel.org>         <20220920001645.GN3600936@dread.disaster.area>         <5832424c328ea427b5c6ecdaa6dd53f3b99c20a0.camel@kernel.org>         <20220921000032.GR3600936@dread.disaster.area>         <93b6d9f7cf997245bb68409eeb195f9400e55cd0.camel@kernel.org>         <20220921214124.GS3600936@dread.disaster.area>         <e04e349170bc227b330556556d0592a53692b5b5.camel@kernel.org>         <1ef261e3ff1fa7fcd0d75ed755931aacb8062de2.camel@kernel.org>         <20220923095653.5c63i2jgv52j3zqp@quack3>         <2d41c08e1fd96d55c794c3b4cd43a51a0494bfcf.camel@hammerspace.com> <baf852dfb57aaf5a670bc88236f8d62c99668fcc.camel@kernel.org>
-In-Reply-To: <baf852dfb57aaf5a670bc88236f8d62c99668fcc.camel@kernel.org>
-Subject: RE: [man-pages RFC PATCH v4] statx, inode: document the new STATX_INO_VERSION field
-Date:   Fri, 23 Sep 2022 07:58:55 -0700
-Message-ID: <01ae01d8cf5d$023474d0$069d5e70$@mindspring.com>
+        with ESMTP id S232442AbiIWPU3 (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Fri, 23 Sep 2022 11:20:29 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52BDEE2346
+        for <linux-api@vger.kernel.org>; Fri, 23 Sep 2022 08:20:25 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id k10so815080lfm.4
+        for <linux-api@vger.kernel.org>; Fri, 23 Sep 2022 08:20:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date;
+        bh=Zow8yFZS7DL+sQi+dFI8ktR+CVObD/Cj7M/2zMgZrcE=;
+        b=OwesCIlz00EUn7DRsMx0DjzCHBk8S/+Xi2g5fPxGQhSRVaCPRjRDdaU3EoxDGBycWF
+         WjeJOwauK+2vsuvUb0vjkRCZ4RMivueV3nfN+bQNkdWetxD6j+QKSjPsuee2Tp2n38Jz
+         /iJsK25fqBHvk1flzzUqT6xcaD2Kcry+CP91ebbpRaH+7JaO7k+DDGbA80azTpePJHUo
+         C9mi6Q2+k5+aqh7plurR6pEpUr9EvDPbLxCLDRinQNGibIiinnoVBg84EnbuaBKnPpUT
+         cKT++hkuZ7OScqK5B4U9F14Zu14fLK/+p4hCg8Uwqh1UdA/pssHQoaFSPvqyG9cck4Rn
+         GTYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=Zow8yFZS7DL+sQi+dFI8ktR+CVObD/Cj7M/2zMgZrcE=;
+        b=QHo0PYzDaWaAAvgTj9W46C/p+X+yyar+mU3aSRGI+Fx+SWp8SDTG1makmVuOZj+6RR
+         GbSeU6/tfY4ZkwWFpkc/+YsvunOUVUBFv/pTxNFHlTRt/f7vDPN7BhErzQ8HJVWQ2DXF
+         KJw2DbKk5aMCnpjlRs/yYr58TjmyAgyRyjMaqwRAJih0pBD4ORbL/20qohrGHVbli9nR
+         kjq8YNyn2/Y/X6y/44G+eVsXI36I71mJFCh1cHt3MXNbIxJRGlNKh9jV7AIH1TuETKHl
+         fZSdrTpEz0qLVwPpl1rdUbzgSHQiIVOFxsVP33FVCLVA1/nqdL7KZb8AXxVwgMN1Kzzj
+         hT0A==
+X-Gm-Message-State: ACrzQf2yrxAqAPXSRGcfawF9OFYy8EvrH6zJXHtSNy7aQPSc3c8pf/3k
+        xyQw/0sfgjxQmFZY3fJx9F/M+AvVXJIYr8nAff+e4w==
+X-Google-Smtp-Source: AMsMyM78W2SpygRyWA6BwLCi+G+Q9AwHIlqubh16dKOB9mvu+zIZ03puXTWepUQ7h9eMZBQnICvUmLJxtqa9A8Z7/3M=
+X-Received: by 2002:a05:6512:3612:b0:499:aea7:8bed with SMTP id
+ f18-20020a056512361200b00499aea78bedmr3269322lfs.26.1663946423216; Fri, 23
+ Sep 2022 08:20:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 15.0
-Thread-Index: AQFW5LMVvccUT9xKG5h5MPweA5KIXgISgRYwAs1S4t4CKHGUMgGdhacVAWuMxX0CYnVaogHQtV08AvqrgvECS3OfOAJ2umjmAsymCyIDAUdIdq4SdV6g
-Content-Language: en-us
-Authentication-Results: earthlink-vadesecure.net;
- auth=pass smtp.auth=ffilzlnx@mindspring.com smtp.mailfrom=ffilzlnx@mindspring.com;
-X-Spam-Status: No, score=0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,HK_RANDOM_ENVFROM,HK_RANDOM_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com> <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
+ <Yyi+l3+p9lbBAC4M@google.com>
+In-Reply-To: <Yyi+l3+p9lbBAC4M@google.com>
+From:   Fuad Tabba <tabba@google.com>
+Date:   Fri, 23 Sep 2022 16:19:46 +0100
+Message-ID: <CA+EHjTzy4iOxLF=5UX=s5v6HSB3Nb1LkwmGqoKhp_PAnFeVPSQ@mail.gmail.com>
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
+        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
+Hi,
 
-
-> -----Original Message-----
-> From: Jeff Layton [mailto:jlayton@kernel.org]
-> Sent: Friday, September 23, 2022 6:50 AM
-> To: Trond Myklebust <trondmy@hammerspace.com>; jack@suse.cz
-> Cc: zohar@linux.ibm.com; djwong@kernel.org; brauner@kernel.org; linux-
-> xfs@vger.kernel.org; bfields@fieldses.org; linux-api@vger.kernel.org;
-> neilb@suse.de; david@fromorbit.com; fweimer@redhat.com; linux-
-> kernel@vger.kernel.org; chuck.lever@oracle.com; linux-man@vger.kernel.org;
-> linux-nfs@vger.kernel.org; linux-ext4@vger.kernel.org; tytso@mit.edu;
-> viro@zeniv.linux.org.uk; xiubli@redhat.com; linux-fsdevel@vger.kernel.org;
-> adilger.kernel@dilger.ca; lczerner@redhat.com; ceph-devel@vger.kernel.org;
-> linux-btrfs@vger.kernel.org
-> Subject: Re: [man-pages RFC PATCH v4] statx, inode: document the new
-> STATX_INO_VERSION field
-> 
-> On Fri, 2022-09-23 at 13:44 +0000, Trond Myklebust wrote:
-> > On Fri, 2022-09-23 at 11:56 +0200, Jan Kara wrote:
-> > > On Thu 22-09-22 16:18:02, Jeff Layton wrote:
-> > > > On Thu, 2022-09-22 at 06:18 -0400, Jeff Layton wrote:
-> > > > > On Thu, 2022-09-22 at 07:41 +1000, Dave Chinner wrote:
-> > > > > > e.g. The NFS server can track the i_version values when the
-> > > > > > NFSD syncs/commits a given inode. The nfsd can sample
-> > > > > > i_version it when calls ->commit_metadata or flushed data on
-> > > > > > the inode, and then when it peeks at i_version when gathering
-> > > > > > post-op attrs (or any other getattr op) it can decide that
-> > > > > > there is too much in-memory change (e.g. 10,000 counts since
-> > > > > > last sync) and sync the inode.
-> > > > > >
-> > > > > > i.e. the NFS server can trivially cap the maximum number of
-> > > > > > uncommitted NFS change attr bumps it allows to build up in
-> > > > > > memory.
-> > > > > > At that point, the NFS server has a bound "maximum write count"
-> > > > > > that
-> > > > > > can be used in conjunction with the xattr based crash counter
-> > > > > > to determine how the change_attr is bumped by the crash
-> > > > > > counter.
-> > > > >
-> > > > > Well, not "trivially". This is the bit where we have to grow
-> > > > > struct inode (or the fs-specific inode), as we'll need to know
-> > > > > what the latest on-disk value is for the inode.
-> > > > >
-> > > > > I'm leaning toward doing this on the query side. Basically, when
-> > > > > nfsd goes to query the i_version, it'll check the delta between
-> > > > > the current version and the latest one on disk. If it's bigger
-> > > > > than X then we'd just return NFS4ERR_DELAY to the client.
-> > > > >
-> > > > > If the delta is >X/2, maybe it can kick off a workqueue job or
-> > > > > something that calls write_inode with WB_SYNC_ALL to try to get
-> > > > > the thing onto the platter ASAP.
-> > > >
-> > > > Still looking at this bit too. Probably we can just kick off a
-> > > > WB_SYNC_NONE filemap_fdatawrite at that point and hope for the
-> > > > best?
+On Mon, Sep 19, 2022 at 8:10 PM Sean Christopherson <seanjc@google.com> wro=
+te:
+>
+> +Will, Marc and Fuad (apologies if I missed other pKVM folks)
+>
+> On Mon, Sep 19, 2022, David Hildenbrand wrote:
+> > On 15.09.22 16:29, Chao Peng wrote:
+> > > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 > > >
-> > > "Hope" is not a great assurance regarding data integrity ;) Anyway,
-> > > it depends on how you imagine the "i_version on disk" is going to be
-> > > maintained. It could be maintained by NFSD inside
-> > > commit_inode_metadata() -
-> > > fetch current i_version value before asking filesystem for the sync
-> > > and by the time commit_metadata() returns we know that value is on
-> > > disk. If we detect the current - on_disk is > X/2, we call
-> > > commit_inode_metadata() and we are done. It is not even *that*
-> > > expensive because usually filesystems optimize away unnecessary IO
-> > > when the inode didn't change since last time it got synced.
+> > > KVM can use memfd-provided memory for guest memory. For normal usersp=
+ace
+> > > accessible memory, KVM userspace (e.g. QEMU) mmaps the memfd into its
+> > > virtual address space and then tells KVM to use the virtual address t=
+o
+> > > setup the mapping in the secondary page table (e.g. EPT).
 > > >
+> > > With confidential computing technologies like Intel TDX, the
+> > > memfd-provided memory may be encrypted with special key for special
+> > > software domain (e.g. KVM guest) and is not expected to be directly
+> > > accessed by userspace. Precisely, userspace access to such encrypted
+> > > memory may lead to host crash so it should be prevented.
 > >
-> > Note that these approaches requiring 3rd party help in order to track
-> > i_version integrity across filesystem crashes all make the idea of
-> > adding i_version to statx() a no-go.
+> > Initially my thaught was that this whole inaccessible thing is TDX spec=
+ific
+> > and there is no need to force that on other mechanisms. That's why I
+> > suggested to not expose this to user space but handle the notifier
+> > requirements internally.
 > >
-> > It is one thing for knfsd to add specialised machinery for integrity
-> > checking, but if all applications need to do so, then they are highly
-> > unlikely to want to adopt this attribute.
-> >
-> >
-> 
-> Absolutely. That is the downside of this approach, but the priority here
-has
-> always been to improve nfsd. If we don't get the ability to present this
-info via
-> statx, then so be it. Later on, I suppose we can move that handling into
-the
-> kernel in some fashion if we decide it's worthwhile.
-> 
-> That said, not having this in statx makes it more difficult to test
-i_version
-> behavior. Maybe we can add a generic ioctl for that in the interim?
+> > IIUC now, protected KVM has similar demands. Either access (read/write)=
+ of
+> > guest RAM would result in a fault and possibly crash the hypervisor (at
+> > least not the whole machine IIUC).
+>
+> Yep.  The missing piece for pKVM is the ability to convert from shared to=
+ private
+> while preserving the contents, e.g. to hand off a large buffer (hundreds =
+of MiB)
+> for processing in the protected VM.  Thoughts on this at the bottom.
 
-Having i_version in statx would be really nice for nfs-ganesha. I would
-consider doing the extra integrity stuff or we may in some cases be able to
-rely on the filesystem, but in any case, i_version would be an improvement
-over using ctime or mtime for a change attribute.
+Just wanted to mention that for pKVM (arm64), this wouldn't crash the
+hypervisor. A userspace access would crash the userspace process since
+the hypervisor would inject a fault back. Because of that making it
+inaccessible from userspace is good to have, but not really vital for
+pKVM. What is important for pKVM is that the guest private memory is
+not GUP'able by the host. This is because if it were, it might be
+possible for a malicious userspace process (e.g., a malicious vmm) to
+trick the host kernel into accessing guest private memory in a context
+where it isn=E2=80=99t prepared to handle the fault injected by the
+hypervisor. This of course might crash the host.
 
-Frank
+> > > This patch introduces userspace inaccessible memfd (created with
+> > > MFD_INACCESSIBLE). Its memory is inaccessible from userspace through
+> > > ordinary MMU access (e.g. read/write/mmap) but can be accessed via
+> > > in-kernel interface so KVM can directly interact with core-mm without
+> > > the need to map the memory into KVM userspace.
+> >
+> > With secretmem we decided to not add such "concept switch" flags and in=
+stead
+> > use a dedicated syscall.
+> >
+>
+> I have no personal preference whatsoever between a flag and a dedicated s=
+yscall,
+> but a dedicated syscall does seem like it would give the kernel a bit mor=
+e
+> flexibility.
+>
+> > What about memfd_inaccessible()? Especially, sealing and hugetlb are no=
+t
+> > even supported and it might take a while to support either.
+>
+> Don't know about sealing, but hugetlb support for "inaccessible" memory n=
+eeds to
+> come sooner than later.  "inaccessible" in quotes because we might want t=
+o choose
+> a less binary name, e.g. "restricted"?.
+>
+> Regarding pKVM's use case, with the shim approach I believe this can be d=
+one by
+> allowing userspace mmap() the "hidden" memfd, but with a ton of restricti=
+ons
+> piled on top.
+>
+> My first thought was to make the uAPI a set of KVM ioctls so that KVM cou=
+ld tightly
+> tightly control usage without taking on too much complexity in the kernel=
+, but
+> working through things, routing the behavior through the shim itself migh=
+t not be
+> all that horrific.
+>
+> IIRC, we discarded the idea of allowing userspace to map the "private" fd=
+ because
+> things got too complex, but with the shim it doesn't seem _that_ bad.
+>
+> E.g. on the memfd side:
+>
+>   1. The entire memfd must be mapped, and at most one mapping is allowed,=
+ i.e.
+>      mapping is all or nothing.
+>
+>   2. Acquiring a reference via get_pfn() is disallowed if there's a mappi=
+ng for
+>      the restricted memfd.
+>
+>   3. Add notifier hooks to allow downstream users to further restrict thi=
+ngs.
+>
+>   4. Disallow splitting VMAs, e.g. to force userspace to munmap() everyth=
+ing in
+>      one shot.
+>
+>   5. Require that there are no outstanding references at munmap().  Or if=
+ this
+>      can't be guaranteed by userspace, maybe add some way for userspace t=
+o wait
+>      until it's ok to convert to private?  E.g. so that get_pfn() doesn't=
+ need
+>      to do an expensive check every time.
+>
+>   static int memfd_restricted_mmap(struct file *file, struct vm_area_stru=
+ct *vma)
+>   {
+>         if (vma->vm_pgoff)
+>                 return -EINVAL;
+>
+>         if ((vma->vm_end - vma->vm_start) !=3D <file size>)
+>                 return -EINVAL;
+>
+>         mutex_lock(&data->lock);
+>
+>         if (data->has_mapping) {
+>                 r =3D -EINVAL;
+>                 goto err;
+>         }
+>         list_for_each_entry(notifier, &data->notifiers, list) {
+>                 r =3D notifier->ops->mmap_start(notifier, ...);
+>                 if (r)
+>                         goto abort;
+>         }
+>
+>         notifier->ops->mmap_end(notifier, ...);
+>         mutex_unlock(&data->lock);
+>         return 0;
+>
+>   abort:
+>         list_for_each_entry_continue_reverse(notifier &data->notifiers, l=
+ist)
+>                 notifier->ops->mmap_abort(notifier, ...);
+>   err:
+>         mutex_unlock(&data->lock);
+>         return r;
+>   }
+>
+>   static void memfd_restricted_close(struct vm_area_struct *vma)
+>   {
+>         mutex_lock(...);
+>
+>         /*
+>          * Destroy the memfd and disable all future accesses if there are
+>          * outstanding refcounts (or other unsatisfied restrictions?).
+>          */
+>         if (<outstanding references> || ???)
+>                 memfd_restricted_destroy(...);
+>         else
+>                 data->has_mapping =3D false;
+>
+>         mutex_unlock(...);
+>   }
+>
+>   static int memfd_restricted_may_split(struct vm_area_struct *area, unsi=
+gned long addr)
+>   {
+>         return -EINVAL;
+>   }
+>
+>   static int memfd_restricted_mapping_mremap(struct vm_area_struct *new_v=
+ma)
+>   {
+>         return -EINVAL;
+>   }
+>
+> Then on the KVM side, its mmap_start() + mmap_end() sequence would:
+>
+>   1. Not be supported for TDX or SEV-SNP because they don't allow adding =
+non-zero
+>      memory into the guest (after pre-boot phase).
+>
+>   2. Be mutually exclusive with shared<=3D>private conversions, and is al=
+lowed if
+>      and only if the entire gfn range of the associated memslot is shared=
+.
 
+In general I think that this would work with pKVM. However, limiting
+private<->shared conversions to the granularity of a whole memslot
+might be difficult to handle in pKVM, since the guest doesn't have the
+concept of memslots. For example, in pKVM right now, when a guest
+shares back its restricted DMA pool with the host it does so at the
+page-level. pKVM would also need a way to make an fd accessible again
+when shared back, which I think isn't possible with this patch.
+
+You were initially considering a KVM ioctl for mapping, which might be
+better suited for this since KVM knows which pages are shared and
+which ones are private. So routing things through KVM might simplify
+things and allow it to enforce all the necessary restrictions (e.g.,
+private memory cannot be mapped). What do you think?
+
+Thanks,
+/fuad
