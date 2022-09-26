@@ -2,74 +2,65 @@ Return-Path: <linux-api-owner@vger.kernel.org>
 X-Original-To: lists+linux-api@lfdr.de
 Delivered-To: lists+linux-api@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EC675EAC06
-	for <lists+linux-api@lfdr.de>; Mon, 26 Sep 2022 18:06:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC85E5EAD4A
+	for <lists+linux-api@lfdr.de>; Mon, 26 Sep 2022 18:57:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235871AbiIZQGc (ORCPT <rfc822;lists+linux-api@lfdr.de>);
-        Mon, 26 Sep 2022 12:06:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52902 "EHLO
+        id S230075AbiIZQ5J (ORCPT <rfc822;lists+linux-api@lfdr.de>);
+        Mon, 26 Sep 2022 12:57:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229987AbiIZQF5 (ORCPT
-        <rfc822;linux-api@vger.kernel.org>); Mon, 26 Sep 2022 12:05:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF933DB
-        for <linux-api@vger.kernel.org>; Mon, 26 Sep 2022 07:53:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1664204023;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=JiDPhoXeiEYDPNNsZkNx5skNUhZVDc2YhX8tUxT6Z4I=;
-        b=Q9xdlHbtjOU2mAEK6q4yNOww8UP3KqhA2O6Rvo3QJmtSXITTaFbiylB4czH2yLAUy+PCwO
-        bVQ12InAwtONtlfEWDD6gvxlx6a4w2LZrWLYjFq588t0VPE+nTdhDObt/pNraUBP2Ltgp3
-        76O+Fnbr39a47+ndyr4xWegfSHaagfE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-655-8GT65Eb7PlqnbcfAnFL4kQ-1; Mon, 26 Sep 2022 10:53:42 -0400
-X-MC-Unique: 8GT65Eb7PlqnbcfAnFL4kQ-1
-Received: by mail-wr1-f69.google.com with SMTP id a13-20020adfbc4d000000b00228631ddfafso1262146wrh.9
-        for <linux-api@vger.kernel.org>; Mon, 26 Sep 2022 07:53:41 -0700 (PDT)
+        with ESMTP id S229940AbiIZQ4v (ORCPT
+        <rfc822;linux-api@vger.kernel.org>); Mon, 26 Sep 2022 12:56:51 -0400
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A619A6C757
+        for <linux-api@vger.kernel.org>; Mon, 26 Sep 2022 08:52:22 -0700 (PDT)
+Received: by mail-lj1-x22c.google.com with SMTP id b6so7913308ljr.10
+        for <linux-api@vger.kernel.org>; Mon, 26 Sep 2022 08:52:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=x4NTypTBJW4b7REu+E6eGP25pHpiqubalYhFPom5anA=;
+        b=nyBYl3et3D/Hwg0PXcmhDbdFVdgPs3wT1T5m4FWqxqT5warTXHeLblDbQ/PO42CWGY
+         jbpOwM8f7b+hUVCjTVqEffZDcvNQvdlgXth8PswhOzbaHGeI6lrVsgAHqFlK93PKl3Ai
+         29wu0qn3ZcEfauxpueUyETsbUfSS3n0CXd8kORVyU3Uk9W+0ddF1wH325LwJztuinsWa
+         lNrIfEakQ6yL4BBqZDrJojilF7V7sSd37sQ8L03NWeQ320JAVL8LJpzI5X3t8KB5QrvI
+         KVgePx51bdk4JXI/uNiFSoF+7/stF86Grk0vLeOtU1pn4URzIXpZfxGdKpM0y4tu7MVO
+         9wDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date;
-        bh=JiDPhoXeiEYDPNNsZkNx5skNUhZVDc2YhX8tUxT6Z4I=;
-        b=CkQ6vMtG5fuzjKKm9scEAC0JMTQRZJJwxilaEMcPOj91ldzTo6XY9u+5A6UH5Bim4m
-         7QJfwWlysXEdBLzLwEMmur7EjXOeHC4pIxajq6iLAdNAjh1R/J1hvWcAFa1gUbfnf0Io
-         t5t5RKdYHOLrkh40scl2mGNTBuSjrAtZ3A1LINdjr/rt8/Izg6D3QoL2JryqMFahIfhI
-         VNdKTDrAOZCuU4SDQUQC+Ej6HSpH2GSRtNmcXmKOmD9TEBETfMg1EC+TPrOtkrHd0w2T
-         gUIX83t17NuWsqef7BaxJO9XRtPcYBtDxgCxeiK+JvSl5pM2CzgT+5ountCkYbrmQf2R
-         Y5TQ==
-X-Gm-Message-State: ACrzQf2RgPx3/VNrIeBJvIOOfAsxWxxZUEHhec0JaVxV3Gf4Kx5eh94S
-        yBjyy+7IgOuame3mI5erEQRU365HYtDtjsgZvsg3jk3q+tzFWxFKVE+IxJGttom5CcNfVpWfCJb
-        Yv9NPYtEjlQqKmTxFYfrk
-X-Received: by 2002:a05:600c:a07:b0:3ab:945:77c4 with SMTP id z7-20020a05600c0a0700b003ab094577c4mr22424188wmp.97.1664204020682;
-        Mon, 26 Sep 2022 07:53:40 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4F1aj6dFmsu9oiMooh87XJHOqSDiWx3ICISxNlRpzSCeG1iwk0ewGaZ3Lrv8KXjMX88Z1kZg==
-X-Received: by 2002:a05:600c:a07:b0:3ab:945:77c4 with SMTP id z7-20020a05600c0a0700b003ab094577c4mr22424160wmp.97.1664204020377;
-        Mon, 26 Sep 2022 07:53:40 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c703:4b00:e090:7fa6:b7d6:d4a7? (p200300cbc7034b00e0907fa6b7d6d4a7.dip0.t-ipconnect.de. [2003:cb:c703:4b00:e090:7fa6:b7d6:d4a7])
-        by smtp.gmail.com with ESMTPSA id r64-20020a1c4443000000b003b4935f04a4sm13954042wma.5.2022.09.26.07.53.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Sep 2022 07:53:39 -0700 (PDT)
-Message-ID: <0a99aa24-599c-cc60-b23b-b77887af3702@redhat.com>
-Date:   Mon, 26 Sep 2022 16:53:37 +0200
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=x4NTypTBJW4b7REu+E6eGP25pHpiqubalYhFPom5anA=;
+        b=k7zH17yiw41SSL9JUQhcd4RFv6nZL43X9sfcOrOBXfg/gQcv1La8a4WR++IHVTaQ/v
+         Z33GTMDJqgWkNu64BW3+1PDalosJ1ZyjRvK/LTzv1aSitLtR1veiUkMVn0rj0Jb/3ZWW
+         gkYO6XOceLhzjRu6lgZJwSSKTq3nsjw+OJLZq0y/O8WiuAqVlov4DkQoWSiRYdcUce6C
+         PCvDOG3OVHxl2TVykL+n8dpZlKciAmFI2A1vgdWNvklCIzIYSQUnp/i7qtV8Lj4faUiG
+         bj8AaLTOM6tOs0Bv/vyynwlElRd+XT9H3srMu/LEbbLTCSOn2P7+WfdoNQuENKvilL2J
+         e98A==
+X-Gm-Message-State: ACrzQf19XRkTHfjgOHHBbGo8N08TaaUo7BdJVp9vTjKVJfLAyLr0gxyc
+        mONjOeCah8AX2562FfWLduoA/787SW83x5Gg6bzBkw==
+X-Google-Smtp-Source: AMsMyM4TnPZUbURsP5BnRXq8d6hA/qshAGD43sNBUgtRFJmy1zG4ZPjO55nhnzDzvSMBCXJWhr1o64pz5goInSn46Ck=
+X-Received: by 2002:a05:651c:1508:b0:26c:622e:abe1 with SMTP id
+ e8-20020a05651c150800b0026c622eabe1mr7742402ljf.228.1664207540822; Mon, 26
+ Sep 2022 08:52:20 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com> <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
+ <Yyi+l3+p9lbBAC4M@google.com> <CA+EHjTzy4iOxLF=5UX=s5v6HSB3Nb1LkwmGqoKhp_PAnFeVPSQ@mail.gmail.com>
+ <20220926142330.GC2658254@chaop.bj.intel.com>
+In-Reply-To: <20220926142330.GC2658254@chaop.bj.intel.com>
+From:   Fuad Tabba <tabba@google.com>
+Date:   Mon, 26 Sep 2022 16:51:44 +0100
+Message-ID: <CA+EHjTz5yGhsxUug+wqa9hrBO60Be0dzWeWzX00YtNxin2eYHg@mail.gmail.com>
 Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-Content-Language: en-US
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     Sean Christopherson <seanjc@google.com>,
+        David Hildenbrand <david@redhat.com>, kvm@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
         linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
         Wanpeng Li <wanpengli@tencent.com>,
@@ -87,26 +78,19 @@ Cc:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
         "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
         Vlastimil Babka <vbabka@suse.cz>,
         Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
         Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
- <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
- <20220923005808.vfltoecttoatgw5o@box.shutemov.name>
- <f703e615-3b75-96a2-fb48-2fefd8a2069b@redhat.com>
- <20220926144854.dyiacztlpx4fkjs5@box.shutemov.name>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220926144854.dyiacztlpx4fkjs5@box.shutemov.name>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
+        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -114,100 +98,134 @@ Precedence: bulk
 List-ID: <linux-api.vger.kernel.org>
 X-Mailing-List: linux-api@vger.kernel.org
 
-On 26.09.22 16:48, Kirill A. Shutemov wrote:
-> On Mon, Sep 26, 2022 at 12:35:34PM +0200, David Hildenbrand wrote:
->> On 23.09.22 02:58, Kirill A . Shutemov wrote:
->>> On Mon, Sep 19, 2022 at 11:12:46AM +0200, David Hildenbrand wrote:
->>>>> diff --git a/include/uapi/linux/magic.h b/include/uapi/linux/magic.h
->>>>> index 6325d1d0e90f..9d066be3d7e8 100644
->>>>> --- a/include/uapi/linux/magic.h
->>>>> +++ b/include/uapi/linux/magic.h
->>>>> @@ -101,5 +101,6 @@
->>>>>     #define DMA_BUF_MAGIC		0x444d4142	/* "DMAB" */
->>>>>     #define DEVMEM_MAGIC		0x454d444d	/* "DMEM" */
->>>>>     #define SECRETMEM_MAGIC		0x5345434d	/* "SECM" */
->>>>> +#define INACCESSIBLE_MAGIC	0x494e4143	/* "INAC" */
->>>>
->>>>
->>>> [...]
->>>>
->>>>> +
->>>>> +int inaccessible_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
->>>>> +			 int *order)
->>>>> +{
->>>>> +	struct inaccessible_data *data = file->f_mapping->private_data;
->>>>> +	struct file *memfd = data->memfd;
->>>>> +	struct page *page;
->>>>> +	int ret;
->>>>> +
->>>>> +	ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
->>>>> +	if (ret)
->>>>> +		return ret;
->>>>> +
->>>>> +	*pfn = page_to_pfn_t(page);
->>>>> +	*order = thp_order(compound_head(page));
->>>>> +	SetPageUptodate(page);
->>>>> +	unlock_page(page);
->>>>> +
->>>>> +	return 0;
->>>>> +}
->>>>> +EXPORT_SYMBOL_GPL(inaccessible_get_pfn);
->>>>> +
->>>>> +void inaccessible_put_pfn(struct file *file, pfn_t pfn)
->>>>> +{
->>>>> +	struct page *page = pfn_t_to_page(pfn);
->>>>> +
->>>>> +	if (WARN_ON_ONCE(!page))
->>>>> +		return;
->>>>> +
->>>>> +	put_page(page);
->>>>> +}
->>>>> +EXPORT_SYMBOL_GPL(inaccessible_put_pfn);
->>>>
->>>> Sorry, I missed your reply regarding get/put interface.
->>>>
->>>> https://lore.kernel.org/linux-mm/20220810092532.GD862421@chaop.bj.intel.com/
->>>>
->>>> "We have a design assumption that somedays this can even support non-page
->>>> based backing stores."
->>>>
->>>> As long as there is no such user in sight (especially how to get the memfd
->>>> from even allocating such memory which will require bigger changes), I
->>>> prefer to keep it simple here and work on pages/folios. No need to
->>>> over-complicate it for now.
->>>
->>> Sean, Paolo , what is your take on this? Do you have conrete use case of
->>> pageless backend for the mechanism in sight? Maybe DAX?
->>
->> The problem I'm having with this is how to actually get such memory into the
->> memory backend (that triggers notifiers) and what the semantics are at all
->> with memory that is not managed by the buddy.
->>
->> memfd with fixed PFNs doesn't make too much sense.
-> 
-> What do you mean by "fixed PFN". It is as fixed as struct page/folio, no?
-> PFN covers more possible backends.
+Hi,
 
-For DAX, you usually bypass the buddy and map /dev/mem or a devdax. In 
-contrast to ordinary memfd that allocates memory via the buddy. That's 
-the difference I see -- and I wonder how it could work.
+On Mon, Sep 26, 2022 at 3:28 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+>
+> On Fri, Sep 23, 2022 at 04:19:46PM +0100, Fuad Tabba wrote:
+> > > Regarding pKVM's use case, with the shim approach I believe this can be done by
+> > > allowing userspace mmap() the "hidden" memfd, but with a ton of restrictions
+> > > piled on top.
+> > >
+> > > My first thought was to make the uAPI a set of KVM ioctls so that KVM could tightly
+> > > tightly control usage without taking on too much complexity in the kernel, but
+> > > working through things, routing the behavior through the shim itself might not be
+> > > all that horrific.
+> > >
+> > > IIRC, we discarded the idea of allowing userspace to map the "private" fd because
+> > > things got too complex, but with the shim it doesn't seem _that_ bad.
+> > >
+> > > E.g. on the memfd side:
+> > >
+> > >   1. The entire memfd must be mapped, and at most one mapping is allowed, i.e.
+> > >      mapping is all or nothing.
+> > >
+> > >   2. Acquiring a reference via get_pfn() is disallowed if there's a mapping for
+> > >      the restricted memfd.
+> > >
+> > >   3. Add notifier hooks to allow downstream users to further restrict things.
+> > >
+> > >   4. Disallow splitting VMAs, e.g. to force userspace to munmap() everything in
+> > >      one shot.
+> > >
+> > >   5. Require that there are no outstanding references at munmap().  Or if this
+> > >      can't be guaranteed by userspace, maybe add some way for userspace to wait
+> > >      until it's ok to convert to private?  E.g. so that get_pfn() doesn't need
+> > >      to do an expensive check every time.
+> > >
+> > >   static int memfd_restricted_mmap(struct file *file, struct vm_area_struct *vma)
+> > >   {
+> > >         if (vma->vm_pgoff)
+> > >                 return -EINVAL;
+> > >
+> > >         if ((vma->vm_end - vma->vm_start) != <file size>)
+> > >                 return -EINVAL;
+> > >
+> > >         mutex_lock(&data->lock);
+> > >
+> > >         if (data->has_mapping) {
+> > >                 r = -EINVAL;
+> > >                 goto err;
+> > >         }
+> > >         list_for_each_entry(notifier, &data->notifiers, list) {
+> > >                 r = notifier->ops->mmap_start(notifier, ...);
+> > >                 if (r)
+> > >                         goto abort;
+> > >         }
+> > >
+> > >         notifier->ops->mmap_end(notifier, ...);
+> > >         mutex_unlock(&data->lock);
+> > >         return 0;
+> > >
+> > >   abort:
+> > >         list_for_each_entry_continue_reverse(notifier &data->notifiers, list)
+> > >                 notifier->ops->mmap_abort(notifier, ...);
+> > >   err:
+> > >         mutex_unlock(&data->lock);
+> > >         return r;
+> > >   }
+> > >
+> > >   static void memfd_restricted_close(struct vm_area_struct *vma)
+> > >   {
+> > >         mutex_lock(...);
+> > >
+> > >         /*
+> > >          * Destroy the memfd and disable all future accesses if there are
+> > >          * outstanding refcounts (or other unsatisfied restrictions?).
+> > >          */
+> > >         if (<outstanding references> || ???)
+> > >                 memfd_restricted_destroy(...);
+> > >         else
+> > >                 data->has_mapping = false;
+> > >
+> > >         mutex_unlock(...);
+> > >   }
+> > >
+> > >   static int memfd_restricted_may_split(struct vm_area_struct *area, unsigned long addr)
+> > >   {
+> > >         return -EINVAL;
+> > >   }
+> > >
+> > >   static int memfd_restricted_mapping_mremap(struct vm_area_struct *new_vma)
+> > >   {
+> > >         return -EINVAL;
+> > >   }
+> > >
+> > > Then on the KVM side, its mmap_start() + mmap_end() sequence would:
+> > >
+> > >   1. Not be supported for TDX or SEV-SNP because they don't allow adding non-zero
+> > >      memory into the guest (after pre-boot phase).
+> > >
+> > >   2. Be mutually exclusive with shared<=>private conversions, and is allowed if
+> > >      and only if the entire gfn range of the associated memslot is shared.
+> >
+> > In general I think that this would work with pKVM. However, limiting
+> > private<->shared conversions to the granularity of a whole memslot
+> > might be difficult to handle in pKVM, since the guest doesn't have the
+> > concept of memslots. For example, in pKVM right now, when a guest
+> > shares back its restricted DMA pool with the host it does so at the
+> > page-level. pKVM would also need a way to make an fd accessible again
+> > when shared back, which I think isn't possible with this patch.
+>
+> But does pKVM really want to mmap/munmap a new region at the page-level,
+> that can cause VMA fragmentation if the conversion is frequent as I see.
+> Even with a KVM ioctl for mapping as mentioned below, I think there will
+> be the same issue.
 
-> 
->> When using DAX, what happens with the shared <->private conversion? Which
->> "type" is supposed to use dax, which not?
->>
->> In other word, I'm missing too many details on the bigger picture of how
->> this would work at all to see why it makes sense right now to prepare for
->> that.
-> 
-> IIUC, KVM doesn't really care about pages or folios. They need PFN to
-> populate SEPT. Returning page/folio would make KVM do additional steps to
-> extract PFN and one more place to have a bug.
+pKVM doesn't really need to unmap the memory. What is really important
+is that the memory is not GUP'able. Having private memory mapped and
+then accessed by a misbehaving/malicious process will reinject a fault
+into the misbehaving process.
 
-Fair enough. Smells KVM specific, though.
+Cheers,
+/fuad
 
--- 
-Thanks,
-
-David / dhildenb
-
+> >
+> > You were initially considering a KVM ioctl for mapping, which might be
+> > better suited for this since KVM knows which pages are shared and
+> > which ones are private. So routing things through KVM might simplify
+> > things and allow it to enforce all the necessary restrictions (e.g.,
+> > private memory cannot be mapped). What do you think?
+> >
+> > Thanks,
+> > /fuad
